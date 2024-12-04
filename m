@@ -1,135 +1,282 @@
-Return-Path: <linux-renesas-soc+bounces-10890-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10891-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612069E34E3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 09:04:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC2909E3509
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 09:14:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27DE52813DB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 08:04:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D572EB23EEE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 08:11:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F11118DF6D;
-	Wed,  4 Dec 2024 08:00:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0BCA18787F;
+	Wed,  4 Dec 2024 08:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="P/Db4UJr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011069.outbound.protection.outlook.com [40.107.74.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11081FA4;
-	Wed,  4 Dec 2024 08:00:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733299254; cv=none; b=A5zDulQaa9rE32hrU9vPd7RndCorR7dInE11+zHQ2IOpMIbFWLn/tN0Roc64JfoDe+bKT8IYVtqqD3V8cjqA5J3kUaHhY4I5BgKwgH44XM4xwrmGsVnyPu0OdaEkW01rmEWfB4kQ50QEeSU6mXDk5m4iBxws2iLbiWw8xcf5XuA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733299254; c=relaxed/simple;
-	bh=qX0JAZx3mOqjs38gq9rFR5GKcM/eDXXMNX8VRgGDQT4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mYG8nqGOGR3+8EKiJdthrMbaGBuzwaCB6esR4/I+gtG8wA7GH91EDH1f2EDThqV8o8pSi9Xrq+I2vqzNCw1TIUuH0y7sKjPn5JR8cdRt6pUkljVLT7cFKjoXMNj9u9y+44CYqkIxaltDmYDNRUOc/2HxvHQ4mQaWsVtbIIZ6/cE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4af4da7d22fso2019506137.0;
-        Wed, 04 Dec 2024 00:00:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733299250; x=1733904050;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GONdbMSirRoIxoa5Koj9rUw2uC+DqLIh+b3SysJcOZo=;
-        b=O9iwlmCzU/dxCI/tmH+GSNVOcdGI0v6jh2sOsZjgXU+LPwiZ4RAWmqmODX7pR0pX2w
-         ilFCMrpqpnrP4res4ODMyX/YpO6zhiEYrycL7pNXmzZtsQm9+UioLWVDUQhRPeBSl8xa
-         ro69gGhNc1eyM2Jie50pJykRQZviglZZCrAbY7bylOqSyOcN8zX46EXXfccU1w8ATO4f
-         PbxESEHghs88AVNVxzxzXYBMgUw+dNMXhMHP6PLmA8CC5p/0Fvf2Vh8iqol9LfWwwQaO
-         fUU6+8lKy0IXXDsAgESqz/B+IIXiKBga/4TrX3YAiYtav6Iom7QwiBbK7d3O1X11Xyp5
-         orgg==
-X-Forwarded-Encrypted: i=1; AJvYcCUqE8Pk9zJU9hsbYPil+BTtJujvILxSa/CFm5Ot1U/eWMpHTkTkbvIB44qwFxKEuSNLXNMYlMkIw9s3eLebawp6/L0=@vger.kernel.org, AJvYcCVXfkNR8eIqKIcMo7JTZu0BBOWAQlAG3M3s/c5fORXxOpmOm0SJUkt5R5otOcJMS31zwT8eExOYmakL@vger.kernel.org, AJvYcCW8ztWsPiJfVX3het/duL44zxgq6b35Lk56XTMi6FUPpNtS30dKc3zoGq7sSlhJNbcjK9mAqc8S5mKE69Be@vger.kernel.org, AJvYcCXU8mDm1V7P+Z/cjZsLVbCTAdsvdB2LDMvIeTOSVmHeKCFG95S6PWjZq1WqvEDNjZUkk21LcStPexFo@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywxcik7CDqgMT7z7frgRtDJdNqKdodfPRP7fDWOg7yAFkLKo0mz
-	zKDdtod7NB5d3hnOzTdB41O6TQU6Kkx6yWwBi+WE09C/l7F8mvn56qjbsxBt
-X-Gm-Gg: ASbGncvLSxPb4+zHIbL0iEbohf3sP9VkCaUkdfDoyyhbiQOLLgD+7FjLOI46AkrLy1W
-	rDSCNnkPrmxhE3ZLx4CSDkF7FsD6tvpbmQyyM2eALrdBNIqr/+SOra2PcVF63Qxgq31TZfC0Tf9
-	5Rx/g21DZwlTu8p1LNAzfIF8Y5rYje3c6hMxSYDOOdS8/ldvFL1RPChTJXaz+PQbrPsPD5GNGr2
-	WLejEX5lKHNZjTGQa11+CEtGeIXGCoXAsCOBhK9dL4uxnCBYYxi1EbdSBTfdPNM1ys/OuUc3NiB
-	svLcY7rBjDYZ
-X-Google-Smtp-Source: AGHT+IEQYVxqngvc8AC/wSX2bHJFoU/I2ALJvF4bOv8wQshvnR8+yueiI6A/gDzEoNBA6cQaGf+khg==
-X-Received: by 2002:a05:6102:3753:b0:4af:469b:d3ae with SMTP id ada2fe7eead31-4af9729081cmr7373184137.27.1733299250501;
-        Wed, 04 Dec 2024 00:00:50 -0800 (PST)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4afa51e97casm276276137.10.2024.12.04.00.00.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Dec 2024 00:00:47 -0800 (PST)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4af173cd0e5so2083932137.1;
-        Wed, 04 Dec 2024 00:00:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV9nL7mkPq3IYcpfbd+9phvhb11N15j17wcT/7N6H5gX9vs4ryqNxFalUeGYV1KwzQoZkP9vLP1SnZz@vger.kernel.org, AJvYcCWgXmogVtieeaO9G7Da0cU5JaX+uZDNEhEouqUcRMXDVzig6ne2M8hF3ruReAvUvXXIqnTcS7WEcibjkpnf@vger.kernel.org, AJvYcCXb6ZkaLDbgi/IfMF5kI6muEQoNp/dJI+aYjzznWo6MECtAElitmjIThDRJmXhA+y+1NnX2WV8ED2XiDrWLny0hBtU=@vger.kernel.org, AJvYcCXjiCbXQ4KPhZJDCRr+JOtcvaaW4rTtwxums2x9aNs1Nr0CFdFYRkRBEIyGCENxBT3sN9i9L0HsGn9e@vger.kernel.org
-X-Received: by 2002:a05:6102:41a5:b0:4af:5eb5:8448 with SMTP id
- ada2fe7eead31-4af97162869mr6809478137.6.1733299246794; Wed, 04 Dec 2024
- 00:00:46 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4F21FA4;
+	Wed,  4 Dec 2024 08:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733299911; cv=fail; b=D29OCpu+4XBOzE7G5A8U1F9t54jDxmu10ZuoLkyiulde1BQ/dEoZ6HVd/Qn15LSSi/RWmgSoqkkEzd4BSdMktCY/bvmqPFtw4v1szu3FAFNbo7VDHo1ZEkCWSeDFaia7ruEWkEIcNNOBWmEsN+1vYkWhzdbBNkrLs6+Jegyl+hs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733299911; c=relaxed/simple;
+	bh=+7KeSa4UFEirjXvkHImRvDMzWCm9CdiQxnBBpKRW0Xs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=la4GtmKGsU1Fh4ny56ZoMbGp4evlRvn5rAkJmelW9sME4K0KNKBQx7vjkPheG8KZu2rnDnBe4/KM5bzrZiWCwB6DI3NPBBn0FIZqmQ0Z32cBO7uUp2q/R8aEJyI7YQx+AHLdHzx6AFArUaCfccanveXxTpkgnsUoKADLGIqV/vk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=P/Db4UJr; arc=fail smtp.client-ip=40.107.74.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TTNvl7cgL+p0ASUzh0vN+7abULWeWnEwT5yy3nzXUVPEGpOhKXCD4dvyXB4GohwrFCc9iN5IwNqmk2G/C0I4m1Koe9mZu6f+cB5YG1jLtmL2aWkXu6lMsbYK7XombuHAA6iQeMV9OLiP0fe5pr/InlZ5PZb4zLQb/ZfL1JiXhkg93J8X28LOqBYpvth7jJE/COhwtQ2wA8Nj7HFuNFtUdibNKbBx0QoR9BFz67wdNHP94fRz/Ba44Efjwgg2Bv/MqEB7ODRq8ifU2UWPRDLDOPHI44u7P8Fr3dyMLClXCjd4c9cgMaHf3n84MxcwHCwCG0LH24LEs6FncLTdOvu3+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nXUwsbelDeKBYmQvYYZgPcUxZ62Bfx2O24nhAoz1Z6w=;
+ b=ZWN4pREmnI8I5350j4dPz1z46vJy9uOkliupyVumUkbn4/cw+pKg2l8HuWyzT5EBg7sZDe7e2on+Fh0wCgGM3beApwOEzMxjpX+Czz4x7VICPio8OQb+BkM0GccBJ3JAc4kIawhMk3BipFoinvQ5Tbz5SACDdJNqUsFqZz7MpmjAuhMQz35b63j18sLPYHozui89X0ggpYhu5eO1w7P++gkYGBcCo1MLnPcac7fXAefz335Gb0xRWoK/66xbwTmJprhKJRGvgJvp+7hGeTGcdtTLyfjXHyh2t5WHdU1Lnq8gZm6zjkdP1noA1lYWL30Yfr8coHrE3Y5YaejtA9p2RA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nXUwsbelDeKBYmQvYYZgPcUxZ62Bfx2O24nhAoz1Z6w=;
+ b=P/Db4UJrCFsyX65xlPLVi2rdMh/S/6ynL/yORbPAKqPfj4Xds3EOUxPu0Vw9b4XUbpFCrwXZgeg72PqHAsGo1ft9Z4U2cPc96hCwp21wj5L1U0i+iX/Aedg+GxPSDjw/T/U0s84XLspL5DJyd2G/SOR3whcHc+AuyBxqe6zzRQI=
+Received: from OS0PR01MB6465.jpnprd01.prod.outlook.com (2603:1096:604:107::7)
+ by OS7PR01MB11955.jpnprd01.prod.outlook.com (2603:1096:604:23e::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.19; Wed, 4 Dec
+ 2024 08:11:45 +0000
+Received: from OS0PR01MB6465.jpnprd01.prod.outlook.com
+ ([fe80::480d:bef:79a9:5a5c]) by OS0PR01MB6465.jpnprd01.prod.outlook.com
+ ([fe80::480d:bef:79a9:5a5c%6]) with mapi id 15.20.8207.017; Wed, 4 Dec 2024
+ 08:11:44 +0000
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: "tomm.merciai@gmail.com" <tomm.merciai@gmail.com>
+CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Biju Das
+	<biju.das.jz@bp.renesas.com>, Liu Ying <victor.liu@nxp.com>, Andrzej Hajda
+	<andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, Robert
+ Foss <rfoss@kernel.org>, laurent.pinchart
+	<laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] drm/bridge: ite-it6263: Support VESA input format
+Thread-Topic: [PATCH] drm/bridge: ite-it6263: Support VESA input format
+Thread-Index: AQHbRafh9R2bJWOrXUufuBB1mAqj0LLVvDiw
+Date: Wed, 4 Dec 2024 08:11:44 +0000
+Message-ID:
+ <OS0PR01MB6465F75E3277651A01A70483E0372@OS0PR01MB6465.jpnprd01.prod.outlook.com>
+References: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB6465:EE_|OS7PR01MB11955:EE_
+x-ms-office365-filtering-correlation-id: 361cfcb7-e2b1-4398-6230-08dd143b4af0
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|7416014|1800799024|376014|7053199007|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?JeVZzo77R+Q8kJqono3kj+rK31H+59N7bnPK0YFqGiHbF/Wm9WKLdG031NcM?=
+ =?us-ascii?Q?htIOHOn53KktySAdygoUTv62JDdNkgWiKI5LLAZRRT79WIfQGDGkGxhRdiEw?=
+ =?us-ascii?Q?j2j8mf/wJyTkqPDDeXEKPJfUbsSgJDqPFa5ZLbd6zwrwffcz109m5wvqhodK?=
+ =?us-ascii?Q?KT7pswWNLKM0beUjowFl9OgDCtn7qJ2w876OrYQWsKCDVlsOisfhD4+0AAtY?=
+ =?us-ascii?Q?HGNSqBBuxAJ278+vg0iERTT4GhOZxZ8g9loawXILGe8vROw2KbUGXOrzh3MV?=
+ =?us-ascii?Q?caY29vnSf3pXk6IGkjTF7CB9Ltbi3ykeOwviY7D6hLVODFYSFfZ5ljUCIwFI?=
+ =?us-ascii?Q?6hgnVcFa8CxAxBUkSOzNSypcupo3ETI7WMYWqIBRR8hEeI2RlRsW2W7vwgm5?=
+ =?us-ascii?Q?OVJhrTJvDdd/1AHYExLDpC5l5/PjJmkPmkLDjIIr74uvRTuoHIEuSmC/VeoL?=
+ =?us-ascii?Q?KvJtWq18gAT1GU9x28gUvcIDZ1p4TbpsK/MNq7LBUmrikc6Rs/6Du46MrlaD?=
+ =?us-ascii?Q?NTTc3X7XmICniz3v1YOlmaXDKqdnQ1A6hSskkLAm1NeaJhNpV+KQ6PvAL7as?=
+ =?us-ascii?Q?WuMnJNxKx7XSQDk7954cC+ZmiLaVhMqU6glAayOwBi1cLplF8bKZkQTb4tAu?=
+ =?us-ascii?Q?7bZs637L8+NHX8TN4p598nxKz3Rz6A+HbIzGdv0rMHQswy7KK0z+STwm9fv2?=
+ =?us-ascii?Q?09p5PtG/9ZtK7LIiETIQOZhVtcG+sXNYa7hwP2JT3e9JPr/gcw9JBZvudBRo?=
+ =?us-ascii?Q?jgEeFBy/uABsbAOQ2jG0omA1ENnSn/gciYLwL1SAhl3sy9gIsJRlHjK0A/97?=
+ =?us-ascii?Q?KEv0uiAAL+vtHYtECEZw+gwT3NFUYtDxjjz/9NxyILGU0HUUL7eJ4hWb45KC?=
+ =?us-ascii?Q?m1gHLMnsb8LmmBP2Vu/mERSfFBpZZki5KAfwtxFhVsQIU0JdL4wqyljDPFUK?=
+ =?us-ascii?Q?yml9EieG+C9g6noXuIAcUpBCIdrIDGPZtvj+s80M1RL4b5mRfAH6JMm93UZ1?=
+ =?us-ascii?Q?EPdq6nMUFbJq3D50DcjysmqOswrMhzAHOg5LUAT2Y+T3NmWAOFV53CaTrogQ?=
+ =?us-ascii?Q?evvje28DoTtM49kCl6VaTo57HymTHMIgX3yuPGZHdM6xl/yCJVCCZxRUUMNP?=
+ =?us-ascii?Q?HtSMwH6aByRn1bNWrOgk1pdNZSkCoRTGw7CYp53MliQXQj+P2CRSFPfpzXGg?=
+ =?us-ascii?Q?UYzpjA4a1jGzTUyZtopEhOwC2lRWMtWsI3xFJBzrgqhs6mdUsupbefglFGlM?=
+ =?us-ascii?Q?hCkkFhih/vfubInRpO7xesz+dCYU6AXpZx8dULg8r3jVepCPzG055TvJvgy/?=
+ =?us-ascii?Q?F5O/6ggnFPi4pu52I9KXJe9qZsOQznbwUNWcXNWKhSIQMxjDPGgVjJdDboaF?=
+ =?us-ascii?Q?es/n/6lA4hP/LBDpCi4oOrZKlSbEfp/go4zPvtNQBeMpvNVxKQ=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB6465.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(7053199007)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?AvSpKSo+OAELjWm33OsQSdDhq3k4tdArC/W0wJjHJdc2eeCECjD+XecpizEB?=
+ =?us-ascii?Q?9K4/175SDI+w68f8hvX1/n61sD5qheUXW/xGSbOEAv/mUw43r+zMBY1yLA6d?=
+ =?us-ascii?Q?Ytx/JIAtD8VZ3xxSSA8FPxH71jVDAJUTC00guLuYp1vtbLWdzUWrgYNSxD7Q?=
+ =?us-ascii?Q?89cS6Z/T1phrG7jkFlxPB3lnPF2HKu8I31sGn+tAKlHzR+PkZwIIeSe75g5t?=
+ =?us-ascii?Q?dS/WvCwI+X8ooHOyFuBfSy72h6Mr9lAJFzkcaBmxM1FuhDalwWvemnUgfuei?=
+ =?us-ascii?Q?WsWwEZShhqHcJDfk30pk1dJlx/TkXxZx2QTRA8fpM6rf9OLsEicYpMyBxpCR?=
+ =?us-ascii?Q?Yv4EY/AsiawMSRfFoLHsgIM+Sqq4y7l/gnqLRUNxnVSgrcTBP98nqHGP5010?=
+ =?us-ascii?Q?aguv1xH376lfTxQyj70sUxvk2iHojlcsokBA8x5arK/uYYxPBevyu4bWHIvf?=
+ =?us-ascii?Q?Ux3XOWJYVTMADofszp9wkyHODZHIJdtUzq/w8pLxmvPdXQc1jH4jL976gVhP?=
+ =?us-ascii?Q?rntxo/AIRaP79AQ1SyHN0rVecfRGC0kQODUEJbhrIWkyNnB/Qf3bLuA5T7hr?=
+ =?us-ascii?Q?tjXuHSIwPFNi8xW/e8QbydJhBaxKEcK/ILAEDfyLPHph4eFV9505/Q78Ceaf?=
+ =?us-ascii?Q?CCXySFxO9MDfFCRO5zaFjdBPjf0zmfBM/ZnHpLWO4J9IhvLea/mGs9ZH4ytD?=
+ =?us-ascii?Q?iQW/PC68ffweB/JxoFTRJaOS5UQCJOF/MMXNyPKcHquJZjk3ll9x0eKyzgj8?=
+ =?us-ascii?Q?jIguXfj3gUn+ChUC9G/IOdDI9YgBtpSqmvjc0KkApIeLBAgSkFI9OwFnkLT8?=
+ =?us-ascii?Q?8S13ngqRRhbO11AQ/Fv4On+thufz0dj/bH3+wP+RJMMOBkh4XMI1vmFjKjjn?=
+ =?us-ascii?Q?oFxlM8bE2qghAG+sm7XiWv6fqYnP9j/rwSMfhctjjY0Z7oerxQs2ofrd/GkZ?=
+ =?us-ascii?Q?dig9P0dbO7JXhS7V4/+HJhcj2s3eGQKbSTsW9+T7xZAn0FH+n3GaiNk1gY7v?=
+ =?us-ascii?Q?j9tYeBMFVjeuKsKEmt7pNPTpMsY8P3782IgfJPQjIF0+vo0krza+ohq/bNQr?=
+ =?us-ascii?Q?QXRPtO54bu1oME9fRQzzMlLHgXnIp7LTPzsLVVRddvClWjmBiNCmFZuYQx9M?=
+ =?us-ascii?Q?jWKRb6M5mqFNVYaU9od83Ohr+Xi3QCSBr9y0I4j3JVZahPRl0rBi/NjqIlrq?=
+ =?us-ascii?Q?yxFhRXpJt5kdSnty1ESngNT9NowNjOk/TN8Kob74ry+p+PhjHtqtw8v5DIIu?=
+ =?us-ascii?Q?AjS+Lncc6J3yuB0tNvVi+slPlcRK+6gnKrzmO4YEAb8+1xdqjaF4yBhj0rWJ?=
+ =?us-ascii?Q?mj83o9DR+EarBQQIMAd4Dg1XU3NwIn9EM7YsYtFrMfB+BaKxmzoCUXC3jt9J?=
+ =?us-ascii?Q?6r18oxiaHGdRqSaxgrLS00Gzbf7bASdlvhZfdQfZ4gA2o3EFbi6q0vQdZHDE?=
+ =?us-ascii?Q?QGB5JZPlrSHxwZapp4T7l9AYSFd/UKMigG1DU6R93gHs/XHmW/e0gQeLYf7i?=
+ =?us-ascii?Q?OEaJb+URcMH8mT0x4ozifakYQ3kszG5N/zMRECTAOpbln1PvjQAmZ6vJBxBt?=
+ =?us-ascii?Q?e5bjhAGK3E1jY4C7XUXwnIYyXdHqDAeRbUMuBup6QCdxX1bNn8PIHypV1XL3?=
+ =?us-ascii?Q?nQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
-In-Reply-To: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 4 Dec 2024 09:00:35 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVatmOscaX9++y3L5SPhpPpbLw6fROqCw1Cc9iU=YJFpw@mail.gmail.com>
-Message-ID: <CAMuHMdVatmOscaX9++y3L5SPhpPpbLw6fROqCw1Cc9iU=YJFpw@mail.gmail.com>
-Subject: Re: [PATCH 0/9] drm: Add DSI/DP support for Renesas r8a779h0 V4M and
- grey-hawk board
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	LUU HOAI <hoai.luu.ub@renesas.com>, Jagan Teki <jagan@amarulasolutions.com>, 
-	Sam Ravnborg <sam@ravnborg.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-clk@vger.kernel.org, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB6465.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 361cfcb7-e2b1-4398-6230-08dd143b4af0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Dec 2024 08:11:44.9117
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gxLrN4KImtv13u7ryEQWKtFi21amSqo5qrYh2iTL/Xdkq1R56M3Q8YMb5z4TbPNYNsKPp/Ck3G40ipev833i15HCVYtGTp3M+059JhJ3H9305Fazye3stpRWfPGrFSGg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11955
 
-Hi Tomi,
 
-On Tue, Dec 3, 2024 at 9:02=E2=80=AFAM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
-> Add everything needed to support the DSI output on Renesas r8a779h0
-> (V4M) SoC, and the DP output (via sn65dsi86 DSI to DP bridge) on the
-> Renesas grey-hawk board.
->
-> Overall the DSI and the board design is almost identical to Renesas
-> r8a779g0 and white-hawk board.
 
-Thanks for your series!
+-----Original Message-----
+From: tomm.merciai@gmail.com <tomm.merciai@gmail.com>
+Sent: Tuesday, December 3, 2024 6:21 PM
+To: tomm.merciai@gmail.com
+Cc: linux-renesas-soc@vger.kernel.org; dri-devel@lists.freedesktop.org; Bij=
+u Das <biju.das.jz@bp.renesas.com>; Tommaso Merciai <tommaso.merciai.xr@bp.=
+renesas.com>; Liu Ying <victor.liu@nxp.com>; Andrzej Hajda <andrzej.hajda@i=
+ntel.com>; Neil Armstrong <neil.armstrong@linaro.org>; Robert Foss <rfoss@k=
+ernel.org>; laurent.pinchart <laurent.pinchart@ideasonboard.com>; Jonas Kar=
+lman <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; Maarten =
+Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kerne=
+l.org>; Thomas Zimmermann <tzimmermann@suse.de>; David Airlie <airlied@gmai=
+l.com>; Simona Vetter <simona@ffwll.ch>; linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/bridge: ite-it6263: Support VESA input format
 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-Woot, SoB tags for cover letters ;-)
+Introduce it6263_is_input_bus_fmt_valid() and refactor the
+it6263_bridge_atomic_get_input_bus_fmts() function to support VESA format b=
+y selecting the LVDS input format based on the LVDS data mapping and thereb=
+y support both JEIDA and VESA input formats.
 
-Works fine up to 2560x1440 (I don't have a 4K display).
+Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+---
+ drivers/gpu/drm/bridge/ite-it6263.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/i=
+te-it6263.c
+index cbabd4e20d3e..83d1db29157a 100644
+--- a/drivers/gpu/drm/bridge/ite-it6263.c
++++ b/drivers/gpu/drm/bridge/ite-it6263.c
+@@ -48,6 +48,7 @@
+ #define  REG_COL_DEP                   GENMASK(1, 0)
+ #define  BIT8                          FIELD_PREP(REG_COL_DEP, 1)
+ #define  OUT_MAP                       BIT(4)
++#define  VESA                          BIT(4)
+ #define  JEIDA                         0
+ #define  REG_DESSC_ENB                 BIT(6)
+ #define  DMODE                         BIT(7)
+@@ -428,12 +429,30 @@ static inline void it6263_lvds_reset(struct it6263 *i=
+t)
+        fsleep(10000);
+ }
 
-Gr{oetje,eeting}s,
++static bool it6263_is_input_bus_fmt_valid(u32 input_fmt) {
++       switch (input_fmt) {
++       case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
++       case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
++               return true;
++       }
++       return false;
++}
++
+ static inline void it6263_lvds_set_interface(struct it6263 *it)  {
++       u8 fmt;
++
+        /* color depth */
+        regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, REG_COL_DEP, BIT8);
++
++       if (it->lvds_data_mapping =3D=3D MEDIA_BUS_FMT_RGB888_1X7X4_SPWG)
++               fmt =3D VESA;
++       else
++               fmt =3D JEIDA;
++
+        /* output mapping */
+-       regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, OUT_MAP, JEIDA);
++       regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, OUT_MAP, fmt);
 
-                        Geert
+        if (it->lvds_dual_link) {
+                regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, DMODE, DISO=
+); @@ -714,14 +733,14 @@ it6263_bridge_atomic_get_input_bus_fmts(struct drm=
+_bridge *bridge,
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+        *num_input_fmts =3D 0;
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-       if (it->lvds_data_mapping !=3D MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA)
++       if (!it6263_is_input_bus_fmt_valid(it->lvds_data_mapping))
+                return NULL;
+
+        input_fmts =3D kmalloc(sizeof(*input_fmts), GFP_KERNEL);
+        if (!input_fmts)
+                return NULL;
+
+-       input_fmts[0] =3D MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
++       input_fmts[0] =3D it->lvds_data_mapping;
+        *num_input_fmts =3D 1;
+
+        return input_fmts;
+--
+2.34.1
+
+Acked-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+________________________________
+
+Renesas Electronics Europe GmbH
+Registered Office: Arcadiastrasse 10
+DE-40472 Duesseldorf
+Commercial Registry: Duesseldorf, HRB 3708
+Managing Director: Carsten Jauch
+VAT-No.: DE 14978647
+Tax-ID-No: 105/5839/1793
+
+Legal Disclaimer: This e-mail communication (and any attachment/s) is confi=
+dential and contains proprietary information, some or all of which may be l=
+egally privileged. It is intended solely for the use of the individual or e=
+ntity to which it is addressed. Access to this email by anyone else is unau=
+thorized. If you are not the intended recipient, any disclosure, copying, d=
+istribution or any action taken or omitted to be taken in reliance on it, i=
+s prohibited and may be unlawful.
 
