@@ -1,46 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-10926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10927-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141FF9E4115
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 18:18:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2FC9E415B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 18:24:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C600F16144E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 17:18:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 54F98167B0A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 17:24:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2C83219BB1;
-	Wed,  4 Dec 2024 17:01:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC961223A84;
+	Wed,  4 Dec 2024 17:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G2E1FYFN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QAboMdsV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C606A219BA0;
-	Wed,  4 Dec 2024 17:01:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9249F223A85;
+	Wed,  4 Dec 2024 17:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733331708; cv=none; b=ioLmYVUkpoiKmorxrV4Ozs6FFCOT/MYN9KgMs3zOcauNi2ZX8uMPtMUCsIH60eZyR0FxoZTjxpCCa1zERJ6D0CKKHbE2VW3bhxCnZWIIIPKjjao/srGfQX11evdBVCsGRYcNHHEkW0uDUJwl6UPckKUA8Yd9hJy9S/YOcCP28NM=
+	t=1733331762; cv=none; b=hxhMrLm0j/6Gf/Mk4dUhgB4E//Gc2RzgOJqbOB7lFDQF3tyYmWlmZikHv/f13LZAsmGo0x/Jr6ph02+mHeJqxVGjNCp+lgsIeivUwNtxYk57K438URVh3sYocCVXl0GCINz80G0sMZ4o9uZFUs8poBKTcvnWJFFeIKppZH3nPaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733331708; c=relaxed/simple;
-	bh=3krexAfqy0Ht6N8hAX+Gid/7tdaS40E+IMw95VFDePo=;
+	s=arc-20240116; t=1733331762; c=relaxed/simple;
+	bh=7u2DoriNT4352wrIk1exknMyKRlYYDQiy9mn/liPiNA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VYnFoE/gKrQrh+k3xpy8aK752QToV9zRvckLBRFijIDIffFizVNW2RQMRGSrmaQibjdXrLTjJJR7tjmBOyv3haCbBVBpnC5d/4vz7PY7pNCNyIRuiPUMNhV2luRXvnSKvCGTT6OUU7P6yJOnuao8uW+ELQYVidFsnJceGaXsTdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G2E1FYFN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F03B7C4CED6;
-	Wed,  4 Dec 2024 17:01:45 +0000 (UTC)
+	 MIME-Version; b=ov6S0cERDXt0oVLb/XRrSp5QGpGwOtJt3SIfQmNXGABnG0RUySvIKEuqOZjkYNTnWf9VK7jXSyzXhZAyXbOjYT7tuTHLqzeNtOQIrAnCHGaFu5FXA4OTfSOIGwKyWqxh+cso0qf2BgLwdX8TaRM7DVJq3N4PxaN09C8ks4UXoTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QAboMdsV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD214C4CECD;
+	Wed,  4 Dec 2024 17:02:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733331708;
-	bh=3krexAfqy0Ht6N8hAX+Gid/7tdaS40E+IMw95VFDePo=;
+	s=k20201202; t=1733331762;
+	bh=7u2DoriNT4352wrIk1exknMyKRlYYDQiy9mn/liPiNA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=G2E1FYFNjinVy3ukXsE9T0/7Ikv81KFrJmvFzcs/QomVS5CMCMfyv6Um9PsgglWSI
-	 SZTCkzwMTrgLIc7+8lbHEZr3S4BOasWlhW2vT+CIphkkGkedNNf92xKR4c+U3u3qJM
-	 /97Cm89A4BrNqGrt6mn+LkeltccmLL7YDQvA+mZR93osCAOKu1miHWOlpmxmGBk8bl
-	 FLIF4Mx22a9W5A0kzyY850yaciBz16e6kNgf7B0YSfayXBUNvfkJZFizkXMIGLyOjR
-	 ruLULkLWKuJqncpuToMiPlsK6232u2n8aWLmHCIGNel57t8aF25H8wsTtswc5jYY/d
-	 XTD4dUNopZ1ig==
+	b=QAboMdsVN9OVTuY9mdZTyEBEBqUbNN98zMNsbKZvwIxxVwlTbm9VLqYHZhQq1x8Ho
+	 EwAku4XWmrqhw5+PPQYza05JjlBaalJSnFJ/laF7CC04b2l5bUrOk2uQFuqVuI+iGw
+	 sNfuGXjNKgT5ihLO5VW790BoaOthV/wamQhuAJSLD44eecoox762J+1kikBtkoFpxm
+	 fa1sJiJPvUGGePTsnH1jqdqIe2egMrfs7nSHwtiWjeodYF9oa9XOYfPYoADYfW3G9G
+	 3HbbCWlfjOYEX970z485nH3F4DAg3es5NJOOSEz17pU++tYf97gqJEf04A4Kdg3xb+
+	 6/eYAqN+U0MTg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -64,12 +64,12 @@ Cc: Bart Van Assche <bvanassche@acm.org>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.6 09/24] scsi: ufs: core: Make DMA mask configuration more flexible
-Date: Wed,  4 Dec 2024 10:49:29 -0500
-Message-ID: <20241204155003.2213733-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 06/15] scsi: ufs: core: Make DMA mask configuration more flexible
+Date: Wed,  4 Dec 2024 10:50:45 -0500
+Message-ID: <20241204155105.2214350-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204155003.2213733-1-sashal@kernel.org>
-References: <20241204155003.2213733-1-sashal@kernel.org>
+In-Reply-To: <20241204155105.2214350-1-sashal@kernel.org>
+References: <20241204155105.2214350-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -78,7 +78,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.63
+X-stable-base: Linux 6.1.119
 Content-Transfer-Encoding: 8bit
 
 From: Bart Van Assche <bvanassche@acm.org>
@@ -103,10 +103,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 13 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/ufs/core/ufshcd.c b/drivers/ufs/core/ufshcd.c
-index db4044358e22d..62fbbd56a86e8 100644
+index a1809aa9a8892..df94c563b808a 100644
 --- a/drivers/ufs/core/ufshcd.c
 +++ b/drivers/ufs/core/ufshcd.c
-@@ -2265,8 +2265,6 @@ static inline int ufshcd_hba_capabilities(struct ufs_hba *hba)
+@@ -2230,8 +2230,6 @@ static inline int ufshcd_hba_capabilities(struct ufs_hba *hba)
  	int err;
  
  	hba->capabilities = ufshcd_readl(hba, REG_CONTROLLER_CAPABILITIES);
@@ -115,7 +115,7 @@ index db4044358e22d..62fbbd56a86e8 100644
  
  	/* nutrs and nutmrs are 0 based values */
  	hba->nutrs = (hba->capabilities & MASK_TRANSFER_REQUESTS_SLOTS) + 1;
-@@ -10206,6 +10204,8 @@ EXPORT_SYMBOL_GPL(ufshcd_dealloc_host);
+@@ -9648,6 +9646,8 @@ EXPORT_SYMBOL_GPL(ufshcd_dealloc_host);
   */
  static int ufshcd_set_dma_mask(struct ufs_hba *hba)
  {
@@ -125,7 +125,7 @@ index db4044358e22d..62fbbd56a86e8 100644
  		if (!dma_set_mask_and_coherent(hba->dev, DMA_BIT_MASK(64)))
  			return 0;
 diff --git a/drivers/ufs/host/ufs-renesas.c b/drivers/ufs/host/ufs-renesas.c
-index cc94970b86c93..ea3da773b1c14 100644
+index ab0652d8705ac..481ad0a3a6c7c 100644
 --- a/drivers/ufs/host/ufs-renesas.c
 +++ b/drivers/ufs/host/ufs-renesas.c
 @@ -7,6 +7,7 @@
@@ -159,10 +159,10 @@ index cc94970b86c93..ea3da773b1c14 100644
  	.hce_enable_notify = ufs_renesas_hce_enable_notify,
  	.dbg_register_dump = ufs_renesas_dbg_register_dump,
 diff --git a/include/ufs/ufshcd.h b/include/ufs/ufshcd.h
-index 2a7d6f269d9e3..8b66228645d76 100644
+index b54f22840dabf..c4b1e6dca2397 100644
 --- a/include/ufs/ufshcd.h
 +++ b/include/ufs/ufshcd.h
-@@ -295,6 +295,8 @@ struct ufs_pwr_mode_info {
+@@ -272,6 +272,8 @@ struct ufs_pwr_mode_info {
   * @name: variant name
   * @init: called when the driver is initialized
   * @exit: called to cleanup everything done in init
@@ -171,7 +171,7 @@ index 2a7d6f269d9e3..8b66228645d76 100644
   * @get_ufs_hci_version: called to get UFS HCI version
   * @clk_scale_notify: notifies that clks are scaled up/down
   * @setup_clocks: called before touching any of the controller registers
-@@ -332,6 +334,7 @@ struct ufs_hba_variant_ops {
+@@ -303,6 +305,7 @@ struct ufs_hba_variant_ops {
  	int	(*init)(struct ufs_hba *);
  	void    (*exit)(struct ufs_hba *);
  	u32	(*get_ufs_hci_version)(struct ufs_hba *);
@@ -179,7 +179,7 @@ index 2a7d6f269d9e3..8b66228645d76 100644
  	int	(*clk_scale_notify)(struct ufs_hba *, bool,
  				    enum ufs_notify_change_status);
  	int	(*setup_clocks)(struct ufs_hba *, bool,
-@@ -613,12 +616,6 @@ enum ufshcd_quirks {
+@@ -582,12 +585,6 @@ enum ufshcd_quirks {
  	 */
  	UFSHCD_QUIRK_SKIP_PH_CONFIGURATION		= 1 << 16,
  
