@@ -1,135 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-10946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775079E52C6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 11:45:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E74D9E5437
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 12:43:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB41116A4A2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 10:44:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AF4F1645B1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 11:43:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF0C1206F19;
-	Thu,  5 Dec 2024 10:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BEEC20B219;
+	Thu,  5 Dec 2024 11:43:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L7j8QVgD"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AdwT1rpn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A521D6DA1
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Dec 2024 10:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D73209691
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Dec 2024 11:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733395333; cv=none; b=A4XL/ydOu0SQVOMnBUyVaZ1G2AbYAA8FPK6Cudn3vcGKIwH178ZoYeNEENFEUF3rtvKkFD4bTVJdLuF3oYG6q8iar8CU0fyU6SmuBlqrCwGb9TO/k3ygI9gUFNV5GvmDngNHdW0gfTJdoXMejhBI6y5oJwEpA8zE3tfJJsFj2zk=
+	t=1733398985; cv=none; b=IUr1T2lrQlCJmIbpzTLIes0LTbhZXAVvvVP+nAG0O4hVKNn64/RUMGkLp8D5L2r6KiwsdRucFzIgo46z8m0CVe3EZ3gz4G4e/KOBGYHp9yntQwDsjKiFjt659rfa/Bm7wEF9POQNilWBN3SygthOkd1G2Cnu6wJTCu3RZ6/3npw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733395333; c=relaxed/simple;
-	bh=lBjSO4XZQcFnEk/bAzX1s58M9esiJswkbspXoeJzI6s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OQwjewiixgU9EqkDbQNIxGjDgaM3irvKtZyg8znj7/9tE6Db2gf39oPojIDdHzEFLoUQVp6C1sxtJ023RshGtV/sollmG7QQQHmVlyp9fKDesQUIwOo1xh4B6oIIUCJ5r4wVG0tUFFuhQQZwruxuV7I3WkuBxJolYttOHlWkiBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L7j8QVgD; arc=none smtp.client-ip=209.85.221.49
+	s=arc-20240116; t=1733398985; c=relaxed/simple;
+	bh=QwW8hEKc2ZOq0UAnDz5EozX5u7ND1JQqpJqyq+GHFPs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hPidaU+xUusZ1CwGmUQA9NAycCTwIilQzxE81Ifq2/Xd+5s41kbSnH7IKDe6t/oCg68QQMpJX8bYE+t/PJfpZjax37oyhCYZQ0BxZCMXxNP8tzvsETa+efj8XLjivZVDCA6AbRQ/2M/kL56eugqiDmYRYAfnBw6YqhKWZ6TX0Dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AdwT1rpn; arc=none smtp.client-ip=209.85.219.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-385e0dadaaaso25132f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Dec 2024 02:42:11 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e333af0f528so823832276.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Dec 2024 03:43:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733395330; x=1734000130; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FnoZGxzHG6LZDyvVjX+CssXgRHCJAKynJ1wSQcpNHJ0=;
-        b=L7j8QVgD4ePArRob4XZ4StNT6RNHNYc2feivBhj+XBFzzGbkDnbHBju+nZNkc9U7uc
-         5SuthXhG2KGt/HIRqRzaFb25EySmrsU2F+v5PiwEiuBo2OMhkAv+1iydzsLLrTQZkqyS
-         M8dMKMopfh6Xb5fFKHNqOmkG2Vz0UatQidUOha3Yr8fEmtPr8iCTU7FxYBum7K7La3mN
-         MAf5qGYyxQQ8HDQ8WEEvvxDDBSxiQx6k2+R/xJOWK0D5L/Iz9Ps06d2Y/zwsG9UXceLN
-         d19kNgmfVUFkCQ3U9KH2MmjtKmce/EKuYOtaZsxgiqknMoyChAzlNBOch9Itj1VaydyQ
-         WT1A==
+        d=linaro.org; s=google; t=1733398982; x=1734003782; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=foW0/KGDo9eGD4oVVo4WypJSTUBY0HMIRisvLT2/meA=;
+        b=AdwT1rpnmzOvoI8HzQP/Eco8TB8kZeNegVFmazVmm2jjdcYGQluNnAzwiYfianUEJj
+         WmW/LejubxecCSwifWfW0MIdC2v4X/G9iAlt6TGvfeH1EoFzkx1P0knsu7R3W1U4rjwT
+         U9+AZhNHWk9e6UQJemoj62HAqY5VSnOC4P9biA8KFxzcAInIleBY4Gaq5Mwb7BZRyPTg
+         2WvRad89Ya4YMLgb2gJI3DxB4PUpUC7RZI9msav/Z7K0FVBZ4aihwQCdaJychVYnrM0H
+         br3S+gulj79B9Q/nyFSPO4bQ+TCooztvssexDXJPVb4fjN347FEVuXvfxk0viscMnC8B
+         421Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733395330; x=1734000130;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FnoZGxzHG6LZDyvVjX+CssXgRHCJAKynJ1wSQcpNHJ0=;
-        b=DI7T/gM48xe1Cc8MaBKFyYauIUR80UrhCUQNnDLikFiCG8J433c76I6bfo2Y7k4utP
-         m/KARREw0o9eYhRdQJpiSsd37IIY9p/G3AXFn4YBDRzbKQk++f6K4yZv5ODQ/1U5lg49
-         NGDqmxD8LF7uX4XEUbhDTravqAQKLrc2TTMACsCzpMZ6RwR/9pcPAOFteHeFR3N229la
-         ljc1SBz11d0/AOuqWAkBFDbRZgn50GIaXAWhEqy2J14dlNwAzcm4bC7r2YKXYV1KQIGI
-         acvNoY1zDnpYLFAQnB9XW2ONaY2O1+6AITTPYux9QRnT3gCdXPQ/TIYBdA6cW/6pL5HW
-         qUFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXyNpyryAiY5Hn1peQb9uOghKKgQdIBql+3HrLfhpx5EG+TZ8klgSSLltGNq/KfqlSrFnINg9SDXQohcDMkVB2iSQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMQ2hV08RPToyMOed2ahlD/m31WddFzhtri5QqeHosTmX/Omf4
-	jDdneHZOIDRkZ+eRiBhsyCGP1b77ElsgdgaCOTKv57uroxYwkfFHM48BCOeH4eQ=
-X-Gm-Gg: ASbGncuzYdvVSk3wiyjEM5P9mCkRr1UzQ5gIP7hKZ8rbHuDNpxpR7kg0oC+ABe1Z0Py
-	B6+1YoffVaWp21be8nireVxpFej21vckOc1gsb/V1POs76Z3q7MH/EBnirxB+NwHdVV24AcpLW6
-	cWhh3RYNXKK81sAxs9iJbdP+jWWpIbC0vjUrs2pHW0piAFrKbzjXO8y5xGXd4n8LiWqLCdbx3k0
-	ZFzx8ejM1xRya180Rdue3PW+zw6G26i9ppLCZCcHESW0qQ5wg2I/xlik+I+Pw0QLQ==
-X-Google-Smtp-Source: AGHT+IGz3GjcyfBhQ5HlqLVmhmG7Qtmhnbj9BaPJEz/QzVaC6xVbnrbhQALk4UuX4nKmsjVBEJ+aKg==
-X-Received: by 2002:a5d:6d82:0:b0:385:e8e7:d0ac with SMTP id ffacd0b85a97d-385fde34d9bmr2947632f8f.13.1733395329824;
-        Thu, 05 Dec 2024 02:42:09 -0800 (PST)
-Received: from [127.0.1.1] ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3861ecf406csm1662701f8f.3.2024.12.05.02.42.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 02:42:09 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, 
- Heiko Stuebner <heiko@sntech.de>, 
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Paul Cercueil <paul@crapouillou.net>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Nicolin Chen <nicoleotsuka@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Adrien Grassein <adrien.grassein@gmail.com>, Adam Ford <aford173@gmail.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-mips@vger.kernel.org, alsa-devel@alsa-project.org, 
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-In-Reply-To: <cover.1727438777.git.geert+renesas@glider.be>
-References: <cover.1727438777.git.geert+renesas@glider.be>
-Subject: Re: (subset) [PATCH treewide 00/11] ASoC: Clean up
- {hp,mic}-det-gpio handling
-Message-Id: <173339532775.70936.4554643874403091214.b4-ty@linaro.org>
-Date: Thu, 05 Dec 2024 11:42:07 +0100
+        d=1e100.net; s=20230601; t=1733398982; x=1734003782;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=foW0/KGDo9eGD4oVVo4WypJSTUBY0HMIRisvLT2/meA=;
+        b=vKw9yJKMB0h19nRDUuk93auplJDP7jaAgpBJ0Ifcvu8YSCnxF69eC/bMjCzqmL9hAt
+         Cdge4JAWw/O5VZH0LIwroh3taQDX8jhNXemHcx1XBL9YppmKH9C9sQXo9mvWpP205eBB
+         C+kFmmEHcsuYXnCEsslQN7WdyrHXSRwrjb1xGNE13oTwpQjWxdqXMAPhlDyO5iSjf46L
+         l4OV9G43MrWa+oKXkyLRzDgZiZVG0b+/ux7S8Io1JZYpiry0QiCSeBy9c9jla3v5QLVm
+         hf4Ke3woaQXUgEZ35M0xqVmHMbxbA5/+Xr9kO6CM1euKzstjw/LLnq8DAzSDkRWHHRmI
+         CjAw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4x8EVx3i7KetxybzHv5YzHnNeKkyC5erCVGw5uCY8MIxMAca4RQf44ozcXHiZhiMXFMsQBN8h5Dm/eHBVEpjtKQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwaAHG3BaTi/0a1bPZSiM9/WoROGkqaVAbgdgIMS4xakPqtjTP
+	X4e1ejibl0xaBm0F3I2Ltf70d65BYH37shkpsC5NuuKL2Mq14kepYFnhte0sFF3oLF8O7/ZzZX5
+	UDHu5oHyqVvxfNTbB30eSTrSZ7MQelDVXIyDojQ==
+X-Gm-Gg: ASbGncv26XO+kpqAb4DjhlxkB60bJXHQnWab92OvbpYPQR8gHka7KFFdzYNFxvMDAhM
+	m/3buZXf3K4+jvnZxbHlPQbqv65uMtZKKLsOExqf4+q4b6A==
+X-Google-Smtp-Source: AGHT+IEHe0hEqVxHW1W6LA/XnWI/0yeqMuF4kFnDKLb5IX3EJI4UID7Ltgg79MyMh35EoVOtfkZnRY3ZbH01erDTs/A=
+X-Received: by 2002:a05:6902:2b07:b0:e39:8d52:e308 with SMTP id
+ 3f1490d57ef6-e39de228e92mr7181180276.26.1733398982302; Thu, 05 Dec 2024
+ 03:43:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+References: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+ <hd2kom5acz47c3mkjuauxhauahkt7vq2qoilppwn34iidldhos@rb5ydcayhtlj>
+ <054a0278-428f-49cb-b0f0-182c5bb3b61b@nxp.com> <TY3PR01MB113469CCF62FCC801F15C6B2286372@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <3243b983-2f22-4254-b7e6-0f7ef0ae725c@nxp.com>
+In-Reply-To: <3243b983-2f22-4254-b7e6-0f7ef0ae725c@nxp.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 5 Dec 2024 13:42:51 +0200
+Message-ID: <CAA8EJpqAjx+K2GdKt=gLxsETa7nvH57f3RVbhhL6EftiN_8EuA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+	"tomm.merciai@gmail.com" <tomm.merciai@gmail.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	"laurent.pinchart" <laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, 5 Dec 2024 at 11:01, Liu Ying <victor.liu@nxp.com> wrote:
+>
+> On 12/04/2024, Biju Das wrote:
+> > Hi Liu Ying,
+>
+> Hi Biju,
+>
+> >
+> >> -----Original Message-----
+> >> From: Liu Ying <victor.liu@nxp.com>
+> >> Sent: 04 December 2024 03:43
+> >> Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
+> >>
+> >> On 12/04/2024, Dmitry Baryshkov wrote:
+> >>> On Tue, Dec 03, 2024 at 06:21:29PM +0100, tomm.merciai@gmail.com wrote:
+> >>>> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> >>>>
+> >>>> Introduce it6263_is_input_bus_fmt_valid() and refactor the
+> >>>> it6263_bridge_atomic_get_input_bus_fmts() function to support VESA
+> >>>> format by selecting the LVDS input format based on the LVDS data
+> >>>> mapping and thereby support both JEIDA and VESA input formats.
+> >>>
+> >>> For the patch itself,
+> >>>
+> >>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>
+> >>> A more generic question: is the bridge limited to 4 lanes or does it
+> >>> support 3-lane or 5-lane configurations?
+> >>
+> >> According to ite,it6263.yaml, the bridge supports all the data mappings(jeida-{18,24,30} and vesa-
+> >> {24,30}) listed in lvds-data-mapping.yaml.  lvds-data-mapping.yaml specifies the data lanes(3/4/5)
+> >> used by each of the data mappings.  So, the bridge supports 3, 4 or 5 data lanes.
+> >
+> > In Renesas SMARC RZ/G3E LVDS add on board, only 4 LVDS Rx lanes connected. The 5th one is unconnected.
+> > What is the situation in your board Liu Ying?
+>
+> The adapter cards I'm using to connect with i.MX8MP EVK have only 4
+> LVDS data lanes routed out.
 
-On Fri, 27 Sep 2024 14:42:15 +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> The "gpio" suffix for GPIO consumers was deprecated a while ago, in
-> favor of the "gpios" suffix.  However, there are still several users of
-> the "hp-det-gpio" and "mic-det-gpio" properties, in DT bindings,
-> drivers, and DT source files.
-> 
-> [...]
+What about the bridge SoC. I don't understand why the driver gets
+limited by a particular add-on card.
 
-Applied, thanks!
-
-[03/11] ARM: dts: marvell: mmp2-olpc-xo-1-75: Switch to {hp,mic}-det-gpios
-        https://git.kernel.org/krzk/linux-dt/c/62f95d8a4920706e94759a8f5e34677528530cf1
-[08/11] arm64: dts: uniphier: Switch to hp-det-gpios
-        https://git.kernel.org/krzk/linux-dt/c/751df73d825b3f7e6cad42ed333c28096635784d
-
-Best regards,
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+With best wishes
+Dmitry
 
