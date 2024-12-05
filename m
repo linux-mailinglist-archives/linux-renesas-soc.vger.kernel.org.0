@@ -1,134 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-10977-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10978-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFDD9E5EEE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 20:37:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7C79E5F4B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 21:14:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EFA416D71E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 19:37:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A55618848A3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 20:14:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41FCC22D4EC;
-	Thu,  5 Dec 2024 19:37:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE2C922B8A2;
+	Thu,  5 Dec 2024 20:14:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KMTTDvZr"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XChPQP//"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3BB22B8D3
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Dec 2024 19:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E828218FDAA
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Dec 2024 20:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733427440; cv=none; b=BUc94RP5YRfl/lwHr9dTkZBx4eTZFsP4K+ftnXm5O0mZQLw4VZZqccC9qS0IndwmhV43Hvxu2XeyxLuKZNU8AZDf2kWwWW9Qntd1JUCWRbI6GTKlh1I78TUFwWsZwoQuW5ff/i//bUsdD9Hpb2yGYUSezebnzkK8p+1MmeLGqlI=
+	t=1733429675; cv=none; b=gUH99iqddW8b9KXcggGBiSJDLlSHTjoOMMr2jioFzeio8fdxqL4oH+NyL1ht4uqA5+hStcxOC9itVg4L7K5sY3rXC0cyeVbyxCHhdh+/r5rlEW4YEzCiUhtx4OT76e4qnrSezyivJqRq1aSFVrhSWlh7gKw37b1jpKc0r8FXvh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733427440; c=relaxed/simple;
-	bh=/8mWs+LsHg5t40Hdzas9ylAMup4YyUOMJMRhO6YgBdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=moQjTSgJaoIVUj2/dehAhAT033OyRyCWNqetP2X2zwWGLPIW5i+UVRQrOvZB0oK45FVEKRR92L47iNeY6orBEqjWOANeXyysLYSyTkj4iqPAVqhvplASzmmpfXC+B+Qr69lKE6EAt5hjH3wzxSqKw/Y2QnpY+dZV9YNp1o2/ccA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KMTTDvZr; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53df119675dso1778562e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Dec 2024 11:37:18 -0800 (PST)
+	s=arc-20240116; t=1733429675; c=relaxed/simple;
+	bh=f5eqyhKVGnpVkF/wPyOpZrDNNpMh2nXC1um5w35dY3U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V7PmGrmoipVnpT6Dzg3wME4nGBJDodQ3mc4pdhUWK3T53FyIeJiByoPSM8vyRpdGVmYFiDbii4eIzzeovFHWZGiCu1hMQxu7s/LSKbRXWAjkoZRncnFk9Tr5GLHCGbg81KHUKTrEm1TGKRQCoSG4/HdVsnT+CClxlRjR5KU9/gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XChPQP//; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ffc81cee68so10231941fa.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Dec 2024 12:14:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733427437; x=1734032237; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FU/EUHsit16rikYcJKnQECWispe+WbkZdRTRsFjxo4M=;
-        b=KMTTDvZrpFOooCDsMKtgClP9reBquFs7ZsGeBa5HmgrsW+fGz9NHdJ2bWHcwFwnhwy
-         UEb9uuxETSzMOvv1sOUI+IUvFQLcCfdFJyD/TeaZsUV6+1xa5a+KIS56Aocdnf9rWn8q
-         RVs7SrzdY7aHj2Ufm5a6REFtLd7xyBlKSS1broLRnzz301okYzYyYO8Aw5YZos4fMJJw
-         ppNfzXN5GkOPpq4QkrRzn5OLclCh6zYy5mBoTlaIq9xQCwtrozK5gmbeOgRlEGTRVGeD
-         FpiU5lu+zk4q5KmvQ5uEkOGTyshYaDLA1Cx0qZVdAYiN2lc1AZrdfqxHJJOuG4KaDmwP
-         7yog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733427437; x=1734032237;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1733429672; x=1734034472; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FU/EUHsit16rikYcJKnQECWispe+WbkZdRTRsFjxo4M=;
-        b=mD+qmvJHorQp6a5iBQfok5ukuA/jvcLF0KHEofqTsUy9Km1foZ0v/T6p2trLcfl5Ag
-         /GWWcrC9qCmKuo5tt1qF1s6zUCXcbb4xuMK0tMKsw72mpu9gpPpI+1nNT9LZCqXP5Kut
-         1jyJfOzgr0MNhorDeZYJStb19mJ4dvJguybYZHDLhAzHsWg13yxxi8TC8450jzGeQ/eC
-         TK5tM4ybyOis8AXtztVTZoJL+byniHc/Ot1Rm3lmQ6iUKZmuIdMPmZ20e+lxPA8jE6fc
-         iQ3nOiXPyUc6O1C1G38DcPY8VnPp2bzRmt93UfH09N7otN2zmlZIcE8LwGdAS8At+oOa
-         h6Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCXz0jaojA9EzQSqfcBnID5c7T2EcJbdjSnnn6bEOZhgD05tyeieWlE0XfPMfe2ZYdgQD2V/C2gsmrU1GoogU+5p8Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwDhSH3iz2Ag6OjUFTBQYYdnbQJyQHfuzRmBtQ0cWE1GxbnY7R
-	mU1u2EbuLviHXVEpOsZqd3vsZQChzeoAlQSm7LaLQ+yJPZM7/XonXGm4F4YWrEf77VqgIDH8aNT
-	Y
-X-Gm-Gg: ASbGncvr6VxMCaos0Ri4CkX0lBMTZlPc7//zztLjInKH6NFPHj3M0t6iXzLa/RBLRZ5
-	v4o7WeQhlBG/NSCJG/nd6YZHbOA9gEIZdhaksbLCRy1gVUoM15rcHv/NCqFCdDsPaZAsLjXhEJo
-	lac/picwoRZrjBXkNq6a1VyzjYUJ+Fvb5qpASqJHNbEGnr9eaKFzV/BAQ8TgUyOI9cz+4TA1hT3
-	pnTB9hHMz9fV/yz95QTlRxZKexQJAZQscd7zQFMBEwlmsrYJ3S3CSkq/Q4vGsrQEt89s6Zp1kQ4
-	PTyefA23ni3mpioHEDpT0X/vQNFyTQ==
-X-Google-Smtp-Source: AGHT+IERXOKhrQS1SGs1D5VgGlJZNknfg8nNxxBg0Nz/3rd8qLiDCnCB7kUCHN8FpkTx1vIxjtpeoA==
-X-Received: by 2002:a05:6512:3083:b0:53d:e324:11c9 with SMTP id 2adb3069b0e04-53e2c504b81mr84578e87.54.1733427436612;
-        Thu, 05 Dec 2024 11:37:16 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53e229ba760sm320223e87.155.2024.12.05.11.37.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 11:37:15 -0800 (PST)
-Date: Thu, 5 Dec 2024 21:37:12 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, biju.das.jz@bp.renesas.com, 
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/bridge: ite-it6263: Support VESA-24 input format
-Message-ID: <lpkbkayu5hlwhbzxhez47gob5zed27z7ced7vkadqfmxneh54w@6zwd3xvskooc>
-References: <20241205080210.1285385-1-tommaso.merciai.xr@bp.renesas.com>
- <3bab95ae-ba66-4aed-9cce-13498f2f50e6@nxp.com>
+        bh=TgqbKLEavaHLiZwSrnhECHdLW65ZvokO2Jg0XuF7dOY=;
+        b=XChPQP//9J9IqxBgM8zboh/JpaP+YqXn/N/OxO0+RMRx12iMqCcKXMgK5beSZ5wvYt
+         bdJNouXg5rqBGTJ2W6zm76+aqbWWfRq2pCfKwqMSLnrFg5MRwkdOI/5lFOYYJoD0iAqB
+         5Q1UTbKiIGC9I+Dc+8DdkLBzLRamADTVlmw24exL03BxtB7TFc7nUhrnzGSMTKG3YadF
+         BKiKKqk+KAt6Hrk8WYchB7W3A2mq9icLkwGeIGz1r3K5TyuE+hwYCD7avltpzpdf656q
+         9PwNQnlFY8ZNIoGo/DD++OpsPRHuAAUIGipeodtTlKdAokSn341BoEF3fV55RZTMLnYd
+         J8TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733429672; x=1734034472;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TgqbKLEavaHLiZwSrnhECHdLW65ZvokO2Jg0XuF7dOY=;
+        b=ule9TZoQN54I0433B3gM21rMbjjhn3n0p2wma1c2fk3aYquCWvqiA580ZCx6gn+GoQ
+         6OYPLxQZsftfXlAzlNxo3447HZ0MgKINDUHdLZVkoHHT5sQQ0gZuCjZQzL7GO7YlJtOC
+         HHY508GLIt9C/vzD3ghaP//Rb6X1qX7JFGeJVNBRDgp6LyEN1q3AKCsyQAQerc4sGXqJ
+         aHPyuzo4ZgtExSes4qUHoaU6/7G3KNwymoy9eAOY+9ndoPaws/rAcGbbtix7FtcSF8qh
+         OqZdIoOh0Ca5Fyfj5cmUjp+gccNDL6pn1aao4q4dNSdTiQkUCVC1stGgoCxcbHXM5Xdm
+         94hA==
+X-Forwarded-Encrypted: i=1; AJvYcCVoG0K1e3vx+0uDA897r82MkJ0Dk7sCaIfp34ddr04kau6lREBuoWH9kqoU6EhJ8S8zQ3ERnYpgLOLpBGSref3fXw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUzGSX3rsQUd3W9dBkfMqwleO+jqS4/OoSMhqEidgp+K6nvd7g
+	biEurkfJNJgVmCVuf7AfKAGJCKxeWaj8ZDY+YV6aO55abIP0S88eWRMeGoCfXl0/hUW3f47iDMv
+	+C1IdrXIAV+ZLeFp1E51lYQgQTerl31frccMl
+X-Gm-Gg: ASbGncthi7cQw+R9fkCSqzwseDwJDDO7fqU1buA6QkYd9srWEm7ujF+JGGLo1/GAHOq
+	H7LtOUDnjXkioLj0wcCil9yX3vuKqmg==
+X-Google-Smtp-Source: AGHT+IGFgkXtuPAnkojQK18RbIhqSfv7i03Oxy4ZIFKbCRFdxEWacRzHnAnPtUNduLvJgo8CdNg4Qw6xQAq+GxKER+s=
+X-Received: by 2002:a05:6512:15a3:b0:53e:1bd3:889b with SMTP id
+ 2adb3069b0e04-53e2c2ac217mr89160e87.3.1733429671868; Thu, 05 Dec 2024
+ 12:14:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3bab95ae-ba66-4aed-9cce-13498f2f50e6@nxp.com>
+References: <087ef57d899c93f45ceffb8f9c5df3ad850b1e85.1733403513.git.geert+renesas@glider.be>
+In-Reply-To: <087ef57d899c93f45ceffb8f9c5df3ad850b1e85.1733403513.git.geert+renesas@glider.be>
+From: Saravana Kannan <saravanak@google.com>
+Date: Thu, 5 Dec 2024 12:13:54 -0800
+Message-ID: <CAGETcx8Wj8Ym-KHv6=J2aCSWn1YXKaXw0VVxdni+-qHJ5+14GQ@mail.gmail.com>
+Subject: Re: [PATCH] pmdomain: renesas: rcar-sysc: Drop fwnode_dev_initialized()
+ call
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-pm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 05, 2024 at 04:54:09PM +0800, Liu Ying wrote:
-> On 12/05/2024, tomm.merciai@gmail.com wrote:
-> > From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > 
-> > Introduce it6263_is_input_bus_fmt_valid() and refactor the
-> > it6263_bridge_atomic_get_input_bus_fmts() function to support VESA-24
-> > format by selecting the LVDS input format based on the LVDS data mapping
-> > and thereby support both JEIDA-24 and VESA-24 input formats.
-> > 
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > ---
-> > Changes since v1:
-> >  - Inline it6263_is_input_bus_fmt_valid() as suggested by LYing
-> >  - Fixed it6263_is_input_bus_fmt_valid() param from u32 to int as suggested by LYing
-> >  - Fixed commit msg as suggested by LYing
-> >  - Fixed commit body as suggested by LYing
-> >  - Collected DBaryshkov tag
-> > 
-> >  drivers/gpu/drm/bridge/ite-it6263.c | 25 ++++++++++++++++++++++---
-> >  1 file changed, 22 insertions(+), 3 deletions(-)
-> 
-> Reviewed-by: Liu Ying <victor.liu@nxp.com>
-> 
-> Since I have no drm-misc push right, Neil, Robert, Laurent or
-> Dmitry, can you help push this?  Ofc, no rush. It's fine to wait
-> for a period of time for potential comments.
+On Thu, Dec 5, 2024 at 5:00=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> As of commit bab2d712eeaf9d60 ("PM: domains: Mark fwnodes when their
+> powerdomain is added/removed") in v5.12, the pmdomain core takes care of
+> marking the fwnode initialized, so there is no need to repeat it.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I'll wait for a few days and apply the patch if nobody else beats me on
-it.
+If it works for you,
 
--- 
-With best wishes
-Dmitry
+Acked-by: Saravana Kannan <saravanak@google.com>
+
+-Saravana
+
+> ---
+>  drivers/pmdomain/renesas/rcar-sysc.c | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/drivers/pmdomain/renesas/rcar-sysc.c b/drivers/pmdomain/rene=
+sas/rcar-sysc.c
+> index b99326917330f5f1..dce1a6d37e80127d 100644
+> --- a/drivers/pmdomain/renesas/rcar-sysc.c
+> +++ b/drivers/pmdomain/renesas/rcar-sysc.c
+> @@ -434,8 +434,6 @@ static int __init rcar_sysc_pd_init(void)
+>         }
+>
+>         error =3D of_genpd_add_provider_onecell(np, &domains->onecell_dat=
+a);
+> -       if (!error)
+> -               fwnode_dev_initialized(of_fwnode_handle(np), true);
+>
+>  out_put:
+>         of_node_put(np);
+> --
+> 2.34.1
+>
 
