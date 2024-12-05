@@ -1,147 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-10931-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10932-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4619E4B92
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 02:06:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EB99E4CC6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 04:40:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB53F188153D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 01:06:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4CF50169382
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 03:40:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7715E2F85C;
-	Thu,  5 Dec 2024 01:06:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32443191F8F;
+	Thu,  5 Dec 2024 03:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aS1YfdXB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nx+tAZ7M"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD4C16415;
-	Thu,  5 Dec 2024 01:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C63191F89;
+	Thu,  5 Dec 2024 03:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733360783; cv=none; b=nwwPr+w/JfCS4Aqh6Jax/0olqT19SoRIw/EImOBqBIjkahqEtUhbLBOe/GBPEjNJvzw/Ciex+ZyFAG2JF2kaShn+FIwu1FiDiyWom5sxZnSGlx3xZimbJm3NC5ff20GpNdELIS47ei4b7P3oSr/pIOvUMd8pdN5qkAVdpB9Y40M=
+	t=1733370021; cv=none; b=cvzSwisvG8owuR+hbPVbhGFWSo6/6omtvB+oAyFrXcWRvGn7RY6Y6MCwP+GPMQZzOuxMEVKjVOAmi2plMlB9dybUp5U3IDO8nnuOKB2Mvw9bq6KPdqTPsqU2Tyxo0nTyRYyibKw4OBhNudipbC2B6ImCgzAGMHTckpKM6G98gaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733360783; c=relaxed/simple;
-	bh=QKqR2ZVRmaHoDLx2netLJSiB+3gpaG9hpVtBTEEBqdU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TnlsSYn6J4O+prjMHmogGe5ucvYpt1wM/BGF1Lp9ItV4rPaxbJfNkCFYywuxY/cZxHpTzMFWLJsMKX1+Dw2+rjz1fgb9qPef43i+tnHvDDWEXHsoxN6+Qxo0H/P8lHXywf+34yf7ky3Bfy7YKyZJvDOGCcNLcA5XBHQtxR7mcqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aS1YfdXB; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e39f43344c5so584407276.1;
-        Wed, 04 Dec 2024 17:06:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733360780; x=1733965580; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QNaROx006A92BJIFhAC3avoJJJdYbGXKC07Oc5xhq/Q=;
-        b=aS1YfdXBTeiAs8d3uolqou9PljHLUi1jKbErBJU5znpxhCZrTV/8nB46FDfwwz0QpV
-         jBRgyq1dRQ4iUjAfynpAtux/kD+C+aBhTBYs7IX01gda+nR2urpIDpuGbtFI9vTOjmk6
-         G3rIdJ65C9voocGVV357zHoppMKuWbbP/dL626b2B93sYZ7Mwq0a4e7+FJgT+0nnNlYy
-         iZHtWgnPy2+/PutCfCEnGtDXwtTdNQ7eRktRnKtzbhoNe+wCxcGZ9MABIP5l39ujS2Lz
-         mWUOOl9eyDCUARCS//QmYW4MJC3Fo8zPo+MlDRRMVe5OMva/MIRy90FzYmrETnlS83M8
-         jRVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733360780; x=1733965580;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QNaROx006A92BJIFhAC3avoJJJdYbGXKC07Oc5xhq/Q=;
-        b=TQ5g8l0c3w+cZ8HDBY7fw3231aFSKtv/Oza4a2tbrwg/Ztg0Xt32FW/43Wzd7eTrkR
-         3KsKDm/9Vo6/Ra9cmTYUduUY6FlQfIWusrhc/0t4FO9pp9lrsvdGjB/TC5oZmg2zt/Al
-         wZ15Ryw6Roj3D11jn3Vhlk1gpuqxUXl5NCVQhMcUgMqbDq5dII/mxdg96U0QDTUGgUcE
-         VvZLqsQk9q359i00NcQFTyVT3dCLqq5W4cIGy8Z7N8zLCD8uH9+G8O/J5tGjsekovPTi
-         bdxPjD5TUPCOGiAmyltugFVvRA8bgg0ELzCpLXWUTNu7/kfndrvCRM4dZGmvQHOJbEWZ
-         OTpA==
-X-Forwarded-Encrypted: i=1; AJvYcCVw5CILTLNebkEaAId585R2eIcFsL7DnLAA5TuCS+W8Gms/hNWlpbOjcV+4t1ajHj2hI35T3w7LX/k0Na7UBJq2H/k=@vger.kernel.org, AJvYcCWQ8z/+A6Dz/4Cn2VpKp28EFh6/2exzDYX+/LzzLPv3ADeHWpu5iIMnZxiuR6QVRI235jszA7Vkb6yaMSk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTwgfUoMMtUWB72kiCYdZsYefWZvWn7Nm8wd3Ogg86Xcez2oiU
-	QLjly7F/tGc+BJEehfGfLPCxWpgTOk19DVE4zVxXrXOV0DpAwKDIwWZXDj+yICWRMBdYSTjBKOk
-	UxNz2TiUOzeNN4aYD6OEphLd2P+s=
-X-Gm-Gg: ASbGnctIJ3UOHnYBccq1BfVccZCPnnwo5sXlzHvU8mGhhDdplEiiKVjkRIG+VFjupa0
-	Ro9yPUJF/u9eF24VRXzLgSyXw+S2K0Q==
-X-Google-Smtp-Source: AGHT+IER+Xi4ZisxufHbQx8cuMyXEouv70C6SIaLOg/n7VBOcw+yR5wvDbJJeAr7BXkvfySexaX38rdEEG0QNP1YDwA=
-X-Received: by 2002:a05:690c:6486:b0:6ef:4cb2:8b4c with SMTP id
- 00721157ae682-6efad1bc2cemr106996637b3.23.1733360780634; Wed, 04 Dec 2024
- 17:06:20 -0800 (PST)
+	s=arc-20240116; t=1733370021; c=relaxed/simple;
+	bh=iF2fjdiCHpWohu+0NvfCAWvY3XLkHumHKpTgNNkYLkY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qPk/SwSkZDTuxVI7RIpnv5OQZ9oNL4Q/ZoOwIe3RP+Jd8zXnmevA2llrk58HI0GKK1PwKJemmrCrlE+q4aUeWLWgAXdlrP+ThTUjVvKvTnUD0Mhn3kFlLhIBpcGzejDTFxS1CiUzftefkDAeExhn3117KeWmiwTjRcsOx9PkcfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nx+tAZ7M; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0902CC4AF0B;
+	Thu,  5 Dec 2024 03:40:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733370020;
+	bh=iF2fjdiCHpWohu+0NvfCAWvY3XLkHumHKpTgNNkYLkY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=nx+tAZ7MWtnAYoaji5upipw0Qylr74IkEG1Nad3xoMbktPaiR6uPOAR2j2qdRhX8D
+	 tpv235kT0ooPt1zVt72xoVa8CiWjlS/mA5Qvv1fnFx9zjuowCyNbfAd4fYHFPLboC1
+	 yOfasKxhOWYP3fvMd3IYemxBA8pSHQThplyGYLJhIeuoHu6ladbhdlK3aE7/j2/nzq
+	 TaVjghR1knVCJGJfppzIUwPJKY7ZA0yGkcL7ELXvXyUDIdVkzTqEiiTe+BL6jz4k8u
+	 ZedvCiHJJiciQPvi8LrYdpGjyM+bRVc55VBiOmkaAC1DcM3oKsdNUplwU5ydDtsXKF
+	 1Wj5jJ+1BiaDw==
+Date: Wed, 4 Dec 2024 19:40:19 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Andrew Lunn
+ <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, Michael
+ Dege <michael.dege@renesas.com>, Christian Mardmoeller
+ <christian.mardmoeller@renesas.com>, Dennis Ostermann
+ <dennis.ostermann@renesas.com>
+Subject: Re: [PATCH 2/5] net: renesas: rswitch: fix leaked pointer on error
+ path
+Message-ID: <20241204194019.43737f84@kernel.org>
+In-Reply-To: <20241202134904.3882317-3-nikita.yoush@cogentembedded.com>
+References: <20241202134904.3882317-1-nikita.yoush@cogentembedded.com>
+	<20241202134904.3882317-3-nikita.yoush@cogentembedded.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241203222750.153272-1-rosenp@gmail.com> <Z0-LgWETqKZe2uyV@shell.armlinux.org.uk>
-In-Reply-To: <Z0-LgWETqKZe2uyV@shell.armlinux.org.uk>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Wed, 4 Dec 2024 17:06:09 -0800
-Message-ID: <CAKxU2N_x+DaoSZykT--94qphbXgLTU=QHSEQ0FO7VH2oPN=kmQ@mail.gmail.com>
-Subject: Re: [PATCHv4 net-next] net: modernize ioremap in probe
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: netdev@vger.kernel.org, Kurt Kanzenbach <kurt@linutronix.de>, 
-	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Chris Snook <chris.snook@gmail.com>, 
-	Marcin Wojtas <marcin.s.wojtas@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Richard Cochran <richardcochran@gmail.com>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:RENESAS ETHERNET SWITCH DRIVER" <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 3, 2024 at 2:51=E2=80=AFPM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
->
-> On Tue, Dec 03, 2024 at 02:27:50PM -0800, Rosen Penev wrote:
-> > resource aquisition and ioremap can be performed in one step.
-> ...
-> > diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c b/drivers/=
-net/ethernet/marvell/mvpp2/mvpp2_main.c
-> > index 571631a30320..af9291574931 100644
-> > --- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-> > +++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-> > @@ -7425,21 +7425,16 @@ static int mvpp2_init(struct platform_device *p=
-dev, struct mvpp2 *priv)
-> >  static int mvpp2_get_sram(struct platform_device *pdev,
-> >                         struct mvpp2 *priv)
-> >  {
-> > -     struct resource *res;
-> >       void __iomem *base;
-> >
-> > -     res =3D platform_get_resource(pdev, IORESOURCE_MEM, 2);
-> > -     if (!res) {
-> > +     base =3D devm_platform_ioremap_resource(pdev, 2);
-> > +     if (IS_ERR(base)) {
-> >               if (has_acpi_companion(&pdev->dev))
-> >                       dev_warn(&pdev->dev, "ACPI is too old, Flow contr=
-ol not supported\n");
-> >               else
-> >                       dev_warn(&pdev->dev, "DT is too old, Flow control=
- not supported\n");
-> > -             return 0;
-> > -     }
-> > -
-> > -     base =3D devm_ioremap_resource(&pdev->dev, res);
-> > -     if (IS_ERR(base))
-> >               return PTR_ERR(base);
-> > +     }
->
-> This is not equivalent. This means if ioremap() fails inside
-> devm_platform_ioremap_resource(), we end up printing a message that
-> blames the firmware, which is wrong.
->
-> It also changes a "resource missing, proceed anyway" situation into
-> a failure situation.
->
-> Please drop this change, "cleaning" this up is introducing bugs.
-Will do in v5.
->
-> Thanks.
->
-> --
-> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-> FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+On Mon,  2 Dec 2024 18:49:01 +0500 Nikita Yushchenko wrote:
+> If error path is taken while filling descriptor for a frame, skb
+> pointer is left in the entry. Later, on the ring entry reuse, the
+> same entry could be used as a part of a multi-descriptor frame,
+> and skb for that new frame could be stored in a different entry.
+> 
+> Then, the stale pointer will reach the completion routine, and passed
+> to the release operation.
+> 
+> Fix that by clearing the saved skb pointer at the error path.
+
+Why not move the assignment down, then? After we have successfully
+mapped all entries?
+
+Coincidentally rswitch_ext_desc_set() calls
+rswitch_ext_desc_set_info1() for each desc, potentially timestamping
+the same frame multiple times? Isn't that an issue?
+
+I agree with Jake that patches 4 and 5 don't seem like obvious fixes,
+would be great if you could post them as separate series, they need to
+go to a different tree.
+-- 
+pw-bot: cr
 
