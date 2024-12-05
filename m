@@ -1,144 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-10936-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10937-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7F09E4FB0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 09:28:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7229E4FEF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 09:39:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E10E4163923
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 08:28:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99E251652DE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 08:39:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 816841B219B;
-	Thu,  5 Dec 2024 08:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 556301CB332;
+	Thu,  5 Dec 2024 08:39:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I7AZBvh6"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ktIPXkFK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5740F239195;
-	Thu,  5 Dec 2024 08:28:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B3D11187
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Dec 2024 08:39:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733387288; cv=none; b=siOWdn3FMJlJXYZP/aWkKf6u68S0EDHGRlLeuHEl/rCnUuZa2Ad0rZ4YCJMRd7PiSrajoummCk6RxNP96rAbegt1CrtnA4Q9UDmYpwzYCUt03pg+rdre3KZSteSQdz8V3IQ/U0jqpdwbwCwL0WlZc0B15NnIp0Nfq/LKHZ/+3hY=
+	t=1733387992; cv=none; b=RurjIcU/blRetVwvtWbi+HNaICSIDicBIVTYNTuuSL/5CdGIUG7erD7t5VGPwMtpXKDHrHn6JzPO53Ikxt3LTNE2DFDpfqUWebosM3BxUl45YI9H97Qt6NPuZwKilApyi3pc8ycgNKt/MmyL0pClOwzdg0Sxgtvq2DrtOaaRUGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733387288; c=relaxed/simple;
-	bh=NlhysIv/yM2j31hi9eBDAjWataAAJORw/hVtbxft7P0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FWANdTKjq8kkVYgyE1/H2Y+yHMcl6WKn2rkq6Q8/9W/+hQIAjEY1DQkYpT8YUokp3EqQ4inogAkPhukGKTIMR6I1HO3Z6OlrQQG/N5BbS/msyC2LRN8GodKYMGyg1q3UNdIGU9rQqXdnyokB1sN9e7mcLAYGMRtzn+GnVqaXL3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I7AZBvh6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F925C4CED1;
-	Thu,  5 Dec 2024 08:28:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733387287;
-	bh=NlhysIv/yM2j31hi9eBDAjWataAAJORw/hVtbxft7P0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I7AZBvh6oszGph8WWvf+XiJ2Pr66W7nKqncG0hf7RAEJezGYvV/DBgCuQwtIgYVHF
-	 k5KL0rDrfTzKeYqYIJSV21FBmy1aR/wqs0XBzaMUUnSo0a4HZi3DdoiRurXsDn/4B3
-	 aCcGVWNMdWw3lZaZv2egtBpGB4fdameZGZ7iqPIyM51cxS9A0fgk7izO76r98AfprB
-	 x5XDBhGRfFW5ppvp/GqPDcKQFKuZyjcetuuLW9+UwceXtqMB6zrEyVsPkZvUUWsyQT
-	 Ub7g9VIC3bJb5SMcHOXO/EvHBVFVJuxRWqhBFApmYX+41tg+9QoFFRsaz59uXluGe0
-	 AeEqknjZ+/NRA==
-Date: Thu, 5 Dec 2024 09:28:04 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"biju.das.au" <biju.das.au@gmail.com>
-Subject: Re: [PATCH v22 3/4] pwm: Add support for RZ/G2L GPT
-Message-ID: <phr4mtucfmyuhaywspzpxwqvwmklwcgsljcc5dvzbft44kengw@65axncbiotf7>
-References: <20241018130049.138775-1-biju.das.jz@bp.renesas.com>
- <20241018130049.138775-4-biju.das.jz@bp.renesas.com>
- <slgs56imb3u6fv35bo2hl4moa77nnhrtcygi4womtuzs2mcipt@ylcvacvhsgcl>
- <TY3PR01MB11346421B5C0C4A193F70C3A586372@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1733387992; c=relaxed/simple;
+	bh=zIX9HOzLoLL86nvi6qHvpdCdGJ7n5hslz6z/r6JsUWA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=nYSO0tTfUdJwjyW6sceNjVmflq26KnJwy1OOJOf588D8NSiWcT8uB3FHoado+xspmP1VQEmRNkOJVBH4KkUvW/wx+12OUAKw2Zr7fLgp0RC0tWj4Gq64R2QeqdaHbteHKfyFqmRoTAnkmb3GNQ+nuNDt+oSr1nrstGi2x6IJODY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ktIPXkFK; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-385ed7f6605so294883f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Dec 2024 00:39:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1733387988; x=1733992788; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=R0FprQ4ddVvDh8O4I/zcWPdzZ7UNHiopsB4Wgd5Dy+A=;
+        b=ktIPXkFKJejstHpsGxWK6jwiAfgQ2DEGwpE4f6aRaMde6IUB0Vm5mpgCQIvv4D/fz7
+         5zzVZnPUKMF/uQa1A59PO8mBN46xX1dSk2Ytb8VP20dTifNqEDtxGB6SFF4reD74sZUJ
+         P9HxiaezQi01ZFdP/i78821/ycdejLKNIyDrioDM046/j4Cx1eQY5OiumNHTV68IDtBs
+         khO+nBJ7PdWFHLyPn/ndI3ZEOUb+6hmyKPFL9XzbkJNatHTvrtKdEE0bgSQ2g9G4wOp1
+         aTArfTrKANgSlCEUTJrl34QTl0VFd4X4i27kPFknJsnbf1SdTyIUSXQIY3+Ms3BXNHzu
+         Wp2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733387988; x=1733992788;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R0FprQ4ddVvDh8O4I/zcWPdzZ7UNHiopsB4Wgd5Dy+A=;
+        b=DvOYcZ3CZ91W30VhjhyLwxKerm42xbFFRtsg/605THka2br3BwVsx8V2wMl6WjVZTm
+         lqeJHpnOCSkjkoO4vb+sppic/jUVdoYK/hNnp1XDypK9G45jogugeFVm1AkRXLCVFVCP
+         4qqOjxDugUevwf3hpUM0xrvvuNy5N1sI+xTydHCr8JMCqg3WzNZAP0STzdJnzBeN+F21
+         7nNV3oGcCKUTb9OePN4T2RVxeb2LB3QT0Ifr2pyVXx28C02i/TzrcbQ/xZfmLssVjKmU
+         7BEnNsSEAoQ1xpuqb2+nV1aXBXzq/YziMtYtVeBCMGmmsBAPM/28aakQ56z0dC43XCiY
+         2q8A==
+X-Forwarded-Encrypted: i=1; AJvYcCXSwNzqlndBalK03tqoWQ9c1U2D6AtaVIwOME3fKDrsRDhWJkmlH2LFyRNjxEOV6/XWFRBeWwUd9DYaxtyTRcC5qg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNIWuWz9XQsQPPBpzTrVtayWqikauNBQ/N2hw5aahS+rAg9JQG
+	xPWn+kJBcFtrPpmHASVWDJ2MyIWmooX6VLS/CmNGRwV1VjrYIIhMJMOwe7gJ0zg=
+X-Gm-Gg: ASbGncvHnGQDep7J6LyG5pAffavscd/bNTDqm4T37kJYK0cmEh9TjvDUp7jSrWjnlW0
+	QRGVu8cMyjnxrW8h+xH9rOySTTyUF0SGs7KHBZCptaqd2XeFDg811baAiGVcqqTub7nxnOKnfbw
+	CsLfCFkU/TpKNBeNJLxFvMVzOr7FaeZGz61V1aBqBZN9rrxgnGV9BKiJwSucEQFP3KkKprA6Fpa
+	KtZdZ7C8GIRXhV47ynOYFQ8Q5v81ep2m2hTVUZbmqbmFHsIUgBB8VRNif4=
+X-Google-Smtp-Source: AGHT+IGnZ7w6xd/QD+wR9VSNkMT3nkF3hb0p5H4CwWD//yDe7dAOOR+2eVQ3kcyOhsrMoo8tkX43PQ==
+X-Received: by 2002:a05:6000:1acd:b0:385:de67:2297 with SMTP id ffacd0b85a97d-385fd532bdcmr6260267f8f.54.1733387988319;
+        Thu, 05 Dec 2024 00:39:48 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.161])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-386221a4ae9sm1288223f8f.98.2024.12.05.00.39.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Dec 2024 00:39:47 -0800 (PST)
+Message-ID: <b6c7b4d3-021c-4a4b-9e91-316603b348c1@tuxon.dev>
+Date: Thu, 5 Dec 2024 10:39:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="plapp44ynklwfcqe"
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB11346421B5C0C4A193F70C3A586372@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT 0/6] serial: sh-sci: Fixes for earlycon and
+ keep_bootcon
+Content-Language: en-US
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, geert+renesas@glider.be,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, lethal@linux-sh.org,
+ g.liakhovetski@gmx.de, groeck@chromium.org, mka@chromium.org,
+ ulrich.hecht+renesas@gmail.com, ysato@users.sourceforge.jp,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20241204155806.3781200-1-claudiu.beznea.uj@bp.renesas.com>
+ <Z1DLyQdzUzJzRUJJ@shikoro>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <Z1DLyQdzUzJzRUJJ@shikoro>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi, Wolfram,
 
---plapp44ynklwfcqe
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v22 3/4] pwm: Add support for RZ/G2L GPT
-MIME-Version: 1.0
+On 04.12.2024 23:38, Wolfram Sang wrote:
+> Hi Claudiu,
+> 
+>> in the following scenarios:
+>>
+>> 1/ "earlycon keep_bootcon" were present in bootargs
+>> 2/ only "earlycon" was present in bootargs
+>> 3/ none of the "earlycon" or "earlycon keep_bootcon" were present in
+>>    bootargs
+> ...
+>> Please give it a try on your devices as well.
+> 
+> Will happily do so. Is there something to look for? Except for "it
+> works"?
 
-Hello Biju,
+As this code touches the earlycon functionality, of interest are the 3
+cases highlighted above:
 
-On Wed, Dec 04, 2024 at 06:24:19PM +0000, Biju Das wrote:
-> > > +	 * different settings.
-> > > +	 */
-> > > +	if (rzg2l_gpt->user_count[ch] > 1 && period_ticks < rzg2l_gpt->peri=
-od_ticks[ch])
-> > > +		return -EBUSY;
->=20
-> Do we need to allow this operation (period_ticks < rzg2l_gpt->period_tick=
-s[ch]) ?
->=20
-> For example,
->    First IO (IO_A) period/duty is in the order nsec (PWM frequency in MHz=
-) and second channel period/duty in the
-> order of microsec(PWM frequency in kHz)
->=20
-> Allowing period_ticks < rzg2l_gpt->period_ticks[ch] will lead to incorrec=
-t operations=20
-> for First IO (IO_A) as PWM frequency will be in kHz compared to MHz.
+1/ "earlycon keep_bootcon" are both present in bootargs
+2/ only "earlycon" is present in bootargs
+3/ none of the "earlycon" or "earlycon keep_bootcon" are present in
+   bootargs
 
-Well, the policy is to pick the highest possible period not bigger than
-the requested period. So if B is asked to be set to 5ms and 5ns is the
-highest currently possible value, that's it.
+One other thing, that I was currently able to test only on RZ/G3S, is to
+see how it behaves when the debug serial is described in DT with an alias
+other than zero. E.g., on [1] the debug serial alias on RZ/G3S was changed
+from 0 to 3. With the new alias (3) there were issues that I've tried to
+fix with this series.
 
-I agree that being off by a factor of 1000 isn't nice. But if you say
-this is too much, you have to draw a line somewhere. Where should that
-be? Everything you pick is arbitrary and I'm sure there is a use case
-for every choice where it's wrong. Additionally if you are too picky --
-in the extreme case don't allow any modification >=3D 1ns -- the API
-becomes very hard to use.
+Thank you for checking it,
+Claudiu
 
-The only sensible way out is to allow consumers to query the result
-before actually applying a request. This is in the making and if you
-want to benefit from it, look at the waveform stuff that recently hit
-mainline. (deaba9cff8092cbb2bef4dc79a6ce296017904b1 is an example driver
-conversion, 6c5126c6406d1c31e91f5b925c621c1c785366be and
-17e40c25158f2505cbcdeda96624afcbab4af368 are the relevant core changes.)
-=20
-> According to me, we should not allow updating periods for second enabled =
-channel.
+[1]
+https://lore.kernel.org/all/20241115134401.3893008-6-claudiu.beznea.uj@bp.renesas.com/
 
-Not entirely sure you mean the right thing here. If IO A operates at 5ns
-and IO B is requested to set .period =3D 5 ms, every operation that also
-changes A is out-of-bounds. So your options are only: Use the 5ns, or
-return an error. The latter is hard for consumers because it's unclear
-what to do then.
-
-Best regards
-Uwe
-
---plapp44ynklwfcqe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdRZBEACgkQj4D7WH0S
-/k76Wwf+PwL1QoeMXoeeOVnrVAL3DeetG37liUIlmeFUTcokRfBGQr5Lyx3sXxj9
-9r8jAowrTpBo10hC+CsJVc10HwPXECpEcgHzlMEFLZetqNWcRDuIfcAwvILnohxe
-MRu56X3B0JqADdmaqTpBhFg6wz+XodZHx4P0wceD8oubm+1+q9tMqZuL24z4A0Tu
-0CqJ0SeBy3sVtIx3WnK+YZhBJt5iCrlZ3f8QcXjQoLAbgrSbaJBBojwHvvGiJu+7
-hFgMp4CaVPyioQrINhD57H65tfVX+CCZLsW5U/vxvwehueRCfKBm1G+tDsKNDrFD
-xJ4aetG+2k1ekYcCJStngKjHsh3iOg==
-=K+zz
------END PGP SIGNATURE-----
-
---plapp44ynklwfcqe--
+> 
+> Happy hacking,
+> 
+>    Wolfram
+> 
 
