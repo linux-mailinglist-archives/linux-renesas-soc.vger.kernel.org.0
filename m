@@ -1,247 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-10938-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10939-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5979E5036
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 09:48:28 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 641819E503E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 09:51:52 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 660A9282863
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 08:48:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 417DF168B38
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 08:51:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E56A1D357B;
-	Thu,  5 Dec 2024 08:48:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52ECB1D4607;
+	Thu,  5 Dec 2024 08:51:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gHIhX/4M"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ZigRGVxg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A38E1D3194;
-	Thu,  5 Dec 2024 08:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780721D0E26
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Dec 2024 08:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733388503; cv=none; b=tilYWBmme1naXcmNHwtrNS8m0Btb1XsR0553UhMpJlIzgVd1KrBGaCs8dUpMLhLHVFi6XQyp/uOt+mpXD/wWnQd+AZANkfnzPDFAXblm7F+xMyrogYVO+s2P3ZaBNpXwBjPvUdCuwkNZv23RGJXDlajXk3kyWmgrjaWS4jJVdRc=
+	t=1733388707; cv=none; b=QXKja1F6QV2hiQvS91PtBBghvqVfgfXiZSXmYSqNledqIDOJ+SyRH3me2UM+/CLaKmN6+8qXmCbq1uCnlJfY/M//tqIm8wWlaYaixDNUm0jCaY/cYL9vywhFpAfXscF8spfDXDRvkNOgkQrQtdwfzDnkZulVNNlowbNj6Pm3UhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733388503; c=relaxed/simple;
-	bh=kh1ZXVUS/kPUQYJb5ReNSJqKUxpeGMQq/7MUjMgViPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EFzS+zn5SRPbIKdPEFetLCNs6RysfvCqlKpamH7FraR/mCWxOSRqIZ8vFtnxBgVWDm9HLy+VibGYNhJsxSz9lkZH5qsJB8TSY1KTElee+DCO0A/fvMdf0dKU4ye2cwbe+qdkI9LLw8MpCYJ5J8tzR5hlwVKGpO3cv99mfwnXl7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gHIhX/4M; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F1CD7E2;
-	Thu,  5 Dec 2024 09:47:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733388469;
-	bh=kh1ZXVUS/kPUQYJb5ReNSJqKUxpeGMQq/7MUjMgViPo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gHIhX/4MnXbzQFe3SGYkSsgS+idt12lPeOfYUPzoTrwq09tuBwObLsiFzEIDU7/xz
-	 X3C6+L9P46MQbjWG+Dq/RHWmoL+u/bF/piePwSfQ3kc9MgUSUHmxAeFvLDZlKtE56H
-	 G2RhXTcpNhzPCIfCJ644fY8KVYNHMY0arcPwvM64=
-Date: Thu, 5 Dec 2024 10:48:06 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH 6/9] drm/rcar-du: Add support for r8a779h0
-Message-ID: <20241205084806.GB12436@pendragon.ideasonboard.com>
-References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
- <20241203-rcar-gh-dsi-v1-6-738ae1a95d2a@ideasonboard.com>
- <20241203085654.GJ10736@pendragon.ideasonboard.com>
- <e155c9b1-a43f-4be3-9825-2639ac3bb61d@ideasonboard.com>
- <20241203104806.GN10736@pendragon.ideasonboard.com>
- <1c557030-a267-4311-a942-f6245a5cc81a@ideasonboard.com>
+	s=arc-20240116; t=1733388707; c=relaxed/simple;
+	bh=fiqkj+GRvZeuFOzolqiFGreSPgcdv0TDsi5dd2Towps=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=cpWAKA+x4Bxvehv7yn6UNeo6qQ1+hJRsOzMyO4HFIqCHSph/szL7r3cRiBFNBOLfykozbvQd9Q/pHTy/yaz8CLik1JvU1Xxt+RFg73CT09He/hYTgxCjkZiFY4qbh96WDzkCB3zHPXvfnHdf5rpqLtziQH7ARd42X10MBbe+jHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ZigRGVxg; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-385ef8b64b3so597996f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Dec 2024 00:51:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1733388704; x=1733993504; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Bu+BjISWLkOjToTmmpDVh9uIKwI+akwDpSA5Z73Jrm4=;
+        b=ZigRGVxggyVTIVSZqINO1vdP34ggLGFkV9u7KMUIeTdeXZoW2BZlnIgsFhbl/kSAAf
+         USWscXPqzXmunwlKidYk4SWuDx1FjSHdRgLU8YYngUNJOgBnUWXnP+35b1vkr8BrAj7C
+         IdZqXctQzTyFwPpa1FC2RkArIqWsnF1Oky/SbFsl4fmL8e60a89jPjQoM4cC6mltHBrG
+         YIeE0kzr4k3q72KMzOvIM6Xdl8gWOV3fVSsMQU963ygBOvGR3WzJVMhd71T0Gps6Uaij
+         Sz8o/B0acJSJC3ad7kOIsTDsr9Q3/JJpWb9sGsjHE3mQQNUCNy1FV+NXeDdwR+J4MRXT
+         oBPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733388704; x=1733993504;
+        h=content-transfer-encoding:in-reply-to:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bu+BjISWLkOjToTmmpDVh9uIKwI+akwDpSA5Z73Jrm4=;
+        b=cVT4GgH2CbBOpFK6ymZjz3+TsjZuvOy2tybtUJGWG9rV8H/xJGkERCuK6uYGKZG7+R
+         J1Xf7j5EUL7XIdn8WBYeOp8+s831vDgcUTwO7I3P45qTZ6mvD/Cst9ed3R5zQ6u9yQSl
+         xcgajRs8mBntYKQnKeq+URVQy4AiiHPVIeyh0+ARRGpzg+hbhcpf8eI0CyOExJD8vCys
+         W8Yc6dJwGVkZ1vHnKZecR3g3ecvnr6/DsH0ghliGSj+gqhxa+fjXJ9w0laPBOtZcJPMs
+         Z2v89GRrGEMeqqSJblEtfcfjGZIQ08QJR2NijME443Kd7+wWf+4h+dYrY9Z70DIoqyqt
+         WUcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX9a8C7Y806k9yGMHNHib68bz/XCT2zaWaUS5n8TLxfPmtwDzekeRKCjsa9d8G9es5ybe5eWvm30KtSXaAxV1zgZQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yysz4AqQUzgM9gCu3301bm7Gw9k/OIGuTQ3VyNMUPpSPXLJKTjg
+	BY4B+TAFx5gJTl1KZk7AZD3kLzfSsCUPwaVvW2k3NYJqa13Q5N0RuqPowifa158=
+X-Gm-Gg: ASbGncuqFl4JQYkEaaeH0dkeOYc1Oi26xParN966I02xr4hGdADJ5fEer1bX6bQuRKD
+	sorRqvlyorxUfxbCgjASnRvKQ8Gkn34uo9qkINq1Vtp0GxLyAG8zp8gSfZfaq4Xq5LpLqrEBAm2
+	RuT7Ga4Y3k2uUun7LYKpWs4lWHG/18Q05uJ20BwAAkxHNsFMlEaGgLKNEE6rPDdPPK8v2x7Zqvw
+	DzlC3hj5djfzENcEG9Ea3uqluXMTey9jJNQ9LGyaXebi/NGRBBJf6SmnWg=
+X-Google-Smtp-Source: AGHT+IEOpwQyKT2ZzfkreqlTf5liiEt9p2jfLaHmcGM387ZkeDSElvomTcEaXCXFcRKTLDZIbgydFg==
+X-Received: by 2002:a05:6000:1446:b0:385:ee3f:5cc6 with SMTP id ffacd0b85a97d-385fd4395c7mr6706652f8f.58.1733388703231;
+        Thu, 05 Dec 2024 00:51:43 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.161])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38621fbbe50sm1326046f8f.99.2024.12.05.00.51.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Dec 2024 00:51:42 -0800 (PST)
+Message-ID: <1d8ea5f9-deb1-4236-ad64-d29a69a44aa2@tuxon.dev>
+Date: Thu, 5 Dec 2024 10:51:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1c557030-a267-4311-a942-f6245a5cc81a@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT 0/6] serial: sh-sci: Fixes for earlycon and
+ keep_bootcon
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, geert+renesas@glider.be,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, lethal@linux-sh.org,
+ g.liakhovetski@gmx.de, groeck@chromium.org, mka@chromium.org,
+ ulrich.hecht+renesas@gmail.com, ysato@users.sourceforge.jp,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20241204155806.3781200-1-claudiu.beznea.uj@bp.renesas.com>
+ <Z1DLyQdzUzJzRUJJ@shikoro> <b6c7b4d3-021c-4a4b-9e91-316603b348c1@tuxon.dev>
+In-Reply-To: <b6c7b4d3-021c-4a4b-9e91-316603b348c1@tuxon.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 05, 2024 at 07:41:09AM +0200, Tomi Valkeinen wrote:
-> On 03/12/2024 12:48, Laurent Pinchart wrote:
-> > On Tue, Dec 03, 2024 at 11:22:15AM +0200, Tomi Valkeinen wrote:
-> >> On 03/12/2024 10:56, Laurent Pinchart wrote:
-> >>> On Tue, Dec 03, 2024 at 10:01:40AM +0200, Tomi Valkeinen wrote:
-> >>>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >>>>
-> >>>> Add support for r8a779h0. It is very similar to r8a779g0, but has only
-> >>>> one output.
-> >>>>
-> >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >>>> ---
-> >>>>    drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c   | 19 +++++++++++++++++++
-> >>>>    drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h   |  1 +
-> >>>>    drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 16 ++++++++++------
-> >>>>    3 files changed, 30 insertions(+), 6 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> >>>> index fb719d9aff10..afbc74e18cce 100644
-> >>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> >>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> >>>> @@ -545,6 +545,24 @@ static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
-> >>>>    	.dsi_clk_mask =  BIT(1) | BIT(0),
-> >>>>    };
-> >>>>    
-> >>>> +static const struct rcar_du_device_info rcar_du_r8a779h0_info = {
-> >>>> +	.gen = 4,
-> >>>> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
-> >>>> +		  | RCAR_DU_FEATURE_VSP1_SOURCE
-> >>>> +		  | RCAR_DU_FEATURE_NO_BLENDING
-> >>>> +		  | RCAR_DU_FEATURE_NO_DPTSR,
-> >>>> +	.channels_mask = BIT(0),
-> >>>> +	.routes = {
-> >>>> +		/* R8A779H0 has one MIPI DSI output. */
-> >>>> +		[RCAR_DU_OUTPUT_DSI0] = {
-> >>>> +			.possible_crtcs = BIT(0),
-> >>>> +			.port = 0,
-> >>>> +		},
-> >>>> +	},
-> >>>> +	.num_rpf = 5,
-> >>>> +	.dsi_clk_mask = BIT(0),
-> >>>> +};
-> >>>> +
-> >>>>    static const struct of_device_id rcar_du_of_table[] = {
-> >>>>    	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
-> >>>>    	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-> >>>> @@ -571,6 +589,7 @@ static const struct of_device_id rcar_du_of_table[] = {
-> >>>>    	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
-> >>>>    	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
-> >>>>    	{ .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
-> >>>> +	{ .compatible = "renesas,du-r8a779h0", .data = &rcar_du_r8a779h0_info },
-> >>>>    	{ }
-> >>>>    };
-> >>>>    
-> >>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
-> >>>> index 5cfa2bb7ad93..d7004f76f735 100644
-> >>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
-> >>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
-> >>>> @@ -32,6 +32,7 @@ struct rcar_du_device;
-> >>>>    #define RCAR_DU_FEATURE_INTERLACED	BIT(3)	/* HW supports interlaced */
-> >>>>    #define RCAR_DU_FEATURE_TVM_SYNC	BIT(4)	/* Has TV switch/sync modes */
-> >>>>    #define RCAR_DU_FEATURE_NO_BLENDING	BIT(5)	/* PnMR.SPIM does not have ALP nor EOR bits */
-> >>>> +#define RCAR_DU_FEATURE_NO_DPTSR	BIT(6)  /* V4M does not have DPTSR */
-> >>>
-> >>> Do we need a quirk ? At first glance it seems the DPTSR register is only
-> >>> used for DU instances that have two channels, so a check on the number
-> >>> of channels should be enough ?
-> >>
-> >> What do you mean with "DPTSR register is only used for DU instances that
-> >> have two channels"? The upstream code sets it for all SoCs, doesn't it,
-> >> without any checks?
-> > 
-> > DPTSR is one of those registers that controls features shared between
-> > channels, in this specific case plane assignment to DU channels. The
-> > default register value (i.e. all 0's) splits resources between the
-> > channels. For DU groups with a single channel, there's no need for
-> > resource assignment. Logically speaking, the all 0's register value as
-> > documented in instances that have two channels would assign all the
-> > resources that exist in the single-channel group to the single channel.
-> > When computing the DPTSR value, the driver will (or at least should)
-> > therefore always come up with 0x00000000. Writing that to the register
-> > should be a no-op.
-> > 
-> > It's not clear if the register is present or not when the group has a
-> > single channel. Some datasheets document the register is not being
-> > applicable. Writing to it has never caused issues, so we may be dealing
-> > with the hardware just ignoring writes to a non-implemented register, or
-> > the register may be there, with only 0x00000000 being a meaningful
-> > value. This being said, some people are concerned about writes to
-> > registers that are not documented as present, as they could possibly
-> > cause issues. Safety certification of the driver could be impacted.
-> > We've updated the DU driver over the past few years to avoid those
-> > writes for this reason.
-> > 
-> > TL;DR: yes, the DU driver writes to DPTSR for DU groups with a single
-> > channel, but that seem it could be wrong, and we could fix it for all
-> > single-channel groups in one go without introducing this feature bit. I
-> > can test a patch on a M3 board that has a single channel in the second
-> > group.
+Hi, Wolfram,
+
+On 05.12.2024 10:39, Claudiu Beznea wrote:
+> Hi, Wolfram,
 > 
-> Do you have docs for r8a77970? Is the register there?
+> On 04.12.2024 23:38, Wolfram Sang wrote:
+>> Hi Claudiu,
+>>
+>>> in the following scenarios:
+>>>
+>>> 1/ "earlycon keep_bootcon" were present in bootargs
+>>> 2/ only "earlycon" was present in bootargs
+>>> 3/ none of the "earlycon" or "earlycon keep_bootcon" were present in
+>>>    bootargs
+>> ...
+>>> Please give it a try on your devices as well.
+>>
+>> Will happily do so. Is there something to look for? Except for "it
+>> works"?
 
-According to the Gen3 documentation the register isn't preent in V3M.
+Sorry, I noticed I missed to provide a clear answer your question: if boot
+works for this scenarios we should be OK.
 
-> Do you want me to change the series to use the number of channels here, 
-> or shall we go with the current version and change it later if we're 
-> confident that the change works?
+> 
+> As this code touches the earlycon functionality, of interest are the 3
+> cases highlighted above:
+> 
+> 1/ "earlycon keep_bootcon" are both present in bootargs
+> 2/ only "earlycon" is present in bootargs
+> 3/ none of the "earlycon" or "earlycon keep_bootcon" are present in
+>    bootargs
+> 
+> One other thing, that I was currently able to test only on RZ/G3S, is to
+> see how it behaves when the debug serial is described in DT with an alias
+> other than zero. E.g., on [1] the debug serial alias on RZ/G3S was changed
+> from 0 to 3. With the new alias (3) there were issues that I've tried to
+> fix with this series.
 
-The change is easy so I'd like to do it now. It should be split to a
-separate patch. I'll test it on Gen3 hardware right away.
+If you can also check:
+- it boots in this case and
+- the serial device with alias zero and the debug serial are both working
+  (tx, rx are working) after boot
 
-> >> Most of the SoCs seem to have two channels, but r8a77970 has one.
-> >> However, I don't have docs for that one. It could be that it does not
-> >> have DPTSR register, and indeed we could use the num_crtcs > 1 check there.
-> >>
-> >>>>    #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
-> >>>>    
-> >>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> >>>> index 2ccd2581f544..132d930670eb 100644
-> >>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> >>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> >>>> @@ -107,10 +107,12 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
-> >>>>    		 */
-> >>>>    		rcrtc = rcdu->crtcs;
-> >>>>    		num_crtcs = rcdu->num_crtcs;
-> >>>> -	} else if (rcdu->info->gen >= 3 && rgrp->num_crtcs > 1) {
-> >>>> +	} else if ((rcdu->info->gen == 3 && rgrp->num_crtcs > 1) ||
-> >>>> +		   rcdu->info->gen == 4) {
-> >>>>    		/*
-> >>>>    		 * On Gen3 dot clocks are setup through per-group registers,
-> >>>>    		 * only available when the group has two channels.
-> >>>> +		 * On Gen4 the registers are there for single channel too.
-> >>>>    		 */
-> >>>>    		rcrtc = &rcdu->crtcs[rgrp->index * 2];
-> >>>>    		num_crtcs = rgrp->num_crtcs;
-> >>>> @@ -185,11 +187,13 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
-> >>>>    		dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
-> >>>>    	rcar_du_group_write(rgrp, DORCR, dorcr);
-> >>>>    
-> >>>> -	/* Apply planes to CRTCs association. */
-> >>>> -	mutex_lock(&rgrp->lock);
-> >>>> -	rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
-> >>>> -			    rgrp->dptsr_planes);
-> >>>> -	mutex_unlock(&rgrp->lock);
-> >>>> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_NO_DPTSR)) {
-> >>>> +		/* Apply planes to CRTCs association. */
-> >>>> +		mutex_lock(&rgrp->lock);
-> >>>> +		rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
-> >>>> +				    rgrp->dptsr_planes);
-> >>>> +		mutex_unlock(&rgrp->lock);
-> >>>> +	}
-> >>>>    }
-> >>>>    
-> >>>>    /*
+then we can declare it OK as well.
 
--- 
-Regards,
+Thank you,
+Claudiu
 
-Laurent Pinchart
+> 
+> Thank you for checking it,
+> Claudiu
+> 
+> [1]
+> https://lore.kernel.org/all/20241115134401.3893008-6-claudiu.beznea.uj@bp.renesas.com/
+> 
+>>
+>> Happy hacking,
+>>
+>>    Wolfram
+>>
 
