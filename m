@@ -1,58 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-10949-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10952-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0618B9E55D9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 13:54:03 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 170D19E5624
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 14:02:59 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AFC8A288663
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 12:54:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC1B618857B5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2024 13:01:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20F671D515A;
-	Thu,  5 Dec 2024 12:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51417219A94;
+	Thu,  5 Dec 2024 13:00:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEBA218AA0
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Dec 2024 12:53:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BDD218ABE
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Dec 2024 13:00:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733403238; cv=none; b=AxfBRl3V5RssN1dQsNZLUP7EXoReG7Jcbq7FKLZfEETHQT3RVFgaiYLDWnmnXXq93PlOwy7JzldgpkfRKTHllLLBCIv/qYkVZvhzrW/FaJxto8W94pCdWAt9mdb8Vi5RGkzlFDNWREIQnJ9rm5wqTT1NHKFAac2ow/YIYOVDpTo=
+	t=1733403622; cv=none; b=Lg6U9SnFF2Hh6/Zs75+2syTvdFD8ICHXKKzn1Y4KYRQT74CMAAIrSd+2Ao1G4mzda+S4zMh4Ui7LMHgWcKCpJit8Al4QggMunzAXHjpi8Dl9Ht/i5Os7Ry6Hq/GnH7RkWm3ICUsIRQFRMdtB61AzGKcN1yEea/rKzZQ6UJukzgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733403238; c=relaxed/simple;
-	bh=QfWCcZQ+18+6RdNvz1Ex3nK7wDI1RB2erkOgGqI8LRM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dlSV28kDGoiDQqJTzJv1cuK4faDH/YXl7PsBaJ4g8IcICc/TtgfuVMWz2rQAj334iZqCCy9pOZKN3FHpRGuhzbZwS304Yg7X+y4Z/a1cWwvt6dO+XdagqYTtbJXPLeKLumBgGiU+M3A7OS32axWk60c982KM3LHJtBKI6+b7ySo=
+	s=arc-20240116; t=1733403622; c=relaxed/simple;
+	bh=3ljln5UJe9l7irWjhFzX4xeezfaZfOuGZXhOz28tv20=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uWiLvHkUlQEHcI8Xko54m6fngzKk9M6hw3OrToCKGID9TySIqZIgF3uRN/kexnke2dCB90EN5aQ4VFLSNXco/usnQOg82YLAexCeySs3EFxlrOKQv3ZN6kkZqO12XI8XrK7FHD04yFVYd8Pl/pOhw1ztUj5Autolggg0B8GGKFc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b16a:6561:fa1:2b32])
 	by laurent.telenet-ops.be with cmsmtp
-	id l0tt2D0083EEtj2010ttVM; Thu, 05 Dec 2024 13:53:53 +0100
+	id l10H2D0083EEtj20110HeS; Thu, 05 Dec 2024 14:00:17 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tJBMe-000LOh-BU;
-	Thu, 05 Dec 2024 13:53:53 +0100
+	id 1tJBSq-000LP1-AE;
+	Thu, 05 Dec 2024 14:00:17 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tJBMf-00EQDQ-2T;
-	Thu, 05 Dec 2024 13:53:53 +0100
+	id 1tJBSr-00EQH8-1S;
+	Thu, 05 Dec 2024 14:00:17 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+	Saravana Kannan <saravanak@google.com>
+Cc: linux-pm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] arm64: dts: renesas: white-hawk-single: Add R-Car Sound support
-Date: Thu,  5 Dec 2024 13:53:49 +0100
-Message-Id: <7c840b6e08e0af8a6b9bd5516969eb585f16e10a.1733402907.git.geert+renesas@glider.be>
+Subject: [PATCH] pmdomain: renesas: rcar-sysc: Drop fwnode_dev_initialized() call
+Date: Thu,  5 Dec 2024 14:00:15 +0100
+Message-Id: <087ef57d899c93f45ceffb8f9c5df3ad850b1e85.1733403513.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1733402907.git.geert+renesas@glider.be>
-References: <cover.1733402907.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -61,61 +58,28 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-White Hawk Single boards can use the same ARD-AUDIO-DA7212 external
-audio board as the White Hawk board stack.  Add support for building
-DTBs for them, and document the small differences in connector labels.
+As of commit bab2d712eeaf9d60 ("PM: domains: Mark fwnodes when their
+powerdomain is added/removed") in v5.12, the pmdomain core takes care of
+marking the fwnode initialized, so there is no need to repeat it.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm64/boot/dts/renesas/Makefile                       | 4 ++++
- .../boot/dts/renesas/white-hawk-ard-audio-da7212.dtso      | 7 ++++---
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ drivers/pmdomain/renesas/rcar-sysc.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index dea812ba55f3132e..68031d0f28fb2a54 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -91,8 +91,12 @@ r8a779g0-white-hawk-ard-audio-da7212-dtbs := r8a779g0-white-hawk.dtb white-hawk-
- dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g0-white-hawk-ard-audio-da7212.dtb
+diff --git a/drivers/pmdomain/renesas/rcar-sysc.c b/drivers/pmdomain/renesas/rcar-sysc.c
+index b99326917330f5f1..dce1a6d37e80127d 100644
+--- a/drivers/pmdomain/renesas/rcar-sysc.c
++++ b/drivers/pmdomain/renesas/rcar-sysc.c
+@@ -434,8 +434,6 @@ static int __init rcar_sysc_pd_init(void)
+ 	}
  
- dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g2-white-hawk-single.dtb
-+r8a779g2-white-hawk-single-ard-audio-da7212-dtbs := r8a779g2-white-hawk-single.dtb white-hawk-ard-audio-da7212.dtbo
-+dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g2-white-hawk-single-ard-audio-da7212.dtb
+ 	error = of_genpd_add_provider_onecell(np, &domains->onecell_data);
+-	if (!error)
+-		fwnode_dev_initialized(of_fwnode_handle(np), true);
  
- dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-white-hawk-single.dtb
-+r8a779g3-white-hawk-single-ard-audio-da7212-dtbs := r8a779g3-white-hawk-single.dtb white-hawk-ard-audio-da7212.dtbo
-+dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-white-hawk-single-ard-audio-da7212.dtb
- 
- dtb-$(CONFIG_ARCH_R8A779H0) += r8a779h0-gray-hawk-single.dtb
- 
-diff --git a/arch/arm64/boot/dts/renesas/white-hawk-ard-audio-da7212.dtso b/arch/arm64/boot/dts/renesas/white-hawk-ard-audio-da7212.dtso
-index e6cf304c77ee9225..1308a35561365f51 100644
---- a/arch/arm64/boot/dts/renesas/white-hawk-ard-audio-da7212.dtso
-+++ b/arch/arm64/boot/dts/renesas/white-hawk-ard-audio-da7212.dtso
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Device Tree Source for the White Hawk board with ARD-AUDIO-DA7212 Board
-+ * Device Tree Source for the White Hawk (Single) board with ARD-AUDIO-DA7212
-+ * Board
-  *
-  * You can find and buy "ARD-AUDIO-DA7212" at Digi-Key
-  *
-@@ -27,12 +28,12 @@
-  * +----------------------------+
-  * |Breakout board		|
-  * |				|	+---------------+
-- * |CN34 (I2C CN)		|	|J1		|
-+ * |CN(30)34 (I2C CN)		|	|J1		|
-  * |	I2C0_SCL	   pin3 |<----->| pin20 SCL	|
-  * |	I2C0_SDA	   pin5 |<----->| pin18 SDA	|
-  * |				|	+---------------+
-  * |				|	+-----------------------+
-- * |CN4 (Power)		        |	|J7			|
-+ * |CN(300)4 (Power)	        |	|J7			|
-  * |	3v3 (v)		   pin9 |<----->| pin4  / pin8  3.3v	|
-  * |	GND (v)	    pin3 / pin4 |<----->| pin12 / pin14 GND	|
-  * +----------------------------+	+-----------------------+
+ out_put:
+ 	of_node_put(np);
 -- 
 2.34.1
 
