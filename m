@@ -1,144 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-11024-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11025-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A1D9E719D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 15:58:11 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CC39E741B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 16:31:24 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5AB1A18876BA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 14:58:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E90E628572C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 15:31:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E390F201001;
-	Fri,  6 Dec 2024 14:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99C1E14D708;
+	Fri,  6 Dec 2024 15:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="QLXS/s4t";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="O/Bc9Old"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DAF14AD29;
-	Fri,  6 Dec 2024 14:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00D284A3E;
+	Fri,  6 Dec 2024 15:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733497089; cv=none; b=IJ9R1Kg5TRy0XahCqImUVE7oMSXQjxcltQs+o0m97IAgxneakmCIZ7F7/0AbfiZ72QQo6q2DbAsqOVybH9w7vKRGaQtDVIYqxkvNN9pDlOkZTUlL2c64kA1thVkJCrDCNghApRBB8bZYLqGBb0Wgc+8wOJ2YnEdjByDzHEFiZ5A=
+	t=1733499080; cv=none; b=dk4H/Xr5cLgLBDNj2xcPNeLkFXeHZqUAbQwBpoKjkOu20zOwHXJfN7vfjpeNWmcGJFYBrzGElSM0IfxXw+OIzBXv5O69M34LRkxk7D29brU/lAg96OzNt685Y5H1c4cxI7uPnebYRp3YcdIx0/VJcgabZLwECyEJtujeliySUEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733497089; c=relaxed/simple;
-	bh=dNzs88DXm0DsW0ColNww97VGrXRlHHoDcjWPBTgdGB8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I1w2mTCD0xIVNzgZ4fsRXmPZSlSd9eRVvk7FpXcfqmcTVydscPv3nl7MMB8jfUd7AW0/JNLAQP8J3SCHx8i/3jKjH/aNW3A6Wry4z8yk8brgfPVyX8f4TswGeViSQsiJYON4MwpfMCe4yJL3U0mlD/Kwes+A0vaKocU7trMBki8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-51529df6202so600311e0c.3;
-        Fri, 06 Dec 2024 06:58:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733497084; x=1734101884;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KGs26nf32J7IWFe5gQzebo3VoEYybxmOCRS8t1bpYOQ=;
-        b=VdADRObJPDQFH70UmMe1Socn/2R1PMpMY8T8Ilq1NDFCI+mDCnD5AYfVkC8kNUUCxi
-         b8bu/uJGymJs5LgyYKaMpXVUMSFujAaVqgN43eUs3N2e6acnH3FqISissO/UJXNpEiOQ
-         dO32cQYzPgkSMeS4jtZbkeGWSI8qsb/YgZh7hmA/dJJMADZdyzGEIKJsbovNRauYuMOm
-         LHdNjA9VwYESQhqG69pZuRmk3YH3EcqDa++iU5Kp0CwVDQtVx3HgMU4eUz9tNdkN8bd8
-         UC8hnO21ZW0AbUeqaFYGxg302Jl4csfRxsRzwrs/Emx9Lv5dwu8d9X4rpeplNBxLQY5k
-         T+mw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4XXmj8DBo0Phj9q8Hwzn6v1+TMfBwLEHjv4iPAIZ5IDsahiN7OQitdFwRIr1fkrDOxbESAy1Z4mwT@vger.kernel.org, AJvYcCUAHQ/SyuPPXgGuskrbv4qws5bHTAZ9TFF5zsihfsG2kwj8vJkRNlr174JCkzcrLLLjJ450X7QwAKxkc259fw/RBtE=@vger.kernel.org, AJvYcCW9NcXK8QCR40bpONcOgMDVLJvjXXXtSV6b5gzSCEko/6rBYN4WfwMRcj6qv6HXQbKCoaY6dYKz7wGoJxnC@vger.kernel.org, AJvYcCWO4AP+r+k/y3OQiZJ2UiwneiIWXmHMx4TL0HYddsIOUWLxecBcXJ/4TUhThVhWFuupzecQBfFF1ivBMGQ0@vger.kernel.org, AJvYcCWVYQThLgRg8U6B1qfAbNcDiMBXAnS4bWe6YJ1jMH4yRv/ZqoBPQXtwcrqa0PEg+pcs8O9N89dvCcdh@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9Nty19rZk7qBTxgs+9cWElBsYSOCv31NM4t1GQWObdE9mNi34
-	2U+GDGoaAhEtcKWm3G5q4O3vV0BvqCe8acSY2DPsh04YmKkaYznJuEjMG0+V
-X-Gm-Gg: ASbGncs4//jfU8ZaH6pf7iFeaenkySTgMvBB+8EdVwJXuto5EpQUGyJw0ihjmaP90dw
-	2oH+ZipeONKuMFYOUJihOVFri2HBptWn//wn1Ldqz2eyCQsQKkgAovM+6DYRxla6BgYFL38dw8d
-	lKF45H4e2QaMLbcQyjDbJK8BVEJUpVyBstzAxKKDLHrBe+u9n1MATIfPdBfzvcYEE/Z/5hAAYRB
-	pxNZSt4UoTZOWhnaH9MsdkL9Ebtll/fy3XHSfTcmuUMXlE5M4hICxKQj+DbeJGd9/M1GWvDdukM
-	3rihoa+zfsv1yZ4c
-X-Google-Smtp-Source: AGHT+IGBnN9xSt2JyOO6oL5msc6O1e0S7Sai6fx1X5GsLtKd5puVckXOjGJoBmWJE7WmWO+MpxB7DQ==
-X-Received: by 2002:a05:6122:458f:b0:50d:56ee:b9d1 with SMTP id 71dfb90a1353d-515fcafc734mr3116130e0c.12.1733497083732;
-        Fri, 06 Dec 2024 06:58:03 -0800 (PST)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-515eae16d19sm318366e0c.7.2024.12.06.06.58.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Dec 2024 06:58:03 -0800 (PST)
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5152a869d10so640314e0c.1;
-        Fri, 06 Dec 2024 06:58:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV5dO8N1SOPn9JxHeAGpUyuVJu3VhuDe9dgMLYQTGmzjbBh8ToRCPcHKo8PXc+30eVw0YtwbmxY/hZt@vger.kernel.org, AJvYcCVCF1Tg/C3zwvFC/tNjTOPhMgz6lv0T8gJa0uUnhbO9ZxPpE+5JaqoTAzOcpDnPoPsaqtilC2VPAlGysA6M9SdecqE=@vger.kernel.org, AJvYcCVH6vW5WjBMrEGwLvW0WGtUv4y0+C3bkcqpjnFSMXQzwYtbiIyZdYgDXAscM3SI5/DGqnMEjKFYf6IHt7g8@vger.kernel.org, AJvYcCWH0hPGClDcB44PSnTQLhsLLwQUwUrJfKX4jGd3Iy9uQzOSRSg3QpKZ8i7IJO1GvK7jOPssLfOJnq/X@vger.kernel.org, AJvYcCWksRyzGxqEDAVI8ym6m8sUDiF0O5NZuk778qPP5iDoT39Fpp6tMPR2V3Zg7/l8ks9+qNwPLeIqT44Ir5xD@vger.kernel.org
-X-Received: by 2002:a05:6122:2804:b0:515:3bb5:5625 with SMTP id
- 71dfb90a1353d-515fcae7824mr3399476e0c.10.1733497082367; Fri, 06 Dec 2024
- 06:58:02 -0800 (PST)
+	s=arc-20240116; t=1733499080; c=relaxed/simple;
+	bh=bIrc8n6NPURZVpfhknwNXPh0GcBa2SBTzYexyp7sTOk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=m45zcyCegg+H3gzUoomKGS45tHnCxeW3lASCqrgyvFX8A28bKbc14H0YThdVL3v7kwgOV27QAsNszr7qKjBEfKl6rfgmMUFD+S4pf4OS1yj8TKAl0wZRu8kT2/4XIHlJpCkZypPX4k0/YvIpxhA47+sGxYoG1GtqqxfA0dDuxec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=QLXS/s4t; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=O/Bc9Old; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 7F59825400A0;
+	Fri,  6 Dec 2024 10:31:15 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Fri, 06 Dec 2024 10:31:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1733499075; x=1733585475; bh=aG
+	hM9zqMGkoabBP/K3PqpxcVTLLQvvaKCw1Br/V6jFY=; b=QLXS/s4teOC/LbElC5
+	yWyZy7bBHyfmy+MxI2ONJ1AIkvBjQmDa+6AjW4iQWiFg1DHK69S1X3fbhpdeHAH3
+	mIVmlD/LrXOKDuOLx6sZBexlgxmw/IpXD2XP7m6lREkXKKQdAgGEQ0uym08LDf9j
+	/Zs4dJYCVyZOckY0cZIhK5K1ZYKjszFrQZl+luWFTq8BAiZaueUOAy55JuQiiJRn
+	r81TPgZurXbVrfrWO8CopkYqOLdzdKcUUZzoB8s/92QgqAHYRwPGVs7R48//Cveu
+	nRIk3mlF/j0sSnSyRPL9mqermkhUVQLtN/YBkseeG2PZXfyP160qGCxZHHSw174G
+	Ldeg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1733499075; x=1733585475; bh=aGhM9zqMGkoabBP/K3PqpxcVTLLQ
+	vvaKCw1Br/V6jFY=; b=O/Bc9OldqgpzJNi9hPg9ONM96R5692eogaoY99iyVWLw
+	rMDXirgfMWnYcnzhlHrCcD/kYRw49vWNh/1GDOT+rM7dHrFfjC7RaBzqLYZyQPel
+	15Jft+4A/hE2N1GV6PKlNPVCNGb6H2xUV19pbudijhrVUyOb2k3LXREs06kK0Zzf
+	ag46ehDH9/3mBxIeHdxbdNcnhdy5uFBBq7SUc8Cd5c15iN4kYB/uMLzLZ5/+kEcM
+	7kza1tN5Z2m3JSCrmER0UW9mDbcfXeLXemdeCTvN8Q2MRV89OKLUfcBF1EXZm2uB
+	OI3dqbQ6egkTazuCLRFAoyHFJbko+XTh99fnw1A4Jw==
+X-ME-Sender: <xms:whhTZ2g9UHBdOvstcZ9aMp7K71CckEJ6VJcwRwLuJ-Bvw5kdrRlSkA>
+    <xme:whhTZ3CxK_3_I4FVRk17zAMShUQ7V4ZjO0e2sYYOJ5iZTQC_-ajJ8QpqU51-sd08u
+    TFg8zyWWb-27bK61Qo>
+X-ME-Received: <xmr:whhTZ-GEpbeFbNoyi1XVPM7CGQBtuaWcrFqTzuC2FlJr18WClBew2K_QTmJG367FH4G0mEtSEcxV5gma_GpES9ZrEg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrieelgdejiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfh
+    rhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlh
+    hunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghr
+    nhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefteegne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhl
+    rghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtoh
+    epkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhgrfhgrvghlsehkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopegurghnihgvlhdrlhgviigtrghnoheslhhinhgrrhhord
+    horhhgpdhrtghpthhtoheprhhuihdriihhrghnghesihhnthgvlhdrtghomhdprhgtphht
+    thhopehluhhkrghsiidrlhhusggrsegrrhhmrdgtohhmpdhrtghpthhtohepghgvvghrth
+    eslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgr
+    shdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqd
+    hpmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshho
+    uggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:whhTZ_QlK8nIvtQhO2fxuHCpUBh5dEb8qPvvOrgJ_nMakVDItyI9rQ>
+    <xmx:whhTZzwlrDzcicXj9-Fdu-IzPCA1E-Qgv5joHIkb1Aiae-uZ1jZ-7Q>
+    <xmx:whhTZ95e9lrOuumVIegMsuwfwGCPbGp6bNgHF2cn4LSLW5lWUytcbA>
+    <xmx:whhTZwxqZ3-4tcFT57Gtd8dXzKMUglqgHd1yc0dHhHeam69Eiohslw>
+    <xmx:wxhTZ6lns7nBVLMUgQD2Edm0BHUuM54CDUeHe5_QM67NpbJzYaqjeycl>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Dec 2024 10:31:13 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 0/2] thermal: rcar_gen3: Improve reading calibration fuses
+Date: Fri,  6 Dec 2024 16:30:48 +0100
+Message-ID: <20241206153050.3693454-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241115134401.3893008-1-claudiu.beznea.uj@bp.renesas.com> <20241115134401.3893008-6-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20241115134401.3893008-6-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 6 Dec 2024 15:57:50 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUaMZB0Dmc70DXTPnNu=Vp0p6K3w0A9y53B2OmrR6MeFg@mail.gmail.com>
-Message-ID: <CAMuHMdUaMZB0Dmc70DXTPnNu=Vp0p6K3w0A9y53B2OmrR6MeFg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/8] arm64: dts: renesas: rzg3s-smarc: Fix the debug
- serial alias
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be, magnus.damm@gmail.com, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, 
-	sboyd@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
-	p.zabel@pengutronix.de, lethal@linux-sh.org, g.liakhovetski@gmx.de, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-serial@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Claudiu,
+Hello,
 
-On Fri, Nov 15, 2024 at 2:50=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> The debug serial of the RZ/G3S is SCIF0 which is routed on the Renesas
-> RZ SMARC Carrier II board on the SER3_UART. Use serial3 alias for it for
-> better hardware description. Along with it, the chosen properties were
-> moved to the device tree corresponding to the RZ SMARC Carrier II board.
->
-> Fixes: adb4f0c5699c ("arm64: dts: renesas: Add initial support for RZ/G3S=
- SMARC SoM")
-> Fixes: d1ae4200bb26 ("arm64: dts: renesas: Add initial device tree for RZ=
- SMARC Carrier-II Board")
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+This small series aims to remove the code duplication that was added
+when adding support for Gen4 devices. The logic to read the calibration
+fuses are identical for Gen3 and Gen4, but the registers are at
+different offsets.
 
-Thanks for your patch!
+Patch 1/2 is a small drive-by patch which fixes a style issue of the
+constants found when working on the fuses code. While patch 2/2 is the
+real work removing the code duplication.
 
-> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> @@ -43,11 +43,6 @@ aliases {
->  #endif
->         };
->
-> -       chosen {
-> -               bootargs =3D "ignore_loglevel";
+It is tested on both Gen3 and Gen4 boards, but as not all boards have
+the fused calibration values and the driver fallback to hardcoded values
+only Gen4 have really been tested as I don't have access to a Gen3 board
+with fused calibration values.
 
-I'd say please keep bootargs here, but as you don't support using the
-SoM without the carrier board, I guess it's fine to keep it together
-with stdout-path.
+See individual patches for changelog.
 
-> -               stdout-path =3D "serial0:115200n8";
-> -       };
+Niklas Söderlund (2):
+  thermal: rcar_gen3: Use lowercase hex constants
+  thermal: rcar_gen3: Reuse logic to read fuses on Gen3 and Gen4
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.14.
+ drivers/thermal/renesas/rcar_gen3_thermal.c | 105 +++++++++-----------
+ 1 file changed, 48 insertions(+), 57 deletions(-)
 
-Gr{oetje,eeting}s,
+-- 
+2.47.1
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
