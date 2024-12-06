@@ -1,50 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-10991-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10985-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEBD9E6A54
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 10:35:03 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 741FC9E6A3C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 10:33:54 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E4B0287923
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 09:35:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C1AB16A432
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 09:33:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 121281FCCF3;
-	Fri,  6 Dec 2024 09:33:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EB101F541A;
+	Fri,  6 Dec 2024 09:33:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BxV+fEbB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SwGQM1/U"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7425B1FC105;
-	Fri,  6 Dec 2024 09:33:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993521F03E4;
+	Fri,  6 Dec 2024 09:33:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733477624; cv=none; b=IPs/j6cdgmfHabLdQ9cbBTNNj8xf/ETHN+JwsJ6o/rMb1KpVVPwzRVgCPne4dfTfdtBsw2CaGxznLvrFzPieCChLYkVNF8InDGdKHsqwbqiQ9dKDlBREOp1IAIwmIzQE4nUuWYuEjG2BUhVIIobjISFpjYkqua2hn0HI8vA1YLU=
+	t=1733477613; cv=none; b=aPKCk19wBsejh8Yk9CxOKeRZkLqbZp4mIvp6MMVYjg/SrRIKkXIa8yUp/TOXo1uimeY1esn3szsAeBh33K3V+ZzXD2eVRxAmtck+uS9cbXpSvcE1R2NGPvO3OLOzrxBxEDTBNkNfSaeLkClHmtYFH9rl1RrITcSShQO8AR1LsTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733477624; c=relaxed/simple;
-	bh=7hzw0SzmxWLVIEQik4mqnwQiiO+6a15pjXhcBTuLaI8=;
+	s=arc-20240116; t=1733477613; c=relaxed/simple;
+	bh=Cj2VeJ8uFjY3w3v+Ynbvv8L6oauOfCaE6Fq+A8xrCKE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HTYqhCJKGcBYDyQtR2lkW2USTTZ3JWuGnqjukf4oscrwpQtDq174ylkHIILNXoYnBD8GAeiL8E/RB0nyhmjJVpAMc9/SsG7L6q4QJPY3QT1wwTQ0AiVc8iUOsPz1vBQHnwKS6+yeQMExEzf5Bj+Q8R8KyHJqnMoY+oAJO9fPcY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BxV+fEbB; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=oEhOavLftwZs8GI3ZUO3gIdmxqLerTUV9/eS/5TqhKp6tX9/pbXbOYEZMencWIL9umbeRqDAuj4FElIfTKkhGJ9g1O/DAG5vMK0nFpI+m3dvnfyxsFmg/ImcIWuqFPgD8jMG0eN7+QAJklYdFT0SMCFZn08Y1tif7uJtMZ4tEog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SwGQM1/U; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57D63FEF;
-	Fri,  6 Dec 2024 10:32:53 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1471916D7;
+	Fri,  6 Dec 2024 10:32:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733477574;
-	bh=7hzw0SzmxWLVIEQik4mqnwQiiO+6a15pjXhcBTuLaI8=;
+	s=mail; t=1733477576;
+	bh=Cj2VeJ8uFjY3w3v+Ynbvv8L6oauOfCaE6Fq+A8xrCKE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=BxV+fEbB582PIWf5iUCPlHw7fB4zMMLrZTPcbYlwQi+c0k5riprNA9zjQGR/CA7pW
-	 DjdU0fAi8fFevzPz9nXglrgATYOj3i/iMxtiSc8/lHYMFrrarBQvyMTeuo5mjfWTFW
-	 dNoCynoky+b1pYAM0uu75zYBUqc3sB4nFsE/1iDA=
+	b=SwGQM1/UEuLpowiaq9r5Yfobnq0ArKybwR1BqdLJGsRXQTwXMWTGaXrx9IzFbnUCb
+	 dAT9yPn/oxL6DCQNXMKMwkyHzmPOVyYkvRMiUGu4gNkr7n5hQjzUT2+9Ll3kvJ6Ssl
+	 MFivztd1oJV0umUiQYHzy6oVmA6rlmhszPwKP9yE=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 06 Dec 2024 11:32:36 +0200
-Subject: [PATCH v3 03/10] dt-bindings: display: bridge:
- renesas,dsi-csi2-tx: Add r8a779h0
+Date: Fri, 06 Dec 2024 11:32:37 +0200
+Subject: [PATCH v3 04/10] dt-bindings: display: renesas,du: Add r8a779h0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,7 +52,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241206-rcar-gh-dsi-v3-3-d74c2166fa15@ideasonboard.com>
+Message-Id: <20241206-rcar-gh-dsi-v3-4-d74c2166fa15@ideasonboard.com>
 References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
 In-Reply-To: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -77,51 +76,119 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
  linux-clk@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1073;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2543;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=dTprj9jjuLmoedubnDT5F4e9cHFBPmdT8w1PeMV2wF8=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUsTaNEBZorD2e2FGf5qufr2OT5g/o0jnoTW/d
- 8dH5FWArfCJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1LE2gAKCRD6PaqMvJYe
- 9TdsD/9ykPgrcfKcefWXV1Nb9U41qlE83epgXgSTeIruwoZqkCf3/JWNyOjbXLCg79RZ9vxORK+
- bzhQMIc1snECLh/8LgWxTAZ8hgZO2nPPUaruhTqSUbTVxld8ey239WIkPmYyBMhnm1NQXsmqREH
- TPXfBM+4lq0AuvtiDFue8R8xpW2jiI4DAIZL5d96cBnEYJu1axHdZuXL+zHJKsyWSivBhB3Vxuu
- BVLFXv1tOngor/H5Q0IiIidEX8V8IkNmyJf2HvqT5K8AUAi3lcmommOI6lmE0xBzszPs8L04qXB
- iCYw7PpmDnsow5aEz1xcGRdxsH/I8+eNSOE4TeFhyR2r/1nUlenUk7PtK9t2DLldvAuRTHin8NQ
- TpLW5grpqhxcM5IIle4qRpk96wLtuuQxZZfpzwi00lycUv+7bfoB1oV2JN8Q8cLR/ozqwU1yflF
- kIxrMn6ZoVhs2ZldHjpzO9bISAUNiNHcbsi1bbs5gK+Z/fzUOizN5TsmJDtJwwfTWVKq/sclX0Q
- q9ccDRRvmZXd1xfO8zNiJM/c6nLjOWCYnB5fqwQs4cn7cRjI9FB1EJZNnz9McYyxtvkpaIEYMXN
- hwARqFmOnfBl2NacvKc7ClqM9wZ7630j8+3zds/pH/Cmx6Ti6peSZsIBPf2pg21MaZTBuil5o+U
- N6mklpM8WwZPm4A==
+ bh=+C1FPFSno+ZBvGJfrkZWI9g3QFl0y7ZqagIAzaX59o8=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUsTadeh5WjxAaL61az4+5BnS3a8/1kvzKNFP9
+ 9t2a163+8CJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1LE2gAKCRD6PaqMvJYe
+ 9fxpD/93kRIWLCInEfV/Fc53w47/ILSL/dcP2IyJGeFQvtGaSVJtLkPbwUyjHC4hHbvGzuw5Jvc
+ hmOVMKSlWq/9UnJUf1oxME/o8+xpN4Q4tSbr7eGObenJ7KwL5cM9aScfMgz/aEFv1Stko+Lulhl
+ 72Xow6nLVi5vHUF82N+kBFe48a2EriwsO+oGU1OUR2AYVnz0b5JeVfgj7dLFR8BH9x9V3OtrrEF
+ StmPS4TRsndWnfA91iS3zR+VOBI1DvdKLnsxiUv+K+TTx6Mi8ArtRb3TvcWbQQ1o0tbR8Y+KNpb
+ 5Z7bWHKKgq7MJ91N0T84YIua3EKe/qqgb7IAX+PIgRt2J8kVp74yBVkaOgMrhfE5niGi3bgPzrW
+ UShK1SGJFXGIG3SAK/HGPfH6B+y+meJ5AFbxXQsFt/utXhxGoPVrHReWzFQKgY7bPWYCq7VgG/y
+ wvF7jL+lp193zcTFh7Isdcuw9hI3TsXzLv5tmZm/AbHTbzfI9HPNwPSrdWsdysPWU6WGsz9x3i6
+ eTbO5NaqVzVoQ/UdkvkEi07pj/KQAZHmVJixJ9zXrz0V+2jym4tOmjVhEGfCIjKNEQlvgVkrdZk
+ KYbapxpiktD4jOJogj0ZU+k2McQGcEn/5TBasFMK+yeBbTblCiFTp0FysKinczn1TxuLAKn4pat
+ T2rt+XAdrW6Mjyw==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Extend the Renesas DSI display bindings to support the r8a779h0 V4M.
+Extend the Renesas DU display bindings to support the r8a779h0 V4M.
+
+Note that we remove the requirement for two ports from the global part
+of the bindings, as each conditional part defines the number of required
+ports already. This came up with r8a779h0 as it's the first one that has
+only one port.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- .../devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml          | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/display/renesas,du.yaml    | 52 ++++++++++++++++++++--
+ 1 file changed, 48 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-index d33026f85e19..c167795c63f6 100644
---- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-@@ -19,6 +19,7 @@ properties:
-     enum:
-       - renesas,r8a779a0-dsi-csi2-tx    # for V3U
-       - renesas,r8a779g0-dsi-csi2-tx    # for V4H
-+      - renesas,r8a779h0-dsi-csi2-tx    # for V4M
+diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+index c5b9e6812bce..7dec47aea052 100644
+--- a/Documentation/devicetree/bindings/display/renesas,du.yaml
++++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+@@ -41,6 +41,7 @@ properties:
+       - renesas,du-r8a77995 # for R-Car D3 compatible DU
+       - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+       - renesas,du-r8a779g0 # for R-Car V4H compatible DU
++      - renesas,du-r8a779h0 # for R-Car V4M compatible DU
  
    reg:
      maxItems: 1
+@@ -69,10 +70,6 @@ properties:
+         $ref: /schemas/graph.yaml#/properties/port
+         unevaluatedProperties: false
+ 
+-    required:
+-      - port@0
+-      - port@1
+-
+     unevaluatedProperties: false
+ 
+   renesas,cmms:
+@@ -807,6 +804,53 @@ allOf:
+         - reset-names
+         - renesas,vsps
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,du-r8a779h0
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Functional clock
++
++        clock-names:
++          items:
++            - const: du.0
++
++        interrupts:
++          maxItems: 1
++
++        resets:
++          maxItems: 1
++
++        reset-names:
++          items:
++            - const: du.0
++
++        ports:
++          properties:
++            port@0:
++              description: DSI 0
++            port@1: false
++            port@2: false
++            port@3: false
++
++          required:
++            - port@0
++
++        renesas,vsps:
++          minItems: 1
++
++      required:
++        - clock-names
++        - interrupts
++        - resets
++        - reset-names
++        - renesas,vsps
++
+ additionalProperties: false
+ 
+ examples:
 
 -- 
 2.43.0
