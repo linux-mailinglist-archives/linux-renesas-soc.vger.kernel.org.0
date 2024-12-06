@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-11001-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11002-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4044E9E6CDE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 12:14:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2579E6CE6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 12:14:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4EF41884164
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 11:14:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 568571676CE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 11:14:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BEB11FF60F;
-	Fri,  6 Dec 2024 11:14:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D30A20010C;
+	Fri,  6 Dec 2024 11:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Tpf7fTGG"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="KTyk/JTS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06291FCF4A
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Dec 2024 11:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78D81FF5FC
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Dec 2024 11:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733483641; cv=none; b=GzsCZ3rYaXnn9y9PR3J7yvfn+XnOSlqhRgo/kwzFMknsMIxVi4UTbnR8ZxD6fcoKUgjGyw5Css9DJ2KJG0XSQA1ON55KlY0Vltrs+ZtZdY8mrGcPuBi1+CDrBwzbAtdlBxoAOfrGuRWMlKczIi5lQdfihybmC/YIJGk5I/BJ9Yk=
+	t=1733483644; cv=none; b=st4insloHHean4Hlp1CTzHkO1Vnrcs29aGcDnGu9Ee2BUtSsElMo3J751wpr59QFfiAZDSaLuUXA2y9PNpKd+G0X1zO3eyQuOmdzBrL+KzbRa1LG7lyQMsPs/JxStDTV9C8tU+n26d0xHlSlMRX3eXRHjtyfbJkpAFF19z5wkgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733483641; c=relaxed/simple;
-	bh=SIi46sAJ3akHceZIRoH2XmfFqxFkyS3eT+KqHD6fe7k=;
+	s=arc-20240116; t=1733483644; c=relaxed/simple;
+	bh=pFeVqwq5TdQjxpLyK7iTM1W+bmcdyJjKWS9gDr7aPgY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gkm7B6hwXv5zXttNoMJ9/5sjOl7RuLfx74KvY5voVzfwewxk8WiL7yQJxDExqmHukM4xrmHlm6kfAc31fwxGWZEg1cApyDIa+ubyF+Y2aZFXMnvLTEzJh4xZdzgbAGCQtSbnVTaBHocS0RuS6jPzmpemAjjtOqG0Gb96N5o7OWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Tpf7fTGG; arc=none smtp.client-ip=209.85.208.43
+	 MIME-Version; b=RDRfCOReKSHOQPEjbiwUTziJNJbg2AM4bGG4b4X6ptWqKev0aw74qeqO407opAT9mEWxMZjBKZN8eboJJRAyUvfBYKhPIDYQXELH1wroXCuHTuL9fneDHjhQaRAHvuj2cy41TEHm+Lb455f7fkE18A/x3OiEkRxbBq3hLG/qo38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=KTyk/JTS; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5d34030ebb2so2018465a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Dec 2024 03:13:58 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-aa628d7046eso267048666b.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Dec 2024 03:14:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1733483637; x=1734088437; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1733483639; x=1734088439; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=r3NK3+VvNXvn4/X99VXMNRx8LERvbPVlsDcIxAPbW7c=;
-        b=Tpf7fTGGqWRvvVKmxhqZPhxTHemi3z83lVgludb3y7timQBHx47S1IFFBreNwj8a+/
-         hw3hJ4Fk8wtWmIhzg23F6roQOzgpFQKBPldF2BJ4LGVWMpYkwWY3sOy/pe5yfmrZq9Q1
-         cpJtjp/fyCa9TZsRgm1oLmLdL1ve/mDRycnBifJDdc25pdsPwyWfJFCKewHMI0BDVdxj
-         wjiMZIW5E3u0p/J1pcRYD84XwRr8H4awCv1nl0mTkr6pa1PVJ0EG+U0aIl8r3X66V9fc
-         +B1+oPJBfY9viAL65b7No+0gswkJj2RYF4kKzoClpb5oYtGn1wjPtvpwaJN1ASkoJSYA
-         2Ngw==
+        bh=IF+3d6YLoFd8ymBLjEJf+CI6Y+EI/atf0HIxguIiGOc=;
+        b=KTyk/JTSj84SQaukd1UW5/e2pUXUmY4LMfK3scIgA5GUK5NXxh1JUjIOy2mvdCKPoc
+         4RUOzTCk5ejmI4TMxPI3IwlvgJjccg1KUm6GMuMzUzjZc+HWNEj8NwF8fse4+ucyoKg+
+         SDm/FliQmJHkw1u9yJtjMtAyvUjx/EsHww0B4qy5WoTGpkUDAnvI4fQqEhQthyRwxEDM
+         5gkzMPLMBvwF4AkmMYF59/a3vKFgNjklGsCTjrJYjkFXemCR2JL54Trv7bbgoyuMxm0Y
+         FUD3dKOJMLvLka7DIOiO+PwSXNGSqFFeDqWAWM2CHIwKpRHFdvsze5IgCdmo6d+gZSaW
+         we4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733483637; x=1734088437;
+        d=1e100.net; s=20230601; t=1733483639; x=1734088439;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r3NK3+VvNXvn4/X99VXMNRx8LERvbPVlsDcIxAPbW7c=;
-        b=HUHRca1bWmbVK5AoZJYznrljprd/3Zv1T7XS+3T7KnGuZ1CwJ+CoVU+ejYFJOeUGRf
-         hrfxlCBoZsdjKc4nRoFF13Qo93f+z6Vi/kYDJVj8Zo3GtPhQk0NH2rwGy0jGyeGtfoAg
-         2si97crOdcTtrBfze759SNPvyjwEMOq8DYCy+x+pJcSysv3UwZxM767bS8oCo1UZDmPz
-         tmfGpMDnxdaZ41+vYbRgknTy9Bd08vkFm7nSGU7qtt+fMkGJe+nqpHfBOWJlERZd15oH
-         6k39TigkV145RxLB9p20aWUigZ1/cPuvCUw6BlUQc1P3YAxAjg1xiwcdA94IGTiiGG4e
-         v4Ug==
-X-Forwarded-Encrypted: i=1; AJvYcCU8d5Hu6b96yZUwM5WdtKbPYV8Ty3tHS19QTQ1e6I8UhWaMRmsaVDakVwUE1vCV5Oh6xw9qcIYyVQ1tezyteE2zrA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8klw+ah7/TaxW/sGrYoW6mdXGzV6PxbZcgztRcFJSs2jPcPB2
-	LBXDjx1GFGFpidpQccHr0l/A36mmOyh3tsd9EydaIT41tCghXguhBW9sGx5vFL4=
-X-Gm-Gg: ASbGncsoW88wIBGQxY0R7byCK9SAdwfYifaCIm9hYHc+VSaeBFXWGUeQFtkjm8woyHV
-	0Y8hSeR9VFuvc1Vx1nh/8iErzoS5X3L1b0pSXVowKtqdKFbmkoUd69a0plrWUPCURmdscRphf8V
-	lUk1XSdecJcfC6VBmkmhOdO/9z+6QJagAdwT//0O9zUmvwFJpWgScZmTBYFm7sYe21Fj/HjRYyo
-	QovOY640gv4cGDucJNVv6hnrQQUSKVOo4nZMcVEN92SojjeTGYJh5EBzcjEqCH2DvRovu1ONxhr
-	mmDp
-X-Google-Smtp-Source: AGHT+IG5ns28LlIO5EKzt3jy9KG0NXWjALwAdfE48ssUd8bpZB71xSWH7xVctc2Y/hSvsPovXL1IRQ==
-X-Received: by 2002:a17:906:3292:b0:aa6:4494:e354 with SMTP id a640c23a62f3a-aa64494e742mr62432466b.42.1733483637032;
-        Fri, 06 Dec 2024 03:13:57 -0800 (PST)
+        bh=IF+3d6YLoFd8ymBLjEJf+CI6Y+EI/atf0HIxguIiGOc=;
+        b=Y6AB9cQF7m5l3seclVDPltRCgr0zAd6QPayb0wX3ignPCxgBGmkmtc2L5XxKZzb8u8
+         IiX6NsyZ0E3vmcI9bH1o1LK4DiTzA0tqyIEwpjWpkr+Kd+LkRvbtquyz71/PkcVk0BWz
+         oMLfBJarxEG7Y8rd2oDyS4LaJHhD/6D3UceUIps8GYr/M30k7+eDh2GW+BTOciClJCRF
+         y6MKC9IordbKodi3k8sGvE4W/ZskQect9krZ4EFUWwJ7PXRHaYSB+htUx0MWyPpIMJdN
+         3rUWvGVsRI329gRXVqJKuT4xvMjDOKUlwj15H1TGlxo/3ERPnOhhDxv+kr0gxq7+afUV
+         lzwA==
+X-Forwarded-Encrypted: i=1; AJvYcCU0MW34WA7/l/Ry//hGDVm/6U3LTE/SaTDTPBVN3c1r5eALp3G4pqDBqSlalriO0hl/ZgCVGd1ehFXZIJh+fHay/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyd6MS5leSqFaahq1iwrmgZUxCB6j4NZGPThFYb36dVjQ8B3W8z
+	4lTyPs4ULti+7mHiveOPt9dsYkCMPF+SezUfoiBW93fH7ywi/MiW9GkQoVGcpUo=
+X-Gm-Gg: ASbGncs4gcWEgkZ2JAT13u4yxbtFZO9wxwaqHCnl4vtTF4Qx8zz2UIq8pcve7U6Uthv
+	GWQW0biDpugRxIkykz66/drzoHC0jxS+R6DgKwi0157xJwCNVaoILXoqjUmNm4dnStvylI6El9C
+	wYMVdHsmZs8IDfBzYxXb9Ik2zxsRNJnlC6x0dJklQs6nzoY6/8oLkk1Q7XyV68AtoRAchwThlZ2
+	4kc1m8xTpZtbzzINNa+p5jmNVEUXoFwwzT7ovy/HgXkOGlEiN0wH5/26miUQY6adW7QnNlt/jkK
+	SBvJ
+X-Google-Smtp-Source: AGHT+IE8/6k5bsY8E9y5ISlKPNleG7y4yY/FFLd5nbbFNGCG10Rgtm0MhHvZLaSwwmr1LC62i+/LQg==
+X-Received: by 2002:a17:907:3a57:b0:aa5:1cdf:7bb1 with SMTP id a640c23a62f3a-aa63a03afedmr192091466b.24.1733483639246;
+        Fri, 06 Dec 2024 03:13:59 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.161])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa625eee2a6sm226877866b.90.2024.12.06.03.13.55
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa625eee2a6sm226877866b.90.2024.12.06.03.13.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2024 03:13:56 -0800 (PST)
+        Fri, 06 Dec 2024 03:13:58 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: prabhakar.mahadev-lad.rj@bp.renesas.com,
@@ -92,9 +92,9 @@ Cc: claudiu.beznea@tuxon.dev,
 	linux-kernel@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 02/15] iio: adc: rzg2l_adc: Convert dev_err() to dev_err_probe()
-Date: Fri,  6 Dec 2024 13:13:24 +0200
-Message-Id: <20241206111337.726244-3-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2 03/15] iio: adc: rzg2l_adc: Use devres helpers to request pre-deasserted reset controls
+Date: Fri,  6 Dec 2024 13:13:25 +0200
+Message-Id: <20241206111337.726244-4-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241206111337.726244-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241206111337.726244-1-claudiu.beznea.uj@bp.renesas.com>
@@ -108,123 +108,79 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Convert all occurrences of dev_err() in the probe path to dev_err_probe().
-This improves readability and simplifies the code.
+Starting with commit d872bed85036 ("reset: Add devres helpers to request
+pre-deasserted reset controls"), devres helpers are available to simplify
+the process of requesting pre-deasserted reset controls. Update the
+rzg2l_adc driver to utilize these helpers, reducing complexity in this
+way.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v2:
-- none, this patch is new
+- rebased on top of patch 2/15 from this version
+- used "failed to get/deassert" failure messages
 
- drivers/iio/adc/rzg2l_adc.c | 64 +++++++++++++------------------------
- 1 file changed, 22 insertions(+), 42 deletions(-)
+ drivers/iio/adc/rzg2l_adc.c | 37 ++++++-------------------------------
+ 1 file changed, 6 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
-index cd3a7e46ea53..8a804f81c04b 100644
+index 8a804f81c04b..c0c13e99aa92 100644
 --- a/drivers/iio/adc/rzg2l_adc.c
 +++ b/drivers/iio/adc/rzg2l_adc.c
-@@ -313,15 +313,11 @@ static int rzg2l_adc_parse_properties(struct platform_device *pdev, struct rzg2l
- 		return -ENOMEM;
+@@ -411,11 +411,6 @@ static void rzg2l_adc_pm_runtime_set_suspended(void *data)
+ 	pm_runtime_set_suspended(dev->parent);
+ }
  
- 	num_channels = device_get_child_node_count(&pdev->dev);
--	if (!num_channels) {
--		dev_err(&pdev->dev, "no channel children\n");
--		return -ENODEV;
--	}
-+	if (!num_channels)
-+		return dev_err_probe(&pdev->dev, -ENODEV, "no channel children\n");
+-static void rzg2l_adc_reset_assert(void *data)
+-{
+-	reset_control_assert(data);
+-}
+-
+ static int rzg2l_adc_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -448,34 +443,14 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+ 	if (IS_ERR(adc->adclk))
+ 		return dev_err_probe(dev, PTR_ERR(adc->adclk), "Failed to get adclk");
  
--	if (num_channels > RZG2L_ADC_MAX_CHANNELS) {
--		dev_err(&pdev->dev, "num of channel children out of range\n");
--		return -EINVAL;
--	}
-+	if (num_channels > RZG2L_ADC_MAX_CHANNELS)
-+		return dev_err_probe(&pdev->dev, -EINVAL, "num of channel children out of range\n");
- 
- 	chan_array = devm_kcalloc(&pdev->dev, num_channels, sizeof(*chan_array),
- 				  GFP_KERNEL);
-@@ -445,62 +441,46 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
- 		return PTR_ERR(adc->base);
- 
- 	adc->pclk = devm_clk_get(dev, "pclk");
--	if (IS_ERR(adc->pclk)) {
--		dev_err(dev, "Failed to get pclk");
--		return PTR_ERR(adc->pclk);
--	}
-+	if (IS_ERR(adc->pclk))
-+		return dev_err_probe(dev, PTR_ERR(adc->pclk), "Failed to get pclk");
- 
- 	adc->adclk = devm_clk_get(dev, "adclk");
--	if (IS_ERR(adc->adclk)) {
--		dev_err(dev, "Failed to get adclk");
--		return PTR_ERR(adc->adclk);
--	}
-+	if (IS_ERR(adc->adclk))
-+		return dev_err_probe(dev, PTR_ERR(adc->adclk), "Failed to get adclk");
- 
- 	adc->adrstn = devm_reset_control_get_exclusive(dev, "adrst-n");
--	if (IS_ERR(adc->adrstn)) {
--		dev_err(dev, "failed to get adrstn\n");
--		return PTR_ERR(adc->adrstn);
--	}
-+	if (IS_ERR(adc->adrstn))
-+		return dev_err_probe(dev, PTR_ERR(adc->adrstn), "failed to get adrstn\n");
- 
- 	adc->presetn = devm_reset_control_get_exclusive(dev, "presetn");
--	if (IS_ERR(adc->presetn)) {
--		dev_err(dev, "failed to get presetn\n");
--		return PTR_ERR(adc->presetn);
--	}
-+	if (IS_ERR(adc->presetn))
-+		return dev_err_probe(dev, PTR_ERR(adc->presetn), "failed to get presetn\n");
- 
- 	ret = reset_control_deassert(adc->adrstn);
+-	adc->adrstn = devm_reset_control_get_exclusive(dev, "adrst-n");
++	adc->adrstn = devm_reset_control_get_exclusive_deasserted(dev, "adrst-n");
+ 	if (IS_ERR(adc->adrstn))
+-		return dev_err_probe(dev, PTR_ERR(adc->adrstn), "failed to get adrstn\n");
+-
+-	adc->presetn = devm_reset_control_get_exclusive(dev, "presetn");
+-	if (IS_ERR(adc->presetn))
+-		return dev_err_probe(dev, PTR_ERR(adc->presetn), "failed to get presetn\n");
+-
+-	ret = reset_control_deassert(adc->adrstn);
+-	if (ret)
+-		return dev_err_probe(&pdev->dev, ret, "failed to deassert adrstn pin, %d\n", ret);
+-
+-	ret = devm_add_action_or_reset(&pdev->dev,
+-				       rzg2l_adc_reset_assert, adc->adrstn);
 -	if (ret) {
--		dev_err(&pdev->dev, "failed to deassert adrstn pin, %d\n", ret);
--		return ret;
+-		return dev_err_probe(&pdev->dev, ret,
+-				     "failed to register adrstn assert devm action, %d\n", ret);
 -	}
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret, "failed to deassert adrstn pin, %d\n", ret);
++		return dev_err_probe(dev, PTR_ERR(adc->adrstn), "failed to get/deassert adrst-n\n");
  
- 	ret = devm_add_action_or_reset(&pdev->dev,
- 				       rzg2l_adc_reset_assert, adc->adrstn);
- 	if (ret) {
--		dev_err(&pdev->dev, "failed to register adrstn assert devm action, %d\n",
--			ret);
--		return ret;
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "failed to register adrstn assert devm action, %d\n", ret);
- 	}
- 
- 	ret = reset_control_deassert(adc->presetn);
+-	ret = reset_control_deassert(adc->presetn);
+-	if (ret)
+-		return dev_err_probe(&pdev->dev, ret, "failed to deassert presetn pin, %d\n", ret);
+-
+-	ret = devm_add_action_or_reset(&pdev->dev,
+-				       rzg2l_adc_reset_assert, adc->presetn);
 -	if (ret) {
--		dev_err(&pdev->dev, "failed to deassert presetn pin, %d\n", ret);
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret, "failed to deassert presetn pin, %d\n", ret);
- 
- 	ret = devm_add_action_or_reset(&pdev->dev,
- 				       rzg2l_adc_reset_assert, adc->presetn);
- 	if (ret) {
--		dev_err(&pdev->dev, "failed to register presetn assert devm action, %d\n",
--			ret);
--		return ret;
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "failed to register presetn assert devm action, %d\n", ret);
+-		return dev_err_probe(&pdev->dev, ret,
+-				     "failed to register presetn assert devm action, %d\n", ret);
++	adc->presetn = devm_reset_control_get_exclusive_deasserted(dev, "presetn");
++	if (IS_ERR(adc->presetn)) {
++		return dev_err_probe(dev, PTR_ERR(adc->presetn),
++				     "failed to get/deassert presetn\n");
  	}
  
  	ret = rzg2l_adc_hw_init(adc);
--	if (ret) {
--		dev_err(&pdev->dev, "failed to initialize ADC HW, %d\n", ret);
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret, "failed to initialize ADC HW, %d\n", ret);
- 
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
 -- 
 2.39.2
 
