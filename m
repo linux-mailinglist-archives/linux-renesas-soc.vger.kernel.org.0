@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-11010-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11011-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524899E6D08
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 12:16:18 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBD49E6D14
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 12:16:59 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04685283FA1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 11:16:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6BA241677DF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2024 11:16:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4A77202F64;
-	Fri,  6 Dec 2024 11:14:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B1832036EE;
+	Fri,  6 Dec 2024 11:14:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="RlVFnxWX"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="RxSNxfTk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A93F202C28
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Dec 2024 11:14:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3CA202C28
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Dec 2024 11:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733483656; cv=none; b=g3FeWsmtOTh06BLlXklGfIEneywPEvn+rpnYUCHY7TtR3H1NhoB/5+CepGQHv0F8TbDINH3XdFHktEMuBsxy0xmbyQUpjbQU7CokyKR7Z4ZWj80/JfnV1WvMXv/csfPAnSa5q/OmrmhsiYHI5CnDKnC7bFlbOYBl/vUJEao+oIM=
+	t=1733483658; cv=none; b=ct7u54R+EOQzPXz5lqhTT0OotLsuvySggy0OQgCzDCRk4m7j8NZPBelmgNM585n0OLh1i3H9+4lA7mmFK/8Bn+Qr9bKj91WuI03Kb5kwvp82zXXAwJJRVR1EdMdzmSPBEflxAoF+QrEeXeFhFyEPBkcf1OU7LVd749jHFwB+Phc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733483656; c=relaxed/simple;
-	bh=fiQmPOGrFM1sT1OFzrZ1mHt7tw1wgM6W+Xfd0aJucl0=;
+	s=arc-20240116; t=1733483658; c=relaxed/simple;
+	bh=yHXEczmr3zgBN9Y5LQq53zyVDIkVuwqZazKuyqw+yEw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iIOLHIZiJ7R1PXu4Z30Uf19nYU9y2z4HsjwPXHRbP+Av9VndDjqf4L6AHV2nMMEbpJld9ulKWOyu6tjxrr7240zyVp9RRsWQ4eUt016nzrUD959ZRcBWRCEoIdHEefQX58HTGSkHEjRzzOlT6O+TfyxtJ9GsvXlNLKkEIFDxxxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=RlVFnxWX; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version; b=OF0QpmUR6jmUoSMyQFGyjJV6euLPnbBYhkeGQyZOAkL8nZV/cm9I57JHGZOylr9Awh9sdC557hz6OKQRmVyXRvz+YmnkpvK5UL+UAQT0H5Quth0lkOQv5ETNoNdl/sDASTRz9FAGZ8lHDXLCt+s2A/7WzJgh6gov+wTDomafxVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=RxSNxfTk; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-434aa222d96so21831305e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Dec 2024 03:14:14 -0800 (PST)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a9f1c590ecdso221722566b.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Dec 2024 03:14:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1733483653; x=1734088453; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1733483655; x=1734088455; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4G1+H4vCuAFYlF6vDclbc4UqdYRAmFagMT67tI+psAM=;
-        b=RlVFnxWXp+EbulnFE5rQyswB6EXsnGumjjxC9xclRMpnXSTSHk5RB5Auv4T3qcKQ4t
-         UwXtSKluyv1XPIb5FCeq+iXFeh6fWoKBK5j8c2j/hBgItksEWjI6/OCU3S0chdUpqz0z
-         Yl6/Lymb6P9bRqZ78GHLzf44c26mp7WxsLLDXiYqx5AcgBXOsUgy5EGx+G6aKLcSuv/i
-         RsQQDJ03Pcywb2AeAFpYbTpMuq0245cCauAPHL2wHikZ0aNJf/ya4kxn3yQbLx/gYXWE
-         bSsj6sgxrcG6FMQOhVd9bnSgx23W6Wt4Nkw5r5SctWbSj5t8T7rdWy1oRph3O0vjAQcw
-         5g2A==
+        bh=ztquiO5zqo8/ypj6kpM7FV/n638PGdmNV83SwxwWZys=;
+        b=RxSNxfTkdhKEMGKm1wiBlmyaeKNCwrVugZWsDZ8efNvBqvnpEiTOVOQY0zoKqVUspG
+         pgEmNRfFfZQx20TO5Sk4w6ECbuKTUtLzWP+hwITACcHbvH8rPj6DpQ3UnYXdI+o5b7i3
+         DHS5Ad/SxxExKECRJoq2hyGX+HOw3FXbJNiYGTSH+y/8Yua2nNcxVu0I/u4nVLkQiF2K
+         y9pNfhZvB5avNXkVneN5RWM4ypD3aIRDIJm1nX2KHYal5GCjWTn5rCboa5HquZ3sZkRC
+         ORekgKAQd6oSVSzarRQpCLs74579Pylv1tLDYrYG8aNbi9o4S2NIK4MKQnD2DN9GxYfv
+         cS4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733483653; x=1734088453;
+        d=1e100.net; s=20230601; t=1733483655; x=1734088455;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4G1+H4vCuAFYlF6vDclbc4UqdYRAmFagMT67tI+psAM=;
-        b=Xdfbt/80HVhhEYqExU3o9J+5WySbs7tdSTwtqB0IQIEkz1XaNYZe3At/xbuRrbaN3r
-         aPSmViMoy6jDfnodLymHnq+6mLJb95GFHdshdEE0Om8A68Hpk52L3lAQ89mrEer75NHJ
-         hpMCZSnyT7m399DCWuCtaMFM7plhLyLJgRzYo7U6JeDJIa5aEUSc9Y0R4Hr/kMirAF24
-         hUn4Ih6KZdoJPS8nVGpZIk2uRTWOA1YrnVYVHvUf1b9wPr5+V1ocgjMNpI0gr7cAohYv
-         4LsbnSITQRMDoYw8A5DEgxXAP6wiNELyenj/vFzrg3jBh4JvlpNTz+J7Gb2fFXvLwodE
-         1X9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVHccsZH3eakUqFbm4FVNemSP0iaxSL1aOVDEtP14TUX8UvIZ+NiUSZuiFQ5kM+3mnjgiS+OR+3HzL/rmrHgnA92Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxw8kzZF31WYFBfIOf6xMucLhsJjP6TQLREMSZJKwlk0c3qVt8D
-	rp1qr7mFwzBlXBZfKyNj4pDoSlryv2kloVEd5Ah6iVH1CIJiS03Wp0UKbq44O9Y=
-X-Gm-Gg: ASbGncuKJkLNefP63A73yVG5HVZgKR+iNJDlZjUvbBBqZ83ihs4SXhpa4r9nLlA0nth
-	9KsNyLUiOnXfhgX5VdzhiueoduJTlGqn5mwckqtaeq7K37sWTAmWIOlLXX9pEQvbqwrlJbrk9Cd
-	2hxSAW2ylVlBV2wGhM5dxhX6XVkUeDOuFN9Cp2Ux+2Ztn6xLTHtmfoec3xVEqmg5aojemDtgYRG
-	7S19pi2e9X5fJanDyr5lM2LPfXIo1kqrLjq5HHAtPptk556YpvrOuVlaUGy28zt4PAFjRMfqDzJ
-	lcXR
-X-Google-Smtp-Source: AGHT+IEXTKNP4MKWcbf/JA1+bXvtEWlNT3ImVzjM+DDONN2Br3jW+udfgrQ804DeDzabWUv7DT92fA==
-X-Received: by 2002:a5d:47af:0:b0:385:e5dc:e285 with SMTP id ffacd0b85a97d-3862b3e4f43mr1602093f8f.58.1733483653344;
-        Fri, 06 Dec 2024 03:14:13 -0800 (PST)
+        bh=ztquiO5zqo8/ypj6kpM7FV/n638PGdmNV83SwxwWZys=;
+        b=BxCG4NBOeQ0YY1/6G7KrskliL84m57WrINTsssH7vFbL435WftKGosZlUnAEBDI+N2
+         TFmL/x1ajxlAH2f5WYuYQYXfTgvYHFFY7UZtfh1d1MGT6X5PqqFneFCn1S0kvh6QNDgJ
+         FcAnWAfAUkfV7NNi29RFnj9yGupNlYhOtmr/YYfQgFkmGbt1R/DxXfplmEpufkPSUbHE
+         aiGLFnudcrAz3BO26ukA79xxPu0NDfpWZmiV4n7oxvSIvc0LOhrLmkJ0HIp/HSnBsAaw
+         U1zM5rz7KT/BmDkKPgJAyvU3IVyWAyrQQUdX7upKfgrpcOc3hgkSDSlmnzCx/7qJ8RdT
+         INOg==
+X-Forwarded-Encrypted: i=1; AJvYcCW4CvoVpqQEvW7+B5oLyCB5YcdoV+oy0ys980dUXJf8/2CNOJsxFYyProOy0/XVUmMhTxZ7sC5M3yS1JqCEOqQFuw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmCAN5Iixluqmcd9IrI0FKcvg3R+eLwbadmGO7EsneAKsceC8p
+	VofGi46aXo9IcDRFEs2nCi0bk2J0hm5lwehBHMa2jUM1QOOKcxcHCeVs7Lh3LQI=
+X-Gm-Gg: ASbGncvRYmJTJyM1VcJtEjTEDTUAPP9LuF7A9FfMmgoADsRzPDX6O+9P/siiZryualp
+	sRxiajnQIBwfUeLoj9RrIXtYRAcEQEsKiwt8v2nbBXt12LOIygooqBjpHnk1MMiu5YIgjKemN2r
+	Avmxop6mSs0csXLQeXYQAZqAjLnqaszQOMbmRMnkyEC1eb+5HgUJAuW9uTYHqYi24Z1vdyofbnY
+	r9CrfT+q9fiOHkXMd2JqSHpAR27eV8zUd8ldu50kubmNxPBQv3YRDI8EHhLH0sZDaCDVtDXs4ia
+	lT92x7Sg
+X-Google-Smtp-Source: AGHT+IEvXec05NePap0xg2+L8yTjn/PbPq51j1Lf2h7n3v46RbGZ/jBjPtqf7h5Sg7tKTHnIWh1xJA==
+X-Received: by 2002:a17:906:30cc:b0:aa6:2018:8741 with SMTP id a640c23a62f3a-aa639fa2ce9mr196485666b.7.1733483655271;
+        Fri, 06 Dec 2024 03:14:15 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.161])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa625eee2a6sm226877866b.90.2024.12.06.03.14.11
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa625eee2a6sm226877866b.90.2024.12.06.03.14.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2024 03:14:12 -0800 (PST)
+        Fri, 06 Dec 2024 03:14:14 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: prabhakar.mahadev-lad.rj@bp.renesas.com,
@@ -91,10 +91,11 @@ Cc: claudiu.beznea@tuxon.dev,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-clk@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 11/15] iio: adc: rzg2l_adc: Add suspend/resume support
-Date: Fri,  6 Dec 2024 13:13:33 +0200
-Message-Id: <20241206111337.726244-12-claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v2 12/15] dt-bindings: iio: adc: renesas,rzg2l-adc: Document RZ/G3S SoC
+Date: Fri,  6 Dec 2024 13:13:34 +0200
+Message-Id: <20241206111337.726244-13-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241206111337.726244-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241206111337.726244-1-claudiu.beznea.uj@bp.renesas.com>
@@ -108,114 +109,111 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The Renesas RZ/G3S SoC features a power-saving mode where power to most of
-the SoC components is turned off, including the ADC IP.
+Document the ADC IP available on the RZ/G3S SoC. The ADC IP on the RZ/G3S
+differs slightly from the one found on the RZ/G2L. The identified
+differences are as follows:
+- different number of channels (one being used for temperature conversion);
+  consequently, various registers differ; the temperature channel
+  support was not available for the RZ/G2L variant; the #io-channel-cells
+  property was added to be able to request the temperature channel from
+  the thermal driver
+- different default sampling periods
+- the RZ/G3S variant lacks the ADVIC register.
 
-Suspend/resume support has been added to the rzg2l_adc driver to restore
-functionality after resuming from this power-saving mode. During suspend,
-the ADC resets are asserted, and the ADC is powered down. On resume, the
-ADC resets are de-asserted, the hardware is re-initialized, and the ADC
-power is restored using the runtime PM APIs.
-
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v2:
-- none
+- collected tags
 
- drivers/iio/adc/rzg2l_adc.c | 70 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 37 +++++++++++++------
+ 1 file changed, 26 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
-index e8dbc5dfbea1..2a911269a358 100644
---- a/drivers/iio/adc/rzg2l_adc.c
-+++ b/drivers/iio/adc/rzg2l_adc.c
-@@ -88,6 +88,7 @@ struct rzg2l_adc {
- 	struct completion completion;
- 	struct mutex lock;
- 	u16 last_val[RZG2L_ADC_MAX_CHANNELS];
-+	bool was_rpm_active;
- };
+diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+index ba86c7b7d622..40341d541726 100644
+--- a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+@@ -17,12 +17,15 @@ description: |
  
- /**
-@@ -527,8 +528,77 @@ static int rzg2l_adc_pm_runtime_resume(struct device *dev)
- 	return 0;
- }
+ properties:
+   compatible:
+-    items:
+-      - enum:
+-          - renesas,r9a07g043-adc   # RZ/G2UL and RZ/Five
+-          - renesas,r9a07g044-adc   # RZ/G2L
+-          - renesas,r9a07g054-adc   # RZ/V2L
+-      - const: renesas,rzg2l-adc
++    oneOf:
++      - items:
++          - enum:
++              - renesas,r9a07g043-adc   # RZ/G2UL and RZ/Five
++              - renesas,r9a07g044-adc   # RZ/G2L
++              - renesas,r9a07g054-adc   # RZ/V2L
++          - const: renesas,rzg2l-adc
++      - items:
++          - const: renesas,r9a08g045-adc  # RZ/G3S
  
-+static int rzg2l_adc_suspend(struct device *dev)
-+{
-+	struct iio_dev *indio_dev = dev_get_drvdata(dev);
-+	struct rzg2l_adc *adc = iio_priv(indio_dev);
-+	struct reset_control_bulk_data resets[] = {
-+		{ .rstc = adc->presetn },
-+		{ .rstc = adc->adrstn },
-+	};
-+	int ret;
-+
-+	if (pm_runtime_suspended(dev)) {
-+		adc->was_rpm_active = false;
-+	} else {
-+		ret = pm_runtime_force_suspend(dev);
-+		if (ret)
-+			return ret;
-+		adc->was_rpm_active = true;
-+	}
-+
-+	ret = reset_control_bulk_assert(ARRAY_SIZE(resets), resets);
-+	if (ret)
-+		goto rpm_restore;
-+
-+	return 0;
-+
-+rpm_restore:
-+	if (adc->was_rpm_active)
-+		pm_runtime_force_resume(dev);
-+
-+	return ret;
-+}
-+
-+static int rzg2l_adc_resume(struct device *dev)
-+{
-+	struct iio_dev *indio_dev = dev_get_drvdata(dev);
-+	struct rzg2l_adc *adc = iio_priv(indio_dev);
-+	struct reset_control_bulk_data resets[] = {
-+		{ .rstc = adc->adrstn },
-+		{ .rstc = adc->presetn },
-+	};
-+	int ret;
-+
-+	ret = reset_control_bulk_deassert(ARRAY_SIZE(resets), resets);
-+	if (ret)
-+		return ret;
-+
-+	if (adc->was_rpm_active) {
-+		ret = pm_runtime_force_resume(dev);
-+		if (ret)
-+			goto resets_restore;
-+	}
-+
-+	ret = rzg2l_adc_hw_init(dev, adc);
-+	if (ret)
-+		goto rpm_restore;
-+
-+	return 0;
-+
-+rpm_restore:
-+	if (adc->was_rpm_active) {
-+		pm_runtime_mark_last_busy(dev);
-+		pm_runtime_put_autosuspend(dev);
-+	}
-+resets_restore:
-+	reset_control_bulk_assert(ARRAY_SIZE(resets), resets);
-+	return ret;
-+}
-+
- static const struct dev_pm_ops rzg2l_adc_pm_ops = {
- 	RUNTIME_PM_OPS(rzg2l_adc_pm_runtime_suspend, rzg2l_adc_pm_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(rzg2l_adc_suspend, rzg2l_adc_resume)
- };
+   reg:
+     maxItems: 1
+@@ -57,6 +60,9 @@ properties:
+   '#size-cells':
+     const: 0
  
- static struct platform_driver rzg2l_adc_driver = {
++  "#io-channel-cells":
++    const: 1
++
+ required:
+   - compatible
+   - reg
+@@ -68,7 +74,7 @@ required:
+   - reset-names
+ 
+ patternProperties:
+-  "^channel@[0-7]$":
++  "^channel@[0-8]$":
+     $ref: adc.yaml
+     type: object
+     description: |
+@@ -78,6 +84,8 @@ patternProperties:
+       reg:
+         description: |
+           The channel number.
++        minimum: 0
++        maximum: 8
+ 
+     required:
+       - reg
+@@ -92,18 +100,25 @@ allOf:
+             const: renesas,r9a07g043-adc
+     then:
+       patternProperties:
+-        "^channel@[2-7]$": false
++        "^channel@[2-8]$": false
+         "^channel@[0-1]$":
+           properties:
+             reg:
+-              minimum: 0
+               maximum: 1
+-    else:
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,r9a07g044-adc
++              - renesas,r9a07g054-adc
++    then:
+       patternProperties:
++        "^channel@[8]$": false
+         "^channel@[0-7]$":
+           properties:
+             reg:
+-              minimum: 0
+               maximum: 7
+ 
+ additionalProperties: false
 -- 
 2.39.2
 
