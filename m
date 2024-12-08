@@ -1,63 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-11052-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11053-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA619E819A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Dec 2024 19:34:41 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D58A9E82F9
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Dec 2024 02:23:30 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE981281C7D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Dec 2024 18:34:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DABA71652E3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Dec 2024 01:23:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01F1F14EC73;
-	Sat,  7 Dec 2024 18:34:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F585749C;
+	Sun,  8 Dec 2024 01:23:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aRughQ36"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IBxHcAvM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B488D7A13A;
-	Sat,  7 Dec 2024 18:34:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8FBBA4B;
+	Sun,  8 Dec 2024 01:23:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733596474; cv=none; b=ZESXadPT2bBppeJXt0Fgq9KmAKMn6iM2K+GcDSKhuEazkscjjcS9zc2dbAN+buRpPHozEdosEfRSPEKvZCdA4hr7hW2drZCCc/AX2h8o2FnAT0Uk4CC4881vFwLF52lXFsrUMPe6VvZQZatLjd0oev8EDIL8O5LqHp+suK3q8pA=
+	t=1733621008; cv=none; b=KYt6FgXmT9QYFsi0jGXRsBnMLcKKHed3It58M/1mAXOqE0rvyHvT3Rzf5uMTSgegQR5fbVUTXYuqDIq7OupOrO+Puam9yoFkd7gTz86ZfxNXYthazB233zvUQ/N8akRPHG5Y7cD9kxVOuOxTWSly20FV4yzxx0BVrBH14ffvDl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733596474; c=relaxed/simple;
-	bh=l+6Ko6CQ5FhFJ9D0H70DrCdGgtswUd0TVzG4Virbb1M=;
+	s=arc-20240116; t=1733621008; c=relaxed/simple;
+	bh=PzVhgMkLC9c89yGUCYGUzOqQa2wTdfZYLKCsIPcVrDo=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dn6NjRbro61+NOu09Y9ZYc9LAhnJ093AuZuKHh43c4XxADF9kZY1YttuE9sHr44Y7ZitlBdaawLdeZTYmyCDNRqBqU0yuRnwVbvg4ZDOstp3koefP3uaeWf/3WvLy486/T96YA1Tr2ofeiqgdRPEAqEoPKeTGe9CV8OE3D8bsvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aRughQ36; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFD49C4CECD;
-	Sat,  7 Dec 2024 18:34:27 +0000 (UTC)
+	 MIME-Version:Content-Type; b=o6UMrvpLPuK9iE3tdxD0qjgZUzV8QaxE7DH5xnszfhKlKqDz5w0OWU6jY5LqZrejMH5jwDHk4Ds9+MogOUnhbP8uHMltNWVoHS8E5pPl4EtUSSAgFYgkuOtDYHqdicE9Icf6OWHqEMlP4JfaNEYaYzEWOLzcEpuLeyWlYow35oQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IBxHcAvM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2266C4CECD;
+	Sun,  8 Dec 2024 01:23:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733596474;
-	bh=l+6Ko6CQ5FhFJ9D0H70DrCdGgtswUd0TVzG4Virbb1M=;
+	s=k20201202; t=1733621006;
+	bh=PzVhgMkLC9c89yGUCYGUzOqQa2wTdfZYLKCsIPcVrDo=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=aRughQ36HT2p4loQhbrJkiIfTBvFZz91GBRwnCJCmGvtbTqiBOZuBbDWshas8KGBk
-	 lSkVPnvf4yVh2utuJ+WwJC7FyZTJa8ktz8VV30Ds+J/o7L3No4wdCsvY1sv1zO65UR
-	 CimPYlXWqb49mUxZkTTU7sY2Upp8HRv1wj8SgwTHVcNndPe8HGz1eWzNytHZjmXNt0
-	 60GbB8DHrkpXEazqFCcnn2mB3AyR3HCp4uLP/paRZTqGbgY2ebbAIuwsDPvRnkFeQs
-	 czdP5raLRs+Ta+3kmGBDfluAsPeoN8SApd5pzi074m4G7ShPCGySY3WyyySsxMQd8b
-	 l7pA48A1CFWPA==
-Date: Sat, 7 Dec 2024 18:34:23 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, lars@metafoo.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com,
- sboyd@kernel.org, p.zabel@pengutronix.de, linux-iio@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v2 13/15] iio: adc: rzg2l_adc: Add support for Renesas
- RZ/G3S
-Message-ID: <20241207183423.4af1f988@jic23-huawei>
-In-Reply-To: <20241206111337.726244-14-claudiu.beznea.uj@bp.renesas.com>
-References: <20241206111337.726244-1-claudiu.beznea.uj@bp.renesas.com>
-	<20241206111337.726244-14-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	b=IBxHcAvMTouCVQfaXaf6jz6KyOj3nAiODV/fty1jhdZIybhFv8x3XEM0OUGpUPEsM
+	 Jxlwb0J/MqmfG6WbYZYjb9XukvFS/kGf9z9H+vUYVEPQTTGHuvEFB5FX5Vf+KFleGU
+	 tIoJ4PWjo0jbKPmn7EEaNeBSNO62VaAAi4B3eYfKaumoDH4MdruMtbyXDSPZlbcy5j
+	 79lUJOVdLg4LTJqgBjVFZ/HDHuyiKsJs/SnoWDTRdmIrGtRpKzkx6IcL2Lm7xqmIhA
+	 Sfd/a6cQnSK7lkgfw4MZ+2p/pFrduZ66D5WI6VHz8j1bJWagQjiaMOCrozuUOyXCDa
+	 dcRN3+mxNqOtQ==
+Date: Sat, 7 Dec 2024 17:23:24 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Andrew Lunn
+ <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, Michael
+ Dege <michael.dege@renesas.com>, Christian Mardmoeller
+ <christian.mardmoeller@renesas.com>, Dennis Ostermann
+ <dennis.ostermann@renesas.com>
+Subject: Re: [PATCH net v2 2/4] net: renesas: rswitch: fix race window
+ between tx start and complete
+Message-ID: <20241207172324.6039dae4@kernel.org>
+In-Reply-To: <b39e495d-dd23-4965-bc1c-b30db81be0f8@cogentembedded.com>
+References: <20241206190015.4194153-1-nikita.yoush@cogentembedded.com>
+	<20241206190015.4194153-3-nikita.yoush@cogentembedded.com>
+	<b39e495d-dd23-4965-bc1c-b30db81be0f8@cogentembedded.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,60 +68,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri,  6 Dec 2024 13:13:35 +0200
-Claudiu <claudiu.beznea@tuxon.dev> wrote:
-
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Sat, 7 Dec 2024 00:18:11 +0500 Nikita Yushchenko wrote:
+> > 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")  
 > 
-> Add ADC support for the Renesas RZ/G3S SoC. The key features of this IP
-> include:
-> - 9 channels, with one dedicated to reading the temperature reported by the
->   Thermal Sensor Unit (TSU)
-> - A different default ADCMP value, which is written to the ADM3 register.
-> - Different default sampling rates
-> - ADM3.ADSMP field is 8 bits wide
-> - ADINT.INTEN field is 11 bits wide
-> 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Hi Claudiu
+> Sorry this patch sent out broken, I've reposted it fixed.
 
-As my comments were all minor stuff, I have applied this.
-However they were the sort of minor changes that result in lots of
-fuzz and hand editing when applying so please check the result.
-Applied to the testing branch of iio.git.
+You need to repost the whole thing, sorry. Patchwork is not clever
+enough to understand patch replacement.
 
-Thanks,
+Quoting documentation:
 
-Jonathan
-
-> ---
-> 
-> Changes in v2:
-> - none
-> 
->  drivers/iio/adc/rzg2l_adc.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
-> index 2a911269a358..81904e2c4075 100644
-> --- a/drivers/iio/adc/rzg2l_adc.c
-> +++ b/drivers/iio/adc/rzg2l_adc.c
-> @@ -502,7 +502,16 @@ static const struct rzg2l_adc_hw_params rzg2l_hw_params = {
->  	.adivc = true
->  };
->  
-> +static const struct rzg2l_adc_hw_params rzg3s_hw_params = {
-> +	.num_channels = 9,
-> +	.default_adcmp = 0x1d,
-> +	.default_adsmp = { 0x7f, 0xff },
-> +	.adsmp_mask = GENMASK(7, 0),
-> +	.adint_inten_mask = GENMASK(11, 0),
-> +};
-> +
->  static const struct of_device_id rzg2l_adc_match[] = {
-> +	{ .compatible = "renesas,r9a08g045-adc", .data = &rzg3s_hw_params },
->  	{ .compatible = "renesas,rzg2l-adc", .data = &rzg2l_hw_params },
->  	{ /* sentinel */ }
->  };
-
+  Partial resends
+  ~~~~~~~~~~~~~~~
+  
+  Please always resend the entire patch series and make sure you do number your
+  patches such that it is clear this is the latest and greatest set of patches
+  that can be applied. Do not try to resend just the patches which changed.
+  
+See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#partial-resends
+-- 
+pw-bot: cr
 
