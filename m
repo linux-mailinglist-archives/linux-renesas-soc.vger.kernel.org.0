@@ -1,88 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-11103-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11104-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6959B9E93BE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 13:24:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9C39E94C7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 13:49:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53CC2165397
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 12:23:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 13BE7165B51
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 12:49:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06B9C22258B;
-	Mon,  9 Dec 2024 12:23:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87501227578;
+	Mon,  9 Dec 2024 12:49:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDDA21D008;
-	Mon,  9 Dec 2024 12:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A822163B5;
+	Mon,  9 Dec 2024 12:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733747038; cv=none; b=LeUx1NiFWwvwgarraFXINJbEZiv9WQLMoLVqnf+YfAVGJp17BfStS27vG91I18w15bZCPjOQX+EBIpyfo+2dPMGsGaWvHU6TWD0op0a+WUFZQlJQFkMjRs8znbsbqed/LCCVDHgfkKCyXEJQaaeyzB4wPfbja71uGb46tu6bSsA=
+	t=1733748542; cv=none; b=Qn2rr6szEK1roRhXwEcVBIYPaTSP+hiQZaUWmOl34LOckt0LZNWcJHmBaT+OS1iwEC3+2iF0PJIJsH4oDNQDzER5294RIp37i/e9YYYshNggRH0mHOqVQWP7hC2MlmoUBIclRSvjXAGKsMNq31GpbUlBkdjFZgxvCJtoT2mqafI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733747038; c=relaxed/simple;
-	bh=nJWsB2IKS0EcKbW6Pme62FOLn+NLxCo9ZDwpU8lvMuA=;
+	s=arc-20240116; t=1733748542; c=relaxed/simple;
+	bh=KRnVJqR5zgovk7btCjKppkXMqEKHu1JoPSZXRxXJcjY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U7zeSmea+/rjUGDK5zpnOfDmOYjT2tUnh1W0smqtRE8qwc9g0NXwmrL4NzF2OUu3n6NnipDnGnRowRP47551tpSJFKIdQoFHAGFSj/x7xvWZNG3R/Wu6AhbW2p42QA7SrxEFJUzoCarQclB6m5Hw8z9Fmn2NJIx7ItQADWaMJUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+	 To:Cc:Content-Type; b=pK1YbYXdl3wA1jJoSIcJSB17itJ7lk4n8unkVlObRt10DraiGu1IlEVcgiHBH0hKwZed0i0HDROIl5M55KOu8LqKZ28p/D8tJVWgDwNWxdabRUOP72ujt08diRYbX9Jn/a1ip6oc5Vpl3GkH7BK3oDpkKfzCCYuSe13mUQF9Syo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-51882c83065so207528e0c.0;
-        Mon, 09 Dec 2024 04:23:56 -0800 (PST)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-515e2a94fb1so928514e0c.1;
+        Mon, 09 Dec 2024 04:49:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733747033; x=1734351833;
+        d=1e100.net; s=20230601; t=1733748538; x=1734353338;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8BZxzxSlX/poqaet0n5zcusvxow0QtKoWGJb3xa8Qns=;
-        b=irHdrpjsxZWpCMAwbTpcV+cMnQFAKEs2M3OpPabPVFx0VehovqrMbyK5ewuhI4xbeh
-         UDd8AVw1/w5JVgASje4De2Yug8js5od4+hPrY4BpOdznQAocZzKzRrWfj+02SDrv6qd8
-         qpcZ4LY0qygum4Az2cXNghFHnnhJryrF9GeZJfhZ4mCPE+y4ZAfSkANK3Uwyg2hQSJrz
-         LYUCNGW2Vp/xxjMwF61attBxwk8Mjk4A3ii04Ba1Lr18AlnCdGbT/EwqmMdKEkMYWRJ+
-         nqsCrAn6ttgn3H/uYjtsSifwa4Jb2efXfF2guGteEdUibXvS7kiS1qd6h23M1qRwEU2/
-         Oqfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUGpeFRNqb+a3kpYsLdjnRD3Pz5TWfLW5k5Ezv4aVBPSYaeI9OZ8qkH4FceOu9kq6F8rL87aJ+xRmzWL0M=@vger.kernel.org, AJvYcCUNx0v6zQ9836hVbGY+zhhb6+jvwo2NAMiGvrO33x46x8smR7rRI2ELP/r0fzcYQ/7JDsYOiFaTFO/MWg==@vger.kernel.org, AJvYcCV6I5EX39iOOi5YTK7y/PF8tCa+p/gx5ZMYKB0eropWV4Mj7lhKOh0951KwNhr7Q8rocdpg6Byv2Uby@vger.kernel.org, AJvYcCWCvRXDIuEaYn6i2zAM3VDXwb7tC/3afzGt855uLu4tdAQttzzDbTAnYM6wI2bvVOraBvgudE8rYquW@vger.kernel.org, AJvYcCX/HKYuNkep/cx3iATkHz8hJukCzwwJsNEaEE/9+GeBrf5V4JWILUhvIEHd3IBBR4CybLvWge5ecApx5SZjrvMPUts=@vger.kernel.org, AJvYcCXvGqzpwyNwCwHHT7yfJXaF4c+KOPwYFfNi/gN0I3dQdrmlxx0X+GHhRII1CxAK6h9EvJZY1dMLA0bssrYo@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiVfAKUYkj3hUKGADyv/Uw95LwdPIAe1nYS4/Qg4ZD+N7KhBHd
-	8TvgSHeVgu8VbP4XEFibyveLX6ArVFr58+IqAuwgzzVU8xHbftstRCihyddxsxM=
-X-Gm-Gg: ASbGncs0F+kWarH1LJCLe643kkvZ0+eGRHr4MzMCbM32B6j5kadi6YTwc0tIfqG0ceM
-	xD6nO1vnUAM2F+ZCAmaS36LqgzZDPQfU5tR7hoTTERGMnL45ShW+Xda/kB7vdjwBvk4i47Ec4fv
-	C5RbgTDl8t155ap9AF8SWs8UDFNVNL5tRW92TlkaSVrxtxt6+gTPYZavj4t9Ov3tO6ZBsdpjQna
-	+MfR9sGMjkzVmtMy/eTGkeD9SUZN8SWJwdlh4smcnSOgYJZxmOejCmMTg5ANYiNSnbRFwXZZLbU
-	ILOF9IHkAl4V
-X-Google-Smtp-Source: AGHT+IEO20GkTs2CycQBAGmUXZj+6oDD9ikGyapwN8cPxFSZ6eobYvT8YbQbdxsr4LGygu2lo1VIqA==
-X-Received: by 2002:a05:6122:885:b0:517:4fca:86df with SMTP id 71dfb90a1353d-51888360b17mr269778e0c.6.1733747033325;
-        Mon, 09 Dec 2024 04:23:53 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85c2b9669a5sm1164138241.3.2024.12.09.04.23.52
+        bh=xguzG2kN5bHFp1BhztI5kdqvCpSXEyn5KvtWxBMicaY=;
+        b=el7l/0xNoKpyRv33OibMgeHhEMZqA1IwHDJeDLo+sx0fDObWIzaxXNKOb9GfMNi1DJ
+         e0sD9x04/9bWq9sCCIl1j482Q98FepQ6sWOC+4bbomkU3bNSujlQ+s8K19db1Tq6PChq
+         5BFj6h9STku8BJDXyhWqTX9hyQwDb8vWBQEGCYDG0a/HGCy0134r/crGesMH2euw28jE
+         KwJdVjmdFYOVxsZxA3KdPOC13S7MyeN7xunY8iAjp20/Z2HgDsaoB0z1iHyvJixYNZ0y
+         hKfMJSvo1NP2EG0oBlVt0c+6UVCVPlpD0oOU5esKHyPLdJQ6p9GLMREyBC5s+oeHX+/7
+         YUPw==
+X-Forwarded-Encrypted: i=1; AJvYcCU0A/yM690MFANB0sV/8Q1iTOcB5M3i/aTe020KXeObkHkLEdVA6bHmNDhLJXj12Y2Q2q7vhjHezpOsOQ==@vger.kernel.org, AJvYcCVCRkERxIMrQudHszhDXT1EjtCYFxyWPztY4B3IOxE2SyWg/qQOah/qQe4EAr6WOO/ttPywI7v2C+Nq@vger.kernel.org, AJvYcCVdpMeIFSv7hITU9bm+aggef/9I954R95qCJG1f5nTv5UyzoSmILy3LxhG6OjRJ6QxXceHGMB810swG3hva@vger.kernel.org, AJvYcCXQjE78F3+S/TUDF/0ojl16IwkfPmDasIxZBeG5iVTOTbLmAdbUZ4B6VFTthvCeKNVwmPtZa5Z5ZREx@vger.kernel.org, AJvYcCXcIkUhnosVKIQ/25A/c1EVccAUiJ99iY0pZJF/IJoh3LRLLOCV+xnl8LWbFJ1spl+BW/iHp4MZm5VqfwE=@vger.kernel.org, AJvYcCXupLA1ZHFZ2Rxt+1OBoBGjaJzSoMSg5qjukEZO4M/4zj9T4hIWWzveiFT3LuZ70vt8qiWMDJnbjBse0P6hFiBIyIo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy66aj3qX2aJNpaAr1BtapsT75AAn7/LjeEHMGdL1uLst/20Wwn
+	QiNiLGk/4RYOO0wiZKseNf4xaWd3t1NJJIlGAp3hEODsWlkHT1w9gAc9ZfJ8DxA=
+X-Gm-Gg: ASbGncu0W0XTbwSmpR9tb0Hvisz/N4Re7M3YWx8Sy5rukeQwmnmmGTraYVWn7JOQ6cJ
+	q74F//8eE0s3U+zCl9T+a0f4+GQoquIL0URyyXx0tMSUD9ZoIYuE2hlXTBS77j5BysuchulDqo5
+	n8RVrrTnp7lXQKF5T37GYIwN3Irxw/FEVMO9BHvT5M1zrzMyO8PAIruhQnZD1cP9zmlCsxHab29
+	6amscaepIWroIPl2M5z3f5RMclZq+pq4smdQy1sjwUjuctruuezV9bS0TItDjZhOV9ne8EMlu+Y
+	y8iuv0ReSgTw
+X-Google-Smtp-Source: AGHT+IGejzoVv2j+0q9V3WQPXS5YH4b/x++D676z+IqbeBGgp17OK9kUnb4c5cW5I1CF6a+qybBjKw==
+X-Received: by 2002:a05:6122:3bc2:b0:517:4fb0:749c with SMTP id 71dfb90a1353d-518882ebfa8mr318969e0c.3.1733748538086;
+        Mon, 09 Dec 2024 04:48:58 -0800 (PST)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5187a500e9bsm149201e0c.16.2024.12.09.04.48.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 04:23:52 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-85bc7d126b2so1859306241.1;
-        Mon, 09 Dec 2024 04:23:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUF25LH1oXM0vpCUwLkm5DVIp3ZccCm3kFL4p1/zNQbAbA3sFzXVo0HWr3HYCByUlzpYiSl7ftPeSCliKtY@vger.kernel.org, AJvYcCUl8ats+VgCrlQCfUGZoOjpq4qlwJGRfjM7n2JwH2urWjE/jg65ILQqJBD8iB/+PvjWE77jD0rIgFiN@vger.kernel.org, AJvYcCUpqR6oEzJ1GMTRXr6IiHPIxHFoUa/dfdzTY+TvHJCQS0PEXyknCjxw+tXSI192xUh9jZdO1k6/LZh0mjWi2xa+l7Y=@vger.kernel.org, AJvYcCVSsHRVjXdlmu5b9JNQ/tteLcT219q/QqWTy+st01BIEvaAq5bTva3fnpMtLnWdXmDh/1F1f8YNQ3R7mw==@vger.kernel.org, AJvYcCVZWhrnDGIEJpHzuf6OcGC6V0PZ4NCRxIc5qmyNduKWyebn8DSTM9GSXfZOid9uUS/zMPHn+0uIx7lTFOU=@vger.kernel.org, AJvYcCXpQgmC3YhcsppqyN+k/UVdZ0QaR01PNj0e5KbVpqotMJkpApNPJI2GSKNfQeKcfDXiYcNdmpH7s41N@vger.kernel.org
-X-Received: by 2002:a05:6102:38d2:b0:4af:e4fb:2f26 with SMTP id
- ada2fe7eead31-4b1161e5287mr246769137.24.1733747032476; Mon, 09 Dec 2024
- 04:23:52 -0800 (PST)
+        Mon, 09 Dec 2024 04:48:57 -0800 (PST)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4afdfd3124dso569807137.2;
+        Mon, 09 Dec 2024 04:48:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUBrV5MWwKR2O4MZBfZOr3tfDB47/H5rV1sMCvTbfmwGFYKHC2Lw2rShyWU8G2OAx3RQyJIczgLZgGxjUg=@vger.kernel.org, AJvYcCUDNLc8gQ13Rh8BFUzaeuu4bHqqXUI+KWS3MsY+I5foVoMomA1Yozrraz0j5Uwtpcz7ov/emNGTypXKlg==@vger.kernel.org, AJvYcCUj/WGP3gYCVyQ1PVwCkZQVsyFa924QUBnGr9oiCSnBmo+4hFmX/o1qMZoEbxzrXllU/qb7A2ubrbiV@vger.kernel.org, AJvYcCVNVj4JCN/J7uRR+2WAqqSCT+1IqnNN2g8j5Pu7T9Z4ivwnSYBriy0P+dq9UFbBYnIydOLtjLtikpF4S5GMC2lbhPM=@vger.kernel.org, AJvYcCWU7I3/+DKWWy5nQrdcT9SXMZbBmyU5c86oHsP+OPkzQcHX1IYLUju6BgXOUtQYxroSouqfDUL3ntD4fVDl@vger.kernel.org, AJvYcCWWhvnYHwHBBM8vxXYj7ucmhkAuZk5LXVSldTrwV6YvAbpy1t4mULMsfWa6v5epVjiwl9BBB3kjKsr1@vger.kernel.org
+X-Received: by 2002:a05:6102:cce:b0:4b0:49ba:8287 with SMTP id
+ ada2fe7eead31-4b1160bfbabmr348406137.13.1733748537466; Mon, 09 Dec 2024
+ 04:48:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
- <20241113133540.2005850-3-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdVv+2tEQ5hf+sbihbJMo3+=8kJaWy0YNU_spxQnmWF-bA@mail.gmail.com>
- <d65354a0-c4b8-4379-b824-f4541718a3c2@tuxon.dev> <CAMuHMdV8M49m3h3NshzK+KRbT1G7U8hc09T9xUH0Gz1GefUcMg@mail.gmail.com>
- <91c80c8e-729d-46ac-bb05-2cdcdb95ba1e@tuxon.dev>
-In-Reply-To: <91c80c8e-729d-46ac-bb05-2cdcdb95ba1e@tuxon.dev>
+References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com> <20241113133540.2005850-4-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241113133540.2005850-4-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 9 Dec 2024 13:23:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUyYuWkUjT2-MuALKxkeNfBCx06tHSjEFxG8_aEZAoC8w@mail.gmail.com>
-Message-ID: <CAMuHMdUyYuWkUjT2-MuALKxkeNfBCx06tHSjEFxG8_aEZAoC8w@mail.gmail.com>
-Subject: Re: [PATCH v3 02/25] clk: versaclock3: Prepare for the addition of
- 5L35023 device
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Date: Mon, 9 Dec 2024 13:48:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXuN=WSrw+k_6vgOQGSuT7+yABbCeVCeXs95mhCPrHiWQ@mail.gmail.com>
+Message-ID: <CAMuHMdXuN=WSrw+k_6vgOQGSuT7+yABbCeVCeXs95mhCPrHiWQ@mail.gmail.com>
+Subject: Re: [PATCH v3 03/25] dt-bindings: clock: versaclock3: Document
+ 5L35023 Versa3 clock generator
+To: Claudiu <claudiu.beznea@tuxon.dev>
 Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
 	krzk+dt@kernel.org, conor+dt@kernel.org, biju.das.jz@bp.renesas.com, 
 	prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com, 
@@ -91,97 +87,25 @@ Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
 	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Claudiu,
-
-On Mon, Dec 9, 2024 at 1:22=E2=80=AFPM Claudiu Beznea <claudiu.beznea@tuxon=
-.dev> wrote:
-> On 09.12.2024 14:16, Geert Uytterhoeven wrote:
-> > On Mon, Dec 9, 2024 at 12:14=E2=80=AFPM Claudiu Beznea <claudiu.beznea@=
-tuxon.dev> wrote:
-> >> On 09.12.2024 12:57, Geert Uytterhoeven wrote:
-> >>> On Wed, Nov 13, 2024 at 2:35=E2=80=AFPM Claudiu <claudiu.beznea@tuxon=
-.dev> wrote:
-> >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>>
-> >>>> The 5P35023 and 5L35035 Versa 3 clock generator variants are differe=
-nt but
-> >>>> the versaclock3 driver could be used with small adjustments. The fea=
-tures
-> >>>> that are implemented in driver and differs b/w variants are the PLL2=
- Fvco
-> >>>> and clock sel bit for SE2 clock. Adjust the driver to prepare for th=
-e
-> >>>> addition of 5L35023 device.
-> >>>>
-> >>>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>
-> >>> Thanks for your patch!
-> >>>
-> >>>> --- a/drivers/clk/clk-versaclock3.c
-> >>>> +++ b/drivers/clk/clk-versaclock3.c
-> >>>> @@ -166,12 +167,17 @@ struct vc3_div_data {
-> >>>>  struct vc3_hw_data {
-> >>>>         struct clk_hw hw;
-> >>>>         struct regmap *regmap;
-> >>>> -       const void *data;
-> >>>> +       void *data;
-> >>>>
-> >>>>         u32 div_int;
-> >>>>         u32 div_frc;
-> >>>>  };
-> >>>
-> >>>> @@ -698,8 +706,6 @@ static struct vc3_hw_data clk_pll[] =3D {
-> >>>>                         .num =3D VC3_PLL2,
-> >>>>                         .int_div_msb_offs =3D VC3_PLL2_FB_INT_DIV_MS=
-B,
-> >>>>                         .int_div_lsb_offs =3D VC3_PLL2_FB_INT_DIV_LS=
-B,
-> >>>> -                       .vco_min =3D VC3_PLL2_VCO_MIN,
-> >>>> -                       .vco_max =3D VC3_PLL2_VCO_MAX
-> >>>>                 },
-> >>>>                 .hw.init =3D &(struct clk_init_data) {
-> >>>>                         .name =3D "pll2",
-> >>>
-> >>>> @@ -1029,9 +1037,16 @@ static int vc3_probe(struct i2c_client *clien=
-t)
-> >>>>                                              clk_pfd[i].hw.init->nam=
-e);
-> >>>>         }
-> >>>>
-> >>>> +       data =3D i2c_get_match_data(client);
-> >>>> +
-> >>>>         /* Register pll's */
-> >>>>         for (i =3D 0; i < ARRAY_SIZE(clk_pll); i++) {
-> >>>>                 clk_pll[i].regmap =3D regmap;
-> >>>> +               if (i =3D=3D VC3_PLL2) {
-> >>>> +                       struct vc3_pll_data *pll_data =3D clk_pll[i]=
-.data;
-> >>>> +
-> >>>> +                       pll_data->vco =3D data->pll2_vco;
-> >>>
-> >>> You cannot modify the global clk_pll[] data, as it is shared when
-> >>> there are multiple instances.
-> >>
-> >> By "multiple instances" do you mean, multiple versa3 devices using thi=
-s
-> >> driver? Do you know if we have such a board integrated, ATM?
-> >
-> > Exactly.
-> > Currently there are no such (upstream) users for 5p35023,
-> > but e.g. the Beacon RZ/G2M kit has two 5p49v6965 instances.
+On Wed, Nov 13, 2024 at 2:35=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> Are you OK with keeping it as is for the RZ/G3S SSIF support and returnin=
-g
-> back later with a solution for the scenario you pointed out? Although, AT=
-M,
-> I don't have a board to test it.
+> There are some differences b/w 5L35023 and 5P35023 Versa3 clock
+> generator variants but the same driver could be used with minimal
+> adjustments. The identified differences are PLL2 Fvco, the clock sel
+> bit for SE2 clock and different default values for some registers.
+>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Fine for me, as multiple instances were already broken before.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
