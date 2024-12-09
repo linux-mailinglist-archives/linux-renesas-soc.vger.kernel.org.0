@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-11101-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11102-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57AF9E93AC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 13:19:21 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 841D39E93B8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 13:22:23 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6165F18860D2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 12:19:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E1DCA2834CA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 12:22:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C5EC221D92;
-	Mon,  9 Dec 2024 12:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30E942236FA;
+	Mon,  9 Dec 2024 12:22:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="oW5nQr5Y"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="NfM0HMg1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E4721D008
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Dec 2024 12:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B57221462
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Dec 2024 12:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733746756; cv=none; b=pbqri4wbJ0F85gdEnlllEB5+Mc2Ffg2prDIfmJoB7cy7r9o31KyzPm2b2lrsjtc+uGvGfVCOOzLZ587p/I2LE7caEmKuRlc5VujiJzh2zi6amapJ4XaBdbGJC+Om7Og36tL15kGS4Ed85M9caDLDjzBj227Kk3vdE6cH25m0360=
+	t=1733746934; cv=none; b=freQKR/Mp0BgH9Xh/VFGTYb+GBOTZ4zknKU4CfNlNeg1ZFh7z4s3WhZ8yiq4eYxlONggoSoE7yibcm3fkNfPviv4vEvYCXIIDZxcDRdPCrTmXoQYYSt2IMsksdBkQs6dzc2/ZeOHo+GqIcyXHFh1xIZkZzIf0xZckygTcNNvtpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733746756; c=relaxed/simple;
-	bh=qp3Y/LVEDaO5z/Uqygu1OydOrQxYf2qFm0FiHDbtkyE=;
+	s=arc-20240116; t=1733746934; c=relaxed/simple;
+	bh=P69xlLlnsh6tfh5k/PNDJbpFeIwWZrU2caWat8R3mr0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hQt4dmcCb2j5u/mS6Q3uccmrv3fzKDxHRDk1uWVVnYPdKArIT1wfcBANR2hxfZQOywHl5fPhQnNT3SG1rnh06/CndiS5TnHNCHJBrKifwQp1VsWZ52b7B9VUFE5fvPJYLPmYuP3NBA9YyLB1OBdft9WJb97Q8U6BmBqq/mii0Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=oW5nQr5Y; arc=none smtp.client-ip=209.85.128.50
+	 In-Reply-To:Content-Type; b=Gvt3rI7iqLW5Xc5fosNjgI69bzy5iCfpFIcpEUWIg4GtQCAKdTL7eXVJzm+jh4FZFz05Ub4s7REO2/ifv5YbyHNGJ4l0ndkIBYZeXPZm+akxjA0trXR9fsa8YVus47EmJ3it/sz/MdHqEOGu50sqECOKzd/0WGwyg563qtObzBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=NfM0HMg1; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-434a2033562so41288865e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Dec 2024 04:19:14 -0800 (PST)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aa670ffe302so218688566b.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Dec 2024 04:22:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1733746753; x=1734351553; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1733746929; x=1734351729; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=g6TXLCmeBtqwcjExK8OgP8zbYx9UMdL9nhBZ7RXb0/Q=;
-        b=oW5nQr5Yf30W7urZDT5wpanMZilR8Twunai4VHFUvsjepHGAT8LKstFrEjEHhaesTM
-         GHOZOIPXtf7WPvhAVK+v9wxUnQhoJMCuMYPofw6m4LcSq+T2V0iuKQ51wjZ3MiOAJrNd
-         QXCRMRl2KxyxdqUmOdTSfYXlyYvnZJNnTAgpyRN7HtdLgalPK5/MowanG9mfPDRdSN6H
-         lUIoc6kmQKEz869t3/DOOx3dF7Z2j8jin1zu598Vlgr2EXqlm1/waUuVq/uYVS6c43SQ
-         lNohGV5tEg+m1UdvOhkcTC6qiQ6aYyyqrSwD7C21RTRxQAc7h6PAmXjkzQwMmQHDoPiO
-         vJOA==
+        bh=HPvy/PspRQz6rBMMwakJ01l4PrgBxzRdAz/Y+7Xngoc=;
+        b=NfM0HMg1s4G6ZeYUU+YXFqYWmuu9kBb62d4UYAsbMjbYxeGbPfov/wquDjXkeEt0kf
+         WxhIImhFep0Tsu3HZSsbOd6L3iFJIjZphU6xHSMAVfNpBBFJHlwotZS0fgIp7nr+gtOk
+         3Q4wHwvZRdtmYVcbAD/5p/Aa0r2V2CMGo7FujAjtROKsISXAW9YIv9uUc3zf9lXAppFx
+         b7Jx4WYmkeJ2VgJH9o6vPQF3uMRP5d1VIbxObCf9H0mAPV8AuaLQzoDrKnWq7bIR11JT
+         KcHPi7grYXvbT1ivhJdwDNPqOzhq2Jupqj7Tcvc3kKktPUFUqJ6zWk14KyL8l+bdAPkN
+         yNPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733746753; x=1734351553;
+        d=1e100.net; s=20230601; t=1733746929; x=1734351729;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g6TXLCmeBtqwcjExK8OgP8zbYx9UMdL9nhBZ7RXb0/Q=;
-        b=tr4jeo6MEVOviJesFu9iYmWwu96ReV1UPxE0fHjsX3vgxmlCnGLnuAvD7caLbs4z2W
-         CF1E0VXan+KlBQKOZB1b8GKdJSt2gpTT9xdexwj+Hdp5N6HN2saAM7U05gB6/6xNYviv
-         vRBu6un+f4+rhnGHwck3ilq8eLNFO9l0ic9DS4gYHn0RkOLr1JYh91pt+1uk7oQ75VGk
-         4PpXVXGr2oYvVh6bjtMiQ7b+fd0qsQsqq6r9YtpjZts37ahvp8AawMmU3DOeNEydZNYN
-         cO0/MsV3Nu685z5LTgf+VVBFBKDMsdP50to2NIudFDxtsxic/hUDC/LMs2Kz8Km/nDyn
-         Niyg==
-X-Forwarded-Encrypted: i=1; AJvYcCVtWX63Ngim22eQL6nuwjaW6Y7yOy1uuqKFGZrtLqRPMvcqbitoIlBuokXkyM9dEf9uIsiiGLrNl3ln75MKyPj7UQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvDl0msqJHlSfdYT6yd67fba0Q3Zau4zx5F0HqIn7oTUXVH/Lw
-	tjglxhTV3GTQJARmVongHA/s7OPl6X0KQaaEr9FKnjngvwf4jV+4Pii5UMvFAok=
-X-Gm-Gg: ASbGnctVCRlQC23mwFyqJlks/PAqhokCV+NwkVdLAvDrAYwl6nzOKug4iQJ6bfykJjP
-	Np1WlhVj2cJT2zxDtYQmOzoPGNLrDBrFLiDk0t73AyqbhcDAHb49vLR1dMrlcTD6CO8aF0UEaKP
-	aeuRi0KFDW1n6P/wXO07At46ex0AXS7fqHjK6NTKWdKZO8koIjz5NvyY51bgnm/kinPULsm188m
-	lSNczlRmVCUEWuNCBzVn1oaP8sPDzGuUAYNYbB6CpISqRePG8evLHsH23Y=
-X-Google-Smtp-Source: AGHT+IH6u6S3dLH84zc4slPIQPWBEWQFCdhlzXqKbsqdXDHKIEy3XG/pqMdZoy1Rfc/9UToO8A7ZbQ==
-X-Received: by 2002:a05:600c:3491:b0:434:f3d8:62d0 with SMTP id 5b1f17b1804b1-434f3d866b3mr41984585e9.3.1733746752835;
-        Mon, 09 Dec 2024 04:19:12 -0800 (PST)
+        bh=HPvy/PspRQz6rBMMwakJ01l4PrgBxzRdAz/Y+7Xngoc=;
+        b=piJpASeoniNOgaVG3029EJkfn6vdihQE7r0uKBmuMH+C+XstIBOZNgYZCY77f0wyfp
+         d2nxBRcafK5yiK9sIx48Ro4D1aTOFLNs04shlH+JdqvPQCvbXcQqA2h1Q+mzDuMtZqZK
+         wvAb3fFLhf5Q5cNIC/QBBhJmhDJtHnivhkB85aYoZgCr5SEPQAtGMwOXeUVFEwLGx0Mk
+         fRhxXlWN2EzbbhKANzPJwgPXlqfqXar8zBa49aDyTYm/V8cRqxyxnB5DQrlJ9n5MExtQ
+         QorfJjQY0kyNwR9Pb4zdFtw6D1Po2GE7raqWNud4KFtBHl9ji+094Hk2PIsMeVE6uUEA
+         v0sQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWVFLROdJSDO9QKbAaIlbkKYksTavRsOelHPlZXBI/VOlnL+z0qWM4w2qHHtmPjY5GSwEYMvAddu/H23Jwzuy23Hg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtoIbXs2X0RUT+jXZCfUBmz1n2BMExRGnm+7EinNX2FX/u9cEK
+	u/RpEeQDIeAbnpBQMpGA6Eh4ol5HHTn4UU7h9lQ0DMJSLGMKnd2i1zKRz75v/OY=
+X-Gm-Gg: ASbGncsAupbw9OwbQGeK5CJe7P8gbEf0LlQ60SkHfsnhWkz7d35s7rZckoJTtwnt9Io
+	fZx1Cbwa1GIFpZ1IENIopAqu0+IEao3jhzp0Jgi76oADAMPq58ufbwB5Tqp2+2vfCF/xoecTk4W
+	Z1HHQv0fyoEjEWRlqGTjihM7Eq5Dl/1O/7DHnrtHWX4hcczeTmxedZp+ada6MlyugbmFDawKGG5
+	esquHm49fkEHKVQuhpBAYn+piIQ1D/DxhX3ymU2M2Za7xGYHPoNfb/+ULk=
+X-Google-Smtp-Source: AGHT+IHdIFr9jhhsBk3LA/yMhIo1sPstspknh/fJv6TIYCYORpTOtn3BgFqoQz0uOcxmOjnzfBpxdw==
+X-Received: by 2002:a17:906:4c2:b0:a9a:ad8:fc56 with SMTP id a640c23a62f3a-aa63a2083d8mr1026209966b.44.1733746928786;
+        Mon, 09 Dec 2024 04:22:08 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.161])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434fc530a2dsm17998465e9.11.2024.12.09.04.19.10
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa699618041sm39442266b.81.2024.12.09.04.22.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 04:19:12 -0800 (PST)
-Message-ID: <e9667a36-180f-4e21-97d4-41cfc207c508@tuxon.dev>
-Date: Mon, 9 Dec 2024 14:19:10 +0200
+        Mon, 09 Dec 2024 04:22:08 -0800 (PST)
+Message-ID: <91c80c8e-729d-46ac-bb05-2cdcdb95ba1e@tuxon.dev>
+Date: Mon, 9 Dec 2024 14:22:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -80,123 +80,104 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/8] arm64: dts: renesas: r9a08g045s33-smarc-pmod: Add
- overlay for SCIF1
+Subject: Re: [PATCH v3 02/25] clk: versaclock3: Prepare for the addition of
+ 5L35023 device
 Content-Language: en-US
 To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
- gregkh@linuxfoundation.org, jirislaby@kernel.org, p.zabel@pengutronix.de,
- lethal@linux-sh.org, g.liakhovetski@gmx.de,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-serial@vger.kernel.org,
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, biju.das.jz@bp.renesas.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com,
+ broonie@kernel.org, magnus.damm@gmail.com, linus.walleij@linaro.org,
+ perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de,
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20241115134401.3893008-1-claudiu.beznea.uj@bp.renesas.com>
- <20241115134401.3893008-9-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdUskZAY6sw-dqKGfWpqhqnM9E_Jh+44ceybCeyASTf7vQ@mail.gmail.com>
+References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241113133540.2005850-3-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdVv+2tEQ5hf+sbihbJMo3+=8kJaWy0YNU_spxQnmWF-bA@mail.gmail.com>
+ <d65354a0-c4b8-4379-b824-f4541718a3c2@tuxon.dev>
+ <CAMuHMdV8M49m3h3NshzK+KRbT1G7U8hc09T9xUH0Gz1GefUcMg@mail.gmail.com>
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdUskZAY6sw-dqKGfWpqhqnM9E_Jh+44ceybCeyASTf7vQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdV8M49m3h3NshzK+KRbT1G7U8hc09T9xUH0Gz1GefUcMg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Hi, Geert,
 
-On 09.12.2024 12:44, Geert Uytterhoeven wrote:
-> Hi Claudiu,
+On 09.12.2024 14:16, Geert Uytterhoeven wrote:
+> Hi CLaudiu,
 > 
-> On Fri, Nov 15, 2024 at 2:50 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> On Mon, Dec 9, 2024 at 12:14 PM Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+>> On 09.12.2024 12:57, Geert Uytterhoeven wrote:
+>>> On Wed, Nov 13, 2024 at 2:35 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>
+>>>> The 5P35023 and 5L35035 Versa 3 clock generator variants are different but
+>>>> the versaclock3 driver could be used with small adjustments. The features
+>>>> that are implemented in driver and differs b/w variants are the PLL2 Fvco
+>>>> and clock sel bit for SE2 clock. Adjust the driver to prepare for the
+>>>> addition of 5L35023 device.
+>>>>
+>>>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> Thanks for your patch!
+>>>
+>>>> --- a/drivers/clk/clk-versaclock3.c
+>>>> +++ b/drivers/clk/clk-versaclock3.c
+>>>> @@ -166,12 +167,17 @@ struct vc3_div_data {
+>>>>  struct vc3_hw_data {
+>>>>         struct clk_hw hw;
+>>>>         struct regmap *regmap;
+>>>> -       const void *data;
+>>>> +       void *data;
+>>>>
+>>>>         u32 div_int;
+>>>>         u32 div_frc;
+>>>>  };
+>>>
+>>>> @@ -698,8 +706,6 @@ static struct vc3_hw_data clk_pll[] = {
+>>>>                         .num = VC3_PLL2,
+>>>>                         .int_div_msb_offs = VC3_PLL2_FB_INT_DIV_MSB,
+>>>>                         .int_div_lsb_offs = VC3_PLL2_FB_INT_DIV_LSB,
+>>>> -                       .vco_min = VC3_PLL2_VCO_MIN,
+>>>> -                       .vco_max = VC3_PLL2_VCO_MAX
+>>>>                 },
+>>>>                 .hw.init = &(struct clk_init_data) {
+>>>>                         .name = "pll2",
+>>>
+>>>> @@ -1029,9 +1037,16 @@ static int vc3_probe(struct i2c_client *client)
+>>>>                                              clk_pfd[i].hw.init->name);
+>>>>         }
+>>>>
+>>>> +       data = i2c_get_match_data(client);
+>>>> +
+>>>>         /* Register pll's */
+>>>>         for (i = 0; i < ARRAY_SIZE(clk_pll); i++) {
+>>>>                 clk_pll[i].regmap = regmap;
+>>>> +               if (i == VC3_PLL2) {
+>>>> +                       struct vc3_pll_data *pll_data = clk_pll[i].data;
+>>>> +
+>>>> +                       pll_data->vco = data->pll2_vco;
+>>>
+>>> You cannot modify the global clk_pll[] data, as it is shared when
+>>> there are multiple instances.
 >>
->> Add DT overlay for SCIF1 (of the Renesas RZ/G3S SoC) routed through the
->> PMOD1_3A interface available on the Renesas RZ SMARC Carrier II board.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> By "multiple instances" do you mean, multiple versa3 devices using this
+>> driver? Do you know if we have such a board integrated, ATM?
 > 
-> Thanks for your patch!
-> 
->> --- /dev/null
->> +++ b/arch/arm64/boot/dts/renesas/r9a08g045s33-smarc-pmod.dtso
->> @@ -0,0 +1,48 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Device Tree Source for the RZ/G3S SMARC Carrier II EVK PMOD parts
-> 
-> So you plan to describe all 3 PMOD interfaces in a single overlay?
-> The board has:
->   1. PMOD0 - Type-2A,
->   2. PMOD1 - Tpye-3A,
->   3. PMOD1 - Type 6A.
-> Wouldn't it be more convenient to have separate overlays for each port,
-> so you can more easily use them as e.g. Type-1(A) (GPIO only)?
+> Exactly.
+> Currently there are no such (upstream) users for 5p35023,
+> but e.g. the Beacon RZ/G2M kit has two 5p49v6965 instances.
 
-That would be better, indeed.
+Are you OK with keeping it as is for the RZ/G3S SSIF support and returning
+back later with a solution for the scenario you pointed out? Although, ATM,
+I don't have a board to test it.
 
-> 
-> BTW, naming both the second and third port "PMOD1" in the schematics,
-> and differentiating them by their type, was definitely a bad idea.
-> How can you distinguish between Type-1(A) on the second or third port?
-> 
->> + *
->> + * Copyright (C) 2024 Renesas Electronics Corp.
->> + *
->> + *
->> + * [Connection]
->> + *
->> + * SMARC Carrier II EVK
->> + * +--------------------------------------------+
->> + * |PMOD1_3A (PMOD1 PIN HEADER)                        |
->> + * |   SCIF1_CTS# (pin1)  (pin7)  PMOD1_GPIO10 |
->> + * |   SCIF1_TXD  (pin2)  (pin8)  PMOD1_GPIO11 |
->> + * |   SCIF1_RXD  (pin3)  (pin9)  PMOD1_GPIO12 |
->> + * |   SCIF1_RTS# (pin4)  (pin10) PMOD1_GPIO13 |
->> + * |   GND        (pin5)  (pin11) GND          |
->> + * |   PWR_PMOD1  (pin6)  (pin12) GND          |
->> + * +--------------------------------------------+
-> 
-> This depends not only on CONFIG_SW3 (for RXD only), but also on
-> SW_OPT_MUX4 (SW_SER0_PMOD=L gates all 4 SCIF1 signals).
-
-You're right!
-
-> While including "rzg3s-smarc-switches.h" for (out-of-tree) overlay
-> configfs is not really needed, please document the switches in the
-> comments.  
-
-Sure!
-
-> As this is included in r9a08g045s33-smarc-pmod.dtb, you
-> may still want to include "rzg3s-smarc-switches.h".
-
-OK, I'll handle it in the next version.
-
-
-> 
->> + *
->> + */
->> +
->> +/dts-v1/;
->> +/plugin/;
->> +
->> +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
->> +
->> +&{/} {
->> +       aliases {
->> +               serial0 = "/soc/serial@1004bc00";
-> 
-> Note that configuring aliases doesn't work in dynamic overlays
-> (but we don't care in upstream).
-> However, this is also wired on the Carrier board to the M2 slot when
-> SW_SER0_PMOD is low. so I think it makes sense to have the alias
-> unconditionally in rzg3s-smarc.dtsi instead.
-
-OK, I'll move it there.
-
-Thank you for your review,
+Thank you,
 Claudiu
 
-> 
->> +       };
 > 
 > Gr{oetje,eeting}s,
 > 
