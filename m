@@ -1,207 +1,183 @@
-Return-Path: <linux-renesas-soc+bounces-11077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11078-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F013B9E8B74
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 07:24:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8AE9E8BC5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 08:00:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E21A6162968
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 06:24:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B18B6163920
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 07:00:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B458C2147EC;
-	Mon,  9 Dec 2024 06:24:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDCE9214A60;
+	Mon,  9 Dec 2024 07:00:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="pllIjA8e"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="FLKy7hql"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011024.outbound.protection.outlook.com [52.101.125.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8650A17C219
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Dec 2024 06:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733725461; cv=none; b=PxCuLJro5wB4SiXoKqsw7iyeMduRt1R9ZUjJwchDEYHy9rGlMrqHBRwxHc//WACqEOFkepzpwmmuKOGdJzKlN5p7abq4jYjGmXEcKV2xO673I8jTguR8WflUr3K0HTEoeBPcSu3qhvrF+Tw9BbDlP2TD7mLjBVobOxnxGsSkWac=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733725461; c=relaxed/simple;
-	bh=y8uxG4UVlvQ6MOwHDDjDZWxvSoPwtcTzzcR+2XH5WBs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AB/ghuVnBdJS05dzYHS3QxYVFR8EBqu8/3rrTyPPvm5O7UsmL0xs4xjVySpv0XxT5yCTGvM1tPjuEMnMvuKvf1GA6jSyjJZ85M8PGackptFtMjWXVKiKw7d4qV3jQiRoqKIwkfu72qscTZzA+BnM6N8KYbTMGvsaiJfzrbD4HVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=pllIjA8e; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53df80eeeedso3944501e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 08 Dec 2024 22:24:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1733725457; x=1734330257; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cXgxOhIN1P2YzqyXkYETOaU5zGDrTGv4TGdsOv2Axy4=;
-        b=pllIjA8ezMJpwF+i/acw0VwyviIiQhCiL0Np9pDetxckQSyPgw/2Uu6J/TwtDN3ssu
-         9eZAOQ3aGpdknovRyk/zNL8M5Y3TZPweGqBhJQM6iQTmxSh+WA/4/wm4Zp46g52aMj71
-         pT37RaLs/4INqYqz2OV8Sg8yR6e15+UzT2n+FYocv0+zoKz0QQIU2K9+CexnK3byOs1H
-         vtec9RwnbfjMZqUP/Q8YbdePaHIGFvxDCprHoKS+MJuMZ9yQcFTlXulsjtFsi62f07X8
-         UwOWlB4F7Hsc8Psc9Gp2uZz35zHK3dinFpJahsxpGfk670wQJTKAZdqFc6PlZPKkqLFO
-         1CsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733725457; x=1734330257;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cXgxOhIN1P2YzqyXkYETOaU5zGDrTGv4TGdsOv2Axy4=;
-        b=W+DkIrLYjTLsNn7vg3Onx06457LdBB3Z+Dhp9b6ilwdZsoepaTr+EePz37D/XDprmK
-         KHq7hNjErBsK4OCLLay0YMydGX5VznccQ4jpSaSoCAbYV11VmG+qZLsN2C5xeE2hR6pq
-         oJ0Q0nVkDujfdlbegJES6t4/go29CILz/awNmP2O5KLglpcN0ftOk26uI17xlMx8MBa0
-         w78IKBaxx8do2KvEe25V9yov8UP1s2D7MTQJUVgubdgvMVVizPVm9JJvB/0ftLGWLx5F
-         IfUoAg8aT2rMhid2CfhQBThQfwxPzM6MkVYnb6/exbL+dEiwhbh/1wHwtJ2GAb92nfBA
-         I2ug==
-X-Forwarded-Encrypted: i=1; AJvYcCWwxeHGoVYm+cBEMWyMUawXcWMYRlBkjAOAEnCc6lgIU8p+WVH8yGDnqZLkObUbqJo+UbhuDd8EX7vyrxxYlnNvnQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcsPvFmQ8z/vK6SRv+LpXv511vtxrkybzDgOF12mhKvUqvpMN2
-	W3t4jfwzKEu/s9xsOD705hj9ZJ1saDFHyZWAfa3DA1NWP7EZsIgiwH3dwHykT18=
-X-Gm-Gg: ASbGncuSEiIAK4T0Bpes2zfuMK2yNFBne6Q5YyokT89ctugKnyOQJrN9dWO2xIMRdHW
-	31GAmmqrnS8W0VXohVACmxL4oU3mwnm0VpxwRmZML6s60eoTxKcQuRQZitxm0FdONJoDHCT0oUg
-	pmAycUmpCzVznkebGU6oSGjj/p3EXLXI2jF5Vw80tpcZ0Eao/iIeKebr8v9BxovGAcynItkLpef
-	/UBOQzQLsv/RvjZHgS4cjoOu2UyUs+EWrrPVQ3vs0kbGemZmU6mrR9T/R9Fdl3B
-X-Google-Smtp-Source: AGHT+IEALfVc1u7psoDNK67ZwOYQ6wOWqwlhYDnwT3/A55bQFTpZj8ctYGcl3Bs0PHReD0B3xOXm9w==
-X-Received: by 2002:a05:6512:b94:b0:540:1f67:689a with SMTP id 2adb3069b0e04-5401f676999mr753706e87.55.1733725456993;
-        Sun, 08 Dec 2024 22:24:16 -0800 (PST)
-Received: from cobook.home ([91.198.101.25])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5401cacc70fsm340511e87.5.2024.12.08.22.24.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Dec 2024 22:24:16 -0800 (PST)
-From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: netdev@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48207214A77;
+	Mon,  9 Dec 2024 07:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.24
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733727611; cv=fail; b=DNk4+wXBHIlOwkdvCin3pDo3W3MTCBNHdxktfRARBFfaL1If5FQMJo4JIEbWzFfwqGPSKX+cV2VrOKmE9F4wf5jZKgbTqhSn36jDOn7gKPErmaEMvYt/TxVySp0BCdtaqvc/Y/Kg1aAec1cbkkMPL5nSH58vI+feSEXicTmMwZU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733727611; c=relaxed/simple;
+	bh=Hm07gnZHLKnw0xWe+Ba7Y804oALfanqRLoGGkn2Zfy4=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=pdBX6jJ1ZTl++u6L/KXaFLTCGjIXQQX1tFPeKb5iMy4taiH2vSFTZNOpe0FbowLznpXXKXBeKovcJ+9zaxM7CH1XsyDb5BlWEWXz+XpuozGuVFZNqlC5oYLCE1GXBJBmP0ABt4FGBpNSVwN5hrXB/XHV+fmUahj08ay/MZpsJ4o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=FLKy7hql; arc=fail smtp.client-ip=52.101.125.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uStgEHv/vn2nciTCgEboQ4sPlgjBjSUv+n3px00Ok6fk2oeSIHdt2JDmprLraBPu5wdg3RFUXz7VS5plYijI9CcxeNvsINo060Ohr4KFLC9axSw/OysrTWeTP94fY3/IaegBCY9J8/5r8X4NEpWWri2fVbeLcTnW71CUiLRAo4rteWUCp/TwW0rrbEfHJJA7hyObOFpN3GQe8Of63u4xd0QyIQOwKieax5HJ9nf1M2QJXH3kDkk27kRDXpWUIv1UipMJ+YkOqJ33k5o+AwiQMbtxV1FYUNyqyPa83MuK4m02d9URjBpCKkcVarqcVungHJXZYfQ+vy3l9djoMn1yXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1RkCfv+KA2T/iTxEXpe0KiL+eEpp2VODG09ljYTMsaM=;
+ b=dWVOty6dxo/gOSZ3D1JOc67wlwKXPBWKVvznwvepMTa/FIoFz5UgGLd7Hhtq/CfL+AM1SPxmS9dhEdIEx89fOwcBA8ABz4ZP92hQB+O9AMf9SdDN9VT/AWLacGP13OWenqSQ/3w212HjtmFcwOijU99+3JOf5nXL61WJm7B59zWEg732JxGpLqfy2k+gXbKadx8i9RaqLxDZCO89HDneMBe0IpRDy0CsNYUBx74ZGevc/BlWvfIsZwnJvl23a818WvYgjkbA+6wAdz83RfY1k7Mr7b1LcHwjNUFQo/KHrG4sYXl9S4t0LfTl2HYyhZwPyMqUUFAxsHflEmGQ1SYHIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1RkCfv+KA2T/iTxEXpe0KiL+eEpp2VODG09ljYTMsaM=;
+ b=FLKy7hqlH08ZRDns3Wjx+k6wBU06wjBS9T7E/PdQojlT03FmqGnBqEA5eGvkcBxSZj4H1/7Pj9mPJexdAqGNzLNlxoWltbSnKro8fRS77n9pq+MHqjXbWYePxY0jCzWSxuofVIbZuvf38x1QPaJRFplBuEmcdWp9EMSFyRrc2ns=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYCPR01MB11303.jpnprd01.prod.outlook.com
+ (2603:1096:400:3bf::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.18; Mon, 9 Dec
+ 2024 07:00:06 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8230.010; Mon, 9 Dec 2024
+ 07:00:06 +0000
+Message-ID: <87y10pmjd6.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Michael Dege <michael.dege@renesas.com>,
-	Christian Mardmoeller <christian.mardmoeller@renesas.com>,
-	Dennis Ostermann <dennis.ostermann@renesas.com>,
-	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH net-next] net: renesas: rswitch: enable only used MFWD features
-Date: Mon,  9 Dec 2024 11:24:11 +0500
-Message-Id: <20241209062411.152927-1-nikita.yoush@cogentembedded.com>
-X-Mailer: git-send-email 2.39.5
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 0/5] arm64: renesas: Add R8A779G3 White Hawk Single support
+In-Reply-To: <87y10tvhw1.wl-kuninori.morimoto.gx@renesas.com>
+References: <cover.1733156661.git.geert+renesas@glider.be>
+	<87jzcg1d2f.wl-kuninori.morimoto.gx@renesas.com>
+	<CAMuHMdWF7NcmKYzvF4Dfjh3S5MccbJrpSphK5BhxXNnhxgtmYQ@mail.gmail.com>
+	<87y10tvhw1.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 9 Dec 2024 07:00:05 +0000
+X-ClientProxiedBy: TYCP301CA0024.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:381::14) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB11303:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e789e25-50bb-454b-e939-08dd181f1c8f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?RAl8B2WyawHbkudxvzoIEeGWJeKw8g/myD+13fq/W3v1oc5oDO426iuKfltC?=
+ =?us-ascii?Q?slquVtKxO/nWitWv9YMvVJkxVAA/bCsC0Pi9WjNYam5prsTkRALBHgMUucrU?=
+ =?us-ascii?Q?zQO+vRGvx0ct4DMpJLHYRhcT/lFU05BKY6EJ8OV9rMxSJRdlmQmaLBIXpYvY?=
+ =?us-ascii?Q?USAm1bXiaZK3XGu9BAYnF/WlC89vU3qzBwx7IYCIbCz5cC7zPNc36RmNhe6o?=
+ =?us-ascii?Q?WaqgSoXbcBT3VVcYhqZYZ2mE6bvfSkGcetRTxZtKFfotj5ceCOBvg9+yG06f?=
+ =?us-ascii?Q?JMxLo6XdghcVPWnCi4JbpClHX94lVUuqr25OO9xaGCoPQ7bLEiRxTTfO5n3y?=
+ =?us-ascii?Q?ywnJXV7+XfKak06Nf0PhNnWAYmwzwANJMD+u8uEwl3HgIhjoDySz25xuPEKH?=
+ =?us-ascii?Q?kXQFp4LiwcoHefO0ysaoALj1TUZzzKHpe4kNRsgO1vd/UBZZTIRBidG40wMa?=
+ =?us-ascii?Q?mMwNixIyHlfvcvGwswCmQA9QR8niYU6z4exvQryySAtRCCr9Rm31QQhyiEcf?=
+ =?us-ascii?Q?T+6I2e1RuZa2wf0316z5G5vXU+VsonNVm0c/3K0zrAQUPWrqal+oaiZ9DpSN?=
+ =?us-ascii?Q?RMo4yLKUcULN18/1g1RmavDDjp+4Xn6t74hcEjCZ4zCFosgVcKxXupXJKs/Z?=
+ =?us-ascii?Q?908Um26bQJQAh1MDRQJaYxCcXoQyt5IR5Gh6gAMZHErEh8EBCadj6rl3itmb?=
+ =?us-ascii?Q?1f7wyHmgeRVwlM5gN8e/a+NMtPgDV0G2pK3RzttATG38VVrfiBQRJ/LMu8or?=
+ =?us-ascii?Q?LGcbJfZ75vZXGOS8qTtrcNwmltdPb/BLquc86nKqNOryX67Jt59SNZQ/zh8o?=
+ =?us-ascii?Q?Fwf6XV+cc8I5Xyf7bpdUMG2DUQ1st9u5JdtLNwMMaONxpHjTciunvUpdZsle?=
+ =?us-ascii?Q?w2HmXxg6zLTk/WSbWspSRYFYXuAoa/wz+uc1aiGNKoK6ETzqHelNE6eimvuj?=
+ =?us-ascii?Q?M1fFbUl7RpHIIGvfHugCQwMkMIlY16iTsTxW4xFC37VmAhNalyVwxmVtxlFg?=
+ =?us-ascii?Q?6hTGB/BYpZTfO+4e7/tmiEZT3NYsh7J/FYPF4NtFUodPJfx+tfIP5eSeObgg?=
+ =?us-ascii?Q?i4bf4HtyTlWF8BRGZgklSV/jvKH1UyYmhvlJ2TG1YoG8D2jBAGNhSkU5TKUx?=
+ =?us-ascii?Q?LMvn5k00pnZCMZxMPmGMsWrdPl5rzVoSX7uYAna7yTbfuQbx5xno5iuvP/L7?=
+ =?us-ascii?Q?C0EwbhG+EGoTwnu1TE3VwtaKFPJhGA4xPMGWhls+sk6INa1GOW19ICssLPoX?=
+ =?us-ascii?Q?MtKOpvuQ8/fN4gn0vUwkvqp2Edg6rV5DWnGo2igYVhS5jEnmaqcZHJwQ9/Zi?=
+ =?us-ascii?Q?FWEe8w2cd9Zy2GCMKmLQE7I+w/AbgUwImqDZiNatshtCYj7rOkpSJsD8pnpp?=
+ =?us-ascii?Q?8afEyZ8Dt9vg/AD23hk6ou9aw0UBwqOoTtKLRZBNCbNTNQTEEg=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?7HbcNXYxM9MZopjP5mQVlfQEhder18q0rsfZqBrjUa31zFbpgk/Gf4PkIP1R?=
+ =?us-ascii?Q?MFgyIH96tAI/L5xbIUG5TXArrKHmyFyXHiXiAP04hmIh6Gve7Tb1BbwAOziu?=
+ =?us-ascii?Q?O8W7rzAmrXSH2OFoUpVfPtWl2SH28z27QHLXs8sfPIiCy9emmVW3ysgSa9BU?=
+ =?us-ascii?Q?MXjGa6n+rHV4ojOS1rERe9uDPeQz6qKQMyvqkPJyPFSfycAvIwPymLKFs1Mu?=
+ =?us-ascii?Q?Lj0a8uhlS7hXGt3k1jOH3sg+g9VRtXn2jZTm5KTluwawPNPG+f5CRgsB0Hpj?=
+ =?us-ascii?Q?X3mbl4nvjzWn3EaRGpwmSf4MmRxYIErs2q8bn4KygZrW5NPbrbxnfWe2pyOl?=
+ =?us-ascii?Q?I5cwb+hKIevAH2ZaJwLk/2QtUkAi34KB7U1Mt0YTo8qUxbyHC9mapIAma+Yq?=
+ =?us-ascii?Q?p1Rwhpy2oOXqI8O2AtdGS0tjKliOn85mZ8SXl2Wsy5A93s/VDfwkX6Vbc2ra?=
+ =?us-ascii?Q?abGuvs6ggpw/nm5eyPAF95Jb779/tzpcXzvSWxGAAe0li/Rfxtpi7qUQCCu5?=
+ =?us-ascii?Q?Y4yJe03XTxD7wS53mBUTKVhwl3AbQfd4BMizZYanjQqkbqmY71T84/9Zvx0V?=
+ =?us-ascii?Q?6a9yRc+Wt4JMNGy8BaJCqTwxvvXU28Yn8WwNNgOjyrbA2Cqj/ZPqXL0h587Z?=
+ =?us-ascii?Q?NtgasfGV8jQaZsDG8dcM2/4TT8vh3gCkBDiSYm9XRx4ffTgHPLzV+MhcmviQ?=
+ =?us-ascii?Q?KS81S6k3/8PkQWJfjXEAIjeBga6PrBSxiQVELC56J47ZEOcmRq/05aRUVEx+?=
+ =?us-ascii?Q?wc1bhSYreXtzCfnD3Y/abrJpjolyEt94HHqZZfPnBY0a4igWkkL8TPKGQcQ1?=
+ =?us-ascii?Q?jKNwrM8TTaAjcxIKeSfrrHD4TPGKxpUtp5CjJiPzI2RrOfcNAdcIqxdPBJLk?=
+ =?us-ascii?Q?NIF/i/GmniIfN9nyOwnRkJQhWrJQzw+SMNUj/RkCy2/rOezOrnLzb4xy6ab+?=
+ =?us-ascii?Q?xbtCoG5WOsf4FFo0D0PxGH77Fxod25/u/teqpSUhGMCaHgQIonClFo9WW3TN?=
+ =?us-ascii?Q?+2wmQj8hwvJBHL7TtZXw5N817ParoeemF3OhPRLO+/vVwvaH2s9tybwZwNpo?=
+ =?us-ascii?Q?7nzKeQe70ZXi26IBuiIm+x0SgApD46gXqjEWbnfGgR/gFccIW64Hw9hov5It?=
+ =?us-ascii?Q?llBtadpKn7PmFdGNf19wiIy+HWPg/GyViy3WxOpJ7HO58naLgmC4p2g/gKJB?=
+ =?us-ascii?Q?bWXPYnObnHZBzN6oeLs0dwYSjMriBEBLG6oHyoQnzwgJP5cPaZDrXeqSyXVU?=
+ =?us-ascii?Q?cISo2wB0Xy6fKptKpEith4su3KgVymm7c2nYAaR+KxItAunXejOBCxtSBIKE?=
+ =?us-ascii?Q?8W57JG4TuEjSzkJXkcr0UAMEK/F9nUV6G37w3FZqD5iVxmujI0I/N166YKsN?=
+ =?us-ascii?Q?LSdaFlhtZPe7vzZyZjxO+IGS/UYqQPZ3y0Sfu3NYofWkr9XxxBy+vLpo7Kd+?=
+ =?us-ascii?Q?H+5UrzAMAFvNxE1Cv9XMWfVtQLZGoNhB2YEGN3fw6oWKfr3jjW1RRj+wNe2H?=
+ =?us-ascii?Q?nv9iAm8bxh+WgadGf/PoKgcGkEkM+9a0k7FXG0TbfQvWVHSxX+BtRWGqbXI6?=
+ =?us-ascii?Q?WXqK6KHB1vIDFS8SOddnrMT6vJDRwlzvHbJ7J88hBvh2uRGiW3FJl/dHIrQs?=
+ =?us-ascii?Q?VPKmB26z68u0CWIh+uydkr8=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e789e25-50bb-454b-e939-08dd181f1c8f
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2024 07:00:06.0308
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4KtCALKMYIAbe86L3srU0YJ80VHkstd8PQ85H+EbzWP2vOW91oLJEoLMHJo4iI9hhmBXPNojoMSWDbPctiDmw01UnU0AbsC6CTq/6RJpunqUACL6bYWjr1SHRmMgyL63
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11303
 
-Currently, rswitch driver does not utilize most of MFWD forwarding
-and processing features. It only uses port-based forwarding for ETHA
-ports, and direct descriptor forwarding for GWCA port.
 
-Update rswitch_fwd_init() to enable exactly that, and keep everything
-else disabled.
+Hi Geert, again
 
-Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+> > -              - renesas,r8a779g2
+> > -              - renesas,r8a779g3
+> > +              - renesas,r8a779g2 # ES2.x
+> > +              - renesas,r8a779g3 # ES3.0
+> > 
+> > but decided against doing so, as "ES3.0" would become stale as soon
+> > as Renesas releases "ES3.1". Alternatively, I could use "ES3.x"
+> > immediately.
+
+It seems using "ES3.x" is a good idea.
+
+Thank you for your help !!
+
+Best regards
 ---
- drivers/net/ethernet/renesas/rswitch.c | 30 +++++++++++++++++---------
- drivers/net/ethernet/renesas/rswitch.h | 14 ++++++------
- 2 files changed, 28 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 16b1888270eb..7f17b9656cc3 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -111,25 +111,35 @@ static void rswitch_top_init(struct rswitch_private *priv)
- /* Forwarding engine block (MFWD) */
- static void rswitch_fwd_init(struct rswitch_private *priv)
- {
-+	u32 all_ports_mask = GENMASK(RSWITCH_NUM_AGENTS - 1, 0);
- 	unsigned int i;
- 
--	/* For ETHA */
--	for (i = 0; i < RSWITCH_NUM_PORTS; i++) {
--		iowrite32(FWPC0_DEFAULT, priv->addr + FWPC0(i));
-+	/* Start with empty configuration */
-+	for (i = 0; i < RSWITCH_NUM_AGENTS; i++) {
-+		/* Disable all port features */
-+		iowrite32(0, priv->addr + FWPC0(i));
-+		/* Disallow L3 forwarding and direct descriptor forwarding */
-+		iowrite32(FIELD_PREP(FWCP1_LTHFW, all_ports_mask),
-+			  priv->addr + FWPC1(i));
-+		/* Disallow L2 forwarding */
-+		iowrite32(FIELD_PREP(FWCP2_LTWFW, all_ports_mask),
-+			  priv->addr + FWPC2(i));
-+		/* Disallow port based forwarding */
- 		iowrite32(0, priv->addr + FWPBFC(i));
- 	}
- 
--	for (i = 0; i < RSWITCH_NUM_PORTS; i++) {
-+	/* For enabled ETHA ports, setup port based forwarding */
-+	rswitch_for_each_enabled_port(priv, i) {
-+		/* Port based forwarding from port i to GWCA port */
-+		rswitch_modify(priv->addr, FWPBFC(i), FWPBFC_PBDV,
-+			       FIELD_PREP(FWPBFC_PBDV, BIT(priv->gwca.index)));
-+		/* Within GWCA port, forward to Rx queue for port i */
- 		iowrite32(priv->rdev[i]->rx_queue->index,
- 			  priv->addr + FWPBFCSDC(GWCA_INDEX, i));
--		iowrite32(BIT(priv->gwca.index), priv->addr + FWPBFC(i));
- 	}
- 
--	/* For GWCA */
--	iowrite32(FWPC0_DEFAULT, priv->addr + FWPC0(priv->gwca.index));
--	iowrite32(FWPC1_DDE, priv->addr + FWPC1(priv->gwca.index));
--	iowrite32(0, priv->addr + FWPBFC(priv->gwca.index));
--	iowrite32(GENMASK(RSWITCH_NUM_PORTS - 1, 0), priv->addr + FWPBFC(priv->gwca.index));
-+	/* For GWCA port, allow direct descriptor forwarding */
-+	rswitch_modify(priv->addr, FWPC1(priv->gwca.index), FWPC1_DDE, FWPC1_DDE);
- }
- 
- /* Gateway CPU agent block (GWCA) */
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index 9ac55b4f5b14..741b089c8523 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -12,6 +12,7 @@
- 
- #define RSWITCH_MAX_NUM_QUEUES	128
- 
-+#define RSWITCH_NUM_AGENTS	5
- #define RSWITCH_NUM_PORTS	3
- #define rswitch_for_each_enabled_port(priv, i)		\
- 	for (i = 0; i < RSWITCH_NUM_PORTS; i++)		\
-@@ -811,6 +812,7 @@ enum rswitch_gwca_mode {
- #define CABPPFLC_INIT_VALUE	0x00800080
- 
- /* MFWD */
-+#define FWPC0(i)		(FWPC00 + (i) * 0x10)
- #define FWPC0_LTHTA		BIT(0)
- #define FWPC0_IP4UE		BIT(3)
- #define FWPC0_IP4TE		BIT(4)
-@@ -824,15 +826,15 @@ enum rswitch_gwca_mode {
- #define FWPC0_MACHMA		BIT(27)
- #define FWPC0_VLANSA		BIT(28)
- 
--#define FWPC0(i)		(FWPC00 + (i) * 0x10)
--#define FWPC0_DEFAULT		(FWPC0_LTHTA | FWPC0_IP4UE | FWPC0_IP4TE | \
--				 FWPC0_IP4OE | FWPC0_L2SE | FWPC0_IP4EA | \
--				 FWPC0_IPDSA | FWPC0_IPHLA | FWPC0_MACSDA | \
--				 FWPC0_MACHLA |	FWPC0_MACHMA | FWPC0_VLANSA)
- #define FWPC1(i)		(FWPC10 + (i) * 0x10)
-+#define FWCP1_LTHFW		GENMASK(16 + (RSWITCH_NUM_AGENTS - 1), 16)
- #define FWPC1_DDE		BIT(0)
- 
--#define	FWPBFC(i)		(FWPBFC0 + (i) * 0x10)
-+#define FWPC2(i)		(FWPC20 + (i) * 0x10)
-+#define FWCP2_LTWFW		GENMASK(16 + (RSWITCH_NUM_AGENTS - 1), 16)
-+
-+#define FWPBFC(i)		(FWPBFC0 + (i) * 0x10)
-+#define FWPBFC_PBDV		GENMASK(RSWITCH_NUM_AGENTS - 1, 0)
- 
- #define FWPBFCSDC(j, i)         (FWPBFCSDC00 + (i) * 0x10 + (j) * 0x04)
- 
--- 
-2.39.5
-
+Kuninori Morimoto
 
