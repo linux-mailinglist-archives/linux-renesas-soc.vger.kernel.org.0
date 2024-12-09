@@ -1,117 +1,366 @@
-Return-Path: <linux-renesas-soc+bounces-11105-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11106-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA59F9E955F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 14:01:47 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F99E9E9577
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 14:03:19 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 150B8161AB4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 13:01:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE85E2823C1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 13:03:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A905722F3BA;
-	Mon,  9 Dec 2024 12:55:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6EF21E9B16;
+	Mon,  9 Dec 2024 12:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="e+2aXIz7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cJ8GjBmD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23B222619B;
-	Mon,  9 Dec 2024 12:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78E31E9B0E;
+	Mon,  9 Dec 2024 12:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733748909; cv=none; b=tL9d4iHOk6r16pA2UkbiLcV/VVyvtBwGSnsKS0A3MszmwKUQhITbYtHUJCwpcNAjKz1ChZVyO99c3KNwWUlJqnb45dFuLaM3PBBkUS+le6VH/dJUU0bF0jgZ1QN0jrCk47fMswTvISg3HhDB0vNFhsqTTs6OgZ7Qar4QwQi6pbA=
+	t=1733748949; cv=none; b=KgKyu4nnnIMXNusbUM/0e1ou/G74UVKsZIvaLjMRxoMqq5WUr7lYMBtLVaeAQjx/KMjYnRXBFMYqPWPmJQvzUxikSniR4FoYItXkyLYuXdIVzms3an7bDsnlYKrdjOfeY5E/miktXQ6WIuWEaReuHR4ptSsSQldxCKY2P5gYboo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733748909; c=relaxed/simple;
-	bh=BoFHQnV2ZUJRZO3Onx/b6idYeF5wQgGinSz6ETWgvdU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sQAihIxRsNyA0GsA/PFMk+v6wvdjku3V+P9F0L9KMOuKpZl0h26nsyoDASg8l/l84eQNageaQqkaCG+rCZSsqdeCS5PK1liKMOGeeTU5rBzeVLHmpVXMol4VWshX4MP5Ey8Ii79J++jQ2PPM7MX8wqU49Jp9BTp5ao4Bn0A5/rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4afde39e360so627552137.0;
-        Mon, 09 Dec 2024 04:55:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733748905; x=1734353705;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=flMWz4KvijWpTCU/Mae8t1bctkfOrFBTrsRYC6H9AOI=;
-        b=QN4VfUeNSFZDLqixw0hmavU8YVJorAqLHliHtnLYPA1/kngw5vHYzlAUs5MIQ6Xd3f
-         3KtEZQpswL+fLitGCfchGDQGRH8tJ4AB9Sei1qpGqCWHuMdvQ1AT/Aqma9+gZjJVwO6c
-         Yx62RV/68Ir7PMytGEMWDJKcneaGYj5fR0iXZoBweS2e24uLb1lhyTlbkfz3Q/LFmMUk
-         B7BrLbFxUC+tcWPjniwABzskvm6vZiXf3nL/rztHhluSuDgmBo7hglrlJ/Gc/n9tEQuZ
-         +hRs+beemHtHshrhzPTJUJ28dDq2QYMkbbmSRSVaXFYU8PD2nJPw+Fp7aWPlT+Fkobkb
-         RE9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU7LwrlQpEUrc/mNRlLL4nXcNKUjORMBXVexuQEvnmrAhwVJRI/wNDm3/5JjjZzmZn7J7ClX7Dz5r1J@vger.kernel.org, AJvYcCUGz1YK2SbZGLYWDmYJ2f5Y01+m0UBjpDr7WIFzD9mSFmrqzZh8it0+HGrBq9jclkk4brcbU82dAgnt@vger.kernel.org, AJvYcCUMhYhBoXCVC7B6qUcXtRndL99NdsXolbg6VHrsyMMtf3nRCH2mjT/QcUUwZobtLj8KfmRVQlHa8UzilzE8@vger.kernel.org, AJvYcCV2GEoOt4JQZejB0kHDrzWdYh9wMYybD6ixUsOzoPXVLcBStKz02F/89TJa4PLWZ1WDBOIAhizNyJNb6Q==@vger.kernel.org, AJvYcCXf7eECvGWI6hdE+K5+T2s3ftxhCAy+NjF+ow7OAwznclXVF5GJX71aEfuzGtaQJCA9YoZmu8fFk/Bb28Q=@vger.kernel.org, AJvYcCXiqyqCpUcbKFxPIlBJBfWt1Lnc+A6nXrhMXY6NOD+B14tjTbZj+m1+TM7okZ5pXNftUAXsEhsBw9fi00uCamlrlG4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywroq1tahT2LI2IJc8cz5uI0AjlPbAbB1NBxRFnMUpgxhizhn5u
-	EIJ8Yun1Srt1dmziwcaq9coeQGhSkNR8hnk5I/UwDynAUx/VoENTYMo+zAJcgFU=
-X-Gm-Gg: ASbGncv1OdHSQR6yqAZCQuw/mwGQYwYN+qw/7sDSlpwH3elZ8sTJoYOU3XtqIgVvDCj
-	blLpeP7dw1ClUElzywdJ2IPLTrHAzYNP3gaM8rc4WLYX7fB8HPSpU0isp9dA5aWO5rBGPhrjH/t
-	1jw0/DsTrLs+W0/UiiiwnViAKVj+6QWolE+7i6V149xwD0eoAMdIUVrdgTKNZ5DMwGP2asnTTF7
-	ZIcu1wzy/uoszm3ehBbnqOeYbR5HEyRfD3TMsZoNXaopd92k4tZSFetK4hzgGN6yRv/rI8oiyCy
-	mdFLN+o9Mp8/
-X-Google-Smtp-Source: AGHT+IH4hnTZxCmMLebS/O3QUWC+xA2zM1dVWbyUeqfS+PlrXtSXiImSZdRB47ehj3UFuGhZdcb7yQ==
-X-Received: by 2002:a05:6102:ccb:b0:4af:deaf:f891 with SMTP id ada2fe7eead31-4b116051204mr376410137.4.1733748905052;
-        Mon, 09 Dec 2024 04:55:05 -0800 (PST)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85c2ba7dc94sm976061241.16.2024.12.09.04.55.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 04:55:03 -0800 (PST)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-85c61388e68so288731241.3;
-        Mon, 09 Dec 2024 04:55:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUMm+vwHBsKW2M2of129Th4T1cklHSH1cTgaXrY+GuYF23VVnbF08NVeQLEJfiEnXh5vERC4K8VEUsZMu+sWi7DfSs=@vger.kernel.org, AJvYcCVfuyTJRDg32iIcT0zl+rSSmZh1nn4ttiULZJVJ652iywuPJ+EdDcWJBjpRnyLXpuXIR4GrHxCvr7lGZA==@vger.kernel.org, AJvYcCVp057uc4nD8EEvE1jnnnDumhQEXDnX+RTpLhb9cU+yCmNfHqZX5YeZKBKO5E0qR3wT/YZful0SVP3y@vger.kernel.org, AJvYcCW3LC1vxoGZL8oYkk1vT9QObOs0cVUFOM8NyhewTadOawE0C9BnlWZLpWEyObeAJwzUmTmJAxhe7kXhOHoR@vger.kernel.org, AJvYcCWHVvOeUHlA+A7FvPpxitHYkKtTn6uXdC55igNSbvMfMyGFICun58+hc2RQplxm2meVvlXEj+VIe79U@vger.kernel.org, AJvYcCX6C1AzbnHox2XZMGC+6YHMeP6ROGd58aN7iUS1CZQIgPteaNDVnEgGdWmsdXGlPyY5a9wOl7NZFdWJ2ds=@vger.kernel.org
-X-Received: by 2002:a05:6102:510b:b0:4af:f6e5:2b3d with SMTP id
- ada2fe7eead31-4b1160dc12fmr337822137.15.1733748903246; Mon, 09 Dec 2024
- 04:55:03 -0800 (PST)
+	s=arc-20240116; t=1733748949; c=relaxed/simple;
+	bh=Y/KgiuET6L6wLJa8Ijru5lKHB7sdr7qacBQgIHl3yDc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UpX/sJszeeqyr9JzS0uZS7VMegYvWxt9SbESjhYPrCB4vJ92uZEwJHEOctwGe1kjtBjnr9E56CbwQvla/jL7Uj6Ao3SXGwevE1+7MU70CzUo4uFGyq4mr+HIidnYcZ4joGMIwLghjRfNqoeddIkT58rzBCSjYe0WumnG8qtaJ4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=e+2aXIz7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cJ8GjBmD; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C46D911401EF;
+	Mon,  9 Dec 2024 07:55:45 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Mon, 09 Dec 2024 07:55:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1733748945; x=1733835345; bh=a1
+	X31AWrg0Rpsl/F0TCbkQtnCVNs/KiGa0HSpZy41E0=; b=e+2aXIz7IZBkEDxuYW
+	VrPbYFQecGg3ehht2Z+lnbu37B+NKVc9Z/aU6x7aEn0F/DQk+a3kxxhwdeUeTAcE
+	sXcGUhaRtEYX6JyH7KEwkviP9zlIW3DN1ZUiD9jVZzFfDw/te23CfUIAF4l9geyP
+	vckZJya05cdAOZmpp7SWZxieakpGqDSrBfunBHzOUgiGLw8gUNZ3CvvtUFKHlyko
+	R0buan/TZTAYQlYyhtIWhHSkT+GPmBcQ3INdD0gdcd+vlS4wnrSETXSlAORas1EK
+	UFab6m1Qp0fyRg3MJthk8SNZntg0kzcH01mXWepdyHX6mSYa8IqMz+DoLNvoHtFx
+	4pSw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1733748945; x=1733835345; bh=a1X31AWrg0Rpsl/F0TCbkQtnCVNs
+	/KiGa0HSpZy41E0=; b=cJ8GjBmDDijP6+nz4narh9tA3g7XSFn8sMJ56INgGdwi
+	UGCkhwPLtlpX4+PXxot3o0a7RNFrFe+O19Qlxw8Cydd6Y8P/G4hXh8MczlviXd8D
+	Y981Q3ktAvQPhBhZwXEVy5EtItWT1ZP4AVFdv4dGViRu+0hgqwXj8yxBU11hQ0po
+	irP5K2kMML6llyTODvp/2xtXugJw0uWyAHuT581lwzVou8ewm6msjb+tq/XTuEln
+	ZhrhF1ILXaJmAgUpK9ewDMDOxxtYwvsXmnjkvZJy8+Z4CIG1YB43wzazmKGVOsKx
+	pwt6QmX+pBGEG/IO1cZCbY1MZYNh6Wxkj2Jz3X2S3w==
+X-ME-Sender: <xms:0ehWZ4WkYOdkQHKoGE2I2JWcI1RTIXwKQH2_JJBiHIthkl9pwj-pbQ>
+    <xme:0ehWZ8mmh6AJ7WKKUN6y5Fn3jbgT4JeYD0awsYo08s77ych-lpYCB16QNCSJbj99i
+    pqPI-elU9sbtbMXu8g>
+X-ME-Received: <xmr:0ehWZ8bxRkCf2bcr0cQO62FjyfW1B1YMUiTErFymV6Lq1OgIXbbKcT7I2xpW_WKmF3S5R3NtwoYB4uEXcijjzhtiew>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrjeeigddvtdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfh
+    rhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlh
+    hunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghr
+    nhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefteegne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhl
+    rghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtoh
+    epjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgr
+    shesghhlihguvghrrdgsvgdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptgho
+    nhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvg
+    hsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggvvhhi
+    tggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrg
+    hsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:0ehWZ3VB2PYvhRrDZStSchuD9sebucBo3PJcB9VIqRYkYIq3B1KJAA>
+    <xmx:0ehWZynBAm_pDQhHC0lRJ4YGgKttbxYXwUkjKHepWQ5pKTeJALh-Aw>
+    <xmx:0ehWZ8ewad4z0UmGuyd4Ehcx9W1IDVUxMUCoN_mgG7C7kxwWORx2Xw>
+    <xmx:0ehWZ0Gg5KMgzt4_1FS4f3f_v-CWgRCVGNkFqvpWMBjdzoPYYnguCw>
+    <xmx:0ehWZ0V1PLfJncAWRJqYljU62m3V2a30E7w64nADyJAQvhmm6Tkrf5PH>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 9 Dec 2024 07:55:45 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] arm64: dts: renesas: gray-hawk-single: Add video capture support
+Date: Mon,  9 Dec 2024 13:55:04 +0100
+Message-ID: <20241209125504.2010984-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com> <20241113133540.2005850-5-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20241113133540.2005850-5-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 9 Dec 2024 13:54:51 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXNokax91t-N3yrcLFupeWoejBz0wtP9tbEb+EaMns6wQ@mail.gmail.com>
-Message-ID: <CAMuHMdXNokax91t-N3yrcLFupeWoejBz0wtP9tbEb+EaMns6wQ@mail.gmail.com>
-Subject: Re: [PATCH v3 04/25] clk: versaclock3: Add support for the 5L35023 variant
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, biju.das.jz@bp.renesas.com, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com, 
-	broonie@kernel.org, magnus.damm@gmail.com, linus.walleij@linaro.org, 
-	perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 13, 2024 at 2:35=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Add support for the 5L35023 variant of the Versa 3 clock generator.
->
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+The Gray-Hawk single board contains two MAX96724 connected to the using
+I2C and CSI-2, record the connections. Also enable all nodes (VIN, CSI-2
+and ISP) that are part of the downstream video capture pipeline.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+Hi Geert,
 
-Gr{oetje,eeting}s,
+Part of this work was part of a series adding this as a separate DTSI
+file. Per your suggestion this have been reworked to be directly
+recorded in the single DTS file. If we ever add support for the multiple
+board setup this can be reworked with the rest of things that would need
+to be refactored.
 
-                        Geert
+All bindings and driver changes are already upstream and this is the
+only missing piece to enable capture on V4M.
+---
+ .../dts/renesas/r8a779h0-gray-hawk-single.dts | 182 ++++++++++++++++++
+ 1 file changed, 182 insertions(+)
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+index 58eabcc7e0e0..df20f1f6d3c8 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+@@ -30,6 +30,7 @@
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/input/input.h>
+ #include <dt-bindings/leds/common.h>
++#include <dt-bindings/media/video-interfaces.h>
+ 
+ #include "r8a779h0.dtsi"
+ 
+@@ -205,6 +206,46 @@ channel1 {
+ 	};
+ };
+ 
++&csi40 {
++	status = "okay";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@0 {
++			reg = <0>;
++
++			csi40_in: endpoint {
++				bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
++				clock-lanes = <0>;
++				data-lanes = <1 2 3 4>;
++				remote-endpoint = <&max96724_out0>;
++			};
++		};
++	};
++};
++
++&csi41 {
++	status = "okay";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@0 {
++			reg = <0>;
++
++			csi41_in: endpoint {
++				bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
++				clock-lanes = <0>;
++				data-lanes = <1 2 3 4>;
++				remote-endpoint = <&max96724_out1>;
++			};
++		};
++	};
++};
++
+ &extal_clk {
+ 	clock-frequency = <16666666>;
+ };
+@@ -255,6 +296,20 @@ io_expander_a: gpio@20 {
+ 		#interrupt-cells = <2>;
+ 	};
+ 
++	io_expander_b: gpio@21 {
++		compatible = "onnn,pca9654";
++		reg = <0x21>;
++		gpio-controller;
++		#gpio-cells = <2>;
++	};
++
++	io_expander_c: gpio@22 {
++		compatible = "onnn,pca9654";
++		reg = <0x22>;
++		gpio-controller;
++		#gpio-cells = <2>;
++	};
++
+ 	eeprom@50 {
+ 		compatible = "rohm,br24g01", "atmel,24c01";
+ 		label = "cpu-board";
+@@ -284,6 +339,56 @@ eeprom@53 {
+ 	};
+ };
+ 
++&i2c1 {
++	pinctrl-0 = <&i2c1_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++	clock-frequency = <400000>;
++
++	gmsl0: gmsl-deserializer@4e {
++		compatible = "maxim,max96724";
++		reg = <0x4e>;
++		enable-gpios = <&io_expander_b 0 GPIO_ACTIVE_HIGH>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@4 {
++				reg = <4>;
++				max96724_out0: endpoint {
++					bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
++					clock-lanes = <0>;
++					data-lanes = <1 2 3 4>;
++					remote-endpoint = <&csi40_in>;
++				};
++			};
++		};
++	};
++
++	gmsl1: gmsl-deserializer@4f {
++		compatible = "maxim,max96724";
++		reg = <0x4f>;
++		enable-gpios = <&io_expander_c 0 GPIO_ACTIVE_HIGH>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@4 {
++				reg = <4>;
++				max96724_out1: endpoint {
++					bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
++					clock-lanes = <0>;
++					data-lanes = <1 2 3 4>;
++					remote-endpoint = <&csi41_in>;
++				};
++			};
++		};
++	};
++};
++
+ &i2c3 {
+ 	pinctrl-0 = <&i2c3_pins>;
+ 	pinctrl-names = "default";
+@@ -307,6 +412,14 @@ ak4619_endpoint: endpoint {
+ 	};
+ };
+ 
++&isp0 {
++	status = "okay";
++};
++
++&isp1 {
++	status = "okay";
++};
++
+ &mmc0 {
+ 	pinctrl-0 = <&mmc_pins>;
+ 	pinctrl-1 = <&mmc_pins>;
+@@ -388,6 +501,11 @@ i2c0_pins: i2c0 {
+ 		function = "i2c0";
+ 	};
+ 
++	i2c1_pins: i2c1 {
++		groups = "i2c1";
++		function = "i2c1";
++	};
++
+ 	i2c3_pins: i2c3 {
+ 		groups = "i2c3";
+ 		function = "i2c3";
+@@ -494,3 +612,67 @@ &scif_clk {
+ &scif_clk2 {
+ 	clock-frequency = <24000000>;
+ };
++
++&vin00 {
++	status = "okay";
++};
++
++&vin01 {
++	status = "okay";
++};
++
++&vin02 {
++	status = "okay";
++};
++
++&vin03 {
++	status = "okay";
++};
++
++&vin04 {
++	status = "okay";
++};
++
++&vin05 {
++	status = "okay";
++};
++
++&vin06 {
++	status = "okay";
++};
++
++&vin07 {
++	status = "okay";
++};
++
++&vin08 {
++	status = "okay";
++};
++
++&vin09 {
++	status = "okay";
++};
++
++&vin10 {
++	status = "okay";
++};
++
++&vin11 {
++	status = "okay";
++};
++
++&vin12 {
++	status = "okay";
++};
++
++&vin13 {
++	status = "okay";
++};
++
++&vin14 {
++	status = "okay";
++};
++
++&vin15 {
++	status = "okay";
++};
+-- 
+2.47.1
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
