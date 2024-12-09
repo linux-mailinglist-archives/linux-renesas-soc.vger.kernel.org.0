@@ -1,194 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-11131-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11132-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D679E9CDA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 18:20:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 617589EA152
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 22:41:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 750CB1887D5A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 17:20:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB6DC163780
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 21:40:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 745B01537B9;
-	Mon,  9 Dec 2024 17:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE1F019CD13;
+	Mon,  9 Dec 2024 21:40:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="SSjaF6bW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZMcQewpj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010011.outbound.protection.outlook.com [52.101.228.11])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A1C1292CE;
-	Mon,  9 Dec 2024 17:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733764844; cv=fail; b=ajEhf5RecVrONfLQOSR2pxY7h+2NY6fjxo6bvA8hSsE1uWPfD6F/Hi57679TNgjPF/36NeO+ptglcc9acWBLDtnhOnBujHzEMadX/b5T8/MrOm8wU6k8kHcE0HebzTlC7PVOACscptJ4x2TOl091UPme7p/pIfVWMaTmvXs5qYw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733764844; c=relaxed/simple;
-	bh=nOgThsc4yH2lwefvdqNGObCatyiwTUuywx/HjItNEHc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=W+yHVGpbC6ylzMusDssUJeqMh1cfUYXf3PEWk4czG5Klu0MOLUIEoOGY/b/LGCX2dIRWOr3LVvJD8lbMFF3ngOk2oGxqZTbl0aK+appqzJXpSJ4MILCJpkZnVOJPO+FOPYEcYrzYzMB2m8HJ3uSnkTtGBXpc7nsBjroCkSe+xBM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=SSjaF6bW; arc=fail smtp.client-ip=52.101.228.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yidu6IWeYJOEaZLLCgEupmm07Sa9FfqmW0dFXs8dv0KxvhUPZ0jJsPizfGlkpd50bX76nJ8iGaMtCadKRbodjYgQ+q7+44CAglEWjSUehYfHdG3X1a/2iczVXmlYnF6ba06ZPEyZ7pautxBeE8AC0Uu665CoBbxXyp/b8bDS+b47H+HHdL3UGIf4a+poo+/lL1W2oCSkfnrDzFYNr8YwTAFQiI/I0DnUgBW//WmDPTMUZLBgQs4llLqm/suPy8bVSOLD6Jda3m/WczLe+bU58ZIdSl4HV6x/IRNaCOjsWgmJm/fVxyZZ8N89x76prlj8TIPN7I3JNhPiQPySXeOIpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nOgThsc4yH2lwefvdqNGObCatyiwTUuywx/HjItNEHc=;
- b=SX4Sa3M3i1Nv6jbsuREEN2AVT+3CwJcCtoPr9XvogwZlUHJDRvhyXD+1oIcn8j8qxv+IFjdUAsFmEjYDySpp6MB66kmF3Vfd5KosUX5bfYYMUa2UKjNU/09Rl3/SjK9KJlBsXW7MDtn1X4kz9/dRrNsJyuPhZcn+f58e8i/jtHuLWOZ/UK2n2m6oVN5QYn0Z47g7W6OcSz5zb7jbYkYJIRquetTg2r118xty8MSD3aLnpJzYJ+EI9+7kbt0yNT6yKeQttalwrAUbOoOnjqKZ/wBlG/kC/Z+nEjYwSaKMmZYiCzC7cc/UDPV21PQ3lh1W+tiqSRQh963A+siOU/ysVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nOgThsc4yH2lwefvdqNGObCatyiwTUuywx/HjItNEHc=;
- b=SSjaF6bWIz7YCp2SQxzAnZ+YYd2b2aWuiY4Os4xV7Zbi2t9JF/RI1c0ah0y8XIQ6r/nAX0Gz6qX04Dlcku+O7fX0pSOUuX8u6x8sVMSKX/QjundaXyozDGkgS7srdis7YqsGTDtIvbYXpLSZ+JogYEjJ4g6hN/vG8/DZ6P8m42s=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYBPR01MB5536.jpnprd01.prod.outlook.com (2603:1096:404:801f::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.18; Mon, 9 Dec
- 2024 17:20:37 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.8207.014; Mon, 9 Dec 2024
- 17:20:35 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: "tomm.merciai@gmail.com" <tomm.merciai@gmail.com>
-CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Tommaso
- Merciai <tommaso.merciai.xr@bp.renesas.com>, Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>, Liu Ying <victor.liu@nxp.com>, Andrzej Hajda
-	<andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, Robert
- Foss <rfoss@kernel.org>, laurent.pinchart
-	<laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2] drm/bridge: ite-it6263: Support VESA-24 input format
-Thread-Topic: [PATCH v2] drm/bridge: ite-it6263: Support VESA-24 input format
-Thread-Index: AQHbRuwVEIszzOuAxkqYA8eIG2ZXArLeLz0A
-Date: Mon, 9 Dec 2024 17:20:35 +0000
-Message-ID:
- <TY3PR01MB1134691B576B196F987F942FE863C2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20241205080210.1285385-1-tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <20241205080210.1285385-1-tommaso.merciai.xr@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYBPR01MB5536:EE_
-x-ms-office365-filtering-correlation-id: c317a718-2a08-4c25-c87c-08dd1875cb41
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?Ni7MAxndQEuini3V0rIgFOsSfzk/2zzlrLcHmUj36zZkZHSEHB8PhEogmolp?=
- =?us-ascii?Q?WstLA6m7jF/gkhzgEHXzi/lN9/q6vU9JyBGpo1bA3DKMH1iWimfXrm8pF5FW?=
- =?us-ascii?Q?QMdy/IqA2bkBclRWXv6dmHx1tfLVs2vUeRDCqhb7JV31f/YyUYFhhaXZYab8?=
- =?us-ascii?Q?28knOmTwfMmoOP2WwFd7XXX3FbX0RPeuWmX7UyLavuQ9uFtw/IQ0JhVbuoqH?=
- =?us-ascii?Q?qVE6jxywTA95YfJu6Cil882uwfxFy+cGcswWeth9EhatGC90D4E2+eODhx7M?=
- =?us-ascii?Q?JerirRKiQF2I9ZWXXNo/6Le5TtZfyTCU5ewCUhHZiGHkDm6PnreOiNwAunAz?=
- =?us-ascii?Q?amc6HnWNHK3PqLrZExEa2RACCwwJ6niqyLVrwXrob3sCBXTw18DM4Cmj7UqF?=
- =?us-ascii?Q?JH5p3BMKe3ZdbViSTfz9/72h9yvmmNKBPO2p8Cska0QV41yGLEiydItFh8gZ?=
- =?us-ascii?Q?wJESl6iejux9vC61jE7RFORjq5JWQlkOmlDeU4qeaDzU/PJZpyUHT5HP7Z3e?=
- =?us-ascii?Q?xnbe50jYNV3xjN9UybhqnFLoa+5GBHZaQ5dxIPyBbCTR7t4bsnKcKJPtQiRr?=
- =?us-ascii?Q?E1Zl6KyKf7wl0/QiTABlP2TcgLT6VzV7tw3lQwbtyYjFvaSAuY8/akQVgeoW?=
- =?us-ascii?Q?5UbB9yKaIdIlwp59oiD3AAACE7X6FSajZJL5cHOHjFvowbK7k7ASeCouUFIs?=
- =?us-ascii?Q?9tDXHzLmbtuwqFxlUp/WsjsCJGc37KaWojHyw261gBJMaixDywnb4kRJI450?=
- =?us-ascii?Q?nDL255aNODmfsS+M1XF6YIsKC4jt/apE7nxz/NgWnd4lK1J/NYAKrB+o3fSX?=
- =?us-ascii?Q?Wz3ZQVe3nOfRslms3vz1IWSpdZ1ne+EocjGdX+icMdlSROjvYxASD8ULXxrj?=
- =?us-ascii?Q?xyB0WLM2e1ExXqEVy2YCL+TmvASQjzA3cbPPRASwYqa8J7RosMsT7Vccwj87?=
- =?us-ascii?Q?w6QkVdjhbxPysemCOz5jQkmgzCj/lHAsYOMxiXHhEkS+mkIBcyULC4ttMzRb?=
- =?us-ascii?Q?Y4V4/Uc6Njj9OTVTHhgjGp8JwhGr5nEpDF8ZUCjTSfEpIHXH1JHiXGh6yYf/?=
- =?us-ascii?Q?ZU1Xru8FjKgEAsM2a0AMlX4jB3A0UtoAXWvzU5NGV4imXDRF/ZpSH39TSJNT?=
- =?us-ascii?Q?bMx6dsKReNo568uWsmfhb4oPV7k/4LfOIL1QPN0aQr/gBeLRphWmOTR4mceP?=
- =?us-ascii?Q?uM5XDdKSjA8FKnqmWXR3aj2kOmkwdtnv9IqLCT5BvHSYAGBHTb6jca4bvArN?=
- =?us-ascii?Q?/9ajjSdtGEAq8Ugc2yi7R/cRxk60SR57rQPqZkmcy9VWMNQ6frB0Bu1rhNki?=
- =?us-ascii?Q?NYUY1SMER4KzcFx/tFWIGOH8LUEF8c8+5xNMQWwfP5oCprYouqAMaktocMUG?=
- =?us-ascii?Q?wJgdZ75BuOn5k1Fy5m4TUw2SrsjNqc29MAjM9Az6LhF+DzWWjw=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?Y+TFBDvLD2FCdjCs19f7T+q6JAGEhzZOZwqpQwjhxEk+LYPPK6IqQJJNU8u+?=
- =?us-ascii?Q?LlnUfisTvll+uWlujhxF1hiLRQ2G8B1hlmPbxQ6Z/YRQX02zam7hluo+0QP7?=
- =?us-ascii?Q?IVxpA7I0HdfDQpF/7fCdvZhcmaDOQkvwazYRFcfWqZ+whqA0d4TY0lCY6a1T?=
- =?us-ascii?Q?/sbmXgNnuBv8f7BNc2p9eTHCWt+AeES/yfQiQrQgaHPObfD+rpvyM9gjmaKi?=
- =?us-ascii?Q?wXb8n76sYAq55C1iSnK6YhR/txe0xmmr7DWmelQx5zfrw5vYglsDrXGQaD2k?=
- =?us-ascii?Q?W0UQfyHmQYB0DA3ArswMf2Va6x0xYVqFf4wxNtTNgFHK41FW3RMuQAUZ0c93?=
- =?us-ascii?Q?pEQ0CdhABnBjwQa6frIVnDQegRG/cOWXl/nMs8I6STzfY3letqUo3yV32d8x?=
- =?us-ascii?Q?SiAJJskhjRfE0+QCcmRp/8TXKAsy93aDGv9fZmGWOly0rcyBaz9kT2yGT5Vp?=
- =?us-ascii?Q?JwrD09pq2goAsR5l+C5/qVE5rABEXnNaGn48DYHpDH9kWZP8TGcsUsQWOViK?=
- =?us-ascii?Q?dvDjlsdjd3C+2p29xNT0NSZd2vlc8ff7mSStIwlXtyqCDG0ScOdKRP+Rz1Zu?=
- =?us-ascii?Q?i/PnhNSU3W99MB2yqHgRZHIuT7shT6bTLuQ/1FAEbdUKY+TN5Si/V4DBN9Rv?=
- =?us-ascii?Q?JoKYJCXP5MtqAjLuN4Y04OfTk/VXKfZr788MnE2XAj7LzeS0qfw0ZExCKPWm?=
- =?us-ascii?Q?ibghwjGn8tQFoqDmnHpF4i6vK9fCgtH2w76r+OEoCtvmTgUyIshPnJoQq6H+?=
- =?us-ascii?Q?jrBVKox2s8AsNjm/I+WhoSFp4PaUs1XYoJ2b5+L78D1keyF9of+erqb3jvA3?=
- =?us-ascii?Q?TJS65jAuctWLYDZRtoFR2H1NL0Ld1106bGK5gGmn4exSQgHeHsnn9hROE2F+?=
- =?us-ascii?Q?PSFmX4v7CNSPhzL02dw9PY50ULbAQqjqnoB+PjwNBqwzxRjyAOuvBYXbWjOv?=
- =?us-ascii?Q?6f6diZRjoW8OYQWH5VXpLGv+piH2oup96XzRAVMqkqNkouf0Iwvd+XLIvRS9?=
- =?us-ascii?Q?+tpfean74eA2AFblKbO7MogA0necur6uNk50lGTGb6MdHAkrfD5zM7fi7Md7?=
- =?us-ascii?Q?XMNjd+02t71f61MuDALACPWVW0jCyL0HlsgMCWY75pgmbOx6WqS+fMP3SvtA?=
- =?us-ascii?Q?IFs0KYweBVzS/QwiAqoJPyvjg4zouYE+0Tl6nf5ytKcXV97LZW1g4Ulkv6nw?=
- =?us-ascii?Q?p0a4+6XgRYr1/xHB9fv96MdsOR5p2cOM7K95AkcGt6QrcYsu39fez37e0wAv?=
- =?us-ascii?Q?M5zGYHWG6XLkRyZj4IxPRM0XQRBYztVDA+CDCf3P2yU6kqCObF5i9qcGablS?=
- =?us-ascii?Q?LD6ZV9VGQD/+8OcfqFRX/dLbzS+z7HctnhzvsBO1uPz+bHRmQqCd+eUYQEYh?=
- =?us-ascii?Q?+kwvhrvFOOiTcTnHRi/HC31bFJHcaAFBiyg3oWPWbj000m0cRuX7dsfua/9Y?=
- =?us-ascii?Q?0iFvyLitbeAQWOGOfRNHSCKX9KUZaJXsbkm2D4j5xdaluw57VO9MhHFbeB+H?=
- =?us-ascii?Q?RwYjiRc1FiU6ByAmPLkodK88/C0ud37xK64lenPX/bqdcrhYGFG3FJ/0aNpc?=
- =?us-ascii?Q?KBPDCMF4ffGfcQS4c2quISuGW+iOZ8kcPJeoYesqi0S16QFHcss5uFSmKzmP?=
- =?us-ascii?Q?wg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F73846B8;
+	Mon,  9 Dec 2024 21:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733780455; cv=none; b=JkH2/tGWqhAU9N7341uPbDsw0ZR0OjIyZtWaP6x0vsA+J3nuCyNxOtfffaJBVwCwYHkRI3ghb+qfr4jqdI5H1cYXhqCGbmTVXcvAYoTOF7UDdBvCtXOGGNx/+fLZaDMbsG7u8qTBBKXvOkuFwDkMCnDeJK62YJ2Z/ardl3E/KWE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733780455; c=relaxed/simple;
+	bh=I7z53oMSPeKw57tcADR/kJ8mn9kitYJg4MblUErnws0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f5wsQD72acdykCsoXvTDMSWTCTvyDmJfSJW+p1fEdkWhx6+A15QRoFxdQqYGC1Kb1Hi/ncIW9YGxi/bswm0MnCb6hHwzMU9bYkQHJbor7ukFY2jFU+IlxY9B6T2+Y3VPZ3CIZ/xW/ocnPzog85mnQz7pudgGW9YEHEjRsxd+2aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZMcQewpj; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C47C502;
+	Mon,  9 Dec 2024 22:40:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1733780418;
+	bh=I7z53oMSPeKw57tcADR/kJ8mn9kitYJg4MblUErnws0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZMcQewpjew4EGWseaDIabpzeFj3eQ8ky1BYh35ijVN8a9ywaYOzOLW5aJ8B4+zDRM
+	 CsKSUr7uDb5euSsYbjhqp/7Rj4h/tyLzoHrsMuf+tctX+WWcqSOxIMPAA1WbS1D+N/
+	 NOkXtCxPoJGby5mN8LSjJ3IQ8Mh0uJFrLIZO6qNE=
+Date: Mon, 9 Dec 2024 23:40:35 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 05/10] clk: renesas: r8a779h0: Add display clocks
+Message-ID: <20241209214035.GB26531@pendragon.ideasonboard.com>
+References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
+ <20241206-rcar-gh-dsi-v3-5-d74c2166fa15@ideasonboard.com>
+ <CAMuHMdU+PPeCNb5y75A1YTf1EvvCQEgD1t-=6C_YyK0gDK3R8A@mail.gmail.com>
+ <b0fffc87-a72e-4041-b3f6-7f2a4987916e@ideasonboard.com>
+ <CAMuHMdUmAbnbJ-UouN+dnodVg7+Lw47to-O4rTAcDanQ=NCGpg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c317a718-2a08-4c25-c87c-08dd1875cb41
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Dec 2024 17:20:35.6211
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9yOZGUKrPSrBbzQzwtQuPgo77YAnKMz1Qv2CIgmcmSFng+rO5HLRylrhqIFoMajK+z99VCFDbJ0FGExGCv7X0iR78lSljX3fZ5ZnclMX6fk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBPR01MB5536
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdUmAbnbJ-UouN+dnodVg7+Lw47to-O4rTAcDanQ=NCGpg@mail.gmail.com>
 
-Hi Tommaso Merciai,
+On Mon, Dec 09, 2024 at 08:49:18AM +0100, Geert Uytterhoeven wrote:
+> On Mon, Dec 9, 2024 at 6:26 AM Tomi Valkeinen wrote:
+> > On 06/12/2024 15:43, Geert Uytterhoeven wrote:
+> > > On Fri, Dec 6, 2024 at 10:33 AM Tomi Valkeinen wrote:
+> > >> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > >>
+> > >> Add display related clocks for DU, DSI, FCPVD, and VSPD.
+> > >>
+> > >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > >> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > >> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > >
+> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > i.e. will queue in renesas-clk for v6.14.
+> > >
+> > >> --- a/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+> > >> +++ b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+> > >> @@ -179,6 +179,9 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] __initconst = {
+> > >>          DEF_MOD("canfd0",       328,    R8A779H0_CLK_SASYNCPERD2),
+> > >>          DEF_MOD("csi40",        331,    R8A779H0_CLK_CSI),
+> > >>          DEF_MOD("csi41",        400,    R8A779H0_CLK_CSI),
+> > >> +       DEF_MOD("dis0",         411,    R8A779H0_CLK_S0D3),
+> > >> +       DEF_MOD("dsitxlink0",   415,    R8A779H0_CLK_DSIREF),
+> > >> +       DEF_MOD("fcpvd0",       508,    R8A779H0_CLK_S0D3),
+> > >>          DEF_MOD("hscif0",       514,    R8A779H0_CLK_SASYNCPERD1),
+> > >>          DEF_MOD("hscif1",       515,    R8A779H0_CLK_SASYNCPERD1),
+> > >>          DEF_MOD("hscif2",       516,    R8A779H0_CLK_SASYNCPERD1),
+> > >> @@ -227,6 +230,7 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] __initconst = {
+> > >>          DEF_MOD("vin15",        811,    R8A779H0_CLK_S0D4_VIO),
+> > >>          DEF_MOD("vin16",        812,    R8A779H0_CLK_S0D4_VIO),
+> > >>          DEF_MOD("vin17",        813,    R8A779H0_CLK_S0D4_VIO),
+> > >> +       DEF_MOD("vspd0",        830,    R8A779H0_CLK_S0D1_VIO),
+> > >>          DEF_MOD("wdt1:wdt0",    907,    R8A779H0_CLK_R),
+> > >>          DEF_MOD("cmt0",         910,    R8A779H0_CLK_R),
+> > >>          DEF_MOD("cmt1",         911,    R8A779H0_CLK_R),
+> > >
+> > > As mentioned by Laurent during his review on v1, all clock parents
+> > > should probably be some form of R8A779H0_CLK_S0Dx_VIO.
+> > > So I'm inclined to replace all of them by R8A779H0_CLK_VIOBUSD2 while
+> > > applying, which would match R-Car V4H.
+> >
+> > What do you mean with the above? First you say the clock parents should
+> > be some form of S0Dx_VIO, but then you say you'll use VIOBUSD2. Aren't
+> > those unrelated clocks, from different PLLs?
+> 
+> Oops, copy-'n-paste went wrong. I did mean R8A779H0_VIOBUSD*.
+> 
+> > > Are you OK with that?
+> >
+> > I'm fine with that. I can't really get much out of the docs wrt.
+> > clocking, and the clocks I used were from the BSP. Afaics, it looks
+> > similar to V4H, so it's probably best have the same clocks, as you suggest.
+> 
+> Agreed.
 
-> -----Original Message-----
-> From: tomm.merciai@gmail.com <tomm.merciai@gmail.com>
-> Sent: 05 December 2024 08:02
-> Subject: [PATCH v2] drm/bridge: ite-it6263: Support VESA-24 input format
->=20
-> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
->=20
-> Introduce it6263_is_input_bus_fmt_valid() and refactor the
-> it6263_bridge_atomic_get_input_bus_fmts() function to support VESA-24 for=
-mat by selecting the LVDS
-> input format based on the LVDS data mapping and thereby support both JEID=
-A-24 and VESA-24 input
-> formats.
->=20
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Works for me too.
 
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+-- 
+Regards,
 
-Cheers,
-Biju
+Laurent Pinchart
 
