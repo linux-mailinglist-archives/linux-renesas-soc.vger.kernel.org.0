@@ -1,184 +1,207 @@
-Return-Path: <linux-renesas-soc+bounces-11076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D969E8AFA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 06:27:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F013B9E8B74
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 07:24:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 46D171883B04
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 05:27:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E21A6162968
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 06:24:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C12191607B4;
-	Mon,  9 Dec 2024 05:26:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B458C2147EC;
+	Mon,  9 Dec 2024 06:24:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MNcFaGRJ"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="pllIjA8e"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5ECC14A4CC;
-	Mon,  9 Dec 2024 05:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8650A17C219
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Dec 2024 06:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733722017; cv=none; b=orQFSIUsLGY81V0pA/Mz9CCbETaGJyAopWn2JnP/Rd4gldSa//2Jsqr4rTamcyBEdxRG5DlJ+ge8gR3uH68nqjj6rWJvDE8mimihiyEB/1nX4WWbc+8Fu+iy6WDqtq7zr0ATXKbXgNmSxR28fSfkk0w4lmbIyKjPnKMEpbcmXTs=
+	t=1733725461; cv=none; b=PxCuLJro5wB4SiXoKqsw7iyeMduRt1R9ZUjJwchDEYHy9rGlMrqHBRwxHc//WACqEOFkepzpwmmuKOGdJzKlN5p7abq4jYjGmXEcKV2xO673I8jTguR8WflUr3K0HTEoeBPcSu3qhvrF+Tw9BbDlP2TD7mLjBVobOxnxGsSkWac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733722017; c=relaxed/simple;
-	bh=r3GRkniscda1h2jGia96dSzPLBBeCAFfWtcoKtCndGQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i3Ey/5CcDlDfGyEizT1G2idsi5seVhNVvN4f2eemWSNTCyhYgCwH24FybAjm3ogBTLAOwEDgSVyZYw7/oIXwddF68DhoSeVDD+cYd2il5KaxqUS+Dtv1twoVbuFaov6g+zg16BMa3STX7KXCp2WTBOFjKac8EQdulgsJnlwqTxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MNcFaGRJ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D15D4502;
-	Mon,  9 Dec 2024 06:26:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733721974;
-	bh=r3GRkniscda1h2jGia96dSzPLBBeCAFfWtcoKtCndGQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MNcFaGRJBul5yuH7NaP0tg2XJDSNmygMpCc4b5I+kzpZhFdf/+jqvsUrjcomDAGgW
-	 HMcuw98tx6rcyZZu/0v8bh6E2hdpABQr8j3h+Tq0uBkEBW1Ay7jABVRJQRgvzqYonB
-	 l3zuGGhsdXifB0AVrFn5g9BgwC7qQkiJrDXnZk9M=
-Message-ID: <b0fffc87-a72e-4041-b3f6-7f2a4987916e@ideasonboard.com>
-Date: Mon, 9 Dec 2024 07:26:41 +0200
+	s=arc-20240116; t=1733725461; c=relaxed/simple;
+	bh=y8uxG4UVlvQ6MOwHDDjDZWxvSoPwtcTzzcR+2XH5WBs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AB/ghuVnBdJS05dzYHS3QxYVFR8EBqu8/3rrTyPPvm5O7UsmL0xs4xjVySpv0XxT5yCTGvM1tPjuEMnMvuKvf1GA6jSyjJZ85M8PGackptFtMjWXVKiKw7d4qV3jQiRoqKIwkfu72qscTZzA+BnM6N8KYbTMGvsaiJfzrbD4HVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=pllIjA8e; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53df80eeeedso3944501e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 08 Dec 2024 22:24:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1733725457; x=1734330257; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cXgxOhIN1P2YzqyXkYETOaU5zGDrTGv4TGdsOv2Axy4=;
+        b=pllIjA8ezMJpwF+i/acw0VwyviIiQhCiL0Np9pDetxckQSyPgw/2Uu6J/TwtDN3ssu
+         9eZAOQ3aGpdknovRyk/zNL8M5Y3TZPweGqBhJQM6iQTmxSh+WA/4/wm4Zp46g52aMj71
+         pT37RaLs/4INqYqz2OV8Sg8yR6e15+UzT2n+FYocv0+zoKz0QQIU2K9+CexnK3byOs1H
+         vtec9RwnbfjMZqUP/Q8YbdePaHIGFvxDCprHoKS+MJuMZ9yQcFTlXulsjtFsi62f07X8
+         UwOWlB4F7Hsc8Psc9Gp2uZz35zHK3dinFpJahsxpGfk670wQJTKAZdqFc6PlZPKkqLFO
+         1CsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733725457; x=1734330257;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cXgxOhIN1P2YzqyXkYETOaU5zGDrTGv4TGdsOv2Axy4=;
+        b=W+DkIrLYjTLsNn7vg3Onx06457LdBB3Z+Dhp9b6ilwdZsoepaTr+EePz37D/XDprmK
+         KHq7hNjErBsK4OCLLay0YMydGX5VznccQ4jpSaSoCAbYV11VmG+qZLsN2C5xeE2hR6pq
+         oJ0Q0nVkDujfdlbegJES6t4/go29CILz/awNmP2O5KLglpcN0ftOk26uI17xlMx8MBa0
+         w78IKBaxx8do2KvEe25V9yov8UP1s2D7MTQJUVgubdgvMVVizPVm9JJvB/0ftLGWLx5F
+         IfUoAg8aT2rMhid2CfhQBThQfwxPzM6MkVYnb6/exbL+dEiwhbh/1wHwtJ2GAb92nfBA
+         I2ug==
+X-Forwarded-Encrypted: i=1; AJvYcCWwxeHGoVYm+cBEMWyMUawXcWMYRlBkjAOAEnCc6lgIU8p+WVH8yGDnqZLkObUbqJo+UbhuDd8EX7vyrxxYlnNvnQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcsPvFmQ8z/vK6SRv+LpXv511vtxrkybzDgOF12mhKvUqvpMN2
+	W3t4jfwzKEu/s9xsOD705hj9ZJ1saDFHyZWAfa3DA1NWP7EZsIgiwH3dwHykT18=
+X-Gm-Gg: ASbGncuSEiIAK4T0Bpes2zfuMK2yNFBne6Q5YyokT89ctugKnyOQJrN9dWO2xIMRdHW
+	31GAmmqrnS8W0VXohVACmxL4oU3mwnm0VpxwRmZML6s60eoTxKcQuRQZitxm0FdONJoDHCT0oUg
+	pmAycUmpCzVznkebGU6oSGjj/p3EXLXI2jF5Vw80tpcZ0Eao/iIeKebr8v9BxovGAcynItkLpef
+	/UBOQzQLsv/RvjZHgS4cjoOu2UyUs+EWrrPVQ3vs0kbGemZmU6mrR9T/R9Fdl3B
+X-Google-Smtp-Source: AGHT+IEALfVc1u7psoDNK67ZwOYQ6wOWqwlhYDnwT3/A55bQFTpZj8ctYGcl3Bs0PHReD0B3xOXm9w==
+X-Received: by 2002:a05:6512:b94:b0:540:1f67:689a with SMTP id 2adb3069b0e04-5401f676999mr753706e87.55.1733725456993;
+        Sun, 08 Dec 2024 22:24:16 -0800 (PST)
+Received: from cobook.home ([91.198.101.25])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5401cacc70fsm340511e87.5.2024.12.08.22.24.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Dec 2024 22:24:16 -0800 (PST)
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Michael Dege <michael.dege@renesas.com>,
+	Christian Mardmoeller <christian.mardmoeller@renesas.com>,
+	Dennis Ostermann <dennis.ostermann@renesas.com>,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH net-next] net: renesas: rswitch: enable only used MFWD features
+Date: Mon,  9 Dec 2024 11:24:11 +0500
+Message-Id: <20241209062411.152927-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/10] clk: renesas: r8a779h0: Add display clocks
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-clk@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
- <20241206-rcar-gh-dsi-v3-5-d74c2166fa15@ideasonboard.com>
- <CAMuHMdU+PPeCNb5y75A1YTf1EvvCQEgD1t-=6C_YyK0gDK3R8A@mail.gmail.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <CAMuHMdU+PPeCNb5y75A1YTf1EvvCQEgD1t-=6C_YyK0gDK3R8A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Currently, rswitch driver does not utilize most of MFWD forwarding
+and processing features. It only uses port-based forwarding for ETHA
+ports, and direct descriptor forwarding for GWCA port.
 
-On 06/12/2024 15:43, Geert Uytterhoeven wrote:
-> Hi Tomi,
-> 
-> On Fri, Dec 6, 2024 at 10:33 AM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>
->> Add display related clocks for DU, DSI, FCPVD, and VSPD.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-clk for v6.14.
-> 
->> --- a/drivers/clk/renesas/r8a779h0-cpg-mssr.c
->> +++ b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
->> @@ -179,6 +179,9 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] __initconst = {
->>          DEF_MOD("canfd0",       328,    R8A779H0_CLK_SASYNCPERD2),
->>          DEF_MOD("csi40",        331,    R8A779H0_CLK_CSI),
->>          DEF_MOD("csi41",        400,    R8A779H0_CLK_CSI),
->> +       DEF_MOD("dis0",         411,    R8A779H0_CLK_S0D3),
->> +       DEF_MOD("dsitxlink0",   415,    R8A779H0_CLK_DSIREF),
->> +       DEF_MOD("fcpvd0",       508,    R8A779H0_CLK_S0D3),
->>          DEF_MOD("hscif0",       514,    R8A779H0_CLK_SASYNCPERD1),
->>          DEF_MOD("hscif1",       515,    R8A779H0_CLK_SASYNCPERD1),
->>          DEF_MOD("hscif2",       516,    R8A779H0_CLK_SASYNCPERD1),
->> @@ -227,6 +230,7 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] __initconst = {
->>          DEF_MOD("vin15",        811,    R8A779H0_CLK_S0D4_VIO),
->>          DEF_MOD("vin16",        812,    R8A779H0_CLK_S0D4_VIO),
->>          DEF_MOD("vin17",        813,    R8A779H0_CLK_S0D4_VIO),
->> +       DEF_MOD("vspd0",        830,    R8A779H0_CLK_S0D1_VIO),
->>          DEF_MOD("wdt1:wdt0",    907,    R8A779H0_CLK_R),
->>          DEF_MOD("cmt0",         910,    R8A779H0_CLK_R),
->>          DEF_MOD("cmt1",         911,    R8A779H0_CLK_R),
-> 
-> As mentioned by Laurent during his review on v1, all clock parents
-> should probably be some form of R8A779H0_CLK_S0Dx_VIO.
-> So I'm inclined to replace all of them by R8A779H0_CLK_VIOBUSD2 while
-> applying, which would match R-Car V4H.
+Update rswitch_fwd_init() to enable exactly that, and keep everything
+else disabled.
 
-What do you mean with the above? First you say the clock parents should 
-be some form of S0Dx_VIO, but then you say you'll use VIOBUSD2. Aren't 
-those unrelated clocks, from different PLLs?
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+ drivers/net/ethernet/renesas/rswitch.c | 30 +++++++++++++++++---------
+ drivers/net/ethernet/renesas/rswitch.h | 14 ++++++------
+ 2 files changed, 28 insertions(+), 16 deletions(-)
 
-> Are you OK with that?
-
-I'm fine with that. I can't really get much out of the docs wrt. 
-clocking, and the clocks I used were from the BSP. Afaics, it looks 
-similar to V4H, so it's probably best have the same clocks, as you suggest.
-
-  Tomi
+diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
+index 16b1888270eb..7f17b9656cc3 100644
+--- a/drivers/net/ethernet/renesas/rswitch.c
++++ b/drivers/net/ethernet/renesas/rswitch.c
+@@ -111,25 +111,35 @@ static void rswitch_top_init(struct rswitch_private *priv)
+ /* Forwarding engine block (MFWD) */
+ static void rswitch_fwd_init(struct rswitch_private *priv)
+ {
++	u32 all_ports_mask = GENMASK(RSWITCH_NUM_AGENTS - 1, 0);
+ 	unsigned int i;
+ 
+-	/* For ETHA */
+-	for (i = 0; i < RSWITCH_NUM_PORTS; i++) {
+-		iowrite32(FWPC0_DEFAULT, priv->addr + FWPC0(i));
++	/* Start with empty configuration */
++	for (i = 0; i < RSWITCH_NUM_AGENTS; i++) {
++		/* Disable all port features */
++		iowrite32(0, priv->addr + FWPC0(i));
++		/* Disallow L3 forwarding and direct descriptor forwarding */
++		iowrite32(FIELD_PREP(FWCP1_LTHFW, all_ports_mask),
++			  priv->addr + FWPC1(i));
++		/* Disallow L2 forwarding */
++		iowrite32(FIELD_PREP(FWCP2_LTWFW, all_ports_mask),
++			  priv->addr + FWPC2(i));
++		/* Disallow port based forwarding */
+ 		iowrite32(0, priv->addr + FWPBFC(i));
+ 	}
+ 
+-	for (i = 0; i < RSWITCH_NUM_PORTS; i++) {
++	/* For enabled ETHA ports, setup port based forwarding */
++	rswitch_for_each_enabled_port(priv, i) {
++		/* Port based forwarding from port i to GWCA port */
++		rswitch_modify(priv->addr, FWPBFC(i), FWPBFC_PBDV,
++			       FIELD_PREP(FWPBFC_PBDV, BIT(priv->gwca.index)));
++		/* Within GWCA port, forward to Rx queue for port i */
+ 		iowrite32(priv->rdev[i]->rx_queue->index,
+ 			  priv->addr + FWPBFCSDC(GWCA_INDEX, i));
+-		iowrite32(BIT(priv->gwca.index), priv->addr + FWPBFC(i));
+ 	}
+ 
+-	/* For GWCA */
+-	iowrite32(FWPC0_DEFAULT, priv->addr + FWPC0(priv->gwca.index));
+-	iowrite32(FWPC1_DDE, priv->addr + FWPC1(priv->gwca.index));
+-	iowrite32(0, priv->addr + FWPBFC(priv->gwca.index));
+-	iowrite32(GENMASK(RSWITCH_NUM_PORTS - 1, 0), priv->addr + FWPBFC(priv->gwca.index));
++	/* For GWCA port, allow direct descriptor forwarding */
++	rswitch_modify(priv->addr, FWPC1(priv->gwca.index), FWPC1_DDE, FWPC1_DDE);
+ }
+ 
+ /* Gateway CPU agent block (GWCA) */
+diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
+index 9ac55b4f5b14..741b089c8523 100644
+--- a/drivers/net/ethernet/renesas/rswitch.h
++++ b/drivers/net/ethernet/renesas/rswitch.h
+@@ -12,6 +12,7 @@
+ 
+ #define RSWITCH_MAX_NUM_QUEUES	128
+ 
++#define RSWITCH_NUM_AGENTS	5
+ #define RSWITCH_NUM_PORTS	3
+ #define rswitch_for_each_enabled_port(priv, i)		\
+ 	for (i = 0; i < RSWITCH_NUM_PORTS; i++)		\
+@@ -811,6 +812,7 @@ enum rswitch_gwca_mode {
+ #define CABPPFLC_INIT_VALUE	0x00800080
+ 
+ /* MFWD */
++#define FWPC0(i)		(FWPC00 + (i) * 0x10)
+ #define FWPC0_LTHTA		BIT(0)
+ #define FWPC0_IP4UE		BIT(3)
+ #define FWPC0_IP4TE		BIT(4)
+@@ -824,15 +826,15 @@ enum rswitch_gwca_mode {
+ #define FWPC0_MACHMA		BIT(27)
+ #define FWPC0_VLANSA		BIT(28)
+ 
+-#define FWPC0(i)		(FWPC00 + (i) * 0x10)
+-#define FWPC0_DEFAULT		(FWPC0_LTHTA | FWPC0_IP4UE | FWPC0_IP4TE | \
+-				 FWPC0_IP4OE | FWPC0_L2SE | FWPC0_IP4EA | \
+-				 FWPC0_IPDSA | FWPC0_IPHLA | FWPC0_MACSDA | \
+-				 FWPC0_MACHLA |	FWPC0_MACHMA | FWPC0_VLANSA)
+ #define FWPC1(i)		(FWPC10 + (i) * 0x10)
++#define FWCP1_LTHFW		GENMASK(16 + (RSWITCH_NUM_AGENTS - 1), 16)
+ #define FWPC1_DDE		BIT(0)
+ 
+-#define	FWPBFC(i)		(FWPBFC0 + (i) * 0x10)
++#define FWPC2(i)		(FWPC20 + (i) * 0x10)
++#define FWCP2_LTWFW		GENMASK(16 + (RSWITCH_NUM_AGENTS - 1), 16)
++
++#define FWPBFC(i)		(FWPBFC0 + (i) * 0x10)
++#define FWPBFC_PBDV		GENMASK(RSWITCH_NUM_AGENTS - 1, 0)
+ 
+ #define FWPBFCSDC(j, i)         (FWPBFCSDC00 + (i) * 0x10 + (j) * 0x04)
+ 
+-- 
+2.39.5
 
 
