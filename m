@@ -1,626 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-11127-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11128-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38CF19E9AA9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 16:35:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481269E9AC6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 16:42:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B5021608BD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 15:35:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3FB101656D4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2024 15:42:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E59F1BEF8E;
-	Mon,  9 Dec 2024 15:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="cJHTQ256";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="v3ON/mAM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2C3C1E9B21;
+	Mon,  9 Dec 2024 15:42:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83EFE1B423A;
-	Mon,  9 Dec 2024 15:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044F31E9B12;
+	Mon,  9 Dec 2024 15:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733758545; cv=none; b=dAbhnd/s09wJQtQ+veRVTv+Ne+dViTzcYUUooO+HudEY4V2gItC/CKnVcM6HeDwS3u+QTNgPzc2WTr+HGHL4TteJHbD1JGYzDOz6mwXquWMvv33sSvl1MWkN/Vr4WvFweiJJy+yACEh8uGVLy3I2T9STr364rk1e0+HyWt73ALI=
+	t=1733758969; cv=none; b=svrp8Lsspl1l8FXWqUHMf/kEacIxbXxoq3Lx5WflrePu1uWx6wpSdh7QrNFOf8hsctcPIC6CRXp2WWPRAKN/WOAlSmSM6hyIsM1urpGM4xL6t2RrsCDsCy22+7PNiERcAhJln97gPWRrbtFQUxWqp55CMfL8rfphRVeySiAduJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733758545; c=relaxed/simple;
-	bh=mi9U+mmJQmWWYB5cNp4IIbqwSGWdC0kR598UB1HzyhQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=khjtxU5TNsrr8F7g0YRN8oBHyYQN7wxEj78u5li916cbzbOZuOdhcoeWyt+HooZe4QDRPfLAG2yBvOxjln/CN3sXyni7qR/sZWdMLvq0AlEmRHHB6eERRgjTPmk4hcVpOAGhKeemO5guk5GBFIZM3VT4CaTlSlOFnGLbAVmiv90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=cJHTQ256; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=v3ON/mAM; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.phl.internal (Postfix) with ESMTP id 684831382149;
-	Mon,  9 Dec 2024 10:35:40 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Mon, 09 Dec 2024 10:35:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1733758540;
-	 x=1733844940; bh=UqTmVuRf/ET48EmyDo6o/jFH6W1/RdB8GETflEI8Mpk=; b=
-	cJHTQ256PputfF4vM3G7MhLrUOgd3zajXUHRrHyhh1BIcOvZWoQM6K+4A0CW4Ebw
-	SoVzSylOFzPycyt5icAwdL7p7/D4Niha45qt5K8iewXriCtMyuUYwa2jlRj4As16
-	f1c7Y9jry2nZuN/aWBfNwd1+umO2VvFtON0Xg99MR8SXCKvKXvZDputXuAVUtm6X
-	9fA8lTGfDaEqTCYfk0ci2co4piueaRR4q5za0YI57JpKZWSMEQtYgAeddLS461tP
-	pL/CJ0DwfkYPNboKCRNmgr0/QXF7hC0U3BHa41Om4Nts6HTrm8K6XWUnDcTE6/C5
-	ljBdMr74yTOQRlnSTwxiRg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1733758540; x=
-	1733844940; bh=UqTmVuRf/ET48EmyDo6o/jFH6W1/RdB8GETflEI8Mpk=; b=v
-	3ON/mAMrFIhIiEhfo1u9RqGhICnd0g5KkBB/7LEBkQ7G9O5aA2I7cIo0/qZGPajq
-	Tf4JoVtv3WM/5TKaBCAZWca+1GHE38Sn7g4PjlCtcKYtVoAIXuwDy/d+m6/TaHoV
-	hffe8/RZ5psFiGhNjBRhyvWm5IREJ5NXmgx5wrDwHpbrdkYbd5rTE3xd86eayqx9
-	MWkva8cTPzg37OVNB/VNenJM9SEl0fWoizHxWL68uK/ZM4bWxULxSogAmipKwRDE
-	XNnH4zT2Jhfd1TV2coKyMubMi2bjxsMeBJath0xI59whYB0a7CWQ75dZy4G5PrAh
-	5I1hYaWEe+fLCRF+okxDA==
-X-ME-Sender: <xms:TA5XZ3XGEKdY-T9du7N2DSrmlyb9OpSrU01YCZi6JbqXXwwCSqb2ZA>
-    <xme:TA5XZ_m5Q-brRWj6rl4oeLm9ZOaCqrWZNVvXKMQ2_vJFVKV2OGyz21m3-XLC2lN5K
-    Ou-DkFmueccwzAL7xw>
-X-ME-Received: <xmr:TA5XZzY92DoaLmsdEuVQPa4Z_-3Fz5fEg10ZJXfFXim8_CQGtSbkIPGloEFYt6V5oJqDosSwao1oMUiSnc00koCGI-EVci1-Ew>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrjeeigdehudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
-    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
-    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
-    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
-    vghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvle
-    einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
-    khhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-    dpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhho
-    sghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghsse
-    hglhhiuggvrhdrsggvpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    hlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepghgvvghrtheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:TA5XZyUAvNu2sUDeUzaaI-PH-Vm3esd96smUSbw9tyLnrXkj5slq6A>
-    <xmx:TA5XZxkSjetQUVFSVGfnEdAq55sJfOE6U-ZqPLferTXcYTCxRmirQg>
-    <xmx:TA5XZ_fGReeQT6TxSQojD25tqfsVCZM0aBHzK78AhyUq80ceiCmsJg>
-    <xmx:TA5XZ7EyyTmC0zt10KFWorWNwUZ24qYxIQ6Uf8b_yfsH5-hHV8xN1g>
-    <xmx:TA5XZ3W045XPiGGQn9y8u3J5K4cxGYYp0Cu9SRN9KcJGtpTgEE7S4Y_B>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 Dec 2024 10:35:39 -0500 (EST)
-Date: Mon, 9 Dec 2024 16:35:36 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Rob Herring <robh@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779g0: Fix graph_child_address
- warnings from capture pipeline
-Message-ID: <20241209153536.GA74826@ragnatech.se>
-References: <20241016134819.1434340-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1733758969; c=relaxed/simple;
+	bh=MDtf3KrjN/ZuyRxqOUDdPapgk7TPgg4Z+6jlNqAS+CM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ibxhNbHyr8LUDdlQnpQvvknsNzs8KGqHQCilJfB67jb16/7B/L74t9RHjRxvNnRzQkgaEzFAqaJ8SQib9hGeU8afIbrZpeGkrM+WBIodukIamx/4ezsLhJXk86jnz7o/2Hupbv8Q2j9quhrkGJhWmpatHssIfMxUhiyMXpCk6wM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4afeccfeda2so548417137.1;
+        Mon, 09 Dec 2024 07:42:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733758966; x=1734363766;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xxv+gi2b4vb+2PfhKBfiYPC5UhPPhL9JTvs/aZ/ti3E=;
+        b=v4PzPoYrxeu6v9cdFtbnoVkFxsNMDL4CE7bVLXS+9+pC0SuCMLjNWgYjkgtYjfUWzi
+         hjDQoYgp3z+qqrFGICua0f7AwFow/LlcEwhGUYj3JAF6Q13Fx2g/ysIUcTP7G16E+p1A
+         zlymn3y7Xenr0MK39xIGnKb/M3jrShbAJDyjfzUIvLg2tuehQTxzb4qip6NSewheFnBB
+         oRIG+x+h3vPwd2bbbPqW8ZGFdkCeMgCHJDaMUAnJ9mDhr5gG6ys6t49IkL80+TQB442n
+         xM6MOViHc9iovE/8SbRK/gxypNPtcXkG72+FBHEfNNJcfIFuh5sZuo+XzHXWWaGIx6WE
+         CB1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU60khhr/uzHmDy0qgixEZdpKFA0QxPat3kFTPXLKZKYdKEWw2gGUZ19PNyNBPkj+CZLwu1o5PYfanADA==@vger.kernel.org, AJvYcCVmQGmlafiLjD4XYX8dwg3oDBnZh6TAZkeZyLjrbHyZKVoQKx+ZrQnkLA2Lzfl7Z0H0VdN/B/iupcUqyAwc@vger.kernel.org, AJvYcCW/p+pasNrnJjbBKX4k1v8u08/nnlaJhg+UE+vvBof3E0RRFF1s9eP3gHgGm1eKWi/Teeo3qAgnQB8XMXs=@vger.kernel.org, AJvYcCWEUBSdttpvxJhpLW1bQA5pt7NrOsd0eSHAG/Z41W5RQwagv6AMMfYvjrufazDM8ZL1xDH/54AJgGm/@vger.kernel.org, AJvYcCX7qFfL1CBm6Zx3SbrKsLATQbTZzfClbGqp5mfbFkrf8YxkpMgnLH/DkSY6gSI7pI8n5F61vlvpWcj847KOfSXVSQ8=@vger.kernel.org, AJvYcCXLaLV9QP5lclC5/alW2khfgkRVew2QTgopwxrYqWFoZzLCJxIcgA+FUELf29HfCBWpT+Sgv/K8Oe7k@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAR/ziodfLHGiSM4/vo8rXsM6LyX1E/2rnhG3ASqeHRE2pE2pW
+	nu95BDFZrvymqWylog3cdInqDuUTcO1RQF6iOmJuW5ic9h7IjNWjTeksMvxWAVo=
+X-Gm-Gg: ASbGnctiCgJZEerlfJFuRPdOD/K9o8Nvr3rwnGo5IMvFAbTaaAStg3K4pLWp+YXXh+q
+	r/pBWlE16522YZY527/Q4oEPlT7Nv4eP0vc+o6CG0dA+/zRwSXNCY8M7Mb027Fh5lBwgQxRVPwh
+	GdwlHnjtxITaeBHGSvy2+IBv1AxpTzZphEr+8EQWLfjZ5w9zjlh4Kd/3cIu+D5RdqttlolEeAmZ
+	9ZuK4y5pe4NVip8K5D1oXqbZukLe4EPFoSOebdq9dNYrOHgHewxrY79L0qY6cREm81VE9UqGn2P
+	XLn737n2BZ21
+X-Google-Smtp-Source: AGHT+IGqF6wUFSgOO4+KJou6ZjI/bxTh6odQa2c2jWG85N61Nyk3HDWl7WBBNDGhHtfyQAHZukAdWw==
+X-Received: by 2002:a05:6102:5494:b0:4af:df60:8649 with SMTP id ada2fe7eead31-4b116c6eee3mr1567661137.9.1733758966115;
+        Mon, 09 Dec 2024 07:42:46 -0800 (PST)
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85c2b964991sm1199889241.2.2024.12.09.07.42.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Dec 2024 07:42:45 -0800 (PST)
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-85ba92b3acfso924763241.1;
+        Mon, 09 Dec 2024 07:42:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV/aI3YEp1zjteOsrSM666F+kAiAW7ePL8UjvWEGj0uNtkBlDd8h7zMpNrisO2HRXQoKy8DeUrIVNvfhi8=@vger.kernel.org, AJvYcCV4+bQNAdA1ndJN3bUDnAmcE4wPQ5MA2npyYYflXp0hKNuaJkkO/8tieDFuHLVmzqwkLF4rlDDjEZl/B2hm7WvbR0w=@vger.kernel.org, AJvYcCWPcnOVQGFQaUct/+nV5EnBovIaKjuU6+Qapv2bPPQZ5KKv2NUedAVMCV6wBM3ANX9wMfHkXnkXMB1r@vger.kernel.org, AJvYcCWibF23FmRlaNA/Dnc+222jw0IzrOSZ/u2UBix1U1Xtq18AwYcMSj6C1cEuOBluq1D8X/JjrpMRIilfB8tf@vger.kernel.org, AJvYcCX0cvuLRLs9baUGeI1by/5pS6DxoY7yFQWKCXBvDIIbiyoZ8XZEftRaa4mmmGmcWcZ6VReb6nwJa8eA@vger.kernel.org, AJvYcCXQIDPyzizG4OLFM39tWfJRghba4meu0Jssz0054oEAa0xFUfvAbE5NNY1tn4CtYcKB4veOiE5AkNZfJw==@vger.kernel.org
+X-Received: by 2002:a05:6102:2ef:b0:4af:f5bd:6376 with SMTP id
+ ada2fe7eead31-4aff5bd672dmr3479930137.7.1733758964965; Mon, 09 Dec 2024
+ 07:42:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241016134819.1434340-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com> <20241113133540.2005850-23-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241113133540.2005850-23-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 9 Dec 2024 16:42:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWa+kmHJRTo_HOiY=LKsoOoG1011O4M5JmKWNCmRuh34w@mail.gmail.com>
+Message-ID: <CAMuHMdWa+kmHJRTo_HOiY=LKsoOoG1011O4M5JmKWNCmRuh34w@mail.gmail.com>
+Subject: Re: [PATCH v3 22/25] arm64: dts: renesas: rzg3s-smarc-som: Add versa3
+ clock generator node
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, biju.das.jz@bp.renesas.com, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com, 
+	broonie@kernel.org, magnus.damm@gmail.com, linus.walleij@linaro.org, 
+	perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rob,
+On Wed, Nov 13, 2024 at 2:36=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Add versa3 clock generator node. It provides the clocks for the Ethernet
+> PHY, PCIe, audio devices.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Sorry to bother you but I wonder if you could help me understand why the 
-dtc checker warns for the issues I tried to work around in this patch,
-and if possible how I can improve my solution to get rid of the 
-warnings.
+> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+> @@ -152,6 +158,30 @@ &extal_clk {
+>
+>  &i2c1 {
+>         status =3D "okay";
+> +
+> +       versa3: clock-generator@68 {
 
-This patch addresses the same problem for a few different devices. I 
-will focus on the last one (/soc/isp@fed00000/ports/port@0) for my 
-question, but all warnings here have the same issue.
+> +               renesas,settings =3D [
+> +                 80 00 11 19 4c 42 dc 2f 06 7d 20 1a 5f 1e f2 27
+> +                 00 40 00 00 00 00 00 00 06 0c 19 02 3f f0 90 86
+> +                 a0 80 30 30 9c
+> +               ];
+> +       };
+>  };
 
-I have a port node the represents a sink for a video input. This sink 
-can either be connected to source A or source B, but not both at the 
-same time. So each possible source is represented by an endpoint in the 
-port node. Each endpoint have specific register address on the port bus 
-that is described in the bindings as they map to different physical pins 
-on the hardware.
+I did not verify renesas,settings. The rest LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-The issue I have is that not all hardware configurations have both 
-source A and B populated. All combinations of A, B and C are possible 
-depending on the platform.
+Gr{oetje,eeting}s,
 
-A)
-    ports {
-        ...
-        port@0 {
-            ...
-            sourceA: endpoint@0 {
-                reg = <0>
-            };
-            sourceB: endpoint@1 {
-                reg = <1>
-            };
-        };
-    };
+                        Geert
 
-B)
-    ports {
-        ...
-        port@0 {
-            ...
-            sourceA: endpoint@0 {
-                reg = <0>
-            };
-        };
-    };
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-C)
-    ports {
-        ...
-        port@0 {
-            ...
-            sourceB: endpoint@1 {
-                reg = <1>
-            };
-        };
-    };
-
-For option A and C the checker is happy, but for option B the warnings 
-this patch tries to address are triggered. While reading the 
-dtc/checks.c I find check_graph_child_address() is the one that is 
-triggering the warning. And this function explicitly checks for port 
-buses with a single endpoint with a register value of 0.
-
-This check was added way back in 2018 in commit df536831d02c ("checks: 
-add graph binding checks"). But I can't find any information on the 
-specifics. Is this design a bad idea for port buses for some reason I 
-don't understand? AFIU this design is possible on other type of buses? 
-And do you have any guidance on how I can dig myself out of this hole?
-
-Thanks for your help.
-
-On 2024-10-16 15:48:19 +0200, Niklas Söderlund wrote:
-> The bindings for the R-Car video capture pipeline uses ports and
-> endpoints to describe which IP is wired up and present on the different
-> SoCs. It is needed to describe both which instance of an IP is
-> connected, and to which port. The bindings try to be as reusable as
-> possible across the different R-Car generations.
-> 
-> For example R-Car VIN IP bindings have three ports, where two of them
-> can have multiple endpoints. Not all ports or endpoints are physically
-> present on each generation and/or model of R-Car SoCs.
-> 
-> The users of the VIN bindings needs to know not only that a port have
-> one, or more, endpoints but also which particular hardware instance it
-> is. The bindings defines endpoint indexes to correspond to particular
-> hardware instances that can be routed to a port to describe this.
-> 
-> This design leads to warnings when compiling the DTB if a port that can
-> describe more then one endpoint only describes a single endpoint. And
-> that endpoint corresponds to be the hardware the bindings defined to
-> index 0. For example compiling R-Car V4H which includes r8a779g0.dtsi,
-> 
->    ../r8a779g0.dtsi:1200.12-1210.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->    ../r8a779g0.dtsi:1228.12-1238.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->    ../r8a779g0.dtsi:1256.12-1266.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->    ../r8a779g0.dtsi:1284.12-1294.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->    ../r8a779g0.dtsi:1312.12-1322.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->    ../r8a779g0.dtsi:1340.12-1350.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->    ../r8a779g0.dtsi:1368.12-1378.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->    ../r8a779g0.dtsi:1396.12-1406.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->    ../r8a779g0.dtsi:2076.12-2086.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are
-> 
-> To avoid these warnings define all possible endpoints for each port in
-> the video capture pipeline, but only set the remote-endpoint property if
-> there is hardware present. This takes care of the warnings, but it also
-> adds empty endpoints that are not connected to anything on that
-> particular SoC.
-> 
-> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> Hi Geert,
-> 
-> This only addresses the warnings on V4H. More boards do trigger these
-> warnings but before I address them I thought it was a good idea we
-> agreed if this is a good way forward.
-> 
-> In this design I have defined every possible endpoint for the ports
-> involved. This might be a bit excessive as we define endpoints that are
-> not physically possible for V4H. For example V4H only have 2 CSISP
-> instances, while the bindings allow for up-to 4 CSISP as that is
-> possible on V3U which the CSISP bindings are shared with.
-> 
-> I'm not sure where to best draw the line. Only adding empty endpoints if
-> they are possible on the SoC sounds good, but what if we get a board
-> with only a single CSISP for example? That would be a single endpoint
-> with an index of 0, this triggering the warning.
-> 
-> Maybe do the minimum and only define an extra endpoint for ports that
-> trigger the warning? And if it nots pysically possible for that SoC add
-> a comment? This feels wrong however.
-> 
-> Let me know what you think. But it would be nice to get rid of these
-> warnings one way or another.
-> 
-> Kind Regards,
-> Niklas
-> ---
->  arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 200 ++++++++++++++++++++++
->  1 file changed, 200 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> index 61c6b8022ffd..e3079562fe65 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> @@ -1364,6 +1364,18 @@ vin00isp0: endpoint@0 {
->  						reg = <0>;
->  						remote-endpoint = <&isp0vin00>;
->  					};
-> +
-> +					vin00isp1: endpoint@1 {
-> +						reg = <1>;
-> +					};
-> +
-> +					vin00isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin00isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1393,6 +1405,18 @@ vin01isp0: endpoint@0 {
->  						reg = <0>;
->  						remote-endpoint = <&isp0vin01>;
->  					};
-> +
-> +					vin01isp1: endpoint@1 {
-> +						reg = <1>;
-> +					};
-> +
-> +					vin01isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin01isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1422,6 +1446,18 @@ vin02isp0: endpoint@0 {
->  						reg = <0>;
->  						remote-endpoint = <&isp0vin02>;
->  					};
-> +
-> +					vin02isp1: endpoint@1 {
-> +						reg = <1>;
-> +					};
-> +
-> +					vin02isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin02isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1451,6 +1487,18 @@ vin03isp0: endpoint@0 {
->  						reg = <0>;
->  						remote-endpoint = <&isp0vin03>;
->  					};
-> +
-> +					vin03isp1: endpoint@1 {
-> +						reg = <1>;
-> +					};
-> +
-> +					vin03isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin03isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1480,6 +1528,18 @@ vin04isp0: endpoint@0 {
->  						reg = <0>;
->  						remote-endpoint = <&isp0vin04>;
->  					};
-> +
-> +					vin04isp1: endpoint@1 {
-> +						reg = <1>;
-> +					};
-> +
-> +					vin04isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin04isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1509,6 +1569,18 @@ vin05isp0: endpoint@0 {
->  						reg = <0>;
->  						remote-endpoint = <&isp0vin05>;
->  					};
-> +
-> +					vin05isp1: endpoint@1 {
-> +						reg = <1>;
-> +					};
-> +
-> +					vin05isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin05isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1538,6 +1610,18 @@ vin06isp0: endpoint@0 {
->  						reg = <0>;
->  						remote-endpoint = <&isp0vin06>;
->  					};
-> +
-> +					vin06isp1: endpoint@1 {
-> +						reg = <1>;
-> +					};
-> +
-> +					vin06isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin06isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1567,6 +1651,18 @@ vin07isp0: endpoint@0 {
->  						reg = <0>;
->  						remote-endpoint = <&isp0vin07>;
->  					};
-> +
-> +					vin07isp1: endpoint@1 {
-> +						reg = <1>;
-> +					};
-> +
-> +					vin07isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin07isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1592,10 +1688,22 @@ port@2 {
->  
->  					reg = <2>;
->  
-> +					vin08isp0: endpoint@0 {
-> +						reg = <0>;
-> +					};
-> +
->  					vin08isp1: endpoint@1 {
->  						reg = <1>;
->  						remote-endpoint = <&isp1vin08>;
->  					};
-> +
-> +					vin08isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin08isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1621,10 +1729,22 @@ port@2 {
->  
->  					reg = <2>;
->  
-> +					vin09isp0: endpoint@0 {
-> +						reg = <0>;
-> +					};
-> +
->  					vin09isp1: endpoint@1 {
->  						reg = <1>;
->  						remote-endpoint = <&isp1vin09>;
->  					};
-> +
-> +					vin09isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin09isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1650,10 +1770,22 @@ port@2 {
->  
->  					reg = <2>;
->  
-> +					vin10isp0: endpoint@0 {
-> +						reg = <0>;
-> +					};
-> +
->  					vin10isp1: endpoint@1 {
->  						reg = <1>;
->  						remote-endpoint = <&isp1vin10>;
->  					};
-> +
-> +					vin10isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin10isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1679,10 +1811,22 @@ port@2 {
->  
->  					reg = <2>;
->  
-> +					vin11isp0: endpoint@0 {
-> +						reg = <0>;
-> +					};
-> +
->  					vin11isp1: endpoint@1 {
->  						reg = <1>;
->  						remote-endpoint = <&isp1vin11>;
->  					};
-> +
-> +					vin11isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin11isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1708,10 +1852,22 @@ port@2 {
->  
->  					reg = <2>;
->  
-> +					vin12isp0: endpoint@0 {
-> +						reg = <0>;
-> +					};
-> +
->  					vin12isp1: endpoint@1 {
->  						reg = <1>;
->  						remote-endpoint = <&isp1vin12>;
->  					};
-> +
-> +					vin12isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin12isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1737,10 +1893,22 @@ port@2 {
->  
->  					reg = <2>;
->  
-> +					vin13isp0: endpoint@0 {
-> +						reg = <0>;
-> +					};
-> +
->  					vin13isp1: endpoint@1 {
->  						reg = <1>;
->  						remote-endpoint = <&isp1vin13>;
->  					};
-> +
-> +					vin13isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin13isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1766,10 +1934,22 @@ port@2 {
->  
->  					reg = <2>;
->  
-> +					vin14isp0: endpoint@0 {
-> +						reg = <0>;
-> +					};
-> +
->  					vin14isp1: endpoint@1 {
->  						reg = <1>;
->  						remote-endpoint = <&isp1vin14>;
->  					};
-> +
-> +					vin14isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin14isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -1795,10 +1975,22 @@ port@2 {
->  
->  					reg = <2>;
->  
-> +					vin15isp0: endpoint@0 {
-> +						reg = <0>;
-> +					};
-> +
->  					vin15isp1: endpoint@1 {
->  						reg = <1>;
->  						remote-endpoint = <&isp1vin15>;
->  					};
-> +
-> +					vin15isp2: endpoint@2 {
-> +						reg = <2>;
-> +					};
-> +
-> +					vin15isp3: endpoint@3 {
-> +						reg = <3>;
-> +					};
->  				};
->  			};
->  		};
-> @@ -2251,6 +2443,10 @@ isp0csi40: endpoint@0 {
->  						reg = <0>;
->  						remote-endpoint = <&csi40isp0>;
->  					};
-> +
-> +					isp0csi41: endpoint@1 {
-> +						reg = <1>;
-> +					};
->  				};
->  
->  				port@1 {
-> @@ -2331,6 +2527,10 @@ port@0 {
->  
->  					reg = <0>;
->  
-> +					isp1csi40: endpoint@0 {
-> +						reg = <0>;
-> +					};
-> +
->  					isp1csi41: endpoint@1 {
->  						reg = <1>;
->  						remote-endpoint = <&csi41isp1>;
-> -- 
-> 2.46.2
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
