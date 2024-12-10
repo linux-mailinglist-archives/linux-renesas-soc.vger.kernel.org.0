@@ -1,160 +1,246 @@
-Return-Path: <linux-renesas-soc+bounces-11196-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11198-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8421D9EB7EF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 18:16:20 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E44AB9EB910
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 19:10:12 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E4F7918887CF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 17:15:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52D20280D45
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 18:10:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4148D241F54;
-	Tue, 10 Dec 2024 17:11:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E785C20469D;
+	Tue, 10 Dec 2024 18:10:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="H4Oo73oc"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="THK4xO6I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5914F243540
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 17:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD87486320;
+	Tue, 10 Dec 2024 18:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733850666; cv=none; b=WFaB2nnrXiBw8VEFFLpIXLh7Nf9mmhvxSG1BsIfxIwzNNExKLU1k2UOZF6HDCv06+12p+DFYeXrE5k+YqX6QX6sPAONu4RXMZgidVbyED2yCiCc91zWcToldqighDwJxnzIA9sPuytPI4CNZcJJlWTZquAEZR7LTKtl8EUkd20U=
+	t=1733854207; cv=none; b=VxVfmFvhmryGvyHBQSgfzX7TO4D8i3cUxeiVedYKhrrk/C7vF1zSi5VTF4dr9wSUgFK82ET0iLp06A4BuTECf2HM9e4Ma0/XHMXnHlTVWckm/deDZXgcXtbvjnfCiL2AYhEbDFhzPT6yYAarBFKQW9W1ENiGnLMNiGNPEd/BfNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733850666; c=relaxed/simple;
-	bh=hJDCv1TyaQlo/L0tvA82G+IiLtzZURDjCsIXt6YWZzI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GkBqIror7TfsDl0vVDO0Z4mL6DqbVhyPeUwXwaCp8wek0+Mx0WUrPsvH1YSmk9hd/H2/kQXog2Bq3xt6lIqW9wPyAs/aXiDalfI1inEyOE0R0rb1tUKcGlRhrhb+xtXAQajOeLKqOwWBkioR+J+AW/TgVXun/QLE6RzcoVpOpk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=H4Oo73oc; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5d2726c0d45so8939978a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 09:11:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1733850663; x=1734455463; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TwyXnruxyE1MIUM59wwP+urrQ2EdZ5O+ybJnem/vHTM=;
-        b=H4Oo73ocUU6EO5L86bsbLakxd18SGRoMb/J2jzJtaIAmNhotmttFlW/TmdIeordbJZ
-         Dq+bShklzmdfREDBwuxJjDLed5ej3M+XFdsU4eDmnuGhRUVNt+PJ40Ionl0av+NKnuam
-         20kW6ycQNBXnYADF2aarxkcua1Z23wHlFv4RkB10Mzt9g4G4T1wVBNpetas+bTy1Y/ra
-         QxlTvkMagWUEayvqovJIrXb6kvLmnSdz5LF+mTMRyfpXgNdPR5z4JALaPwtMfAI4Jqk2
-         ssmNkWomPf8q8YXmUV3JnL5oqVsbP/qx81usGKG8bDL3iWU+IqMU+2BeYTV4XYrxA9yj
-         pM7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733850663; x=1734455463;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TwyXnruxyE1MIUM59wwP+urrQ2EdZ5O+ybJnem/vHTM=;
-        b=ZRWODKwWewH8ebvlWk/Qo8gq5bNGQLLRQrSKtoXArBMrFQYQxLo3ihARN+b15F028V
-         OnSPKX25Csxfq6c5Ls84h7sOVkLGjXjLE+zc4nYQ8XhZz62FweYcR1Z1OJKjQfdZNLxD
-         DpJMUOnAGM4+2QyTv9xgx8whhLvoMgSIS5inCpuFVe+F3RPU/Hsm1fN3dF+k1lpB3TjJ
-         zq9Bp8bqP9w4Rd2O3Xy6kBcaMvaqc472JZBIsntd05rABhx4BocY14nrAIuB6QbZ1ync
-         W6QReA0pp2uizwR+bhzTL0lebZthPY34VPt6rQZ7mq6bpZO40TN2FbO9XO7ZBcQzfQN/
-         3UbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWKkADXaDq4b2lYHDQ3e276VTrzw73DgRoGhr6P4AmIFxGG6MsBQt+g42199wBb6mC3+Dg5/CvYac/55FGtlk9r4w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxprkomBkZFrHUfe/D6WDxYCImQtGUn3xy2r0q6Rt7MbW9hIq7a
-	cdMbmE3KBUbM2LJcNWGKCgvZH9aWgZgc144VnjglnuvqEiu1GKmaTYzdg918qDk=
-X-Gm-Gg: ASbGnctRwHdgPWDp9TAzkra/01uAjK5N8ih6WoQZc0v5l3y5ux+VZQ+U2KArnz8d8i9
-	qQryGY3tNO+gYnEzKyTDFfQcVFnNILyfTBKVFtrtqPtkyFo4H0BmvgyIcMtbS9Pcgh1YqQ5JQew
-	NylSJAKPrgHEtEEDV4vupIHKBMbD7qUQBh9nXE/UKwivQ44ZT0vwq8OBwr6PvwVdapHvlvZkRj1
-	zxmsfot/FPxmLpr1nv7b6ry19aDSyVbNFmMvh36C7tGxFfzaBEC6Ue+UXqUdPNTyD+kZ0AZ6IHA
-	MRCa3+Iy
-X-Google-Smtp-Source: AGHT+IGQNruuJ2fmbhGEBR6v4EYtbwtUlKzpp82KdDiJC4wYZhl0SU6OosybB2Txg3S5RjOBSBjG+g==
-X-Received: by 2002:a05:6402:3490:b0:5d0:d5af:d417 with SMTP id 4fb4d7f45d1cf-5d418502c64mr5890914a12.1.1733850662767;
-        Tue, 10 Dec 2024 09:11:02 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.161])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d3e7936581sm4853124a12.56.2024.12.10.09.10.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 09:11:01 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: geert+renesas@glider.be,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	robh+dt@kernel.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	magnus.damm@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	p.zabel@pengutronix.de,
-	biju.das.jz@bp.renesas.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v4 24/24] arm64: dts: renesas: rzg3s-smarc: Add sound card
-Date: Tue, 10 Dec 2024 19:09:53 +0200
-Message-Id: <20241210170953.2936724-25-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20241210170953.2936724-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20241210170953.2936724-1-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1733854207; c=relaxed/simple;
+	bh=44MoriPRa8+FOLOmQtOYuRsA5M7sKthD+8WC6qqjaaw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=unKxmmjPdewf/ulK9kr60COyvTc4p/tNNI6sUmSFaOVmTP8S5y6bAnQkutU50AFFFGXbzK/QjpzQUBK4utqIWaggGJnMr0SmPmbflIzvrHwuy5qPQ/Tl8GNY4JRprWyO2GQjzzsqAblPVzUJM8qlk5lu4R95jIJrkg+fPLNhcrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=THK4xO6I; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 609DD352;
+	Tue, 10 Dec 2024 19:09:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1733854168;
+	bh=44MoriPRa8+FOLOmQtOYuRsA5M7sKthD+8WC6qqjaaw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=THK4xO6Iuoq4eTRXsWHmqnO8ADa+mkIjtb8TKpOQtGPT23Wbhev6hF7nYgobUrzid
+	 LkfOE4wbEbJaPoiUXeT+EQaF/aBfK2e5ZstLJVq3JUYueCqJKsgDcniNfWE8NyPLST
+	 fhsBaMMGTXI5MYnsSymQ3f8Aa9Ad0DVHM5IGIP4A=
+Message-ID: <da31d29e-6a2b-45fc-bb16-3ee78be41d66@ideasonboard.com>
+Date: Tue, 10 Dec 2024 20:09:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 10/10] arm64: dts: renesas: gray-hawk-single: Add
+ DisplayPort support
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-clk@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
+ <20241206-rcar-gh-dsi-v3-10-d74c2166fa15@ideasonboard.com>
+ <CAMuHMdXMt74okJjqinLwrVmf5hZFm7YQkE5s3u2F9AOTWk+zXQ@mail.gmail.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
+ wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
+ Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
+ eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
+ LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
+ G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
+ DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
+ 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
+ rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
+ Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
+ aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
+ ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
+ PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
+ VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
+ 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
+ uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
+ R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
+ sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
+ Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
+ PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
+ dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
+ qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
+ hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
+ DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
+ KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
+ 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
+ xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
+ UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
+ /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
+ 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
+ 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
+ mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
+ 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
+ suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
+ xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
+ m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
+ CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
+ CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
+ 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
+ ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
+ yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
+ 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
+In-Reply-To: <CAMuHMdXMt74okJjqinLwrVmf5hZFm7YQkE5s3u2F9AOTWk+zXQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi,
 
-Add sound card with SSI3 as CPU DAI and DA7212 as codec DAI.
+On 10/12/2024 18:34, Geert Uytterhoeven wrote:
+> Hi Tomi,
+> 
+> On Fri, Dec 6, 2024 at 10:33 AM Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com> wrote:
+>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>
+>> Add support for the mini DP output on the Gray Hawk board.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Thanks for your patch!
+> 
+>> --- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+>> +++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+>> @@ -269,6 +314,51 @@ eeprom@53 {
+>>          };
+>>   };
+>>
+>> +&i2c1 {
+>> +       pinctrl-0 = <&i2c1_pins>;
+>> +       pinctrl-names = "default";
+>> +
+>> +       status = "okay";
+>> +       clock-frequency = <400000>;
+>> +
+>> +       bridge@2c {
+> 
+> Missing:
+> 
+>          pinctrl-0 = <&irq0_pins>;
+>          pinctrl-names = "default";
+> 
+>> +               compatible = "ti,sn65dsi86";
+>> +               reg = <0x2c>;
+>> +
+>> +               clocks = <&sn65dsi86_refclk>;
+>> +               clock-names = "refclk";
+>> +
+>> +               interrupt-parent = <&intc_ex>;
+>> +               interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+> 
+> interrupts-extended = ...
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
+Is that just to use the same style in the whole dts, or is there some 
+specific need for the extended one here?
 
-Changes in v4:
-- collected tags
+>> +
+>> +               enable-gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
+>> +
+>> +               vccio-supply = <&reg_1p8v>;
+>> +               vpll-supply = <&reg_1p8v>;
+>> +               vcca-supply = <&reg_1p2v>;
+>> +               vcc-supply = <&reg_1p2v>;
+>> +
+>> +               ports {
+>> +                       #address-cells = <1>;
+>> +                       #size-cells = <0>;
+>> +
+>> +                       port@0 {
+>> +                               reg = <0>;
+>> +                               sn65dsi86_in0: endpoint {
+>> +                                       remote-endpoint = <&dsi0_out>;
+>> +                               };
+>> +                       };
+>> +
+>> +                       port@1 {
+>> +                               reg = <1>;
+>> +                               sn65dsi86_out0: endpoint {
+>> +                                       remote-endpoint = <&mini_dp_con_in>;
+>> +                               };
+>> +                       };
+>> +               };
+>> +       };
+>> +};
+>> +
+>>   &i2c3 {
+>>          pinctrl-0 = <&i2c3_pins>;
+>>          pinctrl-names = "default";
+>> @@ -361,6 +451,11 @@ i2c0_pins: i2c0 {
+>>                  function = "i2c0";
+>>          };
+>>
+>> +       i2c1_pins: i2c1 {
+>> +               groups = "i2c1";
+>> +               function = "i2c1";
+>> +       };
+>> +
+>>          i2c3_pins: i2c3 {
+>>                  groups = "i2c3";
+>>                  function = "i2c3";
+> 
+> Missing:
+> 
+>          irq0_pins: irq0 {
+>                  groups = "intc_ex_irq0_a";
+>                  function = "intc_ex";
+>          };
+> 
+> I'll fix that up while applying.
 
-Changes in v3:
-- none
+Thanks!
 
-Changes in v2:
-- none
+  Tomi
 
- arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-index 1944468a2961..5329f3461990 100644
---- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-@@ -44,6 +44,23 @@ key-3 {
- 		};
- 	};
- 
-+	snd_rzg3s: sound {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,format = "i2s";
-+		simple-audio-card,bitclock-master = <&cpu_dai>;
-+		simple-audio-card,frame-master = <&cpu_dai>;
-+		simple-audio-card,mclk-fs = <256>;
-+
-+		cpu_dai: simple-audio-card,cpu {
-+			sound-dai = <&ssi3>;
-+		};
-+
-+		codec_dai: simple-audio-card,codec {
-+			sound-dai = <&da7212>;
-+			clocks = <&versa3 1>;
-+		};
-+	};
-+
- 	vcc_sdhi1: regulator-vcc-sdhi1 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "SDHI1 Vcc";
--- 
-2.39.2
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v6.14.
+> 
+> Gr{oetje,eeting}s,
+> 
+>                          Geert
+> 
 
 
