@@ -1,112 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-11171-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11197-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121F59EB6F3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 17:48:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E10139EB804
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 18:18:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6C53168613
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 16:48:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 865701889717
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 17:18:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C98F42343C0;
-	Tue, 10 Dec 2024 16:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2E2E23ED66;
+	Tue, 10 Dec 2024 17:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IaOOglHM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DC722FE1E;
-	Tue, 10 Dec 2024 16:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D30086332
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 17:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733849206; cv=none; b=XQB0cnHc38+GbB2scAjo6vR3jhHFaVr8SmRkj4NRZ3cyEYdtH5x2t+YaomTnJADca2WrTByHb6X/L/Mo0Q2A11kXttJN579SVYmtc/sn2TDsB/7O+Hb4CoDqWd/EtUiWLZz98z0uHiHLFL8Dw01k5l5Pfevz7fxQukeQ8TLeWIQ=
+	t=1733850995; cv=none; b=Rv615QqCNfRjuEy3VHl6RZuj5j9Kr5bRe56MqWW1BQ1pxM7hOnhQBxbdQxODyZvq2hc23RCk1hUlg3zkfpQw05tVqMzR4/jLTv2oMEGIJ/2O4DxJv3i+UuRfr6l8fO4jG0qN6D+SlqeE0MPaaCBmvL0zrtbVYLmWN94HmfygAt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733849206; c=relaxed/simple;
-	bh=DJk+/1n29bnMlMcMpqUE3uVrUKg4L15UDqwG/070HJ8=;
+	s=arc-20240116; t=1733850995; c=relaxed/simple;
+	bh=kmpw+MU85Klv2VgMx3ZqVirEPF5gOEEsCLRROZYzfzg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tfReV6fCJduLcVwUzTyEV8k3DlYMWTRaDQEUYAsZHPiLc/W/mDAbF9T+Uj8Qw3dOsa5VZdTU9csbVALs+vLHbuVZbxd/9tUg8kK26v9uXgQ1ps/aH+Y/I9OfGUwJQ3VJCSc5KXkkBfhKxvJcs60pn6MJbytpyRyfnMLSVQAvd/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-85b95896cefso1134962241.2;
-        Tue, 10 Dec 2024 08:46:45 -0800 (PST)
+	 To:Cc:Content-Type; b=LjlenAanQv0GlmCqw1FLL1DowNwWjBmclXKa82w8yzwBiJmR0XazC72gws+kX2fXdDTj2+F10NIWeCZ7/tw2l93+p/zl/a5LJeEaBJ3Ko1fpekXUIHpU7mjzxz5YuU5xVr4xI+6QIjgeAt/fiin3Iq1+bIPCtx1fB2/OVYyGhsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IaOOglHM; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aa5ec8d6f64so697286366b.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 09:16:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1733850991; x=1734455791; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LuhRNegPQNd7+gF/yjuNpjthxXavGQO/1ZgSXezZky4=;
+        b=IaOOglHMwSmrFfOnB4GcPSRqJjA0KVpEKpVQ3nkvBb74wG9gHCaSOmw1nzAdhV/ORF
+         KIuBpDfhPNuIRJZMTWfAH95Bizk+lwLPZKKJs56rpRmn5WY/DqbmsF9efD8ja7kTwsN7
+         +2eRtLkTJupUMb8SRQ3HCeTNneSrUOa1aSV9Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733849203; x=1734454003;
+        d=1e100.net; s=20230601; t=1733850991; x=1734455791;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=e5ypiX1Rzkjkw7s0415yKyTYKuFCQkAs79zCPKtYbJ8=;
-        b=IPDjADHd+PcfPmmOs2/BJEjk1E5nDcpFKxow4Wzk24cJ+/mqEDcio2R85IUE61y1sX
-         IBdRQLkVdNfxNT6/ZNU2INXamxue2yRJpZMCp7y48ZPPpsBPPhl9qGyHsY/4IWi4O4Pl
-         91oQzIMks1Asta5qTsRePvFtnIDxb+bGm/KFoPyb/vFynqt+xixzHsv6f4hlZJ1d5+H3
-         2W0TNBRXcq+XCvQ8SvAMQUjPcHg3Ja8Fz0DrLlowNYb9FBRzs58/Z/75tgc+0c29X2Va
-         Qe5NTq1ooy2NYfNCIQFdS2LQGBLDyetidNWLrd/qAJyIJllyulxzAMBnjlRkNoDCFYtM
-         JJTg==
-X-Forwarded-Encrypted: i=1; AJvYcCVykEj+mCwnInK3pDMaYDOWT/xYvb4h+O+48oVuYbcEhCAKtADSxG4lpFSyh4ddFuvEGd14DK9Jg1CN@vger.kernel.org, AJvYcCWALIoBC+JIKji6qHlOYal6sp8AiKCys60utwYPRZ3+IdvhRXBC1NOvO6h08j7NIKzlCLOdp0wU3k/Mej3c4OhDow4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvArlNHZhXkX9RQ6kjMmpUsJfZJHC0jnoN6EZnSGvuXP+3QtKF
-	0H3bR1gHpSxZUX0CF8BUgdahkjX4vGK7oXN8yvnx4eRQImFlPeReZMic0+t+
-X-Gm-Gg: ASbGnctDky+Q6w9bY8nbjtDCZ87TcUIAgWE49XP0l3XaCOWdRZsFL3nTlEYp5gGNMxt
-	iLZDzyBq+C+y9S/HKf0mzYjQEFx4wXysNbSEFX+A8yDcKy0ojCadKwLIHW3hwqIlfyYUrolib8K
-	0PhJxR9hrmuLj21qv+w8G8iZ09CZOjXlkyzIh8X2M1ntYfu6KbEsNsYZbiQaiBw+Bng9ifddqKN
-	oWp3LA3kioKwV5YRt2N1wvFWmStmr4N0o4fBrulp1Lis3r6unNed/mMSlk5yQ/RiiZ/FRCk6PNg
-	i1i3bVCVGdsfGSc8PX/a
-X-Google-Smtp-Source: AGHT+IE05VBox6RjDMmmbwjxl9SXWuUm0UHEoj+9FSY7FtdQW4mMSKaM53ZkfgIPcKp4uLvfN7yd5A==
-X-Received: by 2002:a05:6102:2912:b0:4af:ad76:fec8 with SMTP id ada2fe7eead31-4b11605532fmr6089291137.5.1733849203602;
-        Tue, 10 Dec 2024 08:46:43 -0800 (PST)
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4afd95c33f2sm1005593137.9.2024.12.10.08.46.43
+        bh=LuhRNegPQNd7+gF/yjuNpjthxXavGQO/1ZgSXezZky4=;
+        b=Nj96j+Upzv9F0uL4mtoKpeF3t+PVerpWVVHae808mYh8Bz2BYHidAmNoFkKp6FSHzL
+         RwAiJJLaihdNgXaLcNhUMie0Dz8bs+qKsNeyUWwDyp9tbWZDgDMzlYboyvclBb08+R7A
+         z15F3JIOisfZoM8WV9Kem32lB6gExW/NwIwNLepyWykN+53/fk4B2cE7ZTJeWmxBRyuT
+         7Ay2eNHA40zSn+Nt/ZWb10XeMJ+B5QH61MVD3CmLAZ2VfABBB9flso+TB19f+fMxzGKX
+         stp78/3ngQvOv00Rd9RAk6ZTJLYi+1WLzxpE890L1QsmDi4zi3UkZIj7QS1j6JJLnZvI
+         epOA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYEkMPoG8/ADesn3ZvK+9WVrASKMbSRNRbNDTdGQWTLhmpPG85M12QH9Ya0ie8fmX+BpxwECKoZCIvtNUbz07XIw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyACo7X0s072J+/UObp1YlBdlYUEulTBm2MsOgtX22P6Mf973wn
+	H6ja38IbN5kJJhxcjFu0FsJ/PeBokFV+K4FtHllbmkKoX20OcuGpByFV3tp9VSy4k73Fuoer1oX
+	Vxur8
+X-Gm-Gg: ASbGncvcgDkA+SJSY5cBximq0rMrkerSLHpy/L+1s/7TCUaZbLePibGTYJrLgeLPBjj
+	3dvHxqJHmbBth1LbE+witfaOhieHiNwAr50gw+H3WWJmJ6iJuRN09pCPFecWMPuczBG7ChLG/hC
+	SpoZ29VOLLq8u0rJprPJ9mZh6oBAoAzmp1nMNpmeOjcxD0DkiygHZTjPP6/bwCWI0ysz79OU3Gf
+	0dSJ7OiRIArso11T6IIyWGOdpiQgfQrFNkkdwf5S9KNUJqXhF+XvYoS7qnMdfI/7uLHill3zSCt
+	JUDxhf+v1F2xZ1R7ng==
+X-Google-Smtp-Source: AGHT+IFW9xJDZuBM+4jbvJqnL8IdMWV9GarDL92KWrlMd/RbEO5UhbWZKU2FUszJD7vYa6fRPMW7Qg==
+X-Received: by 2002:a05:6402:3210:b0:5d0:bf5e:eb8 with SMTP id 4fb4d7f45d1cf-5d4185d651cmr12275598a12.23.1733850991405;
+        Tue, 10 Dec 2024 09:16:31 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d3cf972f6dsm6271575a12.61.2024.12.10.09.16.31
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Dec 2024 08:46:43 -0800 (PST)
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5162571e761so842498e0c.2;
-        Tue, 10 Dec 2024 08:46:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWA4lvU36j3d39ljJW38w+ZhKhxmWnCT57ui6p9MUSr30/Zb75bW6X99n2u274b2JmLMN3SRBVU649fknBt+Z3oj5c=@vger.kernel.org, AJvYcCWx74eUTsz7hcjQcvlXjRqFx4eJqJnlKrN5s7gux/IhssiSgYnKkVBj1RdpXIGCzGxs+XmA6LgmHuAr@vger.kernel.org
-X-Received: by 2002:a05:6122:895:b0:516:2833:1b8d with SMTP id
- 71dfb90a1353d-5188858f8ccmr6063362e0c.11.1733849203046; Tue, 10 Dec 2024
- 08:46:43 -0800 (PST)
+        Tue, 10 Dec 2024 09:16:31 -0800 (PST)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5d3f28881d6so3334896a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 09:16:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW0PuHBoidX6Cb8K6uiv2BL9IUeOnCd11eMKt6VGUqi4z9U1kfur5bgqUSjap9tElieV0vJ+IzDQ3Ktpwrmha6StA==@vger.kernel.org
+X-Received: by 2002:a05:6512:33d0:b0:53e:368c:ac43 with SMTP id
+ 2adb3069b0e04-540240aac8fmr2378233e87.5.1733850544359; Tue, 10 Dec 2024
+ 09:09:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241209125504.2010984-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20241209125504.2010984-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 10 Dec 2024 17:46:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUFH37aFitS4=723pyThTsUyn6i1Vb=KHKiSvXDtrkmAg@mail.gmail.com>
-Message-ID: <CAMuHMdUFH37aFitS4=723pyThTsUyn6i1Vb=KHKiSvXDtrkmAg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: gray-hawk-single: Add video capture support
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org
+References: <7a68a0e3f927e26edca6040067fb653eb06efb79.1733840089.git.geert+renesas@glider.be>
+In-Reply-To: <7a68a0e3f927e26edca6040067fb653eb06efb79.1733840089.git.geert+renesas@glider.be>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 10 Dec 2024 09:08:52 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XpRt_ivSDz0Lzc=A+z3KFrXkVYTn716TD1kZMAyoGQ_A@mail.gmail.com>
+X-Gm-Features: AZHOrDkvV4hXVBzL5LdGwv2-ywEkfcu0N74i9maLRg8R7KrBlypjtg_v-QyKEuk
+Message-ID: <CAD=FV=XpRt_ivSDz0Lzc=A+z3KFrXkVYTn716TD1kZMAyoGQ_A@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Fix multiple instances
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Linus Walleij <linus.walleij@linaro.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Greg KH <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 9, 2024 at 1:55=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> The Gray-Hawk single board contains two MAX96724 connected to the using
-> I2C and CSI-2, record the connections. Also enable all nodes (VIN, CSI-2
-> and ISP) that are part of the downstream video capture pipeline.
+Hi,
+
+On Tue, Dec 10, 2024 at 6:19=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 >
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+> Each bridge instance creates up to four auxiliary devices with different
+> names.  However, their IDs are always zero, causing duplicate filename
+> errors when a system has multiple bridges:
+>
+>     sysfs: cannot create duplicate filename '/bus/auxiliary/devices/ti_sn=
+65dsi86.gpio.0'
+>
+> Fix this by using a unique instance ID per bridge instance.  The
+> instance ID is derived from the I2C adapter number and the bridge's I2C
+> address, to support multiple instances on the same bus.
+>
+> Fixes: bf73537f411b0d4f ("drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-t=
+o-eDP bridge into sub-drivers")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> On the White Hawk development board:
+>
+>     /sys/bus/auxiliary/devices/
+>     |-- ti_sn65dsi86.aux.1068
+>     |-- ti_sn65dsi86.aux.4140
+>     |-- ti_sn65dsi86.bridge.1068
+>     |-- ti_sn65dsi86.bridge.4140
+>     |-- ti_sn65dsi86.gpio.1068
+>     |-- ti_sn65dsi86.gpio.4140
+>     |-- ti_sn65dsi86.pwm.1068
+>     `-- ti_sn65dsi86.pwm.4140
+>
+> Discussion after v1:
+>   - https://lore.kernel.org/8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729=
+180470.git.geert+renesas@glider.be
+>
+> Notes:
+>   - While the bridge supports only two possible I2C addresses, I2C
+>     translators may be present, increasing the address space.  Hence the
+>     instance ID calculation assumes 10-bit addressing.  Perhaps it makes
+>     sense to introduce a global I2C helper function for this?
+>
+>   - I think this is the simplest solution.  If/when the auxiliary bus
+>     receives support =C3=A0 la PLATFORM_DEVID_AUTO, the driver can be
+>     updated.
+>
+> v2:
+>   - Use I2C adapter/address instead of ida_alloc().
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.14.
+While I agree with Laurent that having a more automatic solution would
+be nice, this is small and fixes a real problem. I'd be of the opinion
+that we should land it.
 
-Gr{oetje,eeting}s,
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-                        Geert
+If I personally end up being the person to land it, I'll likely wait
+until January since I'll be on vacation soon for the holidays and I
+don't want to check something that's slightly controversial in and
+then disappear. If someone else feels it's ready to land before then I
+have no objections.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-Doug
 
