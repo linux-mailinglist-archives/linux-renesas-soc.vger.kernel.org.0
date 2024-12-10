@@ -1,86 +1,76 @@
-Return-Path: <linux-renesas-soc+bounces-11201-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11202-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA929EBC2A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 22:55:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B099EBE94
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 23:55:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FFD5188ADE7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 21:55:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CDEF21889FBD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 22:55:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB3B32397A2;
-	Tue, 10 Dec 2024 21:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADED8229145;
+	Tue, 10 Dec 2024 22:52:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bRVeJlIg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f3/0Rc7g"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC5E232373;
-	Tue, 10 Dec 2024 21:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFE721129C;
+	Tue, 10 Dec 2024 22:52:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733867736; cv=none; b=na1Ilu2SKcfnn/YGpJaP6xS7KJmzQ+SX6Ue340Nf91XT7rz2DrfJSs8YtJQoIvcUfVyYWiABy8htouZXGO15Pb+2AjEXMoCptu8Ux2BMoZRCKWV1LZcCWIHDHnUUcTyANYLGeoSQ7aP+LTu0lv0iFw3tZeTAlGoQw/qKM7iILGc=
+	t=1733871122; cv=none; b=EJxl7T+EkJ8axeoZCtkkbvl93x8Uc5x7VdM0QGBUGrAQTawYWGfpofuO9nJVKfuhtxsXmmg89cBaP+IYSEaP58nwP+/CLAMJdlThcDjYSQz7LJvpaKw8kV3ETdEqcgowCjPkPBUXE1sAnSFKZ8TVa+UvijLfdo1SVrC5LZe2dok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733867736; c=relaxed/simple;
-	bh=JGzm5kn0zW/cTRR818QpfYPr3GrBn5g7uRFlG1i+UB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GrnYBjr0OgEe6G+Tjooo3VJdRP8Ibbb4497sZOCbTQihsOaay2JSc9KYKiF5nQ5bdltahnY2d9tVmWcO5eMKZPb01NCchsyd0iJYauBaSpD80t8wc9DoANBBg/Q+ncd8EBS9Y3Sbudlqa7U+oOCAmXyn5oGWx5+r3TF/OPTkfwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bRVeJlIg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1668EC4CED6;
-	Tue, 10 Dec 2024 21:55:35 +0000 (UTC)
+	s=arc-20240116; t=1733871122; c=relaxed/simple;
+	bh=UW5h1XStgrRU6YsQy/UsIAox8gwJWzpospv3WLKNH3g=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=Je0sAF9MSB9AOwXBSltEJg9HO5VU31+XdLWQEeqK8We3o3RTIse/ZxzG2moBZdU3JkJ8IjvcJLpVkW4oG/eb9jMR1uufKkEQR4eP/4DAQs3d4nDp/xz8MYjfynSNk42erhq/ldDc+ef9pc7okNWR/u5qREcK8vJgYwVvxzHjgHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f3/0Rc7g; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7FF4C4CEF0;
+	Tue, 10 Dec 2024 22:52:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733867736;
-	bh=JGzm5kn0zW/cTRR818QpfYPr3GrBn5g7uRFlG1i+UB4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bRVeJlIgFWdH778YlGN0wImA7G8elslk5iJjiWW7nCCqfaZLbfhsbCGqUaQdF1/g8
-	 p3kOnian/9WkZZsERBtRad+UKwWAYQYB5nWrzwpFYcmpdY1f75uI1TLW4QsfQm7ffN
-	 vYuWpZzXP7hwwtfJyT2RePWTvETnx+ldF40CDRMk+JQXl0vnZRrEGGUvHsIKyff+Ed
-	 n9BO/bIjAksXzURBTv4E2Qj709YoldpeaM8Yd43VsqDXJpFTuMdY6wFnKbfrGpw6w9
-	 y75/pF8UEh8PRDzqx93QKxd5N5xPZ9cOHm2ECiWGBxy2rHNA/VvPcvCjswW6XdTF13
-	 d9kA8n52GawDA==
-Date: Tue, 10 Dec 2024 15:55:34 -0600
-From: Rob Herring <robh@kernel.org>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	john.madieu@gmail.com, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/5] dt-bindings: soc: renesas: Document Renesas RZ/G3E
- SoC variants
-Message-ID: <20241210215534.GA531298-robh@kernel.org>
-References: <20241206212559.192705-1-john.madieu.xa@bp.renesas.com>
- <20241206212559.192705-3-john.madieu.xa@bp.renesas.com>
+	s=k20201202; t=1733871122;
+	bh=UW5h1XStgrRU6YsQy/UsIAox8gwJWzpospv3WLKNH3g=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=f3/0Rc7gaY6QuiNJNlfCdMM97zKiTGNULYd4fAhDMWOogM3HveIf7FBhSPTtYtZao
+	 1OPqG+AT0OQ2vK4vQmIaPkTILsD8QAsXnEyC5l4zInzE/CaE9TYK1F9mmwTjvpScl4
+	 Z6bYWftxU3eUGwTu2urxJEpza3wrB9cU2N6rER8L8LwZIea4TpH/IanzavrflITXeQ
+	 Y0JLZ56Wr4W34uUBDgdZB5lA7uDWnvLZQb0Bx6w24x07lkMpZe+N+E9Tj88sGfWVWu
+	 YEiicmEYz48WClP5zbtgGgFe7U61qp4n1NfcCPGrAkhnCQlI/C+lWXvGT1UIJFnvxG
+	 XM9bfHI8Jpy7w==
+Message-ID: <4190bb148fcba3903821db17b06f7ddd.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241206212559.192705-3-john.madieu.xa@bp.renesas.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20241210170953.2936724-2-claudiu.beznea.uj@bp.renesas.com>
+References: <20241210170953.2936724-1-claudiu.beznea.uj@bp.renesas.com> <20241210170953.2936724-2-claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v4 01/24] clk: versaclock3: Prepare for the addition of 5L35023 device
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: claudiu.beznea@tuxon.dev, linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+To: Claudiu <claudiu.beznea@tuxon.dev>, biju.das.jz@bp.renesas.com, broonie@kernel.org, geert+renesas@glider.be, lgirdwood@gmail.com, magnus.damm@gmail.com, mturquette@baylibre.com, p.zabel@pengutronix.de, perex@perex.cz, robh+dt@kernel.org, tiwai@suse.com
+Date: Tue, 10 Dec 2024 14:51:59 -0800
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
 
-On Fri, Dec 06, 2024 at 10:25:56PM +0100, John Madieu wrote:
-> Document RZ/G3E (R9A09G047) SoC variants.
-
-Your subject could be improved so that it doesn't match this one:
-
-https://lore.kernel.org/all/20241203105005.103927-3-biju.das.jz@bp.renesas.com/
-
-Which threw off my tools...
-
-> 
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+Quoting Claudiu (2024-12-10 09:09:30)
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>=20
+> The 5P35023 and 5L35035 Versa 3 clock generator variants are different but
+> the versaclock3 driver could be used with small adjustments. The features
+> that are implemented in driver and differs b/w variants are the PLL2 Fvco
+> and clock sel bit for SE2 clock. Adjust the driver to prepare for the
+> addition of 5L35023 device.
+>=20
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > ---
->  .../devicetree/bindings/soc/renesas/renesas,r9a09g057-sys.yaml   | 1 +
->  1 file changed, 1 insertion(+)
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Applied to clk-next
 
