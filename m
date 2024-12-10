@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-11189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1BDE9EB7CB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 18:14:16 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8DA9EB7D4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 18:14:54 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1B1E281EEE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 17:14:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C0D518806E0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 17:14:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8073323F9EA;
-	Tue, 10 Dec 2024 17:10:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1133223FA0D;
+	Tue, 10 Dec 2024 17:10:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="RxkgtaoU"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Oum+znJo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620BD23EBFB
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 17:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8B1232378
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 17:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733850648; cv=none; b=gJssEJNWwvnWLhtyQZVjM/UU+V08cez9NDDLpSqfmhls2m5iVRYas8Q8IqbZEDMjnh6uPRhxhODBsuiq6C5rL7gO03b97LHG2u5CBK9BgX9+baycivLnFVDux1LiIQ+zyZR4SYI+aian8r2JWGRQxwO70m1cuq2bIftpLFRYBuo=
+	t=1733850649; cv=none; b=QQJFoaUGk0A8S//ZgtI3IeB9TbcrMiCvlBgn6GDMKxKOkNcUgmA16GX6f68zvbq19hl6Am0uN/oX7faLjSFiJJ5aQ76rmE3jhoMn+1/lAIGaGyvwIkbg17v08YL3Z1KCBWdLbfpKfqNj58UEbo90Fa5ihYgvQbjJQ565SiRNIT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733850648; c=relaxed/simple;
-	bh=JQNGPZYkGQRQ2sTS79lFZ6me2mcLImriGT7BK3n9sx8=;
+	s=arc-20240116; t=1733850649; c=relaxed/simple;
+	bh=NtVph11BLd+x3z/1Zok/7JAFGIkvZxSriGpx0rha4FE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=G7nLpF8V/6+45Sa82IBq3GFYkDPSsHd438X/eTIhl6XdmeZNnSMj9LDkOxk2rhJAScNjpXd6zl30JfzOvXlf6O3uHMI4GcXpePBt8b9T011yZYIHPS0rAAvpTuz42hkWhsZXu702pDsVjKMlAN6QnaXwEgk/fVptJRfEjoyCqFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=RxkgtaoU; arc=none smtp.client-ip=209.85.208.54
+	 MIME-Version; b=gJ4EvKCg5OsGZdciOvADXgCSN/XsIGNbUmmi1o7JHyYRgHQvYkGuen0mR8flWhlvGnHEaYfWUv69J77oV6nKnVTzRcW5oQDR8ZTQH9WFm8KmoH6675/cYCqvq3pwHism1vUKLJrNEcIyZAe5Ov75pFHhjkSoJmVUFl74M0YXtiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Oum+znJo; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5d3e6274015so5214484a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 09:10:46 -0800 (PST)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5cfa1ec3b94so7696706a12.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 09:10:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1733850645; x=1734455445; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1733850646; x=1734455446; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zdorf6J6oUWOvTlM/ckHP3yguOeZKUZzy/Da078XD3Q=;
-        b=RxkgtaoUMawCkOLuYSCT0LaqBXe0bXBvLgBy/pgjEtbXQNA8Vqy5k636ofhxNKac5Z
-         euouPsNyepl84zZmi1DHJ57gUxsm4a4ZMnOXZnO5n9tTgpmC1IjGud8k5RQvqfer6dl6
-         5BlooiNDCoggtL79AHgEC9LkU8fE7fo+U7sVSwvu8w2URX970dpGlgGJ1xW7RJOdAf2e
-         c/m0Jd+uARwv2JQ7MTVqrHJDjU3lwWw1Z0wlgEZm+04vghaA3jzfQdhpI+ZkjHV01CA3
-         ZqPWHBXF6RkDUQGeLYHOdYHrJUG6MIz9WwYtVRaMFWn8NPC0K6pyL2PSOL8iah+PegfE
-         2IWQ==
+        bh=Pzloo09Dgg4guioxkvLZOvAnsn9Efhp0SVwyR1byrx8=;
+        b=Oum+znJotR81/GL+s9X3RPKW5dG7Pck33ayCgAliJEErevbuKFkHniF15QcQxdR1Lu
+         vF3o8AhuF6Ny7cyQFsEuNwdPc6trLk/EWN7ujzUcFmQaHysDSPF6A1ZhxolQstOajJiZ
+         ZnKbRxOk3roMK3Rz+yycNhSsGq6SJ3gksF1ieic7eNUH5/N3IdtUd70i8hCLfbbCAcfJ
+         k80F0Quf6lF3FZxetKrqqw0wS0zJMxdVFKF3jdUSgL1yV+xE9tpT43R43DsKI95fJPvs
+         EC4e4vq9x+nXRpvQaTgPqeslzokVL1S2fr6vO7ngkTGvpUSiVxsz5w+aWIRSQeFrjF6q
+         SB6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733850645; x=1734455445;
+        d=1e100.net; s=20230601; t=1733850646; x=1734455446;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zdorf6J6oUWOvTlM/ckHP3yguOeZKUZzy/Da078XD3Q=;
-        b=Hj3+smrrSC9CWXFQnm9vTfgD8HYWmJTfum9eRfbJPGTM56PYIzgxd/r/UN/UQlFrZd
-         aSjrwGbbbFdBOmZwQ7FlE2fpHARTivYSKxs4PEpGG39n9bElJgW/hNM/NlOrks8sMleI
-         uM4dUGemQAYOBciCjQjYtb5JlKOhkdje6TsRazqUJOqmCC7eE4BJKTPIax2ZoWwXMaFs
-         f+QmtrmFXbVCzQeSOJACDK4tJbnhlBfSRL0etdZU0RbvuRaeV8iPjD6DQLqFHrtXkWhx
-         ZinSfBWWZLCfwy/jIXCu+RXuXczjOj6ebrM/CL31iE2bSSBxSUyPNJVq/AhTtZ0iOSK4
-         +qeg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfvzkx7QFdIE3Z7xlfo9ZNzsf2RAW9wdq7v080EF+v0TWLCx24VbBX3zhdaZK5bTSbOjOyqsGzyH9UqcGQ8L9qNQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzel6BPno6wdQFRmDdaE24QUEY2q9Wvznfj9oodkH4hDSakVOch
-	GCrsTz5uo2DZA4/rZU76OogF1fYOzgX/48E+Z+sAEUvWnZCtYGjECPVFFwIGQxI=
-X-Gm-Gg: ASbGnct2WpR7qdQVwIj6MPUV1iIZPwVMRouOueBtZbdny6zxt/k37WxZZuQmaM+WPKG
-	zF86jWzWwUrx85T093iy3somrq1G+WStPLEl50b38PN/5DPGSFPNjv+GiF2+sxRZTlwEym0gqTZ
-	AW15gFUENz8waWx8l5YNWczRty3UIlZ8n7jMaMUIjgW7AqmK9zIzkedyhBXHZwm1bYjhwdUVzAo
-	iv4dh/xB3y/0+XxzsTHICtJGaKw5Ep8/SLME3oO04Ik/AwBDeqaIDr5dFdy+YXxZ+UAzS5xWq1D
-	XqZH6ZvT
-X-Google-Smtp-Source: AGHT+IG0YYavl8GoEPcOWdjWdvPZujuBgG2HJ16HofI4S8uWOgmyS/RSRLDoRpiWfKoP6RlhHB13MA==
-X-Received: by 2002:a05:6402:3493:b0:5d3:e9fd:9a15 with SMTP id 4fb4d7f45d1cf-5d3e9fd9b71mr12243945a12.32.1733850644830;
-        Tue, 10 Dec 2024 09:10:44 -0800 (PST)
+        bh=Pzloo09Dgg4guioxkvLZOvAnsn9Efhp0SVwyR1byrx8=;
+        b=SJHOhWO6u0qljk9/tWLtEWe3dU+t0+h4Asdm+pZCHr242Z5iY2wXSguQBDJ3dGe9pE
+         V52N1rNs124Gzvk0xOVRJl1wBK2dDCkoeiJJ/DNfNivnmVyGjjJLen4Je3rBukOvkjfd
+         rMwhioOp9ickSQe7OtgWvhvp4MzaRSF987/q/aNesylCfEc8458Lz0FN1NpDzUYmVbnU
+         niDv9a46N2iqS2drMh7vPEIOKJGAvF2IbrJljmMMK1o8A9Wk4abz5fVmMuHgdhAFzFMr
+         qzZtS7Wh1aR2rrHPxJay7wiPb/F/ICYiZbFC/IUJ131ZC/IYySEnMP49B6M/x1Hsog/v
+         +IfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVPXnJvQ74UQkWliOIzoNTcr1MjwYI42bZJU2lDHj5lNJ0LjZUwfgw0m1c33bkn+oULIk4tcY4ZbqIeudx1zvb5BQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQTB0ekfp8VbAW0fIuJbD/ce8gKtGhUO7DIV/vLsjRBYDmAkvL
+	/7HIkLExoF5bItYvG2ypLCc4FtrITH7Fwn9M7HVy9sQpYqBOB4idjSpdfu9ZCyM=
+X-Gm-Gg: ASbGncuUCJ7WI0lLjh9Mu/U+MxALG3ccjDeHxrj8TAclFiJQMctEs2JXY/D/c3f3jQv
+	wIJKeGlIt4doe2XJrg5MRpGj/td07GrvQYXqfIGu5yg17EFkts+/hiBOVplxViQjupc4Dm4JNas
+	Qo+wTolDgV1Y2N5YpnC9iLfYHLN34XxF1kNiRZ0niakTDnLfyXXfo7Fghmdcid44tlF/fGtiQld
+	W5e0+jQrHzfkw6QqZccAB7Gcj7UIyRWp/HMYj/TBrQD6ONbeUFi/XEKAiYuIdnvGX8lFRnLKOMF
+	D7KuvOIBixk=
+X-Google-Smtp-Source: AGHT+IHu+/x+M8u5QIMjQ6egtfsihnsclgAo9NZ4IQV+C7GzhzYxCnvnX8xs1AndpKM2ie6VGxgEag==
+X-Received: by 2002:a05:6402:3591:b0:5d3:e45d:ba91 with SMTP id 4fb4d7f45d1cf-5d3e45dbbfbmr13230055a12.32.1733850646516;
+        Tue, 10 Dec 2024 09:10:46 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.161])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d3e7936581sm4853124a12.56.2024.12.10.09.10.42
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d3e7936581sm4853124a12.56.2024.12.10.09.10.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 09:10:43 -0800 (PST)
+        Tue, 10 Dec 2024 09:10:46 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -91,10 +91,11 @@ Cc: claudiu.beznea@tuxon.dev,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	alsa-devel@alsa-project.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v4 17/24] ASoC: renesas: rz-ssi: Add suspend to RAM support
-Date: Tue, 10 Dec 2024 19:09:46 +0200
-Message-Id: <20241210170953.2936724-18-claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH v4 18/24] ASoC: dt-bindings: renesas,rz-ssi: Remove DMA description
+Date: Tue, 10 Dec 2024 19:09:47 +0200
+Message-Id: <20241210170953.2936724-19-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241210170953.2936724-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241210170953.2936724-1-claudiu.beznea.uj@bp.renesas.com>
@@ -108,117 +109,50 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The SSIF-2 IP is available on the Renesas RZ/G3S SoC. The Renesas RZ/G3S
-SoC supports a power-saving mode where power to most of the SoC
-components is turned off. Add suspend/resume support to the SSIF-2 driver
-to support this power-saving mode.
+Remove the DMA description, as it duplicates content from
+../dma/renesas,rz-dma.yaml. Additionally, remove the MID/RID examples
+mentioned in the dropped description (this information is already
+documented in the hardware manual).
 
-On SNDRV_PCM_TRIGGER_SUSPEND trigger the SSI is stopped (the stream
-user pointer is left untouched to avoid breaking user space and the dma
-buffer pointer is set to zero), on SNDRV_PCM_TRIGGER_RESUME software reset
-is issued for the SSIF-2 IP and the clocks are re-configured.
-
+Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v4:
-- none
+- none; this patch is new
 
-Changes in v3:
-- s/sh/renesas in patch title
+ .../bindings/sound/renesas,rz-ssi.yaml         | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-Changes in v2:
-- none
-
- sound/soc/renesas/rz-ssi.c | 46 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 44 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
-index 486822d79458..d48e2e7356b6 100644
---- a/sound/soc/renesas/rz-ssi.c
-+++ b/sound/soc/renesas/rz-ssi.c
-@@ -782,6 +782,32 @@ static int rz_ssi_dma_request(struct rz_ssi_priv *ssi, struct device *dev)
- 	return -ENODEV;
- }
+diff --git a/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml b/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
+index f4610eaed1e1..5b42eec864f8 100644
+--- a/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
++++ b/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
+@@ -57,24 +57,6 @@ properties:
+   dmas:
+     minItems: 1
+     maxItems: 2
+-    description:
+-      The first cell represents a phandle to dmac.
+-      The second cell specifies the encoded MID/RID values of the SSI port
+-      connected to the DMA client and the slave channel configuration
+-      parameters.
+-      bits[0:9]   - Specifies MID/RID value of a SSI channel as below
+-                    MID/RID value of SSI rx0 = 0x256
+-                    MID/RID value of SSI tx0 = 0x255
+-                    MID/RID value of SSI rx1 = 0x25a
+-                    MID/RID value of SSI tx1 = 0x259
+-                    MID/RID value of SSI rt2 = 0x25f
+-                    MID/RID value of SSI rx3 = 0x262
+-                    MID/RID value of SSI tx3 = 0x261
+-      bit[10]     - HIEN = 1, Detects a request in response to the rising edge
+-                    of the signal
+-      bit[11]     - LVL = 0, Detects based on the edge
+-      bits[12:14] - AM = 2, Bus cycle mode
+-      bit[15]     - TM = 0, Single transfer mode
  
-+static int rz_ssi_trigger_resume(struct rz_ssi_priv *ssi)
-+{
-+	int ret;
-+
-+	if (rz_ssi_is_stream_running(&ssi->playback) ||
-+	    rz_ssi_is_stream_running(&ssi->capture))
-+		return 0;
-+
-+	ret = rz_ssi_swreset(ssi);
-+	if (ret)
-+		return ret;
-+
-+	return rz_ssi_clk_setup(ssi, ssi->hw_params_cache.rate,
-+				ssi->hw_params_cache.channels);
-+}
-+
-+static void rz_ssi_streams_suspend(struct rz_ssi_priv *ssi)
-+{
-+	if (rz_ssi_is_stream_running(&ssi->playback) ||
-+	    rz_ssi_is_stream_running(&ssi->capture))
-+		return;
-+
-+	ssi->playback.dma_buffer_pos = 0;
-+	ssi->capture.dma_buffer_pos = 0;
-+}
-+
- static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
- 			      struct snd_soc_dai *dai)
- {
-@@ -790,8 +816,16 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
- 	int ret = 0, i, num_transfer = 1;
- 
- 	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_RESUME:
-+		ret = rz_ssi_trigger_resume(ssi);
-+		if (ret)
-+			return ret;
-+
-+		fallthrough;
-+
- 	case SNDRV_PCM_TRIGGER_START:
--		rz_ssi_stream_init(strm, substream);
-+		if (cmd == SNDRV_PCM_TRIGGER_START)
-+			rz_ssi_stream_init(strm, substream);
- 
- 		if (ssi->dma_rt) {
- 			bool is_playback;
-@@ -819,6 +853,12 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
- 
- 		ret = rz_ssi_start(ssi, strm);
- 		break;
-+
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+		rz_ssi_stop(ssi, strm);
-+		rz_ssi_streams_suspend(ssi);
-+		break;
-+
- 	case SNDRV_PCM_TRIGGER_STOP:
- 		rz_ssi_stop(ssi, strm);
- 		rz_ssi_stream_quit(ssi, strm);
-@@ -958,7 +998,8 @@ static const struct snd_soc_dai_ops rz_ssi_dai_ops = {
- static const struct snd_pcm_hardware rz_ssi_pcm_hardware = {
- 	.info			= SNDRV_PCM_INFO_INTERLEAVED	|
- 				  SNDRV_PCM_INFO_MMAP		|
--				  SNDRV_PCM_INFO_MMAP_VALID,
-+				  SNDRV_PCM_INFO_MMAP_VALID	|
-+				  SNDRV_PCM_INFO_RESUME,
- 	.buffer_bytes_max	= PREALLOC_BUFFER,
- 	.period_bytes_min	= 32,
- 	.period_bytes_max	= 8192,
-@@ -1201,6 +1242,7 @@ static int rz_ssi_runtime_resume(struct device *dev)
- 
- static const struct dev_pm_ops rz_ssi_pm_ops = {
- 	RUNTIME_PM_OPS(rz_ssi_runtime_suspend, rz_ssi_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static struct platform_driver rz_ssi_driver = {
+   dma-names:
+     oneOf:
 -- 
 2.39.2
 
