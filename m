@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-11147-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11148-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52129EAF7B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 12:14:38 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB85B9EAFA7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 12:17:53 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84672289845
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 11:14:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9541D188CE10
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2024 11:17:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1EED2080EF;
-	Tue, 10 Dec 2024 11:08:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72CB422333F;
+	Tue, 10 Dec 2024 11:13:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U8tXGh05"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jonzwLt1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052E5223E95
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 11:08:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF3222FE0A
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 11:13:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733828927; cv=none; b=uyUg/3l9dfNlcfnoF3hrvqadE7URHzQSsFmJf4xPpkMJwWTt6YDbxhuM2hBS+wTwwOwU+iEklxRRFMv4ZX/EAQ0R/jFtyD21Jo2gmn7wM2VqWnzljfZQUvEGrrv5+FvS82Ie6sjADhb6UmkyRNbPf5bO5zYQUbJnKY+yss6HAWM=
+	t=1733829208; cv=none; b=pBFzzAP8KdE5RKOrHXzaYLme7+QuNk9Uh1nVA3H3tM1205o4d9yCdwfVORCaHhjv+J6aeTEqAu8CCG59+zofEClI2ZNYEGBYbMh/wwiF3XECI4HFitQtullXw3RNM9vo2v/1svGy/tYvqzqllshsbIV9IXKcdkNvMVGeMVfInxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733828927; c=relaxed/simple;
-	bh=DBnbhjkdJSnKBI/tnnIo1zsbOX9XVkFGe0UVm4dZi6g=;
+	s=arc-20240116; t=1733829208; c=relaxed/simple;
+	bh=hPCDCY/RZqYfTWHTMRDlMEBiTSaxa6rs2fmrcjOAJ2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qYnu9HIGKkPDpFXji+uJ+/Jm9gn3QqPDIq7yz/7arKAXGlw8qUIjw5cOeXBvL3nA+BcIKazDWm+Gxq75p3IRnmYWvH3aFUoESVbtxmdVq1Jtzg3DJUB15Jf8I+nwtCOyS4BVe9+BLyifqVb1mpJaZcvPytTLgBxVS+CtMXPs3Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=U8tXGh05; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=j6AfFevEt83bHkXLsHBTRbP+FQVG8jdRGctSEqt7Mmh8Etz/E0VkNycNo9/pin6ZeLHML5R2fLd9bcdWoCjYUzAWa59+k002eg7X47pRUKmnmLNlPsNrIA+UWvJFk/cLB6UBClDlBwAk8NWh3edKNmTzk+mjsK8iagcq/1qh2vA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jonzwLt1; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F3EF752;
-	Tue, 10 Dec 2024 12:08:11 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58AAC496;
+	Tue, 10 Dec 2024 12:12:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733828891;
-	bh=DBnbhjkdJSnKBI/tnnIo1zsbOX9XVkFGe0UVm4dZi6g=;
+	s=mail; t=1733829172;
+	bh=hPCDCY/RZqYfTWHTMRDlMEBiTSaxa6rs2fmrcjOAJ2g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U8tXGh05b6ghXdhKFpG7CRTTeNJngGryJSdzasrk3K9EpbHS3qtJOg04YslNCwAZl
-	 IU6mSe35Cn7xwtuulASj8SAmTaqjJqSasx5ZrhbmIHshr+iJ7qdCXg7CG3QQ7x4l8K
-	 4SljSuIVpjZKdZCxEAf58Vbd+IKF3k+lO3nZIBpw=
-Date: Tue, 10 Dec 2024 13:08:27 +0200
+	b=jonzwLt15KHBuq7llkTJp03dz5Ggl6/dv8+qz8tOKrzMCIh0LgIg9ilRohG23E6C5
+	 hCpEWZMjK0M170IIDjYLXTI0wSHMPrtkZR2XRorb0qZ/VrGH2wXiZczHsL+gSHqldU
+	 3XJSakEyfTCrcJaGZhzyD2pRK8fhD12GbJFdeE1I=
+Date: Tue, 10 Dec 2024 13:13:08 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -53,10 +53,11 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: renesas: rz-du: Drop DU_MCR0_DPI_OE macro
-Message-ID: <20241210110827.GE573@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 2/2] drm: renesas: rz-du: rzg2l_du_encoder: Fix max
+ dot clock for DPI
+Message-ID: <20241210111308.GF573@pendragon.ideasonboard.com>
 References: <20241022082433.32513-1-biju.das.jz@bp.renesas.com>
- <20241022082433.32513-2-biju.das.jz@bp.renesas.com>
+ <20241022082433.32513-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,56 +66,75 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241022082433.32513-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20241022082433.32513-3-biju.das.jz@bp.renesas.com>
 
 Hi Biju,
 
 Thank you for the patch.
 
-On Tue, Oct 22, 2024 at 09:24:23AM +0100, Biju Das wrote:
-> The DPI_OE bit is removed from the latest RZ/G2UL and RZ/G2L hardware
-> manual. So, drop this macro.
+On Tue, Oct 22, 2024 at 09:24:24AM +0100, Biju Das wrote:
+> As per the RZ/G2UL hardware manual Table 33.4 Clock List, the maximum
+> dot clock for the DPI interface is 83.5 MHz. Add mode_valid callback
+> to reject modes greater than 83.5 MHz.
 > 
-> Fixes: b330f1480172 ("drm: renesas: rz-du: Add RZ/G2UL DU Support")
+> Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 > ---
-> v1->v2:
->  * Added Fixes tag.
+> Changes in v2:
+>  * Moved .mode_valid from crtc to encoder as the new state is not
+>    available in crtc and instead, we could check renc->output for
+>    .mode_valid() function of drm_encoder.
+>  * Dropped rzg2l_du_crtc_atomic_check().
 > ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+>  .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c   | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> index c4c1474d487e..6e7aac6219be 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> @@ -28,7 +28,6 @@
->  #include "rzg2l_du_vsp.h"
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+> index 339cbaaea0b5..564ab4cb3d37 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/export.h>
+>  #include <linux/of.h>
 >  
->  #define DU_MCR0			0x00
-> -#define DU_MCR0_DPI_OE		BIT(0)
->  #define DU_MCR0_DI_EN		BIT(8)
+> +#include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_bridge_connector.h>
+>  #include <drm/drm_panel.h>
+> @@ -24,6 +25,22 @@
+>  static const struct drm_encoder_funcs rzg2l_du_encoder_funcs = {
+>  };
 >  
->  #define DU_DITR0		0x10
-> @@ -217,14 +216,9 @@ static void rzg2l_du_crtc_put(struct rzg2l_du_crtc *rcrtc)
+> +static enum drm_mode_status
+> +rzg2l_du_encoder_mode_valid(struct drm_encoder *encoder,
+> +			    const struct drm_display_mode *mode)
+> +{
+> +	struct rzg2l_du_encoder *renc = to_rzg2l_encoder(encoder);
+> +
+> +	if (renc->output == RZG2L_DU_OUTPUT_DPAD0 && mode->clock > 83500)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	return MODE_OK;
+> +}
+> +
+> +static const struct drm_encoder_helper_funcs rzg2l_du_encoder_helper_funcs = {
+> +	.mode_valid = rzg2l_du_encoder_mode_valid,
+> +};
+> +
+>  int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
+>  			  enum rzg2l_du_output output,
+>  			  struct device_node *enc_node)
+> @@ -48,6 +65,7 @@ int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
+>  		return PTR_ERR(renc);
 >  
->  static void rzg2l_du_start_stop(struct rzg2l_du_crtc *rcrtc, bool start)
->  {
-> -	struct rzg2l_du_crtc_state *rstate = to_rzg2l_crtc_state(rcrtc->crtc.state);
->  	struct rzg2l_du_device *rcdu = rcrtc->dev;
-> -	u32 val = DU_MCR0_DI_EN;
+>  	renc->output = output;
+> +	drm_encoder_helper_add(&renc->base, &rzg2l_du_encoder_helper_funcs);
 >  
-> -	if (rstate->outputs & BIT(RZG2L_DU_OUTPUT_DPAD0))
-> -		val |= DU_MCR0_DPI_OE;
-> -
-> -	writel(start ? val : 0, rcdu->mmio + DU_MCR0);
-> +	writel(start ? DU_MCR0_DI_EN : 0, rcdu->mmio + DU_MCR0);
->  }
->  
->  static void rzg2l_du_crtc_start(struct rzg2l_du_crtc *rcrtc)
+>  	/* Attach the bridge to the encoder. */
+>  	ret = drm_bridge_attach(&renc->base, bridge, NULL,
 
 -- 
 Regards,
