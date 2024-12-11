@@ -1,138 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-11235-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11236-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2369ECDAE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 14:53:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 061CC9ED030
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 16:46:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18440162F40
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 13:53:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 59EB116AD42
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 15:45:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CBD72368E8;
-	Wed, 11 Dec 2024 13:53:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B86791D63F9;
+	Wed, 11 Dec 2024 15:43:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="We7Ro6Qp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tVCqsxzr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F964230274
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Dec 2024 13:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA2D1CB9E2;
+	Wed, 11 Dec 2024 15:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733925208; cv=none; b=FPt0gRVjYNZJla9d7arSuIEV+uEkYq3IIiwKFbHEgx/X6Sr5JnLAwOazuBsYjy8yQqiDP+ZH237Mj/ua5q2rauhsl0FVblVQFU62Vs+Zi2uw6mgXMZIVegIvD1WWlwah/bOhOyJgbZuxoAfJPTctVNPQgoGXr9QhU8yrMr5KiJk=
+	t=1733931834; cv=none; b=DHF3urjIsfBs2HKoEX6nznraJsTUmLWGFfXuouBep+nYxm9eCxPjN42klkiw6mbL+NZTc0H/S5oy/Vm2lAa/j3ZRvISUWtMpHy5IGe7umLuj7GEmmg2wQ19CbpYN//jUVjMWvQcfmH/6+t3zTYERj/WP6d6bhbuESc+UtBDzVeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733925208; c=relaxed/simple;
-	bh=YSdh0Mm0FonlMgaa3imnf9PPReZOary7MqBo29RKeZI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FKxF6cpuxg+xr5FqZozoRLPGtc8ha8e6lJI98fXeT0Mj0Q54YecZ+61YDbRN0JmPgV6wBPPdLZM3k/9EMJFi/QcFSUDA6DC53xCskMto9YyRlHpxl4UAj0rbNAi43tpCg18u3ygtU2jXgGekxETrJ5+nJH6JIZbZceCms3x8fro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=We7Ro6Qp; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-aa66c1345caso294647866b.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Dec 2024 05:53:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1733925205; x=1734530005; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2JAQ94DgwmZTsFqQuFhEr5XjtlJo5Liq/MWFSbEP7oQ=;
-        b=We7Ro6QpXdFqx1EZCLNk/BGMGe7KhGl6PAlNriTd27U4td+pcYwIjAR39eWjr3fQV3
-         hbwqiaKicF/joN8+62DAYg8Wf9/MURxT8V6z8bGdUlL0iV0Y0xNXupuRo9OjB3QYbfXB
-         csYSDW2tU10Y1v8TLomFlX/NG62h5wyDlxRXMB8/GWwUj6vIlZrublRxbyO8JQNTZs1M
-         OcPBeDjVKdSmVLyG3jFTn0n0XIj0HAlr/ZL0YbhyX4t0B5HGjOtgCwRfE8wv4qfhgf1p
-         XHhWsm3/GVeyw5+QUaPsEKGZ4IfFzeXu8dZNVG5Z9qY2DOR51vj1yLn1M/mVxfIyXI4X
-         sg9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733925205; x=1734530005;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2JAQ94DgwmZTsFqQuFhEr5XjtlJo5Liq/MWFSbEP7oQ=;
-        b=UPo2we7c+Tze0kvRWdL4TAXdPwla64ciCFOV2EUp0ujJlZBWsbalimiEb5GmIe7oiJ
-         xLEkxFHw6BOmReptiOCS06+qeaqgl4x3htgMVImJArg3/zGihERAK5yddR6EZ0Nr+NvB
-         cOnwDQPeYJkoXTMO5fdR5KbAIqaO0SU7hN7gAt64xJ9Ex5PFzJeJWgdfOO8cZbgxCCQ5
-         eAi1RhGDFb7rML5LgwegLf3S/rNaBB/msq02dxFvtSNYjUhrNZKQqFuM4divYsTzo8Gb
-         ZUxS97cYJqwNvS9YrNFIX7Ysk/Kot/OIq1DygfG2SRoTfJTG7N065M1FLmtDBZjt3fEw
-         kOKA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8/wXItradVp3UrnJCJaFt9FGNSdpNKQNOVJ3VVeCxIXMZN8gNuXh/IxcGu/jiOWwnwdJdrX1Z70IbmaHyCIdyOw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTuUxqbpSSa1hqQoO1KMxKPN0LbuGwCRMTiV9434jgmojQ1d0f
-	RAIwA8L9bJGpEV816kBMJspCGJ8bGL1GC+t5K0l7auAcMdAYMSisVCyJxDn84C0=
-X-Gm-Gg: ASbGncsDPgaHE4FXoOvjdDoxansfhQTGWgd9rg/lHKOgKV2dY6R1/tI5/ekhk4kBUDs
-	zJaTwPpFdoigJ79lOmT9HDJqnmOdCreyhbJbKCa/BDemtb13JkeR8DjMPQE2doO3hyQv2jlsKUP
-	xhmTdg67lgU7hqYxx5xVrTZhTd85bqLE7EGS9M1Qa+nBo/zpKC5nhEuU9H1XRL2ly9Z6Q+l8y7o
-	FIDajV9batoqF9M+ctQa+wleMbqVFQWcXDypYqThA+NS5ruI2LPM6xksJ+VYQE=
-X-Google-Smtp-Source: AGHT+IHhR+q/yjOR8fMgpp+HvsWmN+ncd/5Lo5Mk+pkPGE0cvah/TqVw4ZywcOYOxY2cukLaXrgmug==
-X-Received: by 2002:a17:906:b3a1:b0:aa6:75e1:186c with SMTP id a640c23a62f3a-aa6b1505cf0mr213318566b.50.1733925205362;
-        Wed, 11 Dec 2024 05:53:25 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.161])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa653d1df95sm682900766b.98.2024.12.11.05.53.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2024 05:53:24 -0800 (PST)
-Message-ID: <5e7d316d-2e13-436d-8474-48411e2a12d9@tuxon.dev>
-Date: Wed, 11 Dec 2024 15:53:22 +0200
+	s=arc-20240116; t=1733931834; c=relaxed/simple;
+	bh=ihqJgg4ViF/2U+0OuafIFdGach6E61cp287CKWukMbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P+Em58WuwONdNiexpqsaowyOOKiQWqK7tUi/W+0NcMw0Vns7q8vkaM+o/OQ9oVWnGlicXQKHtzJmBw1w/1fHEnk+zn1+K1mRsSedrYGuZ98C8wE6o8OzHjBUfXazBTSlF6pv+gqIjJIH4azuE4TY6vFFEvw6VkI3bHnFJY0Hf9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tVCqsxzr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9334C4CED2;
+	Wed, 11 Dec 2024 15:43:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733931834;
+	bh=ihqJgg4ViF/2U+0OuafIFdGach6E61cp287CKWukMbk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tVCqsxzrYTkljE3ai6pLpq0vPFwgzzPnT2pemWeaAm6FL0BzuQlmDes50ShAMSFbE
+	 HWYsqFFz6VEtl+fw/9D4gBYKp9qUAEbiYh4/8bNNNiJSzJ9o5NaGpEygMgTO5AN8hQ
+	 sPpl/32vxX1L20NMk7W/6U/+EpBk6a4dsXN9aksq0UCgWbnftNKvThFM0j22psrdLi
+	 vbXzRyjbM9wbaYm04vgoiZhYw1mYhQV9JqVgJOZ7L2tE355hnmuY/YBmO3qFKzI+nw
+	 kK25dZfzIS5cnQ46MCRRIFXKESJZStXfRMwWbLpPzUvEdBkSG8QVtA+Jd08lJaUvHc
+	 GuIOW/jxL8QHg==
+Date: Wed, 11 Dec 2024 16:43:49 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Chris Brandt <chris.brandt@renesas.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Adam Ford <aford173@gmail.com>, linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH] i2c: riic: Always round-up when calculating bus period
+Message-ID: <nlk3esdnddvnfxj3peuldcblxnbninnmhpfu7n26tbyq2swqzp@z456toyekd6z>
+References: <c59aea77998dfea1b4456c4b33b55ab216fcbf5e.1732284746.git.geert+renesas@glider.be>
+ <ljyho2ftsxmjkyi44hgc5zavxv3ytbvi2iuoht3gjetr3b4jq3@mjuvcrwm4klt>
+ <CAMuHMdWc63Q47=4Z5_zDLy3BfGaaV8RyQRAcQbhC8PFvtz4z7A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 14/15] arm64: dts: renesas: r9a08g045: Add ADC node
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, jic23@kernel.org,
- lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com,
- sboyd@kernel.org, p.zabel@pengutronix.de, linux-iio@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20241206111337.726244-1-claudiu.beznea.uj@bp.renesas.com>
- <20241206111337.726244-15-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdVMQr9RhG7v32vQeSrepmdh2VdzzwF5obJUpdGNotGV7Q@mail.gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdVMQr9RhG7v32vQeSrepmdh2VdzzwF5obJUpdGNotGV7Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWc63Q47=4Z5_zDLy3BfGaaV8RyQRAcQbhC8PFvtz4z7A@mail.gmail.com>
 
-Hi, Geert,
+Hi Geert,
 
-On 11.12.2024 15:27, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Fri, Dec 6, 2024 at 12:14 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Add the device tree node for the ADC IP available on the Renesas RZ/G3S
->> SoC.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Thanks for your patch!
-> 
->> --- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
->> @@ -87,6 +87,59 @@ rtc: rtc@1004ec00 {
->>                         status = "disabled";
->>                 };
->>
->> +               adc: adc@10058000 {
->> +                       compatible = "renesas,r9a08g045-adc";
->> +                       reg = <0 0x10058000 0 0x400>;
-> 
-> Table 5.1 ("Detailed Address Space") says the size is 4 KiB.
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v6.14, with the above fixed.
+[...]
 
-Thank you!
+> > It's a pity that all this description is lost. I love long
+> > explanations especially when they come from test results.
+> >
+> > Can I add it in the commit log?
+> 
+> What about starting to add Link: tags pointing to lore to I2C commits,
+> like most other subsystems do?
+> That way people can easily reach any background information (if
+> available), and find the corresponding email thread where to report
+> issues or follow-up information?
 
+To be honest, I'm not a big fan of putting links in commit logs
+(not even 'Closes:') and was happy not to see any here. If the
+domain changes for some reason (which always happens sooner or
+later), we'd just end up with a bunch of broken links in our
+commits.
+
+If others want to have the Link added I can definitely add them.
+
+> Thanks!
 > 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+> [1] https://elixir.bootlin.com/linux/v6.12.4/source/Documentation/maintainer/configure-git.rst#L33
+
+b4 can add the link, as well.
+
+If you prefer, then, I will take this patch as it is.
+
+Thanks,
+Andi
 
