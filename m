@@ -1,344 +1,248 @@
-Return-Path: <linux-renesas-soc+bounces-11227-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11228-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985EF9ECC71
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 13:46:29 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 084AE163A9F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 12:46:22 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5788229132;
-	Wed, 11 Dec 2024 12:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QiiZbwPy"
-X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 712CE9ECC76
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 13:46:49 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CCE22912D
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Dec 2024 12:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EEAB9284721
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 12:46:40 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D74B23FD34;
+	Wed, 11 Dec 2024 12:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rcYlxUDm"
+X-Original-To: linux-renesas-soc@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DED523FD10;
+	Wed, 11 Dec 2024 12:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733921057; cv=none; b=FdhV2c4pEhsEHdjw2fJL+robR1E3C1BItjK8SttUEF7W/CrfXClMeC++j5gEMnh84l//BN51w3aOtvyvUVq9iuFqGSeoltmH+NKHTXmYQUhwrsuuLbqaV3qn8gd6DlgiT/KkPB/meAQ4MECmtyz0XtHLE9Ydlxq5Pzcg5pZpbS8=
+	t=1733921187; cv=none; b=NjE8iA6tRGPk96CY7wWZnMi+AjN0dEeUBTrjVZ+XNG0wy73Rpz+Zk2pomZORF5T0hlARiMUV/7clWGJ0jd4ly/LePhoaLtAaXGjedL+2G63c5FqWQBvO66jnSSQuK4+YcMSzEc3mkGgSB3MmMHi759vpknkmA69UsZe1bqaEltw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733921057; c=relaxed/simple;
-	bh=u177k2cs7IUFhNpsZ+qKWXaJHcAomd+E9id3IjKuXKM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=my2NMp45TYXndwnXDgWInWq45cDmS4H0EFpUCvQtbkds3lVfsazQMJrn69ZWrWG757V/ixiEbXoTA1sTuhEGOESyibHtkOhoW9NMXCSpeMmExS1mi/VYn+zL6gp9yJ90G2bckaa1ZwEt3i2QA7ZUNAwWBcA0kkgeidirvZNw1nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QiiZbwPy; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733921056; x=1765457056;
-  h=date:from:to:cc:subject:message-id;
-  bh=u177k2cs7IUFhNpsZ+qKWXaJHcAomd+E9id3IjKuXKM=;
-  b=QiiZbwPyYG333KC+yMEP279GdHl24/1IDaCE7KkwEbGWVzcYX72whFrL
-   onXkr/iLUiFJpvMWUX6howR3IQo6vsyZ+rCsGb5ANvTPn6n24LMej/Mz6
-   eNidESG7TeVvUBUO6Bk3zMBPvALKjkBrnyH/+qjOtgi7sXd3gDrdcV6vd
-   YwN+093AMB0jfISUdlzVCDGmmaH2M6/fE1gLUlX5gk9liloHYV5zRYNa5
-   Kbbqk93S6FJ8LIFji0+YnkhGPcpEll0UW7JwAilYaZZatkCGXc70hHsXb
-   4jl2CkyJXVZfjPNhNvn7qZ9rQLlI3qpEBnApwDxrhB0BMD3FnZ5VkS+xT
-   Q==;
-X-CSE-ConnectionGUID: SRRSVdGMTCmfpA7YdpN59w==
-X-CSE-MsgGUID: ZMmEQY1kRz2JNGN187KFOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45705849"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="45705849"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 04:44:15 -0800
-X-CSE-ConnectionGUID: 4oy65M7ISBW0adhXmUOBbg==
-X-CSE-MsgGUID: /YWEeYZyT++S7VRslOyxNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="100851402"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Dec 2024 04:44:14 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLM4Z-0006em-36;
-	Wed, 11 Dec 2024 12:44:11 +0000
-Date: Wed, 11 Dec 2024 20:43:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk-for-v6.14] BUILD SUCCESS
- f962745289958e89bf520407728e384e52ea8e27
-Message-ID: <202412112020.pO0prcrP-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1733921187; c=relaxed/simple;
+	bh=EkVzbf3G5rM9qDm6rnu4x6G4ljxJpqFU6D3ZAwpBTqo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I6SkGPCxmDMCVY7XB9l1iAoRUJ0pzLW8LKib6IXyhK8xwdp0H+ZoRztfZrB6wVYf0BzWXHNGyaO/2kpiQE32ZJYjq/+EwiBi7q34MJNw/MPLQDyQFJwuV9nYpqyy4/6jk3j20sYgN6Ll7lbTfJ0Nz+kAo1bLS91/eNBVCjy0iKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rcYlxUDm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95691C4CEE4;
+	Wed, 11 Dec 2024 12:46:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733921186;
+	bh=EkVzbf3G5rM9qDm6rnu4x6G4ljxJpqFU6D3ZAwpBTqo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=rcYlxUDmt70x52hloJFIxDPxv41BVpk0S0BIGtg4gvV0ThEqONuaF2y46d41bK8W4
+	 K0nFiHeZzbY8/AT1NVnc4UGKs2PMiRDpqw7lnVCd6fHJOEAW6fCEXGZDOxMdnITdNn
+	 DDO5Z4jZsmRnMYzplLrsl74A8k0kBrfxyXSwj4nR7I8unpryiJrJz4ZuCa4j0spi90
+	 ABfVa/FleHrMiitDQaRfRwpK/gbIKuMcns1C8p8f/T/vKgBmUMpmKyaks72vHyMBHV
+	 VQmkBDXW1ZeiBc7bcmog0INFk5yX1KS9BEq35C7cWUvIoN7FGEHbQJcw/8RIqBeWSZ
+	 bbtHv2ViVCH1w==
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e3990bbe22cso5507298276.1;
+        Wed, 11 Dec 2024 04:46:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVJy1RRLYB4IKO33CbcRZzxFf1mDTpDAOVmJg9jqcuB3zjdg9nJFw+QDlR/WPUP5szQJpl0B2wEJeVf@vger.kernel.org, AJvYcCVOn5BtGKJdr6vAH8X4ThgkTykTSwCM7lSFTs3SMA2mTvj85qms45M+xpnrxN0qhD0DCWxjQsuh0R2i@vger.kernel.org, AJvYcCVV48xrwhk3vtFAOhWLKBaFZaOcVrxPgkPhBkZyo+lAP73ZxMUT0+02Jr2Eulf48BLDojq17868y9dt/SO/@vger.kernel.org, AJvYcCWwbzOhwKfur2zHI5Tzn5qq4cJnJvqCFNPgnBMYKUnfrZeRWrs/BVenc8kEeGuxK4kwuNKxhHL12w46wrqmi7Mlqkg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTwRw7+Syyltlz7M5fSqFYi4/px7V9LTI0igo82Mk1jzdORx7M
+	A7tj2MtsYixLziJ305h2saZdjTwu/Y1nvXiweLRRDnxKhi3NfT5B/GHAK1xyK7sxSQnW0aMCAhq
+	PY2pdkzPwQx9Oz6RmxdaXgvz8Kw==
+X-Google-Smtp-Source: AGHT+IHNpYJO6aDWAk8XmMc0DlN3Slr9o3xM35rzk7b1IHRTtwZ/GiqTwCD/k2ZnNmZtSytykpHpx9Uc1ENKHwldLbM=
+X-Received: by 2002:a05:6902:120d:b0:e39:a780:d104 with SMTP id
+ 3f1490d57ef6-e3c8e614af9mr2455162276.24.1733921185643; Wed, 11 Dec 2024
+ 04:46:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20241126092050.1825607-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241126092050.1825607-2-claudiu.beznea.uj@bp.renesas.com>
+ <20241210184542.GA4077820-robh@kernel.org> <437b8d13-8ec1-40c7-b95c-ddb836e123d6@tuxon.dev>
+In-Reply-To: <437b8d13-8ec1-40c7-b95c-ddb836e123d6@tuxon.dev>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 11 Dec 2024 06:46:14 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+sdX+3R0USwfYT2yqC9aTGc+LzwyPsQiT770fJ1BgEAw@mail.gmail.com>
+Message-ID: <CAL_Jsq+sdX+3R0USwfYT2yqC9aTGc+LzwyPsQiT770fJ1BgEAw@mail.gmail.com>
+Subject: Re: [PATCH v2 01/15] dt-bindings: soc: renesas: renesas,rzg2l-sysc:
+ Add #renesas,sysc-signal-cells
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: vkoul@kernel.org, kishon@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be, 
+	magnus.damm@gmail.com, gregkh@linuxfoundation.org, 
+	yoshihiro.shimoda.uh@renesas.com, christophe.jaillet@wanadoo.fr, 
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.14
-branch HEAD: f962745289958e89bf520407728e384e52ea8e27  clk: renesas: r9a08g045: Add clocks, resets and power domain support for the ADC IP
+On Wed, Dec 11, 2024 at 6:23=E2=80=AFAM Claudiu Beznea <claudiu.beznea@tuxo=
+n.dev> wrote:
+>
+> Hi, Rob,
+>
+> On 10.12.2024 20:45, Rob Herring wrote:
+> > On Tue, Nov 26, 2024 at 11:20:36AM +0200, Claudiu wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> The RZ/G3S system controller (SYSC) has registers to control signals t=
+hat
+> >> are routed to various IPs. These signals must be controlled during
+> >> configuration of the respective IPs. One such signal is the USB PWRRDY=
+,
+> >> which connects the SYSC and the USB PHY. This signal must to be contro=
+lled
+> >> before and after the power to the USB PHY is turned off/on.
+> >>
+> >> Other similar signals include the following (according to the RZ/G3S
+> >> hardware manual):
+> >>
+> >> * PCIe:
+> >> - ALLOW_ENTER_L1 signal controlled through the SYS_PCIE_CFG register
+> >> - PCIE_RST_RSM_B signal controlled through the SYS_PCIE_RST_RSM_B
+> >>   register
+> >> - MODE_RXTERMINATION signal controlled through SYS_PCIE_PHY register
+> >>
+> >> * SPI:
+> >> - SEL_SPI_OCTA signal controlled through SYS_IPCONT_SEL_SPI_OCTA
+> >>   register
+> >>
+> >> * I2C/I3C:
+> >> - af_bypass I2C signals controlled through SYS_I2Cx_CFG registers
+> >>   (x=3D0..3)
+> >> - af_bypass I3C signal controlled through SYS_I3C_CFG register
+> >>
+> >> * Ethernet:
+> >> - FEC_GIGA_ENABLE Ethernet signals controlled through SYS_GETHx_CFG
+> >>   registers (x=3D0..1)
+> >>
+> >> Add #renesas,sysc-signal-cells DT property to allow different SYSC sig=
+nals
+> >> consumers to manage these signals.
+> >>
+> >> The goal is to enable consumers to specify the required access data fo=
+r
+> >> these signals (through device tree) and let their respective drivers
+> >> control these signals via the syscon regmap provided by the system
+> >> controller driver. For example, the USB PHY will describe this relatio=
+n
+> >> using the following DT property:
+> >>
+> >> usb2_phy1: usb-phy@11e30200 {
+> >>      // ...
+> >>      renesas,sysc-signal =3D <&sysc 0xd70 0x1>;
+> >>      // ...
+> >> };
+> >>
+> >> Along with it, add the syscon to the compatible list as it will be
+> >> requested by the consumer drivers. The syscon was added to the rest of
+> >> system controller variants as these are similar with RZ/G3S and can
+> >> benefit from the implementation proposed in this series.
+> >>
+> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >> ---
+> >>
+> >> Changes in v2:
+> >> - none; this patch is new
+> >>
+> >>
+> >>  .../soc/renesas/renesas,rzg2l-sysc.yaml       | 23 ++++++++++++++----=
+-
+> >>  1 file changed, 17 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg=
+2l-sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-=
+sysc.yaml
+> >> index 4386b2c3fa4d..90f827e8de3e 100644
+> >> --- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc=
+.yaml
+> >> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc=
+.yaml
+> >> @@ -19,11 +19,13 @@ description:
+> >>
+> >>  properties:
+> >>    compatible:
+> >> -    enum:
+> >> -      - renesas,r9a07g043-sysc # RZ/G2UL and RZ/Five
+> >> -      - renesas,r9a07g044-sysc # RZ/G2{L,LC}
+> >> -      - renesas,r9a07g054-sysc # RZ/V2L
+> >> -      - renesas,r9a08g045-sysc # RZ/G3S
+> >> +    items:
+> >> +      - enum:
+> >> +          - renesas,r9a07g043-sysc # RZ/G2UL and RZ/Five
+> >> +          - renesas,r9a07g044-sysc # RZ/G2{L,LC}
+> >> +          - renesas,r9a07g054-sysc # RZ/V2L
+> >> +          - renesas,r9a08g045-sysc # RZ/G3S
+> >> +      - const: syscon
+> >>
+> >>    reg:
+> >>      maxItems: 1
+> >> @@ -42,9 +44,17 @@ properties:
+> >>        - const: cm33stbyr_int
+> >>        - const: ca55_deny
+> >>
+> >> +  "#renesas,sysc-signal-cells":
+> >> +    description:
+> >> +      The number of cells needed to configure a SYSC controlled signa=
+l. First
+> >> +      cell specifies the SYSC offset of the configuration register, s=
+econd cell
+> >> +      specifies the bitmask in register.
+> >> +    const: 2
+> >
+> > If there's only one possible value, then just fix the size in the users=
+.
+> > We don't need #foo-cells until things are really generic. Plus patch
+> > 8 already ignores this based on the schema. And there's implications to
+> > defining them. For example, the pattern is that the consumer property
+> > name is renesas,sysc-signals, not renesas,sysc-signal.
+>
+> OK, I'll fix the size in users.
 
-elapsed time: 1446m
+You already did for the one in this series.
 
-configs tested: 251
-configs skipped: 5
+> >
+> > Maybe someone wants to create a 'h/w (signal) control' subsystem (and
+> > binding) that is just 'read, assert, or deassert a h/w signal'. Perhaps
+>
+> Until then, is it OK for you to keep it as proposed here?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Yes.
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    clang-20
-alpha                               defconfig    gcc-14.2.0
-arc                              allmodconfig    clang-18
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    clang-18
-arc                              allyesconfig    gcc-13.2.0
-arc                                 defconfig    gcc-14.2.0
-arc                   randconfig-001-20241210    gcc-13.2.0
-arc                   randconfig-001-20241211    gcc-14.2.0
-arc                   randconfig-002-20241210    gcc-13.2.0
-arc                   randconfig-002-20241211    gcc-14.2.0
-arm                              allmodconfig    clang-18
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    gcc-14.2.0
-arm                              allyesconfig    clang-18
-arm                              allyesconfig    gcc-14.2.0
-arm                                 defconfig    gcc-14.2.0
-arm                        keystone_defconfig    gcc-14.2.0
-arm                        mvebu_v5_defconfig    clang-20
-arm                        neponset_defconfig    gcc-14.2.0
-arm                           omap1_defconfig    gcc-14.2.0
-arm                            qcom_defconfig    gcc-14.2.0
-arm                   randconfig-001-20241210    clang-20
-arm                   randconfig-001-20241211    gcc-14.2.0
-arm                   randconfig-002-20241210    gcc-14.2.0
-arm                   randconfig-002-20241211    gcc-14.2.0
-arm                   randconfig-003-20241210    clang-20
-arm                   randconfig-003-20241211    gcc-14.2.0
-arm                   randconfig-004-20241210    clang-20
-arm                   randconfig-004-20241211    gcc-14.2.0
-arm                        vexpress_defconfig    gcc-14.2.0
-arm64                            alldefconfig    gcc-14.2.0
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                               defconfig    gcc-14.2.0
-arm64                 randconfig-001-20241210    clang-20
-arm64                 randconfig-001-20241211    gcc-14.2.0
-arm64                 randconfig-002-20241210    clang-20
-arm64                 randconfig-002-20241211    gcc-14.2.0
-arm64                 randconfig-003-20241210    clang-20
-arm64                 randconfig-003-20241211    gcc-14.2.0
-arm64                 randconfig-004-20241210    clang-20
-arm64                 randconfig-004-20241211    gcc-14.2.0
-csky                              allnoconfig    gcc-14.2.0
-csky                                defconfig    gcc-14.2.0
-csky                  randconfig-001-20241210    gcc-14.2.0
-csky                  randconfig-001-20241211    gcc-14.2.0
-csky                  randconfig-002-20241210    gcc-14.2.0
-csky                  randconfig-002-20241211    gcc-14.2.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.2.0
-hexagon                             defconfig    gcc-14.2.0
-hexagon               randconfig-001-20241210    clang-16
-hexagon               randconfig-001-20241211    gcc-14.2.0
-hexagon               randconfig-002-20241210    clang-14
-hexagon               randconfig-002-20241211    gcc-14.2.0
-i386                             allmodconfig    clang-19
-i386                              allnoconfig    clang-19
-i386                             allyesconfig    clang-19
-i386        buildonly-randconfig-001-20241210    gcc-12
-i386        buildonly-randconfig-001-20241211    clang-19
-i386        buildonly-randconfig-002-20241210    clang-19
-i386        buildonly-randconfig-002-20241211    clang-19
-i386        buildonly-randconfig-003-20241210    gcc-12
-i386        buildonly-randconfig-003-20241211    clang-19
-i386        buildonly-randconfig-004-20241210    clang-19
-i386        buildonly-randconfig-004-20241211    clang-19
-i386        buildonly-randconfig-005-20241210    clang-19
-i386        buildonly-randconfig-005-20241211    clang-19
-i386        buildonly-randconfig-006-20241210    clang-19
-i386        buildonly-randconfig-006-20241211    clang-19
-i386                                defconfig    clang-19
-i386                  randconfig-001-20241211    gcc-12
-i386                  randconfig-002-20241211    gcc-12
-i386                  randconfig-003-20241211    gcc-12
-i386                  randconfig-004-20241211    gcc-12
-i386                  randconfig-005-20241211    gcc-12
-i386                  randconfig-006-20241211    gcc-12
-i386                  randconfig-007-20241211    gcc-12
-i386                  randconfig-011-20241211    gcc-12
-i386                  randconfig-012-20241211    gcc-12
-i386                  randconfig-013-20241211    gcc-12
-i386                  randconfig-014-20241211    gcc-12
-i386                  randconfig-015-20241211    gcc-12
-i386                  randconfig-016-20241211    gcc-12
-i386                  randconfig-017-20241211    gcc-12
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch                           defconfig    gcc-14.2.0
-loongarch             randconfig-001-20241210    gcc-14.2.0
-loongarch             randconfig-001-20241211    gcc-14.2.0
-loongarch             randconfig-002-20241210    gcc-14.2.0
-loongarch             randconfig-002-20241211    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                                defconfig    gcc-14.2.0
-m68k                          hp300_defconfig    gcc-14.2.0
-m68k                        m5272c3_defconfig    gcc-14.2.0
-m68k                       m5475evb_defconfig    clang-20
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-microblaze                          defconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                         bigsur_defconfig    gcc-14.2.0
-mips                        maltaup_defconfig    gcc-14.2.0
-mips                        omega2p_defconfig    gcc-14.2.0
-mips                        qi_lb60_defconfig    clang-20
-nios2                             allnoconfig    gcc-14.2.0
-nios2                               defconfig    gcc-14.2.0
-nios2                 randconfig-001-20241210    gcc-14.2.0
-nios2                 randconfig-001-20241211    gcc-14.2.0
-nios2                 randconfig-002-20241210    gcc-14.2.0
-nios2                 randconfig-002-20241211    gcc-14.2.0
-openrisc                          allnoconfig    clang-20
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    clang-20
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-12
-parisc                randconfig-001-20241210    gcc-14.2.0
-parisc                randconfig-001-20241211    gcc-14.2.0
-parisc                randconfig-002-20241210    gcc-14.2.0
-parisc                randconfig-002-20241211    gcc-14.2.0
-parisc64                            defconfig    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    clang-20
-powerpc                          allyesconfig    clang-16
-powerpc                          allyesconfig    gcc-14.2.0
-powerpc                    amigaone_defconfig    gcc-14.2.0
-powerpc                       eiger_defconfig    gcc-14.2.0
-powerpc                    mvme5100_defconfig    gcc-14.2.0
-powerpc               randconfig-001-20241210    clang-20
-powerpc               randconfig-001-20241211    gcc-14.2.0
-powerpc               randconfig-002-20241210    clang-20
-powerpc               randconfig-002-20241211    gcc-14.2.0
-powerpc               randconfig-003-20241210    clang-20
-powerpc               randconfig-003-20241211    gcc-14.2.0
-powerpc                     skiroot_defconfig    clang-20
-powerpc                         wii_defconfig    clang-20
-powerpc64             randconfig-001-20241210    gcc-14.2.0
-powerpc64             randconfig-001-20241211    gcc-14.2.0
-powerpc64             randconfig-002-20241210    gcc-14.2.0
-powerpc64             randconfig-002-20241211    gcc-14.2.0
-powerpc64             randconfig-003-20241210    gcc-14.2.0
-powerpc64             randconfig-003-20241211    gcc-14.2.0
-riscv                            allmodconfig    clang-20
-riscv                            allmodconfig    gcc-14.2.0
-riscv                             allnoconfig    clang-20
-riscv                            allyesconfig    clang-20
-riscv                            allyesconfig    gcc-14.2.0
-riscv                               defconfig    gcc-12
-riscv                    nommu_virt_defconfig    clang-20
-riscv                 randconfig-001-20241210    clang-19
-riscv                 randconfig-001-20241211    clang-20
-riscv                 randconfig-002-20241210    gcc-14.2.0
-riscv                 randconfig-002-20241211    clang-20
-s390                             allmodconfig    clang-19
-s390                             allmodconfig    gcc-14.2.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                                defconfig    gcc-12
-s390                                defconfig    gcc-14.2.0
-s390                  randconfig-001-20241210    gcc-14.2.0
-s390                  randconfig-001-20241211    clang-20
-s390                  randconfig-002-20241210    gcc-14.2.0
-s390                  randconfig-002-20241211    clang-20
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-12
-sh                             espt_defconfig    clang-20
-sh                     magicpanelr2_defconfig    gcc-14.2.0
-sh                    randconfig-001-20241210    gcc-14.2.0
-sh                    randconfig-001-20241211    clang-20
-sh                    randconfig-002-20241210    gcc-14.2.0
-sh                    randconfig-002-20241211    clang-20
-sh                          rsk7203_defconfig    gcc-14.2.0
-sh                           se7721_defconfig    gcc-14.2.0
-sh                           se7724_defconfig    gcc-14.2.0
-sh                   sh7770_generic_defconfig    clang-20
-sparc                            alldefconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20241210    gcc-14.2.0
-sparc                 randconfig-001-20241211    clang-20
-sparc                 randconfig-002-20241210    gcc-14.2.0
-sparc                 randconfig-002-20241211    clang-20
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20241210    gcc-14.2.0
-sparc64               randconfig-001-20241211    clang-20
-sparc64               randconfig-002-20241210    gcc-14.2.0
-sparc64               randconfig-002-20241211    clang-20
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20241210    clang-20
-um                    randconfig-001-20241211    clang-20
-um                    randconfig-002-20241210    gcc-12
-um                    randconfig-002-20241211    clang-20
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20241210    gcc-12
-x86_64      buildonly-randconfig-001-20241211    gcc-12
-x86_64      buildonly-randconfig-002-20241210    clang-19
-x86_64      buildonly-randconfig-002-20241211    gcc-12
-x86_64      buildonly-randconfig-003-20241210    clang-19
-x86_64      buildonly-randconfig-003-20241211    gcc-12
-x86_64      buildonly-randconfig-004-20241210    gcc-12
-x86_64      buildonly-randconfig-004-20241211    gcc-12
-x86_64      buildonly-randconfig-005-20241210    gcc-12
-x86_64      buildonly-randconfig-005-20241211    gcc-12
-x86_64      buildonly-randconfig-006-20241210    clang-19
-x86_64      buildonly-randconfig-006-20241211    gcc-12
-x86_64                              defconfig    clang-19
-x86_64                                  kexec    clang-19
-x86_64                randconfig-001-20241211    clang-19
-x86_64                randconfig-002-20241211    clang-19
-x86_64                randconfig-003-20241211    clang-19
-x86_64                randconfig-004-20241211    clang-19
-x86_64                randconfig-005-20241211    clang-19
-x86_64                randconfig-006-20241211    clang-19
-x86_64                randconfig-007-20241211    clang-19
-x86_64                randconfig-008-20241211    clang-19
-x86_64                randconfig-071-20241211    clang-19
-x86_64                randconfig-072-20241211    clang-19
-x86_64                randconfig-073-20241211    clang-19
-x86_64                randconfig-074-20241211    clang-19
-x86_64                randconfig-075-20241211    clang-19
-x86_64                randconfig-076-20241211    clang-19
-x86_64                randconfig-077-20241211    clang-19
-x86_64                randconfig-078-20241211    clang-19
-x86_64                               rhel-9.4    clang-19
-x86_64                           rhel-9.4-bpf    clang-19
-x86_64                         rhel-9.4-kunit    clang-19
-x86_64                           rhel-9.4-ltp    clang-19
-x86_64                          rhel-9.4-rust    clang-19
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                generic_kc705_defconfig    gcc-14.2.0
-xtensa                randconfig-001-20241210    gcc-14.2.0
-xtensa                randconfig-001-20241211    clang-20
-xtensa                randconfig-002-20241210    gcc-14.2.0
-xtensa                randconfig-002-20241211    clang-20
-xtensa                         virt_defconfig    gcc-14.2.0
+> > even the reset subsystem could be morphed into that as I think there
+> > would be a lot of overlap.
+>
+> The USB PWRRDY signal handling has been initially implemented though a
+> reset controller driver but, after discussion with Philipp it has been
+> concluded that it should be handled differently, since it is not a reset
+> signal.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Every reset is a signal, but every signal is not a reset.
+
+> > Maybe that would cut down on a lot of these
+> > syscon phandle properties. I would find that a lot more acceptable than
+> > the generic 'syscons' and '#syscon-cells' binding that was proposed at
+> > some point.
+> >
+> >
+> >> +
+> >>  required:
+> >>    - compatible
+> >>    - reg
+> >> +  - "#renesas,sysc-signal-cells"
+> >
+> > New required properties are an ABI break.
+>
+> I've added it as in the old DTs the system-controller node is disabled.
+
+Ok, so it depends if the consumers treat this node as required or not.
+Or maybe they are all disabled too.
+
+> With that, do you consider it OK to keep it?
+
+No, as we're dropping the property aren't we?
+
+Rob
 
