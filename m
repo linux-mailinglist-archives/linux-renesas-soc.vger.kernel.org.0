@@ -1,82 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-11218-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11219-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A739ECC1C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 13:36:07 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F699ECC27
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 13:37:54 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CAE2C2825F6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 12:36:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F17B5188916F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 12:37:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6137D226871;
-	Wed, 11 Dec 2024 12:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1345A227581;
+	Wed, 11 Dec 2024 12:37:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF2F238E30;
-	Wed, 11 Dec 2024 12:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170A4238E23;
+	Wed, 11 Dec 2024 12:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733920564; cv=none; b=icVKGEcLLwBCkawbneThEQet4nxKQfxjfnWYidbSW7SlTIkMwaut+i7H4MnmnTur9ZQe1ow2zdoGkdBpGOQDyF9GxMNWiJfUEavB9QCflPysK0Nj0CrDvFS9lqlYgpIXFgxiiNU+3koDfOVBEZzUS7Hh+sjfkmVlXSHwhsxTPmw=
+	t=1733920669; cv=none; b=nEKnDwZZ6/R2tBFGnUEaRDy4qAdaXnBEcpppy6S2UzKxWm6bHq7y2egzGJ63gzUpVbt2fC0KmkWve4pT7NvV46bAwRvgy0EjWGkKYSoi9aPBZZaxubV/XxBGyCuk+f9BRBhZe6WjQmfWgGft03HFwSWfZHzcV/llvUQl1KWW+Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733920564; c=relaxed/simple;
-	bh=uZsQXcd5vSGXOLiVdRFzynM0Bajsbd1AvIBnR0Hwx54=;
+	s=arc-20240116; t=1733920669; c=relaxed/simple;
+	bh=8A5CrmteiQlZfEh6qwztWqlsCGBp53ZNUov14BzudeE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DJsJeuTRIo/DzcMbCo389Xtm9JnB24lM+FlOIYlG0AgkJXaQRutaKwY2stnaMQW6zEQPLO9qTeALipzlpxTciR/xAjN5Vk+G+7neahRbuXnvNv60n1p04IU5FlKPyru+HjXW2qi/9XsfK9E5VJQiSvoYSHKhKeS7B4a7Inip3Vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
+	 To:Cc:Content-Type; b=bpNO0OXNV6NBOIombSsuIiBBAc+yqcNKnEU1iWhkPTdx7QvfZxxXxkT1kwNjDmZUYUQ6hvoDhOkNLXuIJsYFUQ8tz0KC7tuOO8RW0/xcqF6QFjm4XoeUZya4YuYqrE7+WrSIIrKfCYLPNBLMyU/vYYPLh3KYHocDLN0CSoC8wpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-85c5a91374cso1428547241.3;
-        Wed, 11 Dec 2024 04:36:01 -0800 (PST)
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5188c6f260cso650500e0c.1;
+        Wed, 11 Dec 2024 04:37:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733920559; x=1734525359;
+        d=1e100.net; s=20230601; t=1733920665; x=1734525465;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=miGebEfuJFDaOLaRLOxI6/4OetpOhwT5zM3bQDtOqEk=;
-        b=LyDEHsg0UAU6953914hN0tmu0t/2emXdLwpmRiCvAZWdRrg/47p70FMvrXEMuuNghx
-         AV+QyzvkO8CAwdvhjXr9aKYiWoMaWaLpJoR8K/TvyNIof7L5hu+xvZ+kHPqe8DxL9I2z
-         kMsXNK4xYdh9yQbjMOE06rDiwgV+Awb/aAzjb8FVyxenta+qgRGKTTu2TFje+Cuo0iKi
-         d1DqnsboVpkwzxcIhFryfiT4h82GNUEuXB2tDO4aF/acViJu7yozTqjMJkmtKZsnv7/A
-         5TN3XlXUkGXYYlX6Tiy21WUwSpDv0BRJiLOYRkWN+Niv5wg/rZ2zsqwT/1bz0mNo8N33
-         mzOw==
-X-Forwarded-Encrypted: i=1; AJvYcCUjCBrmWJ6eCUv5N8NBz6MrgONqD5seaHHK3akwuWdDDoyiSQe23jWAzi6lciSkguWpFRBPKe2Y+y0b@vger.kernel.org, AJvYcCV502WW/yZLEdCitR5+hLwOnYRFEsz1bx3KdBEbZt7lqAI1H2ueqs9TWUsHLwrlt6/6qoRk3xaCkSrK8E+b@vger.kernel.org, AJvYcCV7JcxFREO+Dwna+uZ5ymDCKN/9+OIWYvJauC4mP0dDynNfcSfHAbtSdJMQFj57zlC6PhmgK3TV@vger.kernel.org, AJvYcCVIH7vxQanKVF7DfY59FyScmCbFRgbR2aaMLMJzUXaCrVmZOqWnR50YGmW09s3IV2QyY2uPLQPwvpi0XZjL8RANJzE=@vger.kernel.org, AJvYcCXfVn7sCu7lxaqdoeR2lRsoCHULVS3r5b7MmHwRHsr0zrMFCzeTLhV/6MvrbXIsgq3VYTiLuEuTVpX1@vger.kernel.org
-X-Gm-Message-State: AOJu0YxW4uJC5Ok632zsvdjD1YRVNcEodS5cOLMJ+iQQjr+A1zOmk2Ln
-	Xwh7Uv8sTkIuWOPD1ThN0Cabd3M0tZlODEJutiERwMDf7eYQ35n/RBopWftu
-X-Gm-Gg: ASbGncuqY4mSpXEVa07jzKAV+seYOEsc6KWZIvODsk318gNpjDOLzOVry6JfEQSAlqF
-	cLr/sajyWFPQcwlunX6hwUh6EpXH4gjt02zAthQwLNfQsLzNu33aLlk7GrlPThSqZ/hcyIAij5+
-	CaPcrFoquCIIQl1lJttu4UE4EO5WPBSBzR4o3aZgyPQAWnAA7gwAOYsKJwoijUO/QYPVSoMnXwx
-	h6eo7eftzTdshHxb3EACgiLpu2Fz19ofKvfGkdu32VE8adNw87bECEmeM6rRIEEB/a31u/E6WLL
-	3+D+52crxi8mDC8g
-X-Google-Smtp-Source: AGHT+IFOpA89fy9JcGwGAVO55qw0Gdlxg0G5giQUGnnZwEnSlw8vcfV3KYvTN8Qu96fGp0PicB7Low==
-X-Received: by 2002:a05:6122:221c:b0:510:3a9:bb87 with SMTP id 71dfb90a1353d-518a3a0e452mr2350435e0c.1.1733920559017;
-        Wed, 11 Dec 2024 04:35:59 -0800 (PST)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85c45e2ef2dsm1327413241.31.2024.12.11.04.35.58
+        bh=AJ86Ezt1IhboGcICgfmJZa79KW8rXDylHzrx2Yfcbis=;
+        b=rkychT3T7YofPubweOY0YVCym+ZlA+5uIQNnd89WAafunuygUuza3ZxmoaHPJjCYYQ
+         thR6uajMNqxE+Iw1+oPXSf+1bU2px+u0LwYgEdEu+1ta2CSg91NP6sKvFRLTwnjleetJ
+         7dsA7KUpoA9NECgxZb5xH6A6OrzN1n7ddTFOdLkv8xH+8H1+L2zirUOwjSvhHfsZw4Dd
+         njy148PtzGSjxi2t0Q2cVexCZhP4H96e5tl0ulDsze2RlCarhIH8oLz8VliipZYar2ZZ
+         cUomOexoPEuu4W4R7wuOfSNArHshVEHOOJ4Qdjzl/1XggYXpoVGfhaCJMz2ySQKBIE2O
+         nWjw==
+X-Forwarded-Encrypted: i=1; AJvYcCUCsbkKV1x6lvhVGX0q3hkw4Gmgm3lyNTzHr1Iu0KSrU6DKRgIoYronlHY9Rir8T9eT8wGqfc03iHvg@vger.kernel.org, AJvYcCV2LyXWeCWxvau0BcQUGkHuvJGZWQR2CuEJSTVKNZTCmIbXJRlSIhFrruGW300f82WJVOjW96xluVF0LZ/a@vger.kernel.org, AJvYcCVdm/mAVqxAeuuNiUvwyTsZlepEYGnA3/zhM5hXyCrjzk4OrvPC3DOkscPBr9SvPD7o//f2wfx25L9E/PkjwO052ow=@vger.kernel.org, AJvYcCWOCOMUOBDdvcgTTEaOR0AgWgwgTB8qWbfPTz8/hvq3mNVcA/aSkRWNo0IEOHkuEWvdmFkFluPlDQs2@vger.kernel.org
+X-Gm-Message-State: AOJu0Yztx6nxI5kHGTRMi8VYyx6p9/5mIdpXsJAbCG0WTVBEIoYsudze
+	+Uxw2Sts0aAhhquR6Y7/hUkUrTPeHXpm96PB8tWIq4PHi3UgjbQgEuCJ/LsV
+X-Gm-Gg: ASbGnctWwePu11wA1GAxXXnA0zPIfgV1emnHFd3xDqs7rj7GXRErJ5jpYlTtRRuADI1
+	axQf2BIzn3jdZS8anRYFE6vNxPBkhDId6ppycZ3ra2v7tYEYcHCmG0o1D5PHyyncharELOSPg2w
+	fxwMC5eMy6krQr18EmXbMKlWzeCCrU05YTb8uOE4ZrKyqXJ1RsLCXSrCzLRp8QdFpfLVfUbjOo+
+	6B7RbZR5bmWuDBhqNMxko1ChWkJJThGeNQb2fgHvlcFuGoTB6TDOQn3nrL//iQZdv4OmZIdRsDH
+	FYqCp8Nh5ew3aJ83
+X-Google-Smtp-Source: AGHT+IE1D2lQ91hapezxrAZkcziBE8Uk7ryteiqJY5E7XwGExYGCBR+saT/fdIqDLeZ/yZ0nI7fPBA==
+X-Received: by 2002:a05:6122:408b:b0:516:1ab5:fab0 with SMTP id 71dfb90a1353d-518a3c23627mr2223215e0c.12.1733920664649;
+        Wed, 11 Dec 2024 04:37:44 -0800 (PST)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-515eae68d96sm1128813e0c.28.2024.12.11.04.37.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2024 04:35:58 -0800 (PST)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4afe2a1849bso1710524137.3;
-        Wed, 11 Dec 2024 04:35:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUPWKNIoE0jHtJvgRzu60G7jqhvD9KkXiE1vHqhJrFPsCenOmglvwAx2Gmpmym7lKVTubJfJ0HDcOb6@vger.kernel.org, AJvYcCUsbkv51FAg6YYaaK6WH7c9x/R9hE915GGBI4E9iBCnKlQfbmfcEQzFym1QJrlTfIF/JiKti/3MdhbtXfjKuOQognk=@vger.kernel.org, AJvYcCXB7K66Co57WPEr1zwxG7YnHABIB9RzYhIAW9yRxFqDrn4vWvd/+h405vPXe0huuM7c6zbSczax@vger.kernel.org, AJvYcCXMFxWOON4Yt5dwD47CodEaNhdo4XdhYiMXeBdNBvwgH5PAaTdTYreRH2iK7bPN8+UOzjtwo695wh74@vger.kernel.org, AJvYcCXrGHQL0QF0uAJrVJZx/LYxEWjti3JIqJoiwRZPRaQZy19G0Ht219r4dhdLkiXYyQvqntmwOVOTHTOymqtX@vger.kernel.org
-X-Received: by 2002:a05:6102:5492:b0:4af:e61d:e22f with SMTP id
- ada2fe7eead31-4b1291b2b16mr2852897137.24.1733920558034; Wed, 11 Dec 2024
- 04:35:58 -0800 (PST)
+        Wed, 11 Dec 2024 04:37:44 -0800 (PST)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4afefc876c6so1048864137.2;
+        Wed, 11 Dec 2024 04:37:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUu7U7/qhreU4mT5bs1NV0nE3V1y6/qEn9sveePL9vWRlKpNxBWVa2RKW4vUsPyyvaG//AmQNT1RC9l@vger.kernel.org, AJvYcCW11vywDpTW30bzBlyoghN+tfCeFa2Ph8fwt2CwEUbywrfQoKrUjageyr94tAuRkJc2Dm+W2rIhnVQ4bGtdaIAaL3c=@vger.kernel.org, AJvYcCW1XlUhdVWTFFN34exMmZ5JPdSrlF9oWQXti3xi7cfRIXdC2h5ce+CdKHChoU/dsNqfMWhfB5+NVEVVuNTl@vger.kernel.org, AJvYcCWRGU11CSWSoyZAXKFsjSIwjq7kv+nzib3aseGTGpmLVm9kZBmkSUNojUmWDa3nvxnwTFPg8xrXZNb0@vger.kernel.org
+X-Received: by 2002:a05:6102:c86:b0:4af:ef82:ce8b with SMTP id
+ ada2fe7eead31-4b12919eb17mr2932281137.26.1733920663802; Wed, 11 Dec 2024
+ 04:37:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241210170953.2936724-1-claudiu.beznea.uj@bp.renesas.com> <20241210170953.2936724-5-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20241210170953.2936724-5-claudiu.beznea.uj@bp.renesas.com>
+References: <20241210170953.2936724-1-claudiu.beznea.uj@bp.renesas.com> <20241210170953.2936724-6-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241210170953.2936724-6-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 11 Dec 2024 13:35:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX9K+2mqAg+4JUX3oY-HmHTtkP5NTZoTXJX-Y=jSJEcMg@mail.gmail.com>
-Message-ID: <CAMuHMdX9K+2mqAg+4JUX3oY-HmHTtkP5NTZoTXJX-Y=jSJEcMg@mail.gmail.com>
-Subject: Re: [PATCH v4 04/24] ASoC: renesas: rz-ssi: Terminate all the DMA transactions
+Date: Wed, 11 Dec 2024 13:37:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXB6RiCpm-znuQVSH-o9a-SoQgORD4hJVTn-pDpj_Fd-A@mail.gmail.com>
+Message-ID: <CAMuHMdXB6RiCpm-znuQVSH-o9a-SoQgORD4hJVTn-pDpj_Fd-A@mail.gmail.com>
+Subject: Re: [PATCH v4 05/24] ASoC: renesas: rz-ssi: Use only the proper
+ amount of dividers
 To: Claudiu <claudiu.beznea@tuxon.dev>
 Cc: mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org, 
 	lgirdwood@gmail.com, broonie@kernel.org, magnus.damm@gmail.com, 
@@ -84,7 +85,7 @@ Cc: mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
 	biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org, 
 	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -92,67 +93,19 @@ On Tue, Dec 10, 2024 at 6:10=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
 wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> The stop trigger invokes rz_ssi_stop() and rz_ssi_stream_quit().
-> - The purpose of rz_ssi_stop() is to disable TX/RX, terminate DMA
->   transactions, and set the controller to idle.
-> - The purpose of rz_ssi_stream_quit() is to reset the substream-specific
->   software data by setting strm->running and strm->substream appropriatel=
-y.
+> There is no need to populate the ckdv[] with invalid dividers as that
+> part will not be indexed anyway. The ssi->audio_mck/bclk_rate should
+> always be >=3D 0. While at it, change the ckdv type as u8, as the divider
+> 128 was previously using the s8 sign bit.
 >
-> The function rz_ssi_is_stream_running() checks if both strm->substream an=
-d
-> strm->running are valid and returns true if so. Its implementation is as
-> follows:
->
-> static inline bool rz_ssi_is_stream_running(struct rz_ssi_stream *strm)
-> {
->     return strm->substream && strm->running;
-> }
->
-> When the controller is configured in full-duplex mode (with both playback
-> and capture active), the rz_ssi_stop() function does not modify the
-> controller settings when called for the first substream in the full-duple=
-x
-> setup. Instead, it simply sets strm->running =3D 0 and returns if the
-> companion substream is still running. The following code illustrates this=
-:
->
-> static int rz_ssi_stop(struct rz_ssi_priv *ssi, struct rz_ssi_stream *str=
-m)
-> {
->     strm->running =3D 0;
->
->     if (rz_ssi_is_stream_running(&ssi->playback) ||
->         rz_ssi_is_stream_running(&ssi->capture))
->         return 0;
->
->     // ...
-> }
->
-> The controller settings, along with the DMA termination (for the last
-> stopped substream), are only applied when the last substream in the
-> full-duplex setup is stopped.
->
-> While applying the controller settings only when the last substream stops
-> is not problematic, terminating the DMA operations for only one substream
-> causes failures when starting and stopping full-duplex operations multipl=
-e
-> times in a loop.
->
-> To address this issue, call dmaengine_terminate_async() for both substrea=
-ms
-> involved in the full-duplex setup when the last substream in the setup is
-> stopped.
->
-> Fixes: 4f8cd05a4305 ("ASoC: sh: rz-ssi: Add full duplex support")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > ---
 >
 > Changes in v4:
-> - updated patch description
+> - changed the ckdv type from s8 to u8 and updated patch description
+>   to reflect it
 
+Fixes: 03e786bd43410fa9 ("ASoC: sh: Add RZ/G2L SSIF-2 driver")
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
