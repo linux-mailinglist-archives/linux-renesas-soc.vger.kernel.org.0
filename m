@@ -1,132 +1,269 @@
-Return-Path: <linux-renesas-soc+bounces-11232-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11233-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC819ECD26
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 14:27:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3BD9ECD30
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 14:30:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E4ED5167F37
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 13:27:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 647DC16802D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 13:29:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AE5622B598;
-	Wed, 11 Dec 2024 13:27:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E418A233680;
+	Wed, 11 Dec 2024 13:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="RV4yZDiP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434091F193D;
-	Wed, 11 Dec 2024 13:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD3522C353
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Dec 2024 13:29:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733923671; cv=none; b=ubAYRVYJBkSxz+n/GgDpMdSSC7mT4/PqbEUKnmK9HPbqxGybcQIqmniaX7Og7+jVV+7z7iVv6Zl6tDp9zNkW1mlWe4REoHzdlTBFnVDOEvuYySgMwVxW4mDVeMbmaufxxxX/AFrtCGp+y998lcoIRomfojw8XEn2C5TsmYPfsCs=
+	t=1733923788; cv=none; b=N5isSQoWjyfyDGB4DWGv2wgdTCm9Qsfvy0cH3TOTSTJtSdlRPHBZM2PTXZIslyNABt+x8JzW2++jcTnr50LiBaoJh8xAm8HgIlgcJh6Ubt35mEPaMksaGo4Qxy/lc1DFsPgiztpwaVcR8CwHXgSmxuykUYeyv2EX/aPsEd6cUb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733923671; c=relaxed/simple;
-	bh=l0n79E0UwxAsx0c03t/5SUdllR1UMQbgv1in/olMbfg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iaKvy2wc8fUGy0Kv1XiZQLi041YpPAjyzy0Icp86Ho0K5MURSBl2lmC9txHHVFFx8h1S5RG0H2lRP7L1yBP8W+yLLqxvWGerhJmd2NtmWx7S1i6mbLvzNm/G7MYRMaSQ1rPFUlieC0KfqUDY+dIc6HlrFQapdj8dLcsuGWc8dKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-4affd0fb6adso883031137.1;
-        Wed, 11 Dec 2024 05:27:49 -0800 (PST)
+	s=arc-20240116; t=1733923788; c=relaxed/simple;
+	bh=4YXjyAoD98+cfiKscwgre+GWi+bFfECJxhiIsEr0EBY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D354iKV/YnHJ2eETPGD4SP71m6BfYq97Ufz1BmEoneaj51N+4tvODYcmXcG7MHAEuisTiogFLX4tsWYoepT/q35N8QiJGS1c96OpwjuF9O/KkNPpPO7g+LxGDPQMIPwWbSsaU2hfGWKxkBKS4LHrEKXSckkYuYThD+pvOPNjWxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=RV4yZDiP; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-434a7ee3d60so3964805e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Dec 2024 05:29:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1733923784; x=1734528584; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZAzVPgqaMUfEWjQsC1i4irC02Ex7gL3bmsg03DGegR0=;
+        b=RV4yZDiPXoFWF10cXkxm9RGlEXNfHcpyhrKFxRvKvT6TjbrMQUq4nQuoREFKitb0zp
+         U+DFbbh6SpJInkP37On80o5w3UQQ1BDOBYkO3I9yB1finZjNyZaHfuUWEVAAKE5M6i0H
+         oJRK9QTO34l2i7pj2qnp5tzcgUXorWb1yxWRFyeWgfuGvyDitD+kTQet3Qh7ysFMuHY6
+         lMVNuk3QYQc4Ed1UHycztPTmelad6jHdQlAnsKoe7veeeHuaurIQIB5+L1G0k5KCPd0R
+         oRLzkRy9/f48r+pimJ3se7LUXf289/EACuQus4hZrFK08mqQZ2wQSo5chXSucG7dgIDd
+         9djw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733923666; x=1734528466;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FsR3cWj2rQxpzGsWHeVcLZXw5195PPdpxK8V3I3ghRw=;
-        b=YYZqbrqSyeOZI2Fqzkicj0UKbM+YQNUfFy7PzkfhwkWWJGZ1EeSY5TPwT2mGwdg+dx
-         xyQQvWVr2UbiwGkYiYqBlxGrs64LV5KWdbQWt3Wb4AAtPQtNRWmyvlzu50o+0qdz6KhG
-         TMVOl9VF18wizZUSL7/Wxl8hQnbGHNNp25E2mA6Nk2/9XO8mBxvbGpSWD7JM5GThsG07
-         z483Fj2UvBKlBAyJ7+LEzfecCrHk7GOPo/hYRv5rUsuvNFgmwY0zthqMGIxqIC5OxLKZ
-         0BhEb0LhikChrqxvcfMlwQneLbORa3+s6zxaXHnaWw2+C+yL9hO/vg3XeBrpKFPh0HsD
-         U8AQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVj2as5QSUeRzdZmiRPzuQC1paSBzkJ/IGCG2Z8iU+q6Nv7sFzpY2CY7fR+7qXIDpZN+ekzyCNb9//HL+P/kap0bt4=@vger.kernel.org, AJvYcCXOR/LbON0XZI+fbxITcafV1TqlVuX91gTx0slMX+LPSEmDWO8JY8YnQcy0HNJeEoOmHUjH+TopTTGQAc8w@vger.kernel.org, AJvYcCXTIIyHmX+kF6pttteAvc3KTJ6S6LtOB+Ou73hGzmgzaaQaAx8TgXoryRHsSCb1HWWPEV5tnFlo3EUF@vger.kernel.org, AJvYcCXeVzmDNdHddGmXw3PQjoiXYchnamDpGdVUvw5yBq6o9Oi06heexyFOwemF7FqMS/LjpB9Mvky35h+x@vger.kernel.org, AJvYcCXu3Vv37E8+z5K8WsqWEzcV20222gLa+SkiyXe7Zn3/McTC4QvTo4qpjhqY4tG3GPRIRS4vyeetsH+B@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9p78pnv4NNsAkSZZvoYvzD382z5jCseBxN/1Cgx9V6TvdPAUP
-	+Vms90n1IEvVL6Lh5pvG+mozHJNrE/I8u1usfNQMmxo5bQIi0NmMjL/zX2UF
-X-Gm-Gg: ASbGnculy+oKyCcKE02L74CSRG+fKgbbSifRyw9V3MmliuL4hkRoIMHiaEdQQ+wDKm1
-	3P/f6lzhyu+OLG1xWaEAgEUt5uJsTx4ZfdazAWpZnd+Erwxd2rKykckg7otqLfQjFsJWaTqhRWG
-	cSouJ1x46gORndje7kd7522ymnnA61UE2LXy3ENZ1vreDIEXMY19NMdIhd6EREGOMRLXLazJrFc
-	QT6fYeNWkC1r2G8im2/oy7tottPtSAfpmF1eyVi1rO5ogOlrGJRMgycKTjLFjH8rFU8nZiVAqrt
-	AMFOOjEDa5VYTrtp
-X-Google-Smtp-Source: AGHT+IFG5nawDJgp9Y9hp1fhzqYJ9iMidO8pohabDIzv8vzkSQD2kgphyJLtwTgEP3KQs7hivQbNzQ==
-X-Received: by 2002:a05:6102:32c3:b0:4af:2f95:4ae5 with SMTP id ada2fe7eead31-4b128fa102fmr2556194137.9.1733923666478;
-        Wed, 11 Dec 2024 05:27:46 -0800 (PST)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4aff0e2fae7sm947447137.3.2024.12.11.05.27.45
+        d=1e100.net; s=20230601; t=1733923784; x=1734528584;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZAzVPgqaMUfEWjQsC1i4irC02Ex7gL3bmsg03DGegR0=;
+        b=uSE8hCCjnOjiituLwAR0wO2+6eaf5yQ4PoQocKD1qo/O2NlviIQpyLasL02m321A66
+         GIlJV+bNp7wuCwlPNj3AZW/ttx2YRt6R3tEcdHkUONHkMqv/SXlZVV7BJExvXMmjtG53
+         zVDICi/uqE85FOMN37I0EfWSakBo3zufvSOc7MSJnK++inih6xm03p3s3u6oDmhl4hu7
+         LegUx2K+/bxtXZdHdllmBge3E3gmc6Xu3yzIhyJMV8vhCt98hFhf6E8biGXEpSay7Ik8
+         eanTkjVuRtBEQ+6+IiUp4IyiL0ZT/AQAPTm+hdukpMSur07ra43KVzusdLOpRco8gBYd
+         7iDw==
+X-Forwarded-Encrypted: i=1; AJvYcCUIQr6SifmY8HQteAgFRgvDWt/ZshxzyDhX1OPTUkoqlFedb8yIjs8CL2asN9duDecjXjgkHBrrFqK8vv5MMHGIWQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKE6ugYPS1B3zewYC6SwxXfHPXCKrll+gJjxKTmWJ7Lmz2ccNn
+	2l2prp80X+JlUon4cQ2ROKZ+Gxm8oZZjSxI5azXqSxWQLIsD/+M63AoYhKS8Vb4=
+X-Gm-Gg: ASbGncucLsOayjTlemLqw8DtRLNpbovVcWo4JpLpdxHm8qjL5oou9iVFc509Lw5sYJQ
+	z2QNkVX8PlfFVWHBAPuUd19WbAKfd2d0jxAT7OYC3yYS7zUDUYQmD7jZtbr7qUkaRH0NRfdxxq0
+	szP2U5TU/bHXAe0vdBg2cpkpzdvIbsIbjO3nF1Smp+EOR6WBGa2sbThVeASLg16EJ1Lbhh9nlhx
+	+PHfZrmeGavohIP4XwTsmhTRSPeVsysTuMjaK0+ha2uP3jX88MWukt33VDhI84=
+X-Google-Smtp-Source: AGHT+IGcI12gDXybQxwcAzQEejE9ZVyUNB6RappGD5rtEDkW1ikp9QuBYtlqVjXICVCqXZ+/45HwDA==
+X-Received: by 2002:a05:600c:8a3:b0:42c:baf1:4c7 with SMTP id 5b1f17b1804b1-4361c5a2ec2mr18849105e9.4.1733923783947;
+        Wed, 11 Dec 2024 05:29:43 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.161])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434f063357csm141361975e9.22.2024.12.11.05.29.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2024 05:27:45 -0800 (PST)
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4afde39e360so1352677137.0;
-        Wed, 11 Dec 2024 05:27:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUoGjeVU54a+hbZndzpflVRhUw/qJUan4tR6Rv6AHF5gWObp4RpNN+4IKGWsGMt5V6gwiFWbAaFkHbB@vger.kernel.org, AJvYcCVlLLPJkzFYULS8GW7dYBktLzVfbpQKLksGnGKMuG0qWUqbqUf0dlrDtdTta+/5JS/FbMtxSO1sVgvT@vger.kernel.org, AJvYcCVlM5/XRQYy32M5MGtACNL3LPySYxFF72+XUikZjkZ9Fhhjv8VW4TSGXXU4RycapeQmCkXDWSDEN3idD3IZT5FyVCs=@vger.kernel.org, AJvYcCVuxbsV/Vr0ycuP9Zo0Sp7Y9O7v53M/QPsUdoOyrmJHXaaG0PP2f6ZNa2YH/fGLCpUtwQlLI/x1FEzsIw0u@vger.kernel.org, AJvYcCXLrNsn6qO9tP4xhmWnTTbZpWrruAfIHaLmAkkIMaahiE/RU4ZDV4vCE5FGSfSnTFNeskQUWHuvhWAI@vger.kernel.org
-X-Received: by 2002:a05:6102:3747:b0:4af:c31d:b4e9 with SMTP id
- ada2fe7eead31-4b128fedb4cmr2541368137.13.1733923665100; Wed, 11 Dec 2024
- 05:27:45 -0800 (PST)
+        Wed, 11 Dec 2024 05:29:43 -0800 (PST)
+Message-ID: <5418a6e3-0f90-4922-ac91-c16da9677b32@tuxon.dev>
+Date: Wed, 11 Dec 2024 15:29:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241206111337.726244-1-claudiu.beznea.uj@bp.renesas.com> <20241206111337.726244-15-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20241206111337.726244-15-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 11 Dec 2024 14:27:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVMQr9RhG7v32vQeSrepmdh2VdzzwF5obJUpdGNotGV7Q@mail.gmail.com>
-Message-ID: <CAMuHMdVMQr9RhG7v32vQeSrepmdh2VdzzwF5obJUpdGNotGV7Q@mail.gmail.com>
-Subject: Re: [PATCH v2 14/15] arm64: dts: renesas: r9a08g045: Add ADC node
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, jic23@kernel.org, lars@metafoo.de, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com, 
-	sboyd@kernel.org, p.zabel@pengutronix.de, linux-iio@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/15] dt-bindings: soc: renesas: renesas,rzg2l-sysc:
+ Add #renesas,sysc-signal-cells
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+Cc: vkoul@kernel.org, kishon@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be,
+ magnus.damm@gmail.com, gregkh@linuxfoundation.org,
+ yoshihiro.shimoda.uh@renesas.com, christophe.jaillet@wanadoo.fr,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-usb@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20241126092050.1825607-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241126092050.1825607-2-claudiu.beznea.uj@bp.renesas.com>
+ <20241210184542.GA4077820-robh@kernel.org>
+ <437b8d13-8ec1-40c7-b95c-ddb836e123d6@tuxon.dev>
+ <CAL_Jsq+sdX+3R0USwfYT2yqC9aTGc+LzwyPsQiT770fJ1BgEAw@mail.gmail.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAL_Jsq+sdX+3R0USwfYT2yqC9aTGc+LzwyPsQiT770fJ1BgEAw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Claudiu,
 
-On Fri, Dec 6, 2024 at 12:14=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Add the device tree node for the ADC IP available on the Renesas RZ/G3S
-> SoC.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Thanks for your patch!
+On 11.12.2024 14:46, Rob Herring wrote:
+> On Wed, Dec 11, 2024 at 6:23 AM Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+>>
+>> Hi, Rob,
+>>
+>> On 10.12.2024 20:45, Rob Herring wrote:
+>>> On Tue, Nov 26, 2024 at 11:20:36AM +0200, Claudiu wrote:
+>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>
+>>>> The RZ/G3S system controller (SYSC) has registers to control signals that
+>>>> are routed to various IPs. These signals must be controlled during
+>>>> configuration of the respective IPs. One such signal is the USB PWRRDY,
+>>>> which connects the SYSC and the USB PHY. This signal must to be controlled
+>>>> before and after the power to the USB PHY is turned off/on.
+>>>>
+>>>> Other similar signals include the following (according to the RZ/G3S
+>>>> hardware manual):
+>>>>
+>>>> * PCIe:
+>>>> - ALLOW_ENTER_L1 signal controlled through the SYS_PCIE_CFG register
+>>>> - PCIE_RST_RSM_B signal controlled through the SYS_PCIE_RST_RSM_B
+>>>>   register
+>>>> - MODE_RXTERMINATION signal controlled through SYS_PCIE_PHY register
+>>>>
+>>>> * SPI:
+>>>> - SEL_SPI_OCTA signal controlled through SYS_IPCONT_SEL_SPI_OCTA
+>>>>   register
+>>>>
+>>>> * I2C/I3C:
+>>>> - af_bypass I2C signals controlled through SYS_I2Cx_CFG registers
+>>>>   (x=0..3)
+>>>> - af_bypass I3C signal controlled through SYS_I3C_CFG register
+>>>>
+>>>> * Ethernet:
+>>>> - FEC_GIGA_ENABLE Ethernet signals controlled through SYS_GETHx_CFG
+>>>>   registers (x=0..1)
+>>>>
+>>>> Add #renesas,sysc-signal-cells DT property to allow different SYSC signals
+>>>> consumers to manage these signals.
+>>>>
+>>>> The goal is to enable consumers to specify the required access data for
+>>>> these signals (through device tree) and let their respective drivers
+>>>> control these signals via the syscon regmap provided by the system
+>>>> controller driver. For example, the USB PHY will describe this relation
+>>>> using the following DT property:
+>>>>
+>>>> usb2_phy1: usb-phy@11e30200 {
+>>>>      // ...
+>>>>      renesas,sysc-signal = <&sysc 0xd70 0x1>;
+>>>>      // ...
+>>>> };
+>>>>
+>>>> Along with it, add the syscon to the compatible list as it will be
+>>>> requested by the consumer drivers. The syscon was added to the rest of
+>>>> system controller variants as these are similar with RZ/G3S and can
+>>>> benefit from the implementation proposed in this series.
+>>>>
+>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>> ---
+>>>>
+>>>> Changes in v2:
+>>>> - none; this patch is new
+>>>>
+>>>>
+>>>>  .../soc/renesas/renesas,rzg2l-sysc.yaml       | 23 ++++++++++++++-----
+>>>>  1 file changed, 17 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
+>>>> index 4386b2c3fa4d..90f827e8de3e 100644
+>>>> --- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
+>>>> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
+>>>> @@ -19,11 +19,13 @@ description:
+>>>>
+>>>>  properties:
+>>>>    compatible:
+>>>> -    enum:
+>>>> -      - renesas,r9a07g043-sysc # RZ/G2UL and RZ/Five
+>>>> -      - renesas,r9a07g044-sysc # RZ/G2{L,LC}
+>>>> -      - renesas,r9a07g054-sysc # RZ/V2L
+>>>> -      - renesas,r9a08g045-sysc # RZ/G3S
+>>>> +    items:
+>>>> +      - enum:
+>>>> +          - renesas,r9a07g043-sysc # RZ/G2UL and RZ/Five
+>>>> +          - renesas,r9a07g044-sysc # RZ/G2{L,LC}
+>>>> +          - renesas,r9a07g054-sysc # RZ/V2L
+>>>> +          - renesas,r9a08g045-sysc # RZ/G3S
+>>>> +      - const: syscon
+>>>>
+>>>>    reg:
+>>>>      maxItems: 1
+>>>> @@ -42,9 +44,17 @@ properties:
+>>>>        - const: cm33stbyr_int
+>>>>        - const: ca55_deny
+>>>>
+>>>> +  "#renesas,sysc-signal-cells":
+>>>> +    description:
+>>>> +      The number of cells needed to configure a SYSC controlled signal. First
+>>>> +      cell specifies the SYSC offset of the configuration register, second cell
+>>>> +      specifies the bitmask in register.
+>>>> +    const: 2
+>>>
+>>> If there's only one possible value, then just fix the size in the users.
+>>> We don't need #foo-cells until things are really generic. Plus patch
+>>> 8 already ignores this based on the schema. And there's implications to
+>>> defining them. For example, the pattern is that the consumer property
+>>> name is renesas,sysc-signals, not renesas,sysc-signal.
+>>
+>> OK, I'll fix the size in users.
+> 
+> You already did for the one in this series.
+> 
+>>>
+>>> Maybe someone wants to create a 'h/w (signal) control' subsystem (and
+>>> binding) that is just 'read, assert, or deassert a h/w signal'. Perhaps
+>>
+>> Until then, is it OK for you to keep it as proposed here?
+> 
+> Yes.
+> 
+>>> even the reset subsystem could be morphed into that as I think there
+>>> would be a lot of overlap.
+>>
+>> The USB PWRRDY signal handling has been initially implemented though a
+>> reset controller driver but, after discussion with Philipp it has been
+>> concluded that it should be handled differently, since it is not a reset
+>> signal.
+> 
+> Every reset is a signal, but every signal is not a reset.
+> 
+>>> Maybe that would cut down on a lot of these
+>>> syscon phandle properties. I would find that a lot more acceptable than
+>>> the generic 'syscons' and '#syscon-cells' binding that was proposed at
+>>> some point.
+>>>
+>>>
+>>>> +
+>>>>  required:
+>>>>    - compatible
+>>>>    - reg
+>>>> +  - "#renesas,sysc-signal-cells"
+>>>
+>>> New required properties are an ABI break.
+>>
+>> I've added it as in the old DTs the system-controller node is disabled.
+> 
+> Ok, so it depends if the consumers treat this node as required or not.
 
-> --- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> @@ -87,6 +87,59 @@ rtc: rtc@1004ec00 {
->                         status =3D "disabled";
->                 };
->
-> +               adc: adc@10058000 {
-> +                       compatible =3D "renesas,r9a08g045-adc";
-> +                       reg =3D <0 0x10058000 0 0x400>;
+The only current consumer is the the RZ/G3S USB PHY which is added along
+with this series.
 
-Table 5.1 ("Detailed Address Space") says the size is 4 KiB.
+> Or maybe they are all disabled too.
+> 
+>> With that, do you consider it OK to keep it?
+> 
+> No, as we're dropping the property aren't we?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.14, with the above fixed.
+You're right! Stupid question from me, sorry.
 
-Gr{oetje,eeting}s,
+Thank you for your review,
+Claudiu
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> 
+> Rob
 
