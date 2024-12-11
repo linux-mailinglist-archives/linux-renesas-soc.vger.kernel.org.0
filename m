@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-11205-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11206-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C872B9EC2F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 04:10:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 747789EC316
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 04:20:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01CB01661AA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 03:10:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D7111887F7E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 03:20:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DA4920C025;
-	Wed, 11 Dec 2024 03:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D59420C000;
+	Wed, 11 Dec 2024 03:20:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qXcW5Mij"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nkzZ/oVr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317BF20B81C;
-	Wed, 11 Dec 2024 03:10:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213AAF9E6;
+	Wed, 11 Dec 2024 03:20:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733886616; cv=none; b=sXL5MArukrN2mG6d8RhO5uNXn1kuJxMQKxmpSS9gqleSRHP3DoAXTVIKSJH5x06TRKPFAfz1LOVRGi0GQyKO6Ht+aV7bhKMSx+bFWl+WHcPSrHLcBxEWt+Wek2gh1Wls8jRB07S/tk2N7ZbzaOUKUOnozI9w0/1AasS6oExyX9s=
+	t=1733887217; cv=none; b=dTfXsDCJxidAmiHepKTi2hk46a9NwNShS+O82uJ7+P9+UjfSDV2mYx2O40GdKGdcJPco/P65+TA2VQ0jhquSZSbeT9VRTA0adKi/RdThu7bNCAwNO6QANHrylwXTI8Xk0/0UdZU6HZmURwn4DkvkV/5hhHfcbaSkM1Q2Qs5pfmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733886616; c=relaxed/simple;
-	bh=79qZmJ+TQ8cZcD/WuIhRJ5qYo8fst9V7HyNBmkyL0ek=;
+	s=arc-20240116; t=1733887217; c=relaxed/simple;
+	bh=17Duc3CAKDXdm8/1QwlEBB9jroPiU4zGXbLKeH6fjBI=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Ojyk8MKGuAipow7svhcNUTafa6p9cl+IpMbY8JI0TyX5aq13+M+6ZEa9phsu4T0xAGNaRccjYDMGnV0PHSAY7m+CDxg55SME51xbxACBc3zawudsH0ZD2ji6MZ903nyIKN3qjL0ifH1YDJ/vXgKnXpPD18hks2ik/qM8YPc5YUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qXcW5Mij; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A02E7C4CEDF;
-	Wed, 11 Dec 2024 03:10:15 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=Ga4z3twJJRobAzPdBaN7fziBVB1JLRbg51q7QI29jHbgYFnDvm9bI/pK95QG3lZ5jirZq8ArTNLW59h1S7nTokCWuM8H6bFwu2JHfIPgBZ/dP54E9k/UY7ksS564SkiK46scgfSvTVNrchgzGTfTW9N29sUu3/42Gxt/dC2fVG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nkzZ/oVr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94A87C4CED6;
+	Wed, 11 Dec 2024 03:20:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733886615;
-	bh=79qZmJ+TQ8cZcD/WuIhRJ5qYo8fst9V7HyNBmkyL0ek=;
+	s=k20201202; t=1733887216;
+	bh=17Duc3CAKDXdm8/1QwlEBB9jroPiU4zGXbLKeH6fjBI=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=qXcW5MijN2d01JSQRvIlzeKSA3KJPFbeFhxHdjkyG+vEHp3bQEbXPlu4WwLjraV88
-	 1IetF0GsywOOczWH0Hp2VxZN2jxPwk3Z35Mh6DgcJOwpTiz6HEgWSlSk/7zgzgSGy8
-	 7ejAWW4FjXFbC9PGcx/UPrxHuNwjtNtLe2HF8bzEk9vNFMQnLx6C7Nuud7t9Z06+7i
-	 jKYM+UeKelYletkG1JhrCR2G9S/sHj78msiDYDZUH4s7nasHUbMnj7jdvlUX7NNLyf
-	 K/K5Somw075FZlf9cgIB6hI8QSPiFsikBgTD2Nfqem3hGZBnqHTasNE/Zo4sw3/Rk2
-	 a92ouFfGAz+fA==
+	b=nkzZ/oVrlrHs/HrSESs/cs+T+hUiaoqnQ6zUsozfdEWuAO71obWuCvN8aBlZbh55N
+	 Md3qL/ZK7vlN2M5ni3USt7wwMdkYOB8dJ6Zq2MDjr40tmoJFRXceXr5+cJ0ClRT3G+
+	 xneFI1s0Yyw85tGFXHRDVUY/2l+L8BJAWGdjuCb8SEeGa1vqssM+44Ku7hfa0hoaDu
+	 +JuASJ63qYeGEIsn93W9NL8hy/SzcFQPdNRYF8t70u+qpf/TUcnIOSiV1tZrH8E3C8
+	 xCd1hM9jP7aSOsfhAAhLz/fuKMFqwMskrUAZ9mIuRSBa8wP7XPf0RNea72tuGcFscn
+	 HfvLkGu8Fan6A==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE2BD380A954;
-	Wed, 11 Dec 2024 03:10:32 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADF40380A954;
+	Wed, 11 Dec 2024 03:20:33 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -52,13 +52,13 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v2 resend 0/4] net: renesas: rswitch: several fixes
+Subject: Re: [PATCH net] net: renesas: rswitch: handle stop vs interrupt race
 From: patchwork-bot+netdevbpf@kernel.org
 Message-Id: 
- <173388663152.1102804.7757113228741600120.git-patchwork-notify@kernel.org>
-Date: Wed, 11 Dec 2024 03:10:31 +0000
-References: <20241208095004.69468-1-nikita.yoush@cogentembedded.com>
-In-Reply-To: <20241208095004.69468-1-nikita.yoush@cogentembedded.com>
+ <173388723251.1105799.6013882460430110390.git-patchwork-notify@kernel.org>
+Date: Wed, 11 Dec 2024 03:20:32 +0000
+References: <20241209113204.175015-1-nikita.yoush@cogentembedded.com>
+In-Reply-To: <20241209113204.175015-1-nikita.yoush@cogentembedded.com>
 To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 Cc: yoshihiro.shimoda.uh@renesas.com, andrew@lunn.ch, davem@davemloft.net,
  edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
@@ -69,32 +69,28 @@ Cc: yoshihiro.shimoda.uh@renesas.com, andrew@lunn.ch, davem@davemloft.net,
 
 Hello:
 
-This series was applied to netdev/net.git (main)
+This patch was applied to netdev/net.git (main)
 by Jakub Kicinski <kuba@kernel.org>:
 
-On Sun,  8 Dec 2024 14:50:00 +0500 you wrote:
-> This series fixes several glitches found in the rswitch driver.
+On Mon,  9 Dec 2024 16:32:04 +0500 you wrote:
+> Currently the stop routine of rswitch driver does not immediately
+> prevent hardware from continuing to update descriptors and requesting
+> interrupts.
 > 
-> This repost fixes a mistake in the previous post at
-> https://lore.kernel.org/netdev/20241206190015.4194153-1-nikita.yoush@cogentembedded.com/
-> 
-> Nikita Yushchenko (4):
->   net: renesas: rswitch: fix possible early skb release
->   net: renesas: rswitch: fix race window between tx start and complete
->   net: renesas: rswitch: fix leaked pointer on error path
->   net: renesas: rswitch: avoid use-after-put for a device tree node
+> It can happen that when rswitch_stop() executes the masking of
+> interrupts from the queues of the port being closed, napi poll for
+> that port is already scheduled or running on a different CPU. When
+> execution of this napi poll completes, it will unmask the interrupts.
+> And unmasked interrupt can fire after rswitch_stop() returns from
+> napi_disable() call. Then, the handler won't mask it, because
+> napi_schedule_prep() will return false, and interrupt storm will
+> happen.
 > 
 > [...]
 
 Here is the summary with links:
-  - [net,v2,resend,1/4] net: renesas: rswitch: fix possible early skb release
-    https://git.kernel.org/netdev/net/c/5cb099902b6b
-  - [net,v2,resend,2/4] net: renesas: rswitch: fix race window between tx start and complete
-    https://git.kernel.org/netdev/net/c/0c9547e6ccf4
-  - [net,v2,resend,3/4] net: renesas: rswitch: fix leaked pointer on error path
-    https://git.kernel.org/netdev/net/c/bb617328bafa
-  - [net,v2,resend,4/4] net: renesas: rswitch: avoid use-after-put for a device tree node
-    https://git.kernel.org/netdev/net/c/66b7e9f85b84
+  - [net] net: renesas: rswitch: handle stop vs interrupt race
+    https://git.kernel.org/netdev/net/c/3dd002f20098
 
 You are awesome, thank you!
 -- 
