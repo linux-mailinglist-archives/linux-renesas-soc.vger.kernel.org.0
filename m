@@ -1,190 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-11237-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6002F9ED034
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 16:46:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1CA9ED051
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 16:49:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 10179288272
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 15:46:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F102A28AFA3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 15:48:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 142DE1D934C;
-	Wed, 11 Dec 2024 15:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qbLbG1Cy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E2411DED6F;
+	Wed, 11 Dec 2024 15:47:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9461D6DBE;
-	Wed, 11 Dec 2024 15:45:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A381DED66;
+	Wed, 11 Dec 2024 15:46:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733931911; cv=none; b=AaIoygG8jecAcby8CV/HaQVgttyjIKvBYSaxH1L6E14CnJLQfchIPIKXritLygaXoFd6XCb1wgdirFNRwaLTUqe4JBQ4P06RMWjdxODqD0jqStMkdEJJ8Qxt1mLDQ1yV0qGI6KABYV5ehYOEYshQJhYe3b+HsRSqkEGSEbbJFyE=
+	t=1733932021; cv=none; b=s+8ZwNvSnIuZiNj3RZgzci4a6KxpbhAfxwOEkMPZHdOSk3pjwJqtT+yvYAmbAbIYWZ0gm7vTyylr2EHBWiqPOsUSZRFL/uI22tCywV1mqpHVtaHocWmlRowUbieln6EXNL8F9Dwif2hhWX3+l5vJ5fArl2JSLiT9uZLRw8TJr0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733931911; c=relaxed/simple;
-	bh=MBbRNgdop2g+7oHTiSpbX1PwiZ7XpUad/UNENbU5KRA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HfNcAJ11uIMnMODKQWAdESh9cL5/xwRslDaFxy//U6rfbboEG9o4V7FA5DftH8kdHEcHWOwguIZc1/j2NLLppKn3caxtJUS3GkMlnmFAYIBmr1PYrkpscCano+0s3XSzAtgteFZ8rxasqeLhceYqO2oXy/XJh79ZBZdEWVdajMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qbLbG1Cy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84E3BC4CED2;
-	Wed, 11 Dec 2024 15:45:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733931910;
-	bh=MBbRNgdop2g+7oHTiSpbX1PwiZ7XpUad/UNENbU5KRA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qbLbG1CyrO+FxeF77MAmWKG+jumCQK39mbiCtU98j4Xp5Yix84b1ubTCJFT1uxgkD
-	 XMYWYtm0LdDwhVGDBSQRwBQZHiI45PBJF74eQEmFaxxD4p+/omD71kMJQGS1TqUSP9
-	 BYx+yRr0O6OaHkIosWeNaGcrb33ywbtGhfz+8W73phHRWKx0fBp+z7+O6KqogteCkD
-	 weAzsmoJqcerU1E7qKeRMA2msE6k6U47NLIKCoFzFbNj3tE3ndBe/hssCA83fFMKRF
-	 DjH+sevrK8eKUuQv0LMddIfBtd27bESZGDpwX8wjaqBzDw9nRtcSMiZywMh//EsBvT
-	 gjopTpCU8nSBw==
-Date: Wed, 11 Dec 2024 09:45:08 -0600
-From: Rob Herring <robh@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	linux-clk@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v3 04/10] dt-bindings: display: renesas,du: Add r8a779h0
-Message-ID: <20241211154508.GA3075383-robh@kernel.org>
-References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
- <20241206-rcar-gh-dsi-v3-4-d74c2166fa15@ideasonboard.com>
+	s=arc-20240116; t=1733932021; c=relaxed/simple;
+	bh=ALxKN5fZOTqws9Y4Q3rpW7StWyBrWTOyURrFP/RXICU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dOJ4TYXHa7itVNMabpv9i+Pxs0h2hEICGrvSuNXQarddXskrbgamMwVAhSpGXr2ghRlYSzfqYUN+B+jjYH5beuSjbkURJbT8AdVpndY0RVPOI+BIUQHDPj4iTGZG43FVBzy0mtW7YzsbRjm4XNyOnsbOc1Tpb+DnbIgvOaO4XoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-85b0a934a17so444609241.1;
+        Wed, 11 Dec 2024 07:46:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733932017; x=1734536817;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UJ4+yzd/rKneDbDIB2IBsKpDzvBEuivplDoyftb/YzY=;
+        b=WoYxmuCBj4Izq79TO87B+qENWSy4yHzP7FV6lCCeO9P0InHqgC9NcrbWTSUnb6n3E3
+         YIpnfniZBk9WTFo7Au3jMHy45pUbyT9CPlNpzVSMSi8UjFEzGuO+yBmVT1I41TsLpteI
+         MkWtDp5xs5LLJizsz5q6+n40K2TUIu+D6GZ2EEy6KykXsL8GskqA/yAvl8y9u/O3xdSs
+         2gavRw4734Uz3I2jkJ34X2b7cQH8q5Y0a2jRN2pvIRbCbncj6Q0FjHrLabeN+Zq/BO0Z
+         qHjEmprB6Hs6FtXVWFwcq8ZSmLitqb8NcCCtX19qe6xxyF1+AfG7Ty56riL35hqzUGOE
+         GuDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUH+e/3eKsqnoequkpce+g+X3mWaMnEicTFeCdtWV94zG19c4GF4P+3XZAP9SF9oWw76A34kWPEgw=@vger.kernel.org, AJvYcCWjY1xMPO4Fr1iDB2OqFmH9S9834urAWMe7YYs8VyCOpWJxk1IwHpr1xizTAX/mBMx98CY9G0Z8Dz5OWn2IWFiXVI4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDRM7f5qG0lXQKznABmZF1GwCTnLieILv79trQJz3TeB5iYoV9
+	8Dl8dS1kzkSwYuUZXeYHU+MqMR8+Xf3CsJz82b7541cAPt2zDNtZXGIIZ21O
+X-Gm-Gg: ASbGncuZddzBZYwALk7dbRqfbFulWtO00EVAmC47iy+DBRMza21QeZWCDSVi3dVmBar
+	nzQD21U1kl56dMZ0IW1GxElmqsjq3iIF8MuDF/cUK/5j6NHrmic5O37GiLZ7+lUM4UL3nvzCv8N
+	JTtShw+mTo6PmjBe3UTGJxLQSCY3eDGGnqxvoa00EZnn6owrvN9rTAhkZrFWmcjfCNKE5mqHI1V
+	ADhnVNcvTLCp6o4LWn9ugTWZ/Ryn8V10wXiRjq/+NOYnvS1Fcfxl3vhv6MidS+HSOkMBE37Bszl
+	MaoP2cCGK50V1y/h
+X-Google-Smtp-Source: AGHT+IHR+7yVhlzix3fvjz/EqYXu3JmsOsGZs+2yOi3HU2uwuG1PJfHgeFZAkjC+9ujmk2Q9u3lGsw==
+X-Received: by 2002:a05:6122:a15:b0:515:20e6:7861 with SMTP id 71dfb90a1353d-518a58ff2bbmr2571650e0c.2.1733932017384;
+        Wed, 11 Dec 2024 07:46:57 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-515eaf32e2fsm1243023e0c.40.2024.12.11.07.46.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Dec 2024 07:46:57 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-85ba8b1c7b9so488274241.1;
+        Wed, 11 Dec 2024 07:46:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUozLI+Qf/TL5jcKuUtYs5eBofKPoMNMe/2Tto+nATWf0TyaxC7d6SZx7/llmw2F2upDYtz0jL59Ho=@vger.kernel.org, AJvYcCVCF1xSYm9xp3wH/y98+SvsfcIt0c6tLsmHiaZY756htnISEr4AUdZNptTaCxfVH8zcDXDUkm8QrkSDYI7cUJ8O/+s=@vger.kernel.org
+X-Received: by 2002:a05:6102:1895:b0:4af:d48d:5142 with SMTP id
+ ada2fe7eead31-4b1c21862eemr2090162137.3.1733932017022; Wed, 11 Dec 2024
+ 07:46:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241206-rcar-gh-dsi-v3-4-d74c2166fa15@ideasonboard.com>
+References: <c59aea77998dfea1b4456c4b33b55ab216fcbf5e.1732284746.git.geert+renesas@glider.be>
+ <ljyho2ftsxmjkyi44hgc5zavxv3ytbvi2iuoht3gjetr3b4jq3@mjuvcrwm4klt>
+ <CAMuHMdWc63Q47=4Z5_zDLy3BfGaaV8RyQRAcQbhC8PFvtz4z7A@mail.gmail.com> <nlk3esdnddvnfxj3peuldcblxnbninnmhpfu7n26tbyq2swqzp@z456toyekd6z>
+In-Reply-To: <nlk3esdnddvnfxj3peuldcblxnbninnmhpfu7n26tbyq2swqzp@z456toyekd6z>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 11 Dec 2024 16:46:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWYt3AsDq9wiXiZS__nnd2QXSPBvu0vT5dQLeJsyV9b6w@mail.gmail.com>
+Message-ID: <CAMuHMdWYt3AsDq9wiXiZS__nnd2QXSPBvu0vT5dQLeJsyV9b6w@mail.gmail.com>
+Subject: Re: [PATCH] i2c: riic: Always round-up when calculating bus period
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: Chris Brandt <chris.brandt@renesas.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Adam Ford <aford173@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 06, 2024 at 11:32:37AM +0200, Tomi Valkeinen wrote:
-> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> 
-> Extend the Renesas DU display bindings to support the r8a779h0 V4M.
-> 
-> Note that we remove the requirement for two ports from the global part
-> of the bindings, as each conditional part defines the number of required
-> ports already. This came up with r8a779h0 as it's the first one that has
-> only one port.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../devicetree/bindings/display/renesas,du.yaml    | 52 ++++++++++++++++++++--
->  1 file changed, 48 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> index c5b9e6812bce..7dec47aea052 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> @@ -41,6 +41,7 @@ properties:
->        - renesas,du-r8a77995 # for R-Car D3 compatible DU
->        - renesas,du-r8a779a0 # for R-Car V3U compatible DU
->        - renesas,du-r8a779g0 # for R-Car V4H compatible DU
-> +      - renesas,du-r8a779h0 # for R-Car V4M compatible DU
->  
->    reg:
->      maxItems: 1
-> @@ -69,10 +70,6 @@ properties:
->          $ref: /schemas/graph.yaml#/properties/port
->          unevaluatedProperties: false
->  
-> -    required:
-> -      - port@0
-> -      - port@1
-> -
->      unevaluatedProperties: false
->  
->    renesas,cmms:
-> @@ -807,6 +804,53 @@ allOf:
->          - reset-names
->          - renesas,vsps
->  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,du-r8a779h0
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: Functional clock
-> +
-> +        clock-names:
-> +          items:
-> +            - const: du.0
-> +
-> +        interrupts:
-> +          maxItems: 1
-> +
-> +        resets:
-> +          maxItems: 1
-> +
-> +        reset-names:
-> +          items:
-> +            - const: du.0
-> +
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              description: DSI 0
-> +            port@1: false
-> +            port@2: false
-> +            port@3: false
-> +
-> +          required:
-> +            - port@0
-> +
-> +        renesas,vsps:
-> +          minItems: 1
+Hi Andi,
 
-maxItems? The min is already 1.
+On Wed, Dec 11, 2024 at 4:43=E2=80=AFPM Andi Shyti <andi.shyti@kernel.org> =
+wrote:
+> > > It's a pity that all this description is lost. I love long
+> > > explanations especially when they come from test results.
+> > >
+> > > Can I add it in the commit log?
+> >
+> > What about starting to add Link: tags pointing to lore to I2C commits,
+> > like most other subsystems do?
+> > That way people can easily reach any background information (if
+> > available), and find the corresponding email thread where to report
+> > issues or follow-up information?
+>
+> To be honest, I'm not a big fan of putting links in commit logs
+> (not even 'Closes:') and was happy not to see any here. If the
+> domain changes for some reason (which always happens sooner or
+> later), we'd just end up with a bunch of broken links in our
+> commits.
+>
+> If others want to have the Link added I can definitely add them.
 
-Note maxItems is missing in all the other cases too. Since the top-level 
-definition has no constraints, all the constraints under if/then schemas 
-need both minItems and maxItems. (Unless there's no max).
+In general, we assume kernel.org will survive...
 
-> +
-> +      required:
-> +        - clock-names
-> +        - interrupts
-> +        - resets
-> +        - reset-names
-> +        - renesas,vsps
-> +
->  additionalProperties: false
->  
->  examples:
-> 
-> -- 
-> 2.43.0
-> 
+> > [1] https://elixir.bootlin.com/linux/v6.12.4/source/Documentation/maint=
+ainer/configure-git.rst#L33
+>
+> b4 can add the link, as well.
+>
+> If you prefer, then, I will take this patch as it is.
+
+Please do so; thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
