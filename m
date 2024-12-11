@@ -1,247 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-11207-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11208-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CBF9EC422
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 06:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64AB89EC454
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 06:30:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E0E2188B075
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 05:07:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 05A7F188994F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2024 05:30:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D4B01BFE00;
-	Wed, 11 Dec 2024 05:07:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF8FF1BD9E1;
+	Wed, 11 Dec 2024 05:30:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ODpwic3B"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="tv93OZCW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB9F1BDAA0
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Dec 2024 05:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BA55672
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Dec 2024 05:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733893669; cv=none; b=YRL7ApW6DXNTbTvENxu7h3GAepSBbPym4pHmnzxImmmMB1/Pd6Lnys014BRvN/L5nFPYrQKL6uFmikUMhAliqCD5ZF5JV+vI+GzkLxodCh5HrW0NypUdeB4BKleqXTLzcXFtLl0vhXLdo4bi33p/v3Kv29Ko17OoAAJ94czTopM=
+	t=1733895022; cv=none; b=YzbQ9YpAvTov5x6//e0pys9dsf7WjKrNIErrHzpjow95BypGhylkh92JmmExf3J2S+DQq729eNTFRpEIhoK0IYAS55v9PoVquSo59WW7acDbBxb219Xh83qtO+5EUYBREFEH01n+BvB5NTn80HQe5d727Bqm8LMNMKzjiLdss8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733893669; c=relaxed/simple;
-	bh=fj5X/A4BlVV0G80kWSLnfTjeKDRBNXxsU1yoNos7NEY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fuV5JvVhvQywNn6aY9TSqItiFz4JMiS67sa10ttzdoH6fQiUqWud+y+CUoX8pGuZ1fzlDaAY9CwQqGznRHStepmQAxV4CRUUxyBLYvbKG20T6d6AqTGjd8nbxjRoAUnn3M5wAXs5CxI1hek2MsOjNq77rofrqZuwxJCoSepbTW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ODpwic3B; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733893667; x=1765429667;
-  h=date:from:to:cc:subject:message-id;
-  bh=fj5X/A4BlVV0G80kWSLnfTjeKDRBNXxsU1yoNos7NEY=;
-  b=ODpwic3BxFWah4oDMYKu1msE7UPyf9Q6kEYnjIJAjW8edZtTnpKa/uAx
-   70ZRrnUR1eehrpw0e6FSrW136p+Fx0hPvUDkQwNkNSO0lPSPlh9zB5ZHH
-   zFE0SpDe5jTkS4VC1lg1qad0qQwIAEz89peG5dqxmaQ9jD20gHn0JiLK6
-   CDpAfziBkNI8aERFPIuNabp4KVXumYCCoQY1fbS1hXcN8cBrJHBSvUndC
-   71J3ottrEiiEwrsKDlmSY5evdUaWMVIxXR2Fp0FvtMGZViroymwRr6/d6
-   QBxxVZPi81Q85AR/Y1akwn8kZrzyeR7KhxS2xQG0BmRcVtpdUoR7W2AH5
-   w==;
-X-CSE-ConnectionGUID: XzQCixJYTbusqinJ5OcQFg==
-X-CSE-MsgGUID: 3QXT0JRjTR+h95AtsSqMJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="56739365"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="56739365"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 21:07:47 -0800
-X-CSE-ConnectionGUID: IHw5MQjNRkmwo6j8BE25lw==
-X-CSE-MsgGUID: 50fZA8/xQq2MT0FE422Dvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="95527820"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Dec 2024 21:07:45 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLEwo-0006Iz-2S;
-	Wed, 11 Dec 2024 05:07:42 +0000
-Date: Wed, 11 Dec 2024 13:06:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-defconfig-for-v6.14] BUILD
- SUCCESS 5b192d06f381ed5508851f1d47768c2e2f8fbcad
-Message-ID: <202412111343.8N9i2v82-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1733895022; c=relaxed/simple;
+	bh=WjStt6KCmPyjA0UUxxptllAJ1zIxzLzoXkXCuU8sFB4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s1V0uLAigyZbtWCloBYxUXWO7Hz6UQ5tA1RCUJyoYa2I1OGpC97KWDv+i3QKvTsGGaTbveCQS/RLJg52bwFoCymloEnnjxs3WImdgijViWEBFP78W2TDcnWyAFyq2wlHvXd0G5F6M7CJNWuhwB7mgPKPl8/7Ox5LN2/GrOXe7zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=tv93OZCW; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5401bd6cdb4so3332823e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2024 21:30:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1733895019; x=1734499819; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JohBzc6SIbwiwfBt8MJ3uGvt7oRvwtZBP0CDs+EpYnY=;
+        b=tv93OZCW/YwbXOQaLqYjTWAqH1mAdjeVIzAhBA18FekKyURnyFtWKbXZJ29k1ipS0x
+         0GOqutadFyUj1avm8kPLEGn0FEWtQk62rw0F+VqWK/mP6nMERZehmXRvSwRLloCJ6fL1
+         D4a4p5mdl/tJfPA7sXLYNgzFwheEE/v1XcmOLb0ciaevN4nVWDWaAErXkPpyY1zfPPHP
+         468jZpqLQ/orCS4BHjBuYmbvXf32l9/Rce/ASEYlSN5AlccQ+UWZbYXW+qIy+vAPr5xJ
+         PWpHH+Md5D8pLqGSQuSAuPzkr0r1NsnprvcdiYcUIXPj51Ci9eqtCM91JMg1+UMRpTS8
+         GfHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733895019; x=1734499819;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JohBzc6SIbwiwfBt8MJ3uGvt7oRvwtZBP0CDs+EpYnY=;
+        b=bJW24gnLgIjfwojH4vbdtc74IZer/bYZjURnmJJUhvvAYHZActvV7XX8JF20lQRBQd
+         lE3M7uU/xZDIK6eiCv8pDJue+ReA8p7m5SbHMx4TrUNMBgnBEQgIoAh3BrUMkiKoM5cA
+         Gn3pW7lsTMrfyqLC1a4rTjxMeS6MFsZi5/AVJWKiWprGsvnarVXJotKnQTGEbZdHp50F
+         6WNOhzzmC8SY6qi54xJsUZRubhqN9rJRR93YCDwEdxN7ZgQavZ71Otx1n5TaFkEIlMkb
+         CaNQLnIphJm1qrOLYCjgHfxDEHY0HpQdtt9uMB0piWvMcepV0RjR8UtImQTGeV3vLQTi
+         oLQw==
+X-Forwarded-Encrypted: i=1; AJvYcCWiHkDudT4Jjp6TCYNc637w7TAQzVK+fqQrD9ZPVyWCgUGz8jlgOIp2UJQA2iVrkq83jd6AzXu1pBRlfXYa4sYeNA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzz37k1ZBDihNNz2QaModZtDTnrMi8Y0SpbuTNhgKo5F8GOeM0Z
+	sYE04OjXkuHW+DMo8zD+o/MuhmGzMOagWEUzxrWUPWMtOtsVBxKckEA6Cohz6zs=
+X-Gm-Gg: ASbGnctbBFVjMAs5J1PL/oCywTQKpfCg8OHTiaeBaoaR1Af82a66w9LGTtiDYqeLw/q
+	Ykg1pe527uJ97dPhpZYXu+mqWS+YdJ2x26SpoLBqwzI9qMUYScvy40G2EfYiatQF2v9Uuxmv8DH
+	uDx8OsHDbqttR5gFffFtpj7jSkDn0PjTBZxmeekVG3MCDcLsz7aHAtgPt9LF1fiuam3SC+ceLCJ
+	7/5DRD2ZnWt3hNoJqyj0hi8HC/q2DToI6xIMFBHlw8Y2DEbbiAgcsoHuvjfvIpsCKA6
+X-Google-Smtp-Source: AGHT+IF/6paNyWnK5s7sNDNe+xdCVS9id0CRa3T10BRNgQZGzD3tcn5rO5sJvrkylZtSPBA99NeIFw==
+X-Received: by 2002:a05:6512:1049:b0:540:2188:763c with SMTP id 2adb3069b0e04-5402a602133mr321217e87.37.1733895018632;
+        Tue, 10 Dec 2024 21:30:18 -0800 (PST)
+Received: from cobook.home ([91.198.101.25])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5401bd77e6asm1022025e87.283.2024.12.10.21.30.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2024 21:30:18 -0800 (PST)
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Michael Dege <michael.dege@renesas.com>,
+	Christian Mardmoeller <christian.mardmoeller@renesas.com>,
+	Dennis Ostermann <dennis.ostermann@renesas.com>,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH net v2] net: renesas: rswitch: fix initial MPIC register setting
+Date: Wed, 11 Dec 2024 10:30:12 +0500
+Message-Id: <20241211053012.368914-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-defconfig-for-v6.14
-branch HEAD: 5b192d06f381ed5508851f1d47768c2e2f8fbcad  ARM: shmobile: defconfig: Refresh for v6.13-rc1
+MPIC.PIS must be set per phy interface type.
+MPIC.LSC must be set per speed.
 
-elapsed time: 987m
+Do that strictly per datasheet, instead of hardcoding MPIC.PIS to GMII.
 
-configs tested: 154
-configs skipped: 116
+Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+v1: https://lore.kernel.org/netdev/20241209075951.163924-1-nikita.yoush@cogentembedded.com/
+changes: regenerate against top of net tree (commit 3dd002f20098 "net:
+         renesas: rswitch: handle stop vs interrupt race") to ensure it
+         applies cleanly
+---
+ drivers/net/ethernet/renesas/rswitch.c | 27 ++++++++++++++++++++------
+ drivers/net/ethernet/renesas/rswitch.h | 14 ++++++-------
+ 2 files changed, 28 insertions(+), 13 deletions(-)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
+index 6ec714789573..dbbbf024e7ab 100644
+--- a/drivers/net/ethernet/renesas/rswitch.c
++++ b/drivers/net/ethernet/renesas/rswitch.c
+@@ -1116,25 +1116,40 @@ static int rswitch_etha_wait_link_verification(struct rswitch_etha *etha)
+ 
+ static void rswitch_rmac_setting(struct rswitch_etha *etha, const u8 *mac)
+ {
+-	u32 val;
++	u32 pis, lsc;
+ 
+ 	rswitch_etha_write_mac_address(etha, mac);
+ 
++	switch (etha->phy_interface) {
++	case PHY_INTERFACE_MODE_SGMII:
++		pis = MPIC_PIS_GMII;
++		break;
++	case PHY_INTERFACE_MODE_USXGMII:
++	case PHY_INTERFACE_MODE_5GBASER:
++		pis = MPIC_PIS_XGMII;
++		break;
++	default:
++		pis = FIELD_GET(MPIC_PIS, ioread32(etha->addr + MPIC));
++		break;
++	}
++
+ 	switch (etha->speed) {
+ 	case 100:
+-		val = MPIC_LSC_100M;
++		lsc = MPIC_LSC_100M;
+ 		break;
+ 	case 1000:
+-		val = MPIC_LSC_1G;
++		lsc = MPIC_LSC_1G;
+ 		break;
+ 	case 2500:
+-		val = MPIC_LSC_2_5G;
++		lsc = MPIC_LSC_2_5G;
+ 		break;
+ 	default:
+-		return;
++		lsc = FIELD_GET(MPIC_LSC, ioread32(etha->addr + MPIC));
++		break;
+ 	}
+ 
+-	iowrite32(MPIC_PIS_GMII | val, etha->addr + MPIC);
++	rswitch_modify(etha->addr, MPIC, MPIC_PIS | MPIC_LSC,
++		       FIELD_PREP(MPIC_PIS, pis) | FIELD_PREP(MPIC_LSC, lsc));
+ }
+ 
+ static void rswitch_etha_enable_mii(struct rswitch_etha *etha)
+diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
+index 72e3ff596d31..e020800dcc57 100644
+--- a/drivers/net/ethernet/renesas/rswitch.h
++++ b/drivers/net/ethernet/renesas/rswitch.h
+@@ -724,13 +724,13 @@ enum rswitch_etha_mode {
+ 
+ #define EAVCC_VEM_SC_TAG	(0x3 << 16)
+ 
+-#define MPIC_PIS_MII		0x00
+-#define MPIC_PIS_GMII		0x02
+-#define MPIC_PIS_XGMII		0x04
+-#define MPIC_LSC_SHIFT		3
+-#define MPIC_LSC_100M		(1 << MPIC_LSC_SHIFT)
+-#define MPIC_LSC_1G		(2 << MPIC_LSC_SHIFT)
+-#define MPIC_LSC_2_5G		(3 << MPIC_LSC_SHIFT)
++#define MPIC_PIS		GENMASK(2, 0)
++#define MPIC_PIS_GMII		2
++#define MPIC_PIS_XGMII		4
++#define MPIC_LSC		GENMASK(5, 3)
++#define MPIC_LSC_100M		1
++#define MPIC_LSC_1G		2
++#define MPIC_LSC_2_5G		3
+ 
+ #define MDIO_READ_C45		0x03
+ #define MDIO_WRITE_C45		0x01
+-- 
+2.39.5
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-arc                              allmodconfig    clang-18
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    clang-18
-arc                   randconfig-001-20241211    gcc-14.2.0
-arc                   randconfig-002-20241211    gcc-14.2.0
-arm                              allmodconfig    clang-18
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    gcc-14.2.0
-arm                              allyesconfig    clang-18
-arm                              allyesconfig    gcc-14.2.0
-arm                        keystone_defconfig    gcc-14.2.0
-arm                        neponset_defconfig    gcc-14.2.0
-arm                           omap1_defconfig    gcc-14.2.0
-arm                            qcom_defconfig    gcc-14.2.0
-arm                   randconfig-001-20241210    clang-20
-arm                   randconfig-001-20241211    gcc-14.2.0
-arm                   randconfig-002-20241210    gcc-14.2.0
-arm                   randconfig-002-20241211    gcc-14.2.0
-arm                   randconfig-003-20241210    clang-20
-arm                   randconfig-003-20241211    gcc-14.2.0
-arm                   randconfig-004-20241210    clang-20
-arm                   randconfig-004-20241211    gcc-14.2.0
-arm                        vexpress_defconfig    gcc-14.2.0
-arm64                            alldefconfig    gcc-14.2.0
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20241210    clang-20
-arm64                 randconfig-001-20241211    gcc-14.2.0
-arm64                 randconfig-002-20241210    clang-20
-arm64                 randconfig-002-20241211    gcc-14.2.0
-arm64                 randconfig-003-20241210    clang-20
-arm64                 randconfig-003-20241211    gcc-14.2.0
-arm64                 randconfig-004-20241210    clang-20
-arm64                 randconfig-004-20241211    gcc-14.2.0
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20241211    gcc-14.2.0
-csky                  randconfig-002-20241211    gcc-14.2.0
-hexagon                           allnoconfig    gcc-14.2.0
-hexagon               randconfig-001-20241211    gcc-14.2.0
-hexagon               randconfig-002-20241211    gcc-14.2.0
-i386                             allmodconfig    clang-19
-i386                              allnoconfig    clang-19
-i386                             allyesconfig    clang-19
-i386        buildonly-randconfig-001-20241211    clang-19
-i386        buildonly-randconfig-002-20241211    clang-19
-i386        buildonly-randconfig-003-20241211    clang-19
-i386        buildonly-randconfig-004-20241211    clang-19
-i386        buildonly-randconfig-005-20241211    clang-19
-i386        buildonly-randconfig-006-20241211    clang-19
-i386                                defconfig    clang-19
-i386                  randconfig-001-20241211    gcc-12
-i386                  randconfig-002-20241211    gcc-12
-i386                  randconfig-003-20241211    gcc-12
-i386                  randconfig-004-20241211    gcc-12
-i386                  randconfig-005-20241211    gcc-12
-i386                  randconfig-006-20241211    gcc-12
-i386                  randconfig-007-20241211    gcc-12
-i386                  randconfig-011-20241211    gcc-12
-i386                  randconfig-012-20241211    gcc-12
-i386                  randconfig-013-20241211    gcc-12
-i386                  randconfig-014-20241211    gcc-12
-i386                  randconfig-015-20241211    gcc-12
-i386                  randconfig-016-20241211    gcc-12
-i386                  randconfig-017-20241211    gcc-12
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20241211    gcc-14.2.0
-loongarch             randconfig-002-20241211    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                        maltaup_defconfig    gcc-14.2.0
-nios2                 randconfig-001-20241211    gcc-14.2.0
-nios2                 randconfig-002-20241211    gcc-14.2.0
-openrisc                          allnoconfig    clang-20
-openrisc                         allyesconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    clang-20
-parisc                           allyesconfig    gcc-14.2.0
-parisc                randconfig-001-20241211    gcc-14.2.0
-parisc                randconfig-002-20241211    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    clang-20
-powerpc                          allyesconfig    gcc-14.2.0
-powerpc                       eiger_defconfig    gcc-14.2.0
-powerpc               randconfig-001-20241211    gcc-14.2.0
-powerpc               randconfig-002-20241211    gcc-14.2.0
-powerpc               randconfig-003-20241211    gcc-14.2.0
-powerpc64             randconfig-001-20241211    gcc-14.2.0
-powerpc64             randconfig-002-20241211    gcc-14.2.0
-powerpc64             randconfig-003-20241211    gcc-14.2.0
-riscv                            allmodconfig    gcc-14.2.0
-riscv                             allnoconfig    clang-20
-riscv                            allyesconfig    gcc-14.2.0
-riscv                 randconfig-001-20241211    clang-20
-riscv                 randconfig-002-20241211    clang-20
-s390                             allmodconfig    gcc-14.2.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                                defconfig    gcc-14.2.0
-s390                  randconfig-001-20241211    clang-20
-s390                  randconfig-002-20241211    clang-20
-sh                               allmodconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                     magicpanelr2_defconfig    gcc-14.2.0
-sh                    randconfig-001-20241211    clang-20
-sh                    randconfig-002-20241211    clang-20
-sh                          rsk7203_defconfig    gcc-14.2.0
-sh                           se7721_defconfig    gcc-14.2.0
-sh                           se7724_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                 randconfig-001-20241211    clang-20
-sparc                 randconfig-002-20241211    clang-20
-sparc64               randconfig-001-20241211    clang-20
-sparc64               randconfig-002-20241211    clang-20
-um                                allnoconfig    clang-20
-um                    randconfig-001-20241211    clang-20
-um                    randconfig-002-20241211    clang-20
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20241211    gcc-12
-x86_64      buildonly-randconfig-002-20241211    gcc-12
-x86_64      buildonly-randconfig-003-20241211    gcc-12
-x86_64      buildonly-randconfig-004-20241211    gcc-12
-x86_64      buildonly-randconfig-005-20241211    gcc-12
-x86_64      buildonly-randconfig-006-20241211    gcc-12
-x86_64                              defconfig    clang-19
-x86_64                                  kexec    clang-19
-x86_64                randconfig-001-20241211    clang-19
-x86_64                randconfig-002-20241211    clang-19
-x86_64                randconfig-003-20241211    clang-19
-x86_64                randconfig-004-20241211    clang-19
-x86_64                randconfig-005-20241211    clang-19
-x86_64                randconfig-006-20241211    clang-19
-x86_64                randconfig-007-20241211    clang-19
-x86_64                randconfig-008-20241211    clang-19
-x86_64                randconfig-071-20241211    clang-19
-x86_64                randconfig-072-20241211    clang-19
-x86_64                randconfig-073-20241211    clang-19
-x86_64                randconfig-074-20241211    clang-19
-x86_64                randconfig-075-20241211    clang-19
-x86_64                randconfig-076-20241211    clang-19
-x86_64                randconfig-077-20241211    clang-19
-x86_64                randconfig-078-20241211    clang-19
-x86_64                               rhel-9.4    clang-19
-x86_64                           rhel-9.4-bpf    clang-19
-x86_64                         rhel-9.4-kunit    clang-19
-x86_64                           rhel-9.4-ltp    clang-19
-x86_64                          rhel-9.4-rust    clang-19
-xtensa                generic_kc705_defconfig    gcc-14.2.0
-xtensa                randconfig-001-20241211    clang-20
-xtensa                randconfig-002-20241211    clang-20
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
