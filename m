@@ -1,238 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-11247-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E979EE036
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2024 08:26:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B08D19EE0DF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2024 09:08:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4C5928141A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2024 07:26:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0F70280D4F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2024 08:08:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31B1720ADF7;
-	Thu, 12 Dec 2024 07:25:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A57520B805;
+	Thu, 12 Dec 2024 08:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lR0unn6B"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eRKccMB9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5684945027;
-	Thu, 12 Dec 2024 07:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5736120C009
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2024 08:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733988357; cv=none; b=q1gqh2povUrxy8qIUuv8r+BRNTzlLy4tYAQ1gA8HnFcgHzWPORT4uruzHTUL4ucCcdDv2GogZ8zaCMUAu8P6WkmJznabPtgFIs8TTViyZax6wXd2ki6F+mtocxMJLEiJnt2+tnzeC3syYxLiEIkycrGyVvS6+ENHp66WN7HRKT0=
+	t=1733990902; cv=none; b=IKmQLxfgMV+tVjIx5J4NbyH7Qkv24wYpG/JsCGAVFoFS9dXRqijsILIfeat+dSs60FrZzvzbAEw0DvCyONcPg3lkArq3u9M8uVK6vj6PkuFkKFnUVR5Wnq40s7Ak02IlehZJi1uHqiko8n5V2yv6IfdzaRRdZzj1HcIK6OQZ8LY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733988357; c=relaxed/simple;
-	bh=WQgesphKPZtQtDkSSaKmZdO5cVGMF3Bi1WZp8uEHTrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U5dz/j8Mpwcaprj6l3dFdK7WhMrgHiLYHv+k7QEmC6HckwFxns/knSX554Pp0ll+nQoJkajWsidYg6yyWvX6al/Cs4DlclvWKlnbZ4jp9QKExL5HoS3HoGdSn+BCbUnB3j4ZIDbgOQCEqBUD+lI6+uuStc7N7u77Eo5v3fNTbkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lR0unn6B; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733988355; x=1765524355;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=WQgesphKPZtQtDkSSaKmZdO5cVGMF3Bi1WZp8uEHTrA=;
-  b=lR0unn6Byw3WyKTjob4qgFQipqm0cE3C6YdpY1rO8CykV9gvgwRfJGAo
-   TuiQ5mQTV1pXvMRjoIWMAiOsqTl2qRHDkDzCkJqSjpFsHQE7+Tvowqaz/
-   6dH0yuPXRFsP0k4vxlmgQREZPIvBf6x0pKejZcnufa+t80hr3v42cUBD4
-   OOkp4Xd3ov5iB4NLwVgVlHM9y5R4EqeppkIzgwXzArduCXT8BoJjXH0Wc
-   mq7/hqVxP1LEPyJ72Y/RdiV12GmAIkboomzxslHQRGpJS5HuopeablgY6
-   Zhcpj9n64nnnnKJJpgaGWhHdUCKMGQ9csYqbN9wK0R+lNrUxpWYXsM1GF
-   A==;
-X-CSE-ConnectionGUID: 77A/qfrDRLmMyXtZnPxQ0w==
-X-CSE-MsgGUID: WMeSDTAUSuKI/NvzPU913g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34313112"
-X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="34313112"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 23:25:49 -0800
-X-CSE-ConnectionGUID: O5T98L/HQj+9++OChIET0w==
-X-CSE-MsgGUID: pKrY4UCpSwyigNxg5j2Edw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119391224"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 23:25:43 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 3E24011F81D;
-	Thu, 12 Dec 2024 09:25:38 +0200 (EET)
-Date: Thu, 12 Dec 2024 07:25:38 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] media: v4l: fwnode: Parse MiPI DisCo for C-PHY
- line-orders
-Message-ID: <Z1qP8uY72kw9uX2E@kekkonen.localdomain>
-References: <20241121134108.2029925-1-niklas.soderlund+renesas@ragnatech.se>
- <20241121134108.2029925-3-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1733990902; c=relaxed/simple;
+	bh=4zY98UHHGfgFUFQXkyrd6VkTOS0moSnEAon1VWvcJWI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NHexBx+zkMm61vtW+T4KW3FhLZLp8UXstakGZLZLxM5WQjDmyvaOlIQyd/4uFoF2Tk0avTj9lv40VT1r91RkBL/J/Jk0j+Fn0m9AcficsOQuczGy2hR/jij+utILjd5DhcCD1XaSfUJwhUU2Xq8GgBLRaC9+6qI1VuNRb4mq/cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eRKccMB9; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1733990899;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Bjf1nmOaVLrku/wXD9lDjECZxn/Olb8fTnRITGTTN/E=;
+	b=eRKccMB9S/K/gLAn/D4QJP+UX3uFs2y71HpcCjFpzFEI/21EEpjNeBlbfrBxR956U25OZY
+	7KYm0CNYHglB5E1BHmjSfL5JmVi6908tt//juAIsmwhGzI+kt6t9t5mYrrWoBfTkidjjK2
+	Pp/S1vrEc8sfmdjAgfo8vlL0r+BXu2Q=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-571-g9FgO_X3NHWl03dGqb-ddw-1; Thu, 12 Dec 2024 03:08:17 -0500
+X-MC-Unique: g9FgO_X3NHWl03dGqb-ddw-1
+X-Mimecast-MFC-AGG-ID: g9FgO_X3NHWl03dGqb-ddw
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-385d6ee042eso204392f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2024 00:08:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733990896; x=1734595696;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bjf1nmOaVLrku/wXD9lDjECZxn/Olb8fTnRITGTTN/E=;
+        b=DVqZKgaLquW8q/ZuhsqFJDFPZBE/rzNI04VC4URWYMCkhqmmQl0n2d7fT0Q77+6DK5
+         xkak9uPF5CtD/qDpWfEp9kZ2SOvN8gFqmqH7kaD0D/NxwuvakV/GhoyZXAzcnEvhXsAF
+         T59L69xg6cWKeP+QZMY38Sh5FEcwjEXYyaQ291xbXtN7yglEdl8S804HuOTOKiXtPmxi
+         lpJVaT9/3pyScql0S8xmyQMLB2rFfSa9qBU5+Vqgj+xJ1qpNRQ76CkluBnmSSk7zBakZ
+         KKRZ8w6RMGJ6YAhjm3UbxcfFPeb8g9iQYVQI+1K59a1UC18+WPyLR7wxUPQah1ir7yTa
+         fLOA==
+X-Forwarded-Encrypted: i=1; AJvYcCWwH1vhbpIQ1lAPCJKMu4gh/Hs04eZpdvZYgKHLj1qpEMKMy+IOxyYuMpLCl9yxjP2SffgCyyIV/q4UuaC+I5h4vA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTJC5APuYJoPWgmG79EklDiH0oIskHiWAqRwtrp1dMUzgpp/R/
+	09ND6XUP/8qQBXofr4mZqbHAIowHri/Hg8UDmoDHN+oaW0pd2CT6RZflFDr5LGd/nKNAv1Q0Cm2
+	zmyF5Lh3K6rdFRrqaRbgGdZFj3+oGgIYAQp8wu1kTnZYiIPYE70sw5cLWBcoQIHteAiE1cbjO4d
+	PMrWE=
+X-Gm-Gg: ASbGncuDVkwRJ+UjBHh0aZkIHXejsIOnSHKba12rKttYbbLwlxJGzsJm1AWCKqS6+Ci
+	bEVRXAAEGucLnTZuki4OEJz+E1h0GSx2la+sBGe/HLwqIY7x3sYDfL2FfPd+LP6hXSerQ9+7IJV
+	XW9u+R9QhMa7A3l4qBT15d1rK4mgdf6nno6H/koIIMYucY1JJOCq3NM9YNoed9UcbGDM51OguFm
+	xLo52+74P54bUsEPJIIegdwZgifFbHW2sRRSh6qfACbMkLUvOgD6sUZsQ0TSIWz3hVaLzLQpa0l
+	yr4VGU8=
+X-Received: by 2002:adf:e18e:0:b0:386:4571:9a22 with SMTP id ffacd0b85a97d-38787695702mr1905602f8f.31.1733990896399;
+        Thu, 12 Dec 2024 00:08:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHTBQqIZP4mAbmNDkq+BdMt3lJ9rORZUl6zp6FVSlb2GdXN4hAbWa7GzDXPUGiEy3/sL0XluQ==
+X-Received: by 2002:adf:e18e:0:b0:386:4571:9a22 with SMTP id ffacd0b85a97d-38787695702mr1905577f8f.31.1733990896075;
+        Thu, 12 Dec 2024 00:08:16 -0800 (PST)
+Received: from [192.168.88.24] (146-241-48-67.dyn.eolo.it. [146.241.48.67])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3878251dcdesm3227619f8f.104.2024.12.12.00.08.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Dec 2024 00:08:15 -0800 (PST)
+Message-ID: <ee865add-5f30-4c7d-b14d-fbc693dba265@redhat.com>
+Date: Thu, 12 Dec 2024 09:08:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241121134108.2029925-3-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 0/4] mdio support updates
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michael Dege <michael.dege@renesas.com>,
+ Christian Mardmoeller <christian.mardmoeller@renesas.com>,
+ Dennis Ostermann <dennis.ostermann@renesas.com>,
+ Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+ Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+References: <20241208155236.108582-1-nikita.yoush@cogentembedded.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20241208155236.108582-1-nikita.yoush@cogentembedded.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hej Niklas,
-
-On Thu, Nov 21, 2024 at 02:41:06PM +0100, Niklas Söderlund wrote:
-> Extend the fwnode parsing to validate and fill in the CSI-2 C-PHY
-> line-orders order properties as defined in MIPI Discovery and
-> Configuration (DisCo) Specification for Imaging.
+On 12/8/24 16:52, Nikita Yushchenko wrote:
+> This series cleans up rswitch mdio support, and adds C22 operations.
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> * Changes since v1
-> - Use array instead of switch to get printable line order string for
->   debug output.
-> - Wrap lines harder for 80 chars instead of 100, but keep string formats
->   on same line even if they break the 80 chars.
-> ---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 43 ++++++++++++++++++++++++++-
->  include/media/v4l2-mediabus.h         | 21 +++++++++++++
->  2 files changed, 63 insertions(+), 1 deletion(-)
+> Nikita Yushchenko (4):
+>   net: renesas: rswitch: do not write to MPSM register at init time
+>   net: renesas: rswitch: align mdio C45 operations with datasheet
+>   net: renesas: rswitch: use generic MPSM operation for mdio C45
+>   net: renesas: rswitch: add mdio C22 support
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index f19c8adf2c61..bb5ea3e00414 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -127,7 +127,7 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  {
->  	struct v4l2_mbus_config_mipi_csi2 *bus = &vep->bus.mipi_csi2;
->  	bool have_clk_lane = false, have_data_lanes = false,
-> -		have_lane_polarities = false;
-> +		have_lane_polarities = false, have_line_orders = false;
->  	unsigned int flags = 0, lanes_used = 0;
->  	u32 array[1 + V4L2_MBUS_CSI2_MAX_DATA_LANES];
->  	u32 clock_lane = 0;
-> @@ -197,6 +197,17 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  		have_lane_polarities = true;
->  	}
->  
-> +	rval = fwnode_property_count_u32(fwnode, "line-orders");
-> +	if (rval > 0) {
-> +		if (rval != num_data_lanes) {
-> +			pr_warn("invalid number of line-orders entries (need %u, got %u)\n",
-> +				num_data_lanes, rval);
-> +			return -EINVAL;
-> +		}
-> +
-> +		have_line_orders = true;
-> +	}
-> +
->  	if (!fwnode_property_read_u32(fwnode, "clock-lanes", &v)) {
->  		clock_lane = v;
->  		pr_debug("clock lane position %u\n", v);
-> @@ -250,6 +261,36 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  		} else {
->  			pr_debug("no lane polarities defined, assuming not inverted\n");
->  		}
-> +
-> +		if (have_line_orders) {
-> +			fwnode_property_read_u32_array(fwnode,
-> +						       "line-orders", array,
-> +						       num_data_lanes);
-> +
-> +			for (i = 0; i < num_data_lanes; i++) {
-> +				static const char * const orders[] = {
-> +					"ABC", "ACB", "BAC", "BCA", "CAB", "CBA"
-> +				};
-> +
-> +				if (array[i] > 5) {
+>  drivers/net/ethernet/renesas/rswitch.c | 79 ++++++++++++++++----------
+>  drivers/net/ethernet/renesas/rswitch.h | 17 ++++--
+>  2 files changed, 60 insertions(+), 36 deletions(-)
 
+@Yoshihiro, could you please have a look here?
 
-I'd use:
+Thanks,
 
-				if (... >= ARRAY_SIZE(order)) {
+Paolo
 
-I can do the change while applying...
-
-> +					pr_warn("lane %u invalid line-order assuming ABC (got %u)\n",
-> +						i, array[i]);
-> +					bus->line_orders[i] =
-> +						V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
-> +					continue;
-> +				}
-> +
-> +				bus->line_orders[i] = array[i];
-> +				pr_debug("lane %u line order %s", i,
-> +					 orders[array[i]]);
-> +			}
-> +		} else {
-> +			for (i = 0; i < num_data_lanes; i++)
-> +				bus->line_orders[i] =
-> +					V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
-> +
-> +			pr_debug("no line orders defined, assuming ABC\n");
-> +		}
->  	}
->  
->  	return 0;
-> diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> index 5bce6e423e94..e7f019f68c8d 100644
-> --- a/include/media/v4l2-mediabus.h
-> +++ b/include/media/v4l2-mediabus.h
-> @@ -73,6 +73,24 @@
->  
->  #define V4L2_MBUS_CSI2_MAX_DATA_LANES		8
->  
-> +/**
-> + * enum v4l2_mbus_csi2_cphy_line_orders_type - CSI-2 C-PHY line order
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC: C-PHY line order ABC (default)
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB: C-PHY line order ACB
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC: C-PHY line order BAC
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA: C-PHY line order BCA
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB: C-PHY line order CAB
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA: C-PHY line order CBA
-> + */
-> +enum v4l2_mbus_csi2_cphy_line_orders_type {
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA,
-> +};
-> +
->  /**
->   * struct v4l2_mbus_config_mipi_csi2 - MIPI CSI-2 data bus configuration
->   * @flags: media bus (V4L2_MBUS_*) flags
-> @@ -81,6 +99,8 @@
->   * @num_data_lanes: number of data lanes
->   * @lane_polarities: polarity of the lanes. The order is the same of
->   *		   the physical lanes.
-> + * @line_orders: line order of the data lanes. The order is the same of the
-> + *		   physical lanes.
->   */
->  struct v4l2_mbus_config_mipi_csi2 {
->  	unsigned int flags;
-> @@ -88,6 +108,7 @@ struct v4l2_mbus_config_mipi_csi2 {
->  	unsigned char clock_lane;
->  	unsigned char num_data_lanes;
->  	bool lane_polarities[1 + V4L2_MBUS_CSI2_MAX_DATA_LANES];
-> +	enum v4l2_mbus_csi2_cphy_line_orders_type line_orders[V4L2_MBUS_CSI2_MAX_DATA_LANES];
->  };
->  
->  /**
-
--- 
-Med vänliga hälsingar,
-
-Sakari Ailus
 
