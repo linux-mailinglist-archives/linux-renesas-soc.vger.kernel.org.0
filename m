@@ -1,115 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-11251-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11252-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF3D9EE1E9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2024 09:53:16 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D639EE393
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2024 11:00:43 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C091F167460
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2024 08:53:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62B47286C26
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2024 10:00:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1F1209F41;
-	Thu, 12 Dec 2024 08:53:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6318620B1E5;
+	Thu, 12 Dec 2024 10:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="CPX/mSah";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="1esnBfxa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A4720CCE7;
-	Thu, 12 Dec 2024 08:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8585B20ADFF;
+	Thu, 12 Dec 2024 10:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733993594; cv=none; b=As6v9J33ZX2L3meQESm4FejTrwCP1vR/JKP0+vv2Va/H8BAILIOESRA7C2CmvqQPczQbX5Ghp7zs1yM1izIsCtH3Opz2nlJ7Mg+oYghznOLI431UDMXlADO1f6vsr87zIUo0ENVYoc0X2Cvyu8tZsFKIZFoVBwAU0/OKkggHSoY=
+	t=1733997636; cv=none; b=RAu+KYLOs3wZ9Su2HXL0mAnunCZ8Z3yfnZaCmx8EZhkd9ClLI8HcqZpOowVJt8pV4yb5tMZL+DYJ7LFLGSWEcKdDV1Lhep0ZnHwOa/mLMKJxPBw6ai6nvnXMVhzvuTaRGGT8UfkqrkB83wBZXW+wCPwgQX3lB2/QfC8pJFwnNLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733993594; c=relaxed/simple;
-	bh=h5oj/YCgadl4DNWPD+FEaJ5jCAxC5cbl4IGm01tjhn0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oxf14J69OxttX/Y+IRP34L4dsi3nus0KpariJJ6HqxLwcKlsWpHTLhw/mtraGDF14KsOu4hv5O3jB5WW6JUac72rwdp7Qs1SDgEXZHZqhD4YVak/9GcHlpNUFbyqhSc657lkdOPSw+Bvh2mPQ4ChkjGea/F7y9kjs73Df6AkUHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-51882c83065so206582e0c.0;
-        Thu, 12 Dec 2024 00:53:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733993591; x=1734598391;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kswEXNgu6h6p41UQ2kpE02FUHTphvDII2iRCuGcExDo=;
-        b=t80YUzPG08260K1tyVTrZU8mB7J7BWVJ130HAIxt91yXjZI1oB6jPrbBzFqauEBMYQ
-         PQd5uvibHRti5SJAhZhC8cRdZl1bKB95ykI6SPRUUgZgZCMzQePKD9pIpYE1YM695g/s
-         vsm4atCwR6T7nNwUzxkKVRmJUOEKkWtENDF5Shedg3qdE1SkvDAZlctuFNEDpnYlIZvD
-         mxZxYrpNOyqphjESuUzyMQEaoNFy3aFzThjhgcL99mbQySTTSdq7Uee9XMy6w4h/J7zX
-         Eul+Sm2T1nyd8/2QcyPXSfTqqYARon0BR9O4txWAV+7v8bDFfm9nz7KXEXIAikjhXkPn
-         Vmow==
-X-Forwarded-Encrypted: i=1; AJvYcCVl5aerFOf5EgPuku/YvfxUFfQ+qkrM+ySwF5geoXpHDF1iDyJ0TqeslVKsStPc8DNNNuE19X4Lq4noT87A0opPmDw=@vger.kernel.org, AJvYcCXHM0vsojFEuVyPaZXKdNPsOibJhC/9a+FWIJLN/zCwiaNld18s9rSunGZtHKNsqRMnMguHt0s+t7dg@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqwFWOQh+GmeO17tRjzPYCRjnD65z5YXlPNvfogWiqnu4iFgIY
-	91jYvPUs8bW0c50VGl9rTEaaBz3/tLVtpNyyXBGHn0tU9WQM60pt0aHdoUhnfGs=
-X-Gm-Gg: ASbGnctwx+8kGXs2gTo20i2MBvQP38kuq0Q04inBmc67JpIxt0bVoWv+snUjNONtdMn
-	LHCRsEKPZV39jiZ7G+NPvBtbNWRH5WvZG+YlxI2ftIyKR8YJuaJAXPDo/sZhjIW32vFk9WO+FMC
-	lkoO/alGt7RqqjFu+ZppLfNtZJtURkDGb5PmMC0RX1xIuU706DhGQvdSUAJLhbDH2rb8Is1YS2S
-	8skCFuxYabZ5xHVQP5jZX1rsIQJgC+SiqAye226QPC4yKAraadPw5pyBR/rw2GUxA5pxzpbruXe
-	00GT0JxOW5KuuC8yiYg=
-X-Google-Smtp-Source: AGHT+IFuXFmixzJKVdSsqJOoZSWQ1w5pFQ1yk3Sz6hNhMDxTWG09jITr9W/ixdbnkMU0E9g8FDzdAA==
-X-Received: by 2002:a05:6102:32cd:b0:4af:e61d:e225 with SMTP id ada2fe7eead31-4b2477aba10mr2855057137.10.1733993590849;
-        Thu, 12 Dec 2024 00:53:10 -0800 (PST)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4afda73c931sm1665362137.24.2024.12.12.00.53.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Dec 2024 00:53:10 -0800 (PST)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-85c5a913cffso217918241.0;
-        Thu, 12 Dec 2024 00:53:10 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUAEh2cqvQ3yJyxDJHG+kQxRdS0bm4pOWEjub8xPRhMziwAFW4YX+tt5XWZSvTPgFv9npAGyAgZWwva@vger.kernel.org, AJvYcCV18QLcqzEZMLgKbja1OAVjwHwZDiTHCPLCP+CW26fZSNKmmMQyJUVuzlrr/y+t+BkNiPbKyGKDnSR29zt4f0k6498=@vger.kernel.org
-X-Received: by 2002:a05:6102:3907:b0:4b2:48dd:aade with SMTP id
- ada2fe7eead31-4b248ddace2mr2096817137.12.1733993590441; Thu, 12 Dec 2024
- 00:53:10 -0800 (PST)
+	s=arc-20240116; t=1733997636; c=relaxed/simple;
+	bh=M9VrbnKEvDAIV9al6fI2QXKaUO6atGmp2JYF9fK7oLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JyuO5p7TufVGXTkCq4zTx5qW9FAHJNXaW2Av41J9kdBqxLuf0ebEU/2LSgRVN91Gq4bpPO9oE8fFeSCuaWakrCCI5f35dUGs+ksxkshpxozHdhFsdnC36QybWvGg/LccJOGn+hUnp+4AIdHCqpImaL+KBKIl/o4udBf6/XiuXwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=CPX/mSah; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=1esnBfxa; arc=none smtp.client-ip=202.12.124.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id DD7DC2540233;
+	Thu, 12 Dec 2024 05:00:31 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-11.internal (MEProxy); Thu, 12 Dec 2024 05:00:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1733997631;
+	 x=1734084031; bh=82ny8HWGyeETqWuhdlFyRrim1Mu/kr+WNMTnCtjuXRs=; b=
+	CPX/mSahpgCcOfKBoux0CaLhEds97KXWXAs0MLiRcLSQ+xCMxgz841EAkZQnCpai
+	O3y7mvSjDk3zKfRDsQmeYnNEw56fxrdr1ZnV1iTX6keastZ/BFe1e0kTwMLM/1yV
+	Pw22VYMubHI1Crh7Tfoyrh3Ej8c4oUnFI1cVrW9xSQ05e4N5Go7zaGQevDZoTTbn
+	KTcPB3VAw59/tAZgYMCLYST/n3QBYqxACg+/77Ny3O5XOr1yj/gnt/B8TzKCgnyN
+	QpUttPs02KdfopNA58PZTLdoLP4R6cy8mqWFU8m1HfxQW2nbvO/1XRXnzgPqdwvj
+	xQcA6rkOtTZsWDXv2AuKxw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1733997631; x=
+	1734084031; bh=82ny8HWGyeETqWuhdlFyRrim1Mu/kr+WNMTnCtjuXRs=; b=1
+	esnBfxaXBQ5TySt6ZXoa/PCTBDy8HiIK4MHnhz6tzBamSWu41HUnJdHMcxd+XHJa
+	qNvDLK7OXra4668y9veItZaje+GS73G2o4xWTe11bJs+uKW7fejqnhVjzKD/VbCX
+	fp+g1d76q0nZXwU6IH8pT2SVjDUpmg33nDoWkYzyvd8U7NFa5/dRThBRbW8OSHFq
+	w+fmKG/HNkJ6bjxX6CJfwbt8Iy9T8/YEh7+UvTZGXj6Pcm0+zoQGhF2cZXKQUTEp
+	lEfLtwgm6xwlDtqvmW+UiYgZyfejt5c4r8sh1ItaC8XRlF+7fDfWbyffYn8OCXue
+	NXfOCx0575hIgjgkTMqkQ==
+X-ME-Sender: <xms:P7RaZ6rRwfDKTmEMuD1Gj4I3hRJUeKn09lRWeEr_Lla3Kw4KFgUTnw>
+    <xme:P7RaZ4odk6FMp5tTbMZsUld6nZD4BkmUyOl1emV4I6JaZs08PbCpM0xyNst6-gVHR
+    hp7kSTf1-2N9DNY9ps>
+X-ME-Received: <xmr:P7RaZ_PnxdYmRRoPefim8oOhdGe3P8lgsz6m-y9FOprDpAIK0ffY1Nj0xcPYSN9u_okrVaddEkFV2a8zGlhSU6jbZ7jJML7Wqw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrkeehgddtkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
+    vghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvle
+    einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+    dpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehs
+    rghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhope
+    hmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggv
+    rhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtoheplhgruhhrvghnth
+    drphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehl
+    ihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepug
+    gvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:P7RaZ56AjxPOa8DKjMoIx6Hr6WGgiynOjgipJ8agdoK-4TWoV843Tw>
+    <xmx:P7RaZ557kxNMOBomRHVpkzBG7TD0USn5wDkfwwt6yhBlViMVBjMgbg>
+    <xmx:P7RaZ5gyalFAFXfV6Mdz146QT782-Tr9Hqlz3UPJx-014v8faURUAg>
+    <xmx:P7RaZz6safopNW7O32xVIPO2CtzCpzUTrD9fePfJqZRA8c3mFc2rbQ>
+    <xmx:P7RaZ2wxaPMni-HEnjdq2hUWuDjmO-h1SoICfDtZO3SoWn688Zaqp4qL>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 12 Dec 2024 05:00:30 -0500 (EST)
+Date: Thu, 12 Dec 2024 11:00:28 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] media: v4l: fwnode: Parse MiPI DisCo for C-PHY
+ line-orders
+Message-ID: <20241212100028.GA878403@ragnatech.se>
+References: <20241121134108.2029925-1-niklas.soderlund+renesas@ragnatech.se>
+ <20241121134108.2029925-3-niklas.soderlund+renesas@ragnatech.se>
+ <Z1qP8uY72kw9uX2E@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241023154643.4025941-1-niklas.soderlund+renesas@ragnatech.se> <20241023154643.4025941-2-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20241023154643.4025941-2-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 12 Dec 2024 09:52:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXSJ2fTR=x1nOe=sxk99Pkhj2PFHRubQ=HvbZPOLCpJfg@mail.gmail.com>
-Message-ID: <CAMuHMdXSJ2fTR=x1nOe=sxk99Pkhj2PFHRubQ=HvbZPOLCpJfg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r8a779a0: Remove address- and
- size-cells from AVB[1-5]
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z1qP8uY72kw9uX2E@kekkonen.localdomain>
 
-On Wed, Oct 23, 2024 at 5:47=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> When describing the PHYs on the Falcon Ethernet breakout board mdio
-> nodes will be needed to describe the connections, and each mdio node
-> will need to contain these two properties instead. This will make the
-> address-cells and size-cells described in the base SoC include file
-> redundant and they will produce warnings, remove them.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+Hej Sakari,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.14.
+Tack för att du tog dig tid och tittade på detta.
 
-Gr{oetje,eeting}s,
+On 2024-12-12 07:25:38 +0000, Sakari Ailus wrote:
+> > @@ -250,6 +261,36 @@ static int 
+> > v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
+> >  		} else {
+> >  			pr_debug("no lane polarities defined, assuming not inverted\n");
+> >  		}
+> > +
+> > +		if (have_line_orders) {
+> > +			fwnode_property_read_u32_array(fwnode,
+> > +						       "line-orders", array,
+> > +						       num_data_lanes);
+> > +
+> > +			for (i = 0; i < num_data_lanes; i++) {
+> > +				static const char * const orders[] = {
+> > +					"ABC", "ACB", "BAC", "BCA", "CAB", "CBA"
+> > +				};
+> > +
+> > +				if (array[i] > 5) {
+> 
+> 
+> I'd use:
+> 
+> 				if (... >= ARRAY_SIZE(order)) {
+> 
+> I can do the change while applying...
 
-                        Geert
+Thanks and pleas do.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Kind Regards,
+Niklas Söderlund
 
