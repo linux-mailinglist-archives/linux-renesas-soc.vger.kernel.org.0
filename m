@@ -1,207 +1,232 @@
-Return-Path: <linux-renesas-soc+bounces-11279-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11280-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685B69F0704
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2024 09:56:52 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8478416A3FD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2024 08:56:49 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E83A81A8F64;
-	Fri, 13 Dec 2024 08:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="aDEmX2an"
-X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011042.outbound.protection.outlook.com [52.101.125.42])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 760EA9F0780
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2024 10:17:42 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0896D189B8D;
-	Fri, 13 Dec 2024 08:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734080208; cv=fail; b=qzySxiRQ+tq/vL/B4axn2Tw1U/9Hr+IBEhczCsjxRR/46qCJ2oOkswgm57AKhOgZlU2PgRCzKpoDUEYI/8FD/WDfQ/cuLNnCh9+8vfjXVGflo9z5icTvCXZ2pJJVpbr2aQBD98YENdszNIiDSSYpy845vQpLZcAwRd73rYyjMl8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734080208; c=relaxed/simple;
-	bh=PEVyUrCq8gXmUcw/Yk/bZv3Hd2MOE2QducrzUrGmc9c=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Gzx4PZzuQfxqgsbayi564r9OKuyHY+XZTrefdrLLa4RWZtoRbRBJMaZG6FAZypQRCLq8OzlNmOSUfDLnZTJaZKDzQAgKgVR9WOwvllKvu5m2EMpX25vnzeVhFezg7JBkc1Z/A7yGWRnPaX8rktF2QHrqTpLoWmFwYtUjxssq41U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=aDEmX2an; arc=fail smtp.client-ip=52.101.125.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oWOv61RpI8y/2BSLGCHkHEuXzVHbvzoeM0Wer+LO7EdHDMEGR+EkCDzwma4A848ukksF9xITAz6RG/V4A5Od8jbTwpN9pvzWTBlPX48oSYIsR5uODXlSo1azCAFeplNFj/kQHxyXWmNs0rOTt0cfSqj+V/hale9rJ2JXRxPOMMuMj2GYMxLJQJSy6yfz/RogVx6ZUz9Te4SWV16NnBvmkw98K0gAyatiC+0DeQxgByVVCufvc01W3pRxdzurA8oyksZO3bnArS22iYU+FDKiDWyHET6tMsVmKVbkoa9h6gu78ans4/O2HVe7PwuHwVb3VKNJt1R1YjOn1m3MVmM4aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PEVyUrCq8gXmUcw/Yk/bZv3Hd2MOE2QducrzUrGmc9c=;
- b=SXUk6bzTjS1iBddYqmDGhc/WDVnB3KjpNtRQr/ROX3uI22O+kXY0Bbi4Z34y2VVsGL5qYg46xzdWJ60kW3WHbWV5hywrZEFnM0jzoKXGa2yqCvamgZdply3m5v6YqIQlGMs1P7gLouRFpeynFjaw2/D06dPSjb7KwggrwQGpwKCL4l+hZhkGbPl8Bq02I9oKFQlLZyt4sGlnsw/futIAQwBrd/8898l2EokT+clvYQwpPB70u9RUaNRpQ1j1t1QQZiZpW/JOHwOkRNzqdiPcILiYS7GcI3gcndzxCKRMo+lPxCen5jZg7xxowTF4SoMT+gegRIMVtQkOy9m/ceXfbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PEVyUrCq8gXmUcw/Yk/bZv3Hd2MOE2QducrzUrGmc9c=;
- b=aDEmX2ant1GsGUMLZqEiX4z3g0+VbSFy6TFNMRfud6hjJcSXuYrhCsDHg4LgfkHMd+mpnWfD0IuYyh81iSd/W1Cd/1oEFs0VIW59K5CotzuCsKfzvDidbBAJxV5gmRfdrZHIkeVbwvdeOE1wqggiVAInq6O/1sNti0C9XnEitkk=
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
- by OSZPR01MB7892.jpnprd01.prod.outlook.com (2603:1096:604:1b8::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.16; Fri, 13 Dec
- 2024 08:56:42 +0000
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::7497:30af:3081:1479]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::7497:30af:3081:1479%4]) with mapi id 15.20.8251.015; Fri, 13 Dec 2024
- 08:56:42 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-CC: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Prabhakar Mahadev
- Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-Subject: RE: [PATCH v2 12/13] arm64: dts: renesas: Add initial device tree for
- RZ/G3E SMARC EVK board
-Thread-Topic: [PATCH v2 12/13] arm64: dts: renesas: Add initial device tree
- for RZ/G3E SMARC EVK board
-Thread-Index: AQHbRXE9uLWcAAthm0+BgMLO7Y3bVLLizFuAgAEhorA=
-Date: Fri, 13 Dec 2024 08:56:41 +0000
-Message-ID:
- <TYCPR01MB11332E1521D38013A7EE5492086382@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-References: <20241203105005.103927-1-biju.das.jz@bp.renesas.com>
- <20241203105005.103927-13-biju.das.jz@bp.renesas.com>
- <CAMuHMdVQGd5WJD3OF6_bEHHzvNE9chTHSJSKbZT3ekM79gYiVA@mail.gmail.com>
-In-Reply-To:
- <CAMuHMdVQGd5WJD3OF6_bEHHzvNE9chTHSJSKbZT3ekM79gYiVA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|OSZPR01MB7892:EE_
-x-ms-office365-filtering-correlation-id: 9f3fc771-e16e-4b75-2ed2-08dd1b541038
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?elZ0V3hxQjF5VjNGc0VWQ1NlcmhNT3BpY0xtdHFucHZsV2gxcjMzT0pObXhP?=
- =?utf-8?B?U2FqZDNUUDlYdFRRU2hvdS9qWWd6c3VIWFdvSjRxQWVJZFdObU56UjBmVkl1?=
- =?utf-8?B?cUxIM3VSQTFxNnYydUFaM1dpb0M1NmNKR1c2TEcrWkhvMnVFZk10c3NqUDla?=
- =?utf-8?B?OHkwUHpZNVIvdDgyQmxISm04UlB1LzNIeVJOOURKYXZSblNORlBlZzYyWFFv?=
- =?utf-8?B?L1lBU1JCNS85bW51c2sraXZZUEc1OEkyeCszZXFiNHd0ck5vZEU0M0NaOUpn?=
- =?utf-8?B?dTNBd2xsMzFoWk5ieTRQYlBmYkV4TzMvV3JOdXd1UXBGY0tYUXRmZkNma1U0?=
- =?utf-8?B?TndjR3ptU2NqV3FqeHF3VWlzZGxPQVdCWkEwaXJ2TDM1dnZLUmk0WnlkTjQ0?=
- =?utf-8?B?MU0xa2hlTzJQL0NVYmNIZEVWb0F2aWVhOWYvZVFaSDN3SFlsTmRHK1VxZklS?=
- =?utf-8?B?YjFNWGhzWmNGODJXOERkTmdid2ZwZHVFYTVZT1IxbGJnY21DRXdIYXJBcFEz?=
- =?utf-8?B?SGxJajZONnNkWkN5SUZ5S3IzZmp5aWdPT3NYR0Q1b241cXJxYVdnVC9hRDFK?=
- =?utf-8?B?L1hyNER0RTljYy9NOC9DaWRlcGZqa1BoYUhaWU9QcGF0TEhyM2FxYUE5UHZQ?=
- =?utf-8?B?MlJQa2c5clMwNWtVd1ZNU0lPanlaSXJHMEtmaWNqSE50TXRPaFVpQjZ0Zitr?=
- =?utf-8?B?aDVIOU8wZTYvUFpwOHMrSy9CSjNTc2U5V0lLdS9EV08raWp3dE44d1FQeVh2?=
- =?utf-8?B?MURxdlVvTm1ZVUV0dERHS0NCNWhSem1QOUhxRmdldHcxYkxENm54SmNRN1NQ?=
- =?utf-8?B?R2wyMXlYMVR5bDJaT1NsbkZOQ2VrTVM2QzUxWVo0LzA0bWNvSC9qVEszY2E0?=
- =?utf-8?B?Q2xCOXNZQXRoblBjcnBTaDlvVFdtSWdiajl1cGlSbXEyYnJNbUNmb2RmcDFG?=
- =?utf-8?B?SWw1QlRuR1hpaWc2TnF3QzhtZTU3RUc5NGZDR3MxemlUSXVPMjB4RkZ1OHRT?=
- =?utf-8?B?U0NQZThLOUgrcm1GMlMwb1dCbi9SL3JJTCsyZE51TTRYdWRpcmxoSmlFS3Br?=
- =?utf-8?B?bW5hSUxKY3U0UHpZWXdQRDB3OXg3eEhxT0cwdGtRMjhlNnZ2enljRVlOQjFn?=
- =?utf-8?B?dFNmOUxzSFVWYVJ1anArbVNkNm5zbklYQnZXdzZ6cFpmYVY4S1RyYm9LT085?=
- =?utf-8?B?RllSTi91cGFla2xwN2dFOWNKemZwNDQ4YVZBcTNsVUNQbXYreW5kOUNEaktH?=
- =?utf-8?B?clhlbGdSbzdyUTBFbG1naDVSWnRsYmVTb3g4TVZrRkx3YUR5VDVjL2hLT0pm?=
- =?utf-8?B?NXVDZ0ZCZURYQ3FvRmdFejFnMVBINENxbWZ6Undrc2gxdldBN1ltRkZoM3Vx?=
- =?utf-8?B?NGZiU2xzbEtvTkMyVzB4UUZOV0NXMWpQb3lPalZoSU1Fa09jQWNDSVNHVmtE?=
- =?utf-8?B?SGwxTmIvWlZTUDhZaDZ3NDIyNDFTS2pMMHN2amswWXFpMkVKenNHYUpnVVNU?=
- =?utf-8?B?M0xxSlVYNEJKbno3YnQ0QU9OY1JjeC82U2hUUEEzMWNsZDRpa0FVMzUrVmlx?=
- =?utf-8?B?QWxmRHl2cXlYaEl3WHErc3lSYzl5cjNrbUhWQllHNXhHbzJPalpJS3pGWDlU?=
- =?utf-8?B?dVNnMmZmWWh6WEI1RDFFMm5vZjNJdWZpLzN0RlRYckdieDBpOFd3T2l5blgx?=
- =?utf-8?B?bTZyaW15cXRNbFRZYk5kNFBRZ2JaYmJNK0lSbFlwZFBUbWM0TnpoSVZWK3RJ?=
- =?utf-8?B?M1FsOTQwTld0Mk4wNUlqSklWeE81QmdaNlZIeTBMcmk5cWkwK05oNk04N1Ro?=
- =?utf-8?B?S0x1cFUwZGoxeVZQaC9XYWNBTHJIVXJPaVNIQ29jdXZ4dHZmV1FWLzZlTTNJ?=
- =?utf-8?B?VUpVaWdnODFhRWFsaTg2dTdBcnM5eVRMTmMxRnUyWFpFUUE9PQ==?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?L3ZnWXZQbll1UXRhSG5RQTZldnIxeGZ2eE83d016Wnc0OWJ3UDNWbGs2Q0xM?=
- =?utf-8?B?QnF6VnJta0JEQW9VUlN5N1JNUEExM3o5MTBMdit5WTArVFAvUWM2NGNVUXlr?=
- =?utf-8?B?OEVHSm9DR1c2VVRuWTJTd2J2MGV3SVIySFJ6Nlhab1dFVEhrUHgwQzdXZ3I5?=
- =?utf-8?B?bzh3RHc5bWwzaHN6dGZGZzlZcWpsUU5pVEUzV1JWQWpvd2JIbHhndEQxWk5I?=
- =?utf-8?B?NUo0aGxGaFhpdGNSOUFJNnFHaGlMMGJpbWVpRks3cTVVUG4xY2tTMjc0ZzZv?=
- =?utf-8?B?VzFSMWtuRUg4Ym9rVmZRK2xpN1p5Ly9XT0xITVNWQm1CTGxVRWVHN0Vjdzk3?=
- =?utf-8?B?OTY5NVhacXZURStOay9ZbzlPOVBDamVRazRBNHlJOStlaUI3U2wzcFd3QjFS?=
- =?utf-8?B?V2wvdXdvV2lCakFjZmVSbDlLcmNMMEdvc0FPa2p5MkRkYnM3LzRpa2QvVDhq?=
- =?utf-8?B?UWZsR3dNSTdoQnlRek5oOXh5UHptWEMzSXRmWitJOE5WR0RaT1RibTgxSGJJ?=
- =?utf-8?B?UHgvVFEyWkVLcmNKVUZNT1ROQ3VSa0k1eVE2RXg5UGV1NHFmZWFkeHBzWVJj?=
- =?utf-8?B?TDF5NW9KNzRPRkJvcTVMYjZQelo3cWlvZmpJUDBwWTFDWlo5R0ZYdVd5aE1H?=
- =?utf-8?B?R0J2d1JqTGVERGZoQjROVmtNbDRjUzVmZGlCZDNWMFp6NGZBaExWZkNxenlv?=
- =?utf-8?B?T2tKV0pHOEgrb3h4ZzJMb05pMXU5MXVOc1VFay9uWlE3am5taEhoc2RUUkZs?=
- =?utf-8?B?ckVvMytzby91NWJacGJjSkN5bU1TN2Fvd1docDZqaXdNaS94WkJMeGZJT2dm?=
- =?utf-8?B?VG5VRERaYVdaVGNQNmUxekZNS0dpeHJ6YUQ3QmtFVVJOQU1mb2FBZVhaaVZl?=
- =?utf-8?B?eG14WUk1RnNjWmNDNC9lRkxKMG8rWUs5R0xmMkRDMHlETThSRmdKaHlvZjE0?=
- =?utf-8?B?Nlc3S2JzNTM2eVFwbW1aUlJndVRpZDY1MTl5Rzd3Rk5MeUprZ3pNczNqU21m?=
- =?utf-8?B?Wmt0NnZZTElnUkdBOG96d0trVkpIR1ZjZVBjbjFBbFBIZ29wTWRIam1SeVcr?=
- =?utf-8?B?dllYa1NwMEd1bE04VTVPTUcyakMvNXBMUDBtU2VoUXZuU2lNQitVTlpwY2t6?=
- =?utf-8?B?WDFHbkQ5bzNFYmFXTDZWcjVBWkkxbVgxMlhoczZjdjhiK1FFck9Mc2RnUWZB?=
- =?utf-8?B?ckZ0WFlkLzd2R29JVUZPUmVvZVg1VUJKZWFHSmRsY29PNVNBM0pjNmh4UFQ5?=
- =?utf-8?B?WmpmWnBubU9ET3NINGNuQjBZc0ZkbnR3OXhMalFQamROaFZMNkNUbDBhM25O?=
- =?utf-8?B?RFI0VlhEcEwyVlBOQnl0QXN2WStoS082SzdKbkNOR2xzdjNsUmdIWkFNRmwy?=
- =?utf-8?B?Q08wOXlmY3pmOTlEVGllZVVaYm5DYXBmL3czRU9zUnZvaktlYVZISklVMEY0?=
- =?utf-8?B?dlg3L1RNUzZkdEFSMytzUTVWOC9jQU95ejlRRWwzZU5RdXVuKy9NWmVTOFlI?=
- =?utf-8?B?WkQ0NzhNOHpnSmpzOGh0ay9ORVNmUUdZd3ZkVjdWelppYmo2cXJFWW8wS3JY?=
- =?utf-8?B?SzRTSkNyTUtPZDAzWGdDVzNRT3pVUEo5L01CeXUrcCszdzN2dHA3a0JhcUVQ?=
- =?utf-8?B?L202UXZwWlYyRmlSZHV2TXcwZDlBS3NPMG9ybk93Rm1hanY5anN6N2tDbVFl?=
- =?utf-8?B?S1h3NS9HWWJocVlDVitlNGpyc3FZOGkrbEtPMFNiZ243Tm1wV0s2cDRvN0F2?=
- =?utf-8?B?cUozK0t6YTlyMHR5allYS0t1Z0M4NFJ2VWlRMm5lRUZSUHU4MmhSVnRFUU9O?=
- =?utf-8?B?bXNETXMwWmd3YnFwVk9QMkxVVGl3azVDaTQxbVJqSTZ6M0cxbDhnUExHbjFs?=
- =?utf-8?B?NEtWaWhOSWNPL1ZXTHVzN3ZsdmIrOVhjQVhuMmZHV1J0RENLd05rYlhqQk1P?=
- =?utf-8?B?NitWZ2V3Q1NRTWpOczUxMzkvbHhXem9yYmI0TmNsdmIrbEg2SGJBWUdQVHhE?=
- =?utf-8?B?ekJUVWV6RUVBTEpxdWFUbTV4ZXNWbm9zZWM3dFB3UjhmbGdXdURIb1Rwdkwy?=
- =?utf-8?B?eldCT2RiaWZpOTdIZWcxb0FJN25USWUxa3BCRCsvUzNWVGt4ZHFzSTdXaFBO?=
- =?utf-8?B?azU5QXZEQSs0YVAyY1dzaXJuSHl4UUQzM3pSc3BmR3ZrNWh0Uzc1ZWpvYnB1?=
- =?utf-8?B?L1E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2718328633C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2024 09:17:41 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 062951AD3F6;
+	Fri, 13 Dec 2024 09:17:39 +0000 (UTC)
+X-Original-To: linux-renesas-soc@vger.kernel.org
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BED42A1BB;
+	Fri, 13 Dec 2024 09:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734081458; cv=none; b=rZER5F7ffhfC93ZDGTR0VLyDIdbG2YFBOmfa1uK5Zr8gbTw//4wJyhmmRdX9cQ+QP9WURs5zLDEzCPUmnOqiNzHuV7ujITcBAfdHEVvJl7e9FWdxUc2t8IjWvMNgvYLBiwerQHfMCZaowKlrbZiC0FO5fLjpxuxduKfhlx137AQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734081458; c=relaxed/simple;
+	bh=icBNK/ThLNguKu6d78Uo0HILxsPLyWRW8xDzZFzeaW8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=maUhB5LzQqe7/KlNDkXc4sbWebFtYfJZd/7IgSNtHOrdTTbepX4YAeOpjN6CHCxa7j0EyPmsAdPEn8lQ5eVbqznDdLI+TcW39kDtrmX5dfvaEzP1St0wCzH4rjeBEtL4KhNdf5/BkXc7SMWsDwNdsWKHYuPe4JmLMmcHx/hRKio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-4afecb2731dso386603137.3;
+        Fri, 13 Dec 2024 01:17:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734081454; x=1734686254;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m4m20EdgUVIo1Zqh2J7lugrSKpV6bTcwX6b5CnnHFv0=;
+        b=OjzjwenFrMijJJkWf9xPhS+kF19AjJ2MZfELWqWzih/s7+cqbH5S9MzeNHJM82D5p6
+         u7TuupQIh84Iriv2WJ8NbgUvpkMk3R37MDQUyYfHKsWXON3TM0TVSma4E1xy+P439xN0
+         9O3O90+YDJz1YsHWXOPe+u5c9UZbepf0d0LqB1s8jES3mEEmiLPoZmYiAe6AcXMRAAvY
+         Qph2exPqmRu45oCEHxTJLSSsEA7Nw5YlHym2AlqbMAhesVs74ql9uZGjDXfaS7z2s4sU
+         xjZeeKO+TZfasewIbCtoxi2yFHE+/hBzWNP44bANgymL4tGgea1DRSdyHt5BH6CAanle
+         iiUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6LPKVmO6x/1520MD49MWCK7MixVMtXhKwH8Bfhc00vUigGMjoJmV4/uQbW0r5kgpyFqXzHAiBptDR@vger.kernel.org, AJvYcCWHm9B+T/bBEqoMfzsu/VEN2FVKC9R1tI+FIF3z/qnOX+lJcUoMBKVyoUBIJ24KjeVUqI6dl7KwpDzQDw==@vger.kernel.org, AJvYcCWtD3tcnBQkT/LC7+jocE8xpX91sDnyJ6uM2yl5+3xh01+8BqeaIbERF5SUtG7iJwJmCDU1vuBeKftEzQifQu4csVc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTy6daanfS5XEKGI/2BQf5IF1LFRPrIabeZooO6gJy5CuSaEYX
+	wu3vcVn0vAHnHSa2jcMppIcgug2v3OLPbGenb507GcNshpQ2xRRwcvhLFZl4
+X-Gm-Gg: ASbGnctnKa04Ze1atqprpnqBqR8VrcWSKGs4bBvrsazKtTyrd/4l++HjPN3gmowWJD2
+	CGXdzXQeWDk2VGRnmZlOe0yTZaZqnYjlXZ4gajofX1Z7eChg4ZU32SihrlYULSFWmVBuzNwWpPh
+	v0+VsQrFutT4X3S1byTS1JZvP00R0GC8E2W3Ifumk/lrjA2jsXtgKCm6BnBECUXn6I9ULpBRkdL
+	ihgXhbY0UArwUv5A7Uto4n2zHTIjpCOzMfLIL2RRsybiX45IGR6tEL1oRqBTlLakFWbZ8YWs4yh
+	cCSKsmPFxWvG+Zbdft4=
+X-Google-Smtp-Source: AGHT+IH32LEGyu7MK4U82wQ4Vk38a2yeXfJ3jw8T43X6maDr0ic0Ll6BqxfaqzjomBD2od9IF8w/uA==
+X-Received: by 2002:a05:6102:304a:b0:4b2:4836:cd63 with SMTP id ada2fe7eead31-4b25de4f6cemr1779694137.26.1734081454578;
+        Fri, 13 Dec 2024 01:17:34 -0800 (PST)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85c4f9eae68sm1952422241.28.2024.12.13.01.17.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Dec 2024 01:17:33 -0800 (PST)
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-85c5adbca8eso340622241.0;
+        Fri, 13 Dec 2024 01:17:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWqs/SRMGpwpipLYEG8dE3u2Dw8bMAIQsLAUCoztjnCILMeCGOTRJCxc62FKqpYWjr2WUeHk1FwyGcbwX0SrzsbBI8=@vger.kernel.org, AJvYcCXC45GZQwjLgqU3+Ho1q7f+ImgnntTQXb3sydB96EDyNrk5DYFHgumbGXEbuDHeQ+QZnsrSWhk4nRHq2Q==@vger.kernel.org, AJvYcCXXGNJjMnvDtgQsMtmFLNGD9UDn7ZDwpKLhEX06qUJNVNIzlxB8WpgbI1VGMy48AE1G4AJJMooxtnOg@vger.kernel.org
+X-Received: by 2002:a05:6102:f88:b0:4af:e077:8a73 with SMTP id
+ ada2fe7eead31-4b25dce4c3cmr1803239137.13.1734081453438; Fri, 13 Dec 2024
+ 01:17:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f3fc771-e16e-4b75-2ed2-08dd1b541038
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2024 08:56:41.9383
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9dHLrx806ZdsQekUqScuzz0l85dyxiGjaE4PvkNEVQTBGmCSx1cdfBe9n08L51fdGZh5kEAXjoxiX/PfcgMbPCrPpp2nhTPTgWBPqIMqMR4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB7892
+References: <20241206102327.8737-1-biju.das.jz@bp.renesas.com>
+ <20241206102327.8737-2-biju.das.jz@bp.renesas.com> <CAMuHMdVWaVscNyhsN3eKC2EqQc_Hp3kALiLso+4AOic6huMAXA@mail.gmail.com>
+ <TY3PR01MB11346DBB1BEBA02B8AE3B4A43863F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB11346DBB1BEBA02B8AE3B4A43863F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 13 Dec 2024 10:17:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV11F7QGXCzo=wa10AOSdvXBZ_40JCRObxja3xHZoDb_g@mail.gmail.com>
+Message-ID: <CAMuHMdV11F7QGXCzo=wa10AOSdvXBZ_40JCRObxja3xHZoDb_g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: pinctrl: renesas: Document RZ/G3E SoC
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "biju.das.au" <biju.das.au@gmail.com>, 
+	Prabhakar Lad <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgR2VlcnQsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogR2VlcnQg
-VXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4NCj4gU2VudDogMTIgRGVjZW1iZXIg
-MjAyNCAxNTozNw0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDEyLzEzXSBhcm02NDogZHRzOiBy
-ZW5lc2FzOiBBZGQgaW5pdGlhbCBkZXZpY2UgdHJlZSBmb3IgUlovRzNFIFNNQVJDIEVWSyBib2Fy
-ZA0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIFR1ZSwgRGVjIDMsIDIwMjQgYXQgMTE6NTDigK9B
-TSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+IHdyb3RlOg0KPiA+IEFkZCB0
-aGUgaW5pdGlhbCBkZXZpY2UgdHJlZSBmb3IgdGhlIFJlbmVzYXMgUlovRzNFIFNNQVJDIEVWSyBi
-b2FyZC4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5y
-ZW5lc2FzLmNvbT4NCj4gDQo+IFRoYW5rcyBmb3IgeW91ciBwYXRjaCENCj4gDQo+ID4gLS0tIC9k
-ZXYvbnVsbA0KPiA+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yZW5lc2FzLXNt
-YXJjMi5kdHNpDQo+ID4gQEAgLTAsMCArMSwyNCBAQA0KPiA+ICsvLyBTUERYLUxpY2Vuc2UtSWRl
-bnRpZmllcjogKEdQTC0yLjAtb25seSBPUiBCU0QtMi1DbGF1c2UpDQo+ID4gKy8qDQo+ID4gKyAq
-IERldmljZSBUcmVlIFNvdXJjZSBmb3IgdGhlIFJaIFNNQVJDIENhcnJpZXItSUkgQm9hcmQuDQo+
-IA0KPiBFdmVudHVhbGx5LCB0aGlzIHNob3VsZCBiZSBtZXJnZWQgd2l0aCByemczcy1zbWFyYy5k
-dHNpLCBhcyB0aGV5IGRlc2NyaWJlIHRoZSBzYW1lIGNhcnJpZXIgYm9hcmQuICBCdXQNCj4geW91
-IGNhbiBpbmRlZWQgbm90IGRvIHRoYXQgeWV0LCBhcyB0aGUgbGF0dGVyIHJlZmVycyB0byBvbi1T
-b0MgY29tcG9uZW50cyB0aGF0IGFyZSBub3QgeWV0IHN1cHBvcnRlZA0KPiBvbiBSWi9HM0UuDQoN
-ClllcywgTGF0ZXIsIHdpbGwgbWVyZ2Ugd2l0aCByemczcy1zbWFyYy5kdHNpIGFzIGJvdGggUlov
-RzNTIGFuZCBSWi9HM0UgdXNlcyBzYW1lIFNNQVJDLUlJIGNhcnJpZXIgYm9hcmQuDQoNCkNoZWVy
-cywNCkJpanUNCg==
+Hi Biju,
+
+On Thu, Dec 12, 2024 at 6:15=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+> > -----Original Message-----
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Sent: 12 December 2024 16:27
+> > Subject: Re: [PATCH v2 1/4] dt-bindings: pinctrl: renesas: Document RZ/=
+G3E SoC
+> >
+> > On Fri, Dec 6, 2024 at 11:23=E2=80=AFAM Biju Das <biju.das.jz@bp.renesa=
+s.com> wrote:
+> > > Add documentation for the pin controller found on the Renesas RZ/G3E
+> > > (R9A09G047) SoC. The RZ/G3E PFC is similar to the RZ/V2H SoC but has
+> > > more pins(P00-PS3). The port number is alpha-numeric compared to the
+> > > number on the other SoCs. So add macros for alpha-numeric to number c=
+onversion.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+> > > --- a/include/dt-bindings/pinctrl/rzg2l-pinctrl.h
+> > > +++ b/include/dt-bindings/pinctrl/rzg2l-pinctrl.h
+> > > @@ -11,13 +11,38 @@
+> > >
+> > >  #define RZG2L_PINS_PER_PORT    8
+> > >
+> > > +#define RZG3E_P0               0
+> > > +#define RZG3E_P1               1
+> > > +#define RZG3E_P2               2
+> > > +#define RZG3E_P3               3
+> > > +#define RZG3E_P4               4
+> > > +#define RZG3E_P5               5
+> > > +#define RZG3E_P6               6
+> > > +#define RZG3E_P7               7
+> > > +#define RZG3E_P8               8
+> > > +#define RZG3E_PA               9
+> > > +#define RZG3E_PB               10
+> > > +#define RZG3E_PC               11
+> > > +#define RZG3E_PD               12
+> > > +#define RZG3E_PE               13
+> > > +#define RZG3E_PF               14
+> > > +#define RZG3E_PG               15
+> > > +#define RZG3E_PH               16
+> > > +#define RZG3E_PJ               17
+> > > +#define RZG3E_PK               18
+> > > +#define RZG3E_PL               19
+> > > +#define RZG3E_PM               20
+> > > +#define RZG3E_PS               21
+> >
+> > This maps the discontiguous alpha-numerical port name range to a contig=
+uous numerical range.
+> > As there are corresponding holes in the register layout, I am not sure =
+such a mapping is a good idea.
+>
+> If I make contiguous alpha-numerical port name range to a contiguous nume=
+rical range.
+> GPIO ranges increases from 172->232. that is the reason for making exactl=
+y ports defined
+> in hardware manual to contiguous numerical range.
+
+True. We do have (smaller) gaps already, as not all ports have 8 GPIOs.
+
+> > What if a future variant (or a future documentation update) exposes the=
+ ports in between?
+>
+> If a future variant or to accommodate RZ/V2H, contiguous alpha-numerical =
+port name range
+> to a contiguous numerical range will be better, if we plan to support por=
+ts as alpha
+> numeric as mentioned in the hardware manual.
+>
+> Other option is just using numbers.
+>
+> Please let me know your preference
+>
+> 1) discontinuous alpha-numerical port name range to a contiguous numerica=
+l range.
+> 2) contiguous alpha-numerical port name range to a contiguous numerical r=
+ange.
+> 3) Just use numbers like the one used in RZ/V2H
+> Or
+> 4)Any other smart way of handling this.
+
+At the lowest level, 2 and 3 are the same solution.
+I think using the numbers from the hardware manual (which match
+the hardware registers indices) is the safest solution.
+And the RZG3E_{PORT_PINMUX,GPIO}() macros below improve the user
+experience, by retaining the actual alpha-numerical names.
+
+BTW, have you checked the non-documented registers in the gaps, i.e.
+do their values look like they are backed by hardware blocks?
+I wouldn't be surprised if they do exist, and are reserved for use by
+the CM33, NPU, or some other non-disclosed processing core.
+Or perhaps there is a non-public variant in a package with more pins?
+
+BTW, the sentence about IRQ0 pinmuxing on page 312 refers to P90,
+which does not exist. In fact none of the referred pins can be muxed
+to IRQ0 on RZ/G3E.
+
+> > > +
+> > >  /*
+> > >   * Create the pin index from its bank and position numbers and store=
+ in
+> > >   * the upper 16 bits the alternate function identifier
+> > >   */
+> > >  #define RZG2L_PORT_PINMUX(b, p, f)     ((b) * RZG2L_PINS_PER_PORT + =
+(p) | ((f) << 16))
+> > > +#define RZG3E_PORT_PINMUX(b, p, f)     RZG2L_PORT_PINMUX(RZG3E_P##b,=
+ p, f)
+> > >
+> > >  /* Convert a port and pin label to its global pin index */  #define
+> > > RZG2L_GPIO(port, pin)  ((port) * RZG2L_PINS_PER_PORT + (pin))
+> > > +#define RZG3E_GPIO(port, pin)  RZG2L_GPIO(RZG3E_P##port, pin)
+> > >
+> > >  #endif /* __DT_BINDINGS_RZG2L_PINCTRL_H */
+> >
+> > Note that I do like the clever scheme to handle alpha-numerical port na=
+mes. Perhaps this should be
+> > implemented for RZ/V2H, too?
+> > RZG2L_GPIO(10, 2) and RZG2L_GPIO(10, 3) in r9a09g057h44-rzv2h-evk.dts d=
+o refer to PA2 and PA3.
+>
+> I agree, if we are taking alpha-numeric ports route, then we need to fix =
+RZ/V2H as well.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
