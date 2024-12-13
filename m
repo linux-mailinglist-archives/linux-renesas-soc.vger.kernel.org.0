@@ -1,118 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-11281-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11282-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F236F9F0937
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2024 11:14:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EDA9F09CA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2024 11:40:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A973164A0F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2024 10:14:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2CE316A2CE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2024 10:40:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5227A1B415F;
-	Fri, 13 Dec 2024 10:14:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C60E1C3BEA;
+	Fri, 13 Dec 2024 10:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikutkvB9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB7D1420A8;
-	Fri, 13 Dec 2024 10:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789211C3BE9
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Dec 2024 10:40:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734084871; cv=none; b=elYulZk7VhSY0EmJNUaalmvu+e8jLKGwdHX7tCNvVR7Ed6T+8//uX0XDhvbii/aUFTKZgbwQhQ1VstvcOUNMz1646wSFdereqP1M6LlmAzaRSiUt71KUlRZz2QV5CYell9N0F8Vk6VeqyAdGRE9gr1I9XCF0HkLpPYbA6XEandg=
+	t=1734086417; cv=none; b=Qx5uKdMkKOVS0wOJ0sg+kIMihpCjDKh5xOTjgHpWVcZOL/QIv06Bopbk2XKh9vSgNIcozC2iSzZPN2nvQ9zepOHtLv4mMPTNjEOl8HTQH+xRYEG0Cm+//PCKYfne9qpLIZmzxmcs1t550pDgJqZIWjOCdAYWxdLLQ8zTk0Buo74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734084871; c=relaxed/simple;
-	bh=HZS4/N3UC+HRatg5dCf21TeFnkCBeNVHiXgqn8YyDow=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tiFLqZvONogVNU9PT2xYv4QWEq8qHCWAuqIQPbZo1J2SgNurts6Y+aIld6AcGedsPHYseDNTL3zesmLFgHXQLlcCOCehGKF4QjolVQ6BqguYx3wmKJ9trdxobyxW+t2gBHxRMfYbQR/xBOPopxs1wBPqwxbOj0oRV1+3hrdT19c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-4afed7b7d1bso375470137.2;
-        Fri, 13 Dec 2024 02:14:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734084867; x=1734689667;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jtMAPHEGtEupo0IcLVLh7mDcYFioW0IfZvVBEFwV6Gs=;
-        b=eLlI2TEBHIXt87ere8pxpYrwaYa6BW9sSGiN9bzuqMAfduLaWPsc/qMhSEtaGQGv/K
-         1ztM0+7pyKKKVb4yzU5VDOPyrqdbsK1LNcSwucZYVZW5y9se3/Mc8uru6OBT2qONFTK+
-         v5cnqC0DcTUiEvDaY/EiAwxIo4Osbmd3FpwhC3KrWPmXz6w5+BevtVHDooIF/FzAurCk
-         N6OILvog/QCMbaORaclDgWl0u8IZL+pwtgf+NstHywV89XuWIdWFf1NcCCCYMc4eirzJ
-         b1uPnc+GmDqCQ50hThpJDem2c9lKTwm6m1r8eygazR9WrvfOa5eqwOj3+Kz8FeB3hBzC
-         qC/A==
-X-Forwarded-Encrypted: i=1; AJvYcCWKzRmMhbp1hMYewrR7qyj5BIDURF3LyS6arYLrjwC2ObStLNJgT2rpji1+8uGBxBySehXNS8yQgh0HgTpJ9SD7TNg=@vger.kernel.org, AJvYcCXmxaS0dQoRTwBADMfeuPKpwYVPLmXxMx0OYhddY8jZ3QYVMQnAotmlGw7fx52uXMyuYh8Mwe7tebXK@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5F4/FVA4d/HyhIvsWX3rcDsGzOMHtYfAtgqZZy/Vy8+IfJ079
-	Yebwc2iiINXchilH0ROs5zgBuZJKUSUyKkGhKkaIT8rmalPorU4qidyNY0BG
-X-Gm-Gg: ASbGncu1NA+p0khcPAXM8T3mnD23pWY41AllAH6XqrHmuiPFvC3nToZww77Iosw1WIs
-	Fy8zT9NbodWDB3x6ZYeXC/6+fOsA08E8qftifgFING1C7WjH4bP0vWUuhZeVQUk3lRJLOoN3U9L
-	kfJmMmopYYBvhqtQD7JQ0VcEZUx8xH7/3ogxs6sVF+MRuKH6oOGV/akeCEteih49/w3sRfp0dG3
-	e3AC3vI6YO5JaWYX6h12tUcZe30EdPbXfq+xQh+i35joGdqjE+i3YsVJ0PfnFGmvLanmyCMjxBS
-	lF8fGCrquGj12UF4iK0=
-X-Google-Smtp-Source: AGHT+IGGl98s7xeaeiwXvuRqgDQz3v8bT3rRkb+NutSet528kjRREWpUVZeHqHWru210f4zisuZsmg==
-X-Received: by 2002:a05:6102:8090:b0:4b2:48f8:b5b0 with SMTP id ada2fe7eead31-4b25dc8cd96mr1891850137.10.1734084867570;
-        Fri, 13 Dec 2024 02:14:27 -0800 (PST)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85c56a6da7esm1944490241.34.2024.12.13.02.14.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2024 02:14:27 -0800 (PST)
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-4afed7b7d1bso375459137.2;
-        Fri, 13 Dec 2024 02:14:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU1vKdA01ujBpQHl7xoLSDMzC/VCkwmP14cS6kn+D4XzoMIgToxuYCHvwWOyL8Dk/TecwAPBYsGUNUp@vger.kernel.org, AJvYcCUMfZXuQIFNX8Gkp9KrkNdiNu2XgKC+jKl9QZaVdoEWpwL7oRG0/EmgiwpWHgBSlsU+9NFB+20CIew8gfCi7CjlzVI=@vger.kernel.org
-X-Received: by 2002:a05:6102:4b13:b0:4b2:48cc:5c5a with SMTP id
- ada2fe7eead31-4b25dccbf77mr1713280137.15.1734084867217; Fri, 13 Dec 2024
- 02:14:27 -0800 (PST)
+	s=arc-20240116; t=1734086417; c=relaxed/simple;
+	bh=NyCc1pg7RxeZaGj2WkHyw3JVKl7kB9hUjj6sLScAF2w=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=uX76XG4HXfIQ/VepU9EmaaptqLBf6+hHOx5TkG1OKt2xR0sDJG1z9qPlg3xf6bM5soPzuFowFJuxxE4rY8p/cPXkfbrv6WUIWhSVn2HuY22nbzah6tpZTSa6oQSkkL00mLyvXUtbIUZnmXOftF6xVoHj0EbPcL2JlPCMgEFRCD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikutkvB9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F10A1C4CED1
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Dec 2024 10:40:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734086416;
+	bh=NyCc1pg7RxeZaGj2WkHyw3JVKl7kB9hUjj6sLScAF2w=;
+	h=Subject:From:Date:To:From;
+	b=ikutkvB9Sb1AIukp3zyNVUG4ZJUfy+jQ552VRdNSSTS9PgmnRKBGXSsslrJdOEopg
+	 PHpw6tOzCWDYsEieJRYSKPq46xkij3SbSpR7PPJI9w4JPxie7tNUPllE945ThXCbIu
+	 XxcKQ+e2DTUNipA9fqdSCYX1O9Mf0hDO+1krXqhM2i/Ms++yJhcnjwjJ9efKYmh9g7
+	 qbas3UkDdI4K4wibc49NaSDarpKRX1FjpEDnNI35qardRminrb6god+VNac7hZQgOS
+	 4ibz+DT5ro3CG7Q3SPSMmMv+Of4BuBOca3zpPmAgNxPqIA921H77nKs1RM4uAAgRgB
+	 fgS7MU92d79sw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7488E380A959
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Dec 2024 10:40:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241023154643.4025941-1-niklas.soderlund+renesas@ragnatech.se> <20241023154643.4025941-3-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20241023154643.4025941-3-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 13 Dec 2024 11:14:15 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXehxafA6Xt2i4TE7CDboKEvaqM_Do1NrQaNNnhxncG+A@mail.gmail.com>
-Message-ID: <CAMuHMdXehxafA6Xt2i4TE7CDboKEvaqM_Do1NrQaNNnhxncG+A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: falcon: ethernet: Describe
- PHYs connected on the breakout board
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <173408643230.2939961.9648213152123763715.git-patchwork-summary@kernel.org>
+Date: Fri, 13 Dec 2024 10:40:32 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 23, 2024 at 5:47=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Describe and connect the five Marvell 88Q2110 PHYs present on the Falcon
-> Ethernet breakout board.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-> ---
-> * Changes since v1
-> - Remove the specific "ethernet-phy-id002b.0980" compatible value and
->   depend on the MDIO bus properly probing the PHY.
+Hello:
 
-(this time on the correct patch, instead of a duplicate tag on the first on=
-e)
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.14.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Gr{oetje,eeting}s,
+Series: Add support for Renesas RZ/G3E SoC and SMARC-EVK platform
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=914097
+  Lore link: https://lore.kernel.org/r/20241203105005.103927-1-biju.das.jz@bp.renesas.com
+    Patches: [v2,01/13] dt-bindings: serial: renesas: Document RZ/G3E (r9a09g047) scif
+             [v2,02/13] dt-bindings: soc: renesas: Document Renesas RZ/G3E SoC variants
+             [v2,03/13] dt-bindings: soc: renesas: Document RZ/G3E SMARC SoM and Carrier-II EVK
+             [v2,04/13] dt-bindings: clock: renesas: Document RZ/G3E SoC CPG
+             [v2,05/13] soc: renesas: Add RZ/G3E (R9A09G047) config option
+             [v2,09/13] arm64: dts: renesas: Add initial DTSI for RZ/G3E SoC
+             [v2,10/13] arm64: dts: renesas: r9a09g047: Add OPP table
+             [v2,11/13] arm64: dts: renesas: Add initial support for RZ/G3E SMARC SoM
+             [v2,12/13] arm64: dts: renesas: Add initial device tree for RZ/G3E SMARC EVK board
+             [v2,13/13] arm64: defconfig: Enable R9A09G047 SoC
 
-                        Geert
+Series: Add audio support for the Renesas RZ/G3S SoC
+  Submitter: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=916444
+  Lore link: https://lore.kernel.org/r/20241210170953.2936724-1-claudiu.beznea.uj@bp.renesas.com
+    Patches: [v4,01/24] clk: versaclock3: Prepare for the addition of 5L35023 device
+             [v4,20/24] arm64: dts: renesas: r9a08g045: Add SSI nodes
+             [v4,21/24] arm64: dts: renesas: rzg3s-smarc-som: Add versa3 clock generator node
+             [v4,22/24] arm64: dts: renesas: Add da7212 audio codec node
+             [v4,23/24] arm64: dts: renesas: rzg3s-smarc: Enable SSI3
+             [v4,24/24] arm64: dts: renesas: rzg3s-smarc: Add sound card
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Series: iio: adc: rzg2l_adc: Add support for RZ/G3S
+  Submitter: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=915311
+  Lore link: https://lore.kernel.org/r/20241206111337.726244-1-claudiu.beznea.uj@bp.renesas.com
+    Patches: [v2,01/15] clk: renesas: r9a08g045: Add clocks, resets and power domain support for the ADC IP
+             [v2,14/15] arm64: dts: renesas: r9a08g045: Add ADC node
+             [v2,15/15] arm64: dts: renesas: rzg3s-smarc-som: Enable ADC
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Series: arm64: dts: renesas: falcon: Wire-up Ethernet breakout board
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=902296
+  Lore link: https://lore.kernel.org/r/20241023154643.4025941-1-niklas.soderlund+renesas@ragnatech.se
+    Patches: [v2,1/2] arm64: dts: renesas: r8a779a0: Remove address- and size-cells from AVB[1-5]
+             [v2,2/2] arm64: dts: renesas: falcon: ethernet: Describe PHYs connected on the breakout board
+
+
+Total patches: 21
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
