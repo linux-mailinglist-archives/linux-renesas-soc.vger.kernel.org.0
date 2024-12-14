@@ -1,110 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-11348-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11349-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F779F1FEA
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 17:40:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5B49F20F9
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 22:36:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB2F51633EE
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 16:40:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A93461887520
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 21:36:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9331C194C61;
-	Sat, 14 Dec 2024 16:40:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44D981AE003;
+	Sat, 14 Dec 2024 21:36:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="c9gifcEO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HnXAm/cc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5A11922F0
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Dec 2024 16:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FB51990A2;
+	Sat, 14 Dec 2024 21:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734194448; cv=none; b=RYcfbhOI99b9vKrIPIw82LoAHS80elb5tPUv0qji6p/OEW9kj17Ei5z1ROzd01O1+bNVcdW/8ci48vI9VDNC/F/HhGTxCUnCTp5NQl+fWHwVG1PMqnTGzkMW7wIBgoyJwTeZaIwkgWZQvJcXOJWbk2+WQSyFr/wlAQhgnspYLi0=
+	t=1734212200; cv=none; b=O6BBPBSSygMDmOTsQwihihlV1M4lkBqjKar2OYuO3WjlOidDDzOguSZ7Dt1ufRi2kfMeMniGF8mjHCFf0/skugDZCwXlCpz05mJoKJPWfcrk9PaATwjE5gIdEqCQ+eCYn+4ch8Hxs8aNFooGTQpAY9wRtAmrgnnA99oV7aYwNTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734194448; c=relaxed/simple;
-	bh=37m51vzvfSdZ8BLzlKnTToy6RDiKeslUTgn/GzffmX4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WmQQ3+72hXjn9/Pj1AIytWQHfPBr7/ol2W8LkpMrZZEVQBIW/XTJia6XnmyzYMGeUUg25WSP7iUOKnVCABEVxD44v4EQGkiSMeFKWp5PWaer0jNxM+WXgxCw3p8cISo5D8hXog4EdOi6IuKdv4lOXplkqG9AQzbWF3S0Jg8oddo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=c9gifcEO; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=37m5
-	1vzvfSdZ8BLzlKnTToy6RDiKeslUTgn/GzffmX4=; b=c9gifcEOXaSYgSXrmUKK
-	GaN5ZafnHSdQBzrYkMYh04Bx7MzK0R5oDZTZ2wyuruZPVrxfJllTaN75O4MJa515
-	cE8JN5gXAG9jK1CpuIZAzuKRlSPAFKR3+d917JtAn3dkOAfkDilUmY7YlHaK4E4h
-	xQNQMzAyg2AK/Yq2udaBVHBTZwoIFN2E3CD1D/aFoURNzRbmnknq2z+ucRFkVDuS
-	yOjrUiRDH7PxPOi3cvrXzgLZFHsGsrcciFNgJBQav5dpowqcLcQLlbaFSJ0nfh/V
-	i0rm/9GWkBu4osXk44PlvamGQ8YYIxE67h8O3rU7Y7aG3VXss+4SIcH5nbncM8JB
-	2A==
-Received: (qmail 3134564 invoked from network); 14 Dec 2024 17:40:41 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Dec 2024 17:40:41 +0100
-X-UD-Smtp-Session: l3s3148p1@s+Kemz0puIVehhtJ
-Date: Sat, 14 Dec 2024 17:40:39 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [RFC PATCH 1/2] bitops: add generic parity calculation for u8
-Message-ID: <Z121Bx1RcykazXLB@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-References: <20241214085833.8695-1-wsa+renesas@sang-engineering.com>
- <20241214085833.8695-2-wsa+renesas@sang-engineering.com>
- <6fec7aa8-32b4-47de-8fb5-4ab6890c1f46@roeck-us.net>
- <2e8e63f2-3a1b-4ca4-b095-4a6cbb20ae25@roeck-us.net>
+	s=arc-20240116; t=1734212200; c=relaxed/simple;
+	bh=JSmXnQzAC3lbJhuxkEAtytCsvBO1s7INTmO8xFi6WTs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jb6nV2SqiV4JcmnDH8dD0h+WtYD5u76IUiqeUQHv2Y8wORIQXSIz/ptlgkCyu5agqFAxCsrcYWLlKeyQGxJGhBVMEbRzXYQ+sLb9TvUkuBqCqnvXCyh5u2oulYwGXY8BVwqYWU2iTe8vci2pBkFCLpfjJi7i904cBIng4Y8012k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HnXAm/cc; arc=none smtp.client-ip=209.85.221.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-518802a1e7eso1651136e0c.3;
+        Sat, 14 Dec 2024 13:36:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734212197; x=1734816997; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JSmXnQzAC3lbJhuxkEAtytCsvBO1s7INTmO8xFi6WTs=;
+        b=HnXAm/ccfF44rdEk3FFAdckpHzysEIUrS0tvxqJ13+WbNSw78vdXhw/nFuVWf61Rxd
+         54xKh0+Y611AEZVuqbmg5+gT18syj7QiEFx21niUmT/+30HkoCxPxe/SR3qdIucvyamn
+         6CAu5Q+VkpNuoPjHZsfpF+5Jjg9AXQjQ07Z6J08S0tWBkqS/slrZOtMiStDQJc02pFEL
+         sYk58FzCmX8T67Wq2Whse9D0JBNcEmCWoa4v2+m/jXI5EHEO7nZOCyjsUCN0T3FLRnZb
+         eVCUt4/gHBt3xyaDAsWZHsKJubG1GlnD3qAM5q31gM8eUZHkxIsZN20iktAsOX/3bhQK
+         ZOIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734212197; x=1734816997;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JSmXnQzAC3lbJhuxkEAtytCsvBO1s7INTmO8xFi6WTs=;
+        b=Lpt+m1zIyoDgP31VAf60tZiTLPEtQq1Uh2NZZmUYI1c3TX3fIv3Q5Gu6F1fQKMWJuJ
+         PIvul8lTDwnBqfhvgVYmvkoYK4Vr6cLwgv+dEEWjbY9WLrU5AkEm2ApwtAQzyvqNSVAx
+         OnuUJbgaECwpRZ88SvxsPfz38LaCB5faYfCdejT1pZIPYgwvRBz+9Gr4dfI7qLjFlBpq
+         4yE6M/upOO/DZzGlBXpwP5hX4JqVR4a8AuIBSCJlE2LwSt5nBMS3BvE/ZH+Fn0oEaaGq
+         Acz6RUJQAWLXEVDTE17iT+2WMyQrxYrwSto53FwYaUitzgsstda9a47I7G3PnpxCrAgn
+         4t/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVQVsKOqBLmPiekB/vTl/sQvIikNkvIaaNwGo5NXq0w4iAqNAx1kFXQjZyJAAOnP0vqQHOCkWQH48Yw@vger.kernel.org, AJvYcCVrx/7CyU/lf9Dt+XygbsKoY6deCxqVjgKnD4CyH9RJsxStI1SDJTRUVvVoBLaACZIWEcJ9INp7U3AK//c7@vger.kernel.org, AJvYcCWGwt0NmPbh7P6QQKi3SfpdB5R4GDsgbOTbMRA3yXPxs6YL0RZVIJ5UyjKv6T+UJpDeC5OlxYIOLKEEDn2UfsnV50g=@vger.kernel.org, AJvYcCXQKP7d0D5/7S05ljMre8SuRI9KYJmXwRsiNgq8BGh7X5dOMmQzG0kIbjGU0kKeX9h9LedtJuGWhHlCOs1aZm4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHPh2b0XSxX4m/DJ529Zx2JHVj6zADTz8aCeGxFuG/shp/cFfb
+	Dvt5avTDg1kAOOEuK+HrOSdlKR00b5yF9cbKwTt7YG/QljLEEql7HfsV6l0DVEvscIGKC5GJ78i
+	KhqMRUxQuFthn/IvHrtcspK1lrYo=
+X-Gm-Gg: ASbGncsDZB7kcb6mQnz2vfMkjT+EJm/Hm7ADnyc0Ps0PWFRirnf44oQTJSJSoDG8sZ2
+	2gD6Qio/ZOL5C5GZdnfU4EOn6amHnU5SuxntExIZ+G7Ye2hIWJCEHh0k/vI0oYIltEqil0e0=
+X-Google-Smtp-Source: AGHT+IHdDBc/DTuaPG5v2NK8NoaPY3B90zut1+0sQGHapEIdTbD0nlg2qhZ4HFMLfv++ls0XPJ6DuU57a5ogmlSPavw=
+X-Received: by 2002:a05:6122:2a0e:b0:515:daa7:ed0b with SMTP id
+ 71dfb90a1353d-518ca21d0cbmr7570939e0c.0.1734212197304; Sat, 14 Dec 2024
+ 13:36:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sgcR6tjkyL9NvYfH"
-Content-Disposition: inline
-In-Reply-To: <2e8e63f2-3a1b-4ca4-b095-4a6cbb20ae25@roeck-us.net>
-
-
---sgcR6tjkyL9NvYfH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241213174419.908525-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <4d3e6f12-7cea-45ce-b1e2-c1fda94b92cd@roeck-us.net> <CA+V-a8uasq+E+_7rk+o729hRp6PwYSgTcUQYbTe44CkXfSE71A@mail.gmail.com>
+ <TY3PR01MB11346774419BA8D51043C762986392@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB11346774419BA8D51043C762986392@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Sat, 14 Dec 2024 21:36:11 +0000
+Message-ID: <CA+V-a8srdDkdAss2okuyfGYBwU5b9cF0aNw+KOSGR1wPquqNdQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] watchdog: rzv2h_wdt: Add support to retrieve the
+ bootstatus information
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Rob Herring <robh@kernel.org>, 
+	"linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+Hi Biju,
 
-> > Curious: Why not bool ?
->=20
-> Never mind. It returns the parity, after all, not "parity is odd".
+On Sat, Dec 14, 2024 at 11:32=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
+om> wrote:
+>
+> Hi Lad, Prabhakar,
+>
+<snip>
+> > > That is a change in behavior. Up to now the syscon phandle did not
+> > > have to exist for the driver to work. Is it guaranteed to not result
+> > > in regressions on systems where it doesn't ? Also, is this documented=
+ ? I don't seem to be able to
+> > find it.
+> > >
+> > Agreed. I will add a fallback mechanism to handle cases where the sysco=
+n property is not present in
+> > the WDT node. This will ensure no regressions occur, and the bootstatus=
+ will simply be set to 0 in
+> > such scenarios. As mentioned in the patch comments, I have not yet subm=
+itted the DT binding changes
+> > because I wanted feedback on the syscon approach. The new RZ SoCs have =
+registers scattered across
+> > various locations, and I was exploring if there might be a better way t=
+o handle this.
+>
+> See, syscon compatible not needed with [1]
+>
+> [1]
+> https://lore.kernel.org/all/20241211-syscon-fixes-v1-3-b5ac8c219e96@kerne=
+l.org/
+>
+As per my understanding, `syscon` compatible is required in this case
+because the CPG driver does not register a regmap. With the patch [1]
+(linked above), this applies to drivers that register a syscon regmap,
+where the corresponding DT node does not necessarily need a `syscon`
+compatible.
 
-Yes, this was my reasoning.
-
-
---sgcR6tjkyL9NvYfH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmddtQcACgkQFA3kzBSg
-Kba+Qg//dmKvI3QW/SN2fFzzpI8DiaqJXReHtZrmwCmN5cb3CjHGVpAQGsEUv2k9
-5hVt8AyFq80aUONmYHvWZIJXxNHz7BT+bMs3d/LyIMSH92bYj6GMcSyrJDe0mY5P
-o39717yAdg8hnUPCiKWujaLyIXARqbDe8zQLmlsaS6rYxo6smSgd/5jLfRolZ+9w
-TmNT+1HieiYQUYX/lK3ODIMrxtKLTFNAkfCCSFcVsuXhQ4xFYIFOWwmd2QibLKoQ
-gt5jIijt8c8sVC2TxcYfGb5o9FafAJOJYh443WrhRW6uA92cUXbKngCymTJvq4bz
-onhEc1BD9rc/4nZGUjQluvAvJbpoquHQo3iWThD9skaNBBHH2v8uaGHCLAjtiyr4
-Pjxq0YRK1nokGHXH9a9Js0ozruTJSxnbBEGi4RPkqd2TrNoU7W7ruuSW+HLH4E6G
-dnYat8C8s3gqAIypGiGB5MuWIZTgZ54VPS82WTLkF+sRgYHzwgVjkRBh9o2Fekvb
-DJP0PkhcnIvCgS+YdcNpDIFog4TmQRUIp96Wno45vcG/lM6F04dFwFnI51zVHsgd
-n3b0WtG4WBA+xsESZ92QfhKEWlml7cd6EMBdMakgHA+5iTBvOuzvK1vS07wZz6rZ
-cL9sbxDlPdccW19dvKeMLl8VM+MYFrPMaJi5RM8pIKxLWgyJeIg=
-=n5IT
------END PGP SIGNATURE-----
-
---sgcR6tjkyL9NvYfH--
+Cheers,
+Prabhakar
 
