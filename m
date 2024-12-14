@@ -1,169 +1,164 @@
-Return-Path: <linux-renesas-soc+bounces-11345-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11346-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC219F1F55
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 15:30:30 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E9F9F1F8E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 16:10:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8509163816
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 14:30:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B30097A05C0
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 15:10:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E3D2197521;
-	Sat, 14 Dec 2024 14:30:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 714C8194AC7;
+	Sat, 14 Dec 2024 15:10:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JmA8uzaK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hS8LkW4q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60D01991A4;
-	Sat, 14 Dec 2024 14:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166AD1E502;
+	Sat, 14 Dec 2024 15:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734186616; cv=none; b=U5sdXltJY9tvZVCpAA7y3CCNbsO5ro6Tl6U3HrydfbU/4xnnBtxtLl96mo4pb7defXmXlOcTHAKsPBDmGlDtDr61purEdlbUB0U6wy7gzZiteom9q/Nf2T3eiXL3/uWZW6MFUUW7iGAz7cndSwFJ2AFYQclxeBMDMHu14d4XH08=
+	t=1734189040; cv=none; b=ItPg/qSOTFq+meElkcCqRV7ILnrFbncGPhusV5D+xkOIKKJ6U6IkPr3i9xk6h7DFbW86V5+O0CJHgW7KB1sAYo2pP3G/t4nap7+o+yyVUK37w9tA8L7qvnriG59PDNhu8enLwKFCabb+PLvRLDFDdteC+p7fvSSh1dVGx95lUAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734186616; c=relaxed/simple;
-	bh=qTX71VsvCqcO5GM2Pj5zN9mF8da20E6t7FM3Kn7/XD8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=CeVAuQL5p+AJysFT7p3qRT1EcY7HKBq0Bt16ZCZ4QGirba9DYo2D5EcSmWGN/10NAFg4GfDV9nmF/j0mRdN6SEf7iNE+FOdacbCmwVXE+/QkNcRc3zFxbZqfrsQY2aHJCsWwPG4ACzBpMToKlG2C516iUsS1eEnVetoq2W8ser0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JmA8uzaK; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1734189040; c=relaxed/simple;
+	bh=++lyCknnrByc5PICn6mT5Pj+9Mrp+Y/132YiDXL1BME=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uNG+WTjsaO+WfhC6ShvB6Bm4k/JNReo/28w8s3mFqExxOxnnsyxLOx6xIk4AaWEUIze05n+YOkiejaHMgtoRU03mleoFs2fSaWz5Rjg8Fg+lmZTFSGSLMLo5Q5St3m+pLEXo5wycsID07nPRvumQ8yXt5hz+8OtCSTOSA0bb/LY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hS8LkW4q; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-216395e151bso17614025ad.0;
-        Sat, 14 Dec 2024 06:30:14 -0800 (PST)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21145812538so26490525ad.0;
+        Sat, 14 Dec 2024 07:10:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734186614; x=1734791414; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=AR5LsJhDtlocPcj99i9gi9dzv6mD0Mw+NVwPsN2j1Ok=;
-        b=JmA8uzaK87pBcG9j2PgzJtTcaSw/MPqy5NFQ5HJQ4LN8L8roNh8wceiWsCL/isiw2W
-         opAMDlFaUdtck1MTWZNyJEPUl7Hl5oIt0EeJj1daaXIhSCxfUM4/PSRL9jdJy1eV4MVf
-         ifwgOjLycb9MdXwq7yK9A5oMvtMZPru3PUlpDtR5bzBZSMYSPnc1iF4uClHn9AdURyY/
-         pnHWG0qGBM/EUSsjZzp8WRGQYsbxCfruSk83gYUo7qbPQdgX0yAVqXYfRL7YE5OAgMs+
-         crFTyCofa3jAEnUcoASwd4Y4CxwnCWYJeoEDYkT1Asl02zwd/bWML81hfYLhDRrqYuXD
-         7vjg==
+        d=gmail.com; s=20230601; t=1734189037; x=1734793837; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zV2B70S7pLnjROnyTCe5zaBvkKuSEO0PMS+9FZyJN3c=;
+        b=hS8LkW4q/a7Og6uztHfoAxl9sUdcqd3NysJNv8tnHR/bYw4RRBucpBuO5WfhlJrZZj
+         2twY4gU+lW83XXTOySO3Hs8d5sxOzhObq+BdJXJBu9qAYgucmO90D10CwU3qp51Tzioc
+         I60ZCAIHxFud+tPYlMU8Bx3u8I/pdZjYGmppAuTOwbogHDVLMBK4uS//ehor1DelRwtD
+         tnCFFKRW+si1ym+sKufPDSjiZa2bE0q01+JFWnarIKAW/Ny1Cx46w7MrnN6ZJdUKueZh
+         rFWdTcovlsT70LcjkFiAtMhpm2tiZ5E3mSr/CHCNPjkPfM21GXWNErf0zkwhIlxphvji
+         Fh8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734186614; x=1734791414;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AR5LsJhDtlocPcj99i9gi9dzv6mD0Mw+NVwPsN2j1Ok=;
-        b=uO2g2mde4tzgImTZPIUSM/nszCMbv8EK5CaJ6q++cD9NvtuZ5GwMPgwlFgncih0/R9
-         b3xn00jhT+6ZrIr8BgjdFDD2YMIGQs+YvobeTCX/ChaL/NSIOB1DWXBZFUcmihOX8aDj
-         c/d5g9ilzbJ8w8fs4fEwJ5D7S7PwmFKRCpFKTVkik3gBiFsMulYFi9IE2Egrqh+hUi3f
-         smE0cmzP0f2ySF2a2na5EoNLauT5CtQEjXcNTwHmMykglIkNlhYH6n+5vCaPtjQ/xZ5x
-         l+TIV4qsZniqEZxZmsuZeuaFlvBzTmuNgjYnmXd8uJHw/940XdnkS2G77sXr6jLfklUl
-         BNlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUNHcNv5k/Wfkt1Dj2D2j8j1pBfKC35hkJoAWTr4epyZOdNpTQMf/MP+wToGJ7as+aSHbOaaThuOLdXxw==@vger.kernel.org, AJvYcCVEFZXjVynrvTkeoDYP+Q4+uZFU1Hq3hlLd8WiNsDFZ0FnasSyNUvsq+xL5F4KEIMe1Egc7FP4tWEUvoV9u0c0d9ZE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+KKH7GYQeNGaeldKcmCgmB1rzZha8d0QyYK7FB+TpVSDe5sM/
-	1Wqh5ekYga32D83OLoJcd8yN1CuXNE6p/RRcBYb9L0uKqLBZRW2FsDpYtA==
-X-Gm-Gg: ASbGncv69V/P4ucQTRhbwCfgdxu2cIykRSGEoP8vJCDrHb4Yw4iwUm4jLxEDsS6/E2O
-	jdseLcFZeKLrwXl4pYBKkvhVWo4Ko8TEx9zA3A/PYPBd+zRQlEXjJ+JlyWi6uqc2gmxEowlb2Ug
-	Kqjy0WA+F4NTGQFOZn+hYbSfw6200cV8nzKxylEi49oqXZg2PsjQi1MjI7QMMMBKEhpMA1vlPvo
-	qQ+kh9FJ+5NdLm8pSiv7GNz2duWcPEnxG8/TjHC1bVFwQq01VINXTUh1P8rhMt5/ZTQDflEMRed
-	gJwtIP2ACzHzZNVT+YM11dvogRamSg==
-X-Google-Smtp-Source: AGHT+IFjgkJvooRDY0RGjzc/vlUpjMwrcJw9QBsd8wtcSE0IHwljKyguUu6uS02Rwst0rKIXY8efjg==
-X-Received: by 2002:a17:902:e80c:b0:215:a808:61cf with SMTP id d9443c01a7336-2189420684bmr112031425ad.25.1734186613969;
-        Sat, 14 Dec 2024 06:30:13 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1dd3ef6sm13384565ad.106.2024.12.14.06.30.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Dec 2024 06:30:13 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734189037; x=1734793837;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zV2B70S7pLnjROnyTCe5zaBvkKuSEO0PMS+9FZyJN3c=;
+        b=Ll7HD/gVCTHNarKEgNlDaH3lNbm9DUAWTUgDAZxAIljlICl2MHPnsJM5fIY1eebCoD
+         zc9YssG4iO2XcOgeeP/T+HiL28k5rvusOjSq/ff+Dixqgb05qa6Z1kwSiRsspn6aNizY
+         yCE0bwv3UftNzopi06Cgdzi3VjtMtCPIGjZ72wggGLWoFhbgINpxwFHRIh4lbubulQEM
+         TRMzP7ulM0Pl8fxSsn1gTTNRmD7cE9yp4M88kDs1o3BZb1KfoVW6LgMlS2LvQz0KtYs1
+         XEcCmACmHGU/dOFIZjnv5AO+HSeYxOSEdehz0vckKcjVPaIJ4//pUaoiPe1G4Y4VCojb
+         ZM/w==
+X-Forwarded-Encrypted: i=1; AJvYcCWP3hIcbWD41DWxuhRqC7AQFLrkJyB72QCkEuuosyNRhBm4KMN01XdxHx89fr/yjfgYF4l7iX6ZyvzqlA==@vger.kernel.org, AJvYcCXHf3itkbA8dFM65lYi40anhqnfksz8fkwpDXILB5Jb048bSNfsIwzpRZulxBnAv8jrlpWKRx0J+vsmVT+M@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyu9Jdn9xG2NA8DCJOCnoNG2oys/MK0JDk3S9EHuiwWBK+5KqGS
+	L51X71nRr4Z7KFcvx+hpFQe6eYV8xn1q5IHM+bPAKvo+Mt3P3wCw
+X-Gm-Gg: ASbGnctB2OX7HP50xzA//eBwaMEGg/CLFeYimF2DGMTi6aTX/5/1SSuqAIrdRIgt1oo
+	tI97iJF7Y08yAw8rtH78ACRP+lM8ZqhuFoWqliCdWhcIIEH8nQGsrNGdww9TdDjToiuh9eEJoD5
+	CxwFNFHB5a1ZeZ1ioZEC1koPZ/YFxI5gH+rKc8I9RW3v6eiGoktysylUqwzTcf31JT3oQP8v+D9
+	JXfxcczX53OoFPny8YiygbBU4Ynk4IxGSDAurG1O1HZ4JfVecZhy+k1E39ap4M1sUvj0g==
+X-Google-Smtp-Source: AGHT+IFOQjHLMR7zWVVYP3VWlTeG0+c5fyzpyZlGUvRMTi2ICPTaWtM3uCP2XBsvL4rnc/z8e1ptMQ==
+X-Received: by 2002:a17:903:41c9:b0:215:3661:747e with SMTP id d9443c01a7336-21892999566mr93292195ad.8.1734189037277;
+        Sat, 14 Dec 2024 07:10:37 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1e64161sm13637895ad.221.2024.12.14.07.10.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Dec 2024 07:10:36 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <2e8e63f2-3a1b-4ca4-b095-4a6cbb20ae25@roeck-us.net>
-Date: Sat, 14 Dec 2024 06:30:11 -0800
+Date: Sat, 14 Dec 2024 07:10:35 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [RFC PATCH 1/2] bitops: add generic parity calculation for u8
+Message-ID: <0f4bb1d6-19f1-4999-b09c-e514c18364b2@roeck-us.net>
+References: <20241214085833.8695-1-wsa+renesas@sang-engineering.com>
+ <20241214085833.8695-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/2] bitops: add generic parity calculation for u8
-From: Guenter Roeck <linux@roeck-us.net>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>
-References: <20241214085833.8695-1-wsa+renesas@sang-engineering.com>
- <20241214085833.8695-2-wsa+renesas@sang-engineering.com>
- <6fec7aa8-32b4-47de-8fb5-4ab6890c1f46@roeck-us.net>
-Content-Language: en-US
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <6fec7aa8-32b4-47de-8fb5-4ab6890c1f46@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241214085833.8695-2-wsa+renesas@sang-engineering.com>
 
-On 12/14/24 06:19, Guenter Roeck wrote:
-> On 12/14/24 00:58, Wolfram Sang wrote:
->> There are multiple open coded implementations for getting the parity of
->> a byte in the kernel, even using different approaches. Take the pretty
->> efficient version from SPD5118 driver and make it generally available by
->> putting it into the bitops header. As long as there is just one parity
->> calculation helper, the creation of a distinct 'parity.h' header was
->> discarded. Also, the usage of hweight8() for architectures having a
->> popcnt instruction is postponed until a use case within hot paths is
->> desired. The motivation for this patch is the frequent use of odd parity
->> in the I3C specification and to simplify drivers there.
->>
->> Changes compared to the original SPD5118 version are the addition of
->> kernel documentation, switching the return type from bool to int, and
->> renaming the argument of the function.
->>
+On Sat, Dec 14, 2024 at 09:58:31AM +0100, Wolfram Sang wrote:
+> There are multiple open coded implementations for getting the parity of
+> a byte in the kernel, even using different approaches. Take the pretty
+> efficient version from SPD5118 driver and make it generally available by
+> putting it into the bitops header. As long as there is just one parity
+> calculation helper, the creation of a distinct 'parity.h' header was
+> discarded. Also, the usage of hweight8() for architectures having a
+> popcnt instruction is postponed until a use case within hot paths is
+> desired. The motivation for this patch is the frequent use of odd parity
+> in the I3C specification and to simplify drivers there.
 > 
-> Curious: Why not bool ?
+> Changes compared to the original SPD5118 version are the addition of
+> kernel documentation, switching the return type from bool to int, and
+> renaming the argument of the function.
 > 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Never mind. It returns the parity, after all, not "parity is odd".
+Tested-by: Guenter Roeck <linux@roeck-us.net>
 
-Thanks,
-Guenter
-
+> ---
+>  include/linux/bitops.h | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> 
+> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> index ba35bbf07798..4ed430934ffc 100644
+> --- a/include/linux/bitops.h
+> +++ b/include/linux/bitops.h
+> @@ -229,6 +229,37 @@ static inline int get_count_order_long(unsigned long l)
+>  	return (int)fls_long(--l);
+>  }
+>  
+> +/**
+> + * get_parity8 - get the parity of an u8 value
+> + * @value: the value to be examined
+> + *
+> + * Determine the parity of the u8 argument.
+> + *
+> + * Returns:
+> + * 0 for even parity, 1 for odd parity
+> + *
+> + * Note: This function informs you about the current parity. Example to bail
+> + * out when parity is odd:
+> + *
+> + *	if (get_parity8(val) == 1)
+> + *		return -EBADMSG;
+> + *
+> + * If you need to calculate a parity bit, you need to draw the conclusion from
+> + * this result yourself. Example to enforce odd parity, parity bit is bit 7:
+> + *
+> + *	if (get_parity8(val) == 0)
+> + *		val |= BIT(7);
+> + */
+> +static inline int get_parity8(u8 val)
+> +{
+> +	/*
+> +	 * One explanation of this algorithm:
+> +	 * https://funloop.org/codex/problem/parity/README.html
+> +	 */
+> +	val ^= val >> 4;
+> +	return (0x6996 >> (val & 0xf)) & 1;
+> +}
+> +
+>  /**
+>   * __ffs64 - find first set bit in a 64 bit word
+>   * @word: The 64 bit word
+> -- 
+> 2.45.2
+> 
+> 
 
