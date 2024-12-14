@@ -1,104 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-11335-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11337-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF3E9F1DA1
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 09:59:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 859C89F1E3F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 12:31:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5AA447A05C8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 08:58:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F46F167D2E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Dec 2024 11:31:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E11A17A597;
-	Sat, 14 Dec 2024 08:58:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79B2D26AC3;
+	Sat, 14 Dec 2024 11:31:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ch0UNMRd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JDfqoYtU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860C0161328
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Dec 2024 08:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABEF16DEB3
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Dec 2024 11:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734166731; cv=none; b=lRrld9ICMptaWVwVjErylXqy+zOVialXmiQTfWl73dvhrj9o/ivqLllucgy3D5wu++joIkPmPw2OARtcLZgcP0Sr5U0AVj77Q6fGWFSJMXVB45f0iCPivR2A8Ei/5x+H6mkWQVsp6M1MIOq1UgoeMlLO2tQmYKTZv5XfS73Xom0=
+	t=1734175886; cv=none; b=NQ8Bha4Jj9fM6dhzz1ij4nnrszvqAh8C6dcRygxcfD12BVcoj+YSlQz+JQ0L5hJlqof/Aag+XnG85aKX7Og84LV4fOOHrPD3Vjd6dpzUjbj8NOUOvaz8t4dZpjtuW7mrcJZJV0CsVazYGfXyM0ZunvBjIMsxwKL1JSVFkcfphuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734166731; c=relaxed/simple;
-	bh=AmlVvrQ8iOfKbH3YXZgneXCCi7K2VfqQc3W7DMkumpk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q9nUiUldXaKayu8a+/IhJ27ijLtOi1wjn5WzHCm56gygSbq4joDxAoKt7hwhlXSCGBD45kWB21ngeUnrUKa7HRwLpWYcNShO/p22zNkH6PQ5V0HKGAvwHSmikm0NvesqtN5Lx0awlgpDqAGVM6Cv1Cgmay4woH2KppAIULPXDME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ch0UNMRd; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=V/U1WDJaY7VuSaVdnDsrNgusQyOaSAv9Mkt7sm9FcRo=; b=ch0UNM
-	RdctcsuKdT0jzhUWxGFPyqjFXA+nUbxMmmHzwUtm0u5pHecp5wepmPxC50xs3qfw
-	DAPCoCcoaoa+7xQmGlQszhrvL9rpPGEZF4tX7XRrciGNCEmJ2UEqp0Qiy0clDAF3
-	iMygep41I/j74Aq0ml9RfscLW4M52qIXFpglqDxcJBJ5jjIy2q/HO4HQyf+yG4a5
-	q1P+D1ItmouATvjDIO0hx2fu1bwk1ABKCVWdkmSRLEfhHdLxZhPZIvfVu8OJKZDY
-	ti6RrFKx8HxgdDr8aiauA1BNqaLh0rLq/F7ZPomUncnclfWnmMKr74M1NZ2ICGe3
-	zqXg/C3+DYnjyE5w==
-Received: (qmail 3036721 invoked from network); 14 Dec 2024 09:58:39 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Dec 2024 09:58:39 +0100
-X-UD-Smtp-Session: l3s3148p1@zTtCJzcp3oFehhtJ
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [RFC PATCH 2/2] hwmon: (spd5118) Use generic parity calculation
-Date: Sat, 14 Dec 2024 09:58:32 +0100
-Message-ID: <20241214085833.8695-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241214085833.8695-1-wsa+renesas@sang-engineering.com>
-References: <20241214085833.8695-1-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1734175886; c=relaxed/simple;
+	bh=IEKDn8/AX08BHa7fIThroEbAA5c4hUQE3mzr6zm9Jdw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lrxSDGKlAq5MwC/rLl9CJBwR0KEPPnSOjQCe1oRnCnlNVEo7JWOg9Ft9N8r9g4pnTlJ6BW8fdUUSV1zkQ6hrLdgwJCuLPyqvAAkAjWOq6Km+bx8YqMqkFzhXLk/jotWOM31JNXM3t3X4D7yFwgJApS5i+fLS7aTzHAPRgFBcysU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JDfqoYtU; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734175884; x=1765711884;
+  h=date:from:to:cc:subject:message-id;
+  bh=IEKDn8/AX08BHa7fIThroEbAA5c4hUQE3mzr6zm9Jdw=;
+  b=JDfqoYtUcpfsvk4nXfkKHEFtLPFqUu/kOhHZqRG7Bi/IwQvTwiFnjNZJ
+   Va9yeOWmt3Nsacjjcyoys/kjvkqp1A8a2NGNezKNoAIw6hGmujxrm7FfF
+   hzJjsuXv6yBudk+6LxaEzYtvH5VQbqyPovDrdcENTE3elh9R0f2WFEg6Z
+   EbMiUL5OipiTDAvBn/Gp/r8+QJrpfifREDWYImsDkiYXIPoLQHP1CJsxd
+   yMZkyeLS/tpbU5o5H/Wc63QXEVO+ARuoPycxYKaWt1sRpYpA+Cm7px5DX
+   QS1QLaVHYZTUPY9HfjqcTz6lsmPZlrItgCVgxqb8Avt2NQ71TlNgnEPid
+   A==;
+X-CSE-ConnectionGUID: M0O361Q3QciAfvuY/gmREQ==
+X-CSE-MsgGUID: A6DjR4OpRQmdd4vMYsVLVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="34769423"
+X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
+   d="scan'208";a="34769423"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 03:31:24 -0800
+X-CSE-ConnectionGUID: 5LekYOAfQvW1falO2Ct8jA==
+X-CSE-MsgGUID: lhyhasnAQlWCY7133Tq3uw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
+   d="scan'208";a="127583441"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 14 Dec 2024 03:31:23 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tMQMi-000CsF-1B;
+	Sat, 14 Dec 2024 11:31:20 +0000
+Date: Sat, 14 Dec 2024 19:30:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ 9ed22c3f97e94186c113e1bcab115a1861c15334
+Message-ID: <202412141929.aivB1tJX-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Make use of the new generic helper for calculating the parity.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: 9ed22c3f97e94186c113e1bcab115a1861c15334  Merge branches 'renesas-arm-defconfig-for-v6.14', 'renesas-drivers-for-v6.14' and 'renesas-dts-for-v6.14' into renesas-next
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/hwmon/spd5118.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+elapsed time: 1446m
 
-diff --git a/drivers/hwmon/spd5118.c b/drivers/hwmon/spd5118.c
-index 6cee48a3e5c3..07ab3a47b00c 100644
---- a/drivers/hwmon/spd5118.c
-+++ b/drivers/hwmon/spd5118.c
-@@ -291,12 +291,6 @@ static umode_t spd5118_is_visible(const void *_data, enum hwmon_sensor_types typ
- 	}
- }
- 
--static inline bool spd5118_parity8(u8 w)
--{
--	w ^= w >> 4;
--	return (0x6996 >> (w & 0xf)) & 1;
--}
--
- /*
-  * Bank and vendor id are 8-bit fields with seven data bits and odd parity.
-  * Vendor IDs 0 and 0x7f are invalid.
-@@ -304,7 +298,7 @@ static inline bool spd5118_parity8(u8 w)
-  */
- static bool spd5118_vendor_valid(u8 bank, u8 id)
- {
--	if (!spd5118_parity8(bank) || !spd5118_parity8(id))
-+	if (get_parity8(bank) == 0 || get_parity8(id) == 0)
- 		return false;
- 
- 	id &= 0x7f;
--- 
-2.45.2
+configs tested: 56
+configs skipped: 1
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+arc                  randconfig-001-20241213    gcc-13.2.0
+arc                  randconfig-002-20241213    gcc-13.2.0
+arm                  randconfig-001-20241213    clang-16
+arm                  randconfig-002-20241213    clang-18
+arm                  randconfig-003-20241213    gcc-14.2.0
+arm                  randconfig-004-20241213    clang-18
+arm64                randconfig-001-20241213    gcc-14.2.0
+arm64                randconfig-002-20241213    gcc-14.2.0
+arm64                randconfig-003-20241213    clang-18
+arm64                randconfig-004-20241213    gcc-14.2.0
+csky                 randconfig-001-20241214    gcc-14.2.0
+csky                 randconfig-002-20241214    gcc-14.2.0
+hexagon              randconfig-001-20241214    clang-20
+hexagon              randconfig-002-20241214    clang-14
+i386       buildonly-randconfig-001-20241213    clang-19
+i386       buildonly-randconfig-002-20241213    gcc-12
+i386       buildonly-randconfig-003-20241213    gcc-12
+i386       buildonly-randconfig-004-20241213    clang-19
+i386       buildonly-randconfig-005-20241213    gcc-12
+i386       buildonly-randconfig-006-20241213    gcc-12
+loongarch            randconfig-001-20241214    gcc-14.2.0
+loongarch            randconfig-002-20241214    gcc-14.2.0
+nios2                randconfig-001-20241214    gcc-14.2.0
+nios2                randconfig-002-20241214    gcc-14.2.0
+parisc               randconfig-001-20241214    gcc-14.2.0
+parisc               randconfig-002-20241214    gcc-14.2.0
+powerpc              randconfig-001-20241214    clang-20
+powerpc              randconfig-002-20241214    clang-15
+powerpc              randconfig-003-20241214    clang-20
+powerpc64            randconfig-001-20241214    gcc-14.2.0
+powerpc64            randconfig-003-20241214    clang-20
+riscv                randconfig-001-20241213    gcc-14.2.0
+riscv                randconfig-002-20241213    gcc-14.2.0
+s390                            allmodconfig    clang-19
+s390                            allyesconfig    gcc-14.2.0
+s390                 randconfig-001-20241213    gcc-14.2.0
+s390                 randconfig-002-20241213    clang-19
+sh                              allmodconfig    gcc-14.2.0
+sh                              allyesconfig    gcc-14.2.0
+sh                   randconfig-001-20241213    gcc-14.2.0
+sh                   randconfig-002-20241213    gcc-14.2.0
+sparc                           allmodconfig    gcc-14.2.0
+sparc                randconfig-001-20241213    gcc-14.2.0
+sparc                randconfig-002-20241213    gcc-14.2.0
+sparc64              randconfig-001-20241213    gcc-14.2.0
+sparc64              randconfig-002-20241213    gcc-14.2.0
+um                   randconfig-001-20241213    gcc-12
+um                   randconfig-002-20241213    clang-16
+x86_64     buildonly-randconfig-001-20241213    gcc-12
+x86_64     buildonly-randconfig-002-20241213    gcc-12
+x86_64     buildonly-randconfig-003-20241213    gcc-12
+x86_64     buildonly-randconfig-004-20241213    gcc-12
+x86_64     buildonly-randconfig-005-20241213    gcc-12
+x86_64     buildonly-randconfig-006-20241213    clang-19
+xtensa               randconfig-001-20241213    gcc-14.2.0
+xtensa               randconfig-002-20241213    gcc-14.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
