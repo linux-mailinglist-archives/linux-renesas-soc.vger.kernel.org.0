@@ -1,112 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-11361-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11362-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CAB9F2BF9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 09:33:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D659F2C89
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 10:03:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A0F216545A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 08:33:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 120C77A1109
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 09:03:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EFF2200105;
-	Mon, 16 Dec 2024 08:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pT5HXt8Q"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBDFA1CEAB3;
+	Mon, 16 Dec 2024 09:03:30 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997791FF7B0;
-	Mon, 16 Dec 2024 08:33:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6EE2E628;
+	Mon, 16 Dec 2024 09:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734337986; cv=none; b=BgOW6ImCLytCRGZMvD8MjteSw5DitDXn8b+h6/E34gEzEBhATPfpnuFOvFff7CkPnSYmUgSE34zSsy8f8c0pazdYevx4bbkuj26+mtY0ftPD5n4c9Z/x+2Kv5/xvEg9TjCqxJRVrnKI+NYfFCR44wB4oiGgvItux1qlXyVVbNZw=
+	t=1734339810; cv=none; b=cjTkx+ogjz5SKMwd/kTG7wHRQ1VICII1wwuhaGXN1HGjWaPDD8QZv/fY4XQHe1KN4FebcYc3feHXWUExgCUOGfuu4s4KJA2EuYY2oTUzyNDqqWXEc6P103/6A/wA8JJ1lG6kd7l4TVqo1d5LqhJKf942u+mGrDRPS9d2V3JPcFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734337986; c=relaxed/simple;
-	bh=6jLd1uN34169vrHjBxynJiQD7DGybjgKDzBNRxxHp6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eH9TrD4ZgK45H4rlJ8FWByWc73/ACt9IpaukcE6cLy+VF2AnrTYYGs9+JJc7itQj0/tUY2PPTY9dUhGNG+hpQxL08hRCnCtRLeJO7zOjRWbLfrTRD6XTQ5TUtgeEC4lsVpnwUm28vLxe3iivogBKOzFlVqrG/awOyPy7UtFqX7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pT5HXt8Q; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 664BB13C;
-	Mon, 16 Dec 2024 09:32:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734337939;
-	bh=6jLd1uN34169vrHjBxynJiQD7DGybjgKDzBNRxxHp6U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pT5HXt8Qdd6jf0+ZGRGtk1o4+1AH4aQzdWQwgML2CYEP/cuVeM56ZZ2d1YskSx/Xw
-	 HGsXaNRyzjIg5wQMdPKDmoAdOWBJK6RbEq+840ZJP3U6icjbw3MpwtPSwq9MEm78BE
-	 6U/DGkmH3oYCgNBpcax0QcI4j08ONGFQG/yIgwvo=
-Date: Mon, 16 Dec 2024 10:32:39 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v4 3/7] dt-bindings: display: renesas,du: Add missing
- maxItems
-Message-ID: <20241216083239.GC32204@pendragon.ideasonboard.com>
-References: <20241213-rcar-gh-dsi-v4-0-f8e41425207b@ideasonboard.com>
- <20241213-rcar-gh-dsi-v4-3-f8e41425207b@ideasonboard.com>
- <l2r53ipif43k7kkjqc66z2mq6tyw6niiz4t4nnfge23hygx2pw@xrgk4mv5ljzx>
+	s=arc-20240116; t=1734339810; c=relaxed/simple;
+	bh=XS39IjXJajdXC3kTPlsZK/PjcGofKjWrWJVJt7M373Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Yt5UqTMl/ALkfdyIBDXKjiACViQ70YG3pIV2TZu9Zn5AomLrOSThoGDegecjMujsNq8CFWxGBU48RHmPjX9JzLBL5q8ZVHi6/gM/2oLk06l98mvPPO9ZXlorriM24I/xAJFZf8qEa23YCxhG66XXTzYT4yTMCgWO9eaDeryeR2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-517aea3ee2aso1750243e0c.2;
+        Mon, 16 Dec 2024 01:03:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734339806; x=1734944606;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/pewpxD4lpJ3Q4gxuwGa+K4FHvRkwiErzIpkGMT8MKY=;
+        b=VxMRokaXgqn3bFxAfmibzCDfq+zeyo+dIOQZsb5xChY+WJwjefh3JwKeqqbdotUpmS
+         EVXWT3vKbxqsqnBPBd/+31Dzs6JYvwZlsfLkNqJiDOjiTUz+YeVAk+M4G1R+3Om2zLdy
+         0PWYbpJ1+05oXlakhBOatg+p4hVbaJIt6WpQJ7uegxkJJqCja3i1kDc3z5tzLyqou2pt
+         aSWhPQIrvuZ+Vgc7vwGiIN3LrPnac4gHr1sJjdbK2dn0VUpI5fAyRMSZ0a/O3ueFBx9u
+         Ozo5fPU+cDgsZL82Ah90to2nKuILkor2N80WWt3xLs4HFLPmp5ln0bK8v6PPVSJuLrxZ
+         bNBg==
+X-Forwarded-Encrypted: i=1; AJvYcCVsKsO+/FkDV12IGV0Q/c8WlQMq0neO+dalOG5m6uXC9+GXx7iiDGnBwkzvglsuHZD8RF2SdFTUftnkRy8cpkCKaps=@vger.kernel.org, AJvYcCXDQ6NCvUZ4xpxRtUiOksO1hcs+FtfWl0OfE1737dDLyiZJl2fSgQMBFKCSNJdlCth/45zk/uKtTPyg@vger.kernel.org, AJvYcCXLXCoLS5j1xCfYag1cQgiBhuBfBpEUejigFQmuZnm/WJxb4fATXPqocVrWzH/cH/y3ajvZm4NocZuGpw2E@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/miABPcR9CxGO+8oaImTnb9OL23CfSPRz63eL7OWrQ3RpltS6
+	4iRWgkJlvlHxouU0bi07XV6ExymutFEdxhtsOaf1O3ERwzxk20BTxZnH18x6
+X-Gm-Gg: ASbGncssbzeDi/B+PI+/39mkMcpveE7xga+jBGd9AOb2MECJrVM4S0zqhGnKolOuk+t
+	21zkIa017WAGYok8BBjTvnVQ/apjUhgpYVDWctvJYEMPbW7BvKZFQYNCM7S38Q0QYqxz7JD+j+o
+	S2G+BuOw0pJfZXeULqlg8j7lD1mA5uG+Q0kHDkayYW8CoSIpyM5IXPtEmfhJQ6Z3gu1H8JLxYaZ
+	nZ7nm1TiMHyxYebP4IZPlGHSFg278c5f9GJFKLB9Sg0WgzUXdGhVoeRiw85Gzgv4YjNl4ZwCfm1
+	6GLaeqSgVkH3Vm9W8to=
+X-Google-Smtp-Source: AGHT+IHPp+5Tu8TYm0Qs2FQJUTj4a2EegwFlVpGGUj5FEmNFnyhsuNkAqQwGjRmmMY1Ibcdf8FI0og==
+X-Received: by 2002:a05:6122:3c51:b0:518:7bc4:fccd with SMTP id 71dfb90a1353d-518ca37977emr10750669e0c.2.1734339806494;
+        Mon, 16 Dec 2024 01:03:26 -0800 (PST)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-519eb729c81sm604348e0c.46.2024.12.16.01.03.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Dec 2024 01:03:26 -0800 (PST)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4b24bc0cc65so2318619137.2;
+        Mon, 16 Dec 2024 01:03:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWB4c+1awo4npnCcyfWoZdijj/R6KBXvFppixcvuuNx2brYh8dpznpC5br8daYyI24aiU92LrbdMZvXnTya@vger.kernel.org, AJvYcCWOBD7x3pol45BWJvHkIvFTmRFJ9AS2w2J+IJ37fpjCAvnh7MXrOa3ZvJFWi9kMojDoARY507aXrNkh@vger.kernel.org, AJvYcCXHD4XPlpQ15rwEnmXK3YVu2Nhsq3+XEIBsAUdOpBNb+BimakL0+q5SpCXsZtZTUzbKqBh2HjrAXK4VtNBNZTzlemE=@vger.kernel.org
+X-Received: by 2002:a05:6102:4a82:b0:4b2:5ca3:2b09 with SMTP id
+ ada2fe7eead31-4b25ddc68b1mr11113902137.19.1734339806145; Mon, 16 Dec 2024
+ 01:03:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <l2r53ipif43k7kkjqc66z2mq6tyw6niiz4t4nnfge23hygx2pw@xrgk4mv5ljzx>
+References: <20241206212559.192705-1-john.madieu.xa@bp.renesas.com>
+ <20241206212559.192705-4-john.madieu.xa@bp.renesas.com> <CAMuHMdUK-r1iO1HXVWd_xq7u1wkLZFZ1bHeo-goe2dWY9rfQJA@mail.gmail.com>
+ <OSBPR01MB277516153173A68AEDAE0FCFFF392@OSBPR01MB2775.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB277516153173A68AEDAE0FCFFF392@OSBPR01MB2775.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 16 Dec 2024 10:03:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXX+atcd_sM_HLeQ92rkhjf6R1jVYJ3vc1w95DM_FmtRA@mail.gmail.com>
+Message-ID: <CAMuHMdXX+atcd_sM_HLeQ92rkhjf6R1jVYJ3vc1w95DM_FmtRA@mail.gmail.com>
+Subject: Re: [PATCH 3/5] soc: renesas: rz-sysc: Add support for RZ/G3E family
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	"john.madieu@gmail.com" <john.madieu@gmail.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Krzysztof,
+Hi John,
 
-On Mon, Dec 16, 2024 at 08:58:49AM +0100, Krzysztof Kozlowski wrote:
-> On Fri, Dec 13, 2024 at 04:02:59PM +0200, Tomi Valkeinen wrote:
-> > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > 
-> > The binding is missing maxItems for all renesas,cmms and renesas,vsps
-> > properties. As the amount of cmms or vsps is always a fixed amount, set
-> > the maxItems to match the minItems.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > ---
-> >  Documentation/devicetree/bindings/display/renesas,du.yaml | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> 
-> The top level property should define widest constraints as well.
+On Sat, Dec 14, 2024 at 5:36=E2=80=AFAM John Madieu
+<john.madieu.xa@bp.renesas.com> wrote:
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > On Fri, Dec 6, 2024 at 10:26=E2=80=AFPM John Madieu
+> > <john.madieu.xa@bp.renesas.com> wrote:
+> > > Add SoC detection support for RZ/G3E SoC. Also add support for
+> > > detecting the number of cores and ETHOS-U55 NPU and also detect PLL
+> > > mismatch for SW settings other than 1.7GHz.
+> > >
+> > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
-I'm curious, why is that ? I understand why a top-level default would
-make sense when it's optionally overridden by model-specific values, but
-in this case there's no such default. Every SoC has its own fixed value.
+> > > --- a/drivers/soc/renesas/rz-sysc.h
+> > > +++ b/drivers/soc/renesas/rz-sysc.h
+> > > @@ -42,6 +44,7 @@ struct rz_sysc_signal {
+> > >   * @offset: SYSC SoC ID register offset
+> > >   * @revision_mask: SYSC SoC ID revision mask
+> > >   * @specific_id_mask: SYSC SoC ID specific ID mask
+> > > + * @extended_device_identification: SoC-specific extended device
+> > > + identification
+> > >   */
+> > >  struct rz_sysc_soc_id_init_data {
+> > >         const char * const family;
+> > > @@ -49,6 +52,9 @@ struct rz_sysc_soc_id_init_data {
+> > >         u32 offset;
+> > >         u32 revision_mask;
+> > >         u32 specific_id_mask;
+> > > +       void (*extended_device_identification)(struct device *dev,
+> > > +               void __iomem *sysc_base,
+> > > +               struct soc_device_attribute *soc_dev_attr);
+> >
+> > That's a rather long name...
+>
+> Will be shortened in v2. I'm thinking of ext_dev_id().
 
--- 
-Regards,
+What about print_id() or print_ext_id(), which is what the function really =
+does?
 
-Laurent Pinchart
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
