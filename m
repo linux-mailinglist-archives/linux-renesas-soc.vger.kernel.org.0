@@ -1,108 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-11364-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11365-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1129F2D57
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 10:50:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C61779F2D9F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 11:00:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB295164377
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 09:50:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 105B4160FB4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 10:00:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B381F201005;
-	Mon, 16 Dec 2024 09:50:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C7431C243D;
+	Mon, 16 Dec 2024 10:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k1GSjcUD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509001804E;
-	Mon, 16 Dec 2024 09:50:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C7071B4F3A
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Dec 2024 10:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734342643; cv=none; b=uHALOf+dB5ZuI4HBWNzpYjjKZM3hffYBxC65YhsVLKqIK0aMJg70mbWeexTzL56/iPjKfLVfwlV2DTppskuJWOSq9qMnlhquV08m5IhZj03SUoevwAezTpJx9iDRmnkYAT40rTGJXfZoEHWZ4LJ19yeNlv11M8iTWSOPakcwp9w=
+	t=1734343244; cv=none; b=LHrECyrUdGp3Y8fWqM5ZIOsGEaz7IQzj0NdLOOLkPX+0KAWfXPSVX1NVetQJwMekS0AHlmCigPc375kmmB4oyARB2Ir98j7ehaHWFBkz9VXlVKJ6w7I5/q+t8IRZwldRjEPglrzfa1ujg52BzSpY9qTrtvwaH7HiInvlaast+sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734342643; c=relaxed/simple;
-	bh=dtAoDEbX46mZegb7X6Da4LHRZfjcermuAfvrjrI63CM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gzPr3kQz4P0Pbv7VHwGEt7j9QEdSzU68UFuVI0kRNJNTuc10xd0sUSDGrpfRdKpf+kuBfJ2PN8a9xHwrVXsExVTtFqQrcnsAkjsojj3ubw5LYsy1lYcvcZsXf7pQlo7fLrQ+NptCcsy0WE0cNQ8bCiQIfq0NxvzSV53kpzCTPn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-51619b06a1cso2083582e0c.3;
-        Mon, 16 Dec 2024 01:50:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734342639; x=1734947439;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nEQxriZsKIJoW//6ZrtlM9VA8MpLHKD2JU7uy8gFOdM=;
-        b=DzZsaGuG2Ika+FYqNvQQdFvYUqizyp/9otpVxzk/ZQBd1VpVPY76wj7Z4T32fK9xM8
-         slwRyGNnZivf2Dp43ezT9wz8EvXbvF+82bxO7zO95dMgM7NBLs39ZgunyvHb1cJD5Ux2
-         +JMIMBNzI5ooCS5EkWpWT7SU5Zx3qzzJ5Vg7HLWoxzscdJ0raNAlcXY2zTeniKm7Wwhd
-         hTU4NvIbbYxTWZX2uJaGIl5UbepRky1d+POfOGsezwabb+xfEYqnRTAkBibEVKXSsmhK
-         PWbypb2SfirSWz8cQzmEZGPiR+UnJung/5b8Mh8lnOo+6QXhfBSljZ2BsxoeT+KwFWyb
-         ifVA==
-X-Forwarded-Encrypted: i=1; AJvYcCUiStQDapC/QgWDbJm1ZhFE8ee5fK8UV6Wsl/utmrobLY8o5JIc7aGj0h64sE69KwIicy+TIP4+LOsTAA==@vger.kernel.org, AJvYcCV96Vmp8sED39wv+TgC9F5bAfS1Iy44vzNW/Y77ONgqhyBB/JzWQHR3BfQbqddjblPfzwh5EcFE3rh+iDQC@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsBSBk32NosTMZcAx84ExjV2c57OulTJe4+5I0z7q8nUZOY4JZ
-	Ccvb0CcPib0ZomkuI5OoiY8aokLUoTBOZEd8xwrY3b96mxd2z690ey5Fub+P
-X-Gm-Gg: ASbGncugyEXqaPD6DnjHVAoBTGgjFc/4zAwMp4SKrVmoHhBhSgpMislgVeSjKUUT3H1
-	A5WBsolD7wJTySTmHNNJ8hlvzSQJOzLm0f4oXeZeQYq/CXpWxtXY5aQePlVTCoO0eV5nLyNiRN2
-	WOtRt/OeV6ywNe0WR8RyqjXXGviLGu9V2lBXPm+ELk/ir9DNisfQF3hQ8SwRnSFivJVITuLzpHN
-	TaXLrksNYodMzH8555XD1275WlTF0lfoABzk3s2AQye2YYkUlueQ2Y7mKrEaqlrMQtgsNA5Lfne
-	8qyGLCcWZAIGOMEFAc1srCU=
-X-Google-Smtp-Source: AGHT+IG0LP+HNGEatty8YkJZ+h+ttV2GofdRa4rDVB0sipwEqaFLFA3U3tJSgVj5eiY2Tj3Ce77p1g==
-X-Received: by 2002:a05:6122:1d43:b0:516:1ab2:9955 with SMTP id 71dfb90a1353d-518ca3b6a2fmr11218971e0c.6.1734342639607;
-        Mon, 16 Dec 2024 01:50:39 -0800 (PST)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-519eb6fcd1asm546090e0c.33.2024.12.16.01.50.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Dec 2024 01:50:39 -0800 (PST)
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-51623968932so2117457e0c.1;
-        Mon, 16 Dec 2024 01:50:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXkxmw6E8QhlrGV7g1SYN6qY+vPKWiDQ9mjPcRaCNQaM1MzIHVaZidkfDjAFzJ5Gbxydg+QRxXpDp9WcVQZ@vger.kernel.org, AJvYcCXm65wQyiCXetAVCww35jCLibBTOE2+zjMi1BtLlLg2PAyQvNb+WLndeFc73vIlj/BRZuj4dvN2lDtw0g==@vger.kernel.org
-X-Received: by 2002:a05:6102:32c1:b0:4b2:5c4b:517d with SMTP id
- ada2fe7eead31-4b25d99ee96mr11219600137.10.1734342638986; Mon, 16 Dec 2024
- 01:50:38 -0800 (PST)
+	s=arc-20240116; t=1734343244; c=relaxed/simple;
+	bh=uEhQvMLBzKAI8GTEC+IM+MgvSgeD1HUf1hv0MoPzyB8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=OSKpL5Cas4pBzr6xcFOsnjhUDqc0CNZ0YvWriNLQxuRuFeth16O94gYsgkg7NdF/f/dYorJOBlVsRGNvv0yxMbsbm7cCjjPcuMU0gh+nlK5UZoMpzclmydcjN0VLlEAcBVQvcQ9FmQk/7mr3XTTf5LWBvPvYFzD/we4bYlD57/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k1GSjcUD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEA70C4CED0
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Dec 2024 10:00:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734343243;
+	bh=uEhQvMLBzKAI8GTEC+IM+MgvSgeD1HUf1hv0MoPzyB8=;
+	h=Subject:From:Date:To:From;
+	b=k1GSjcUDaLPC/opxXIf3pmWLLCeAeUco4hF5kAmxUgTajVPUHNHvaAYTg7+YQlH1k
+	 gs1KKV06TSYNAYSFWOYHoZhJh17Oax6rEG34n/S5L1VXLlu/B7wwiPuI0qmNcmqtzV
+	 lAK+MQwMf0wQYLw0yZS72ylgjSVe+kb63KZl47vGail4JQWM/IhRo0/PKAg1wSU0Sx
+	 1neVvGie+6IDbLGTukOdyIrbw0NHvUl1uw6eI9jFQjJbU9TDvum71pgEV3nwpEvpsL
+	 /5EZ7M1C7ctOsdH8az+r/D1UMGOEHdMDOzt7J8LgbDh98uH1yu3DQKKR8m7uzwjpxD
+	 aDsJ5WA/eOdqA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EE9DF3806656
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Dec 2024 10:01:01 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241214085833.8695-1-wsa+renesas@sang-engineering.com> <20241214085833.8695-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20241214085833.8695-3-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 16 Dec 2024 10:50:27 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVg84XWfjXRmt8Hw1Gwh71-QOwo8jRRzWDSt1r2SEgQ9w@mail.gmail.com>
-Message-ID: <CAMuHMdVg84XWfjXRmt8Hw1Gwh71-QOwo8jRRzWDSt1r2SEgQ9w@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/2] hwmon: (spd5118) Use generic parity calculation
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <173434326038.151246.6466297983786765154.git-patchwork-summary@kernel.org>
+Date: Mon, 16 Dec 2024 10:01:00 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-On Sat, Dec 14, 2024 at 9:58=E2=80=AFAM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Make use of the new generic helper for calculating the parity.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hello:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Gr{oetje,eeting}s,
+Patch: [net] net: renesas: rswitch: handle stop vs interrupt race
+  Submitter: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=915906
+  Lore link: https://lore.kernel.org/r/20241209113204.175015-1-nikita.yoush@cogentembedded.com
 
-                        Geert
+Series: net: renesas: rswitch: several fixes
+  Submitter: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=915667
+  Lore link: https://lore.kernel.org/r/20241208095004.69468-1-nikita.yoush@cogentembedded.com
+    Patches: [net,v2,resend,1/4] net: renesas: rswitch: fix possible early skb release
+             [net,v2,resend,2/4] net: renesas: rswitch: fix race window between tx start and complete
+             [net,v2,resend,3/4] net: renesas: rswitch: fix leaked pointer on error path
+             [net,v2,resend,4/4] net: renesas: rswitch: avoid use-after-put for a device tree node
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Series: serial: sh-sci: Fixes for earlycon and keep_bootcon
+  Submitter: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=914624
+  Lore link: https://lore.kernel.org/r/20241204155806.3781200-1-claudiu.beznea.uj@bp.renesas.com
+    Patches: [RFT,1/6] serial: sh-sci: Check if TX data was written to device in .tx_empty()
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Patch: [net,v2] net: renesas: rswitch: fix initial MPIC register setting
+  Submitter: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+  Committer: Paolo Abeni <pabeni@redhat.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=916657
+  Lore link: https://lore.kernel.org/r/20241211053012.368914-1-nikita.yoush@cogentembedded.com
+
+Patch: None
+  Submitter: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=915458
+  Lore link: https://lore.kernel.org/r/20241206191640.1416-1-nikita.yoush@cogentembedded.com
+
+
+Total patches: 8
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
