@@ -1,76 +1,76 @@
-Return-Path: <linux-renesas-soc+bounces-11354-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11355-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19299F2ACF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 08:20:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1861F9F2AD2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 08:21:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78EEB188909D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 07:20:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 46B95162916
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 07:21:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD0A01CF7A1;
-	Mon, 16 Dec 2024 07:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D1FF1487F6;
+	Mon, 16 Dec 2024 07:20:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="YpEKWB77"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="RoRWDaW8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276521B87F6
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Dec 2024 07:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470A21D358B
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Dec 2024 07:20:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734333610; cv=none; b=bvqypPBKZhrpNlVjE1L2xCodFn2h6TFcoqC/BJBzrmNKuk4aVmHR+9V2+LQ3yvArqdjfg0ZW4wA6YB1oTthFuIN44W+K6OxCwH1FLbtkiTQ/DOQPk8HtBZMrUSm18I9VhvjQ32AdMbGEl5zS3Csx7IL0dUthR15mRfs/5Fyrz0U=
+	t=1734333613; cv=none; b=VhmXLQxiHayJ2zJP8YenUn/Xycg/U0tsclOfjDLwo19L0O5PtzIW2PrndGssMU+Zto0AXPKY3lSly+0qlG92pWOERp4JtG41ePm4eK/LF4Mmn9rmTaJ951YFZBh21cBPKYjShk9Gldpk12jgxOnLKZDPtNk4Mv6++p5N5PlYhw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734333610; c=relaxed/simple;
-	bh=7H+b53eqi9DiOlmG0r4AJgg7nxrSVI5qv94MdpvGEik=;
+	s=arc-20240116; t=1734333613; c=relaxed/simple;
+	bh=2tnr8Bwh6X/FYoBAuSdjBG6lvqx9CRulw85LcMBiY9E=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kHAGWVFoeZjTsSvB5vcdA6nEOyguehkuYh8bYNCmWQrYG4eRdNqeiyQsQYem9YhmHxedBL2ERo+ixpPUcTB+uYbD/K0yP2nt/OT5dRJEPFTisujmZvBBr0fVV4qtpQwzWxguHrit3unwoNseQdt2iLOKFdyz5dfLhRngUQpqyFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=YpEKWB77; arc=none smtp.client-ip=209.85.167.48
+	 MIME-Version; b=W9UMJUIwHYnHbi/bXvajX9z0gmF7UQFbd2gtYiC4hrwcUz3ugFNYhyyyT2aGwoVeKWXuz1Rf7PVRhm/eUbMsgmSSgGZYzXXqQuM8oYSapNJMtQTmekC0STUymh+KRUOngjK7RPfLffsPPh6xZOlQHHpAx+J5X2eYiOl0OM1HH44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=RoRWDaW8; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53e3a90336eso4243659e87.3
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 15 Dec 2024 23:20:08 -0800 (PST)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53e3a227b82so3664250e87.0
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 15 Dec 2024 23:20:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1734333607; x=1734938407; darn=vger.kernel.org;
+        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1734333610; x=1734938410; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A37fHc27Oue7tYt3kSCSnf+lK1Jrrg8n8kixoTW3puQ=;
-        b=YpEKWB77gdtab48SF5Al3qjMsTEvgHwzYWUbj9SnB6h1TyqQKIxd+mcUPG6lVc1PIK
-         OSh8ivpuIz3ae9rHDRzGy1Qjg3le4lx3x+fyVmaNZLsdN8GtI0/zcgzBYjAwDuKVebkB
-         y/lu8Zulb/tpSz/+K4lc8oAfMrB6lTD3S0qiFj+68BnAGkgkuXcTeYS33lXGoRJGwm8Z
-         T8rhgIuAYfBhe/F/7iUC4Qur5tFIRIJM49DmEF6goUDX0T2AFXJmWmHHuW4Wlreihqc9
-         xKqq3rWfZqzRGlwFewhMKbfwh3u00urxAXLqnQ4kc19C1EgkI3z5vnrHo3KPmAwdoN8G
-         yK5w==
+        bh=FDorma76GwDfrQOXtmRW3Vi/QHYCkRM+JtP0H9DhWBY=;
+        b=RoRWDaW8BhoHbU7XzolTUw8JLg7TxIbssoSsv0Ren3JnFgVrvuq2OxVCeRgaZGzkq1
+         sTK9b3HdmP6nAP95n+UUOlwip8obpCJYGm7ZhovExFNBhxsxWTXzR+DkF385T8hZimyD
+         H3y1xHEj7N6lLXD8rTgQpcmFruroFny3jb8HsOf0m8rSBhejyFWhdT9zqMEAfHZcst96
+         RYzk2bfGLK1c0s2S8T+CmaCJ7nsfnkPvsTrmcr5cTkCWbmY1ieSuepVbO/ozxEYHu7/q
+         CD1r/4+lISBwQJNAZaVU6zDJOGgL43s0TBSP1zvkkBvCsaqFN3vyqDwjZUIzyl9C3QEv
+         CBCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734333607; x=1734938407;
+        d=1e100.net; s=20230601; t=1734333610; x=1734938410;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A37fHc27Oue7tYt3kSCSnf+lK1Jrrg8n8kixoTW3puQ=;
-        b=j55Y0d8RMZoB/SrrjeJlYvXIlxK3VGqZXhAVaH4Cg2v0N7HQNWExUVh9tKnDQf6Aux
-         +wtOFkTOiXk16/GbJQ/jKGOb+7Amdal6vzFisTQVCgGsTba7pcNhH5m8AF0KcItQ50jW
-         BnIYY8yIHoe6R29jE1me/+Xdd+qXQ/zLKTQoEzCuGlD+WRwcRXA0N2yrcEU3vLNj2IfO
-         ofrqqsEfnBG9QI5C/ZSbGlBN3WGP7U0/R2/1EPs5+r8zBJDDax0yH9y6SeM2wL0jRI0h
-         1rCVlZYH/r4QXvTLHXqP/Q1Yvqo0QCVxh81OvMU3QK6+uvXwImjf29v8DdnwuOW5k/NM
-         SuCw==
-X-Forwarded-Encrypted: i=1; AJvYcCX/ivpg1RVvvbtxl4Nz3lJhhbqBXFfPSDcXUkeDR0NMcky/IcLFsF02GPjmpDUNlswmLRYiwL3VWCfFc0bOgAazBg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzghR7lvq+I59/UCNSVn0hyWkNChjWnKPorRMq6G72ntnVX84NN
-	nDPPGWhrNpltX5uXjx0vrdZbeejbDCeSSvPJJVhrobKJ8f5g2GklY+II1Uv3cZo=
-X-Gm-Gg: ASbGncuIZNvOmQNoDkmf7CUq+UMAOnwTWI5xAi36MM8Wx5hwpWuT+HWJ62gc8+tCBM9
-	T6l/er2rARvZdZU51ubgXbdRZCIh01g2Ppt/nNfcEQwCdgipoqZoB3oEbmdrmovjKl1JA0qkSOK
-	5w68rK+ZMrAV4mC1AQDLDp1zkycwG+bOsi+2+W0HV6NgdatPV6HJGtJDNXh2tcnS0pgCoZnKF+/
-	tF3Nhuk2LrxAVLrbyuAwGjNYUUnuXs76qWJaYET+7+4avCCiomYMxucDXh8cv1ev6mFKIA=
-X-Google-Smtp-Source: AGHT+IFZevgraoAzerxr2hEHYj5Vn6YWN6RGjMC+XJAc2rFLiXryY0wNygBr6mROD0KIKhDpCjOFXA==
-X-Received: by 2002:a05:6512:33d6:b0:540:1c18:4e23 with SMTP id 2adb3069b0e04-54099b6d6f9mr3446396e87.47.1734333607243;
-        Sun, 15 Dec 2024 23:20:07 -0800 (PST)
+        bh=FDorma76GwDfrQOXtmRW3Vi/QHYCkRM+JtP0H9DhWBY=;
+        b=Q0IRno6CZ2G81a29ZIOIoPTJwut0m59urN1L5+m9nE0idQGiEsLat9CgHWn7KMVy3/
+         sGAblszmhPZQk2Y05hR7nrMJTmzLDUQObfgTfi9WAk52HI9IDlJ3zmfhdZsYtUINcmtg
+         a29CvMY/k5z6BtiYl9BmUM86gQ6aMfQqlYVHhW/Bbg5ad3j+zPwzNvJrszJ01HEbHGMo
+         xZyDWN4mZ3986bSyLR0//r7hSOG91mO8gU2mVdoNsJyiy5al2xC/0yj+81fVllPf4tjA
+         gvzBFnLnJhSYw5uNYwNLP1mbNW9HVJn86xVH28jygkQ4tZCWl8Br9opyBNeGjSW16/C2
+         15qA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7UXbZ9XgzHFv6hLyXfcuXOwnjXznhrLTSmCY1kYwiU0GlRuIi9iwIkKPKIuGzkIgSn/SwZlm4JgzKbCLnuKyz4Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxP3wNz+PVANrzsOSKuMZxJiBps0izEIJSSTFssJY3AfUlY+kI6
+	1lo7wiA0ru3bSrGvuAnlF0qQ3xQDrP/giVFlmyEQLSaKuhzFFpzvIeM0Azy/lL0=
+X-Gm-Gg: ASbGnctRuq2pBDqZwX3Ci/pHivINX5wXHhsGSHghccYm9xbQadiLa0OSWI48fdNWvE4
+	KLGCnID1Rj8qjp5xsh6T+LASsTWW7X5ayoQCijfSdTXb4T5lsloc9Zkj54vACoBZNRIA1PsNXmv
+	KErel8/JIUgwHuMktOUwUom6ddQ6ts9QYASebyNlyOhfo0r1tO768IgdF4btI5yK9Ivk+gNJuyE
+	ff1OfChIr3+nuYwBIwjKoip71kPgho8BJ4lc9Xz0LugaOmq73b5QvMU01LWOxlx9TayziA=
+X-Google-Smtp-Source: AGHT+IHopqkpGhBw9gHzXw4RFZJ8eHI7vJAH0G9GOleXtOF0VwnbcXx/A2P2rJLeqHcvXE4tjhMdyA==
+X-Received: by 2002:a05:6512:2813:b0:53e:37df:6637 with SMTP id 2adb3069b0e04-540905618d0mr3129724e87.32.1734333610495;
+        Sun, 15 Dec 2024 23:20:10 -0800 (PST)
 Received: from cobook.home ([91.198.101.25])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54120ba9b2bsm748930e87.94.2024.12.15.23.20.04
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54120ba9b2bsm748930e87.94.2024.12.15.23.20.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Dec 2024 23:20:07 -0800 (PST)
+        Sun, 15 Dec 2024 23:20:10 -0800 (PST)
 From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -86,9 +86,9 @@ Cc: netdev@vger.kernel.org,
 	Christian Mardmoeller <christian.mardmoeller@renesas.com>,
 	Dennis Ostermann <dennis.ostermann@renesas.com>,
 	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH net-next v2 1/5] net: renesas: rswitch: do not write to MPSM register at init time
-Date: Mon, 16 Dec 2024 12:19:53 +0500
-Message-Id: <20241216071957.2587354-2-nikita.yoush@cogentembedded.com>
+Subject: [PATCH net-next v2 2/5] net: renesas: rswitch: use FIELD_PREP for remaining MPIC register fields
+Date: Mon, 16 Dec 2024 12:19:54 +0500
+Message-Id: <20241216071957.2587354-3-nikita.yoush@cogentembedded.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241216071957.2587354-1-nikita.yoush@cogentembedded.com>
 References: <20241216071957.2587354-1-nikita.yoush@cogentembedded.com>
@@ -100,26 +100,62 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-MPSM register is used to execute mdio bus transactions.
-There is no need to initialize it early.
+Commit fb9e6039c325 ("net: renesas: rswitch: fix initial MPIC register
+setting") converted setting some MPIC fields to FIELD_PREP.
+
+To keep common style, do the same with mii bus related fields of the
+same register.
 
 Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 ---
- drivers/net/ethernet/renesas/rswitch.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/net/ethernet/renesas/rswitch.c |  5 +++--
+ drivers/net/ethernet/renesas/rswitch.h | 10 ++--------
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 5fc8c94d1e4b..12efee9f75d8 100644
+index 12efee9f75d8..e1541a206687 100644
 --- a/drivers/net/ethernet/renesas/rswitch.c
 +++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -1166,7 +1166,6 @@ static void rswitch_etha_enable_mii(struct rswitch_etha *etha)
+@@ -1164,8 +1164,9 @@ static void rswitch_rmac_setting(struct rswitch_etha *etha, const u8 *mac)
+ 
+ static void rswitch_etha_enable_mii(struct rswitch_etha *etha)
  {
- 	rswitch_modify(etha->addr, MPIC, MPIC_PSMCS_MASK | MPIC_PSMHT_MASK,
- 		       MPIC_PSMCS(etha->psmcs) | MPIC_PSMHT(0x06));
--	rswitch_modify(etha->addr, MPSM, 0, MPSM_MFF_C45);
+-	rswitch_modify(etha->addr, MPIC, MPIC_PSMCS_MASK | MPIC_PSMHT_MASK,
+-		       MPIC_PSMCS(etha->psmcs) | MPIC_PSMHT(0x06));
++	rswitch_modify(etha->addr, MPIC, MPIC_PSMCS | MPIC_PSMHT,
++		       FIELD_PREP(MPIC_PSMCS, etha->psmcs) |
++		       FIELD_PREP(MPIC_PSMHT, 0x06));
  }
  
  static int rswitch_etha_hw_init(struct rswitch_etha *etha, const u8 *mac)
+diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
+index 4b1489100330..78c0325cdf30 100644
+--- a/drivers/net/ethernet/renesas/rswitch.h
++++ b/drivers/net/ethernet/renesas/rswitch.h
+@@ -732,6 +732,8 @@ enum rswitch_etha_mode {
+ #define MPIC_LSC_100M		1
+ #define MPIC_LSC_1G		2
+ #define MPIC_LSC_2_5G		3
++#define MPIC_PSMCS		GENMASK(22, 16)
++#define MPIC_PSMHT		GENMASK(26, 24)
+ 
+ #define MDIO_READ_C45		0x03
+ #define MDIO_WRITE_C45		0x01
+@@ -747,14 +749,6 @@ enum rswitch_etha_mode {
+ #define MMIS1_PRACS             BIT(0) /* Read */
+ #define MMIS1_CLEAR_FLAGS       0xf
+ 
+-#define MPIC_PSMCS_SHIFT	16
+-#define MPIC_PSMCS_MASK		GENMASK(22, MPIC_PSMCS_SHIFT)
+-#define MPIC_PSMCS(val)		((val) << MPIC_PSMCS_SHIFT)
+-
+-#define MPIC_PSMHT_SHIFT	24
+-#define MPIC_PSMHT_MASK		GENMASK(26, MPIC_PSMHT_SHIFT)
+-#define MPIC_PSMHT(val)		((val) << MPIC_PSMHT_SHIFT)
+-
+ #define MLVC_PLV		BIT(16)
+ 
+ /* GWCA */
 -- 
 2.39.5
 
