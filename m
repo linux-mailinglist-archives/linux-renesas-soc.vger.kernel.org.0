@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-11367-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C049F2E9A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 11:54:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5BE9F2E9F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 11:56:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D023165D47
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 10:54:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD3F3188440C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2024 10:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96075203D6F;
-	Mon, 16 Dec 2024 10:54:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44C22203D75;
+	Mon, 16 Dec 2024 10:56:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Gb8Mw03A"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SnewzdoZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF946203D46;
-	Mon, 16 Dec 2024 10:54:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50AC203D6B;
+	Mon, 16 Dec 2024 10:56:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734346461; cv=none; b=kj3CD1f5ngeXfeIS7Menb6jnp0bKxleRpg5abOKlcvQ9Ta9p20lqmzBaus/6zR+/KI/EDV6LPhJpGBd1O/y4lyZ8Tiu4LMLOAmVPvEcaj/HUNUkyGOPCkk6qoe+9PWheJfYyh4rR2FnUpCTJSHUwbRaoTcYUFLGYkXG7JTMixiY=
+	t=1734346579; cv=none; b=fG2LdYppz6q9pTyi1PSvdXMNfqHxXPVVTdOjNmJQDx2JpHrz78fciDxEc3Mlww43bkVH+AHSiMqtopbkOQn3SLbzlyH2i4QNbLzVMO1WkIsB238uUh033A76vYx7HYShnozIatMxJK5PDrdxYkcVCaSQIj3vP8FPpNcCK60ohG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734346461; c=relaxed/simple;
-	bh=TUDOOkR4ma+j4NaYSDo4kcdcwKgNiIe6BH+k9QZpk80=;
+	s=arc-20240116; t=1734346579; c=relaxed/simple;
+	bh=5YTO7js+e0VW8J1mkr3r4Nbd5+IVAOXfVfPqONIZ11A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QGHsp5QdaDShYdeChnFxFA2DVwSCv7gGHRokktYWze/ugt5N3/41+N0clMNUkd40Eg/P7Bh+NEO/ZCl0C0xQl6/h+50lvECP845y7pbeSFnHbAlJooNAd1A8GOTBV/90YHFxRdp6RnjqpOSgSHvXmvlKd6/7iicKceOD1EJRLF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Gb8Mw03A; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=UG+91hfdLao51lOXDSIyQmo47jLP2hM9gHS1wPrJEcdan9TunsWXn5lF9lcrEHHTcWXWSHgYIdJJyXlQb7K7VYmgDUaAI3m1Sw4IWTqrn+dslYKl6F/cs29SBdQoBfgMYfJg6bk0kQF69GKNT//XawvTOKn6v4BAsI7lvnQm9uM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SnewzdoZ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0A9D22F;
-	Mon, 16 Dec 2024 11:53:37 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB29A22F;
+	Mon, 16 Dec 2024 11:55:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734346419;
-	bh=TUDOOkR4ma+j4NaYSDo4kcdcwKgNiIe6BH+k9QZpk80=;
+	s=mail; t=1734346537;
+	bh=5YTO7js+e0VW8J1mkr3r4Nbd5+IVAOXfVfPqONIZ11A=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Gb8Mw03AtapCk2dw+yfTfR0+DC5SqHVcHP99imfRW06S45s6FJWRV/gXsJvatLNqQ
-	 /0tgTog7nueryp+oenBlorkBhTKQhIU1qe9ZiKUqBpyeOt29H+EshJTuE0AaX8VFap
-	 5PCt8tgvqsWU9kqiGN8DmE4C7Kxcg8+VBQwxXj1M=
-Message-ID: <c64b11a0-1720-418e-bb7a-06c2c0ac191e@ideasonboard.com>
-Date: Mon, 16 Dec 2024 12:54:11 +0200
+	b=SnewzdoZ4Q0esOxcuxA8n6VaJHb8120FdwW2obsqPapLfRYy4nKxDz7CVdzLMlmyd
+	 jlkcTtI/jtaJUDYJZ++4I+oL20W3ROy3ZtdOojj6XzGWQtNMjY96qZyPzbmYGGi60U
+	 UxWc95kE0421otwERebBacy3U0Gv6jOkCRsOh6PM=
+Message-ID: <78de3f8c-2f6c-4996-ba50-05bd956c6305@ideasonboard.com>
+Date: Mon, 16 Dec 2024 12:56:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,11 +50,10 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/7] dt-bindings: display: renesas,du: Add missing
- maxItems
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+Subject: Re: [PATCH v4 4/7] dt-bindings: display: renesas,du: Add r8a779h0
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -70,13 +69,13 @@ Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
  Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
  linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-clk@vger.kernel.org,
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 References: <20241213-rcar-gh-dsi-v4-0-f8e41425207b@ideasonboard.com>
- <20241213-rcar-gh-dsi-v4-3-f8e41425207b@ideasonboard.com>
- <l2r53ipif43k7kkjqc66z2mq6tyw6niiz4t4nnfge23hygx2pw@xrgk4mv5ljzx>
- <20241216083239.GC32204@pendragon.ideasonboard.com>
- <12d157af-e309-4c8d-9c14-bd0e9da8194d@kernel.org>
+ <20241213-rcar-gh-dsi-v4-4-f8e41425207b@ideasonboard.com>
+ <5xualllquamelkxnjqe32lasba5wkgxzy2jnbfyvoot2mz26bg@ns2bdnhpqknv>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -122,42 +121,73 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <12d157af-e309-4c8d-9c14-bd0e9da8194d@kernel.org>
+In-Reply-To: <5xualllquamelkxnjqe32lasba5wkgxzy2jnbfyvoot2mz26bg@ns2bdnhpqknv>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 16/12/2024 12:42, Krzysztof Kozlowski wrote:
-> On 16/12/2024 09:32, Laurent Pinchart wrote:
->> Hi Krzysztof,
->>
->> On Mon, Dec 16, 2024 at 08:58:49AM +0100, Krzysztof Kozlowski wrote:
->>> On Fri, Dec 13, 2024 at 04:02:59PM +0200, Tomi Valkeinen wrote:
->>>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>>>
->>>> The binding is missing maxItems for all renesas,cmms and renesas,vsps
->>>> properties. As the amount of cmms or vsps is always a fixed amount, set
->>>> the maxItems to match the minItems.
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>>> ---
->>>>   Documentation/devicetree/bindings/display/renesas,du.yaml | 10 ++++++++++
->>>>   1 file changed, 10 insertions(+)
->>>
->>> The top level property should define widest constraints as well.
->>
->> I'm curious, why is that ? I understand why a top-level default would
->> make sense when it's optionally overridden by model-specific values, but
->> in this case there's no such default. Every SoC has its own fixed value.
+On 16/12/2024 10:00, Krzysztof Kozlowski wrote:
+> On Fri, Dec 13, 2024 at 04:03:00PM +0200, Tomi Valkeinen wrote:
+>>   
+>> -    required:
+>> -      - port@0
+>> -      - port@1
+>> -
+>>       unevaluatedProperties: false
+>>   
+>>     renesas,cmms:
+>> @@ -817,6 +814,54 @@ allOf:
+>>           - reset-names
+>>           - renesas,vsps
+>>   
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - renesas,du-r8a779h0
+>> +    then:
+>> +      properties:
+>> +        clocks:
+>> +          items:
+>> +            - description: Functional clock
+>> +
+>> +        clock-names:
+>> +          items:
+>> +            - const: du.0
+>> +
+>> +        interrupts:
+>> +          maxItems: 1
+>> +
+>> +        resets:
 > 
-> Because otherwise top level property does not have proper description
-> and we expect properties to be defined at top-level.
+> No minItems here...
+> 
+>> +          maxItems: 1
+>> +
+>> +        reset-names:
+>> +          items:
+>> +            - const: du.0
+>> +
+>> +        ports:
+>> +          properties:
+>> +            port@0:
+>> +              description: DSI 0
+>> +            port@1: false
+>> +            port@2: false
+>> +            port@3: false
+>> +
+>> +          required:
+>> +            - port@0
+>> +
+>> +        renesas,vsps:
+>> +          minItems: 1
+> 
+> so drop minItems here as well.
 
-As we don't know what is the maximum number of items for future SoCs, 
-should we then use a number that'll surely be big enough? At the moment 
-the max cmms seems to be 4, so maybe 16 would be safely big enough. But 
-is it then better to be extra safe, and use, say, maxItems 256?
+Ok. I wanted to be consistent with the other vsps entries in the file, 
+so I added both min and max items. But I can drop it.
 
   Tomi
 
