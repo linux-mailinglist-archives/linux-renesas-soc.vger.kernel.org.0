@@ -1,170 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-11432-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 355F29F42FC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 06:35:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA329F4339
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 06:57:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 22DD6188C96A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 05:34:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B5ECB7A360E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 05:57:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2F9E1D619F;
-	Tue, 17 Dec 2024 05:32:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19C7514F117;
+	Tue, 17 Dec 2024 05:57:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="loklT8Bm"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="M32O1Ls2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4599619F13C;
-	Tue, 17 Dec 2024 05:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0460D83CC7
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Dec 2024 05:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734413558; cv=none; b=IklFM5hDzIx1QvkXUUmNh0hnfFRbTHF/xPf5kQzQlHCKLYNAFnqaGT3hPEtm/Fvx15dT2rJsS463gqHPnQngmnJXzdgLAlLC0iFBXREQ2N2Xf89rwj1hTFh9qTolYEawc2FCKjWkGlQNJuTsCkRyYdJY8c4PHcYX9bmNSOry+Cs=
+	t=1734415045; cv=none; b=GCIpHacdlfcSsLeI081xPrZ+ISwhEv/X4+PpHnnyof90gWglr/H6Fp6YDCvUQQwYrttTm9kpy103Of5093t8wPlj7Jsnb8TexHDEPMRDU9cfa8nvHeYYHBjEGupIHfKq+m/G9DpAkOMcPtTrgDTsVfeyH5+BFl32RO6J7zs653s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734413558; c=relaxed/simple;
-	bh=HJjdaetRXcuLU24F2z7EC0FJKWFygfWcwCkCu8S7T2c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=M62PuvKeT7a8D87fFCK9Ykk/K3n6qt3A2hFD3xGMe4yqokVpA3745eoINLlgYOqzEh31aWuhaF3zp0dRrnVANRmzBFkSaASFm0XpiTeNZ8UkPfahnaoH0nepUQ9AUq7MST7TNblbtWoQ9n06iL0E91/z1Tq5SCUmAz1LFiPo9Nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=loklT8Bm; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1EA943E;
-	Tue, 17 Dec 2024 06:31:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734413518;
-	bh=HJjdaetRXcuLU24F2z7EC0FJKWFygfWcwCkCu8S7T2c=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=loklT8Bmkbr5vrFmSLHgyYvLFPE8ywpFlkizhQwZXE4JoBNegYqonjBVbTy2EgmSa
-	 jpLk5ruI75Y0nwBR+JYi0lThr8U4opamq9HVYmJP/TigrgoVqSRaEiOfQip76S/CMG
-	 Czm8aMxoUd5Dt0PuhhyPGluN2BekuN/XsBktAIHI=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 17 Dec 2024 07:31:41 +0200
-Subject: [PATCH v5 7/7] drm/rcar-du: Add support for r8a779h0
+	s=arc-20240116; t=1734415045; c=relaxed/simple;
+	bh=yWkvKPPV/ze/7mn7+IE+lAOxYJSRUtwgKXwbbYbg4Gc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NJbtn3MekXsYOtD1EWK4MHGfjVJH1LMtOpsA22g00HW9rN3kGx+cYJ5k5mVFleUEe1gjHetlyFhWpqd12PniKyG/r7rAOwg1IV0rTeVkVjYMePGtUO59p4RDvioiptyI1mc8V1JpvKAHZSZ0q8hPmA7Zz9fLDFPh6B44XR+3xnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=M32O1Ls2; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=yWkv
+	KPPV/ze/7mn7+IE+lAOxYJSRUtwgKXwbbYbg4Gc=; b=M32O1Ls2cyomHp77l8EL
+	WDo8FG0UrBV6rkt4NPe+jj6HkSylkymnrB25HPA4gFMTVs9BVCknchpKUt2M/tNn
+	za85bkT6vjznTrttD/i82BTP690F/uu00p6GXetVOjRYsbuXg2PmdpvpNTK7VYLH
+	rPly4v1jCI1c9BMDkI/nmB/G8MXu2qh+Gzqy+JvWGxLLgg6cEW2HsCLGamWKgQ1o
+	kXE+r70odc3lRGYqL8SStUjR45ctFb+pCRsWW4ey/Gg+6ClP/DQr/VYIbJiXt20P
+	H816hdSBHVuNPjonsiNIIpBQTP02M80FXOynnb0X31D40BOtTnJPWXiC1LiHQNqM
+	Kw==
+Received: (qmail 3963030 invoked from network); 17 Dec 2024 06:57:11 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Dec 2024 06:57:11 +0100
+X-UD-Smtp-Session: l3s3148p1@/3LP93ApoqIgAQnoAGvhANJNcnpwwj5L
+Date: Tue, 17 Dec 2024 06:57:10 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [RFC PATCH 1/2] bitops: add generic parity calculation for u8
+Message-ID: <Z2ESttIzF4kX7JA-@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+References: <20241214085833.8695-1-wsa+renesas@sang-engineering.com>
+ <20241214085833.8695-2-wsa+renesas@sang-engineering.com>
+ <Z2Dg6ydwN6CfxgTe@yury-ThinkPad>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241217-rcar-gh-dsi-v5-7-e77421093c05@ideasonboard.com>
-References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
-In-Reply-To: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- linux-clk@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2759;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=Bg7AGqZhWjHR0bYNz/CL0hPBvLMMsgBEIiurfa4R0Mk=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnYQzl8eoRGto9JL+AVYCC5zFu3CUGD91dD+Cgu
- iGgLlgN4JOJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ2EM5QAKCRD6PaqMvJYe
- 9RvGEACcvcYQKfAunbRdVJPmJasDbiOEbOMrAxRytlDykNySOg8/PO2wTV3D27aaePAKk8nUHoC
- DX6xJf40+nfoW0rIXTscLWnCsDqia5fIWb01FdtHG18owtwJf2RAazWnKZzhD6CfmXl9mtaV4QR
- 9v0xVu5acaUEEJq1glIG1ZxCyi2MaKRuvzhwKU2AGaLfLWRBfcJnqBDwWAuzNRMxpzPVBUw6twz
- 1G7b7Z8Kj2pCBc5u7vt7cCC1oNDO94P9z3L8MC2F9n22jdlQmUGJ1tRyLTqK0XlriskF2kWHa8R
- 99/aXOrhCMFuWSNU2tsYgM4DXYtHk+d74PztBuyMI6lFAUUItoCEt8zGwG+e9/dqWfMiiedV7Va
- eFLMJyrc5QqWIzZHt0Dj5IFaWLWXG7cl1LAWe5mhEbyfEE1HJ43K3ZjmEymW5ZnV+a7IAmddvd3
- SZpXVLRGJQW/08SOMRiXEveqAKT9rABMiv6CVDHFn+D1luox8PENHMa6cfUideIHGBWlzCqdT0k
- v/8PYd5wZ2rSPKqQBTifnVSB/M1suOyQ2bO4at/0ToCMMeBjoVvYh7QbVyBjF67wegZ4q2Ti24x
- WhcVCtToVLG6drF846sBWjy+lVlmYuOI1XFb59D9lCTzqJoSuLh3Pr2uQGdmyLEcR7T/kP4oPPA
- xvzvaIuEC1WIWHw==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yZvFp6W1xzXD/xL8"
+Content-Disposition: inline
+In-Reply-To: <Z2Dg6ydwN6CfxgTe@yury-ThinkPad>
 
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Add support for r8a779h0. It is very similar to r8a779g0, but has only
-one output.
+--yZvFp6W1xzXD/xL8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c   | 18 ++++++++++++++++++
- drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c |  4 +++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
+On Mon, Dec 16, 2024 at 06:24:43PM -0800, Yury Norov wrote:
+> On Sat, Dec 14, 2024 at 09:58:31AM +0100, Wolfram Sang wrote:
+> > There are multiple open coded implementations for getting the parity of
+> > a byte in the kernel, even using different approaches. Take the pretty
+> > efficient version from SPD5118 driver and make it generally available by
+> > putting it into the bitops header. As long as there is just one parity
+> > calculation helper, the creation of a distinct 'parity.h' header was
+> > discarded. Also, the usage of hweight8() for architectures having a
+> > popcnt instruction is postponed until a use case within hot paths is
+> > desired. The motivation for this patch is the frequent use of odd parity
+> > in the I3C specification and to simplify drivers there.
+> >=20
+> > Changes compared to the original SPD5118 version are the addition of
+> > kernel documentation, switching the return type from bool to int, and
+> > renaming the argument of the function.
+> >=20
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>=20
+> Acked-by: Yury Norov <yury.norov@gmail.com>
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-index fb719d9aff10..7858e10839f2 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-@@ -545,6 +545,23 @@ static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
- 	.dsi_clk_mask =  BIT(1) | BIT(0),
- };
- 
-+static const struct rcar_du_device_info rcar_du_r8a779h0_info = {
-+	.gen = 4,
-+	.features = RCAR_DU_FEATURE_CRTC_IRQ
-+		  | RCAR_DU_FEATURE_VSP1_SOURCE
-+		  | RCAR_DU_FEATURE_NO_BLENDING,
-+	.channels_mask = BIT(0),
-+	.routes = {
-+		/* R8A779H0 has one MIPI DSI output. */
-+		[RCAR_DU_OUTPUT_DSI0] = {
-+			.possible_crtcs = BIT(0),
-+			.port = 0,
-+		},
-+	},
-+	.num_rpf = 5,
-+	.dsi_clk_mask = BIT(0),
-+};
-+
- static const struct of_device_id rcar_du_of_table[] = {
- 	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
- 	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-@@ -571,6 +588,7 @@ static const struct of_device_id rcar_du_of_table[] = {
- 	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
- 	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
- 	{ .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
-+	{ .compatible = "renesas,du-r8a779h0", .data = &rcar_du_r8a779h0_info },
- 	{ }
- };
- 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-index 1ec806c8e013..068c106e586c 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-@@ -107,10 +107,12 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
- 		 */
- 		rcrtc = rcdu->crtcs;
- 		num_crtcs = rcdu->num_crtcs;
--	} else if (rcdu->info->gen >= 3 && rgrp->num_crtcs > 1) {
-+	} else if ((rcdu->info->gen == 3 && rgrp->num_crtcs > 1) ||
-+		   rcdu->info->gen == 4) {
- 		/*
- 		 * On Gen3 dot clocks are setup through per-group registers,
- 		 * only available when the group has two channels.
-+		 * On Gen4 the registers are there for single channel too.
- 		 */
- 		rcrtc = &rcdu->crtcs[rgrp->index * 2];
- 		num_crtcs = rgrp->num_crtcs;
+Cool, thank you!
 
--- 
-2.43.0
+> Would you like me to move this patch in bitmap-for-next?
 
+I hope that both patches can be applied in one go to avoid a dependency.
+I'd think the hwmon-tree is a tad more suitable, but I am also fine with
+bitmap as long as both patches go in. What do you maintainers thing?
+
+
+--yZvFp6W1xzXD/xL8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmdhErIACgkQFA3kzBSg
+KbYj9xAAkJ1bWQzXu33Jsvjilcx+g2gaXpmFCYiBw6wGM9uuEKeMgV6fW6WOdylA
++N7nrxUf6iYieXakIgn/yzhQTS4CmwWd+XsTuPDLRPWRtC8CXGL6tj+ezp70Fthb
+aNM9yt3SzWuTVMoUxloAKDzRUTsuIOVmcx5offoXrWMdaN7XhfcEGPx1M8Q1G7Go
+k3NVT6rJfeEP/r7TpOxLtIXbkrfEWKVRsOcuUSG0KZI0n1u46qI/auSCfYTh7scZ
+2+u+82AiFArDZIpQiVzjAqF8UZ1mNNBQf7qJmSdz22XP/4jSn6MdJKPn+/aUQSHB
+OdsQ92qwFa33yFuoIXMtSH8p66CYt+PoNzmcmGMM0B9/q6j2kOn0FC/sJzNAZZ3b
+WsmDh9u2Z9/Wh3QQ/MuDhkKjHqiaK2i0a0joAU75/HR8Tg6FU6INSHjn9NUYudc/
+57HPHJ1vYf5XDxPMsBnSO6vXDv3xFHY32ZtI7+xXF3CjBd+l+2ftVu5bJBTlPvx1
+3WqRcvCxzWUpBl/511CYxY9RfbWcSg/heH0fJdPyO95xs1U0cwwFqY3NZZlQsN+X
+Dljnvxg2fptjH8fFHu27k4rnB9/Gnex1yHNknGdRIs7dSUepxlqorXifJBtvSsUu
+o3ZjvrpBbG6radSHEAic3FpkiafarN4o2U3HXh2fWH0TDtkLAz4=
+=3RK6
+-----END PGP SIGNATURE-----
+
+--yZvFp6W1xzXD/xL8--
 
