@@ -1,194 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-11460-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11461-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2F99F4A2E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 12:44:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C22F99F4A7A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 13:00:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5DA3169433
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 11:44:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5659516FE05
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 11:59:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65E811EF0A3;
-	Tue, 17 Dec 2024 11:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EE9A1F37D6;
+	Tue, 17 Dec 2024 11:58:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D7tOTCAe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uSMnlegB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B676B442F;
-	Tue, 17 Dec 2024 11:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AF31F03D5;
+	Tue, 17 Dec 2024 11:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734435888; cv=none; b=XwOEMu0afsPFqDWcdCeZqjIZaotF/Vob98iHfHEwndrzoBL0unu1smMrzdNX8ZEc1153JF3M5HL7NIWcHOIexUw0hdHZEtfLgjmJTht0vvFgHa/pKQs/eA4suqIkec3Caf4i5p5Mn6va86XcAyJOB8U4Ap2XgQ4IVETiLe6egHM=
+	t=1734436710; cv=none; b=FamM4+GUEkX6xblw+9rK5LslyBb27OzH1zqsyigoCpeE3bkxzF+Ojfoa24wdm6305Kvw3MTLObs/JU1fKSpCUTfp+HQ2K37RvOejLTGHw7Y0BxUjDqGh7zFL8ynYarEMO4TXzcuTuz674UTx+NOfZLAXSw4Gua2iBKGogzSvQIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734435888; c=relaxed/simple;
-	bh=frszXIwNC27Drg/aFfoE6hHQ9Kenq+Ofhsp9YXnj7LI=;
+	s=arc-20240116; t=1734436710; c=relaxed/simple;
+	bh=bZGnTtL8I4wF27grhHMD5fheet6iy1hz0D6X5C4mhrQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rg5Io2LHGgW3kF7BsdDP0GTlzc4umDjm+ekjeKFwat3NoiPU0biGARpq13iMNtqz712qNib1NrSIJ6qI2NpUgJYe2L2e2xSGWBbBbfAeSU4KC4o992R3+Dk5+IJeEz2BXdhVGwjXSJjTr7YvnMVaahSVyYBL6Bua1u4TbcboSX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=D7tOTCAe; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E1674C7;
-	Tue, 17 Dec 2024 12:44:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734435846;
-	bh=frszXIwNC27Drg/aFfoE6hHQ9Kenq+Ofhsp9YXnj7LI=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=HCJ8SN8wXcFnDJ174//SZZEH0nDJLBZvnHNPzKL/yhtGRppDVBZHbIjgrkBATLxmpqypYCzpO/DkC8cn3b3n1mn4hUmWPfmFWHJavTUoIEYKXu3ESxXl75RNB7iuC0W0xT8bMYEJBCOda7hoVOIlqrn3dOYv129UdDO91wxPu0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uSMnlegB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0723C4CED3;
+	Tue, 17 Dec 2024 11:58:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734436710;
+	bh=bZGnTtL8I4wF27grhHMD5fheet6iy1hz0D6X5C4mhrQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D7tOTCAejLMebYWePjmpXLJZDVazu6g0wLrEuDl7Clqz58qugAlnKy0tGLDcLZWct
-	 rm36700r4ETAKgDSYIA22caeSA7OFc3yPnh+xU2/+dCHpLQFaT+YxKHYaYsdgYCZXk
-	 t6LZ2BSGA5gmmT/bXDiMKIUWTLBMgbIzr2N7NnXg=
-Date: Tue, 17 Dec 2024 13:44:41 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
+	b=uSMnlegBConI/ucMw6xiatXEGdK9EsEshB9wxpAJ6VX9RjiH7M/hVAg67Efu17HUR
+	 lEDBwTGh4KytiMzaP5sBcbZEe0AXqWqqWEXs9SAEnFY3teTnbMLqE+Re75QxxxD3uP
+	 PL1x3hvM2Pk1hsZGWd9TbkEP+kiLtvBxUOVAYAmiLJomiIMTYtdPtqQw44yQX3q3BO
+	 H/M5hfLcLKHbgR4iaC84jvQY+mGqYd5H+DUrsF+F96/T9HY8m5XJ/LWc/fIZxSpaVV
+	 lHBjNGLW4b/aOc4F6dDm7sE9ASo/r6i77e0+kjw5xuQ/QiSJcOrs5Rocq5MgryirT6
+	 IdHwQyDnaFR/w==
+Date: Tue, 17 Dec 2024 05:58:28 -0600
+From: Rob Herring <robh@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v5 3/7] dt-bindings: display: renesas,du: Add missing
- constraints
-Message-ID: <20241217114441.GC32392@pendragon.ideasonboard.com>
-References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
- <20241217-rcar-gh-dsi-v5-3-e77421093c05@ideasonboard.com>
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 1/7] dt-bindings: pinctrl: renesas: Add
+ alpha-numerical port support for RZ/V2H
+Message-ID: <20241217115828.GA859895-robh@kernel.org>
+References: <20241216195325.164212-1-biju.das.jz@bp.renesas.com>
+ <20241216195325.164212-2-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241217-rcar-gh-dsi-v5-3-e77421093c05@ideasonboard.com>
+In-Reply-To: <20241216195325.164212-2-biju.das.jz@bp.renesas.com>
 
-On Tue, Dec 17, 2024 at 07:31:37AM +0200, Tomi Valkeinen wrote:
-> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On Mon, Dec 16, 2024 at 07:53:11PM +0000, Biju Das wrote:
+> RZ/V2H has ports P0-P9 and PA-PB. Add support for defining alpha-numerical
+> ports in DT using RZV2H_* macros.
 > 
-> The binding is missing maxItems for all renesas,cmms and renesas,vsps
-> properties. As the amount of cmms or vsps is always a fixed amount, set
-> the maxItems to match the minItems.
-> 
-> Also add the minItems and maxItems to the top level properties.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  Documentation/devicetree/bindings/display/renesas,du.yaml | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
+> v3->v4:
+>  * Added new header file with separate RZV2H_P* definitions.
+> v3:
+>  * New patch.
+> ---
+>  .../pinctrl/renesas,r9a09g057-pinctrl.h       | 31 +++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+>  create mode 100644 include/dt-bindings/pinctrl/renesas,r9a09g057-pinctrl.h
 > 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> index c5b9e6812bce..ef4568118e94 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> @@ -77,6 +77,8 @@ properties:
->  
->    renesas,cmms:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 1
-> +    maxItems: 4
->      items:
->        maxItems: 1
->      description:
-> @@ -85,6 +87,8 @@ properties:
->  
->    renesas,vsps:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 1
-> +    maxItems: 4
->      items:
->        items:
->          - description: phandle to VSP instance that serves the DU channel
-> @@ -489,9 +493,11 @@ allOf:
->  
->          renesas,cmms:
->            minItems: 4
-> +          maxItems: 4
->  
->          renesas,vsps:
->            minItems: 4
-> +          maxItems: 4
->  
->        required:
->          - clock-names
-> @@ -558,9 +564,11 @@ allOf:
->  
->          renesas,cmms:
->            minItems: 3
-> +          maxItems: 3
->  
->          renesas,vsps:
->            minItems: 3
-> +          maxItems: 3
->  
->        required:
->          - clock-names
-> @@ -627,9 +635,11 @@ allOf:
->  
->          renesas,cmms:
->            minItems: 3
-> +          maxItems: 3
->  
->          renesas,vsps:
->            minItems: 3
-> +          maxItems: 3
->  
->        required:
->          - clock-names
-> @@ -683,7 +693,7 @@ allOf:
->              - port@1
->  
->          renesas,vsps:
-> -          minItems: 1
-> +          maxItems: 1
->  
->        required:
->          - clock-names
-> @@ -746,9 +756,11 @@ allOf:
->  
->          renesas,cmms:
->            minItems: 2
-> +          maxItems: 2
->  
->          renesas,vsps:
->            minItems: 2
-> +          maxItems: 2
->  
->        required:
->          - clock-names
-> @@ -799,6 +811,7 @@ allOf:
->  
->          renesas,vsps:
->            minItems: 2
-> +          maxItems: 2
->  
->        required:
->          - clock-names
+> diff --git a/include/dt-bindings/pinctrl/renesas,r9a09g057-pinctrl.h b/include/dt-bindings/pinctrl/renesas,r9a09g057-pinctrl.h
+> new file mode 100644
+> index 000000000000..9008a7e71609
+> --- /dev/null
+> +++ b/include/dt-bindings/pinctrl/renesas,r9a09g057-pinctrl.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +/*
+> + * This header provides constants for Renesas RZ/V2H family pinctrl bindings.
+> + *
+> + * Copyright (C) 2024 Renesas Electronics Corp.
+> + *
+> + */
+> +
+> +#ifndef __DT_BINDINGS_RZV2H_PINCTRL_H
+> +#define __DT_BINDINGS_RZV2H_PINCTRL_H
+> +
+> +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
+> +
+> +/* RZV2H_Px = Offset address of PFC_P_mn  - 0x20 */
+> +#define RZV2H_P0	0
+> +#define RZV2H_P1	1
+> +#define RZV2H_P2	2
+> +#define RZV2H_P3	3
+> +#define RZV2H_P4	4
+> +#define RZV2H_P5	5
+> +#define RZV2H_P6	6
+> +#define RZV2H_P7	7
+> +#define RZV2H_P8	8
+> +#define RZV2H_P9	9
+> +#define RZV2H_PA	10
+> +#define RZV2H_PB	11
 
--- 
-Regards,
+I'm not a fan of defines which are just 'FOO_n n'. And these are if you 
+speak hex.
 
-Laurent Pinchart
+> +
+> +#define RZV2H_PORT_PINMUX(b, p, f)	RZG2L_PORT_PINMUX(RZV2H_P##b, p, f)
+> +#define RZV2H_GPIO(port, pin)		RZG2L_GPIO(RZV2H_P##port, pin)
+
+So the user does RZV2H_GPIO(A, 123) instead of RZV2H_GPIO(0xA, 123)? Not 
+sure the bounds checking the port is worth it. pin or function can still 
+be crap.
+
+Rob
 
