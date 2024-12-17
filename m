@@ -1,65 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-11447-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11448-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FFF9F4629
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 09:37:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3D89F4634
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 09:41:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6B1457A3D6F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 08:37:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EA19D7A4037
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 08:41:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86F661DB52D;
-	Tue, 17 Dec 2024 08:37:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A42B61DD520;
+	Tue, 17 Dec 2024 08:41:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hT7LgFa0"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="KHgViOQJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576401CDFDE
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Dec 2024 08:37:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D235F1DB52D
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Dec 2024 08:41:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734424641; cv=none; b=i9oVnmxmsEetiWKd5WDtjVph7yvrLUNQb5o5rsUDNpZ8t/Xkgmm+4uMSmsmMLJtplLZ6vDoWZ00sFfCw4vqdb/thXw9RoG/3GwDu0h3wkQZC0yFLCsnETgALljwuVuitRveDQ0zDzkRtLapx9r9V5Mdf2nOIB5mgWHyA88/z5nE=
+	t=1734424868; cv=none; b=afi31cGoCIg7UFkcuv9o851qX9x8rIlX1OvoXVoiHxpUyS9jkSIqLiAoV379JnCurILWzJnFxZx8EVZV7NEokBuUCNsWJKwQ6VyqWFCfuDcdATC2/h6ElTCSdYtEilH6UH0h9Sc3ZnSSv3W+w5bxnhyQkHcRw3pZjFl5KUYRLTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734424641; c=relaxed/simple;
-	bh=ESTrrh5kzt20pKZzHdS7o//3jddwFObxCrUCgu0xi0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f4Lh56NtgpmFqkE2+42YWNapO2oZf+UbOlD1H3eCCP2WfbEAeoYnp2fYpUx9Kxb2mBdBkkv91ZH799R3ucWSVMh+ke+dT+/lZfnXZ4jN3wzcgWvgosFvJpjl4eIFJEaurwnwcJyL6+UmK98H0bb7Qc/HpXVQy1ULjDXPMmyP/lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hT7LgFa0; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1734424868; c=relaxed/simple;
+	bh=UrR/l/IxrSGWrivOqJJaqgB0lQOL9KBgnigWIF5L9DY=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rD/oZxIkQrZgugVz1YK1/yMc3rkqGsRgC4UOyKPeremdLxayBO0h2zKq9XbZDog49HZ2i/9Q3lCp3nndncqktz5Cm3BHizUR/oJ73gmxvoZvR5NGUDXbs2NlmphMucy8fHZA336Eg7MtdBud1qbl3GT8Yo4KtRh8jDY39Oydebg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=KHgViOQJ; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=ESTr
-	rh5kzt20pKZzHdS7o//3jddwFObxCrUCgu0xi0M=; b=hT7LgFa0MT41ymp9iiH1
-	YDM6J+guaFB85z27R3ybw0GkbtYaG+UYEIdPMW4o1YfF++I+Ov1ymvRtbyVapeYy
-	P1vrje7s2Bl1EuWrtZodKkKRNqdbH3js2xNG/4so8GmVu5Jh3x/+fHlniSVb+/XT
-	GL9+fpk9xMFw+hc9JD/Y0Og9nVHYwIV9dQzcGYvo/H60JW16FeoLqyXe9rSFFgmw
-	AnRt/FvGx9szbb2iab5Ohu5TrqUgki2TZQXwskp59sa+V5D1R1XozT5LxB33EeGY
-	PTXUqy6EC4L8/5QrX9vc9sXdFCWUycye/kmNhxV6ZwT9Lw/yGjgUOjGwLsjUo1x0
-	0w==
-Received: (qmail 4001394 invoked from network); 17 Dec 2024 09:37:14 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Dec 2024 09:37:14 +0100
-X-UD-Smtp-Session: l3s3148p1@ZUw6NHMpvL4gAwDPXwAQAA/MfjDm1Sk8
-Date: Tue, 17 Dec 2024 09:37:14 +0100
+	sang-engineering.com; h=date:from:to:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=UrR/
+	l/IxrSGWrivOqJJaqgB0lQOL9KBgnigWIF5L9DY=; b=KHgViOQJQWi6jFplALXj
+	o4JjbChY0vYzO5430yYjcgOx9AG4TpjExoATSYlgZy8+IA8w5Vz3f7QlFyl1v/xt
+	koi+RWbGXbGHF9CJ39d9xSk6zRAWnLXL/ZU9joHzlTDNZHuY7i4OpCcVR5YcqRAk
+	Xf3sMqr0AQAeWRdAwC3iNN6GU5H7zhxCqTeX5DcMXoPtbetLmnnjNh54Fo2Bcmw7
+	K5RAAojkmnhxFTjDufQP/iXzoJrINd9kk0IzE/VTPwLAQQ+rWm9KIHrlskM9B3+w
+	mfpx7lbZhPJb8zRbGHI02iHb8l+FWs9CHzfElJfM5LrgqZsG8qANkrOHu4YRzBbo
+	zw==
+Received: (qmail 4002372 invoked from network); 17 Dec 2024 09:41:04 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Dec 2024 09:41:04 +0100
+X-UD-Smtp-Session: l3s3148p1@1HTkQXMppOkgAwDPXwAQAA/MfjDm1Sk8
+Date: Tue, 17 Dec 2024 09:41:03 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
+To: Yury Norov <yury.norov@gmail.com>, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>
 Subject: Re: [RFC PATCH 1/2] bitops: add generic parity calculation for u8
-Message-ID: <Z2E4OuPA7m6yyXxt@shikoro>
+Message-ID: <Z2E5H3-vNIi2_6oT@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Kuan-Wei Chiu <visitorckw@gmail.com>,
+	Yury Norov <yury.norov@gmail.com>,
 	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
+	linux-hwmon@vger.kernel.org,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>
 References: <20241214085833.8695-1-wsa+renesas@sang-engineering.com>
  <20241214085833.8695-2-wsa+renesas@sang-engineering.com>
- <Z2EzKErhR2MomNz+@visitorckw-System-Product-Name>
+ <Z2Dg6ydwN6CfxgTe@yury-ThinkPad>
+ <Z2ESttIzF4kX7JA-@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,41 +67,46 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3KMw3RMYawymMT9d"
+	protocol="application/pgp-signature"; boundary="0kKQvGYxLpX4xztM"
 Content-Disposition: inline
-In-Reply-To: <Z2EzKErhR2MomNz+@visitorckw-System-Product-Name>
+In-Reply-To: <Z2ESttIzF4kX7JA-@shikoro>
 
 
---3KMw3RMYawymMT9d
+--0kKQvGYxLpX4xztM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 
-> Compare the results with hweight8(x) & 1 for correctness when x is in
-> the range [0, 255].
+> I hope that both patches can be applied in one go to avoid a dependency.
+> I'd think the hwmon-tree is a tad more suitable, but I am also fine with
+> bitmap as long as both patches go in. What do you maintainers thing?
 
-Thank you!
+Second thought, we can ask I3C to take it. Together with the cleanups
+for the I3C drivers I would add then.
+
+If this is not to your likings, then an immutable branch for I3C to pull
+in would be helpful, though.
 
 
---3KMw3RMYawymMT9d
+--0kKQvGYxLpX4xztM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmdhODYACgkQFA3kzBSg
-KbZ4tA/+N7R9phnBnR6QsFmN0MtUJSJEuv06hEdecSBh+6cFEtl4YAp4h4Qxd2Yv
-ZW5CQvE2UecSONsWYsne9YOaeThGBHq9bZbNhKzhJTQHVAwLqJO1WZGoUta7hEWA
-cIuliLpQQR+O3Nupf9OhTkXz4RT8ieusZLlIofXEr7k21awnmoaJFCMaffkFwBe3
-4piOQC6Ec5blWbbb/BQa3sBkpEuCnJQgbfRbMTO9N3Mo3LG+xi/Oo+BJoZvRdZqH
-aKdk8fJzULVpCPOFup4O82xwNBesAAWDBaLZ4ZM0QLtna1FBUlSBA9eZURs5+cZu
-39wcO53pgFcrvBsCnIbijIty1xbWK9Fu8xqBQ2Tz5rNjuKxtYl74jyoQIMlckIyN
-smuCkhPZbfI2QQak8NySB8rNjSYTp29mVB2UrEMSHSajCKFXgZX8AyCoqXk/783w
-Abf8Rg3bG983lKXHrXDiPxqCoWdKnW5MLUdJ+ZSv4BrFkspc0PCFb4BQyuh1rMNZ
-0c4LSbTBsUiBz299RI1hB9gBl6ZminybZpESiGw7vrAc9ST4uEzrCPryKzXRV2bS
-nLCaTceflhondB4IpmLQpp0YxPOO0Kudt2uV0NadVLMsMesR1DQOrrO8zIsLuqGn
-egz8ZKXjgHV5YIdrTnOoF0tcDSJxuuInQQXsx3o+LxNOyEGyO+k=
-=Phrr
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmdhOR8ACgkQFA3kzBSg
+KbaEVg/+NcuHBoZdEsMUjVPjfUFpcSdDlT89Ucwt6kpb3ZWnHz4pBVWEoJE08VML
+yPWZKTXIbLf6Snx3OYjgSDHVYBtEjJDEcD3iAzXgvJgxZQ3YMjc8cjFRkRfYQokr
+F2Ep3T7Rdx0KZOlLJ/QitI/QHIYekLizCnEJHDddkYxt7BDQDXzUSBmbbdCvedb7
+1b/HwUrltxrN0e6L2CyacDig7KahUDjYTzgE2Img9ukZi8RoNXxLZb2f+FAg1fow
+jPkf8onH/6peC9hfuFlOV4CoSMy0le04Vsnpam1G/BpY0zWWGQpQ9QV7xnjl4XaU
+ua4M/tqYQBAEAr7fwFNX1YfqLFDg58XLD/ZIL6ZYu+gcw4r7TsHE4D1QZxaQIZah
+hM7mL4N1jDu8C8jXDnBBSJETZ+tbpV3Iecr2qa8jfOj3Lr2ktz/D3najpoZSrOYd
+hBiwLxQ3pLktPzV6kSs+Iz7q3uhLk49Ym1HziY0gtkTdeqbGXM7UZbzMgMK5Isqn
+4ISJHc9dPO2XJdCfXw5zPaauEyQenXZ6CkHfwSr3PASD2oftzyrOXrCEGr1AlCnh
+mq/Ex6iF8EGPDqIxDGNBSHewcFb9eMm69zPC2MgK36uqreGIOKhhnoeFdAA/vfZT
+TldDK2iejR+7F8DK/RdwBErxhqZlmQTdNeZyhUhJJULJEyKmaN8=
+=X4Fk
 -----END PGP SIGNATURE-----
 
---3KMw3RMYawymMT9d--
+--0kKQvGYxLpX4xztM--
 
