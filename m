@@ -1,68 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-11436-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11437-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074CF9F43B5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 07:29:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7FC9F43BB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 07:32:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8F73188DB74
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 06:29:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 060AD1695D0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 06:31:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAF2A1607AC;
-	Tue, 17 Dec 2024 06:29:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A17E4158DAC;
+	Tue, 17 Dec 2024 06:31:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RND4xKEW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OUMxiIZG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7616615CD41;
-	Tue, 17 Dec 2024 06:29:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6299F12C7FD;
+	Tue, 17 Dec 2024 06:31:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734416941; cv=none; b=NWjmz2whcXp0O4iFWkPRD3HvUKm5UuJYcTyV82LC1Nfes0cO/JA1agTOIui+5WslNQrki9xKpsUpm9KQJVE2qdhyz8dWsPqFej0Y9hDGBGmR+3MUboKdMuqQ/iFFis2Gl+gSipHt7qYXZ+HrcfDoyTZOMVwIRGr0lCwzyWiBTd8=
+	t=1734417109; cv=none; b=MjtxvB9USN3n4pi0xSbHL8KF6mwRatTv655+83UoCkOl/6FymD87KIRNO7iRIvpT5vqRllIFNF5JDHInbGPEK9HX2j8ccrNnBw6b8z0sSI/c9J8oIX7k5y6QPZtZsUhEWhq1PSaOKFkkm3CYiI1f4HdUO/cXosjD5ITJiNYBxKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734416941; c=relaxed/simple;
-	bh=WkBNe+eP+F4BK6723AWaUuVIWNcGrL/HjaD/Ci8rAP8=;
+	s=arc-20240116; t=1734417109; c=relaxed/simple;
+	bh=NYrIXrnNTS8K3Y788wp3cL/GpZfjjem17AfwHbJKXMI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d93l1HeGsvF4Qg8Y53fEtmiESHwcB+ZKMcqdqeH0wj8WdI9+Ubmb1WxjzGLn+fBnNjYtQ32yzrAEZRWiLmvfpC28FTLKNRlqeQKxLQuwC0fsa/60nzBduM387sJh56GC/EVI6NWZ3UqzDsWXtzxEyz7KR28q5MST+us1HqdbP20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RND4xKEW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14ED1C4CED3;
-	Tue, 17 Dec 2024 06:29:00 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=SeGtMEXY1eSCCa5Gb6pu7IVMqKSDRpeSoS3rN6KDDnjtQastje8gLGiqU2HvFsW/Srj/SzqmftG3IkMW0obfIPjDOXSqCG717a73X22kyfPEPVVuUZ1dK5dXb1uBgyDpVbDnD4hzEHYP5LT2WYnXBqXYub5kiP4N5Hd4Lc6RZmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OUMxiIZG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44F36C4CED3;
+	Tue, 17 Dec 2024 06:31:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734416940;
-	bh=WkBNe+eP+F4BK6723AWaUuVIWNcGrL/HjaD/Ci8rAP8=;
+	s=k20201202; t=1734417108;
+	bh=NYrIXrnNTS8K3Y788wp3cL/GpZfjjem17AfwHbJKXMI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RND4xKEWxt7vdTWdkIU7it5yUpAtBOCNw97V/HIFGjfjMVVQLolzfEzVgmAOwAgWl
-	 +LJAi0F+aZ2tDy1eTyhD9U3QbntECczz3SGfdDJJiz/etAM9T78XubhhodBqawVNo5
-	 Jv+0+2kmYyNrQLKtujN09btdg+9JTzXF1OR/IkD/slvzw8jc+SIa1BrlZ3lqp09P6I
-	 pBqfkmygfzfc3BOVJMcvUF9Peh56u8Ob2fEhjeSZ7kFboSL2dNltIqEFAEPIfIbb37
-	 DfN0e8i1z4q0u5S5Z1xgOfRDuYrtOd5Hk6dMlgRJL21BXR1wKp0nOXOz4z9UdOjEfp
-	 pY/IE3iGZVjMw==
-Date: Tue, 17 Dec 2024 07:28:57 +0100
+	b=OUMxiIZGiphf5wD6HN/AiybrIkiWAxX+U8lLnN56DFYMdQhb/CCER4M38y/U8UDdb
+	 GXDNh0RZmzFjoawTS6D2NXNC7WgIinqzSP2sFuMElI7WJ4d8NNFbIwlWhJyb/IjF5K
+	 +qDbfrWEcqWrw0bhJDYcQFF6zo1G3kOwDL8+smIbPxrUyVKNFK6yKbhRBJQKcEfgRQ
+	 huHxM+EhT24OmEvo5Npox8IEHdobxi9zg1pulmjbuxSLPc1H51dXVtc195VPRqDRv5
+	 CnGr+P7P7PWmwlAGk00szdzM1K/ihf7Kuw9fQozuOn7MKq7GXHE4rjAFi9pUpwPP1V
+	 OOETAXqHSPj5A==
+Date: Tue, 17 Dec 2024 07:31:46 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-clk@vger.kernel.org, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v5 4/7] dt-bindings: display: renesas,du: Add r8a779h0
-Message-ID: <g63spu33rn6hso3atynur7nepu62t2rspwptbot4mty4b4fldx@tpv2wnr6jixq>
-References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
- <20241217-rcar-gh-dsi-v5-4-e77421093c05@ideasonboard.com>
+	Conor Dooley <conor+dt@kernel.org>, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 1/7] dt-bindings: pinctrl: renesas: Add
+ alpha-numerical port support for RZ/V2H
+Message-ID: <fq3q2tk3xfwd4p72b5wzo3gbfizrknxdt6zyc5ahm2cpnrtsbk@nlukbj3yy57c>
+References: <20241216195325.164212-1-biju.das.jz@bp.renesas.com>
+ <20241216195325.164212-2-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -71,35 +62,20 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241217-rcar-gh-dsi-v5-4-e77421093c05@ideasonboard.com>
+In-Reply-To: <20241216195325.164212-2-biju.das.jz@bp.renesas.com>
 
-On Tue, Dec 17, 2024 at 07:31:38AM +0200, Tomi Valkeinen wrote:
-> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> 
-> Extend the Renesas DU display bindings to support the r8a779h0 V4M.
-> 
-> Note that we remove the requirement for two ports from the global part
-> of the bindings, as each conditional part defines the number of required
-> ports already. This came up with r8a779h0 as it's the first one that has
-> only one port.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Mon, Dec 16, 2024 at 07:53:11PM +0000, Biju Das wrote:
+> RZ/V2H has ports P0-P9 and PA-PB. Add support for defining alpha-numerical
+> ports in DT using RZV2H_* macros.
 
-TBH, I really dislike tested-by on bindings, because "testing" is
-essentially "building". You cannot test the binding different way. You
-can review it, that it matches datasheet. You can test the DTS on the
-physical hardware, but not the binding.  So if this is equal to
-"building" we do not act like: "I built a kernel, so add my Tested-by
-tag".  Maybe this was added to cover letter, so the tag
-populated here as well.
+So this is only for DT? Not really a binding. Binding binds
+driver implementation with DTS and you do not have here driver.
 
-> ---
->  .../devicetree/bindings/display/renesas,du.yaml    | 52 ++++++++++++++++++++--
->  1 file changed, 48 insertions(+), 4 deletions(-)
+Calling it a binding makes it immutable and gives us, DT maintainers,
+more work, so really no benefits at all.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+I guess other DT maintainers will ack it, I prefer to reduce number of
+headers.
 
 Best regards,
 Krzysztof
