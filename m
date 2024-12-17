@@ -1,178 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-11442-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11443-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4639F45B3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 09:10:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE179F45CB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 09:15:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF1DD7A11FC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 08:09:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3FA887A26E3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 08:14:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C47DB1D61A7;
-	Tue, 17 Dec 2024 08:09:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2ADC1DA628;
+	Tue, 17 Dec 2024 08:14:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DEA7126BF7;
-	Tue, 17 Dec 2024 08:09:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5AF335C0;
+	Tue, 17 Dec 2024 08:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734422997; cv=none; b=NIVijkRNfjmbE82RlVBC9r9NCfBuzlqAkZqaxuO9ICH34qVDMrcVjuOkSwGJem1UluB5QvbYlCaq2HoChohAz/xx5CcdoewZMDgCSTMBJVy/qPnUGeblerZzebjpcBeZubUA/xLyFh9BNRxexkF3BWmyCBckdDymNfixfcf9jGo=
+	t=1734423286; cv=none; b=S7UHz5+J46FIi8nS7Fd+d+1dpKvcPLr1As5Xq5e49G2j2vnsTJWhSH5QOxSf6suFICFnE9fqtUil1Dh+hXdDnp97nJ03eUXV8YQsFODjylMWOxG9NL4j841yf9g8KyZWIQUQpgU2ESoXqbGIAK8SSbi7p1nLIqz8VKo8BAz5d84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734422997; c=relaxed/simple;
-	bh=+aXP5ePe8hupl3D7oAXUOt0ixFaQkhZ0CS3pn8nAcfA=;
+	s=arc-20240116; t=1734423286; c=relaxed/simple;
+	bh=uOwfXU557rop5TIkXrFQReiFQ1xrxUWqWlXUsv4FT6E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KAtWwAk9RdmfFQCIJGHQYS7cvqF/nu/bcIbj40vkmpT8EVtmeuyRSFhIkg+qvd5gHzTZReTO0FMH0iW9v8tknWkXzEKo67XOPz4Y5cwlyuNe4OVnAzDQTjZ5mIDwW1AtVQiBtAlItLpYN6Qic6FEH5O2dhE1kGwMoTBwc+F5t1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.182
+	 To:Cc:Content-Type; b=lXFIPQJzAtFQNI/BwZdOq+dTvcZFFUacZrwyh+QnHfSP0Oogr3QFf65QbQD87Y8nFQH/w0Ksbybs/f9fimdv6aHmWbbHvGRrPRez9m24QbwlWEu/ifF0i5tWr5rs8aYBSoKNYf9wGaSW6DEYAYomiVfETUMsjdipfv1MxBa4TCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-518957b0533so1487226e0c.1;
-        Tue, 17 Dec 2024 00:09:54 -0800 (PST)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-4afde39e360so1284865137.0;
+        Tue, 17 Dec 2024 00:14:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734422993; x=1735027793;
+        d=1e100.net; s=20230601; t=1734423281; x=1735028081;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5i6EzC9kL2QPRbSiXo+9+SMBweKbp3o9CbIrJPpag20=;
-        b=czuOO6ScmOoL5Bte5A3rY76Mrnr6vSKJIS5u3E72VY9czk/uu4bw1ibIyEpN00GGIN
-         NCpgFGQiHR+VvtrV/q3ebUIAMmQ39CudhAi+TELf4gZ8fvnn/W3hQ/AhO6xDLa9HmPio
-         li1rRyX19oLKguMJ+GQlBAnARw/t5pmnBKIrGhDqOgnxdW3WEFBy/1bjSHm9BUHwhd8p
-         Avg9oL4zFgvCu/HYWoeO/ZzORXuBLJzLl24iKM1iFM/5685xv+Eym/SM7VUeYpRNrEdN
-         ymkvEPk0TjiMaSvSnJHFDNeGqr5Jhc3g1DKm7trFxzEzn899ZBqNdv/BwIFTLGl04Gc4
-         ZSSA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2QHMNewYj9Z+WvmXhxN3HpLzfKek3EVNTcudR0mltiaWv8Ykj9/Cpshjkak1HvK2A2J9OFZWBIVgtxfLjrsRn3w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpyrtFuTLhZgtHkkBsdqtYoryCobnAidzefTyVxXC4SyBE9F2+
-	E/TLoFEydZhWRwHFFvLuCPcEID6JdZG5eavenjDMs4srFo6pkRE6r46MdyPy
-X-Gm-Gg: ASbGncvHGzmaicnPpaCIKipVCX5qHj9X+lcmQXpsl+5QwtsPWmETok9TcTc6gDr49Kx
-	bOpQqetx7m8aF4aAgNmxZULoZpzyl+HmtW9q2r15XoA0lpzGrzyrlip3yF74ZAN4DS7Xb4p4Zak
-	liDctNdCVK/ehQoPGMus59x88a4JjqKTs6otCH7YeFo9eskM/pZRZzUrxRqNWGmnsBdEQw08g4N
-	9my2/57CfsqESlX3IDJXZwZRfyQ1dj9ZW1OftPPdLg4Qq53PqaFtZEHO4Q74gfoP8iwdvfP3f/3
-	FHdvylz6ymtcH+euXQw=
-X-Google-Smtp-Source: AGHT+IEOIGNLOegfyJoDSSZtDFzKFHCL1JGuKtJLqdhDTp1D7hh1heZMxasd5xrLuNbYaqVaD97/Jg==
-X-Received: by 2002:a05:6122:1806:b0:518:859e:87ab with SMTP id 71dfb90a1353d-518ca468491mr13985767e0c.9.1734422993033;
-        Tue, 17 Dec 2024 00:09:53 -0800 (PST)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-519eb729ca4sm859860e0c.48.2024.12.17.00.09.52
+        bh=BPpiGaA1e5dMiDjkAszyfRMBt3SwUPjlRJm/tlaPvdg=;
+        b=jJZOm7sySrMjd9awcdD7fnQS5AaZKG86b6RvAEb9uV4h5Fany1VycfwVbHwJpio8Pc
+         v0GivPnASO5dRoLt2oAoMQBfs7iT5Yv2+61bhi+YqPMF0r+PDI25ntmwSdz7VotYFdTF
+         gLg7SuPn7hOza1aEzcOmsb/75eWRrwkI0Iiuf3+q0uukFRwFiS2Niftahe49qK0dL7LY
+         pGBCou9jKBKI6UHvBrsYxXwkfzSox5e0+R/cY7yacU8Ua8SOdMxkoIdGQxQQHIi7KAQK
+         GqoHdJ9P3HzuXXlfF9mo8t3IJoLlLxSCE86vw+Uq2BuSRPj7g57qZu6JnIh6LUF0xMto
+         08eA==
+X-Forwarded-Encrypted: i=1; AJvYcCUhAgoir1cdZ7RPKmHnjia5NEXRLcgqCiOEx1qgP1qqH1AtFfBGuQ9SbVEWEBtu0QLZgE3N/27+3yDPm5GvyiOw7WQ=@vger.kernel.org, AJvYcCV2uQBX/nC7A2NEps/QnF28EVmB9XBo1C2ApjMGFrId1ZUI1bJVm4xpw4jUvybNmx1YUye+rlCY7LHp@vger.kernel.org, AJvYcCWu3+b15d3ZUOYgtkquE+qq9qkSJZMo+GBRxKpZ+BOO+lUzBuo1fg4IowR84Kf2dBpRRZqhpklhO89W@vger.kernel.org, AJvYcCXaMxkofjUpfAf6yCS5yB3Y92xETd7VnrJ0uEAu/m693cJcOvtO6klo/WKxa6fI3+wqRqTulld0HjtNK2Rs@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFBPKIG606N8oFRSqtwNnz9YK3HidEjngOUXdVqNEcZb3fy0a+
+	rMURY5xuphT5jK7GPQjpW/YcVhAYSuvu6YPTIAQNNZkrLqVK1iUyvktfEoGG
+X-Gm-Gg: ASbGncuQa3d9uRVefWyi46XP7gfc+T0GDq/5jwsvuuDzhXnAvS2Mp4LErU8nYp8hxqU
+	yQZUXt2u91qitIbwhgAt25HBbIdPVSMTojQUxxZCKvI0JGpgL19QnMiS8BUQEpnn9gJnbtZFdBu
+	Nx8E+AvQNiBelusT3VPUSfFqQLmaL3mtZEWATJAJLw5IeYHaVZmB0Y70bpv/XQBTeB/9xFLwfi1
+	4SsVTvx20FD9dUT4OJyOjqGTlCjBp3l+Z47ByEDrkdi04+a5Sn0M2FiNeU26EiKXQKpSDIil7cD
+	b1dDCEa7cvYSb/3Rqflsus0=
+X-Google-Smtp-Source: AGHT+IH8YYpmAEjxSSLUhBwLYDN3zqHh/BRRxfs4q0wqouKF1HTWa4+yU/mImOSOKT1Q7nneuq8TCw==
+X-Received: by 2002:a05:6102:6c8:b0:4b1:3b91:a697 with SMTP id ada2fe7eead31-4b25d9c02f0mr14452346137.15.1734423281240;
+        Tue, 17 Dec 2024 00:14:41 -0800 (PST)
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com. [209.85.221.176])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-860ab5b7cd3sm1125848241.17.2024.12.17.00.14.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2024 00:09:52 -0800 (PST)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-85c4cd95885so905383241.1;
-        Tue, 17 Dec 2024 00:09:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWPu69Eql+BS4kGe8Oi62fzTa3ZfLfEtkixJNjGgVR6wcv/vBcErRfzMM9/Ddql4resyRo/ZY6jdKo7Do9WuCiPPg==@vger.kernel.org
-X-Received: by 2002:a05:6102:3e85:b0:4af:d487:45ed with SMTP id
- ada2fe7eead31-4b25d9d5441mr11307534137.4.1734422992582; Tue, 17 Dec 2024
- 00:09:52 -0800 (PST)
+        Tue, 17 Dec 2024 00:14:40 -0800 (PST)
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5162571e761so1400105e0c.2;
+        Tue, 17 Dec 2024 00:14:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU6LaF4FjR5bj5B36WrDL6O0A26AVYkkzY02yRMtpDtoqcQZ5/qSahW7H8QJ3pUQReYw8Nxzkn8tu1q@vger.kernel.org, AJvYcCUVH5bT1Zcpeb1elC0EkZyzbWdjhtCBEZVTGQSqP6OdfCe550DcIEQdXJGPNqihZwW03Na4PUQmuNuf8Ip6@vger.kernel.org, AJvYcCVQJ3ZDUkYczpw2G7c3h6dCpAbH4UIvwkhnDHEs41DrMhX7ywnVRIYnAIFbbru3hJIVoT6hedw72j6d@vger.kernel.org, AJvYcCXyDDrNaGwNKHIg/3yscDGffoOJkLFb2TBB52RAgcF5xn1Rb9t/1KqOC1i0StQPM0yrprWklJnB7CuW0upU1l7rVPY=@vger.kernel.org
+X-Received: by 2002:a05:6122:2a09:b0:518:7777:a61e with SMTP id
+ 71dfb90a1353d-518ca39a80fmr14871103e0c.5.1734423279879; Tue, 17 Dec 2024
+ 00:14:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMuHMdVUKpO2rsia+36BLFFwdMapE8LrYS0duyd0FmrxDvwEfg@mail.gmail.com>
- <87seqnm3u8.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87seqnm3u8.wl-kuninori.morimoto.gx@renesas.com>
+References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com> <20241217-rcar-gh-dsi-v5-3-e77421093c05@ideasonboard.com>
+In-Reply-To: <20241217-rcar-gh-dsi-v5-3-e77421093c05@ideasonboard.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Dec 2024 09:09:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX+Eozo1r=xY9PdVJ-Grxb=AzWnCHBF2XQ4eFOx13igaQ@mail.gmail.com>
-Message-ID: <CAMuHMdX+Eozo1r=xY9PdVJ-Grxb=AzWnCHBF2XQ4eFOx13igaQ@mail.gmail.com>
-Subject: Re: rsnd_adg_clk_control() sometimes disables already-disabled clock
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date: Tue, 17 Dec 2024 09:14:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUczNArF7JSfjrb11OTpd8LvHv5-gUFPFCayr+Qezsbbg@mail.gmail.com>
+Message-ID: <CAMuHMdUczNArF7JSfjrb11OTpd8LvHv5-gUFPFCayr+Qezsbbg@mail.gmail.com>
+Subject: Re: [PATCH v5 3/7] dt-bindings: display: renesas,du: Add missing constraints
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-clk@vger.kernel.org, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Morimoto-san,
+Hi Tomi,
 
-On Tue, Dec 17, 2024 at 3:38=E2=80=AFAM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> >     ------------[ cut here ]------------
-> >     clk_multiplier already disabled
-> (snip)
-> >     ------------[ cut here ]------------
-> >     clk_multiplier already unprepared
-> (snip)
-> > Unfortunately I cannot reproduce it at will.
-> > The above is from today's renesas-devel release, but my logs indicate
-> > it happens every few months since at least v6.1.
-> > So far I have seen it on all Salvator-X(S) variants, but not on any oth=
-er
-> > SoCs or boards.
+On Tue, Dec 17, 2024 at 6:32=E2=80=AFAM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >
-> Hmm... I'm not sure why, but according to the log, it seems it calls
-> clk_disable_unprepare() without calling clk_prepare_enable().
-> I think "clk_multiplier" means "cs2000" on Salvator-X(S).
+> The binding is missing maxItems for all renesas,cmms and renesas,vsps
+> properties. As the amount of cmms or vsps is always a fixed amount, set
+> the maxItems to match the minItems.
 >
-> Basically, I don't think it can be happen. But current rsnd driver doesn'=
-t
-> check return value of clk_prepare_enable(). So if cs2000 failed clk_enabl=
-e()
-> for some reasons, indeed clk_disable_unprepare() might be called without
-> enabled (It is another issue, though...)
+> Also add the minItems and maxItems to the top level properties.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-That sounds plausible...
+Thanks for your patch!
 
-> I'm not tesed, but can this patch improve situation ?
+> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> @@ -77,6 +77,8 @@ properties:
 >
-> If above assumption was correct, the clk WARNING issue itself can be solv=
-ed,
-> but sound driver itself will fail to probe...
+>    renesas,cmms:
+>      $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    minItems: 1
+> +    maxItems: 4
+>      items:
+>        maxItems: 1
+>      description:
+> @@ -85,6 +87,8 @@ properties:
+>
+>    renesas,vsps:
+>      $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    minItems: 1
+> +    maxItems: 4
+>      items:
+>        items:
+>          - description: phandle to VSP instance that serves the DU channe=
+l
+> @@ -489,9 +493,11 @@ allOf:
+>
+>          renesas,cmms:
+>            minItems: 4
+> +          maxItems: 4
+>
+>          renesas,vsps:
+>            minItems: 4
+> +          maxItems: 4
 
-I'm adding your patch to my local tree.
-Let's see what happens during the next few months...
+AFAIK these two additions are not needed, as they already match the
+values defined at the top level.
 
-> ------------------
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Date: Tue, 17 Dec 2024 11:30:46 +0900
-> Subject: [PATCH] ASoC: rsnd: check rsnd_adg_clk_enable() return value
->
-> rsnd_adg_clk_enable() might be failed for some reasons. In such case,
-> we will get WARNING from clk.c when suspend was used that it try to
-> disable clk without enabled. Check rsnd_adg_clk_enable() return value.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  sound/soc/renesas/rcar/adg.c  | 30 ++++++++++++++++++++++++------
->  sound/soc/renesas/rcar/core.c |  4 +---
->  sound/soc/renesas/rcar/rsnd.h |  2 +-
->  3 files changed, 26 insertions(+), 10 deletions(-)
->
-> diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
-> index 0f190abf00e75..723dcc88af306 100644
-> --- a/sound/soc/renesas/rcar/adg.c
-> +++ b/sound/soc/renesas/rcar/adg.c
-
-> @@ -389,18 +389,33 @@ void rsnd_adg_clk_control(struct rsnd_priv *priv, i=
-nt enable)
->
->         for_each_rsnd_clkin(clk, adg, i) {
->                 if (enable) {
-> -                       clk_prepare_enable(clk);
-> +                       ret =3D clk_prepare_enable(clk);
->
->                         /*
->                          * We shouldn't use clk_get_rate() under
->                          * atomic context. Let's keep it when
->                          * rsnd_adg_clk_enable() was called
->                          */
-> -                       adg->clkin_rate[i] =3D clk_get_rate(clk);
-> +                       if (ret < 0)
-> +                               break;
-> +                       else
-
-No need for the else.
-
-> +                               adg->clkin_rate[i] =3D clk_get_rate(clk);
->                 } else {
-> -                       clk_disable_unprepare(clk);
-> +                       if (adg->clkin_rate[i])
-> +                               clk_disable_unprepare(clk);
-> +
-> +                       adg->clkin_rate[i] =3D 0;
->                 }
->         }
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
