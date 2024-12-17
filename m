@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-11486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11487-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A780A9F58D2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 22:38:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC249F59F4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 00:00:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5BD4189158A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 21:28:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DBCC61891C0F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 23:00:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0AF11F9F62;
-	Tue, 17 Dec 2024 21:26:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EB211F76DA;
+	Tue, 17 Dec 2024 22:59:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HQu94gD0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M1VZFx6i"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5DE4A23;
-	Tue, 17 Dec 2024 21:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867DE1D9A63;
+	Tue, 17 Dec 2024 22:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734470791; cv=none; b=E27+/kscKoZmsAooFKEhwMiuTg95KUU+mQrbqoCGeSy6SpQ6LUGBhRnAyOnRtLpvEJw8iwjsthSQmVODzrEnKz3TueGmvRnQa8ZfwqVHm67pt0G4VhQGuTLABMQ6e6CjIV5rdMAPedKtEEeaDdD+ckznY1blgwYDcUQWodM6uzo=
+	t=1734476394; cv=none; b=Uy7uRupHgHUaPSzO5/vv5oWJF8B8U9LnnTveK6iZhfdp+8AqHY08CWTgI8HvwlKrjh1WFoWFiVV0j+3Vf2+nR7MBStlqZXJDep7HtjmglU1r2TIBQ7hpPwbM685ht9vZegTGmFhGda3CBkfgFY4OHHDLkHJz5biDWGsM6O7wqhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734470791; c=relaxed/simple;
-	bh=VfZkdvm6nRTZADt+W2ejaXgoYRMnTjd1Safiyocc1OI=;
+	s=arc-20240116; t=1734476394; c=relaxed/simple;
+	bh=t78D7F/eWdsE/Maj8r8gf4TmgL1mU/T2PrN4z5z7CBo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ln3tKw9XUma4veLbZvYMVjTqYblm2YkDIN5i+b0l//ztV25Uwxafv/3kdzvzXxKbYzM7q8aD+c3UkOXaZq/hLq/J/kc58QRBr3RmWchqLhwGHJIADkN5/S7+l5WeaDSmoqb06xbFOVeHKmfN6VjKC34xBb1bmyJGTtge7j5lP1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HQu94gD0; arc=none smtp.client-ip=209.85.214.171
+	 In-Reply-To:Content-Type; b=BwIOmV5mkHECuiYmY4jbyjk8Fw462bnZrrV84VilvsVlEZXEjY1ldkr0qqFdIHXgvNrX/fzVTLIPzCjU+eDYAEk4Zngz2jgenedZ+CvWOiKyAQG7iBd1/dG0qV2wn1PKzhDqbMyhEfU/tzJYeV8JAZcjOVtyS7ToEukfChnqomw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M1VZFx6i; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2161eb95317so53874225ad.1;
-        Tue, 17 Dec 2024 13:26:29 -0800 (PST)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-728e78c4d7bso150831b3a.0;
+        Tue, 17 Dec 2024 14:59:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734470789; x=1735075589; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1734476392; x=1735081192; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=o3Ty0VMd3vr46HoUcqVf2dCO+sYirHQKwNXPoKI7+c0=;
-        b=HQu94gD00+nZ8a1CiTOqUDGki65klE0fCjbcAbOfpb0KBJVNgXIzCRnQboxLt85ehU
-         aZ43KWwNiGPoGdoAe+Codhtw7yETtuM/8EHp7OP2oNoOvV2au4OV+INHwmJzMWD4tobw
-         lBOXVQQSG0juQ0Wcg6Bg970d4R7Yzf9fqYE4BrCdsl+szAGGYad11L1kOLUwOknaJsFk
-         NUAOLge5ClHAaRCeBp1/BBMOAkx/YRJxYQvhmVhoEH8zj9WzlBXwEt6O1C07uS4oC3YL
-         6k9Ip+VYW4jJM6GoBuc3hr+nYNrtGDP7eaJC0YAVmmDZTqq+XdsTAXX+KlZNskvcdu/u
-         5hnA==
+        bh=t78D7F/eWdsE/Maj8r8gf4TmgL1mU/T2PrN4z5z7CBo=;
+        b=M1VZFx6iufLC5/zQhWoR/rdy46I8EWzhNPDsomsTN41v0hrpH6vxKkOxvxNNwHi7xT
+         Nr5FjCH8qFgybiNCxF4aBMM9H0XWne93gYsWSKqPgr7JVEf2V60lsEEKhjn8V4OVplY2
+         sRdn4u17kzWlzUKUU1KEsPxjhB6wDHsmwPqUoMVwUt8bx6xGvgXp1ShWyQc3Ry2kA9Rk
+         GhrTiKVX3Za3vJK+gCmxSTO7TVF3HpfV4mrH+E4uVTn43G2FdhBpTaokpNJJJpQPMHUX
+         tcQBA2r/lWDMDWBIc6G6q/QHmyTiUUAyUng9r7e5gG/J6zK74Qw4HTfxvgdaEIS4iccu
+         2c5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734470789; x=1735075589;
+        d=1e100.net; s=20230601; t=1734476392; x=1735081192;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o3Ty0VMd3vr46HoUcqVf2dCO+sYirHQKwNXPoKI7+c0=;
-        b=vLd8ZE9C9PPwRmOjykoB7eirZEhDxO5VDHr6zJz18X5G7Q4sk13ihgUjA/sZcDzuWY
-         Dawhl0EbnJY5qm/ZGrR6XeEcWT4fpf31Gk8mcMsRJRHwJh1aYFS3jMbvv0TeTTwM2e5z
-         BALDI2ge0GWMyUgIHE+EAWQwKsH4kNU2Rfnj5LEdjrxd6JeP9eZFBCZgD5O0i6g6LEII
-         6MtPTW1cX3tG8yYk9KIqy0FTmO8o4ful/iOU1eONNh1lIxZDvMLPhmmwvQYVKrCdxW8J
-         diAFTu0YYQC9GUBsJpuWNded6YufRoAr+yu5nTsXDgHyDDNQwZ6BMH0W52KDPhDTBgfY
-         93og==
-X-Forwarded-Encrypted: i=1; AJvYcCUETSG9Cn3nUQG8UAgHjMgXhvyQCi21mHiFjEHS1Qn31tDhuAVmZpx/IcL4QHj8FQCKPDFaui2mdTc11kA=@vger.kernel.org, AJvYcCUVRNmRCSWouNCKMPGsMHt4nQ0NW7YyHiOJYrCTsHiTtDDPoPX9aZ114FYivVW9Q9aacO4oPUAMQ0TInJNGm7ccuQE=@vger.kernel.org, AJvYcCXwbBltNrgMsLJPI8rzY8E1e4E7Yp04fj99jdZfWX9eRIh/N2sTCTcDpzu1HjxSWBR8DNEz9TK6+8w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/rNIC4nSh6teGHFIJMjX2Aj9+HvtnrS/RVqVY/IOzDFvMc8on
-	L/+MLb4NV7knsga9FocW3Jd8DuAqqT2E+gUkQQVR0Ejbcw3y/0yp
-X-Gm-Gg: ASbGncu/Qejiqswe+i3mZPPIGrC4om8ryeaQxhmGU7T0QlYav7LaUNFq1Kxi26W2JvP
-	pSTrvj2q5K5EuLWfnG8RmMs7h9SbzpknDiyeP3A2AuysJU9qkh1dXtYJtnqkAplkRlCEyPU3oWv
-	HnBJVR5xSsE56DhMEButJFT2TCWAQmHzsN7/kKCz1P91ZKFA9qAiVgRg0XJjuRiNx5+oanlyMLc
-	e31XeNXiHffu50tezIUq6ykqGEhSmOsdTPCvlyuOIjPMXJ4j/dOTRDwH+qh12ewtnRfIdRv5Sme
-	sxLd5ZEpwotMGWX+mr4Qn2zBkw4CuQ==
-X-Google-Smtp-Source: AGHT+IGrrsY6wrvW9fYzSUYoTkKRLlXFEXcJLHphyerFOR9bpSt2ghPf9PAn2bUZieHj5MEFkH0twg==
-X-Received: by 2002:a17:902:e807:b0:216:30f9:93d4 with SMTP id d9443c01a7336-218d6fbe4e3mr5442645ad.8.1734470789340;
-        Tue, 17 Dec 2024 13:26:29 -0800 (PST)
+        bh=t78D7F/eWdsE/Maj8r8gf4TmgL1mU/T2PrN4z5z7CBo=;
+        b=leN1qEv1ZfMMCc4ojvPMpzXhvPEm4NMkAiJtWHclxOC+aRwUEZxoeNLLrhsi+WcpwM
+         mQTvVJQe6n5HD7zr4RsswcqfjeYB3aRs5GnA0lh1V3NonZpKaQ1FZj7EkBcULqC1SG9t
+         sF003w44WvjKTmVJfH3gKT0Frw8qcIH+qBw4sh/pELsioiM+jELXDuaDmL6zFJ8y//2R
+         A1dxGmrLB3IPr9gXEKvfun+u5Bo0BvnMTQcod3UUIZZnoBnhZBygc83osZeRCcY/yxVd
+         rsgIV8EgstJzl3n90maBdsud3+IkRRcXYgJW+t5sDRVgGT9TV5rDv+aihih6HVX13ad2
+         3xOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVYepvsbeKiad0gr/M2/O1jTDQvHG/g0KZsmLUsUpGbYUiXpm8BhzdFPzStqsgCghV9fjZDNcHk0Upu@vger.kernel.org, AJvYcCW99P7sJjJfNz5OFZ2IAj6PR37kf33UnLQDqkDlrKVb578WlNn+LKl5prspl1XvJkQX4Y7+FFI0qb6t7ac=@vger.kernel.org, AJvYcCWKZrfcBQxcnNKgKJdRJL5+TYB1epDyhvo50AOvmEwllUIg91Bm08LglgdXGCz9Ptzz6cu9ybRDJyUf@vger.kernel.org, AJvYcCWtOSFxJBjYg/Fgvy4S7lRkNeK8KNYywVaTB4HTMG2g6R8T/reny3ZLd05oW7VkBL05baLSI5Dz6osZKGxO7qpMkjo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz94NpixHmBNn7p/gFjj2s9BI8AaOsRYGxTW5H3O397k/5CoHj/
+	aFedA33PkC1YmYxkfdyZ/p3wHROJ/NrmQMlxzwi2HL6MpV+G8Iir
+X-Gm-Gg: ASbGncsw+BFVzIGyLRbL9ZZKqCDbiDH3pcccHWw3oo1JUuEF+ID+7mXvczL5ya2tsGj
+	rnq3oZh8eng0tZ0pWm9x+JyjblelimtrnTyeBpqYat81p3ZbbMHC6R3OarhrmjoKTtI5CcwQdOM
+	w8fSTvbum2HzDd0ugBV4sKDgvKbhskHiYw3tjaWNDf3ScffrAdInAW6erv7eydW27yRXJyjiunm
+	OM/7IcAoi8OjTLcSlNnGi8QIDmkQO+XwwmIMfixEIBL71bp795wxCpfwkbm2aYV5CLITa64dcUU
+	92G0jGDGHsMNfGdXuL+VgPiwuBGeYg==
+X-Google-Smtp-Source: AGHT+IFkQ7rhpow00hjC5jhoNGdN4nxcPAMzRD8JzAKqjoD+wgVGjfHj339cneoZOE4aqyFypjlJvg==
+X-Received: by 2002:a05:6a00:b86:b0:725:e957:1de6 with SMTP id d2e1a72fcca58-72a8fde103emr778734b3a.13.1734476391696;
+        Tue, 17 Dec 2024 14:59:51 -0800 (PST)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1dcb353sm64509245ad.76.2024.12.17.13.26.27
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918bad81asm7213662b3a.151.2024.12.17.14.59.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2024 13:26:28 -0800 (PST)
+        Tue, 17 Dec 2024 14:59:51 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <f624f683-d240-4384-87b9-2576bbc611a2@roeck-us.net>
-Date: Tue, 17 Dec 2024 13:26:26 -0800
+Message-ID: <b30a1b76-cad4-4d53-837f-64a72993d267@roeck-us.net>
+Date: Tue, 17 Dec 2024 14:59:49 -0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,13 +83,14 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] hwmon: (lm75) Add NXP P3T1755 support
+Subject: Re: [PATCH 0/2] hwmon: (lm75) Add NXP P3T1755 support
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
  linux-renesas-soc@vger.kernel.org
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-doc@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, Rob Herring <robh@kernel.org>
 References: <20241217120304.32950-4-wsa+renesas@sang-engineering.com>
- <20241217120304.32950-6-wsa+renesas@sang-engineering.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -135,21 +136,18 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20241217120304.32950-6-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20241217120304.32950-4-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Wolfram,
-
 On 12/17/24 04:03, Wolfram Sang wrote:
-> Tested with the P3T1755 soldered additionally to the P3T1085UK-ARD
-> shield and connected to a Renesas RZ/G3S SMARC board.
-> 
+> This small series adds support for the above temp sensor. Ultimately, I
+> want to support it via I3C. But for now, start simple and add I2C
+> support, so we have something to compare against.
 
-Technically that should describe the patch, not how you tested it.
-
-Anyway, can you send me a register dump for this chip ? I'd like to
-add it to my module test scripts.
+I just sent a RFC/RFT patch converting all chip access code to regmap
+to the hwmon list. This should help with adding I3C support. It would
+be great if you can have a look.
 
 Thanks,
 Guenter
