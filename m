@@ -1,158 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-11458-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11459-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E4A9F4976
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 12:02:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4FE9F4A1D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 12:42:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E8C5C166354
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 11:02:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A6B2188C578
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 11:42:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D3901E282D;
-	Tue, 17 Dec 2024 11:01:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 749D51EF090;
+	Tue, 17 Dec 2024 11:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="o06c0iOV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 161FD1DCB3F;
-	Tue, 17 Dec 2024 11:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06391E3DF7;
+	Tue, 17 Dec 2024 11:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734433318; cv=none; b=WHRgqJ1tg8fsekoAAVVWgclAAEr64mrZpdOy2YtqxzefYJd8eyzOClJ/FzBRQwsziA+kRUPJvpPSe9Rnvbb0LwTBQlQUjORZKRtXExyF5G0m83HjfTC44PBMwTk4ymJCVi2z8p+mYos3lECk5G/UtdF3uvTqczJcCOjy9byjZMw=
+	t=1734435754; cv=none; b=o3SonI5herEj2YMfHTdu6//Nqsq6woZ63g20PnBb0+jICVCLa3qhWsL827nHQ6e9L3uFA5uEynqjHShOq7pyQImr3cscj/ZcpTyBg6xdu8Ijrixn1PwEQuMCXoCHLyzEhI+YNMTEjftNdUIRv3GfepvWiZJ84Unc6qcOtL0DDqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734433318; c=relaxed/simple;
-	bh=NrqjMZ+J+2WHaZCrdfnIKMWsZCnqh8duGYd7H0hLNEo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YAiUzT+SFmY3SDJT+UQ+wJfyvdS+jOLGq18rlCqbiOS+w6py3ZIUJbU/cx3aCPEzOnvJAP8pMD8J265+0WS0GqnItrT+3ZJt4RFv5wpaGydizARiZAqV4J1HYT7N/M6c969rfyBKUnaCCjtNdLinh3y2pa2g37mnIHovLm2Aag8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6FFEA1063;
-	Tue, 17 Dec 2024 03:02:23 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE4E93F528;
-	Tue, 17 Dec 2024 03:01:47 -0800 (PST)
-Date: Tue, 17 Dec 2024 11:01:40 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-rtc@vger.kernel.org, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Yiting Deng <yiting.deng@amlogic.com>,
- Xianwei Zhao <xianwei.zhao@amlogic.com>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>, Sebastian Hesselbarth
- <sebastian.hesselbarth@gmail.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Support Opensource <support.opensource@diasemi.com>, Paul Cercueil
- <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>, Piotr
- Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, Chanwoo Choi
- <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, Neil
- Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Eddie Huang
- <eddie.huang@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Orson Zhai
- <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
- Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Vincent
- Shih <vincent.sunplus@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Michal
- Simek <michal.simek@amd.com>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
- linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] rtc: use boolean values with device_init_wakeup()
-Message-ID: <20241217110140.22c92138@donnerap.manchester.arm.com>
-In-Reply-To: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
-References: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1734435754; c=relaxed/simple;
+	bh=/rYOAc8y4xEE7cn1aBZucNkEfLE/Pmtkk79KqNgF9j4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hn3mTl+wp+a46y+zQoVFZE3wmL8FSfGwybKois2EOlGgrUAH13ZxQFwUoLj7h2WtrXL1X+auxN0EGC/tApJJrvwxCxsBx4bKtnve/TmAB8ZyukQvCelY6to8yf9NW+pRuh5uEVU/cDLYFPKciuLm4kd7tx7h/e7u9BJysjo/kuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=o06c0iOV; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC1BF4C7;
+	Tue, 17 Dec 2024 12:41:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1734435713;
+	bh=/rYOAc8y4xEE7cn1aBZucNkEfLE/Pmtkk79KqNgF9j4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=o06c0iOVU3ndycoPKNCasdwF6VUpwytQgSQfuOK2rjZjt886XIfFjQKhMLoxNlaYC
+	 nughHi0KMlOrmN0MTWSKmWRMqc6VpZ11qW8xzDbDaAsCDRtmsE9QR3H0EaOG8CHrol
+	 85GqP6uN+co5qb9NY/ayyJ7pA1eGGQq+TsmhgUCs=
+Date: Tue, 17 Dec 2024 13:42:27 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH v5 3/7] dt-bindings: display: renesas,du: Add missing
+ constraints
+Message-ID: <20241217114227.GB32392@pendragon.ideasonboard.com>
+References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
+ <20241217-rcar-gh-dsi-v5-3-e77421093c05@ideasonboard.com>
+ <CAMuHMdUczNArF7JSfjrb11OTpd8LvHv5-gUFPFCayr+Qezsbbg@mail.gmail.com>
+ <f10be07d-6bfa-4d09-9a45-81179592ec5c@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f10be07d-6bfa-4d09-9a45-81179592ec5c@ideasonboard.com>
 
-On Tue, 17 Dec 2024 08:13:26 +0100
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
-
-> device_init_wakeup() second argument is a bool type. Use proper boolean
-> values when calling it to match the type and to produce unambiguous code
-> which is easier to understand.
+On Tue, Dec 17, 2024 at 11:59:53AM +0200, Tomi Valkeinen wrote:
+> Hi,
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Verified via regexps that it's indeed this pattern: 1 => true, 0 => false.
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-> ---
-> Created with a coccinelle script. I opted for a single patch because the change
-> is rather trivial. I can break out per driver if this is desired. If you
-> like the change at all, that is.
+> On 17/12/2024 10:14, Geert Uytterhoeven wrote:
+> > Hi Tomi,
+> > 
+> > On Tue, Dec 17, 2024 at 6:32 AM Tomi Valkeinen
+> > <tomi.valkeinen@ideasonboard.com> wrote:
+> >> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> >>
+> >> The binding is missing maxItems for all renesas,cmms and renesas,vsps
+> >> properties. As the amount of cmms or vsps is always a fixed amount, set
+> >> the maxItems to match the minItems.
+> >>
+> >> Also add the minItems and maxItems to the top level properties.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > 
+> > Thanks for your patch!
+> > 
+> >> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> >> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> >> @@ -77,6 +77,8 @@ properties:
+> >>
+> >>     renesas,cmms:
+> >>       $ref: /schemas/types.yaml#/definitions/phandle-array
+> >> +    minItems: 1
+> >> +    maxItems: 4
+> >>       items:
+> >>         maxItems: 1
+> >>       description:
+> >> @@ -85,6 +87,8 @@ properties:
+> >>
+> >>     renesas,vsps:
+> >>       $ref: /schemas/types.yaml#/definitions/phandle-array
+> >> +    minItems: 1
+> >> +    maxItems: 4
+> >>       items:
+> >>         items:
+> >>           - description: phandle to VSP instance that serves the DU channel
+> >> @@ -489,9 +493,11 @@ allOf:
+> >>
+> >>           renesas,cmms:
+> >>             minItems: 4
+> >> +          maxItems: 4
+> >>
+> >>           renesas,vsps:
+> >>             minItems: 4
+> >> +          maxItems: 4
+> > 
+> > AFAIK these two additions are not needed, as they already match the
+> > values defined at the top level.
 > 
->  drivers/rtc/rtc-88pm80x.c       | 2 +-
->  drivers/rtc/rtc-88pm860x.c      | 2 +-
->  drivers/rtc/rtc-amlogic-a4.c    | 6 +++---
->  drivers/rtc/rtc-armada38x.c     | 2 +-
->  drivers/rtc/rtc-as3722.c        | 2 +-
->  drivers/rtc/rtc-at91rm9200.c    | 2 +-
->  drivers/rtc/rtc-at91sam9.c      | 2 +-
->  drivers/rtc/rtc-cadence.c       | 2 +-
->  drivers/rtc/rtc-cmos.c          | 2 +-
->  drivers/rtc/rtc-cpcap.c         | 2 +-
->  drivers/rtc/rtc-cros-ec.c       | 2 +-
->  drivers/rtc/rtc-da9055.c        | 2 +-
->  drivers/rtc/rtc-ds3232.c        | 2 +-
->  drivers/rtc/rtc-isl1208.c       | 2 +-
->  drivers/rtc/rtc-jz4740.c        | 2 +-
->  drivers/rtc/rtc-loongson.c      | 4 ++--
->  drivers/rtc/rtc-lp8788.c        | 2 +-
->  drivers/rtc/rtc-lpc32xx.c       | 2 +-
->  drivers/rtc/rtc-max77686.c      | 2 +-
->  drivers/rtc/rtc-max8925.c       | 2 +-
->  drivers/rtc/rtc-max8997.c       | 2 +-
->  drivers/rtc/rtc-meson-vrtc.c    | 2 +-
->  drivers/rtc/rtc-mpc5121.c       | 2 +-
->  drivers/rtc/rtc-mt6397.c        | 2 +-
->  drivers/rtc/rtc-mv.c            | 4 ++--
->  drivers/rtc/rtc-mxc.c           | 2 +-
->  drivers/rtc/rtc-mxc_v2.c        | 2 +-
->  drivers/rtc/rtc-omap.c          | 2 +-
->  drivers/rtc/rtc-palmas.c        | 2 +-
->  drivers/rtc/rtc-pic32.c         | 2 +-
->  drivers/rtc/rtc-pm8xxx.c        | 2 +-
->  drivers/rtc/rtc-pxa.c           | 2 +-
->  drivers/rtc/rtc-rc5t583.c       | 2 +-
->  drivers/rtc/rtc-rc5t619.c       | 2 +-
->  drivers/rtc/rtc-renesas-rtca3.c | 2 +-
->  drivers/rtc/rtc-rk808.c         | 2 +-
->  drivers/rtc/rtc-s3c.c           | 2 +-
->  drivers/rtc/rtc-s5m.c           | 2 +-
->  drivers/rtc/rtc-sa1100.c        | 2 +-
->  drivers/rtc/rtc-sc27xx.c        | 4 ++--
->  drivers/rtc/rtc-sh.c            | 2 +-
->  drivers/rtc/rtc-spear.c         | 4 ++--
->  drivers/rtc/rtc-sun6i.c         | 2 +-
->  drivers/rtc/rtc-sunplus.c       | 4 ++--
->  drivers/rtc/rtc-tegra.c         | 2 +-
->  drivers/rtc/rtc-test.c          | 2 +-
->  drivers/rtc/rtc-tps6586x.c      | 2 +-
->  drivers/rtc/rtc-tps65910.c      | 2 +-
->  drivers/rtc/rtc-twl.c           | 2 +-
->  drivers/rtc/rtc-wm831x.c        | 2 +-
->  drivers/rtc/rtc-wm8350.c        | 2 +-
->  drivers/rtc/rtc-xgene.c         | 4 ++--
->  drivers/rtc/rtc-zynqmp.c        | 4 ++--
->  53 files changed, 62 insertions(+), 62 deletions(-)
-> 
+> But if we add a new SoC, which has 5 vsps, we would need to increase the 
+> values in the top level. Which would then mean these are needed, and I'm 
+> sure adding them could be missed.
+
+Let's keep things consistent with maxItems specified everywhere (my
+preference is to not specify the items count at the top level hereas I
+don't see any value in doing so, but I won't fight on that one if it's
+what it takes to get the bindings merged).
+
+-- 
+Regards,
+
+Laurent Pinchart
 
