@@ -1,942 +1,215 @@
-Return-Path: <linux-renesas-soc+bounces-11439-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2819F44E1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 08:15:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1409F451D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 08:29:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D19C87A1317
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 07:15:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8261F167B4B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 07:29:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 509E6132132;
-	Tue, 17 Dec 2024 07:15:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 493A018C939;
+	Tue, 17 Dec 2024 07:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="aTCZSgXi"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="kBYnhhSe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011013.outbound.protection.outlook.com [40.107.74.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3F214D70E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Dec 2024 07:15:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734419749; cv=none; b=GzIOaXzZ5nWES48kZMnqVCAx8mGAhrD/He+bPkWPnx2cjzShBHFVbG5YhPobWQBRocm3AXQEUjnPVUOgYKK3dXb3Hhr82QehzU25ynZXeAbEMBJKAGom6chZx7RslUnXEfEfJsTDsiIoKHZgUGrjI+zLTCayDfspjXIvcGAqgKI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734419749; c=relaxed/simple;
-	bh=WPui7jMUaBHKPyiD+wAhYBFDBlqkc+fFLFeTeTz33rg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ChCRa0FcVAU7wO/hrejRxbj5iD0dtwDvV3RUPAb292gKuhsekEdiSwFFq6mdMbSmVHqn3XYTjEEsKkoUN56m6NU1PlFNnv/YDipVYEpGiCXOtrpVrcBCzuTb/h0MfBnmW5if85XXh42/8ZEQCYUumu/l9hBsK8dX+42cuNIOQ5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=aTCZSgXi; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=b/7I37hxwoXCTJ
-	gyBf1JpuEr92Ph0ikoAk2pcmg4ckM=; b=aTCZSgXiv3O7G4p6VHvXKpHcWEyGW1
-	aJpixOg3kqNkPtJoulqHAdqGEEXfsyIR3VDFBDV9gpbJc6EIS3usJRiT0YO/BvDo
-	u0u/shsCvMQ2CmVxmOHUxkCJTDXyMWE5rVQL70yjcgK5utLkuIpephkboCJWkpyX
-	TqZ1PCaxeZVCeImVN3agTlaYNLESyn2ZlNmUdFa2PKP3sbj6YRFYLQmjHRWNjPq+
-	L1qaJUm+4bieXdYdYf8UzBbPNR5HfgwFqpJP3wCu288HR+szFX+1UnAAsf/q79cj
-	rWx/2bEI4g3kyQRn28iqbh/Ou2kaYs+JI2k17jgKZNOgKx/UeNIqZ/HQ==
-Received: (qmail 3980322 invoked from network); 17 Dec 2024 08:15:40 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Dec 2024 08:15:40 +0100
-X-UD-Smtp-Session: l3s3148p1@VAKHEHIpqoVehhtS
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-rtc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Yiting Deng <yiting.deng@amlogic.com>,
-	Xianwei Zhao <xianwei.zhao@amlogic.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Eddie Huang <eddie.huang@mediatek.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Vincent Shih <vincent.sunplus@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Michal Simek <michal.simek@amd.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev,
-	linux-mips@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: [PATCH] rtc: use boolean values with device_init_wakeup()
-Date: Tue, 17 Dec 2024 08:13:26 +0100
-Message-ID: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C631E529;
+	Tue, 17 Dec 2024 07:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734420565; cv=fail; b=AmyfZlS3oD8tJd/g5ao3UMUN6qcMaLUnCxAcIJBJTAkOZ/YvQo50xsjV0UKVHv4dcXLO6XhN1HQuYnNu1e72rRKaa7BeU390mTWCSJ4XeZ0VSrNxLz1MyyfhBlFOog2qn1gWSihs2bRH/tget0j0TVK71i5P9SMUQ+yjnkNvcZg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734420565; c=relaxed/simple;
+	bh=vAW75v/QIdJ+L4xXFdhcF5FrzVypSCi4FvY1iTS5eKQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ENtjyBwcXa2U8vgV49MpowYsTI9Wh6pTSqLjwiFuZKPpHiYEDBINDc76yHzJdIP12jdIVN6fKres9yc5BkNNsAa0/8u0P0+Jpop6MKpcbzOWRD5LZpnsOs4lKn0mhbvrblkEj9/oFCZm/qBTotTYNI0m31sYR6LdCxfilKxGzeg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=kBYnhhSe; arc=fail smtp.client-ip=40.107.74.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e/tH8twmpnso4fMtd0wRidp4rdWvrOIXLiQUwFCaLGobW8SWg6mKeLKGEjWUpIqHlma9hQ+7iNMb9KE1yU96NmtrD2Xn9Rcozz7Zz1hzG0KiRJwtsjJKKb6+CJUuwaRjBZR/qzDXnaWlepXpT25r/zCNJG9DTmTLMbI3+b6mfvYmd3E54qQmnmkSCwgP2joaRyY3lzLuQRV2/lkiJ+r7xHBA3BP14F3yILJDkpdnJL3hzCkwaYLEyuhwMkT+LPL/+YZa0whETIpbZBGQGcBy+yI1JOVJnLYTUUDOVNfMeLDxoguulU404XHtuX7icECYc8v0JFbKQJjD4nhczlyT7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vAW75v/QIdJ+L4xXFdhcF5FrzVypSCi4FvY1iTS5eKQ=;
+ b=UjZdbe7DIXibVi1Yc/l023P7cs+SqWiMFmjQepZH+IEO5+w0PsoUbORzU5FMK11AqmtivjJhUbbEO+h8rc4UZF2SyFvgQxNZBSyYHoFUcfOlvZT+O6AuGMYjkCac1tTayLFZhDthiDTpza0gt2RU0J2rJLLOXw5A8+ZbW7XEI/gcUTa6ZRH7MAbWtrAbuWKQqGi36SWzEK6bALMofF65Tm9aJ7cBKWjc93zUiWWaDyLtbcmWQJlUF7SLVRvG4hAS4B4t/piE+3II4ZNkCScLIwbJ8+xGww411zwBp2Neb7jRkP4eEQhHsjVic7h6ZmUzodGH5w8ti9fu2GcaRSj31g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vAW75v/QIdJ+L4xXFdhcF5FrzVypSCi4FvY1iTS5eKQ=;
+ b=kBYnhhSen0Owd9Ndd8hUE6VBqnTMD3yLYmGHE5PPMRZqMKm+FeBAwRJSf4u75kbLBzJoOOyOcEnAJdF5QyPC+NGf4+Ef0FCbFcQzJjjI4CXoqj3AuL/Gj08lMpsWF8kMxsqbe0V/DRZTDsMCuxxiWrMaSQZ3mgtKlDmAareEli0=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYCPR01MB6032.jpnprd01.prod.outlook.com (2603:1096:400:49::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.22; Tue, 17 Dec
+ 2024 07:29:18 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.8251.015; Tue, 17 Dec 2024
+ 07:29:16 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v4 1/7] dt-bindings: pinctrl: renesas: Add alpha-numerical
+ port support for RZ/V2H
+Thread-Topic: [PATCH v4 1/7] dt-bindings: pinctrl: renesas: Add
+ alpha-numerical port support for RZ/V2H
+Thread-Index: AQHbT/Q3WD6tdQXPjkGBdqOWiVuV17Lp+scAgAAL3NA=
+Date: Tue, 17 Dec 2024 07:29:16 +0000
+Message-ID:
+ <TY3PR01MB11346902114D33FA66F4C3BF686042@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20241216195325.164212-1-biju.das.jz@bp.renesas.com>
+ <20241216195325.164212-2-biju.das.jz@bp.renesas.com>
+ <fq3q2tk3xfwd4p72b5wzo3gbfizrknxdt6zyc5ahm2cpnrtsbk@nlukbj3yy57c>
+In-Reply-To: <fq3q2tk3xfwd4p72b5wzo3gbfizrknxdt6zyc5ahm2cpnrtsbk@nlukbj3yy57c>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB6032:EE_
+x-ms-office365-filtering-correlation-id: c0fe163f-5bc7-41e4-c191-08dd1e6c8345
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?UWhPeWpMcmZnS1FweTYyNmNFSENlNW1HMWYxdXdrZW8xb0kyNjRiamx6WFBm?=
+ =?utf-8?B?U0E3NkxIVDNOQTFaMVZUK0Rxa3E1NjIwWFNTZVM1ZCtkRktYM0doNnd5TUxY?=
+ =?utf-8?B?VC9VWllKQVNDeFQ4UWxPKzZPVzM2T2xKZHpnUDhFd0FIZ3B1ZE5WdnNRZWY4?=
+ =?utf-8?B?RGNHUnA5ekNrcWcvdlRYbWJQeEdFc3hwSTlNcFhHZ21PTW9GZkNuekd3RGt3?=
+ =?utf-8?B?RFBYSVZFSGl6cDJ3YTQ2VXM3ZEp4bm9YNVVhSm5EKzhVenJiQXNuRzVUbXJN?=
+ =?utf-8?B?MTJUWVVVc3gyYS9LYytmcXN2eWU1cmJlSkRyVWlrbU9sWnBOdVdBV2ptbEhJ?=
+ =?utf-8?B?TnpGQUtheVZmUW5FQVp5b014aVZFclp1WGUwTHNyenlaWjhSZEZ6SEdEcmZV?=
+ =?utf-8?B?cGFpTU52U2htREFhQkkwd2VZanNjaTlOckZWM2h4QkxxZzhiaHhsN3ByNFd5?=
+ =?utf-8?B?S2lyVzYwQlhqcnV0cUEwcGFzZHVvSTFpQXNjd01JV3pHclFCdWRaZ2tPWUE5?=
+ =?utf-8?B?Wlp3Yk1PZ2FkaVM0VEJtWG5odVpVdGtPUGxuajBZcit5SE5COWx5MlR0L3Y2?=
+ =?utf-8?B?N005WDBBSmtLbG5DMUNPRXcxYVJobEVtTmZ0TFNpcWlpdjZUdTJ6YklHeW5l?=
+ =?utf-8?B?ZDdiVktqdkhoc251T0FuKzBPcU5QRHBENFVXU2Zqd2lITnl4MmU4czh1QWRv?=
+ =?utf-8?B?czQzTk9tZkJhaHJxQ0d2VENNSUR1RGhrejZnUGpuSVlkTDAyU2h3RlZ2Qk1L?=
+ =?utf-8?B?dW1ydHExV3IvTjRWMUlCR0owdWhNMmJkL3loeHJCQzlHRWRidEdBRlQ4K2Uz?=
+ =?utf-8?B?aEF3Z3EyaHNFRXRGaUVYbWVxM1BtdjZUSjg3aUV4UmZoaGVQYkZmZitJVG1M?=
+ =?utf-8?B?NThKeFJlcmJvOVNkZDBqZzdCUWl4aDB3V2pFdlV1clpXV2p5VGFTN1p6Tkhk?=
+ =?utf-8?B?b01qcWh2SkZ0SldGWVBVbjRqZkFTV3NPSXd2YjdGZEJhRDFKMmxNdGljTXox?=
+ =?utf-8?B?WFhKenlUcE0yeUF1WXZDaHhKWUxRSCtzbTMwOEkrQjhYOVZaUThqeWZMVUgv?=
+ =?utf-8?B?L3FwSDFER1NlL1U3QndtSmRrcWIvMmRtb1VESllNbnF4MG1GWmtqQSt3TDR5?=
+ =?utf-8?B?cU5kcjdwN29laWRSYW4xWWFjWmltdURyTnpxdHpYQUNTMHlVcXE0K2owTGo5?=
+ =?utf-8?B?OFFIYTkxcmlxUk9uY2QwN2thNHIxbEpOa3BRUUw0Y1AyTlQzWi9jd1dEd01N?=
+ =?utf-8?B?aUJOYUFQZEh6RXZrdXhiL2JXVUxMTFFBaGpnUSt6TW9sRDE5dWRQYmtOcUdt?=
+ =?utf-8?B?QzJLeTFxMmpYWXFwTWNHUUw1Wm1SRFVVT0UzOE82cEdnVmpuaUhRUmM0cmZT?=
+ =?utf-8?B?NHdzVVF1YW1FUXZIZUUydFR6Rk5HOWFxMGlEZjMyZlNYRExqd0c5MVJpdUNj?=
+ =?utf-8?B?bFZXTDB4ZTgyUElZc2FzNWtjYUZiU0lhWkFBYVh6T2lldldIMDR0K0NKaWsz?=
+ =?utf-8?B?em1KcS95WHliUkIzajY3UkR5cmJqY3hwd2dDcjg2dXlzRGpRNnFEd1RUSjFj?=
+ =?utf-8?B?S280QnE2UmNFaDg2a1BGZzF6UVQ2WE9XR3ZHYXdKRGxDQS9xRDdWTE1oWkl1?=
+ =?utf-8?B?R0p4bUUxSUFsSXFVbm9aeHZxdllBSVpyc3hwallrdSs3VzJqTEI5bTQ2c2R5?=
+ =?utf-8?B?T21nMHpaNzM4T3FjanVCZDgzM3ZiRXhNNFBFcldVVm1kTFNKK2VrZmNoVktC?=
+ =?utf-8?B?WHZyZTB4aHhFZGJTTkQ3RUJjcGdVb08yK3pyTEp5QUZ1L0FlYWtiaklTT1Nq?=
+ =?utf-8?B?ZEdWRFNFTXVaZjJFVFNxZWlRZ2pEK2lxV0JYOWFGakFuWjQ5bUxvNm14cmNO?=
+ =?utf-8?B?WTlSQkJFeUVpU1daZmlaVDVtZFIrOVlhTDJ0VGhOblcrQW1KWGJnWVMzd3Vl?=
+ =?utf-8?Q?jbQxaGLFhJBN3Di/AR1pTK8hRlZQTbcf?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?aGFOMjNCbEZEQVIwSm5ZUTRhYkNzTFVOQXpLdjhTR3N1aUJlRTNYQ2M3c2VG?=
+ =?utf-8?B?Z1BJeGxSSmwyd21tQ28xMHJMYXptclhmcjRPblhQQ3NqVU9vU0FyZ2lPUUFH?=
+ =?utf-8?B?WXQvcmN1RTl6YjhkbGRRcjBTQjVqamtwaGd6RkNzU0hwdGNGYmxCTFRTbEFu?=
+ =?utf-8?B?VHlyNmNmbUM2a2s0V2lDVDB4TmpCOTVibStydmJ0K0JjYzgvVHFXamcwM1d1?=
+ =?utf-8?B?bEo4MmVmVDRxTDlGSmhJcjhkdVoyRkRlNHdOSXlvaElaNE1GRlVVZXJ3WEZq?=
+ =?utf-8?B?TjNtWms5TTVWRCtHY0g2aFJhYWpPTjNWL1V1OEh2UEY5MHUxMlpaMzB4cnRt?=
+ =?utf-8?B?WWlkNTVabVRDOWdBNUZ2TnpHc3pjcDJIWTNVWGwvaGI3MHd2bFBVODNFTUUv?=
+ =?utf-8?B?TTJwZnJLckkyR21jL2phZzFyWHlEOUlnVDhqeXdHRTZQck01dGhEMEl2YWdR?=
+ =?utf-8?B?QURpZ0FRejlTU2x2QXc0bEdVNzBKdEY3RTdyQUNTNmRvbmkrUXlJYTF5RDJs?=
+ =?utf-8?B?NXhMaFdmUjZsQk02VkxWSVdVS29wUkpiWDY1d0ZpZ2pVUkovUm43MUpHbVRP?=
+ =?utf-8?B?WjR3cm1CR0RodFV0a1hRb3dTWTl6MHIyaHdGVUhKUXdYKy9uZkdHbmRNWnBU?=
+ =?utf-8?B?anBFL0plSVFuMmh0OEd6WGVCL2lSVllvTnRXVnYyQkw2K3pkMGZ2d2w3TXA2?=
+ =?utf-8?B?Um9YNVVFZlBVenhwMHJyUnZCZ3NzRHZ0WUJyQ3hMOVA1dTR2QlRSTlpsaVRV?=
+ =?utf-8?B?MUFLMnIzZjFldnRocXNibGlGOTZ4QzMyajBYMmpOenFiRDJUTU5wek1nQ0lX?=
+ =?utf-8?B?TCtIdGhaWS82VURIemR5cmxpTWVIdWdibkJkK3pPTGFPWjVqakZ1cUtFSWg1?=
+ =?utf-8?B?TXhhOGtQSXFoNkc3Q0ZOVXFxb3VESHA3aWVuWHNsaTFDbjJyMGppdXNhSUlY?=
+ =?utf-8?B?ckdROXJORTlJaStmVmNMWE01OVRveXNJSDB4clA0YURmTzBUNGVxMC9UV29j?=
+ =?utf-8?B?ZTVsbzhoN2FacnhwYVJzYk9uTHpBbUwvWGVvUExRVTVlQVVDdkYvRkZmdGl3?=
+ =?utf-8?B?ajFGeVJWcUdmRWpPZGlPa3FiN2RaZXM0Y0NyVlgwZ1JpSlFwSjhIVlA0T1Jx?=
+ =?utf-8?B?aEMyaExwZU9jVlppVzZRSzZkWjRJTlRXa09meWFMQkZjRUFvRXczT1B1VjBr?=
+ =?utf-8?B?ZGF6ekRhcDZVbUM4M2JvN0FXQkNVY1U5R0Y4MlZNeHN4MXhzOGh0Uk40Z2Va?=
+ =?utf-8?B?aEJuVXRndFlxT0RpbUZQMVdrdElxRkJjQXZOQ24rYVh0ZlhPdDI1eGNaa0F5?=
+ =?utf-8?B?R0VtMHQxL2JkRHdUc0kxWncwS3hWU3Rkbm0xVXZNeUxZNXd6WXRUbkZqTG5Y?=
+ =?utf-8?B?NTR1c1BQam40dzFWZVRTRWZqTnNTQzFNdGlGcmVNZ2xqMWxJOWZZTjFuQW04?=
+ =?utf-8?B?VXdSMk9oczMyRUl5RjJGYmhHZXFxRWhyTk50b0VTNVd4SkNjTmN0anhIQnRT?=
+ =?utf-8?B?UGNjNUlnOEdqVTVMVUgzbnBLbE9xa1NLVVR4N1NPQTI2U3dNUVNFdS90QVdo?=
+ =?utf-8?B?ZWhERUtNM0Nob2JQVDJjb0pMUVBBcXB6M3dzWlBnUUYwczd2cjA4aFExQmFP?=
+ =?utf-8?B?c043WTJ3NFRzZXUxYzdvY1Q0YmUyODRFSm5DRXBnbHBHZFpFZ1VIRHN1eGEz?=
+ =?utf-8?B?MlNQVzQ1ZWZwNTlIakt1cDRBRjlaOE9nZ0xNN3VVS3htU0wrLytGdmFHTWRw?=
+ =?utf-8?B?aTVlMzBnNFFXUmdnVXQ2V1FKVXBkQU5UVkJMaWVMeE5sNnJJbk1KNWkwN1FE?=
+ =?utf-8?B?UnRCM0NQMVJENWpjcVZUNTlidWhSNDhMMit3K3VUdVp5Z1F2eHlqR3hWcHor?=
+ =?utf-8?B?eWxHWWZCbk45UitBTi9ab2RvUnMrV3NteExDcXNBNDRnWFp5Z2EyVkY2aVVh?=
+ =?utf-8?B?TlBWYitRVkpiM0ppcXdEeWdWdVFJQTJPSEcvaHdOV3Rub0tUalRYdThqZDJs?=
+ =?utf-8?B?a1Fvdys3SVNjaHIvZzhGYWlwb040dlNXaW5pK0ROME9kL2lPRENXQlBWbm9i?=
+ =?utf-8?B?NUFwMzUzV2gyblZ0bUVxeS9XTkk4THkvUXFnczdEdkovVXk4Z2pWMEIybTRx?=
+ =?utf-8?B?ZXlFdU5Nd3pVcTd6K1RFS0J0endPelhZdHhUT1dvNTdnbmRza0JKNGZIcE4z?=
+ =?utf-8?B?V3c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0fe163f-5bc7-41e4-c191-08dd1e6c8345
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2024 07:29:16.4101
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZRuoknio58LOq6O19xNfVoQmbLmE7huBH1S1kfD3sDYoP7PQZ0vXu38+LzrB31oXUl/eXAbBmXkrSg7KrP7eL2hvsTyTOT1W/Qtd6dAQL/E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6032
 
-device_init_wakeup() second argument is a bool type. Use proper boolean
-values when calling it to match the type and to produce unambiguous code
-which is easier to understand.
-
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-Created with a coccinelle script. I opted for a single patch because the change
-is rather trivial. I can break out per driver if this is desired. If you
-like the change at all, that is.
-
- drivers/rtc/rtc-88pm80x.c       | 2 +-
- drivers/rtc/rtc-88pm860x.c      | 2 +-
- drivers/rtc/rtc-amlogic-a4.c    | 6 +++---
- drivers/rtc/rtc-armada38x.c     | 2 +-
- drivers/rtc/rtc-as3722.c        | 2 +-
- drivers/rtc/rtc-at91rm9200.c    | 2 +-
- drivers/rtc/rtc-at91sam9.c      | 2 +-
- drivers/rtc/rtc-cadence.c       | 2 +-
- drivers/rtc/rtc-cmos.c          | 2 +-
- drivers/rtc/rtc-cpcap.c         | 2 +-
- drivers/rtc/rtc-cros-ec.c       | 2 +-
- drivers/rtc/rtc-da9055.c        | 2 +-
- drivers/rtc/rtc-ds3232.c        | 2 +-
- drivers/rtc/rtc-isl1208.c       | 2 +-
- drivers/rtc/rtc-jz4740.c        | 2 +-
- drivers/rtc/rtc-loongson.c      | 4 ++--
- drivers/rtc/rtc-lp8788.c        | 2 +-
- drivers/rtc/rtc-lpc32xx.c       | 2 +-
- drivers/rtc/rtc-max77686.c      | 2 +-
- drivers/rtc/rtc-max8925.c       | 2 +-
- drivers/rtc/rtc-max8997.c       | 2 +-
- drivers/rtc/rtc-meson-vrtc.c    | 2 +-
- drivers/rtc/rtc-mpc5121.c       | 2 +-
- drivers/rtc/rtc-mt6397.c        | 2 +-
- drivers/rtc/rtc-mv.c            | 4 ++--
- drivers/rtc/rtc-mxc.c           | 2 +-
- drivers/rtc/rtc-mxc_v2.c        | 2 +-
- drivers/rtc/rtc-omap.c          | 2 +-
- drivers/rtc/rtc-palmas.c        | 2 +-
- drivers/rtc/rtc-pic32.c         | 2 +-
- drivers/rtc/rtc-pm8xxx.c        | 2 +-
- drivers/rtc/rtc-pxa.c           | 2 +-
- drivers/rtc/rtc-rc5t583.c       | 2 +-
- drivers/rtc/rtc-rc5t619.c       | 2 +-
- drivers/rtc/rtc-renesas-rtca3.c | 2 +-
- drivers/rtc/rtc-rk808.c         | 2 +-
- drivers/rtc/rtc-s3c.c           | 2 +-
- drivers/rtc/rtc-s5m.c           | 2 +-
- drivers/rtc/rtc-sa1100.c        | 2 +-
- drivers/rtc/rtc-sc27xx.c        | 4 ++--
- drivers/rtc/rtc-sh.c            | 2 +-
- drivers/rtc/rtc-spear.c         | 4 ++--
- drivers/rtc/rtc-sun6i.c         | 2 +-
- drivers/rtc/rtc-sunplus.c       | 4 ++--
- drivers/rtc/rtc-tegra.c         | 2 +-
- drivers/rtc/rtc-test.c          | 2 +-
- drivers/rtc/rtc-tps6586x.c      | 2 +-
- drivers/rtc/rtc-tps65910.c      | 2 +-
- drivers/rtc/rtc-twl.c           | 2 +-
- drivers/rtc/rtc-wm831x.c        | 2 +-
- drivers/rtc/rtc-wm8350.c        | 2 +-
- drivers/rtc/rtc-xgene.c         | 4 ++--
- drivers/rtc/rtc-zynqmp.c        | 4 ++--
- 53 files changed, 62 insertions(+), 62 deletions(-)
-
-diff --git a/drivers/rtc/rtc-88pm80x.c b/drivers/rtc/rtc-88pm80x.c
-index 5c39cf252392..a3e52a5a708f 100644
---- a/drivers/rtc/rtc-88pm80x.c
-+++ b/drivers/rtc/rtc-88pm80x.c
-@@ -308,7 +308,7 @@ static int pm80x_rtc_probe(struct platform_device *pdev)
- 	/* remember whether this power up is caused by PMIC RTC or not */
- 	info->rtc_dev->dev.platform_data = &pdata->rtc_wakeup;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	return 0;
- out_rtc:
-diff --git a/drivers/rtc/rtc-88pm860x.c b/drivers/rtc/rtc-88pm860x.c
-index 814230d61842..964cd048fcdb 100644
---- a/drivers/rtc/rtc-88pm860x.c
-+++ b/drivers/rtc/rtc-88pm860x.c
-@@ -326,7 +326,7 @@ static int pm860x_rtc_probe(struct platform_device *pdev)
- 	schedule_delayed_work(&info->calib_work, VRTC_CALIB_INTERVAL);
- #endif	/* VRTC_CALIBRATION */
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	return 0;
- }
-diff --git a/drivers/rtc/rtc-amlogic-a4.c b/drivers/rtc/rtc-amlogic-a4.c
-index 2278b4c98a71..09d78c2cc691 100644
---- a/drivers/rtc/rtc-amlogic-a4.c
-+++ b/drivers/rtc/rtc-amlogic-a4.c
-@@ -361,7 +361,7 @@ static int aml_rtc_probe(struct platform_device *pdev)
- 				     "failed to get_enable rtc sys clk\n");
- 	aml_rtc_init(rtc);
- 
--	device_init_wakeup(dev, 1);
-+	device_init_wakeup(dev, true);
- 	platform_set_drvdata(pdev, rtc);
- 
- 	rtc->rtc_dev = devm_rtc_allocate_device(dev);
-@@ -391,7 +391,7 @@ static int aml_rtc_probe(struct platform_device *pdev)
- 	return 0;
- err_clk:
- 	clk_disable_unprepare(rtc->sys_clk);
--	device_init_wakeup(dev, 0);
-+	device_init_wakeup(dev, false);
- 
- 	return ret;
- }
-@@ -426,7 +426,7 @@ static void aml_rtc_remove(struct platform_device *pdev)
- 	struct aml_rtc_data *rtc = dev_get_drvdata(&pdev->dev);
- 
- 	clk_disable_unprepare(rtc->sys_clk);
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- }
- 
- static const struct aml_rtc_config a5_rtc_config = {
-diff --git a/drivers/rtc/rtc-armada38x.c b/drivers/rtc/rtc-armada38x.c
-index 569c1054d6b0..713fa0d077cd 100644
---- a/drivers/rtc/rtc-armada38x.c
-+++ b/drivers/rtc/rtc-armada38x.c
-@@ -527,7 +527,7 @@ static __init int armada38x_rtc_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, rtc);
- 
- 	if (rtc->irq != -1)
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 	else
- 		clear_bit(RTC_FEATURE_ALARM, rtc->rtc_dev->features);
- 
-diff --git a/drivers/rtc/rtc-as3722.c b/drivers/rtc/rtc-as3722.c
-index 0f21af27f4cf..9682d6457b7f 100644
---- a/drivers/rtc/rtc-as3722.c
-+++ b/drivers/rtc/rtc-as3722.c
-@@ -187,7 +187,7 @@ static int as3722_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	as3722_rtc->rtc = devm_rtc_device_register(&pdev->dev, "as3722-rtc",
- 				&as3722_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-at91rm9200.c b/drivers/rtc/rtc-at91rm9200.c
-index 9b3898b8de7c..f6b0102a843a 100644
---- a/drivers/rtc/rtc-at91rm9200.c
-+++ b/drivers/rtc/rtc-at91rm9200.c
-@@ -528,7 +528,7 @@ static int __init at91_rtc_probe(struct platform_device *pdev)
- 	 * being wake-capable; if it didn't, do that here.
- 	 */
- 	if (!device_can_wakeup(&pdev->dev))
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 
- 	if (at91_rtc_config->has_correction)
- 		rtc->ops = &sama5d4_rtc_ops;
-diff --git a/drivers/rtc/rtc-at91sam9.c b/drivers/rtc/rtc-at91sam9.c
-index 15b21da2788f..38991cca5930 100644
---- a/drivers/rtc/rtc-at91sam9.c
-+++ b/drivers/rtc/rtc-at91sam9.c
-@@ -353,7 +353,7 @@ static int at91_rtc_probe(struct platform_device *pdev)
- 
- 	/* platform setup code should have handled this; sigh */
- 	if (!device_can_wakeup(&pdev->dev))
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 
- 	platform_set_drvdata(pdev, rtc);
- 
-diff --git a/drivers/rtc/rtc-cadence.c b/drivers/rtc/rtc-cadence.c
-index bf2a9a1fdea7..8634eea799ab 100644
---- a/drivers/rtc/rtc-cadence.c
-+++ b/drivers/rtc/rtc-cadence.c
-@@ -359,7 +359,7 @@ static void cdns_rtc_remove(struct platform_device *pdev)
- 	struct cdns_rtc *crtc = platform_get_drvdata(pdev);
- 
- 	cdns_rtc_alarm_irq_enable(&pdev->dev, 0);
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- 
- 	clk_disable_unprepare(crtc->pclk);
- 	clk_disable_unprepare(crtc->ref_clk);
-diff --git a/drivers/rtc/rtc-cmos.c b/drivers/rtc/rtc-cmos.c
-index 78f2ce12c75a..4bd3a3a04d44 100644
---- a/drivers/rtc/rtc-cmos.c
-+++ b/drivers/rtc/rtc-cmos.c
-@@ -864,7 +864,7 @@ static void acpi_cmos_wake_setup(struct device *dev)
- 		dev_info(dev, "RTC can wake from S4\n");
- 
- 	/* RTC always wakes from S1/S2/S3, and often S4/STD */
--	device_init_wakeup(dev, 1);
-+	device_init_wakeup(dev, true);
- }
- 
- static void cmos_check_acpi_rtc_status(struct device *dev,
-diff --git a/drivers/rtc/rtc-cpcap.c b/drivers/rtc/rtc-cpcap.c
-index afc8fcba8f88..568a89e79c11 100644
---- a/drivers/rtc/rtc-cpcap.c
-+++ b/drivers/rtc/rtc-cpcap.c
-@@ -295,7 +295,7 @@ static int cpcap_rtc_probe(struct platform_device *pdev)
- 	}
- 	disable_irq(rtc->update_irq);
- 
--	err = device_init_wakeup(dev, 1);
-+	err = device_init_wakeup(dev, true);
- 	if (err) {
- 		dev_err(dev, "wakeup initialization failed (%d)\n", err);
- 		/* ignore error and continue without wakeup support */
-diff --git a/drivers/rtc/rtc-cros-ec.c b/drivers/rtc/rtc-cros-ec.c
-index 60a48c3ba3ca..865c2e82c7a5 100644
---- a/drivers/rtc/rtc-cros-ec.c
-+++ b/drivers/rtc/rtc-cros-ec.c
-@@ -337,7 +337,7 @@ static int cros_ec_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	ret = device_init_wakeup(&pdev->dev, 1);
-+	ret = device_init_wakeup(&pdev->dev, true);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to initialize wakeup\n");
- 		return ret;
-diff --git a/drivers/rtc/rtc-da9055.c b/drivers/rtc/rtc-da9055.c
-index 844168fcae1e..05adec6b77bf 100644
---- a/drivers/rtc/rtc-da9055.c
-+++ b/drivers/rtc/rtc-da9055.c
-@@ -288,7 +288,7 @@ static int da9055_rtc_probe(struct platform_device *pdev)
- 	if (ret & DA9055_RTC_ALM_EN)
- 		rtc->alarm_enable = 1;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	rtc->rtc = devm_rtc_device_register(&pdev->dev, pdev->name,
- 					&da9055_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-ds3232.c b/drivers/rtc/rtc-ds3232.c
-index dd37b055693c..19c09c418746 100644
---- a/drivers/rtc/rtc-ds3232.c
-+++ b/drivers/rtc/rtc-ds3232.c
-@@ -508,7 +508,7 @@ static int ds3232_probe(struct device *dev, struct regmap *regmap, int irq,
- 		return ret;
- 
- 	if (ds3232->irq > 0)
--		device_init_wakeup(dev, 1);
-+		device_init_wakeup(dev, true);
- 
- 	ds3232_hwmon_register(dev, name);
- 
-diff --git a/drivers/rtc/rtc-isl1208.c b/drivers/rtc/rtc-isl1208.c
-index 7b82e4a14b7a..f71a6bb77b2a 100644
---- a/drivers/rtc/rtc-isl1208.c
-+++ b/drivers/rtc/rtc-isl1208.c
-@@ -830,7 +830,7 @@ static int isl1208_setup_irq(struct i2c_client *client, int irq)
- 					isl1208_driver.driver.name,
- 					client);
- 	if (!rc) {
--		device_init_wakeup(&client->dev, 1);
-+		device_init_wakeup(&client->dev, true);
- 		enable_irq_wake(irq);
- 	} else {
- 		dev_err(&client->dev,
-diff --git a/drivers/rtc/rtc-jz4740.c b/drivers/rtc/rtc-jz4740.c
-index bafa7d1b9b88..44bba356268c 100644
---- a/drivers/rtc/rtc-jz4740.c
-+++ b/drivers/rtc/rtc-jz4740.c
-@@ -367,7 +367,7 @@ static int jz4740_rtc_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, rtc);
- 
--	device_init_wakeup(dev, 1);
-+	device_init_wakeup(dev, true);
- 
- 	ret = dev_pm_set_wake_irq(dev, irq);
- 	if (ret)
-diff --git a/drivers/rtc/rtc-loongson.c b/drivers/rtc/rtc-loongson.c
-index 8d713e563d7c..6f5f4430c2ae 100644
---- a/drivers/rtc/rtc-loongson.c
-+++ b/drivers/rtc/rtc-loongson.c
-@@ -329,7 +329,7 @@ static int loongson_rtc_probe(struct platform_device *pdev)
- 					     alarm_irq);
- 
- 		priv->pm_base = regs - priv->config->pm_offset;
--		device_init_wakeup(dev, 1);
-+		device_init_wakeup(dev, true);
- 
- 		if (has_acpi_companion(dev))
- 			acpi_install_fixed_event_handler(ACPI_EVENT_RTC,
-@@ -360,7 +360,7 @@ static void loongson_rtc_remove(struct platform_device *pdev)
- 		acpi_remove_fixed_event_handler(ACPI_EVENT_RTC,
- 						loongson_rtc_handler);
- 
--	device_init_wakeup(dev, 0);
-+	device_init_wakeup(dev, false);
- 	loongson_rtc_alarm_irq_enable(dev, 0);
- }
- 
-diff --git a/drivers/rtc/rtc-lp8788.c b/drivers/rtc/rtc-lp8788.c
-index c0b8fbce1082..0793d70507f7 100644
---- a/drivers/rtc/rtc-lp8788.c
-+++ b/drivers/rtc/rtc-lp8788.c
-@@ -293,7 +293,7 @@ static int lp8788_rtc_probe(struct platform_device *pdev)
- 	rtc->alarm = lp->pdata ? lp->pdata->alarm_sel : DEFAULT_ALARM_SEL;
- 	platform_set_drvdata(pdev, rtc);
- 
--	device_init_wakeup(dev, 1);
-+	device_init_wakeup(dev, true);
- 
- 	rtc->rdev = devm_rtc_device_register(dev, "lp8788_rtc",
- 					&lp8788_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-lpc32xx.c b/drivers/rtc/rtc-lpc32xx.c
-index 76ad7031a13d..74280bffe1b0 100644
---- a/drivers/rtc/rtc-lpc32xx.c
-+++ b/drivers/rtc/rtc-lpc32xx.c
-@@ -257,7 +257,7 @@ static int lpc32xx_rtc_probe(struct platform_device *pdev)
- 			dev_warn(&pdev->dev, "Can't request interrupt.\n");
- 			rtc->irq = -1;
- 		} else {
--			device_init_wakeup(&pdev->dev, 1);
-+			device_init_wakeup(&pdev->dev, true);
- 		}
- 	}
- 
-diff --git a/drivers/rtc/rtc-max77686.c b/drivers/rtc/rtc-max77686.c
-index a8f4b645c09d..7bb044d2ac25 100644
---- a/drivers/rtc/rtc-max77686.c
-+++ b/drivers/rtc/rtc-max77686.c
-@@ -770,7 +770,7 @@ static int max77686_rtc_probe(struct platform_device *pdev)
- 		goto err_rtc;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	info->rtc_dev = devm_rtc_device_register(&pdev->dev, id->name,
- 					&max77686_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-max8925.c b/drivers/rtc/rtc-max8925.c
-index 64bb8ac6ef62..6ce8afbeac68 100644
---- a/drivers/rtc/rtc-max8925.c
-+++ b/drivers/rtc/rtc-max8925.c
-@@ -270,7 +270,7 @@ static int max8925_rtc_probe(struct platform_device *pdev)
- 	/* XXX - isn't this redundant? */
- 	platform_set_drvdata(pdev, info);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	info->rtc_dev = devm_rtc_device_register(&pdev->dev, "max8925-rtc",
- 					&max8925_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-max8997.c b/drivers/rtc/rtc-max8997.c
-index 20e50d9fdf88..e7618d715bd8 100644
---- a/drivers/rtc/rtc-max8997.c
-+++ b/drivers/rtc/rtc-max8997.c
-@@ -473,7 +473,7 @@ static int max8997_rtc_probe(struct platform_device *pdev)
- 	max8997_rtc_enable_wtsr(info, true);
- 	max8997_rtc_enable_smpl(info, true);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	info->rtc_dev = devm_rtc_device_register(&pdev->dev, "max8997-rtc",
- 					&max8997_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-meson-vrtc.c b/drivers/rtc/rtc-meson-vrtc.c
-index 648fa362ec44..5849729f7d01 100644
---- a/drivers/rtc/rtc-meson-vrtc.c
-+++ b/drivers/rtc/rtc-meson-vrtc.c
-@@ -74,7 +74,7 @@ static int meson_vrtc_probe(struct platform_device *pdev)
- 	if (IS_ERR(vrtc->io_alarm))
- 		return PTR_ERR(vrtc->io_alarm);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	platform_set_drvdata(pdev, vrtc);
- 
-diff --git a/drivers/rtc/rtc-mpc5121.c b/drivers/rtc/rtc-mpc5121.c
-index 600328131603..b90f8337a7e6 100644
---- a/drivers/rtc/rtc-mpc5121.c
-+++ b/drivers/rtc/rtc-mpc5121.c
-@@ -303,7 +303,7 @@ static int mpc5121_rtc_probe(struct platform_device *op)
- 		return PTR_ERR(rtc->regs);
- 	}
- 
--	device_init_wakeup(&op->dev, 1);
-+	device_init_wakeup(&op->dev, true);
- 
- 	platform_set_drvdata(op, rtc);
- 
-diff --git a/drivers/rtc/rtc-mt6397.c b/drivers/rtc/rtc-mt6397.c
-index 152699219a2b..6979d225a78e 100644
---- a/drivers/rtc/rtc-mt6397.c
-+++ b/drivers/rtc/rtc-mt6397.c
-@@ -286,7 +286,7 @@ static int mtk_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	rtc->rtc_dev->ops = &mtk_rtc_ops;
- 	rtc->rtc_dev->range_min = RTC_TIMESTAMP_BEGIN_1900;
-diff --git a/drivers/rtc/rtc-mv.c b/drivers/rtc/rtc-mv.c
-index 51029c536244..c27ad626d09f 100644
---- a/drivers/rtc/rtc-mv.c
-+++ b/drivers/rtc/rtc-mv.c
-@@ -264,7 +264,7 @@ static int __init mv_rtc_probe(struct platform_device *pdev)
- 	}
- 
- 	if (pdata->irq >= 0)
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 	else
- 		clear_bit(RTC_FEATURE_ALARM, pdata->rtc->features);
- 
-@@ -287,7 +287,7 @@ static void __exit mv_rtc_remove(struct platform_device *pdev)
- 	struct rtc_plat_data *pdata = platform_get_drvdata(pdev);
- 
- 	if (pdata->irq >= 0)
--		device_init_wakeup(&pdev->dev, 0);
-+		device_init_wakeup(&pdev->dev, false);
- 
- 	if (!IS_ERR(pdata->clk))
- 		clk_disable_unprepare(pdata->clk);
-diff --git a/drivers/rtc/rtc-mxc.c b/drivers/rtc/rtc-mxc.c
-index dbb935dbbd8a..608db97d450c 100644
---- a/drivers/rtc/rtc-mxc.c
-+++ b/drivers/rtc/rtc-mxc.c
-@@ -377,7 +377,7 @@ static int mxc_rtc_probe(struct platform_device *pdev)
- 	}
- 
- 	if (pdata->irq >= 0) {
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 		ret = dev_pm_set_wake_irq(&pdev->dev, pdata->irq);
- 		if (ret)
- 			dev_err(&pdev->dev, "failed to enable irq wake\n");
-diff --git a/drivers/rtc/rtc-mxc_v2.c b/drivers/rtc/rtc-mxc_v2.c
-index 13c041bb79f1..570f27af4732 100644
---- a/drivers/rtc/rtc-mxc_v2.c
-+++ b/drivers/rtc/rtc-mxc_v2.c
-@@ -302,7 +302,7 @@ static int mxc_rtc_probe(struct platform_device *pdev)
- 	if (pdata->irq < 0)
- 		return pdata->irq;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 	ret = dev_pm_set_wake_irq(&pdev->dev, pdata->irq);
- 	if (ret)
- 		dev_err(&pdev->dev, "failed to enable irq wake\n");
-diff --git a/drivers/rtc/rtc-omap.c b/drivers/rtc/rtc-omap.c
-index c123778e2d9b..0f90065e352c 100644
---- a/drivers/rtc/rtc-omap.c
-+++ b/drivers/rtc/rtc-omap.c
-@@ -920,7 +920,7 @@ static void omap_rtc_remove(struct platform_device *pdev)
- 		omap_rtc_power_off_rtc = NULL;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- 
- 	if (!IS_ERR(rtc->clk))
- 		clk_disable_unprepare(rtc->clk);
-diff --git a/drivers/rtc/rtc-palmas.c b/drivers/rtc/rtc-palmas.c
-index 7256a88b490c..aecada6bcf8b 100644
---- a/drivers/rtc/rtc-palmas.c
-+++ b/drivers/rtc/rtc-palmas.c
-@@ -287,7 +287,7 @@ static int palmas_rtc_probe(struct platform_device *pdev)
- 
- 	palmas_rtc->irq = platform_get_irq(pdev, 0);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 	palmas_rtc->rtc = devm_rtc_device_register(&pdev->dev, pdev->name,
- 				&palmas_rtc_ops, THIS_MODULE);
- 	if (IS_ERR(palmas_rtc->rtc)) {
-diff --git a/drivers/rtc/rtc-pic32.c b/drivers/rtc/rtc-pic32.c
-index bed3c27e665f..2812da2c50c5 100644
---- a/drivers/rtc/rtc-pic32.c
-+++ b/drivers/rtc/rtc-pic32.c
-@@ -330,7 +330,7 @@ static int pic32_rtc_probe(struct platform_device *pdev)
- 
- 	pic32_rtc_enable(pdata, 1);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	pdata->rtc->ops = &pic32_rtcops;
- 	pdata->rtc->range_min = RTC_TIMESTAMP_BEGIN_2000;
-diff --git a/drivers/rtc/rtc-pm8xxx.c b/drivers/rtc/rtc-pm8xxx.c
-index 2f32187ecc8d..b2518aea4218 100644
---- a/drivers/rtc/rtc-pm8xxx.c
-+++ b/drivers/rtc/rtc-pm8xxx.c
-@@ -503,7 +503,7 @@ static int pm8xxx_rtc_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, rtc_dd);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	rtc_dd->rtc = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(rtc_dd->rtc))
-diff --git a/drivers/rtc/rtc-pxa.c b/drivers/rtc/rtc-pxa.c
-index 34d8545c8e15..62ee6b8f9bcd 100644
---- a/drivers/rtc/rtc-pxa.c
-+++ b/drivers/rtc/rtc-pxa.c
-@@ -360,7 +360,7 @@ static int __init pxa_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(dev, 1);
-+	device_init_wakeup(dev, true);
- 
- 	return 0;
- }
-diff --git a/drivers/rtc/rtc-rc5t583.c b/drivers/rtc/rtc-rc5t583.c
-index eecb49bab56a..8ba9cda74acf 100644
---- a/drivers/rtc/rtc-rc5t583.c
-+++ b/drivers/rtc/rtc-rc5t583.c
-@@ -245,7 +245,7 @@ static int rc5t583_rtc_probe(struct platform_device *pdev)
- 		dev_err(&pdev->dev, "IRQ is not free.\n");
- 		return ret;
- 	}
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	ricoh_rtc->rtc = devm_rtc_device_register(&pdev->dev, pdev->name,
- 		&rc5t583_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-rc5t619.c b/drivers/rtc/rtc-rc5t619.c
-index 711f62eecd79..74d169102074 100644
---- a/drivers/rtc/rtc-rc5t619.c
-+++ b/drivers/rtc/rtc-rc5t619.c
-@@ -414,7 +414,7 @@ static int rc5t619_rtc_probe(struct platform_device *pdev)
- 
- 		} else {
- 			/* enable wake */
--			device_init_wakeup(&pdev->dev, 1);
-+			device_init_wakeup(&pdev->dev, true);
- 			enable_irq_wake(rtc->irq);
- 		}
- 	} else {
-diff --git a/drivers/rtc/rtc-renesas-rtca3.c b/drivers/rtc/rtc-renesas-rtca3.c
-index d127933bfc8a..a056291d3887 100644
---- a/drivers/rtc/rtc-renesas-rtca3.c
-+++ b/drivers/rtc/rtc-renesas-rtca3.c
-@@ -768,7 +768,7 @@ static int rtca3_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	priv->rtc_dev = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(priv->rtc_dev))
-diff --git a/drivers/rtc/rtc-rk808.c b/drivers/rtc/rtc-rk808.c
-index 2d9bcb3ce1e3..59b8e9a30fe6 100644
---- a/drivers/rtc/rtc-rk808.c
-+++ b/drivers/rtc/rtc-rk808.c
-@@ -418,7 +418,7 @@ static int rk808_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	rk808_rtc->rtc = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(rk808_rtc->rtc))
-diff --git a/drivers/rtc/rtc-s3c.c b/drivers/rtc/rtc-s3c.c
-index c0ac3bdb2f42..58c957eb753d 100644
---- a/drivers/rtc/rtc-s3c.c
-+++ b/drivers/rtc/rtc-s3c.c
-@@ -456,7 +456,7 @@ static int s3c_rtc_probe(struct platform_device *pdev)
- 	dev_dbg(&pdev->dev, "s3c2410_rtc: RTCCON=%02x\n",
- 		readw(info->base + S3C2410_RTCCON));
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	info->rtc = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(info->rtc)) {
-diff --git a/drivers/rtc/rtc-s5m.c b/drivers/rtc/rtc-s5m.c
-index dad294a0ce2a..36acca5b2639 100644
---- a/drivers/rtc/rtc-s5m.c
-+++ b/drivers/rtc/rtc-s5m.c
-@@ -729,7 +729,7 @@ static int s5m_rtc_probe(struct platform_device *pdev)
- 				info->irq, ret);
- 			return ret;
- 		}
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 	}
- 
- 	return devm_rtc_register_device(info->rtc_dev);
-diff --git a/drivers/rtc/rtc-sa1100.c b/drivers/rtc/rtc-sa1100.c
-index 13799b1abca1..1ad93648d69c 100644
---- a/drivers/rtc/rtc-sa1100.c
-+++ b/drivers/rtc/rtc-sa1100.c
-@@ -292,7 +292,7 @@ static int sa1100_rtc_probe(struct platform_device *pdev)
- 	}
- 
- 	platform_set_drvdata(pdev, info);
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	return sa1100_rtc_init(pdev, info);
- }
-diff --git a/drivers/rtc/rtc-sc27xx.c b/drivers/rtc/rtc-sc27xx.c
-index ce7a2ddbbc16..2b83561d4d28 100644
---- a/drivers/rtc/rtc-sc27xx.c
-+++ b/drivers/rtc/rtc-sc27xx.c
-@@ -613,14 +613,14 @@ static int sprd_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	rtc->rtc->ops = &sprd_rtc_ops;
- 	rtc->rtc->range_min = 0;
- 	rtc->rtc->range_max = 5662310399LL;
- 	ret = devm_rtc_register_device(rtc->rtc);
- 	if (ret) {
--		device_init_wakeup(&pdev->dev, 0);
-+		device_init_wakeup(&pdev->dev, false);
- 		return ret;
- 	}
- 
-diff --git a/drivers/rtc/rtc-sh.c b/drivers/rtc/rtc-sh.c
-index a5df521876ba..9ea40f40188f 100644
---- a/drivers/rtc/rtc-sh.c
-+++ b/drivers/rtc/rtc-sh.c
-@@ -611,7 +611,7 @@ static int __init sh_rtc_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_unmap;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 	return 0;
- 
- err_unmap:
-diff --git a/drivers/rtc/rtc-spear.c b/drivers/rtc/rtc-spear.c
-index 26eed927f8b3..959acff8faff 100644
---- a/drivers/rtc/rtc-spear.c
-+++ b/drivers/rtc/rtc-spear.c
-@@ -395,7 +395,7 @@ static int spear_rtc_probe(struct platform_device *pdev)
- 		goto err_disable_clock;
- 
- 	if (!device_can_wakeup(&pdev->dev))
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 
- 	return 0;
- 
-@@ -411,7 +411,7 @@ static void spear_rtc_remove(struct platform_device *pdev)
- 
- 	spear_rtc_disable_interrupt(config);
- 	clk_disable_unprepare(config->clk);
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- }
- 
- #ifdef CONFIG_PM_SLEEP
-diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-index e681c1745866..e5e6013d080e 100644
---- a/drivers/rtc/rtc-sun6i.c
-+++ b/drivers/rtc/rtc-sun6i.c
-@@ -826,7 +826,7 @@ static int sun6i_rtc_probe(struct platform_device *pdev)
- 
- 	clk_prepare_enable(chip->losc);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	chip->rtc = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(chip->rtc))
-diff --git a/drivers/rtc/rtc-sunplus.c b/drivers/rtc/rtc-sunplus.c
-index 9b1ce0e8ba27..519a06e728d6 100644
---- a/drivers/rtc/rtc-sunplus.c
-+++ b/drivers/rtc/rtc-sunplus.c
-@@ -269,7 +269,7 @@ static int sp_rtc_probe(struct platform_device *plat_dev)
- 	if (ret)
- 		goto free_reset_assert;
- 
--	device_init_wakeup(&plat_dev->dev, 1);
-+	device_init_wakeup(&plat_dev->dev, true);
- 	dev_set_drvdata(&plat_dev->dev, sp_rtc);
- 
- 	sp_rtc->rtc = devm_rtc_allocate_device(&plat_dev->dev);
-@@ -307,7 +307,7 @@ static void sp_rtc_remove(struct platform_device *plat_dev)
- {
- 	struct sunplus_rtc *sp_rtc = dev_get_drvdata(&plat_dev->dev);
- 
--	device_init_wakeup(&plat_dev->dev, 0);
-+	device_init_wakeup(&plat_dev->dev, false);
- 	reset_control_assert(sp_rtc->rstc);
- 	clk_disable_unprepare(sp_rtc->rtcclk);
- }
-diff --git a/drivers/rtc/rtc-tegra.c b/drivers/rtc/rtc-tegra.c
-index 79a3102c8354..46788db89953 100644
---- a/drivers/rtc/rtc-tegra.c
-+++ b/drivers/rtc/rtc-tegra.c
-@@ -319,7 +319,7 @@ static int tegra_rtc_probe(struct platform_device *pdev)
- 	writel(0xffffffff, info->base + TEGRA_RTC_REG_INTR_STATUS);
- 	writel(0, info->base + TEGRA_RTC_REG_INTR_MASK);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	ret = devm_request_irq(&pdev->dev, info->irq, tegra_rtc_irq_handler,
- 			       IRQF_TRIGGER_HIGH, dev_name(&pdev->dev),
-diff --git a/drivers/rtc/rtc-test.c b/drivers/rtc/rtc-test.c
-index 7e0d8fb26465..a68b8c884102 100644
---- a/drivers/rtc/rtc-test.c
-+++ b/drivers/rtc/rtc-test.c
-@@ -132,7 +132,7 @@ static int test_probe(struct platform_device *plat_dev)
- 		break;
- 	default:
- 		rtd->rtc->ops = &test_rtc_ops;
--		device_init_wakeup(&plat_dev->dev, 1);
-+		device_init_wakeup(&plat_dev->dev, true);
- 	}
- 
- 	timer_setup(&rtd->alarm, test_rtc_alarm_handler, 0);
-diff --git a/drivers/rtc/rtc-tps6586x.c b/drivers/rtc/rtc-tps6586x.c
-index e796729fc817..54c8429b16bf 100644
---- a/drivers/rtc/rtc-tps6586x.c
-+++ b/drivers/rtc/rtc-tps6586x.c
-@@ -241,7 +241,7 @@ static int tps6586x_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	platform_set_drvdata(pdev, rtc);
- 	rtc->rtc = devm_rtc_allocate_device(&pdev->dev);
-diff --git a/drivers/rtc/rtc-tps65910.c b/drivers/rtc/rtc-tps65910.c
-index 2ea1bbfbbc2a..284aa2f0392b 100644
---- a/drivers/rtc/rtc-tps65910.c
-+++ b/drivers/rtc/rtc-tps65910.c
-@@ -418,7 +418,7 @@ static int tps65910_rtc_probe(struct platform_device *pdev)
- 	tps_rtc->irq = irq;
- 	if (irq != -1) {
- 		if (device_property_present(tps65910->dev, "wakeup-source"))
--			device_init_wakeup(&pdev->dev, 1);
-+			device_init_wakeup(&pdev->dev, true);
- 		else
- 			device_set_wakeup_capable(&pdev->dev, 1);
- 	} else {
-diff --git a/drivers/rtc/rtc-twl.c b/drivers/rtc/rtc-twl.c
-index 794429182b34..e6106e67e1f4 100644
---- a/drivers/rtc/rtc-twl.c
-+++ b/drivers/rtc/rtc-twl.c
-@@ -572,7 +572,7 @@ static int twl_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 
- 	platform_set_drvdata(pdev, twl_rtc);
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	twl_rtc->rtc = devm_rtc_device_register(&pdev->dev, pdev->name,
- 					&twl_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-wm831x.c b/drivers/rtc/rtc-wm831x.c
-index 640833e21057..218316be942a 100644
---- a/drivers/rtc/rtc-wm831x.c
-+++ b/drivers/rtc/rtc-wm831x.c
-@@ -420,7 +420,7 @@ static int wm831x_rtc_probe(struct platform_device *pdev)
- 	if (ret & WM831X_RTC_ALM_ENA)
- 		wm831x_rtc->alarm_enabled = 1;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	wm831x_rtc->rtc = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(wm831x_rtc->rtc))
-diff --git a/drivers/rtc/rtc-wm8350.c b/drivers/rtc/rtc-wm8350.c
-index 6797eb4d2e49..3bd60d067a5e 100644
---- a/drivers/rtc/rtc-wm8350.c
-+++ b/drivers/rtc/rtc-wm8350.c
-@@ -420,7 +420,7 @@ static int wm8350_rtc_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	wm_rtc->rtc = devm_rtc_device_register(&pdev->dev, "wm8350",
- 					&wm8350_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-xgene.c b/drivers/rtc/rtc-xgene.c
-index 0813ea1a03c2..6660b664e8dd 100644
---- a/drivers/rtc/rtc-xgene.c
-+++ b/drivers/rtc/rtc-xgene.c
-@@ -174,7 +174,7 @@ static int xgene_rtc_probe(struct platform_device *pdev)
- 	/* Turn on the clock and the crystal */
- 	writel(RTC_CCR_EN, pdata->csr_base + RTC_CCR);
- 
--	ret = device_init_wakeup(&pdev->dev, 1);
-+	ret = device_init_wakeup(&pdev->dev, true);
- 	if (ret) {
- 		clk_disable_unprepare(pdata->clk);
- 		return ret;
-@@ -197,7 +197,7 @@ static void xgene_rtc_remove(struct platform_device *pdev)
- 	struct xgene_rtc_dev *pdata = platform_get_drvdata(pdev);
- 
- 	xgene_rtc_alarm_irq_enable(&pdev->dev, 0);
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- 	clk_disable_unprepare(pdata->clk);
- }
- 
-diff --git a/drivers/rtc/rtc-zynqmp.c b/drivers/rtc/rtc-zynqmp.c
-index af1abb69d1e3..625f708a7caf 100644
---- a/drivers/rtc/rtc-zynqmp.c
-+++ b/drivers/rtc/rtc-zynqmp.c
-@@ -337,7 +337,7 @@ static int xlnx_rtc_probe(struct platform_device *pdev)
- 
- 	xlnx_init_rtc(xrtcdev);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	return devm_rtc_register_device(xrtcdev->rtc);
- }
-@@ -345,7 +345,7 @@ static int xlnx_rtc_probe(struct platform_device *pdev)
- static void xlnx_rtc_remove(struct platform_device *pdev)
- {
- 	xlnx_rtc_alarm_irq_enable(&pdev->dev, 0);
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- }
- 
- static int __maybe_unused xlnx_rtc_suspend(struct device *dev)
--- 
-2.45.2
-
+SGkgS3J6eXN6dG9mIEtvemxvd3NraSwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4g
+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS3J6eXN6dG9mIEtvemxvd3NraSA8
+a3J6a0BrZXJuZWwub3JnPg0KPiBTZW50OiAxNyBEZWNlbWJlciAyMDI0IDA2OjMyDQo+IFN1Ympl
+Y3Q6IFJlOiBbUEFUQ0ggdjQgMS83XSBkdC1iaW5kaW5nczogcGluY3RybDogcmVuZXNhczogQWRk
+IGFscGhhLW51bWVyaWNhbCBwb3J0IHN1cHBvcnQgZm9yIFJaL1YySA0KPiANCj4gT24gTW9uLCBE
+ZWMgMTYsIDIwMjQgYXQgMDc6NTM6MTFQTSArMDAwMCwgQmlqdSBEYXMgd3JvdGU6DQo+ID4gUlov
+VjJIIGhhcyBwb3J0cyBQMC1QOSBhbmQgUEEtUEIuIEFkZCBzdXBwb3J0IGZvciBkZWZpbmluZw0K
+PiA+IGFscGhhLW51bWVyaWNhbCBwb3J0cyBpbiBEVCB1c2luZyBSWlYySF8qIG1hY3Jvcy4NCj4g
+DQo+IFNvIHRoaXMgaXMgb25seSBmb3IgRFQ/IE5vdCByZWFsbHkgYSBiaW5kaW5nLiBCaW5kaW5n
+IGJpbmRzIGRyaXZlciBpbXBsZW1lbnRhdGlvbiB3aXRoIERUUyBhbmQgeW91IGRvDQo+IG5vdCBo
+YXZlIGhlcmUgZHJpdmVyLg0KDQpQbGVhc2Ugc2VlIHBhdGNoIFsxXSwgc2VlIGhvdyB0aGlzIGRl
+ZmluaXRpb24gYmluZHMgZHJpdmVyIGltcGxlbWVudGF0aW9uIHdpdGggRFRTDQoNClsxXSBodHRw
+czovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNDEyMTYxOTUzMjUuMTY0MjEyLTQtYmlqdS5kYXMu
+anpAYnAucmVuZXNhcy5jb20vDQoNCj4gDQo+IENhbGxpbmcgaXQgYSBiaW5kaW5nIG1ha2VzIGl0
+IGltbXV0YWJsZSBhbmQgZ2l2ZXMgdXMsIERUIG1haW50YWluZXJzLCBtb3JlIHdvcmssIHNvIHJl
+YWxseSBubyBiZW5lZml0cw0KPiBhdCBhbGwuDQoNCj4gDQo+IEkgZ3Vlc3Mgb3RoZXIgRFQgbWFp
+bnRhaW5lcnMgd2lsbCBhY2sgaXQsIEkgcHJlZmVyIHRvIHJlZHVjZSBudW1iZXIgb2YgaGVhZGVy
+cy4NCg0KRFQgZGVzY3JpYmVzIGhhcmR3YXJlLiBUaGUgcG9ydCBuYW1lcyBhcmUgYWxwaGEgbnVt
+ZXJpYyBvbiBoYXJkd2FyZSBtYW51YWwuDQoNCkZvciBleGFtcGxlLCBjb25zaWRlciB0aGUgY2Fz
+ZSBvZiAgaGFyZHdhcmUgcGluIFBTMSBtZW50aW9uZWQgaW4gaGFyZHdhcmUgbWFudWFsLg0KDQpX
+aXRoIGN1cnJlbnQgY2hhbmdlcywNCnBpbm11eCA9IDxSWkczRV9QT1JUX1BJTk1VWChTLCAxLCAw
+KT47DQoNCldpdGggZXhpc3RpbmcgY29kZQ0KcGlubXV4ID0gPFJaRzNFX1BPUlRfUElOTVVYKDI4
+LCAxLCAwKT47DQoNCldoYXQgZG8geW91IHByZWZlciBoZXJlPyAyOCBpcyBqdXN0IGEgbnVtYmVy
+IGRlcml2ZWQgZnJvbSBoYXJkd2FyZSBpbmRpY2VzDQpPciBhY3R1YWwgcG9ydCBuYW1lIFBTMSBh
+cyBtZW50aW9uZWQgaW4gaGFyZHdhcmUgbWFudWFsPw0KDQpDaGVlcnMsDQpCaWp1IA0KDQoNCg0K
+DQoNCg0KDQo=
 
