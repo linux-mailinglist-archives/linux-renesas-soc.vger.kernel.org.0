@@ -1,87 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-11551-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11552-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692529F6980
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 16:09:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3C99F6A99
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 16:59:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7221F18966B8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 15:07:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A7F81721AE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 15:59:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07F291B0408;
-	Wed, 18 Dec 2024 15:07:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CCD11F0E33;
+	Wed, 18 Dec 2024 15:59:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="byknd3ay"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7xXtYrU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71188182C5;
-	Wed, 18 Dec 2024 15:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0311B0422;
+	Wed, 18 Dec 2024 15:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734534456; cv=none; b=NYIsFZ4iIa+LriVkW5o7tCFABlVyossE+BzBTrBenMjh4RlDC+2cxmvK7xmQ10ys9xFVIliPblHWL0xHyKFLb+dvL7c6i7Sun+60zZKPNxjOSNApiu1ZnMpRrzhmKQTBni8vi8kHvwcEpsqpbveLlG9XhITmPvU6ltotmLkXdig=
+	t=1734537546; cv=none; b=t/NqSigOrOH0juj2iFaf/kliE6+dFe8cmSnRIWVwpuPNE+f9s28xg4C545OzlFIQ/rk5qVWMAM0wM0eeGDWmRswBGMlstIKJn+kA4H/IJMuNEMDjX1/y8KzPDdgK1btnhYuJNpUHc9Kw2ZumALvzm7BGoZK2i2eIhiGESq2X2Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734534456; c=relaxed/simple;
-	bh=vUUv4pHPzbU2Z7UBYHQT8WBZujH4OK47PXybzG23u1M=;
+	s=arc-20240116; t=1734537546; c=relaxed/simple;
+	bh=lQ2pBIDXkcpmADWQH+UCwmI3ossBxR0vfJqtcZw6Y34=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ChpSBNJgR+LxROy5M2oYI29ymO1WAu2VFJJs+2mJtb2u2FylurG+LVYjCXQBobhpU5kck7S2HH28JxVoJf2SR+LJGsOnPSKbTGfLDw2JyVhJAWCt/zZuPBtEacaFzJ3VcreKiysov6UmS3W6WucLoe+3ZGFzijTD89TuuNGpKbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=byknd3ay; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21654fdd5daso56102675ad.1;
-        Wed, 18 Dec 2024 07:07:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734534454; x=1735139254; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=THk00mPCL3bmmt46Arb7cUVZHSSDIGbhq/stMjGiFyI=;
-        b=byknd3aywJUbnIO/YG2svw7Sjjp/UJELvxZS+mOjggfwz6eHoynBWhELagXu504ZZB
-         nPUadeZmB/6lSAu/xuwPSQ81MRohppEjKVtnJhrIfAKsRT2zjJgDtYD78FbMYUH51Iyr
-         HnLfUht4+YdWeCUM0SDnMhVtzo1AmWzn1+yt1K41Q7DVJQwSrNfza6kMywVc+LsKv8Pg
-         JA199MXjuPDtKYYtu6zaQDkxzESwlzv7j44FwIEX8gqaNOtQrdMjMjD2jurq4u0AuMQU
-         QCvtJg3vbDzgppRs/Uo0UAbXca9JVsh+2J84Ae7qRCZCfaHVIr/TCXign2mnbh6yA4km
-         cE3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734534454; x=1735139254;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=THk00mPCL3bmmt46Arb7cUVZHSSDIGbhq/stMjGiFyI=;
-        b=COahBXfhXs/pxQ/BA8m6CLWetWVCczwoK0CaUOxppRwQtWnnK6nEQqnxsP23erzRLX
-         P4c6v+6RAN1po2GyQWz+CJ01PWXe2ZOg7IMcp7k/f+4Xh2vbRJEQUOITLMdyUDrQq3lg
-         bnE/fCBeosABVZi6Nq3EdpJdT2M/UgPI2KljJMtHYTE7sJkSfOKkJryoIDgK9hr5E8hx
-         SatiFQ2iNIoRZKXbu/JMh4bQ46/uMlw2hEB5J7jOCI9zDnJTvryPevfSzSEg8E+zzgcD
-         erpRpZt1KHWFbu0Wi5gHHjsW735/VNn/WbPGJMPhkM32a4S7tZUmSHJbCNGCGtzNI8Rl
-         js9g==
-X-Forwarded-Encrypted: i=1; AJvYcCUYcWWfLU9ES1uHbGLJJ6uQLlz7rQ85Zi+gWG9ZTZ38y4jZ8eFAGD/EhAByAycuL23Vju6+A6fFo7G8728=@vger.kernel.org, AJvYcCV9rfxJtYn4QuauDjIgCzuI0znsNxov5cR+brCr1GDg3Nzocd0uRvvjV0ulm2PwTCk178aV2vjTuq8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxU5tU/QIHFN0QTewXlMoYYC4mz2t8SvXIo/pzTCWqOtNz2Kroq
-	ccrVbrtymL7BkVrLwn9Uh8t1G99pROcY8uzzCT0c33YSJTyZNp9qiAIgAg==
-X-Gm-Gg: ASbGncutGqsqCzO7ZXVkZImLezXLl66NZp5otF0Fy6jF/U7+yepvbUlR7Z6iPO9ysXS
-	PCvwpX+MbzFVMTO+ww3LLWWp5CKG6KpuSb5TNx9a4exovA48lY/eiz3RWyzF8pUh6HxOgjUirqT
-	M86UIUHXj9UyjlbwVfZ4N6gqFu/E5jYtOXaAYcp6AYqwPjZINOmkA1GUHoiyui6ABKw2Gzyf29k
-	mQXZJnHrNBIJnViprpmRmdyhaRj5Qpp3EA1t5adJzjs3sCzLbqMjXfs4DstB6zvtUgSTQ==
-X-Google-Smtp-Source: AGHT+IH/5vo/fUVb46dkRl0wElPs7u4QyYc5dAOhFZ4/+LiIf33p+klzewgqTvHJoGgOJN0ZFaRnHA==
-X-Received: by 2002:a17:902:e745:b0:216:51b0:6600 with SMTP id d9443c01a7336-218d722277emr48536105ad.24.1734534453538;
-        Wed, 18 Dec 2024 07:07:33 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1db5e1bsm77471145ad.46.2024.12.18.07.07.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 07:07:32 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 18 Dec 2024 07:07:31 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] hwmon: (lm75) Fix LM75B document link
-Message-ID: <9ffa3589-6173-451f-9e2f-bf34b43ae001@roeck-us.net>
-References: <20241218074131.4351-5-wsa+renesas@sang-engineering.com>
- <20241218074131.4351-8-wsa+renesas@sang-engineering.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ktzY40md1a43e+7dDTDjrbkL91DopW2crluxH5EuohCCeOhEG3NeS+6/1dYUmkXQsKuDNRoNqLTe3oDa3N4/2pRxmdn0nz/rnm+UHF6b6HCupucLZdUant55PGg/Ft0C9zUx6wjIeKzmVgZ3dB0VPymeZjNGeKn8E47DhaPb2sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K7xXtYrU; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734537545; x=1766073545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lQ2pBIDXkcpmADWQH+UCwmI3ossBxR0vfJqtcZw6Y34=;
+  b=K7xXtYrUbcdQJFvvrOXQCfqXoYGQgLAZAeoBUneBsiguaFRKf98pKCfV
+   UvLk3KryqAplD5G81PBxeY2swQ/igxiArLIn09YqE7Qu/fhFlp+wt35Dy
+   DpYnLrCVv1MD/IAwR9AY1ekEQRhUg2P/paMOpIfa7raC6S1P/IdCgqTHR
+   hrvtzABC+NJUzZUKxs6BlmkW7uIh4yQEySh9JetxCgK2QfxeMe+i+vcPa
+   6lls0ITpGf4OSpQui1srme6wmCEa9r1pzinvLummBYsMvqJfe3e994w6j
+   Io8j8xkZ6DDEWfl2XSjajlYAuL+mbQweK0Ap5ogQIm5TbJpqVnG9KPMIk
+   w==;
+X-CSE-ConnectionGUID: lIeg/cv1QAOjqMrtxVrnnA==
+X-CSE-MsgGUID: mkcHFF5sRTS1ogaX2ucj3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="45618296"
+X-IronPort-AV: E=Sophos;i="6.12,245,1728975600"; 
+   d="scan'208";a="45618296"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 07:59:04 -0800
+X-CSE-ConnectionGUID: EsdysSHfTT6W2KXxS9uGxw==
+X-CSE-MsgGUID: DShfojl1TnaaHgl4U/6j/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,245,1728975600"; 
+   d="scan'208";a="102752984"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 18 Dec 2024 07:59:01 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNwRv-000GSA-12;
+	Wed, 18 Dec 2024 15:58:59 +0000
+Date: Wed, 18 Dec 2024 23:58:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v23 3/4] pwm: Add support for RZ/G2L GPT
+Message-ID: <202412182358.9wma1UUE-lkp@intel.com>
+References: <20241217132921.169640-4-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -90,15 +83,102 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241218074131.4351-8-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20241217132921.169640-4-biju.das.jz@bp.renesas.com>
 
-On Wed, Dec 18, 2024 at 08:41:34AM +0100, Wolfram Sang wrote:
-> NXP reorganized their website. Update the link for the LM75B datasheet.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hi Biju,
 
-Applied.
+kernel test robot noticed the following build warnings:
 
-Thanks,
-Guenter
+[auto build test WARNING on 483082d78a092a3c1f343a76a2edb196069b4092]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/dt-bindings-pwm-Add-RZ-G2L-GPT-binding/20241217-213809
+base:   483082d78a092a3c1f343a76a2edb196069b4092
+patch link:    https://lore.kernel.org/r/20241217132921.169640-4-biju.das.jz%40bp.renesas.com
+patch subject: [PATCH v23 3/4] pwm: Add support for RZ/G2L GPT
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241218/202412182358.9wma1UUE-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412182358.9wma1UUE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412182358.9wma1UUE-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/pwm/pwm-rzg2l-gpt.c: In function 'rzg2l_gpt_probe':
+>> drivers/pwm/pwm-rzg2l-gpt.c:374:13: warning: unused variable 'i' [-Wunused-variable]
+     374 |         u32 i;
+         |             ^
+
+
+vim +/i +374 drivers/pwm/pwm-rzg2l-gpt.c
+
+   364	
+   365	static int rzg2l_gpt_probe(struct platform_device *pdev)
+   366	{
+   367		struct rzg2l_gpt_chip *rzg2l_gpt;
+   368		struct device *dev = &pdev->dev;
+   369		struct reset_control *rstc;
+   370		struct pwm_chip *chip;
+   371		unsigned long rate;
+   372		struct clk *clk;
+   373		int ret;
+ > 374		u32 i;
+   375	
+   376		chip = devm_pwmchip_alloc(dev, RZG2L_MAX_PWM_CHANNELS, sizeof(*rzg2l_gpt));
+   377		if (IS_ERR(chip))
+   378			return PTR_ERR(chip);
+   379		rzg2l_gpt = to_rzg2l_gpt_chip(chip);
+   380	
+   381		rzg2l_gpt->mmio = devm_platform_ioremap_resource(pdev, 0);
+   382		if (IS_ERR(rzg2l_gpt->mmio))
+   383			return PTR_ERR(rzg2l_gpt->mmio);
+   384	
+   385		rstc = devm_reset_control_get_exclusive_deasserted(dev, NULL);
+   386		if (IS_ERR(rstc))
+   387			return dev_err_probe(dev, PTR_ERR(rstc), "Cannot deassert reset control\n");
+   388	
+   389		clk = devm_clk_get_enabled(dev, NULL);
+   390		if (IS_ERR(clk))
+   391			return dev_err_probe(dev, PTR_ERR(clk), "Cannot get clock\n");
+   392	
+   393		ret = devm_clk_rate_exclusive_get(dev, clk);
+   394		if (ret)
+   395			return ret;
+   396	
+   397		rate = clk_get_rate(clk);
+   398		if (!rate)
+   399			return dev_err_probe(dev, -EINVAL, "The gpt clk rate is 0");
+   400	
+   401		/*
+   402		 * Refuse clk rates > 1 GHz to prevent overflow later for computing
+   403		 * period and duty cycle.
+   404		 */
+   405		if (rate > NSEC_PER_SEC)
+   406			return dev_err_probe(dev, -EINVAL, "The gpt clk rate is > 1GHz");
+   407	
+   408		/*
+   409		 * Rate is in MHz and is always integer for peripheral clk
+   410		 * 2^32 * 2^10 (prescalar) * 10^6 (rate_khz) < 2^64
+   411		 * So make sure rate is multiple of 1000.
+   412		 */
+   413		rzg2l_gpt->rate_khz = rate / KILO;
+   414		if (rzg2l_gpt->rate_khz * KILO != rate)
+   415			return dev_err_probe(dev, -EINVAL, "Rate is not multiple of 1000");
+   416	
+   417		mutex_init(&rzg2l_gpt->lock);
+   418	
+   419		chip->ops = &rzg2l_gpt_ops;
+   420		ret = devm_pwmchip_add(dev, chip);
+   421		if (ret)
+   422			return dev_err_probe(dev, ret, "Failed to add PWM chip\n");
+   423	
+   424		return 0;
+   425	}
+   426	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
