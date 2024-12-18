@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-11517-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11518-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5749F605B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 09:44:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BED3E9F6084
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 09:53:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB2F21885B65
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 08:44:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D9CD188275B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 08:53:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BC3418B46A;
-	Wed, 18 Dec 2024 08:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2897F191F75;
+	Wed, 18 Dec 2024 08:53:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="E6LWxAdG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V00j+/MK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE41814F9E2;
-	Wed, 18 Dec 2024 08:44:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F40D18A956;
+	Wed, 18 Dec 2024 08:53:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734511445; cv=none; b=H8im20ys99Rj4sFrEed6IU4D4Acqe1iC7k325G2y7ZkZPJJsifZcGOs15T6o17Zy/+KBoSThTBaaOLiCj6wfPvQZf8ee4Vc2JLBS6EQb8uNoxyDu/EnJ36bBy+wwxOH8w2kD1KRCijtS1QVozbslAyIllno88gb76/9fz27Jslo=
+	t=1734512015; cv=none; b=D7KpvTkGD7f5/3PFwT77z7+0ImXofs/0+p741Uf87/O/rKDtd9XAs+tzVDeRQ9Ms9h9uZtkAkEoXR737cv06BGFwC7EiD5C3nzl/zhI+zuEgAjE6mq5pWTlgUp60UudHxOvz/BA/19NvaaaMXJLUi+5V/E2lIn/36GKrIQNGhAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734511445; c=relaxed/simple;
-	bh=onSRFXQ2jL05vwDlih9bM+tXUQP5XIYzSp35Ag1O79s=;
+	s=arc-20240116; t=1734512015; c=relaxed/simple;
+	bh=AeZKAty4wAS+EIXQVQVnlnJTlUQCNOKCpfx3Vjia0HM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gOstl2ly8oxsMrnhf5Qm/txe3Bv0exGmiUINTP/0z8EuCxSyDO5at5dkS4udZd2gsCLM4UwacANYiUJjAbLfllS3I2NCgHjb8/zPbwsf1Tv6PemZqpHNH3yil6Pbx14mgR7VZSgKyKsG5TtaUmwMVFgtHiLxFebu71gNFobL/+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=E6LWxAdG; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=WwS/ddQi08Xg/XedJSHCofWEhWJbJkpMbdVUgHPxezUxG1R6cQQDa7pOL0vdMNe0YegFTfEC/Qz2hmUka0kIRNMCE9GmZmwclSlU9EQtk2J7+WeaOYTiprxBxdAG1nfj2+ivouLhlzpD8pFaPUPENp/aKAiOkAO175UbdLCiVVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=V00j+/MK; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F54659D;
-	Wed, 18 Dec 2024 09:43:22 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E054A59D;
+	Wed, 18 Dec 2024 09:52:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734511402;
-	bh=onSRFXQ2jL05vwDlih9bM+tXUQP5XIYzSp35Ag1O79s=;
+	s=mail; t=1734511974;
+	bh=AeZKAty4wAS+EIXQVQVnlnJTlUQCNOKCpfx3Vjia0HM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E6LWxAdGOAecfRfkLATcW4U4WvGWQ0BWY0VndY2EnBTiGD3Tzl8GF6Od99TQ+dDZG
-	 Dq8v95pnqbOhkUonxJh3TdK//pzLjIlM23VsIKrJi18i9OIzh1Ub9Bx3+oT1XpKMkI
-	 DJShLoXC+arx6kgI6zjtEYtj5LOajhSrWBS5TK9k=
-Date: Wed, 18 Dec 2024 09:43:57 +0100
+	b=V00j+/MK012CplQ8btXJWnLvNQIqj52Zx95E+UDhw+mnz/HWH4ZzXE4qsSZGJ0xMj
+	 GSPkWXNQQ2ApC1jDoegiVB7a+3NAUogzUShddKUO7bySnwURoUO2WDS+c1QfRx1TEX
+	 FiN7Z0IwomnoiIS3QuGpA9V3ZXrr92ongeaESll4=
+Date: Wed, 18 Dec 2024 09:53:28 +0100
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
@@ -50,11 +50,11 @@ Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 4/4] arm64: dts: renesas: r8a779g0: Add VSPX instances
-Message-ID: <hscqyt5ybswnc5azc2anto4vfm7qg6y2o45gxwioi3upt72bqb@g32ybb3r7utv>
+Subject: Re: [PATCH 1/4] clk: renesas: r8a779g0: Add FCPVX clocks
+Message-ID: <edllhe7jhpggfylricwhzgvr4xmjc7wcb32d3c43u4b4ntdryn@t4dln4dfjj5k>
 References: <20241217-rcar-v4h-vspx-v1-0-de04ea044ed4@ideasonboard.com>
- <20241217-rcar-v4h-vspx-v1-4-de04ea044ed4@ideasonboard.com>
- <20241217234215.GQ23470@pendragon.ideasonboard.com>
+ <20241217-rcar-v4h-vspx-v1-1-de04ea044ed4@ideasonboard.com>
+ <20241217234622.GR23470@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,77 +63,53 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241217234215.GQ23470@pendragon.ideasonboard.com>
+In-Reply-To: <20241217234622.GR23470@pendragon.ideasonboard.com>
 
 Hi Laurent
 
-On Wed, Dec 18, 2024 at 01:42:15AM +0200, Laurent Pinchart wrote:
+On Wed, Dec 18, 2024 at 01:46:22AM +0200, Laurent Pinchart wrote:
 > Hi Jacopo,
 >
 > Thank you for the patch.
 >
-> On Tue, Dec 17, 2024 at 06:53:17PM +0100, Jacopo Mondi wrote:
-> > Add device nodes for the VSPX instances on R-Car V4H (R8A779G0) SoC.
+> On Tue, Dec 17, 2024 at 06:53:14PM +0100, Jacopo Mondi wrote:
+> > Add the FCPVX modules clock for Renesas R-Car V4H (R8A779G0) SoC.
 > >
 > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > > ---
-> >  arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 22 ++++++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
+> >  drivers/clk/renesas/r8a779g0-cpg-mssr.c | 2 ++
+> >  1 file changed, 2 insertions(+)
 > >
-> > diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> > index e49748563e2f5706ed982d6c9cc1df59f27bd0dc..bf4ec5fb7bbdba55e2994f332fcbd623839079c2 100644
-> > --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> > @@ -2211,6 +2211,28 @@ vspd1: vsp@fea28000 {
-> >  			renesas,fcp = <&fcpvd1>;
-> >  		};
-> >
-> > +		vspx0: vsp@fedd0000 {
+> > diff --git a/drivers/clk/renesas/r8a779g0-cpg-mssr.c b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+> > index 55c8dd032fc325c63727f21dc4d38b8e08ce0ca0..dc9ac2839ad9bb6c222db015de72fe8d9e7fe208 100644
+> > --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+> > +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+> > @@ -238,6 +238,8 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
+> >  	DEF_MOD("pfc2",		917,	R8A779G0_CLK_CP),
+> >  	DEF_MOD("pfc3",		918,	R8A779G0_CLK_CP),
+> >  	DEF_MOD("tsc",		919,	R8A779G0_CLK_CL16M),
+> > +	DEF_MOD("fcpvx0",	1100,	R8A779G0_CLK_S0D4_VIO),
+> > +	DEF_MOD("fcpvx1",	1101,	R8A779G0_CLK_S0D4_VIO),
 >
-> Please keep those sorted by unit address too.
->
-> > +			compatible = "renesas,vsp2";
-> > +			reg = <0 0xfedd0000 0 0x8000>;
-> > +			interrupts = <GIC_SPI 556 IRQ_TYPE_LEVEL_HIGH>;
->
-> The interrupts are listed as "negative level sensitive" in the
-> documentation. Tomi encountered a similar situation with the V4M VSP,
-> and setting the level to low in the DT didn't work. I assume this will
-> be fine, but if you encounter interrupt issues, this is one possible
-> area to investigate.
+> I can't really validate the parent as the documentation lists multiple
+> S0 clocks that driver the FCP, but this is one of them, so
 
-Yes, I noticed that the documentation says "negative", but I've done
-the same here as it's done for the VSPD instances (which are equally
-documented as negative), assuming that path had been tested.
+Here I decided to use the same clock as the VINs (200MHz)
+
+However the ISPs clock parent is set to R8A779G0_CLK_S0D2_VIO (400MHz)
+but that does not support the VSPX.
+
+The only clock parent that can feed  [FCPVX, VSPX and ISP] is the
+800MHz R8A779G0_CLK_S0D1_VIO parent.
 
 >
 > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Thanks
-  j
-
 >
-> > +			clocks = <&cpg CPG_MOD 1028>;
-> > +			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 1028>;
-> > +
-> > +			renesas,fcp = <&fcpvx0>;
-> > +		};
-> > +
-> > +		vspx1: vsp@fedd8000 {
-> > +			compatible = "renesas,vsp2";
-> > +			reg = <0 0xfedd8000 0 0x8000>;
-> > +			interrupts = <GIC_SPI 557 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 1029>;
-> > +			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 1029>;
-> > +
-> > +			renesas,fcp = <&fcpvx1>;
-> > +		};
-> > +
-> >  		du: display@feb00000 {
-> >  			compatible = "renesas,du-r8a779g0";
-> >  			reg = <0 0xfeb00000 0 0x40000>;
+> I expect that in reality the MSTP bit gates multiple clocks.
+>
+> >  	DEF_MOD("tsn",		2723,	R8A779G0_CLK_S0D4_HSC),
+> >  	DEF_MOD("ssiu",		2926,	R8A779G0_CLK_S0D6_PER),
+> >  	DEF_MOD("ssi",		2927,	R8A779G0_CLK_S0D6_PER),
 >
 > --
 > Regards,
