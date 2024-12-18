@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-11542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E74C9F6825
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 15:21:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 388B29F6829
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 15:21:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3B511892606
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 14:21:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 874DB16CC6C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 14:21:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 522AB1BEF9E;
-	Wed, 18 Dec 2024 14:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ADAD1C5CA6;
+	Wed, 18 Dec 2024 14:20:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3y5I2zd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bxbQ/Wx5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749F01B0417;
-	Wed, 18 Dec 2024 14:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB801BEF7A;
+	Wed, 18 Dec 2024 14:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734531657; cv=none; b=oWLEBhNC0I5QZ+BO6hDjrT6lZGkC0X7lBIhPAsM/i0sFa9hV7hYvqaltq2N9cJtRHDH6Vy8W8Ty5aI2bIkIQDTIoGIs0JHEWspP2Upk3ioqDEQ6nwg6jdNVhozAzqrd5wRqlfcz4y7LWkIOvlLbVcGPXC7CVphk0XFcnw7qhhbo=
+	t=1734531658; cv=none; b=gXTT2Z0S6+VM/4GhqYM1vbs/wazr58upN7qCow82UorOiZ2oS4DmnIafMvyXUUpT0dZwS5O9lBXw6W6fQ8Zq3urMyDFLAAWy9ukiNuJRHw5XnUjbIy5ALjhMLUgII4vsA/W2NKNKQ7bzvSAUYGw+56Yf1sa7gmVEDiRxHhw4Ux4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734531657; c=relaxed/simple;
-	bh=9tmBVqrl3cCt1vbcckJCfwPjMaR/yc9CnZVg0J72dCk=;
+	s=arc-20240116; t=1734531658; c=relaxed/simple;
+	bh=SrBM4xqAfZOzEOBXFD+pJDwrNKD6dUCsFCv8SJQ/TQ4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fM1z2DvvLb21262/X5PQXAD6bmqd2b84hpboCc1vQY6EE79rRYue6xHA+CLy6SK+RUBQByF3rTWa+4PRa/yEhr/QWvLA1vRdgpD0B+ecyV7qfHrF69GqYl/NsV7fcBOIsAN749LI6N1oz1r3EDZoHUXEnmSw0/KcoYREjC2mOfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3y5I2zd; arc=none smtp.client-ip=209.85.221.43
+	 MIME-Version; b=YhdC55pnVQnXb+ETA7TAqPgqpx22llDCUUwNsJU3NozGcm7Cl4YhwtVb2l4KLZh5Vwbw03sx5WrEo5u8u+r+GTeBsJZaomb2aAX15ooAGS/gNbrtxCjPZz/FphLVUQ2jL6gb+n4QSZiuo7ifbqNHlIR5xQFPABkGMIcvPzJYo8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bxbQ/Wx5; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-382610c7116so3542382f8f.0;
-        Wed, 18 Dec 2024 06:20:55 -0800 (PST)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-385e06af753so3393759f8f.2;
+        Wed, 18 Dec 2024 06:20:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734531654; x=1735136454; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1734531655; x=1735136455; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=g17UO33YdBwmO7DGR3pIPrhlIJblMqxcqNmPlgeEQYo=;
-        b=Z3y5I2zdR5xfVfDOYM/Wc3oV25J/qjYHMfgYP0BJi31x4aTttaYG9t3ZhSESWAI4CN
-         UPLETMITef0jJZKrj/n7TBBUlfr+fJN/pDhcoUuKJW0aioRXSI8L8BNC9+I4Bvfrj/+0
-         y46GgBRyiq2RZbZoz0W7JoMj/NeWihQlQ5JEiXCBqzvWeoCs2PfhU4dzqTOdAUZ5cWiM
-         /9R6Vcb5wIrypg+izPV4Zq6Ic4YND6hZN+AAobZNeKurajyOXoKtLAIcwCg+PBUcTR34
-         MroM/zhMVl8QqoYa+OjDU7Ct+/NL3I+Oniy5M46MxE4KJ/4PMADGWhLbqWuM0lAtqH5K
-         4HnA==
+        bh=2JLKkZD/mqACjYyo1Roz1R7qdTK6jveAjWy7QXVt610=;
+        b=bxbQ/Wx5Cqwdj78TubQp+gi0qxX7cfZSCvgZFMHwrVfFNZvy9rCIroDpwS+N25yZgE
+         FlMyEoiifAgrJMho7VaXvDJ7YK7gx6ya7tuppVjXkftPzco6sWcoxt0+kY83/Kr+JUjg
+         AA5qqfvYFlGZxg6NGxN1xHmTTwH/Hffk9VZe5zelbYtzklxBi7HYICZW48uqgoIojYS9
+         /mXrmfea+4mNovboAtNztNQbOYM7qUuW59OJaqqTcE4cuoKcONPsWPITDlRf8d9rTuup
+         ZcJfhpgXXn+6tSwZC/8d+oCvLOViRL78kLb3O/J1uceC5tW2+hvucyLXsyuxXK0aPA0H
+         tytg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734531654; x=1735136454;
+        d=1e100.net; s=20230601; t=1734531655; x=1735136455;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=g17UO33YdBwmO7DGR3pIPrhlIJblMqxcqNmPlgeEQYo=;
-        b=OCB5zrFkMr08CP191WVg6L5U+xdmWUrPI5l5qW3LgYuX6b7KP74QBHrrocKy0dRdxz
-         7QW2TvpsxHWJrHSXKqaq82BFq0JfbX54Ri2vfWU+J6SEyqHKGncH4A0kMUfKLE2FUBeW
-         0j4dbwWaix8P6YSiO6n9Bs3FUuK37FVvMS+6TpUSXPrb7dEYcaLwq5lUYhbw1MVXrcLu
-         reFQKoCSLvlZiUjF+8Hi8B9u50hgGR6hHBv2ReIKDqg3WEEpDgYda62VjyeAEZ4Nbj/z
-         UNXN4DURHsnatVYb49Tz1tx3Og1quugJqg2ORf+/KxhcC8TrvoPkrBIkpWwudhA/K5hB
-         ljbg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZVTfdKIauZLECTJmGtfGCmsYxxi/BMt/pRSkjWQSsMImTk+dgakMTtLX/Ze0kHAIL5bIpXiQbcXY+E+T+@vger.kernel.org, AJvYcCVDYg26Gd1BazzuJXQXfVDLIYfz3xvVtS1SbYSYIVOS1ZWX4r9WfKcymbzILFTn29/DeP1X4i4AQlw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjANhyqLtk1H8oXoz14DpJB1Bfn8vNQ9PeuX8nGuk48qHdGx74
-	3p1INSehtqlQwyRjUseI+08FElsGLb04ZX/nwyn1YDc9cq0CIUvw
-X-Gm-Gg: ASbGncuG188g1hGJpR9nlyN3LAauGGhCzybvZfgIjdW5BPVyr2SSXv7cS6DbfYCzmiW
-	oDFKnnI2q3SVxH2rMEQYEQmzFHX8ZzuZw2VgTG6kyGPGAgivnWPRh3/PZVrqNrS2jMOInXPiBWN
-	RPVC8ZEAlgrWyjC04zHFaf7ohgGGV6RlVnvC8tWAGpl+pMmHC4AwLkKZqCOSohw0g87XFE1qSuj
-	Ilc4v1F1ZATGYVC6LM60UbvqIax//iFnmFTTOoy7Ql3bzPH3R4NNxH5MZt3zSF4BSobSjVyobMv
-	ZwPk3QdA4A==
-X-Google-Smtp-Source: AGHT+IEJUQOo3uYoWkP6M4yW2w+umZSx5Uf/nQl/QX8/jpX4Zo5fL/mVEUOSEej8ij836pYJ4hqSdg==
-X-Received: by 2002:a5d:64e9:0:b0:385:e3d3:be1b with SMTP id ffacd0b85a97d-388e4d574f5mr2745400f8f.28.1734531653533;
-        Wed, 18 Dec 2024 06:20:53 -0800 (PST)
+        bh=2JLKkZD/mqACjYyo1Roz1R7qdTK6jveAjWy7QXVt610=;
+        b=KWxsPm5jXl0Ctd5KqJkVijMuu1QVCYiTelReF7XbKbCEL+IEsa98kY2ieLL+IP3oG8
+         AKfzd8z2QebCIZUFWMX2s2WbwdJPmME7qtaW/Ml4CvcPEd/iRojrQ1EVvebRpvDV3zaT
+         mH/6kjC7skpW3vgU6KuOlmwh2YtZAVYyG0MA5wITJMgAhdpDO9ltipjyVg9re1a9ImIP
+         UIVZ2E9nmniVH2VXLLEU7pQJYW3KXLmss+/7ytN14UWit1lD89xgjSqP/JJXXliH6Gn0
+         SeyjZXTphPPyuGimPoiqev1BjhYifeLqbvoE7/4vH8mbpJw5Rj4AFfO3cG/hTFXX2CTN
+         k2zQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWEnjPJowEJctqSGNtdqeD5411IZctgo2PruEN17OyyjEPmClk/VQ63DZKCHU0xEeHWvhvfgTIJJz8=@vger.kernel.org, AJvYcCXwpKfXTtkdJuSeaS9d48Yy82kNkzUaRYxYO7RTw6KTJN+YEPx/W6u+5NNw+YUAIz+7ApcG8LzCVCs7yFcl@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBqQTwm5oRmehIJYW3tmVWf7F6dOb7UyDcb/LwRh6zrjrlLoj/
+	iIpwEkF5jB4Hw08nW+9/iU+wWVKek996d7Dk10YuTOGOs4tDAY6KCz1XOQ==
+X-Gm-Gg: ASbGncuLuJmt53+bN7udsCwaMn5bqe5OiUSGRFqJThmkx8mJJ7J9I5U1y4UfOwHNgMt
+	HJc7jM+6m4E1804teL9IloRMxFrwE/Uu4AF0/2Tp3Yl9fnRARJ8GZGyeHlGZDUF6sy3dk5fc0b5
+	09l44zrZB6qqzn7AvIDRozGT5Vv+pc9av1eUdFN6PSMqxOXk0FEye5D0/idSMfesUlCoeAcoata
+	MAek1NBq4WNkdsGgk2PxxAS8reSk5priL4Kg16Rn296ClH2S1AbZU70+1qCw31C/vwfcvc/BLZx
+	JpbiiQwhlA==
+X-Google-Smtp-Source: AGHT+IGbYC5OOnjUzvLlXIbCkpWMp6vz2WcxhoipNrfrLtop3QJ+w8l2tV/ljUnvlf8Hn5zk89l4ng==
+X-Received: by 2002:adf:e190:0:b0:386:3e3c:ef1 with SMTP id ffacd0b85a97d-388e4d9201cmr2867632f8f.35.1734531654923;
+        Wed, 18 Dec 2024 06:20:54 -0800 (PST)
 Received: from prasmi.Home ([2a06:5906:61b:2d00:9516:68be:c7cd:69f2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801ac68sm14107033f8f.51.2024.12.18.06.20.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801ac68sm14107033f8f.51.2024.12.18.06.20.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 06:20:52 -0800 (PST)
+        Wed, 18 Dec 2024 06:20:53 -0800 (PST)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -84,9 +84,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/5] clk: renesas: rzv2h: Relocate MSTOP-related macros to the family driver
-Date: Wed, 18 Dec 2024 14:20:42 +0000
-Message-ID: <20241218142045.77269-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 3/5] clk: renesas: rzv2h: Simplify BUS_MSTOP macros and field extraction
+Date: Wed, 18 Dec 2024 14:20:43 +0000
+Message-ID: <20241218142045.77269-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241218142045.77269-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20241218142045.77269-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -100,51 +100,48 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The `CPG_BUS_1_MSTOP` and `CPG_BUS_MSTOP` macros are exclusively used by
-the RZ/V2H(P) CPG family driver and are not required in the SoC-specific
-clock driver.
+Replace manual bit manipulation in `BUS_MSTOP` with `FIELD_PREP_CONST` and
+`FIELD_GET` macros for better clarity and maintainability. Introduce
+explicit masks (`BUS_MSTOP_IDX_MASK`, `BUS_MSTOP_BITS_MASK`) to improve
+readability.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/clk/renesas/rzv2h-cpg.c | 3 +++
- drivers/clk/renesas/rzv2h-cpg.h | 3 ---
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/clk/renesas/rzv2h-cpg.c | 4 ++--
+ drivers/clk/renesas/rzv2h-cpg.h | 5 ++++-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index 23c89b0de38a..38edddfc42d9 100644
+index 38edddfc42d9..29b1ce003370 100644
 --- a/drivers/clk/renesas/rzv2h-cpg.c
 +++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -41,6 +41,9 @@
- #define GET_RST_OFFSET(x)	(0x900 + ((x) * 4))
- #define GET_RST_MON_OFFSET(x)	(0xA00 + ((x) * 4))
+@@ -582,8 +582,8 @@ static struct rzv2h_mstop
+ 	if (!mstop)
+ 		return NULL;
  
-+#define CPG_BUS_1_MSTOP		(0xd00)
-+#define CPG_BUS_MSTOP(m)	(CPG_BUS_1_MSTOP + ((m) - 1) * 4)
-+
- #define KDIV(val)		((s16)FIELD_GET(GENMASK(31, 16), (val)))
- #define MDIV(val)		FIELD_GET(GENMASK(15, 6), (val))
- #define PDIV(val)		FIELD_GET(GENMASK(5, 0), (val))
+-	mstop->idx = (mstop_data >> 16) & 0xffff;
+-	mstop->mask = mstop_data & 0xffff;
++	mstop->idx = FIELD_GET(BUS_MSTOP_IDX_MASK, (mstop_data));
++	mstop->mask = FIELD_GET(BUS_MSTOP_BITS_MASK, (mstop_data));
+ 	if (rzv2h_mod_clock_is_enabled(&clock->hw))
+ 		refcount_set(&mstop->ref_cnt, 1);
+ 	else
 diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-index 9be5a312fa96..810275eba473 100644
+index 810275eba473..f918620c4650 100644
 --- a/drivers/clk/renesas/rzv2h-cpg.h
 +++ b/drivers/clk/renesas/rzv2h-cpg.h
-@@ -35,7 +35,6 @@ struct ddiv {
- #define CPG_CDDIV1		(0x404)
- #define CPG_CDDIV3		(0x40C)
- #define CPG_CDDIV4		(0x410)
--#define CPG_BUS_1_MSTOP		(0xd00)
- 
- #define CDDIV0_DIVCTL2	DDIV_PACK(CPG_CDDIV0, 8, 3, 2)
- #define CDDIV1_DIVCTL0	DDIV_PACK(CPG_CDDIV1, 0, 2, 4)
-@@ -47,8 +46,6 @@ struct ddiv {
+@@ -46,7 +46,10 @@ struct ddiv {
  #define CDDIV4_DIVCTL1	DDIV_PACK(CPG_CDDIV4, 4, 1, 17)
  #define CDDIV4_DIVCTL2	DDIV_PACK(CPG_CDDIV4, 8, 1, 18)
  
--#define CPG_BUS_MSTOP(m)	(CPG_BUS_1_MSTOP + ((m) - 1) * 4)
--
- #define BUS_MSTOP(idx, mask)	(((idx) & 0xffff) << 16 | (mask))
+-#define BUS_MSTOP(idx, mask)	(((idx) & 0xffff) << 16 | (mask))
++#define BUS_MSTOP_IDX_MASK	GENMASK(31, 16)
++#define BUS_MSTOP_BITS_MASK	GENMASK(15, 0)
++#define BUS_MSTOP(idx, mask)	(FIELD_PREP_CONST(BUS_MSTOP_IDX_MASK, (idx)) | \
++				 FIELD_PREP_CONST(BUS_MSTOP_BITS_MASK, (mask)))
  #define BUS_MSTOP_NONE		GENMASK(31, 0)
  
+ /**
 -- 
 2.43.0
 
