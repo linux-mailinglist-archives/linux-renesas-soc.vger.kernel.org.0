@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-11544-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11545-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507DA9F682D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 15:21:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302AF9F6830
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 15:22:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6608F1892776
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 14:21:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7647B18934C6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 14:22:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 009DA1D5AB7;
-	Wed, 18 Dec 2024 14:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59C471DFD9C;
+	Wed, 18 Dec 2024 14:21:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dUNkSP40"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nFdW+Qkn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD6D1C548A;
-	Wed, 18 Dec 2024 14:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8534E1C5CDA;
+	Wed, 18 Dec 2024 14:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734531659; cv=none; b=HT3XdlWExQAnXDr9h9gYj/zs8vzXJnhliMsSiGp0EkKZQuqWDHMhDz7o5xGZG16cpOGEhm8NbuQwm2ftWhyihDe4Wiv+/Y0WCevvx6ux+qNAMtLym/r5ruzhGp9iIwlZXk+6bIQal1Lz7LaHQfLMOzQVhtKcGaEgebxZzJHKNtU=
+	t=1734531661; cv=none; b=HhKo+gSlQGxqyQVx4I57oCdWvMt8dEyffxib5bPL8FrtuEQXmh38UofZNq8yrnI8hGvO4XbI5G0Kmz57XxYsu2HUK6KDl1xr4fOhpy29Nhe2moIMeHPNjhQ8NnLbOMoClvGVNm0sXX/d4okKSZnG4Ep5+KSU17qybFxojPE5MDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734531659; c=relaxed/simple;
-	bh=G0VcbygjrcIvSCsXXo7R+ukCzSn8AMxD8kp172+o8eY=;
+	s=arc-20240116; t=1734531661; c=relaxed/simple;
+	bh=ZdUn1eZ8PxzARU+wmajVvceff/9hM5OkdTDmgJirXes=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l1Zfrp3Qn9r13UciCQkDVgc/8RFvhiMJjYqGHWS0FOdOFhFHWPyUvcCoKD46FoC//ix1JruZRoUz13y9NDnmW52EzFpHMh00p5OVUu7rMOzu0IrqnGCH53uY44LdFr2NlQMO2468sP5DLxObT7L5OTcMe15DIPqnlJM3NRIvBh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dUNkSP40; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=fUAAJ0NatfrcIAX8mXtG/aGkn2PKGuyycvSceQLx5w2vC2YMSAikSLh/5mbViUkqSq7zOyd3fmQHJH6+L2PDSRmX/ENms6DL4SVMwSGEz+dO/rUM+4U4fG6tehvlj7vC2EOgr0sjTyzzitIeKDqB7GErEumNusvaGGPRJoeqpyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nFdW+Qkn; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-435f8f29f8aso47412415e9.2;
-        Wed, 18 Dec 2024 06:20:57 -0800 (PST)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3863c36a731so4732634f8f.1;
+        Wed, 18 Dec 2024 06:20:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734531656; x=1735136456; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1734531658; x=1735136458; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9IQX8JtRRxJc8M4IW22Ze/9Y9MdVzCSkoKVYjbAlY6o=;
-        b=dUNkSP404cI/fP0nE4bStF9l3zrqDJWs5FK4g6kaiyyaQI388JZnlsHIG/MidShWpv
-         qGD6KSmvVY44PzhgRKmaBKSkOkYEQPU6VvJ8N84N8JbfCugRO715sjbbt7ZYTC/MFkpH
-         owhEYRKvbUZjwB3M5OfhgV1fcMkHMuDJJGLM6fGTBWB6Ui4kNcRQBzKGaFjpOJZ3T/1y
-         RLDvaDQv5C0xRu3m6ngFZ3OX+a2xld5YEmEWWxNTbmIHKI4pLP0vnUYwlhdOTxXk0xZO
-         TIbM2o+J9gsFGizHdlRqAjWyQK3erjLmv/hQJ+htfK5fOux18V8bPhSGn7ZyJydfkzje
-         zX2Q==
+        bh=/wPRBxwXQr6qi1bj2F1wQGHx6oV7CcRt3Wr/kJbxfbI=;
+        b=nFdW+QknA72GgBVNptx+QKtPHtqKvSTgKmQqfciLcZh+RVMLiw58EPNDsK4s0OZrc9
+         LVRm9y4eSoyKOix+O3t1X1OeIHZK0YQW7BKsDxzef6BJqjU96YzE5EL+2rfB6DxqRpKK
+         AVLHubuMaHBSbwlmwzm2NQ0iYqneW2htO/yEQVawka5TRj/Ed//RKaEQ5X0uz016yd2e
+         4jSXQMXbeHhdVUBYDkx1gkH65fVHc13DlNtuQrINtBcZpX6CTb+9Q4f0lXfBfzPz0jpe
+         hTZTzcFAx/IJF4Day9/Mgl6pXYPmu2qVsrBRMPgHb4JC9fu17mnWGaZiORR1/O1rP9Ip
+         FwYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734531656; x=1735136456;
+        d=1e100.net; s=20230601; t=1734531658; x=1735136458;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9IQX8JtRRxJc8M4IW22Ze/9Y9MdVzCSkoKVYjbAlY6o=;
-        b=PzU7p7X8jF32GshoZaC8Ukv0CednIVpIyl0tdWdgmnB9UhdHTKjgBA7qnex+GBuapz
-         +ScqgEvjDn4BTjhNbuYZUntpIEVfz1g60Ek3vlZQwpqtz3UF9jzx7ZcfhKM7pG9W6M65
-         faeQMTSTzJNQels4o4XnRchur1W4nJaddB9wMEFk9lZfFVUlbukWz06jsnay1Hp1pB5p
-         AMY/skDNM+xyoUsqiQtX+ea5N4fkzH9oe6VNFXwSIkfVam3oFBI2Pw4PWSTd/UErOS1H
-         FCAQ/DqFzAaXSoqPr0onchWxqLQmN6ZrvHN9HbSoqVNblxbWeArJWkXk/21w2HK8scPa
-         cNJg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpeSBT0JNKU2FwrZgVIdAFqvsgszBt4bYlO9W0KQB6AVPTsVZCBNVKE19jIRvKowHUnwlbGiPeJg4=@vger.kernel.org, AJvYcCVWwL996bCum9OcuuxNIy45NSpbCC6j2ZZ0svbp8bAPG1iC3V+UArTHrJCfIY1cOv4aOp2fplPwyf4ge8ik@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKRv4sG1mJ5gKV8fd8LwPxWIIaWGzIPMIHJWwUeTyY+2P2rhGV
-	rEy2Lque3QZO7gHvk3PwMwRWQSz0qMCzcrhzsUVMXJAshYr4vdlr
-X-Gm-Gg: ASbGncs7KZnRTthcaxywQ3FUv3Cwnh4VMZM3tLnQPouX1B5YUUfIzVfqHlAc4BZqVUg
-	vNnewFxHC6YToiob/tlFx+QrFc5ygLpZUoZMNcDwEdReI2lcIyf9DoeMlQlCzaKn0VXJFPOLGOP
-	NusD0eTQfy4I+/S4nMnOy6jzVUtT7wYbe0fTnvG/bh+ZUYrfAXvCRuy630U6sOsdGR1XWcvHbES
-	IRqY1mn8OiPYmQKSEVnyLmsCrIQ6/w0AGYTvhUyvH3CUK6/2sPOVOg+9ogGIi0Rs3uOaDfhgDEp
-	saKNliLRjQ==
-X-Google-Smtp-Source: AGHT+IEQgaEiwxhKe/AuG12I/7pbppaenI9ZtWHivFdKeBv4lMOeYTSeg46XFOWVw8KMhDHxgagGLA==
-X-Received: by 2002:a5d:64a9:0:b0:385:ef8e:a641 with SMTP id ffacd0b85a97d-388e4d5864fmr2884139f8f.28.1734531656388;
-        Wed, 18 Dec 2024 06:20:56 -0800 (PST)
+        bh=/wPRBxwXQr6qi1bj2F1wQGHx6oV7CcRt3Wr/kJbxfbI=;
+        b=OsQOWVoCe0WWg8kPv0CXz90zGXoKA59xjrbxAc62UTBijldogauDkhLvspk9g5pBST
+         X6XfPulo/3eySWIyKX1FnZIWD71l+Rs24u9QeuEIPs9pt8DYSsJiipcKgbAwkIJU9zEk
+         nRzZjgHTvFhH8TQDAd0lXmlvLNl0Aep0/dMdndDDn/Xhsyc3HEaOk7aPL8s6h8P6ET2a
+         n8V8xs6d/ZDIhHR3MDbDJj0iTtKQuNXL7aqKVwKtW6Q/n6LEJtHmvrZsztofw/Xk6smZ
+         alSnx7RiYrUh9xqQnZpJm0tn2HZ1Z9X/U+zmWm1p0/4Wq9mTB0C7TN4FlPwqRNVFILYU
+         YiPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUMBWIZf4xFCbgCoahW5U4O/rtuhCJkF3JMfZVhtdMalN2YwewV0Qm2veCz/1MvEM8MN7xOQYVHnhM=@vger.kernel.org, AJvYcCUzu+YzqjJNbUdFMMrI4jiqLyeO22KL6Qfz2T4MxoXtBchW1wrzMfSclku2x22CiXA/qCJvISJkRp2Yp1Kq@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRMaZ+swP4uCb0jHW4lQACkeoayr4N5XLIXdvcmrF6LwT1R1Uv
+	OJd9qcw1FZqDRobw5iKsrVvYUSKnz3GN7zyfJu+D1nFMV3wNAbYh
+X-Gm-Gg: ASbGncsUFCIGLsRhgOwzXTUDJ6oLX1yvp1kbd/GDoMTiIlCXFpi3RhXAqb3nE8E0L4S
+	fIITC4frP52I4hP7oZbyjONH+ivsN6odaITZht1IHlbT+OjNkFFk+Cu1xd2uLBscbpASC17nixY
+	UWsm+w1dApI6uVYnYAMsmfuJqz1spA+Xy+uAV+L02pY0I591ZHtX0MhBdWPThN4t5BvNfPCcOs6
+	4roM46r63Lt06m8VILo2aAh1VPAmBkVL0HuF9TgNKzpNtqfuPqcloplzqsTKQuvhDFe2C/xkYC3
+	LFb/ykMspg==
+X-Google-Smtp-Source: AGHT+IFy23ae27JfhnUcgRwv/BCbx2Dk5qDQAWbELnkQVOZQ2tGejMuCe/hbp0wK4ILT/cYrsSOuvA==
+X-Received: by 2002:adf:b182:0:b0:388:cacf:24c6 with SMTP id ffacd0b85a97d-388e4d4afa9mr2051380f8f.22.1734531657667;
+        Wed, 18 Dec 2024 06:20:57 -0800 (PST)
 Received: from prasmi.Home ([2a06:5906:61b:2d00:9516:68be:c7cd:69f2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801ac68sm14107033f8f.51.2024.12.18.06.20.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801ac68sm14107033f8f.51.2024.12.18.06.20.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 06:20:55 -0800 (PST)
+        Wed, 18 Dec 2024 06:20:56 -0800 (PST)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -84,9 +84,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 4/5] clk: renesas: r9a09g057: Add reset entry for SYS
-Date: Wed, 18 Dec 2024 14:20:44 +0000
-Message-ID: <20241218142045.77269-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 5/5] clk: renesas: r9a09g057: Add clock and reset entries for GIC
+Date: Wed, 18 Dec 2024 14:20:45 +0000
+Message-ID: <20241218142045.77269-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241218142045.77269-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20241218142045.77269-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -100,26 +100,35 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add the missing reset entry for the `SYS` module in the clock driver. The
-corresponding core clock entry for `SYS` is already present.
+Add clock and reset entries for GIC.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/clk/renesas/r9a09g057-cpg.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/clk/renesas/r9a09g057-cpg.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9a09g057-cpg.c
-index 59dadedb2217..856a02ac7ac5 100644
+index 856a02ac7ac5..947efb1a5914 100644
 --- a/drivers/clk/renesas/r9a09g057-cpg.c
 +++ b/drivers/clk/renesas/r9a09g057-cpg.c
-@@ -220,6 +220,7 @@ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst = {
- };
- 
+@@ -117,6 +117,8 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
+ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst = {
+ 	DEF_MOD_CRITICAL("icu_0_pclk_i",	CLK_PLLCM33_DIV16, 0, 5, 0, 5,
+ 						BUS_MSTOP_NONE),
++	DEF_MOD_CRITICAL("gic_0_gicclk",	CLK_PLLDTY_ACPU_DIV4, 1, 3, 0, 19,
++						BUS_MSTOP(3, BIT(5))),
+ 	DEF_MOD("gtm_0_pclk",			CLK_PLLCM33_DIV16, 4, 3, 2, 3,
+ 						BUS_MSTOP(5, BIT(10))),
+ 	DEF_MOD("gtm_1_pclk",			CLK_PLLCM33_DIV16, 4, 4, 2, 4,
+@@ -222,6 +224,8 @@ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst = {
  static const struct rzv2h_reset r9a09g057_resets[] __initconst = {
-+	DEF_RST(3, 0, 1, 1),		/* SYS_0_PRESETN */
+ 	DEF_RST(3, 0, 1, 1),		/* SYS_0_PRESETN */
  	DEF_RST(3, 6, 1, 7),		/* ICU_0_PRESETN_I */
++	DEF_RST(3, 8, 1, 9),		/* GIC_0_GICRESET_N */
++	DEF_RST(3, 9, 1, 10),		/* GIC_0_DBG_GICRESET_N */
  	DEF_RST(6, 13, 2, 30),		/* GTM_0_PRESETZ */
  	DEF_RST(6, 14, 2, 31),		/* GTM_1_PRESETZ */
+ 	DEF_RST(6, 15, 3, 0),		/* GTM_2_PRESETZ */
 -- 
 2.43.0
 
