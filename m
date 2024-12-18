@@ -1,104 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-11491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFC4B9F5AB1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 00:47:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3786A9F5B30
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 01:16:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E376A18938FD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2024 23:47:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 81810165CC8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2024 00:16:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 958261FA177;
-	Tue, 17 Dec 2024 23:47:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C3064A3C;
+	Wed, 18 Dec 2024 00:16:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fTA2+4YU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="apgA+OFT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DC91E6DDD;
-	Tue, 17 Dec 2024 23:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEDC9460;
+	Wed, 18 Dec 2024 00:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734479242; cv=none; b=OhV0GDeTlyvVAQjXUjNOy0nUFfNvRFGRfb6f9AHIy+x4RgFTQP4hEy0JNedbvTFE0p9Wql8uBNpbrR6tWh0FeNdycsMhYkQP1kiAuT84Rt1olcRUjsvWwgDvECpskyKF/hLWBxL9dHXRXVttgr0zfwH56RDEdFqQxhtfUHy5eKk=
+	t=1734480991; cv=none; b=GuvAdJ0qWfhen/0XyX6iEe5Q+dCr8En4RqLRawe3axWSNjQlEkGSeBTRsbAHnXPeNbJ0ynMd3mWK1O8KmbcHdUcFy4CGF2joXFCwxVscrH2HVgVfAd5WGiy60bZdYWCAn1QzLQikiFezK1ksM5VXWeZ/Psd+YYlKAHNxplj2MhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734479242; c=relaxed/simple;
-	bh=7TpKS455zysYaveedhuPcnr29VYKornztH5W+b+us2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h6mJUYgI59yJ7WhhkaUum/1sYdTDcdWapVEWnkbfgTrSyLUz/bJP2JQW17j8kwVvzw8JJDlfjtgsGA1Hp56/4uuTdvB5pWhFhL8tqU1AFljqUw++xgxW6zI+2gGJeKB9OqsclU+02tTT6l1bhYXGSjdN9cHosJki8XOxynQg8dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fTA2+4YU; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D29B4415;
-	Wed, 18 Dec 2024 00:46:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734479200;
-	bh=7TpKS455zysYaveedhuPcnr29VYKornztH5W+b+us2w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fTA2+4YUV3/33cK0zBQyJtmqmS0wALXEeTuNg+TYARE2v1mXai5jhRKr9niHjVf8D
-	 FRAOz8Th10eO/IaSRqf3mjNL8Chh1FrneICrx5MDmcj9xYiqemNnbbL9/24eNtQ/tx
-	 ggiRtEh7MrKPXke1XOFneumELshWxijcsfQ1M5o4=
-Date: Wed, 18 Dec 2024 01:47:15 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/4] clk: renesas: r8a779g0: Add VSPX clocks
-Message-ID: <20241217234715.GS23470@pendragon.ideasonboard.com>
-References: <20241217-rcar-v4h-vspx-v1-0-de04ea044ed4@ideasonboard.com>
- <20241217-rcar-v4h-vspx-v1-3-de04ea044ed4@ideasonboard.com>
+	s=arc-20240116; t=1734480991; c=relaxed/simple;
+	bh=62+1NukGtTCCodUqaZPcbIkpMNwqo4KEn8+JfXvmofw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IJjrV1sERBhYycD9e8EFxswq4pffSbcoANBhWpmW7wRB2M7iCygQ03Jy8hHjw0G05ELtlHvUAtxbSmuwZB9oGb+CdE/4mrXqT4D4Awo4hjJFScjqFy2kH0CrSLbEdFb5ajbW0vF5tPw/taVMLmblXrc1/AhU4VWHYHtwepjVUig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=apgA+OFT; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385e27c75f4so4497734f8f.2;
+        Tue, 17 Dec 2024 16:16:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734480988; x=1735085788; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nVBKZDuo3CAI4LCxPrgsrD8l5ocw/8tCbgRC0gAzavA=;
+        b=apgA+OFTKheLJe4Lv+RikBHklmbDvgTR8bgBbxjadNxBrLjGmYxYxaEFVWieGTjH5f
+         9XbjvmlWN2o4AgpRhoKkaMwVLxKUEmJQ9J3ciS7LHzk4RaGbhlVG/Ud7dJUCUWV1ps4a
+         64KQVnGi2+lWr8K6ZxMgt1r1A9oPBA5Xv2Z1eWm0Dp6PeTQh6dXQtY4ksKDcuyTno8ei
+         Z+qSNO4QMIAllcB8kf6djpkOzhl3nW3xMIyqsQJnABuMTnXWmqg3tUTTo9ADqJablzEB
+         NOKaYJF2oc1d67jyJPi1YabELTludpvQmI+AK/OURsp+RLRiWVTUwEwIVCPCGNCA/JHA
+         ITiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734480988; x=1735085788;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nVBKZDuo3CAI4LCxPrgsrD8l5ocw/8tCbgRC0gAzavA=;
+        b=plfXwNZLaHld3UQuuHzYM4qL4o8m7DItK6rcV3KJ74UmR6Lhy7TIy6rkYk23DEpzRL
+         RWDSt70hyPhmTvZuXTcR0rUmo6CmEzUvzL92wpio+MzaMXDNjiqeOHJ+bL8Evv5N1UK+
+         o68UVk361Yqv+Wkm22rtduU36IgNS+3PHc+8J1q4pnachHXTy4uci3HPWkoOIws7gLev
+         zQyugYKelzqBO8MSKon6mSFH7zXKW9ZNJB4iTh+3/ptkyaoPIGCN8hn7YEdgwq2zntZg
+         Hi8dT8sSYmjBrmdFEUXyFtdkhmX5ENV9ri5pWO2ObIbA/qdQ7yWOgb9+sgUQnBKSwA5X
+         8siQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8UvJFmEtjWxVHm0EiJC8ew5h3LZyFNnWtx6e91ohjOcFBLMdyq3gc5HUh6RbuomrUFq7w+gwDLKTNNMWF@vger.kernel.org, AJvYcCX5Stk3LAHKKQ9+rDnSepd7XVkPCIhgFjHnYKQMH5k9Qj+/TAES65r8BrbB9aUz0aoGEl4qG/A+AcI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxN6f+VcL/QVwk75zocvlS6DrcdyD+n2UOAkEQmJ5TVmgjP9aV7
+	J+EbOlV2exPw5M3xAoHFzfuMF7ejdKieyDxhCqWgkQn8YXK/HHSl+aADQQ==
+X-Gm-Gg: ASbGncviHN3Jd0mQOiJDf+wh/Kwn3LQkrKPCcKeU8/pEYRIZWzU2n5wNSswNzdgfW05
+	Yqf6itL4TDGRRpuiK1FSNhbUNe9KVpjAgbuPzK5XCK1WH+pJnlaXgjdIShUlCIq6FAp4T/HPNWR
+	CZsdRdlcBRzTNRh+Y0uj9jpMsrn/2CLkpDabakYkbKyu35waFDqp9bAKu/LArqO6xVbQlhZVoVq
+	ChnLK8wiSkaHCvn62qw7fTGL8fRub8/NIhdMr7J9NO96zqLNhVoN1YnnHw7S5dVfbK05wL/qUJ8
+	Eeqiej27Hw==
+X-Google-Smtp-Source: AGHT+IGdc8xFDjVbqQTaSU0NXgIqgZNdcGr4J4sacd1IX0P+l/LrAuKOZEznegXM/M7md8GOMp+ALQ==
+X-Received: by 2002:a05:6000:1886:b0:385:df5d:622c with SMTP id ffacd0b85a97d-388e4d5e9b2mr503486f8f.30.1734480987665;
+        Tue, 17 Dec 2024 16:16:27 -0800 (PST)
+Received: from prasmi.Home ([2a06:5906:61b:2d00:ca61:1d3a:8af0:1c5a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b1f638sm2135495e9.37.2024.12.17.16.16.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Dec 2024 16:16:26 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Wolfram Sang <wsa@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/9] Add support for I2C bus recovery for riic driver
+Date: Wed, 18 Dec 2024 00:16:09 +0000
+Message-ID: <20241218001618.488946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241217-rcar-v4h-vspx-v1-3-de04ea044ed4@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you for the patch.
+Hi All,
 
-On Tue, Dec 17, 2024 at 06:53:16PM +0100, Jacopo Mondi wrote:
-> Add the VSPX modules clock for Renesas R-Car V4H (R8A779G0) SoC.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/clk/renesas/r8a779g0-cpg-mssr.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/clk/renesas/r8a779g0-cpg-mssr.c b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> index dc9ac2839ad9bb6c222db015de72fe8d9e7fe208..4e88096f8c4583d60debc3989fb22a51b41762a6 100644
-> --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> @@ -238,6 +238,8 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
->  	DEF_MOD("pfc2",		917,	R8A779G0_CLK_CP),
->  	DEF_MOD("pfc3",		918,	R8A779G0_CLK_CP),
->  	DEF_MOD("tsc",		919,	R8A779G0_CLK_CL16M),
-> +	DEF_MOD("vspx0",	1028,	R8A779G0_CLK_S0D4_VIO),
-> +	DEF_MOD("vspx1",	1029,	R8A779G0_CLK_S0D4_VIO),
+This patch series introduces support for I2C bus recovery in the RIIC
+driver, which is utilized in RZ series SoCs. The addition of bus recovery
+functionality enhances the reliability of the I2C interface by allowing it
+to recover from error conditions that might leave the bus in an unusable
+state.
 
-Same comment about the parent as in 1/4.
+Alongside the bus recovery implementation, the series includes several
+cleanup and improvement patches that simplify and modernize the driver
+code. These include replacing `dev_err` calls with `dev_err_probe`,
+consistent usage of the `BIT` and `GENMASK` macros, leveraging devres
+helpers for reset management, and improving code readability by marking
+static data as `const`.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+v1->v2
+- Fixed review comments and collected RB tags from Geert
 
->  	DEF_MOD("fcpvx0",	1100,	R8A779G0_CLK_S0D4_VIO),
->  	DEF_MOD("fcpvx1",	1101,	R8A779G0_CLK_S0D4_VIO),
->  	DEF_MOD("tsn",		2723,	R8A779G0_CLK_S0D4_HSC),
+v1:
+https://lore.kernel.org/all/20241213175828.909987-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (9):
+  i2c: riic: Replace dev_err with dev_err_probe in probe function
+  i2c: riic: Use local `dev` pointer in `dev_err_probe()`
+  i2c: riic: Use BIT macro consistently
+  i2c: riic: Use GENMASK() macro for bitmask definitions
+  i2c: riic: Make use of devres helper to request deasserted reset line
+  i2c: riic: Mark riic_irqs array as const
+  i2c: riic: Use predefined macro and simplify clock tick calculation
+  i2c: riic: Add `riic_bus_barrier()` to check bus availability
+  i2c: riic: Implement bus recovery
+
+ drivers/i2c/busses/i2c-riic.c | 222 ++++++++++++++++++++++++----------
+ 1 file changed, 155 insertions(+), 67 deletions(-)
 
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
 
