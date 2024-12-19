@@ -1,229 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-11563-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11564-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99EA9F7931
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 11:06:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDFE09F795C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 11:18:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DB2C1896ACF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 10:07:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64727165A09
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 10:18:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5984221DAD;
-	Thu, 19 Dec 2024 10:06:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nIcCud6f"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7F98221DB9;
+	Thu, 19 Dec 2024 10:18:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4130433A4;
-	Thu, 19 Dec 2024 10:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AAF54727;
+	Thu, 19 Dec 2024 10:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734602814; cv=none; b=g32Tj9HWNqmOjmCEUKWOK+HSQJH78psynZB73d+nfMCBv8C8O+hDFBOzJ8/lavDcTPna9LUz+I4bsDugqbAxnZdpAXlcOpgxULO/LX2uVir2S2Cl07ze06cSZgq37+mkUfxacEst3CqFxphORkMuj/0Rin/QS7SXmUQSUDCYzZg=
+	t=1734603503; cv=none; b=c4nFFFJoImiV9RNnFozqaxvdP6d+Drk50fKIn7X5ayv5RiqSe6VpWxBE5DQarFn9/2s8Zh7vCiB8rJ5w7Kw5+HiAm6lob8JZiiGkGzOHnkIbfs5m+8yaMcAPLNMl8T2XbvWCdCYI8BOH4AGhtxx016hbgjMSIs9cslSbe0OtSjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734602814; c=relaxed/simple;
-	bh=gZ9h5ruC2dwTE9Lk3qVntz+kZ63Pg681SG5Vg3pXOQY=;
+	s=arc-20240116; t=1734603503; c=relaxed/simple;
+	bh=rgtJTe0Gx1RWnBYkBZn7VX6aokSfkyEJO5P9yIF7rvA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fLdujFXYH3eMa1YYu5u+z2czb0uzsDCX0NOALipni1Ztl94BpmI+X+1SOU5/dgQjoh9L8Ylv1bkpYRA1E9OQPb4j8CEyK2oBtbQ+j5Q9eUA4xvTd1n5n1H410zre465mf+lSDjCIPZHp6c1uQGqtT515Ab7+nXfVq7Ie4Uw0Y14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nIcCud6f; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=CP/YvYbiJ7JqdmgNAu44Q7wnw1xWWMJM+hjo24+bCoki/sV7e4WHX/I5Vjs0RzBIv+0+RuwUutiyjdfFZR2HoMxl2ONJCBWMh8rEQfCczMjJKzHvFIG6CHJkQycReJDI9uUMXIAhWpPOhgIvQE8HZATsBLWFxFElW52IWpg2xTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-518ae5060d4so199053e0c.0;
-        Thu, 19 Dec 2024 02:06:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734602811; x=1735207611; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wkq7Lxj/zqMZ3ehkTx5p7KdMjUNc3jyVN9Y7DIq/Nj0=;
-        b=nIcCud6f+vOpmIAaCqDtBtZE+shzZYt000gO0SJXau5j2+yvVM7n5cbHdA4LITl/Wz
-         SjcbdsGizMeOqsDjWwUEQojU/IJCxKwONri22lR6XBjot0KXlUqWSlCO13UzOhYK24ob
-         oL9TylMbCcmetNJUJazZqYUT1llZELJe/Fwsst2T6rBVYEOy42b2y3xCwT4VRuFY53SL
-         OkYA+QkOy3RQhB9XEUcckif8RFCZGIhgVcjtKs2VZIl3GYkWxZsELE/3dkOvh4Bqtt4f
-         Q0btjye4juEYYnSUuVrUphaMdi5ptmf2OTWdZKOUwcUHSS0I+S6/V4ULlHNNsSve+vKy
-         +i0A==
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4afdd15db60so139747137.1;
+        Thu, 19 Dec 2024 02:18:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734602811; x=1735207611;
+        d=1e100.net; s=20230601; t=1734603498; x=1735208298;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wkq7Lxj/zqMZ3ehkTx5p7KdMjUNc3jyVN9Y7DIq/Nj0=;
-        b=HMNp4K3gJ6tPL/eO2VPfMzurtKW6xpJzlGWtGTxu0WU3zsu2UzJJ7YXhAT8XPG97Eb
-         HSv1Ie2cxQlRvQxBME3s+4GE6UP37ao6IPEg3aA0Tiy+EZOV9UuU4MM1zzrWee4NMGFA
-         i4pH2UR/Wr2vzBKDrOGxotWv7Cew5MHpo/V9K5zBe1+6S3a7dA8Ty8SYUoqaj8U9ldA4
-         d/5Oqxj2TpnlklNnEsW5Ar3hR1OzxFjgPaA6W0Jd9JcZB77t+8rY7galqrvzx/iv6R1v
-         VwCFxFDZU85+c45NrPYaQ0XwQCzS1mrgAGT0XHAY+YtRWi1WxqhdQPy9ahtIyjcS+Rp9
-         NPUw==
-X-Forwarded-Encrypted: i=1; AJvYcCVeNq2/rwAcz7m+8rJvZYRc+S12ILSoCgEK7Tq4e1M6NUoIe08sfuEMJB9CsNyhrhM06NPHxNSsu3tk6LU2AI2TidE=@vger.kernel.org, AJvYcCVodn1e+gF6lnypG/YIlksNHknh775PNe80e+OYtmEQdjyBQYXGXuPl+wkmyMJ3y0692S5CZrK1TCd2@vger.kernel.org, AJvYcCWWBooAB3pMcSnmkiVLQiumSYwZftSJyBjhOyyAj2rVXzTCnlVh7veqpnY+y0aew8W+RitKDTBThuK6@vger.kernel.org, AJvYcCX/Uuwh07VNJeFQtGH34DKzvQWjJsDqR2rD8D5kTpoN/VYKREM5x/VI5ypYDL6ZkLf9lkhEswrIKr9eLBKV@vger.kernel.org, AJvYcCX088pUMGGAiEGZebqOUgiDnh9CXhlSQsx2GnWbR8YSgC/5cNkS2KCAK3ZrTS4jFWqQzGrTnsVyWOBJVWCH9BE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXWmiQ2KjGBsgCVhI8YEgKZMZEgz5txNoyT1rSe3Z6TU80kHbg
-	i/E2PsMBjzRHhs2/hXOtFvVzfWov/xd32bq7umzbSoU4Em4Sdn5br6x9igH4+OHyQYMHtmF9TDu
-	exklF2QjE0N/9u3RxCYX+GCPmwpQ=
-X-Gm-Gg: ASbGnctYKuYSDFuBPfPrPFHk/fP4MtfSZb2SuZeNkXRGkOtiYX5e3XdjoxMvIUHXSsV
-	44AMQWHJUkQIAtYofexIvD0hTr78rbEEMYcrBs8s=
-X-Google-Smtp-Source: AGHT+IFEOLg8CjE68EUWYJtp8mfvtAQEKXwkXBL7fnowhEwwMZqxJSPIB40t6Uhwsvny0Zt/APmJpkcA6EZE2Y9ji0c=
-X-Received: by 2002:a05:6122:659b:b0:517:4fb0:74bc with SMTP id
- 71dfb90a1353d-51a36c519d0mr6176416e0c.3.1734602811544; Thu, 19 Dec 2024
- 02:06:51 -0800 (PST)
+        bh=4PqbgKOQH5A5NDiI8YQAoEdcnZj+UHy3o9vys/k/Gqs=;
+        b=tg5ksbUm0eH0wgbyH4SqoKtvFispmb1ihisMllvXgx1HLnqFfLiWQXb7o9ZCAxVlQH
+         +yxF/kdXi3iBsyHQjVda8KyZmbmxysXn3VfiQ/1b1oFyU1zDNgSBpEq6Qi6ftOV4fbup
+         cSZO1Wr5JoKPJA2HnjdpNOC5WeYeqUA52URw/+rVhOMZ4sTwEk21QnFzcBWyWbaBqNUs
+         Uih3sodOVDOhLqe0TYNMsF/7bRqQOpos3PyCqIZhSPXNxQRH76gzKYW8GdTG8HK5qkw5
+         fqKT3SNgalS2KwpNqt/a8eqXIx3vlKxCrpRrRiTkxbWSUVIC8EtkuMw5S0WHqcyZMA5X
+         piQA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPGlsOoi8iEeE1pB5JRcDUbAQ3EPPjKF3o6p2RiKGba4Rm8Sqk1S9XBPoJ918J2cTu/3UM/jEsTGYEQJth@vger.kernel.org, AJvYcCWdKz6RZs6uaJy3MnRYrjrh7uEPT8crBTWlVL/z9/roCuO5/Oyijke7o1d0lIG2m6PJsIS15X8ev4wi8pSuTvUbUWg=@vger.kernel.org, AJvYcCXysMio25OyNfN4CSzpq8gQv+Mg1x1kfR8hvgC+RcRbiS8aViKJ1x5oFHh5VUjtWyVSvaQQKGsGGsFhlaY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOsr5QNfxea6IwywvXG7FDT5ftTnbRLFt3grehsUr4b8MTW1bn
+	1QH8BqiNpRHvB2oVO/CRr6K1datrjkcXdIuglXMM8TK+X3lyTJsSBnUmmYho
+X-Gm-Gg: ASbGncuwQFW5BEgcK2gzOWVJh3beYS0JvE+cS2TqoM811fg4ZP4D/2aqMA9t8RNGQC8
+	lxRniFHkjOdcts6OCcDmcu6GmO108vyb2xsvuuTCu32yXsf3964U7GM1XsJCHvr6+ditc3KLL7R
+	bQXqLJNNdZhMQFUl6BQadCac8T07OCKZZQ8kIKVo4MsPkobp1+m53ReJo69e+I/uRlH1lTe5Zh1
+	IqiFLLaC6fnpqK1OD0Y++84mLTceuKYyEKqQ6GQeA4FJ7lI0vEuTiioAYnKiklUf8dfE9JLn6SW
+	Lt1CQFgcLmmCWq/qd8Y=
+X-Google-Smtp-Source: AGHT+IHgtwIupddj1iDxhBRHHqqeDPSD/f0V4+D9jGi9uHJXODq3f3EIO2vhYGgV8csrhCJ+FSv22w==
+X-Received: by 2002:a05:6102:3709:b0:4af:adf8:523f with SMTP id ada2fe7eead31-4b2ae72fd17mr6139801137.9.1734603498340;
+        Thu, 19 Dec 2024 02:18:18 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8610ac6dd23sm164135241.19.2024.12.19.02.18.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Dec 2024 02:18:18 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-85c5316f15cso163932241.1;
+        Thu, 19 Dec 2024 02:18:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUE37T1mn8cw8DbPeIQUp5ll/h5zpZWkWgz90cA3NFGahfa4TpgoHG+5hBrAJO+xPkwKgGquZ1Bwz4iRCU=@vger.kernel.org, AJvYcCUT2DV2YDKN/V63iOx6+KI2gnHWg9fAd5uYWG3b2d3/hLQje8kRhzKriHGPfDArXqn4AhMNvSGawgGoDzw/l59jJt0=@vger.kernel.org, AJvYcCUmWH9OnOLB5rVX5LRW5+qPo8hjVxHVnYn68fEG8o7ofbGg7mXMsNOFzNL7hB+WdzHudIyuYwYQ1gA1d+zH@vger.kernel.org
+X-Received: by 2002:a05:6102:2b8d:b0:4af:d487:45ef with SMTP id
+ ada2fe7eead31-4b2ae70de4fmr5981814137.5.1734603497927; Thu, 19 Dec 2024
+ 02:18:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241218003414.490498-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241218003414.490498-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <wouo4k7rd7y57jzez3qdrz27fscozofuksgs4ivft75y6cwvqa@zfq3wgerwaza>
-In-Reply-To: <wouo4k7rd7y57jzez3qdrz27fscozofuksgs4ivft75y6cwvqa@zfq3wgerwaza>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 19 Dec 2024 10:06:25 +0000
-Message-ID: <CA+V-a8s-_OMJy=4v_whpBr7S4aE3Dn6KouFfCnQ=oUBM9MD4nA@mail.gmail.com>
-Subject: Re: [PATCH 4/6] dt-bindings: watchdog: renesas: Document
- `renesas,r9a09g057-syscon-wdt-errorrst` property
-To: Krzysztof Kozlowski <krzk@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20241204155806.3781200-1-claudiu.beznea.uj@bp.renesas.com> <20241204155806.3781200-4-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241204155806.3781200-4-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 19 Dec 2024 11:18:05 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWQ_kHd3qi3j4D4keyxbaKE5MS6ZzDwJBaNJ4b5skr1QA@mail.gmail.com>
+Message-ID: <CAMuHMdWQ_kHd3qi3j4D4keyxbaKE5MS6ZzDwJBaNJ4b5skr1QA@mail.gmail.com>
+Subject: Re: [PATCH RFT 3/6] serial: sh-sci: Move runtime PM enable to sci_probe_single()
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, 
+	wsa+renesas@sang-engineering.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	lethal@linux-sh.org, g.liakhovetski@gmx.de, groeck@chromium.org, 
+	mka@chromium.org, ulrich.hecht+renesas@gmail.com, ysato@users.sourceforge.jp, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Krzysztof,
+Hi Claudiu,
 
-Thank you for the review.
+On Wed, Dec 4, 2024 at 4:58=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> w=
+rote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Relocate the runtime PM enable operation to sci_probe_single(). This chan=
+ge
+> prepares the codebase for upcoming fixes.
+>
+> While at it, replace the existing logic with a direct call to
+> devm_pm_runtime_enable() and remove sci_cleanup_single(). The
+> devm_pm_runtime_enable() function automatically handles disabling runtime
+> PM during driver removal.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-On Thu, Dec 19, 2024 at 9:02=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On Wed, Dec 18, 2024 at 12:34:12AM +0000, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > The RZ/V2H(P) CPG block includes Error Reset Registers (CPG_ERROR_RSTm)=
-.
-> > A system reset is triggered in response to error interrupt factors, and
-> > the corresponding bit is set in the CPG_ERROR_RSTm register. These
-> > registers can be utilized by various IP blocks as needed.
-> >
-> > In the event of a watchdog overflow or underflow, a system reset is iss=
-ued,
-> > and the CPG_ERROR_RST2[0/1/2/3] bits are set depending on the watchdog =
-in
-> > use: CM33 =3D 0, CA55 =3D 1, CR8_0 =3D 2, CR8_1 =3D 3. For the watchdog=
- driver to
-> > determine and report the current boot status, it needs to read the
-> > CPG_ERROR_RST2[0/1/2/3]bits and provide this information to the user up=
-on
-> > request.
-> >
-> > To facilitate this operation, add `renesas,r9a09g057-syscon-wdt-errorrs=
-t`
-> > property to the WDT node, which maps to the `syscon` CPG node, enabling
-> > retrieval of the necessary information. For example:
-> >
-> >     wdt1: watchdog@14400000 {
-> >         compatible =3D "renesas,r9a09g057-wdt";
-> >         renesas,r9a09g057-syscon-wdt-errorrst =3D <&cpg 0xb40 1>;
-> >         ...
->
-> Drop, obvious.
->
-Ok.
+Thanks for your patch!
 
-> >     };
-> >
-> > The `renesas,r9a09g057-syscon-wdt-errorrst` property consists of three
-> > cells:
-> > 1. The first cell is a phandle to the CPG node.
-> > 2. The second cell specifies the offset of the CPG_ERROR_RSTm register
-> >    within the SYSCON.
-> > 3. The third cell indicates the specific bit within the CPG_ERROR_RSTm
-> >    register.
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+> @@ -3440,7 +3434,6 @@ static int sci_probe_single(struct platform_device =
+*dev,
 >
-> Don't describe the contents of patch.  Drop paragraph. There is no need
-> to make commit msg unnecessary long. Focus on explaining unknown parts
-> of commit: why? or who is affected by ABI break? why breaking ABI?
-> instead of repeating diff.
->
-Ok, I'll drop the para. There isnt any ABI breakage as the driver
-patch [0] will skip supporting watchdog bootstatus if this property is
-not present.
+>         ret =3D uart_add_one_port(&sci_uart_driver, &sciport->port);
+>         if (ret) {
+> -               sci_cleanup_single(sciport);
+>                 return ret;
+>         }
 
-[0] https://lore.kernel.org/all/20241218003414.490498-6-prabhakar.mahadev-l=
-ad.rj@bp.renesas.com/
+Next line is:
 
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  .../bindings/watchdog/renesas,wdt.yaml          | 17 +++++++++++++++++
-> >  1 file changed, 17 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yam=
-l b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> > index 29ada89fdcdc..8d29f5f1be7e 100644
-> > --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> > +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> > @@ -112,6 +112,19 @@ properties:
-> >
-> >    timeout-sec: true
-> >
-> > +  renesas,r9a09g057-syscon-wdt-errorrst:
->
-> There are never, *never* SoC names in property names, because we want
-> properties to be re-usable.
->
-I should have mentioned this in my commit message (my bad). The
-renesas,wdt.yaml binding file is being used for all the SoCs
-currently. To avoid any conflicts by just having vendor specific
-property I added SoC name to the preoperty.
+    return 0;
 
-@Geert/Wolfram - Maybe we need to split the binding on per SoC bases?
+so please just merge that into
 
-> Make the property generic for all your devices and be sure to disallow
-> it everywhere the CPG_ERROR_RSTm *does not* exist (which is different
-> from "where CPG_ERROR_RSTm is not used by watchdog driver").
->
-This patch already disallows `renesas,r9a09g057-syscon-wdt-errorrst`
-for the rest of the SoCs and only allows for RZ/V2H(P) SoC or am I
-missing something?
+    return uart_add_one_port(&sci_uart_driver, &sciport->port);
 
-> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> > +    description:
-> > +      The first cell is a phandle to the SYSCON entry required to obta=
-in
-> > +      the current boot status. The second cell specifies the CPG_ERROR=
-_RSTm
-> > +      register offset within the SYSCON, and the third cell indicates =
-the
-> > +      bit within the CPG_ERROR_RSTm register.
-> > +    items:
-> > +      - items:
-> > +          - description: Phandle to the CPG node
-> > +          - description: The CPG_ERROR_RSTm register offset
-> > +          - description: The bit within CPG_ERROR_RSTm register of int=
-erest
-> > +
-> >  required:
-> >    - compatible
-> >    - reg
-> > @@ -182,7 +195,11 @@ allOf:
-> >        properties:
-> >          interrupts: false
-> >          interrupt-names: false
-> > +      required:
-> > +        - renesas,r9a09g057-syscon-wdt-errorrst
->
-> No, ABI break.
->
-As mentioned above we won't break ABI, this required flag is for future cha=
-nges.
+Actually [PATCH 5/6] makes that change, but there is no reason not
+to do that here.
 
-Cheers,
-Prabhakar
+For the logical changes:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
