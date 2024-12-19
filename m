@@ -1,128 +1,196 @@
-Return-Path: <linux-renesas-soc+bounces-11567-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376749F7BBE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 13:46:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C31D59F7D03
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 15:22:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B4455169CD4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 12:45:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18C82161073
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 14:22:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80026224B1A;
-	Thu, 19 Dec 2024 12:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ti9zHYoX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95F25225404;
+	Thu, 19 Dec 2024 14:21:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22E2224B1B;
-	Thu, 19 Dec 2024 12:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDFB12253E9;
+	Thu, 19 Dec 2024 14:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734612319; cv=none; b=Y6rIxQ0HRixgH4VxI4acE8A5N4i4Mu0lkERWTuNgxmwQUgr1F1xkzRU3Cbo7IdZQGLbHDDVmsOEIVg25jjkMY881bBXgNQAicahaPB3X3+mokfWBfKb5iPs+Vk4uxXc3G+3BQ1qo17oX+wQpazEknsvQpKUDGUd8/x+BbDN4pXc=
+	t=1734618119; cv=none; b=n7yg+33xW7ZQnWzTE7Hs7DZ1Q+aKwX8zQ+igpZMHnhsxE000OcuQciGu0tZQcyG8ZqsyOs8ImA0urW/oVeGYKyYC8J6RTKgIufgfWp2RNoQaKlOAsAgu2RDR9LLVu/AIzSzsTyWiUXehHoR5NyG6Qotl1EDxjoWYSjHKECTKjt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734612319; c=relaxed/simple;
-	bh=LL6LRUMo/74W+slzDay+B9bpA3Nh+434C+oVlThfPb0=;
+	s=arc-20240116; t=1734618119; c=relaxed/simple;
+	bh=oAzRbb7YrmdSiTLf6SPu16NTqjq1KAHkrHe87NDx4KE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mpqTGqMNPLz1KuMkEQqlDSx4L/cw78M3W31FUTFUTQtYa3MaxkT8TPddI5aaLshLpHs+NmCtPLOVXWZO2rHdUsPEQ4gTWxhXM2VTkFbhAFWkKMcmn34ePc0VyshopclPigDok6bHldrmEQYPGzA1QynLUOzFfno3sexFDRxsEnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ti9zHYoX; arc=none smtp.client-ip=209.85.222.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=Nk+uMBcZriW7Yon+naYqRb4xveXpJZnVDYZsxndmyq7dwQgnpf1xDSiwX3DCKct8N4KAVMutZeApl8skiD8sVkouPKaqptoi6qI029JksqA3MvW/P1Of+3oWBg8fVKYmAx67JTZvdp4+imGj1S1NE+67ViDTJfZ7TBGrrCyOgZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-85bb13573fbso149760241.1;
-        Thu, 19 Dec 2024 04:45:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734612317; x=1735217117; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xGt+4z9oO0ve2MAf1RQ/OJ0gbms2Qyvz49afhsF5Smg=;
-        b=Ti9zHYoXDUNcJ55zQWQyjNObC7pnSZE3UryugJyXLomT65MenRT4ZX2wt/fjsnRHc9
-         BJsZ7vfsrFGG6JL1Eeuc6GwoTnTLoeQ8ajwK971n0M2Ypzym7Kn864OlY2ZCGqxKZQQY
-         x69bwwWya9nKUT44ooztOtuFsNeZ44YSFf7G3oDynLXkKH7KWoejws6Ip6fNTVRETx3L
-         E3fs+apZiNt8tph7DIVFtAIEGBGUdSsPAZm2KTIxathHO5W0LBtYjIjNNHhV8Ds2XShH
-         7Kgx/pHgFpWkAf4Sb/YES52sIkHCJn4WOVxTLldZFQ3q2TU0fAsSl0mSe7UWf+WFOG5s
-         Kkmg==
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-51619b06a1cso475150e0c.3;
+        Thu, 19 Dec 2024 06:21:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734612317; x=1735217117;
+        d=1e100.net; s=20230601; t=1734618115; x=1735222915;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xGt+4z9oO0ve2MAf1RQ/OJ0gbms2Qyvz49afhsF5Smg=;
-        b=RtSN1pY5IlMNnm4h9klmi94E09nzykbAXes1Tu6wXma2tQffvDAlNPxS5VR494qdPN
-         03F1EH5mbPeZfJr25gx0aQHKlAjIM22P6TDYM7s5UmhBiX4PJPYUactRa8e+ILCRec9d
-         NEFfxJQ+4SRAwPOb8O3QEX/dej46v76CJHIcQ2GhfBNWqUtN9elFyBayMfILwURaQbGF
-         0lVYIgiZOS/ld+pfh/WSv5XteYHb3cdxyjQ0f4vgWYDAXC5LMdH2I/3rU8Q0XPSss6RM
-         d98vuyrdTUsSl8rgz12P/mujcFjc+da1Cf/jdtS//0ez/gwGevLd8IL3+uR+xQgH/CZb
-         oZAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUGDop8dJ7T+sgtyYH0G5UYa6ReQ6MjxbPhxpD73Imw9Ou2n83Oehdn0BoScBGJWxNc3inTNldu2cQCpLu3GIgW6mk=@vger.kernel.org, AJvYcCUtvFir8ZP1WunzsPPJHQ1tN9/ocoyCZdgJ312vJpCZ2pWCvhJsU/6FbdGxBHzF/07p3TCkk687zJ734UIW@vger.kernel.org, AJvYcCWwdw/4O9/08kSvxVplwik0eF0cbPn9PMpiGYi4ho7eB8+Pbv5KwjivL1S0W1wWBqox326sKYD+XpY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEPz09veEOKOEJKj8NqevzeKTEGJ/rzZVQRq8gHfDk0yBHakUv
-	f0WlYI1BQVRLrNtck+UK4j4ECK7TnbnZDw8bjPyO+chhpRrZGme2lCmiJ2M5P8pWBSLrPVNbgpb
-	G41DOr4kGEeRqdJpM0o4+DOTCOvw=
-X-Gm-Gg: ASbGncsraov3ZT5jJCGxYNyqioEMMH97hknn309JompCvFBBRhcoJXofQvrCKIS9Fts
-	+rGqPxEyMrUxvTfuMXa3IWdJNa0V09sllOPw9ovw=
-X-Google-Smtp-Source: AGHT+IGgl7B27kTW4vhbS0ueyp0vdIFniNwHcUPYsY6M7ljZcK3Uz9rruJUtmI+dlGKQUGQ+a8lFMoQzjiBDGAKQYhQ=
-X-Received: by 2002:a05:6102:943:b0:4af:f740:c1b4 with SMTP id
- ada2fe7eead31-4b2ae700a9dmr5273177137.5.1734612316352; Thu, 19 Dec 2024
- 04:45:16 -0800 (PST)
+        bh=lWehN1B/7ArJm5ULF2ZMoyhbSHa5jjg3rtdTMM65k7c=;
+        b=O05RCvzF20IMQP9aUcyZ0cwUqMyftE9pQNwnAdqslBSSlA3WPZ7HLHpnuRiKNKsHlU
+         n0iDFMVpPCV2cbtW70EcGhbpio8kAAJgkMfsTfHAuJG6yFdWhFd1FZ2NcqHqcgyy3I6S
+         FF4MUNtiNgUtvGqHP+AdBQy20YMGlgp8gDx88k5+1vieM0FPNbrLg5wqSnDzEHuYisps
+         /madGBqbAkv6S3Kmsjclw+qenrVPlrmE4OsHQ7VIuTkKWdS5cySAfdwPMTAGJhAoEg39
+         lRTk7VHPJefa7qMOyvKYG86CrvNsK5E3EPpDvrzwL4R1K/gfw0MCh2zzbIVvcVm9IZoZ
+         EC/A==
+X-Forwarded-Encrypted: i=1; AJvYcCV4AHv4KG9IDFdUfpz0spgxJZjri8WkaM4QLhaUKaJwh60CyhT1QhqtdwtuTqiqLTLvIeywjZ40gsikWoHA@vger.kernel.org, AJvYcCVMINMaKN7z+61FS0F0dL6Vr+yhttuj+Xtx/X9OCC3LzUPkaa+hVdFaqSSh3OytHaCYIJPoiBxsUOz21HEci2HWjJQ=@vger.kernel.org, AJvYcCWe3pSCTlzmwc+GomaGGwDQJYrGQOAcPPVrJigb37mGYLyfHmMJyA8t62GkMxN/O0aJARhBkhd+0YSiQko=@vger.kernel.org, AJvYcCXEI29P4ykRIn/YaifzR/ZPz+z+pSVjr86bVfUY5gQ+nHvNJRq7iSIqk/7Tx7q2x8pdFJmrJlio@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywf74rIlWVipwmLoQK19nw7vaey1xioEjCSUtel3XxGwdmGcSJj
+	im4mZQKvcy/qGoUsf/EwHe1rsJBjB4kmxWmg80TO8O3RnrBo6QC0CDvIU43X
+X-Gm-Gg: ASbGncs3H/Jo9qA9gdrsQqYuKP9MjI/2J+b/SCy1JXzRc7iWoIQEqrRzAdrUd0Z4hXj
+	4s3R6DRjxJr9w3ea0/l7M2+GVko90BWlulKnphBREbuycGbTRHxObN0j2jOJuRtXYYJa9mYy+if
+	JJNJH1e98pD6BNHvIY1xxUgrFy5O1ZytXykVuTELg3j6Yxi/kRokqEAoVGl7EwRxZCWhWGl/zMD
+	D4UEbeXjy5pz0Mrtaa0ZzIuvHf6w/2mbH0m8FSrPyBhl83/7yfeeHqeP/8xivXhduUjTEFOXuFa
+	oaPBNMY9c4S5SNpkSlk=
+X-Google-Smtp-Source: AGHT+IHewB5RycmIhNsRszFWzXxLrcR0Gh1psfOeCmPDwCae/2eSQMw+rgMOd+ddDXIxYuDCZWheLg==
+X-Received: by 2002:a05:6122:250a:b0:516:1106:4c1a with SMTP id 71dfb90a1353d-51a36dc2f19mr6090260e0c.12.1734618114588;
+        Thu, 19 Dec 2024 06:21:54 -0800 (PST)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51b68bea724sm137604e0c.24.2024.12.19.06.21.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Dec 2024 06:21:53 -0800 (PST)
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4afe2a1849bso473111137.3;
+        Thu, 19 Dec 2024 06:21:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUJ+Ig7Yxkk1foLUGg98y0GXE9M9Sv39q+SAlLLVu8wDEb1VQd8xPz4dwxVAP0uMZ7igeJDZUYl@vger.kernel.org, AJvYcCV1atvkwQySS+GSt73N4PPSGaircZpQF+XII1QW+dci+9FLC5axwnvuEJxGG09ASK49YKj11YyV+nf3r0Q=@vger.kernel.org, AJvYcCV71TR3lChKGP4cQOqhBc+xa09LGvH4ec2wEVhKJHWyuwDIPQCOXFzqt3+V0Y79UCevt7Lamq+mQvE2a4IHlHdISPc=@vger.kernel.org, AJvYcCW5WrUoByh2hkdBOGHriuMCItGo4UamUVGrxd+DdkXfvDO2uwMDJc3FQ1V+rQQuMZfbmUC6cSSOreocdE2X@vger.kernel.org
+X-Received: by 2002:a05:6102:c0a:b0:4b0:a67c:5817 with SMTP id
+ ada2fe7eead31-4b2ae711c43mr6817076137.5.1734618113507; Thu, 19 Dec 2024
+ 06:21:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241218001618.488946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241218001618.488946-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <ozrnsv5gampgx3hz6mfkg6gtazofmfbl2xfelfpuxmwx7porcq@mejsk7hdc55o>
-In-Reply-To: <ozrnsv5gampgx3hz6mfkg6gtazofmfbl2xfelfpuxmwx7porcq@mejsk7hdc55o>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 19 Dec 2024 12:44:50 +0000
-Message-ID: <CA+V-a8sCCwxkEh=jF+XGuCf0X-N9_QUc8hiiQgtwtpxMm11tdw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/9] i2c: riic: Use local `dev` pointer in `dev_err_probe()`
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: Chris Brandt <chris.brandt@renesas.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Wolfram Sang <wsa@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20241204155806.3781200-1-claudiu.beznea.uj@bp.renesas.com> <20241204155806.3781200-5-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241204155806.3781200-5-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 19 Dec 2024 15:21:41 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX8Sg4heCHuJXnMknXkY3iirjnTvTZ5fPLSN4kZ66dA2Q@mail.gmail.com>
+Message-ID: <CAMuHMdX8Sg4heCHuJXnMknXkY3iirjnTvTZ5fPLSN4kZ66dA2Q@mail.gmail.com>
+Subject: Re: [PATCH RFT 4/6] serial: sh-sci: Do not probe the serial port if
+ its slot in sci_ports[] is in use
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, 
+	wsa+renesas@sang-engineering.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	lethal@linux-sh.org, g.liakhovetski@gmx.de, groeck@chromium.org, 
+	mka@chromium.org, ulrich.hecht+renesas@gmail.com, ysato@users.sourceforge.jp, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andi,
+Hi Claudiu,
 
-On Thu, Dec 19, 2024 at 12:21=E2=80=AFPM Andi Shyti <andi.shyti@kernel.org>=
- wrote:
+On Wed, Dec 4, 2024 at 4:58=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> w=
+rote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> Hi Prabhakar,
+> In the sh-sci driver, sci_ports[0] is used by earlycon. If the earlycon i=
+s
+> still active when sci_probe() is called and the new serial port is suppos=
+ed
+> to map to sci_ports[0], return -EBUSY to prevent breaking the earlycon.
 >
-> > diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-rii=
-c.c
-> > index bfaa2d728a76..01195ffd4c07 100644
-> > --- a/drivers/i2c/busses/i2c-riic.c
-> > +++ b/drivers/i2c/busses/i2c-riic.c
-> > @@ -320,7 +320,7 @@ static int riic_init_hw(struct riic_dev *riic)
-> >                                     : I2C_MAX_FAST_MODE_FREQ;
-> >
-> >       if (t->bus_freq_hz > max_freq)
-> > -             return dev_err_probe(&riic->adapter.dev, -EINVAL,
-> > +             return dev_err_probe(dev, -EINVAL,
-> >                                    "unsupported bus speed %uHz (%u max)=
-\n",
-> >                                    t->bus_freq_hz, max_freq);
+> This situation should occurs in debug scenarios, and users should be
+> aware of the potential conflict.
 >
-> Which branch are you on? This change has already been introduced
-> in commit 71dacb2565ed ("i2c: riic: Simplify unsupported bus
-> speed handling")
->
-I'm on v6.13-rc3, the above change just replaces the first parameter
-in dev_err_probe(). The change introduced in commit 71dacb2565ed
-("i2c: riic: Simplify unsupported bus speed handling") does not update
-the first parameter in dev_err_probe() which this patch addresses.
-Actually I have fixes tag for commit 71dacb2565ed in the current
-patch.
+> Fixes: 0b0cced19ab1 ("serial: sh-sci: Add CONFIG_SERIAL_EARLYCON support"=
+)
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Cheers,
-Prabhakar
+Thanks for your patch!
+
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+> @@ -158,6 +158,7 @@ struct sci_port {
+>         bool has_rtscts;
+>         bool autorts;
+>         bool tx_occurred;
+> +       bool earlycon;
+
+This is only used in sci_ports[0], so it can be a single global flag,
+instead of a flag embedded in each sci_port structure.
+
+>  };
+>
+>  #define SCI_NPORTS CONFIG_SERIAL_SH_SCI_NR_UARTS
+> @@ -3443,6 +3444,7 @@ static int sci_probe_single(struct platform_device =
+*dev,
+>  static int sci_probe(struct platform_device *dev)
+>  {
+>         struct plat_sci_port *p;
+> +       struct resource *res;
+>         struct sci_port *sp;
+>         unsigned int dev_id;
+>         int ret;
+> @@ -3472,6 +3474,26 @@ static int sci_probe(struct platform_device *dev)
+>         }
+>
+>         sp =3D &sci_ports[dev_id];
+> +
+> +       /*
+> +        * In case:
+> +        * - the probed port alias is zero (as the one used by earlycon),=
+ and
+> +        * - the earlycon is still active (e.g., "earlycon keep_bootcon" =
+in
+> +        *   bootargs)
+
+This is even true without "keep_bootcon", as nothing ever clears the
+sci_port.earlycon flag once it is set.
+
+> +        *
+> +        * defer the probe of this serial. This is a debug scenario and t=
+he user
+> +        * must be aware of it.
+> +        *
+> +        * Except when the probed port is the same as the earlycon port.
+> +        */
+> +
+> +       res =3D platform_get_resource(dev, IORESOURCE_MEM, 0);
+> +       if (!res)
+> +               return -ENODEV;
+> +
+> +       if (sp->earlycon && res->start !=3D sp->port.mapbase)
+> +               return dev_err_probe(&dev->dev, -EBUSY, "sci_port[0] is u=
+sed by earlycon!\n");
+> +
+>         platform_set_drvdata(dev, sp);
+>
+>         ret =3D sci_probe_single(dev, dev_id, p, sp);
+> @@ -3568,6 +3590,7 @@ static int __init early_console_setup(struct earlyc=
+on_device *device,
+>         port_cfg.type =3D type;
+>         sci_ports[0].cfg =3D &port_cfg;
+>         sci_ports[0].params =3D sci_probe_regmap(&port_cfg);
+> +       sci_ports[0].earlycon =3D true;
+>         port_cfg.scscr =3D sci_serial_in(&sci_ports[0].port, SCSCR);
+>         sci_serial_out(&sci_ports[0].port, SCSCR,
+>                        SCSCR_RE | SCSCR_TE | port_cfg.scscr);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
