@@ -1,126 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-11585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31F29F8365
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 19:39:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E409F83CA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 20:08:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5757B161936
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 18:39:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E156D1676DD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 19:08:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC7421A9B5C;
-	Thu, 19 Dec 2024 18:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="q8EepwIH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2B2C1A4F2D;
+	Thu, 19 Dec 2024 19:08:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7AE1A9B25;
-	Thu, 19 Dec 2024 18:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F391A2632;
+	Thu, 19 Dec 2024 19:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734633547; cv=none; b=Aw78VzBMa0kQ1pXfEXb5wESxHGW4iCQ8gaHfsdRsFrmoQhgsGiwrJI/vSyCjw/I1iKfkzAR8QvQSLpCgosLxRvH6cLsFuRi1dKgEK1JUw4sgfhRL1LBgkAac0ZDxYqay9FCjXbD9KXkAtLUfZSg3NlWDReu6EMSZiEtpUZVghdk=
+	t=1734635312; cv=none; b=dPjzzVt8Hqyt26elH5ZXYTeqiyBcK3Ywcs7KMdQBdG/nrn6GglHhQxQ5r4y7q7oPb6tDZeTLuppzsJNDY02ffdz4EEIeFKIRkxdcgp/Vniu1v5+4H8e43aFLv1OEDK1IlDJhi+UrA5M7tr76GmkwPWGgJMKVYq92ASEvtnE4gDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734633547; c=relaxed/simple;
-	bh=XaMs+Sf/J7HD4Gd5ISeUr575e/VWcvG3V82ckX1id6Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CT1saByssWbu0DPYjjW0O1EwNgcQtyoNf17LwRrbR2+OmxRR5tJFT9FsEUR4tCt/2wobSf9q2AZ7Zud9AvaFb06H4d+Srx8DXfu2S32JSDi2d2kZJLKnBhQLpPF70kEoXuH9ugr7ggiUYZgmNudOHCsRj2A2ChjWylQQxB1H3tM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=q8EepwIH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.104] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D5A406DE;
-	Thu, 19 Dec 2024 19:38:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734633502;
-	bh=XaMs+Sf/J7HD4Gd5ISeUr575e/VWcvG3V82ckX1id6Y=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=q8EepwIHbtvXyZvGYr4a9usrRfkonAaNCoGWRsxGjdegf21uA9sXbz6g0ZnBz9Jku
-	 B3NjRemFgbT7AKF7qrn8U2Os2gftIOA6GPAPS3Ix+jcHHmMJTb8zWgvmcur3v06+tW
-	 cUs+1reJ5+mijLFLu2f8/FIJ5QaSHVnj37ljp2Ts=
-From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Date: Thu, 19 Dec 2024 19:38:30 +0100
-Subject: [PATCH 2/2] rcar-fcp: Add FCPVD reset sequence for VSPD
+	s=arc-20240116; t=1734635312; c=relaxed/simple;
+	bh=5Ef+6rZWH8dDGtU7zv2iioXJYo0m2yELmssYQ0nJyMM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aNn21p8MH/5BG1uoppaKCUHfrB3Zt8+H5XZiKcxLPfpckL22ZWJTA5HOCM0IPVnM/842GAeNPjq0EWcONgNg+gAi/5NJkEdRrw0xnvgIPf8GD4/Q3PDY6/iHc8ShgKVMOu7DfV8/8+xEWKdgkIIa+N0idyz6qm5vytvbOq/k+7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6dcc42b5e30so14404246d6.1;
+        Thu, 19 Dec 2024 11:08:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734635309; x=1735240109;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XPaniiWHezQ/g7pat40XY3/npFC9VXw3O9cONcVxZoQ=;
+        b=gzj6KN+4s5/uYCLA7eeIlyY0XCtFaRNk3wS6gc3A7pvZGenMtTkWyL3+s20mFMQYfH
+         KKmlDleE408jqnBGugrUn0HAgdlMxL67tgWKCUx2+jmjUH4wgJpCqmu1SmPlDDdxd7KP
+         7iGdt2nFDfv0BoCwd2HoMQLjSGjiz4DZsUiI9XA6RB8wzdpTmwN6E3xMHmQVwwdIJ2kI
+         ZP/fSV+ZZIC5hNXqRT6StnXFcYkH+cn2AjrrfpN6pPcLwhRmP37xiBw92ktweHtzfTuy
+         7wyCjYYg/esPgftS+h7AyFIHUv4UImc5e0XZy3T2pbMVtWFnqR5N8oJ7PdCu+O06w/NN
+         DpNw==
+X-Forwarded-Encrypted: i=1; AJvYcCUtLbuAwfZHsDdyzCdFT3wDur72dGG2aPAhBWPZh+S/vb3+PbqQy4eqK4z0XbycF9OszBYo6NbVW7Ywi9aVYi5HO9s=@vger.kernel.org, AJvYcCWlHluEaNnHMTNHCA2HAfJjytj+0oKoTPmT4m7EV42fO5n4VJ75gY1VK6dfKzzFPT20K3rUx9YNHLo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLEetF8JGf3XqkGTsy91Y0ADwIfnb+DAlR3gFqLcxcZHmYE+ka
+	b1GQD8zJnIDkZv8trU6O2Ff9K0p3Z8Ow4C1T/+0MTNZ3ABjHOj5WJFbK3oBN
+X-Gm-Gg: ASbGncus4st9LuPSeHljvOGbIWChg7MMrpAu413nwo+i22vzc4sKU+hHFJeBEZD8he6
+	/z/S+5rwxrHWrwpBw8vwD8Ra1M5KZDOWpPW7++p7znAzRdz/FzRUm3aEMQMNo7NdBWF2qXDvLJq
+	JyTOweH+pvqLCpomz9Fd0jDXD/sNQdoRukhowxq9c9qPg+6nqWeGv4D3joRJ3MVPBKGhm9IcQdk
+	uQZUH7dRGXai2ojwZLPbVBqAoLWhby66CvGMkrAXtub6LKz59Vi9293GcVw8jhFduSDBl36uqzA
+	8LI3tQd3b0Sek7iQoVE=
+X-Google-Smtp-Source: AGHT+IFMJDmRciNDbuBXZlymOlXbUot68jEvORAIIe7KzXL5fcZjIjYKUNccG/OjdQQDJMVJ4Z5/FQ==
+X-Received: by 2002:ad4:5b83:0:b0:6d8:850a:4d6a with SMTP id 6a1803df08f44-6dd2332ee4dmr850246d6.1.1734635308898;
+        Thu, 19 Dec 2024 11:08:28 -0800 (PST)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com. [209.85.219.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dd18137373sm9228926d6.64.2024.12.19.11.08.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Dec 2024 11:08:28 -0800 (PST)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6dcc42b5e30so14403926d6.1;
+        Thu, 19 Dec 2024 11:08:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVm4YL9OPQkk+USFxQWvHTAQE52SejQ0UNalHANzb48Z8TuND1y+3AxXnAWz8ge6yLEQBIoLpPJuzkEuAzOsYkQ6No=@vger.kernel.org, AJvYcCXZEbsjv9RLlSnShdFioBCPdY1cIZjd3iPElBc7M7LKfCw7yUtad2YrZEQCmN8DsStECqDqbIKH5iM=@vger.kernel.org
+X-Received: by 2002:a05:6214:d46:b0:6d8:9994:ac30 with SMTP id
+ 6a1803df08f44-6dd2335ddf3mr629566d6.26.1734635308346; Thu, 19 Dec 2024
+ 11:08:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241219-v4h-fcp-soft-reset-v1-2-026e72dca514@ideasonboard.com>
-References: <20241219-v4h-fcp-soft-reset-v1-0-026e72dca514@ideasonboard.com>
-In-Reply-To: <20241219-v4h-fcp-soft-reset-v1-0-026e72dca514@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
- Koji Matsuoka <koji.matsuoka.xm@renesas.com>, 
- LUU HOAI <hoai.luu.ub@renesas.com>
-X-Mailer: b4 0.15-dev-1b0d6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1356;
- i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=mCe4Clc7f1askjHQ1h/OR8O8gRY38N2DK5C1REzwG/4=;
- b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBnZGhD6QdtxR1QxGHq4zTQgNrhL+6v84tR/vd+Q
- LQX6jhDFaeJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ2RoQwAKCRByNAaPFqFW
- PNj5D/47TECxTvLmdmmncW6UihY0v0xO6Wr7Ng0Vz8+weGtyZVp5nrdcHPWbQqQOfCk2keQCXvS
- wqEYarcJnUn5WsJj2xU7RpbkleoeoGqI3JEqXTD6WjilYH64s+hcdNg+u0XJf+KsZokZb7uzWbg
- YlL+mowM7gkwGZJdtU63lz2zHmhudGuYKIX48M3bGQrxrqpSY4XYRnr+E3MSlEYdQouqW9JOW2t
- knXxpr4ooLfqe5J2pnh4p+b5jjaYvrskq4e5+b4x3KbdDHCPq75jDQ6jTu/+VExQNwuiPOJ58J1
- nSdp3lg/B6Lkh2CUszfq3tMgqPEUW7wewg9bYuZB/3RufIYY8YIXxRDUVmrn9TP4gw5dwKqx7dB
- WGTGgtVmexFe1pJoST6HgD8T8+qGMD36d8AsWeYismu5D0bSgwYJHX2A1wd/Un5ZgmONWaJmRA8
- aJMwShNswrvQBo2A4VBTJPs3Y2W0iC5jh0tUK6TUFUEHSB9WkTSAJFbml8AKZwNduFbTju1ZQx7
- wCdHEF22uwWV+c+xIMSINub5fwH8RHrVbaz2vPwyqYlt7hDm0kMS3ofK7Tyo6VvyweDAnkPHD1C
- MOhoTl5iBbXGRcgvpQrFqp1f95b0JLv/L/KbcJMEbj9IsrnRSKxr7LykL9zxLbcOJ250KmsRjGv
- /3EJIoS6DScuANg==
-X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
+References: <20241213123550.289193-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20241213123550.289193-1-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 19 Dec 2024 20:08:16 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUEkN6Z7p=LspP+npB3xs4ui+D9oGG+Q15kQ-mYiaoK-A@mail.gmail.com>
+Message-ID: <CAMuHMdUEkN6Z7p=LspP+npB3xs4ui+D9oGG+Q15kQ-mYiaoK-A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Add clock driver support for Renesas RZ/G3E SoC
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
+	Chris Paterson <Chris.Paterson2@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+Hi Biju et al,
 
-According to H/W manual v1.00, VSPD must be excecuted
-FCP_RST.SOFTRST after VI6_SRESET.SRST. So this patch adds it.
-VSPDL is not applicable.
+On Fri, Dec 13, 2024 at 1:36=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+> This patch series adds clock driver support for RZ/G3E. Also add
+> MSTOP support for RZ/V2H.
+>
+> This patch series is tested on renesas-devel and next.
 
-Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
-Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
-Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
----
- drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+> Biju Das (3):
+>   clk: renesas: rzv2h-cpg: Add MSTOP support
+>   clk: renesas: rzv2h-cpg: Add support for RZ/G3E SoC
+>   clk: renesas: r9a09g047: Add CA55 core clocks
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-index bb0739f684f39e23326a4d8fdb9f43e020bc23c8..8dbbe92b522e49c795cf0b2bbe507871899ee15e 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-@@ -13,6 +13,7 @@
- #include <linux/wait.h>
- 
- #include <media/media-entity.h>
-+#include <media/rcar-fcp.h>
- #include <media/v4l2-subdev.h>
- 
- #include "vsp1.h"
-@@ -367,6 +368,11 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
- 			pipe->state = VSP1_PIPELINE_STOPPED;
- 			spin_unlock_irqrestore(&pipe->irqlock, flags);
- 		}
-+
-+		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
-+		    VI6_IP_VERSION_MODEL_VSPD_GEN3)
-+			ret = rcar_fcp_soft_reset(vsp1->fcp);
-+
- 	} else {
- 		/* Otherwise just request a stop and wait. */
- 		spin_lock_irqsave(&pipe->irqlock, flags);
+Given the issues with "[PATCH v3 1/3] clk: renesas: rzv2h-cpg: Add
+MSTOP support" reported by email[1] and on #renesas-soc, I think it
+is best not to include this patch and all other patches that depend
+on it in tomorrow's pull request for clk-next.  That leaves us with
+some extra time to fix the issues.
 
--- 
-2.47.1
+Unfortunately, I understand not all parties will have returned from
+holidays by the time I will send my second pull request (usually
+just before rc6)...
 
+[1] "[PATCH 1/5] clk: renesas: rzv2h: Fix use-after-free in MSTOP
+refcount handling"
+    https://lore.kernel.org/all/20241218142045.77269-2-prabhakar.mahadev-la=
+d.rj@bp.renesas.com
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
