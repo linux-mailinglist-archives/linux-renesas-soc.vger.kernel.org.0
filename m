@@ -1,83 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-11569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD20D9F7D1C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 15:27:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E0C9F7D2C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 15:31:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 926337A42D3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 14:27:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E9251664D4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2024 14:31:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A470622579B;
-	Thu, 19 Dec 2024 14:26:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E0C386343;
+	Thu, 19 Dec 2024 14:31:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A019A2253EC;
-	Thu, 19 Dec 2024 14:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819CE17C;
+	Thu, 19 Dec 2024 14:31:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734618390; cv=none; b=VxJzcQ9LKWwxkFGF1CjAuQX7ygZd4ZizSj8nD6mdsZ0g7Aqu5+717+1B+7qFf28l7CiZsXzwRzhzR5uw96zJKqj8Rl5e/61sD5vWcnuAJZ3Tt4ST5W/HaMy+FCala7ol1mvNzcYx1vcP0+PZ5NYYppbXqcazhSC9KI74cQheMpo=
+	t=1734618673; cv=none; b=kcyQAeOgzOHej9FwrQ05FHeVQWW7c1scZKeAamf6qJB64AF7d7qJOvQJHRilLmPyxESYm2LYCufQ68PJJipoDYVT372EKi3CHloQJL0inKKmmslM0H4eAwsxiBqInk57y9sDAZKDqrkrxJGo0Xq6X2z2z8Mo8kh0v+W03Y6CTjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734618390; c=relaxed/simple;
-	bh=KBJjRI5mqxGcNIeAXKKgF34+8zWjVnIZHAG33K9FR14=;
+	s=arc-20240116; t=1734618673; c=relaxed/simple;
+	bh=O3c1HDGlffaugxMLDkaiaAUvcRObTVM0/ZxRcXgZbJk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aSgUGbYKt0vpGDLQK+iPWhFe0G5dni+SlAlNIuimTNpRZpgfdBINHkGq7yc1gDbeTUbBaGKxjB1MzhviMG1RKfEbeqsM/nP/96pHCys0dWKszfmnVgJ/BTDugx3zyiZ9274HHOH3bzvEQZuEnd8dBRJjRM3uGMYNqy13zMp8ajA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.43
+	 To:Cc:Content-Type; b=P4eRCPn1NmPdfrlERzaqZYeMOc4La/TRsHkSslwpAEVQwOuhDHobCNySga8fZfYVgyFWrft1Z7AZi9zeAceCAitwcAiR4rIdh3Qu0OpaBhqbVRjXSEurwjGnDhTVnMsi9GU9o8MRBMhFyLItDD5LQvJkJDmIb+vHKVjgA6J3TVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-85bc5d0509bso191606241.1;
-        Thu, 19 Dec 2024 06:26:28 -0800 (PST)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4678cce3d60so7240961cf.2;
+        Thu, 19 Dec 2024 06:31:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734618386; x=1735223186;
+        d=1e100.net; s=20230601; t=1734618669; x=1735223469;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8KTtGN1r1ChM/7EIlJYs61YaS4BRSkC5X51/XkWLFLs=;
-        b=N38getLBJ8kavv+93wmohmchhCnp1Y2OXa+oPM2yjU+i8O8cEZ1w9RADf3ZmTDv55A
-         nNf2qir2ky7s2ha1gZOER0MZ4772S028GZHon4apE5qAQHpQ4+GL3kOChyWBaJww+tLX
-         u5lLDJzY9g0E1WjGLoRTXbuEmZU/31w76GVI4Ui21Ixa/7YNNakZfpQySGJ2eeAYz/TX
-         ksT/BXVe5J98wrkMuWaZOGhkU4IHSHEjXpnd4ymNEtTetx61o6Vo3DUTyFR9HSOGPtNb
-         Da46QMKvJFjZBnxghBWhoA/15vV7wAOZO/4/cdvrdzlQufMo0nVOPr4YOfF+sw3ByitL
-         yx2g==
-X-Forwarded-Encrypted: i=1; AJvYcCVLtplmnodAl959WjMqzvbnvKFfAylWNmazqpNDVGR5ymD0y8RkmymaC41L1rAU9QAs/Vn2WLUVT9zGEerr@vger.kernel.org, AJvYcCVvAkA3t/H0OdA1lacsiltDxqLEKmiXft0bJ5rQjHWuRfegfJc7ljPbQjyLIMtWQsFA7lcqRsrQ44OigVY=@vger.kernel.org, AJvYcCWvs0Ea5w0O+Cq/v5Bm/r6LwUXSFBDXyBv+MTKFWGXEH8emub0OPwC4MjepLp6wjZXJFkF/AbQG9fqVC939Vff3e1c=@vger.kernel.org, AJvYcCXu4kayIXBg+v/cf1Ko++SfyPadeS7x1GqioZnME0YYBLtcL9zfBzARgZPCaKeEfA6cr8PqruAL@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+1uvCwltXVSB1YOcFZnxpuKHb0d1+e95r0gE0lQTxAPgrRzqe
-	YTly6gfT2DcStKlIfusIhyfZb7MwLVsA5n31rlPjxrcs8qBbjIKvM8F5TN8m
-X-Gm-Gg: ASbGnctNmrsnJXKKNm+qKi6+Z+O3yH/14P+l+G4NwQktrM+qkpzL+nASLuDfjrvI3mp
-	m3COawGMigxzUAs/HiLPZeX9lEOc5AOYHBXRlZ/pkmCdQnjVL8n9eBpAH2YEoEUD8o73WOuAglS
-	b9/YTGdZ4jCnBJWUuILVZQ7V1qeqLwi1NqA7EuK1JykmF/aZj3/kUuZcF2FEwbAlMzLW4sFOsRJ
-	NZ903Tp5XZ35dR3/OlyGWNPLQW2OJdQYS/hlJZGVsdi4n04LbS+BHF1pkD7XCvq3gqh7MFAcgA+
-	qN+Ax3OP4l33QkwwdGI=
-X-Google-Smtp-Source: AGHT+IHsPd4x11IAYFbJ4VodpW/BJ72/P5rdTG/F06adgBn0fXzLoG3/Smls8IpHisR4jgHPRWuW1w==
-X-Received: by 2002:a05:6122:3112:b0:516:2833:1b8d with SMTP id 71dfb90a1353d-51b648720b1mr3320918e0c.11.1734618386324;
-        Thu, 19 Dec 2024 06:26:26 -0800 (PST)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8610ac6bfc9sm232612241.16.2024.12.19.06.26.25
+        bh=Slw4YP8lL80cmcS0c5L4jvkuQ269ay/GSYhL7053lKA=;
+        b=OTwD8QKClNTz0gOGWrzt+kgj3cI0qxB6jTMTn0XGeqnoOSTaxLRJvsAP1yS3ttkyLC
+         dM0aEVRcHZsgNqFqmvWIGFo9mZuwuYE99/uhXcYbWkNMXT9EKb1EJTR7W0UGVOiGwhWo
+         dD7/4tdatgXXNxqf2DDac0VnlQutTER9P0froXvYC6N4zE9UzqnPPppi+eb76jORVe19
+         fXcjzEoTk0eAut7BhkRVb0yeq11OfJxt+M7UVn4s6PsGE4Pcpl5nhE3U0Zl7f5qpay2I
+         uxqhPe3iO2ephqo4NGKSlGiaL2ApA7nqb4mdyN9v/OGRVJDFZg/hk8x62C9rDw+GKCGM
+         wk2A==
+X-Forwarded-Encrypted: i=1; AJvYcCVM8Jjq1SCi6wNm1h8dk0B7eQP2FeHWYgwuLYh/mB0ErVihMp/XUTYP0z5kMpiE4U02+wBr4oRIJFPc7s4=@vger.kernel.org, AJvYcCVpb8XykFdMtKyM6tmhVcADjKC32Wza9B7YMinDVPF19nVRF3JLRFf/jnKzdpn4k85XXsz57CgV@vger.kernel.org, AJvYcCXSVhR9r65v6RfPnctOwCbUysLAdCY89bmdN8q6tgxbdJh62hEZaLX4gcgrDd6wFX35O0Zmer7YWxi1x0Ex/l8SNP0=@vger.kernel.org, AJvYcCXTkw2vDEXdxX58uk9wOLStlFzuiqm2HZP+GMPNkRZfzV3wAJo4C42PzPlwnnyxj485tqes2wL2iyIbNzW8@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy30H9+ywXZzY8KS8YnzOCqA1KkqpcHaFy+Z9b/0XKswsceGv9N
+	VXE4uUNnLfbRX3bsnYQJGv5AHn11IyFbDoXKtP5aRfd4u7VGr6CqwO0WLNZN
+X-Gm-Gg: ASbGncsFEDvaNIFpISfUnA5HMKQxKDnwBMMwYpQlvp9TmiRLa4HUU1PG/m/1Bkxe4sc
+	CV+XEf98H/H12p9M8VJrhJRWRFRQtJgPCJoFo7n5H1eLiszuIVnSGIGoIZql485MOzUKmIN6EOm
+	T0bQZ8rPskoiOcqcIEjq77DqNd/fGMSlegzsW/wTtBbCzIBmSVl+zWJdQbR3Qdp4Ry5OGUXW0jO
+	Q+ytuPYIOPYqok/pRDIkEuqK6IO0alQc+sBU35iazXja9Ic74RnfcCrmP3TO1l5W4u/6pfeXnMq
+	+dITgQ/Ib0cTkbniXEs=
+X-Google-Smtp-Source: AGHT+IHIsEhdoz04sxZbwPALVDW9Fif99Pnk1jRBPbhg4gSwUpvRo2PLusqOd2I5PlP+4mrbRBEIyQ==
+X-Received: by 2002:ac8:5802:0:b0:467:5367:7d09 with SMTP id d75a77b69052e-46908de2502mr99818831cf.16.1734618669298;
+        Thu, 19 Dec 2024 06:31:09 -0800 (PST)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com. [209.85.219.41])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46a3eb2c81dsm6471591cf.84.2024.12.19.06.31.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Dec 2024 06:26:26 -0800 (PST)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4afde39e360so202660137.0;
-        Thu, 19 Dec 2024 06:26:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU6IztmtlAjwd0g5CPpgUFG2Qbqq3fInbwzYAISjfJNJmSFZfIS23uc6eE3K97i+mNkOsBUUNTsbwto8fxJpSwwlqA=@vger.kernel.org, AJvYcCUvD7vUF1fCDiTzOC4g4WDATzuOZssX4IOJoXOiUX53J5o5B0PWmWZTk9hgclN5rb8t65jH59zlsqkH3Bpf@vger.kernel.org, AJvYcCVDPkM1FGyHy44iIePDmhV6N3b0QFSuIYoRnX42un1ingvZR+Gsc+qvVO9MqlGQBZeb+sowEbPh@vger.kernel.org, AJvYcCXQAvs8VX+RJ8EBi0+ldKOCxs7MW1QVm0eE0AX8PJczY+em68gyJvIVPZWFxI08Aq6sRiv2/sRtgfmHxlk=@vger.kernel.org
-X-Received: by 2002:a05:6102:2d09:b0:4af:ef82:ce8b with SMTP id
- ada2fe7eead31-4b2bbf52e54mr4065877137.26.1734618385637; Thu, 19 Dec 2024
- 06:26:25 -0800 (PST)
+        Thu, 19 Dec 2024 06:31:08 -0800 (PST)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6dd0d09215aso6810676d6.2;
+        Thu, 19 Dec 2024 06:31:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUsDCXSxSfLx+XhL638+EH3nvpp2THUxfJtDVM1lJ+gjH7RSTy8oSSf60288r1cmnlxWlQGBY76@vger.kernel.org, AJvYcCWLZ1s5bvdyIovHWdLznoseg+yRWST3YHh8e6MW8qxpIM6PmLU4Z/ewFFMjLRNJA3E3pjAEH912VXrYS8g=@vger.kernel.org, AJvYcCWRhfevNJTo+A+ktnYm8u8QRFR/CDHx4f60JQ0eiQmTmqVz+GGKe2tFYgjzvatuDLLIbT49H0AqEbJfznmd@vger.kernel.org, AJvYcCWsKsNO0oeRaz/u1rn4ZeWeTWvlgy4+HvhaZL7ZGOYE9w0eZupjZm2bhdydY2hvYQZvT6yiFve+H83x6OdSTOh0y8I=@vger.kernel.org
+X-Received: by 2002:a05:6214:5284:b0:6cb:d4e6:2507 with SMTP id
+ 6a1803df08f44-6dd091ceacbmr109855286d6.22.1734618668621; Thu, 19 Dec 2024
+ 06:31:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241204155806.3781200-1-claudiu.beznea.uj@bp.renesas.com> <20241204155806.3781200-6-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20241204155806.3781200-6-claudiu.beznea.uj@bp.renesas.com>
+References: <20241204155806.3781200-1-claudiu.beznea.uj@bp.renesas.com> <20241204155806.3781200-7-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241204155806.3781200-7-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 19 Dec 2024 15:26:14 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXz8FHRLPOuHPKvjmq2FCidY20MrCmSsq+pK1QUg-fk2A@mail.gmail.com>
-Message-ID: <CAMuHMdXz8FHRLPOuHPKvjmq2FCidY20MrCmSsq+pK1QUg-fk2A@mail.gmail.com>
-Subject: Re: [PATCH RFT 5/6] serial: sh-sci: Clean sci_ports[0] after at
- earlycon exit
+Date: Thu, 19 Dec 2024 15:30:57 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWB2q7=gkHUsmVWwZMCWaj-htUpOQCr24y5HsbQvM+HMA@mail.gmail.com>
+Message-ID: <CAMuHMdWB2q7=gkHUsmVWwZMCWaj-htUpOQCr24y5HsbQvM+HMA@mail.gmail.com>
+Subject: Re: [PATCH RFT 6/6] serial: sh-sci: Increment the runtime usage
+ counter for the earlycon device
 To: Claudiu <claudiu.beznea@tuxon.dev>
 Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, 
 	wsa+renesas@sang-engineering.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
@@ -95,150 +95,99 @@ On Wed, Dec 4, 2024 at 4:58=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> w=
 rote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> The early_console_setup() function initializes sci_ports[0].port with an
-> object of type struct uart_port obtained from the struct earlycon_device
-> passed as an argument to early_console_setup().
+> In the sh-sci driver, serial ports are mapped to the sci_ports[] array,
+> with earlycon mapped at index zero.
 >
-> Later, during serial port probing, the serial port used as earlycon
-> (e.g., port A) might be remapped to a different position in the sci_ports=
-[]
-> array, and a different serial port (e.g., port B) might be assigned to sl=
-ot
-> 0. For example:
+> The uart_add_one_port() function eventually calls __device_attach(),
+> which, in turn, calls pm_request_idle(). The identified code path is as
+> follows:
 >
-> sci_ports[0] =3D port B
-> sci_ports[X] =3D port A
+> uart_add_one_port() ->
+>   serial_ctrl_register_port() ->
+>     serial_core_register_port() ->
+>       serial_core_port_device_add() ->
+>         serial_base_port_add() ->
+>           device_add() ->
+>             bus_probe_device() ->
+>               device_initial_probe() ->
+>                 __device_attach() ->
+>                   // ...
+>                   if (dev->p->dead) {
+>                     // ...
+>                   } else if (dev->driver) {
+>                     // ...
+>                   } else {
+>                     // ...
+>                     pm_request_idle(dev);
+>                     // ...
+>                   }
 >
-> In this scenario, the new port mapped at index zero (port B) retains the
-> data associated with the earlycon configuration. Consequently, after the
-> Linux boot process, any access to the serial port now mapped to
-> sci_ports[0] (port B) will block the original earlycon port (port A).
+> The earlycon device clocks are enabled by the bootloader. However, the
+> pm_request_idle() call in __device_attach() disables the SCI port clocks
+> while earlycon is still active.
 >
-> To address this, introduce an early_console_exit() function to clean up
-> sci_ports[0] when earlycon is exited.
+> The earlycon write function, serial_console_write(), calls
+> sci_poll_put_char() via serial_console_putchar(). If the SCI port clocks
+> are disabled, writing to earlycon may sometimes cause the SR.TDFE bit to
+> remain unset indefinitely, causing the while loop in sci_poll_put_char()
+> to never exit. On single-core SoCs, this can result in the system being
+> blocked during boot when this issue occurs.
 >
-> To prevent the cleanup of sci_ports[0] while the serial device is still
-> being used by earlycon, introduce the struct sci_port::probing flag and
-> account for it in early_console_exit().
+> To resolve this, increment the runtime PM usage counter for the earlycon
+> SCI device before registering the UART port.
 >
 > Fixes: 0b0cced19ab1 ("serial: sh-sci: Add CONFIG_SERIAL_EARLYCON support"=
 )
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
->
-> Changes since the integrated patch:
-> - adjust the commit message to address Geert comments at [1]
-> - Introduce the struct sci_port::probing flag to prevent the cleanup
->   of sci_ports[0] while the serial device is still being used by earlycon
 
-Thanks for the update!
+Thanks for your patch!
 
 > --- a/drivers/tty/serial/sh-sci.c
 > +++ b/drivers/tty/serial/sh-sci.c
-> @@ -159,6 +159,7 @@ struct sci_port {
->         bool autorts;
->         bool tx_occurred;
->         bool earlycon;
-> +       bool probing;
-
-This is only used in sci_ports[0], so it can be a single global flag,
-instead of a flag embedded in each sci_port structure.
-
->  };
->
->  #define SCI_NPORTS CONFIG_SERIAL_SH_SCI_NR_UARTS
-> @@ -3386,7 +3387,8 @@ static struct plat_sci_port *sci_parse_dt(struct pl=
-atform_device *pdev,
->  static int sci_probe_single(struct platform_device *dev,
->                                       unsigned int index,
->                                       struct plat_sci_port *p,
-> -                                     struct sci_port *sciport)
-> +                                     struct sci_port *sciport,
-> +                                     struct resource *sci_res)
->  {
->         int ret;
->
-> @@ -3433,12 +3435,15 @@ static int sci_probe_single(struct platform_devic=
-e *dev,
+> @@ -3435,7 +3435,24 @@ static int sci_probe_single(struct platform_device=
+ *dev,
 >                 sciport->port.flags |=3D UPF_HARD_FLOW;
 >         }
 >
-> -       ret =3D uart_add_one_port(&sci_uart_driver, &sciport->port);
-> -       if (ret) {
-> -               return ret;
-> +       if (sci_ports[0].earlycon && sci_ports[0].port.mapbase =3D=3D sci=
-_res->start) {
-> +               /*
-> +                * Skip cleanup up the sci_port[0] in early_console_exit(=
-), this
-
-Double up
-
-> +                * port is the same as the earlycon one.
-> +                */
-> +               sci_ports[0].probing =3D true;
->         }
->
-> -       return 0;
-> +       return uart_add_one_port(&sci_uart_driver, &sciport->port);
->  }
->
->  static int sci_probe(struct platform_device *dev)
-> @@ -3496,7 +3501,7 @@ static int sci_probe(struct platform_device *dev)
->
->         platform_set_drvdata(dev, sp);
->
-> -       ret =3D sci_probe_single(dev, dev_id, p, sp);
-> +       ret =3D sci_probe_single(dev, dev_id, p, sp, res);
->         if (ret)
->                 return ret;
->
-> @@ -3579,6 +3584,20 @@ sh_early_platform_init_buffer("earlyprintk", &sci_=
-driver,
->  #ifdef CONFIG_SERIAL_SH_SCI_EARLYCON
->  static struct plat_sci_port port_cfg;
->
-> +static int early_console_exit(struct console *co)
-> +{
-> +       struct sci_port *sci_port =3D &sci_ports[0];
-> +
 > +       /*
-> +        * Clean the slot used by earlycon. A new SCI device might
-> +        * map to this slot.
+> +        * In case:
+> +        * - this is the earlycon port (mapped on index 0 in sci_ports[])=
+ and
+> +        * - it now maps to an alias other than zero and
+> +        * - the earlycon is still alive (e.g., "earlycon keep_bootcon" i=
+s
+> +        *   available in bootargs)
+> +        *
+> +        * we need to avoid disabling clocks and PM domains through the r=
+untime
+> +        * PM APIs called in __device_attach(). For this, increment the r=
+untime
+> +        * PM reference counter (the clocks and PM domains were already e=
+nabled
+> +        * by the bootloader). Otherwise the earlycon may access the HW w=
+hen it
+> +        * has no clocks enabled leading to failures (infinite loop in
+> +        * sci_poll_put_char()).
 > +        */
-> +       if (sci_port->earlycon && !sci_port->probing)
-> +               memset(sci_port, 0, sizeof(*sci_port));
+> +
+>         if (sci_ports[0].earlycon && sci_ports[0].port.mapbase =3D=3D sci=
+_res->start) {
 
-Aha, so this clears sci_port.earlycon, too (cfr. my comment on
-PATCH 4/6). Still, I don't think this is sufficient: shouldn't
-sci_port.earlycon be cleared unconditionally?
+Now there are two tests for mapbase: here and in sci_probe()...
 
+> +               pm_runtime_get_noresume(&dev->dev);
 > +
-> +       return 0;
-> +}
-> +
->  static int __init early_console_setup(struct earlycon_device *device,
->                                       int type)
->  {
-> @@ -3596,6 +3615,8 @@ static int __init early_console_setup(struct earlyc=
-on_device *device,
->                        SCSCR_RE | SCSCR_TE | port_cfg.scscr);
->
->         device->con->write =3D serial_console_write;
-> +       device->con->exit =3D early_console_exit;
-> +
->         return 0;
->  }
->  static int __init sci_early_console_setup(struct earlycon_device *device=
-,
+>                 /*
+>                  * Skip cleanup up the sci_port[0] in early_console_exit(=
+), this
+>                  * port is the same as the earlycon one.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+--=20
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
