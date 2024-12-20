@@ -1,193 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-11599-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11600-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D4E9F8C67
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 07:10:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2509F8D87
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 08:59:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7256C7A03C6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 06:10:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F2251891D5B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 07:59:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC838156F3F;
-	Fri, 20 Dec 2024 06:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iovqx9nh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10A8A1A707D;
+	Fri, 20 Dec 2024 07:59:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA6A19F116;
-	Fri, 20 Dec 2024 06:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C1541C6A;
+	Fri, 20 Dec 2024 07:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734675005; cv=none; b=N0Hk662q0dDSVvJLGrnrSd9B/VtsOLGfH5eYgW0Z6N7yn6aB+hbyZmldiTER8SAslVBBAK+ckWv2ikP3OvWHLslRov/VsUldPMJ7/OpGKfdzeQPjmed5AcYTpb3CxIBF1f7Rh9NNVbp7j7jqYGWZXyIqi1A7WvRmHO/McnGeBQo=
+	t=1734681582; cv=none; b=GCZdtbDFoOxVJjxEqJJ6kAu/0wn9li/bm7WcBxB3Ikoj7KJ/dvyrrdFK+LkXDaaB7XZYUReyEjePwhRaHDtp1Uc/YX2auUpTfKPTfHzM3d+28G1G1kcmhh4VpmGvr2mLBpczACXdP+LL5dPtsFw587CfGhT2TbaPdi4njOD9Of0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734675005; c=relaxed/simple;
-	bh=7OemxBPo0GJ1lbWrPIDNkEG4CyQVVJ9v9rxOhdsG0rU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OywlIhwVE3v4XsRYV4b8zO3SS8CKfNYFjiuLGdZwTgzt+MIl3mlhrjpGa2RkLRPEAOXUT6VJD29CpQVk9QDhzJHIzUQ14qajA9XEYC1QFTGN3esS1zbl1Tv4XmbiVZ2sGsNmLnE4s4S8KUIWdUZ9oTc/sVaMZ4t9Ka6K/xavoiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iovqx9nh; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1734681582; c=relaxed/simple;
+	bh=rRK8vdzk2T00oBXlTaQEzJuE8Aau5JjYRDz6BukhA2w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pcFN53NW7yCOZJLAAVPy6YgCkBNXg7Eaky5p2zd+i1gKkkVj6GomVIZqV9a1ODQ3eskpHjQbbI82mhg5sKN79oqyEjI3NjxP37lKHxNIrAuxxWXQfxBHDgSZiI2ML0kiO+hgXKuYZj+oJ5k3H7zYwk+18I/IgTZEifcFn78jcSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7242f559a9fso1934186b3a.1;
-        Thu, 19 Dec 2024 22:10:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734675003; x=1735279803; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=0NIRSlMXhSQScXDpvmztBclFzm6Z3eif6mK4KIFcCaM=;
-        b=Iovqx9nh2sGeIaEipxbX/kbU/tOjb2wggL7DfCyD0Bi6B2vdNL8KKPwNDi8CWs1M5P
-         uU+TZfk+7bKRvEvLvPQwZMopbKRs/t8ToLGCwsxRUaK6SgV9Y2OT1H3tkjFNtyEJHFZZ
-         dxiPq80/rcvdV4zh+FnWPl3oZKofzTUSt8Uit6qFTPoMRMGk6O61YVuMtillwUCQosMv
-         EQ+/AfO0Tx7YTCa5BhDN97QH3SNDdAzScL3RmrW5xnaK6+HUPhLtm0SiAAIGAX3kutM6
-         A68n0CcY2qwrZJT7FBTGzIdtN2LHJRxyBMW1p7tYb7nekBqMg/2jQW4QS/8xrcTOrpsB
-         Gm2Q==
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4aff620b232so478585137.0;
+        Thu, 19 Dec 2024 23:59:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734675003; x=1735279803;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0NIRSlMXhSQScXDpvmztBclFzm6Z3eif6mK4KIFcCaM=;
-        b=JPZgnU90vgGJ0xyvzh0gl+urc6ZpVnya+w5TaJRFAJrpzi07CzyYiqNIngmXFNF8LM
-         ZnlTziZg0wVVbiw0yr8JQtcDoQTbPtBe0OUvNaECbOT+T9MURxzGrJICbGeuT1XLVFAB
-         ZcQmrRvD8+5x1GIlC6RsoJhjvituBhD1sfG77kqNa5zkqGW2s4MlyVVhDvCr6u+bgQ+h
-         N6vcSYVfIH8nFJWU3dbMyOlW1HKl85gZZC+RmckAkCGO/iZ63nEEUksV6a4iQVqGmNRI
-         jBDudrtbWJJLKd72Epi4KF+pgEwQC6rP+8cIkRs1XIYUBtTueedC80PKYVSDPVQeu1Aa
-         EDsw==
-X-Forwarded-Encrypted: i=1; AJvYcCUv8MR/irDx9a/1kNQJPgXq9OPyJGafIQ7/GnsCNS7MzIPrakLQZ3XGslkKSPEPhLtX40XBhX+rtmVWcw==@vger.kernel.org, AJvYcCXvQTUFjAn85QbOvUp17uOcZzc5iZ50meFxwoac7v6+4xMVSquMHWQqaax9yATp468j3KjMX6eeGXgEz9PZS1BQXog=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx23uKuDjqRl6jmJb58GDcNeuA7GOzyegcNFuTo6j8+25NcSX4H
-	U1wYgXHuCBCttPm1gQW/pMeW9UVlqvfX/I6b2og5z7MvqV+FNpKm
-X-Gm-Gg: ASbGncutkf87KZAX/vG0ILiEiijL8HHh26NOEAty0bH1bB2K31KwVHjGOkAfC4jngFF
-	1JFWZ3cl5IsEsZlFwhtsTPX9eRGb6xHK86h1+9ztRus++OSSDtvCuzaPVxHQ4zB6dVKCGm4E+6w
-	vDFs40vpGeLEiMHZwVKdQJ6HPzuRZQtynDX29D3L5Th6TpfKltsqytedCWnMFkb9HUiDjmG8KsM
-	ANOchXYCWYwrALbSEFTZMGyDAOSAIzYSpMjUHPXb4IdmBGS2bgDwAEo1Kaojw4jKn36JPQmsBcb
-	BWwvXE2O8wfJlJ/uBb6QTDfGWALAnQ==
-X-Google-Smtp-Source: AGHT+IFJktsBaP9Lf2FJCyt1YcK6ZFjdxwAUUVsrR91VI611AUP9j1Wnh/P9/ZVfHHBi0taZRxXt2Q==
-X-Received: by 2002:a05:6a00:2d0b:b0:72a:83ec:b1c9 with SMTP id d2e1a72fcca58-72abdd7bdb6mr2139337b3a.6.1734675002773;
-        Thu, 19 Dec 2024 22:10:02 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad83616asm2333772b3a.76.2024.12.19.22.10.01
+        d=1e100.net; s=20230601; t=1734681578; x=1735286378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yQKCf5v8WyFEUzlQoQMHccUlj0SB5zKTak1Ob6poM/Q=;
+        b=Jo8lsaTn5ATAPciO6L1TU0JL2aDBRnmFbmKhRhmy1qTiDWp1S5dVoNdqIiXWQDU/b/
+         DnX9zZsSAGNX58bR362MvBMSkrip8XJU8R5xdHQB5CxgT9J/HF+MNq0Ont07tee3mc7i
+         69qhlQEKVVIbfdG6+omfyRD/pwfL8o5acBtnLQOG6sr0RypnHfrV2F0rwAXMQofSdSpr
+         GV+5lA0pn8oPz5wO76yqSXHCuTESXBwgufMpEObHtSYNt+tsTUtUC/Bl7exvP/Gq9agU
+         R6ZU3uX0dARDS5J6xvHj4jWrsVCvRygnd4yr4bG7Yoli38xs9TFxO/W8Ix2HbrYh+U8z
+         UgJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUzZSGjyzrxiO9wTPuXGMF5feIJOtVc7Ta7HIjAWkGwdp7AjffHxbf12Cv4X1RlrqliEbWbYlRa@vger.kernel.org, AJvYcCVD34dUqoCFTxm9FaZKcL5ec9D4rxhwQvyR9PtrRmuK/Lp2ZpFBY88NUei+xtLxrCFJa/CaSBacvr9yG5KlFXxsck8=@vger.kernel.org, AJvYcCX5v251OeI0tqclYKn9TTa9aOTmgVONtgFYpgC9rP1QGozWerbbhqHzliFVAosxBGvHDstLOkDrS+bqCyG/@vger.kernel.org, AJvYcCXhejHPQiz1o/1d5gSFLzOb7ojVQzLhaE5QHoaoqxEThVd5YFz7a/XaAWF9GbZBTfpwTMSzSWOcChYE@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzy86uii6TcdLrm1KKqhF71mmrJXFnWA+qQdwV1Dho4pvhyjbxk
+	VoCgUf2m0dTOlU1Zo+kekMb0rufu8nlBhCtXjMIO18pat0iN2UUmCGatP9E0
+X-Gm-Gg: ASbGncvzajO/MubdzTGRfyVkL1V5ZDGegcLaweTSGAn7T2bIlFX64QsAPp+8dZDsm1g
+	Nw671QGacDVnIJt6TdqAMOYnh+lORLPjf8Y5AY4gsajsVilM4/4e24Q1/2ww3fOxEB4SvsuSIjl
+	F+jcnKbnQ0aw1pazIq8mFW70vB5p7/clFsjUft2rI91s4BZxSruuyKLSAZEN7hW//+mcc998BP+
+	g8KWmr4UymJQmrSqquPtQOxAw4xA+gxOEkXCfIVLdhBSGyrnc+0qeBy8sCO8ZIRxOQnOvFSg5mn
+	D689BykYvxmaMum1B/8=
+X-Google-Smtp-Source: AGHT+IE1v2q6S2CWTn9/LbSTK+mMiQQRRmKUWWKkkut+CmsTlUVReix1ECeW0Yzt8+a1IE3Qsric8Q==
+X-Received: by 2002:a05:6102:f10:b0:4af:fa7d:71bd with SMTP id ada2fe7eead31-4b2cc31e70cmr1896581137.3.1734681577778;
+        Thu, 19 Dec 2024 23:59:37 -0800 (PST)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8610ac4bf66sm514261241.8.2024.12.19.23.59.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Dec 2024 22:10:02 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <8c8b2249-75ca-4835-a693-a5df841190b7@roeck-us.net>
-Date: Thu, 19 Dec 2024 22:10:01 -0800
+        Thu, 19 Dec 2024 23:59:37 -0800 (PST)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4afe4f1ce18so445081137.3;
+        Thu, 19 Dec 2024 23:59:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU6KqFLk70A8L5FFXJaeFpJzj8XjrHNqjXOmKAxU5yM42NQPLj32zXakr9qPtz3Vk42/rN4ixP3Act/Koxx81KczKQ=@vger.kernel.org, AJvYcCUIB3kYHWPbnscUoJCajwPGChlq5zmsyvUezqPjD9CNY73dW2taGQRWfdAySJaFviq/y2Rvj+wT@vger.kernel.org, AJvYcCUix33SRPj/JqqlhDltt2VbKZbvRpaGNucp29geZX/Fm8CjkD+QKbXxLrkLcsH5ZrxSJeF8AbW8FAkQ@vger.kernel.org, AJvYcCX0eCne3OUuQEn5cGmcOFyXZkl0c5t92llzZ8UVTh0rOEcTwJDKeg18My/4dgNjCAjS+WZdJIrlKXnu1k4k@vger.kernel.org
+X-Received: by 2002:a05:6102:3fa5:b0:4b1:130f:9fbb with SMTP id
+ ada2fe7eead31-4b2cc488b98mr2282884137.26.1734681576656; Thu, 19 Dec 2024
+ 23:59:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 5/5] hwmon: (lm75) add I3C support for P3T1755
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-renesas-soc@vger.kernel.org
-Cc: Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org
-References: <20241219225522.3490-7-wsa+renesas@sang-engineering.com>
- <20241219225522.3490-12-wsa+renesas@sang-engineering.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20241219225522.3490-12-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241220041659.2985492-1-nikita.yoush@cogentembedded.com> <20241220041659.2985492-2-nikita.yoush@cogentembedded.com>
+In-Reply-To: <20241220041659.2985492-2-nikita.yoush@cogentembedded.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 20 Dec 2024 08:59:24 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXV-2bdU9Cmk_VHTJ=M3Afg5aTfY=_k=p6v1igzpV5kBA@mail.gmail.com>
+Message-ID: <CAMuHMdXV-2bdU9Cmk_VHTJ=M3Afg5aTfY=_k=p6v1igzpV5kBA@mail.gmail.com>
+Subject: Re: [PATCH net-next 1/2] net: renesas: rswitch: use per-port irq handlers
+To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, netdev@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Michael Dege <michael.dege@renesas.com>, 
+	Christian Mardmoeller <christian.mardmoeller@renesas.com>, 
+	Dennis Ostermann <dennis.ostermann@renesas.com>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Wolfram,
+Hi Nikita,
 
-On 12/19/24 14:55, Wolfram Sang wrote:
-> Introduce I3C support by defining I3C accessors for regmap and
-> implementing an I3C driver. Enable I3C for the NXP P3T1755.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> Two things I would like to discuss:
-> 
-> - Shall we reuse i2c_device_id's to get a proper name for the chip?
->    Looks strange, but adding all the info again for I3C looks strange as
->    well
-> 
+CC devicetree
 
-I don't think there will be many i3c devices supporting LM75 compatible chips.
-For the few i3c chips which do happen do be lm75 compatible, we should have
-something like
+Thanks for your patch!
 
-struct lm75_i3c_devices {
-	enum lm75_type type;
-	const char *name;
-};
+On Fri, Dec 20, 2024 at 5:17=E2=80=AFAM Nikita Yushchenko
+<nikita.yoush@cogentembedded.com> wrote:
+> Instead of handling all possible data interrupts in the same handler,
+> switch to per-port handlers.
+>
+> This significantly simplifies handling: when the same interrupt is used
+> for several ports, system calls all handlers, and each handler only has
+> to check interrupts for one port's tx and rx queues.
+>
+> But it is not required to use the same interrupt for all ports - GWCA
+> provides 8 data interrupts and allows arbitrary per-queue assignment
+> of those. Support that by reading interrupt index for each port from
+> optional 'irq-index' device tree property.
 
-with an instance for each i3c device, and then point i3c_device_id->data to it.
-And I think "lm75compatible" is really a terrible hwmon device name ;-).
+Sorry, but I can't find where this property is documented?
 
-FWIW, it is too bad that i3c_device_id doesn't have a "name" field. That would
-really come handy here.
+> With per-port interrupts it becomes possible to configure affinity such
+> that traffic coming from different ports is serviced simultaneously on
+> different CPUs.
+>
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 
-An alternative would be to just use dev_name(i3cdev_to_dev(i3cdev)),
-but that would not reflect the chip name and thus be less than perfect.
+> --- a/drivers/net/ethernet/renesas/rswitch.c
+> +++ b/drivers/net/ethernet/renesas/rswitch.c
 
-> - are there some suitable kernel helpers for dealing with big/little
->    endianess in lm75_i3c_regmap_bus? Note: I also tried to use the
->    non-*_reg callbacks for the regmap bus. But the constified
->    void-pointers make it ugly as we need to change buffers because some
->    registers are big endian and some little endian.
-> 
+> @@ -1906,6 +1841,34 @@ static void rswitch_etha_init(struct rswitch_priva=
+te *priv, unsigned int index)
+>         etha->psmcs =3D clk_get_rate(priv->clk) / 100000 / (25 * 2) - 1;
+>  }
+>
+> +static int rswitch_port_get_irq(struct rswitch_device *rdev)
+> +{
+> +       unsigned int irq_index;
+> +       char *name;
+> +       int err;
+> +
+> +       err =3D of_property_read_u32(rdev->np_port, "irq-index", &irq_ind=
+ex);
+> +       if (err =3D=3D 0) {
+> +               if (irq_index < GWCA_NUM_IRQS)
+> +                       rdev->irq_index =3D irq_index;
+> +               else
+> +                       dev_warn(&rdev->priv->pdev->dev,
+> +                                "%pOF: irq-index out of range\n",
+> +                                rdev->np_port);
+> +       }
+> +
+> +       name =3D kasprintf(GFP_KERNEL, GWCA_IRQ_RESOURCE_NAME, rdev->irq_=
+index);
+> +       if (!name)
+> +               return -ENOMEM;
+> +       err =3D platform_get_irq_byname(rdev->priv->pdev, name);
+> +       kfree(name);
+> +       if (err < 0)
+> +               return err;
+> +       rdev->irq =3D err;
+> +
+> +       return 0;
+> +}
+> +
+>  static int rswitch_device_alloc(struct rswitch_private *priv, unsigned i=
+nt index)
+>  {
+>         struct platform_device *pdev =3D priv->pdev;
 
-i3c doesn't seem to have any access functions (kernel helpers) similar to i2c,
-other than i3c_device_do_priv_xfers(), so unless those are made available
-I think we'll have to bite the bullet and use local access functions.
+Gr{oetje,eeting}s,
 
-The other patches look good to me. If you send me a Reviewed-by: and/or
-Tested-by: to my patch, I'll queue it all up (except for this patch)
-for 6.14.
+                        Geert
 
-Thanks,
-Guenter
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
