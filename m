@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-11656-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11657-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9719F9555
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 16:23:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F11A9F9565
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 16:26:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0439161E72
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 15:23:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 066E41881C1A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 15:24:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5F25215713;
-	Fri, 20 Dec 2024 15:23:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6195215771;
+	Fri, 20 Dec 2024 15:24:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bb0JCuxN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mbtslLst"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6682AE8D;
-	Fri, 20 Dec 2024 15:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1314D215713;
+	Fri, 20 Dec 2024 15:24:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734708208; cv=none; b=FnLiUUBe0im3hdz0fWrA60Ki89VrjZWtI77NEvUIrxgA/BgR0vgXNVWOn47B6WOV0TtFc6LuMbtgZtV5YIPVQsyNWqdhwKJF1tXW2jFdznCCDAc4d9tUMUtWlJnmGYcNDgnLC63zq2IUMmFzfYJ9VykmU164NdFg/OvFkVAP1EQ=
+	t=1734708290; cv=none; b=CkwfHuxfHasJgkRSHl5jep0agFNC+CUerqCyIAkZZZInj3YmvjaU6NgxLqiO90bmeXjaJYxWPP8sHd/L+TKnpcLKCNfEAE38YU/MOvh0muCjs4zvV++gQSnffqVtG3cTNgsYEe9SjpGl7zyYdpytZwC7x9Fbd2XMhJQMFpozm5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734708208; c=relaxed/simple;
-	bh=4NPWQX1TUCxx4P0MpQf8hiCs5xoYtgmV1AvamYOWUqw=;
+	s=arc-20240116; t=1734708290; c=relaxed/simple;
+	bh=pXikdaJUCLOGzdlawjDnExzmnhDeuW7zWsHS/5fxzrM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RLvnMXXTXtaihjIvlAZ49h0voJuMCXf8dXKQD9ZHa096YO6BcF2eNZo3DOkgclYs40+8Fo89zj2lkurwKnPTqj4imn+6cWJdsZa9PdhlZzsVYEmNgf2b9FhvpmS0tP8qtIWwBx7UOacTZuIpJYDtsmMirLBhUKzYjeGukqJjQ24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bb0JCuxN; arc=none smtp.client-ip=209.85.216.46
+	 In-Reply-To:Content-Type; b=in5dwJZYlgo8aX1d+EAIJT1cn670vvlMu+1/2hjeeZx4QtQMT1Czbmex3zqXAh0DF69zy62rM3EU54A669rLcgGzmHRcPshYxjOxEnT3h381bh8Tm6FPMbHceQcEMbKF4Iz0EA8WEYAwmP+y1QR2XncklpjLYsTysnYHl2bBTLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mbtslLst; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2eeb4d643a5so1911506a91.3;
-        Fri, 20 Dec 2024 07:23:25 -0800 (PST)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2163bd70069so19395425ad.0;
+        Fri, 20 Dec 2024 07:24:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734708205; x=1735313005; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1734708288; x=1735313088; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=8iPFWYwSnImOXx3QAv8lECm/0WA2y1jYYWPcGukOggY=;
-        b=Bb0JCuxNDO3dc37lsmsjaMc8qmRSPwv4gZRBryu4KVZ4K3f2k6ngLj+8NO+p+8pf4X
-         A4fnGGCmxP2q/DWYzFsBnaBDY/n1gqaCyswXz1X/G1GVEMEbpU03r123tEtMnZtkgEIk
-         qoa5Kmpyax1bBlDTKkUz6YTqDxbDpDUIPJG84orITLw2XQdwKoRW4+fTogwKZL/D8VIu
-         JIlEvkxb54MlzPLNjm8XPZEmQ0AIPjf9p/3f0RfH8YFOR200G0Y8Wc8w3AbL1vrJVbVw
-         QWAkO7mSglGRI241bH2AOeXngB5YbNJSY7i7kCT7afGPnnjAM7E8ESBpWi5w3sx3NBRD
-         7Lmg==
+        bh=vaPwXdSGxTikOreprKI54nLBPwiu4ErSEtGhCrMqEGo=;
+        b=mbtslLstr1gcNJ48coAMjdb1yjHREOlrANoGQLHkKh+0nKo0Rkqa6gJBXrvvHnt9c1
+         a82Xav+6+0Q6B4t+wQ0FFgxzdy20tV7+UvDxjhjQXKkWl2jtC2mDo+zmNMTSeitfpSTt
+         AUrabXmKofvpYnefxUmAnSUdxj60LRkHxlOAp5yGpNKpGMAxPGGX7zPY43SPpGxuonF7
+         BbYeWUsUH57Y/v2JE9G4Kh/m2uc9+eafjXY6l7Rs7xF7UfK9jLUUecbMbVJ1GKAITrnO
+         smFtM1adAAfYmyX+IEWtwcYv+4fEib4E1Dgg7InXWN0JhOMQidxMSRf8t2ZnzTctEc9M
+         2siQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734708205; x=1735313005;
+        d=1e100.net; s=20230601; t=1734708288; x=1735313088;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8iPFWYwSnImOXx3QAv8lECm/0WA2y1jYYWPcGukOggY=;
-        b=pJKKDEyoxq7t0eUI1ttOvhJdnaoCqpU74fDVgfmTQdyJIdc/YovRR62Z5btrWf98to
-         uVJEweVR/BH2t6O1AmsC4osLQkL4w467j/ihtugsQhyM3g4Rx7rM3CSjuo4c4ItedOVC
-         8TnicrEfdv1s8U84DjSsME0o/WSUN0Op/5N5cRf/4xIf0C6fbi5Q2fGPuDZ+pp+ORdCx
-         LCFtEhNQVlVsYP0bv+D8q2OqIg56T2OI36Xm6Kr5Fs6Hrq+7vTIW/6T8W4efBlXj9hAT
-         SwRDxiLvPL88HOzQIBCKydxGrOKKjZSfKuu2n+EIgcNGXhMId/vCW/Vk2QaGFvpLUwER
-         fNiw==
-X-Forwarded-Encrypted: i=1; AJvYcCWuHHyVKVhVxdSwiXJfR9rkAKmzzLHiZ43/aEsjHIJo+yY1GV89V6IUHf/8ewk2XPX6i/Tgqm73NRDYY8zIfmx64+E=@vger.kernel.org, AJvYcCXx8P+BRkK3gye7TtF10JD5Jt2FsI5DHFmF+3JFLXUuaVEkugvVcvzxpglWgtOY/6l6G39E0Mfxu7pImA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhHUzPE5BRsW8jndZU5NNIceiZiGnIjlkgm9N8qYmE+Zgapb7i
-	yo1dg/dE2ekN2zYq6H4/DbkVfclQeOadHVXjx3XEjSPWkYeAq3hE
-X-Gm-Gg: ASbGnctoxALGxWsrMCM3+JnfvCm1oGof+2HyqtN2DWvkIEzGZv7EGyo5XjMY8ePsI7o
-	rQ4urjHYuUL6oIj2mIFezuJVzi8jUeEEyTlADLxkcjWIcYJTJeMt6UAXk/6uL5I2pQoZwZCoPxO
-	Am4Qz/xYeA4H/Vh/PksYLJdbpSl/w8J9CL23fd2WIZcLZev0gMYt7TlGF1e/5wBkiBJC2BA8QEe
-	J3ibqG6y2TU3F2TsS+Dj8ev/ruKa3Ec0Ety+XhReKfYJ9dV8OQTxgK4KLxu4yDyyBxqu2Cy+5qR
-	zQWq60Kdm8pQyVv0DygIEXVl3KN5Pw==
-X-Google-Smtp-Source: AGHT+IHoiZwRPLuYSTqA8my20rncpy74PmrSaGzWF3juLoh3u58Y0BkaC3G1GQcGkNxfLUUD9vOaJg==
-X-Received: by 2002:a17:90b:2f0d:b0:2ea:83a0:47a5 with SMTP id 98e67ed59e1d1-2f452def236mr4959878a91.4.1734708205444;
-        Fri, 20 Dec 2024 07:23:25 -0800 (PST)
+        bh=vaPwXdSGxTikOreprKI54nLBPwiu4ErSEtGhCrMqEGo=;
+        b=KlqIxdzztVcI8U0XMgA5x7p1TT0lO1s1jac0kkvHcPQLl58tXTe3NPeQOrnSKgrexG
+         PatFhYojBDyU7FHvEDoppaUPsh2xp92aLLrNL+Tc00cXaSGGnJkV0z1S11DNc0IfRdfi
+         tQ0OnjYAjF5w4PCbOl8GEsKrwMD1gIjzhtXehuZPdI3x3I8HVv8JYPqdwK3fJe0QOddT
+         wXm6raH6kUiQeax6Xi+R0GX/W/REg0FskWBbVpGWGi9pR0ice/cpsr0PkD+iLfpoU4EU
+         QZlw/2VAya78oXdBXRFa0MAr3nceAk5rO8Im5wlZGvidksZtGoCMx7OjGUw11ZWnHAWX
+         HABQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVvEE+TpHXcK8QsaP14ymlFJsJwCk0rODNl0fvjZxdgTLI5qDfhZDiUULjbNujVyNrUvUwTH/J1fb6oyRqBNAUU4wo=@vger.kernel.org, AJvYcCXqLljv9nNzSreHZSbbOQJJbrkSTnTH4SCeMzF8vLQE+tHgRCefhPncM8xhHpcH7Y078Vov1Hgr7So1sg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwovPwNw+RJ97xcM+p8hFbuWlKjora2Zg8ZenETSg2krrD7AvCn
+	PcpX4bgVKC/Sf5Cb/wTHQ8f1fKOcgJcazGkT47WblcpDTD1lLEI/
+X-Gm-Gg: ASbGncvaWc+G9LOggtcv0iGjBJg85tM+qoHTNkRbhiTf37IeeyIBQpEvoRg5KpSZAY4
+	ItLYtDgy1rUPcdnGiHwvBYOofcI2K2B55J6bihyE8+wHCgZgveD+PqBHdii78APKaz8qCGeeM/Q
+	qN/yZZ8Ett9nQ5zywbwg52UhmEaokZg/o8z1PYKUro5s/nhx9Vc6OhwcoC/WkzCohtsA8km7GSM
+	VyFmv+ZORROtBvh0B3P+iG37zarELXub2QPE0oqU6qyflQi//M3j6TO6SasfXPRKbbEjmXpaA3v
+	g6AbAVaGB9LwLi55hVx1n0sxFHnxLg==
+X-Google-Smtp-Source: AGHT+IFc0tDBQIExTRgAU/UOyXBBhZH4Q7YMr6TicyInb9pCbsMo+HAPau1++hfyct8bVkzFIedrww==
+X-Received: by 2002:a17:902:cf0e:b0:216:3dc5:1230 with SMTP id d9443c01a7336-219e6f13cb9mr51010145ad.42.1734708288133;
+        Fri, 20 Dec 2024 07:24:48 -0800 (PST)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f4478a9108sm3772373a91.43.2024.12.20.07.23.24
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc962defsm30344895ad.57.2024.12.20.07.24.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Dec 2024 07:23:24 -0800 (PST)
+        Fri, 20 Dec 2024 07:24:47 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <6dd9970f-3a26-4088-a64f-3d10f6f43ef3@roeck-us.net>
-Date: Fri, 20 Dec 2024 07:23:23 -0800
+Message-ID: <d1d5cfa4-b2b0-470f-a9aa-88f7b1266e5f@roeck-us.net>
+Date: Fri, 20 Dec 2024 07:24:46 -0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,15 +83,16 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT 2/5] hwmon: (spd5118) Use generic parity calculation
+Subject: Re: [PATCH RFT RESEND 2/5] hwmon: (spd5118) Use generic parity
+ calculation
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
  linux-renesas-soc@vger.kernel.org
-Cc: Yury Norov <yury.norov@gmail.com>,
+Cc: Yury Norov <yury.norov@gmail.com>, linux-i3c@lists.infradead.org,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Kuan-Wei Chiu <visitorckw@gmail.com>, Jean Delvare <jdelvare@suse.com>,
  linux-hwmon@vger.kernel.org
-References: <20241220113000.17537-1-wsa+renesas@sang-engineering.com>
- <20241220113000.17537-3-wsa+renesas@sang-engineering.com>
+References: <20241220113335.17937-1-wsa+renesas@sang-engineering.com>
+ <20241220113335.17937-3-wsa+renesas@sang-engineering.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -137,17 +138,19 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20241220113000.17537-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20241220113335.17937-3-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/20/24 03:29, Wolfram Sang wrote:
+On 12/20/24 03:33, Wolfram Sang wrote:
 > Make use of the new generic helper for calculating the parity.
 > 
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > Tested-by: Guenter Roeck <linux@roeck-us.net>
 > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Reviewed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+
+I just noticed I replied to the original version, so here it is again:
 
 For the record:
 
