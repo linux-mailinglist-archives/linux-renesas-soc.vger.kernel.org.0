@@ -1,118 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-11648-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11649-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DF59F9200
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 13:16:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5421F9F9246
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 13:35:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3F1116A4CA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 12:16:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60A7D188EE2A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 12:35:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D232B1C549E;
-	Fri, 20 Dec 2024 12:16:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74E9A1C5F22;
+	Fri, 20 Dec 2024 12:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="3OWLiJQ2"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mJFBNQqG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED57470818;
-	Fri, 20 Dec 2024 12:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FEC1C5CB1
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2024 12:35:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734697004; cv=none; b=GGMGQNR2Zu31wygGZdOPEzaSmJQmVTE4wLzozUDcv5UO/3n9yIYoskBnsObzw4mvr1ZrCiLBfBse/3C0T5GNuUzGIk9EApCgswZvZeKeTZthnxPp21bKS21GIS7rlNvzMpXETx4eT20mIXCe91bnH08JdmJfyjxCX8lJmpzuQTI=
+	t=1734698137; cv=none; b=HvIXz7XdJJnjRi9QJZxhhsiNhREaNc/5oAn/EqsL300yDn8y/FlR9GvfTwqv0EWkNemDPCpnUyIpGzOE2jWRyZ1MRQE16wNSLjPJDi9/mUHOYp/od28fTMUhaRt9ucVOd3c161ZIkoFb9GPbFb1zmrKpSL+/hvv+fvjD0/F34/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734697004; c=relaxed/simple;
-	bh=2mGUGxrdg3kztyaCOP9lkSQqaCRokM1EgyFFVrNgtw0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fz+tffDafRursYtWOCKAeAcesFYIilBaJTe5p3Zw8UMCQ0PL+ZI/hKAt2pTc6KeF0u+qMSWDhoA86D6UBOBj8BIGpA89RIs66gsWVChs54Iy/gFwsAl5n+jMuAHnfr+Oo8GVOY7Z33DIZWfXuj6SpS2ZKRILflFlEHCR2O1qEXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=3OWLiJQ2; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=P0NgN4Z8Lh/cbDV1U9cv7HjHcBhOIksrlCtMzz3yK80=; b=3O
-	WLiJQ2FixItt7NOY0JYxnZR/He8U6z79L4VqpKR2O93vlNwS9ckc0F4OT3a96RSw4oJxSXina5OU7
-	F8FovBkLhkyLSDoU93tFj24/0fAXUQsgEgegYToUaCMtKnt15i1dLbwCqrZBSOpUVrLXvN7C+RSGG
-	R6hHl43M5pm0p/M=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tObvi-001z1H-CD; Fri, 20 Dec 2024 13:16:30 +0100
-Date: Fri, 20 Dec 2024 13:16:30 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Michael Dege <michael.dege@renesas.com>,
-	Christian Mardmoeller <christian.mardmoeller@renesas.com>,
-	Dennis Ostermann <dennis.ostermann@renesas.com>
-Subject: Re: [PATCH net-next 1/2] net: renesas: rswitch: use per-port irq
- handlers
-Message-ID: <b82ba8c6-b8ba-4045-bd65-b2cdc80d7df9@lunn.ch>
-References: <20241220041659.2985492-1-nikita.yoush@cogentembedded.com>
- <20241220041659.2985492-2-nikita.yoush@cogentembedded.com>
- <1f4b60ec-544c-49c5-b939-89882e1311ed@lunn.ch>
- <21f0aa0e-9df3-4b5a-957a-dcf68399cdce@cogentembedded.com>
+	s=arc-20240116; t=1734698137; c=relaxed/simple;
+	bh=xnoX1Yaz4nyuSg2pnMuVCCxPPpizL/71mi0FwCn5VYg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=scTrdEsIIh4+QtWQ80pzli70hoCR0Cfu9MXd8qYKJX6Ojfs4cvXLTYmdh5M0Md80i+7N8JfynObG5F16L+xZmrYJbnLBcBdaoJ6CT6Ak3MFbNdEa22I65hRpStF/juvkFu3vB6DJvQ9lJjnf1OiDu6BeCL14CsqwCsf5LZdrjDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mJFBNQqG; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-3002c324e7eso18745131fa.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2024 04:35:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734698134; x=1735302934; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cxs0EP60NRQf4q8dFn+TEuE6v7Pg6hC++mye5M5fhAc=;
+        b=mJFBNQqGQQ8dkboaSZbhIEWrGLehjjVne3PLIZkdm5lI/6qnfadX7CsRWTim9Mdte0
+         yKQl/Nsn0wK27Um+4PShsjqeUPHpR7z69HvByf+doKqoFREceVldsPYZ+8kG8GMIXz1I
+         1mE+Tezb4E6udirD8vhU2XXI0UNlqYOiTyg7WyHR3wpHzys2sGjqULC6HixNRxoINKkA
+         YgGQVF5DouJpVB0BSoxrjyOh+gjNdl5amlseTIFubMKSlBxsPcHSuMcaUm9kJ+WXFel5
+         riL7O2l9HYQyhb+T+pUn1jMYO38fnkLb7mcBxpNcc4vZUI0RwEQ8VVJzQlC6p6rt1+er
+         Fc4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734698134; x=1735302934;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Cxs0EP60NRQf4q8dFn+TEuE6v7Pg6hC++mye5M5fhAc=;
+        b=NN+/JhVx/FfA0AsQPhZ1xkGf6WxbTcENKpEnODAJLo562KOQXd7AcvKZthdF5rf4gg
+         LBZJbo5SrGMkZp/FSo3nnRpphM9DD15OEI6NDZzIrvzbmSI3+1H14rhCXbPYrTc1+mUD
+         yt+5ElZhtNPQO+UL0z7lF+pwojtShUef42C+jkGUrYEKTt8GrkNtlsETxIsiJZ8rExMM
+         Ld+eGU3j8McnM5Vda/vaxQDZAhrHjbZDsXCYufqtexNTpRnqEPi6O9SfGNaRQOftgNGJ
+         Vvx54wOp8oBzeLLA4GLFHBYAkDPYVTJSto0zReERv86dxM/CJIl6+4C4VzuH+JtrFN0F
+         flWA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEGsAgoyhqQjyD46D0skiBsVbYVKOfxFPym8Kkgaord06bLcey+NxJEuBZlsj6ChTLOqnZ1gkMNH3jy58lD30hbA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF1cRqaTA4M8VGzWYDdPorRqLY2WIpcYtZPM0u1mocv9y5MVAa
+	BAD4AkSWO/kK89FGnVkUU7/bRGdSn5XAXJYwAeRMsO1Ga0RhMTA+kF6q+PnH9DYBDsWwxU25J1g
+	UHg9YUiQRrJLJYB0TLQk/Ujd2QrFsDFsmyY/Tiw==
+X-Gm-Gg: ASbGncunugC1IfswGeHP7TE1VZ/DE4KXuXOrugOOH2VUk1Smdxk2XvFgmRFQA0qT8pH
+	jw51kwdrgf9KOPisJSZnv140rDzf6cFuFB7SOBw==
+X-Google-Smtp-Source: AGHT+IHRxAcFPD1TvJeiUzihMypxoNDL/b0/lat/G7rTcOZHtO8aDwn2pOXXyHqw7Dz8MNlDsZHzYk0r9N4CZ6TtzHA=
+X-Received: by 2002:a05:6512:2394:b0:541:21f9:45b6 with SMTP id
+ 2adb3069b0e04-54229562a7bmr962076e87.37.1734698133684; Fri, 20 Dec 2024
+ 04:35:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <21f0aa0e-9df3-4b5a-957a-dcf68399cdce@cogentembedded.com>
+References: <cover.1734690011.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1734690011.git.geert+renesas@glider.be>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 20 Dec 2024 13:35:22 +0100
+Message-ID: <CACRpkdb==ZaxGccrTZsay_jON1sEWRA4wVgHMG3c6VaSqmRiDg@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v6.14
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> There are only 3 physical ports, however the use case I'm targeting is -
-> virtual ports serving virtual machines (with offloading features making
-> hardware directly L2-forward or L3-route most traffic between outside world
-> and VM-owned virtual port frontends). In this setup, some of 8 GWCA irqs
-> will be given to VMs and thus there are definitely not enough to
-> per-consumer allocation.
+On Fri, Dec 20, 2024 at 11:30=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-And you are describing your VMs in DT as well? And if you change your
-VM setup, you are going to modify your DT? This all sounds wrong.
+> The following changes since commit 40384c840ea1944d7c5a392e8975ed088ecf0b=
+37:
+>
+>   Linux 6.13-rc1 (2024-12-01 14:28:56 -0800)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-pinctrl-for-v6.14-tag1
+>
+> for you to fetch changes up to 03fc60cd8e7b7e6f330d0a48c54545740addd9d8:
 
-It sounds like you need to be able to configure the interrupt mappings
-from user space somehow. And you probably need to be able to do it on
-the fly, or at least, when the interface is down.
+Pulled into devel for v6.14!
 
-I don't know if it will help, but ethtool mentions:
-
-       -l --show-channels
-              Queries the specified network device for the numbers of  channels
-              it has.  A channel is an IRQ and the set of queues that can trig‐
-              ger that IRQ.
-
-       -L --set-channels
-              Changes the numbers of channels of the specified network device.
-
-           rx N   Changes the number of channels with only receive queues.
-
-           tx N   Changes the number of channels with only transmit queues.
-
-           other N
-                  Changes  the  number of channels used only for other purposes
-                  e.g. link interrupts or SR-IOV co-ordination.
-
-           combined N
-                  Changes the number of multi-purpose channels.
-
-
-Maybe there is something you can use here? Or extend.
-
-	Andrew
-
+Yours,
+Linus Walleij
 
