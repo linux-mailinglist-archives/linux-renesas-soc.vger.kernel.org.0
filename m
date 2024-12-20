@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-11665-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11666-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7669F9BE7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 22:27:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A559F9BEA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 22:29:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 156E716D6C0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 21:27:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5DD73188C6AA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 21:29:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B28296FC5;
-	Fri, 20 Dec 2024 21:27:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 277762210D1;
+	Fri, 20 Dec 2024 21:29:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PNLwIPew"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="k0Bxqhmc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE851A3BC8
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2024 21:27:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305B61A3BC8
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2024 21:28:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734730024; cv=none; b=b+tX4VkPccyxtFo+zxQmW0eGu3T1RtBZ9dnPwdxj4gldns7bfcFjEX8PRi79noV83JoO4D4j2u0Z3CLYC8qOLNIIDwUsSYvVipFOGuxUL9iX9KgiN58zJHk21fl5kFDz65ddpUnWyiq9AaOiVyRB6SOCVztqssWlKUA41xrQ4J4=
+	t=1734730142; cv=none; b=jMtPydijpQ2hCi8z2XAeLEz40yPmTubUt4pFo5yDBqOzVgWb1X+WOIlL7GZi2FD+gI+wBIW2iHVMa2nUzcr19e/UOUEQzCoXkRs28N4dOljDu7p/UPyWnuxr3H7AhG+N1K7OSLuQpPNreU0AXwf2QvzrsJpvbqHNcYTgNaYeCGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734730024; c=relaxed/simple;
-	bh=CCNy+hniWVmaXLXRQqtQF0G7X8dU/g6XbWILbf1E3zY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HXnl6TaVEu1TSTx34+jsrVnUBMapoK/OyduQcXOUcxnu0ceyKsgUVDgmFomNmg5hzuKdQL8jTRXo7tw9cmeF/Yrg/GM1kVffHrFsYtgEr2vxINX0xmU6DcTWt+SEIJDkltxGiN2JWj+daucCQG5a8e/PDIkrsFlwgRpxx+h8RCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PNLwIPew; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1734730142; c=relaxed/simple;
+	bh=seOFofnrYm+R//wCE9xNGKynLggQvDXrouOyidIkuz0=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oW8PHzwjmP4WLHDds5eXwjF198o0PUxUr1q4ao9z14Md53UN7aFnxn8LaLDzB+IMP0FAYPQrifTmh87+aPNoceGfF6+ZRP2Sb06AzBY1dI2PY8BkP7Op+mDvcJ2lCtDQnP5BDiQvHomgX07x57sfOiWqHc6frWLaBIf3Bok5Tdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=k0Bxqhmc; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=8+bu
-	S1MGD2xLeKgctLEGSMqm84AAAceyYer8eWjclfY=; b=PNLwIPewNuC8B7YcxTc6
-	/x3TJCypkCm9q+s3j8ypWMn90fJ9+Gwf3uv/SereEklQySCp+xGI8rgWS05CApLG
-	X42YYsq/FfoM9U1PJgC2PwhAAByv/vpI8ApKK58+sVFA3qxroV7BsfoX29fbRIUD
-	X+jbltLb0JhhMC+FPSLUux8c4Tdr/JSnJSDPn5gXoCiuLeL/GqNIsaSEbalYuKy3
-	eK3ueiuKfJadljngfZG17/hLWKK2n+BSr6jNtGusxhoqms8YVcdIHRPPsqyP3Dp1
-	4u9MqIGZGb0ajsurnda/09f3ZFCf6GWLQhovRZSS/kAKz+8ZkjmznvsIa2PlVH1X
-	Ng==
-Received: (qmail 1128455 invoked from network); 20 Dec 2024 22:27:00 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Dec 2024 22:27:00 +0100
-X-UD-Smtp-Session: l3s3148p1@fFeqTropzIMujnsY
-Date: Fri, 20 Dec 2024 22:26:59 +0100
+	sang-engineering.com; h=date:from:to:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=seOF
+	ofnrYm+R//wCE9xNGKynLggQvDXrouOyidIkuz0=; b=k0BxqhmcePPthfZ+lQbc
+	RI+gHDgdWxzNi4dc1PzMIz7WWNSAufQHzCFMaIopNTsQxPXcoZKs2YWiM/EQXnrK
+	a8Vop7rMs1XvSb83FSwPq3iji6xXlWrHKmFIzdHK8wUhuk//t+Zc7n5pebWiXSDt
+	yCkxZoM+p8O7n1vJbSxN+NPwTBEVTXoD8MKH4Te7qpYrZjN19iGA47FQqHH9kVsh
+	Dn12J56GHJsJ/VETsorsWUtVztCv6ReNErFDPL2j0zwT1ipP0H5Ec/IkJs5xryIH
+	EpiN7/ZuLazJvMrU9Lj+293SoLiawwtsSLVrtXdJaZ8K+i6yecMmR3sm+AT0QrCl
+	WQ==
+Received: (qmail 1128934 invoked from network); 20 Dec 2024 22:28:58 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Dec 2024 22:28:58 +0100
+X-UD-Smtp-Session: l3s3148p1@bbalVbopAJwujnsY
+Date: Fri, 20 Dec 2024 22:28:57 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Chris Brandt <chris.brandt@renesas.com>,
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+	Chris Brandt <chris.brandt@renesas.com>,
 	Andi Shyti <andi.shyti@kernel.org>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Wolfram Sang <wsa@kernel.org>,
@@ -56,9 +56,8 @@ Cc: Chris Brandt <chris.brandt@renesas.com>,
 	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 8/9] i2c: riic: Add `riic_bus_barrier()` to check bus
- availability
-Message-ID: <Z2XhI4L9nzUqa22Z@ninjato>
+Subject: Re: [PATCH v2 0/9] Add support for I2C bus recovery for riic driver
+Message-ID: <Z2XhmWiocC8m3JTY@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Chris Brandt <chris.brandt@renesas.com>,
@@ -71,7 +70,7 @@ Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20241218001618.488946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241218001618.488946-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Z2Vc61czIYHHNMI_@ninjato>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -79,70 +78,63 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XFSjHshmGUBPQSlS"
+	protocol="application/pgp-signature"; boundary="65bi7RshTj+04ftj"
 Content-Disposition: inline
-In-Reply-To: <20241218001618.488946-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <Z2Vc61czIYHHNMI_@ninjato>
 
 
---XFSjHshmGUBPQSlS
+--65bi7RshTj+04ftj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 18, 2024 at 12:16:17AM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Dec 20, 2024 at 01:02:51PM +0100, Wolfram Sang wrote:
 >=20
-> Introduce a new `riic_bus_barrier()` function to verify bus availability
-> before initiating an I2C transfer. This function enhances the bus
-> arbitration check by ensuring that the SDA and SCL lines are not held low,
-> in addition to checking the BBSY flag using `readb_poll_timeout()`.
+> > This patch series introduces support for I2C bus recovery in the RIIC
+> > driver, which is utilized in RZ series SoCs. The addition of bus recove=
+ry
+> > functionality enhances the reliability of the I2C interface by allowing=
+ it
+> > to recover from error conditions that might leave the bus in an unusable
+> > state.
+> >=20
+> > Alongside the bus recovery implementation, the series includes several
+> > cleanup and improvement patches that simplify and modernize the driver
+> > code. These include replacing `dev_err` calls with `dev_err_probe`,
+> > consistent usage of the `BIT` and `GENMASK` macros, leveraging devres
+> > helpers for reset management, and improving code readability by marking
+> > static data as `const`.
 >=20
-> Previously, only the BBSY flag was checked to determine bus availability.
-> However, it is possible for the SDA line to remain low even when BBSY =3D=
- 0.
-> This new implementation performs an additional check on the SDA and SCL
-> lines to avoid potential bus contention issues.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> I am planning to review and test this series later today.
 
-=2E..
+Thanks for this series! Regarding the cleanups, rhe driver is indeed in
+a better shape afterwards. Good work. Patch 9 still needs discussion but
+for patches 1-8:
 
-> -	if (riic_readb(riic, RIIC_ICCR2) & ICCR2_BBSY) {
-> -		riic->err =3D -EBUSY;
-> +	riic->err =3D riic_bus_barrier(riic);
-> +	if (riic->err)
->  		goto out;
-> -	}
-> =20
->  	reinit_completion(&riic->msg_done);
->  	riic->err =3D 0;
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-This initialization can go now. err is 0 already.
-
-With that fixed:
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On a RZ/G3S, doing bus scans and some transfers with checksumming.
 
 
---XFSjHshmGUBPQSlS
+--65bi7RshTj+04ftj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmdl4SMACgkQFA3kzBSg
-KbYxuRAAle25Vm+k9AgRhmMNfqUwpVYkXyUu5EfY4/oRC0xuswGjyls/QR3QxnLR
-GGix7D5uPz11OLp2B/h9sYNJ5dqS97IHSQKhbfbQSnZSNvy5pGcq+LCV52MaBzJQ
-DPjtqPwLjxKQH5YRGumiY0VTaliO2gCiIgXbI/W3CxL+ceveyfbDcrMp0AGnZf5C
-7p5frx1/gosqxgfK8t4x/XrVtsi3CXuIS7XSZukx2weeMZ5aaYayKgjB+sa+cGyE
-UM69BNWA8rOeSDzM6xYj+9xIb2wzfaXoAxQeNQ6Rnf+i89xzO5t8CEp6SAwJ6vy2
-YKNwDzlbHdHmF2lnMGi1/TRyErKQFYZosESeHwTjIpCBAJ7JA8+kMu5XMFetpsfc
-WeWaHQz9EIJJ296n1cSSAJUGFeFHacoWyJSyTypH8vVtXElt4ScdNYWgAYhcSoiM
-LMgWGrM8+IXQw7ZyGL2680l149egbJjmaceh30tKOxtaRoDte2YhFY08vWHDvpki
-vvby0k5F0T9MXrGIV6fKe9UWFOWRYneI1Wmjvm8C50i8rqO7XATPuG9mab63iu4z
-szpIUTjcjn5/CRmuitq1DOP7gC8cfkkExoNdXo+3qVAH35rrhDJ94/63j/3ydzyD
-IleJDlZIpq74uigduXuS0htXvjeUCO/bv6+f7+dUDOiOT5s3x1A=
-=pL8t
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmdl4ZkACgkQFA3kzBSg
+Kbb5bQ/+MI5cWvKj0CmzMy3wQZfL+d7+XSQXFEOm7XtQ2H9H+cmPOIFGawYaPRvb
+Wp16TefQKKM4BP/GteC4QyCMGRsieh2k9eKgKbI7HSAhYeVSkXHR//I3EYJcxeNw
+McnFHD/8bKpwtPcbyXG8THhYS1f7ZhIUKkLXqT2ZITT/awXV8R4gFSLP9CFYsge2
+JnVQM3+7xdA5BXgnEizbo5VWPIgfDo/2FKQMiCVh4KPlZ6pvlbuQ5i+GAYFkYyaG
+QEqPFAH/1OM/fQVgGZ2Ci7W4b2+5+vi9+6A02Wx2SRBgEy4uWrcKGw60B0EQ93KG
+jQex16g4FjkdoGBsO7WREkHew3MYp4Od72u98S5i7b4kmBOB0IHJ5Dcpz3hkN+xf
+qh/2O71PJY/I6wjuW+Mm9s/N/hhvJKTxo32MNLFjb/9lxz7j16dZoHT240BBn4rU
+Vd8tlJR8sncqMNVKNzZWnqV/69RW26QHQwteJ8ylEUP0VUPk+PuJsxY9SLTHexeN
+Peq6TUvN6ZJEjmuSBaavMsmWTsEz1bUW7scSXrmMPo0DhzfDTvnq1w4DV1J1voaG
+5T/41O1QCMhNWEGAAh9LrUl6didfVnlc16yLcVha8xut/SaKLyPcp2JSAYCEiPD+
+6ccs0MgwJfpvwl6GqBvVX46utSYB9nynzFv96WHJDthuzIum2dI=
+=CQ04
 -----END PGP SIGNATURE-----
 
---XFSjHshmGUBPQSlS--
+--65bi7RshTj+04ftj--
 
