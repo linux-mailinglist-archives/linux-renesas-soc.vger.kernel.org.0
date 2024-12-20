@@ -1,140 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-11666-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11667-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A559F9BEA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 22:29:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6215D9F9D4B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Dec 2024 00:52:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5DD73188C6AA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 21:29:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 186B3188EA59
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 23:52:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 277762210D1;
-	Fri, 20 Dec 2024 21:29:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58FB0227575;
+	Fri, 20 Dec 2024 23:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="k0Bxqhmc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m4/tLde1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305B61A3BC8
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2024 21:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C7321E08B;
+	Fri, 20 Dec 2024 23:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734730142; cv=none; b=jMtPydijpQ2hCi8z2XAeLEz40yPmTubUt4pFo5yDBqOzVgWb1X+WOIlL7GZi2FD+gI+wBIW2iHVMa2nUzcr19e/UOUEQzCoXkRs28N4dOljDu7p/UPyWnuxr3H7AhG+N1K7OSLuQpPNreU0AXwf2QvzrsJpvbqHNcYTgNaYeCGA=
+	t=1734738744; cv=none; b=ufY8aEw80LTL8QNLY/zpGtoidIW9EdfTg9skqwUWdBH4FdiFQpKUByeJ0DDffksTBwhid9HdptmTd/rKGetjksKvZJLc8nNzXd6eC73Lj8+b6/G+KZ75tkiVaD5EQwo9X0Kf0nj7UfdplJ0tgj4vmnKqlDTWlYSu6EU/at/6lQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734730142; c=relaxed/simple;
-	bh=seOFofnrYm+R//wCE9xNGKynLggQvDXrouOyidIkuz0=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oW8PHzwjmP4WLHDds5eXwjF198o0PUxUr1q4ao9z14Md53UN7aFnxn8LaLDzB+IMP0FAYPQrifTmh87+aPNoceGfF6+ZRP2Sb06AzBY1dI2PY8BkP7Op+mDvcJ2lCtDQnP5BDiQvHomgX07x57sfOiWqHc6frWLaBIf3Bok5Tdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=k0Bxqhmc; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=seOF
-	ofnrYm+R//wCE9xNGKynLggQvDXrouOyidIkuz0=; b=k0BxqhmcePPthfZ+lQbc
-	RI+gHDgdWxzNi4dc1PzMIz7WWNSAufQHzCFMaIopNTsQxPXcoZKs2YWiM/EQXnrK
-	a8Vop7rMs1XvSb83FSwPq3iji6xXlWrHKmFIzdHK8wUhuk//t+Zc7n5pebWiXSDt
-	yCkxZoM+p8O7n1vJbSxN+NPwTBEVTXoD8MKH4Te7qpYrZjN19iGA47FQqHH9kVsh
-	Dn12J56GHJsJ/VETsorsWUtVztCv6ReNErFDPL2j0zwT1ipP0H5Ec/IkJs5xryIH
-	EpiN7/ZuLazJvMrU9Lj+293SoLiawwtsSLVrtXdJaZ8K+i6yecMmR3sm+AT0QrCl
-	WQ==
-Received: (qmail 1128934 invoked from network); 20 Dec 2024 22:28:58 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Dec 2024 22:28:58 +0100
-X-UD-Smtp-Session: l3s3148p1@bbalVbopAJwujnsY
-Date: Fri, 20 Dec 2024 22:28:57 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Wolfram Sang <wsa@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 0/9] Add support for I2C bus recovery for riic driver
-Message-ID: <Z2XhmWiocC8m3JTY@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Wolfram Sang <wsa@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241218001618.488946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Z2Vc61czIYHHNMI_@ninjato>
+	s=arc-20240116; t=1734738744; c=relaxed/simple;
+	bh=IQfTnIpxRZ8LRQzTZXm1IQtHdrJu68H3mCkUxSx08Og=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=KJiOIW1uLnXbItJfDXP0PJQiLlH3WCGSWv3KR/PUMMwBN0baHubHx7cv3VezHp3GrTpK4iYbuKKHnjfTMLIxV2YMtzaE07wFltcu58mLc/+mbF6kpxE/C6+/VvX22JKxaqzobkri0WFGXQ5hKGiq4OUo9O47ntc4M46P3CsIH5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m4/tLde1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8424BC4CECD;
+	Fri, 20 Dec 2024 23:52:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734738743;
+	bh=IQfTnIpxRZ8LRQzTZXm1IQtHdrJu68H3mCkUxSx08Og=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=m4/tLde12C10aw39FkZtfrBNBfXSnVHf6Ir9jOLaaefyTs/UFxINY8UpMx+cTelnZ
+	 eol91MzR9FfpfjhAw2XuV8rNinjkWXNpCaL+2duj4pRU4ikw/3VMFqscfy9H7j1O80
+	 QyoIRq5DimmOwKy+NzfCkKMjCx5F1A5kF1RbpK7XJo2QWgI6q5hmRLnxsrKyQDHxxQ
+	 2wIYtu+iw8q/WuDoxjYwgDBKJ9V0uq8fnFpBKpuRpbvoYju89cnQJLulRm/ln5GsLr
+	 im5ur0s3mktb/rN6edd8P7sWaRjAjPOjcuSeInJzN+beqG4sANkAZLXrFxiphhYiA5
+	 3ryU5kWMGVSYg==
+Message-ID: <e7b05a01a82fdc2b379f7fd902423a84.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="65bi7RshTj+04ftj"
-Content-Disposition: inline
-In-Reply-To: <Z2Vc61czIYHHNMI_@ninjato>
-
-
---65bi7RshTj+04ftj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cover.1734689961.git.geert+renesas@glider.be>
+References: <cover.1734689961.git.geert+renesas@glider.be>
+Subject: Re: [GIT PULL] clk: renesas: Updates for v6.14
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>
+Date: Fri, 20 Dec 2024 15:52:21 -0800
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
 
-On Fri, Dec 20, 2024 at 01:02:51PM +0100, Wolfram Sang wrote:
+Quoting Geert Uytterhoeven (2024-12-20 02:29:08)
+>         Hi Mike, Stephen,
 >=20
-> > This patch series introduces support for I2C bus recovery in the RIIC
-> > driver, which is utilized in RZ series SoCs. The addition of bus recove=
-ry
-> > functionality enhances the reliability of the I2C interface by allowing=
- it
-> > to recover from error conditions that might leave the bus in an unusable
-> > state.
-> >=20
-> > Alongside the bus recovery implementation, the series includes several
-> > cleanup and improvement patches that simplify and modernize the driver
-> > code. These include replacing `dev_err` calls with `dev_err_probe`,
-> > consistent usage of the `BIT` and `GENMASK` macros, leveraging devres
-> > helpers for reset management, and improving code readability by marking
-> > static data as `const`.
+> The following changes since commit 40384c840ea1944d7c5a392e8975ed088ecf0b=
+37:
 >=20
-> I am planning to review and test this series later today.
+>   Linux 6.13-rc1 (2024-12-01 14:28:56 -0800)
+>=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-clk-for-v6.14-tag1
+>=20
+> for you to fetch changes up to f962745289958e89bf520407728e384e52ea8e27:
+>=20
+>   clk: renesas: r9a08g045: Add clocks, resets and power domain support fo=
+r the ADC IP (2024-12-10 12:02:24 +0100)
+>=20
+> ----------------------------------------------------------------
 
-Thanks for this series! Regarding the cleanups, rhe driver is indeed in
-a better shape afterwards. Good work. Patch 9 still needs discussion but
-for patches 1-8:
-
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-On a RZ/G3S, doing bus scans and some transfers with checksumming.
-
-
---65bi7RshTj+04ftj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmdl4ZkACgkQFA3kzBSg
-Kbb5bQ/+MI5cWvKj0CmzMy3wQZfL+d7+XSQXFEOm7XtQ2H9H+cmPOIFGawYaPRvb
-Wp16TefQKKM4BP/GteC4QyCMGRsieh2k9eKgKbI7HSAhYeVSkXHR//I3EYJcxeNw
-McnFHD/8bKpwtPcbyXG8THhYS1f7ZhIUKkLXqT2ZITT/awXV8R4gFSLP9CFYsge2
-JnVQM3+7xdA5BXgnEizbo5VWPIgfDo/2FKQMiCVh4KPlZ6pvlbuQ5i+GAYFkYyaG
-QEqPFAH/1OM/fQVgGZ2Ci7W4b2+5+vi9+6A02Wx2SRBgEy4uWrcKGw60B0EQ93KG
-jQex16g4FjkdoGBsO7WREkHew3MYp4Od72u98S5i7b4kmBOB0IHJ5Dcpz3hkN+xf
-qh/2O71PJY/I6wjuW+Mm9s/N/hhvJKTxo32MNLFjb/9lxz7j16dZoHT240BBn4rU
-Vd8tlJR8sncqMNVKNzZWnqV/69RW26QHQwteJ8ylEUP0VUPk+PuJsxY9SLTHexeN
-Peq6TUvN6ZJEjmuSBaavMsmWTsEz1bUW7scSXrmMPo0DhzfDTvnq1w4DV1J1voaG
-5T/41O1QCMhNWEGAAh9LrUl6didfVnlc16yLcVha8xut/SaKLyPcp2JSAYCEiPD+
-6ccs0MgwJfpvwl6GqBvVX46utSYB9nynzFv96WHJDthuzIum2dI=
-=CQ04
------END PGP SIGNATURE-----
-
---65bi7RshTj+04ftj--
+Thanks. Pulled into clk-next
 
