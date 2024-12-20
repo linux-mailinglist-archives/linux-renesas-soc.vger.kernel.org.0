@@ -1,165 +1,537 @@
-Return-Path: <linux-renesas-soc+bounces-11603-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11604-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C959F8DE7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 09:24:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E99A9F8DF6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 09:28:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F3511894EE7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 08:24:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7AD4B1894F9C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 08:28:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A684F1A4E98;
-	Fri, 20 Dec 2024 08:24:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 020B31A76D5;
+	Fri, 20 Dec 2024 08:28:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GSJk99eN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aAMvZfxu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066FA1804A;
-	Fri, 20 Dec 2024 08:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3D9111A8;
+	Fri, 20 Dec 2024 08:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734683070; cv=none; b=hNl35jzCWp0BsTycfmocp1eu+LPL/jZFlohciWiGgKOSRQCGgYwv3Ssrn/3UpRFHbzuv7YM0Zz4DxCSh5S9gbfknKgrL+YDubhcMsTJVCG+hgp0Gjkudrernra9dB2qCT4Kr/gqt9pg6D7CSpG+f/BIH9WW4VKxc660/kDMPDOA=
+	t=1734683296; cv=none; b=kOOBH55zIidxf9WHpjwY9c5pLUnC+yRQllxVZmN7iVimAivJTfBZyBpzPk4YLBNkEd+kK8ZJhTHys5M0ANOeF8fGFtFeY4gULmEBxnMC1BC2+YrOEKxG+X12NJfauzL1orsUzsXXUwk3mDq0bWe+0N+jLgR9NLN7Ag+wkh6hVX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734683070; c=relaxed/simple;
-	bh=g2ivRmVjBclytEWUEdITLiIdlp+tYqZ4AN31Wyq+lSs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZOrWng/p5QX9aR7IpZ7SN1Ys9tGrW/MBw6kkkEY4/e1uMFlVPDSsTr3jbsHqvJ3tH83xpT8uWn8Br9IaIPrKmQwsSoWta5m1Gm15zcclO2n7I2pqKvFdJkr3+hD5OJ2QOfbPZK0q1NewlvEwTQ8tzk4Q0ugI9QgJY62ZmV9Cnfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GSJk99eN; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5188b485988so508716e0c.3;
-        Fri, 20 Dec 2024 00:24:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734683068; x=1735287868; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FKyFlyNK5UBMo7uLDnK/c9yGedR44TZ2Zr2p76TGWKs=;
-        b=GSJk99eN31a6qwFm2o1KHf8k+wWe/xcrYJXj0kkcLX6AcK1HqGQTaoAfUdSQbm3m4i
-         b98/1z5yvZtI+PRO4YNqcRm/LxCL1Q+K8y/C25pQJ1Ftm2UQYXPlNbRPT7KMutoJl8CE
-         I2T890hKGhOFpmriduSjSa3mdNbE2MtNjmKbWurEbxupyel/hhoVvJYeObxV+7oK8Pdg
-         b2ryeWOJCljubK7pdw4d15b5Y/0fLtRJGZmFJJABI2784pIAE/OgeGzEFTJ5F2Np0Ezf
-         0KWjVQcVu10g7OXFnXd9EIEPMwOJRJIfri38looTK3y+f6UdelQTTDUD/xDvdkKyiz7z
-         TVzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734683068; x=1735287868;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FKyFlyNK5UBMo7uLDnK/c9yGedR44TZ2Zr2p76TGWKs=;
-        b=Rzu5itOw/5sCUyspygSWzyXFV8rOODXZ6izNQlWSohuDYkyq0Va9/CSrvrb6sGwavA
-         BcD5zyhKeeWBvL+OovP6J1q46xTcXUxT9g8YuivF1yHSftRg3D8bGww2PpVIauL8M2om
-         r6/XKJs3XySYL9CVN2BgCzOPFZ0TMp2R34ORlH2vwJp1TdF6n/IMIwhaGoMhaV38DCdz
-         bmeOukhswvy7wrYY3Kb82PW5DfyEAM4+HSPBaMJUEjRwhlLAiLHX1LwrsMlmtt0ZJrXL
-         ZB1yvb8yjnqgHpl0afTsqcwCeHPPirFuc2w9fHJQBj6JRXPbeVZFu8MzLmDERtc7ruBw
-         oO7g==
-X-Forwarded-Encrypted: i=1; AJvYcCU783u62WdksoEdlvIsAVm6zyJ98JBOW2T84kREdkX+XN3HvfaWh9S4b77wXqeIKOJ2w3uljR2HdY44hlO9FqfnSAs=@vger.kernel.org, AJvYcCX/IylHXyfv9ZyHkGo9FOpm4GkQ795iwnxp+Bm25n4tGsnE7e9ktvJ8tXAc3Ba9Npcp3LQVV7c/q/A=@vger.kernel.org, AJvYcCXQZe8O3KfS4zKgFhUOoO1P4eDNyLLZzMP/i9st0Cxhplfj/hOW8WxTsqH4o3yrD8DoxGSiRFzqhxYcZRF5@vger.kernel.org
-X-Gm-Message-State: AOJu0YxznzTzlCKy9hOM4T1HnUCa/pPvz4faEunwH9YjhyUjvq/dZjbr
-	ZUIngVeY7kDuRKb9cjyTAY59lZB8da9OCwDmi+fZPVvecj+Fqedgl2MsQEDyIfnr56iyETK42uL
-	70jCFEEc6EKMIQSLXnhAqjHtxLl8=
-X-Gm-Gg: ASbGnct1rfg9SbpvUjWOKsSm4dqnlc1lP1e+v0nX/T5hDW5T5M+gqfuZtlZSEBsgoU9
-	lBsKF89RxjoA3QXBJuewBRbJENCixfh8a/6Jws08=
-X-Google-Smtp-Source: AGHT+IF1UV39pKX7PM9xcs62YZrCNRQLA/dyQy5XFvwl/ik38xc+IFRNSpFiGHpjBWV+5QOOAtIgPwuROwj1Ot4Yisg=
-X-Received: by 2002:a05:6122:210e:b0:50a:b5a3:e00c with SMTP id
- 71dfb90a1353d-51b75c2ac0amr1748696e0c.1.1734683067751; Fri, 20 Dec 2024
- 00:24:27 -0800 (PST)
+	s=arc-20240116; t=1734683296; c=relaxed/simple;
+	bh=BUolVDBtIQse8zvCr3DUE4Z0Avb/V8drmUsWv5/dC0A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nb3yXpMBzJo3fsJ5zv7ecpCIiAcR23KKVgbSCokYAFJjHyusboPBAWIvxW3EPOPXfar18cVvcipMs0cWZaw7ZfyJQ5toFja0eNReWzSbn+T6AzFxLxvrsn8jqsBnCoEsXd4rh0QDgoUqUuWC0U+WLxl0CwFA3tnEw1HQME0Zbas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aAMvZfxu; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734683295; x=1766219295;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BUolVDBtIQse8zvCr3DUE4Z0Avb/V8drmUsWv5/dC0A=;
+  b=aAMvZfxu8ERkPm0eG8bOWc2JxzAdyMnd4IDgNenTrACAG5Rk9NfUfHjS
+   pQ/ExzE5e5L//KCnMd7ogEtICBkkTeSjZujDoL2E1AA9kFDvGSn+ushGF
+   P1Y5mTpIm9rat6NfZInSe4ihQ5E8vCVqbGz1aqwYiHssMwWC8P5MpEUSU
+   GrmtrQr/eiwVw9CHmf0Dwd4A6CpS/2atcvCS6e8n887Hfs2OIMYEbMAE/
+   TLgJvzvWNKny5B9+1tTRLRusZlniEcEAOKbhSEpJxXDxniC4sB4YBn+8P
+   7juHLq9362TJ3OkhcJWjm+pmTd6ETm8u6At8zBG6CIZ5a3q23JhldPQZT
+   A==;
+X-CSE-ConnectionGUID: 4rFGvaYySouChL0aa5GBfw==
+X-CSE-MsgGUID: lAyx/gHsRMy1DBsYmaRjsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="35373820"
+X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
+   d="scan'208";a="35373820"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 00:28:13 -0800
+X-CSE-ConnectionGUID: HtS1U8X0TKykMA0wnal21A==
+X-CSE-MsgGUID: U8Vo4j0TQU6ybbq5q3G2WQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="103528709"
+Received: from mev-dev.igk.intel.com ([10.237.112.144])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 00:28:10 -0800
+Date: Fri, 20 Dec 2024 09:25:02 +0100
+From: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
+To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Michael Dege <michael.dege@renesas.com>,
+	Christian Mardmoeller <christian.mardmoeller@renesas.com>,
+	Dennis Ostermann <dennis.ostermann@renesas.com>
+Subject: Re: [PATCH net-next 1/2] net: renesas: rswitch: use per-port irq
+ handlers
+Message-ID: <Z2Up3mE5ED6uYVGP@mev-dev.igk.intel.com>
+References: <20241220041659.2985492-1-nikita.yoush@cogentembedded.com>
+ <20241220041659.2985492-2-nikita.yoush@cogentembedded.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241218142045.77269-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241218142045.77269-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVz95gXsYpF57sDJ4Y_by0chEuzgN-Bz-KZpzycZMrtGQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVz95gXsYpF57sDJ4Y_by0chEuzgN-Bz-KZpzycZMrtGQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 20 Dec 2024 08:24:01 +0000
-Message-ID: <CA+V-a8vMYFT6VgCjS-OJnaOON3SOkAhYKN7-RvFqA35se+VUkA@mail.gmail.com>
-Subject: Re: [PATCH 1/5] clk: renesas: rzv2h: Fix use-after-free in MSTOP
- refcount handling
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241220041659.2985492-2-nikita.yoush@cogentembedded.com>
 
-Hi Geert,
+On Fri, Dec 20, 2024 at 09:16:58AM +0500, Nikita Yushchenko wrote:
+> Instead of handling all possible data interrupts in the same handler,
+> switch to per-port handlers.
+> 
+> This significantly simplifies handling: when the same interrupt is used
+> for several ports, system calls all handlers, and each handler only has
+> to check interrupts for one port's tx and rx queues.
+> 
+> But it is not required to use the same interrupt for all ports - GWCA
+> provides 8 data interrupts and allows arbitrary per-queue assignment
+> of those. Support that by reading interrupt index for each port from
+> optional 'irq-index' device tree property.
+> 
+> With per-port interrupts it becomes possible to configure affinity such
+> that traffic coming from different ports is serviced simultaneously on
+> different CPUs.
+> 
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+> ---
+>  drivers/net/ethernet/renesas/rswitch.c | 190 ++++++++++---------------
+>  drivers/net/ethernet/renesas/rswitch.h |  10 +-
+>  2 files changed, 82 insertions(+), 118 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
+> index 84d09a8973b7..eb9dea8b16f3 100644
+> --- a/drivers/net/ethernet/renesas/rswitch.c
+> +++ b/drivers/net/ethernet/renesas/rswitch.c
+> @@ -99,15 +99,6 @@ static void rswitch_coma_init(struct rswitch_private *priv)
+>  	iowrite32(CABPPFLC_INIT_VALUE, priv->addr + CABPPFLC0);
+>  }
+>  
+> -/* R-Switch-2 block (TOP) */
+> -static void rswitch_top_init(struct rswitch_private *priv)
+> -{
+> -	unsigned int i;
+> -
+> -	for (i = 0; i < RSWITCH_MAX_NUM_QUEUES; i++)
+> -		iowrite32((i / 16) << (GWCA_INDEX * 8), priv->addr + TPEMIMC7(i));
+> -}
+> -
+>  /* Forwarding engine block (MFWD) */
+>  static void rswitch_fwd_init(struct rswitch_private *priv)
+>  {
+> @@ -175,29 +166,6 @@ static int rswitch_gwca_axi_ram_reset(struct rswitch_private *priv)
+>  	return rswitch_reg_wait(priv->addr, GWARIRM, GWARIRM_ARR, GWARIRM_ARR);
+>  }
+>  
+> -static bool rswitch_is_any_data_irq(struct rswitch_private *priv, u32 *dis, bool tx)
+> -{
+> -	u32 *mask = tx ? priv->gwca.tx_irq_bits : priv->gwca.rx_irq_bits;
+> -	unsigned int i;
+> -
+> -	for (i = 0; i < RSWITCH_NUM_IRQ_REGS; i++) {
+> -		if (dis[i] & mask[i])
+> -			return true;
+> -	}
+> -
+> -	return false;
+> -}
+> -
+> -static void rswitch_get_data_irq_status(struct rswitch_private *priv, u32 *dis)
+> -{
+> -	unsigned int i;
+> -
+> -	for (i = 0; i < RSWITCH_NUM_IRQ_REGS; i++) {
+> -		dis[i] = ioread32(priv->addr + GWDIS(i));
+> -		dis[i] &= ioread32(priv->addr + GWDIE(i));
+> -	}
+> -}
+> -
+>  static void rswitch_enadis_data_irq(struct rswitch_private *priv,
+>  				    unsigned int index, bool enable)
+>  {
+> @@ -206,12 +174,18 @@ static void rswitch_enadis_data_irq(struct rswitch_private *priv,
+>  	iowrite32(BIT(index % 32), priv->addr + offs);
+>  }
+>  
+> -static void rswitch_ack_data_irq(struct rswitch_private *priv,
+> -				 unsigned int index)
+> +static bool rswitch_check_ack_data_irq(struct rswitch_private *priv,
+> +				       unsigned int index)
+>  {
+> -	u32 offs = GWDIS(index / 32);
+> +	u32 reg = GWDIS(index / 32);
+> +	u32 bit = BIT(index % 32);
+>  
+> -	iowrite32(BIT(index % 32), priv->addr + offs);
+> +	if (ioread32(priv->addr + reg) & bit) {
+> +		iowrite32(bit, priv->addr + reg);
+> +		return true;
+> +	}
+> +
+> +	return false;
+>  }
+>  
+>  static unsigned int rswitch_next_queue_index(struct rswitch_gwca_queue *gq,
+> @@ -314,8 +288,6 @@ static int rswitch_gwca_queue_alloc(struct net_device *ndev,
+>  				    struct rswitch_gwca_queue *gq,
+>  				    bool dir_tx, unsigned int ring_size)
+>  {
+> -	unsigned int i, bit;
+> -
+>  	gq->dir_tx = dir_tx;
+>  	gq->ring_size = ring_size;
+>  	gq->ndev = ndev;
+> @@ -345,13 +317,6 @@ static int rswitch_gwca_queue_alloc(struct net_device *ndev,
+>  	if (!gq->rx_ring && !gq->tx_ring)
+>  		goto out;
+>  
+> -	i = gq->index / 32;
+> -	bit = BIT(gq->index % 32);
+> -	if (dir_tx)
+> -		priv->gwca.tx_irq_bits[i] |= bit;
+> -	else
+> -		priv->gwca.rx_irq_bits[i] |= bit;
+> -
+>  	return 0;
+>  
+>  out:
+> @@ -583,6 +548,15 @@ static void rswitch_gwca_put(struct rswitch_private *priv,
+>  	clear_bit(gq->index, priv->gwca.used);
+>  }
+>  
+> +static void rswitch_gwca_queue_assign_irq(struct rswitch_private *priv,
+> +					  struct rswitch_gwca_queue *gq,
+> +					  unsigned int irq_index)
+> +{
+> +	rswitch_modify(priv->addr, TPEMIMC7(gq->index),
+> +		       TPEMIMC7_GDICM(GWCA_INDEX),
+> +		       TPEMIMC7_GDICM_PREP(GWCA_INDEX, irq_index));
+> +}
+> +
+>  static int rswitch_txdmac_alloc(struct net_device *ndev)
+>  {
+>  	struct rswitch_device *rdev = netdev_priv(ndev);
+> @@ -614,6 +588,7 @@ static int rswitch_txdmac_init(struct rswitch_private *priv, unsigned int index)
+>  {
+>  	struct rswitch_device *rdev = priv->rdev[index];
+>  
+> +	rswitch_gwca_queue_assign_irq(priv, rdev->tx_queue, rdev->irq_index);
+>  	return rswitch_gwca_queue_format(rdev->ndev, priv, rdev->tx_queue);
+>  }
+>  
+> @@ -649,6 +624,7 @@ static int rswitch_rxdmac_init(struct rswitch_private *priv, unsigned int index)
+>  	struct rswitch_device *rdev = priv->rdev[index];
+>  	struct net_device *ndev = rdev->ndev;
+>  
+> +	rswitch_gwca_queue_assign_irq(priv, rdev->rx_queue, rdev->irq_index);
+>  	return rswitch_gwca_queue_ext_ts_format(ndev, priv, rdev->rx_queue);
+>  }
+>  
+> @@ -933,9 +909,13 @@ static int rswitch_poll(struct napi_struct *napi, int budget)
+>  	return 0;
+>  }
+>  
+> -static void rswitch_queue_interrupt(struct net_device *ndev)
+> +static irqreturn_t rswitch_gwca_data_irq(int irq, void *data)
+>  {
+> -	struct rswitch_device *rdev = netdev_priv(ndev);
+> +	struct rswitch_device *rdev = data;
+> +
+> +	if (!rswitch_check_ack_data_irq(rdev->priv, rdev->tx_queue->index) &&
+> +	    !rswitch_check_ack_data_irq(rdev->priv, rdev->rx_queue->index))
+> +		return IRQ_NONE;
+>  
+>  	if (napi_schedule_prep(&rdev->napi)) {
+>  		spin_lock(&rdev->priv->lock);
+> @@ -944,71 +924,10 @@ static void rswitch_queue_interrupt(struct net_device *ndev)
+>  		spin_unlock(&rdev->priv->lock);
+>  		__napi_schedule(&rdev->napi);
+>  	}
+> -}
+> -
+> -static irqreturn_t rswitch_data_irq(struct rswitch_private *priv, u32 *dis)
+> -{
+> -	struct rswitch_gwca_queue *gq;
+> -	unsigned int i, index, bit;
+> -
+> -	for (i = 0; i < priv->gwca.num_queues; i++) {
+> -		gq = &priv->gwca.queues[i];
+> -		index = gq->index / 32;
+> -		bit = BIT(gq->index % 32);
+> -		if (!(dis[index] & bit))
+> -			continue;
+> -
+> -		rswitch_ack_data_irq(priv, gq->index);
+> -		rswitch_queue_interrupt(gq->ndev);
+> -	}
+>  
+>  	return IRQ_HANDLED;
+>  }
+>  
+> -static irqreturn_t rswitch_gwca_irq(int irq, void *dev_id)
+> -{
+> -	struct rswitch_private *priv = dev_id;
+> -	u32 dis[RSWITCH_NUM_IRQ_REGS];
+> -	irqreturn_t ret = IRQ_NONE;
+> -
+> -	rswitch_get_data_irq_status(priv, dis);
+> -
+> -	if (rswitch_is_any_data_irq(priv, dis, true) ||
+> -	    rswitch_is_any_data_irq(priv, dis, false))
+> -		ret = rswitch_data_irq(priv, dis);
+> -
+> -	return ret;
+> -}
+> -
+> -static int rswitch_gwca_request_irqs(struct rswitch_private *priv)
+> -{
+> -	char *resource_name, *irq_name;
+> -	int i, ret, irq;
+> -
+> -	for (i = 0; i < GWCA_NUM_IRQS; i++) {
+> -		resource_name = kasprintf(GFP_KERNEL, GWCA_IRQ_RESOURCE_NAME, i);
+> -		if (!resource_name)
+> -			return -ENOMEM;
+> -
+> -		irq = platform_get_irq_byname(priv->pdev, resource_name);
+> -		kfree(resource_name);
+> -		if (irq < 0)
+> -			return irq;
+> -
+> -		irq_name = devm_kasprintf(&priv->pdev->dev, GFP_KERNEL,
+> -					  GWCA_IRQ_NAME, i);
+> -		if (!irq_name)
+> -			return -ENOMEM;
+> -
+> -		ret = devm_request_irq(&priv->pdev->dev, irq, rswitch_gwca_irq,
+> -				       0, irq_name, priv);
+> -		if (ret < 0)
+> -			return ret;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>  static void rswitch_ts(struct rswitch_private *priv)
+>  {
+>  	struct rswitch_gwca_queue *gq = &priv->gwca.ts_queue;
+> @@ -1589,12 +1508,18 @@ static int rswitch_open(struct net_device *ndev)
+>  {
+>  	struct rswitch_device *rdev = netdev_priv(ndev);
+>  	unsigned long flags;
+> +	int ret;
+>  
+>  	if (bitmap_empty(rdev->priv->opened_ports, RSWITCH_NUM_PORTS))
+>  		iowrite32(GWCA_TS_IRQ_BIT, rdev->priv->addr + GWTSDIE);
+>  
+>  	napi_enable(&rdev->napi);
+>  
+> +	ret = request_irq(rdev->irq, rswitch_gwca_data_irq, IRQF_SHARED,
+It wasn't shared previously, maybe some notes in commit message about
+that.
 
-On Thu, Dec 19, 2024 at 4:20=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Dec 18, 2024 at 3:20=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Avoid triggering a `refcount_t: addition on 0; use-after-free.` warning
-> > when registering a module clock with the same MSTOP configuration. The
-> > issue arises when a module clock is registered but not enabled, resulti=
-ng
-> > in a `ref_cnt` of 0. Subsequent calls to `refcount_inc()` on such clock=
-s
-> > cause the kernel to warn about use-after-free.
-> >
-> > [    0.113529] ------------[ cut here ]------------
-> > [    0.113537] refcount_t: addition on 0; use-after-free.
-> > [    0.113576] WARNING: CPU: 2 PID: 1 at lib/refcount.c:25 refcount_war=
-n_saturate+0x120/0x144
->
-> [...]
->
-> > Resolve this by checking the `ref_cnt` value before calling
-> > `refcount_inc()`. If `ref_cnt` is 0, reset it to 1 using `refcount_set(=
-)`.
->
-> Thanks for your patch!
->
-> > Fixes: 7bd4cb3d6b7c ("clk: renesas: rzv2h: Relocate MSTOP-related macro=
-s to the family driver")
->
-> The description (from your [PATCH 2/5]?) does not match the commit.
->
-Ouch!
+> +			  netdev_name(ndev), rdev);
+> +	if (ret < 0)
+> +		goto err_request_irq;
+> +
+>  	spin_lock_irqsave(&rdev->priv->lock, flags);
+>  	bitmap_set(rdev->priv->opened_ports, rdev->port, 1);
+>  	rswitch_enadis_data_irq(rdev->priv, rdev->tx_queue->index, true);
+> @@ -1606,6 +1531,14 @@ static int rswitch_open(struct net_device *ndev)
+>  	netif_start_queue(ndev);
+>  
+>  	return 0;
+> +
+> +err_request_irq:
+> +	napi_disable(&rdev->napi);
+> +
+> +	if (bitmap_empty(rdev->priv->opened_ports, RSWITCH_NUM_PORTS))
+> +		iowrite32(GWCA_TS_IRQ_BIT, rdev->priv->addr + GWTSDID);
+> +
+> +	return ret;
+>  };
+>  
+>  static int rswitch_stop(struct net_device *ndev)
+> @@ -1625,6 +1558,8 @@ static int rswitch_stop(struct net_device *ndev)
+>  	bitmap_clear(rdev->priv->opened_ports, rdev->port, 1);
+>  	spin_unlock_irqrestore(&rdev->priv->lock, flags);
+>  
+> +	free_irq(rdev->irq, rdev);
+> +
+>  	napi_disable(&rdev->napi);
+>  
+>  	if (bitmap_empty(rdev->priv->opened_ports, RSWITCH_NUM_PORTS))
+> @@ -1906,6 +1841,34 @@ static void rswitch_etha_init(struct rswitch_private *priv, unsigned int index)
+>  	etha->psmcs = clk_get_rate(priv->clk) / 100000 / (25 * 2) - 1;
+>  }
+>  
+> +static int rswitch_port_get_irq(struct rswitch_device *rdev)
+> +{
+> +	unsigned int irq_index;
+> +	char *name;
+> +	int err;
+> +
+> +	err = of_property_read_u32(rdev->np_port, "irq-index", &irq_index);
+> +	if (err == 0) {
+Usually if (!err) is used.
 
-> Fixes: 7bd4cb3d6b7c43f0 ("clk: renesas: rzv2h: Add MSTOP support")
->
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> > --- a/drivers/clk/renesas/rzv2h-cpg.c
-> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> > @@ -565,8 +565,12 @@ static struct rzv2h_mstop
-> >                         continue;
-> >
-> >                 if (BUS_MSTOP(clk->mstop->idx, clk->mstop->mask) =3D=3D=
- mstop_data) {
-> > -                       if (rzv2h_mod_clock_is_enabled(&clock->hw))
-> > -                               refcount_inc(&clk->mstop->ref_cnt);
-> > +                       if (rzv2h_mod_clock_is_enabled(&clock->hw)) {
-> > +                               if (refcount_read(&clk->mstop->ref_cnt)=
-)
-> > +                                       refcount_inc(&clk->mstop->ref_c=
-nt);
-> > +                               else
-> > +                                       refcount_set(&clk->mstop->ref_c=
-nt, 1);
-> > +                       }
-> >                         return clk->mstop;
-> >                 }
-> >         }
->
-> This makes me wonder if refcount is the right abstraction?
->
-You mean as discussed on irc, refcount per mstop bit instead of groups
-is not OK too? Do you have any other better approach in mind?
+> +		if (irq_index < GWCA_NUM_IRQS)
+> +			rdev->irq_index = irq_index;
+> +		else
+> +			dev_warn(&rdev->priv->pdev->dev,
+> +				 "%pOF: irq-index out of range\n",
+> +				 rdev->np_port);
+Why not return here? It is a little counter intuitive, maybe:
+if (err) {
+	dev_warn();
+	return -ERR;
+}
 
-Cheers,
-Prabhakar
+if (irq_index < NUM_IRQS) {
+	dev_warn();
+	return -ERR;
+}
+> +	}
+> +
+> +	name = kasprintf(GFP_KERNEL, GWCA_IRQ_RESOURCE_NAME, rdev->irq_index);
+
+In case with not returning you are using invalid rdev_irq_index here
+(probably 0, so may it be fine, I am only wondering).
+
+> +	if (!name)
+> +		return -ENOMEM;
+> +	err = platform_get_irq_byname(rdev->priv->pdev, name);
+> +	kfree(name);
+> +	if (err < 0)
+> +		return err;
+> +	rdev->irq = err;
+
+If you will be changing sth here consider:
+rdev->irq = platform()
+if (rdev->irq < 0)
+	return rdev->irq;
+> +
+> +	return 0;
+> +}
+> +
+>  static int rswitch_device_alloc(struct rswitch_private *priv, unsigned int index)
+>  {
+>  	struct platform_device *pdev = priv->pdev;
+> @@ -1954,6 +1917,10 @@ static int rswitch_device_alloc(struct rswitch_private *priv, unsigned int index
+>  	if (err < 0)
+>  		goto out_get_params;
+>  
+> +	err = rswitch_port_get_irq(rdev);
+> +	if (err < 0)
+You are returning 0 in case of success, the netdev code style is to
+check it like that: if (!err)
+
+> +		goto out_get_irq;
+If you will use the label name according to what does happen under label
+you will not have to add another one. Feel free to leave it as it is, as
+you have the same scheme across driver with is completle fine. You can
+check Przemek's answer according "came from" convention [1].
+
+[1] https://lore.kernel.org/netdev/20241218150949.1037752-1-tariqt@nvidia.com/T/#m577436e76d3d1afce18676ad87be74e8f5b3cc02
+> +
+>  	err = rswitch_rxdmac_alloc(ndev);
+>  	if (err < 0)
+>  		goto out_rxdmac;
+> @@ -1968,6 +1935,7 @@ static int rswitch_device_alloc(struct rswitch_private *priv, unsigned int index
+>  	rswitch_rxdmac_free(ndev);
+>  
+>  out_rxdmac:
+> +out_get_irq:
+>  out_get_params:
+>  	of_node_put(rdev->np_port);
+>  	netif_napi_del(&rdev->napi);
+> @@ -2003,7 +1971,6 @@ static int rswitch_init(struct rswitch_private *priv)
+>  	rswitch_reset(priv);
+>  
+>  	rswitch_clock_enable(priv);
+> -	rswitch_top_init(priv);
+>  	err = rswitch_bpool_config(priv);
+>  	if (err < 0)
+>  		return err;
+> @@ -2034,10 +2001,6 @@ static int rswitch_init(struct rswitch_private *priv)
+>  	if (err < 0)
+>  		goto err_ptp_register;
+>  
+> -	err = rswitch_gwca_request_irqs(priv);
+> -	if (err < 0)
+> -		goto err_gwca_request_irq;
+> -
+>  	err = rswitch_gwca_ts_request_irqs(priv);
+>  	if (err < 0)
+>  		goto err_gwca_ts_request_irq;
+> @@ -2073,7 +2036,6 @@ static int rswitch_init(struct rswitch_private *priv)
+>  
+>  err_gwca_hw_init:
+>  err_gwca_ts_request_irq:
+> -err_gwca_request_irq:
+>  	rcar_gen4_ptp_unregister(priv->ptp_priv);
+>  
+>  err_ptp_register:
+> diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
+> index 532192cbca4b..a1e62a6b3844 100644
+> --- a/drivers/net/ethernet/renesas/rswitch.h
+> +++ b/drivers/net/ethernet/renesas/rswitch.h
+> @@ -51,7 +51,6 @@
+>  
+>  /* TODO: hardcoded ETHA/GWCA settings for now */
+>  #define GWCA_IRQ_RESOURCE_NAME	"gwca0_rxtx%d"
+> -#define GWCA_IRQ_NAME		"rswitch: gwca0_rxtx%d"
+>  #define GWCA_NUM_IRQS		8
+>  #define GWCA_INDEX		0
+>  #define AGENT_INDEX_GWCA	3
+> @@ -828,6 +827,10 @@ enum rswitch_gwca_mode {
+>  
+>  /* TOP */
+>  #define TPEMIMC7(queue)		(TPEMIMC70 + (queue) * 4)
+> +#define TPEMIMC7_GDICM0			GENMASK(2, 0)
+> +#define TPEMIMC7_GDICM_SHIFT(i)		((i) * 8)
+> +#define TPEMIMC7_GDICM(i)		(TPEMIMC7_GDICM0 << TPEMIMC7_GDICM_SHIFT(i))
+> +#define TPEMIMC7_GDICM_PREP(i, val)	(((val) & TPEMIMC7_GDICM0) << TPEMIMC7_GDICM_SHIFT(i))
+>  
+>  /* Descriptors */
+>  enum RX_DS_CC_BIT {
+> @@ -967,7 +970,6 @@ struct rswitch_gwca_queue {
+>  	};
+>  };
+>  
+> -#define RSWITCH_NUM_IRQ_REGS	(RSWITCH_MAX_NUM_QUEUES / BITS_PER_TYPE(u32))
+>  struct rswitch_gwca {
+>  	unsigned int index;
+>  	struct rswitch_desc *linkfix_table;
+> @@ -977,8 +979,6 @@ struct rswitch_gwca {
+>  	int num_queues;
+>  	struct rswitch_gwca_queue ts_queue;
+>  	DECLARE_BITMAP(used, RSWITCH_MAX_NUM_QUEUES);
+> -	u32 tx_irq_bits[RSWITCH_NUM_IRQ_REGS];
+> -	u32 rx_irq_bits[RSWITCH_NUM_IRQ_REGS];
+>  };
+>  
+>  #define NUM_QUEUES_PER_NDEV	2
+> @@ -990,6 +990,8 @@ struct rswitch_device {
+>  	void __iomem *addr;
+>  	struct rswitch_gwca_queue *tx_queue;
+>  	struct rswitch_gwca_queue *rx_queue;
+> +	unsigned int irq_index;
+> +	int irq;
+>  	struct sk_buff *ts_skb[TS_TAGS_PER_PORT];
+>  	DECLARE_BITMAP(ts_skb_used, TS_TAGS_PER_PORT);
+>  	bool disabled;
+> -- 
+> 2.39.5
 
