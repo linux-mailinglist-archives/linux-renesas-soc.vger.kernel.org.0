@@ -1,143 +1,279 @@
-Return-Path: <linux-renesas-soc+bounces-11622-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11623-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8941D9F8F0C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 10:33:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 383E29F8F1E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 10:37:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4309F7A1E25
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 09:33:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2183418975AB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 09:37:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F17A31A840F;
-	Fri, 20 Dec 2024 09:33:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BBDB1BC07B;
+	Fri, 20 Dec 2024 09:36:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="QHeX8rbD"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="TDC1c0IL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BEFF4FA
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2024 09:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2F71BC073
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2024 09:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734687225; cv=none; b=M6B6hrFCpjrkh9pDVstDX60IHiaZGL5KcWpyAMf7Fw002fdnPjk7AO4jWrVSydt6aYHD+D2upKmhjmquU7ORpQ5OulURjZF+SlHMbQli7/WGnP0fyh1WWRzYBO7ZffY8ueQ9fkX3YyewhP8/SWncQZ6Vc9T1sAuJIqa7r3EcavE=
+	t=1734687408; cv=none; b=PBf40Q3uiRQAeUoVXLMBB/84oPAJ/ux3B0ygN0Xkk5qUqyDgDvIhDbYbXZqUEscGtBHRHT1dFHiz1uTF6TZTQrRBCu7x1HWwtXsJ6FKnPplu+7hGQ4USMM6w8FEjcPEM0b7lomdLop4s0HnXR7ZCN47TMKvac5uC2AVg79Xe7oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734687225; c=relaxed/simple;
-	bh=ql2cvojNhDoLyvf6JrsgSjwAgndqbWMG7FrdjDf+I+0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lxxPeygh7pHlh+t3pq5OVNaUNaY3KOPSXEbaYJk//5QfhWAJ9rzPGQUZ3xZYtqDsXDFAFm4RCMZksjAKQE8I5yD5TsOQox5kubp6FTHFA52A0CaQ27yWz6O5OjeZ6k7293J7gh+9w/KpD1CGPJ+5G/FrnGGQ6Xv+snrABA2vvGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=QHeX8rbD; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-303489e8775so18027481fa.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2024 01:33:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1734687222; x=1735292022; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Jo8fLuZk//T+YU0KgoC3pp0THGZOK8etrF75WPNYpLU=;
-        b=QHeX8rbDomFRsno+nFUj2Hz39d6BAH8JdJI756pCZoMfTU2LofTPvrlXw4ltHfnnsC
-         zSfABc+8cBLxE/MuuAs+uBDrOg7YjHDz7IKyfCecOWC2gcfm7OysqMkPhbPu/RTfAD5N
-         eESyahyQwR8l7QXMGDNNt8EWyfHHiOVIR7ZGnGkXZDlFNR+km8LQO+9aWBQFFTvLSq1C
-         DGlgDp+lnyz6xyzx7wF0K8+zlwOVpbWYJOuLvLNnFGH4rFdMr3LBErhX4TUBlRr7MvYk
-         c/LNdjGabePLAfNECfWGHo3Bu+hP/cbvBTCVBTRz9/dCA/0oHh+ACJSy78lhHnz5VJBp
-         9JHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734687222; x=1735292022;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jo8fLuZk//T+YU0KgoC3pp0THGZOK8etrF75WPNYpLU=;
-        b=Rk2ZNeVDNAvlu6tX0dEfDiVTS033Dn81aWyEkKuzofJX3LRomdrsCMq4o68+mK2c2K
-         glotOX0+J8mUG0MPvZSp8kwjtHM4yvGtmfUMNi3wUikne7HN57T3iN79FSd22YlAuDSH
-         iMqYE9Quyt9OtCdueGbnkeBwAnxp78rguwFp/Ijlvjx/h1XnnNxxtaBIw+KwzUqcnWk3
-         gfcCl0EAEu6ZJv5pMeWttoZOoFOB42bfqErRnh8MqQhMzilmkfRbub3/gd7EOS30Ayey
-         xBync3naDmCWDvUmtIfLy811CkC4F/NhToypo2tYjhfzLFz/BDj9aMBvFpHR+bCOi57y
-         t4rQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWxowdUgc0mb4xhemyj6dmFgVSWx045w3rGWNIcPKi01si68A5qCybhL38sQ1GgCYxJguXwWGIpfmfwu5CZdrmdBw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzameXrCAWtlOsMyJ6ws4tgCTQxZDOqUVy1ZvePC2l3vWWnNYk3
-	dOtBPL06hHEQIFIYpg753MkkNvU7AQ4m4jjpbvBrbIwgRYVLeCGv/ezOGZs4GCs=
-X-Gm-Gg: ASbGnct2fn+dA5fwwAlfvgWICmscUjoZlamyocEzvhWmpsN/o73XsKjZqAtdmB6hQnz
-	oF+Cgq0f03rZQ85wIuiWsii8MH+hxvQcp8/1nqKqHpm7PGNMXQRluCMtfkgrLNiQV/HOwzI97l8
-	bkO3N4poWylaQgGc9KPuVqxkoZrWkzL0M9IozAK6BZp/irK1e4QQuvmjVLo9pJlfNMVL+dsdJ20
-	1qNMTUKkKy2GF6xOBPIWtCRiQ3k2vI9tQjw92192iwLxvFnqNd8iatoVG2dL+waAmTxsrSkToUy
-X-Google-Smtp-Source: AGHT+IFH9+g2ADiqcDjxY+wSn3OVVD0jTbeD93+8HhtUP/uu4l9Lapa834iXKgUP2D0TTAaABdYTIQ==
-X-Received: by 2002:a05:651c:1544:b0:302:3003:97e with SMTP id 38308e7fff4ca-304686087c4mr7366591fa.30.1734687222506;
-        Fri, 20 Dec 2024 01:33:42 -0800 (PST)
-Received: from [192.168.0.104] ([91.198.101.25])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3045ad9c093sm4687421fa.49.2024.12.20.01.33.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Dec 2024 01:33:42 -0800 (PST)
-Message-ID: <21f0aa0e-9df3-4b5a-957a-dcf68399cdce@cogentembedded.com>
-Date: Fri, 20 Dec 2024 14:33:39 +0500
+	s=arc-20240116; t=1734687408; c=relaxed/simple;
+	bh=dWv/f9EpETM6+pvMWaSQENrIdrJUWlSaMx0ZEZywDZ8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WyInvb6mAZ7nQQ1hkezmmoHMJSSFDDAGznCGxBLjZD94NrJL7+d5kSftH0ACJLbLWY0N3U72TwqScIamrkhsRTWjlMRnopcIMwLXOAwY6uxigI/x5x/g9iO8DjtI9iOLs1OiXh2q71kAMlVAbsji+4cjeni62S0OIjE1CVP7cow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=TDC1c0IL; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=Lp0Yvbxa9B0vQR
+	q+y2kLJx19vNtF2icxGpIwqknGa1s=; b=TDC1c0ILSa8u3aaXahdteDYh5mpchR
+	KM83+pun7aKreCW4kUnKfcBTfAwNLA8hTp5nyWjtfynlicyUAYWS5UtIVxdBN9/t
+	CdiPV8JyCqOVwt9YK51vpLl792ka/faPHlTfA3Y2XZR5N46uQJv6NfNAHXAFtAoB
+	Ogcc0Pm6Yn6Wa8qHPHNVPoMo/JED3NHS5/8d+AZPl5zI+1sCFG3PxoIzCnqpAcox
+	OOyplQBelrUAo/fvsEmZ/8R0K6lC7EyH4x02jgu4dk2aegBmf1sbbJXpEsVZd+5w
+	c05IEtgJSGVZgKGWjcYm8uI9tyAqsYM5VY8BjPsdBX3Kt4cOjfxWYP/g==
+Received: (qmail 956462 invoked from network); 20 Dec 2024 10:36:40 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Dec 2024 10:36:40 +0100
+X-UD-Smtp-Session: l3s3148p1@KvJMYrApLKUujnsY
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	linux-hwmon@vger.kernel.org
+Subject: [RFC PATCH v2] hwmon: (lm75) add I3C support for P3T1755
+Date: Fri, 20 Dec 2024 10:36:34 +0100
+Message-Id: <20241220093635.11218-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 1/2] net: renesas: rswitch: use per-port irq
- handlers
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Michael Dege <michael.dege@renesas.com>,
- Christian Mardmoeller <christian.mardmoeller@renesas.com>,
- Dennis Ostermann <dennis.ostermann@renesas.com>
-References: <20241220041659.2985492-1-nikita.yoush@cogentembedded.com>
- <20241220041659.2985492-2-nikita.yoush@cogentembedded.com>
- <1f4b60ec-544c-49c5-b939-89882e1311ed@lunn.ch>
-Content-Language: en-US, ru-RU
-From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-In-Reply-To: <1f4b60ec-544c-49c5-b939-89882e1311ed@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Introduce I3C support by defining I3C accessors for regmap and
+implementing an I3C driver. Enable I3C for the NXP P3T1755.
 
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-20.12.2024 14:19, Andrew Lunn wrote:
-> On Fri, Dec 20, 2024 at 09:16:58AM +0500, Nikita Yushchenko wrote:
->> Instead of handling all possible data interrupts in the same handler,
->> switch to per-port handlers.
->>
->> This significantly simplifies handling: when the same interrupt is used
->> for several ports, system calls all handlers, and each handler only has
->> to check interrupts for one port's tx and rx queues.
->>
->> But it is not required to use the same interrupt for all ports - GWCA
->> provides 8 data interrupts and allows arbitrary per-queue assignment
->> of those. Support that by reading interrupt index for each port from
->> optional 'irq-index' device tree property.
-> 
-> It has been pointed out that adding this property breaks backwards
-> compatibility with older DT blobs. 
+Changes since v1:
+* don't parse i2c_device_id for a suitable sensor name but copy this
+  information to a specific struct for I3C devices
+  (frankly, I liked the previous solution better)
 
-It does not break backwards compatibility.
+* not really a change. I decided against using cpu_to_be/le* helpers.
+  It looks clumsy when operating on an array of u8 with them IMHO.
 
-Current behavior is that everything is serviced by interrupt 0.
-And in case of irq-index not defined, the fallback is exactly that.
+ drivers/hwmon/Kconfig |   2 +
+ drivers/hwmon/lm75.c  | 121 ++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 119 insertions(+), 4 deletions(-)
 
-(physically there is code that assigns interrupts per chain index, but in the current driver chains that 
-get non-zero interrupts assigned are never used; anso currently multiple interrupts are just multiple 
-entries to the exactly same handler that always services everything)
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index dd376602f3f1..86897b4d105f 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -1412,7 +1412,9 @@ config SENSORS_LM73
+ config SENSORS_LM75
+ 	tristate "National Semiconductor LM75 and compatibles"
+ 	depends on I2C
++	depends on I3C || !I3C
+ 	select REGMAP_I2C
++	select REGMAP_I3C if I3C
+ 	help
+ 	  If you say yes here you get support for one common type of
+ 	  temperature sensor chip, with models including:
+diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
+index 8b4f324524da..d95a3c6c245c 100644
+--- a/drivers/hwmon/lm75.c
++++ b/drivers/hwmon/lm75.c
+@@ -11,6 +11,7 @@
+ #include <linux/slab.h>
+ #include <linux/jiffies.h>
+ #include <linux/i2c.h>
++#include <linux/i3c/device.h>
+ #include <linux/hwmon.h>
+ #include <linux/err.h>
+ #include <linux/of.h>
+@@ -112,6 +113,8 @@ struct lm75_data {
+ 	unsigned int			sample_time;	/* In ms */
+ 	enum lm75_type			kind;
+ 	const struct lm75_params	*params;
++	u8				reg_buf[1];
++	u8				val_buf[3];
+ };
+ 
+ /*-----------------------------------------------------------------------*/
+@@ -606,6 +609,77 @@ static const struct regmap_bus lm75_i2c_regmap_bus = {
+ 	.reg_write = lm75_i2c_reg_write,
+ };
+ 
++static int lm75_i3c_reg_read(void *context, unsigned int reg, unsigned int *val)
++{
++	struct i3c_device *i3cdev = context;
++	struct lm75_data *data = i3cdev_get_drvdata(i3cdev);
++	struct i3c_priv_xfer xfers[] = {
++		{
++			.rnw = false,
++			.len = 1,
++			.data.out = data->reg_buf,
++		},
++		{
++			.rnw = true,
++			.len = 2,
++			.data.out = data->val_buf,
++		},
++	};
++	int ret;
++
++	data->reg_buf[0] = reg;
++
++	if (reg == LM75_REG_CONF && !data->params->config_reg_16bits)
++		xfers[1].len--;
++
++	ret = i3c_device_do_priv_xfers(i3cdev, xfers, 2);
++	if (ret < 0)
++		return ret;
++
++	if (reg == LM75_REG_CONF && !data->params->config_reg_16bits)
++		*val = data->val_buf[0];
++	else if (reg == LM75_REG_CONF)
++		*val = data->val_buf[0] | (data->val_buf[1] << 8);
++	else
++		*val = data->val_buf[1] | (data->val_buf[0] << 8);
++
++	return 0;
++}
++
++static int lm75_i3c_reg_write(void *context, unsigned int reg, unsigned int val)
++{
++	struct i3c_device *i3cdev = context;
++	struct lm75_data *data = i3cdev_get_drvdata(i3cdev);
++	struct i3c_priv_xfer xfers[] = {
++		{
++			.rnw = false,
++			.len = 3,
++			.data.out = data->val_buf,
++		},
++	};
++
++	data->val_buf[0] = reg;
++
++	if (reg == PCT2075_REG_IDLE ||
++	    (reg == LM75_REG_CONF && !data->params->config_reg_16bits)) {
++		xfers[0].len--;
++		data->val_buf[1] = val & 0xff;
++	} else if (reg == LM75_REG_CONF) {
++		data->val_buf[1] = val & 0xff;
++		data->val_buf[2] = (val >> 8) & 0xff;
++	} else {
++		data->val_buf[1] = (val >> 8) & 0xff;
++		data->val_buf[2] = val & 0xff;
++	}
++
++	return i3c_device_do_priv_xfers(i3cdev, xfers, 1);
++}
++
++static const struct regmap_bus lm75_i3c_regmap_bus = {
++	.reg_read = lm75_i3c_reg_read,
++	.reg_write = lm75_i3c_reg_write,
++};
++
+ static const struct regmap_config lm75_regmap_config = {
+ 	.reg_bits = 8,
+ 	.val_bits = 16,
+@@ -626,7 +700,7 @@ static void lm75_remove(void *data)
+ }
+ 
+ static int lm75_generic_probe(struct device *dev, const char *name,
+-			      const void *kind_ptr, int irq, struct regmap *regmap)
++			      enum lm75_type kind, int irq, struct regmap *regmap)
+ {
+ 	struct device *hwmon_dev;
+ 	struct lm75_data *data;
+@@ -639,7 +713,7 @@ static int lm75_generic_probe(struct device *dev, const char *name,
+ 	/* needed by custom regmap callbacks */
+ 	dev_set_drvdata(dev, data);
+ 
+-	data->kind = (uintptr_t)kind_ptr;
++	data->kind = kind;
+ 	data->regmap = regmap;
+ 
+ 	err = devm_regulator_get_enable(dev, "vs");
+@@ -711,7 +785,7 @@ static int lm75_i2c_probe(struct i2c_client *client)
+ 	if (IS_ERR(regmap))
+ 		return PTR_ERR(regmap);
+ 
+-	return lm75_generic_probe(dev, client->name, i2c_get_match_data(client),
++	return lm75_generic_probe(dev, client->name, (uintptr_t)i2c_get_match_data(client),
+ 				  client->irq, regmap);
+ }
+ 
+@@ -750,6 +824,37 @@ static const struct i2c_device_id lm75_i2c_ids[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, lm75_i2c_ids);
+ 
++struct lm75_i3c_device {
++	enum lm75_type type;
++	const char *name;
++};
++
++static const struct lm75_i3c_device lm75_i3c_p3t1755 = {
++	.name = "p3t1755",
++	.type = p3t1755,
++};
++
++static const struct i3c_device_id lm75_i3c_ids[] = {
++	I3C_DEVICE(0x011b, 0x152a, &lm75_i3c_p3t1755),
++	{ /* LIST END */ }
++};
++MODULE_DEVICE_TABLE(i3c, lm75_i3c_ids);
++
++static int lm75_i3c_probe(struct i3c_device *i3cdev)
++{
++	struct device *dev = i3cdev_to_dev(i3cdev);
++	const struct lm75_i3c_device *id_data;
++	struct regmap *regmap;
++
++	regmap = devm_regmap_init(dev, &lm75_i3c_regmap_bus, i3cdev, &lm75_regmap_config);
++	if (IS_ERR(regmap))
++		return PTR_ERR(regmap);
++
++	id_data = i3c_device_match_id(i3cdev, lm75_i3c_ids)->data;
++
++	return lm75_generic_probe(dev, id_data->name, id_data->type, 0, regmap);
++}
++
+ static const struct of_device_id __maybe_unused lm75_of_match[] = {
+ 	{
+ 		.compatible = "adi,adt75",
+@@ -1008,7 +1113,15 @@ static struct i2c_driver lm75_i2c_driver = {
+ 	.address_list	= normal_i2c,
+ };
+ 
+-module_i2c_driver(lm75_i2c_driver);
++static struct i3c_driver lm75_i3c_driver = {
++	.driver = {
++		.name = "lm75_i3c",
++	},
++	.probe = lm75_i3c_probe,
++	.id_table = lm75_i3c_ids,
++};
++
++module_i3c_i2c_driver(lm75_i3c_driver, &lm75_i2c_driver)
+ 
+ MODULE_AUTHOR("Frodo Looijaard <frodol@dds.nl>");
+ MODULE_DESCRIPTION("LM75 driver");
+-- 
+2.39.2
 
-> I don't know this hardware...
-> 
-> How many ports are there? Less than 9? Can you just do a static
-> allocation, port 0 gets interrupt 0, port 1 interrupt 1...
-
-There are only 3 physical ports, however the use case I'm targeting is - virtual ports serving virtual 
-machines (with offloading features making hardware directly L2-forward or L3-route most traffic between 
-outside world and VM-owned virtual port frontends). In this setup, some of 8 GWCA irqs will be given to 
-VMs and thus there are definitely not enough to per-consumer allocation.
-
-Nikita
 
