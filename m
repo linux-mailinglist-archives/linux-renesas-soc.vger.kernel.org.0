@@ -1,149 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-11619-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF6C9F8ED8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 10:22:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71CA59F8EE3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 10:24:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 153DB189373E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 09:22:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB8CC1896F85
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 09:23:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9E1D1A8404;
-	Fri, 20 Dec 2024 09:22:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DB051B394F;
+	Fri, 20 Dec 2024 09:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="v1ghjJ8J"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="k4tcOQI2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268A35588F;
-	Fri, 20 Dec 2024 09:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7561A83F3
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2024 09:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734686534; cv=none; b=TzMU28x/GkOLKqT4jybpdLI7jQRhUi7qcc96VN6jjELmhrJ0F4/o812WyieSfc0OGOWyxOp7gXNySkGNe1o1qqF1NNSeFwGJjKo/ougvN7s2wdjBKzo8Hv1EO+Uit3bAvJLpTuQRB7t6kqiZYxcrp8qEK+AUmBS0UZ9JYVGPGJE=
+	t=1734686618; cv=none; b=Ohqz4fPkRLWENt9GpKedqAva9ODylzQVOyRRm1yXlCJrEKzxtPkS0IZY8a/pUNupTN3+gWdYDgldH8ubuWg+Ti5QGGxUXAAE89SBAD0aPhWpWNe4yKicTii69h4IXC3vsUuMTh1yH1wW5eN42UIdKdBTtkGm48qtqPKlaGX1aPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734686534; c=relaxed/simple;
-	bh=J6VNNIgWE4fu7QNg1aHqIA1trhBXmGLYUKuGW1+J5oo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ptEsEexx9rU+w9B+3yEu3G4cYoXqJADb+4a3T2GLNwKFz3Pss6pY+MPPfU/in3K4EN6v5iGbY8u2TvSHE5agje5aJ5D7FAFd9SV6VJL4giUGWXcjAIP0XpN71BbQyUlyWMcRwwQuOT+Gbf/P8uX5zN83X3m1wxpO7FtxRwWGyuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=v1ghjJ8J; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.105] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6778ABE;
-	Fri, 20 Dec 2024 10:21:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734686491;
-	bh=J6VNNIgWE4fu7QNg1aHqIA1trhBXmGLYUKuGW1+J5oo=;
-	h=From:Date:Subject:To:Cc:From;
-	b=v1ghjJ8JSFa/85dKWMbRHdeeesj0NdBp6haWXvRaYirDNoN56MLOzXCY+9T3+FGee
-	 B7Qx+OcVEkrFdZF6Y75ApLVe7asGOYswCana5SSxPSKP7LCBFyAnvVT00sFo59cP+o
-	 HiLOr2QKoIxMAjygtiX/n3lEVRzEv9UA/WcKJ2Do=
-From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Date: Fri, 20 Dec 2024 10:22:01 +0100
-Subject: [PATCH v2] media: renesas: vsp1: Add support for VSPX
+	s=arc-20240116; t=1734686618; c=relaxed/simple;
+	bh=KCDElS5z2fsldc+2ATrCN2JR/gBjmVszXfvWzsZAGcg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YBMlL9RRMLss7MZ5Nk8D7lwMOC0Q53ICrpVLIATkk3M2VEhHJbL6s6z2I70zhDJygONnjrRDtkFOMI3fK7ZsKcVUQmto/8H9tjtqo/pwyy1aPN8UHZWP9lmS9DYcBdhOeBv/JKgYN7AH//dtJ8o8isYrmcRaG1dtvCdy1kHRHIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=k4tcOQI2; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ffa49f623cso20662951fa.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2024 01:23:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1734686614; x=1735291414; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/+TrNT5jtIAZL9awK5DM1/5/DLxJyjtDlozW1sMJY2Y=;
+        b=k4tcOQI223Uo2PjJdOALHOE4qd/E5CIOLHru9d5Bm2BV8I7R07rH/8mLlureqvTrTk
+         SzZjQisa12cEPn3Jdw7DEV3A0M3gIDGG2dsrHreCUNgAvLcU58SBW3eoJUlO7XGWurLk
+         b20ut85yagajILvB55hoUGqCml9ZLU+sRBWbCvVUG3J9bm4cmrOF3ZYGQMNH5SZhDLUE
+         n/pw17cI1jzd28673DqB1EOjZpD2AtQvmZiMt5xGv2DvzxLMfnacQeaZ4iYmlK9hhFpl
+         udoA/8FCLR4qUoMXMFPJfemV0fUoVqU8TGlyTGpDlhBG/raF+SYbtGSIEEtnBCGOQrOi
+         yDMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734686614; x=1735291414;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/+TrNT5jtIAZL9awK5DM1/5/DLxJyjtDlozW1sMJY2Y=;
+        b=k5l9h83o7vb4rpFYVSGZtVERus1mqExgSkgHSPFNc6DmgmF19jNMQZ5dIJXd+RLn61
+         da3JSJivCgpFmvZ+8ZpL3DtexSGupa618gxHqHnI7lwFuHQMpjBBtzwol5AwPpR+qf8K
+         IoE+e5Fzgc6cgUE1CllQ9oIRIhboGutef5T6KAWu5mxQ4oMT+9RJp8E5RrahZqq2DUy0
+         BhhI+DyUCGybe6bqkroqfRYPM8OOh4JATeYVBEyNpIYrdXpHCddxQNDTcbq1VXi5rSrz
+         EkboD/SNDUa2hs+6TJwRrwzXqEQ7GgjCGEWr3SN4saycRz25LErv+/WEFgbtkSf/ZPaP
+         RSuw==
+X-Forwarded-Encrypted: i=1; AJvYcCUQcUBUkzSUnDg0G+KyLM1VMo0HJy+Pn2D9uzkc+DYgg+PGT1kStDE5pKJg/Vg8asAledmxmxhEB2e/bBR4QCYBKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbTJbpr1KRFXPMr+GFnaaqB7SMJclTZRPwnFAsrDuEmGrDav73
+	skiaHWeT12WTZec5MYrPQ9joMg4DhKCXI1l9JCuDTLzL7MvXU/L/rfv0fscq3aMO+pw/7dfkbr1
+	F
+X-Gm-Gg: ASbGncuQ3ujC1oPbgzDmWovDw0NnvFnXIhS/6Q+wad8kid7eOnQ4MQQvMzOQExLDk6v
+	WGU3JoHkJ+ASLgY/q4HNXFxgTtzg+LlkHZiKyU23IGUuaCnhNWLm8/o8SiT3j5pmyLajXe/DLt8
+	Z7vYU20YxyHoCezKsH82qAcXr5fgIx2N4YhC+5SYVnfYjVr0GZ2NdKwzodOY5zJnEePlQCJvIB+
+	eQDcYSblWXiLJ15i7LEJoMQJPqFGQTVr5kA1VRS1DWNNKHDjb1nxdoAhAxPMC5WIOw7ERKdHuYc
+X-Google-Smtp-Source: AGHT+IGfz2PHNF/FWn/hpRtN9wfgXh99+gz7PviQ4rLuDyLIigC69aw87cFOnBjDw/N8prGJPeb5aw==
+X-Received: by 2002:a2e:bc23:0:b0:300:31db:a770 with SMTP id 38308e7fff4ca-3046860d416mr7731831fa.26.1734686614551;
+        Fri, 20 Dec 2024 01:23:34 -0800 (PST)
+Received: from [192.168.0.104] ([91.198.101.25])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3045ad6cfe8sm4729851fa.6.2024.12.20.01.23.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Dec 2024 01:23:34 -0800 (PST)
+Message-ID: <01c3755a-d57c-4da8-9505-551663a694c7@cogentembedded.com>
+Date: Fri, 20 Dec 2024 14:23:31 +0500
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/2] net: renesas: rswitch: use per-port irq
+ handlers
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Michael Dege <michael.dege@renesas.com>,
+ Christian Mardmoeller <christian.mardmoeller@renesas.com>,
+ Dennis Ostermann <dennis.ostermann@renesas.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>
+References: <20241220041659.2985492-1-nikita.yoush@cogentembedded.com>
+ <20241220041659.2985492-2-nikita.yoush@cogentembedded.com>
+ <CAMuHMdXV-2bdU9Cmk_VHTJ=M3Afg5aTfY=_k=p6v1igzpV5kBA@mail.gmail.com>
+ <7b009b7f-0406-4dc1-80b3-79927d6143f0@cogentembedded.com>
+ <TYCPR01MB1104022CD76BDE941D1C22536D8072@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+Content-Language: en-US, ru-RU
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+In-Reply-To: <TYCPR01MB1104022CD76BDE941D1C22536D8072@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241220-v4-vspx-id-v2-1-5cf05c7352df@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIADg3ZWcC/22MMQ7CMAwAv1J5xqgx6QAT/0AdktqhHmiqBEVFV
- f5O6Mx4J93tkCWpZLh1OyQpmjUuDejUwTS75Smo3BioJ2vIXLFYLHndmkbDTN5bJxwYWrAmCbo
- ds8fYeNb8julzvIv52b+bYtCg2IFo8D35cLkri8tx8dElPk/xBWOt9QvVKueOqwAAAA==
-X-Change-ID: 20241219-v4-vspx-id-1dd2bb4aedfd
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-X-Mailer: b4 0.15-dev-1b0d6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2407;
- i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=J6VNNIgWE4fu7QNg1aHqIA1trhBXmGLYUKuGW1+J5oo=;
- b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBnZTdBfI6bqIpMCl0QYgHAtCMj1grQpf58yNmJX
- twTvwZNdLGJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ2U3QQAKCRByNAaPFqFW
- PHpyEACQ+mhMd5tBbOGVBXLpWxSfjnl4CU4WaYYvyCQsWBH46vIMG2IfqdbhBI8U2I7pI7P/BhE
- LVHHK4krgLyrbCX3FRePPZB/RaRSd+zAbgXcfHOWDmslFD8rs7l86TUPfGfZJdbCg12wP3lw9SK
- wkubTHmqhNs10y1VAyCNKu/vpe7Xzkyzkqf6ruESmhg6qgH0g44gAShgqFi5WQ+c16QLgjnB1Il
- JHnfUJDJ/6nl967MtFhzdHoS6QmkOy/b/7Js1vDFP+BwR1ZlPlgxO0cDfVUrYTHClIPZVBLVrP2
- wy1d9p2+pjFP8VVHODoPq5WJThX90tEGCkU9NuL2nV+ME6bTsTfAVTYu8VGrBaY60NqBQAvLDdA
- 9r3FqhSz2ag3l0a3xEELXwfD6EKWDJVLuCNoNAWQf/CzNZYQvSA/K6Mqsm/HA00RAt6gcZ7Idw/
- FvPBjT6k1ZFo3v3xx1QqXR6rxT9rssAWn1SXZJNDuFvBmmZM92PtNBBOVFIyk8veUPq9vxbX6Gv
- m0zG75R+DsrkYCX8XITgTE5ooUXpMQt7C/kmpT0IsIP6qjyKtpzwY9v9mghjak06hzo9JYwi557
- 7CFlWJYlu7YU7mBMMChpyHKDWdKRdcU5M7+AJdPEJ63DJr3r6xwE/LkBzxm6YWvB//XfatHgG95
- 7qcDG5si0vtWtXw==
-X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Add support for VSPX to the vsp1 driver.
+>>> Sorry, but I can't find where this property is documented?
+>>
+>> I will add this.
+> 
+> Device tree properties should be a hardware description. However,
+> about the "irq-index", it seems a software configuration. So, even if we would
+> like to submit such a patch to add the property, it will be rejected.
 
-VSPX is an instance of Renesas VSP2 IP found on R-Car gen4 SoCs
-that performs external memory access on behalf of the ISP.
+Hmm...
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
----
-Add an vsp1_device_info entry for Gen4 VSPX.
+Indeed it is a software configuration.
 
-VSPX will likely need custom features, hence do no set any feature
-for the time being to prepare to expand later on.
----
-Changes in v2:
-- Changed the patch authorship to my +renesas address
-- Collect tags
-- Link to v1: https://lore.kernel.org/r/20241219-v4-vspx-id-v1-1-e45225b02bf3@ideasonboard.com
----
- drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 10 ++++++++++
- drivers/media/platform/renesas/vsp1/vsp1_regs.h |  1 +
- 2 files changed, 11 insertions(+)
+I was not aware of such a rule.
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index 9fc6bf624a520ae38e9c5f30dfa4dfa412eec38e..4dfc5e1640264f23772964f2b48c66d76599cb70 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -835,6 +835,16 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 		.uif_count = 2,
- 		.wpf_count = 1,
- 		.num_bru_inputs = 5,
-+	}, {
-+		.version = VI6_IP_VERSION_MODEL_VSPX_GEN4,
-+		.model = "VSP2-X",
-+		.gen = 4,
-+		.features = 0,
-+		.lif_count = 0,
-+		.rpf_count = 2,
-+		.uif_count = 0,
-+		.wpf_count = 0,
-+		.num_bru_inputs = 2,
- 	},
- };
- 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-index 7eca82e0ba7ec5e02a5f3b9a30ccdcb48db39ed2..75e064429f4e231ecd2e291a10c09931e8096a97 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-@@ -791,6 +791,7 @@
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
- #define VI6_IP_VERSION_MODEL_VSPD_GEN4	(0x1c << 8)
-+#define VI6_IP_VERSION_MODEL_VSPX_GEN4	(0x1d << 8)
- /* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
- #define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
- 
+I believe there shall be plenty of situations when a per-hardware-node software configuration is 
+desired. What method do other use, if not device tree?
 
----
-base-commit: 50d451b19cc58cf374160e30cbf72a5ed5b1b129
-change-id: 20241219-v4-vspx-id-1dd2bb4aedfd
+> Also, even if we can add a new device tree property, we should keep backward compatible.
+> However, this patch seems to break a backward compatibility.
 
-Best regards,
--- 
-Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+It does not.
+If this new property is not defined, then it will default to 0, which will result exactly into previous 
+behavior.
 
+> Unfortunately, I don't have alternative solutions how to configurate per-port irq though...
+> # Maybe configfs??
+
+Looks like overengineering...
+
+Perhaps can just hardcode irq-index N for port N for now. But then, flexibility will be lost.
+
+In more complex situations that I target in future, some of 8 GWCA interrupts will be given to virtual 
+machines (and/or Xen domains) to serve virtual port frontends, and some will be needed for virtual port 
+backends.  So 8 will be not enough to have a per-consumer interrupt, and some configuration method is 
+needed.
+
+Nikita
 
