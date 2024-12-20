@@ -1,58 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-11637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11634-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387489F9162
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 12:32:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1659F9160
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 12:32:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CEEF616C37F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 11:32:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD14616852E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2024 11:32:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D41C71C5F39;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B77C1C1741;
 	Fri, 20 Dec 2024 11:30:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="kwlhKMAN"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="JOr2yzBe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817ED1C5F03
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818411C5F04
 	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2024 11:30:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734694231; cv=none; b=ub26slQMZtq1iRhU3DYLKnS4opHpv4ENPAl9M4g3wrU6Yopp4OPete3hq5EDVI/HBpvLHgWNstgVu7iSdf350UyXOwh9BahjSc75/s0vIJaPlKS/es6bmrXPqOkOlQgbJgE0l4FCq8eUnp6aan1CIo4f/PofCoTUvbjSZG76NmI=
+	t=1734694231; cv=none; b=B2KWZvkrCuWJz3ByK33zsD0ckgJG0/UIj5vzzAz1TKg8JitNIw1e/WO1iR6VdFS7gP5+T1En62RV0i1tgq1PeIkIxFr0a/jKU9a61cAWZCzxRidFfnqqFB8pzMsT93+5dMZOTDHmdT9qzQ31s7KTXmMammBNde+aQ0hV9o01m5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734694231; c=relaxed/simple;
-	bh=+r130rckWcX6jYdn+Ln3jDvzy6JOxhEl+3WKkuSt1qw=;
+	bh=gpNBkc6doeMy4/aCPzNDJIb9seFsCsIEDoGkRZbmb8I=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=n/lJXNIRgBQJexpAZC7tB39rFXXEnRrNg5MiWEbyjkeVNFwXgOjRKTdCfzATIPUPPbKSoHs1VYnrwtF1g7hlaC2NpMwuk+NFsfzS2KwyJ4tOqsiu9w9krgrDvusfPoUDNWjGHkqqahAxZkbu6TTCyvdhrtAxtXV+5voo9zY0tFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=kwlhKMAN; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=M/L82hSOdFam6H6lPWykdoeBh6V8Oc17RuKQPJ1O0pRLMANIPhZxsJKNanGQJdwspfQCyX+K99UWlzCC05i8XOoZwlz20O/W47qJEgWGNrI+9xncA+PzrAc/Ephdb6+hnSz6aNWnbIxExLdB2HxhsoxWe8s9OA+HxRllywtMDkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=JOr2yzBe; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=JTVYffu7bObqCnm7BryRbyhmBYXN9UAwW1f5OWePOno=; b=kwlhKM
-	AN3DbBvDjh703OIGKen6f2vvMi0WWJR+pV3xIf5N3tjLc9GN9hrflnww6AKhLtR3
-	tuhnlxFnb0DP2HEe/ikJMnYxuSCZNYnpEZiro5fm1+goDLf7Lqt8xypxv08XWBeD
-	b1XMWwe/3ktGrHppyVnBW+MI0ysPYkJ43l68koEe2dJkHfqzV0d/hO93Rtsa3AaW
-	GSWPE23CNwgiLT/F33nTB4oSTuuWRnr/PEJmFN+ZXjwfixpXwobiOi+RjVEDyGrL
-	voVKiW2CXx1KRcO7AmEzxkqOScfV9Gr/xipmdPj9nQB3PLk7mWknVJQ+j7QzVrA2
-	pKn7FyPtdx3tf85g==
-Received: (qmail 989755 invoked from network); 20 Dec 2024 12:30:20 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Dec 2024 12:30:20 +0100
-X-UD-Smtp-Session: l3s3148p1@NOjP+LEpDJ8ujnsY
+	 s=k1; bh=Xle8vB4tioG0noyMlph488LEaOgkNcMUcx711tLKtDQ=; b=JOr2yz
+	Bexm47v5wzeQCPJkhwFqqlSDLpwbGjsiluD1HliWQfq2s3ASnD3OrtYNFs9TYOfK
+	1AbIdgV7i7LYE1beaRVYp01FMENsAoub5s3Ra5NY5uvqSt1cGKxAougsbP3imU4W
+	7SIvCceCuOixvH/Iq8i3rnzoe3gMdHdQI6ScogMnh29/7pQ4aPvtOab/LtnrT7eN
+	6i1p5ZoZGgbNoGNSg3xEOy2OXsfr1V+/jHjgcc7QVXOvDO6RREIphnOaljWOA+SI
+	eheErQwvQ2M853ESFoJcU72+OuJnMsTJw0tz1IIpS4RXoPiAt2nkIyfxUl9SXeC+
+	FxtEtIqFhfIwUNLA==
+Received: (qmail 989787 invoked from network); 20 Dec 2024 12:30:21 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Dec 2024 12:30:21 +0100
+X-UD-Smtp-Session: l3s3148p1@cA/Z+LEpEJ8ujnsY
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Yury Norov <yury.norov@gmail.com>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	linux-i3c@lists.infradead.org
-Subject: [PATCH RFT 3/5] i3c: dw: use get_parity8 helper instead of open coding it
-Date: Fri, 20 Dec 2024 12:29:57 +0100
-Message-Id: <20241220113000.17537-4-wsa+renesas@sang-engineering.com>
+Subject: [PATCH RFT 4/5] i3c: mipi-i3c-hci: use get_parity8 helper instead of open coding it
+Date: Fri, 20 Dec 2024 12:29:58 +0100
+Message-Id: <20241220113000.17537-5-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241220113000.17537-1-wsa+renesas@sang-engineering.com>
 References: <20241220113000.17537-1-wsa+renesas@sang-engineering.com>
@@ -69,49 +69,38 @@ understand semantics. Make use of it.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/i3c/master/dw-i3c-master.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ drivers/i3c/master/mipi-i3c-hci/dat_v1.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/drivers/i3c/master/dw-i3c-master.c b/drivers/i3c/master/dw-i3c-master.c
-index d4b80eb8cecd..a6d7fade5007 100644
---- a/drivers/i3c/master/dw-i3c-master.c
-+++ b/drivers/i3c/master/dw-i3c-master.c
-@@ -251,14 +251,6 @@ struct dw_i3c_i2c_dev_data {
- 	struct i3c_generic_ibi_pool *ibi_pool;
- };
+diff --git a/drivers/i3c/master/mipi-i3c-hci/dat_v1.c b/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
+index 47b9b4d4ed3f..ac67016932b0 100644
+--- a/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
++++ b/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
+@@ -40,15 +40,6 @@
+ #define dat_w0_write(i, v)	writel(v, hci->DAT_regs + (i) * 8)
+ #define dat_w1_write(i, v)	writel(v, hci->DAT_regs + (i) * 8 + 4)
  
--static u8 even_parity(u8 p)
+-static inline bool dynaddr_parity(unsigned int addr)
 -{
--	p ^= p >> 4;
--	p &= 0xf;
--
--	return (0x9669 >> p) & 1;
+-	addr |= 1 << 7;
+-	addr += addr >> 4;
+-	addr += addr >> 2;
+-	addr += addr >> 1;
+-	return (addr & 1);
 -}
 -
- static bool dw_i3c_master_supports_ccc_cmd(struct i3c_master_controller *m,
- 					   const struct i3c_ccc_cmd *cmd)
+ static int hci_dat_v1_init(struct i3c_hci *hci)
  {
-@@ -848,7 +840,7 @@ static int dw_i3c_master_daa(struct i3c_master_controller *m)
- 	struct dw_i3c_xfer *xfer;
- 	struct dw_i3c_cmd *cmd;
- 	u32 olddevs, newdevs;
--	u8 p, last_addr = 0;
-+	u8 last_addr = 0;
- 	int ret, pos;
+ 	unsigned int dat_idx;
+@@ -123,7 +114,7 @@ static void hci_dat_v1_set_dynamic_addr(struct i3c_hci *hci,
+ 	dat_w0 = dat_w0_read(dat_idx);
+ 	dat_w0 &= ~(DAT_0_DYNAMIC_ADDRESS | DAT_0_DYNADDR_PARITY);
+ 	dat_w0 |= FIELD_PREP(DAT_0_DYNAMIC_ADDRESS, address) |
+-		  (dynaddr_parity(address) ? DAT_0_DYNADDR_PARITY : 0);
++		  (get_parity8(address) ? 0 : DAT_0_DYNADDR_PARITY);
+ 	dat_w0_write(dat_idx, dat_w0);
+ }
  
- 	ret = pm_runtime_resume_and_get(master->dev);
-@@ -873,9 +865,9 @@ static int dw_i3c_master_daa(struct i3c_master_controller *m)
- 		}
- 
- 		master->devs[pos].addr = ret;
--		p = even_parity(ret);
- 		last_addr = ret;
--		ret |= (p << 7);
-+
-+		ret |= get_parity8(ret) ? 0 : BIT(7);
- 
- 		writel(DEV_ADDR_TABLE_DYNAMIC_ADDR(ret),
- 		       master->regs +
 -- 
 2.39.2
 
