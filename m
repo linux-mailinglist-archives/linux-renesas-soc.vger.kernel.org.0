@@ -1,237 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-11675-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11676-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8D99F9FF0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Dec 2024 10:55:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4079FA3BA
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Dec 2024 05:13:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 41161167846
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Dec 2024 09:54:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 421E47A0491
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Dec 2024 04:13:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A53751F0E2D;
-	Sat, 21 Dec 2024 09:54:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CB6517548;
+	Sun, 22 Dec 2024 04:13:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="dsvOAYGb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ll6vGIFQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DCD1EE7D5
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 21 Dec 2024 09:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECB41426C;
+	Sun, 22 Dec 2024 04:13:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734774896; cv=none; b=AZ4V704CwmyTNnskgAG4hyI2NNhloAGxFwVBRL25wvAaTDVzQbdhYGJMSGGjQIaevuayfkZrYTUamqPeRjq3R8zPXCQdtR3yqujSIRNrWW2iTUZsLBM2zhaX4tX/syoFwhPG9T1WoZLP9ZLVyOrGmOHyNLEWVlC4DLchk1Asxmg=
+	t=1734840802; cv=none; b=rPuAslSMNuHAFtTNTUIo4MluYQey6D++XYAQNHo4Q++MazEXT+padpHL/vC2Ju4OZRPOiM3E2/iBKGy4ntdUWWYKpsUNRljAjcbuh/pUlum0T9feXlvT9WdscM/STAn6QClvg1RAG+Ns0UjRLuoG5y/futaar8wdoB+VmNfaZFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734774896; c=relaxed/simple;
-	bh=21yFNzwfr0UlLcKGuuUepm3ZtReVGYrYIeKxCX+f3bs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DDrDQdYhLp9UpBmB3elH8H5zd2cKfpgJUWseFd+Th61pwW3Lj/DNC5RLOwXluuAekzKUxvdXQmJogmW6zVQt6RXxwyPs87fuS1RqocB/2Us+Bwb4NYRsY79rh9Nk8dDgybUU0xltG8+W6jQT1wu4Ku45e1DWiY6FD7irbtTAUno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=dsvOAYGb; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43622267b2eso27558305e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 21 Dec 2024 01:54:54 -0800 (PST)
+	s=arc-20240116; t=1734840802; c=relaxed/simple;
+	bh=zd/nqd9g0QIs2BXAGtvonFWGrkUZBdX3isKRYOQbI98=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=mPDQL5dhogNzQcRipEey362E4UA/DX+yj03vrs+mHV24a286ifxr6yHLCLFDEOtqCGBrmSe7sMUxNH/C4rofHICfpBpqoX6RgVtdX4WL2/dwswzAB0hHfcShrbE3RT026bKM68tN4gIvziholQG9HuaO25I8dOGXEOmjts/PuOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ll6vGIFQ; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5188311e61cso1050669e0c.2;
+        Sat, 21 Dec 2024 20:13:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1734774893; x=1735379693; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cwAZFmUQt4eB0rDP0wgTLdFM56hhqo5cdun9nc3XWhI=;
-        b=dsvOAYGbBPA3Eext4/AfcijmAjAxFI7Kyik0hZa0kIqinm8lslPnVsaWhYeR48j1vC
-         9W+h/wXbuBDtycvZGFPCDTl5ln1ch+mGeev205g9H1s5T+iRK1cU/RVwQe20FsD6WGWq
-         OEUwBpwll+dB4xRhShtiP5pOLuaZQ5sMy6XazFdVaGdilM0011Q0I12DDuu0ZZG8tO9F
-         ywf1vdq5FHMZgT7tXMy1PZjp9GR4tJjqjgTOoggKHqLHxEA8HLg9vrmZwg/jSW6ip1Jf
-         wg/mCnbFHj5iQNJnJW57Nx5wujIEYcKgOADc+/zWYyZUuNxB85EDzjeQVFBwtSqo+TIb
-         KPkA==
+        d=gmail.com; s=20230601; t=1734840799; x=1735445599; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zd/nqd9g0QIs2BXAGtvonFWGrkUZBdX3isKRYOQbI98=;
+        b=Ll6vGIFQv87m0UldDhwhB+jt3VsEPZyriUmtLQEakmMRJBhO3crzRp0czBCF78OrSM
+         mnhnXHrvvSyMqliCQOi28DKfEqyKD5Vyn+xNXjIbpqErWWnQ2vnTgmak2Oh2hn9uR5Yt
+         sAOXscH48Wgj+VHDSgNGS+QqJCZzXh8FI/77Vw9o97UKoLXmTmOseWwDlnRtxmi1WMjt
+         I143BQzjPDEradbVNEBPrn8AwHmt3A45SMFLSgq864PtAGyGyJcGetQ6rMsciMAJgGtp
+         3Qa7lNF+uZDQAGEwW5nUxcujMpyMZih0ktmclqIqyL8po7KohvcfgszY21b69H6V5nOD
+         JVuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734774893; x=1735379693;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cwAZFmUQt4eB0rDP0wgTLdFM56hhqo5cdun9nc3XWhI=;
-        b=ZcVp6pwPnWoh3MI5rCrzFywJQOV9m0B+Z5t1s0Fymilbg/Na56h1w47olyxrBohr3W
-         6rE0lhddqGnLRG/ImQUb9X3O1PX5n4Mtkq8xdSS7dkcwPPdB8jh0BHeJUnZL0f/r63i+
-         qFiCeuursKDuyFWjqY1+PJZWXXG8o6bFtuCsoZaOUl2mxXVfbzdr/TRvf5USBE+BSicV
-         G+fgRMpbRt1P8U6sAmzRsSRnR9rA/4ycIQyoZQBG8IhUZVKWNVp4AYnmAos4ESUcUwKR
-         G6lOh0jCrJLabJf7sIhMaE50CgrnVxvO0pCPKX5WgaJ7M7m7iM9DftChc6j5fxj434YC
-         ZBtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXRXuJmCnGYMVClpp5LdNe67Olg5Llbsjx3nlHkYDT4p0qmmxHwrE2KZK77GpBVoGkdAr/L1i2jQSS2MrELxbuLsg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4XY9zKsNbl0kKOexGGz9rfS9UGsO4Ef8q0IKW2dU3DBQZo93X
-	bLcCUdkuv/Z3QcVcgj32gEfcxg4NWyl99XFOlpWURR2TYfbuFjNR0r2l/K1O9Dg=
-X-Gm-Gg: ASbGncuu6sJkwQrIFUXP0+r8yP7FG7N9dVbLPgn5Fa9YuKOZgv9zhP2tS9ywyidtBJf
-	UcBTl0RZurUcnxvhq0MbOTF0HybWqH8YI2rMHKlL5kodu49lTRlbbdvKnsaEJu9i+UZPdKwr5V4
-	wTY4nX91G1X821d586gZvKeb0cwNyNuNgp8nufDJ5SpQdwawBlaqYlCuKVhvt3/18qrsCHA0/vx
-	VAgeWGpWHbfTA2LKqd5dAEnd/jQetoKpTUSJMIu2ReRhqVJplkNeccGX2pz3IypNQ==
-X-Google-Smtp-Source: AGHT+IHcKoHkfYzPKUW32sn+bxr45pcsRO8/E29M/H30qFi/thG67nRERccO7sSQQ0/VwWFJDwPcFQ==
-X-Received: by 2002:a05:600c:1c12:b0:431:58cd:b259 with SMTP id 5b1f17b1804b1-4366d356dfcmr48118195e9.31.1734774893024;
-        Sat, 21 Dec 2024 01:54:53 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.102])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4366128a44fsm70694785e9.43.2024.12.21.01.54.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Dec 2024 01:54:52 -0800 (PST)
-Message-ID: <c2b64230-f038-4da7-bc07-235072535ae1@tuxon.dev>
-Date: Sat, 21 Dec 2024 11:54:51 +0200
+        d=1e100.net; s=20230601; t=1734840799; x=1735445599;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zd/nqd9g0QIs2BXAGtvonFWGrkUZBdX3isKRYOQbI98=;
+        b=Die2G7Be2Os9tR2pSaDFq/l6l3cNFiPwgWY5QetArTpyj3W/EdXIiYzUX01yev6OZA
+         GI7+o+V9KwNZL1JnhH5bJtx/9ky00NG02hKbCukYGhDN5FkZrRTnTxMU+/b7bH82Dn8T
+         2jPSeKNhr91IaH6euYpb4xioGeuVotX2lFCh1hNtTchjtcyTfMj6o+v363eZqoJMmUXH
+         i0+YoztE1qgby1/43QuRSUFY4KvDWZh/bjNMMc3RQXCrOtbADG6NPYT5ROmk3hcpXUby
+         VF4JthyXAzoQtmPiYFkWpNbpMP/u4v3vz8KykvGXWQkBWS3DHTwwmlyPPPK4p3NpYj9e
+         BbRg==
+X-Forwarded-Encrypted: i=1; AJvYcCU623uVYkg8qXIesgBs7MDqcGb9lXv3E53s6L7uOAKn8CALWyzuWbCsOvtRUXNvxfOQ58tSSta/nhgPNgwv@vger.kernel.org, AJvYcCUQdl57gYWt7FdBcJWqIrBnksk5oYXfQowthTcveCafgug6KgOMv21wJG1EkFGS1ltzZ4eXwBbhm12beLyDB9eC0jM=@vger.kernel.org, AJvYcCUnn1L/z5F7dZo8qWCoWSNtyBeeIs58pgDiXB7faH6Hb/xdwwLYYwr9dR2FMiFwXp+xi4OU3mVs7nI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOKhi9qMI8uptTbRcK5LaJkHBjCNbDib7oCxzI0y+GtGysYpdt
+	KwlIIizNskxxZ6KKuhofF/TR1I0+mnS4zbdzg5AfMESMfRcKU7kNobWIg5hr49notxFnU/GiGrd
+	ezPcRrHXXTSxQc88q+otV7fCnxrQ=
+X-Gm-Gg: ASbGncsBObKsXHuIfWwZTl5wcFlugd63o1n7d812MjLpKuqTA+txZY2m84PMwaSkbwB
+	wcwi69cV5qvk0APHNTKR0W9vv21Ug7wlDAGWNTNvjoZRaOjdOdIfL8mWK4Rxo1s/SeFcQRUFh
+X-Google-Smtp-Source: AGHT+IEevcd843/DitBlrlbWRQHU0qzxTcU+2lZlwycjV73Dlfa/L6QMwqwpOLnZ35Z5lLuT2+HA7qj8Tnc9uXEuNTs=
+X-Received: by 2002:a05:6122:8c0c:b0:518:9582:db90 with SMTP id
+ 71dfb90a1353d-51b75d6fb20mr7486815e0c.11.1734840799485; Sat, 21 Dec 2024
+ 20:13:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT 0/6] serial: sh-sci: Fixes for earlycon and
- keep_bootcon
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- gregkh@linuxfoundation.org, jirislaby@kernel.org,
- prabhakar.mahadev-lad.rj@bp.renesas.com, lethal@linux-sh.org,
- g.liakhovetski@gmx.de, groeck@chromium.org, mka@chromium.org,
- ulrich.hecht+renesas@gmail.com, ysato@users.sourceforge.jp,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20241204155806.3781200-1-claudiu.beznea.uj@bp.renesas.com>
- <Z1DLyQdzUzJzRUJJ@shikoro> <b6c7b4d3-021c-4a4b-9e91-316603b348c1@tuxon.dev>
- <CAMuHMdWx97OnPWnQn78oL+vVuQXmeaJP-byc_4ZwBMZhMOorxw@mail.gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <CAMuHMdWx97OnPWnQn78oL+vVuQXmeaJP-byc_4ZwBMZhMOorxw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20241218001618.488946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241218001618.488946-10-prabhakar.mahadev-lad.rj@bp.renesas.com> <Z2XewglpALJFE1Ay@ninjato>
+In-Reply-To: <Z2XewglpALJFE1Ay@ninjato>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Sun, 22 Dec 2024 04:12:53 +0000
+Message-ID: <CA+V-a8vB1c8Zp+zzoHp0zFpW8fjw-xq2=KPr=dyBUUZbOhBxJQ@mail.gmail.com>
+Subject: Re: [PATCH v2 9/9] i2c: riic: Implement bus recovery
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Prabhakar <prabhakar.csengg@gmail.com>, Chris Brandt <chris.brandt@renesas.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Wolfram Sang <wsa@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi, Geert,
+Hi Wolfram,
 
-On 19.12.2024 17:11, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Thu, Dec 5, 2024 at 9:39 AM Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
->> On 04.12.2024 23:38, Wolfram Sang wrote:
->>>> in the following scenarios:
->>>>
->>>> 1/ "earlycon keep_bootcon" were present in bootargs
->>>> 2/ only "earlycon" was present in bootargs
->>>> 3/ none of the "earlycon" or "earlycon keep_bootcon" were present in
->>>>    bootargs
->>> ...
->>>> Please give it a try on your devices as well.
->>>
->>> Will happily do so. Is there something to look for? Except for "it
->>> works"?
->>
->> As this code touches the earlycon functionality, of interest are the 3
->> cases highlighted above:
->>
->> 1/ "earlycon keep_bootcon" are both present in bootargs
->> 2/ only "earlycon" is present in bootargs
->> 3/ none of the "earlycon" or "earlycon keep_bootcon" are present in
->>    bootargs
->>
->> One other thing, that I was currently able to test only on RZ/G3S, is to
->> see how it behaves when the debug serial is described in DT with an alias
->> other than zero. E.g., on [1] the debug serial alias on RZ/G3S was changed
->> from 0 to 3. With the new alias (3) there were issues that I've tried to
->> fix with this series.
-> 
-> I gave this a try on Koelsch, which has two easily-accessible usb-serial
-> ports, for all three cases above.  Originally, I had CONFIG_VT_CONSOLE=y
-> (tty0 takes over from earlycon rather early), but I had to disable
-> that to exercise all code paths (ttySC0 takes over much later).
-> 
->   A. CONFIG_VT_CONSOLE=y: OK
->   B. CONFIG_VT_CONSOLE=y earlycon: OK
->        early_console_setup: mapbase 0x00000000e6e60000
->        earlycon: scif0 at MMIO 0x00000000e6e60000 (options '115200n8')
->        printk: legacy bootconsole [scif0] enabled
->        printk: legacy console [tty0] enabled
->        printk: legacy bootconsole [scif0] disabled
->        early_console_exit: Clearing sci_ports[0]
->   C. CONFIG_VT_CONSOLE=n earlycon: OK
->        early_console_setup: mapbase 0x00000000e6e60000
->        earlycon: scif0 at MMIO 0x00000000e6e60000 (options '115200n8')
->        printk: legacy bootconsole [scif0] enabled
->        printk: legacy console [ttySC0] enabled
->        printk: legacy bootconsole [scif0] disabled
->        early_console_exit: Not clearing sci_ports[0]
->   D. CONFIG_VT_CONSOLE=y earlycon keep_bootcon: OK
->        early_console_setup: mapbase 0x00000000e6e60000
->        earlycon: scif0 at MMIO 0x00000000e6e60000 (options '115200n8')
->        printk: legacy bootconsole [scif0] enabled
->        printk: legacy console [tty0] enabled
-> 
-> So all good, but note that these cases worked fine without your
-> series, too.
-> 
-> The real troublesome cases involve using earlycon on a different
-> serial port than serial0.  As I don't have any Renesas boards where
-> chosen/stdout-path does not use serial0, I tried exchanging the serial0
-> and serial1 DT aliases, and updating chosen/stdout-path accordingly.
-> 
->   E. CONFIG_VT_CONSOLE=y: OK
->   F. CONFIG_VT_CONSOLE=y earlycon: OK
->        early_console_setup: mapbase 0x00000000e6e60000
->        earlycon: scif0 at MMIO 0x00000000e6e60000 (options '115200n8')
->        printk: legacy bootconsole [scif0] enabled
->        printk: legacy console [tty0] enabled
->        printk: legacy bootconsole [scif0] disabled
->        early_console_exit: Clearing sci_ports[0]
->   G. CONFIG_VT_CONSOLE=y earlycon keep_bootcon: SCIF1 missing
->        early_console_setup: mapbase 0x00000000e6e60000
->        earlycon: scif0 at MMIO 0x00000000e6e60000 (options '115200n8')
->        printk: legacy bootconsole [scif0] enabled
->        printk: legacy console [tty0] enabled
->        sh-sci e6e68000.serial: error -EBUSY: sci_port[0] is used by earlycon!
->   H. CONFIG_VT_CONSOLE=n earlycon: SCIF1 missing
->        early_console_setup: mapbase 0x00000000e6e60000
->        earlycon: scif0 at MMIO 0x00000000e6e60000 (options '115200n8')
->        printk: legacy bootconsole [scif0] enabled
->        printk: legacy console [ttySC1] enabled
->        printk: legacy bootconsole [scif0] disabled
->        early_console_exit: Not clearing sci_ports[0]
->        sh-sci e6e68000.serial: error -EBUSY: sci_port[0] is used by earlycon!
-> 
-> Case G gives a missing SCIF1, because sci_port[0] is still
-> used for earlycon, as expected.
-> Case H also gives a missing SCIF1, but should succeed IMHO, as earlycon
-> is no longer active.  I think early_console_exit() should clear the
-> earlycon flag regardless.
+On Fri, Dec 20, 2024 at 9:16=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> On Wed, Dec 18, 2024 at 12:16:18AM +0000, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Implement bus recovery by reinitializing the hardware to reset the bus
+> > state and generating 9 clock cycles (and a stop condition) to release
+> > the SDA line.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> I need to ask a high level question first: why don't you use the general
+> scl_recovery algorithm? We have stuff like get/set_scl/sda as well as
+> (un)prepare_recovery. Won't that do?
+>
+On the RZ/G2L and RZ/G3S there is a restriction for forcing the SDA/SCL sta=
+tes:
 
-I'll double check it.
+=E2=97=8F Write:
+0: Changes the RIICnSCL/RIICnSDA pin output to a low level.
+1: Changes the RIICnSCL/RIICnSDA pin in a high-impedance state.
+(High level output is achieved through an external pull-up resistor.)
 
-> 
-> Note that before your series, cases E-F worked too, but cases G-H gave
-> an initialized but broken SCIF1 instead.
-> 
-> Now, can we improve?
->   - Can we use a proper id instead of zero for earlycon, e.g.
->     sci_probe_earlyprintk() does fill in early_serial_console.index?
+So using the generic algorithm may be platform dependent as it would
+only work on platforms which have external pull-up resistor on SDA/SCL
+pins. So to overcome this and make recovery possible on the platforms
+I choose the RIIC feature to output clock cycles as required.
 
-I looked into that but, as of my investigation, index zero is the one used
-in the earlyprintk initialization process. sci_probe_earlyprintk() is
-called from sci_probe(). I'll double checked it though, anyway.
-
-
->   - Alternatively, can we use a separate sci_port structure instead
->     of abusing sci_ports[0]?
-
-I explored this too, but didn't manage to make it work.
-
-Thank you for running all these tests,
-Claudiu
-
-> 
-> Thanks!
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
+Cheers,
+Prabhakar
 
