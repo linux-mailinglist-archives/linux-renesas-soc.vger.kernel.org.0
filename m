@@ -1,182 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-11687-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB1C9FA9FC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Dec 2024 06:22:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B30B9FAA7F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Dec 2024 07:36:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5DFC7A1CA1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Dec 2024 05:22:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C82EE1885F63
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Dec 2024 06:36:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 262E1481DD;
-	Mon, 23 Dec 2024 05:22:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AE8D155398;
+	Mon, 23 Dec 2024 06:35:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PqSFEtfA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X9SmRqz6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99E317BCA;
-	Mon, 23 Dec 2024 05:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8CF18C002;
+	Mon, 23 Dec 2024 06:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734931351; cv=none; b=TG1PCJ7i15Yds6reIwOz23F/8YlMuJdGWhvwWZljKH03XlzvABjK3zbnBZKVPv1e0S86kfinUzcHtykXDU7qMwnyMG4NdsmsBSZl5orohcKWg6f8QNZw0w6KGbfl/QBFvkeGuk5IZME+mMhRV5PBJg8a7O8jqjkXt7xmfv34/K8=
+	t=1734935757; cv=none; b=RZNeODO/uu32EwdxMssejeLt+d0wRos51vI8HPoFWkjGv+l4ePY5AJdvborkHLzIPyIOryC18T7STAwtGEHlXJ1RWjxGm0JJp5TBsVoiZL76TbSgW7bTb6g2Wty7zmra1C/2vaDw7Islk1NI78P3qBCr+PhyZye3Uw0gaG03lTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734931351; c=relaxed/simple;
-	bh=SGhJXo8FuNqkQPr7MQD/4agu0L58VtnwoZEgjns1OO4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=chQrtY43T/c75hlMh0DaGvli8O+C8ubvXI9YHCeR3WnuhL8iEGTEY753CoaekUifInkJW2ML9tPYFR6cF1W+siCS0Kcly9eF+sY05kjLpKDfiUbjJYLRBssY0I/65zvx37JU2Xj4bSWYkFL5c2SuajJzdJBYIJbxjxRg0t9B+fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PqSFEtfA; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734931349; x=1766467349;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SGhJXo8FuNqkQPr7MQD/4agu0L58VtnwoZEgjns1OO4=;
-  b=PqSFEtfAR4Guw4C7xfUG4PNhVKSL/uywlbIIpXORwmTF7ifJ4AXP08ee
-   EjmIaQurkmBmoLpqoEhcBQS6bgG4uhoXnZHT9M+VwMJ7CvsiZ8yWoMsrJ
-   cBpVmEqpSxaB17VF8d7rsLb0vpb2SjEV192rauW47LWoyWCXBgG8Llk4v
-   AryEwbG8im/zRBAPSXQAtUZoGXEXDepZXphTO9zNy5z3Qe2G0xxPR3L8D
-   D9Hy7GbJx8rWmvCb7ZFe6hPEN0JOiAXKh4g7LfQoSx+2iQO1MgnzoM2E5
-   /uj/CXC8FwQo2+L2UXQPMGgc+uJu+fBv2ztk3Oty4wxAxqy97Dh00sblA
-   g==;
-X-CSE-ConnectionGUID: I20vjLu1QsGICHtDFAt2vA==
-X-CSE-MsgGUID: 6iF/4aWDR8+XAZocQR9loA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="35515768"
-X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="35515768"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 21:22:27 -0800
-X-CSE-ConnectionGUID: MuzGL1UkSyCMd0Pu9zukpw==
-X-CSE-MsgGUID: KAbYWSQDToaDsizxuzIiFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="99633100"
-Received: from mev-dev.igk.intel.com ([10.237.112.144])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 21:22:24 -0800
-Date: Mon, 23 Dec 2024 06:19:16 +0100
-From: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
-To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Michael Dege <michael.dege@renesas.com>,
-	Christian Mardmoeller <christian.mardmoeller@renesas.com>,
-	Dennis Ostermann <dennis.ostermann@renesas.com>
-Subject: Re: [PATCH net-next 1/2] net: renesas: rswitch: use per-port irq
- handlers
-Message-ID: <Z2jy1EglD4j/ENvM@mev-dev.igk.intel.com>
-References: <20241220041659.2985492-1-nikita.yoush@cogentembedded.com>
- <20241220041659.2985492-2-nikita.yoush@cogentembedded.com>
- <Z2Up3mE5ED6uYVGP@mev-dev.igk.intel.com>
- <0e95c4dc-e155-4860-b918-13e47bf9b9c6@cogentembedded.com>
+	s=arc-20240116; t=1734935757; c=relaxed/simple;
+	bh=TY4H742bHom40kaEg/lqgfy5Dz45WYUVuUAY4LzvzlQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=l01U0ZAoTILiiZUZI6bGDO3PeMedyS2RLBWVQt8Z3WrxTRWDLntFy/D6/XEzG9UVhAZ5rX+GaWVm0vqCjpiJzCQpGWHYpNB8xQrPm4m05gjsCtNWa2EKHl/1dFRQreJr1q07SaTxLPWpELJT0y3Rt/Tuf3YkzNBHbIigEsDrbNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X9SmRqz6; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-51889930cb1so1086422e0c.0;
+        Sun, 22 Dec 2024 22:35:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734935755; x=1735540555; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TY4H742bHom40kaEg/lqgfy5Dz45WYUVuUAY4LzvzlQ=;
+        b=X9SmRqz6XoRBdMwwM9U2/gvCVeyENI/NTqvYJqmUkXzrIG90CkQTGG6NLzmPSolGEn
+         Zcw+Edr/48IW77fLDpbl4nxATPtSJYoJW6BmTjAb4vn+wFcfWhRvOiSheIHkt/eIgCXV
+         zazco8aknmtDj0IFA+sGfovN41MCzgJso5pEMwI+oRciQOK0xaAT/xSzCRTdgHalwKU0
+         QuOEAyka8XpqsTK1WTAAXnIQmKpHIc3PsgJHnvxQNYRvZjaCoCZqPoIKGQ4oV2Xd1eRa
+         3R587rXuia8KfOfotMDaliTUSAr2teVkjq1yYA8WDa9QCge9ugso23gufr2ZiH8R5dL7
+         IdPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734935755; x=1735540555;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TY4H742bHom40kaEg/lqgfy5Dz45WYUVuUAY4LzvzlQ=;
+        b=fEyb1Yq+dqA9lOd/zKxge560MmMPY/H95tXDHCn/k1feUwFVMOsHBq+uBOR18rqTY5
+         XWxyKpA8RZwTeSXj39bW8kD4M5vZvDwL4lyLoRD+AFpFMUkBVQX7iiHf0nvCRJSl2yfx
+         zxyzYXCFK22xEWWf0hvIaQU58rcXUol9CFcgFuaRGmqQD1eqY6Ne4ni++6RW2mD3jeHu
+         cxAGhzZnKiGHbQ5uvnEobp+C3UKv/M0ONpws9bbyR0JwUl3QuNBk/Uhw6I9ipE4Vmz2A
+         JIfC5KCRU0URYRqkJOfQbnjlajx9xz8sOtQgAJljmjAgApGYMTx0RmJQxirLFxBmkw0J
+         0gbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV0S2sQTvNeZCPNiQAgZr7mBUXYQhWk7R5d9X8T9NP+EU8WiLCKtq5yR1pcxomvm06xmCKM8ykTqkSPsLO/@vger.kernel.org, AJvYcCXplINmsNUHSSmdr7a9OX5UQDxHApL4IyZeKedC4i4pOI19jweXV5fqOoB0pFSBFG504SK/v4+SXgw=@vger.kernel.org, AJvYcCXvrTobtb692bHZOGS+EUkDw6y9ehNEP+XX7pOeJAwMLDG0++4FmVqMtiqg5rWOMbA20Jtj46xRgN1dKhwuDWZyc0g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLNk8Jh0FDIJVjYXui4tanln9PCgnmCDvzmOtVtG2XbGccCqtl
+	F9bZlcN67IPKm/GaoYDrgG8fAI91o2QeTNQRAeTlFPYJc9VRAd/0gKS3g1S38sSIPPMI8cSt+5D
+	X5f6EEmIHBbrhZvzR8/FoUWxeInk=
+X-Gm-Gg: ASbGncsUO+f/r5NLlj4jLBTgNfzyE6k8ybfBioW+S1Kn6RU5Nk7O0jowD1y0ZI30lV8
+	Mhl1Mmm4fEGcC6GbwgKjDsgjC6U0L3UX0bgYhza+lZtPRLiPFCEpjcrEC1jiHROnGNRBkC181
+X-Google-Smtp-Source: AGHT+IHCCnQTCbMkG4Jn8B0kwRyw0CoibHYkuaUTNwHaiV7c1xG6JN7z8aynXlJ8/wgt+tfoy2gCupV4PjhDwrU9GL0=
+X-Received: by 2002:a05:6122:4302:b0:515:c769:9d32 with SMTP id
+ 71dfb90a1353d-51b75c6f529mr9140807e0c.4.1734935754862; Sun, 22 Dec 2024
+ 22:35:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0e95c4dc-e155-4860-b918-13e47bf9b9c6@cogentembedded.com>
+References: <20241218001618.488946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241218001618.488946-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Z2XewglpALJFE1Ay@ninjato> <CA+V-a8vB1c8Zp+zzoHp0zFpW8fjw-xq2=KPr=dyBUUZbOhBxJQ@mail.gmail.com>
+ <Z2gJtlb5Sc9esEba@ninjato>
+In-Reply-To: <Z2gJtlb5Sc9esEba@ninjato>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 23 Dec 2024 06:35:28 +0000
+Message-ID: <CA+V-a8s+tY6dnVHFhjyOZ43L+roLfqPr-_28FS1KyADwyTH2+w@mail.gmail.com>
+Subject: Re: [PATCH v2 9/9] i2c: riic: Implement bus recovery
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>, Chris Brandt <chris.brandt@renesas.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Wolfram Sang <wsa@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 20, 2024 at 02:11:26PM +0500, Nikita Yushchenko wrote:
-> > > +	ret = request_irq(rdev->irq, rswitch_gwca_data_irq, IRQF_SHARED,
-> > It wasn't shared previously, maybe some notes in commit message about
-> > that.
-> 
-> It can be shared between several ports.
-> 
-> I will try to rephrase the commit message to make this stated explicitly.
-> 
-> > > +	err = of_property_read_u32(rdev->np_port, "irq-index", &irq_index);
-> > > +	if (err == 0) {
-> > Usually if (!err) is used.
-> 
-> Ok, will fix it.
-> 
-> > 
-> > > +		if (irq_index < GWCA_NUM_IRQS)
-> > > +			rdev->irq_index = irq_index;
-> > > +		else
-> > > +			dev_warn(&rdev->priv->pdev->dev,
-> > > +				 "%pOF: irq-index out of range\n",
-> > > +				 rdev->np_port);
-> > Why not return here? It is a little counter intuitive, maybe:
-> > if (err) {
-> > 	dev_warn();
-> > 	return -ERR;
-> > }
-> 
-> It is meant to be optional, not having it defined shall not be an error
-> 
-> > if (irq_index < NUM_IRQS) {
-> > 	dev_warn();
-> > 	return -ERR;
-> > }
-> 
-> Ok - although if erroring out, I think it shall be dev_err.
-> 
-> > > +	}
-> > > +
-> > > +	name = kasprintf(GFP_KERNEL, GWCA_IRQ_RESOURCE_NAME, rdev->irq_index);
-> > 
-> > In case with not returning you are using invalid rdev_irq_index here
-> > (probably 0, so may it be fine, I am only wondering).
-> 
-> Yes, the field is zero-initialized and that zero is a sane default.
-> 
-> > 
-> > > +	if (!name)
-> > > +		return -ENOMEM;
-> > > +	err = platform_get_irq_byname(rdev->priv->pdev, name);
-> > > +	kfree(name);
-> > > +	if (err < 0)
-> > > +		return err;
-> > > +	rdev->irq = err;
-> > 
-> > If you will be changing sth here consider:
-> > rdev->irq = platform()
-> > if (rdev->irq < 0)
-> > 	return rdev->irq;
-> 
-> Ok
-> 
-> > > +	err = rswitch_port_get_irq(rdev);
-> > > +	if (err < 0)
-> > You are returning 0 in case of success, the netdev code style is to
-> > check it like that: if (!err)
-> 
-> I tried to follow the style already existing in the driver.
-> Several checks just above and below are written this way.
-> Shall I add this one check written differently?
-> 
+Hi Wolfram,
 
-I am fine with following exsisting style.
+On Sun, Dec 22, 2024 at 12:44=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+>
+> > On the RZ/G2L and RZ/G3S there is a restriction for forcing the SDA/SCL=
+ states:
+> >
+> > =E2=97=8F Write:
+> > 0: Changes the RIICnSCL/RIICnSDA pin output to a low level.
+> > 1: Changes the RIICnSCL/RIICnSDA pin in a high-impedance state.
+> > (High level output is achieved through an external pull-up resistor.)
+> >
+> > So using the generic algorithm may be platform dependent as it would
+> > only work on platforms which have external pull-up resistor on SDA/SCL
+> > pins. So to overcome this and make recovery possible on the platforms
+> > I choose the RIIC feature to output clock cycles as required.
+>
+> I would be super-surprised if this is really a restriction and not a
+> very precise documentation. In other words, I am quite sure that there
+> is no difference between the bit forcing SCL high (via high-impedance)
+> and the internal RIIC handling when it needs SCL high. Most I2C busses
+> are open-drain anyhow.
+>
+I had asked this previously to the HW engineers about the requirement
+(as this restriction is not mentioned in the RZ/V2H(P) SoC, Ive seen
+it for RZ/A series RZ/G2L family and RZ/G3S only) before the start of
+the I2C recovery work but haven't got a response yet. Ive pinged them
+again and I'll wait for their feedback.
 
-Thanks
-
-> > 
-> > > +		goto out_get_irq;
-> > If you will use the label name according to what does happen under label
-> > you will not have to add another one. Feel free to leave it as it is, as
-> > you have the same scheme across driver with is completle fine. You can
-> > check Przemek's answer according "came from" convention [1].
-> 
-> Again, following existing style here.
-> 
-> My personal opinion is that "came from" labels are more reliable against
-> future changes than other label styles. But if there is maintainer
-> requirement here then definitely I will follow.
-> 
-> Nikita
+Cheers,
+Prabhakar
 
