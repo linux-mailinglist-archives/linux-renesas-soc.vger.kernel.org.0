@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-11693-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11694-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37F09FB3A0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Dec 2024 18:38:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF379FB3A1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Dec 2024 18:38:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DEDB166596
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Dec 2024 17:38:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 436E718814DE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Dec 2024 17:38:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79B481C3C12;
-	Mon, 23 Dec 2024 17:37:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B18D51C4A17;
+	Mon, 23 Dec 2024 17:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SAlWugZP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YwEzdXrx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B02C1C3BFB;
-	Mon, 23 Dec 2024 17:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1551B87E8;
+	Mon, 23 Dec 2024 17:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734975456; cv=none; b=EifZ+OwX/j71nRZSXCfDnqcJ0eUCXd+ISLsFjKmvi8IsFwqMimySYWZGKciwNirtvVqafyqRwZvfZayD3thS50aB0VMNvRrM4tQuTllqawiM3ldAxca2FAWVPIqGdirGXT9QbjVlbhqeR+FCORkr23/wVDThn2WmbXoDaGCF0nE=
+	t=1734975459; cv=none; b=KEptaZ4gbjShNGGiiIhmg4PHCa8+ZE7loPUWOBqdAa1UHnOyF73bm3aPc0BZbNuuP2favZA/uhORcYz6FvgZ3pO7cqspGU2lnU6KE8fAq4Zg7aMhFmHmROMtHJS8vO/zQeT81axinOXVI+11AlzBjArya8/NlUGgz/QHh6CraVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734975456; c=relaxed/simple;
-	bh=q+q9QnAUjo8OBu5e0wr3TdrEVSJAV5DpU16F3V0AsrM=;
+	s=arc-20240116; t=1734975459; c=relaxed/simple;
+	bh=AmF6nAv0bXPa5I6Jh6MAICJccMsxI8ckHYpkjOExBPg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nPbpjUL9Hd//LO+FMpmfnoxSIS1YNOyCCmiROv105KTQECXbLG9iJBh62DL6kK7tTy0XWi7TJ1XkUuU/Nt9M8wAss3RJXKml7MmMkA9r6XKUNXHV18KjHEPl7UykyFxR/mfU+jHXTDHxzBkAfEUoxvNBZJmewtGASgXYS4AAfbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SAlWugZP; arc=none smtp.client-ip=209.85.215.175
+	 MIME-Version; b=LUhSGZNB4idvI5NWhinm2jXRwVJYWxFcMv12CFPM2zEbga73aUUwVCC498XQOjbpJOJc/veOZIQty9Tzd29oMU0g0kqWrWW1i7MlY47BhShmTcOQucmRAjjtvrgk0+jXgPMrlEuk9O1r8EIxQhtuyewbVeQbTMzp0C6xGyVrM80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YwEzdXrx; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7f4325168c8so1692979a12.1;
-        Mon, 23 Dec 2024 09:37:34 -0800 (PST)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2ef87d24c2dso3557753a91.1;
+        Mon, 23 Dec 2024 09:37:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734975454; x=1735580254; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1734975457; x=1735580257; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A6MNpPqCo6luCEKX0MGM1sgNvFmlx6jYhV1FzJSXOpY=;
-        b=SAlWugZPmnQXUIV6AJcjxo51VT4aYzBrz2qHxjrzJBiBM5QUwygkyMieYqenUQcWl0
-         gx2P80EN7K1n8z5KQD0LeS//emOlj/BERfPQr1Y3TQLMVtNde9ib5WAYHGoiRRJMrkl/
-         041F2tuIzFuXYMfP3r9C/iPQ96rUF1x4Q313sxD+sPdCGHyjfnhCdWeMXFmhyMuRAvOI
-         u4ERdVltmcjFXR9IG3RzOa4YcS6sg1iKPVNm77iiSr5WxkF49Zv8prjlG2TXuqp5woV7
-         ZQ/gi5IOFeasJ7LUaC0jh2hjwipJaMNHyZ1vi/TnoY8UXdxvIy6kzfnPbSFrmNHpSqUr
-         h2kg==
+        bh=K/7g/GW0hPzWY98vSGFDAmW28zseJlXcN6Ajahq5D7c=;
+        b=YwEzdXrx90G1fIZVDqkwbAK6llzPtRUw+6Jqi0RkWalACGoMwtoHniwAI3aUVRYlfv
+         guVqNkhRqrrfe07zST86G1Rvg4DoZ1oPegV0Zc/wCkXy7jcyAIuiRwaGf++Mo0rEtKSw
+         XpE4WGVl3aTuRCdOsY6wI3Km/hVuFnVgnEmYaxOFd63wCU3TNrLJjBjd/fcHiY2D/6Ga
+         jRICf5vSLuzJhYUWoIAa9S+LQ4An36SocZXshyEtA0IT1DjBEBIKCER7z0I8lnWOlW8P
+         gnSqndqJ9Ztp8KOmU+n/9drA049n1IHzPsZdxuLKDOOEOxbSHsZreMAAf60Mc2fmxk4B
+         pKAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734975454; x=1735580254;
+        d=1e100.net; s=20230601; t=1734975457; x=1735580257;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A6MNpPqCo6luCEKX0MGM1sgNvFmlx6jYhV1FzJSXOpY=;
-        b=EJ/1y7AIqL8gd7kNYc0gsCxKYGzsH2Up42vgNx0RA1rCnpOv/7i8XnRIoY1GS5C+ys
-         9nLbZT/lqIX8z35YKfDBzBS5pQPCszonhJxX4iqyLhihNRJjuDRa02vk8jA2lJPcRfLG
-         q4WZoW47TCmkNWHX1uBXIZlGLSzDxhVCKAYDXXWKQJjPX+q5o1EPYN9fjei1O7aqt9o+
-         bvZyWyQu3TSsChRiBir9UKinTUO//My9h8FdYoYFsI8l8hrdeX+Y/LvIxYHlondtUUlc
-         qZUXZxMJrc1J0NezxALUFtdsUgST/PZJl2yt86pEOEqB+eTWGu+AC9hZ+bAEfLBWeHqV
-         q0ng==
-X-Forwarded-Encrypted: i=1; AJvYcCU6semVIugsWaaLKhgeA+Ri2dyip8DWiaAdAChg2GQGFdS1EfK6jxxDme/ucYyYr19gZ0crfQkOdN+FCseE@vger.kernel.org, AJvYcCWaNInTpwSEhcdNBDRFFYA9kVziCfN+hZ6sN33FSVT8aFosUGs5RIIPuivD/bAMfhbNntIeRzPaWfA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMGH4dPVQydUVlB2pa/vxft6gHRsoc6338hsBAbc9WFjL/z+jm
-	vA87EziOm3y2Le4CotQgXbkMtixl/SifDYwLymfZ8lv9Gfa9W3Tq
-X-Gm-Gg: ASbGnctvoMS6TQnmxX4g/7FmoB3Ztv9V8jbgmChkun1s+pChghSEIDsf1Uh6q1QXdHX
-	u535cevp/XWbi8ZQASyEpzjRP1lKH4/ycVIrbHWkrsjGFzVN6DHwNK4LWyaawpSCxBVxlHI59Fr
-	b/khF+vElnpHKpwb0zmS/3aMkQkVP3VX84qpxaDNqJutQIlLfC0kmGPp7Ryf9OlYl6di8FO018d
-	TFD7amr0cXMe9jV11rPFjKEIBORgh9PuG4yy/uuckpFWb48GRmRa6woIN+x/0NEJzD1jHbrK3bN
-	Gc0rJDU=
-X-Google-Smtp-Source: AGHT+IFw5PT8NweztUstz6q4ozTBlBa7GVXXCpSGOzPg7e94ayQ85LOT/wMDNIAeKFe+6XP+d/ILNA==
-X-Received: by 2002:a17:90b:520e:b0:2ee:edae:780 with SMTP id 98e67ed59e1d1-2f452e2144dmr21981468a91.15.1734975453752;
-        Mon, 23 Dec 2024 09:37:33 -0800 (PST)
+        bh=K/7g/GW0hPzWY98vSGFDAmW28zseJlXcN6Ajahq5D7c=;
+        b=LK5dHMUCPUVNgpmSJoTHsxF7ldhkYQvIo41KhisbgSFDr010Yvrl36Jaf43TbDzgRh
+         TPecuEHJSi6V4KygS74S+pby6ogWxC14vqDoJDQ/LxbajXifCAldmO3wRcec9jngRAqb
+         /mjVuSE4jg8uihaLpu8yhM92sOxUM4CeT0SOhF8hlS6Q1+KzW6MwTEHybLVGw/nzN5iy
+         ekkpfT4oGCCjV7ovPHUTW1az2cQDTtbb6pVNHtCZF6SrbiDYfS/MDmPVUc5Xuvtq59XX
+         nCVqyFf+5xGk4RHbrPaIa0tUaDXPo7NLod67DgXt9aMfzq/18LZnPoNyDipnvqEJ3osV
+         OL/w==
+X-Forwarded-Encrypted: i=1; AJvYcCU22VBsqpi8KI2vu4QyylA6iVVoSctbH3KYbb1vt4PE/dVRsl99W9ztSZsJyqqxqcxAM+tpnFYgd3w=@vger.kernel.org, AJvYcCVQEoRuMSZYO1+9CFwYPi7S1iqCx6bynzrHb3MNd1yRW2ORR1fjeyaEqZC/7mk24ycaDTqQtaxZ6x5eT62s@vger.kernel.org
+X-Gm-Message-State: AOJu0YxABgb6bKMU6wUghcFkxBX/fGUbn0M/PMZqy/cd48YkMY1FMxEz
+	cVzGnOHcMrdVFKLfiV0Zv6SbCOT2tHc8KNXIN+Y78Mm91lDFzZCT
+X-Gm-Gg: ASbGncsoJhb7zuT0cdMS+wVHjqHoD/rS34571ECPNwP6rtEmm7e5rWBzi/jhKeyOiqU
+	RtdnNuuFXu8+vg2BIIy5+T96H2iBdynKORvvsTR67kN0k+BJxmCc93+vNxCOxrhKldjSjsgv+Ot
+	sADlMx/mh9kRjHns5Syn+wG6A0aSn5gBcBBhScz/kIwwrcAANT0QPm/BMXLNvlfO8T6ksDm5psI
+	aiLV3rPtLVOZbtvyTEK9cD0OBQLBptR5wUxbHEwTSPBTQuAIcXL0o637+aI3/0+xa2T4Qpsx+pa
+	MRSUvco=
+X-Google-Smtp-Source: AGHT+IEz2OeVNHpiMzfidUYqdYxK4ezcj0YUQ6+M0TOZvXLZcSlcM3mCVPGQdcyjT1diXMPbvD2cUQ==
+X-Received: by 2002:a17:90b:2c84:b0:2ee:8430:b831 with SMTP id 98e67ed59e1d1-2f452dfaf84mr19389213a91.2.1734975457307;
+        Mon, 23 Dec 2024 09:37:37 -0800 (PST)
 Received: from prasmi.. ([2401:4900:1c07:689d:b086:b856:9280:38c3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f2ed52cec5sm10664032a91.7.2024.12.23.09.37.30
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f2ed52cec5sm10664032a91.7.2024.12.23.09.37.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Dec 2024 09:37:33 -0800 (PST)
+        Mon, 23 Dec 2024 09:37:36 -0800 (PST)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -84,9 +84,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 4/6] clk: renesas: rzv2h: Switch MSTOP configuration to per-bit basis
-Date: Mon, 23 Dec 2024 17:37:06 +0000
-Message-ID: <20241223173708.384108-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 5/6] clk: renesas: r9a09g057: Add reset entry for SYS
+Date: Mon, 23 Dec 2024 17:37:07 +0000
+Message-ID: <20241223173708.384108-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241223173708.384108-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20241223173708.384108-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -100,348 +100,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Refactor MSTOP handling to switch from group-based to per-bit
-configuration. Introduce atomic counters for each MSTOP bit and update
-enable/disable logic.
+Add the missing reset entry for the `SYS` module in the clock driver. The
+corresponding core clock entry for `SYS` is already present.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
 v1->v2
-- New patch
+- None
 ---
- drivers/clk/renesas/r9a09g047-cpg.c |   2 +
- drivers/clk/renesas/r9a09g057-cpg.c |   2 +
- drivers/clk/renesas/rzv2h-cpg.c     | 168 +++++++++++++---------------
- drivers/clk/renesas/rzv2h-cpg.h     |   5 +
- 4 files changed, 84 insertions(+), 93 deletions(-)
+ drivers/clk/renesas/r9a09g057-cpg.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/clk/renesas/r9a09g047-cpg.c b/drivers/clk/renesas/r9a09g047-cpg.c
-index 7945b9f95b95..536d922bed70 100644
---- a/drivers/clk/renesas/r9a09g047-cpg.c
-+++ b/drivers/clk/renesas/r9a09g047-cpg.c
-@@ -145,4 +145,6 @@ const struct rzv2h_cpg_info r9a09g047_cpg_info __initconst = {
- 	/* Resets */
- 	.resets = r9a09g047_resets,
- 	.num_resets = ARRAY_SIZE(r9a09g047_resets),
-+
-+	.num_mstop_bits = 208,
- };
 diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9a09g057-cpg.c
-index 59dadedb2217..a45b4020996b 100644
+index a45b4020996b..7ef681dfcba5 100644
 --- a/drivers/clk/renesas/r9a09g057-cpg.c
 +++ b/drivers/clk/renesas/r9a09g057-cpg.c
-@@ -275,4 +275,6 @@ const struct rzv2h_cpg_info r9a09g057_cpg_info __initconst = {
- 	/* Resets */
- 	.resets = r9a09g057_resets,
- 	.num_resets = ARRAY_SIZE(r9a09g057_resets),
-+
-+	.num_mstop_bits = 192,
- };
-diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index 29b1ce003370..154ad0db6dca 100644
---- a/drivers/clk/renesas/rzv2h-cpg.c
-+++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -43,6 +43,8 @@
- 
- #define CPG_BUS_1_MSTOP		(0xd00)
- #define CPG_BUS_MSTOP(m)	(CPG_BUS_1_MSTOP + ((m) - 1) * 4)
-+/* On RZ/V2H(P) and RZ/G3E CPG_BUS_m_MSTOP starts from m = 1 */
-+#define GET_MSTOP_IDX(mask)	((FIELD_GET(BUS_MSTOP_IDX_MASK, (mask))) - 1)
- 
- #define KDIV(val)		((s16)FIELD_GET(GENMASK(31, 16), (val)))
- #define MDIV(val)		FIELD_GET(GENMASK(15, 6), (val))
-@@ -68,6 +70,7 @@
-  * @resets: Array of resets
-  * @num_resets: Number of Module Resets in info->resets[]
-  * @last_dt_core_clk: ID of the last Core Clock exported to DT
-+ * @mstop_count: Array of mstop
-  * @rcdev: Reset controller entity
-  */
- struct rzv2h_cpg_priv {
-@@ -82,17 +85,13 @@ struct rzv2h_cpg_priv {
- 	unsigned int num_resets;
- 	unsigned int last_dt_core_clk;
- 
-+	atomic_t *mstop_count;
-+
- 	struct reset_controller_dev rcdev;
+@@ -220,6 +220,7 @@ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst = {
  };
  
- #define rcdev_to_priv(x)	container_of(x, struct rzv2h_cpg_priv, rcdev)
- 
--struct rzv2h_mstop {
--	u16 idx;
--	u16 mask;
--	refcount_t ref_cnt;
--};
--
- struct pll_clk {
- 	struct rzv2h_cpg_priv *priv;
- 	void __iomem *base;
-@@ -107,7 +106,7 @@ struct pll_clk {
-  * struct mod_clock - Module clock
-  *
-  * @priv: CPG private data
-- * @mstop: handle to cpg bus mstop data
-+ * @mstop_data: mstop data relating to module clock
-  * @hw: handle between common and hardware-specific interfaces
-  * @no_pm: flag to indicate PM is not supported
-  * @on_index: register offset
-@@ -117,7 +116,7 @@ struct pll_clk {
-  */
- struct mod_clock {
- 	struct rzv2h_cpg_priv *priv;
--	struct rzv2h_mstop *mstop;
-+	unsigned int mstop_data;
- 	struct clk_hw hw;
- 	bool no_pm;
- 	u8 on_index;
-@@ -446,36 +445,65 @@ rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
- }
- 
- static void rzv2h_mod_clock_mstop_enable(struct rzv2h_cpg_priv *priv,
--					 struct mod_clock *clock)
-+					 u32 mstop_data)
- {
-+	u16 mstop_mask = FIELD_GET(BUS_MSTOP_BITS_MASK, (mstop_data));
-+	u16 mstop_index = GET_MSTOP_IDX(mstop_data);
-+	unsigned int index = mstop_index * 16;
- 	unsigned long flags;
--	u32 val;
-+	unsigned int i;
-+	u32 val = 0;
- 
- 	spin_lock_irqsave(&priv->rmw_lock, flags);
--	if (!refcount_read(&clock->mstop->ref_cnt)) {
--		val = clock->mstop->mask << 16;
--		writel(val, priv->base + CPG_BUS_MSTOP(clock->mstop->idx));
--		refcount_set(&clock->mstop->ref_cnt, 1);
--	} else {
--		refcount_inc(&clock->mstop->ref_cnt);
-+	for_each_set_bit(i, (unsigned long *)&mstop_mask, 16) {
-+		if (!atomic_read(&priv->mstop_count[index + i]))
-+			val |= BIT(i) << 16;
-+		atomic_inc(&priv->mstop_count[index + i]);
- 	}
-+	if (val)
-+		writel(val, priv->base + CPG_BUS_MSTOP(mstop_index + 1));
- 	spin_unlock_irqrestore(&priv->rmw_lock, flags);
- }
- 
- static void rzv2h_mod_clock_mstop_disable(struct rzv2h_cpg_priv *priv,
--					  struct mod_clock *clock)
-+					  u32 mstop_data)
- {
-+	u16 mstop_mask = FIELD_GET(BUS_MSTOP_BITS_MASK, (mstop_data));
-+	u16 mstop_index = GET_MSTOP_IDX(mstop_data);
-+	unsigned int index = mstop_index * 16;
- 	unsigned long flags;
--	u32 val;
-+	unsigned int i;
-+	u32 val = 0;
- 
- 	spin_lock_irqsave(&priv->rmw_lock, flags);
--	if (refcount_dec_and_test(&clock->mstop->ref_cnt)) {
--		val = clock->mstop->mask << 16 | clock->mstop->mask;
--		writel(val, priv->base + CPG_BUS_MSTOP(clock->mstop->idx));
-+	for_each_set_bit(i, (unsigned long *)&mstop_mask, 16) {
-+		if (!atomic_read(&priv->mstop_count[index + i]) ||
-+		    atomic_dec_and_test(&priv->mstop_count[index + i]))
-+			val |= BIT(i) << 16 | BIT(i);
- 	}
-+	if (val)
-+		writel(val, priv->base + CPG_BUS_MSTOP(mstop_index + 1));
- 	spin_unlock_irqrestore(&priv->rmw_lock, flags);
- }
- 
-+static int rzv2h_mod_clock_is_enabled(struct clk_hw *hw)
-+{
-+	struct mod_clock *clock = to_mod_clock(hw);
-+	struct rzv2h_cpg_priv *priv = clock->priv;
-+	u32 bitmask;
-+	u32 offset;
-+
-+	if (clock->mon_index >= 0) {
-+		offset = GET_CLK_MON_OFFSET(clock->mon_index);
-+		bitmask = BIT(clock->mon_bit);
-+	} else {
-+		offset = GET_CLK_ON_OFFSET(clock->on_index);
-+		bitmask = BIT(clock->on_bit);
-+	}
-+
-+	return readl(priv->base + offset) & bitmask;
-+}
-+
- static int rzv2h_mod_clock_endisable(struct clk_hw *hw, bool enable)
- {
- 	struct mod_clock *clock = to_mod_clock(hw);
-@@ -489,15 +517,19 @@ static int rzv2h_mod_clock_endisable(struct clk_hw *hw, bool enable)
- 	dev_dbg(dev, "CLK_ON 0x%x/%pC %s\n", reg, hw->clk,
- 		enable ? "ON" : "OFF");
- 
-+	if ((rzv2h_mod_clock_is_enabled(hw) && enable) ||
-+	    (!rzv2h_mod_clock_is_enabled(hw) && !enable))
-+		return 0;
-+
- 	value = bitmask << 16;
- 	if (enable) {
- 		value |= bitmask;
- 		writel(value, priv->base + reg);
--		if (clock->mstop)
--			rzv2h_mod_clock_mstop_enable(priv, clock);
-+		if (clock->mstop_data != BUS_MSTOP_NONE)
-+			rzv2h_mod_clock_mstop_enable(priv, clock->mstop_data);
- 	} else {
--		if (clock->mstop)
--			rzv2h_mod_clock_mstop_disable(priv, clock);
-+		if (clock->mstop_data != BUS_MSTOP_NONE)
-+			rzv2h_mod_clock_mstop_disable(priv, clock->mstop_data);
- 		writel(value, priv->base + reg);
- 	}
- 
-@@ -525,73 +557,12 @@ static void rzv2h_mod_clock_disable(struct clk_hw *hw)
- 	rzv2h_mod_clock_endisable(hw, false);
- }
- 
--static int rzv2h_mod_clock_is_enabled(struct clk_hw *hw)
--{
--	struct mod_clock *clock = to_mod_clock(hw);
--	struct rzv2h_cpg_priv *priv = clock->priv;
--	u32 bitmask;
--	u32 offset;
--
--	if (clock->mon_index >= 0) {
--		offset = GET_CLK_MON_OFFSET(clock->mon_index);
--		bitmask = BIT(clock->mon_bit);
--	} else {
--		offset = GET_CLK_ON_OFFSET(clock->on_index);
--		bitmask = BIT(clock->on_bit);
--	}
--
--	return readl(priv->base + offset) & bitmask;
--}
--
- static const struct clk_ops rzv2h_mod_clock_ops = {
- 	.enable = rzv2h_mod_clock_enable,
- 	.disable = rzv2h_mod_clock_disable,
- 	.is_enabled = rzv2h_mod_clock_is_enabled,
- };
- 
--static struct rzv2h_mstop
--*rzv2h_cpg_get_mstop(struct rzv2h_cpg_priv *priv, struct mod_clock *clock, u32 mstop_data)
--{
--	struct rzv2h_mstop *mstop;
--	unsigned int i;
--
--	for (i = 0; i < priv->num_mod_clks; i++) {
--		struct mod_clock *clk;
--		struct clk_hw *hw;
--
--		if (priv->clks[priv->num_core_clks + i] == ERR_PTR(-ENOENT))
--			continue;
--
--		hw = __clk_get_hw(priv->clks[priv->num_core_clks + i]);
--		clk = to_mod_clock(hw);
--		if (!clk->mstop)
--			continue;
--
--		if (BUS_MSTOP(clk->mstop->idx, clk->mstop->mask) == mstop_data) {
--			if (rzv2h_mod_clock_is_enabled(&clock->hw)) {
--				if (refcount_read(&clk->mstop->ref_cnt))
--					refcount_inc(&clk->mstop->ref_cnt);
--				else
--					refcount_set(&clk->mstop->ref_cnt, 1);
--			}
--			return clk->mstop;
--		}
--	}
--
--	mstop = devm_kzalloc(priv->dev, sizeof(*mstop), GFP_KERNEL);
--	if (!mstop)
--		return NULL;
--
--	mstop->idx = FIELD_GET(BUS_MSTOP_IDX_MASK, (mstop_data));
--	mstop->mask = FIELD_GET(BUS_MSTOP_BITS_MASK, (mstop_data));
--	if (rzv2h_mod_clock_is_enabled(&clock->hw))
--		refcount_set(&mstop->ref_cnt, 1);
--	else
--		refcount_set(&mstop->ref_cnt, 0);
--
--	return mstop;
--}
--
- static void __init
- rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
- 			   struct rzv2h_cpg_priv *priv)
-@@ -638,6 +609,7 @@ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
- 	clock->no_pm = mod->no_pm;
- 	clock->priv = priv;
- 	clock->hw.init = &init;
-+	clock->mstop_data = mod->mstop_data;
- 
- 	ret = devm_clk_hw_register(dev, &clock->hw);
- 	if (ret) {
-@@ -647,13 +619,16 @@ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
- 
- 	priv->clks[id] = clock->hw.clk;
- 
--	if (mod->mstop_data != BUS_MSTOP_NONE) {
--		clock->mstop = rzv2h_cpg_get_mstop(priv, clock, mod->mstop_data);
--		if (!clock->mstop) {
--			clk = ERR_PTR(-ENOMEM);
--			goto fail;
--		}
--	}
-+	/*
-+	 * Ensure the module clocks and MSTOP bits are synchronized when they are
-+	 * turned ON by the bootloader. Enable MSTOP bits for module clocks that were
-+	 * turned ON in an earlier boot stage. Skip critical clocks, as they will be
-+	 * turned ON immediately upon registration, and the MSTOP counter will be
-+	 * updated through the rzv2h_mod_clock_enable() path.
-+	 */
-+	if (clock->mstop_data != BUS_MSTOP_NONE &&
-+	    !mod->critical && rzv2h_mod_clock_is_enabled(&clock->hw))
-+		rzv2h_mod_clock_mstop_enable(priv, clock->mstop_data);
- 
- 	return;
- 
-@@ -922,6 +897,13 @@ static int __init rzv2h_cpg_probe(struct platform_device *pdev)
- 	if (!clks)
- 		return -ENOMEM;
- 
-+	priv->mstop_count = devm_kmalloc_array(dev, info->num_mstop_bits,
-+					       sizeof(*priv->mstop_count), GFP_KERNEL);
-+	if (!priv->mstop_count)
-+		return -ENOMEM;
-+	for (i = 0; i < info->num_mstop_bits; i++)
-+		atomic_set(&priv->mstop_count[i], 0);
-+
- 	priv->resets = devm_kmemdup(dev, info->resets, sizeof(*info->resets) *
- 				    info->num_resets, GFP_KERNEL);
- 	if (!priv->resets)
-diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-index f918620c4650..a772304f9057 100644
---- a/drivers/clk/renesas/rzv2h-cpg.h
-+++ b/drivers/clk/renesas/rzv2h-cpg.h
-@@ -193,6 +193,9 @@ struct rzv2h_reset {
-  *
-  * @resets: Array of Module Reset definitions
-  * @num_resets: Number of entries in resets[]
-+ *
-+ * @num_mstop_bits: Maximum number of MSTOP bits supported, equivalent to the
-+ *		    number of CPG_BUS_m_MSTOP registers multiplied by 16.
-  */
- struct rzv2h_cpg_info {
- 	/* Core Clocks */
-@@ -209,6 +212,8 @@ struct rzv2h_cpg_info {
- 	/* Resets */
- 	const struct rzv2h_reset *resets;
- 	unsigned int num_resets;
-+
-+	unsigned int num_mstop_bits;
- };
- 
- extern const struct rzv2h_cpg_info r9a09g047_cpg_info;
+ static const struct rzv2h_reset r9a09g057_resets[] __initconst = {
++	DEF_RST(3, 0, 1, 1),		/* SYS_0_PRESETN */
+ 	DEF_RST(3, 6, 1, 7),		/* ICU_0_PRESETN_I */
+ 	DEF_RST(6, 13, 2, 30),		/* GTM_0_PRESETZ */
+ 	DEF_RST(6, 14, 2, 31),		/* GTM_1_PRESETZ */
 -- 
 2.43.0
 
