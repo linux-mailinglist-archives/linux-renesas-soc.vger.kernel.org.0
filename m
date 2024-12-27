@@ -1,64 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-11729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11730-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C539FD7E8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Dec 2024 23:06:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6131E9FD7F0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Dec 2024 23:10:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5080C163129
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Dec 2024 22:06:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F24A23A1E4E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Dec 2024 22:10:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9853A154C17;
-	Fri, 27 Dec 2024 22:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59BEC154C17;
+	Fri, 27 Dec 2024 22:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uy3UpnGl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GDq5GdBC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680038C0B;
-	Fri, 27 Dec 2024 22:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8F11F76DE;
+	Fri, 27 Dec 2024 22:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735337162; cv=none; b=mowi+u5a+0Q8z2e2L9208y1m+f61ukk5PMTNqnJkN1rNCPGIZyLrZVwoiwf4KwgKFbAAkHNsOwa81sIZVmI2xvXm+dqAb+g3uoh8LyHa+my/5n5rLB7g0mit768Hqdx88zWryMlFotdPpMCQKnL2Z5kAbIGKcHYhMqzyP4xbdm0=
+	t=1735337427; cv=none; b=XMPYASjMOnSK8AfpnkokUkZNTaIR3Gm72Rz3WBOxoGjSVNTzn1HL9tipMNIcva3s3HFOLUL/ipD7flVwS+eoZSKbrMV4PCElGZzewz1ctrtd34jUfUkTlm5Ikg2I6zNFdhUWISSf3ePntFONukCiAIgwR7D7rd7rA99YHQ6A/aM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735337162; c=relaxed/simple;
-	bh=j27bZNmQWq0IV0zaXwGFhtrXnDTg6Cq0eUpKNlUL2Ok=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pULg4nwvGvbgV2UN1O33zmzVKhU/h9OdGEsws8vnmSQ2its6DeQJkbmMadx6SDx8ZWuZT/1gMAxbMM+7pUiVazyJoNx4KL0ATnOBmMprYpdf11GwBljMKQSDSurM3Jrt9yEme7FMX1+jrQGDe110rVHji6XhGX0oboD7FHFcRjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uy3UpnGl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B5C0C4CED0;
-	Fri, 27 Dec 2024 22:06:01 +0000 (UTC)
+	s=arc-20240116; t=1735337427; c=relaxed/simple;
+	bh=c7UkfUuRvp7ohwANYFcGRBC5CtL5p6FsMXidRmZEZNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VV0X+5bYcays+g/eYZoTaUgTv2Jxpxc72kip6WtsWxduyVMaMf6dojGyVRwgzad3z718kX9FmV8JgFKYY9ty8UAwE1COm1VlfTsr/ZhgDKHqGy07zjqvx6pHJMt4t9UpHAqyHrOMIOBpxkf3Gph6uIAVelp6lJuZiMeYjk6x4mI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GDq5GdBC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06577C4CED0;
+	Fri, 27 Dec 2024 22:10:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735337161;
-	bh=j27bZNmQWq0IV0zaXwGFhtrXnDTg6Cq0eUpKNlUL2Ok=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=Uy3UpnGlmOa2/2tAacegh3O2T+oU/WAogZZgHpAPMQV169Y8yXYy8Nm/0U3bcbPJz
-	 GNhwh+CkfSTmPNrAEXUkXxrSQ5ZkcDGSEUjnKWAGPE45qFhTxNlW51MQqVsko0I1I8
-	 vJT4IpRsgTbQeUQFSMEwDIlI1lz77imekXK/wWYfg4FRFREivf7UflIQ/8klEoMcG6
-	 kyh0nxUuo+UiwNJ3/5vkahKWCnaT1JyYo8e+t9oBsOXwYBFplFslumgOtCe3ihQV1j
-	 H+hShCCtUQxF/Gu9k/tviIrwqZhguG7m6LoSOHHbQ8M4QPbjUZyROmoEz+yzCcbMFI
-	 GMcfyRGGR/4VQ==
-Date: Fri, 27 Dec 2024 23:05:58 +0100
+	s=k20201202; t=1735337426;
+	bh=c7UkfUuRvp7ohwANYFcGRBC5CtL5p6FsMXidRmZEZNA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GDq5GdBCbfqT7Z8Txw6wDvYJ8htp1hzfZ7/wkEx1G99Pu81vWXijY1BgryA7wxEm/
+	 mYl69PJxAaLBPBvq2vUv8BlTyL6kZP5mWFTJVLrXhhe7xtO9jzaYCqsepkTmzX2fTZ
+	 3zJ/0vPjBSiwg3bhAlwGgHAmV4uwcsA9pOwUOtzaFE3iBxUVoR1ML918Bl+kOHb9uN
+	 p0Fj2AHpiEMdv7oe6ozQdKhahJEaOsM4TLbKZTp0bxm93oxBpeeBJXP5TXD+f3xwx4
+	 FcPSWxXvcfHTKeOtu2vNU3YhJtOFqD9TR3hzSuCuA8fs2hShcrRLZYjj805qDT9D9c
+	 fhL8Dkq0Yc3qg==
+Date: Fri, 27 Dec 2024 23:10:22 +0100
 From: Andi Shyti <andi.shyti@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>, Chris Brandt <chris.brandt@renesas.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Wolfram Sang <wsa@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Chris Brandt <chris.brandt@renesas.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 9/9] i2c: riic: Implement bus recovery
-Message-ID: <ghgvphxopt4wvwtauahbnte3jzivyof3nujylx3b2utxi25iql@7sc2d3pb2fv4>
-References: <20241218001618.488946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241218001618.488946-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Z2XewglpALJFE1Ay@ninjato>
- <CA+V-a8vB1c8Zp+zzoHp0zFpW8fjw-xq2=KPr=dyBUUZbOhBxJQ@mail.gmail.com>
- <Z2gJtlb5Sc9esEba@ninjato>
- <CA+V-a8s+tY6dnVHFhjyOZ43L+roLfqPr-_28FS1KyADwyTH2+w@mail.gmail.com>
- <cnwphrjjrakaafm7zp725mickh63xw5qm6mlh6q43745ljgxfe@33y2z234oauu>
- <Z26PKpEJi-nLcSlL@shikoro>
+Subject: Re: [PATCH v3 0/8] i2c: riic: driver cleanup and improvements
+Message-ID: <huhbfedblerrw6koztkiij3hgdrty2oihmacug53734wctq34a@aqlgw63zj3ad>
+References: <20241227115154.56154-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,23 +60,22 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z26PKpEJi-nLcSlL@shikoro>
+In-Reply-To: <20241227115154.56154-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Wolfram,
+Hi,
 
-On Fri, Dec 27, 2024 at 12:27:38PM +0100, Wolfram Sang wrote:
-> > I'd like to merge this once all the hardware questions are
-> > answered.
-> 
-> Maybe we can apply patches 1-8 already, so they don't reappear on the
-> list? IMHO they make sense independently of the bus recovery patch.
+> Lad Prabhakar (8):
+>   i2c: riic: Use dev_err_probe in probe and riic_init_hw functions
+>   i2c: riic: Use local `dev` pointer in `dev_err_probe()`
+>   i2c: riic: Use BIT macro consistently
+>   i2c: riic: Use GENMASK() macro for bitmask definitions
+>   i2c: riic: Make use of devres helper to request deasserted reset line
+>   i2c: riic: Mark riic_irqs array as const
+>   i2c: riic: Use predefined macro and simplify clock tick calculation
+>   i2c: riic: Add `riic_bus_barrier()` to check bus availability
 
-yes, this is what I already suggested as well in 0/8. Indeed
-Prabhakar sent already patch 1-8 that I just checked and applied
-(locally, still).
+merged to i2c/i2c-host.
 
-Thanks for your reviews and test here and thanks Prabhakar for
-following on the reviews.
-
+Thanks,
 Andi
 
