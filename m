@@ -1,163 +1,89 @@
-Return-Path: <linux-renesas-soc+bounces-11728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DB59FD733
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Dec 2024 20:03:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C539FD7E8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Dec 2024 23:06:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9AA6A162C3E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Dec 2024 19:03:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5080C163129
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Dec 2024 22:06:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CB111F942C;
-	Fri, 27 Dec 2024 19:03:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9853A154C17;
+	Fri, 27 Dec 2024 22:06:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L+0OrFKG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uy3UpnGl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5431F8AD8;
-	Fri, 27 Dec 2024 19:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680038C0B;
+	Fri, 27 Dec 2024 22:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735326188; cv=none; b=YBbXscigG0vwQU6mzYfwbVzG9+5KQkwpIxkuJ+i3JXkGm9n1xfv1j3qX9olTPqlv5sslRC69UKUXI7IjCR0euyRmgh7VO3qGHWiJfN4unkabhkHCAJjj7aQLe0ZOh7eHiJCWtOUXCS+U+idZB6gaLcrinTIgJUc7kXo5/xYkCTw=
+	t=1735337162; cv=none; b=mowi+u5a+0Q8z2e2L9208y1m+f61ukk5PMTNqnJkN1rNCPGIZyLrZVwoiwf4KwgKFbAAkHNsOwa81sIZVmI2xvXm+dqAb+g3uoh8LyHa+my/5n5rLB7g0mit768Hqdx88zWryMlFotdPpMCQKnL2Z5kAbIGKcHYhMqzyP4xbdm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735326188; c=relaxed/simple;
-	bh=/IAGnTy2IYyK4HHK19qpN0BQgEWU57aHh+40aFZGiPY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eyCZ1dSwqINJFVgjhTsmP1Nk8dfvTRJAe4FNt+vCDVVQafwlXHmvT/3ZFbwg5GFHzGfpfzPbbsd2TxV66AytsmUN7DE4wOlEjHWL8aozrtxR8B72YMrrkO/y2KxV1DcDVZwrCEQh2zW/IXw2ixQ6urrLV74zFlpXWg6lI1M6wRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L+0OrFKG; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21680814d42so81540885ad.2;
-        Fri, 27 Dec 2024 11:03:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735326186; x=1735930986; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V1J2dnV8brqVh/DdliqC6kZPsixqWVPm/rUxD17Pm08=;
-        b=L+0OrFKG/MkzWHLnb9liXkz1WBi5vztIpe70fzdk9AaRtI4MaWHMDOb0/lDpiEcaNr
-         Le2Igr4p6XsEz2l42sfjm8dVIQUjG6/7D/nJ9F52sGy2lDIHOxhgqH2MAv2eM5OZw3m2
-         +TBVyRwolYiLEvlbECDCZjqxVoxmwiqrjjTD18h5EX9U2rW9B3sIwVJGhgIF8D3biCM0
-         jizhnaqgc97X4H8J3q9B0rfahw5Ak9gZgJKoHp5WTzjMpZsjTX/nuoaLjL17NmogxCXx
-         UrPP8j/QgwEXtNsbFw1vxLC6HUlPcl+2iP7k7zOavypIghrHSMpzQgxvAB8wuRC9wTen
-         2HBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735326186; x=1735930986;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V1J2dnV8brqVh/DdliqC6kZPsixqWVPm/rUxD17Pm08=;
-        b=jMqQshAHz1MEAAjqPPm0b8J4WLmy4HVLFWUFKm8IwWyoz2skY6uEIM0rpjZq8A0v5T
-         LtRv5xFUA4IOkBjM0AzGUhvAVj8FG9PRHiQ6LVblX/WI48gqSD1Zlils5KUlIFC3oJee
-         Axsn0kx79YGEmQClnovBzSUlbMaYXui09999oWXD+Z7UI7MPqOE3ZDhZrd2PPPRXURTu
-         Fpulm3FMKeswP/6uS/cXHpRc5GckEQB6xD7wPn8/GoSRJ3Zew7VVapi/i7ig7YQ2jSR1
-         30936zNCwkg5WRUyvEGfPfrjrjyIOm3f924mpWamzclfQNWkTOvS8gwnljMDRdPkYiTh
-         Vukg==
-X-Forwarded-Encrypted: i=1; AJvYcCVWKW+EB4lOuqmUAnJIyPhbFFMMfATSccaQ9QtcKXZLOHJUnCcWvSSxu4jnBC6vKTs1MiJy2PDKS9TWC7ErEIE=@vger.kernel.org, AJvYcCWanYzLNLWQu3QZkxRZLohzDTkzQjWt4BJOBC0nOJKyuiAl0yTURLonnitSWJrl904eg/rTHd/SGscTtShL@vger.kernel.org, AJvYcCXUxCGq0rHxbAfxM5ByL/Rb9PNos6fAPQDafkehe4MrgHEvUBCZnZxcrDczVWWM1byrKmwEqJsig0FL@vger.kernel.org, AJvYcCXePSuh53spRKqZO7II9YmjIWOdW761SbFyP4HMaaHhgfRpKM8NqDRGeNGK8XYSnefGqRmsjNaAkozs@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgvOr1uKLwc/DHEVMIzv70ZTAU8bidl/8g+dEYHGMMot485vFj
-	fEY0iQ+elyeCj1vQi8wYb4JYQgRQAjxtK0p7AA2CrNtgclMsGfcW
-X-Gm-Gg: ASbGncs2mE8az1VOhfbMzHA1XMgvd3gwQfSwSjQadsv3XuW2gBCQWY1PTcLrk41DqQO
-	nOdUlkVUIqncEs4d4th2ccgCOiy9lGyMWJW8M/oZV5HNWsNdcevVbluX1M+93lFEE3nN/2NoznV
-	wAy12bbaZRchu+3+cwrCUb2uSRZcWsvCVjeW8br1OLUpZDobcZvKLS+983YoIPWQGjRvBvvUfGY
-	Ym3gAlNCiouX7fThNK71q1xoJMZ00fq2TxGzBGnCTsucPkL4tK94QN3AIPxveanSKpZvNz+5OAZ
-	3sWQjIM=
-X-Google-Smtp-Source: AGHT+IFL+M73myxJNmX1bGIfrW37yeUdq+u1cotILMeODj/VRZzE/LPIf1prAWoT2pg7kdjxJshCMw==
-X-Received: by 2002:a05:6a20:d48f:b0:1e1:9fef:e974 with SMTP id adf61e73a8af0-1e5e04a3040mr44538890637.24.1735326186240;
-        Fri, 27 Dec 2024 11:03:06 -0800 (PST)
-Received: from prasmi.. ([2401:4900:1c07:9010:ac08:3a91:844a:cc65])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8dbbd3sm14877943b3a.110.2024.12.27.11.03.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Dec 2024 11:03:05 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-watchdog@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 6/6] arm64: dts: renesas: r9a09g057: Add `renesas,syscon-cpg-error-rst` property to WDT node
-Date: Fri, 27 Dec 2024 19:02:10 +0000
-Message-ID: <20241227190210.69025-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241227190210.69025-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241227190210.69025-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1735337162; c=relaxed/simple;
+	bh=j27bZNmQWq0IV0zaXwGFhtrXnDTg6Cq0eUpKNlUL2Ok=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pULg4nwvGvbgV2UN1O33zmzVKhU/h9OdGEsws8vnmSQ2its6DeQJkbmMadx6SDx8ZWuZT/1gMAxbMM+7pUiVazyJoNx4KL0ATnOBmMprYpdf11GwBljMKQSDSurM3Jrt9yEme7FMX1+jrQGDe110rVHji6XhGX0oboD7FHFcRjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uy3UpnGl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B5C0C4CED0;
+	Fri, 27 Dec 2024 22:06:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735337161;
+	bh=j27bZNmQWq0IV0zaXwGFhtrXnDTg6Cq0eUpKNlUL2Ok=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=Uy3UpnGlmOa2/2tAacegh3O2T+oU/WAogZZgHpAPMQV169Y8yXYy8Nm/0U3bcbPJz
+	 GNhwh+CkfSTmPNrAEXUkXxrSQ5ZkcDGSEUjnKWAGPE45qFhTxNlW51MQqVsko0I1I8
+	 vJT4IpRsgTbQeUQFSMEwDIlI1lz77imekXK/wWYfg4FRFREivf7UflIQ/8klEoMcG6
+	 kyh0nxUuo+UiwNJ3/5vkahKWCnaT1JyYo8e+t9oBsOXwYBFplFslumgOtCe3ihQV1j
+	 H+hShCCtUQxF/Gu9k/tviIrwqZhguG7m6LoSOHHbQ8M4QPbjUZyROmoEz+yzCcbMFI
+	 GMcfyRGGR/4VQ==
+Date: Fri, 27 Dec 2024 23:05:58 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>, Chris Brandt <chris.brandt@renesas.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Wolfram Sang <wsa@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 9/9] i2c: riic: Implement bus recovery
+Message-ID: <ghgvphxopt4wvwtauahbnte3jzivyof3nujylx3b2utxi25iql@7sc2d3pb2fv4>
+References: <20241218001618.488946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241218001618.488946-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Z2XewglpALJFE1Ay@ninjato>
+ <CA+V-a8vB1c8Zp+zzoHp0zFpW8fjw-xq2=KPr=dyBUUZbOhBxJQ@mail.gmail.com>
+ <Z2gJtlb5Sc9esEba@ninjato>
+ <CA+V-a8s+tY6dnVHFhjyOZ43L+roLfqPr-_28FS1KyADwyTH2+w@mail.gmail.com>
+ <cnwphrjjrakaafm7zp725mickh63xw5qm6mlh6q43745ljgxfe@33y2z234oauu>
+ <Z26PKpEJi-nLcSlL@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z26PKpEJi-nLcSlL@shikoro>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Wolfram,
 
-Add `renesas,syscon-cpg-error-rst` property to WDT node, to
-determine whether the current boot resulted from a `Power-on Reset`
-or a `Watchdog Reset`.
+On Fri, Dec 27, 2024 at 12:27:38PM +0100, Wolfram Sang wrote:
+> > I'd like to merge this once all the hardware questions are
+> > answered.
+> 
+> Maybe we can apply patches 1-8 already, so they don't reappear on the
+> list? IMHO they make sense independently of the bus recovery patch.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-- No change
----
- arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+yes, this is what I already suggested as well in 0/8. Indeed
+Prabhakar sent already patch 1-8 that I just checked and applied
+(locally, still).
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-index 69de6c302b17..efc3fd582e12 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-@@ -445,6 +445,7 @@ wdt0: watchdog@11c00400 {
- 			clock-names = "pclk", "oscclk";
- 			resets = <&cpg 0x75>;
- 			power-domains = <&cpg>;
-+			renesas,syscon-cpg-error-rst = <&cpg 0xb40 0>;
- 			status = "disabled";
- 		};
- 
-@@ -455,6 +456,7 @@ wdt1: watchdog@14400000 {
- 			clock-names = "pclk", "oscclk";
- 			resets = <&cpg 0x76>;
- 			power-domains = <&cpg>;
-+			renesas,syscon-cpg-error-rst = <&cpg 0xb40 1>;
- 			status = "disabled";
- 		};
- 
-@@ -465,6 +467,7 @@ wdt2: watchdog@13000000 {
- 			clock-names = "pclk", "oscclk";
- 			resets = <&cpg 0x77>;
- 			power-domains = <&cpg>;
-+			renesas,syscon-cpg-error-rst = <&cpg 0xb40 2>;
- 			status = "disabled";
- 		};
- 
-@@ -475,6 +478,7 @@ wdt3: watchdog@13000400 {
- 			clock-names = "pclk", "oscclk";
- 			resets = <&cpg 0x78>;
- 			power-domains = <&cpg>;
-+			renesas,syscon-cpg-error-rst = <&cpg 0xb40 3>;
- 			status = "disabled";
- 		};
- 
--- 
-2.43.0
+Thanks for your reviews and test here and thanks Prabhakar for
+following on the reviews.
 
+Andi
 
