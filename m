@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-11740-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11737-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881339FDE7F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Dec 2024 11:13:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 234C09FDE7C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Dec 2024 11:12:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3CB61161670
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Dec 2024 10:12:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1180A7A00CD
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Dec 2024 10:12:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF8121442F3;
-	Sun, 29 Dec 2024 10:12:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B38E13C9B3;
+	Sun, 29 Dec 2024 10:12:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dijRjoAD"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XigPu+vK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692F986346
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 29 Dec 2024 10:12:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9AA86355
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 29 Dec 2024 10:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735467169; cv=none; b=bFqhzWo2C4CjM9VbuNhsE1cuwxzzrL9kdJYsJ6AiPb7bO345kjkyXKhgL1eZQ+YI9GDHDgLEcGOOdQgrr1Uk1F66vE1vlGMJZ9/+PGk+u/6r1FLNK3cw3T2RpukLA4LuY55VLqaKCaBodGArfWkiGX2zM2BB9bJmnmn/e3yK50k=
+	t=1735467168; cv=none; b=TEGKKDz4dDaxLv7lV3DMAuo5lofUslD3ltjv/vdLrUcIyrRV54kMML/4nuOlB9tDyT/TGXl0yYeecg1iTTfv3/oUb6IFqjpzY81vfswLz0KlgEH3pl51WU2Wc7Yt3KatnwWZLwP/GLe2kNdG+cJAtE/zQAUZrenMwAsxzMKZZG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735467169; c=relaxed/simple;
-	bh=O9CYMB0lO17RuiwpnK2GfLz07nkd/+OcaZhmBRSW0S0=;
+	s=arc-20240116; t=1735467168; c=relaxed/simple;
+	bh=v22f0loiNwAuiMzdHCIr0vy7Rq85k5BvrrfF+boD7Xg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZUMKpdOwe4ql2trU3B5L9Ge55sGiZ3Ntw+vthungk998PZZonjVyeP4yEgsUqH5m1GO8r/c/cMdu+MmqWEOkzVgLg21j18r9PBHlgQuE3V2d6afqeSjiBQEQ4ZDfK3FsBcId117KZYE5h3AEjMwYGns/GbUawPg63Riyir4UFeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=dijRjoAD; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=G7j5B9dBzNLRKhdS9iwoyAuwI04z2gbjEpksyAEtZGghYyShWMoBe0FL+yn5MNFtgxb5k58fFrBVpwOJ9NOvDI1qFXtwDqvGpAKh7i5aM0kHJ41DSu8O55oRdmEfOPKTcCVtdapqdMTREYPCgsBzIXAzWaOONVR3fiEjxatAGws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=XigPu+vK; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=plWvPVApWRSIQ2OhiRlGaz0MEdpViJLDsoLZ/6lDlDA=; b=dijRjo
-	ADdThNVTeq3XMcZlByKGXwrUpaKcK4vencvoye8hwie4arvk6Yi5b2AtUjpo9Q+T
-	0070rb8XEYsy1mx+5EMMtMzhHFKVF8dfJQlTqh4p8S1w+IDDKyz3J6a0g8Uk7WEf
-	qmkVK5ebgrZhBhalI68fBxs1hw4/fJp9H+o27AUiF1aCA2rOrQxhZEJ31WZGZRG9
-	P3uoBNZcaYAzrp1bMRzrcMAfSGl4MPcK1qoHEuKUiXFSllf+CKJB7J5BesJ6lsIE
-	Me9IV4OWNsVjDoLex9+u+IKvaEBUIiuEyJJ7DRGxCYQ5WNSAa27/ovtC6m6Z+yYI
-	1GYe0d/HUwLdy/Cg==
-Received: (qmail 3656632 invoked from network); 29 Dec 2024 11:12:36 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Dec 2024 11:12:36 +0100
-X-UD-Smtp-Session: l3s3148p1@T5td72UqgrEujnsY
+	 s=k1; bh=G6kjFPdUe1j2cdg63XDSQh38HU3Hz3YIpXujxIBwTkE=; b=XigPu+
+	vK9Pm9D6f0m9k8kozSFU3T5K5XAAUzC26cxSpb0c9t7dELQR+obbJ9Huf/vJW8NW
+	I3+YlWioX3ABGVClKJxu6LL7xg60LDdXCCVJ/E69ntTLxRt4IzP1qIySBModBGBC
+	3makzX9s5MFOgLEF83OnKWydHy+6rkN8g7Opp+Y7LiivI5/D1kImYNqFVwlgwG/L
+	jgPgL7N2Kmy3kBfjbUlvOZodrMv+0+mioaEMYqUNbw7UUJs5hIImJk9vcIOX3d4N
+	hP1Vhf5EC2kuhig2S3aOKQBJwtJzpOoQDjypLMZZoYL+hgBLQ6f7NOo4bGUxV1nM
+	EGZbPEUxgk1VTGUA==
+Received: (qmail 3656676 invoked from network); 29 Dec 2024 11:12:37 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Dec 2024 11:12:37 +0100
+X-UD-Smtp-Session: l3s3148p1@qSNn72UqjLEujnsY
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-i3c@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -52,11 +52,12 @@ Cc: linux-kernel@vger.kernel.org,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Guenter Roeck <linux@roeck-us.net>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Yury Norov <yury.norov@gmail.com>,
-	Kuan-Wei Chiu <visitorckw@gmail.com>
-Subject: [PATCH RFT v2 1/5] bitops: add generic parity calculation for u8
-Date: Sun, 29 Dec 2024 11:12:29 +0100
-Message-Id: <20241229101234.2896-2-wsa+renesas@sang-engineering.com>
+	Kuan-Wei Chiu <visitorckw@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	linux-hwmon@vger.kernel.org
+Subject: [PATCH RFT v2 2/5] hwmon: (spd5118) Use generic parity calculation
+Date: Sun, 29 Dec 2024 11:12:30 +0100
+Message-Id: <20241229101234.2896-3-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
 References: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
@@ -68,78 +69,49 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are multiple open coded implementations for getting the parity of
-a byte in the kernel, even using different approaches. Take the pretty
-efficient version from SPD5118 driver and make it generally available by
-putting it into the bitops header. As long as there is just one parity
-calculation helper, the creation of a distinct 'parity.h' header was
-discarded. Also, the usage of hweight8() for architectures having a
-popcnt instruction is postponed until a use case within hot paths is
-desired. The motivation for this patch is the frequent use of odd parity
-in the I3C specification and to simplify drivers there.
-
-Changes compared to the original SPD5118 version are the addition of
-kernel documentation, switching the return type from bool to int, and
-renaming the argument of the function.
+Make use of the new generic helper for calculating the parity.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Tested-by: Guenter Roeck <linux@roeck-us.net>
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Yury Norov <yury.norov@gmail.com>
 Reviewed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-Tested-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
 Changes since v1:
 
 * renamed from 'get_parity8' to 'parity8'
-* use XOR instead of OR in the kdoc example (Thanks, Rasmus, for both)
+* added tag from Guenter (thanks!)
 * rebased to 6.13-rc4
 
- include/linux/bitops.h | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ drivers/hwmon/spd5118.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-index ba35bbf07798..c1cb53cf2f0f 100644
---- a/include/linux/bitops.h
-+++ b/include/linux/bitops.h
-@@ -229,6 +229,37 @@ static inline int get_count_order_long(unsigned long l)
- 	return (int)fls_long(--l);
+diff --git a/drivers/hwmon/spd5118.c b/drivers/hwmon/spd5118.c
+index 6cee48a3e5c3..358152868d96 100644
+--- a/drivers/hwmon/spd5118.c
++++ b/drivers/hwmon/spd5118.c
+@@ -291,12 +291,6 @@ static umode_t spd5118_is_visible(const void *_data, enum hwmon_sensor_types typ
+ 	}
  }
  
-+/**
-+ * parity8 - get the parity of an u8 value
-+ * @value: the value to be examined
-+ *
-+ * Determine the parity of the u8 argument.
-+ *
-+ * Returns:
-+ * 0 for even parity, 1 for odd parity
-+ *
-+ * Note: This function informs you about the current parity. Example to bail
-+ * out when parity is odd:
-+ *
-+ *	if (parity8(val) == 1)
-+ *		return -EBADMSG;
-+ *
-+ * If you need to calculate a parity bit, you need to draw the conclusion from
-+ * this result yourself. Example to enforce odd parity, parity bit is bit 7:
-+ *
-+ *	if (parity8(val) == 0)
-+ *		val ^= BIT(7);
-+ */
-+static inline int parity8(u8 val)
-+{
-+	/*
-+	 * One explanation of this algorithm:
-+	 * https://funloop.org/codex/problem/parity/README.html
-+	 */
-+	val ^= val >> 4;
-+	return (0x6996 >> (val & 0xf)) & 1;
-+}
-+
- /**
-  * __ffs64 - find first set bit in a 64 bit word
-  * @word: The 64 bit word
+-static inline bool spd5118_parity8(u8 w)
+-{
+-	w ^= w >> 4;
+-	return (0x6996 >> (w & 0xf)) & 1;
+-}
+-
+ /*
+  * Bank and vendor id are 8-bit fields with seven data bits and odd parity.
+  * Vendor IDs 0 and 0x7f are invalid.
+@@ -304,7 +298,7 @@ static inline bool spd5118_parity8(u8 w)
+  */
+ static bool spd5118_vendor_valid(u8 bank, u8 id)
+ {
+-	if (!spd5118_parity8(bank) || !spd5118_parity8(id))
++	if (parity8(bank) == 0 || parity8(id) == 0)
+ 		return false;
+ 
+ 	id &= 0x7f;
 -- 
 2.39.2
 
