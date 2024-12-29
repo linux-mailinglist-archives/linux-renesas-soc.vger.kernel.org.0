@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-11739-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11742-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F299FDE7E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Dec 2024 11:12:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC079FDE86
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Dec 2024 11:13:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B43B23A13A5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Dec 2024 10:12:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 112057A0F66
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Dec 2024 10:13:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7504126F0A;
-	Sun, 29 Dec 2024 10:12:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD8B215697B;
+	Sun, 29 Dec 2024 10:12:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="M6oPC6Gt"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="enQzPRR3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989D412DD8A
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 29 Dec 2024 10:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3DE137932
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 29 Dec 2024 10:12:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735467169; cv=none; b=hrVLMAbR/1mz6aNN9AiJpR/UK28m8Het2P6AHnCD1MuNEt1bjaZ0gSVUHP/1rGFgjWGzaqiSOmBlzZl8QV0mSyatsCEE5HMPxCOpTPX5FUrl87iaDLiEPZDS/iglG8QA1kNuonkakmLNjecQ4/pLm72yEWy3wpywpTtnux5BqVc=
+	t=1735467170; cv=none; b=bsIz62RwNeB2hfBz8srbX5pfKSxlww1ESWNu4KA7efF/lZZYhDIZQY0PpfvcrmmxXBtpwafOuhco0d+HTeR5rwoS+1XRBl6nyo39hUymHsovtXGmun3FJ8UocrSUT5t9Uvv/3hHOW8STvHiWPiTtpXu9b09zBQA/mrlbhwGgDkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735467169; c=relaxed/simple;
-	bh=mIeRqhDuiwHFKlnukfjGYt2UKBf196i9hF58Gak8iD4=;
+	s=arc-20240116; t=1735467170; c=relaxed/simple;
+	bh=Y3Cc22NIQeBiPQ/ptXbRKHRxI+NhYF4Z9JcoAKhf2NA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NfGHpw6TYsnYY9hvxBrsmrlitXFeOBBeHJrFinAb7E9ydLEafjZXH4n4Q7JZOOBeNFoVY5X98rGMhZLU17fn+YGTMU2vJUwyKxPKufBt3tvdhQ0MEiO5V2WBUmX/60o3Bf/F9BCE6qxwrf1EkLAz+p58NMRu2dvegXuUHQpp+tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=M6oPC6Gt; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=S1hm3c/Ql27UNdd2G/fsVJu1uxYdvs6Wotqugt/uHCbEW5iB1ZAm/sMgchBcBA7LFftd8b4wKzoAzGEo98cSP43T6Gjd5aKiv/wa/PWsyzU36Tr1Z5f574SrQ+oqYkT2q6gY0zgFVtITZ7ydo3Sp49ZeqJDKSdFJku63wv/Finc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=enQzPRR3; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=HcEn4SC6k8TM3B5gnzbEg5duKt2BAHa6/yH+isc0eiY=; b=M6oPC6
-	GtxOju2Rp23MsXuWEpjI0wp0wTTuPQ8qVd4iki1LoP4TYeSG65Uirmt7AIxPR/rj
-	VSr/nmQ6eEb3ry3J0ztf97z5zXzdfdqvaSE7r/R9YSQA+bElRNGH3lNUdKZllN2G
-	SAHEdZWO/UcY48+JMliB+JeGnl99jUx/BEV19sjS+jLQPYdzw5te4egVqD5Zc9ED
-	cSFRerfJCulX/HdSNceXyOIfeaB4aC1ecLaUDkga7kTD4gdYkkVM7SOwrOHvL1jI
-	bc6z653Vpr3iKaj8XnrTiotj99+DRn+QJNJr9513R8nxpb4I/rGh7vDveTPX7Ivy
-	JoSK/ce3JKSCqqzQ==
-Received: (qmail 3656724 invoked from network); 29 Dec 2024 11:12:37 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Dec 2024 11:12:37 +0100
-X-UD-Smtp-Session: l3s3148p1@mkFx72UqmLEujnsY
+	 s=k1; bh=3dWsyI2fhnNRuJtDWw143uSamr17n+7uryQ9yHPh310=; b=enQzPR
+	R3ZWxa4oEBsfz1GK0QIsytd1MqCogF1CFBGcGfKaZSfeAcBj6GjkryWe8fJyXyAs
+	kpkxlj7qPNIwuXeaYKNCpQjkhmn+arykPWPRIzpz7Gw8kQRo3Vlib9WUmndFvflT
+	FTodw9v3HaSxfvuwzwI6e1Kr2B827k/vxUak5iuBW6UwsIqa3kEzDyCYoR50OYsB
+	oNQZZWY2b8jGp0ak13g4VqGIobTudlOLH9KKKFcmEtRCM+9LTVcGApqb//yn7v/r
+	vgkcNpWVOMj/RekqjCPGyxPDnYiEwCki/qS1or0fdfDQqwSfqiZd+CFC/DecenSG
+	mmBijsEU8fxWDVhg==
+Received: (qmail 3656752 invoked from network); 29 Dec 2024 11:12:38 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Dec 2024 11:12:38 +0100
+X-UD-Smtp-Session: l3s3148p1@ilN772UqqLEujnsY
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-i3c@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [PATCH RFT v2 3/5] i3c: dw: use get_parity8 helper instead of open coding it
-Date: Sun, 29 Dec 2024 11:12:31 +0100
-Message-Id: <20241229101234.2896-4-wsa+renesas@sang-engineering.com>
+Subject: [PATCH RFT v2 4/5] i3c: mipi-i3c-hci: use get_parity8 helper instead of open coding it
+Date: Sun, 29 Dec 2024 11:12:32 +0100
+Message-Id: <20241229101234.2896-5-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
 References: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
@@ -75,49 +75,38 @@ Changes since v1:
 * renamed from 'get_parity8' to 'parity8'
 * rebased to 6.13-rc4
 
- drivers/i3c/master/dw-i3c-master.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ drivers/i3c/master/mipi-i3c-hci/dat_v1.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/drivers/i3c/master/dw-i3c-master.c b/drivers/i3c/master/dw-i3c-master.c
-index d4b80eb8cecd..0d4d44458c11 100644
---- a/drivers/i3c/master/dw-i3c-master.c
-+++ b/drivers/i3c/master/dw-i3c-master.c
-@@ -251,14 +251,6 @@ struct dw_i3c_i2c_dev_data {
- 	struct i3c_generic_ibi_pool *ibi_pool;
- };
+diff --git a/drivers/i3c/master/mipi-i3c-hci/dat_v1.c b/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
+index 47b9b4d4ed3f..85c4916972e4 100644
+--- a/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
++++ b/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
+@@ -40,15 +40,6 @@
+ #define dat_w0_write(i, v)	writel(v, hci->DAT_regs + (i) * 8)
+ #define dat_w1_write(i, v)	writel(v, hci->DAT_regs + (i) * 8 + 4)
  
--static u8 even_parity(u8 p)
+-static inline bool dynaddr_parity(unsigned int addr)
 -{
--	p ^= p >> 4;
--	p &= 0xf;
--
--	return (0x9669 >> p) & 1;
+-	addr |= 1 << 7;
+-	addr += addr >> 4;
+-	addr += addr >> 2;
+-	addr += addr >> 1;
+-	return (addr & 1);
 -}
 -
- static bool dw_i3c_master_supports_ccc_cmd(struct i3c_master_controller *m,
- 					   const struct i3c_ccc_cmd *cmd)
+ static int hci_dat_v1_init(struct i3c_hci *hci)
  {
-@@ -848,7 +840,7 @@ static int dw_i3c_master_daa(struct i3c_master_controller *m)
- 	struct dw_i3c_xfer *xfer;
- 	struct dw_i3c_cmd *cmd;
- 	u32 olddevs, newdevs;
--	u8 p, last_addr = 0;
-+	u8 last_addr = 0;
- 	int ret, pos;
+ 	unsigned int dat_idx;
+@@ -123,7 +114,7 @@ static void hci_dat_v1_set_dynamic_addr(struct i3c_hci *hci,
+ 	dat_w0 = dat_w0_read(dat_idx);
+ 	dat_w0 &= ~(DAT_0_DYNAMIC_ADDRESS | DAT_0_DYNADDR_PARITY);
+ 	dat_w0 |= FIELD_PREP(DAT_0_DYNAMIC_ADDRESS, address) |
+-		  (dynaddr_parity(address) ? DAT_0_DYNADDR_PARITY : 0);
++		  (parity8(address) ? 0 : DAT_0_DYNADDR_PARITY);
+ 	dat_w0_write(dat_idx, dat_w0);
+ }
  
- 	ret = pm_runtime_resume_and_get(master->dev);
-@@ -873,9 +865,9 @@ static int dw_i3c_master_daa(struct i3c_master_controller *m)
- 		}
- 
- 		master->devs[pos].addr = ret;
--		p = even_parity(ret);
- 		last_addr = ret;
--		ret |= (p << 7);
-+
-+		ret |= parity8(ret) ? 0 : BIT(7);
- 
- 		writel(DEV_ADDR_TABLE_DYNAMIC_ADDR(ret),
- 		       master->regs +
 -- 
 2.39.2
 
