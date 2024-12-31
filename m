@@ -1,494 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-11751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11752-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90EDD9FEF5D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Dec 2024 13:53:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7271D9FEFF1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Dec 2024 15:21:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 509321621F9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Dec 2024 12:53:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A90C43A2C59
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Dec 2024 14:20:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14ED2199230;
-	Tue, 31 Dec 2024 12:53:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B086D1078F;
+	Tue, 31 Dec 2024 14:20:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W7YbN/7v"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AbmvX0ky"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97CB1925AC;
-	Tue, 31 Dec 2024 12:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073ACCA4B;
+	Tue, 31 Dec 2024 14:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735649597; cv=none; b=Gi4C5wn8XFnI4aIIn+J20WyXiKuuZgPs6cEFAgdqBKGwBy8SvhwCPdakm4SpC2wGtnGJI0Bnb+fw8Wx+zMP/S+yNNuaFC599uXbyU+H8h4j5PGZxgsUKxGnq/xq4a9zO47jK00zf5kicq4jjQwZi+imY970VV/4bI7t+r9V14Qc=
+	t=1735654857; cv=none; b=Le12Vj38IsrWPQpQDwzqkiq//bKEk57kswLRu9whK9TASUx9cRDVm9NXiK38LJQstqCG0DHw1rowqI1wq9tsMmUUy3MJpxkv6ZCWKieiQVxbN+B+mVhJwI6BDQnx/lKqCLhS2NgDPe8qeJZkhZM8jRaackznUJc6HrOcinRUcME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735649597; c=relaxed/simple;
-	bh=bkBwdWCAEl4OGynwIsymHqUCihBkdGW2DuvoxEI1JU0=;
+	s=arc-20240116; t=1735654857; c=relaxed/simple;
+	bh=b7graTQoDG6f37hqLC6zkdGD84TncPK76j55g02uB6g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pRcyNR+ZDIkCyOs+s0WjLgWAKzv83qsW90gaeRgwAs43X/aiBAnYjwEoEeYgxbU7300T5S1Ue+keX+xoWxrlvK2IduS5rllQ8q3jvOB8asdlGvpuBafPQMkgpEd594m6yUzqHbX0yO3lGPNCrxZFt6qZprqZojegjeDOgaidsGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W7YbN/7v; arc=none smtp.client-ip=209.85.221.170
+	 To:Cc:Content-Type; b=sbF0eDZnlIJzRO+zJoc1NgK1XAtMCWy/h9zCMd1PuoaUWaTgU3DiV4vTT1FTCBxUOWLuDtDYxEkjOwqhKQC7V+V2LS7p+E+eXnynKWjYxDg2q6z9BPNhGndLzkJmoSMz1GjCtgcbI8SZgh8F9FdRKGLqO40jImE/CultQjx4INg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AbmvX0ky; arc=none smtp.client-ip=209.85.221.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-517aea3ee2aso5314402e0c.2;
-        Tue, 31 Dec 2024 04:53:14 -0800 (PST)
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5188e0c2b52so2924869e0c.1;
+        Tue, 31 Dec 2024 06:20:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735649594; x=1736254394; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1735654855; x=1736259655; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/WThxzEW0uPA5fa6ffycWub+Cm0rWO1k9NsrPTfbs7s=;
-        b=W7YbN/7ve5z+zlQ5HNJyBEF7GdIwyemuQuInTz6uDNTwM8skBNd7PdjFFuqynP9/q9
-         /y/ANDfstPgkVlQAG769H5oOGQ9Q7UjTRS7Hdw0Qe9g8XTuRL9xMhE3X2DB6qF9prQkf
-         H683HRyjPRdQtCx2mr+vDVWJK6lp8J+nmN+gpOPRIdEg3E2MVXve+/gRP3zxMaqBNijc
-         JSbOicsDnQsIZAg8R73rttpDWbD1n3KVAJGwgFcwrtRhe59+90Ih+vasMgVqc+DipAkR
-         l3gMwwJirFPbq60An4QTxQQwGWM4RSnr3XGcoreF1VfekbZ/BuQYc4zxRWtSYcDMMfNe
-         r29A==
+        bh=p2J3cBm8R8L86eG0ET7FujK8+Gq3+WlHTX5PiJH3SfY=;
+        b=AbmvX0ky5Lh8ct9u36oBjz6Z1wT5bgN283u9+tqt2pmV/23IIoheEvBzAll9ztSvxE
+         R8YbYk+jHB6Qj8W+dXbce2MejbxubBxvn50MX5S/yRyOKLML/d9RaCKssAS7LBtwWl03
+         wovj8yfzH4SCMts1o88TnF4cI/7N3TrbjDUgw8VxAKZMmlm3JbWupHLeiWz2lQGdZ9aG
+         /BT6afrhljHiMgZOCus7gvrs6JS5UrHruDSzBN8ZvgidHSt552aHE+2pn/YFLNa3Y1q4
+         Lt8r6eyzrklSaWa0kScpkYe528u+jGex2cuPQZEwTBMwk1MR2a8Zh5VvVP6LxiDUVYHc
+         0uWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735649594; x=1736254394;
+        d=1e100.net; s=20230601; t=1735654855; x=1736259655;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/WThxzEW0uPA5fa6ffycWub+Cm0rWO1k9NsrPTfbs7s=;
-        b=UDRdQQzNfbrXJaZhgkOTlMUy5QBSIlYLTDMFeiC/63Gq63VG8TtBoG22ZBwyNKBuZf
-         CipX1X29L0CCIU6RHL5m1nueuwT9Xbb2EbLKrUxNjTRnn5rOzcBbfwYJooLNLTFXv5je
-         oesQegH1MgRdIBVfK6EoCggSFDS2C/mMIxhfinMIXuNC+QCAihdMsOhL3rpdumD5XwQT
-         UEQK5WQaoaQ8HMw5MZMQdeXDm2riD/yc3IHpyRxVLeMC7m8Kt64L7oTfLD70araqJBQq
-         x0cQ7BDZIjv+a1fpoWXo54fylk3AUyApDrfvQPBD+q62exHhtYtR+XDC8hDpClWKAF5w
-         ukKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUlOqOXGn8Bhfs7/6NjKlOn1CTveSsoqxp/5E+CUrFMTRuqjxhpDinmurrkSDoPXxR2/m2Ju8mBwBplTD+9wtsEwDs=@vger.kernel.org, AJvYcCV0gaFwZ7aL8o51BMi+inUs00APyKUiiaypg1KKjPQcezJIXBoUug27otxb5PMxNwivv0F/zqizF1zP/aUr@vger.kernel.org, AJvYcCVw10PQtpAFFMLdL7lVdi6ptpW1laElphvio7DSHFi8GkbY8BsaMLt0cBRdDWuWVyhlTCuQTY9I6es=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhIsfi+OHpbqEDaAWu6Ffx9vyOctsZUgA2wxKv+bZmnGBl0Rrm
-	MVqRMm4wm2PLZmwM9dqLFXlY2WOg//68UIxaZaLwACyL7eWXs19bFttDchzVmraHUTqCR+CGwcI
-	vUUXVc3SWuu46xhtWDrn7uSixgto=
-X-Gm-Gg: ASbGncudEqGZaImrwc7Ym49lQdd8AIRLvEpUwpXwauwog2KZqVaUPuB2FX1x7t5Dlfx
-	6NrcqrIQAwJWzrkp9nSRfhr4OZQLrGoBCGsGwTuMslcwtbkIll8tQKPXe9RLqLLFlvbKS
-X-Google-Smtp-Source: AGHT+IHI7QIQRgov78DL23WX+5Lfyp/tDUIdvY84Gc15vNMeTZcFIm8u2fE0QfBZhFPg9pP482utVut1dFPz0M18foA=
-X-Received: by 2002:a05:6122:88d:b0:50a:d1e3:82f7 with SMTP id
- 71dfb90a1353d-51b75d32623mr31672201e0c.8.1735649593552; Tue, 31 Dec 2024
- 04:53:13 -0800 (PST)
+        bh=p2J3cBm8R8L86eG0ET7FujK8+Gq3+WlHTX5PiJH3SfY=;
+        b=V3jADQXV+hYy/wda6GT/N8zXSjI7zkWnw8/JkQ2Dy4Ea4M8CagMdkt+0HjOg48w76L
+         zFefnssIoX0M4Ndj8+Wlsuwcx+KbI2Ak07j/4PQywLkpjqOG3Bd5CcelIm0aPJQAuiWn
+         WmLfKIKnPLCST/6IOriPoVguRtW4TiE/5rgdTEU15e8U6prKq8Ol6Oy6bbvNfgKdTiQj
+         UNxY1lDuu88iFkVtDtEufBNznoq7br5X2FF+nloxk9aKEOXc2IFL+0UXN/vrBggndybB
+         9UUZ0NXyXW/IAs/BozTK6BlijKlj5RVw87/r+4tzN0V46c6S4E4gkcIflsuDOH9asjCl
+         l43A==
+X-Forwarded-Encrypted: i=1; AJvYcCU3ca/NS8Mks+NaLJqO13L4oWtIhzsKSkkqrXLnP9Lmj7956nOqSECk/Z9JH0oODSTMklZVlwo1u+M=@vger.kernel.org, AJvYcCW2SUgXokb4Cvi3EAObbtFq6JmmSIw8YZNwApeUAvIUSm985jQD4jDJoqrStPmFYok5xOY1o7/ysTD9yQS907O1B1c=@vger.kernel.org, AJvYcCWLhYt6TfHBD+sGIDEZH7m0cVzxYBZVGhB1v1/Qw091LI7xsj271+sAlk3gpoejfwyoT0XxwMgqv5gKi9EF@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZ6AA8H5Ra2QmRcm+6H3YCbF0uIFZot4J8A/tzj1c5D4Uj+LER
+	8Z+cnKVv+3SO/w3s7ziL0U/tNgrIjjNQExWy/BxSDcsvLmg59r51CQ1iLiGwGnYLUNLL3WlEdvO
+	8MJe0aMyBXPkZ2oicNpuzFUcL9ynRPQS7KlM=
+X-Gm-Gg: ASbGncsRZQ5VqogmMSLkCm1fWVwnB/YbH0uc0DvdNdM+xNoyEbzGXSVYYSdlsPUumMV
+	9b842k3pd6a5FUSEA9xjZvuC7DI+P+/XSVy/MD6xk3Gi03RxPYgXaWr961p+E6VEW2UT8
+X-Google-Smtp-Source: AGHT+IEKgaO6U8I1b7i3N3RIFbmM1ze2nUoEj3SBycwdB1nzM2yMpnDuHSyqnwVc3GVYUhhuHRnEd1KFUEQ7S8TKNa4=
+X-Received: by 2002:a05:6122:4889:b0:50c:9834:57b3 with SMTP id
+ 71dfb90a1353d-51b75c5afc3mr33297600e0c.4.1735654854933; Tue, 31 Dec 2024
+ 06:20:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241223173708.384108-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241223173708.384108-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXHnnpNa7rzDcU706eQHeBw5c88P769zCcQXzUrkHdijA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXHnnpNa7rzDcU706eQHeBw5c88P769zCcQXzUrkHdijA@mail.gmail.com>
+References: <20241227115154.56154-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241227115154.56154-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <Z3CKnu60lVuDBedn@surfacebook.localdomain>
+In-Reply-To: <Z3CKnu60lVuDBedn@surfacebook.localdomain>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 31 Dec 2024 12:52:47 +0000
-Message-ID: <CA+V-a8tWK+3ybxKYJguWpShYeiXF2MtJgoCA-o75KUrm1y8Atw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] clk: renesas: rzv2h: Switch MSTOP configuration to
- per-bit basis
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+Date: Tue, 31 Dec 2024 14:20:28 +0000
+Message-ID: <CA+V-a8v0_9Y5qsDGtwLL76-LY5u8Tf4odbDvU9sbVE73BZ=ZHQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] i2c: riic: Use dev_err_probe in probe and
+ riic_init_hw functions
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-renesas-soc@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Andy,
 
 Thank you for the review.
 
-On Fri, Dec 27, 2024 at 3:49=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
+On Sat, Dec 28, 2024 at 11:35=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
 >
-> Hi Prabhakar,
->
-> On Mon, Dec 23, 2024 at 6:37=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
+> Fri, Dec 27, 2024 at 11:51:47AM +0000, Prabhakar kirjoitti:
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Refactor MSTOP handling to switch from group-based to per-bit
-> > configuration. Introduce atomic counters for each MSTOP bit and update
-> > enable/disable logic.
+> > Refactor error handling in the riic_i2c_probe() and riic_init_hw()
+> > functions by replacing multiple dev_err() calls with dev_err_probe().
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Additionally, update the riic_init_hw() function to use a local `dev`
+> > pointer instead of `riic->adapter.dev` for dev_err_probe(), as the I2C
+> > adapter is not initialized at this stage.
 >
-> Thanks for your patch!
+> ...
 >
-> > --- a/drivers/clk/renesas/r9a09g047-cpg.c
-> > +++ b/drivers/clk/renesas/r9a09g047-cpg.c
-> > @@ -145,4 +145,6 @@ const struct rzv2h_cpg_info r9a09g047_cpg_info __in=
-itconst =3D {
-> >         /* Resets */
-> >         .resets =3D r9a09g047_resets,
-> >         .num_resets =3D ARRAY_SIZE(r9a09g047_resets),
-> > +
-> > +       .num_mstop_bits =3D 208,
+> > +     if (brl > (0x1F + 3))
+> > +             return dev_err_probe(dev, -EINVAL, "invalid speed (%lu). =
+Too slow.\n",
+> > +                                  (unsigned long)t->bus_freq_hz);
 >
-> Note to self: to be folded into commit 61302a455696728c ("clk: renesas:
-> rzv2h: Add support for RZ/G3E SoC") in renesas-clk.
+> There is nothing special about bus_freq_hz. Why casting?
 >
-> >  };
-> > diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/=
-r9a09g057-cpg.c
-> > index 59dadedb2217..a45b4020996b 100644
-> > --- a/drivers/clk/renesas/r9a09g057-cpg.c
-> > +++ b/drivers/clk/renesas/r9a09g057-cpg.c
-> > @@ -275,4 +275,6 @@ const struct rzv2h_cpg_info r9a09g057_cpg_info __in=
-itconst =3D {
-> >         /* Resets */
-> >         .resets =3D r9a09g057_resets,
-> >         .num_resets =3D ARRAY_SIZE(r9a09g057_resets),
-> > +
-> > +       .num_mstop_bits =3D 192,
->
-> Note to self: to be folded into commit 7bd4cb3d6b7c43f0 ("clk:
-> renesas: rzv2h: Add MSTOP support") in renesas-clk, just like the
-> rest below.
->
-> > --- a/drivers/clk/renesas/rzv2h-cpg.c
-> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> > @@ -43,6 +43,8 @@
-> >
-> >  #define CPG_BUS_1_MSTOP                (0xd00)
-> >  #define CPG_BUS_MSTOP(m)       (CPG_BUS_1_MSTOP + ((m) - 1) * 4)
-> > +/* On RZ/V2H(P) and RZ/G3E CPG_BUS_m_MSTOP starts from m =3D 1 */
->
-> If you think you need this comment, please move it two lines up,
-> as it also applies to those lines.
->
-> > +#define GET_MSTOP_IDX(mask)    ((FIELD_GET(BUS_MSTOP_IDX_MASK, (mask))=
-) - 1)
->
-> I think subtracting one here is the wrong abstraction (see below)...
->
-As agreed below, I'll get rid of this macro.
+Ok, I'll update it like below:
 
-> >
-> >  #define KDIV(val)              ((s16)FIELD_GET(GENMASK(31, 16), (val))=
-)
-> >  #define MDIV(val)              FIELD_GET(GENMASK(15, 6), (val))
-> > @@ -68,6 +70,7 @@
-> >   * @resets: Array of resets
-> >   * @num_resets: Number of Module Resets in info->resets[]
-> >   * @last_dt_core_clk: ID of the last Core Clock exported to DT
-> > + * @mstop_count: Array of mstop
->
-> Array of mstop values?
->
-OK.
+    if (brl > (0x1F + 3))
+        return dev_err_probe(dev, -EINVAL, "invalid speed (%uHz). Too slow.=
+\n",
+                     t->bus_freq_hz);
 
-> >   * @rcdev: Reset controller entity
-> >   */
-> >  struct rzv2h_cpg_priv {
-> > @@ -82,17 +85,13 @@ struct rzv2h_cpg_priv {
-> >         unsigned int num_resets;
-> >         unsigned int last_dt_core_clk;
-> >
-> > +       atomic_t *mstop_count;
-> > +
-> >         struct reset_controller_dev rcdev;
-> >  };
+> ...
 >
-> > @@ -446,36 +445,65 @@ rzv2h_cpg_register_core_clk(const struct cpg_core=
-_clk *core,
-> >  }
-> >
-> >  static void rzv2h_mod_clock_mstop_enable(struct rzv2h_cpg_priv *priv,
-> > -                                        struct mod_clock *clock)
-> > +                                        u32 mstop_data)
-> >  {
-> > +       u16 mstop_mask =3D FIELD_GET(BUS_MSTOP_BITS_MASK, (mstop_data))=
-;
+> >               ret =3D devm_request_irq(dev, ret, riic_irqs[i].isr,
 >
-> No need for parentheses around mstop_data.
+> I hate code doing
 >
-OK.
+>                 ret =3D foo(ret);
+>
+> >                                      0, riic_irqs[i].name, riic);
+>
+> > +             if (ret)
+> > +                     return dev_err_probe(dev, ret, "failed to request=
+ irq %s\n",
+> > +                                          riic_irqs[i].name);
+>
+> While this following the original code, with the above change (introducin=
+g a
+> separate variable for IRQ) this might also print it.
+>
+Ok, I'll create a new patch for this and have something like below:
 
-> > +       u16 mstop_index =3D GET_MSTOP_IDX(mstop_data);
-> > +       unsigned int index =3D mstop_index * 16;
->
-> mstop_index already has one subtracted inside GET_MSTOP_IDX(),
-> because you need that for indexing priv->mstop_count[]...
->
-> >         unsigned long flags;
-> > -       u32 val;
-> > +       unsigned int i;
-> > +       u32 val =3D 0;
-> >
-> >         spin_lock_irqsave(&priv->rmw_lock, flags);
-> > -       if (!refcount_read(&clock->mstop->ref_cnt)) {
-> > -               val =3D clock->mstop->mask << 16;
-> > -               writel(val, priv->base + CPG_BUS_MSTOP(clock->mstop->id=
-x));
-> > -               refcount_set(&clock->mstop->ref_cnt, 1);
-> > -       } else {
-> > -               refcount_inc(&clock->mstop->ref_cnt);
-> > +       for_each_set_bit(i, (unsigned long *)&mstop_mask, 16) {
->
-> Please make mstop_mask unsigned long instead of using a
-> non-portable cast.
->
-OK.
 
-> > +               if (!atomic_read(&priv->mstop_count[index + i]))
-> > +                       val |=3D BIT(i) << 16;
-> > +               atomic_inc(&priv->mstop_count[index + i]);
-> >         }
-> > +       if (val)
-> > +               writel(val, priv->base + CPG_BUS_MSTOP(mstop_index + 1)=
-);
->
-> ... hence you have to re-add one here, which will be subtracted again
-> inside CPG_BUS_MSTOP().
->
-> So what about:
->   1. Dropping macro GET_MSTOP_IDX(),
->   2. Using mstop_index =3D FIELD_GET(BUS_MSTOP_BITS_MASK, mstop_data),
->      so you can call CPG_BUS_MSTOP(mstop_index) directly,
->   3. Letting priv->mstop_count point 16 entries before the allocated
->      array, so you can index it by the logical mstop number directly.
->
-Something like below?
+    for (i =3D 0; i < ARRAY_SIZE(riic_irqs); i++) {
+        int irq =3D platform_get_irq(pdev, riic_irqs[i].res_num);
 
-static void rzv2h_mod_clock_mstop_enable(struct rzv2h_cpg_priv *priv,
-                     u32 mstop_data)
-{
-    unsigned long mstop_mask =3D FIELD_GET(BUS_MSTOP_BITS_MASK, mstop_data)=
-;
-    u16 mstop_index =3D FIELD_GET(BUS_MSTOP_IDX_MASK, mstop_data);
-    unsigned int index =3D (mstop_index - 1) * 16;
-    atomic_t *mstop =3D &priv->mstop_count[index];
-    unsigned long flags;
-    unsigned int i;
-    u32 val =3D 0;
-
-    spin_lock_irqsave(&priv->rmw_lock, flags);
-    for_each_set_bit(i, &mstop_mask, 16) {
-        if (!atomic_read(&mstop[i]))
-            val |=3D BIT(i) << 16;
-        atomic_inc(&mstop[i]);
+        ret =3D devm_request_irq(dev, irq, riic_irqs[i].isr,
+                       0, riic_irqs[i].name, riic);
+        if (ret)
+            return ret;
     }
-    if (val)
-        writel(val, priv->base + CPG_BUS_MSTOP(mstop_index));
-    spin_unlock_irqrestore(&priv->rmw_lock, flags);
-}
-
-static void rzv2h_mod_clock_mstop_disable(struct rzv2h_cpg_priv *priv,
-                      u32 mstop_data)
-{
-    unsigned long mstop_mask =3D FIELD_GET(BUS_MSTOP_BITS_MASK, mstop_data)=
-;
-    u16 mstop_index =3D FIELD_GET(BUS_MSTOP_IDX_MASK, mstop_data);
-    unsigned int index =3D (mstop_index - 1) * 16;
-    atomic_t *mstop =3D &priv->mstop_count[index];
-    unsigned long flags;
-    unsigned int i;
-    u32 val =3D 0;
-
-    spin_lock_irqsave(&priv->rmw_lock, flags);
-    for_each_set_bit(i, &mstop_mask, 16) {
-        if (!atomic_read(&mstop[i]) ||
-            atomic_dec_and_test(&mstop[i]))
-            val |=3D BIT(i) << 16 | BIT(i);
-    }
-    if (val)
-        writel(val, priv->base + CPG_BUS_MSTOP(mstop_index));
-    spin_unlock_irqrestore(&priv->rmw_lock, flags);
-}
-
-
->
-> >         spin_unlock_irqrestore(&priv->rmw_lock, flags);
-> >  }
-> >
-> >  static void rzv2h_mod_clock_mstop_disable(struct rzv2h_cpg_priv *priv,
-> > -                                         struct mod_clock *clock)
-> > +                                         u32 mstop_data)
-> >  {
-> > +       u16 mstop_mask =3D FIELD_GET(BUS_MSTOP_BITS_MASK, (mstop_data))=
-;
-> > +       u16 mstop_index =3D GET_MSTOP_IDX(mstop_data);
-> > +       unsigned int index =3D mstop_index * 16;
-> >         unsigned long flags;
-> > -       u32 val;
-> > +       unsigned int i;
-> > +       u32 val =3D 0;
-> >
-> >         spin_lock_irqsave(&priv->rmw_lock, flags);
-> > -       if (refcount_dec_and_test(&clock->mstop->ref_cnt)) {
-> > -               val =3D clock->mstop->mask << 16 | clock->mstop->mask;
-> > -               writel(val, priv->base + CPG_BUS_MSTOP(clock->mstop->id=
-x));
-> > +       for_each_set_bit(i, (unsigned long *)&mstop_mask, 16) {
-> > +               if (!atomic_read(&priv->mstop_count[index + i]) ||
-> > +                   atomic_dec_and_test(&priv->mstop_count[index + i]))
->
-> Why the first part of the check?
-> Because you only enable, and never disable, mstop bits in the initial
-> synchronization in rzv2h_cpg_register_mod_clk()?
->
-no, that's to avoid underflow.
-
-> > +                       val |=3D BIT(i) << 16 | BIT(i);
-> >         }
-> > +       if (val)
-> > +               writel(val, priv->base + CPG_BUS_MSTOP(mstop_index + 1)=
-);
-> >         spin_unlock_irqrestore(&priv->rmw_lock, flags);
-> >  }
-> >
-> > +static int rzv2h_mod_clock_is_enabled(struct clk_hw *hw)
-> > +{
-> > +       struct mod_clock *clock =3D to_mod_clock(hw);
-> > +       struct rzv2h_cpg_priv *priv =3D clock->priv;
-> > +       u32 bitmask;
-> > +       u32 offset;
-> > +
-> > +       if (clock->mon_index >=3D 0) {
-> > +               offset =3D GET_CLK_MON_OFFSET(clock->mon_index);
-> > +               bitmask =3D BIT(clock->mon_bit);
-> > +       } else {
-> > +               offset =3D GET_CLK_ON_OFFSET(clock->on_index);
-> > +               bitmask =3D BIT(clock->on_bit);
-> > +       }
-> > +
-> > +       return readl(priv->base + offset) & bitmask;
-> > +}
-> > +
-> >  static int rzv2h_mod_clock_endisable(struct clk_hw *hw, bool enable)
-> >  {
-> >         struct mod_clock *clock =3D to_mod_clock(hw);
-> > @@ -489,15 +517,19 @@ static int rzv2h_mod_clock_endisable(struct clk_h=
-w *hw, bool enable)
-> >         dev_dbg(dev, "CLK_ON 0x%x/%pC %s\n", reg, hw->clk,
-> >                 enable ? "ON" : "OFF");
-> >
-> > +       if ((rzv2h_mod_clock_is_enabled(hw) && enable) ||
-> > +           (!rzv2h_mod_clock_is_enabled(hw) && !enable))
-> > +               return 0;
->
-> This may call rzv2h_mod_clock_is_enabled() twice, as readl() is a
-> compiler barrier.  You can avoid that using:
->
->     bool enabled =3D rzv2h_mod_clock_is_enabled(hw);
->     if (enabled =3D=3D enable)
->             return 0;
->
-OK.
-
-> > +
-> >         value =3D bitmask << 16;
-> >         if (enable) {
-> >                 value |=3D bitmask;
-> >                 writel(value, priv->base + reg);
-> > -               if (clock->mstop)
-> > -                       rzv2h_mod_clock_mstop_enable(priv, clock);
-> > +               if (clock->mstop_data !=3D BUS_MSTOP_NONE)
-> > +                       rzv2h_mod_clock_mstop_enable(priv, clock->mstop=
-_data);
-> >         } else {
-> > -               if (clock->mstop)
-> > -                       rzv2h_mod_clock_mstop_disable(priv, clock);
-> > +               if (clock->mstop_data !=3D BUS_MSTOP_NONE)
-> > +                       rzv2h_mod_clock_mstop_disable(priv, clock->msto=
-p_data);
-> >                 writel(value, priv->base + reg);
-> >         }
-> >
->
-> > @@ -647,13 +619,16 @@ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod=
-_clk *mod,
-> >
-> >         priv->clks[id] =3D clock->hw.clk;
-> >
-> > -       if (mod->mstop_data !=3D BUS_MSTOP_NONE) {
-> > -               clock->mstop =3D rzv2h_cpg_get_mstop(priv, clock, mod->=
-mstop_data);
-> > -               if (!clock->mstop) {
-> > -                       clk =3D ERR_PTR(-ENOMEM);
-> > -                       goto fail;
-> > -               }
-> > -       }
-> > +       /*
-> > +        * Ensure the module clocks and MSTOP bits are synchronized whe=
-n they are
-> > +        * turned ON by the bootloader. Enable MSTOP bits for module cl=
-ocks that were
-> > +        * turned ON in an earlier boot stage. Skip critical clocks, as=
- they will be
-> > +        * turned ON immediately upon registration, and the MSTOP count=
-er will be
-> > +        * updated through the rzv2h_mod_clock_enable() path.
-> > +        */
-> > +       if (clock->mstop_data !=3D BUS_MSTOP_NONE &&
-> > +           !mod->critical && rzv2h_mod_clock_is_enabled(&clock->hw))
-> > +               rzv2h_mod_clock_mstop_enable(priv, clock->mstop_data);
-> >
-Ive updated this code, to handle a case where critical clocks are
-turned ON by bootloader. Now updated code looks like below:
-
-    /*
-     * Ensure the module clocks and MSTOP bits are synchronized when they a=
-re
-     * turned ON by the bootloader. Enable MSTOP bits for module
-clocks that were
-     * turned ON in an earlier boot stage.
-     */
-    if (clock->mstop_data !=3D BUS_MSTOP_NONE &&
-        !mod->critical && rzv2h_mod_clock_is_enabled(&clock->hw)) {
-        rzv2h_mod_clock_mstop_enable(priv, clock->mstop_data);
-    } else if (clock->mstop_data !=3D BUS_MSTOP_NONE && mod->critical) {
-        unsigned long mstop_mask =3D FIELD_GET(BUS_MSTOP_BITS_MASK,
-clock->mstop_data);
-        u16 mstop_index =3D FIELD_GET(BUS_MSTOP_IDX_MASK, clock->mstop_data=
-);
-        unsigned int index =3D (mstop_index - 1) * 16;
-        atomic_t *mstop =3D &priv->mstop_count[index];
-        unsigned long flags;
-        unsigned int i;
-        u32 val =3D 0;
-
-        /*
-         * Critical clocks are turned ON immediately upon registration, and=
- the
-         * MSTOP counter is updated through the rzv2h_mod_clock_enable() pa=
-th.
-         * However, if the critical clocks were already turned ON by the in=
-itial
-         * bootloader, synchronize the atomic counter here and clear
-the MSTOP bit.
-         */
-        spin_lock_irqsave(&priv->rmw_lock, flags);
-        for_each_set_bit(i, &mstop_mask, 16) {
-            if (atomic_read(&mstop[i]))
-                continue;
-            val |=3D BIT(i) << 16;
-            atomic_inc(&mstop[i]);
-        }
-        if (val)
-            writel(val, priv->base + CPG_BUS_MSTOP(mstop_index));
-        spin_unlock_irqrestore(&priv->rmw_lock, flags);
-    }
-
-> >         return;
-> >
-> > @@ -922,6 +897,13 @@ static int __init rzv2h_cpg_probe(struct platform_=
-device *pdev)
-> >         if (!clks)
-> >                 return -ENOMEM;
-> >
-> > +       priv->mstop_count =3D devm_kmalloc_array(dev, info->num_mstop_b=
-its,
-> > +                                              sizeof(*priv->mstop_coun=
-t), GFP_KERNEL);
->
-> devm_kcalloc() ...
->
-> > +       if (!priv->mstop_count)
-> > +               return -ENOMEM;
-> > +       for (i =3D 0; i < info->num_mstop_bits; i++)
-> > +               atomic_set(&priv->mstop_count[i], 0);
->
-> ... so you don't need to zero them.
->
-OK.
 
 Cheers,
 Prabhakar
