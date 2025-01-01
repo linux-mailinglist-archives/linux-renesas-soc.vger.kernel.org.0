@@ -1,95 +1,90 @@
-Return-Path: <linux-renesas-soc+bounces-11755-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11756-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF959FF3EE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jan 2025 13:11:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53ED9FF3FD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jan 2025 13:15:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F10681882531
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jan 2025 12:11:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7422188266E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jan 2025 12:15:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F388B1C75E2;
-	Wed,  1 Jan 2025 12:11:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D0451E0E0B;
+	Wed,  1 Jan 2025 12:14:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a2V+TIWa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TIwlXm8+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D1D3A1CD;
-	Wed,  1 Jan 2025 12:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED1F1E1C01;
+	Wed,  1 Jan 2025 12:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735733487; cv=none; b=nWa6jcUlRvK1fOr04ErfBq6E5JnU40KLbr5F5AvFPR7EhMmAeArRlp9EpBzYewQ0102G7g3Fj3bEUs67XfBJFKDmn3bpR4PObXzBxjXz5riw/6qjVkDH6cws4sSc09zv5djkvaeBB5EH/NDeAQX4+jSgJT56nVMueTauZRLY+MI=
+	t=1735733676; cv=none; b=scSRywJmT6Ct6zn/cXKCneOnqcqLnEFWb8aisAG1etrJkmZfgUJw1plmaj62k74MeiugjMy4emeQR42DA04JgrUldtdd6aOq+Yo6dInSfJ58/TVVzo5JaO9Syq8vTepjEozbyHdwoYOVcfk92aWEmvbNOBdD9zwqCWtSYps8leQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735733487; c=relaxed/simple;
-	bh=Oz7gKXe7a3QEY0vRx+A/7GdXBb1qnkgZgAb3jcav0lU=;
+	s=arc-20240116; t=1735733676; c=relaxed/simple;
+	bh=FFLqZ1GPTpGGIrHpFwB3JtV+52VcZyi0MHj1bqWGuX4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EfMeJtKTH6GWw5wefJ9e8qfeAEqeaR4sA5dkRVWgeuCyWObyChtsocsvQA6u6IMR7wmOm1sbxr3Rp5Po9xBw732p6BlYml9O+p2wvlyWCLueudUjriUik1EyWrs+AUSPoG/rLlxZ6oCbE+gC1fIfmXZFuT40q40YbnyfpAHMiMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a2V+TIWa; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version:Content-Type; b=OBHnEiTxZzosNtOvM+Im2Xzoj/8xgTs/jXbD5SCedCj9AO/hn34KcPR9tSV4z52EW/p7pDYK3XXjWQaNQDdye6Yk7+E9CAPc/2XSf94Xm/5LnfpOu+g/LfIvdqTjvUEfZcETWt06BJHoGZiZtnXDB3ms9TNTYmDIIPsUmUngNtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TIwlXm8+; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4361dc6322fso69538655e9.3;
-        Wed, 01 Jan 2025 04:11:25 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4361c705434so77197595e9.3;
+        Wed, 01 Jan 2025 04:14:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735733484; x=1736338284; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1735733672; x=1736338472; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NFdvfXeI+AxT5HLi4EcIiHzcO/MZa3wVZqBRQ3G98lg=;
-        b=a2V+TIWaRc9p+x2+Uc5AChoRLFjxuhbfRdkKXNrkbwY8TCeYHWrxUDnWjapQN1XIxT
-         o3JNiez7MvvYnpyia7ExGJDN6iTkxuGBgFBwLGOJP529XA6jnlurjXlfeVDrkaecVxJ0
-         tG+kEnquBaIgZPLcSfk5HZIcNxUP8mAcDFJgcmanaaBxVfiMRg+tq2zxJDfo/Q3WpgYH
-         h/CzYYTHlff3w6sMR/m/sXEFCHnqi77VfxCytxFK3Feuw3wYam7tnySLthxo4bQKh2EY
-         EfCVbRDs4QhjAblibtXCnS3I0sMqIV9bfqHqa1ZwT81s3aYzouukzfExQDuexZ1qzJ4H
-         wzBw==
+        bh=NckL+WNrluzGcUG/VFfOwqvmRvEaEEtyaw7AvBaHHi0=;
+        b=TIwlXm8+RWJWbrSZFv12VL/ZF9VNuQeg/BosZKQa46KSn/Y/3wB30kNJJsMJJmOdKb
+         UqOeTBZEq8O8zBiua/EgN68XgaFuE9/5rj7fyH+wTjK2/d3+uKO/1VvrMhZgqK/xokE3
+         OMOZTAMzPHnzXtvEHGdbqNDLKyioDO9eQ0DBS6EzWLBzbfhtgYFGCvmMI/IrxlT3cr6K
+         XwSeFL2ae15jFl3yz7WTxL/hq0MV5NRK4wXaG0+kobgpQcPM2evjAUKOzAoxX6wVJELP
+         dCj77Q5bfjq2NEtEGdUWtqR4H61tpjgeZWK0focnEN1CVaBTwsgtBkRmC2YgJQ9iioxO
+         QN2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735733484; x=1736338284;
+        d=1e100.net; s=20230601; t=1735733672; x=1736338472;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NFdvfXeI+AxT5HLi4EcIiHzcO/MZa3wVZqBRQ3G98lg=;
-        b=qp3JDbhYooHR6KCT31fNg3G4p5tPXrjEwvtKxTcxxgHjoxh4RCY48nu+2eSen5ydaf
-         vzm5YJlsoqBYA4RrguRy8vDNlG0r17GMpGMmhaF07dp+xxjGGn889R3nm0ZYhBS/JDrc
-         XtsPyOSWBKvPOZvfOCnFap2CsS94SVfNCLxyQ23/07zqWTpi4cREd/z588Zb+fO96VQz
-         FOHP05pnE2qyrpxySLy0jcVi5dmhaR5QqXhV/8pT4PPvU15qnWgXQ1GK3sKcdrOzbCsU
-         9gNX582/OLnnEPzF2SG1jeRlUs27f15JyJ3urnHuEj+1Cju6gAnNqAQmWQxNIq4DEwH4
-         mTJw==
-X-Forwarded-Encrypted: i=1; AJvYcCUcMfTMIjvuEbOGdRPOqAlaWbus3aRkMmSsJ7AJ3aKeeKmOece3B0UW9ikVdHnVbzZvYPLMFd3jPaI=@vger.kernel.org, AJvYcCVclYqFRGx7SllrZU3lkpM6mDWLu7Wvn0pXmsdhpiQpyEZ3pMLSP6onuLD2x+efrzqAt+70x4TJbObrtx5y@vger.kernel.org, AJvYcCVgIdGFwgZmQGHaofADkWySvQl7skcaB7VF89JguKYK32LZ2MylGcEjvOKkXuCbVPEvfJS0WI33+0KINGU22rCFOCw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxlaje7C00IGJYZDo54wmhAUEjGqRIZOUnJWqMIGiaFqxiW5Rfp
-	9xjAqJEcX9nrlnX+StWoZYKldzfrNqocNG2Zq4AcvTNnDK5UZBrIGhDjrg==
-X-Gm-Gg: ASbGncuanG2wGvMrRjdwkw/9jtoO6DGy5w7KfbSeToJLA+TZ7WPBsZr5aGjVWJT3zRw
-	v7iShwcJA/i7yu/GVsveSfLkoDk9NZ9AI3BoMyBUSKU8uwPF6cQH6FL0bX2Tkn0LZUy7wJtQ0CI
-	guC7S85mMaDYlhLbojdYqRmyDe241LFOVbuilCkg6yIOnxh3YxaGZNr7Ma7DzrxZ00DY+7g4eFz
-	twI7Q1duDqZcZ8OdTA1qlVG+lIiMrTJeUAh/jOGXIKoeUlTG1vwQHWiwbkzD5KUxZE0h3tO5tsJ
-	P8ZwojoQqp8cYhgqfhLO9qs=
-X-Google-Smtp-Source: AGHT+IEerbd9E2mgW1yzUEPQtSM6HTET8hI4JwOAClM1XuKF4QW3firpdmcPFievAEtiKggNxKRLUg==
-X-Received: by 2002:a05:6000:1f84:b0:385:f349:ffef with SMTP id ffacd0b85a97d-38a223ffa57mr29295105f8f.41.1735733484223;
-        Wed, 01 Jan 2025 04:11:24 -0800 (PST)
+        bh=NckL+WNrluzGcUG/VFfOwqvmRvEaEEtyaw7AvBaHHi0=;
+        b=hXCr3QKtRHNfHN8VpPS08axAW3mvKqzABKZuASZzNgKQkF+A2J3e/5A7f5hFJhMs9V
+         jo/TxbhN1VmPRBP6FaSNWoWXMehPWC5nRA/U4LqJS5hmxAiSI7h1UE9GdhYu+mtqXZQ0
+         ZlIu2ffyzrer6uWmH6+M+2V6JAstwekuWE0qq4k1NPUIhKDsmAT9a9wmyCM18rBExpd1
+         3Yk8GNiT8pwbpiu8L1tRs+fkVPGU/qBCzzfDJkIWQiCojzXBxvS+hvQBNMJ8RsR08a9A
+         +8/f4fQWFMEvvB/unQg4wtzb/akQ5IHVcHU3kEOyZYkY4HJ4lxCwvKavao34xEzJBS2e
+         b4CA==
+X-Forwarded-Encrypted: i=1; AJvYcCVGAJ7edwTj3LFnEZo1IH3Zm8NdrZ4dyTmWSOxhUJosQa/0s5qP21JK1sRjsEZ1a5eSp0ozqEqnfsw9GnKXHH5pc5U=@vger.kernel.org, AJvYcCXXvPn4ofKH2SJ2AMRIT5dfc34+PgcAA11dthDEWSV7Nv1VHEBNyWyQk2I9+Ui0c2w529fiCXKED1FcSLM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz06F3U46woVhETYi9+BUdxmEyewnU+fcPQs7a9GAs/nqwteZ3i
+	29OPr12TW5G1z6sTvRL/xsoKCK8dkwbSA6AHyhcNqY4nRAj6/rIWfZt8RQ==
+X-Gm-Gg: ASbGncuEiTA2x6rAJxyG4qmTgsz7kzdBrjKG9FN0kF9Gsw+2Gp99yVMZuZhHl0rKf3P
+	OBkbBz2xZLc+aLL5XVo1MjsKzidZABhgJd2vH5rZgz7tmx0Zmc2vi/Y8VszMgRq10VK2NOY7jaB
+	KItkg55B97pogPOMtMIO7rLWkgtn2qgmBapgADnK4HYtCyHCoFS0YbVWfnje5SOudNH+SG8Yj2r
+	sARoFK8KGPXgomMczYWmx15a1hyhEp7hO/kw0XD65cGRYYR+vQnjwdzilLtePFB8JF7vvEeKZrI
+	eONSmD0MDBOaeqyLfzol2sE=
+X-Google-Smtp-Source: AGHT+IGfWjMYz1WvX4+BwJc8WyMd+k+9TXT4DGwNpNyApIAmqLHN1gK2fLzkAPC94lgoHZDfFuVLCg==
+X-Received: by 2002:a05:600c:1ca7:b0:434:fe3c:c67c with SMTP id 5b1f17b1804b1-43668b5e201mr327201715e9.26.1735733672407;
+        Wed, 01 Jan 2025 04:14:32 -0800 (PST)
 Received: from dsl-u17-10 (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b3b2a4sm452183925e9.27.2025.01.01.04.11.23
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8a6ab1sm36187403f8f.87.2025.01.01.04.14.31
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 01 Jan 2025 04:11:23 -0800 (PST)
-Date: Wed, 1 Jan 2025 12:11:22 +0000
+        Wed, 01 Jan 2025 04:14:31 -0800 (PST)
+Date: Wed, 1 Jan 2025 12:14:31 +0000
 From: David Laight <david.laight.linux@gmail.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Chris Brandt <chris.brandt@renesas.com>, Andi Shyti
- <andi.shyti@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, linux-renesas-soc@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, Biju Das
- <biju.das.jz@bp.renesas.com>, Fabrizio Castro
- <fabrizio.castro.jz@renesas.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v3 4/8] i2c: riic: Use GENMASK() macro for bitmask
- definitions
-Message-ID: <20250101121122.3c3a8e0a@dsl-u17-10>
-In-Reply-To: <20241227115154.56154-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241227115154.56154-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-	<20241227115154.56154-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>
+Subject: Re: [PATCH RFT v2 4/5] i3c: mipi-i3c-hci: use get_parity8 helper
+ instead of open coding it
+Message-ID: <20250101121431.05d831c7@dsl-u17-10>
+In-Reply-To: <20241229101234.2896-5-wsa+renesas@sang-engineering.com>
+References: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
+	<20241229101234.2896-5-wsa+renesas@sang-engineering.com>
 X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -100,65 +95,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 27 Dec 2024 11:51:50 +0000
-Prabhakar <prabhakar.csengg@gmail.com> wrote:
+On Sun, 29 Dec 2024 11:12:32 +0100
+Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
 
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> The kernel has now a generic helper for getting parity with easier to
+> understand semantics. Make use of it.
 > 
-> Replace raw bitmask values with the `GENMASK()` macro in the `i2c-riic`
-> driver to improve readability and maintain consistency.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
-> v2->v3
-> - Collected RB and tested tags
+> Changes since v1:
 > 
-> v1->v2
-> - Collected RB tag from Geert
-> ---
->  drivers/i2c/busses/i2c-riic.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> * renamed from 'get_parity8' to 'parity8'
+> * rebased to 6.13-rc4
 > 
-> diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
-> index 954e066d61a8..ddae4b74a86b 100644
-> --- a/drivers/i2c/busses/i2c-riic.c
-> +++ b/drivers/i2c/busses/i2c-riic.c
-> @@ -55,7 +55,7 @@
->  #define ICCR2_RS	BIT(2)
->  #define ICCR2_ST	BIT(1)
+>  drivers/i3c/master/mipi-i3c-hci/dat_v1.c | 11 +----------
+>  1 file changed, 1 insertion(+), 10 deletions(-)
+> 
+> diff --git a/drivers/i3c/master/mipi-i3c-hci/dat_v1.c b/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
+> index 47b9b4d4ed3f..85c4916972e4 100644
+> --- a/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
+> +++ b/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
+> @@ -40,15 +40,6 @@
+>  #define dat_w0_write(i, v)	writel(v, hci->DAT_regs + (i) * 8)
+>  #define dat_w1_write(i, v)	writel(v, hci->DAT_regs + (i) * 8 + 4)
 >  
-> -#define ICMR1_CKS_MASK	0x70
-> +#define ICMR1_CKS_MASK	GENMASK(6, 4)
->  #define ICMR1_BCWP	BIT(3)
->  #define ICMR1_CKS(_x)	((((_x) << 4) & ICMR1_CKS_MASK) | ICMR1_BCWP)
+> -static inline bool dynaddr_parity(unsigned int addr)
+> -{
+> -	addr |= 1 << 7;
+> -	addr += addr >> 4;
+> -	addr += addr >> 2;
+> -	addr += addr >> 1;
+> -	return (addr & 1);
+> -}
+> -
+>  static int hci_dat_v1_init(struct i3c_hci *hci)
+>  {
+>  	unsigned int dat_idx;
+> @@ -123,7 +114,7 @@ static void hci_dat_v1_set_dynamic_addr(struct i3c_hci *hci,
+>  	dat_w0 = dat_w0_read(dat_idx);
+>  	dat_w0 &= ~(DAT_0_DYNAMIC_ADDRESS | DAT_0_DYNADDR_PARITY);
+>  	dat_w0 |= FIELD_PREP(DAT_0_DYNAMIC_ADDRESS, address) |
+> -		  (dynaddr_parity(address) ? DAT_0_DYNADDR_PARITY : 0);
+> +		  (parity8(address) ? 0 : DAT_0_DYNADDR_PARITY);
 
-I'm really not at all sure how this makes it 'more readable'.
-Call me 'old fashioned' but I like hex constants - especially for bytes.
-In this case it might be best to be consistent with the hardware datasheet.
-
-Pretty much the only time I've actually used anything like BIT() was
-for a spec that numbered the bits from 1 to 32 with bit 1 being the most
-significant.
-
->  
-> @@ -73,7 +73,7 @@
->  
->  #define ICSR2_NACKF	BIT(4)
->  
-> -#define ICBR_RESERVED	0xe0 /* Should be 1 on writes */
-> +#define ICBR_RESERVED	GENMASK(7, 5) /* Should be 1 on writes */
-
-	'Should all be set on writes' ?
+NAK - that isn't the same code at all.
 
 	David
 
->  
->  #define RIIC_INIT_MSG	-1
+>  	dat_w0_write(dat_idx, dat_w0);
+>  }
 >  
 
 
