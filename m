@@ -1,140 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-11772-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11773-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA139FF815
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 11:33:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 110EC9FFA52
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 15:19:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD2881881E8F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 10:33:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE8607A180F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 14:19:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5894D19D086;
-	Thu,  2 Jan 2025 10:33:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E9DE1A23BE;
+	Thu,  2 Jan 2025 14:19:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LMQxs7XP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i2apnsVy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60E5195F0D;
-	Thu,  2 Jan 2025 10:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2E717996;
+	Thu,  2 Jan 2025 14:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735813984; cv=none; b=CfDptP4RY/hspF+KZFk8fbA1IvgbIsHvJ37itE/XcaUxiv83tXH4w7sseUMcSi6gyv1G01Ei95TtXHX98ngb75w+6Ow820/AU+Nn8OASg7tYBEnjeRfO/XrMAN0rwv5NsYksgE32ljsX6wS1OWVVtsE1dS+464I7QP7b+rmDI6A=
+	t=1735827569; cv=none; b=RNi8fJnEz2wcZTT98hYvOD7Rx90swXqcrLzvwT2mxhIcFQpPCIjU2i6dDoQikM8ndKSWLehoPymuNoaBEw2tCXtV4jJWw+O8NuQOicHIHoK47kyJAYiYYlxD90gEnPKnF4oU6sMTBsEYIGtnsFNBuRPzoujMTEnLDyd1cWDQg08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735813984; c=relaxed/simple;
-	bh=HLWvJVNFwoktW8wEOo0bWlwwovqzAKaPoCfXmBG2liE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g446bJnap9p3O9ZPEmg9DD1PtExpkXoQMzeERGn+s4agdclcvc0hvY42ExIO0ZOkWvkZQFc1EVsBR98MUDuSKwbcoc2O6z/kGA6CBKQ1aBQtF/kak/QTv6lfPvC21eGys0eVMGCwFAD9HpDcOAl52w4EktXcAHlzvfAC4hKuhoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LMQxs7XP; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-517aea3ee2aso6013336e0c.2;
-        Thu, 02 Jan 2025 02:33:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735813982; x=1736418782; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G1V0K6yo6Wf/PUo+YoETdrngUBEdR+h+JumeuooVghc=;
-        b=LMQxs7XPmBo4IUCSgtxpvgD/djkdczUHVN1oZzk2gODhZLFLk7Xg1SVw1g9fKxJr9w
-         s/3lB44ix+eIZ5kye6JROgIMzsW6I/oRiXKGwxLKymstb1xAjzErHrC7RUPQpxzFUDxB
-         jxMRiVOWkCt3bPmCA11cbjB+fMu4ga3Rx/R3QA1ziIgIKaCy1MoxUEzGarT+vGr3PPYb
-         3Q1y9JTYYAxblj5Zc2dR4fKJ5mk6JgfBO1K6L404E6YTfrtzfRM9MYqmU4etI2Mq8lw/
-         KSB6OOC8fB/GlWldCWZqMVw1aQM4FKPdyhOWtm5Nn578XefzPimkfMfLN72z+jDYmtUi
-         uMIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735813982; x=1736418782;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G1V0K6yo6Wf/PUo+YoETdrngUBEdR+h+JumeuooVghc=;
-        b=I/siLjbCFF/sa77Lx/J6vTA8y35p89D+7q0EXwnfMMhOQejATZx2545bV1wua+XUMD
-         z6GMiM+fX8QeHgIPzoYuUP7sLOJl3nzs3NiyQzGS7oyumeH54POyfhf7eF36kxvuRHZQ
-         WfBFKi5OQfIW5s2EtbkR9IPAzbRs+U1aQwK2Y7OOnjmA3FfCHnYH1LJXsBxM01mWXYSL
-         ZoMfeqY/aHJKZxxJ0AzsGh7xii08zuIZ44UNlXPj+V1UBsLgZVYTV3+Yzw/ktt3cwAaV
-         SAAzK0bFesQRyRuW6iSPMuor+DeciaXI896cFuwnfCM9fAe3+7tES4rwUeL+GYzjAvPa
-         GvVw==
-X-Forwarded-Encrypted: i=1; AJvYcCUfPo6Vc9b19RUSvZuv5vabLR6cDGzpJnZfg3+qxcgl69C0L3KWWxa2UyqwNzIyxWOrDTkQpH77gTxfMuHP@vger.kernel.org, AJvYcCVeJp1JugmdtQACItk12Sl9QoWW6vcabMekM4YVDTBK40ZW6Mjgwu/Ft8hLuCVaLO6+Vz3V+am6Xko=@vger.kernel.org, AJvYcCWrK3JjlGed1GcQzwyM4cm2wduXLfuMmvbibj/kyXY1f+DqM3SU0SUjX4SPjUNf4W6hMGKaBcxx/lvHUFx3QTGU4Pk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3GtDrk1qZKD4afndlsnGj1AJkab7RmiGhiN8M4AFcstfiokcw
-	2gFoBRDLHuKoIktP7cDlngm+tOaPUKfzOKxmNaaKliqpt92S58a+w6zjz3uoifcsoZ7GX4h+acG
-	+zOb7RiwzklntDWdXUQP+pd+qUd0=
-X-Gm-Gg: ASbGncueEXBubcuujNpR+oB6FWRoiewjno0cljafyngSqwexB8umCOUFR5YiilV8xNZ
-	SY0Un5LVQn1nQfHcxV+2NfcDE4fr/4C65Ih9Mf8JeDpbTeO7wTskn+goBhk3OOA6GS5DUlTE=
-X-Google-Smtp-Source: AGHT+IH7Y3W65L1qDcWaixfPlYcRws1PWLqAsZg+e5De3ff5eJEByU5I0MkcfUBq14eHPSiNmYy3JjlvRZeJRfaMujU=
-X-Received: by 2002:a05:6122:4302:b0:518:859e:87b5 with SMTP id
- 71dfb90a1353d-51b75c6a74cmr32286037e0c.4.1735813981749; Thu, 02 Jan 2025
- 02:33:01 -0800 (PST)
+	s=arc-20240116; t=1735827569; c=relaxed/simple;
+	bh=rm94Wn4LvKiu88EToTbZs1ptXX/jO3nGcHuSO/KyWDw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T9iNkPKuy5o5WJ/HAEXAV+G61zgKmS+8y8MfqgHrSe5+cugbUuaNorhvf/MhWmpRQCNfus5+cvxXSYA04hHjEblMhN/+jKbdaTJr86SsOO9Ol5Yu8ux3qTQn0zzU1ZqrDgmi7reNYjMGPeY5/aNGCdAUTEKToQEPI3WTqDQPpds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i2apnsVy; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735827568; x=1767363568;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=rm94Wn4LvKiu88EToTbZs1ptXX/jO3nGcHuSO/KyWDw=;
+  b=i2apnsVyL9FiKs3xYbZ4RApXwQdkST8aljsY40WK1R7ZEETX2JKa/3Ji
+   tWxJdOeb8tDYAkrxpt0Nhe4H5No73hg3aXo3jWniXLqGcwyPNhx4+uttT
+   FOr1XED1f7j6tgEd/Lf/Qh/0Az9+oqrxlCj4GBAWjfasKqYopvJpA983X
+   CUCa8m89jYzXGxUAp0g+MvScfdQm+XtssqL9o0AOtaEkgS1BWEWRGq2jP
+   ZwqjOYv95xBwjx9nOVDcPK4RFpVusJp0YL37RKw98rHS7iBjCBUBFmqT+
+   PNRGuwLvJ9LwXv29YLdY8N9PA+YwPYMiEafhPsYpI4ZdTdmk5AFqDoaZc
+   Q==;
+X-CSE-ConnectionGUID: +905LqEYSxqkV94yInbQtw==
+X-CSE-MsgGUID: KhALxOoCRPu0KH5yRtSmtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="35765650"
+X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; 
+   d="scan'208";a="35765650"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 06:19:13 -0800
+X-CSE-ConnectionGUID: jvEewcFBSQSc47fU8lfD7A==
+X-CSE-MsgGUID: YOazHrQqRHWuwLA3uTw5uA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; 
+   d="scan'208";a="102018216"
+Received: from mylly.fi.intel.com (HELO [10.237.72.154]) ([10.237.72.154])
+  by fmviesa009.fm.intel.com with ESMTP; 02 Jan 2025 06:19:10 -0800
+Message-ID: <76f97f65-28ad-4d7f-894c-e2d1f241e973@linux.intel.com>
+Date: Thu, 2 Jan 2025 16:19:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241227115154.56154-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241227115154.56154-9-prabhakar.mahadev-lad.rj@bp.renesas.com> <Z3CMUDX4evaVdizJ@surfacebook.localdomain>
-In-Reply-To: <Z3CMUDX4evaVdizJ@surfacebook.localdomain>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 2 Jan 2025 10:32:36 +0000
-Message-ID: <CA+V-a8t-eZ7nq+-OgzYq+FzpK7GEnSrzBFJJKfTSv-hzBktjpg@mail.gmail.com>
-Subject: Re: [PATCH v3 8/8] i2c: riic: Add `riic_bus_barrier()` to check bus availability
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-renesas-soc@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT v2 4/5] i3c: mipi-i3c-hci: use get_parity8 helper
+ instead of open coding it
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-i3c@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>
+References: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
+ <20241229101234.2896-5-wsa+renesas@sang-engineering.com>
+Content-Language: en-US
+From: Jarkko Nikula <jarkko.nikula@linux.intel.com>
+In-Reply-To: <20241229101234.2896-5-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Andy,
+On 12/29/24 12:12 PM, Wolfram Sang wrote:
+> The kernel has now a generic helper for getting parity with easier to
+> understand semantics. Make use of it.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> Changes since v1:
+> 
+> * renamed from 'get_parity8' to 'parity8'
+> * rebased to 6.13-rc4
+> 
+>   drivers/i3c/master/mipi-i3c-hci/dat_v1.c | 11 +----------
+>   1 file changed, 1 insertion(+), 10 deletions(-)
+> 
+Please rename s/get_parity8/parity8/ also in the subject line of patches 
+3-5.
 
-Thank you for the review.
+For this patch:
 
-On Sat, Dec 28, 2024 at 11:40=E2=80=AFPM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> Fri, Dec 27, 2024 at 11:51:54AM +0000, Prabhakar kirjoitti:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Introduce a new `riic_bus_barrier()` function to verify bus availabilit=
-y
-> > before initiating an I2C transfer. This function enhances the bus
-> > arbitration check by ensuring that the SDA and SCL lines are not held l=
-ow,
-> > in addition to checking the BBSY flag using `readb_poll_timeout()`.
-> >
-> > Previously, only the BBSY flag was checked to determine bus availabilit=
-y.
-> > However, it is possible for the SDA line to remain low even when BBSY =
-=3D 0.
-> > This new implementation performs an additional check on the SDA and SCL
-> > lines to avoid potential bus contention issues.
->
-> ...
->
-> > +     /*
-> > +      * The SDA line can still be low even when BBSY =3D 0. Therefore,=
- after checking
-> > +      * the BBSY flag, also verify that the SDA and SCL lines are not =
-being held low.
-> > +      */
-> > +     ret =3D readb_poll_timeout(riic->base + riic->info->regs[RIIC_ICC=
-R2], val,
-> > +                              !(val & ICCR2_BBSY), 10, riic->adapter.t=
-imeout);
-> > +     if (ret)
-> > +             return -EBUSY;
->
-> Why the return code is shadowed? Is it requirement by ABI?
->
-I will propagate the error instead of shadowing it.
-
-Cheers,
-Prabhakar
+Tested-by: Jarkko Nikula <jarkko.nikula@linux.intel.com>
 
