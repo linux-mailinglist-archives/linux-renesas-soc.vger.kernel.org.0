@@ -1,126 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-11771-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11772-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF3A9FF7DB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 11:14:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA139FF815
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 11:33:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C04F67A051E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 10:14:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD2881881E8F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 10:33:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8C001A3BD7;
-	Thu,  2 Jan 2025 10:14:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5894D19D086;
+	Thu,  2 Jan 2025 10:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LMQxs7XP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19A819068E;
-	Thu,  2 Jan 2025 10:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60E5195F0D;
+	Thu,  2 Jan 2025 10:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735812855; cv=none; b=fcV7RsP8ObWeT07aJGPKC2VxTtuiai5k27wGbDbSyc/0qdWwQNmy10smXb+JgVaSq92Fw5Qee4bqOayuhKF2aDEqotcMOein4/MgVLP1Sm2i2vjrRomJP4+SKFkZp84VRnlAYHn933MOy/xsEdR2wnNrXkaD2HMA3lPxMZ6K4IM=
+	t=1735813984; cv=none; b=CfDptP4RY/hspF+KZFk8fbA1IvgbIsHvJ37itE/XcaUxiv83tXH4w7sseUMcSi6gyv1G01Ei95TtXHX98ngb75w+6Ow820/AU+Nn8OASg7tYBEnjeRfO/XrMAN0rwv5NsYksgE32ljsX6wS1OWVVtsE1dS+464I7QP7b+rmDI6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735812855; c=relaxed/simple;
-	bh=y2u5TwkphcfFMtIsl1Zk44r6MuWFzJ5nCPqmhrxzzQc=;
+	s=arc-20240116; t=1735813984; c=relaxed/simple;
+	bh=HLWvJVNFwoktW8wEOo0bWlwwovqzAKaPoCfXmBG2liE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a/XDahCph61Sp4/n4hr78yoM2BgYGtUrx+7M2JRm4SvovCdlBsdncBFsXgzZ44IYfXean6rAYTi9DJ74gd8401IGFygEjLJFzEbOMWE6J+lgfCncuRLXfJ22ref45YCMFWBv3pmke6oWQfZeVMY28AZmMtRiI+vEsMsXwA4O0kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=g446bJnap9p3O9ZPEmg9DD1PtExpkXoQMzeERGn+s4agdclcvc0hvY42ExIO0ZOkWvkZQFc1EVsBR98MUDuSKwbcoc2O6z/kGA6CBKQ1aBQtF/kak/QTv6lfPvC21eGys0eVMGCwFAD9HpDcOAl52w4EktXcAHlzvfAC4hKuhoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LMQxs7XP; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-86112ab1ad4so2741117241.1;
-        Thu, 02 Jan 2025 02:14:13 -0800 (PST)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-517aea3ee2aso6013336e0c.2;
+        Thu, 02 Jan 2025 02:33:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735813982; x=1736418782; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G1V0K6yo6Wf/PUo+YoETdrngUBEdR+h+JumeuooVghc=;
+        b=LMQxs7XPmBo4IUCSgtxpvgD/djkdczUHVN1oZzk2gODhZLFLk7Xg1SVw1g9fKxJr9w
+         s/3lB44ix+eIZ5kye6JROgIMzsW6I/oRiXKGwxLKymstb1xAjzErHrC7RUPQpxzFUDxB
+         jxMRiVOWkCt3bPmCA11cbjB+fMu4ga3Rx/R3QA1ziIgIKaCy1MoxUEzGarT+vGr3PPYb
+         3Q1y9JTYYAxblj5Zc2dR4fKJ5mk6JgfBO1K6L404E6YTfrtzfRM9MYqmU4etI2Mq8lw/
+         KSB6OOC8fB/GlWldCWZqMVw1aQM4FKPdyhOWtm5Nn578XefzPimkfMfLN72z+jDYmtUi
+         uMIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735812852; x=1736417652;
+        d=1e100.net; s=20230601; t=1735813982; x=1736418782;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uT+UIBWP7hUzwMzZac7PYBAqJCKPWg2m1Ijv7L0iqyA=;
-        b=pn/FykkY+xEb6Ut6DZ8RFt/YjW9oLd88Fs818cP6QSCNy6hRsNvwN0faYTRImoJAU1
-         OHzABZWgC+jNf5ppsxfMqcychtzuVnHXz5RVVndzLgl0WNnWTqthI/KCv0QEM3WyzhHN
-         GaF7R4X/YKFYhHWc6HZ5hWQ7anqsXPw6potLKP5l0wGxqoFgb/mAd0fg6pW9Rs92vgzJ
-         6Na26aTKYapRRY8sVdNeCpE4mIOHexj/p3gExRHBZI1iFizYCtX3h4PYtW5FJc0tHwpy
-         nqEkHn1zVc3AwC+ldeYySoI09SroMLSvQ1W66QmqItC7pppEhxHMytqKM8ElhbIl2R+a
-         7FGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWA/uJfDzMfpPt9XW23xIJBjN06fjHUmhzr/7nmabxFaXMnu1dJPQIMKftXRTfBvBre0btL/HrCoRll@vger.kernel.org, AJvYcCWIvEtizJNdzsdP9T/ylR2M/OEgQLoeOdWfraHJMysd28U6uPGHtquTQ+NnnUuC7SwBj1l665peiIEW@vger.kernel.org, AJvYcCXXtNTpuo8uKMMM9o/ESmtV+uC1pMfw+iZT1QNQSGflzAZyK5qSx/dCiqrx540QNKYwQ3KpvZli3MZJqxkm8swesL8=@vger.kernel.org, AJvYcCXdNaOa7zxue0bVpM/EzWIk8vXW9T9eI3hnGHkP3VN7W8oHImewaxSG1hNwMEVlkrIb6U6qtmIkAAiGzEEs@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOmLFl4TliWLpjtiFx5B3DeOSdy9AcIU5iW2JuUNEWOWg3oMCO
-	VNfbdkNIGjDv6kJWp19EMCq95hbduNI4pYu7FuuEFrZPeandtqiGsYG0Hw7B
-X-Gm-Gg: ASbGncu6nKfUQ8AcdPOq+2yqU3kwLoXvvVtladjKn1a/V7N5Zcn/ijx/vMiWUW3CyG1
-	YCaKjfsOGENbcQeOqfNio/qqB5oJwTzRyAbTUgB+0uCoO2ul1UXF4OMt+5UVoq04wEOph75DWtN
-	reCpwCe7lySVFUahAw0rR/Kk8Lqs0jfZ1WL0sZALDylYmSw0xdm5Q2gNxnq+hs+1if/DtDwOglA
-	d0fIlrFtxs1jMqBXrf69XMSbL787eOmxBLeto2qUIHNJRJzkSXmBoODf4A2SO47e0ewsHVHQnfA
-	kLs3t7Kko14dXaHscOVq3MI=
-X-Google-Smtp-Source: AGHT+IF9+YYusiV7mKcfHU3Ourrd2LDXDjpVpn6W2Gpynjm/OiqKp/QUkUOoTmROE2g9qxZx6nNIeg==
-X-Received: by 2002:a05:6102:160e:b0:4b2:bdf1:c1ba with SMTP id ada2fe7eead31-4b2cc380883mr37027062137.13.1735812851881;
-        Thu, 02 Jan 2025 02:14:11 -0800 (PST)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8610ac1f8a8sm4914344241.7.2025.01.02.02.14.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jan 2025 02:14:11 -0800 (PST)
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-51640f7bbd3so3368614e0c.2;
-        Thu, 02 Jan 2025 02:14:11 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU3eJ9MzH3sq/Uhi1CL8ZkK17gMbQTVetnG1X2OkLiMZTJvWLjywAYiYs6V7m415sUe97PZ+wAdOvkjpfHRz/r1hdY=@vger.kernel.org, AJvYcCUkKCBmd6buOx/cMmEmPCMCHVS9oYE099is5Ce/whH/Wrv3O1iDyfmACUcZhdIRbam8xrPbStqqbLol@vger.kernel.org, AJvYcCUoy/c7AU2alFAaq6JhE1ImoDsQP7Wm8X6S1XDLWNxq3WPb2R2ZDttT72HY0Ah4LpLVSUkezjaKvMwtw+VG@vger.kernel.org, AJvYcCVTMottdUfOxHK8h3rIRnaZAbVgszarODsKAgvCFc3CoYtYwTpO3hWKFMrwa5AATIQKDfo/HZ5yZBaU@vger.kernel.org
-X-Received: by 2002:a05:6102:b04:b0:4af:be6e:f0aa with SMTP id
- ada2fe7eead31-4b2cc49d580mr25571636137.25.1735812851430; Thu, 02 Jan 2025
- 02:14:11 -0800 (PST)
+        bh=G1V0K6yo6Wf/PUo+YoETdrngUBEdR+h+JumeuooVghc=;
+        b=I/siLjbCFF/sa77Lx/J6vTA8y35p89D+7q0EXwnfMMhOQejATZx2545bV1wua+XUMD
+         z6GMiM+fX8QeHgIPzoYuUP7sLOJl3nzs3NiyQzGS7oyumeH54POyfhf7eF36kxvuRHZQ
+         WfBFKi5OQfIW5s2EtbkR9IPAzbRs+U1aQwK2Y7OOnjmA3FfCHnYH1LJXsBxM01mWXYSL
+         ZoMfeqY/aHJKZxxJ0AzsGh7xii08zuIZ44UNlXPj+V1UBsLgZVYTV3+Yzw/ktt3cwAaV
+         SAAzK0bFesQRyRuW6iSPMuor+DeciaXI896cFuwnfCM9fAe3+7tES4rwUeL+GYzjAvPa
+         GvVw==
+X-Forwarded-Encrypted: i=1; AJvYcCUfPo6Vc9b19RUSvZuv5vabLR6cDGzpJnZfg3+qxcgl69C0L3KWWxa2UyqwNzIyxWOrDTkQpH77gTxfMuHP@vger.kernel.org, AJvYcCVeJp1JugmdtQACItk12Sl9QoWW6vcabMekM4YVDTBK40ZW6Mjgwu/Ft8hLuCVaLO6+Vz3V+am6Xko=@vger.kernel.org, AJvYcCWrK3JjlGed1GcQzwyM4cm2wduXLfuMmvbibj/kyXY1f+DqM3SU0SUjX4SPjUNf4W6hMGKaBcxx/lvHUFx3QTGU4Pk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3GtDrk1qZKD4afndlsnGj1AJkab7RmiGhiN8M4AFcstfiokcw
+	2gFoBRDLHuKoIktP7cDlngm+tOaPUKfzOKxmNaaKliqpt92S58a+w6zjz3uoifcsoZ7GX4h+acG
+	+zOb7RiwzklntDWdXUQP+pd+qUd0=
+X-Gm-Gg: ASbGncueEXBubcuujNpR+oB6FWRoiewjno0cljafyngSqwexB8umCOUFR5YiilV8xNZ
+	SY0Un5LVQn1nQfHcxV+2NfcDE4fr/4C65Ih9Mf8JeDpbTeO7wTskn+goBhk3OOA6GS5DUlTE=
+X-Google-Smtp-Source: AGHT+IH7Y3W65L1qDcWaixfPlYcRws1PWLqAsZg+e5De3ff5eJEByU5I0MkcfUBq14eHPSiNmYy3JjlvRZeJRfaMujU=
+X-Received: by 2002:a05:6122:4302:b0:518:859e:87b5 with SMTP id
+ 71dfb90a1353d-51b75c6a74cmr32286037e0c.4.1735813981749; Thu, 02 Jan 2025
+ 02:33:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241220-rcar-v4h-vspx-v4-0-7dc1812585ad@ideasonboard.com>
-In-Reply-To: <20241220-rcar-v4h-vspx-v4-0-7dc1812585ad@ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 2 Jan 2025 11:13:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXUJW-gYQRXvX5iRu4ofsufmc4mnM0iYWQV5uyN5=6k4g@mail.gmail.com>
-Message-ID: <CAMuHMdXUJW-gYQRXvX5iRu4ofsufmc4mnM0iYWQV5uyN5=6k4g@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] renesas: r8a779g0: Enable VSPX on R-Car V4H
-To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20241227115154.56154-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241227115154.56154-9-prabhakar.mahadev-lad.rj@bp.renesas.com> <Z3CMUDX4evaVdizJ@surfacebook.localdomain>
+In-Reply-To: <Z3CMUDX4evaVdizJ@surfacebook.localdomain>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 2 Jan 2025 10:32:36 +0000
+Message-ID: <CA+V-a8t-eZ7nq+-OgzYq+FzpK7GEnSrzBFJJKfTSv-hzBktjpg@mail.gmail.com>
+Subject: Re: [PATCH v3 8/8] i2c: riic: Add `riic_bus_barrier()` to check bus availability
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-renesas-soc@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 20, 2024 at 10:15=E2=80=AFAM Jacopo Mondi
-<jacopo.mondi+renesas@ideasonboard.com> wrote:
-> The series enables the two VSPX instances connected to the R-Car ISP
-> on Renesas R-Car V4H. Define clock identifiers based on the MSTPCR id
-> for the VSPX instances and defined device nodes in the V4H .dts file.
+Hi Andy,
+
+Thank you for the review.
+
+On Sat, Dec 28, 2024 at 11:40=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
 >
-> The VSPX modules interface with extenal memory through dedicated FCP
-> instances named FCPVX. Before defining VSPDX, define and enable the
-> FXPVX instances as well.
+> Fri, Dec 27, 2024 at 11:51:54AM +0000, Prabhakar kirjoitti:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Introduce a new `riic_bus_barrier()` function to verify bus availabilit=
+y
+> > before initiating an I2C transfer. This function enhances the bus
+> > arbitration check by ensuring that the SDA and SCL lines are not held l=
+ow,
+> > in addition to checking the BBSY flag using `readb_poll_timeout()`.
+> >
+> > Previously, only the BBSY flag was checked to determine bus availabilit=
+y.
+> > However, it is possible for the SDA line to remain low even when BBSY =
+=3D 0.
+> > This new implementation performs an additional check on the SDA and SCL
+> > lines to avoid potential bus contention issues.
 >
-> Testd on V4H White-Hawk by reading the FCPVX and VSPX version registers
-> during system boot.
+> ...
 >
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> ---
-> Changes in v4:
-> - Changed the patch authorship to my +renesas address
-> - Link to v3: https://lore.kernel.org/r/20241219-rcar-v4h-vspx-v3-0-8fe8d=
-2afb268@ideasonboard.com
+> > +     /*
+> > +      * The SDA line can still be low even when BBSY =3D 0. Therefore,=
+ after checking
+> > +      * the BBSY flag, also verify that the SDA and SCL lines are not =
+being held low.
+> > +      */
+> > +     ret =3D readb_poll_timeout(riic->base + riic->info->regs[RIIC_ICC=
+R2], val,
+> > +                              !(val & ICCR2_BBSY), 10, riic->adapter.t=
+imeout);
+> > +     if (ret)
+> > +             return -EBUSY;
+>
+> Why the return code is shadowed? Is it requirement by ABI?
+>
+I will propagate the error instead of shadowing it.
 
-Thanks, will queue in renesas-clk for v6.14 resp. renesas-devel for v6.14.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
