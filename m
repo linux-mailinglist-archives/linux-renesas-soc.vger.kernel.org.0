@@ -1,145 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-11784-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C8E9FFFE1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 21:15:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81990A000D9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 22:42:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29A841883CED
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 20:15:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C9061629F3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 21:42:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 743081B87D9;
-	Thu,  2 Jan 2025 20:15:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B447F1B4F1A;
+	Thu,  2 Jan 2025 21:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ltfpcrVU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E067F19E968;
-	Thu,  2 Jan 2025 20:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B1543173;
+	Thu,  2 Jan 2025 21:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735848916; cv=none; b=Sok2gJVnnjrk64UHDkQGd0ZgAkSuVdfYNeotXSIi+Ig3bkxwDrQ/fSNZ6++39KTw6HITqD0+7g0EoIuZqR3DcEICQV39BT9iPrfxmfr9dbHf+X2ga1zn3SlHkLST2Ibi2jgp3UlcGWWOBm+IrOqXplL5Kt4THaKXkP4G4JRLb6I=
+	t=1735854161; cv=none; b=dgfXECHmWTcOrUqxHymNB2HGD4dsi34s23iEsobiSsBY7M/3OBtUr2LVMZ5/yqM4EW56SZz0eMKD9d6KIuO4KQrpZmgal15J7jGg0T1yKkg452o0E1Yx58/4zUgNdnivnVxmCq1zqjZVa7ilTX7kvDdVLurEkdIugxyN+U7WBYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735848916; c=relaxed/simple;
-	bh=L2aDDAnlAfvgkhCbd8d0CVPQcY0MfAyD7K4gow8FyD4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UXLLYQf+GRkPFW+tRfSiQ3q4dapXX5HkmQuno3Dm6IpxQ8MhJLppJg7GsOE0pY74BPeT6+porCBCZmUxhGaOkV94tpKv4Ub2UTA3rZNx7dKi/GVBefd4gHfUU7Wfq66sdei8XLZrzZBh8NeooBDEN9cvG15GWM7IPJbv2s7UvEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-51bb020339fso2156038e0c.0;
-        Thu, 02 Jan 2025 12:15:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735848911; x=1736453711;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FibJ37TPEM13bEVPYLkHLMORANI9Oug072BfmMn4Uj8=;
-        b=szLny9pYdnj7/V9OofR98xl1uX4twMFo6UawM8dRnibqPSPRCiohYxHfIjUwvWzP3R
-         mRzgB5oTqBZKbsXDXg0DlJ4r6kz1GpYwSRb2jcAWGJqrlE0OhkYJFlD1ADbzDbd9OjxG
-         7l2NskC3cixjch2B/N8Kb383CqwZwSTDq28B0lJ4pquAi2Rp1xQdWK/nJC+4FeQ/0rVc
-         wbuKBeCvIg295+SlmGMQVY7ORuOD/5u2Z/LleIfrWp5r+HCi1glWiaqduGxvHr3YjDgx
-         Z8c9jLILIXWWnM2+b447UBtYkv/lH7TlQoNIYLxp0ofOPUDqa7lUGoC7RFAIhkfzxDZs
-         zWnw==
-X-Forwarded-Encrypted: i=1; AJvYcCUAeewdN2LLRiMOA3QJZSRW/SIOjdqnC2LyzjVnNfSikjTSIMFv8hwntWj5qLrQ8XlHBBrc7vGFl/ZNfEfAgDc6uis=@vger.kernel.org, AJvYcCUMwZ0fe6YcrPnsWuTtyIRh799NAcdFuQADzyAEK2D20qbyXdOj6YV/ixNlcVm3d/GcsEd5GxDMRClK@vger.kernel.org, AJvYcCUTCXgFC9QLJO7QJLCmEq2XQtJVtPtiDT8yDLHbxjOEJ9vl2khp7uKeMWELBHMkofGkOvwK5TT0MnI+hL6S@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkJvpI7YrssEwqf1JGY62CaBXlz2hjAIu/orj3cw0THVtabYlH
-	Bxd3Yyn3isYoXq835JbZScPoMS/RWPYO/saz9lmY+bhRY1cJCaSHSBTOhift
-X-Gm-Gg: ASbGncvspdSWMfmokii2TDVycFg7pnxj8HqK+W/pG1R1VfoCUitkY/aBsVVFwfAnTk+
-	O5KnMHfnJgirYmwav3DvLYrC2ZdscekRxCJs6FydoutTq1wxeDJRjmug8iHyS5EJg7a1oF6ZCu8
-	Vj4ORUbwaznoaRO/JbG/cR8wThuVxZmr82PQx6spfULxigt1Kmg9xazpAtRnEn5hZBB6apgBei6
-	iyh+oSa8GUBg4e58Gk0vRiPAWOoGlQ5Wk5Kb5f4jGL2QEnqfxTHGwqJeZZYAdNvAmrfrDoQQqFG
-	I1jwA3A1om1wkRWhPxQ=
-X-Google-Smtp-Source: AGHT+IEUFjkCo56OFNscDGQ4qtvdEhf7I7S6XLsVtyz2J8RDp7XriOzT5Kgvbb9Yp92HRcJ5QVLr+A==
-X-Received: by 2002:a05:6122:4302:b0:518:a0ee:e8e7 with SMTP id 71dfb90a1353d-51b75abac1bmr32951058e0c.0.1735848911066;
-        Thu, 02 Jan 2025 12:15:11 -0800 (PST)
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51bd8792c91sm1472702e0c.5.2025.01.02.12.15.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jan 2025 12:15:10 -0800 (PST)
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4b10dd44c8bso3277106137.3;
-        Thu, 02 Jan 2025 12:15:10 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUcXMbymprgRXTQ+LiIld+2M1hYK0qRqeJrfvwPG9qsAjW+36ucpyNQF38bN7oZRhLS9G5sjDATqtpr@vger.kernel.org, AJvYcCVGsHg0YnyLu4vOmr4DAS8dXQXaUXhVrVXigs3nv7h23RDdemorc/sDErQB+/R7F10UjCq3K1HeeDqxUn0WGWMssmY=@vger.kernel.org, AJvYcCWRE5n/GpSerXUoaprDnKN/uaodYp7ZTuHBhAY00AAvIkZX/20yPpX/ISb+GVuWc32dQK5d+3u5DkkoA4hj@vger.kernel.org
-X-Received: by 2002:a05:6102:c8f:b0:4b2:75a3:2267 with SMTP id
- ada2fe7eead31-4b2cc35c112mr40496086137.10.1735848910207; Thu, 02 Jan 2025
- 12:15:10 -0800 (PST)
+	s=arc-20240116; t=1735854161; c=relaxed/simple;
+	bh=uDMyXn3LiiyKF4pIUlHSNryFTjlmWZMhMoFJsaSUZTI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KrhoA9hkGHRsYAFsGDyGhZrElo36lEyxGuvJrsZZbcgyV3Y1agljFdwg96nfR4eXwzy9sQWwIFdn7Q4V1NS2/SXl4zwuz+dvM7ZtCnVbHzAvZ2kqCv2zeGXVqa49gtPWG0rrJsjrRyeFrot8JAXr5R1qI+UDxD4s4eIH5yXR/fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ltfpcrVU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A438EC4CED0;
+	Thu,  2 Jan 2025 21:42:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735854160;
+	bh=uDMyXn3LiiyKF4pIUlHSNryFTjlmWZMhMoFJsaSUZTI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ltfpcrVUydeBWC3tP1Tkm1jkhtmpkl67oE3dyG7XvG/nmFt8D7ECg+gxTv0JzKJFC
+	 NeZsrCWq3+OxY8hF+YGH/q5UoXpu8wizxJU7RhAujTYuw2mDdGnOTfJxlwRM4eeN7d
+	 Cz6TCW7tvQW2P3mok4Xjg9GekmW06OClgUyIX4fQn6cJE2AWBcIBBKsKsguoDiNNQP
+	 cvkNPrc4R+4J2R4vPZteGKOQZGMk/wc/lHiulBkLP7LIveZXDPsXuJEmKbSvODjbf/
+	 rbVMRjgGUX6rPl7SWK83OPa0f6eS1OOU7YH3D2C08Mgsub3UyU5f6/Dca531J0saod
+	 ffB1evLEKS1kg==
+Date: Thu, 2 Jan 2025 15:42:38 -0600
+From: Rob Herring <robh@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 1/6] dt-bindings: clock: rzv2h-cpg: Add syscon
+ compatible for CPG block
+Message-ID: <20250102214238.GA614405-robh@kernel.org>
+References: <20241227190210.69025-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241227190210.69025-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241206212559.192705-1-john.madieu.xa@bp.renesas.com>
- <20250101163344.128139-1-john.madieu.xa@bp.renesas.com> <20250101163344.128139-3-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250101163344.128139-3-john.madieu.xa@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 2 Jan 2025 21:14:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVxxRXHCj35tbVTHVMn9NUVFmmHPzvP2Asd6GVuXmYJXQ@mail.gmail.com>
-Message-ID: <CAMuHMdVxxRXHCj35tbVTHVMn9NUVFmmHPzvP2Asd6GVuXmYJXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] soc: renesas: rz-sysc: Fix SoC ID string extraction
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: biju.das.jz@bp.renesas.com, claudiu.beznea.uj@bp.renesas.com, 
-	conor+dt@kernel.org, devicetree@vger.kernel.org, geert+renesas@glider.be, 
-	john.madieu@gmail.com, krzk+dt@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, magnus.damm@gmail.com, robh@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241227190210.69025-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi John,
+On Fri, Dec 27, 2024 at 07:02:05PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> The CPG block in the RZ/V2H(P) and RZ/G3E SoCs includes Error Reset
+> Registers (CPG_ERROR_RSTm). A system reset is triggered in response to
+> error interrupt factors, and the corresponding bit is set in the
+> CPG_ERROR_RSTm register. These registers can be utilized by various IP
+> blocks as needed.
+> 
+> For example, specific bits in these registers indicate resets caused by
+> events such as underflow or overflow of the watchdog timer. This
+> functionality allows the watchdog driver to determine whether the current
+> boot resulted from a `Power-on Reset` or a `Watchdog Reset`.
+> 
+> Add the syscon-compatible property to the RZ/V2H(P) and RZ/G3E CPG block,
+> allowing drivers to interact with the CPG_ERROR_RSTm registers as required.
 
-On Wed, Jan 1, 2025 at 5:34=E2=80=AFPM John Madieu
-<john.madieu.xa@bp.renesas.com> wrote:
-> Fix string length calculation when extracting the SoC ID from the compati=
-ble
-> string. Add +1 to the size calculation to ensure proper string terminatio=
-n when
-> copying with strncpy().
->
-> This prevents potential string trunctation when processing the device tre=
-e
-> compatible string to identify the SoC.
->
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+This is an ABI change. That's okay because...?
+
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> New patch introduced in v2, targetting specific fix.
-
-Thanks for your patch!
-
-> --- a/drivers/soc/renesas/rz-sysc.c
-> +++ b/drivers/soc/renesas/rz-sysc.c
-> @@ -231,7 +231,7 @@ static int rz_sysc_soc_init(struct rz_sysc *sysc, con=
-st struct of_device_id *mat
->
->         soc_id_start =3D strchr(match->compatible, ',') + 1;
->         soc_id_end =3D strchr(match->compatible, '-');
-> -       size =3D soc_id_end - soc_id_start;
-> +       size =3D soc_id_end - soc_id_start + 1;
->         if (size > 32)
->                 size =3D 32;
->         strscpy(soc_id, soc_id_start, size);
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-As the code fixed was introduced by a patch[1] that has not been
-accepted yet, this fix should be incorporated into the original patch
-(together with other fixes according to review comments).
-
-[1] "[PATCH v2 04/15] soc: renesas: rz-sysc: Add SoC detection support"
-https://lore.kernel.org/linux-renesas-soc/20241126092050.1825607-5-claudiu.=
-beznea.uj@bp.renesas.com
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> v1->v2
+> - No change
+> ---
+>  .../devicetree/bindings/clock/renesas,rzv2h-cpg.yaml   | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
+> index c3fe76abd549..f42d79e73e70 100644
+> --- a/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
+> +++ b/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
+> @@ -17,9 +17,11 @@ description:
+>  
+>  properties:
+>    compatible:
+> -    enum:
+> -      - renesas,r9a09g047-cpg # RZ/G3E
+> -      - renesas,r9a09g057-cpg # RZ/V2H
+> +    items:
+> +      - enum:
+> +          - renesas,r9a09g047-cpg # RZ/G3E
+> +          - renesas,r9a09g057-cpg # RZ/V2H
+> +      - const: syscon
+>  
+>    reg:
+>      maxItems: 1
+> @@ -73,7 +75,7 @@ additionalProperties: false
+>  examples:
+>    - |
+>      clock-controller@10420000 {
+> -        compatible = "renesas,r9a09g057-cpg";
+> +        compatible = "renesas,r9a09g057-cpg", "syscon";
+>          reg = <0x10420000 0x10000>;
+>          clocks = <&audio_extal_clk>, <&rtxin_clk>, <&qextal_clk>;
+>          clock-names = "audio_extal", "rtxin", "qextal";
+> -- 
+> 2.43.0
+> 
 
