@@ -1,119 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-11769-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB229FF771
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 10:34:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C829FF7CB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 11:06:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0AF5A3A2542
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 09:34:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9571D3A2B59
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 10:05:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C986E18CBFE;
-	Thu,  2 Jan 2025 09:34:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46AB81991CD;
+	Thu,  2 Jan 2025 10:05:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="laUvLUEr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NDn3YsTK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85578383
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Jan 2025 09:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5664D1953A1;
+	Thu,  2 Jan 2025 10:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735810450; cv=none; b=LTT/y9uP5ThTuIgL2iN8CK5Rq8RFF6dRkYsWxOb34pnad1MAzkq0YFIfIcZOwLvGcn0hbWd8bonN85F3nWhLj2kziVv5nlFmKf8vFOEChe45STGOqfOoo06jMXMdz9o6A7jXq+pn0i4bhUmX6y3BYsEgTVxXKolxri4mHIHg3LQ=
+	t=1735812357; cv=none; b=ogl6gXsO+zXuQQu/7TDPlJLZ0ikuooy7hvh66cXEGSTpPVMFVqxv1bLPN3H3WauXV9maOWwLNbaS+uGtwOMX51eemhS6paBdpPcKmSHgbkHm233JoOQNR7+LG/r9rl6LANg8PxFksrpSuktIdGGMyWkpGfEwkp0qzixjqXcUZJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735810450; c=relaxed/simple;
-	bh=/ah5xhm6mtrySf6gsY3Egz2SD7FibMEgTbn2LDw8Un0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gRAEuFJYDq3rVP81kWP4hdy4oBa9PZ4qJ49mGgMni3xRsLgDBOqErSRoN+A/evJK+xKAYfCcTnuVcb+XK6+5kAAFcBJTyFKVwbnZNuUk8ZXp0+loIXl4+oyDz1IR+Gq7FYy4tUgQCAodJ3uG0sNupoJF+FJycBWactybr+3fm5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=laUvLUEr; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=/ah5
-	xhm6mtrySf6gsY3Egz2SD7FibMEgTbn2LDw8Un0=; b=laUvLUErUFBxGEnolQny
-	+yeaxgT3or1obE2jkH1yzN0xsDjExJFnXqD2Ci4u9GdxJweIgWR5PGETGDtqchH8
-	J8hYyCw7PVNs/ZF47IwMhY7m+LOKMLCiqbu0pCCEkB5EAuuqgHjJFgGygPwTCpl5
-	ktol4wibhQSmrF0SUO9LaXXHEa3DNqZD0WGVPHLeb5S2o/jmNByeRCACfvRLgLRh
-	fTX107iUZsLyAMzVP27ZuRyIvKPJ8jrA0828Uq98IQAb8iHRjSl3Z2d7BgCbY4Pu
-	i0Oe2WZedX3SOJVnKzLwALW0X8pputgwCQ3H/mGv/al0WIAtPNnFCM1vhfJEGFm/
-	tg==
-Received: (qmail 576982 invoked from network); 2 Jan 2025 10:34:06 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Jan 2025 10:34:06 +0100
-X-UD-Smtp-Session: l3s3148p1@VscJ3bUqrKwujnsY
-Date: Thu, 2 Jan 2025 10:34:05 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: Re: [PATCH RFT v2 5/5] i3c: cdns: use get_parity8 helper instead of
- open coding it
-Message-ID: <Z3ZdjRQa0nF1IYaU@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-References: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
- <20241229101234.2896-6-wsa+renesas@sang-engineering.com>
- <CAMuHMdWSQvyLwHyci+WVtTj4rGeR-hkjw1ap52=5X29ZzVchSA@mail.gmail.com>
- <Z3ZWt0Whyppr6GKX@shikoro>
- <CAMuHMdWTUwtVFV0o-Hsxp+eTscHHuzOmnBjv7BPoK8moQ7i9Qg@mail.gmail.com>
+	s=arc-20240116; t=1735812357; c=relaxed/simple;
+	bh=9mjIh99SR1LjlK9Tft9Viyanpm2KZ2ml9U1ornDdnE0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O3hKHJfXxlGNZL7qWZS5wn3Y8fxqcueP51DIVqi2a0kKzIE195z9b6gMS4KazHI+sAgQO1J4XrrjydZPuJQOdnfSKye2K/RRNepW0ZLk9rmSDaqwVX4zIrbMBY2/l1576Whu4kB5i/kxYNL6tVhu7oAfV5jxW4ndfCfQZtvcOQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NDn3YsTK; arc=none smtp.client-ip=209.85.221.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5174f9c0d2aso3360249e0c.1;
+        Thu, 02 Jan 2025 02:05:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735812354; x=1736417154; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KHz2AhSovzV0uAXnq6NDMqoDQ5E1HSJt+EfuXOFdXBY=;
+        b=NDn3YsTKK7/w2fT+6AuAH63oOUvcDxlIkUMwlPl/jZAnzv1+h4qH+ay6jsvmhlqG/4
+         5ftQZMqX3KI+NmeHYwgYf+LU7bQqtkYNzmO1EBeTJnc6HT+j003IjtOhBz+lW6944Dzx
+         I7wLvAgHyrgeqQuGxMY71YRWsj0HBSc0wQITdSHeGtDEjkpOo4rXDqWh7f6jUu3fJqTB
+         1WpICPD2vK384JzUn+LgYdq2DtTyiEe26nuxDItsMN5sT1ZPILVPhImy735Pdtk95eHZ
+         KKTYioTPRPt4RnaXEiJcqcmggIvu2IN3Wd9YWLkjYcuhCRmH84hGhhN817Gf1UIBw2iV
+         ayvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735812354; x=1736417154;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KHz2AhSovzV0uAXnq6NDMqoDQ5E1HSJt+EfuXOFdXBY=;
+        b=bNqIu6UL7FZNN3OslxWxTgXlqDiO6rlueSQyVBYhXgFYL4gYJtSEdAiGllsWt8GiK6
+         ky6+r8huYNq5O/M54Iy+iqNAusFtYhtB8a+s3CANDaSLzxc2Whb2Q6TPVFqAxKXpreaj
+         7OXI2a/ifGq68M2c2Z5ogbnFgVXAZQZ354V2XKGF4wEOUrDnHOZkHNxDek4WY66mqMMs
+         3zjKSoWzmkp0nDN0Bd1zqeLl9F00DWjcX4Y7Xp2OVAbgWq7V52Y26dPQK9CgRaf3WP7P
+         cHgzhVPiitrImAZVrVJchQTDvfevldy2zoN4qdQyZaicaD9zDWg5AiXk1ruYPGfKJTJ5
+         Cupg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdze4vB1CwR1fdoMVdffKKGJGgQ7J2sRnDWNyZ2+g0sjXBVYG379h5cDYOEPYdFHYrZBlsPeCh4fEAM2Ez@vger.kernel.org, AJvYcCWaeS0B3yC8krgsbZPOcCGXNxYA9/0tSXdAPln8coVoJj+4oxll1v/epmt9zZQoa3DxPW8IJwbff+Y=@vger.kernel.org, AJvYcCXEX8UZP1DQ7uQqtre5lLaeIErKVE9PllYbM40OVcc38YeZA54c84gTQOCUfsd+SG5yYiT2Xftu2w+vnwFpRWxXRvA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0y+WTR5L/p+rjdS2z9WR07XasiJ67WRJnQrAgSTjPQvsVGMbF
+	FXNyivBMKBn+CzFPoScCbWWnkXVD7JpddCFY1BtyP+onJuZogExV1SgQ13fB+h0Vpg7WEfZ8LZy
+	S/pDnOhkU5Oh7oBhzNLa6RLArAjmwjAcw/dY=
+X-Gm-Gg: ASbGncuPBk0SKgv/6cmaTJZYFDs83T9hJR2UvO6c6kmwE2goyq9lNPWirKVvjzhH2h7
+	oz1QP8kujW2pRVsqXBuZrzUApEabGBSaoZb39eyV2icusWJBQECIhTVwj/5BP0eSy8mn59zE=
+X-Google-Smtp-Source: AGHT+IFqLu8xmPE0v4Yqy4ahIrmC3kxTEpejFgAUdmRbCJTjvogaKJlpG8345DIB/h2ymqcc4x+RwMEm0lh1MIOhy8Y=
+X-Received: by 2002:a05:6122:1999:b0:518:8d54:567f with SMTP id
+ 71dfb90a1353d-51b75c5fcb8mr32570476e0c.6.1735812354077; Thu, 02 Jan 2025
+ 02:05:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dG7YwNWMrpV0uZwn"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWTUwtVFV0o-Hsxp+eTscHHuzOmnBjv7BPoK8moQ7i9Qg@mail.gmail.com>
+References: <20241227115154.56154-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241227115154.56154-8-prabhakar.mahadev-lad.rj@bp.renesas.com> <Z3CLypNNqqlSsabo@surfacebook.localdomain>
+In-Reply-To: <Z3CLypNNqqlSsabo@surfacebook.localdomain>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 2 Jan 2025 10:05:28 +0000
+Message-ID: <CA+V-a8sivMvR8-2gBOBSRmoiY7Axwo2Lh+Y7tbEx2opem7yJGQ@mail.gmail.com>
+Subject: Re: [PATCH v3 7/8] i2c: riic: Use predefined macro and simplify clock
+ tick calculation
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-renesas-soc@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Andy,
 
---dG7YwNWMrpV0uZwn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thank you for the review.
 
+On Sat, Dec 28, 2024 at 11:37=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> Fri, Dec 27, 2024 at 11:51:53AM +0000, Prabhakar kirjoitti:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Replace the hardcoded `1000000000` with the predefined `NANO` macro for
+> > clarity. Simplify the code by introducing a `ns_per_tick` variable to
+> > store `NANO / rate`, reducing redundancy and improving readability.
+>
+> ...
+>
+> > -     brl -=3D t->scl_fall_ns / (1000000000 / rate);
+> > -     brh -=3D t->scl_rise_ns / (1000000000 / rate);
+> > +     ns_per_tick =3D NANO / rate;
+>
+> So, why NANO and not NSEC_PER_SEC?
+>
+Agreed, I'll switch to NSEC_PER_SEC.
 
-> Let's add more bike-shedding in 2025 ;-)
-
-Yaaay... :/
-
-> There's also a general dislike for the ternary operator (BTW, I do
-> agree it has its uses), especially if one of the paths is a no-op,
-> like ORing with zero.
-
-Well, let's see what Alexandre's view is on this. I'll switch to that.
-
-
---dG7YwNWMrpV0uZwn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmd2XYoACgkQFA3kzBSg
-KbZuyhAAiV3y/bQnMst/gXIaeHGX4FaSgRuGw0HCqDl/yvD4AcPuD3AmmfOJ3/+J
-bMcnOSoGve2OgFK8vQR//GuXh3qb6EXO2yteIC7veSYnmqWTJAer2T+660zXd0gh
-yedlGhkN5YLIPcPxSS8057lczfBm2rDs1MlbRa0vBwxI9i7rSXH7fDCn+FGA5wve
-SrrSHDol8TmZPw+9xn6Faukgai28dhbwIZ4vRHpgE15VO4y8wUBpNpIF7yqdNWFS
-2iWkXMwGLMThGAsRWrUY3u1HEaf3PDf0RYp0Vj8skWiS7jNFVaB91XDi51nGD9YJ
-NCq1zoIBfyJNJ2JrsDJTcPcez9uSu1++J+NnPh+SbzuZB5rhU8ehXqW/3pIDipQ+
-6sjPcSfaamJbcgl+ED0cnuGohGqSdPoL+vD5FJYnJfNkKcsYP8+1+a6I8QVZ8Bq4
-c+zTDKyog1EsQNJe5cVNaqWTow2EL7kqceZUp1GtSbQJ3uL/RL+D5mXTdUDLvc16
-XduvtGKrioCBPO4OzcuqN/cxEo15dA7UTZEsWSvdd7PlpZo/Uf69VgrW/n1+sjHT
-0tCC5a+gJd+r7THCE+DDkGy1RBQEt7bv8fq+ANvUMCdy1mhYIEZbDsUl7r8s0y0r
-k4ExQbIFIhY2WAAhUwMudQNWsUAq3dDLvXIIoChkv3TqyGvcei0=
-=U6wC
------END PGP SIGNATURE-----
-
---dG7YwNWMrpV0uZwn--
+Cheers,
+Prabhakar
 
