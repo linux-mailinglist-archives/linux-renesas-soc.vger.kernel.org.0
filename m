@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-11777-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11778-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0269FFDC4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 19:19:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1AD9FFDC9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 19:19:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 43DE41617AB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 18:18:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0BA623A1779
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2025 18:19:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2442F1917FB;
-	Thu,  2 Jan 2025 18:18:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 487401B07AE;
+	Thu,  2 Jan 2025 18:18:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MZX8ZCzB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtAwlAa+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493D613AA5D;
-	Thu,  2 Jan 2025 18:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDC0188596;
+	Thu,  2 Jan 2025 18:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735841932; cv=none; b=F63OCBiLP8H4kg+S5gt89agJun6VC/UdnQ2sqrCv6YKzmtmEhNmGxs9BcXiEo4YPBEYUhby+yfEhpmMcvqSTfaT3ksjavNHAGXOyQxqoaoLpzU8PZbRkDJkrWKLpFEDrHxZARMkM07wPXMY4+As9ZP0AAWkyiPxStHN7pAEjP18=
+	t=1735841933; cv=none; b=QA2ZbcQjnL70wqp7VbdnjDe2LKl1zBcA9EbUx39znWi/VfkAOcvi/8S153Jvtai/+0P8wyF3JdbHsCU0rhPYyPe9mAxbGrHlr3PRAUSbC2X4YlCQyigb+d6WkVH7BYatFqqgDxOkT27AHeFifeLSontOzR/U0akh15IA51ngZ5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735841932; c=relaxed/simple;
-	bh=JmLk4ljuZ7xiX8bADf4dNc7I5vAM/pMGBhfwySLwVe4=;
+	s=arc-20240116; t=1735841933; c=relaxed/simple;
+	bh=ZSo94qHiMehA9YL1TEdJYICeakm1X0RTS6YmBtreBjA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mODfTUOo1AATfkts+MffI6lR/gECl1Ov67RpYWCbdKuO4AAuuAHWxB9QVPqe9Qd/z3wf2PrPgSVXg2hKCJj24YLtMS2aV9CSw2KLC2sbsUMYdLSuXtqh+7IoM9i2R6ZD2qlXVl3OGRe8DI7wAXDqgosAI+GOOgoV8baDSIK1bmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MZX8ZCzB; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version; b=fC+AxtIweELBj/y8lp/02rNwNB9nDcy0YwatLOmuy5AKpSQpe19kcJ9JDHtdLIUMyL0HC2LBCVWKAObSOOCvARTaKJ3/6jWbWfUKg2qoQfv7EAtQS06uXKoNSckVBPs/TGu0H8xZLNeFwP/uUh+b7MJJv02h+/KlLW+r8m+ThLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtAwlAa+; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-436a03197b2so31697795e9.2;
-        Thu, 02 Jan 2025 10:18:49 -0800 (PST)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4361e89b6daso79234475e9.3;
+        Thu, 02 Jan 2025 10:18:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735841928; x=1736446728; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1735841930; x=1736446730; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E8F8nI85CSoBO0AFHab1AQK0sPA9I8Q3LIq61hfLXVI=;
-        b=MZX8ZCzBzvxBWq217A2ryjrebekNoy8hE4SiYUgTFca1oKuQBKvXXYdRy8Rk2jR30F
-         oxGJ8P4LYU6guXOUD3uHtrYR/WKav6Py0aMb4yTvTRclWxyMrSQXJY+wW6k78fvBefDI
-         JUWEy4x02jhMUzXJwTrrfbYRYmODCoIX0plurse3qvGbnYcjg4rSE1Nr7k9+wMvsgZbW
-         6oEhF0Ac9rsBwOw1xlD1S7rQHHPOxGGMIyUnpInIcvYvjAv1BOQOGK9pvNARByEjpF7/
-         opE2GWIAfBaBb/aOBx4qwBa0u8GzuyBxXzpXAL4JdUKyzb5q4Jm2Rgimj+3l745HJ6aE
-         PV7A==
+        bh=q0+JLrW5DLnjAHxth74m+OnybyFYzKU3YKVZKXvyhr8=;
+        b=FtAwlAa+KwMPM4ozkOJtGdYl+du5DNKlvIPzrVn0wc8nZQRa/jBzZdVbK5ElRz4aHP
+         lKCr6NYN3VIore52/GL1Ay6vgRiTMFSJTAO4BODikNJT9Pe/JDRLiTRzcYCv3rFTIG9r
+         CFIdsFQTIvZD/NEeub177ydVc2EZiRLOJY8EPyeExkcHbv7p/S+1GoMfrFIrY5yLNyuF
+         Rh++v+DpKvwRhKYQdLBNCKtj+hM2vp9/En0g9Sxn/5Ftyx+GTn0+qSd4fLSCnseCj+6z
+         nzksILvy9KmkjBf8X6YUT3KtaXhaizt7gGr/HwdTjmdC4DNFNiRrXT1LK4Dl5LxHCsFv
+         7SXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735841928; x=1736446728;
+        d=1e100.net; s=20230601; t=1735841930; x=1736446730;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E8F8nI85CSoBO0AFHab1AQK0sPA9I8Q3LIq61hfLXVI=;
-        b=MqVr1NG4B4auOGKYV/1NVwZllXLjrIyoxPzuO77JWay+DCx1YRplOzbE1M82M0r7Cq
-         EP7P/u1GqFTBwirm+yiIViIrtDuPudvpCDDr+PYCq8aQq/J5dgIc1WiSbFdDWCQ2v60b
-         10UcXMOLgDGTMrgfdUxOFplwm7lcKjPNymwqx4sewp5VsI8i8P6M1TZbRMyGZv2UjOVZ
-         zQOEOZVbUSrzOkFTL9gFR47dtyhiQiILFds8uIslNLRIgizMqgSGPhHEHpelANK5ux5j
-         Okj1q1vq11/S80v82s1VIRPvVhKPfwhSEu5YhbhRd5h2Htl2cUcgtubi79j59n9a/QZ4
-         kqjA==
-X-Forwarded-Encrypted: i=1; AJvYcCUFmYpcZMb3SPSMyu0lZPXNyStTlBarvcvwjDnyveBkkELKx8vAphzgw3oqVJm6T0vzcbt9pAlcRSw=@vger.kernel.org, AJvYcCWrRvPeyRFEqJIXwcW/hYhcRaLjhYHNtI3KcP6Zg//CkZcgcWCgTj3X1ESakbf/pti/sgayXTzDZOL/dnqo@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+amZreZT/CTErI41G7ZuinmCjQr/kXKDAtpI8LNPARAa6HEI1
-	PXRUvZUttLGvB3Zvb3FyhYj01ZxxyBu/6Ja7PxgHoCZTtWvoPuAh
-X-Gm-Gg: ASbGncuopX63xIJYzVbA2x7pCslXynlM2hrmckRGhHoOPNtST/WrpGLoT9d2npoAZiA
-	YZrSpuz2IgmtAkOhTeGNl+IMBQS8Osd2e53MMFhuI0XgUq8DgHg5Bj1zhJcoxzVoYqckGG+0xR3
-	/IYjT4Of4sdN28zPBB+CCyyonnlM+3/TbrgFD4A8Akq8+r3sFm/XSgbGAMko4qn6tynDGkOzh/I
-	o7ZFGVTZDi4Oei4pas9oVuh9vq2mAPKESmpB81koEQ5zP6c6N/s6ekNtMNQhIYn/I1d8fo+J4LZ
-	6TlleI4f0g==
-X-Google-Smtp-Source: AGHT+IFPD1EWDqDdGpCCElpuTOvOSEJPb4ISn6eD8ISWuPe+ZEUB9gfQDHHQlAPbXHD1tjVDqjgQrg==
-X-Received: by 2002:a05:600c:68d7:b0:434:f270:a513 with SMTP id 5b1f17b1804b1-4366d357401mr372196745e9.29.1735841928270;
-        Thu, 02 Jan 2025 10:18:48 -0800 (PST)
+        bh=q0+JLrW5DLnjAHxth74m+OnybyFYzKU3YKVZKXvyhr8=;
+        b=mue4NhqEcXqSq5Yfq6oUiXrkBL/2CYs/cwvS9I5Cy5TddxtZbBnaeszrl5XRqzlKfN
+         YswCOENN8b+OXvIKXmCCWDxupHDOgB48wIS7KTDsDt8Fp8loOEu7liJ88i+CN3aC/TGq
+         LYkvVcFRTVewoIqBtz7Omfg17g4OmFhe5OKKCY544BdDKVfj8pZolkgBLmIJMI33Q2D+
+         EVy3Fb4cIECOz4VQ93gHJBeT+ObQAQT0VQZFYmld2FRqutBC7wwtrDD4WZrXDUpA3B5N
+         veikTOL4uSA3M2HQhWQv8knDJy9KYLj8JHR/oob0ZnUhcOG6OOm/nGJorhvAE05BPmhy
+         myGw==
+X-Forwarded-Encrypted: i=1; AJvYcCUSeBkeTcpFlwJN4qKFcMc83KepgGh4hlWtvyhz6Fwo/Q0r16s2Ky0BTgZMRtW8yDlY7ABZGKKUwPOPSDhU@vger.kernel.org, AJvYcCVxh5gsshDzZx6lh77yeA+deMRAVXpD4X+ml657x/PGaa/yka9jm0RL3GaYOq65ncWdhBEPBjdNTtA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/I8uKdsPLfJcrQezgoGH2QZZkfGQXzeJwM1dWHNVTFybMbWVl
+	MPQjz4dnlTxGsjCnssjoIiIZOOuGnCA6tRZ5TN/B360x4n22U6NIi+GzPg==
+X-Gm-Gg: ASbGncvTW+Z6kZVb7T4X+XYsuTzA/dUaUASnauel7BojJ/znuyBXMQYB+dUGpkLZYdo
+	YCJZ9d9qr0op/x0MnqAgAjdoyDMX8GyG1ETlh4Gmuuh4m4bJDrAa3Ds7c4EIqR1oXCx5kYMAZpI
+	vaSKpQ01LDuSzTlCPKrUVjt/tGQ+RsEnYj4h1XRNpP9OIeEHyHVuUoj38OnsrtkRy5uqJcarZom
+	8AQe3Qxr+UbawUm5UgcrkKYQb4WI38IYovocHkYcqj0tOvRgwuioFlWTpfwcKeB1E5TDYlsJcS8
+	Xfh3LTM50w==
+X-Google-Smtp-Source: AGHT+IGZ/F/4VOijh17y1ntXU7fmXNTrz/uGpVCJ6UqXE+SrXZ5z+HxfJS3znSdnKNVvkY2ucRkr1A==
+X-Received: by 2002:a05:600c:5246:b0:42c:bb96:340e with SMTP id 5b1f17b1804b1-43668b7857amr428349845e9.31.1735841929730;
+        Thu, 02 Jan 2025 10:18:49 -0800 (PST)
 Received: from prasmi.Home ([2a06:5906:61b:2d00:84e9:7adb:b646:c9c0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656af6cbbsm493291925e9.3.2025.01.02.10.18.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656af6cbbsm493291925e9.3.2025.01.02.10.18.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jan 2025 10:18:47 -0800 (PST)
+        Thu, 02 Jan 2025 10:18:49 -0800 (PST)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -84,9 +84,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 1/6] clk: renesas: rzv2h: Fix use-after-free in MSTOP refcount handling
-Date: Thu,  2 Jan 2025 18:18:34 +0000
-Message-ID: <20250102181839.352599-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 2/6] clk: renesas: rzv2h: Relocate MSTOP-related macros to the family driver
+Date: Thu,  2 Jan 2025 18:18:35 +0000
+Message-ID: <20250102181839.352599-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250102181839.352599-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250102181839.352599-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -100,56 +100,10 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Avoid triggering a `refcount_t: addition on 0; use-after-free.` warning
-when registering a module clock with the same MSTOP configuration. The
-issue arises when a module clock is registered but not enabled, resulting
-in a `ref_cnt` of 0. Subsequent calls to `refcount_inc()` on such clocks
-cause the kernel to warn about use-after-free.
+The `CPG_BUS_1_MSTOP` and `CPG_BUS_MSTOP` macros are exclusively used by
+the RZ/V2H(P) CPG family driver and are not required in the SoC-specific
+clock driver.
 
-[ 0.113529] ------------[ cut here ]------------
-[ 0.113537] refcount_t: addition on 0; use-after-free.
-[ 0.113576] WARNING: CPU: 2 PID: 1 at lib/refcount.c:25 refcount_warn_saturate+0x120/0x144
-[ 0.113602] Modules linked in:
-[ 0.113616] CPU: 2 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.13.0-rc3+ #446
-[ 0.113629] Hardware name: Renesas RZ/V2H EVK Board based on r9a09g057h44 (DT)
-[ 0.113641] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[ 0.113652] pc : refcount_warn_saturate+0x120/0x144
-[ 0.113664] lr : refcount_warn_saturate+0x120/0x144
-[ 0.113675] sp : ffff8000818aba90
-[ 0.113682] x29: ffff8000818aba90 x28: ffff0000c0d96450 x27: ffff0000c0d96440
-[ 0.113699] x26: 0000000000000014 x25: 0000000000051000 x24: ffff0000c0ad6480
-[ 0.113714] x23: ffff0000c0d96200 x22: ffff800080fae558 x21: 00000000000001e0
-[ 0.113730] x20: ffff0000c0b11c10 x19: ffff8000815ae6f0 x18: 0000000000000006
-[ 0.113745] x17: ffff800081765368 x16: 0000000000000000 x15: 0765076507720766
-[ 0.113760] x14: ffff8000816a3ea0 x13: 0765076507720766 x12: 072d077207650774
-[ 0.113776] x11: ffff8000816a3ea0 x10: 00000000000000ce x9 : ffff8000816fbea0
-[ 0.113791] x8 : 0000000000017fe8 x7 : 00000000fffff000 x6 : ffff8000816fbea0
-[ 0.113806] x5 : 80000000fffff000 x4 : 0000000000000000 x3 : 0000000000000000
-[ 0.113821] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000c0158000
-[ 0.113837] Call trace:
-[ 0.113845]  refcount_warn_saturate+0x120/0x144 (P)
-[ 0.113859]  rzv2h_cpg_probe+0x7f8/0xa38
-[ 0.113874]  platform_probe+0x68/0xdc
-[ 0.113890]  really_probe+0xbc/0x2c0
-[ 0.113901]  __driver_probe_device+0x78/0x120
-[ 0.113912]  driver_probe_device+0x3c/0x154
-[ 0.113923]  __driver_attach+0x90/0x1a0
-[ 0.113933]  bus_for_each_dev+0x7c/0xe0
-[ 0.113944]  driver_attach+0x24/0x30
-[ 0.113954]  bus_add_driver+0xe4/0x208
-[ 0.113965]  driver_register+0x68/0x124
-[ 0.113975]  __platform_driver_probe+0x54/0xd4
-[ 0.113987]  rzv2h_cpg_init+0x24/0x30
-[ 0.113998]  do_one_initcall+0x60/0x1d4
-[ 0.114013]  kernel_init_freeable+0x214/0x278
-[ 0.114028]  kernel_init+0x20/0x140
-[ 0.114041]  ret_from_fork+0x10/0x20
-[ 0.114052] ---[ end trace 0000000000000000 ]---
-
-Resolve this by checking the `ref_cnt` value before calling
-`refcount_inc()`. If `ref_cnt` is 0, reset it to 1 using `refcount_set()`.
-
-Fixes: 7bd4cb3d6b7c ("clk: renesas: rzv2h: Add MSTOP support")
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
@@ -157,31 +111,47 @@ v2->v3
 - Included RB tag from Geert
 
 v1->v2
-- Updated commit description
-- Updated fixes tag commit header
+- None
 ---
- drivers/clk/renesas/rzv2h-cpg.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/clk/renesas/rzv2h-cpg.c | 3 +++
+ drivers/clk/renesas/rzv2h-cpg.h | 3 ---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index 668a2880b2d3..23c89b0de38a 100644
+index 23c89b0de38a..38edddfc42d9 100644
 --- a/drivers/clk/renesas/rzv2h-cpg.c
 +++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -565,8 +565,12 @@ static struct rzv2h_mstop
- 			continue;
+@@ -41,6 +41,9 @@
+ #define GET_RST_OFFSET(x)	(0x900 + ((x) * 4))
+ #define GET_RST_MON_OFFSET(x)	(0xA00 + ((x) * 4))
  
- 		if (BUS_MSTOP(clk->mstop->idx, clk->mstop->mask) == mstop_data) {
--			if (rzv2h_mod_clock_is_enabled(&clock->hw))
--				refcount_inc(&clk->mstop->ref_cnt);
-+			if (rzv2h_mod_clock_is_enabled(&clock->hw)) {
-+				if (refcount_read(&clk->mstop->ref_cnt))
-+					refcount_inc(&clk->mstop->ref_cnt);
-+				else
-+					refcount_set(&clk->mstop->ref_cnt, 1);
-+			}
- 			return clk->mstop;
- 		}
- 	}
++#define CPG_BUS_1_MSTOP		(0xd00)
++#define CPG_BUS_MSTOP(m)	(CPG_BUS_1_MSTOP + ((m) - 1) * 4)
++
+ #define KDIV(val)		((s16)FIELD_GET(GENMASK(31, 16), (val)))
+ #define MDIV(val)		FIELD_GET(GENMASK(15, 6), (val))
+ #define PDIV(val)		FIELD_GET(GENMASK(5, 0), (val))
+diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
+index 9be5a312fa96..810275eba473 100644
+--- a/drivers/clk/renesas/rzv2h-cpg.h
++++ b/drivers/clk/renesas/rzv2h-cpg.h
+@@ -35,7 +35,6 @@ struct ddiv {
+ #define CPG_CDDIV1		(0x404)
+ #define CPG_CDDIV3		(0x40C)
+ #define CPG_CDDIV4		(0x410)
+-#define CPG_BUS_1_MSTOP		(0xd00)
+ 
+ #define CDDIV0_DIVCTL2	DDIV_PACK(CPG_CDDIV0, 8, 3, 2)
+ #define CDDIV1_DIVCTL0	DDIV_PACK(CPG_CDDIV1, 0, 2, 4)
+@@ -47,8 +46,6 @@ struct ddiv {
+ #define CDDIV4_DIVCTL1	DDIV_PACK(CPG_CDDIV4, 4, 1, 17)
+ #define CDDIV4_DIVCTL2	DDIV_PACK(CPG_CDDIV4, 8, 1, 18)
+ 
+-#define CPG_BUS_MSTOP(m)	(CPG_BUS_1_MSTOP + ((m) - 1) * 4)
+-
+ #define BUS_MSTOP(idx, mask)	(((idx) & 0xffff) << 16 | (mask))
+ #define BUS_MSTOP_NONE		GENMASK(31, 0)
+ 
 -- 
 2.43.0
 
