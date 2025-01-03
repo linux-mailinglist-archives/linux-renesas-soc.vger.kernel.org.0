@@ -1,130 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-11834-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11835-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11603A00FC6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 22:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CD7A01014
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 23:08:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 755E33A486C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 21:22:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4EA5B3A4050
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 22:08:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 515151C549E;
-	Fri,  3 Jan 2025 21:17:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58CEB1BEF86;
+	Fri,  3 Jan 2025 22:08:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZJxcqJ6t"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="l+b/DWj+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C201C3F1B
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Jan 2025 21:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0FCE1BD004;
+	Fri,  3 Jan 2025 22:08:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735939039; cv=none; b=j92lIrr5h7WKfasnJgI4QLbX+jnZJSX1GK9IS1kQWqH4pRYkU9BhzFyaF5hXedFXT9Ztou6rVvnNoFDxHko4m5IHsUAw3+eEwSWzqzAW6uuk+Ee70HxjfU3qXTheuOb00tI+o+lb7POHcjba0dGFr4gfJp140/IuXitDENgsxK4=
+	t=1735942104; cv=none; b=oerHmR1UVWB5wjFIz5VoIZZO5DZgEjMfsvFq3Gyw1NdETkMloKH6a9lVcH1Hp1WHxcjWN+VKhyIM9KCkOv9iQQQ6Tiu74LvuOl88wh1Jrk7nusxysRBXjEFkmoWysAFf9wXeGo02BuKQ45koitf4UYcWMdNtf9zq/f/IgEpPKCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735939039; c=relaxed/simple;
-	bh=lW9q216v/MpYpcldJp7rmupZIQwjR4e7csFThX//ud4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qAU2DW8KaUHBDme6ecXxpQRIVZyitLMYUJ5DGmGlGn8bmrO4+XObeWhOwlnFr2LRV5iiJXA8mVqXdduMPNq4lCy9JVBeXe8avo30jW0sK4yB0h3+I53pz7078pi+EKj4rJlr3h/LCQ2vQlfZxcQuDNeokmUCP4AdaQzdhJf7/R8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZJxcqJ6t; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=lW9q
-	216v/MpYpcldJp7rmupZIQwjR4e7csFThX//ud4=; b=ZJxcqJ6tjzbqh6Dc8V9G
-	O8kgOEtaxdYpIjK6rdk4J78s5lzivO/BoodISSw4JHHZhdDTwLI7JRXpbaoYpa/e
-	VRMnMGrzO8BN+6/oj+EqInpEXTaaiAfZFLEQIryGfIWu9d5f1fGiXv4npzdx+kxO
-	/AFuLcGWd2rvQ9db0JMdx0C/NFoJFR3GkDz55JBjWLWo/ZjPSmpu3OuSlBcXafnK
-	+de870OwRTrW2dxyz5Ez2JaDDG9BWpND16geNz8K/NIFL6YaPfVORLK/bRdEfGts
-	NsQuZrjsNc79hdLN+zE+jkdWBI/P3cNqZzksaT9nsEO3Iv+RUQGFn1jH0tY3rnAn
-	Lw==
-Received: (qmail 1005039 invoked from network); 3 Jan 2025 22:17:03 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jan 2025 22:17:03 +0100
-X-UD-Smtp-Session: l3s3148p1@ou7UzNMqSpsujntM
-Date: Fri, 3 Jan 2025 22:17:02 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: Re: [PATCH RFT v2 4/5] i3c: mipi-i3c-hci: use get_parity8 helper
- instead of open coding it
-Message-ID: <Z3hTzvxp-Hzqnlj0@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	David Laight <david.laight.linux@gmail.com>,
+	s=arc-20240116; t=1735942104; c=relaxed/simple;
+	bh=2qJWB0ac9pHyHt6mWmEb5N2RTQPDTtG6FtAsgyux5Sc=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jgR7L73hhUdJ0D5MVaJoe7IpLRNusBIi/stvmhnKZhpNrgmUbKMk/bVlqmiP9Zs1QABfyF+PnSR2C38GAuSoUmEtUKdB1yzE3heZy6r3kbO5Au62D7xd+93JVVSyuDKsqY/4CS58KDuqy3DCG2wAwd80a5t3ja9KzOFu41iPnns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=l+b/DWj+; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9394D1BF204;
+	Fri,  3 Jan 2025 22:08:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1735942094;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=irMDM0JUlpCpSS+0kb/gACrbTtN6P2IcjloSLLPs7Ps=;
+	b=l+b/DWj+Q1rR8GiaCRUQ4ShDAtqTlQDN3CWSDhiu/8/Mzn8a5B9vDe8+YEVM+sYCS5fbMl
+	zV4XUzeocDvpTM5pO7mwWP7c/Pty45SVFd7DyedcpDUekINduvxWvdw2DJgxEB70tl6UqN
+	Cef2F6HHa1dmXT8Uwf4c8HVUHtf4IAElyvxffjviSbS/Onv1dbinbRL7Kma8L0KKqolfAG
+	uWAopZbPcL5WpNso8zZX/HGYfMf+shuW5RhyI1rSNqguRToru+cIiVi7d1yAab4th0NS1m
+	Qdty2Uw3c0Dp3LMyGLsTSgo+cVP5gvVzKWhZLN2nQl+TUHRRsdiWO06LGQCSsA==
+Date: Fri, 3 Jan 2025 23:08:12 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
+	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>
+Subject: Re: [PATCH RFT v2 5/5] i3c: cdns: use get_parity8 helper instead of
+ open coding it
+Message-ID: <20250103220812962589a9@mail.local>
 References: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
- <20241229101234.2896-5-wsa+renesas@sang-engineering.com>
- <20250101121431.05d831c7@dsl-u17-10>
- <Z3ZV_D5AIUxFR1Bw@shikoro>
- <20250102185109.0862cae6@dsl-u17-10>
- <Z3e1tuAR5GsEhYLz@shikoro>
- <20250103134935.2a341ce0@pumpkin>
+ <20241229101234.2896-6-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWSQvyLwHyci+WVtTj4rGeR-hkjw1ap52=5X29ZzVchSA@mail.gmail.com>
+ <Z3ZWt0Whyppr6GKX@shikoro>
+ <CAMuHMdWTUwtVFV0o-Hsxp+eTscHHuzOmnBjv7BPoK8moQ7i9Qg@mail.gmail.com>
+ <Z3ZdjRQa0nF1IYaU@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="EcPlJkNb456QJKj5"
-Content-Disposition: inline
-In-Reply-To: <20250103134935.2a341ce0@pumpkin>
-
-
---EcPlJkNb456QJKj5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Z3ZdjRQa0nF1IYaU@shikoro>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
+On 02/01/2025 10:34:05+0100, Wolfram Sang wrote:
+> 
+> > Let's add more bike-shedding in 2025 ;-)
+> 
+> Yaaay... :/
+> 
+> > There's also a general dislike for the ternary operator (BTW, I do
+> > agree it has its uses), especially if one of the paths is a no-op,
+> > like ORing with zero.
+> 
+> Well, let's see what Alexandre's view is on this. I'll switch to that.
+> 
 
-> > Right, this is why the arguments of the ternary operator above are
-> > exchanged. The old function was basically 'is_odd'.
->=20
-> Provided the high bit isn't already set - which it may not be.
+I'm fine with the ternary operator.
 
-Not here. Temporary I3C addresses are in the range 0-0x7f.
-
-> add: 00010001 =3D> xxxx0010 =3D> xx10 =3D> x1
-> xor: 00010001 =3D> xxxx0000 =3D> 00xx =3D> x0
-
-This point goes to you :)
-
-> I bet the target isn't checking...
-
-Could be, I can't tell. I don't have this HW.
-
-> So you might be fixing a bug.
-
-Heh, which better argument could one have for a generic implementation.
-
-
---EcPlJkNb456QJKj5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmd4U8oACgkQFA3kzBSg
-Kba2VBAAmBhXzsbbdQpWixvV4lFcW6UgXPdolUdoXYNCvH5vxoem89KEyLTQjit0
-HzbKVWbXNb2MpTnBIrukZjB+XV2qacvxYhyXMc9mPx+GyAk/5QnaSvng+n4ycf04
-MYwLQcO2003DJLJff1rOUGCeBVWGWgnNS0bII7h/UZlsuBNBtrJcGUk0qq9zPEqy
-rqyT2bMK4O10T1+B38ZeVqJTXOX5LsJYjluYk5Szbc31qTfaVBavnOYoqlPONsMs
-Ql8TZFeNU6kk8u49yFZej7gQBdGNHhur+eByy7u8emv7XmmA+SIzsvhb72Rc2ut3
-+OmB5ZdCsoU8guzZmnoZtX31N5GFA4vHqfqL7edgD4n8fCOYwXze7Z4XJH4jIAmM
-HOX1Em1gC+T3YIC4KnVP8+kMWMm+4K+yK9O/AHWeO8LKwMxet1c02y9lA3kjQMmQ
-LOL6UVuiTuqPPfNBtYMH8Hq27ivh9ZYPGh51bamR9l0F9ntx0fze4qa+4Wy8z1ZU
-0AbB8ldlmKFOuMNUJdQ/+AtE367c/qDRnU81ggpJxOV9dPL8tIzPM4pY1uz9nIEk
-9Q6MywuN8kvl9zj2T6j/PqeGR7Gsv/aSsiE28reNJpRGH4lUeD6TCPCkwCSfr96H
-lvahmkVIRiJ3CNxfGvuu0rtGcReQDnNp8HPeUSYTb0p+Cs8VQcw=
-=sQJU
------END PGP SIGNATURE-----
-
---EcPlJkNb456QJKj5--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
