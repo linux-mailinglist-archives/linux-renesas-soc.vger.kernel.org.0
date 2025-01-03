@@ -1,52 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-11836-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11837-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904EDA0101B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 23:11:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0E0A01025
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 23:16:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 63DEC16448A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 22:11:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B67618848C4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 22:16:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C56ED1BF7FC;
-	Fri,  3 Jan 2025 22:11:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E70701C07DF;
+	Fri,  3 Jan 2025 22:16:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="m1hFBvpW"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dYzPcXUM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7601BFE0C;
-	Fri,  3 Jan 2025 22:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A97F1BEF6D
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Jan 2025 22:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735942291; cv=none; b=Uy41zaMpJ3zot00Y2s81CmoEEjA2xr5MBvsXp9WhIpm8cTu7mbJLpjj3xRluDhqXXxnSr7nX9GQrowKW9ALp5nivJRY23IgWvzr6Phnd9CO0iwJIxhqJFTNHdUgAMb9xH0G2R5KOnxuTN4usLmGr2Pp76gh2H6aoDNyVL9Yv6s4=
+	t=1735942601; cv=none; b=X97hF91v07lMOPyY4eFQNBdDYIhyYkpUMzf3SDqO65JcYGk3ZjPtviuEgiaGEdkhMbLC6HBqEhJrn5cqVGM7b30FF2P53cJGPW4iCVQBKJM2q0oXLOEwLZ5OIpBrGTEUt/Z4JW/vIEEiVBArQE63RhZavUZL+ioIdSioS5hcRMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735942291; c=relaxed/simple;
-	bh=zjxkpArFM+I4du0YJBNH+vxhDTULsiBL7tGjO5avlKU=;
+	s=arc-20240116; t=1735942601; c=relaxed/simple;
+	bh=fQ36u4RBvl7vsyvt0Jy3P02z22WoejyNRPTjgjmI4A4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qm0F41crjdccnAIoPKCC+TPYmw2peYpkEj5tkBVIbFazuBm1VwlJLpbGp7d79Ns5JzcSwVgv7HFb9kwonxyrIGOzaHxK4G0kZiFXaz7WhiXmRR0Qfv2kVxLbDjwP44AYYhLpx3BfX8+4wylGVYOWnIRZAa4HmzmwXmwglF3/RwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=m1hFBvpW; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 99E77240003;
-	Fri,  3 Jan 2025 22:11:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1735942278;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GaSREVRzVYthKaZE68U4n8LRcINBttytqwCKxG8ViTM=;
-	b=m1hFBvpWXs73YbT5FbJt1hzxAPgE8ZVrKXtPs1bBzlFUsqZ+lZHRQX0zKPY6ShSBA33M94
-	nCxVfxjM17TQIfeh8I0ZTsjdcoHWusCnifqQQkD7FNdDq+gY+MI7UPHAy4RuRC1/PLgbXW
-	plqeNMtf/1nHQsr4wWynzN8RNOtlMhJntzpH6OdRLp/V7y+EhqL4meHpiyaT250GDJn3qS
-	m2vRCXxR66jEw3eNN+mVFwAA+dp31daWFqYpfrJo8AC+IvXl5qzZoZ0B7ZMqujNpFwosFg
-	U4LXIYARXZCr4y7LByWSLdz+GbsUUBSwIoBslGph0yVY2dkoV4n1gMMg50iE/w==
-Date: Fri, 3 Jan 2025 23:11:17 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ir+lFZYLgnBmpJHUvjXPf4Dx31ve/IWpU2wIjmwN5wHMMOREiPc+XeVoBZATVnBWjClWA3ZAKNQ8solsXP5Zq1GIIV6/0rtHFBGE+aHGl0hGA5Vne/y24U8Q9bhRJWhITXImh1biDFOqgLc71T9Yvv+JuIEeDrFdE6EeDix5KAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=dYzPcXUM; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=fQ36
+	u4RBvl7vsyvt0Jy3P02z22WoejyNRPTjgjmI4A4=; b=dYzPcXUMa3zAaEA+FS07
+	NduiAIrSefPkHSqfxN8ygpiAvmxCsnxRGRNlsJgANdk4dsaBd/800eEYI0yTGypS
+	jDypMdbiCOU1cvTSuya6s1kH4iJp5egSnKSzILEMJBop18q4jhBdzO7GrnJHM5uW
+	q2qrMbDVn4OqDbStWRlMgFBqgmDPOR222vI4taj5n76xt0wJWRnd8aeBlUqeD6eM
+	bazoeMaZtK0ggFyY1VgnqdiEZblrCcLTONzDS1Xj6z47/WbSxXXTrBGVAHLYZDLw
+	/FBtx95aW2Bu8xVnZrf8SUFWcERqyP1H0//Evta20NE/rI909DazUfLoX1xI3MVn
+	2w==
+Received: (qmail 1013832 invoked from network); 3 Jan 2025 23:16:36 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jan 2025 23:16:36 +0100
+X-UD-Smtp-Session: l3s3148p1@sSPGodQqRp8ujntM
+Date: Fri, 3 Jan 2025 23:16:35 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Cc: linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -55,80 +55,65 @@ Cc: linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
 	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>,
 	Yury Norov <yury.norov@gmail.com>
 Subject: Re: [PATCH RFT v2 0/5] i3c: introduce and use generic parity helper
-Message-ID: <20250103221117bb066057@mail.local>
+Message-ID: <Z3hhw_pwFAicsEDi@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>,
+	Yury Norov <yury.norov@gmail.com>
 References: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
+ <20250103221117bb066057@mail.local>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vWkKxqYQ0LzC93DX"
+Content-Disposition: inline
+In-Reply-To: <20250103221117bb066057@mail.local>
+
+
+--vWkKxqYQ0LzC93DX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On 29/12/2024 11:12:28+0100, Wolfram Sang wrote:
-> Changes since v1:
-> 
-> * renamed from 'get_parity8' to 'parity8'
-> * use XOR instead of OR in the kdoc example (Thanks, Rasmus, for both)
-> * added tag from Guenter (thanks!)
-> * rebased to 6.13-rc4
-> 
-> Old coverletter follows:
-> 
-> I am currently working on upstreaming another I3C controller driver. As
-> many others, it needs to ensure odd parity for a dynamically assigned
-> address. The BSP version of the driver implemented a custom parity
-> algorithm. Wondering why we don't have a generic helper for this in the
-> kernel, I found that many I3C controller drivers all implement their
-> version of handling parity.
-> 
-> So, I sent out an RFC[1] moving the efficient implementation of the
-> SPD5118 driver to a generic location. The series was well received, but
-> the path for upstream was not clear. Because I need the implementation
-> for my I3C controller driver and I3C is a prominent user of this new
-> function, I got the idea of converting the existing I3C drivers and
-> resend the series, suggesting this all goes upstream via I3C.
-> 
-> Is this acceptable? The non-I3C patches have all the tags they need,
-> only the I3C patches would need testing on hardware.
-> 
-> A build-tested (incl. build-bots) branch is here:
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/i3c/get_parity
-> 
-> Looking forward to comments...
-> 
-> [1] https://lore.kernel.org/all/20241214085833.8695-1-wsa+renesas@sang-engineering.com/
-> 
 
-I'll apply the series once you get some agreement on the function name.
-I don't care to much but the _odd suggestion seems wise to me.
+> I'll apply the series once you get some agreement on the function name.
 
-> 
-> 
-> Wolfram Sang (5):
->   bitops: add generic parity calculation for u8
->   hwmon: (spd5118) Use generic parity calculation
->   i3c: dw: use get_parity8 helper instead of open coding it
->   i3c: mipi-i3c-hci: use get_parity8 helper instead of open coding it
->   i3c: cdns: use get_parity8 helper instead of open coding it
-> 
->  drivers/hwmon/spd5118.c                  |  8 +-----
->  drivers/i3c/master/dw-i3c-master.c       | 14 +++--------
->  drivers/i3c/master/i3c-master-cdns.c     |  3 +--
->  drivers/i3c/master/mipi-i3c-hci/dat_v1.c | 11 +--------
->  include/linux/bitops.h                   | 31 ++++++++++++++++++++++++
->  5 files changed, 37 insertions(+), 30 deletions(-)
-> 
-> -- 
-> 2.39.2
-> 
+Thanks!
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+As said in that thread, the function name has already been changed in v2
+to the liking of the bitmap.h maintainer (Rasmus) [1]. He has not
+responded to this series yet, though.
+
+[1] https://lore.kernel.org/r/CAKwiHFiamZ7FgS3wbyLHo6n6R136LrLVCsih0w+spG55BPxy8g@mail.gmail.com
+
+
+--vWkKxqYQ0LzC93DX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmd4Yb8ACgkQFA3kzBSg
+KbZYjA//elZOLLgLgNAi1ekQ9sJ5IvZL47Vbkvlg8eOFGCNZ4q6JhUt/jZ0bW1Yr
+Oz8+UY8leDLTJPHteFiy84/VDqihax6tge4EoEt87bSHu8UI90BWCGhaVf4ndpsa
+pt6KdKGHIPbOjKdbeDfLKy7oP8UWe5jnFgmMGHr9iLcAYR+T6TW4NtI9jrD1kWCl
+/hr1iIHZFAY10IxLd1HbX3T1RMBH+fLjoYvvStj7mFZMSUcl9ya8uvgrgpyIa9SL
+SGDgCRR1CbQoY0zldNWTP9n5wFX7BMV/R+ITF1P5v3qHIdw0Q3i2L/CtAegNuaIp
+0GZE5wyNn4GjAZuRlGbrqxB5ykEkPUketdkHkjWmk4sRRxuHoPSSNH+z1vHHR+CE
+skyKlP+Z2DvwSosz8jVRnKU5YqymGyRaFPp3WijQlcMTa7D57gYyNXYpuEWAkPya
+x5vakd+6UxlbWFWxxo/0MAzkaSH5Q0tfRGMhx9Cu0CLcSNKt09gVNN60RVMq4udz
+Sbug0DEa53ubXFV+5X1VLI2+KljA/TlHsSDSL2HsyiZcaYhOaN9IbK9y4Ov4vMMZ
+fW8Y4jFMU9tN8r3vsc/l63236r6jY8aTwWJVurTNP8zPxE+jEtqnoVHJIo+nOYZm
+etaHLqqrP82WU/SfmPoOUxe4zV0zb3/238DEcyECUa0Hq1afSp8=
+=XizP
+-----END PGP SIGNATURE-----
+
+--vWkKxqYQ0LzC93DX--
 
