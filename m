@@ -1,133 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-11804-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11805-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE0E0A0092D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 13:22:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20FE4A00A08
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 14:49:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 819C01639ED
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 12:22:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AEE8F7A1D7C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 13:49:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 950021F9F72;
-	Fri,  3 Jan 2025 12:22:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 504F41F9EDF;
+	Fri,  3 Jan 2025 13:49:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DSC+AYhq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X3CsB2dx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A011F9EAB;
-	Fri,  3 Jan 2025 12:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3735D1CD208;
+	Fri,  3 Jan 2025 13:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735906943; cv=none; b=F6AkcUHmxzzvvGUPhJl+0jux2k0d0/fklS4BA7/Vf7RxMpYoXFmQpJ4pwpYT6Gmo5HvRtufwvFkJDAdTUVN9K2OhYn+/kz/RAtlv+Tz0N0o/dtgQ0j2b+EFKDlP8LFa7pV6YXRdf3NIvfoxvYzDNcGgIUwSApViIosbLbmnQvlo=
+	t=1735912181; cv=none; b=EnoezuYBtPYY1QDO/pVgv31WOJCS6RWWT48v9DVLu43ijlyQFxWmYTwaDVVag6OD1PLByjwKdxX1xd8MbVbHqZXj5D7DCqUMvSwNIdWdzgk1bFkC7m5RoPRxhsx2jeXEHVlz8C4aefwMowhfGeJHi1Q5pYLBcOl+HoNjEVL2yxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735906943; c=relaxed/simple;
-	bh=ImaIoelHIX1sWqmvDE+d2Qq1gngnZKfBDSpE8ejsmZo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rWefbKq+EaLt3JrDETrFO565lX+dDOqcYTGrdcgAfnuwl3L5wnKx1H4LgljQZLgzeEdO1BxW0IJAxuEBek7QvBX1DhUumJtUNQ14e2/cjK1K1iJUnIX26G0/wKPkmY2oLnMqho4KEgBmPyLHxy5naU9V5o2fWwpjJvdozpHxnyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DSC+AYhq; arc=none smtp.client-ip=209.85.221.181
+	s=arc-20240116; t=1735912181; c=relaxed/simple;
+	bh=bo1NwnVb4FmdyvAIRrI42DT9ndX7T3GYn2xjvNRac7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fsRw+3VZZKv3JPYej2vL4cSbDkbrotgFpCyXsmkU4dzmbAzsFkDx8K4ioCQJ0rHxHoA96iUHJTjA4CsSi7CqtLChQbYGd9sYXLftpg0mONrnSM77G97cotj7K6rd8Q1OtKIrVjqYup1VKj7jaZESAD+VMgoSL0j0Ia4rtwLSm3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X3CsB2dx; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-518ae5060d4so3563230e0c.0;
-        Fri, 03 Jan 2025 04:22:21 -0800 (PST)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43635796b48so74502015e9.0;
+        Fri, 03 Jan 2025 05:49:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735906940; x=1736511740; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1735912177; x=1736516977; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aEwomEMmAZ1rFZMeWgRtCAYpGeB0XoZkMU3WaXHeq08=;
-        b=DSC+AYhq+ItBtB4MJKQcl2Gu2HdH94qJO2cNRZxFJ6QuQR2kDd0p3KNgIzoBZTgqG2
-         G5YV5Z3IEQIqH8KYidQBV1U4sMvRbJOP7QpjuaAtydskmRbbATlF/CPaEx+3+8eDxlWd
-         GNmKO5jefFYCB5v8dVcoIyY6mbaVhd+DhHYl+hQzBL5AQVfeg+8rclHK3OeAvHvuiLTv
-         q1WsP40P28xlneY287jn/JS5yqPrJUkLRvkLOXZhCCeS6BQhg+MJpmmm+y/DmXg+eNYR
-         MmdVYtnGvKqhK1JjNuDewQx8a6/Mp9w8sOtUveTvYpUz5r34Jd1QtkMHSvN0eeTDmoMx
-         j3+g==
+        bh=nWlo2tx3RQuY5NiWKrciw+TDEi2b8UAJjPattwWp+t4=;
+        b=X3CsB2dxlxYppmtcRinJ8I7aHbasTX2DZiOb15I7QhPYcqmgtnzTppgTyjIrH5R1uL
+         IBhhwsKAPl0+n1jAgerWxYw3juwsj4wzuUHA/ruPSxZY2vKO4KBw/2EtgR87RWiFC+75
+         Hj4vi0Vl1vD7A0chcOPbNxODkrK/BK+04cMGsUKZdFgG4e4DRKwY7k6vXdA2QgBySMFG
+         d4hv+ZuyYmflz+iYrx+P65lwlGpF6m7F/Fzlf/LN9uRjdq+Fr2SxiFBajeTtugCwXCyv
+         xVcoFmZq2CeaBYbs9QXr453fVcW3A3lUAAUiON7OR3JQrTXa1AqU78+1X1xURUpUdMgA
+         Aw3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735906940; x=1736511740;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1735912177; x=1736516977;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aEwomEMmAZ1rFZMeWgRtCAYpGeB0XoZkMU3WaXHeq08=;
-        b=k3bTeO+v6H5fqnbREJ7nldSefWZ5dA4rjIOwvqRYExv0X+souslxlmomaM+3uUPMVb
-         66Ne1nL/bpPTn+RG2tGB40QS6y2JQUD17Azj1f2L2j5i3pDwOlo5Gvn9UopwyMQOtWdK
-         1eASInN5NhnSmXXboP4dwUnDeBr8ODjpONsXzsg0yBg9t9g59J8tv8NTwyesuesJGRN/
-         O/GeT1lPm/CbFh60t23cB+Ud/KR00Fnnm+9EEduLhMD34HTXPbh+d8UYP+vI2aFKYv/n
-         S+43ODQkFQKX6m8y7dsm31u/0kEVX5sTboKFOx1Y2j45qFRN/t0VRb+vOEHDsd4HUHi8
-         yhYg==
-X-Forwarded-Encrypted: i=1; AJvYcCVijCEqjUADi9lqPCdHANjD+0ER5udgWmEy2MNa/hPTiPRFFB2OkSe9HpWrWa2VpK6o+UZVoyz2ZW4=@vger.kernel.org, AJvYcCXLda5168XHBDJtBocYfeCcBMKHwTnVAhBWQdw7QiHg1IG1bk6p0isRsg6ZcWLMrVPyr9iXpfTkJ3N+w0ANi+ljS4I=@vger.kernel.org, AJvYcCXPZ8VrlaAPrtq1MCa/hBKqCaIsnjid24JDjwLTocqJtlhNeS80ifsL82HSP83eMBB4RvPk8KjMiEu0rEaN@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0vgTldLp9G4brHwMzz/aBPWqpi1OR5dvw5Kh9aiCUDgFU/ctt
-	QnAxjaIVCvkwiODsonMvo6DjWT/+NHvXL1pPdr2DChDST/+k21UnMVNZHG4NkpBBldY/Lv57X4H
-	i9aucC0L4zxQO2mfavPixbKCGdH0=
-X-Gm-Gg: ASbGnctWWnJ9EzKe378pyoOVNyS3i/4Q+1RNMz4R1hB4tToEiZb5BMAjGXzikBWJ9QA
-	5VO/pOtXsDUnyKhJtwWcGsTG3MG85OMAIz9JMiXFo2WUzcMOXZCovaOrOGpzYiNYUROHVhlI=
-X-Google-Smtp-Source: AGHT+IHxCZ5MUO7Dz37B1LRzm67INFoFHnMzMcPQuSdZrCSkCAg5+1FlkTTBqWOo6Jl1RMeuXUCoFseo+2F1DIbvXt8=
-X-Received: by 2002:a05:6122:4302:b0:515:d38a:e168 with SMTP id
- 71dfb90a1353d-51b75c6b4bdmr36132956e0c.4.1735906940455; Fri, 03 Jan 2025
- 04:22:20 -0800 (PST)
+        bh=nWlo2tx3RQuY5NiWKrciw+TDEi2b8UAJjPattwWp+t4=;
+        b=dB7EHwYJUrSKXwQEsMWWJLscJfeWNjwgMPxBKJVpAooi9S2V6RMO91SKLGomzZMzx7
+         gemTHCLRoX7+L7iayYIuEZOL96SATQ07iCoByUYlWd0H9CDwDiKIrh0eBYAdPDJG/zEV
+         +Tgg9sBOja3K1O0kle6kuZ79CWiPt/nSWFDdRb1bPZfPRAqQlh1tJA7XbAHq07cqpaKt
+         0Hvf9St4uYULoZYJdCw3vfWjBv8ws6rU4tc9IaWhkjslJHFM1og23iOfpOMRlHhxQeoH
+         9cVMqEkqELxX80chM6n6za355iWwjVL6UhqpiytYBKRfniY1ePIv7conWeE5s4ITAaGd
+         pJsg==
+X-Forwarded-Encrypted: i=1; AJvYcCV5rGZK1j50+Yo8f88Iikou8ZxCi61cwiR9+6TsNEpMHF9KGCOX8LKmwYZH+KNguKua6bQlwp6EhQxSSGM=@vger.kernel.org, AJvYcCXsQ4qOCHof5u4ILO2f3bHc8PnL2CMxGL7qD0UM37s+0dJLzl3qyN5Lmr8FW75OeyRMpRPUXbVfAcVW/G4HlAaWndw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwT94K+IzCa4HrMWbZY+O6AP/dg/pZrpqUPWx3pgsIrf7mCGRm7
+	8HRCB+5BRWwi1kzcGKHA+apzultuRTbZx1cs+39Tp3D/z97+J6W8
+X-Gm-Gg: ASbGncvo41jI3Zk/2cR2+6h1I7yznBIy1JsX0VfTrHpjPTephGngFNPXQz1DIBanlKd
+	yw+CXSBbEJ5Qq1qwzG/cDIVAUcUHjxqkxkVL216fUQyi0dsDDY3E5BCuLqIXDz+BtjwBUCnMuZT
+	5KdlMbKzbWsECYillx//NgES0jo7OZ9+UbTRV5sMlwLqP4M1Ac2X4CA3PigQvOcVO+/MexgQi7y
+	Vbh27w1hY0Uak0TbOVdt8AVK5syO5RSzMpesi799qvZNgNPs7fDAMxZuT+3sZE+DR91GCRumkoA
+	Cx8ki/RKlmrZtciOf2I=
+X-Google-Smtp-Source: AGHT+IGQoPUjVc425O0ZTEfBoKZJu+kwBbdbuw98rAoUNrTeffve2qyhaYQgtHvhqh/LwU5H41Ctaw==
+X-Received: by 2002:a05:600c:1d12:b0:434:f9ad:7222 with SMTP id 5b1f17b1804b1-436699ffa31mr429281475e9.7.1735912177281;
+        Fri, 03 Jan 2025 05:49:37 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8ac97fsm40220961f8f.92.2025.01.03.05.49.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jan 2025 05:49:36 -0800 (PST)
+Date: Fri, 3 Jan 2025 13:49:35 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>
+Subject: Re: [PATCH RFT v2 4/5] i3c: mipi-i3c-hci: use get_parity8 helper
+ instead of open coding it
+Message-ID: <20250103134935.2a341ce0@pumpkin>
+In-Reply-To: <Z3e1tuAR5GsEhYLz@shikoro>
+References: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
+	<20241229101234.2896-5-wsa+renesas@sang-engineering.com>
+	<20250101121431.05d831c7@dsl-u17-10>
+	<Z3ZV_D5AIUxFR1Bw@shikoro>
+	<20250102185109.0862cae6@dsl-u17-10>
+	<Z3e1tuAR5GsEhYLz@shikoro>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250103091900.428729-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250103091900.428729-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWJbdQybi6CBLQD1z1yF1t+C9LyowRnqAAnKV_=zs1Qjg@mail.gmail.com>
-In-Reply-To: <CAMuHMdWJbdQybi6CBLQD1z1yF1t+C9LyowRnqAAnKV_=zs1Qjg@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 3 Jan 2025 12:21:54 +0000
-Message-ID: <CA+V-a8tH9TA9MWGiVOKXjt8hJKM7McfQ6iOpA_WpYKkn_vTVaQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/9] i2c: riic: Introduce a separate variable for IRQ
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Geert,
+On Fri, 3 Jan 2025 11:02:30 +0100
+Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
 
-Thank you for the review.
+> > > > > -		  (dynaddr_parity(address) ? DAT_0_DYNADDR_PARITY : 0);
+> > > > > +		  (parity8(address) ? 0 : DAT_0_DYNADDR_PARITY);    
+> 
+> ...
+> 
+> > The old code is:  
+> > > -static inline bool dynaddr_parity(unsigned int addr)
+> > > -{
+> > > -	addr |= 1 << 7;
+> > > -	addr += addr >> 4;
+> > > -	addr += addr >> 2;
+> > > -	addr += addr >> 1;
+> > > -	return (addr & 1);
+> > > -}  
+> > 
+> > So:
+> > 1) it always sets 0x80.  
+> 
+> Right, this is why the arguments of the ternary operator above are
+> exchanged. The old function was basically 'is_odd'.
 
-On Fri, Jan 3, 2025 at 10:48=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for your patch!
->
-> On Fri, Jan 3, 2025 at 10:19=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Refactor the IRQ handling in riic_i2c_probe by introducing a local vari=
-able
-> > `irq` to store IRQ numbers instead of assigning them to `ret`. This cha=
-nge
-> > improves code readability and clarity.
-> >
-> > Remove explicit error handling after `platform_get_irq()` since
-> > `devm_request_irq()` already handles such errors.
->
-> Where does it handle such errors?
-> I only found the following check in request_threaded_irq():
->
->         desc =3D irq_to_desc(irq);
->         if (!desc)
->                 return -EINVAL;
->
-> Although irq_to_desc() takes an unsigned int, it should indeed catch
-> invalid (negative) interrupt numbers, but the code above would not
-> propagate the correct error code (e.g. -EPROBE_DEFER).
->
-Agreed, I had missed that. I will restore the check.
+Provided the high bit isn't already set - which it may not be.
 
-Cheers,
-Prabhakar
+> > 2) it uses addition not exclusive or.  
+> 
+> True, but it will work nonetheless because we are only interested in bit
+> 0 of the result. For one bit, XOR and addition are interchangable. The
+> overflow to other bits is not important.
+
+add: 00010001 => xxxx0010 => xx10 => x1
+xor: 00010001 => xxxx0000 => 00xx => x0
+
+> 
+> > So just not the same definition of 'parity'.  
+> 
+> I think it is. I mean, I3C wants odd parity, otherwise it will not work.
+> And Jarkko kindly confirmed it still works.
+
+I bet the target isn't checking...
+
+So you might be fixing a bug.
+
+	David
+
+
 
