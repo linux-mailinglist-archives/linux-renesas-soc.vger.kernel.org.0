@@ -1,176 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-11814-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11815-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAAFA00BDD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 17:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C74AA00C29
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 17:38:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 958031645A9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 16:13:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71202161A48
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 16:38:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD12E1FAC5A;
-	Fri,  3 Jan 2025 16:13:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 827F41F9F74;
+	Fri,  3 Jan 2025 16:38:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oc/I0t1f"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ZtVRxumZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098801C9DF0;
-	Fri,  3 Jan 2025 16:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA021FBEA6
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Jan 2025 16:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735920798; cv=none; b=k7EfVoEfwTInFT3ZpNNfwXjllkY1YRCqgP5vpPBu1iarsPSwa45enO7tVon+v1k1YN4p1r/JxAa2gHLBo//J4WV6gkRG4k2EDtp9TM6qTz/VXqE1xbKZ+sWyM6TbeLdbRnOPVUrbTTqNCifPP8Gpdd/CkR1pumWKjZMwt4xY7cU=
+	t=1735922313; cv=none; b=igMMAEUTZynxuBj+9pe2W/Py9G7Ey0Ncm5gAdkTsBDhT4iRLCpXYQwxivpgKhgPl2qA2JfkuZa/cA7AvybkvjNnRVPLC8WiAyx6ESWoIH+01j6pzfsdmRqDt2BbVuYDY+b/D23aehX9+16C4YyAccxPAlHmeD0xPk0ptm0gKtN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735920798; c=relaxed/simple;
-	bh=El6XGKYqwcsa7YnZ5x+QSqtLhBAKLucv8kHFEGNCQ1A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J/JDORY5cH5oan+gmUsT9iKvBa8jNrlekDoSt+ndT3p/0QkE8zSPwAAn78lJvHkfyir1Ig3dK3R82JfqEb4p3sNAf5YEHHuhP+l3VFiykuhzeB32iFXUiKBTPXutm71Fa8LIb/pZPUMUujK8PkF90NZRarxn6mriGEr2p4/BsHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oc/I0t1f; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-51bb020339fso2369379e0c.0;
-        Fri, 03 Jan 2025 08:13:16 -0800 (PST)
+	s=arc-20240116; t=1735922313; c=relaxed/simple;
+	bh=yivWCk87L5Kn1vLLCLSBD23i/m0z9LXbY0astKk0t14=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hugaZ9EOvNgM/wZSul01Mhh1IC0rkzCKMxiTvqkV6F1N5yIxlkpKMizV4kuKNjxdtiVnB5KtKLBNimsiCIZiPYGT2ei8b/dlQvxcocaNNgiFN4TI3q03Rfu3wxKHtfo2DZ999FerDm+7bJPTG7paJFhFdu0WoGkAWyA+oS2auOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ZtVRxumZ; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-aae81f4fdc4so1966672466b.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Jan 2025 08:38:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735920796; x=1736525596; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tBjXWT4a+4J3ezwzSf0GlUiUrphS70oI+ZEtuCaTAIg=;
-        b=Oc/I0t1fLkuzPSlzZpV7sSvLCZ8w9mVPs60wMUt8lLzTZDe+0Uff1ApxyPPcxfunr0
-         /9Gu6KAoPe89tpgWW2cuwgG7ANbdiM6VD4hH5N+NX0nus2tJZdyS8LM9nIwt7R/4dwTB
-         KCaui/mi0RviiZdP437+Ud4HGdPmtdPCGQEoIIgaUWJqOi5mlgjf0A/rANsoj8Dxdiei
-         wrYNLV0qN96weJOD4XnJz+YQwYzCYOf4Zpxnkupws5CIejt1oiN3gqgk5KxrTsq4qpcu
-         X/ggva9WduSx/2lflCBZiEvHbNtclmsmq5Q+U58fiz8EE9GIw5I+UNd/7YM7Vso+DFAT
-         qlAQ==
+        d=tuxon.dev; s=google; t=1735922308; x=1736527108; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=z12n6pwBuO+Lp/RU6Y/RGTOaXGSjqsnsbDrc/bXr6NI=;
+        b=ZtVRxumZi6oAhVXSSG6Z9GCRYi7LXtt+pArtl/iylPnSZQtPviVxWoDbiUNgXEHAWj
+         BesXaS3E2LRXKY7r/lp+9inSCoN4ZdJi1IJb25/dUWYY9LJHEf6pYoumM3kplxK8zPQ7
+         98ccXllrKaXDCpelj8IRmDNg2cr9XcAE36Jn+mB0+7BVJa0BE+7GHo7fpedpx0mU9plh
+         j2nilDpNY/hOTaJh0d7G82Jmaf6T5FdOEw/NhmzvwJP9/vYXK8YIsGY/zLh5Y6+q8bql
+         YkQl8J+Y7zaBfna2NkQL5+2oVjoZFf+HlAKHDiqwMK2Xzw7bwYKrh4/Ks6VloIHwNwtn
+         2peQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735920796; x=1736525596;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tBjXWT4a+4J3ezwzSf0GlUiUrphS70oI+ZEtuCaTAIg=;
-        b=snQQSatAGwLBmsMna/EMDiylw9Fv71Lpp2KwHVotMb8XuJ2/GwseayEhP7ko1+fNYk
-         qh8w80K4FHHiV+pd2Bqws1QE8HMamd6ThOMfNIUXCv/kDjFVxi6yYogOQTc7GYDXHvLV
-         P7Xsg1qlyJ4B6coNCBEjdbGq8bSxocbn3aWN4+8+ZvqhQOveQmoAmxAUXNlNdfaEahwW
-         kOlDte88QRVEfrMzl8mKf2TWmRYQKgpRUXgm3+2zbBYP1erKgiBERpfd62wJrufsxcvD
-         2oUt0GaAK84HxnynywqbMdrBpoPUcmSY8hrsEPVedEePimyG3qbprgU2xMjzR7zcwVrJ
-         c3UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUyYWvRhzSwYu49LFdBckBe6hFySwmkuHFS4AtNeLeHO5GyE0mbQLS3QYO5W0ZehrvhZ7n57sq4mXKi6d2G@vger.kernel.org, AJvYcCW6FrK16K0JzYaxk52oBaCrvqmnWHRbpPfi3onXxAwolL/AShNBr4tHhWJcV1hHHgd24yp4OYRxYED5skFBn3ku1fk=@vger.kernel.org, AJvYcCXSImAWsLqGTtxT/D4Z9dtpeJwjoFG400h9GaBAN4ZbpHmEBj5Kug/i7R7V/Tq96gr1JyLfj5XGCWo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6NTzUTL8McOydPaNpYIiPPbYi9Z4oJOffQLoJ75jeFM5tIX4w
-	TZF+5+QrgPGxNB0UwUS6DmRvutEFIYFjSmiVr8bgqnf6PXKL/WoE7h+cXdwD2rAGTauDfGRBATK
-	ujKgW6LAN/eSkDiq0lnpjLi/XXaA=
-X-Gm-Gg: ASbGncv+kcz4wh3xmpCI0Zgxwb8fnWzNQjVVz2IWy+G/6QKqCn2oo7zrdY3oyDC7+y3
-	g/n50ckI+fqMOIbqU4J3Z8zV4UftAboSvLAR5Efw=
-X-Google-Smtp-Source: AGHT+IF3ayhM58iUSbyHeENHny4/6p7l/Z58J92zIcF63QOath3D6wd2TYWuROL6vqVvJ04I7VH4lAJrrFyIRjWIYuU=
-X-Received: by 2002:a05:6122:4302:b0:518:a0ee:e8e7 with SMTP id
- 71dfb90a1353d-51b75abac1bmr34666299e0c.0.1735920794303; Fri, 03 Jan 2025
- 08:13:14 -0800 (PST)
+        d=1e100.net; s=20230601; t=1735922308; x=1736527108;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z12n6pwBuO+Lp/RU6Y/RGTOaXGSjqsnsbDrc/bXr6NI=;
+        b=D+EznnnghQA3xPxEGrfejrld2PqOF/iV4PwPhZ4kphv8HEDtOGbGxk02f8g+maaBrd
+         NkaKBXLfhh6si8ueqCCQk7DMhWx/epqmtBSi7DT8HNSy+0BZ/V5r9cEy8UYP/sPRIAdM
+         M4HnI+d8UghOfyC4YFEWTDdSwBe4ycKvgbskwmmGghBb4PhOBBIhJTGnUasKF6MucuOt
+         hD90LfkLwovB905B1lsGQgc2ONjbHrQPjtWjfipCR6I4rFe4V8RhPRz36bxmVnsdqHH6
+         1OsBwKQQvNeVaGPJPail+OdTwGWm7Z3CGo37iuEno0aG7VW6cPtYmHHvNqcS8SB8bcmB
+         dj4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXW6C0jrymSq2GhUKggSEaDgyWXkh+ngl2GfbiRUE5220VJZPZ27dQB2RMRtUc+kIIxLF6yPBPsbGNUqStA1clilg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzppVZANF7D41oHiiBMyIKT2qf2sVTSayHE9oSa61QKcKlHEmDD
+	t7iDbsC4NNInnsEYpgyr+r55T262Z4Gg6S1wYmj8iIuQ+IbKRhs3uto+54D3QZA=
+X-Gm-Gg: ASbGnctjUBrEWXfCS/kVYD+OabnDa6X0bSQ9gQYuUBpO8sxIr2E+IVcpibuW3w0CjZG
+	5Us5z15XFDxpG7hZP6jU84TiKln8VwpvHhjFhTqn/37dQ+DPM8R7Owk01wq9y5bcwAuFRtpGHGT
+	OFQGq0GMfGpmo4VDguSU/y2UHfuiY328Jr/1G7GTtnEc1noNgWAFdtVXAcdb72/BTvaefPRaGGR
+	k3yC0o9++bw/JHaIFCgHh3pTYh1wC5WAL/Owa5MZ1DlIZAI8oBoKOQamvF0PQ1Wk/Z+K7Z9mIvw
+	0C/nudfIS3U=
+X-Google-Smtp-Source: AGHT+IHvB3jSYSwVEdM8kpizh++WgojhHChTKlXDXhzjvg/G2jGnSPtOR2X4YibeMuE1jT2+Wk3xTg==
+X-Received: by 2002:a17:907:7dab:b0:aa6:98c9:aadc with SMTP id a640c23a62f3a-aac2d45fb01mr4593376466b.31.1735922308221;
+        Fri, 03 Jan 2025 08:38:28 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.102])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0e8953b6sm1932984066b.65.2025.01.03.08.38.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jan 2025 08:38:27 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: rafael@kernel.org,
+	daniel.lezcano@linaro.org,
+	rui.zhang@intel.com,
+	lukasz.luba@arm.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	p.zabel@pengutronix.de,
+	ulf.hansson@linaro.org
+Cc: claudiu.beznea@tuxon.dev,
+	linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 0/6] thermal: renesas: Add support for RZ/G3S
+Date: Fri,  3 Jan 2025 18:37:59 +0200
+Message-ID: <20250103163805.1775705-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250103091900.428729-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250103091900.428729-10-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV-1j0aN9Ko3oUnRZ363wiy84ZVDoV4ZsS4xTLn+u3tKw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV-1j0aN9Ko3oUnRZ363wiy84ZVDoV4ZsS4xTLn+u3tKw@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 3 Jan 2025 16:12:48 +0000
-Message-ID: <CA+V-a8sq918O+iwxNnfG2g6JPrWyCvpetzD149u48_Scbbct6A@mail.gmail.com>
-Subject: Re: [PATCH v4 9/9] i2c: riic: Add `riic_bus_barrier()` to check bus availability
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Geert,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-On Fri, Jan 3, 2025 at 4:09=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, Jan 3, 2025 at 10:19=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Introduce a new `riic_bus_barrier()` function to verify bus availabilit=
-y
-> > before initiating an I2C transfer. This function enhances the bus
-> > arbitration check by ensuring that the SDA and SCL lines are not held l=
-ow,
-> > in addition to checking the BBSY flag using `readb_poll_timeout()`.
-> >
-> > Previously, only the BBSY flag was checked to determine bus availabilit=
-y.
-> > However, it is possible for the SDA line to remain low even when BBSY =
-=3D 0.
-> > This new implementation performs an additional check on the SDA and SCL
-> > lines to avoid potential bus contention issues.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > ---
-> > v3->v4
-> > - Propogated error code when readb_poll_timeout() failed
-> > - I've kept the RB/TB tags as the changes were minimal.
->
-> OK.
->
-> + you removed a superfluous initialization of riic->err (last change belo=
-w).
->
-This change  was requested by Wolfram on v2.
+Hi,
 
-[0] https://lore.kernel.org/all/Z2XhI4L9nzUqa22Z@ninjato/
+This series adds thermal support for the Renesas RZ/G3S SoC.
 
-Cheers,
-Prabhakar
+Series is organized as follows:
+- patch 1/6:		adds clock, resets and power domain support for
+			the thermal sensor unit (TSU)
+- patch 2/6:		adds support for non-devres thermal zone
+			register/unregister 
+- patches 3-4/6:	add thermal support for RZ/G3S
+- patches 5-6/6:	add device tree support
 
-> > --- a/drivers/i2c/busses/i2c-riic.c
-> > +++ b/drivers/i2c/busses/i2c-riic.c
-> > @@ -149,13 +173,11 @@ static int riic_xfer(struct i2c_adapter *adap, st=
-ruct i2c_msg msgs[], int num)
-> >         if (ret)
-> >                 return ret;
-> >
-> > -       if (riic_readb(riic, RIIC_ICCR2) & ICCR2_BBSY) {
-> > -               riic->err =3D -EBUSY;
-> > +       riic->err =3D riic_bus_barrier(riic);
-> > +       if (riic->err)
-> >                 goto out;
-> > -       }
-> >
-> >         reinit_completion(&riic->msg_done);
-> > -       riic->err =3D 0;
-> >
-> >         riic_writeb(riic, 0, RIIC_ICSR2);
-> >
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+Merge strategy, if any:
+- patch 1/6 can go through the Renesas tree
+- patches 2-4/6 can go through the thermal tree
+- patches 5-6/6 can go through the Renesas tree
+
+Ulf,
+
+I've added you to this thread as well due to patch 2/6 that has a similar
+root cause as [1].
+
+Thank you,
+Claudiu Beznea
+
+[1] https://lore.kernel.org/all/20250103140042.1619703-2-claudiu.beznea.uj@bp.renesas.com/
+
+Claudiu Beznea (6):
+  clk: renesas: r9a08g045: Add clocks, resets and power domain support
+    for the TSU IP
+  thermal: of: Export non-devres helper to register/unregister thermal
+    zone
+  dt-bindings: thermal: r9a08g045-tsu: Document the TSU unit
+  thermal: renesas: rzg3s: Add thermal driver for the Renesas RZ/G3S SoC
+  arm64: dts: renesas: r9a08g045: Add TSU node
+  arm64: defconfig: Enable RZ/G3S thermal
+
+ .../thermal/renesas,r9a08g045-tsu.yaml        |  93 ++++++
+ MAINTAINERS                                   |   7 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  43 ++-
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     |   4 -
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/r9a08g045-cpg.c           |   4 +
+ drivers/thermal/renesas/Kconfig               |   8 +
+ drivers/thermal/renesas/Makefile              |   1 +
+ drivers/thermal/renesas/rzg3s_thermal.c       | 301 ++++++++++++++++++
+ drivers/thermal/thermal_of.c                  |   8 +-
+ include/linux/thermal.h                       |  14 +
+ 11 files changed, 476 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/thermal/renesas,r9a08g045-tsu.yaml
+ create mode 100644 drivers/thermal/renesas/rzg3s_thermal.c
+
+-- 
+2.43.0
+
 
