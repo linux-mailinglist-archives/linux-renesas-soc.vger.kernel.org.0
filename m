@@ -1,241 +1,218 @@
-Return-Path: <linux-renesas-soc+bounces-11846-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E38A01447
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jan 2025 13:18:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADA6A01512
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jan 2025 14:52:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EAA611884558
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jan 2025 12:18:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D29533A3D53
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jan 2025 13:52:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10E4714F102;
-	Sat,  4 Jan 2025 12:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 485621A8F61;
+	Sat,  4 Jan 2025 13:52:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="uCE6/0Jx";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gFYmsnnZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LtfC7NPP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1B72AF1C;
-	Sat,  4 Jan 2025 12:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B93F2BCF5;
+	Sat,  4 Jan 2025 13:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735993081; cv=none; b=U/oJv8pFHR/SVO9taEqIE3/I3Yea2T+E84Gn/lTy000JbikHJVWCCpbHiSVyAj67K+6EmoMjtZNagPN22WMKw5jZIoLUDxmleHWOPXLfcc5M5sBgj7eQmqa9AW+znbJiYJgxvfF4DAAJlV1EbjmjZMbngGWs4Gw98Xq2fcmD1JQ=
+	t=1735998755; cv=none; b=jEJ8ebzlyo746skcRVoQ64YI05FKhcrLRzLmEpQcyFOzHRGdtpHPEHGp8+kps98qcHIaJJKUNOOsKGsYRH8U9BlA86/H4gu8/E6SKSUyY+hACDMcH7nCLS2nLx3pVfNU1egGAMRZsHrpg2rBu8TVP+8b4wm5AEOELkDgeG+56Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735993081; c=relaxed/simple;
-	bh=3/zp+xbAnh/GW5BHVr2/xuQ3/eRzbj/fuY/yqs0+xkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n4wSsuqMFHWW2OZznhocKiTZSFi2fiKIpBycFQtMXLNnz/eKGRtsMhKmy3C6TqZOQi2K6Ue0tOmWou8wvok5Hgb25EyWHJ+YcxuBuRfCsdHP4aGAFvWaNkhv8mf0P/8rAB//Q9POA0Mala6c2Q/2uur9knrbviWkf0ySdo1khG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=uCE6/0Jx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gFYmsnnZ; arc=none smtp.client-ip=202.12.124.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id E15FC2540112;
-	Sat,  4 Jan 2025 07:17:58 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Sat, 04 Jan 2025 07:17:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1735993078;
-	 x=1736079478; bh=nYNf1Wpr/jWWdGiF/YzURuwYGM1YwK5EdczkNpcg6Qg=; b=
-	uCE6/0JxxuapKWqFfJO22MnNkVElVn2kV2JJnct0iP7bS+6DKylK1ZQpZUviK4yY
-	uz9LcupdoeCtNYeOEeebJ7bP+KrerKMVuJPmp6Q3oIE0c5CZdO8Cjac3G5yGeWTH
-	IHbSCy0nkJ8FjPvTLll1tYBz+j27OOopCl62KQGWPsWZXe1WQMpvX6j11j5fRiBj
-	Kn4wv9PGgt/bXymjHsJMcodt8AS2vwe/LQQx1q9F6MgFQy3wQv8e1Cw58ryd2Zoy
-	lY3elrNa/ynNym0mPi7X6vpeWPoFukr1K8jJNIp62L4UgAYoKWSZE3UStvwNmH95
-	m7nYn7LWyie4FKhg+RmJaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1735993078; x=
-	1736079478; bh=nYNf1Wpr/jWWdGiF/YzURuwYGM1YwK5EdczkNpcg6Qg=; b=g
-	FYmsnnZqBcMS6IeHjk5Rq/cqAFtlwwF+YkEsUHN1ohslXChr6/MtddAHTE9/UqRo
-	CneHIDu7B/kqR1Ek3xJePL1QtOmbUujF+xH0djPlMPYu6/hA8VyPVSSVrm/F1toW
-	QoilDjxNUvEz8QnoDfqiHBeK28xecpcH74e0D/fkc/I27CBeUB5p5gyyi5k0rDHi
-	SP9aqBt0YGsyl5zgbFNwS/3JSVd93/NpQyj9QOIFBqooIEamPP5m7bjyUhzwERHy
-	/PYjb/ilbFijsxCHxoYHm4Q/U7jgMZxNEB0sP1NwV868FpW0MP6Qff+FOjWYeH/J
-	qZFawvLWDWIziaL2/UIeQ==
-X-ME-Sender: <xms:9iZ5Zyb6zSb9T7ACZ-97wuYc01JY_H1j7hhf4H1TcsUB8zZQnuSi1w>
-    <xme:9iZ5Z1bCb2svzncJvYY7StnCb0ozRAAkuRkIvJZVcjGdp3t5EGn2kL6IGqc0dxRwB
-    duoF518ZPenGZnWTwU>
-X-ME-Received: <xmr:9iZ5Z89a19kwd7PFaXfbIG1v7dLNy5ffAUw3WLAVb8HOBKVIj-T9fZ8PI2TO3S85W1pg7mtzdEP_DtfvNE4SIRzY1pt3N85S8g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudefiedgfeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
-    thgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvd
-    elieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
-    ihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrsh
-    gvpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
-    ghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtohepshgrkhgrrhhird
-    grihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgthhgvhhgr
-    sgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegt
-    ohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnh
-    gvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghh
-    rghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmh
-    gvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:9iZ5Z0oQ_7mdyiBS5d1Ka79Pc3y7UdMGHv_plBZo02joasfXQgvqrQ>
-    <xmx:9iZ5Z9ovuMabvZYk448T7Yz5AjMaKHxe_mhhttA5k-Qof0vuh0BCkA>
-    <xmx:9iZ5ZyTYSMHBWmhwXqtm482pP6R_Oizs5Rdm4rQn9VAd-i4hzysuPw>
-    <xmx:9iZ5Z9rwAap4Af03GoUznIxCr-oRrjH2XLrtvbjCWrw5r0pvFotwkg>
-    <xmx:9iZ5Z-Q7FVQ9_yTI1Z-nzy5LhrodV2uo4QxT2WEf8qOQq7wse-8UP_RC>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 4 Jan 2025 07:17:57 -0500 (EST)
-Date: Sat, 4 Jan 2025 13:17:56 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] media: v4l: fwnode: Parse MiPI DisCo for C-PHY
- line-orders
-Message-ID: <20250104121756.GG808684@ragnatech.se>
-References: <20241121134108.2029925-1-niklas.soderlund+renesas@ragnatech.se>
- <20241121134108.2029925-3-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdXwqb7vhUeoMKDDJO5dp-V3LmnURZLSC1_ko=YL=cNyUA@mail.gmail.com>
+	s=arc-20240116; t=1735998755; c=relaxed/simple;
+	bh=fuJ6Xv6g78cSanjTIqLY4Vy63Tg6Aw6IFnUAIAbXxCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DIEYOrnfGjdGzueXKYdsdND/8VxLMyQutwdm+RGGWYFyHKGFNFYiSheYlr8zNdW6zUtKj4qZmaXu5qC2j8nYS89sowkD0ZkFkQbWVTq1lR9i5U2ohPtJSGjZ75as0G4oit64Kt8M/doF1iD8/9FLq+rh/3JvQbggRvMg6Yyxx6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LtfC7NPP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4994AC4CED1;
+	Sat,  4 Jan 2025 13:52:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735998754;
+	bh=fuJ6Xv6g78cSanjTIqLY4Vy63Tg6Aw6IFnUAIAbXxCg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LtfC7NPPIBDktZ7SSJshE5ufi41cs02gGsLtSDhcAwE1/quPk+6RG6X70gdyjK5xy
+	 n4yGe6sjvvfJJEk5UjKhomMk6FVc0hRRQDRbKWPkKVat02We5MY1Op+6jSmny6AgfN
+	 sOFHrKws3en2w9LqKW/yJprEc8slL8+V6Jz3JONqJOZa/e4vpzsJU8q0LNoLHQofM5
+	 w7ovGSW5XDT1vz8q9YE1MW4qVCZLwi23s+YTvr70nkUkMiKjwuu552o55ThZ2fUTBT
+	 quQe5ibURzfyQgEVMvPWck/V28mcvqlq4wGfnTcknR7QxBtwRNnm7nE78dSgG2C+ln
+	 TUlcDmZfmioew==
+Date: Sat, 4 Jan 2025 13:52:25 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, lars@metafoo.de,
+ ulf.hansson@linaro.org, linux-iio@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, Claudiu
+ Beznea <claudiu.beznea.uj@bp.renesas.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 1/2] iio: adc: rzg2l_adc: Drop devm_pm_runtime_enable()
+Message-ID: <20250104135225.2573285b@jic23-huawei>
+In-Reply-To: <20250103140042.1619703-2-claudiu.beznea.uj@bp.renesas.com>
+References: <20250103140042.1619703-1-claudiu.beznea.uj@bp.renesas.com>
+	<20250103140042.1619703-2-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXwqb7vhUeoMKDDJO5dp-V3LmnURZLSC1_ko=YL=cNyUA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Geert,
+On Fri,  3 Jan 2025 16:00:41 +0200
+Claudiu <claudiu.beznea@tuxon.dev> wrote:
 
-Thanks for your review.
-
-On 2024-12-27 14:31:11 +0100, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Thu, Nov 21, 2024 at 2:41 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > Extend the fwnode parsing to validate and fill in the CSI-2 C-PHY
-> > line-orders order properties as defined in MIPI Discovery and
-> > Configuration (DisCo) Specification for Imaging.
-> >
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> > * Changes since v1
-> > - Use array instead of switch to get printable line order string for
-> >   debug output.
-> > - Wrap lines harder for 80 chars instead of 100, but keep string formats
-> >   on same line even if they break the 80 chars.
-> 
-> Thanks for your patch, which is now commit 573b4adddbd22baf
-> ("media: v4l: fwnode: Parse MiPI DisCo for C-PHY line-orders") in
-> media/master.
-> 
-> > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > @@ -250,6 +261,36 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
-> >                 } else {
-> >                         pr_debug("no lane polarities defined, assuming not inverted\n");
-> >                 }
-> > +
-> > +               if (have_line_orders) {
-> > +                       fwnode_property_read_u32_array(fwnode,
-> > +                                                      "line-orders", array,
-> > +                                                      num_data_lanes);
-> > +
-> > +                       for (i = 0; i < num_data_lanes; i++) {
-> > +                               static const char * const orders[] = {
-> > +                                       "ABC", "ACB", "BAC", "BCA", "CAB", "CBA"
-> > +                               };
-> > +
-> > +                               if (array[i] > 5) {
-> > +                                       pr_warn("lane %u invalid line-order assuming ABC (got %u)\n",
-> > +                                               i, array[i]);
-> > +                                       bus->line_orders[i] =
-> > +                                               V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
-> > +                                       continue;
-> > +                               }
-> > +
-> > +                               bus->line_orders[i] = array[i];
-> 
-> This does not do any translation (unlike v4l2_fwnode_bus_type_to_mbus()
-> to translate from MEDIA_BUS_TYPE_* to V4L2_MBUS_* definitions) ...
-> 
-> > +                               pr_debug("lane %u line order %s", i,
-> > +                                        orders[array[i]]);
-> > +                       }
-> > +               } else {
-> > +                       for (i = 0; i < num_data_lanes; i++)
-> > +                               bus->line_orders[i] =
-> > +                                       V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
-> > +
-> > +                       pr_debug("no line orders defined, assuming ABC\n");
-> > +               }
-> >         }
-> >
-> >         return 0;
-> > diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> > index 5bce6e423e94..e7f019f68c8d 100644
-> > --- a/include/media/v4l2-mediabus.h
-> > +++ b/include/media/v4l2-mediabus.h
-> > @@ -73,6 +73,24 @@
-> >
-> >  #define V4L2_MBUS_CSI2_MAX_DATA_LANES          8
-> >
-> > +/**
-> > + * enum v4l2_mbus_csi2_cphy_line_orders_type - CSI-2 C-PHY line order
-> > + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC: C-PHY line order ABC (default)
-> > + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB: C-PHY line order ACB
-> > + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC: C-PHY line order BAC
-> > + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA: C-PHY line order BCA
-> > + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB: C-PHY line order CAB
-> > + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA: C-PHY line order CBA
-> > + */
-> > +enum v4l2_mbus_csi2_cphy_line_orders_type {
-> > +       V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC,
-> > +       V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB,
-> > +       V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC,
-> > +       V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA,
-> > +       V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB,
-> > +       V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA,
-> > +};
-> 
-> ... hence these values must be identical to the corresponding
-> MEDIA_BUS_CSI2_CPHY_LINE_ORDER_* in
-> include/dt-bindings/media/video-interfaces.h.
-> So please provide a safe-guard to make sure they do not become out
-> of sync.
-
-This is a good point, I will create a follow up patch to address this.  
-Thanks for spotting it!
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
++CC Rafael and linux-pm
 
 > 
-> Gr{oetje,eeting}s,
+> On all systems where the rzg2l_adc driver is used, the ADC clocks are part
+> of a PM domain. The code that implements the PM domains support is in
+> drivers/clk/renesas/rzg2l-cpg.c, the functions of interest for this commit
+> being rzg2l_cpg_attach_dev() and rzg2l_cpg_deattach_dev(). The PM
+> domains support is registered with GENPD_FLAG_PM_CLK which, according to
+> the documentation, instructs genpd to use the PM clk framework while
+> powering on/off attached devices.
 > 
->                         Geert
+> During probe, the ADC device is attached to the PM domain
+> controlling the ADC clocks. Similarly, during removal, the ADC device is
+> detached from the PM domain.
 > 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> The detachment call stack is as follows:
 > 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> device_driver_detach() ->
+>   device_release_driver_internal() ->
+>     __device_release_driver() ->
+>       device_remove() ->
+>         platform_remove() ->
+>           dev_pm_domain_detach()
+> 
+> During driver unbind, after the ADC device is detached from its PM domain,
+> the device_unbind_cleanup() function is called, which subsequently invokes
+> devres_release_all(). This function handles devres resource cleanup.
+> 
+> If runtime PM is enabled via devm_pm_runtime_enable(), the cleanup process
+> triggers the action or reset function for disabling runtime PM. This
+> function is pm_runtime_disable_action(), which leads to the following call
+> stack of interest when called:
+> 
+> pm_runtime_disable_action() ->
+>   pm_runtime_dont_use_autosuspend() ->
 
--- 
-Kind Regards,
-Niklas Söderlund
+So is the only real difference that in the code below you disable runtime pm
+before autosuspend?  Can you still do that with a devm callback just not
+the standard one?
+
+
+>     __pm_runtime_use_autosuspend() ->
+>       update_autosuspend() ->
+>         rpm_idle()
+> 
+> The rpm_idle() function attempts to runtime resume the ADC device.
+
+Can you give a little more on that path. I'm not immediately spotting
+how rpm_idle() is causing a resume
+
+> However,
+> at the point it is called, the ADC device is no longer part of the PM
+> domain (which manages the ADC clocks). Since the rzg2l_adc runtime PM
+> APIs directly modifies hardware registers, the
+> rzg2l_adc_pm_runtime_resume() function is invoked without the ADC clocks
+> being enabled. This is because the PM domain no longer resumes along with
+> the ADC device. As a result, this leads to system aborts.
+> 
+> Drop the devres API for runtime PM enable.
+> 
+> Fixes: 89ee8174e8c8 ("iio: adc: rzg2l_adc: Simplify the runtime PM code")
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+See below. I'm doubtful in general about the sequence changes and
+specifically you can't just remove one devm callback from a driver without
+modifying a lot of other code / leaving really fragile ordering.
+
+Jonathan
+
+> ---
+>  drivers/iio/adc/rzg2l_adc.c | 33 ++++++++++++++++++++++++---------
+>  1 file changed, 24 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+> index 883c167c0670..f12f3daf08cc 100644
+> --- a/drivers/iio/adc/rzg2l_adc.c
+> +++ b/drivers/iio/adc/rzg2l_adc.c
+> @@ -464,25 +464,26 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+>  
+>  	pm_runtime_set_autosuspend_delay(dev, 300);
+>  	pm_runtime_use_autosuspend(dev);
+> -	ret = devm_pm_runtime_enable(dev);
+> -	if (ret)
+> -		return ret;
+> +	pm_runtime_enable(dev);
+>  
+>  	platform_set_drvdata(pdev, indio_dev);
+>  
+>  	ret = rzg2l_adc_hw_init(dev, adc);
+> -	if (ret)
+> -		return dev_err_probe(&pdev->dev, ret,
+> -				     "failed to initialize ADC HW\n");
+> +	if (ret) {
+> +		dev_err_probe(&pdev->dev, ret, "failed to initialize ADC HW\n");
+> +		goto rpm_disable;
+> +	}
+>  
+>  	irq = platform_get_irq(pdev, 0);
+> -	if (irq < 0)
+> -		return irq;
+> +	if (irq < 0) {
+> +		ret = irq;
+> +		goto rpm_disable;
+> +	}
+>  
+>  	ret = devm_request_irq(dev, irq, rzg2l_adc_isr,
+>  			       0, dev_name(dev), adc);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto rpm_disable;
+>  
+>  	init_completion(&adc->completion);
+>  
+> @@ -493,6 +494,19 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+>  	indio_dev->num_channels = adc->data->num_channels;
+>  
+>  	return devm_iio_device_register(dev, indio_dev);
+> +
+> +rpm_disable:
+> +	pm_runtime_disable(dev);
+> +	pm_runtime_dont_use_autosuspend(dev);
+> +	return ret;
+If you have to move away from devm you must do it for all calls after
+the first thing that is manually cleaned up.
+As you have it here the userspace interfaces are left available at a point
+well after power down.
+
+> +}
+> +
+> +static void rzg2l_adc_remove(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +
+> +	pm_runtime_disable(dev);
+> +	pm_runtime_dont_use_autosuspend(dev);
+>  }
+>  
+>  static const struct rzg2l_adc_hw_params rzg2l_hw_params = {
+> @@ -614,6 +628,7 @@ static const struct dev_pm_ops rzg2l_adc_pm_ops = {
+>  
+>  static struct platform_driver rzg2l_adc_driver = {
+>  	.probe		= rzg2l_adc_probe,
+> +	.remove		= rzg2l_adc_remove,
+>  	.driver		= {
+>  		.name		= DRIVER_NAME,
+>  		.of_match_table = rzg2l_adc_match,
+
 
