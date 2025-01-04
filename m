@@ -1,118 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-11838-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BFBA01120
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jan 2025 00:54:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A11A0121E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jan 2025 04:48:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1F7E07A1633
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2025 23:54:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D61BD3A46AF
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jan 2025 03:48:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 569A71B6D18;
-	Fri,  3 Jan 2025 23:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 192D785260;
+	Sat,  4 Jan 2025 03:48:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MXkOLH7g"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="ny4iM3xx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C11180A80;
-	Fri,  3 Jan 2025 23:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF902F5E;
+	Sat,  4 Jan 2025 03:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.252
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735948494; cv=none; b=Ls+PtKsoAmo4noEjnrIBDYS+0v5nlL7dYMKVBK/xo4wvqW5UkmCE7UyDY5+KqCmTsyeHXDnAohWJZXkCvRxdb+sVxbu9zs0fiEVHVu+WvOV+hi2faTyJqotGR7UF9PbkVunYH/kc0Cqv/bM+HBjCel/BRiA3jv+c7XnIuoOMCVc=
+	t=1735962526; cv=none; b=gSABkmZmGvPXMbz7y3Oj2WYXirFhAifzklCx7xuLCRPmGR8XAmnrjV9L9ia/GRQDmPwGiZPra4/wnvjwRl4lfyV8VU/8hIYRVE4dzWa4NsGU/rQgydb2550MmQRsmQEyOoxf9iO7NThWd9oCK73cTq7DDEln+CpulsDjyPX9aqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735948494; c=relaxed/simple;
-	bh=hg2sd+wXGvqE6blBDDkV/2Lcm2gl0xQ7jMPUGUmSFgQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EKhYFyBDpCLI+C7JCb8RwngTxBPIm1tZlL2My8HxXdWbEyibS7ZJlFB9PHxukF5J5+TZcWkhKFl1QeMY4yBHJIr3LQLyKUQe7hQsv/v3eYSzj1k+4FOiUAFRUk6Kb5F5ZU5dMeVYd20HQUoHJVvzk8rLy/VrpFsKbibQEd5KMuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MXkOLH7g; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03572C4CEDD;
-	Fri,  3 Jan 2025 23:54:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735948493;
-	bh=hg2sd+wXGvqE6blBDDkV/2Lcm2gl0xQ7jMPUGUmSFgQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MXkOLH7gRgGOgHh5g9uKzhIyHgiB3ixJbyIpCiw95PdhzOzGZXcXB4XcGNJgC2ykc
-	 dsiSj6xKtRuwSadmwIgTTWkvmb6bGPP/4MSQz5mws0/SUROYdWFuHVHIh2G9rMFNaS
-	 PfRaxjLXwlaBHkPAbGCKDXWHNfiMQu3wHdklg6CtvGlGlN04U9zWGvEM5GnlxnLIKZ
-	 8Fzuyl4fBgvIfOKfN4wmn8BLWLM1icRf5OyyQV7qpvvmu+VDyObu8rUMp2cOMHnOEH
-	 bzgcddKIDDWO8R2bk4Kpl/oqXxxNrEBsejVm7qF1Y+Xepoqijs8nnN3uYTlrml4YH4
-	 87dyaoxqTfz7w==
-Date: Sat, 4 Jan 2025 00:54:49 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Chris Brandt <chris.brandt@renesas.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 0/9] i2c: riic: driver cleanup and improvements
-Message-ID: <2am3ib7lohj4ilqv3ldww3pkku456m2vyd2zzgm5akx6vluivm@g6wf6d32h62q>
-References: <20250103091900.428729-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1735962526; c=relaxed/simple;
+	bh=yxbHv6iUD/29XP5ATke3cUX5MX2RLlXScgkZO1u6t8M=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=Jd0zLEp2X14XaI2p1/3VXxlle6PpI9G1QrrRaQ2KcZphvmcZ6qUjaqepGWYNNJCPUyld8zzL2i0Obf21HXRecvO/iJNV575CRnntD1Grxg4GHS6KlGzz7490pT2P0ZF8JFnL3rzlY8annwjA5NzTY1HAuPD/tb/sUlY2COUtnLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=ny4iM3xx; arc=none smtp.client-ip=162.62.57.252
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1735962511; bh=2AtSQaRyqne9GadOORx0ISm1RZ5idyeG/5MtQGu253o=;
+	h=From:To:Cc:Subject:Date;
+	b=ny4iM3xxRak6giHg8Ir+L9afMFSILij2bQLgoAaFzzRBtTKL/VaPdxIBgI4gQS8Kz
+	 yHjPcpxRNmPQrHXmFJv1DlIWx46JMgyr29PVsJD66nGDTJ2YExi22Y6+E5SU3lWPUT
+	 WK+Y4ELMx9uVnZzJTCkjCWkREPxBwr3YfwDeUvdU=
+Received: from Dev.. ([219.142.145.136])
+	by newxmesmtplogicsvrszc25-0.qq.com (NewEsmtp) with SMTP
+	id A0B0B4F2; Sat, 04 Jan 2025 11:40:11 +0800
+X-QQ-mid: xmsmtpt1735962011t26eww8fi
+Message-ID: <tencent_59625EFD404130F5900D6FB48840AD428F05@qq.com>
+X-QQ-XMAILINFO: MR/iVh5QLeiehXmH5jtx9iHsk3b9fXCJOCnqV3YqWQrseClcXHj9ebboRN55o/
+	 5e9NSR/+j1S4ZGJ+tTWxlWAn/UbaXpxUAEfVQ/VyyLV40Z6Ed3nY332qs34+hLl5y3xGrjUmOeA4
+	 +a1ilFETBgM0YNE5m0GOoLk0+ENCRJCCKLC1eM49P9KJ5aT+Tm2JAOLq51CrPMbD9y88xmZgCu8R
+	 mY451QC8MTwEWheEg6RfhwgMlwlS/3NR/dG1gEoDGY30pirU+cHyU4Glx6/KC3AJIg5HZRoE0i66
+	 d0w547v9BiiVye/z6V3Lusg2gTyvwYfA+h+6Nm3yAVDCgcXQwaWlJ3q+LsKWoGrzM/8ORUzh81wM
+	 WiCKhnINUXQhLACK4zmnwqk9R7vdt7UJ7lt8aD8hsn4eVQC9r9yaYWFwsTUVMcoba4jhMeKYXxnZ
+	 HR/lS1Od616CG2S2HCBv/euXR4rW7z42rmBRpJLnH8aY3saaishUITmtT+JTXhpEkDf+4PzWnzwE
+	 uKr0ed6VpsJOjan/u3DeVCg2KhWXJhcSJnnu8RdmiatTGHrK/4yPqJIagNFU3ovnmc8XkRkoSPi8
+	 eVIJC6KLdys8vhgAuSPF3nS88C/KD2f/OWYC5mkLBDus+g4G1Lzp3to8RDk6tZiV5Z1jIuSnpemp
+	 4svmE9WY0UOFgoHiMLZnNxWAhnh2GR3IxUfFiv7cusEjOFSv2C8W28SpbcUL6rRt9vc3UAD9Teaq
+	 er4wTJQVP9kgEvJ/SxWDAgYZPNjogcr9kM2jYdJZEYOSYs2FTBtteyAeLmkIoP4ui8ozFAXcapz1
+	 SgxE9W104unGyotAhLH9zfU539RcyVADMmqkoM5cb0AsWneVYjPfDi6KXur38/uCCXX0Kn03Q/c5
+	 fYmQVKse7v2FqfyYtI8rqXh8JPBi+vW5dzAP0Aqer4Oljp94zjv8bwJj/5q/LM/BNC9DqXTUnGrB
+	 BltjWcofJRxRamb37FWlvrvgsCYj0Q
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+From: kingdix10@qq.com
+To: marek.vasut+renesas@gmail.com,
+	yoshihiro.shimoda.uh@renesas.com,
+	lpieralisi@kernel.org,
+	kw@linux.com,
+	manivannan.sadhasivam@linaro.org,
+	robh@kernel.org,
+	bhelgaas@google.com
+Cc: linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	King Dix <kingdix10@qq.com>
+Subject: [PATCH] PCI: rcar-ep: Fix the issue of the name parameter when calling devm_request_mem_region
+Date: Sat,  4 Jan 2025 11:39:41 +0800
+X-OQ-MSGID: <20250104033941.2782-1-kingdix10@qq.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250103091900.428729-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: King Dix <kingdix10@qq.com>
 
-I will need for Andy's ack here because he had some comments.
+When using devm_request_mem_region to request a resource, if the passed
+variable is a stack string variable, it will lead to an oops issue when
+eecuting the command cat /proc/iomem.
 
-Thanks,
-Andi
+Fix this by replacing outbound_name with the name of the previously
+requested resource.
 
-On Fri, Jan 03, 2025 at 09:18:51AM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Simplify and modernize the RIIC I2C driver with the following changes:
-> 
-> 1. Refactor error handling in `riic_i2c_probe()` and `riic_init_hw()` by
->    replacing `dev_err()` with `dev_err_probe()` and using a local `dev`
->    pointer.
-> 2. Use `BIT()` and `GENMASK()` macros for consistent and clear bit
->    handling.
-> 3. Manage reset lines with `devm_reset_control_get_exclusive()` to
->    simplify resource handling.
-> 4. Mark `riic_irqs` as `const` and simplify clock tick calculations with
->    predefined macros.
-> 5. Add `riic_bus_barrier()` to check bus availability and improve
->    reliability.
-> 
-> v3->v4
-> -> Created new patch 1/9
-> -> Dropped RB/TB tags from patch 8/9
-> -> Dropped `unsigned long` cast and updated the format specifier while
->    printing bus frequency
-> -> Included required headers
-> -> Propogated the error
-> 
-> Cheers,
-> Prabhakar
-> 
-> Lad Prabhakar (9):
->   i2c: riic: Introduce a separate variable for IRQ
->   i2c: riic: Use dev_err_probe in probe and riic_init_hw functions
->   i2c: riic: Use local `dev` pointer in `dev_err_probe()`
->   i2c: riic: Use BIT macro consistently
->   i2c: riic: Use GENMASK() macro for bitmask definitions
->   i2c: riic: Make use of devres helper to request deasserted reset line
->   i2c: riic: Mark riic_irqs array as const
->   i2c: riic: Use predefined macro and simplify clock tick calculation
->   i2c: riic: Add `riic_bus_barrier()` to check bus availability
-> 
->  drivers/i2c/busses/i2c-riic.c | 137 ++++++++++++++++++----------------
->  1 file changed, 72 insertions(+), 65 deletions(-)
-> 
-> -- 
-> 2.43.0
-> 
+Signed-off-by: King Dix <kingdix10@qq.com>
+---
+ drivers/pci/controller/pcie-rcar-ep.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
+index 047e2cef5afc..464f8f29390c 100644
+--- a/drivers/pci/controller/pcie-rcar-ep.c
++++ b/drivers/pci/controller/pcie-rcar-ep.c
+@@ -107,7 +107,7 @@ static int rcar_pcie_parse_outbound_ranges(struct rcar_pcie_endpoint *ep,
+ 		}
+ 		if (!devm_request_mem_region(&pdev->dev, res->start,
+ 					     resource_size(res),
+-					     outbound_name)) {
++						 res->name)) {
+ 			dev_err(pcie->dev, "Cannot request memory region %s.\n",
+ 				outbound_name);
+ 			return -EIO;
+-- 
+2.43.0
+
 
