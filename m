@@ -1,241 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-11856-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FD2A01692
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jan 2025 20:57:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 522ADA017F3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Jan 2025 04:39:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5090E3A25E0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jan 2025 19:57:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9C17E7A193C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Jan 2025 03:39:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BCCC1D5CC5;
-	Sat,  4 Jan 2025 19:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F02E35961;
+	Sun,  5 Jan 2025 03:39:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="JJR2OSsp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ipCSNoz8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H1zm43Vw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB664C9D;
-	Sat,  4 Jan 2025 19:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD3663A9;
+	Sun,  5 Jan 2025 03:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736020632; cv=none; b=PW8ocbLb0TB8o6BjoCD6oMbXV12ua7WKffLEn3JlsaDp+ZNZl1qN88IazpOAmYel0H8ey49cC7PxTR8Jo+Pav8fcYNdih3unct5t3okqxr18ZmPHvr1yecXxqEPHTJAQECNGnyjKbEnoSITloDCyYXIKdm1t0lmPJYrjyknMO9w=
+	t=1736048341; cv=none; b=gI476fHSPUubnfACQxBnVUTgLStAEM9qNfOD6qQBaAjEYlpXp8SWORMrOenlHRhysHPDyU7t8HI9aW40aQQaopCsrO2jwWNXEEq5GZT40uHdC4oyWGXdc5avkOT6WHR8jSS09vuhnnN0xHdNSLyVQOQXa5Gtdny6ctiRG3lt/gY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736020632; c=relaxed/simple;
-	bh=GIqFPcIPDL8N3uqaFtGti7ZmkCBgON6sP2qJSYccXJU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y4Q7k5ySrWV6CLJZp0ymzdqiKEB72tsUdJ3Jq6M53jugWhVxWaELrIXBLl1RwkrQGUHqLb+dRcRNXfgJGbny0RSLJ9XSpCLgIBDskFH6HG5w/U2y6BhS47LmywY58czHkGA7xi0CzoWyUd+hHogIrMhi2mog/WVITBlRJZw7VRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=JJR2OSsp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ipCSNoz8; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfout.stl.internal (Postfix) with ESMTP id 50A71114010E;
-	Sat,  4 Jan 2025 14:57:09 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Sat, 04 Jan 2025 14:57:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1736020629;
-	 x=1736107029; bh=r837jh24yXoA8gp2+I/Dys+rd+1nDgZ5PuemLQfc7f0=; b=
-	JJR2OSspiV7Uh3CfpvEQGLYI6G/P15isaOgDsSp3Bj8D42/oG7mzVz9wZ5ShtzOo
-	ZiicvMaF9dW7jdTG4p5oZVoAMeMN8U6nQp1mO62ET/zy7dy6ix63XrTHgtdytchE
-	UbO/XnGeaY4e/9yXN4RzEs1FFLGSrVIq11hwsFzOwLrHbtB0qj+vthU2kePzPNpi
-	FgiT1feG9mkry1nS7zWWmZ4SMKxMv98kwEtu6RDqMfkIT1bTJyobWsAv0Ojo5F4K
-	nMCmH4ulVaHK+tVujqGhqg/bXR2wG6qI075AOO52vMJVnVWqzmZCqPkyt25Acgmn
-	rJ0mlG4X00FKyjtdtlfXKA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1736020629; x=
-	1736107029; bh=r837jh24yXoA8gp2+I/Dys+rd+1nDgZ5PuemLQfc7f0=; b=i
-	pCSNoz8nv1EpDeuUpQSdpd4CABlowm0k7/lOj9l9GiZyhSsbVCqqV2Sn7dJh66oU
-	a9KOfxUei3mqQ55yXiwbzqiBC5UT9wdwwqUGZ0ucAgFcAAiin68WmyIY8DpVy3uU
-	Cld6oUjOFZ5IEXSIqZPj0R1OrybA5wmhG1DctcUrvuH+l0WKd9HGsPcHnnIOdETk
-	LrbF4lpv7N1VdIQ1R/jeDpm1D1b1oVJ+5aJWTdSqqK1JysxXpksnHNAseZADdDeW
-	brtd83ADEQeLzU3TggkJw6T7eg80cZ+XF7B0VILt7O9A+Lvt8JMBvW7f37mJxc8l
-	00xqwxNdBkHv9Q9Geke4g==
-X-ME-Sender: <xms:lJJ5ZxjCHB5F4cuKCtbVrCr-kjCE5CpzVNOK9Ey2N-qMS0DH7xSckg>
-    <xme:lJJ5Z2BQtq6P9hefINHHsySfoXXc2zoZr5QwIjGqMOoQsnP8iyWOHfXh6tXyW7-5t
-    J959EgQVZilp0uLEeg>
-X-ME-Received: <xmr:lJJ5ZxHRtn-LKO8VVka8mcmu5opv2vD5j0LomWSJGu_p0NNtdYNDvq6cnkHBePLObARo7GkLUmwXwQXf04B1KdknFA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudefiedgudefudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
-    thhtvghrnhepheeigfeuveeutdefhfehgeekvedtleeuueekveefudehhffhjeffgfegff
-    elfeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
-    nhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtg
-    hpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshgrkhgrrhhirdgr
-    ihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepghgvvghrtheslh
-    hinhhugidqmheikehkrdhorhhgpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlh
-    drohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdr
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrghsrdhsohguvghrlhhunhguod
-    hrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:lJJ5Z2S2O18EewF_q0_6aeLcdZ3fGkl5IyUMMyL2KnE9pHW7aFlFng>
-    <xmx:lJJ5Z-xEvkoPIrDOpdpAbGU77Gnu5aCicjGGekxN9Z4nfvECmEBRDA>
-    <xmx:lJJ5Z878ZXeOUjXoZnb6biKsSY6v5agfpMRdqu0rCS8xKmZnI5y2eQ>
-    <xmx:lJJ5ZzxJE5yTTp1g0Td3v3BAt0kmPdstZPiPlmuSHVhYhXMb5RCRxw>
-    <xmx:lZJ5Z1ndHn2XbfBdLKYvivcN7uuw7UK1OQmdmsUwjNBEVh3eVvi19_If>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 4 Jan 2025 14:57:08 -0500 (EST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 2/2] media: v4l: fwnode: Parse CSI-2 C-PHY line-orders like bus-type
-Date: Sat,  4 Jan 2025 20:55:48 +0100
-Message-ID: <20250104195548.1915578-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250104195548.1915578-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250104195548.1915578-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1736048341; c=relaxed/simple;
+	bh=yNdSFk/CLFtb27KFAdNS2MwEgob6/gf0YzuRH189+Ms=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d56qTzJHni52FhJbz0gkYUfIS76NBgPRS7YrOxmUpRTnWv1UtkmZ+XdXMLGKRms7KrV/AiI+mpAZ2+rushjTDHFykilme8sTqBeGReblGXIVpPuqKJmOelKm16O2H3cJajJwiHN7GXUTUmvyvB9FOxeRuKBd8J4wV2yGV53DcKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H1zm43Vw; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2156e078563so164150185ad.2;
+        Sat, 04 Jan 2025 19:39:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736048340; x=1736653140; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=g6D/wa1IwTh6EdmkoPQJ2wsfsDe1R0UMTRH3+UOd7Eg=;
+        b=H1zm43VwGknMuzEseGdGGILgkEhaRhKEjnpnKqd2u92re065GwRqdLF6iKzTGJi0YN
+         8bcQNpVHCnIDy2IrwooVoIoXhwjNwZgMLIxOgUpJ1m7E+IzOhyANSgtC58LTSHVOGXHc
+         Nd9FkSnLFJuOhHAzhHZgCfejZqcHIQe8I4zvxRej2WYvR9IF8hkj+S8doJBcikt1hDpw
+         GLM1wPMpGU3BiVxwcQXbOg3VcS8zgnlMWTKfuGhD/rHeZLVQXUXeUeiI4g313s23vFOE
+         KY8hrpX+kZjbvRDL7+CaM+6OezK5Dq+gLTSfJrdpqRYEB/AXeWj9xn0XbnHkpymj+CwQ
+         rVXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736048340; x=1736653140;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g6D/wa1IwTh6EdmkoPQJ2wsfsDe1R0UMTRH3+UOd7Eg=;
+        b=Ui25vfFZ82lh6CPVRnpG3+uvsocrT9UYlFo7PjGrZAiFnSjuq809CCED00RiXTjoDj
+         sCyzRQL7JZOptN3YTU/wFwXF0DqDAgv2BDc+QpEAnNbLHItEUS0OuvjkOEEPUm5jtEWx
+         X9/LCS+UuCGcam7Aj3fUX7pe5Q1illIdWqYXy8dnqkO8sim6Eo0VAAxJCd7nhuVQtnFx
+         XBVD35uO8ndMAUdyBLqCDgaJGCcUPDWAqSHiy7/aJTXwGDI82nbGXM7O1jMSBxC2O2ZK
+         MAE+oWHqtdcuJOkv9cxSTyibbuoanlfmbyXbrkKgC4BVy3CCR+cQilKcvpyXgXr+wVcF
+         PXeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUzp6q3leej0EHaX2C9TR/qIPkJa1ZxEIiwl6JNIAgS57PKmnGJ2IDE0Zvz76aqvu1/T9x5aIRO287NIchQ@vger.kernel.org, AJvYcCWnimdD99VCXpCxFLwaYPDAc87ZMG0zwk6CjxJ2I9itYW8oU1xkJsXDRdSce/7EFmS/olbPoyDUtR+5Pw==@vger.kernel.org, AJvYcCXLRqsU+Tx46YhhlQ9xTro57Xmv/0+o205VDQEO3SwpeFPFE0PMwkEdHOep+09XinjE0a5VekT/4F7hURaI78UE94E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaGtve1uid4n45BDBy9tnK2kmSkGOScniKXJSl3rqPvJ75l5yJ
+	qYxnx9+wDmyA2zI6z4OiT5GhMUvPPLmGFnIL+8o1BEjUZMku1ykQ
+X-Gm-Gg: ASbGncsSmjGqIiklLkXU3UMTi8D6TAgtYuZtmbKmEcEdhF49TF6N6AmBAavbwMpBaWT
+	xmgOptGcUdVkEAmYd7xMH2PogfathqmzQkw2JFE7yyKUf1eKb4XOqTXzeX4x0DpmmEQ6X0JjukJ
+	ucLTqlnrKoxKFKAFsJspjKl1w3OKwaSS2TCXTlGF2b/aELvbUdATeOoZDY/etbJm5xC/vOz7O3m
+	eTO5x9Mn4v6tZI9s7hI19Jczu6FLJtcUrQY8J7MNQANYRqG9Xq8+5qKE43QQ4J6fyEsqqNrOmvm
+	nIUi
+X-Google-Smtp-Source: AGHT+IFcujW59lIZRak4GyPzLm4B+QCpjzjKY/tXSSyQbMdi8o1a3Pbw/Xg5pu21UzrTWgpOaUnqjg==
+X-Received: by 2002:a17:902:d4c6:b0:211:e812:3948 with SMTP id d9443c01a7336-219e6cc87f4mr741172775ad.0.1736048339584;
+        Sat, 04 Jan 2025 19:38:59 -0800 (PST)
+Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca028aesm267405385ad.264.2025.01.04.19.38.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jan 2025 19:38:59 -0800 (PST)
+Date: Sat, 4 Jan 2025 19:38:55 -0800
+From: Yury Norov <yury.norov@gmail.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>
+Cc: linus@ucla.edu
+Subject: Re: [PATCH RFT v2 0/5] i3c: introduce and use generic parity helper
+Message-ID: <Z3n-z5xA2ue8ojiF@yury-ThinkPad>
+References: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
+ <20250103221117bb066057@mail.local>
+ <Z3hhw_pwFAicsEDi@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z3hhw_pwFAicsEDi@shikoro>
 
-Provided a safe-guard from the raw values used in device tree sources
-and the in-kernel defines used to describe the different line orders.
-This mimics what have been done for the bus-type property to provide the
-same safe-guard.
+On Fri, Jan 03, 2025 at 11:16:35PM +0100, Wolfram Sang wrote:
+> 
+> > I'll apply the series once you get some agreement on the function name.
+> 
+> Thanks!
+> 
+> As said in that thread, the function name has already been changed in v2
+> to the liking of the bitmap.h maintainer (Rasmus) [1]. He has not
+> responded to this series yet, though.
+> 
+> [1] https://lore.kernel.org/r/CAKwiHFiamZ7FgS3wbyLHo6n6R136LrLVCsih0w+spG55BPxy8g@mail.gmail.com
+> 
 
-The macros used in device tree sources are defined in video-interfaces.h
-(MEDIA_BUS_CSI2_CPHY_LINE_ORDER_*) and are only visible to DTS source
-files. These raw values map directly to the in-kernel names by fwnode
-defines in v4l2-fwnode.h (V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_*). These
-fwnode defines are finally translated to defines which are exposed to
-drivers to act on (V4L2_MBUS_CSI2_CPHY_LINE_ORDER_*).
++ Linus Arver
 
-Previously the translation to values provided to drivers have exploited
-the fact that the numerical value for each setting are the same for the
-defines used in device tree sources. While this is unlikely to change
-this harmonises the bus-type and line-orders parsing to work using the
-same mechanics, while at the same time make the large CSI-2 parsing
-function a little more readable.
+Rasmus is reviewer. I'm - maintainer. But I surely agreed with him.
+Shorter name is always better. And we're all kernel developers here,
+so we used to read and respect comments. The comment clearly explains
+what the function returns.
 
-Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/v4l2-core/v4l2-fwnode.c | 80 ++++++++++++++++++++++-----
- 1 file changed, 66 insertions(+), 14 deletions(-)
+I'm a bit doubted about adding a web link in sources because it may
+become invalid one day, but if Wolfram commits to maintain comments
+up-to-date, I'm OK with that.
 
-diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-index cb153ce42c45..69f6d1df8c39 100644
---- a/drivers/media/v4l2-core/v4l2-fwnode.c
-+++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-@@ -121,6 +121,70 @@ v4l2_fwnode_mbus_type_to_string(enum v4l2_mbus_type type)
- 	return conv ? conv->name : "not found";
- }
- 
-+static const struct v4l2_fwnode_csi2_cphy_line_orders_conv {
-+	enum v4l2_fwnode_csi2_cphy_line_orders_type fwnode_order;
-+	enum v4l2_mbus_csi2_cphy_line_orders_type mbus_order;
-+	const char *name;
-+} csi2_cphy_line_orders[] = {
-+	{
-+		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_ABC,
-+		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC,
-+		"ABC",
-+	}, {
-+		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_ACB,
-+		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB,
-+		"ACB",
-+	}, {
-+		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_BAC,
-+		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC,
-+		"BAC",
-+	}, {
-+		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_BCA,
-+		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA,
-+		"BCA",
-+	}, {
-+		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_CAB,
-+		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB,
-+		"CAB",
-+	}, {
-+		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_CBA,
-+		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA,
-+		"CBA",
-+	}
-+};
-+
-+static const struct v4l2_fwnode_csi2_cphy_line_orders_conv *
-+get_v4l2_fwnode_line_order_conv_by_fwnode_order(enum v4l2_fwnode_csi2_cphy_line_orders_type order)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(csi2_cphy_line_orders); i++)
-+		if (csi2_cphy_line_orders[i].fwnode_order == order)
-+			return &csi2_cphy_line_orders[i];
-+
-+	/* The default line order is ABC */
-+	pr_warn("invalid line-order assuming ABC (got %u)\n", order);
-+	return &csi2_cphy_line_orders[0];
-+}
-+
-+static enum v4l2_mbus_csi2_cphy_line_orders_type
-+v4l2_fwnode_line_order_to_mbus(enum v4l2_fwnode_csi2_cphy_line_orders_type order)
-+{
-+	const struct v4l2_fwnode_csi2_cphy_line_orders_conv *conv =
-+		get_v4l2_fwnode_line_order_conv_by_fwnode_order(order);
-+
-+	return conv->mbus_order;
-+}
-+
-+static const char *
-+v4l2_fwnode_line_order_to_string(enum v4l2_fwnode_csi2_cphy_line_orders_type order)
-+{
-+	const struct v4l2_fwnode_csi2_cphy_line_orders_conv *conv =
-+		get_v4l2_fwnode_line_order_conv_by_fwnode_order(order);
-+
-+	return conv->name;
-+}
-+
- static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
- 					       struct v4l2_fwnode_endpoint *vep,
- 					       enum v4l2_mbus_type bus_type)
-@@ -268,21 +332,9 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
- 						       num_data_lanes);
- 
- 			for (i = 0; i < num_data_lanes; i++) {
--				static const char * const orders[] = {
--					"ABC", "ACB", "BAC", "BCA", "CAB", "CBA"
--				};
--
--				if (array[i] >= ARRAY_SIZE(orders)) {
--					pr_warn("lane %u invalid line-order assuming ABC (got %u)\n",
--						i, array[i]);
--					bus->line_orders[i] =
--						V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
--					continue;
--				}
--
--				bus->line_orders[i] = array[i];
-+				bus->line_orders[i] = v4l2_fwnode_line_order_to_mbus(array[i]);
- 				pr_debug("lane %u line order %s", i,
--					 orders[array[i]]);
-+					 v4l2_fwnode_line_order_to_string(array[i]));
- 			}
- 		} else {
- 			for (i = 0; i < num_data_lanes; i++)
--- 
-2.47.1
+I already acked the patch, so no need to ack it again.
 
+Thanks,
+Yury
 
