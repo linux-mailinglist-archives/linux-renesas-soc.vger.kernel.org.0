@@ -1,128 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-11857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11858-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522ADA017F3
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Jan 2025 04:39:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B7CA01843
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Jan 2025 07:03:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9C17E7A193C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Jan 2025 03:39:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6521C162818
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Jan 2025 06:03:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F02E35961;
-	Sun,  5 Jan 2025 03:39:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 727D72BAF4;
+	Sun,  5 Jan 2025 06:03:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H1zm43Vw"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="dUggafPS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com [203.205.221.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD3663A9;
-	Sun,  5 Jan 2025 03:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164A61BDC3;
+	Sun,  5 Jan 2025 06:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736048341; cv=none; b=gI476fHSPUubnfACQxBnVUTgLStAEM9qNfOD6qQBaAjEYlpXp8SWORMrOenlHRhysHPDyU7t8HI9aW40aQQaopCsrO2jwWNXEEq5GZT40uHdC4oyWGXdc5avkOT6WHR8jSS09vuhnnN0xHdNSLyVQOQXa5Gtdny6ctiRG3lt/gY=
+	t=1736056984; cv=none; b=gcIyiL0J3Ut/tO9Pq1Q6OBtjrfsPxOECKn88QA+BbrefJjaIDfUpO5vohsapS+hmI/Qeoawz8Io8DfmX0UoLKWyrL3MOF4OmfaLrI3+6inzVgR1kpcVnzLgJAyfcIeDg471uWaE4NbSxlWDSoZIdsVQ8PRM1Wyqp7EGtXY8x4hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736048341; c=relaxed/simple;
-	bh=yNdSFk/CLFtb27KFAdNS2MwEgob6/gf0YzuRH189+Ms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d56qTzJHni52FhJbz0gkYUfIS76NBgPRS7YrOxmUpRTnWv1UtkmZ+XdXMLGKRms7KrV/AiI+mpAZ2+rushjTDHFykilme8sTqBeGReblGXIVpPuqKJmOelKm16O2H3cJajJwiHN7GXUTUmvyvB9FOxeRuKBd8J4wV2yGV53DcKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H1zm43Vw; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2156e078563so164150185ad.2;
-        Sat, 04 Jan 2025 19:39:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736048340; x=1736653140; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=g6D/wa1IwTh6EdmkoPQJ2wsfsDe1R0UMTRH3+UOd7Eg=;
-        b=H1zm43VwGknMuzEseGdGGILgkEhaRhKEjnpnKqd2u92re065GwRqdLF6iKzTGJi0YN
-         8bcQNpVHCnIDy2IrwooVoIoXhwjNwZgMLIxOgUpJ1m7E+IzOhyANSgtC58LTSHVOGXHc
-         Nd9FkSnLFJuOhHAzhHZgCfejZqcHIQe8I4zvxRej2WYvR9IF8hkj+S8doJBcikt1hDpw
-         GLM1wPMpGU3BiVxwcQXbOg3VcS8zgnlMWTKfuGhD/rHeZLVQXUXeUeiI4g313s23vFOE
-         KY8hrpX+kZjbvRDL7+CaM+6OezK5Dq+gLTSfJrdpqRYEB/AXeWj9xn0XbnHkpymj+CwQ
-         rVXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736048340; x=1736653140;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g6D/wa1IwTh6EdmkoPQJ2wsfsDe1R0UMTRH3+UOd7Eg=;
-        b=Ui25vfFZ82lh6CPVRnpG3+uvsocrT9UYlFo7PjGrZAiFnSjuq809CCED00RiXTjoDj
-         sCyzRQL7JZOptN3YTU/wFwXF0DqDAgv2BDc+QpEAnNbLHItEUS0OuvjkOEEPUm5jtEWx
-         X9/LCS+UuCGcam7Aj3fUX7pe5Q1illIdWqYXy8dnqkO8sim6Eo0VAAxJCd7nhuVQtnFx
-         XBVD35uO8ndMAUdyBLqCDgaJGCcUPDWAqSHiy7/aJTXwGDI82nbGXM7O1jMSBxC2O2ZK
-         MAE+oWHqtdcuJOkv9cxSTyibbuoanlfmbyXbrkKgC4BVy3CCR+cQilKcvpyXgXr+wVcF
-         PXeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUzp6q3leej0EHaX2C9TR/qIPkJa1ZxEIiwl6JNIAgS57PKmnGJ2IDE0Zvz76aqvu1/T9x5aIRO287NIchQ@vger.kernel.org, AJvYcCWnimdD99VCXpCxFLwaYPDAc87ZMG0zwk6CjxJ2I9itYW8oU1xkJsXDRdSce/7EFmS/olbPoyDUtR+5Pw==@vger.kernel.org, AJvYcCXLRqsU+Tx46YhhlQ9xTro57Xmv/0+o205VDQEO3SwpeFPFE0PMwkEdHOep+09XinjE0a5VekT/4F7hURaI78UE94E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaGtve1uid4n45BDBy9tnK2kmSkGOScniKXJSl3rqPvJ75l5yJ
-	qYxnx9+wDmyA2zI6z4OiT5GhMUvPPLmGFnIL+8o1BEjUZMku1ykQ
-X-Gm-Gg: ASbGncsSmjGqIiklLkXU3UMTi8D6TAgtYuZtmbKmEcEdhF49TF6N6AmBAavbwMpBaWT
-	xmgOptGcUdVkEAmYd7xMH2PogfathqmzQkw2JFE7yyKUf1eKb4XOqTXzeX4x0DpmmEQ6X0JjukJ
-	ucLTqlnrKoxKFKAFsJspjKl1w3OKwaSS2TCXTlGF2b/aELvbUdATeOoZDY/etbJm5xC/vOz7O3m
-	eTO5x9Mn4v6tZI9s7hI19Jczu6FLJtcUrQY8J7MNQANYRqG9Xq8+5qKE43QQ4J6fyEsqqNrOmvm
-	nIUi
-X-Google-Smtp-Source: AGHT+IFcujW59lIZRak4GyPzLm4B+QCpjzjKY/tXSSyQbMdi8o1a3Pbw/Xg5pu21UzrTWgpOaUnqjg==
-X-Received: by 2002:a17:902:d4c6:b0:211:e812:3948 with SMTP id d9443c01a7336-219e6cc87f4mr741172775ad.0.1736048339584;
-        Sat, 04 Jan 2025 19:38:59 -0800 (PST)
-Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca028aesm267405385ad.264.2025.01.04.19.38.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jan 2025 19:38:59 -0800 (PST)
-Date: Sat, 4 Jan 2025 19:38:55 -0800
-From: Yury Norov <yury.norov@gmail.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1736056984; c=relaxed/simple;
+	bh=ljcqXNSzvAWcAno6sw8/xCxCE4+is3tD5z9YqtdeCIo=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=l9oP82/l9kfJiVUK8/3pAowHjY1I37GN1Qb8rpDpsflU18UzI6Csvn5Em2SFTIIOODwgB+7/BgN9BN39ViEj3D73+mCWMusAPSdTsS5hzH03ay5T0aWdTLhHoTH+TABZV2CqYSRYKyi20ccYIr0QBhfy/4oux3vmsO7MzyHP5Qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=dUggafPS; arc=none smtp.client-ip=203.205.221.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1736056676; bh=tuSQf2/SB/aButLjZ/0dfORHyj8pi8iEwOjjELQDRDE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=dUggafPSYTF5tNsaOpjFOjnoQgsIvZE7kPSodApxyBHtqw4jZQHXGULPKJ030KQ+i
+	 MZrx6Y4FIxmQ3uQTA66weSGDlEwofokr6S8TcNNxXTX8hPPIM2lM0u7vdFXUZjnb+6
+	 0jY3Lg4EWamx8HieQJSe/TbWlmkkrWhohO5aPiSE=
+Received: from Ubuntu.. ([240e:305:25d4:e300:e2d9:1fb6:5f8b:3c3f])
+	by newxmesmtplogicsvrszb16-1.qq.com (NewEsmtp) with SMTP
+	id E7534067; Sun, 05 Jan 2025 13:57:53 +0800
+X-QQ-mid: xmsmtpt1736056673tx6e30xse
+Message-ID: <tencent_6F826F87DF787845466AE67AEFF37E073E08@qq.com>
+X-QQ-XMAILINFO: MapnONytPuziafDcN9vkGEkdxlXC9IdW28vfD++22D6BxNqaf6FHiQTsWTU2/6
+	 GbZRJ6w8T2YZ3v80AcJlPMgaUXx+LdA3TiIhQMc8xUqz9uXAXoiub8g8T99Qzwhw6qM3WG5msTve
+	 fsfQfhnVR1HqCb5ySwKwUCFO4MQuAidPuA9cPbVoym/ci78/z4kaqAEYiuKAqrz2lxGR8HqyAbYA
+	 bCBI82KOajz2DMXJA+M1qxevOH2sJI/KUWOibb2n5cYQFmKXAb03rp8ioWIt7FrfYw4oUj94Aikp
+	 kOI2KOe8u7egHxrvid0w4I3HBYV8c0dcFyINkCV5rozSIxeXbIcEX5riRp+O4C8o9XoELGXHpQaz
+	 H11FYMVLPjehbrqUF9gIXbv1jHnPq/ZxaCbH7aUCTgLf7N3uycAIPUYTqF2YuFlUMFOIJkO2Seza
+	 lxa+sBrLFjqxViD406qLLS+Qvz2HaOGqm42SGyGHp84x8mqXXvSO3jeXv1+qBlqbYVfF5+UXycVK
+	 CU9zufMOVu0Qm5B6LpwmJ9Nc1zCZYK/pnGDLuY232NdwXfK4nWV3X5YZb9pMQkx9pGnbBM825y+k
+	 7XNIoY8kH2oTjUOibIppId3tpbcXRE3XWcEBzrrx72k16FCdvo/l7Pkc62Ms4TXOv0X5dwLdnZOm
+	 9IbmWyFAUO5ROZKhAa+L+LFBf7TiFG2KY+x2JGFSB968hslNPEbujcfdA68WxN4/FZjrIE5Aa+NA
+	 UYmND2XspBnVgxRIxjvhVms/4Wmj0GHkSPBPXg6LPJL1atBYaNLzD0cXM7bCBFC0iG8gMWzvaH/s
+	 YSxtUIUFKiQu6sqc5JW/fSIvLwWpPP3nhTi8YAmK7DNShk1WnNjWzPaGjtMGhCUYm9tGIj3mcukW
+	 Lkw6kvHXC6pVsD8FmFbQ9T+Ya/SiNBbaQ+L2zALXOJaVlXVc8X4JZxUCc6DC51TRC/0CFM+LEui/
+	 +piPPD7eqA3OxKUK+7CIIj7BjGj7V2jNL20YSJSb0fYNEriZuC/6XjyhSvC9ZHheCzRB63TAQwAc
+	 6fD1ODu5LWxaSq4Zsy839YgzkJRtioa0BMbrsx1+tMVelyipqmOEiTnYFIOCSpUSn7+twC9YShfq
+	 TqXRcG
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+From: kingdix10@qq.com
+To: s.shtylyov@omp.ru,
+	marek.vasut+renesas@gmail.com,
+	yoshihiro.shimoda.uh@renesas.com,
+	lpieralisi@kernel.org,
+	kw@linux.com,
+	manivannan.sadhasivam@linaro.org,
+	robh@kernel.org,
+	bhelgaas@google.com
+Cc: linux-pci@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
-	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>
-Cc: linus@ucla.edu
-Subject: Re: [PATCH RFT v2 0/5] i3c: introduce and use generic parity helper
-Message-ID: <Z3n-z5xA2ue8ojiF@yury-ThinkPad>
-References: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
- <20250103221117bb066057@mail.local>
- <Z3hhw_pwFAicsEDi@shikoro>
+	linux-kernel@vger.kernel.org,
+	King Dix <kingdix10@qq.com>
+Subject: [PATCH v2] PCI: rcar-ep: Fix the issue of the name parameter when calling devm_request_mem_region
+Date: Sun,  5 Jan 2025 13:57:51 +0800
+X-OQ-MSGID: <20250105055751.175881-1-kingdix10@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <5f8d43fe-25e3-450d-b5c2-2d69b9bc9923@omp.ru>
+References: <5f8d43fe-25e3-450d-b5c2-2d69b9bc9923@omp.ru>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z3hhw_pwFAicsEDi@shikoro>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 03, 2025 at 11:16:35PM +0100, Wolfram Sang wrote:
-> 
-> > I'll apply the series once you get some agreement on the function name.
-> 
-> Thanks!
-> 
-> As said in that thread, the function name has already been changed in v2
-> to the liking of the bitmap.h maintainer (Rasmus) [1]. He has not
-> responded to this series yet, though.
-> 
-> [1] https://lore.kernel.org/r/CAKwiHFiamZ7FgS3wbyLHo6n6R136LrLVCsih0w+spG55BPxy8g@mail.gmail.com
-> 
+From: King Dix <kingdix10@qq.com>
 
-+ Linus Arver
+When using devm_request_mem_region to request a resource, if the passed
+variable is a stack string variable, it will lead to an oops issue when
+eecuting the command cat /proc/iomem.
 
-Rasmus is reviewer. I'm - maintainer. But I surely agreed with him.
-Shorter name is always better. And we're all kernel developers here,
-so we used to read and respect comments. The comment clearly explains
-what the function returns.
+Fix this by replacing outbound_name with the name of the previously
+requested resource.
 
-I'm a bit doubted about adding a web link in sources because it may
-become invalid one day, but if Wolfram commits to maintain comments
-up-to-date, I'm OK with that.
+Signed-off-by: King Dix <kingdix10@qq.com>
+---
+Changes in v2:
+  - Fix the code indentation issue.
+---
+ drivers/pci/controller/pcie-rcar-ep.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I already acked the patch, so no need to ack it again.
+diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
+index 047e2cef5afc..c5e0d025bc43 100644
+--- a/drivers/pci/controller/pcie-rcar-ep.c
++++ b/drivers/pci/controller/pcie-rcar-ep.c
+@@ -107,7 +107,7 @@ static int rcar_pcie_parse_outbound_ranges(struct rcar_pcie_endpoint *ep,
+ 		}
+ 		if (!devm_request_mem_region(&pdev->dev, res->start,
+ 					     resource_size(res),
+-					     outbound_name)) {
++					     res->name)) {
+ 			dev_err(pcie->dev, "Cannot request memory region %s.\n",
+ 				outbound_name);
+ 			return -EIO;
+-- 
+2.43.0
 
-Thanks,
-Yury
 
