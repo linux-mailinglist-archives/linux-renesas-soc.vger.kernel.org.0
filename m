@@ -1,122 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-11858-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11859-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B7CA01843
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Jan 2025 07:03:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE45A018E0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Jan 2025 10:36:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6521C162818
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Jan 2025 06:03:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B9111883515
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Jan 2025 09:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 727D72BAF4;
-	Sun,  5 Jan 2025 06:03:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7838713FD86;
+	Sun,  5 Jan 2025 09:36:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="dUggafPS"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Lku8/YFM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com [203.205.221.239])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164A61BDC3;
-	Sun,  5 Jan 2025 06:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262F813C3D3
+	for <linux-renesas-soc@vger.kernel.org>; Sun,  5 Jan 2025 09:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736056984; cv=none; b=gcIyiL0J3Ut/tO9Pq1Q6OBtjrfsPxOECKn88QA+BbrefJjaIDfUpO5vohsapS+hmI/Qeoawz8Io8DfmX0UoLKWyrL3MOF4OmfaLrI3+6inzVgR1kpcVnzLgJAyfcIeDg471uWaE4NbSxlWDSoZIdsVQ8PRM1Wyqp7EGtXY8x4hw=
+	t=1736069767; cv=none; b=AeVofbv6WaazEHqUT6I59o+cmSoYQ71V88GKbzMdPnSHubMo960OoHprostjDEVAZxPxaZhIVt+AqqdS3czxNRd62M5m1Gl8XboRYYOp18PorF2hokk30a+6JlNEq8OjQxT72D/yKoLpExS4hEFb+sDM2bxIvRwhPUs6mxqxEo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736056984; c=relaxed/simple;
-	bh=ljcqXNSzvAWcAno6sw8/xCxCE4+is3tD5z9YqtdeCIo=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=l9oP82/l9kfJiVUK8/3pAowHjY1I37GN1Qb8rpDpsflU18UzI6Csvn5Em2SFTIIOODwgB+7/BgN9BN39ViEj3D73+mCWMusAPSdTsS5hzH03ay5T0aWdTLhHoTH+TABZV2CqYSRYKyi20ccYIr0QBhfy/4oux3vmsO7MzyHP5Qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=dUggafPS; arc=none smtp.client-ip=203.205.221.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1736056676; bh=tuSQf2/SB/aButLjZ/0dfORHyj8pi8iEwOjjELQDRDE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=dUggafPSYTF5tNsaOpjFOjnoQgsIvZE7kPSodApxyBHtqw4jZQHXGULPKJ030KQ+i
-	 MZrx6Y4FIxmQ3uQTA66weSGDlEwofokr6S8TcNNxXTX8hPPIM2lM0u7vdFXUZjnb+6
-	 0jY3Lg4EWamx8HieQJSe/TbWlmkkrWhohO5aPiSE=
-Received: from Ubuntu.. ([240e:305:25d4:e300:e2d9:1fb6:5f8b:3c3f])
-	by newxmesmtplogicsvrszb16-1.qq.com (NewEsmtp) with SMTP
-	id E7534067; Sun, 05 Jan 2025 13:57:53 +0800
-X-QQ-mid: xmsmtpt1736056673tx6e30xse
-Message-ID: <tencent_6F826F87DF787845466AE67AEFF37E073E08@qq.com>
-X-QQ-XMAILINFO: MapnONytPuziafDcN9vkGEkdxlXC9IdW28vfD++22D6BxNqaf6FHiQTsWTU2/6
-	 GbZRJ6w8T2YZ3v80AcJlPMgaUXx+LdA3TiIhQMc8xUqz9uXAXoiub8g8T99Qzwhw6qM3WG5msTve
-	 fsfQfhnVR1HqCb5ySwKwUCFO4MQuAidPuA9cPbVoym/ci78/z4kaqAEYiuKAqrz2lxGR8HqyAbYA
-	 bCBI82KOajz2DMXJA+M1qxevOH2sJI/KUWOibb2n5cYQFmKXAb03rp8ioWIt7FrfYw4oUj94Aikp
-	 kOI2KOe8u7egHxrvid0w4I3HBYV8c0dcFyINkCV5rozSIxeXbIcEX5riRp+O4C8o9XoELGXHpQaz
-	 H11FYMVLPjehbrqUF9gIXbv1jHnPq/ZxaCbH7aUCTgLf7N3uycAIPUYTqF2YuFlUMFOIJkO2Seza
-	 lxa+sBrLFjqxViD406qLLS+Qvz2HaOGqm42SGyGHp84x8mqXXvSO3jeXv1+qBlqbYVfF5+UXycVK
-	 CU9zufMOVu0Qm5B6LpwmJ9Nc1zCZYK/pnGDLuY232NdwXfK4nWV3X5YZb9pMQkx9pGnbBM825y+k
-	 7XNIoY8kH2oTjUOibIppId3tpbcXRE3XWcEBzrrx72k16FCdvo/l7Pkc62Ms4TXOv0X5dwLdnZOm
-	 9IbmWyFAUO5ROZKhAa+L+LFBf7TiFG2KY+x2JGFSB968hslNPEbujcfdA68WxN4/FZjrIE5Aa+NA
-	 UYmND2XspBnVgxRIxjvhVms/4Wmj0GHkSPBPXg6LPJL1atBYaNLzD0cXM7bCBFC0iG8gMWzvaH/s
-	 YSxtUIUFKiQu6sqc5JW/fSIvLwWpPP3nhTi8YAmK7DNShk1WnNjWzPaGjtMGhCUYm9tGIj3mcukW
-	 Lkw6kvHXC6pVsD8FmFbQ9T+Ya/SiNBbaQ+L2zALXOJaVlXVc8X4JZxUCc6DC51TRC/0CFM+LEui/
-	 +piPPD7eqA3OxKUK+7CIIj7BjGj7V2jNL20YSJSb0fYNEriZuC/6XjyhSvC9ZHheCzRB63TAQwAc
-	 6fD1ODu5LWxaSq4Zsy839YgzkJRtioa0BMbrsx1+tMVelyipqmOEiTnYFIOCSpUSn7+twC9YShfq
-	 TqXRcG
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-From: kingdix10@qq.com
-To: s.shtylyov@omp.ru,
-	marek.vasut+renesas@gmail.com,
-	yoshihiro.shimoda.uh@renesas.com,
-	lpieralisi@kernel.org,
-	kw@linux.com,
-	manivannan.sadhasivam@linaro.org,
-	robh@kernel.org,
-	bhelgaas@google.com
-Cc: linux-pci@vger.kernel.org,
+	s=arc-20240116; t=1736069767; c=relaxed/simple;
+	bh=pRYQfZbiBtsMuo97kw+ZT5IfMPZ93xcpojYLU+ouZzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r/t5MvF7moatWKxlJ8aSDFXcuTzqjwoXY8Oxoie6JWHL7npLcMj2YmcX4LTQk6Uj2JoXCqv2aPU29dgMP6s2sVd60gev2KNeUy8o3hnvpQQBRbyE8zADNbsz5hGfgEk9uECO+36OFrsf2t4YFByH2dAzcG4gHv/M/Iyf9DIoXgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Lku8/YFM; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=Lg+N
+	BRfh54fWFx52Hkh4gEJKYKU2srlPITGlMgvSBrM=; b=Lku8/YFMGHSESXSA66o4
+	duPWSjRPQU/D8Ye2uuVKnfbsLKcqu7jlryY+NTK5Y0sWXy7ffKWKqfl9oeAg/zXJ
+	QZ1TuCcpBzQBTORNEBPeW24vRO8jYzSekO0Jh3jPrhY/bi3lqKxXfBQmhmT76oRB
+	PJZRtR8BV01OV/MHYeW4S9ecNuk1Fvne5gDdYVs1HZbJss7fZPGdukzLy5FmsiZ/
+	7rrgwinRJeB0Ebm6MhA0GguKtvoKIyXZuaxTtPTPg3AJIYTkGJUb4K5Zh74RP8+c
+	K2udpZY3842iPeEW1jcCnGeEKJZXekGFsOg04FlMiH9GCzXweCBM6O+6bJ6Dc2Me
+	ww==
+Received: (qmail 1374028 invoked from network); 5 Jan 2025 10:36:00 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Jan 2025 10:36:00 +0100
+X-UD-Smtp-Session: l3s3148p1@ikRYPfIqupQujntM
+Date: Sun, 5 Jan 2025 10:35:57 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	King Dix <kingdix10@qq.com>
-Subject: [PATCH v2] PCI: rcar-ep: Fix the issue of the name parameter when calling devm_request_mem_region
-Date: Sun,  5 Jan 2025 13:57:51 +0800
-X-OQ-MSGID: <20250105055751.175881-1-kingdix10@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <5f8d43fe-25e3-450d-b5c2-2d69b9bc9923@omp.ru>
-References: <5f8d43fe-25e3-450d-b5c2-2d69b9bc9923@omp.ru>
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>, linus@ucla.edu
+Subject: Re: [PATCH RFT v2 0/5] i3c: introduce and use generic parity helper
+Message-ID: <Z3pSfU2fNd12csNP@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>, linus@ucla.edu
+References: <20241229101234.2896-1-wsa+renesas@sang-engineering.com>
+ <20250103221117bb066057@mail.local>
+ <Z3hhw_pwFAicsEDi@shikoro>
+ <Z3n-z5xA2ue8ojiF@yury-ThinkPad>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uDaZtfxN/yUvTHs2"
+Content-Disposition: inline
+In-Reply-To: <Z3n-z5xA2ue8ojiF@yury-ThinkPad>
 
-From: King Dix <kingdix10@qq.com>
 
-When using devm_request_mem_region to request a resource, if the passed
-variable is a stack string variable, it will lead to an oops issue when
-eecuting the command cat /proc/iomem.
+--uDaZtfxN/yUvTHs2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fix this by replacing outbound_name with the name of the previously
-requested resource.
+Hi Yury,
 
-Signed-off-by: King Dix <kingdix10@qq.com>
----
-Changes in v2:
-  - Fix the code indentation issue.
----
- drivers/pci/controller/pcie-rcar-ep.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Rasmus is reviewer. I'm - maintainer.
 
-diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
-index 047e2cef5afc..c5e0d025bc43 100644
---- a/drivers/pci/controller/pcie-rcar-ep.c
-+++ b/drivers/pci/controller/pcie-rcar-ep.c
-@@ -107,7 +107,7 @@ static int rcar_pcie_parse_outbound_ranges(struct rcar_pcie_endpoint *ep,
- 		}
- 		if (!devm_request_mem_region(&pdev->dev, res->start,
- 					     resource_size(res),
--					     outbound_name)) {
-+					     res->name)) {
- 			dev_err(pcie->dev, "Cannot request memory region %s.\n",
- 				outbound_name);
- 			return -EIO;
--- 
-2.43.0
+Oh, sorry. I just saw your both entries in MAINTAINERS and missed that
+Rasmus has "R:" instead of "M:". No offence!
 
+> I'm a bit doubted about adding a web link in sources because it may
+> become invalid one day, but if Wolfram commits to maintain comments
+> up-to-date, I'm OK with that.
+
+I just added the page to the wayback machine. We could use this link
+now: http://web.archive.org/web/20250105093316/https://funloop.org/codex/problem/parity/README.html
+
+Better?
+
+> I already acked the patch, so no need to ack it again.
+
+Thanks!
+
+   Wolfram
+
+
+--uDaZtfxN/yUvTHs2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmd6UnoACgkQFA3kzBSg
+KbZJURAAnv6nzkWmoKQYH7H4SS+GZuo/ko0u5I1imRm8pogda6eEpXSm29qY6IUI
+YAnWotXTJr7xLPkcJszZ+Q9Al5akFGwyuH+nnwKtkBlNmhK1WZS5Mpw1QCPR4RN5
+GF2gr8cj0tR7I04rF8U65lbPAy99LWQNVwXX02smR8nZy18bi74MVA2gqy6KicoT
+kmF28gqONIptdwrGyS+chFEcOO+dtrAtKfL9IsB8evIOzzDYTRH/SNLJ+kEumvZT
+8lxyTdWaEtvsnAx9KRRltPsP2wRTGq/hXTUoCrOd+6RDiLJp4rip0oumqPXTg5f7
+iPmehB8OzB96akmVGYMJtxgBoF9DMy6A+CkHfj6yOY/zEq+TbNpRWsoVg0g3Fv9z
+O9MfC320Qz7E/3xfWqy17jFt7DcNLpGWkSZ/c/AuvZODYRTdR8xkX7r6BdJekiCg
+vDyDCvYHVMuuQrU+X8jpdBcUvR5mNfNS3kuotG8pk/wLw8f2yOaNhIz4GZkPPXxw
+JsKbMaANCOoQqcEQS8GcPiJ6zSQJYuZjOf63x6JM8PCrYnEnaLrGHqcl1Sn+Oem7
+UB2VM3ETAZ4z+QhQ7OMGZ2ii+p2Thm/frOhdvjzvqapKHddxIdBqMUMhaFYv/ELv
+Qq2c8jEpA9eZyFlOoorCoWJEL6v5CvFAfeMXIWNPUUST9JiGl2Q=
+=706U
+-----END PGP SIGNATURE-----
+
+--uDaZtfxN/yUvTHs2--
 
