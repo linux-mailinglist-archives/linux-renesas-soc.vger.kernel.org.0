@@ -1,120 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-11887-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11888-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A5FA0316C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 21:33:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D765A03188
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 21:45:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E1C3164CA3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 20:33:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8EBAA7A0103
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 20:45:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0E921DF97C;
-	Mon,  6 Jan 2025 20:33:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35AC91DFE30;
+	Mon,  6 Jan 2025 20:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CzBeHqy3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nhOHe/Gx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9BC70830;
-	Mon,  6 Jan 2025 20:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588221DFE1D;
+	Mon,  6 Jan 2025 20:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736195614; cv=none; b=q/Vc/PmiosShgGoTU2dkLHG3RzdLj8I99ieLYBdqA8mRU97lYqpOuCVvTqyE1vnVRB+EXhv6Sq9ky/LrdWY0KMQusJhp2xWWP0Ob584jJp3kvKMIREgf/I9XdRKxM97krs9k/6IYZo8tOSEOn66TdHU2OzyQaCcijyntvZgEHlU=
+	t=1736196347; cv=none; b=EMRIMkFloPmm+ukNPuAWLBH8ZYCUf2qGfdUk6WQwB46/Li0VuxfIGuLTmexw0C6lhoBSpqvTIxjjNlBUCC4CkwgIgb/8XN2BDWc3jISzM12mTEsrhloXV8UJgkqNylLUP9i9Ef+tTHYCDmiafeuZtMQ+Mo7SbG9PzN6nKJ/q31M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736195614; c=relaxed/simple;
-	bh=ds4umUueXZrE4C9yZ6upe/0XSEfeYEfJiKi3/3YkeT4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U+bKWoUwgl09ICpoymab5vIZPFFThXcWhIwJ0c2Z+Yjr2I/u9rXAxhv7bIghktfga5vzLpuBB1TTWJoazQALbts3/GExgEF0E530j3MzaaWVOoVCFK158vrhOgG7K8CYFZ3ZY2XsNYf/FZxBBt7eWywdfjs249gZfDQ1ySFGtoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CzBeHqy3; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-51882748165so5040434e0c.3;
-        Mon, 06 Jan 2025 12:33:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736195612; x=1736800412; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HwA0QG8KFrY51D4/eLZpynusCjwVd44R6ZJGJ9HJwVE=;
-        b=CzBeHqy3EM0Zkplfe7SwL1dOmfEOIZpQv00cj4UerWtyEOxse5JL3+CKHBEtlOTcWC
-         UmNfWESHQAaYCycPAjg8NSe21wbQncMctYDdxnN4oW1pdIudZHwIaWrocyTMMNKk5QwN
-         +E2/c341ebi/GVlZjZzrMnpToNLCgtAGVnbUPRJ1EwA4VWwF5vS62xKOmNkHP5ysIX9X
-         DVIq0wH3lJOIJuIITbqoR8caNssG2A9/4SCkbBjRa8yYF7SloFlgA3MDs6gDjC9FDd4C
-         FkTXjOR3SDVwV2egS3JhBF0RqaZ9AMyfxQ6ClgD4q/caVJShfJlsashZqx91gb+lRfR0
-         iPQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736195612; x=1736800412;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HwA0QG8KFrY51D4/eLZpynusCjwVd44R6ZJGJ9HJwVE=;
-        b=aF2AsajuAISo/jn6BRY5MnYSqiQhfa6bA3QG40Y364+oBdubElaY5HzebRCImjf2YK
-         qKn7zkYn2ky5EYwc2glgGcJlqiNnMWpFAT6JNdlmdbZRkRdID+U5yI2aATKGPcfo0FMp
-         58nm1FMNALSKwtlsd638G8qzg1asMltDMzvo9dwYwSkx+2R+NSv20fwdFFlnn/1L1IkD
-         vL3MH0PIJemn+lC7W1Fi2+NJbWTX96Zt0YtjOrWrsSDRp8tLtbiZKnCg/AWfsnf1W1ty
-         zOTEm2NosOnvZIoj7Gq0gWjzbDPfkcl97zQHavMgqV6SCTkwr8SFKRRwrHWcdm0i4ntb
-         EzNw==
-X-Forwarded-Encrypted: i=1; AJvYcCUsgzjgZ2nJtPOVyAkYu0rG36P+3LdHbn+pcyBc5Wu59PA6Wc69bi/0RqZByeZYLptxd8Wwv0Gphow=@vger.kernel.org, AJvYcCVQsgovxB7W/GIU+Ossg0ZMokDGRCP7ZNcO2+qtEVxEwhwGQTN6859qkV8zSau1Mbfa/3B2QLaYrctsorOT@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjRfWCw0sSetQ6Q1rGYpI1GNbnxTU9grmZ/ByFJ+lJ8sVPea9K
-	A0++gPf5KAknYfSDIgYskk/u6mD6Y8NJG1D1xrR4G5kYHpE6Znv0COHkcK0TIvUZJVaKE9isVnI
-	2OVZvjtIsjKqJACvcrE+K/pd6ZDU=
-X-Gm-Gg: ASbGncvjOZFce8wdCWpcgF0zZAC8+Jk6EqZrvVKspEaDcgFsqWBxEJSORmLccJL26gd
-	hbPdau407/DFyNovlWsAZMgGLa3B8poG0T47rVOA=
-X-Google-Smtp-Source: AGHT+IGr04vcTRYJhHOq7sZFudn2xOVjXM6iF1i3lH8XioAKtXTwRZZN/9TGi09akuhlcP0ygwqnEwkE0J3TpHIDotY=
-X-Received: by 2002:a05:6122:2893:b0:518:859e:87c3 with SMTP id
- 71dfb90a1353d-51b75d317f6mr41788901e0c.7.1736195611815; Mon, 06 Jan 2025
- 12:33:31 -0800 (PST)
+	s=arc-20240116; t=1736196347; c=relaxed/simple;
+	bh=Td2Yw5gDgT71UUI9oUoAO/KVWMFVudBpj0r/FbkefG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tId3CIYe5OX8kc/9UZDLb6a4SUxUOMQANEVEBfEpVmNJ1nXBBsOKG0sWxb8oJXYSXNAN2Fh0uZ9iVN3UzdmpvWfKA2ckr4/ddSUpEpINvCgBfOVe9fmNA9PiNfqbLJ7CnSc22rsO+kaNp86yZ/2LPkWKYnZOCZB8VsSCOaqNCrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nhOHe/Gx; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736196344; x=1767732344;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Td2Yw5gDgT71UUI9oUoAO/KVWMFVudBpj0r/FbkefG0=;
+  b=nhOHe/GxLRSfiiGBMrQagoeXyPFWX/9dPulrl1/OThE7wed+hA7uP/y6
+   nT4wucuxxHknmvNOgQHM4INde4XtQj09Ol1ioawi7HIpJRtU0fGMQlVN+
+   tpqRTVYJNOXAWNl66jppCsyz4SQcNAxY3QZYMUkEK/YaKKmeYBjBaqvvL
+   muItcBD1OIT9R4CY42/2uQmdqSm1SMiTyIqw4ENs/Sv+dp3d2RP+3vKJ4
+   5SXrIFFMzXZZ/NKtFCy7JLNZmap6ED4uy48Z5AlUHkjz3Dvw2mQVx5Uci
+   VAUGN5Sz6mma1Hz1IUSJ9RDivVt2I7KhS9UpK7SS6Ic/YD+xxNv8d+0b4
+   g==;
+X-CSE-ConnectionGUID: L9jZfd5CTZCPQmZI5c0SQA==
+X-CSE-MsgGUID: pxNkgh80R/KKucnbYcqlLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="36255615"
+X-IronPort-AV: E=Sophos;i="6.12,293,1728975600"; 
+   d="scan'208";a="36255615"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 12:45:43 -0800
+X-CSE-ConnectionGUID: ZhaHLtE1TlObiHy7LKnWlA==
+X-CSE-MsgGUID: dOTvV6GcRpi5f74ZHQe04w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,293,1728975600"; 
+   d="scan'208";a="102433668"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 06 Jan 2025 12:45:40 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tUtyk-000DuV-1S;
+	Mon, 06 Jan 2025 20:45:38 +0000
+Date: Tue, 7 Jan 2025 04:45:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] clk: renesas: r9a07g044: Add clock and reset entry for
+ DRP-AI
+Message-ID: <202501070453.pzWqNQZr-lkp@intel.com>
+References: <20250104175346.656352-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241216210201.239855-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20241216210201.239855-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 6 Jan 2025 20:33:06 +0000
-X-Gm-Features: AbW1kvY2GSWt5VwP6ZkL_0Mhx2y36qLqIh92ZlPizU1ICe0qjbI0n4_MdV1m1Kc
-Message-ID: <CA+V-a8tYphwwTqzzwH+0kBGLGZZYLW+eiJsHpe-cvpywMRnEaA@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: rzg2l-cpg: Refactor Runtime PM clock validation
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250104175346.656352-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Geert,
+Hi Prabhakar,
 
-On Mon, Dec 16, 2024 at 9:02=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
->
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Refactor rzg2l_cpg_attach_dev to delegate clock validation for Runtime PM
-> to the updated rzg2l_cpg_is_pm_clk function. Ensure validation of clocks
-> associated with the power domain while excluding external and core clocks=
-.
-> Prevent incorrect Runtime PM management for clocks outside the domain's
-> scope.
->
-> Update rzg2l_cpg_is_pm_clk to operate on a per-power-domain basis. Verify
-> clkspec.np against the domain's device node, check argument validity, and
-> validate clock type (CPG_MOD). Use the no_pm_mod_clks array to exclude
-> specific clocks from PM management.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/clk/renesas/rzg2l-cpg.c | 102 +++++++++++++++++---------------
->  1 file changed, 54 insertions(+), 48 deletions(-)
->
-Gentle ping.
+kernel test robot noticed the following build warnings:
 
-Cheers,
-Prabhakar
+[auto build test WARNING on geert-renesas-drivers/renesas-clk]
+[also build test WARNING on clk/clk-next linus/master v6.13-rc6 next-20250106]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/clk-renesas-r9a07g044-Add-clock-and-reset-entry-for-DRP-AI/20250105-015708
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
+patch link:    https://lore.kernel.org/r/20250104175346.656352-1-prabhakar.mahadev-lad.rj%40bp.renesas.com
+patch subject: [PATCH] clk: renesas: r9a07g044: Add clock and reset entry for DRP-AI
+config: mips-randconfig-r073-20250107 (https://download.01.org/0day-ci/archive/20250107/202501070453.pzWqNQZr-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501070453.pzWqNQZr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501070453.pzWqNQZr-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/clk/renesas/r9a07g044-cpg.c:97:35: warning: unused variable 'dtable_4_32' [-Wunused-const-variable]
+      97 | static const struct clk_div_table dtable_4_32[] = {
+         |                                   ^~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/dtable_4_32 +97 drivers/clk/renesas/r9a07g044-cpg.c
+
+    96	
+  > 97	static const struct clk_div_table dtable_4_32[] = {
+    98		{3, 4},
+    99		{4, 5},
+   100		{5, 6},
+   101		{6, 7},
+   102		{7, 8},
+   103		{8, 9},
+   104		{9, 10},
+   105		{10, 11},
+   106		{11, 12},
+   107		{12, 13},
+   108		{13, 14},
+   109		{14, 15},
+   110		{15, 16},
+   111		{16, 17},
+   112		{17, 18},
+   113		{18, 19},
+   114		{19, 20},
+   115		{20, 21},
+   116		{21, 22},
+   117		{22, 23},
+   118		{23, 24},
+   119		{24, 25},
+   120		{25, 26},
+   121		{26, 27},
+   122		{27, 28},
+   123		{28, 29},
+   124		{29, 30},
+   125		{30, 31},
+   126		{31, 32},
+   127		{0, 0},
+   128	};
+   129	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
