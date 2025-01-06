@@ -1,357 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-11863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B38A02196
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 10:18:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0313AA021C3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 10:27:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06C27188502E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 09:18:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 382997A1632
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 09:27:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 666BB1D618A;
-	Mon,  6 Jan 2025 09:18:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ADB31D9587;
+	Mon,  6 Jan 2025 09:27:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="CJU69mBi"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="NPKmm3zp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DD61D0E36
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Jan 2025 09:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A65C1D6DD4
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Jan 2025 09:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736155128; cv=none; b=guIjCN7IL7sN/doBvrbcW+pTMxnIEmEgN94rtbXBu0Jk5/SBHMRFqMqfqcU4uazFqNk0PYL7BOS+4I/Ri7JHp8G4Q7FGsAetibcfVngxwGzOw04la2IbZDcQA9hw9uYrt/5sIfDy2q3GXQ/ZjwMBjSot7WYPuoquyHxBrbcHdgU=
+	t=1736155657; cv=none; b=AmvS4w7B8+ofSIxTSUnlooH6cGYXTpYuFf5XGXrOg25SnY0vT4bYJU+c8XGfNiVAdH8r7e0cz2ZCsqfck5lsdpWdvVBIBeoF0xf9ospVpY5B7AvLOtgvAd/KjhP+1Z8nb153XQ5oir1efCej3rKuC8gJ4l6KdficD36lq9XFnA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736155128; c=relaxed/simple;
-	bh=RnTORvbm0gnQw+JAYaXlL1z80u4lpfomXvVmpfqsKWQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZWppqxRh0wcXWv0Ao9M17v9+pn26bWXQF7FSoETzoC1XwylnaMEf2d28mw2YI4KY2FzWgSnQUKMDiz6fApu7oLJvwtDW6e4dBNY0pO6xUs3nvQz/L12DCGj+bo/eNVLD6cv38ePxaQ/NW3cf9j1h4eAgTeS/bxOG9CqhcT278Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=CJU69mBi; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4368a293339so108176465e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jan 2025 01:18:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1736155123; x=1736759923; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RytLxRZxC8L+SoHq2QUPWp7tJd9AZXXGwn4jAy0YyYg=;
-        b=CJU69mBiG7V8NwDeYmoX0qJIauhfFeTyzPkSn4nS/B9u4QbZ+MqSn/caf4crkhxifD
-         x8Yt6oSCf/lzY10JKzE0tQ8xRoMgTJKdRNS1QQ46Tv3HzoWEBANvhryjtnaz1A7T5AwC
-         HpX1h9OkkXDFlpAEiA6JMr+mnKyHgr39N/BxjnO8tJo/SUkfCkt020wLxeBzxkS8O0Mb
-         2k+9HuY58F/qVOpbeouCC2f6vkjwcUSccXMmM6ekqXF42S6M1pYGc40UsBr0nGAwN+nN
-         zx9LRTVM5vi0kOOzYMUbjGOyzmb3PQ/xiIovxnAIlKGYOdiLYgnYCde2pIkjhjmXiphy
-         742Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736155123; x=1736759923;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RytLxRZxC8L+SoHq2QUPWp7tJd9AZXXGwn4jAy0YyYg=;
-        b=wR6Ybmvlc/24jJIz0+zWqawKOQCGdq53MlKiGfp3MPpy5YxVT3+lJBqCM6kSJL6sib
-         z1LfweVNXDK5dMXwxg7PSRIpkwpbBAQjxW23XXLEgfOE14L7rFJGRm/jWZZ5sLGbhUyZ
-         z47xISc+qFXm0mqgsyKbAIEf/HIIgDGIxu+7VYtVIh4VZslBbd+lIWoGUDR3S4AibVzA
-         Lx9D1176w0yWMuDbQ5/BtYK62s0kugvnlbk58Luh0XY3fdrx2bOHJPsBSTIwk/jpELFz
-         8ht/Q1cJnPlI+HcHNMi1Bn1lhHwESHCqbHm9tiGx7FHg42IP7XBKtO/3bfZm7KScWpws
-         lAkw==
-X-Forwarded-Encrypted: i=1; AJvYcCX3iLpBlX1Iz/ecp1JBvAF5sMS7iB2bRBAFKS5BOFhQoOpXvc4TmJ91n3V0cgLx6aKLzNICQN+qEMQfK25+xy0yng==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIbnqC1+PBzgYp1kPP4k0VCA28eUuxLWNfY60Zm+159sE7ZYhF
-	mrq4ZUkBVpsy9sm3AtQupzrwQcTZ7xU8yOX5nQ9MuokT7ft9jaxuGW8+F77fSzk=
-X-Gm-Gg: ASbGncv2dJIN5foSisujl8mJ4ygD7vvZU4A16TiuilQZtOSs/X2ZfxjBbHx1vhtFtQd
-	1l+NVoPFcd65LKo/Xj1QbASIj3aZUzVP7hkUQ2NYRnpzMb7cq6mDB6DSwqhW1rn2nNZ0LdSo6r1
-	w51Kts3eQLcCwCN0P2K5I914UFNZBTvXCN6IGoafnfDzhaIQpol4RfkCTJgEJYOaFE+lz4bm2NT
-	UtSGPCw0cNZ6j7rzNneqJrJqSI3lhdowVR/L9DcZNwFkEsVpsWqgUpeEkKle3aasw==
-X-Google-Smtp-Source: AGHT+IE2i/BEt1LhXm6aBI8xTYmzok77BKFnrRyh1Do/v27tAGefsSGEkvLFuko9CQOF3izyTVZFGw==
-X-Received: by 2002:a05:600c:154a:b0:434:fd15:3adc with SMTP id 5b1f17b1804b1-43668b786bamr431393875e9.25.1736155122879;
-        Mon, 06 Jan 2025 01:18:42 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.102])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8472b3sm47328729f8f.58.2025.01.06.01.18.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jan 2025 01:18:42 -0800 (PST)
-Message-ID: <44e4a6b4-39a4-49d0-b3a5-fc5545c39a56@tuxon.dev>
-Date: Mon, 6 Jan 2025 11:18:41 +0200
+	s=arc-20240116; t=1736155657; c=relaxed/simple;
+	bh=fhqmTRr7u4BHKvHcV1kZc0UltFaqJQUCBzHU9D8MLSc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QRrbkFSf6Wfo0OIRV73C7sW6KVuh+gP6tbchek32KEhuif8cq7WE44AUTOmZ92VSmDdgWsYAtWAEJCxDgIYo9tEOpXmlAayV0vHNytv5irulDIUHtw7kl5e2jld2/7+Kla2OeHb3K7KCCz+tOH2cU1s4sYHEN/LUIrZz265bFsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=NPKmm3zp; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=aGWd2BQY7AIqRD
+	QgZzEn8Ps7vMIe6tCz1E86UjvA7+Y=; b=NPKmm3zpgiWmosqxEwjyz6ZjhJLOCy
+	Yc2ZZeW8CcITXry4Jf0vs0kPDgBRNX4Eyt4QWruJt6TPMoaMLP0i12R1AOs7BxIJ
+	n6YgxbZda3xnN1bo+5kp9CUOMmxdCPA2bb4oH+APlF4kSTzUInfubk8lNpz+7CH+
+	KOvXu4YFlx3wbHcjgatRexGESVqTmLoeo3L9tJsWfdIP+IHXnehlVJ6JNMxW0Xc+
+	rZTDjXtvEHUnXc/Ygml3nW/0+Y9tOTagfjtEROkdBmKi6x6de27txJMZtJca5+oR
+	fWdqhUpkieLMwVwspdzhPBEPOvuRwdsWORh+mR7nOTlMblzSvsffu2Iw==
+Received: (qmail 1727747 invoked from network); 6 Jan 2025 10:27:26 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jan 2025 10:27:26 +0100
+X-UD-Smtp-Session: l3s3148p1@Tn2LPAYr1psgAwDPXw20AOMQ2KO98fSH
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-i3c@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>,
+	linux-hwmon@vger.kernel.org,
+	=?UTF-8?q?Przemys=C5=82aw=20Gaj?= <pgaj@cadence.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Yury Norov <yury.norov@gmail.com>
+Subject: [PATCH v3 0/5] i3c: introduce and use generic parity helper
+Date: Mon,  6 Jan 2025 10:27:18 +0100
+Message-ID: <20250106092725.22869-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] iio: adc: rzg2l_adc: Drop devm_pm_runtime_enable()
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, lars@metafoo.de,
- ulf.hansson@linaro.org, linux-iio@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org
-References: <20250103140042.1619703-1-claudiu.beznea.uj@bp.renesas.com>
- <20250103140042.1619703-2-claudiu.beznea.uj@bp.renesas.com>
- <20250104135225.2573285b@jic23-huawei>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <20250104135225.2573285b@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi, Jonathan,
+Changes since v2:
 
+* fixed commit messages from 'get_parity8' to 'parity8'
+* added tag from Jarkko (thanks!)
+* rebased to 6.13-rc6
 
-On 04.01.2025 15:52, Jonathan Cameron wrote:
-> On Fri,  3 Jan 2025 16:00:41 +0200
-> Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> 
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> +CC Rafael and linux-pm
-> 
->>
->> On all systems where the rzg2l_adc driver is used, the ADC clocks are part
->> of a PM domain. The code that implements the PM domains support is in
->> drivers/clk/renesas/rzg2l-cpg.c, the functions of interest for this commit
->> being rzg2l_cpg_attach_dev() and rzg2l_cpg_deattach_dev(). The PM
->> domains support is registered with GENPD_FLAG_PM_CLK which, according to
->> the documentation, instructs genpd to use the PM clk framework while
->> powering on/off attached devices.
->>
->> During probe, the ADC device is attached to the PM domain
->> controlling the ADC clocks. Similarly, during removal, the ADC device is
->> detached from the PM domain.
->>
->> The detachment call stack is as follows:
->>
->> device_driver_detach() ->
->>   device_release_driver_internal() ->
->>     __device_release_driver() ->
->>       device_remove() ->
->>         platform_remove() ->
->>           dev_pm_domain_detach()
->>
->> During driver unbind, after the ADC device is detached from its PM domain,
->> the device_unbind_cleanup() function is called, which subsequently invokes
->> devres_release_all(). This function handles devres resource cleanup.
->>
->> If runtime PM is enabled via devm_pm_runtime_enable(), the cleanup process
->> triggers the action or reset function for disabling runtime PM. This
->> function is pm_runtime_disable_action(), which leads to the following call
->> stack of interest when called:
->>
->> pm_runtime_disable_action() ->
->>   pm_runtime_dont_use_autosuspend() ->
-> 
-> So is the only real difference that in the code below you disable runtime pm
-> before autosuspend?
+All acks from bitmap.h and HWMON maintainers are already included.
 
-No, the difference is that now, the driver specific runtime PM APIs are not
-called anymore (through the pointed call stack) after the ADC was removed
-from it's PM domain.
+Old coverletter follows:
+
+I am currently working on upstreaming another I3C controller driver. As
+many others, it needs to ensure odd parity for a dynamically assigned
+address. The BSP version of the driver implemented a custom parity
+algorithm. Wondering why we don't have a generic helper for this in the
+kernel, I found that many I3C controller drivers all implement their
+version of handling parity.
+
+So, I sent out an RFC[1] moving the efficient implementation of the
+SPD5118 driver to a generic location. The series was well received, but
+the path for upstream was not clear. Because I need the implementation
+for my I3C controller driver and I3C is a prominent user of this new
+function, I got the idea of converting the existing I3C drivers and
+resend the series, suggesting this all goes upstream via I3C.
+
+A build-tested branch is here:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/i3c/get_parity
+
+Looking forward to comments...
+
+[1] https://lore.kernel.org/all/20241214085833.8695-1-wsa+renesas@sang-engineering.com/
 
 
->  Can you still do that with a devm callback just not
-> the standard one?
+Wolfram Sang (5):
+  bitops: add generic parity calculation for u8
+  hwmon: (spd5118) Use generic parity calculation
+  i3c: dw: use parity8 helper instead of open coding it
+  i3c: mipi-i3c-hci: use parity8 helper instead of open coding it
+  i3c: cdns: use parity8 helper instead of open coding it
 
-No. It doesn't matter if we call the standard devm callback or driver
-specific one. As long as it is devm it will impact us as long as the driver
-specific runtime PM APIs are called through devres_release_all() after
-dev_pm_domain_detach(). And at that time the PM domain may be off along
-with its clocks disabled.
+ drivers/hwmon/spd5118.c                  |  8 +-----
+ drivers/i3c/master/dw-i3c-master.c       | 14 +++--------
+ drivers/i3c/master/i3c-master-cdns.c     |  3 +--
+ drivers/i3c/master/mipi-i3c-hci/dat_v1.c | 11 +--------
+ include/linux/bitops.h                   | 31 ++++++++++++++++++++++++
+ 5 files changed, 37 insertions(+), 30 deletions(-)
 
-> 
-> 
->>     __pm_runtime_use_autosuspend() ->
->>       update_autosuspend() ->
->>         rpm_idle()
->>
->> The rpm_idle() function attempts to runtime resume the ADC device.
-> 
-> Can you give a little more on that path. I'm not immediately spotting
-> how rpm_idle() is causing a resume
-
-It is not in particular about the resume. Runtime suspend/resume after
-devres_release_all() will be affected.
-
-In particular, the rpm_idle() can call rpm_suspend() (called on the out
-label of rpm_idle()) and rpm_suspend() may call the driver specific
-runtime_suspend API through the following code (from the rpm_suspend()
-function):
-
-        callback = RPM_GET_CALLBACK(dev, runtime_suspend);
-
-
-
-        dev_pm_enable_wake_irq_check(dev, true);
-
-        retval = rpm_callback(callback, dev);
-
-        if (retval)
-
-                goto fail;
-
-
-
-The full stack generated when running:
-# cd /sys/bus/platform/drivers/rzg2l-adc
-# while :; do echo 10058000.adc > unbind ; echo 10058000.adc > bind; done
-
-is as follows:
-
-[   24.801195] Call trace:
-[   24.803633]  rzg2l_adc_pm_runtime_suspend+0x18/0x54 (P)
-[   24.808847]  pm_generic_runtime_suspend+0x2c/0x44 (L)
-[   24.813887]  pm_generic_runtime_suspend+0x2c/0x44
-[   24.818580]  __rpm_callback+0x48/0x198
-[   24.822319]  rpm_callback+0x68/0x74
-[   24.825798]  rpm_suspend+0x100/0x578
-[   24.829362]  rpm_idle+0xd0/0x17c
-[   24.832582]  update_autosuspend+0x30/0xc4
-[   24.836580]  pm_runtime_disable_action+0x40/0x64
-[   24.841184]  devm_action_release+0x14/0x20
-[   24.845274]  devres_release_all+0xa0/0x100
-[   24.849361]  device_unbind_cleanup+0x18/0x60
-[   24.853618]  device_release_driver_internal+0x1ec/0x228
-[   24.858828]  device_driver_detach+0x18/0x24
-[   24.862998]  unbind_store+0xb4/0xb8
-[   24.866478]  drv_attr_store+0x24/0x38
-[   24.870135]  sysfs_kf_write+0x44/0x54
-[   24.873795]  kernfs_fop_write_iter+0x118/0x1a8
-[   24.878229]  vfs_write+0x2ac/0x358
-[   24.881627]  ksys_write+0x68/0xfc
-[   24.884934]  __arm64_sys_write+0x1c/0x28
-[   24.888846]  invoke_syscall+0x48/0x110
-[   24.892592]  el0_svc_common.constprop.0+0xc0/0xe0
-[   24.897285]  do_el0_svc+0x1c/0x28
-[   24.900593]  el0_svc+0x30/0xd0
-[   24.903647]  el0t_64_sync_handler+0xc8/0xcc
-[   24.907821]  el0t_64_sync+0x198/0x19c
-[   24.911481] Code: 910003fd f9403c00 f941bc01 f9400020 (b9400000)
-
-
-Digging it further today: on the Renesas RZ/G3S we implement the power
-domain on/off and we register the PM domain with GENPD_FLAG_PM_CLK. The
-on/off PM domain functionality is implemented though the clock controller
-MSTOP functionality which blocks the bus access to the specific IP (in this
-particular case to the ADC).
-
-The issue is reproducible when doing:
-# cd /sys/bus/platform/drivers/rzg2l-adc
-# while :; do echo 10058000.adc > unbind ; echo 10058000.adc > bind; done
-
-I noticed today that doing single manual unbind+bind doesn't always leads
-to aborts. It may be related to the fact that, as I noticed, the genpd
-power off is called asynchronously as a work (through
-genpd_power_off_work_fn()).
-
-I also noticed today what when there is no on/off functionality implemented
-on the PM domain we have no failures (as the MSTOP is not implemented and
-the bus access to the specific IP is not blocked as there is no PM domain
-on/off available).
-
-
-
-> 
->> However,
->> at the point it is called, the ADC device is no longer part of the PM
->> domain (which manages the ADC clocks). Since the rzg2l_adc runtime PM
->> APIs directly modifies hardware registers, the
->> rzg2l_adc_pm_runtime_resume() function is invoked without the ADC clocks
->> being enabled. This is because the PM domain no longer resumes along with
->> the ADC device. As a result, this leads to system aborts.
->>
->> Drop the devres API for runtime PM enable.
->>
->> Fixes: 89ee8174e8c8 ("iio: adc: rzg2l_adc: Simplify the runtime PM code")
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> See below. I'm doubtful in general about the sequence changes and
-> specifically you can't just remove one devm callback from a driver without
-> modifying a lot of other code / leaving really fragile ordering.
-> 
-> Jonathan
-> 
->> ---
->>  drivers/iio/adc/rzg2l_adc.c | 33 ++++++++++++++++++++++++---------
->>  1 file changed, 24 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
->> index 883c167c0670..f12f3daf08cc 100644
->> --- a/drivers/iio/adc/rzg2l_adc.c
->> +++ b/drivers/iio/adc/rzg2l_adc.c
->> @@ -464,25 +464,26 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
->>  
->>  	pm_runtime_set_autosuspend_delay(dev, 300);
->>  	pm_runtime_use_autosuspend(dev);
->> -	ret = devm_pm_runtime_enable(dev);
->> -	if (ret)
->> -		return ret;
->> +	pm_runtime_enable(dev);
->>  
->>  	platform_set_drvdata(pdev, indio_dev);
->>  
->>  	ret = rzg2l_adc_hw_init(dev, adc);
->> -	if (ret)
->> -		return dev_err_probe(&pdev->dev, ret,
->> -				     "failed to initialize ADC HW\n");
->> +	if (ret) {
->> +		dev_err_probe(&pdev->dev, ret, "failed to initialize ADC HW\n");
->> +		goto rpm_disable;
->> +	}
->>  
->>  	irq = platform_get_irq(pdev, 0);
->> -	if (irq < 0)
->> -		return irq;
->> +	if (irq < 0) {
->> +		ret = irq;
->> +		goto rpm_disable;
->> +	}
->>  
->>  	ret = devm_request_irq(dev, irq, rzg2l_adc_isr,
->>  			       0, dev_name(dev), adc);
->>  	if (ret < 0)
->> -		return ret;
->> +		goto rpm_disable;
->>  
->>  	init_completion(&adc->completion);
->>  
->> @@ -493,6 +494,19 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
->>  	indio_dev->num_channels = adc->data->num_channels;
->>  
->>  	return devm_iio_device_register(dev, indio_dev);
->> +
->> +rpm_disable:
->> +	pm_runtime_disable(dev);
->> +	pm_runtime_dont_use_autosuspend(dev);
->> +	return ret;
-> If you have to move away from devm you must do it for all calls after
-> the first thing that is manually cleaned up.
-> As you have it here the userspace interfaces are left available at a point
-> well after power down.
-
-I see, thank you for pointing it.
-
-And thank you for checking this,
-Claudiu
-
-> 
->> +}
->> +
->> +static void rzg2l_adc_remove(struct platform_device *pdev)
->> +{
->> +	struct device *dev = &pdev->dev;
->> +
->> +	pm_runtime_disable(dev);
->> +	pm_runtime_dont_use_autosuspend(dev);
->>  }
->>  
->>  static const struct rzg2l_adc_hw_params rzg2l_hw_params = {
->> @@ -614,6 +628,7 @@ static const struct dev_pm_ops rzg2l_adc_pm_ops = {
->>  
->>  static struct platform_driver rzg2l_adc_driver = {
->>  	.probe		= rzg2l_adc_probe,
->> +	.remove		= rzg2l_adc_remove,
->>  	.driver		= {
->>  		.name		= DRIVER_NAME,
->>  		.of_match_table = rzg2l_adc_match,
-> 
+-- 
+2.45.2
 
 
