@@ -1,142 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-11880-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11881-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3EF5A02657
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 14:17:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2577A02E10
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 17:44:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6863F18858F0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 13:18:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3F8016467D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 16:44:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C90D3596F;
-	Mon,  6 Jan 2025 13:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DeuS1ZYz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 801241DFE1E;
+	Mon,  6 Jan 2025 16:42:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8BE23A6;
-	Mon,  6 Jan 2025 13:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4FA1DFE04
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Jan 2025 16:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736169475; cv=none; b=Dkh7mqIYi65/3PwYAzX/osSDas17HWB8nUgtnraLbVl7JleO0Tt0FP8aaeoSPv1k6+T20eX0IooSJIykKkkrNVQDyWrhwM9T4/Sc20anWqyU4zKbBw/BfBx44GWAQE5o2ln2qLxBiCGOJKDUlZfDDfRc7jKbDpYYOONKRvwb2bc=
+	t=1736181735; cv=none; b=W+P5GSi/w1CtxjyAL23It/MiWeKg0vQmCPvir+aLnJSz507iS0d/KoQM8fpQuUcBkuwK0POJckeHB2KDd6U6O/rgMzMK1ZylFWa51xNQXvqUHuyzLAg7Eyu6Aq43ZriJ54xgan2rG3PoygQnB1eI5mt5o/MGP9yr7zf+Q80e/Hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736169475; c=relaxed/simple;
-	bh=YIImtwtZH5SKw14XzKVyMgDBI//I/aBh3ePe8zFyIVw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fCl3MFdCJ1npiSv0Db0lAPtU/+rvBTFdq2rs4yZepDWiF7+uZr1zhD7YloPX7qZTX1M6Mh7FnXS57pooDeOqkBs71YOG7Un1PgCiktgfc8+f42WZkBIik2cI9lq42rREX71HD1qkJsqv9opSAGaB5BcsRYM9Nc66Mh/N8k5fDvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DeuS1ZYz; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5161d5b8650so4412110e0c.3;
-        Mon, 06 Jan 2025 05:17:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736169473; x=1736774273; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kSoVteyukTqX+i5Oj3dGp3+dNiqvEeX8i0bxDc2IFb8=;
-        b=DeuS1ZYz3jPS7z8GBiYt6JQ6+LNL8O7uF2gnegnmgFPeppqk2+Dzv4aDQerNCqA8L2
-         IndDYPlefZbZEA6B/41+Z8rymRAlMYQexFZJxdZBcE7spMSWxHbKLGA45+vjHMwr+uIy
-         /pXVbnwQimFOULDt6Hu5obHS8PCTGDGV681LMwmQujHEvjxsuMbSsex7GrhU0z7/vscw
-         BZ8rzGbGcnYqg2JQ6oU1sBQp4wzHauXj70XJ2i+sBUlyi3pni2T5FJg44BPWKTihroNM
-         ZPk2vBw63KQn/EaqR3bcxrPXlfofR1OJ5c0V/ZqQo+9ad6tmpvglnAlKzdmr5GHsQc7e
-         JfoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736169473; x=1736774273;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kSoVteyukTqX+i5Oj3dGp3+dNiqvEeX8i0bxDc2IFb8=;
-        b=QzqfdlFQb67GBcxx1xmp852250QqHWUq9tpC3x5irQ0gDh09my4QE7w1I+IyOO1+aF
-         icb1OCOHecCPc8HuW2DAy6e2OB15SoCVRVecJfvPIK0H89ckvbCjKMyUbeLrNS2QmgZO
-         vhNoGNa3JSM3z4P1k8KEYR/6hVZUDeyFbd0wxu/dZfAQZHVODmJOGA9FGYnT3lrHe8kx
-         wDj8Otp86+8C6+RkcZ2xlj+OfsDv8+1TM0iRy/uNb6BGzVb8A8fdjWUj7gdUIcJftTVA
-         12c3KVxNk6NPr6JizLfOmurInrO0nK2sjOWjh+KhTXto5gO2dwH3GXiC4NDFlweHvJBe
-         IUpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUOXr/qIhW2PDiV98Fp7VG+dHmnt08cyA01Jr+Dr8ncgVxXS8wd1YBPGdPsqdtOaG0ySNmPV0TX8V9AD4yJuvr3EoA=@vger.kernel.org, AJvYcCUR7A+C7zGQmktD0agBSfXbdeHcKYnNEe269q7/LjQuRapT2gQGiAVymU9yQF+rHvvX8lKHr+Nk5TrBK4c=@vger.kernel.org, AJvYcCXwBbyT4XnraKk/gXXh3l/85nCVVJZkvUfJD3A5aakBEm0rKcDrik4/Ta0A0MvXc47hlb3nWkuCVG4G@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxoc27Jq/l7fglEy5fpruFTNyh7PZK7+GkPLN5qEqFrB8llNqO2
-	ddOM/e9fi2AewHYNpotE4qf/fKUrVCJiq5RqN7JqVRDR6QNkYLPCtvW1xyNvozUAnXT3zK9nmNo
-	nYXIwXzQgCLaqyQH1IDlkCjaZCvI=
-X-Gm-Gg: ASbGncsNwKOEQO/WPmc/s2gx5lM9RKRTc6TQWDIaic9gCuQ8OjpdM1bH47YFs1/lAR/
-	X6rLfKlBY8jyf8H72PuN5x+P5Sl9h1owNgYCEyKw=
-X-Google-Smtp-Source: AGHT+IFx4uyN3y/BjQQatnfGrDSvSpAxvuCIlhGWGcM+B4yjcozgFUkBTXG6XBq3araC3fFpuIq/CO9AvQRkQS9pWhU=
-X-Received: by 2002:a05:6122:438c:b0:518:865e:d177 with SMTP id
- 71dfb90a1353d-51b75d3fc5bmr39679404e0c.9.1736169472668; Mon, 06 Jan 2025
- 05:17:52 -0800 (PST)
+	s=arc-20240116; t=1736181735; c=relaxed/simple;
+	bh=Sb9bnWNlRYAXxzo56P48HJw0zLmj+ov1VyzsNp3iw5c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=M4tw/UpsYUsocm0tdfvWD/XimPOHy9eCuvGiYdPxmFggh34MkpW4kz7Q+5BfanAp0nJkRH7Wj0YkmbeRcK6SglM1/OuyDIVpjTSwAWx+Ox8/sr7Oldl8ZX/eADJ6qtwg6GnEQQdlEwcIqJgT1eeLS0W+Hei6MtdrKIpESe735Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+	by gauss.telenet-ops.be (Postfix) with ESMTPS id 4YRg253TX3z4x1m5
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jan 2025 17:42:05 +0100 (CET)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:39d4:dc4e:b4ce:1377])
+	by laurent.telenet-ops.be with cmsmtp
+	id xshx2D00L3AZZFy01shxk2; Mon, 06 Jan 2025 17:41:57 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tUqAs-00000008NTv-3A5o;
+	Mon, 06 Jan 2025 17:41:57 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tUqAv-00000004YZR-0Irs;
+	Mon, 06 Jan 2025 17:41:57 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: soc@lists.linux.dev,
+	soc <soc@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL] Renesas DTS updates for v6.14 (take two)
+Date: Mon,  6 Jan 2025 17:41:53 +0100
+Message-ID: <cover.1736180859.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <5f8d43fe-25e3-450d-b5c2-2d69b9bc9923@omp.ru> <tencent_6F826F87DF787845466AE67AEFF37E073E08@qq.com>
-In-Reply-To: <tencent_6F826F87DF787845466AE67AEFF37E073E08@qq.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 6 Jan 2025 13:17:26 +0000
-Message-ID: <CA+V-a8ve-kJoeRgS=kmzBbO_qX2nZ60WH0syMb7MEc9pHp9+9w@mail.gmail.com>
-Subject: Re: [PATCH v2] PCI: rcar-ep: Fix the issue of the name parameter when
- calling devm_request_mem_region
-To: kingdix10@qq.com
-Cc: s.shtylyov@omp.ru, marek.vasut+renesas@gmail.com, 
-	yoshihiro.shimoda.uh@renesas.com, lpieralisi@kernel.org, kw@linux.com, 
-	manivannan.sadhasivam@linaro.org, robh@kernel.org, bhelgaas@google.com, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jan 5, 2025 at 6:03=E2=80=AFAM <kingdix10@qq.com> wrote:
->
-> From: King Dix <kingdix10@qq.com>
->
-> When using devm_request_mem_region to request a resource, if the passed
-> variable is a stack string variable, it will lead to an oops issue when
-> eecuting the command cat /proc/iomem.
->
-s/eecuting/executing
+	Hi SoC folks,
 
-> Fix this by replacing outbound_name with the name of the previously
-> requested resource.
->
-Fixes: 2a6d0d63d999 ("PCI: rcar: Add endpoint mode support")
-> Signed-off-by: King Dix <kingdix10@qq.com>
-> ---
-> Changes in v2:
->   - Fix the code indentation issue.
-> ---
->  drivers/pci/controller/pcie-rcar-ep.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-With the above fixed,
+This is my second pull request for the inclusion of Renesas SoC updates
+for v6.14.
 
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+The following changes since commit acb247afab5bc2b4462f4dfc17a9d930e1153e52:
 
-Cheers,
-Prabhakar
+  arm64: dts: renesas: r9a09g047: Add I2C nodes (2024-12-17 09:42:52 +0100)
 
-> diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controll=
-er/pcie-rcar-ep.c
-> index 047e2cef5afc..c5e0d025bc43 100644
-> --- a/drivers/pci/controller/pcie-rcar-ep.c
-> +++ b/drivers/pci/controller/pcie-rcar-ep.c
-> @@ -107,7 +107,7 @@ static int rcar_pcie_parse_outbound_ranges(struct rca=
-r_pcie_endpoint *ep,
->                 }
->                 if (!devm_request_mem_region(&pdev->dev, res->start,
->                                              resource_size(res),
-> -                                            outbound_name)) {
-> +                                            res->name)) {
->                         dev_err(pcie->dev, "Cannot request memory region =
-%s.\n",
->                                 outbound_name);
->                         return -EIO;
-> --
-> 2.43.0
->
->
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dts-for-v6.14-tag2
+
+for you to fetch changes up to c357e2295b7880b1d9d365c3389f06ef2eb464d0:
+
+  arm64: dts: renesas: white-hawk-csi-dsi: Define CSI-2 data line orders (2025-01-06 16:26:29 +0100)
+
+----------------------------------------------------------------
+Renesas DTS updates for v6.14 (take two)
+
+  - Add pin control support for the RZ/G3E SoC and the RZ/G3E SMARC
+    Carrier-II EVK development board,
+  - Add Image Signal Processor helper block (FCPVX and VSPX) support for
+    the R-Car V4H SoC,
+  - Describe odd C-PHY wiring on the White Hawk CSI/DSI sub-board,
+  - Miscellaneous fixes and improvements.
+
+Note that this includes Pin Control DT binding and bindings definitions
+for the RZ/G3E and RZ/V2H SoCs, which are shared by DT source files and
+the pin control driver.
+
+Thanks for pulling!
+
+----------------------------------------------------------------
+Biju Das (5):
+      dt-bindings: pinctrl: renesas: Add alpha-numerical port support for RZ/V2H
+      dt-bindings: pinctrl: renesas: Document RZ/G3E SoC
+      arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Replace RZG2L macros
+      arm64: dts: renesas: r9a09g047: Add pincontrol node
+      arm64: dts: renesas: r9a09g047e57-smarc: Add SCIF pincontrol
+
+Geert Uytterhoeven (2):
+      Merge tag 'renesas-r9a09g057-dt-binding-defs-tag2' into renesas-dts-for-v6.14
+      Merge tag 'renesas-r9a09g047-dt-binding-defs-tag2' into renesas-dts-for-v6.14
+
+Jacopo Mondi (2):
+      arm64: dts: renesas: r8a779g0: Add FCPVX instances
+      arm64: dts: renesas: r8a779g0: Add VSPX instances
+
+Niklas Söderlund (1):
+      arm64: dts: renesas: white-hawk-csi-dsi: Define CSI-2 data line orders
+
+ .../bindings/pinctrl/renesas,rzg2l-pinctrl.yaml    |  7 ++--
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi          | 40 +++++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi         | 13 +++++++
+ arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts | 13 +++++++
+ .../boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts    | 36 +++++++++----------
+ .../arm64/boot/dts/renesas/white-hawk-csi-dsi.dtsi |  2 ++
+ .../pinctrl/renesas,r9a09g047-pinctrl.h            | 41 ++++++++++++++++++++++
+ .../pinctrl/renesas,r9a09g057-pinctrl.h            | 31 ++++++++++++++++
+ 8 files changed, 163 insertions(+), 20 deletions(-)
+ create mode 100644 include/dt-bindings/pinctrl/renesas,r9a09g047-pinctrl.h
+ create mode 100644 include/dt-bindings/pinctrl/renesas,r9a09g057-pinctrl.h
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
