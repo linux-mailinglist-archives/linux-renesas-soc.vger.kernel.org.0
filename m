@@ -1,215 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-11871-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11872-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F4AA0226B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 11:02:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17477A022C3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 11:18:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B9EE23A45B2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 10:02:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 412B21882D85
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2025 10:18:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78A931DAC95;
-	Mon,  6 Jan 2025 10:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="HhBjymCD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ru4rw7PA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59634199391;
+	Mon,  6 Jan 2025 10:18:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621B61D934D;
-	Mon,  6 Jan 2025 10:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEF51EEF9;
+	Mon,  6 Jan 2025 10:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736157762; cv=none; b=nEiPmuFYxKF5QXYVyVInYksNUzfps5DCtrUuzth54K45yv+2oGbcT6F2KkYTrztRbHc0mM2BD4BxTK9Oi6rnTD79bv1FghdHMGee/eFoR9RXQbpiSYCwBjQc/shvUoDFMxTMJZ7JsdMr5SBGxg7L94yyJqfPvn7glejKC+if/68=
+	t=1736158704; cv=none; b=N6XWnrchlg92FJmVJpYyPT2LJ5tjadYXEUIGOBsBv2NxvzCv6JfIQcwX8qVX9U07I4tXtcaHGSG4sqEg017UdW6y9wFG2Wi9O+86YHX4qIUCMXsu+QRKgx8h6B6BXtQ83oo3S45VroEg1p5wEXxs0/2kMZdx0NHUpknR3xy75sI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736157762; c=relaxed/simple;
-	bh=UeotYQxbXGtaRMDr5CfbUhkqtpbvfnqNMQwNf5ywoi4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hOXNYbbFy9P1b69AcaMEO1qOXuW2VuNHfE+R2DFbmzNxws8xzv2h+5aOrQ59d5vl4baGUQzV05aqETvL5JRlScz33hK/kloOWu5OdSSnmb1gSDbTMjNRNyICzSiLwoz83/S1QDbOrb09TiY5E99dDbbR/gbgNsd7jaw8vEqyRKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=HhBjymCD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Ru4rw7PA; arc=none smtp.client-ip=202.12.124.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 4A7662540158;
-	Mon,  6 Jan 2025 05:02:36 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Mon, 06 Jan 2025 05:02:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1736157756;
-	 x=1736244156; bh=o4NZIf3WxppxFXzutKt4JwQ1jjjFXtzx03iU1/8Gzq4=; b=
-	HhBjymCDeV8Os295yCwrt4Hr3/PHCvGuAqlhWKdB9rMm7OITcEf24nEx+7rzk49J
-	XQoiGkNrzBFSYIi5lDpnX8A+qZZsQCV+3aRjFjRbKbXctPoKsKaAF69hZ7pjpgtu
-	A/XruuVv6X9hFNoy34+lgVRWJ9GQAJIQguRjO07Ib+bSYVP55ULW1HrlLIB/Lh4W
-	+qcXPrWOLmKoOqpLiO8OKc08I+MAuzB+qG3ApNTuoAwj8Oq8fMTBNWhFqEPbsMjR
-	1HkCUbvnQHXMC3K6UUX6FbER4AJkr0G+8RsiWq43thYEADx8RtukWLwuQN2VG2KO
-	kbwrm9O5/CXSTpifQY5WNg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1736157756; x=
-	1736244156; bh=o4NZIf3WxppxFXzutKt4JwQ1jjjFXtzx03iU1/8Gzq4=; b=R
-	u4rw7PAE0clthsMU1si1SK2apyKrjO2cqU0An0rF6wn9CJQqeFPatAHxVFHpl6N8
-	YI/QypJk6rYtcRn39AbAsbSZLRzfMfRMyZh73sWZdMVewCF72gGQf0IgvEJt9gF4
-	qCVZBmSPPIHx4dUL0E+iQ5K/OYqYJ2px5AdFyCbjs6+wpR5NWExtUxc+/axNsKWG
-	LcBBj1ZAkZbyvyy/GQxH6UkzSH1HAGqILY5m7efnq6q0+DjgarG8ZkT9pfsvhIuo
-	/hsYvRX0TAlSiYA8nu0sXvlKHGAQM/1MrJ5fajmbkQsgUNKyC9JwJ944e16RTaqS
-	qo2d9IEVFeaKofr3Tv1ug==
-X-ME-Sender: <xms:O6p7Z9s8nd0xScaaH92IhlCADeQPBR0EtfY9T5m-GEih1PJiplprig>
-    <xme:O6p7Z2fHeexK7cluKrQU20GOXnxHnwJIoHqP8wnclxEZLNCh8CXQkjxCrStHIEDVr
-    TQbv9WK3xnLSoCbDKY>
-X-ME-Received: <xmr:O6p7ZwzJVDX9SDo0WssC2MAY3y1q-zr6rFUrImfmldvHsXkNHO9ViNZIKQyB9fLbaDXFXuzpeiS1yWII24P0zo1V9AwV_VJaPA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudegtddguddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
-    thgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvd
-    elieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
-    ihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrsh
-    gvpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
-    ghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtohepshgrkhgrrhhird
-    grihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgthhgvhhgr
-    sgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegt
-    ohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnh
-    gvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghh
-    rghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmh
-    gvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:O6p7Z0POreU7lLL35y5lfRP8HzOZWVDECqJHb-3B-00mlbEoGKjq2w>
-    <xmx:O6p7Z9_IWG5JxAPN2hKpt3Vgog7RHSxqwdSedT4bUSzBhUx2ui6BlQ>
-    <xmx:O6p7Z0V9wNDx9i82qfOxaFDdGHgH40tKp_GzUAHi1pqr5i3sr5Z_dw>
-    <xmx:O6p7Z-flupZdgIuVtWjbfUlgReOL1OrHV9F9nHhA7h4aUCirWZ8dAg>
-    <xmx:PKp7Z0VrtGMiBLk2uDIBVZqTFKM09u_dbq43fjiYmPp7tTRoP384Ebbp>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Jan 2025 05:02:34 -0500 (EST)
-Date: Mon, 6 Jan 2025 11:02:32 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] arm64: dts: renesas: white-hawk-csi-dsi: Define
- CSI-2 data line orders
-Message-ID: <20250106100232.GA2766897@ragnatech.se>
-References: <20241121134108.2029925-1-niklas.soderlund+renesas@ragnatech.se>
- <20241121134108.2029925-4-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdWqS=zURzutDsCqChSGia35JZpVuDY=njrCBEKP-6=eXw@mail.gmail.com>
- <20250104121700.GF808684@ragnatech.se>
- <CAMuHMdWxmMXe7dhFNGmr90AkRovW-Pov_0DA8-=RgDa9j_FWiQ@mail.gmail.com>
+	s=arc-20240116; t=1736158704; c=relaxed/simple;
+	bh=Blv97fwMdHQS0RKmZxhrLI011NuTaKYEBkVfCRfupw4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AA4UlTf6Rsmx4Jp1IbzEqNPXbnVwzIXrNJ8HhyRRQJCMpUC3OH0rHEn81oJBi5aqExAsVxMFPkFfpRoLTpxT9bmM9tN6yIgAPZpFFJ5Pro2sSPCgw9npOmmP0fmThMgaYsq+4w9kQ5zPRUZKGqy+n0yTmTlwgaWR0oCKsBeGsUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-51bb020339fso2939176e0c.0;
+        Mon, 06 Jan 2025 02:18:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736158700; x=1736763500;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VFiw2m0qYuDUxpznSFuo6WroJW1SYr3XFORf2X9DILQ=;
+        b=Ntb4Yko/SqHocAP8c8eVZ5nzJr1XIzNglkpzo23itQsH9+QmiSQniuIwWEhvV1WRJs
+         vR73ZboqiC9HoJ7FbUob3/hV2IfHriZBmlXT1CmgAmXNI18OkqjDz5x98nZLn87Jcg+f
+         iEZZOgzBPD1+CS0Nt3UGkb9lTsUXFsNo40ttUFPhsxobjTFLaM4UId6eAGDZhPqr3ta4
+         Zm3u0HeZ1+dRaraqBjDeE00WFFt4j3UfvT3n9JpJ49CFn56CjU3dQToAmyURMUQbPJkW
+         kNq9LRcY32D2BdIzT9rMIdYWDsZEbQeXT/8tafA43j9r52BXFiPA3aX6yzyx+jqCvBWE
+         QSxg==
+X-Forwarded-Encrypted: i=1; AJvYcCV8GPU7+QCIS03rjgbZy4OWxQl9fRZ3XEQX3bi0OdbtzL2bgwvJqH7w4EXBCoPZBR++Yd2mFBZjRzUQZ8E=@vger.kernel.org, AJvYcCXbMHPcYAnUT+ucBN470mKpKf0YgsjMagPOl2oNqvAkBibGUbJH7i8gASqRf852Q8e2ETpz7jdzym/q+soFirobmEk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyARgruHZtkP0PLEGOHDsh7IAEpksSX9NLvriwPotcc/vMgNox7
+	jGZpsiLqeznZ3dlrAPfe20xEV+nlE2oaBFkEm4vdF+VU77j1LZ4fCvWiowYT
+X-Gm-Gg: ASbGnctu3yXeM4A5WhQG1E+heFA48D7uLeOM7ZkYXJEW2hL+jsqCNbDsC7x+fpnE+m+
+	C3uPAg8SnWorUOcPUcB2zSGMlitfmPJlKzG171etqfF2d73TOT2B/Hsco6tRMHqGY3icYPL0R/2
+	eitvDnHFhX74U015rlbYUxHIhhd6u5Gmv3OqW6fvqZIvAmO4dAvMGbCLHKYNgD3WCLAYgxm5YO5
+	DjSdfPj2bt4w2pn44fWdZBzMhQjRXEJH2FXDYXU4jtSvYLwsSUgnx4vbY1JuhWRYxu1cg+Nhd/t
+	qfYhlrW3zP/4M4A9xSIHTGw=
+X-Google-Smtp-Source: AGHT+IGjZSD6vBe+HYSH3WFp5N/9hKIF+uz0iFmzjVIquTPtmH2ldl81b8hVtMsrKeyAUXE/cEo7gA==
+X-Received: by 2002:a05:6122:370d:b0:516:2209:9032 with SMTP id 71dfb90a1353d-51b75c31269mr47123489e0c.2.1736158700669;
+        Mon, 06 Jan 2025 02:18:20 -0800 (PST)
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8610ac6b800sm7265689241.15.2025.01.06.02.18.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jan 2025 02:18:20 -0800 (PST)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-51bb020339fso2939167e0c.0;
+        Mon, 06 Jan 2025 02:18:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUNozctRXzDM6gKkC8Kr7btdPizINU+FtjIwR+ZHJqDGp010rD5RbCV7oGK2IoMJPmn/uKY9OtL5VxNfAU=@vger.kernel.org, AJvYcCUbLHdKVIThvC/vuc2yxDAHxl7ZwuA7UBx2SumIVuZTPNqvH75+bfOd9akIqsaHlPTjBWoD/NxRktcOr089UQxcbmQ=@vger.kernel.org
+X-Received: by 2002:a05:6122:318f:b0:518:a2af:d666 with SMTP id
+ 71dfb90a1353d-51b75c30618mr35360461e0c.1.1736158700259; Mon, 06 Jan 2025
+ 02:18:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdWxmMXe7dhFNGmr90AkRovW-Pov_0DA8-=RgDa9j_FWiQ@mail.gmail.com>
+References: <20241221033321.4154409-1-koichiro.den@canonical.com>
+ <ff6461df-25d1-494f-ad34-763faf249309@lucifer.local> <2q7ge6cgzeowqffyn6w6ed4trhaaumv5ubdgud2tsoolen7wpw@4akuomhbacyh>
+In-Reply-To: <2q7ge6cgzeowqffyn6w6ed4trhaaumv5ubdgud2tsoolen7wpw@4akuomhbacyh>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 6 Jan 2025 11:18:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWvW7hsUq68xuX-YNApk06zMMzRsHMCDCLcrsTiEUkuDg@mail.gmail.com>
+X-Gm-Features: AbW1kvbMfnk2SgBXKVUIV0YROpavUz-OLtnVYxy0TWeDhPN2Kq31j9pnnSSq8o0
+Message-ID: <CAMuHMdWvW7hsUq68xuX-YNApk06zMMzRsHMCDCLcrsTiEUkuDg@mail.gmail.com>
+Subject: Re: [PATCH v2] vmstat: disable vmstat_work on vmstat_cpu_down_prep()
+To: Koichiro Den <koichiro.den@canonical.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, linux-mm@kvack.org, 
+	akpm@linux-foundation.org, linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Koichiro,
 
-On 2025-01-06 10:45:51 +0100, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Sat, Jan 4, 2025 at 1:17 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > On 2024-12-27 14:22:31 +0100, Geert Uytterhoeven wrote:
-> > > On Thu, Nov 21, 2024 at 2:41 PM Niklas Söderlund
-> > > <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > > > The second CSI-2 C-PHY data-lane have a different line order (BCA) then
-> > > > the two other data-lanes (ABC) for both connected CSI-2 receivers,
-> > > > describe this in the device tree.
-> > > >
-> > > > This have worked in the past as the R-Car CSI-2 driver did not have
+On Sat, Jan 4, 2025 at 5:00=E2=80=AFAM Koichiro Den <koichiro.den@canonical=
+.com> wrote:
+> On Fri, Jan 03, 2025 at 11:33:19PM +0000, Lorenzo Stoakes wrote:
+> > On Sat, Dec 21, 2024 at 12:33:20PM +0900, Koichiro Den wrote:
+> > > Even after mm/vmstat:online teardown, shepherd may still queue work f=
+or
+> > > the dying cpu until the cpu is removed from online mask. While it's
+> > > quite rare, this means that after unbind_workers() unbinds a per-cpu
+> > > kworker, it potentially runs vmstat_update for the dying CPU on an
+> > > irrelevant cpu before entering atomic AP states.
+> > > When CONFIG_DEBUG_PREEMPT=3Dy, it results in the following error with=
+ the
+> > > backtrace.
 > > >
-> > > has
+> > >   BUG: using smp_processor_id() in preemptible [00000000] code: \
+> > >                                                kworker/7:3/1702
+> > >   caller is refresh_cpu_vm_stats+0x235/0x5f0
+> > >   CPU: 0 UID: 0 PID: 1702 Comm: kworker/7:3 Tainted: G
+> > >   Tainted: [N]=3DTEST
+> > >   Workqueue: mm_percpu_wq vmstat_update
+> > >   Call Trace:
+> > >    <TASK>
+> > >    dump_stack_lvl+0x8d/0xb0
+> > >    check_preemption_disabled+0xce/0xe0
+> > >    refresh_cpu_vm_stats+0x235/0x5f0
+> > >    vmstat_update+0x17/0xa0
+> > >    process_one_work+0x869/0x1aa0
+> > >    worker_thread+0x5e5/0x1100
+> > >    kthread+0x29e/0x380
+> > >    ret_from_fork+0x2d/0x70
+> > >    ret_from_fork_asm+0x1a/0x30
+> > >    </TASK>
 > > >
-> > > > documentation for the line order configuration and a magic value was
-> > > > written to the register for this specific setup. Now the registers
-> > > > involved are documented and the hardware description as well as the
-> > > > driver needs to be corrected.
-> > > >
-> > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > So, for mm/vmstat:online, disable vmstat_work reliably on teardown an=
+d
+> > > symmetrically enable it on startup.
 > > >
-> > > Thanks for your patch!
-> > >
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > >
-> > > > --- a/arch/arm64/boot/dts/renesas/white-hawk-csi-dsi.dtsi
-> > > > +++ b/arch/arm64/boot/dts/renesas/white-hawk-csi-dsi.dtsi
-> > > > @@ -21,6 +21,9 @@ csi40_in: endpoint {
-> > > >                                 bus-type = <MEDIA_BUS_TYPE_CSI2_CPHY>;
-> > > >                                 clock-lanes = <0>;
-> > > >                                 data-lanes = <1 2 3>;
-> > > > +                               line-orders = <MEDIA_BUS_CSI2_CPHY_LINE_ORDER_ABC
-> > > > +                                              MEDIA_BUS_CSI2_CPHY_LINE_ORDER_BCA
-> > > > +                                              MEDIA_BUS_CSI2_CPHY_LINE_ORDER_ABC>;
-> > > >                                 remote-endpoint = <&max96712_out0>;
-> > > >                         };
-> > > >                 };
-> > > > @@ -41,6 +44,9 @@ csi41_in: endpoint {
-> > > >                                 bus-type = <MEDIA_BUS_TYPE_CSI2_CPHY>;
-> > > >                                 clock-lanes = <0>;
-> > > >                                 data-lanes = <1 2 3>;
-> > > > +                               line-orders = <MEDIA_BUS_CSI2_CPHY_LINE_ORDER_ABC
-> > > > +                                              MEDIA_BUS_CSI2_CPHY_LINE_ORDER_BCA
-> > > > +                                              MEDIA_BUS_CSI2_CPHY_LINE_ORDER_ABC>;
-> > > >                                 remote-endpoint = <&max96712_out1>;
-> > > >                         };
-> > > >                 };
-> > >
-> > > Using the MEDIA_BUS_CSI2_CPHY_LINE_ORDER_* definitions has a hard
-> > > dependency on commit 91a7088096a49eb4 ("media: dt-bindings: Add property
-> > > to describe CSI-2 C-PHY line orders") in media/master, hence I cannot
-> > > take this patch in renesas-devel until that dependency is resolved.
-> > >
-> > > However, according to the cover letter, commit 573b4adddbd22baf ("media:
-> > > v4l: fwnode: Parse MiPI DisCo for C-PHY line-orders") in media/master
-> > > causes a regression in the absence of the line-orders properties
-> > > (which I had missed before, unfortunately).
-> > > So I think it is best if this patch goes in through the media tree,
-> > > which already has the prerequisites and the regression:
-> > > Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > >
-> > > Alternatively, I can:
-> > >   1. Cherry-pick commit 91a7088096a49eb4 first,
-> > >   2. Replace the MEDIA_BUS_CSI2_CPHY_LINE_ORDER_* definitions by
-> > >      their numerical values.
-> > >
-> > > Please let me know if you prefer option 1 or 2.
-> > > Thanks!
+> > > Signed-off-by: Koichiro Den <koichiro.den@canonical.com>
 > >
-> > My preference would be for this patch to go thru the media tree with
-> > your tags to create the least churn, if Sakari is OK with that ofc.
+> > I observed a warning in my qemu and real hardware, which I bisected to =
+this commit:
 > >
-> > If not I leave it up to Sakari which option is most preferable to him,
-> > I'm OK with both alternatives.
-> 
-> Note that it's getting a bit late for the alternatives, as I plan to send
-> my PRs for soc today, or tomorrow the latest.
+> > [    0.087733] ------------[ cut here ]------------
+> > [    0.087733] workqueue: work disable count underflowed
+> > [    0.087733] WARNING: CPU: 1 PID: 21 at kernel/workqueue.c:4313 enabl=
+e_work+0xb5/0xc0
 
-Thanks for letting us know. As we all are slowly wakening from the 
-holiday season maybe the best alternative is to go with option 2, 
-numerical values to avoid the issue? Then in next cycle follow up with 
-using the defines?
+I am seeing the same on arm32 (R-Car M2-W) and arm64 (R-Car H3 ES2.0).
 
--- 
-Kind Regards,
-Niklas Söderlund
+> Thank you for the report. I was able to reproduce the warning and now
+> wonder how I missed it.. My oversight, apologies.
+>
+> In my current view, the simplest solution would be to make sure a local
+> vmstat_work is disabled until vmstat_cpu_online() runs for the cpu, even
+> during boot-up. The following patch suppresses the warning:
+>
+>   diff --git a/mm/vmstat.c b/mm/vmstat.c
+>   index 0889b75cef14..19ceed5d34bf 100644
+>   --- a/mm/vmstat.c
+>   +++ b/mm/vmstat.c
+>   @@ -2122,10 +2122,14 @@ static void __init start_shepherd_timer(void)
+>    {
+>           int cpu;
+>
+>   -       for_each_possible_cpu(cpu)
+>   +       for_each_possible_cpu(cpu) {
+>                   INIT_DEFERRABLE_WORK(per_cpu_ptr(&vmstat_work, cpu),
+>                           vmstat_update);
+>
+>   +               /* will be enabled on vmstat_cpu_online */
+>   +               disable_delayed_work_sync(&per_cpu(vmstat_work, cpu));
+>   +       }
+>   +
+>           schedule_delayed_work(&shepherd,
+>                   round_jiffies_relative(sysctl_stat_interval));
+>    }
+>
+> If you think of a better solution later, please let me know. Otherwise,
+> I'll submit a follow-up fix patch with the above diff.
+
+Thank you, that fixes the warnings for me!
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
