@@ -1,207 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-11935-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11934-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D81AA0482D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2025 18:27:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5AC3A0482C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2025 18:27:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD9443A67F8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2025 17:27:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BDA3163A01
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2025 17:27:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E6761F4E47;
-	Tue,  7 Jan 2025 17:27:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A83201F5408;
+	Tue,  7 Jan 2025 17:26:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PcfAq6i7"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="HQtwcsli"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37241F37CF
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Jan 2025 17:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946EB1F37B8
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Jan 2025 17:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736270833; cv=none; b=m40wx9Xedlkuvun7IXas2lcs/3mhrPhgPmzZupI9pr0c5xyTjX3e14flYq9jvhZ23DXIu6nlaGHP9LjgFIdN5ZqRbAbW24lVpLENor3Q+TXuxt3FpGjrYr1InhzKPU8vRLJBkdNICp77UvDMYTIAANRAmhdsGNZXtQvgApv2LM0=
+	t=1736270816; cv=none; b=tPetI6yB5bNh4HuRenLEpXm9kTKrk2BZZufo3Q54dqnzsNFwbjTGk9eGIhKoR0RtDkJ+3KHBXExzw6vuTLa3d2v1hcDwi0KcMJTrWdBYlbQPViXNNVc/LQYlggldprl1p0HoMZhOtkqcj2y7/L/eddQprkcZUPT5XDthQ3fP3zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736270833; c=relaxed/simple;
-	bh=c4T5lNNu2R8wdqYU619+cZBSgekeEsdh4POGVa9rVnA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KOQ1ddHXwe/fbJs4hinPZ/1Sv84tJAo6ZViqOmzBkwNV6HA1d93ZaHEWYTH2FnTMsLSvBac4wwMTr/Maw7bAzXt4xSaG+5G4F22tR3WM58KGO7SDcbYQ3u73s613FuJb3bpxW1n4u7XSOTp4zGcyRqQIOm2AWxZKjNWG2Ijdlos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PcfAq6i7; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54024aa9febso16877985e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jan 2025 09:27:09 -0800 (PST)
+	s=arc-20240116; t=1736270816; c=relaxed/simple;
+	bh=xaI1MzU8YqkwNIXSUK+vtpERhBgaIIyYpkmxq2xzGL8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=VULJisVHP2ScJCSYpCuom8C7rtWszaHkMwVLFrOyYUZPt9Q9ObQbTIgKB/EElLQwcuWbLCfPEoTsqr4iUSIB7udL1KdVJVVjGc0f6+hXtSEFmVRJGJvXqavGDAxvHBnO+qaGiIkY9t7Tnnt0WAS5JwFeIxdk3zAN/UOdJfzt0yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=HQtwcsli; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2163bd70069so41520045ad.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jan 2025 09:26:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1736270828; x=1736875628; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5e6oybH8waw0F1euskY/nJ2JCR+I1f/uoiRiLQitoeM=;
-        b=PcfAq6i7pjuNJrTr6V6xIe2xJ2lv9ErZAwz6SbsUpE9ut31IuKuX0O3ASRrHHbr/jZ
-         Re5LHqKYClF1HDj6HGS/EtJO8p6rN3aKUn+x7knu2yfNRXOITgCSY6PWQi+06xr1TQfZ
-         LF3tEuMzor7fup1Hl8d8M+ZQKBFUfqtfkngwQ=
+        d=broadcom.com; s=google; t=1736270811; x=1736875611; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=AnFDI1orT78UbMz4dvewuX8lguog+6111daL66A0sXs=;
+        b=HQtwcslilz7PxsY/C5UXbZhUXVXjlGP/rf6ND2R1lP3uJOGBxO65qbNN5OP+MCttzi
+         AgR7US5LG+0R4W5hhblCHeRlDg6FgzrW+d6RpTOHAMuoA6P9kFG57WMmqPICIUZe7UiO
+         ov/+ZiaZe4xsArAf4r+dkpTK2oP8ZTYHi1tY0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736270828; x=1736875628;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5e6oybH8waw0F1euskY/nJ2JCR+I1f/uoiRiLQitoeM=;
-        b=IPDSe477FC9vr92g8lb0zn5iWaNP9M4PCkA7iT4MmvhVk/z36brqSn8eD+FoXn8qf+
-         cYa5at8HsX9u6dT9CAoQLHN6pejApFIDAQnTlerwW6Vx8fqzmMiLxfbkWupHnPSWG9MW
-         bPhwb6MpHpEf6ky2EtrbZU2FXJWU9Ii5mljlHexHjRKUwA1VqTHWJK3wU3gFlE3/+KL1
-         Iol2yyEmgNt/AhX4sD+p+H9tHFW6j0VwiJJvVJfrbqoIuLGSj2XyxVajqw1GeIK2jDXS
-         Kyrs+E3/EQg/7vpM7G9yJhaIjROE566TpCsR4myETcUe2Qu7gr6ASgjKOaFbQFQKuDqd
-         NhGw==
-X-Forwarded-Encrypted: i=1; AJvYcCWgCMz7HY+O9zbtLuJjhxXbOJ0o0CpnSIvHYCMuK13plDsFMvWi05UJ+9yncIP8v9n1xbzcRYfxPjYgqePSqwDQ5Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqVDdKUuFTejzMvmMbDHFKHUUbaF9B4C1dtvxLY+s4veghZAMj
-	RYUNRiWIODs6yrg+6ussdCFI3Bz3KqMtckv1c1xkM1yeJWdR+0egbxk+dlyxDo420/5v1wUatlZ
-	VUwl6
-X-Gm-Gg: ASbGncsLeiw3Tt3DWloz+Kr1T8B+/5W2QVDjWPYLXlCKrzHh3+QEa6G2QBZCakEt/zR
-	48aTn5p2FhhSPdvN1Ic693Chxrpmcy9nMS55Lr9de3na/2iW0SIaaX+7GRdN1gcfuNVd8VzTgIv
-	YQev9qtVrc4Aw2/24EsxHOcIIQqUjzSd77X8HYByNURayvPsIrZ4KdPKZPc1w+s3y/V+SuzMtOX
-	jLcqTU5mpx7tjOa6x4T/ROt/qdyfsfbZ8HQVXLumAntrML+iLxvy+ymeRTrPeYf3rkCgLU2amVF
-	a/50sO6hyy+YPK8bpN1E
-X-Google-Smtp-Source: AGHT+IGdbTsbP535J1DdXctjze55AFZoBQKTMD4dYFpksdYxOJom/s7RrmG24Ym5Z2GbA12lCTxeuw==
-X-Received: by 2002:a05:6512:2803:b0:542:28a9:dcb7 with SMTP id 2adb3069b0e04-54229533ddcmr12933073e87.21.1736270827643;
-        Tue, 07 Jan 2025 09:27:07 -0800 (PST)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-542235f64c1sm5213448e87.51.2025.01.07.09.27.07
-        for <linux-renesas-soc@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1736270811; x=1736875611;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AnFDI1orT78UbMz4dvewuX8lguog+6111daL66A0sXs=;
+        b=M0ajY//bYRmM4o+9+Fi0NmRnHzuorhfy9jgEEyqYwS0zmk1lMmdym3Bg0DY9OtU7Cz
+         bAcxS1O/vjt2oyNmPC0GebEhFQqAN25SchPuTra9p9a2pH5oGTD/RfMNM0N4zK+TJN8z
+         Om4GcTUzMOtRa/oNpUaUo2vMQAycFk6pb+eMBs+zkyZExDvsgWkx0YLzJ8Zn8LIx351Z
+         T3XZbWmO2RbE8r4otr2rrybV6S0Fr4OxZCcNi+2mpwbugpOkTIgZD/5obTQ7QTTat4Tc
+         GnRyIilbBEZCwrH5RsRBa5IbyPXcw3qevS/0R2HxFBGXYhyhnYDMB/q27O691RNCIeQi
+         Qehg==
+X-Forwarded-Encrypted: i=1; AJvYcCVskWxX8FfE0A2i+n6NEOGxYSHWne4licFLiN0KQtDjgJUrwtxGMpcGA6HozNqfQgnBvJIHTIkCZDRrCB/wzwsBAg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwchSjrePMpT2wMkmBLs3bqEzdWeLn2LvCN9r+tFIT25e6dH0sg
+	HTExWe3I9iysi6y20lk1kElJM9I934P+W5xv9dFmRj1yZTBtqdLDqXfxKLvpNA==
+X-Gm-Gg: ASbGncv/Lcf4OP7meJmdRXIJ3QRdEBCzYC/vWgeurirWHmOeKJVy1YwFEWCZZLvbhwR
+	04O4Qs46QKN/bqDAzxErHGE1jlcbFI7JhayV2cVv3MQJGtRgT7JNIpDUQVRmrlfWTatDSei2/L4
+	wsaBKBdVLb4g7NAT+iRpX1NXujHa522P/Ri5yacwGWbxoOnpncdeWerenFVfU9KqfgDfFwvBp47
+	qUF1bXltJGsMUKLjBFmNylSjs8JRC1nRlLQu6NEU4D9h4ot1kbpW/hEz1m9ybjZje3bUiWojnOO
+	prE+XxDUZcIh1WjGa9em
+X-Google-Smtp-Source: AGHT+IEPaGgB9Qa+1DpEpRgPYql8+QmamIMyRh5C1Rx/DzqtHoRCh+8H9eqIioceJgqABRLUqu9iOw==
+X-Received: by 2002:a17:902:c408:b0:216:4d1f:5c83 with SMTP id d9443c01a7336-219e6f26814mr803886345ad.47.1736270810779;
+        Tue, 07 Jan 2025 09:26:50 -0800 (PST)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9cdeccsm314093865ad.144.2025.01.07.09.26.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jan 2025 09:27:07 -0800 (PST)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53ffaaeeb76so16721651e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jan 2025 09:27:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUqEIE4iju4FKeDW5R2MX3cRv/RtaQZD+cVUNjORR7uPqVB1A2ENcBDZMJ1CRc9W+hN2RA5QDkD5iflvJCtE9jjtA==@vger.kernel.org
-X-Received: by 2002:a05:6512:2308:b0:540:357a:4aa3 with SMTP id
- 2adb3069b0e04-542295404demr19430722e87.28.1736270507695; Tue, 07 Jan 2025
- 09:21:47 -0800 (PST)
+        Tue, 07 Jan 2025 09:26:49 -0800 (PST)
+Message-ID: <e2d33d2f-6b30-495e-a089-b1185b22130f@broadcom.com>
+Date: Tue, 7 Jan 2025 09:26:46 -0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <7a68a0e3f927e26edca6040067fb653eb06efb79.1733840089.git.geert+renesas@glider.be>
- <CAD=FV=XpRt_ivSDz0Lzc=A+z3KFrXkVYTn716TD1kZMAyoGQ_A@mail.gmail.com> <CAMuHMdXhEcr-XDpD_RHHU4sxVNS7=iUWUNEwdEwS4pEGYzP39w@mail.gmail.com>
-In-Reply-To: <CAMuHMdXhEcr-XDpD_RHHU4sxVNS7=iUWUNEwdEwS4pEGYzP39w@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 7 Jan 2025 09:21:36 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VONgQgohhtO07tQ4Paif_v1h+xrdAT8S8amkCc5rfgGw@mail.gmail.com>
-X-Gm-Features: AbW1kvazHgvULSfHqt_0VX8ft9CTn7RJ3u6wjnfVyyyuGT7WJIlXCd5AaiKW4R8
-Message-ID: <CAD=FV=VONgQgohhtO07tQ4Paif_v1h+xrdAT8S8amkCc5rfgGw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Fix multiple instances
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Linus Walleij <linus.walleij@linaro.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Greg KH <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: usb: Correct indentation and style in DTS
+ example
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Justin Chen <justin.chen@broadcom.com>, Al Cooper <alcooperx@gmail.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Benjamin Bara <benjamin.bara@skidata.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+ Del Regno <angelogioacchino.delregno@collabora.com>,
+ Tianping Fang <tianping.fang@mediatek.com>,
+ Jassi Brar <jaswinder.singh@linaro.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Macpaul Lin <macpaul.lin@mediatek.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi
+On 1/7/25 05:10, Krzysztof Kozlowski wrote:
+> DTS example in the bindings should be indented with 2- or 4-spaces and
+> aligned with opening '- |', so correct any differences like 3-spaces or
+> mixtures 2- and 4-spaces in one binding.
+> 
+> No functional changes here, but saves some comments during reviews of
+> new patches built on existing code.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>   .../bindings/usb/aspeed,usb-vhub.yaml         | 40 +++++++++----------
+>   .../devicetree/bindings/usb/brcm,bdc.yaml     | 14 +++----
 
-On Wed, Dec 11, 2024 at 12:27=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Doug,
->
-> On Tue, Dec 10, 2024 at 6:09=E2=80=AFPM Doug Anderson <dianders@chromium.=
-org> wrote:
-> > On Tue, Dec 10, 2024 at 6:19=E2=80=AFAM Geert Uytterhoeven
-> > <geert+renesas@glider.be> wrote:
-> > > Each bridge instance creates up to four auxiliary devices with differ=
-ent
-> > > names.  However, their IDs are always zero, causing duplicate filenam=
-e
-> > > errors when a system has multiple bridges:
-> > >
-> > >     sysfs: cannot create duplicate filename '/bus/auxiliary/devices/t=
-i_sn65dsi86.gpio.0'
-> > >
-> > > Fix this by using a unique instance ID per bridge instance.  The
-> > > instance ID is derived from the I2C adapter number and the bridge's I=
-2C
-> > > address, to support multiple instances on the same bus.
-> > >
-> > > Fixes: bf73537f411b0d4f ("drm/bridge: ti-sn65dsi86: Break GPIO and MI=
-PI-to-eDP bridge into sub-drivers")
-
-When I applied the patch, the DRM tools ran checkpatch in strict mode
-which pointed out that you have too many digits in your "Fixes" hash.
-I've adjusted them to make checkpatch happy.
-
-
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > > On the White Hawk development board:
-> > >
-> > >     /sys/bus/auxiliary/devices/
-> > >     |-- ti_sn65dsi86.aux.1068
-> > >     |-- ti_sn65dsi86.aux.4140
-> > >     |-- ti_sn65dsi86.bridge.1068
-> > >     |-- ti_sn65dsi86.bridge.4140
-> > >     |-- ti_sn65dsi86.gpio.1068
-> > >     |-- ti_sn65dsi86.gpio.4140
-> > >     |-- ti_sn65dsi86.pwm.1068
-> > >     `-- ti_sn65dsi86.pwm.4140
-> > >
-> > > Discussion after v1:
-> > >   - https://lore.kernel.org/8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.=
-1729180470.git.geert+renesas@glider.be
-> > >
-> > > Notes:
-> > >   - While the bridge supports only two possible I2C addresses, I2C
-> > >     translators may be present, increasing the address space.  Hence =
-the
-> > >     instance ID calculation assumes 10-bit addressing.  Perhaps it ma=
-kes
-> > >     sense to introduce a global I2C helper function for this?
-> > >
-> > >   - I think this is the simplest solution.  If/when the auxiliary bus
-> > >     receives support =C3=A0 la PLATFORM_DEVID_AUTO, the driver can be
-> > >     updated.
-> > >
-> > > v2:
-> > >   - Use I2C adapter/address instead of ida_alloc().
-> > > ---
-> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> >
-> > While I agree with Laurent that having a more automatic solution would
-> > be nice, this is small and fixes a real problem. I'd be of the opinion
-> > that we should land it.
-> >
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> Thanks!
->
-> > If I personally end up being the person to land it, I'll likely wait
-> > until January since I'll be on vacation soon for the holidays and I
-> > don't want to check something that's slightly controversial in and
-> > then disappear. If someone else feels it's ready to land before then I
-> > have no objections.
->
-> There is no need to hurry. The only board I have that needs this has
-> another issue in its second display pipeline, which will require a
-> new driver no one is working on yet.
-
-As promised, I've landed this. In this case I've landed in
-drm-misc-next. Even though it's a fix since it didn't sound urgent
-enough to land in drm-misc-fixes. Since it changes sysfs paths
-slightly, it feels like it would be good to give it extra bake time
-and not rush it as a fix.
-
-[1/1] drm/bridge: ti-sn65dsi86: Fix multiple instances
-      commit: 574f5ee2c85a00a579549d50e9fc9c6c072ee4c4
-
--Doug
+Acked-by: Florian Fainelli <florian.fainelli@broadcom.com> # brcm,bdc.yaml
+-- 
+Florian
 
