@@ -1,125 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-11948-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11949-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C897A056DA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 10:29:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0618CA05711
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 10:39:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 598941636E7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 09:29:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8FF67A2ACC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 09:38:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E055A1F37B1;
-	Wed,  8 Jan 2025 09:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 135221D958E;
+	Wed,  8 Jan 2025 09:38:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vrv62d0K"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ACNpvjNc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341E51EE7B7
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jan 2025 09:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A341EE7D5
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jan 2025 09:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736328533; cv=none; b=PVWKxXqTTGx9sKhI/ak5M093Nim9wrHCeo5ouMspLKVBlfkVhyKOIhtdBMZwMvFveMqOnk7Rjfojt3KIKcsTaGiyYp7M2//vG6k4NTZPEbD/8DQb0FHienERSg2PUh3G6wEireSpqwh44snzuZE9ZJyYZKcfkTaZF1HhS3uMroY=
+	t=1736329127; cv=none; b=cS/afHgois3yK/MFjoFV6T9EuzQS/VCy0asbPtH1iKqH58lMP8vPJdF0/hRt3OrbpfwcQ8ZV9ceF1kCukvKAmKHRYQs9/LVv9FallyqvMONAxgD3hfnaWCxyoiQIC45Z/yjZLLo9xWhyVSg0quUCGFAw7orjQpOGYmZSZSDvCxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736328533; c=relaxed/simple;
-	bh=yA7y97nb85po90Zmk69+gL//XzthbasJe+UKvQBCBIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fDxlEugAazrwe3AXLHJwjQH1iT0iE9i2GUfCz66jQJqdJTlp3EtsMc6NIQ49Qee7amPCdNJgo5FYQF0B2JE/g6xj2l8F9cXH/XhmOakkowuN4lKH+BBwxAwf7aJvckwQzK0QI7JSDXv1uNpbdzSCJ7/nDRB4njwP5+qA0EmjZIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vrv62d0K; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1736329127; c=relaxed/simple;
+	bh=fz1smqCQB8ex4yyzmTLxdzKTkRi8YQAovOMZKR5iB/c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=By0ZiyrrGMvmB6/ObBhYfRZFY1WYoCPADC/FkIh1Axa+AeyeQ5K4BNV5S6pn6ycFF8MHq2Dykw9rsue9GOY6EN43eP1OrgaxUOGpfdErQ4t/AHjvZQrcMncrQAJHssybbh6xlWImlIntxTdT4Tye9ZxVl+OfPhDInZwnaCDXu3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ACNpvjNc; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43625c4a50dso113660255e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Jan 2025 01:28:50 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43634b570c1so118189155e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Jan 2025 01:38:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736328529; x=1736933329; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ksX/kLob51zQcWxh1cMQc5uB7HVLI56lSlw1NK1rQYU=;
-        b=Vrv62d0KBPN9aT7G2fo5sRAsLw8PLpQzbuSWTiOTOcNzO14J8fnCloQgcZWp+vQQ6Z
-         ioGAewjcotWKLQjXrH3+PZO/W5zPNyN04BTvD3Gw7P9U4B30GOLOKiUqo+soA7GkXfk+
-         7ShBx+KLuCUyIH02GGBh2aJOHp2s++6fprb7RquxyktEpPwf53Oq6siW1Lo4vaZFpn+U
-         jpgq0zTz9aI3uiJS1rltkK/WTWIEcYqQh2BYHmts8eQ7KwbTZY01uPXhGhw6Mrk3LYZT
-         Jgi+gjpL9DlSfXjsltToLgTa7XrGPaDz7B+v4pB+vnOikr+RRoQAYx1pYt47kwnu8umD
-         k7jA==
+        d=linaro.org; s=google; t=1736329124; x=1736933924; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mDL559tBrr/c+O7uNT1qWo/LHQ82r4NDbguV4lcJTVs=;
+        b=ACNpvjNcsHqJ7HFRYOM4D54vFEaw9uFUQpSH3B/Ou0XPoUO8WG6I4k+UbW9NWvOSKP
+         lPtbi+HhPWUx/uZ9A4XYxMddBet3qZC9dcwV6FpWVtzTvubtJh/j/J6Ou/LUNYOQ5jtK
+         SHFCg4z0HTAfjZU0inxYl8OXyrf4KnWUKvlSRLTJV0IM0AJYO5p2PNES3eXJnZIURYqc
+         NO7RY6+pC/9MeDutu+Od/7Hu58MiY/f3q53KJXHyGNXTypWZrUa0aABs8n/6b/7pMcv6
+         DZ5zRUq095y6LjhKDk47QHymDOBXGSpy9PEawgRn5Z+bc+bAGxpwhRhcngksPNh7AQF1
+         eHTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736328529; x=1736933329;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1736329124; x=1736933924;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ksX/kLob51zQcWxh1cMQc5uB7HVLI56lSlw1NK1rQYU=;
-        b=QbgwedMuLBT9+1mjta+tqqlL6tI3oR+HvlC4zCiVrh98AAekz1/jeNryiAUxfrKz1s
-         ujxk/AuPgmJt1qI4qHgOeBImgaQgZWGz4vUtmjCdJyCRoJ2BWvYEGlXGGo8q+1xjARSs
-         iBqbp7T7yMGUe+qsZlajFX0R9B28U617FVh3p6jSB1HDDft7mcUXg5kMPN3+oP0+Lm95
-         t4YnG4Ey1vChGluleC0vcbEQP3j9hbxH3J+Ks7U7LL69p2wH+yN81B6RDVg9Z7CFEsv3
-         M0zHojh99S0i/HYu08LFdcSR7u2Nk1NzKnFHkc++5qMOeQZevpMOL95m5fd0/HdBq6Rt
-         Q1fw==
-X-Forwarded-Encrypted: i=1; AJvYcCW5b9kD0K0wBJxw2JEB4qqK7WLmjnQfjJULCbQD6aviSSD1oDZqtTq93e/H64YVYcR2kq2GRg+KEItNfHHeScObRg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhD0eX0z5QpLh/eJuOqDFsYbO0TmHdHbgwG10e6RGNUXrXABWC
-	Rk8NSVkj9lRshox6sbA82GGgKssq1M1XMqwXrX5+AkltTrRGt0wZoK2iI+UkdaE=
-X-Gm-Gg: ASbGncvmT5FOpY5PeTulb7h/PMDtZvLX5co+5GFa1GYfqZ4u6rnJ+BXXtqgn7aQftQ/
-	etn12KjCcp8ayCqyhtMAhb2ADOIfvcd0mmUxP3q3DxIuT61rYoIGwZ6BLdpsFS8lMTOLT4MT/Me
-	oEOwQI2qGOiIrnASyiTPPcWliKqfmv09kGJsT2crzL46Dp0vHlvsKxTJ4xfolly1SKpBbb3xvSJ
-	fn8jar1ZfF+5V8RTtGeLi9LDyei/H0/qJoXY8AQeUL5kbCOxpV9c+awYhknhw==
-X-Google-Smtp-Source: AGHT+IEbOKQpbXnV0Vk4QEqZakle2mY4HuBVWDf4SPOXo+NOnQPd/LEFfiqdZj1V2NZzu8Gu4CgtXQ==
-X-Received: by 2002:a05:600c:1d82:b0:434:f953:efb with SMTP id 5b1f17b1804b1-436e26f984amr12953225e9.32.1736328529560;
-        Wed, 08 Jan 2025 01:28:49 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2e92f60sm13995695e9.40.2025.01.08.01.28.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 01:28:49 -0800 (PST)
-Date: Wed, 8 Jan 2025 12:28:46 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] ASoC: renesas: rz-ssi: Add a check for negative sample_space
-Message-ID: <e07c3dc5-d885-4b04-a742-71f42243f4fd@stanley.mountain>
+        bh=mDL559tBrr/c+O7uNT1qWo/LHQ82r4NDbguV4lcJTVs=;
+        b=lD1yISPncc0et2KQaAUFpE2tLwRsMzf4nXgaOxRgZ4F7jIpx8e4iuLV6zE26U/NyPz
+         S6WD7R1ZNiL1hVv3b/QUK5H74Ifesgq+zrfOqOs14ZJ1KeBchk6QNULZNXosWPOt92ob
+         08BR0hHAgNYjx2hda26sAS72ET+X0RRQLnkrcGGmGppTMpTNdRTuowMekgFGCT0+y4XQ
+         FJa/gcO/W9ZlD1trvDaF9tzYyhjx3w3/VGagxxF/UVlWuu3lWKPdtFLoNVP8kRxZcwta
+         eWE0kBjRLEyur5+bry8tWqmVUT874yrLuhy8qb6ogf6a4KTnkjIpoW/KlGyWOgDuZTwu
+         ZjmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6d/eewlz9OsN3xNg/C6rAOth5TgV/GOusMqepF+rbFgaowA9yj81/iopv7+tWKee/s+ebazDLB29FHXryaUSieQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxonSOs9T4z0qkXPwLFGBwc0nmqmXLEhCTiYI0kJXvd/z2t3HT
+	jEPjWK3mK5nfvpgXQjmAWLk0NwXiWQSyh3WXq1uauBDt1TL0abXNBnGluBU7WJM=
+X-Gm-Gg: ASbGncsgYMNs+xqiveFsoBA6oMRPLED18aWAJD1+BxnDmbluti1VCmWBrYnRpAsiEqB
+	O1v31ODx2WlynvQArSQvhmKhf5hl3q/xUGkz/1FPG6ixd96WVyNgTbIdu2Zvr9hAowx6DANHxaF
+	q/M8XO1vIuugCvfKy9lEDUO7ZUHgVnx8707TDKhqhoNAZJHUTGxQPOjF8yiKZcVbpjqPZsokRw2
+	Lq2Kthdo2jT5G4W9A2w/O3Psc2mte4h2+jtZUDPhcpYyOcFaTqfGt21We+X0phT3J802lzTK+Lx
+	PwjmfzBA3KBeePm5wRPU
+X-Google-Smtp-Source: AGHT+IEYud8HXrnnBRfQKSjaBRvM+YCl9Bp382tGy2B0NHlzlfFxJe7Ru+DWxpOuAvFe6cE/t2KRgA==
+X-Received: by 2002:a05:6000:18a3:b0:385:f0dc:c9fd with SMTP id ffacd0b85a97d-38a8730dcf2mr1495919f8f.27.1736329123722;
+        Wed, 08 Jan 2025 01:38:43 -0800 (PST)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-38a1c8a636asm53864908f8f.88.2025.01.08.01.38.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jan 2025 01:38:43 -0800 (PST)
+Message-ID: <71aceba7-d610-4550-a8a8-352c8dd4b44f@linaro.org>
+Date: Wed, 8 Jan 2025 10:38:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: timer: Correct indentation and style in DTS
+ example
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Samuel Holland <samuel.holland@sifive.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Chris Brandt <chris.brandt@renesas.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250107131024.246561-1-krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20250107131024.246561-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-My static checker rule complains about this code.  The concern is that
-if "sample_space" is negative then the "sample_space >= runtime->channels"
-condition will not work as intended because it will be type promoted to a
-high unsigned int value.
+On 07/01/2025 14:10, Krzysztof Kozlowski wrote:
+> DTS example in the bindings should be indented with 2- or 4-spaces and
+> aligned with opening '- |', so correct any differences like 3-spaces or
+> mixtures 2- and 4-spaces in one binding.
+> 
+> No functional changes here, but saves some comments during reviews of
+> new patches built on existing code.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
 
-strm->fifo_sample_size is SSI_FIFO_DEPTH (32).  The SSIFSR_TDC_MASK is
-0x3f.  Without any further context it does seem like a reasonable warning
-and it can't hurt to add a check for negatives.
+Applied, thanks
 
-Cc: stable@vger.kernel.org
-Fixes: 03e786bd4341 ("ASoC: sh: Add RZ/G2L SSIF-2 driver")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- sound/soc/renesas/rz-ssi.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
-index d48e2e7356b6..3a0af4ca7ab6 100644
---- a/sound/soc/renesas/rz-ssi.c
-+++ b/sound/soc/renesas/rz-ssi.c
-@@ -521,6 +521,8 @@ static int rz_ssi_pio_send(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- 	sample_space = strm->fifo_sample_size;
- 	ssifsr = rz_ssi_reg_readl(ssi, SSIFSR);
- 	sample_space -= (ssifsr >> SSIFSR_TDC_SHIFT) & SSIFSR_TDC_MASK;
-+	if (sample_space < 0)
-+		return -EINVAL;
- 
- 	/* Only add full frames at a time */
- 	while (frames_left && (sample_space >= runtime->channels)) {
 -- 
-2.45.2
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
