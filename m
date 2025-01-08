@@ -1,106 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-11965-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D34A06026
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 16:32:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED8CA061F3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 17:37:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A7A9E3A03B7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 15:32:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40B4816543F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 16:37:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8189F19309C;
-	Wed,  8 Jan 2025 15:32:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CB321FF1BF;
+	Wed,  8 Jan 2025 16:37:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oIHWm3Ae"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jFNib8Tc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1BC18734F;
-	Wed,  8 Jan 2025 15:32:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7541FE457;
+	Wed,  8 Jan 2025 16:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736350346; cv=none; b=ZQMCuPDSZ3MUhbyEPAMBv88Cthfk6DL988JAV7VsjAU60QJBMktZWMAVvLcbMea7VbtWnCjHK9FOOh0viRmtDC8qwCjk/Ud0W4CWTG1qsNPo7+MGogjt6pABae9rr283x6MKHnUW5GVwdkhMgHDjQ6bV0GnhyDd386ziqqFtEXI=
+	t=1736354242; cv=none; b=IH5BXPilbU9yE/F4TnACERCEHS4XDsmEuBJtSfqZzLOhm9bZrUNFMBxSTOSYaG9j5tTkloRjUNmyBwW4HVzyEZbHkS8R+ytd57S+s61QLIowaJRlFUKgeh92UQjD2O6+zQXHpfBQIbpTBGVIgrwhwrOf9pgciw4Twh2kVb4mrLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736350346; c=relaxed/simple;
-	bh=Mv9/7UyhAiH/KvxM0sRy2lV0OTrW9v178DpkMXDK9rI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=YXw67ByaFnFXrXm2oIT+fxejmxPLO9fH4VvNw43/dKtGp+fCJuYrEDX3OZoUy14hOwp9rM8B5vh+lvQOIpDg4jp92TLhF+EwqMAO8hVc4FedlNLodoGM6m0/FG+Z30VrFPqTLg7kkkdorNmhiJLnZrOolFIk2WOoWMoyUqwXsDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oIHWm3Ae; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736350344; x=1767886344;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=Mv9/7UyhAiH/KvxM0sRy2lV0OTrW9v178DpkMXDK9rI=;
-  b=oIHWm3AetFzKmAREMVIQUsEg62uIuZw+Jx12AxG0pmN1gW3vWol5HHuZ
-   DwAZ9MukzSkt3hLR3u8RXg1ZP5ls/BYLa7fsVmBwkdnFGEcHRbbojg63O
-   EaEl3CaAlv40d6zLUXUMPTcJQX2LA6cQNr5BgobowMiuHMrSIoHpqlFN5
-   GupLZmKhefCbAt2AJ9Xvyfoq0rb4UIJznPf4MGF/rrkFGJecvGWt1yVWQ
-   iiYcbz9QOkus+rIO4NBxhwRccdu4R+wuw/089BQ9K7jclfLLpglQcOwp/
-   0EY8jB6OjNLcHP7jCS0vJ9Xqj3cI0KjL3J8FOmFqD4eCq22Zute3vHaEN
-   Q==;
-X-CSE-ConnectionGUID: IJxYBMR4S0yfzHtRkKnSPg==
-X-CSE-MsgGUID: 5nzVwOSmT7uv4UyFkaITIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="40524500"
-X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
-   d="scan'208";a="40524500"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 07:32:23 -0800
-X-CSE-ConnectionGUID: mACxqiaaToug0Q9J7RYGkA==
-X-CSE-MsgGUID: bwngNOGnQvOnlUXzIkY7Qw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
-   d="scan'208";a="103055332"
-Received: from mylly.fi.intel.com (HELO [10.237.72.58]) ([10.237.72.58])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Jan 2025 07:32:22 -0800
-Message-ID: <cbd9bbf3-843f-42ea-9651-c35071089210@linux.intel.com>
-Date: Wed, 8 Jan 2025 17:32:20 +0200
+	s=arc-20240116; t=1736354242; c=relaxed/simple;
+	bh=IMcXXDdCAV533bHrMk2RPmqW4y8bePfWrlfqcCK5DkE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sA0bnaX1GEFIlhiYj3AFObFWwc0jaAZ/VkRFbZfJrG336c9LicDcHB6fgLegMTF5+wXFU73hL39O8ACgRaXoeOPotNhjFBoVtfURQ6jfmECVqEOX8VN0BrRF0vMKID/DI07LSgwkeQD1w6IbcKBcwU+eQ0O32JU++mHlPhzirB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jFNib8Tc; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-385eed29d17so8139755f8f.0;
+        Wed, 08 Jan 2025 08:37:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736354239; x=1736959039; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oaZvubb6b/5Y65DKB0twQiviVJsKDAVdNYBE/1h2cAM=;
+        b=jFNib8Tcc6fNerFTvUQMP7fWvVXhqIfzg92A1dQNnyH/yfgKcI9c4JYTa4I2WHH1Gm
+         hjlgdB9EvrVc15uK0XUEK/YKHuDIlzdO4rTFHW9qCmKakFB22seb9FE5N07Z5iPXbu7Z
+         WF9yskPVniMcKhlJ9txDkUw6VesILn4QiVjnXMs4ewSNPH8as6PjkXKgJKoE+PgBUw9T
+         wWwNZ9gAsPl8iiVavugD+YAb0LOYQnIZu7FiyjLTn3omKcy5NZZY5UucjLErVIFcE6fN
+         obiqDzs6PGj+4bAb/yQJZbVX4LyX4PHUk86rOIli0xqHfcs5Kxk2csedbvwpb+NOv0mt
+         2RSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736354239; x=1736959039;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oaZvubb6b/5Y65DKB0twQiviVJsKDAVdNYBE/1h2cAM=;
+        b=OOFiARjU5urB3Os20DvwHGQbI/OTETYLVJYgXHpY637CnUSc8D+jftSVCpablQKupM
+         zvsiCegs+Rau1SLDTwpd9TlZH9yY7F0eFSbbHzxnrEuEuahbQ4AmDx+Qs/CaA1Xx7zbu
+         BY0AvJ/Ech712FuoxKrH1g5ixVwKi3/pHLFdtGMrC5UxXocag/aLapW+E3u4qs4/AzfK
+         +COdCtHtud6CRKl3ijLhdmZmjZ9mCpF4uR7foGp7ERBqCzAOxsStqZtVCcugoAq8ov9r
+         FhwUt/rHamLsrNW/sTIZzSG813k0sHOx5kVrC9J9RxEohLkHjxaaHpnP5J9s7PVkRMFa
+         cSpg==
+X-Forwarded-Encrypted: i=1; AJvYcCUrMg0zeGeaWheDaYkesUjkGemFKaqVOHuHxvOsq6/OIG/UDA1RAyeK7UeDyEwsY2NRmVX0FxA4tz4s@vger.kernel.org, AJvYcCVB7uk5vpR+Vn2B9MfkJbUrco36sODkX2bGuOQdnDsdgWmfYpWCdpXh1Kd5YU7kt2ysCO45fv5JH5RQ@vger.kernel.org, AJvYcCVssmN/lbJvHnFQZbe0wzj3i8tP8Sa2Bem2ZakeoINWcE/MZim8QV6PEPOdX485ye1ZFw91LAv80Y/+0A==@vger.kernel.org, AJvYcCWNFiZNTT66kA3jIJxC3k5lZdxJai5D/icOo3zSKEO+nMRNqZFJJppt66tcJskqaQB1DwuVEfonHj6ywJ9C@vger.kernel.org, AJvYcCX+BtY4OQvO7OVBx1ol4H6aSSnBbiid1bGHspoHfThtsl8cgvfj+wFPWFDWNdaSBQVuE4ax6Vdu0vBNRBm5Rw==@vger.kernel.org, AJvYcCXImBRti1j1vpFqzUmDGyxWt1ZXQeIu+IMxlgZ0/RT5DeAux7oFkLmhE010uVQhWIo9tjztumCZHArU1I1WRtcfdHQ=@vger.kernel.org, AJvYcCXk/Lj8LDKyIgF/2hNoI2WyUnq+yO9Nc/Wsp0hfs9pysspko+CI4CzFwnaSwi5xkIbhXWsVcgMOgdfC@vger.kernel.org, AJvYcCXm3U27l2N+l99RO+eaEzMoasEv6db37UTBggdRspB/6/TzktDEdkqXBd4LP0IlOGO/5ccwQVLR5U2FUbA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHRi3e20ecxCUZjFxUzaSYOedHcGK64NIyzpp7bLn9ukCBOh4d
+	w/bDFwp5IC/UF5L4FuevtfjVJmy13YTBQSoTGGcXSyj1IfR7A10C
+X-Gm-Gg: ASbGncvZ+Yj69hrg+mjA+7WB9GaRmoahSR6yXIPUzZ8OIoi0scVp6ZZPTtQGinEFiEY
+	ZZN6IR8Xs3ATTGYBry8XAvlQ6AOAwDThF+8smFEWmX7oNhqVN7cMtw3LcQFqEw8/MM3B2kxc/eR
+	RyWTfk7YiTXJMvlMXxd4LgxMhhcSrvmVH+1/Skp7ga4MD2Xd86I87GP+HppF1e/kaKHS5NWpQOm
+	i9bq4VoTwegaZumwzOZsvXDcIDONYeQ2k2Qpf2eqUdMW6ubspx/6xoM8zacHf3iTabE95PY85nE
+	+s4PzlvobSdaFWvmvD7UsMCYdbuCl9jGRnnFbLzNwNo=
+X-Google-Smtp-Source: AGHT+IHK2KDzhIt68MjkOew8+0ynFBPykBHBW0JWlGbcvjRJxnfeN213vuCJpkbuwwJfUjUouQWekQ==
+X-Received: by 2002:adf:ae59:0:b0:38a:88b8:97a9 with SMTP id ffacd0b85a97d-38a88b898b4mr2057382f8f.2.1736354238605;
+        Wed, 08 Jan 2025 08:37:18 -0800 (PST)
+Received: from orome (p200300e41f281900f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f28:1900:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c832c45sm52816674f8f.32.2025.01.08.08.37.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2025 08:37:17 -0800 (PST)
+Date: Wed, 8 Jan 2025 17:37:15 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-leds@vger.kernel.org, linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Correct indentation and style in DTS example
+Message-ID: <6ugtusk3yhbr4rbuzompfb2apequpxtdpy3zk3xmrhowpne3nw@2h5cvtpd6qsw>
+X-NVConfidentiality: public
+References: <20250107131456.247610-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/5] i3c: mipi-i3c-hci: use parity8 helper instead of
- open coding it
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-References: <20250107090204.6593-1-wsa+renesas@sang-engineering.com>
- <20250107090204.6593-5-wsa+renesas@sang-engineering.com>
- <3117d2d9-260a-4e02-8c22-4e078e01ddd5@linux.intel.com>
- <Z3515cBvz3yChGoL@ninjato>
-Content-Language: en-US
-From: Jarkko Nikula <jarkko.nikula@linux.intel.com>
-In-Reply-To: <Z3515cBvz3yChGoL@ninjato>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3vdnth2dvkpxqrns"
+Content-Disposition: inline
+In-Reply-To: <20250107131456.247610-1-krzysztof.kozlowski@linaro.org>
 
-On 1/8/25 2:56 PM, Wolfram Sang wrote:
-> 
->> Stable rules allow also cherry picking additional patches. To me picking
->> patch 1 and 4 sounds better than an intermediate fix since bug has been here
->> from the beginning. IMHO not so urgent than a regression.
-> 
-> Even then, doesn't that mean that the series needs to be applied
-> upstream first before it can go to stable? How to describe the
-> dependency commit id otherwise? Either Alexandre adds this when
-> applying, or some interested party ;) sends a backport request to
-> stable. Or am I missing something?
-> 
-Yes, the latter case was in my mind that whoever runs this driver on 
-earlier stable kernel and has enough devices on the bus where previous 
-code will calculate wrong can request the backport or at least be vocal 
-about it :-)
 
-I'd say backporting back to 9ad9a52cce28 ("i3c/master: introduce the 
-mipi-i3c-hci driver") is also needless because driver needs other fixes 
-in order to be really usable.
+--3vdnth2dvkpxqrns
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] dt-bindings: Correct indentation and style in DTS example
+MIME-Version: 1.0
+
+On Tue, Jan 07, 2025 at 02:14:56PM +0100, Krzysztof Kozlowski wrote:
+> DTS example in the bindings should be indented with 2- or 4-spaces and
+> aligned with opening '- |', so correct any differences like 3-spaces or
+> mixtures 2- and 4-spaces in one binding.
+>=20
+> No functional changes here, but saves some comments during reviews of
+> new patches built on existing code.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>=20
+> ---
+>=20
+> This applies cleanly on v6.13-rc6 and on next-20250107, so I expect no
+> conflicts between Rob's tree and other maintainers' trees.
+>=20
+> Rob,
+> Can you apply it to DT tree?
+> ---
+>  .../arm/arm,trace-buffer-extension.yaml       |  10 +-
+>  .../bindings/arm/stm32/st,mlahb.yaml          |  20 +-
+>  .../bindings/dsp/mediatek,mt8195-dsp.yaml     |  42 ++--
+>  ...ntel,ixp4xx-network-processing-engine.yaml |  52 ++---
+>  .../bindings/fpga/xlnx,versal-fpga.yaml       |   2 +-
+>  .../bindings/interconnect/qcom,rpmh.yaml      |  28 +--
+>  .../bindings/iommu/riscv,iommu.yaml           |   6 +-
+>  .../devicetree/bindings/leds/leds-mt6360.yaml | 195 +++++++++---------
+>  .../devicetree/bindings/mips/brcm/soc.yaml    |  42 ++--
+>  .../misc/intel,ixp4xx-ahb-queue-manager.yaml  |   6 +-
+>  .../devicetree/bindings/mmc/renesas,sdhi.yaml |  78 +++----
+>  .../bindings/mtd/technologic,nand.yaml        |   2 +-
+>  .../bindings/nvmem/amlogic,meson6-efuse.yaml  |   2 +-
+>  .../bindings/pci/ti,j721e-pci-ep.yaml         |  34 +--
+>  .../bindings/power/reset/qcom,pon.yaml        |  62 +++---
+>  .../nvidia,tegra264-bpmp-shmem.yaml           |  15 +-
+>  .../bindings/rtc/renesas,rzn1-rtc.yaml        |  22 +-
+>  .../amlogic/amlogic,meson-gx-hhi-sysctrl.yaml |  26 +--
+>  .../bindings/soc/qcom/qcom,eud.yaml           |  38 ++--
+>  .../bindings/soc/ti/wkup-m3-ipc.yaml          |  32 +--
+>  20 files changed, 357 insertions(+), 357 deletions(-)
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--3vdnth2dvkpxqrns
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmd+qbsACgkQ3SOs138+
+s6HTwg/9FTrBpsyb2c6RxUphewMFJvl+V6nLpfbmnIG7/hlhP5n2Rosba8pnC16d
+JnflQ606ls+DtDBqIImY3LYZcPjcRx/ddXj/H3o2NLFsbbTmOKGEJ6SPhi/YR4Is
+AFQMkKbLiMldJyCEH9X+NMmIOEGN44f9eHb6CSpLTAsgPYi2Ppi20vtS+ktX2N8V
+9hoO0I8YspPvsj3TqOf1vzPMM9aEb7L6norpLMW8MMIWnkUInUhW5gyxs/OPNma4
+OJs7ev/OrjPkBxACJwgiLtBGTVJR56080XgSm7GRqVMnR6NhOGMN/g5x/rrBjy0F
+5gprsK059F7h3/oyI5Wn315lnjP9VPjC0OIF08WHRlo0c5zA8TDKYQACT6obPHUh
+04nYCErIHSixvHlX91uKHGhfHA79vbttEXCIwrXiuUVOTcoMZBGCzv9njLBIoPdl
+v5wzOIzZ+V66lAbWRGTjMcRjO1bx0vM+QpmHvjlEQubggzHG0csIRQB/68wk6min
+F+kvzSh1aTJkTNUOYn6BBtbzqjCf8y5NHidBSXBWXhP308OXkwy7fUGqIfrIny7T
+41KrDRyFAMooM175JQmuMExgOcRi6fGKmvKQ0MXsNR4FTt9NZ5rvTnkxi1qH8uWv
+68sSPZB2xOA8iPax09mEhKUKuyYQPa+Ue1EZlHtc75XMisXE1SQ=
+=bVty
+-----END PGP SIGNATURE-----
+
+--3vdnth2dvkpxqrns--
 
