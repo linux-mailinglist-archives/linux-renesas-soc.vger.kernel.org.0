@@ -1,108 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-11943-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11944-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74070A04E2F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 01:35:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB6CA05285
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 06:12:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D7327A06F3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 00:35:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 69E34163ED9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 05:12:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D51EC6FC5;
-	Wed,  8 Jan 2025 00:35:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EBC21A01CC;
+	Wed,  8 Jan 2025 05:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="LWugbcXw"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="DdZ8lsYt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Received: from out203-205-221-205.mail.qq.com (out203-205-221-205.mail.qq.com [203.205.221.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA5D25949C;
-	Wed,  8 Jan 2025 00:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E366919CC14;
+	Wed,  8 Jan 2025 05:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736296523; cv=none; b=pdlEsFNf2O5iAd+ZiWYjbfBLH/t2q6ROsXzzTnFHsJCDSdqdn/VT/8KU2HCs2GIJwF4mLpUpSha49jL3kPYFE+qX3cu2MYEtNl/22IQ+sg56GBJmcKvL0oVQOrb5djlR6dS/LWkOzQIT5pS05QxcKQR2E7ZsfaH4ipollRbnyCw=
+	t=1736313164; cv=none; b=K5pDHql5FwLJKM04GtbI7SeJP2b6d4yjamuFbJMjNNUL1DnoAOEKghdBUYWPqSmnXwz6eFf+6CZkMwet6hPMPTJaQ57xmLn8uAVuoc2HhAQ2qXKqHPiVa8FKEc4P3M+J4Hvg+uiKnp9K3RoPo/qYuTJ73CleaRExg3IMulkmhto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736296523; c=relaxed/simple;
-	bh=CGtf0U2QWath+kQBWiGScXsK40BA3Bpp91eZ5jHTv+o=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oMmNkbpYLsY1g8YdwKLNCR+wt6QDc7kGQgjmaTUmFwi9s7bd8kR5wBNmXiPfGHFxUJ1TRPPn4Ymo/VjDh+gwQDvGAR1E/nI4Bmki9KeaaTCnT9/oT8wTsL2VCg4++AsaHBsq7GqeUmCVoeqfrvXXWTGDozYLiWEJZxzf7aGkK8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=LWugbcXw; arc=none smtp.client-ip=203.29.241.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1736296518;
-	bh=CGtf0U2QWath+kQBWiGScXsK40BA3Bpp91eZ5jHTv+o=;
-	h=Subject:From:To:Date:In-Reply-To:References;
-	b=LWugbcXwyQ2jmJE0FpuMAzMD5WQrpJxWPGSomgMn6vElvDZGGzvzADUdG90a++wCa
-	 ti+EOrg14yaVMAFkiLk/FCoTcpMTerokvinOMT/TZuesb+Ukx66Qc2oYOYVCu39wBU
-	 7cTWBtpDi6GYuSYp2nPAwiKge9cCPo3pN9LwJY/77pj93i2eRe3Il6Qj5U/6cfUpF3
-	 Ns5leRi97JmVr9IiiBTCfBq/g5eqC94V6zKhaPLWmKat+DBDz+Dn90bySdlpm8H+bu
-	 SQ9BYe+zoTct0QqFM7azgR6JydzCvf4zuwpeceC9j00oNR+RjcsemHbbICWO0YRb83
-	 GZeHxlfd3QwCw==
-Received: from [192.168.68.112] (ppp118-210-64-24.adl-adc-lon-bras32.tpg.internode.on.net [118.210.64.24])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 93F8E70801;
-	Wed,  8 Jan 2025 08:35:12 +0800 (AWST)
-Message-ID: <cf3d472b843eeedcb718013c38612cfb33cd0cdc.camel@codeconstruct.com.au>
-Subject: Re: [PATCH] dt-bindings: usb: Correct indentation and style in DTS
- example
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel
- Stanley <joel@jms.id.au>,  Justin Chen <justin.chen@broadcom.com>, Al
- Cooper <alcooperx@gmail.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Thierry Reding
- <thierry.reding@gmail.com>,  Jonathan Hunter <jonathanh@nvidia.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
- <magnus.damm@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-  Florian Fainelli <f.fainelli@gmail.com>, Benjamin Bara
- <benjamin.bara@skidata.com>, Bjorn Andersson <andersson@kernel.org>, Ahmad
- Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,  Del Regno
- <angelogioacchino.delregno@collabora.com>, Tianping Fang
- <tianping.fang@mediatek.com>,  Jassi Brar <jaswinder.singh@linaro.org>,
- Biju Das <biju.das.jz@bp.renesas.com>, Yoshihiro Shimoda
- <yoshihiro.shimoda.uh@renesas.com>, Francesco Dolcini
- <francesco.dolcini@toradex.com>, Macpaul Lin <macpaul.lin@mediatek.com>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-Date: Wed, 08 Jan 2025 11:05:11 +1030
-In-Reply-To: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
-References: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1736313164; c=relaxed/simple;
+	bh=khBrMLfjUOheD5NaxrhTuBlaiuDNNaFmShvp6bqtsj0=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=fECznJ7iTh8u+tzh/WEaYGjwCi0omVmWlKXCgm2mj15z+t3OWHmQyX2slaY/24SvNf/5p5NiRJcMdzz7QMN7T235SJNlVXj04fpJnxb3xMFMnfmosA7cIdEAfgEmr/0wEtztWVUnFiI3D9isHPmQzPfaczBxDdR5XqdtJkc6PEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=DdZ8lsYt; arc=none smtp.client-ip=203.205.221.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1736313157; bh=xLoT2B7MZW5ZVyM6/KQK5x4O9Hsj4Lww6F+8a3FHJYQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=DdZ8lsYtvhGXChb/UokKL1PKMGphOBReachvAigfrn4Y9v1jYHJ0FfwNyerf94L7k
+	 jfEVTbh8Qg4lUNU+GQCWQTn9ZFlRl5DCsHok+VLQvjWQ1tj9DLvQr0tBcKH9PKqLRu
+	 eQm76AJd6CtCC5J90cNwVHhesTmK9+zqID/cmfdw=
+Received: from Ubuntu.. ([240e:305:25d4:e300:6504:4e8:136:29f6])
+	by newxmesmtplogicsvrszb16-1.qq.com (NewEsmtp) with SMTP
+	id ECB9905B; Wed, 08 Jan 2025 12:59:11 +0800
+X-QQ-mid: xmsmtpt1736312351tvaoiggkk
+Message-ID: <tencent_D3EAA236B531BDF17998832CC18EC36CBC07@qq.com>
+X-QQ-XMAILINFO: NpQVNvxcCxoX8TNGU8NY7MBWaducvYQ+XDS3twY6HHTAjZovsDwcVCRUoQ7nVY
+	 /32fTYslzR54mHn9DV2e64peiTX8ckRqv3GOIJIqpgM8dBIiSJ0Z1e/z96exUqNkYWJudpubPWg0
+	 dBvaHGL2lQhk/L+KMbpNXaSVqbz3aWqt+nBr71ga99aKypBFzC8VNwQU/6yTh+04FrEBn5yOABfK
+	 k1dTwwyBRPIOoZ+ZaeTK2Ne3Id2r5KRzfB7roRgxUTRi/k5TShwSx7QUtZwf24dmopkr5aAYXNHX
+	 bYIkO2sOqXEVXPZrVfAm2RK7y1vE4T9xF1SygklGhli/cOZ19c8wognw82/X+78gqAPY9JjC5FKM
+	 5ywlBFYVN7CWzathtyFGMWXF+MGrWp9VkV8AbXKisS/uyj29LJoAwemZ1FFdIcuQFD8CV9eeZUne
+	 TFXBE6M1gzh9chDeWPHEKhab75SmEUULcHOOAi2jeUXIKz4+8V6fXFV4MdTZr9m/O8vS1UcWf1kN
+	 nNI2uTHe4BMelRwOW59ZJnEKpqDDeGBAITLC3T3jrLfxWKbM6+hdOLohQ+aQY2BlZ8srNGnT1eRH
+	 upX5Z6JNc+n7SWkmgyMz14Qx1Zp2D6iKEOeY39K+t8uCj+/k94Ib5NyDXqGKcrW7D1/qzTgLQ4KF
+	 ZBjrDyJzUiw67r1P5FKlM08yvGktd6wvC+oc5VidELrGFV/RaQdjx+Et/0NgaCUAHpU43QG8deK5
+	 ekCcpX0pezYV6+tRfYKFuK4pazqfBfmfb9fg4Is7qkA7QYC55kQSbWXp+nyWhdmPalKSjUQz1k/d
+	 zhxQx9fjnvAqcTcer3burJnTp5S1kZpqBl38ih5Kz7meu0HsC8uJUpDAMUz1hi0Ceppm1PQz7zqX
+	 J6vXKeZLnFR4NOnv/ibX1mS/mRmiNtzbnvDCNb9xyridTRqnfFNz6ydjeckzlAt0DFLEh+XndOyh
+	 g1y6kJsYee4vWB3nt27WUdVHSay2xyJLb9R8EM6/kp9apmRXA9mXi5NTC2P34JqxVU4Fx7udZ3/G
+	 269AphT98A6Dzl6VaCcHjbM3SrK03Vzmf4fKoHVzQutu6LZbrK0tkPCtBmtQGbcoaXbBEEt4WN/H
+	 GjlKqprDTgJU+jNOk=
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+From: kingdix10@qq.com
+To: helgaas@kernel.org
+Cc: bhelgaas@google.com,
+	kingdix10@qq.com,
+	kw@linux.com,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	lpieralisi@kernel.org,
+	manivannan.sadhasivam@linaro.org,
+	marek.vasut+renesas@gmail.com,
+	prabhakar.csengg@gmail.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	robh@kernel.org,
+	yoshihiro.shimoda.uh@renesas.com
+Subject: Re: Re: [PATCH v4] PCI: rcar-ep: Fix the issue of the name parameter when calling devm_request_mem_region
+Date: Wed,  8 Jan 2025 12:59:11 +0800
+X-OQ-MSGID: <20250108045911.2112164-1-kingdix10@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250107225653.GA189000@bhelgaas>
+References: <20250107225653.GA189000@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2025-01-07 at 14:10 +0100, Krzysztof Kozlowski wrote:
-> DTS example in the bindings should be indented with 2- or 4-spaces
-> and
-> aligned with opening '- |', so correct any differences like 3-spaces
-> or
-> mixtures 2- and 4-spaces in one binding.
->=20
-> No functional changes here, but saves some comments during reviews of
-> new patches built on existing code.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-> =C2=A0.../bindings/usb/aspeed,usb-vhub.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 40 +++++++++--------
-> --
+On Tue, 2025-01-07 at 16:56 -0600, Bjorn Helgaas wrote:
+> On Tue, Jan 07, 2025 at 09:51:23PM +0800, kingdix10@qq.com wrote:
+> > From: King Dix <kingdix10@qq.com>
+> > 
+> > When using devm_request_mem_region to request a resource, if the
+> > passed
+> > variable is a stack string variable, it will lead to an oops issue
+> > when
+> > executing the command cat /proc/iomem.
+> > 
+> > Fix this by replacing outbound_name with the name of the previously
+> > requested resource.
+> 
+> Thanks a lot for doing this work!
+> 
+> Add "()" after function names in subject and commit log.
+> 
 
-Acked-by: Andrew Jeffery <andrew@codeconstruct.com.au> # aspeed,usb-vhub.ya=
-ml
+Thanks for your review. I will fix the issue right now.
 
-Cheers,
+> Please include a couple lines of the oops message to help people
+> connect the problem with the fix.
+> 
 
-Andrew
+This is a potential issue that I found while analyzing the code. I don't
+have the conditions to reproduce this issue, but I can write a driver to
+reproduce this issue in QEMU and obtain logs for reference.
+
+> I suppose you found this by tripping over it.  Can you look through
+> the other callers of devm_request_mem_region() and similar
+> interfaces,
+> at least in drivers/pci, and make sure there are no other similar
+> errors?
+> 
+
+I've already checked that there are only a few calls of 
+devm_request_mem_region() under the drivers/pci directory, and they
+are all correct. 
+
+> > Fixes: 2a6d0d63d999 ("PCI: rcar: Add endpoint mode support")
+> > 
+> > Signed-off-by: King Dix <kingdix10@qq.com>
+> > Reviewed-by: Lad Prabhakar
+> > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > Changes in v4:
+> >   - Add more information to the comment.
+> > Changes in v3:
+> >   - Fix the spelling issue in the comment.
+> > Changes in v2:
+> >   - Fix the code indentation issue.
+> > ---
+> >  drivers/pci/controller/pcie-rcar-ep.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/pci/controller/pcie-rcar-ep.c
+> > b/drivers/pci/controller/pcie-rcar-ep.c
+> > index 047e2cef5afc..c5e0d025bc43 100644
+> > --- a/drivers/pci/controller/pcie-rcar-ep.c
+> > +++ b/drivers/pci/controller/pcie-rcar-ep.c
+> > @@ -107,7 +107,7 @@ static int
+> > rcar_pcie_parse_outbound_ranges(struct rcar_pcie_endpoint *ep,
+> >  		}
+> >  		if (!devm_request_mem_region(&pdev->dev, res->start,
+> >  					     resource_size(res),
+> > -					     outbound_name)) {
+> > +					     res->name)) {
+> >  			dev_err(pcie->dev, "Cannot request memory region %s.\n",
+> >  				outbound_name);
+> >  			return -EIO;
+> > -- 
+> > 2.43.0
+> > 
+
 
