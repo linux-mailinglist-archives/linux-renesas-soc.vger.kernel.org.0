@@ -1,166 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-11944-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB6CA05285
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 06:12:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4C9A05339
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 07:31:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 69E34163ED9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 05:12:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75EE21881893
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2025 06:31:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EBC21A01CC;
-	Wed,  8 Jan 2025 05:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DC131991C9;
+	Wed,  8 Jan 2025 06:30:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="DdZ8lsYt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atauYL2B"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out203-205-221-205.mail.qq.com (out203-205-221-205.mail.qq.com [203.205.221.205])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E366919CC14;
-	Wed,  8 Jan 2025 05:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFF63FBB3
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jan 2025 06:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736313164; cv=none; b=K5pDHql5FwLJKM04GtbI7SeJP2b6d4yjamuFbJMjNNUL1DnoAOEKghdBUYWPqSmnXwz6eFf+6CZkMwet6hPMPTJaQ57xmLn8uAVuoc2HhAQ2qXKqHPiVa8FKEc4P3M+J4Hvg+uiKnp9K3RoPo/qYuTJ73CleaRExg3IMulkmhto=
+	t=1736317857; cv=none; b=Cl8a4U5bVU4bK25SIDHIRVf93U5LxbfU2S/W0kHQ/7J9d0d2tb/VRGLcw3Qb53PbVl16cEOg8QiVQCvp0PWTs86l+qrjWq374nyze4f5hltOXVhxFEi2tkfuqrxvTSbMweTKPKvl9ZASPdhUO0boFWeeS2Nmw7fkbtwGo1ydn2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736313164; c=relaxed/simple;
-	bh=khBrMLfjUOheD5NaxrhTuBlaiuDNNaFmShvp6bqtsj0=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=fECznJ7iTh8u+tzh/WEaYGjwCi0omVmWlKXCgm2mj15z+t3OWHmQyX2slaY/24SvNf/5p5NiRJcMdzz7QMN7T235SJNlVXj04fpJnxb3xMFMnfmosA7cIdEAfgEmr/0wEtztWVUnFiI3D9isHPmQzPfaczBxDdR5XqdtJkc6PEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=DdZ8lsYt; arc=none smtp.client-ip=203.205.221.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1736313157; bh=xLoT2B7MZW5ZVyM6/KQK5x4O9Hsj4Lww6F+8a3FHJYQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=DdZ8lsYtvhGXChb/UokKL1PKMGphOBReachvAigfrn4Y9v1jYHJ0FfwNyerf94L7k
-	 jfEVTbh8Qg4lUNU+GQCWQTn9ZFlRl5DCsHok+VLQvjWQ1tj9DLvQr0tBcKH9PKqLRu
-	 eQm76AJd6CtCC5J90cNwVHhesTmK9+zqID/cmfdw=
-Received: from Ubuntu.. ([240e:305:25d4:e300:6504:4e8:136:29f6])
-	by newxmesmtplogicsvrszb16-1.qq.com (NewEsmtp) with SMTP
-	id ECB9905B; Wed, 08 Jan 2025 12:59:11 +0800
-X-QQ-mid: xmsmtpt1736312351tvaoiggkk
-Message-ID: <tencent_D3EAA236B531BDF17998832CC18EC36CBC07@qq.com>
-X-QQ-XMAILINFO: NpQVNvxcCxoX8TNGU8NY7MBWaducvYQ+XDS3twY6HHTAjZovsDwcVCRUoQ7nVY
-	 /32fTYslzR54mHn9DV2e64peiTX8ckRqv3GOIJIqpgM8dBIiSJ0Z1e/z96exUqNkYWJudpubPWg0
-	 dBvaHGL2lQhk/L+KMbpNXaSVqbz3aWqt+nBr71ga99aKypBFzC8VNwQU/6yTh+04FrEBn5yOABfK
-	 k1dTwwyBRPIOoZ+ZaeTK2Ne3Id2r5KRzfB7roRgxUTRi/k5TShwSx7QUtZwf24dmopkr5aAYXNHX
-	 bYIkO2sOqXEVXPZrVfAm2RK7y1vE4T9xF1SygklGhli/cOZ19c8wognw82/X+78gqAPY9JjC5FKM
-	 5ywlBFYVN7CWzathtyFGMWXF+MGrWp9VkV8AbXKisS/uyj29LJoAwemZ1FFdIcuQFD8CV9eeZUne
-	 TFXBE6M1gzh9chDeWPHEKhab75SmEUULcHOOAi2jeUXIKz4+8V6fXFV4MdTZr9m/O8vS1UcWf1kN
-	 nNI2uTHe4BMelRwOW59ZJnEKpqDDeGBAITLC3T3jrLfxWKbM6+hdOLohQ+aQY2BlZ8srNGnT1eRH
-	 upX5Z6JNc+n7SWkmgyMz14Qx1Zp2D6iKEOeY39K+t8uCj+/k94Ib5NyDXqGKcrW7D1/qzTgLQ4KF
-	 ZBjrDyJzUiw67r1P5FKlM08yvGktd6wvC+oc5VidELrGFV/RaQdjx+Et/0NgaCUAHpU43QG8deK5
-	 ekCcpX0pezYV6+tRfYKFuK4pazqfBfmfb9fg4Is7qkA7QYC55kQSbWXp+nyWhdmPalKSjUQz1k/d
-	 zhxQx9fjnvAqcTcer3burJnTp5S1kZpqBl38ih5Kz7meu0HsC8uJUpDAMUz1hi0Ceppm1PQz7zqX
-	 J6vXKeZLnFR4NOnv/ibX1mS/mRmiNtzbnvDCNb9xyridTRqnfFNz6ydjeckzlAt0DFLEh+XndOyh
-	 g1y6kJsYee4vWB3nt27WUdVHSay2xyJLb9R8EM6/kp9apmRXA9mXi5NTC2P34JqxVU4Fx7udZ3/G
-	 269AphT98A6Dzl6VaCcHjbM3SrK03Vzmf4fKoHVzQutu6LZbrK0tkPCtBmtQGbcoaXbBEEt4WN/H
-	 GjlKqprDTgJU+jNOk=
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-From: kingdix10@qq.com
-To: helgaas@kernel.org
-Cc: bhelgaas@google.com,
-	kingdix10@qq.com,
-	kw@linux.com,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	lpieralisi@kernel.org,
-	manivannan.sadhasivam@linaro.org,
-	marek.vasut+renesas@gmail.com,
-	prabhakar.csengg@gmail.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	robh@kernel.org,
-	yoshihiro.shimoda.uh@renesas.com
-Subject: Re: Re: [PATCH v4] PCI: rcar-ep: Fix the issue of the name parameter when calling devm_request_mem_region
-Date: Wed,  8 Jan 2025 12:59:11 +0800
-X-OQ-MSGID: <20250108045911.2112164-1-kingdix10@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250107225653.GA189000@bhelgaas>
-References: <20250107225653.GA189000@bhelgaas>
+	s=arc-20240116; t=1736317857; c=relaxed/simple;
+	bh=IjkclrmqSIcXYRD7muME1x7AB0ThwAKDgQ8+z8yPJ8I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oRU/O3ev84UdhUorV44kthoyUXxCTzTXEcVK8+tEXthg0iiQK5nGXQr9D/mmaeTwE0PB6w+LhafyKbzXwKMnE1PZaSdTFoCujEuwBJKz1qIS88ByygIbVnZ7EeulskOOSPU3cR0AeNMhkNci0nSMdl2dwgeKgFrL/nQddHgAMNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atauYL2B; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736317855; x=1767853855;
+  h=date:from:to:cc:subject:message-id;
+  bh=IjkclrmqSIcXYRD7muME1x7AB0ThwAKDgQ8+z8yPJ8I=;
+  b=atauYL2BkQT/+i5BU7RLRXvwBpoKwPf9MV2EiIjXDq5NQrLMMfV0tTP8
+   yQx/JT+ob2fAviIT7+rVYsGhL5wYz6BDx0BhAuz7YTPt9VnfwQgbvHF9Q
+   NAt1RKoqxvnGU8bTMcYuFwBzNkPBHdI9hn01PKPn1UN78zkryulszBFMC
+   zTvpcsTRrCb+MdbOugIRhkr+BtzixoJU8kRkbC4cDKg/zoT6hycj0zOyd
+   dzshjlZW3AQZVvKiyUhEzd0y8qpgN9tQ+TQur3cD+GNhxLdcv2SBdITUI
+   rwDbWcjtRWV/KAGWrrBuDwq0bCgAG7ns5IzRQB8eF5W94kqh6pjt7p1wb
+   g==;
+X-CSE-ConnectionGUID: UK6sugOXQ1WOpJxCIAoG0g==
+X-CSE-MsgGUID: 1+WR7CsOTPq95hTX+4vWcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36689259"
+X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
+   d="scan'208";a="36689259"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 22:30:55 -0800
+X-CSE-ConnectionGUID: OkWtoe0SQC+MqlRJXPTiYQ==
+X-CSE-MsgGUID: mZ88HigXTHCzWbqbIs92mQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="133896147"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 07 Jan 2025 22:30:54 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tVPad-000Fh9-2w;
+	Wed, 08 Jan 2025 06:30:51 +0000
+Date: Wed, 08 Jan 2025 14:30:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk-for-v6.14] BUILD SUCCESS
+ e91609f1c3b0ce06d80b1b3bd0e6b942782be016
+Message-ID: <202501081453.59537w8o-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Tue, 2025-01-07 at 16:56 -0600, Bjorn Helgaas wrote:
-> On Tue, Jan 07, 2025 at 09:51:23PM +0800, kingdix10@qq.com wrote:
-> > From: King Dix <kingdix10@qq.com>
-> > 
-> > When using devm_request_mem_region to request a resource, if the
-> > passed
-> > variable is a stack string variable, it will lead to an oops issue
-> > when
-> > executing the command cat /proc/iomem.
-> > 
-> > Fix this by replacing outbound_name with the name of the previously
-> > requested resource.
-> 
-> Thanks a lot for doing this work!
-> 
-> Add "()" after function names in subject and commit log.
-> 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.14
+branch HEAD: e91609f1c3b0ce06d80b1b3bd0e6b942782be016  dt-bindings: clock: renesas,r9a08g045-vbattb: Fix include guard
 
-Thanks for your review. I will fix the issue right now.
+elapsed time: 842m
 
-> Please include a couple lines of the oops message to help people
-> connect the problem with the fix.
-> 
+configs tested: 99
+configs skipped: 1
 
-This is a potential issue that I found while analyzing the code. I don't
-have the conditions to reproduce this issue, but I can write a driver to
-reproduce this issue in QEMU and obtain logs for reference.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> I suppose you found this by tripping over it.  Can you look through
-> the other callers of devm_request_mem_region() and similar
-> interfaces,
-> at least in drivers/pci, and make sure there are no other similar
-> errors?
-> 
+tested configs:
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20250108    gcc-13.2.0
+arc                   randconfig-002-20250108    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                              allyesconfig    gcc-14.2.0
+arm                   randconfig-001-20250108    gcc-14.2.0
+arm                   randconfig-002-20250108    gcc-14.2.0
+arm                   randconfig-003-20250108    clang-20
+arm                   randconfig-004-20250108    clang-18
+arm64                            allmodconfig    clang-18
+arm64                 randconfig-001-20250108    gcc-14.2.0
+arm64                 randconfig-002-20250108    clang-20
+arm64                 randconfig-003-20250108    gcc-14.2.0
+arm64                 randconfig-004-20250108    gcc-14.2.0
+csky                  randconfig-001-20250108    gcc-14.2.0
+csky                  randconfig-002-20250108    gcc-14.2.0
+hexagon                          allmodconfig    clang-20
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250108    clang-20
+hexagon               randconfig-002-20250108    clang-20
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250108    clang-19
+i386        buildonly-randconfig-002-20250108    gcc-12
+i386        buildonly-randconfig-003-20250108    gcc-12
+i386        buildonly-randconfig-004-20250108    gcc-12
+i386        buildonly-randconfig-005-20250108    gcc-12
+i386        buildonly-randconfig-006-20250108    clang-19
+i386                                defconfig    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch             randconfig-001-20250108    gcc-14.2.0
+loongarch             randconfig-002-20250108    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250108    gcc-14.2.0
+nios2                 randconfig-002-20250108    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20250108    gcc-14.2.0
+parisc                randconfig-002-20250108    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-16
+powerpc               randconfig-001-20250108    clang-16
+powerpc               randconfig-002-20250108    gcc-14.2.0
+powerpc               randconfig-003-20250108    gcc-14.2.0
+powerpc64             randconfig-001-20250108    clang-18
+powerpc64             randconfig-002-20250108    clang-16
+powerpc64             randconfig-003-20250108    clang-20
+riscv                            allmodconfig    clang-20
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-20
+riscv                 randconfig-001-20250108    gcc-14.2.0
+riscv                 randconfig-002-20250108    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250108    gcc-14.2.0
+s390                  randconfig-002-20250108    gcc-14.2.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20250108    gcc-14.2.0
+sh                    randconfig-002-20250108    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250108    gcc-14.2.0
+sparc                 randconfig-002-20250108    gcc-14.2.0
+sparc64               randconfig-001-20250108    gcc-14.2.0
+sparc64               randconfig-002-20250108    gcc-14.2.0
+um                               allmodconfig    clang-20
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250108    gcc-12
+um                    randconfig-002-20250108    clang-16
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250108    clang-19
+x86_64      buildonly-randconfig-002-20250108    gcc-11
+x86_64      buildonly-randconfig-003-20250108    clang-19
+x86_64      buildonly-randconfig-004-20250108    gcc-12
+x86_64      buildonly-randconfig-005-20250108    gcc-12
+x86_64      buildonly-randconfig-006-20250108    clang-19
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250108    gcc-14.2.0
+xtensa                randconfig-002-20250108    gcc-14.2.0
 
-I've already checked that there are only a few calls of 
-devm_request_mem_region() under the drivers/pci directory, and they
-are all correct. 
-
-> > Fixes: 2a6d0d63d999 ("PCI: rcar: Add endpoint mode support")
-> > 
-> > Signed-off-by: King Dix <kingdix10@qq.com>
-> > Reviewed-by: Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > Changes in v4:
-> >   - Add more information to the comment.
-> > Changes in v3:
-> >   - Fix the spelling issue in the comment.
-> > Changes in v2:
-> >   - Fix the code indentation issue.
-> > ---
-> >  drivers/pci/controller/pcie-rcar-ep.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/pci/controller/pcie-rcar-ep.c
-> > b/drivers/pci/controller/pcie-rcar-ep.c
-> > index 047e2cef5afc..c5e0d025bc43 100644
-> > --- a/drivers/pci/controller/pcie-rcar-ep.c
-> > +++ b/drivers/pci/controller/pcie-rcar-ep.c
-> > @@ -107,7 +107,7 @@ static int
-> > rcar_pcie_parse_outbound_ranges(struct rcar_pcie_endpoint *ep,
-> >  		}
-> >  		if (!devm_request_mem_region(&pdev->dev, res->start,
-> >  					     resource_size(res),
-> > -					     outbound_name)) {
-> > +					     res->name)) {
-> >  			dev_err(pcie->dev, "Cannot request memory region %s.\n",
-> >  				outbound_name);
-> >  			return -EIO;
-> > -- 
-> > 2.43.0
-> > 
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
