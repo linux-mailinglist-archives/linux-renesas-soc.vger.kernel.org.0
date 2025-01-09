@@ -1,105 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-11971-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11972-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90986A07159
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 10:23:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44DF5A07161
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 10:24:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8C273A4945
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 09:23:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F103B1885963
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 09:24:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53A8A21507F;
-	Thu,  9 Jan 2025 09:23:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FCAB2153C4;
+	Thu,  9 Jan 2025 09:24:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tp83uHH+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uoXyB59c"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5FE20409B;
-	Thu,  9 Jan 2025 09:23:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BE320409B;
+	Thu,  9 Jan 2025 09:24:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736414599; cv=none; b=cFK4Z3E/mMEASJ6HgOvtiPWvdg373LRfq51CvuYxzqbwk2WwAczPPzWtkCQdbkrfTuwUIjBRSfJxQ+al3nghuODGTg2lj35awAq0NuSIzW9byWVLOzrWfZQMwsDDlo/uHg1msbkQqXh8R7PSUtVaCLtEiybRz83FDNBK98deAiQ=
+	t=1736414676; cv=none; b=LhtLQ5IAEl2/hYsTtQLsnRIV+20p9hRt66ehBY+S7Q1U7jIR+SGPMQ7DcJlylXVq41H42O+5GO8g+ctWYZ4d8frRP/V7bNSnIUUBiX1mKOs6iV7Htq2eVbxfyYf4xEwXJIUGw45XEGviN/hVrsL+PRGCxpamVgbYWiStmxHL2JU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736414599; c=relaxed/simple;
-	bh=Tm6LaQqvG5mvB+yVP+DebxZJ7+jxBQzzI05WiM+f2/A=;
+	s=arc-20240116; t=1736414676; c=relaxed/simple;
+	bh=zYI5/a4+nQDm4Qrb21GJl+lHZp/djig8Ib4inXwAMOY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tr3K7FMj49AWW4TVyGrBOt8zmcel0ZxSZWofIxWTZwzen50DJWM2/E80xJCHoPAGH06CZwPvWKzK6FtJ+Wqv8/vpzMC2bXWkVT1PEVRGck2oeiBCREpfNUKX0quF5dODI2HGLYnIZJahrpJllHvUkJmqT9kI2zkcVj6tNjFUnJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tp83uHH+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36038C4CED2;
-	Thu,  9 Jan 2025 09:23:18 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=EEHZRW30QDbFkzkc5YvjkgnaEyVXSaigeWqSCNezLwxa9DQ1GY+lqGjgyVnDlTUVWIRBAnKwW0nv28F2oWsiYNOB0/iwLtFJO2ThQz0v5ExbX3g5kHANhUzoIYyOOqw2tm2UrdvDz+Jd6pn4bMh+TGmbkgEN5wqdSoBcnksdC1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uoXyB59c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 887A8C4CED2;
+	Thu,  9 Jan 2025 09:24:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736414598;
-	bh=Tm6LaQqvG5mvB+yVP+DebxZJ7+jxBQzzI05WiM+f2/A=;
+	s=k20201202; t=1736414675;
+	bh=zYI5/a4+nQDm4Qrb21GJl+lHZp/djig8Ib4inXwAMOY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Tp83uHH+aaKF3+9eezlVgg39zvp9B85sX1w9kyI4B/NwEkZeJRLbuCFfLCQgTfyMP
-	 MOeLTwAgnIzx8VMbcpq4NJjTWOWTVFNWg43alIy1vFiI5Wc67179OIQ5F201ovf0+n
-	 zRmII+zKSB5F6pPqLlG7n1WJpmLk5nbNbdmNTzs8q9fgJGpALaqcwJk6p2YrSQ0GG9
-	 vj2KiV4isWhxwCCgnQ09g9bhSM20Pcwsp/PEBS7J/Maa3mdEDkf41/1n1vuauhes73
-	 2sxKIGF76zI/oPvahvyHlhV7u4kRAk35IKX8nx7EevCOPxNB/KUjtZQyD/BkOJDzYN
-	 lZA7CzFuDO8wQ==
-Date: Thu, 9 Jan 2025 10:23:16 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: kernel test robot <lkp@intel.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v23 3/4] pwm: Add support for RZ/G2L GPT
-Message-ID: <b7woae7iquvuzs4vcollns7qcyand4ginrbjqs75bnsiockrjc@c4pyody6zdcr>
-References: <20241217132921.169640-4-biju.das.jz@bp.renesas.com>
- <202412182358.9wma1UUE-lkp@intel.com>
- <TY3PR01MB11346CC402843A628226F5C6186122@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	b=uoXyB59clN1btqwzo6+Y9QiuFzUI+eig6LNvziN4YaR2SldPrmJityt8X5f0jqZuL
+	 ib6EtzfQPsgv8Dq+vpekJjJd8BooFL1NqwI5td5TxD1buKRSLmebrlTaipFxmn5NXj
+	 2NSWdic3zThWezhOMoK41ORMFeTiMgiOATeLsHrffXxIveekKaH/zUtF3+9rUSffur
+	 CBOVPvlaUxHjheJTOL0BMsAAKnmKE8YvlMTX3BQMe/e/9guHOWQGEARhPbot5C28JO
+	 cKBsAWEBUy9Hfawp3c/IavJddZmb72sHXuK6M5c4NnSIMdyex8DtI8kU8xKo3FXoDG
+	 BG5qfDcKslkLw==
+Date: Thu, 9 Jan 2025 09:24:29 +0000
+From: Lee Jones <lee@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
+	linux-leds@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Correct indentation and style in DTS example
+Message-ID: <20250109092429.GC6763@google.com>
+References: <20250107131456.247610-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4b5d23alxi7ewmst"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <TY3PR01MB11346CC402843A628226F5C6186122@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250107131456.247610-1-krzysztof.kozlowski@linaro.org>
 
+On Tue, 07 Jan 2025, Krzysztof Kozlowski wrote:
 
---4b5d23alxi7ewmst
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v23 3/4] pwm: Add support for RZ/G2L GPT
-MIME-Version: 1.0
+> DTS example in the bindings should be indented with 2- or 4-spaces and
+> aligned with opening '- |', so correct any differences like 3-spaces or
+> mixtures 2- and 4-spaces in one binding.
+> 
+> No functional changes here, but saves some comments during reviews of
+> new patches built on existing code.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> This applies cleanly on v6.13-rc6 and on next-20250107, so I expect no
+> conflicts between Rob's tree and other maintainers' trees.
+> 
+> Rob,
+> Can you apply it to DT tree?
+> ---
+>  .../arm/arm,trace-buffer-extension.yaml       |  10 +-
+>  .../bindings/arm/stm32/st,mlahb.yaml          |  20 +-
+>  .../bindings/dsp/mediatek,mt8195-dsp.yaml     |  42 ++--
+>  ...ntel,ixp4xx-network-processing-engine.yaml |  52 ++---
+>  .../bindings/fpga/xlnx,versal-fpga.yaml       |   2 +-
+>  .../bindings/interconnect/qcom,rpmh.yaml      |  28 +--
+>  .../bindings/iommu/riscv,iommu.yaml           |   6 +-
 
-Hello Biju,
+>  .../devicetree/bindings/leds/leds-mt6360.yaml | 195 +++++++++---------
 
-On Wed, Jan 08, 2025 at 02:13:09PM +0000, Biju Das wrote:
-> Please let me know, if there is any feedback for this patch series or any new API to be adapted in next
-> kernel version which simplifies the code, So that I can send next version.
+Acked-by: Lee Jones <lee@kernel.org>
 
-I didn't look, but if you're ambitious you can convert your driver to
-the waveform callbacks. Otherwise I didn't take a look into this
-revision yet (also because of the kernel bot message).
+>  .../devicetree/bindings/mips/brcm/soc.yaml    |  42 ++--
+>  .../misc/intel,ixp4xx-ahb-queue-manager.yaml  |   6 +-
+>  .../devicetree/bindings/mmc/renesas,sdhi.yaml |  78 +++----
+>  .../bindings/mtd/technologic,nand.yaml        |   2 +-
+>  .../bindings/nvmem/amlogic,meson6-efuse.yaml  |   2 +-
+>  .../bindings/pci/ti,j721e-pci-ep.yaml         |  34 +--
+>  .../bindings/power/reset/qcom,pon.yaml        |  62 +++---
+>  .../nvidia,tegra264-bpmp-shmem.yaml           |  15 +-
+>  .../bindings/rtc/renesas,rzn1-rtc.yaml        |  22 +-
+>  .../amlogic/amlogic,meson-gx-hhi-sysctrl.yaml |  26 +--
+>  .../bindings/soc/qcom/qcom,eud.yaml           |  38 ++--
+>  .../bindings/soc/ti/wkup-m3-ipc.yaml          |  32 +--
+>  20 files changed, 357 insertions(+), 357 deletions(-)
 
-Best regards
-Uwe
-
---4b5d23alxi7ewmst
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmd/lYEACgkQj4D7WH0S
-/k7A2Qf8DVvH01S3oLDrc2muN/tozO0je67gkpPNLtD3r8B8Z+BW2w3rGC+C1M1i
-ButK1Ug7mr72IbPhZwMwyrKxfVVgElPWCAiDXQ8lu024qVFNQ0UvZW7dkafYrwQH
-+jymUGeh+ozMrPUsOUvfhXP9a3RV0RyTNzzY8ODRW8bRsBOdqxte+4Qmr9YFIoft
-WyQMCwFqmiJ/ZaQC51MHcpaGl4Zd/Z5goUoG8plDyf4Zp342dLeSW7dV97J32dJU
-WjGIXWpDsI9Ra9HrDtJcDFZHrvti103fbhqGNBPnn+A6pJuVktrJp7BCJ8yIQ5B8
-IxbS6fj+Kq4rxDVAEhX3lET7qetrpg==
-=mzbC
------END PGP SIGNATURE-----
-
---4b5d23alxi7ewmst--
+-- 
+Lee Jones [李琼斯]
 
