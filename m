@@ -1,106 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-12019-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12020-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C28A07C03
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 16:30:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52DA5A07CD5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 17:06:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 913B8188378C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 15:30:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5843916131C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 16:06:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CA0021C191;
-	Thu,  9 Jan 2025 15:30:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4479221E092;
+	Thu,  9 Jan 2025 16:06:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eIxB82DP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQDMDbfd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C49249E5;
-	Thu,  9 Jan 2025 15:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C94F21D5B1;
+	Thu,  9 Jan 2025 16:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736436648; cv=none; b=bUCRLajdUKNf+L51MOd1BzN3NMHPNi5YWDMpUvLd9pl/POakdZzWtjB/xIlhOMXM3jlI4TBtV0/XkgBrmC+QkgOmWjHQqjd45tBgxYulotjdjZMZ0a+N4lqXLkDkVDwxiPXUySzXNilsAw1Q7Ya5VchkWOeTRTlmI4A9IyHGNvA=
+	t=1736438774; cv=none; b=iNVqD5zKVtuKs5d0WBIl+Fl9qPInKzLBcCxmkb/e4qS/rLo24SrHBRcbjL7KDCEg28rX1A4fwBDbzQ/9a08OLlQA4L7EM7i79tWHmuPmdCklqXdIUghjh3K3dyhfQ1bKUaSrCflkymZpYDuSiegVslH0Wts0l7QGl+p/hl9J7Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736436648; c=relaxed/simple;
-	bh=d93zm+uZ8uB8nlYkuwox2uBGep83ZnnW8gM2JtmbYMs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ilgEbEXEv2XIrISPvSSYjKRf0GxctVHWR3azCuFVJt0oAdFPaP97Cio9ifYKFcAG4YhEk6s7XQEHddmO9lcK0lbh0UUJCSGZMv6qvtG8QH5Jsa338QPZithyvrmZOC0VP8gxT6t34ySkMEhMPwZG5zMtNf/PdudfeVu2/bIoCkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eIxB82DP; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2ee86a1a92dso1582524a91.1;
-        Thu, 09 Jan 2025 07:30:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736436646; x=1737041446; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wFBCcAEAPnuiBydTRMRNsfW9I4QP+EaJ0ZWxsgd7ST4=;
-        b=eIxB82DPm278HfYgWq6seZXIeysDK6RRebDOLTZ7/CN3RFcf1/0x5x61ostHgh0HwE
-         pP86/BKB3360C96w5elh1y4KXpATJahCBPbgoRFjkwwlzf2WNmn3bCq4oXKX3OXwXfC/
-         WHpVb3A+WjCJg9QsMVb6En5BbtGdBWlrq3KT63cAy4z/AU335agRgvkAkzgXeY4uYiUT
-         SvC8ypOXShclnuqRCZxE6izWxCmMZrDPyNcRyXaB7MIcFbAQhyWt3ALrrw7AYl3VVwMI
-         JmCPxAlsZD5Nln2QfVWjTafsbuJJocO29KFf4dOCAF4asH7dPCSBW240mwki8eGjoMDq
-         oKvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736436646; x=1737041446;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wFBCcAEAPnuiBydTRMRNsfW9I4QP+EaJ0ZWxsgd7ST4=;
-        b=u5Zmg/3Oe+Y8IcbzeUtto3CBzUlAzmv7Ru5+WaV8vRUk3NFgpZbil2t0sbz25dy+21
-         5Zxyf1dabrwxZe5jing1bp1wPrbktKCynUTV55tnx3lwjPK3VLI2xPokvGrv0I+umuFo
-         jd8tjuz4BTjiYMaUjBkSvoQARLIRbgjiC63Xm5ksrIoxnyqWBt7vc82puCYEteykOsSV
-         pXVb4N4YrhH0YYMxfL6v9qTf+nsZdGqVZpzPFPt0xQSf3ArmwDSlAs+m5soS7dYiD2z1
-         ftd542rNf68MFt1g+TLtZn5gGJYIRlNTcD7WtXIiqamO95sObV2qgwnN5M64DaSJOy0W
-         l6ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW1AKsW+CXiLiw6KVXWTGzVLaH8dpMrnWCMFVAx5G6UyCBXoxS7CruZdulBDj7bpg4FvFRjeF9a2so5Kw==@vger.kernel.org, AJvYcCW25yv3ISLagtG9UgHmpM3+GbRVbphTBdLDFuKp5yBgNxvZoj7OsKkxGsOxeXgrw4sk8r4AOdwhExWHypHB@vger.kernel.org
-X-Gm-Message-State: AOJu0YydtllKXP+lbRnkH8qIutDJ2+XoEOZxFHFfWkLv7NNFCi9e0I/N
-	6XFszpu7sCqFFsfuwYTf2vigsIWdDXJKq6mym+voftxOQMCHOaFBLLUNLg==
-X-Gm-Gg: ASbGncvgE3j24SwicK01l9XtZq8Hmc4uUzn5jWPwlGL/JexcNXjY2k2XedwXg+I+zPJ
-	KC0cmabyHaXogmor103hHm2Ha7mIr1K6cRXtRtQC6Z6Pj/tNZot2ftMPkt3aC6GJxXiEMkEmeWc
-	L3KACGzVhJmoNJpguzK9VJMic5/yPOnTxhX4mBKBa62/nds3DjYYlKkAvFoV0yWm4Dkr8CVpTJe
-	BnQ7HjiGSo5+JWWjHIvkyCERJtAWkhTP0WUJc6hNXz+i98rqgRe6DomrDKeZVxUE3zr8g==
-X-Google-Smtp-Source: AGHT+IEsIIn5cA8LgfbL+CgYOhVHfmgA+RMMrkTVywhdf9RU9NhPrhKFCmBeM+N0HhQDRHuJ3L9caw==
-X-Received: by 2002:a17:90b:538b:b0:2ee:f19b:86e5 with SMTP id 98e67ed59e1d1-2f548eae0eamr11232722a91.14.1736436646214;
-        Thu, 09 Jan 2025 07:30:46 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9de3088esm92805ad.173.2025.01.09.07.30.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jan 2025 07:30:45 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 9 Jan 2025 07:30:44 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
-	Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (isl28022) Use per-client debugfs entry
-Message-ID: <39481465-88f5-4cb7-b12e-695e2bf07010@roeck-us.net>
-References: <20250109122112.45810-1-wsa+renesas@sang-engineering.com>
- <20250109122112.45810-3-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1736438774; c=relaxed/simple;
+	bh=p4XkuorIpNoSEU2HBpQ1O27DvwV5LvulfkLyMZfyAfg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kdNM3oqfxih/7AU1+UEAkFco/4Y7NWjWofMAfskErSZbpQLALvhWFsSwxgtCNBRYxqL/z5N6TNO8DkFoNrRLdRi1jCgrr9se0dY+JQ8YLBQe+cDNag1FBkZu57UIHdMwQfDMLMNDx5rghAnBB+ObkXBM02yWX5YQq7pvVIH0Z9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQDMDbfd; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736438773; x=1767974773;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=p4XkuorIpNoSEU2HBpQ1O27DvwV5LvulfkLyMZfyAfg=;
+  b=XQDMDbfds7k1YRVTA3/aB7Jc8fXwYRo4zeurPEzKkG90x+NePd+lfe3N
+   M/ZR37wCOQv4247fM/XybJYETV7+mpA5du06RDyGc6g9ao+S313Nd7zVq
+   0gMNuPMPvy9PQuVmfS06FDbFK3L+S15rwNrUpDTd8M5uEm7IXAICyDqBP
+   Dhj4RqePL8uVwoI6ebj28a9Gb4Bsmi1Eg7fWGig0kYFuovR8iDjh9bgjB
+   FKYrhn1cBuRUp13iNE2l30nOzM4wfbYb0fdLKGx2Ug0qJNZmojG3dkal7
+   yF9PAOpBkVscXQRDvAjug5mxrx3+hqQQrJqCRMG6IPE/a8apk7huG+GsW
+   A==;
+X-CSE-ConnectionGUID: YXTjDnMbTw+YBtQZZUU9DA==
+X-CSE-MsgGUID: hTWdc08NSOeYUmeXggYW2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="62086130"
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
+   d="scan'208";a="62086130"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 08:05:55 -0800
+X-CSE-ConnectionGUID: gYM7jUeoQau2+oJbNyjiWQ==
+X-CSE-MsgGUID: 8PkbOk3sQpqIzHIL0w463A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
+   d="scan'208";a="103967271"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO [10.245.245.241]) ([10.245.245.241])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 08:05:50 -0800
+Message-ID: <91c904f8-ba47-4595-be65-6fb57dcc9c64@intel.com>
+Date: Thu, 9 Jan 2025 16:05:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250109122112.45810-3-wsa+renesas@sang-engineering.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 23/25] drm/xe: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20250109150310.219442-1-tzimmermann@suse.de>
+ <20250109150310.219442-24-tzimmermann@suse.de>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20250109150310.219442-24-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 09, 2025 at 01:21:11PM +0100, Wolfram Sang wrote:
-> The I2C core now offers a debugfs-directory per client. Use it and
-> remove the custom handling.
+On 09/01/2025 14:57, Thomas Zimmermann wrote:
+> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch
+> and buffer size. Align the pitch to a multiple of 8. Align the
+> buffer size according to hardware requirements.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> ---
+>   drivers/gpu/drm/xe/xe_bo.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> index e6c896ad5602..d75e3c39ab14 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.c
+> +++ b/drivers/gpu/drm/xe/xe_bo.c
+> @@ -8,6 +8,7 @@
+>   #include <linux/dma-buf.h>
+>   
+>   #include <drm/drm_drv.h>
+> +#include <drm/drm_dumb_buffers.h>
+>   #include <drm/drm_gem_ttm_helper.h>
+>   #include <drm/drm_managed.h>
+>   #include <drm/ttm/ttm_device.h>
+> @@ -2535,14 +2536,13 @@ int xe_bo_dumb_create(struct drm_file *file_priv,
+>   	struct xe_device *xe = to_xe_device(dev);
+>   	struct xe_bo *bo;
+>   	uint32_t handle;
+> -	int cpp = DIV_ROUND_UP(args->bpp, 8);
+>   	int err;
+>   	u32 page_size = max_t(u32, PAGE_SIZE,
+>   		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : SZ_4K);
+>   
+> -	args->pitch = ALIGN(args->width * cpp, 64);
+> -	args->size = ALIGN(mul_u32_u32(args->pitch, args->height),
+> -			   page_size);
+> +	err = drm_mode_size_dumb(dev, args, SZ_64, page_size);
 
-For my reference:
+AFAICT this looks to change the behaviour, where u64 size was 
+technically possible and was allowed given that args->size is u64, but 
+this helper is limiting the size to u32. Is that intentional? If so, we 
+should probably make that clear in the commit message.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+> +	if (err)
+> +		return err;
+>   
+>   	bo = xe_bo_create_user(xe, NULL, NULL, args->size,
+>   			       DRM_XE_GEM_CPU_CACHING_WC,
 
-Guenter
 
