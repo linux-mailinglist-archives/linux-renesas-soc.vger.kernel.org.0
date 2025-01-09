@@ -1,122 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-12026-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12027-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8CAA0811B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 21:03:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A118DA08202
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 22:12:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90CA93A8EA7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 20:03:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9CD1C7A1506
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 21:12:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 557B81F4E50;
-	Thu,  9 Jan 2025 20:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 238A31FFC41;
+	Thu,  9 Jan 2025 21:12:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="aqnMgi8d"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GS6AcOZd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501B9B677;
-	Thu,  9 Jan 2025 20:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5934877102;
+	Thu,  9 Jan 2025 21:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736452993; cv=none; b=BNn559wQLBM41doNoMmmAdrWnuPOVkxyJ7XIFQvvsj3rgzggAWSZ8T8nq5xQ06DUheDZea+a0zxWIuNSO11YA/Q6bfZIUM71/PLufQyYL6Q1w7ttkdp7UckmyY+fdsGBAvVOs+kSnCHIdD39KWL+Tvj475v3fDdSiwlwi1D/AkU=
+	t=1736457136; cv=none; b=slbM475vbaN+JuY/2an3tPuFtjFgm8rtbGdEg23R5PdiB2u8azMWdgD+0ooBKgCyHbYp/ImTFrkCXClbDvtaQJAEeJ8x/L2LkcQjQOInTRX4OTx/NkN2w/n9A8P6Jm+x6CerDRiKghJZN6OPibQG4b4PLl/fB4woE5Rj4ZKNSWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736452993; c=relaxed/simple;
-	bh=CEraVU4ce4vgP8jPE97cGax/9P4aNGpnQ4WcUIe/0vQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eC2L35ckqF8+lcS/LeoL9Q0P/ljXhExfTciFuq4nMVDzWInFdu4mqDIJl/7fxOUKi8Qa198I4vnG8wUg1L7JT5zmCfMdGF+eGsWj1LUrTvqT2welZlo5BFfzz+1KaAYEEnQ0AuW8xcLHSXpALBKzZVJP4dTpYFrS1UPsbRgYbpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=aqnMgi8d; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 81E65FF802;
-	Thu,  9 Jan 2025 20:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736452988;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ufquL8MTaCaDartUz08Jv9Co5w4deNYxwsOj/E8fcww=;
-	b=aqnMgi8dmXNmdqbb82gZLgfSEWXhFqHsrY4xDCQkXxC1eVbQ/WCgrOzndGV9myrqe/hElG
-	jef5H3/ls9gbinUu25fBKeiz2GZiCFulJ+4WhYBhfC45VCcq4EfPtR0KIHfjbcek+Q1VfV
-	9wBuydXTJ3vjy+3TBFcHwgj4253G33JMK1TEdzYz0Ww2Ja4TgQmwoyNJWYJWfnKuos+WPd
-	cU46FTlgkwEX3NlsLIdW4FYBG1lIgDNygresvTuecEYNDGFWiC7SET7ShqD2glnBctwGq+
-	pVYOLHmLiyMp2+38SZucpgCpNOe0nHGnaKhJZh2gFh8WYrNUDI6LJ28dYOimqg==
-Date: Thu, 9 Jan 2025 21:03:04 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: linux-rtc@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Yiting Deng <yiting.deng@amlogic.com>,
-	Xianwei Zhao <xianwei.zhao@amlogic.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Eddie Huang <eddie.huang@mediatek.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Vincent Shih <vincent.sunplus@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Michal Simek <michal.simek@amd.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] rtc: use boolean values with device_init_wakeup()
-Message-ID: <173644377117.1019413.12980385173648327961.b4-ty@bootlin.com>
-References: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1736457136; c=relaxed/simple;
+	bh=n+48N+KMLDOLAc+DGe1WXYIz8bHUgYLyJb5NMET5jCs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qRHl7UdMel6qbEdvzChCumSkMc/aRJNbK8a361ZxI7eJ75QUtIFDRtcuVtIweJrtMJTgasehbbG3sqyzS+OOc0J1J7f3Mqhj06sgF5Iig5bI8xGlaxJrubaemfff4Wa/c9qkv5SCNAW+tfHf2LrmYT+NJnxyNGtBoEzQfDG8838=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GS6AcOZd; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43626213fffso16064605e9.1;
+        Thu, 09 Jan 2025 13:12:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736457132; x=1737061932; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YSVe9jAuCPgn9OZNBfybA57DnVbYnPyzHwTZpcnu7hA=;
+        b=GS6AcOZdRGor6J+SSWVW0vR/7VbJF0e1yTv1MmaIIADKhGjJZC7uLX6ZtFjI4++adm
+         FJs7FIB1cC7jYGeGVr2ZJweBQlDq6u4g6lvIEzmZvqevXmbWDWLEaSTIB4A6+ktZTkKr
+         IuPSU116otK3/3kdjm9PGD0uAryHX236428qUypwkWIhnOzFyq00/NkM59ofV9udOd7d
+         3jmrDR4cl9SeS9Q6ODVnFQQS8GCMI9iJudF3r4pirnODTFOL7k3DT6iO2h+yHrbW9JR2
+         CL9wbSA/oFElxRq6Vi9ZKAmZ04T0AhsYdkvyg7wwjMOjlyqoi17S+su4xNy8I9uU+9O8
+         rTYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736457132; x=1737061932;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YSVe9jAuCPgn9OZNBfybA57DnVbYnPyzHwTZpcnu7hA=;
+        b=I6k4jiYSJcBwlCgfCPl3XXr0sI7puzs81BU3FDgYEQEti7OIojbQqxEhinrkASzFNO
+         EXuLkhTcAGA8J+eaLtBbtYFPv7k4+XLn6HA3WGaN1W+JpuY+XifDyhUEyDEil3FVdcrS
+         p37FJSIOadIGEnpwbtzUmNykc/juX+JJ7HtgC8B4zYns4g4Fn2Xs8hI8pWy1si/KnaC0
+         LlSvjeRe+hXdxe9kfsYIKmPKij15iIYEifd6Y8DpKNSyE8o8wqbkeZnv+v8x74USS9kd
+         P6NIUZt1s8qpOf+vYl5trvRDReW6k/iHY8koFaOfr6nkeWg2S7ipDstfUCjEskQIfOtd
+         0nNg==
+X-Forwarded-Encrypted: i=1; AJvYcCWRvMwLEMQywv9n7W8atYnHjUn27n3TuIio8M7f6ktSDASPLA/ezukbLtzkGh/f3B6inM9wRMXm6pA=@vger.kernel.org, AJvYcCXGUgXoFS4mrH3y0mmH6VTNDo+9vHa7M08jypb2RI7H0JpN/cLIaSuYn3WfwUNk5MrQXEDl55VeiotDWiGX@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyj5J34ih8/f1Ic8NERJraa8rWRy+T3KiwZsILxpIgpsr9Qqufw
+	m7AZJtdaBwkAAxNqre3hw6YC2GdctTry115O9Nptd2VQrtqCWav6
+X-Gm-Gg: ASbGncttgLyR3Bpwya1LELcC/tSwbtyxB35sJj3AZfgYJ6vrUA3/sCuz+GTciOZmzjg
+	A5qXbk8VQuxrI8D8c7VidO9JKwHyTukpnT+uSsKSTGz3a/QkkPG4xnHjSzNx7FzueJv8hSMGMTm
+	zNZvkz2N+0n0uUPCmzYgViEY0ZpWAgX3cwSyj1iOLD75ka8OJaVlZE6k4GPHBL/dqieq89eoZO1
+	XVDTn6h3XpkJrBwwCI3FkfTkM2T5tQeUMiQKiwnDKP2szctV7Yxm/lBBB3N5dYmR3TA1OBBhxnU
+	zGUWFoFw
+X-Google-Smtp-Source: AGHT+IH4ED1OfDt2ayBeUeZjlnhogQM3G306NhISXUzKPz6uPpGzIHvQbGCQiP7tGJLOdYlZPyjh+w==
+X-Received: by 2002:a05:6000:4026:b0:385:e10a:4d97 with SMTP id ffacd0b85a97d-38a8b0f0b77mr4717492f8f.21.1736457132300;
+        Thu, 09 Jan 2025 13:12:12 -0800 (PST)
+Received: from prasmi.Home ([2a06:5906:61b:2d00:c62:5432:d9a7:c0dd])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e383623sm2778315f8f.32.2025.01.09.13.12.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jan 2025 13:12:11 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v5] i2c: riic: Introduce a separate variable for IRQ
+Date: Thu,  9 Jan 2025 21:12:05 +0000
+Message-ID: <20250109211206.241385-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-On Tue, 17 Dec 2024 08:13:26 +0100, Wolfram Sang wrote:
-> device_init_wakeup() second argument is a bool type. Use proper boolean
-> values when calling it to match the type and to produce unambiguous code
-> which is easier to understand.
-> 
-> 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Applied, thanks!
+Refactor the IRQ handling in riic_i2c_probe by introducing a local variable
+`irq` to store IRQ numbers instead of assigning them to `ret`. This change
+improves code readability and clarity.
 
-[1/1] rtc: use boolean values with device_init_wakeup()
-      https://git.kernel.org/abelloni/c/8c28c4993f11
+Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+Note, this patch is part of series [0], as requested by Andi, sending
+only patch 1/9 from series [0].
 
-Best regards,
+[0] https://lore.kernel.org/all/20250103091900.428729-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
+v4->v5
+- validate return value of platform_get_irq()
+---
+ drivers/i2c/busses/i2c-riic.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
+index 9264adc97ca9..9809ac095710 100644
+--- a/drivers/i2c/busses/i2c-riic.c
++++ b/drivers/i2c/busses/i2c-riic.c
+@@ -464,11 +464,13 @@ static int riic_i2c_probe(struct platform_device *pdev)
+ 		return ret;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(riic_irqs); i++) {
+-		ret = platform_get_irq(pdev, riic_irqs[i].res_num);
+-		if (ret < 0)
+-			return ret;
++		int irq;
++
++		irq = platform_get_irq(pdev, riic_irqs[i].res_num);
++		if (irq < 0)
++			return irq;
+ 
+-		ret = devm_request_irq(dev, ret, riic_irqs[i].isr,
++		ret = devm_request_irq(dev, irq, riic_irqs[i].isr,
+ 				       0, riic_irqs[i].name, riic);
+ 		if (ret) {
+ 			dev_err(dev, "failed to request irq %s\n", riic_irqs[i].name);
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
+
 
