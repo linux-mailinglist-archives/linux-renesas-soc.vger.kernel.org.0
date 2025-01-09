@@ -1,164 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-11984-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11985-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62442A075FC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 13:45:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A332A0761B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 13:50:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96A563A1779
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 12:45:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 72EEC3A18E3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 12:50:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16B87216E37;
-	Thu,  9 Jan 2025 12:45:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D08AB217F22;
+	Thu,  9 Jan 2025 12:50:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="hli4JEZ6";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EgirdQLs"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="m7rGADkT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="YL6uNUzY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8174B802;
-	Thu,  9 Jan 2025 12:45:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED8C216E37;
+	Thu,  9 Jan 2025 12:50:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736426746; cv=none; b=nLpJt+5MHgTeVuJtwN2Naup8sVs7Yr9clSkkpQLg/pHWiBK7BT/RSEPTRVilvhgyHYE7BYCecLhmiVHZzY4CNe85hERcmDBOXhYMhQD7cXXqZ92J9dm2e/wF2RmlUNrcX00ZSKY6hbrRiB9qvTPMFv9hjSDmOERcsaSjHVp3OIM=
+	t=1736427048; cv=none; b=d4eIL2K88JFFUd0OmuPN3nAr/a5k0Ln5NqeAucAjazccVNZEdOdesBQL/31SNipp2fN3ZSZvbgX35gik6R9f/aBD2H+YXDAinMbBSBAAMwaTIVB09UnoVsKvyySktwWKDOkGkmXqNJNM1Z43H6XCDw5N0lQtyWqgNl2JdpjCsjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736426746; c=relaxed/simple;
-	bh=kkNkCQyXS23nIqEL3zoEHxlEQniH4nfkUpW/nTL8N8s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PfIEDnYoaBGf6JAM6Q5h1zoPTkp52Bz103NHCdi06qk4BOu1m5RupZnAqZspmA5inP1lNW6/jZHklG53WqpbRCzULJgY46z0GjSpIgUcrY3+XonXprQTP1eC8kq5WNSPC1V7RtWKEmYrUcHT6USr1I1ibMPHwbypfR0rW6mcJk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=hli4JEZ6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EgirdQLs; arc=none smtp.client-ip=202.12.124.158
+	s=arc-20240116; t=1736427048; c=relaxed/simple;
+	bh=dA/Du/goAfTTRSnTHnCzvS2oiiAAkzwjsm/N+z6MXPk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uswZ0guuiSsIGKMUd652zcCogJcWP7QZgFFDp45xy7B8DMJ931VKRN0Q+2bZlDKrHs/MR26hdu+RY81yrPierSqRZgto/moE0cg3ajuBy0eswEkJBfzoL+sV5h8tAFxJzklMndHY6cwqEWdL9Zwpc/BTlgNGLVCzZ3s0qHXPb+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=m7rGADkT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=YL6uNUzY; arc=none smtp.client-ip=202.12.124.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 5B9D82540184;
-	Thu,  9 Jan 2025 07:45:42 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Thu, 09 Jan 2025 07:45:42 -0500
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 2ECEB25400FC;
+	Thu,  9 Jan 2025 07:50:45 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Thu, 09 Jan 2025 07:50:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1736426742;
-	 x=1736513142; bh=4HfbkcoM6ShhVV3pgNRaBb/fX8MsUZSoXh2AIHC7HA4=; b=
-	hli4JEZ6Z+k/GBDvhVgkgBE1f91R2VYZwp8fbfEO80k6DZDs+ooPeGonzNNcK14y
-	zipDH8kvvJskXSh2TK7o8iJrj1AeJRDFrf4yeROxXdvgKFNZHUcjMIb8D2mFq3lZ
-	2hFW8XYrqi1JX1lY+DcJ9cFk6DJ3kNlRbFUYwzPcAW65UScBd/2TuVfsk9qmpzGH
-	6Ky9D+i9MxmlhvbMB0FVjQ9eD6pFVEdND42wjBURpCv7zAEm6KZ9Nt6PggmYWZbo
-	w3bZiFKW52Ekg5WL6IewwDRCTG2b+9ZTGM1CuyuZRlXMeuQMLCtpkHJJQ7yy9ciM
-	RRnXgS/PNl/em/NpuuebzQ==
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1736427045; x=1736513445; bh=pc
+	9rjQwv//PZRbFFetAIzMgsS0ttk1Z3MflWUj08NLo=; b=m7rGADkTww1yQokPkV
+	dlt4+T3dTt1+LNqfXtWXp4CbcJ4nzsqasDi6iJq8Z5SEJ39ep1Bsv4hM2EYtsDVZ
+	WTlotxZt2iClDFCEzdfUUH/5mCqBwEJVEAmaBHqpgnCphaBXHQgntvPgZP3rMA9B
+	8gRV8sUoQzTzg4HNjCrETk7a/M8lasr0PHh74wAg2pwENZ4lEhcq8rS8mwBUP9li
+	2MZDz5KhDNDpmZ3IqlrS4WzMOdpRzkU7bdXDm2F94GiW7X4B//x5e6HnDiq+aMXc
+	hCZTPBghWPlNw8e9U6yZVCC4dE+cCD7BzO4JILprQ8mdnPoNswwNoyJFjaxhyCnR
+	eraA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1736426742; x=
-	1736513142; bh=4HfbkcoM6ShhVV3pgNRaBb/fX8MsUZSoXh2AIHC7HA4=; b=E
-	girdQLswsQQ2Cnw0+gTtXIisRmgKdny6xMOplf2QMjKFW6X5fi0gLdZYOLN3vLIL
-	lPvqtNnFx2c7vVlKEmA/YmdtaouzPmXFcw36buF6ezOxDewokWpQ/nxSoVNkZiSm
-	Br71yGW4OhZoSujTqn6ZJJ8CW50+f6YFgjclCZ047Dk5aNGaWOYhZ89RLFkrKwcT
-	HCn7YMYCR/N9t6iEw59RKCDCnlaq00fCz5Tg/2VAdKOzzKeYIRZhI6V5JcdPDPJ4
-	S0dTDxbB8d8lGP8FY7oMu47VALK8yAI1FvV+e1Cdwwn1OBGmW+v49PwFTL27+tqs
-	yYAJpbZmxHDK9e3RbToCw==
-X-ME-Sender: <xms:9cR_Z6Q86ObzoMV44TsOs5OSnvpn4Dy5aKO-1id_Gu4TTkvSud1rdw>
-    <xme:9cR_Z_xFg16yS9Vx_5c1CbIg7U1ALo9TGFwWI4Vu8ihY4SQEZfnloaHb11p1us8hb
-    OBEwrIXYqdV40OVeg4>
-X-ME-Received: <xmr:9cR_Z32MdTLFnkvFNGScuyHDA1ubEEE6TRJaZD8IHKgccU8AxWkgFkQiWJgwulvbV7by0JBNc9hP7i5zqisxsrKU7YwAK3g0Gw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudegiedggedvucetufdoteggodetrfdotf
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1736427045; x=1736513445; bh=pc9rjQwv//PZRbFFetAIzMgsS0tt
+	k1Z3MflWUj08NLo=; b=YL6uNUzYPoqN4Tas0588HMTIQpTh/KQ/SJ7rWXni5U41
+	N7gm2Pf+oYiqE0dwoNYIqPStKnjdZwfzRUiNmIbFjxCXpMXLNRNdBGn6on5BYhB4
+	+PZfrprmydw0R1aAacZWvftF0MiRlMdTNcyOewaE+qCzPK2hs6FrwnCUO+zaAliq
+	4AZzrNyuh8LEOZ/zQC+sgFiI/BAXI/XfeLH3lSfAPGX41A2oDMXh+R99XVxXO09q
+	6+TE/lMD8doUWgzs92lD+BzNXmhuVYadvY2daRysbwqiksw5wmwdHSQm6j4xbc6w
+	kPPEgEke9zuS1gXNbHRPw8PBH+TiqgvGktrUXrDMRQ==
+X-ME-Sender: <xms:JMZ_Z4xACkhJp-8Kmw8FMbkxLodYbTC8Xd82nA556DZ1PH4EHB1f2A>
+    <xme:JMZ_Z8RfYROpFLGz91mA8P5aZOWWBgnMzteFw7jvnMDXnCq4T_pmx6pQQexLAqlwv
+    AnqYJYee4eENpEXcF4>
+X-ME-Received: <xmr:JMZ_Z6U2kPRZVg6TGQuMjqayv3rq1ubdH4xrHtCGMpgad7sgF-kmaU3uYzzBuAdwPAR23F-p2JD-oC_pL7IPBEGEWw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudegiedggeefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpefgfedu
-    gffgteekvdfgieelueettdejvddukeegtdfgudduveduiedvgfdvieeiueenucffohhmrg
-    hinheprhgrvhgspghriihvvdhmpghhfigpihhnfhhordhnvghtnecuvehluhhsthgvrhfu
-    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlh
-    hunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepuddtpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehprghulhdrsggrrhhkvghrrdgtthessghprdhrvg
-    hnvghsrghsrdgtohhmpdhrtghpthhtoheprghnughrvgifodhnvghtuggvvheslhhunhhn
-    rdgthhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpth
-    htohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehprggsvghn
-    ihesrhgvughhrghtrdgtohhmpdhrtghpthhtohephhhorhhmsheskhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtohepshdrshhhthihlhihohhvsehomhhprdhruhdprhgtphhtthhopehn
-    vghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqd
-    hrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:9cR_Z2CLZEYIJ8Zm_vDSPZ_xazYxuVG0HiMJf6Hv3N01yHc8SqR_rQ>
-    <xmx:9cR_Zzhcy0b_ZIzKSzP9hR1K4Y_n8Dutt4HMoOKj-FNZ_PlSQWe3hA>
-    <xmx:9cR_Zyow9-2U1QeOE30soSYjqGYXEBx7WldqOdHL5DD_vj3H85jrbA>
-    <xmx:9cR_Z2jP2qzn1mlUnvQPbcETTUxIWxuR9avg06kXQvdRekFWxL7dAA>
-    <xmx:9sR_Z4ZsIeoNxZOltgFFLW-S-IPn2X-OotFxFOCkubqDoVBEODSc2LdH>
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
+    ffkffogggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhu
+    nhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrth
+    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheduleetteekgffffedufeeuvdejiedv
+    kefhveeifeegffehledtvdevhfefteegnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgr
+    thgvtghhrdhsvgdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthho
+    pehjrggtohhpohdrmhhonhguihdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurd
+    gtohhmpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgtlhhksehvghgvrhdrkhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghn
+    vghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:JMZ_Z2jufm3QkeTL5_9v5RdN9jQdlErLIRRiMRCBfhBcH_P79YYWmA>
+    <xmx:JMZ_Z6C2YN2QAzz3vaaWlnG3eXbNemuMg07c2ERwKIYZRPTcOV8Zsw>
+    <xmx:JMZ_Z3IeqMI0eTraVX_AcF5BjVA82cbFxyiaVbopVBJuQRdqKQWfCw>
+    <xmx:JMZ_ZxD0pEwnM-55XdaVPbUGkSe-Q87CF9wntghEufOJf-dY7n3s3A>
+    <xmx:JcZ_Zx6TV_fGQ3MZp6eOZB4Mtkbc4gYRyxmRT3II5cNhrAcmfS53FB8V>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 9 Jan 2025 07:45:40 -0500 (EST)
-Date: Thu, 9 Jan 2025 13:45:38 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [net PATCH] net: ravb: Fix max TX frame size for RZ/V2M
-Message-ID: <20250109124538.GR2766897@ragnatech.se>
-References: <20250109113706.1409149-1-paul.barker.ct@bp.renesas.com>
+ 9 Jan 2025 07:50:44 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] clk: renesas: r8a779a0: Add FCPVX clocks
+Date: Thu,  9 Jan 2025 13:50:36 +0100
+Message-ID: <20250109125036.2399199-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250109113706.1409149-1-paul.barker.ct@bp.renesas.com>
 
-Hi Paul,
+Add the FCPVX modules clock for Renesas R-Car V3U.
 
-Nice catch.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/clk/renesas/r8a779a0-cpg-mssr.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On 2025-01-09 11:37:06 +0000, Paul Barker wrote:
-> When tx_max_frame_size was added to struct ravb_hw_info, no value was
-> set in ravb_rzv2m_hw_info so the default value of zero was used.
-> 
-> The maximum MTU is set by subtracting from tx_max_frame_size to allow
-> space for headers and frame checksums. As ndev->max_mtu is unsigned,
-> this subtraction wraps around leading to a ridiculously large positive
-> value that is obviously incorrect.
-> 
-> Before tx_max_frame_size was introduced, the maximum MTU was based on
-> rx_max_frame_size. So, we can restore the correct maximum MTU by copying
-> the rx_max_frame_size value into tx_max_frame_size for RZ/V2M.
-> 
-> Fixes: 1d63864299ca ("net: ravb: Fix maximum TX frame size for GbEth devices")
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
->  drivers/net/ethernet/renesas/ravb_main.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index ac0f093f647a..bc395294a32d 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -2763,6 +2763,7 @@ static const struct ravb_hw_info ravb_rzv2m_hw_info = {
->  	.net_features = NETIF_F_RXCSUM,
->  	.stats_len = ARRAY_SIZE(ravb_gstrings_stats),
->  	.tccr_mask = TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
-> +	.tx_max_frame_size = SZ_2K,
->  	.rx_max_frame_size = SZ_2K,
->  	.rx_buffer_size = SZ_2K +
->  			  SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
-> 
-> base-commit: 2d2d4f60ed266a8f340a721102d035252606980b
-> -- 
-> 2.39.5
-> 
-
+diff --git a/drivers/clk/renesas/r8a779a0-cpg-mssr.c b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+index 9c7e4094705c..4a5b4e2afa92 100644
+--- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+@@ -238,6 +238,10 @@ static const struct mssr_mod_clk r8a779a0_mod_clks[] __initconst = {
+ 	DEF_MOD("vspx1",	1029,	R8A779A0_CLK_S1D1),
+ 	DEF_MOD("vspx2",	1030,	R8A779A0_CLK_S1D1),
+ 	DEF_MOD("vspx3",	1031,	R8A779A0_CLK_S1D1),
++	DEF_MOD("fcpvx0",	1100,	R8A779A0_CLK_S1D1),
++	DEF_MOD("fcpvx1",	1101,	R8A779A0_CLK_S1D1),
++	DEF_MOD("fcpvx2",	1102,	R8A779A0_CLK_S1D1),
++	DEF_MOD("fcpvx3",	1103,	R8A779A0_CLK_S1D1),
+ };
+ 
+ static const unsigned int r8a779a0_crit_mod_clks[] __initconst = {
 -- 
-Kind Regards,
-Niklas Söderlund
+2.47.1
+
 
