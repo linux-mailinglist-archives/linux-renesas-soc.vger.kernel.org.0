@@ -1,145 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-12027-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12028-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A118DA08202
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 22:12:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C321FA0830E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 23:59:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9CD1C7A1506
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 21:12:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE3503A2208
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 22:59:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 238A31FFC41;
-	Thu,  9 Jan 2025 21:12:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DB4F205E0F;
+	Thu,  9 Jan 2025 22:59:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GS6AcOZd"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="s+jwsQH2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5934877102;
-	Thu,  9 Jan 2025 21:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D052054F9;
+	Thu,  9 Jan 2025 22:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736457136; cv=none; b=slbM475vbaN+JuY/2an3tPuFtjFgm8rtbGdEg23R5PdiB2u8azMWdgD+0ooBKgCyHbYp/ImTFrkCXClbDvtaQJAEeJ8x/L2LkcQjQOInTRX4OTx/NkN2w/n9A8P6Jm+x6CerDRiKghJZN6OPibQG4b4PLl/fB4woE5Rj4ZKNSWc=
+	t=1736463576; cv=none; b=XrFFtZpKGdJExC8xj65XBisKOGNTO2Q/S9zwnRvL4FAuHpbkhIpdBi0WO1lyDz12I+8rC4tlnc8E7C9OuGF2SZVUtX8Gkv3W719r4WFMDXo3HivPXybqclNy0T42u7LDK7Xt3ecZBts8rIt+Rg1xAwyc2/5T3wTcdOgnzaiteHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736457136; c=relaxed/simple;
-	bh=n+48N+KMLDOLAc+DGe1WXYIz8bHUgYLyJb5NMET5jCs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qRHl7UdMel6qbEdvzChCumSkMc/aRJNbK8a361ZxI7eJ75QUtIFDRtcuVtIweJrtMJTgasehbbG3sqyzS+OOc0J1J7f3Mqhj06sgF5Iig5bI8xGlaxJrubaemfff4Wa/c9qkv5SCNAW+tfHf2LrmYT+NJnxyNGtBoEzQfDG8838=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GS6AcOZd; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43626213fffso16064605e9.1;
-        Thu, 09 Jan 2025 13:12:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736457132; x=1737061932; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YSVe9jAuCPgn9OZNBfybA57DnVbYnPyzHwTZpcnu7hA=;
-        b=GS6AcOZdRGor6J+SSWVW0vR/7VbJF0e1yTv1MmaIIADKhGjJZC7uLX6ZtFjI4++adm
-         FJs7FIB1cC7jYGeGVr2ZJweBQlDq6u4g6lvIEzmZvqevXmbWDWLEaSTIB4A6+ktZTkKr
-         IuPSU116otK3/3kdjm9PGD0uAryHX236428qUypwkWIhnOzFyq00/NkM59ofV9udOd7d
-         3jmrDR4cl9SeS9Q6ODVnFQQS8GCMI9iJudF3r4pirnODTFOL7k3DT6iO2h+yHrbW9JR2
-         CL9wbSA/oFElxRq6Vi9ZKAmZ04T0AhsYdkvyg7wwjMOjlyqoi17S+su4xNy8I9uU+9O8
-         rTYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736457132; x=1737061932;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YSVe9jAuCPgn9OZNBfybA57DnVbYnPyzHwTZpcnu7hA=;
-        b=I6k4jiYSJcBwlCgfCPl3XXr0sI7puzs81BU3FDgYEQEti7OIojbQqxEhinrkASzFNO
-         EXuLkhTcAGA8J+eaLtBbtYFPv7k4+XLn6HA3WGaN1W+JpuY+XifDyhUEyDEil3FVdcrS
-         p37FJSIOadIGEnpwbtzUmNykc/juX+JJ7HtgC8B4zYns4g4Fn2Xs8hI8pWy1si/KnaC0
-         LlSvjeRe+hXdxe9kfsYIKmPKij15iIYEifd6Y8DpKNSyE8o8wqbkeZnv+v8x74USS9kd
-         P6NIUZt1s8qpOf+vYl5trvRDReW6k/iHY8koFaOfr6nkeWg2S7ipDstfUCjEskQIfOtd
-         0nNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWRvMwLEMQywv9n7W8atYnHjUn27n3TuIio8M7f6ktSDASPLA/ezukbLtzkGh/f3B6inM9wRMXm6pA=@vger.kernel.org, AJvYcCXGUgXoFS4mrH3y0mmH6VTNDo+9vHa7M08jypb2RI7H0JpN/cLIaSuYn3WfwUNk5MrQXEDl55VeiotDWiGX@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyj5J34ih8/f1Ic8NERJraa8rWRy+T3KiwZsILxpIgpsr9Qqufw
-	m7AZJtdaBwkAAxNqre3hw6YC2GdctTry115O9Nptd2VQrtqCWav6
-X-Gm-Gg: ASbGncttgLyR3Bpwya1LELcC/tSwbtyxB35sJj3AZfgYJ6vrUA3/sCuz+GTciOZmzjg
-	A5qXbk8VQuxrI8D8c7VidO9JKwHyTukpnT+uSsKSTGz3a/QkkPG4xnHjSzNx7FzueJv8hSMGMTm
-	zNZvkz2N+0n0uUPCmzYgViEY0ZpWAgX3cwSyj1iOLD75ka8OJaVlZE6k4GPHBL/dqieq89eoZO1
-	XVDTn6h3XpkJrBwwCI3FkfTkM2T5tQeUMiQKiwnDKP2szctV7Yxm/lBBB3N5dYmR3TA1OBBhxnU
-	zGUWFoFw
-X-Google-Smtp-Source: AGHT+IH4ED1OfDt2ayBeUeZjlnhogQM3G306NhISXUzKPz6uPpGzIHvQbGCQiP7tGJLOdYlZPyjh+w==
-X-Received: by 2002:a05:6000:4026:b0:385:e10a:4d97 with SMTP id ffacd0b85a97d-38a8b0f0b77mr4717492f8f.21.1736457132300;
-        Thu, 09 Jan 2025 13:12:12 -0800 (PST)
-Received: from prasmi.Home ([2a06:5906:61b:2d00:c62:5432:d9a7:c0dd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e383623sm2778315f8f.32.2025.01.09.13.12.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jan 2025 13:12:11 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5] i2c: riic: Introduce a separate variable for IRQ
-Date: Thu,  9 Jan 2025 21:12:05 +0000
-Message-ID: <20250109211206.241385-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1736463576; c=relaxed/simple;
+	bh=IbAfyCKUbMM4BfqRWRIy3BfY72OJP9ZEtH7KuQecUE8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KOKESOC3lqRyFLdJZU+dGYQBWA6DjisXHJvpbXNJLwUfgKa6s8eb47OPu/OgerhqNj6W7mJpWJtzoRvrMg4s5yyI0JmMXrEONyHPV1SmctLyyKcFdzfytGCc6Zi6tSKAyNBKz4bOn++mrtRqbCXDWx/xAdS0rHDD5vmCfOb+F4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=s+jwsQH2; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=5X3Tmvihn3grkA7Jge4RjfqiSvPeilgE9yOD+d9FpVI=; b=s+jwsQH2++ZJTa21jBBjugQMXI
+	4bHOZkHr3BtbA6u/uOhHobPv3MGeFWhNFGUl43iw9TYIyTjmoijwv6stOdPuOX44mYtM+Ex4veIlv
+	GanP8Ltk9SSPFArY9HIjzDL6w9HBmiDH9lkAf/YRbJ76vQtfeMTBh+9CdrFBgxC6jT1PLksF27MCM
+	uT5h6cp1P/vX38GEwJikltALOY4zAv1uVLPRdaX6J8i+zNB6LmK+4A346bu7woaR2Pb1GBGscGht6
+	qpjxlF/C8UEv09LkPOGTvCxTCmWsQsAVjWgo7DBUgDUT6zw9zcZF7Od+phqWlT6xPgO3SWYExc5bS
+	MfLPLsiA==;
+Received: from i5e860d05.versanet.de ([94.134.13.5] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1tW1Uq-0005mI-C2; Thu, 09 Jan 2025 23:59:24 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject:
+ Re: [PATCH v2 19/25] drm/rockchip: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+Date: Thu, 09 Jan 2025 23:59:23 +0100
+Message-ID: <3227546.fEcJ0Lxnt5@diego>
+In-Reply-To: <20250109150310.219442-20-tzimmermann@suse.de>
+References:
+ <20250109150310.219442-1-tzimmermann@suse.de>
+ <20250109150310.219442-20-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Am Donnerstag, 9. Januar 2025, 15:57:13 CET schrieb Thomas Zimmermann:
+> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
+> buffer size. Align the pitch to a multiple of 64.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Sandy Huang <hjc@rock-chips.com>
+> Cc: "Heiko St=FCbner" <heiko@sntech.de>
+> Cc: Andy Yan <andy.yan@rock-chips.com>
 
-Refactor the IRQ handling in riic_i2c_probe by introducing a local variable
-`irq` to store IRQ numbers instead of assigning them to `ret`. This change
-improves code readability and clarity.
+I've looked up the patch implementing the new functionality - patch2 of
+this series [0] and that looks really nice to get proper helpers and not
+having many drivers open-coding the same functionality in different ways.
 
-Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Note, this patch is part of series [0], as requested by Andi, sending
-only patch 1/9 from series [0].
+So for the Rockchip adaptation:
 
-[0] https://lore.kernel.org/all/20250103091900.428729-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+Acked-by: Heiko Stuebner <heiko@sntech.de>
 
-v4->v5
-- validate return value of platform_get_irq()
----
- drivers/i2c/busses/i2c-riic.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+and looking forward to this getting merged :-)
 
-diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
-index 9264adc97ca9..9809ac095710 100644
---- a/drivers/i2c/busses/i2c-riic.c
-+++ b/drivers/i2c/busses/i2c-riic.c
-@@ -464,11 +464,13 @@ static int riic_i2c_probe(struct platform_device *pdev)
- 		return ret;
- 
- 	for (i = 0; i < ARRAY_SIZE(riic_irqs); i++) {
--		ret = platform_get_irq(pdev, riic_irqs[i].res_num);
--		if (ret < 0)
--			return ret;
-+		int irq;
-+
-+		irq = platform_get_irq(pdev, riic_irqs[i].res_num);
-+		if (irq < 0)
-+			return irq;
- 
--		ret = devm_request_irq(dev, ret, riic_irqs[i].isr,
-+		ret = devm_request_irq(dev, irq, riic_irqs[i].isr,
- 				       0, riic_irqs[i].name, riic);
- 		if (ret) {
- 			dev_err(dev, "failed to request irq %s\n", riic_irqs[i].name);
--- 
-2.43.0
+Thanks a lot for working on that
+Heiko
+
+[0] https://patchwork.kernel.org/project/linux-rockchip/patch/2025010915031=
+0.219442-3-tzimmermann@suse.de/
+
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/dr=
+m/rockchip/rockchip_drm_gem.c
+> index 6330b883efc3..3bd06202e232 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/vmalloc.h>
+> =20
+>  #include <drm/drm.h>
+> +#include <drm/drm_dumb_buffers.h>
+>  #include <drm/drm_fb_helper.h>
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_gem_dma_helper.h>
+> @@ -403,13 +404,12 @@ int rockchip_gem_dumb_create(struct drm_file *file_=
+priv,
+>  			     struct drm_mode_create_dumb *args)
+>  {
+>  	struct rockchip_gem_object *rk_obj;
+> -	int min_pitch =3D DIV_ROUND_UP(args->width * args->bpp, 8);
+> +	int ret;
+> =20
+> -	/*
+> -	 * align to 64 bytes since Mali requires it.
+> -	 */
+> -	args->pitch =3D ALIGN(min_pitch, 64);
+> -	args->size =3D args->pitch * args->height;
+> +	/* 64-byte alignment required by Mali */
+> +	ret =3D drm_mode_size_dumb(dev, args, SZ_64, 0);
+> +	if (ret)
+> +		return ret;
+> =20
+>  	rk_obj =3D rockchip_gem_create_with_handle(file_priv, dev, args->size,
+>  						 &args->handle);
+>=20
+
+
+
 
 
