@@ -1,130 +1,164 @@
-Return-Path: <linux-renesas-soc+bounces-11983-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-11984-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B4EA075F6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 13:43:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62442A075FC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 13:45:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88E173A2F68
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 12:42:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96A563A1779
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2025 12:45:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B23F863B9;
-	Thu,  9 Jan 2025 12:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16B87216E37;
+	Thu,  9 Jan 2025 12:45:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eqo3iJ9n"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="hli4JEZ6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EgirdQLs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5452185A9
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jan 2025 12:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8174B802;
+	Thu,  9 Jan 2025 12:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736426573; cv=none; b=N4C1VDwmP17tK9dIuI6LzxWlS5Q+ErO2WyFa07lg/S8pjpnSYw5TxQA9kvN69nToxMdv0s0w0jYJNaVPr2ZaK/1u3PjEnpEdJKlWcPzsc06UnOSBfzb/uP3lexl5biCXHTfQMq7sQZpSUjczWVCNwVxkJhPOny0Eg/OB3ZcdeUI=
+	t=1736426746; cv=none; b=nLpJt+5MHgTeVuJtwN2Naup8sVs7Yr9clSkkpQLg/pHWiBK7BT/RSEPTRVilvhgyHYE7BYCecLhmiVHZzY4CNe85hERcmDBOXhYMhQD7cXXqZ92J9dm2e/wF2RmlUNrcX00ZSKY6hbrRiB9qvTPMFv9hjSDmOERcsaSjHVp3OIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736426573; c=relaxed/simple;
-	bh=pXb3J5/MDM/JRxgrXrNymwNsZk7Vq3QCDxx/Unn1YIo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eCxw3LE1UDrt9ogwk7Hxd73/F4pnzJDUBKPMii5TCtvX5R6v0TzOCJcZOr8x5X03MJz5SHxh+JPBYVBWTBndpMhWUmd8GMdIFw87tU1PHW2iYoXwF260NvWPpc+Io7jjIEUuGNnIQ+wUpu5oC62JDmU2oLV+H3UZp24HXVwMeuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eqo3iJ9n; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736426573; x=1767962573;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=pXb3J5/MDM/JRxgrXrNymwNsZk7Vq3QCDxx/Unn1YIo=;
-  b=Eqo3iJ9n/O90jO5nFOc9W4Xq6H94DE1QahVXB1Z+njlGktcnriWzZLpW
-   L2mTOxIvmbUGKOInZKHxud9bfHo4eRj+GupAC6m1Yle7Ons6caMuw0E1X
-   ARrVBs37r/zMXc0I3sk2QYsZxaYy1wfUhj7sSQ6TS4QeXDfVPWSkrV+L1
-   CRMrdw3zsYNSsjQ/aPxyfzo8doD5zYWVT7JFUbpkcMBGPSKIrsz0IjfPp
-   +ltQxR6n/of5RaYprfTPOZXxxW1Nmxck6TEvEvSOeBMQBL3BlAofBDB08
-   ObvB9/LtxQXIZ0uHRQ6i2yQTH8Jy0mxjOy0DUzyLVhdZl+Pk24rAm6/+R
-   Q==;
-X-CSE-ConnectionGUID: Gwb7h/C0QxuQGxsPnjBHBA==
-X-CSE-MsgGUID: 91Og5lnWQTq2C+iRxs2a9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="47671281"
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="47671281"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 04:42:52 -0800
-X-CSE-ConnectionGUID: 8RNv4ig7TICaN3a9JpE2Cg==
-X-CSE-MsgGUID: An8aZnsBRcq/dF7jnC8qWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104270578"
-Received: from unknown (HELO localhost) ([10.237.66.160])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 04:42:49 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, Kieran
- Bingham <kieran.bingham+renesas@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH v2 2/3] drm: renesas: rcar-du: annotate rcar_cmm_read()
- with __maybe_unused
-In-Reply-To: <20241205160234.GN10736@pendragon.ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1733410889.git.jani.nikula@intel.com>
- <5b0df175e8b86e5d8746ee32e63bb633bc2765b1.1733410889.git.jani.nikula@intel.com>
- <20241205160234.GN10736@pendragon.ideasonboard.com>
-Date: Thu, 09 Jan 2025 14:42:41 +0200
-Message-ID: <87plkwjgzi.fsf@intel.com>
+	s=arc-20240116; t=1736426746; c=relaxed/simple;
+	bh=kkNkCQyXS23nIqEL3zoEHxlEQniH4nfkUpW/nTL8N8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PfIEDnYoaBGf6JAM6Q5h1zoPTkp52Bz103NHCdi06qk4BOu1m5RupZnAqZspmA5inP1lNW6/jZHklG53WqpbRCzULJgY46z0GjSpIgUcrY3+XonXprQTP1eC8kq5WNSPC1V7RtWKEmYrUcHT6USr1I1ibMPHwbypfR0rW6mcJk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=hli4JEZ6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EgirdQLs; arc=none smtp.client-ip=202.12.124.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 5B9D82540184;
+	Thu,  9 Jan 2025 07:45:42 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Thu, 09 Jan 2025 07:45:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1736426742;
+	 x=1736513142; bh=4HfbkcoM6ShhVV3pgNRaBb/fX8MsUZSoXh2AIHC7HA4=; b=
+	hli4JEZ6Z+k/GBDvhVgkgBE1f91R2VYZwp8fbfEO80k6DZDs+ooPeGonzNNcK14y
+	zipDH8kvvJskXSh2TK7o8iJrj1AeJRDFrf4yeROxXdvgKFNZHUcjMIb8D2mFq3lZ
+	2hFW8XYrqi1JX1lY+DcJ9cFk6DJ3kNlRbFUYwzPcAW65UScBd/2TuVfsk9qmpzGH
+	6Ky9D+i9MxmlhvbMB0FVjQ9eD6pFVEdND42wjBURpCv7zAEm6KZ9Nt6PggmYWZbo
+	w3bZiFKW52Ekg5WL6IewwDRCTG2b+9ZTGM1CuyuZRlXMeuQMLCtpkHJJQ7yy9ciM
+	RRnXgS/PNl/em/NpuuebzQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1736426742; x=
+	1736513142; bh=4HfbkcoM6ShhVV3pgNRaBb/fX8MsUZSoXh2AIHC7HA4=; b=E
+	girdQLswsQQ2Cnw0+gTtXIisRmgKdny6xMOplf2QMjKFW6X5fi0gLdZYOLN3vLIL
+	lPvqtNnFx2c7vVlKEmA/YmdtaouzPmXFcw36buF6ezOxDewokWpQ/nxSoVNkZiSm
+	Br71yGW4OhZoSujTqn6ZJJ8CW50+f6YFgjclCZ047Dk5aNGaWOYhZ89RLFkrKwcT
+	HCn7YMYCR/N9t6iEw59RKCDCnlaq00fCz5Tg/2VAdKOzzKeYIRZhI6V5JcdPDPJ4
+	S0dTDxbB8d8lGP8FY7oMu47VALK8yAI1FvV+e1Cdwwn1OBGmW+v49PwFTL27+tqs
+	yYAJpbZmxHDK9e3RbToCw==
+X-ME-Sender: <xms:9cR_Z6Q86ObzoMV44TsOs5OSnvpn4Dy5aKO-1id_Gu4TTkvSud1rdw>
+    <xme:9cR_Z_xFg16yS9Vx_5c1CbIg7U1ALo9TGFwWI4Vu8ihY4SQEZfnloaHb11p1us8hb
+    OBEwrIXYqdV40OVeg4>
+X-ME-Received: <xmr:9cR_Z32MdTLFnkvFNGScuyHDA1ubEEE6TRJaZD8IHKgccU8AxWkgFkQiWJgwulvbV7by0JBNc9hP7i5zqisxsrKU7YwAK3g0Gw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudegiedggedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpefgfedu
+    gffgteekvdfgieelueettdejvddukeegtdfgudduveduiedvgfdvieeiueenucffohhmrg
+    hinheprhgrvhgspghriihvvdhmpghhfigpihhnfhhordhnvghtnecuvehluhhsthgvrhfu
+    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlh
+    hunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepuddtpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopehprghulhdrsggrrhhkvghrrdgtthessghprdhrvg
+    hnvghsrghsrdgtohhmpdhrtghpthhtoheprghnughrvgifodhnvghtuggvvheslhhunhhn
+    rdgthhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpth
+    htohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehprggsvghn
+    ihesrhgvughhrghtrdgtohhmpdhrtghpthhtohephhhorhhmsheskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtohepshdrshhhthihlhihohhvsehomhhprdhruhdprhgtphhtthhopehn
+    vghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqd
+    hrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:9cR_Z2CLZEYIJ8Zm_vDSPZ_xazYxuVG0HiMJf6Hv3N01yHc8SqR_rQ>
+    <xmx:9cR_Zzhcy0b_ZIzKSzP9hR1K4Y_n8Dutt4HMoOKj-FNZ_PlSQWe3hA>
+    <xmx:9cR_Zyow9-2U1QeOE30soSYjqGYXEBx7WldqOdHL5DD_vj3H85jrbA>
+    <xmx:9cR_Z2jP2qzn1mlUnvQPbcETTUxIWxuR9avg06kXQvdRekFWxL7dAA>
+    <xmx:9sR_Z4ZsIeoNxZOltgFFLW-S-IPn2X-OotFxFOCkubqDoVBEODSc2LdH>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Jan 2025 07:45:40 -0500 (EST)
+Date: Thu, 9 Jan 2025 13:45:38 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>, netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [net PATCH] net: ravb: Fix max TX frame size for RZ/V2M
+Message-ID: <20250109124538.GR2766897@ragnatech.se>
+References: <20250109113706.1409149-1-paul.barker.ct@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250109113706.1409149-1-paul.barker.ct@bp.renesas.com>
 
-On Thu, 05 Dec 2024, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> On Thu, Dec 05, 2024 at 05:03:00PM +0200, Jani Nikula wrote:
->> Building with clang and and W=1 leads to warning about unused
->> rcar_cmm_read(). Fix by annotating it with __maybe_unused.
->> 
->> See also commit 6863f5643dd7 ("kbuild: allow Clang to find unused static
->> inline functions for W=1 build").
->> 
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> https://lore.kernel.org/r/20240911095113.GB4470@pendragon.ideasonboard.com
->
-> I wonder if Dave and Sima are starting to ignore my pull request in the
-> hope I'll switch to using drm-misc :-S I'll send another one.
+Hi Paul,
 
-Have you sent the pull request again? I haven't seen one.
+Nice catch.
 
-BR,
-Jani.
+On 2025-01-09 11:37:06 +0000, Paul Barker wrote:
+> When tx_max_frame_size was added to struct ravb_hw_info, no value was
+> set in ravb_rzv2m_hw_info so the default value of zero was used.
+> 
+> The maximum MTU is set by subtracting from tx_max_frame_size to allow
+> space for headers and frame checksums. As ndev->max_mtu is unsigned,
+> this subtraction wraps around leading to a ridiculously large positive
+> value that is obviously incorrect.
+> 
+> Before tx_max_frame_size was introduced, the maximum MTU was based on
+> rx_max_frame_size. So, we can restore the correct maximum MTU by copying
+> the rx_max_frame_size value into tx_max_frame_size for RZ/V2M.
+> 
+> Fixes: 1d63864299ca ("net: ravb: Fix maximum TX frame size for GbEth devices")
+> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 
->
->> ---
->> 
->> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> Cc: linux-renesas-soc@vger.kernel.org
->> Cc: Nathan Chancellor <nathan@kernel.org>
->> ---
->>  drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c b/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
->> index 26a2f5ad8ee5..ea52b0af9226 100644
->> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
->> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
->> @@ -32,7 +32,7 @@ struct rcar_cmm {
->>  	} lut;
->>  };
->>  
->> -static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
->> +static inline __maybe_unused int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
->>  {
->>  	return ioread32(rcmm->base + reg);
->>  }
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+>  drivers/net/ethernet/renesas/ravb_main.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index ac0f093f647a..bc395294a32d 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2763,6 +2763,7 @@ static const struct ravb_hw_info ravb_rzv2m_hw_info = {
+>  	.net_features = NETIF_F_RXCSUM,
+>  	.stats_len = ARRAY_SIZE(ravb_gstrings_stats),
+>  	.tccr_mask = TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
+> +	.tx_max_frame_size = SZ_2K,
+>  	.rx_max_frame_size = SZ_2K,
+>  	.rx_buffer_size = SZ_2K +
+>  			  SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
+> 
+> base-commit: 2d2d4f60ed266a8f340a721102d035252606980b
+> -- 
+> 2.39.5
+> 
 
 -- 
-Jani Nikula, Intel
+Kind Regards,
+Niklas Söderlund
 
