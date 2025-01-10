@@ -1,179 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-12047-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12048-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BBBA0946B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jan 2025 15:56:04 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1981A09628
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jan 2025 16:43:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E62811883E36
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jan 2025 14:56:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D25AF7A3A84
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jan 2025 15:43:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9620212B0B;
-	Fri, 10 Jan 2025 14:55:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DECB72116F2;
+	Fri, 10 Jan 2025 15:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lic+hpVt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3844F211279;
-	Fri, 10 Jan 2025 14:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA172066E5;
+	Fri, 10 Jan 2025 15:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736520902; cv=none; b=Ye3EeJVb/GVX4GeMS8fPF4qP4X5nEr16iQ6mvxfdqhhIeKq9HdT43ySe6kks6FRQY4Ieb+BxiMbnhEhqEROtRdWfgRvfLUzla6rIl4Ez+fcAzr0Ph5QKRujz8522U0tb9S41MihjBQDwJc0WTPOBwALGGPEtcPdZNztWC/nhbrw=
+	t=1736523825; cv=none; b=MgzCvEACj3caUd1lVDqhm25PE0PeVa94lcBloVfclVSaLzTxdG64EyND42D5sW5sIElekqIrKhyMHsJ2Y1y84BweD2+Oua0E02y0uyeo25u1WHlXb5mxff1gtxcDCWnOLsd6lMG6Ot2D4aGvTKLF40xx5d1gZr3mQZCaQGGNQ6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736520902; c=relaxed/simple;
-	bh=10Y4wG1ZKAjJP8ByWqGlMvFDwfuDBoerYerKYedbFr4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o9t23J0aXqO7Z76B42Nv9PHH6kjsSUbLK05NRJQ/o9wxmBXMTzxr5kJdcYcTbYB2pPBqjoEfsQiVx9unq5LTu86X9fyZU1cAe0SLNvLDH+1LjV4PWLI6S7uMPHFCMQUG0DYGvBgjnKa0Rt2+UUkZOfYVgLMinihjN3y3tYmedr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-51bb020339fso828497e0c.0;
-        Fri, 10 Jan 2025 06:54:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736520899; x=1737125699;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k/s1P0Pqg/3VfqqfM3ErTjLNZnNf2mIaTMc9cyRXFjY=;
-        b=EexTNUVfdSZP5KVkA3EeYaQFNc4vU7jenR29329DmB3mW3NrB2Crg9KT3/UZRFbqPG
-         C4hquTEtKdX103ooJJcP0I3uuPQoZ9Yg3CX8sJadFEYKVB/+gHqybhJwo5LNz/xJ/4nY
-         Nm6Amf1Dqil3n8IvfjFbHkZDdf/FuKoo0POX7hMs7btGpIAP+apOR6vMXyo0Ol44kWuU
-         InOyEyQuFOxwaQUXMFILHE88X8nR3w113vV/3buex1olgkof2XZusGvEEpT0fwURfiJR
-         etKvyF7mfcAho2faBzcm87Jm784mpqvRUWfe3XFP0oaGg5FY959ssXV8waUiRWMZtOSm
-         7d6A==
-X-Forwarded-Encrypted: i=1; AJvYcCUjSF6DiFtpG6nheilL5XLSeoOphm1KgIADPJoArwYtJvdm6+5zDYzqydJYUBhcoVAZYx0v8YGvV8VseKlQXDIx7zg=@vger.kernel.org, AJvYcCWbtzBLAvu8MftvZXrarKc5l9mJWgW2p2Z8AVmNgDArfbY0iryGXMhY+zrjsvkISZzfL3/TU7FhcsM=@vger.kernel.org, AJvYcCWt/nHjVhe7N6jigkDHe8F8vWmaiED/CF7a/ld2szTnwoyMGUzzYtKcixdx0IfiALH1sJg6ZKgcZW08yoia@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTQUbySZjFzr4AXUcbV9w3jM2xEeH77eWknyFvgtH0+2mOXEQe
-	41U/W7tfJnKxSjw/PvG3lQfzUz6oOeaiOdF9zAEd+RoVMhkzTRx/kRn+S2ty
-X-Gm-Gg: ASbGncsA6rvvJgkRSHbj5q0UGvIuD8TFyk0smPkJmzbRDA5HOs5xzhAwMCg5nqtPYHX
-	4q6yOfCqD+L54oBGnZ2noQ7H3HvHqug1cAzUCGjBiFHwgLt6o6q0gMfbBH3VcgCLJHzUvW+WAPp
-	eiHPbyJrrSrDL0/DFRKFCRmDLj5Kx0aBJVbsJ19cR6F9QH41Y4t8rqfiUdZF7k1hyjGuOFW7yZ+
-	lz0OONvRSBLCktgxvfoCCybXL1IiNE71oAb0D+xcMvBFtsOm9o2JGLV4Y6DWeuYgFbUnT2LmX66
-	5jEpv1aIi/K9a7KnmGY=
-X-Google-Smtp-Source: AGHT+IFjlHcrb/6uphjm/aya4s8sVBlChLpJUakRInx2CTqQ+m28GLpLXCmUklTZQCJTTUZ3WlJ+Kw==
-X-Received: by 2002:a05:6122:4387:b0:518:a0ee:e8e7 with SMTP id 71dfb90a1353d-51c6c2b9391mr9375244e0c.0.1736520898694;
-        Fri, 10 Jan 2025 06:54:58 -0800 (PST)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51c7fd2dd88sm2205892e0c.47.2025.01.10.06.54.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2025 06:54:58 -0800 (PST)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4affab62589so785272137.1;
-        Fri, 10 Jan 2025 06:54:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCURCgJBLkd6xwRgUQrZM8/bA+KfEPvmzN/yxEWfbE5/MANAT6Wg+J601UIGKqP8fM9ZAARHqS2bo4abmxHC@vger.kernel.org, AJvYcCV8TacJjwF9Yp9llSexCqormkMUvQyCm7rfKRIngoIES0O9MJ0UMAvgdh2MPXL3RbtdA56ngq7i1hy2tP9D58gJNjY=@vger.kernel.org, AJvYcCVd1hsAbqpH1kKNrQrwZu4mG7mtMCeIsw2OUGfEhOQxZe3K7gzIb+6L/CqZKpSVOl+qyCX6AuTV0GY=@vger.kernel.org
-X-Received: by 2002:a05:6102:2ac5:b0:4b5:b20d:5e16 with SMTP id
- ada2fe7eead31-4b5b20d95fcmr6464011137.21.1736520897984; Fri, 10 Jan 2025
- 06:54:57 -0800 (PST)
+	s=arc-20240116; t=1736523825; c=relaxed/simple;
+	bh=TV8hH/0bAnpkstoi+VL/fkUNsub1wZaqlJIrE9SAU0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DzPGO8YXDc7g85X1YW0BdSVkNPryQ81foI/CZ2O2XdP5zKPThEuLsOu/j4BSQ1nUSfiaGFVmsb9d6HlghmS4YIOjDZZAYOfC80BmlI2Bn6sa+XvyY7+yxeYGJbfuxmdjdrptgr4woV6vOWQE7PJkUudf6+z9gx3MQDqcpzWFBWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lic+hpVt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44BC1C4CED6;
+	Fri, 10 Jan 2025 15:43:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736523825;
+	bh=TV8hH/0bAnpkstoi+VL/fkUNsub1wZaqlJIrE9SAU0w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Lic+hpVt20oa1Er3C2FAYUyESVm4xI1R5bOB51Lwq0HcLGCnKiblgXYVwUJx+/x3a
+	 cUE5/C15iWRWcxYhQ7FuprRryHpctO62F6THJqi2kKfvk+Cas5eVF9GJond+7Czs0d
+	 Sq9ly8reE9HqyyBdXXjI0k88f1kqJDIhQFJiodC0JNkBeXYmpGF7K8ilc84gnppjoF
+	 SObGl+J0WXIvuLoL9DwLURXjeeO8Y9vQ6JFj9FQST227QrX0RRiLxlawuiBkm+o9PR
+	 EjrKls13caeEu3LbAmQPkHNAfWXJM9HbtT18cmZWIhTYGjs5UGCWbp1gXqVGH8hy5u
+	 3+HsR8OYmgQAw==
+Date: Fri, 10 Jan 2025 09:43:44 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: devicetree@vger.kernel.org,
+	Krishna Manikandan <quic_mkrishn@quicinc.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Lucas Stach <l.stach@pengutronix.de>, linux-arm-msm@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jonas Karlman <jonas@kwiboo.se>, Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	linux-amlogic@lists.infradead.org,
+	Mahadevan <quic_mahap@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Sean Paul <sean@poorly.run>, Simona Vetter <simona@ffwll.ch>,
+	Robert Foss <rfoss@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, imx@lists.linux.dev,
+	freedreno@lists.freedesktop.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jonathan Marek <jonathan@marek.ca>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	David Airlie <airlied@gmail.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: Correct indentation and style in
+ DTS example
+Message-ID: <173652382248.2923092.2349362703621090098.robh@kernel.org>
+References: <20250107125854.227233-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250103164834.1778090-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20250103164834.1778090-1-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 10 Jan 2025 15:54:46 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUHCBy+i+P=URcg1U=qHfgHAkAhPQgxWfJQ8AUiNQYqtA@mail.gmail.com>
-X-Gm-Features: AbW1kvaSBPPHhzxMFa91U4Ec70xPz_NlcZcIMFMgN_uZxZRyiRm9HmByRSzvMDY
-Message-ID: <CAMuHMdUHCBy+i+P=URcg1U=qHfgHAkAhPQgxWfJQ8AUiNQYqtA@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r8a08g045: Check the source of the CPU PLL settings
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250107125854.227233-1-krzysztof.kozlowski@linaro.org>
 
-Hi Claudiu,
 
-On Fri, Jan 3, 2025 at 5:49=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> w=
-rote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> On the RZ/G3S SoC, the CPU PLL settings can be set and retrieved through
-> the CPG_PLL1_CLK1 and CPG_PLL1_CLK2 registers. However, these settings ar=
-e
-> applied only when CPG_PLL1_SETTING.SEL_PLL1 is set to 0. Otherwise, the
-> CPU PLL operates at the default frequency of 1.1 GHz. This patch adds
-> support to the PLL driver to return the 1.1 GHz frequency when the CPU PL=
-L
-> is configured with the default frequency.
->
-> Fixes: 01eabef547e6 ("clk: renesas: rzg2l: Add support for RZ/G3S PLL")
-> Fixes: de60a3ebe410 ("clk: renesas: Add minimal boot support for RZ/G3S S=
-oC")
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Tue, 07 Jan 2025 13:58:51 +0100, Krzysztof Kozlowski wrote:
+> DTS example in the bindings should be indented with 2- or 4-spaces and
+> aligned with opening '- |', so correct any differences like 3-spaces or
+> mixtures 2- and 4-spaces in one binding.
+> 
+> No functional changes here, but saves some comments during reviews of
+> new patches built on existing code.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../display/amlogic,meson-dw-hdmi.yaml        |  8 +-
+>  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    | 28 +++---
+>  .../display/bridge/samsung,mipi-dsim.yaml     | 66 ++++++-------
+>  .../display/mediatek/mediatek,aal.yaml        | 46 ++++-----
+>  .../display/msm/dsi-controller-main.yaml      | 98 +++++++++----------
+>  .../bindings/display/msm/dsi-phy-10nm.yaml    | 40 ++++----
+>  .../bindings/display/msm/dsi-phy-14nm.yaml    | 34 +++----
+>  .../bindings/display/msm/dsi-phy-20nm.yaml    | 36 +++----
+>  .../bindings/display/msm/dsi-phy-28nm.yaml    | 34 +++----
+>  .../bindings/display/msm/dsi-phy-7nm.yaml     | 34 +++----
+>  .../display/msm/qcom,sa8775p-mdss.yaml        |  7 +-
+>  .../bindings/display/renesas,cmm.yaml         | 12 +--
+>  12 files changed, 221 insertions(+), 222 deletions(-)
+> 
 
-Thanks for your patch!
+Applied, thanks!
 
-> --- a/drivers/clk/renesas/r9a08g045-cpg.c
-> +++ b/drivers/clk/renesas/r9a08g045-cpg.c
-> @@ -51,7 +51,7 @@
->  #define G3S_SEL_SDHI2          SEL_PLL_PACK(G3S_CPG_SDHI_DSEL, 8, 2)
->
->  /* PLL 1/4/6 configuration registers macro. */
-> -#define G3S_PLL146_CONF(clk1, clk2)    ((clk1) << 22 | (clk2) << 12)
-> +#define G3S_PLL146_CONF(clk1, clk2, settings)  ((clk1) << 22 | (clk2) <<=
- 12 | (settings))
-
-s/settings/setting/, to better match the actual register name.
-
->
->  #define DEF_G3S_MUX(_name, _id, _conf, _parent_names, _mux_flags, _clk_f=
-lags) \
->         DEF_TYPE(_name, _id, CLK_TYPE_MUX, .conf =3D (_conf), \
-
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-
-> @@ -60,6 +61,7 @@
->  #define GET_REG_OFFSET(val)            ((val >> 20) & 0xfff)
->  #define GET_REG_SAMPLL_CLK1(val)       ((val >> 22) & 0xfff)
->  #define GET_REG_SAMPLL_CLK2(val)       ((val >> 12) & 0xfff)
-> +#define GET_REG_SAMPLL_SETTINGS(val)   ((val) & 0xfff)
-
-Likewise, s/SETTINGS/SETTING/
-
->
->  #define CPG_WEN_BIT            BIT(16)
->
-
-> @@ -986,6 +989,10 @@ static unsigned long rzg3s_cpg_pll_clk_recalc_rate(s=
-truct clk_hw *hw,
->         if (pll_clk->type !=3D CLK_TYPE_G3S_PLL)
->                 return parent_rate;
->
-> +       val =3D readl(priv->base + GET_REG_SAMPLL_SETTINGS(pll_clk->conf)=
-);
-> +       if (val & RZG3S_SEL_PLL)
-> +               return pll_clk->default_rate;
-
-This code and the G3S_PLL146_CONF() macro are intended for PLL1,
-PLL4, and PLL6 (currently the driver instantiates only PLL1), but the
-SETTING register exists only for PLL1.  Hence you should check first
-if the register offset is valid, e.g. by checking for a non-zero value.
-
-According to the documentation for the CPG_PLL1_SETTING.SEL_PLL1 bit,
-the clock config also depends on the OTP_OTPPLL[0-2] pins.
-
-> +
->         val =3D readl(priv->base + GET_REG_SAMPLL_CLK1(pll_clk->conf));
->
->         pr =3D 1 << FIELD_GET(RZG3S_DIV_P, val);
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
