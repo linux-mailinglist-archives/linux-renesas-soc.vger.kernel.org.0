@@ -1,189 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-12038-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12039-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB621A08F72
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jan 2025 12:32:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F01A08F8D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jan 2025 12:36:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A351168192
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jan 2025 11:31:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E6D5161FD7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jan 2025 11:36:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8230B20CCF8;
-	Fri, 10 Jan 2025 11:30:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B715820B215;
+	Fri, 10 Jan 2025 11:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tevw5jgZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A72820B215;
-	Fri, 10 Jan 2025 11:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1E01F5435;
+	Fri, 10 Jan 2025 11:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736508658; cv=none; b=e2oAWkzaqE+L5peElXUfJMQCBSM03dq4ZsFcqO6Ru2NzfeZcYnl9yP3DUuJoyTmU6DYk1VOuZYVBhEvoMWgsYl1LqIlc2OXYDohXlFQlID8giF/DUaSIxLuQq4MycuxFq38uML0S1+qkJ0JKwvXqze2CVQzFcF0osKeCZjioMZ4=
+	t=1736508965; cv=none; b=mEyeMnPee8tDfcFyLriT4V1ytQtk5DOnst5TQYhEDF4seI5Hp6BYs+Ciweg1tM3Diub8KlVM0FicYp1+0xUnyjJJ4BcqZQvymI+lIbR20Ag6W3hyQ8etjisjK4FhFLHL0rqrwZpPMVZaFhyM4i0Mcxjlm3tf55fWgh7uN8zA834=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736508658; c=relaxed/simple;
-	bh=3qxibX+5PFBnuexUouliZJ6F24gjvV3wIoa6kR9DE4Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aYLOgT+55n3BvsRqj+5xjIHt0UV0QIvBHTGG0lbMBjdsWhGMtV0nENPVeanz/CXjmOSwnQugjUvn6CUmINXonDYGZXKCPl0KloLucdrdzt/4fvs6PqJN9g8jNpbKrozd2Mg6zJkYbO+hlGUUBaVzJn3C6/NAjDWH3Uj5rS1S4bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5188b485988so671730e0c.3;
-        Fri, 10 Jan 2025 03:30:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736508653; x=1737113453;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oJW33FPdvGJUuHfWENGbxvG9HL5q6KYxPg2rX6LxQlc=;
-        b=IAh/sae+hSa2NId80ddqRp0Mvw9n+oSso31eQyj8WfFi3zspnI69/SZhdzkE0Et0vj
-         P6+PJDcjPjqWFwkMgtkq3zIXkhe+4/9VIJgV0JKlhR8NtXxa3y3rpxv6YEE59A+/q2pK
-         ct8BwMDAkXzdZAP6rzQEb/92yeThUJfrWzuZoGUXsbQcfxJBaeiHdaip+g4XgOqX84Qo
-         Gu5IXQAidZB19Cl6gauv6Tu/xZM/FXGQvkXD6nyrqCpuX4fHrOfOb5D/pBeI0gOdKE4S
-         o2nsvo2xgXAwNTqVm2wbBMV3dNUTcDlF7dVeXDp+posr21vwC7VDpV1/e/ZhQGedeWu1
-         Vwmw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdk385EHtSxzozBZ+eUABPRmCAK6qtdWjI1poK4YUgkeborclKJsnDggz2Q1oGsF1OB07YzwWMOMcP+GUMXyJxK3Y=@vger.kernel.org, AJvYcCUtTkz+hrH5/RhWhu2BqZZ/gWcyVYSYYk070dCwwrkUHz0Q8T4Ru8mBzqsZ2HCRaawag9eszpqwZBMm@vger.kernel.org, AJvYcCXZJfPkOS35a0WxFT4oDSseYHkSfO1/bCtiFtNTumFQuPgEEftoG4h3in53mmY4M4fa8EiNBooB4byvgMZY@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQCHf0OM5DB7dGd8HBO65mkMIvDl/7B4sXCyts+cO49vxfp8HH
-	R4BV+l84Af9mr/92eXq7AvqVv9qgA6FWjc9Ya1s/8DZJmCu1CdEW4A9g7+D3
-X-Gm-Gg: ASbGncthqhTjIrpVsxSC8fKfhXQqX5QxcoE/f5wVGcEBYwYaPlk61oLHTpw7kILRtKM
-	Jn4P2oXaAJck9KNDVm7dQKSU0+2Wpmveur26am3eIOy01uStsPuGyAPPVQ2UT8MiqFKmDLJ8lQ8
-	dhPpfBw5wyBIRCaQ72XUIqm3Cu6dyYv2T8rIhosATdwlRNTVC0ywMW1F8RxA7NmukPgTYj6VAU6
-	mS6t5lNxYs3UTnuXdsrWSraaE0k7Caxb6+ciEX+vdG7Dl93DIGWJowxEGTNxboi4W3alfvPIWhw
-	HqFCWlEjQkpQHQHGIcDjUJI=
-X-Google-Smtp-Source: AGHT+IEFD3gt50JAPIf6+zcBY9uZOWfY4UiiYXKh741hwfbeZM6pGJgroJCRvVR1pX8lCCPAzKCWfA==
-X-Received: by 2002:a05:6122:1d14:b0:50b:e9a5:cd7b with SMTP id 71dfb90a1353d-51c6c50fa64mr8698914e0c.9.1736508653180;
-        Fri, 10 Jan 2025 03:30:53 -0800 (PST)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51c7fbfde05sm1923405e0c.25.2025.01.10.03.30.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2025 03:30:52 -0800 (PST)
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5160f1870f3so697600e0c.0;
-        Fri, 10 Jan 2025 03:30:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUEPc7y9Huql2T5OFbBdxCx34YZdSsWpYFhk+zOhAHK09eSI5S4UV1RPHpq2KzIQxwPg37l5Zqv6MCVnVoF@vger.kernel.org, AJvYcCX44k93lGGVCXhRARsjoRKAvsKRCYrQjbotknwuCnelgIax7ttJO4U+v7kGNW8rrqTGdAdtMD2Z/Lk+NBA4VRKoxKI=@vger.kernel.org, AJvYcCXXuAXZfeOexPx3I/Vd2MN9hyLfFQ4x8Q4EE2Oh4Y5FJp9Mu59GBOxVokoX3iXopFSE5cu9RMHmovIj@vger.kernel.org
-X-Received: by 2002:a05:6102:148f:b0:4b2:5ca2:48fe with SMTP id
- ada2fe7eead31-4b3d0f46233mr9677397137.15.1736508652383; Fri, 10 Jan 2025
- 03:30:52 -0800 (PST)
+	s=arc-20240116; t=1736508965; c=relaxed/simple;
+	bh=kwC+vuxIyyNJprbjpHkXY2NNAC/jFXJ9EGCU+TXHnN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fG/zULkY/wHdUae0Qi6jol8hU2+pLHjtFSlteLOcPKtsXTq0rjzTv0p/4qvOf8VffQyv7z1xhgMlgvbQm1ydyUuYgYWrTXy0irNsGNPvfaZqMwE8JA6eo+rC3uZhDqBuzXwVrnjvLzrTilUrI9QAKu+xjyWjUwJRuZhlUwQtgm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tevw5jgZ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 00A53641;
+	Fri, 10 Jan 2025 12:35:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1736508908;
+	bh=kwC+vuxIyyNJprbjpHkXY2NNAC/jFXJ9EGCU+TXHnN0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tevw5jgZuL9lGj20UrL6TT3Yi6ippAnnimR2EDi8zLFm2aYDySg0NW7JmxC4OrVON
+	 9SVPRA4um0V346wQrCInwwuXdlNZRKM6uCWp9hzvIbDebDMGrNY/cOnTt/UM89qN/7
+	 CRRQxzRv3P2Ha6QX4I4CJhdBLu/sRStXXgv8sDS0=
+Date: Fri, 10 Jan 2025 12:35:58 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r8a779a0: Add FCPVX instances
+Message-ID: <yszbtnmghspdxwdsv2bhoaej3hooo4ck52moirnmqtnfazpk6u@wwbdjqquwyzb>
+References: <20250109125433.2402045-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250109125433.2402045-2-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdW1D=o8aaPOAQLPEZw-Y-9MVzzCRGEykEU=39CYeuRW2A@mail.gmail.com>
+ <20250110105833.GC308750@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250107105947.321847-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250107105947.321847-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 10 Jan 2025 12:30:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWHYDV=R6pVCXc-Upwi=egW1UYO0XJePE7JC4WGbaW=1A@mail.gmail.com>
-X-Gm-Features: AbW1kvZ8sjbozaUg_Glc-J5zbxnCG9bAgjQSZPGIPV_aVFpK2tgVJWSGjpdFhgY
-Message-ID: <CAMuHMdWHYDV=R6pVCXc-Upwi=egW1UYO0XJePE7JC4WGbaW=1A@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Use configurable PFC mask
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250110105833.GC308750@ragnatech.se>
 
-Hi Prabhakar,
-
-Thanks for your patch!
-
-On Tue, Jan 7, 2025 at 11:59=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Jan 10, 2025 at 11:58:33AM +0100, Niklas Söderlund wrote:
+> Hi Geert,
 >
-> Make the PFC mask for the PFC_mx register configurable to address
-> differences between SoCs in the RZ/G2L family and RZ/V2H.
-
-"and the RZ/V2h family", as RZ/G3E is also affected.
-
-> On RZ/G2L family SoCs, the PFC_mx mask is `0x7` (3 bits), while on RZ/V2H
-> it is `0xf` (4 bits). The previous implementation hardcoded the PFC mask
-> as `0x7`, which caused incorrect behavior when configuring PFC registers
-> on RZ/V2H.
+> Thanks for your review.
 >
-> To resolve this, introduce a `pfcmask` field in the `rzg2l_hwcfg` structu=
-re
-> to make the mask value configurable based on the SoC. Update PFC-related
-> logic to use `hwcfg->pfcmask` instead of a hardcoded value. Additionally,
-> update hardware configuration definitions to include the appropriate mask
-> values (`0x7` for RZ/G2L family and `0xf` for RZ/V2H).
-
-i understand this means that SD1_CD has always been broken:
-
-    arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts:
-        pinmux =3D <RZV2H_PORT_PINMUX(9, 4, 14)>; /* SD1_CD */
-
-and this should be queued as a fix, and backported to v6.12?
-
-> Fixes: 9bd95ac86e70 ("pinctrl: renesas: rzg2l: Add support for RZ/V2H SoC=
-")
-> Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> @@ -159,7 +159,6 @@
->  #define PWPR_REGWE_B           BIT(5)  /* OEN Register Write Enable, kno=
-wn only in RZ/V2H(P) */
+> On 2025-01-10 11:44:21 +0100, Geert Uytterhoeven wrote:
+> > Hi Niklas,
+> >
+> > On Thu, Jan 9, 2025 at 1:55 PM Niklas Söderlund
+> > <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > > Add device nodes for the FCPVX instances on R-Car V3U.
+> > >
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> >
+> > Thanks for your patch!
+> >
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > i.e. will queue in renesas-devel for v6.15.
+> >
+> > > --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> > > @@ -2890,6 +2890,42 @@ port@1 {
+> > >                         };
+> > >                 };
+> > >
+> > > +               fcpvx0: fcp@fedb0000 {
+> >
+> > I think it makes sense to move these next to the existing fcp nodes.
+> > If you agree, I can do that while applying.
 >
->  #define PM_MASK                        0x03
-> -#define PFC_MASK               0x07
-
-What about just changing this to 0x0f instead? The bitfields are
-4-bit wide anyway, and reserved bits on RZ/G2L are documented to be
-read as zero, and ignored when written.  Sole impact would be that
-specifying invalid functions 8-15 in an RZ/G2L DTS would no longer be
-masked by software.
-
->  #define IEN_MASK               0x01
->  #define IOLH_MASK              0x03
->  #define SR_MASK                        0x01
-
-> @@ -505,7 +507,7 @@ static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_p=
-inctrl *pctrl,
+> The rational here was I sorted it based on addresses, but I'm fine
+> either way. If you can fix this when applying I would be grateful,
+> thanks!
 >
->         /* Set pin to 'Non-use (Hi-Z input protection)'  */
->         reg =3D readw(pctrl->base + PM(off));
-> -       reg &=3D ~(PM_MASK << (pin * 2));
-> +       reg &=3D ~(hwcfg->pfcmask << (pin * 2));
-
-Oops, this should not be replaced?
-
->         writew(reg, pctrl->base + PM(off));
+> Same for patch 2/2.
 >
->         pctrl->data->pwpr_pfc_lock_unlock(pctrl, false);
 
-> @@ -3110,7 +3113,7 @@ static void rzg2l_pinctrl_pm_setup_pfc(struct rzg2l=
-_pinctrl *pctrl)
->                                 continue;
+Just a note: for r8a779g0 I sorted the VSPX nodes by unit address
+as well.
+
+> >
+> > Gr{oetje,eeting}s,
+> >
+> >                         Geert
+> >
+> > --
+> > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> >
+> > In personal conversations with technical people, I call myself a hacker. But
+> > when I'm talking to journalists I just say "programmer" or something like that.
+> >                                 -- Linus Torvalds
 >
->                         /* Set pin to 'Non-use (Hi-Z input protection)' *=
-/
-> -                       pm &=3D ~(PM_MASK << (pin * 2));
-> +                       pm &=3D ~(hwcfg->pfcmask << (pin * 2));
-
-Likewise.
-
->                         writew(pm, pctrl->base + PM(off));
->
->                         /* Temporarily switch to GPIO mode with PMC regis=
-ter */
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> --
+> Kind Regards,
+> Niklas Söderlund
 
