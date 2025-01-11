@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-12058-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12059-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C58A0A24D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 10:31:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6D8A0A250
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 10:31:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29A04188D184
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 09:31:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B72E188DA8E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 09:31:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31C9715DBB3;
-	Sat, 11 Jan 2025 09:31:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D36717E019;
+	Sat, 11 Jan 2025 09:31:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H/VoGgml"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YNV3Hvth"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009C2ECC;
-	Sat, 11 Jan 2025 09:31:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5041115DBB3;
+	Sat, 11 Jan 2025 09:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736587871; cv=none; b=UggrpGfQbEodCi6nYMJbLNq2PS5aQJqZodLmtKOfsVF4vQbCNZE+6BAj5LtCvpjjfNsL7/lAK1t43sENN/WMHO67c5VGrFMzqxinWRn7KbwK1PJW7fgI3AEz336NrKBV4i4HRqOhkXMLuRzIifQcEC2VjIjZEClrBsSv7Hd9DJs=
+	t=1736587884; cv=none; b=FnmreJUBp8aPlQGSeQaFdi+NLqm8xVOrhaOqsxDmnfr1gJVQo15zSOGUx/zjR6DiSXJYaAaGwXz4Bs84whfMhKNNEAaOAFBvKyzvhWwmyB1ss3sB8FBUsEBUEgrr5tDQws7itWVSfinmRR0/gemkHyvf727D/Wktv5HFWyrgXDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736587871; c=relaxed/simple;
-	bh=kkzjQNNLdfV/zw/x3PWUbLdxscoFTbAcb2gnWl1TN6c=;
+	s=arc-20240116; t=1736587884; c=relaxed/simple;
+	bh=3faTQoS8dF2YNnYWJ8WSgvdtcbGiYDSsjh3PXXdaBB8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cLe5VCcgQGj8oZF/rXG5Iz7S2ZOyEKU4Hv3dmx8QjcITQDquVaiN1cBxY0H2c4kZa3/I9gz30CKuWtbgMDkkf2jp3yUmjyUJLpBpk8nk560s60j/ro3gyezA7xlSzzSQ0eCd84FxQRPsAXegrIr9idtChgwWMt7V001GvQCFENk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H/VoGgml; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05C24C4CED2;
-	Sat, 11 Jan 2025 09:31:07 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=eS42yIvTgDDURW9YKG/QUXY23NuYQ04PuRDCL+Su9bOSgEn7ABF4xkrHFnjlcA0IROCfiTsYY7cB76Njmk4BnwWIeN7sHsei3PwDrJG+/R6AehOZV1/QqkiAJS+hZMk2gChuFuYt9/gbyRuKthWSwu7syGpQ90845fmsE/uZ1PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YNV3Hvth; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C36DC4CED2;
+	Sat, 11 Jan 2025 09:31:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736587870;
-	bh=kkzjQNNLdfV/zw/x3PWUbLdxscoFTbAcb2gnWl1TN6c=;
+	s=k20201202; t=1736587883;
+	bh=3faTQoS8dF2YNnYWJ8WSgvdtcbGiYDSsjh3PXXdaBB8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=H/VoGgml8GmJ6XT+HIqwyO5uivAkzOCzfAm6FolRRZCJni1bHt440Cdl6qdyLoxUU
-	 5IeIr3xQHRM116XGqzRTuHMPdyCzjtlmhn5Dk5+OtdwIeclw+bhLJwpaKFWltvrArU
-	 s10Z9aZKSIwNYzlHVlAfcHJ2I8R47J2VuUZ2SzK+XUsK/yY/TAmCFqpo2j4VNAIfrZ
-	 nGviMPNsE8W7ie1gIgXGv5V/8Vfg9801LaN6SZu2S+oF9/VlZhu8M0mMDx9uIp0XPt
-	 uFq08xJTxaT050I01kl4r4mIK/WU/Pt8PJ2oG5R6oWb/UGnChInN27rXMPrEkL1P+a
-	 F6vutYj1jftOQ==
-Message-ID: <b3c27252-e637-4362-9607-a71029b3e283@kernel.org>
-Date: Sat, 11 Jan 2025 10:31:05 +0100
+	b=YNV3Hvthdp4dO8EGFMinngAOFjN3aHuYMV9/lGva8OIt2+dj7c9FemrLJXrcr2OGP
+	 c7A4Cf7V7e0TuYUzzZAD2vKqbCuUsDNlrOzdqgM5b0jPSbZK7tduDI/gsBFgiqIiu6
+	 GYSYtideUIJNhMUKuTdFgcf/A/gjb5EZnk2WazoZymBUhBDDvZIV9Ki97/cZUFdVF6
+	 llWTcyXVqQlRnHdY5HUzEB/609+b3BqVxbZC3Y4LEnzFQ2O0DPXWSMFWWOkNzPY2XK
+	 cNRs2Y62Bj+PbVbyz9RwE7CyRMQS9FgD5Ihh1FoSpeZ7+1Og9eKfV/rE6ZGh7bD6n6
+	 05jkKp6O98GNA==
+Message-ID: <a19b6891-ca65-4db3-b1a9-bbd6af079ef7@kernel.org>
+Date: Sat, 11 Jan 2025 10:31:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: soc: renesas: Document Renesas RZ/V2H
- SoC variants
+Subject: Re: [PATCH 2/4] dt-bindings: vendor-prefixes: Add Yuridenki-Shokai
+ Co. Ltd.
 To: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
@@ -59,9 +59,9 @@ To: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
 Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Masato Kiuchi <kiuchi_masato@yuridenki.co.jp>
 References: <20250111080903.3566296-1-iwamatsu@nigauri.org>
- <20250111080903.3566296-2-iwamatsu@nigauri.org>
-Content-Language: en-US
+ <20250111080903.3566296-3-iwamatsu@nigauri.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -105,17 +105,17 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250111080903.3566296-2-iwamatsu@nigauri.org>
+In-Reply-To: <20250111080903.3566296-3-iwamatsu@nigauri.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/01/2025 09:09, Nobuhiro Iwamatsu wrote:
-> Add SoC documentation for Renesas RZ/V2H(P) (r9a09g057h4[568]) SoC.
+> Add entry for Yuridenki-Shokai Co. Ltd. (https://www.yuridenki.co.jp)
 > 
 > Signed-off-by: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
 > ---
->  Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 3 +++
->  1 file changed, 3 insertions(+)
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
