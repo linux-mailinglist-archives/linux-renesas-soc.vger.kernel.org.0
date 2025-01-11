@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-12060-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12061-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E65A0A253
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 10:32:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A0BEA0A257
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 10:35:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 250A416A524
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 09:32:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6AAF03A3293
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 09:34:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A26D4169AE6;
-	Sat, 11 Jan 2025 09:32:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6969C17E472;
+	Sat, 11 Jan 2025 09:34:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ibs2l2Z+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMqhlagz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A7CECC;
-	Sat, 11 Jan 2025 09:32:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C1EECC;
+	Sat, 11 Jan 2025 09:34:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736587954; cv=none; b=Qjc3pM/pu7FGfWtZedoTK8o852U+dhB5YoCs+kTW+cJr0zzsRB3n/A71gcsYi4YFPmULOEp8lmrQLuBXnaDa7BG7glhtBNjDgDg8UkhSWdizeaoQ1zK3YivDJs4doI41BYplyoX6glGhwvhbvw0QMypIlp7u8N3lLKym6GDaEWs=
+	t=1736588099; cv=none; b=YSX2fIp+AHa2VrC/jFWbD+oQWxoq7IQDITbsXdOhALdeS0XUigdHh3or/L0JPMsqkFPefsL4n3OXeMthbncYvVAUZRPLm2HGxChYjtYFxn3rtakOvwVXyFZA2d3nvZ2b93Pba7PRDUIebfDFOEbTdQ6T428tWzdcmfftCzmsLlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736587954; c=relaxed/simple;
-	bh=PR8qtZrX5FfstJ2lZyUuaiYezInv3Ic8n3Y9oNkoVvk=;
+	s=arc-20240116; t=1736588099; c=relaxed/simple;
+	bh=ibwJ44mCHDE1DwJHNFGMdbOIW0wg3VwlpdjH5Qvhwj8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mf76LsqNeGPbdeg4FYLc5pr2awlY2ICvzlLIZuAV/o5Cew/4nuvZM3SU1O3gNZuBx28KoG4X6Pa7rQ/dzLM5OLIQIf2EfAarzpJ50ezySoKZ2mzt6dhVM0bCA8Dn8HWy7eHlM3FNukdlBoDrHbesARntypK8AE7ARfChcfh1Z9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ibs2l2Z+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67A30C4CED2;
-	Sat, 11 Jan 2025 09:32:30 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=CW+zWyemoOauR7ywj08rpU+MixZFTM5nef1QE1yp835pSsryQxAC9cBSTgPQfcfRT50CED1zyrLzp6bRgVwCUXdLzU007cH0qvdL6OO8OIIuYJ1Y2fR0CrkDKKW9ihJ5bSaM6erpCeS26/TQ786XaX5+WuA0677U5EQywvKGQxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMqhlagz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68CF1C4CED2;
+	Sat, 11 Jan 2025 09:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736587954;
-	bh=PR8qtZrX5FfstJ2lZyUuaiYezInv3Ic8n3Y9oNkoVvk=;
+	s=k20201202; t=1736588098;
+	bh=ibwJ44mCHDE1DwJHNFGMdbOIW0wg3VwlpdjH5Qvhwj8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ibs2l2Z+ABCQKF8xM0CI58b9mcF/EEg2/8UPlO/kTADxg7F+fq4rmDa+zqqqupLY2
-	 miN4Gn3X0cg3Nge1194KAXRFFyhWywyv7xnHYU6XuT8HRdRT7XKuh9GzNykfq6Wo5s
-	 49dVVjxzgowro9ImK62v+WFqHxsC74XqUKzda4aYsj8IiVvNHQ2UD9OIdTfxtRNnCy
-	 75rzI5/92hJQ1kTUpT78bivnR+OGeCHT4qe7y1vJl3mxVyXuFyvSGWNYbMq3iGRPCC
-	 17wQp1cdjcrut8Ih5V+PWvlSYFu2BR6xWFvozRqaRoXo0O9MWB0vo64hdzV4UiO2Vl
-	 6tj5wQdM/LiNA==
-Message-ID: <5867f54d-9ef2-4b8c-85b4-d79fd846a4c4@kernel.org>
-Date: Sat, 11 Jan 2025 10:32:28 +0100
+	b=PMqhlagzvsSxhmqhzZRj6QT1SZ0tNcXn1/reicmNyZznVDrqq1Bd1LJDoeVGCkQHb
+	 cDmzxrJItw+QEXmpzW3QQaTAfAkxo7dC1+tlOYu5DWjkRYCJgExxXLNgwx365G+eTX
+	 YSSiebLo8pkLfNE9gM3tzom+951RtJIjBWINyxvxXMMji6SLNBsr33yqoCvulFqTkR
+	 qS17asORO3IIK/wr3PAKZF+Gj5l81C3SI8IW84UQ5IaaezO3ScD+A7P9Rz1GhDi1uk
+	 5MI0IfYvXJaqVuW/mWi7NvB2z+h1M0cRiNfoOGC48VQOEQUUUGuJ1KYLDnUDHUEQT3
+	 fzqvJSOrQaJSQ==
+Message-ID: <467573be-f143-4cfc-a04e-86be092d1b58@kernel.org>
+Date: Sat, 11 Jan 2025 10:34:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] dt-bindings: soc: renesas: Document Yuridenki-Shokai
- Kakip board
+Subject: Re: [PATCH 4/4] arm64: dts: renesas: Add initial device tree for
+ Yuridenki-Shokai Kakip board
 To: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
@@ -59,7 +59,7 @@ To: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
 Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Masato Kiuchi <kiuchi_masato@yuridenki.co.jp>
 References: <20250111080903.3566296-1-iwamatsu@nigauri.org>
- <20250111080903.3566296-4-iwamatsu@nigauri.org>
+ <20250111080903.3566296-5-iwamatsu@nigauri.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,35 +105,101 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250111080903.3566296-4-iwamatsu@nigauri.org>
+In-Reply-To: <20250111080903.3566296-5-iwamatsu@nigauri.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/01/2025 09:09, Nobuhiro Iwamatsu wrote:
-> Add "yuridenki,kakip" which targets the Yuridenki-Shokai Kakip board.
-> 
-> Signed-off-by: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-> ---
->  Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> index 4f2645e8140c5c..294ac7c7ae8a5d 100644
-> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> @@ -548,6 +548,7 @@ properties:
->          items:
->            - enum:
->                - renesas,rzv2h-evk # RZ/V2H EVK
-> +              - yuridenki,kakip # Yuridenki-Shokai RZ/V2H Kakip board
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts
+> @@ -0,0 +1,138 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Device Tree Source for Yuridenki-Shokai the Kakip board
+> + *
+> + * Copyright (C) 2024 Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include <dt-bindings/pinctrl/renesas,r9a09g057-pinctrl.h>
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include "r9a09g057.dtsi"
+> +
+> +/ {
+> +	model = "Yuridenki-Shokai Kakip Board based on r9a09g057h48";
+> +	compatible = "yuridenki,kakip", "renesas,r9a09g057h48", "renesas,r9a09g057";
+> +
+> +	aliases {
+> +		serial0 = &scif;
+> +		mmc0 = &sdhi0;
+> +	};
+> +
+> +	chosen {
+> +		bootargs = "ignore_loglevel";
 
-I know Renesas has here a bit unusual patterns, but this is even more
-unusual. Why do you claim kakip goes with absolutely any of below SoCs?
-I understand your motherboards doing this, but not the final product.
+Not really suitable for mainline DTS. This is just debugging, so drop.
+Just like earlycon - not suitable for mainline usage.
 
->            - enum:
->                - renesas,r9a09g057h41 # RZ/V2H
->                - renesas,r9a09g057h42 # RZ/V2H with Mali-G31 support
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +
+> +	memory@48000000 {
+> +		device_type = "memory";
+> +		/* first 128MB is reserved for secure area. */
+> +		reg = <0x0 0x48000000 0x1 0xF8000000>;
+> +	};
+> +
+> +	reg_3p3v: regulator1 {
+
+Keep consistent naming. regulator-1 or the name as in bindings:
+'regulator-[0-9]v[0-9]'
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/regulator/fixed-regulator.yaml?h=v6.11-rc1#n46
+
+> +		compatible = "regulator-fixed";
+> +
+> +		regulator-name = "fixed-3.3V";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +		regulator-boot-on;
+> +		regulator-always-on;
+> +	};
+> +
+> +	vqmmc_sdhi0: regulator-vccq-sdhi0 {
+
+regulator-2? Why different styles of names?
+
+> +		compatible = "regulator-gpio";
+> +		regulator-name = "SDHI0 VccQ";
+> +		gpios = <&pinctrl RZV2H_GPIO(A, 0) GPIO_ACTIVE_HIGH>;
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <3300000>;
+> +		gpios-states = <0>;
+> +		states = <3300000 0 1800000 1>;
+> +	};
+> +};
+> +
+> +&qextal_clk {
+> +	clock-frequency = <24000000>;
+> +};
+> +
+> +&pinctrl {
+> +	scif_pins: scif {
+> +		pins =  "SCIF_RXD", "SCIF_TXD";
+> +	};
+> +
+> +	sd0-pwr-en-hog {
+> +		gpio-hog;
+> +		gpios = <RZV2H_GPIO(A, 1) GPIO_ACTIVE_HIGH>;
+> +		output-high;
+> +		line-name = "sd0_pwr_en";
+> +	};
+> +
+> +	sdhi0_pins: sd0 {
+> +		sd0_data {
+
+
+No underscores in node names. Please follow DTS coding style.
 
 
 Best regards,
