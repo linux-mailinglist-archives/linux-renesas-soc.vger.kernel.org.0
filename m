@@ -1,207 +1,379 @@
-Return-Path: <linux-renesas-soc+bounces-12061-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12062-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0BEA0A257
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 10:35:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0573A0A3CB
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 14:14:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6AAF03A3293
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 09:34:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60D77188B53D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jan 2025 13:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6969C17E472;
-	Sat, 11 Jan 2025 09:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E88C19922F;
+	Sat, 11 Jan 2025 13:14:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMqhlagz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iFwgoUlq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C1EECC;
-	Sat, 11 Jan 2025 09:34:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C57139D;
+	Sat, 11 Jan 2025 13:14:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736588099; cv=none; b=YSX2fIp+AHa2VrC/jFWbD+oQWxoq7IQDITbsXdOhALdeS0XUigdHh3or/L0JPMsqkFPefsL4n3OXeMthbncYvVAUZRPLm2HGxChYjtYFxn3rtakOvwVXyFZA2d3nvZ2b93Pba7PRDUIebfDFOEbTdQ6T428tWzdcmfftCzmsLlU=
+	t=1736601259; cv=none; b=HlqecI76lYVofupVGjipyaT0kZFFj1JlurTi7PQDawGdE6jDo/0ygpY5DycQLu4hI42M1j0TjLRjATWS9mXIWg6PVSKHA4VaYZEDUZNv322QqkAfX7PGHzkXxef0FLmZAIis0dmKvWo4Ac0i/g5IRkwKKrUuXKpMxJXigIMrOd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736588099; c=relaxed/simple;
-	bh=ibwJ44mCHDE1DwJHNFGMdbOIW0wg3VwlpdjH5Qvhwj8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CW+zWyemoOauR7ywj08rpU+MixZFTM5nef1QE1yp835pSsryQxAC9cBSTgPQfcfRT50CED1zyrLzp6bRgVwCUXdLzU007cH0qvdL6OO8OIIuYJ1Y2fR0CrkDKKW9ihJ5bSaM6erpCeS26/TQ786XaX5+WuA0677U5EQywvKGQxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMqhlagz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68CF1C4CED2;
-	Sat, 11 Jan 2025 09:34:55 +0000 (UTC)
+	s=arc-20240116; t=1736601259; c=relaxed/simple;
+	bh=k4EXJXOLhq+59iAPaw0HeeVFSgJjpZl7H1P5fD8HAL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LU10b4X9W8e+wK5N0TAV8MbThbddMniMOiKSfHwVIeYUl1Bnc8yBqAtKEH0xvg/pXcIdH/EYG2eXOGPNSD+pzBCCj6ptlL2JdZOraQwksjyREHWeu0JK+kmTOr1jdy5LCAIaN6P5D5edWWsrH9tXPm8MtV0EFAkgdUfGAc2ykOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iFwgoUlq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7028C4CED2;
+	Sat, 11 Jan 2025 13:14:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736588098;
-	bh=ibwJ44mCHDE1DwJHNFGMdbOIW0wg3VwlpdjH5Qvhwj8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PMqhlagzvsSxhmqhzZRj6QT1SZ0tNcXn1/reicmNyZznVDrqq1Bd1LJDoeVGCkQHb
-	 cDmzxrJItw+QEXmpzW3QQaTAfAkxo7dC1+tlOYu5DWjkRYCJgExxXLNgwx365G+eTX
-	 YSSiebLo8pkLfNE9gM3tzom+951RtJIjBWINyxvxXMMji6SLNBsr33yqoCvulFqTkR
-	 qS17asORO3IIK/wr3PAKZF+Gj5l81C3SI8IW84UQ5IaaezO3ScD+A7P9Rz1GhDi1uk
-	 5MI0IfYvXJaqVuW/mWi7NvB2z+h1M0cRiNfoOGC48VQOEQUUUGuJ1KYLDnUDHUEQT3
-	 fzqvJSOrQaJSQ==
-Message-ID: <467573be-f143-4cfc-a04e-86be092d1b58@kernel.org>
-Date: Sat, 11 Jan 2025 10:34:52 +0100
+	s=k20201202; t=1736601258;
+	bh=k4EXJXOLhq+59iAPaw0HeeVFSgJjpZl7H1P5fD8HAL4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=iFwgoUlqSQ37227n86OHU3nbBw4l95vu9WyBT5Bbje+iLNdVoe+VCZgfv0Rcp1rkX
+	 EImtwAw4gU2CnhVgMLGU5hLJhPWZQxHw5gNGX2lWkc6RWDPIvA9AV3XM4tP08syn/B
+	 4WYsNhSi0m7X7dLn1l9DL9GC1omBYWV/bxk6i9797K+Nf3ywVNsJ8ylKKQOMLzRdvH
+	 tn1xbpsQkXljVTWe1Wb7BDG4s4UnF5jIkRkBPvrzmmvlUk4ox88u5kbFbqaxxpAbIJ
+	 xVipYwayfeHyHbSyFycsmnKWmrjjj6ay/gcodGJ3/6U5zubycB7XkUXxIq6d7xevWM
+	 eyIbe4NQzcxFA==
+Date: Sat, 11 Jan 2025 13:14:09 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, lars@metafoo.de,
+ ulf.hansson@linaro.org, linux-iio@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, Claudiu
+ Beznea <claudiu.beznea.uj@bp.renesas.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 1/2] iio: adc: rzg2l_adc: Drop devm_pm_runtime_enable()
+Message-ID: <20250111131409.36bebfd3@jic23-huawei>
+In-Reply-To: <44e4a6b4-39a4-49d0-b3a5-fc5545c39a56@tuxon.dev>
+References: <20250103140042.1619703-1-claudiu.beznea.uj@bp.renesas.com>
+	<20250103140042.1619703-2-claudiu.beznea.uj@bp.renesas.com>
+	<20250104135225.2573285b@jic23-huawei>
+	<44e4a6b4-39a4-49d0-b3a5-fc5545c39a56@tuxon.dev>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] arm64: dts: renesas: Add initial device tree for
- Yuridenki-Shokai Kakip board
-To: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Masato Kiuchi <kiuchi_masato@yuridenki.co.jp>
-References: <20250111080903.3566296-1-iwamatsu@nigauri.org>
- <20250111080903.3566296-5-iwamatsu@nigauri.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250111080903.3566296-5-iwamatsu@nigauri.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 11/01/2025 09:09, Nobuhiro Iwamatsu wrote:
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts
-> @@ -0,0 +1,138 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Device Tree Source for Yuridenki-Shokai the Kakip board
-> + *
-> + * Copyright (C) 2024 Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include <dt-bindings/pinctrl/renesas,r9a09g057-pinctrl.h>
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include "r9a09g057.dtsi"
-> +
-> +/ {
-> +	model = "Yuridenki-Shokai Kakip Board based on r9a09g057h48";
-> +	compatible = "yuridenki,kakip", "renesas,r9a09g057h48", "renesas,r9a09g057";
-> +
-> +	aliases {
-> +		serial0 = &scif;
-> +		mmc0 = &sdhi0;
-> +	};
-> +
-> +	chosen {
-> +		bootargs = "ignore_loglevel";
+On Mon, 6 Jan 2025 11:18:41 +0200
+Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
 
-Not really suitable for mainline DTS. This is just debugging, so drop.
-Just like earlycon - not suitable for mainline usage.
+> Hi, Jonathan,
+> 
+> 
+> On 04.01.2025 15:52, Jonathan Cameron wrote:
+> > On Fri,  3 Jan 2025 16:00:41 +0200
+> > Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> >   
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>  
+> > +CC Rafael and linux-pm
+> >   
+> >>
+> >> On all systems where the rzg2l_adc driver is used, the ADC clocks are part
+> >> of a PM domain. The code that implements the PM domains support is in
+> >> drivers/clk/renesas/rzg2l-cpg.c, the functions of interest for this commit
+> >> being rzg2l_cpg_attach_dev() and rzg2l_cpg_deattach_dev(). The PM
+> >> domains support is registered with GENPD_FLAG_PM_CLK which, according to
+> >> the documentation, instructs genpd to use the PM clk framework while
+> >> powering on/off attached devices.
+> >>
+> >> During probe, the ADC device is attached to the PM domain
+> >> controlling the ADC clocks. Similarly, during removal, the ADC device is
+> >> detached from the PM domain.
+> >>
+> >> The detachment call stack is as follows:
+> >>
+> >> device_driver_detach() ->
+> >>   device_release_driver_internal() ->
+> >>     __device_release_driver() ->
+> >>       device_remove() ->
+> >>         platform_remove() ->
+> >>           dev_pm_domain_detach()
+> >>
+> >> During driver unbind, after the ADC device is detached from its PM domain,
+> >> the device_unbind_cleanup() function is called, which subsequently invokes
+> >> devres_release_all(). This function handles devres resource cleanup.
+> >>
+> >> If runtime PM is enabled via devm_pm_runtime_enable(), the cleanup process
+> >> triggers the action or reset function for disabling runtime PM. This
+> >> function is pm_runtime_disable_action(), which leads to the following call
+> >> stack of interest when called:
+> >>
+> >> pm_runtime_disable_action() ->
+> >>   pm_runtime_dont_use_autosuspend() ->  
+> > 
+> > So is the only real difference that in the code below you disable runtime pm
+> > before autosuspend?  
+> 
+> No, the difference is that now, the driver specific runtime PM APIs are not
+> called anymore (through the pointed call stack) after the ADC was removed
+> from it's PM domain.
 
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	memory@48000000 {
-> +		device_type = "memory";
-> +		/* first 128MB is reserved for secure area. */
-> +		reg = <0x0 0x48000000 0x1 0xF8000000>;
-> +	};
-> +
-> +	reg_3p3v: regulator1 {
+By my reading they are only not called now because you turn autosuspend off
+after disabling runtime PM.
 
-Keep consistent naming. regulator-1 or the name as in bindings:
-'regulator-[0-9]v[0-9]'
+> 
+> 
+> >  Can you still do that with a devm callback just not
+> > the standard one?  
+> 
+> No. It doesn't matter if we call the standard devm callback or driver
+> specific one. As long as it is devm it will impact us as long as the driver
+> specific runtime PM APIs are called through devres_release_all() after
+> dev_pm_domain_detach(). And at that time the PM domain may be off along
+> with its clocks disabled.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/regulator/fixed-regulator.yaml?h=v6.11-rc1#n46
+As above, I think that this is only the case because of the reordering
+of those two calls, not something more fundamental.
 
-> +		compatible = "regulator-fixed";
-> +
-> +		regulator-name = "fixed-3.3V";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		regulator-boot-on;
-> +		regulator-always-on;
-> +	};
-> +
-> +	vqmmc_sdhi0: regulator-vccq-sdhi0 {
+In driver remove flow, device_unbind_cleanup9() is called
+just after device_remove() which is calling the dev->driver_remove()
+callback. There are no runtime pm related calls in between that I can see.
 
-regulator-2? Why different styles of names?
-
-> +		compatible = "regulator-gpio";
-> +		regulator-name = "SDHI0 VccQ";
-> +		gpios = <&pinctrl RZV2H_GPIO(A, 0) GPIO_ACTIVE_HIGH>;
-> +		regulator-min-microvolt = <1800000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		gpios-states = <0>;
-> +		states = <3300000 0 1800000 1>;
-> +	};
-> +};
-> +
-> +&qextal_clk {
-> +	clock-frequency = <24000000>;
-> +};
-> +
-> +&pinctrl {
-> +	scif_pins: scif {
-> +		pins =  "SCIF_RXD", "SCIF_TXD";
-> +	};
-> +
-> +	sd0-pwr-en-hog {
-> +		gpio-hog;
-> +		gpios = <RZV2H_GPIO(A, 1) GPIO_ACTIVE_HIGH>;
-> +		output-high;
-> +		line-name = "sd0_pwr_en";
-> +	};
-> +
-> +	sdhi0_pins: sd0 {
-> +		sd0_data {
+So you are moving these calls a little earlier but not in a fashion that
+seems to have any involvement with anything else.
 
 
-No underscores in node names. Please follow DTS coding style.
+Call stack being
+device_release_driver_internal()
+-> __device_release_driver()
+  -> device_remove() where you are now calling the disables
+   .. some dma stuff
+  -> device_unbind_cleanup() where the calling of disables previously was.
+
+other than that unrelated DMA stuff there is nothing between the
+two calls. 
+
+There is runtime PM stuff before any of this, but not in the crucial
+portion this code affects.
+
+So I am thinking the only change that actually matters is the trivial
+reorder mentioned above.
 
 
-Best regards,
-Krzysztof
+
+
+
+> 
+> > 
+> >   
+> >>     __pm_runtime_use_autosuspend() ->
+> >>       update_autosuspend() ->
+> >>         rpm_idle()
+> >>
+> >> The rpm_idle() function attempts to runtime resume the ADC device.  
+> > 
+> > Can you give a little more on that path. I'm not immediately spotting
+> > how rpm_idle() is causing a resume  
+> 
+> It is not in particular about the resume. Runtime suspend/resume after
+> devres_release_all() will be affected.
+> 
+> In particular, the rpm_idle() can call rpm_suspend() (called on the out
+> label of rpm_idle()) and rpm_suspend() may call the driver specific
+> runtime_suspend API through the following code (from the rpm_suspend()
+> function):
+> 
+>         callback = RPM_GET_CALLBACK(dev, runtime_suspend);
+> 
+> 
+> 
+>         dev_pm_enable_wake_irq_check(dev, true);
+> 
+>         retval = rpm_callback(callback, dev);
+> 
+>         if (retval)
+> 
+>                 goto fail;
+> 
+> 
+> 
+> The full stack generated when running:
+> # cd /sys/bus/platform/drivers/rzg2l-adc
+> # while :; do echo 10058000.adc > unbind ; echo 10058000.adc > bind; done
+> 
+> is as follows:
+> 
+> [   24.801195] Call trace:
+> [   24.803633]  rzg2l_adc_pm_runtime_suspend+0x18/0x54 (P)
+> [   24.808847]  pm_generic_runtime_suspend+0x2c/0x44 (L)
+> [   24.813887]  pm_generic_runtime_suspend+0x2c/0x44
+> [   24.818580]  __rpm_callback+0x48/0x198
+> [   24.822319]  rpm_callback+0x68/0x74
+> [   24.825798]  rpm_suspend+0x100/0x578
+> [   24.829362]  rpm_idle+0xd0/0x17c
+> [   24.832582]  update_autosuspend+0x30/0xc4
+> [   24.836580]  pm_runtime_disable_action+0x40/0x64
+> [   24.841184]  devm_action_release+0x14/0x20
+> [   24.845274]  devres_release_all+0xa0/0x100
+> [   24.849361]  device_unbind_cleanup+0x18/0x60
+> [   24.853618]  device_release_driver_internal+0x1ec/0x228
+> [   24.858828]  device_driver_detach+0x18/0x24
+> [   24.862998]  unbind_store+0xb4/0xb8
+> [   24.866478]  drv_attr_store+0x24/0x38
+> [   24.870135]  sysfs_kf_write+0x44/0x54
+> [   24.873795]  kernfs_fop_write_iter+0x118/0x1a8
+> [   24.878229]  vfs_write+0x2ac/0x358
+> [   24.881627]  ksys_write+0x68/0xfc
+> [   24.884934]  __arm64_sys_write+0x1c/0x28
+> [   24.888846]  invoke_syscall+0x48/0x110
+> [   24.892592]  el0_svc_common.constprop.0+0xc0/0xe0
+> [   24.897285]  do_el0_svc+0x1c/0x28
+> [   24.900593]  el0_svc+0x30/0xd0
+> [   24.903647]  el0t_64_sync_handler+0xc8/0xcc
+> [   24.907821]  el0t_64_sync+0x198/0x19c
+> [   24.911481] Code: 910003fd f9403c00 f941bc01 f9400020 (b9400000)
+
+Thanks, that was helpful.
+
+> 
+> 
+> Digging it further today: on the Renesas RZ/G3S we implement the power
+> domain on/off and we register the PM domain with GENPD_FLAG_PM_CLK. The
+> on/off PM domain functionality is implemented though the clock controller
+> MSTOP functionality which blocks the bus access to the specific IP (in this
+> particular case to the ADC).
+> 
+> The issue is reproducible when doing:
+> # cd /sys/bus/platform/drivers/rzg2l-adc
+> # while :; do echo 10058000.adc > unbind ; echo 10058000.adc > bind; done
+> 
+> I noticed today that doing single manual unbind+bind doesn't always leads
+> to aborts. It may be related to the fact that, as I noticed, the genpd
+> power off is called asynchronously as a work (through
+> genpd_power_off_work_fn()).
+> 
+> I also noticed today what when there is no on/off functionality implemented
+> on the PM domain we have no failures (as the MSTOP is not implemented and
+> the bus access to the specific IP is not blocked as there is no PM domain
+> on/off available).
+
+The PM domain stuff is only called later in device_unbind_cleanup()
+so I don't see the relevance. All the code you are modifying is
+done before that happens.
+
+Jonathan
+
+
+> 
+> 
+> 
+> >   
+> >> However,
+> >> at the point it is called, the ADC device is no longer part of the PM
+> >> domain (which manages the ADC clocks). Since the rzg2l_adc runtime PM
+> >> APIs directly modifies hardware registers, the
+> >> rzg2l_adc_pm_runtime_resume() function is invoked without the ADC clocks
+> >> being enabled. This is because the PM domain no longer resumes along with
+> >> the ADC device. As a result, this leads to system aborts.
+> >>
+> >> Drop the devres API for runtime PM enable.
+> >>
+> >> Fixes: 89ee8174e8c8 ("iio: adc: rzg2l_adc: Simplify the runtime PM code")
+> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>  
+> > 
+> > See below. I'm doubtful in general about the sequence changes and
+> > specifically you can't just remove one devm callback from a driver without
+> > modifying a lot of other code / leaving really fragile ordering.
+> > 
+> > Jonathan
+> >   
+> >> ---
+> >>  drivers/iio/adc/rzg2l_adc.c | 33 ++++++++++++++++++++++++---------
+> >>  1 file changed, 24 insertions(+), 9 deletions(-)
+> >>
+> >> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+> >> index 883c167c0670..f12f3daf08cc 100644
+> >> --- a/drivers/iio/adc/rzg2l_adc.c
+> >> +++ b/drivers/iio/adc/rzg2l_adc.c
+> >> @@ -464,25 +464,26 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+> >>  
+> >>  	pm_runtime_set_autosuspend_delay(dev, 300);
+> >>  	pm_runtime_use_autosuspend(dev);
+> >> -	ret = devm_pm_runtime_enable(dev);
+> >> -	if (ret)
+> >> -		return ret;
+> >> +	pm_runtime_enable(dev);
+> >>  
+> >>  	platform_set_drvdata(pdev, indio_dev);
+> >>  
+> >>  	ret = rzg2l_adc_hw_init(dev, adc);
+> >> -	if (ret)
+> >> -		return dev_err_probe(&pdev->dev, ret,
+> >> -				     "failed to initialize ADC HW\n");
+> >> +	if (ret) {
+> >> +		dev_err_probe(&pdev->dev, ret, "failed to initialize ADC HW\n");
+> >> +		goto rpm_disable;
+> >> +	}
+> >>  
+> >>  	irq = platform_get_irq(pdev, 0);
+> >> -	if (irq < 0)
+> >> -		return irq;
+> >> +	if (irq < 0) {
+> >> +		ret = irq;
+> >> +		goto rpm_disable;
+> >> +	}
+> >>  
+> >>  	ret = devm_request_irq(dev, irq, rzg2l_adc_isr,
+> >>  			       0, dev_name(dev), adc);
+> >>  	if (ret < 0)
+> >> -		return ret;
+> >> +		goto rpm_disable;
+> >>  
+> >>  	init_completion(&adc->completion);
+> >>  
+> >> @@ -493,6 +494,19 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+> >>  	indio_dev->num_channels = adc->data->num_channels;
+> >>  
+> >>  	return devm_iio_device_register(dev, indio_dev);
+> >> +
+> >> +rpm_disable:
+> >> +	pm_runtime_disable(dev);
+> >> +	pm_runtime_dont_use_autosuspend(dev);
+> >> +	return ret;  
+> > If you have to move away from devm you must do it for all calls after
+> > the first thing that is manually cleaned up.
+> > As you have it here the userspace interfaces are left available at a point
+> > well after power down.  
+> 
+> I see, thank you for pointing it.
+> 
+> And thank you for checking this,
+> Claudiu
+> 
+> >   
+> >> +}
+> >> +
+> >> +static void rzg2l_adc_remove(struct platform_device *pdev)
+> >> +{
+> >> +	struct device *dev = &pdev->dev;
+> >> +
+> >> +	pm_runtime_disable(dev);
+> >> +	pm_runtime_dont_use_autosuspend(dev);
+> >>  }
+> >>  
+> >>  static const struct rzg2l_adc_hw_params rzg2l_hw_params = {
+> >> @@ -614,6 +628,7 @@ static const struct dev_pm_ops rzg2l_adc_pm_ops = {
+> >>  
+> >>  static struct platform_driver rzg2l_adc_driver = {
+> >>  	.probe		= rzg2l_adc_probe,
+> >> +	.remove		= rzg2l_adc_remove,
+> >>  	.driver		= {
+> >>  		.name		= DRIVER_NAME,
+> >>  		.of_match_table = rzg2l_adc_match,  
+> >   
+> 
+> 
+
 
