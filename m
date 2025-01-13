@@ -1,129 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-12075-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1EE0A0B0FC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jan 2025 09:25:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EE7A0B2A7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jan 2025 10:24:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C14321887815
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jan 2025 08:25:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CE3527A19A8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jan 2025 09:24:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65E24233140;
-	Mon, 13 Jan 2025 08:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VKuIxveU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05AF223A566;
+	Mon, 13 Jan 2025 09:24:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DB3233139
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Jan 2025 08:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158DD22F19;
+	Mon, 13 Jan 2025 09:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736756717; cv=none; b=TWyTlysHJZb5OXHi5Xi01dxlqRE8Bmnjj0PqMFHBeU2/45NRYXHcOttt8Tt7/DUQPm3Z77zm5ZJnQWZp+yHqe0XR8Ym7gqzVUzWs+GJuHpgbOHNoOSWpe78IduW5DJGkPGlwJ+4ahklfQUi0RMbW2Iv63AUVqxhSlSf7mhacCqo=
+	t=1736760265; cv=none; b=fi4omSOKVU5+4JaCwq4liMa5bOCRZ2rIk1KmcS0OoZXiANIg7o03s1b3V7lUGRHfdM1D9sO3cBUQNw5nH3yqnlyJmIDNk41mkIa9+PmkisqLkqM4dkw73uVymxib2f+hcC3VZQ/MJKN2H3UncyvLVL5XXVto5/w+hDGIHAmgvNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736756717; c=relaxed/simple;
-	bh=5t/TrcuXNWNUZTuS5pgxHTJQKuHzmhw4UrOTlIJ4BOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z28UOIPZI4eVBL18LnDHT5H051tnSiuy1/6kGC92nWYmzTvepKvhAaPYEM81n1rXf1MvZ/tCKtX93bQG1ItEAFTwwehFkwqXNpeP6t9mH7aY0nreeu6l6E+gsH0+JBnIZRrg3Sw85GI4bW4OKqQYJIl4TCtbGOeRk9UT/xJ9Mr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VKuIxveU; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54025432becso3693227e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Jan 2025 00:25:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736756713; x=1737361513; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HsOOejTFjVwFwvDCfWyTG69OVT7YoO10LJVJy5N++GA=;
-        b=VKuIxveUwLt3RwsqOf2zdz43fjhwd0REq9TdceAA/AAgp+Mdq4Xba5PE9k0BGFuQYC
-         os/xvPD2AjzWp+rKOF0LSlfm/D+H3qhAoETVYKVRvm0fXYE6AH3nNGSzfVN0WPORmacE
-         JC3gAoqoXA9b8wBsoqzvLU7QtqIueS449tgcs1PLWEBQbV3Dnh/KR0RJnJU6AG66vLri
-         cp6PF9f8RLLKT2F6gEng47/DpBkELHIAYTSNM4pJZ58RB2bj79hAMp6A1DfZhXsdRqxf
-         u0jeUEuMvigo4bzKtMTApw4aMEQkPQmFClP7E1Yz2/Vfu45v5qrDCtsXDcscFEaw+Tr6
-         6Ctw==
+	s=arc-20240116; t=1736760265; c=relaxed/simple;
+	bh=84bvFb6cD3GLpZUptbdmF7YOn8xMF2nDELR6ofKX8hM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W5lvfCUYdJ7Ksk9x2jkHDIFZcLsW15Ado5NQvDIrvsGasisjDA+8DE1hkE1wI1v5LSnpL2ULP7JihPHMSEuFZds2XlJ/U4YKciW55eV+JkWX6y2wPcOL5lku8mf+vNk0ahR6D8yacYCHfsA5DH3+5YLLGorjLj339uDHT+Lkhro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-85bc5d0509bso952445241.1;
+        Mon, 13 Jan 2025 01:24:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736756713; x=1737361513;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HsOOejTFjVwFwvDCfWyTG69OVT7YoO10LJVJy5N++GA=;
-        b=ixCCwIGQJWq2LZf28mj1QvdZcKXcFR1R1kejdv3/+hHe3UD7yPE5B2crbhwYG9R99N
-         ZFsdeVMwNSQNbGXeOIyf87kfnHcZx0xxFpRLIO0t/999ajZz/TBAk7bbnw1LjLJuFeuL
-         THPuqITSXMGON9rqJJvG6Ks2lMnvA+1epX0M4PvD/g7TGjzMWTiDvV48w4aznzFepXxA
-         498f7r9ltSqUAgefnQDf1B2pF9O6fPwH1NpFUVDWZuLHQgCkNrnMjd3yF70HX+RupyvH
-         d62dEx8b3CCqTKo+aBpcBbSADMWp1F8sHwKxKUfdVTIRb8i/dYA0aZC60wXb3GvVtt+6
-         5u9w==
-X-Forwarded-Encrypted: i=1; AJvYcCUKUWMmw6UNvVqut+AwxdZfpOkhD4Cn2qv/tVYsXaxGmKDjf7dYh2J9gtPZpgzffE70IS267U8b37gkV+n+BauERg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxtk8+jKUm8TLp0HREZW31RAoxURUcn15oOA0yhAUi42fVUraor
-	1XwSarXLk4OQxacRyUGSMRZI9zfFs8mBbXoAYQWKDkUz9uJLWUUGR8V7Z6iJ77E=
-X-Gm-Gg: ASbGncu+w8M8oP/cb2Ksz+zXiBbB6OS0OVBEU83AwXErsgO1HON3mYbRav8Pm6RNaYA
-	NS7UrI0jsB8waB8QWNcVpMceDiimRZL2nsA6TUwSFu328/1DC0aIwAvIbb53qtiHLiPWhBSkP1p
-	R4xMKbkNMPBN9BsuRZkjB0hV2Vcd55EzZ9qyyHLIYQNuJyYZb/oOxo7y/o3H4hxZMJsqf5aANZ1
-	B4f7F6TmJyu5cVqT6sPU20IxqIebDvpQtXyZHPQzry05h3TlrlqWDYyn9oV+P/yUUPOjZqKg4wN
-	BiAwd7FGc55ni+ERbxYBAXyYCPPxKYzubqEK
-X-Google-Smtp-Source: AGHT+IERZWZtkZrsbkHThnFiBHKfz//tsYW/urMLTgJODZNi9Tp473Grr1NqQ4M0NySCRCOoV5n3Rw==
-X-Received: by 2002:a05:6512:138c:b0:540:2188:763c with SMTP id 2adb3069b0e04-542845b0b55mr6338144e87.37.1736756712614;
-        Mon, 13 Jan 2025 00:25:12 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5428bec0659sm1286326e87.185.2025.01.13.00.25.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2025 00:25:11 -0800 (PST)
-Date: Mon, 13 Jan 2025 10:25:09 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
-	linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org, 
-	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, 
-	intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, Rob Clark <robdclark@gmail.com>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [PATCH v2 13/25] drm/msm: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-Message-ID: <bbw2n4ccn5jlq7q7lsw3xdnbieazgexkwkycrqvk5aoiq5q3wx@nz6gd3unwkg4>
-References: <20250109150310.219442-1-tzimmermann@suse.de>
- <20250109150310.219442-14-tzimmermann@suse.de>
+        d=1e100.net; s=20230601; t=1736760262; x=1737365062;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kYZ4TIeu11XIguoy+lnYJTPraqx664zEMCZSQ2GxQKc=;
+        b=VsWzwbqPI2GB6K3AIEvaCWjLoIqSt4d8484GTZAyp/gLDHMPrFY1oaz4C3iPTDuce/
+         KKk27v/5cmokVJf1BuuMsu7/PM5ZYw3bZj6VFdYbIfGMsFQC0UQF8tiwNoXsMM+ugvyq
+         18xUB+Jd1WmQxdvy7bPyjmF3nS2iaR354VRxIAngjym06WKIwT6sgdSiG83/T0gC6iRN
+         qGnxlOuzdG+c/48gAo+otfU+0SqFybO/F6D/EC2h3kaBtkgNxN23FBx+HgVOIjkhRioh
+         Dk2GOJss0RIekep0Vn7FXSuaX44jq5NE8mV3OjnYmPZ0V20r9255jc4Rfjsbf2v8l5fd
+         X/EQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVc0B/Romia4+O5NxTdVSUp89q5QAdB3H8gz0YchgckHo9tjJo9M8tdXKmPt+dQlUq3WWLhwQ3mVcE65KGQ@vger.kernel.org, AJvYcCX5FBSzLdygQ5pvEFuxKKczVO7j00ufg1Y83VJD0OTsTha2kXiHk98MOa2rbxNkro5TbvkPEFE7XEh002xHXkwceCU=@vger.kernel.org, AJvYcCXjR0lTildetcPq6kK43xzXd8SX5T5vTTCvU7EvUdJd2XES0ftCm5Zd3EJfgRXuahbphyYSrTu7xY/T@vger.kernel.org, AJvYcCXmImnHQKyB9j+wzY/8Qmq6UFj4sRmwjpILxUSfp9+2mbhroGdZlkuH0okJuUFfO5rzj9zbpsMC@vger.kernel.org
+X-Gm-Message-State: AOJu0YwY/GNS3/GIScMT5X/WHhTADkcGtb7RRFekBiLrGzKVD4KkvH+C
+	i8JUQ59vhYTma+cdmL/vqLSqmWSbKhEc45LMuPLKk8ODS/nvUGIF5ZFCC2ZI
+X-Gm-Gg: ASbGncvudrGyp9fkjjlQMDCnVahGh6/qQhce1ORSLh5Cznf4EswX205TFhJ+8rflr4X
+	niJioXa9g/nnb9vZCr4S5dgH0/7jyLjtgxMLWAvi8LobkOu1kjmH1J2KjCIIHm6hp7EXWDAFWm5
+	pqbURvIXOs+T8CvX5YLUHdS8SAXFllceGr2TzUkCvf+g7ddGsnFCCbjHc3XeDoSqRreC20GGHpv
+	0iKt2c3HL43C/7gV1CC/A4D6jlSJ+5DsOleVfMZ21uCzvk+8Fm9balFBVfYk4DHsb26jz2sxpqO
+	hKORUPaRCaUa/4byS0c=
+X-Google-Smtp-Source: AGHT+IGYVy5ZX0kEmJ99FdTEiEGnhnakzJvC/hNJ82OXQhJgDuvBZcJMpl6cOu05qaiv0uWM9BT2Wg==
+X-Received: by 2002:a05:6102:509f:b0:4b2:bc6b:c845 with SMTP id ada2fe7eead31-4b3d0d763b1mr15360629137.6.1736760262196;
+        Mon, 13 Jan 2025 01:24:22 -0800 (PST)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8623134c6f8sm4646377241.4.2025.01.13.01.24.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jan 2025 01:24:22 -0800 (PST)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4afde39e360so1360359137.0;
+        Mon, 13 Jan 2025 01:24:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUUvhsk1lWs07ojEJuiHoCthDx5xox1wD2BKALmHU3sxO2AviCOgloEfpn5UfVG3gOUU6RPXMKP@vger.kernel.org, AJvYcCWhFW8nLq/OC/8LyuWfecGGEujgc6Pe50IssrswpgPpSkVhro6OY2AE+W+D1wwHa9IjUaYJomy5lUqW@vger.kernel.org, AJvYcCWy6ld4sahUFa4VJ76/VbGhbWVD0FIrESsd6+Rzbl+lC8S6pkg5A3zLOU+aRPSqLefgb44tu2R8SB8nVW/N@vger.kernel.org, AJvYcCXokAZMoyjxWrBwOsxrY3nND8W0dm7PpPJo/4od9+SM3uvDHQ4tUBMHNb1gXsFQ0rUpp48zMZvdGQoHNV+YxIlD42k=@vger.kernel.org
+X-Received: by 2002:a05:6102:8017:b0:4b4:3a28:6491 with SMTP id
+ ada2fe7eead31-4b43a286656mr17964850137.25.1736760261906; Mon, 13 Jan 2025
+ 01:24:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250109150310.219442-14-tzimmermann@suse.de>
+References: <20250110221045.594596-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250110221045.594596-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 13 Jan 2025 10:24:10 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUGbxJGCZB8U2CJ5cj6QBx2GqXt-Pp6czWNaq=45bOw8w@mail.gmail.com>
+X-Gm-Features: AbW1kvZg6d7Xxpj2ymrdwlth7H82qDIqd7wLoyU9raVAPvQzpgvyCJe9tRi-BY0
+Message-ID: <CAMuHMdUGbxJGCZB8U2CJ5cj6QBx2GqXt-Pp6czWNaq=45bOw8w@mail.gmail.com>
+Subject: Re: [PATCH v2] pinctrl: renesas: rzg2l: Update PFC_MASK to align with
+ RZ/V2H requirements
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 09, 2025 at 03:57:07PM +0100, Thomas Zimmermann wrote:
-> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
-> buffer size. The hardware requires the scnaline pitch to be a multiple
-> of 32 pixels. Therefore compute the byte size of 32 pixels in the given
-> color mode and align the pitch accordingly.
-
-- scanline, not scnaline
-- the statement about 32-pixel alignment needs an explanation that it is
-  being currently handled by align_pitch().
-
-With that in mind:
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
+On Fri, Jan 10, 2025 at 11:10=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
+com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> The PFC_MASK value for the PFC_mx register was previously hardcoded as
+> `0x07`, which is correct for SoCs in the RZ/G2L family but insufficient
+> for RZ/V2H and RZ/G3E, where the mask value should be `0x0f`. This
+> discrepancy caused incorrect PFC register configurations on RZ/V2H and
+> RZ/G3E SoCs.
+>
+> On the RZ/G2L, the PFC_mx bitfields are also 4 bits wide, with bit 4
+> marked as reserved. The reserved bits are documented to read as zero and
+> be ignored when written. Updating the PFC_MASK definition from `0x07` to
+> `0x0f` ensures compatibility with both SoC families while maintaining
+> correct behavior on RZ/G2L.
+>
+> Fixes: 9bd95ac86e70 ("pinctrl: renesas: rzg2l: Add support for RZ/V2H SoC=
+")
+> Cc: stable@vger.kernel.org
+> Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->  drivers/gpu/drm/msm/msm_gem.c | 27 +++++++++++++++++++++++++--
->  1 file changed, 25 insertions(+), 2 deletions(-)
-> 
+> v1->v2
+> - Dropped SoC specific configuration
 
--- 
-With best wishes
-Dmitry
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl for v6.14, as it is a fix.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
