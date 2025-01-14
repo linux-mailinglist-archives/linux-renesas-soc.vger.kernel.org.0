@@ -1,124 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-12117-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12118-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EA1A10760
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 14:06:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB7FA107D9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 14:32:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB81A1887732
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 13:06:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 37B0F16359C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 13:32:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5367A2361C1;
-	Tue, 14 Jan 2025 13:05:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 381AF232454;
+	Tue, 14 Jan 2025 13:31:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2+5Fvvx"
+	dkim=pass (2048-bit key) header.d=nigauri-org.20230601.gappssmtp.com header.i=@nigauri-org.20230601.gappssmtp.com header.b="gLJCqMj6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F9922DC53;
-	Tue, 14 Jan 2025 13:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F3A23244F
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jan 2025 13:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736859957; cv=none; b=XI6ahTMUneaoP/HTvFsVqLAvFVl8tTrM6A7U/w0TZoyKeHY2613MicePBMOtaZt40s27wJYQFDpRFJlRcQHRKYyUeBQ8tMRoPmvARsBXGQzqu3QhhvVjL9a0GgdlA+/jI4J9tVd2YCpW13NbxgJEC1Z4hkeNOsHvef1WL+c1qF8=
+	t=1736861519; cv=none; b=hgXNi1DHyIg/LfN3/rauUJ1sKtevZ+fJLuOw58fTL8Rfa2xfLGamWU4nJlI9/YWCpf88hPtr4FsgcVLb7Oc7ROOYvPxQqwnrRuH/68N4C5eb23nqQvXPBWpoU9NN+86JCYqs6Na+i21vz+XoBKrix8IK2Pvk270E7157mmDI9Vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736859957; c=relaxed/simple;
-	bh=yyH7YE+CG+eiWFi83dmPyWkVfF1aciuv75YL3Fg7Ed8=;
+	s=arc-20240116; t=1736861519; c=relaxed/simple;
+	bh=iUjTDN/XKb/MTAF0zOpLsYF07GVkaqv6WKr7zNZkzeI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=pHW1GxvUDBHfvOPIuNTxvNjnQ4+32Av3vK6SNwFjIKjlz7SkNimp1JHOrC+4e9YwlR9mTZ5zGlU5ZJIJS8/Du66vlPgNROqtbrxKpjwz3OGMn2CDEuxhHRZOk+bI6ah3/jQtfMIsqNuspwXeDafDfpAnChlSTPYpsjnZe+ZMQSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2+5Fvvx; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-85c4e74e2baso1160085241.0;
-        Tue, 14 Jan 2025 05:05:55 -0800 (PST)
+	 To:Cc:Content-Type; b=gctZUAyIqKDYBxpMHodX1I4tM8feFta7TJpaJ5L5aRtQ8ODOeB1GZ5VH5tPpzlucv5JUkBeqyrSmezFLOFSVLopnC+Id2utjTVbG09Aw7SkzJLbd7hT7uN5uWJvae/JT10NyYBoIqdz3RBs7GnvWkjrUyGUl0G7pa8alHIbOjQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nigauri.org; spf=none smtp.mailfrom=nigauri.org; dkim=pass (2048-bit key) header.d=nigauri-org.20230601.gappssmtp.com header.i=@nigauri-org.20230601.gappssmtp.com header.b=gLJCqMj6; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nigauri.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nigauri.org
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aaee2c5ee6eso968947966b.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jan 2025 05:31:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736859954; x=1737464754; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=nigauri-org.20230601.gappssmtp.com; s=20230601; t=1736861516; x=1737466316; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yyH7YE+CG+eiWFi83dmPyWkVfF1aciuv75YL3Fg7Ed8=;
-        b=H2+5FvvxNSXzWtMyHavD3weoWkiTHJHA42eGx/seEn+PXbLwSNIZVBE4c5DgaP2HDW
-         SLExiOfTEnxbed+UPrpkfws9plEBtjmIMAof2rNRSCe13ezMZ6xfV4DjTA23t95rfXdP
-         60syti6XQIFi/Z1CqZO9PoNgUUok/KLF4L+utnrBUCZ6QcH00CYU9s/24WZEf2xSbKaE
-         cJ1uOohlDVzg3pkchWdDBiGBPG6eacLhWT508rg2QTozLf1RfqccFZe0bhfdAeGLUPJt
-         CgNXbp/sr3xbPs9gu+R6bx8/uEQmpjtROK/q92gUan3e+blnQHtXRN7JyxjLvJ6aGe1O
-         IFsw==
+        bh=qmABPq3JzMhTk8EThjPz1+BO2EyDVrrew3hZAzTSp2c=;
+        b=gLJCqMj68vFNg8HkQ44VV+8o8XAz9YfyqaSWtgLAW1ZP4DvnBQ+brRbY8AsW6N49oF
+         FIUMNLYnxSAsOrbfIM9YgI9s5dvMKmEC2ZVB+hzVbSm+mvBz+xlDpNqFvRvFuVLnMpno
+         xjmHKdnGG8JzP9c7vbLjG1sNrbYZ7yKVjbjG2DJpBYx2k0WqyjbW+aLybDFzIl+RlFMi
+         SDbTIiKK4Gx9TBZvDxyCQdx38WnkA/cL9REvo2SOom2xHVKRN5OUt5CwVeo0DStBksMg
+         8T2g3SDVMd8MsbxWtFg71NVqT4+YZ0dSDESnagcmoeou1gsRwB98Ne+Nt0UVsLgwPiIw
+         C85g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736859954; x=1737464754;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1736861516; x=1737466316;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yyH7YE+CG+eiWFi83dmPyWkVfF1aciuv75YL3Fg7Ed8=;
-        b=p7gflz7ukEWlxNuTqfbcewGJijo+NI6IE8NnJ7fDDXgSmlMLhdSXCFMBU+wPrm0SQL
-         7PHIPWJV2K91GEOBw0kJFv2VcZFjdu7OalvA/kTcTqdvVtcRMTVpXD8AAh3M07UqUkBp
-         r5MqHbC8cPAqGXHi7sXdmZLloeavPR9hd6ljYxMa1YdTreyGyxTWFD8ry12mWNFmd+Am
-         YWsxBnyqLbgY7nDiWKzrZvdm5Hh32yYJ6aqrMDDZOlmt9NlRnHXkMe37mLAzgq56NI9z
-         NrjzoDnhGwjC8FvUcFa6c/lDwx47Tck6VJukupdVM0MvYdSrrhKyO3VZsvnR2BUtoI24
-         jxJw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4tAWET8yLPOZR+0RcnugJZhgNnyGMG6fVBBUou1BUOtzHglnTmeEkn8uX3JUDDOfEz4p6Qx3XBUIaVSyQ5GDqzec=@vger.kernel.org, AJvYcCWu01ipmhSp6HarcZZZe5skad9cksArmQ434C5Qx6v2s7NOv1Ks+KZrfTQ/vgE+02QN81YcDoDEkodcTDxX@vger.kernel.org, AJvYcCXQFkzUi6vKgPRKshxevMVGjiSYtEnGfqxSwlCqgLjSiUS9so2H9NkPnH4GV+ytNwksZcOLBIXHwA8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHOO/ZsZEH/eR7nPleqWbIXA3O7dyPNtnaCT72fuoHohvO6xnY
-	+I68yQAwKk99WrwhN7SEYDrzCQZAB1kSEsY3yRf4A+vT6CtrSXUQc13oMy1uNYQTpR6LcBE+MDS
-	eCZEdM/e8xEZ3d6n4ffK1SadFANU=
-X-Gm-Gg: ASbGnctK54vOYpdE0INQvG2/p0rJLpdhrMREtnWU34iMHgklXh31/IZw38v7jU5eD8Z
-	aqBgTEH2ocLPqYkRdLq3GrcY3pUd74lX9bZ+60/c=
-X-Google-Smtp-Source: AGHT+IHuen5JgT095oAhhOjZzmS64KMMfGtHLmFdLQJPs7/S8os7yTFzFAzuT221CmiSBRUyu41hrWR34QCpGKLEtlQ=
-X-Received: by 2002:a05:6122:180d:b0:518:a2af:d666 with SMTP id
- 71dfb90a1353d-51c6c439cf2mr18077814e0c.1.1736859954182; Tue, 14 Jan 2025
- 05:05:54 -0800 (PST)
+        bh=qmABPq3JzMhTk8EThjPz1+BO2EyDVrrew3hZAzTSp2c=;
+        b=sqR602jqOGIYz/Viko2/tUgYcruoSiJA7X3+JxaVM3tq+hgZhxJJEYO+KspcKfGyFk
+         eRn2s/PlRs+ZABK7j3oMY27RrTvTpJ/JKXAJrdcSi5poJa2rmu0qfbv9SbLgtfp20tAO
+         iJ8DvriaPaJDNN0C5H1Mnkkgbjnjg2lSsO1WvzKgHN2CWR6gup1M5yj5AI/z+PAbNaGu
+         fQKHUxTYT3EZ/xhENz2J2FUr87SuaJwgrW+1MSfJUUnLMIZvWg4vqE0QaTpMsSjkZCea
+         SIh2ZQhjL8GIl2cR4R5/o5jh+hGXt2tvaxOKVJyA10yGDKi4x86DpqpKY9RLT+nY98sn
+         EYHA==
+X-Forwarded-Encrypted: i=1; AJvYcCUuMM1RCOICzTbB7FX2ZKMTm+oGF3vVR3O42FNhRE4u4SBhOd74E6HGXZf6vIfNuYiKrYuweYkhAF4kUs4ACfQpDA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy68iihOfn0mNYorrZ9IeP8iE+CdIe2QzULnlkDWNWsmPMX0W4V
+	eHmlk65PkAMM1PJMqxSnXvuQTbeg7jW7lJzIfxe8EGh0NzS7XPDKXG3Gt0kT9redW1fEvYXHPMY
+	b35WOReKw12WBQn7gLhfUiVMhhmEfkdI/ibI=
+X-Gm-Gg: ASbGncuSSbts4MhiNbrCw3NPJA9WUNq9VNcM15TC3jlUKXON/TO33U0jqecdPIEHKM8
+	0NjK7pR4pvf991xovm3B/Lm7grbiygm87vTVl50uaFq1WkWD6TXlMOMgqLVWmmi4Q8CdZmYs=
+X-Google-Smtp-Source: AGHT+IGU+AY1ZPQ7Y5mKvWp6XiMlkTc6yHc+rNlOMikZebD6eXbLY4qNlpO59Xj18bAK8VrZ4+GKYHRhTQThOn+syVI=
+X-Received: by 2002:a17:907:981:b0:aae:df74:acd1 with SMTP id
+ a640c23a62f3a-ab2ab67059dmr2676075566b.11.1736861515453; Tue, 14 Jan 2025
+ 05:31:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250113122643.819379-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <Z4ZCJYPgvS0Ke39g@shikoro>
-In-Reply-To: <Z4ZCJYPgvS0Ke39g@shikoro>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 14 Jan 2025 13:05:28 +0000
-X-Gm-Features: AbW1kva5S2d8rr1gC3J1KnQIuGQSMb12d98LysE1wqMzVzrBXKLDpJlv86KXvFQ
-Message-ID: <CA+V-a8tSnfJeahjY0qn8_5+KBBTsLe0h=MqYwPMDq+Pqrnvi6A@mail.gmail.com>
-Subject: Re: [PATCH v6 00/10] i2c: riic: Add support for I2C bus recovery,
- along with driver cleanup and improvements
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Prabhakar <prabhakar.csengg@gmail.com>, Chris Brandt <chris.brandt@renesas.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250111080903.3566296-1-iwamatsu@nigauri.org>
+ <20250111080903.3566296-4-iwamatsu@nigauri.org> <5867f54d-9ef2-4b8c-85b4-d79fd846a4c4@kernel.org>
+In-Reply-To: <5867f54d-9ef2-4b8c-85b4-d79fd846a4c4@kernel.org>
+From: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+Date: Tue, 14 Jan 2025 22:31:28 +0900
+X-Gm-Features: AbW1kvaYMOi8uYbFWl9J-aq07HFa4EXIgQ28V4FxZCcPzFu3KapRARDO8-LkEYY
+Message-ID: <CABMQnVJdoQui=EJdXiO17=uyY_RAqTM1_sPeqyaGQxwDCyGsEQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] dt-bindings: soc: renesas: Document Yuridenki-Shokai
+ Kakip board
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Masato Kiuchi <kiuchi_masato@yuridenki.co.jp>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Wolfram,
+Hi,
 
-On Tue, Jan 14, 2025 at 10:53=E2=80=AFAM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
+Thanks for your review.
+
+2025=E5=B9=B41=E6=9C=8811=E6=97=A5(=E5=9C=9F) 18:32 Krzysztof Kozlowski <kr=
+zk@kernel.org>:
 >
->
-> > This patch series introduces support for I2C bus recovery in the RIIC
-> > driver, which is utilized in RZ series SoCs. The addition of bus recove=
-ry
-> > functionality enhances the reliability of the I2C interface by allowing=
- it
-> > to recover from error conditions that might leave the bus in an unusabl=
-e
-> > state.
+> On 11/01/2025 09:09, Nobuhiro Iwamatsu wrote:
+> > Add "yuridenki,kakip" which targets the Yuridenki-Shokai Kakip board.
 > >
-> > Alongside the bus recovery implementation, the series includes several
-> > cleanup and improvement patches that simplify and modernize the driver
-> > code. These include replacing `dev_err` calls with `dev_err_probe`,
-> > consistent usage of the `BIT` and `GENMASK` macros, leveraging devres
-> > helpers for reset management, and improving code readability by marking
-> > static data as `const`.
+> > Signed-off-by: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+> > ---
+> >  Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml=
+ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> > index 4f2645e8140c5c..294ac7c7ae8a5d 100644
+> > --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> > +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> > @@ -548,6 +548,7 @@ properties:
+> >          items:
+> >            - enum:
+> >                - renesas,rzv2h-evk # RZ/V2H EVK
+> > +              - yuridenki,kakip # Yuridenki-Shokai RZ/V2H Kakip board
 >
-> Applied patches 1-9 to for-next, thank you! Patch 10 needs a separate
-> look.
->
-Thank you. I'll resend patch 10/10 after the merge window.
+> I know Renesas has here a bit unusual patterns, but this is even more
+> unusual. Why do you claim kakip goes with absolutely any of below SoCs?
+> I understand your motherboards doing this, but not the final product.
 
-Cheers,
-Prabhakar
+Your point is correct. This board uses only r9a09g057h428.
+I fix the binding document.
+
+>
+> >            - enum:
+> >                - renesas,r9a09g057h41 # RZ/V2H
+> >                - renesas,r9a09g057h42 # RZ/V2H with Mali-G31 support
+>
+>
+> Best regards,
+> Krzysztof
+
+Best regards,
+  Nobuhiro
+
+--=20
+Nobuhiro Iwamatsu
+   iwamatsu at {nigauri.org / debian.org / kernel.org}
+   GPG ID: 32247FBB40AD1FA6
 
