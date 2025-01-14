@@ -1,111 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-12116-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12117-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9903FA1069F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 13:31:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EA1A10760
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 14:06:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C046E1883524
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 12:31:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB81A1887732
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 13:06:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 302401CEEB6;
-	Tue, 14 Jan 2025 12:31:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5367A2361C1;
+	Tue, 14 Jan 2025 13:05:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O/BLfpmT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2+5Fvvx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEC41A3AB9
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jan 2025 12:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F9922DC53;
+	Tue, 14 Jan 2025 13:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736857894; cv=none; b=Rs2bE4odSUdfC3fhr+aP/NZi4zTBg+coZWMbncg0TvsTnI7dF2dLE3x+1QNQnMEqc/2c2X3hfRcHqJ5MAkUyc420Jf/MQoM9/uo9jbYFWRDr8BCWGx0agJ8sa8Kzcx7OuexjeBOkHJ1+1Rss3hEJrUsZUZMnwhkebQ9k92jkETQ=
+	t=1736859957; cv=none; b=XI6ahTMUneaoP/HTvFsVqLAvFVl8tTrM6A7U/w0TZoyKeHY2613MicePBMOtaZt40s27wJYQFDpRFJlRcQHRKYyUeBQ8tMRoPmvARsBXGQzqu3QhhvVjL9a0GgdlA+/jI4J9tVd2YCpW13NbxgJEC1Z4hkeNOsHvef1WL+c1qF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736857894; c=relaxed/simple;
-	bh=v/BP/+eHSo6nCl+A1swIZ2aBuQMVznNzDPAtph/77q8=;
+	s=arc-20240116; t=1736859957; c=relaxed/simple;
+	bh=yyH7YE+CG+eiWFi83dmPyWkVfF1aciuv75YL3Fg7Ed8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p2TFJNKmOQ5yuop+/Xt9/St9JOz9E+zstxomaCkaYQueFjGuAiQqEX5/VNF7+sKj8o5zpbQZE71KRtqMntlT8tk6yiHL8//VKEaJay/4fX86Rr8unJlcbLBgHG2YAXHxxsh8UWYWhPFTzyO2+W2TfJ9Wr1jVztb/RtVP3jimZZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O/BLfpmT; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5401be44b58so5516560e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jan 2025 04:31:32 -0800 (PST)
+	 To:Content-Type; b=pHW1GxvUDBHfvOPIuNTxvNjnQ4+32Av3vK6SNwFjIKjlz7SkNimp1JHOrC+4e9YwlR9mTZ5zGlU5ZJIJS8/Du66vlPgNROqtbrxKpjwz3OGMn2CDEuxhHRZOk+bI6ah3/jQtfMIsqNuspwXeDafDfpAnChlSTPYpsjnZe+ZMQSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2+5Fvvx; arc=none smtp.client-ip=209.85.222.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-85c4e74e2baso1160085241.0;
+        Tue, 14 Jan 2025 05:05:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736857890; x=1737462690; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=gmail.com; s=20230601; t=1736859954; x=1737464754; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uKqVrgm+JtucALxT3qkFnV+Cc3j4glkaP81FWmZiLO4=;
-        b=O/BLfpmT2lyKnKgaPvSnC9WHCe5Bh3COXpo9jKf3c6TyzwllD210/lB5PlB2wX2cg9
-         peKpf/nljwf9y8YkbfKHe7d02S7y8dmUy/bDURoScmqLJZCL8096NxyiAV7zyWDkZuja
-         agVzj7u5UY26W5IHbrasZjMd8Ncf2cetjZpRfMk9TdxzmKgvoGYdW/3kQ+GV9WnhCCA9
-         7sLTRF9bZku+1+irEBRI/GL5S6jasF2rKqj4NMrRIjDn5GnD86Q8j8pZ9bqQ9zx2MxGI
-         V4bCBAjxEgf0lv5fIjvCW5D66cWSnO6RYWIbd2tM7cfBTw0ZPUpe+RpvyuOK6lMdass7
-         SDgA==
+        bh=yyH7YE+CG+eiWFi83dmPyWkVfF1aciuv75YL3Fg7Ed8=;
+        b=H2+5FvvxNSXzWtMyHavD3weoWkiTHJHA42eGx/seEn+PXbLwSNIZVBE4c5DgaP2HDW
+         SLExiOfTEnxbed+UPrpkfws9plEBtjmIMAof2rNRSCe13ezMZ6xfV4DjTA23t95rfXdP
+         60syti6XQIFi/Z1CqZO9PoNgUUok/KLF4L+utnrBUCZ6QcH00CYU9s/24WZEf2xSbKaE
+         cJ1uOohlDVzg3pkchWdDBiGBPG6eacLhWT508rg2QTozLf1RfqccFZe0bhfdAeGLUPJt
+         CgNXbp/sr3xbPs9gu+R6bx8/uEQmpjtROK/q92gUan3e+blnQHtXRN7JyxjLvJ6aGe1O
+         IFsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736857890; x=1737462690;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1736859954; x=1737464754;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uKqVrgm+JtucALxT3qkFnV+Cc3j4glkaP81FWmZiLO4=;
-        b=pPcD2PGPBdG7RW4dpcLXdGaIbP0tZDYtkWaoj6l2COJBkZm8fkT6xpeVhmRd0zBasQ
-         L+19woCmpnj9sobSsrVi/WFml70J9f5wDVgSFyWOCZOqMmaoptjm1APw/lX09wu04EXI
-         NrXyOMK8Q6uV42p1jvRMTjQAY0/FA3oJC8cH/mBx4Hvk461ZkGm/oaT9IRMTtHQNrj+b
-         N8pZi/1dMahyuA7zJ9bixHQ1zCpsQ5nSKpqXVTOrI/5f1wwdX4JfaOxEhYHo+iBGxv3F
-         8WNUB9ICIqMYV43rYSOzjL7j8nlOcOS9T7wucBJcoEp7OMi9vTYFlbpwdEwcBj+yqhuK
-         r3yw==
-X-Forwarded-Encrypted: i=1; AJvYcCV3Y2/PTl40jMoOeb4OMwthbEQiy+GG8Uz93NMaUidGQmZ6FjnAVHe90OsL5Q8XV4oDirSHjGiQ5PRFPNsh4EyA7w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywt1TjfdxC+aC1dmrbYcMFs719MCzCgZRffyM2ELzOdQK8l5mzs
-	pDN7EU4M68xAq8QQIukxuxHinzsVAQabEmwcfZ3aZvIwcMZrVRd9WqjlzZdT4XM+lKYfSk9Lkf2
-	Di2/pGylt/BidjVlXTvoIkEWBjUcGYTkokPMgsw==
-X-Gm-Gg: ASbGncuXBT4Dm6ogYkcCzOBwXCM3DChTZ5eidVHJxi1mywv5ybSlzbA0RCTKCzRsffX
-	9/WE1xmHodCEcd8JJ03TXCMYevQyDrMZnm1tH
-X-Google-Smtp-Source: AGHT+IFephnelTBxyWrrzDk4RhuS6rBwQxgV92W1BACFrfNj2+Z8fz6Y+Y3r4ia5hZ5U4F+LOUoBqsUCWK5Hq0fPyYI=
-X-Received: by 2002:ac2:51cd:0:b0:542:9987:6e9f with SMTP id
- 2adb3069b0e04-54299877145mr3673153e87.53.1736857890427; Tue, 14 Jan 2025
- 04:31:30 -0800 (PST)
+        bh=yyH7YE+CG+eiWFi83dmPyWkVfF1aciuv75YL3Fg7Ed8=;
+        b=p7gflz7ukEWlxNuTqfbcewGJijo+NI6IE8NnJ7fDDXgSmlMLhdSXCFMBU+wPrm0SQL
+         7PHIPWJV2K91GEOBw0kJFv2VcZFjdu7OalvA/kTcTqdvVtcRMTVpXD8AAh3M07UqUkBp
+         r5MqHbC8cPAqGXHi7sXdmZLloeavPR9hd6ljYxMa1YdTreyGyxTWFD8ry12mWNFmd+Am
+         YWsxBnyqLbgY7nDiWKzrZvdm5Hh32yYJ6aqrMDDZOlmt9NlRnHXkMe37mLAzgq56NI9z
+         NrjzoDnhGwjC8FvUcFa6c/lDwx47Tck6VJukupdVM0MvYdSrrhKyO3VZsvnR2BUtoI24
+         jxJw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4tAWET8yLPOZR+0RcnugJZhgNnyGMG6fVBBUou1BUOtzHglnTmeEkn8uX3JUDDOfEz4p6Qx3XBUIaVSyQ5GDqzec=@vger.kernel.org, AJvYcCWu01ipmhSp6HarcZZZe5skad9cksArmQ434C5Qx6v2s7NOv1Ks+KZrfTQ/vgE+02QN81YcDoDEkodcTDxX@vger.kernel.org, AJvYcCXQFkzUi6vKgPRKshxevMVGjiSYtEnGfqxSwlCqgLjSiUS9so2H9NkPnH4GV+ytNwksZcOLBIXHwA8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHOO/ZsZEH/eR7nPleqWbIXA3O7dyPNtnaCT72fuoHohvO6xnY
+	+I68yQAwKk99WrwhN7SEYDrzCQZAB1kSEsY3yRf4A+vT6CtrSXUQc13oMy1uNYQTpR6LcBE+MDS
+	eCZEdM/e8xEZ3d6n4ffK1SadFANU=
+X-Gm-Gg: ASbGnctK54vOYpdE0INQvG2/p0rJLpdhrMREtnWU34iMHgklXh31/IZw38v7jU5eD8Z
+	aqBgTEH2ocLPqYkRdLq3GrcY3pUd74lX9bZ+60/c=
+X-Google-Smtp-Source: AGHT+IHuen5JgT095oAhhOjZzmS64KMMfGtHLmFdLQJPs7/S8os7yTFzFAzuT221CmiSBRUyu41hrWR34QCpGKLEtlQ=
+X-Received: by 2002:a05:6122:180d:b0:518:a2af:d666 with SMTP id
+ 71dfb90a1353d-51c6c439cf2mr18077814e0c.1.1736859954182; Tue, 14 Jan 2025
+ 05:05:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1736181260.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1736181260.git.geert+renesas@glider.be>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 14 Jan 2025 13:31:19 +0100
-X-Gm-Features: AbW1kvYGVD8UfYzhlwwT1gTLo4oUGLFlIvdcDtyWIMk8dZOQ2TAFP3eOKrTGlxg
-Message-ID: <CACRpkdYseWW=LnyVHitBMud_Li7fRX9kHkLZ_3SOUqFgfvdc_Q@mail.gmail.com>
-Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v6.14 (take two)
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250113122643.819379-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <Z4ZCJYPgvS0Ke39g@shikoro>
+In-Reply-To: <Z4ZCJYPgvS0Ke39g@shikoro>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 14 Jan 2025 13:05:28 +0000
+X-Gm-Features: AbW1kva5S2d8rr1gC3J1KnQIuGQSMb12d98LysE1wqMzVzrBXKLDpJlv86KXvFQ
+Message-ID: <CA+V-a8tSnfJeahjY0qn8_5+KBBTsLe0h=MqYwPMDq+Pqrnvi6A@mail.gmail.com>
+Subject: Re: [PATCH v6 00/10] i2c: riic: Add support for I2C bus recovery,
+ along with driver cleanup and improvements
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Prabhakar <prabhakar.csengg@gmail.com>, Chris Brandt <chris.brandt@renesas.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Andy Shevchenko <andy.shevchenko@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 6, 2025 at 5:42=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Hi Wolfram,
 
-> The following changes since commit 03fc60cd8e7b7e6f330d0a48c54545740addd9=
-d8:
+On Tue, Jan 14, 2025 at 10:53=E2=80=AFAM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 >
->   pinctrl: renesas: rzg2l: Add audio clock pins on RZ/G3S (2024-12-20 10:=
-58:46 +0100)
 >
-> are available in the Git repository at:
+> > This patch series introduces support for I2C bus recovery in the RIIC
+> > driver, which is utilized in RZ series SoCs. The addition of bus recove=
+ry
+> > functionality enhances the reliability of the I2C interface by allowing=
+ it
+> > to recover from error conditions that might leave the bus in an unusabl=
+e
+> > state.
+> >
+> > Alongside the bus recovery implementation, the series includes several
+> > cleanup and improvement patches that simplify and modernize the driver
+> > code. These include replacing `dev_err` calls with `dev_err_probe`,
+> > consistent usage of the `BIT` and `GENMASK` macros, leveraging devres
+> > helpers for reset management, and improving code readability by marking
+> > static data as `const`.
 >
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-pinctrl-for-v6.14-tag2
+> Applied patches 1-9 to for-next, thank you! Patch 10 needs a separate
+> look.
 >
-> for you to fetch changes up to 829356da700bbe07e13b4403997bf8c5aac64660:
->
->   pinctrl: renesas: rzg2l: Add support for RZ/G3E SoC (2025-01-03 21:09:1=
-9 +0100)
+Thank you. I'll resend patch 10/10 after the merge window.
 
-Thanks Geert, pulled in! Excellent work as usual.
-
-Yours,
-Linus Walleij
+Cheers,
+Prabhakar
 
