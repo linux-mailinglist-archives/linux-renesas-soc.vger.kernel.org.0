@@ -1,212 +1,217 @@
-Return-Path: <linux-renesas-soc+bounces-12109-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12110-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81588A10311
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 10:34:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF35A10362
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 10:55:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A459188581D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 09:34:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14D373A7ED3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 09:55:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3200A22DC5D;
-	Tue, 14 Jan 2025 09:34:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02387225412;
+	Tue, 14 Jan 2025 09:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lOsMUlIg"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="n11l2/uf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010065.outbound.protection.outlook.com [52.101.229.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A0A22DC29
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jan 2025 09:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736847287; cv=none; b=lSEqo3Ct+RhbXSdZC0eQpyZM7bLB/OJ+HLyJfYDfAQPyv7rDEgP1RAT/wLEpJuYoPQJx/9nasOc9et/VQzCBjvnUMmp58TgtGXoEDPD62E1IdIXYvqRwzty5yrWDteAOaPGa/yFlz4puLRQkcn+VvxeTryyrVHiF6DhZc1XFuqQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736847287; c=relaxed/simple;
-	bh=Pp4dq38J1moKwuFZZsayd0XAzSetJjw+K0HEQ1HtuHo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=u+COWvjXGflHDom/rtsrV+fjOQfhruUe4K+PIKxrtae6RqkifIDs6oWXdkVwnHjhEIcZC877/ZVl2tx08hEbjxHtQVaFguir8VonyMxmJizNGc0MKkZeGb1JZZ5khI2ZXC/bmaQ3i2hOyp1Z43xQ5PRoPFx1qRB++gRn35kcL8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lOsMUlIg; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736847286; x=1768383286;
-  h=date:from:to:cc:subject:message-id;
-  bh=Pp4dq38J1moKwuFZZsayd0XAzSetJjw+K0HEQ1HtuHo=;
-  b=lOsMUlIgKf/QQsEmNqPLSQTUwJc1Q2fzpa0ooX9xIe8P/CKjg+Rcv6m5
-   Ekrpu5WdI1pB485AWuWOL/4MT6IbqiF4paQG4M53ZVhWU63u1Irkfh2hX
-   7O+vh09faWqPq1XXg/aAMiJtnETTTyiTQim+R2FKB3fA5Y+C+f9/Yr63c
-   6+6vb9/254EhRJyZ80FLDfP8ZaP2vaugWBjo+IlmmtKxF65rWsX/Kt5sJ
-   /zV/N1Tx0XK6+welrPOB21O5BFco3mvgrq6712lWA6pHniiqdZojNHTUT
-   hZVrUNbEXLj5nzQaQAeaxmeu50XOA2jagTOA0cM2gSnJr6LRWWof2BZjM
-   Q==;
-X-CSE-ConnectionGUID: UVE6pwbFTiGJ0JkTTTExSQ==
-X-CSE-MsgGUID: HxaSnPneQ5WSpXzoAZCD2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="48135209"
-X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; 
-   d="scan'208";a="48135209"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 01:34:45 -0800
-X-CSE-ConnectionGUID: 442gcPtdQkig8xK5zHF3Gg==
-X-CSE-MsgGUID: uL44Dz/iRJaOl+I7Mvm+Kw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105240276"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 14 Jan 2025 01:34:44 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tXdJp-000OLV-13;
-	Tue, 14 Jan 2025 09:34:41 +0000
-Date: Tue, 14 Jan 2025 17:34:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 04163f0e2c93ba32550d50b9c0c9fb90cd0feec4
-Message-ID: <202501141716.VHcU4oxb-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7A7224D6;
+	Tue, 14 Jan 2025 09:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736848525; cv=fail; b=ISnxXM20/XlhjGBo+ggXp5uTiA+Y9X8tvgap/q8U7ndxMeXUvHDooMtztUKIXIyDFKv93reZOWLk5ZtpHGx3klbF1nKyascGmiTo9AML5imaAfyCGeICK5YW1QrPhyHrPWb7ZuyzuRP99KYYG0XHXKcQOiR1LzX8v3/6MjkhjiA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736848525; c=relaxed/simple;
+	bh=Kd7BFn4WmmIMXm+YE/jq2Y6EfSle+paxmfBZKb1Jls0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=WsgokyN7JCA2UIuu+6jelm+XwDSRDmTpNUxzEoRDk1oHdgTyH3QzfAhxBNoeLPo7jsSW1VPVt9PWnTbXJ1ZMOpgbYkxGKb+DPJBMG5oY2sIq+ogHjd+zjy1gAge4k2+Fge9v8GrLGuLnI9toPvuL0MkiPKh9I/1irq6PBicsSq8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=n11l2/uf; arc=fail smtp.client-ip=52.101.229.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KDjmvxoMFiBw037RIRFF6ycfz0cVqZK4laEQbEF1PFwmT0/UmLzaKg8RrM48jGONryAL2hXuHx4+GNe4UVzgd8DC0H6FzLoUYk0gC0gYkmc0ZEFRXGKmEXVLrS1Esq4539BJkdNkRb5PsgnULB2LymhtQcghbSQ99MWa+4SHAU6UEZoj+cHQnk44zhrVT3xll5DhPCYjDkm6hLxBWV5ndnWCcD6zK6LPTbHoQ0ot34Sf6Z7Cix/ro4RKdi8dlIxQv7kjglY1u0CjHUhKwJwiu3ANJDytAD6vju0GDDwTLIcuZqz466NXf0eu8kToOaxQWXaEaWbt8fvyBPXuevuJSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Kd7BFn4WmmIMXm+YE/jq2Y6EfSle+paxmfBZKb1Jls0=;
+ b=WuENAuhxU5+k1EgHUx4jJ2q3Z7w5TlvxKWE/y5mk8JWAw5YtYKR9kuDAfoQXYFbprZxjA5b/paSdG2qQlkkzukJ2YlkWv3HbiLNSqb4a6FgLLYmFywIsBB4z0ClL9xZfmOqUaHQ7WxeOxYT4UOq6Kd8YtOVCui4CnB0C6yGLB6gbHTXVbfb9pFtJb7pg/XVHjJsoXU3V24hR4HxRBV1+ErjLFZy0YcamSINzfanXiRiPsoMSFdr8gkH2cxqMaQAsW9qUf/IJ49Pexmjqv3lJ9ILU8l0GDxheizl+C/eOgowPzD6G6MCMKrbL+6Uv0TkibOK101beePNe4qpBNf/tjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kd7BFn4WmmIMXm+YE/jq2Y6EfSle+paxmfBZKb1Jls0=;
+ b=n11l2/ufzD2u5i+bRVp/pn8nWivIJIIwmxU6/6uhNT4ZRcfuTdCpVu9gVeCGQe1n7aL/EJQJHJK0ZynOwLTEhjvG4uP6OaWvIYWBGeLhFg2Aaw9cP2PZLZ30nxpXINFT4PoygqRDxFah1ujQRIv1+/ElX526SE5ZN7S40J//dpc=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYAPR01MB6171.jpnprd01.prod.outlook.com (2603:1096:402:33::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Tue, 14 Jan
+ 2025 09:55:19 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8335.017; Tue, 14 Jan 2025
+ 09:55:19 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Wim Van
+ Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, Magnus
+ Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>, Fabrizio
+ Castro <fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v3 5/6] watchdog: rzv2h_wdt: Add support to retrieve the
+ bootstatus information
+Thread-Topic: [PATCH v3 5/6] watchdog: rzv2h_wdt: Add support to retrieve the
+ bootstatus information
+Thread-Index: AQHbZa2pJcErpOPUlkmwa7Z9oLDIg7MWB25g
+Date: Tue, 14 Jan 2025 09:55:19 +0000
+Message-ID:
+ <TY3PR01MB11346890814785C2150BB484D86182@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250113112349.801875-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250113112349.801875-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250113112349.801875-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYAPR01MB6171:EE_
+x-ms-office365-filtering-correlation-id: d09de0ea-ba9a-4558-e152-08dd34818de2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700018|921020;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?koi3A7Hjr0lfXctiv93yQeT1N3SzY17c3EkfO4XbwJzvnxLGXpxLBjMgJ2mP?=
+ =?us-ascii?Q?HtRWo2ASo5GA8MWm6ABQjd5kXmHGOh+y5zhoi6QIrj0rk7h7VsLMm/aI0baW?=
+ =?us-ascii?Q?ZN9h6bu7vCaVNBXV28N2IDmTB+Eiifmaescd19tn6q49bPE4WZgvPS/ATmk0?=
+ =?us-ascii?Q?kbstssQpP4JnzFamLQ6ZCYCb3gjBnfIY4+sN+nJaosAdjhr/9kXt94qFG4vF?=
+ =?us-ascii?Q?QciXX6p+vpDSlrZPNTTd7TEY06RSiz3NW4aoK3s050VCOBLpykOAu2yFmCps?=
+ =?us-ascii?Q?zzChfCIRPpOYmXTIb6ZbWbKD8N/LEqn6/hGK6C4AanKbbAWU10IFAObe+QVJ?=
+ =?us-ascii?Q?CLSyjITpuVYr8aGeaBt/dt/yUfFfMjuiSACzyDCo8AZaRmLaACt9y9ho+z7X?=
+ =?us-ascii?Q?dYXkYtjCZX7X/lc1yZeYUz3fuFdOa3GEGFoW+N5rgLG12Oz5pzy3drIlh8sG?=
+ =?us-ascii?Q?yLFuPlocvUdrN5qA+rfIXcEC0LjP7NA9dkGGvFP6tfZ7DzxaDf3L3qQEohk8?=
+ =?us-ascii?Q?2u942HvFCIAOT94InW4n+S1gdavfpZua252/lHzoXJJh4HPIL+Jj5wvl06So?=
+ =?us-ascii?Q?pCn4BFeCCudXVHTeXf8E/PgWuPLYBOlXWefEVwYigyb1S6LOpXYey0yjYgHZ?=
+ =?us-ascii?Q?xQ1/9aIT5ytR2bN1x4zvUf/jCBFjN+RaEtMo8L3miFqPvM6KQvRiaGrS/BI+?=
+ =?us-ascii?Q?kg6Vddlzzv8SW7s0QF7qKF9PHmCGimJXQsJ7R5fy+KQcWL79M3AGd7S/zkQb?=
+ =?us-ascii?Q?Ur8CYQVkINZquBKcYtWdoHAcxujx1t/+FqxQuXovNtWoFj9LwaC5f4+NPbWI?=
+ =?us-ascii?Q?IMbfAYirVway3ZIhl2niYSqCpcwKCHpojvLovZ3S5dWqz89uIMXaLGuysK2L?=
+ =?us-ascii?Q?PQx5pusti88YZfO4uIihzb8MsmSDJZ1Jsw/iqNQ5Fmw4VRn+pakrEmWgqJSL?=
+ =?us-ascii?Q?Kvh5aMIBQYYvnlCLOoVBp8UWb+owrXBrcuPZeH4RETaaE3XVY7TdwF5ouFh0?=
+ =?us-ascii?Q?lwKeouODILbTIT9Om9h70g/py+1JwkW9MiU/vMxU2B7qTf8sNpCLaagjb5Mj?=
+ =?us-ascii?Q?Q4J9NMeY01Kwe2ZYZspGOnTKjnjzeOQ4hnDwfJDpJgaaryAwFKwuz3h1f9k9?=
+ =?us-ascii?Q?oGfCvrJXmk1hBEDxdVxnxsarr7uqpBMF9SHgSL1Hk0I4JbJI/NY+LAYZgheX?=
+ =?us-ascii?Q?wunaFCEC+DtghoIF6Wt66uALSKHNj6IoyvokcsXGUJ2wnTjVhn3dP6DsUolp?=
+ =?us-ascii?Q?D+sf1ZQhd2odgDHbwFeP9ZpSwpmM6We0FdmXvGGpcJ4agC5C3VoqdkcyWToi?=
+ =?us-ascii?Q?7HuGsMz5dfZGcz4XbvUBNuC5UH7TWrG+dRK9Ow/n2KZcnqGZx5pMjHFCNgml?=
+ =?us-ascii?Q?x2LA0DL1FyjEc9hKsaFHDcragJeD5o89p0MVt7fDKDAonPE4EnxHcq8Zu3qK?=
+ =?us-ascii?Q?2x2uRq5YKfkw4i63WpcD/XlGwESik5stzBEHi+MgVX34tabgXuzcEg=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018)(921020);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?bLjP0WIN9g3wChmSx4yKq7yzn8YdvOjlVq9jcCAM79oe/RFU1PygDhVozU/F?=
+ =?us-ascii?Q?XazD+Z0BokMIo0Lh/4jc/ZP4s1jygtF5APZ3g8mLzPigCJsfp0/hJaBYFW7t?=
+ =?us-ascii?Q?0v+jDMzIfN6EO9aNdkzkz532Kb7SBvfO+abke4umnQdiy+L72RJqf+u2NNd5?=
+ =?us-ascii?Q?w589vsAjF5mt8Nlmm5F665hJqzzqQ+IE+KrtA7HdgyfMcieDOqqCxaNluEgL?=
+ =?us-ascii?Q?z3LxYTMTI4VnF+zXE7Zq69SVR7BGftqxOSbYFj6b0NYwPu9nJ+aVrH2D5nma?=
+ =?us-ascii?Q?16RcRsQNLsA3P/W1nYCwyRjvvVeVIANtdY4UVA0L71PamrSkirUp/5UTbg5w?=
+ =?us-ascii?Q?0u/ltgNU97wICEd+QICy8XZBfmH3wC0EjYf6gBhiQGGBWYseSfKSj3Is9Eew?=
+ =?us-ascii?Q?JSb42hPkjMlvioI7muMIhymdcJHdBwL+usxHNe0ePMe4Y7cpWhEq231V2ozi?=
+ =?us-ascii?Q?58R0drmsQbkTMy2j8J2EsOrRmqWKu+Ca28i3VdrkM8D5jo31fvdUglZvhwZT?=
+ =?us-ascii?Q?IlxSdCUapBc52OtQOofdzTkAnFyhbiTzLi4HTyirJIxiNzCoN3XPV8F2UzDC?=
+ =?us-ascii?Q?faUtD44J0AMVTDD4vdx1zaqPctnvdmBsqdYE0TQGq7+o0zcEc5Io0n5EXFMq?=
+ =?us-ascii?Q?/drwHKoK29AZypfo0tnHfq/+MDDxZTqRNdMFhvVfUANWV/h2tOPUZOkw0l0L?=
+ =?us-ascii?Q?oGHZjLQCW1ezPBI62/iUmE19v+NzH0/UqpH5vfwPi4QzgHKkR6QhWWhcUgXs?=
+ =?us-ascii?Q?ewe5Jc0DBwyEzKjxbnAbJruIUjUvYokXbBzIWPcWCX+p8quQPe6xuSRWCLSg?=
+ =?us-ascii?Q?DAkUvf6wR4zIdzW58bx6Y4PhWPTLaE4G7GM+TIE2OU8czwmzvMzWNppM2OHz?=
+ =?us-ascii?Q?jAdvoTJihUco53xlHyZo7qrl9H5MUIsDCHYUQPwSGGBfabQhU7YLrvt7nIvb?=
+ =?us-ascii?Q?yIr8jpdM/4bwICK8CuZu8aV3FqMIWSETKj6jkFdor5UkiETZ1iWl2lYQi9sr?=
+ =?us-ascii?Q?eY2qpYuW+6AtZ9x4BWPEJQwtHY6aoq/ttgWhhraS1yheyNzb3hfMlv/Yv0Lj?=
+ =?us-ascii?Q?xym+9q8TOqrB4GnwmY+3qtUXImXjioInSxO/r72+XbpwynHC8jlKU9muqn9E?=
+ =?us-ascii?Q?bIifVSUtQJWxIfbCX+xOCUN7VeRi8yXbOSfwjkm3QfUXK6fL4AB0/pQipp2z?=
+ =?us-ascii?Q?S2EWGUiJlC/hitUKFQIullNiXXPEDirJ4KKvKaQA30Jx1XBfJYHtNWTYzrm2?=
+ =?us-ascii?Q?sffRuC1vj9b70rjZ/1Z7uXKjTIMNyQ+aTb/MwZ1atm7WScbMf6IUZms2JB6O?=
+ =?us-ascii?Q?kL6vKTUi2fGa/7SboNsQoPJNFXTHcqLBTQagMs3lUp2905WhqJBzGEyoKWkI?=
+ =?us-ascii?Q?7hia76JBigmx/YJ+0I3rvLunKlJxeKBf7hiWg0xHnUXimMOzq/omm8R9fQdP?=
+ =?us-ascii?Q?MtZ5Pi7w90+HjygiBcAD3WAgoYE2Lf+74XmUm0hCzs2keGlMfXK0r4rjLe7j?=
+ =?us-ascii?Q?G5sRNL1LEvTOl21/7Dono/VmITnE4RdJG469t1xoI9VjCTavJyIlOFLNrbcf?=
+ =?us-ascii?Q?rDJklyN0Pj3SIbSZWr/e33QGQ6eho7VCnuYawlDCi5FoynDzmejDXNilL6Xi?=
+ =?us-ascii?Q?1Q=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d09de0ea-ba9a-4558-e152-08dd34818de2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jan 2025 09:55:19.2080
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mBUKPHaCXPo/9fIZAmM2stFUrrS+zuIsO7jV/hLi6oW65hJ0imYRekN2Iu+183w41Ps4bTBxK0its1PNIW/sp2cZ1zvl7zzcDbykwfc2Utc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6171
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 04163f0e2c93ba32550d50b9c0c9fb90cd0feec4  Merge branches 'renesas-arm-soc-for-v6.15' and 'renesas-dts-for-v6.15' into renesas-devel
+Hi Prabhakar,
 
-elapsed time: 1450m
+Thanks for the patch.
 
-configs tested: 119
-configs skipped: 7
+> -----Original Message-----
+> From: Prabhakar <prabhakar.csengg@gmail.com>
+> Sent: 13 January 2025 11:24
+> Subject: [PATCH v3 5/6] watchdog: rzv2h_wdt: Add support to retrieve the =
+bootstatus information
+>=20
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> On the RZ/V2H(P) SoC we can determine if the current boot is due to `Powe=
+r-on-Reset` or due to the
+> `Watchdog`. The information used to determine this is present on the CPG =
+block.
+>=20
+> The CPG_ERROR_RSTm(m =3D 2 - 8) registers are set in response to an error=
+ interrupt causing an reset.
+> CPG_ERROR_RST2[ERROR_RST0/1/2] is set if there was an underflow/overflow =
+on WDT1 causing an error
+> interrupt.
+>=20
+> To fetch this information from CPG block `syscon` is used and bootstatus =
+field in the watchdog device
+> is updated based on the CPG_ERROR_RST2[ERROR_RST0/1/2] bit. Upon consumig
+> CPG_ERROR_RST2[ERROR_RST0/1/2] bit we clear it.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+As syscon-cpg is available, can we get rid of Linux assuming TF_A/U-boot fo=
+r configuring Error Reset
+Select Registers(0x10420B04)for the watchdog to reset the system?
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-alpha                               defconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                                 defconfig    gcc-13.2.0
-arc                   randconfig-001-20250113    gcc-13.2.0
-arc                   randconfig-002-20250113    gcc-13.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-17
-arm                              allyesconfig    gcc-14.2.0
-arm                            dove_defconfig    gcc-14.2.0
-arm                   randconfig-001-20250113    gcc-14.2.0
-arm                   randconfig-002-20250113    gcc-14.2.0
-arm                   randconfig-003-20250113    gcc-14.2.0
-arm                   randconfig-004-20250113    clang-20
-arm                         s3c6400_defconfig    gcc-14.2.0
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250113    gcc-14.2.0
-arm64                 randconfig-002-20250113    clang-18
-arm64                 randconfig-003-20250113    clang-20
-arm64                 randconfig-004-20250113    clang-20
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250113    gcc-14.2.0
-csky                  randconfig-002-20250113    gcc-14.2.0
-hexagon                           allnoconfig    clang-20
-hexagon                          allyesconfig    clang-18
-hexagon               randconfig-001-20250113    clang-20
-hexagon               randconfig-002-20250113    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250113    clang-19
-i386        buildonly-randconfig-002-20250113    gcc-12
-i386        buildonly-randconfig-003-20250113    clang-19
-i386        buildonly-randconfig-004-20250113    clang-19
-i386        buildonly-randconfig-005-20250113    clang-19
-i386        buildonly-randconfig-006-20250113    clang-19
-i386                                defconfig    clang-19
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250113    gcc-14.2.0
-loongarch             randconfig-002-20250113    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                        mvme16x_defconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                           ip28_defconfig    gcc-14.2.0
-mips                           mtx1_defconfig    clang-20
-mips                   sb1250_swarm_defconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250113    gcc-14.2.0
-nios2                 randconfig-002-20250113    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-14.2.0
-parisc                randconfig-001-20250113    gcc-14.2.0
-parisc                randconfig-002-20250113    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-16
-powerpc                   motionpro_defconfig    clang-17
-powerpc                    mvme5100_defconfig    gcc-14.2.0
-powerpc                      ppc64e_defconfig    gcc-14.2.0
-powerpc               randconfig-001-20250113    clang-18
-powerpc               randconfig-002-20250113    gcc-14.2.0
-powerpc               randconfig-003-20250113    clang-20
-powerpc                    socrates_defconfig    gcc-14.2.0
-powerpc64             randconfig-001-20250113    clang-20
-powerpc64             randconfig-002-20250113    gcc-14.2.0
-powerpc64             randconfig-003-20250113    gcc-14.2.0
-riscv                            allmodconfig    clang-20
-riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-20
-riscv                 randconfig-001-20250113    gcc-14.2.0
-riscv                 randconfig-002-20250113    gcc-14.2.0
-s390                              allnoconfig    clang-20
-s390                  randconfig-001-20250113    gcc-14.2.0
-s390                  randconfig-002-20250113    gcc-14.2.0
-s390                       zfcpdump_defconfig    clang-19
-sh                                allnoconfig    gcc-14.2.0
-sh                    randconfig-001-20250113    gcc-14.2.0
-sh                    randconfig-002-20250113    gcc-14.2.0
-sh                          sdk7786_defconfig    gcc-14.2.0
-sh                           se7780_defconfig    gcc-14.2.0
-sh                   sh7724_generic_defconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250113    gcc-14.2.0
-sparc                 randconfig-002-20250113    gcc-14.2.0
-sparc64               randconfig-001-20250113    gcc-14.2.0
-sparc64               randconfig-002-20250113    gcc-14.2.0
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-18
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250113    gcc-12
-um                    randconfig-002-20250113    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250113    gcc-12
-x86_64      buildonly-randconfig-002-20250113    gcc-12
-x86_64      buildonly-randconfig-003-20250113    gcc-12
-x86_64      buildonly-randconfig-004-20250113    gcc-12
-x86_64      buildonly-randconfig-005-20250113    clang-19
-x86_64      buildonly-randconfig-006-20250113    clang-19
-x86_64                              defconfig    gcc-11
-xtensa                           alldefconfig    gcc-14.2.0
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250113    gcc-14.2.0
-xtensa                randconfig-002-20250113    gcc-14.2.0
+After this, each watchdog device node will have, selection{offset,bit} stat=
+us{ offset,bit}
+renesas,syscon-cpg-error-rst-sel =3D <&cpg 0xb04 1>;
+renesas,syscon-cpg-error-rst =3D <&cpg 0xb40 1>;
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Or
+
+renesas,syscon-cpg-error-rst =3D < &cpg 0xb04 1 0xb40 1>;
+
+Cheers,
+Biju
 
