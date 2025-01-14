@@ -1,69 +1,76 @@
-Return-Path: <linux-renesas-soc+bounces-12134-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4D9A11238
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 21:40:27 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00378A11509
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 00:09:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9665188AB28
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 20:40:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 896FB7A0219
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 23:09:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6B6C20AF8F;
-	Tue, 14 Jan 2025 20:40:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 977F02144AE;
+	Tue, 14 Jan 2025 23:09:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KRATKsoI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D/07qiZ7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80668146590;
-	Tue, 14 Jan 2025 20:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE3F213245
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jan 2025 23:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736887223; cv=none; b=KWGKZg2JM2Sg/WPrx0NQOOqeBa5SUF5xS9fXBS5zGB5om5iHEgZj+rfgwttAS7jNV/pCciPodV3kxjMEcnX9J6R77GsdRGag4VbaUvJbujR7w1t9qyG3WWbCmLfralEUUp9wtykZginvKiDQw2f9EqPFTokQFKxEBENwAKT6ATE=
+	t=1736896171; cv=none; b=gzKU1nI0wzvJsIgkIoaG9v1WBjQ4/XAdxcfEG27ZhtRUmHPm/KXk9n+EcQJEuiXF7y5bGP/iOew9DVpn+6uwI+TDGGmGDjJMOvH1xydY0XgsVkvuaXaxP1hFOV2+O/Gxyrk/ciBrMIIE0h4cPVvho/6075H3Bx8L3zRWF1jpGaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736887223; c=relaxed/simple;
-	bh=gfRSX2GYBFaW3+bJZ4OY5mVTnljCuw1ZvJQxSJCMgWs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QY+JDebHE2n78Ng7qyDRGvukYU2b/LIc2fZYo7LpfEt7YJMok0u3K1GxZrdud77S6d+4+M0prlRLr14dOjpi0tzuVCDW6teWMKdIY/kjPVY215E2zXGOPoPUhcX/ppY5h8i/WkcSceZ6b2FZ+QMo1ntFx+F4vpRtX6HjMj06WTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KRATKsoI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2B64C4CEDD;
-	Tue, 14 Jan 2025 20:40:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736887223;
-	bh=gfRSX2GYBFaW3+bJZ4OY5mVTnljCuw1ZvJQxSJCMgWs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KRATKsoIY3LO2ovpqzgCudm88TPSEUQ8NKJV2//zqUhewA8om56zVReEyD7lmsTKX
-	 vrhhfJ4YBlhX1bmPy947jzhNSVLLNJeH+GOKqOAiWJo0Fw84mRSjCqFmjjl9SGwP3S
-	 Qf86rmgd8equripDjT+3cVAsCWcq1lEETE8xQ3lOa1np/MJErebfeKmwOpk1vCZhWw
-	 FCGiwSXENAXQDgVeqa10fmE861CM6xtBun4KfmjMyBxQbbx17Rn1wtoAXMfjv9GyJD
-	 K3jA91U/KePWtAMdd3hioeX7CxybbZB+lzEAeJCdw8E/Ink/nJfJK6PWlR0YKP8nJ8
-	 rySkbkgO0rNDQ==
-Date: Tue, 14 Jan 2025 14:40:21 -0600
-From: Rob Herring <robh@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-watchdog@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 4/6] dt-bindings: watchdog: renesas: Document
- `renesas,syscon-cpg-error-rst` property
-Message-ID: <20250114204021.GA1676959-robh@kernel.org>
-References: <20250113112349.801875-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250113112349.801875-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1736896171; c=relaxed/simple;
+	bh=3fWxNw4bt47hR8mNtbe5Y9zatankWU55HKXYPlzgsXc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Onvi/BILsCAh0TMkG/g+EZBhhqBXLFtqqwAWuIHNdRg+QnfBgYk0SgdF5PxUdQUKMD4qPhBB0KVAkja26Wc25JRPPMZkTCJW3tOVXiYj/9DX7UwJvy4w0QersYhC7pTFnWANPD6hfQRTJJmPJ1gz+c1pf4h06+sCCfKVL2nhuiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D/07qiZ7; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736896170; x=1768432170;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3fWxNw4bt47hR8mNtbe5Y9zatankWU55HKXYPlzgsXc=;
+  b=D/07qiZ7QmrvNG7rauaprn8WciTyhd5NuzIHLl9l2oCuhVWDm/hr0qcm
+   ap5T4Ms+SHCBrr1xT+xrAwuf4QVt5Yc4nvfrTG1pArUKwRW+XQSNovRc5
+   CuFwN+PnIK0W+KdZa/SSbpl+GeZqDyX7nFkdXHdvjcllWf1F65YRy66Q9
+   PRcN9evNyoRiAtHQ/rqKSfy+VBckPjkh/dnck1l72vXVwMlDYFwpO1i70
+   UnsKKaVQEoYpqnx0trzdbX8cm0J6hg/8W9xVkseJBUOxgRYTklKCQqpkz
+   t/ZqUaEHsIPQQzc3giyhrpjJwkznR0ER/D8cdxN9U6WSTZOwaPuzKS3Jp
+   w==;
+X-CSE-ConnectionGUID: AQuZ+JCcRvOEJ0XGClKRRg==
+X-CSE-MsgGUID: DfVhCW3jSFezZ1gBdmbEyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="36909615"
+X-IronPort-AV: E=Sophos;i="6.12,315,1728975600"; 
+   d="scan'208";a="36909615"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 15:09:29 -0800
+X-CSE-ConnectionGUID: OlB+Es/bRNyonvkkJ/dJnw==
+X-CSE-MsgGUID: INcJ/NicRj+b6u/hq+5QAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="105441537"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 14 Jan 2025 15:09:27 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tXq2G-000P9H-2W;
+	Tue, 14 Jan 2025 23:09:24 +0000
+Date: Wed, 15 Jan 2025 07:09:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Airlie <airlied@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-drivers:master 17/54]
+ drivers/gpu/drm/bridge/lontium-lt9611.c:1147:10: error: no member named
+ 'audio_pdev' in 'struct lt9611'
+Message-ID: <202501150653.OSZGL4LT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,71 +79,61 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250113112349.801875-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Mon, Jan 13, 2025 at 11:23:47AM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> The RZ/V2H(P) CPG block includes Error Reset Registers (CPG_ERROR_RSTm).
-> A system reset is triggered in response to error interrupt factors, and
-> the corresponding bit is set in the CPG_ERROR_RSTm register. These
-> registers can be utilized by various IP blocks as needed.
-> 
-> In the event of a watchdog overflow or underflow, a system reset is issued,
-> and the CPG_ERROR_RST2[0/1/2/3] bits are set depending on the watchdog in
-> use: CM33 = 0, CA55 = 1, CR8_0 = 2, CR8_1 = 3. For the watchdog driver to
-> determine and report the current boot status, it needs to read the
-> CPG_ERROR_RST2[0/1/2/3]bits and provide this information to the user upon
-> request.
-> 
-> To facilitate this operation, add `renesas,syscon-cpg-error-rst`
-> property to the WDT node, which maps to the `syscon` CPG node, enabling
-> retrieval of the necessary information.
-> 
-> Additionally, the property is marked as required for the RZ/V2H(P) SoC to
-> ensure future compatibility (e.g., where the same IP block is present on
-> the RZ/G3E SoC) and explicitly disallowed for other SoCs.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> Note, this change doesnt break any ABI, as the subsequent driver patch handles
-> the case elegantly if the `syscon` node is missing to handle backward compatibility.
-> 
-> v2->v3
-> - No change
-> 
-> v1->v2
-> - Renamed `renesas,r9a09g057-syscon-wdt-errorrst` to `renesas,syscon-cpg-error-rst`
-> - Updated commit message
-> ---
->  .../bindings/watchdog/renesas,wdt.yaml          | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> index 29ada89fdcdc..ca62ae8b1b0c 100644
-> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> @@ -112,6 +112,19 @@ properties:
->  
->    timeout-sec: true
->  
-> +  renesas,syscon-cpg-error-rst:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description:
-> +      The first cell is a phandle to the SYSCON entry required to obtain
-> +      the current boot status. The second cell specifies the CPG_ERROR_RSTm
-> +      register offset within the SYSCON, and the third cell indicates the
-> +      bit within the CPG_ERROR_RSTm register.
-> +    items:
-> +      - items:
-> +          - description: Phandle to the CPG node
-> +          - description: The CPG_ERROR_RSTm register offset
-> +          - description: The bit within CPG_ERROR_RSTm register of interest
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+head:   d088502a519fb7834bf6e34cb4e531c1e8113bd1
+commit: b49bbb5dbe7654f0d7996206f543d91bbed33569 [17/54] Merge remote-tracking branch 'drm/drm-next' into renesas-drivers
+config: hexagon-randconfig-001-20250115 (https://download.01.org/0day-ci/archive/20250115/202501150653.OSZGL4LT-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f5cd181ffbb7cb61d582fe130d46580d5969d47a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250115/202501150653.OSZGL4LT-lkp@intel.com/reproduce)
 
-Why does the watchdog node care about the reset reason? Why doesn't the 
-CPG handle that? Seems like this is the Linux watchdog subsystem handles 
-reset reasons, so let's stick a property in the watchdog node. Sounds 
-like OS design dictating bindings.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501150653.OSZGL4LT-lkp@intel.com/
 
-Rob
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/bridge/lontium-lt9611.c:1147:10: error: no member named 'audio_pdev' in 'struct lt9611'
+    1147 |         lt9611->audio_pdev =
+         |         ~~~~~~  ^
+   drivers/gpu/drm/bridge/lontium-lt9611.c:1152:33: error: no member named 'audio_pdev' in 'struct lt9611'
+    1152 |         return PTR_ERR_OR_ZERO(lt9611->audio_pdev);
+         |                                ~~~~~~  ^
+   drivers/gpu/drm/bridge/lontium-lt9611.c:1157:14: error: no member named 'audio_pdev' in 'struct lt9611'
+    1157 |         if (lt9611->audio_pdev) {
+         |             ~~~~~~  ^
+   drivers/gpu/drm/bridge/lontium-lt9611.c:1158:38: error: no member named 'audio_pdev' in 'struct lt9611'
+    1158 |                 platform_device_unregister(lt9611->audio_pdev);
+         |                                            ~~~~~~  ^
+   drivers/gpu/drm/bridge/lontium-lt9611.c:1159:11: error: no member named 'audio_pdev' in 'struct lt9611'
+    1159 |                 lt9611->audio_pdev = NULL;
+         |                 ~~~~~~  ^
+   5 errors generated.
+
+
+vim +1147 drivers/gpu/drm/bridge/lontium-lt9611.c
+
+23278bf54afe18 Vinod Koul 2020-07-23  1143  
+23278bf54afe18 Vinod Koul 2020-07-23  1144  static int lt9611_audio_init(struct device *dev, struct lt9611 *lt9611)
+23278bf54afe18 Vinod Koul 2020-07-23  1145  {
+23278bf54afe18 Vinod Koul 2020-07-23  1146  	codec_data.data = lt9611;
+23278bf54afe18 Vinod Koul 2020-07-23 @1147  	lt9611->audio_pdev =
+23278bf54afe18 Vinod Koul 2020-07-23  1148  		platform_device_register_data(dev, HDMI_CODEC_DRV_NAME,
+23278bf54afe18 Vinod Koul 2020-07-23  1149  					      PLATFORM_DEVID_AUTO,
+23278bf54afe18 Vinod Koul 2020-07-23  1150  					      &codec_data, sizeof(codec_data));
+23278bf54afe18 Vinod Koul 2020-07-23  1151  
+23278bf54afe18 Vinod Koul 2020-07-23  1152  	return PTR_ERR_OR_ZERO(lt9611->audio_pdev);
+23278bf54afe18 Vinod Koul 2020-07-23  1153  }
+23278bf54afe18 Vinod Koul 2020-07-23  1154  
+
+:::::: The code at line 1147 was first introduced by commit
+:::::: 23278bf54afe180967069bdc8c0f1c7a365fc63e drm/bridge: Introduce LT9611 DSI to HDMI bridge
+
+:::::: TO: Vinod Koul <vkoul@kernel.org>
+:::::: CC: Sam Ravnborg <sam@ravnborg.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
