@@ -1,127 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-12130-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12131-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C90A11106
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 20:19:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF6FA111A0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 21:03:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F2B141888F19
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 19:19:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6DE42167991
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 20:03:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC03A1FA831;
-	Tue, 14 Jan 2025 19:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5383320458B;
+	Tue, 14 Jan 2025 20:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mA/DwNmt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hHo2NxWe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0DE1E495;
-	Tue, 14 Jan 2025 19:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D61119149F;
+	Tue, 14 Jan 2025 20:03:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736882371; cv=none; b=JNhjsSHkfB+hSyNXz48mF7u41N4API5OB1bxnyis1zEODR9aG/TgECdmN8hMRJJqkb6X6YmL1aERgGOMd7PtRJYsu3IfLyZ9k4niwTqh37cHVOPHkK6k6UXtYLfJsybKIk7JO3o0U9hs6B+mGXS7u/vXiFSQwLdNuhOfoZ6XV7Y=
+	t=1736885017; cv=none; b=OrT6RswSaljyfX3FJ6hL8y203+XYpneG3I6UvmLe2D9xrRWhg662Py1c1s1zE7S1PqCRbZk6luMjvk7pkQQHqi/tN+Zb4ySOI65yX+g6IFXSge/lpv7q9s0gJkzkPZFIw+f5iOmk4m4mPA5GJJMLTaEYWGCnMXMeVsLZi7eRhCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736882371; c=relaxed/simple;
-	bh=wNLwRm7wdLk3dPZc27yM2BcjsFJ/mz9B1AEvKrW/Mew=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rhT7ak9PpjewsQu0ofM4T0BR6xvWF8cLs2Vno9A62BZKufUgEP9+eSbsTIs1clMThukLFzLwJKgLUArboW7+rAJQezviEqs1/wx4qgx0h6mwGZp6e6idL1jrDDazt9xD2GfwFVp+iEmtLxD7SWj4hchrJ/BDXvW0szaeh0sQgsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mA/DwNmt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B525C4CEE5;
-	Tue, 14 Jan 2025 19:19:31 +0000 (UTC)
+	s=arc-20240116; t=1736885017; c=relaxed/simple;
+	bh=VvF68fnl5Cqm9qY20iFeMcP+DYp/YWXE36Bm8gfWFG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bOY5zI4TsoxSlWVymTkoH2tPW+iknWIaWZxguA5Ctuk6boaOnxHbYfFwity9hfxvXztPQoHlf+xHUV/O0whvaCHydx5cD16KVnxKQ0rPGSUJkKsnJkcA0K+wlTXpWbsvUQqkE6n1g0xVcVQO/tkvUCN/wXu4dppmDFu66V+FaHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hHo2NxWe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E0D3C4CEDD;
+	Tue, 14 Jan 2025 20:03:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736882371;
-	bh=wNLwRm7wdLk3dPZc27yM2BcjsFJ/mz9B1AEvKrW/Mew=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=mA/DwNmtR3D9U0pQCiHx8tJbSXsG1hQfT5nSFwUSY6whNEklToPrqR9Mjy5y3QqHY
-	 cmrIyE5fGjVV4CdOeK6/9MPG6W+H8COEw7SijLRvkefqw0xAapdP+iA2hZzOUAFvza
-	 ctPL2h2GIvI9MSot4b1MSWv4YcQewf+0+Cm166xdMevQPjw5crmUg2vkVAKS62auTX
-	 RPZrFR+PpyB566h/1RKWjhPcf25Nz0hNffrQNDcloz+aabTTV5G/VkYiU6+uukFre8
-	 B3/fmGUn1EK1Ur5P0j63te+q9zlSy/HWBnnmmZiqqMSdCeymelgLUBcfVCx+YhFPif
-	 fNZaaHTqlV3Cg==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54026562221so6095970e87.1;
-        Tue, 14 Jan 2025 11:19:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUedc3zw2O4AYlk3GKV+gtjbnTx1nm68tZAKZeX/3Bed2UPM45+Te3q8wlthB6bn/PcVw9yzYpWM+ZuMs3F3ib/TmY=@vger.kernel.org, AJvYcCUst1aP60v/qPeLj4zIW8Ntke3cQSwUeargy+LP5IngOJR3Cm8jCmUUNtsaJS+blkfaoj2L7ui4iF0bvQ==@vger.kernel.org, AJvYcCV9o8rfSPONNj+GexIzQBYplsraZaXA2W84em333BAUxqxkEWStiiBMzbxt02yyTVXiCOQDk7bkA4HXQsMt@vger.kernel.org, AJvYcCWWPuW6I3wxntKJlS9Az2vj78R2DuLvaUsL4g9qiHY5XfaMC76qY++FwwBNQuEPQQ6R59+AMjwqy1cE@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7RBe8UPCWBgC2x0E6+JMblYkAkWa2z9g2mkxyQQ4k4RPQkZr5
-	xmk43nEhwhjUZiq2j0bRkf1D+D6p5jlocXznZb/KxY1PaitkG6m74DUqfJGKTvqTSD6i3Ch7LTP
-	3jmJkrXI2sGvUKiszRFoKCqu3vw==
-X-Google-Smtp-Source: AGHT+IEqG4XRMZtJ9Lh9dvBKs52ZTxH5d0ZfeXBNi6+PJGqugNVSMiC1ZnxvngslJflsTGxzuDYG0LdAxMk3LbbH0So=
-X-Received: by 2002:a05:6512:3c95:b0:542:218a:71a with SMTP id
- 2adb3069b0e04-5428454b727mr8309688e87.26.1736882369482; Tue, 14 Jan 2025
- 11:19:29 -0800 (PST)
+	s=k20201202; t=1736885016;
+	bh=VvF68fnl5Cqm9qY20iFeMcP+DYp/YWXE36Bm8gfWFG8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hHo2NxWepfL2y4LhkgD/8SyK4GYqlrRl4KckXA4sdg0oRnaIVg3RVIThHwzNTajdE
+	 xO1J7r4jKPIixh0G54iDX+BPEqsjHfFlLX/5qfAgjikh3iteUhYq2aRiZZfP2+aOqc
+	 f1Vys3aTCCiNBDAjIVyNEQoATwOVqsefIEWFljMDHfLg6qyAqiV5fk6nuiqRgeU5t6
+	 LiYa1eVpoRmnyVmKGTe5MloREqB9Ik/c/qj2Z9tNFJh75mw1sGvJxFQa4z+8OtHrA4
+	 lPh34yRimlmlA/KrFg9OjNwjhelav7szjNj1bRFk4/z1UFTV1GLPXUd19873voRKjG
+	 uQYPfrP4JDGTQ==
+Date: Tue, 14 Jan 2025 14:03:35 -0600
+From: Rob Herring <robh@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3 0/6] Add support to retrieve the bootstatus from
+ watchdog for RZ/V2H(P) SoC
+Message-ID: <20250114200335.GA1626474-robh@kernel.org>
+References: <20250113112349.801875-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <TY3PR01MB11346D7617436A7779B6697B3861F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250109-dt-type-warnings-v1-0-0150e32e716c@kernel.org>
- <20250109-dt-type-warnings-v1-2-0150e32e716c@kernel.org> <CAMuHMdU=QR-JLgEHKWpsr6SbaZRc-Hz9r91JfpP8c3n2G-OjqA@mail.gmail.com>
-In-Reply-To: <CAMuHMdU=QR-JLgEHKWpsr6SbaZRc-Hz9r91JfpP8c3n2G-OjqA@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 14 Jan 2025 13:19:16 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJNgxLgvB502Bk=5aMeP2rY6KVL_FykeSyN1tsDRXi9cA@mail.gmail.com>
-X-Gm-Features: AbW1kvbPnm-ogWlhAdqQreKVNOX-GaPyfXDzQRi47HZsT4PBKy3PkLZG42wEY4E
-Message-ID: <CAL_JsqJNgxLgvB502Bk=5aMeP2rY6KVL_FykeSyN1tsDRXi9cA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] of: Warn when of_property_read_bool() is used on
- non-boolean properties
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, linux-acpi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TY3PR01MB11346D7617436A7779B6697B3861F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
-On Tue, Jan 14, 2025 at 12:35=E2=80=AFPM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Rob,
->
-> On Thu, Jan 9, 2025 at 8:42=E2=80=AFPM Rob Herring (Arm) <robh@kernel.org=
-> wrote:
-> > The use of of_property_read_bool() for non-boolean properties is
-> > deprecated. The primary use of it was to test property presence, but
-> > that has been replaced in favor of of_property_present(). With those
-> > uses now fixed, add a warning to discourage new ones.
-> >
-> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
->
-> Thanks for your patch, which is now commit c141ecc3cecd7647 ("of:
-> Warn when of_property_read_bool() is used on non-boolean properties")
-> in dt-rh/for-next.
->
-> I have bisected a failure in secondary CPU bring-up on R-Car H1 (quad
-> Cortex-A9 MPCore) to this commit:
->
->      Detected Renesas R-Car Gen1 r8a7779 ES1.0
->      smp: Bringing up secondary CPUs ...
->     -CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
->     -CPU1: Spectre v2: using BPIALL workaround
->     -CPU2: thread -1, cpu 2, socket 0, mpidr 80000002
->     -CPU2: Spectre v2: using BPIALL workaround
->     -CPU3: thread -1, cpu 3, socket 0, mpidr 80000003
->     -CPU3: Spectre v2: using BPIALL workaround
->     -smp: Brought up 1 node, 4 CPUs
->     -SMP: Total of 4 processors activated (2000.00 BogoMIPS).
->     +CPU1: failed to come online
->     +CPU2: failed to come online
->     +CPU3: failed to come online
->     +smp: Brought up 1 node, 1 CPU
->     +SMP: Total of 1 processors activated (500.00 BogoMIPS).
->      CPU: All CPU(s) started in SVC mode.
->
-> Reverting this commit on top of my work tree fixes the issue, too.
-> However, I do not see how this commit could impact CPU bring-up?
+On Mon, Jan 13, 2025 at 11:38:08AM +0000, Biju Das wrote:
+> Hi Prabhakar,
+> 
+> > -----Original Message-----
+> > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: 13 January 2025 11:24
+> > Subject: [PATCH v3 0/6] Add support to retrieve the bootstatus from watchdog for RZ/V2H(P) SoC
+> > 
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > 
+> > Hi All,
+> > 
+> > This patch series adds SYSCON support to retrieve boot status information for RZ/V2H(P) SoC.
+> > Summary of Changes,
+> > 
+> >     Clock:
+> >         Add syscon compatible support to the CPG block in bindings and
+> >         device trees.
+> > 
+> >     Watchdog:
+> >         Document the renesas,r9a09g057-syscon-wdt-errorrst property.
+> >         Update the watchdog driver to fetch and report boot status via
+> >         Error Reset Registers (CPG_ERROR_RSTm).
+> > 
+> >     Device Tree:
+> >         Add the syscon property to CPG and WDT nodes in R9A09G057 and
+> >         R9A09G047 SoC DTSI.
+> > 
+> > These changes enable the watchdog driver to identify boot sources like Power-on Reset and Watchdog
+> > Reset, improving system diagnostics.
+> 
+> This means that, we should assume U-boot/bootloader should not clear the WDT reset status bit.
+> 
+> If they clear it, there should be a way to propagate it from u-boot/bootloader to linux,
+> otherwise, we get wrong bootstatus in linux.
+> But the clearing of watchdog status by one of the cases: 
+> 
+> 1) u-boot identify the boot source and clear the status bit
+> 2) u-boot identify the boot source and does not clear the status bit, but linux clear it.
+> 3) u-boot does not touch WDT status bits, but linux clear it.
 
-Strange. Perhaps the of_property_read_bool was inlined into some
-special section before?
+Sounds like the same problem as this[1]. If that works for you, please 
+comment there. Always better if there is more than 1 user for something 
+"common".
 
 Rob
+
+[1]https://lore.kernel.org/devicetree-spec/48defa98-9718-4997-86cb-b171187708a6@cherry.de/T/#u
 
