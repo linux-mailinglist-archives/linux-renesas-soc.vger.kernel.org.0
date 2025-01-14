@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-12126-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12127-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5CFA1101D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 19:30:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1B5A11020
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 19:30:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 88BDE160BCA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 18:30:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1AF89188B1D0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 18:30:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 458891FBE9A;
-	Tue, 14 Jan 2025 18:30:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4F611F9F66;
+	Tue, 14 Jan 2025 18:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="RQsgTB/o";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uYoQupY1"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="XDXCrhrP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iiqUlSVU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCE51FC0EA;
-	Tue, 14 Jan 2025 18:30:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8470E1FBCB7;
+	Tue, 14 Jan 2025 18:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736879431; cv=none; b=Y/fryuPHIKaj01oxUOq0rXwIjfVK8GBuzBjZNUSl2Sz/dkk2xrZ2xm282zw3LYABRTZO1F2WbaG1dqfIzwA5olM0Bj+kIHOu2FKs7HdHOt7U8NdJUcwStBwemGhQlLou0/ml10SFdC06sbOz9qP+5oF8Tz3LA0qlhEiweArya/g=
+	t=1736879433; cv=none; b=Y+qSpvlLW7yJ8ZPPTcim1QIuYUSVKxOsTzyLoGBmRjHnVnR1CdfgIv+bkzbaiqwJU7z7IKLgA/erGicJnjRd2tZa675YHGAInyIruTu/AhHSSuJ6WxYOp6W7imBJoNcXdRePoiuvYv7fBOjruBSZDY5hpflKs7cmv9rex3+eIBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736879431; c=relaxed/simple;
-	bh=04k7p6ArpA4aPipQsodfZKsYoNw01cEduI+YXLZWbjc=;
+	s=arc-20240116; t=1736879433; c=relaxed/simple;
+	bh=IBibhJ70Plnl5aOGJiGyJXDbUgEdckhfBUonIuqZPI8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dsWogFrbPc0QiVlF29JN2Tk7oA9DVI1ZaO3BhoIkNZFiwXaIiY1eUerLzaHgPvEZZ0e0DTPrT/4bBfIabhGJnhjFRS7cHpIsyOftbGHEJMjYq6cYDTENfwsWJ1SKGMxI/4+jB7lMkLh/j84amDAgqKzTKDkm06lxc8/Icib2Doo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=RQsgTB/o; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uYoQupY1; arc=none smtp.client-ip=202.12.124.147
+	 MIME-Version:Content-Type; b=Ki70IRf1iI1rzf1yPuVnVjZ1HJK23QR2EqVhHgkUfcMv8JSvicl0wM5GgJOybNVVRC+Q/AcP1wHHLJ+bIXrBHsEOGjdAzF+zUQ/iPBl8WmaogijU0OBrsVszBZtaxoWnyp6/vFsFOPLajwH6Efp+nf/00nFUsDjqi+uBdlwOwpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=XDXCrhrP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iiqUlSVU; arc=none smtp.client-ip=202.12.124.155
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfout.stl.internal (Postfix) with ESMTP id 711AE11401AA;
-	Tue, 14 Jan 2025 13:30:28 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Tue, 14 Jan 2025 13:30:28 -0500
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 9D0EF254018A;
+	Tue, 14 Jan 2025 13:30:30 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Tue, 14 Jan 2025 13:30:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1736879428;
-	 x=1736965828; bh=sbqUlPMVectARxMnAFUgLN59ZtV+ixhLMtVYqaS9jP0=; b=
-	RQsgTB/oA2Se0yFXryswuOpDcaJFLroyz2PuvB4VWbmOlSl+JXAVsqlIdMhqxzT2
-	nsvwS2IWdQuNm2lDouJlC6iKS7VkBYLycI2NziXrkIxrlRmliQ+mp9KrwZuGZ+F6
-	hQmKHuV5z7uvi9eyXmVd+n40Znx6dmDUdm7c75sMpqbXVPyFkrfmpSdcDDQstO0D
-	yRBXb2xkawjC2RWwDl6lerxwVjFxInceMf/an9xt8iXhSAgzKWm3zfYbJeVqbB8u
-	YsmYXHCX5CIb6kUOVHJWmtEqfKRJp7Z0Mn2j+hLxWmiOp8bD4VT8aJiNgBfJzUu7
-	zHp4674Jb44kd7SZ902oww==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1736879430;
+	 x=1736965830; bh=gccjNDZjBAahZpa4y9q2b1/0H/y1WIuxemQZFNPSpz8=; b=
+	XDXCrhrPoWkElsLjrdI8ZbzlY+94tycdjJvrQEThx35OMqkJekqFWyuPoFBZ7fTB
+	l9ZTo06bXszJ9AwapoYpwlGnElJMq5j85LSyVuV7mzBtEI1CXziWAF1Nde231pFZ
+	MEoF2mTRRIHkEoUsyTnc+7qKYyTje9mzmHmohDDlnToXoyk2WahAyHyT61SRqA0L
+	FGpbMAKx1Q8z5yJhOVtz85TyNYM8G5f7e7ZYjbQOUtoIkmSZzFL1+uhKJkvAvbJv
+	Wr6fxaqQPoPnUFxe170uuxg/gNvWfMc2sqQ+Aro67N0t1A3UZj5IbdcH6UL57bFl
+	Nr+JeWS1xKuWxG9ZqwfXJg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1736879428; x=
-	1736965828; bh=sbqUlPMVectARxMnAFUgLN59ZtV+ixhLMtVYqaS9jP0=; b=u
-	YoQupY1wDlUQ0VKx9kUrdRn0OVWwEzrgf8wOuX2lLfKJBHaeV7mJWupghIZjFdl3
-	xf6k1MqcI3qlY49FCuHzw2grOgiqwwNCYkJD3aEuFeBQpiMKz58Q5gU7ivjctKFO
-	WZqXeGyqBWe2dIUcaMihhtRwB3Q0xuA/Fgq+jBN10EvwvK3zg01uwenyd6QW/L65
-	GW3sMUj5SLalKiM297peXmcv260HevvJcJimJzfRQzAbeZxxgGR494lRT/9r+dXd
-	xBuwWetyPBWreTvqm31yzreB8xetGUz2RvJzEMleBEjp3iMxwuG/n7OCxgOrn+k3
-	s/AyhtEYvZJcSz2z0DMFA==
-X-ME-Sender: <xms:Q62GZ2G1T5BXulorfRONE6TiDiIXQMq4-iEsWaVxnTZAi1LgFBbj3w>
-    <xme:Q62GZ3V8R6rsXLzpcjHB2BH4uLU25Nj9BfvT_szufL_rhNC28N4uiQHbrDXtX2VxE
-    1z3w8Ch3CXzkRyQpNU>
-X-ME-Received: <xmr:Q62GZwJ0feMlrXHo3UEr1PTo_lzJK_jHW2odYJvO3__AyhTk_uzC8hoXvn1X4BHFqzQ4IKkoK9jCktMMQJVve1P5wQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudehiedguddufecutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1736879430; x=
+	1736965830; bh=gccjNDZjBAahZpa4y9q2b1/0H/y1WIuxemQZFNPSpz8=; b=i
+	iqUlSVUE24gXlVoB8KfpAZz6XqtQvYRlGu7Mn8cwfF4TSNMPShhSYK2b0cwx+SqG
+	7D47HV5rFMKk4/j8nHzHah6e8AZImnGTPvXyE0EG4oS/j+mnysEGKQ5WGjz9Z7+V
+	BjvxtMIt9dz6b5vmThLIYwEjM2Clqm9L90wzU/J+yQfC4AAjIGmLEIsGJIYU0Lyi
+	bK1pLnd4HzWkgIeHoqhaYYnXZ3zKmobTtGHidUWmDG1HQz8hgFZpJxabPkvfPCYJ
+	wRR7hNKFwpWkTgyXi8toS7Tu2sqlzQqGtAVN5P93tjG4nKZnsvmzXDLN3mqw3cDw
+	V/YNTRG29SM5HcvoZvuvg==
+X-ME-Sender: <xms:Rq2GZ7Kn1njWytLKPDPeOdi79bTLwJ-IXwU56jh-hjyOumFzhvOESw>
+    <xme:Rq2GZ_JuHYrph5vHBN_huQ7gD9rRL0Tbdem_D8omn6Js-XEoOBeX9lq9Aj9ENfLF_
+    KeZg2UTA_j2w_ZSDaA>
+X-ME-Received: <xmr:Rq2GZzsBrlqYC3YSU3J0bOc5S2PbgtbTogNNyKAvAoHQTKzBJcVOv6yuuTDxLYpAbVwQFJDySU1ifxteYxURdacnRg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudehiedgudduvdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhephffvve
     fufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgrshcuufpnuggv
@@ -79,22 +79,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudehiedguddufecutefuodetgg
     hrghdprhgtphhtthhopehlihhnuhigqdgtlhhksehvghgvrhdrkhgvrhhnvghlrdhorhhg
     pdhrtghpthhtohepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrg
     hgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:Q62GZwGdX4V2ezsHzbp36nKfhSX3ATChSSPyK6bmx9CUNj4sb6NW2g>
-    <xmx:Q62GZ8WD9IfBJ2x3cCcvbnPTZbHbuWmw0lhlW9Z_l2paOVDWQAQ96A>
-    <xmx:Q62GZzO1AWJB-20aT0gQ3ocmf1RoUURg--E0haf6tQBSMoaljU1zCA>
-    <xmx:Q62GZz2KJ_urlHfHCungvRqr9FEdhw-30A9DBZMVVXp0zsNrYGUlTQ>
-    <xmx:RK2GZ6xDtyG0y8KSP4FmplMGfuxvAcdV9r7NsUKg4J0AlxuoPB8Q-jqW>
+X-ME-Proxy: <xmx:Rq2GZ0b0eIIDSZ2fUsIjbjIyQeGrb3PMI_yGcif7D5dreFCxVNyPng>
+    <xmx:Rq2GZyaqwlnP7U32uOjS-BfEeOOKbt5qEhoHm0qR_obpiq6gd5JQGQ>
+    <xmx:Rq2GZ4Ayr2xd0RZsvdcsvE71nAhHvFM2RnfIuEREJR6f8gMhl2FtMg>
+    <xmx:Rq2GZwYSla7TqX73qq63lW_Kqtt7d9gJQ0v49DkenrdfSyq7dqFQSw>
+    <xmx:Rq2GZ5WbOMHDecoM8PWGCo9SXzeHYUxwCBbYVDc7P0af5g8JlhLyEvpt>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Jan 2025 13:30:27 -0500 (EST)
+ 14 Jan 2025 13:30:29 -0500 (EST)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-clk@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 2/3] clk: renesas: r8a779g0: Add ISP core clocks
-Date: Tue, 14 Jan 2025 19:30:04 +0100
-Message-ID: <20250114183005.2761213-3-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 3/3] clk: renesas: r8a779h0: Add ISP core clocks
+Date: Tue, 14 Jan 2025 19:30:05 +0100
+Message-ID: <20250114183005.2761213-4-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250114183005.2761213-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250114183005.2761213-1-niklas.soderlund+renesas@ragnatech.se>
@@ -107,26 +107,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add the ISP core modules clock for Renesas R-Car V4H.
+Add the ISP core module clock for Renesas R-Car V4M.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/clk/renesas/r8a779g0-cpg-mssr.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/clk/renesas/r8a779h0-cpg-mssr.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/clk/renesas/r8a779g0-cpg-mssr.c b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-index d45571096b96..015b9773cc55 100644
---- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-@@ -163,6 +163,8 @@ static const struct cpg_core_clk r8a779g0_core_clks[] __initconst = {
+diff --git a/drivers/clk/renesas/r8a779h0-cpg-mssr.c b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+index 607fa815b6c1..4c8052ac32df 100644
+--- a/drivers/clk/renesas/r8a779h0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+@@ -171,6 +171,7 @@ static const struct cpg_core_clk r8a779h0_core_clks[] __initconst = {
  };
  
- static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
-+	DEF_MOD("isp0",		 16,	R8A779G0_CLK_S0D2_VIO),
-+	DEF_MOD("isp1",		 17,	R8A779G0_CLK_S0D2_VIO),
- 	DEF_MOD("avb0",		211,	R8A779G0_CLK_S0D4_HSC),
- 	DEF_MOD("avb1",		212,	R8A779G0_CLK_S0D4_HSC),
- 	DEF_MOD("avb2",		213,	R8A779G0_CLK_S0D4_HSC),
+ static const struct mssr_mod_clk r8a779h0_mod_clks[] __initconst = {
++	DEF_MOD("isp0",		 16,	R8A779H0_CLK_S0D2_VIO),
+ 	DEF_MOD("avb0:rgmii0",	211,	R8A779H0_CLK_S0D8_HSC),
+ 	DEF_MOD("avb1:rgmii1",	212,	R8A779H0_CLK_S0D8_HSC),
+ 	DEF_MOD("avb2:rgmii2",	213,	R8A779H0_CLK_S0D8_HSC),
 -- 
 2.48.0
 
