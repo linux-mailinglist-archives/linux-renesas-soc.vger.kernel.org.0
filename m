@@ -1,210 +1,213 @@
-Return-Path: <linux-renesas-soc+bounces-12132-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12133-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43661A111C5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 21:17:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52053A11219
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 21:36:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E53963A11D8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 20:17:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 465601632E2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2025 20:36:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55BF6204F82;
-	Tue, 14 Jan 2025 20:17:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 885B320C033;
+	Tue, 14 Jan 2025 20:35:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iNF2WXM5"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GK3PAgRa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709F41B87EF;
-	Tue, 14 Jan 2025 20:17:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E262080DA
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jan 2025 20:35:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736885833; cv=none; b=QmMCvNHQ5km/VZsAyKKunzmdE5mRc0+GnyHSLFZzkQIjvm7iDTs0790NagSVx1kQJy6z+hBy78nrwrhWelfT0z15zJcYA8lYo5XusXDyTd6UhjXuC2S/t3xJdtRsMHLvS3oXfCg4c8sGxMuKIieSMYtJwqIWr4e/WgWXvNss9uA=
+	t=1736886958; cv=none; b=jRKf+AXYvIXZmPgbQUqu2wmLg+mPP8j8hvldgkfokrl4ERJ//jYe4EkX4T2TJt72IjGhKEABKC9Q/DQVl98ZyG5ZfOcjOVMy8SmO7BzRrliKExGS30ME84JfM84gu6wIVcIiBw25pyZ/mXNxg7jnjQLDx9+BzkAjHHYMFdULKQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736885833; c=relaxed/simple;
-	bh=EqT2WkfiWKDM8H5RoBWwCLtNbl8tn/ggaWmxk2u4YDM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mrlq0ebMdrCNqNViqzLmFnl503a+uqUjAqKle+mNT4QSJH+Ipax7SP8MDF+regQ5VVWdY+Z6HA/7ty6lB2DhFp5UAS2IH8Qq1xqS7A89uT5uSKEKj1ooiSGB68VZd/Noo8DNqPCXp4boMQfTYWuO5S8kl4epsT3Y5ln+/Ic4EeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iNF2WXM5; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21a7ed0155cso103065765ad.3;
-        Tue, 14 Jan 2025 12:17:11 -0800 (PST)
+	s=arc-20240116; t=1736886958; c=relaxed/simple;
+	bh=5EHDsAh1gvS0BQE9Spp73R1FEpmpoEEz/oly6xIBojg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Kqsz2hFxAQtCNK1A7/oq9LJE7a+H+ltgN9I0c3A5jEF5gJ4HjdMEzqNW3wF6fErj4+PKOl2qeTVQ9dgkpGMFVLAzQFoCtmBL4VSfuYT4KMXnqmQjIpVexrfuB+N7CGFfmFbTzBRmNIWZAS6xgjPyCL1VV6lP2DHjPluKHlUZZ4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GK3PAgRa; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43616bf3358so7513855e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jan 2025 12:35:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736885831; x=1737490631; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=RGt4WPnm969RJucfeLyWdLBbHqHzuKxIPaZB8gPnboY=;
-        b=iNF2WXM53Okslz4xIEFzuaUwO6j3kZcRwyLYYrLHFB2E8VhuCmwPkr9mm3dlaKZWmA
-         1v+nZLuHHBWFng1hCEKOCMuh8x944lOveNQ/APUGxYX6g8M6DSttCYZwJ7Oa9othKBQT
-         gknBhnpgLR37BEz1/W12VMkVzAANmZ/kO2wzjWQJ9+uQXwIKb7y54zE1sWMXQVCw6HfG
-         UnSFpBQNqtQ82C4n7hjmdT0joxX99lx0frDv2eVqdyajzAiNL1e6KNMZFRGC7YVTR8tP
-         iWJxUq/u6PLQ70ICG6eBw6R/uqyrFExXKg1U9OlV0hQKR5ScEF8NnBTBHxokM9GXtvWx
-         avXw==
+        d=linaro.org; s=google; t=1736886954; x=1737491754; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3YEUyfDTrDdv/X9cKczpOY/bvfGujRsuEaW/USYXyac=;
+        b=GK3PAgRas5Aa2HRds65LI6Tos9tAE8+j6/bcMaY0bMNXD4ObirARXRZ1rhqBMC8YoF
+         NCnfU94Ty3DxDSazKhQCeTI/CKJd9ngjywPsJP70InO+aeZK0G11p8zapyG8t9htLF0z
+         rWx4i7kdJVAIN3mOjnCxM5Cp5X9q23zaUEXtsT/AQnb9uJL3KiY1SKjDz8r8ehR0N9al
+         yzgTF/N7eYY8KNH+laTZOHD3EQfvU1suh9LGUKKFsbpeIaE0KA8P3yEpgj3bxVGqjDv6
+         dFIhKRUYBom+Bdh2U3XSEmFTXuh0nEcIIW4Hwq8JNezibEtbsJ91CUSP6gr20btAdG+s
+         z9Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736885831; x=1737490631;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RGt4WPnm969RJucfeLyWdLBbHqHzuKxIPaZB8gPnboY=;
-        b=XUM+7+ZRQHMGLR3NDOA3pgV7JpyPsq/bAm5wSwLFrVdybDaxadXJOir8u+Ia1ZGPYM
-         KbJJStXSOdi2E/aiJ9ADSTvnT0O/PDgfAIDGYPXPxla//g9/znJ/aalGIkx14dTzt9mh
-         b9O9GKO1c3UEAekvKwEgizjXBC7TS6TCmPed+Cmxw8VqWmJafB+YxkC9bBGzw/gtoeLq
-         PReTDJVtkGkUH47zXMCVN5gJ4hE2TY2/mDJpRx/4DT8giSx9j3ZO9bqG7W3YrTpBYaU0
-         URt+on4Eu9dMky0UGa/V7GQRZnnMvmGOj5K5Ai5wvse+w1IPGTD7GOIiTYr8pProCxxW
-         ZIkw==
-X-Forwarded-Encrypted: i=1; AJvYcCUUH2HrRbl3voKP6FJ2/oGLTs+VyY1V08ErF1ea4/XEJXZnp6CAMntja/aCllupE1h0CNneuR+GaWXIPPjJ@vger.kernel.org, AJvYcCUgZTd6o3S8PQ8vglya+Isxi0Om2nABkIsehqLnw64x6dOSZYv8Y2/3TXE3nCGHFaLGILM2RKr071qw+963QYc=@vger.kernel.org, AJvYcCVNdN9nZrBjaCrSxhND+5s6uEIvFh4klV9hAA0Kj+YcbSBjLND/E03j+VMo4z1/56/gAeI3sqCtIxbNzT4R1EV90mE=@vger.kernel.org, AJvYcCW03vuKNNL2AmJ68N3o/uIIZKi+60MEXihUzUJcXfqWkora28lwG+TKPctFP6Plq7/GUDUKXYnCHvnr@vger.kernel.org, AJvYcCW5q/DdEaryq9cJj9mF+JJDeqFa7O05Kt8xGvshIdtt8/B3ZOQQ0faZ4bGvk1kerCD0O3j90JJ/oLO6@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywfugd1mxP0d0dXo9htvuuP4Wykyh7Bx3W14LXLNn0CCOG0JmoF
-	YlWfLmwhhzOzKIUF0fgetfpcVVnUOE+EzbyHe4mXMne6BXEbWT5m
-X-Gm-Gg: ASbGncuhjZuDbTY0+eCJZYhHTLCPi+/QDQy7jeRgGdVLhgzJYK4/yYHlKA4Lq17lChK
-	9s5Vb11eEMl1ZrfEc1VUKjIHUYv5xWXFfnzajvctXUggkL1Tpn1tR55vTYtg9/Pb9dFTMGCrnS9
-	8nobzBFGkeYix5j201Xe+GuBBt9pk3zs0NNZJFq9ZtZTBUaZ8jr+J4dMj0VQ/r1rYfrPbsvUHtb
-	7McNdDvsFx5o5FzzRfAjerOnIZt44cpx1dgO0hI/uT9ySXUQZXnAc7JIjbvijVpRuQiV17jVYs8
-	3ZAxobNqVPhVCc71q22Is1zyUkBbDA==
-X-Google-Smtp-Source: AGHT+IGFt/giJrArprePBlrOgmFrEz+9CLtTlPCYdf1zDzdUZoXEtQqpKDZsFQHbyTRBOcJNNXnfLw==
-X-Received: by 2002:a17:902:e88c:b0:21a:8dec:e57a with SMTP id d9443c01a7336-21a8dece77bmr382607525ad.48.1736885830694;
-        Tue, 14 Jan 2025 12:17:10 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f250393sm70791345ad.212.2025.01.14.12.17.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jan 2025 12:17:09 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <e74391e7-c7ab-422b-9dab-dbde9ce55204@roeck-us.net>
-Date: Tue, 14 Jan 2025 12:17:08 -0800
+        d=1e100.net; s=20230601; t=1736886954; x=1737491754;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3YEUyfDTrDdv/X9cKczpOY/bvfGujRsuEaW/USYXyac=;
+        b=TLTF/JuLhTJPzuBgCZnQyurgT47mv9wOpYVNzFWvHqtnKz4JUSIR06ZD4lyh5CDsv7
+         X1noXY6ZueNeLA3q10CotklgT4R6nPRboCevG3VT34VDQepaV/YjHzkndkItbL5QilKH
+         WB7FL95dMpb4qqXlq2dJoQkFfyl49/zL1rIfBn8PAtMvf5mhZFKRUC3BfI0mckcjfGCQ
+         ZQesan2s3kL7vVuizUeBxkg0M60C41HGtDDaG8bEJy4PWOhUT4Zro5qPcom80iV6Pzvp
+         CHYelSm9FFL6GgsAxxTaLGmrQwKWTdLB3Vr7QAKrYQKQ62xujQOekDOTYbA9PSPbzqtG
+         dZwg==
+X-Forwarded-Encrypted: i=1; AJvYcCXYqf6FRFFmMYfQpnaQPo+0zdwkAef3Uq9hVPOYgO2lAjQS0ru+UkDWAH40WRFPgl+NIk281ZGCGwLAFDMfbQdxIw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJb5CAXzZ4vkFAYLe5hZpK5lVEeCYlXOVxGJyutFTs81xdp2DS
+	ai5A7Vs86FZEoO9Do4MO9aSWRpPbw0FSldoe8PYyfC908S4GvpM5HiC9SAVc7Kw=
+X-Gm-Gg: ASbGnctuU2MGH+XGVuYc+emzT1suZEE0in8F2Ap5Ys81cRgMueijoitl8+8AdDXe7R5
+	YDK96IJCd7Xxw7OTPfaHJ5aOAcW7jl06TU5oIw5GwtazlXYLpOst35YewsmwK3knRr8oD2/9tQh
+	s5zW/i3OIDJKkUn0ddoWLwOdqAHC/ftqbC24gK8a8sk/oQANQk1Y78KsIfBtUdZh3ad9r21QAU2
+	uc+xYxGYyG8bvjSEOUL94t0qZIaZWItXz4SIQIUnf76XwnlPLiNZmHex8llnKR/X9SuuNM=
+X-Google-Smtp-Source: AGHT+IEGIFldZ+L4k4Dl+6+c14xQU/JWpFaLddSCbKXPeGIlOQ60LNvgiaZaK9zGFGqW8cmq+2DOXg==
+X-Received: by 2002:adf:9ccd:0:b0:386:3c21:b1f7 with SMTP id ffacd0b85a97d-38a872f40f3mr8004257f8f.7.1736886954611;
+        Tue, 14 Jan 2025 12:35:54 -0800 (PST)
+Received: from krzk-bin.. ([178.197.223.165])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e4c1c01sm16042789f8f.97.2025.01.14.12.35.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2025 12:35:54 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Walker Chen <walker.chen@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] pmdomain: Use str_enable_disable-like helpers
+Date: Tue, 14 Jan 2025 21:35:47 +0100
+Message-ID: <20250114203547.1013010-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/6] Add support to retrieve the bootstatus from
- watchdog for RZ/V2H(P) SoC
-To: Rob Herring <robh@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Wim Van Sebroeck
- <wim@linux-watchdog.org>, Magnus Damm <magnus.damm@gmail.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250113112349.801875-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <TY3PR01MB11346D7617436A7779B6697B3861F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <20250114200335.GA1626474-robh@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20250114200335.GA1626474-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 1/14/25 12:03, Rob Herring wrote:
-> On Mon, Jan 13, 2025 at 11:38:08AM +0000, Biju Das wrote:
->> Hi Prabhakar,
->>
->>> -----Original Message-----
->>> From: Prabhakar <prabhakar.csengg@gmail.com>
->>> Sent: 13 January 2025 11:24
->>> Subject: [PATCH v3 0/6] Add support to retrieve the bootstatus from watchdog for RZ/V2H(P) SoC
->>>
->>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>>
->>> Hi All,
->>>
->>> This patch series adds SYSCON support to retrieve boot status information for RZ/V2H(P) SoC.
->>> Summary of Changes,
->>>
->>>      Clock:
->>>          Add syscon compatible support to the CPG block in bindings and
->>>          device trees.
->>>
->>>      Watchdog:
->>>          Document the renesas,r9a09g057-syscon-wdt-errorrst property.
->>>          Update the watchdog driver to fetch and report boot status via
->>>          Error Reset Registers (CPG_ERROR_RSTm).
->>>
->>>      Device Tree:
->>>          Add the syscon property to CPG and WDT nodes in R9A09G057 and
->>>          R9A09G047 SoC DTSI.
->>>
->>> These changes enable the watchdog driver to identify boot sources like Power-on Reset and Watchdog
->>> Reset, improving system diagnostics.
->>
->> This means that, we should assume U-boot/bootloader should not clear the WDT reset status bit.
->>
->> If they clear it, there should be a way to propagate it from u-boot/bootloader to linux,
->> otherwise, we get wrong bootstatus in linux.
->> But the clearing of watchdog status by one of the cases:
->>
->> 1) u-boot identify the boot source and clear the status bit
->> 2) u-boot identify the boot source and does not clear the status bit, but linux clear it.
->> 3) u-boot does not touch WDT status bits, but linux clear it.
-> 
-> Sounds like the same problem as this[1]. If that works for you, please
-> comment there. Always better if there is more than 1 user for something
-> "common".
-> 
-> Rob
-> 
-> [1]https://lore.kernel.org/devicetree-spec/48defa98-9718-4997-86cb-b171187708a6@cherry.de/T/#u
+Replace ternary (condition ? "enable" : "disable") syntax with helpers
+from string_choices.h because:
+1. Simple function call with one argument is easier to read.  Ternary
+   operator has three arguments and with wrapping might lead to quite
+   long code.
+2. Is slightly shorter thus also easier to read.
+3. It brings uniformity in the text - same string.
+4. Allows deduping by the linker, which results in a smaller binary
+   file.
 
-If this ends up being provided through /chosen, it should probably be supported
-in the watchdog core.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/pmdomain/renesas/rcar-gen4-sysc.c    | 3 ++-
+ drivers/pmdomain/renesas/rcar-sysc.c         | 3 ++-
+ drivers/pmdomain/samsung/exynos-pm-domains.c | 6 +++---
+ drivers/pmdomain/starfive/jh71xx-pmu.c       | 3 ++-
+ 4 files changed, 9 insertions(+), 6 deletions(-)
 
-Guenter
+diff --git a/drivers/pmdomain/renesas/rcar-gen4-sysc.c b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
+index 66409cff2083..fe9a0c1deaa3 100644
+--- a/drivers/pmdomain/renesas/rcar-gen4-sysc.c
++++ b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
+@@ -17,6 +17,7 @@
+ #include <linux/pm_domain.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
++#include <linux/string_choices.h>
+ #include <linux/types.h>
+ 
+ #include "rcar-gen4-sysc.h"
+@@ -171,7 +172,7 @@ static int rcar_gen4_sysc_power(u8 pdr, bool on)
+  out:
+ 	spin_unlock_irqrestore(&rcar_gen4_sysc_lock, flags);
+ 
+-	pr_debug("sysc power %s domain %d: %08x -> %d\n", on ? "on" : "off",
++	pr_debug("sysc power %s domain %d: %08x -> %d\n", str_on_off(on),
+ 		 pdr, ioread32(rcar_gen4_sysc_base + SYSCISCR(reg_idx)), ret);
+ 	return ret;
+ }
+diff --git a/drivers/pmdomain/renesas/rcar-sysc.c b/drivers/pmdomain/renesas/rcar-sysc.c
+index b99326917330..e3f2c7edf22a 100644
+--- a/drivers/pmdomain/renesas/rcar-sysc.c
++++ b/drivers/pmdomain/renesas/rcar-sysc.c
+@@ -14,6 +14,7 @@
+ #include <linux/pm_domain.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
++#include <linux/string_choices.h>
+ #include <linux/io.h>
+ #include <linux/iopoll.h>
+ #include <linux/soc/renesas/rcar-sysc.h>
+@@ -162,7 +163,7 @@ static int rcar_sysc_power(const struct rcar_sysc_pd *pd, bool on)
+ 
+ 	spin_unlock_irqrestore(&rcar_sysc_lock, flags);
+ 
+-	pr_debug("sysc power %s domain %d: %08x -> %d\n", on ? "on" : "off",
++	pr_debug("sysc power %s domain %d: %08x -> %d\n", str_on_off(on),
+ 		 pd->isr_bit, ioread32(rcar_sysc_base + SYSCISR), ret);
+ 	return ret;
+ }
+diff --git a/drivers/pmdomain/samsung/exynos-pm-domains.c b/drivers/pmdomain/samsung/exynos-pm-domains.c
+index 9b502e8751d1..1a892c611dad 100644
+--- a/drivers/pmdomain/samsung/exynos-pm-domains.c
++++ b/drivers/pmdomain/samsung/exynos-pm-domains.c
+@@ -13,6 +13,7 @@
+ #include <linux/err.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ #include <linux/pm_domain.h>
+ #include <linux/delay.h>
+ #include <linux/of.h>
+@@ -38,7 +39,6 @@ static int exynos_pd_power(struct generic_pm_domain *domain, bool power_on)
+ 	struct exynos_pm_domain *pd;
+ 	void __iomem *base;
+ 	u32 timeout, pwr;
+-	char *op;
+ 
+ 	pd = container_of(domain, struct exynos_pm_domain, pd);
+ 	base = pd->base;
+@@ -51,8 +51,8 @@ static int exynos_pd_power(struct generic_pm_domain *domain, bool power_on)
+ 
+ 	while ((readl_relaxed(base + 0x4) & pd->local_pwr_cfg) != pwr) {
+ 		if (!timeout) {
+-			op = (power_on) ? "enable" : "disable";
+-			pr_err("Power domain %s %s failed\n", domain->name, op);
++			pr_err("Power domain %s %s failed\n", domain->name,
++			       str_enable_disable(power_on));
+ 			return -ETIMEDOUT;
+ 		}
+ 		timeout--;
+diff --git a/drivers/pmdomain/starfive/jh71xx-pmu.c b/drivers/pmdomain/starfive/jh71xx-pmu.c
+index 74720c09a6e3..30c29ac9391f 100644
+--- a/drivers/pmdomain/starfive/jh71xx-pmu.c
++++ b/drivers/pmdomain/starfive/jh71xx-pmu.c
+@@ -12,6 +12,7 @@
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_domain.h>
++#include <linux/string_choices.h>
+ #include <dt-bindings/power/starfive,jh7110-pmu.h>
+ 
+ /* register offset */
+@@ -155,7 +156,7 @@ static int jh7110_pmu_set_state(struct jh71xx_pmu_dev *pmd, u32 mask, bool on)
+ 
+ 	if (ret) {
+ 		dev_err(pmu->dev, "%s: failed to power %s\n",
+-			pmd->genpd.name, on ? "on" : "off");
++			pmd->genpd.name, str_on_off(on));
+ 		return -ETIMEDOUT;
+ 	}
+ 
+-- 
+2.43.0
 
 
