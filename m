@@ -1,169 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-12144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CBCA11BA8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 09:15:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDD3A11BC0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 09:22:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 498C81660D3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 08:15:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AE8D3A8A0C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 08:22:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA0B12500A5;
-	Wed, 15 Jan 2025 08:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQaNX0eI"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A06B1FE44E;
+	Wed, 15 Jan 2025 08:22:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A0824333D;
-	Wed, 15 Jan 2025 08:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF55C1EBFE8
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 08:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736928935; cv=none; b=N+2yyG2xXgXaM1/qe7rNrVkiAmJVxiqSWb8N25ECW73+SyYY5pwIcPZ32Xgl0VT7LN7z290qMwVSuwL0D5JAOODqusBGbdA53J2WABf+kV1dFrDS6RN+Zh7Ph+Nguw7nlqSIUjMT990+OJQ+U6YzIIOap3TOehhdRWLl9tOwUqo=
+	t=1736929351; cv=none; b=KXSckr0x85HmGq8D+6X8YjMictCf1RjIw+dkD6nfH6hilV2i8rev6jGIOYOrP17cPWXyS5EfPNsID2I5112G8q/iIWUhEjzTGvO0JlH5x/UuFvEYsv2hW6LbJSMpvcOaxb2fwDHSeD0qKKvDQ0Rb5uhLNvSQNZLDV1KKn31lhrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736928935; c=relaxed/simple;
-	bh=T0IdFn0MO9THjwmFrjdVpSDN00JpLLnGIr0LGMN8FaU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i7oCgUIioRYPuxCURBO9FSdPTMEByZTx7sShzJX/nfCnAT1N0eqVPB3+JFiyB/pF5sZBVEaWf1vljg9jzBiFMl+cy2shO06DF4R3VN2s0jHD8N6lICD7AorzRrSuVZmrRtNXQ5RqxA8+yj9Q/K7VzOVdPcxxV7L579CvTNHsZ5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQaNX0eI; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736928934; x=1768464934;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=T0IdFn0MO9THjwmFrjdVpSDN00JpLLnGIr0LGMN8FaU=;
-  b=YQaNX0eIsmVAhSZJStNlbdLb/ErVgNBwrS0SleGHNlntKGAnBKm/nVQt
-   qm/Xi6ZAip8D8HLVzrYR0fWYBmoR2gXHLUBwYK/ZLdJSWvszFQoRL6R06
-   MFABr4rx8bzmcR2m1rHFfVQcfyxfX3dj9E/N7LHviylgoryktVFvr1jME
-   2nUdPfRCMdFAeX/FBD9veb7lT00xumx6TSCFDgjbMGlXb8g2x4lhCdZC5
-   PWsdRWkVVNUXSmvEOTLyRrBN1qkhTtWBxlcGBx88Z6WKeFb3KFKLjnI1c
-   PGJV7zxLIAXM2iLWrzuvdkrsOh1Iv4NWKk8D8RKLfDQRwnON5ILw0Hh1e
-   g==;
-X-CSE-ConnectionGUID: 61NYUgwEQxaM1yahJQohsA==
-X-CSE-MsgGUID: +3SgpITrQx++xtwwJJiv1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="24852178"
-X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
-   d="scan'208";a="24852178"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 00:15:33 -0800
-X-CSE-ConnectionGUID: navOLFn1SpCo68KhG9DkjQ==
-X-CSE-MsgGUID: J5hfQ/WjRqO8qy9oCaCMfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="110197947"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 00:15:32 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id BDF9A11F8B3;
-	Wed, 15 Jan 2025 10:15:28 +0200 (EET)
-Date: Wed, 15 Jan 2025 08:15:28 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: v4l: fwnode: Parse CSI-2 C-PHY line-orders
- like bus-type
-Message-ID: <Z4duoOn2ywLseSyJ@kekkonen.localdomain>
-References: <20250104195548.1915578-1-niklas.soderlund+renesas@ragnatech.se>
- <20250104195548.1915578-3-niklas.soderlund+renesas@ragnatech.se>
- <Z3znj0MOWvIhbOxj@kekkonen.localdomain>
- <20250107095219.GF2766897@ragnatech.se>
+	s=arc-20240116; t=1736929351; c=relaxed/simple;
+	bh=Rd7lNU9y4AuP69qNaW527V9DXUPmiFQLmoG5T66xt08=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MX03G2xGHob8NvdrxpcXVR+Kwy1eRRaydhJoXWSuMeu9DrIatQ2IkT7yGnakvUIWNx8N58XsD4x1PsU/TFXP4vAS1ogMar3WzILHj73Crr+NtglBrmXT0WktupFr/tbgx7xsYshWdIpVTeCd8y2xemwvpmy7IZ7tULK5Oti5DIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4YXzWQ4R2kz4x5kL
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 09:22:26 +0100 (CET)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:6d1:f8d8:e962:cd35])
+	by xavier.telenet-ops.be with cmsmtp
+	id 1LNK2E0051NY9Yg01LNKoq; Wed, 15 Jan 2025 09:22:19 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tXyfG-0000000CWql-0tN3;
+	Wed, 15 Jan 2025 09:22:19 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tXyfK-00000003PzV-4C2Z;
+	Wed, 15 Jan 2025 09:22:19 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-gpio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL] pinctrl: renesas: Updates for v6.14 (take three)
+Date: Wed, 15 Jan 2025 09:22:13 +0100
+Message-ID: <cover.1736928826.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250107095219.GF2766897@ragnatech.se>
 
-Hejssan,
+	Hi Linus,
 
-On Tue, Jan 07, 2025 at 10:52:19AM +0100, Niklas Söderlund wrote:
-> Hi Sakari,
-> 
-> Tack för din feedback.
-> 
-> On 2025-01-07 08:36:31 +0000, Sakari Ailus wrote:
-> > Hejssan Niklas,
-> > 
-> > Tack för dessa lappar!
-> > 
-> > On Sat, Jan 04, 2025 at 08:55:48PM +0100, Niklas Söderlund wrote:
-> > > Provided a safe-guard from the raw values used in device tree sources
-> > > and the in-kernel defines used to describe the different line orders.
-> > > This mimics what have been done for the bus-type property to provide the
-> > > same safe-guard.
-> > > 
-> > > The macros used in device tree sources are defined in video-interfaces.h
-> > > (MEDIA_BUS_CSI2_CPHY_LINE_ORDER_*) and are only visible to DTS source
-> > > files. These raw values map directly to the in-kernel names by fwnode
-> > > defines in v4l2-fwnode.h (V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_*). These
-> > > fwnode defines are finally translated to defines which are exposed to
-> > > drivers to act on (V4L2_MBUS_CSI2_CPHY_LINE_ORDER_*).
-> > > 
-> > > Previously the translation to values provided to drivers have exploited
-> > > the fact that the numerical value for each setting are the same for the
-> > > defines used in device tree sources. While this is unlikely to change
-> > > this harmonises the bus-type and line-orders parsing to work using the
-> > > same mechanics, while at the same time make the large CSI-2 parsing
-> > > function a little more readable.
-> > 
-> > Do we in fact need the V4L2_MBUS_ definitions of the line orders at all?
-> 
-> I'm not sure :-)
-> 
-> Geert pointed out in [1] that in comparison to the V4L2_MBUS_ bus-type 
-> definitions the line-order definitions did not have this intermediary 
-> step as a safe guard between values used in DTS files and values used in 
-> V4L2 drivers.
-> 
-> Looking at the original functionality,
-> 
->     bus->line_orders[i] = array[i];
-> 
-> Seems a bit "hack" compared to what this patch do,
-> 
-> 
->     bus->line_orders[i] = v4l2_fwnode_line_order_to_mbus(array[i]);
-> 
-> But if it's worth the extra churn, and if it in reality provides us with 
-> a safe-guard between DTS-files and V4L2-drivers I'm not sure. I'm on the 
-> fence on this one, the one good thing is that it aligns how V4L2_MBUS_ 
-> macros are parsed.
-> 
-> But if you don't like it and I'm on the fence I'm happy to drop this 
-> series. This series don't add any extra functionality.
+The following changes since commit 829356da700bbe07e13b4403997bf8c5aac64660:
 
-I wasn't asking dropping the series, but instead get rid of the V4L2_MBUS_
-line order definitions altogether, by replacing them by V4L2_FWNODE_
-equivalents.
+  pinctrl: renesas: rzg2l: Add support for RZ/G3E SoC (2025-01-03 21:09:19 +0100)
 
-> 
-> 1. CAMuHMdXwqb7vhUeoMKDDJO5dp-V3LmnURZLSC1_ko=YL=cNyUA@mail.gmail.com
-> 
-> > 
-> > The same could extend to the V4L2_MBUS_ bus type defitions, but that's out
-> > of scope of this patch.
-> 
-> Out of scope indeed. If we drop this series do we want to try and remove 
-> them for V4L2_MBUS_ bus-type in future?
+are available in the Git repository at:
 
-I think that would be reasonable. I don't think we need two sets of
-definitions that effectively are interchangeable. But that may well be out
-of scope of this series.
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.14-tag3
 
--- 
-Med vänliga hälsningar,
+for you to fetch changes up to accabfaae0940f9427c782bfee7340ce4c15151c:
 
-Sakari Ailus
+  pinctrl: renesas: rzg2l: Fix PFC_MASK for RZ/V2H and RZ/G3E (2025-01-14 09:22:48 +0100)
+
+----------------------------------------------------------------
+pinctrl: renesas: Updates for v6.14 (take three)
+
+  - Fix PFC_MASK for RZ/V2H and RZ/G3E.
+
+This late PR is a fix for an issue which does not show up yet (because
+the boot loader does the right configuration), but which may show up
+when more device support is added to the DTS.  Hence it is better to fix
+it sooner rather than later.
+
+Thanks for pulling!
+----------------------------------------------------------------
+Lad Prabhakar (1):
+      pinctrl: renesas: rzg2l: Fix PFC_MASK for RZ/V2H and RZ/G3E
+
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
