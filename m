@@ -1,328 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-12185-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12186-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C933FA12B8D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 20:11:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B739EA12D94
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 22:18:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D3263A649A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 19:11:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15C7A188A102
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 21:18:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33D191D86C7;
-	Wed, 15 Jan 2025 19:10:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFD351DB924;
+	Wed, 15 Jan 2025 21:18:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhKvWoHA"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FwxMUUmB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7C01D7E21
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 19:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306B51DB92A
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 21:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736968248; cv=none; b=IYYNfjiaCfvp5aW8jo+6JEZQ30cYdjR5xlKrXxdwr1CSdr4oXtCs+L18/QLxNEvYdlxi0xSCB0bQeICuGciAB39PfwbhDEuRMwM8oXmov649pRmXa1PtXWHPs/gn7e/R/vmgrLvdghkOOy7J78iwRDLJkeWlZl2pH3qGL5Hmvqg=
+	t=1736975881; cv=none; b=Rbvhml7vtKKGgAeInD3Id46N4i2pvm77wveu3mCfSYjiHI0TesmtJXNO0VuGM67KBeHr+TZMR7Q35lN61OoJHXAXvE5yiFQTpfaIvrGI4fFFWDU4AY9emXc2cX4cqUMfkiNi7kOryUVpm14JxodhBbCJaU4JX6CVoEAKLMz9RcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736968248; c=relaxed/simple;
-	bh=ZBMJjwrWP/Vj1jE1UHNxNPypN3E4Ak4+4C8HhINVotg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dX5RjwkXMSHEFlmBaljoVeIU4EptNoqLZCK2PUm/xeHxOWCD4B9nVxyZ1U4iFlVO8/Uyr/nDm1Eazp0YvQjdcqNu6P2NLEotvB+LrqZv4pSJSi1u/8Q6IMrxau/jLgD2ZZw2pUgWsbp890zQw2goSYPJD0HC8yVGlROKvi5fQVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhKvWoHA; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736968246; x=1768504246;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZBMJjwrWP/Vj1jE1UHNxNPypN3E4Ak4+4C8HhINVotg=;
-  b=YhKvWoHA2jVkQIG0IkMCX3CdlggRT+X+yfhITuxrUklmTWjH7a6DYPgE
-   ByBMcE2sS65fTfattLNhSDA0IA4UDspVvDFDe8wjtuEQZHP/DmVZjz6P7
-   y5RSW1yZfuSPxaa8Lvf65qFCdHjAV3cNSOqcKkdxC35kfLzuB9ZrtSfvx
-   R4if0Q2JOC8RmRGesanRHQUm3TEUOK1QBKe9fPsZ7/xUT0roVX0dsqwjf
-   uPgzzjmWN6EejwforLMhvsewQvNxhNt53tSnpJjkXmdO/03INW10DKu2u
-   PpA5HJPsusd08VRPu49f83SikQtAvD84yYfj3pXDrNuf9dzwwMIinizvm
-   g==;
-X-CSE-ConnectionGUID: 1LY0PQoRQMqVmWSdPZhzog==
-X-CSE-MsgGUID: ubvxXAj/Rh2qDA1+HgIC1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="37477450"
-X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
-   d="scan'208";a="37477450"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 11:10:41 -0800
-X-CSE-ConnectionGUID: rd2KmkRBSjuq0AXgzqqxGg==
-X-CSE-MsgGUID: YmXorbCeQnaywPzX9zYrDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
-   d="scan'208";a="110205952"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Jan 2025 11:10:40 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tY8mj-000QkB-2D;
-	Wed, 15 Jan 2025 19:10:37 +0000
-Date: Thu, 16 Jan 2025 03:09:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD REGRESSION
- d088502a519fb7834bf6e34cb4e531c1e8113bd1
-Message-ID: <202501160343.rNJtZhky-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1736975881; c=relaxed/simple;
+	bh=yDa0Qe46Jzwv1wq36DpTjz7+V6202a1+5RibOpikIik=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=glguWGq2+PLnSUY4PHGhorE2+SDEFVwSOP5ku2tcalaBF3XcTS+l5vE36QDWIlEkO31xj7PpiSt3jvn0SKM77XwSvfkHBni1HbGd50ZVkBlgcjl6ja2Ow9K1adDrzlEihSLcTCEJOgg+5biGPfPl2kexQoAvmlHGMosJopUVMCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FwxMUUmB; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-436230de7a3so182175e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 13:17:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736975878; x=1737580678; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9qHKVl8g8d6O1jTs6lYX8V6Xx1+0T2EHi+qxmLZOjZM=;
+        b=FwxMUUmBeQJOHuOs3yfM8p57TtmSzGRwaUOBFohV+zXBhCKEPpImZnRl2Zo7+UBYgj
+         XCt7/F1yRZqrkWO1XRGGl+PSncH1uh54/TpPQEWZmDgXVEsGSCEap6EAbtlEZ7XhgI98
+         aaJr9Ua+B8WjhxgsHKnjznrAuOrLGH/0UP+0bMBx5nvm2b4esc3VkxHur0mZVx4wERka
+         qxRSLbAWWJGRZWJSpU95WjXvR32IxGvO7F8whPR0OAjWEKXZWlD8l54QPPGQq17rSGwi
+         IZunzOJsMpcaUqBLBvxwfTR+9Vd4cdEa0YYj+jGOxfbb//ViWLQtLXSU4kq/MwqvovJ6
+         VsrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736975878; x=1737580678;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9qHKVl8g8d6O1jTs6lYX8V6Xx1+0T2EHi+qxmLZOjZM=;
+        b=Qoonb2Wf48KIkKQ65a0G+LY9zeK6BY/7qunw+ylgCwqRLrr9rFg/wfha9qsGu6rS/f
+         BPmu3BOKePEYz+biVUQZFOo2ByBGxGKrhvtu6b0oCZMyVeDhWGj+FM7KhFtdh9YwImD9
+         GKV0AIrCuONkYoPNRfPuwuobPpdZPDk7kf1hjNIMq0eyUEPcoSUjSTQ8ZUi6ZrkRKXNi
+         d9NXrqpboYqw/IytHFg9fYVflqzPDmx/OPIwBmjpNu477lUTWtPpU0BDXdF58mWsgPuZ
+         QTS4bDtkV+j6zYJSMa0HeP9uCasKW09FpFMmvIZsmSOsLteBt/DZ48wlpgjrO8oDbpE/
+         CkVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUVlUurdOm5oVUwDOWIN+mN5jao7I9feQUEuchR+nm3CWKCbwfozClmMOEb475sT+T/4so/zvRzpliZnc1Mz+JAeg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywm2taXpnXJCspqGj19Gu7lXboSoLcvlDouzMrsC8YJUOARa4tG
+	v1pau/VvvE+R90r6FqL0d+a3UeC2z0REGf8h2WounEY0DXj93N4nm+OlQLQwjYX8XQ6UEw0Y5Gf
+	t
+X-Gm-Gg: ASbGncvC0gkc3UruVGRqONKMguXtZveF1QKtdchBM4kX3BtWT1UNTTE6pO8nG19nY6u
+	dGiW1IskII+q1+ChqnspJFGcbWHdnln5u1Y3fM6Vbbky7keTAU7F+fRH/V1U4OMl0qvsQ0M5Igz
+	pU5dibkdcmDNZjMbKTy1f6YSN/StlS3ot1rKKzvf0aCAvrMRK/u1m4WiRKrO6Vk+Eak32isSO2g
+	CmQvD4i5O4xe7OSV8vdjbUZRPOQm2k5FmfPBbVj4Aq+Uge5/Lh3lx/osiGdW0Rw7+4SIKE=
+X-Google-Smtp-Source: AGHT+IEFvnu8OXXeqoDb6YWSdPhGF83v3PJsG+NWti4ab2PS4rU3HwnG9ln5bcto94xmLR+2mM5RYQ==
+X-Received: by 2002:a05:600c:3554:b0:430:52ec:1e2a with SMTP id 5b1f17b1804b1-436e26ffdecmr121126635e9.7.1736975878544;
+        Wed, 15 Jan 2025 13:17:58 -0800 (PST)
+Received: from krzk-bin.. ([178.197.223.165])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c74c4f85sm36623335e9.18.2025.01.15.13.17.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jan 2025 13:17:58 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] arm64: dts: renesas: r8a77970: Align GPIO hog name with bindings
+Date: Wed, 15 Jan 2025 22:17:55 +0100
+Message-ID: <20250115211755.194219-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: d088502a519fb7834bf6e34cb4e531c1e8113bd1  [LOCAL] riscv: renesas: defconfig: Update rzfive_defconfig
+Bindings expect GPIO hog names to end with 'hog' suffix, so correct it
+to fix dtbs_check warning:
 
-Error/Warning (recently discovered and may have been fixed):
+  r8a77970-eagle-function-expansion.dtb: gpio@27: 'vin0_adv7612_en' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
 
-    https://lore.kernel.org/oe-kbuild-all/202501150653.OSZGL4LT-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202501150734.lfH7WaHA-lkp@intel.com
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../boot/dts/renesas/r8a77970-eagle-function-expansion.dtso     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-    drivers/gpu/drm/bridge/lontium-lt9611.c:1144:12: warning: 'lt9611_audio_init' defined but not used [-Wunused-function]
-    drivers/gpu/drm/bridge/lontium-lt9611.c:1147:10: error: no member named 'audio_pdev' in 'struct lt9611'
-    drivers/gpu/drm/bridge/lontium-lt9611.c:1147:15: error: 'struct lt9611' has no member named 'audio_pdev'
-    drivers/gpu/drm/bridge/lontium-lt9611.c:1155:13: warning: 'lt9611_audio_exit' defined but not used [-Wunused-function]
+diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansion.dtso b/arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansion.dtso
+index 9450d8ac94cb..0c005660d8dd 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansion.dtso
++++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansion.dtso
+@@ -70,7 +70,7 @@ gpio@27 {
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
+ 
+-		vin0_adv7612_en {
++		vin0-adv7612-en-hog {
+ 			gpio-hog;
+ 			gpios = <3 GPIO_ACTIVE_LOW>;
+ 			output-high;
+-- 
+2.43.0
 
-Error/Warning ids grouped by kconfigs:
-
-recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- arc-allmodconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- arm-allmodconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- arm64-allmodconfig
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- arm64-randconfig-001-20250115
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- arm64-randconfig-003-20250115
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- hexagon-allmodconfig
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- hexagon-allyesconfig
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- hexagon-randconfig-001-20250115
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- i386-allmodconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- i386-allyesconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- i386-buildonly-randconfig-002-20250115
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- openrisc-allyesconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- parisc-allmodconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- parisc-allyesconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- powerpc-allmodconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- powerpc-allyesconfig
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- powerpc64-randconfig-003-20250115
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- riscv-randconfig-002-20250115
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- s390-allmodconfig
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- s390-randconfig-002-20250115
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- sparc-allmodconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- sparc64-randconfig-001-20250115
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- sparc64-randconfig-002-20250115
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-|-- um-allmodconfig
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-|-- um-allyesconfig
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:struct-lt9611-has-no-member-named-audio_pdev
-|   |-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_exit-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-lontium-lt9611.c:warning:lt9611_audio_init-defined-but-not-used
-`-- x86_64-allyesconfig
-    `-- drivers-gpu-drm-bridge-lontium-lt9611.c:error:no-member-named-audio_pdev-in-struct-lt9611
-
-elapsed time: 1463m
-
-configs tested: 134
-configs skipped: 1
-
-tested configs:
-alpha                            alldefconfig    gcc-14.2.0
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                   randconfig-001-20250115    gcc-13.2.0
-arc                   randconfig-002-20250115    gcc-13.2.0
-arc                        vdk_hs38_defconfig    gcc-14.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-17
-arm                               allnoconfig    gcc-14.2.0
-arm                              allyesconfig    gcc-14.2.0
-arm                         lpc32xx_defconfig    gcc-14.2.0
-arm                        neponset_defconfig    gcc-14.2.0
-arm                   randconfig-001-20250115    clang-16
-arm                   randconfig-002-20250115    clang-20
-arm                   randconfig-003-20250115    clang-20
-arm                   randconfig-004-20250115    clang-20
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250115    clang-20
-arm64                 randconfig-002-20250115    gcc-14.2.0
-arm64                 randconfig-003-20250115    clang-18
-arm64                 randconfig-004-20250115    gcc-14.2.0
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250115    gcc-14.2.0
-csky                  randconfig-002-20250115    gcc-14.2.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    clang-20
-hexagon                           allnoconfig    gcc-14.2.0
-hexagon                          allyesconfig    clang-18
-hexagon               randconfig-001-20250115    clang-20
-hexagon               randconfig-002-20250115    clang-19
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250115    clang-19
-i386        buildonly-randconfig-001-20250116    clang-19
-i386        buildonly-randconfig-002-20250115    gcc-12
-i386        buildonly-randconfig-002-20250116    clang-19
-i386        buildonly-randconfig-003-20250115    gcc-12
-i386        buildonly-randconfig-003-20250116    clang-19
-i386        buildonly-randconfig-004-20250115    gcc-12
-i386        buildonly-randconfig-004-20250116    clang-19
-i386        buildonly-randconfig-005-20250115    gcc-12
-i386        buildonly-randconfig-005-20250116    clang-19
-i386        buildonly-randconfig-006-20250115    gcc-12
-i386        buildonly-randconfig-006-20250116    clang-19
-i386                                defconfig    clang-19
-i386                  randconfig-011-20250116    gcc-12
-i386                  randconfig-012-20250116    gcc-12
-i386                  randconfig-013-20250116    gcc-12
-i386                  randconfig-014-20250116    gcc-12
-i386                  randconfig-015-20250116    gcc-12
-i386                  randconfig-016-20250116    gcc-12
-i386                  randconfig-017-20250116    gcc-12
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250115    gcc-14.2.0
-loongarch             randconfig-002-20250115    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                       rbtx49xx_defconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250115    gcc-14.2.0
-nios2                 randconfig-002-20250115    gcc-14.2.0
-openrisc                          allnoconfig    clang-20
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    clang-20
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                generic-32bit_defconfig    gcc-14.2.0
-parisc                randconfig-001-20250115    gcc-14.2.0
-parisc                randconfig-002-20250115    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    clang-20
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-16
-powerpc               randconfig-001-20250115    gcc-14.2.0
-powerpc               randconfig-002-20250115    gcc-14.2.0
-powerpc               randconfig-003-20250115    gcc-14.2.0
-powerpc64             randconfig-001-20250115    gcc-14.2.0
-powerpc64             randconfig-002-20250115    gcc-14.2.0
-powerpc64             randconfig-003-20250115    clang-18
-riscv                             allnoconfig    clang-20
-riscv                             allnoconfig    gcc-14.2.0
-riscv                 randconfig-001-20250115    gcc-14.2.0
-riscv                 randconfig-002-20250115    clang-16
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250115    clang-20
-s390                  randconfig-002-20250115    clang-15
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                    randconfig-001-20250115    gcc-14.2.0
-sh                    randconfig-002-20250115    gcc-14.2.0
-sh                          rsk7269_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250115    gcc-14.2.0
-sparc                 randconfig-002-20250115    gcc-14.2.0
-sparc64               randconfig-001-20250115    gcc-14.2.0
-sparc64               randconfig-002-20250115    gcc-14.2.0
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-18
-um                                allnoconfig    clang-20
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250115    clang-18
-um                    randconfig-002-20250115    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250115    gcc-12
-x86_64      buildonly-randconfig-001-20250116    gcc-12
-x86_64      buildonly-randconfig-002-20250115    gcc-12
-x86_64      buildonly-randconfig-002-20250116    gcc-12
-x86_64      buildonly-randconfig-003-20250115    clang-19
-x86_64      buildonly-randconfig-003-20250116    gcc-12
-x86_64      buildonly-randconfig-004-20250115    clang-19
-x86_64      buildonly-randconfig-004-20250116    gcc-12
-x86_64      buildonly-randconfig-005-20250115    gcc-12
-x86_64      buildonly-randconfig-005-20250116    gcc-12
-x86_64      buildonly-randconfig-006-20250115    clang-19
-x86_64      buildonly-randconfig-006-20250116    gcc-12
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                          iss_defconfig    gcc-14.2.0
-xtensa                randconfig-001-20250115    gcc-14.2.0
-xtensa                randconfig-002-20250115    gcc-14.2.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
