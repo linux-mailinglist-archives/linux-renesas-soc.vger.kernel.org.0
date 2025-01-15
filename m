@@ -1,297 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-12150-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12156-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C10A11F51
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 11:26:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF3CA12059
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 11:44:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15461188D74F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 10:26:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60D933A338C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 10:44:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E23323F269;
-	Wed, 15 Jan 2025 10:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Mljgl0Dv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qI2Y6oN0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Mljgl0Dv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qI2Y6oN0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F61B1E98E3;
+	Wed, 15 Jan 2025 10:44:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1383F231A49;
-	Wed, 15 Jan 2025 10:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18C761E98F8;
+	Wed, 15 Jan 2025 10:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736936767; cv=none; b=qjgmn5ra79TwGHpwMPAYbEYyDdQLMa5hHHERiBfRdi8arP8Re+5ZIrHSVYjdK2fkq8TT4lgR9VXJoXNwPtxidcOiQBFMEztrnes4KuH1eSl4dU/lVT4sDHvCYknDArhOefmr+lkFRDE2ZuwF+QvDrjFBYLYaefK9xbXr1uW33xU=
+	t=1736937857; cv=none; b=Y8ZPHcpUjqar3UJOs0lWxTke3CT57rvyXhiZOIaCX5yA25Ttzg3aTRpT1OZ9mrT+m1YSpHzJfu0LABpvLln0H3M5tV8Ku56iqLj6Ms8gdZ9awCaK6fTY8g8ZNau/aK3ZJX86HEwymt2h/tc3E9XmFptwptmSY0r7u4ALFeAt2tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736936767; c=relaxed/simple;
-	bh=DlgzPybJLohqJTRasUTNfTcIW6PVnJn4Ey+QYJaNbJ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ObGObsEUO30EaZ9PNU4P4G4ucPlO+YwydwRfoTxnUEqh3tiXBLMghvLd6qeBqbQtybkPB45Qpvwk7FBoxeKrqQpeMogDLxbOiV3BLrm1/ydeapu3v1yNS2cPmGkdNXKP+1rQMfvKTleLwta1P6jQzjKbXVzJX9XpEylk4ToPl9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Mljgl0Dv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qI2Y6oN0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Mljgl0Dv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qI2Y6oN0; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3A60921285;
-	Wed, 15 Jan 2025 10:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736936763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=o5OaTSBvndaqL7pmKVkJ0tKcrkXR4wXg7zZA1xwdifc=;
-	b=Mljgl0DvQXsyKMdMzmz5ZwZ3V789zCdVdhgaCjuMtwHrT61J2CLPcsqyigpgNfMgt5s9ED
-	NQBLa2bFnxQBC6Lh8kmGl4ElL6IbxkHaMKnpSDKgAWvZ5RgKmpAEVOTkk2jS/7Dqz07SiL
-	vCLaFHZP1mmjRXmvQ/ScFe4UhJimBB4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736936763;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=o5OaTSBvndaqL7pmKVkJ0tKcrkXR4wXg7zZA1xwdifc=;
-	b=qI2Y6oN0l9JxGfh+RN+mqlivvJYcBaYsV/e1PTdXmK0ZMZeCqm75AAiZVcbCx5W/dssHYm
-	9npljUHucuH2iADw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736936763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=o5OaTSBvndaqL7pmKVkJ0tKcrkXR4wXg7zZA1xwdifc=;
-	b=Mljgl0DvQXsyKMdMzmz5ZwZ3V789zCdVdhgaCjuMtwHrT61J2CLPcsqyigpgNfMgt5s9ED
-	NQBLa2bFnxQBC6Lh8kmGl4ElL6IbxkHaMKnpSDKgAWvZ5RgKmpAEVOTkk2jS/7Dqz07SiL
-	vCLaFHZP1mmjRXmvQ/ScFe4UhJimBB4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736936763;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=o5OaTSBvndaqL7pmKVkJ0tKcrkXR4wXg7zZA1xwdifc=;
-	b=qI2Y6oN0l9JxGfh+RN+mqlivvJYcBaYsV/e1PTdXmK0ZMZeCqm75AAiZVcbCx5W/dssHYm
-	9npljUHucuH2iADw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B2519139CB;
-	Wed, 15 Jan 2025 10:26:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yds5KjqNh2dqKAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 15 Jan 2025 10:26:02 +0000
-Message-ID: <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
-Date: Wed, 15 Jan 2025 11:26:02 +0100
+	s=arc-20240116; t=1736937857; c=relaxed/simple;
+	bh=YreGTaxToDhQTEYAOnwnnG5rnM3YMzUqjJ3eF3dQMAI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c9TWDHdAZyRzVYgDBGC7qtiVozmaN9vqzpHFrND49Rw1VLkAB+q3JnzNmcfrMggb0KhH7y830LLcGm7tBEQjiIcDE/HM9OSC671RQY/d2xZSnxfWOVwKj7+XuANeZbKFMdSOZZlKBDuiFnxLTg59eB7PaBzM+a7cgw/WjivCOSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: 7b5Glj5nSg2tW4vtWLWFtQ==
+X-CSE-MsgGUID: XJL4LDtGSgSnFQRTDv51hQ==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 15 Jan 2025 19:39:05 +0900
+Received: from localhost.localdomain (unknown [10.226.93.251])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1E681422D9AD;
+	Wed, 15 Jan 2025 19:39:00 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH 0/5] Add support for RZ/G3E WDT
+Date: Wed, 15 Jan 2025 10:38:49 +0000
+Message-ID: <20250115103858.104709-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20250109150310.219442-1-tzimmermann@suse.de>
- <20250109150310.219442-26-tzimmermann@suse.de>
- <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[ideasonboard.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
 
-Hi
+The RZ/G3E WDT IP is similar to RZ/V2H WDT. WDT0 can be used for CM33 cold
+reset, system reset and asserting WDTUDFCM pin where as WDT1 can be used
+for CA55 cold reset, system reset and asserting WDTUDFCA pin. Other 2
+watchdogs can be used for system reset. So define WDT{1..3} in SoC dtsi.
 
+Biju Das (5):
+  dt-bindings: watchdog: renesas,wdt: Document RZ/G3E support
+  clk: renesas: r9a09g047: Add WDT clocks/resets
+  watchdog: Make RZV2HWDT driver depend on ARCH_R9A09G47
+  arm64: dts: renesas: r9a09g047: Add WDT1-WDT3 nodes
+  arm64: dts: renesas: r9a09g047e57-smarc: Enable watchdog
 
-Am 15.01.25 um 11:13 schrieb Tomi Valkeinen:
-> Hi!
->
-> On 09/01/2025 16:57, Thomas Zimmermann wrote:
->> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
->> buffer size. Align the pitch according to hardware requirements.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/gpu/drm/xlnx/zynqmp_kms.c | 7 +++++--
->>   1 file changed, 5 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c 
->> b/drivers/gpu/drm/xlnx/zynqmp_kms.c
->> index b47463473472..7ea0cd4f71d3 100644
->> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
->> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
->> @@ -19,6 +19,7 @@
->>   #include <drm/drm_crtc.h>
->>   #include <drm/drm_device.h>
->>   #include <drm/drm_drv.h>
->> +#include <drm/drm_dumb_buffers.h>
->>   #include <drm/drm_encoder.h>
->>   #include <drm/drm_fbdev_dma.h>
->>   #include <drm/drm_fourcc.h>
->> @@ -363,10 +364,12 @@ static int zynqmp_dpsub_dumb_create(struct 
->> drm_file *file_priv,
->>                       struct drm_mode_create_dumb *args)
->>   {
->>       struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
->> -    unsigned int pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
->> +    int ret;
->>         /* Enforce the alignment constraints of the DMA engine. */
->> -    args->pitch = ALIGN(pitch, dpsub->dma_align);
->> +    ret = drm_mode_size_dumb(drm, args, dpsub->dma_align, 0);
->> +    if (ret)
->> +        return ret;
->>         return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
->>   }
->
-> I have some trouble with this one.
->
-> I have sent a series to add some pixel formats:
->
-> https://lore.kernel.org/all/20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com/ 
->
->
-> Let's look at XV15. It's similar to NV12, but 10 bits per component, 
-> and some packing and padding.
->
-> First plane: 3 pixels in a 32 bit group
-> Second plane: 3 pixels in a 64 bit group, 2x2 subsampled
->
-> So, on average, a pixel on the first plane takes 32 / 3 = 10.666... 
-> bits on a line. That's not a usable number for the 
-> DRM_IOCTL_MODE_CREATE_DUMB ioctl.
->
-> What I did was to use the pixel group size as "bpp" for 
-> DRM_IOCTL_MODE_CREATE_DUMB. So, e.g., for 720 x 576:
->
-> Stride for first plane: 720 * (32 / 3) / 8 = 960 bytes
-> Stride for second plane: 720 / 2 * (64 / 3) / 8 = 960 bytes
->
-> First plane: 720 / 3 = 240 pixel groups
-> Second plane: 720 / 2 / 3 = 120 pixel groups
->
-> So I allocated the two planes with:
-> 240 x 576 with 32 bitspp
-> 120 x 288 with 64 bitspp
->
-> This worked, and if I look at the DRM_IOCTL_MODE_CREATE_DUMB in the 
-> docs, I can't right away see anything there that says my tactic was 
-> not allowed.
->
-> The above doesn't work anymore with this patch, as the code calls 
-> drm_driver_color_mode_format(), which fails for 64 bitspp. It feels a 
-> bit odd that DRM_IOCTL_MODE_CREATE_DUMB will try to guess the RGB 
-> fourcc for a dumb buffer allocation.
->
-> So, what to do here? Am I doing something silly? What's the correct 
-> way to allocate the buffers for XV15? Should I just use 32 bitspp for 
-> the plane 2 too, and double the width (this works)?
->
-> Is DRM_IOCTL_MODE_CREATE_DUMB only meant for simple RGB formats? The 
-> xilinx driver can, of course, just not use drm_mode_size_dumb(). But 
-> if so, I guess the limitations of drm_mode_size_dumb() should be 
-> documented.
->
-> Do we need a new dumb-alloc ioctl that takes the format and plane 
-> number as parameters? Or alternatively a simpler dumb-alloc that 
-> doesn't have width and bpp, but instead takes a stride and height as 
-> parameters? I think those would be easier for the userspace to use, 
-> instead of trying to adjust the parameters to be suitable for the kernel.
-
-These are all good points. Did you read my discussion with Andy on patch 
-2? I think it resolves all the points you have. The current CREATE_DUMB 
-ioctl is unsuited for anything but the simple RGB formats. The bpp 
-parameter is not very precise. The solution would be a new ioctl call 
-that receives the DRM format and returns a buffer for each individual plane.
-
-I provided a workaround patch that uses the bpp value directly if 
-drm_driver_color_mode_format() does not support the bpp value. 
-User-space code has to allocate a large enough buffer via the current 
-CREATE_DUMB and compute the individual planes itself. See [1] for an 
-example. [1] 
-https://gitlab.freedesktop.org/mesa/drm/-/blob/main/tests/modetest/buffers.c?ref_type=heads#L302 
-Does this work for you? Otherwise, I guess we should be talking about a 
-possible CREATE_DUMB2 that fixes these shortcomings. Best regards Thomas
->
->  Tomi
->
+ .../bindings/watchdog/renesas,wdt.yaml        |  4 +++
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    | 30 +++++++++++++++++++
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  4 +++
+ drivers/clk/renesas/r9a09g047-cpg.c           | 15 ++++++++++
+ drivers/watchdog/Kconfig                      |  7 +++--
+ 5 files changed, 57 insertions(+), 3 deletions(-)
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.43.0
 
 
