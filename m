@@ -1,286 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-12163-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12164-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09D5A123CB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 13:34:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B30C0A123DD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 13:36:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4BCD188AEE7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 12:34:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBE1E162F58
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 12:36:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B63721F19A;
-	Wed, 15 Jan 2025 12:34:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BD3F1FECBD;
+	Wed, 15 Jan 2025 12:36:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fgWXXkrF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y94aRJ3h";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fgWXXkrF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y94aRJ3h"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="TtQiBbtv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE17D2475C7;
-	Wed, 15 Jan 2025 12:34:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDB98634C
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 12:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736944456; cv=none; b=Nw0TytjFlftgI78/CX6IJhobsEkoBtS+eVivTaj4y0+vg3H+KbaJMlcGpr90HXnhXra2H4g6Ay0GsKiyyBxyFvKFPUox6wx2j10QriPQuTfyY7v2aLc2R+uhssbjfYgNSeZMe8cNeVeMtHHta9KH3yOVDDnL/qJGVMlYOLoQTuc=
+	t=1736944602; cv=none; b=f8vrR3GPhZM6jBgh5x7cbv3JP6h+BvdpZf4rqaRUAduyhOgnQhXNW7bQl3sia2FtItl5pnssXWY8wetSnV0Mzo8F83DAFXpbP2gUeS+8LyzqWiUbM6dEnwdzV+fiQzSL4j3u4l8Y38O5tQxugEaKxgP2O36xHzNi/pCZX2Vb5LE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736944456; c=relaxed/simple;
-	bh=UPaejgCWEvs8PpYqkZM5UtdBiFwE+mnVTkLOHxACq1c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=adOLaSGa92X+zYlUXS8Z45LJh3VbqB3mZXSwFuQolhUg/LJaSbKpeA7whw+OLH0wh6St6CeZIINv4MOFt6j3PaxAjrF4z4f3ud5FeLc25hYWiupZOWI2+ECXxKeYsqxby4lnpZxdcHuzZM44sH1rjVlh9S8tIk+9+QrIMxyswfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fgWXXkrF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y94aRJ3h; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fgWXXkrF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y94aRJ3h; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0911921268;
-	Wed, 15 Jan 2025 12:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736944453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6rF2/Nds9jaSABjY+tPpNsWja3s7il8oCoGTgAQg7zI=;
-	b=fgWXXkrFkmGejWhD5fjTSv1Ssa3J0/Rq3i+ng8TxEKD1eRYuiFNmbUfuajMGofr3s/t2eZ
-	KUgh6Bm/awPn8TV8uJkhGaXDHQR6CWgT/hcaXY1q2efHMbV/wmhjhMEy29fROVqCvSDkdz
-	6tQTVjC5fOWCKOgJQRgT1JzzUj6MBJw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736944453;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6rF2/Nds9jaSABjY+tPpNsWja3s7il8oCoGTgAQg7zI=;
-	b=y94aRJ3hTl+xAqZyjbuOx6P3Fm9fL5u2Qm278Eu98uKnVjQZVMuFhA5M1heZuojCir6spI
-	Y/ZF6lkgng5FbRAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736944453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6rF2/Nds9jaSABjY+tPpNsWja3s7il8oCoGTgAQg7zI=;
-	b=fgWXXkrFkmGejWhD5fjTSv1Ssa3J0/Rq3i+ng8TxEKD1eRYuiFNmbUfuajMGofr3s/t2eZ
-	KUgh6Bm/awPn8TV8uJkhGaXDHQR6CWgT/hcaXY1q2efHMbV/wmhjhMEy29fROVqCvSDkdz
-	6tQTVjC5fOWCKOgJQRgT1JzzUj6MBJw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736944453;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6rF2/Nds9jaSABjY+tPpNsWja3s7il8oCoGTgAQg7zI=;
-	b=y94aRJ3hTl+xAqZyjbuOx6P3Fm9fL5u2Qm278Eu98uKnVjQZVMuFhA5M1heZuojCir6spI
-	Y/ZF6lkgng5FbRAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 767F4139CB;
-	Wed, 15 Jan 2025 12:34:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id E28IG0Srh2cCTwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 15 Jan 2025 12:34:12 +0000
-Message-ID: <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
-Date: Wed, 15 Jan 2025 13:34:12 +0100
+	s=arc-20240116; t=1736944602; c=relaxed/simple;
+	bh=hxYCtRu7R2P51q5lKORyJrX2G0PHUDX3inoOjaT2TzA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ylx8Eo+uidUISoNzltdOyDv1jOPjVlw0mPhnxFHwrhPwyaI/2V3OjiYQbBzWgFG/ON14Xzi8OWo9M8ZX+XZUuSNpCV/EvDLkns58N03EgKVwQ2LH7YjNKJHKMycNXY5Z7bCr3Peu+3Sah3tl7vNLGnn+cUYvbsYCbc75kEX2C2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=TtQiBbtv; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=ZHczWYxNtbKrLD
+	uLcc6SxPMQrrxHXt2o8QgzmLeFCn4=; b=TtQiBbtvt3Eacr6K1Rk79ohF0KehsZ
+	vLo2SpkhFQ7M9yxbxLHQUDlnK2HyZxT/jGN4eewIX0pZXZfc8rvEAtTMWOlUMyVZ
+	Ayl/jfvX74MCMzVuMviWAW7xSoap40ckbwUCh10G8j0+1R2Vk1C9CFxwzXZ8cL2C
+	duGHl2vdYT70SjIzmG2wGmUe8E1TeWVfvli2JrJUvOmPSbpkzDtm8WP5zjeVZn5u
+	Mh891gfW4MPk86vjJ5EV63YBIEl2HjaGQ490Xa+xcYUhD1eI4u4MIgDYrgT+Rd60
+	PwE4GtXYPj240e8fohiPYzd3botOVX3WIUAXxq4e8hJkS+gnT5pD2POA==
+Received: (qmail 553904 invoked from network); 15 Jan 2025 13:36:30 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Jan 2025 13:36:30 +0100
+X-UD-Smtp-Session: l3s3148p1@+9dP7b0rQq4ujnut
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	linux-i2c@vger.kernel.org
+Subject: [PATCH] i2c: rcar: fix NACK handling when being a target
+Date: Wed, 15 Jan 2025 13:36:23 +0100
+Message-Id: <20250115123624.31172-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andy Yan <andyshrk@163.com>
-References: <20250109150310.219442-1-tzimmermann@suse.de>
- <20250109150310.219442-26-tzimmermann@suse.de>
- <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
- <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
- <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
- <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
- <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[ideasonboard.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,lists.xenproject.org,ideasonboard.com,163.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
 
-Hi
+When this controller is a target, the NACK handling had two issues.
+First, the return value from the backend was not checked on the initial
+WRITE_REQUESTED. So, the driver missed to send a NACK in this case.
+Also, the NACK always arrives one byte late on the bus, even in the
+WRITE_RECEIVED case. This seems to be a HW issue. We should then not
+rely on the backend to correctly NACK the superfluous byte as well. Fix
+both issues by introducing a flag which gets set whenever the backend
+requests a NACK and keep sending it until we get a STOP condition.
 
+Fixes: de20d1857dd6 ("i2c: rcar: add slave support")
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Am 15.01.25 um 13:06 schrieb Tomi Valkeinen:
-> Hi,
->
-> On 15/01/2025 13:37, Thomas Zimmermann wrote:
->> Hi
->>
->>
->> Am 15.01.25 um 11:58 schrieb Tomi Valkeinen:
->> [...]
->>>> These are all good points. Did you read my discussion with Andy on 
->>>> patch 2? I think it resolves all the points you have. The current 
->>>> CREATE_DUMB 
->>>
->>> I had missed the discussion, and, indeed, the patch you attached 
->>> fixes the problem on Xilinx.
->>
->> Great. Thanks for testing.
->>
->>>
->>>> ioctl is unsuited for anything but the simple RGB formats. The bpp 
->>>
->>> It's a bit difficult to use, but is it really unsuited? 
->>> bitsperpixel, width and height do give an exact pitch and size, do 
->>> they not? It does require the userspace to handle the subsampling 
->>> and planes, though, so far from perfect.
->>
->> The bpp value sets the number of bits per pixel; except for bpp==15 
->> (XRGB1555), where it sets the color depth. OR bpp is the color depth; 
->> except for bpp==32 (XRGB8888), where it is the number of bits per 
->> pixel. It's therefore best to interpret it like a color-mode enum.
->
-> Ah, right... That's horrible =).
->
-> And I assume it's not really possible to define the bpp to mean bits 
-> per pixel, except for a few special cases like 15?
->
-> Why do we even really care about color depth here? We're just 
-> allocating memory. Doesn't DIV_ROUND_UP(args->bpp, SZ_8) work fine for 
-> XRGB1555 too?
+Debugged, scoped, tested on a Renesas Lager Board (R-Car H2).
 
-Drivers always did that, but it does not work correctly for (bpp < 8). 
-As we already have helpers to deal with bpp, it makes sense to use 
-them.  This also aligns dumb buffers with the kernel's video= parameter, 
-which as the same odd semantics. The fallback that uses bpp directly 
-will hopefully be the exception.
+ drivers/i2c/busses/i2c-rcar.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
->
->>> So, I'm all for a new ioctl, but I don't right away see why the 
->>> current ioctl couldn't be used. Which makes me wonder about the 
->>> drm_warn() in your patch, and the "userspace throws in arbitrary 
->>> values for bpp and relies on the kernel to figure it out". Maybe I'm 
->>> missing something here.
->>
->> I was unsure about the drm_warn() as well. It's not really wrong to 
->> have odd bpp values, but handing in an unknown bpp value might point 
->> to a user-space error. At least there should be a drm_dbg().
->>
->>>
->>>> parameter is not very precise. The solution would be a new ioctl 
->>>> call that receives the DRM format and returns a buffer for each 
->>>> individual plane.
->>>
->>> Yes, I think that makes sense. That's a long road, though =). So my 
->>> question is, is CREATE_DUMB really unsuitable for other than simple 
->>> RGB formats, or can it be suitable if we just define how the 
->>> userspace should use it for multiplanar, subsampled formats?
->>
->> That would duplicate format and hardware information in user-space. Some 
->
-> But we already have that, don't we? We have drivers and userspace that 
-> support, say, NV12 via dumb buffers. But (correct me if I'm wrong) we 
-> don't document how CREATE_DUMB has to be used to allocate multiplanar 
-> subsampled buffers, so the userspace devs have to "guess".
-
-Yeah, there are constrains in the scanline and buffer alignments and 
-orientation. And if we say that bpp==12 means NV12, it will be a problem 
-for all other cases where bpp==12 makes sense.
-
-Best regards
-Thomas
-
->
->> hardware might have odd per-plane limitations that only the driver 
->> knows about. For example, there's another discussion on dri-devel 
->> about pitch- alignment requirements of DRM_FORMAT_MOD_LINEAR on 
->> various hardware. That affects dumb buffers as well. I don't think 
->> that there's an immediate need for a CREATE_DUMB2, but it seems worth 
->> to keep in mind.
->
-> Yes, the current CREATE_DUMB can't cover all the hardware. We do need 
-> CREATE_DUMB2, sooner or later. I just hope we can define and document 
-> a set of rules that allows using CREATE_DUMB for the cases where it 
-> sensibly works (and is already being used).
->
->  Tomi
->
-
+diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+index a7b77d14ee86..5693a38da7b5 100644
+--- a/drivers/i2c/busses/i2c-rcar.c
++++ b/drivers/i2c/busses/i2c-rcar.c
+@@ -130,6 +130,8 @@
+ #define ID_P_PM_BLOCKED		BIT(31)
+ #define ID_P_MASK		GENMASK(31, 27)
+ 
++#define ID_SLAVE_NACK		BIT(0)
++
+ enum rcar_i2c_type {
+ 	I2C_RCAR_GEN1,
+ 	I2C_RCAR_GEN2,
+@@ -166,6 +168,7 @@ struct rcar_i2c_priv {
+ 	int irq;
+ 
+ 	struct i2c_client *host_notify_client;
++	u8 slave_flags;
+ };
+ 
+ #define rcar_i2c_priv_to_dev(p)		((p)->adap.dev.parent)
+@@ -655,6 +658,7 @@ static bool rcar_i2c_slave_irq(struct rcar_i2c_priv *priv)
+ {
+ 	u32 ssr_raw, ssr_filtered;
+ 	u8 value;
++	int ret;
+ 
+ 	ssr_raw = rcar_i2c_read(priv, ICSSR) & 0xff;
+ 	ssr_filtered = ssr_raw & rcar_i2c_read(priv, ICSIER);
+@@ -670,7 +674,10 @@ static bool rcar_i2c_slave_irq(struct rcar_i2c_priv *priv)
+ 			rcar_i2c_write(priv, ICRXTX, value);
+ 			rcar_i2c_write(priv, ICSIER, SDE | SSR | SAR);
+ 		} else {
+-			i2c_slave_event(priv->slave, I2C_SLAVE_WRITE_REQUESTED, &value);
++			ret = i2c_slave_event(priv->slave, I2C_SLAVE_WRITE_REQUESTED, &value);
++			if (ret)
++				priv->slave_flags |= ID_SLAVE_NACK;
++
+ 			rcar_i2c_read(priv, ICRXTX);	/* dummy read */
+ 			rcar_i2c_write(priv, ICSIER, SDR | SSR | SAR);
+ 		}
+@@ -683,18 +690,21 @@ static bool rcar_i2c_slave_irq(struct rcar_i2c_priv *priv)
+ 	if (ssr_filtered & SSR) {
+ 		i2c_slave_event(priv->slave, I2C_SLAVE_STOP, &value);
+ 		rcar_i2c_write(priv, ICSCR, SIE | SDBS); /* clear our NACK */
++		priv->slave_flags &= ~ID_SLAVE_NACK;
+ 		rcar_i2c_write(priv, ICSIER, SAR);
+ 		rcar_i2c_write(priv, ICSSR, ~SSR & 0xff);
+ 	}
+ 
+ 	/* master wants to write to us */
+ 	if (ssr_filtered & SDR) {
+-		int ret;
+-
+ 		value = rcar_i2c_read(priv, ICRXTX);
+ 		ret = i2c_slave_event(priv->slave, I2C_SLAVE_WRITE_RECEIVED, &value);
+-		/* Send NACK in case of error */
+-		rcar_i2c_write(priv, ICSCR, SIE | SDBS | (ret < 0 ? FNA : 0));
++		if (ret)
++			priv->slave_flags |= ID_SLAVE_NACK;
++
++		/* Send NACK in case of error, but it will come 1 byte late :( */
++		rcar_i2c_write(priv, ICSCR, SIE | SDBS |
++			       (priv->slave_flags & ID_SLAVE_NACK ? FNA : 0));
+ 		rcar_i2c_write(priv, ICSSR, ~SDR & 0xff);
+ 	}
+ 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.39.2
 
 
