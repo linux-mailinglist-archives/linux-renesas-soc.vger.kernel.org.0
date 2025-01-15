@@ -1,125 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-12170-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12171-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49DC1A12619
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 15:34:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13ADFA12697
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 15:55:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A8901888110
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 14:34:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A19B33A67B1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 14:55:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E187C78F44;
-	Wed, 15 Jan 2025 14:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6F184085D;
+	Wed, 15 Jan 2025 14:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="oG8rU6C7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cskYxayR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F06B41C6C
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 14:34:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B90324A7DE;
+	Wed, 15 Jan 2025 14:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736951680; cv=none; b=JMzO3SLgLSnq5f7jlu12sZcViXcsJWarG40iwGZPwgnJZLDwmu8rAeGEwrPex7cYbcmYj9vDgsIQKibCIylILPnN/gNVxzfc8M46efX6quoF4pr8oVIJzK5m3KUSRZHzUQPNCg/bLeFIkpOr7dYdTErjwUywJFVqQCO8iYXvHzU=
+	t=1736952923; cv=none; b=fct3h2WJS61kLPGFxUKHnEZuu/D2qQ0a0DpLs4YCMcPu+SsQ+lNvCBJ23apfcszecIpeQ4KPiYCf83e4tl9OOlp6VpqXSyrwb9E4OuNNadhaA3haf/kaLFmDY4bImu9TmZ5RWlVSloBKf8yTVentdsL7z2V000SZSqLiXdzt0Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736951680; c=relaxed/simple;
-	bh=wgpCbUXuk0fjx7PlpFBa3YSbnvvXmj+DNx/eEdB8F5M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=stiCbmpCzQxEtXmljQRpbSrc4jcVNIzDLCsLN3V0HvSINKw08SjlBKCA4yZIh/wFWPDkA04oRT+MPgPNo2pxN8zHVV1x3bDYXd/DkHra7pebWep/qLoVgBp7R0NngLB4zp+0pxzlsTvzO3GFBEVgVwv1VEt9nevyR3VL2eo/c/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=oG8rU6C7; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6d92cd1e811so8074846d6.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 06:34:38 -0800 (PST)
+	s=arc-20240116; t=1736952923; c=relaxed/simple;
+	bh=venimGddFYqBMcbuAAxHAohqE70SaUzf6mXHfmKQtzU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kB+AGKwdPnKtX521lt01TkavkQPfL0gCvN6Ey6yZq+bJPTSzXnxHWnhTY3gCGbtyPCEe17On9LXl+G/sLsfUOcWejSLvlDh9Q8TXyn8PVZ1BcK+ZLQfaoLPUVNKYpTEpBhLWBXczC6xB3S2CTpU2zu5M96wFElioelBASpnaafw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cskYxayR; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2165448243fso151712025ad.1;
+        Wed, 15 Jan 2025 06:55:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar.org; s=google; t=1736951678; x=1737556478; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wgpCbUXuk0fjx7PlpFBa3YSbnvvXmj+DNx/eEdB8F5M=;
-        b=oG8rU6C7AeXdphOpn5qywnwajKLel67+fgv9teTt33rFV46pmyVN9eRZXUiuo3gLYP
-         f62u/PhVmd69sOprj3jmW4qAGGtzYKZ21cQC4IjiwjlTz5/YksFFLb+UBrCN6rdkxBUt
-         fAd4UUzGBGTrUKgJh2tcVFs7+uEdRiVqN7VulejG3b/alA/S1MDA3xB9CdQfolmAjMoK
-         k2ED9dapQEqwpg8XOjfn3Qzt0E/5lWo6C8m1Ctcvl2RgPmi8azT5cEuCAUajt/ae+kcQ
-         6HIUzvFtq678JxdKsjJmeAm7fopoflOzHFRMjemsG7g6h9Hh/YQTDQyuqhUZJhD+33Qd
-         1qDg==
+        d=gmail.com; s=20230601; t=1736952921; x=1737557721; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vfvco4iDzDfsHFujW0IxLGe2dZEzR1ia4gvNFYBnFhE=;
+        b=cskYxayRtyL5V1hJ0k9Vq/OAI96VDSY/YANNL86MteQ5ii53umvmm+v3IxxZNcm+Kf
+         fnTqoJGgySex4yxFYP/l6vRYs0vXRWZ64jtIgXi/rKXqbRYBCTwE0Ji7QogiAWRKuNLg
+         Nf5SXb1t8xp6bRuyBdmC+5cDbvK/eQ6gIRQEF5WcyHgU1aLCpd2w/G0CEjJzrWoi1ALc
+         IFZO34sFnd7K0r44FFwdQkaXLRGa1mXSqdt4Jmn9EYRnCvCqNtc/IR5l71fw/F2ZcOq4
+         Gwsnc7D5veJXtLL9NZhnzDRtesGHPDa+90lhbiAzRG6xQS/wGVYvofIMSS0qB4xD4x3U
+         FMtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736951678; x=1737556478;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wgpCbUXuk0fjx7PlpFBa3YSbnvvXmj+DNx/eEdB8F5M=;
-        b=omXD7oxEX8Y6IXDyyJPmC8/7QDXEP5J9Uq8ibjY2dBzAAHzq5lldbnLaJtsPTamoda
-         cJ0u5INHYxStU6R1kpv/lcvxDpr0uLH/khxZFLD9Kyc1BEkrASlZ5GTmvHIO2N5C8t4P
-         2ASboK3UBihqDAJCxbzKFIvQZqLrwYzGxoAE9Z/vyy2MSxK+ctb4v/gz575TPX7znJSl
-         J89fFVwmOpy0EtXUtb0/rqUhsUaVE3FBOkFDD+M7WrJGjS0oNOqE1EQ299pc/zgfAur2
-         SNHrgnW2+PkmvNQYI87fB/013YwEZ23z/iYCjlLe2ExDkC0a9OuH9xmCsemBfiUTsXAA
-         znrw==
-X-Forwarded-Encrypted: i=1; AJvYcCX+lQqdXG/fKHE6vLEJdKl+LXn2wR8X0wTPJ7rgpndKBQxFgBJR92ni9RFzOgdmM0AjyJmVI7P7L9EYh6qjS8rzww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWxAK9Ys3UfjVmDHMYNiPUd/o7zrIJHDFuCgv7NGv2j5xNK/Eu
-	7eZ2lqoMj0RxxvRhV2fNWf7BZGY0RB5xmw+qk2t9uOtmjHznjW3I6w9RpoOJ9E61MyCEpQTAHMb
-	Klg9rih0JAFycHU1IO35Mk3YwdwmBfOPsDnp6GQ==
-X-Gm-Gg: ASbGncvJD0wq8WmnKV5nS/EsNantk564E3b9QicatNT6qmRSN17vOK324eEU6FL4jIK
-	xOD3WALBIQsV/TRMV0EizATrYqIqa3vsZwu8=
-X-Google-Smtp-Source: AGHT+IFPz9fbMcvhhyZZGYYuWLUwXCRTy8s+kBCbi69J2hIRU1+TB7begqOpM0+xy1s6GqB+nx1X6ZJAR0totDSXOwo=
-X-Received: by 2002:a05:6214:486:b0:6d8:e7c9:ffa0 with SMTP id
- 6a1803df08f44-6e192c73ef5mr43851476d6.19.1736951677902; Wed, 15 Jan 2025
- 06:34:37 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736952921; x=1737557721;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vfvco4iDzDfsHFujW0IxLGe2dZEzR1ia4gvNFYBnFhE=;
+        b=R3Re0rjjlMwNUamdKkFlrEOpRExNNuOaafShO1nMx/wevjzKsW9FpHE62JxmfNqwqW
+         cXjPxUndrf8XoluacgeJrIKiqQgFjRHioy3hWoKG85HBa3RY2wH95TFnsCCZm1Dd/zWb
+         kHGI+LGW3nzvjccEgqwOgHYNpW/q/hGkopFssZplGX61A/rVLlsvQRHwAKM78thkTiBX
+         VeG2cy86kQzoVPFuCAmwNLIHZUNiA8ftqMnbC9RrMzc0Fm7EszOrLFDy3Q6q1Gg7TPop
+         ng9pvmytv/ZUdbiKPY0cVyIb9+BHuh9+9UNBHwpBmVQU+OSTmrvaB9BgSgsUA6n5o4Ow
+         ZCbw==
+X-Forwarded-Encrypted: i=1; AJvYcCXhyBDEcmgD5zimZTJvPy4SfReGHbcIUQSN1GHEHF9zjOVysjlGSW/JDsnlR41Ymnie4e0E7N9teh+vXyQGTlWeow==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSZZd5yJ6MRvDfMSxh0ZyFRhJEdaH5Le2GlpGZfPELFw00wO08
+	JNCqw/gxfz2TxnHB74vVwI8JB+Ug2cwPxAUkiF8b9/dI9WF1cuzq
+X-Gm-Gg: ASbGncvQld87IFH0WVj6GvkcBAddGGWZnOjKBXGYUhDzuQHBaShBKaCsrqID6YgpUbj
+	N3AkDSNIEqSlkUcTNbLcziu9Uu1l+5CPF7oklJm7xXR/2Pk5lEm07su/QUTX13IlwGUN4YWZXZm
+	hnhf4Qr91kRYwJjBFJRiS5wZM9thp44pju0qzzteCDpLxKHGp4UX+QxOURo3Z8ML6m1pCevadl+
+	JWsYUGk/zc1O2Q2rTMmePu9ZRNCtfnOslsqKDHH0HmPya8zzwNImuzSUFMPGC4SqufNNiFLfSId
+	5LBWzyqIr5fsHFKyAIp1wnHujr4ugA==
+X-Google-Smtp-Source: AGHT+IF/U1pFlmEnqNTmFbB4P0j7UYiPFa2todVxgtKIEIjdREuQsrj9EYjlWKUKA8ISoCeOKb7h8Q==
+X-Received: by 2002:a17:902:e746:b0:216:3633:36e7 with SMTP id d9443c01a7336-21a83f7103bmr190872415ad.26.1736952921380;
+        Wed, 15 Jan 2025 06:55:21 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f219324sm83919315ad.127.2025.01.15.06.55.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jan 2025 06:55:20 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <de74406e-8554-4179-9d1c-4467d8c92645@roeck-us.net>
+Date: Wed, 15 Jan 2025 06:55:19 -0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250109150310.219442-1-tzimmermann@suse.de> <20250109150310.219442-26-tzimmermann@suse.de>
- <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com> <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
- <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com> <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
- <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com> <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
- <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com> <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
- <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
-In-Reply-To: <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 15 Jan 2025 14:34:26 +0000
-X-Gm-Features: AbW1kvZOqZIfsgr5MQqIuf1jKNJtcUmkb-2ddanRpBEhDxEw_Wl931RGN2rzkA8
-Message-ID: <CAPj87rOn=RQ615zyaEdFT2ADfPztU7+heVi0G34Rdg-=QO1cCw@mail.gmail.com>
-Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with drm_mode_size_dumb()
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch, 
-	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
-	freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
-	nouveau@lists.freedesktop.org, virtualization@lists.linux.dev, 
-	spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, 
-	intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Andy Yan <andyshrk@163.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] watchdog: Make RZV2HWDT driver depend on
+ ARCH_R9A09G47
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>
+Cc: linux-watchdog@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
+References: <20250115103858.104709-1-biju.das.jz@bp.renesas.com>
+ <20250115103858.104709-4-biju.das.jz@bp.renesas.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20250115103858.104709-4-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 15 Jan 2025 at 14:20, Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
-> No disagreement there, we need CREATE_DUMB2.
->
-> My point is that we have the current UAPI, and we have userspace using
-> it, but we don't have clear rules what the ioctl does with specific
-> parameters, and we don't document how it has to be used.
->
-> Perhaps the situation is bad, and all we can really say is that
-> CREATE_DUMB only works for use with simple RGB formats, and the behavior
-> for all other formats is platform specific. But I think even that would
-> be valuable in the UAPI docs.
+On 1/15/25 02:38, Biju Das wrote:
+> RZ/G3E watchdog timer IP is similar to the one found on RZ/V2H.
+> Add Kconfig dependency for RZV2HWDT driver with ARCH_R9A09G47 and
+> update the help description.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Yeah, CREATE_DUMB only works for use with simple RGB formats in a
-linear layout. Not monochrome or YUV or tiled or displayed rotated or
-whatever.
+The subject is a bit misleading. It would be better named
+"Enable the RZV2HWDT driver for ARCH_R9A09G47" or similar.
 
-If it happens to accidentally work for other uses, that's fine, but
-it's not generically reliable for anything other than simple linear
-RGB. It's intended to let you do splash screens, consoles, recovery
-password entries, and software-rendered compositors if you really
-want. Anything more than that isn't 'dumb'.
+Guenter
 
-Cheers,
-Daniel
+> ---
+>   drivers/watchdog/Kconfig | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
+> index f81705f8539a..646a84cc03e3 100644
+> --- a/drivers/watchdog/Kconfig
+> +++ b/drivers/watchdog/Kconfig
+> @@ -963,13 +963,14 @@ config RENESAS_RZG2LWDT
+>   	  Renesas RZ/G2L SoCs. These watchdogs can be used to reset a system.
+>   
+>   config RENESAS_RZV2HWDT
+> -	tristate "Renesas RZ/V2H(P) WDT Watchdog"
+> -	depends on ARCH_R9A09G057 || COMPILE_TEST
+> +	tristate "Renesas RZ/{G3E,V2H(P)} WDT Watchdog"
+> +	depends on ARCH_R9A09G047 || ARCH_R9A09G057 || COMPILE_TEST
+>   	depends on PM || COMPILE_TEST
+>   	select WATCHDOG_CORE
+>   	help
+>   	  This driver adds watchdog support for the integrated watchdogs in the
+> -	  Renesas RZ/V2H(P) SoCs. These watchdogs can be used to reset a system.
+> +	  Renesas RZ/{G3E,V2H(P)} SoCs. These watchdogs can be used to reset a
+> +	  system.
+>   
+>   config ASPEED_WATCHDOG
+>   	tristate "Aspeed BMC watchdog support"
+
 
