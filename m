@@ -1,48 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-12165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12166-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D243BA124C4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 14:33:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D098A124FC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 14:40:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0172B188C409
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 13:33:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6261216A59E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 13:40:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FF6A240236;
-	Wed, 15 Jan 2025 13:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4644624A7F7;
+	Wed, 15 Jan 2025 13:38:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fDhitdAE"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="l/k3wRvW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD9A1DA23;
-	Wed, 15 Jan 2025 13:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FAB24A7E3
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 13:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736948004; cv=none; b=AsbB4ZxbFB30kT3TT/HGAV4m4Rc9k+LY2aTCyXSgSwJfZjB4C+Sm5fJZDEFfyB4j7Es7D/yj6xDBztGbCcfhCrjqUwun7YutUSMteLuyTQkdiGr17aVR6hueD48wmRPTdBgeZ93fcLkVbgzCiCSNtC9qXvjUwAmQAtj1HnCcrXI=
+	t=1736948285; cv=none; b=h4aQmFW1c7qs0A0IFF0AU+Z70ArwVlGMdkL527VH95Bop/GpONPpbboPIM/dFwkz1tgvruv6lNSRh6/fsZwKUqMguHinsVMyGRTa6EHpdF/MT/0Qc7EO1NEhUmNRbj7Crf62cgLuDjWoDyNOqTKaD1awyAW7+Ziz5lfuJqyiY4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736948004; c=relaxed/simple;
-	bh=8JOGQGcW2ZWewo/KKlUGVpyO0dsZu2+5fVZtMSIarrA=;
+	s=arc-20240116; t=1736948285; c=relaxed/simple;
+	bh=ypmKoZuhtBFTNbZh+3aPMN2MgUHmJHyDtkM240P7C0A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bdoF82IyP/82geD0bkpKzEe35zQOL2YQuWeVfKSDfJfVG5ljMBiASu0Br+gvSwlX0LK0Oyhse+QHpOE4HjRd+vw+Ywt3tCcSS2ldeT/bjGL28/qNc65pzgsATMwI3BeuEjumfNq/C8wXw7Hi+OwIPtDWb0ugOdLrUgDvC/QHfP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fDhitdAE; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7F882526;
-	Wed, 15 Jan 2025 14:32:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1736947942;
-	bh=8JOGQGcW2ZWewo/KKlUGVpyO0dsZu2+5fVZtMSIarrA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fDhitdAEpi4x4vI7U/E5YZVaek0gB2u/TTS45eMq+neSseTaQ0kQaj+uu9f7l7jDp
-	 PzJ1EUx8yuUkcwotUbBDGDcB1oEBlwlwINzVJ8Eopn/oXZ75oGAykk4lrfsdw/sOXw
-	 Y9PORlJ7sPyTjNaCzaBAbXIft918iSL0pYK+YitM=
-Message-ID: <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
-Date: Wed, 15 Jan 2025 15:33:16 +0200
+	 In-Reply-To:Content-Type; b=ulhuDX4erDr4d1fujpH/hY6PGQLEqePeLKWR+tUGlAgmj62iB5yR/zpc9ZKPq8QZmYH26aoCbtDgsJuGcscB9G/GSjrE8wgoyF08ds15XBenkRMNVo6ovQwxiuEE9+B7X/IXUMdwhGYEMH4WKZE2oTnpkbrpAIld8IWC1p0legs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=l/k3wRvW; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-436a03197b2so47817625e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 05:38:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1736948279; x=1737553079; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L8u0EOtOcSm6D/ndCSAIR6E24hf6kbrlExFncgPnUhc=;
+        b=l/k3wRvWl5o/CwatpPc8TPz7afOCceoaV7lIjNq2wpDfPTIyP1VtFqiHC9Hak6NnU8
+         vE2oAXuX/igeDbGWUyuZDD1fbGhbKfEU6ac8f/nFinl1r1Yg6TLVXlgSqqie/YXuy4UO
+         6pQ2moQuFX4o/Y5bs+i/R+JxL8R4lE3WfA8IykKEhoHB45IoZmGqezz+y5Myc6DDlJZX
+         HpFKhpOa9GXNI2z2iklGOvHnVsGiOIoy4wwbqnx2TSHKOKbd2JQ7Fc8aNVxFaH1ANeWw
+         CjqCM5S5EK3y/MMg2R+/jE55fmn1P8YuzXa4sejOj7FoQJURtolWfopgjPEcxuCp3y4Z
+         euYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736948279; x=1737553079;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L8u0EOtOcSm6D/ndCSAIR6E24hf6kbrlExFncgPnUhc=;
+        b=BupCmThSNjy0BfFiIsytb5RlX/qvuxTGlmk2oEVPVkpl28RFp183CguRMBXR79BoKA
+         S7K2nHIxaQjgiNBo92bbG6Hh3QTbSLiXu/q3qq2u8SVSSWVOZTNxKbtHpdrjdz1sCiy/
+         vBF4emyCktfX6q2Q2cwKROs3qPDTAZHCtLSQ/DQODpoA34cDfPmb0ufv3Zy7hf95qRU4
+         fYoscoC4rqdYQiQcBYasWMve3gk1HoSWBWhAA//8Jv0DfgreMq4PhcMewgQ5WOP8umTY
+         26rqAbLjrGVmt7RPh+UUbJWqsoWpAn26GUTujWuVgDGZdRDNsuFPaON7OoqUbDDRZp8y
+         fZMA==
+X-Forwarded-Encrypted: i=1; AJvYcCVYs5r0YmhXaIw2No8Og+0UMyR7HKiSujXFKtJhDeNltT6q0MDAbEbj86oQJNSC8g+JhJDhhMzXd9FrfC8qfXRN5g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyM9chZ557qs62VhtzFkwTYxJyVg1ikclJ2gAD1cMYJvc8PFho+
+	lClpBz6QypgzAUdo20CUxuDnDcj9J+mBrSVCKYJbWsL1k+yfcBtq+AEDIOD0ckZQ+sKdSQvkM2L
+	v
+X-Gm-Gg: ASbGncvjqgo4vfl1jYaqu4M0siO9YsQcBO167fP6gnGfpaPybw2m5QZABpu33pnL2I1
+	ERDGNhv6R7aZdg2GsUzi+QhGmQHsKUX5BeWcEX+3l+/CYGs1tBOLFvXxoBMzGRK+YzqjK40Toaf
+	yD5Hsym9Vqkcj2H1DC8IhWlT6OkYHbw6i6wL6bU6GTaUcu9WrpJwIecZi9et+x+fqZilivr5NhS
+	f3kji4cgupnij076pcz9GX+TKIRQeVX5zmlStPZ7sQoHxTKKrVMo+V3M/JY2irLbg==
+X-Google-Smtp-Source: AGHT+IFOhBv8nw2rTKUPkR8Vz+oo7hbgti2vNYi8dX8uCHupFiB+kv+4UBqm1/oYsylARo0ypDUsHQ==
+X-Received: by 2002:a5d:6d09:0:b0:385:f7ef:a57f with SMTP id ffacd0b85a97d-38a872ec061mr25864891f8f.27.1736948279213;
+        Wed, 15 Jan 2025 05:37:59 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.165])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38be455ef3fsm3468825f8f.24.2025.01.15.05.37.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jan 2025 05:37:58 -0800 (PST)
+Message-ID: <bb987a1b-a999-478c-8e35-124fcf41561d@tuxon.dev>
+Date: Wed, 15 Jan 2025 15:37:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,190 +81,466 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andy Yan <andyshrk@163.com>
-References: <20250109150310.219442-1-tzimmermann@suse.de>
- <20250109150310.219442-26-tzimmermann@suse.de>
- <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
- <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
- <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
- <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
- <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
- <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
+Subject: Re: [PATCH 1/2] iio: adc: rzg2l_adc: Drop devm_pm_runtime_enable()
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, lars@metafoo.de,
+ ulf.hansson@linaro.org, linux-iio@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org
+References: <20250103140042.1619703-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250103140042.1619703-2-claudiu.beznea.uj@bp.renesas.com>
+ <20250104135225.2573285b@jic23-huawei>
+ <44e4a6b4-39a4-49d0-b3a5-fc5545c39a56@tuxon.dev>
+ <20250111131409.36bebfd3@jic23-huawei>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250111131409.36bebfd3@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi, Jonathan,
 
-On 15/01/2025 14:34, Thomas Zimmermann wrote:
-> Hi
+Thank you for your input!
+
+On 11.01.2025 15:14, Jonathan Cameron wrote:
+> On Mon, 6 Jan 2025 11:18:41 +0200
+> Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+> 
+>> Hi, Jonathan,
+>>
+>>
+>> On 04.01.2025 15:52, Jonathan Cameron wrote:
+>>> On Fri,  3 Jan 2025 16:00:41 +0200
+>>> Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>>>   
+>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>  
+>>> +CC Rafael and linux-pm
+>>>   
+>>>>
+>>>> On all systems where the rzg2l_adc driver is used, the ADC clocks are part
+>>>> of a PM domain. The code that implements the PM domains support is in
+>>>> drivers/clk/renesas/rzg2l-cpg.c, the functions of interest for this commit
+>>>> being rzg2l_cpg_attach_dev() and rzg2l_cpg_deattach_dev(). The PM
+>>>> domains support is registered with GENPD_FLAG_PM_CLK which, according to
+>>>> the documentation, instructs genpd to use the PM clk framework while
+>>>> powering on/off attached devices.
+>>>>
+>>>> During probe, the ADC device is attached to the PM domain
+>>>> controlling the ADC clocks. Similarly, during removal, the ADC device is
+>>>> detached from the PM domain.
+>>>>
+>>>> The detachment call stack is as follows:
+>>>>
+>>>> device_driver_detach() ->
+>>>>   device_release_driver_internal() ->
+>>>>     __device_release_driver() ->
+>>>>       device_remove() ->
+>>>>         platform_remove() ->
+>>>>           dev_pm_domain_detach()
+>>>>
+>>>> During driver unbind, after the ADC device is detached from its PM domain,
+>>>> the device_unbind_cleanup() function is called, which subsequently invokes
+>>>> devres_release_all(). This function handles devres resource cleanup.
+>>>>
+>>>> If runtime PM is enabled via devm_pm_runtime_enable(), the cleanup process
+>>>> triggers the action or reset function for disabling runtime PM. This
+>>>> function is pm_runtime_disable_action(), which leads to the following call
+>>>> stack of interest when called:
+>>>>
+>>>> pm_runtime_disable_action() ->
+>>>>   pm_runtime_dont_use_autosuspend() ->  
+>>>
+>>> So is the only real difference that in the code below you disable runtime pm
+>>> before autosuspend?  
+>>
+>> No, the difference is that now, the driver specific runtime PM APIs are not
+>> called anymore (through the pointed call stack) after the ADC was removed
+>> from it's PM domain.
+> 
+> By my reading they are only not called now because you turn autosuspend off
+> after disabling runtime PM.
+
+Sorry, I wanted to say that the runtime PM APIs are not called anymore from
+devm_action_release(), though this call stack:
+
+[   24.801195] Call trace:
+[   24.803633]  rzg2l_adc_pm_runtime_suspend+0x18/0x54 (P)
+[   24.808847]  pm_generic_runtime_suspend+0x2c/0x44 (L)
+[   24.813887]  pm_generic_runtime_suspend+0x2c/0x44
+[   24.818580]  __rpm_callback+0x48/0x198
+[   24.822319]  rpm_callback+0x68/0x74
+[   24.825798]  rpm_suspend+0x100/0x578
+[   24.829362]  rpm_idle+0xd0/0x17c
+[   24.832582]  update_autosuspend+0x30/0xc4
+[   24.836580]  pm_runtime_disable_action+0x40/0x64
+[   24.841184]  devm_action_release+0x14/0x20
+[   24.845274]  devres_release_all+0xa0/0x100
+[   24.849361]  device_unbind_cleanup+0x18/0x60
+
+This is because I dropped the devm_pm_runtime_enable() which registers the
+pm_runtime_disable_action(), which is called at the time the
+device_unbind_cleanup() is called, which is called when the ADC is not
+anymore part of its PM domain.
+
+If I change the order in remove function proposed in this patch, thus do:
+
++static void rzg2l_adc_remove(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++
++	pm_runtime_dont_use_autosuspend(dev);
++	pm_runtime_disable(dev);
+ }
+
+nothing changes with the behavior of this patch. There will be no issue if
+the device is runtime suspended/resumed through the
+pm_runtime_dont_use_autosuspend() because at the time the
+rzg2l_adc_remove() is called the ADC is still part of the PM domain.
+
+
+
+> 
+>>
+>>
+>>>  Can you still do that with a devm callback just not
+>>> the standard one?  
+>>
+>> No. It doesn't matter if we call the standard devm callback or driver
+>> specific one. As long as it is devm it will impact us as long as the driver
+>> specific runtime PM APIs are called through devres_release_all() after
+>> dev_pm_domain_detach(). And at that time the PM domain may be off along
+>> with its clocks disabled.
+> 
+> As above, I think that this is only the case because of the reordering
+> of those two calls, not something more fundamental.
+
+I tried having a local devm function (the following diff applied with this
+patch reverted) identical with pm_runtime_disable_action():
+
+diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+index 22a581c894f8..459cc9c67eec 100644
+--- a/drivers/iio/adc/rzg2l_adc.c
++++ b/drivers/iio/adc/rzg2l_adc.c
+@@ -423,6 +423,12 @@ static int rzg2l_adc_hw_init(struct device *dev,
+struct rzg2l_adc *adc)
+        return ret;
+ }
+
++static void rzg2l_pm_runtime_disable(void *data)
++{
++       pm_runtime_dont_use_autosuspend(data);
++       pm_runtime_disable(data);
++}
++
+ static int rzg2l_adc_probe(struct platform_device *pdev)
+ {
+        struct device *dev = &pdev->dev;
+@@ -463,7 +469,9 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+
+        pm_runtime_set_autosuspend_delay(dev, 300);
+        pm_runtime_use_autosuspend(dev);
+-       ret = devm_pm_runtime_enable(dev);
++       pm_runtime_enable(dev);
++
++       ret = devm_add_action_or_reset(dev, rzg2l_pm_runtime_disable, dev);
+        if (ret)
+                return ret;
+
+With this the issue is still reproducible.
+
+However, changing the order of functions in rzg2l_pm_runtime_disable() and
+having it like:
+
++static void rzg2l_pm_runtime_disable(void *data)
++{
++       pm_runtime_disable(data);
++       pm_runtime_dont_use_autosuspend(data);
++}
+
+
+leads to no failure when doing unbind/bind.
+
+However, I see the pm_runtime_disable() can still call rpm_resume() under
+certain conditions. It can still lead to failures if it is called after the
+device was remove from its PM domain.
+
+> 
+> In driver remove flow, device_unbind_cleanup9() is called
+> just after device_remove() which is calling the dev->driver_remove()
+> callback. There are no runtime pm related calls in between that I can see.
+
+On my side the device_remove() is calling dev->bus->remove() which is
+platform_remove(), which calls the dev_pm_domain_detach(). The
+dev_pm_domain_detach() detaches the ADC from it's PM domain. Because of
+this, accessing now the ADC registers after a runtime resume leads to
+failures pointed in this patch (as of my investigation) (as the ADC is not
+anymore part of its PM domain and its PM domain is not started anymore
+though runtime PM APIs).
+
+A similar issue was found while I was adding thermal support for RZ/G3S,
+explained in
+https://lore.kernel.org/all/20250103163805.1775705-3-claudiu.beznea.uj@bp.renesas.com
+
+
+Jonathan, Rafael, Ulf, all,
+
+Do consider OK to change the order in pm_runtime_disable_action() to get
+rid of these issues, e.g.:
+
+diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+index 2ee45841486b..f27d311d2619 100644
+--- a/drivers/base/power/runtime.c
++++ b/drivers/base/power/runtime.c
+@@ -1547,8 +1547,8 @@ EXPORT_SYMBOL_GPL(pm_runtime_enable);
+
+ static void pm_runtime_disable_action(void *data)
+ {
+-       pm_runtime_dont_use_autosuspend(data);
+        pm_runtime_disable(data);
++       pm_runtime_dont_use_autosuspend(data);
+ }
+
+though I see a rpm_resume() call is still possible though pm_runtime_disable().
+
+Thank you,
+Claudiu
+
+> 
+> So you are moving these calls a little earlier but not in a fashion that
+> seems to have any involvement with anything else.
 > 
 > 
-> Am 15.01.25 um 13:06 schrieb Tomi Valkeinen:
->> Hi,
->>
->> On 15/01/2025 13:37, Thomas Zimmermann wrote:
->>> Hi
->>>
->>>
->>> Am 15.01.25 um 11:58 schrieb Tomi Valkeinen:
->>> [...]
->>>>> These are all good points. Did you read my discussion with Andy on 
->>>>> patch 2? I think it resolves all the points you have. The current 
->>>>> CREATE_DUMB 
->>>>
->>>> I had missed the discussion, and, indeed, the patch you attached 
->>>> fixes the problem on Xilinx.
->>>
->>> Great. Thanks for testing.
->>>
->>>>
->>>>> ioctl is unsuited for anything but the simple RGB formats. The bpp 
->>>>
->>>> It's a bit difficult to use, but is it really unsuited? 
->>>> bitsperpixel, width and height do give an exact pitch and size, do 
->>>> they not? It does require the userspace to handle the subsampling 
->>>> and planes, though, so far from perfect.
->>>
->>> The bpp value sets the number of bits per pixel; except for bpp==15 
->>> (XRGB1555), where it sets the color depth. OR bpp is the color depth; 
->>> except for bpp==32 (XRGB8888), where it is the number of bits per 
->>> pixel. It's therefore best to interpret it like a color-mode enum.
->>
->> Ah, right... That's horrible =).
->>
->> And I assume it's not really possible to define the bpp to mean bits 
->> per pixel, except for a few special cases like 15?
->>
->> Why do we even really care about color depth here? We're just 
->> allocating memory. Doesn't DIV_ROUND_UP(args->bpp, SZ_8) work fine for 
->> XRGB1555 too?
+> Call stack being
+> device_release_driver_internal()
+> -> __device_release_driver()
+>   -> device_remove() where you are now calling the disables
+>    .. some dma stuff
+>   -> device_unbind_cleanup() where the calling of disables previously was.
 > 
-> Drivers always did that, but it does not work correctly for (bpp < 8). 
-> As we already have helpers to deal with bpp, it makes sense to use 
-> them.  This also aligns dumb buffers with the kernel's video= parameter, 
-> which as the same odd semantics. The fallback that uses bpp directly 
-> will hopefully be the exception.
-
-Hmm, well... If we had a 64-bit RGB format in the list of "legacy fb 
-formats", I wouldn't have noticed anything. And if I would just use 32 
-as the bpp, and adjust width accordingly, it would also have worked. So, 
-I expect the fallback to be an exception,
-
-And by working I mean that I can run my apps fine, but the internal 
-operation would sure be odd: allocating any YUV buffer will cause 
-drm_mode_size_dumb() to get an RGB format from 
-drm_driver_color_mode_format(), and get a drm_format_info_min_pitch() 
-for an RGB format.
-
->>>> So, I'm all for a new ioctl, but I don't right away see why the 
->>>> current ioctl couldn't be used. Which makes me wonder about the 
->>>> drm_warn() in your patch, and the "userspace throws in arbitrary 
->>>> values for bpp and relies on the kernel to figure it out". Maybe I'm 
->>>> missing something here.
->>>
->>> I was unsure about the drm_warn() as well. It's not really wrong to 
->>> have odd bpp values, but handing in an unknown bpp value might point 
->>> to a user-space error. At least there should be a drm_dbg().
->>>
->>>>
->>>>> parameter is not very precise. The solution would be a new ioctl 
->>>>> call that receives the DRM format and returns a buffer for each 
->>>>> individual plane.
->>>>
->>>> Yes, I think that makes sense. That's a long road, though =). So my 
->>>> question is, is CREATE_DUMB really unsuitable for other than simple 
->>>> RGB formats, or can it be suitable if we just define how the 
->>>> userspace should use it for multiplanar, subsampled formats?
->>>
->>> That would duplicate format and hardware information in user-space. Some 
->>
->> But we already have that, don't we? We have drivers and userspace that 
->> support, say, NV12 via dumb buffers. But (correct me if I'm wrong) we 
->> don't document how CREATE_DUMB has to be used to allocate multiplanar 
->> subsampled buffers, so the userspace devs have to "guess".
+> other than that unrelated DMA stuff there is nothing between the
+> two calls. 
 > 
-> Yeah, there are constrains in the scanline and buffer alignments and 
-> orientation. And if we say that bpp==12 means NV12, it will be a problem 
-> for all other cases where bpp==12 makes sense.
-
-I feel I still don't quite understand. Can't we define and document 
-CREATE_DUMB like this:
-
-If (bpp < 8 || is_power_of_two(bpp))
-	bpp means bitsperpixel
-	pitch is args->width * args->bpp / 8, aligned up to driver-specific-align
-else
-	bpp is a legacy parameter, and we deal with it case by case.
-	list the cases and what they mean
-
-And describe that when allocating subsampled buffers, the caller must 
-adjust the width and height accordingly. And that the bpp and width can 
-also refer to pixel groups.
-
-Or if the currently existing code prevents the above for 16 and 32 bpps, 
-how about defining that any non-RGB or not-simple buffer has to be 
-allocated with bpp=8, and the userspace has to align the pitch correctly 
-according to the format and platform's hw restrictions?
-
-  Tomi
+> There is runtime PM stuff before any of this, but not in the crucial
+> portion this code affects.
+> 
+> So I am thinking the only change that actually matters is the trivial
+> reorder mentioned above.
+> 
+> 
+> 
+> 
+> 
+>>
+>>>
+>>>   
+>>>>     __pm_runtime_use_autosuspend() ->
+>>>>       update_autosuspend() ->
+>>>>         rpm_idle()
+>>>>
+>>>> The rpm_idle() function attempts to runtime resume the ADC device.  
+>>>
+>>> Can you give a little more on that path. I'm not immediately spotting
+>>> how rpm_idle() is causing a resume  
+>>
+>> It is not in particular about the resume. Runtime suspend/resume after
+>> devres_release_all() will be affected.
+>>
+>> In particular, the rpm_idle() can call rpm_suspend() (called on the out
+>> label of rpm_idle()) and rpm_suspend() may call the driver specific
+>> runtime_suspend API through the following code (from the rpm_suspend()
+>> function):
+>>
+>>         callback = RPM_GET_CALLBACK(dev, runtime_suspend);
+>>
+>>
+>>
+>>         dev_pm_enable_wake_irq_check(dev, true);
+>>
+>>         retval = rpm_callback(callback, dev);
+>>
+>>         if (retval)
+>>
+>>                 goto fail;
+>>
+>>
+>>
+>> The full stack generated when running:
+>> # cd /sys/bus/platform/drivers/rzg2l-adc
+>> # while :; do echo 10058000.adc > unbind ; echo 10058000.adc > bind; done
+>>
+>> is as follows:
+>>
+>> [   24.801195] Call trace:
+>> [   24.803633]  rzg2l_adc_pm_runtime_suspend+0x18/0x54 (P)
+>> [   24.808847]  pm_generic_runtime_suspend+0x2c/0x44 (L)
+>> [   24.813887]  pm_generic_runtime_suspend+0x2c/0x44
+>> [   24.818580]  __rpm_callback+0x48/0x198
+>> [   24.822319]  rpm_callback+0x68/0x74
+>> [   24.825798]  rpm_suspend+0x100/0x578
+>> [   24.829362]  rpm_idle+0xd0/0x17c
+>> [   24.832582]  update_autosuspend+0x30/0xc4
+>> [   24.836580]  pm_runtime_disable_action+0x40/0x64
+>> [   24.841184]  devm_action_release+0x14/0x20
+>> [   24.845274]  devres_release_all+0xa0/0x100
+>> [   24.849361]  device_unbind_cleanup+0x18/0x60
+>> [   24.853618]  device_release_driver_internal+0x1ec/0x228
+>> [   24.858828]  device_driver_detach+0x18/0x24
+>> [   24.862998]  unbind_store+0xb4/0xb8
+>> [   24.866478]  drv_attr_store+0x24/0x38
+>> [   24.870135]  sysfs_kf_write+0x44/0x54
+>> [   24.873795]  kernfs_fop_write_iter+0x118/0x1a8
+>> [   24.878229]  vfs_write+0x2ac/0x358
+>> [   24.881627]  ksys_write+0x68/0xfc
+>> [   24.884934]  __arm64_sys_write+0x1c/0x28
+>> [   24.888846]  invoke_syscall+0x48/0x110
+>> [   24.892592]  el0_svc_common.constprop.0+0xc0/0xe0
+>> [   24.897285]  do_el0_svc+0x1c/0x28
+>> [   24.900593]  el0_svc+0x30/0xd0
+>> [   24.903647]  el0t_64_sync_handler+0xc8/0xcc
+>> [   24.907821]  el0t_64_sync+0x198/0x19c
+>> [   24.911481] Code: 910003fd f9403c00 f941bc01 f9400020 (b9400000)
+> 
+> Thanks, that was helpful.
+> 
+>>
+>>
+>> Digging it further today: on the Renesas RZ/G3S we implement the power
+>> domain on/off and we register the PM domain with GENPD_FLAG_PM_CLK. The
+>> on/off PM domain functionality is implemented though the clock controller
+>> MSTOP functionality which blocks the bus access to the specific IP (in this
+>> particular case to the ADC).
+>>
+>> The issue is reproducible when doing:
+>> # cd /sys/bus/platform/drivers/rzg2l-adc
+>> # while :; do echo 10058000.adc > unbind ; echo 10058000.adc > bind; done
+>>
+>> I noticed today that doing single manual unbind+bind doesn't always leads
+>> to aborts. It may be related to the fact that, as I noticed, the genpd
+>> power off is called asynchronously as a work (through
+>> genpd_power_off_work_fn()).
+>>
+>> I also noticed today what when there is no on/off functionality implemented
+>> on the PM domain we have no failures (as the MSTOP is not implemented and
+>> the bus access to the specific IP is not blocked as there is no PM domain
+>> on/off available).
+> 
+> The PM domain stuff is only called later in device_unbind_cleanup()
+> so I don't see the relevance. All the code you are modifying is
+> done before that happens.
+> 
+> Jonathan
+> 
+> 
+>>
+>>
+>>
+>>>   
+>>>> However,
+>>>> at the point it is called, the ADC device is no longer part of the PM
+>>>> domain (which manages the ADC clocks). Since the rzg2l_adc runtime PM
+>>>> APIs directly modifies hardware registers, the
+>>>> rzg2l_adc_pm_runtime_resume() function is invoked without the ADC clocks
+>>>> being enabled. This is because the PM domain no longer resumes along with
+>>>> the ADC device. As a result, this leads to system aborts.
+>>>>
+>>>> Drop the devres API for runtime PM enable.
+>>>>
+>>>> Fixes: 89ee8174e8c8 ("iio: adc: rzg2l_adc: Simplify the runtime PM code")
+>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>  
+>>>
+>>> See below. I'm doubtful in general about the sequence changes and
+>>> specifically you can't just remove one devm callback from a driver without
+>>> modifying a lot of other code / leaving really fragile ordering.
+>>>
+>>> Jonathan
+>>>   
+>>>> ---
+>>>>  drivers/iio/adc/rzg2l_adc.c | 33 ++++++++++++++++++++++++---------
+>>>>  1 file changed, 24 insertions(+), 9 deletions(-)
+>>>>
+>>>> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+>>>> index 883c167c0670..f12f3daf08cc 100644
+>>>> --- a/drivers/iio/adc/rzg2l_adc.c
+>>>> +++ b/drivers/iio/adc/rzg2l_adc.c
+>>>> @@ -464,25 +464,26 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+>>>>  
+>>>>  	pm_runtime_set_autosuspend_delay(dev, 300);
+>>>>  	pm_runtime_use_autosuspend(dev);
+>>>> -	ret = devm_pm_runtime_enable(dev);
+>>>> -	if (ret)
+>>>> -		return ret;
+>>>> +	pm_runtime_enable(dev);
+>>>>  
+>>>>  	platform_set_drvdata(pdev, indio_dev);
+>>>>  
+>>>>  	ret = rzg2l_adc_hw_init(dev, adc);
+>>>> -	if (ret)
+>>>> -		return dev_err_probe(&pdev->dev, ret,
+>>>> -				     "failed to initialize ADC HW\n");
+>>>> +	if (ret) {
+>>>> +		dev_err_probe(&pdev->dev, ret, "failed to initialize ADC HW\n");
+>>>> +		goto rpm_disable;
+>>>> +	}
+>>>>  
+>>>>  	irq = platform_get_irq(pdev, 0);
+>>>> -	if (irq < 0)
+>>>> -		return irq;
+>>>> +	if (irq < 0) {
+>>>> +		ret = irq;
+>>>> +		goto rpm_disable;
+>>>> +	}
+>>>>  
+>>>>  	ret = devm_request_irq(dev, irq, rzg2l_adc_isr,
+>>>>  			       0, dev_name(dev), adc);
+>>>>  	if (ret < 0)
+>>>> -		return ret;
+>>>> +		goto rpm_disable;
+>>>>  
+>>>>  	init_completion(&adc->completion);
+>>>>  
+>>>> @@ -493,6 +494,19 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+>>>>  	indio_dev->num_channels = adc->data->num_channels;
+>>>>  
+>>>>  	return devm_iio_device_register(dev, indio_dev);
+>>>> +
+>>>> +rpm_disable:
+>>>> +	pm_runtime_disable(dev);
+>>>> +	pm_runtime_dont_use_autosuspend(dev);
+>>>> +	return ret;  
+>>> If you have to move away from devm you must do it for all calls after
+>>> the first thing that is manually cleaned up.
+>>> As you have it here the userspace interfaces are left available at a point
+>>> well after power down.  
+>>
+>> I see, thank you for pointing it.
+>>
+>> And thank you for checking this,
+>> Claudiu
+>>
+>>>   
+>>>> +}
+>>>> +
+>>>> +static void rzg2l_adc_remove(struct platform_device *pdev)
+>>>> +{
+>>>> +	struct device *dev = &pdev->dev;
+>>>> +
+>>>> +	pm_runtime_disable(dev);
+>>>> +	pm_runtime_dont_use_autosuspend(dev);
+>>>>  }
+>>>>  
+>>>>  static const struct rzg2l_adc_hw_params rzg2l_hw_params = {
+>>>> @@ -614,6 +628,7 @@ static const struct dev_pm_ops rzg2l_adc_pm_ops = {
+>>>>  
+>>>>  static struct platform_driver rzg2l_adc_driver = {
+>>>>  	.probe		= rzg2l_adc_probe,
+>>>> +	.remove		= rzg2l_adc_remove,
+>>>>  	.driver		= {
+>>>>  		.name		= DRIVER_NAME,
+>>>>  		.of_match_table = rzg2l_adc_match,  
+>>>   
+>>
+>>
+> 
 
 
