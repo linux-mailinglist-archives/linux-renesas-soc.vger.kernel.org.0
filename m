@@ -1,91 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-12141-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12142-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655C9A11B13
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 08:39:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B0BA11B48
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 08:51:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D8CA3A78C0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 07:39:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B2BD3A22BB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 07:51:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6493C18952C;
-	Wed, 15 Jan 2025 07:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="end65Yei"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 714ED1FECD7;
+	Wed, 15 Jan 2025 07:51:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338491E260C
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 07:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698F54C98;
+	Wed, 15 Jan 2025 07:51:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736926770; cv=none; b=TvLQt6NW6SVKITpgcE7IFYIcGMFQ6gIH2ciHUOdLSL++mbs9c9jlrKNoxqBS+t1RzJ0IJoB9dq8D4OAzCPYpZhttoBh6kFrSCkC1ALp0rd3K21n3eYz648T88pnm2QJidZ4ExETHD8m6K1GXoZe2bLsfdvofYQpP9AMJSLn2t6U=
+	t=1736927512; cv=none; b=uzrgdlPGr2+RxlCSYaw8/nvTJCeXyk3ZfqXZhxSR/0n5jKM0OfbQ+bzqZr+vGQPOkKpbTvyfZZRVLnUB5av9u/8poD5JrfnOIYu2W96ukiQJ5QdQ+JHoQ/+mjMDP8Jv/api6lU5zF/EwUeybVntPaLTSSICoH+aRQg+QbhDg25Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736926770; c=relaxed/simple;
-	bh=QRj5cPJhSUmbJHMcfOppAEqnHeS5/vVrsdC4lNgd0IU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IKixkvQHzehwOgBmcyzmNYNfcsHmEf8Fc5DlvHSlza/CMv5xD0Z3UhJpqsTo3MP0JffSWF3FJPko1pzyEsLgI2odcBjpCgET9mPBLQJoovhcL8YXUL01V/LCLp4jsuIrkYcmQ/k1QIZQGS+UbujaH1/AQSz62sFVEmOP+P9jKjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=end65Yei; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=wrIVOKAgyiYwTC
-	96mV9s9JGPQLTzwqLND59+4MkhVfo=; b=end65YeikGCNyVLKYlV14T/qJnvGnU
-	U6nN50WGsRq7egLVzl+uF4y76y9k5c0WfNfX2SlD9VzxvrGlw8DJc/Chj8czsOPB
-	2Z+910nuNMmCHwQ9M5vlTY0P7bQ25vBnZOHQcNeu2VAy6lT2c1n/xpU16CFvzBmo
-	gW1wL93hU4bo3Rfc48zIPWooEJ69oqBnUTdab0xYFn7ZOQzSDTthTDG+hqgBw2Na
-	/K9eIrZL8z+o8RRtwRfjFYT1XHuuG0Qp5/y7CBimytbcR5HCB5wGJIjWoCFlL1Q3
-	Iw1Tb4bC4V1j+1KjWdn363IsndofBs6kiVWCPj2DWcGs5Sj8kzE+nRtg==
-Received: (qmail 463799 invoked from network); 15 Jan 2025 08:39:25 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Jan 2025 08:39:25 +0100
-X-UD-Smtp-Session: l3s3148p1@whjfxrkrXqAujnut
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Guenter Roeck <linux@roeck-us.net>,
-	linux-i2c@vger.kernel.org
-Subject: [PATCH] i2c: add kdoc for the new debugfs entry of clients
-Date: Wed, 15 Jan 2025 08:39:18 +0100
-Message-Id: <20250115073918.8297-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1736927512; c=relaxed/simple;
+	bh=LbKhxV0/r07qM9Vw/kqAG+A+XvKRovlRRrwm1NT4erE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l9FI6nJI3xwHolSt1N1iHC8mqr5WsaYQ9S/BIuReMnBIu2VQuMntqqOd++fgK3AAKaxmA47rqRxkL154o3+xayPbWe5e48SPPbUQzzUYdL89e207yT7mkOt93XHNUM52htAWkSrXsrsHs6x6ys7AwQXCAxqm3B2bUAAZ2cSOgBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4aff5b3845eso2570121137.2;
+        Tue, 14 Jan 2025 23:51:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736927509; x=1737532309;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v19hfaaGbXr2BhC980RfNTWymFHwvdpU89uVG63T0wg=;
+        b=MK+Ig8pXH9i2Kobhr1yKy/eoqmixjbshMgUpBiZqAMPcqqLXANqtqjX2pCUg0drIdf
+         jj/aaOgXARtr8G9zf8a9I3HYLYOsn72sH1HC+RUzJ5du1QfYwYwc4DW4PDjH5c6D5WyO
+         6c27oYSl1sNCWdNMZjemz96KCFANIRyj0QLYqK70EiGHjISCTcRV1wQ9pQbq77Si/OzP
+         hxiZ10nNWZ6On7teY25CzrkML68xHnJ7OE1vHyPt/B02BU1fay4sDks59oSUouLxy9Vx
+         HV0MpRFuzp3wwxRW7Xfg8+2kohwM74OBGArk9hwoLMRKjaDYgPQMT5sVxpbfhVnvM6+P
+         SksA==
+X-Forwarded-Encrypted: i=1; AJvYcCUW+11owdho3jn0vm9UJnDE5i+Sfow+Tqme/r0McPTp3WxFkH2ueFLCibA25zv9TOzV6672FHx7DBc=@vger.kernel.org, AJvYcCUh2qkU3scmEhqEF7+mTMp+O9hfYcesgO67wNrTgGVRfJDdGWJ+vAFmEvIiM4kxZPEs0ZAfxhmAgHzMh4wtYOoZzT0=@vger.kernel.org, AJvYcCUigjOFS7X/rDq8Q/qXpN6657FG1c0KJ7CoUAhET9OjdF+nJ//QarI54OyTziqRt7dwDzaDvIbvTQUX8qk=@vger.kernel.org, AJvYcCWcO/KKOipAM8HK+K5St40ing7jUp3TaUyAzP5VZmoPmnhDXRmaaTIoTa26djCm50G7hflnYs2N/bFI0TnUlrgYzI8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxE7vNpqXO3H8VYkRrimMRLhy48qRK0MFMWVHov1ezIwPBKr3fS
+	tGE7SATCnqaRSdnOQ1RGHMNmb3GLiUf/0fYtXo5+sNBeKR3eqhKyJV8ADPhQ
+X-Gm-Gg: ASbGncvO6bWLFsBWLSziSw2+OWZWipCHNQDks1Huoo4kxQNxdFgnEJh9v95CK4RfJTL
+	WKAwgpLRhubI+Mdh+3PSHU0+2F2S6Wu7OOujqJOEAqEPLoVEsho+M/jImgLQUs42V/pi+dL0MHQ
+	9T3oZGPTs76BclMmRbPlk6b0zJqnF220Z7ctDCKeHzzEhnqe1c0ktkw37BSaYXNXowljvqJPOTL
+	Xk758p3Q63EaOuGQE/2VUdReA/abkOKdkC2la9sWU+Ftsac7+xKIjYDnsM7Dm8tPrRXlvwN8ULp
+	t/8denPmJxEkrJXJOQFuQe4=
+X-Google-Smtp-Source: AGHT+IERRrS66Au7CMHK4jc7gP9Kw5SC+UMByBeA+YrBJrOOhf/KEFG0n79T2LLpcX/E0uHCqxdMmA==
+X-Received: by 2002:a05:6102:a4e:b0:4b2:4cb0:91d5 with SMTP id ada2fe7eead31-4b3d0fc4fdbmr24825576137.15.1736927508920;
+        Tue, 14 Jan 2025 23:51:48 -0800 (PST)
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8623138586csm5661084241.21.2025.01.14.23.51.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jan 2025 23:51:48 -0800 (PST)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-51878cf85a7so2093792e0c.0;
+        Tue, 14 Jan 2025 23:51:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU0iWGK7vBtTGH0VIcFphK78+LVWJVpAVYEN1Y5VexPMkhV1Mjk98wdEXRn0QVo2kMz+683w40X7evRmrQnb0tng7M=@vger.kernel.org, AJvYcCWIo4Oi7LOiOG8dKMOEN/CIwCN/zd6PkfXojP+OuUhS42JFyT5v7RHFnU3EslOSq2u09/2Fu+Ditws=@vger.kernel.org, AJvYcCWTaIZD/kUL/m7O8MexFMlAUvjIhnSxbIAB3S9ddqb6pW8wp9cf4KJaPo4JzSRprQLccjSWA/4tc9APGeU=@vger.kernel.org, AJvYcCXiSkGWhG0Tr+eNvEMZDE8TnBrJRdVPAT6SZr+86lJfAgZ3b2eEo3L1KD8AeKNBn0kz7i5bdoIG+Prcomvo9OcpkPg=@vger.kernel.org
+X-Received: by 2002:a05:6102:370f:b0:4b2:5d10:29db with SMTP id
+ ada2fe7eead31-4b3d0f91911mr23485805137.7.1736927508552; Tue, 14 Jan 2025
+ 23:51:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250114203547.1013010-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250114203547.1013010-1-krzysztof.kozlowski@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 15 Jan 2025 08:51:37 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXJ57mATWW4AnBedn+D7TQ4PadkJ642daquFtAo=wZFrQ@mail.gmail.com>
+X-Gm-Features: AbW1kvbcwUXYFrN99m6XF1ITw2HmayWy5F5ubOu4slBH-XfFluPqW85u6cmBtL8
+Message-ID: <CAMuHMdXJ57mATWW4AnBedn+D7TQ4PadkJ642daquFtAo=wZFrQ@mail.gmail.com>
+Subject: Re: [PATCH] pmdomain: Use str_enable_disable-like helpers
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Walker Chen <walker.chen@starfivetech.com>, 
+	Changhuang Liang <changhuang.liang@starfivetech.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When adding the new debugfs entry, its kdoc equivalent was forgotten.
-Add it now.
+On Tue, Jan 14, 2025 at 9:36=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> Replace ternary (condition ? "enable" : "disable") syntax with helpers
+> from string_choices.h because:
+> 1. Simple function call with one argument is easier to read.  Ternary
+>    operator has three arguments and with wrapping might lead to quite
+>    long code.
+> 2. Is slightly shorter thus also easier to read.
+> 3. It brings uniformity in the text - same string.
+> 4. Allows deduping by the linker, which results in a smaller binary
+>    file.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Fixes: d06905d68610 ("i2c: add core-managed per-client directory in debugfs")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/r/20250115163146.6c48f066@canb.auug.org.au
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- include/linux/i2c.h | 2 ++
- 1 file changed, 2 insertions(+)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index 36de788dc7fe..c31fd1dba3bd 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -317,6 +317,8 @@ struct i2c_driver {
-  *	calls it to pass on slave events to the slave driver.
-  * @devres_group_id: id of the devres group that will be created for resources
-  *	acquired when probing this device.
-+ * @debugfs: pointer to the debugfs subdirectory which the I2C core created
-+ *	for this client.
-  *
-  * An i2c_client identifies a single device (i.e. chip) connected to an
-  * i2c bus. The behaviour exposed to Linux is defined by the driver
--- 
-2.39.2
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
