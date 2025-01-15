@@ -1,165 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-12143-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F63A11B7D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 09:06:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27CBCA11BA8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 09:15:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E1283A2A44
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 08:06:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 498C81660D3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 08:15:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3228322FDFB;
-	Wed, 15 Jan 2025 08:06:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA0B12500A5;
+	Wed, 15 Jan 2025 08:15:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bFvv+6ef"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQaNX0eI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0711DB153
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 08:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A0824333D;
+	Wed, 15 Jan 2025 08:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736928400; cv=none; b=KVDEdOKh3X0o3JpSS+IY2+Pv4aKBrURy1yIBPAg5PAbl+f1lI/QrbNG2q6zRDKrcQ3ac3k5Mi9hO2yo7R41SMREC0qA5WqfNKUq4p81aPjIG/3QBIB31Wt9g6gXubXDzPYvz587PeLknNjBbb6zMgjJmK05ODKetUomkWqBNM7A=
+	t=1736928935; cv=none; b=N+2yyG2xXgXaM1/qe7rNrVkiAmJVxiqSWb8N25ECW73+SyYY5pwIcPZ32Xgl0VT7LN7z290qMwVSuwL0D5JAOODqusBGbdA53J2WABf+kV1dFrDS6RN+Zh7Ph+Nguw7nlqSIUjMT990+OJQ+U6YzIIOap3TOehhdRWLl9tOwUqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736928400; c=relaxed/simple;
-	bh=skiuF4mKziKyash7wRxgTCHEeKCEAR74XfkPxuBIFN4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=PujQNyfjk95+mvaOEMPkBbKRvjm797UGD/wUuQB/060iHiLTMAyyjYEy2FebaCuGA+BdgsXsAQSTRWyhMKWzPQUoo9RSrPYOLNoqWkgSnmpZt4fwkRDecryIVieT1KzDvAHnI8ufFJqSqjCMDJQDz0GdKsi6Vt5YPpRZxxSa+CA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bFvv+6ef; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-436284cdbe0so8123125e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 00:06:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736928397; x=1737533197; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=V6tmmaVntluIZHDy4W3k37bBnP5TDFLyEDatW3+vp8s=;
-        b=bFvv+6efuAmHt8SRgsQ0CFGDw4qk3YnPbPUX+0/xNHIRzHj9zpLl6iBr7WhDQRrfZe
-         7/pdHeEzCiN5YqxMUH3FLSxMjUSX3iTlQ1Z1SeGE4BXkh5QxDQGGcFnZ8riSPrmdGNeo
-         GOtYbFt1DhQmxU023+fFnJWDQQi4eyGgtTr2wotA4Gfy3W1rJBA73kTPX+fxZdu05Gky
-         9JDjZpFQWt6SFEBdtpaMtEN0JLwMjSaG5F2JxDN4mPgJAlk7g/Mg/57p4pgv8dRDy2yS
-         CHm/Ya2+Iqf8P4ECEf+nwptQd/FHeUy7OAEBqrr9B6BPzLS7TVkVkBSuIgP8UNBFC8T0
-         2A3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736928397; x=1737533197;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=V6tmmaVntluIZHDy4W3k37bBnP5TDFLyEDatW3+vp8s=;
-        b=JwmlQUKg6xF0D+hihoEmFTLMqBgQ9WcWvUr7t8rqUjqoS9rQPCHUnbuRbzFF2tjyuG
-         K5IL/tAXw47a74cp0/dSoWqxnlcx9yMoekq0JqZmNj8+mUM4p4J4x0PXYE7d6k4zVdwq
-         t8Ebjqzmrh1Hk47W1lApYvWSly/Rp4IfxFzQqxLnzHRZMr6WHHRsaZQNiZExV1ccBQO4
-         TFAnIsYnXFEazABqFmD2Z/XLhuC/xEi4+/EerWtAbB65q+Ql60hU90hfDnHoC+xxefEz
-         d5Pysg+3fS6gIv7lBjpJOq3TARZnw8cNftLjoBRGcJ2tpxcWqrBojIBJpduTfBNUxNTo
-         uUJg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJ57HM2wJpw8s/llXY3LyT7rTH5Xyg/9kPqEZILTyuQRxjc64Fk04CdZ/vNmsDkHnWQT39kV7YCTjrcKTuAt3gAQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUyVtTzH16gZgybi4smqt32oJsLubcPbo+C7zWfDH/eOFNJAFN
-	53lVVFXiWC7yW17AZnb4fANn4XJ2Uva+eYyubX192CTRpy4TfJ5F84vfiKYSucA=
-X-Gm-Gg: ASbGncvvm7OojmjU16jXMuY7ghW8Ri8vauYIT7V308+Kp2dE/gFDJqN6AIfummn7wVl
-	LlhV4sZJwmCeYL4+zeqQ/DoQdy4/vx8EFaI9linZ1kBzZhSHFmQ6JiA08rWMIdZYMu7zBfHip4n
-	eiinmAxAgL0qnh/MxZrCWgzmEJrNaCMtwz5lt87sSfo1amJftzetKXQrbUGc8BLOtzfaHtblsr5
-	ymXeq9PYe0DgNndSIJoz85hwf6vTBDpznHFC06N1jlAK41vSMIzbjF28PzDBOCEL4q+uyeMS4JQ
-X-Google-Smtp-Source: AGHT+IERkrSq6zfrDfiGjxlzVHToRu9to7KUnw+e7J8Elokl8vRWR9VD6r4ks9l8S3yf7KEoDEuEjA==
-X-Received: by 2002:adf:9ccd:0:b0:38a:69a9:af95 with SMTP id ffacd0b85a97d-38a872e5eeamr7782610f8f.7.1736928396613;
-        Wed, 15 Jan 2025 00:06:36 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c74fc57csm14318475e9.40.2025.01.15.00.06.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jan 2025 00:06:35 -0800 (PST)
-Message-ID: <55df5f1c-a429-4fc3-9857-c5580090a690@linaro.org>
-Date: Wed, 15 Jan 2025 09:06:34 +0100
+	s=arc-20240116; t=1736928935; c=relaxed/simple;
+	bh=T0IdFn0MO9THjwmFrjdVpSDN00JpLLnGIr0LGMN8FaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i7oCgUIioRYPuxCURBO9FSdPTMEByZTx7sShzJX/nfCnAT1N0eqVPB3+JFiyB/pF5sZBVEaWf1vljg9jzBiFMl+cy2shO06DF4R3VN2s0jHD8N6lICD7AorzRrSuVZmrRtNXQ5RqxA8+yj9Q/K7VzOVdPcxxV7L579CvTNHsZ5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQaNX0eI; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736928934; x=1768464934;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=T0IdFn0MO9THjwmFrjdVpSDN00JpLLnGIr0LGMN8FaU=;
+  b=YQaNX0eIsmVAhSZJStNlbdLb/ErVgNBwrS0SleGHNlntKGAnBKm/nVQt
+   qm/Xi6ZAip8D8HLVzrYR0fWYBmoR2gXHLUBwYK/ZLdJSWvszFQoRL6R06
+   MFABr4rx8bzmcR2m1rHFfVQcfyxfX3dj9E/N7LHviylgoryktVFvr1jME
+   2nUdPfRCMdFAeX/FBD9veb7lT00xumx6TSCFDgjbMGlXb8g2x4lhCdZC5
+   PWsdRWkVVNUXSmvEOTLyRrBN1qkhTtWBxlcGBx88Z6WKeFb3KFKLjnI1c
+   PGJV7zxLIAXM2iLWrzuvdkrsOh1Iv4NWKk8D8RKLfDQRwnON5ILw0Hh1e
+   g==;
+X-CSE-ConnectionGUID: 61NYUgwEQxaM1yahJQohsA==
+X-CSE-MsgGUID: +3SgpITrQx++xtwwJJiv1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="24852178"
+X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
+   d="scan'208";a="24852178"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 00:15:33 -0800
+X-CSE-ConnectionGUID: navOLFn1SpCo68KhG9DkjQ==
+X-CSE-MsgGUID: J5hfQ/WjRqO8qy9oCaCMfw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="110197947"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 00:15:32 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id BDF9A11F8B3;
+	Wed, 15 Jan 2025 10:15:28 +0200 (EET)
+Date: Wed, 15 Jan 2025 08:15:28 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: v4l: fwnode: Parse CSI-2 C-PHY line-orders
+ like bus-type
+Message-ID: <Z4duoOn2ywLseSyJ@kekkonen.localdomain>
+References: <20250104195548.1915578-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250104195548.1915578-3-niklas.soderlund+renesas@ragnatech.se>
+ <Z3znj0MOWvIhbOxj@kekkonen.localdomain>
+ <20250107095219.GF2766897@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOWbnuWkjTogW1BBVENIXSBwbWRvbWFpbjogVXNlIHN0cl9lbmFi?=
- =?UTF-8?Q?le=5Fdisable-like_helpers?=
-To: Changhuang Liang <changhuang.liang@starfivetech.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Walker Chen <walker.chen@starfivetech.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>
-References: <20250114203547.1013010-1-krzysztof.kozlowski@linaro.org>
- <ZQ0PR01MB1302D40B42B69887842A7377F219A@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZQ0PR01MB1302D40B42B69887842A7377F219A@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250107095219.GF2766897@ragnatech.se>
 
-On 15/01/2025 02:55, Changhuang Liang wrote:
-> 
-> In jh71xx-pmu.c jh71xx_pmu_set_state(), maybe you can also change this line:
-> 
-> 	if (is_on == on) {
-> 		dev_dbg(pmu->dev, "pm domain [%s] is already %sable status.\n",
-> 			pmd->genpd.name, on ? "en" : "dis");
-> 		return 0;
-> 	}
-> ====>
-> 	if (is_on == on) {
-> 		dev_dbg(pmu->dev, "pm domain [%s] is already %s status.\n",
-> 			pmd->genpd.name, str_enable_disable(on));
-Sure
+Hejssan,
 
-Best regards,
-Krzysztof
+On Tue, Jan 07, 2025 at 10:52:19AM +0100, Niklas Söderlund wrote:
+> Hi Sakari,
+> 
+> Tack för din feedback.
+> 
+> On 2025-01-07 08:36:31 +0000, Sakari Ailus wrote:
+> > Hejssan Niklas,
+> > 
+> > Tack för dessa lappar!
+> > 
+> > On Sat, Jan 04, 2025 at 08:55:48PM +0100, Niklas Söderlund wrote:
+> > > Provided a safe-guard from the raw values used in device tree sources
+> > > and the in-kernel defines used to describe the different line orders.
+> > > This mimics what have been done for the bus-type property to provide the
+> > > same safe-guard.
+> > > 
+> > > The macros used in device tree sources are defined in video-interfaces.h
+> > > (MEDIA_BUS_CSI2_CPHY_LINE_ORDER_*) and are only visible to DTS source
+> > > files. These raw values map directly to the in-kernel names by fwnode
+> > > defines in v4l2-fwnode.h (V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_*). These
+> > > fwnode defines are finally translated to defines which are exposed to
+> > > drivers to act on (V4L2_MBUS_CSI2_CPHY_LINE_ORDER_*).
+> > > 
+> > > Previously the translation to values provided to drivers have exploited
+> > > the fact that the numerical value for each setting are the same for the
+> > > defines used in device tree sources. While this is unlikely to change
+> > > this harmonises the bus-type and line-orders parsing to work using the
+> > > same mechanics, while at the same time make the large CSI-2 parsing
+> > > function a little more readable.
+> > 
+> > Do we in fact need the V4L2_MBUS_ definitions of the line orders at all?
+> 
+> I'm not sure :-)
+> 
+> Geert pointed out in [1] that in comparison to the V4L2_MBUS_ bus-type 
+> definitions the line-order definitions did not have this intermediary 
+> step as a safe guard between values used in DTS files and values used in 
+> V4L2 drivers.
+> 
+> Looking at the original functionality,
+> 
+>     bus->line_orders[i] = array[i];
+> 
+> Seems a bit "hack" compared to what this patch do,
+> 
+> 
+>     bus->line_orders[i] = v4l2_fwnode_line_order_to_mbus(array[i]);
+> 
+> But if it's worth the extra churn, and if it in reality provides us with 
+> a safe-guard between DTS-files and V4L2-drivers I'm not sure. I'm on the 
+> fence on this one, the one good thing is that it aligns how V4L2_MBUS_ 
+> macros are parsed.
+> 
+> But if you don't like it and I'm on the fence I'm happy to drop this 
+> series. This series don't add any extra functionality.
+
+I wasn't asking dropping the series, but instead get rid of the V4L2_MBUS_
+line order definitions altogether, by replacing them by V4L2_FWNODE_
+equivalents.
+
+> 
+> 1. CAMuHMdXwqb7vhUeoMKDDJO5dp-V3LmnURZLSC1_ko=YL=cNyUA@mail.gmail.com
+> 
+> > 
+> > The same could extend to the V4L2_MBUS_ bus type defitions, but that's out
+> > of scope of this patch.
+> 
+> Out of scope indeed. If we drop this series do we want to try and remove 
+> them for V4L2_MBUS_ bus-type in future?
+
+I think that would be reasonable. I don't think we need two sets of
+definitions that effectively are interchangeable. But that may well be out
+of scope of this series.
+
+-- 
+Med vänliga hälsningar,
+
+Sakari Ailus
 
