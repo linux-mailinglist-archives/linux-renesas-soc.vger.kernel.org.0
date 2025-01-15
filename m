@@ -1,48 +1,95 @@
-Return-Path: <linux-renesas-soc+bounces-12149-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12150-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A42A11F04
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 11:14:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C10A11F51
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 11:26:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C815164513
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 10:14:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15461188D74F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 10:26:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A926E212D68;
-	Wed, 15 Jan 2025 10:13:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E23323F269;
+	Wed, 15 Jan 2025 10:26:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pmR2bdAL"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Mljgl0Dv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qI2Y6oN0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Mljgl0Dv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qI2Y6oN0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF54A1E7C14;
-	Wed, 15 Jan 2025 10:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1383F231A49;
+	Wed, 15 Jan 2025 10:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736936037; cv=none; b=TWElZThiFp96buCEkjpQdBB2S6gd+geqKYMy/C8HAExrbPlMrS0OyBMMhhYJ8Ak0q4lLMso36SMUeVQepsdKhXHnW0Qh8UIAAc8ZELxNFzjhlgMm/Y1Kquvk11z/desMZ2o2n1opU49ifVHQJEIbmixALR0RHesG/UsWE+WAycY=
+	t=1736936767; cv=none; b=qjgmn5ra79TwGHpwMPAYbEYyDdQLMa5hHHERiBfRdi8arP8Re+5ZIrHSVYjdK2fkq8TT4lgR9VXJoXNwPtxidcOiQBFMEztrnes4KuH1eSl4dU/lVT4sDHvCYknDArhOefmr+lkFRDE2ZuwF+QvDrjFBYLYaefK9xbXr1uW33xU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736936037; c=relaxed/simple;
-	bh=A0uT2PZu2vMEF9l8RixHcuD7XJQCUpNHinaQ0kfDHhA=;
+	s=arc-20240116; t=1736936767; c=relaxed/simple;
+	bh=DlgzPybJLohqJTRasUTNfTcIW6PVnJn4Ey+QYJaNbJ8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nUXToasBXtNHfTyvBFSknzzsc3kA6MKiRZ2c/1zLzWP3xeOQKs7OomKWbAnV66VCwDTnAAPFPMWNHUfm2RJ8kpNe91xcVOzuYGSKtzl4GJ0Tjbb3744w2LacasYFMnv2P/72exbpKEsCZBM7DWe7CEN73AHli1HwpVw/3JJ+8UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pmR2bdAL; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A30BD22E;
-	Wed, 15 Jan 2025 11:12:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1736935975;
-	bh=A0uT2PZu2vMEF9l8RixHcuD7XJQCUpNHinaQ0kfDHhA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pmR2bdALx1oQyukLslwEK4I+DzAJ+sQ7jabs2IStX4+lbodFhHRKpbzD2TbgjeFIq
-	 wvGaKkMawbqcDlftYcVj6Xwl5RO6AMISn5ADly0zRVsc0cmRz82fdiURAcZKwFjw2x
-	 puw3h1fl2vbnDQxZ0v1561h2shhHO4y1sRLg8SKI=
-Message-ID: <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
-Date: Wed, 15 Jan 2025 12:13:48 +0200
+	 In-Reply-To:Content-Type; b=ObGObsEUO30EaZ9PNU4P4G4ucPlO+YwydwRfoTxnUEqh3tiXBLMghvLd6qeBqbQtybkPB45Qpvwk7FBoxeKrqQpeMogDLxbOiV3BLrm1/ydeapu3v1yNS2cPmGkdNXKP+1rQMfvKTleLwta1P6jQzjKbXVzJX9XpEylk4ToPl9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Mljgl0Dv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qI2Y6oN0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Mljgl0Dv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qI2Y6oN0; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3A60921285;
+	Wed, 15 Jan 2025 10:26:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736936763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=o5OaTSBvndaqL7pmKVkJ0tKcrkXR4wXg7zZA1xwdifc=;
+	b=Mljgl0DvQXsyKMdMzmz5ZwZ3V789zCdVdhgaCjuMtwHrT61J2CLPcsqyigpgNfMgt5s9ED
+	NQBLa2bFnxQBC6Lh8kmGl4ElL6IbxkHaMKnpSDKgAWvZ5RgKmpAEVOTkk2jS/7Dqz07SiL
+	vCLaFHZP1mmjRXmvQ/ScFe4UhJimBB4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736936763;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=o5OaTSBvndaqL7pmKVkJ0tKcrkXR4wXg7zZA1xwdifc=;
+	b=qI2Y6oN0l9JxGfh+RN+mqlivvJYcBaYsV/e1PTdXmK0ZMZeCqm75AAiZVcbCx5W/dssHYm
+	9npljUHucuH2iADw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736936763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=o5OaTSBvndaqL7pmKVkJ0tKcrkXR4wXg7zZA1xwdifc=;
+	b=Mljgl0DvQXsyKMdMzmz5ZwZ3V789zCdVdhgaCjuMtwHrT61J2CLPcsqyigpgNfMgt5s9ED
+	NQBLa2bFnxQBC6Lh8kmGl4ElL6IbxkHaMKnpSDKgAWvZ5RgKmpAEVOTkk2jS/7Dqz07SiL
+	vCLaFHZP1mmjRXmvQ/ScFe4UhJimBB4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736936763;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=o5OaTSBvndaqL7pmKVkJ0tKcrkXR4wXg7zZA1xwdifc=;
+	b=qI2Y6oN0l9JxGfh+RN+mqlivvJYcBaYsV/e1PTdXmK0ZMZeCqm75AAiZVcbCx5W/dssHYm
+	9npljUHucuH2iADw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B2519139CB;
+	Wed, 15 Jan 2025 10:26:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yds5KjqNh2dqKAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 15 Jan 2025 10:26:02 +0000
+Message-ID: <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
+Date: Wed, 15 Jan 2025 11:26:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -52,7 +99,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
  drm_mode_size_dumb()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
@@ -65,148 +112,186 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20250109150310.219442-1-tzimmermann@suse.de>
  <20250109150310.219442-26-tzimmermann@suse.de>
+ <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250109150310.219442-26-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[ideasonboard.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-Hi!
+Hi
 
-On 09/01/2025 16:57, Thomas Zimmermann wrote:
-> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
-> buffer size. Align the pitch according to hardware requirements.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->   drivers/gpu/drm/xlnx/zynqmp_kms.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> index b47463473472..7ea0cd4f71d3 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> @@ -19,6 +19,7 @@
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_device.h>
->   #include <drm/drm_drv.h>
-> +#include <drm/drm_dumb_buffers.h>
->   #include <drm/drm_encoder.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_fourcc.h>
-> @@ -363,10 +364,12 @@ static int zynqmp_dpsub_dumb_create(struct drm_file *file_priv,
->   				    struct drm_mode_create_dumb *args)
->   {
->   	struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
-> -	unsigned int pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
-> +	int ret;
->   
->   	/* Enforce the alignment constraints of the DMA engine. */
-> -	args->pitch = ALIGN(pitch, dpsub->dma_align);
-> +	ret = drm_mode_size_dumb(drm, args, dpsub->dma_align, 0);
-> +	if (ret)
-> +		return ret;
->   
->   	return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
->   }
 
-I have some trouble with this one.
+Am 15.01.25 um 11:13 schrieb Tomi Valkeinen:
+> Hi!
+>
+> On 09/01/2025 16:57, Thomas Zimmermann wrote:
+>> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
+>> buffer size. Align the pitch according to hardware requirements.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/gpu/drm/xlnx/zynqmp_kms.c | 7 +++++--
+>>   1 file changed, 5 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c 
+>> b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+>> index b47463473472..7ea0cd4f71d3 100644
+>> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
+>> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+>> @@ -19,6 +19,7 @@
+>>   #include <drm/drm_crtc.h>
+>>   #include <drm/drm_device.h>
+>>   #include <drm/drm_drv.h>
+>> +#include <drm/drm_dumb_buffers.h>
+>>   #include <drm/drm_encoder.h>
+>>   #include <drm/drm_fbdev_dma.h>
+>>   #include <drm/drm_fourcc.h>
+>> @@ -363,10 +364,12 @@ static int zynqmp_dpsub_dumb_create(struct 
+>> drm_file *file_priv,
+>>                       struct drm_mode_create_dumb *args)
+>>   {
+>>       struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
+>> -    unsigned int pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+>> +    int ret;
+>>         /* Enforce the alignment constraints of the DMA engine. */
+>> -    args->pitch = ALIGN(pitch, dpsub->dma_align);
+>> +    ret = drm_mode_size_dumb(drm, args, dpsub->dma_align, 0);
+>> +    if (ret)
+>> +        return ret;
+>>         return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
+>>   }
+>
+> I have some trouble with this one.
+>
+> I have sent a series to add some pixel formats:
+>
+> https://lore.kernel.org/all/20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com/ 
+>
+>
+> Let's look at XV15. It's similar to NV12, but 10 bits per component, 
+> and some packing and padding.
+>
+> First plane: 3 pixels in a 32 bit group
+> Second plane: 3 pixels in a 64 bit group, 2x2 subsampled
+>
+> So, on average, a pixel on the first plane takes 32 / 3 = 10.666... 
+> bits on a line. That's not a usable number for the 
+> DRM_IOCTL_MODE_CREATE_DUMB ioctl.
+>
+> What I did was to use the pixel group size as "bpp" for 
+> DRM_IOCTL_MODE_CREATE_DUMB. So, e.g., for 720 x 576:
+>
+> Stride for first plane: 720 * (32 / 3) / 8 = 960 bytes
+> Stride for second plane: 720 / 2 * (64 / 3) / 8 = 960 bytes
+>
+> First plane: 720 / 3 = 240 pixel groups
+> Second plane: 720 / 2 / 3 = 120 pixel groups
+>
+> So I allocated the two planes with:
+> 240 x 576 with 32 bitspp
+> 120 x 288 with 64 bitspp
+>
+> This worked, and if I look at the DRM_IOCTL_MODE_CREATE_DUMB in the 
+> docs, I can't right away see anything there that says my tactic was 
+> not allowed.
+>
+> The above doesn't work anymore with this patch, as the code calls 
+> drm_driver_color_mode_format(), which fails for 64 bitspp. It feels a 
+> bit odd that DRM_IOCTL_MODE_CREATE_DUMB will try to guess the RGB 
+> fourcc for a dumb buffer allocation.
+>
+> So, what to do here? Am I doing something silly? What's the correct 
+> way to allocate the buffers for XV15? Should I just use 32 bitspp for 
+> the plane 2 too, and double the width (this works)?
+>
+> Is DRM_IOCTL_MODE_CREATE_DUMB only meant for simple RGB formats? The 
+> xilinx driver can, of course, just not use drm_mode_size_dumb(). But 
+> if so, I guess the limitations of drm_mode_size_dumb() should be 
+> documented.
+>
+> Do we need a new dumb-alloc ioctl that takes the format and plane 
+> number as parameters? Or alternatively a simpler dumb-alloc that 
+> doesn't have width and bpp, but instead takes a stride and height as 
+> parameters? I think those would be easier for the userspace to use, 
+> instead of trying to adjust the parameters to be suitable for the kernel.
 
-I have sent a series to add some pixel formats:
+These are all good points. Did you read my discussion with Andy on patch 
+2? I think it resolves all the points you have. The current CREATE_DUMB 
+ioctl is unsuited for anything but the simple RGB formats. The bpp 
+parameter is not very precise. The solution would be a new ioctl call 
+that receives the DRM format and returns a buffer for each individual plane.
 
-https://lore.kernel.org/all/20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com/
+I provided a workaround patch that uses the bpp value directly if 
+drm_driver_color_mode_format() does not support the bpp value. 
+User-space code has to allocate a large enough buffer via the current 
+CREATE_DUMB and compute the individual planes itself. See [1] for an 
+example. [1] 
+https://gitlab.freedesktop.org/mesa/drm/-/blob/main/tests/modetest/buffers.c?ref_type=heads#L302 
+Does this work for you? Otherwise, I guess we should be talking about a 
+possible CREATE_DUMB2 that fixes these shortcomings. Best regards Thomas
+>
+>  Tomi
+>
 
-Let's look at XV15. It's similar to NV12, but 10 bits per component, and 
-some packing and padding.
-
-First plane: 3 pixels in a 32 bit group
-Second plane: 3 pixels in a 64 bit group, 2x2 subsampled
-
-So, on average, a pixel on the first plane takes 32 / 3 = 10.666... bits 
-on a line. That's not a usable number for the DRM_IOCTL_MODE_CREATE_DUMB 
-ioctl.
-
-What I did was to use the pixel group size as "bpp" for 
-DRM_IOCTL_MODE_CREATE_DUMB. So, e.g., for 720 x 576:
-
-Stride for first plane: 720 * (32 / 3) / 8 = 960 bytes
-Stride for second plane: 720 / 2 * (64 / 3) / 8 = 960 bytes
-
-First plane: 720 / 3 = 240 pixel groups
-Second plane: 720 / 2 / 3 = 120 pixel groups
-
-So I allocated the two planes with:
-240 x 576 with 32 bitspp
-120 x 288 with 64 bitspp
-
-This worked, and if I look at the DRM_IOCTL_MODE_CREATE_DUMB in the 
-docs, I can't right away see anything there that says my tactic was not 
-allowed.
-
-The above doesn't work anymore with this patch, as the code calls 
-drm_driver_color_mode_format(), which fails for 64 bitspp. It feels a 
-bit odd that DRM_IOCTL_MODE_CREATE_DUMB will try to guess the RGB fourcc 
-for a dumb buffer allocation.
-
-So, what to do here? Am I doing something silly? What's the correct way 
-to allocate the buffers for XV15? Should I just use 32 bitspp for the 
-plane 2 too, and double the width (this works)?
-
-Is DRM_IOCTL_MODE_CREATE_DUMB only meant for simple RGB formats? The 
-xilinx driver can, of course, just not use drm_mode_size_dumb(). But if 
-so, I guess the limitations of drm_mode_size_dumb() should be documented.
-
-Do we need a new dumb-alloc ioctl that takes the format and plane number 
-as parameters? Or alternatively a simpler dumb-alloc that doesn't have 
-width and bpp, but instead takes a stride and height as parameters? I 
-think those would be easier for the userspace to use, instead of trying 
-to adjust the parameters to be suitable for the kernel.
-
-  Tomi
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
 
