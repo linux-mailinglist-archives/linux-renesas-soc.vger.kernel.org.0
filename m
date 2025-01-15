@@ -1,200 +1,212 @@
-Return-Path: <linux-renesas-soc+bounces-12148-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12149-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59394A11E8A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 10:49:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A42A11F04
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 11:14:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95749188EC37
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 09:49:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C815164513
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2025 10:14:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B78024816D;
-	Wed, 15 Jan 2025 09:47:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A926E212D68;
+	Wed, 15 Jan 2025 10:13:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PSxn96uv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pmR2bdAL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DF0248166
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2025 09:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF54A1E7C14;
+	Wed, 15 Jan 2025 10:13:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736934471; cv=none; b=Sm5sGIYdYAZ7/36CMx1RM+fvHcS4pgOU4kyqweQQBxlj7ogMOoylOVHEai0hyUjmBJM0e844HtTK2LUS+nVeAYuYKtAF4SfnKSIG2HXvumexUVoW3Eq4hyqzDxYMU6YeZrGt9yIDksK4zUXL/pl+aXu7CnSszvruTE535i2PQGQ=
+	t=1736936037; cv=none; b=TWElZThiFp96buCEkjpQdBB2S6gd+geqKYMy/C8HAExrbPlMrS0OyBMMhhYJ8Ak0q4lLMso36SMUeVQepsdKhXHnW0Qh8UIAAc8ZELxNFzjhlgMm/Y1Kquvk11z/desMZ2o2n1opU49ifVHQJEIbmixALR0RHesG/UsWE+WAycY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736934471; c=relaxed/simple;
-	bh=z/jOP2QABXUyFSPzsaLAWcYZBS4qTC/wH+W+JLGKJuA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EuT+Rr6fQGSFyMwhaLh/vH+EcKJ9etnwKbXHh/9Dbp2HXNdLcj/IJaQS2RhIUv2vxtw80/IwQjJ8GDhOV52zdtkUItvag+Q1J1febvqVSMR5Ju/WZ8WdoamU5nPDu37aZuOqvVhWEz1RJN4gs9yiC0Z5oo7OP+98GaE0wnKny9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PSxn96uv; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736934469; x=1768470469;
-  h=date:from:to:cc:subject:message-id;
-  bh=z/jOP2QABXUyFSPzsaLAWcYZBS4qTC/wH+W+JLGKJuA=;
-  b=PSxn96uv0zHj+nHPIzwfyBrq3e7aGaNJl7q+KvqeHiDFNerbDWuLR3gk
-   UcdXwGTdJVOZeyCbj52XHWZDFC78c+hDYbKxhqmYi+7acMHBPYCdnkg/c
-   DzwTt0hsMi1EI4bmQH0kM/Ou7gEbdIDhLxG8yJ0q8OBW9kQ/5oDoT2guC
-   kTKXoTuSGhHPu8FIjyEG2ZdrFjWL5Z1lPXOGNUTm7H1rSWr3B5gpWYuZ8
-   QZJuhjn3Hjde0ArsXkUMOuuN8n6jLf3e6r5H/ClFNRrUjO3y61ExxpntY
-   avrbR7qh8Uwhwa7W3sdXD3SMFkrC60vNvLyU24096br/rK1wAYoHlalvz
-   g==;
-X-CSE-ConnectionGUID: uAhw+J+tQumOj+LBH8gY1Q==
-X-CSE-MsgGUID: ER22sa+HRTeBL3rdB8YEPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="62632075"
-X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
-   d="scan'208";a="62632075"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 01:47:49 -0800
-X-CSE-ConnectionGUID: TDawNHzQQjiAOSqSJUV6OQ==
-X-CSE-MsgGUID: jumE+0iFT4KKytzg3OtAFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="110224143"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 Jan 2025 01:47:45 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tXzzz-000Pkv-28;
-	Wed, 15 Jan 2025 09:47:43 +0000
-Date: Wed, 15 Jan 2025 17:47:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk-for-v6.15] BUILD SUCCESS
- e2270df8cf29238c74d207c99b394dbe61cdf410
-Message-ID: <202501151715.sn0zpGv8-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1736936037; c=relaxed/simple;
+	bh=A0uT2PZu2vMEF9l8RixHcuD7XJQCUpNHinaQ0kfDHhA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nUXToasBXtNHfTyvBFSknzzsc3kA6MKiRZ2c/1zLzWP3xeOQKs7OomKWbAnV66VCwDTnAAPFPMWNHUfm2RJ8kpNe91xcVOzuYGSKtzl4GJ0Tjbb3744w2LacasYFMnv2P/72exbpKEsCZBM7DWe7CEN73AHli1HwpVw/3JJ+8UE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pmR2bdAL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A30BD22E;
+	Wed, 15 Jan 2025 11:12:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1736935975;
+	bh=A0uT2PZu2vMEF9l8RixHcuD7XJQCUpNHinaQ0kfDHhA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pmR2bdALx1oQyukLslwEK4I+DzAJ+sQ7jabs2IStX4+lbodFhHRKpbzD2TbgjeFIq
+	 wvGaKkMawbqcDlftYcVj6Xwl5RO6AMISn5ADly0zRVsc0cmRz82fdiURAcZKwFjw2x
+	 puw3h1fl2vbnDQxZ0v1561h2shhHO4y1sRLg8SKI=
+Message-ID: <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
+Date: Wed, 15 Jan 2025 12:13:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20250109150310.219442-1-tzimmermann@suse.de>
+ <20250109150310.219442-26-tzimmermann@suse.de>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250109150310.219442-26-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.15
-branch HEAD: e2270df8cf29238c74d207c99b394dbe61cdf410  clk: renesas: r8a779a0: Add FCPVX clocks
+Hi!
 
-elapsed time: 1453m
+On 09/01/2025 16:57, Thomas Zimmermann wrote:
+> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
+> buffer size. Align the pitch according to hardware requirements.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>   drivers/gpu/drm/xlnx/zynqmp_kms.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> index b47463473472..7ea0cd4f71d3 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> @@ -19,6 +19,7 @@
+>   #include <drm/drm_crtc.h>
+>   #include <drm/drm_device.h>
+>   #include <drm/drm_drv.h>
+> +#include <drm/drm_dumb_buffers.h>
+>   #include <drm/drm_encoder.h>
+>   #include <drm/drm_fbdev_dma.h>
+>   #include <drm/drm_fourcc.h>
+> @@ -363,10 +364,12 @@ static int zynqmp_dpsub_dumb_create(struct drm_file *file_priv,
+>   				    struct drm_mode_create_dumb *args)
+>   {
+>   	struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
+> -	unsigned int pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+> +	int ret;
+>   
+>   	/* Enforce the alignment constraints of the DMA engine. */
+> -	args->pitch = ALIGN(pitch, dpsub->dma_align);
+> +	ret = drm_mode_size_dumb(drm, args, dpsub->dma_align, 0);
+> +	if (ret)
+> +		return ret;
+>   
+>   	return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
+>   }
 
-configs tested: 107
-configs skipped: 1
+I have some trouble with this one.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I have sent a series to add some pixel formats:
 
-tested configs:
-alpha                            alldefconfig    gcc-14.2.0
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                   randconfig-001-20250114    gcc-13.2.0
-arc                   randconfig-002-20250114    gcc-13.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-17
-arm                              allyesconfig    gcc-14.2.0
-arm                            mmp2_defconfig    gcc-14.2.0
-arm                   randconfig-001-20250114    clang-15
-arm                   randconfig-002-20250114    clang-20
-arm                   randconfig-003-20250114    gcc-14.2.0
-arm                   randconfig-004-20250114    gcc-14.2.0
-arm                           u8500_defconfig    gcc-14.2.0
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250114    clang-17
-arm64                 randconfig-002-20250114    clang-19
-arm64                 randconfig-003-20250114    gcc-14.2.0
-arm64                 randconfig-004-20250114    clang-20
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250114    gcc-14.2.0
-csky                  randconfig-002-20250114    gcc-14.2.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    clang-20
-hexagon               randconfig-001-20250114    clang-20
-hexagon               randconfig-002-20250114    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250114    gcc-12
-i386        buildonly-randconfig-002-20250114    clang-19
-i386        buildonly-randconfig-003-20250114    clang-19
-i386        buildonly-randconfig-004-20250114    gcc-12
-i386        buildonly-randconfig-005-20250114    clang-19
-i386        buildonly-randconfig-006-20250114    clang-19
-i386                                defconfig    clang-19
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250114    gcc-14.2.0
-loongarch             randconfig-002-20250114    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                            q40_defconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250114    gcc-14.2.0
-nios2                 randconfig-002-20250114    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                randconfig-001-20250114    gcc-14.2.0
-parisc                randconfig-002-20250114    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-16
-powerpc               randconfig-001-20250114    gcc-14.2.0
-powerpc               randconfig-002-20250114    clang-20
-powerpc               randconfig-003-20250114    gcc-14.2.0
-powerpc64             randconfig-001-20250114    clang-20
-powerpc64             randconfig-002-20250114    clang-15
-powerpc64             randconfig-003-20250114    clang-20
-riscv                            allmodconfig    clang-20
-riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-20
-riscv                 randconfig-001-20250115    gcc-14.2.0
-riscv                 randconfig-002-20250115    clang-16
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250115    clang-20
-s390                  randconfig-002-20250115    clang-15
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                    randconfig-001-20250115    gcc-14.2.0
-sh                    randconfig-002-20250115    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250115    gcc-14.2.0
-sparc                 randconfig-002-20250115    gcc-14.2.0
-sparc64               randconfig-001-20250115    gcc-14.2.0
-sparc64               randconfig-002-20250115    gcc-14.2.0
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-18
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250115    clang-18
-um                    randconfig-002-20250115    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250114    clang-19
-x86_64      buildonly-randconfig-002-20250114    clang-19
-x86_64      buildonly-randconfig-003-20250114    clang-19
-x86_64      buildonly-randconfig-004-20250114    clang-19
-x86_64      buildonly-randconfig-005-20250114    clang-19
-x86_64      buildonly-randconfig-006-20250114    clang-19
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250115    gcc-14.2.0
-xtensa                randconfig-002-20250115    gcc-14.2.0
+https://lore.kernel.org/all/20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com/
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Let's look at XV15. It's similar to NV12, but 10 bits per component, and 
+some packing and padding.
+
+First plane: 3 pixels in a 32 bit group
+Second plane: 3 pixels in a 64 bit group, 2x2 subsampled
+
+So, on average, a pixel on the first plane takes 32 / 3 = 10.666... bits 
+on a line. That's not a usable number for the DRM_IOCTL_MODE_CREATE_DUMB 
+ioctl.
+
+What I did was to use the pixel group size as "bpp" for 
+DRM_IOCTL_MODE_CREATE_DUMB. So, e.g., for 720 x 576:
+
+Stride for first plane: 720 * (32 / 3) / 8 = 960 bytes
+Stride for second plane: 720 / 2 * (64 / 3) / 8 = 960 bytes
+
+First plane: 720 / 3 = 240 pixel groups
+Second plane: 720 / 2 / 3 = 120 pixel groups
+
+So I allocated the two planes with:
+240 x 576 with 32 bitspp
+120 x 288 with 64 bitspp
+
+This worked, and if I look at the DRM_IOCTL_MODE_CREATE_DUMB in the 
+docs, I can't right away see anything there that says my tactic was not 
+allowed.
+
+The above doesn't work anymore with this patch, as the code calls 
+drm_driver_color_mode_format(), which fails for 64 bitspp. It feels a 
+bit odd that DRM_IOCTL_MODE_CREATE_DUMB will try to guess the RGB fourcc 
+for a dumb buffer allocation.
+
+So, what to do here? Am I doing something silly? What's the correct way 
+to allocate the buffers for XV15? Should I just use 32 bitspp for the 
+plane 2 too, and double the width (this works)?
+
+Is DRM_IOCTL_MODE_CREATE_DUMB only meant for simple RGB formats? The 
+xilinx driver can, of course, just not use drm_mode_size_dumb(). But if 
+so, I guess the limitations of drm_mode_size_dumb() should be documented.
+
+Do we need a new dumb-alloc ioctl that takes the format and plane number 
+as parameters? Or alternatively a simpler dumb-alloc that doesn't have 
+width and bpp, but instead takes a stride and height as parameters? I 
+think those would be easier for the userspace to use, instead of trying 
+to adjust the parameters to be suitable for the kernel.
+
+  Tomi
+
 
