@@ -1,123 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-12203-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12204-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94ABA13D67
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 16:15:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B19A13DBA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 16:34:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3CE343A9C1D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 15:15:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E04CA164198
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 15:34:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3026222BAA6;
-	Thu, 16 Jan 2025 15:14:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 573B81DDC12;
+	Thu, 16 Jan 2025 15:34:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U031XeG2"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ItnRXkQ6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Wgp+Zr19"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DF422B8DF;
-	Thu, 16 Jan 2025 15:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FC724A7F6
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jan 2025 15:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737040491; cv=none; b=AJ/xulRD00rdj/C01pSlRnq8klrALl9HKpL29cXabJb6UVjwXeiDxUgbjdaOXjScspo9WTevqT9w7K4hH8mOWzO3IfkuRrK61mTUSS5Xc6WDgiIq9GQnb/pMHJuCDCftX9NbMElaIxg+36yI3Wf+CAnjImdZy1sJ6a9B52q6wwQ=
+	t=1737041654; cv=none; b=K9ehrZXlZFbndw1UJmeTTrOBjt3KEgti9M8PybMJ5F+vUrGn66EhLOGdAcacO3PTMJLLHtYvF6n+/gzNTJZ4p4/fUfOq3lAOC+9lqli1upI3H5peOD97NfMKGZanMFyBXYDsNy64GmHHFJla6Ks4oJYraHRfWr4jvIEZ2WctfxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737040491; c=relaxed/simple;
-	bh=EMSouKvt/3Hv72i7tDiaDSmndgBnRh4c+eQW656fB/k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=giXIIq80wC99lkmSMP0l22xZLEUo3eAFDj/dYm2UMaKDyGTaN83Wnf3SYamaTEwbkGJN3rnni+3HxX2P9dLEpJv5oKuGFGLJHZctX6ulnrQ1vIYtpI3QsDiremtCmyPzHjkSrhAXn7VOcgum1jHhgvt3o4sFBvHF0ECm9MTtIro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U031XeG2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 359EDC4CED6;
-	Thu, 16 Jan 2025 15:14:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737040490;
-	bh=EMSouKvt/3Hv72i7tDiaDSmndgBnRh4c+eQW656fB/k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=U031XeG2aC71b6NoI/EaMmbdPDBRsWpGix+MNxSaCvlKw+FDuQbM4GW8cpFw74rdv
-	 baSYKSqEhDVv7iqlwbSmHzr46tavF9VJ5TbCtPl/YLMaSNJuvm3Wu8vZVOXdVdMfx5
-	 eR01sBE6lao4TYXqfrmpTsmn+e0pPBPM4+95A3vzI0FCdvmyG/WWL46QewhSNmXAqS
-	 cGKuP2aazuym6qG8ntoMZM86qtPteTxGDa9MXYP+ZBfrLDlvB6Ee173nFXbl4wZXTE
-	 heA+q0z8cOYg482JkRDPl/7GolvSoCDs2ZUBmglPBEUZ2XjYeiMqLYz1ZoImCM8/ut
-	 ZCYi2zV24OJ0Q==
-Message-ID: <224d66d7-6ef1-4ade-8876-982971fa084e@kernel.org>
-Date: Thu, 16 Jan 2025 16:14:45 +0100
+	s=arc-20240116; t=1737041654; c=relaxed/simple;
+	bh=uKPDHAxMZSEyB2u6AMlA2zpbcyEWslgNKgPStJBvL8Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pl5Q6NIhflOAExxGoNzyvLMmTLdo4SOwDiG/OfnOF/+Ffse20p6vv7KxnbVEbGKjVN4cBk9wPTKK7WRAIiZzhsTYJ9lCIrwcHTp0c6pxBDKygEm06k+v6+3oumeGJqa/5A/MTEPTng6CrlJOP0uePNwN/C3UDJp0itFskdr1H9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ItnRXkQ6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Wgp+Zr19; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6175E11400C6;
+	Thu, 16 Jan 2025 10:33:04 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Thu, 16 Jan 2025 10:33:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1737041584; x=1737127984; bh=4s
+	LZtsQqiXOx6MVDhhpvktftzSq2Eg0fdZh/iken748=; b=ItnRXkQ6fhD1p/N+wi
+	kwlSf5OB9blDL/dwtXsECwasixa+LQGmOvQlYqv1Sv17P5nzKYCsYEwSMxnG15fW
+	GekFwPQ/C9mi3GHjPU6VkCQTzhTphFeYDZM5l9ZPdffcqdmMWPaakoUvQyHidv1/
+	3jflXvuboKK9T1T65Fdq5fnmh2K5JPv41AqZ7ugD7EQ2xECk9TUdGxSOEXaspLWM
+	S62xgGPeuDD3+5uWGRNutYzoiRG6I2MlsUdSZpnwszAYxT7K+IlUFo6eb1u8pUUs
+	5n4ulvk5wKk/VlQfomvLrnyrgaUqJROwCrOyt91BKiD98lSIeTc6cNH2B6B3BgJc
+	MtXA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1737041584; x=1737127984; bh=4sLZtsQqiXOx6MVDhhpvktftzSq2
+	Eg0fdZh/iken748=; b=Wgp+Zr19SyZfYxQAl3SU5e1lLFKH/94nLnMje0cornqU
+	ZzYyea7SyTFK2d7Yf98lYe+jsatrKi6l/lF+ph3+Wqv6knBDMopqLmQh+63+byIw
+	q4GGMukW7oHYEYZ4+p1tudaHPz+WLkR/mKw8RgV1ie9e99EDFHIpZsqrgKtpwmhZ
+	TKE2kUQ0gPhI/0ejJ7C2H0ANHw+DMqzkWFoHzI2B4zKPgKwSHsNWv15r+vkZiLOO
+	YdarQpQXB87Kqa5fZSHpsNK7vaY1ZYFw4oE0QKL4N+rQqGGzkUVwjaiqU8xurcva
+	gsJX7sgJRgOvS+fRQkY99MmB9kNCSpu9DfY72DTIYQ==
+X-ME-Sender: <xms:ryaJZwMKV2ppAtSaIqZdm8OigQQF-xzWOlY-eIhexUz3XD9l5n5akw>
+    <xme:ryaJZ28RyJaqv_Z32KYaLQdJXEP-3dV66DQMOtJIMuIPZ_sYMSTJFCMs8gnGmOeGj
+    N7SMW9gzW_h3LOTu7E>
+X-ME-Received: <xmr:ryaJZ3R-jT5bsU9I-faEx9HpWvuNpBuyXMt8byiNruJ1ENDnIxOL8KRKkdOoD1OsPk-GsTqizCX_HLTvweC82kPfdA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudeiuddgjeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
+    ffkffogggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhu
+    nhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrth
+    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheduleetteekgffffedufeeuvdejiedv
+    kefhveeifeegffehledtvdevhfefteegnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgr
+    thgvtghhrdhsvgdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthho
+    pehlihhnuhigsegrrhhmlhhinhhugidrohhrghdruhhkpdhrtghpthhtoheplhhinhhugi
+    dqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdroh
+    hrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshes
+    rhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:ryaJZ4t7rjGEIgypr_8ep-sY2T5FoxVFZlcpGszF_TohH0W3oKw8ww>
+    <xmx:ryaJZ4dAsZTGtkG_pBPOZheZgRsL0lTbhULfRUgs2WC8uJRdb_fjKw>
+    <xmx:ryaJZ81fzJ5wJiansACb83OH9Vg6g-wm_U1JNvcW7-Jg8EmChreIIA>
+    <xmx:ryaJZ8-JsMQ1RWzTjmVtj8U02ifaokMywhr_f4FFT3SSjtFGA0ppuQ>
+    <xmx:sCaJZ9EGxq6283vsz2s4QmBDF9iO7ZIoffYY8NAfInuwnJZxoFgeD3eN>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Jan 2025 10:33:03 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Russell King <linux@armlinux.org.uk>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] ARM: shmobile: defconfig: Supplement DTB with ATAG information
+Date: Thu, 16 Jan 2025 16:32:04 +0100
+Message-ID: <20250116153204.615736-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.48.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] dt-bindings: soc: renesas: Document
- Yuridenki-Shokai Kakip board
-To: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Masato Kiuchi <kiuchi_masato@yuridenki.co.jp>
-References: <20250116144752.1738574-1-iwamatsu@nigauri.org>
- <20250116144752.1738574-4-iwamatsu@nigauri.org>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250116144752.1738574-4-iwamatsu@nigauri.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 16/01/2025 15:47, Nobuhiro Iwamatsu wrote:
-> Add "yuridenki,kakip" which targets the Yuridenki-Shokai Kakip board.
-> 
-> Signed-off-by: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-> 
-> ---
+Enable CONFIG_ARM_ATAG_DTB_COMPAT to allow u-boot to override kernel
+command line from DTB using the bootargs argument. This is needed at
+lest on H1 Marzen to control the command line from u-boot.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ arch/arm/configs/shmobile_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Best regards,
-Krzysztof
+diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+index a8afbd338de7..0030225dbc34 100644
+--- a/arch/arm/configs/shmobile_defconfig
++++ b/arch/arm/configs/shmobile_defconfig
+@@ -15,6 +15,7 @@ CONFIG_SCHED_MC=y
+ CONFIG_NR_CPUS=8
+ CONFIG_HIGHMEM=y
+ CONFIG_ARM_APPENDED_DTB=y
++CONFIG_ARM_ATAG_DTB_COMPAT=y
+ CONFIG_CPU_FREQ=y
+ CONFIG_CPU_FREQ_STAT=y
+ CONFIG_CPU_FREQ_GOV_POWERSAVE=y
+-- 
+2.48.0
+
 
