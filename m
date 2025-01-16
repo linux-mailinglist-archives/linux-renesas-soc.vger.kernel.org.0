@@ -1,145 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-12196-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12197-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05821A139E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 13:25:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55738A13C19
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 15:25:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D9E17A54E2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 12:25:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD7313A44E0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 14:25:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94EAE1DE885;
-	Thu, 16 Jan 2025 12:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2CD922A7FC;
+	Thu, 16 Jan 2025 14:25:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="CFNWmXdn"
+	dkim=pass (2048-bit key) header.d=nigauri-org.20230601.gappssmtp.com header.i=@nigauri-org.20230601.gappssmtp.com header.b="rQVC52qz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF051DE4E1
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jan 2025 12:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCF422A7F7
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jan 2025 14:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737030301; cv=none; b=hjSk2ESK+W3gsMDVE2MjFimIS73Ipma2m5M1VDUMWNRbskG9CfIzDjeFquaHamd/KNDaRZtvkn5PzhqU5WQHc4RHnQsCAUMnfgAJSQsrBPScJZxsbIwBfaSFD+EPH8WpQjhOhtc49alueGzzBXLR9JC8fclVbTm7Y3U2FhGi5AE=
+	t=1737037512; cv=none; b=K9kprGuiMx9QE71w4IqxJVdzLZb1bomcRoZ4N57qkdR50jdGhumeODw3xya432BuhUw5Mm1o5tUOkMgomlNYmaSUaxrPczaymyIhEb0xBkFG8uWYyLrOFbxOwhE2pEUkuqPceHWSvZIE2ZROT2BacAJBwCRidXdPJcT/Q9T2zow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737030301; c=relaxed/simple;
-	bh=GBwF2KOXlFDp1MGeRltem3iAJtpX3AYE0x8w+f0gonM=;
+	s=arc-20240116; t=1737037512; c=relaxed/simple;
+	bh=rNZvg+QYClvxzm9fnaeFU0DvqZSY4a46/YJeVv+sdLQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uYz3kzWLC7rihWXtgU1flS5v292ivcL6fJgFgNRdPxDUlFBa9iVz6SMYI/qLs0vqnCLPnti4Vkb0+gTYdJ4ycebvAto0x9JcQrZXaYqQz5WzT+3RUoJ1htfM042He1hR1OmkVaD3kT/nU2x4Op2PwHWHJcUM+DnvGjLlNpGuUuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=CFNWmXdn; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7b6fc3e9e4aso63511585a.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jan 2025 04:24:59 -0800 (PST)
+	 To:Cc:Content-Type; b=UHc3X1HVgPgiXdhwcnryyCxD8v+1Yc9APlpzJqZ6yNq5+LHkdZmmC6s9cHTrGiEM3h86FS7nHWcaVjPtl5bR2OxH7ey+rMJIf47nUtnI5aE5nakczLI5tkFtzxCS75szOd1pfQEsg7D1SgyyBUJNXImRxb2G5aQpS2vS0uEqtXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nigauri.org; spf=none smtp.mailfrom=nigauri.org; dkim=pass (2048-bit key) header.d=nigauri-org.20230601.gappssmtp.com header.i=@nigauri-org.20230601.gappssmtp.com header.b=rQVC52qz; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nigauri.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nigauri.org
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aaf0f1adef8so215203566b.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jan 2025 06:25:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar.org; s=google; t=1737030298; x=1737635098; darn=vger.kernel.org;
+        d=nigauri-org.20230601.gappssmtp.com; s=20230601; t=1737037509; x=1737642309; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GBwF2KOXlFDp1MGeRltem3iAJtpX3AYE0x8w+f0gonM=;
-        b=CFNWmXdnC+15zhv1ls2VMtAtpSgohYCwADuO2mJvjl1BEsEX227eEFcUKJdvqiRShN
-         74HGg1L3I2JmQiEc6Zu4C87e18yUXpY9efN+ddLBHyiOaehx2SEYRPsk5K1OCxAjxcUG
-         TuUYYbgCpYZSSjxLHnKEoXXxqt3enit8uHA/q+XueTyTxF9xvvGZvtwaYx9ne0+6Q8Bs
-         ZyrY54cyh+CLrYKrp8OFHNqj6JbW3uX3C5Sd9uS2BmW6Ra6w/DlyJM6SfaQT0M849wwN
-         DVSom1HAdDSi/uhrIHpBTU2ZAmhPGezEFBSlyIcZlfQi/NKZ0pV+8g9YpRbcgZe0RLPd
-         wsQw==
+        bh=ndR2GSYTnnC1N6SVtdWE6jMlGFC58Iod4RG0DPQCgww=;
+        b=rQVC52qzIbdtLaRJsRkRvAfIjLOpe0UabdKKtJx3ORu11bGHqKU8G0RwEG02IPXQz6
+         zrQuE8Nf41EH0NP6WWCjEaoyLH5SHzHhWXamanod2gtG4K8BZFxS6QU56BxFEyr2KQK/
+         mgdOXzkRjF8XCowOCwTSqJCHtTrLQOBPe/iLvRsYMFyDqit0qLF9fH5z8MuRHv36nYWp
+         2e5NJvLUpzDrLCxygRmwFy3ZBPRaSXSekCwmIbf4U/3Cuxaul6pn2esJ43cAF7u+FWUa
+         WjS+ctZtYnEjPcz19cWp0TLsTtmC4fHffQXp1oIF6+FiAn7TAF0AA30+RHYNGp2o/H+W
+         Omxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737030299; x=1737635099;
+        d=1e100.net; s=20230601; t=1737037509; x=1737642309;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GBwF2KOXlFDp1MGeRltem3iAJtpX3AYE0x8w+f0gonM=;
-        b=H654XJZ2JUxvuqqPm7RvNx9bsJMX0tUpq5pPSvlClbF0157MmAuIkTV+DvL8Ql0uz8
-         8yTlOTp2VMPxX76bqdv3CxDIBGdwj2xQKEr22TmC6l4E46RlgQF6rTZababJdrYK053s
-         kE0XpIrZguK2cQLnmf/z65yIpF1eGsemt0DP4KOMxkog64hfQZPfYoqeFitg6tgzLY6B
-         tAyz172Ff91RSzprdHaorLozAd5RzldbNmrpJc0gU85gCL7qVsBzy1em13+DyGS7WfzU
-         IT4xwkfhbL1/KBTlHtHzm03sPVtGoqgJWTydYSNxEZLV7vOGXr9hWbtQxTKCoTHFmwTU
-         6KOA==
-X-Forwarded-Encrypted: i=1; AJvYcCVBO4T2NxBhmgL0NyEDQDFlcny+zXOcvCtodJ/+vbb9+vnARH7hgPeF13FsgR4HgMC3HkPBLOd+aiyoeLe1CO3zXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YweCDx/h2pEiwaCijpOkmDul/2wiANPa80Wqx6cbRnR0ZsAlUTr
-	/IuN9I0WHwsOHdBshRF1Yd4NDmL7bkmat68vLfG11OKxYSW+Pj0O0mX96/Ql8XrsEpLjZAos2sS
-	gAKYgdoH2+CT3l3JGH6cEgWqqgBwl/twNqCTmwA==
-X-Gm-Gg: ASbGncsVVI5UIFnjFOtmpCoL9c8WV0wiTUBh3UP63vZuINOjDLF4Uk2f5bEV95XrPEp
-	wxPpmY3c7JxQAseBo1eyJZNzl63lAaBAPr94=
-X-Google-Smtp-Source: AGHT+IHYPoThOqCGG0mIrocl9o1givl0D/RoYwWOKY0kUiZ64KPF9cSvP+6N1Rd6ke2PYtdS9xOibflODkJbaGvT990=
-X-Received: by 2002:a05:6214:528e:b0:6d9:3016:d0e7 with SMTP id
- 6a1803df08f44-6df9b2b1a21mr442378366d6.29.1737030298608; Thu, 16 Jan 2025
- 04:24:58 -0800 (PST)
+        bh=ndR2GSYTnnC1N6SVtdWE6jMlGFC58Iod4RG0DPQCgww=;
+        b=KfEn+9a2gG4mHhiC/8rru31G7WZ1Jf8GIsPzmlrilVHpYKg459Ru+IAp2seQMkfrOj
+         8/I6OH6fom0NCd1IvZ/zxzKqHUbWXqCxq+9TMjjY45INK3rrcnF7r+z4ZxhC15B0p4D5
+         bqpLS2GSmJXBprnKVODFTq+KmEts4/ox/4MQAJiPKeEhIJhs00m+xplhJXG0wiwPK1wS
+         0ph0miu2YryGlMfPVRDp7frr+95wJxKiF+EMSYVxO6kWt4pyS3ChFC5diKwRlzalGFvF
+         Kue4KEA7ClQlvdMwEm9M0eqwVFfWdx7+JWTY7DU0ZeFrq3fLhmDLtBk0vRus0RLnMWW0
+         NafA==
+X-Forwarded-Encrypted: i=1; AJvYcCUUH1qBQe1Yw2xwnKJK1D5JQnmem+G/76NHyJgl0DGclXzNGEXYIraEWR8G7r0YMxmOatArOVUWb0woPAmhKDGyAg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuKT9kaiMB9pjdwj/k+n7MwmgK4e+DCcG74Jza/tb8w7sxMFJ3
+	lifOyIwqEeRBKC2DU2NkuMkIx5gOImtBAgAd4aYy/Ftb/QuTvnkYDOoMPphkR8Jyko52PkpInKs
+	fIdgvuaojQApDqjkBIFlEAD7qoC+y9l1vP0o=
+X-Gm-Gg: ASbGncs0O3KcAIGYf9KV1Sb7BnAqSwEYckIf+QCdPlMXoCyBuDqcjawJy/N16e23RsH
+	3baa4hUKYpQIQEyaKSBUL4lRVB0j5kOm0oRjdBDYDt+RkOrnjSYa6Jc+4nocWmVEhH6k+V1A=
+X-Google-Smtp-Source: AGHT+IFirh5XthCR9sBR3YEGhLqSugV53uWMUHxOEIX0D8We2M5S4lesFp3DLMv5A3Q97ySFF9ZWhdTW9S6YaYwybBQ=
+X-Received: by 2002:a17:907:a03:b0:ab3:7812:ba69 with SMTP id
+ a640c23a62f3a-ab37812c066mr184412066b.5.1737037509216; Thu, 16 Jan 2025
+ 06:25:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
- <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de> <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
- <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de> <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
- <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de> <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
- <a2bbeb47-2569-4ee0-9265-92bab139bdc6@suse.de> <f3833771-fcd7-45dc-9019-1525fef34429@ideasonboard.com>
- <CAMuHMdXxYa+Na3XxpLTy=-eUL_zQ9kAiUKYu-E04u3KWApusSA@mail.gmail.com> <xz5ncq67bgmdase2jg3cfvyaxpiwhol2eqpfzow6dqpauvslo5@2w3rw27lhnxo>
-In-Reply-To: <xz5ncq67bgmdase2jg3cfvyaxpiwhol2eqpfzow6dqpauvslo5@2w3rw27lhnxo>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 16 Jan 2025 12:24:47 +0000
-X-Gm-Features: AbW1kvarRJv1VyJjUo1t8ScK0brJ2o4-Qq6ABYK10edUo6rgOW2PAccCb4uQWlM
-Message-ID: <CAPj87rNS7quwfqDmxyrW8_vQ6tnrcfWUn=81aTduDXtmdVkkAg@mail.gmail.com>
-Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with drm_mode_size_dumb()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
-	linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org, 
-	linux-arm-msm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org, 
-	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-tegra@vger.kernel.org, intel-xe@lists.freedesktop.org, 
-	xen-devel@lists.xenproject.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Andy Yan <andyshrk@163.com>
+References: <20250111080903.3566296-1-iwamatsu@nigauri.org>
+ <20250111080903.3566296-5-iwamatsu@nigauri.org> <467573be-f143-4cfc-a04e-86be092d1b58@kernel.org>
+ <CAMuHMdVsHrcWdc2LD=F1keJg0ZPgq19g3uZEgFGs499SQhCd2w@mail.gmail.com>
+In-Reply-To: <CAMuHMdVsHrcWdc2LD=F1keJg0ZPgq19g3uZEgFGs499SQhCd2w@mail.gmail.com>
+From: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+Date: Thu, 16 Jan 2025 23:24:42 +0900
+X-Gm-Features: AbW1kvYnGQ6k688r1PutpMPSDCennezOB-F9_joTPVCKaRAQr3ze_jIYI98ngLg
+Message-ID: <CABMQnVKFQ6ZERqswNfV13wXTaD19RkmQZYdVs+tUaBUW730Rew@mail.gmail.com>
+Subject: Re: [PATCH 4/4] arm64: dts: renesas: Add initial device tree for
+ Yuridenki-Shokai Kakip board
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Masato Kiuchi <kiuchi_masato@yuridenki.co.jp>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 16 Jan 2025 at 10:35, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
-> On Thu, Jan 16, 2025 at 11:17:50AM +0100, Geert Uytterhoeven wrote:
-> > On Thu, Jan 16, 2025 at 11:03=E2=80=AFAM Tomi Valkeinen
-> > <tomi.valkeinen@ideasonboard.com> wrote:
-> > > On the platforms I have been using (omap, tidss, xilinx, rcar) the du=
-mb
-> > > buffers are the only buffers you can get from the DRM driver. The dum=
-b
-> > > buffers have been used to allocate linear and multiplanar YUV buffers
-> > > for a very long time on those platforms.
-> > >
-> > > I tried to look around, but I did not find any mentions that CREATE_D=
-UMB
-> > > should only be used for RGB buffers. Is anyone outside the core
-> > > developers even aware of it?
-> > >
-> > > If we don't use dumb buffers there, where do we get the buffers? Mayb=
-e
-> > > from a v4l2 device or from a gpu device, but often you don't have tho=
-se.
-> > > DMA_HEAP is there, of course.
-> >
-> > Why can't there be a variant that takes a proper fourcc format instead =
-of
-> > an imprecise bpp value?
+Hi,
+
+Thanks for your comment.
+
+2025=E5=B9=B41=E6=9C=8814=E6=97=A5(=E7=81=AB) 22:44 Geert Uytterhoeven <gee=
+rt@linux-m68k.org>:
 >
-> Backwards compatibility. We can add an IOCTL for YUV / etc. But
-> userspace must be able to continue allocating YUV buffers through
-> CREATE_DUMB.
+> Hi Krzysztof,
+>
+> On Sat, Jan 11, 2025 at 10:35=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel=
+.org> wrote:
+> > On 11/01/2025 09:09, Nobuhiro Iwamatsu wrote:
+> > > +++ b/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts
+> > > +             stdout-path =3D "serial0:115200n8";
+> > > +     };
+> > > +
+> > > +     memory@48000000 {
+> > > +             device_type =3D "memory";
+> > > +             /* first 128MB is reserved for secure area. */
+> > > +             reg =3D <0x0 0x48000000 0x1 0xF8000000>;
+> > > +     };
+> > > +
+> > > +     reg_3p3v: regulator1 {
+> >
+> > Keep consistent naming. regulator-1 or the name as in bindings:
+> > 'regulator-[0-9]v[0-9]'
+>
+> Please use the latter...
 
-Right. If allocating YUYV dumb buffers works on AM68 today, then we
-need to keep that working. But it doesn't mean we should go out of our
-way to make CREATE_DUMB work for every YUV format on every device.
+OK, I will use 'regulator-3v3'.
+>
+> >
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/Documentation/devicetree/bindings/regulator/fixed-regulator.yaml?h=3Dv6.11=
+-rc1#n46
+> >
+> > > +             compatible =3D "regulator-fixed";
+> > > +
+> > > +             regulator-name =3D "fixed-3.3V";
+> > > +             regulator-min-microvolt =3D <3300000>;
+> > > +             regulator-max-microvolt =3D <3300000>;
+> > > +             regulator-boot-on;
+> > > +             regulator-always-on;
+> > > +     };
+> > > +
+> > > +     vqmmc_sdhi0: regulator-vccq-sdhi0 {
+> >
+> > regulator-2? Why different styles of names?
+>
+> ... i.e. no numbered regulators, as these tend to cause hard-to-debug
+> conflicts.
 
-Currently, drivers are free to implement their own ioctls for anything
-specific they have. But like Laurent said, standardising on heaps and
-how to communicate requirements to userspace wrt heap selection / size
-/ alignment / etc is imo a better path forward for something generic.
+OK, I will keep regulator-vccq-sdhi0 .
 
-Cheers,
-Daniel
+Best regards,
+  Nobuhiro
+
+--=20
+Nobuhiro Iwamatsu
+   iwamatsu at {nigauri.org / debian.org / kernel.org}
+   GPG ID: 32247FBB40AD1FA6
 
