@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-12212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12213-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F4CA1419E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 19:23:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1E5A141A4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 19:23:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B2A0167D19
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 18:23:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 663063AA8B5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2025 18:23:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A0252309B2;
-	Thu, 16 Jan 2025 18:23:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CA412361D6;
+	Thu, 16 Jan 2025 18:23:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="AwsU5Vk6"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="nyG6k9WB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69EC322F39F
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jan 2025 18:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E533232424
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jan 2025 18:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737051789; cv=none; b=JvJNDOiLKEzS4H2ie4wcuHHqsb13mmA/5urPEob5wwKZsSxSw56vNWHYAwWRJZ7JEEDyPF/nox3d734w6bIiUaZ+xOsVPQERi949k9MAzz/fy5sz3TZPEPcwe31z4/TNiZ5c0OjvKXfH/v1unxPO3EYW8fHHTGEscZ3NcA+pdwY=
+	t=1737051791; cv=none; b=Mu+q1O7QQEhiHC28gvh5L7Up9P3w7cRGhlWlcWr2yXJfRBg+8ZJUtS4bebVNS6VrdDMeXHXOVqvk9sjfoWkDnfbR7zUArUVSnaioItqpgy+ChKSmsOprtImtxUVbnYXEKW+xVu96M/V2SK6VNoZ7TMzD43oM/IcHEvVacdJFjUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737051789; c=relaxed/simple;
-	bh=HlBz3gfd8OIUkMQUN/g2FCl5sNFUwPtUBGa8hY7PvGo=;
+	s=arc-20240116; t=1737051791; c=relaxed/simple;
+	bh=4o76eL3JN8Rw/PF8oYl6df0FpGa0o1Kgqe00X1TGqRA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dCAPKZL1qTiRJ+Tw458WVz7m3X5bFWpPAFuP/Luqh0WrhH6OOYsOFlSUzqPX6t00LMGKu+rUgoUNq8ySuD+gz/XK2fS//CCtycXR9uIYkeHwGkTQ1tJHUuNuS8E5kK191E5roxCR7YC70GO4DHETjbJQ0z5JpyZKu0az4BYnn6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=AwsU5Vk6; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version; b=AMcqrhCxx/N3qhedlhA3ocRNj3lbhjVcrp/7PNu8/Jj5URrM8TM91fcmItbx/oIVxV5fWVsN77EFcNcFuDK4SIDGz/XB7jq1LJOYYPcP3ojwNSEVT1qJwwzGW5fZUrNzJa1qWkjBma6z8eqPO5rlzPN4k2TypwlTmJYz/oTOqbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=nyG6k9WB; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-436a03197b2so8148215e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jan 2025 10:23:07 -0800 (PST)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-436a39e4891so8403005e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jan 2025 10:23:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1737051786; x=1737656586; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1737051788; x=1737656588; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/F2SV8L8hT5i2mZ7qR6sl3DjzHF148Q2UE5FnnQt0fU=;
-        b=AwsU5Vk6ZcMYDRyx0o3j13MdtxG8nzDn3SRMAYezKgNB8Ndmf+YWlJb3MNW3Ws0edb
-         FZTPW9rXXTGZCylDWiNOOHW0daxLTHjSWlDcOJDWHXLpyFrVoSVcwgTgjV708+SrIBKh
-         JB3DxTDukhdI5tgLrEXwV3JXdNas7+xOyuce3IInAxyTrX2KLexxH03f6NA8s+oNY/V7
-         1EY5ym4Yy5BLlI9YobLmfXOK8P3RYTrpK9KNoF8loKETUj+m1KRjGqYjNVc2MVRvWbFv
-         QlPEAVY4LEiSXee/ch6si62+MomUKdRajAWSDzdt+ne0qFAxpZFZfc0xmpvaS1t1h0At
-         wfAw==
+        bh=BSWSInwqzRrvj358vgmNewsmiwlVd1V3Egd84Fq6+DE=;
+        b=nyG6k9WBZn694dEj5tKi8s8XArmuRWF0gC7KukTluh7UDc/Adiys65eMkrsy4VLxca
+         dmW1ly2CWI48rhsrVR8ksVwRacjGNF2rL8OdFudqdF8XJLHg2Kw+bEYbDjmBaBm1c+bR
+         YW/JqKV2d8wvAB2rXKqyt9PS6jCUFloBjIrenFXE5Nfrpyp2dsL4dhCqvT6MEmTpOKR7
+         UoFtdM8B1z+BC5kBiFgaSYMGD/bURp0qPUf549H1qU0Rykr+9xJAPcfr7QH80dPCg0nj
+         E7ApXfLiynbLvzohQHKwOJcBrSMTPn/P1Ax7R+UtuZn46XhY86I1IZ3ktBsirv8zRBn3
+         uLGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737051786; x=1737656586;
+        d=1e100.net; s=20230601; t=1737051788; x=1737656588;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/F2SV8L8hT5i2mZ7qR6sl3DjzHF148Q2UE5FnnQt0fU=;
-        b=rN2toNfWjjEB1t3Rh/ASLkEXZNCJOM3Djeoxv/j6Kv2a/kPKjbk+QNIwoNrkYc8KDE
-         +AoTIJvtiOaelb/fTg8Z9y/ItEH/s4PMBciP2pGaJlgDmKRVDEdd1BNRGy6L0rtTksBW
-         c1WxYtwoDUmrphGH2LtVI3XyedzXp5ssCpGjHpUtZPXjO/jaTz6rTTDDwgp8vHNM4sz0
-         0OA4/FURPaUl5sjxo5QeiwjMFh4ysk/s3GbmME/YM7pvrarwybTHuFgxEcbCkkcL1UXI
-         T4Pc9xKsDJKFMXeGoxefu362d/p5mhgutS8ue0ZSBmBpl0uWHGAj78m5G8h6FGWxcPxk
-         t5eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW3emm0f0zF8m4ii8v/hoBjmKwPr0YxfirssdSFlEWdFnAcUmdKxqJeIz8r+iJVf3yjB/sqCKYTLFTWtFsLad9BaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfQOU/2Hjov/vIi645oQ4yOl8341+ztvTcB5kWfjmirszH6Lzf
-	7il8XSWfNsTfZ6iSWM7Hb8KobMB5o82EzlIATAMQNtQCX9T1QbyWKWLUeXtn2z8=
-X-Gm-Gg: ASbGncuTkt0v1+Bfta6gA5DRxHow6212eSJh2vIq6vGTB3wtPyVcxfVF+SValmTR9EG
-	oKj4wRf8Jl+9hzYrE+lLQuGgf/qK9m3z/tzHmCDzY21XpLkpK2Rey9+/dOgWVx7sNgyp1qLwKPK
-	I0KsXKaEA9ZTgYpm3+fhDh/Dnbx3o/ZgbZa1yf1i9LRF9K46+8cNlqDboPNYBCPZ404Uz8i3vQ2
-	Q7lIfqZx7yvYwENXC7GvBpsux5qKKc25C0HCA5Ird/s3EIR2bxfS3wXS6Xy5z0nnEXpX44JAcUM
-	+eD/EqXGKHs=
-X-Google-Smtp-Source: AGHT+IF1lBnApPaY87jL/VxiBnx84a/2Bv8/0Zi1V9RrOKuTmAxotcGlNP4QNTccsMRyPKvgBF/Ftw==
-X-Received: by 2002:a05:600c:4586:b0:431:44fe:fd9f with SMTP id 5b1f17b1804b1-436e26f041bmr286561865e9.23.1737051785759;
-        Thu, 16 Jan 2025 10:23:05 -0800 (PST)
+        bh=BSWSInwqzRrvj358vgmNewsmiwlVd1V3Egd84Fq6+DE=;
+        b=KNnT/wi9pHVswb6KySre49fw3sK2BnrhAPiFySM6GwA0TzDP41Qx+ERgUHjJyp4dfd
+         I3o7RngAdf6Xx+NWS1ghFxvDpol+bukp4kz76G8DYrOw6lUL+5nRx346Gcj0vobAnGAo
+         +tcqIezoZpmeozCNboDq+6PsXDOMDQ13qSyEo3hKgmT5Q9m1Gc/oAUrEG38GyudSwQUQ
+         Pu527+V9jy6Dtoo+0wA2g8eureRlvd1rWbis/2NFMLSVxvwX03sDXUHAsi+T82WnpYZN
+         tt3k+mVTBiMqzL9LzxkKu+GNGkUXFLIh9S61Mq5WfenVOiMWAkhzaeSD/TkbM5Tp5vXd
+         JbOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIH9m7qQYkGd8AnMaI/Evks71isym+4bmy+cJPK4XTiBCUJQ8PPDJsxy2uS5/iBa0F3j6QA9hryfl3HHMEjhiqPQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCo1LTWJANt3W1uaPK7Jn+tTwKWULqObSx6HdPD9xHpWHWrTHD
+	qmt3DiKsH6kOEnBVkef5n6MhB9P3U5I6R0LsbvuoBqDv0db92jhy1tC+TsVEV5o=
+X-Gm-Gg: ASbGncsvYuPvitjwqYpjFeYpSP3HPCq/WYr60vD7PacF0IwPGyO8eBp00Zjku18LFr1
+	v4TCPFiaQCwLNT9qapSi7p6DJP2YVlfFiD1FEPQgC3u8sZOfW/UIvwx4rWmhAGwNxO9wHjRaB4J
+	AhPsr5C566BKvR0CFWvXskN7At4qHo3aIHJ6xTNqtTtPE+u39aYs4phFlsCPbAsYjT/QjHp8Mll
+	ZmqvHOV49LjuhGcK8jkpHV4cL+KFAEr8IQ0s19HBu1X6HdGFSr9YiVPDTnuasxQHazgDV2yfTWL
+	W1V6H7mVVUM=
+X-Google-Smtp-Source: AGHT+IGUweqinG8rg/Sf2hD0L9NG7qTG0owwOTsCQGrrCdsjg/K0rXhjdPlmSjQhzJYk3zjmQ5mU2A==
+X-Received: by 2002:a5d:64af:0:b0:38a:8e2e:9fcc with SMTP id ffacd0b85a97d-38a8e2ea11cmr28412330f8f.45.1737051787816;
+        Thu, 16 Jan 2025 10:23:07 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.165])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf322a838sm495942f8f.48.2025.01.16.10.23.04
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf322a838sm495942f8f.48.2025.01.16.10.23.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2025 10:23:05 -0800 (PST)
+        Thu, 16 Jan 2025 10:23:06 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: gregkh@linuxfoundation.org,
@@ -87,9 +87,9 @@ Cc: claudiu.beznea@tuxon.dev,
 	linux-renesas-soc@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
 	stable@vger.kernel.org
-Subject: [PATCH 3/5] serial: sh-sci: Do not probe the serial port if its slot in sci_ports[] is in use
-Date: Thu, 16 Jan 2025 20:22:47 +0200
-Message-ID: <20250116182249.3828577-4-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 4/5] serial: sh-sci: Clean sci_ports[0] after at earlycon exit
+Date: Thu, 16 Jan 2025 20:22:48 +0200
+Message-ID: <20250116182249.3828577-5-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250116182249.3828577-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20250116182249.3828577-1-claudiu.beznea.uj@bp.renesas.com>
@@ -103,84 +103,127 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-In the sh-sci driver, sci_ports[0] is used by earlycon. If the earlycon is
-still active when sci_probe() is called and the new serial port is supposed
-to map to sci_ports[0], return -EBUSY to prevent breaking the earlycon.
+The early_console_setup() function initializes sci_ports[0].port with an
+object of type struct uart_port obtained from the struct earlycon_device
+passed as an argument to early_console_setup().
 
-This situation should occurs in debug scenarios, and users should be
-aware of the potential conflict.
+Later, during serial port probing, the serial port used as earlycon
+(e.g., port A) might be remapped to a different position in the sci_ports[]
+array, and a different serial port (e.g., port B) might be assigned to slot
+0. For example:
+
+sci_ports[0] = port B
+sci_ports[X] = port A
+
+In this scenario, the new port mapped at index zero (port B) retains the
+data associated with the earlycon configuration. Consequently, after the
+Linux boot process, any access to the serial port now mapped to
+sci_ports[0] (port B) will block the original earlycon port (port A).
+
+To address this, introduce an early_console_exit() function to clean up
+sci_ports[0] when earlycon is exited.
+
+To prevent the cleanup of sci_ports[0] while the serial device is still
+being used by earlycon, introduce the struct sci_port::probing flag and
+account for it in early_console_exit().
 
 Fixes: 0b0cced19ab1 ("serial: sh-sci: Add CONFIG_SERIAL_EARLYCON support")
 Cc: stable@vger.kernel.org
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
-Chances since RFT:
-- converted the earlycon member of struct sci_port to a local variable
-- added sp == &sci_ports[0] check in sci_probe() to be sure the code
-  is checking against the sci_port used as earlycon
-- changed res->start != sp->port.mapbase condition to
-  sp->port.mapbase != res->start to use the same pattern as used in
-  patch 4/5
+Changes since RFT:
+- converted "probing" member of struct sci_port to a local variable
+  (named sci_uart_earlycon_dev_probing
+- used sci_uart_earlycon instead of sci_port::earlycon from RFT
+  version
+- dropped the double "up" in the added comment
+- changed the cleanup condition in early_console_exit() to
+  if (!sci_uart_earlycon_dev_probing)
+- set sci_uart_earlycon = false in early_console_exit()
 
- drivers/tty/serial/sh-sci.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+
+ drivers/tty/serial/sh-sci.c | 32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index 51382e354a2d..b85a9d425f7e 100644
+index b85a9d425f7e..e64d59888ecd 100644
 --- a/drivers/tty/serial/sh-sci.c
 +++ b/drivers/tty/serial/sh-sci.c
-@@ -165,6 +165,7 @@ struct sci_port {
- static struct sci_port sci_ports[SCI_NPORTS];
+@@ -166,6 +166,7 @@ static struct sci_port sci_ports[SCI_NPORTS];
  static unsigned long sci_ports_in_use;
  static struct uart_driver sci_uart_driver;
-+static bool sci_uart_earlycon;
+ static bool sci_uart_earlycon;
++static bool sci_uart_earlycon_dev_probing;
  
  static inline struct sci_port *
  to_sci_port(struct uart_port *uart)
-@@ -3438,6 +3439,7 @@ static int sci_probe_single(struct platform_device *dev,
- static int sci_probe(struct platform_device *dev)
+@@ -3386,7 +3387,8 @@ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
+ static int sci_probe_single(struct platform_device *dev,
+ 				      unsigned int index,
+ 				      struct plat_sci_port *p,
+-				      struct sci_port *sciport)
++				      struct sci_port *sciport,
++				      struct resource *sci_res)
  {
- 	struct plat_sci_port *p;
-+	struct resource *res;
- 	struct sci_port *sp;
- 	unsigned int dev_id;
  	int ret;
-@@ -3467,6 +3469,26 @@ static int sci_probe(struct platform_device *dev)
+ 
+@@ -3433,6 +3435,14 @@ static int sci_probe_single(struct platform_device *dev,
+ 		sciport->port.flags |= UPF_HARD_FLOW;
  	}
  
- 	sp = &sci_ports[dev_id];
++	if (sci_uart_earlycon && sci_ports[0].port.mapbase == sci_res->start) {
++		/*
++		 * Skip cleanup the sci_port[0] in early_console_exit(), this
++		 * port is the same as the earlycon one.
++		 */
++		sci_uart_earlycon_dev_probing = true;
++	}
 +
-+	/*
-+	 * In case:
-+	 * - the probed port alias is zero (as the one used by earlycon), and
-+	 * - the earlycon is still active (e.g., "earlycon keep_bootcon" in
-+	 *   bootargs)
-+	 *
-+	 * defer the probe of this serial. This is a debug scenario and the user
-+	 * must be aware of it.
-+	 *
-+	 * Except when the probed port is the same as the earlycon port.
-+	 */
-+
-+	res = platform_get_resource(dev, IORESOURCE_MEM, 0);
-+	if (!res)
-+		return -ENODEV;
-+
-+	if (sci_uart_earlycon && sp == &sci_ports[0] && sp->port.mapbase != res->start)
-+		return dev_err_probe(&dev->dev, -EBUSY, "sci_port[0] is used by earlycon!\n");
-+
+ 	return uart_add_one_port(&sci_uart_driver, &sciport->port);
+ }
+ 
+@@ -3491,7 +3501,7 @@ static int sci_probe(struct platform_device *dev)
+ 
  	platform_set_drvdata(dev, sp);
  
- 	ret = sci_probe_single(dev, dev_id, p, sp);
-@@ -3563,6 +3585,7 @@ static int __init early_console_setup(struct earlycon_device *device,
- 	port_cfg.type = type;
- 	sci_ports[0].cfg = &port_cfg;
- 	sci_ports[0].params = sci_probe_regmap(&port_cfg);
-+	sci_uart_earlycon = true;
- 	port_cfg.scscr = sci_serial_in(&sci_ports[0].port, SCSCR);
- 	sci_serial_out(&sci_ports[0].port, SCSCR,
+-	ret = sci_probe_single(dev, dev_id, p, sp);
++	ret = sci_probe_single(dev, dev_id, p, sp, res);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -3574,6 +3584,22 @@ sh_early_platform_init_buffer("earlyprintk", &sci_driver,
+ #ifdef CONFIG_SERIAL_SH_SCI_EARLYCON
+ static struct plat_sci_port port_cfg;
+ 
++static int early_console_exit(struct console *co)
++{
++	struct sci_port *sci_port = &sci_ports[0];
++
++	/*
++	 * Clean the slot used by earlycon. A new SCI device might
++	 * map to this slot.
++	 */
++	if (!sci_uart_earlycon_dev_probing) {
++		memset(sci_port, 0, sizeof(*sci_port));
++		sci_uart_earlycon = false;
++	}
++
++	return 0;
++}
++
+ static int __init early_console_setup(struct earlycon_device *device,
+ 				      int type)
+ {
+@@ -3591,6 +3617,8 @@ static int __init early_console_setup(struct earlycon_device *device,
  		       SCSCR_RE | SCSCR_TE | port_cfg.scscr);
+ 
+ 	device->con->write = serial_console_write;
++	device->con->exit = early_console_exit;
++
+ 	return 0;
+ }
+ static int __init sci_early_console_setup(struct earlycon_device *device,
 -- 
 2.43.0
 
