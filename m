@@ -1,188 +1,313 @@
-Return-Path: <linux-renesas-soc+bounces-12218-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12219-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0F8A14ECF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jan 2025 12:52:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E16A15337
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jan 2025 16:52:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38DEA3A8A46
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jan 2025 11:52:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 598C13AB336
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jan 2025 15:52:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 970DB1FECC5;
-	Fri, 17 Jan 2025 11:52:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="JwiXnVRM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C8AA199FC9;
+	Fri, 17 Jan 2025 15:52:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF181FE44A
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jan 2025 11:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4947D15B984;
+	Fri, 17 Jan 2025 15:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737114723; cv=none; b=aGyfmgQ8loJgYkrBGV1PLKR8o8GJwSfvJIPb6tNUnnGTweibJagMstnKfYQxH9OTi1J+SpL/5LzAKHDHVYmjaojGxZ91/r8HsTa/vmh3iWy3IJZw3PEqc8vt/ymLtu2x/GpTk5dtDnhOjZA8bh8G2FKWo8JN4eW5q8gLV1quy4c=
+	t=1737129152; cv=none; b=QXb2omXrBRJ0sf8stIcigHehuPCabZrWYNLOmV1H6svjB1FNzx+m8mjDRJos1WRHcxgcQt8ctv/uAkUhg4xnvpZE+f91dZsmRbMkjbuE7aQtgPQoHHrApaowmquPShdXZjdCST/Teusv9Nd4mhC5cGlFvlMZ43Qf2iWGhH6ncqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737114723; c=relaxed/simple;
-	bh=xwCWCIDVfn4ljQgFgns26pvg+plF0yfuzXPTokcNkqY=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=XN79g2sVDpYnXLv5gYAY3XpQoK0MQGeaJ/MUZv8xrv2rUWJsdefgi3i/h7TxSV2QJPSh5wD+VPAOTQIL6a9XveV45F6MiNrpAQ+RC8zqjgikYfu46JK/JI3r7UwSEyxRxuvLKAmKr2JEvLvGctn2TY6GQkIX7nzoq5yjwBeEg8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=JwiXnVRM; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-436202dd7f6so21585045e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jan 2025 03:52:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1737114719; x=1737719519; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=umzbMSBjj46+zs1yQ9Kml6XKWdNkQzuAfOK6WAMVw/Y=;
-        b=JwiXnVRMyFBl6Eihpwrr+qUCAhq3cM9QBLGz1Ar4IxTnrwfeMKTyoIbDZTCnSPa1ye
-         gNS+89L8yRbPTWMn+80Fc8YJakDfD+sHVYtQyhnVCAxidjq/U6fmDKWfkt1OMtk2Aa7B
-         JUfLm+PA7tRjWgCfPvoPB6SQBahns6gUTkCL7OkdAAvJ4MpfrOGz6QKYB8PTe0l1CQK2
-         q4Bmd64Q/4wA1njz5tIzPN2XFzj82zk1s5iZ7uhasmTsvj0lCijN+yBWLnOG2AcP+Lq6
-         MocgwIC/r2N22tQrQciKvMLmhagssSphX2+GMIqVC1h+sFIAwsJZxRzpmr4rH9Y3Q0H4
-         34UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737114719; x=1737719519;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=umzbMSBjj46+zs1yQ9Kml6XKWdNkQzuAfOK6WAMVw/Y=;
-        b=SGKyxfWR4N1dSOaUWtwePSn05qDVwp3TDYa680OLScRg0AaZvDgfk1Wc+WEVyM6ZfV
-         qsd6XWa8bpgNywKBShdETYH5kRdeXvOFPxv/rmIlxqiWhfLyRETOm2yNo++di15D0u9t
-         W6bNzUySbEoNQ1MctKuB4ZjVJ8egArlOefD8BMDAa6FjjgH4Ak4+OnawT/9w+bD/iZnJ
-         SyrumgVjkeDSU/fypaTl743Ge7nFQH/ic/ZWgIEPmDRs5epWxTRC7m9VXcgDS521GRew
-         hW/9BzAjU7EJLOv6zM24+iezaTQ5Cz083aodT2/pr9N6mvz5afvNIIW+JtP/N7cADMZ5
-         ib3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX593hIU1ZtCw2VoQV/jcnZEgMMUsqJANo6GR7SpNCxwVrrlBcVSwtq6M2ReAXFqoOGcsnygcw064gvBAzs53iOcw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywrye/cyECbSCe0z/McH5hj+95CRRR/4C8eQFROPagEHBtzpf9M
-	FsLOKjHXCGDL9Daei8VOaLcNj+Its4M/Pu7ke2VXYiCUHZb/z/L9fDD+UpQ0g3I=
-X-Gm-Gg: ASbGnctS373jm+FCoelviZlxerxnWYjDT3g8S5LlpuhMuyAus+74vIxci8IA/mXtc15
-	4Tt8gRX13pUlYjYqoxbHbjlnZC5kluhm0ylPu4WVPANeq1T2SXDF3B6lEKl/Em5l6BrUOYEQ5+Q
-	5UJzjOjqJn5xgnjuJPxfYLQ72FF7VPCfjxyjss8rUDOpM8G5BHbDau/OyYutPSG9JP7B+ImPOuS
-	+tPLncITlCb+c9qU86ChV7gMVeDaRngTOFET/Tuh8exuPCytIY9kRBbqlBtXYimUg==
-X-Google-Smtp-Source: AGHT+IE4kQUYANidWG36nYutNXYRmfHEWSkKEVnx3dSgIu3dG++0ldqKCDbRAujA8YCCuBSVUPPU4Q==
-X-Received: by 2002:a5d:5f56:0:b0:38a:9f47:557b with SMTP id ffacd0b85a97d-38bf57a97bcmr2347139f8f.40.1737114718508;
-        Fri, 17 Jan 2025 03:51:58 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.165])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf32845e8sm2342552f8f.97.2025.01.17.03.51.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jan 2025 03:51:58 -0800 (PST)
-Message-ID: <8ff70298-8a9c-4228-b064-f46ec81f6d15@tuxon.dev>
-Date: Fri, 17 Jan 2025 13:51:55 +0200
+	s=arc-20240116; t=1737129152; c=relaxed/simple;
+	bh=HX2Va6vjl0bgnSZ4gX9xBC1bNpYbi7IFvGHFb0zVLIw=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=my66KxhfbIYF33hrpQDl+IKErNq+NTRzaLZMhywljbvyLsclK20FIBLOVzkTMC/xSXY8wDNvNq6dhlvdr245yrB+rCjlSPwHae2OePRzaXVlFz6mEx2lAkJ2kvRtz4E2EdpgahAoixpJBZVJsmfWuMVRm2Oci6/TW9YuUaFIGGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YZPMv13b5z6FGht;
+	Fri, 17 Jan 2025 23:50:51 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 044AB1409EA;
+	Fri, 17 Jan 2025 23:52:28 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 17 Jan
+ 2025 16:52:27 +0100
+Date: Fri, 17 Jan 2025 15:52:26 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+CC: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jonathan Cameron
+	<jic23@kernel.org>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	<lars@metafoo.de>, <linux-iio@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Claudiu
+ Beznea" <claudiu.beznea.uj@bp.renesas.com>, "Rafael J. Wysocki"
+	<rafael@kernel.org>, <linux-pm@vger.kernel.org>
+Subject: Re: [PATCH 1/2] iio: adc: rzg2l_adc: Drop devm_pm_runtime_enable()
+Message-ID: <20250117155226.00002691@huawei.com>
+In-Reply-To: <CAPDyKFoJ3pLU-5_b5MSxMZd7B1cfOvmcdqR4FGkU2Wb7No0mcw@mail.gmail.com>
+References: <20250103140042.1619703-1-claudiu.beznea.uj@bp.renesas.com>
+	<20250103140042.1619703-2-claudiu.beznea.uj@bp.renesas.com>
+	<20250104135225.2573285b@jic23-huawei>
+	<44e4a6b4-39a4-49d0-b3a5-fc5545c39a56@tuxon.dev>
+	<20250111131409.36bebfd3@jic23-huawei>
+	<bb987a1b-a999-478c-8e35-124fcf41561d@tuxon.dev>
+	<CAPDyKFoJ3pLU-5_b5MSxMZd7B1cfOvmcdqR4FGkU2Wb7No0mcw@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Subject: Re: [PATCH] ASoC: renesas: rz-ssi: Clean up on error in probe()
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <14864a18-c256-4c7d-b064-ba1400bed894@stanley.mountain>
-Content-Language: en-US
-In-Reply-To: <14864a18-c256-4c7d-b064-ba1400bed894@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-Hi, Dan,
+On Wed, 15 Jan 2025 16:29:15 +0100
+Ulf Hansson <ulf.hansson@linaro.org> wrote:
 
-On 15.01.2025 08:55, Dan Carpenter wrote:
-> Call rz_ssi_release_dma_channels() on these error paths to clean up from
-> rz_ssi_dma_request().
+> On Wed, 15 Jan 2025 at 14:37, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+> >
+> > Hi, Jonathan,
+> >
+> > Thank you for your input!
+> >
+> > On 11.01.2025 15:14, Jonathan Cameron wrote:  
+> > > On Mon, 6 Jan 2025 11:18:41 +0200
+> > > Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+> > >  
+> > >> Hi, Jonathan,
+> > >>
+> > >>
+> > >> On 04.01.2025 15:52, Jonathan Cameron wrote:  
+> > >>> On Fri,  3 Jan 2025 16:00:41 +0200
+> > >>> Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> > >>>  
+> > >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>  
+> > >>> +CC Rafael and linux-pm
+> > >>>  
+> > >>>>
+> > >>>> On all systems where the rzg2l_adc driver is used, the ADC clocks are part
+> > >>>> of a PM domain. The code that implements the PM domains support is in
+> > >>>> drivers/clk/renesas/rzg2l-cpg.c, the functions of interest for this commit
+> > >>>> being rzg2l_cpg_attach_dev() and rzg2l_cpg_deattach_dev(). The PM
+> > >>>> domains support is registered with GENPD_FLAG_PM_CLK which, according to
+> > >>>> the documentation, instructs genpd to use the PM clk framework while
+> > >>>> powering on/off attached devices.
+> > >>>>
+> > >>>> During probe, the ADC device is attached to the PM domain
+> > >>>> controlling the ADC clocks. Similarly, during removal, the ADC device is
+> > >>>> detached from the PM domain.
+> > >>>>
+> > >>>> The detachment call stack is as follows:
+> > >>>>
+> > >>>> device_driver_detach() ->
+> > >>>>   device_release_driver_internal() ->
+> > >>>>     __device_release_driver() ->
+> > >>>>       device_remove() ->
+> > >>>>         platform_remove() ->
+> > >>>>           dev_pm_domain_detach()
+> > >>>>
+> > >>>> During driver unbind, after the ADC device is detached from its PM domain,
+> > >>>> the device_unbind_cleanup() function is called, which subsequently invokes
+> > >>>> devres_release_all(). This function handles devres resource cleanup.
+> > >>>>
+> > >>>> If runtime PM is enabled via devm_pm_runtime_enable(), the cleanup process
+> > >>>> triggers the action or reset function for disabling runtime PM. This
+> > >>>> function is pm_runtime_disable_action(), which leads to the following call
+> > >>>> stack of interest when called:
+> > >>>>
+> > >>>> pm_runtime_disable_action() ->
+> > >>>>   pm_runtime_dont_use_autosuspend() ->  
+> > >>>
+> > >>> So is the only real difference that in the code below you disable runtime pm
+> > >>> before autosuspend?  
+> > >>
+> > >> No, the difference is that now, the driver specific runtime PM APIs are not
+> > >> called anymore (through the pointed call stack) after the ADC was removed
+> > >> from it's PM domain.  
+> > >
+> > > By my reading they are only not called now because you turn autosuspend off
+> > > after disabling runtime PM.  
+> >
+> > Sorry, I wanted to say that the runtime PM APIs are not called anymore from
+> > devm_action_release(), though this call stack:
+> >
+> > [   24.801195] Call trace:
+> > [   24.803633]  rzg2l_adc_pm_runtime_suspend+0x18/0x54 (P)
+> > [   24.808847]  pm_generic_runtime_suspend+0x2c/0x44 (L)
+> > [   24.813887]  pm_generic_runtime_suspend+0x2c/0x44
+> > [   24.818580]  __rpm_callback+0x48/0x198
+> > [   24.822319]  rpm_callback+0x68/0x74
+> > [   24.825798]  rpm_suspend+0x100/0x578
+> > [   24.829362]  rpm_idle+0xd0/0x17c
+> > [   24.832582]  update_autosuspend+0x30/0xc4
+> > [   24.836580]  pm_runtime_disable_action+0x40/0x64
+> > [   24.841184]  devm_action_release+0x14/0x20
+> > [   24.845274]  devres_release_all+0xa0/0x100
+> > [   24.849361]  device_unbind_cleanup+0x18/0x60
+> >
+> > This is because I dropped the devm_pm_runtime_enable() which registers the
+> > pm_runtime_disable_action(), which is called at the time the
+> > device_unbind_cleanup() is called, which is called when the ADC is not
+> > anymore part of its PM domain.
+> >
+> > If I change the order in remove function proposed in this patch, thus do:
+> >
+> > +static void rzg2l_adc_remove(struct platform_device *pdev)
+> > +{
+> > +       struct device *dev = &pdev->dev;
+> > +
+> > +       pm_runtime_dont_use_autosuspend(dev);
+> > +       pm_runtime_disable(dev);
+> >  }
+> >
+> > nothing changes with the behavior of this patch. There will be no issue if
+> > the device is runtime suspended/resumed through the
+> > pm_runtime_dont_use_autosuspend() because at the time the
+> > rzg2l_adc_remove() is called the ADC is still part of the PM domain.
+> >
+> >
+> >  
+> > >  
+> > >>
+> > >>  
+> > >>>  Can you still do that with a devm callback just not
+> > >>> the standard one?  
+> > >>
+> > >> No. It doesn't matter if we call the standard devm callback or driver
+> > >> specific one. As long as it is devm it will impact us as long as the driver
+> > >> specific runtime PM APIs are called through devres_release_all() after
+> > >> dev_pm_domain_detach(). And at that time the PM domain may be off along
+> > >> with its clocks disabled.  
+> > >
+> > > As above, I think that this is only the case because of the reordering
+> > > of those two calls, not something more fundamental.  
+> >
+> > I tried having a local devm function (the following diff applied with this
+> > patch reverted) identical with pm_runtime_disable_action():
+> >
+> > diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+> > index 22a581c894f8..459cc9c67eec 100644
+> > --- a/drivers/iio/adc/rzg2l_adc.c
+> > +++ b/drivers/iio/adc/rzg2l_adc.c
+> > @@ -423,6 +423,12 @@ static int rzg2l_adc_hw_init(struct device *dev,
+> > struct rzg2l_adc *adc)
+> >         return ret;
+> >  }
+> >
+> > +static void rzg2l_pm_runtime_disable(void *data)
+> > +{
+> > +       pm_runtime_dont_use_autosuspend(data);
+> > +       pm_runtime_disable(data);
+> > +}
+> > +
+> >  static int rzg2l_adc_probe(struct platform_device *pdev)
+> >  {
+> >         struct device *dev = &pdev->dev;
+> > @@ -463,7 +469,9 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+> >
+> >         pm_runtime_set_autosuspend_delay(dev, 300);
+> >         pm_runtime_use_autosuspend(dev);
+> > -       ret = devm_pm_runtime_enable(dev);
+> > +       pm_runtime_enable(dev);
+> > +
+> > +       ret = devm_add_action_or_reset(dev, rzg2l_pm_runtime_disable, dev);
+> >         if (ret)
+> >                 return ret;
+> >
+> > With this the issue is still reproducible.
+> >
+> > However, changing the order of functions in rzg2l_pm_runtime_disable() and
+> > having it like:
+> >
+> > +static void rzg2l_pm_runtime_disable(void *data)
+> > +{
+> > +       pm_runtime_disable(data);
+> > +       pm_runtime_dont_use_autosuspend(data);
+> > +}
+> >
+> >
+> > leads to no failure when doing unbind/bind.
+> >
+> > However, I see the pm_runtime_disable() can still call rpm_resume() under
+> > certain conditions. It can still lead to failures if it is called after the
+> > device was remove from its PM domain.
+> >  
+> > >
+> > > In driver remove flow, device_unbind_cleanup9() is called
+> > > just after device_remove() which is calling the dev->driver_remove()
+> > > callback. There are no runtime pm related calls in between that I can see.  
+> >
+> > On my side the device_remove() is calling dev->bus->remove() which is
+> > platform_remove(), which calls the dev_pm_domain_detach(). The
+> > dev_pm_domain_detach() detaches the ADC from it's PM domain. Because of
+> > this, accessing now the ADC registers after a runtime resume leads to
+> > failures pointed in this patch (as of my investigation) (as the ADC is not
+> > anymore part of its PM domain and its PM domain is not started anymore
+> > though runtime PM APIs).
+> >
+> > A similar issue was found while I was adding thermal support for RZ/G3S,
+> > explained in
+> > https://lore.kernel.org/all/20250103163805.1775705-3-claudiu.beznea.uj@bp.renesas.com
+> >
+> >
+> > Jonathan, Rafael, Ulf, all,
+> >
+> > Do consider OK to change the order in pm_runtime_disable_action() to get
+> > rid of these issues, e.g.:
+> >
+> > diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+> > index 2ee45841486b..f27d311d2619 100644
+> > --- a/drivers/base/power/runtime.c
+> > +++ b/drivers/base/power/runtime.c
+> > @@ -1547,8 +1547,8 @@ EXPORT_SYMBOL_GPL(pm_runtime_enable);
+> >
+> >  static void pm_runtime_disable_action(void *data)
+> >  {
+> > -       pm_runtime_dont_use_autosuspend(data);
+> >         pm_runtime_disable(data);
+> > +       pm_runtime_dont_use_autosuspend(data);
+> >  }
+> >
+> > though I see a rpm_resume() call is still possible though pm_runtime_disable().  
 > 
-> Fixes: 26ac471c5354 ("ASoC: sh: rz-ssi: Add SSI DMAC support")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  sound/soc/renesas/rz-ssi.c | 42 ++++++++++++++++++++++++--------------
->  1 file changed, 27 insertions(+), 15 deletions(-)
+> I am still worried about keeping the device runtime enabled during a
+> window when we have turned off all resources for the device. Typically
+> we want to leave the device in a low power state after unbind.
 > 
-> diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
-> index 3a0af4ca7ab6..4b3016282717 100644
-> --- a/sound/soc/renesas/rz-ssi.c
-> +++ b/sound/soc/renesas/rz-ssi.c
-> @@ -1150,35 +1150,47 @@ static int rz_ssi_probe(struct platform_device *pdev)
->  		ssi->irq_rx = platform_get_irq_byname(pdev, "dma_rx");
->  		if (ssi->irq_tx == -ENXIO && ssi->irq_rx == -ENXIO) {
->  			ssi->irq_rt = platform_get_irq_byname(pdev, "dma_rt");
-> -			if (ssi->irq_rt < 0)
-> -				return ssi->irq_rt;
-> +			if (ssi->irq_rt < 0) {
-> +				ret = ssi->irq_rt;
-> +				goto err_release_dma_chs;
-> +			}
->  
->  			ret = devm_request_irq(dev, ssi->irq_rt,
->  					       &rz_ssi_interrupt, 0,
->  					       dev_name(dev), ssi);
-> -			if (ret < 0)
-> -				return dev_err_probe(dev, ret,
-> -						     "irq request error (dma_rt)\n");
-> +			if (ret < 0) {
-> +				dev_err_probe(dev, ret,
-> +					      "irq request error (dma_rt)\n");
-> +				goto err_release_dma_chs;
-> +			}
->  		} else {
-> -			if (ssi->irq_tx < 0)
-> -				return ssi->irq_tx;
-> +			if (ssi->irq_tx < 0) {
-> +				ret = ssi->irq_tx;
-> +				goto err_release_dma_chs;
-> +			}
->  
-> -			if (ssi->irq_rx < 0)
-> -				return ssi->irq_rx;
-> +			if (ssi->irq_rx < 0) {
-> +				ret = ssi->irq_rx;
-> +				goto err_release_dma_chs;
-> +			}
->  
->  			ret = devm_request_irq(dev, ssi->irq_tx,
->  					       &rz_ssi_interrupt, 0,
->  					       dev_name(dev), ssi);
-> -			if (ret < 0)
-> -				return dev_err_probe(dev, ret,
-> -						"irq request error (dma_tx)\n");
-> +			if (ret < 0) {
-> +				dev_err_probe(dev, ret,
-> +					      "irq request error (dma_tx)\n");
-> +				goto err_release_dma_chs;
-> +			}
->  
->  			ret = devm_request_irq(dev, ssi->irq_rx,
->  					       &rz_ssi_interrupt, 0,
->  					       dev_name(dev), ssi);
-> -			if (ret < 0)
-> -				return dev_err_probe(dev, ret,
-> -						"irq request error (dma_rx)\n");
-> +			if (ret < 0) {
-> +				dev_err_probe(dev, ret,
-> +					      "irq request error (dma_rx)\n");
-> +				goto err_release_dma_chs;
-> +			}
->  		}
->  	}
+> That said, I would rather just drop the devm_pm_runtime_enable() API
+> altogether and convert all users of it into
+> pm_runtime_enable|disable(), similar to what your patch does.
 
-The code block ending here is entered only if !rz_ssi_is_dma_enabled(). If
-that is true there are no DMA channel to be released. Maybe better would be
-to move this code block on the failure path of the rz_ssi_dma_request() as
-also proposed here:
-https://lore.kernel.org/all/CAMuHMdU+_NuLp2FuwwcLfJRe2ssMtp=z7fqcsANgYfFehTNJGg@mail.gmail.com/
+That is making a mess of a lot of automated cleanup for a strange
+runtime pm related path.  This is pain a driver should not have
+to deal with, though I'm not clear what the right solution is!
 
-Thank you,
-Claudiu
+Key is that drivers should not mix devm managed cleanup and not, so
+that means that anything that happens after runtime pm is enabled
+has to be torn down manually.  One solution to this might be to
+always enable it late assuming that is safe to do so there is
+never anything else done after it in the probe path of a driver.
 
->  
+Jonathan
+
+> 
+> >
+> > Thank you,
+> > Claudiu  
+> 
+> [...]
+> 
+> Kind regards
+> Uffe
+> 
 
 
