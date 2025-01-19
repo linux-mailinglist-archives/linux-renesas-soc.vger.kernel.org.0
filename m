@@ -1,274 +1,200 @@
-Return-Path: <linux-renesas-soc+bounces-12236-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12237-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B9DA16195
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Jan 2025 13:19:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 142F4A1622A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Jan 2025 15:28:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11A351884F16
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Jan 2025 12:19:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47F593A4EE0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Jan 2025 14:28:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D67B1CDFD4;
-	Sun, 19 Jan 2025 12:19:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A87AB1DED57;
+	Sun, 19 Jan 2025 14:28:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tRX80voc"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="ACRY0o4e"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011002.outbound.protection.outlook.com [52.101.125.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA581DFD8;
-	Sun, 19 Jan 2025 12:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737289150; cv=none; b=oJ0chtwUdVbm9BQhnz8yyTeOwaT6US9wg0zPvuOYxYVpqKDuo9I+Z0mCCsMcge0b8HPqJ3qhYk2V5wNkKG/jiv5HIklrEzD5wEuwByHHhFZDmxrQaaQLKQBXhsTVeQ0Hi7rV6kOFNwYku4wSYfwGUIxspuhYzlPUb5ImfXP1rJ8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737289150; c=relaxed/simple;
-	bh=WuYYM946dC5xRl6wuOuPFt4jLi3lqjwU+0HIDQSxgRA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QaFZxufsAXQqDN/LwMzjtvO2ZcB5zDbicubGDOWeyf2tYG5utRyTGBx0qrZSLOOtfTs7Q611GUUPCk3ePFdKd6JLZgxnpyAQOBZ704/1XbahY5IxgUrOmwnsEYy34sdbFSYB215EzClb2XX8cbZpgioHUgUi3eCnbY42kf0tLnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tRX80voc; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7716F5B3;
-	Sun, 19 Jan 2025 13:17:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737289078;
-	bh=WuYYM946dC5xRl6wuOuPFt4jLi3lqjwU+0HIDQSxgRA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tRX80voci0sTMUOK/9reTBMJPQAlIV8TvrcXURq7jGG+vCjVE38fbi500thBBeC7R
-	 1NlYT9LEyEDVeYFh/ogm0nF9tKWDflDEycJBP5OcuRzlfjV7wptK19XyjYCNbKLSBt
-	 z/j+dL4juHco2r0+YdfeUb8fcWnZC19aO+gnkjK0=
-Message-ID: <ef52dab0-058f-408f-a298-c4b2453a3d2f@ideasonboard.com>
-Date: Sun, 19 Jan 2025 14:18:55 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19FE1CEE90;
+	Sun, 19 Jan 2025 14:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.2
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737296928; cv=fail; b=Q5FefYfUl0lC0b47FLLJ0nS00d09mYJqNqfmGxaHJaqP160V0OAKptHq80817RtsM9BJ2iKsvDrVmiZg/fKNh9EVZU7XgDGWn33yORHDNqIe0J3l3lbgbwpcnRzvE7BorJbeUOcDSiULPtv6p0x/dDWHQYeZhVQgWJ4Mr/JxFhc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737296928; c=relaxed/simple;
+	bh=nprS1LtgUwVTuF2lA/SyEsWKjltz5cfJFaqaB+MW3SY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Xs9OTSthBGJbSxP5YQmNgeeNnzORc7iJo4vcwknWaXae/NmH1S8TrSkSMf1VhXprY5D5kZAiE96pps6SrVWGSPRRbTbP3QBMGo3UF1neh+4N1hbiRE50VPI7ZF0cyEWfTLRzSrMzZqfo8nWQlNhdJtz4cYlZP1aJSuwgLyhDpow=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=ACRY0o4e; arc=fail smtp.client-ip=52.101.125.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OlfvuFlUBHRoggbdF6wYrBDCrz4ByNlhvQEEyQuPwGLMeW0snlD+kNlT4ZpufewJUCBJkdog4mkAa85QJ9lO608cPzaV/JWf/yp4rLZCk+1Ai9q1RbdfCypaCUh5pLLmI53vvvQiU1dJJE48G2P8xIEtMq0jBla1a9MDzoEjux+X6FNHUZvhDn3o6NZ3FlITPXNtL+OXK3pouvbPMCvx6mbPL4hLyiLj2AsmrgtdFWI3/9eOc8Z1MnQwp4isL1suc4LByI+6Q0aZ3UE61Tr3/C/47ZmV7vIED+Qr0NF5EPkCxfIOeMdgHg+FRKcrLW4cpa4tEEADTvqq3Kztl6yp+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VDdYPH0rgLj9SgrK5Ub34fHNf3ywhrxl/SETXpD3XVE=;
+ b=vlWKnDvZt3BCzPB/fJkRaUk6qfFDFREZL7x93R3O1kPRFAquWIy62uwPfOK0jbj70bcAFrN+JadQcdR6XRyGD1ZQATUnNWi+u+XIEsb40qKtRbv7uGN3lqDXrnR2DMXBc84O0GI8FCk/mrF1ZZcVvgLZi65g7oN1hd7HKXfLTfZDLSGpDwvMVcIUOpoqogZIr4Rg0i5RxiTCXMOqmn/boYV5awik37f4D8HzUxbd8i0qWudOxc1YsTvkZo+arlRQsWcVF8iz53DYcjeaspCs7SDXhKora9yP6On0KkZYIhS6bFZenUjEVt9QtKy24czOFtXfKbJfPW3/91kYIZ3oeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VDdYPH0rgLj9SgrK5Ub34fHNf3ywhrxl/SETXpD3XVE=;
+ b=ACRY0o4eS74ztZMWWt9hWPcYhS+Da5jF4zEfpxV/afiUeqRIoDh2Rk2KOzI36FW03oMoVqvGs5J7zfHrO8Dx9FSL0PdzrjrjfKu0SE2fa+Nvz3K9Tbq0bT0v6x0SA9sD4iv7byO+tLdeEJwaBsewhSXO/XGu40FJ87lc3MmtEHU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
+ by TYWPR01MB10322.jpnprd01.prod.outlook.com (2603:1096:400:1e6::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.20; Sun, 19 Jan
+ 2025 14:28:40 +0000
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3%4]) with mapi id 15.20.8356.017; Sun, 19 Jan 2025
+ 14:28:40 +0000
+Date: Sun, 19 Jan 2025 15:28:24 +0100
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH 0/5] Add support for RZ/G3E WDT
+Message-ID: <Z40MCK3bJQ/lgrEr@tom-desktop>
+References: <20250115103858.104709-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250115103858.104709-1-biju.das.jz@bp.renesas.com>
+X-ClientProxiedBy: FR2P281CA0062.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::20) To OS9PR01MB13950.jpnprd01.prod.outlook.com
+ (2603:1096:604:35e::5)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Sui Jingfeng <sui.jingfeng@linux.dev>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
- linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-tegra@vger.kernel.org, intel-xe@lists.freedesktop.org,
- xen-devel@lists.xenproject.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andy Yan <andyshrk@163.com>, Daniel Stone <daniel@fooishbar.org>
-References: <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
- <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
- <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
- <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
- <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
- <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
- <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
- <a2bbeb47-2569-4ee0-9265-92bab139bdc6@suse.de>
- <f3833771-fcd7-45dc-9019-1525fef34429@ideasonboard.com>
- <CAMuHMdXxYa+Na3XxpLTy=-eUL_zQ9kAiUKYu-E04u3KWApusSA@mail.gmail.com>
- <xz5ncq67bgmdase2jg3cfvyaxpiwhol2eqpfzow6dqpauvslo5@2w3rw27lhnxo>
- <b97fcd2f-516a-4172-aef3-631418564cfa@linux.dev>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <b97fcd2f-516a-4172-aef3-631418564cfa@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|TYWPR01MB10322:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee8af238-5474-4b5d-b2b6-08dd3895917c
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|52116014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?BVuwUeLGI0OXoJWcr97RpiMhTECllq0LClqahMH2RrhkrbIWcT+szPUQlmoD?=
+ =?us-ascii?Q?lEuQ2tInbrhTv8YrGFjoWGueFWXXbVX3yaZWLzv6MUQN0oR+0ey6RzxTaF86?=
+ =?us-ascii?Q?PLUA5SGPtCxtXCwU3kOuBTVezOyo97Vpi5hjnxMgYlCSq1q+ayz/dTOgCx1k?=
+ =?us-ascii?Q?XO1l/XFbqUijJf/Q+mvZdX9OIKOw8EbXidtBm45rAJDq8aweNq5Sc+cir8kN?=
+ =?us-ascii?Q?N5C7jrmUgUVv+vzWBLM8JzbdXPwCaCf0RpJrOWi5t8OIwQBmK1nEdU4bEZR5?=
+ =?us-ascii?Q?QVgLfAB5jyhE+fep70IgcZK07cA3pr9XeCxRGStlvsqTOpNdgFjPpupfCY5P?=
+ =?us-ascii?Q?8J+jZX8ZA42tnR+nLWhD8iJDMSmBZAC1ppOygnqaWtAEqEJ+eWHBK57XPQoG?=
+ =?us-ascii?Q?0nOglSNWXTbPHlSw49WsZ/oUZpXze8KPT8WSow7WUd9OacRDEs8a4UM2UGW1?=
+ =?us-ascii?Q?AZuxfaNe6DaOu5B3T2MrcJi03O1EKLQ2vxMIXYVIIEcDl6W95mo7crxEkOf5?=
+ =?us-ascii?Q?ltjoUPDa/v6DlfHRikH6SsMvBLm1NllvQzZtQSDcGlMwQa/cQNj38kynG+m4?=
+ =?us-ascii?Q?k5GtUp5g1Li1W+4OEoLJYZMs8Zvq7PRgTSdcgkx+zfUBAFB4sGXtVRHv1mei?=
+ =?us-ascii?Q?N9JM605scqbCsv2z96iKChf+bhb/esFKCuHnkjlc51ljHqtRxRRyXNDcNvEM?=
+ =?us-ascii?Q?MUJjFvxSkB74uzS/CK50pD2BTG8kYxgBYw9qrXbX/vVSuQpZn71P3AIpCgX3?=
+ =?us-ascii?Q?RizJ/HHDk+SgowVHiILoG653aXPf69DDu5mGYD6ZPT23ZBpZ/lkgnfnzking?=
+ =?us-ascii?Q?9H6aLCqLsWcewqHX6fw8Um5hOaoyft8ocy+vVQpJTx8AwaqLZ1YAQonySUzR?=
+ =?us-ascii?Q?0+miQEI0n6bhZNIlq0nLEffPgHq9rztjBhxKXNGZnw6VRZ1rHep2hE5lAOze?=
+ =?us-ascii?Q?bl2e4A2jzpF8Wv3U1+QQKNyl2MGOH+yzAb770K1DTvQVDqPctSX41/gpj4d4?=
+ =?us-ascii?Q?t34RAt5HJG9DrNrW/SUajUYAvi3ZekWRLQG5IhxS6tVJGiAP7YRcxqyz/h9U?=
+ =?us-ascii?Q?m/qDcu93mNExQeoAgreIr8ekplrwyxr1gJlHSSBsL3kAq5dcf4ZmR3AAu9PT?=
+ =?us-ascii?Q?LQqHipOEAZ2NxSaPS3MEe83Rv3TYp0H1vBHLrKzx+SobefYhsyQr222ulL6X?=
+ =?us-ascii?Q?ftaS50dte6+C56pMR6CkI0YLqzAC18Yd0UuC45MVTHYXIDE6ClGMRc0AUKoE?=
+ =?us-ascii?Q?BRPuaby0Vjnqlgb3aGJ1qheSeyBEI0XNYRB9YzD31bffbI5qlWo0h+0ZRuRV?=
+ =?us-ascii?Q?MZ18+Ym0JHZF/8vAmNYkq7tszRSkvJtNt3MBm6nUSE/P7z1bN5x/eXC/rIRb?=
+ =?us-ascii?Q?J8V0PsEFKEFtuqWgjNfcsrnfezEuQv0JRk3pDVcrwRy87Jxf/4tIh9JN6WAK?=
+ =?us-ascii?Q?NobG8UQp3TZv4qdJ8XAsj6sGEmTr5AZy?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?fDZw/WCxOUh6xLwT0i7IZPfKSatugLr0gfSlLH9fsnTKkwTjoS8EDfqI4Nej?=
+ =?us-ascii?Q?k3qC2PmXCmGWEXq7MifqXHBYemIiz84nrncSx9w54z7A4UZCUICIWRO/boUc?=
+ =?us-ascii?Q?pKVqJgJEMBAk1XMtpxU0RaCy2hURUcJihXClzT20Zo01j83vDob0jbP+Jg7v?=
+ =?us-ascii?Q?lhAfrhYvaTUGwDR3jUP5C5YhP0ib5XcAT+1Oj6pJvvFsgoGgpLIN7QIqdh9v?=
+ =?us-ascii?Q?QxnTk096Isb6F8B6VlQ1LgILRFnpO/bI40wKVxo3MaFADx1dmpo9pGB26dt4?=
+ =?us-ascii?Q?bQbS95OgE2Rv6DijskWfaRJdNgig1m/Sqak05IiTCnaYRzBdRUqKuWcYQwtA?=
+ =?us-ascii?Q?EkmQgtK2mZIqezfQxJ7uNPGCIWwSK404ng0zSUYvbQp61q7Km9eZp/19nHbp?=
+ =?us-ascii?Q?gdrQuFsHG0/Lc2zLKeww8khtwsC09wENoiaUAZFsqFGnhnQm21gIAI9p5/g8?=
+ =?us-ascii?Q?qtLDOUI8UhexCpHeU2Xl8n/MXwm2diyeEbZb87u+D1VNcrHJZcWU5+QRtX2h?=
+ =?us-ascii?Q?YNtJkiqBZ89lWQdaCmdIbD8DBSpeitJmzRHNOGRpws46OLRIzuJBX2xxsxzw?=
+ =?us-ascii?Q?8qRW+uZATIUAtpB3YSjfI8Ht8/xj4EjuAZNaWca9OWdBPv7yb3HThQVNldCQ?=
+ =?us-ascii?Q?Tf0dSDLLt1qrfbsmO+A9tuq17TGlPNWT07AskfLiLnfEQLK3k8Mcew6eWoLw?=
+ =?us-ascii?Q?aXsUavoA+yNGnyIWKuITX6JQXyYzbYHc+AbCZ5jhPjtzEyUvMWgpaA93nQNX?=
+ =?us-ascii?Q?Jd+EBF+M+tlgsxqRib6mmMXcT5bSxw3VTxS3/IBfxn70xEMBY8vtKWM53dIy?=
+ =?us-ascii?Q?TJyzqunmBU1gEVsFMhqwNWVnT74jWcvSxzoVDew59SvBvT0wzKDZC7hk6+Kv?=
+ =?us-ascii?Q?ipEJ1hj9/kcRE2FU/uQMot1C81qOciTEQkrbqSRU6dFwj11SeHply1ZI0Z3p?=
+ =?us-ascii?Q?U2Zdvn5fmOS1VWZKCNA0Ieb5Nr/qHWaUloP1AFe1OEksBrFpx3TkgfUCPR2j?=
+ =?us-ascii?Q?Zk5W+UwK/zx8EeoWTSDhvMj0TKG0nsyrCeyVvHUUIeSSjSmHTPrBOHhnhyZU?=
+ =?us-ascii?Q?BY6ZVKezD8cbnHk80MONO6dub5WOxxr4l+lUHiu/+vmzH9D42a2zQjRM10k5?=
+ =?us-ascii?Q?9jsnzu/o/cts/GiebmkDr6YxYUsDSQI+oc9LAlfD7nAEy6q2bLCIhjZk7Ldc?=
+ =?us-ascii?Q?YOfBdKZkapoho4/wwz3gn+FhBSIVxOo8P8pG6gRXLaopmYNJmMXHs+F4SpgZ?=
+ =?us-ascii?Q?n5h0EPoR3BCg8z22VicdBTnmIMbb7YvgFMQokp+SFimVosFbi337ps4jscKM?=
+ =?us-ascii?Q?Ub6rMjJ81KqDYEdu0lz/7c0St3YutjPa4FbPMCDdrqJAxKVrhFfcEWD+ruVd?=
+ =?us-ascii?Q?v73TahaJSu1boEhTLXvRJWkneAOJWkjoXso49Egu0eWMyOEsMo97JqAolsRa?=
+ =?us-ascii?Q?l+pwg7oMcnixecDEo6j8HWfnUlHunnIbOqwMu5QaUwYvHvnW7rqIl/nawx53?=
+ =?us-ascii?Q?5D/FgJjaFE2UBKEoQo/et6dkW3gPAtSyvcb0KJAuBd7nu0T3MKVPwpKrknrE?=
+ =?us-ascii?Q?OsEiZsCzhPeAOXhg4zlwQikZDcz7eQ7WsI4oh0nCMuDqDFxJkgVtvPGf+pRd?=
+ =?us-ascii?Q?jETeCY2qolwWIpMeNZrzTmg=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee8af238-5474-4b5d-b2b6-08dd3895917c
+X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2025 14:28:40.1801
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QgOBe4wPBVXfcGPsIL5AH0SvRESLmrEaYzut2FvhmmVhYOAh0f2gVj8CjrLGLN3qy8IMoTbbPNKERFxktzn+0s6+X75qytcpUxpgZuqwzskgKlslTarVbK32L3SXR4hf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10322
 
-Hi,
+Hi Biju,
 
-On 19/01/2025 13:29, Sui Jingfeng wrote:
-> Hi,
-> 
-> On 2025/1/16 18:35, Dmitry Baryshkov wrote:
->> On Thu, Jan 16, 2025 at 11:17:50AM +0100, Geert Uytterhoeven wrote:
->>> On Thu, Jan 16, 2025 at 11:03 AM Tomi Valkeinen
->>> <tomi.valkeinen@ideasonboard.com> wrote:
->>>> On 16/01/2025 10:09, Thomas Zimmermann wrote:
->>>>> Am 15.01.25 um 15:20 schrieb Tomi Valkeinen:
->>>>> [...]
->>>>>> My point is that we have the current UAPI, and we have userspace 
->>>>>> using
->>>>>> it, but we don't have clear rules what the ioctl does with specific
->>>>>> parameters, and we don't document how it has to be used.
->>>>>>
->>>>>> Perhaps the situation is bad, and all we can really say is that
->>>>>> CREATE_DUMB only works for use with simple RGB formats, and the
->>>>>> behavior for all other formats is platform specific. But I think even
->>>>>> that would be valuable in the UAPI docs.
->>>>> To be honest, I would not want to specify behavior for anything but 
->>>>> the
->>>>> linear RGB formats. If anything, I'd take Daniel's reply mail for
->>>>> documentation as-is. Anyone stretching the UAPI beyond RGB is on 
->>>>> their own.
->>>>>
->>>>>> Thinking about this, I wonder if this change is good for omapdrm or
->>>>>> xilinx (probably other platforms too that support non-simple non-RGB
->>>>>> formats via dumb buffers): without this patch, in both drivers, the
->>>>>> pitch calculations just take the bpp as bit-per-pixels, align it up,
->>>>>> and that's it.
->>>>>>
->>>>>> With this patch we end up using drm_driver_color_mode_format(), and
->>>>>> aligning buffers according to RGB formats figured out via heuristics.
->>>>>> It does happen to work, for the formats I tested, but it sounds like
->>>>>> something that might easily not work, as it's doing adjustments based
->>>>>> on wrong format.
->>>>>>
->>>>>> Should we have another version of drm_mode_size_dumb() which just
->>>>>> calculates using the bpp, without the drm_driver_color_mode_format()
->>>>>> path? Or does the drm_driver_color_mode_format() path provide some
->>>>>> value for the drivers that do not currently do anything similar?
->>>>> With the RGB-only rule, using drm_driver_color_mode_format() makes
->>>>> sense. It aligns dumb buffers and video=, provides error checking, and
->>>>> overall harmonizes code. The fallback is only required because of the
->>>>> existing odd cases that already bend the UAPI's rules.
->>>> I have to disagree here.
->>>>
->>>> On the platforms I have been using (omap, tidss, xilinx, rcar) the dumb
->>>> buffers are the only buffers you can get from the DRM driver. The dumb
->>>> buffers have been used to allocate linear and multiplanar YUV buffers
->>>> for a very long time on those platforms.
->>>>
->>>> I tried to look around, but I did not find any mentions that 
->>>> CREATE_DUMB
->>>> should only be used for RGB buffers. Is anyone outside the core
->>>> developers even aware of it?
->>>>
->>>> If we don't use dumb buffers there, where do we get the buffers? Maybe
->>>> from a v4l2 device or from a gpu device, but often you don't have 
->>>> those.
->>>> DMA_HEAP is there, of course.
->>> Why can't there be a variant that takes a proper fourcc format 
->>> instead of
->>> an imprecise bpp value?
->> Backwards compatibility. We can add an IOCTL for YUV / etc.
-> 
-> [...]
-> 
->> But userspace must be able to continue allocating YUV buffers through
->> CREATE_DUMB.
-> 
-> I think, allocating YUV buffers through CREATE_DUMB interface is just
-> an *abuse* and *misuse* of this API for now.
-> 
-> Take the NV12 format as an example, NV12 is YUV420 planar format, have
-> two planar: the Y-planar and the UV-planar. The Y-planar appear first
-> in memory as an array of unsigned char values. The Y-planar is followed
-> immediately by the UV-planar, which is also an array of unsigned char
-> values that contains packed U (Cb) and V (Cr) samples.
-> 
-> But the 'drm_mode_create_dumb' structure is only intend to provide
-> descriptions for *one* planar.
-> 
-> struct drm_mode_create_dumb {
->      __u32 height;
->      __u32 width;
->      __u32 bpp;
->      __u32 flags;
->      __u32 handle;
->      __u32 pitch;
->      __u64 size;
-> };
-> 
-> An width x height NV12 image takes up width*height*(1 + 1/4 + 1/4) bytes.
-> 
-> So we can allocate an *equivalent* sized buffer to store the NV12 raw data.
-> 
-> Either 'width * (height * 3/2)' where each pixel take up 8 bits,
-> or just 'with * height' where each pixels take up 12 bits.
-> 
-> However, all those math are just equivalents description to the original
-> NV12 format, neither are concrete correct physical description.
+On Wed, Jan 15, 2025 at 10:38:49AM +0000, Biju Das wrote:
+> The RZ/G3E WDT IP is similar to RZ/V2H WDT. WDT0 can be used for CM33 cold
+> reset, system reset and asserting WDTUDFCM pin where as WDT1 can be used
+> for CA55 cold reset, system reset and asserting WDTUDFCA pin. Other 2
+> watchdogs can be used for system reset. So define WDT{1..3} in SoC dtsi.
 
-I don't see the problem. Allocating dumb buffers, if we don't have any 
-heuristics related to RGB behind it, is essentially just allocating a 
-specific amount of memory, defined by width, height and bitsperpixel.
+For all the series:
+Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-If I want to create an NV12 framebuffer, I allocate two dumb buffers, 
-one for Y and one for UV planes, and size them accordingly. And then 
-create the DRM framebuffer with those.
-
-> Therefore, allocating YUV buffers through the dumb interface is just an
-> abuse for that API. We certainly can abuse more by allocating two dumb
-> buffers, one for Y-planer, another one for the UV-planer. But again,dumb 
-> buffers can be (and must be) used for *scanout* directly. What will 
-> yield if I commit the YUV buffers you allocated to the CRTC directly?
-
-You'll see it on the screen? I don't understand your point here...
-
-> In other words, You can allocated buffers via the dumb APIs to store 
-> anything,
-> but the key point is that how can we interpret it.
 > 
-> As Daniel puts it, the semantics of that API is well defined for simple RGB
-> formats. Usages on non linear RGB dumb buffers are considered as undefined
-> behavior.
+> Biju Das (5):
+>   dt-bindings: watchdog: renesas,wdt: Document RZ/G3E support
+>   clk: renesas: r9a09g047: Add WDT clocks/resets
+>   watchdog: Make RZV2HWDT driver depend on ARCH_R9A09G47
+>   arm64: dts: renesas: r9a09g047: Add WDT1-WDT3 nodes
+>   arm64: dts: renesas: r9a09g047e57-smarc: Enable watchdog
 > 
-> Peoples can still abusing it at the user-space though, but the kernel don't
-> have to guarantee that the user-space *must* to be able to continue doing
-> balabala..., That's it.
+>  .../bindings/watchdog/renesas,wdt.yaml        |  4 +++
+>  arch/arm64/boot/dts/renesas/r9a09g047.dtsi    | 30 +++++++++++++++++++
+>  .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  4 +++
+>  drivers/clk/renesas/r9a09g047-cpg.c           | 15 ++++++++++
+>  drivers/watchdog/Kconfig                      |  7 +++--
+>  5 files changed, 57 insertions(+), 3 deletions(-)
+> 
+> -- 
+> 2.43.0
+> 
+> 
 
-I have hard time understanding the "abuse" argument. But in any case, 
-the API has been working like this for who knows how long, and used 
-widely (afaik). The question is, do we break it or not. Granted, this 
-series doesn't break it as such, but it adds heuristics that wasn't 
-there before, and it could affect the behavior. If we still want to do 
-that, I want to understand what is the benefit, because there's a 
-potential to cause regressions.
-
-  Tomi
-
+Thanks & Regards,
+Tommaso
 
