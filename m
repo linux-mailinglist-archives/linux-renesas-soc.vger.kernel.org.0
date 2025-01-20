@@ -1,126 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-12264-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3950FA16ACB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2025 11:32:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB097A16C68
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2025 13:33:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9A9418895F7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2025 10:33:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 119FD1698DD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2025 12:33:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EF551B423E;
-	Mon, 20 Jan 2025 10:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wwuJqPaa"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8F111BBBDD;
+	Mon, 20 Jan 2025 12:33:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7021B218A
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Jan 2025 10:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9211B86F7
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Jan 2025 12:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737369173; cv=none; b=RZoOt+BDPV8HcNN7Ku/zge6Fgo48SRXCvOHC6gER5Fm4MAOwTfRSJw5oUau6biFz23UUcXbox6iZhN5YCx6B4jlvKzpII/DrARBd5A3hdwSerxjjnXnElWqgQWuB95fZyjbK0+1oZUkteBO8p+WNqJx9dzB2BmBRufyWTQyDFKs=
+	t=1737376407; cv=none; b=iaxWSZcfeMmbABGyd5h4zKwh46SaMG9tC0JQJ/puuTHKYGl4bUV6t4KnyvKdjl/bGljX1aiVTWUcG5DMsA+AzZ89v6ttJEdfQkAAdn2A0NTIV9DDZEjQZBPLRGZnBBw/bJF0SFBdC3kB3HNZPK4N56FpJhENyVA5cQjAci/Vq8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737369173; c=relaxed/simple;
-	bh=1pUBp7jq7n1DF8msh+TCFHLKFmD0Ys19ztKEMSeVWm8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KjG54Zh1DuuiMbASgQTKNpTj9w7izycDgZ+kIpJdYLSUgXvRNKLyJSbTjAf20TCKJCMUpjOy1mdPRPxUVDVIpCYnsak9z+AUE9dvJ2x7y+bC7ef4XAlDplk+u4ypqksGTI5udIR1uYPOVWZkMZZC5vYL20LB+AgmVajNrLO3ekg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wwuJqPaa; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-437a92d7b96so42612095e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Jan 2025 02:32:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737369170; x=1737973970; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XxJc+Gn91nAPEbZKkkYM0Lfyo+ldiMC9cjcLHUqTWxk=;
-        b=wwuJqPaaTIy+yBgXwUBOzYoeKvlr1oV+320U2tAeCesEum4J3L86l2GbYlX0UL8b30
-         FSJOLjHYqi9IriqvtZCS5iHsD0X6O4b2JWkjD16yC/iDExSs436I+C1TRtjfBgP1XqCs
-         7rVCwvBim9SQ8N/TUf4lKYq4q2xJXNomyagLtyLUhDKO89h73FZTgxrqLzyhkndd9vL5
-         +fOOrMN6S51ZNsZf4NgHSq8hFUMr3gd9q112DETk+G0CLlju0krXP5j0DKQaBm29ekum
-         MaYiN6S8Pz2ABfyvQZzMZ+9htO50NmNPYLcaGSss3WK0FxnxLSZLqDjG+zi9VCktDeQ8
-         cxKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737369170; x=1737973970;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XxJc+Gn91nAPEbZKkkYM0Lfyo+ldiMC9cjcLHUqTWxk=;
-        b=lhGtKcLdGIRYiJV/bfFBWEk9vcObaYVJXsh3m2rnV7qjc2l7IfOERP3i62mn/suZyv
-         7XXJPBUxwhK48Z+ZUaLesUlPAHpE5Y195CNltcqDqzW/BnxJ3Wd9zAYmtU11Y9kkIStF
-         sYK3dFvU0aCiveKuCHMT7bIl/OuqASUJIqVIIwUq8eG1CdmLvuDfbKztz2tKGh3FWrNm
-         67nBmqtQS3mw3lNYrjz+a91xIS/+6XCNWeYSHIMbwM1GVQ3tn4EX0R35S7beBAiOPp5O
-         lMrwjWkghcupRH26bmksfclsXNduZwKtwAG0f5qDjlxt7jcVWhwIH2wHrBHL3AoxBEku
-         3PsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW6nHAsaXw0aXwzPl11Qu3q8wT0OG6aXjbe8E4Zmp3eq74dxQC2PwMQAPRpxKMmwD25POIKh++4dejvNi1v57jSKw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5hnX4V0C/QAwxm12CEWusCERr7ipMejbe1MLMwOfLEEreGiOd
-	kYsEJC2WFnK+cZ3tXPc6KPKkybu+jw7G/ai7gKMTNZpTa+oWijzuWn19CcRx5qw=
-X-Gm-Gg: ASbGncvYc0udwFHPIsmNbYLhhp7cF6UClp2US0zVBO+xU3AZk8YnAeQkOo9jb2Ct6uf
-	DTLPM9c5Onldtyn0o7WFZe83PQxgFxpKyk3NuKUpC+v6iH7VoalrlRc1Z1eFE3Q7TdQ6CGN1gLp
-	SR3VscNlbZPa24wbnPEhl+fSPiVfDPqkvC5tEZvXGRMrwIRzxFiIQGB+Tw0j2ZdbpndNwWKe78b
-	O73U111zK4V5wmHC3Z6yEGGjvkHCUPrdimDGaJEyRe9tKipcT03SHT9W1n432v09RM0ruWcNpg=
-X-Google-Smtp-Source: AGHT+IFcY0UGosBx3D8sfwLbECoAj4d1l3/mXNOd5C9+XD97kTzyQQ2O5y6u6GWa2aOYIx6spIaEJA==
-X-Received: by 2002:a05:600c:468d:b0:436:4708:9fb6 with SMTP id 5b1f17b1804b1-43891437546mr104492065e9.20.1737369169823;
-        Mon, 20 Jan 2025 02:32:49 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43890408523sm133098145e9.8.2025.01.20.02.32.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 02:32:49 -0800 (PST)
-Date: Mon, 20 Jan 2025 13:32:46 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] ASoC: renesas: rz-ssi: Clean up on error in probe()
-Message-ID: <b8a7f1d6-be84-4387-9ef9-b6ec91da69f7@stanley.mountain>
-References: <14864a18-c256-4c7d-b064-ba1400bed894@stanley.mountain>
- <8ff70298-8a9c-4228-b064-f46ec81f6d15@tuxon.dev>
+	s=arc-20240116; t=1737376407; c=relaxed/simple;
+	bh=FLHGAk5kg6mX9j5nS3NTjLvUImeO43tEKOU6GyrS2VI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IlCjRccczk/ArX7wjeTIRh7klL3IBpldxlAVdwM1n7BcjNedp/JMKJsPmxHdOnH8BlK7KADqSrJgn5bDF7urxPB65nK+fQ3XTfd9qUFGWLuBpH1ZbxNfFamFV8Z6g+SdDJRiOWEmFw1raxb2BHrKOUf4uXgmlShoHMAVfzjSJQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:30c9:4dcf:fe21:4b10])
+	by laurent.telenet-ops.be with cmsmtp
+	id 3QZH2E0060raqVW01QZHyr; Mon, 20 Jan 2025 13:33:17 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tZqxq-0000000DgtV-2XTn;
+	Mon, 20 Jan 2025 13:33:17 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tZpef-0000000CU8e-3Zp6;
+	Mon, 20 Jan 2025 12:09:17 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: r8a779g0: Restore sort order
+Date: Mon, 20 Jan 2025 12:09:12 +0100
+Message-ID: <ccd215c1146b84c085908e01966f7036be51afa8.1737370801.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8ff70298-8a9c-4228-b064-f46ec81f6d15@tuxon.dev>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 17, 2025 at 01:51:55PM +0200, Claudiu Beznea wrote:
-> > -			if (ret < 0)
-> > -				return dev_err_probe(dev, ret,
-> > -						"irq request error (dma_rx)\n");
-> > +			if (ret < 0) {
-> > +				dev_err_probe(dev, ret,
-> > +					      "irq request error (dma_rx)\n");
-> > +				goto err_release_dma_chs;
-> > +			}
-> >  		}
-> >  	}
-> 
-> The code block ending here is entered only if !rz_ssi_is_dma_enabled(). If
-> that is true there are no DMA channel to be released. Maybe better would be
-> to move this code block on the failure path of the rz_ssi_dma_request() as
-> also proposed here:
-> https://lore.kernel.org/all/CAMuHMdU+_NuLp2FuwwcLfJRe2ssMtp=z7fqcsANgYfFehTNJGg@mail.gmail.com/
-> 
+Numerical by unit address, but grouped by type.
 
-Aw crud...  Thanks for the review.  Cut and pasting the code seems like
-probably the right answer.  It's not a hard patch to write, but I don't
-have the hardware so I can't test it.  The existing ordering feels tricky
-enough that there is probably a reason for it which I just can't see off
-the top of my head...
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v6.15.
 
-Let me think about this some more.
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 80 +++++++++++------------
+ 1 file changed, 40 insertions(+), 40 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+index 89049e40086c2d41..cbc4680e497734d3 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+@@ -2171,6 +2171,24 @@ fcpvd1: fcp@fea11000 {
+ 			iommus = <&ipmmu_vi1 7>;
+ 		};
+ 
++		fcpvx0: fcp@fedb0000 {
++			compatible = "renesas,fcpv";
++			reg = <0 0xfedb0000 0 0x200>;
++			clocks = <&cpg CPG_MOD 1100>;
++			power-domains = <&sysc R8A779G0_PD_A3ISP0>;
++			resets = <&cpg 1100>;
++			iommus = <&ipmmu_vi1 24>;
++		};
++
++		fcpvx1: fcp@fedb8000 {
++			compatible = "renesas,fcpv";
++			reg = <0 0xfedb8000 0 0x200>;
++			clocks = <&cpg CPG_MOD 1101>;
++			power-domains = <&sysc R8A779G0_PD_A3ISP1>;
++			resets = <&cpg 1101>;
++			iommus = <&ipmmu_vi1 25>;
++		};
++
+ 		vspd0: vsp@fea20000 {
+ 			compatible = "renesas,vsp2";
+ 			reg = <0 0xfea20000 0 0x7000>;
+@@ -2193,6 +2211,28 @@ vspd1: vsp@fea28000 {
+ 			renesas,fcp = <&fcpvd1>;
+ 		};
+ 
++		vspx0: vsp@fedd0000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfedd0000 0 0x8000>;
++			interrupts = <GIC_SPI 556 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 1028>;
++			power-domains = <&sysc R8A779G0_PD_A3ISP0>;
++			resets = <&cpg 1028>;
++
++			renesas,fcp = <&fcpvx0>;
++		};
++
++		vspx1: vsp@fedd8000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfedd8000 0 0x8000>;
++			interrupts = <GIC_SPI 557 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 1029>;
++			power-domains = <&sysc R8A779G0_PD_A3ISP1>;
++			resets = <&cpg 1029>;
++
++			renesas,fcp = <&fcpvx1>;
++		};
++
+ 		du: display@feb00000 {
+ 			compatible = "renesas,du-r8a779g0";
+ 			reg = <0 0xfeb00000 0 0x40000>;
+@@ -2453,46 +2493,6 @@ port@1 {
+ 			};
+ 		};
+ 
+-		fcpvx0: fcp@fedb0000 {
+-			compatible = "renesas,fcpv";
+-			reg = <0 0xfedb0000 0 0x200>;
+-			clocks = <&cpg CPG_MOD 1100>;
+-			power-domains = <&sysc R8A779G0_PD_A3ISP0>;
+-			resets = <&cpg 1100>;
+-			iommus = <&ipmmu_vi1 24>;
+-		};
+-
+-		fcpvx1: fcp@fedb8000 {
+-			compatible = "renesas,fcpv";
+-			reg = <0 0xfedb8000 0 0x200>;
+-			clocks = <&cpg CPG_MOD 1101>;
+-			power-domains = <&sysc R8A779G0_PD_A3ISP1>;
+-			resets = <&cpg 1101>;
+-			iommus = <&ipmmu_vi1 25>;
+-		};
+-
+-		vspx0: vsp@fedd0000 {
+-			compatible = "renesas,vsp2";
+-			reg = <0 0xfedd0000 0 0x8000>;
+-			interrupts = <GIC_SPI 556 IRQ_TYPE_LEVEL_HIGH>;
+-			clocks = <&cpg CPG_MOD 1028>;
+-			power-domains = <&sysc R8A779G0_PD_A3ISP0>;
+-			resets = <&cpg 1028>;
+-
+-			renesas,fcp = <&fcpvx0>;
+-		};
+-
+-		vspx1: vsp@fedd8000 {
+-			compatible = "renesas,vsp2";
+-			reg = <0 0xfedd8000 0 0x8000>;
+-			interrupts = <GIC_SPI 557 IRQ_TYPE_LEVEL_HIGH>;
+-			clocks = <&cpg CPG_MOD 1029>;
+-			power-domains = <&sysc R8A779G0_PD_A3ISP1>;
+-			resets = <&cpg 1029>;
+-
+-			renesas,fcp = <&fcpvx1>;
+-		};
+-
+ 		prr: chipid@fff00044 {
+ 			compatible = "renesas,prr";
+ 			reg = <0 0xfff00044 0 4>;
+-- 
+2.43.0
+
 
