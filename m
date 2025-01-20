@@ -1,239 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-12266-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12267-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435A2A16C99
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2025 13:55:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE69A16CF2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2025 14:09:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5761E3A15B3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2025 12:55:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5D993A15DF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2025 13:09:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D85D81DFD80;
-	Mon, 20 Jan 2025 12:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 228B21E0DDC;
+	Mon, 20 Jan 2025 13:09:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Kd5G6htV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="esbe+zYl"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="b6eP8YCc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D53E1FC8
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Jan 2025 12:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF6F1E0E05
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Jan 2025 13:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737377725; cv=none; b=nqe3oTyWzXZon5DzFc5twiz6qKMrw6hlzMaxDigxw3vqfAjyMKHcPqncV7ynp1KqNtzjzryQ4XEYbZVCJEYhzmEeAE0cqM+9DqCaHW+nTHiuJ+2Cry4dsr3PgXhIisc29rv/1i9rfp0dFxgJLo4eP8BVkwPO7IMyoSFVKp02ctY=
+	t=1737378585; cv=none; b=nf9eH3w4mN45j2pX6+O0oIulwf8S8Jjtm+Wc7MntFPiRwBGs4bNj87GeXBJ7SqCyiqo0rdtX7YQrG7fVqV6sihmiePdCpaHaz4nMIocBkXTv3b+SG9TmYTWzEDNWxYnMdijUHw87YCnRz9hBP/qvcH+KI7/OpzlRjJcg0b0FsNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737377725; c=relaxed/simple;
-	bh=aCNDFXQpqiUKIyA1ghveSZhrTGJng4IZBoc2Q8W+rvA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g9xnok6IodaERTHa2fU7HKZcxNgLdt+L338jKXyGKxLkq08iMkLI5eDYysJF8jXfOyci7Y68BsZkQKLgN3GjS5mUh/I50f03Oz96fdCm8M1r8c77e5PyQ5h5eBERnOn/Udn5j9llLOb7I+y5UBEYuaNP5l/pR+IJWIxYE2GeldE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Kd5G6htV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=esbe+zYl; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id F405F1140200;
-	Mon, 20 Jan 2025 07:55:20 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Mon, 20 Jan 2025 07:55:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1737377720;
-	 x=1737464120; bh=62r1sM0l1Yp4OlCuM25K7HddxB3fldSXZQM27P3xJBc=; b=
-	Kd5G6htVP33uv0d097pz2+zuMeu98dQzZSwErNiwBoBKX69Ppe0AR/oILgjMqf8M
-	suU3NjvFsJAFVazva/SQO/v9q+e7plT7XfG96uhJYeHDjeaID8TwUFXM6bdf6a76
-	fLYBw0s6qlGRZGL+m9WnjacRJ3O/8jMlzyDs/gJ5/NzcLgTjVFGq1/5pJGa3yWJd
-	NAVKlXCM8bJ2hrh703JJBaBmDBBTY2VNSMBRGzx6iRulIN4kKundx7aCrhe0buc0
-	2CyRhTaWAyikNswPNY37uNbngwl2cT4hSY5Jn/NebHu9hT1zyOpn0Gng3YAS8eNm
-	pCc8l/luZ9qzYnwchn8B/A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1737377720; x=
-	1737464120; bh=62r1sM0l1Yp4OlCuM25K7HddxB3fldSXZQM27P3xJBc=; b=e
-	sbe+zYlkofnDdGtK8jZVYnJLnmKRcHcfNEkDxjmQhFdp8TIi8awS/19wICnrfh9d
-	lmSpord1AnWfI4vP3K91mYL0RDP2r2At7F4ZKnsHJOx8hlH2ZL/JzAQJCxwyXHka
-	PNnrdqugryeafhySN+M928MXJ6IXhVFzpTQkwV6pWM+JoEzEEVnzn3kEuywGcmPk
-	24T5TlzN0KUOKYChtqRbgnOLRSXzQPJoqv6+LGc4yiNNiN7fUzH86bsxdBzzEQTW
-	uy9M8c9gjTbWMgGWPfH9i6W3aAKUDPkhkvajc09a65ttf5u0uZKUEjHXmC3yWt+1
-	K7khdkB4bkH8B5/CVt76A==
-X-ME-Sender: <xms:uEeOZ-T4ODMKqjaMy3zgMdpfZnRT9RK85bRZ63U9fRJuPj8JC3RLNw>
-    <xme:uEeOZzztBHEggfy4RKFvRCWZYjK8UDlEOpdeOQsgEiZfBBDRCPStYyv3le9optC64
-    4FJvzakErsgQ0p4oFc>
-X-ME-Received: <xmr:uEeOZ71C7T6cTnTpzpDJOple8KhPgGU3hjT3p3WuqNwipCjfNMSKmHSnyIiB8Bw_oiSjydPe7i-6ZcUjkWrvQdpoMTdOTJCorQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudeiledggedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteeg
-    tddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshho
-    uggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeegpdhmoh
-    guvgepshhmthhpohhuthdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhi
-    uggvrhdrsggvpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesghhmrghilhdrtghomh
-    dprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsth
-    hsrdhinhhfrhgruggvrggurdhorhhg
-X-ME-Proxy: <xmx:uEeOZ6CkGqaIIug1PDzg1VJTkO21PglsMI6yvwrFYuEJbOMOUnMEkw>
-    <xmx:uEeOZ3icA2kKHLUWEBIR4o1606cvigErRKWw8Cuy0zpfncjj0qcTuw>
-    <xmx:uEeOZ2oLpMRU30BUy4pTDdF7xF6e9ACQWxCvXLFUj0WCHXn05dbVIA>
-    <xmx:uEeOZ6ipbwCLF5ODfRYGDnnGDtgQw0yIs2r08x2K4hvqmHyVyLDJ7w>
-    <xmx:uEeOZ3fF_ZrcvHH89PsdsHy-DlDwZasOOExrh1ibJLSCLCgtDBP3jSOT>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Jan 2025 07:55:20 -0500 (EST)
-Date: Mon, 20 Jan 2025 13:55:18 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779g0: Restore sort order
-Message-ID: <20250120125518.GB2692966@ragnatech.se>
-References: <ccd215c1146b84c085908e01966f7036be51afa8.1737370801.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1737378585; c=relaxed/simple;
+	bh=RCB/8QFJLXN/Bvnu7MJq6UWEKwNseTf4j7qbhIfJFtA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U7I8SqPltAWP7mStFD5p3pHamfJpS73CmP6zF4DsMBop4UrBxPndVTZBaWKKM8IoBez9QwcBYXJw3GQpST02CI/vJ3XcoyKazFV4L7+2iiZmUQtlHR0fiFKWtPk6MreZjIqWu34QRe4iv/GjGlZiB3z73MnBt0CtJIntyVyH2cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=b6eP8YCc; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4361f796586so48618575e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Jan 2025 05:09:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1737378580; x=1737983380; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a416PcI8wZ9gcBX9UsQxmuZkXXjRlkA6cjWw4TTO1wY=;
+        b=b6eP8YCcm+E/m5NmyXAq/bJdRxdEDY/ny6C/9EuBT5l4phSgK1cUexDvQB4H4ApucI
+         Y4S/r56LMCPAfg0pzOUkxLjQwcxoPspVk93D1wrCAN8+Gk8WKaq8D2Mh7yE8DMwCpRx2
+         L1JcOFActUqN08bquuq8WfiFz5VLXLRtmyRdnl0fscd/A0zs8KkecsqQfxXc7dET7OYB
+         xrF2HzPGkGG4VI/OyjQqX39Le0Zh7ZWMX5YA8/fFbdeiAMfUzhT/qtPxn3r7drzgao82
+         wfRsllbvMMxgSEbj5Afx2mzQbXUwmXCWNc5fvx51Pe2gKZAciCtMdtGpVRebZHWYDyVk
+         CyeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737378580; x=1737983380;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a416PcI8wZ9gcBX9UsQxmuZkXXjRlkA6cjWw4TTO1wY=;
+        b=CXEmZGVwRoUvIWjsk1HfprURF2f8y8o/FZquOK3PJI/zOGncYcdy1B6O4XK0R5V4Is
+         NoERb9J02aZ86DPuoaEn9VHbG3Tojf+/QoFDg3DtCDgaLYkOq+Zs1ML6s0GA0jzjddMv
+         gASblaSBCLlaKcm25PuNQ7jZYTxkgRmxfQwJof50I7+6IMe1NlQ0eHE5p/Op71afNY8V
+         k8mrVXx1ty8b5uR1qH7jiAFCGCjte84WiLk4qH7aHXWIM+Q1GPQi1bJ+MWESyUcRiOQA
+         +xlWJ48lP71J9wjvqlzCTdSvBDa6+DkaOre6wLwuqETrgXJso+7nkqOUtaSkU0YVDPlE
+         a/IA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWLfECaW58mgZS8iI2j1uRWFh1O0KL43OgA8HDqNjJLKuuCnkfCj/TfuTaRHIt/xU8jdrDysFsNSGg4AAR4KODkg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRClN1wn2DH+lFx3c/X0oyobUjW/Iz/tqzrtlmZSRzkdlRm01O
+	ecMk4NWJiBgtKugRHkDa8GTsUWmz25aTHEl1XKYkuE598EGKLrDlODVR2emG2QY=
+X-Gm-Gg: ASbGncsUv2Zu/p0Qe13xp3aVDoNCGvP+U7rMHNNh9cnne4/QxT7rlvZ6AyQArsJ76oy
+	aENz+0LAQYRiDI5GNlPPU00n4CjUBmyopb+kGmJwSw32y8MGytiuycfX8Jp6biNeLkB6JrKRxj7
+	0zF9U/AoGpGpxHBn+J8kstF/bolDSCwR2yjjD5tlZUyIlR9xS6RS/JCSavDFKEsSEtbJQyijZbo
+	mQUukPxGN/U5IkjW6ROfrzefjbY6ohyTxadzWx171jBnQrpbYGJMzG0HGmXpivqpevMOlh87dE3
+	y4VMVU2ZCH/KfcalDDoDlRY=
+X-Google-Smtp-Source: AGHT+IEPjik3VZUJ6CmE0J98JO4vcQ2ybXVpIlvV3ZU8Ro+DH8D2RI1e7TjwF4W1DTgLYD6sVjRPxA==
+X-Received: by 2002:a05:600c:4f47:b0:430:57e8:3c7e with SMTP id 5b1f17b1804b1-43891453ab8mr109138045e9.28.1737378579928;
+        Mon, 20 Jan 2025 05:09:39 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.35])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4389041f61bsm138001955e9.17.2025.01.20.05.09.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jan 2025 05:09:39 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	gregkh@linuxfoundation.org,
+	jirislaby@kernel.org,
+	p.zabel@pengutronix.de,
+	claudiu.beznea.uj@bp.renesas.com,
+	wsa+renesas@sang-engineering.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com
+Cc: claudiu.beznea@tuxon.dev,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org
+Subject: [PATCH v4 0/4] Add support for the rest of Renesas RZ/G3S serial interfaces
+Date: Mon, 20 Jan 2025 15:09:32 +0200
+Message-ID: <20250120130936.1080069-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ccd215c1146b84c085908e01966f7036be51afa8.1737370801.git.geert+renesas@glider.be>
 
-Hi Geert,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Thanks for your work.
+Hi,
 
-On 2025-01-20 12:09:12 +0100, Geert Uytterhoeven wrote:
-> Numerical by unit address, but grouped by type.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The Renesas RZ/G3S SoC has 6 serial interfaces. One of them is used
+as debug console (and it is already enabled in the current code base).
+Series adds support for the remaining ones.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Patches:
+-    01/04 - extends suspend to RAM support on the serial driver for
+             the RZ/G3S SoC
+- 02-04/04 - add device tree support
 
-> ---
-> To be queued in renesas-devel for v6.15.
-> 
->  arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 80 +++++++++++------------
->  1 file changed, 40 insertions(+), 40 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> index 89049e40086c2d41..cbc4680e497734d3 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> @@ -2171,6 +2171,24 @@ fcpvd1: fcp@fea11000 {
->  			iommus = <&ipmmu_vi1 7>;
->  		};
->  
-> +		fcpvx0: fcp@fedb0000 {
-> +			compatible = "renesas,fcpv";
-> +			reg = <0 0xfedb0000 0 0x200>;
-> +			clocks = <&cpg CPG_MOD 1100>;
-> +			power-domains = <&sysc R8A779G0_PD_A3ISP0>;
-> +			resets = <&cpg 1100>;
-> +			iommus = <&ipmmu_vi1 24>;
-> +		};
-> +
-> +		fcpvx1: fcp@fedb8000 {
-> +			compatible = "renesas,fcpv";
-> +			reg = <0 0xfedb8000 0 0x200>;
-> +			clocks = <&cpg CPG_MOD 1101>;
-> +			power-domains = <&sysc R8A779G0_PD_A3ISP1>;
-> +			resets = <&cpg 1101>;
-> +			iommus = <&ipmmu_vi1 25>;
-> +		};
-> +
->  		vspd0: vsp@fea20000 {
->  			compatible = "renesas,vsp2";
->  			reg = <0 0xfea20000 0 0x7000>;
-> @@ -2193,6 +2211,28 @@ vspd1: vsp@fea28000 {
->  			renesas,fcp = <&fcpvd1>;
->  		};
->  
-> +		vspx0: vsp@fedd0000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfedd0000 0 0x8000>;
-> +			interrupts = <GIC_SPI 556 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 1028>;
-> +			power-domains = <&sysc R8A779G0_PD_A3ISP0>;
-> +			resets = <&cpg 1028>;
-> +
-> +			renesas,fcp = <&fcpvx0>;
-> +		};
-> +
-> +		vspx1: vsp@fedd8000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfedd8000 0 0x8000>;
-> +			interrupts = <GIC_SPI 557 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 1029>;
-> +			power-domains = <&sysc R8A779G0_PD_A3ISP1>;
-> +			resets = <&cpg 1029>;
-> +
-> +			renesas,fcp = <&fcpvx1>;
-> +		};
-> +
->  		du: display@feb00000 {
->  			compatible = "renesas,du-r8a779g0";
->  			reg = <0 0xfeb00000 0 0x40000>;
-> @@ -2453,46 +2493,6 @@ port@1 {
->  			};
->  		};
->  
-> -		fcpvx0: fcp@fedb0000 {
-> -			compatible = "renesas,fcpv";
-> -			reg = <0 0xfedb0000 0 0x200>;
-> -			clocks = <&cpg CPG_MOD 1100>;
-> -			power-domains = <&sysc R8A779G0_PD_A3ISP0>;
-> -			resets = <&cpg 1100>;
-> -			iommus = <&ipmmu_vi1 24>;
-> -		};
-> -
-> -		fcpvx1: fcp@fedb8000 {
-> -			compatible = "renesas,fcpv";
-> -			reg = <0 0xfedb8000 0 0x200>;
-> -			clocks = <&cpg CPG_MOD 1101>;
-> -			power-domains = <&sysc R8A779G0_PD_A3ISP1>;
-> -			resets = <&cpg 1101>;
-> -			iommus = <&ipmmu_vi1 25>;
-> -		};
-> -
-> -		vspx0: vsp@fedd0000 {
-> -			compatible = "renesas,vsp2";
-> -			reg = <0 0xfedd0000 0 0x8000>;
-> -			interrupts = <GIC_SPI 556 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 1028>;
-> -			power-domains = <&sysc R8A779G0_PD_A3ISP0>;
-> -			resets = <&cpg 1028>;
-> -
-> -			renesas,fcp = <&fcpvx0>;
-> -		};
-> -
-> -		vspx1: vsp@fedd8000 {
-> -			compatible = "renesas,vsp2";
-> -			reg = <0 0xfedd8000 0 0x8000>;
-> -			interrupts = <GIC_SPI 557 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 1029>;
-> -			power-domains = <&sysc R8A779G0_PD_A3ISP1>;
-> -			resets = <&cpg 1029>;
-> -
-> -			renesas,fcp = <&fcpvx1>;
-> -		};
-> -
->  		prr: chipid@fff00044 {
->  			compatible = "renesas,prr";
->  			reg = <0 0xfff00044 0 4>;
-> -- 
-> 2.43.0
-> 
-> 
+Merge strategy, if any:
+- patch 01/04 can go through the serial tree
+- patches 02-04/04 can go through the Renesas tree
+
+Thank you,
+Claudiu Beznea
+
+Changes in v4:
+- dropped fixes and clock patches as they were applied independently
+- dropped DT patches that were already applied
+- addressed review comments
+
+Changes in v3:
+- in patch "serial: sh-sci: Check if TX data was written to device in
+  .tx_empty()":
+-- check the status of the DMA transaction in tx_empty()
+-- changed the variable name that tracks if TX occurred
+
+Changes in v2:
+- drop patch "serial: sh-sci: Clean sci_ports[0] after at earlycon exit"
+  from v1 as it was already applied
+- used bool instead of atomic_t in patch
+  "serial: sh-sci: Check if TX data was written to device in .tx_empty()"
+
+
+Claudiu Beznea (4):
+  serial: sh-sci: Update the suspend/resume support
+  arm64: dts: renesas: rzg3s-smarc-switches: Add a header to describe
+    different switches
+  arm64: dts: renesas: rzg3s-smarc: Enable SCIF3
+  arm64: dts: renesas: r9a08g045s33-smarc-pmod: Add overlay for SCIF1
+
+ arch/arm64/boot/dts/renesas/Makefile          |  3 ++
+ .../r9a08g045s33-smarc-pmod1-type-3a.dtso     | 48 +++++++++++++++++
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     | 20 +------
+ .../boot/dts/renesas/rzg3s-smarc-switches.h   | 40 ++++++++++++++
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  | 13 +++++
+ drivers/tty/serial/sh-sci.c                   | 53 +++++++++++++++----
+ 6 files changed, 149 insertions(+), 28 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a08g045s33-smarc-pmod1-type-3a.dtso
+ create mode 100644 arch/arm64/boot/dts/renesas/rzg3s-smarc-switches.h
 
 -- 
-Kind Regards,
-Niklas Söderlund
+2.43.0
+
 
