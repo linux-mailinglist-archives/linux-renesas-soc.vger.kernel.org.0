@@ -1,212 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-12301-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12302-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340CBA187D3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jan 2025 23:43:42 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6039BA18844
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 00:20:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22B6F3A3A79
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jan 2025 22:43:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 025451889B4D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jan 2025 23:20:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0FF11F8901;
-	Tue, 21 Jan 2025 22:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAA531F8698;
+	Tue, 21 Jan 2025 23:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YE3QB2WX"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="j5L4/n0+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="l78uTOQY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E0D187FE4
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jan 2025 22:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD381AA791;
+	Tue, 21 Jan 2025 23:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737499418; cv=none; b=BTIlZNAv6FOhsiz6ZYQw94xkCRqs7hBknIaWnU0gl1zJOK6+KvLjs2VcUtToF8p/2RDJnEKANt/ic9dhv6clQaGGnBcROFwkR5wuPLsujrsd27Oja8xsanZvNYKNINyL2pjawGkkUhykEBMHyHtEDjXc9zTtrf5ORc7KPIBt6+I=
+	t=1737501635; cv=none; b=OLyNgPF4KyPbovuVY6Gn+rhVpSl9FqS1ituUkKwe5MOVhQcyL7T75tvpct5Tidy7DPPDuA//mr2xJLzch93m4JJhuxMorLni8Sk81A5BdtqEiZQwslMyB9j6yuWQNGNofY+0vgtxVYS3PuZyGwbSUXXJih6oKgo3Mfn/gTfMORM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737499418; c=relaxed/simple;
-	bh=I5atyQV0DDfcD5tk1FjeS58o6J7qgZnZlgjr5XkFos0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WPeYUnxJV5S1n5Q1pZdg13G7B7aXvUtBVpsuW4rAYzrYaCFxF2aV+xDrfpGjRMJYAs1glK3HslGDJKPrOj61gnuxfi6gl/t6qpKiCcRoPPW3zu2tAs0b1vZ0DUy3+/SCArDVFPJSyybG3dTN4/lKYcNQRiKvqaq4vOl8lCkljeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YE3QB2WX; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737499417; x=1769035417;
-  h=date:from:to:cc:subject:message-id;
-  bh=I5atyQV0DDfcD5tk1FjeS58o6J7qgZnZlgjr5XkFos0=;
-  b=YE3QB2WXfSR5hcXO0LphfY6Lf8demrixINlhew01nnJXPKY4VFqir4uL
-   VV8pVD3CT8FE1b8YLatIJeWM3yU5Ai3tzPBqPHpixuwyBNtNHljC6hf6C
-   j8zeY985KOUNCv/ZKC8lBzEBD9G5YOUXiy+jKQ2vekAEYvNMhPocPRR5q
-   4+QG//bQLdBcr2jIC7HgWJ0+y4t82NkFr1YQ10Qd6lRsEcqxyQ+P3DeIA
-   td3Egn/7KfYZXuwoBiyXaymwxtIaSbh7s3PEGytgMgc4ycxR62aQnLlwq
-   WCabByEyv6uU8QoqM5Gm45TvXqP8mXbK8SqoZAxs6N6/FPColD2XDI0lk
-   A==;
-X-CSE-ConnectionGUID: vk58jY3dSOu3/TcyeyfrKQ==
-X-CSE-MsgGUID: ZYPwFGXNQ2+gR7iybfQbqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="37148061"
-X-IronPort-AV: E=Sophos;i="6.13,223,1732608000"; 
-   d="scan'208";a="37148061"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 14:43:36 -0800
-X-CSE-ConnectionGUID: YftoTIO6T7GvpcGEnja4IA==
-X-CSE-MsgGUID: gkzq6g4ZQvCKmMxS+C1Kag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111561998"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 21 Jan 2025 14:43:35 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1taMy5-000Z4l-1m;
-	Tue, 21 Jan 2025 22:43:33 +0000
-Date: Wed, 22 Jan 2025 06:42:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- d65183bfb94f5627b12a23700e03808b46ca9981
-Message-ID: <202501220628.9zBisiJN-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1737501635; c=relaxed/simple;
+	bh=/1rNoWasNEKZjbgLkeArIBKLFV1l+u33st4Wv9xVyRs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ubiHVO86M1bkjRQks7ARmt7sNSJFeHlZp26tJ7dZQcZvEUL+uw+FeNFDJFnRZhWPqAio/40gNPct6ay8gig7FNRWMJKB75J62hhBv/TISxCu6m2V5SLxU5VvmVLSLoAHY5FCqM4maCR0j7LJ0UlpF9Qs4+DJau3xtFcj2PoJoPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=j5L4/n0+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=l78uTOQY; arc=none smtp.client-ip=202.12.124.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id BE1772540222;
+	Tue, 21 Jan 2025 18:20:30 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Tue, 21 Jan 2025 18:20:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1737501630; x=1737588030; bh=7H
+	n8jgkhErA1R0Tlj0M3Rg/SDSF+HMstYXqIT3CYfcc=; b=j5L4/n0++iOBcd/tsZ
+	RBr2LrH4SJNUTO/IvNL30nGeDjyCfw/Hx8K/TjLGnVGBYEVTzrZwvIyOLWyw+f16
+	ZwuedJZSQ4n3+Chag4flMmaqHlOWdovza0StGQT4GZ6Giam98txsIHznU/FGRAHr
+	X0TaMLKWChWDYLvR/EAMbQmBNLsGHfhxUw24H9NJt7i1M0b0SC579D3CcWTugIsd
+	KjE8OiVqRALZhoDVTxIvKvfmbc0e8T5Bs+2ytAjYK6n965iD/rW2U7pw3AWXs5bk
+	D7fE2HyiOEmx7gTfcIeFx/twQxRvGR7iHUgDIWKWo3MbE1A9wHyKdwHbKp1dhKwk
+	h61Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1737501630; x=1737588030; bh=7Hn8jgkhErA1R0Tlj0M3Rg/SDSF+
+	HMstYXqIT3CYfcc=; b=l78uTOQYGtFa5Ai84fisMG76R0pSaIud0U6MWaWa0suh
+	SU5fWIMqmF9G6gIw/FFJpVGohwkAgkLMRRoO19LdeACYnAHctaidpH+dPvmG+sxP
+	vw2fwvn/GjBcbt04m/A3+gmDiylds8wHHB1UJaIECR0/dfpV2B3dN81orLBmDCXc
+	9f3WdeQyPgNuENPzX2tXvHPFoNyKtQ+RWxoEQzb6mDdEwzsPibVlqzGm16UR8ePY
+	jZ3a8yjYZ/JR9jDRLLyox8Z0BSuq5QmRWdQ+wtaYQGwhFvuDvlEw769QRzKjyvF4
+	0aQvwafzK4/R4BpcMgk4YCTVDoIeUDfhkE5QdBDaHw==
+X-ME-Sender: <xms:viuQZ7Bdduwa3rQ-t2pRK6BvrSgCtNzQch_Y7DI4AMbLWn-VjPf34g>
+    <xme:viuQZxggyEzloSr1FreFKfmY-FTYPspP4ivdwXJevvjNL7e7rIv4naLbaj2ssL3EN
+    Y03kvrDj43AAe7I4Yk>
+X-ME-Received: <xmr:viuQZ2mSi9vNMEOG2DrBWsR2sv4u8imh3Us_dLgwt6mVMocYIIk1HQ6EDiSWJ4D1739dcSGxf97r6sluUQNNR82W9Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejfedgtdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecu
+    hfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrh
+    hluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgv
+    rhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetge
+    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhk
+    lhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtth
+    hopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsrghkrghrihdrrghilhhu
+    sheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgv
+    shgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmh
+    gvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhr
+    vghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnh
+    hikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhs
+    vg
+X-ME-Proxy: <xmx:viuQZ9wYpyuNatvAgR-mkqccgZkzhpcQd75_N18rbgyKqMd9LW80xg>
+    <xmx:viuQZwQCj6WywjcX0uUhnU_s2iznT1RCDGjwwtJRajgNNT5ecs9ndg>
+    <xmx:viuQZwYQSs6H9WyfqRR6GeTxvNdn-sb9_9j_x0ZVRZTIf1XyPtiiHA>
+    <xmx:viuQZxTIE8xZM42lDtiIq5LU_H_2RDzHY9u48bt2Dm_MHBzrFUFuqg>
+    <xmx:viuQZ_GO9hU53Jbe5EGtr81lg7__EhwCXQprj0rvHjctlqbq54cBfRi8>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 21 Jan 2025 18:20:29 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/5] media: rcar-vin: Remove emulated SEQ_{TB,BT}
+Date: Wed, 22 Jan 2025 00:19:22 +0100
+Message-ID: <20250121231927.187463-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: d65183bfb94f5627b12a23700e03808b46ca9981  Merge branch 'renesas-dts-for-v6.15' into renesas-devel
+Hello,
 
-elapsed time: 816m
+When the driver was converted from soc_camera emulated support for
+V4L2_FIELD_SEQ_TB and V4L2_FIELD_SEQ_BT where added. This was done by
+capturing twice to the same VB2 buffer, but at different offsets.
 
-configs tested: 119
-configs skipped: 2
+This trend out to be a bad idea and the wrong place to try and emulate 
+this kind of thing. Further more it is fragile when it comes to things 
+like suspend/resume and scaling. Just how fragile it was have been made 
+more apparent when more features where added to the driver for things 
+the hardware really can do.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+If user-space really want to capture things in a SEQ_{TB,BT} fashion 
+this emulation of capturing twice to the same buffer with a different 
+offset can be emulated their instead of the kernel, where it always 
+should have been.
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                        nsimosci_defconfig    gcc-13.2.0
-arc                   randconfig-001-20250121    gcc-13.2.0
-arc                   randconfig-002-20250121    gcc-13.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-17
-arm                              allyesconfig    gcc-14.2.0
-arm                   randconfig-001-20250121    clang-18
-arm                   randconfig-002-20250121    gcc-14.2.0
-arm                   randconfig-003-20250121    gcc-14.2.0
-arm                   randconfig-004-20250121    gcc-14.2.0
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250121    gcc-14.2.0
-arm64                 randconfig-002-20250121    gcc-14.2.0
-arm64                 randconfig-003-20250121    gcc-14.2.0
-arm64                 randconfig-004-20250121    clang-18
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250121    gcc-14.2.0
-csky                  randconfig-002-20250121    gcc-14.2.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    clang-20
-hexagon                          allyesconfig    clang-18
-hexagon               randconfig-001-20250121    clang-19
-hexagon               randconfig-002-20250121    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250121    gcc-12
-i386        buildonly-randconfig-002-20250121    clang-19
-i386        buildonly-randconfig-003-20250121    gcc-12
-i386        buildonly-randconfig-004-20250121    gcc-12
-i386        buildonly-randconfig-005-20250121    gcc-12
-i386        buildonly-randconfig-006-20250121    clang-19
-i386                                defconfig    clang-19
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250121    gcc-14.2.0
-loongarch             randconfig-002-20250121    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                          ath79_defconfig    gcc-14.2.0
-mips                        bcm47xx_defconfig    clang-20
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250121    gcc-14.2.0
-nios2                 randconfig-002-20250121    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-14.2.0
-parisc                randconfig-001-20250121    gcc-14.2.0
-parisc                randconfig-002-20250121    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-16
-powerpc               randconfig-001-20250121    clang-20
-powerpc               randconfig-002-20250121    gcc-14.2.0
-powerpc               randconfig-003-20250121    gcc-14.2.0
-powerpc                     tqm5200_defconfig    gcc-14.2.0
-powerpc64             randconfig-001-20250121    gcc-14.2.0
-powerpc64             randconfig-002-20250121    clang-20
-powerpc64             randconfig-003-20250121    clang-16
-riscv                            allmodconfig    clang-20
-riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-20
-riscv                               defconfig    clang-19
-riscv                 randconfig-001-20250121    gcc-14.2.0
-riscv                 randconfig-002-20250121    gcc-14.2.0
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                                defconfig    clang-15
-s390                  randconfig-001-20250121    clang-15
-s390                  randconfig-002-20250121    gcc-14.2.0
-s390                       zfcpdump_defconfig    clang-19
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-14.2.0
-sh                    randconfig-001-20250121    gcc-14.2.0
-sh                    randconfig-002-20250121    gcc-14.2.0
-sh                      rts7751r2d1_defconfig    gcc-14.2.0
-sh                             sh03_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250121    gcc-14.2.0
-sparc                 randconfig-002-20250121    gcc-14.2.0
-sparc64                             defconfig    gcc-14.2.0
-sparc64               randconfig-001-20250121    gcc-14.2.0
-sparc64               randconfig-002-20250121    gcc-14.2.0
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-18
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250121    clang-16
-um                    randconfig-002-20250121    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250121    gcc-12
-x86_64      buildonly-randconfig-002-20250121    clang-19
-x86_64      buildonly-randconfig-003-20250121    gcc-12
-x86_64      buildonly-randconfig-004-20250121    clang-19
-x86_64      buildonly-randconfig-005-20250121    clang-19
-x86_64      buildonly-randconfig-006-20250121    gcc-12
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250121    gcc-14.2.0
-xtensa                randconfig-002-20250121    gcc-14.2.0
+This series removes this emulation in patch 1/5 and then proceeds to 
+remove a lot of cruft code needed to support it. The primary cleanups in 
+patch 2/5 - 4/5 revolve around simplifying the VIN internal state 
+tracking from 5 to 2 states needed to support the emulation.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Finally patch 5/5 removes a hack in the R-Car CSI-2 driver which was 
+added to support this emulation, and is no longer needed.
+
+I have tested this on Gen2, Gen3 and Gen4 without hitting any 
+regressions or other issues, other then of course SEQ_{TB,BT} are no 
+longer enumerated as output formats.
+
+Niklas Söderlund (5):
+  media: rcar-vin: Remove emulated SEQ_{TB,BT}
+  media: rcar-vin: Remove superfluous suspended state
+  media: rcar-vin: Remove superfluous starting state
+  media: rcar-vin: Simplify the shutdown process
+  media: rcar-csi2: Remove hack to detect NTSC content
+
+ drivers/media/platform/renesas/rcar-csi2.c    |   8 +-
+ .../platform/renesas/rcar-vin/rcar-core.c     |   6 +-
+ .../platform/renesas/rcar-vin/rcar-dma.c      | 129 ++++--------------
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |   7 -
+ .../platform/renesas/rcar-vin/rcar-vin.h      |  40 +-----
+ 5 files changed, 33 insertions(+), 157 deletions(-)
+
+-- 
+2.48.1
+
 
