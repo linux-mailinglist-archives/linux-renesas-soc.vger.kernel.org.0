@@ -1,109 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-12352-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12353-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1FEA1972C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 18:07:44 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB29FA1973C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 18:12:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 019481686CA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 17:07:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 761587A298F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 17:12:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AE8D2153DE;
-	Wed, 22 Jan 2025 17:07:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB63C215175;
+	Wed, 22 Jan 2025 17:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="BoikYN7Z";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SkEp//De"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="bCJOJ+z3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GshI7Hz7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4ED215197;
-	Wed, 22 Jan 2025 17:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236C6215046;
+	Wed, 22 Jan 2025 17:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737565635; cv=none; b=gYSH0M04W5bvl/cS/9HKtNTrbn/JT8ppwH3wgpWVRaaYYccpZgnCpdJ4BLqvR0zWn7J1w9MrQvkts5cczslXIaGFWBH7s1AkLXwwqWt6R5ydvJIrt1sH+C8oTM9l6CK39CLhzyzYj4kulZQ2vuCwzBu/tiS3ZPP53Oi6bK2Oxoc=
+	t=1737565964; cv=none; b=ZbGoBzj5kb9edUoU6veC47hFRytyb5+/Dou1E1w/YhXFPaRWov83gZN41YrOnICjkp7NFzHWhy0LqserD6ZQ3Jh1D2gPjmbYrkgaFdzjKG9vznx/QIScEbFmj3lQ5nM9BydbOSYhRC8GElSPuq+ON4TbNUKfrMvJFG3DAdtbX9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737565635; c=relaxed/simple;
-	bh=BPS/WHVw6XnlaIQJJMVijubIWTthg1nUlBDru1jNfuY=;
+	s=arc-20240116; t=1737565964; c=relaxed/simple;
+	bh=6SgjZb4hRVUGBh3SnTlgmRCpC4S7SRttCDI4bqrR47U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PFrpba12vgafnji+7RgBd8ggP6OPDYQOUwfkik77mB9ZS84KOyyE79JUMJmWLW+8lqzQpBBJMvvMa6HZeTzQdnekJ9yiU8ErMMj5RtcoBPqQyWFksGhmBJALYhTxMAT+9iqCVKznIXD6XjpXDPyOHb99RW/pBlZTITR/ENwneDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=BoikYN7Z; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SkEp//De; arc=none smtp.client-ip=202.12.124.145
+	 Content-Type:Content-Disposition:In-Reply-To; b=q/Dei7bSToE6ntX2uEDqRSvDqkZYGoXRObq86ySBhZG+aC1Y4p19EJqoCMFGBYTpcNQPFv8qiF5K79HSWtzowyftoeQjrX2RyMTfVKi+rSWHG9txsTXC/7ExrbYxXble2FyYOGszYMc0qkNk/R9j0kI5NiR1OUmOulG1RwtipVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=bCJOJ+z3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GshI7Hz7; arc=none smtp.client-ip=202.12.124.153
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 9296E114017D;
-	Wed, 22 Jan 2025 12:07:12 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Wed, 22 Jan 2025 12:07:12 -0500
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id BDCDD2540110;
+	Wed, 22 Jan 2025 12:12:41 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Wed, 22 Jan 2025 12:12:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1737565632;
-	 x=1737652032; bh=dhG6OgUvX3DXd7FLwr0E4WVbsVb3b0T3URJtuE8prZk=; b=
-	BoikYN7Zh/s9Sz5o21qxIOAor/FI2ooQHvJhpI4gz2YQPPwF2G7Nq60HYI+ZRcdV
-	ZaWao2htLqg8IjPTeuFg+kH8qJufRo/11MSUZLwNfJNHFJ9BF99uuLFkZKBDNOVe
-	Rs+R6gBGI1twpcKBu6x3ceSfCqViThH4E3iZFIcj1iHZInHQkt0JvuU7hoUySNQV
-	qQCHOrazZK/B///HWYnQ1t3tKoZ07zQN+vADZxWlPLkG28xjJi3nKsEd+UlOKQZv
-	yjTINaACYZkLiwvgbf1HemU9xy3x4yoKaO+cmqBw4Cj3EHV4a6AyFuQ4VoLKtmeb
-	ebdynvthtPa/xhYemJxxtw==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1737565961;
+	 x=1737652361; bh=dwXUm8YoFY119K2i5joSNw1cugyijj5TSH6LML8FXWc=; b=
+	bCJOJ+z3duE37aP5s7oDarp/kSqypI2BYu9e7S8Qh/yNOAMqBxRDJiiyLHSprDLV
+	KUVQlOotf/G3Yemcb0lzE2VLQhOpps7i3szvIROkUK2K8rmRfNwP1Iwrsl3zFsFk
+	v+9P6S9T7d5blkn2bwYXBixev/DjMOzo/zVdu2bTPiHUrIOvWbp/QGJwQgSAW5km
+	qiw+FoGvlAWMydCtQTyH8K8ddM3RJ4znU6eradxUV2C3Tl+oGv6v55vO6SLrKjE2
+	7Fs5Hqu1MDox5Bx82Q/TrZq4DhYELpRLChaq+u01Y/dBTzwxCW0eXL2/idPlKAgy
+	ZQzMFXMoMfZVjqo+yQZeww==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1737565632; x=
-	1737652032; bh=dhG6OgUvX3DXd7FLwr0E4WVbsVb3b0T3URJtuE8prZk=; b=S
-	kEp//DeoFTu46HlznlKGL9hUIc4mttbFZt03tw1fU3PYTBAAmx9e9i71JL0ROv0J
-	1g7ZagkeJnpoN24oAmDVH8psYP5lAlOROsJBLqB5Cibfsrk12qdstketOOX8BySN
-	D7gLbqfvrlyhjpRuYm67pAqeTM200CjWUDk3fc/H9+95HUlI0/6ZPiVcfyS5EPD5
-	G7hZe0DR8KE/iVmSrultRwMLRRDknyM6o2v1OvoDG6rMHSJKwXk3ZurJhSlp4t+H
-	YlDy0wjxaLynww2W/LElkEeyE3VwhIFjOqp1wukvXDSW5F5hC7RtdBYjgg2MPVaz
-	OODrPb9oCERlDD2hflQeQ==
-X-ME-Sender: <xms:wCWRZ_cdQdyWlIpQWkKOzHkj7NHKAMDDdYjfcPNfnzt6u8v0xmllVA>
-    <xme:wCWRZ1PIT2IUYi0OI4uJDc_wta6UuIGNabVowK3LggpVOngy0iR7dHQeLfw1Iytgh
-    1kiFHALQtSBWSQyrb0>
-X-ME-Received: <xmr:wCWRZ4g11yd2YiFu3UluUujfvsiFm0Ula0BVeWn59qR4RJ9t9AwCtjyq-ufquQj7E24MwL-UU4AWCTHip0EnbbZFX3Wunz0QzA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejfedgvddulecutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1737565961; x=
+	1737652361; bh=dwXUm8YoFY119K2i5joSNw1cugyijj5TSH6LML8FXWc=; b=G
+	shI7Hz7NEafgXnn9bEaeIZEmLNWdcofMAT4gUNVQb1etgPoHyVdl+e5tXyhu/lW9
+	Vyysdi3uFlgzGaMxprSP+f8+K2evUmDArD6o3FesX+hf2ZKp1nLf2bSZF7vw1Gqz
+	YleZj33hGw50ZqahLGyBVezsF8GlsUGm6Dir2Lmf4CwyH8F1i4hysJmVJKhAbPIZ
+	QSmoKtNuU7TWytGm6WieS1HKuS+4hd4wVwKwta+FeTXqjvcOTkRkfJMZmTyiVqHm
+	Inf8/t0SKej2YlvE2unE+BlikAL3q0APkRSlVRX5H6K1dZfA42xshcZHW2Gohysj
+	MARn0iydAvdXX9cgBqG8A==
+X-ME-Sender: <xms:CCeRZzTukk_fBTMpvFKINTZxZQEGRbFHOyyZkip8LJQhLnt3LJP6rg>
+    <xme:CCeRZ0xAeNu1FU2JL1H8oUCItSxuVHOm64z-jQj1LdRnQxpI4QXxunAJ1J8A5opjT
+    9_Sjpn3GgohLKHQhYk>
+X-ME-Received: <xmr:CCeRZ40AaKF8V5yWRp0aNtFVoay-Ive10UJnn3b9cFHYrO0j2UreKFzLIGvFdTXoCDf90-OIjE36LPcnC5RbWLKYQ-6CM9w7HQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejfedgvddvudcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
     hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
     jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepffdt
-    geefveefgfeutdevveelgfelkeeuvdefgefgfeehfeeijeehudelhfejkefgnecuffhomh
-    grihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvg
-    gthhdrshgvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehjrggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtg
-    hpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhrvghnvghsrghssehiuggvrghsohhn
-    sghorghrugdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghr
-    nhgvlhdrohhrgh
-X-ME-Proxy: <xmx:wCWRZw9n_d6UM_fCpBHgu_YoQMNGugCyTO2WuTifeOsYQtxgZmDeTA>
-    <xmx:wCWRZ7sflNynSNMYVIjplGl8hVt1QJgGZcDM9-rYke9UJScOnJwqlQ>
-    <xmx:wCWRZ_Eg3uqYawqQFEqUbxpWhvwol1FLczTQLr8jIne05WjuTlqQCg>
-    <xmx:wCWRZyMe9mDQs1M6Zn6ASGSQteR9U4aoO4hQjGt2iclYM2rOCYXUnw>
-    <xmx:wCWRZ_juHU6knDeF_gLOgUpgO5KzcR-mPOBaVCp7G1WLeIsCV1BSniyC>
+    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveet
+    gedtvddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhs
+    ohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepudegpd
+    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehkohhrhidrmhgrihhntggvnhhtsegs
+    ohhothhlihhnrdgtohhmpdhrtghpthhtohepphgruhhlrdgsrghrkhgvrhdrtghtsegsph
+    drrhgvnhgvshgrshdrtghomhdprhgtphhtthhopegrnhgurhgvfidonhgvthguvghvsehl
+    uhhnnhdrtghhpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprh
+    gtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepkhhu
+    sggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrd
+    gtohhmpdhrtghpthhtohepmhhikhhhrghilhdruhhlhigrnhhovhestghoghgvnhhtvghm
+    sggvugguvggurdgtohhmpdhrtghpthhtohepshgvrhhgvghirdhshhhthihlhihovhestg
+    hoghgvnhhtvghmsggvugguvggurdgtohhm
+X-ME-Proxy: <xmx:CCeRZzBWpjYX03w41G2EEs7210WJ7r-uYtUm-QJLCM6H0LtjSYBuiw>
+    <xmx:CCeRZ8iWxQbUldT1DJaFBteo_i8tIIThYDg58TwGXjiHTshBBCtLTw>
+    <xmx:CCeRZ3p_31ibqaCBXuXXoShraVbDrE5F4g0aaZeN0XIgVjAGwMtOEg>
+    <xmx:CCeRZ3h0xmbSRSH5zv76A1_SnFTrNMOR1avYMbi0GHlylCp3rgxXng>
+    <xmx:CSeRZ87pDXGjTpoz4EkjTeIjrGR0rma_ktN1ypZ7ecKagSnt2UQLgZoK>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jan 2025 12:07:11 -0500 (EST)
-Date: Wed, 22 Jan 2025 18:07:08 +0100
+ 22 Jan 2025 12:12:39 -0500 (EST)
+Date: Wed, 22 Jan 2025 18:12:37 +0100
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Paul Barker <paul.barker.ct@bp.renesas.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+	Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/10] media: rcar: Minor cleanups and improvements
-Message-ID: <20250122170708.GD3436806@ragnatech.se>
-References: <20250120-rcar-media-impro-v1-0-043823c3893e@ideasonboard.com>
- <20250121212448.GA3302176@ragnatech.se>
- <a0e38115-87c7-4145-b9d0-fb8f8ea1fcf7@ideasonboard.com>
- <20250122092128.GB3436806@ragnatech.se>
- <p2f3d5tm4ufax2ubgrsfm75c754mu2pdnkzmtopzwwebyuhcjf@i3dttqpg5myu>
+Subject: Re: [PATCH net 2/2] net: sh_eth: Fix missing rtnl lock in suspend
+ path
+Message-ID: <20250122171237.GF3436806@ragnatech.se>
+References: <20250122-fix_missing_rtnl_lock_phy_disconnect-v1-0-8cb9f6f88fd1@bootlin.com>
+ <20250122-fix_missing_rtnl_lock_phy_disconnect-v1-2-8cb9f6f88fd1@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -113,71 +119,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <p2f3d5tm4ufax2ubgrsfm75c754mu2pdnkzmtopzwwebyuhcjf@i3dttqpg5myu>
+In-Reply-To: <20250122-fix_missing_rtnl_lock_phy_disconnect-v1-2-8cb9f6f88fd1@bootlin.com>
 
-Hello Jacopo,
+Hi Kory,
 
-On 2025-01-22 12:57:13 +0100, Jacopo Mondi wrote:
-> Hi Niklas,
+Thanks for your work.
+
+On 2025-01-22 17:19:29 +0100, Kory Maincent wrote:
+> Fix the suspend path by ensuring the rtnl lock is held where required.
+> Calls to sh_eth_close, sh_eth_open and wol operations must be performed
+> under the rtnl lock to prevent conflicts with ongoing ndo operations.
 > 
-> On Wed, Jan 22, 2025 at 10:21:28AM +0100, Niklas Söderlund wrote:
-> > On 2025-01-22 10:02:59 +0200, Tomi Valkeinen wrote:
-> > > Hi,
-> > >
-> > > On 21/01/2025 23:24, Niklas Söderlund wrote:
-> > > > Hi Tomi,
-> > > >
-> > > > Thanks for a great cleanup series!
-> > > >
-> > > > On 2025-01-20 15:10:33 +0200, Tomi Valkeinen wrote:
-> > > > > I've started looking at multi-stream support, and came up with these
-> > > > > while working towards streams.
-> > > > >
-> > > > >   Tomi
-> > > > >
-> > > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > > >
-> > > > I have tested this in Gen2, Gen3 and Gen4 without noticing any
-> > > > regressions. The log is now spammed with the helpful suggestion that the
-> > > > CSI-2 TX subdevices shall implement V4L2_CID_LINK_FREQ control. This is
-> > > > annoying but out of scope for this series, but would be nice at some
-> > > > point.
-> > > >
-> > > >    [   37.421531] v4l2_get_link_freq: Link frequency estimated using pixel rate: result might be inaccurate
-> > > >    [   37.430991] v4l2_get_link_freq: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver
-> > >
-> > > Which drivers need fixing? The staging max96712 is one (there seems to be a
-> > > TODO there about it), and adv748x? I'm not going to work on that right now,
-> > > but just collecting the details.
-> >
-> > Indeed adv748x is the other driver needing work here. The problem as I
-> > recall it is that V4L2_CID_LINK_FREQ is a menu control, and adv748x
-> > selects it link freq based on what it is outputting. But it's been some
-> > time since I looked at this, maybe I recall incorrectly.
-> >
-> 
-> Would this series help ?
-> https://patchwork.kernel.org/project/linux-media/list/?series=926905
+> Fixes: b71af04676e9 ("sh_eth: add more PM methods")
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-I think it would, it seems to perfectly fit the adv748x situation, 
-awesome!
+Tested on R-Car M2,
 
+Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+>  drivers/net/ethernet/renesas/sh_eth.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> > >
-> > > > For the whole series,
-> > > >
-> > > > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > > Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > >
-> > > Thanks!
-> > >
-> > >  Tomi
-> > >
-> >
-> > --
-> > Kind Regards,
-> > Niklas Söderlund
-> >
+> diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
+> index 8887b8921009..5fc8027c92c7 100644
+> --- a/drivers/net/ethernet/renesas/sh_eth.c
+> +++ b/drivers/net/ethernet/renesas/sh_eth.c
+> @@ -3494,10 +3494,12 @@ static int sh_eth_suspend(struct device *dev)
+>  
+>  	netif_device_detach(ndev);
+>  
+> +	rtnl_lock();
+>  	if (mdp->wol_enabled)
+>  		ret = sh_eth_wol_setup(ndev);
+>  	else
+>  		ret = sh_eth_close(ndev);
+> +	rtnl_unlock();
+>  
+>  	return ret;
+>  }
+> @@ -3511,10 +3513,12 @@ static int sh_eth_resume(struct device *dev)
+>  	if (!netif_running(ndev))
+>  		return 0;
+>  
+> +	rtnl_lock();
+>  	if (mdp->wol_enabled)
+>  		ret = sh_eth_wol_restore(ndev);
+>  	else
+>  		ret = sh_eth_open(ndev);
+> +	rtnl_unlock();
+>  
+>  	if (ret < 0)
+>  		return ret;
+> 
+> -- 
+> 2.34.1
+> 
 
 -- 
 Kind Regards,
