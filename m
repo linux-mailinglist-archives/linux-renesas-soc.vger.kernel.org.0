@@ -1,222 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-12339-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12340-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE025A1964D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 17:19:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 684A6A19654
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 17:20:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 966443A29AA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 16:19:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5590816C337
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 16:20:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF77C1D5CDB;
-	Wed, 22 Jan 2025 16:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA95C21504A;
+	Wed, 22 Jan 2025 16:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gU8/2zZH"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UobflmCR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3FF82488
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Jan 2025 16:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9047F214A78;
+	Wed, 22 Jan 2025 16:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737562744; cv=none; b=p3e5wEg+9s25dCnvoKmw4jpI8GMRX/6rnSwJtFvsPVYRvMALWUNdo+rkwWG4UZluFnfOxhQmw+wqtY31Ly4AKDob3tETCtY48Pqh7b4JLLrX8iH40cbtlS0aWV9F4Dig6RSGJ0CjY2gNWJGP9Zm1WXjtCG6qzIm+eP3iO6ojvtM=
+	t=1737562787; cv=none; b=qFIQkhGAAS7/abGruSACmaEkZpuSF809smv28wsseqmLXx7c2bFRo5dtcktArilh04OS59RfilT+4RamB7gDpff9zheeXyVgzaoyo+k40LQkn7LhPNCRLrastX+x4hwQZkg68mKS6hZyiNGSXD++n8Q9gukzT+EjLXKWfD6+GOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737562744; c=relaxed/simple;
-	bh=cebKe7C/2SSd0/zc3UiVXCoHP8t7feoTEqtVcG9xv4w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sHOvcspr5RpIHIILwNlOgSH/9zeu4nIjPkbql7GlJV5jVUdPmttlSmqPEebaCNncof1506GtVUISOckrCDo/Jrjp7+UBWWb40MVOmn6p9N1lS0zfydF5AdtClasvJDPe08qtJoy57DQz2moXZa8ae3YHEpywza/EgEDzVkyQeE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gU8/2zZH; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737562742; x=1769098742;
-  h=date:from:to:cc:subject:message-id;
-  bh=cebKe7C/2SSd0/zc3UiVXCoHP8t7feoTEqtVcG9xv4w=;
-  b=gU8/2zZHWodRWI5hYfqTPj4q6AZzAX+/Mx5xGfcOETrEH7cnOqvGbhnG
-   p6gKlZEznPrumxpVfESj8s+kRqG6PdLpTnnEf2S7Zq1VpOhXKSLEP1aPk
-   76/RhuDyv3gorF2+Dad29LpMqR7Ksb7G/iK7GF8nBDA1NGhgmE39Ya9+R
-   YAQDbLMX2IjCgObB/rT/7vceMDrCvlTc2lAEi50jQMVpmHV1nhlnM5nfQ
-   +zV7rBh6+IGeOGMyrHL3Ys0DlTf9E8Z0eVeZiNGSkNvzn1qBcyp8HJYzt
-   LVCB2cUhWyShZWOEUbDIJDa+pgpzIkSH9MixB0zHDFDzrbhey65N9Qa/Q
-   Q==;
-X-CSE-ConnectionGUID: kjJMiQIWQ0KCX4aRHrt3uQ==
-X-CSE-MsgGUID: 7ruxxjcORjmnwx0JBerPbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="49423775"
-X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
-   d="scan'208";a="49423775"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 08:19:02 -0800
-X-CSE-ConnectionGUID: Ka6F8Xg1QDi+PK6PyVP+kg==
-X-CSE-MsgGUID: phEXUWM1QwCLlwJy/H3p1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
-   d="scan'208";a="107718722"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Jan 2025 08:19:00 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tadRS-000a5r-2x;
-	Wed, 22 Jan 2025 16:18:58 +0000
-Date: Thu, 23 Jan 2025 00:18:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD SUCCESS
- bbbdf6aec1887d732963a2ba5a030d6bf0494a27
-Message-ID: <202501230004.sY5Ncl2F-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1737562787; c=relaxed/simple;
+	bh=7CNsQ80LZVw9IoDMMnVfyIz2uDFTInZGLzFYz+F0bNM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ki5RLJCQMm3ipyQaf/y5CDzSgIO1jJ9sGHf7vWpUeCahidRQ/iU31GD/JJqXybj2DEijfXhMmgpPPI7N6wIK9rTxcSuWAlyMpQySLuvBRCYgaSzqkf15OkcVTrG96mj9+qAKX/6UtueKcDQVtQeltoPeIrx9zr89WYMZmzcsd+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UobflmCR; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 95E752000D;
+	Wed, 22 Jan 2025 16:19:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1737562778;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=BaNeaxo/EXydVKaUh75bYjXQwd6aUYDYIH7Dt+yJ8Pg=;
+	b=UobflmCReyqT3rtzXHkILvPtITOis36/jEp10bDQU6C3SNPdQL1JDSFgsxm0M0hf3BPMDD
+	2J99CRSncP+ktkMB1no6GqEGJejY7TQzLB/oDXuqLcKJ6UGXK+yJVjpOy9eqJCjtYgGzfc
+	iaD/3fvFgfI3QYkMnEiuO1E0LvIYoZ/GtBgL+FW2HVa9HS3r91xcIZfGL2GEisMmCcUUS4
+	2Lv/T7AMtQYt6EypRFlUM80ifGBp7M23lVieMBM/90QWmnDLbS1ra3tIgydp1+r+aVkwjk
+	8H7qsmFYB4/WjK6ZWMLjQvYLuEUH4aBPBlM6iXKeBsstEJ+Q9adBS2TblrkPyw==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net 0/2] Fix missing rtnl lock in suspend path
+Date: Wed, 22 Jan 2025 17:19:27 +0100
+Message-Id: <20250122-fix_missing_rtnl_lock_phy_disconnect-v1-0-8cb9f6f88fd1@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAI8akWcC/x2NQQrDIBAAvxL2XEEFU+hXSpF2XZOl6RpcCS0hf
+ 6/kOIeZ2UGpMinchh0qbaxcpIO7DIDzUyYynDqDtz5Y573J/I0fVmWZYm2yxKXgO67zLyZWLCK
+ EzWR0acwhva42QE+tlbp3bu4g1OBxHH+4jmBCewAAAA==
+To: Paul Barker <paul.barker.ct@bp.renesas.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>, 
+ Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, netdev@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kory Maincent <kory.maincent@bootlin.com>
+X-Mailer: b4 0.14.1
+X-GND-Sasl: kory.maincent@bootlin.com
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: bbbdf6aec1887d732963a2ba5a030d6bf0494a27  [LOCAL] riscv: renesas: defconfig: Update rzfive_defconfig
+Fix the suspend path by ensuring the rtnl lock is held where required.
+Calls to open, close and WOL operations must be performed under the
+rtnl lock to prevent conflicts with ongoing ndo operations.
 
-elapsed time: 1435m
+Discussion about this issue can be found here:
+https://lore.kernel.org/netdev/20250120141926.1290763-1-kory.maincent@bootlin.com/
 
-configs tested: 129
-configs skipped: 4
+While working on the ravb fix, it was discovered that the sh_eth driver
+has the same issue. This patch series addresses both drivers.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I do not have access to hardware for either of these MACs, so it would
+be great if maintainers or others with the relevant boards could test
+these fixes.
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                   randconfig-001-20250122    gcc-13.2.0
-arc                   randconfig-002-20250122    gcc-13.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-17
-arm                              allyesconfig    gcc-14.2.0
-arm                         assabet_defconfig    clang-20
-arm                         lpc18xx_defconfig    clang-19
-arm                           omap1_defconfig    gcc-14.2.0
-arm                          pxa3xx_defconfig    clang-20
-arm                          pxa910_defconfig    gcc-14.2.0
-arm                   randconfig-001-20250122    clang-19
-arm                   randconfig-002-20250122    clang-20
-arm                   randconfig-003-20250122    gcc-14.2.0
-arm                   randconfig-004-20250122    gcc-14.2.0
-arm                        realview_defconfig    clang-19
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250122    clang-20
-arm64                 randconfig-002-20250122    clang-15
-arm64                 randconfig-003-20250122    clang-20
-arm64                 randconfig-004-20250122    clang-19
-csky                             alldefconfig    gcc-14.2.0
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250122    gcc-14.2.0
-csky                  randconfig-002-20250122    gcc-14.2.0
-hexagon                          alldefconfig    clang-15
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    clang-20
-hexagon                          allyesconfig    clang-18
-hexagon               randconfig-001-20250122    clang-20
-hexagon               randconfig-002-20250122    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250122    clang-19
-i386        buildonly-randconfig-002-20250122    gcc-12
-i386        buildonly-randconfig-003-20250122    gcc-12
-i386        buildonly-randconfig-004-20250122    clang-19
-i386        buildonly-randconfig-005-20250122    clang-19
-i386        buildonly-randconfig-006-20250122    clang-19
-i386                                defconfig    clang-19
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250122    gcc-14.2.0
-loongarch             randconfig-002-20250122    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                       bvme6000_defconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                          ath79_defconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250122    gcc-14.2.0
-nios2                 randconfig-002-20250122    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-14.2.0
-parisc                randconfig-001-20250122    gcc-14.2.0
-parisc                randconfig-002-20250122    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-16
-powerpc                     mpc5200_defconfig    clang-20
-powerpc                     rainier_defconfig    gcc-14.2.0
-powerpc               randconfig-001-20250122    gcc-14.2.0
-powerpc               randconfig-002-20250122    clang-17
-powerpc               randconfig-003-20250122    clang-15
-powerpc64             randconfig-001-20250122    clang-20
-powerpc64             randconfig-002-20250122    clang-19
-powerpc64             randconfig-003-20250122    clang-20
-riscv                            allmodconfig    clang-20
-riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-20
-riscv                               defconfig    clang-19
-riscv                 randconfig-001-20250122    clang-20
-riscv                 randconfig-002-20250122    gcc-14.2.0
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                                defconfig    clang-15
-s390                  randconfig-001-20250122    clang-18
-s390                  randconfig-002-20250122    clang-20
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-14.2.0
-sh                               j2_defconfig    gcc-14.2.0
-sh                    randconfig-001-20250122    gcc-14.2.0
-sh                    randconfig-002-20250122    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250122    gcc-14.2.0
-sparc                 randconfig-002-20250122    gcc-14.2.0
-sparc64                             defconfig    gcc-14.2.0
-sparc64               randconfig-001-20250122    gcc-14.2.0
-sparc64               randconfig-002-20250122    gcc-14.2.0
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-18
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-20
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250122    gcc-12
-um                    randconfig-002-20250122    clang-20
-um                           x86_64_defconfig    clang-15
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250122    gcc-12
-x86_64      buildonly-randconfig-002-20250122    clang-19
-x86_64      buildonly-randconfig-003-20250122    gcc-12
-x86_64      buildonly-randconfig-004-20250122    gcc-12
-x86_64      buildonly-randconfig-005-20250122    gcc-12
-x86_64      buildonly-randconfig-006-20250122    clang-19
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                generic_kc705_defconfig    gcc-14.2.0
-xtensa                randconfig-001-20250122    gcc-14.2.0
-xtensa                randconfig-002-20250122    gcc-14.2.0
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+Kory Maincent (2):
+      net: ravb: Fix missing rtnl lock in suspend path
+      net: sh_eth: Fix missing rtnl lock in suspend path
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ drivers/net/ethernet/renesas/ravb_main.c | 19 +++++++++++++++----
+ drivers/net/ethernet/renesas/sh_eth.c    |  4 ++++
+ 2 files changed, 19 insertions(+), 4 deletions(-)
+---
+base-commit: b1754a69e7be48a64b3cdb0df60a96d97959da73
+change-id: 20250122-fix_missing_rtnl_lock_phy_disconnect-fc1d6f5db705
+
+Best regards,
+-- 
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
 
