@@ -1,178 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-12312-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12313-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722ECA18E45
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 10:28:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0584A18EFB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 10:57:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6E94167CE1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 09:28:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AA363AB49C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 09:57:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E27920FA84;
-	Wed, 22 Jan 2025 09:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="GgK+H7DP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97C1C2101BE;
+	Wed, 22 Jan 2025 09:57:04 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5911F7569
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Jan 2025 09:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85471210190;
+	Wed, 22 Jan 2025 09:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737538097; cv=none; b=CZZOC1eTX9TuFEWgAXNIAcQzGaW/HMSqVmBPCWaUSNPLrHwE+LKkPvEidLgYQg3KyBwJiBkBDGuIdcILOsBfz/h+2cBylNKpqUPUFc0EN9gqrLEJ8bd5vWV2w4kIfSCQDhq37FVYg90KWI6PORW2DD/4DLAVFCTStPsUZOotVXU=
+	t=1737539824; cv=none; b=tRWZy1VEzQpq7JC4TnTz5wE+9fxF2wL8VUkIAqMrNCT7zuoKCP6HyKFl8F6Zyh4yClOBcq3JurDYGUAf1tabedS4E5C7HflTAkE7ImdSXn0Yk7L3db6f4MAsRUp7b5MAbYZSQ2KPedmgJv7g4vJHNB7AHKhIgiWyWlnxVsIe6pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737538097; c=relaxed/simple;
-	bh=a9SivqPoIKWLgkYUu0g5/zGCJSIbILPA1BNc/q3fPtk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K2rLs2E0Oz/p3fxKoV1AynsSwRoQbiibgmabqZsFFIeKYQ0i4YmheTWojW4aNLz8ZzH8ytYbU1rbeg0CXuBc1rq06MxvVkP5fsFdoLZCetHL9tRbgoso1sPFGdD6NXB0fqfSLX+NC7WZhx4FVvjkvREP48dM5du0vdMtqQbMLog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=GgK+H7DP; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=BYbl
-	9OgCpb29ESTVFSf2ESDEm1m+r7d9C2IeC93BBnY=; b=GgK+H7DPJK2Phu6EzJpm
-	HB/16jW1NF9c3sBNBbSgsm+7+ufnyMWj/hVrXpzv4fYvhMl4VWOOCEuVOH6hpbub
-	QKwx3DJ6rMnNEyUrjHbzIy9Orx7Q8JT/z6k8EsUkWDMGwuDuWq473yYvRFiSK86j
-	OaGqj1V8r0Fk5O8mavhdSEdlPlDzQunLnnu4KwewsF88XolVEeGByQDL0eFXl/mP
-	dZOwPG/AKwiGmWFg60ZWicp3juLavnfPVq/P4R3lYSqD9bXbA70ndMeyNKnThuqf
-	U+mBFcamEVkuXLm+hUL565tXnRXSbKb0c0q4aZmbqiNA81XFf8O3IFQUFs1uL4NH
-	bg==
-Received: (qmail 2832194 invoked from network); 22 Jan 2025 10:28:10 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Jan 2025 10:28:10 +0100
-X-UD-Smtp-Session: l3s3148p1@lF6hHEgsCOkujnvm
-Date: Wed, 22 Jan 2025 10:28:09 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org
-Subject: Re: [RFC PATCH v2] mmc: suspend MMC also when unbinding
-Message-ID: <Z5C6KWGh-y1P7Xrg@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org
-References: <20241104092215.20946-2-wsa+renesas@sang-engineering.com>
- <CAPDyKFrOx3CiVjiWTPwqMC8XONwQ2C=NHFGw_h_XqA1yoZni8g@mail.gmail.com>
+	s=arc-20240116; t=1737539824; c=relaxed/simple;
+	bh=bQItIC9OMhkwNciZtvw/Y85t+lW3PH9iS0vi8IEpgUg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qSGL+kND645x6l8FKSZXUZDLsNwIQRqceEAD4NAZY5TJiWdzKVa+7kcOMzdBZ/ELS/IbiRY+YWg1PgXw32C0akHqxa+tGZBpznoofAn4DVEoHWGuFXxDIiCZfQsUKYJj+JtsjG1hx6q9zyWy2DLjIPmrF0UfzQIZyTK4UZ/ytiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-85b95896cefso1156337241.2;
+        Wed, 22 Jan 2025 01:57:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737539821; x=1738144621;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Me3Jqra0wJNLZUqRxXUXHKeEureOarGNmBw0jL34Frc=;
+        b=sdfrSLckfQxwOCLC/1qCRNVmL8scuQFm8pt4PBtYtmo1SiwkGiAGKRS/NrAGxuWyMy
+         8QMFP9+99c4wOeW8hGKeJ6kcEDGgl9YaMKJO7mMVJuR7JWt0IJU2wUOalnn3grqw2Ko+
+         2Bxj1hY1UuqKlx1j7DpmY4duZNo7Utt9hMGQ1davVHRQ36acm6dkgF/GayCz11O1XwcE
+         3uZMlrZvN3g2X356kXxrzuEXBIlVZpDfkGqf0gfrD6ttOhW+wnZm8+cuByG1aaqHyCtL
+         /pxSZkrySU9329VmItpb7D/w+sPzcj3AvVk4KW7oueV6vW0F+teYg95UT5I8NAiLvLdO
+         fncw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZffBHepN8YFn3tjLW5c7uJiZUL6f3JSv7rrIC13Efq/SgWD9BWYjRyfIbmAJu+yKYODbfBnZyvT9l7iKb2HOvCFA=@vger.kernel.org, AJvYcCXZdWpDHiTnAso1EVK25nb/dGMZUCe/mkQ+NIne6Eica973B0x64aQ7D1IYaXiiQPOWwQM7H0857u32ME6S@vger.kernel.org, AJvYcCXzXPmlTXO+oU4lgdy23bnn5+yzEfNJ+qspjhZxxUNy8FFSqlSQUKtS3RZcXT1t3opKmouyaRYnKHg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+iVXHKiw0v+Iqt2ScEs1s24Lo3P5+8oOjSNdWSz4ZR6XZYHoa
+	XCPzIDRKylFbA1e59SHs2WLrj/+6BhVZiU3CFeaCRyvmF821pgKg0YcGSCEf
+X-Gm-Gg: ASbGncsBqZor/eEN+2PJhpR2uOlhGz/yhen3xeIA44fY5MzLKYxe2txMdY1BOxLvLvj
+	Yn2aVM8/94r5oC8m4ZX/8QvQMt0FUOky6Hfu6PPOBpjG3L9hfyVdDIY+ziN3dgFjCkLq7ypqokA
+	irXSq0pUOv6xmXFet6ZgPgryMrQDUqThSGZZvtOCcfvXP+6Ox7aPe/C6CxkFaZVqxhP7QhcJun9
+	1Ug4u26dxLXTO0HChrLZB/eTpKEy8psrC83pwGjIfrqTlwrHVHWUs8OlU0+HZaL+uQYk7CheNXm
+	sSuh8hUC1PlEXvEjdH3ewdXWz+aYQ+A7
+X-Google-Smtp-Source: AGHT+IFGGTyXISy6L6ewDSZgkHz7Sw63GBJsRj8HL7FofKSa2sTTrRKWwQh5QGKXlw3kySkHOdUqMg==
+X-Received: by 2002:a05:6102:b02:b0:4b1:3409:93dd with SMTP id ada2fe7eead31-4b690cde1f1mr16214786137.18.1737539821025;
+        Wed, 22 Jan 2025 01:57:01 -0800 (PST)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b68a33f5d7sm2613705137.27.2025.01.22.01.57.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jan 2025 01:57:00 -0800 (PST)
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4affd0fb6adso1911399137.1;
+        Wed, 22 Jan 2025 01:57:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVVE/qdf/BUAPJKbFVBWlXItChTDzuILddyv/6q62/L0ACbhQjYGVxlNL7adeWYYXhHGK1RNwl2s+bWB+FORkjmuQQ=@vger.kernel.org, AJvYcCW6gi0yQPAA6zefNReasPwbsr0FWLrvEchstCKax4IL/vJrPxTjVL3GqGq5pt6eXkUWr08Q2IeMF1nBA/kp@vger.kernel.org, AJvYcCWBmv7/MRlvWKx4l2HCU4JxQys1rsW+pL33YJ5mj6MorEAd+IVPLTxeayBCtvCKJH7lK0DdWyOs9Bs=@vger.kernel.org
+X-Received: by 2002:a05:6102:a47:b0:4b6:1ce1:30a4 with SMTP id
+ ada2fe7eead31-4b690d1233fmr14880755137.21.1737539820170; Wed, 22 Jan 2025
+ 01:57:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oWUFow99zFSM+DlD"
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFrOx3CiVjiWTPwqMC8XONwQ2C=NHFGw_h_XqA1yoZni8g@mail.gmail.com>
-
-
---oWUFow99zFSM+DlD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250115142059.1833063-1-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20250115142059.1833063-1-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 22 Jan 2025 10:56:48 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU_zLGJUWj-58ESJr41Vh1vuxcB_NGU1KQUb0cKEJTtUA@mail.gmail.com>
+X-Gm-Features: AWEUYZlWR9X3PMqN3mR_5o4BFUWL7637w4s5j_LDRbFwcQ4YepNQoOsHPiLskHM
+Message-ID: <CAMuHMdU_zLGJUWj-58ESJr41Vh1vuxcB_NGU1KQUb0cKEJTtUA@mail.gmail.com>
+Subject: Re: [PATCH v2] clk: renesas: r8a08g045: Check the source of the CPU
+ PLL settings
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ulf,
+On Wed, Jan 15, 2025 at 3:21=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> On the RZ/G3S SoC, the CPU PLL settings can be set and retrieved through
+> the CPG_PLL1_CLK1 and CPG_PLL1_CLK2 registers. However, these settings ar=
+e
+> applied only when CPG_PLL1_SETTING.SEL_PLL1 is set to 0. Otherwise, the
+> CPU PLL operates at the default frequency of 1.1 GHz. This patch adds
+> support to the PLL driver to return the 1.1 GHz frequency when the CPU PL=
+L
+> is configured with the default frequency.
+>
+> Fixes: 01eabef547e6 ("clk: renesas: rzg2l: Add support for RZ/G3S PLL")
+> Fixes: de60a3ebe410 ("clk: renesas: Add minimal boot support for RZ/G3S S=
+oC")
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-slowly coming back to this one.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk for v6.15.
 
-> > +       card->state &=3D ~MMC_STATE_PRESENT; // TBD: mmc_card_clear_pre=
-sent()
->=20
-> This is nice from a consistency point of view. Although, I don't want
-> us to use this bit as an indication to inform the bus_ops->suspend()
-> callback what to do. It seems prone to problems.
+Gr{oetje,eeting}s,
 
-Makes sense. We can use another bit like MMC_STATE_NEEDS_SUSPEND. That
-would also...
+                        Geert
 
-> > +       host->bus_ops->suspend(host);
->=20
-> I think this is a step in the right direction. Somehow we need to be
-> able to call the bus_ops->suspend() before we call put_device() and
-> before we clear the host->card pointer.
->=20
-> However, we don't want to call bus_ops->suspend() in all cases from
-> mmc_remove_card(), but *only* when it gets called from
-> mmc_remove_host()->mmc_stop_host(), via the
-> "host->bus_ops->remove(host)" callback.
->=20
-> I am wondering whether we should just re-work/split-up the code a bit
-> to make this work. In principle, when mmc_remove_card() is called from
-> the path above, we should not let it call put_device(), but leave that
-> part to the caller (mmc_stop_host()) instead. Or something along those
-> lines.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-=2E.. avoid this :) Refactoring every code which calls mmc_remove_card()
-to handle the additional put_device() on its own seems intrusive to me.
-And error prone, new users might forget to do it. And that for only one
-use case where we want to do extra stuff.
-
-Leaving out put_device() within mmc_remove_card() only for that one case
-is bad API design, of course.
-
-So, I envision more something along this:
-
-	if (card->state & MMC_STATE_NEEDS_SUSPEND)
-		mmc_suspend()
-
-Maybe even more generic?
-
-	if (card->state & MMC_STATE_PREPARE_REMOVE)
-		bus_ops->prepare_remove()
-
-Or am I missing something from your suggestion?
-
-> > +       enum mmc_pm_reason reason =3D mmc_card_present(host->card) ?
-> > +                                   MMC_PM_REASON_SUSPEND : MMC_PM_REAS=
-ON_REMOVAL;
->=20
-> I don't think it makes sense to differentiate between a regular
-> "suspend" and a "host-removal". The point is, we don't know what will
-> happen beyond the host-removal. The platform may shutdown or the host
-> driver probes again.
->=20
-> Let's just use the same commands as we use for suspend.
-
-Sadly, I think it makes sense because of our HW. We cannot control the
-regulators directly. PSCI handles them. And for shutdown, it will do
-"something". For normal suspend, nothing will happen because PSCI will
-not be called. This is why Shimoda-san introduced
-"full-pwr-cycle-in-suspend" back then.
-
-The differentiation is needed a little above:
-
-> -	    ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) || !is_suspend ||
-> -	     (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND)))
-> +	    (can_pwr_cycle_now || reason =3D=3D MMC_PM_REASON_SHUTDOWN))
->               err =3D mmc_poweroff_notify(host->card, notify_type);
-
-Here. Poweroff notification is only valid in the POWEROFF case for us.
-
-Thanks for your time,
-
-   Wolfram
-
-
---oWUFow99zFSM+DlD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmeQuiUACgkQFA3kzBSg
-KbZhAA/8DpFZlbKUfCLTz+I5uuu1KIVwHfGWR44Hygh+wl6AKjUPf0oagLYXLTsf
-oQvhh5pHz/DuLtl+d/hGK9Aape66jv82OVRBYuORvwAx/LnERGpxjm6S1RPAn62P
-6G6YxAZV7jTbcxjUrJOKb990YKH3n+C3ey+FnMY+nsFHVYmhYnyJ9Lc5a+Gmce/0
-5pi+4/+Gfsz6yckeLq3EFOO8vTU1g7IIsQ1ydX86Yl0NQhALBnHsCSRQa8H9OdsK
-dfQftOLed3a8NBr/ZHMw6glKFPVFJe+O3YWyfQv1l6FHTnNchUNrsqWGAVG3Cj7u
-0wvXkqZhEhlXm2TmicsqWgcDdNf4mKTfJ7R5dkI2e/TaDb+wVRojfNriNnfWeiZh
-tKTPkD5SE0QddXGVraSLCN73RaxUXag5sBh+W8pltxdVP9qhpHLJOo+YPRr4yTHA
-FkwqH9ZusPdfSL6W8MfgYNKVG5Gu491nwJPtBvZBffeFgXLT4frc7kKwTZEtOTD7
-+eEBipoBL+2XFsN9CVK81UZ4s9uAyS+wyPP8SzfUEVEEwLfyz7YN5dukyDF2j+6e
-/gjsI+fGsqqQcb/VfH9fOXHwn8mRR4wVTVczrxN/7D2xlnDjzo7v0O2BNvjaiHEw
-MPTMybiqWkkJFRii3MtOiHq6VQnWNj5Y9yGkCO89dQvSa3KMY0A=
-=9DOs
------END PGP SIGNATURE-----
-
---oWUFow99zFSM+DlD--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
