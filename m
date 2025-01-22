@@ -1,276 +1,222 @@
-Return-Path: <linux-renesas-soc+bounces-12338-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12339-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3830EA191F9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 14:01:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE025A1964D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 17:19:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C07CC188CDC7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 13:01:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 966443A29AA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 16:19:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 345141BD9C7;
-	Wed, 22 Jan 2025 13:01:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF77C1D5CDB;
+	Wed, 22 Jan 2025 16:19:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gvIRHdu1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gU8/2zZH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0808C83CC7;
-	Wed, 22 Jan 2025 13:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3FF82488
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Jan 2025 16:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737550887; cv=none; b=WWF4eT7iQQECCsPb8YabWTIjet2fBQQDaD7r4P+t47Qrzdh0uah/qG6BRbXT0hjsC9VLhQ6zikNvTsD7W6gtFft0Za7vtLEFxJo4TXVOMRwiI5X6zRdv2R1Ic9AJw+2oaTXfoRfzYU79uNZo5Qk36Z1dC8SClqpotZgVPs3a5BY=
+	t=1737562744; cv=none; b=p3e5wEg+9s25dCnvoKmw4jpI8GMRX/6rnSwJtFvsPVYRvMALWUNdo+rkwWG4UZluFnfOxhQmw+wqtY31Ly4AKDob3tETCtY48Pqh7b4JLLrX8iH40cbtlS0aWV9F4Dig6RSGJ0CjY2gNWJGP9Zm1WXjtCG6qzIm+eP3iO6ojvtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737550887; c=relaxed/simple;
-	bh=qI/dhwnX8oeoJ26CkEOLYyS6T/AmHURek7vAFs0zHiA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FexeIpvY9JovyEO6SBOutTFKAT1MpOA7L0zFn+LouARq9m/zwwz8GA5PBsh23dMCBeXJVnm9m/DdjB+CoG3uOVuTekWYkYuluTBA1UDAl5ZkVEWMsYIdRE82aZQVImg3M+xeY7F4xOxf0XhJvurNLZ/4E7/XJxnEWrcUK/r9AU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gvIRHdu1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 340FFC4CEE0;
-	Wed, 22 Jan 2025 13:01:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737550886;
-	bh=qI/dhwnX8oeoJ26CkEOLYyS6T/AmHURek7vAFs0zHiA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gvIRHdu1uCUfeBkP8eEK97LgwN91CeFfl+6K1xRIHAKMG13OajL/93E9HlhGr5Mse
-	 YuDYABLMShYJ5I58+s+XukF8pcG/60nz6c0RDypijDO+N3F3Snc1GAdX1G+4EgqzMO
-	 aXc4PrEHErTWsBEbUX4Se00yztY1j+LxigsVcLwhqge435dFRozSZ5jn/4jXNyQAzS
-	 vMkPv97yYVJ8yarqRK5HGQc8+goAs/8MnXA+tlOScI4vAzftqUlcQo6jH9xErCiN+C
-	 YN4qr3Z/BlgaQKPo1U9F8OVd+rwK58ID5Vo1YdEjmtQdIQcLfVxBCQfaTevs/XDNeY
-	 0WvstIBQla0dw==
-Message-ID: <93377e21-ec42-4e67-a650-86809d04b350@kernel.org>
-Date: Wed, 22 Jan 2025 14:01:22 +0100
+	s=arc-20240116; t=1737562744; c=relaxed/simple;
+	bh=cebKe7C/2SSd0/zc3UiVXCoHP8t7feoTEqtVcG9xv4w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sHOvcspr5RpIHIILwNlOgSH/9zeu4nIjPkbql7GlJV5jVUdPmttlSmqPEebaCNncof1506GtVUISOckrCDo/Jrjp7+UBWWb40MVOmn6p9N1lS0zfydF5AdtClasvJDPe08qtJoy57DQz2moXZa8ae3YHEpywza/EgEDzVkyQeE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gU8/2zZH; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737562742; x=1769098742;
+  h=date:from:to:cc:subject:message-id;
+  bh=cebKe7C/2SSd0/zc3UiVXCoHP8t7feoTEqtVcG9xv4w=;
+  b=gU8/2zZHWodRWI5hYfqTPj4q6AZzAX+/Mx5xGfcOETrEH7cnOqvGbhnG
+   p6gKlZEznPrumxpVfESj8s+kRqG6PdLpTnnEf2S7Zq1VpOhXKSLEP1aPk
+   76/RhuDyv3gorF2+Dad29LpMqR7Ksb7G/iK7GF8nBDA1NGhgmE39Ya9+R
+   YAQDbLMX2IjCgObB/rT/7vceMDrCvlTc2lAEi50jQMVpmHV1nhlnM5nfQ
+   +zV7rBh6+IGeOGMyrHL3Ys0DlTf9E8Z0eVeZiNGSkNvzn1qBcyp8HJYzt
+   LVCB2cUhWyShZWOEUbDIJDa+pgpzIkSH9MixB0zHDFDzrbhey65N9Qa/Q
+   Q==;
+X-CSE-ConnectionGUID: kjJMiQIWQ0KCX4aRHrt3uQ==
+X-CSE-MsgGUID: 7ruxxjcORjmnwx0JBerPbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="49423775"
+X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
+   d="scan'208";a="49423775"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 08:19:02 -0800
+X-CSE-ConnectionGUID: Ka6F8Xg1QDi+PK6PyVP+kg==
+X-CSE-MsgGUID: phEXUWM1QwCLlwJy/H3p1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
+   d="scan'208";a="107718722"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 22 Jan 2025 08:19:00 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tadRS-000a5r-2x;
+	Wed, 22 Jan 2025 16:18:58 +0000
+Date: Thu, 23 Jan 2025 00:18:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ bbbdf6aec1887d732963a2ba5a030d6bf0494a27
+Message-ID: <202501230004.sY5Ncl2F-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] arm64: renesas: add initial support for MYIR Remi Pi
-To: Julien Massot <julien.massot@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250122-myir-remi-pi-v1-0-0e44e1cb8a90@collabora.com>
- <20250122-myir-remi-pi-v1-2-0e44e1cb8a90@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250122-myir-remi-pi-v1-2-0e44e1cb8a90@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 22/01/2025 13:56, Julien Massot wrote:
-> Add basic support for the MyIR Remi Pi (based on r9a07g044l2):
->  - UART
->  - i2c
->  - emmc
->  - USB host
->  - HDMI output
->  - Ethernet
-> 
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> ---
->  arch/arm64/boot/dts/renesas/Makefile               |   1 +
->  .../arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dts | 420 +++++++++++++++++++++
->  2 files changed, 421 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-> index 97228a3cb99c163d299b508ee7653aafea3d1a3a..0b69bcfa405b69c26e8072d9b62be98dc621f89a 100644
-> --- a/arch/arm64/boot/dts/renesas/Makefile
-> +++ b/arch/arm64/boot/dts/renesas/Makefile
-> @@ -130,6 +130,7 @@ dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc.dtb
->  dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc-cru-csi-ov5645.dtbo
->  r9a07g044l2-smarc-cru-csi-ov5645-dtbs := r9a07g044l2-smarc.dtb r9a07g044l2-smarc-cru-csi-ov5645.dtbo
->  dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc-cru-csi-ov5645.dtb
-> +dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-remi-pi.dtb
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: bbbdf6aec1887d732963a2ba5a030d6bf0494a27  [LOCAL] riscv: renesas: defconfig: Update rzfive_defconfig
 
-Why not keeping the order? Or is there no order at all?
+elapsed time: 1435m
 
->  
->  dtb-$(CONFIG_ARCH_R9A07G054) += r9a07g054l2-smarc.dtb
->  dtb-$(CONFIG_ARCH_R9A07G054) += r9a07g054l2-smarc-cru-csi-ov5645.dtbo
-> diff --git a/arch/arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dts b/arch/arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dts
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..e6e00afc5f5b2347f139ec4dc145fac6fd39e75d
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dts
-> @@ -0,0 +1,420 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Device Tree Source for the MYiR Remi Pi
-> + *
-> + * Copyright (C) 2022 MYiR Electronics Corp.
-> + * Copyright (C) 2025 Collabora Ltd.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
-> +
-> +#include "r9a07g044l2.dtsi"
-> +
-> +/ {
-> +	model = "MYIR Tech Limited Remi Pi MYB-YG2LX-REMI";
-> +	compatible = "myir,remi-pi", "renesas,r9a07g044l2", "renesas,r9a07g044";
-> +
-> +	aliases {
-> +		ethernet0 = &eth0;
-> +		ethernet1 = &eth1;
-> +
-> +		serial0 = &scif0;
-> +		serial1 = &scif1;
-> +		serial2 = &scif2;
-> +		serial3 = &scif3;
-> +
-> +		i2c0 = &i2c0;
-> +		i2c1 = &i2c1;
-> +		i2c2 = &i2c2;
-> +		i2c3 = &i2c3;
-> +
-> +		mmc0 = &sdhi0;
-> +		mmc1 = &sdhi1;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	memory@48000000 {
-> +		device_type = "memory";
-> +		/* first 128MB is reserved for secure area. */
-> +		reg = <0x0 0x48000000 0x0 0x38000000>;
-> +	};
-> +
-> +	reg_5p0v: regulator-reg_5p0v {
+configs tested: 129
+configs skipped: 4
 
-No underscores in node names.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "fixed-5.0V";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +	};
-> +
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20250122    gcc-13.2.0
+arc                   randconfig-002-20250122    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                         assabet_defconfig    clang-20
+arm                         lpc18xx_defconfig    clang-19
+arm                           omap1_defconfig    gcc-14.2.0
+arm                          pxa3xx_defconfig    clang-20
+arm                          pxa910_defconfig    gcc-14.2.0
+arm                   randconfig-001-20250122    clang-19
+arm                   randconfig-002-20250122    clang-20
+arm                   randconfig-003-20250122    gcc-14.2.0
+arm                   randconfig-004-20250122    gcc-14.2.0
+arm                        realview_defconfig    clang-19
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250122    clang-20
+arm64                 randconfig-002-20250122    clang-15
+arm64                 randconfig-003-20250122    clang-20
+arm64                 randconfig-004-20250122    clang-19
+csky                             alldefconfig    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250122    gcc-14.2.0
+csky                  randconfig-002-20250122    gcc-14.2.0
+hexagon                          alldefconfig    clang-15
+hexagon                          allmodconfig    clang-20
+hexagon                           allnoconfig    clang-20
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250122    clang-20
+hexagon               randconfig-002-20250122    clang-20
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250122    clang-19
+i386        buildonly-randconfig-002-20250122    gcc-12
+i386        buildonly-randconfig-003-20250122    gcc-12
+i386        buildonly-randconfig-004-20250122    clang-19
+i386        buildonly-randconfig-005-20250122    clang-19
+i386        buildonly-randconfig-006-20250122    clang-19
+i386                                defconfig    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250122    gcc-14.2.0
+loongarch             randconfig-002-20250122    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                       bvme6000_defconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                          ath79_defconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250122    gcc-14.2.0
+nios2                 randconfig-002-20250122    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                              defconfig    gcc-14.2.0
+parisc                randconfig-001-20250122    gcc-14.2.0
+parisc                randconfig-002-20250122    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-16
+powerpc                     mpc5200_defconfig    clang-20
+powerpc                     rainier_defconfig    gcc-14.2.0
+powerpc               randconfig-001-20250122    gcc-14.2.0
+powerpc               randconfig-002-20250122    clang-17
+powerpc               randconfig-003-20250122    clang-15
+powerpc64             randconfig-001-20250122    clang-20
+powerpc64             randconfig-002-20250122    clang-19
+powerpc64             randconfig-003-20250122    clang-20
+riscv                            allmodconfig    clang-20
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-20
+riscv                               defconfig    clang-19
+riscv                 randconfig-001-20250122    clang-20
+riscv                 randconfig-002-20250122    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.2.0
+s390                                defconfig    clang-15
+s390                  randconfig-001-20250122    clang-18
+s390                  randconfig-002-20250122    clang-20
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                                  defconfig    gcc-14.2.0
+sh                               j2_defconfig    gcc-14.2.0
+sh                    randconfig-001-20250122    gcc-14.2.0
+sh                    randconfig-002-20250122    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250122    gcc-14.2.0
+sparc                 randconfig-002-20250122    gcc-14.2.0
+sparc64                             defconfig    gcc-14.2.0
+sparc64               randconfig-001-20250122    gcc-14.2.0
+sparc64               randconfig-002-20250122    gcc-14.2.0
+um                               allmodconfig    clang-20
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-20
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250122    gcc-12
+um                    randconfig-002-20250122    clang-20
+um                           x86_64_defconfig    clang-15
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250122    gcc-12
+x86_64      buildonly-randconfig-002-20250122    clang-19
+x86_64      buildonly-randconfig-003-20250122    gcc-12
+x86_64      buildonly-randconfig-004-20250122    gcc-12
+x86_64      buildonly-randconfig-005-20250122    gcc-12
+x86_64      buildonly-randconfig-006-20250122    clang-19
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                generic_kc705_defconfig    gcc-14.2.0
+xtensa                randconfig-001-20250122    gcc-14.2.0
+xtensa                randconfig-002-20250122    gcc-14.2.0
 
-
-...
-
-> +
-> +&eth0 {
-> +	pinctrl-0 = <&eth0_pins>;
-> +	pinctrl-names = "default";
-> +	phy-handle = <&phy0>;
-> +	phy-mode = "rgmii-id";
-> +	status = "okay";
-> +
-> +	phy0: ethernet-phy@4 {
-> +		compatible = "ethernet-phy-id0022.1640",
-> +			     "ethernet-phy-ieee802.3-c22";
-> +		reg = <4>;
-> +		interrupts-extended = <&pinctrl RZG2L_GPIO(44, 2) IRQ_TYPE_LEVEL_LOW>;
-> +		rxc-skew-psec = <2400>;
-> +		txc-skew-psec = <2400>;
-> +		rxdv-skew-psec = <0>;
-> +		txdv-skew-psec = <0>;
-> +		rxd0-skew-psec = <0>;
-> +		rxd1-skew-psec = <0>;
-> +		rxd2-skew-psec = <0>;
-> +		rxd3-skew-psec = <0>;
-> +		txd0-skew-psec = <0>;
-> +		txd1-skew-psec = <0>;
-> +		txd2-skew-psec = <0>;
-> +		txd3-skew-psec = <0>;
-> +	};
-> +};
-> +
-> +&eth1 {
-> +	pinctrl-0 = <&eth1_pins>;
-> +	pinctrl-names = "default";
-> +	phy-handle = <&phy1>;
-> +	phy-mode = "rgmii-id";
-> +	status = "okay";
-> +
-> +	phy1: ethernet-phy@6 {
-> +		compatible = "ethernet-phy-id0022.1640",
-> +			     "ethernet-phy-ieee802.3-c22";
-> +		reg = <6>;
-> +		interrupts-extended = <&pinctrl RZG2L_GPIO(43, 2) IRQ_TYPE_LEVEL_LOW>;
-> +		rxc-skew-psec = <2400>;
-> +		txc-skew-psec = <2400>;
-> +		rxdv-skew-psec = <0>;
-> +		txdv-skew-psec = <0>;
-> +		rxd0-skew-psec = <0>;
-> +		rxd1-skew-psec = <0>;
-> +		rxd2-skew-psec = <0>;
-> +		rxd3-skew-psec = <0>;
-> +		txd0-skew-psec = <0>;
-> +		txd1-skew-psec = <0>;
-> +		txd2-skew-psec = <0>;
-> +		txd3-skew-psec = <0>;
-
-
-At least some properties above do not exist. You cannot use them.
-
-It does not look like you tested the DTS against bindings. Please run
-`make dtbs_check W=1` (see
-Documentation/devicetree/bindings/writing-schema.rst or
-https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
-for instructions).
-Maybe you need to update your dtschema and yamllint. Don't rely on
-distro packages for dtschema and be sure you are using the latest
-released dtschema.
-
-
-Best regards,
-Krzysztof
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
