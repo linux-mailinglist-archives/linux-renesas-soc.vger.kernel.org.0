@@ -1,86 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-12332-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12334-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C150A19009
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 11:41:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5701CA1910A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 12:57:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 052F916C53D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 10:41:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A84916B65A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 11:57:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF2CF212D65;
-	Wed, 22 Jan 2025 10:40:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB307212B09;
+	Wed, 22 Jan 2025 11:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KYxUo+xi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D289B212B0A;
-	Wed, 22 Jan 2025 10:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A79211A39;
+	Wed, 22 Jan 2025 11:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737542443; cv=none; b=mTWj46OecSqdr6IbhbQQuRunzMixEn5mzzSvgWqWwoR75KfKAY3G2EZexUPwgLKe4SkGJpH9CYUUF4mDwdGdLrjI/+7xK6S/3WTkWgHyt1pKJi9USqiLNxqv3+18W2NaWR3JuwMRndjH+oAsrsU20yUbNVuS0PpVPbav6rc/XWM=
+	t=1737547041; cv=none; b=Wl3+TpAAiXQ5sg+jEYHuxqNtXAhfiV1qCreU7yTSaEtkcwFMYKzTn8OnJaeKzHcEtQ1FsrAJ7OykS3Qp89I3CHw6iEi48Bhz1SBtzGzIsUlA9dx3N5wyAm0bu11MceJpw0AqF8KdrSIhFbpS3c1SeCE18LVPw2qItRsUv7I1iTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737542443; c=relaxed/simple;
-	bh=MQwDGHpWIv+nxIj/TOsUV1tiERvsaZk9jZwhxmfNGEU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nR6zlmOjGrJ6oUMr0UICJHs+UHKR2yZVtWYmM0q0A1smaGE5yt/HpDY4U6H8XRZqISQFUAjmw7z2dVc8sVlrksROYEL62NhtSgPfzcrsNMzRLZsm0VD/Oegb23r8vK24bZhiRbMRoXgF2o98FElHZ5QFKIbNnveNW4XiSTI3elk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: psi8T7OsRFOiNGXzZNuvdA==
-X-CSE-MsgGUID: eCUbl7bvSuaTUvRDDQHK4A==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 22 Jan 2025 19:40:40 +0900
-Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.193])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id C48204005B5F;
-	Wed, 22 Jan 2025 19:40:35 +0900 (JST)
-From: John Madieu <john.madieu.xa@bp.renesas.com>
-To: geert+renesas@glider.be,
-	robh@kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: biju.das.jz@bp.renesas.com,
-	claudiu.beznea.uj@bp.renesas.com,
-	conor+dt@kernel.org,
-	john.madieu@gmail.com,
-	krzk+dt@kernel.org,
-	linux-kernel@vger.kernel.org,
-	magnus.damm@gmail.com,
-	john.madieu.xa@bp.renesas.com
-Subject: [PATCH v3 9/9] arm64: dts: renesas: r9a09g057: Enable SYS node
-Date: Wed, 22 Jan 2025 11:39:11 +0100
-Message-ID: <20250122103911.517484-10-john.madieu.xa@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250122103911.517484-1-john.madieu.xa@bp.renesas.com>
-References: <20250122103911.517484-1-john.madieu.xa@bp.renesas.com>
+	s=arc-20240116; t=1737547041; c=relaxed/simple;
+	bh=xG7WdzHH5i4+MwNUdpzOh7SvWcJmZE0jC0SGc6QAH/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m42W+cpERo92xmKBG/E3j+y2CZpvsT0/eyy7sot8DEDht65p5hjo/Xe+N23nL5DfreT14bei90oNm7U7IJPRaOCYLzYCebnwVZhcNQ2WhEA8J8gqZvFmDG+gkMBcWJCLLRGeOslJeYiCWasdmlLS85olsvfjjXFFwjJsoFVyOXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KYxUo+xi; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F151B1E3;
+	Wed, 22 Jan 2025 12:56:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1737546974;
+	bh=xG7WdzHH5i4+MwNUdpzOh7SvWcJmZE0jC0SGc6QAH/s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KYxUo+xiFTP86fEI+WgoYxvdgfQoEbDrNggBJtEpusCfXUhLUupNsDIJhcETr3tFt
+	 iNVcUWNkKooOB+mVwbl1aoaOtTGGZ/TE31DSgwKHQGbcMZ7SaahqgTJU4JqC5iCqcb
+	 jm2d1Qd5ZwBxthu02G8OZNBamwUUasieYYjGQx8Y=
+Date: Wed, 22 Jan 2025 12:57:13 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/10] media: rcar: Minor cleanups and improvements
+Message-ID: <p2f3d5tm4ufax2ubgrsfm75c754mu2pdnkzmtopzwwebyuhcjf@i3dttqpg5myu>
+References: <20250120-rcar-media-impro-v1-0-043823c3893e@ideasonboard.com>
+ <20250121212448.GA3302176@ragnatech.se>
+ <a0e38115-87c7-4145-b9d0-fb8f8ea1fcf7@ideasonboard.com>
+ <20250122092128.GB3436806@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250122092128.GB3436806@ragnatech.se>
 
-SoC identification needs the system controller. Enable it.
+Hi Niklas,
 
-Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 1 -
- 1 file changed, 1 deletion(-)
+On Wed, Jan 22, 2025 at 10:21:28AM +0100, Niklas Söderlund wrote:
+> On 2025-01-22 10:02:59 +0200, Tomi Valkeinen wrote:
+> > Hi,
+> >
+> > On 21/01/2025 23:24, Niklas Söderlund wrote:
+> > > Hi Tomi,
+> > >
+> > > Thanks for a great cleanup series!
+> > >
+> > > On 2025-01-20 15:10:33 +0200, Tomi Valkeinen wrote:
+> > > > I've started looking at multi-stream support, and came up with these
+> > > > while working towards streams.
+> > > >
+> > > >   Tomi
+> > > >
+> > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > >
+> > > I have tested this in Gen2, Gen3 and Gen4 without noticing any
+> > > regressions. The log is now spammed with the helpful suggestion that the
+> > > CSI-2 TX subdevices shall implement V4L2_CID_LINK_FREQ control. This is
+> > > annoying but out of scope for this series, but would be nice at some
+> > > point.
+> > >
+> > >    [   37.421531] v4l2_get_link_freq: Link frequency estimated using pixel rate: result might be inaccurate
+> > >    [   37.430991] v4l2_get_link_freq: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver
+> >
+> > Which drivers need fixing? The staging max96712 is one (there seems to be a
+> > TODO there about it), and adv748x? I'm not going to work on that right now,
+> > but just collecting the details.
+>
+> Indeed adv748x is the other driver needing work here. The problem as I
+> recall it is that V4L2_CID_LINK_FREQ is a menu control, and adv748x
+> selects it link freq based on what it is outputting. But it's been some
+> time since I looked at this, maybe I recall incorrectly.
+>
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-index 1c550b22b164..f7a2f8ca864f 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-@@ -249,7 +249,6 @@ sys: system-controller@10430000 {
- 			reg = <0 0x10430000 0 0x10000>;
- 			clocks = <&cpg CPG_CORE R9A09G057_SYS_0_PCLK>;
- 			resets = <&cpg 0x30>;
--			status = "disabled";
- 		};
- 
- 		ostm0: timer@11800000 {
--- 
-2.25.1
+Would this series help ?
+https://patchwork.kernel.org/project/linux-media/list/?series=926905
 
+> >
+> > > For the whole series,
+> > >
+> > > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> >
+> > Thanks!
+> >
+> >  Tomi
+> >
+>
+> --
+> Kind Regards,
+> Niklas Söderlund
+>
 
