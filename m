@@ -1,102 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-12309-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12310-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64EDCA18D44
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 09:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EB0A18D82
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 09:21:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F278163B1B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 08:03:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B7EA165459
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 08:21:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEC9A19E7D3;
-	Wed, 22 Jan 2025 08:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="am2S9dSp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75E0F1B3948;
+	Wed, 22 Jan 2025 08:21:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6588F7D;
-	Wed, 22 Jan 2025 08:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2B217BB6
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Jan 2025 08:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737532992; cv=none; b=EWypVTuOzcp3YfJfsRfwEesZtspdTN6OjHQj42uyMROObqfcx4pPZE+H+QST3QdosTiOPoSMOFC5b6qivBK6SAHoPbi07YkZiWti4NPodR3FBkcnEcd7PKV4K/Fwun9ASdGKfrRxxDF1OUIjrJmL1WOov/WItbmuM5HsEWmFfjU=
+	t=1737534104; cv=none; b=e/FHNWM/t7NTX5n7HfImjRhwfsBdNpMsPfuFSwrmnfyME0YwXCFsaJ2moH4C4dz7O1OQjDAgTne4sk5V/cM0R3fMMBcNq6WPAQbqOGGMwSe+2iYIsN24ciZNFcmRGDuW1zDIi55HtPg/SaIB5u9y7Qh7LVpCSboIZgdfaP+5P1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737532992; c=relaxed/simple;
-	bh=ZP1ZSezyyTR4lNNM/FV1siamelR8JyNobbsg4iT4/zw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MS1PEBTxkQGYdY5jkjOtgn4/3FGndne/MV4D4LEXwCx+W8ElPvhW2F7lSIYBkunuatPgsUA/2uYRe/mfDP7Daf6TGtBfDznBN4CIyuRaUZD/Geu3ZGO2+sOfsIgmj17u0xHwv47PxVnMW3ZoJeaHEmXdlU/nrbfKaQF8mGWsQcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=am2S9dSp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6993C1E6;
-	Wed, 22 Jan 2025 09:01:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737532919;
-	bh=ZP1ZSezyyTR4lNNM/FV1siamelR8JyNobbsg4iT4/zw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=am2S9dSp/+6QlMtH/TG9muq/gmke41xhb9QCeRiwIh54BtlaxmPnrFb3EkvibYtpx
-	 tBPEc91ysw8ZmLz2w+hgfAD66U3TQkBwuwGUN3te0PkBcCvDTZhMBd+PxoJqOnqS7x
-	 FufudRNaUiiHC0lJY4WwUyEFZG1oLuN2jBxzHXQk=
-Message-ID: <a0e38115-87c7-4145-b9d0-fb8f8ea1fcf7@ideasonboard.com>
-Date: Wed, 22 Jan 2025 10:02:59 +0200
+	s=arc-20240116; t=1737534104; c=relaxed/simple;
+	bh=BR5h2JUnR5PUm/non386vdaKgp9+sq3jAzzmOs5WjhE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iWZG8+5iO57E8IsAqW4fxWHjabz3BNNvA/d5D72MwKMGsA5Tn2aUQmOD7PjdnLfgt0ql/hIuYNWdCc+G/AQK5NuebeB5QQO4DVC6aBqUY17AYWKK1DChCJl1tRcGa5I3VIi8qVSj3LlVosW0GDGkxbX0gwo/EAivNcM9cFXVY3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:6949:ff:ad3a:db44])
+	by baptiste.telenet-ops.be with cmsmtp
+	id 48MZ2E00a4mXrYp018MZlq; Wed, 22 Jan 2025 09:21:35 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1taVzJ-0000000E28f-2ZOd;
+	Wed, 22 Jan 2025 09:21:33 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1taVzR-00000005E0S-1TOh;
+	Wed, 22 Jan 2025 09:21:33 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Rob Herring <robh@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ASoC: soc-core: Stop using of_property_read_bool() for non-boolean properties
+Date: Wed, 22 Jan 2025 09:21:27 +0100
+Message-ID: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] media: rcar: Minor cleanups and improvements
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250120-rcar-media-impro-v1-0-043823c3893e@ideasonboard.com>
- <20250121212448.GA3302176@ragnatech.se>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20250121212448.GA3302176@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi,
+On R-Car:
 
-On 21/01/2025 23:24, Niklas Söderlund wrote:
-> Hi Tomi,
-> 
-> Thanks for a great cleanup series!
-> 
-> On 2025-01-20 15:10:33 +0200, Tomi Valkeinen wrote:
->> I've started looking at multi-stream support, and came up with these
->> while working towards streams.
->>
->>   Tomi
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> 
-> I have tested this in Gen2, Gen3 and Gen4 without noticing any
-> regressions. The log is now spammed with the helpful suggestion that the
-> CSI-2 TX subdevices shall implement V4L2_CID_LINK_FREQ control. This is
-> annoying but out of scope for this series, but would be nice at some
-> point.
-> 
->    [   37.421531] v4l2_get_link_freq: Link frequency estimated using pixel rate: result might be inaccurate
->    [   37.430991] v4l2_get_link_freq: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver
+    OF: /sound: Read of boolean property 'simple-audio-card,bitclock-master' with a value.
+    OF: /sound: Read of boolean property 'simple-audio-card,frame-master' with a value.
 
-Which drivers need fixing? The staging max96712 is one (there seems to 
-be a TODO there about it), and adv748x? I'm not going to work on that 
-right now, but just collecting the details.
+or:
 
-> For the whole series,
-> 
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+    OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean property 'bitclock-master' with a value.
+    OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean property 'frame-master' with a value.
 
-Thanks!
+The use of of_property_read_bool() for non-boolean properties is
+deprecated in favor of of_property_present() when testing for property
+presence.
 
-  Tomi
+Replace testing for presence before calling of_property_read_u32() by
+testing for an -EINVAL return value from the latter, to simplify the
+code.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Seen since commit c141ecc3cecd7647 ("of: Warn when
+of_property_read_bool() is used on non-boolean properties") in
+dt-rh/for-next.
+
+I could not exercise all code paths, so review/testing would be
+appreciated. Thanks!
+---
+ sound/soc/soc-core.c | 32 +++++++++++++-------------------
+ 1 file changed, 13 insertions(+), 19 deletions(-)
+
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 3c6d8aef4130901c..26b34b6885083908 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -3046,7 +3046,7 @@ int snd_soc_of_parse_pin_switches(struct snd_soc_card *card, const char *prop)
+ 	unsigned int i, nb_controls;
+ 	int ret;
+ 
+-	if (!of_property_read_bool(dev->of_node, prop))
++	if (!of_property_present(dev->of_node, prop))
+ 		return 0;
+ 
+ 	strings = devm_kcalloc(dev, nb_controls_max,
+@@ -3120,23 +3120,17 @@ int snd_soc_of_parse_tdm_slot(struct device_node *np,
+ 	if (rx_mask)
+ 		snd_soc_of_get_slot_mask(np, "dai-tdm-slot-rx-mask", rx_mask);
+ 
+-	if (of_property_read_bool(np, "dai-tdm-slot-num")) {
+-		ret = of_property_read_u32(np, "dai-tdm-slot-num", &val);
+-		if (ret)
+-			return ret;
+-
+-		if (slots)
+-			*slots = val;
+-	}
+-
+-	if (of_property_read_bool(np, "dai-tdm-slot-width")) {
+-		ret = of_property_read_u32(np, "dai-tdm-slot-width", &val);
+-		if (ret)
+-			return ret;
++	ret = of_property_read_u32(np, "dai-tdm-slot-num", &val);
++	if (ret && ret != -EINVAL)
++		return ret;
++	if (!ret && slots)
++		*slots = val;
+ 
+-		if (slot_width)
+-			*slot_width = val;
+-	}
++	ret = of_property_read_u32(np, "dai-tdm-slot-width", &val);
++	if (ret && ret != -EINVAL)
++		return ret;
++	if (!ret && slot_width)
++		*slot_width = val;
+ 
+ 	return 0;
+ }
+@@ -3403,12 +3397,12 @@ unsigned int snd_soc_daifmt_parse_clock_provider_raw(struct device_node *np,
+ 	 * check "[prefix]frame-master"
+ 	 */
+ 	snprintf(prop, sizeof(prop), "%sbitclock-master", prefix);
+-	bit = of_property_read_bool(np, prop);
++	bit = of_property_present(np, prop);
+ 	if (bit && bitclkmaster)
+ 		*bitclkmaster = of_parse_phandle(np, prop, 0);
+ 
+ 	snprintf(prop, sizeof(prop), "%sframe-master", prefix);
+-	frame = of_property_read_bool(np, prop);
++	frame = of_property_present(np, prop);
+ 	if (frame && framemaster)
+ 		*framemaster = of_parse_phandle(np, prop, 0);
+ 
+-- 
+2.43.0
 
 
