@@ -1,123 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-12334-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12335-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5701CA1910A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 12:57:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0332A191E0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 13:56:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A84916B65A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 11:57:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E5A4816299A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 12:56:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB307212B09;
-	Wed, 22 Jan 2025 11:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04301212FA5;
+	Wed, 22 Jan 2025 12:56:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KYxUo+xi"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gX48H0S2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A79211A39;
-	Wed, 22 Jan 2025 11:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0619C211A18;
+	Wed, 22 Jan 2025 12:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737547041; cv=none; b=Wl3+TpAAiXQ5sg+jEYHuxqNtXAhfiV1qCreU7yTSaEtkcwFMYKzTn8OnJaeKzHcEtQ1FsrAJ7OykS3Qp89I3CHw6iEi48Bhz1SBtzGzIsUlA9dx3N5wyAm0bu11MceJpw0AqF8KdrSIhFbpS3c1SeCE18LVPw2qItRsUv7I1iTI=
+	t=1737550572; cv=none; b=Km4R4PRfM1zrRZB8ko24L70JqV25xHVXNCsqslO89X0uwF9+SuFJPi7vF6f6sAa3p76A0KC8IjBQBeUdh0J9JJ4pJlsyi/Anlre8JaCn+Mo2n3hOU+GS9DsoOicPvI5oSKhmgmkHkIIQv511H/+D0VhhyHWCT8yTGYRbpAhwr+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737547041; c=relaxed/simple;
-	bh=xG7WdzHH5i4+MwNUdpzOh7SvWcJmZE0jC0SGc6QAH/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m42W+cpERo92xmKBG/E3j+y2CZpvsT0/eyy7sot8DEDht65p5hjo/Xe+N23nL5DfreT14bei90oNm7U7IJPRaOCYLzYCebnwVZhcNQ2WhEA8J8gqZvFmDG+gkMBcWJCLLRGeOslJeYiCWasdmlLS85olsvfjjXFFwjJsoFVyOXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KYxUo+xi; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F151B1E3;
-	Wed, 22 Jan 2025 12:56:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737546974;
-	bh=xG7WdzHH5i4+MwNUdpzOh7SvWcJmZE0jC0SGc6QAH/s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KYxUo+xiFTP86fEI+WgoYxvdgfQoEbDrNggBJtEpusCfXUhLUupNsDIJhcETr3tFt
-	 iNVcUWNkKooOB+mVwbl1aoaOtTGGZ/TE31DSgwKHQGbcMZ7SaahqgTJU4JqC5iCqcb
-	 jm2d1Qd5ZwBxthu02G8OZNBamwUUasieYYjGQx8Y=
-Date: Wed, 22 Jan 2025 12:57:13 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/10] media: rcar: Minor cleanups and improvements
-Message-ID: <p2f3d5tm4ufax2ubgrsfm75c754mu2pdnkzmtopzwwebyuhcjf@i3dttqpg5myu>
-References: <20250120-rcar-media-impro-v1-0-043823c3893e@ideasonboard.com>
- <20250121212448.GA3302176@ragnatech.se>
- <a0e38115-87c7-4145-b9d0-fb8f8ea1fcf7@ideasonboard.com>
- <20250122092128.GB3436806@ragnatech.se>
+	s=arc-20240116; t=1737550572; c=relaxed/simple;
+	bh=yzzK6P9T0Nfwzq/iLd4iwd8xLNSXjxWZeFmI+WtUmh4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fet/XPzoN+vi5oiHCQrz7IrPdtMvVOfDgFNpgtFwoIsUEAqXdoPaojKnmuUiypl18uSaKAFG31uAgFeFvjPzL+SpyfCgZN/D1qT+Cz0QDJVfnOMHAoGLUaNjHTchLVDrfQ37PdM+qHc4v1e59UJalaHwzKU4NOeEEGTu3JzCoBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gX48H0S2; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1737550568;
+	bh=yzzK6P9T0Nfwzq/iLd4iwd8xLNSXjxWZeFmI+WtUmh4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=gX48H0S2m91azCdKK3+FpneakAhfQ3y5G2zJQBGRIurx4MZqfrFXXY7uXY/h/1yXk
+	 FhaxmX8rDCP6E4AsP6a2zB8YmUhezjb9Tir5ShLmHO7rykeufrO4NSZ7Ubj1sYe2qF
+	 naeS113U5GQA79JTQzZQ0xXjXk2w27QS330K4HD2wgZzx0cRvB2Q594h2TQy2QPs5R
+	 go6p8tLd/FKZGfFtPH10LUicQ1Ridp8qey/Brj16jmZ9/yW8b5erCwFBf4ACbcKlKC
+	 OoSbqrB0vB+OpnwPRrihYBojBbtjN9RwPT2CuKjKCv9VIdcd1S4VSO7Ubp/HHOJIVl
+	 7ZNCpe/HAZAdg==
+Received: from apertis-1.home (2a01cb088CCA73006086F5f072c6A07A.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:8cca:7300:6086:f5f0:72c6:a07a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 681A517E0D03;
+	Wed, 22 Jan 2025 13:56:08 +0100 (CET)
+From: Julien Massot <julien.massot@collabora.com>
+Subject: [PATCH 0/2] Add basic support for MyIR Remi Pi
+Date: Wed, 22 Jan 2025 13:56:04 +0100
+Message-Id: <20250122-myir-remi-pi-v1-0-0e44e1cb8a90@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250122092128.GB3436806@ragnatech.se>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOTqkGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDQyMj3dzKzCLdotTcTN2CTF1LkxQzA1PTNFMLc0sloJaCotS0zAqwcdG
+ xtbUA+DbnbV4AAAA=
+X-Change-ID: 20250122-myir-remi-pi-94d6055f5879
+To: Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Julien Massot <julien.massot@collabora.com>
+X-Mailer: b4 0.14.2
 
-Hi Niklas,
+The Remi Pi is a compact board based on the Renesas RZ/G2L SoC.
 
-On Wed, Jan 22, 2025 at 10:21:28AM +0100, Niklas Söderlund wrote:
-> On 2025-01-22 10:02:59 +0200, Tomi Valkeinen wrote:
-> > Hi,
-> >
-> > On 21/01/2025 23:24, Niklas Söderlund wrote:
-> > > Hi Tomi,
-> > >
-> > > Thanks for a great cleanup series!
-> > >
-> > > On 2025-01-20 15:10:33 +0200, Tomi Valkeinen wrote:
-> > > > I've started looking at multi-stream support, and came up with these
-> > > > while working towards streams.
-> > > >
-> > > >   Tomi
-> > > >
-> > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > >
-> > > I have tested this in Gen2, Gen3 and Gen4 without noticing any
-> > > regressions. The log is now spammed with the helpful suggestion that the
-> > > CSI-2 TX subdevices shall implement V4L2_CID_LINK_FREQ control. This is
-> > > annoying but out of scope for this series, but would be nice at some
-> > > point.
-> > >
-> > >    [   37.421531] v4l2_get_link_freq: Link frequency estimated using pixel rate: result might be inaccurate
-> > >    [   37.430991] v4l2_get_link_freq: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver
-> >
-> > Which drivers need fixing? The staging max96712 is one (there seems to be a
-> > TODO there about it), and adv748x? I'm not going to work on that right now,
-> > but just collecting the details.
->
-> Indeed adv748x is the other driver needing work here. The problem as I
-> recall it is that V4L2_CID_LINK_FREQ is a menu control, and adv748x
-> selects it link freq based on what it is outputting. But it's been some
-> time since I looked at this, maybe I recall incorrectly.
->
+This initial patchset add support for basic functions:
+     - UART
+     - I2C
+     - HDMI
+     - Ethernet
 
-Would this series help ?
-https://patchwork.kernel.org/project/linux-media/list/?series=926905
+More work is needed to support the remaining functions such as
+USB Type C, SD card, Audio, Wi-Fi and Bluetooth.
 
-> >
-> > > For the whole series,
-> > >
-> > > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> >
-> > Thanks!
-> >
-> >  Tomi
-> >
->
-> --
-> Kind Regards,
-> Niklas Söderlund
->
+Some schematics are available at https://down.myir-tech.com/RemiPi/
+
+Signed-off-by: Julien Massot <julien.massot@collabora.com>
+---
+Julien Massot (2):
+      dt-bindings: soc: renesas: Document MyIR Remi Pi board
+      arm64: renesas: add initial support for MYIR Remi Pi
+
+ .../devicetree/bindings/soc/renesas/renesas.yaml   |   7 +
+ arch/arm64/boot/dts/renesas/Makefile               |   1 +
+ .../arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dts | 420 +++++++++++++++++++++
+ 3 files changed, 428 insertions(+)
+---
+base-commit: c4b9570cfb63501638db720f3bee9f6dfd044b82
+change-id: 20250122-myir-remi-pi-94d6055f5879
+
+Best regards,
+-- 
+Julien Massot <julien.massot@collabora.com>
+
 
