@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-12333-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12332-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9F5A1900D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 11:42:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C150A19009
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 11:41:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4E2167A3C3B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 10:41:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 052F916C53D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 10:41:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AD16212B39;
-	Wed, 22 Jan 2025 10:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF2CF212D65;
+	Wed, 22 Jan 2025 10:40:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5715F211A08;
-	Wed, 22 Jan 2025 10:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D289B212B0A;
+	Wed, 22 Jan 2025 10:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737542449; cv=none; b=IQxuTeNdLUB4EWrEECvDKk0EtBdglOMTmXT2eW0lJkbbzNWwnWKjj+tdcrT4sWyFdt51gU0BhV/4Hn1xfr0aWQZ/BjSbTDvESHl6uVH+P2/0PEw6Y3PtZTyMAcERnteAEHHnqyxPBOmg9sWRY/3mlJNVB3D4wLpEolgr4jddZ3o=
+	t=1737542443; cv=none; b=mTWj46OecSqdr6IbhbQQuRunzMixEn5mzzSvgWqWwoR75KfKAY3G2EZexUPwgLKe4SkGJpH9CYUUF4mDwdGdLrjI/+7xK6S/3WTkWgHyt1pKJi9USqiLNxqv3+18W2NaWR3JuwMRndjH+oAsrsU20yUbNVuS0PpVPbav6rc/XWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737542449; c=relaxed/simple;
-	bh=1OKBm6Cnwf667Rj9j4W9ei4zVa574Zg6Um38lTEK0VY=;
+	s=arc-20240116; t=1737542443; c=relaxed/simple;
+	bh=MQwDGHpWIv+nxIj/TOsUV1tiERvsaZk9jZwhxmfNGEU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gKoJzz9mRabY4TNbyz9XtEY7xrVbCYMcFKSkLnXDdbnvf1BvKhe6ZFOvcN2nAs8Xh2OxdciFZDVd3vYu4xkCMOSsFR7g0oQWQYEK+kM1p1sJV2bm7+jQS56YScwB2a0Z8oe7GsTcKZvt54Q/3QwGQGHW4DF2R59fIME0ARf6Se4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=nR6zlmOjGrJ6oUMr0UICJHs+UHKR2yZVtWYmM0q0A1smaGE5yt/HpDY4U6H8XRZqISQFUAjmw7z2dVc8sVlrksROYEL62NhtSgPfzcrsNMzRLZsm0VD/Oegb23r8vK24bZhiRbMRoXgF2o98FElHZ5QFKIbNnveNW4XiSTI3elk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: jMCgajAFQyay1P80nF7Wfg==
-X-CSE-MsgGUID: IgGYaMSuQWmhezKSWuIMRw==
+X-CSE-ConnectionGUID: psi8T7OsRFOiNGXzZNuvdA==
+X-CSE-MsgGUID: eCUbl7bvSuaTUvRDDQHK4A==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 22 Jan 2025 19:40:47 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 22 Jan 2025 19:40:40 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.193])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id E3E3740071FA;
-	Wed, 22 Jan 2025 19:40:29 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id C48204005B5F;
+	Wed, 22 Jan 2025 19:40:35 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: geert+renesas@glider.be,
 	robh@kernel.org,
@@ -47,9 +47,9 @@ Cc: biju.das.jz@bp.renesas.com,
 	linux-kernel@vger.kernel.org,
 	magnus.damm@gmail.com,
 	john.madieu.xa@bp.renesas.com
-Subject: [PATCH v3 8/9] arm64: dts: renesas: r9a09g047: Add sys node
-Date: Wed, 22 Jan 2025 11:39:10 +0100
-Message-ID: <20250122103911.517484-9-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v3 9/9] arm64: dts: renesas: r9a09g057: Enable SYS node
+Date: Wed, 22 Jan 2025 11:39:11 +0100
+Message-ID: <20250122103911.517484-10-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250122103911.517484-1-john.madieu.xa@bp.renesas.com>
 References: <20250122103911.517484-1-john.madieu.xa@bp.renesas.com>
@@ -61,32 +61,25 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add system controller node to RZ/G3E (R9A09G047) SoC DTSI, as
-it is also required for SoC identification
+SoC identification needs the system controller. Enable it.
 
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a09g047.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-index 444fadaf7254..0840450dda47 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-@@ -162,6 +162,13 @@ cpg: clock-controller@10420000 {
- 			#power-domain-cells = <0>;
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+index 1c550b22b164..f7a2f8ca864f 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+@@ -249,7 +249,6 @@ sys: system-controller@10430000 {
+ 			reg = <0 0x10430000 0 0x10000>;
+ 			clocks = <&cpg CPG_CORE R9A09G057_SYS_0_PCLK>;
+ 			resets = <&cpg 0x30>;
+-			status = "disabled";
  		};
  
-+		sys: system-controller@10430000 {
-+			compatible = "renesas,r9a09g047-sys";
-+			reg = <0 0x10430000 0 0x10000>;
-+			clocks = <&cpg CPG_CORE R9A09G047_SYS_0_PCLK>;
-+			resets = <&cpg 0x30>;
-+		};
-+
  		ostm0: timer@11800000 {
- 			compatible = "renesas,r9a09g047-ostm", "renesas,ostm";
- 			reg = <0x0 0x11800000 0x0 0x1000>;
 -- 
 2.25.1
 
