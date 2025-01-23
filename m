@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-12424-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12425-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D64A1A878
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 18:09:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CF0A1A8D1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 18:21:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC3AA188E976
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 17:07:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 882DB188DB0A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 17:16:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D739212FA1;
-	Thu, 23 Jan 2025 17:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDD932135D1;
+	Thu, 23 Jan 2025 17:05:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74A58146590;
-	Thu, 23 Jan 2025 17:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0647212FA2;
+	Thu, 23 Jan 2025 17:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737651954; cv=none; b=QMuH/X/TD63F3+MyDqgB6ltNXzAH5PBfwW3dUTsHNOUoiRkHaVsVZ5ZFyVgemjjcjBqacoz21IJpIENwmqxVlO368jyM5AXspYEscR3wQYIMCdF5WdldNYMKKYL8nmZ9AHzmXtIbapcN2sKfAtWDXYCNsvBRrQ/NF1qAt+QB3U8=
+	t=1737651959; cv=none; b=KELycIM+fj85z1WsDi+lbhlDFMfKsg/7km5345FB2wSdg4WND2crCAIfpAxzmZaSHw4xQMLxyWSNzlYeSVbvvvvTIlLhe98rFQZdkyC+e03kXhkUNJG3HOKNcNf9Ul7Yh7AOyfvmRaH6TXKE+/fXdZXM+FyrYzK6UkBPHGjuRlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737651954; c=relaxed/simple;
-	bh=A1D7JCKsrIoIo2wv/i5qBB8rVnEz/na2gEOmy4CsiIU=;
+	s=arc-20240116; t=1737651959; c=relaxed/simple;
+	bh=XI2AxVPGS9pguin+tV5nc0LtYkkL9fhfiEsmEfafL08=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GwrzhmwEPNnidVPbDgpTh9pEWGDVBenBv3Yr2iK2lDuxQb2Y6D+vg6jVEewnXXX6IUCF/5rIGWVca4VW6iDD1/ntXRtzAO1NspJXQtXiQHKshfMJvc39XTImUB8Rp0D5cdhq3pkAU6Ml7QcNgjXj8jTtkUJeBwhs09c9Rz4V+k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=gdD5tIamIJTG3BgBFubiJwiCA4XxWtZlkw3Xptz6Tvf4P4t0gZ15sTBoo1SI0ZFd/Ji40fryRnk1CCD0ZZiU7WChkXwrk4TL88I2OyrPO+C+oOyDhOAx5VsG/ncLbIT5wUOUDN+UdT4Ah4ZzswnCBniuDRbK2NdiHYlEveEGXcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: CanxXzOEQhG/HQcgZ0XL0g==
-X-CSE-MsgGUID: G+SJ2kEYQnKCGFmyXc5YuQ==
+X-CSE-ConnectionGUID: zkkBlOi2RoK6O7KLMVpqKA==
+X-CSE-MsgGUID: LDk/EBamSDGiEej5tvtk9w==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 24 Jan 2025 02:05:51 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 24 Jan 2025 02:05:56 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.226.93.50])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6C009402BECE;
-	Fri, 24 Jan 2025 02:05:46 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1C36C402BECE;
+	Fri, 24 Jan 2025 02:05:51 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: john.madieu.xa@bp.renesas.com,
 	geert+renesas@glider.be,
@@ -47,9 +47,9 @@ Cc: biju.das.jz@bp.renesas.com,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	magnus.damm@gmail.com
-Subject: [PATCH v4 6/9] soc: renesas: rzv2h: Add a callback to print SoC-specific extra features
-Date: Thu, 23 Jan 2025 18:05:05 +0100
-Message-ID: <20250123170508.13578-7-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v4 7/9] arm64: dts: renesas: r9a08g045: Enable the system controller
+Date: Thu, 23 Jan 2025 18:05:06 +0100
+Message-ID: <20250123170508.13578-8-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250123170508.13578-1-john.madieu.xa@bp.renesas.com>
 References: <20250123170508.13578-1-john.madieu.xa@bp.renesas.com>
@@ -61,66 +61,33 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some RZ/V2H SoC variants feature a Mali-G31 (GPU) and/or a Mali-C55 (ISP)
-IP(s). Detect and inform about their presence during SoC identification.
-Also detect PLL frequency and warn in case of mismatch.
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
+Enable the system controller. It is needed for SoC identification.
+
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
 Changes:
 
-v4: No changes
-v3: New patch
+v3 -> v4: No changes
+v3 -> New patch
 
- drivers/soc/renesas/r9a09g057-sys.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/soc/renesas/r9a09g057-sys.c b/drivers/soc/renesas/r9a09g057-sys.c
-index dc7885b340c4..18a79e68bade 100644
---- a/drivers/soc/renesas/r9a09g057-sys.c
-+++ b/drivers/soc/renesas/r9a09g057-sys.c
-@@ -13,12 +13,41 @@
- #include "rz-sysc.h"
- #include "rzg3e-sys.h"
+diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
+index a9b98db9ef95..d1e228b439df 100644
+--- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
+@@ -443,7 +443,6 @@ sysc: system-controller@11020000 {
+ 				     <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
+ 			interrupt-names = "lpm_int", "ca55stbydone_int",
+ 					  "cm33stbyr_int", "ca55_deny";
+-			status = "disabled";
+ 		};
  
-+/* RZ/V2H-specific feature bits */
-+#define SYS_LSI_PRR_GPU_DIS	BIT(0)
-+#define SYS_LSI_PRR_ISP_DIS	BIT(4)
-+
-+static void rzv2h_sys_print_id(struct device *dev,
-+				void __iomem *sysc_base,
-+				struct soc_device_attribute *soc_dev_attr)
-+{
-+	bool gpu_enabled, isp_enabled;
-+	u32 prr_val, mode_val;
-+
-+	prr_val = readl(sysc_base + SYS_LSI_PRR);
-+	mode_val = readl(sysc_base + SYS_LSI_MODE);
-+
-+	/* Check GPU and ISP configuration */
-+	gpu_enabled = !(prr_val & SYS_LSI_PRR_GPU_DIS);
-+	isp_enabled = !(prr_val & SYS_LSI_PRR_ISP_DIS);
-+
-+	dev_info(dev, "Detected Renesas %s %s Rev %s%s%s\n",
-+		 soc_dev_attr->family, soc_dev_attr->soc_id, soc_dev_attr->revision,
-+		 gpu_enabled ? " with GE3D (Mali-G31)" : "",
-+		 isp_enabled ? " with ISP (Mali-C55)" : "");
-+
-+	/* Check CA55 PLL configuration */
-+	if (FIELD_GET(SYS_LSI_MODE_STAT_BOOTPLLCA55, mode_val) != SYS_LSI_MODE_CA55_1_7GHZ)
-+		dev_warn(dev, "CA55 PLL is not set to 1.7GHz\n");
-+}
-+
- static const struct rz_sysc_soc_id_init_data rzv2h_sys_soc_id_init_data __initconst = {
- 	.family = "RZ/V2H",
- 	.id = 0x847a447,
- 	.offset = SYS_LSI_DEVID,
- 	.revision_mask = SYS_LSI_DEVID_REV,
- 	.specific_id_mask = SYS_LSI_DEVID_SPECIFIC,
-+	.print_id = rzv2h_sys_print_id,
- };
- 
- const struct rz_sysc_init_data rzv2h_sys_init_data = {
+ 		pinctrl: pinctrl@11030000 {
 -- 
 2.25.1
 
