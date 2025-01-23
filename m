@@ -1,150 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-12404-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12405-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BFBA1A77F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 17:04:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7BBBA1A7BA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 17:20:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF29D3A0692
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 16:04:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D45E0188C030
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 16:20:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37E6123CB;
-	Thu, 23 Jan 2025 16:04:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD01E21128D;
+	Thu, 23 Jan 2025 16:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Bgl4UM7a"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="vNGhBJgq";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="GQ4qz3IT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753731F5F6
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jan 2025 16:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE444328B6;
+	Thu, 23 Jan 2025 16:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737648251; cv=none; b=oA0fnEwxjvDEyCHKMDyoxI0Zxe23XBn5/GN72dxaP9/7DKhxR/y9ie+RsomywAPAJdD01RBV15dQ8xhNX9NWZM9DsmWx47ZTVSlSAGYhBmP27IJM7qd1Ctq4MWcQr4fLin12wwY0/EkMD6lu+np33ckloGq860Sv8mVa/lznsAA=
+	t=1737649235; cv=none; b=Yi1IfIuGt50rv0PrVhuSfJV3DDnIyDWw+8cq2xKZl1mH3WfjG0dlL67iw2uq1TuDDgtDOUNcLucS+SYZ9OInzwNidU2oJusf7ZQmPwx076Fpt4uLttvtVA99pjOzXDZ22sgtoOAssQpl5nCVqwFOSUPnwYKjtA83QEL02VAZKKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737648251; c=relaxed/simple;
-	bh=m9eI4UMuC/HQYC7p3/UUbDdxzSDth92to4hHTEEhh6o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Y+c7If+19pUlCwgLjTL0tzfk3I+Lsh6WH6Wq8h+vuqoCvRzA4c01NjPXkDHhzb+R9QoQ+us1QrCOmFCpLAAKT/RDM0/N5fSWcSOXkO3Mgz35m4A3jd6LVnRRlYaRcSQXPDg/4fO62wGrvdRJB+d4HX3MbRgXOPTomm9qdZCq+/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Bgl4UM7a; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-type:content-transfer-encoding; s=k1; bh=7
-	nO+YclNtqmHt6FMutq65BGE0NzccpN94JCI7/4bKpY=; b=Bgl4UM7afEkU54iZL
-	IgWoeEA54knjhdgCc8mMCuRLUV1dvqB6G3XE1pDQDioZDCLE38xSJe+Dw9cb5Xw9
-	gPfsdhMyqxbmUslQrQI1u31QEJAPyUaQq6K1j1Zlen0GLHK/k2hdX3qPsa4x0LBX
-	b4Q3auJKK5fuzW+Q8rRCWNxYsZArBYgZ0/ikBkxhAjsXHNVdGB8PPzc9E1Vqa7kr
-	AdLl5sNYba/ZpczeMojKSS8Nf2AiPYizueEFcbphb6DkxafvLgr68HEp6dpyDXYB
-	sS57BlIaowW0QXnYzpIZtQoQIbE1YNDPgnIhvS5cfoLxNgcwHE843s1JP5NA8/iW
-	YERbw==
-Received: (qmail 3322830 invoked from network); 23 Jan 2025 17:03:58 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Jan 2025 17:03:58 +0100
-X-UD-Smtp-Session: l3s3148p1@cAT2wWEsouQujnvm
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	=?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	linux-hwmon@vger.kernel.org
-Subject: [PATCH RESEND] hwmon: (isl28022) Use per-client debugfs entry
-Date: Thu, 23 Jan 2025 17:03:47 +0100
-Message-Id: <20250123160347.44635-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1737649235; c=relaxed/simple;
+	bh=5exp0Pyr8vP2j/dXCEJf0hOs3tfQq9mySSqp+UCQ0XY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GGKpiDb3LvZYdFrDmZumBj8oJFvz9jLxuxb0JNWuEYnVCsagTJRWQZpjOOF3rqc+4pfDpBPsVSUKppDyitumrlyeq4OT2DyO09nwspFIIKFFO5z/Vco2tARgY3yb72AhCE2S5icmhPir9pzTsrUtCFxMaMdXb3Jqm4QdHRQ64HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=vNGhBJgq; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=GQ4qz3IT; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Yf5lG1Vf1z9sTr;
+	Thu, 23 Jan 2025 17:20:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1737649226;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fY0i14sLfFp5IyMkmvL8iHgR5m2wjm7udce02oi4QPY=;
+	b=vNGhBJgqDqhawuyaYJU77UH/UQKLzXCLTmcmpNV0e/zBCI+45AeCybdsWwPsPSKwu8OO8T
+	Z+QxgVzJS5/Tnbe/Oo2KH49UtudPMgjrDLc7940UZhlRLkcpQf2KfHHjK7A9OCQubMOLSb
+	zCwOsOONXE1BzSNJS769pmGihZTwbrsObk0+xezDzDOF1EgZJ3u9aEzeAsEafCI9WMpECX
+	5viWDfN+SJCwAjnRdNaOWmRiUeWt7CibFKjCoXM2G7bmjMTxemfncFiDpxYJheOvYn1ti2
+	hWi5whE8qd1m0rEMv6Mi4kzDLOQfDJ01aAuyaEY5aDgUOtMm5LQpbP5a34ow6Q==
+Message-ID: <61d3d9c1-cb43-4b29-81e2-1c6f189191d0@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1737649224;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fY0i14sLfFp5IyMkmvL8iHgR5m2wjm7udce02oi4QPY=;
+	b=GQ4qz3ITqeb2eOGJu6wBvp00xnlUhh1HgECUZpb+fijkHY6W1b+NMZ+89uDSETC8cLMq/Y
+	ihggxl+ePG+JMOI/SUSXl95DfuvaYNmU/gNus8r4ORBqEPo/l1qpqtXfWWBdn1CaEqRWgy
+	NoVnV3IETU0KMhRLihJBL6AXUJbf3ExgPr+BHCJz5rejDPDd5iepe4V1ImdgwLGo0NsDgn
+	mMHWc0HdkGWfzPgILsSw0xoVWQmTcYstjIr7MqOHxXKABcFIj8qSuIYOZA2yoGDucsi5Id
+	Rr9TQ08EVifIfnGRVcvFO4vNx7aVKutjo+KTjVS2l0lZ+I0/4N+xRY6LM/A0pA==
+Date: Thu, 23 Jan 2025 17:20:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 1/5] arm64: dts: renesas: r8a779f0: Add labels for rswitch
+ ports
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250118111344.361617-1-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdUTQ=4K8P_TgTp_b=NDdimgXJgW_nhO1ZJa11C846Bubw@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdUTQ=4K8P_TgTp_b=NDdimgXJgW_nhO1ZJa11C846Bubw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: wk9fj8ipxkp8a75zibptxawmrueq8ejz
+X-MBO-RS-ID: e5c6bbcb233f01532af
+X-Rspamd-Queue-Id: 4Yf5lG1Vf1z9sTr
 
-The I2C core now offers a debugfs-directory per client. Use it and
-remove the custom handling.
+On 1/23/25 4:25 PM, Geert Uytterhoeven wrote:
+> Hi Marek,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
----
+Hi,
 
-All dependencies are now in Linus' tree. Thisapatch can be applied now.
+> On Sat, Jan 18, 2025 at 12:14 PM Marek Vasut
+> <marek.vasut+renesas@mailbox.org> wrote:
+>> Introduce labels for each rswitch port in the form 'rswitchportN'.
+>> Those can be used to access rswitch port nodes directly, which is
+>> going to be useful in reducing DT indentation slightly as well as
+>> in DT /aliases node to reference the rswitch ports as ethernetN
+>> interfaces. No functional change.
+>>
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> 
+> Thanks for your patch!
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v6.15.
+> 
+>> --- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+>> +++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+>> @@ -974,15 +974,15 @@ ethernet-ports {
+>>                                  #address-cells = <1>;
+>>                                  #size-cells = <0>;
+>>
+>> -                               port@0 {
+>> +                               rswitchport0: port@0 {
+>>                                          reg = <0>;
+>>                                          phys = <&eth_serdes 0>;
+>>                                  };
+>> -                               port@1 {
+>> +                               rswitchport1: port@1 {
+>>                                          reg = <1>;
+>>                                          phys = <&eth_serdes 1>;
+>>                                  };
+>> -                               port@2 {
+>> +                               rswitchport2: port@2 {
+>>                                          reg = <2>;
+>>                                          phys = <&eth_serdes 2>;
+>>                                  };
+> 
+> Would you mind if I would change all rswitchportN to rswitch_portN
+> while applying, for consistency with other Renesas DTS files?
+Go ahead, but also keep the commit messages in sync .
 
- drivers/hwmon/isl28022.c | 44 ++--------------------------------------
- 1 file changed, 2 insertions(+), 42 deletions(-)
-
-diff --git a/drivers/hwmon/isl28022.c b/drivers/hwmon/isl28022.c
-index 3f9b4520b53e..1fb9864635db 100644
---- a/drivers/hwmon/isl28022.c
-+++ b/drivers/hwmon/isl28022.c
-@@ -324,26 +324,6 @@ static int shunt_voltage_show(struct seq_file *seqf, void *unused)
- }
- DEFINE_SHOW_ATTRIBUTE(shunt_voltage);
- 
--static struct dentry *isl28022_debugfs_root;
--
--static void isl28022_debugfs_remove(void *res)
--{
--	debugfs_remove_recursive(res);
--}
--
--static void isl28022_debugfs_init(struct i2c_client *client, struct isl28022_data *data)
--{
--	char name[16];
--	struct dentry *debugfs;
--
--	scnprintf(name, sizeof(name), "%d-%04hx", client->adapter->nr, client->addr);
--
--	debugfs = debugfs_create_dir(name, isl28022_debugfs_root);
--	debugfs_create_file("shunt_voltage", 0444, debugfs, data, &shunt_voltage_fops);
--
--	devm_add_action_or_reset(&client->dev, isl28022_debugfs_remove, debugfs);
--}
--
- /*
-  * read property values and make consistency checks.
-  *
-@@ -475,7 +455,7 @@ static int isl28022_probe(struct i2c_client *client)
- 	if (err)
- 		return err;
- 
--	isl28022_debugfs_init(client, data);
-+	debugfs_create_file("shunt_voltage", 0444, client->debugfs, data, &shunt_voltage_fops);
- 
- 	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name,
- 							 data, &isl28022_chip_info, NULL);
-@@ -505,27 +485,7 @@ static struct i2c_driver isl28022_driver = {
- 	.probe	= isl28022_probe,
- 	.id_table	= isl28022_ids,
- };
--
--static int __init isl28022_init(void)
--{
--	int err;
--
--	isl28022_debugfs_root = debugfs_create_dir("isl28022", NULL);
--	err = i2c_add_driver(&isl28022_driver);
--	if (!err)
--		return 0;
--
--	debugfs_remove_recursive(isl28022_debugfs_root);
--	return err;
--}
--module_init(isl28022_init);
--
--static void __exit isl28022_exit(void)
--{
--	i2c_del_driver(&isl28022_driver);
--	debugfs_remove_recursive(isl28022_debugfs_root);
--}
--module_exit(isl28022_exit);
-+module_i2c_driver(isl28022_driver);
- 
- MODULE_AUTHOR("Carsten Spieß <mail@carsten-spiess.de>");
- MODULE_DESCRIPTION("ISL28022 driver");
--- 
-2.39.2
-
+I can send a V2 too ?
 
