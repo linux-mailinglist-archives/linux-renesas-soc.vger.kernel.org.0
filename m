@@ -1,174 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-12408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12409-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD68A1A7F5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 17:37:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4525A1A842
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 18:00:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6DBD16638B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 16:37:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A95D1188C12D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 17:00:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C42161386DA;
-	Thu, 23 Jan 2025 16:37:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1897145B39;
+	Thu, 23 Jan 2025 17:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jklwZC7V"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2854820F96D
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jan 2025 16:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D13137776;
+	Thu, 23 Jan 2025 17:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737650244; cv=none; b=cm+rgiDlrwPMkoXrAPboQ6axkMB0v/cdC4rMn/QKPb6oDHxTjze/6An6H/ZxJEfz+NqxjRVaGc7UKsFcRsN/hZ3iP0IbQihkeVBXsQCjE2aBiXs33w3PrlV1n4up/6YFqPxJYKohBMkQieF2cY97uSRgtbrwKsGKHE2KorI/MJ8=
+	t=1737651610; cv=none; b=lPcbLz4sThmbuip0eI9IAIebhmz6BUI43mkaiTSwv/ipIYkmf32ZotKWhVYAbp8JFcHgPlmywy0+vpu04ts3zIEvjQYdU1jrqXNg+OYuFHcUQFJJXYwOteKZG7K7tnBMGIJoViDST2ia5nuZzDAaziR//YblKGiQlwhXDdi1vrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737650244; c=relaxed/simple;
-	bh=oovoM9/NfpO+tA/KvHQz6ixKY4kGN3JA9GPNgic5Chw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UXiYBd7polDiKIj9czj5s98OFEhzJBjr1Q2q03YIkFpGOmdqv1h1kfZKGxJO24RAWF52/JSBAbd5/H4bMDUMR0F0uHVznO7GvgYjjZ4iGfL31chd9+HuuAKfHXskoscWPQb8dRAQduWOM01ZpixdgXzRdp9fqV9Amx0pAoC0qS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:4563:f165:f885:ebc1])
-	by albert.telenet-ops.be with cmsmtp
-	id 4gdB2E00F5PrELR06gdBEk; Thu, 23 Jan 2025 17:37:13 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.97)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tb0CU-0000000EEZY-3aR7;
-	Thu, 23 Jan 2025 17:37:11 +0100
-Received: from geert by rox.of.borg with local (Exim 4.97)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tb0Cd-00000000mL3-24G3;
-	Thu, 23 Jan 2025 17:37:11 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Magnus Damm <magnus.damm@gmail.com>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: dts: renesas: r8a779f0: Disable rswitch ports by default
-Date: Thu, 23 Jan 2025 17:37:10 +0100
-Message-ID: <c4688de8e3289ad82c2cd85f0893eac660ac8890.1737649969.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1737651610; c=relaxed/simple;
+	bh=gRogZkN/ZYeW7ugpdxEbqxuwqT+k60xHmTHVdfKjKmM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZFyoqWfx5Ggym/8wKRJMX87sfoAS3L4/QDmdskskJ11gxHHXUVotLmKKTivfv1HqMe43yak3f9U0IEhit4pCl5TkN90OBdpWlJr1PG5AZnqVQA8MubiRyCGSQo3XA+RJVyTT5VF9VjXEoMK3nYg8qU0OAGuKM/GLMNrQurJMiKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jklwZC7V; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 53FC21BF203;
+	Thu, 23 Jan 2025 17:00:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1737651606;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iR72WWfQooPYRih8ekKDUZx/ywzZWW2vIvazDAUGnoE=;
+	b=jklwZC7Vl53FEx06CFIRti7QWyhdv6htKmDJelajqEb1WK5R1J2ZmjoscXN0uhmkZ3fQAZ
+	WeWXvpanga73wpS+eHjlggI+kcEj7bf9iNVVFdXGlTEkTX7BqBXL6q1bt80M7iUtuPVQ0A
+	Ill64DLz+Glb4e0d2c0bqJh+N5tdd90H/HrMqF85vzEwhrkbv2t4dbrQTxg3wcyXRg25pQ
+	NxgMBTJDj2frUhXiZad1wgiNvWjWauBGtKN8Woss+N3SbXW6ENo2f0xJANPe0+Gn5qi1iI
+	fsJDa8SamazRemeCemBC80phIet6it5Yo1so/DJ+KLqE0w01NX6BaaZWHIeioQ==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net v2 0/2] Fix missing rtnl lock in suspend path
+Date: Thu, 23 Jan 2025 17:57:59 +0100
+Message-Id: <20250123-fix_missing_rtnl_lock_phy_disconnect-v2-0-e6206f5508ba@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIABd1kmcC/5WNXQqDMBCEryL73JQkoLV96j2KhJofXaobyQapi
+ Hdv8AZ9/GaY+XZgn9AzPKodkl+RMVIBfanAjm8avEBXGLTUtVRai4BfMyMz0mBSpslM0X7MMm7
+ GIdtI5G0WwSrXhNr1N1lDuVqSL7tT8wLyGboSjsg5pu1Ur+qs/rOsSkjR2v4emtC2walnH2Oek
+ K42ztAdx/EDswiyNd8AAAA=
+To: Paul Barker <paul.barker.ct@bp.renesas.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>, 
+ Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, netdev@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kory Maincent <kory.maincent@bootlin.com>, 
+ Sergey Shtylyov <s.shtylyov@omp.ru>
+X-Mailer: b4 0.14.1
+X-GND-Sasl: kory.maincent@bootlin.com
 
-The Renesas Ethernet Switch has three independent ports.  Each port can
-act as a separate interface, and can be enabled or disabled
-independently.  Currently all ports are enabled by default, hence board
-DTS files that enable the switch must disable all unused ports
-explicitly.
+Fix the suspend path by ensuring the rtnl lock is held where required.
+Calls to open, close and WOL operations must be performed under the
+rtnl lock to prevent conflicts with ongoing ndo operations.
 
-Disable all ports by default, and explicitly enable ports that are used,
-next to their configuration.
+Discussion about this issue can be found here:
+https://lore.kernel.org/netdev/20250120141926.1290763-1-kory.maincent@bootlin.com/
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+While working on the ravb fix, it was discovered that the sh_eth driver
+has the same issue. This patch series addresses both drivers.
+
+I do not have access to hardware for either of these MACs, so it would
+be great if maintainers or others with the relevant boards could test
+these fixes.
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
-This is similar to how Ethernet switch ports are handled on RZ/N1D, and
-CAN-FD channels on R-Car Gen3/4.
+Changes in v2:
+- Move the rtnl_lock before ravb_wol_setup() and ravb_wol_restore()
+  instead of before the if condition.
+- Link to v1: https://lore.kernel.org/r/20250122-fix_missing_rtnl_lock_phy_disconnect-v1-0-8cb9f6f88fd1@bootlin.com
 
-If accepted, I'm wondering if I should move it forward, before "[PATCH
-3/5] arm64: dts: renesas: s4sk: Access rswitch ports via phandles"[1],
-which would become slightly simpler.
-
-[1] https://lore.kernel.org/all/20250118111344.361617-3-marek.vasut+renesas@mailbox.org
 ---
- arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi | 3 +++
- arch/arm64/boot/dts/renesas/r8a779f0.dtsi                 | 3 +++
- arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts             | 6 ++----
- 3 files changed, 8 insertions(+), 4 deletions(-)
+Kory Maincent (2):
+      net: ravb: Fix missing rtnl lock in suspend path
+      net: sh_eth: Fix missing rtnl lock in suspend path
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi
-index 892729786d00b36e..ad2b0398d35431a1 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi
-@@ -57,6 +57,7 @@ &rswitch_port0 {
- 	phy-handle = <&u101>;
- 	phy-mode = "sgmii";
- 	phys = <&eth_serdes 0>;
-+	status = "okay";
- 
- 	mdio {
- 		#address-cells = <1>;
-@@ -75,6 +76,7 @@ &rswitch_port1 {
- 	phy-handle = <&u201>;
- 	phy-mode = "sgmii";
- 	phys = <&eth_serdes 1>;
-+	status = "okay";
- 
- 	mdio {
- 		#address-cells = <1>;
-@@ -93,6 +95,7 @@ &rswitch_port2 {
- 	phy-handle = <&u301>;
- 	phy-mode = "sgmii";
- 	phys = <&eth_serdes 2>;
-+	status = "okay";
- 
- 	mdio {
- 		#address-cells = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-index 840ba73c03f1b6f4..06be9f7720d64179 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-@@ -989,14 +989,17 @@ ethernet-ports {
- 				rswitch_port0: port@0 {
- 					reg = <0>;
- 					phys = <&eth_serdes 0>;
-+					status = "disabled";
- 				};
- 				rswitch_port1: port@1 {
- 					reg = <1>;
- 					phys = <&eth_serdes 1>;
-+					status = "disabled";
- 				};
- 				rswitch_port2: port@2 {
- 					reg = <2>;
- 					phys = <&eth_serdes 2>;
-+					status = "disabled";
- 				};
- 			};
- 		};
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts b/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
-index 24ecdf6e8476a945..df652e7b85c95ebe 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
-@@ -187,6 +187,7 @@ &rswitch_port0 {
- 	phy-handle = <&ic99>;
- 	phy-mode = "sgmii";
- 	phys = <&eth_serdes 0>;
-+	status = "okay";
- 
- 	mdio {
- 		#address-cells = <1>;
-@@ -205,6 +206,7 @@ &rswitch_port1 {
- 	phy-handle = <&ic102>;
- 	phy-mode = "sgmii";
- 	phys = <&eth_serdes 1>;
-+	status = "okay";
- 
- 	mdio {
- 		#address-cells = <1>;
-@@ -218,10 +220,6 @@ ic102: ethernet-phy@2 {
- 	};
- };
- 
--&rswitch_port2 {
--	status = "disabled";
--};
--
- &rwdt {
- 	timeout-sec = <60>;
- 	status = "okay";
+ drivers/net/ethernet/renesas/ravb_main.c | 14 ++++++++++++--
+ drivers/net/ethernet/renesas/sh_eth.c    |  4 ++++
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+---
+base-commit: b1754a69e7be48a64b3cdb0df60a96d97959da73
+change-id: 20250122-fix_missing_rtnl_lock_phy_disconnect-fc1d6f5db705
+
+Best regards,
 -- 
-2.43.0
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
 
