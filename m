@@ -1,121 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-12365-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12366-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659FEA19F15
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 08:35:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2EBAA19F4A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 08:45:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 371687A64FD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 07:35:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B388C188BAD3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 07:45:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 295BE20B80A;
-	Thu, 23 Jan 2025 07:35:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2906920101E;
+	Thu, 23 Jan 2025 07:45:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uu1X1r25"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kWw2vR8E"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAA520B7FC;
-	Thu, 23 Jan 2025 07:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECFF81C1AB4;
+	Thu, 23 Jan 2025 07:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737617710; cv=none; b=tEHibxCWc5BSBN4WCrRzxRZZw1lijP9I5bP5SrZRVWnPoiZzdwc9EH38HmIQAXIPulMSNCVfMIO0tCzgl62j0MWY8yMd596quDzi01df6pOjC1XV41uLdePvERI9exS7ZGu5b6y64YCwwRF6jrVWR6a1xHLDB+iREMs2fY8EVZY=
+	t=1737618323; cv=none; b=nWmSVt6q+p7+Cf9RcPRj5Q8TpenranzDKTszkaSqB2HJ7IA5aQjJuhF697WqJpWx5oyYiRLVst1bIWL4TlxFCuvobbye++hIV69HWyX32Coiw5dNEewhgz0OxsCrdoA04CSuVFFRgH79XDZbLWz5ncbv1xYifEgluXx0HohnlcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737617710; c=relaxed/simple;
-	bh=XyY/nHGMCRKgluV7H4DjTZ0tdLlE+I9C1S/Xn0fqVMk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=LiYp4+QS0905zd92MiRauybKrZQgCC0lRWol9BUxNsBYJm6IlVq6iu6ZXkKk19udUn+GmKaTcQ3fZ4GS+wrQcvSTe9op+8zuF6BN1e2Ra5+1eleB2MqH07boxwkjRzP97VphA2UTCzahzt5dVztfUyhfdGQn4nrm0FCQjvi1RuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uu1X1r25; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3014189A;
-	Thu, 23 Jan 2025 08:34:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737617643;
-	bh=XyY/nHGMCRKgluV7H4DjTZ0tdLlE+I9C1S/Xn0fqVMk=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=uu1X1r25/oaRdnFRroJbYozdkylBYUgKZ5K4CG/lR8faASfSMfldd/HCo2X8zRjSV
-	 ar9mvLH3G7+a5iLt0lXZiyB9hvX4GY7RoI+zpNOdhfOe4cNl1H0j5/3qf/Wv4lQvwg
-	 bTok6pzuvzg2eZ/2NGBFxjD7MMqy0PGqvKhAVy40=
-Message-ID: <f2fdb4d8-c1b3-4671-9a04-7fb325c5fc68@ideasonboard.com>
-Date: Thu, 23 Jan 2025 09:35:04 +0200
+	s=arc-20240116; t=1737618323; c=relaxed/simple;
+	bh=j99vjpjVE8l+NdTsIoZrwtaY8Nz67MOeMa7X2lWpvLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QWUBGXCIHnxC8IViuaOQUD8yhWWyf3DpZ0pK+rjAPf3VlUr+6DADJifZexDUnBMWbTgeBxMxi6Vrrh1JybQ8BaJxDZ+LTR8xkw7IUtnkb3KiSyam/x31Wj5hEfZgL1CXtAsEQ8fMhCPotcAiM84tyyJNJCunR0RhoQvYG5SNCyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kWw2vR8E; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 990BBC4CED3;
+	Thu, 23 Jan 2025 07:45:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737618322;
+	bh=j99vjpjVE8l+NdTsIoZrwtaY8Nz67MOeMa7X2lWpvLY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kWw2vR8E8hObAcI4oZo7gMmmecG5Xbj3ZQBHeX4qL2alJWUGKF9ebcDqrQkITOxIp
+	 iH307juZ59Cl9opcyRCeXMkbQByRC1VXAzVm5N3kUHZxLXmapgGVBZThNZ0if+Kcfb
+	 ufwe+BR5UCA4H7yb5KDHIMFkIQwYSXeG4uDoAV482Md1+a7dnHXI5qqLFHY2bEDubb
+	 6UcxOhw7H48OfAs6XLDgCk/kXwOUo/7CEr0ZxveiRia2qr9ZmDZziDL7V4vZR/7Ond
+	 +p9s9XxAMtVhBkLZcOxg+9uDUT4eRISMhSclKh9KIyrLNXtaCtBSyjuzgeVX12H7cW
+	 phJjtFvpJF9TA==
+Date: Thu, 23 Jan 2025 08:45:19 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: geert+renesas@glider.be, robh@kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, biju.das.jz@bp.renesas.com, 
+	claudiu.beznea.uj@bp.renesas.com, conor+dt@kernel.org, john.madieu@gmail.com, krzk+dt@kernel.org, 
+	linux-kernel@vger.kernel.org, magnus.damm@gmail.com
+Subject: Re: [PATCH v3 2/9] dt-bindings: soc: renesas: Add RZ/G3E variant SYS
+ binding
+Message-ID: <20250123-conscious-resolute-dog-b3dda7@krzk-bin>
+References: <20250122103911.517484-1-john.madieu.xa@bp.renesas.com>
+ <20250122103911.517484-3-john.madieu.xa@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] media: rcar-vin: Remove emulated SEQ_{TB,BT}
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20250122165353.1273739-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20250122165353.1273739-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250122103911.517484-3-john.madieu.xa@bp.renesas.com>
 
-Hi,
-
-On 22/01/2025 18:53, Niklas Söderlund wrote:
-> Hello,
+On Wed, Jan 22, 2025 at 11:39:04AM +0100, John Madieu wrote:
+> Add RZ/G3E (R9A09G047) variant to the existing RZ/V2H System
+> Controller (SYS) binding as both IPs are compatible.
 > 
-> When the driver was converted from soc_camera emulated support for
-> V4L2_FIELD_SEQ_TB and V4L2_FIELD_SEQ_BT where added. This was done by
-> capturing twice to the same VB2 buffer, but at different offsets.
+> They however have different SoC IDs, RZ/G3E has has VSP control Register
+> compared to RZ/V2H SYS IP. Hence a new compatible string renesas,r9a09g047-sys
+> introduced to handle these differences.
 > 
-> This trend out to be a bad idea and the wrong place to try and emulate
-> this kind of thing. Further more it is fragile when it comes to things
-> like suspend/resume and scaling. Just how fragile it was have been made
-> more apparent when more features where added to the driver for things
-> the hardware really can do.
-> 
-> If user-space really want to capture things in a SEQ_{TB,BT} fashion
-> this emulation of capturing twice to the same buffer with a different
-> offset can be emulated their instead of the kernel, where it always
-> should have been.
-> 
-> This series removes this emulation in patch 1/5 and then proceeds to
-> remove a lot of cruft code needed to support it. The primary cleanups in
-> patch 2/5 - 4/5 revolve around simplifying the VIN internal state
-> tracking from 5 to 2 states needed to support the emulation.
-> 
-> Finally patch 5/5 removes a hack in the R-Car CSI-2 driver which was
-> added to support this emulation, and is no longer needed.
-> 
-> I have tested this on Gen2, Gen3 and Gen4 without hitting any
-> regressions or other issues, other then of course SEQ_{TB,BT} are no
-> longer enumerated as output formats.
-> 
-> For changelog see individual patches.
-> 
-> Niklas Söderlund (5):
->    media: rcar-vin: Remove emulated SEQ_{TB,BT}
->    media: rcar-vin: Remove superfluous suspended state
->    media: rcar-vin: Remove superfluous starting state
->    media: rcar-vin: Simplify the shutdown process
->    media: rcar-csi2: Remove hack to detect NTSC content
-> 
->   drivers/media/platform/renesas/rcar-csi2.c    |   8 +-
->   .../platform/renesas/rcar-vin/rcar-core.c     |   6 +-
->   .../platform/renesas/rcar-vin/rcar-dma.c      | 132 ++++--------------
->   .../platform/renesas/rcar-vin/rcar-v4l2.c     |   7 -
->   .../platform/renesas/rcar-vin/rcar-vin.h      |  40 +-----
->   5 files changed, 33 insertions(+), 160 deletions(-)
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> ---
+>  .../bindings/soc/renesas/renesas,r9a09g057-sys.yaml          | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
 
-I've been testing these with V4H and a GMSL setup, no issues:
+<form letter>
+This is a friendly reminder during the review process.
 
-Tested-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+It looks like you received a tag and forgot to add it.
 
-  Tomi
+If you do not know the process, here is a short explanation:
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions of patchset, under or above your Signed-off-by tag, unless
+patch changed significantly (e.g. new properties added to the DT
+bindings). Tag is "received", when provided in a message replied to you
+on the mailing list. Tools like b4 can help here. However, there's no
+need to repost patches *only* to add the tags. The upstream maintainer
+will do that for tags received on the version they apply.
+
+Please read:
+https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
+
+If a tag was not added on purpose, please state why and what changed.
+</form letter>
+
+Best regards,
+Krzysztof
 
 
