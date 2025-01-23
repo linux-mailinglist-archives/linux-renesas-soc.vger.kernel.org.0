@@ -1,234 +1,311 @@
-Return-Path: <linux-renesas-soc+bounces-12359-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12360-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31AFA19B91
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 00:43:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C4EA19EBD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 08:15:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89C593A48B8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2025 23:43:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFB8B3A3537
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 07:15:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 840721CBEB9;
-	Wed, 22 Jan 2025 23:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D976E1C5D50;
+	Thu, 23 Jan 2025 07:15:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Y8QLEU49"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CV74nb76"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010000.outbound.protection.outlook.com [52.101.228.0])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C61185B62;
-	Wed, 22 Jan 2025 23:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737589418; cv=fail; b=P34M6DtSv+Cwv7Zzkkqul0T6dmBWcbBL9sqM4SyA08VsyJ/3bl7gX2VQACcuRVH/cqVrw/WHQy2LeRwZrsFd3yKMTbGY/7mwRomTR9RzglCuZASCDE4ZLfrRGyMhq3BU0aRCUxPSdpL9K/cTRK+tb/Gv+/VVR0y6p/bnMSiFhe8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737589418; c=relaxed/simple;
-	bh=OpFNEOTvP2kFbiDWjdThp7cvS7h0Oboejs8h3WlszBw=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=DphLTTz20LHDNws93+8n0LlZv+0Rtx1R4EayOSA8lpCy7cjycFL9+N0FcCbW4ooKDvyyM493EpEBrvuzDthzE60Yv10zMFDtDSwsy1XXg/hFLbyPsdYW8Pay7Bl/5ztej7OAzv3CBJ3ShDN9tl6rx77gWlQklNuezmc3tbVz1zE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Y8QLEU49; arc=fail smtp.client-ip=52.101.228.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TlkfaY5L3+KxuwGOGE2LlFlM3XdaRIjD9pwg008RFdgYOdSG2sPvfSaTf84h9J38AG50EhEV/cKW9TZAcOhpz96zCZozjCV1AL7Tdwdnqa9dd9M6k1yPcxszsg91DetGdX8avFRsoucP/hlec1XsydZhfWPxLRLBTz2V+wffwnAgB58LRtawmBrCm8t1XGD05/vtkoAmjhm0ZGsr9b8CS2F8C34QKNLJJrbcc/RDaL+alCCSGI30hDbA2AEQ6gtrIDrOzCzNPYwU0w6XlLQgRe6Wh7tfp3DXt2ehhRKN6gBI3kMXMhMF8lD8I/TRpLgDZ4HvDaknS8Qj3fgvuVwrSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P7y6Ht1oQoKJUWbI320G3oYsNuVcEeaLTDOzee6sFWk=;
- b=B407CQqhjdBuFPtW77B1z/+5hmedJsnPmcWvq4OVhEoEYQCVFNRTg6LQ4Q7t48B0Ppcl5q2BnP6YaRj4eGcQFMVhrKsKjI5YHHC8X12xtbBkl1+HhD+ORt75++4uDZAH7LMYioedLnLtLHCyGFdDQsAJNd4tu3Csylj7x4XVUAE+aswiMKgH/uuo36T+EWIgWdm2iIZklDq+jR71msR1h1C73lsouCTCA1EeC+M4K++sK3n0aiDOEHqd1E5Lcrgo4Bu8VIoCsxr29RHZfs9oMtOUvC02TFMQWjGL48x3Iwdd5T7FYAZ9X1fvlifagBwAVVPoAWf8VVx09ggxdEDvaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P7y6Ht1oQoKJUWbI320G3oYsNuVcEeaLTDOzee6sFWk=;
- b=Y8QLEU49pYTXxlBrHvbxg9+f/eW3GGZKOIXliztzxWt2vAQZt5/3TSHWkluVrmzKHApXzzfTJviYegl0HiTc+7cwTqgtcfk5qtM7sNnU9l3xHmcQ9+v0bLt/1ijrsJFddvvquZAPGAXwD+EGljgsB2tgrQXyjrwZHBtFhkP/PEs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYYPR01MB6571.jpnprd01.prod.outlook.com
- (2603:1096:400:e0::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.22; Wed, 22 Jan
- 2025 23:43:32 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8377.009; Wed, 22 Jan 2025
- 23:43:31 +0000
-Message-ID: <87wmem76u4.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Rob Herring <robh@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: soc-core: Stop using of_property_read_bool() for non-boolean properties
-In-Reply-To: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
-References: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 22 Jan 2025 23:43:31 +0000
-X-ClientProxiedBy: TYCP286CA0332.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:38e::18) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95871C1F22;
+	Thu, 23 Jan 2025 07:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737616528; cv=none; b=lgJgxjdROYsSTpglilkZtsboJb7A1dIIlQsP/NU4NbBbMaAwd5hq5PdirBXtsk6unS2JN+O9cL5r0IdnvXWYBg3enT4VCUGYjOlOfT9/F++FMw21IgnFojKPysNMEjVuUJzwDgYLIMcNAyhTuLgqy2m6yGZopcE5BgX7/h71mOU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737616528; c=relaxed/simple;
+	bh=8pjr+TBwGi5saKgrMMF6SqL98XOh0Wm1RuANfkeGhLI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=QEul8iCESEfl7pXUXOWFQLzzh/zNdFoNFLtJi0UX5p31WMdgZtnjWKkNLO0sRoTlRilrSHVbEmsul6udvl8t9cfrbyve/yWaZleb15wIBaxphms7gkchgSPA2cEFOkWyy1sKkBQa31vyFZAv2HcNERuVCHeY9jB6PT+t2Zpi/mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CV74nb76; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B4FC3A4;
+	Thu, 23 Jan 2025 08:14:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1737616461;
+	bh=8pjr+TBwGi5saKgrMMF6SqL98XOh0Wm1RuANfkeGhLI=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=CV74nb7692mwzBKjecefem6qFTFE6ygC17N/ll2IeMVWmBN4vMAzSlgkKXXQd02YG
+	 9DkyMwe9jmlFdQ4GB3Pv5YGe68ar+qDpadSsPXV8cd/9rTcSrI0BO6yZCX4jyguCG3
+	 lPdNAIL1lKYiNxbspoH28/Tw6xLbgOanIelFHJS0=
+Message-ID: <aa8109f8-34f4-4680-a2ba-d62491661f66@ideasonboard.com>
+Date: Thu, 23 Jan 2025 09:15:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYYPR01MB6571:EE_
-X-MS-Office365-Filtering-Correlation-Id: cbc67f3c-bfbd-42fb-8a23-08dd3b3e9449
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|52116014|366016|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?by2UO57NM6UASzT408s97HrwzuctzLV5x1j8u7VdZ2vkdq1TIgY592ZcEZcd?=
- =?us-ascii?Q?bnhOLFzW413mmYpWwkhn+BmmzkCKVReuKpmIbkTM7yERHKhdG3W5B6wai8eE?=
- =?us-ascii?Q?DzWstN3jkw4iEjD85jQrVbAOEFt4kFIYM/gjObX6pnh7s7P6mxKWz9zN3xQ3?=
- =?us-ascii?Q?kb/35vqtPIm8vM0c4m+5C3jBhrC2ZgprEnOn2sdxPTR7pN0PuqTuJ45ZwckV?=
- =?us-ascii?Q?T9Dqh3ruuh89wotMrByDYfWPpj9K2LQ8MBcnSutwAKPaV2ZSN1kGghvyC6qp?=
- =?us-ascii?Q?D2RXOiAKlpS1Y3SBLh01lwIrtJt47Z0s2mdVLHYYZp+PYnoDVCoLXu8LsUU+?=
- =?us-ascii?Q?wNe6FWtHHlYNsjbsKJNh0KXX0ijw/SLX7j0yODROtPo2gUG30StRuINg/l/9?=
- =?us-ascii?Q?Jjm+TypjLgI87+9H4N6/l5nnP1w6axtzUwxXysnodPW3G9VD3/zdMtOBKmKv?=
- =?us-ascii?Q?30k9u/RcLkai3nuhrElTGWNUjjKjxzjvRnCU9DTgmH4bg2fjgsPcMxVRbcBV?=
- =?us-ascii?Q?6W6pIgD22WeLKIDICQ4A7SHxOjIDIUlg1LxnCDocVwjzvc5Bc1eHk0+siGeg?=
- =?us-ascii?Q?nlj1f3aJvX/Qtv9VGZzIqrzRt/ym7JDh1Ty3R+tt7W/Qc2+R7DeuejhdPmFC?=
- =?us-ascii?Q?3BYjfajJsLuoD48g97eJUSsAo4ggt0puLvBC36UJ8UuCcLsId1Cng3fnuQke?=
- =?us-ascii?Q?emkerPejJm6UyLpvnmZHfUhhRhGDDmaYu3s3E8wvQ35QkMZ0fYBF9j2aJIM/?=
- =?us-ascii?Q?ce1+WSgy5xvgyuFDkNKHPt2Vl3eaUZeFsqel3/XG70vCBBI+AI8XiHz+Dc9j?=
- =?us-ascii?Q?IziWSM0yewe4P+qapLnCRHN0iW12DL0Tf9PmPq7V7/z+6QOiNfUJJjaO3HH+?=
- =?us-ascii?Q?jE5KEccA+9KUMQhQzJV+SzXuwhYjBztDZDY6aZjd5HZjcxbi/8KoZnvpIEWc?=
- =?us-ascii?Q?WEi3OOpcqqb9kveU29Fy/yRKUmNTF9j2DRMXV7plLSv3v0VKAQ+0/SmcQDry?=
- =?us-ascii?Q?IBgyUptQ0sEtcBCA0XQx0VCrzqj1hmnwyQJszZ2OcqEZpjFPrPbxDA42gFac?=
- =?us-ascii?Q?kNOJSGPeE8VNQysp7r2EVmMmKsct5oMX9rZm2KCqydJfb6xi6xaUOB/2uraj?=
- =?us-ascii?Q?tl95H0ppiKJf9EVEMV339BGtg1OJcxIfmsShnc4Lb0HnRIHGS1+wbelYF7Lo?=
- =?us-ascii?Q?7jzr4uFDqpdjqPqzDEcAK9FboIvLRaGOOT1lD8Bh2/km3AA73qZ2jqvInaNB?=
- =?us-ascii?Q?GbZQRRXvX7XeEbHTuRF3DNSesDpcjlvE/hAtiAeX/3KzNOS4SwvT+sKcGiW/?=
- =?us-ascii?Q?5qOpF2gemVUB8iAJDEZIYPqSULiM+8WwVtsSUyr3S8UQFvt0AyXzLB/M/yhN?=
- =?us-ascii?Q?YFaycj6LFX5NVzYlF5J04YwO1cmUCvUj0fwI7MOW3eobKzXWPFPvGSsqxK2R?=
- =?us-ascii?Q?MnAtyIKRSannIFAqdaxyfDM7s3OuMf1j?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(52116014)(366016)(7053199007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OsTN9JCouGnQhTYlmT0ZfhvITWlwGDTE+V2heLHF7oQM2apwklN3RVZEQbjv?=
- =?us-ascii?Q?Vt/HK+9x+yd+xoJhWG+yVBvSIwba08p7kqlB9oliTq7m9MQjdg49ENyaIy5m?=
- =?us-ascii?Q?nwRBFZFsHxapvfnmd5CHpkjQy2bIbJ00O3HFvEaClUmYGq5qPUglalXUuLYJ?=
- =?us-ascii?Q?oAfZdTXGCC+fzCPXj3sDzH9JWwfJqaW/h+hvEfPHLHNgEB3DqDyQR8a2PToC?=
- =?us-ascii?Q?KOlmn3Vp4ZAhtSQtwbJKQ6KN9QBXoZT+zyx/6OCiiYmE32Hn8DDJvtB8t8XR?=
- =?us-ascii?Q?ov3oT0/XYZDUhFXUpHA4fsatgU7JwxtdTGww1hF7fUltC+fRZeHvJjy0qH73?=
- =?us-ascii?Q?pgmq7S4bA+gRLefP5O9hIvARr+EDlrEhoqnM2VSzh9iaTiPzp6+O0U7stopm?=
- =?us-ascii?Q?EqHlDIx5C8w4sONkRWja8WO8rhat0y/Ng9Ov4m9hMPG3vIuFpmEBRV8Gfrhn?=
- =?us-ascii?Q?R+EAexs/G3Xl8tOZIl4tij2z+AlKBkWSQ+onFhy294U7Qoh18kTsclqIf47q?=
- =?us-ascii?Q?s82njcP6vDbX4EvHP581X/iuaWF20Ls07Fo3M3A7U/UWztxBhCCxsNdVpUuh?=
- =?us-ascii?Q?fSMzFI4q6GQs9gT9ydoD5f4oOK3aOaIrUWZmfSsPwUJIoAIsp5xl6sS3t6V0?=
- =?us-ascii?Q?lRQKNsiBkaSFWbSIgQNKLffUl6TGsSgPzxnNopErLHoqEzIqgQx54NhVaXnN?=
- =?us-ascii?Q?iHBZNZKtbGm1HOgB0+GjVHF7IY+frQqeq0A6SLTaZsCns/0XPTXXys99j50r?=
- =?us-ascii?Q?83fmwmIBOZXew0j4A6ai1vFN6FYMGNxJF5a1SABRM5FWxDTNKEvHA0OFi7GS?=
- =?us-ascii?Q?KagNdbIAUOY/ybWQeqINnG45l4P9LMYWwCCGCA/S5VbqH3fRXWAjIaMUHxga?=
- =?us-ascii?Q?I6oI7lukuFGHuRxI6Rv0QhoDaD/K+KPdxho4DIBr40bhLwRzDCQM9ZW28yay?=
- =?us-ascii?Q?MNe4qIWckEBs4iixzAJMECGY8tH8szyU0hzwDHI3bd8oYm5fplGDuipgdGdp?=
- =?us-ascii?Q?tMuGHXMjeHLwc7FBhMBNMJ5tLhVyvw0HKVgpWA+x9k5pEJSw0PV0TCjDfpl7?=
- =?us-ascii?Q?OjJARfbKPFkNwOyzEBvNq3N5q+E5aQ4yA6TwEgvS1U7GUKMeE38PqATKFwl9?=
- =?us-ascii?Q?xrbeRkoHVFj9HXStjGB1GtAnb5Jc3R37NkHsOm/hngNDEl5n5GDTFpEp0+ry?=
- =?us-ascii?Q?hJQRK1fftq1Tuu/Ntl9FUWDQfl4BAzAb+zkyUf+T1Se9py8jvkk+dCpvc5nQ?=
- =?us-ascii?Q?39b9QQWhP7ZPXlSssT3HRErd95mXZpSQXIsLgGIYcx9h4ZsAk+3jvxTyeQbs?=
- =?us-ascii?Q?uK66FKtp6e3UVT84LQn1EeZO9EwtU53IyXX66NAbdaw3nOzvXQQwJ/IS86D+?=
- =?us-ascii?Q?ZGrd7o/MrN7rdFFuo15qgC6srAiY67SsSnJfL0QH0r6GQ3JbF7UrgNDJ6da3?=
- =?us-ascii?Q?bA1FGtxyqmAkprMfXyeFkVdV3hfjnWlvn4wuOY3H2zZnzcBOTAf+f56dNrE+?=
- =?us-ascii?Q?U5R6fNmWIILgfPphuzUhIz7kcTjVPsWcVqrkMqXP5pJOU9mYI7dQJRPfIwiw?=
- =?us-ascii?Q?79B84FxK1qFF8L9dTHw+nh/tMa2KeleMQqMmoCt4iCTtuzmTqbTT9TtdMLRx?=
- =?us-ascii?Q?fSx0bmF/mmdvUUkNdXFJkds=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbc67f3c-bfbd-42fb-8a23-08dd3b3e9449
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2025 23:43:31.9534
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VZaBster+IUr86K5qzuTSyFHg9WFHTJ8bEs3QxT3Z/OK4Uos5nbmX+Z4OylUy1Ei7D3wZO4x88xT75XN3z+rHWCK19AuUaVHTHuFdzcO0lYDhmaNE1+PQsx7tpAdAe+1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB6571
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] media: rcar-vin: Remove emulated SEQ_{TB,BT}
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250122165353.1273739-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250122165353.1273739-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <20250122165353.1273739-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
-Hi Geert, Mark
+On 22/01/2025 18:53, Niklas Söderlund wrote:
+> When the driver was converted from soc_camera software support for
+> V4L2_FIELD_SEQ_TB and V4L2_FIELD_SEQ_BT where added. This was done by
 
-Thank you for the patch
+s/where/were/
 
-> On R-Car:
+> capturing twice to the same VB2 buffer, but at different offsets.
 > 
->     OF: /sound: Read of boolean property 'simple-audio-card,bitclock-master' with a value.
->     OF: /sound: Read of boolean property 'simple-audio-card,frame-master' with a value.
+> This trend out to be a bad idea and it never really worked properly in
+
+s/trend/turned/
+
+> all situations. As the hardware can't support this mode natively remove
+> trying to emulate it in software. It's still possible to capture TOP or
+> BOTTOM fields separately or both ALTERNATING. If user-space wants the
+> same  fields in the same buffer the same hack to capture twice to the
+> same buffer can be done.
 > 
-> or:
+> Removing this error prone emulated support pave ways in future work to
+> simplify the internal buffer handling and making it less fragile, while
+> enabling adding support for other features the hardware actually
+> supports.
 > 
->     OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean property 'bitclock-master' with a value.
->     OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean property 'frame-master' with a value.
-> 
-> The use of of_property_read_bool() for non-boolean properties is
-> deprecated in favor of of_property_present() when testing for property
-> presence.
-> 
-> Replace testing for presence before calling of_property_read_u32() by
-> testing for an -EINVAL return value from the latter, to simplify the
-> code.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
-(snip)
-> -	if (of_property_read_bool(np, "dai-tdm-slot-num")) {
-> -		ret = of_property_read_u32(np, "dai-tdm-slot-num", &val);
-> -		if (ret)
-> -			return ret;
+> * Changes since v1
+> - Remove 'prev' variable in rvin_fill_hw_slot() which is no longer used,
+>    but set.
+
+
+I'm not really familiar with rcar-dma or this feature, but looks fine:
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
+  Tomi
+
+> ---
+>   .../platform/renesas/rcar-vin/rcar-dma.c      | 58 +++----------------
+>   .../platform/renesas/rcar-vin/rcar-v4l2.c     |  7 ---
+>   .../platform/renesas/rcar-vin/rcar-vin.h      | 18 ------
+>   3 files changed, 7 insertions(+), 76 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> index 8773998101ff..a16adc6fd4dc 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> @@ -642,8 +642,6 @@ void rvin_scaler_gen3(struct rvin_dev *vin)
+>   	case V4L2_FIELD_INTERLACED_TB:
+>   	case V4L2_FIELD_INTERLACED_BT:
+>   	case V4L2_FIELD_INTERLACED:
+> -	case V4L2_FIELD_SEQ_TB:
+> -	case V4L2_FIELD_SEQ_BT:
+>   		clip_size |= vin->compose.height / 2;
+>   		break;
+>   	default:
+> @@ -727,8 +725,6 @@ static int rvin_setup(struct rvin_dev *vin)
+>   	case V4L2_FIELD_INTERLACED_BT:
+>   		vnmc = VNMC_IM_FULL | VNMC_FOC;
+>   		break;
+> -	case V4L2_FIELD_SEQ_TB:
+> -	case V4L2_FIELD_SEQ_BT:
+>   	case V4L2_FIELD_NONE:
+>   	case V4L2_FIELD_ALTERNATE:
+>   		vnmc = VNMC_IM_ODD_EVEN;
+> @@ -1021,33 +1017,14 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
+>   	struct rvin_buffer *buf;
+>   	struct vb2_v4l2_buffer *vbuf;
+>   	dma_addr_t phys_addr;
+> -	int prev;
+>   
+>   	/* A already populated slot shall never be overwritten. */
+>   	if (WARN_ON(vin->buf_hw[slot].buffer))
+>   		return;
+>   
+> -	prev = (slot == 0 ? HW_BUFFER_NUM : slot) - 1;
 > -
-> -		if (slots)
-> -			*slots = val;
+> -	if (vin->buf_hw[prev].type == HALF_TOP) {
+> -		vbuf = vin->buf_hw[prev].buffer;
+> -		vin->buf_hw[slot].buffer = vbuf;
+> -		vin->buf_hw[slot].type = HALF_BOTTOM;
+> -		switch (vin->format.pixelformat) {
+> -		case V4L2_PIX_FMT_NV12:
+> -		case V4L2_PIX_FMT_NV16:
+> -			phys_addr = vin->buf_hw[prev].phys +
+> -				vin->format.sizeimage / 4;
+> -			break;
+> -		default:
+> -			phys_addr = vin->buf_hw[prev].phys +
+> -				vin->format.sizeimage / 2;
+> -			break;
+> -		}
+> -	} else if ((vin->state != STOPPED && vin->state != RUNNING) ||
+> -		   list_empty(&vin->buf_list)) {
+> +	if ((vin->state != STOPPED && vin->state != RUNNING) ||
+> +	    list_empty(&vin->buf_list)) {
+>   		vin->buf_hw[slot].buffer = NULL;
+> -		vin->buf_hw[slot].type = FULL;
+>   		phys_addr = vin->scratch_phys;
+>   	} else {
+>   		/* Keep track of buffer we give to HW */
+> @@ -1056,16 +1033,12 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
+>   		list_del_init(to_buf_list(vbuf));
+>   		vin->buf_hw[slot].buffer = vbuf;
+>   
+> -		vin->buf_hw[slot].type =
+> -			V4L2_FIELD_IS_SEQUENTIAL(vin->format.field) ?
+> -			HALF_TOP : FULL;
+> -
+>   		/* Setup DMA */
+>   		phys_addr = vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
+>   	}
+>   
+> -	vin_dbg(vin, "Filling HW slot: %d type: %d buffer: %p\n",
+> -		slot, vin->buf_hw[slot].type, vin->buf_hw[slot].buffer);
+> +	vin_dbg(vin, "Filling HW slot: %d buffer: %p\n",
+> +		slot, vin->buf_hw[slot].buffer);
+>   
+>   	vin->buf_hw[slot].phys = phys_addr;
+>   	rvin_set_slot_addr(vin, slot, phys_addr);
+> @@ -1073,15 +1046,12 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
+>   
+>   static int rvin_capture_start(struct rvin_dev *vin)
+>   {
+> -	int slot, ret;
+> +	int ret;
+>   
+> -	for (slot = 0; slot < HW_BUFFER_NUM; slot++) {
+> +	for (unsigned int slot = 0; slot < HW_BUFFER_NUM; slot++) {
+>   		vin->buf_hw[slot].buffer = NULL;
+> -		vin->buf_hw[slot].type = FULL;
 > -	}
-(snip)
-> +	ret = of_property_read_u32(np, "dai-tdm-slot-num", &val);
-> +	if (ret && ret != -EINVAL)
-> +		return ret;
-> +	if (!ret && slots)
-> +		*slots = val;
+> -
+> -	for (slot = 0; slot < HW_BUFFER_NUM; slot++)
+>   		rvin_fill_hw_slot(vin, slot);
+> +	}
+>   
+>   	ret = rvin_setup(vin);
+>   	if (ret)
+> @@ -1162,16 +1132,6 @@ static irqreturn_t rvin_irq(int irq, void *data)
+>   
+>   	/* Capture frame */
+>   	if (vin->buf_hw[slot].buffer) {
+> -		/*
+> -		 * Nothing to do but refill the hardware slot if
+> -		 * capture only filled first half of vb2 buffer.
+> -		 */
+> -		if (vin->buf_hw[slot].type == HALF_TOP) {
+> -			vin->buf_hw[slot].buffer = NULL;
+> -			rvin_fill_hw_slot(vin, slot);
+> -			goto done;
+> -		}
+> -
+>   		vin->buf_hw[slot].buffer->field =
+>   			rvin_get_active_field(vin, vnms);
+>   		vin->buf_hw[slot].buffer->sequence = vin->sequence;
+> @@ -1322,8 +1282,6 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+>   	case V4L2_FIELD_INTERLACED_TB:
+>   	case V4L2_FIELD_INTERLACED_BT:
+>   	case V4L2_FIELD_INTERLACED:
+> -	case V4L2_FIELD_SEQ_TB:
+> -	case V4L2_FIELD_SEQ_BT:
+>   		/* Supported natively */
+>   		break;
+>   	case V4L2_FIELD_ALTERNATE:
+> @@ -1336,8 +1294,6 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+>   		case V4L2_FIELD_INTERLACED_TB:
+>   		case V4L2_FIELD_INTERLACED_BT:
+>   		case V4L2_FIELD_INTERLACED:
+> -		case V4L2_FIELD_SEQ_TB:
+> -		case V4L2_FIELD_SEQ_BT:
+>   			/* Use VIN hardware to combine the two fields */
+>   			fmt.format.height *= 2;
+>   			break;
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> index 756fdfdbce61..a5763f1c5784 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> @@ -161,9 +161,6 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
+>   		break;
+>   	}
+>   
+> -	if (V4L2_FIELD_IS_SEQUENTIAL(pix->field))
+> -		align = 0x80;
+> -
+>   	return ALIGN(pix->width, align) * fmt->bpp;
+>   }
+>   
+> @@ -194,8 +191,6 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
+>   	case V4L2_FIELD_INTERLACED_BT:
+>   	case V4L2_FIELD_INTERLACED:
+>   	case V4L2_FIELD_ALTERNATE:
+> -	case V4L2_FIELD_SEQ_TB:
+> -	case V4L2_FIELD_SEQ_BT:
+>   		break;
+>   	default:
+>   		pix->field = RVIN_DEFAULT_FIELD;
+> @@ -504,8 +499,6 @@ static int rvin_remote_rectangle(struct rvin_dev *vin, struct v4l2_rect *rect)
+>   		case V4L2_FIELD_INTERLACED_TB:
+>   		case V4L2_FIELD_INTERLACED_BT:
+>   		case V4L2_FIELD_INTERLACED:
+> -		case V4L2_FIELD_SEQ_TB:
+> -		case V4L2_FIELD_SEQ_BT:
+>   			rect->height *= 2;
+>   			break;
+>   		}
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> index f87d4bc9e53e..d5763462809a 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> @@ -77,23 +77,6 @@ enum rvin_dma_state {
+>   	SUSPENDED,
+>   };
+>   
+> -/**
+> - * enum rvin_buffer_type
+> - *
+> - * Describes how a buffer is given to the hardware. To be able
+> - * to capture SEQ_TB/BT it's needed to capture to the same vb2
+> - * buffer twice so the type of buffer needs to be kept.
+> - *
+> - * @FULL: One capture fills the whole vb2 buffer
+> - * @HALF_TOP: One capture fills the top half of the vb2 buffer
+> - * @HALF_BOTTOM: One capture fills the bottom half of the vb2 buffer
+> - */
+> -enum rvin_buffer_type {
+> -	FULL,
+> -	HALF_TOP,
+> -	HALF_BOTTOM,
+> -};
+> -
+>   /**
+>    * struct rvin_video_format - Data format stored in memory
+>    * @fourcc:	Pixelformat
+> @@ -237,7 +220,6 @@ struct rvin_dev {
+>   	spinlock_t qlock;
+>   	struct {
+>   		struct vb2_v4l2_buffer *buffer;
+> -		enum rvin_buffer_type type;
+>   		dma_addr_t phys;
+>   	} buf_hw[HW_BUFFER_NUM];
+>   	struct list_head buf_list;
 
-Looks good to me
-
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-
-
-If my understanding was correct, old/new code should have same behavior.
-But because of the original code, new code looks complex for me.
-The case which this function return error are
-
-	(A) if property does not have a value
-	(B) if the property data isn't large enough
-
-I think "DT checker" will indicates error for both case ?
-If so, we can simply ignore these 2 cases. Then, the code will be more
-simple
-
-	ret = of_property_read_u32(np, "dai-tdm-slot-num", &val);
--	if (ret && ret != -EINVAL)
--		return ret;
-	if (!ret && slots)
-		*slots = val;
-
-I think this should be extra new patch (if people can agree about it).
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
 
