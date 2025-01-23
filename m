@@ -1,137 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-12403-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12404-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD3FA1A75E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 16:56:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BFBA1A77F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 17:04:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A99B17A1D10
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 15:56:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF29D3A0692
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 16:04:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90357212B29;
-	Thu, 23 Jan 2025 15:56:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37E6123CB;
+	Thu, 23 Jan 2025 16:04:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uo0z7LUl"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Bgl4UM7a"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9C8F4F1;
-	Thu, 23 Jan 2025 15:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753731F5F6
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jan 2025 16:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737647773; cv=none; b=DU4qiXk4bqnVDg3q3FWvTIjR+CVEBsLvCo7pHSoVdVDwKCIr6X5QjRC+Rj2oVc9G8sWRsm6tiZJ3g5m72lNaO/2SEzTKxJn+D3+3QBh6h+VHZe5+TmTmfuinH3xalfripQMVFourwhycppfQZuYRULojtTagz0KiMAcSuh1ZQF4=
+	t=1737648251; cv=none; b=oA0fnEwxjvDEyCHKMDyoxI0Zxe23XBn5/GN72dxaP9/7DKhxR/y9ie+RsomywAPAJdD01RBV15dQ8xhNX9NWZM9DsmWx47ZTVSlSAGYhBmP27IJM7qd1Ctq4MWcQr4fLin12wwY0/EkMD6lu+np33ckloGq860Sv8mVa/lznsAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737647773; c=relaxed/simple;
-	bh=t4YeYUGxMCanEIPJ6O5BIH3fkHa29QWztda2pwtTDnU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JNpS4B3E/nom8jpocW8yi348oueki5slvfftHcfWj2ZA/Z+iHa8G6KjDBfbmVOBvYuhzAK8VubhYUo08VATC4mhkaZNjfWbWjyszAVEBYnpL2PBgYJTbUZBZMnmt3PB+jxEzHeGPSvH4S1yBNAxEyhMbhRnKaG69HvMQ4vVwVpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uo0z7LUl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 166E5C4CED3;
-	Thu, 23 Jan 2025 15:56:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737647772;
-	bh=t4YeYUGxMCanEIPJ6O5BIH3fkHa29QWztda2pwtTDnU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Uo0z7LUlFNpfxJ3vj+q8eaiMV2CG8t3FGKxcpj7XgK0a9pVmWXaUswbgPRqbXGuzo
-	 oJuYyzqL5sVM4O021GjY4WQQwla67pHgNoXDTrXq1dVFHIvuHWEHwzCyXA1OmOHvpw
-	 JWlF+G/6VxoNEAOaimPLK3BYzRmmnLiLrOQceL0Y8uwtbcUCvv8tupKzP63r+E56FY
-	 RT04GFtvFMe6GeKrNJ/16QVAmTfUu6mgdEo3g2Lp/IXHFCTYxqF6hckkzUHN5U2Xpl
-	 rCe//7FWu+lnTZl3Zt8fjLxeGHuBmBHM+ySoKQ+qKFq62HutGZ4/i6GIApBHgIhy4v
-	 XzDtI0m1gLVOA==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Claudiu <claudiu.beznea@tuxon.dev>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, support.opensource@diasemi.com, 
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
-In-Reply-To: <20250123121036.70406-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20250123121036.70406-1-claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH] ASoC: da7213: Initialize the mutex
-Message-Id: <173764777084.76475.51964784481759167.b4-ty@kernel.org>
-Date: Thu, 23 Jan 2025 15:56:10 +0000
+	s=arc-20240116; t=1737648251; c=relaxed/simple;
+	bh=m9eI4UMuC/HQYC7p3/UUbDdxzSDth92to4hHTEEhh6o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Y+c7If+19pUlCwgLjTL0tzfk3I+Lsh6WH6Wq8h+vuqoCvRzA4c01NjPXkDHhzb+R9QoQ+us1QrCOmFCpLAAKT/RDM0/N5fSWcSOXkO3Mgz35m4A3jd6LVnRRlYaRcSQXPDg/4fO62wGrvdRJB+d4HX3MbRgXOPTomm9qdZCq+/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Bgl4UM7a; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-type:content-transfer-encoding; s=k1; bh=7
+	nO+YclNtqmHt6FMutq65BGE0NzccpN94JCI7/4bKpY=; b=Bgl4UM7afEkU54iZL
+	IgWoeEA54knjhdgCc8mMCuRLUV1dvqB6G3XE1pDQDioZDCLE38xSJe+Dw9cb5Xw9
+	gPfsdhMyqxbmUslQrQI1u31QEJAPyUaQq6K1j1Zlen0GLHK/k2hdX3qPsa4x0LBX
+	b4Q3auJKK5fuzW+Q8rRCWNxYsZArBYgZ0/ikBkxhAjsXHNVdGB8PPzc9E1Vqa7kr
+	AdLl5sNYba/ZpczeMojKSS8Nf2AiPYizueEFcbphb6DkxafvLgr68HEp6dpyDXYB
+	sS57BlIaowW0QXnYzpIZtQoQIbE1YNDPgnIhvS5cfoLxNgcwHE843s1JP5NA8/iW
+	YERbw==
+Received: (qmail 3322830 invoked from network); 23 Jan 2025 17:03:58 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Jan 2025 17:03:58 +0100
+X-UD-Smtp-Session: l3s3148p1@cAT2wWEsouQujnvm
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	=?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	linux-hwmon@vger.kernel.org
+Subject: [PATCH RESEND] hwmon: (isl28022) Use per-client debugfs entry
+Date: Thu, 23 Jan 2025 17:03:47 +0100
+Message-Id: <20250123160347.44635-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 23 Jan 2025 14:10:36 +0200, Claudiu wrote:
-> Initialize the struct da7213_priv::ctrl_lock mutex. Without it the
-> following stack trace is displayed when rebooting and lockdep is enabled:
-> 
-> DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-> WARNING: CPU: 0 PID: 180 at kernel/locking/mutex.c:564 __mutex_lock+0x254/0x4e4
-> CPU: 0 UID: 0 PID: 180 Comm: alsactl Not tainted 6.13.0-next-20250123-arm64-renesas-00002-g132083a22d3d #30
-> Hardware name: Renesas SMARC EVK version 2 based on r9a08g045s33 (DT)
-> pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> pc : __mutex_lock+0x254/0x4e4
-> lr : __mutex_lock+0x254/0x4e4
-> sp : ffff800082c13c00
-> x29: ffff800082c13c00 x28: ffff00001002b500 x27: 0000000000000000
-> x26: 0000000000000000 x25: ffff800080b30db4 x24: 0000000000000002
-> x23: ffff800082c13c70 x22: 0000ffffc2a68a70 x21: ffff000010348000
-> x20: 0000000000000000 x19: ffff00000be2e488 x18: 0000000000000000
-> x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-> x14: 00000000000003c1 x13: 00000000000003c1 x12: 0000000000000000
-> x11: 0000000000000011 x10: 0000000000001420 x9 : ffff800082c13a70
-> x8 : 0000000000000001 x7 : ffff800082c13a50 x6 : ffff800082c139e0
-> x5 : ffff800082c14000 x4 : ffff800082c13a50 x3 : 0000000000000000
-> x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00001002b500
-> Call trace:
->   __mutex_lock+0x254/0x4e4 (P)
->   mutex_lock_nested+0x20/0x28
->   da7213_volsw_locked_get+0x34/0x60
->   snd_ctl_elem_read+0xbc/0x114
->   snd_ctl_ioctl+0x878/0xa70
->   __arm64_sys_ioctl+0x94/0xc8
->   invoke_syscall+0x44/0x104
->   el0_svc_common.constprop.0+0xb4/0xd4
->   do_el0_svc+0x18/0x20
->   el0_svc+0x3c/0xf0
->   el0t_64_sync_handler+0xc0/0xc4
->   el0t_64_sync+0x154/0x158
->  irq event stamp: 7713
->  hardirqs last  enabled at (7713): [<ffff800080170d94>] ktime_get_coarse_real_ts64+0xf0/0x10c
->  hardirqs last disabled at (7712): [<ffff800080170d58>] ktime_get_coarse_real_ts64+0xb4/0x10c
->  softirqs last  enabled at (7550): [<ffff8000800179d4>] fpsimd_restore_current_state+0x30/0xb8
->  softirqs last disabled at (7548): [<ffff8000800179a8>] fpsimd_restore_current_state+0x4/0xb8
->  ---[ end trace 0000000000000000 ]---
-> 
-> [...]
+The I2C core now offers a debugfs-directory per client. Use it and
+remove the custom handling.
 
-Applied to
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+---
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+All dependencies are now in Linus' tree. Thisapatch can be applied now.
 
-Thanks!
+ drivers/hwmon/isl28022.c | 44 ++--------------------------------------
+ 1 file changed, 2 insertions(+), 42 deletions(-)
 
-[1/1] ASoC: da7213: Initialize the mutex
-      commit: 4a32a38cb68f55ff9e100df348ddb3d4b3e50643
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/drivers/hwmon/isl28022.c b/drivers/hwmon/isl28022.c
+index 3f9b4520b53e..1fb9864635db 100644
+--- a/drivers/hwmon/isl28022.c
++++ b/drivers/hwmon/isl28022.c
+@@ -324,26 +324,6 @@ static int shunt_voltage_show(struct seq_file *seqf, void *unused)
+ }
+ DEFINE_SHOW_ATTRIBUTE(shunt_voltage);
+ 
+-static struct dentry *isl28022_debugfs_root;
+-
+-static void isl28022_debugfs_remove(void *res)
+-{
+-	debugfs_remove_recursive(res);
+-}
+-
+-static void isl28022_debugfs_init(struct i2c_client *client, struct isl28022_data *data)
+-{
+-	char name[16];
+-	struct dentry *debugfs;
+-
+-	scnprintf(name, sizeof(name), "%d-%04hx", client->adapter->nr, client->addr);
+-
+-	debugfs = debugfs_create_dir(name, isl28022_debugfs_root);
+-	debugfs_create_file("shunt_voltage", 0444, debugfs, data, &shunt_voltage_fops);
+-
+-	devm_add_action_or_reset(&client->dev, isl28022_debugfs_remove, debugfs);
+-}
+-
+ /*
+  * read property values and make consistency checks.
+  *
+@@ -475,7 +455,7 @@ static int isl28022_probe(struct i2c_client *client)
+ 	if (err)
+ 		return err;
+ 
+-	isl28022_debugfs_init(client, data);
++	debugfs_create_file("shunt_voltage", 0444, client->debugfs, data, &shunt_voltage_fops);
+ 
+ 	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name,
+ 							 data, &isl28022_chip_info, NULL);
+@@ -505,27 +485,7 @@ static struct i2c_driver isl28022_driver = {
+ 	.probe	= isl28022_probe,
+ 	.id_table	= isl28022_ids,
+ };
+-
+-static int __init isl28022_init(void)
+-{
+-	int err;
+-
+-	isl28022_debugfs_root = debugfs_create_dir("isl28022", NULL);
+-	err = i2c_add_driver(&isl28022_driver);
+-	if (!err)
+-		return 0;
+-
+-	debugfs_remove_recursive(isl28022_debugfs_root);
+-	return err;
+-}
+-module_init(isl28022_init);
+-
+-static void __exit isl28022_exit(void)
+-{
+-	i2c_del_driver(&isl28022_driver);
+-	debugfs_remove_recursive(isl28022_debugfs_root);
+-}
+-module_exit(isl28022_exit);
++module_i2c_driver(isl28022_driver);
+ 
+ MODULE_AUTHOR("Carsten Spieß <mail@carsten-spiess.de>");
+ MODULE_DESCRIPTION("ISL28022 driver");
+-- 
+2.39.2
 
 
