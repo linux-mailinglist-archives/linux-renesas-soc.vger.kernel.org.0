@@ -1,209 +1,164 @@
-Return-Path: <linux-renesas-soc+bounces-12389-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12390-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21149A1A385
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 12:48:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DEAA1A3EF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 13:10:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 729411627AB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 11:46:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3D363A1FB4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 12:10:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6981620E6F0;
-	Thu, 23 Jan 2025 11:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4666C20E71C;
+	Thu, 23 Jan 2025 12:10:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="c8tO6/7T";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UR+6U+5q"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Lk3Ddzjk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90ACB20E6F1;
-	Thu, 23 Jan 2025 11:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B5A20E6F2
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jan 2025 12:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737632767; cv=none; b=TlTOy7wNdP7gU4sb2c95bKL5LlQFgGDwAHAzNrpKrW6ngiVr26eurESU3oL7ts9qS/3wHq0feSZ9RL6UQdLew4VmPuPpOkoQyVkTOGt4wXhtxyqHoVWZg4vgAmv6F7guQCiLP/NjDtYC5j/VNnh4E6YeEvptQRkU5HQxlAx2n8U=
+	t=1737634250; cv=none; b=cmeIxCdqMEEF+TqzL/9Bq5UzOD8G6/ZiKbFx4kxDrTGBCjbMJE900yfEAcUm1cMvDuS4Y/2a+EdSVWBVDSCqS0qGqQyXCDWjnfjxNcZS1tsTgyVM25B7kz6T1vJC/40AZwgC7HItnGZdj4dvtnNrhW5+qaWWJdW16LEbPZwpUB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737632767; c=relaxed/simple;
-	bh=p2gHTfXm2KZIagU0xRbRWTgTTjSK3ZdcpCtZbsHUX4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xvk9Oa/TjNtcUh9fDr0lsx5fdPOthKFcx+e37IRdzu7kQErMSkHL1KuW5sfRTuuy87UYSd5pzo6UpWcDDtePyPDpcjGlY40RUuVarM24WY6AlBxGbCY9Hop/332dr3a2k/A3yhD35kENi876LR6SZA+dvBm8I+j5yU9IIVGZ3hQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=c8tO6/7T; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UR+6U+5q; arc=none smtp.client-ip=202.12.124.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 8097C254018F;
-	Thu, 23 Jan 2025 06:45:59 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Thu, 23 Jan 2025 06:45:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1737632759;
-	 x=1737719159; bh=OV52CXtA9Mn9pl9P/tIMuFALFpRSQLfNRGrEzKRhM2k=; b=
-	c8tO6/7TdaLaRAHK7A56eBnAhK4uMqHifXsoIVroFwynAEyrqjlry5NeXpqjfGGI
-	2RvjE2EsniO3EtbW63C1iIytSFCM3xmBLeKS9jBH4W16NzcdOPPmituiXeGtUcfc
-	uNXJdxrC+IcFHOAwDkihD4auJ+1v6gUW5uqZzKtD4hWLJheFtDYHarwDlfj1Sz4j
-	IWEu94Sh8o1lTu6YmCCbPAzRs4oU0eTzbpGyXw0CSgc++4PiaxI0tEs+RrBqV+2G
-	Ihjq77tuf5Kybr8+5kQLuC9vn/u6JhPGK6ECdzp4LktJp1+i3xBKhHpagkqNZmfP
-	5KkEsIcLsCDq5ovPvUenxA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1737632759; x=
-	1737719159; bh=OV52CXtA9Mn9pl9P/tIMuFALFpRSQLfNRGrEzKRhM2k=; b=U
-	R+6U+5qrnWiJkagrVYqud2N5C/Y7tnvbp9kYLqT0X+TC7kb4SHcxaS1tdA2LN3qk
-	w43QllaOkiAIwlk66/H+xT5gpQxJwza8SwSa5QR6ffuJidgiK+btNOElAcwpErz/
-	TdUTkvLAYJKIk8qNT8CcWWaA18wnP35hgka+zqq7FUq5HltRwKKF2uCuibp8dV7X
-	fhdYDrT+RKi+EHie0j4tzXZmDFD523JJiMoUBopX0Odzr3rRaXpaBL42kKD6qVNw
-	nM69kWlkPjcVQzT6Df8uOPSmk/1VXgp6V27K5o4x8e3tZcnMMMkTHGP/uXucKVGn
-	n64cXtzekVllLgeNSbULw==
-X-ME-Sender: <xms:9iuSZ_Dqf19utgroQe0KsGzMSsQxhhq8xZQ5FgfZyXrzq6XCnXRClg>
-    <xme:9iuSZ1jEwJPC_yVbXCISHHLLUxMOFf4iWbogjOjh42f4DC3JvcR4J3Wg294ldDPqt
-    eDhZfR6jx4lZ_xZkUg>
-X-ME-Received: <xmr:9iuSZ6kB-2HUeBKUQY1Ujwg5rn880rLJXOIm51QMLn-ByfE2fqehbkyJPHoA-t6TQxqZ74HJRmEjc2OPVk6UUKbtVw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejgedgudehjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
-    thhtvghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftd
-    dvleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
-    nhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrd
-    hsvgdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
-    thhomhhirdhvrghlkhgvihhnvghnodhrvghnvghsrghssehiuggvrghsohhnsghorghrug
-    drtghomhdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgv
-    lhdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdroh
-    hrgh
-X-ME-Proxy: <xmx:9iuSZxz3DJa-HFM9_EJJ9I9GzGUEUnzOSDPOvPaUZtflniDGXFnGDA>
-    <xmx:9iuSZ0QjnNtY2mGAOssGfgAambtongUyf2FP-YWe9H5xAmBMN9dQCQ>
-    <xmx:9iuSZ0a4wMT6aKpuexq_EcR-aEkIFroYWcVbPYZugOwMWYSqT0CyLw>
-    <xmx:9iuSZ1TrwvJABtMBiSJ2xcN3O5HlwwykKbYR4bmEvCuSgNskKKSUbQ>
-    <xmx:9yuSZ5J9-WhLy8_9noL_-ckILEk5oQJPc8EOzq1FoDMnetc8Rgdic4-4>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Jan 2025 06:45:58 -0500 (EST)
-Date: Thu, 23 Jan 2025 12:45:56 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] media: rcar-vin: Remove superfluous starting state
-Message-ID: <20250123114556.GB2085710@ragnatech.se>
-References: <20250122165353.1273739-1-niklas.soderlund+renesas@ragnatech.se>
- <20250122165353.1273739-4-niklas.soderlund+renesas@ragnatech.se>
- <d8d2b38a-3ab3-451b-80c7-ad9150f37675@ideasonboard.com>
+	s=arc-20240116; t=1737634250; c=relaxed/simple;
+	bh=D/cMKXuuEgh95o4rHqBLldh15tMGlafLO1tH0ISH08E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k0TiAXiYJ3e01GYrmiYD+nlanBrq5tmLwl30LErWYW9pwpSsdGk+4vgVlYFGSixoHkeapZvqrvyeMoI3oMo3l0vbwbke7NkhRrCoA2LjYZWGUk+tudwXgRmfYelNKgsA1ZxGDuiGmz4M3r+gsoU57ONBLcKo6yKh/f9qr2mN67w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Lk3Ddzjk; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5d3f28a4fccso1289856a12.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jan 2025 04:10:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1737634246; x=1738239046; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XoVwwng11jL54LPWIff1s9sIPX1yMVouKzX05iZk2DE=;
+        b=Lk3Ddzjkibws/+XSC/+QTC+Scrla3/wBTWH4Sg9Wiu2FmcarsUrjobEe+RXJkG11C7
+         62WiqiGwbGOeqOxC9H353F9B6ChhDrXlGkVCSZtXG8se9EK181T4M85BJVQ/e0lPP7cG
+         QEccsjyRFpr6B58vdwFaVmZ7y8YozkudSpbIO8Ah0NA+1oqPJ9+VHSdcH/P4S0DMnlr+
+         HsCV+GwtqAsGaJ1hhDNvYyJmDzgZ5/nFlj/YTipSj/h4Yxmj6IHz7ef95F/pgUfNQhc5
+         98HS5HEXp5TFMrpsKzlJkUSJDwIB8Ps47DwrPaJbX/cNFgfD+huO8CSUVQfqn2ce8AJD
+         0TEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737634246; x=1738239046;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XoVwwng11jL54LPWIff1s9sIPX1yMVouKzX05iZk2DE=;
+        b=V0pvaDsd4qvpyaGknX/oa5kit/SN+YjH60e8z+OihWCaxu4cE/F08t9/bG4g735qHT
+         b1ZjtvoCl62zxN4o90LYnaTrio5g9zuAxUcTQFVSeFk7r+HEVfzrx4zCGXxmrPsHjOue
+         MDZCLYaBWpcK/eogqT6kEVfYLCDe7WDAOVux9wxhLa50SRWEWZQYhdNO3W7RseJJViDI
+         /yCO8U7tQGCqJArnsOcXSJXlGeZVavML0REZEqL2gB2+8xgWfAuKFNpAWcGf11MeKKok
+         c9B8AQl2YLZxSKhqaTVSv2wqwKILqsFC2QJAtV10Vi/gXKrfG++qLRwaw1lwgCu41Ezj
+         xcHA==
+X-Forwarded-Encrypted: i=1; AJvYcCVaZYD/88GS6F2YdUyzGSk8kGPNMWqUsQudhQnLt067+dOO34QVy63jFU0JE8Z5/aYJZyrIMlUI2nBSkwIeHcnkew==@vger.kernel.org
+X-Gm-Message-State: AOJu0YywNssT8tw8MSiL9es25+tZa1FUjXxlf8OR+vy+l6lOcDcgXiT+
+	7PE1bRiF/E09CkbQA/O25PORLR+Z0YwY9Wd7Y9qFRpagwVN3Zi7oKF7hd4/FcVs=
+X-Gm-Gg: ASbGnctZyuQVdsDPYJwAgHXYiqWh1di+d8DfDoQrl6KVcvMug+yZ6cce39B0HU1ez5p
+	k69w7XLVwPSMT/Ur9GZkb78GksaiCY0ZNEIf3zL+DPQuDoXvJbGTCSiZN2ICrTCika3tEgSioPw
+	7Fw23KMH4GGXhUVV3cfIqfxYRaDzgy4Ln5MxzW0K65r19pZLHz1810SVKP6m+Stcp4jOWtRvnbH
+	giHuNpBSdkMQakFq+o2ymUZqfTFvmePfNLEk+O/wOlB5SElqqRlkfOsUpnNJorXi6nNIGF84f14
+	nLIYQ6kfc47S2UEQxntK5g2ZdzcsdZ1erQ==
+X-Google-Smtp-Source: AGHT+IG/68d1em6WKDvGKxhWbi8mGcZWAOKfiywlF6VeP6YEpu4Q/f1BT04D9ulRpQnCTsFTTSCb+g==
+X-Received: by 2002:a17:907:72cf:b0:aa6:8676:3b33 with SMTP id a640c23a62f3a-ab38b3f8f45mr2227760066b.47.1737634246258;
+        Thu, 23 Jan 2025 04:10:46 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.35])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab3999638f8sm926787766b.9.2025.01.23.04.10.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jan 2025 04:10:45 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: claudiu.beznea@tuxon.dev,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	support.opensource@diasemi.com,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: da7213: Initialize the mutex
+Date: Thu, 23 Jan 2025 14:10:36 +0200
+Message-ID: <20250123121036.70406-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d8d2b38a-3ab3-451b-80c7-ad9150f37675@ideasonboard.com>
 
-Ho Tomi,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-On 2025-01-23 09:24:07 +0200, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 22/01/2025 18:53, Niklas Söderlund wrote:
-> > The STARTING state is superfluous and can be replaced with a check of
-> > the sequence counter. The design idea is that the first buffer returned
-> > from the driver have to come from the first hardware buffer slot.
-> > Failing this the first 3 buffers queued to the device can be returned
-> > out-of-order.
-> > 
-> > But it's much clearer to check the sequence counter to only return the
-> > first buffer if it comes from hardware slot 0 then it is to carry around
-> > an extra state just for this. Remove the unneeded state and replace it
-> > with a simpler check.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >   drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 5 ++---
-> >   drivers/media/platform/renesas/rcar-vin/rcar-vin.h | 2 --
-> >   2 files changed, 2 insertions(+), 5 deletions(-)
-> 
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> 
-> I don't understand the feature, though =). Why does the first buffer have to
-> come from slot 0?
+Initialize the struct da7213_priv::ctrl_lock mutex. Without it the
+following stack trace is displayed when rebooting and lockdep is enabled:
 
-The VIN have 3 slots it can use when streaming in continues mode. The 
-usual operation is that it starts with slot 0 for the first capture, 
-then moves to slot 1, slot 2, slot 0, etc.
+DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+WARNING: CPU: 0 PID: 180 at kernel/locking/mutex.c:564 __mutex_lock+0x254/0x4e4
+CPU: 0 UID: 0 PID: 180 Comm: alsactl Not tainted 6.13.0-next-20250123-arm64-renesas-00002-g132083a22d3d #30
+Hardware name: Renesas SMARC EVK version 2 based on r9a08g045s33 (DT)
+pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : __mutex_lock+0x254/0x4e4
+lr : __mutex_lock+0x254/0x4e4
+sp : ffff800082c13c00
+x29: ffff800082c13c00 x28: ffff00001002b500 x27: 0000000000000000
+x26: 0000000000000000 x25: ffff800080b30db4 x24: 0000000000000002
+x23: ffff800082c13c70 x22: 0000ffffc2a68a70 x21: ffff000010348000
+x20: 0000000000000000 x19: ffff00000be2e488 x18: 0000000000000000
+x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+x14: 00000000000003c1 x13: 00000000000003c1 x12: 0000000000000000
+x11: 0000000000000011 x10: 0000000000001420 x9 : ffff800082c13a70
+x8 : 0000000000000001 x7 : ffff800082c13a50 x6 : ffff800082c139e0
+x5 : ffff800082c14000 x4 : ffff800082c13a50 x3 : 0000000000000000
+x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00001002b500
+Call trace:
+  __mutex_lock+0x254/0x4e4 (P)
+  mutex_lock_nested+0x20/0x28
+  da7213_volsw_locked_get+0x34/0x60
+  snd_ctl_elem_read+0xbc/0x114
+  snd_ctl_ioctl+0x878/0xa70
+  __arm64_sys_ioctl+0x94/0xc8
+  invoke_syscall+0x44/0x104
+  el0_svc_common.constprop.0+0xb4/0xd4
+  do_el0_svc+0x18/0x20
+  el0_svc+0x3c/0xf0
+  el0t_64_sync_handler+0xc0/0xc4
+  el0t_64_sync+0x154/0x158
+ irq event stamp: 7713
+ hardirqs last  enabled at (7713): [<ffff800080170d94>] ktime_get_coarse_real_ts64+0xf0/0x10c
+ hardirqs last disabled at (7712): [<ffff800080170d58>] ktime_get_coarse_real_ts64+0xb4/0x10c
+ softirqs last  enabled at (7550): [<ffff8000800179d4>] fpsimd_restore_current_state+0x30/0xb8
+ softirqs last disabled at (7548): [<ffff8000800179a8>] fpsimd_restore_current_state+0x4/0xb8
+ ---[ end trace 0000000000000000 ]---
 
-It was observed on that sometimes the first capture interrupt we get 
-comes from a slot other then 0. In that case up to the 3 first frames 
-returned from the device are out-of-order and that is not good. This 
-check is to check for that seldom trigged condition and drop 1 or 2 
-frames when starting capture in order for it to sync so buffers are 
-always returned in the order they where queued.
+Fixes: 64c3259b5f86 ("ASoC: da7213: Add new kcontrol for tonegen")
+Cc: stable@vger.kernel.org
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
+ sound/soc/codecs/da7213.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-IIRC this issue was only ever observed on Gen2 after the system had been 
-suspended and then resumed. But I can't recall if the VIN had to be 
-streaming at suspend time for this issue to have a chance to hit.
-
-> 
->  Tomi
-> 
-> > 
-> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > index a16adc6fd4dc..ba55ccf648de 100644
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > @@ -1064,7 +1064,7 @@ static int rvin_capture_start(struct rvin_dev *vin)
-> >   	/* Continuous Frame Capture Mode */
-> >   	rvin_write(vin, VNFC_C_FRAME, VNFC_REG);
-> > -	vin->state = STARTING;
-> > +	vin->state = RUNNING;
-> >   	return 0;
-> >   }
-> > @@ -1120,14 +1120,13 @@ static irqreturn_t rvin_irq(int irq, void *data)
-> >   	 * To hand buffers back in a known order to userspace start
-> >   	 * to capture first from slot 0.
-> >   	 */
-> > -	if (vin->state == STARTING) {
-> > +	if (!vin->sequence) {
-> >   		if (slot != 0) {
-> >   			vin_dbg(vin, "Starting sync slot: %d\n", slot);
-> >   			goto done;
-> >   		}
-> >   		vin_dbg(vin, "Capture start synced!\n");
-> > -		vin->state = RUNNING;
-> >   	}
-> >   	/* Capture frame */
-> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> > index 4cb25d8bbf32..f13ef379d095 100644
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> > @@ -64,13 +64,11 @@ enum rvin_isp_id {
-> >   /**
-> >    * enum rvin_dma_state - DMA states
-> >    * @STOPPED:   No operation in progress
-> > - * @STARTING:  Capture starting up
-> >    * @RUNNING:   Operation in progress have buffers
-> >    * @STOPPING:  Stopping operation
-> >    */
-> >   enum rvin_dma_state {
-> >   	STOPPED = 0,
-> > -	STARTING,
-> >   	RUNNING,
-> >   	STOPPING,
-> >   };
-> 
-
+diff --git a/sound/soc/codecs/da7213.c b/sound/soc/codecs/da7213.c
+index ca4cc954efa8..eb97ac73ec06 100644
+--- a/sound/soc/codecs/da7213.c
++++ b/sound/soc/codecs/da7213.c
+@@ -2203,6 +2203,8 @@ static int da7213_i2c_probe(struct i2c_client *i2c)
+ 		return ret;
+ 	}
+ 
++	mutex_init(&da7213->ctrl_lock);
++
+ 	pm_runtime_set_autosuspend_delay(&i2c->dev, 100);
+ 	pm_runtime_use_autosuspend(&i2c->dev);
+ 	pm_runtime_set_active(&i2c->dev);
 -- 
-Kind Regards,
-Niklas Söderlund
+2.43.0
+
 
