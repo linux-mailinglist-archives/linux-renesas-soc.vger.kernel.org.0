@@ -1,57 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-12407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9BAA1A7E3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 17:33:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD68A1A7F5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 17:37:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DCC0B188C8E3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 16:33:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6DBD16638B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 16:37:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE50720F98F;
-	Thu, 23 Jan 2025 16:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="aNBnBh+6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C42161386DA;
+	Thu, 23 Jan 2025 16:37:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4706C213246
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jan 2025 16:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2854820F96D
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jan 2025 16:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737649993; cv=none; b=trt6yC57QAec7RbDHb/74fZn2YAgTc3CRQgpJUiGB90eTb0Ne4+fEuYDDlnbBaaFeemjlIuctp6wMsu78fEF5C38MQJqjyVj8bNScjjbTZBWbEQDoUkv1MXVMcqPmB3uL4wZPbsAEyfin8CHNTYzMvYwKe1TYlSXgNr7PAhBmHY=
+	t=1737650244; cv=none; b=cm+rgiDlrwPMkoXrAPboQ6axkMB0v/cdC4rMn/QKPb6oDHxTjze/6An6H/ZxJEfz+NqxjRVaGc7UKsFcRsN/hZ3iP0IbQihkeVBXsQCjE2aBiXs33w3PrlV1n4up/6YFqPxJYKohBMkQieF2cY97uSRgtbrwKsGKHE2KorI/MJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737649993; c=relaxed/simple;
-	bh=N6JZu/f6I10fMnUYbONTa/6fhjajLNZcPxPu2MZ7Je0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G7rIrHzocIiid5IvS2btkhKJ6fCeCjkv24vvYSANdXHih4DFxUl0tLLdCSP38G/iIplcKfKteKYWUf13/un/JonwKhG8zo/x5818kuoQ3N5LMDfLQ6Y7tXSBOiMoyEjsnB7onRrgLZwpPSWCuTDEVdPo6o0k6f5rSKh759lTpq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=aNBnBh+6; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=UU8u+/VmmHwaZ6
-	E1jBPs4IiksBFViyrooRjhiIz0dbE=; b=aNBnBh+6lk4C8QdEJOwgE7n8MyvgVI
-	hjUUqpWE7hFnv19OptLGLCiCWPd5w6C0543yqn6DNL2joJQFqqZ/yurgEE7iN261
-	B2dpQy5m6QDWR1s10Qj1p1cvOVHR1alBoa8nzJWKHIEZDLEQvEFDzYciP6Jm2+U+
-	Gy8pNshn7W4e3Oj8rwJtr8oVux3uKogAo7L714LNelrMJNViODEhlfNrgbXW5B41
-	R+MbHmBdocwRsuv1xDe+PC3Kr17/j7n9H2HbC/IyR9SHKtjQ8g/bAQnglGSYn/Q5
-	BYW5tHW2Wh328o7wUp/Avn10b7+BVZzoo3CvJwqRr0Q1BPzkdKyI8U2Q==
-Received: (qmail 3331754 invoked from network); 23 Jan 2025 17:33:08 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Jan 2025 17:33:08 +0100
-X-UD-Smtp-Session: l3s3148p1@LGNNKmIsQqMujnvm
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	linux-hwmon@vger.kernel.org
-Subject: [PATCH RFC] hwmon: (pmbus/core) use the new i2c_client debugfs dir
-Date: Thu, 23 Jan 2025 17:33:04 +0100
-Message-Id: <20250123163304.46034-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1737650244; c=relaxed/simple;
+	bh=oovoM9/NfpO+tA/KvHQz6ixKY4kGN3JA9GPNgic5Chw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UXiYBd7polDiKIj9czj5s98OFEhzJBjr1Q2q03YIkFpGOmdqv1h1kfZKGxJO24RAWF52/JSBAbd5/H4bMDUMR0F0uHVznO7GvgYjjZ4iGfL31chd9+HuuAKfHXskoscWPQb8dRAQduWOM01ZpixdgXzRdp9fqV9Amx0pAoC0qS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:4563:f165:f885:ebc1])
+	by albert.telenet-ops.be with cmsmtp
+	id 4gdB2E00F5PrELR06gdBEk; Thu, 23 Jan 2025 17:37:13 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tb0CU-0000000EEZY-3aR7;
+	Thu, 23 Jan 2025 17:37:11 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tb0Cd-00000000mL3-24G3;
+	Thu, 23 Jan 2025 17:37:11 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: r8a779f0: Disable rswitch ports by default
+Date: Thu, 23 Jan 2025 17:37:10 +0100
+Message-ID: <c4688de8e3289ad82c2cd85f0893eac660ac8890.1737649969.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,54 +62,113 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The I2C core now manages a debugfs dir per i2c_client. PMBus has its own
-debugfs hierarchy. Link the two, so a user will be pointed to the pmbus
-domain from the i2c domain.
+The Renesas Ethernet Switch has three independent ports.  Each port can
+act as a separate interface, and can be enabled or disabled
+independently.  Currently all ports are enabled by default, hence board
+DTS files that enable the switch must disable all unused ports
+explicitly.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Disable all ports by default, and explicitly enable ports that are used,
+next to their configuration.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
+This is similar to how Ethernet switch ports are handled on RZ/N1D, and
+CAN-FD channels on R-Car Gen3/4.
 
-@Guenter: I don't have any PMBus device here. Would you be interested to
-test this patch? It build tests fine at least.
+If accepted, I'm wondering if I should move it forward, before "[PATCH
+3/5] arm64: dts: renesas: s4sk: Access rswitch ports via phandles"[1],
+which would become slightly simpler.
 
- drivers/hwmon/pmbus/pmbus_core.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+[1] https://lore.kernel.org/all/20250118111344.361617-3-marek.vasut+renesas@mailbox.org
+---
+ arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi | 3 +++
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi                 | 3 +++
+ arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts             | 6 ++----
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
-index 787683e83db6..510b88aed326 100644
---- a/drivers/hwmon/pmbus/pmbus_core.c
-+++ b/drivers/hwmon/pmbus/pmbus_core.c
-@@ -3517,6 +3517,7 @@ static int pmbus_init_debugfs(struct i2c_client *client,
- 	int i, idx = 0;
- 	char name[PMBUS_NAME_SIZE];
- 	struct pmbus_debugfs_entry *entries;
-+	const char *symlink, *hwmon_name = dev_name(data->hwmon_dev);
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi
+index 892729786d00b36e..ad2b0398d35431a1 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi
+@@ -57,6 +57,7 @@ &rswitch_port0 {
+ 	phy-handle = <&u101>;
+ 	phy-mode = "sgmii";
+ 	phys = <&eth_serdes 0>;
++	status = "okay";
  
- 	if (!pmbus_debugfs_dir)
- 		return -ENODEV;
-@@ -3525,13 +3526,19 @@ static int pmbus_init_debugfs(struct i2c_client *client,
- 	 * Create the debugfs directory for this device. Use the hwmon device
- 	 * name to avoid conflicts (hwmon numbers are globally unique).
- 	 */
--	data->debugfs = debugfs_create_dir(dev_name(data->hwmon_dev),
--					   pmbus_debugfs_dir);
-+	data->debugfs = debugfs_create_dir(hwmon_name, pmbus_debugfs_dir);
- 	if (IS_ERR_OR_NULL(data->debugfs)) {
- 		data->debugfs = NULL;
- 		return -ENODEV;
- 	}
+ 	mdio {
+ 		#address-cells = <1>;
+@@ -75,6 +76,7 @@ &rswitch_port1 {
+ 	phy-handle = <&u201>;
+ 	phy-mode = "sgmii";
+ 	phys = <&eth_serdes 1>;
++	status = "okay";
  
-+	/* The default i2c_client debugfs dir should link to where the data is */
-+	symlink = kasprintf(GFP_KERNEL, "../../pmbus/%s", hwmon_name);
-+	if (!symlink)
-+		return -ENOMEM;
-+	debugfs_create_symlink(hwmon_name, client->debugfs, symlink);
-+	kfree(symlink);
-+
- 	/*
- 	 * Allocate the max possible entries we need.
- 	 * 7 entries device-specific
+ 	mdio {
+ 		#address-cells = <1>;
+@@ -93,6 +95,7 @@ &rswitch_port2 {
+ 	phy-handle = <&u301>;
+ 	phy-mode = "sgmii";
+ 	phys = <&eth_serdes 2>;
++	status = "okay";
+ 
+ 	mdio {
+ 		#address-cells = <1>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+index 840ba73c03f1b6f4..06be9f7720d64179 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+@@ -989,14 +989,17 @@ ethernet-ports {
+ 				rswitch_port0: port@0 {
+ 					reg = <0>;
+ 					phys = <&eth_serdes 0>;
++					status = "disabled";
+ 				};
+ 				rswitch_port1: port@1 {
+ 					reg = <1>;
+ 					phys = <&eth_serdes 1>;
++					status = "disabled";
+ 				};
+ 				rswitch_port2: port@2 {
+ 					reg = <2>;
+ 					phys = <&eth_serdes 2>;
++					status = "disabled";
+ 				};
+ 			};
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts b/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
+index 24ecdf6e8476a945..df652e7b85c95ebe 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
+@@ -187,6 +187,7 @@ &rswitch_port0 {
+ 	phy-handle = <&ic99>;
+ 	phy-mode = "sgmii";
+ 	phys = <&eth_serdes 0>;
++	status = "okay";
+ 
+ 	mdio {
+ 		#address-cells = <1>;
+@@ -205,6 +206,7 @@ &rswitch_port1 {
+ 	phy-handle = <&ic102>;
+ 	phy-mode = "sgmii";
+ 	phys = <&eth_serdes 1>;
++	status = "okay";
+ 
+ 	mdio {
+ 		#address-cells = <1>;
+@@ -218,10 +220,6 @@ ic102: ethernet-phy@2 {
+ 	};
+ };
+ 
+-&rswitch_port2 {
+-	status = "disabled";
+-};
+-
+ &rwdt {
+ 	timeout-sec = <60>;
+ 	status = "okay";
 -- 
-2.39.2
+2.43.0
 
 
