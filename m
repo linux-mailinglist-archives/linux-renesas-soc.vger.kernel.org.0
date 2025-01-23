@@ -1,266 +1,209 @@
-Return-Path: <linux-renesas-soc+bounces-12388-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12389-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C893A1A306
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 12:33:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21149A1A385
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 12:48:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5BD543ACA75
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 11:33:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 729411627AB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 11:46:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A374420E030;
-	Thu, 23 Jan 2025 11:33:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6981620E6F0;
+	Thu, 23 Jan 2025 11:46:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="rLkFBjgj"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="c8tO6/7T";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UR+6U+5q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8F620CCC3
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jan 2025 11:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90ACB20E6F1;
+	Thu, 23 Jan 2025 11:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737632017; cv=none; b=iPxGaoukcazcb/vORN8+jZgadEEA4SgXku+pGAF9K39EJeDp74Qdr8LWSrKBiM36glMRyvUTxIVEUgXAQw6/t7xKEwjOSBrW/0yKWfmwyW9RnVtuT/i/CBu4lPZ0qyMJp55de21B73Fm3xSWAbIMWwgCknIyJljZH9aYwVPLMBg=
+	t=1737632767; cv=none; b=TlTOy7wNdP7gU4sb2c95bKL5LlQFgGDwAHAzNrpKrW6ngiVr26eurESU3oL7ts9qS/3wHq0feSZ9RL6UQdLew4VmPuPpOkoQyVkTOGt4wXhtxyqHoVWZg4vgAmv6F7guQCiLP/NjDtYC5j/VNnh4E6YeEvptQRkU5HQxlAx2n8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737632017; c=relaxed/simple;
-	bh=aKzJDMPv9ht42XorTR+RjjJ61MHAfgHzBMRxo0FtBB4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UQflUF+AUkZ9J3UCzx11rc7xoNoMSLjV7/49mfmlR6o3z26FExwJl4QKE+SzFBzOfxddEQGwKE89lfQ5ClNbFlNtuNZHNBB6sQjTSFnqadlnr8+PZNiojifb4RfBtd9iFxw+/gQbNXsGJyJCGCdY+wJrykeEvvP9bXGTalyAEkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=rLkFBjgj; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4361815b96cso5287035e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jan 2025 03:33:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1737632014; x=1738236814; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+YVE/gtiWqh1QibLG9dYV/Ym5SAd8q1/dZeT3rLUqPk=;
-        b=rLkFBjgjuZIV+OnzkDL554/UmD6mQ9mcnID2Rt5HrpOUYnLnVNA/LVCirI1WgUivnf
-         aOIHN9vzIaVJf07R6BB4dzlzBx8S6kMaEZ67DHtyyfqtpczr6L/C0slqtVmFRBcDKzg/
-         DEpAJNNBc2e66MCSQvpEsII9s8rqNEkrYCgDfVjd9dNzwRiyHCrwxgESmQXHnucZswze
-         vRXinnhMh+PtABDnGqSs51J8r8Fd+47YrIGnImQa6YUzqSNpkfc1L3YcGkatVLOVdCY7
-         rld4Btlq3IegPwkOvswlAMXcTgMfXeU0J2qvaZ/HjDheGzq/+jal2eQqaayGSiGIo3U3
-         gdVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737632014; x=1738236814;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+YVE/gtiWqh1QibLG9dYV/Ym5SAd8q1/dZeT3rLUqPk=;
-        b=NadQoiwlqyYdMBDvIMYyKBJn0rDtaaDWfcLcfZ2vpEXFVN+JKSBw7LQqUrmy/D05qy
-         pUvyS4J5yF22eViLSQZ7VSuMgHZ+c7imebgpt4p1DtfDUlhk1uQ6ZetnvKBuAGl+QE+E
-         vzp2aUHlrGSkmDV5N7nxeUuU49aH45050XvQTJahDFce1xx0von/0l69T/7zbAEZ5OT3
-         /MVRtYNpyWJ7z9iU1dPUTDJgRBswOdW66+UgxLv5Vkns36+UrE0CqmBwOtpc9XS/47Da
-         RnsX+WgvabqaE78BujhsGCdkIb01L0n2yLNw6WcseUbYgsFQ6jQ4v8t9zhIujRUSl36+
-         gs9A==
-X-Forwarded-Encrypted: i=1; AJvYcCWZvOxSOLUkpKU+vnc2C2gDTic1/M1bLewr73Mq72r0769okktu2afMY3Es4kWzx3PxYBW1WPhzRoeBzv9Wv/uQ2A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+Iae929k9E8NBhVcEVNm9ed0Gv4CqMPVmz8N46Jzq5D07bRyt
-	fV3uqRg9nd5ja325kpcbo4n0S6hTMNeIAbttMzvqz2bIHItode+4e3tlzVyRrbY=
-X-Gm-Gg: ASbGncsaLGyr0Y2ztWpE8c1PU44tU4GkGXnL8JYSBQ+4awCRUXNT5Ch/8jRb93xx88s
-	runsOtvr+CP89sKZ+bAH73MFFLYeHu3yW6OVBnpXFe4eJY9lgxKesmiGvqxSIOnPINChS34MJi2
-	CzumEq+PRybF6p9h84X7SznemMZz898XvEj5AljVo114BkZdjJK8UIvNt+FMKAygoEnXnpBn4T9
-	Lrn0AJ2jOvkjt3ecnQEuD9jeo8Km7lqxJyvICVi6qn9ouTSLBH/F59oXGACIjfjsAwdtPLTB8QY
-	NzCIoiEJqlAV
-X-Google-Smtp-Source: AGHT+IFQkobOQLylBs+LFRBPvbBF7c0LuXr3S1V57vJaQa4QGiZaOthU2WMGxsNN7vo5crNCtzWIfg==
-X-Received: by 2002:a05:600c:450e:b0:436:1ac2:1ad2 with SMTP id 5b1f17b1804b1-43891427485mr206669055e9.19.1737632013469;
-        Thu, 23 Jan 2025 03:33:33 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.35])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b31ae155sm58789255e9.20.2025.01.23.03.33.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jan 2025 03:33:33 -0800 (PST)
-Message-ID: <806d2df6-68d3-4319-8ce6-7049563508cf@tuxon.dev>
-Date: Thu, 23 Jan 2025 13:33:30 +0200
+	s=arc-20240116; t=1737632767; c=relaxed/simple;
+	bh=p2gHTfXm2KZIagU0xRbRWTgTTjSK3ZdcpCtZbsHUX4E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xvk9Oa/TjNtcUh9fDr0lsx5fdPOthKFcx+e37IRdzu7kQErMSkHL1KuW5sfRTuuy87UYSd5pzo6UpWcDDtePyPDpcjGlY40RUuVarM24WY6AlBxGbCY9Hop/332dr3a2k/A3yhD35kENi876LR6SZA+dvBm8I+j5yU9IIVGZ3hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=c8tO6/7T; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UR+6U+5q; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 8097C254018F;
+	Thu, 23 Jan 2025 06:45:59 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Thu, 23 Jan 2025 06:45:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1737632759;
+	 x=1737719159; bh=OV52CXtA9Mn9pl9P/tIMuFALFpRSQLfNRGrEzKRhM2k=; b=
+	c8tO6/7TdaLaRAHK7A56eBnAhK4uMqHifXsoIVroFwynAEyrqjlry5NeXpqjfGGI
+	2RvjE2EsniO3EtbW63C1iIytSFCM3xmBLeKS9jBH4W16NzcdOPPmituiXeGtUcfc
+	uNXJdxrC+IcFHOAwDkihD4auJ+1v6gUW5uqZzKtD4hWLJheFtDYHarwDlfj1Sz4j
+	IWEu94Sh8o1lTu6YmCCbPAzRs4oU0eTzbpGyXw0CSgc++4PiaxI0tEs+RrBqV+2G
+	Ihjq77tuf5Kybr8+5kQLuC9vn/u6JhPGK6ECdzp4LktJp1+i3xBKhHpagkqNZmfP
+	5KkEsIcLsCDq5ovPvUenxA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1737632759; x=
+	1737719159; bh=OV52CXtA9Mn9pl9P/tIMuFALFpRSQLfNRGrEzKRhM2k=; b=U
+	R+6U+5qrnWiJkagrVYqud2N5C/Y7tnvbp9kYLqT0X+TC7kb4SHcxaS1tdA2LN3qk
+	w43QllaOkiAIwlk66/H+xT5gpQxJwza8SwSa5QR6ffuJidgiK+btNOElAcwpErz/
+	TdUTkvLAYJKIk8qNT8CcWWaA18wnP35hgka+zqq7FUq5HltRwKKF2uCuibp8dV7X
+	fhdYDrT+RKi+EHie0j4tzXZmDFD523JJiMoUBopX0Odzr3rRaXpaBL42kKD6qVNw
+	nM69kWlkPjcVQzT6Df8uOPSmk/1VXgp6V27K5o4x8e3tZcnMMMkTHGP/uXucKVGn
+	n64cXtzekVllLgeNSbULw==
+X-ME-Sender: <xms:9iuSZ_Dqf19utgroQe0KsGzMSsQxhhq8xZQ5FgfZyXrzq6XCnXRClg>
+    <xme:9iuSZ1jEwJPC_yVbXCISHHLLUxMOFf4iWbogjOjh42f4DC3JvcR4J3Wg294ldDPqt
+    eDhZfR6jx4lZ_xZkUg>
+X-ME-Received: <xmr:9iuSZ6kB-2HUeBKUQY1Ujwg5rn880rLJXOIm51QMLn-ByfE2fqehbkyJPHoA-t6TQxqZ74HJRmEjc2OPVk6UUKbtVw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejgedgudehjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
+    thhtvghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftd
+    dvleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+    nhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrd
+    hsvgdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+    thhomhhirdhvrghlkhgvihhnvghnodhrvghnvghsrghssehiuggvrghsohhnsghorghrug
+    drtghomhdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgv
+    lhdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdroh
+    hrgh
+X-ME-Proxy: <xmx:9iuSZxz3DJa-HFM9_EJJ9I9GzGUEUnzOSDPOvPaUZtflniDGXFnGDA>
+    <xmx:9iuSZ0QjnNtY2mGAOssGfgAambtongUyf2FP-YWe9H5xAmBMN9dQCQ>
+    <xmx:9iuSZ0a4wMT6aKpuexq_EcR-aEkIFroYWcVbPYZugOwMWYSqT0CyLw>
+    <xmx:9iuSZ1TrwvJABtMBiSJ2xcN3O5HlwwykKbYR4bmEvCuSgNskKKSUbQ>
+    <xmx:9yuSZ5J9-WhLy8_9noL_-ckILEk5oQJPc8EOzq1FoDMnetc8Rgdic4-4>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 Jan 2025 06:45:58 -0500 (EST)
+Date: Thu, 23 Jan 2025 12:45:56 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] media: rcar-vin: Remove superfluous starting state
+Message-ID: <20250123114556.GB2085710@ragnatech.se>
+References: <20250122165353.1273739-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250122165353.1273739-4-niklas.soderlund+renesas@ragnatech.se>
+ <d8d2b38a-3ab3-451b-80c7-ad9150f37675@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net 1/2] net: ravb: Fix missing rtnl lock in suspend path
-To: Kory Maincent <kory.maincent@bootlin.com>,
- Paul Barker <paul.barker.ct@bp.renesas.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
- Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250122-fix_missing_rtnl_lock_phy_disconnect-v1-0-8cb9f6f88fd1@bootlin.com>
- <20250122-fix_missing_rtnl_lock_phy_disconnect-v1-1-8cb9f6f88fd1@bootlin.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <20250122-fix_missing_rtnl_lock_phy_disconnect-v1-1-8cb9f6f88fd1@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d8d2b38a-3ab3-451b-80c7-ad9150f37675@ideasonboard.com>
 
-Hi, Kory,
+Ho Tomi,
 
-On 22.01.2025 18:19, Kory Maincent wrote:
-> Fix the suspend path by ensuring the rtnl lock is held where required.
-> Calls to ravb_open, ravb_close and wol operations must be performed under
-> the rtnl lock to prevent conflicts with ongoing ndo operations.
+On 2025-01-23 09:24:07 +0200, Tomi Valkeinen wrote:
+> Hi,
 > 
-> Without this fix, the following warning is triggered:
-> [   39.032969] =============================
-> [   39.032983] WARNING: suspicious RCU usage
-> [   39.033019] -----------------------------
-> [   39.033033] drivers/net/phy/phy_device.c:2004 suspicious
-> rcu_dereference_protected() usage!
-> ...
-> [   39.033597] stack backtrace:
-> [   39.033613] CPU: 0 UID: 0 PID: 174 Comm: python3 Not tainted
-> 6.13.0-rc7-next-20250116-arm64-renesas-00002-g35245dfdc62c #7
-> [   39.033623] Hardware name: Renesas SMARC EVK version 2 based on
-> r9a08g045s33 (DT)
-> [   39.033628] Call trace:
-> [   39.033633]  show_stack+0x14/0x1c (C)
-> [   39.033652]  dump_stack_lvl+0xb4/0xc4
-> [   39.033664]  dump_stack+0x14/0x1c
-> [   39.033671]  lockdep_rcu_suspicious+0x16c/0x22c
-> [   39.033682]  phy_detach+0x160/0x190
-> [   39.033694]  phy_disconnect+0x40/0x54
-> [   39.033703]  ravb_close+0x6c/0x1cc
-> [   39.033714]  ravb_suspend+0x48/0x120
-> [   39.033721]  dpm_run_callback+0x4c/0x14c
-> [   39.033731]  device_suspend+0x11c/0x4dc
-> [   39.033740]  dpm_suspend+0xdc/0x214
-> [   39.033748]  dpm_suspend_start+0x48/0x60
-> [   39.033758]  suspend_devices_and_enter+0x124/0x574
-> [   39.033769]  pm_suspend+0x1ac/0x274
-> [   39.033778]  state_store+0x88/0x124
-> [   39.033788]  kobj_attr_store+0x14/0x24
-> [   39.033798]  sysfs_kf_write+0x48/0x6c
-> [   39.033808]  kernfs_fop_write_iter+0x118/0x1a8
-> [   39.033817]  vfs_write+0x27c/0x378
-> [   39.033825]  ksys_write+0x64/0xf4
-> [   39.033833]  __arm64_sys_write+0x18/0x20
-> [   39.033841]  invoke_syscall+0x44/0x104
-> [   39.033852]  el0_svc_common.constprop.0+0xb4/0xd4
-> [   39.033862]  do_el0_svc+0x18/0x20
-> [   39.033870]  el0_svc+0x3c/0xf0
-> [   39.033880]  el0t_64_sync_handler+0xc0/0xc4
-> [   39.033888]  el0t_64_sync+0x154/0x158
-> [   39.041274] ravb 11c30000.ethernet eth0: Link is Down
+> On 22/01/2025 18:53, Niklas Söderlund wrote:
+> > The STARTING state is superfluous and can be replaced with a check of
+> > the sequence counter. The design idea is that the first buffer returned
+> > from the driver have to come from the first hardware buffer slot.
+> > Failing this the first 3 buffers queued to the device can be returned
+> > out-of-order.
+> > 
+> > But it's much clearer to check the sequence counter to only return the
+> > first buffer if it comes from hardware slot 0 then it is to carry around
+> > an extra state just for this. Remove the unneeded state and replace it
+> > with a simpler check.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >   drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 5 ++---
+> >   drivers/media/platform/renesas/rcar-vin/rcar-vin.h | 2 --
+> >   2 files changed, 2 insertions(+), 5 deletions(-)
 > 
-> Reported-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Closes: https://lore.kernel.org/netdev/4c6419d8-c06b-495c-b987-d66c2e1ff848@tuxon.dev/
-> Fixes: 0184165b2f42 ("ravb: add sleep PM suspend/resume support")
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-
-I've test it. Looks good.
-
-Thank you for your patch. However, I think this could be simplified. The
-locking scheme looks complicated to me. E.g., this one works too:
-
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c
-b/drivers/net/ethernet/renesas/ravb_main.c
-index bc395294a32d..cfe4f0f364f3 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -3217,10 +3217,16 @@ static int ravb_suspend(struct device *dev)
-
-        netif_device_detach(ndev);
-
--       if (priv->wol_enabled)
--               return ravb_wol_setup(ndev);
-+       if (priv->wol_enabled) {
-+               rtnl_lock();
-+               ret = ravb_wol_setup(ndev);
-+               rtnl_unlock();
-+               return ret;
-+       }
-
-+       rtnl_lock();
-        ret = ravb_close(ndev);
-+       rtnl_unlock();
-        if (ret)
-                return ret;
-
-@@ -3247,7 +3253,9 @@ static int ravb_resume(struct device *dev)
-
-        /* If WoL is enabled restore the interface. */
-        if (priv->wol_enabled) {
-+               rtnl_lock();
-                ret = ravb_wol_restore(ndev);
-+               rtnl_unlock();
-                if (ret)
-                        return ret;
-        } else {
-@@ -3257,7 +3265,9 @@ static int ravb_resume(struct device *dev)
-        }
-
-        /* Reopening the interface will restore the device to the working
-state. */
-+       rtnl_lock();
-        ret = ravb_open(ndev);
-+       rtnl_unlock();
-        if (ret < 0)
-                goto out_rpm_put;
-
-
-> ---
->  drivers/net/ethernet/renesas/ravb_main.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index bc395294a32d..2c6d8e4966c3 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -3217,10 +3217,15 @@ static int ravb_suspend(struct device *dev)
->  
->  	netif_device_detach(ndev);
->  
-> -	if (priv->wol_enabled)
-> -		return ravb_wol_setup(ndev);
-> +	rtnl_lock();
-> +	if (priv->wol_enabled) {
-> +		ret = ravb_wol_setup(ndev);
-> +		rtnl_unlock();
-> +		return ret;
-> +	}
->  
->  	ret = ravb_close(ndev);
-> +	rtnl_unlock();
->  	if (ret)
->  		return ret;
->  
-> @@ -3245,19 +3250,25 @@ static int ravb_resume(struct device *dev)
->  	if (!netif_running(ndev))
->  		return 0;
->  
-> +	rtnl_lock();
->  	/* If WoL is enabled restore the interface. */
->  	if (priv->wol_enabled) {
->  		ret = ravb_wol_restore(ndev);
-> -		if (ret)
-> +		if (ret)  {
-> +			rtnl_unlock();
->  			return ret;
-> +		}
->  	} else {
->  		ret = pm_runtime_force_resume(dev);
-> -		if (ret)
-> +		if (ret) {
-> +			rtnl_unlock();
->  			return ret;
-> +		}
->  	}
->  
->  	/* Reopening the interface will restore the device to the working state. */
->  	ret = ravb_open(ndev);
-> +	rtnl_unlock();
->  	if (ret < 0)
->  		goto out_rpm_put;
->  
+> I don't understand the feature, though =). Why does the first buffer have to
+> come from slot 0?
+
+The VIN have 3 slots it can use when streaming in continues mode. The 
+usual operation is that it starts with slot 0 for the first capture, 
+then moves to slot 1, slot 2, slot 0, etc.
+
+It was observed on that sometimes the first capture interrupt we get 
+comes from a slot other then 0. In that case up to the 3 first frames 
+returned from the device are out-of-order and that is not good. This 
+check is to check for that seldom trigged condition and drop 1 or 2 
+frames when starting capture in order for it to sync so buffers are 
+always returned in the order they where queued.
+
+IIRC this issue was only ever observed on Gen2 after the system had been 
+suspended and then resumed. But I can't recall if the VIN had to be 
+streaming at suspend time for this issue to have a chance to hit.
+
+> 
+>  Tomi
+> 
+> > 
+> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > index a16adc6fd4dc..ba55ccf648de 100644
+> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > @@ -1064,7 +1064,7 @@ static int rvin_capture_start(struct rvin_dev *vin)
+> >   	/* Continuous Frame Capture Mode */
+> >   	rvin_write(vin, VNFC_C_FRAME, VNFC_REG);
+> > -	vin->state = STARTING;
+> > +	vin->state = RUNNING;
+> >   	return 0;
+> >   }
+> > @@ -1120,14 +1120,13 @@ static irqreturn_t rvin_irq(int irq, void *data)
+> >   	 * To hand buffers back in a known order to userspace start
+> >   	 * to capture first from slot 0.
+> >   	 */
+> > -	if (vin->state == STARTING) {
+> > +	if (!vin->sequence) {
+> >   		if (slot != 0) {
+> >   			vin_dbg(vin, "Starting sync slot: %d\n", slot);
+> >   			goto done;
+> >   		}
+> >   		vin_dbg(vin, "Capture start synced!\n");
+> > -		vin->state = RUNNING;
+> >   	}
+> >   	/* Capture frame */
+> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> > index 4cb25d8bbf32..f13ef379d095 100644
+> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> > @@ -64,13 +64,11 @@ enum rvin_isp_id {
+> >   /**
+> >    * enum rvin_dma_state - DMA states
+> >    * @STOPPED:   No operation in progress
+> > - * @STARTING:  Capture starting up
+> >    * @RUNNING:   Operation in progress have buffers
+> >    * @STOPPING:  Stopping operation
+> >    */
+> >   enum rvin_dma_state {
+> >   	STOPPED = 0,
+> > -	STARTING,
+> >   	RUNNING,
+> >   	STOPPING,
+> >   };
 > 
 
+-- 
+Kind Regards,
+Niklas Söderlund
 
