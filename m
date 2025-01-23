@@ -1,52 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-12409-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12410-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4525A1A842
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 18:00:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F65BA1A846
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 18:00:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A95D1188C12D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 17:00:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 191DF165B1E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 17:00:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1897145B39;
-	Thu, 23 Jan 2025 17:00:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1557149C4F;
+	Thu, 23 Jan 2025 17:00:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jklwZC7V"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZvGABjJj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D13137776;
-	Thu, 23 Jan 2025 17:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F6813E02E;
+	Thu, 23 Jan 2025 17:00:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737651610; cv=none; b=lPcbLz4sThmbuip0eI9IAIebhmz6BUI43mkaiTSwv/ipIYkmf32ZotKWhVYAbp8JFcHgPlmywy0+vpu04ts3zIEvjQYdU1jrqXNg+OYuFHcUQFJJXYwOteKZG7K7tnBMGIJoViDST2ia5nuZzDAaziR//YblKGiQlwhXDdi1vrc=
+	t=1737651611; cv=none; b=NatzuO39mLTGgOc/238vm68qzILrFynLosL7yNaOjZPtmnTMlstawMmFGlb3KQfLwVY6b5HxrH6yqYBqxhKCsTyhWDB2UKQdloJ07BpF9KRkaGYMKHfp+6Hxa01gnAMLNPUxKyWqARMqIhB2uhCSCkZatrDD1DvJjMpM4wNNTcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737651610; c=relaxed/simple;
-	bh=gRogZkN/ZYeW7ugpdxEbqxuwqT+k60xHmTHVdfKjKmM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZFyoqWfx5Ggym/8wKRJMX87sfoAS3L4/QDmdskskJ11gxHHXUVotLmKKTivfv1HqMe43yak3f9U0IEhit4pCl5TkN90OBdpWlJr1PG5AZnqVQA8MubiRyCGSQo3XA+RJVyTT5VF9VjXEoMK3nYg8qU0OAGuKM/GLMNrQurJMiKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jklwZC7V; arc=none smtp.client-ip=217.70.183.201
+	s=arc-20240116; t=1737651611; c=relaxed/simple;
+	bh=/jneqOMTvea6raTugaEPGByMqFH/dRKOmp07CcMeoCs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=cQLTo29vqdaCXFPf6fqdJNDNmXxuklFoU0sp2r/DviaY+rWfYp/0qIW+WpVyvcaiKUGCkCT66mWOpkgdP5KirxNSbRO2oYEzkWnJLD44ZlHRgFBXtz46qGC+Vbv9WGM0rv1jOyotRSlRrF8ZirYqtv+b5S2uvvIj43WEVmdUteE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZvGABjJj; arc=none smtp.client-ip=217.70.183.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 53FC21BF203;
-	Thu, 23 Jan 2025 17:00:04 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 86E561BF205;
+	Thu, 23 Jan 2025 17:00:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1737651606;
+	t=1737651607;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=iR72WWfQooPYRih8ekKDUZx/ywzZWW2vIvazDAUGnoE=;
-	b=jklwZC7Vl53FEx06CFIRti7QWyhdv6htKmDJelajqEb1WK5R1J2ZmjoscXN0uhmkZ3fQAZ
-	WeWXvpanga73wpS+eHjlggI+kcEj7bf9iNVVFdXGlTEkTX7BqBXL6q1bt80M7iUtuPVQ0A
-	Ill64DLz+Glb4e0d2c0bqJh+N5tdd90H/HrMqF85vzEwhrkbv2t4dbrQTxg3wcyXRg25pQ
-	NxgMBTJDj2frUhXiZad1wgiNvWjWauBGtKN8Woss+N3SbXW6ENo2f0xJANPe0+Gn5qi1iI
-	fsJDa8SamazRemeCemBC80phIet6it5Yo1so/DJ+KLqE0w01NX6BaaZWHIeioQ==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MS81vlz/4vYHQka5k6wbVk7mpfos4FmkWWJ94DjBmP0=;
+	b=ZvGABjJjHBmqrgj4qLeFHkVH2mmFcWMSI99wctN4RFPghTDQtQmusHFk72bZ1E98/q9JuA
+	k43I++WKiOlUbRM2+xOzqbJpK4gx60pO521LE6y4MZb5Hcj0yxUMdSmJ4LRbZn9MnP5YoK
+	/yTAGuplHZ+MxaALXcVrMTKm9avaC9zxRuuZZErgIiqCjorzlvxO2JuM6dtSrvGso+xxOd
+	vvwKjnu0THGJUMDyLoDV0iX6OQ/xJZT84Cgwz4zV0U2eh6OT1H0zGyMByTV8dB/yvtfF0U
+	vETBYh8/cUyhoQzPqd6QAq1F8KH5m20FJNisq+GVkY37grA54maBJIb7KGfDZg==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Subject: [PATCH net v2 0/2] Fix missing rtnl lock in suspend path
-Date: Thu, 23 Jan 2025 17:57:59 +0100
-Message-Id: <20250123-fix_missing_rtnl_lock_phy_disconnect-v2-0-e6206f5508ba@bootlin.com>
+Date: Thu, 23 Jan 2025 17:58:00 +0100
+Subject: [PATCH net v2 1/2] net: ravb: Fix missing rtnl lock in suspend
+ path
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -55,10 +57,9 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIABd1kmcC/5WNXQqDMBCEryL73JQkoLV96j2KhJofXaobyQapi
- Hdv8AZ9/GaY+XZgn9AzPKodkl+RMVIBfanAjm8avEBXGLTUtVRai4BfMyMz0mBSpslM0X7MMm7
- GIdtI5G0WwSrXhNr1N1lDuVqSL7tT8wLyGboSjsg5pu1Ur+qs/rOsSkjR2v4emtC2walnH2Oek
- K42ztAdx/EDswiyNd8AAAA=
+Message-Id: <20250123-fix_missing_rtnl_lock_phy_disconnect-v2-1-e6206f5508ba@bootlin.com>
+References: <20250123-fix_missing_rtnl_lock_phy_disconnect-v2-0-e6206f5508ba@bootlin.com>
+In-Reply-To: <20250123-fix_missing_rtnl_lock_phy_disconnect-v2-0-e6206f5508ba@bootlin.com>
 To: Paul Barker <paul.barker.ct@bp.renesas.com>, 
  =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
  Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -76,42 +77,112 @@ X-Mailer: b4 0.14.1
 X-GND-Sasl: kory.maincent@bootlin.com
 
 Fix the suspend path by ensuring the rtnl lock is held where required.
-Calls to open, close and WOL operations must be performed under the
-rtnl lock to prevent conflicts with ongoing ndo operations.
+Calls to ravb_open, ravb_close and wol operations must be performed under
+the rtnl lock to prevent conflicts with ongoing ndo operations.
 
-Discussion about this issue can be found here:
-https://lore.kernel.org/netdev/20250120141926.1290763-1-kory.maincent@bootlin.com/
+Without this fix, the following warning is triggered:
+[   39.032969] =============================
+[   39.032983] WARNING: suspicious RCU usage
+[   39.033019] -----------------------------
+[   39.033033] drivers/net/phy/phy_device.c:2004 suspicious
+rcu_dereference_protected() usage!
+...
+[   39.033597] stack backtrace:
+[   39.033613] CPU: 0 UID: 0 PID: 174 Comm: python3 Not tainted
+6.13.0-rc7-next-20250116-arm64-renesas-00002-g35245dfdc62c #7
+[   39.033623] Hardware name: Renesas SMARC EVK version 2 based on
+r9a08g045s33 (DT)
+[   39.033628] Call trace:
+[   39.033633]  show_stack+0x14/0x1c (C)
+[   39.033652]  dump_stack_lvl+0xb4/0xc4
+[   39.033664]  dump_stack+0x14/0x1c
+[   39.033671]  lockdep_rcu_suspicious+0x16c/0x22c
+[   39.033682]  phy_detach+0x160/0x190
+[   39.033694]  phy_disconnect+0x40/0x54
+[   39.033703]  ravb_close+0x6c/0x1cc
+[   39.033714]  ravb_suspend+0x48/0x120
+[   39.033721]  dpm_run_callback+0x4c/0x14c
+[   39.033731]  device_suspend+0x11c/0x4dc
+[   39.033740]  dpm_suspend+0xdc/0x214
+[   39.033748]  dpm_suspend_start+0x48/0x60
+[   39.033758]  suspend_devices_and_enter+0x124/0x574
+[   39.033769]  pm_suspend+0x1ac/0x274
+[   39.033778]  state_store+0x88/0x124
+[   39.033788]  kobj_attr_store+0x14/0x24
+[   39.033798]  sysfs_kf_write+0x48/0x6c
+[   39.033808]  kernfs_fop_write_iter+0x118/0x1a8
+[   39.033817]  vfs_write+0x27c/0x378
+[   39.033825]  ksys_write+0x64/0xf4
+[   39.033833]  __arm64_sys_write+0x18/0x20
+[   39.033841]  invoke_syscall+0x44/0x104
+[   39.033852]  el0_svc_common.constprop.0+0xb4/0xd4
+[   39.033862]  do_el0_svc+0x18/0x20
+[   39.033870]  el0_svc+0x3c/0xf0
+[   39.033880]  el0t_64_sync_handler+0xc0/0xc4
+[   39.033888]  el0t_64_sync+0x154/0x158
+[   39.041274] ravb 11c30000.ethernet eth0: Link is Down
 
-While working on the ravb fix, it was discovered that the sh_eth driver
-has the same issue. This patch series addresses both drivers.
-
-I do not have access to hardware for either of these MACs, so it would
-be great if maintainers or others with the relevant boards could test
-these fixes.
-
+Reported-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Closes: https://lore.kernel.org/netdev/4c6419d8-c06b-495c-b987-d66c2e1ff848@tuxon.dev/
+Fixes: 0184165b2f42 ("ravb: add sleep PM suspend/resume support")
+Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
+
 Changes in v2:
-- Move the rtnl_lock before ravb_wol_setup() and ravb_wol_restore()
+- Move the rtnl_lock before ravb_wol_setup() and and ravb_wol_restore()
   instead of before the if condition.
-- Link to v1: https://lore.kernel.org/r/20250122-fix_missing_rtnl_lock_phy_disconnect-v1-0-8cb9f6f88fd1@bootlin.com
-
 ---
-Kory Maincent (2):
-      net: ravb: Fix missing rtnl lock in suspend path
-      net: sh_eth: Fix missing rtnl lock in suspend path
-
  drivers/net/ethernet/renesas/ravb_main.c | 14 ++++++++++++--
- drivers/net/ethernet/renesas/sh_eth.c    |  4 ++++
- 2 files changed, 16 insertions(+), 2 deletions(-)
----
-base-commit: b1754a69e7be48a64b3cdb0df60a96d97959da73
-change-id: 20250122-fix_missing_rtnl_lock_phy_disconnect-fc1d6f5db705
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-Best regards,
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index bc395294a32d..cfe4f0f364f3 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -3217,10 +3217,16 @@ static int ravb_suspend(struct device *dev)
+ 
+ 	netif_device_detach(ndev);
+ 
+-	if (priv->wol_enabled)
+-		return ravb_wol_setup(ndev);
++	if (priv->wol_enabled) {
++		rtnl_lock();
++		ret = ravb_wol_setup(ndev);
++		rtnl_unlock();
++		return ret;
++	}
+ 
++	rtnl_lock();
+ 	ret = ravb_close(ndev);
++	rtnl_unlock();
+ 	if (ret)
+ 		return ret;
+ 
+@@ -3247,7 +3253,9 @@ static int ravb_resume(struct device *dev)
+ 
+ 	/* If WoL is enabled restore the interface. */
+ 	if (priv->wol_enabled) {
++		rtnl_lock();
+ 		ret = ravb_wol_restore(ndev);
++		rtnl_unlock();
+ 		if (ret)
+ 			return ret;
+ 	} else {
+@@ -3257,7 +3265,9 @@ static int ravb_resume(struct device *dev)
+ 	}
+ 
+ 	/* Reopening the interface will restore the device to the working state. */
++	rtnl_lock();
+ 	ret = ravb_open(ndev);
++	rtnl_unlock();
+ 	if (ret < 0)
+ 		goto out_rpm_put;
+ 
+
 -- 
-Köry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+2.34.1
 
 
