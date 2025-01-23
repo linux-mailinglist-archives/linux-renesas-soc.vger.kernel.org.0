@@ -1,135 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-12367-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D35EA19F4D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 08:46:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94482A1A001
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 09:38:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71556188BAD3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 07:46:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FA823A50D2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2025 08:38:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 076CB1FF7B8;
-	Thu, 23 Jan 2025 07:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7BRyYIZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9E5F20C033;
+	Thu, 23 Jan 2025 08:38:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDFF81C2DB2;
-	Thu, 23 Jan 2025 07:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0F320C023;
+	Thu, 23 Jan 2025 08:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737618378; cv=none; b=CzbTOwanwyFJpQNOgyQE+v0u3rTcLGYz/QZdCxUSm3U/e0oaLMVi2a/inTyXXmPehJhvhgpXuiObJFC6bzQL0Z1OY5xAA/cTwZtQylq0aMlhs5Ep/UXmTM871zE9YgPR0wjBcZE/AgknW1Gft7IWmukrzZnmpMPMCeJEup2X654=
+	t=1737621527; cv=none; b=FqFRXrBcbSEuFfXRKyjBfYhATQPiY47DgUofi0irBjOEEOUS7J3O4Cw7wnLqCboQIejBTcSDJEHyhPuCgdXEglAGZlZ7wc+Iuleq72QILvmxRAuHd7LZEAa9DLMZgQHAnBN1UpWR4e0BQS0O5DboZEzKOGm+ViMlZPy0AxKM+ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737618378; c=relaxed/simple;
-	bh=I3k7vopjSztNtKboO75Z/5UaQQ4+I0esTmnCN2lKflo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V8SHXXJYQuzuBkhzJqVgOcPdfFYnGB9kP+B0heWGxMPQlA0p5wOXWM56bBW+W6CNuDuV2Pxp6wEbrTuXq1Go1WnGQWbR+2c7soCgaBOAdC3Bdt5h+zkKgvDqFWfwV8HCFk1UTGrb2W4RG/9VJAS3RRU+T1Cvjsi5j2mkcd+IHjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7BRyYIZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5001C4CED3;
-	Thu, 23 Jan 2025 07:46:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737618377;
-	bh=I3k7vopjSztNtKboO75Z/5UaQQ4+I0esTmnCN2lKflo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m7BRyYIZvbiO92bQG/nwtv1O7agEAKAcyVMhVW9aO39h0EoOyntr5yFXV3u72hOxj
-	 btJmyzrtDnXse4CjVdvCM2eknU8/W50Go5uG6q3oxP39mv9nsHJ/WzxNPcPrtWlLQU
-	 yLDBSbbZ7CbUa0UpAzOmIQ09HbEGTeyACwhEz7XnrVlENgVh7SdzxVLCtJYXjO0SGQ
-	 DxMNYh14/fT9DarKwKIBHoBNJEkMNtNUfvZ3KcINSRZIW/nwZdJroeMmA3Ohs9bsYS
-	 gswIJVTXyK8+ImG6LIq+Iyo0MNuwTH1zGc5nGqNVQi//m4j9/lGwCkkvny1zFahA0c
-	 cGrp6IwMh71uQ==
-Message-ID: <a31acd08-e5b7-44e8-857b-dd068f88013f@kernel.org>
-Date: Thu, 23 Jan 2025 08:46:11 +0100
+	s=arc-20240116; t=1737621527; c=relaxed/simple;
+	bh=MgRruCyZIpg1hbNzgzKNaagVQSI1te/n2s5cZA2cKv8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pYvXQKmFq6PsjlZvDOoykqLKAvDFMJgwtKywFuACB/sOT8A2Fvg5AUxRj55CDbKifpKU9zeMSDSVMR9Fh9z3kxFwzUcylkzWvgH5+WmfASfjrio8/MaE13dih7RI0VnbRPgRHxJEYmlMVdt/6nOCcOCo1reo/clL7O94Xg+7hHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4afdfd3124dso180122137.2;
+        Thu, 23 Jan 2025 00:38:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737621524; x=1738226324;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mwQHsW4zwmLnjFYZmDHAoZyaz6EGWkjalGwPU0GkznM=;
+        b=skRyHmfaX/3rMo/QMxcZfe31XD9OmIGnheDManOhi5obr4ZBhepqlfaLpLuWgxxQnU
+         c8WHk55e4/vl2LFxKcduuYthB5fB7x2RyTYNRGdzmbFV/OSq1GkPyBZWbC70h6BbGcSe
+         wKXwi72fFhHDZLqvVtZPMTtsTo38kXiHNgqOUGtIs9f8ImQTySXmUY6+YLkvlcGP4ICe
+         N1Yh1V3weNactjZu8OTsrdlQnjWmMHR33NlbN23uJreLjVzWisU9I5dtgGK3uM9zWMxR
+         GpT/lSPcvSW2MkbIn+3c1EFOzWpmFSYqGolqovwQrYpmD2LeWVJ3lt+1vVD7p6FN/Vv1
+         TBQw==
+X-Forwarded-Encrypted: i=1; AJvYcCU7bT/MQBbu7HLUXj4zceQTQXbgQRnB/x9+xVSgA/24Oy6k2q55NHSZNBf12fS7EeTmIJOLvARWhQoM@vger.kernel.org, AJvYcCUNp2uqKNGWrVJL63SO0W+Xv4rzKKUMTQTh7z3czZYE6DaLx3HlmgplbAvWuGhRk03Q5qb71gcbeVRhd7w=@vger.kernel.org, AJvYcCV4eLN5XmY6bfdesW/PeJNHLbYXnn9hroimi9OGtezGAGySQlaWJkVw0WRz7PISQHyPIRk/pwsYMMt3fF3K@vger.kernel.org, AJvYcCVgm8PKxNx1DgzHblbqMcTO2KJOoCfpoeCVUyeVQSjelcneW3SyCLjUc2Qxe58vP8e/YkUC2tOCw05hKP5fTg68QxY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz10Ct+VaK09gF9MTeU69aL62xCAYkyZEm8ErSIgENNQmTlFE8+
+	yWnPLM2r5y59fjsiDNHomfcCrv66/lPJXFpvq64w+s8k+ngXuHZZjcJBKoMj
+X-Gm-Gg: ASbGncsKHI3kvERB/o1H/knD6DFV5ngegQGNdIMe7rFscU9DJs+9G07xqkA1AxET6wj
+	TQjvijTLnmg2hFSM2yR5DSv7y/uSLgdqs+vbp1WGnV+AFZqbBtVU2WM8kb1vVQOk79y/hHoCINZ
+	TzOWfrruhKEaVF+WZLKPvbCZKoBSXC8gCic6FmJfumcH8b6SHcegb4BKJnu+ho1i0SkJmC6++SI
+	usLm0MmnLSARZJPMQUXFqoIeAWRgaC4UVwkwjSm24MHIHFcrHjsJ0hx6lgJAx/1vmyY4axWoE6z
+	6xHeVDyQQNnQXYsPQHn/0pEWK1ImuMMwxgKZH5sb1IPTjeI=
+X-Google-Smtp-Source: AGHT+IFdpDkGm0xkEAAJKxaSQwlecO+O6PouOTcvg8n2/rojfW6rrTQaUzrPkdOd2nCgb0RD9+fYwg==
+X-Received: by 2002:a05:6102:5486:b0:4b2:5d10:2cc6 with SMTP id ada2fe7eead31-4b690bbbc2emr18524414137.6.1737621524175;
+        Thu, 23 Jan 2025 00:38:44 -0800 (PST)
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b68a3191f4sm3063397137.20.2025.01.23.00.38.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jan 2025 00:38:43 -0800 (PST)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5187f0b893dso217338e0c.3;
+        Thu, 23 Jan 2025 00:38:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVYEsOAd0a80ciVDFy90x1o9lon+uLzLIPLiSZD1Nr7K1t1ALwtQLipuUNGYl/3acZAmG7jbE1ptxOG@vger.kernel.org, AJvYcCVYdJ+dpSPxuK86a+G6wdL7z+5MhkeqnBcr9Q+ITA1KyTiRT3DbT5+iT2t8FEWACw5kbnPaJrTyBtRoMQoYSqXJszk=@vger.kernel.org, AJvYcCVppp+ZSvyqLPUsfO2/BpXBJ2G/ZpFwyePzGIsnEbDaCitC6cR4uJ95LlbpsLBL2az58/40kOJFce6U9D0=@vger.kernel.org, AJvYcCWTvR8CBHqs9k5/X97GjL1CW6nBlM7NgHzMv0X0WOkO/dPGpGOenGikDlbScURNUVZ3lAtuzM/9S/aZOvtZ@vger.kernel.org
+X-Received: by 2002:a05:6102:570d:b0:4b6:d108:cac1 with SMTP id
+ ada2fe7eead31-4b6d11811f8mr11475580137.9.1737621523558; Thu, 23 Jan 2025
+ 00:38:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/9] dt-bindings: soc: renesas: Add RZ/G3E variant SYS
- binding
-To: John Madieu <john.madieu.xa@bp.renesas.com>, geert+renesas@glider.be,
- robh@kernel.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org
-Cc: biju.das.jz@bp.renesas.com, claudiu.beznea.uj@bp.renesas.com,
- conor+dt@kernel.org, john.madieu@gmail.com, krzk+dt@kernel.org,
- linux-kernel@vger.kernel.org, magnus.damm@gmail.com
-References: <20250122103911.517484-1-john.madieu.xa@bp.renesas.com>
- <20250122103911.517484-3-john.madieu.xa@bp.renesas.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250122103911.517484-3-john.madieu.xa@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
+ <87wmem76u4.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87wmem76u4.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 23 Jan 2025 09:38:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWpxKgSGGJb9Oy4Bzy7y4zPxVve=0_mCWE0G1d4njCJ+A@mail.gmail.com>
+X-Gm-Features: AWEUYZlhVs-YS2W8tu6wHQ2P2ZBc9pMgHx0iSkPnWdB8Tka2A9Xe1rKavB5lPTg
+Message-ID: <CAMuHMdWpxKgSGGJb9Oy4Bzy7y4zPxVve=0_mCWE0G1d4njCJ+A@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: soc-core: Stop using of_property_read_bool() for
+ non-boolean properties
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 22/01/2025 11:39, John Madieu wrote:
-> Add RZ/G3E (R9A09G047) variant to the existing RZ/V2H System
-> Controller (SYS) binding as both IPs are compatible.
-> 
-> They however have different SoC IDs, RZ/G3E has has VSP control Register
+Hi Morimoto-san,
 
+On Thu, Jan 23, 2025 at 12:43=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> > On R-Car:
+> >
+> >     OF: /sound: Read of boolean property 'simple-audio-card,bitclock-ma=
+ster' with a value.
+> >     OF: /sound: Read of boolean property 'simple-audio-card,frame-maste=
+r' with a value.
+> >
+> > or:
+> >
+> >     OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean prop=
+erty 'bitclock-master' with a value.
+> >     OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean prop=
+erty 'frame-master' with a value.
+> >
+> > The use of of_property_read_bool() for non-boolean properties is
+> > deprecated in favor of of_property_present() when testing for property
+> > presence.
+> >
+> > Replace testing for presence before calling of_property_read_u32() by
+> > testing for an -EINVAL return value from the latter, to simplify the
+> > code.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> (snip)
+> > -     if (of_property_read_bool(np, "dai-tdm-slot-num")) {
+> > -             ret =3D of_property_read_u32(np, "dai-tdm-slot-num", &val=
+);
+> > -             if (ret)
+> > -                     return ret;
+> > -
+> > -             if (slots)
+> > -                     *slots =3D val;
+> > -     }
+> (snip)
+> > +     ret =3D of_property_read_u32(np, "dai-tdm-slot-num", &val);
+> > +     if (ret && ret !=3D -EINVAL)
+> > +             return ret;
+> > +     if (!ret && slots)
+> > +             *slots =3D val;
+>
+> Looks good to me
+>
+> Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-And since you have to now resend entire patchset due to not reading
-submitting patches, then more work:
+Thank you!
 
-Double 'has'
+> If my understanding was correct, old/new code should have same behavior.
 
-> compared to RZ/V2H SYS IP. Hence a new compatible string renesas,r9a09g047-sys
+Indeed, that was my objective...
 
+> But because of the original code, new code looks complex for me.
+> The case which this function return error are
+>
+>         (A) if property does not have a value
+>         (B) if the property data isn't large enough
+>
+> I think "DT checker" will indicates error for both case ?
 
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+Correct, of_property_read_u32_array() would return -ENODATA resp.
+-EOVERFLOW.
 
+> If so, we can simply ignore these 2 cases. Then, the code will be more
+> simple
+>
+>         ret =3D of_property_read_u32(np, "dai-tdm-slot-num", &val);
+> -       if (ret && ret !=3D -EINVAL)
+> -               return ret;
+>         if (!ret && slots)
+>                 *slots =3D val;
+>
+> I think this should be extra new patch (if people can agree about it).
 
+That would be a change in behavior. Probably it would be fine for
+existing users, though, as no existing DTS should cause these errors,
+else sound wouldn't work.  For a new DTS, it would silently ignore errors.
+You are in a better position to make that decision, though.
 
-Best regards,
-Krzysztof
+BTW, is there any specific reason the code always checks for the
+presence of "dai-tdm-slot-num", even if slots is NULL, and the result
+sn't used? I.e. would
+
+    if (slots) {
+            ret =3D of_property_read_u32(np, "dai-tdm-slot-num", &val);
+            if (!ret)
+                    *slots =3D val;
+            else if (ret !=3D -EINVAL)
+                    return ret;
+    }
+
+(perhaps dropping the else, as per above) be acceptable?
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
