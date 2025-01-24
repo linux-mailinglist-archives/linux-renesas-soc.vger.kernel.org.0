@@ -1,151 +1,244 @@
-Return-Path: <linux-renesas-soc+bounces-12462-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12463-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4501BA1B66A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 13:57:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B77A1B67C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 14:00:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7DF81889295
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 12:57:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99594166FEF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 13:00:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C4D111AD;
-	Fri, 24 Jan 2025 12:57:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4B2C6AA1;
+	Fri, 24 Jan 2025 13:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5sWSi02"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C306524F;
-	Fri, 24 Jan 2025 12:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5424C98;
+	Fri, 24 Jan 2025 13:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737723428; cv=none; b=NQb/zLT6sjgYZGO8t7wWCKjX88cgGQ6Z1HHY+CY8vKP27z33YmXtop7oIj6/WsQwPiPUv0YwG+gBMTVa/n8SvrkkrEEDZ4ypYfUMixxwmP288rbY4Nt/sx6Z3tMvijAjlNi0cr6Q9ycyGCg4IN8I70bna+fyl96dZaufCQ2HOpw=
+	t=1737723619; cv=none; b=Ix/dM8nBFJFtMPIMZFU/yfw9FJkbzCak5W8DFrJZrAv5pMOphQSkRs+LQnwD0PzHw4Gr8PzielT9yFuwWcJbgxmYptvs6N+D4B19Bxd+196WKQqYVXxCMKQjTEO9XDLV2iBcfbzKjogCA0aW9uwTnNioEoGH2QKnpVPA+dCdlYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737723428; c=relaxed/simple;
-	bh=j4oGJ6K0mb+RNYHi9CfElKjlw0p0gZ1h7KlznsCqyR4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pM0qiF9PSKNW+14EKZge5rytHGucp4Hb/ARo9G2NjL+B7rZwpxF/i20gC+ox2m0/dXqJnrWLxvF91nreLzSNf2nJr3eF7hzD5qtc5Xt45eyAe8uHI6A0R0PkM8+aTzh7jGSaRvIw6iIBRGHbbj3DZ1gsQhZS/lJ1zeaYlYq6ZC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-85bad7be09dso1195668241.0;
-        Fri, 24 Jan 2025 04:57:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737723424; x=1738328224;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Whysl5RQ4Gz9zn7F5zfvElJC1wWKfMWPjRBrgv5mex0=;
-        b=S2Le7m72JzuZRteeeSCVeBGaXZpOOKgL5EYM7QaOlZDueidMA2ZbvAEE0uQx6ISVuP
-         XYoT/dDQOU8F7+piIzMki36E3smU/jK8lCQHInyRXn36d071gpe6eW7GiNpTkBoBjv7U
-         fpXmp/VGvF6Ee4GJeWF2agSZD+ZRLqt2kl/BvIbbbxoo30JbLAilH0MFsvCCA96GsfrQ
-         ISTJ7+nHL4LF0t9RthdaYTjMWTCHU/YaBDZ2ukl7+b1Jqefm0oBfJcW7WP29cNICx48n
-         0nZrphDI0/2ILY/DseYQ6+Rhky8Xg8AanLURFYFp05FYcJWP2P/iSxi3DYBtvoJFv/mt
-         B+VQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUF8/bC0CY+vhO36/dw/4CghQr3vRbZ+GXhSx3mc0UG/nbzalBF9FKReObx0qjb0y0QG8pcqTSc3gNE@vger.kernel.org, AJvYcCUSd3RsCS1QkiqKQwMu84/QRzvlg5PBULCdBcEAHs5xVDwNuS7ZykUaVtqLUP7EjH+BZuCakR8mLUFGPKhXkTZy9ps=@vger.kernel.org, AJvYcCVXLl3WETH0pckE9af23Rs2JEQnQ/TO0lCoKXi8GczlyHDwFHbNyraqXEFtumACXw332POgoDU/IzG6tzgy@vger.kernel.org, AJvYcCXxkCPvKuWEqm/y+da+N9maZbBXaamOx1cgD4OCssU+te3fbaEwRa9yh3CoN1fR4llYlMra9ZXDMvvPLQE4@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUx1lJiWRI0oxPkCRSKou0nrfHTuJsivRU8N1q2YDyt+nKuH5p
-	BhYnHUo0i4uHPf3e/irmEYdAsaqLY5jW8TJ+hOWOAnKOHXNmMRUOGBWpjOEw
-X-Gm-Gg: ASbGncuKihHQUYMe9Du1vgInhicfvpn6taq4aTdxKe16FDhbmh/O+DqYapQ4+mXQnQU
-	WOmOeBiwvgIyE95gG9hGQxgJ/Ic6CyPgiO+oNOA2zuG+qPJKwKwQYnrFnViyz0ZEC6csH+u8Ob2
-	U5MdBmVJQihYl78UEkRQ/TEH1DYruTVn+udkZZlKrzImqsfBr6c4kefvrdBY2SXHFVSOKKu7A3F
-	/FqJCmOQc4ByZF3VIOhwcgGF2D+kmVI2SmwkDd5uO3Ns5PiPvSEfxPKgWCQDHz8p5xBGX4gYPzb
-	43VsEGjMVGkm+AyEQmtFH/f2IWfNghUy9ZjEVf0ADnA=
-X-Google-Smtp-Source: AGHT+IEGVW/E7PItdj6j6PyngEd4PWncZ75nGwvVabTYj3nQpoeUYAhzbq6urPeYp8LbQNzhByddhg==
-X-Received: by 2002:a05:6102:f97:b0:4b4:27dc:ffe3 with SMTP id ada2fe7eead31-4b69099e6f9mr29140215137.0.1737723423213;
-        Fri, 24 Jan 2025 04:57:03 -0800 (PST)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b70999dcc9sm394748137.29.2025.01.24.04.57.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jan 2025 04:57:02 -0800 (PST)
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4afeccfeda2so1149793137.1;
-        Fri, 24 Jan 2025 04:57:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU67Q8rIxlSLq+fT4JkqVX5nzi7RJcylCjYGwI+blcaezfaMn3KGtlHv+/zUdn+R7RX84sfqiX1oqBX6B1A@vger.kernel.org, AJvYcCVY4lGzv560IogPS+/3PEztwnrunYmv7/EnHnSBSX0KvIGshPCOW4I4RoOF4vbfvYnD66cvSOaE6HRi@vger.kernel.org, AJvYcCWglgsvYhR/jTrNlCHYQARYCVMVOWEbeYS9ecXTUnmRJszLpCxX7m+yel5AUu8jxtt2xLmW+BpZOKMy7Wv36BkYgRc=@vger.kernel.org, AJvYcCXqRXwU5QsGhF42jf50CawQ1Ds6Wxa3Y2x+qSWXih4EDscvuhuICZeVS5LjAIglXWaaO8Ie5QbS7Bv1JIxi@vger.kernel.org
-X-Received: by 2002:a05:6102:3f41:b0:4b2:5ca3:f82a with SMTP id
- ada2fe7eead31-4b690bb6273mr26659681137.7.1737723422272; Fri, 24 Jan 2025
- 04:57:02 -0800 (PST)
+	s=arc-20240116; t=1737723619; c=relaxed/simple;
+	bh=I536iZ5EGUmd3B3kQDDGYHcOETMvIiQtWdCBn5o5yOQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WJfh/Ws2C/uCAcgBQZogw1hroBNWsEyKAcZ13zy530uF40DKyiPcPTfzuqrTzGK13RA7IDYr1ZFGcy3aLP/u7tlrRTXrFq9sOktb5UFMck3WzLk11cgq7op8EqGZjdp7z1JM7zjI5Lvm5y5lBCFGhmvY6AoF01xDwAesdGAVEhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5sWSi02; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74497C4CED2;
+	Fri, 24 Jan 2025 13:00:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737723619;
+	bh=I536iZ5EGUmd3B3kQDDGYHcOETMvIiQtWdCBn5o5yOQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=D5sWSi02OJnNpSN3SC0wut/g9tza+f51Cop1ypkfsvbviq0gnawNhqSu6jvCRgRZI
+	 B9r5lLSraZgx9U4SSs6jeunww9noA/3tB/TF6Y2DayJ24CTzY6VqAhr3Evb2eImANj
+	 Tjyof6m6frRCNkfN0An6Ur+jhZkUwmGpdTi9+/dofkK9wkXZfRhCepU0bF+dhSfgBB
+	 Uy2uRaLA/mMvU7BJaYYAgBO0JlxGBgdvhBUCTX4ML0aqJZ4vtU97y0TwX5tyUS7THz
+	 Qe/V7onc3bFNNCftswV4SANCoN8eYt5UUTOgWff9+mO9P+HW/7FiT1WOPZzDfdL66K
+	 2ORNCDFxqM3Kw==
+Message-ID: <8bdb2cdf-92cd-46e8-b795-7d5d412a4e07@kernel.org>
+Date: Fri, 24 Jan 2025 14:00:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250120130936.1080069-1-claudiu.beznea.uj@bp.renesas.com> <20250120130936.1080069-5-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20250120130936.1080069-5-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 24 Jan 2025 13:56:50 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUdq9XRpxAEmY3tG-cKHVrYfmbU4-YNRugSz5J5Qfkyzw@mail.gmail.com>
-X-Gm-Features: AWEUYZkcbYrDILv1p8Gs3K0rRFhCUHJuK1KL-uhwRp64jIORrwdyE3DsCbPbTx4
-Message-ID: <CAMuHMdUdq9XRpxAEmY3tG-cKHVrYfmbU4-YNRugSz5J5Qfkyzw@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] arm64: dts: renesas: r9a08g045s33-smarc-pmod: Add
- overlay for SCIF1
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
-	p.zabel@pengutronix.de, claudiu.beznea.uj@bp.renesas.com, 
-	wsa+renesas@sang-engineering.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] watchdog: Make RZV2HWDT driver depend on
+ ARCH_R9A09G47
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "biju.das.au" <biju.das.au@gmail.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20250115103858.104709-1-biju.das.jz@bp.renesas.com>
+ <20250115103858.104709-4-biju.das.jz@bp.renesas.com>
+ <20250118-trout-of-luxurious-inquire-aae9aa@krzk-bin>
+ <TY3PR01MB11346DC4A22A2EC0CB0DAF61186E32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <f4cdcb9e-ae30-45ad-87f4-7395db0ab995@kernel.org>
+ <TY3PR01MB11346D1E5B190101E7F474BEB86E32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <305ba07f-e5f3-4d2e-b017-8a817418f16c@kernel.org>
+ <TY3PR01MB11346BADEA961847B84D911E986E32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <TY3PR01MB11346BADEA961847B84D911E986E32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Claudiu,
+On 24/01/2025 13:55, Biju Das wrote:
+> Hi Krzysztof Kozlowski,
+> 
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzk@kernel.org>
+>> Sent: 24 January 2025 12:42
+>> Subject: Re: [PATCH 3/5] watchdog: Make RZV2HWDT driver depend on ARCH_R9A09G47
+>>
+>> On 24/01/2025 11:57, Biju Das wrote:
+>>> Hi Krzysztof Kozlowski,
+>>>
+>>>> -----Original Message-----
+>>>> From: Krzysztof Kozlowski <krzk@kernel.org>
+>>>> Sent: 24 January 2025 10:35
+>>>> Subject: Re: [PATCH 3/5] watchdog: Make RZV2HWDT driver depend on
+>>>> ARCH_R9A09G47
+>>>>
+>>>> On 24/01/2025 11:20, Biju Das wrote:
+>>>>>>
+>>>>>>> +	depends on ARCH_R9A09G047 || ARCH_R9A09G057 || COMPILE_TEST
+>>>>>>
+>>>>>> But this is just wrong. You are supposed to depend on renesas ARHC,
+>>>>>> not your individual SoC (and this is what you called here "ARCH_R9A...").
+>>>>>>
+>>>>>> Greg many times gave strong opinion that even full ARCH is wrong
+>>>>>> and we managed to convince him that it has a meaning (or he did not
+>>>>>> want to keep discussing). But restricting it per soc is pointless
+>>>>>> and impossible to defend in
+>>>> discussion.
+>>>>>
+>>>>> Currently for building RZ/G3E WDT, I need to always have RZ/V2H SoC config.
+>>>>> which is pointless. May be ARCH_RENESAS should ok in this case??
+>>>> Assuming ARCH_RENESAS covers your individual SoCs above, yes, that's
+>>>> the way for driver to limit themselves to usable family.
+>>>
+>>> ARCH_RENESAS has ARM, ARM64 and RISC based SoCs.
+>>>
+>>> Currently it covers ARCH_RCAR_GEN1, ARCH_RCAR_GEN2,  ARCH_RCAR_GEN3,
+>>> ARCH_RCAR_GEN4, ARCH_RMOBILE, ARCH_RZG2L, ARCH_RZN1 Family SOCs and
+>>> rest of the individual SoCs such as RZ/V2H abnd RZ/g3E.
+>>
+>>
+>> Rather tell me why this is supposed to be different than other vendors?
+> 
+> It is not different from other vendors. 
+> 
+> See, for eg:
+> config S3C2410_WATCHDOG                                                          
+>  557         tristate "S3C6410/S5Pv210/Exynos Watchdog"                               
+>  558         depends on ARCH_S3C64XX || ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST  
 
-On Mon, Jan 20, 2025 at 2:09=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Add DT overlay for SCIF1 (of the Renesas RZ/G3S SoC) routed through the
-> PMOD1_3A interface available on the Renesas RZ SMARC Carrier II board.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
->
-> Changes in v4:
-> - rename overlay name to r9a08g045s33-smarc-pmod1-type-3a
-> - add note about the needed switches for SCIF1
-> - guard the scif1 node with #if SW_CONFIG3 =3D=3D SW_ON && SW_OPT_MUX4 =
-=3D=3D SW_ON
-> - dropped the alias section from the overlay file and move it
->   the board file
-> - document SW_OPT_MUX4 switch
+You see - only one ARCH_EXYNOS.
 
-Thanks for the update!
+That's the arch and vendor. Exynos is the entire arch for arm32 and
+arm64 consisting of all of SoCs.
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r9a08g045s33-smarc-pmod1-type-3a.dtso
-> @@ -0,0 +1,48 @@
-> +// SPDX-License-Identifier: GPL-2.0
+S3C and S5P are entirely different, much older archs - these even could
+not be combined in one image with Exynos some time ago.
 
-Would you mind if I changed this to (GPL-2.0-only OR BSD-2-Clause) while
-applying?
+> 
+> 
+> 575 config SA1100_WATCHDOG                                                           
+>  576         tristate "SA1100/PXA2xx watchdog"                                        
+>  577         depends on ARCH_SA1100 || ARCH_PXA || COMPILE_TEST      
+> 
+> and many more.
 
-> +&pinctrl {
-> +       scif1_pins: scif1-pins {
-> +               pinmux =3D <RZG2L_PORT_PINMUX(14, 0, 1)>, /* TXD */
-> +                        <RZG2L_PORT_PINMUX(14, 1, 1)>, /* RXD */
-> +                        <RZG2L_PORT_PINMUX(16, 0, 1)>, /* CTS */
-> +                        <RZG2L_PORT_PINMUX(16, 1, 1)>; /* RTS */
+Again: only one SA1100, one PXA. Not per each PXA SoC.
 
-CTS# and RTS#
+So these prove my point - use only your ARCH
+> 
+> 
+>>
+>> || ARM64 is already used solution
+> 
+> If you are correct, then all should depend on either on ARM or ARM64 or RISCV etc...
+> 
+> 
+>>
+>>>
+>>> Since most of IP's in RZ/V2H and RZ/G3E are identical we could
+>>> introduce a new family SoC ARCH_RZG3E_RZV2H to cover both or top level ARCH_RENESAS??
+>>
+>> You should not write drivers per SoCs (or even two or there SoCs) and there is really no need to
+>> restrict them per each SoC.
+> 
+> If I am not wrong, The watchdog subsystem uses similar approach.
+> 
+>>
+>> Otherwise come with arguments to my first question: why do you need exception here from generic kernel
+>> approach?
+> 
+> It is not deviating from generic kernel approach as lot of vendors are doing this way.
+> eg:
+> 
+> config OMAP_WATCHDOG                                                             
+>           tristate "OMAP Watchdog"                                                 
+>          depends on ARCH_OMAP16XX || ARCH_OMAP2PLUS || COMPILE_TEST    
 
-> +       };
-> +};
+Anyway, that's ancient OMAP, we speak about new devices.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.15.
+> 
+> 
+>  config DAVINCI_WATCHDOG                                                          
+>          tristate "DaVinci watchdog"                                              
+>           depends on ARCH_DAVINCI || ARCH_KEYSTONE || COMPILE_TEST   
 
-Gr{oetje,eeting}s,
+Different ARCH, not SoCs!
 
-                        Geert
+> 
+> 
+>  config K3_RTI_WATCHDOG                                                           
+>          tristate "Texas Instruments K3 RTI watchdog"                             
+>          depends on ARCH_K3 || COMPILE_TEST   
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Dependency on ARCH.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Do you understand the difference between ARCH and SoC (ARCH_R9A09G47 is
+the SoC - individual or family)?
+
+
+
+Best regards,
+Krzysztof
 
