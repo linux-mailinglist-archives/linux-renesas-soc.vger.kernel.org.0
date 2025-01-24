@@ -1,261 +1,215 @@
-Return-Path: <linux-renesas-soc+bounces-12455-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12456-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12011A1B411
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 11:54:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2C3A1B445
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 11:57:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 168C316DD35
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 10:54:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8FA63A1034
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 10:57:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DABE21CA06;
-	Fri, 24 Jan 2025 10:53:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F4941D45FE;
+	Fri, 24 Jan 2025 10:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="WpvG3TYF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011001.outbound.protection.outlook.com [52.101.125.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5088D21C16F;
-	Fri, 24 Jan 2025 10:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737716014; cv=none; b=ma1CGr1M1yhKudg9BYJsw6II1plkixS7ZVladFrDyIv3N3g6OEiyiENptpZ8xoRNiCgci5B5pYomzx8xCYB/E88Tw3fQf7joPBJg4w6rZaVHcD1CbAL80xE74tgb4kXX1s2N0PDbX+/+gwfCxPvlXtIBI4JOm7/UPGfgavpKito=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737716014; c=relaxed/simple;
-	bh=VjppF6DswnHpRm5Fwshs39I9u4i31HrEG7KfmdpY3ss=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ysa6aaYbvYMgG7gEGnOqme9kDu6oALrU7gV4vvI0G0kKDa1LUpouNArv1kJOvm2hbWl53oBNHDuCkGo5uG8RFCTwnKbJj716nMegqUZ84uyGNk0y+l1/ev+3jKvNshq3XgujmFGPRpzY34jP0yFL2YPhXmNrBCDuAnzZG+sU2f0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4aff31b77e8so708737137.1;
-        Fri, 24 Jan 2025 02:53:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737716009; x=1738320809;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dj4hPdmb2DsaCV9s/+5UOoJx/2EfGrUiMTE4Wn5/cFI=;
-        b=PN7SElZUJ+9+1LZq7KFtcjTqTF3hu2WZZHODhbQN0/T/moyqr/tKiHRg2vmXeKvbQ4
-         AVAT48m1cuEr95LFk+fIch7GRetfKQyuL6utn61b0HT6EtzJx8gr25UZ6yXJT4ov6ppR
-         VgN5gaJ5XvqZO4WGhGHJ+v1mq51+v9MjlsWMrJ6dpjZ2Xx8ZmSGM9oY8+lbatAO+EUlt
-         TBdqLzB3pXBAAnQXFcAF1zclxPI8HWmSGSdtHgZDI68emajJpHQEeZYt9blDOEZ51qVJ
-         6Sw6x3qE5gN6h+AslzmboEMUjCbulWvgLucAbnRcCqOv+TAqZsIFWYbkifm0CIbzj5B9
-         k/MA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAssiHeZBBpnBnYD0yBS+EROMusZ4pmEyl4hUdBcTtcH+1D301QRuTxmRIJtxxz2+Hq0pxd/hJuuY1@vger.kernel.org, AJvYcCUoPErBLfXPBtp9yZO3IaPrqd1/UDbO57RpK/dZay9Bwv/lsg+gPlP+01Hj6uGG05Y56cpw+8D8JgOdpLS0D5Fg8+Y=@vger.kernel.org, AJvYcCVHwYIRQoXqCApSXXrHWTpRsgHYqgd1ttq8cfem6aco7/aU9meohqLkW9E7lbsxpYZHdPFrmFCUgo9mYSCF@vger.kernel.org, AJvYcCX5ArFdZFWprXg4U/AYVw9EMDbKm0tPcuU0axMjq3tnvumxhEEcf2VRhlubzZU2oMbgnUreQOErOuwVZ7nV@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz00y3iR5EsRNsJzHlQ5+jb8vl1PlyxN0LblUUtE7EX3BsfczYJ
-	lK9hicsAdQeXmQTN1OCqJ5NwCtrFf4pG504p+oD6qTE4cCPYMcPkRMcSMBbf
-X-Gm-Gg: ASbGncujPg7pKShLYlmPpCdOl+uDUdzF+OY11kYvDiWEktY1bxpc1SHbSpIIRGcWnIx
-	rzQ63Kx/gRNi94E84+Qk+i14nokmltX+QLLxcdidmwlqnIkPqgSVS00OJtFvMDCPOxAN8utqN/9
-	n936JhfaYyOp2ZRJQNhk/MuUjSokN4EXYm3u2ZGCwlx3uMTsSxS4AIb0Itv35oMwoC6MNsFhRqj
-	irS2I0VgmeUbEPevxbCeKdhKuZqR9fBk1M1eoC8HVVULYBs0zFj7ZfHZtD3JGQISqoS59Zf+Tm/
-	dhwexChYEMaws+Pzl65cn5uTVdqxvOlM0koEDClIU6I=
-X-Google-Smtp-Source: AGHT+IGy7IIGvAOxVmxgVnnWZnXFvAz9LnhfozRn1IIB0JRbo8XdjWszdTAiOOuFZHEMk2EOYSiBDg==
-X-Received: by 2002:a05:6102:41a6:b0:4b1:1a11:fe3 with SMTP id ada2fe7eead31-4b690bbf701mr24954101137.8.1737716009517;
-        Fri, 24 Jan 2025 02:53:29 -0800 (PST)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-864a9c17e31sm334419241.22.2025.01.24.02.53.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jan 2025 02:53:28 -0800 (PST)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-85bb264993cso456068241.1;
-        Fri, 24 Jan 2025 02:53:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVNxsMV+tHRUDXagiYlWTgTFgK/t+uxode7jB9J8C+481D7rRhHPGgplQR2zmuRSKU2jRHxyhYNaSakB1rtinMMMCo=@vger.kernel.org, AJvYcCVZazJ3FbMzZSD3tBZX5fpHqJcEVNkNmQei9u1bsNPrhU3WBqSTprpy+71NX0qfaEeWTIyB0FPtxk6jIidO@vger.kernel.org, AJvYcCWMqmYMLaOw6OmiJpWYPpjTA9O8S/xGnHj2GPg2BW0UHKDO/65iT+eHzkW8lrVyxmDiUH2AoQQXJNz4obZD@vger.kernel.org, AJvYcCWVMvhqZXhbME/Ttv320WgsMcLkv21pKDPzb4qpZX+vbfmhONIqgEt+bjWJwMZ05hzxDIv4kZnCNH0O@vger.kernel.org
-X-Received: by 2002:a67:e709:0:b0:4b1:3709:9361 with SMTP id
- ada2fe7eead31-4b690c9a9a4mr30426427137.19.1737716008203; Fri, 24 Jan 2025
- 02:53:28 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FE71CDFC1;
+	Fri, 24 Jan 2025 10:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737716241; cv=fail; b=CH5ptBz7cRjwJem5aCZefXBErekV4VcZ11vAFAIUlQ0jxrv1P1qkzdvF6uCnJW9z9ej2wb8EkVn2DtgOuQXPITehqMjYyIiC+fDgTQYkf1yNs9F7pUJcJMxr27n2lVeLKRTdbOMtx4N8Wn1aHJDucpx+sRfPNVzvmdPdJAKwM8k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737716241; c=relaxed/simple;
+	bh=GnfNUz4sN1VFZt022VwCRLNZkFjQWKbVZVilVfBQt+U=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=eb8JbSfQVobyoH8x43+LiRi7+NzPMOmDi7K27kN4E4fkgt5ig14qujn/gqshtUTHouhfHsMfV1FtF0m69fIlwjJlCeqkBJ9236DyXE93uBpYARGnkgIoZcRsw8L/vS6eD2m4hSTqCwTAAmoTOCIJX/HQp3WvZ18coAAnK4w/Euo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=WpvG3TYF; arc=fail smtp.client-ip=52.101.125.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OnaMqIhiyvsd2fwphRDp1GPtpP4t2bIyTFFTpx3w82YzvRcHj7k8EE4+xfnRk2Oa28c65RklpIsVXjFWrrgxDPM5ZERrEnf8+HOdmyLedRnFei1Iv7Tb8pVhLZehGInxeHoCY08Wk1TJ7Axx8pIY0FvwPAq3ZQwDWoef+bvGvvByIJBb5g/32Xrk5+KE8vLWzmGlQ6hcqsLRbOMpQWkP1xqScqwZdKDrurInnF28lfU3TJ2ew+NJN6dvFmtTPjIOn+ad4dSgAm/ICYyb/W1MIqiZc4suflkGe0l9zr73yMMXpN472qBpKq3pTaTXiRpWr6tR24lsg+Tq4RD8IvIGeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GnfNUz4sN1VFZt022VwCRLNZkFjQWKbVZVilVfBQt+U=;
+ b=Muis7acUsgt0RcXrQFiWDsxrxgJ53ufwwOt1thO0IHRsEtBtFYBqAjAuEgDMzH1rq1nBqefkdUq737Tr5EdlQxhgY84wDJu0sem/1T81piQmEK3E/Gs1r0HhVA+SBtKwWaM6ayHeNx7DKx5ZX3DhlNcOwWKOdPZU36hJ7Nay2/Ram9CtEiv9PAhvBE8+e5Q2ey+uUV9N3Odr/O/t3VEpPq4s2Y+m1ujMEwKrDwXIkWRbJGdRSUe5nVv6BkjpewLw2wOGqpa1VGrfV95YdPO9z2QClj3kE7sEEWCIcr/mvH46rwminywlXMRUBp+6dSLrfPJvBPDiwzgy882pPPk6Mw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GnfNUz4sN1VFZt022VwCRLNZkFjQWKbVZVilVfBQt+U=;
+ b=WpvG3TYFrwZsdqDTKjulzAMDlR/gUULjwrivlsTxYOBjz8fVE0tyX7eSpYe33stU+tkWAlhM4K+FVXWyhF8vYNdHflhtczUK+XkJTvRzGUGUDI5i0pOyZFxwspOCFIwX2SI6S/ax8apcGGMSpezbD4CepweyGd+K1yNgPiIpVe8=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYCPR01MB6096.jpnprd01.prod.outlook.com (2603:1096:400:49::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.19; Fri, 24 Jan
+ 2025 10:57:15 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%2]) with mapi id 15.20.8377.009; Fri, 24 Jan 2025
+ 10:57:15 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+	<linux@roeck-us.net>, "linux-watchdog@vger.kernel.org"
+	<linux-watchdog@vger.kernel.org>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 3/5] watchdog: Make RZV2HWDT driver depend on
+ ARCH_R9A09G47
+Thread-Topic: [PATCH 3/5] watchdog: Make RZV2HWDT driver depend on
+ ARCH_R9A09G47
+Thread-Index: AQHbZznBkfvGK/9M9kaeTTHwnLvzBrMcszgAgAkPAuCAAAaOgIAAA5vA
+Date: Fri, 24 Jan 2025 10:57:15 +0000
+Message-ID:
+ <TY3PR01MB11346D1E5B190101E7F474BEB86E32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250115103858.104709-1-biju.das.jz@bp.renesas.com>
+ <20250115103858.104709-4-biju.das.jz@bp.renesas.com>
+ <20250118-trout-of-luxurious-inquire-aae9aa@krzk-bin>
+ <TY3PR01MB11346DC4A22A2EC0CB0DAF61186E32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <f4cdcb9e-ae30-45ad-87f4-7395db0ab995@kernel.org>
+In-Reply-To: <f4cdcb9e-ae30-45ad-87f4-7395db0ab995@kernel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB6096:EE_
+x-ms-office365-filtering-correlation-id: e1140dfd-1d10-4373-e5f3-08dd3c65dd31
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?d1UwSm9KMGxZek5MemU0U29IV0w4RU5hUElTdnlOMDl1WTNGQkNUMkRWSEFJ?=
+ =?utf-8?B?a21yQ0ZlaTFIMlhrcndQUmxmdG8zUDJmeHl0ZHF5Si9NWWNYUWpLODY4djdB?=
+ =?utf-8?B?Ymkra2xreXEvMitIL2hOb2dpTW45SnZXbzFBTEFjOVYzUEMvWXZSRTZ2NzBI?=
+ =?utf-8?B?YUx3ZkdWRSsyOThQYVoybWozM3pIZkFQWlFxMG1TM2UrbXZsRE5FNzR2dGEv?=
+ =?utf-8?B?WTVzd0F0RkNab2J2NlRNVExxMVg1NG1OVUkrbE1TUDRVVlRVVmtZdml0OTlF?=
+ =?utf-8?B?dVczaXRRVUlpclQydUl1ZDZXL0ExRXR1ZVVVT29ZcCtMVXVxMFNjWlh6dk10?=
+ =?utf-8?B?R0UvUTFtQUpON2l3UFJQMzRjRCtIbnZWcEdiL1Boc3RmeXlPVWVzYnBXSGJ0?=
+ =?utf-8?B?THhjZjBvdVZRRmV5MHB4NklYU1drd0JXY2RQMkVMOWtVdFcwcHFQOFBOYU00?=
+ =?utf-8?B?dDd3OGIwN3A4VjkwQjJ0TkxtcXVwSWltc1hmQUdTZWwzT2tjOGVFVDVHcENw?=
+ =?utf-8?B?SXlHZTgvQnpVRWVJR0pBMTM2TmRuQTNqbXZPTGRpUmY1RzJlWVozRFBGS3dO?=
+ =?utf-8?B?L1VaYThYQmU2TDF5eGoyQUpiaWVja0x0cERIV0JhVllCclBpT0xYM0c4cXd0?=
+ =?utf-8?B?dVRWQ3FBT3NDR2tTZDhMVE9lb1lCbUhLVGt2TkdGWEZUK3RONG1iRFU5Q2dx?=
+ =?utf-8?B?MEd0Y3FQU041TE8vdW9tTFlwZkl5R1QrNE5MaG5Fa1lBVjR6NEVobk5telJv?=
+ =?utf-8?B?NThMdllyTFVWcDc1SzBqb1FhQllNZXUycW1RTERwd3lIbzZTZzhCaEhVV3Ri?=
+ =?utf-8?B?SmkyWE9wcUwxbG5WenBsY3Z5S21CdVpscmtuWkpDbEJ1OHU4TDF6bkJFV3Y3?=
+ =?utf-8?B?T2VvdHhjQTNXbUkrWSs5UXkzNEJyMmlmMTk4eWpMOVRWQWhFa0I4Zk45bFZm?=
+ =?utf-8?B?cW5MRnE5WFhFMjhYYlhOUTlGWTdxS1lKUTY3cVRtNHJhQkJsNjNLN3MrdHJE?=
+ =?utf-8?B?QzNicmhhTTZNK2NrQlVHOUErTHR4YW5WeFd3SGVyZmhHVVo2ejNFbVo4OUVu?=
+ =?utf-8?B?ZnJ4M1QrdVhLWWNjWktwK3dyelJCS3ZyY005TU5nekFFcGZQUjJ3dWU3VU5S?=
+ =?utf-8?B?RHU3bFo2Z24rRDNkSWxHZTdwM0J5ZURrYlpQanpTQnd0enVmbjExNWQ5Z2xJ?=
+ =?utf-8?B?dkI1SDdwRnh0YWxrYSt5djEycGZ6RmcvdWwxUnQvUDBpaFJ3NUFySUJmaHNs?=
+ =?utf-8?B?NVVYWWZKTi84TnhDMExKL3lKdENMbGlJUjVoY09FMFR6dklzcDBxaklLT1k3?=
+ =?utf-8?B?QTNxa1NjVnhLNUJjelRBTWQyNFJMTmhsTEZvSWNHTFRlNUFhdnFmOEFmaDBq?=
+ =?utf-8?B?QTZDVzUrN09ITzI1a3Myaks3T1lyYmhjSTdIQ0FGRXhWcjQxbkJPR3JQNnVR?=
+ =?utf-8?B?RmlwMXl6NXJ3SEtNTEhqTHhJRXJka3F6VnVVMkdJMnZpdjRPdDNBMkxtRGcz?=
+ =?utf-8?B?b1RuVGRzRWxXeFJvWDVHazA2UCtQdjRlWXE5VnN4Sk8ycDc4SlAvVS91RWJw?=
+ =?utf-8?B?MC9TRjl3Q1o3M2pDQzNGT3UvbWlwU3BGRno0OVN2RmVZZk11akh1a3BYMDVI?=
+ =?utf-8?B?MlpndEMxRDZxUDFQa1d3NEdMZnY3bG5KUDdtTm01WklrdHM5Mi9UMjFDRHVF?=
+ =?utf-8?B?MzJoRVdjK205SHphMFZyV0lrWUpMdERmTTlZY0ZqMXY5ZVh5SzV1cFlHUEkr?=
+ =?utf-8?B?Rzk0V2F1S3RzMnc5ZHNnUkJDTUhZMEV4dWpTdXZoa042OXhoOFZDanoyU3gw?=
+ =?utf-8?B?RSt3SjJUMDB6ajQrZ0M1aU9xQVFpK0pvS0ZHeFhQMXBtZ08xOHN4cjJDZVRU?=
+ =?utf-8?B?dGtoRmIvcVpBTFI0WDZHZ3gzRVdDelJ2UDVNQjlTd1BiSE5NUVZQWGlPT2Y4?=
+ =?utf-8?Q?WSrRiO0bAtW6EzrGOjTkIsTxMY+OmGJ5?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?K1U0VmhVRlJaams0V1A4dEd1UllZd0JNbVg4WUZvdm9wTFpLUHhtRGE1bTQv?=
+ =?utf-8?B?aXBLdnJHRmtGWHNaNHZ3Si9hdlEyRnJ1U0VPNjNnYVV2Q3RSQmtabDhwa0xK?=
+ =?utf-8?B?WnNleTc3YTRwOVBySFBreSsxRDdsd1JsNmljejB5bkZDeW8yOEtCeVFNNS9R?=
+ =?utf-8?B?WVVWT1BLbnFoVDg5Yms2VU5CYVBqeFVNL3lmT2ZNL3lqZXd5SXczSE9RRnhE?=
+ =?utf-8?B?TGFqV3d5SGlYMERUU0FNNktuNEVOODR6Z1FZL0IyWTZjMmFLYXVGbGFCbkYv?=
+ =?utf-8?B?Sm0yTmorbGtGM3ZUaUx1UkZsYkNFbGlDK2V2YzVUUjFtS09xQTFJYVIwVnYv?=
+ =?utf-8?B?RU02cVV6Q1BuK09aeE5LNnhGTnJXbmdaeXlmSndCZWl2QWVMSUI2YTQ0V1Vm?=
+ =?utf-8?B?RnBJSU9qcXpaN1c4ekV5TWN0bnVrTVRQcnBpZGJPaFRCUlJMa005Z09sSjdo?=
+ =?utf-8?B?aTJEcVhXSkFNMVRIZnc4TDREbXcyM2lGUG4wZW52UGV6TUpXYjB6SllrMXUy?=
+ =?utf-8?B?aXBtNllCQlVTa1dHenJTZENVejFDSzhybVh0N0tiS01kVWptK0RaWFVlbjVF?=
+ =?utf-8?B?RUI5VjRNMVBBYXZqMkFMTWNIRFA2bWlVRTNIVVpXUnNONG5BTnRPSDRVTTNR?=
+ =?utf-8?B?QWx0OW42YW9Jb042K3pyK2gvak83Q21nbDQrYlpGeUl5cGpQYmtnOXJzbXEw?=
+ =?utf-8?B?SXBXNHh0Mm9SbDdQS2s2RlM2NUI0TEZBOHJsUXRCK0VPYjNsbzJSdkhpSWZC?=
+ =?utf-8?B?cmYyb0tFWHFpMFNqOXovK3lSaTZGUzJFQjk0SW94eDRMRWZqZmFma1dvOFZ4?=
+ =?utf-8?B?N01lRkd4WXF4QmNscFRDNkFEWVNhNExKcjk4clBBb3h2eWVrbWh2YXlmYjBZ?=
+ =?utf-8?B?a0N4UXhYSTBZNHhJSWZLaXo1MFIrdDVtL3hXMTZ4Q1krZCtpa3g3NmNWblMv?=
+ =?utf-8?B?Ykt1WmdWdXd0TW5oaUJRaEFpUGF1RHJLZ0NJN3VGc3kyZzl6VUt3c3p3cWR5?=
+ =?utf-8?B?OENWT3FRbEFFa2RndmUzaXNxWWUxenltaXJOaXZCN0RnYXNhcGFPOWZtV05u?=
+ =?utf-8?B?bSs2eWlBTVQvUGd2NGRqTytyRTRDYWkwN05vUGF0VWtOU3NvYzlZMCtmVjJO?=
+ =?utf-8?B?SXNJK054WW9uMFVSbG9Hb0syZkYzVTMvOHQ0SUtZaDdKbmNRVGxJLzIxN2Qr?=
+ =?utf-8?B?QlE1Q0kzbDhVemFOWVBCZWNLZFlFdytvZ0tJRjdqdU9oRjloSy9GUC9keU5B?=
+ =?utf-8?B?amxGVTRRYllOWHlpd2R3dklnaFN5L3FxWC90SzBaMzVSSkFUZUNYZGYvbVpy?=
+ =?utf-8?B?cVpDNjIwQ010L3hobncwSks4d09Ic2pHSnpVZzBZZS80MVRLanJTM3c0d0NH?=
+ =?utf-8?B?YXM1LzdmNjFJUURZeEsreVhtajFDWDFtTEJQWGtSano2a1VPSXZjUUZNZC82?=
+ =?utf-8?B?Rld1SHFId3hLdzlMZ3Z2dytDdHlOR1pmQm9yUWtZZzRReDhJeEZnaVVzWHkw?=
+ =?utf-8?B?SVhnbE5OalovZUV0bkhGbExvN2lORU0yN0poQTVrSkZwR0J6aXJXUDhPWWpv?=
+ =?utf-8?B?M083Zml0bWl1OTRjK3BxdkZWMXd3MzI3M3N6YXBnYXArMExIUVJvUDdLWFV0?=
+ =?utf-8?B?T0c3ekhxQWU2endPaVpYdkFiK3Y2WCtpbGdJcXYrK3NjdVZWWHR5aC9BcHR0?=
+ =?utf-8?B?NE1vVjFteCt5aVo0eEdTSEsyeDg5UDZCd1dUWHpOa0QzWUo0NC9aeWVZUmky?=
+ =?utf-8?B?Q2tkUGt3VDNvR0tJZm52aWo4U2ZWcGJFbGV5Z0l5OU1NWWxVcS9oZU12SEMw?=
+ =?utf-8?B?R05UZTFDZTNmQmRrNVU4ZVFvYXdhbUx2WlJEMXl1V3NGbFpYZ0Z6dmg4K0ll?=
+ =?utf-8?B?VUZZZmhYT1JWUkVhanB0SXFZYXJua3A4MUl6UWJaWGgrNWZTcExKV2xadFV5?=
+ =?utf-8?B?czBWOUZsNFNOTHNwbUZQc2VwWWV3U3Ircm00dHlYUnNvbG9icC8zQThubXFJ?=
+ =?utf-8?B?NHRBNVo2cStqUkZnU3pBVm00VEpIUlk5bU1GRlJjNWpWVmh5K2Y4ZzN5c0gx?=
+ =?utf-8?B?UDQzUFN1WXYvM1IxNU90Q09lTXlicVd1anVvZWlRblVZWUtmUDRmQTFTVUdU?=
+ =?utf-8?B?YkZnazN2eXhtdUNqWVhvdnBVTTZRamR4dXBsQTE2VW1JL09ySEJ1c0Vtblcv?=
+ =?utf-8?B?UXc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250120130936.1080069-1-claudiu.beznea.uj@bp.renesas.com> <20250120130936.1080069-2-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20250120130936.1080069-2-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 24 Jan 2025 11:53:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWYNs2vQTn07Xfx1Misk3Ry5y3PSYPrGbycZdt5LnU_vQ@mail.gmail.com>
-X-Gm-Features: AWEUYZktYH6HHl2MnI_8EXdM11D4QvQDVN00Hrl-2t7g2L_TO726A24HCmctLaY
-Message-ID: <CAMuHMdWYNs2vQTn07Xfx1Misk3Ry5y3PSYPrGbycZdt5LnU_vQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] serial: sh-sci: Update the suspend/resume support
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
-	p.zabel@pengutronix.de, claudiu.beznea.uj@bp.renesas.com, 
-	wsa+renesas@sang-engineering.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1140dfd-1d10-4373-e5f3-08dd3c65dd31
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2025 10:57:15.6322
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QegmXylXSgtJeFZOt3VdtZ++EFHqK1gl3xwKaiG5EJ7TdnQzeLvrlvmx8huTOz1/dAFIkfRPVjT2nlxVWYDDay2p3/kv9RH54NpvWllYWuU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6096
 
-Hi Claudiu,
-
-Thanks for your patch!
-
-On Mon, Jan 20, 2025 at 2:09=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> The Renesas RZ/G3S supports a power saving mode where power to most of th=
-e
-> SoC components is turned off. When returning from this power saving mode,
-> SoC components need to be re-configured.
->
-> The SCIFs on the Renesas RZ/G3S need to be re-configured as well when
-> returning from this power saving mode. The sh-sci code already configures
-> the SCIF clocks, power domain and registers by calling uart_resume_port()
-> in sci_resume(). On suspend path the SCIF UART ports are suspended
-> accordingly (by calling uart_suspend_port() in sci_suspend()). The only
-> missing setting is the reset signal. For this assert/de-assert the reset
-> signal on driver suspend/resume.
->
-> In case the no_console_suspend is specified by the user, the registers ne=
-ed
-> to be saved on suspend path and restore on resume path. To do this the
-> sci_console_setup() function was added. There is no need to cache/restore
-> the status or FIFO registers. Only the control registers. To differentiat=
-e
-> b/w these, the struct sci_port_params::regs was updated with a new member
-> that specifies if the register needs to be chached on suspend. Only the
-
-cached
-
-> RZ_SCIFA instances were updated with this new support as the hardware for
-> the rest of variants was missing for testing.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-> @@ -101,7 +101,7 @@ enum SCI_CLKS {
->                 if ((_port)->sampling_rate_mask & SCI_SR((_sr)))
->
->  struct plat_sci_reg {
-> -       u8 offset, size;
-> +       u8 offset, size, suspend_cacheable;
-
-This increases the size of sci_port_params[] by 300 bytes.
-Using bitfields would mitigate that:
-
-    struct plat_sci_reg {
-            u16 offset:8;
-            u16 size:5;
-            u16 suspend_cacheable:1;
-    };
-
-(if we ever need more bits, the size member can store an enum value
- instead of the actual size (8 or 16 bits) of the register).
-
->  };
->
->  struct sci_port_params {
-> @@ -134,6 +134,8 @@ struct sci_port {
->         struct dma_chan                 *chan_tx;
->         struct dma_chan                 *chan_rx;
->
-> +       struct reset_control            *rstc;
-> +
->  #ifdef CONFIG_SERIAL_SH_SCI_DMA
->         struct dma_chan                 *chan_tx_saved;
->         struct dma_chan                 *chan_rx_saved;
-> @@ -153,6 +155,7 @@ struct sci_port {
->         int                             rx_trigger;
->         struct timer_list               rx_fifo_timer;
->         int                             rx_fifo_timeout;
-> +       unsigned int                    console_cached_regs[SCIx_NR_REGS]=
-;
-
-u16, as all registers are 8 or 16 bit wide.
-
-We reserve space for 20 registers, but at most 6 will be used.
-This has a rather big impact on the size of sci_ports[], as
-CONFIG_SERIAL_SH_SCI_NR_UARTS defaults to 18.
-
-Also, this space is used/needed only if:
-  - CONFIG_PM_SLEEP=3Dy,
-  - CONFIG_SERIAL_CORE_CONSOLE=3Dy (see uart_console()),
-  - The port is actually used as a console (unfortunately the user
-    can specify multiple console=3DttySC<N> command line parameters, in
-    addition to chosen/stdout-path).
-
->         u16                             hscif_tot;
->
->         bool has_rtscts;
-> @@ -300,17 +303,17 @@ static const struct sci_port_params sci_port_params=
-[SCIx_NR_REGTYPES] =3D {
->          */
->         [SCIx_RZ_SCIFA_REGTYPE] =3D {
->                 .regs =3D {
-> -                       [SCSMR]         =3D { 0x00, 16 },
-> -                       [SCBRR]         =3D { 0x02,  8 },
-> -                       [SCSCR]         =3D { 0x04, 16 },
-> +                       [SCSMR]         =3D { 0x00, 16, 1 },
-> +                       [SCBRR]         =3D { 0x02,  8, 1 },
-> +                       [SCSCR]         =3D { 0x04, 16, 1 },
->                         [SCxTDR]        =3D { 0x06,  8 },
->                         [SCxSR]         =3D { 0x08, 16 },
->                         [SCxRDR]        =3D { 0x0A,  8 },
-> -                       [SCFCR]         =3D { 0x0C, 16 },
-> +                       [SCFCR]         =3D { 0x0C, 16, 1 },
->                         [SCFDR]         =3D { 0x0E, 16 },
-> -                       [SCSPTR]        =3D { 0x10, 16 },
-> +                       [SCSPTR]        =3D { 0x10, 16, 1 },
->                         [SCLSR]         =3D { 0x12, 16 },
-> -                       [SEMR]          =3D { 0x14, 8 },
-> +                       [SEMR]          =3D { 0x14, 8, 1 },
-
-Note that the driver always writes zero to SEMR.
-
->                 },
->                 .fifosize =3D 16,
->                 .overrun_reg =3D SCLSR,
-> @@ -3374,6 +3377,7 @@ static struct plat_sci_port *sci_parse_dt(struct pl=
-atform_device *pdev,
->         }
->
->         sp =3D &sci_ports[id];
-> +       sp->rstc =3D rstc;
->         *dev_id =3D id;
->
->         p->type =3D SCI_OF_TYPE(data);
-> @@ -3546,13 +3550,34 @@ static int sci_probe(struct platform_device *dev)
->         return 0;
->  }
->
-> +static void sci_console_setup(struct sci_port *s, bool save)
-
-sci_console_save_restore()?
-
-> +{
-> +       for (u16 i =3D 0; i < SCIx_NR_REGS; i++) {
-
-unsigned int
-
-> +               struct uart_port *port =3D &s->port;
-> +
-> +               if (!s->params->regs[i].suspend_cacheable)
-> +                       continue;
-> +
-> +               if (save)
-> +                       s->console_cached_regs[i] =3D sci_serial_in(port,=
- i);
-> +               else
-> +                       sci_serial_out(port, i, s->console_cached_regs[i]=
-);
-> +       }
-> +}
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+SGkgS3J6eXN6dG9mIEtvemxvd3NraSwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0K
+PiBGcm9tOiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+DQo+IFNlbnQ6IDI0
+IEphbnVhcnkgMjAyNSAxMDozNQ0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDMvNV0gd2F0Y2hkb2c6
+IE1ha2UgUlpWMkhXRFQgZHJpdmVyIGRlcGVuZCBvbiBBUkNIX1I5QTA5RzQ3DQo+IA0KPiBPbiAy
+NC8wMS8yMDI1IDExOjIwLCBCaWp1IERhcyB3cm90ZToNCj4gPj4NCj4gPj4+ICsJZGVwZW5kcyBv
+biBBUkNIX1I5QTA5RzA0NyB8fCBBUkNIX1I5QTA5RzA1NyB8fCBDT01QSUxFX1RFU1QNCj4gPj4N
+Cj4gPj4gQnV0IHRoaXMgaXMganVzdCB3cm9uZy4gWW91IGFyZSBzdXBwb3NlZCB0byBkZXBlbmQg
+b24gcmVuZXNhcyBBUkhDLA0KPiA+PiBub3QgeW91ciBpbmRpdmlkdWFsIFNvQyAoYW5kIHRoaXMg
+aXMgd2hhdCB5b3UgY2FsbGVkIGhlcmUgIkFSQ0hfUjlBLi4uIikuDQo+ID4+DQo+ID4+IEdyZWcg
+bWFueSB0aW1lcyBnYXZlIHN0cm9uZyBvcGluaW9uIHRoYXQgZXZlbiBmdWxsIEFSQ0ggaXMgd3Jv
+bmcgYW5kDQo+ID4+IHdlIG1hbmFnZWQgdG8gY29udmluY2UgaGltIHRoYXQgaXQgaGFzIGEgbWVh
+bmluZyAob3IgaGUgZGlkIG5vdCB3YW50DQo+ID4+IHRvIGtlZXAgZGlzY3Vzc2luZykuIEJ1dCBy
+ZXN0cmljdGluZyBpdCBwZXIgc29jIGlzIHBvaW50bGVzcyBhbmQgaW1wb3NzaWJsZSB0byBkZWZl
+bmQgaW4NCj4gZGlzY3Vzc2lvbi4NCj4gPg0KPiA+IEN1cnJlbnRseSBmb3IgYnVpbGRpbmcgUlov
+RzNFIFdEVCwgSSBuZWVkIHRvIGFsd2F5cyBoYXZlIFJaL1YySCBTb0MgY29uZmlnLg0KPiA+IHdo
+aWNoIGlzIHBvaW50bGVzcy4gTWF5IGJlIEFSQ0hfUkVORVNBUyBzaG91bGQgb2sgaW4gdGhpcyBj
+YXNlPz8NCj4gQXNzdW1pbmcgQVJDSF9SRU5FU0FTIGNvdmVycyB5b3VyIGluZGl2aWR1YWwgU29D
+cyBhYm92ZSwgeWVzLCB0aGF0J3MgdGhlIHdheSBmb3IgZHJpdmVyIHRvIGxpbWl0DQo+IHRoZW1z
+ZWx2ZXMgdG8gdXNhYmxlIGZhbWlseS4NCg0KQVJDSF9SRU5FU0FTIGhhcyBBUk0sIEFSTTY0IGFu
+ZCBSSVNDIGJhc2VkIFNvQ3MuDQoNCkN1cnJlbnRseSBpdCBjb3ZlcnMgQVJDSF9SQ0FSX0dFTjEs
+IEFSQ0hfUkNBUl9HRU4yLA0KIEFSQ0hfUkNBUl9HRU4zLCBBUkNIX1JDQVJfR0VONCwgQVJDSF9S
+TU9CSUxFLCBBUkNIX1JaRzJMLCBBUkNIX1JaTjENCkZhbWlseSBTT0NzIGFuZCByZXN0IG9mIHRo
+ZSBpbmRpdmlkdWFsIFNvQ3Mgc3VjaCBhcyBSWi9WMkggYWJuZCBSWi9nM0UuDQoNClNpbmNlIG1v
+c3Qgb2YgSVAncyBpbiBSWi9WMkggYW5kIFJaL0czRSBhcmUgaWRlbnRpY2FsIHdlIGNvdWxkIGlu
+dHJvZHVjZSANCmEgbmV3IGZhbWlseSBTb0MgQVJDSF9SWkczRV9SWlYySCB0byBjb3ZlciBib3Ro
+IG9yIHRvcCBsZXZlbCBBUkNIX1JFTkVTQVM/Pw0KDQpDaGVlcnMsDQpCaWp1DQoNCgkNCg==
 
