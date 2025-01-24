@@ -1,87 +1,88 @@
-Return-Path: <linux-renesas-soc+bounces-12474-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12475-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C016A1B7CA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 15:20:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E583CA1B7CD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 15:21:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D81C31882C81
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 14:20:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 32F8B166405
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 14:21:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8244978F5A;
-	Fri, 24 Jan 2025 14:20:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABE8278F4E;
+	Fri, 24 Jan 2025 14:21:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CAD35969;
-	Fri, 24 Jan 2025 14:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0BC86335;
+	Fri, 24 Jan 2025 14:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737728443; cv=none; b=Z4siXCHBJVbGLznEpHw51/wPXe9cqlN/hWN9kYWai6rG2348Nct/eH/JTTG3ftqqHG9fN5+M8GOdzC4BfSxI7ETAnJj8lC5up/N0hnl89oTjn5WuZalPk3o64MxaOvbbjik7XUPvIUvF6+pFwRkM3UBnHVMH4KJS+sznq77Sasw=
+	t=1737728491; cv=none; b=bMJrt5uU5U8lLzwH0hq+HmUko6ETWEIVHfN0GDFtyxVHdM7R/p9xYc5rcx9mT6Sycq7M1FvJQlMw1FnCNuk22/9Wf537GC3zXTN51O71qG4z4E9Jf1WIAKCFGuE4A26uGr74aX5owRdfNFVv2OqQbySB8RKYAQTkfBa6Gycp25o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737728443; c=relaxed/simple;
-	bh=1GJYPbXOZ+5k1IviaCO9BWLObO1dV26vnoQ9Tog7eeI=;
+	s=arc-20240116; t=1737728491; c=relaxed/simple;
+	bh=dQu+57gZMYhOQpDnXxQA4LWrrIQNvTctIcBAWInEARY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RdiTmPgnuNanOpPrfb9wSx/Weuo6s0IAxf3bs1MU17ndZ4jlNDAJZablW44kTVqOPjZiiHIzRE6VTBgnPXkZgm2LN2eQp0BJzWCY+IwnWWjBb2xQqx73hlJEpiU+T1zl/CcP2cj4ESpdOnp7ZdyBND/U3TE8iSGu2dmnPUI1v+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
+	 To:Cc:Content-Type; b=UucuPSHO51cXWLxql6J+w/gdB4rETWJXOBaRRqd/yXngIvx1hPLiVpI9Ex+yybiEH8+i1wRneYTHNv405F5/P1s1JNSHduIPZJUNjTKjRR4bX8rviX7bIMBuohOekFRFilvKz74jY64LcrJeq+fr5OmmJ1tXwb5UgwX0vreyI0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-85c4b4cf73aso443938241.2;
-        Fri, 24 Jan 2025 06:20:40 -0800 (PST)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-85c5a91374cso1030735241.3;
+        Fri, 24 Jan 2025 06:21:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737728439; x=1738333239;
+        d=1e100.net; s=20230601; t=1737728488; x=1738333288;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=42y5dZCgeT/edoin6krPWNEO7pqim//OCoWHfGWxTks=;
-        b=ZHzCTnE2t4IGyS1AayoWaLYGnkwbUYcxhZiliaA0KQtF8XpwJWCK198pTO5LJykjiZ
-         phkVDQo3E8ezsUfBlFG1WQXHDcVNn8FzEO7xEKsF0d+vwoOU9jGwVQaAmb4kMx7AlenS
-         cUdbE1PQgXM789t1+FoTJ5Ej2FMGwRHFXXAdNwoslQUrwC+ehAAAETGTK1D68kEbtO7j
-         U2ID4exM0tH1voCxrAVv1R7cmHkhw0/hnGS9fa0BDbrXdSh2qU+OTQN5KNnu9oSLkvYu
-         /P7rBRneDcLhylp3QLGbDDssMT4DBQBQ4Men1KypEoNy/xgX53C9qhnkk8qaT++UxGCj
-         xoFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUqDYDOeQMqszpovhJyUWipDeOga4xRS1cRcbUbhTeP6FeMzIoILi4cCymxXHG1H9sY59VpZV+U9NprPZX@vger.kernel.org, AJvYcCVfjVeh0O6bixTpdRtVK0gs+eRBwTTh1LW1tH/arvlsuJ6JCpNRyPSoJZYDNqQrWgZHvR2EVjvuVnop@vger.kernel.org, AJvYcCVmjsdHGPxTVkvmkwMv3N0xYzNyjgUclBRR9TdIhdhaSkyXEsHE994bpfA144ukE3s5dgQTYcgkhBX3VSw+RtqC814=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxOy4aFX9VJTO/12PqyVK56+JxYsXNxwspdtbZnNmKfRweBOP8
-	QjKHh1EnxJM+fS7GEVtVhI8N/cpLR8XTOKOAtuyAe13/iXn7++WtMEso6o+9
-X-Gm-Gg: ASbGncuNiA7J9CpGKWPscBbBi5udFh6YohJwTRzRnTn3isg+Or4QZdkSa/pakNXfUNr
-	0dyfG20JxDCKDvFDwYZc0WboufGLsUQIhGZQQxfiN4cEYNyEJnYJZEyoHIolWpIR4omEv2jJa1a
-	Wr/WikSqrvjOX0frHyrC1og1K0xUai/wr+D6nL0w69SYv5GpcppXkz6RFLT/QV3mbaoww2TGqr8
-	tJ5DgdZsD9RLw17y/0sfBxqSNNW5A1NVZvKyw9qcIwuTUdUiDm+KfUT4C1RCAi/hQRq3wEBxCiV
-	QBa+rzAzO2F/wPE2CQYLtUhBICMg3k7i6dAXrgvAMWc=
-X-Google-Smtp-Source: AGHT+IGW9N3i4M9e56/gb0p57kHbjUbMlPuQRPRMtbofpSkvXnndh/3oK6QUE9EubJG/pnmR31lHSA==
-X-Received: by 2002:a05:6102:3e0a:b0:4b2:73f7:5adf with SMTP id ada2fe7eead31-4b690be5b36mr27619277137.9.1737728438829;
-        Fri, 24 Jan 2025 06:20:38 -0800 (PST)
+        bh=bVm/ks76bcp6htWRNX9lZe6vf6EZhQlXorHtSe4Lh4A=;
+        b=RYvLY9XKdP1z3d8cFBc3fL++/qzelk3d9TVCOESg0T3mbSz7VLF5W4Pg+zVmp3qKu5
+         zUrLI+eNRXJmz5pTipeBhuPrpGmxLCyKiDQpS82JoguBepuTQ2hvcOcxHPVmHN/U2fNj
+         Jt/5xpVgWo86ISWjx+YJbP2sGV4B+qp1xZSP6s//tlyx+gOkY04qwNptCFEwha602Rv0
+         pOaaRODBMuhM8K9Nm5jAGM+VKhXtHceYgz8uub7Fmfb2AIhiFdBJUNxJmX1nFyj/ot7I
+         /qiI3hDe/CEbXTJ+mKWXKJYRDcpmZmIQVMmiPe7AAKTuCMdYkriko3ofy47xRTDHV5Pz
+         XafA==
+X-Forwarded-Encrypted: i=1; AJvYcCVeQcs2ooF49lBlnrpoySv9bwwfwd13ouWMpNAD85w+c72w5AqGP2enit7RzrjydxNuJ2ArV2Raq8+BCC4h741hQhI=@vger.kernel.org, AJvYcCW5ipJQIkCMHatWIuPSD9hzhYu2hwHgd2pisfhKkvtxmhkTBEF2CDEJHQfUZQVTIW/mArthTi6PEB3riAyh@vger.kernel.org, AJvYcCWko+obicS184/tvGhh730XIUHbMPbjKfHs54plI/403J+GDnaS+L70zq3ojYA8etX9cHS2+lW9taVT@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCjZksgbZsEhBkfMroC20juG+HJpc+bT9IQbHdPS+Z8BIeadbF
+	TuZG6q4G29rIyj50PyS9M3WwJ5I82ly4mJNfD834ARApDZF/FhsPqTva86DD
+X-Gm-Gg: ASbGncts+XB0a5qWIQk+fZu3xOg8pXlKIx+EHEaU8o5GQ3yyNyv4iz9Kh7njQco1nnu
+	JXODsBDxkVn2XLptwZ7f+vt6R8TCkic9sFIzflLjktVOFLdLawJ6KumIrBTSIgD5H1v+MQz1jAz
+	tz96MVg9Dl4OyLFf/O8UyqKpKD42hWdqlzTxUemObhZ3XLKUyTqb/0FPZxSbEnh1cowi+dTXNlI
+	zut+Ao09xVlXRS0HGD1Xo/fTW+oWJAM2OE7g0n6MFtbmekg3UwYHZiz9DGuH9DuDJqgZE4HQTvk
+	MZnYRrnZBp3IaobL4eGScplpw8OMOcUNB3SG8qJ8ybCkUkTwYgpB2A==
+X-Google-Smtp-Source: AGHT+IGQNABniVPSo0KYzY/w5k/cJTBZHBVEH+7d5DrQ8MnTrbNEWCzLiUxGQMzDdJuveTa2s4bgCQ==
+X-Received: by 2002:a05:6122:1998:b0:518:9582:dba2 with SMTP id 71dfb90a1353d-51d5b3b51demr23326061e0c.10.1737728487948;
+        Fri, 24 Jan 2025 06:21:27 -0800 (PST)
 Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-864a9c176f0sm418567241.23.2025.01.24.06.20.38
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51e4ebee448sm379297e0c.46.2025.01.24.06.21.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jan 2025 06:20:38 -0800 (PST)
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4aff5b3845eso746816137.2;
-        Fri, 24 Jan 2025 06:20:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUGxlAjPWqQ3xMgXvGURyf7+E81Zm8y294UloeDHaVJ/xUnjOOUJuyr5/R5i3tNTcNmfx2V69McsRz4@vger.kernel.org, AJvYcCUmaygbnr4irp4PQRizvDAstUKW+qras4BPXOpgOaOAtSAPeWgJSJo4wJyTmOCeTrJT7Ich6NRN2QRNDUWu@vger.kernel.org, AJvYcCWy9t+Dug8aIt4EDeAen0N+qP2DC53IsKjaHlTp6B1JsqtYm2JBm9hM5Yk/tovIrgNatDrZFkVMjgbgUBGEzwGYUnA=@vger.kernel.org
-X-Received: by 2002:a05:6102:3bd7:b0:4b2:5d10:29db with SMTP id
- ada2fe7eead31-4b690bc6357mr20783079137.7.1737728438351; Fri, 24 Jan 2025
- 06:20:38 -0800 (PST)
+        Fri, 24 Jan 2025 06:21:27 -0800 (PST)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4affbc4dc74so1273309137.0;
+        Fri, 24 Jan 2025 06:21:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUesaRvupNLsQBDp8WYznkQhuV+68zLXH35haPe3vV4lR4hZxXiGyrwYPRp9QZ6FpUI+GF8GNekqqKZ@vger.kernel.org, AJvYcCVCXapeR1bTz5BlDPyn8A15/urADZ29KDjmLs4eVRGN5Fa5CCrGDheDjlK0gP8GaWG6LI98Ln8lj/qcueBK@vger.kernel.org, AJvYcCWghyPS5FSGNBS+OFSGd1K8nQIy26F1n9nQmGH+/ynaYsC2ijgWvRTvjujE74tWCSbKHW2qT0MBaajS7+1Rp5nlD0M=@vger.kernel.org
+X-Received: by 2002:a05:6102:3053:b0:4b2:4877:2de4 with SMTP id
+ ada2fe7eead31-4b690c475b4mr26569479137.15.1737728487080; Fri, 24 Jan 2025
+ 06:21:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250123170508.13578-1-john.madieu.xa@bp.renesas.com> <20250123170508.13578-5-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250123170508.13578-5-john.madieu.xa@bp.renesas.com>
+References: <20250123170508.13578-1-john.madieu.xa@bp.renesas.com> <20250123170508.13578-6-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20250123170508.13578-6-john.madieu.xa@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 24 Jan 2025 15:20:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWHuwdYfm_b9uO8LjmJpAwyRrBTJbeoz5FOyEcYSJqL9A@mail.gmail.com>
-X-Gm-Features: AWEUYZl9UtJCYmpF4jhja_MRuYjCzskd9nohPWtQWEgfPLmFMn6RM67s1udBKjg
-Message-ID: <CAMuHMdWHuwdYfm_b9uO8LjmJpAwyRrBTJbeoz5FOyEcYSJqL9A@mail.gmail.com>
-Subject: Re: [PATCH v4 4/9] soc: renesas: rz-sysc: Add support for RZ/G3E family
+Date: Fri, 24 Jan 2025 15:21:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW2tGHaxzyLU3CLHA61W2mg-L85Gx24TBRMZdUDLNpc-g@mail.gmail.com>
+X-Gm-Features: AWEUYZnTgoNc2W_iArRgOIGgqkX6T6xASX1g1FaEGHijaeidQ8XlsC9WOflJKuQ
+Message-ID: <CAMuHMdW2tGHaxzyLU3CLHA61W2mg-L85Gx24TBRMZdUDLNpc-g@mail.gmail.com>
+Subject: Re: [PATCH v4 5/9] soc: renesas: rz-sysc: Move RZ/V2H SoC detection
+ to the SYS driver
 To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: geert+renesas@glider.be, krzk+dt@kernel.org, robh@kernel.org, 
-	biju.das.jz@bp.renesas.com, claudiu.beznea.uj@bp.renesas.com, 
-	conor+dt@kernel.org, devicetree@vger.kernel.org, john.madieu@gmail.com, 
+Cc: krzk+dt@kernel.org, robh@kernel.org, biju.das.jz@bp.renesas.com, 
+	claudiu.beznea.uj@bp.renesas.com, conor+dt@kernel.org, 
+	devicetree@vger.kernel.org, john.madieu@gmail.com, 
 	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
 	magnus.damm@gmail.com
 Content-Type: text/plain; charset="UTF-8"
@@ -91,31 +92,78 @@ Hi John,
 
 On Thu, Jan 23, 2025 at 6:05=E2=80=AFPM John Madieu
 <john.madieu.xa@bp.renesas.com> wrote:
-> Add SoC detection support for RZ/G3E SoC. Also add support for detecting
-> the number of cores and ETHOS-U55 NPU and also detect PLL mismatch for SW
-> settings other than 1.7GHz.
+> As per the other SoC variant of the same family, the system controller
+> provides SoC ID in its own registers.
 >
 > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> ---
-> v3 -> v4: No changes
->
-> Changes in v3:
-> - Removed Syscon support
->
-> Changes in v2:
-> - Group bitfields ordered by registers
-> - Rename SoC-specific callback field to 'print_id'
-> - Explicitely select 'MFD_SYSCON' config option
-> - Do not rely on 'syscon'-compatible probing anymore.
 
-Thanks for the update!
+Thanks for your patch!
 
-> --- /dev/null
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -355,6 +355,7 @@ config ARCH_R9A09G047
+>  config ARCH_R9A09G057
+>         bool "ARM64 Platform support for RZ/V2H(P)"
+>         select RENESAS_RZV2H_ICU
+> +       select SYS_R9A09G057
+>         help
+>           This enables support for the Renesas RZ/V2H(P) SoC variants.
+>
+> @@ -395,4 +396,8 @@ config SYSC_R9A08G045
+>  config SYS_R9A09G047
+>         bool "Renesas RZ/G3E System controller support" if COMPILE_TEST
+>         select SYSC_RZ
+> +
+> +config SYS_R9A09G057
+> +       bool "Renesas RZ/V2H System controller support" if COMPILE_TEST
+> +       select SYSC_RZ
+
+Please add a blank line here.
+
+>  endif # SOC_RENESAS
+
+> --- a/drivers/soc/renesas/r9a09g047-sys.c
 > +++ b/drivers/soc/renesas/r9a09g047-sys.c
-> @@ -0,0 +1,71 @@
+> @@ -11,25 +11,11 @@
+>  #include <linux/io.h>
+>
+>  #include "rz-sysc.h"
+> +#include "rzg3e-sys.h"
+>
+> -/* Register Offsets */
+> -#define SYS_LSI_MODE           0x300
+> -/*
+> - * BOOTPLLCA[1:0]
+> - *         [0,0] =3D> 1.1GHZ
+> - *         [0,1] =3D> 1.5GHZ
+> - *         [1,0] =3D> 1.6GHZ
+> - *         [1,1] =3D> 1.7GHZ
+> - */
+> -#define SYS_LSI_MODE_STAT_BOOTPLLCA55  GENMASK(12, 11)
+> -#define SYS_LSI_MODE_CA55_1_7GHZ       0x3
+> -#define SYS_LSI_DEVID          0x304
+> -#define SYS_LSI_DEVID_REV      GENMASK(31, 28)
+> -#define SYS_LSI_DEVID_SPECIFIC GENMASK(27, 0)
+> -#define SYS_LSI_PRR                    0x308
+> -#define SYS_LSI_PRR_CA55_DIS           BIT(8)
+> -#define SYS_LSI_PRR_NPU_DIS            BIT(1)
+> -
+> +/* RZ/G3E-specific feature bits */
+> +#define SYS_LSI_PRR_CA55_DIS    BIT(8)
+> +#define SYS_LSI_PRR_NPU_DIS     BIT(1)
+>
+>  static void rzg3e_sys_print_id(struct device *dev,
+>                                 void __iomem *sysc_base,
+> diff --git a/drivers/soc/renesas/r9a09g057-sys.c b/drivers/soc/renesas/r9=
+a09g057-sys.c
+> new file mode 100644
+> index 000000000000..dc7885b340c4
+> --- /dev/null
+> +++ b/drivers/soc/renesas/r9a09g057-sys.c
+> @@ -0,0 +1,26 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * RZ/G3E System controller (SYS) driver
+> + * RZ/V2H System controller (SYS) driver
 > + *
 > + * Copyright (C) 2025 Renesas Electronics Corp.
 > + */
@@ -126,9 +174,49 @@ Thanks for the update!
 > +#include <linux/io.h>
 > +
 > +#include "rz-sysc.h"
+> +#include "rzg3e-sys.h"
+
+Using definitions for RZ/G3E for RZ/V2H feels wrong to me, as they
+are really SoC-specific.
+So I think you better keep them in drivers/soc/renesas/r9a09g047-sys.c
+and drivers/soc/renesas/r9a09g057-sys.c, even if that means duplication.
+RZ/G3S also has them in drivers/soc/renesas/r9a08g045-sys.c
+
 > +
-> +/* Register Offsets */
-> +#define SYS_LSI_MODE           0x300
+> +static const struct rz_sysc_soc_id_init_data rzv2h_sys_soc_id_init_data =
+__initconst =3D {
+> +       .family =3D "RZ/V2H",
+> +       .id =3D 0x847a447,
+> +       .offset =3D SYS_LSI_DEVID,
+> +       .revision_mask =3D SYS_LSI_DEVID_REV,
+> +       .specific_id_mask =3D SYS_LSI_DEVID_SPECIFIC,
+
+I wouldn't mind just putting the hex constants here, and getting rid
+of the SYS_LSI_DEVID* definitions, as the definitions are only used
+for populating these structures.
+
+> +};
+> +
+> +const struct rz_sysc_init_data rzv2h_sys_init_data =3D {
+> +       .soc_id_init_data =3D &rzv2h_sys_soc_id_init_data,
+> +};
+
+> --- /dev/null
+> +++ b/drivers/soc/renesas/rzg3e-sys.h
+> @@ -0,0 +1,28 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Renesas RZ/G3E (SYS) System Controller
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corp.
+> + */
+> +
+> +#ifndef __RZG3E_SYS_H__
+> +#define __RZG3E_SYS_H__
+> +
+> +/* SYS Common Register Offsets */
+> +
+> +#define SYS_LSI_MODE   0x300
 > +/*
 > + * BOOTPLLCA[1:0]
 > + *         [0,0] =3D> 1.1GHZ
@@ -138,54 +226,12 @@ Thanks for the update!
 > + */
 > +#define SYS_LSI_MODE_STAT_BOOTPLLCA55  GENMASK(12, 11)
 > +#define SYS_LSI_MODE_CA55_1_7GHZ       0x3
-
-Please add a blank line here.
-
-> +#define SYS_LSI_DEVID          0x304
+> +#define SYS_LSI_DEVID  0x304
 > +#define SYS_LSI_DEVID_REV      GENMASK(31, 28)
 > +#define SYS_LSI_DEVID_SPECIFIC GENMASK(27, 0)
-
-Please align the second column in the three lines above.
-Please add a blank line here.
-
-> +#define SYS_LSI_PRR                    0x308
-> +#define SYS_LSI_PRR_CA55_DIS           BIT(8)
-> +#define SYS_LSI_PRR_NPU_DIS            BIT(1)
+> +#define SYS_LSI_PRR    0x308
 > +
-> +
-> +static void rzg3e_sys_print_id(struct device *dev,
-> +                               void __iomem *sysc_base,
-> +                               struct soc_device_attribute *soc_dev_attr=
-)
-> +{
-> +       bool is_quad_core, npu_enabled;
-> +       u32 prr_val, mode_val;
-> +
-> +       prr_val =3D readl(sysc_base + SYS_LSI_PRR);
-> +       mode_val =3D readl(sysc_base + SYS_LSI_MODE);
-> +
-> +       /* Check CPU and NPU configuration */
-> +       is_quad_core =3D !(prr_val & SYS_LSI_PRR_CA55_DIS);
-> +       npu_enabled =3D !(prr_val & SYS_LSI_PRR_NPU_DIS);
-> +
-> +       dev_info(dev, "Detected Renesas %s Core %s %s Rev %s%s\n",
-> +                is_quad_core ? "Quad" : "Dual",
-> +                soc_dev_attr->family,
-
-Fits on a single line.
-
-> +                soc_dev_attr->soc_id,
-> +                soc_dev_attr->revision,
-
-Likewise.
-
-> +                npu_enabled ? " with Ethos-U55" : "");
-> +
-> +       /* Check CA55 PLL configuration */
-> +       if (FIELD_GET(SYS_LSI_MODE_STAT_BOOTPLLCA55, mode_val) !=3D SYS_L=
-SI_MODE_CA55_1_7GHZ)
-> +               dev_warn(dev, "CA55 PLL is not set to 1.7GHz\n");
-> +}
+> +#endif /* __RZG3E_SYSC_H__ */
 
 Gr{oetje,eeting}s,
 
