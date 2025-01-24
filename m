@@ -1,170 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-12447-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12448-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33B82A1B1F5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 09:54:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 845ACA1B267
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 10:12:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5C193AA15B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 08:53:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2B0AA3A13CB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2025 09:12:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8AEE218ADC;
-	Fri, 24 Jan 2025 08:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Pj1SzEIO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C90231DA103;
+	Fri, 24 Jan 2025 09:12:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0392C205AC5;
-	Fri, 24 Jan 2025 08:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD8C21D6DC8
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Jan 2025 09:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737708836; cv=none; b=XvHICGNTcPOedME5Pb7WZbemXfIrNTZ4eU5OR208lHcedaXbK+DWBxo1wUofyTkE8rs9dKbclDkejl7hLwtx34S9Sav1YP3Nr18KYtx0k5hQsOksm+eHobVMSO2zPDy0ElovM9M4nCfQdl1W36c3t8JuHUUVqmoMpU7iUSukKgM=
+	t=1737709948; cv=none; b=HWJ0GmuLCX6qGOBxMTXUSbLa2z+xflKwemvHwSnEbQeb+3gTMGTCp1kx33zwQ7kwJPXkuGQp1+4ldUMbJVPMEhwqUOJ/SAsmhRVhQYgdc8TncjGRerfVWs7r49qSlbyoQDaF3J39ORg6kfiTlSO2XynSRx+Y3A2xhL8Q/SE9cDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737708836; c=relaxed/simple;
-	bh=a7YR5HTjak9ilkwwoeeNNVdgfearYTpmv/EMXtNGWe8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X4gFjEsBwlWOIqw3CjT+OtAKs4q6W8UGPDlXlz8h0nDGgyw3fGWYFMPGgKmG1a4mSsnNajc5KeDbP4aO/hflx+CyIFIEyF4qaaN1sl5fjAD/6rhK9PDlYsGltBUPrWLbj7xMvikR1zyqx3cIxPurdbZPnuncHVbwsZi6mrb5NLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Pj1SzEIO; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1BCEE514;
-	Fri, 24 Jan 2025 09:52:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737708769;
-	bh=a7YR5HTjak9ilkwwoeeNNVdgfearYTpmv/EMXtNGWe8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pj1SzEIOzn2XPUIGOKizKrkzSGiMIwLjLDvnetwzi2a2k2YmnHSdU6JBc3RxBvuQt
-	 vk0u1A36Pz4YhuLV0Fuyw7Bq5siKDBT7AYnety4KNExCUHenkhG6euRu55E+z/CL53
-	 lXJYNC8716HTu2qpxCKn6vPj4KOkhRseM/LsRMp0=
-Date: Fri, 24 Jan 2025 09:53:49 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/6] media: vsp1: Enable FREE interrupt
-Message-ID: <n7qgvzzq2zqjln2beqv6e4wulofhdr7a4qcyhbgt6ahk6wgpax@xlmaqmyrikfc>
-References: <20250123-v4h-iif-v1-0-7b4e5299939f@ideasonboard.com>
- <20250123-v4h-iif-v1-2-7b4e5299939f@ideasonboard.com>
- <20250123213307.GB10642@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1737709948; c=relaxed/simple;
+	bh=FwpdfhETTe298nPt+Y/j/sav7Qlu6GH/2zzVBl8jDNo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=umC7crTYx+tsGBFGiruhy3tCDZ3u1MnGkRj1s+r4to7xOMecOov1X9QZIWWcHPAj4zgdyfoxYy4IxlS/uL73daCeJBaNyLec4JWdY5LjUNUjIycekP2trxqSByRDLPAz9Lg1leD5FYSnzFLmfjOfXtn0Ek/Bn2DAuFMBaf/7r9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: ZD0JlSdWTsuqT6PxkAHcTg==
+X-CSE-MsgGUID: grOEJI5PQe22Mk2Oai6PfQ==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 24 Jan 2025 18:12:24 +0900
+Received: from [10.24.1.39] (unknown [10.24.1.39])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 73B7D4007F3A;
+	Fri, 24 Jan 2025 18:12:22 +0900 (JST)
+Message-ID: <dad4e560-8abb-45ca-bead-5046fb99a734@bp.renesas.com>
+Date: Fri, 24 Jan 2025 09:12:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250123213307.GB10642@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH/LOCAL] arm64: renesas: defconfig: Disable
+ CONFIG_PROVE_LOCKING
+Content-Language: en-GB
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>
+References: <c8439b6b731cd44c0d2442f437d4ceef336125b0.1737390987.git.geert+renesas@glider.be>
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+In-Reply-To: <c8439b6b731cd44c0d2442f437d4ceef336125b0.1737390987.git.geert+renesas@glider.be>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------skwDhkOM4VRmWbrpoqzB4nqU"
 
-Hi Laurent
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------skwDhkOM4VRmWbrpoqzB4nqU
+Content-Type: multipart/mixed; boundary="------------FbfOm4zHFft1QoSoTVF79KIW";
+ protected-headers="v1"
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>
+Message-ID: <dad4e560-8abb-45ca-bead-5046fb99a734@bp.renesas.com>
+Subject: Re: [PATCH/LOCAL] arm64: renesas: defconfig: Disable
+ CONFIG_PROVE_LOCKING
+References: <c8439b6b731cd44c0d2442f437d4ceef336125b0.1737390987.git.geert+renesas@glider.be>
+In-Reply-To: <c8439b6b731cd44c0d2442f437d4ceef336125b0.1737390987.git.geert+renesas@glider.be>
 
-On Thu, Jan 23, 2025 at 11:33:07PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> s/FREE/FRE/ in the subject line, as FREE stands for "FRameEnd Enable",
-> so the interrupt is FRE.
->
-> On Thu, Jan 23, 2025 at 06:04:03PM +0100, Jacopo Mondi wrote:
-> > Enable the "FrameEnd" interrupt to support the VSPX operations.
-> >
-> > The frame completion interrupt signals that the transfer of
-> > the config buffer and image buffer to the ISP has completed.
-> >
-> > Enable the interrupt source if the pipe has an IIF entity, such as
-> > in the VSPX case.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/renesas/vsp1/vsp1_drv.c | 3 ++-
-> >  drivers/media/platform/renesas/vsp1/vsp1_wpf.c | 5 +++--
-> >  2 files changed, 5 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > index cbaad0ea0b73f90f3994bbdfb4304d2f71eabccd..5aa0751a896f8a58bd11128ccaa092c9596cdb5d 100644
-> > --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > @@ -69,7 +69,8 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
-> >  				i, wpf->entity.pipe->underrun_count);
-> >  		}
-> >
-> > -		if (status & VI6_WPF_IRQ_STA_DFE) {
-> > +		if (status & VI6_WPF_IRQ_STA_DFE ||
-> > +		    status & VI6_WPF_IRQ_STA_FRE) {
-> >  			vsp1_pipeline_frame_end(wpf->entity.pipe);
-> >  			ret = IRQ_HANDLED;
-> >  		}
-> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> > index f176750ccd9847fdb8d51f7f51a6bd5092b70197..93a663f58a5930a3c7c40a96a30888d0b8ccb2ed 100644
-> > --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> > @@ -239,6 +239,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
-> >  	const struct v4l2_mbus_framefmt *source_format;
-> >  	const struct v4l2_mbus_framefmt *sink_format;
-> >  	unsigned int index = wpf->entity.index;
-> > +	u32 irqmask = 0;
->
-> No need to initialize this to 0.
->
-> >  	unsigned int i;
-> >  	u32 outfmt = 0;
-> >  	u32 srcrpf = 0;
-> > @@ -312,9 +313,9 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
-> >  	vsp1_wpf_write(wpf, dlb, VI6_WPF_SRCRPF, srcrpf);
-> >
-> >  	/* Enable interrupts. */
-> > +	irqmask = VI6_WPF_IRQ_ENB_DFEE | (pipe->iif ? VI6_WPF_IRQ_ENB_FREE : 0);
->
-> Do we need te DFE interrupt for VSPX ? If both DFE and FRE fire,
-> vsp1_pipeline_frame_end() will be called twice per frame, and that
-> doesn't sound like what you need. If DFE is not generated, I'd rather
-> not enable the interrupt, to be on the safe side.
->
-> Another option, which may be better, is to use the DFE interrupt. As far
-> as I understand, generation of the DFE interrupt is controlled by a bit
-> in the display list. Is there a reason you can't use that and need FRE ?
+--------------FbfOm4zHFft1QoSoTVF79KIW
+Content-Type: multipart/mixed; boundary="------------AXYT0qWQIBIS3rhvL0RbG0J1"
 
-Documentation mentions the FRE interrupt only for VSPX.
+--------------AXYT0qWQIBIS3rhvL0RbG0J1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-In example:
+On 20/01/2025 16:37, Geert Uytterhoeven wrote:
+> Proving that all locking that occurs in the kernel runtime is
+> mathematically correct has an impact on performance.  Hence it is
+> disabled in most defconfigs.
+>=20
+> Suggested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Not intended for upstream merge.
+> To be applied to the topic/renesas-defconfig branch.
+> ---
+>  arch/arm64/configs/renesas_defconfig | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/=
+renesas_defconfig
+> index 30a865507d6e5ad4..a3a324ae9e3867ad 100644
+> --- a/arch/arm64/configs/renesas_defconfig
+> +++ b/arch/arm64/configs/renesas_defconfig
+> @@ -455,5 +472,4 @@ CONFIG_DEBUG_KERNEL=3Dy
+>  CONFIG_MAGIC_SYSRQ=3Dy
+>  CONFIG_DEBUG_FS=3Dy
+>  # CONFIG_SCHED_DEBUG is not set
+> -CONFIG_PROVE_LOCKING=3Dy
+>  # CONFIG_FTRACE is not set
 
-6. Waiting complete of one frame processing
-ISP core and VSPX asserts end of frame interrupts. To notify complete
-of one frame processing, wait both interrupts from ISP core and VSPX
-(FRE interrupt).
+Good timing on this patch! We've also been discussing this recently due
+to the performance impact and we plan to make the same change to the
+configs in the cip-kernel-config repo. I'll propose the change there
+once this has landed on your topic branch.
 
-in the ISP documentation and
+Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 
-Use frame end interrupt (VI6_WPF0_IRQ_ENB.FRE) for VSPX.
+--=20
+Paul Barker
+--------------AXYT0qWQIBIS3rhvL0RbG0J1
+Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-in the VSPX chapter.
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-I concur for VSPX I don't need DFE though. Actually, I currently get
-two interrupts per transfer, I thought one was for the config DMA
-buffer and one for image buffer, but it might actually be one DFE and
-one FRE. I'll investigate.
+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3D
+=3DsIIN
+-----END PGP PUBLIC KEY BLOCK-----
 
+--------------AXYT0qWQIBIS3rhvL0RbG0J1--
 
->
-> >  	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_STA(index), 0);
-> > -	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index),
-> > -			   VI6_WPF_IRQ_ENB_DFEE);
-> > +	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index), irqmask);
-> >
-> >  	/*
-> >  	 * Configure writeback for display pipelines (the wpf writeback flag is
-> >
->
-> --
-> Regards,
->
-> Laurent Pinchart
+--------------FbfOm4zHFft1QoSoTVF79KIW--
+
+--------------skwDhkOM4VRmWbrpoqzB4nqU
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZ5NZdQUDAAAAAAAKCRDbaV4Vf/JGvVb2
+AP4ywNBFRnqp+FkJXQtSHgO9HT0xmCYLuJkhuWKjH4AxqgD/StyApVghxRv4L/aHkuoLp8Cbw3qR
+E+nGSMrOr74aKQs=
+=otyq
+-----END PGP SIGNATURE-----
+
+--------------skwDhkOM4VRmWbrpoqzB4nqU--
 
