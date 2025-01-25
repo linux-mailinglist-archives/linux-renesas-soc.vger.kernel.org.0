@@ -1,58 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-12495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12490-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D47A1C347
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Jan 2025 13:40:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E78AA1C33B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Jan 2025 13:40:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E7C01888B93
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Jan 2025 12:40:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B09C3A79C5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Jan 2025 12:40:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E42002080FC;
-	Sat, 25 Jan 2025 12:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A43922080F3;
+	Sat, 25 Jan 2025 12:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ceRTgX5X"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SpM05Ovm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2672080F4
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 25 Jan 2025 12:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1342080D9
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 25 Jan 2025 12:40:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737808821; cv=none; b=Kn5umH1CPWhUvymrjeJl9JW1/4fstkppgZV+8ZTnEGmr0wsKsxKVAJtSNhhnEUYohDRepNLHhP+9xn8HSxdqxLHbJBEWsvVm972k+ZVdDQT/2ZLvHMvB7iM9cCSNaSPYkMpmQRDvwgoQsxQ2E5lZ3BU9u5S+m+CZmEAm0sRpcxM=
+	t=1737808819; cv=none; b=YHJyHWTSL+lgzrDpU2hYlXFrwGfZcqR6ADV4DUbHcl/eJk+p6lRNRu0UNaP53Icmbe/yOHD7Z5A+nbnRDB/kahOCuKXu22qv9ZdNbWpXk6FRyMa3Z43Vjl/WAcI88DfJw/DXlRalv5fMILak6w5DJkpNMt05ZYJE0beNYlqwXm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737808821; c=relaxed/simple;
-	bh=CJvzYJf5g5rEeWvK7/SUMIlM75WusBOssVylLiKRSpo=;
+	s=arc-20240116; t=1737808819; c=relaxed/simple;
+	bh=C1Ed1/V5FUJJfkf5i/xzBuYZpQp3JGtjNsOessWUwuI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VPPPet7TnnZ0dmN5gD23Yei76M/a1Dqj/gZDLZIjdWb9rUN0aMi13JejN9xP8M49sEDn1+NgY7DyHjBHW51lxqg8THMzf+37WLPIMywRxSsi7DgkNTF0dblNfBpsceMrQ06xLJtShaFIi+Md5pGtwkWWejNqUMOSlxxdqx3GUyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ceRTgX5X; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=I8+IycSeCiyApP9gHIhB34v9kAzUroZheOUrpt+7COvjrImgQnBbQXZdLiE2di2qHF8HOIG5HUZM7CDSrGaYVYuuzr6O+21iFZvkujE42MJrFodwTa9/hAzOlIpHMEPk39sBUpLEyDY+GowvExmoOxA9UAYjW/HSNCG+I6jXYAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=SpM05Ovm; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=vlIQU4MZ6pSduTmrPoJe8oP+MM8crSkqeS4MWFCRdJg=; b=ceRTgX
-	5XCGOtdFrgDWHe32kAhg8aF/spj9O/MvBnpWrq9IPl/aO3sKhV3LLS81147K7cFD
-	wpRRDD7xSHGeyoeg4XrnQ01FDGqa63rDcFL6sqAc0ZEKC94af15bAKV5umwPV5+5
-	gk4DY/sirpyeONciO7UE4ex1iTlHa2SvKNB0izw41tbIUtOFou5iFKY5sFoOp9G4
-	TmRjLtvUgutPBQJKS3uZYGWDh8rceNcM1RtBKnDa9lCigO1qEXkPJsXpNfYMjMy4
-	e8DIo6g4A9YdKAUNguaKFGiGI0o3qMTriO0MkkmVRmqv3t6sL6cApuED2H6/yvwh
-	zsRjX6pxsG2QIHiw==
-Received: (qmail 3871258 invoked from network); 25 Jan 2025 13:40:11 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jan 2025 13:40:11 +0100
-X-UD-Smtp-Session: l3s3148p1@qDvnJIcs+q8ujnvm
+	 s=k1; bh=yW8nn4PqnneVia72AZOXVYIDYhz1EeldWyknAPPVGKg=; b=SpM05O
+	vmmA+tHW73mtrOiJzF3Mml/hQpOq57bL5y+wM7xw7HNVinD/fo83YauCKEWECXzm
+	8HEbjvDhCYQgjC2x+MCv7meGRFU2wzYdaOILumYd5/PfPmEW0Y5qfqVbAOTcyPbA
+	CI5l6kL7aG6mUHx+BXcEpNsw8pcItu0P2YDoMX1K/dorfrD4TFSD2I3/mYCPVPEx
+	1/b1GNFnX8uQw3igJmfWNoTAwwm+czOHIpoW3Dfi2TjvVP/guh4YQo4D2FJwgfAC
+	0KIBViQVQlNHT9gqGTZwOHB03cRZJ2zc3x9UTRo6kL+OWKGRy1hr2zdOIOUwiQKb
+	0c0NOduKWS1CAR7Q==
+Received: (qmail 3871287 invoked from network); 25 Jan 2025 13:40:12 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jan 2025 13:40:12 +0100
+X-UD-Smtp-Session: l3s3148p1@WD/0JIcsALAujnvm
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Robert Marko <robert.marko@sartura.hr>,
+	Luka Perkov <luka.perkov@sartura.hr>,
 	Jean Delvare <jdelvare@suse.com>,
 	Guenter Roeck <linux@roeck-us.net>,
 	linux-hwmon@vger.kernel.org
-Subject: [PATCH RFT 5/6] hwmon: (sht3x) Use per-client debugfs entry
-Date: Sat, 25 Jan 2025 13:39:45 +0100
-Message-ID: <20250125123941.36729-13-wsa+renesas@sang-engineering.com>
+Subject: [PATCH RFT 6/6] hwmon: (tps23861) Use per-client debugfs entry
+Date: Sat, 25 Jan 2025 13:39:46 +0100
+Message-ID: <20250125123941.36729-14-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250125123941.36729-8-wsa+renesas@sang-engineering.com>
 References: <20250125123941.36729-8-wsa+renesas@sang-engineering.com>
@@ -69,102 +71,76 @@ remove the custom handling.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/hwmon/sht3x.c | 57 ++++++-------------------------------------
- 1 file changed, 8 insertions(+), 49 deletions(-)
+ drivers/hwmon/tps23861.c | 31 ++-----------------------------
+ 1 file changed, 2 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/hwmon/sht3x.c b/drivers/hwmon/sht3x.c
-index 650b0bcc2359..a6e7449de396 100644
---- a/drivers/hwmon/sht3x.c
-+++ b/drivers/hwmon/sht3x.c
-@@ -44,8 +44,6 @@ static const unsigned char sht3x_cmd_read_status_reg[]         = { 0xf3, 0x2d };
- static const unsigned char sht3x_cmd_clear_status_reg[]        = { 0x30, 0x41 };
- static const unsigned char sht3x_cmd_read_serial_number[]      = { 0x37, 0x80 };
- 
--static struct dentry *debugfs;
--
- /* delays for single-shot mode i2c commands, both in us */
- #define SHT3X_SINGLE_WAIT_TIME_HPM  15000
- #define SHT3X_SINGLE_WAIT_TIME_MPM   6000
-@@ -837,22 +835,6 @@ static int sht3x_write(struct device *dev, enum hwmon_sensor_types type,
- 	}
- }
- 
--static void sht3x_debugfs_init(struct sht3x_data *data)
--{
--	char name[32];
--
--	snprintf(name, sizeof(name), "i2c%u-%02x",
--		 data->client->adapter->nr, data->client->addr);
--	data->sensor_dir = debugfs_create_dir(name, debugfs);
--	debugfs_create_u32("serial_number", 0444,
--			   data->sensor_dir, &data->serial_number);
--}
--
--static void sht3x_debugfs_remove(void *sensor_dir)
--{
--	debugfs_remove_recursive(sensor_dir);
--}
--
- static int sht3x_serial_number_read(struct sht3x_data *data)
- {
- 	int ret;
-@@ -931,27 +913,17 @@ static int sht3x_probe(struct i2c_client *client)
- 		return ret;
- 
- 	ret = sht3x_serial_number_read(data);
--	if (ret) {
-+	if (ret)
- 		dev_dbg(dev, "unable to read serial number\n");
--	} else {
--		sht3x_debugfs_init(data);
--		ret = devm_add_action_or_reset(dev,
--					       sht3x_debugfs_remove,
--					       data->sensor_dir);
--		if (ret)
--			return ret;
--	}
--
--	hwmon_dev = devm_hwmon_device_register_with_info(dev,
--							 client->name,
--							 data,
--							 &sht3x_chip_info,
--							 sht3x_groups);
- 
-+	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name, data,
-+							 &sht3x_chip_info, sht3x_groups);
- 	if (IS_ERR(hwmon_dev))
--		dev_dbg(dev, "unable to register hwmon device\n");
-+		return PTR_ERR(hwmon_dev);
- 
--	return PTR_ERR_OR_ZERO(hwmon_dev);
-+	debugfs_create_u32("serial_number", 0444, client->debugfs, &data->serial_number);
-+
-+	return 0;
- }
- 
- /* device ID table */
-@@ -968,20 +940,7 @@ static struct i2c_driver sht3x_i2c_driver = {
- 	.probe       = sht3x_probe,
- 	.id_table    = sht3x_ids,
+diff --git a/drivers/hwmon/tps23861.c b/drivers/hwmon/tps23861.c
+index 80fb03f30c30..4cb3960d5170 100644
+--- a/drivers/hwmon/tps23861.c
++++ b/drivers/hwmon/tps23861.c
+@@ -114,7 +114,6 @@ struct tps23861_data {
+ 	struct regmap *regmap;
+ 	u32 shunt_resistor;
+ 	struct i2c_client *client;
+-	struct dentry *debugfs_dir;
  };
--
--static int __init sht3x_init(void)
--{
--	debugfs = debugfs_create_dir("sht3x", NULL);
--	return i2c_add_driver(&sht3x_i2c_driver);
--}
--module_init(sht3x_init);
--
--static void __exit sht3x_cleanup(void)
--{
--	debugfs_remove_recursive(debugfs);
--	i2c_del_driver(&sht3x_i2c_driver);
--}
--module_exit(sht3x_cleanup);
-+module_i2c_driver(sht3x_i2c_driver);
  
- MODULE_AUTHOR("David Frey <david.frey@sensirion.com>");
- MODULE_AUTHOR("Pascal Sachs <pascal.sachs@sensirion.com>");
+ static const struct regmap_config tps23861_regmap_config = {
+@@ -503,25 +502,6 @@ static int tps23861_port_status_show(struct seq_file *s, void *data)
+ 
+ DEFINE_SHOW_ATTRIBUTE(tps23861_port_status);
+ 
+-static void tps23861_init_debugfs(struct tps23861_data *data,
+-				  struct device *hwmon_dev)
+-{
+-	const char *debugfs_name;
+-
+-	debugfs_name = devm_kasprintf(&data->client->dev, GFP_KERNEL, "%s-%s",
+-				      data->client->name, dev_name(hwmon_dev));
+-	if (!debugfs_name)
+-		return;
+-
+-	data->debugfs_dir = debugfs_create_dir(debugfs_name, NULL);
+-
+-	debugfs_create_file("port_status",
+-			    0400,
+-			    data->debugfs_dir,
+-			    data,
+-			    &tps23861_port_status_fops);
+-}
+-
+ static int tps23861_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+@@ -562,18 +542,12 @@ static int tps23861_probe(struct i2c_client *client)
+ 	if (IS_ERR(hwmon_dev))
+ 		return PTR_ERR(hwmon_dev);
+ 
+-	tps23861_init_debugfs(data, hwmon_dev);
++	debugfs_create_file("port_status", 0400, client->debugfs, data,
++			    &tps23861_port_status_fops);
+ 
+ 	return 0;
+ }
+ 
+-static void tps23861_remove(struct i2c_client *client)
+-{
+-	struct tps23861_data *data = i2c_get_clientdata(client);
+-
+-	debugfs_remove_recursive(data->debugfs_dir);
+-}
+-
+ static const struct of_device_id __maybe_unused tps23861_of_match[] = {
+ 	{ .compatible = "ti,tps23861", },
+ 	{ },
+@@ -582,7 +556,6 @@ MODULE_DEVICE_TABLE(of, tps23861_of_match);
+ 
+ static struct i2c_driver tps23861_driver = {
+ 	.probe			= tps23861_probe,
+-	.remove			= tps23861_remove,
+ 	.driver = {
+ 		.name		= "tps23861",
+ 		.of_match_table	= of_match_ptr(tps23861_of_match),
 -- 
 2.45.2
 
