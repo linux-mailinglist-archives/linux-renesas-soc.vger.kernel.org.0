@@ -1,54 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-12513-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12515-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1327A1C7F3
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 14:27:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 514FDA1C81B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 14:46:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 163231884F93
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 13:27:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C1E623A53F2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 13:46:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 299D613AD38;
-	Sun, 26 Jan 2025 13:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F44782890;
+	Sun, 26 Jan 2025 13:46:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE85EEDE;
-	Sun, 26 Jan 2025 13:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A5AA25A653;
+	Sun, 26 Jan 2025 13:46:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737898026; cv=none; b=QJuGQ+JHOJtbiIGZvUsFOUIvubHXl5rQiEIS0Y5ohUl4iEkWuoicM310Hm7YF5Y2Q5q2nDHUXrY6UoVb91CcFKfeBNDGw0wtfW1oL9VmyZHPDRhm/p0PF+2ayJ7mbk/jO0ZGs9FneW1Tmvg1ZjVIONBq0A+qHxNyj9pZXEEwPp4=
+	t=1737899195; cv=none; b=GWRbDG16DHYTGnpSNWCu41a5ExY+rAxjoHgICYd8KzGCvGsV9Lz0mYtFtlRNtzHqx3rcNGyp1RNWTGIwKfYC2bQB1LbgwaseLspETP5dlvP52pVHWBoQH0Ghnb9/jQRyfKyekkuh2nhiSedfZPvyi5ARiNQIvH8zIHzYnJ2qkJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737898026; c=relaxed/simple;
-	bh=A49auCRqa4hmokxzU6pxxyRoGK3JDcCQz2icPYRYYs0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r2sWpVXBz7lB5akpV5xm7lj+lCukcSo71o9RTTB3pC5I6fee2BSbalybmLwv1n+7qXW618vDYp9EoYRFUPkJhmSC6xOJjGOgpo/GqED/i2+4wBIQHIPXhfBEVhW4D2T7Jm/Aq2n8RqbEsoAgl/Xn5y6zZUSHfCoIVkBsbHb4830=
+	s=arc-20240116; t=1737899195; c=relaxed/simple;
+	bh=I8htk56yCQqWvtHXnwPQk+SpzplwyeO+eWzx14Z/5Ws=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sFEYXyX/+YQjrOjw7cRYosmCP9wJW4MZSZFJSOHPKd0SYcx7eyAiER8j6xDJzmx32s/xpHCrfzSrmh1ApKcj3WfSZJ/K7HDQw0Piwjo4A/HSCowMG6X/tYT3hyZ/ymx69lEB3A2gRAC9sATL74ovZUU2wKA46/uj662UwUppaZk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: wxKeMQd7Tr6rBcykgCqeXg==
-X-CSE-MsgGUID: IHSIOgwNRveCg/ahDP5QEA==
+X-CSE-ConnectionGUID: SbUwMhuNSEm0V1fktbOtfw==
+X-CSE-MsgGUID: 7IRuzLtCSPCsoaIks3R74g==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Jan 2025 22:26:58 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 26 Jan 2025 22:46:31 +0900
 Received: from localhost.localdomain (unknown [10.226.92.41])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id E661E40065A4;
-	Sun, 26 Jan 2025 22:26:46 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 61A1740031E4;
+	Sun, 26 Jan 2025 22:46:19 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-watchdog@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 2/2] watchdog: Enable RZV2HWDT driver depend on ARCH_RENESAS
-Date: Sun, 26 Jan 2025 13:26:31 +0000
-Message-ID: <20250126132633.31956-3-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH 0/7] Add RZ/G3E SDHI support
+Date: Sun, 26 Jan 2025 13:46:02 +0000
+Message-ID: <20250126134616.37334-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250126132633.31956-1-biju.das.jz@bp.renesas.com>
-References: <20250126132633.31956-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -57,42 +59,34 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-RZ/G3E watchdog timer IP is similar to the one found on RZ/V2H. Both these
-SoCs belong to the ARCH_RENESAS family. So, it makes sense to use
-ARCH_RENESAS rather than ARCH_R9A09G057 to enable the RZV2HWDT driver.
+The SD/MMC block on the RZ/G3E ("R9A09G047") SoC is similar to that
+of the RZ/V2H, but the SD0 channel has only dedicated pins, so we must
+use SD_STATUS register to control voltage and power enable (internal
+regulator).
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Updated commit header and description.
- * Replaced ARCH_R9A09G047->ARCH_RENESAS as both RZ/V2H and RZ/G3E belongs
-   to ARCH_RENESAS family.
----
- drivers/watchdog/Kconfig | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+For SD1 and SD2 channel we can either use gpio regulator or internal
+regulator (using SD_STATUS register) for voltage switching.
 
-diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-index f81705f8539a..b9d23f98a436 100644
---- a/drivers/watchdog/Kconfig
-+++ b/drivers/watchdog/Kconfig
-@@ -963,13 +963,14 @@ config RENESAS_RZG2LWDT
- 	  Renesas RZ/G2L SoCs. These watchdogs can be used to reset a system.
- 
- config RENESAS_RZV2HWDT
--	tristate "Renesas RZ/V2H(P) WDT Watchdog"
--	depends on ARCH_R9A09G057 || COMPILE_TEST
-+	tristate "Renesas RZ/{G3E,V2H(P)} WDT Watchdog"
-+	depends on ARCH_RENESAS || COMPILE_TEST
- 	depends on PM || COMPILE_TEST
- 	select WATCHDOG_CORE
- 	help
- 	  This driver adds watchdog support for the integrated watchdogs in the
--	  Renesas RZ/V2H(P) SoCs. These watchdogs can be used to reset a system.
-+	  Renesas RZ/{G3E,V2H(P)} SoCs. These watchdogs can be used to reset a
-+	  system.
- 
- config ASPEED_WATCHDOG
- 	tristate "Aspeed BMC watchdog support"
+Biju Das (7):
+  dt-bindings: mmc: renesas,sdhi: Document RZ/G3E support
+  clk: renesas: r9a09g047: Add SDHI clocks/resets
+  mmc: renesas_sdhi: Arrange local variables in reverse xmas tree order
+  mmc: renesas_sdhi: Add support for RZ/G3E SoC
+  arm64: dts: renesas: r9a09g047: Add SDHI0-SDHI2 nodes
+  arm64: dts: renesas: rzg3e-smarc-som: Enable SDHI{0,2}
+  arm64: dts: renesas: r9a09g047e57-smarc: Enable SDHI1
+
+ .../devicetree/bindings/mmc/renesas,sdhi.yaml |  20 +++
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  57 ++++++++
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  65 +++++++++
+ .../boot/dts/renesas/renesas-smarc2.dtsi      |   9 ++
+ .../boot/dts/renesas/rzg3e-smarc-som.dtsi     |  89 ++++++++++++
+ drivers/clk/renesas/r9a09g047-cpg.c           |  31 +++++
+ drivers/mmc/host/renesas_sdhi.h               |   1 +
+ drivers/mmc/host/renesas_sdhi_core.c          | 131 +++++++++++++++++-
+ drivers/mmc/host/tmio_mmc.h                   |   5 +
+ 9 files changed, 407 insertions(+), 1 deletion(-)
+
 -- 
 2.43.0
 
