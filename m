@@ -1,38 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-12515-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12517-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514FDA1C81B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 14:46:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C85B3A1C821
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 14:46:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C1E623A53F2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 13:46:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3B6927A2D86
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 13:46:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F44782890;
-	Sun, 26 Jan 2025 13:46:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A17E7142E7C;
+	Sun, 26 Jan 2025 13:46:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A5AA25A653;
-	Sun, 26 Jan 2025 13:46:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1EF713AD38;
+	Sun, 26 Jan 2025 13:46:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737899195; cv=none; b=GWRbDG16DHYTGnpSNWCu41a5ExY+rAxjoHgICYd8KzGCvGsV9Lz0mYtFtlRNtzHqx3rcNGyp1RNWTGIwKfYC2bQB1LbgwaseLspETP5dlvP52pVHWBoQH0Ghnb9/jQRyfKyekkuh2nhiSedfZPvyi5ARiNQIvH8zIHzYnJ2qkJ0=
+	t=1737899199; cv=none; b=gylAGoGdV+vWgwWg5yRuxXWJE4oLe0Hqq5XgJawi4d53T52z7WdC6Rlhe0ELXRh9LCZnvZ0+G3ExbAg4+9apVeRcC6qNffLJHPCkfCvS/AucERK4UyBOepclTwU1SyV8Dl+lxFg2SPv9yieTBm+weO3Nx9ccwbW6rFG/92LDEfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737899195; c=relaxed/simple;
-	bh=I8htk56yCQqWvtHXnwPQk+SpzplwyeO+eWzx14Z/5Ws=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sFEYXyX/+YQjrOjw7cRYosmCP9wJW4MZSZFJSOHPKd0SYcx7eyAiER8j6xDJzmx32s/xpHCrfzSrmh1ApKcj3WfSZJ/K7HDQw0Piwjo4A/HSCowMG6X/tYT3hyZ/ymx69lEB3A2gRAC9sATL74ovZUU2wKA46/uj662UwUppaZk=
+	s=arc-20240116; t=1737899199; c=relaxed/simple;
+	bh=INKL6nHCsQ+Ps9hi0BEkQBnShNAPDNsAnu0IjRcjQQ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=l/irSgjsPSWo3Fobl+DrlAm4J1VAYqqGlunMZl/v1Dpbw3UXC6dr76YyE+HoIcHq0DIM7vDiADelwfvHszUJ+dPVLsnQ1xgBc/M4qm3AFp1GDAubFTwrNLQlwYTFFt/TJHD3BoELHz+ZpDERmHMlHfFpG9m9cY9XJ34soPajfn8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: SbUwMhuNSEm0V1fktbOtfw==
-X-CSE-MsgGUID: 7IRuzLtCSPCsoaIks3R74g==
+X-CSE-ConnectionGUID: oFPefRJYRJOsQKIr3t+6YQ==
+X-CSE-MsgGUID: hMmFZpGcTCGWELUSNNSY2Q==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Jan 2025 22:46:31 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 26 Jan 2025 22:46:37 +0900
 Received: from localhost.localdomain (unknown [10.226.92.41])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 61A1740031E4;
-	Sun, 26 Jan 2025 22:46:19 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id B562840031F2;
+	Sun, 26 Jan 2025 22:46:23 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Ulf Hansson <ulf.hansson@linaro.org>,
 	Rob Herring <robh@kernel.org>,
@@ -47,10 +48,12 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-renesas-soc@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 0/7] Add RZ/G3E SDHI support
-Date: Sun, 26 Jan 2025 13:46:02 +0000
-Message-ID: <20250126134616.37334-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 1/7] dt-bindings: mmc: renesas,sdhi: Document RZ/G3E support
+Date: Sun, 26 Jan 2025 13:46:03 +0000
+Message-ID: <20250126134616.37334-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250126134616.37334-1-biju.das.jz@bp.renesas.com>
+References: <20250126134616.37334-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,26 +70,58 @@ regulator).
 For SD1 and SD2 channel we can either use gpio regulator or internal
 regulator (using SD_STATUS register) for voltage switching.
 
-Biju Das (7):
-  dt-bindings: mmc: renesas,sdhi: Document RZ/G3E support
-  clk: renesas: r9a09g047: Add SDHI clocks/resets
-  mmc: renesas_sdhi: Arrange local variables in reverse xmas tree order
-  mmc: renesas_sdhi: Add support for RZ/G3E SoC
-  arm64: dts: renesas: r9a09g047: Add SDHI0-SDHI2 nodes
-  arm64: dts: renesas: rzg3e-smarc-som: Enable SDHI{0,2}
-  arm64: dts: renesas: r9a09g047e57-smarc: Enable SDHI1
+Document RZ/G3E SDHI IP support.
 
- .../devicetree/bindings/mmc/renesas,sdhi.yaml |  20 +++
- arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  57 ++++++++
- .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  65 +++++++++
- .../boot/dts/renesas/renesas-smarc2.dtsi      |   9 ++
- .../boot/dts/renesas/rzg3e-smarc-som.dtsi     |  89 ++++++++++++
- drivers/clk/renesas/r9a09g047-cpg.c           |  31 +++++
- drivers/mmc/host/renesas_sdhi.h               |   1 +
- drivers/mmc/host/renesas_sdhi_core.c          | 131 +++++++++++++++++-
- drivers/mmc/host/tmio_mmc.h                   |   5 +
- 9 files changed, 407 insertions(+), 1 deletion(-)
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ .../devicetree/bindings/mmc/renesas,sdhi.yaml | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+index af378b9ff3f4..ef3acf0f58e0 100644
+--- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
++++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+@@ -68,6 +68,9 @@ properties:
+               - renesas,sdhi-r9a08g045 # RZ/G3S
+               - renesas,sdhi-r9a09g011 # RZ/V2M
+           - const: renesas,rzg2l-sdhi
++      - items:
++          - const: renesas,sdhi-r9a09g047 # RZ/G3E
++          - const: renesas,sdhi-r9a09g057 # RZ/V2H(P)
+ 
+   reg:
+     maxItems: 1
+@@ -124,6 +127,7 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - renesas,sdhi-r9a09g047
+               - renesas,sdhi-r9a09g057
+               - renesas,rzg2l-sdhi
+     then:
+@@ -211,6 +215,22 @@ allOf:
+         sectioned off to be run by a separate second clock source to allow
+         the main core clock to be turned off to save power.
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,sdhi-r9a09g047
++    then:
++      properties:
++        vqmmc-regulator:
++          type: object
++          description: VQMMC SD regulator
++          $ref: /schemas/regulator/regulator.yaml#
++          unevaluatedProperties: false
++
++      required:
++        - vqmmc-regulator
++
+ required:
+   - compatible
+   - reg
 -- 
 2.43.0
 
