@@ -1,186 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-12523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12524-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D839CA1C833
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 14:59:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B8DA1CD5C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 18:46:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4DD501886D7A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 13:59:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4365E1884545
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2025 17:46:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2172C86324;
-	Sun, 26 Jan 2025 13:59:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EF9941A8F;
+	Sun, 26 Jan 2025 17:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U6CvtNa1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d1Sq5XsV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5973C41A8F;
-	Sun, 26 Jan 2025 13:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977729476
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 26 Jan 2025 17:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737899986; cv=none; b=Na0cl2K+mVuqcESra21KuQzlzM/vY+8N6xZQ3vB797WVEQnQAnvxWnLF0w3f8AdUhnLNWI/MPhcmu1OxA8Hmv+EdWQGk9kZP2W3KvoSh7Su8QGVQof23lzq8H9c5NSZ9tXOVEWhjeFVmTkNK3tO5/CDXxhHTORbXjOg+tLdoL+k=
+	t=1737913581; cv=none; b=qbzTzj6TDdQSa8i7jHlmb4VY4NydQkNv+aSfQaqYk5wafr1RCjkMn7mBE8G4y5y3MC7sKXzCZneKrklm8hmGzWPVuqZFbv8ULIfDrEXE4iDPwt8HUY8XJqpsZ5sJzWGQ3VKDyjpNadNyPqKeLS5vOio21ASd+Xi7VAN7Fdy092U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737899986; c=relaxed/simple;
-	bh=Fn0OmVXMALHTk6tjhNnzhSN4/M2ko5luFJBqE0KDQ8E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gBmjJR0fkVr6bG6abfcVzdd1mH2y/2youq5njnnq0XBwOOEYgsHcDtBYLA0Y9/NPK4w5lDIu6+GxBtfucXTegZdn+W+1767zv94g21vZG7bNZWLQD3asmEjEK5tU50xzpqecZUzaR/q5ioDX2utHQE9mJHYmrL4mMiT4btkXedI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U6CvtNa1; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1737913581; c=relaxed/simple;
+	bh=eMskTE926nzkvBOPe+0xNWGDURHDb3Ipk7aKj4KUnjQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JRNzjDfWZO8H0484654RYiSYxEOZvjttQqBoYElIecO6mjqM/rbW0rvr9tDu5kaLl1F7J/nLl+whCr80VVWrlJfXWU+PCbTzRyCU8k87FHsOUf9RrzUfdc/o8PRLDyRWJb8HHVLK+5Hy1NRrviIx60LQUo+yZ68Xc32ws5Fh7zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d1Sq5XsV; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ef8c012913so4760389a91.3;
-        Sun, 26 Jan 2025 05:59:44 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e398484b60bso5504496276.1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 26 Jan 2025 09:46:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737899983; x=1738504783; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=BOKiOqsIEcXOwR3NL5Px+RblquN+YIhEMN/p73hwo+U=;
-        b=U6CvtNa1yOSjxi2fqzw/QxeCSTuyg5YLROsp0O6BUT9jZ98HVyPhOqRK7snhzi4G3L
-         apvvcZ+R5s0u81baQhieEnA+OMl9qD2vAH5kxoUgE7g4G7Vuj2laichR+5B++8fNlbxO
-         aHAmVAEUbH0/TGS0GNVFvmELyMQMmpPT7VW69eimelGXh8+zD/EEpXuY/z+RAjSXQ20m
-         yLFsJypgJuYSkcbALAEO/lflBtQDNRkbfXKABCgD7qLDP9b43g+taDH/R64e41XVyl+6
-         I2ucdcseCrMHP+ZouVplxijCmVaachdRCQ4kBDLedvkPlFBzQrAWQFLxwz956x8RCplq
-         QtIw==
+        d=gmail.com; s=20230601; t=1737913578; x=1738518378; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XwP6AmZtHOBgTFWNHWplhL+BYlJ0uLnqNJ1QKPcccSI=;
+        b=d1Sq5XsVKj631NSRGmFw9rQSPwlzvNm6g2wcHzgj1HsRPrwt6S2lThCQaq792hsJbG
+         hfJfvT80fyXO4ULbdI7F/Unc26gBCDPaqx/ffd80RIPYJtLXnoHy5TBxQ84GOgCERJMF
+         /PXtDyIfEmuzmfNWnCRvKBAmqhYX1XvhY87BFy6lvdr5A50H9NFJ+p6u6li6m9tlinm/
+         TRChCPAuS9VV5SvxA5NigkvwNC8f/jGp+0Z7jbTpfQmXgY2BHpfEi48p12A9xVBbIjIy
+         FM1i1xCj2A9tDXD0+2WgiqTCGf/CawgBKBlrLXlcNtHbHy0Zt1hp+rzNJUL0yub0HSHb
+         c8uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737899983; x=1738504783;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BOKiOqsIEcXOwR3NL5Px+RblquN+YIhEMN/p73hwo+U=;
-        b=duHBapBVKiQWzhINccg3mtDHLyC4ShA9JyDxdeToffa4/UHy7fgS+38BIoasHrkuaX
-         BsYINOVbk4xpnKmeR65d5DPDtV1Z2+XZxnL01OEWEzm3EyC33jBovckNHWl8w/k5fsXe
-         R8RvJAz8hpGEmpTcK1BhIZDIm6f16wAx7+zAWKibCeL63vA6I5R3DSNYDksd7Cay/JVv
-         bVWzwXfm5t8UJfJzzSClv2oxgh4MbruamAIrXVz/FQUpNCc+6WPsAwo9350n8IsNe8rQ
-         X00/zqxHVYhjSBQbe1jrjXX74FGjdDGd9WrEiuCD2dUQAhtG0QsHLBjfOoMk3qdFpl8S
-         DCNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVEU1o0GsmvzVwgKAbv7hzKJnAk0GgAmz7hdz/56R58CF+RTdp79O2Fj8rSsKzecpOX7m31qPfJgDODfJtUTyQjxg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWHjsIJpCm+QQ6bN9fd5ewZWjCj0Wc9qM27M4AfF8oiXiD68mU
-	KZGYtFnb5PYwXzUaNuM19wcypHxs3AruvDNQn1bFZzJE6t0e+k1v
-X-Gm-Gg: ASbGnctMiaNezWto7nPUkbm5wCO3o9HHbK9/y8O78YdsoDgePwE2v+B5reHPqwL1FYE
-	G2VEIkdHGlNNYbAZD8vRG/CZuX1SIl0ZnaS4Gt/xptVNuUOXGMwtZCe4HN8l8wmjjhUrZOE/L26
-	eu+JBNbreShjaYkm4fUnKFOY5DoEGkhjn8sQqIeeBNK0w/uD/mjw4R7mPA6atGczONHb+WukIEI
-	8OYjs5rxXFpNMjf13JxL4Z/TnDiN44pnpcgU0MfbPPNSb0s2DNMxHU1trasU8hfQxwUEe0qXen/
-	mvj4EY22zGKQtBwSrPbhA8X16rCyuRU0lTzY+wn5dAg0US0lcho0pA==
-X-Google-Smtp-Source: AGHT+IFT8AZktuwF9YcKkIUSs7S2B7ukR3nHzpM/lOfujgqI8GPnC18aIABRUqg4wo1uFprNuN9yMw==
-X-Received: by 2002:a17:90b:2d4b:b0:2ee:96a5:721c with SMTP id 98e67ed59e1d1-2f782c997e4mr49624694a91.21.1737899983397;
-        Sun, 26 Jan 2025 05:59:43 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f7ffa82f74sm5224361a91.45.2025.01.26.05.59.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jan 2025 05:59:41 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <de718fb2-0263-4354-85c0-f39b1b3dc36c@roeck-us.net>
-Date: Sun, 26 Jan 2025 05:59:40 -0800
+        d=1e100.net; s=20230601; t=1737913578; x=1738518378;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XwP6AmZtHOBgTFWNHWplhL+BYlJ0uLnqNJ1QKPcccSI=;
+        b=vLK72mIHvcN2jcZCq8+E1RRlPXA31FZuqMefer7a6Jf3cTlIPz+dbkPNiVg5HXKxNA
+         K+NDdSrtmUCZnXETaOggmExt8Cn4Cwf5+qPOLU0j59ZYxejMtjPXYuWiYru9zkPJIaku
+         /ClylWwIM5GLgIWt/gwGL09LgEn/WpGenshdSb6PrGvLRCRic+SuYOJMYsWMo6zvnGrM
+         V0yAY6gZdColnPoaA+FALzBUofrMSjtSDht3yXP9d7g4XMZoqZtPpkNilBYSHp4HIAGI
+         8RwY96/TuCVJ6uq9COL+jNBiLYCTSQXTCeko+DffKxR4TjdnEOr30C3rDD1n0fWRFQEr
+         keeA==
+X-Forwarded-Encrypted: i=1; AJvYcCX+A+SdkjuHteuSYmbEMgpsJ13QN4tyKa3aLwDD0sOnCup6AyNdACL98KmA7WyxE8D6UAD1hF8CZxqAa3tYViZ4gg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/DvLqjLcYlxkBYwQdIYkwu3W3HUnMNENX+RRImotcZxK5tQBp
+	H/IqfSS6gT6mzEsAkxV/fiPS4Mkm5AeEMK5H87sQClwvcr4nvVen
+X-Gm-Gg: ASbGncv8GD2xgrTC2slzQ1acnybNxelxCYPd8Tp+9Kx4IXh4nZ5z1//fSOhRHNkt517
+	SwGjAgwUjJ/sX/0FbVbxrUjAkUIrt6t4c1g5Z/T77L7QTMu9wL5mzfJmdw45zdI5Nzv5Zf9weic
+	d6J1nN6fD8LspwuGb0NFhkPp/3MBDx08X5HS6OH47cSyMKZX3mAeuwUSf8pygTtR91B/ADihmFt
+	TilPsqSr1UBpRZKfnQgIcR2LWL45MJZcORTLUUK3y4SVXEhw8kDC22GoemwLESYFuZrV9ixZMo5
+	yA5ph5l5+Kt+qbYqIwABn1OtitX/IrmqkyjSA3RS44okrsxJUAw=
+X-Google-Smtp-Source: AGHT+IGO1xwVW2l1LTQ+o+lYbUxQvekVO4YA1p5kU65hCGKORVU3e+VmeRoBj3dBeymOr5vl4GWC3Q==
+X-Received: by 2002:a05:690c:2008:b0:6f7:534b:560a with SMTP id 00721157ae682-6f7534b56aamr70501867b3.8.1737913578433;
+        Sun, 26 Jan 2025 09:46:18 -0800 (PST)
+Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6f757a372fbsm11330997b3.117.2025.01.26.09.46.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jan 2025 09:46:17 -0800 (PST)
+Date: Sun, 26 Jan 2025 12:46:17 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org, linux-i3c@lists.infradead.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Kuan-Wei Chiu <visitorckw@gmail.com>, linus@ucla.edu
+Subject: Re: [PATCH] bitops: use safer link explaining the algorithm
+Message-ID: <Z5Z06WowFspmXby9@thinkpad>
+References: <20250125130320.38232-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWmE2UiE7kwAyQKONSE_ytrNux+Wwu-v__K=jjpAutxqw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] watchdog: Enable RZV2HWDT driver depend on
- ARCH_RENESAS
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc: linux-watchdog@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-References: <20250126132633.31956-1-biju.das.jz@bp.renesas.com>
- <20250126132633.31956-3-biju.das.jz@bp.renesas.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20250126132633.31956-3-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWmE2UiE7kwAyQKONSE_ytrNux+Wwu-v__K=jjpAutxqw@mail.gmail.com>
 
-On 1/26/25 05:26, Biju Das wrote:
-> RZ/G3E watchdog timer IP is similar to the one found on RZ/V2H. Both these
-> SoCs belong to the ARCH_RENESAS family. So, it makes sense to use
-> ARCH_RENESAS rather than ARCH_R9A09G057 to enable the RZV2HWDT driver.
+On Sat, Jan 25, 2025 at 04:10:36PM +0100, Geert Uytterhoeven wrote:
+> Hi Wolfram,
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
-> ---
-> v1->v2:
->   * Updated commit header and description.
->   * Replaced ARCH_R9A09G047->ARCH_RENESAS as both RZ/V2H and RZ/G3E belongs
->     to ARCH_RENESAS family.
-> ---
->   drivers/watchdog/Kconfig | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
+> CC Linus (the funloop one ;-)
 > 
-> diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-> index f81705f8539a..b9d23f98a436 100644
-> --- a/drivers/watchdog/Kconfig
-> +++ b/drivers/watchdog/Kconfig
-> @@ -963,13 +963,14 @@ config RENESAS_RZG2LWDT
->   	  Renesas RZ/G2L SoCs. These watchdogs can be used to reset a system.
->   
->   config RENESAS_RZV2HWDT
-> -	tristate "Renesas RZ/V2H(P) WDT Watchdog"
-> -	depends on ARCH_R9A09G057 || COMPILE_TEST
-> +	tristate "Renesas RZ/{G3E,V2H(P)} WDT Watchdog"
-> +	depends on ARCH_RENESAS || COMPILE_TEST
->   	depends on PM || COMPILE_TEST
->   	select WATCHDOG_CORE
->   	help
->   	  This driver adds watchdog support for the integrated watchdogs in the
-> -	  Renesas RZ/V2H(P) SoCs. These watchdogs can be used to reset a system.
-> +	  Renesas RZ/{G3E,V2H(P)} SoCs. These watchdogs can be used to reset a
-> +	  system.
->   
->   config ASPEED_WATCHDOG
->   	tristate "Aspeed BMC watchdog support"
+> On Sat, Jan 25, 2025 at 2:03 PM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> > During review, a concern was raised that the link explaining the
+> > algorithm might get stale. Meanwhile, the site has been archived in the
+> > WayBack machine. So, use their link which is hopefully more stable.
+> >
+> > Fixes: c320592f3f2a ("bitops: add generic parity calculation for u8")
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 
+> Thanks for your patch!
+> 
+> > --- a/include/linux/bitops.h
+> > +++ b/include/linux/bitops.h
+> > @@ -254,7 +254,7 @@ static inline int parity8(u8 val)
+> >  {
+> >         /*
+> >          * One explanation of this algorithm:
+> > -        * https://funloop.org/codex/problem/parity/README.html
+> > +        * http://web.archive.org/web/20250105093316/https://funloop.org/codex/problem/parity/README.html
+> 
+> Is the plan to replace all weblinks by webarchive links as a precaution?
+> Even websites backed by big companies may disappear[1]...
+> Putting the webarchive link here also impacts the funloop.org server
+> statistics, downplaying its relevance, and possibly even causing an
+> earlier shutdown.
+> The URL can always be updated when the original site disappears.
+> 
+> >          */
+> >         val ^= val >> 4;
+> >         return (0x6996 >> (val & 0xf)) & 1;
+> 
+> [1] The "LessWatts.org" T-shirt I got from Intel survived the
+>     corresponding website by many years ;-)
 
+That was actually my concern. I used to think that kernel repository
+should better be a self-contained thing. And the reason is that kernel
+sources should be understandable even on an Atlantic flight.
+
+But this days airliners have pretty good internet access. So I don't
+want to look like a guy pushing 80-chars line limit, while we forgot
+even the meaning of VGA acronym maybe 15 years ago.
+
+Quick grepping says that the include/linux directory already has 235
+'http' links. Even after excluding compiler linkage, we have 149 of them.
+
+So...
+
+If you guys feel that you can explain the algorithm you're employing
+in a half-VGA-screen comment, it would be the best choice, and that's
+enough.
+
+If it's impossible or you think that external reference is really needed,
+I trust you. But please refer the original source. In this case, it's:
+
+        Warren, H. S. (2013). Hacker’s Delight (2nd ed), page 97.
+
+If you think that pointing to a web-page with nice summary to the topic 
+is helpful - please do. And if you would like to cache the link - I've
+got nothing against it - as soon as you commit to maintain those links
+up-to-date in the kernel sources.
+
+Thanks,
+Yury
 
