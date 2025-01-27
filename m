@@ -1,51 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-12567-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FDBA1D572
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 12:38:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C771A1D573
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 12:38:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 39FBA16131E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 11:38:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68D6F3A6BE3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 11:38:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B97B1FECBF;
-	Mon, 27 Jan 2025 11:38:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E2601FECBF;
+	Mon, 27 Jan 2025 11:38:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6C011FE454
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 11:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 845BE1FE454
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 11:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737977884; cv=none; b=Qwj/RVRnDgjS2IQLt7+y7oCZDpBtH0ZPUOyw3iV1kzyYLM9ktW/p2fEADzS0co9KXGmJXAZm/skFNZ/8JkW+6MavAcxWdTkbJd3P94BWzoKysYjQZzqoCmAKRxUjm7rLwkmG+wi1pg0pNYNaz1/wujUkgUG7Rxhe7Di6FrnOHrs=
+	t=1737977894; cv=none; b=JeziQ1J75uuc5y2ptHyL3HEiTUb1jLi8vG9WheWv/AxgSbTh5abkzVi5kxCjzezw002M/wGfTb1r4uwHFP9rceO8uThZMnXR16iC7guAGGBPqCM7KhX8m9CsYMTQUHaVA+1MqRMfum582xvQp5CzGyaPCk5dfsIiOvpKhPs2QF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737977884; c=relaxed/simple;
-	bh=9m/TaQ3llUz8V6pygoH/iP/Tj3bei8o7OltSxLjA3ag=;
+	s=arc-20240116; t=1737977894; c=relaxed/simple;
+	bh=xtCQXUz07204z660BejHL8pQ+g1JL+EeFTBz0+aLaVg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HZUOFk14aDdgMHr6y43Jv/9D27GraBaIrlUcNRE38Fdq0LrDrKbSUdGFQKgHjrJrgs+blZnpYUaf4dpMdPD7Nu+/0tuQvTywOAWcZb8Lh21Nnjm4eu/4VhtHPwlmou1ElJ8iekGWGoyvVShKTk62LHrJ7X+36wpyAOrS4abXnvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=LX9D84oc23oO8bsjKqH4p5dWyfn95c0FDmRQAbiQVjqNBqakQgdqeNfEWri2GNsS2GqJlHUBDPbhHaXQwh8B3jvRDOsbZLjTMRTgtAvUmGU4xLrLDPs3/h6oG1HTc+cLApcVwaCVjT6G3ijtohbWR+snBMKWPrFhPGE2o3yogCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: eNHimjqzSuu29p4NkYagyw==
-X-CSE-MsgGUID: Beo4FSywRdKZYYGEEg5fFg==
+X-CSE-ConnectionGUID: tNFm5x50QKuZWeVLtzyYhg==
+X-CSE-MsgGUID: DGD5gb/KQ6qoPTiERG+HPg==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 27 Jan 2025 20:38:01 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 27 Jan 2025 20:38:11 +0900
 Received: from localhost.localdomain (unknown [10.226.94.28])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9347A41F278B;
-	Mon, 27 Jan 2025 20:37:57 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 99FEA41F25AC;
+	Mon, 27 Jan 2025 20:38:00 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Thomas Gleixner <tglx@linutronix.de>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Subject: [PATCH v2 10/12] irqchip/renesas-rzv2h: Add tien variable to struct rzv2h_hw_info
-Date: Mon, 27 Jan 2025 11:37:05 +0000
-Message-ID: <20250127113723.24479-11-biju.das.jz@bp.renesas.com>
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 11/12] irqchip/renesas-rzv2h: Add RZ/G3E support
+Date: Mon, 27 Jan 2025 11:37:06 +0000
+Message-ID: <20250127113723.24479-12-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250127113723.24479-1-biju.das.jz@bp.renesas.com>
 References: <20250127113723.24479-1-biju.das.jz@bp.renesas.com>
@@ -57,78 +55,124 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The TINT enable position on RZ/G3E is BIT 15 compared to BIT 8 on RZ/V2H.
-Add tien variable to struct rzv2h_hw_info to simplify the calculations
-when we add support for RZ/G3E and drop the macro ICU_TSSR_TIEN.
+The ICU block on the RZ/G3E SoC is almost identical to the one found on
+the RZ/V2H SoC, with the following differences:
+ - The TINT register offset starts at 0x830 instead of 0x30.
+ - The number of GPIO interrupts for TINT selection is 141 instead of 86.
+ - The pin index and TINT selection index are not in the 1:1 map
+ - The number of TSSR registers is 15 instead of 8
+ - Each TSSR register can program 2 TINTs instead of 4 TINTs
 
-Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Add support for the RZ/G3E driver by filling the rzv2h_hw_info table and
+adding LUT for mapping between pin index and TINT selection index.
+
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v1->v2:
- * Collected tags.
+ * Introduced ICU_RZG3E_{TSSEL_MAX_VAL,TINT_OFFSET} macros and used these
+   macros in struct rzv2h_hw_params rather than using the hex constants.
 ---
- drivers/irqchip/irq-renesas-rzv2h.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/irqchip/irq-renesas-rzv2h.c | 49 +++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
 diff --git a/drivers/irqchip/irq-renesas-rzv2h.c b/drivers/irqchip/irq-renesas-rzv2h.c
-index cff1f49bb130..70293a7822e7 100644
+index 70293a7822e7..12f5ee09af22 100644
 --- a/drivers/irqchip/irq-renesas-rzv2h.c
 +++ b/drivers/irqchip/irq-renesas-rzv2h.c
-@@ -64,8 +64,6 @@
- #define ICU_TINT_LEVEL_HIGH			2
- #define ICU_TINT_LEVEL_LOW			3
+@@ -72,10 +72,13 @@
  
--#define ICU_TSSR_TIEN(n)			(BIT(7) << ((n) * 8))
--
- #define ICU_TITSR_K(tint_nr)			((tint_nr) / 16)
- #define ICU_TITSR_TITSEL_N(tint_nr)		((tint_nr) % 16)
- #define ICU_TITSR_TITSEL_PREP(titsel, n)	ICU_IITSR_IITSEL_PREP(titsel, n)
-@@ -79,6 +77,7 @@
+ #define ICU_TINT_EXTRACT_HWIRQ(x)		FIELD_GET(GENMASK(15, 0), (x))
+ #define ICU_TINT_EXTRACT_GPIOINT(x)		FIELD_GET(GENMASK(31, 16), (x))
++#define ICU_RZG3E_TINT_OFFSET			0x800
++#define ICU_RZG3E_TSSEL_MAX_VAL			0x8c
+ #define ICU_RZV2H_TSSEL_MAX_VAL			0x55
+ 
  /**
   * struct rzv2h_hw_info - Interrupt Control Unit controller hardware info structure.
++ * @tssel_lut:		TINT lookup table
   * @t_offs:		TINT offset
-+ * @tien:		TIEN mask
+  * @tien:		TIEN mask
   * @tssel_mask:		TSSEL mask
-  * @tssel_shift:	TSSEL shift
-  * @max_tssel:		TSSEL max value
-@@ -86,6 +85,7 @@
+@@ -84,6 +87,7 @@
+  * @tssr_k:		TSSR index k
   */
  struct rzv2h_hw_info {
++	const u8	*tssel_lut;
  	u16		t_offs;
-+	u16		tien;
+ 	u16		tien;
  	u16		tssel_mask;
- 	u8		tssel_shift;
- 	u8		max_tssel;
-@@ -153,9 +153,9 @@ static void rzv2h_tint_irq_endisable(struct irq_data *d, bool enable)
- 	guard(raw_spinlock)(&priv->lock);
- 	tssr = readl_relaxed(priv->base + priv->info->t_offs + ICU_TSSR(k));
- 	if (enable)
--		tssr |= ICU_TSSR_TIEN(tssel_n);
-+		tssr |= priv->info->tien << (tssel_n * priv->info->tssel_shift);
- 	else
--		tssr &= ~ICU_TSSR_TIEN(tssel_n);
-+		tssr &= ~(priv->info->tien << (tssel_n * priv->info->tssel_shift));
- 	writel_relaxed(tssr, priv->base + priv->info->t_offs + ICU_TSSR(k));
+@@ -307,6 +311,9 @@ static int rzv2h_tint_set_type(struct irq_data *d, unsigned int type)
+ 	if (tint > priv->info->max_tssel)
+ 		return -EINVAL;
+ 
++	if (priv->info->tssel_lut)
++		tint = priv->info->tssel_lut[tint & 0xff];
++
+ 	hwirq = irqd_to_hwirq(d);
+ 	tint_nr = hwirq - ICU_TINT_START;
+ 
+@@ -515,6 +522,42 @@ static int rzv2h_icu_init_common(struct device_node *node, struct device_node *p
+ 	return ret;
  }
  
-@@ -315,7 +315,7 @@ static int rzv2h_tint_set_type(struct irq_data *d, unsigned int type)
- 
- 	titsr_k = ICU_TITSR_K(tint_nr);
- 	titsel_n = ICU_TITSR_TITSEL_N(tint_nr);
--	tien = ICU_TSSR_TIEN(titsel_n);
-+	tien = priv->info->tien << (titsel_n * priv->info->tssel_shift);
- 
- 	guard(raw_spinlock)(&priv->lock);
- 
-@@ -517,6 +517,7 @@ static int rzv2h_icu_init_common(struct device_node *node, struct device_node *p
- 
++/* Mapping based on port index on Table 4.2-6 and TSSEL bits on Table 4.6-4 */
++static const u8 rzg3e_tssel_lut[] = {
++	81, 82, 83, 84, 85, 86, 87, 88,		/* P00-P07 */
++	89, 90, 91, 92, 93, 94, 95, 96,		/* P10-P17 */
++	111, 112,				/* P20-P21 */
++	97, 98, 99, 100, 101, 102, 103, 104,	/* P30-P37 */
++	105, 106, 107, 108, 109, 110,		/* P40-P45 */
++	113, 114, 115, 116, 117, 118, 119,	/* P50-P56 */
++	120, 121, 122, 123, 124, 125, 126,	/* P60-P66 */
++	127, 128, 129, 130, 131, 132, 133, 134,	/* P70-P77 */
++	135, 136, 137, 138, 139, 140,		/* P80-P85 */
++	43, 44, 45, 46, 47, 48, 49, 50,		/* PA0-PA7 */
++	51, 52, 53, 54, 55, 56, 57, 58,		/* PB0-PB7 */
++	59, 60,	61,				/* PC0-PC2 */
++	62, 63, 64, 65, 66, 67, 68, 69,		/* PD0-PD7 */
++	70, 71, 72, 73, 74, 75, 76, 77,		/* PE0-PE7 */
++	78, 79, 80,				/* PF0-PF2 */
++	25, 26, 27, 28, 29, 30, 31, 32,		/* PG0-PG7 */
++	33, 34, 35, 36, 37, 38,			/* PH0-PH5 */
++	4, 5, 6, 7, 8,				/* PJ0-PJ4 */
++	39, 40, 41, 42,				/* PK0-PK3 */
++	9, 10, 11, 12, 21, 22, 23, 24,		/* PL0-PL7 */
++	13, 14, 15, 16, 17, 18, 19, 20,		/* PM0-PM7 */
++	0, 1, 2, 3				/* PS0-PS3 */
++};
++
++static const struct rzv2h_hw_info rzg3e_hw_params = {
++	.tssel_lut	= rzg3e_tssel_lut,
++	.t_offs		= ICU_RZG3E_TINT_OFFSET,
++	.tien		= BIT(15),
++	.tssel_mask	= GENMASK(7, 0),
++	.tssel_shift	= 16,
++	.max_tssel	= ICU_RZG3E_TSSEL_MAX_VAL,
++	.tssr_k		= 2,
++};
++
  static const struct rzv2h_hw_info rzv2h_hw_params = {
  	.t_offs		= 0,
-+	.tien		= BIT(7),
- 	.tssel_mask	= GENMASK(6, 0),
- 	.tssel_shift	= 8,
- 	.max_tssel	= ICU_RZV2H_TSSEL_MAX_VAL,
+ 	.tien		= BIT(7),
+@@ -524,12 +567,18 @@ static const struct rzv2h_hw_info rzv2h_hw_params = {
+ 	.tssr_k		= 4,
+ };
+ 
++static int rzg3e_icu_init(struct device_node *node, struct device_node *parent)
++{
++	return rzv2h_icu_init_common(node, parent, &rzg3e_hw_params);
++}
++
+ static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
+ {
+ 	return rzv2h_icu_init_common(node, parent, &rzv2h_hw_params);
+ }
+ 
+ IRQCHIP_PLATFORM_DRIVER_BEGIN(rzv2h_icu)
++IRQCHIP_MATCH("renesas,r9a09g047-icu", rzg3e_icu_init)
+ IRQCHIP_MATCH("renesas,r9a09g057-icu", rzv2h_icu_init)
+ IRQCHIP_PLATFORM_DRIVER_END(rzv2h_icu)
+ MODULE_AUTHOR("Fabrizio Castro <fabrizio.castro.jz@renesas.com>");
 -- 
 2.43.0
 
