@@ -1,148 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-12598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12599-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6D5A1D9A5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 16:35:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55370A1DA01
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 16:58:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBF703A22F7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 15:35:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB6603A3D02
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 15:58:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9EF0149DE8;
-	Mon, 27 Jan 2025 15:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54E6A14D6ED;
+	Mon, 27 Jan 2025 15:58:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ksUZe169"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VjM9dDZA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4641494DF
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 15:34:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A116660B8A;
+	Mon, 27 Jan 2025 15:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737992080; cv=none; b=jXs1DW+IrQFd+RnoSJWXyy7IsqcPaPPuNU4GKQOGXPdRnvJ5SymlEoJePhreQ++i3W3K3mTJpULmnH4rWayLQbRT4Q4wdtK5leGr+T2K06nWD3zqILnyM/zc6IKgKda2N1Whd06djPU1sLAnsq40X6B6GAxhxWciTqz+J3zLd2U=
+	t=1737993508; cv=none; b=JnyaHaD+CQ3nMjwO8IrAPULbo3ereE/f3ICedrFw3pOj3nDcWFJ5fmFul5CigsHT/npaZ3myeqbgg/ZZyquSy2xmh5RgDzArdbe6ITqbF4dWYssFZMWqhH05afBy6UtOgjWTHW/uEyscEyh6gH+jXMFg3neqrQ/wkbR4fb+AMSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737992080; c=relaxed/simple;
-	bh=x/s/r1CUioM9J9dCaYfOu1djbjFSNIbhyHIxWUxRzuI=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AnCIv3iwkbNnwHrnqOvi2/avoeqOsyCwxsb2LeS9PQSXhHmPquu2C9x2xpJbwOgcECtxd9Jx0YFgDdlPt/hI1eMsvw6JTwcdljhL/HpZgmkz/WJiJbbdAJToAAqNpFOAzkcHVf9dNahRmX3m4tgjoiJfH6fVdUXWOKAqlnDTP2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ksUZe169; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5439e331cceso5558968e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 07:34:38 -0800 (PST)
+	s=arc-20240116; t=1737993508; c=relaxed/simple;
+	bh=sgn7B7gYKw4oRSChjpiRNU7Ip4Inh0W9b6zsPKwd9hM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FmHjj7ZQ5cpQzQuuIPt9jUHShjKeNdV3XGOopDxJQxeZhsTXMu1y9iZXBuLXjpbEnfP/cf4pf3ZEi9P/K6/70haoAnEy+wPWwoIth3eXY2u4lF28mnUQZg60WRHTWy9nQwUumTtmjVrjZoRX80sk2N+kqhVtp4i2pCXHMB6het8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VjM9dDZA; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5187f0b893dso1475020e0c.3;
+        Mon, 27 Jan 2025 07:58:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737992077; x=1738596877; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VuArV47OakPm5tI3u4UevLvvxevY1PGx5jGLqv+/LEY=;
-        b=ksUZe1696pzSM+v8Yeyoxc2cBD27s8KqZKQ/khYiQXiS2a5XH+W9AD3O3EZrvwhe/R
-         pBGp3srNB8GAG0il+fZjwBqYPaQF7MWyPGtE0R4ngM+MiBz+RQ7WkAd3qCnjCE+XEYMm
-         0S4wBN1UppA11XaK4eOpHP8gM6rXpMarnyFEiB4/5nT+2FdlUYMjnDwJifmfC1PkngMM
-         dJRhD4u9/pvlSMRRl2RBENNhHVy0Gads5XMOGUGrBzsNbDgc9AKSGDY/gXHf19ME+3mE
-         SbBs5ogayjZ2tD9pFt6lmbv5iG433FwZHcEu2/qsAaJ02ld73ayVbzcrONHZ59pwkTJd
-         cMqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737992077; x=1738596877;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1737993505; x=1738598305; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VuArV47OakPm5tI3u4UevLvvxevY1PGx5jGLqv+/LEY=;
-        b=gXIAPfThNbVt78GerWG6PhBsUkgyjTBX33//ffChjCvLgn3PhlwcWYufr9xQ/B+Ny3
-         orI53mRkT3ngMbOLA9Gmg5yaAYgQZgPptgK4LcNdMAVEq0/FGQBFcD6oMRvavjCyZRpf
-         kIRmxL6CgGhSHaA/bnJreBHlUrHxCh6WarsoeUU2UGVPhapbHKYGdpoqy9zJex1EfBU1
-         4Az+F6LzhCjrlMa1E4KH5xk/kCBz37cGwSEya0xRiNBqpVP9gAoaoReDymZaYG/lXt9n
-         YYqkHuAit58esQY5VF6sJPzVU9Mp5EAsZ1mszjMpRQpAmU6lmyvh7aKr7JISaHVar8nI
-         5FLg==
-X-Forwarded-Encrypted: i=1; AJvYcCWTFcFOvmLjam0XKfGkYNRR7qKQgJO7WQzqiM32zdy6U5TMGfbmDFJe659SEHjQG8EOLuf/08JE2u1HyAk6/48cwQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlB0CyjtPGZ6VQQi/f9VGK70WYnPWkceKS9uvec1l9xkH1pFWQ
-	7pllbO4fQq6VPd+QKaLQ4vpqIOyUMbBiMaAGUes9z3IvOyQgwO8htwRAKeRCzqk=
-X-Gm-Gg: ASbGnctfR8Fp9EonkbZRpL+JNDKTH24ofitikhPfpPNRDq8FgPy8JglLFGTf5kmbhEx
-	cdJ0IoBV9kxlG+d8+b8P+RN62US+8CkCnic5bJDODR2BEHgP0KFUYoZqM3Ep0J/js0U4RlsVF/C
-	i9nL7sOfm/yIjhPL9T8bkcSRS0SH/1CQ2ZKYCTBigv9TyDdWDArGtS7wJk98s3LLyxkjnYaBe+g
-	tqyxiwTk7eRx5bfjy10HeaZ7aaJLvrc4SL5dobyuVti7eJoGRwX+3dqw7rE4pqcG1+UGRkaNJsM
-	wvStKZpA71pifN9DV488H02KKmNhIwtwhytlFxSKZ+aX9t58HnUI5f5PnKno
-X-Google-Smtp-Source: AGHT+IFBViOX5IoiLaMV4O3CShQ434LyDf8prPm5SaqVCZbNaTgxql6FUxNa13zXchLB5Cm/PRrD+A==
-X-Received: by 2002:ac2:43a2:0:b0:542:6105:bb72 with SMTP id 2adb3069b0e04-5439c224a57mr11688307e87.19.1737992076690;
-        Mon, 27 Jan 2025 07:34:36 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c83798cbsm1346139e87.167.2025.01.27.07.34.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2025 07:34:36 -0800 (PST)
-Date: Mon, 27 Jan 2025 17:34:34 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-renesas-soc@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	David Airlie <airlied@gmail.com>, Douglas Anderson <dianders@chromium.org>, 
-	dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH RFT 0/2] drm/bridge: Use per-client debugfs entry
-Message-ID: <hywmnv4jf6ix2ziabdftd5zcjqnkfq6pmqxqzw6spc76camrxz@jn5vr4mgj37v>
-References: <20250125125320.37285-4-wsa+renesas@sang-engineering.com>
- <a3hrta4eiiknuf4sukk27xewhhirzf43u2eeefnpjny27m4x5s@aifvnevj7cb6>
- <Z5c7vk_oa8HGt7sS@ninjato>
+        bh=TrdPISaA88VM3tVAVhAjIRcAVMkAWcHxKvma6bQDGX4=;
+        b=VjM9dDZAK1+BBRFhsdJWWajczpJelG7SJub4I950AQvniWCWM8Co655L6XdXeyMe0W
+         ObdsLSvd6hSgbiYvEaBQvmFk2757SNW/c6zh71oPD0+36X0sh8t2OjE6Vo8A1CegM8ji
+         NYqXby4lR+xknc0DadR7ieEK8cIVsVP27WbO6ik+VbErdInZ1VctiPvyQ+bRXSg1rwKF
+         HY14h4ltunOYArXjzX196VxFSJPhda76tb95Fxjq33U+YD3lfAo3/Jh0JeAUS3ryr6dG
+         rkLQuUvlaX3wOpGxvPyw9Tbibo+1P0ks81tUnXFaRE9Z90LENoOuES8mm2EYz9iKQYF8
+         mFLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737993505; x=1738598305;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TrdPISaA88VM3tVAVhAjIRcAVMkAWcHxKvma6bQDGX4=;
+        b=EtihSrBpVfrCctvtKKqak/HEMcvBNIioAfypS54yIZZCz9p7Dp1jszFGxyFbFjxQG7
+         DddfHvVx8ezFRhvwGBy1Q/y5LdvCaYqZSNv0aDKVfkvTrj09IPCz6epbflI7z7O3n0a3
+         wvJg3FM2dIee+TFM9EK882htlfDttuEhLzmbmor9lcUzI1qBYyFPmm1LUSQhDQQTInzL
+         ZvIXzSDnzk2Gg+js0xPGEg1EgDvO32vALHalkdtyiTPEJkPfw5BuYhdf4TM9cSiB6a85
+         j7BISonektttL0ou3cXWmc2qctwnWGF++DZ7t59GJwG2QOQkPVYT/CUw2dsDJ5ySiM5s
+         A71w==
+X-Forwarded-Encrypted: i=1; AJvYcCU2Hpef5jB+Ms0Fs7Myt4uAaz1/SvQjxlHWoSO/DH10E/kl5jcIFAvUZzkTITwlSbmT0RufBi/fm/A=@vger.kernel.org, AJvYcCU2shHMg+LMUh/ohxktnJSJEC/KDQesRvuncXiKeyrCr4h0i+pAlfCuKOaPM5/jVOTvNKZgsCLmz2Cnpu4n8pSYqjM=@vger.kernel.org, AJvYcCV2uTYtM6I+kmdT5oiADTw5tFJBV9PBq9zXCWnLGuI1W3N4699j0yRDoAEP7lnX0ddImuZskYapbhagye2g@vger.kernel.org, AJvYcCXsYmgH2qCn14HwbCb/LG9Qngm+ihr05ns7RRRhfncZse7vlM6vs1LFKTkMq4swAR6ufTB7l5+l@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvMhbYm26Q8rOY9+mD/hPGhV6QVKJJ4/8d7JsGIcH44UB9k2u2
+	35Orzq0Ut0VsVCgLrJF3wkU6PjoJBYMRxvpffq8jZMZ7dydb+//9OMB9KQnnYCEgcKu/RUE21m1
+	h5su4NalSdMEbKFZ6RloJWBXM4oU=
+X-Gm-Gg: ASbGncsT3++CBnMOHpoBAb4CptXE2XzLgeFiwQ2V2pFHhy8awHD9ckDDK5krXjiJXW7
+	jLnGM0Ab8roTT1RMQ6ye/nrxTRcVcDQ6FvBR9rSFBK5qmv6/roX53TwVU4dBOdQ==
+X-Google-Smtp-Source: AGHT+IFewEgzh+navCckBdb7lL+wzy5gFVB2RdeBSc6PAtpESEp7ykvGRV8OwGhoOa5sYl9xq0BHhqbVkNkj6TSnp84=
+X-Received: by 2002:a05:6122:4887:b0:51b:a11f:cbdb with SMTP id
+ 71dfb90a1353d-51d592bcc7amr39968496e0c.4.1737993505400; Mon, 27 Jan 2025
+ 07:58:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z5c7vk_oa8HGt7sS@ninjato>
+References: <20250122100828.395091-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVP8LrqAYK7sPJqiB+Fagk=CrhSwX1CixKOxoiGgyDEoQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdVP8LrqAYK7sPJqiB+Fagk=CrhSwX1CixKOxoiGgyDEoQ@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 27 Jan 2025 15:57:59 +0000
+X-Gm-Features: AWEUYZn7naazeV0KeZB-JQnjTKvmJ64OyQblw-v_fwKe0kUX2om_A9-SNmN0UYk
+Message-ID: <CA+V-a8tQOGeahv37ikq9Re6_4Hqdo5XbfQOv_KMf6pw9UsidZQ@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: r9a07g043: Fix HP clock source for RZ/Five SoC
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 27, 2025 at 08:54:38AM +0100, Wolfram Sang wrote:
-> Hi Dmitry,
-> 
-> thanks for the review!
-> 
-> > > The I2C core now offers a debugfs-directory per client. Use it and
-> > > remove the custom handling in drm bridge drivers. I don't have the
-> > > hardware, so I hope I can find people willing to test here. Build bots
-> > > are happy. And for it6505, it even fixes a problem. See the patch
-> > > description there.
+Hi Geert,
+
+Thank you for the review.
+
+On Thu, Jan 23, 2025 at 8:29=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> Thanks for your patch!
+>
+> On Wed, Jan 22, 2025 at 11:08=E2=80=AFAM Prabhakar <prabhakar.csengg@gmai=
+l.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > I'd say, it should be done in a slightly different way: bridges have the
-> > debugfs_init() callback, which is used by drm_bridge_connector (and can
-> > be used by other bridge-created connetors) in order to create per-bridge
-> > debugfs data. Please consider using it to create per-bridge debugfs data.
-> 
-> ACK.
-> 
-> > Note, that callbacks gets connector's dentry as an argument, so bridges
-> > still should probably create a subdir for their own stuff.
-> 
-> I wonder if this is necessary (I just looked at the code and have no
-> hardware to test this, sadly). It looks to me as:
-> 
-> - DRM has already debugfs infrastructure, yet those drivers don't use it
-> - but they should
-> - the new I2C client debugfs infrastructure is, thus, not needed here
-> - DRM provides a dentry to the callbacks which drivers can "just use"
-> - all drivers I looked at just put files there and never clean up
->   (because the subsystem does it)
-> 
-> So, from that, I should switch to the debugfs_init() callback and just
-> use the dentry provided?
+> > According to the Rev.1.20 hardware manual for the RZ/Five SoC, the cloc=
+k
+> > source for HP is derived from PLL6 divided by 2. This patch corrects th=
+e
+> > implementation by configuring HP as a fixed clock source instead of a M=
+UX.
+> >
+> > The `CPG_PL6_ETH_SSEL` register, which is available on the RZ/G2UL SoC,=
+ is
+> > not present on the RZ/Five SoC, necessitating this change.
+>
+> While the register is not documented to exist, it reads back the same
+> default value as on RZ/G2UL, selecting the right parent that does exist.
+>
+Yep.
 
-Yes, please. Create a per-bridge subdir under that dentry, but I think
-that was the case anyway.
+> > Fixes: 95d48d270305ad2c ("clk: renesas: r9a07g043: Add support for RZ/F=
+ive SoC")
+> > Cc: stable@vger.kernel.org
+> > Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> > --- a/drivers/clk/renesas/r9a07g043-cpg.c
+> > +++ b/drivers/clk/renesas/r9a07g043-cpg.c
+> > @@ -138,7 +138,11 @@ static const struct cpg_core_clk r9a07g043_core_cl=
+ks[] __initconst =3D {
+> >         DEF_DIV("P2", R9A07G043_CLK_P2, CLK_PLL3_DIV2_4_2, DIVPL3A, dta=
+ble_1_32),
+> >         DEF_FIXED("M0", R9A07G043_CLK_M0, CLK_PLL3_DIV2_4, 1, 1),
+> >         DEF_FIXED("ZT", R9A07G043_CLK_ZT, CLK_PLL3_DIV2_4_2, 1, 1),
+> > +#ifdef CONFIG_ARM64
+> >         DEF_MUX("HP", R9A07G043_CLK_HP, SEL_PLL6_2, sel_pll6_2),
+>
+> When building with W=3D1 on non-ARM64:
+>
+>     error: =E2=80=98sel_pll6_2=E2=80=99 defined but not used
+>
+> so sel_pll6_2 [] needs to be protected by an #ifdef too (or __maybe_unuse=
+d,
+> but the rest of the file uses __ifdef).
+>
+Agreed, I'll use #ifdef for consistency.
 
-> Or am I missing something?
-> 
-> Happy hacking,
-> 
->    Wolfram
-> 
+> > +#else
+>
+> The rest of the file uses:
+>
+>     #endif
+>     #ifdef CONFIG_RISCV
+>
+> instead of #else, so please use the same construct for consistency.
+>
+Sure, I'll update it as mentioned above.
 
-
-
--- 
-With best wishes
-Dmitry
+Cheers,
+Prabhakar
 
