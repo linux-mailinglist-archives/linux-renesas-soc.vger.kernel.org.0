@@ -1,79 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-12574-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42FD1A1D605
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 13:46:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB2BA1D603
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 13:46:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E7ED188743E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 12:46:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 353C81664DA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 12:46:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14E191FF5F1;
-	Mon, 27 Jan 2025 12:46:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7157D1FF1C9;
+	Mon, 27 Jan 2025 12:46:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nR3i/O2B"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F3lENvnn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D299818D;
-	Mon, 27 Jan 2025 12:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAFF1FECBE;
+	Mon, 27 Jan 2025 12:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737982003; cv=none; b=t5b98WhuhmyiQZkn9FVVkAq0P0MtXDSkREpqbueYK7W/G3pTBRO6jpKTBgon+M60ohjncP250mO7s6FoP5NN+jRLnpHZlf0jQ15noB4ytt2rFjRU2olG0KqxbMBWIrN3+m5RLeiCv3HvgdvxUylkdmSp60cdt80ddxqtIs9CFck=
+	t=1737982002; cv=none; b=DxzQHtbBYgekWbrlWBa1EBB1X1gLIFIbno5U8t9/hIkWuX2HYg5B1L9dJfyvYHA7py/cw28pzfFRgl7Vr8LNNi6x4Y3DqnbG6H+kVFldTChWTEgqXkqCoDDCrhyGDiZbIvrcaLnEMZorqnFcNs/VdKXL/ECFVOnu5fjGfnWGa2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737982003; c=relaxed/simple;
-	bh=RfFf9mqe7wnUpvIjSrHj6CQMvmZLwVEjIiP2MewLm8g=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=m0Iv/f0mcDHUhZmFRGRar67voBZfssKMoyBjimvSzkGTa1KTpAZtIXstRLkQJjhZl6eqK6Pfbidv9FzEAiQYaoHsJi2Rz68SMjZu5mtdRwFNe9QuDJ9/KozJ+ac/TTIFKuuLdRSH/tscwh7s9Hm7Jn3wsrfVKkvR/6dsquKfLTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nR3i/O2B; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1737982002; c=relaxed/simple;
+	bh=4mWrBHSk0HW6moMZXG5yPVWArdrATyoEJrN0gimIFl0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=EZw0g66N/0antDSDJgDo7tAJ1rKaz5rNP1jub5R2rRgwCsEYAAgaz5mH6jFfLnDrAomgOsgZCoeBoUrT3O8s+udvUPXsmZRfGWDDJmfiyf/pm8TmwWU7NruSgtssDDvCjGPzvilPZwCekKYDsOf+IFCoGsSE2gXOI3G1mVd9FKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F3lENvnn; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-436341f575fso47838325e9.1;
-        Mon, 27 Jan 2025 04:46:39 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-436a03197b2so28897395e9.2;
+        Mon, 27 Jan 2025 04:46:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737981998; x=1738586798; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=z8eYln85d4V0XxkISkF3B47hIlXSQBbJiZ4zG36gYUY=;
-        b=nR3i/O2BEQxrScKBu0l9nQOifuyVhqT9C8TMzmncQ200b18rnknRa6MuffgX4DZ3GI
-         XuA3QAv/v80Kv9fQGjr09gcUgQ3EXFUMChsmYluW4v6CyUqXSxoZS0RC0sNYJjIbOfLv
-         PVEVg++rIPJmFszZRbz+fpdl7wrrozXvxglqY6ZmuAPveKcymp6TFsJSS9HVpvaOJ/m3
-         nVBT5zngPT8CJgqH5cA6X9xsGh03qZOSEuqa1AsNQr2cwelOn8Ll72ci//NwJoCOy1RA
-         luQgD/LR4x6f87MJcM64YumXrJpKClqHbP0ol0XjGtz/gwN5A3EQwXfwtZ+H0CJajWiQ
-         TW8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737981998; x=1738586798;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1737981999; x=1738586799; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=z8eYln85d4V0XxkISkF3B47hIlXSQBbJiZ4zG36gYUY=;
-        b=cRQQIEU2bkRXffzuF+PhNj7Az3pDu2nLgWV8JAAhqtZ/Z857+nhxqEFUBsHCwfvBQS
-         5Pn7A2UKcgkm/3DbK9Bbs36i3XWFv3LqSMjAgv/TTq0P8d8aScmcOLG6dObNQVANFANv
-         o3fV6MYiuSKsJBhsYhMhsKybUCy+G5mmQ0Kpz1YF7JxDB028Icc5H/DhcYMGS6DeiZd3
-         eJtDqR8lEmUBvRmv+aWNCjEVYirPviH73+kqCYC1Z+A7cJvtEChKJDf34WovB6zVSvmM
-         YqL5nD1fdYZFavNLdO/oVgRYXE72GEpdJXfIZGXest3UAVcbYij8XRqIZDJpxpu+gLD0
-         tXzg==
-X-Forwarded-Encrypted: i=1; AJvYcCVQ8ilDXagVDJ65eWzxLvkUKZl3ANw3tejUl3+76A/TTM4foAEYRkNKoyCupIFTKhWTQgIJdsvaCjR4QCI=@vger.kernel.org, AJvYcCVn5mtDc3UT5revjaUOEu9rfSPdpEXtKvGGZFfXrSVhLqz+HtWBqQcn6CzNHRKZuDroUB7jTaGUIc5CfKP6akNdQkQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJQZ38n074+MBmvpOY18jxf7QAk5teELE13Q3vT+E5esGgaeZI
-	d3mhgrL+F/1gveDhoQV8+ZcJlQLTFqpgY9p3S0K0QLR06NUJIJCD
-X-Gm-Gg: ASbGncvJN9VKbKWdGLaDTK1bYEsLgxLFLfIutk8HdFf92rFqGRPI9/GnVDJC3/v+P5+
-	pGNyYuMhDNjTg8Ks9jBNNzgYH08vnPuweyJP+wdWwAcJIwkobCU8ybcDJ7+F7/simB9X6Ehp2p2
-	Oh02MAw+qxFE06V/7XBTgWzYeMKONMWM2ZZuMxsIFNAQYkOxRA7wBfpRwqjwciBn+EW6BLK7qXz
-	d5nhSYdAJ+4tYEeaAdxPVQuEXSlzl1ctM+9CW8WVWURSeVHdbseB+ILbOIZxLd+WSEvDoEuAsb3
-	g4qa
-X-Google-Smtp-Source: AGHT+IFfSd38Ri9jN8sfQ5L5B554TUZX0q25wsFyyX/2uMgyGS67py+XFULHlQy6v7HbU7SVRYe6KQ==
-X-Received: by 2002:a05:600c:3495:b0:431:5c3d:1700 with SMTP id 5b1f17b1804b1-4389143b450mr317083695e9.21.1737981997803;
-        Mon, 27 Jan 2025 04:46:37 -0800 (PST)
+        bh=5UXpQLaAZHWEyD0pxCkPC9tyYvCIT3KFA3QpJPSo0x8=;
+        b=F3lENvnnyIdBXJiRuyenMBlDOFUYRotmz4NYSF3Lvod3+HJPsvpjEyWRXg2f9SHFVt
+         DEQtC4qlTlYK2sDilwEDRUt25hmsp33HQo49Bb2DcZTMFZvjrOMwuTbY2k+W+2lxx/sT
+         SDGS13Vb5F4PAs3ljRAayhrg/z8JKai1Wp6NgrY+OEJXVTQWQ4zwAfbDy7WRJjP8szSs
+         kWik1XLTT9+Pefai6YkMYmu8lYxTAIImYTiO/1AyxatFNm/wR2kmLPTfDNd5U5uVNHWo
+         /VmaXDP5nE+fk/JtMmRsFaRi1T3HUepKn0J8fu6JJ+3nel51Ex4yMu8lWgGd4oF2mKAv
+         3/Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737981999; x=1738586799;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5UXpQLaAZHWEyD0pxCkPC9tyYvCIT3KFA3QpJPSo0x8=;
+        b=sP7OZmjqna7do7mbyWcNtxt7hj/rQtZEyQ2lOGY4hrTHJRy/wOlEOEOXmdovU9FHH/
+         DIiot6ITKNPqjHqHG1T7WozgmK0DjH3nyv2YulT1MFRK3hB5i71Ll+CR43IlYqsezNtg
+         eerKKDMNC+aB99LFwkge5/79SQRy11jh+hIAwlRfXowAEHCYBRnX6Eq5gvypPJzbU4mK
+         xiCSUcpWgSqO9qQoGAt3i7ZiBsW66WR+Z0rBirsp/MlIRA4Bi3GdcyfHlldthwr+so7u
+         sWautuKObrrHeZ4zrBDTOhmSkp+fOs2u/PhRJaZkoRrX+hIkn8+cPv0YR0ieCAuUbrxU
+         eypg==
+X-Forwarded-Encrypted: i=1; AJvYcCUB2haBoRrUbeEJgSDnCVmd43AG4ZzZ2MfMdxPzhO48phGnCdiiPnYmf8iAuKAWFnTW+iHpBfTxKHX6yjQI87wlYOo=@vger.kernel.org, AJvYcCUdkyDJIaUpo3TkahO7mcFF6VYhD2w0E9f4ayTkT1i2XtMb3Lp7nWlnVVGsVqRIV51dY15QpdGB1jvv04A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqpDTxh/S9NwSdcsSSEAyBpMKK7OKWYag+raXlxTCbOJsZ+VVu
+	XLN30NVw6xGQeYUUFRVkMpSIq2ifBVvqKt+f4hlOFuLDHhkctnl1
+X-Gm-Gg: ASbGncvwAs1SiQFPNRA/BQijdnqgUTKBcvnEHWakK31hR88d+DdKe+8R9YhscnBwhGZ
+	TCFePU484EhLy8uNH1lvIqEt6apDBQmntCqU8/K3Rt4OZbrITWxzLtX9Z8Rn8r5szT+0075W3IC
+	0UeaMqAi+66tlpcuXyiUT+whoVgvIwyQB6gqkK1DOtAfLkvI2E7O5O0JDwAGIV4+Vqm17Ar7t3d
+	GLUgcOV/rkpcs7Ib+kD5UP8cN18Y7p+fHbmltUd7MxiQSkH1mQDuIcC95K4OQx352g9ovBAv3OG
+	brPN
+X-Google-Smtp-Source: AGHT+IFcpebGZaqOLXYWPaGFtndOOwU8Vjebxht6JbYpi1k2FlAk2skEDPVNNfLGXRNNRoy7L722kw==
+X-Received: by 2002:a05:600c:b8a:b0:431:5e3c:2ff0 with SMTP id 5b1f17b1804b1-438913c9f66mr357781595e9.8.1737981998728;
+        Mon, 27 Jan 2025 04:46:38 -0800 (PST)
 Received: from localhost ([2001:861:3385:e20:6384:4cf:52c5:3194])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd4b9990sm135476565e9.29.2025.01.27.04.46.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd501c2dsm129176715e9.13.2025.01.27.04.46.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2025 04:46:37 -0800 (PST)
+        Mon, 27 Jan 2025 04:46:38 -0800 (PST)
 From: Raphael Gallais-Pou <rgallaispou@gmail.com>
-Subject: [RFC PATCH 00/14] AHCI power management cleanup
-Date: Mon, 27 Jan 2025 13:45:55 +0100
-Message-Id: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
+Date: Mon, 27 Jan 2025 13:45:56 +0100
+Subject: [PATCH RFC 01/14] ahci: brcm: Switch from CONFIG_PM_SLEEP guards
+ to pm_sleep_ptr()
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,10 +84,9 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAOAl2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDQ0Nj3YLc+MSSRN2UpGQD8yTjJIOUNGMloOKCotS0zAqwQdGxtbUAIVP
- XsFgAAAA=
-X-Change-ID: 20250113-pm_ata-dbc07b3b0df3
+Message-Id: <20250127-pm_ata-v1-1-f8f50c821a2a@gmail.com>
+References: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
+In-Reply-To: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
 To: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
  Pengutronix Kernel Team <kernel@pengutronix.de>, 
@@ -102,71 +103,65 @@ Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  linux-renesas-soc@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2376; i=rgallaispou@gmail.com;
- h=from:subject:message-id; bh=RfFf9mqe7wnUpvIjSrHj6CQMvmZLwVEjIiP2MewLm8g=;
- b=owEBbQKS/ZANAwAIAechimjUEsK1AcsmYgBnl4AqHXy802/pdPDCEw20R6+hBBw+dOLQVfY0K
- QKOcufY0oGJAjMEAAEIAB0WIQQgmXv2E+fvbV/9ui/nIYpo1BLCtQUCZ5eAKgAKCRDnIYpo1BLC
- te79EACIeSoH/vfRi6LCb3ARwUq4Q7HhYCKxv2xDX3f+4IFS6pryCyaXp3kgdqBqgNYaMdQ5ShF
- VKytt+DR+0DGoHcn+C1yMz3KxmukzDBedfB8k+fdD5hjGgh795mkqmPw6E5AETkN6odr6wAyzIg
- tWrhzoJpeY6SH+gkPflAR3Tc/PXkxWMQgV5zCrvWb3KmYDX/BrBPHX0A6LwyF7L8v6t4As3cIHH
- QC+bBsP+G0uA4AFupeTs/LMOX+UkfCKthpVUYsspVDUpXv6ntLa/zQn8F2lhD4b3U9cP5OchTmz
- g76Etrn5y2YHML03AKRXgtNpQNcpyedeIHMY7I4EcyKhK/dka5UTl/sM1W18Js+vQUbDo+OhEQo
- uerK1Ke58MwavucFUFK+hmqJtJJXwhjOqUUzAFRoVSWNLuod0jGTTB1rGC6IasIdP3cSsOYxpF3
- AJqZ0p8Vpad0JWvKza2mYOsdtAMvX4ym8T6iwt70ipD2TONcNxhaNuLJYc5Ae3zvTgE6kjd5Uph
- hS0V69QysEsSK6BhUOHKlR5Y6G3/nhCSvV9iTjMhfMP+MToZO1ZCZrKN/J3FtuVHDDZHeNHTZ49
- sMTOG3cHWP5kkCzdI0rnBPZAVzQlmyvrDmr+O298eFnNIKSWDq21+i7ubogmftWYSINmMsEQ2j5
- VG38IVjlMtsqAIg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1571; i=rgallaispou@gmail.com;
+ h=from:subject:message-id; bh=4mWrBHSk0HW6moMZXG5yPVWArdrATyoEJrN0gimIFl0=;
+ b=owEBbQKS/ZANAwAIAechimjUEsK1AcsmYgBnl4AqwZw5/RPua7LmhyMMUY1qD4nk4fuWdEjvn
+ fkcBz0A+ICJAjMEAAEIAB0WIQQgmXv2E+fvbV/9ui/nIYpo1BLCtQUCZ5eAKgAKCRDnIYpo1BLC
+ tZSMD/9QFx/Dg/L9PZ311iYUySiZ5aaWZQ+jU5ysXXdpxQh+9iGpTrscQRBVfUbxFgoRJOSW2Kz
+ /LxP0K7C6laA7kH3NsToFv20OKKvAo8JE/WrsxBNU2jNxzXaaIq/qRjOFJFXOGqFduVyTxASc/D
+ rtGK8zEksr6Ulazfl5E0iRx1TPrAR9NlKBvV0KAVSkAlDV+MZQ+S7Ym6ZmXk+6ilwUZeFANJY6V
+ gEdR88tKc1CpsaswbsvubsiNYIoES3v4zcEGFWVJ87Zfe9Z9wqmEHrgB6G4DExJA1BkUzMDNKOt
+ jCw1z1SJ05MeOeoDOaTWUKNBLjXsa9aqII8RXNQG+DQIlHq8ucSEbgEtYkhspqDfet8IBpPo/Gn
+ lsRRuzRsrL/BthLog1m9OUJ7ex7384StiA+Xk1HgskC6pid6pOIUUEXB0irM3UvKWfAmCtvCiW9
+ o2eReO7PMqmkdf98ZwYMiP51i6TTly7NcLNSJOvYsQL0RqJaXTx3DMrb76yAQMCgex5b35hVK+7
+ wIY8Mvcvf+Qf+TOMoGYpx0AYeDw08fHub0truLO8SjYyrgmQh9QK+uF5pbweufGV/RxBxMjiAAs
+ WoIUly+qQrUHuAK8PEwzjqcw1LDHLo4xd+sDE3Y55CJrne0v2nDd0QTopi3kcz7woJeJWjG8b0i
+ wvyJKOEETeFoxvQ==
 X-Developer-Key: i=rgallaispou@gmail.com; a=openpgp;
  fpr=20997BF613E7EF6D5FFDBA2FE7218A68D412C2B5
 
-Several AHCI drivers expose suspend/resume functions in a way that can
-be simplified.  Using pre-processor operation can lead to errors, while
-relying on automatic kernel configuration is safer.  It also shrinks the
-kernel size when CONFIG_PM_SLEEP is not used[1].
-
-This has been compile-tested on x86, arm and arm64.
-
-[1] https://lore.kernel.org/lkml/261f9fac-82de-4f39-bf5c-cdfcee917588@gmail.com/
+Letting the compiler remove these functions when the kernel is built
+without CONFIG_PM_SLEEP support is simpler and less error prone than the
+use of #ifdef based kernel configuration guards.
 
 Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
 ---
-Raphael Gallais-Pou (14):
-      ahci: brcm: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: ceva: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: da850: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: dm816: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: imx: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: mtk: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: platform: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: qoriq: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: seattle: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: sunxi: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: pata_arasan_cf: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: pata_imx: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: sata_highbank: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
-      ahci: sata_rcar: Switch from CONFIG_PM_SLEEP guards to pm_sleep_ptr()
+ drivers/ata/ahci_brcm.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- drivers/ata/ahci_brcm.c      | 6 +++---
- drivers/ata/ahci_ceva.c      | 8 ++++----
- drivers/ata/ahci_da850.c     | 7 ++++---
- drivers/ata/ahci_dm816.c     | 8 ++++----
- drivers/ata/ahci_imx.c       | 6 ++----
- drivers/ata/ahci_mtk.c       | 7 ++++---
- drivers/ata/ahci_platform.c  | 7 ++++---
- drivers/ata/ahci_qoriq.c     | 9 ++++-----
- drivers/ata/ahci_seattle.c   | 7 ++++---
- drivers/ata/ahci_sunxi.c     | 9 ++++-----
- drivers/ata/pata_arasan_cf.c | 6 ++----
- drivers/ata/pata_imx.c       | 6 ++----
- drivers/ata/sata_highbank.c  | 9 ++++-----
- drivers/ata/sata_rcar.c      | 6 +-----
- 14 files changed, 46 insertions(+), 55 deletions(-)
----
-base-commit: 5ffa57f6eecefababb8cbe327222ef171943b183
-change-id: 20250113-pm_ata-dbc07b3b0df3
+diff --git a/drivers/ata/ahci_brcm.c b/drivers/ata/ahci_brcm.c
+index 29be74fedcf01934e436481c66cb8d329284d599..3d43ed5db6078b3f07440f21aae6edf73d1da7f2 100644
+--- a/drivers/ata/ahci_brcm.c
++++ b/drivers/ata/ahci_brcm.c
+@@ -362,7 +362,7 @@ static int brcm_ahci_suspend(struct device *dev)
+ 	return ret;
+ }
+ 
+-static int __maybe_unused brcm_ahci_resume(struct device *dev)
++static int brcm_ahci_resume(struct device *dev)
+ {
+ 	struct ata_host *host = dev_get_drvdata(dev);
+ 	struct ahci_host_priv *hpriv = host->private_data;
+@@ -570,7 +570,7 @@ static void brcm_ahci_shutdown(struct platform_device *pdev)
+ 		dev_err(&pdev->dev, "failed to shutdown\n");
+ }
+ 
+-static SIMPLE_DEV_PM_OPS(ahci_brcm_pm_ops, brcm_ahci_suspend, brcm_ahci_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(ahci_brcm_pm_ops, brcm_ahci_suspend, brcm_ahci_resume);
+ 
+ static struct platform_driver brcm_ahci_driver = {
+ 	.probe = brcm_ahci_probe,
+@@ -579,7 +579,7 @@ static struct platform_driver brcm_ahci_driver = {
+ 	.driver = {
+ 		.name = DRV_NAME,
+ 		.of_match_table = ahci_of_match,
+-		.pm = &ahci_brcm_pm_ops,
++		.pm = pm_sleep_ptr(&ahci_brcm_pm_ops),
+ 	},
+ };
+ module_platform_driver(brcm_ahci_driver);
 
-Best regards,
 -- 
-Raphael Gallais-Pou <rgallaispou@gmail.com>
+2.48.0
 
 
