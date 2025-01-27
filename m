@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-12584-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 390D7A1D622
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 13:48:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF750A1D625
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 13:48:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5326918874C1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 12:48:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DDBE718874C5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 12:48:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71B2E20124E;
-	Mon, 27 Jan 2025 12:46:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44F6F202C22;
+	Mon, 27 Jan 2025 12:46:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K/dYAGWk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fUV0P5y8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839BC200BB5;
-	Mon, 27 Jan 2025 12:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CF8201024;
+	Mon, 27 Jan 2025 12:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737982011; cv=none; b=Gy8KxghOVmudsFUi2QBMAaIhUNIBjxEYntnSnvqhDBJ2rQfn62Z2w3n8+B0oe4IcgStSB2epVKpbt89ZboPNE5DUkQJ12juYGwRD9Hr4p6GjUai4kRlqy9kKE2rqZXh8wW7RIcvM38jt8GCkURsDwlfaSQnzU6gIA9qkfYMHkl8=
+	t=1737982012; cv=none; b=VxL3BNfg3dqQu55XxkjbQli4nUQUFMW/SaSDuKU1I5LnEOm5wVT5kP992LFXoxNni7ZpbEp3rO5cZE0iqphCF19tKWpvfHlQGonXBeiy23EtwaHat1ZTbCnnqB5F3iQiG+YkRiZT8BYSAtDN2/LGLBqADFXArPZ6eF9FZ5awEko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737982011; c=relaxed/simple;
-	bh=W9yVEdw4qSI4n7OCj5u/OGHoNGxhi+e4Ou6sa0uyD7U=;
+	s=arc-20240116; t=1737982012; c=relaxed/simple;
+	bh=RduU4fzm2S8yXhoNskJ0+TWDY47QJ0ZCJVc8mKi6Q6E=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Xz6OiCV2FqYmzqYsUW4FHluKZj5G/nZL73HvikWTx31qrd3y58qV4Zd7EHHG4TIbdZXbfb1OYfJ0hLyzBsaOSVbA4FKOCUM5iWs8c5zqJb+V3uVUEIsXVKt/HjjAMiY8V58JdA3NlVqYMSze9rfBZrztwazowLoTrPDICBtUxTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K/dYAGWk; arc=none smtp.client-ip=209.85.221.47
+	 In-Reply-To:To:Cc; b=s6NnS8dCO21qWcwuGsgaIRBNLWfkIPY+N9sU+gJidF6Lmbf4hrMG3Em59wYjkCQ4toO6JKAmCVePzahJ6AnVWxUzCmylX3CnFV7p8oK4iqsyBfQLW7SzTag/RTCPlCJjT2BUNsMC9jG3r672M4/lxeL03g6cPM1MtWfWPun0H14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fUV0P5y8; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-38a8b17d7a7so2259924f8f.2;
-        Mon, 27 Jan 2025 04:46:49 -0800 (PST)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-386329da1d9so2220925f8f.1;
+        Mon, 27 Jan 2025 04:46:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1737982008; x=1738586808; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KyTcZ2hwVqzXcvZadTxLwsKyE/CzZeUWttlSS9sOM8o=;
-        b=K/dYAGWkHtDppoAHIU1WhC0Dfi5aJHLE7qUQzqvFQ0FSfdKbUrvDNZbYZC07Xe9RDh
-         j/D7ggsJEdll58/bPF4TkC6tgx4A6DqyoHl1h+CP96phM9G4J1afxsUDuMvxPtc3WbgY
-         R5qheySZ2U65824t6EEfZbLm/cilebLFsPPstAGI/pQcp1KUuUhjXkG7IyxWBUXZR8x3
-         MRK6pz0Mg2MNrc+gE506VNWA3UrJsJ1lR/bmrqgzJUOJmky4Ly7FKGxn5vO++ODwn2EJ
-         MO1GHnhN5QxNUYpRMnNEJ1cnzXBNXhG+LEZPEYr7L+NhqbpjIgEhOO7V5AACmnOSvs+E
-         lTMg==
+        bh=2I/g6DzNEY6MLWNE45x2+A3Pg81FAkaF8xBvQmIiUUk=;
+        b=fUV0P5y8jHTVpkDGn132oYA1mQKC44Pi6S1aNxxdkXy37xa2bYbVHrGk37PRKUzx8f
+         HtK6a4YBrsZpVsXOrUB7WPIZfIccSjNpPAWhM+0l5IbJkOUyWCp85tuPAFHGtU9w2nVS
+         CcFoGOlP4pweJOn8Y0IYBTEnZQW3nlepKVyUgapN6gpA/0cdqnwS7Dx4Hi+eG+LZLiI0
+         bwL8UiXnvPKOfhzCHhFPTwr3SGBxZJK5ypoMeSOQujiYxSNkF0TeKC9ApGYJJIgWwpc9
+         S/oV7F5KJFQam+n7ZWf4bzqLdJvpOxO7lUE/Zv0XFDEZUYB5fwdznIAfizO4gy46lxhp
+         pydg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1737982008; x=1738586808;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KyTcZ2hwVqzXcvZadTxLwsKyE/CzZeUWttlSS9sOM8o=;
-        b=UK0mKW/3BwzLM/3868w11tLY/y+4Woq5HWCTYqxRI6x2dKv2CS0GzV9Q7FbW3/PFIV
-         4qCM53BUeIOEyl9jkZCEnbDM3oHFu4aaTePBI+nyYdnrLrs6Xcyyn7Wni+QOoiyeBAaT
-         TMWSUD1o2vD49pI0eYo15fpStDhXFZGspMIAISGTE4PDJW6Sv1WJUrpSkqe1aXYue1LB
-         g/fYXpWWeiWTyCX8dXFTzVdB/b1nhQFV5VfHo9o7bNnMA877QunK2/SSwbnpjmGBF5ah
-         jVOGDzDsTDJ7bBYGHTUTSyn5LEKCkYJFRZBKg9elPSY1GwaM+hIMKK/uftRXLr135hBf
-         NPRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUCyNPCtCNqSC/J7KrqvWTji0IxfJPIPNXxGFrS8Qls9TNFcsS5oAXAbIwH3Y2fXq3wO7clRrQz4q/4nDcewziLQ78=@vger.kernel.org, AJvYcCWLsGmPWViuDh0R+PY7kvg734n4ImFVw42GxHlgTAzEag4IZ7XO5trgOEJsGgyua6U7LVZtE65bJXZWCa8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFVXha8jFcN9zAbFw8zF/bv6pBSaJ4487qzQtMiwTVQT7TGwRu
-	JepfgdKlh6IFezl49ocQlppLT2pGuDiyljkxIbwN4eMSLKSirDmO
-X-Gm-Gg: ASbGncutv8a/kVkm+dNg6u5bdlhpmFkaLM7X1M25m6mVIM4TSkoAFDfnecbuIau/Uqy
-	Np6M4TkvCi0WbLolIDcG487Tce09HlqDv71kBvTWIgTrU0HM8uj9xcTXBSgNjEzTufzeGzJzNp4
-	E3BsG0jPOP/6tWGtYZ0q0CxaZrKSjalePBpH6uzcBzGY4gZl0h8K9bifl/xJLlTB2btqTZsIZXq
-	DNVrYvYyZL6vBHCAmWFfHLEpYG778oiBdsXAoKzdRey1RX1RKB5HnDeWOwW2TFkWoF1q6/MGsn5
-	/hB+
-X-Google-Smtp-Source: AGHT+IFg//5LwYfTEQFnuSRS+BvJlK0U1CIpZoSn+yBRmJA85z19Z9oAChFCXf49dqnRysAazQ+L1g==
-X-Received: by 2002:a5d:4f8f:0:b0:386:4a24:18f2 with SMTP id ffacd0b85a97d-38bf566f3d7mr31426711f8f.25.1737982007652;
-        Mon, 27 Jan 2025 04:46:47 -0800 (PST)
+        bh=2I/g6DzNEY6MLWNE45x2+A3Pg81FAkaF8xBvQmIiUUk=;
+        b=szbHWL6Lh7ppxD2xl+YZ21Uyofqd3PVGjVCoPDJdLGTrMfNy32lNvRHY+PRiOhnrsr
+         zcxoXAPBeT0xS8Vpu1a3Y1S5X9F+wdsB6jvNyP+lyhUhM+vaCzKIowyvIDT67iBVy4Xh
+         ukkr8/O+dgS1O+p8MRuZA2e+0KYzUy8QdrlGYL8y9/C7egN3wVBaRWSbDc1vQYfXFCF/
+         HHa/0jTpk2LF5Bksch1ZaFZTRoaFfb2HP45jNDjUDnfGe3KkapOanGF8RFfypkn9X5jk
+         QBgV6087raaa2aWdgKgzcx++7pNLc+22jDG9muB3YQpxPcArBNOeh8QDsFyWpYDx+FZH
+         QeWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW0BMpAF7e+v4u+FKs4tFROgdYjla5u3s+YIcgzsykIbU5ktiy7K8wAw7/BoydctblIN8SQyviv2qfKMOb6ICfShe0=@vger.kernel.org, AJvYcCWzGoiU0i7WAqOJQRPclHBrM5OSogK0BkXj5MeWkuucWdBRoSe4SBsZ2Xn9qDlbBSxnC8PXpPcwp2pt8ig=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3H9T//EqVPU7U6N0QpaD9s/FwpjqmQNzVg4NXpc5gZZ7AvTkE
+	4hs7sYv+cIHVPHJK7vqzOd5eyDET/1SwpHsXaTADKwEZUjrtWGxY
+X-Gm-Gg: ASbGncv8gAFWe37x5Q2VftImIWCQux+ZqUiedo0wQ4p8CGgoBOE0bubZYJ0aAxEKkfO
+	Xrx/ZCJvLh1cq4xWrZ+ZqYVq9bxxJkYCFOXaLh1ItPY4vLmYRdRGnp/xjDKbAis3bk1pqGBjU1i
+	n90xJqTJ1wZ54GZaKyNuj8vUWrN0H0QJhzcx7lyON2flRi2ZCCmHHEnp8YEHNPKr8NIAynwA2Cx
+	fIjf2dTP5Z4CAQjckeR4nP8OTi3THaJwOV7yvVeGUbZEqmsGnx4eiRj03xZ5B0knOhjSujVZnoA
+	N4k2
+X-Google-Smtp-Source: AGHT+IHsX9fH6pHzf3bCE6qbXfxbIlFTpPyDWWHgJOqmqyR1gPb9ILP3sU12vqEYpKUdafd4H6jDhg==
+X-Received: by 2002:a05:6000:2c2:b0:385:e8ff:b9c9 with SMTP id ffacd0b85a97d-38bf57a9599mr31959724f8f.42.1737982008403;
+        Mon, 27 Jan 2025 04:46:48 -0800 (PST)
 Received: from localhost ([2001:861:3385:e20:6384:4cf:52c5:3194])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a1764d3sm11150284f8f.19.2025.01.27.04.46.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a176538sm10795823f8f.8.2025.01.27.04.46.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2025 04:46:47 -0800 (PST)
+        Mon, 27 Jan 2025 04:46:48 -0800 (PST)
 From: Raphael Gallais-Pou <rgallaispou@gmail.com>
-Date: Mon, 27 Jan 2025 13:46:06 +0100
-Subject: [PATCH RFC 11/14] ahci: pata_arasan_cf: Switch from
- CONFIG_PM_SLEEP guards to pm_sleep_ptr()
+Date: Mon, 27 Jan 2025 13:46:07 +0100
+Subject: [PATCH RFC 12/14] ahci: pata_imx: Switch from CONFIG_PM_SLEEP
+ guards to pm_sleep_ptr()
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -84,7 +84,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250127-pm_ata-v1-11-f8f50c821a2a@gmail.com>
+Message-Id: <20250127-pm_ata-v1-12-f8f50c821a2a@gmail.com>
 References: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
 In-Reply-To: <20250127-pm_ata-v1-0-f8f50c821a2a@gmail.com>
 To: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
@@ -103,20 +103,20 @@ Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  linux-renesas-soc@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1488; i=rgallaispou@gmail.com;
- h=from:subject:message-id; bh=W9yVEdw4qSI4n7OCj5u/OGHoNGxhi+e4Ou6sa0uyD7U=;
- b=owEBbQKS/ZANAwAIAechimjUEsK1AcsmYgBnl4AsXHhQC6f7LA3oB6K4p2SmmbhUaUWGrqpy+
- 0C1WwXAqe2JAjMEAAEIAB0WIQQgmXv2E+fvbV/9ui/nIYpo1BLCtQUCZ5eALAAKCRDnIYpo1BLC
- tefCD/9fpGNoUqDi51K2tB2D9CFl8CeeHTF4pr8xRoOQ4wHxFq1j34zFjU0zF3FMPafOKzx2ZpU
- M0H+96OFbAZFRVUbx4TMhBAUFbWDJmYEZaD37c+ZiNhwe04QMF5xjCOdcOzfOxq20XK75ysaLym
- SaEYxQu2bvz+1luQsRFAMDy9qgE3lU/RwHZX4Fnoi+LNBgCnzFobqD6AcCGplQY5GczK23KyIy/
- Qnsf/uNpvh0qhLhkT9z8qojEvpxvy0B4Gjbrg/7C+/W16wnfh6q4tPxknNPELUPgowGCKyPBXMF
- N2H3TS21r18cdyWUIRFdZQyKfD1OV7qvTeVtnZKZKJx8S0YDBEOafcZmRlXuFLUlOOikIvDDfmy
- 60XDP8DfgiBRt8SNQMvttfg5JDwQ06nB2k5WmpKgJKIaH2Isb79axwMaocq7jKHGJ5zU3EM2LKt
- P1CSwU1T2RyRAP2moyDlxIQWHKwt7l6spquHZS/azAm9qYKh7V/NjXg9ojMSyKAsxzSieNlYfi9
- RrD8Ciy49bQb8tFtcEPD+4NAYZxTqA+rQL0enjR0VFqy1U24bMwVr3zTYFYzUNtPBruiDyS6Ihl
- ZS8SJ3BU1M8Kn7kD1mDYNNod/D6qYBF9ziEv26ZHOM3Irpk2//In81xjJi8n2RRxWRWc32SzYmY
- kSDFGSf9UT/2Vqw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1422; i=rgallaispou@gmail.com;
+ h=from:subject:message-id; bh=RduU4fzm2S8yXhoNskJ0+TWDY47QJ0ZCJVc8mKi6Q6E=;
+ b=owEBbQKS/ZANAwAIAechimjUEsK1AcsmYgBnl4Asu66s73cxW3afxzdcBdIOeskJ4QvLePjmL
+ oaiUlkSOWqJAjMEAAEIAB0WIQQgmXv2E+fvbV/9ui/nIYpo1BLCtQUCZ5eALAAKCRDnIYpo1BLC
+ tS73EACMRajQZc8Z1sdLWV/SZIXg7nYvK964ydiGMezg7pqnDcMaSYXnamkue4xk8YysWf76r6q
+ rAIFBZxGxVa72BcdpYNyoxdGNBJ5f1QW+OTmmg9LRSUVFNAeA13SfgT3pIw7CTNB1dnliTzbSR5
+ GS4aD7UnS0Dh3GpOdzcGelDLJtR+sc/OXaK1viecqgLA7ZJ3++U/18rFhwQzukJSzGdjNkKaTse
+ sxLzAtXw9ol/+193Zcxih/qbp72pO6avHOcSiZh4LQYHDSxTxQ1hdD91bLM3lx7CwuUU5SbCMqe
+ EE4ztvnAjkzJrPcixcsE3l1WLe9bZ5xwYSGUj9Rdw46fwKSObdpfCMcZEoaL6lc4axzOoAxfDVU
+ hCBda18r0bikrIbRH64hrz5s//Evqw1DgvyqglLbLNHTxkhXCd1ge+4KqHDqizV/kHtTQBzHdV9
+ Qq01VP9o4MFgfHJZmAFp0wHEmo3MlL5C9u/irRELaCBV2FXJ3sa93XxO6SWDALiWzv0dbJ7sXgL
+ P/oB4FwJKL+02n0knMyZWDG0Hb4bG+1N1i7GipLIzXLx4YaivcE4dX0nzXPZWx0PHQrTcPNIeaX
+ r+U1dlYiTSU4v+XAjGJTkDKy9N8YZVv4PJkrbfgrLQzZ0Kmxjrqu7nMTaeAqdUYlqeK/8YjAelw
+ FUg+FQ0FzBVVD6w==
 X-Developer-Key: i=rgallaispou@gmail.com; a=openpgp;
  fpr=20997BF613E7EF6D5FFDBA2FE7218A68D412C2B5
 
@@ -126,41 +126,41 @@ use of #ifdef based kernel configuration guards.
 
 Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
 ---
- drivers/ata/pata_arasan_cf.c | 6 ++----
+ drivers/ata/pata_imx.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/ata/pata_arasan_cf.c b/drivers/ata/pata_arasan_cf.c
-index 514d549286b56eabe07dfc2b3a961ef0f7c983f2..3ec03147a8fbe30e9f82c184d7a9c32cabcfdb92 100644
---- a/drivers/ata/pata_arasan_cf.c
-+++ b/drivers/ata/pata_arasan_cf.c
-@@ -926,7 +926,6 @@ static void arasan_cf_remove(struct platform_device *pdev)
- 	cf_exit(acdev);
+diff --git a/drivers/ata/pata_imx.c b/drivers/ata/pata_imx.c
+index b37682b0578f48ea9d51a103d19e40fe91c4729f..533de2782c37fb21bba4e4b8361c48c0f2878175 100644
+--- a/drivers/ata/pata_imx.c
++++ b/drivers/ata/pata_imx.c
+@@ -201,7 +201,6 @@ static void pata_imx_remove(struct platform_device *pdev)
+ 	__raw_writel(0, priv->host_regs + PATA_IMX_ATA_INT_EN);
  }
  
 -#ifdef CONFIG_PM_SLEEP
- static int arasan_cf_suspend(struct device *dev)
+ static int pata_imx_suspend(struct device *dev)
  {
  	struct ata_host *host = dev_get_drvdata(dev);
-@@ -950,9 +949,8 @@ static int arasan_cf_resume(struct device *dev)
+@@ -234,9 +233,8 @@ static int pata_imx_resume(struct device *dev)
  
  	return 0;
  }
 -#endif
  
--static SIMPLE_DEV_PM_OPS(arasan_cf_pm_ops, arasan_cf_suspend, arasan_cf_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(arasan_cf_pm_ops, arasan_cf_suspend, arasan_cf_resume);
+-static SIMPLE_DEV_PM_OPS(pata_imx_pm_ops, pata_imx_suspend, pata_imx_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(pata_imx_pm_ops, pata_imx_suspend, pata_imx_resume);
  
- #ifdef CONFIG_OF
- static const struct of_device_id arasan_cf_id_table[] = {
-@@ -967,7 +965,7 @@ static struct platform_driver arasan_cf_driver = {
- 	.remove		= arasan_cf_remove,
- 	.driver		= {
- 		.name	= DRIVER_NAME,
--		.pm	= &arasan_cf_pm_ops,
-+		.pm	= pm_sleep_ptr(&arasan_cf_pm_ops),
- 		.of_match_table = of_match_ptr(arasan_cf_id_table),
+ static const struct of_device_id imx_pata_dt_ids[] = {
+ 	{
+@@ -253,7 +251,7 @@ static struct platform_driver pata_imx_driver = {
+ 	.driver = {
+ 		.name		= DRV_NAME,
+ 		.of_match_table	= imx_pata_dt_ids,
+-		.pm		= &pata_imx_pm_ops,
++		.pm		= pm_sleep_ptr(&pata_imx_pm_ops),
  	},
  };
+ 
 
 -- 
 2.48.0
