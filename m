@@ -1,171 +1,244 @@
-Return-Path: <linux-renesas-soc+bounces-12595-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1C6A1D8CE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 15:55:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8B4A1D8F2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 16:03:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51648165635
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 14:55:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D4873A50BE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 15:03:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0FC855897;
-	Mon, 27 Jan 2025 14:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 428107080E;
+	Mon, 27 Jan 2025 15:03:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MAgdN5Zi"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eO7/ToV5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FBD17D2;
-	Mon, 27 Jan 2025 14:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398CA13635B
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 15:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737989750; cv=none; b=lD3V6yUHP6jHIRNB8LesHaatghqKMDAxN4Fc3erXbdN/PPUykfJeDoKemuoexVIFzLAi7lTO+o6ZX2Kp7KoI6yLJZma24i0VptaN5xJ7/RriY5PvDnBkMELq5VcSfi/lhdukwEN0CfPZkmo/vigG5KkvHjpIGF+cyGM8xGRUFsQ=
+	t=1737990191; cv=none; b=IipoblV6u8sTvaM8d45WHqzHwis+B3AesfZRoKnCCg0eXHy1qzd+I8meonZ3IrnJpAI4U/9TtqIQNV8LEJY5KvNjO1Gq9cMd035OgXXoFvGwvPUvARx9EAnKeDpKt7TgKDrMAZ0fpsyEe1X5zSS/SN6ZEuiWp1YLe3CXnQU3K38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737989750; c=relaxed/simple;
-	bh=CEp9Gx55T6zpuqWZkJF8JFIM3G1E/ghQlVEB7+6Ylek=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=jiBevpzLSyutzkEbR1ecd2k9DoyARUoZlE7PwP9a6pBxxb2p5DGZB/V5bwQUpgTZSKF1gGvz4KJJ8MksFXUgJFYDYKn79Wlqm9+3a4CvwG9NxQOtHJp/Z1lU+IDPUSVhsnrXRQMtF509HEuYD3Go2m1sxLnAK0ndghv5nrmYErw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MAgdN5Zi; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-216395e151bso57490305ad.0;
-        Mon, 27 Jan 2025 06:55:48 -0800 (PST)
+	s=arc-20240116; t=1737990191; c=relaxed/simple;
+	bh=KgQQ5YANRbxtmZcEfox8jlX6dfC8/IJ+VxKphZA7qPs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mX8oXJalM8vhd4vcmb1XSeIo7E4kcic0GhxUKiBy33A+XlHrSvlxDPM1DPzEOJ/xXVBK5hI/F/A9sUivs3AC4JZGpguIs9IUnGzYtQ1WhB758rqq9clSW/456pkEmhRk4ZcopInBzppcw9Wlv/0KzDjdxfXyRprdzOVxNuBMErs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eO7/ToV5; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e46ac799015so5812052276.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 07:03:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737989748; x=1738594548; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=nNiNxCC6weilHsFerg9QH3W496S8axT2kKVp6XqugOs=;
-        b=MAgdN5ZiVaYF6R4XjHrk5K1FRkqHfDeFzFaIo00jbWisZNWsQs86XW1XKFwC5XsLo5
-         TDqaT8ck5XRFg2kWP+TguSNkcOl0/tX21g+Lt0Lo9zoSIFyUfk7u+IWiz5dvYW8vpWwW
-         ioPj5dUPfsHDDT5JJek+GAglP+xmwSRhUY/oJvjtTOtsrfuqRSV+gL1FC+01UfOvRN/+
-         ITtYlZs7NCkwmhNqBo7HDpVRqnx0kIplzDLaD3RDcxzgIoflL/eEdq+iBCxRYZRY1BIS
-         pTem2wMMdcLz4l5FpOH6f5NTMouhVM79BbOOSEZZWBaCZXMs20UhrIePaAiVYTCasWU6
-         8VOg==
+        d=linaro.org; s=google; t=1737990188; x=1738594988; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NXZQ6nb4ZjNmSWmyYgZm9Czv4PRceNRa178kP6HZ8M0=;
+        b=eO7/ToV5q+w+TfV7R8OaW/k3RWkcgG+5XSSKpXgSmn9Kzfsr42IEiTRsLNpeVR2Baz
+         cnrrhFDqhctw1TB+1tS8AtR0H+nTrDvq9KCE8S5hoKqIyLxHCanAwh6Xd6f3YKZKQyZ0
+         JpsWSDgnGhBVdp9JXbbZrQnCVuUYdlbHLC6vc/z41bEUIVwy61LnpGYe5SoVYJX+Nas+
+         UNQF7Sj6lpkN8W0zvrs0pAl70+IXsiHqaZ6DqwO25zaulCQrWqUKk+bvyL5CJXGCMvlq
+         k55whc0JvC8NKj2AW0sDwlx4SbY0N5iUcKPI8CU1avha312El5ioG0iAcNN8ZD6L+VF5
+         mnxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737989748; x=1738594548;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nNiNxCC6weilHsFerg9QH3W496S8axT2kKVp6XqugOs=;
-        b=WHeaQW2Ug24R8JeIyLwySuOIww9KetI3C0pbKQ87Ks2/lU0QfcY1Y1fa2/0g1WkMvl
-         dUMuimeVvPmNnUqWB8sGuCvyr2g/EYTJTmImsQDsgvtEHk9O7nyDlYvF9yQsdFHp5s9F
-         6QEKYS5LE9mr690kcGSyCT9kOkcyskqjakfHpXgXbarGBtKMyRhns4wKoUUbpIEurWm9
-         Ix9U12vrs3AaXvsGg6k3pS/oVv5W2NdcUP2+FCXDoaQamke/C0C6OwJQXGtke/sXNAT8
-         j2PBZyeFwqTt00TMYSwYaPdt5155z2vXEi/7C0sYYquP8oofZn4CZv3zEE+VPF8eIi0k
-         TTvg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWgR6w3REKZseCOn0XxzTbfDTysN9CbyAQdZdCTggYKhTzmwqrnnjQ6MqEUU64nyUApmobYDEpFE0AkA==@vger.kernel.org, AJvYcCWA0pFvgEPfgZ7gJdhzQp6eL32IMa+a1i4epIk52fUoY5P2B3Ro5VFCbY3v4IcjqWsnUnm6z8F7U+fTEI4Ll5CDtro=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTLuM957krHs201iCKOoeXnFruwWk/Qgfo3uJ4VTa07fszUn+8
-	JUhT145UpQCofr7jOBZUs4HVluYmVALCLiBBFom4rg3rGfKWA6BGpXA+jA==
-X-Gm-Gg: ASbGncub5srafEZNLDh5Zo5uDZXQgcavcUQct5b8wmnzWnUWuf2foUPUPc//Uew4ih3
-	0LchJJBgpln2f3hdj1RKujf+24cDmLtUhcvJVudsIvFpx5miwI7ybGqQPQM8E+sPBcPDJ32CosZ
-	ma1d7K1DEYyGOmtNVCUqGSJFNI4MYamPWQp0faU+nrDa0e1+tOIkFRYtftnJyjE5C1SUoktDBQ4
-	PyOVTYs+mmd/FieNG0TI8qMr5VXoi5bzOHzdAKEpvfDfK39cYiJ13GZX8Tgh3pnew58WrvJxTdG
-	kHIvrMDv72KbhYS3tvoXkdIcwdwIMLOHzPshUsslg3SPgJmyBsvhmQ==
-X-Google-Smtp-Source: AGHT+IGZj/Eu5lGh+OMmhgVeErGckCRLnCKrQFr835twGbp1Xpl15udk1sJbf1X/nGqtYBgpTBrdSQ==
-X-Received: by 2002:a17:903:2445:b0:216:11cf:7b1 with SMTP id d9443c01a7336-21da4a54444mr198706295ad.15.1737989748110;
-        Mon, 27 Jan 2025 06:55:48 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21da414daecsm63701355ad.177.2025.01.27.06.55.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jan 2025 06:55:47 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <9bc2d621-65bd-44a0-aa2b-c123ee901722@roeck-us.net>
-Date: Mon, 27 Jan 2025 06:55:46 -0800
+        d=1e100.net; s=20230601; t=1737990188; x=1738594988;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NXZQ6nb4ZjNmSWmyYgZm9Czv4PRceNRa178kP6HZ8M0=;
+        b=ZCLxzgizTMTu/BH/dBIP4ZYXjXfZdlJsHjeMpAZo11j0UR9+iuyeiCtM1j7bcWxfYJ
+         JXnUnv1JwLaJgc+GZPtuHCEqYIHQkJM1oRJvaNC91n4e/dyQ5NrqSJjtaJAAFxDoCK1H
+         f88Bu7UNiSexh1/LYWPNClbSNJwa7hvp0FyGETBLWDW4WBAJ6szFcZKe20ymVDG1M3GC
+         eaZq6WtHQqQvQ/6/Gu8n215qwA1vk36MPhuGpfRPbWnWImkKdnBDMww83o0gvZ5G53l7
+         +meykxBCVLCBzAH1L+H4iEllSQXunnSfoMvLZY4c09v475xhUUHQFAcXKMulXl9n0jhG
+         8gwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVse1FgcyOu+VfL32tKQqWskO5e+1BFN/mBt0Htxcn4pWvvfPfxma5qdvCxrasqsAwN8DLAtPNykEQK4gYCjAyxvg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1xb3yEpUVutWQpXdNqz9RbjKOqymrGde/ZE0wLr4dUFuAtW1E
+	UifeBUwN1JMllm60mlQCtAT3MqXWIyLIfQANq8Yl6qYDI1Pyw+HjdzQFGncB77/XbydB0BhR5r9
+	RiegEK1Ux4QhVEtd2gihznBe22UjHDQiegiMicA==
+X-Gm-Gg: ASbGncto0F46XDwJOvRSpbTbw1FUAO8pPlwnEwkq0L8viAMzp5iFQQlZUX1SuzhGrhA
+	6OzrStdHZCojXzFL4cpunOmMLWkiIO+wGkyvdYyzi3/UX6heKCOFcrKCB86KW0R8=
+X-Google-Smtp-Source: AGHT+IEt6T/uZdsMbBRTR7v5lKTj+sx8hluU13fEefiuxj0xUTMAIdxo11ZKTBwu3aNDvJlMgWAozLpYi/KSFkSLEJY=
+X-Received: by 2002:a05:6902:1501:b0:e58:1412:95e5 with SMTP id
+ 3f1490d57ef6-e5814129711mr17108491276.32.1737990187961; Mon, 27 Jan 2025
+ 07:03:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] hwmon: (isl28022) Use per-client debugfs entry
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-renesas-soc@vger.kernel.org, =?UTF-8?Q?Carsten_Spie=C3=9F?=
- <mail@carsten-spiess.de>, Jean Delvare <jdelvare@suse.com>,
- linux-hwmon@vger.kernel.org
-References: <20250123160347.44635-1-wsa+renesas@sang-engineering.com>
- <3c265d34-9442-495c-a715-be2eab3b37d7@roeck-us.net>
- <6da29214-9ea3-42af-9ec1-7ed5a2da7bfa@roeck-us.net>
- <Z5YgfT1JhhzlLdeD@shikoro>
- <abe834aa-4989-4480-9f68-3187e0d113ec@roeck-us.net>
- <Z5cvxJoXVP5QqbEH@ninjato>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <Z5cvxJoXVP5QqbEH@ninjato>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250103140042.1619703-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250103140042.1619703-2-claudiu.beznea.uj@bp.renesas.com>
+ <20250104135225.2573285b@jic23-huawei> <44e4a6b4-39a4-49d0-b3a5-fc5545c39a56@tuxon.dev>
+ <20250111131409.36bebfd3@jic23-huawei> <bb987a1b-a999-478c-8e35-124fcf41561d@tuxon.dev>
+ <CAPDyKFoJ3pLU-5_b5MSxMZd7B1cfOvmcdqR4FGkU2Wb7No0mcw@mail.gmail.com>
+ <20250117155226.00002691@huawei.com> <CAPDyKFpQUMOFtA-QCbYdaeKSDGJpnjcA+tiKZ=kzmrjYRtFZdw@mail.gmail.com>
+ <20250124184137.0000047a@huawei.com> <CAPDyKFrqDfYEQHk0RsRi2LnMw_HgGozMW9JP9xmkAq52O7eztg@mail.gmail.com>
+ <20250127123250.00002784@huawei.com>
+In-Reply-To: <20250127123250.00002784@huawei.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 27 Jan 2025 16:02:32 +0100
+X-Gm-Features: AWEUYZkibkIQT8TcMqUAUe1XzBqCQ3T6nHOIS2uELscvJhEfdW2W4UhZK7QYCLM
+Message-ID: <CAPDyKFoCx3jQOptPrY0CYNpH1R+fszF3MUQLSTn_nreyi5-vPw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] iio: adc: rzg2l_adc: Drop devm_pm_runtime_enable()
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jonathan Cameron <jic23@kernel.org>, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, lars@metafoo.de, 
+	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	linux-pm@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/26/25 23:03, Wolfram Sang wrote:
-> Hi Guenter,
-> 
->>> Your patch is definitely one solution, but give me a day to think more
->>> about it...
->>
->> Sure.
-> 
-> So, the results of my thinking further and looking at some other debugfs
-> handling resulted in: I think your patch is fine :)
-> 
->> In this context, it would be great if client->debugfs was cleared if creating
->> the debugfs directory failed. While debugfs functions check if the dentry
->> pointer is valid, that is not the case for other kernel functions. Knowing
->> that the pointer is either NULL or valid would simplify drivers (such as the
->> PMBus code) which need to make that check.
-> 
-> Sure, we can do that. Can you add this to your patch and send it to the
-> lists? If possible I would like to apply it this merge-window.
-> 
-Sure, I'll do that.
+On Mon, 27 Jan 2025 at 13:32, Jonathan Cameron
+<Jonathan.Cameron@huawei.com> wrote:
+>
+> On Mon, 27 Jan 2025 11:47:44 +0100
+> Ulf Hansson <ulf.hansson@linaro.org> wrote:
+>
+> > [...]
+> >
+> > > > > > > Do consider OK to change the order in pm_runtime_disable_action() to get
+> > > > > > > rid of these issues, e.g.:
+> > > > > > >
+> > > > > > > diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+> > > > > > > index 2ee45841486b..f27d311d2619 100644
+> > > > > > > --- a/drivers/base/power/runtime.c
+> > > > > > > +++ b/drivers/base/power/runtime.c
+> > > > > > > @@ -1547,8 +1547,8 @@ EXPORT_SYMBOL_GPL(pm_runtime_enable);
+> > > > > > >
+> > > > > > >  static void pm_runtime_disable_action(void *data)
+> > > > > > >  {
+> > > > > > > -       pm_runtime_dont_use_autosuspend(data);
+> > > > > > >         pm_runtime_disable(data);
+> > > > > > > +       pm_runtime_dont_use_autosuspend(data);
+> > > > > > >  }
+> > > > > > >
+> > > > > > > though I see a rpm_resume() call is still possible though pm_runtime_disable().
+> > > > > >
+> > > > > > I am still worried about keeping the device runtime enabled during a
+> > > > > > window when we have turned off all resources for the device. Typically
+> > > > > > we want to leave the device in a low power state after unbind.
+> > > > > >
+> > > > > > That said, I would rather just drop the devm_pm_runtime_enable() API
+> > > > > > altogether and convert all users of it into
+> > > > > > pm_runtime_enable|disable(), similar to what your patch does.
+> > > > >
+> > > > > That is making a mess of a lot of automated cleanup for a strange
+> > > > > runtime pm related path.  This is pain a driver should not have
+> > > > > to deal with, though I'm not clear what the right solution is!
+> > > > >
+> > > > > Key is that drivers should not mix devm managed cleanup and not, so
+> > > > > that means that anything that happens after runtime pm is enabled
+> > > > > has to be torn down manually.  One solution to this might be to
+> > > > > always enable it late assuming that is safe to do so there is
+> > > > > never anything else done after it in the probe path of a driver.
+> > > >
+> > > > The problem is that runtime PM isn't really comparable to other
+> > > > resources that we are managing through devm* functions.
+> > > >
+> > > > Enabling runtime PM for a device changes the behaviour for how
+> > > > power-mgmt is handled for the device. Enabling/disabling of runtime PM
+> > > > really needs to be explicitly controlled by the driver for the device.
+> > >
+> > > I'm sorry to say I'm not yet convinced.
+> >
+> > Okay, let me try one more time. :-)
+>
+> +CC Greg as the disagreement here is really a philosophy of what
+> devm cleanup is relative to remove.  Perhaps Greg or Rafael can
+> given some guidance on the intent there.
+>
+> Mind you I think I found another subsystem working around this
+> and in a somewhat more elegant, general way (to my eyes anyway!)
+>
+> https://elixir.bootlin.com/linux/v6.12.6/source/drivers/i2c/i2c-core-base.c#L630
+> https://lore.kernel.org/all/YFf1GFPephFxC0mC@google.com/
+>
+> +CC Dmitry.
+>
+> I2C creates an extra devres group and releases it before devm_pm_domain_detach()
+> As all devm calls from the driver end up in that group, they are released
+> before dev_pm_domain_detach()
+>
 
-Thanks,
-Guenter
+How would that address the problem I pointed out with runtime PM
+below? This problem isn't limited to attaching/detaching PM domains.
 
+>
+> >
+> > >
+> > > Devm callbacks are explicitly registered by the driver so that they
+> > > are unwound in a specific order.  Many other parts of driver
+> > > registration rely on this ordering.  This does not seem different
+> > > for runtime PM than anything else.
+> >
+> > If you compare clocks, for example. It's the driver that is in full
+> > control of the clock gating/ungating. When the ->remove() callback
+> > runs, the driver typically makes sure that it leaves the clock gated.
+> > Then it doesn't really matter when the clock resource gets released.
+> > The point is, the driver is in full control of the resource.
+>
+> Not a good example. devm_clk_get_enabled() does not gate the clock until
+
+I was not referring to devm_clk_get_enable(), but rather just devm_clk_get().
+
+To me devm_clk_get_enable() is another interface that we should avoid.
+For example, what if the clock is already gated when the ->remove()
+callback runs? Then we need to ungate the clock just to make the
+devres path happy so it doesn't gate an already gated clock. And this,
+just to save one or two lines of code.
+
+Don't get me wrong, I certainly like the devm* functions in general,
+but it's not a good fit for everything.
+
+> the devm cleanup. The assumption being that nothing that affects
+> it runs between the remove() and devm cleanup.  So pretty much identical
+> to the runtime pm case.  They being that you have to obey ordering so
+> that if you need to run something after the clock is disabled then
+> you register that callback before you call devm_clk_get_enabled()
+>
+> >
+> > If runtime PM would remain enabled beyond the call to the ->remove()
+> > callback, it would mean that the driver's runtime PM callbacks could
+> > be called too. For example, userspace via sysfs may at any point
+> > decide to runtime resume the device. In other words, we may end up
+> > calling the runtime PM callbacks in the driver, when they are not
+> > intended to be called. In the worst case, I guess we could even end up
+> > trying to control resources (like a clock) from the ->runtime
+> > _resume() callback, when the references to these resources may already
+> > have been released.
+>
+> This is all about what we consider remove. To me, with devm_ manged cleanup
+> in place, both remove() and devm_ cleanup count as parts of that remove
+> process.
+
+There is no straightforward process here, if you would keep runtime PM
+enabled beyond ->remove(). Things can happen in parallel.
+
+In that case, drivers would need to extend their runtime PM callbacks
+to cope with more complicated conditions, as resources that those use
+may have been released. Moreover, how can we make sure that the device
+is put into a low power state after the ->remove() has been called?
+
+>
+> One option I did wonder about was having a devm_pm_domain_attach()
+> A little cheeky but I think the call in platform_probe() is late enough
+> that we don't run into the checks on no devm_ calls before driver probe.
+>
+> That would shuffle the dev_pm_domain_detach() to the end of the
+> devm_ cleanup.  Mind you the i2c approach above seems better.
+
+Again, this isn't limited to PM domains.
+
+[...]
+
+Kind regards
+Uffe
 
