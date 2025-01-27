@@ -1,194 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-12601-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12602-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2832FA1DAC5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 17:45:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93378A1DB53
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 18:32:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 42D7B1889542
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 16:45:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8E813A5623
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 17:32:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E54F175D4F;
-	Mon, 27 Jan 2025 16:45:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA7FD1662EF;
+	Mon, 27 Jan 2025 17:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RCuQ87Up"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE371662EF;
-	Mon, 27 Jan 2025 16:45:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE0A291E;
+	Mon, 27 Jan 2025 17:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737996304; cv=none; b=Ol1GfEtErC2IRawIRwIKkEEhMdnJ9p3okMYYq9JvnM7glJlLvAb2s79pzuvt4CSh+ps/YMsMbvnj+IgY3TMgZU0BOs/DFf8eS67U5Jr297/1ShaUW1gyahcriJNMRq6ofDqjao2cT+A1EK3r7Yo/skZX6q9cZlG544CSLCQF4Ys=
+	t=1737999124; cv=none; b=EG5qoH8mQqM7+TXkGr5KLeOs0Vc1VWlHJ1f+j/OYMdK8rmxqDVPOaeAJau3cpmALrmHQO6c7ZYBaC/1GmHLHt2kx2LcUjCj6DsNR25xT9ZucR0UdiXCRokl6rM0jv9y9KVWJwCTAFqQa9hCIh0bVbeRdVYVjo59jQ3Ei1uY292o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737996304; c=relaxed/simple;
-	bh=xT8jgs3XxgF6Kwj3K/AFuNv1qnw3sqdQpdUa0VQmBE4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h5U61nEavtCvVZsrwxoMu2n9uWWCuoZoOrCjoVa/j7jVbYr9oo5k2HugXbqMLPaLS7E8i0vDLSdSVphrMHJQXWg880yI8avO/JwPaHQUsXfQ+jJdMQAybysTrFyFTj6LjXLemQCbFpQlnpNn5sObQJzdbc/ur6kf2N7cSFg+TIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1737999124; c=relaxed/simple;
+	bh=WkWIpdiJC27SvGibe34DHGnMGzhRupB0Nnp9Tapr6cw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tFbOZcHKC7NydvQW4vdYfJaifJNc8TY89hzncNHH8RWxVKSKmcUgLMYG5M+rxyS4/OX2Ae3uQCzKluQrT2ReNCjrdSLGrGksGcpW4JAujfSI8g1lmH8DXxZSz1ySHwbwSRCAI2e7A4qW/rByE3BxIDYJL6QrjWHjjCN4bLgq2sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RCuQ87Up; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4afe7429d37so1181444137.2;
-        Mon, 27 Jan 2025 08:45:02 -0800 (PST)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-385e1fcb0e1so2368988f8f.2;
+        Mon, 27 Jan 2025 09:32:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737999121; x=1738603921; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=z2MMQedpsH2GPbDZJATIDcslx0EmXMUJV7GkfJHRjt8=;
+        b=RCuQ87Upnvs+UkB7lQHStWarXXil5FtCorPL/l5Be60rAOqotQ79crs6lBYoe9DFCD
+         6kA5gzOY2jmWxJW4T/LHkareR198BdnnnlCH1mS1Tzg01sN+4zoJkcVWuXqOtg5ayfPJ
+         BN1s+d929lMeOxawYCDikPXh7wvvXG7xbTN1Oc8xYCORCkckXuiiMUXUCvdsSlYXdUYp
+         RZjH7p2NOG9tB6ftuciRiPFpFhsfaRaShFheU4jYGUYfd3fSEU8obUJrceRwGOwIWYwM
+         P3JFAGcrQDd83JkFZkK0hPbJ5Wha3U1wD/BYcXfHrv7+vLuGs7+BXfBzmNvvkBqjQheL
+         3v+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737996301; x=1738601101;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a/L/oLqfgKXgEIy2iOSOinRjrktgwWC6e04LbtOQjJs=;
-        b=BdJoNf2Z2gqFHet5dlwe6p6at+dmkva6LTXcjCFIhABbDMmvIitIS7dZlfy7d6FN/7
-         N2NmTKTLHUyu4bUSfzR9lJgGDoGNPrHuobsuuoQ9p1oy0ynKrmxxpOQ4R5sCESW6L7Bt
-         zEPlHZY8LukmEMUam86Wyu8Iv6RfZSCXxOtrceTkc00br5Z/ky9Y7UY8k4rAvDgA8c3T
-         hA5gQ+rt9GsKygAOcpkw6wlDKFeisMa1FZ2uz/vMEU8hHmJZW3FSEjCsRlsdh9QrtcPy
-         +OttyYKXa6NSPMT3OXKYloJaiafHoE9vsAyks5z1sx4pHoimQkgE6ePREPfisS+hNaZb
-         LDOg==
-X-Forwarded-Encrypted: i=1; AJvYcCV79R/DfohVtQHYx3fj90BRBMMQS1xY/NRnPlt4lI73h6xzLoRRpAyrdpGKtH2wOXt50rpWmOP6sdiNSFomfQgb7zo=@vger.kernel.org, AJvYcCV7p2VtERvc+np2DQsQyRewQzBjbVaALbudvo8rb93XZyC1MHO4Md3MzCsitD17tA2mlV7iSvNO5tg1@vger.kernel.org, AJvYcCVG71cXNnPDx8+bzbZAOcb4QuFusIw3CSVVyszQ/FaKZ49vqzO89VewBZBYr1zF3QaW3xHErexBXFBWS78W@vger.kernel.org, AJvYcCVX+4MZdWWHpBdMJXpIBGscto/yLl25i3hnTvlf7C2N2FUShjAmj9HNfilS3qgIwliHHEGC90/Ini57Olhg@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsEz91fnTMjD9q6jgRLp12IaSOWonZ9ZpDjHV32rgMkuJGvqAm
-	NHnedATbeBf7j25f4Xo3BeFTYtKVXbh8s1XZ1PRNtzl6LtPDLG1ywKNeMlruFnk=
-X-Gm-Gg: ASbGncsaoIX1BEbJdQNeMXQ+rlHicgmbVNFNtw+Q7q3SZRxNzTTOvwZERLdRZe8CwF6
-	uRE3qx/Mc7L+4QgOPsjq+g8tO3Vnmr4a/DF3u9rEcboCdeKKiL61Hi53x9juaJr8ImjPGG9HCUE
-	yIAAmylBQgOAGAV6B5rd4w3CjoagWVUTe2GhMSYPPV0vLmzJoA7NQXEHgvyXGmD0eMThkesQKyS
-	EwmqaTd53R5pVnCBB2IrRuw3X1bAl4jxgnxBcij/M/7cLzXferUxlSnx+6/lKKxF4aS5IDorGnB
-	Jufn0EK63mG0Zm/54IIsfkYlNNGzngNCw3aQ+Bg6XnzgGCU=
-X-Google-Smtp-Source: AGHT+IHhfnqC3Gbsb8+8mVMHgMdrycP2Le4XdyjD2YuDCWlmYbErAK8S3bDRbV80ShrERZOQnLmKsw==
-X-Received: by 2002:a05:6102:162c:b0:4b2:5d10:58f1 with SMTP id ada2fe7eead31-4b690be8604mr37038079137.11.1737996300714;
-        Mon, 27 Jan 2025 08:45:00 -0800 (PST)
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-864a9b1b694sm1924237241.17.2025.01.27.08.45.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jan 2025 08:45:00 -0800 (PST)
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-51c7b5f3b8bso1489657e0c.2;
-        Mon, 27 Jan 2025 08:45:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW1KMEZj+KCCtZpwoKA+F1gbBmquvmDFquGWe48xQ+I8JF0lgCiDSeqBfBrdO4cCKkuv4Lx4RxBIhdQ392t@vger.kernel.org, AJvYcCWhjCgy8B00Okm1b2MYkemAfM2/CSrM1Ng0emqQlJ+7uJNI7f4EbLLDn+VcfFg9B6Pm4BAgyR68qE5AF6Dw@vger.kernel.org, AJvYcCXAxNxRxGhDwSo27V/+Y1i7Wi1q6GgTb7j8ONdwlgKPgLvbkN3DThe9VpujiDznuB0Djbn0jVdDCA/9@vger.kernel.org, AJvYcCXoN700l949W49fYo/PJ42lObOPhO4bePJU51GLAwmyyCbmVP0BAo+0ZrIyFB9u2QOXbm5gGkdWsN2qXhSPMI05uNQ=@vger.kernel.org
-X-Received: by 2002:a05:6122:6610:b0:51c:aa1a:2b5b with SMTP id
- 71dfb90a1353d-51d5b2641e4mr38109370e0c.4.1737996300109; Mon, 27 Jan 2025
- 08:45:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1737999121; x=1738603921;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z2MMQedpsH2GPbDZJATIDcslx0EmXMUJV7GkfJHRjt8=;
+        b=kp8q6a5VBxvjI5GN8Vrf9lz6do9yYUFSILQ7q356kC68MfZDeOnOwaj7HKC7YlRGrB
+         49PVh+tl+IH1134xAuqETyX7baX5s622ItaSK3dZM/n7NAhPwbIpa+PU5Q9Grqd735Fq
+         kIY7VlpJZ7OGBMjIS2JuXPh3ZpiP02AbKg/KeevniPhfc+AoNzTaYw4YYPAUF507Z6TF
+         ZhVPWpuVuP2Awb8KzuNej1Y/kgxJfUeHmkkOD050b6+JDH7NJ3XDLTMmu/R7Y24AtUng
+         tSAn6MjqGf2YetmjQ3GW8rWvlvfLhdJj56SxG8mIvJ/Vt5pNa+fy6hUQNArRxoUIsjrW
+         RJyA==
+X-Forwarded-Encrypted: i=1; AJvYcCUSHGnw4VRtiGse2+ClVJAup0pZnS5z8hneFvEgsltIDmJN7NXjGosIxqBoG5TDvRUFSrQGQmiLCrqb7NoF@vger.kernel.org, AJvYcCVSvJ/JGsi0Z54pui1pe5txycRUf36dcR0sTnbK5tvr4t59VFF0/NbxI460rJEQE/fL04KkKaxAz/o=@vger.kernel.org, AJvYcCXxweklzdsjrdO5D4sHT26d9lmfy3e8ORPl2WFKz9Fwd8KmhMwEp7h/N9v2EbiqfionFbkwNFdN@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJRCupqtNDxop63pt9kEqO1lZLxjMbeU9R4wmSyVRLyqhX3D3b
+	nQ7tje6rPvCZsnq9C2AYKCQ1NX3w09saD7HGnpolYbNJGIX5Ikdk
+X-Gm-Gg: ASbGncvoR5X8kKi+CcFU/GE9xHN9vNIXg5VRCgjCBvcB3+HBsfIz1WXhT2KP28AZzKd
+	J0ejKlpb6VRBtJ7voPapcQhR69tBAN1kBMGf8io95nJ3POBygTxDUMAm3f9xqdCSFe5YpZOHLC2
+	9AW/I+RyvnyQptHIKvjqBnfmZ2LahaC5BAbPwEs/oW3XADy3N6piuZnTo9Ng2LTHXkDlawPrgku
+	TJVwjfOtaKkNE21ieapI2Ivl5/tOMWAzS708cj4W2p3sIsbb64nlc1WyNed606LW4fdppCPu74c
+	XTLIpgW21YXsTr820YguvOFZ0jWJWigKyA==
+X-Google-Smtp-Source: AGHT+IH6d5dXOKjdzQ3vPvGyqq++UXn5zuy3d62YayDLxIbZfPZbXj5hd5FkKZlLuZZe9Axvbpu8GA==
+X-Received: by 2002:a05:6000:186f:b0:386:373f:47c4 with SMTP id ffacd0b85a97d-38bf57c934fmr40387836f8f.49.1737999121070;
+        Mon, 27 Jan 2025 09:32:01 -0800 (PST)
+Received: from prasmi.Home ([2a06:5906:61b:2d00:975a:72be:e657:7017])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a188928sm11580551f8f.45.2025.01.27.09.32.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jan 2025 09:32:00 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] clk: renesas: r9a07g043: Fix HP clock source for RZ/Five SoC
+Date: Mon, 27 Jan 2025 17:31:59 +0000
+Message-ID: <20250127173159.34572-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250120130936.1080069-1-claudiu.beznea.uj@bp.renesas.com>
- <20250120130936.1080069-2-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdWYNs2vQTn07Xfx1Misk3Ry5y3PSYPrGbycZdt5LnU_vQ@mail.gmail.com>
- <c8cbb0ca-f85c-47d7-a581-fbaf2147c807@tuxon.dev> <CAMuHMdWs=Q2sZj+P+1a1m-4fb4oizjdO2=u=Oqz162kpbTDtFw@mail.gmail.com>
- <b409fd8d-4c5e-4f1d-94fa-b37ab25095c9@tuxon.dev>
-In-Reply-To: <b409fd8d-4c5e-4f1d-94fa-b37ab25095c9@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 27 Jan 2025 17:44:48 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVTpffbK8Nv_b45o=b76ageQtfH693CW=ob4hF28NBsBw@mail.gmail.com>
-X-Gm-Features: AWEUYZmZEr5KFcPLbLwC_2NR6Ke3dFxN2fu-jTcuk49ndz0_IeJiwkObetKJKeQ
-Message-ID: <CAMuHMdVTpffbK8Nv_b45o=b76ageQtfH693CW=ob4hF28NBsBw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] serial: sh-sci: Update the suspend/resume support
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
-	p.zabel@pengutronix.de, claudiu.beznea.uj@bp.renesas.com, 
-	wsa+renesas@sang-engineering.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Claudiu,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Mon, 27 Jan 2025 at 13:23, Claudiu Beznea <claudiu.beznea@tuxon.dev> wro=
-te:
-> On 27.01.2025 11:19, Geert Uytterhoeven wrote:
-> > On Mon, 27 Jan 2025 at 09:44, Claudiu Beznea <claudiu.beznea@tuxon.dev>=
- wrote:
-> >> On 24.01.2025 12:53, Geert Uytterhoeven wrote:
-> >>> On Mon, Jan 20, 2025 at 2:09=E2=80=AFPM Claudiu <claudiu.beznea@tuxon=
-.dev> wrote:
-> >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>>
-> >>>> The Renesas RZ/G3S supports a power saving mode where power to most =
-of the
-> >>>> SoC components is turned off. When returning from this power saving =
-mode,
-> >>>> SoC components need to be re-configured.
-> >>>>
-> >>>> The SCIFs on the Renesas RZ/G3S need to be re-configured as well whe=
-n
-> >>>> returning from this power saving mode. The sh-sci code already confi=
-gures
-> >>>> the SCIF clocks, power domain and registers by calling uart_resume_p=
-ort()
-> >>>> in sci_resume(). On suspend path the SCIF UART ports are suspended
-> >>>> accordingly (by calling uart_suspend_port() in sci_suspend()). The o=
-nly
-> >>>> missing setting is the reset signal. For this assert/de-assert the r=
-eset
-> >>>> signal on driver suspend/resume.
-> >>>>
-> >>>> In case the no_console_suspend is specified by the user, the registe=
-rs need
-> >>>> to be saved on suspend path and restore on resume path. To do this t=
-he
-> >>>> sci_console_setup() function was added. There is no need to cache/re=
-store
-> >>>> the status or FIFO registers. Only the control registers. To differe=
-ntiate
-> >>>> b/w these, the struct sci_port_params::regs was updated with a new m=
-ember
-> >>>> that specifies if the register needs to be chached on suspend. Only =
-the
-> >>>
-> >>> cached
-> >>>
-> >>>> RZ_SCIFA instances were updated with this new support as the hardwar=
-e for
-> >>>> the rest of variants was missing for testing.
-> >>>>
-> >>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+According to the Rev.1.20 hardware manual for the RZ/Five SoC, the clock
+source for HP is derived from PLL6 divided by 2. This patch corrects the
+implementation by configuring HP as a fixed clock source instead of a MUX.
 
-> > While storing the suspend_cacheable flag wouldn't cost any storage
-> > space anymore using bitfields, I am wondering if it would be worthwhile
-> > to have explicit code to save/restore registers, instead of looping
-> > over all of them and checking the flag. I.e.
-> >
-> >     u16 saved_scmsr;
-> >     u16 saved_scscr;
-> >     u8 saved_scbrr;
-> >     ...
-> >     u8 saved_semr;
-> >
-> >     /* Save omnipresent registers */
-> >     s->saved_scmsr =3D sci_serial_in(port, SCSMR);
-> >     ...
-> >     /* Save optional registers */
-> >     if (sci_getreg(port, SEMR)->size)
-> >             s->saved_semr =3D sci_serial_in(port, SEMR);
-> >
-> > That would make it apply to all SCI variants, not just for SCIFA,
-> > while increasing sci_port by only 10 bytes/port. And 10 bytes/port is
-> > probably not worth to be protected by an #ifdef...
->
-> That was the other approach I thought about when working on this patch. I
-> chose the one proposed in this patch as it looked to me simpler to extend
-> to other registers, if needed (just enable proper flag in
-> sci_port_params[]). And needed less changes for the code saving/restoring
-> the registers.
->
-> If you prefer your version let me know and I'll switch to it.
+The `CPG_PL6_ETH_SSEL` register, which is available on the RZ/G2UL SoC, is
+not present on the RZ/Five SoC, necessitating this change.
 
-As this driver is also used on smaller systems (e.g. SH), I'd go for
-the solution that leads to the smallest increase of code size and
-memory consumption.
+Fixes: 95d48d270305ad2c ("clk: renesas: r9a07g043: Add support for RZ/Five SoC")
+Cc: stable@vger.kernel.org
+Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+v1->v2
+- Fixed build warning for non-ARM64 arch, sel_pll6_2 defined but not used.
+---
+ drivers/clk/renesas/r9a07g043-cpg.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Gr{oetje,eeting}s,
+diff --git a/drivers/clk/renesas/r9a07g043-cpg.c b/drivers/clk/renesas/r9a07g043-cpg.c
+index b97e9a7b9708..ad712e530328 100644
+--- a/drivers/clk/renesas/r9a07g043-cpg.c
++++ b/drivers/clk/renesas/r9a07g043-cpg.c
+@@ -90,7 +90,9 @@ static const struct clk_div_table dtable_1_32[] = {
+ 
+ /* Mux clock tables */
+ static const char * const sel_pll3_3[] = { ".pll3_533", ".pll3_400" };
++#ifdef CONFIG_ARM64
+ static const char * const sel_pll6_2[]	= { ".pll6_250", ".pll5_250" };
++#endif
+ static const char * const sel_sdhi[] = { ".clk_533", ".clk_400", ".clk_266" };
+ 
+ static const u32 mtable_sdhi[] = { 1, 2, 3 };
+@@ -138,7 +140,12 @@ static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
+ 	DEF_DIV("P2", R9A07G043_CLK_P2, CLK_PLL3_DIV2_4_2, DIVPL3A, dtable_1_32),
+ 	DEF_FIXED("M0", R9A07G043_CLK_M0, CLK_PLL3_DIV2_4, 1, 1),
+ 	DEF_FIXED("ZT", R9A07G043_CLK_ZT, CLK_PLL3_DIV2_4_2, 1, 1),
++#ifdef CONFIG_ARM64
+ 	DEF_MUX("HP", R9A07G043_CLK_HP, SEL_PLL6_2, sel_pll6_2),
++#endif
++#ifdef CONFIG_RISCV
++	DEF_FIXED("HP", R9A07G043_CLK_HP, CLK_PLL6_250, 1, 1),
++#endif
+ 	DEF_FIXED("SPI0", R9A07G043_CLK_SPI0, CLK_DIV_PLL3_C, 1, 2),
+ 	DEF_FIXED("SPI1", R9A07G043_CLK_SPI1, CLK_DIV_PLL3_C, 1, 4),
+ 	DEF_SD_MUX("SD0", R9A07G043_CLK_SD0, SEL_SDHI0, SEL_SDHI0_STS, sel_sdhi,
+-- 
+2.43.0
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
