@@ -1,79 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-12537-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12538-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51CBA1D263
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 09:33:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C46A1D281
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 09:44:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A7B33A3B4F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 08:33:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 819CD3A4ED5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 08:44:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 231901FC0E9;
-	Mon, 27 Jan 2025 08:33:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F1FD1FC7F5;
+	Mon, 27 Jan 2025 08:44:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="e0uwDPoj"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="LEyptZD0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C668523A
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 08:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056F31FBEBD
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 08:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737966786; cv=none; b=Pp5qf6u8LEd8T+q1n6zT7jGK49bZCBoLZuozrdQPbNvDN9rdPlQQ7Ezf9FqwoVYWCfAbx2FNF348zA3YIt+dG4fzNVD7lCHKMPRturCRIfODmBjasnH+/ZUmiMwRE0RDSez47Qws2WFMF+ElBlYSrVVM/AYZSUkzhBdwX+VqAwM=
+	t=1737967465; cv=none; b=vDOkQU9664gUYN8NpinOfuY6YLxDlySghbX2s1mGe9Tp13iZw7RcPa1rSUa7YVimgwbpyi6QYxgUx6eDHMMaCmIsHfq9YIKWfVWA7RNgw+XbTn03t0bs04JddvDmeynry2PZlvu2gtmuWH96hyuIYu/37cW+/7stNds+iw9vxzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737966786; c=relaxed/simple;
-	bh=Kg3ShiX3X+9p/kE2BPKyqJFla4aCm2pLOyyJ75gY4Es=;
+	s=arc-20240116; t=1737967465; c=relaxed/simple;
+	bh=zc3GYuIa0H/dfDcIjunoGvJt9fBGtnXYVLUu7oC/gXw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AwOWW9zM8YYJereaybjz0qwnoaViG6meJqudrwGJvQMwpAFrQYmifP4pwQoceZ6uvXlYTTPHJNMCI8hclwwrM0OOYRpAbv7s+KdMC+t0XTlNLYKbudi7MtGXwleYfNEoBEsSFFvbUaUDDM6/TjTYKrVDBHMdBs/Eu6lG4nS7mMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=e0uwDPoj; arc=none smtp.client-ip=209.85.221.51
+	 In-Reply-To:Content-Type; b=tHGEx9d5q3LHvylvSw/6ZAuHev86zT7cc+Ik9haUq08NpJLBLjKdK69U4ONzL22ws39/YPQGA+s6h/AoFmMMPIwUB2fotrCnD4jK17q7Qrln6YqTb+rkCkU9yshLeD/KVhL1utTNYr4bGIv3GSG65nhsA3EjrzfN8S9gUlxcxR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=LEyptZD0; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-38a8b17d7a7so2070151f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 00:33:03 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4361f796586so44617205e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 00:44:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1737966782; x=1738571582; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1737967461; x=1738572261; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=a2Ji82GDu0qEHZkiYbmz0Eb1XpkbUWFD9sNNEsdWqqg=;
-        b=e0uwDPojzRdVbGxQdkqshbkiInloS78/mC1Nf+SBeEphF2iv+W7D+D/L/EOKIUUMHI
-         io6Rzqem6/0W9Y9Sq+SQqmkUbjM7fZnbuzwedPEcRAmgx4mc8eLn7SdKCwkyG1VdC3Wg
-         Yezf0aGLUQ3KYOX9aCNBqNGwVKoP2ZJ1W9AoSwdAmqrxEP/PGDFdM8EJWyPTxyli1kf4
-         Q2TtjqNGe2ecjjTLoo9hSmbToHyIAQfgAnGTkAT/hNcfDeJMpH70MgjWg+8I+k+tzzOj
-         BVxWvM0EZ1N5/CClVd9c5Uqhav8zhdkgSZ7sXEsJq/FgmGWEyD7xrXVT1lxTcOjm2LTg
-         b9AQ==
+        bh=fWMJaQzxK5h0g3wewnNcXE2jLFFY4rflV4Hg+cod/No=;
+        b=LEyptZD0VLUYPuxq9z2/3gPST1gMXGuqF0hFiRTzl8sLS3jCiRdslZj/P7Osu1O/TQ
+         fE5esMsj0WiPNC9xU5h/uqMThb9Eqcnad1nlTtMpOQdrHL9gIYkw5rrnFDkzdYFJli23
+         vQrl++quRMZ74sTOxeqSmwbowRvCCEGm7B08v2qppMX2cyB/l79Ybl22m+WQ5MBqqvQp
+         psEwnTfe4VikyWO0A1bIcSq36IJBWc/6mAHP+H78g5GBKE2PWuxQCCt0M5KyPo8aH3F+
+         OV/Y91UC9hVu+PsHZUUEn+WCHNKWKKaHGbx2WWy949RFHN2a6XPmeEmu4Ojh57hf9fK7
+         K+5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737966782; x=1738571582;
+        d=1e100.net; s=20230601; t=1737967461; x=1738572261;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a2Ji82GDu0qEHZkiYbmz0Eb1XpkbUWFD9sNNEsdWqqg=;
-        b=HwTyZ5y3KKxtKlApfiqBT8TGaoLxHSKgJR0rb9iVLHkEEe2A4ATfvEOE73NDdbbbtM
-         d9HKRx/ibnCq5s4PTi9KXGjTxRP3T6Pb35jk8QkVWTGhkzGuHqIZNWzbpMZ1ZvHky+00
-         CDaLlkQEZdQo3DCVJWoO8ZxOSpTCEHAYQR8uHinKWGT67wRYoAoElxInw04NztL53qmS
-         AwQflTVsHsd85A82LaSL/ux6KMquQt25t94HMY4AJusneoYmLgUsIMk/a30C73tgSj2p
-         OBIHo9Z4/UTmvp3CQ/rhg3ITu+DSqt+tRqLeMSJ679vnWNHrzfJ7UIRpp8s0CXrD0jta
-         IwLg==
-X-Forwarded-Encrypted: i=1; AJvYcCVicv33KnYlS8mKg46MXmLUgq2TGwOvpdTYOwplg8o3pDzuPIdDTegDCu9lulM9JG80xpy1gPgg/1Gje0B096URoA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/SKlOy0kT1KcxIKu4LVoIgkvBaeED5aMc0d+H/jMQTxYbgiUI
-	uB+Kx7g5gVZPEF1paMe6h5ozU5ZEOdLz97u6VcXpvdYMr/Q4SL4pZlPEbX474kc=
-X-Gm-Gg: ASbGncuoczkfbhHu07uHcQSxOZiiEIcYnX8t4IJU3qdhQ8pP3MK7Rccie+26hi03A2y
-	UJh1tCLGfcOaySGJlbQ5SWPMYALm/bHFTbWagn21chAaOI9mIWirah8xu6JBUnRUpTbWED9x86d
-	3ZJ/FudmKwQ+bwOkwfIxnPzQVRfVT88K6ZUIXNFV7FDHumeDsSoJRuf1wFWSwX6sNslI5Mx0qv7
-	B2f7uI3dKVbzmc6mOqxIb1dy/cqTFZnT2mhTKnMSw4KD2CYt1KCqsif/rdInTya836RAgqfp6Z7
-	L2D6aD1XgKh9
-X-Google-Smtp-Source: AGHT+IHpMIbXH/ROA6dm+Hnrzv+rG9utZdsejuvQ4p2UjcOm0impQgdG4YV+X768DL8GecEbw47bEA==
-X-Received: by 2002:a5d:588e:0:b0:385:faec:d94d with SMTP id ffacd0b85a97d-38bf57bd65bmr42270165f8f.51.1737966782251;
-        Mon, 27 Jan 2025 00:33:02 -0800 (PST)
+        bh=fWMJaQzxK5h0g3wewnNcXE2jLFFY4rflV4Hg+cod/No=;
+        b=DjePE3Z9HKllCCZ+yV9SJ8XizB4o7tZyrb8QYb4xZKQNfLbz7HiTRlF333cB8kmmnK
+         OXOQvjcZx2hYW6pH0DymqKHwXpBE2phEpIqE8mIfJHACuqmx8PtawrkK65kr43axQQuX
+         7UI6J+t8m4zVoTXEPPhXAyTUD5bMheBZ+529lZgcXZIdE6dFySt8nIeYA+yC15PHuPEZ
+         NwQEyiiENrBco9R9SkDTLv07+Q/U4kpP/IlHeL5zXm2efckDgn0Xx+Arbtzu8k7PMPUt
+         8EI0qRvP2si14S5e2D+lx/VtJ1DtZA2yvLyJVRCG4LHcSGQzgmJys6En3tXKkcBm+eIN
+         lUTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVH7/uQG+d5iQZJRhyESMm5b/zNz0ktj6DRgqCIm4WrQ8evUM7nMa1P3K1e9txhY8To9TFbO9BRSAaonokZABmy5g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2nVAPL6FisrDyFrp8OJiwAqT5hhi1eLWKSavIqBr8rjuW1iA2
+	AxIh3MR0qDll+K+q5cFP9wiEpSZKFUHx5IpO1s8lzhKhX+4fF7YeD6VfW58rksw=
+X-Gm-Gg: ASbGncvr+5kwR5Q0uM5ZoC6TjMXkZnJYt1DiG9pO3SkuojK1ItObuM7INL+8Reliupe
+	z1mVOvCh2KfgtK9gJAXJldLpOXl/3v0mIAh1L5XmN49TOytXXPXTtULLNK21HOodhcsoKVngt2D
+	tY2Z27gJz++WJibpuTOZwAfi1fdhQ58efQKId0vitbpvn8+sFTWdMg+/vYhTxjGoismEv4m6GG0
+	zu8bBLHu/2M/vNWBf4ZdlfG0Q5gyNBK6IUAYmR8oFpa1FsNBEBpef9BwMlPvnpE+4Mo/R0fXu2U
+	18uohKbKt0YB
+X-Google-Smtp-Source: AGHT+IEutVyzYaHJ4V43NcbvbXemrvFhbTC6Ej+E7hfOdKUg5CKomg+sw3Yv79V2O+Liezt/sr8EMQ==
+X-Received: by 2002:a05:600c:3d86:b0:436:e751:e436 with SMTP id 5b1f17b1804b1-4389143b372mr339934795e9.19.1737967461239;
+        Mon, 27 Jan 2025 00:44:21 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.35])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a1bb062sm10322276f8f.71.2025.01.27.00.33.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd54c066sm122025505e9.29.2025.01.27.00.44.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jan 2025 00:33:01 -0800 (PST)
-Message-ID: <3c7f5a92-254c-4ce1-9813-80c98c1f549e@tuxon.dev>
-Date: Mon, 27 Jan 2025 10:32:59 +0200
+        Mon, 27 Jan 2025 00:44:20 -0800 (PST)
+Message-ID: <c8cbb0ca-f85c-47d7-a581-fbaf2147c807@tuxon.dev>
+Date: Mon, 27 Jan 2025 10:44:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -81,140 +81,207 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] thermal: renesas: rzg3s: Add thermal driver for the
- Renesas RZ/G3S SoC
-To: Jonathan Cameron <jic23@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: rafael@kernel.org, daniel.lezcano@linaro.org, rui.zhang@intel.com,
- lukasz.luba@arm.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, magnus.damm@gmail.com, mturquette@baylibre.com,
- sboyd@kernel.org, p.zabel@pengutronix.de, ulf.hansson@linaro.org,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>
-References: <20250103163805.1775705-1-claudiu.beznea.uj@bp.renesas.com>
- <20250103163805.1775705-5-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdUDKFRsZWsZG9DY4PHdxQEDoPqzfeRx8MNTreOpxdLvpw@mail.gmail.com>
- <20250125121826.6abbe7de@jic23-huawei>
+Subject: Re: [PATCH v4 1/4] serial: sh-sci: Update the suspend/resume support
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org,
+ p.zabel@pengutronix.de, claudiu.beznea.uj@bp.renesas.com,
+ wsa+renesas@sang-engineering.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+References: <20250120130936.1080069-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250120130936.1080069-2-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdWYNs2vQTn07Xfx1Misk3Ry5y3PSYPrGbycZdt5LnU_vQ@mail.gmail.com>
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 Content-Language: en-US
-In-Reply-To: <20250125121826.6abbe7de@jic23-huawei>
+In-Reply-To: <CAMuHMdWYNs2vQTn07Xfx1Misk3Ry5y3PSYPrGbycZdt5LnU_vQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Hi, Geert,
 
-
-On 25.01.2025 14:18, Jonathan Cameron wrote:
-> On Wed, 22 Jan 2025 11:29:19 +0100
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On 24.01.2025 12:53, Geert Uytterhoeven wrote:
+> Hi Claudiu,
 > 
->> Hi Claudiu,
->>
->> CC iio
->>
->> On Fri, Jan 3, 2025 at 5:38 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>
->>> The Renesas RZ/G3S SoC features a Thermal Sensor Unit (TSU) that reports
->>> the junction temperature. The temperature is reported through a dedicated
->>> ADC channel. Add a driver for the Renesas RZ/G3S TSU.
->>>
->>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>  
->>
->> Thanks for your patch!
->>
->>> --- /dev/null
->>> +++ b/drivers/thermal/renesas/rzg3s_thermal.c  
->>
->>> +static int rzg3s_thermal_probe(struct platform_device *pdev)
->>> +{
->>> +       struct rzg3s_thermal_priv *priv;
->>> +       struct device *dev = &pdev->dev;
->>> +       int ret;
->>> +
->>> +       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->>> +       if (!priv)
->>> +               return -ENOMEM;
->>> +
->>> +       priv->base = devm_platform_ioremap_resource(pdev, 0);
->>> +       if (IS_ERR(priv->base))
->>> +               return PTR_ERR(priv->base);
->>> +
->>> +       priv->channel = devm_iio_channel_get(dev, "tsu");  
->>
->> Given there's only a single IIO channel, you could pass NULL instead
->> of the name, and drop "io-channel-names" from the DT bindings.
->> I don't know what's the IIO policy w.r.t. unnamed channels, though.
+> Thanks for your patch!
 > 
-> It's supported, so fine as long as no future additional names show up.
-> Will just fallback to index 0 I think.
+> On Mon, Jan 20, 2025 at 2:09 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> The Renesas RZ/G3S supports a power saving mode where power to most of the
+>> SoC components is turned off. When returning from this power saving mode,
+>> SoC components need to be re-configured.
+>>
+>> The SCIFs on the Renesas RZ/G3S need to be re-configured as well when
+>> returning from this power saving mode. The sh-sci code already configures
+>> the SCIF clocks, power domain and registers by calling uart_resume_port()
+>> in sci_resume(). On suspend path the SCIF UART ports are suspended
+>> accordingly (by calling uart_suspend_port() in sci_suspend()). The only
+>> missing setting is the reset signal. For this assert/de-assert the reset
+>> signal on driver suspend/resume.
+>>
+>> In case the no_console_suspend is specified by the user, the registers need
+>> to be saved on suspend path and restore on resume path. To do this the
+>> sci_console_setup() function was added. There is no need to cache/restore
+>> the status or FIFO registers. Only the control registers. To differentiate
+>> b/w these, the struct sci_port_params::regs was updated with a new member
+>> that specifies if the register needs to be chached on suspend. Only the
+> 
+> cached
+> 
+>> RZ_SCIFA instances were updated with this new support as the hardware for
+>> the rest of variants was missing for testing.
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+>> --- a/drivers/tty/serial/sh-sci.c
+>> +++ b/drivers/tty/serial/sh-sci.c
+>> @@ -101,7 +101,7 @@ enum SCI_CLKS {
+>>                 if ((_port)->sampling_rate_mask & SCI_SR((_sr)))
+>>
+>>  struct plat_sci_reg {
+>> -       u8 offset, size;
+>> +       u8 offset, size, suspend_cacheable;
+> 
+> This increases the size of sci_port_params[] by 300 bytes.
+> Using bitfields would mitigate that:
+> 
+>     struct plat_sci_reg {
+>             u16 offset:8;
+>             u16 size:5;
+>             u16 suspend_cacheable:1;
+>     };
+> 
+> (if we ever need more bits, the size member can store an enum value
+>  instead of the actual size (8 or 16 bits) of the register).
+> 
+>>  };
 
-If everyone agrees, I would keep the name, too, to avoid complications in
-case this IP variant will be extended on future SoCs.
+OK
 
-Thank you,
-Claudiu
+>>
+>>  struct sci_port_params {
+>> @@ -134,6 +134,8 @@ struct sci_port {
+>>         struct dma_chan                 *chan_tx;
+>>         struct dma_chan                 *chan_rx;
+>>
+>> +       struct reset_control            *rstc;
+>> +
+>>  #ifdef CONFIG_SERIAL_SH_SCI_DMA
+>>         struct dma_chan                 *chan_tx_saved;
+>>         struct dma_chan                 *chan_rx_saved;
+>> @@ -153,6 +155,7 @@ struct sci_port {
+>>         int                             rx_trigger;
+>>         struct timer_list               rx_fifo_timer;
+>>         int                             rx_fifo_timeout;
+>> +       unsigned int                    console_cached_regs[SCIx_NR_REGS];
+> 
+> u16, as all registers are 8 or 16 bit wide.
+
+OK.
 
 > 
-> Jonathan
+> We reserve space for 20 registers, but at most 6 will be used.
+> This has a rather big impact on the size of sci_ports[], as
+> CONFIG_SERIAL_SH_SCI_NR_UARTS defaults to 18.
+
+I agree, but this should keep the suspend/resume code sane in case
+extensions will be added to the code. In general people forget about
+suspend/resume code when extending. Please let me know if you prefer to
+limit it (although, doing like this will complicate the code, I think).
+
 > 
+> Also, this space is used/needed only if:
+>   - CONFIG_PM_SLEEP=y,
+>   - CONFIG_SERIAL_CORE_CONSOLE=y (see uart_console()),
+>   - The port is actually used as a console (unfortunately the user
+>     can specify multiple console=ttySC<N> command line parameters, in
+>     addition to chosen/stdout-path).
+
+Would you prefer to guard the suspend/resume code with these flags?
+
+> 
+>>         u16                             hscif_tot;
 >>
->>> +       if (IS_ERR(priv->channel))
->>> +               return dev_err_probe(dev, PTR_ERR(priv->channel), "Failed to get IIO channel!\n");
->>> +
->>> +       priv->rstc = devm_reset_control_get_exclusive_deasserted(dev, NULL);
->>> +       if (IS_ERR(priv->rstc))
->>> +               return dev_err_probe(dev, PTR_ERR(priv->rstc), "Failed to get reset!\n");
->>> +
->>> +       priv->dev = dev;
->>> +       priv->mode = THERMAL_DEVICE_DISABLED;
->>> +       platform_set_drvdata(pdev, priv);
->>> +
->>> +       pm_runtime_set_autosuspend_delay(dev, 300);
->>> +       pm_runtime_use_autosuspend(dev);
->>> +       pm_runtime_enable(dev);
->>> +
->>> +       ret = rzg3s_thermal_read_calib(priv);
->>> +       if (ret) {
->>> +               dev_err_probe(dev, ret, "Failed to read calibration data!\n");
->>> +               goto rpm_disable;
->>> +       }
->>> +
->>> +       priv->tz = thermal_of_zone_register(dev->of_node, 0, priv, &rzg3s_tz_of_ops);
->>> +       if (IS_ERR(priv->tz)) {
->>> +               dev_err_probe(dev, PTR_ERR(priv->tz), "Failed to register thermal zone!\n");
->>> +               goto rpm_disable;
->>> +       }
->>> +
->>> +       ret = thermal_add_hwmon_sysfs(priv->tz);
->>> +       if (ret) {
->>> +               dev_err_probe(dev, ret, "Failed to add hwmon sysfs!\n");
->>> +               goto tz_unregister;
->>> +       }
->>> +
->>> +       return 0;
->>> +
->>> +tz_unregister:
->>> +       thermal_of_zone_unregister(priv->tz);
->>> +rpm_disable:
->>> +       pm_runtime_disable(dev);
->>> +       pm_runtime_dont_use_autosuspend(dev);
->>> +       return ret;
->>> +}  
+>>         bool has_rtscts;
+>> @@ -300,17 +303,17 @@ static const struct sci_port_params sci_port_params[SCIx_NR_REGTYPES] = {
+>>          */
+>>         [SCIx_RZ_SCIFA_REGTYPE] = {
+>>                 .regs = {
+>> -                       [SCSMR]         = { 0x00, 16 },
+>> -                       [SCBRR]         = { 0x02,  8 },
+>> -                       [SCSCR]         = { 0x04, 16 },
+>> +                       [SCSMR]         = { 0x00, 16, 1 },
+>> +                       [SCBRR]         = { 0x02,  8, 1 },
+>> +                       [SCSCR]         = { 0x04, 16, 1 },
+>>                         [SCxTDR]        = { 0x06,  8 },
+>>                         [SCxSR]         = { 0x08, 16 },
+>>                         [SCxRDR]        = { 0x0A,  8 },
+>> -                       [SCFCR]         = { 0x0C, 16 },
+>> +                       [SCFCR]         = { 0x0C, 16, 1 },
+>>                         [SCFDR]         = { 0x0E, 16 },
+>> -                       [SCSPTR]        = { 0x10, 16 },
+>> +                       [SCSPTR]        = { 0x10, 16, 1 },
+>>                         [SCLSR]         = { 0x12, 16 },
+>> -                       [SEMR]          = { 0x14, 8 },
+>> +                       [SEMR]          = { 0x14, 8, 1 },
+> 
+> Note that the driver always writes zero to SEMR.
+
+In case the IP is used on SoCs with sleep states where the resume is done
+with the help of bootloader, the bootloader code might interact with
+registers that the Linux code writes with zero.
+
+Keeping it for registers where driver writes zero should also help if the
+serial IPs power will be off during suspend, thus registers restored to non
+zero default values (by HW) after resume.
+
+> 
+>>                 },
+>>                 .fifosize = 16,
+>>                 .overrun_reg = SCLSR,
+>> @@ -3374,6 +3377,7 @@ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
+>>         }
 >>
->> Gr{oetje,eeting}s,
+>>         sp = &sci_ports[id];
+>> +       sp->rstc = rstc;
+>>         *dev_id = id;
 >>
->>                         Geert
+>>         p->type = SCI_OF_TYPE(data);
+>> @@ -3546,13 +3550,34 @@ static int sci_probe(struct platform_device *dev)
+>>         return 0;
+>>  }
 >>
->> --
->> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->>
->> In personal conversations with technical people, I call myself a hacker. But
->> when I'm talking to journalists I just say "programmer" or something like that.
->>                                 -- Linus Torvalds
->>
+>> +static void sci_console_setup(struct sci_port *s, bool save)
+> 
+> sci_console_save_restore()?
+
+OK
+
+> 
+>> +{
+>> +       for (u16 i = 0; i < SCIx_NR_REGS; i++) {
+> 
+> unsigned int
+
+OK
+
+> 
+>> +               struct uart_port *port = &s->port;
+>> +
+>> +               if (!s->params->regs[i].suspend_cacheable)
+>> +                       continue;
+>> +
+>> +               if (save)
+>> +                       s->console_cached_regs[i] = sci_serial_in(port, i);
+>> +               else
+>> +                       sci_serial_out(port, i, s->console_cached_regs[i]);
+>> +       }
+>> +}
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
 > 
 
 
