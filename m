@@ -1,31 +1,31 @@
-Return-Path: <linux-renesas-soc+bounces-12590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12591-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6659A1D7A8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 15:04:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1682AA1D7B4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 15:05:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 06E6C165728
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 14:04:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 492DF7A2147
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2025 14:05:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE4466FC5;
-	Mon, 27 Jan 2025 14:04:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 402F55672;
+	Mon, 27 Jan 2025 14:05:25 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0704823CE
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 14:04:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD953FC7
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jan 2025 14:05:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737986662; cv=none; b=j7px4z728b4OzZsGEF6CE1/UQIar2Y6aozePB26XEzWNmE992CaI4b0ikfs6nguo7W4PkXlm8fHteHxJwuyonxqU7w2DF4RDEiMRMfuzUh8S/XqysPQMIsGD432dXHpZMawY+MfqbHDZMwTnMYN17yUcOlGRi4215R6IUZDiSts=
+	t=1737986725; cv=none; b=Nba1cpOQowbnIlAU6oTg45XQZrR/IghAIxBpbI3zGRf4C+c2dHfTs5Tn8lj58tT6keWDT7OLtkWPIS7Utcfn33eMOzGLMwnYgT/47B8HKnQ1L7nxG/VqyRgvPk8UJFQy0muRBSjpx/qkPP1YqMOyOg5OwWZpdDDFP8RnCAmzC2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737986662; c=relaxed/simple;
-	bh=IgrgLRwYACj/vVKyPsYBKLqJkxHwpGE0W1zG/w/VIWU=;
+	s=arc-20240116; t=1737986725; c=relaxed/simple;
+	bh=pkmQ4hxVXY3OunO99Zo9hrZjjGOkiLQDmc8vG/DnwBo=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RA8IEKBcMyma97uD43H/ukQziQvkOY+wdKd1dVEqxYTkti+0ztrlYzNENQocvZg8EIfZqETOq1RJPmg4K8xEQDzuxFAt7kE+cm1TGhVP6e4gly40FCC8wuuPLKstnlwEZSyuAoAf7P6wsmtLD78JHway1qVjTe0gdh2qo0/ZzIo=
+	 Content-Type:MIME-Version; b=dCMOqsnOyxnjS7j7ukaeNi0w7+1RI4+MCq8u0DSwscgp80AUjXbgI9BaLiGi1sahlWK0D2wQbSVbYRfcDtlfh/yjinRbQfH8OjSUyLsImiqc826PHBbHjlOsqyCmFFjXTI0/PNr0KZM3i/l/kL/vojAy3fLci0aAddtVUkezj8w=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -33,30 +33,30 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tcPic-0005NQ-EA; Mon, 27 Jan 2025 15:04:02 +0100
+	id 1tcPjm-0005Zw-T3; Mon, 27 Jan 2025 15:05:14 +0100
 Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tcPib-0028Ou-1x;
-	Mon, 27 Jan 2025 15:04:01 +0100
+	id 1tcPjl-0028fq-2Y;
+	Mon, 27 Jan 2025 15:05:13 +0100
 Received: from pza by lupine with local (Exim 4.96)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tcPib-000AVv-1j;
-	Mon, 27 Jan 2025 15:04:01 +0100
-Message-ID: <96331f6cdaaec5d5f3e31441f7880173d371d1c8.camel@pengutronix.de>
-Subject: Re: [PATCH v2 04/12] irqchip/renesas-rzv2h: Use
- devm_reset_control_get_exclusive_deasserted()
+	id 1tcPjl-000AYS-2J;
+	Mon, 27 Jan 2025 15:05:13 +0100
+Message-ID: <949114db0aa8a4cdcc66276f300a0e82acb60c7f.camel@pengutronix.de>
+Subject: Re: [PATCH v2 05/12] irqchip/renesas-rzv2h: Simplify
+ rzv2h_icu_init()
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: Biju Das <biju.das.jz@bp.renesas.com>, Thomas Gleixner
  <tglx@linutronix.de>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad
  <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das
  <biju.das.au@gmail.com>,  linux-renesas-soc@vger.kernel.org
-Date: Mon, 27 Jan 2025 15:04:01 +0100
-In-Reply-To: <20250127113723.24479-5-biju.das.jz@bp.renesas.com>
+Date: Mon, 27 Jan 2025 15:05:13 +0100
+In-Reply-To: <20250127113723.24479-6-biju.das.jz@bp.renesas.com>
 References: <20250127113723.24479-1-biju.das.jz@bp.renesas.com>
-	 <20250127113723.24479-5-biju.das.jz@bp.renesas.com>
+	 <20250127113723.24479-6-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -71,61 +71,54 @@ X-SA-Exim-Mail-From: p.zabel@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-On Mo, 2025-01-27 at 11:36 +0000, Biju Das wrote:
-> Use devm_reset_control_get_exclusive_deasserted() to simplify
-> rzv2h_icu_init().
+On Mo, 2025-01-27 at 11:37 +0000, Biju Das wrote:
+> Simplify rzv2h_icu_init() by using devm_pm_runtime_enable().
 >=20
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> v1->v2:
->  * Split the simplification patch into two.
->  * Updated commit header and description.
->  * Replaced devm_reset_control_get_optional_exclusive_deasserted()->
->    devm_reset_control_get_exclusive_deasserted().
->  * Moved simplification using devm_pm_runtime_enable() to next patch.
+> v2:
+>  * New patch.
 > ---
->  drivers/irqchip/irq-renesas-rzv2h.c | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
+>  drivers/irqchip/irq-renesas-rzv2h.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
 >=20
 > diff --git a/drivers/irqchip/irq-renesas-rzv2h.c b/drivers/irqchip/irq-re=
 nesas-rzv2h.c
-> index fd432b43506b..5c5d2e015a88 100644
+> index 5c5d2e015a88..f90652013082 100644
 > --- a/drivers/irqchip/irq-renesas-rzv2h.c
 > +++ b/drivers/irqchip/irq-renesas-rzv2h.c
-> @@ -456,15 +456,10 @@ static int rzv2h_icu_init(struct device_node *node,=
+> @@ -463,11 +463,16 @@ static int rzv2h_icu_init(struct device_node *node,=
  struct device_node *parent)
 >  		goto put_dev;
 >  	}
 > =20
-> -	resetn =3D devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> +	resetn =3D devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL=
-);
->  	if (IS_ERR(resetn)) {
->  		ret =3D PTR_ERR(resetn);
-> -		goto put_dev;
-> -	}
-> -
-> -	ret =3D reset_control_deassert(resetn);
-> -	if (ret) {
-> -		dev_err(&pdev->dev, "failed to deassert resetn pin, %d\n", ret);
-> +		dev_err(&pdev->dev, "failed to acquire deasserted reset: %d\n", ret);
->  		goto put_dev;
+> -	pm_runtime_enable(&pdev->dev);
+> +	ret =3D devm_pm_runtime_enable(&pdev->dev);
+> +	if (ret < 0) {
+> +		dev_err(&pdev->dev, "devm_pm_runtime_enable failed, %d\n", ret);
+> +		goto put_dev;
+> +	}
+> +
+>  	ret =3D pm_runtime_resume_and_get(&pdev->dev);
+>  	if (ret < 0) {
+>  		dev_err(&pdev->dev, "pm_runtime_resume_and_get failed: %d\n", ret);
+> -		goto pm_disable;
+> +		goto put_dev;
 >  	}
 > =20
-> @@ -495,7 +490,6 @@ static int rzv2h_icu_init(struct device_node *node, s=
+>  	raw_spin_lock_init(&rzv2h_icu_data->lock);
+> @@ -488,8 +493,6 @@ static int rzv2h_icu_init(struct device_node *node, s=
 truct device_node *parent)
+> =20
+>  pm_put:
 >  	pm_runtime_put(&pdev->dev);
->  pm_disable:
->  	pm_runtime_disable(&pdev->dev);
-> -	reset_control_assert(resetn);
+> -pm_disable:
+> -	pm_runtime_disable(&pdev->dev);
 >  put_dev:
 >  	put_device(&pdev->dev);
 
-This is mixing devres cleanup and manual cleanup in a way that is not
-obviously safe. Specifically, put_device() will be called before the
-reset control is asserted in the error path. To keep asserting the
-reset control first, put_device() could be called via
-devm_add_action_or_reset().
+Same comment as for the previous patch, pm_runtime_disable() is now
+called after put_device().
 
 regards
 Philipp
