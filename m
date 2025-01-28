@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-12636-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8A6A208E2
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2D5A208E1
 	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 11:47:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7E5267A11E5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 10:47:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 563681884954
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 10:47:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6964619C554;
-	Tue, 28 Jan 2025 10:47:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6049B188CA9;
+	Tue, 28 Jan 2025 10:47:51 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8841459B71
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jan 2025 10:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F92919CC0C
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jan 2025 10:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738061268; cv=none; b=uCodtyYyBCjk1b4+ujuUWVI7Ji76yUHa6nnTjG96IB8p2JLcC96JiIHNrDs+5TorauVpzJjmD0BhV+zLamwS9rr0aX+2mxepPzzHrEFzKsAsAamibDLEfMwq3s4iuMWboOGCwU+MVwtDT7qVrKXMImVrmEtYcQe/tpiRxfxciCE=
+	t=1738061271; cv=none; b=IQlCh6B0Fka/07Yv7yYVWbk1OnX+zpEMDuzOrvibhzp99RDYv0iYTSTQ8o8xX72T6rh3gB3Cg6jaIv+gnpRk68E6bmIPK62za6UMPFa+lI7e3iMmXYxMINETZx9cB7D2nmUkMvHJq0SNBPmv9Ide9p5Lkq4t2VOvXm+uDq2SAcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738061268; c=relaxed/simple;
-	bh=Vv2rcp4g5aE2NBJqZTXtrcuQ0LioDYIGFuym2CDFHt8=;
+	s=arc-20240116; t=1738061271; c=relaxed/simple;
+	bh=RrQHduzY3t4a8L44Ieyjataik0t2hAlIZm5+mS4n9CE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BHzbeWjwmEfGGKwwmlV56RSYKHZ8GV3ZOUH6jMsHaHBnF/ZWMbP5fIi0UeQREuzFGIcRNjQPnvetuoAw+y6AL6sVTnKTs4A4UUThSVDrm4oy2OW1R5ybKTQqjw2/0heiCHK+Ui4CAmJ+SYyRok7XvONM0Msrz2h8Oe6zQg2QuOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=SzapQoLcp1le0AcoCUx1efe6JIDWFYXjWTNha6k74tb6v/yibFlzFlewaPVu1p8wh+UBt19aMCdcY3vaP5u+nlp8puutIQJCJt9rQ3QKhRZjhIVn7VGQ2mlVN0ChyR5azoAkgsjm/e3jCrxOuPNgHzqBh8lLh44SkSgcAeA1cK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: Cj6zOPgETuSSBBiAzSk2SQ==
-X-CSE-MsgGUID: Acos600mQgOmYAagcVWZXw==
+X-CSE-ConnectionGUID: WPxk0mEDTQi2OtucrEFfkw==
+X-CSE-MsgGUID: USCj9ToiROujVAbUQGpe7A==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 28 Jan 2025 19:47:43 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 28 Jan 2025 19:47:49 +0900
 Received: from localhost.localdomain (unknown [10.226.93.131])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id ECBFE41FB5AB;
-	Tue, 28 Jan 2025 19:47:31 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id AB6B741FAD3F;
+	Tue, 28 Jan 2025 19:47:34 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Thomas Gleixner <tglx@linutronix.de>,
 	Philipp Zabel <p.zabel@pengutronix.de>
@@ -41,10 +41,11 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 04/13] irqchip/renesas-rzv2h: Simplify rzv2h_icu_init()
-Date: Tue, 28 Jan 2025 10:46:54 +0000
-Message-ID: <20250128104714.80807-5-biju.das.jz@bp.renesas.com>
+	linux-renesas-soc@vger.kernel.org,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Subject: [PATCH v3 05/13] irqchip/renesas-rzv2h: Use devm_reset_control_get_exclusive_deasserted()
+Date: Tue, 28 Jan 2025 10:46:55 +0000
+Message-ID: <20250128104714.80807-6-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250128104714.80807-1-biju.das.jz@bp.renesas.com>
 References: <20250128104714.80807-1-biju.das.jz@bp.renesas.com>
@@ -56,96 +57,52 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use devm_add_action_or_reset() for calling put_device in error path
-of rzv2h_icu_init() to simplify the code by using recently added devm_*
-helpers.
+Use devm_reset_control_get_exclusive_deasserted() to simplify
+rzv2h_icu_init().
 
+Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v3:
- * New patch 
+v2->v3:
+ * Replaced 'goto put_dev' by 'return xxx' as put_device() called by
+   devm_add_action_or_reset().
+v1->v2:
+ * Split the simplification patch into two.
+ * Updated commit header and description.
+ * Replaced devm_reset_control_get_optional_exclusive_deasserted()->
+   devm_reset_control_get_exclusive_deasserted().
+ * Moved simplification using devm_pm_runtime_enable() to next patch.
 ---
- drivers/irqchip/irq-renesas-rzv2h.c | 37 +++++++++++++++--------------
- 1 file changed, 19 insertions(+), 18 deletions(-)
+ drivers/irqchip/irq-renesas-rzv2h.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/irqchip/irq-renesas-rzv2h.c b/drivers/irqchip/irq-renesas-rzv2h.c
-index fd432b43506b..fd678947df83 100644
+index fd678947df83..95df8e0755e3 100644
 --- a/drivers/irqchip/irq-renesas-rzv2h.c
 +++ b/drivers/irqchip/irq-renesas-rzv2h.c
-@@ -419,6 +419,11 @@ static int rzv2h_icu_parse_interrupts(struct rzv2h_icu_priv *priv, struct device
- 	return 0;
- }
- 
-+static void rzv2h_icu_put_device(void *data)
-+{
-+	put_device(data);
-+}
-+
- static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
- {
- 	struct irq_domain *irq_domain, *parent_domain;
-@@ -431,41 +436,39 @@ static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
- 	if (!pdev)
- 		return -ENODEV;
- 
-+	ret = devm_add_action_or_reset(&pdev->dev, rzv2h_icu_put_device,
-+				       &pdev->dev);
-+	if (ret < 0)
-+		return ret;
-+
- 	parent_domain = irq_find_host(parent);
- 	if (!parent_domain) {
- 		dev_err(&pdev->dev, "cannot find parent domain\n");
--		ret = -ENODEV;
--		goto put_dev;
-+		return -ENODEV;
+@@ -461,13 +461,10 @@ static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
+ 		return ret;
  	}
  
- 	rzv2h_icu_data = devm_kzalloc(&pdev->dev, sizeof(*rzv2h_icu_data), GFP_KERNEL);
--	if (!rzv2h_icu_data) {
--		ret = -ENOMEM;
--		goto put_dev;
--	}
-+	if (!rzv2h_icu_data)
-+		return -ENOMEM;
- 
- 	rzv2h_icu_data->base = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
--	if (IS_ERR(rzv2h_icu_data->base)) {
--		ret = PTR_ERR(rzv2h_icu_data->base);
--		goto put_dev;
--	}
-+	if (IS_ERR(rzv2h_icu_data->base))
-+		return PTR_ERR(rzv2h_icu_data->base);
- 
- 	ret = rzv2h_icu_parse_interrupts(rzv2h_icu_data, node);
- 	if (ret) {
- 		dev_err(&pdev->dev, "cannot parse interrupts: %d\n", ret);
--		goto put_dev;
-+		return ret;
+-	resetn = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+-	if (IS_ERR(resetn))
+-		return PTR_ERR(resetn);
+-
+-	ret = reset_control_deassert(resetn);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to deassert resetn pin, %d\n", ret);
++	resetn = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
++	if (IS_ERR(resetn)) {
++		ret = PTR_ERR(resetn);
++		dev_err(&pdev->dev, "failed to acquire deasserted reset: %d\n", ret);
+ 		return ret;
  	}
  
- 	resetn = devm_reset_control_get_exclusive(&pdev->dev, NULL);
--	if (IS_ERR(resetn)) {
--		ret = PTR_ERR(resetn);
--		goto put_dev;
--	}
-+	if (IS_ERR(resetn))
-+		return PTR_ERR(resetn);
- 
- 	ret = reset_control_deassert(resetn);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to deassert resetn pin, %d\n", ret);
--		goto put_dev;
-+		return ret;
- 	}
- 
- 	pm_runtime_enable(&pdev->dev);
-@@ -496,8 +499,6 @@ static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
+@@ -498,7 +495,6 @@ static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
+ 	pm_runtime_put(&pdev->dev);
  pm_disable:
  	pm_runtime_disable(&pdev->dev);
- 	reset_control_assert(resetn);
--put_dev:
--	put_device(&pdev->dev);
+-	reset_control_assert(resetn);
  
  	return ret;
  }
