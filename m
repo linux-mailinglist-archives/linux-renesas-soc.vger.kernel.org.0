@@ -1,183 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-12654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01623A209C1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 12:33:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A041A20A0A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 12:58:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 301D218862CF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 11:33:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D982E1668C5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 11:58:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65E0019D88B;
-	Tue, 28 Jan 2025 11:33:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A18DF1A23AA;
+	Tue, 28 Jan 2025 11:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W6HZNEKS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C028D199FA2;
-	Tue, 28 Jan 2025 11:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69AD1A2381
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jan 2025 11:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738064001; cv=none; b=anZ19HHaRsMa3zB6H9Q+Qz0Sfjh++gAKk/T+iohtaEbqes3YLNIQ+UZbZEDhtKwgxpGKn3s6p91U24IpYKeYSj9m25bcycYg+AvY5CbX7xZSmPjC0W6MCVN93HkwbY+Uu7nCJZ2ZXheCiKgda61hkOfD/cwGf/Yc8z2liCsl/yY=
+	t=1738065504; cv=none; b=iab7UrtRlwZzenr9wHKru2LYhL7JU5wtYfiKWeuCw8j7uHrLExswcPcd5NVSUWrp7vRC1P3nsniIPjbcf4vgAJesMNPRa2oCbthzJrO7kg7qziNFTbQE1tnzczK1BTC9GKX1RdMtOpMCAHD1KqtKwEMNS//7tBanx6k7ImXI7zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738064001; c=relaxed/simple;
-	bh=tnPANPQp/iMd7ygA5qHRfQpX/WHlo4nFKXP1SUwAJ38=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h2Milg1kprtqH5UhMnheIt8y7qBcK9BVbjWeAbVpOjt7qgN8PksPvtjfvceoSRZxgaHxXAR9caQWqnDhhhcVeya1w7vH0CCQKeMmM+G/FwAS+4eMLTnZghBddN1j3qDMquGY8yHe2wbj5yMz/2TVUTS7ghFBVoz1AzigbaTpmdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-85c5a913cffso3056267241.0;
-        Tue, 28 Jan 2025 03:33:19 -0800 (PST)
+	s=arc-20240116; t=1738065504; c=relaxed/simple;
+	bh=oHF1yy1ScUA/CZTbQyrukrGw/VmrpeDHVmihSnV69NU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mmfbjBqKf+CpBc/+a33yd0jrBfP5NYo5Q1x02S8KQbEk778/TBZSfkp1CVn06um/wZodEhLUQo8r2d0U94jmNY10XnODQq0HXjbzVCukp6SDRGtKj51RGPWxP6zG4fi/TiMQvxCuvWGdvPKe0gr+rq9ppzjXH4eu9qp1KNLopoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=W6HZNEKS; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738065501;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=58JOKwE3B4ptPErvwF68tQ+YT/gMYrRZ8LTZTTrEboE=;
+	b=W6HZNEKS0cXGIyyydE/LvfPbqjHVwcwSMwMfxc+X3TdTqr0EcDj1VU7XXHO3kl06/fYKzr
+	GLG58xPYF/LJPrCRlFS9a9/wDhCsRq6rpECsJm8WAkZbG6jAFYsKJN08b9+FkG7McCKGQT
+	JDsl3k7bVzoDndav8WejOnKpw18kCHg=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-278-4m8gMA4OPRy-w0T5tDjJ_g-1; Tue, 28 Jan 2025 06:58:18 -0500
+X-MC-Unique: 4m8gMA4OPRy-w0T5tDjJ_g-1
+X-Mimecast-MFC-AGG-ID: 4m8gMA4OPRy-w0T5tDjJ_g
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-467b5861766so108545981cf.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jan 2025 03:58:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738063997; x=1738668797;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9MqtICvzZgY6SSLmB9xB0fcdPuyJ3N2axr9vtSPs85Q=;
-        b=OAGrbYRO7ZsJfTQtorlr5K3imCsBJrRZZEhlJcAdIpu9QU4y/Y3EnOJLzXljlVtFUr
-         pN/Q0gJR70HHp3pdsyFXp5EDAbrFABeud4svgTW7Ps2LhARwuEsSGRbfVCbKu9zZviMJ
-         6cXPVf3yPlqQE8vqYIPMg5uVaPWQjMxZVJqOKdDbPSoNeLg17BEy12k2+jJmvADD71Dn
-         R9gyu7pQjbxrXurQ4geZ4RQJjr5J7KxKFGsBbMnjz/TIerROlNbeZh9YprasWSUrqti2
-         TmTBnmBVEnn2QM9PphSqNyq6VHQYiMFqy6UCzWsQTG83UaXUrA/NpeXSekEEY9MdNZoM
-         rdwA==
-X-Forwarded-Encrypted: i=1; AJvYcCX8q/971MY632UILvsKZua7SiEi6JftgSZ82Vqkc6Ng4AiDaYn4w3w3rH8lq4mdWhzajdHy7Lib9tRH@vger.kernel.org, AJvYcCXSRypLuxFj+/Oiyt2tvrUebFNS4sFu46Mu6mdeXAxOI1NXCz/CQNA61zia6JbyW6QIrkw9yeOYel0WO0MD4c18OE0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkhZY0MTt7Cxnri+2/+KKOPc6miPj+iO91YpeQWtN4eYH5tquR
-	BchzxP4vUtQa97O+A9QiXrtg1QZtzKT2ojNaMg5sJfASLcr0ASSva/tY3dnr
-X-Gm-Gg: ASbGncvef/5C0VWcwHyj0PFQ0RmYcUSdmuq0qxfO6wUro3HuQ4ZAwn9OOxa7ToiPeV0
-	Yw4s8wtici4rDE1SxOixPDE8nnFdMhHA3ZDXgfpWu0fO1ytA0A7yKWJlWSD6WUOWlcM9BWtj7yQ
-	BS4Opu6GfumgRXu9zKwqd5j1stvw3Q5iyvXmoExZCOheoiYp6Rp+odt+eyKMsjaNZJp2BU7InaF
-	HfY3uPCQUfZkz4IhY+OdbvU83XYRPdx2j9rG6jWg9XvCmZKQM7BYx1MXESIcE0yqU7MbqGmIDKX
-	Q634jjjEhEXg1EqDYkG5In0+aI3xxw98gT5iQHt1HFtuGKD9tUESCA==
-X-Google-Smtp-Source: AGHT+IG8zuJwiXxUoCXaBZxA1yZn8lvWTbG1Az+93DFBejIl669D8cGuN84wzS6irxt52ygfrRV7Ow==
-X-Received: by 2002:a05:6102:3913:b0:4b6:8fc5:2e7c with SMTP id ada2fe7eead31-4b690be8eb5mr37966757137.12.1738063997386;
-        Tue, 28 Jan 2025 03:33:17 -0800 (PST)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-864a9c17e31sm2282783241.22.2025.01.28.03.33.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2025 03:33:17 -0800 (PST)
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4affbb7ef2dso4517682137.0;
-        Tue, 28 Jan 2025 03:33:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUIA/JkwbUKKU0VhHW+GU+9OD1VfozRDnEOnBT4xIB4vPS/JC6ZgWu2JgyEOeoTrKK6h18MvQh6Si4/@vger.kernel.org, AJvYcCXjPMJuvhdlFlwJk11nY35DHoYL7ajV5ZW0OagwhaLVkHHuhSvh1b/T16EfJDtcLOH9E9HHr7TMoS9pv9ob65yAgYo=@vger.kernel.org
-X-Received: by 2002:a05:6102:3f03:b0:4b2:7534:f26e with SMTP id
- ada2fe7eead31-4b690c77e52mr38354510137.16.1738063997008; Tue, 28 Jan 2025
- 03:33:17 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738065497; x=1738670297;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=58JOKwE3B4ptPErvwF68tQ+YT/gMYrRZ8LTZTTrEboE=;
+        b=BAh6QiSVth8RZrqtFry3XfJHEBWq1mBMi8v1BYZ4Aif2DKtrlfnipjotTYItiqmtux
+         lVEYIW1hNjXjp9pFR8fzcETe81iamjVvWQBSZG15wSIyhB5+bOeXUXooGWs1bAUYsgKq
+         jeYiRWnzLFrnZwXUWVQ1+6DGLpbVZPsYkJVkX7qKHG6+pjvSsM5Rk8JLDzCClySVuDTk
+         amBxFC1E64bMHQXIVWl6Cy40qTKYCubIOc3ArbnW3+pOD7RRokbCOZYabALe3dkoOkOG
+         zPij1pOOgvOIWFcU8FwyAw9QSLCRIMHLQfD5pFP6VA30Xko0YgNfsOPk/W34IEKGp+OP
+         ZHHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVARpKidRDK/uzaf4VvbxoUKFUYnI5CcCVbQzWwYjCI2Fx5D8BZLlWyAaXi5D9tfj0IrGmlmiDdDspc8G5izpcxnA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwW1oMO/CWD72/RKkawjMbmd42xRsERCMxMieHoQl4I5iAwOfEN
+	VrG1a+dnyzLqaSx5KFZo0yhs0k74Q9ppHK+OMssDZbenWJplyNBe5uuucxxJ0rim6cF5P0WH6C2
+	EZq2Z3ZCo0gexXGF+m7MNMVXSeAIHUKVhrSQOx1+EZ23Q7LFaStvJz/d+k+7DvM+S1ZChCFQHi4
+	w1T/9xug==
+X-Gm-Gg: ASbGncuUrEwu1+GnMMntOur4Tt86bn7NqDqf0wwV1CWSON/2dqbuzYqfvAG0hDA8mTn
+	ExS9WnwjD/wJ76YMC4uoB0Wp4gW15f2bKQlaoIwSWlmdrbQhl/kHMGjqiOHQy6S+ECjqoNqF6/Q
+	wabTMb/tc0tDrKWRq5Cxqvxj/Jqxjf8++XT5eFd8bqntzMJoXjY8sxuhvFMGXEWfNzKg1OGWfAK
+	+yrxssOFqCQjUNxCxIsT1vXRGnxtR2GVUj0Q0LLjdvFG4LfObVDzmKW6SHDnYSaXLcFFIFn1RYC
+	KA==
+X-Received: by 2002:ac8:5746:0:b0:466:99a9:c354 with SMTP id d75a77b69052e-46e12a96f59mr584717011cf.22.1738065497385;
+        Tue, 28 Jan 2025 03:58:17 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHKTSZUkwKgOmc86HrQqzorzRgdDmzYgCb/05m4RKf7CKbWvot+1cHZpQJRxGbwHDuwrI8kug==
+X-Received: by 2002:ac8:5746:0:b0:466:99a9:c354 with SMTP id d75a77b69052e-46e12a96f59mr584716841cf.22.1738065497043;
+        Tue, 28 Jan 2025 03:58:17 -0800 (PST)
+Received: from localhost ([195.166.127.210])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e2051362b1sm44408026d6.19.2025.01.28.03.58.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jan 2025 03:58:16 -0800 (PST)
+Date: Tue, 28 Jan 2025 12:58:13 +0100
+From: Maxime Ripard <mripard@redhat.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, dri-devel@lists.freedesktop.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] MAINTAINERS: Update drm/rcar-du maintainers
+Message-ID: <wodib3ste3l7lsgjur4i4q6is6eoxxu4jazb7pern5yenwsyw4@np6ad5p5ofbp>
+References: <20250128-rcar-du-maintainers-v1-1-c429ca421c52@ideasonboard.com>
+ <yvdba4secotjc4xvyophckuroywx6nv35kusdj3off3dsrnxr4@7buakt7wvten>
+ <e92601be-a9c9-4aa7-a250-4e3514202e7b@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250126134616.37334-1-biju.das.jz@bp.renesas.com> <20250126134616.37334-6-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250126134616.37334-6-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 28 Jan 2025 12:33:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX+S7t+Z0ZbT7zTgmPFqHnSZWAYcZ4cJzzE3u+j2-9ZAA@mail.gmail.com>
-X-Gm-Features: AWEUYZmBCOQBBHpcl0geg1tLlT5Yz2FF6YuO09W2QfAWI0ZQOPy-AUT57-Wu4Xo
-Message-ID: <CAMuHMdX+S7t+Z0ZbT7zTgmPFqHnSZWAYcZ4cJzzE3u+j2-9ZAA@mail.gmail.com>
-Subject: Re: [PATCH 5/7] arm64: dts: renesas: r9a09g047: Add SDHI0-SDHI2 nodes
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="nz4qsc4lc5t6os55"
+Content-Disposition: inline
+In-Reply-To: <e92601be-a9c9-4aa7-a250-4e3514202e7b@ideasonboard.com>
 
-Hi Biju,
 
-On Sun, 26 Jan 2025 at 14:46, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add SDHI0-SDHI2 nodes to RZ/G3E ("R9A09G047") SoC DTSI.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+--nz4qsc4lc5t6os55
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] MAINTAINERS: Update drm/rcar-du maintainers
+MIME-Version: 1.0
 
-Thanks for your patch!
+On Tue, Jan 28, 2025 at 12:50:18PM +0200, Tomi Valkeinen wrote:
+> Hi,
+>=20
+> On 28/01/2025 12:41, Maxime Ripard wrote:
+> > On Tue, Jan 28, 2025 at 12:28:48PM +0200, Tomi Valkeinen wrote:
+> > > Add myself as drm/rcar-du maintainer. Switch Kieran from a maintainer=
+ to
+> > > reviewer.
+> > >=20
+> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > ---
+> > > Cc: Krzysztof Kozlowski <krzk@kernel.org>
+> > > ---
+> > >   MAINTAINERS | 3 ++-
+> > >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index ed86d884ee0d..5b1bf5fd56fd 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -7760,7 +7760,8 @@ F:	include/uapi/drm/tegra_drm.h
+> > >   DRM DRIVERS FOR RENESAS R-CAR
+> > >   M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > -M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > +M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > +R:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > >   L:	dri-devel@lists.freedesktop.org
+> > >   L:	linux-renesas-soc@vger.kernel.org
+> > >   S:	Supported
+> >=20
+> > If I understood right that email
+> > https://lore.kernel.org/dri-devel/096e85a5-30d9-4b53-bdcd-a70cde6baa4f@=
+ideasonboard.com/
+> >=20
+> > rcar-du is now de-facto under the drm-misc umbrella. It should be docum=
+ented as well.
+>=20
+> Good point. I believe this should be enough?
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5b1bf5fd56fd..16af21c3a48a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7604,7 +7604,6 @@ X:        drivers/gpu/drm/mediatek/
+>  X:     drivers/gpu/drm/msm/
+>  X:     drivers/gpu/drm/nouveau/
+>  X:     drivers/gpu/drm/radeon/
+> -X:     drivers/gpu/drm/renesas/rcar-du/
+>  X:     drivers/gpu/drm/tegra/
+>=20
+>  DRM DRIVERS FOR ALLWINNER A10
+> @@ -7765,7 +7764,7 @@ R:        Kieran Bingham
+> <kieran.bingham+renesas@ideasonboard.com>
+>  L:     dri-devel@lists.freedesktop.org
+>  L:     linux-renesas-soc@vger.kernel.org
+>  S:     Supported
+> -T:     git git://linuxtv.org/pinchartl/media drm/du/next
+> +T:     git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>  F:
+> Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>  F: Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+>  F:     Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
 
-> --- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-> @@ -518,6 +518,63 @@ gic: interrupt-controller@14900000 {
->                         interrupt-controller;
->                         interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
->                 };
-> +
-> +               sdhi0: mmc@15c00000  {
-> +                       compatible = "renesas,sdhi-r9a09g047", "renesas,sdhi-r9a09g057";
-> +                       reg = <0x0 0x15c00000 0 0x10000>;
-> +                       interrupts = <GIC_SPI 735 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 736 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 0xa3>, <&cpg CPG_MOD 0xa5>,
-> +                                <&cpg CPG_MOD 0xa4>, <&cpg CPG_MOD 0xa6>;
-> +                       clock-names = "core", "clkh", "cd", "aclk";
-> +                       resets = <&cpg 0xa7>;
-> +                       power-domains = <&cpg>;
-> +                       status = "disabled";
-> +
-> +                       vqmmc_sdhi0: vqmmc-regulator {
-> +                               regulator-name = "SDHI0-VQMMC";
-> +                               regulator-min-microvolt = <1800000>;
-> +                               regulator-max-microvolt = <3300000>;
-> +                       };
-> +               };
-> +
-> +               sdhi1: mmc@15c10000 {
-> +                       compatible = "renesas,sdhi-r9a09g047", "renesas,sdhi-r9a09g057";
-> +                       reg = <0x0 0x15c10000 0 0x10000>;
-> +                       interrupts = <GIC_SPI 737 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 738 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 0xa7>, <&cpg CPG_MOD 0xa9>,
-> +                                <&cpg CPG_MOD 0xa8>, <&cpg CPG_MOD 0xaa>;
-> +                       clock-names = "core", "clkh", "cd", "aclk";
-> +                       resets = <&cpg 0xa8>;
-> +                       power-domains = <&cpg>;
-> +                       status = "disabled";
-> +
-> +                       vqmmc_sdhi1: vqmmc-regulator {
-> +                               regulator-name = "SDHI1-VQMMC";
-> +                               regulator-min-microvolt = <1800000>;
-> +                               regulator-max-microvolt = <3300000>;
-> +                       };
-> +               };
-> +
-> +               sdhi2: mmc@15c20000 {
-> +                       compatible = "renesas,sdhi-r9a09g047", "renesas,sdhi-r9a09g057";
-> +                       reg = <0x0 0x15c20000 0 0x10000>;
-> +                       interrupts = <GIC_SPI 739 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 740 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 0xab>, <&cpg CPG_MOD 0xad>,
-> +                                <&cpg CPG_MOD 0xac>, <&cpg CPG_MOD 0xae>;
-> +                       clock-names = "core", "clkh", "cd", "aclk";
-> +                       resets = <&cpg 0xa9>;
-> +                       power-domains = <&cpg>;
-> +                       status = "disabled";
-> +
-> +                       vqmmc_sdhi2: vqmmc-regulator {
-> +                               regulator-name = "SDHI2-VQMMC";
-> +                               regulator-min-microvolt = <1800000>;
-> +                               regulator-max-microvolt = <3300000>;
-> +                       };
-> +               };
->         };
->
->         timer {
+Yep, looks good
 
-Shouldn't the vqmmc-regulator subnodes be added in the board DTS,
-when needed (i.e. at least for SDHI[12])? Or do you expect the board DTS
-to /delete-node/ them when they are not needed?
+Maxime
 
-Is it possible that SDHI0 does not need the regulator control, e.g.
-in case of a fixed voltage?
+--nz4qsc4lc5t6os55
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The rest LGTM.
+-----BEGIN PGP SIGNATURE-----
 
-Gr{oetje,eeting}s,
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5jGVQAKCRAnX84Zoj2+
+dhmNAYDI5MP+ScIvUhwMsGGqQWPQyGu/TzTWDO0PMsojy0wyohVcLHkHCJMy2ubD
+7qFod+8Bf0q0Wzr/F5h8mMzRx+KPNI5I84PVhUnR5j/zNQGxPwevlLAWxrIh4u8E
+jiv9JJ1+5g==
+=CMv+
+-----END PGP SIGNATURE-----
 
-                        Geert
+--nz4qsc4lc5t6os55--
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
