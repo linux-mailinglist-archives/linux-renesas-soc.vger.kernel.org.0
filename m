@@ -1,166 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-12619-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C02A207BC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 10:54:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDBA2A20833
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 11:06:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A689518892D3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 09:54:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 882F218849A8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 10:05:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D2D19D89E;
-	Tue, 28 Jan 2025 09:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3BC718FDD2;
+	Tue, 28 Jan 2025 10:04:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iBOXOiW/"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="bBHqDG46"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A18219CC31
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jan 2025 09:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853E819CC0C
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jan 2025 10:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738058045; cv=none; b=E84cbRjHp5q7aSG14OsX4b2lcmRNUWRnNKITPFOIRF/a6o+kDKepJ1/H1MmKJRyempoNqbioIK0AEYXR8iKmgUX5tNShP6LG9p2GrH9zRNOT3s1ZIBhzeis8EKsj541ET1nNzQKSfBai8oU3I+sXvsNKRFe7Nhf9LeLkr85SHtU=
+	t=1738058682; cv=none; b=bLpOhlYd0YOami3TutogDIPFESrKLk6ggJUVxu6JZiHQI7u6LC6PX4suGtC4uk9LZ8PBMbl9zeD/vi+DTV04jSbh1mJOBQB87cCTEK0q/zjuO3BMXzOKtZIR66EXK01F1Q3s70YER0S9DH/Y19NG8Q4uZrqIbJFlkfbNFluZfhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738058045; c=relaxed/simple;
-	bh=m/9A+vV18V8o3rxj75sgunitt9f7oIlfI/V0HVXTsIk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N9JzhUFoiYJzgNPP/RRPWqMBjvC/GcdIr6k+laWtD6hWpwNe/G6aPTKWmFeyZhcHfk8PtMBF6cIaNqvO64UpzQxYW3UgTaADvgfgbkWceOOXucHBjn5wJQs6fVMtJhzyFhImd31BHofe3nAd3ZFKRpnvi+smQw/lzQv3PDxy/28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iBOXOiW/; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43620a5f81bso4631045e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jan 2025 01:54:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738058041; x=1738662841; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mynkn1T58KbWxPJslgprg5ONuckX8jf1idYXFeWeEt8=;
-        b=iBOXOiW/EznO4St6025LyF/RTSPkiyYF6q//6Z6KCstNnRllO+4ArfLlAL1doLy0SW
-         Z4nxXiyHJBCrzQ0GLIbThZIfWNaSMU629v7mYmx89SridxjOVCp+r85UQdv4XxdJeGHv
-         gYPrxNxuCiiwtSOw+mJj1Y7b0xRLlBs8FIJcZUev9knJb0lMyw+UmHyLx1lS5xvs9LNp
-         c0kbP2l1zppOWoB3VRMgfUA7GtDW2+u9NyLl97omgxvu6GbsJIP/l0uCoARu7h8FgJcQ
-         w68XiJysTICIqrkVxiR64dGVyZ4++4zlSDN6wCQPJVh7n1HHTdxZqwmOutT3/oyQQmHC
-         96fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738058041; x=1738662841;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Mynkn1T58KbWxPJslgprg5ONuckX8jf1idYXFeWeEt8=;
-        b=qbt9num32JEwXBqnn0YkGRNDDa79yFqLPoTFowIDbPdMNQ57ccvkD1vccLu8LYELPF
-         f7cpIjWfhYS91mQOXtHiZwnWDy/7Fe2AFDCHP4sMW8/88iMSYqYCwKLYG6os4dt/uJSi
-         eXeEs4w/MN76CeosmRiWDGLVGIN72A6uI/3XbwL5IaGG6qHmlAChh01ICRfXU2R4c6Ih
-         D6qDATyqmhfie+D7TvG79beKJizRLqzZmShd6dxjDx9MUQ7UkJwMxV35K6MV7jSak+An
-         NQKneUWe8bD9Gjc9zgdKaf1OBJiL1HvmX8qNdCStWJ7rmUqnyOYKAUpkZrx9Cogl2yFo
-         Z8XQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWBKRO1bzmmj0+AveFRMMYiS1uniVi4QRyVO3f3jb9pLpW1j/mTLxKNEhF9IIxll5Zi57eJHn5YLVXrlaPB0z28Vg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzP/4/l5KdY7Y8sW97XCzbnzz3ITYE4/Bx2ang+Jw8kmx5yVxpQ
-	JfXYkLauDEBdA65MOyA6ybCftYR2pWWgTrop7GzHAETxrvEutMrgDef4xHBFuIQ=
-X-Gm-Gg: ASbGnct1oJ/nctEdqcF7muF3dcZR4LE/xSxtvQ3hqPxLcOqIE0b9aC2JOzrWugV80Te
-	zjWYLs+BiMLb6bCZGn4pMBaYxNObNvyLRy0OEFp763qVOYMd2DL6JnE1fmYOBdXlhp2GyYU+IWh
-	XAw7ziCTr9fKtMVc0iZmRX5q+s6LZ7rAaAZSRKYa5Sr9gYGmQoURuhyr4vMz0iaDU1lVlW8vt50
-	aGQqq958aD2zCq+Zgd4FwL/X2QUzszlbH9YWr/ntaEF7V0B7q+JVGzy5ETfQEmb81m3jqjVMJX+
-	84xI64pwWsP9r4ZahuL9v9DYXu07
-X-Google-Smtp-Source: AGHT+IFaCb5uid+D45DpJt271ckjlQY8cqUkzEIatk9zjS+oh+oJJnaznv1MM2Dub/pe4P4CUIZarg==
-X-Received: by 2002:a05:600c:8712:b0:434:9cb7:7321 with SMTP id 5b1f17b1804b1-438913c7930mr158611885e9.1.1738058041497;
-        Tue, 28 Jan 2025 01:54:01 -0800 (PST)
-Received: from krzk-bin.. ([178.197.218.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd48ae56sm163002455e9.21.2025.01.28.01.53.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2025 01:54:01 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-media@vger.kernel.org,
+	s=arc-20240116; t=1738058682; c=relaxed/simple;
+	bh=luCUntsnqplxZitGaLpSmXlYr9lWzuSdhgC/NCgwXiU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l9pTxcPzF6IaowpOEX0F17FV4TMIKUC95McQbyPHmSllf6Fb3+vmJKGR/jKqLXJF+1LMoLq30BQoTRQ5eNeqvPuAdcSqwZp7JwslrZpwvAmbjf+7HvrOjVvdzTtJ58qg//vS3SP/P9d6kOZmiSJ4cluAh+omHcqDVfEkDIPwxd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=bBHqDG46; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=bxz/
+	0pXNGLp79DTrXAGCWmNrASaqXxxqeOlWeKqp+3k=; b=bBHqDG46xELr7OSouF4I
+	SNDrnImMyPvtbU8otubAm6l2/yVD5Ows0qODjCQurg2z/5ALTxfILC/4csz3kDw9
+	wINfEFPTA2kvXkECkbsal7WAeD+Xwtx0sb2k4TjMMfOCykO/vJS8ZufmP7wX+uSR
+	pKX4Q1Ae8188UI9ygpajo96BoiiC9MfoirTejn+7U5e2v0fz1/VyzR4dsogQowQA
+	7NrxhAt9ZUfHTQAWGEAdQ6E3ytI4kC8lPbpMoFETwjjS6CxXRm/s6WwdTbJtbjSe
+	T8OqLpjemT/yye10YmuMEPq76eF4UCGPwhaqua1YJFyPElTJdpNBLazO0PGyhqfZ
+	bw==
+Received: (qmail 541909 invoked from network); 28 Jan 2025 11:04:29 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Jan 2025 11:04:29 +0100
+X-UD-Smtp-Session: l3s3148p1@k5KaUcEsgM8ujnvm
+Date: Tue, 28 Jan 2025 11:04:29 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 2/2] media: dt-bindings: renesas,vsp1: add top-level constraints
-Date: Tue, 28 Jan 2025 10:53:55 +0100
-Message-ID: <20250128095355.65766-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250128095355.65766-1-krzysztof.kozlowski@linaro.org>
-References: <20250128095355.65766-1-krzysztof.kozlowski@linaro.org>
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH RFT 0/2] drm/bridge: Use per-client debugfs entry
+Message-ID: <Z5irrd7FWLhENnDX@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Doug Anderson <dianders@chromium.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+References: <20250125125320.37285-4-wsa+renesas@sang-engineering.com>
+ <a3hrta4eiiknuf4sukk27xewhhirzf43u2eeefnpjny27m4x5s@aifvnevj7cb6>
+ <Z5c7vk_oa8HGt7sS@ninjato>
+ <hywmnv4jf6ix2ziabdftd5zcjqnkfq6pmqxqzw6spc76camrxz@jn5vr4mgj37v>
+ <CAD=FV=V_cs1mc-6LJ21OYbTc8=_3RQYEOBACOSE1iX2woa7nXg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6EHuVUA1Cx8xfTJd"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=V_cs1mc-6LJ21OYbTc8=_3RQYEOBACOSE1iX2woa7nXg@mail.gmail.com>
 
-Properties with variable number of items per each device are expected to
-have widest constraints in top-level "properties:" block and further
-customized (narrowed) in "if:then:".  Add missing top-level constraints
-for clocks and clock-names.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+--6EHuVUA1Cx8xfTJd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
----
+Hi Doug!
 
-Changes in v2:
-1. Add tag
-2. Move clocks description to top level
----
- .../bindings/media/renesas,vsp1.yaml          | 24 ++++++++++---------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+> wanted it in panel-edp, but glad it's useful for other cases. ;-)
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-index 1a03e67462a4..dc4b8f00aa7d 100644
---- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-@@ -33,8 +33,18 @@ properties:
-   interrupts:
-     maxItems: 1
- 
--  clocks: true
--  clock-names: true
-+  clocks:
-+    minItems: 1
-+    items:
-+      - description: Main clock
-+      - description: Register access clock
-+      - description: Video clock
-+
-+  clock-names:
-+    items:
-+      - const: aclk
-+      - const: pclk
-+      - const: vclk
- 
-   power-domains:
-     maxItems: 1
-@@ -78,15 +88,7 @@ allOf:
-     then:
-       properties:
-         clocks:
--          items:
--            - description: Main clock
--            - description: Register access clock
--            - description: Video clock
--        clock-names:
--          items:
--            - const: aclk
--            - const: pclk
--            - const: vclk
-+          minItems: 3
-       required:
-         - clock-names
-     else:
--- 
-2.43.0
+:)
 
+> want some type of directory under there. In ti-sn65dsi86's case you
+> could presumably keep the existing behavior where it creates a
+> directory under there called "1-002c".
+
+The good news is that I learnt now that I can actually test the change
+myself on one of the Renesas boards. So, I can play around to find a
+good solution. Maybe even with a symlink somewhere. I have to try.
+
+Thanks for the feedback,
+
+   Wolfram
+
+
+--6EHuVUA1Cx8xfTJd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmeYq6kACgkQFA3kzBSg
+KbaMvRAAhnbQnQVGIRUNbt/NKUlXINlMVqrKnFr59uDA4ZePfDepJCs+GO3AO9iG
+zHmc6ozEI1/1ts4ijD8mdNnBe6WeWE+g655TZCdqr2hfY2LvWbSuuiH2mY68G3XT
+5CpNMsmAfp4KS4Fegx4jTubMiJJWaljeGNg6lsNy419yEzZGi5R3GZ6RHHbOuA1U
+6uSUAtBY5trKtf2POXhErm0QPVHAg6gzNgYkZDFy+ghg+p9sRYvPuRjrY7+Q8zq8
+EWomTcJ2NKnEdOsqfaVEWllYTIDd+UTAo6nyae3nVIy4n2LOU5OksdE+wjfm+DKR
+1UjnuelcGX2Xpssa+TNFagmn40e2mgaZ2PbEVokdzYMZ4jYM/VMIeEoek+qmivNj
+QQkMXoq6phHEDfpdCm+4u20tUi/E52XB8V85mMj4Ol9Fv5PJtTLQCqyWvsP4bXi1
+J2qqk9Y2NLwWar32sks9QxQ8pnm9ju9XLYW00/TT5jQ/BDJCEIf7/Rn/D+qXwRSR
+ocC84ks+5nHiKF8iuU5zRqkO3KdMZ2g06bE7uKj+Hx/t1GjgvZpqCJe9el677/XI
+4n3r9QIyw4S7BRo0LHCm2P0UyZXsGvwzA0xyrss0cR7hsqi+3uKPn2s0c2nN18Ay
+OfkaZdlUMCKzvAHKqoIFgSQ9NUkqbkXgiqAyPDp/t6AZ4EYuAAU=
+=hM0Y
+-----END PGP SIGNATURE-----
+
+--6EHuVUA1Cx8xfTJd--
 
