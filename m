@@ -1,142 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-12657-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634E2A20A70
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 13:16:46 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B845A20A9A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 13:33:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A66917A3F74
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 12:16:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 776AC7A38A4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 12:33:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A33B71A239F;
-	Tue, 28 Jan 2025 12:15:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A88B31A00F2;
+	Tue, 28 Jan 2025 12:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fAGJve4c"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="enrE7Yol"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5171A23B6;
-	Tue, 28 Jan 2025 12:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6553019F41C;
+	Tue, 28 Jan 2025 12:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738066513; cv=none; b=Lfv2qMo2mq6zKMDeknwWCeNBc4FtL/E8C1XkqAtf5pWN3MYCyEt9GQVmIsoDTWFQfY24OXSJaZnXsVeeHmh3tG6hQzSUTR6XPg1wiCm0y7fYFlcmrLd2McrxttvF4o0c3NKmK3pe21Epdh4TlE6Z1UwbRsNV7ea0zxLcUg07dkY=
+	t=1738067600; cv=none; b=AtS5v484uNxAMTO04mnWnZpnLk5vZRrfmA5pr1RtCHnMZBpar2LNQR0TVnSrDjziTNIakYQDRc7sHLG04AblsybaNv9cfWBP+YdLv41m7TQjkHAdJPfL23pCJWjIAOQ9BG6AGp9tECLAelABkbkL4BfKrb8z/IDPkrR8tBHWM0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738066513; c=relaxed/simple;
-	bh=Hop0izW+Kt9Tz4B7IQilI/1GVJfibdMMpYcYCjkEPqE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OUp+4nCp9fIuM66brKfBjHQhR+wHVEPrZf8smXi6rPim+MErYhudf34ME/lRetcQxDG14z7qwPK1wmzpqc8aUH1DZRPH33NCMBAETvcT6Et7/p54kImBnjxL/b696B0h48myKb0kN4L5J3WDt+3HcHF5i1OEdVQpNWZHIWKw7tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fAGJve4c; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E4EC74A;
-	Tue, 28 Jan 2025 13:13:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1738066437;
-	bh=Hop0izW+Kt9Tz4B7IQilI/1GVJfibdMMpYcYCjkEPqE=;
-	h=From:Date:Subject:To:Cc:From;
-	b=fAGJve4cC7aIC0Q4gC3MphJuprzDm8m3hm99U3tWnqzc+7dpSxQTjlWTWVN3V8AEM
-	 pVP6rlxVAdmvfWd+JlaDvNkQqG9D9VjH874hKBOIpi6swJ9FuNur5CxR+uHN6BIS2C
-	 jxsHrIMcJpT6hzJyD1S/8vLWTmekUgXOq/C70rLk=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 28 Jan 2025 14:14:43 +0200
-Subject: [PATCH v2] MAINTAINERS: Update drm/rcar-du maintainers
+	s=arc-20240116; t=1738067600; c=relaxed/simple;
+	bh=wZ3e21wAAC9P3u8su2bEBNAJFyWiwcEB5NBXHhR4aRA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tUR6ybaj2QoJXyq24uBvcP0WA/PqAko6/xzZFHC3EGUrI9+dAIURGdnAJrjySz4v//lI9i4h89DvsNOKmKfDikNisV+YDUpm1Jv1RKvgtCH5//HfkJhDS8X7kHS/p2914aZHtYhX1mqO0GC3TI5+3HN7qiScyrDQ8lHKdSwa5OI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=enrE7Yol; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94FA3C4CED3;
+	Tue, 28 Jan 2025 12:33:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738067599;
+	bh=wZ3e21wAAC9P3u8su2bEBNAJFyWiwcEB5NBXHhR4aRA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=enrE7Yol5p8Ip+S19GJt/vKEDPNMcsVZDEq7q+konXtTr9p5p20TK0b043Yfah4bt
+	 jy27LUR/Ci2CIjvBtLZzKeQBI1ABlQl7xjLKfDV8TdZNc+E1Kh/f5fgkvFexIXTj5n
+	 Ibi7TUaY533+ZRu0/zsbJdCpwBt49qHILhBTJm262QMuHpCHXZlGyzvfVHMq/4RRr9
+	 dUfu3RNkuxUFKX3cP2E49AW6w4lvTFBj8mNrn7u8ZKopG437a85iZVxX/3GyI0a28a
+	 Bgv3/aJr9yHIgN5ffzXBo/lC5H9Er6hhu2QfndKW3RhbirHu7YbOTmdyr/ghTXqiCu
+	 ghXB3H6LEKnuA==
+Message-ID: <af204325-a17f-454e-af17-cdd7dd64fffd@kernel.org>
+Date: Tue, 28 Jan 2025 13:33:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-rcar-du-maintainers-v2-1-4a3860a3e1ef@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIADPKmGcC/32NQQ6CMBBFr2Jm7Rg6FgKuvIdhUdtBZkFrpkg0h
- LtbOYCLv3g/+e+vkFmFM1wOKygvkiXFAnQ8gB9dfDBKKAxUUV0ZalG9UwwvnJzEuYQ149kyN01
- n26GyUJZP5UHeu/XWFx4lz0k/+8lifu1/32LQoLfUeWfJ+JquEtjlFO/JaTj5NEG/bdsXeG9l8
- r0AAAA=
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] MAINTAINERS: Update drm/rcar-du maintainers
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
- Maxime Ripard <mripard@redhat.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+Cc: linux-kernel@vger.kernel.org, Maxime Ripard <mripard@redhat.com>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2111;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=Hop0izW+Kt9Tz4B7IQilI/1GVJfibdMMpYcYCjkEPqE=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnmMpE9JxGTMokObP7/XhZHh6X8ff/WyteBRdiY
- cBFnlFWzSmJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ5jKRAAKCRD6PaqMvJYe
- 9ZfRD/4o9G++212IA6sUrk7hhbF7mjvX6bHBKw6gVTE3ZiqI/yUKHD6v3YrYarb2EJjAQn0cdRS
- koknLgh5i1Bh3zMZzQL+DX+8+LiSJY7Z93s4fHEMgtq6ej0kGXDdWdVGpYXzpipEK+IcXVV60Am
- z2yRJ1LUMVY1Av3JNE4OS/TTOzzyQDw4P6bwB9JLZrbf2mse8RyYflgHRQHRL1m1TkGLr2pCU3K
- Se4vhIlEhOoN2hXEkff7Asy3zgkVGV6QD4/n3BKxj19qbUSH0y63lc7iIf5lmbP256TK6yHWpq3
- rN+SjBe205X5eHEcnsY4kuz9EChE3VPLmpPx9qfjNHW3FUNyY/PGrlKQMVKDulWRYpMLoxgUc+N
- TgNfuHsnxP6kA14J2dK9S4OtC/b6SmZZeL/twEWxAiq8vVzD3yA9DcE+Ecfr4qcC2smP8q4deq/
- f6FxrP1PXUNlHX0oOnWIR0LA6Fny/5C4kappJhfZ5YSgsWsirpxkrGUIp7AIl20BjNsNMdxLcz6
- sXb23bzho/offG44lqe2J+Fk/jFfYA2nKaEp+rQpqfHDyyzupYbkawF1VoJvDuCPtP9MMTQGY8E
- lNBNIb99b/cMLq4KZzA8PgsktxOm4urx1nUqqSdRkGuNYa3AGSFulFVDCAVVb9whZPzKJ0dkpEs
- OnCsC64RBfrEMYw==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+References: <20250128-rcar-du-maintainers-v2-1-4a3860a3e1ef@ideasonboard.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250128-rcar-du-maintainers-v2-1-4a3860a3e1ef@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Update drm/rcar-du maintainer entries:
+On 28/01/2025 13:14, Tomi Valkeinen wrote:
+> Update drm/rcar-du maintainer entries:
+> 
+> * Add myself as drm/rcar-du maintainer.
+> * Update Laurent's email to include +renesas.
+> * Switch Kieran from a maintainer to reviewer.
+> * Change rcar-du to be under drm-misc umbrella.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Acked-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-* Add myself as drm/rcar-du maintainer.
-* Update Laurent's email to include +renesas.
-* Switch Kieran from a maintainer to reviewer.
-* Change rcar-du to be under drm-misc umbrella.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Acked-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-Changes in v2:
-- Switch to drm-misc umbrella
-- Add +renesas to emails
-- Link to v1: https://lore.kernel.org/r/20250128-rcar-du-maintainers-v1-1-c429ca421c52@ideasonboard.com
----
- MAINTAINERS | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ed86d884ee0d..b256bb4f6d3f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7604,7 +7604,6 @@ X:	drivers/gpu/drm/mediatek/
- X:	drivers/gpu/drm/msm/
- X:	drivers/gpu/drm/nouveau/
- X:	drivers/gpu/drm/radeon/
--X:	drivers/gpu/drm/renesas/rcar-du/
- X:	drivers/gpu/drm/tegra/
- 
- DRM DRIVERS FOR ALLWINNER A10
-@@ -7759,12 +7758,13 @@ F:	include/linux/host1x.h
- F:	include/uapi/drm/tegra_drm.h
- 
- DRM DRIVERS FOR RENESAS R-CAR
--M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
--M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-+M:	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-+M:	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-+R:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
- L:	dri-devel@lists.freedesktop.org
- L:	linux-renesas-soc@vger.kernel.org
- S:	Supported
--T:	git git://linuxtv.org/pinchartl/media drm/du/next
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
- F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
- F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-
----
-base-commit: e2a81c0cd7de6cb063058be304b18f200c64802b
-change-id: 20250128-rcar-du-maintainers-34ee66948f04
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
--- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
+Krzysztof
 
