@@ -1,83 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-12665-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12666-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF4CA20BAE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 15:05:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4EC4A20BB3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 15:06:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4043E1633C5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 14:05:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96CEC3A31E4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 14:06:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B02101AAE1E;
-	Tue, 28 Jan 2025 14:04:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E35011B0421;
+	Tue, 28 Jan 2025 14:04:48 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483C3199FC9;
-	Tue, 28 Jan 2025 14:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06E11AB531;
+	Tue, 28 Jan 2025 14:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738073081; cv=none; b=pGmij+ZSbj0x8MvDvxEbmSwvcWRl5Yl/w+T1veBetNu0OXZJkn/BMkHmN058RuD4Ylxnq7PwQTqdLvKyp4KEtXPhcq3PQ8rtU8Q4tkVb/iHM+vC5+w1e41ARGh3kDkgHTTPf08NVOHn+65u7enqKW5ZalUqW5WInhFVHJfFn4Ag=
+	t=1738073088; cv=none; b=slY2qcJrGR5W0OP2Tpo+BjPfg/GP1je4vUQ52WCee1m5rtZLYEBJNFmGM10mEhEDdW5y4vdgL9vpm0jYZAXgtpBe2hXTfJ48+UrWHS6KWvzqrU7B4qNIv7uchEPwddaqBqb+D9/PgKSGo7NPn5unK5oylP1ZPmMwvB12vuWL90I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738073081; c=relaxed/simple;
-	bh=p/Tc4YwE3Aw8cZ1IvliyJlcSS6HKWeLeUfwcsAn53TM=;
+	s=arc-20240116; t=1738073088; c=relaxed/simple;
+	bh=xFqA+QaLeWTVYCo6CE11FB2fRwifP+Dbwxo3Yh5jmlU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mt1VIzS0YDW3Shqg4+VgpQdMxIV41LZgWgMbI5idTZyXCRS+HtErol74MacgYJHj6Pkz0VPytp8Q6P/UVe2pxz2yGdPNruDshGq/TvwjPCdIQa0EYauNtl5zYM1lGa7RtsL88WrPT0fPLJkPc8V9CRr8keURMm6yPmspNh99Dl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.42
+	 To:Cc:Content-Type; b=gO988a6zfpKJ7DpdEiJXskahwSseM429XyhZleA1xWutPxyqCgnL31h5UdDAZLD5skwYcQpq0TIlNNHZvBH/U9r8xPatc03hQKChYWusnfzbWbvfPuUnAEXK0kBruvL/8y79O8RIkE187RESb+Gym8qaMUpjOWYb4tiqFlEI4zM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6e1b11859a7so29984456d6.1;
-        Tue, 28 Jan 2025 06:04:38 -0800 (PST)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4679eacf2c5so54730881cf.0;
+        Tue, 28 Jan 2025 06:04:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738073078; x=1738677878;
+        d=1e100.net; s=20230601; t=1738073085; x=1738677885;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qqDTzJz5hePsvxdrubkaGNVMslbwXkzcwwtfJ8AOF6I=;
-        b=bN+y+x0Bv9i8o9LgeXAGYpxhsOIK4fpFEfpcnwO61zAtcI8wUq9A46hsEw8tP6l6sK
-         4iBIljYizH51QH8O/oBJfvKVq7/JgwLPqzHRjfYTYVs8GOtWKHi+SXis+3cJU1EYOtzF
-         RDLZL0E8/0EFn38/lxuB2IAHpukXSL2rhautoDTZidz/MwAF7NS4R3N02ceKhRgBG7ac
-         j/zZJvrZJehdsiGdi014CewUm2dAwI2uMqZRgsPxg+er4Cw/AjWwap3exEfEmdy/tLu8
-         NmcXDY7Fu+su9XFUfvF3pKxlSGoXB9W21x8+n3mRygJxaMZkgTpbRMyuP+/zJxQiHA6F
-         /xMw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPyjJP7h/GbjLc0sAa1cRA68Ne5QIRb6aXSeJgCHDk63MhuhxCcK/TDEcg4gMTvaNt5bMeaw8/2s/24Np+YySgiM0=@vger.kernel.org, AJvYcCVmlQ0n152YqVFCcvNt46+HIkfsXpwWSWqfPVKCaI/XLz6n2PI8gPi4XfDGCZtpGbQImwsodvsqPxml@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8fHfrGgBWq3bGD/1d/f5jUtZPwM++ZmF2tALtneX5B0IJLzoV
-	YBaLObOrL+8H/yAhvUQe41KXWzmXtSZUotqws3Zet6S2KHWJWvlGCXn4rBa3
-X-Gm-Gg: ASbGncupdFXsAAbXSa4BAKs+PEjIVQcaS/j3dSUnRCy12ZprauL8TKCG98o5slaMa53
-	cCris59ikNQUvXMAOQJUmQsubGmjQZHvSqu8T2YznYcps6TdAUpKPfxro1dJlS+OvVYa5wvAPVK
-	ilGMnaPFlQnzWD3pimkn55/1EYy2nmVnta+VHKe2en8MF+BHUxCgeM7cf3Bc57WIrAw4zhRwq3N
-	GH3mOTmIgdKG7rlYtUK1GJ6LZf0Un0ltjlgyt8FUdLA2del4al/BhzGROGL22DjgIa3DQTmWhAO
-	5HhyGzT7pnb8/A7U4fwTySpdZn3Ttw7VWtdLnxYIDh7BtFlDLFTk03UHkA==
-X-Google-Smtp-Source: AGHT+IHe5y9TV/CJ9vv0mnjmtaWq0ZCcmgvFyhToiheDYacnRYMRE6M8PVVytecehIkfIMeXdx8exQ==
-X-Received: by 2002:a05:6214:5289:b0:6d9:2e46:dc35 with SMTP id 6a1803df08f44-6e1b216f921mr735049466d6.25.1738073076188;
-        Tue, 28 Jan 2025 06:04:36 -0800 (PST)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com. [209.85.160.175])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e2058c1e80sm45274856d6.102.2025.01.28.06.04.35
+        bh=i1OH7dHz6q7HfoqniJWo+UtpmUzYb9o3pRJUznbcfSE=;
+        b=WUwO0nO6MD87r5Sm1V0c8YynUiQdZQ+n4YUNtvVs1CEWdfLOokdkLmjAo+t/b7oecm
+         y9+rL0rNzW6X7/+DAARgv6rOpEJAiPXkXWkpSUy6fLPCp8g3R12jrF8intechgYvdPRC
+         sF8hEwLsqUW5dURhLjRXT1FDJhLv3rSsEF1IsEtyBNDFcGtWYT00hecPSqkFhfdwbFDR
+         1ECtypjTh4+qvngJhMR9cp58B++I7EgvT0WstzMqPPC0UxF9uulMOwoigOnAWp4xJ/YB
+         U79pM6kr1zhdt0rlPbdDRKRZ6s0nBxBpY3K33a6gTo/jY7bGNdRjDRoRxNgxxichYSgY
+         R2IA==
+X-Forwarded-Encrypted: i=1; AJvYcCUcDOwSzfKnxMS8mBGO8yyMuE5eSz/U47WSFwNXDS7Elgjfh6lSB4CM3+V/evDY7MN+KfhjZ1aX6wcKackDN6r8knk=@vger.kernel.org, AJvYcCXihOwfyIGBczjWsWKUcqOmBJX52uk3D6PsdepNzMKAKo72XKZu7aQtiblGgB1fYyrECcw7ohQvhEKZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIUN1zVJVAANy8sqGomuDq6AGz5yndM1GAEykkrLEpUai/ffR5
+	kk+B0KBAWz/ANsgiTZ10c9Ij0iQjftJWMnkb41uC3y80SA4frjLzu/+PmGJE
+X-Gm-Gg: ASbGncuDPpdqYhS+wPn1kv1d2moDe3E9U17q0b1HSbWZcnKLFAiVJp1yULUiPC4ndui
+	iBH6wB95/aMs5xBW6fhekSoQplv5iS3rFaqaZxdsinSaj3X8VNCssbiiFr5jITzFMITYgmJ7HED
+	UfebtHUSek4oGyvbAej8412LrWgRBzKeAu0miceoGVaXkLunL+T9bNoCu14KZorikCMY9PvTlfv
+	ICJkzNBEH4AgkVKKP51j8NEuuNH0anjr6r65Pde7svcRWxzLCtgDu8/3Aha8U6NSXT9Z/ZhUg54
+	+qX51+rIecgIyCEGZZKKgfXk30+PFVNh2doCHtNkRk4dwRJRnrRaNgRFOn9io3teCocY
+X-Google-Smtp-Source: AGHT+IH+bv9FpvJQmkFkTWE1tH+Bru2HeBc7Ki5YuNGLvFtfJ77D5Ab87LUdC/lQC3QzpLFpDHERcg==
+X-Received: by 2002:ac8:58cb:0:b0:467:8836:e003 with SMTP id d75a77b69052e-46e12b7bf14mr756429961cf.41.1738073084695;
+        Tue, 28 Jan 2025 06:04:44 -0800 (PST)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com. [209.85.222.174])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46e666d0e3fsm51362661cf.0.2025.01.28.06.04.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2025 06:04:35 -0800 (PST)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-467b086e0easo31435651cf.1;
-        Tue, 28 Jan 2025 06:04:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVwb61eKL4H2u/f1qCgWQNjWHQBD+ANpbX06ifnAw+9Pmtee3bnwqQEhHi49x7d534LwHeynN5DrZVJ5qP6HYZqP5k=@vger.kernel.org, AJvYcCX6EmJNq+c9I4TaP0oMzisPtb4UYO3sDSyE6FPEtBjMUKvUQOpg4hhIPje7oIQ4A90PaaYDfyY6Mufz@vger.kernel.org
-X-Received: by 2002:a05:622a:255:b0:467:706f:14b7 with SMTP id
- d75a77b69052e-46e12a9a0b6mr634987401cf.30.1738073075300; Tue, 28 Jan 2025
- 06:04:35 -0800 (PST)
+        Tue, 28 Jan 2025 06:04:44 -0800 (PST)
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7b6f53c12adso509752185a.1;
+        Tue, 28 Jan 2025 06:04:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUURYdZ+gPzjs8tb99Jo5CHeA2OyCvgBHLmHehwHGVg+QleG75TRYX+GtkkNbXTVtYSC7A0DfBnzzwBSOD1PQ+IEUc=@vger.kernel.org, AJvYcCVtTaUKNJt5/JFzICpozlrjtOkgfEjaJTwKiTxmtWfZDdX1bfllpZLjgVVhnm60DwZQGY/KbztaLIRJ@vger.kernel.org
+X-Received: by 2002:a05:620a:1911:b0:7b6:cedf:1b48 with SMTP id
+ af79cd13be357-7be6320bf2dmr6189082685a.3.1738073083639; Tue, 28 Jan 2025
+ 06:04:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250126134616.37334-1-biju.das.jz@bp.renesas.com> <20250126134616.37334-7-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250126134616.37334-7-biju.das.jz@bp.renesas.com>
+References: <20250126134616.37334-1-biju.das.jz@bp.renesas.com> <20250126134616.37334-8-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250126134616.37334-8-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 28 Jan 2025 15:04:23 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUUS03WoyvH6sPq9yaqX05ZUa3bMR5-vYBn+z-xTNGKWg@mail.gmail.com>
-X-Gm-Features: AWEUYZndoJaF2dSWNA6p9NcHANJPrrrs6RPwpgOw_HDb6q_59W0Dmo6rURTAZio
-Message-ID: <CAMuHMdUUS03WoyvH6sPq9yaqX05ZUa3bMR5-vYBn+z-xTNGKWg@mail.gmail.com>
-Subject: Re: [PATCH 6/7] arm64: dts: renesas: rzg3e-smarc-som: Enable SDHI{0,2}
+Date: Tue, 28 Jan 2025 15:04:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXQ3t1gNXnc_3gabi7uX6HH6pSf372hrkuq9L=dnhbD7A@mail.gmail.com>
+X-Gm-Features: AWEUYZmecPPwitaef6zUPhz2YZZFlEpNFw1T8HnjCj4v5oCkK-I8ubQtnkUZstg
+Message-ID: <CAMuHMdXQ3t1gNXnc_3gabi7uX6HH6pSf372hrkuq9L=dnhbD7A@mail.gmail.com>
+Subject: Re: [PATCH 7/7] arm64: dts: renesas: r9a09g047e57-smarc: Enable SDHI1
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
@@ -85,18 +85,92 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
+Hi Biju,
+
 On Sun, 26 Jan 2025 at 14:46, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Enable eMMC on SDHI0 and SD on SDHI2 on RZ/G3E SMARC SoM.
+> Enable SDHI1 on the RZ/G3E SMARC EVK platform using gpio regulator for
+> voltage switching.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks for your patch!
+
+> --- a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
+> @@ -12,10 +12,40 @@
+>  #include "rzg3e-smarc-som.dtsi"
+>  #include "renesas-smarc2.dtsi"
+>
+> +/*
+> + * To enable uSD card on SDIO_USD:
+> + *
+> + * Switch bank - SW_OPT_MUX-1 (SW_SDIO_M2E):
+> + *     0 - SMARC SDIO signal is connected to uSD1
+> + *     1 - SMARC SDIO signal is connected to M.2 Key E connector
+> + */
+> +
+>  / {
+>         model = "Renesas SMARC EVK version 2 based on r9a09g047e57";
+>         compatible = "renesas,smarc2-evk", "renesas,rzg3e-smarcm",
+>                      "renesas,r9a09g047e57", "renesas,r9a09g047";
+> +
+> +       usd_vdd_3p3v: regulator-usd-vdd-3p3v {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "fixed-3.3V";
+> +               regulator-min-microvolt = <3300000>;
+> +               regulator-max-microvolt = <3300000>;
+> +               regulator-boot-on;
+> +               regulator-always-on;
+> +       };
+
+Can't you just reuse reg_3p3v from rzg3e-smarc-som.dtsi?
+
+> +
+> +       vqmmc_sdhi1_ext: regulator-vqmmc-sdhi1-ext {
+> +               compatible = "regulator-gpio";
+> +
+> +               regulator-name = "SDHI1 VccQ";
+> +               regulator-min-microvolt = <1800000>;
+> +               regulator-max-microvolt = <3300000>;
+> +
+> +               gpios = <&pinctrl RZG3E_GPIO(1, 5) GPIO_ACTIVE_HIGH>;
+
+arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts:44.37-38 syntax error
+
+Missing #include <dt-bindings/gpio/gpio.h>
+
+> +
+> +               gpios-states = <0>;
+> +               states = <3300000 0>, <1800000 1>;
+> +       };
+
+Is there a specific reason why you are using an external regulator...
+
+>  };
+>
+>  &pinctrl {
+> @@ -23,9 +53,44 @@ scif_pins: scif {
+>                 pins = "SCIF_TXD", "SCIF_RXD";
+>                 renesas,output-impedance = <1>;
+>         };
+> +
+> +       sd1-pwr-en {
+> +               gpio-hog;
+> +               gpios = <RZG3E_GPIO(1, 6) GPIO_ACTIVE_HIGH>;
+> +               output-high;
+> +               line-name = "sd1_pwr_en";
+> +       };
+
+... and external (fixed) power enable, instead of the internal regulator,
+which uses the same two pins?
+
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
