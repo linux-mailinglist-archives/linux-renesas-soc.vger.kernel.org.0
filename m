@@ -1,127 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-12680-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12681-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CED4A20D9D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 16:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95AF3A20E18
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 17:10:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 724973A9712
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 15:49:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C99F83A335B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 16:10:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A019F1D934D;
-	Tue, 28 Jan 2025 15:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBD671D5151;
+	Tue, 28 Jan 2025 16:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SMhFM/A9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06921D63CF;
-	Tue, 28 Jan 2025 15:49:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872F6199E8D;
+	Tue, 28 Jan 2025 16:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738079354; cv=none; b=rwL9hzKMarsgo98FTS1vgqNNbOVfdQBiet7pHqFOmmDh4iO2FFPBWiLT9zuyuDVtGOFCPuALo2YAqO+MJtN5bDAjjnS2PvSja00ec7uAwVeAKFlcHHlgAijBIoYsBqa5bsGL9yQiUFkdkwp88Pt1ubXvzP4kRlV0dhm9/IPFkAk=
+	t=1738080651; cv=none; b=iVm2dY2GV5KYNxPwHWnqyF9SyFGIzLMKU3YTqCnxufJWw13vtSA+uJxHuqhsBOxup/OSHAElbwLEW72JGBeSWGT9bJ1SsoJUaCESttXUOlY0S/zra3pzoHumhJJg5rJHvU4mpHhiFdJ9CHBGZ/u3X3GQtuMlfjlh8NI2NoVpGWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738079354; c=relaxed/simple;
-	bh=42+uUjYeFJz6MS6O0m/KLfOxTcjAGA9oxBEOl33XvDA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RLOzr0BMw3vB89vcEgIdTRLs9d/rIUYzagJGIuGUhiwB0W/uM99tBosusCKyBgK2jEwvznTtGnajlBWA8R99P6WdxA5x2mxjdEwdfSZ9Nk9qTUEGLNIEkzaSp/tUyyx9OvmIMLhxGU1hnwKW1MhsiwNcPKMB8eJnDxwF8adNFhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4afe99e5229so1546237137.3;
-        Tue, 28 Jan 2025 07:49:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738079350; x=1738684150;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gMAld+RfqOGdKSX9WF9/UoV2cBHhEYNzKd/z1xnuijM=;
-        b=ABt55OpPh43ddSJSMgUEJxak0UP5Huc107PIG9M6E/z5E2lihlD3Kfm8DrKBIMsBgd
-         8L59p6BXi0IDKBWWfnsbWQ/PjoSTqB2HhetQF3mogYICLkjn4tU3kwlPry9Re3UKszGY
-         IBwicGZduiL+ZrTmt0AwMIMKzyOgq/oIP2atjEsO3zVzS6O6bwpGem73NbWQX7L0aEXE
-         YVid5nMMzpP6GcywEjwotFZPZCC2gG6WC5QplixLhZOlwupWbnbxd6lxv6Uk5tUBiZt1
-         EC+Q6VQCubhLqbIclLqBXObLCNTcqT+YAIjISC/1y65N43SPbAxdZEmKREwt8a/b01SJ
-         9Qkw==
-X-Forwarded-Encrypted: i=1; AJvYcCWA1cr/WA6q7+UcbCc5BsbAtkiPQvB/ZRJ54DwHruzVqr7m8eJpXUl/FryvmPQeEEKlQYpwnnlRPKunWqqijfEAr+Q=@vger.kernel.org, AJvYcCXjQPARdrQNpN1UiIhzra8naG+HFEerKAW8OF5Aj4+Ko3iKMi4eqgXX5NG/QRpHrYk9cgQXgfQt27JW@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw43x0A1lxoAgd4IG6AeTbgtoAoJZBvyWAsq1Ruw2CNlR0qNiUA
-	6mTq2eOgHAxzKPiCP2IJAN+l88NW9ELGxN+hcncjIT4u5y+zLB979k3OvhfK
-X-Gm-Gg: ASbGnctm9ITfrJT+ZfFTdltyK9n9LvP0FQ2sT/iu5UKA9X36wClbd0aOaDN35jjS+hu
-	p/5DZBTT6hCTz+wfZsECA5Dz5fRdI2iGh1dOPuMmNqTUimjinS1v4745f1+pWMs8jTAZSTaTE0J
-	SgY1Pfv1CnBufeJ630zI49Oi6Xs0/NKyoq2qk/Zjc0etPd6cqcbFTG59wqh27+ma42ybhzw/P7H
-	ZGNX7TiXnGUJX8XBAZdbDQylYI2rDunKw7GpNVJApk3FWbke6f8EbZPHLHu7uwMwnLU1Xb0HsSG
-	DqH0J85bbXtbqODKhmlSI+FNyi5ykKcVb8zJjV/fABFy4JSOCVhMzA==
-X-Google-Smtp-Source: AGHT+IG2CnjNt7hul00qFJI43QsWvqc+TvOJ06o2Kirznfct95W6dMBgMinx5HLsEAitHjR6Gg2ofw==
-X-Received: by 2002:a05:6102:952:b0:4b6:20a5:2093 with SMTP id ada2fe7eead31-4b690b9a96emr36371486137.4.1738079350318;
-        Tue, 28 Jan 2025 07:49:10 -0800 (PST)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b70996bf94sm2246204137.21.2025.01.28.07.49.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2025 07:49:10 -0800 (PST)
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4aff78a39e1so1764457137.1;
-        Tue, 28 Jan 2025 07:49:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW93V5rmmBZZiRs6b3n+scU1i9caBQVA8fPjaF08lFQYAR+8Qtdnq9iiXGDhbWVZz+qf8zYJVITWPXz@vger.kernel.org, AJvYcCX8w8Oek/WKlSFnAMlBeFsMMzXb42Nl5SFQSKzVCxIXySJ42t3BenTNJHQA211A3hZ6AseOGX+WZTAu8ijz/tagiOs=@vger.kernel.org
-X-Received: by 2002:a05:6102:2d0d:b0:4b6:44ff:414e with SMTP id
- ada2fe7eead31-4b690ce4767mr43875902137.17.1738079349728; Tue, 28 Jan 2025
- 07:49:09 -0800 (PST)
+	s=arc-20240116; t=1738080651; c=relaxed/simple;
+	bh=s4OfIy2xFOPDUcEYiKch6281mbiwNPc7sRWa122cyNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NBmQ79uHmSLGk9QIulmHm3iPd+1QI6t8pA0RVV1QFYJVlHooPWTS/7H7aOC4KmfdVR7w9MvKHBh/6Yj8+XQ4CKdsqvWChPcoi2cTw+a3IRYfmolv6FyhAT2beVBvIefy8QEEjXtiigNCRx9TpQ4alH83QEpv5+PKR3v6+I9CH0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SMhFM/A9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C29D8C4CED3;
+	Tue, 28 Jan 2025 16:10:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738080651;
+	bh=s4OfIy2xFOPDUcEYiKch6281mbiwNPc7sRWa122cyNk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SMhFM/A9c4rdPxC/506znPyAFfVd1wB5+xTuT8haGc+GEuCIfX1ci6cgfurm2moJx
+	 8TqN9DyBlJDO3NJGoEBd4+c6yI5GJDx+z4zkCKJm+SITkHf8PtnEu5IiBW5dnIkxVX
+	 7L7Lzr7/y3LoqAsaz7ijEIQzVcYS12eo5bf8PbCEKPpG/R5GhFhhP6E+jp2ShG4GzX
+	 O2LQROkWpweP2GvcfnOCwKt/gu4fr1CjA1nqobHSPh3c4T4iepVoTjjU+ojjvf0tuW
+	 NVbVwHRFNdtKpF9lNFH256Zl+iqjOOD1I9sXumQO6HHjleFGoInglqa6dz5qtRBpmA
+	 gsGNRSOoRdecw==
+Date: Tue, 28 Jan 2025 10:10:49 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: renesas,fcp: add top-level
+ constraints
+Message-ID: <20250128161049.GA3543944-robh@kernel.org>
+References: <20250128095355.65766-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250126134616.37334-1-biju.das.jz@bp.renesas.com> <20250126134616.37334-8-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250126134616.37334-8-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 28 Jan 2025 16:48:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVOWPkf5U3iqafpzMF6FrzqZ4osoFtvgtgSra6VgFzynw@mail.gmail.com>
-X-Gm-Features: AWEUYZmPtd6AwEAW3fgdIjoIKhAX8ohawliRkw04WF-Hl1q4kjRyEb43-c5YFu8
-Message-ID: <CAMuHMdVOWPkf5U3iqafpzMF6FrzqZ4osoFtvgtgSra6VgFzynw@mail.gmail.com>
-Subject: Re: [PATCH 7/7] arm64: dts: renesas: r9a09g047e57-smarc: Enable SDHI1
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250128095355.65766-1-krzysztof.kozlowski@linaro.org>
 
-Hi Biju,
+On Tue, Jan 28, 2025 at 10:53:54AM +0100, Krzysztof Kozlowski wrote:
+> Properties with variable number of items per each device are expected to
+> have widest constraints in top-level "properties:" block and further
+> customized (narrowed) in "if:then:".  Add missing top-level constraints
+> for clocks and clock-names.
+> 
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-On Sun, 26 Jan 2025 at 14:46, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Enable SDHI1 on the RZ/G3E SMARC EVK platform using gpio regulator for
-> voltage switching.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+How did you find these? The below dtschema patch will find them. 
+Unfortunately, there's a lot of false positives. We could eliminate some 
+of them, but not sure we could get to 0. The main problem is if the 
+constraints are somewhere else (e.g. reset-gpios) or via a $ref.
 
-> --- a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-> @@ -23,9 +53,44 @@ scif_pins: scif {
->                 pins = "SCIF_TXD", "SCIF_RXD";
->                 renesas,output-impedance = <1>;
->         };
-> +
-> +       sd1-pwr-en {
+8<-------------------------------------------------------
 
-arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: sd1-pwr-en:
-$nodename:0: 'sd1-pwr-en' does not match
-'^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-        from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
+diff --git a/dtschema/meta-schemas/cell.yaml b/dtschema/meta-schemas/cell.yaml
+index 3f61ed93593b..b4f0d9ea0559 100644
+--- a/dtschema/meta-schemas/cell.yaml
++++ b/dtschema/meta-schemas/cell.yaml
+@@ -7,6 +7,7 @@ $id: http://devicetree.org/meta-schemas/cell.yaml#
+ $schema: https://json-schema.org/draft/2019-09/schema
+ 
+ array:
++  type: object
+   description: cell array properties must define how many entries and what the
+     entries are when there is more than one entry.
+   anyOf:
+diff --git a/dtschema/meta-schemas/core.yaml b/dtschema/meta-schemas/core.yaml
+index c8cd03439239..233a2afd696b 100644
+--- a/dtschema/meta-schemas/core.yaml
++++ b/dtschema/meta-schemas/core.yaml
+@@ -16,7 +16,9 @@ allOf:
+ 
+ definitions:
+   unit-suffix-properties:
+-    $ref: cell.yaml#/array
++    oneOf:
++      - $ref: cell.yaml#/array
++      - type: boolean
+     propertyNames:
+       description: Standard unit suffix properties don't need a type $ref
+       not:
+@@ -44,7 +46,9 @@ definitions:
+   core-properties:
+     properties:
+       ranges:
+-        $ref: cell.yaml#/array
++        oneOf:
++          - $ref: cell.yaml#/array
++          - type: boolean
+       reg:
+         $ref: cell.yaml#/array
+       compatible:
+diff --git a/dtschema/meta-schemas/string-array.yaml b/dtschema/meta-schemas/string-array.yaml
+index f5234c6c2fc6..4d4824bc108b 100644
+--- a/dtschema/meta-schemas/string-array.yaml
++++ b/dtschema/meta-schemas/string-array.yaml
+@@ -5,7 +5,8 @@
+ ---
+ $id: http://devicetree.org/meta-schemas/string-array.yaml#
+ $schema: https://json-schema.org/draft/2019-09/schema
+-#type: object
++
++type: object
+ 
+ if:
+   not:
 
-> +               gpio-hog;
-> +               gpios = <RZG3E_GPIO(1, 6) GPIO_ACTIVE_HIGH>;
-> +               output-high;
-> +               line-name = "sd1_pwr_en";
-> +       };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
