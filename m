@@ -1,217 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-12644-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3959A208EB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 11:48:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D24A208F9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 11:50:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 258B53A60B0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 10:48:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 31775162C28
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 10:50:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE31E19D090;
-	Tue, 28 Jan 2025 10:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35F8E19D083;
+	Tue, 28 Jan 2025 10:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZFL1g2NS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11D9E19340D;
-	Tue, 28 Jan 2025 10:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1F019DF4F;
+	Tue, 28 Jan 2025 10:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738061301; cv=none; b=dvzhI4w0/+9pJu1JiHratD6hS2MWX/ymOo1GC/9coRj4ynLt956P+SUs6y9a5Deyn36zxgiGn58CAdoNH9ZX61OZdQ6Is+jX+DJIKbvK3Vv4ul6Seyaq1JQI4cWBn8p+5Gxbhx8CSJ8JSgcPUBc9L/AEKx0eaoyz+TX8CcLZCUU=
+	t=1738061425; cv=none; b=mH2SnT8Fnksf3Yn9lS6nbAiRmK4QrAq3uj9Rrnuvg2YLX7U4/3Mdqi8dxfwUGTwb5oZC5X/VJh9A3RvGICAYePbiLU4lNh9x7y7ROvz6L7+wtq5t9bEa2jI5J+iEXhzTI8HeJbMCPUgCBld/fut1LFn2HstM622PYbKi7FzmVPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738061301; c=relaxed/simple;
-	bh=DuYLcu4oh2l1ypcpXuc+en1YT4M5z6jn6b33ze7xF9c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TlFBMuVjO37S/0WpdRFT6bmSKF0QXa8Ieio2aVu+jvcuPrGeEEG9tjA15fARDGU+nN/Ud+q07xrP5DNGeZU92mz1I2nbc5QS3fDMOzfnvAsOEp2ui485mNjaJrP0ckeyoYhVc+/jrsGD1PD5Sgio9S1TUSTSKl9aBKsPlOkfnqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: hG8JVvdMQDSFgxEBDD81Mg==
-X-CSE-MsgGUID: wFMN+ys6RFCrBjoI5RHIdA==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 28 Jan 2025 19:48:18 +0900
-Received: from localhost.localdomain (unknown [10.226.93.131])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9A63B41FB5AD;
-	Tue, 28 Jan 2025 19:47:58 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Subject: [PATCH v3 13/13] arm64: dts: renesas: r9a09g047: Add icu node
-Date: Tue, 28 Jan 2025 10:47:03 +0000
-Message-ID: <20250128104714.80807-14-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250128104714.80807-1-biju.das.jz@bp.renesas.com>
-References: <20250128104714.80807-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1738061425; c=relaxed/simple;
+	bh=fDUAUwHl4Onj5yTdwIt75dSFCxTIIuZ0mg7NVyxjNG4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tVKKga1nqKF9RK4hUGMJW+JKPJ5Orh/NwLCM1xbxRkBHNW1FNv5MaPoEEbC3gzo6a+KCeRQNeM1pVqoAzj7tpmarz3r6pkUu8B943WpB/2bE5Vp0O7YOI5N12IezZv6m3r453dJrfeMaKnezN3W1DVBbMjivAxf4mifZkUMgEus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZFL1g2NS; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29D096DF;
+	Tue, 28 Jan 2025 11:49:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1738061354;
+	bh=fDUAUwHl4Onj5yTdwIt75dSFCxTIIuZ0mg7NVyxjNG4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZFL1g2NSiISqoTFBc7tg91o6WuPtnumQ6Q7eU1u6RYiOa4trVsT8iVDVzJgy+RA1l
+	 u4JwXBhAByQWkm8j8XDWK1W0QCDakAyuaTZId7MgB9Ai6uypzZNCmKSVS3PUeAqZJv
+	 sl/GC8MXlYExkba5IJkK9RL6a2ANaD/poX2eJNFs=
+Message-ID: <e92601be-a9c9-4aa7-a250-4e3514202e7b@ideasonboard.com>
+Date: Tue, 28 Jan 2025 12:50:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: Update drm/rcar-du maintainers
+To: Maxime Ripard <mripard@redhat.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
+References: <20250128-rcar-du-maintainers-v1-1-c429ca421c52@ideasonboard.com>
+ <yvdba4secotjc4xvyophckuroywx6nv35kusdj3off3dsrnxr4@7buakt7wvten>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <yvdba4secotjc4xvyophckuroywx6nv35kusdj3off3dsrnxr4@7buakt7wvten>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add interrupt control node to RZ/G3E ("R9A09G047") SoC DTSI
-and add icu as interrupt-parent of pincontrol.
+Hi,
 
-Also, define the ICU IRQs for board DT users.
+On 28/01/2025 12:41, Maxime Ripard wrote:
+> On Tue, Jan 28, 2025 at 12:28:48PM +0200, Tomi Valkeinen wrote:
+>> Add myself as drm/rcar-du maintainer. Switch Kieran from a maintainer to
+>> reviewer.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>> Cc: Krzysztof Kozlowski <krzk@kernel.org>
+>> ---
+>>   MAINTAINERS | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index ed86d884ee0d..5b1bf5fd56fd 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -7760,7 +7760,8 @@ F:	include/uapi/drm/tegra_drm.h
+>>   
+>>   DRM DRIVERS FOR RENESAS R-CAR
+>>   M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> -M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> +M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> +R:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>   L:	dri-devel@lists.freedesktop.org
+>>   L:	linux-renesas-soc@vger.kernel.org
+>>   S:	Supported
+> 
+> If I understood right that email
+> https://lore.kernel.org/dri-devel/096e85a5-30d9-4b53-bdcd-a70cde6baa4f@ideasonboard.com/
+> 
+> rcar-du is now de-facto under the drm-misc umbrella. It should be documented as well.
 
-Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2->v3:
- * No change.
-v1->v2:
- * Collected tags.
----
- arch/arm64/boot/dts/renesas/r9a09g047.dtsi | 108 +++++++++++++++++++++
- 1 file changed, 108 insertions(+)
+Good point. I believe this should be enough?
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-index c93aa16d0a6e..2023f70d3329 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-@@ -8,6 +8,24 @@
- #include <dt-bindings/clock/renesas,r9a09g047-cpg.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
-+#define RZG3E_NMI	0
-+#define RZG3E_IRQ0	1
-+#define RZG3E_IRQ1	2
-+#define RZG3E_IRQ2	3
-+#define RZG3E_IRQ3	4
-+#define RZG3E_IRQ4	5
-+#define RZG3E_IRQ5	6
-+#define RZG3E_IRQ6	7
-+#define RZG3E_IRQ7	8
-+#define RZG3E_IRQ8	9
-+#define RZG3E_IRQ9	10
-+#define RZG3E_IRQ10	11
-+#define RZG3E_IRQ11	12
-+#define RZG3E_IRQ12	13
-+#define RZG3E_IRQ13	14
-+#define RZG3E_IRQ14	15
-+#define RZG3E_IRQ15	16
-+
- / {
- 	compatible = "renesas,r9a09g047";
- 	#address-cells = <2>;
-@@ -131,6 +149,95 @@ soc: soc {
- 		#size-cells = <2>;
- 		ranges;
- 
-+		icu: interrupt-controller@10400000 {
-+			compatible = "renesas,r9a09g047-icu";
-+			reg = <0 0x10400000 0 0x10000>;
-+			#interrupt-cells = <2>;
-+			#address-cells = <0>;
-+			interrupt-controller;
-+			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 419 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 420 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 421 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 422 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 423 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 424 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 427 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 428 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 429 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 430 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 431 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 432 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 433 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 434 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 435 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 436 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 437 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 438 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 439 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 440 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 441 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 442 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 443 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 444 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 445 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 446 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 447 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 449 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 450 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 262 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 263 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 264 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 265 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 266 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 451 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 452 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 453 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "nmi",
-+					  "port_irq0", "port_irq1", "port_irq2",
-+					  "port_irq3", "port_irq4", "port_irq5",
-+					  "port_irq6", "port_irq7", "port_irq8",
-+					  "port_irq9", "port_irq10", "port_irq11",
-+					  "port_irq12", "port_irq13", "port_irq14",
-+					  "port_irq15",
-+					  "tint0", "tint1", "tint2", "tint3",
-+					  "tint4", "tint5", "tint6", "tint7",
-+					  "tint8", "tint9", "tint10", "tint11",
-+					  "tint12", "tint13", "tint14", "tint15",
-+					  "tint16", "tint17", "tint18", "tint19",
-+					  "tint20", "tint21", "tint22", "tint23",
-+					  "tint24", "tint25", "tint26", "tint27",
-+					  "tint28", "tint29", "tint30", "tint31",
-+					  "int-ca55-0", "int-ca55-1",
-+					  "int-ca55-2", "int-ca55-3",
-+					  "icu-error-ca55",
-+					  "gpt-u0-gtciada", "gpt-u0-gtciadb",
-+					  "gpt-u1-gtciada", "gpt-u1-gtciadb";
-+			clocks = <&cpg CPG_MOD 0x5>;
-+			power-domains = <&cpg>;
-+			resets = <&cpg 0x36>;
-+		};
-+
- 		pinctrl: pinctrl@10410000 {
- 			compatible = "renesas,r9a09g047-pinctrl";
- 			reg = <0 0x10410000 0 0x10000>;
-@@ -140,6 +247,7 @@ pinctrl: pinctrl@10410000 {
- 			gpio-ranges = <&pinctrl 0 0 232>;
- 			#interrupt-cells = <2>;
- 			interrupt-controller;
-+			interrupt-parent = <&icu>;
- 			power-domains = <&cpg>;
- 			resets = <&cpg 0xa5>, <&cpg 0xa6>;
- 		};
--- 
-2.43.0
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5b1bf5fd56fd..16af21c3a48a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7604,7 +7604,6 @@ X:        drivers/gpu/drm/mediatek/
+  X:     drivers/gpu/drm/msm/
+  X:     drivers/gpu/drm/nouveau/
+  X:     drivers/gpu/drm/radeon/
+-X:     drivers/gpu/drm/renesas/rcar-du/
+  X:     drivers/gpu/drm/tegra/
+
+  DRM DRIVERS FOR ALLWINNER A10
+@@ -7765,7 +7764,7 @@ R:        Kieran Bingham 
+<kieran.bingham+renesas@ideasonboard.com>
+  L:     dri-devel@lists.freedesktop.org
+  L:     linux-renesas-soc@vger.kernel.org
+  S:     Supported
+-T:     git git://linuxtv.org/pinchartl/media drm/du/next
++T:     git https://gitlab.freedesktop.org/drm/misc/kernel.git
+  F: 
+Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+  F: 
+Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+  F:     Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+
+  Tomi
 
 
