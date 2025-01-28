@@ -1,140 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-12660-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12661-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB8CA20AE2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 14:03:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C24D5A20AFF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 14:10:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EAAF3A8A71
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 13:02:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D7FF164D8D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 13:10:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08BB21A3BC0;
-	Tue, 28 Jan 2025 13:02:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 449BF1A256B;
+	Tue, 28 Jan 2025 13:10:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c1HZ53Yn"
+	dkim=pass (2048-bit key) header.d=ucla-edu.20230601.gappssmtp.com header.i=@ucla-edu.20230601.gappssmtp.com header.b="uLQpZfvX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7653F19F104
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jan 2025 13:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FB61A2872
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jan 2025 13:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738069373; cv=none; b=TJw62/rThyM87sZ5qAwy7njbQWdqG0ArNNo+5CDdFzbOvymKdwUkuIZD+T9fCFZU7w0BuaByN9/F/xgNxwsxnuVXrqZtIFGVDEMnpZBI8J/CI8PIoTLJIFw7F+qXF060O7b4tWySdhHe5R4Z7M1kulq5BblA4ylauZsfnba7p8U=
+	t=1738069809; cv=none; b=qm6P27pOvJBNM/6z8GRI5JOZtoZ1GJPBPWffBCE+rKIEiDHVb19tQf860oJUyoPd3rprVZ6oLjIo+JzBhbogWckMJys2FZv4dASIz/xYt6tCDdHoMbAp/5JiwkYYfg9pjCnSnPhNHOMAESkayXkkDtmHVb2pjdwJxrm78Ik9qt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738069373; c=relaxed/simple;
-	bh=oodYKvxUNFsCTFAanBPwxkTbixj54TmcCinXiwdG1sc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WFgTJ7yKN1ozrluFBazp2KXDUIdUv04l4pZMxTND4++kQJvlFj+WENRCL1XnYQFdimWOJQFxAH8tXFYmUkp9ELqd0Fmb4VsiJmwO6T6PMPZMfJ1tL9wmydTGu6tZ5nRuBBXNENmsoqRQbnhmXxi9HUG3HPB5N+B5N1SJrRpVbZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c1HZ53Yn; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738069369;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oodYKvxUNFsCTFAanBPwxkTbixj54TmcCinXiwdG1sc=;
-	b=c1HZ53YnxuFC9h0OSoToSjbYQcayLDzyGWis1SCA4f10QSvzht7UyUURskOPveL0uMVVfd
-	ZIH1vi/ehjsIm5lPuI0nq62Rzn/4Qs53pCN/o+9/7+i8F5Ru7bFAyI5kwV8eaItXvTNKo6
-	Mz3dzh8MTwA0YtB6KAlOSZkgs9Wiu18=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-198-YwLsP8y2NaS6wqK3cHkAtA-1; Tue, 28 Jan 2025 08:02:46 -0500
-X-MC-Unique: YwLsP8y2NaS6wqK3cHkAtA-1
-X-Mimecast-MFC-AGG-ID: YwLsP8y2NaS6wqK3cHkAtA
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6d8f6903d2eso95275346d6.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jan 2025 05:02:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738069366; x=1738674166;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	s=arc-20240116; t=1738069809; c=relaxed/simple;
+	bh=nFBQP7x+Hh15t4kXeClaj+SIeVVVy/bSd3699jF//r0=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RbTr6TbeDGz4QZ75V3zFxJvI7bwQGKM3zBUmuiAt1RmWVoKE08MyuoIm6bbPG/L/xojuuenxjhrD54BlYEIMOS0BBlfiXLDGmbGPdzQ+pfazF3IDp5FyEOQ/v6f4hy0P6o8RlyFCbDwiSfozIvulYtQ2ihR2EA7qbFNkMYiY6Bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=ucla.edu; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=ucla-edu.20230601.gappssmtp.com header.i=@ucla-edu.20230601.gappssmtp.com header.b=uLQpZfvX; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=ucla.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2ee397a82f6so9751198a91.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jan 2025 05:10:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ucla-edu.20230601.gappssmtp.com; s=20230601; t=1738069806; x=1738674606; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date
+         :mime-version:references:in-reply-to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oodYKvxUNFsCTFAanBPwxkTbixj54TmcCinXiwdG1sc=;
-        b=c4LFNc6Y2afZUs2kD/84F5n4dNES8ovb5muKp0o6oSnwmLtgT1qe/R8h040G5BNwoR
-         +1bbdvfNx0lvm6/duIBVbs+YoFNR4duWmYJRFYgwTgJGJN5DUdMWZLrdX8gE5MVaRUNh
-         AlEsMN8ECrVymxli36eQqFS9cxX/xPUP6GjQ/ugXQdXgXwjTH+sXZs2vbqbIXjC/qm16
-         SKI3II7YMbaBV0UK2ckagGTZVnIV1cIr+V9qYgKZQFc8O1U8xaFg7CPJzXs8bZ0SFB2W
-         nmSRDPAlLy6R3HUrubA3K4bq6mZ790IcK9COvi3cqN6KdcGKQkNdHYbjmo9q3SlSnRm2
-         6kqw==
-X-Forwarded-Encrypted: i=1; AJvYcCV5OASRMPYX8x8JX7jLysU9Fw6R1LWrHD0ipmWMEzCfC6YjNbbaEyaAQtijjj/kgDLb4hUxomvRp+U/6NJBYNroKg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxbu1j+wcS/wARj6gb6vbiUFqC5vIuhm2FvMkve44JvQdiXvZRU
-	4rRR6TYecNBTY7eyHvYTR29eMoTAlXIOaID3TusgoDvr0OX2cL3c0bRMTl+uxrhVLFyHRK6KwUg
-	swg81o+l/LeVEWurUuvN8rkBdkEsr6P/mk1X++AXlulHKNQ5Tu30AmGUiAusWKuFJVDL3
-X-Gm-Gg: ASbGncsVJTqf/cxoKAon/TE2xT1ojS/Rt6Uq0tkmNeMbclvA2YSPWn3WlBsiMTu/PoW
-	p6I4Uem/1vUZK/HOtjx+/bBxtf+my/bDRafD91zfUvwuBl9QKMvIjJcaSyg18b4oa411Wrfpe5q
-	af5ujAwjmmkAXWqUDiqPySeXG7SI08+9jGSvloYoOVOWUJv+qYX5SLaK9J16JDdD6dyjX93m66L
-	NPfkfUrMrTGsTCg9gbdo6R7IHhZzDdmQIFsYmWR8e2raIgcdX+XmICbD/Eiq4rnfIDOvvCW+sut
-	7w==
-X-Received: by 2002:a05:6214:1312:b0:6d3:f1ff:f8d6 with SMTP id 6a1803df08f44-6e1b21dd1a8mr515957566d6.40.1738069365965;
-        Tue, 28 Jan 2025 05:02:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG74qMxHmpqIvfDEvBlHr0mowM+wIcCWTJFUEyHI9MoT/uQSWKb7Lkr30VZvE8sk2nB6SFvBw==
-X-Received: by 2002:a05:6214:1312:b0:6d3:f1ff:f8d6 with SMTP id 6a1803df08f44-6e1b21dd1a8mr515957046d6.40.1738069365497;
-        Tue, 28 Jan 2025 05:02:45 -0800 (PST)
-Received: from localhost ([195.166.127.210])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e20525e3dbsm45169586d6.67.2025.01.28.05.02.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2025 05:02:44 -0800 (PST)
-Date: Tue, 28 Jan 2025 14:02:42 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, dri-devel@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2] MAINTAINERS: Update drm/rcar-du maintainers
-Message-ID: <b7ifg5jr5bsuj4dfcgyx4a2oaub4hxq5picxbho7bbl5634woe@wfwyd6k7eacd>
-References: <20250128-rcar-du-maintainers-v2-1-4a3860a3e1ef@ideasonboard.com>
+        bh=eOCE/EHkpCoKrKjffslP9jwtGrP2mva2YP7SdD8IH90=;
+        b=uLQpZfvXzGCiVamfqqz5uiXfxYWMfDxez7zWkxEHPYLWfaEz8FNHp3X3HIj+EptGpz
+         0bz1X+xhQwqskmRQjh9ibrj3fic2lwKZmVzDMeYEZt+JwTwLFPSCbyz+LfcanCSw8mM6
+         z+nQ66WvfXkuwK9IaNTbpQ821fZQkrgYedPNHCVi9Dnf7b5S2QTXliTIYl9LiUZxjG0j
+         6xahKR7DCBOimkFYLioj2G3AkN10sVd37TJspyhK1ROlzpcCJcAzPbmVfjuoHTHc265z
+         NCRmXHKIoVTTEl099vH/Dv/FiM1vPt1t/lrvl6LEHvBE2oCNpmPr3wuAE5GwujfgQxie
+         4SJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738069806; x=1738674606;
+        h=content-transfer-encoding:cc:to:subject:message-id:date
+         :mime-version:references:in-reply-to:from:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eOCE/EHkpCoKrKjffslP9jwtGrP2mva2YP7SdD8IH90=;
+        b=wRQe/VGAIuE3vuVoDKRZ7ivybXdboO4Q5+Q0r8WfyNakDBKq41XPfGP/tyUumCz+z2
+         fk8HHkWlZxQ2hzp3vd0IB8ycGBRxu6s1PCaena3cpAdHGzfGSB4/+IF98o6a6bdBjvuT
+         nb5+9eLuaavoZdnHxBgwtLXBCbhjGqxzwqlt4Qgc1ZSSW8bAg5VX78Xc6tHmKgB70Bog
+         o75lFS7feRanhRsRG56XOq5hQK2LYAYx8Q0Cg6kCBp4lEQYiEQtrWgKH/pYRTsDd4Ucw
+         kO/5fEYY/bEarl65TvoFo4JyTW5TpIpt9zmM9ZkvQAu7Rip+86UdwBNIUEayGUJELOHz
+         GpoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQY3496Gu+KZ4thuSvm2LnWMXA1lW4f8w4ZXMKA1YfXnToEqyCpZthyyR1roECuTeZ0mHR/iZpFh965bx9ZKu5Eg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5jb/cuB+VgeYNYc2bQobewHrKWr8r270O6lPkv/iAY/7M/l5Z
+	+G85W4xxxfFNJaxIBlgM6dM+KEXw70lqTqVudp8lqSWuXRLvFaFhw/lOOCFFHITZSfTLmFp60Ds
+	6zLYHxVkevZmybQYPqf5o0U9teXA=
+X-Gm-Gg: ASbGncsUa1JD6x0MWzbGn57jpwYZf3bOOzGIpm3+ib9BKjdbe07OpZ/aFrdEW5PbHhE
+	BkQvbPZB1ofaW26J7Hh+C59ZlDP/WIGPanBJXDesaqXbi2LtEGlD95d3a3KMrhKeQRzdWIr0=
+X-Google-Smtp-Source: AGHT+IGq1BQZlpLc+CvZtxDUQ+7vPprEVzPNA1d0MyWaN/4D01igismyTzTXS0V3Z/mXOS4PSTdMSpcc87fhUGayM/4=
+X-Received: by 2002:a05:6a00:ad8a:b0:725:8b00:167e with SMTP id
+ d2e1a72fcca58-72dafb714eamr60833180b3a.16.1738069806277; Tue, 28 Jan 2025
+ 05:10:06 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 28 Jan 2025 05:10:05 -0800
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 28 Jan 2025 05:10:05 -0800
+From: Linus Arver <linus@ucla.edu>
+In-Reply-To: <Z5dtxESPVtg2Ba2J@ninjato>
+References: <20250125130320.38232-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWmE2UiE7kwAyQKONSE_ytrNux+Wwu-v__K=jjpAutxqw@mail.gmail.com>
+ <Z5Z06WowFspmXby9@thinkpad> <Z5dtxESPVtg2Ba2J@ninjato>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="j3flvmbnmk55qa6y"
-Content-Disposition: inline
-In-Reply-To: <20250128-rcar-du-maintainers-v2-1-4a3860a3e1ef@ideasonboard.com>
-
-
---j3flvmbnmk55qa6y
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+Date: Tue, 28 Jan 2025 05:10:05 -0800
+X-Gm-Features: AWEUYZm38Z474eKpjhMRIXEFk36nkeAzhfIviQ5oE56LTDugmpHo-AfJPm2G3_I
+Message-ID: <CAMo6p=E8R=jm81eLuSOvCg+F_bgWTu2vK7PmajHurmaFJkvg1w@mail.gmail.com>
+Subject: Re: [PATCH] bitops: use safer link explaining the algorithm
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Yury Norov <yury.norov@gmail.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-renesas-soc@vger.kernel.org, 
+	linux-i3c@lists.infradead.org, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Kuan-Wei Chiu <visitorckw@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] MAINTAINERS: Update drm/rcar-du maintainers
-MIME-Version: 1.0
 
-On Tue, Jan 28, 2025 at 02:14:43PM +0200, Tomi Valkeinen wrote:
-> Update drm/rcar-du maintainer entries:
->=20
-> * Add myself as drm/rcar-du maintainer.
-> * Update Laurent's email to include +renesas.
-> * Switch Kieran from a maintainer to reviewer.
-> * Change rcar-du to be under drm-misc umbrella.
->=20
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Acked-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Hello Wolfram, funloop.org owner/author here (also, thanks Geert for
+CC'ing me).
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Wolfram Sang <wsa+renesas@sang-engineering.com> writes:
 
-Maxime
+>> If you guys feel that you can explain the algorithm you're employing
+>> in a half-VGA-screen comment, it would be the best choice, and that's
+>> enough.
+>
+> I agree that in-kernel would be super-great to have. On the other hand,
+> I especially liked the *detailed* explanation of different approaches on
+> this website. Which is helpful for users wondering if they can use the
+> new generic helper even though the algorithm they want to replace looks
+> different. Yet, this is not half a VGA-screen.
 
---j3flvmbnmk55qa6y
-Content-Type: application/pgp-signature; name="signature.asc"
+I'm glad you found it useful!
 
------BEGIN PGP SIGNATURE-----
+>> If it's impossible or you think that external reference is really needed=
+,
+>> I trust you. But please refer the original source. In this case, it's:
+>>
+>>         Warren, H. S. (2013). Hacker=E2=80=99s Delight (2nd ed), page 97=
+.
+>
+> I decided against this reference. It is a great book, but why pay bucks
+> when there is freely available information for just this one topic.
+> Besides, the book is a collection of algorithms and references other
+> sources for this implementation as well. Maybe as a second reference?
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5jVcgAKCRAnX84Zoj2+
-dlO7AYCQZDiLhoNK3olJFcuMqvlmcf39WDuiq/0soxNhjEQWggrdFC4ibJiPYnJd
-V730Z5YBfjvjqXXr1B9GqU1iXVyEMNTNMydLfYoZkXalkLxWKpfWzHh4eMKMFT3+
-C0fJxPgEgg==
-=wc4o
------END PGP SIGNATURE-----
-
---j3flvmbnmk55qa6y--
-
+Adding as a second reference sounds like a good idea to me. You could
+also add the ISBN number of the book, although maybe that's overkill.
 
