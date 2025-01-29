@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-12719-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8C1A223F8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 19:34:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4155BA2240A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 19:36:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2256E160E07
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 18:34:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9AA31161B19
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 18:36:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A090190696;
-	Wed, 29 Jan 2025 18:34:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1B51E0E0D;
+	Wed, 29 Jan 2025 18:36:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U3d608kD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pls+6dNw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B2825A643;
-	Wed, 29 Jan 2025 18:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F398F1E0DB0;
+	Wed, 29 Jan 2025 18:36:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738175655; cv=none; b=AzlI4WLdEm0OVqCG53Ejj8pwQSXEJJAew/EtZQtNfvMhLNVK3WUovOAQ3Kk5CF3SwMHLiXnTFc6EFPphSyx0NMpjq56jaGNgzpDn1N1yfp2S6deG7y/skJr4W7v1FrwZby9jdwilEb5RTjaH9L1VaJfpjbdA64heZogvfbfmvuc=
+	t=1738175814; cv=none; b=UUpohSYLTDaH8gQqe35l0kimvw3HEvaBeeGkTzIrt59nbtmHozbAvi91+EbJW0Up9UBC4XMd4KPzbX6NoZJvo1H8xJGLjpLZXJtBqZKLPFkD7nMcDFgLECeSl/Ryh3xE+zVDcEb2uuEAuwahtsm+2u/OgFsCkK8DseseHR6josU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738175655; c=relaxed/simple;
-	bh=IRgP/Bzk/+KIMVYIah+4v1UbZ5cRqd5ppAMv/HkKVzM=;
+	s=arc-20240116; t=1738175814; c=relaxed/simple;
+	bh=3s5q/IB36iLF+fgbPT+DSVq5osOvk8zyrWzKch9Ke6c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JquKGf1ou32+EXC3Ixf4gd9E8SvPOpbMf8O7Q+rhBx1zx4qCzoZJ405IiUWbuUMX1GotgDvlnxHeywO7Thum1l5N3G4gM6/Tf+SeAqiDOpNJQMP/QjeFTkYvL/pgqr4QwaBLsItnuNZpjMWbsHJl3t505k1CeIjpKjW8G5NlZiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U3d608kD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAE15C4CED1;
-	Wed, 29 Jan 2025 18:34:10 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=LQbNao3b8qENz6h3csYmrkTj1z2TdX/MTXZWpT7gUxcGIiQVVfAjUgdV7pkRcgl91YMFkq0kY5pnbPpX3JmlyeXW7ziaLaKPHhjjD4EQwflrrzw96lQ5cq1+A1GbZrSiAHb5D6ELadmkw6l2tA7/2vzdPlyUr62VRDsy2cicn/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pls+6dNw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39931C4CED1;
+	Wed, 29 Jan 2025 18:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738175654;
-	bh=IRgP/Bzk/+KIMVYIah+4v1UbZ5cRqd5ppAMv/HkKVzM=;
+	s=k20201202; t=1738175813;
+	bh=3s5q/IB36iLF+fgbPT+DSVq5osOvk8zyrWzKch9Ke6c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=U3d608kDGTQmiBwammcy7Bxtm6LOGOrbfTb19FaNiERC2Hk2eD3jeH3NTfxk8naVE
-	 HF9RvT4D7iqjqEU7vJbUNNXE8+e1b1CWkvXXqa1De2kFHLf3QbaK2EbaEWt1RKQM5W
-	 Uzkv0UMas3qx2LKp5l+QRUapyBQDhFW+UKu1EDw7jNV9NmjnMLZj6XTFf1dnfgu5eS
-	 SHSNW2Eb81xuTuxrL2ThCAmz9rdcdmFg3nMnk82o37er8+Bj2Ot0SHkiRV11oeU3Xn
-	 QkYTc1cmcBxQPrrLUwhmbmmnWqxQPbC9faKWtO46eQTb4FG83OHN/+HWUO0PXyGXP7
-	 nAGhCzUntDKsw==
-Message-ID: <315ea715-41f8-4c2b-925d-a6751a425a42@kernel.org>
-Date: Wed, 29 Jan 2025 19:34:08 +0100
+	b=Pls+6dNwHxJNuY1+O45iN5J3G5bgjzaK6Bf+537nZWRjpHsB2luuyLoDMA/+EseWC
+	 5EqCOFaLj+zw8h82Fju+yKGvVlSFHFtqtMuIts49EXmoWY2q/7kPYurdCtQtQ7cMVp
+	 CAS2T4dAF7O26PTdtnFKTvnow0NNdvxNfGavawLWpRJqAHA0xjkl6vQoDvEjEDWYe5
+	 a/LEvswOHUch/PBbq08Nd9MeLWikRUcFutsYUUsOANzhf60tL97ltNWgRTxmHNk/1z
+	 hDMnz69EKrloeKh1XpNlLie2ZbQ4ZNFJcNMjDRa9aGoaxjeXLbXH3h6gFMxFuLy8Z2
+	 T4ZiJLSZ5lWYw==
+Message-ID: <94055d48-0b04-4b1b-b38c-cc5666bcccc9@kernel.org>
+Date: Wed, 29 Jan 2025 19:36:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,18 +50,16 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/14] dt-bindings: clock: Document cpg bindings for the
- Renesas RZ/T2H SoC
+Subject: Re: [PATCH 12/14] arm64: dts: renesas: Add initial support for
+ renesas RZ/T2H SoC
 To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+ Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20250129165122.2980-1-thierry.bultel.yh@bp.renesas.com>
- <20250129165122.2980-5-thierry.bultel.yh@bp.renesas.com>
+ <20250129165122.2980-13-thierry.bultel.yh@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,72 +105,103 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250129165122.2980-5-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250129165122.2980-13-thierry.bultel.yh@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/01/2025 17:37, Thierry Bultel wrote:
-> Document RZ/T2H (a.k.a r9a09g077) CPG (Clock Pulse Generator) binding.
-> Add the header file for the resets and clocks definitions.
+> Add the initial dtsi for the RZ/T2H Soc:
+> 
+> - gic
+> - armv8-timer
+> - cpg clock
+> - sci0 uart
+> 
+> also add arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi, that keeps
+> all 4 CPUs enabled, for consistency with later support of -m24
+> and -m04 SoC revisions, that only have 2 and 1 Cortex-A55, respectively,
+> and that will use /delete-node/ to disable the missing CPUs.
 > 
 > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 > ---
->  .../bindings/clock/renesas,rzt2h-cpg.yaml     |  73 +++++++++
->  include/dt-bindings/clock/r9a09g077-cpg.h     | 144 ++++++++++++++++++
->  2 files changed, 217 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/clock/renesas,rzt2h-cpg.yaml
->  create mode 100644 include/dt-bindings/clock/r9a09g077-cpg.h
+>  arch/arm64/boot/dts/renesas/r9a09g077.dtsi    | 129 ++++++++++++++++++
+>  arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi |   8 ++
+>  2 files changed, 137 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+>  create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
 > 
-> diff --git a/Documentation/devicetree/bindings/clock/renesas,rzt2h-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,rzt2h-cpg.yaml
+> diff --git a/arch/arm64/boot/dts/renesas/r9a09g077.dtsi b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
 > new file mode 100644
-> index 000000000000..9a3a00126d2b
+> index 000000000000..55a2b1bd8100
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/renesas,rzt2h-cpg.yaml
-> @@ -0,0 +1,73 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/clock/renesas,rzt2h-cpg.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+> @@ -0,0 +1,129 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Device Tree Source for the RZ/T2H SoC
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corp.
+> + */
 > +
-> +title: Renesas RZ/T2H(P) Clock Pulse Generator (CPG)
+> +#include <dt-bindings/clock/r9a09g077-cpg.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
 > +
-> +maintainers:
-> +  - Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> +/ {
+> +	compatible = "renesas,r9a09g077";
+> +	#address-cells = <2>;
+> +	#size-cells = <2>;
 > +
-> +description:
-> +  On Renesas RZ/T2H SoCs, the CPG (Clock Pulse Generator) handles generation
-> +  and control of clock signals for the IP modules, generation and control of resets,
+> +	extal: extal {
 
-Wrap at 80. See Coding style doc.
+Use some generic clock names, prefixes or suffixes.
 
-> +  and control over booting, low power consumption and power supply domains.
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		/* This value must be overridden by the board */
+> +		clock-frequency = <0>;
+> +	};
 > +
-> +properties:
-> +  compatible:
-> +    const: renesas,r9a09g077-cpg
+> +	loco: loco {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		/* This value must be overridden by the board */
+> +		clock-frequency = <0>;
+> +	};
+> +
+> +	cpus {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		L3_CA55: cache-controller-0 {
+
+Labels are lowercase.
+
+> +			compatible = "cache";
+> +			cache-unified;
+> +			cache-size = <0x100000>;
+> +			cache-level = <3>;
+> +		};
 
 ...
 
-> +#define R9A09G077_SHOSTIF_MASTER_RST	13
-> +#define R9A09G077_SHOSTIF_SLAVE_RST	14
-> +#define R9A09G077_SHOSTIF_IP_RST	15
-> +#define R9A09G077_DDRSS_RST_N_RST	16
-> +#define R9A09G077_DDRSS_PWROKIN_RST	17
-> +#define R9A09G077_DDRSS_RST_RST		18
-> +#define R9A09G077_DDRSS_AXI0_RST	19
-> +#define R9A09G077_DDRSS_AXI1_RST	20
-> +#define R9A09G077_DDRSS_AXI2_RST	21
-> +#define R9A09G077_DDRSS_AXI3_RST	22
-> +#define R9A09G077_DDRSS_AXI4_RST	23
-> +#define R9A09G077_DDRSS_MC_RST		24
-> +#define R9A09G077_PCIE_RST		25
-> +#define R9A09G077_DDRSS_PHY_RST		26
+> diff --git a/arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi b/arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
+> new file mode 100644
+> index 000000000000..f54bb50829db
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
+> @@ -0,0 +1,8 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Device Tree Source for the RZ/T2H 4-core SoC
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corp.
+> + */
 > +
-> +#endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G077_CPG_H__ */
-> \ No newline at end of file
+> +#include "r9a09g077.dtsi"
 
-Patch warning here.
+
+What is the point of this DTSI file? What is the point of your top-level
+compatibles if you do not use them?
 
 
 Best regards,
