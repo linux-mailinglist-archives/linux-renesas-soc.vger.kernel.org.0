@@ -1,49 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-12703-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2046FA221C4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 17:30:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35265A2222A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 17:52:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 872FC160B63
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 16:30:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A12271883968
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 16:52:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 961D419D886;
-	Wed, 29 Jan 2025 16:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k23uYR5V"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47A3B1DFD91;
+	Wed, 29 Jan 2025 16:51:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F811DF72C
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jan 2025 16:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 770D01DF75C
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jan 2025 16:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738168207; cv=none; b=V5PkYyeSIVINYalFLxNhnO0jV4M7lcMzXDhEliHxn48Yx6TIF1NKX58jfekMkqSv69CLtL30r9oAQapHO+D3ZpIbYyTRbE8HPbADQmpu0864osxaxO7PrUf0mlDB6T453rCxikYPjvXSXQCGybf5I6DAt2u2iMIc/mdxpx1ffDM=
+	t=1738169513; cv=none; b=WsV1j/Gn+gPuAEFaJ7EV6AkpMTA0qmtHQtMmuYehuLBHSZZh8dU+kqaH8V11lzrZOEtexf6sFmiAWHV/4GppVDGxcKTJiQP5BOou5AkWWEhtG+jGYvhx2w1+oTCjp0sEBQ5988ZBQhjMnENMhHDXzr/WS505hTDZzOfP0BJGljg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738168207; c=relaxed/simple;
-	bh=qvkumRFW+BRb8QFmkR0V2kqtqeZtnPKN/TLIC0aJRSk=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=UEi71Cn1lJN0n2CCLAutKbgyhSqpTU3ED7jZGOLiyiFj1K0Rh+sU9TBY/Y6vGXKIo8pZiT/hyIVCYlvq8usAIfklWqhvOOsM8y/ja5RlPykjRy5E2N/j5lacrl3j2tzCJkUeTWPC8PpCLkhbjxAIMZlf7dfHa19sPyNODJyfl3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k23uYR5V; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB32DC4CED1
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jan 2025 16:30:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738168206;
-	bh=qvkumRFW+BRb8QFmkR0V2kqtqeZtnPKN/TLIC0aJRSk=;
-	h=Subject:From:Date:To:From;
-	b=k23uYR5VrwBBR3gI25s8/3lOK9E1BHPr45oJr9z2Kv74BmK2Bmbx1qbw3UURjPxiW
-	 W7487JK4OZockcEDRh7IOS+qBDLaT8G0bvpDjPelGoG7ES9TuPozT6bdZDSkt2oqH0
-	 rXUyCgZuj4VfJYyZZUpL9ZKtO8tpePrSxcGCtyB9DQ5ppdyfA0UcLoW/wJ7QU69Q/G
-	 XgI++MC6jINc4HwyCAlLVGcRXJvq2VePBNWH8kN8ZAL2i8hu8faJmBeME98gr1A9J6
-	 rSHAgAPpI0HpKvuxmnYX7uRkk4Sa9QGXZUd29kxOvqcuU1VQsakmTO40Nm0D7AniS6
-	 8YTCVBDukjagg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F32BA380AA66
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jan 2025 16:30:33 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1738169513; c=relaxed/simple;
+	bh=w/YhLbHISJOXiRkhAyylqFQPfBz0fe5rgW4fRb7Tr9Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GUjIheqhreSgekr/+CH50LhHukHhE2dSyT8HzdXOWE7va73VQ2caU+eLBVomRNNn/9lXdnup8yaYpj8u//tWymSGbMq0H9GT8dqxB25ESPKnJ/NWiZo6CfRPFYuTLJ9lwct2smF6p7tPngzA11Wrquu13TUcvJVI39SXs3K4L1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: Y6YOUwkxSde6cGZWh1ohJw==
+X-CSE-MsgGUID: xtHLK5hxSwuhNu+2KJaHaw==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 30 Jan 2025 01:51:43 +0900
+Received: from wvbox.administration.lan (unknown [10.226.92.145])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id C2852402F547;
+	Thu, 30 Jan 2025 01:51:30 +0900 (JST)
+From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 00/14] add initial support for Renesas RZ/T2H SoC
+Date: Wed, 29 Jan 2025 16:37:36 +0000
+Message-ID: <20250129165122.2980-1-thierry.bultel.yh@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -51,47 +49,82 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <173816823235.347379.8457717925832575019.git-patchwork-summary@kernel.org>
-Date: Wed, 29 Jan 2025 16:30:32 +0000
-To: linux-renesas-soc@vger.kernel.org
 
-Hello:
+This patchset brings basic support for Renesas RZ/T2H SoC and
+its evaluation board. The 4 CPUs are enabled, only the serial 
+console is available and the board must boot on a ramdisk. 
+earlycon is supported, though.
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+The RZ/T2H serial controller (SCI) is quite different from the 
+other RZ SoCs, one of the big differences (but not the only) being
+the 32 bits registers. In order to not modify the existing sh-sci 
+driver too much, a new set of 'ops' function pointer is introduced,
+alllowing to code the specifics of RZ/T2H in a separate file.
+Termios setting is not supported yet, the default 115200 baudrate
+being kept by default.
 
-Series: soc: renesas: Add RZ/G3E SoC detection support
-  Submitter: John Madieu <john.madieu.xa@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=928713
-  Lore link: https://lore.kernel.org/r/20250128031342.52675-1-john.madieu.xa@bp.renesas.com
-    Patches: [v5,1/5] soc: renesas: Add SYSC driver for Renesas RZ family
-             [v5,2/5] soc: renesas: rz-sysc: Move RZ/G3S SoC detection to the SYSC driver
-             [v5,3/5] soc: renesas: rz-sysc: Add support for RZ/G3E family
-             [v5,4/5] soc: renesas: rz-sysc: Move RZ/V2H SoC detection to the SYS driver
-             [v5,5/5] soc: renesas: rzv2h: Add a callback to print SoC-specific extra features
+The new CPG clock driver comes with the minimal things at this stage,
+with the assumption that most of the initialization is done earlier
+by the bootloader. Also, module clock enable/disable is not supported,
+because quite hard to test when the only available peripheral is the 
+serial console, and will come in a future patchset.
 
-Patch: ARM: shmobile: defconfig: Supplement DTB with ATAG information
-  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=926126
-  Lore link: https://lore.kernel.org/r/20250116153204.615736-1-niklas.soderlund+renesas@ragnatech.se
+Thierry Bultel (14):
+  dt-bindings: soc: Document Renesas RZ/T2H (R9A09G077) SoC
+  dt-bindings: serial: Document sci bindings for the Renesas RZ/T2H
+    (a.k.a r9a09g077) SoC
+  dt-bindings: soc: Document the Renesas RZ/T2H Evaluation board for the
+    R9A09G077 SoC
+  dt-bindings: clock: Document cpg bindings for the Renesas RZ/T2H SoC
+  soc: renesas: Add RZ/T2H (R9A09G077) config option
+  clk: renesas: Add support for RZ/T2H family clock
+  clk: renesas: Add support for R9A09G077 SoC
+  serial: sh-sci: Fix a comment about SCIFA
+  serial: sh-sci: Introduced function pointers
+  serial: sh-sci: Introduced sci_of_data
+  serial: sh-sci: Add support for RZ/T2H SCI
+  arm64: dts: renesas: Add initial support for renesas RZ/T2H SoC
+  arm64: dts: renesas: Add initial support for renesas RZ/T2H eval board
+  defconfig: Enable RZ/T2H Soc and RZ_SCI
 
-Patch: [PATCH/LOCAL] arm64: renesas: defconfig: Disable CONFIG_PROVE_LOCKING
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=926994
-  Lore link: https://lore.kernel.org/r/c8439b6b731cd44c0d2442f437d4ceef336125b0.1737390987.git.geert+renesas@glider.be
-
-
-Total patches: 7
+ .../bindings/clock/renesas,rzt2h-cpg.yaml     |  73 +++
+ .../bindings/serial/renesas,rzsci.yaml        | 100 ++++
+ .../bindings/soc/renesas/renesas.yaml         |  10 +
+ arch/arm64/boot/dts/renesas/Makefile          |   1 +
+ arch/arm64/boot/dts/renesas/r9a09g077.dtsi    | 129 ++++
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    |  37 ++
+ arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi |   8 +
+ arch/arm64/configs/defconfig                  |   2 +
+ drivers/clk/renesas/Kconfig                   |   9 +
+ drivers/clk/renesas/Makefile                  |   2 +
+ drivers/clk/renesas/r9a09g077-cpg.c           | 100 ++++
+ drivers/clk/renesas/rzt2h-cpg.c               | 549 ++++++++++++++++++
+ drivers/clk/renesas/rzt2h-cpg.h               | 201 +++++++
+ drivers/soc/renesas/Kconfig                   |   5 +
+ drivers/tty/serial/Kconfig                    |   7 +
+ drivers/tty/serial/Makefile                   |   1 +
+ drivers/tty/serial/rzsci.c                    | 484 +++++++++++++++
+ drivers/tty/serial/rzsci.h                    |  12 +
+ drivers/tty/serial/sh-sci.c                   | 421 +++++++-------
+ drivers/tty/serial/sh-sci_common.h            | 179 ++++++
+ include/dt-bindings/clock/r9a09g077-cpg.h     | 144 +++++
+ include/linux/serial_sci.h                    |   3 +-
+ include/uapi/linux/serial_core.h              |   3 +
+ 23 files changed, 2284 insertions(+), 196 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,rzt2h-cpg.yaml
+ create mode 100644 Documentation/devicetree/bindings/serial/renesas,rzsci.yaml
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
+ create mode 100644 drivers/clk/renesas/r9a09g077-cpg.c
+ create mode 100644 drivers/clk/renesas/rzt2h-cpg.c
+ create mode 100644 drivers/clk/renesas/rzt2h-cpg.h
+ create mode 100644 drivers/tty/serial/rzsci.c
+ create mode 100644 drivers/tty/serial/rzsci.h
+ create mode 100644 drivers/tty/serial/sh-sci_common.h
+ create mode 100644 include/dt-bindings/clock/r9a09g077-cpg.h
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.43.0
 
 
