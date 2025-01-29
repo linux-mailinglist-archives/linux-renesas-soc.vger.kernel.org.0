@@ -1,126 +1,343 @@
-Return-Path: <linux-renesas-soc+bounces-12690-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12691-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD36A21EDA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 15:15:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE7AA21ED9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 15:15:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 167F7188ADFC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 14:12:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7447616AC33
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 14:12:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57B7F7483;
-	Wed, 29 Jan 2025 14:12:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2A4F13D503;
+	Wed, 29 Jan 2025 14:12:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8EA31A9B40;
-	Wed, 29 Jan 2025 14:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF412C9D;
+	Wed, 29 Jan 2025 14:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738159926; cv=none; b=MAD/o9iz0L1y4lpepB6ERzCiVCGcyM5v0lkSgrC0nrbPBRoNtdGZ1wrkXv3IebBsASsP4vxYZ5uZUSmOG5ZowJmrvMLiHFXIIoioyYecBF7o5zVsk/frDMs35qazWEkXjYbUyyNmYtxAU0FQF931gStLwvQNTvNrlpFjDRt/4kE=
+	t=1738159943; cv=none; b=Wa+HS8/rWObFJdcTuhdMNkZd18JW3Be4NIyOppBy5uoWMc0TGC/coALsbRIagKb+QkO7nTh+9X45yHh0Iko2wTYsYzbMgtylPVQO3EnDUhvAHv8n0r2hCJrJ6sZprJU06VTctlJRraIDxBzploeg2HN/nIUBihiNq6cwcfzMFvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738159926; c=relaxed/simple;
-	bh=xSx59Q6WEQqOAWtoPWzR5q+90R5W5HaYyo9/T5UJWaM=;
+	s=arc-20240116; t=1738159943; c=relaxed/simple;
+	bh=bP1LpwLMclbJicT0S+HVXQal5TyBbetxTZ51Z7K9Qns=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iNNnUUZV7EHDYxjk56kn/nH4uQX9LPyZ2qFQNcU28ps2p6HbrVmLTvmdTQaMl8MZY+pdJQ4aTFrz6YUcI2wGXZeAMYayHgZyhlj/Yz0RNawwk8tP1BOCQXgcZv5B7aiiYjue9kPkw5VbHeQrBoSZCaSE/lQHpXZ1F2uNG3eFWgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.171
+	 To:Cc:Content-Type; b=EfvnmHvMAM9UNLuTDML4iiQbKy34niw67HiQypKPPhT3t5J1gEXLsBzy6E7ErjGTpUTZp4QRv63nzz3H4avwYnWmZ64xtOdfVQso2JRwZrBtQDlZtWdVml14r+67h1U0AWu/XWaTRqkXnEEX5T6FCGN+OpZ9fTH1O/9a5QUXJpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7b9ad0e84e6so814251785a.0;
-        Wed, 29 Jan 2025 06:12:03 -0800 (PST)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6df83fd01cbso27769676d6.2;
+        Wed, 29 Jan 2025 06:12:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738159922; x=1738764722;
+        d=1e100.net; s=20230601; t=1738159940; x=1738764740;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+weLzFaF5oAKZl3Ty4+8MGIrOzE6JXEBRwSNs7JrGZ0=;
-        b=VsHmt8E7BX5JKlPHpnuaf2rB/xctp3XYMrHViCSw4tFuRJ3RpD3R0bui/tytF51Gmp
-         MMSZranO57slGjDYwg3y+6YnfTvBFfrbQBXNmalse2jsW/SoxTe71lLtZ77ndmsAFHB7
-         pc1eEw2PiHJ0xYwPpXaoC89H+2/WlArJRMT0gGAB00ejKoxhJxiHwCn/y/o5X+UMyDwq
-         SvjFilSCYBg0bvqbG8rsHImvU263pVfmaUX1EtLQkjanJiSfHQOpRTDDKx7y4lQAxPsr
-         yObw3AEP2G5z/g7iXtTDsFKaGnLtEEkZ+IAauczWgZanB8buHdGK2iLdaSk4U8HlHinZ
-         KOmg==
-X-Forwarded-Encrypted: i=1; AJvYcCVA5uHqxM/3RlF0+azuBrMxwmOzSYoEKHflq5HsXwuGZjhH27JQXWP5G68ERuA/ON3c8BFRQ92elTrmoetc@vger.kernel.org, AJvYcCXMcmKFUmnXJWSIa3DuniaezunQdkB2+F+HWdt8K46Z/pBhD6fODaKbUqryWxHTwygskmGporFgRSj4V2Z0vOGFcCE=@vger.kernel.org, AJvYcCXa44lWV6pvfw3Tlj6zSdSDyVMUgYwRJaALsrCBSZq93JhChWnLcb2uD0eTygL8gZTELd/OpvAtL1Gk@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSNm2G9ctKm/lht7wopKUxI+AtS2YmCxB5cpL093AhOFJpwIcV
-	X4l3IcLIEa1IkJ03WlWBtDmPvV9zKFyXl96UQ8gbMQ6SZhp1mGmPKvfXyxjc
-X-Gm-Gg: ASbGncvmBraSWcrdnZey7nQmQXZZA/NRrwoQRla80XncB1Jk++ghz5iSTsEbi89UEBi
-	ZR4GnNYMl0L79XygwkLHNHL1q0q5UBHoAANQZ3oKVieU9ZXwwjPZ0qJnH43+vygaqhAeib2ZI6P
-	dK0xJ0YIqgskwLOiimZXcwZOOkp/dQ/JJU0ulm6Rsk/haroWZp+vOijx34jgxnAB2s6PBD44LSE
-	TjbrhVOYAkZW0ADWxCwNnWqYNWdPWmyMehePU7HdGefyerNd8leNB7CVMSEUTCltVD1u34jmPtT
-	v1qxvtTDZNtkPlDrfT07NilQMKIFyeOGJWkVEqWZYAtegfC0C+1ys9fPbQ==
-X-Google-Smtp-Source: AGHT+IH0q09grcyj8PXi65l8085890EiX2QxIEm/9I+GJE/1NWlNSDgR+zTX2ZUgdEZwNq4fFFKdDg==
-X-Received: by 2002:a05:620a:44cd:b0:7b6:c92e:2e83 with SMTP id af79cd13be357-7bffcce6156mr405603185a.17.1738159921725;
-        Wed, 29 Jan 2025 06:12:01 -0800 (PST)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com. [209.85.222.180])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7be9ae7dcb8sm626689585a.16.2025.01.29.06.12.01
+        bh=g5Tkcv8gZTgbyp2heRc2wr0p9jGYqFMOo9+Mqf5RFT4=;
+        b=mEGr9ha0fxR+Po0P6hucl7XV1w4doaeAZHfvyQE8aYumiBbdHhYJJZ0xL4w70Kro05
+         gNgvWiUe8hMm92ENGwYhC7y6kHExpknJFIpDW+UNn0L//SPhzPgFW7AAFPuWQGGr8Qfv
+         6mBp7gHjaxXwB9Dr2F1GBfHFGduAWaSoU8mnCnOficBYzv7MB5Mpkg0pUEGlRt+oymp6
+         8byL6XYFAMBPUDCoSZwgJb9iyy1Br0SubBoOWilwfXPQHABPvlT47jPl8crodYLvKOCB
+         V999qEv8fgvIAyN7/MHs/Bud9fQhDKTOPyBjFv6Thx9WJykBcSROwDqqJGJGu7A+QK4d
+         WPIg==
+X-Forwarded-Encrypted: i=1; AJvYcCWq+u/Go29iXHdHMSgVAcJlzoEpZMfO5QMIRhmrvGJOhQJwhIBUwnyYyHnjwD+neZjnXJqm9i64PTaOYkT+@vger.kernel.org, AJvYcCXAROmxHC23kiquI9sFaFAXsFUeRBoHv0EGsomweWxot8aNGassgvFyTgMkCsYoAwlnI4ybAFVGeHrncXs84oz3iaE=@vger.kernel.org, AJvYcCXJCeVSjT/uBYoGF5Z2yEuj0uStuT1g5J+fl5UF6XkE8Jp9ms1wQOeXue/j0Isvu+AYRS+IbdPChV27@vger.kernel.org
+X-Gm-Message-State: AOJu0YztjmIMRW+SrujlwP/wZgrEiR7QwpQkKg15yfHG3NVtPncuqR/N
+	Qvc0mXUhlo6riEuB9cSJeV9bPAmSnTZm8GQzDOmeSJKaUnNww0E0tB9bcaRN
+X-Gm-Gg: ASbGncv80fUsA18TNquyJiwSFw/byz9BDrQqxUwQHd0xfB6Ipj7mmUg/uAPw5quBFw3
+	nBjZQg3IYrec/hqBhI+DECxv7qHuzww5kGdpsWCw1OK5VPj7Z2jrUt71I6nE01lBd8LqfHYgEKR
+	PuzjLWLxkdlAjhrnSNDOyTTR1O2/BHC3o7TG19Vvvh8p0fm4DGg0hRKkxI8hQTACEQAtfIxl/T1
+	beyG2xQi+LUwe2ZpuMvC8C+1jRIS1QdiJwEDzAJVPDOf7vfNRKH1lZ8atKF4LGnEU/KnZGtPPZH
+	LhMeu9j/bEUfj1VvkHgaw46zWOoIXNT1LtDOYWokCJZEQFEnFiaUI5Hn7g==
+X-Google-Smtp-Source: AGHT+IE/6SdaAR9mAGJnJOQaU6s3bhDsAEYQwRcoz0uKgto71AUv0heiLRpPxq9QgFk1oc8QTy9F0w==
+X-Received: by 2002:a05:6214:1d0e:b0:6d8:b189:5419 with SMTP id 6a1803df08f44-6e243b91da4mr57849446d6.8.1738159939772;
+        Wed, 29 Jan 2025 06:12:19 -0800 (PST)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com. [209.85.160.172])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e2057a88f8sm55894526d6.74.2025.01.29.06.12.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2025 06:12:01 -0800 (PST)
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7b6f8524f23so860580385a.2;
-        Wed, 29 Jan 2025 06:12:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUR9xplH22vM/P06Em1q1471rlvZpf0lw0SMhpYN4mx3CDwfo0nWSSz4iqC6HCIcX1hn0AlMxh29qec@vger.kernel.org, AJvYcCUY0z2wJgXqC5rsqrvypjODJOPwGaX7RfDw4J+D/ldhUAPGLbGw8MCIMfUP6BA2HphSo9yoa9UIAqNb7w0u@vger.kernel.org, AJvYcCVllfbuzryikoWi8b+OEPiF90Hb4qlbboQ+OB30z2Why1j9FGLSeEWRPC+als+mbgh3Km/NsK96FFAHZHbpJbXLOm0=@vger.kernel.org
-X-Received: by 2002:a05:620a:258b:b0:7b6:dac1:cb73 with SMTP id
- af79cd13be357-7bffcda901cmr486250485a.56.1738159920967; Wed, 29 Jan 2025
- 06:12:00 -0800 (PST)
+        Wed, 29 Jan 2025 06:12:19 -0800 (PST)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-467a3c85e11so50132191cf.2;
+        Wed, 29 Jan 2025 06:12:19 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUTuRdD7rrWqfEjAVQQJGftwShgwipMtGq8csQY/XBRmd/g7DudALd7gf5LJU+LfMDRmPl170YQjaeo5PN0tsjQ55I=@vger.kernel.org, AJvYcCUaKgBDyqIkOpvs2ys6AybA4OiX3EgNDwAooMIm4u9jqjhqSnv6Wj5dbpRb1g0bkq4ENRG9KHrVz31Y@vger.kernel.org, AJvYcCVnNSL8J4XeM+RhRaL6ZP0u0Upr1qKYcyvN+Py1K6iYeN8bXurbvEuQM8KSg8FvlZnXnjc+NoL5hSnOj6wp@vger.kernel.org
+X-Received: by 2002:ac8:5d52:0:b0:467:86fa:6b72 with SMTP id
+ d75a77b69052e-46fd0a6486cmr46231051cf.12.1738159939102; Wed, 29 Jan 2025
+ 06:12:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250127-myir-remi-pi-v2-0-7bd3a1c62752@collabora.com> <20250127-myir-remi-pi-v2-1-7bd3a1c62752@collabora.com>
-In-Reply-To: <20250127-myir-remi-pi-v2-1-7bd3a1c62752@collabora.com>
+References: <20250127-myir-remi-pi-v2-0-7bd3a1c62752@collabora.com> <20250127-myir-remi-pi-v2-2-7bd3a1c62752@collabora.com>
+In-Reply-To: <20250127-myir-remi-pi-v2-2-7bd3a1c62752@collabora.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 29 Jan 2025 15:11:49 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW16Uf+khp7viesn7YtZXahCp6QuOHY4bnp2DG_KYee9Q@mail.gmail.com>
-X-Gm-Features: AWEUYZntJiJkFgyWpag5HwiDlPV1JLWaFN7LGKxrQWRd2iuBsgoREfw36a6PHvM
-Message-ID: <CAMuHMdW16Uf+khp7viesn7YtZXahCp6QuOHY4bnp2DG_KYee9Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: soc: renesas: Document MyIR Remi Pi board
+Date: Wed, 29 Jan 2025 15:12:07 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV3Z9d8qsa_mnUgH50a=_aq9myf0xYVx+ZexKtkUXcMNw@mail.gmail.com>
+X-Gm-Features: AWEUYZlxLUbHTU3u3xDhV9Zxr8pZ7ahCIIdSYfsNHiLG9VOAKw5JswNmTSU9Sbc
+Message-ID: <CAMuHMdV3Z9d8qsa_mnUgH50a=_aq9myf0xYVx+ZexKtkUXcMNw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] arm64: renesas: add initial support for MYIR Remi Pi
 To: Julien Massot <julien.massot@collabora.com>
 Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Julien,
 
 On Mon, 27 Jan 2025 at 10:39, Julien Massot <julien.massot@collabora.com> wrote:
-> Document the MyIR Remi Pi" which is based on the Renesas
-> RZ/G2L ("R9A07G044L2") SoC.
+> Add basic support for the MyIR Remi Pi (based on r9a07g044l2):
+>  - UART
+>  - i2c
+>  - emmc
+>  - USB host
+>  - HDMI output
+>  - Ethernet
 >
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > Signed-off-by: Julien Massot <julien.massot@collabora.com>
 
 Thanks for your patch!
 
-> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> @@ -491,6 +491,13 @@ properties:
->                - renesas,r9a07g044l2 # Dual Cortex-A55 RZ/G2L
->            - const: renesas,r9a07g044
->
-> +      - items:
-> +          - enum:
-> +              # MYIR Remi Pi SBC (MYB-YG2LX-REMI)
-
-What is the correct spelling? Your patch series has "MYIR", "MyIR", and
-"MYir".  The website seems to use "MYIR", except in the graphical logo,
-which shows a dotted-I.
-
-> +              - myir,remi-pi
-> +          - const: renesas,r9a07g044l2
-> +          - const: renesas,r9a07g044
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dts
+> @@ -0,0 +1,388 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Device Tree Source for the MYiR Remi Pi
+> + *
+> + * Copyright (C) 2022 MYiR Electronics Corp.
+> + * Copyright (C) 2025 Collabora Ltd.
+> + */
 > +
->        - description: RZ/V2L (R9A07G054)
->          items:
->            - enum:
+> +/dts-v1/;
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
+> +
+> +#include "r9a07g044l2.dtsi"
+> +
+> +/ {
+> +       model = "MYIR Tech Limited Remi Pi MYB-YG2LX-REMI";
+> +       compatible = "myir,remi-pi", "renesas,r9a07g044l2", "renesas,r9a07g044";
+> +
+> +       aliases {
+> +               ethernet0 = &eth0;
+> +               ethernet1 = &eth1;
+> +
+> +               serial0 = &scif0;
 
-With the above clarified:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+So serial0 is the CA55 console, OK.
+
+> +               serial1 = &scif1;
+
+Connected to BT/WiFi, but not yet enabled below.
+
+> +               serial2 = &scif2;
+
+This is wired to the Raspberri Pi expansion connector.
+However, on Raspberri Pi, these pins are GPIOs.
+While the Raspberri Pi UART_[TR]X pins are wired to SCIF4 here,
+which is not yet enabled...
+
+> +               serial3 = &scif3;
+
+Serial3 is the CA33 debug console, OK.
+
+> +
+> +               i2c0 = &i2c0;
+> +               i2c1 = &i2c1;
+> +               i2c2 = &i2c2;
+> +               i2c3 = &i2c3;
+> +
+> +               mmc0 = &sdhi0;
+> +               mmc1 = &sdhi1;
+
+sdhi1 is not yet enabled, so please drop it.
+
+> +       };
+
+> +       reg_5p0v: regulator-5p0v {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "fixed-5.0V";
+> +               regulator-min-microvolt = <5000000>;
+> +               regulator-max-microvolt = <5000000>;
+> +       };
+> +
+> +       reg_3p3v: regulator-3p3v {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "fixed-3.3V";
+> +               vin-supply = <&reg_5p0v>;
+> +               regulator-min-microvolt = <3300000>;
+> +               regulator-max-microvolt = <3300000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       reg_1p8v: regulator-1p8v {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "fixed-1.8V";
+> +               vin-supply = <&reg_3p3v>;
+
+reg_5p0v, as 1.8V is generated from 5.0V, according to the schematics.
+
+> +               regulator-min-microvolt = <1800000>;
+> +               regulator-max-microvolt = <1800000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       reg_1p1v: regulator-vdd-core {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "fixed-1.1V";
+> +               regulator-min-microvolt = <1100000>;
+> +               regulator-max-microvolt = <1100000>;
+> +               regulator-always-on;
+> +       };
+
+> +&eth0 {
+> +       pinctrl-0 = <&eth0_pins>;
+> +       pinctrl-names = "default";
+> +       phy-handle = <&phy0>;
+> +       phy-mode = "rgmii-id";
+> +       status = "okay";
+> +
+> +       phy0: ethernet-phy@4 {
+> +               compatible = "ethernet-phy-ieee802.3-c22";
+> +               reg = <4>;
+> +               interrupts-extended = <&pinctrl RZG2L_GPIO(44, 2) IRQ_TYPE_LEVEL_LOW>;
+
+Missing reset-gpios (P44_3).
+
+> +       };
+> +};
+> +
+> +&eth1 {
+> +       pinctrl-0 = <&eth1_pins>;
+> +       pinctrl-names = "default";
+> +       phy-handle = <&phy1>;
+> +       phy-mode = "rgmii-id";
+> +       status = "okay";
+> +
+> +       phy1: ethernet-phy@6 {
+> +               compatible = "ethernet-phy-ieee802.3-c22";
+> +               reg = <6>;
+> +               interrupts-extended = <&pinctrl RZG2L_GPIO(43, 2) IRQ_TYPE_LEVEL_LOW>;
+
+Missing reset-gpios (P43_3).
+
+> +       };
+> +};
+
+> +&pinctrl {
+
+> +       spi0_pins: spi0 {
+> +               pinmux = <RZG2L_PORT_PINMUX(47, 0, 5)>, /* CLK */
+> +                        <RZG2L_PORT_PINMUX(47, 1, 5)>, /* MOSI */
+> +                        <RZG2L_PORT_PINMUX(47, 2, 5)>, /* MISO */
+> +                        <RZG2L_PORT_PINMUX(47, 3, 5)>; /* Chip Enable*/
+> +       };
+
+Unused.
+
+> +
+> +       eth0_pins: eth0 {
+
+Please sort pinctrl subnodes (alphabetically by node name).
+
+> +       sdhi0_pins: sd0 {
+> +               sd0_data {
+> +                       pins = "SD0_DATA0", "SD0_DATA1", "SD0_DATA2", "SD0_DATA3",
+> +                              "SD0_DATA4", "SD0_DATA5", "SD0_DATA6", "SD0_DATA7";
+> +                       power-source = <1800>;
+> +               };
+> +
+> +               sd0_ctrl {
+> +                       pins = "SD0_CLK", "SD0_CMD";
+> +                       power-source = <1800>;
+> +               };
+> +
+> +               sd0_rst {
+> +                       pins = "SD0_RST#";
+> +                       power-source = <1800>;
+> +               };
+> +       };
+> +
+> +       sdhi0_pins_uhs: sd0_uhs {
+> +               sd0_data_uhs {
+> +                       pins = "SD0_DATA0", "SD0_DATA1", "SD0_DATA2", "SD0_DATA3",
+> +                              "SD0_DATA4", "SD0_DATA5", "SD0_DATA6", "SD0_DATA7";
+> +                       power-source = <1800>;
+> +               };
+> +
+> +               sd0_ctrl_uhs {
+> +                       pins = "SD0_CLK", "SD0_CMD";
+> +                       power-source = <1800>;
+> +               };
+> +
+> +               sd0_rst_uhs {
+> +                       pins = "SD0_RST#";
+> +                       power-source = <1800>;
+> +               };
+> +       };
+
+sd0 and sd0_uhs are identical, so you can just always use the former,
+and drop the latter.
+
+> +
+> +       usb1_pins: usb1 {
+> +               pinmux = <RZG2L_PORT_PINMUX(42, 0, 1)>, /* VBUS */
+> +                        <RZG2L_PORT_PINMUX(42, 1, 1)>; /* OVC */
+
+These two pins don't seem to be exposed on the SoM.
+Perhaps this is wired on the SoM?
+
+> +       };
+> +
+> +       scif0_pins: scif0 {
+> +               pinmux = <RZG2L_PORT_PINMUX(38, 0, 1)>, /* TxD */
+> +                        <RZG2L_PORT_PINMUX(38, 1, 1)>; /* RxD */
+> +       };
+> +
+> +       scif1_pins: scif1 {
+> +               pinmux = <RZG2L_PORT_PINMUX(40, 0, 1)>, /* TxD */
+> +                        <RZG2L_PORT_PINMUX(40, 1, 1)>; /* RxD */
+> +       };
+
+SCIF1 is connected to BT/WiFi, and the CTS/RTS pins should be included.
+However, for now SCIF1 is not yet enabled, so please everything related to it.
+
+> +&usb2_phy1 {
+> +       pinctrl-0 = <&usb1_pins>;
+> +       pinctrl-names = "default";
+> +
+> +       status = "okay";
+> +};
+> +
+> +&ehci1 {
+
+Please sort references to nodes (alphabetically). More below...
+
+> +&dsi {
+> +       status = "okay";
+
+Please insert a blank line.
+
+> +       ports {
+
+> +&i2c0 {
+> +       pinctrl-0 = <&i2c0_pins>;
+> +       pinctrl-names = "default";
+> +
+> +       clock-frequency = <400000>;
+> +       status = "okay";
+> +
+> +       hdmi-bridge@48 {
+> +               compatible = "lontium,lt8912b";
+> +               reg = <0x48> ;
+> +               reset-gpios = <&pinctrl RZG2L_GPIO(42, 2) GPIO_ACTIVE_LOW>;
+
+Missing interrupts (P16_1), but that is not yet supported by the
+bindings, so I guess it's fine to leave it out for now.
 
 Gr{oetje,eeting}s,
 
