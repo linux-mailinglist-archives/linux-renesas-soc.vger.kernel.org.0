@@ -1,353 +1,213 @@
-Return-Path: <linux-renesas-soc+bounces-12691-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12692-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE7AA21ED9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 15:15:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF13A21F4C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 15:36:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7447616AC33
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 14:12:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E0053A1D46
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 14:36:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2A4F13D503;
-	Wed, 29 Jan 2025 14:12:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F5341AE01B;
+	Wed, 29 Jan 2025 14:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="fUknXNfd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF412C9D;
-	Wed, 29 Jan 2025 14:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E397E9
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jan 2025 14:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738159943; cv=none; b=Wa+HS8/rWObFJdcTuhdMNkZd18JW3Be4NIyOppBy5uoWMc0TGC/coALsbRIagKb+QkO7nTh+9X45yHh0Iko2wTYsYzbMgtylPVQO3EnDUhvAHv8n0r2hCJrJ6sZprJU06VTctlJRraIDxBzploeg2HN/nIUBihiNq6cwcfzMFvw=
+	t=1738161370; cv=none; b=CRC5agFgV/bgS6X8IqGQvTSn2P/1vaoZhpp/d+U1UHj/CVEzaGdvJo5ye+pIlEy2laBvbH+UvlSM1s+wGKxfhJ+GK97caLr2cKtT/nwSaEcF8ny7jz+xwzoRzmBt2/c9nX20q940VA9bUbEwIz2TWvDUoT9j32y+gcxjrnozhO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738159943; c=relaxed/simple;
-	bh=bP1LpwLMclbJicT0S+HVXQal5TyBbetxTZ51Z7K9Qns=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EfvnmHvMAM9UNLuTDML4iiQbKy34niw67HiQypKPPhT3t5J1gEXLsBzy6E7ErjGTpUTZp4QRv63nzz3H4avwYnWmZ64xtOdfVQso2JRwZrBtQDlZtWdVml14r+67h1U0AWu/XWaTRqkXnEEX5T6FCGN+OpZ9fTH1O/9a5QUXJpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6df83fd01cbso27769676d6.2;
-        Wed, 29 Jan 2025 06:12:21 -0800 (PST)
+	s=arc-20240116; t=1738161370; c=relaxed/simple;
+	bh=UI7BF2vJZTjlFV2hITe8WmVRApBVcG3adoozoekMENs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AZquqTtZdCNdsCdrSjy8B+kqLRRm1PBSEUghjvGl8n2w3IDQCtrs8bdkEtARpdVtYZhiP/K9kt9N9YldnwByrJ3x6uVhuC1BIk843uqS6YzOHBfWSMgFPQRFPOLmZ8tanUFLinvPSYr9dPg5Qk+C5+HmkKw7FKT07H09q0gpMAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=fUknXNfd; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ab68a4ab074so665203366b.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jan 2025 06:36:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1738161365; x=1738766165; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dREqLTaUkaXBI3BB09CWv/OKA4VNGyMw6wQOmVv2X1c=;
+        b=fUknXNfdZ6ve5IlFQzWJ7q1FCYz1/RvFpq7SMUqjJjtWIFktvLcD3EOirvDikjoFpL
+         7r/xGG5fI2XvYqq2ZyUIbgBEzfvBnDNnmmumWWDBxQeIcE4LBXENvFdthg0Bomo/AD0x
+         iPVfsd4X488coUBldTR1JNeK9ZtrPiNqtkW1ZZRbUc5nKQkPjiFkYUI3xE3pXgwAmBbH
+         9i5HKiXMWeTHRjaRbYtYkk2nMQ7Jw13vztBIGT1eqKnsewtKF7dDPOuxePyM5sb7/DyS
+         jnk+l6qvIrD9qqYE5w3JW9QxGUc6g0QD7PR1PWXZu0mR8zKRLgncYRr1aiLuFclvqxg9
+         Sdfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738159940; x=1738764740;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g5Tkcv8gZTgbyp2heRc2wr0p9jGYqFMOo9+Mqf5RFT4=;
-        b=mEGr9ha0fxR+Po0P6hucl7XV1w4doaeAZHfvyQE8aYumiBbdHhYJJZ0xL4w70Kro05
-         gNgvWiUe8hMm92ENGwYhC7y6kHExpknJFIpDW+UNn0L//SPhzPgFW7AAFPuWQGGr8Qfv
-         6mBp7gHjaxXwB9Dr2F1GBfHFGduAWaSoU8mnCnOficBYzv7MB5Mpkg0pUEGlRt+oymp6
-         8byL6XYFAMBPUDCoSZwgJb9iyy1Br0SubBoOWilwfXPQHABPvlT47jPl8crodYLvKOCB
-         V999qEv8fgvIAyN7/MHs/Bud9fQhDKTOPyBjFv6Thx9WJykBcSROwDqqJGJGu7A+QK4d
-         WPIg==
-X-Forwarded-Encrypted: i=1; AJvYcCWq+u/Go29iXHdHMSgVAcJlzoEpZMfO5QMIRhmrvGJOhQJwhIBUwnyYyHnjwD+neZjnXJqm9i64PTaOYkT+@vger.kernel.org, AJvYcCXAROmxHC23kiquI9sFaFAXsFUeRBoHv0EGsomweWxot8aNGassgvFyTgMkCsYoAwlnI4ybAFVGeHrncXs84oz3iaE=@vger.kernel.org, AJvYcCXJCeVSjT/uBYoGF5Z2yEuj0uStuT1g5J+fl5UF6XkE8Jp9ms1wQOeXue/j0Isvu+AYRS+IbdPChV27@vger.kernel.org
-X-Gm-Message-State: AOJu0YztjmIMRW+SrujlwP/wZgrEiR7QwpQkKg15yfHG3NVtPncuqR/N
-	Qvc0mXUhlo6riEuB9cSJeV9bPAmSnTZm8GQzDOmeSJKaUnNww0E0tB9bcaRN
-X-Gm-Gg: ASbGncv80fUsA18TNquyJiwSFw/byz9BDrQqxUwQHd0xfB6Ipj7mmUg/uAPw5quBFw3
-	nBjZQg3IYrec/hqBhI+DECxv7qHuzww5kGdpsWCw1OK5VPj7Z2jrUt71I6nE01lBd8LqfHYgEKR
-	PuzjLWLxkdlAjhrnSNDOyTTR1O2/BHC3o7TG19Vvvh8p0fm4DGg0hRKkxI8hQTACEQAtfIxl/T1
-	beyG2xQi+LUwe2ZpuMvC8C+1jRIS1QdiJwEDzAJVPDOf7vfNRKH1lZ8atKF4LGnEU/KnZGtPPZH
-	LhMeu9j/bEUfj1VvkHgaw46zWOoIXNT1LtDOYWokCJZEQFEnFiaUI5Hn7g==
-X-Google-Smtp-Source: AGHT+IE/6SdaAR9mAGJnJOQaU6s3bhDsAEYQwRcoz0uKgto71AUv0heiLRpPxq9QgFk1oc8QTy9F0w==
-X-Received: by 2002:a05:6214:1d0e:b0:6d8:b189:5419 with SMTP id 6a1803df08f44-6e243b91da4mr57849446d6.8.1738159939772;
-        Wed, 29 Jan 2025 06:12:19 -0800 (PST)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com. [209.85.160.172])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e2057a88f8sm55894526d6.74.2025.01.29.06.12.19
+        d=1e100.net; s=20230601; t=1738161365; x=1738766165;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dREqLTaUkaXBI3BB09CWv/OKA4VNGyMw6wQOmVv2X1c=;
+        b=DVl7PTtopi1SnNF2F6Wjd4bF+gw8+4YOKVc3daZeWRDSyPm82mxWrSgdR7JE2TPmYC
+         vdxZCZqgO5UZfuLHqVuS5c2hdeD3MiNLeF/DeVMCXz87iZw1wWmEVb78XTDTSnAiUqIF
+         /ew7oMh/3ZcVjFO0FX9CsQB7q1QghQff0ydH98MfMgcsFgWhYOO9jtR9ktAV3kpijI4i
+         1Xg4uYeL5Oj+DFs/pIjI3jIVgiY5ns3zSuU+RgG6mQgAJUGeQSPJBMU+8DkaeRwZqGKu
+         1E2BqXKGKY18PNNn4gOAY6t3ZkTwNjmgxic9nC6iRk5R6ocippPSRL+gdj3XSjAbvBuC
+         tITg==
+X-Forwarded-Encrypted: i=1; AJvYcCWlKfV8QwJpbd43HR5oooBGWfAqyICwU92cT0gSK9I/5s//uBbh1uzOgS1caTJI17F0Y2ktU7d1QufJssXX1GQ29g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoqxJpjv2AIlK3oOPzuCDUw8AhIZPl2qM2x+FA9Gsr58GxNr8M
+	9KoeFcRzSWzpdbohSV/vCMsKOdXL3aOrMN66IcM0m3IBPqnzyI8E9YKWxPP0wuI=
+X-Gm-Gg: ASbGncs5qjdx57xr/JR1wC/0JV6AOMTMjIUCXWFb/srKMVMZK48MiatMjlRLqp8ODYE
+	0cb0CklZyZLpig1HZZyQAE4HlL6Rvc6ACX8Suw6vw7hEscxi6kxCf5XDBB7dpKjpy/xnc0p9C59
+	OiWGG8RPh0/CARCYqdhno/pjXnnT2QGDI+urjxSuoZlxPzEUi+v7HpfNR115AmBz990hy9duH0s
+	824s1mWxWgLdHkMo4BOi4YLz1qJs7KVecnTHAF+oOr+T9if7K/JekZG6GYCNZcHtO6dWnOvH2dW
+	ENiGpFJYFvIQI7z5eRuyRAs=
+X-Google-Smtp-Source: AGHT+IGLJBQE8tLxWwgvNgTFG/uBHrI5LPO+emzCOIWKd77Tbc+R5gOQ15j5uC93XR7lao+lO2hpTQ==
+X-Received: by 2002:a05:6402:34c8:b0:5d9:84ee:ff31 with SMTP id 4fb4d7f45d1cf-5dc5efa8c21mr8157746a12.3.1738161364504;
+        Wed, 29 Jan 2025 06:36:04 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.35])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab69a26dc94sm664205966b.166.2025.01.29.06.36.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2025 06:12:19 -0800 (PST)
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-467a3c85e11so50132191cf.2;
-        Wed, 29 Jan 2025 06:12:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUTuRdD7rrWqfEjAVQQJGftwShgwipMtGq8csQY/XBRmd/g7DudALd7gf5LJU+LfMDRmPl170YQjaeo5PN0tsjQ55I=@vger.kernel.org, AJvYcCUaKgBDyqIkOpvs2ys6AybA4OiX3EgNDwAooMIm4u9jqjhqSnv6Wj5dbpRb1g0bkq4ENRG9KHrVz31Y@vger.kernel.org, AJvYcCVnNSL8J4XeM+RhRaL6ZP0u0Upr1qKYcyvN+Py1K6iYeN8bXurbvEuQM8KSg8FvlZnXnjc+NoL5hSnOj6wp@vger.kernel.org
-X-Received: by 2002:ac8:5d52:0:b0:467:86fa:6b72 with SMTP id
- d75a77b69052e-46fd0a6486cmr46231051cf.12.1738159939102; Wed, 29 Jan 2025
- 06:12:19 -0800 (PST)
+        Wed, 29 Jan 2025 06:36:03 -0800 (PST)
+Message-ID: <eb131a53-a4d3-4dcf-9e04-8dc3da84c3a6@tuxon.dev>
+Date: Wed, 29 Jan 2025 16:36:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250127-myir-remi-pi-v2-0-7bd3a1c62752@collabora.com> <20250127-myir-remi-pi-v2-2-7bd3a1c62752@collabora.com>
-In-Reply-To: <20250127-myir-remi-pi-v2-2-7bd3a1c62752@collabora.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 29 Jan 2025 15:12:07 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV3Z9d8qsa_mnUgH50a=_aq9myf0xYVx+ZexKtkUXcMNw@mail.gmail.com>
-X-Gm-Features: AWEUYZlxLUbHTU3u3xDhV9Zxr8pZ7ahCIIdSYfsNHiLG9VOAKw5JswNmTSU9Sbc
-Message-ID: <CAMuHMdV3Z9d8qsa_mnUgH50a=_aq9myf0xYVx+ZexKtkUXcMNw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] arm64: renesas: add initial support for MYIR Remi Pi
-To: Julien Massot <julien.massot@collabora.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v2 1/2] net: ravb: Fix missing rtnl lock in suspend
+ path
+To: Kory Maincent <kory.maincent@bootlin.com>,
+ Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+ Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Sergey Shtylyov <s.shtylyov@omp.ru>
+References: <20250123-fix_missing_rtnl_lock_phy_disconnect-v2-0-e6206f5508ba@bootlin.com>
+ <20250123-fix_missing_rtnl_lock_phy_disconnect-v2-1-e6206f5508ba@bootlin.com>
+ <e39ac785-9d4e-43d1-9961-d6d67570ff49@bp.renesas.com>
+ <20250123183358.502e8032@kmaincent-XPS-13-7390>
+ <20250127112850.05d7769b@kmaincent-XPS-13-7390>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <20250127112850.05d7769b@kmaincent-XPS-13-7390>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Julien,
 
-On Mon, 27 Jan 2025 at 10:39, Julien Massot <julien.massot@collabora.com> wrote:
-> Add basic support for the MyIR Remi Pi (based on r9a07g044l2):
->  - UART
->  - i2c
->  - emmc
->  - USB host
->  - HDMI output
->  - Ethernet
->
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
 
-Thanks for your patch!
+On 27.01.2025 12:28, Kory Maincent wrote:
+> On Thu, 23 Jan 2025 18:33:58 +0100
+> Kory Maincent <kory.maincent@bootlin.com> wrote:
+>  
+>>>>  
+>>>> @@ -3247,7 +3253,9 @@ static int ravb_resume(struct device *dev)
+>>>>  
+>>>>  	/* If WoL is enabled restore the interface. */
+>>>>  	if (priv->wol_enabled) {
+>>>> +		rtnl_lock();
+>>>>  		ret = ravb_wol_restore(ndev);
+>>>> +		rtnl_unlock();
+>>>>  		if (ret)
+>>>>  			return ret;
+>>>>  	} else {
+>>>> @@ -3257,7 +3265,9 @@ static int ravb_resume(struct device *dev)
+>>>>  	}
+>>>>  
+>>>>  	/* Reopening the interface will restore the device to the working
+>>>> state. */
+>>>> +	rtnl_lock();
+>>>>  	ret = ravb_open(ndev);
+>>>> +	rtnl_unlock();
+>>>>  	if (ret < 0)
+>>>>  		goto out_rpm_put;
+>>
+>>> I don't like the multiple lock/unlock calls in each function. I think v1
+>>> was better, where we take the lock once in each function and then unlock
+>>> when it is no longer needed or when we're about to return.
+>>
+>> You will need to achieve a consensus on it with Claudiu. His point of view has
+>> that the locking scheme looks complicated.
+>>
+>> On my side I don't have really an opinion, maybe a small preference for v1
+>> which is protecting wol_enabled flag even if it is not needed.
+> 
+> Claudiu any remarks?
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dts
-> @@ -0,0 +1,388 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Device Tree Source for the MYiR Remi Pi
-> + *
-> + * Copyright (C) 2022 MYiR Electronics Corp.
-> + * Copyright (C) 2025 Collabora Ltd.
-> + */
+Sorry for the delay. I still consider it safe as proposed (taking the lock
+around the individual functions) due to the above reasons:
+
+1/ in ravb_suspend():
+- the execution just returns after ravb_wol_setup()
+- there is no need to lock around runtime PM function
+  (pm_runtime_force_suspend()) as the execution through it reach this
+  driver only though the driver specific runtime PM function which is a nop
+  (and FMPOV it should be removed)
+
+2/ in ravb_resume():
+- locking only around ravb_wol_restore() and ravb_open() mimics what is
+  done when the interface is open/closed through user space; in that
+  scenario the ravb_close()/ravb_open() are called with rtnl_lock() held
+  through devinet_ioctl()
+- and for the above mentioned reason there is no need to lock around
+  pm_runtime_force_resume()
+
+Please follow the approach preferred by the maintainers.
+
+Thank you,
+Claudiu
+
+> If not I will come back to the first version as asked by Paul who is the
+> Maintainer of the ravb driver.
+> 
+> Sergey have asked to remove the duplicate of the if condition.
+> Paul is this ok for you?
+> 
+> @@ -3245,19 +3250,21 @@ static int ravb_resume(struct device *dev)
+>         if (!netif_running(ndev))
+>                 return 0;
+>  
+> +       rtnl_lock();
+>         /* If WoL is enabled restore the interface. */
+> -       if (priv->wol_enabled) {
+> +       if (priv->wol_enabled)
+>                 ret = ravb_wol_restore(ndev);
+> -               if (ret)
+> -                       return ret;
+> -       } else {
+> +       else
+>                 ret = pm_runtime_force_resume(dev);
+> -               if (ret)
+> -                       return ret;
 > +
-> +/dts-v1/;
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
-> +
-> +#include "r9a07g044l2.dtsi"
-> +
-> +/ {
-> +       model = "MYIR Tech Limited Remi Pi MYB-YG2LX-REMI";
-> +       compatible = "myir,remi-pi", "renesas,r9a07g044l2", "renesas,r9a07g044";
-> +
-> +       aliases {
-> +               ethernet0 = &eth0;
-> +               ethernet1 = &eth1;
-> +
-> +               serial0 = &scif0;
+> +       if (ret) {
+> +               rtnl_unlock();
+> +               return ret;
+>         }
+>  
+>         /* Reopening the interface will restore the device to the working
+> state. */
+>         ret = ravb_open(ndev);
+> +       rtnl_unlock();
+>         if (ret < 0)
+>                 goto out_rpm_put;
+> 
+> 
+> Note: Sergey, I have received your mail as spam. 
+> 
+> Regards,
 
-So serial0 is the CA55 console, OK.
-
-> +               serial1 = &scif1;
-
-Connected to BT/WiFi, but not yet enabled below.
-
-> +               serial2 = &scif2;
-
-This is wired to the Raspberri Pi expansion connector.
-However, on Raspberri Pi, these pins are GPIOs.
-While the Raspberri Pi UART_[TR]X pins are wired to SCIF4 here,
-which is not yet enabled...
-
-> +               serial3 = &scif3;
-
-Serial3 is the CA33 debug console, OK.
-
-> +
-> +               i2c0 = &i2c0;
-> +               i2c1 = &i2c1;
-> +               i2c2 = &i2c2;
-> +               i2c3 = &i2c3;
-> +
-> +               mmc0 = &sdhi0;
-> +               mmc1 = &sdhi1;
-
-sdhi1 is not yet enabled, so please drop it.
-
-> +       };
-
-> +       reg_5p0v: regulator-5p0v {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "fixed-5.0V";
-> +               regulator-min-microvolt = <5000000>;
-> +               regulator-max-microvolt = <5000000>;
-> +       };
-> +
-> +       reg_3p3v: regulator-3p3v {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "fixed-3.3V";
-> +               vin-supply = <&reg_5p0v>;
-> +               regulator-min-microvolt = <3300000>;
-> +               regulator-max-microvolt = <3300000>;
-> +               regulator-always-on;
-> +       };
-> +
-> +       reg_1p8v: regulator-1p8v {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "fixed-1.8V";
-> +               vin-supply = <&reg_3p3v>;
-
-reg_5p0v, as 1.8V is generated from 5.0V, according to the schematics.
-
-> +               regulator-min-microvolt = <1800000>;
-> +               regulator-max-microvolt = <1800000>;
-> +               regulator-always-on;
-> +       };
-> +
-> +       reg_1p1v: regulator-vdd-core {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "fixed-1.1V";
-> +               regulator-min-microvolt = <1100000>;
-> +               regulator-max-microvolt = <1100000>;
-> +               regulator-always-on;
-> +       };
-
-> +&eth0 {
-> +       pinctrl-0 = <&eth0_pins>;
-> +       pinctrl-names = "default";
-> +       phy-handle = <&phy0>;
-> +       phy-mode = "rgmii-id";
-> +       status = "okay";
-> +
-> +       phy0: ethernet-phy@4 {
-> +               compatible = "ethernet-phy-ieee802.3-c22";
-> +               reg = <4>;
-> +               interrupts-extended = <&pinctrl RZG2L_GPIO(44, 2) IRQ_TYPE_LEVEL_LOW>;
-
-Missing reset-gpios (P44_3).
-
-> +       };
-> +};
-> +
-> +&eth1 {
-> +       pinctrl-0 = <&eth1_pins>;
-> +       pinctrl-names = "default";
-> +       phy-handle = <&phy1>;
-> +       phy-mode = "rgmii-id";
-> +       status = "okay";
-> +
-> +       phy1: ethernet-phy@6 {
-> +               compatible = "ethernet-phy-ieee802.3-c22";
-> +               reg = <6>;
-> +               interrupts-extended = <&pinctrl RZG2L_GPIO(43, 2) IRQ_TYPE_LEVEL_LOW>;
-
-Missing reset-gpios (P43_3).
-
-> +       };
-> +};
-
-> +&pinctrl {
-
-> +       spi0_pins: spi0 {
-> +               pinmux = <RZG2L_PORT_PINMUX(47, 0, 5)>, /* CLK */
-> +                        <RZG2L_PORT_PINMUX(47, 1, 5)>, /* MOSI */
-> +                        <RZG2L_PORT_PINMUX(47, 2, 5)>, /* MISO */
-> +                        <RZG2L_PORT_PINMUX(47, 3, 5)>; /* Chip Enable*/
-> +       };
-
-Unused.
-
-> +
-> +       eth0_pins: eth0 {
-
-Please sort pinctrl subnodes (alphabetically by node name).
-
-> +       sdhi0_pins: sd0 {
-> +               sd0_data {
-> +                       pins = "SD0_DATA0", "SD0_DATA1", "SD0_DATA2", "SD0_DATA3",
-> +                              "SD0_DATA4", "SD0_DATA5", "SD0_DATA6", "SD0_DATA7";
-> +                       power-source = <1800>;
-> +               };
-> +
-> +               sd0_ctrl {
-> +                       pins = "SD0_CLK", "SD0_CMD";
-> +                       power-source = <1800>;
-> +               };
-> +
-> +               sd0_rst {
-> +                       pins = "SD0_RST#";
-> +                       power-source = <1800>;
-> +               };
-> +       };
-> +
-> +       sdhi0_pins_uhs: sd0_uhs {
-> +               sd0_data_uhs {
-> +                       pins = "SD0_DATA0", "SD0_DATA1", "SD0_DATA2", "SD0_DATA3",
-> +                              "SD0_DATA4", "SD0_DATA5", "SD0_DATA6", "SD0_DATA7";
-> +                       power-source = <1800>;
-> +               };
-> +
-> +               sd0_ctrl_uhs {
-> +                       pins = "SD0_CLK", "SD0_CMD";
-> +                       power-source = <1800>;
-> +               };
-> +
-> +               sd0_rst_uhs {
-> +                       pins = "SD0_RST#";
-> +                       power-source = <1800>;
-> +               };
-> +       };
-
-sd0 and sd0_uhs are identical, so you can just always use the former,
-and drop the latter.
-
-> +
-> +       usb1_pins: usb1 {
-> +               pinmux = <RZG2L_PORT_PINMUX(42, 0, 1)>, /* VBUS */
-> +                        <RZG2L_PORT_PINMUX(42, 1, 1)>; /* OVC */
-
-These two pins don't seem to be exposed on the SoM.
-Perhaps this is wired on the SoM?
-
-> +       };
-> +
-> +       scif0_pins: scif0 {
-> +               pinmux = <RZG2L_PORT_PINMUX(38, 0, 1)>, /* TxD */
-> +                        <RZG2L_PORT_PINMUX(38, 1, 1)>; /* RxD */
-> +       };
-> +
-> +       scif1_pins: scif1 {
-> +               pinmux = <RZG2L_PORT_PINMUX(40, 0, 1)>, /* TxD */
-> +                        <RZG2L_PORT_PINMUX(40, 1, 1)>; /* RxD */
-> +       };
-
-SCIF1 is connected to BT/WiFi, and the CTS/RTS pins should be included.
-However, for now SCIF1 is not yet enabled, so please everything related to it.
-
-> +&usb2_phy1 {
-> +       pinctrl-0 = <&usb1_pins>;
-> +       pinctrl-names = "default";
-> +
-> +       status = "okay";
-> +};
-> +
-> +&ehci1 {
-
-Please sort references to nodes (alphabetically). More below...
-
-> +&dsi {
-> +       status = "okay";
-
-Please insert a blank line.
-
-> +       ports {
-
-> +&i2c0 {
-> +       pinctrl-0 = <&i2c0_pins>;
-> +       pinctrl-names = "default";
-> +
-> +       clock-frequency = <400000>;
-> +       status = "okay";
-> +
-> +       hdmi-bridge@48 {
-> +               compatible = "lontium,lt8912b";
-> +               reg = <0x48> ;
-> +               reset-gpios = <&pinctrl RZG2L_GPIO(42, 2) GPIO_ACTIVE_LOW>;
-
-Missing interrupts (P16_1), but that is not yet supported by the
-bindings, so I guess it's fine to leave it out for now.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
