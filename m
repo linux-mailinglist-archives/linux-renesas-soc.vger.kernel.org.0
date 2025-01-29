@@ -1,116 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-12685-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12686-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E56CA21319
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 21:24:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4ACCA21A5B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 10:51:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BFA9A165B3B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jan 2025 20:24:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC66B1888A27
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 09:51:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3445D1DF259;
-	Tue, 28 Jan 2025 20:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F44A1AF0AF;
+	Wed, 29 Jan 2025 09:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iu1UaUfU"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iWqVy3q/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D5713632B;
-	Tue, 28 Jan 2025 20:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E831ACEB0;
+	Wed, 29 Jan 2025 09:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738095890; cv=none; b=fv13gIEI5mowxMDXyZVU9crzM/GJP7OTxT4WPU26YNX+CdgyCwRphcsbfnDFGweDVNVI/QkwRGtZz85wjuIVn9c78/22BTibewf+2T6jXr9Omc4pbTj+JjnQxW76dnEXsyoDr2JLtQAmNHnAKtZBFwl9e604ftZOD4lzaFQa59g=
+	t=1738144263; cv=none; b=caqIjM24bmSzUXWEHxoRIheFDKTEL6hAmVIdzArBNVxS/uratczSJD/xJjR/djqlJIQ5ImQk2W2DdOWW3PLF4hwB0kiIBC8qWyCkGfoDNJUWnZUj0owMZlRrSqUo6Gx5pPIIrTHSMpwJdYIhMklWDcNzSspAojxZails828vmhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738095890; c=relaxed/simple;
-	bh=Oj0FH7f+T/3QsH3mVYW72/VhUKr2omWuGVRyCJeJKnE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iZwgrNoM6KWkeUOnLE0ZK/0sUkRp28axm4T7cYqX9GjF2KFk1uLk0YO41CD58BXsaVXp72lefGJRd/WtiPenWNkSPK5IiUaeNIqvtg/6dBawXZjLB4o309LKD72GSeextwHP2Hgey2gmtZNxn6aOkaDSKU47WdLfIpOnpPeRyms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iu1UaUfU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5924FC4CEE2;
-	Tue, 28 Jan 2025 20:24:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738095889;
-	bh=Oj0FH7f+T/3QsH3mVYW72/VhUKr2omWuGVRyCJeJKnE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Iu1UaUfUEiyurQ67S64ZM/jnpWpIogw33yAJtyis8CMN5Z/lQR3+ushpphVRn9gUJ
-	 ljVkjZYZBdz72O6llmtnH2CZAQ+xL3UBfZb+M+XKwKCj/CBNScKDzPPWKDPRhwHmcW
-	 Ogzak3RC9QIRZcEkgSh4UPWQ3VsR5BcxsYnmVw5LDVi207uXUzp9vdBD6uk4i3dj4v
-	 J0MmXKMYfqSQCRt5NlyuWH8G/rD5iROy3QlaZ+JmEl6v6O0i0p+ke0IUDHgVLaD6yB
-	 1liIWWrLGL0qFrx5XTrtQ1vhM0oKjXJUlcFWc9LevAYUqjWqw4UXM/Zt63iTjfMNs0
-	 kUGInVONLcr9Q==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53e384e3481so5804366e87.2;
-        Tue, 28 Jan 2025 12:24:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVcqeLB6eRJ7Rrtvw6fx72wBmR2Hf5cekyH5yNCzTWkRk46OS/Bjt3owTXBiHVOzflOE0a5e7Z4G9tM@vger.kernel.org, AJvYcCW5oqvWIeEvgLDaUoNFYUkQJLTzb0yp4GxQs1XDSKUUsusJpBu+GGfhQDcRcyfj6ovuaqJpfSOcbfBCC0k=@vger.kernel.org, AJvYcCWg442Bpoy2Q8yW2QGlvHRnDwRq5ZE0tBgevcs/xe7JwGnyQH+1RAT/+l0kUqdQA8rqqpofhDBbJrjsMp0c/oz4rt0=@vger.kernel.org, AJvYcCXXUFom+o3EXUA1Q6AsNjSiUokVFmEG3yJr3TxoFm5nD+aq74vsgW8k8z0nK7E8+ZSLdDaqtVEvnoeMX5ul@vger.kernel.org
-X-Gm-Message-State: AOJu0YyE3GLBdF6zSkN+1PveejdQQgyvtquUY5Jop3FQogqOF9E0qxAj
-	LD4z4u2awr8wu2yQFnFVoK2l7eXAL5qU6Yb8fbkbXK/5noGgwY3fC3QmCNfoTf0mXWiY3JyostQ
-	Z+Nm/yAoWrFrZm3ZcrS0Icp32xA==
-X-Google-Smtp-Source: AGHT+IEe+HCSZJQOEu86nMb2CZy5o2eVixsL+82Vty9LQca4I4z2F+IDr7qWtkLq+02s7p65WncZs+SuG06sQYpYvAc=
-X-Received: by 2002:a05:6512:102f:b0:542:8cf5:a3a3 with SMTP id
- 2adb3069b0e04-543e4bdef58mr134851e87.5.1738095887597; Tue, 28 Jan 2025
- 12:24:47 -0800 (PST)
+	s=arc-20240116; t=1738144263; c=relaxed/simple;
+	bh=hNj0KTQiQRPifcOXgKJcVQhvAAgNOIdzYO1GdK67pbU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=anCLBl9Y6oUy5Egh8y+uii48D1mzjUHZBp8DiLWnvdYD6+J8HA0Hfw0LVoVAEQ305XxhtklA+tRuW74tVH9q/MRTnQfjv7oAIa7M6azti4xT3c7yWos2QW2weeKR1dBwoKFGTUrqyAfOpNhVLN1UsneeAE10GA4C72lAYCPReDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iWqVy3q/; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D65BB42D46;
+	Wed, 29 Jan 2025 09:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1738144258;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=55fhWacHtHSPd/jKVDQYfpPChrRHnuj16fxXinODQ4Q=;
+	b=iWqVy3q/FPpg026T1czHN5Jx/9LBYB/fV2XDtBGT2/3nSml8tYdmOCditSEq4RssGs6bkr
+	2WBIa5qweKLCwiidku5Y6PhGXjOFR3NRl/Q6arvbHJABCAj/xP7Pyp0cnfQsY31IFnvq89
+	aKCs5sf/wyfyFT85yinBLTLpMjlQawYXkiaI2hfVxRomd7gyoXJLxSiK5Vgo3wwpBoVYzW
+	iH5z70vyIofh86S5QgD2CQIWxz86gsKw4S8czAVsL4XTKaFQAt24Wyw+DS61mmnaZPanU5
+	3dGN6ImhVUzny3ooLk0bMMj6nF7YvGsXm1o9o89InQL3f/426bUEbIvYaarflw==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net v3 0/2] Fix missing rtnl lock in suspend path
+Date: Wed, 29 Jan 2025 10:50:45 +0100
+Message-Id: <20250129-fix_missing_rtnl_lock_phy_disconnect-v3-0-24c4ba185a92@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
-In-Reply-To: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 28 Jan 2025 14:24:35 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLAJ076Mb+XNkU5okLC6paO_Bi4PdJx+-z=BzEVBXYLGw@mail.gmail.com>
-X-Gm-Features: AWEUYZlpVRpyEluF6nedQbkSHys9N7OV5THNlp3boYylHkMqUHckOA8yoJPXaXc
-Message-ID: <CAL_JsqLAJ076Mb+XNkU5okLC6paO_Bi4PdJx+-z=BzEVBXYLGw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: soc-core: Stop using of_property_read_bool() for
- non-boolean properties
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAPX5mWcC/5WPyw7CIBBFf6VhLQZoWtGV/2EMKa92YoUGCLFp+
+ u8SVrrT5Z2bOSd3Q9EEMBFdmg0FkyGCdyW0hwapaXCjwaBLRoywjlDGsIWXeEKM4EYRkpvF7NV
+ DLNMqNETlnTMqYauo7m2n5Yl0qKCWYMpf1dyQMwndy3GCmHxYqzrTWv1nyRQTzJU8295ybjW9S
+ u/TDO6o/LMqMvvEtj9iWcGanpGyoCNcDt/Yfd/fkBI9hjYBAAA=
+To: Paul Barker <paul.barker.ct@bp.renesas.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, netdev@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kory Maincent <kory.maincent@bootlin.com>
+X-Mailer: b4 0.14.1
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthekredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeduhfevudetfffgkedvhfevheeghedtleeghfffudeiffefvdehfeegieeivdekteenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudehpdhrtghpthhtoheptghlrghuughiuhdrsggviihnvggrrdhujhessghprdhrvghnvghsrghsrdgtohhmpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehprghulhdrsggrrhhkvghrrdgtthessghprdhrvghnvghsrghsrdgtohhmpdhrt
+ ghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvpdhrtghpthhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomh
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Wed, Jan 22, 2025 at 2:21=E2=80=AFAM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> On R-Car:
->
->     OF: /sound: Read of boolean property 'simple-audio-card,bitclock-mast=
-er' with a value.
->     OF: /sound: Read of boolean property 'simple-audio-card,frame-master'=
- with a value.
->
-> or:
->
->     OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean proper=
-ty 'bitclock-master' with a value.
->     OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean proper=
-ty 'frame-master' with a value.
->
-> The use of of_property_read_bool() for non-boolean properties is
-> deprecated in favor of of_property_present() when testing for property
-> presence.
->
-> Replace testing for presence before calling of_property_read_u32() by
-> testing for an -EINVAL return value from the latter, to simplify the
-> code.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Seen since commit c141ecc3cecd7647 ("of: Warn when
-> of_property_read_bool() is used on non-boolean properties") in
-> dt-rh/for-next.
->
-> I could not exercise all code paths, so review/testing would be
-> appreciated. Thanks!
-> ---
->  sound/soc/soc-core.c | 32 +++++++++++++-------------------
->  1 file changed, 13 insertions(+), 19 deletions(-)
+Fix the suspend path by ensuring the rtnl lock is held where required.
+Calls to open, close and WOL operations must be performed under the
+rtnl lock to prevent conflicts with ongoing ndo operations.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Discussion about this issue can be found here:
+https://lore.kernel.org/netdev/20250120141926.1290763-1-kory.maincent@bootlin.com/
+
+While working on the ravb fix, it was discovered that the sh_eth driver
+has the same issue. This patch series addresses both drivers.
+
+I do not have access to hardware for either of these MACs, so it would
+be great if maintainers or others with the relevant boards could test
+these fixes.
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+Changes in v3:
+- Move back to first version of ravb fix.
+- Remove the duplicate of the if condition in ravb fix.
+- Link to v2: https://lore.kernel.org/r/20250123-fix_missing_rtnl_lock_phy_disconnect-v2-0-e6206f5508ba@bootlin.com
+
+Changes in v2:
+- Move the rtnl_lock before ravb_wol_setup() and ravb_wol_restore()
+  instead of before the if condition.
+- Link to v1: https://lore.kernel.org/r/20250122-fix_missing_rtnl_lock_phy_disconnect-v1-0-8cb9f6f88fd1@bootlin.com
+
+---
+Kory Maincent (2):
+      net: ravb: Fix missing rtnl lock in suspend/resume path
+      net: sh_eth: Fix missing rtnl lock in suspend/resume path
+
+ drivers/net/ethernet/renesas/ravb_main.c | 22 ++++++++++++++--------
+ drivers/net/ethernet/renesas/sh_eth.c    |  4 ++++
+ 2 files changed, 18 insertions(+), 8 deletions(-)
+---
+base-commit: 05d91cdb1f9108426b14975ef4eeddf15875ca05
+change-id: 20250122-fix_missing_rtnl_lock_phy_disconnect-fc1d6f5db705
+
+Best regards,
+-- 
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
 
