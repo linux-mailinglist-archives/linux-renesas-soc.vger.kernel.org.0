@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-12712-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12714-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2876FA2224B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 17:55:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA9EA22253
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 17:55:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8A54168D72
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 16:54:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E3A2169A4D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 16:55:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2742B1E3DF9;
-	Wed, 29 Jan 2025 16:52:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57B091E102E;
+	Wed, 29 Jan 2025 16:53:04 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F8CB1DFE00;
-	Wed, 29 Jan 2025 16:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64F731DFE00;
+	Wed, 29 Jan 2025 16:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738169567; cv=none; b=e+eCZqwUzhQIXSb701Sij+PKwFPcrvHRURwx8eW69VLTkI+7ecNK6kDSQ3SN1s6e2lKoK9Wy8yy3C1/TuT7V16RCfJZTWqDST9r9Xr6FBh9hw9iZ2/DqjQNNb7MCJbnC9qkWk98Zu/xHpTTd3Oofi6nQAsf7IZ5Ya3NM3xh0fIE=
+	t=1738169584; cv=none; b=l2RA8jqk8V9uHZZ7QvQv42dqr4SShEdhn8LuA3pOfp3ufHSOZlwLlSgMOaEgisnhfHAapAplB9JogbpySCwleb0CyRoHsv66S5mWSz3ecpfkeDoic8KuA3KmPGkrTlUWh6HTbu9yhnQuqua57voJZ5k8DSot+BQ8WJOYfcO2pCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738169567; c=relaxed/simple;
-	bh=NUT/d3UeYWQltVBqEhEx9CsCqthGyzfLH4Fa5L4NTqI=;
+	s=arc-20240116; t=1738169584; c=relaxed/simple;
+	bh=49JXspVkamgcQH2yU4Ezn6GwJ2xGAnzCwes4Ugh6Iws=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kaz+3DumdQ56+lSOiK0ZsjpFRi5WpPBkb0xspzMH5Ee0YwmzZsJexU305haDLbF5++bH0z1l5u4X4r1iylEB5NMKfAkMWL3euQXNdPwrlHLqOzr5DmT8+GhzTc5KtrBXTD3bCUU8w2+tq8zykxoZrAqDRxRIU8SmYAFhEBcIp38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=KkT+XRpqe4PRlRhw4vE0X3RGBRC284DeLzzAFFFT+gRAqp60SrC+lHQmZCULEb66p+ldvr+onTwR5LN1fNYwHXbtyDo6nA8aJgJdJUc8l3Mnu2UlbMAn4FI31PNM/GdAStsWmok35tIm3PoicEm3wqtUfbRBCT4AUhyVmW0avU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: l+3Q2I5FQFSP2+nLSI7oBw==
-X-CSE-MsgGUID: 8Q46k3C3SJiIM9rg9VrBiQ==
+X-CSE-ConnectionGUID: DxccpHN8SCmdv0mXpMZK5g==
+X-CSE-MsgGUID: 1qiZafiQRV6F0s7U8rrx4A==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 30 Jan 2025 01:52:44 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 30 Jan 2025 01:53:01 +0900
 Received: from wvbox.administration.lan (unknown [10.226.92.145])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id F2724402F02E;
-	Thu, 30 Jan 2025 01:52:40 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3E80A402F02E;
+	Thu, 30 Jan 2025 01:52:45 +0900 (JST)
 From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
@@ -44,9 +44,9 @@ Cc: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
 	linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 12/14] arm64: dts: renesas: Add initial support for renesas RZ/T2H SoC
-Date: Wed, 29 Jan 2025 16:37:48 +0000
-Message-ID: <20250129165122.2980-13-thierry.bultel.yh@bp.renesas.com>
+Subject: [PATCH 13/14] arm64: dts: renesas: Add initial support for renesas RZ/T2H eval board
+Date: Wed, 29 Jan 2025 16:37:49 +0000
+Message-ID: <20250129165122.2980-14-thierry.bultel.yh@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250129165122.2980-1-thierry.bultel.yh@bp.renesas.com>
 References: <20250129165122.2980-1-thierry.bultel.yh@bp.renesas.com>
@@ -58,175 +58,70 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the initial dtsi for the RZ/T2H Soc:
-
-- gic
-- armv8-timer
-- cpg clock
-- sci0 uart
-
-also add arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi, that keeps
-all 4 CPUs enabled, for consistency with later support of -m24
-and -m04 SoC revisions, that only have 2 and 1 Cortex-A55, respectively,
-and that will use /delete-node/ to disable the missing CPUs.
+Add the initial device tree for the RZ/T2H evaluation board.
 
 Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a09g077.dtsi    | 129 ++++++++++++++++++
- arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi |   8 ++
- 2 files changed, 137 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
+ arch/arm64/boot/dts/renesas/Makefile          |  1 +
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    | 37 +++++++++++++++++++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g077.dtsi b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index 97228a3cb99c..422ff9ccd05e 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -140,6 +140,7 @@ dtb-$(CONFIG_ARCH_R9A08G045) += r9a08g045s33-smarc.dtb
+ 
+ dtb-$(CONFIG_ARCH_R9A09G011) += r9a09g011-v2mevk2.dtb
+ 
++dtb-$(CONFIG_ARCH_R9A09G077) += r9a09g077m44-rzt2h-evk.dtb
+ dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h44-rzv2h-evk.dtb
+ 
+ dtb-$(CONFIG_ARCH_RCAR_GEN3) += draak-ebisu-panel-aa104xd12.dtbo
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
 new file mode 100644
-index 000000000000..55a2b1bd8100
+index 000000000000..f2b448aaec82
 --- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
-@@ -0,0 +1,129 @@
++++ b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+@@ -0,0 +1,37 @@
 +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +/*
-+ * Device Tree Source for the RZ/T2H SoC
++ * Device Tree Source for the RZ/T2H Development EVK board
 + *
 + * Copyright (C) 2025 Renesas Electronics Corp.
 + */
 +
-+#include <dt-bindings/clock/r9a09g077-cpg.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
++/dts-v1/;
++
++#include "r9a09g077m44.dtsi"
 +
 +/ {
-+	compatible = "renesas,r9a09g077";
-+	#address-cells = <2>;
-+	#size-cells = <2>;
++	model = "Renesas Development EVK based on r9a09g077m44";
++	compatible = "renesas,r9a9g077m44-rzt2h-evk", "renesas,r9a9g077";
 +
-+	extal: extal {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		/* This value must be overridden by the board */
-+		clock-frequency = <0>;
++	aliases {
++		serial0 = &sci0;
 +	};
 +
-+	loco: loco {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		/* This value must be overridden by the board */
-+		clock-frequency = <0>;
++	chosen {
++		bootargs = "ignore_loglevel";
++		stdout-path = "serial0:115200n8";
 +	};
 +
-+	cpus {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		L3_CA55: cache-controller-0 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-size = <0x100000>;
-+			cache-level = <3>;
-+		};
-+
-+		cpu0: cpu@0 {
-+			compatible = "arm,cortex-a55";
-+			reg = <0>;
-+			device_type = "cpu";
-+			next-level-cache = <&L3_CA55>;
-+			enable-method = "psci";
-+		};
-+
-+		cpu1: cpu@100 {
-+			compatible = "arm,cortex-a55";
-+			reg = <0x100>;
-+			device_type = "cpu";
-+			next-level-cache = <&L3_CA55>;
-+			enable-method = "psci";
-+		};
-+
-+		cpu2: cpu@200 {
-+			compatible = "arm,cortex-a55";
-+			reg = <0x200>;
-+			device_type = "cpu";
-+			next-level-cache = <&L3_CA55>;
-+			enable-method = "psci";
-+		};
-+
-+		cpu3: cpu@300 {
-+			compatible = "arm,cortex-a55";
-+			reg = <0x300>;
-+			device_type = "cpu";
-+			next-level-cache = <&L3_CA55>;
-+			enable-method = "psci";
-+		};
-+	};
-+
-+	psci {
-+		compatible = "arm,psci-1.0", "arm,psci-0.2";
-+		method = "smc";
-+	};
-+
-+	soc: soc {
-+		compatible = "simple-bus";
-+		interrupt-parent = <&gic>;
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		sci0: serial@80005000 {
-+			compatible = "renesas,r9a09g077-sci";
-+			reg = <0 0x80005000 0 0x400>;
-+			interrupts = <GIC_SPI 590 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 591 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 592 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 593 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "eri", "rxi", "txi", "tei";
-+			clocks = <&cpg CPG_MOD R9A09G077_SCI0_CLK>;
-+			clock-names = "fck";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
-+		cpg: clock-controller@80280000 {
-+			compatible = "renesas,r9a09g077-cpg";
-+			reg = <0 0x80280000 0 0x1000>,
-+			      <0 0x81280000 0 0x9000>;
-+			clocks = <&extal>, <&loco>;
-+			clock-names = "extal", "loco";
-+			#clock-cells = <2>;
-+			#reset-cells = <1>;
-+			#power-domain-cells = <0>;
-+		};
-+
-+		gic: interrupt-controller@83000000 {
-+			compatible = "arm,gic-v3";
-+			reg = <0x0 0x83000000 0 0x40000>,
-+			      <0x0 0x83040000 0 0x160000>;
-+			#interrupt-cells = <3>;
-+			#address-cells = <0>;
-+			interrupt-controller;
-+			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
-+		};
-+	};
-+
-+	timer {
-+		compatible = "arm,armv8-timer";
-+		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-+				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-+				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-+				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
-+	};
 +};
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi b/arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
-new file mode 100644
-index 000000000000..f54bb50829db
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
-@@ -0,0 +1,8 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the RZ/T2H 4-core SoC
-+ *
-+ * Copyright (C) 2025 Renesas Electronics Corp.
-+ */
 +
-+#include "r9a09g077.dtsi"
++&extal {
++	clock-frequency = <25000000>;
++};
++
++&loco {
++	clock-frequency = <1000000>;
++};
++
++&sci0 {
++	status = "okay";
++};
 -- 
 2.43.0
 
