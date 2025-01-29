@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-12720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12721-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4155BA2240A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 19:36:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A49A2240E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 19:37:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9AA31161B19
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 18:36:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3DA3C1887A4D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 18:37:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1B51E0E0D;
-	Wed, 29 Jan 2025 18:36:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1DB41E0E0A;
+	Wed, 29 Jan 2025 18:37:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pls+6dNw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aU05Sn+H"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F398F1E0DB0;
-	Wed, 29 Jan 2025 18:36:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E071DE8A9;
+	Wed, 29 Jan 2025 18:37:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738175814; cv=none; b=UUpohSYLTDaH8gQqe35l0kimvw3HEvaBeeGkTzIrt59nbtmHozbAvi91+EbJW0Up9UBC4XMd4KPzbX6NoZJvo1H8xJGLjpLZXJtBqZKLPFkD7nMcDFgLECeSl/Ryh3xE+zVDcEb2uuEAuwahtsm+2u/OgFsCkK8DseseHR6josU=
+	t=1738175851; cv=none; b=mTY6YgK5Mj+KfpIvozVhXJ4mwiGY0fGCgGrvqLURCBtTNQoDR0jadXcVElKMBOpTSuepB5/Aku0oHD5NuFazHRJTyLGSyeFKtGt1UxSF4g1dY9YglMMeyYjCYMG0SHrSu/A3KXQlJcI7SqFVfViubgpY7NFVM9Ky7iyA7T5+N7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738175814; c=relaxed/simple;
-	bh=3s5q/IB36iLF+fgbPT+DSVq5osOvk8zyrWzKch9Ke6c=;
+	s=arc-20240116; t=1738175851; c=relaxed/simple;
+	bh=qGPL15CX/rOkQRuqw5v83IMJIkBOMkf0xQeoJl3DMYw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LQbNao3b8qENz6h3csYmrkTj1z2TdX/MTXZWpT7gUxcGIiQVVfAjUgdV7pkRcgl91YMFkq0kY5pnbPpX3JmlyeXW7ziaLaKPHhjjD4EQwflrrzw96lQ5cq1+A1GbZrSiAHb5D6ELadmkw6l2tA7/2vzdPlyUr62VRDsy2cicn/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pls+6dNw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39931C4CED1;
-	Wed, 29 Jan 2025 18:36:49 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=aUgA8DrJ3vdykMwzJTT+kBeRa1VrLZSN9YqnGf+L/EHdOPtYp0doHMXG9wBGbkMlJB5Npyku4dMGUq2593uJjtWNXm9AlUw0gXYJtvkEIVDJjfqHGEqEE60YwXJFu/FTyXten3BTOrfdH4zzknj/mBMphJW8OrWcO/B/JmDx1xI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aU05Sn+H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE5FAC4CED1;
+	Wed, 29 Jan 2025 18:37:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738175813;
-	bh=3s5q/IB36iLF+fgbPT+DSVq5osOvk8zyrWzKch9Ke6c=;
+	s=k20201202; t=1738175850;
+	bh=qGPL15CX/rOkQRuqw5v83IMJIkBOMkf0xQeoJl3DMYw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Pls+6dNwHxJNuY1+O45iN5J3G5bgjzaK6Bf+537nZWRjpHsB2luuyLoDMA/+EseWC
-	 5EqCOFaLj+zw8h82Fju+yKGvVlSFHFtqtMuIts49EXmoWY2q/7kPYurdCtQtQ7cMVp
-	 CAS2T4dAF7O26PTdtnFKTvnow0NNdvxNfGavawLWpRJqAHA0xjkl6vQoDvEjEDWYe5
-	 a/LEvswOHUch/PBbq08Nd9MeLWikRUcFutsYUUsOANzhf60tL97ltNWgRTxmHNk/1z
-	 hDMnz69EKrloeKh1XpNlLie2ZbQ4ZNFJcNMjDRa9aGoaxjeXLbXH3h6gFMxFuLy8Z2
-	 T4ZiJLSZ5lWYw==
-Message-ID: <94055d48-0b04-4b1b-b38c-cc5666bcccc9@kernel.org>
-Date: Wed, 29 Jan 2025 19:36:48 +0100
+	b=aU05Sn+HmhzZk1WNVJEvP3Lledt1b1J+0PS/0ZAfFCac6zrs6eBfj9PxwEcyzqqRZ
+	 baQxbHXWWlp2VqNxN3VWYqPQUdjXUXthx8TYcRj1k3Rxik5ZnaC7fB9rC35Dw7297M
+	 l4t2UugW2FwON8I9JgGN1NvP6rISTZemHMZ1OhjbdUOZ2GumFpfQWWoXNQJ8G2Ca9b
+	 JoYWzEzwS8Ea4K+Ul+cGlhstqNhCHXy4hkyS4NppBzD+sPKJklUnumSCwznOODHbQL
+	 nN0xxAXdFY3Unvizvpqip1tEGqM3FqcsjxPLCWOGfRPQlMptQnaSawz8j7i1W+g2P1
+	 7ESZb/I2c0x0g==
+Message-ID: <eace86ef-5c07-41b8-92fd-7f16fed3e28a@kernel.org>
+Date: Wed, 29 Jan 2025 19:37:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/14] arm64: dts: renesas: Add initial support for
- renesas RZ/T2H SoC
+Subject: Re: [PATCH 13/14] arm64: dts: renesas: Add initial support for
+ renesas RZ/T2H eval board
 To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
@@ -59,7 +59,7 @@ To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
 Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20250129165122.2980-1-thierry.bultel.yh@bp.renesas.com>
- <20250129165122.2980-13-thierry.bultel.yh@bp.renesas.com>
+ <20250129165122.2980-14-thierry.bultel.yh@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,103 +105,47 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250129165122.2980-13-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250129165122.2980-14-thierry.bultel.yh@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/01/2025 17:37, Thierry Bultel wrote:
-> Add the initial dtsi for the RZ/T2H Soc:
-> 
-> - gic
-> - armv8-timer
-> - cpg clock
-> - sci0 uart
-> 
-> also add arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi, that keeps
-> all 4 CPUs enabled, for consistency with later support of -m24
-> and -m04 SoC revisions, that only have 2 and 1 Cortex-A55, respectively,
-> and that will use /delete-node/ to disable the missing CPUs.
-> 
-> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-> ---
->  arch/arm64/boot/dts/renesas/r9a09g077.dtsi    | 129 ++++++++++++++++++
->  arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi |   8 ++
->  2 files changed, 137 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077.dtsi
->  create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r9a09g077.dtsi b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+> diff --git a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
 > new file mode 100644
-> index 000000000000..55a2b1bd8100
+> index 000000000000..f2b448aaec82
 > --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
-> @@ -0,0 +1,129 @@
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+> @@ -0,0 +1,37 @@
 > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +/*
-> + * Device Tree Source for the RZ/T2H SoC
+> + * Device Tree Source for the RZ/T2H Development EVK board
 > + *
 > + * Copyright (C) 2025 Renesas Electronics Corp.
 > + */
 > +
-> +#include <dt-bindings/clock/r9a09g077-cpg.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +/dts-v1/;
+> +
+> +#include "r9a09g077m44.dtsi"
 > +
 > +/ {
-> +	compatible = "renesas,r9a09g077";
-> +	#address-cells = <2>;
-> +	#size-cells = <2>;
+> +	model = "Renesas Development EVK based on r9a09g077m44";
+> +	compatible = "renesas,r9a9g077m44-rzt2h-evk", "renesas,r9a9g077";
 > +
-> +	extal: extal {
-
-Use some generic clock names, prefixes or suffixes.
-
-> +		compatible = "fixed-clock";
-> +		#clock-cells = <0>;
-> +		/* This value must be overridden by the board */
-> +		clock-frequency = <0>;
+> +	aliases {
+> +		serial0 = &sci0;
 > +	};
 > +
-> +	loco: loco {
-> +		compatible = "fixed-clock";
-> +		#clock-cells = <0>;
-> +		/* This value must be overridden by the board */
-> +		clock-frequency = <0>;
+> +	chosen {
+> +		bootargs = "ignore_loglevel";
+
+Drop, that's development, not wide-mainline use.
+
+> +		stdout-path = "serial0:115200n8";
 > +	};
 > +
-> +	cpus {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		L3_CA55: cache-controller-0 {
 
-Labels are lowercase.
+Stray blank line.
 
-> +			compatible = "cache";
-> +			cache-unified;
-> +			cache-size = <0x100000>;
-> +			cache-level = <3>;
-> +		};
-
-...
-
-> diff --git a/arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi b/arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
-> new file mode 100644
-> index 000000000000..f54bb50829db
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
-> @@ -0,0 +1,8 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Device Tree Source for the RZ/T2H 4-core SoC
-> + *
-> + * Copyright (C) 2025 Renesas Electronics Corp.
-> + */
-> +
-> +#include "r9a09g077.dtsi"
-
-
-What is the point of this DTSI file? What is the point of your top-level
-compatibles if you do not use them?
 
 
 Best regards,
