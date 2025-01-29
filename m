@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-12718-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12719-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645A1A223EC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 19:31:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8C1A223F8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 19:34:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48C8C188460A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 18:32:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2256E160E07
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2025 18:34:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 129441E0E11;
-	Wed, 29 Jan 2025 18:31:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A090190696;
+	Wed, 29 Jan 2025 18:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WcyaD5HY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U3d608kD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CAD1DE8A9;
-	Wed, 29 Jan 2025 18:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B2825A643;
+	Wed, 29 Jan 2025 18:34:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738175493; cv=none; b=WFJyI/fzH2y+JUS3/t5v2kshq+BehoeHaXik69eP3zMXl8FFMaoAp6UrrQEnjhWCpRupNv3U7AAASGXg+BhKU6gSjUkkGHvwSvJHo6xfnGFYNpJeIbQfO/7x6TobD8yrrtF4WWS1dDJLtU1Cu8oYESHgPl2V4gg51iVdIglqepc=
+	t=1738175655; cv=none; b=AzlI4WLdEm0OVqCG53Ejj8pwQSXEJJAew/EtZQtNfvMhLNVK3WUovOAQ3Kk5CF3SwMHLiXnTFc6EFPphSyx0NMpjq56jaGNgzpDn1N1yfp2S6deG7y/skJr4W7v1FrwZby9jdwilEb5RTjaH9L1VaJfpjbdA64heZogvfbfmvuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738175493; c=relaxed/simple;
-	bh=Lrp6zP9vi4Nh9IYDyY/9swMylO84NEXyhNUxlqLejbQ=;
+	s=arc-20240116; t=1738175655; c=relaxed/simple;
+	bh=IRgP/Bzk/+KIMVYIah+4v1UbZ5cRqd5ppAMv/HkKVzM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SJlYCcKqGtsLHxoiGwWOPPLOzar52CG6r+DDGmMGVBIjQlNUNuWZry3cy3YCW+9oiR9FwMf9/8W0jz2A9tcdJ74u2sx2lhJVisO0hyUvzY3OxGa/wIkAV0Bvqz5iihlGf2OsQcoFyYMe9Y/UBJMGhghRiiIH8OBh9w/+SnS4TOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WcyaD5HY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8110C4CED1;
-	Wed, 29 Jan 2025 18:31:29 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=JquKGf1ou32+EXC3Ixf4gd9E8SvPOpbMf8O7Q+rhBx1zx4qCzoZJ405IiUWbuUMX1GotgDvlnxHeywO7Thum1l5N3G4gM6/Tf+SeAqiDOpNJQMP/QjeFTkYvL/pgqr4QwaBLsItnuNZpjMWbsHJl3t505k1CeIjpKjW8G5NlZiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U3d608kD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAE15C4CED1;
+	Wed, 29 Jan 2025 18:34:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738175492;
-	bh=Lrp6zP9vi4Nh9IYDyY/9swMylO84NEXyhNUxlqLejbQ=;
+	s=k20201202; t=1738175654;
+	bh=IRgP/Bzk/+KIMVYIah+4v1UbZ5cRqd5ppAMv/HkKVzM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WcyaD5HYon3xgaHGYxvE2YsvMGt0aGlsG/LhO64jFVr+s44EhkF8C6O/GrBvjDtTR
-	 /Gpsl5y7dNjIMhyy1KRAiMsEP9sAjE6OkH4/2/ndErRu/PbgkH7AyfpfGFnshzzCHf
-	 Qdle53XQXnHWJv10Isk9GR7ut48ObvKR4IMUWKLaAowIed4GziD3+FGCMGegsIbAff
-	 YpiFaG9XiCBQaNoKu14FJO2bCqfsaByCkoe8RIAYMmMYIjBxoQ4nvW+W3subRD4jju
-	 04dj+t/a5Hu3qhVmNhCw1HUHZ8CjvEw667wYDroJ6r5i34AS+v0IFdRZFHA7fhmmPl
-	 IZXEaft+FFUYw==
-Message-ID: <6e1899b3-e516-4968-b0a0-6a68118ed101@kernel.org>
-Date: Wed, 29 Jan 2025 19:31:28 +0100
+	b=U3d608kDGTQmiBwammcy7Bxtm6LOGOrbfTb19FaNiERC2Hk2eD3jeH3NTfxk8naVE
+	 HF9RvT4D7iqjqEU7vJbUNNXE8+e1b1CWkvXXqa1De2kFHLf3QbaK2EbaEWt1RKQM5W
+	 Uzkv0UMas3qx2LKp5l+QRUapyBQDhFW+UKu1EDw7jNV9NmjnMLZj6XTFf1dnfgu5eS
+	 SHSNW2Eb81xuTuxrL2ThCAmz9rdcdmFg3nMnk82o37er8+Bj2Ot0SHkiRV11oeU3Xn
+	 QkYTc1cmcBxQPrrLUwhmbmmnWqxQPbC9faKWtO46eQTb4FG83OHN/+HWUO0PXyGXP7
+	 nAGhCzUntDKsw==
+Message-ID: <315ea715-41f8-4c2b-925d-a6751a425a42@kernel.org>
+Date: Wed, 29 Jan 2025 19:34:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,16 +50,18 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/14] dt-bindings: soc: Document the Renesas RZ/T2H
- Evaluation board for the R9A09G077 SoC
+Subject: Re: [PATCH 04/14] dt-bindings: clock: Document cpg bindings for the
+ Renesas RZ/T2H SoC
 To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250129165122.2980-1-thierry.bultel.yh@bp.renesas.com>
- <20250129165122.2980-4-thierry.bultel.yh@bp.renesas.com>
+ <20250129165122.2980-5-thierry.bultel.yh@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,31 +107,72 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250129165122.2980-4-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250129165122.2980-5-thierry.bultel.yh@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/01/2025 17:37, Thierry Bultel wrote:
-> Add the RZ/T2H Evaluation board (r9a9g077m44-dev) in documentation.
+> Document RZ/T2H (a.k.a r9a09g077) CPG (Clock Pulse Generator) binding.
+> Add the header file for the resets and clocks definitions.
 > 
 > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 > ---
->  Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>  .../bindings/clock/renesas,rzt2h-cpg.yaml     |  73 +++++++++
+>  include/dt-bindings/clock/r9a09g077-cpg.h     | 144 ++++++++++++++++++
+>  2 files changed, 217 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/clock/renesas,rzt2h-cpg.yaml
+>  create mode 100644 include/dt-bindings/clock/r9a09g077-cpg.h
 > 
-> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> index 33f9e37a3d3d..331a007dbe35 100644
-> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> @@ -537,6 +537,8 @@ properties:
->  
->        - description: RZ/T2H (R9A09G077)
->          items:
-> +          - enum:
-> +            - renesas,r9a9g077m44-dev # RZ/T2H Evaluation Board
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,rzt2h-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,rzt2h-cpg.yaml
+> new file mode 100644
+> index 000000000000..9a3a00126d2b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/clock/renesas,rzt2h-cpg.yaml
+> @@ -0,0 +1,73 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/clock/renesas,rzt2h-cpg.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/T2H(P) Clock Pulse Generator (CPG)
+> +
+> +maintainers:
+> +  - Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> +
+> +description:
+> +  On Renesas RZ/T2H SoCs, the CPG (Clock Pulse Generator) handles generation
+> +  and control of clock signals for the IP modules, generation and control of resets,
 
+Wrap at 80. See Coding style doc.
 
-Still not tested and previous commit makes no sense on its own.
+> +  and control over booting, low power consumption and power supply domains.
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,r9a09g077-cpg
+
+...
+
+> +#define R9A09G077_SHOSTIF_MASTER_RST	13
+> +#define R9A09G077_SHOSTIF_SLAVE_RST	14
+> +#define R9A09G077_SHOSTIF_IP_RST	15
+> +#define R9A09G077_DDRSS_RST_N_RST	16
+> +#define R9A09G077_DDRSS_PWROKIN_RST	17
+> +#define R9A09G077_DDRSS_RST_RST		18
+> +#define R9A09G077_DDRSS_AXI0_RST	19
+> +#define R9A09G077_DDRSS_AXI1_RST	20
+> +#define R9A09G077_DDRSS_AXI2_RST	21
+> +#define R9A09G077_DDRSS_AXI3_RST	22
+> +#define R9A09G077_DDRSS_AXI4_RST	23
+> +#define R9A09G077_DDRSS_MC_RST		24
+> +#define R9A09G077_PCIE_RST		25
+> +#define R9A09G077_DDRSS_PHY_RST		26
+> +
+> +#endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G077_CPG_H__ */
+> \ No newline at end of file
+
+Patch warning here.
 
 
 Best regards,
