@@ -1,79 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-12764-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12765-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC381A23375
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 18:54:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6E1A23565
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 21:53:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D96D164622
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 17:54:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0A4F27A0F68
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 20:52:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D29241EF0B2;
-	Thu, 30 Jan 2025 17:54:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 620C41EEA46;
+	Thu, 30 Jan 2025 20:53:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SDNoEJt7"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ORNmLtNM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DFE1EBFE2
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 17:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8010B139B
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 20:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738259643; cv=none; b=V9KQfUkyQa+tDcayeKjXDX260zuTXlXR8jXtp7EtCeYb447XGKFCD8a163cSzAo+zvAoHXhzsnjvOuF4y1/5UlfjYtOYrRMM6KAryDVPrXtr6KRvLjtxD94GRprbl0zRGo77UoJDOKIEUI5V5oZMofaKrYfTnOTGQtapm3tw+yE=
+	t=1738270408; cv=none; b=eKRBTBZwlUCLcWMJ43p0Ll/iwFYrmzEmVkBShpypNa/yJxeU9tgrBADwHP1lwZV1oRtxmFUjc6gecO7FFgyoWqxuhzvPlp8TMWHwnGDqj+rXPpHq6ctEUKDSCrO8Taxvm4shGCfIXx8p635/nEORqkMyh+iylIx3jf5rulmjtkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738259643; c=relaxed/simple;
-	bh=WUw+cg2C7p4c6woyhzeIifv4ld0H2t+UcA3JTslN+0Q=;
+	s=arc-20240116; t=1738270408; c=relaxed/simple;
+	bh=1/BZyrdG523grZ6QfzH2boEwpXy3Xh7fkoqMrd98Pgc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WDY3BjKjdYxDhgHLydjPigZQ6iFxcQqWGs0AKmnx7cPjc+yQOTX3KXtPkJ79V8NEMOSaLhRkJf+oP9x1vIfjU9hQGM3PwX4k6WpXVeqlntMmvgT4wZ6N/HBijd8q1ukpSHeMC6FQhE022mq67NYMThF0hXS66Wkswppc6XWQCeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SDNoEJt7; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385e06af753so615862f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 09:54:01 -0800 (PST)
+	 In-Reply-To:Content-Type; b=r898DM88Rtdj5+GRMd8DlI3dVJTnjyAiJQf3FTe7SxZnooxLu9nWky5qHuNrZ+JwLRJbD7TZAbZx4uRjsvTpeg1UXTqq9msiPlSgHKU5/XtnMDYj6Ifh6ohK0eZ7IZlSFXH/81vjSWTI4TGCahUUb1EA1IfIw+gMxc6h0iFmm/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ORNmLtNM; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385ef8b64b3so1176103f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 12:53:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738259640; x=1738864440; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
+        d=tuxon.dev; s=google; t=1738270405; x=1738875205; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=z8JJUa/aNAV/P70L0oa1PWI0esDvQnXBP48aD2W+hbQ=;
-        b=SDNoEJt7SGYkbHVNdjvckU8rtSPLBWRK1Di315zd5pcyoUWrZBRVKknXL0hHQEmAah
-         gPQKNRm+BQmaDaOH/DQd/vNh+vq2kT+5QnvfxZkcF5Iw+fnWH+6gckIY/9QXVqQveMbS
-         qU94ss1EcYjTdTmTj34HuVKYFUeWnXk9shEGjYKNSH3iC5ANjJwVjiXyyCBAcrd0nhK4
-         Anf1df7Ip2ZJXvjnA6TcGiBC8KWxSOB1gzT8w8CXtDJrxFaaGbZ2G00gdQ2HMKg46X8N
-         0t/ZBexechWA0P3jhzHe+w2pvbtUbm8G3l2f8vHv2fyT7kyPq2ZaSrJR4tfH8Hg7e+N8
-         txFg==
+        bh=Ec98s6sSsx0UR0Kfm0pnIvUMmPvbuc2qUG4lSwDUwKQ=;
+        b=ORNmLtNMubPeryAGPKzDzPhz+ZsQAVl3M3GUfYKTXqF2dKuz9PZeEF2bT+BuZVGxck
+         1cfH0ObdYqiSHCtURfH7r4NtxC9pgLv+hbemKfd40cqAPTMpVq84MSyjWf9j0Bj8ioED
+         n1metq6uMgSSh4xZPAlhSrk7XfKqsvTMy1yiM2FdC+EYcpKjg+Epn/569qKpHxXy45bx
+         Ty6hjAY/hwleUY2elwQl3Sj+BPJRosfe954auPG9CIzPmlBthbNgEida+LLif4upFWhC
+         ddUShFSfBH43rxDFxkzIgsgu/egrzZAmqf8jC4Xiy87EfDfa+xyxmF1oMYWGU+gkCDCM
+         fq5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738259640; x=1738864440;
-        h=content-transfer-encoding:in-reply-to:from:content-language
+        d=1e100.net; s=20230601; t=1738270405; x=1738875205;
+        h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z8JJUa/aNAV/P70L0oa1PWI0esDvQnXBP48aD2W+hbQ=;
-        b=EqKOJVo9GM20fWMOjWffh0tLDP43tBxELeOrSxDqHtDpZtHxpXwtRcW31+JtRFhfPJ
-         HBB8pZoRY8ZnGzOb67Ulcy7eoxdoq37Iuh1mA6BwhGmxyfiQfntwgusi4KSPyanh6WAj
-         BhDVFTEZrYOg+k5BrEbuaJLcdokFnGDJqj+KTzxk1V0HvjP7AsA3DpjBq8WXoI1Pl9du
-         2bBVHjBYgGXhdHBaZom5TT08wxfAh6McPoy74rnGb1q6YELp90M+Biv7TyEkergt8YL3
-         28SemtlHJ43M2f3asdUEaNmrEwDQGTS7gLSKgoHzEOqj0ph0GIoa/G2AJgiWxP49nfhN
-         zCyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX+bAORWtL3O0X9GxgmUrwSilqCWGZzpeKpg84Xohyc0zytju1Z+h8XffiU2/E2IGf1zkxDfzJ03SumTRAXAE3nuA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3+VA5a+gUTGFhfNKxx4cP52PsAEqU8zIpQNlmHeWmyhI+anyP
-	3hR1K2+6+piqLgHTcyR98AOqngdCdO9YoRvcSUqfrHSNuMJpBHrrsC1kB5ZfrjU=
-X-Gm-Gg: ASbGncvj7ph90K1FrQnf/6o3YnDAy/GpIhQGZxboLkxkiPyw1EMohnZ7UkSCzoXgjbj
-	+iXMRhRZesDrrJh9EI8rI2EXyWaPh3uQKQT0kKAD4v5xmRviCrdLMKrwp0f4rtkvO1ostp/a8Z8
-	bs2HgRFFJwETc4xmloqrugWAj0gMHxYaKH+HDQ5FF0wXUlPAD9RjVbH3RiTCrst7uFPYJhU02AL
-	6zzcH2oWonYgt/C36y0/OO4TghIQGhXDZbSKR3fIK3t4UGJFMLc0AhIf5tGtE1IuRfKpQsETp8G
-	tZjs0KalefeuXkkcMFDiKXX3UbVaK87Xt1H2PMhrXz6owGyW3uCtkOw=
-X-Google-Smtp-Source: AGHT+IE96tMjtmz3u9v3Eic5ID5HrbnpMbVJNYNsrTeZ4kPIWPh0vN3o9LQirB4Tqm2SD1jL2Q6Ung==
-X-Received: by 2002:a05:6000:186d:b0:38c:617c:ee22 with SMTP id ffacd0b85a97d-38c617cf0c1mr173456f8f.54.1738259638478;
-        Thu, 30 Jan 2025 09:53:58 -0800 (PST)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-438dcc2f17dsm65847425e9.23.2025.01.30.09.53.57
+        bh=Ec98s6sSsx0UR0Kfm0pnIvUMmPvbuc2qUG4lSwDUwKQ=;
+        b=PZeUGR65nGjenO5+dOqIXH811fURvQ+NF5eRjb/Mh0tQs2cbUM8BkwCsll6hlbyW8l
+         dDL2FBPRv7Z+stiXvOD9ysfOgP2J7oecSwkSjc4ZvMju/eZFQL0V6KI+Kj7cCdnhfXml
+         pkxQpvgXYL/W4QedvgjeuOGknEnCjoAiqwfesHI5PWJulajNgqtpBdrY9HvKVHDre7o9
+         HyiI+eJD9bah3Oip+rpFkdjpnkaM07p26pNqfhNOfXxUT/Mmg5LrQeNA/EmBNFuVe8iC
+         4FlHo+Wg+pxdERYGZgUvElQCyglYF3IHX0Vr39L9xvNvrZCkOmVNSHys1gx42TJ0Qtk5
+         q9Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCWgQ+cI8wY0TQPyHt8uZDu7p50yvSYc/DvOPWQXnPUF034hkZWp6NPkZb5AqRWSq+F40BgPoLNIQxj2ELMSYB7QRw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoFrneMGioS+uBHuLA5PDC4j7gHaIAwLMHBCVxis0CIbzUvt43
+	ViKrQPOJyrJU6Zj2eNWnzA0SOA4j+zvmstKlsonIoEPZhPfUVDmt3FXGFYPSq8k=
+X-Gm-Gg: ASbGncsWoWHLW1EHUdbactd3VufY8ZdwAWjIONvkbR0PqhCBQU/Nmf9yd0mvm/wk39S
+	Wt/s+alxwk7Q8jFLvUAN942G8qvpcPM+4wlfilghBMhxi9Hiv+fPKs6PH3ye8nKXu8mW8oTlG/L
+	30/oa7O2iXmm105W6C6jkvu3tmPsQmhGcQbrJE+FbYw8VsoIKj/VuxFdEF1sqL7AkM5y4mM7fqe
+	4UPSEipZkQoY356HzU7lM1iIduvcUcDQStm8Ck7Mj+gY7zEQwMT+c86f3F3wnFg9WToBCs9m7Iv
+	sahHJ09du2zvDj7R6Mv84YWx
+X-Google-Smtp-Source: AGHT+IF/6O8ZXA61LdSg0FqUiKKK/7fHOXHRr8I9s7+f0jQYC6+kW2kgrBrfA1n9/pzq79turnK8vQ==
+X-Received: by 2002:adf:e591:0:b0:385:fb56:5596 with SMTP id ffacd0b85a97d-38c51944328mr4917084f8f.19.1738270404698;
+        Thu, 30 Jan 2025 12:53:24 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.173])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1b51e1sm2946779f8f.77.2025.01.30.12.53.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2025 09:53:58 -0800 (PST)
-Message-ID: <034707dd-e6b1-4a39-860b-b972fa438645@linaro.org>
-Date: Thu, 30 Jan 2025 18:53:57 +0100
+        Thu, 30 Jan 2025 12:53:24 -0800 (PST)
+Message-ID: <98ddf1b6-1804-4116-b4e2-f54a62c27966@tuxon.dev>
+Date: Thu, 30 Jan 2025 22:53:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -81,149 +81,91 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] arm64: dts: renesas: r9a08g045: Add TSU node
-To: Claudiu <claudiu.beznea@tuxon.dev>, rafael@kernel.org,
- rui.zhang@intel.com, lukasz.luba@arm.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
- magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
- p.zabel@pengutronix.de, ulf.hansson@linaro.org
-Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+Subject: Re: [PATCH 2/6] thermal: of: Export non-devres helper to
+ register/unregister thermal zone
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: rafael@kernel.org, rui.zhang@intel.com, lukasz.luba@arm.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com,
+ sboyd@kernel.org, p.zabel@pengutronix.de, ulf.hansson@linaro.org,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Biju Das <biju.das.jz@bp.renesas.com>
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 References: <20250103163805.1775705-1-claudiu.beznea.uj@bp.renesas.com>
- <20250103163805.1775705-6-claudiu.beznea.uj@bp.renesas.com>
+ <20250103163805.1775705-3-claudiu.beznea.uj@bp.renesas.com>
+ <Z5pkUNNvsWPjRQvy@mai.linaro.org>
+ <65a16c3f-456e-40ec-91b0-afb57269ed46@tuxon.dev>
+ <Z5tPR_tv7vWDkUI7@mai.linaro.org>
+ <6ed7d545-82d7-4bca-95ec-95447586bb58@tuxon.dev>
+ <b496d933-3c57-4b02-ab65-0582a30939af@linaro.org>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20250103163805.1775705-6-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <b496d933-3c57-4b02-ab65-0582a30939af@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 03/01/2025 17:38, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi, Daniel,
+
+On 30.01.2025 19:24, Daniel Lezcano wrote:
+> On 30/01/2025 11:30, Claudiu Beznea wrote:
+>>
+>>
+>> On 30.01.2025 12:07, Daniel Lezcano wrote:
+>>> On Thu, Jan 30, 2025 at 11:08:03AM +0200, Claudiu Beznea wrote:
+>>>> Hi, Daniel,
 > 
-> Add TSU node along with thermal zones and keep it enabled in the SoC DTSI.
-> The temperature reported by the TSU can only be read through channel 8 of
-> the ADC. Therefore, enable the ADC by default.
+> [ ... ]
 > 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
->   arch/arm64/boot/dts/renesas/r9a08g045.dtsi    | 43 ++++++++++++++++++-
->   .../boot/dts/renesas/rzg3s-smarc-som.dtsi     |  4 --
->   2 files changed, 42 insertions(+), 5 deletions(-)
+>>>>> Would the IP need some cycles to capture the temperature accurately
+>>>>> after the
+>>>>> clock is enabled ?
+>>>>
+>>>> There is nothing about this mentioned about this in the HW manual of the
+>>>> RZ/G3S SoC. The only points mentioned are as described in the driver code:
+>>>> - wait at least 3us after each IIO channel read
+>>>> - wait at least 30us after enabling the sensor
+>>>> - wait at least 50us after setting OE bit in TSU_SM
+>>>>
+>>>> For this I chose to have it implemented as proposed.
+>>>
+>>> IMO, disabling/enabling the clock between two reads through the pm
+>>> runtime may
+>>> not be a good thing, especially if the system enters a thermal situation
+>>> where
+>>> it has to mitigate.
+>>>
+>>> Without any testing capturing the temperatures and compare between the
+>>> always-on
+>>> and on/off, it is hard to say if it is true or not. Up to you to test
+>>> that or
+>>> not. If you think it is fine, then let's go with it.
+>>
+>> I tested it with and w/o the runtime PM and on/off support (so, everything
+>> ON from the probe) and the reported temperature values were similar.
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> index a9b98db9ef95..fd74138198a8 100644
-> --- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> @@ -205,7 +205,6 @@ adc: adc@10058000 {
->   			#address-cells = <1>;
->   			#size-cells = <0>;
->   			#io-channel-cells = <1>;
-> -			status = "disabled";
->   
->   			channel@0 {
->   				reg = <0>;
-> @@ -244,6 +243,17 @@ channel@8 {
->   			};
->   		};
->   
-> +		tsu: thermal@10059000 {
-> +			compatible = "renesas,r9a08g045-tsu";
-> +			reg = <0 0x10059000 0 0x1000>;
-> +			clocks = <&cpg CPG_MOD R9A08G045_TSU_PCLK>;
-> +			resets = <&cpg R9A08G045_TSU_PRESETN>;
-> +			power-domains = <&cpg>;
-> +			#thermal-sensor-cells = <0>;
-> +			io-channels = <&adc 8>;
-> +			io-channel-names = "tsu";
-> +		};
-> +
->   		vbattb: clock-controller@1005c000 {
->   			compatible = "renesas,r9a08g045-vbattb";
->   			reg = <0 0x1005c000 0 0x1000>;
-> @@ -690,6 +700,37 @@ timer {
->   				  "hyp-virt";
->   	};
->   
-> +	thermal-zones {
-> +		cpu_thermal: cpu-thermal {
-> +			polling-delay-passive = <250>;
-> +			polling-delay = <1000>;
-> +			thermal-sensors = <&tsu>;
-> +			sustainable-power = <423>;
-> +
-> +			cooling-maps {
-> +				map0 {
-> +					trip = <&target>;
-> +					cooling-device = <&cpu0 0 2>;
-> +					contribution = <1024>;
-> +				};
-> +			};
-> +
-> +			trips {
-> +				sensor_crit: sensor-crit {
-> +					temperature = <125000>;
-> +					hysteresis = <1000>;
-> +					type = "critical";
-> +				};
-> +
-> +				target: trip-point {
-> +					temperature = <100000>;
-> +					hysteresis = <1000>;
-> +					type = "passive";
-> +				};
+> 
+> Did you remove the roundup to 0.5°C ?
 
-1. As you specified the sustainable power, the power allocator would be 
-used. However, it needs an intermediate passive trip point before 
-reaching the mitigation because the governor has to collect data ahead 
-of the passive mitigation trip point in order to feed the PID loop. This 
-trip point is not bound to any cooling device
+I did the testing as suggested and, this time, collected results and
+compared side by side. I read the temperature for 10 minutes, 60 seconds
+after the Linux prompt showed up. There is, indeed, a slight difference b/w
+the 2 cases.
 
-2. The mitigation temperature is set to 100°C. The MTBF decay factor of 
-the semi-conductor will be increased by more the 100x times during the 
-thermal episodes stress thus reducing its lifespan considerably if it 
-hits this temperature often (but I doubt with a single Cortex-A55).
+When the runtime PM doesn't touch the clocks on read the reported
+temperature varies b/w 53-54 degrees while when the runtime PM
+enables/disables the clocks a single read reported 55 degrees, the rest
+reported 54 degrees.
 
-3. It would make sense to add a 'hot' trip point so the user space can 
-take an action to reduce the thermal pressure before reaching the 
-critical temperature
+I plotted the results side by side here:
+https://i2.paste.pics/f07eaeddc2ccc3c6695fe5056b52f4a2.png?trs=0a0eaab99bb59ebcb10051eb298f437c7cd50c16437a87392aebc16cd9013e18&rand=vWXm2VTrbt
 
-4. IIUC, the CPU does not do voltage scaling but only frequency scaling, 
-right ? If it is the case, then it is even more true that the mitigation 
-trip point should be reduced because the frequency scaling only may not 
-suffice to provide a cooling effect
+Please let me know how do you consider it.
 
+Thank you,
+Claudiu
 
-> +			};
-> +		};
-> +	};
-> +
->   	vbattb_xtal: vbattb-xtal {
->   		compatible = "fixed-clock";
->   		#clock-cells = <0>;
-> diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> index ef12c1c462a7..041d256d7b79 100644
-> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> @@ -102,10 +102,6 @@ x3_clk: x3-clock {
->   	};
->   };
->   
-> -&adc {
-> -	status = "okay";
-> -};
-> -
->   #if SW_CONFIG3 == SW_ON
->   &eth0 {
->   	pinctrl-0 = <&eth0_pins>;
+> 
+> 
 
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
 
