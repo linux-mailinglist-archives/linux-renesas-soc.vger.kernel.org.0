@@ -1,111 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-12759-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12760-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E63A230D6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 16:08:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0647A232BF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 18:24:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5B063A5902
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 15:08:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 146D6166973
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 17:24:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D4441E9B27;
-	Thu, 30 Jan 2025 15:08:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCC0F1EF081;
+	Thu, 30 Jan 2025 17:24:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dtqFVdOP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rsa9f5ku"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44CC1E9B23;
-	Thu, 30 Jan 2025 15:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A711EEA35
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 17:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738249725; cv=none; b=EH9K7s1l9QYT6XYmHDUBPsQTmGE8xD4Bx4G5xxarQ6giTDFZVircfUAs0wenKR1UWS0LwLsQKec4A4lpMJlNWGr5lRWUr3q4pfY1zsxnAEL8sGT/K8mlxYvMjE4lLOXn6yIfTExqGrXuPsh2Nelc6DomdLRuUYsVyro6Yhno8nM=
+	t=1738257886; cv=none; b=JFG71aUo5stQGHg0/8qZitet+bOJVo9kzigyCuf3Dqs/nr424tHYm3g6ve6I3Hsow5i5dCiDld47RuMeWF1VBXmvMS/Lw0oZEW9sQm65/Z327zamWXQfqPkTkAW2uKWWuIXVUJkxjGjS1MMQKeREhzx+3PmITkrBGf2CBJXW4uA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738249725; c=relaxed/simple;
-	bh=ehlDKGSvHEXQcQcITg8bjoe3OHetQL/W8ZDVKEIvrNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oXkmToaD4/RsPIMzFHr1coyC616N3jl4jUdwBc811BxVXx6b7DARGKZ6jT+9dpYK9p5WMPhrwq19yAR6vDqNhXd+4GNUqXn4YVJzjzV+3n+Zfc+V5vjPoYUGA+dVw32rnhyMDIc3yV7pYJCYa06HCWx/f/Kx+ikNrRVULvq/MCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dtqFVdOP; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-21628b3fe7dso17286865ad.3;
-        Thu, 30 Jan 2025 07:08:43 -0800 (PST)
+	s=arc-20240116; t=1738257886; c=relaxed/simple;
+	bh=lhgUmgTEIT/vBwhj68pfvvbInab5tq3uuxQ9tFQKC3Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dhywdxmdSSzU7IAothbFlW7mMLIWXoCEpfHaZ8tCgLSnR3DJOTIgy0HwiXMPNZjSF5cX4ukbD5mosPXbW2oQCiAEOGr4rqSGheJzVhcqGuLiAowVjeFqYECqkdeEOkWTp8cJ0DwRqIyGIEZ0MBus/tUnWfeQbWPKcHHWzaoFbwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rsa9f5ku; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-385e0e224cbso672225f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 09:24:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738249723; x=1738854523; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=29a4hWq1s4gIhvsi9TMH7OKq7ctJu4jjQdTlMwZxJUA=;
-        b=dtqFVdOP5BrEhwVDRgFTDFP/cElB84WvWiMaMNYZYP89TZhojbSACvlETz9TBmWM0a
-         mKsdKJlLtV69NdnjR05dNBduPoE6IJ0kooAQ3sWQnXTlmvZiHA9q/nSOD6Xg0s390FsV
-         sad3slzZsRcJZNf0M+Ri9p/7d+TrRVVZ/P9xVDNOImB+YGETKRi/27lQlRcXU9E0FycW
-         JZNHNDBhAh4BoN+j4E/nGHfl14QV53v63VWMkjdV8mxcYcSZI8lVDGoxnidsMLHwgctB
-         SKz+h+8PxDHpDe+nKuGFQsXQYFbR3eVOSh7MhhX+0qd/l4z6M6zjN3LPd61bOTau6+jM
-         Ciug==
+        d=linaro.org; s=google; t=1738257883; x=1738862683; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XyeDfNgF8wSUnxJsK4c0ibCBKb5iWxSmVaedgdkZ/qE=;
+        b=rsa9f5kuF/qfLSmiWJdpoofhGH81/rcL7eupFaAbtfsJfFjsYXwusoVMGSkta+NOQJ
+         rsGWqUcf/Kw6padrDj75HTJwZ2INUAArnhcxlCaTRDElPQ0UT4rPdhecRn96PmhpC0Y0
+         RZx76cgRq2wAxLbNglfXxcGcWw7U8rea3vWPOJx/D+wGeotjJA1UWP70L9zLel7dtV61
+         4aXksx6NqkeukoWuLCRiGLDuAwLAFcKbam/Uu6g+Vux2zMhTBl6nfA9MB/Fd04TubxI/
+         zFYShFOjY2OmCB8eDOsmrBQ6JBognAdRYK+pUwfSqGIQ1b9Nymah82RzfvJHjg8/Klzg
+         DjKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738249723; x=1738854523;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=29a4hWq1s4gIhvsi9TMH7OKq7ctJu4jjQdTlMwZxJUA=;
-        b=IfrmbiY9mczW94OgKnnCgyQxfsN0h9CCVv+euT8buSooh1XtHUvgeZLX5qxbl4dPd8
-         JwzThlgJfgi19ajs75TrBFGsJXeU0Tzf+XUVAgVvf//3GN0kr9/CUUmxOP16Ikb9bG16
-         0DxxBaMy3SEaq+jxgv4cHHq1ayUdaJVpBczzD5g8Peq7I9gwFzA+fpl7cwDxxLv2lXio
-         toBtlZiYQfbWXNlObKS+aehDtixtjP7GvqaSl26EyIYEGvQpZ72UPEoVOQPmGcwtTlPd
-         GmNlf6GEwrHr9w+FpIcAiAnrSXhu0EJgAUyscRuRIGMfsPFecbju1XZuS2K4euOYRCgC
-         MqyA==
-X-Forwarded-Encrypted: i=1; AJvYcCWZ8yQe91iMjuvGkeLXLHfeTBOsbIYD3R4ZbRFJTFaBhSavsT04hXh8lsMfy2EJbt14ht068odeAJ288A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVyDdlKzS2S1PFySqm5XUW12fOw9VBq9Huu/7XROhOP3PVXABS
-	C69A9JEnRn6vGnM/7KVRZATbjkPG6dFN3t7sc55PHWIm7mSOUTCk
-X-Gm-Gg: ASbGncv1dalLDBVE1l2bEjrlZ+Dd6+cjmJutcKpbbEqsNEHfcrk0/Wu83KDzUe0RzEV
-	cW1TwcCTMK7BpLSVOVOdqCFo6JXw5zUjL3UzS8WVAUrEdic0/JRamqrPY9pxBDepun99Juu50tF
-	g8zlyoYrC81fQhgxv0yygINynoWbmh9hytywT08Ht3HZcuEfjd+B99gWxH1hVyus3GH73S624tQ
-	b/K2ePd9Mc/NgzyT0opEjBBPA/wHlKJhpa0RN4In0AWo244tBLO7J0CpbriVrlHp6S7R7FHTgg0
-	5uuCj6/CGmPnjOIufpFer/61gH7p
-X-Google-Smtp-Source: AGHT+IEd8jfh8JBWKHifrlmk0BwQFjyO0P0QTMec1+vTmSVwFFszoZ1w1WwCX4xV1vFyGUc63/Dr7A==
-X-Received: by 2002:a17:902:db02:b0:216:69ca:7714 with SMTP id d9443c01a7336-21dd7c46297mr109680735ad.11.1738249721968;
-        Thu, 30 Jan 2025 07:08:41 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de31f64casm15024465ad.53.2025.01.30.07.08.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2025 07:08:41 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 30 Jan 2025 07:08:40 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Robert Marko <robert.marko@sartura.hr>,
-	Luka Perkov <luka.perkov@sartura.hr>,
-	Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH RFT 6/6] hwmon: (tps23861) Use per-client debugfs entry
-Message-ID: <8a7a776a-23cf-4c3c-a3b2-a8e877582b99@roeck-us.net>
-References: <20250125123941.36729-8-wsa+renesas@sang-engineering.com>
- <20250125123941.36729-14-wsa+renesas@sang-engineering.com>
+        d=1e100.net; s=20230601; t=1738257883; x=1738862683;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XyeDfNgF8wSUnxJsK4c0ibCBKb5iWxSmVaedgdkZ/qE=;
+        b=loYB8kmdrpV1fURNtMLbVi15bgLsfTkMpHjmoSYqRoqDXUSUMOrZb5F52lnY3DAn2S
+         hsngcba2vXphfI9gB8wS9qcKRlXbewKq2ZlPsIVFJBf89rBo3tDzWwxvOf/qjB6G5FCV
+         owGeiocOi0rO+cjPllMqQ6FVAZdxd1Dx31akD/e5nCSXIAf+2Mb2M3aXlyBMEhJWG0Eo
+         gJuywnyNzBDFt1sHFls18VqvPJp+uMBapYQhzW0cvyYweBPe7eXdvMEbSn6+E0Fn28Gi
+         xQqus4QIxI1PQ0p7wRM7pS31QKgYj9HhvJ74MvH/8SXV7TMN3Xau7Dk3lJiZuiom/KRq
+         FaSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXB43hTkA0X3I7iXIMO9KxxaX/hfnzgcJJLaLjqAFkKYfuao5rxnztq6bAepvVD3WwbiU8rAPJAUW1eVatkDjcioQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzliKRslN/SHCn59y07TeA1mrnNRq1ygg+5Xaq8sk9GuUEXVt9Q
+	57GxLPSXV4FI8Qi5YyOLuIm+NS57llI9It0zSW4VLx8ABT85fVOEsiGtlJ4Ohp4=
+X-Gm-Gg: ASbGnct7eaJ7UNhYUNYwmnkpxQatojlvFKOeHY1BTPlQWX8tevZ6izMYW13eIiTjUj7
+	CdSzj3sQaQA0aUrTyM9sfbWXov6CC7KwwBtfjAHm/Fsvp4Ggux3efTifaZ9RE2kdq1POEci+lEl
+	TOujvnbuIE7SKZePI0dRXY3BdEkwHYRNaJ7r/3WFq9u+sRI8reot3r8lqIGjGspPxJUtFZE0Gq7
+	Z+YHvEkPWls+O+YIFlZvNqJHEKM8MHGRZ232qSM6NHuw4Iyu3LudnSORI1n7VYlvZUupB7S243D
+	11JlKAqWog4PjHCQK07GGZATNl2XSJJ7kiaG8Th5h1MsjrFljXM0UZ0=
+X-Google-Smtp-Source: AGHT+IFOKhwS7SVTZlAgB/KmUq5YUcsnKXwUcdqRruGMwNm81PK27tTx5RK+9qsQBjRXDr0I6E36aQ==
+X-Received: by 2002:a5d:6d02:0:b0:385:f092:e1a with SMTP id ffacd0b85a97d-38c5194c3b6mr6343222f8f.11.1738257883252;
+        Thu, 30 Jan 2025 09:24:43 -0800 (PST)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-38c5c0ebfdasm2599755f8f.17.2025.01.30.09.24.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jan 2025 09:24:42 -0800 (PST)
+Message-ID: <b496d933-3c57-4b02-ab65-0582a30939af@linaro.org>
+Date: Thu, 30 Jan 2025 18:24:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250125123941.36729-14-wsa+renesas@sang-engineering.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/6] thermal: of: Export non-devres helper to
+ register/unregister thermal zone
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: rafael@kernel.org, rui.zhang@intel.com, lukasz.luba@arm.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com,
+ sboyd@kernel.org, p.zabel@pengutronix.de, ulf.hansson@linaro.org,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20250103163805.1775705-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250103163805.1775705-3-claudiu.beznea.uj@bp.renesas.com>
+ <Z5pkUNNvsWPjRQvy@mai.linaro.org>
+ <65a16c3f-456e-40ec-91b0-afb57269ed46@tuxon.dev>
+ <Z5tPR_tv7vWDkUI7@mai.linaro.org>
+ <6ed7d545-82d7-4bca-95ec-95447586bb58@tuxon.dev>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <6ed7d545-82d7-4bca-95ec-95447586bb58@tuxon.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jan 25, 2025 at 01:39:46PM +0100, Wolfram Sang wrote:
-> The I2C core now offers a debugfs-directory per client. Use it and
-> remove the custom handling.
+On 30/01/2025 11:30, Claudiu Beznea wrote:
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
+> 
+> On 30.01.2025 12:07, Daniel Lezcano wrote:
+>> On Thu, Jan 30, 2025 at 11:08:03AM +0200, Claudiu Beznea wrote:
+>>> Hi, Daniel,
 
-Applied to hwmon-next.
+[ ... ]
 
-Note that the branch will only be pushed to linux-next after the commit
-window closed.
+>>>> Would the IP need some cycles to capture the temperature accurately after the
+>>>> clock is enabled ?
+>>>
+>>> There is nothing about this mentioned about this in the HW manual of the
+>>> RZ/G3S SoC. The only points mentioned are as described in the driver code:
+>>> - wait at least 3us after each IIO channel read
+>>> - wait at least 30us after enabling the sensor
+>>> - wait at least 50us after setting OE bit in TSU_SM
+>>>
+>>> For this I chose to have it implemented as proposed.
+>>
+>> IMO, disabling/enabling the clock between two reads through the pm runtime may
+>> not be a good thing, especially if the system enters a thermal situation where
+>> it has to mitigate.
+>>
+>> Without any testing capturing the temperatures and compare between the always-on
+>> and on/off, it is hard to say if it is true or not. Up to you to test that or
+>> not. If you think it is fine, then let's go with it.
+> 
+> I tested it with and w/o the runtime PM and on/off support (so, everything
+> ON from the probe) and the reported temperature values were similar.
 
-Thanks,
-Guenter
+
+Did you remove the roundup to 0.5°C ?
+
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
