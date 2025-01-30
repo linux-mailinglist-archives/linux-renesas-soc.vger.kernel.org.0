@@ -1,60 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-12728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832A5A2296A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 09:09:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB81A2296D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 09:11:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE3BA18855F1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 08:10:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DAF83A6279
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 08:11:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E9211AB507;
-	Thu, 30 Jan 2025 08:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XoEywIKE"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 999061AB52F;
+	Thu, 30 Jan 2025 08:11:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F04819;
-	Thu, 30 Jan 2025 08:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A5A1AA1D8;
+	Thu, 30 Jan 2025 08:11:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738224593; cv=none; b=XGhmoZyNcFDnNm4R+5spnYilkc9xqPTIJocPLoC/5NvrUpunW3p7GZlXsabuLLNSjffD8yX2FBbgZ5SaeqmSYZJg3PeBTuGcWFwWVQR3ghlcgjzkxEzQdpIJnzcTohe1OlnSMumVKchuzvEvlVws7PUBoSxUAX1JoEur3zkmMOA=
+	t=1738224706; cv=none; b=rVIr0CoBgjch8BKoQs/9C5zeFZ8lzzZip+FRC9GUi1IzX8IrvVlYmmaQzFss59NhDKBI80EmRejTb+Vgrp+maDjqK3heU/V/2m8HWMP99Zfb5d5Gzb0pqbN43UG2dJt0X2N4aJpKdpvmZonr1pYQp6z5i4qUu1ibCSKGpt9oHm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738224593; c=relaxed/simple;
-	bh=mIQ7zJQT213J6nyP3cdzgVwkmazK86TLNNvRq1YVQGA=;
+	s=arc-20240116; t=1738224706; c=relaxed/simple;
+	bh=5ibgvNJRxKb2Pfkr8dER/RDHUmhrh0V0GZgzJhgmu7c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P7kVfiJJke9OEh6SbjMESXY2A9qx123vXF+ugsCPN99aSWRt+d33/F1UMa9HnY+Oif7Ls0rOoKS6fLNxyA1MRIfqbRuXt7VFxvFQ9wBGJ7D6pHvHqj+bo4W86JpGSqb4ApGLF0K4iRBMWOsA5CzRWoXeKEyI4CoqD92UhvlJ/H8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XoEywIKE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F36D7C4CED2;
-	Thu, 30 Jan 2025 08:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738224592;
-	bh=mIQ7zJQT213J6nyP3cdzgVwkmazK86TLNNvRq1YVQGA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XoEywIKEd906URNupud6t9UrU359OSGZ0We8Wob8Nu8ewYc2fs7k8oRNWrwShRGOA
-	 OXB9c9g4lo1DrGmGUp5m8oau1yL+bo+YSIgkzSrM5LhyVF/sqcUQGkNCq/43yjtWL7
-	 ZtG+30ndljqgHGBe+MszyHNRAVg53260SazJigknL+aMeKMrzUyajrFUxFx1M6p6qx
-	 B5MWD+VM9j7YEXOyAFMsQJ/KlE3WN7QB9k4jSy6sP2Q/rpnfsdB4otDX8h7tSh44Dc
-	 WGbmP0wVK/OUxmyUWELF6WAMBLy+8feIVxrfSxGwO523AnU55OKhMHNzM5/VuDNLju
-	 DOPO8R2TLo7LA==
-Date: Thu, 30 Jan 2025 09:09:49 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 02/14] dt-bindings: serial: Document sci bindings for the
- Renesas RZ/T2H (a.k.a r9a09g077) SoC
-Message-ID: <20250130-fiery-lemon-civet-eef0cb@krzk-bin>
+	 Content-Type:Content-Disposition:In-Reply-To; b=HImovOOY7nhuAd7Q8aKNzevjShP7sLgONzaiMmN08CMunqv51Q0HaoOGAehjW/XbMuUitzAZ91ayv0opv2wxv7UcF/1KECbKjt31At9rSAqGNFio4gHDxZBOeCtWkKbOMRn8XhDcpxYET6CngBkRRXWJbdTuhguL4yaucqaTtnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43938C4CED2;
+	Thu, 30 Jan 2025 08:11:44 +0000 (UTC)
+Date: Thu, 30 Jan 2025 09:11:41 +0100
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Subject: Re: [PATCH 03/14] dt-bindings: soc: Document the Renesas RZ/T2H
+ Evaluation board for the R9A09G077 SoC
+Message-ID: <enfypgxezp7tyyiio3yhc43mj3drbqxtgdiesyxqjf65xnuxoa@zxcvv6yltnrf>
 References: <20250129165122.2980-1-thierry.bultel.yh@bp.renesas.com>
- <20250129165122.2980-3-thierry.bultel.yh@bp.renesas.com>
- <ea59455a-62c3-49c9-8954-1212125ea853@kernel.org>
+ <20250129165122.2980-4-thierry.bultel.yh@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,48 +49,37 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ea59455a-62c3-49c9-8954-1212125ea853@kernel.org>
+In-Reply-To: <20250129165122.2980-4-thierry.bultel.yh@bp.renesas.com>
 
-On Wed, Jan 29, 2025 at 07:31:04PM +0100, Krzysztof Kozlowski wrote:
-> On 29/01/2025 17:37, Thierry Bultel wrote:
-> > Document RZ/T2H (a.k.a r9a09g077) in SCI binding.
+On Wed, 29 Jan 2025 16:37:39 +0000, Thierry Bultel wrote:
+> Add the RZ/T2H Evaluation board (r9a9g077m44-dev) in documentation.
 > 
-> A nit, subject: drop second/last, redundant "bindings". The
-> "dt-bindings" prefix is already stating that these are bindings.
-> See also:
-> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> And make it anyway shorter.
-> 
-> > 
-> > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-> > ---
-> >  .../bindings/serial/renesas,rzsci.yaml        | 100 ++++++++++++++++++
-> >  1 file changed, 100 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/serial/renesas,rzsci.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/serial/renesas,rzsci.yaml b/Documentation/devicetree/bindings/serial/renesas,rzsci.yaml
-> > new file mode 100644
-> > index 000000000000..70e83bbcc79d
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/serial/renesas,rzsci.yaml
-> > @@ -0,0 +1,100 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/serial/renesas,rzsci.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas Serial Communication Interface
-> 
-> 
-> You are duplicating existing renesas,sci without any explanation. No,
-> don't. This is pointless.
 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-... and this wasn't tested either. :/
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/soc/renesas/renesas.yaml:543:13: [warning] wrong indentation: expected 14 but found 12 (indentation)
 
-Best regards,
-Krzysztof
+dtschema/dtc warnings/errors:
 
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/2040353
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
