@@ -1,79 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-12766-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12767-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF40A23741
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 23:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37705A237B3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 00:16:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 798F716703D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 22:33:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97478164CD2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 23:16:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6D391A9B5D;
-	Thu, 30 Jan 2025 22:33:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7E741F12F9;
+	Thu, 30 Jan 2025 23:16:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bV9dX0bV"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="MLjAIdE0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA0212C499
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 22:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6B71482E1
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 23:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738276427; cv=none; b=rXs+qi/Dlt/XQFCNYUUsHIr8Gtc5AzXpkCmUtouAlMp0MFSWlGWsMNJvCCIZM/s+9iojsH8TW9I/Hb+QzXE9sAGpskM5n184DWDymJ6PetPoSdEb02zrl5nJTpCUHv8Zkyb2kQQ7Fk54ClWYwbGy3+/jdFt8+PnMsojLA83E1x8=
+	t=1738278989; cv=none; b=Hcc2/NcJxAynwfQBQLXEAJMGBw7E6NESaAicH+XZmZjpLMSlUdd6rczGpzBAHouw5nVIr17teqbBSk38Ew2XPpP3kpifsIqYgrRKNhEbca1XAc5b3etZcA0vxHSNXW7Hs9qRYCIx7XGDhNSgVkBTrcFso9hFFetdjZ/JA8PzJK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738276427; c=relaxed/simple;
-	bh=lTjFhNlU6GBCHRFRJM2vnQiERraPdQsSqotzJR2dc/A=;
+	s=arc-20240116; t=1738278989; c=relaxed/simple;
+	bh=TGahVvidfwxP6TepVdPQTcGpGmgLsnQxPjpRz+CZAFc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RzDj7m5LeDpquuVS7n0FyOxRHE60G95Qn/WSNxjLYAHXFX69tUUv19ldXN/fDvbcrO/aBLVTFAO5HppbgPwViMPozXgD2lM0EAn79RXfUbJbrifAsB6OA9WgjhUDypKEmVM3EM3nWxRatohzSKaD9m/1orJ5Ahlh3e6ArjZC6AM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bV9dX0bV; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43634b570c1so9904575e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 14:33:45 -0800 (PST)
+	 In-Reply-To:Content-Type; b=h2M40MR/O3Fvh6jkTl9irQ6uSI2uq99IltvHth4Sv/3WqipfD2ej3ZTuIjBWwQw25icr6hfaIXdJZiSk+Go2cd26+ZGA1OyE+wJruXc2rhVDOzO3fRohlYqJihG2q7pgRBVvn15ccepm3FGVzw7/YybT91omm96Cl/Gcx8FnAww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=MLjAIdE0; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43626213fffso16286645e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 15:16:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738276424; x=1738881224; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
+        d=tuxon.dev; s=google; t=1738278984; x=1738883784; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=q4PhLkA2yH+xwVRJ4eRUYfsP78J3oAK3Sf/7oUAOMWE=;
-        b=bV9dX0bV0r2UCDJ68EsBkPqO+064jFXKk4rVaity1QT3prOajBT0tTh0Edu0Dkeb73
-         2uX2YeszYK/ZV35Pi769RDYvPcYqCr8cA3oHluZs0HCf9ibHXxsUJs18E18aVp2zkQgh
-         3DiZ2RG1yxZrCRqn5bUcBl6hj2YeNJJJUT7L2NtqI3t0EA1mjwSJAc2GjstdHr89zSrD
-         3vYStisWMnMVFsCWH2RNoqdN9K9xx4Zj/C0uxnzsJY0p0SRmlxUQHdrgdW91umf+HfFA
-         JWKwbsOA7jnGTiD2b0/rplGkddHz3pK3xcs5Pey12R+v4YI4GCpZxfu/Z9GurMRsqXYT
-         TYFw==
+        bh=kKipKjwmAYHSpItleSKPId0JyA0V7zJvz2+mQe2PcFk=;
+        b=MLjAIdE0bylsUNSGJSESLj3wBUGEji1zgn06/qPyMPOCUntKk8Od+sUK5F/IZ60XV7
+         BLDOTLmOuyaZLrkt8eTQfNk+WpMLz6cOvZ+NlJEKBFmNye2XK9F7FQweTOiz4pOFnJ+O
+         839VJxQ0VVOR4nkcmzPdAbk+PVqi/8GG/lHrwBHADWjE42LwI42Vd/e88qyDhPykm03t
+         F1xoLOr5Wa+FXDhBUOfK9dgZPM5de2VzjyHsastItVpeUXw8UYdTEwqqpFH5t1158yD+
+         9Dfb8ZNxrjqaxvgTYELht8Bpu+B2JhR3sNIYgH335q9pxbvfaK4MUM1bCJu6ua/p5IEW
+         RwDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738276424; x=1738881224;
-        h=content-transfer-encoding:in-reply-to:from:content-language
+        d=1e100.net; s=20230601; t=1738278984; x=1738883784;
+        h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q4PhLkA2yH+xwVRJ4eRUYfsP78J3oAK3Sf/7oUAOMWE=;
-        b=iPqT3AqpmULQpRthiy5EZVwif28p5fMShON82CiwfsbumIhCC37ssJynTLpSvUFBQ/
-         /YATDssDg+VhYIeN2QYlWNt6EDhxXEP5cLbXjVVKGEbtJErw9zJR80i+mwdw00mWvQYA
-         I1Dvm8/C4oJWOUavgrFui/9i5VdDIALmHt2imDf8UJZL7+IwAkJNhG713O34YF6jfKHs
-         jgwVXo52cOP9CHY/QsF4rRQtk1r16lN4eKBxISJx6ovoWMEZSfNfO1jIsRsvnhwJe9i3
-         +zM+wqHYHcA/nHfmvPdNjZoycu3T5tvzWX5+N0K/QbEXGN/S8Pe/kebYNaSRx8KfufAe
-         kOMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXh696qfTMi/EePctNGuNoa+FE2Bu3nnRj/dLi1mkDDg5UvF7Jjnkky0FSGPMSk2Pgtmn/AK6VzJq/o8fjGdIYeXg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+mm2HZhbWTpfxC0z1DlwAkLbjiP/fc/lL5OLbJHFfBNYe/woE
-	T+mECWVzQg0cd/sqf+fODS8cCGygfHsV/6OCuqjFaVbWUi1HdXV3BBxp2TZ/chA=
-X-Gm-Gg: ASbGnctjur+zPWYiyVi+ywGVgWZQv+mzc8IBaVgYrHAZEXQV29FfA7zXy5OFUzgUPu3
-	AjEEpVNNN6lUjsadDGPopyKmJgbPz4Or+QC5mzt5rxTO1IwtvlRhlvdZXG8gDbNbGHRgWN5tF3m
-	qoo2+ocT9vScdcnzIC6GMGQHxmAENOO3Opm4Vuy9LHZzLXQXYviXxAcL5V5bRpSbRyLB8rcWPDc
-	sTviDixM/89r7sm6uQf309hlBgwC7yBD4EBfyySURcscvwvKgjMmfyXZIiVBfyyoCCnh2vDVPe+
-	AoP/EvkfSarTFs+IpdDw1JjObl2vRgdF5g9hmZkFJzag2OQNUTZLeTE=
-X-Google-Smtp-Source: AGHT+IEp+NL8KjaCqdJLkSqTmmab+u4WxdsC5LvvC6odn5b/wppdPeWMvLnufUZb2VnSyWDCxGmQVA==
-X-Received: by 2002:a05:600c:3c98:b0:434:fb65:ebbb with SMTP id 5b1f17b1804b1-438dc3c38dcmr84375125e9.17.1738276423846;
-        Thu, 30 Jan 2025 14:33:43 -0800 (PST)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-438dcc8a59dsm73532705e9.40.2025.01.30.14.33.42
+        bh=kKipKjwmAYHSpItleSKPId0JyA0V7zJvz2+mQe2PcFk=;
+        b=RBUiAdst5PUup2YlJccwTGN3AHsh8xlCedDDXcZwEwy36QQprFxRvTkdRBnmXrXPKN
+         vke1t8z9285W5CDktkp5+Vvh6938ZkWU4O0S5O97N7yZTmBcGS6G7DeOo/MMxDJK3qDp
+         NI3Qi83flHDcixZVH8lri+JPhl0QwLxf8wvufsMdQ5k1YvD7OkP/1Vb4ZrCtOEM14/J3
+         XlTUvcvD2wqsVb97FJc25Qpb8INOCdTpN75fSGhsdILVazMNeXVh/yfY7esh3Cex6S1k
+         7xO+/0c6wYkZYhX8tx/EVQu1v63bt9jCEjIO5RfxEeBjlBDaXaKKlx1UBHyJ3VxOUgVy
+         GQNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUrRkAAFG293+Q3a9YgMy/LRRVXZkXi8vKJvUsqBbbNguZo7LaOSUBlUrm5YIywnCxbRnhDwQyrrus6+GCS27bcig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHJnaWPQoQjbpQ72cGOBmyJOctt26+TGd+jJ7YqgN52+yInVI3
+	g0dRtq94xRA5AdOMXStz5hQ3eXVYyoJ5uR6is487ko3q0MUZ8nii0bWrWHOmk8s=
+X-Gm-Gg: ASbGnct+j42H7FJpanoCQyyKG2cO1mYjuRIzzf1Jnd5OTxRg6s9lwPvkOxOe5aHD/5M
+	cx/xQhJ9jX9Ww4fWPDgmQT0Z79NE/jpg+RFD3SGCO80VrVwEccxP23gd0/bB17mFuhYmXJ+GkKp
+	x4I+X4x/WAmxq+TgSXjaE3rNA1UVHREFyeeKkR4FqjMWvF0O8JUb+jpWK5lciPOvHn7Wgxc32Q+
+	pyXtI7H/dSjUqOnLGI+P8iXEUmNzFd6PM/KhjhDXQ6ysVHJTi4eaYYalGwZc1vS/cRF93HoouOe
+	b4YMysFLOCCyyXfTU8BHlmVR
+X-Google-Smtp-Source: AGHT+IFcX0KAMJy9mDTmsmnBGbqaMI8pUxKSFAWR413yvxqX324Lhy/8MDI3PwdZ8Dx+waNguOL2CQ==
+X-Received: by 2002:a05:600c:3b83:b0:436:e3ea:64dd with SMTP id 5b1f17b1804b1-438e6eff1fbmr11181485e9.11.1738278984176;
+        Thu, 30 Jan 2025 15:16:24 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.173])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c0ecc80sm3263917f8f.16.2025.01.30.15.16.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2025 14:33:42 -0800 (PST)
-Message-ID: <7d1bf72b-183a-429d-9a0c-10e1936a9abe@linaro.org>
-Date: Thu, 30 Jan 2025 23:33:41 +0100
+        Thu, 30 Jan 2025 15:16:23 -0800 (PST)
+Message-ID: <e7374f91-a65d-4882-8a9b-de478582e09e@tuxon.dev>
+Date: Fri, 31 Jan 2025 01:16:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,7 +83,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/6] thermal: of: Export non-devres helper to
  register/unregister thermal zone
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
 Cc: rafael@kernel.org, rui.zhang@intel.com, lukasz.luba@arm.com,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com,
@@ -100,160 +100,221 @@ References: <20250103163805.1775705-1-claudiu.beznea.uj@bp.renesas.com>
  <6ed7d545-82d7-4bca-95ec-95447586bb58@tuxon.dev>
  <b496d933-3c57-4b02-ab65-0582a30939af@linaro.org>
  <98ddf1b6-1804-4116-b4e2-f54a62c27966@tuxon.dev>
+ <7d1bf72b-183a-429d-9a0c-10e1936a9abe@linaro.org>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <98ddf1b6-1804-4116-b4e2-f54a62c27966@tuxon.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <7d1bf72b-183a-429d-9a0c-10e1936a9abe@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 30/01/2025 21:53, Claudiu Beznea wrote:
-> Hi, Daniel,
-> 
-> On 30.01.2025 19:24, Daniel Lezcano wrote:
->> On 30/01/2025 11:30, Claudiu Beznea wrote:
->>>
->>>
->>> On 30.01.2025 12:07, Daniel Lezcano wrote:
->>>> On Thu, Jan 30, 2025 at 11:08:03AM +0200, Claudiu Beznea wrote:
->>>>> Hi, Daniel,
+Hi, Daniel,
+
+On 31.01.2025 00:33, Daniel Lezcano wrote:
+> On 30/01/2025 21:53, Claudiu Beznea wrote:
+>> Hi, Daniel,
 >>
->> [ ... ]
->>
->>>>>> Would the IP need some cycles to capture the temperature accurately
->>>>>> after the
->>>>>> clock is enabled ?
->>>>>
->>>>> There is nothing about this mentioned about this in the HW manual of the
->>>>> RZ/G3S SoC. The only points mentioned are as described in the driver code:
->>>>> - wait at least 3us after each IIO channel read
->>>>> - wait at least 30us after enabling the sensor
->>>>> - wait at least 50us after setting OE bit in TSU_SM
->>>>>
->>>>> For this I chose to have it implemented as proposed.
+>> On 30.01.2025 19:24, Daniel Lezcano wrote:
+>>> On 30/01/2025 11:30, Claudiu Beznea wrote:
 >>>>
->>>> IMO, disabling/enabling the clock between two reads through the pm
->>>> runtime may
->>>> not be a good thing, especially if the system enters a thermal situation
->>>> where
->>>> it has to mitigate.
 >>>>
->>>> Without any testing capturing the temperatures and compare between the
->>>> always-on
->>>> and on/off, it is hard to say if it is true or not. Up to you to test
->>>> that or
->>>> not. If you think it is fine, then let's go with it.
+>>>> On 30.01.2025 12:07, Daniel Lezcano wrote:
+>>>>> On Thu, Jan 30, 2025 at 11:08:03AM +0200, Claudiu Beznea wrote:
+>>>>>> Hi, Daniel,
 >>>
->>> I tested it with and w/o the runtime PM and on/off support (so, everything
->>> ON from the probe) and the reported temperature values were similar.
+>>> [ ... ]
+>>>
+>>>>>>> Would the IP need some cycles to capture the temperature accurately
+>>>>>>> after the
+>>>>>>> clock is enabled ?
+>>>>>>
+>>>>>> There is nothing about this mentioned about this in the HW manual of the
+>>>>>> RZ/G3S SoC. The only points mentioned are as described in the driver
+>>>>>> code:
+>>>>>> - wait at least 3us after each IIO channel read
+>>>>>> - wait at least 30us after enabling the sensor
+>>>>>> - wait at least 50us after setting OE bit in TSU_SM
+>>>>>>
+>>>>>> For this I chose to have it implemented as proposed.
+>>>>>
+>>>>> IMO, disabling/enabling the clock between two reads through the pm
+>>>>> runtime may
+>>>>> not be a good thing, especially if the system enters a thermal situation
+>>>>> where
+>>>>> it has to mitigate.
+>>>>>
+>>>>> Without any testing capturing the temperatures and compare between the
+>>>>> always-on
+>>>>> and on/off, it is hard to say if it is true or not. Up to you to test
+>>>>> that or
+>>>>> not. If you think it is fine, then let's go with it.
+>>>>
+>>>> I tested it with and w/o the runtime PM and on/off support (so, everything
+>>>> ON from the probe) and the reported temperature values were similar.
+>>>
+>>>
+>>> Did you remove the roundup to 0.5°C ?
 >>
+>> I did the testing as suggested and, this time, collected results and
+>> compared side by side. I read the temperature for 10 minutes, 60 seconds
+>> after the Linux prompt showed up. There is, indeed, a slight difference b/w
+>> the 2 cases.
 >>
->> Did you remove the roundup to 0.5°C ?
+>> When the runtime PM doesn't touch the clocks on read the reported
+>> temperature varies b/w 53-54 degrees while when the runtime PM
+>> enables/disables the clocks a single read reported 55 degrees, the rest
+>> reported 54 degrees.
+>>
+>> I plotted the results side by side here:
+>> https://i2.paste.pics/f07eaeddc2ccc3c6695fe5056b52f4a2.png?
+>> trs=0a0eaab99bb59ebcb10051eb298f437c7cd50c16437a87392aebc16cd9013e18&rand=vWXm2VTrbt
+>>
+>> Please let me know how do you consider it.
 > 
-> I did the testing as suggested and, this time, collected results and
-> compared side by side. I read the temperature for 10 minutes, 60 seconds
-> after the Linux prompt showed up. There is, indeed, a slight difference b/w
-> the 2 cases.
+
+After sending this to you I figured it out that precision is lost somewhere
+so I re-tested it with the following diff (multiplied parts of the equation
+with 1000):
+
+diff --git a/drivers/thermal/renesas/rzg3s_thermal.c
+b/drivers/thermal/renesas/rzg3s_thermal.c
+index 6719f9ca05eb..84e18ff69d7c 100644
+--- a/drivers/thermal/renesas/rzg3s_thermal.c
++++ b/drivers/thermal/renesas/rzg3s_thermal.c
+@@ -83,7 +83,7 @@ static int rzg3s_thermal_get_temp(struct
+thermal_zone_device *tz, int *temp)
+        }
+
+        ret = 0;
+-       ts_code_ave = DIV_ROUND_CLOSEST(ts_code_ave, TSU_READ_STEPS);
++       ts_code_ave = DIV_ROUND_CLOSEST(MCELSIUS(ts_code_ave), TSU_READ_STEPS);
+
+        /*
+         * According to the HW manual (section 40.4.4 Procedure for
+Measuring the Temperature)
+@@ -91,11 +91,8 @@ static int rzg3s_thermal_get_temp(struct
+thermal_zone_device *tz, int *temp)
+         *
+         * Tj = (ts_code_ave - priv->calib0) * 165 / (priv->calib0 -
+priv->calib1) - 40
+         */
+-       *temp = DIV_ROUND_CLOSEST((ts_code_ave - priv->calib1) * 165,
+-                                 (priv->calib0 - priv->calib1)) - 40;
+-
+-       /* Report it in mili degrees Celsius and round it up to 0.5 degrees
+Celsius. */
+-       *temp = roundup(MCELSIUS(*temp), 500);
++       *temp = DIV_ROUND_CLOSEST((u64)(ts_code_ave -
+MCELSIUS(priv->calib1)) * MCELSIUS(165),
++                                 MCELSIUS(priv->calib0 - priv->calib1)) -
+MCELSIUS(40);
+
+ rpm_put:
+        pm_runtime_mark_last_busy(dev);
+
+With this, the results seems similar b/w runtime PM and no runtime PM cases.
+
+The tests were executed after the board was off for few hours. The
+first test was with runtime PM suspend/resume on each read. Then the board
+was rebooted and re-run the test w/o runtime PM suspend/resume on reads.
+
+Figure with results is here:
+https://i2.paste.pics/5f353a4f04b07b4bead3086624aba23f.png?trs=0a0eaab99bb59ebcb10051eb298f437c7cd50c16437a87392aebc16cd9013e18&rand=5n34QNjWID
+
+
+> Thanks for taking the time to provide a figure
 > 
-> When the runtime PM doesn't touch the clocks on read the reported
-> temperature varies b/w 53-54 degrees while when the runtime PM
-> enables/disables the clocks a single read reported 55 degrees, the rest
-> reported 54 degrees.
+> Testing thermal can be painful because it should be done under certain
+> conditions.
 > 
-> I plotted the results side by side here:
-> https://i2.paste.pics/f07eaeddc2ccc3c6695fe5056b52f4a2.png?trs=0a0eaab99bb59ebcb10051eb298f437c7cd50c16437a87392aebc16cd9013e18&rand=vWXm2VTrbt
+> I guess there was no particular work load on the system when running the
+> tests.
+
+No load, indeed.
+
 > 
-> Please let me know how do you consider it.
+> At the first glance, it seems, without the pm runtime, the measurement is
+> more precise as it catches more thermal changes. But the test does not give
+> information about the thermal behavior under stress. And one second
+> sampling is too long to really figure it out.
+> 
+> In the kernel source tree, there is a tool to read the temperature in an
+> optimized manner, you may want to use it to read the temperature at a
+> higher rate. It is located in tools/thermal/thermometer
+> 
+> Compiling is a bit fuzzy ATM, so until it is fixed, here are the steps:
+> 
+> (you should install libconfig-dev and libnl-3-dev packages).
+> 
+> cd $LINUX_DIR/tools/thermal/lib
+> make
+> LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LINUX_DIR/tools/thermal/lib
+> 
+> cd $LINUX_DIR/tools
+> make thermometer
+> 
+> 
+> 
+> Then change directory:
+> 
+> cd $LINUX_DIR/tools/thermal/thermometer
+> 
+> 
+> Run the tool:
+> 
+> ./thermometer -o out -c t.conf -l DEBUG -- <my_command>
+> 
+> 
+> The content of the configuration file t.conf is:
+> 
+> thermal-zones = (
+>           {    name = "cpu[0_9].*-thermal";
+>         polling = 100; }
+>       )
+> 
+> All the captured data will be in the 'out' directory
+> 
+> For 'my_command', I suggest to use a script containing:
+> 
+> sleep 10; dhrystone -t 1 -r 120; sleep 10
+> 
+> If you need the dhrystone binary, let me know.
+> 
+> The thermal zone device tree configuration should be changed to use a 65°C
+> passive trip point instead of 100°C (and the kernel setup with the step
+> wise governor as default).
+> 
+> The resulting figure from the temperature should show a flat temperature
+> figure during 10 seconds, then the temperature increasing until reaching
+> the temperature threshold of 65°C, the temperature stabilizing around it,
+> then followed by a temperature decreasing when the test finishes.
+> 
+> If the temperature does not reach the limit, decrease the trip point
+> temperature or increase the dhrystone duration (the -r 120 option)
+> 
+> At this point, you should the test with and without pm runtime but in order
+> to have consistent results, you should wait ~20 minutes between two tests.
+> 
+> The shape of the figures will give the immediate information about how the
+> mitigation vs thermal sensor vs cooling device behave.
+> 
+> Additionally, you can enable the thermal DEBUGFS option and add the
+> collected information statistics from /sys/kernel/debug/thermal/*** in the
+> results.
+> 
+> 
+> Hope that helps
 
-Thanks for taking the time to provide a figure
+Thank you for all these details. I'll have a look on it but starting with
+Monday as I won't have access to setup in the following days.
 
-Testing thermal can be painful because it should be done under certain 
-conditions.
+Thank you,
+Claudiu
 
-I guess there was no particular work load on the system when running the 
-tests.
+> 
+> 
+> 
+> 
+> 
+> 
 
-At the first glance, it seems, without the pm runtime, the measurement 
-is more precise as it catches more thermal changes. But the test does 
-not give information about the thermal behavior under stress. And one 
-second sampling is too long to really figure it out.
-
-In the kernel source tree, there is a tool to read the temperature in an 
-optimized manner, you may want to use it to read the temperature at a 
-higher rate. It is located in tools/thermal/thermometer
-
-Compiling is a bit fuzzy ATM, so until it is fixed, here are the steps:
-
-(you should install libconfig-dev and libnl-3-dev packages).
-
-cd $LINUX_DIR/tools/thermal/lib
-make
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LINUX_DIR/tools/thermal/lib
-
-cd $LINUX_DIR/tools
-make thermometer
-
-
-
-Then change directory:
-
-cd $LINUX_DIR/tools/thermal/thermometer
-
-
-Run the tool:
-
-./thermometer -o out -c t.conf -l DEBUG -- <my_command>
-
-
-The content of the configuration file t.conf is:
-
-thermal-zones = (
-	      {	name = "cpu[0_9].*-thermal";
-		polling = 100; }
-       )
-
-All the captured data will be in the 'out' directory
-
-For 'my_command', I suggest to use a script containing:
-
-sleep 10; dhrystone -t 1 -r 120; sleep 10
-
-If you need the dhrystone binary, let me know.
-
-The thermal zone device tree configuration should be changed to use a 
-65°C passive trip point instead of 100°C (and the kernel setup with the 
-step wise governor as default).
-
-The resulting figure from the temperature should show a flat temperature 
-figure during 10 seconds, then the temperature increasing until reaching 
-the temperature threshold of 65°C, the temperature stabilizing around 
-it, then followed by a temperature decreasing when the test finishes.
-
-If the temperature does not reach the limit, decrease the trip point 
-temperature or increase the dhrystone duration (the -r 120 option)
-
-At this point, you should the test with and without pm runtime but in 
-order to have consistent results, you should wait ~20 minutes between 
-two tests.
-
-The shape of the figures will give the immediate information about how 
-the mitigation vs thermal sensor vs cooling device behave.
-
-Additionally, you can enable the thermal DEBUGFS option and add the 
-collected information statistics from /sys/kernel/debug/thermal/*** in 
-the results.
-
-
-Hope that helps
-
-
-
-
-
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
 
