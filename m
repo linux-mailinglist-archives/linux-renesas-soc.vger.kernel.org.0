@@ -1,126 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-12782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12783-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC7CA23C27
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 11:22:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A582BA23CD7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 12:24:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBFFB188A593
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 10:22:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 335E7188740E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 11:24:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 560D51AC892;
-	Fri, 31 Jan 2025 10:22:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iwm9fkzt"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D1FD1BFE03;
+	Fri, 31 Jan 2025 11:24:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2254F1990CD;
-	Fri, 31 Jan 2025 10:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0F9A1BEF76;
+	Fri, 31 Jan 2025 11:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738318942; cv=none; b=Ne/2FKN8IIEG8TsQliw03pIc3wEGbLnfRN2WSguG1Afr5WIXk8U31Vcc5th0vz6Gb2hTYY8VUZ4ABBRMfoW6bUkSnRyb/hlOlq9wYaGhxFkxVCRCHdAu1Z4nYVc839JYyfie/rkvFBsDD8K6w8jUNO+O5ppH8afJ2JBsxS9H+cY=
+	t=1738322681; cv=none; b=TFOj2GKvq54PcXOHrj6BN8H9ViMoI8U1FUJ9kyw4aUNjgzuYKXqHR8lJQ0bYmqpJsmZ3VLPNDyvRM88hr1jNYDphTncg40BcJszd0XtHFubdb/hlQgM/cuycohNQjSO6tpFbZgC8Ci0qGYgEdA+ReBwoC2i8khemTi+VtfgbZnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738318942; c=relaxed/simple;
-	bh=D4jYMuaX4YLeAV+IoEx49fuETPL6+Eg1ZkXFb/fzVuU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Oq2dR8I4b+Zklc1PnXPDJRAsABZQ5pbAzAF839eifaUUUk0Xd8i3z6JPmlaI4afOsU4zTiO4gAsdOPSVmEeHKk0EDIHGCbjQQZ3tdri6eaS5rOc0rlVOAseg1VFfejyqRy7Nv3bCrxW12rScUSc6YM+ESkm5odGwPn2+v+cRb/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iwm9fkzt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32376C4CED1;
-	Fri, 31 Jan 2025 10:22:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738318941;
-	bh=D4jYMuaX4YLeAV+IoEx49fuETPL6+Eg1ZkXFb/fzVuU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Iwm9fkztwLY/7nLk8P4YSTmVA1JOdLCi51rYK8jHZjqOw3nLFjUIYnQuJzHfnh3xw
-	 wqKoMZI//tg1VgrG+fIwmbkQu4OX1rxOc8BLKTN06P/+yz5KwpTS2YTaRPabwhE9u5
-	 WtcbQm0Kt0go0aB/wWEgvldCmWTxjSpYPWSqtK5phInPcRznPaTiNZ4FdLyWFOlEPG
-	 6Zk2UGg9A6Hlt7J9dpgTdAjGct/bM57rT9FWSIR+DFRZZWUufbHUjBaiAQbTFiYFg0
-	 1ec6J+fFH1QamHLr2FyM7B7ZJqZTU18eMwU7WJiKg175dQ51Kj/rgHNok9fAD7ftfq
-	 8h67m2SihzVMQ==
-Message-ID: <cd34e225-b606-42a9-9afb-5e88760d4e75@kernel.org>
-Date: Fri, 31 Jan 2025 11:22:17 +0100
+	s=arc-20240116; t=1738322681; c=relaxed/simple;
+	bh=Sj4t5fRgIb5ZaiNWIY/URGjgf5gzl5XqYdNvYx+QV2g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bGr/ZvxXL7YVyuzOlH0N5MFlyulFRUq9ZHvBNIIBVcEB8ECxc+pQksEu0MWoHy2Mo2bU6s/8IHNfAxFYTF+SmNd+J+ige3d8yruUSsKNlEJK/wVyDkxqZAAzGjRb46CTRGMJceDI/Bu585TEEffe6F0XDmaOCGMoxdT8TuR+mGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: 5zf9B5YbSQ2OW8BgCbMgkg==
+X-CSE-MsgGUID: zr5LKEGcSm6aBCApGUOSEQ==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 31 Jan 2025 20:24:37 +0900
+Received: from localhost.localdomain (unknown [10.226.92.122])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0B24E4017BBB;
+	Fri, 31 Jan 2025 20:24:31 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2 0/8] Add RZ/G3E SDHI support
+Date: Fri, 31 Jan 2025 11:24:15 +0000
+Message-ID: <20250131112429.119882-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] arm64: renesas: add initial support for MYIR Remi
- Pi
-To: Julien Massot <julien.massot@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, kernel@collabora.com
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250131-myir-remi-pi-v3-0-2dda53e79291@collabora.com>
- <20250131-myir-remi-pi-v3-2-2dda53e79291@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250131-myir-remi-pi-v3-2-2dda53e79291@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 31/01/2025 10:58, Julien Massot wrote:
-> +
-> +	sdhi0_pins: sd0 {
-> +		sd0_data {
+The SD/MMC block on the RZ/G3E ("R9A09G047") SoC is similar to that
+of the RZ/V2H, but the SD0 channel has only dedicated pins, so we must
+use SD_STATUS register to control voltage and power enable (internal
+regulator).
 
+For SD1 and SD2 channel we can either use gpio regulator or internal
+regulator (using SD_STATUS register) for voltage switching.
 
-Same comments as before.
+For SD0, fixed voltage(eMMC) uses fixed regulator and non-fixed voltage
+(SD) uses internal regulator.
 
-See DTS coding style.
+v1->v2:
+ * Collected tags.
+ * Documented internal regulator as optional property for both RZ/G3E and
+   RZ/V2H SoCs.
+ * Updated commit description for regulator used in SD0 fixed and
+   non-fixed voltage case in patch#3.
+ * As the node enabling of internal regulator is controlled through status,
+   added a check for device availability.
+ * Status of internal regulator is disabled in the SoC .dtsi. Override
+   the status in the board DTS when needed.
+ * Added support for enabling SDHI internal regulator in RZ/V2H
+ * Added missing header file gpio.h
+ * Used fixed regulator for eMMC on SD0 and dropped sd0-iovs pins for
+   eMMC.
+ * Sorted pinctrl nodes for sd2
+ * Enabled internal regulator for SD2.
+ * Added support for enabling SD on SDHI0
+ * Replaced the regulator usd_vdd_3p3v->reg_3p3v.
+ * Renamed the gpio-hog node sd1-pwr-en->sd1-pwr-en-hog.
+ * Sorted sd1 pin ctrl nodes.
 
+Biju Das (8):
+  dt-bindings: mmc: renesas,sdhi: Document RZ/G3E support
+  mmc: renesas_sdhi: Arrange local variables in reverse xmas tree order
+  mmc: renesas_sdhi: Add support for RZ/G3E SoC
+  arm64: dts: renesas: r9a09g047: Add SDHI0-SDHI2 nodes
+  arm64: dts: renesas: r9a09g057: Add support for enabling SDHI internal
+    regulator
+  arm64: dts: renesas: rzg3e-smarc-som: Enable SDHI{0,2}
+  arm64: dts: renesas: rzg3e-smarc-som: Add support for enable SD on
+    SDHI0
+  arm64: dts: renesas: r9a09g047e57-smarc: Enable SDHI1
 
-Best regards,
-Krzysztof
+ .../devicetree/bindings/mmc/renesas,sdhi.yaml |  16 ++
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  60 +++++++
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  49 ++++++
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    |  21 +++
+ .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    |   4 +-
+ .../boot/dts/renesas/renesas-smarc2.dtsi      |  18 ++
+ .../boot/dts/renesas/rzg3e-smarc-som.dtsi     | 158 ++++++++++++++++++
+ drivers/mmc/host/renesas_sdhi.h               |   1 +
+ drivers/mmc/host/renesas_sdhi_core.c          | 136 ++++++++++++++-
+ drivers/mmc/host/tmio_mmc.h                   |   5 +
+ 10 files changed, 465 insertions(+), 3 deletions(-)
+
+-- 
+2.43.0
+
 
