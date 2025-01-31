@@ -1,56 +1,88 @@
-Return-Path: <linux-renesas-soc+bounces-12791-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDD4A23D27
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 12:30:58 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5BDA23E9D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 14:47:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D619C7A4FA7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 11:30:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9385188A400
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 13:47:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC8071C2443;
-	Fri, 31 Jan 2025 11:29:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 289F51C9B9B;
+	Fri, 31 Jan 2025 13:47:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 923AC1C173D;
-	Fri, 31 Jan 2025 11:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED4E1C5D5B
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 31 Jan 2025 13:47:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738322952; cv=none; b=PDykL5YIRaUJrwszLXFB2lDmDtbh2LPfc7cWCBRJmtKZxOtjUCQ8rMp8UlFnjgHKtaFaOH4mrXFWJlqrZR1IHYHQwbBAQdRzVtrKhSNIb9YvGrf4RyjgFG1TmOVn4wB5ZFAIRdQ6d2I7oBsCpYrQNIpw5lVn2DAG6J3QKsEIl9s=
+	t=1738331257; cv=none; b=HJOIeJuJqMYDEeVwuBlLgGkalP9sfxfWPsMX+rgV9nYeyW6Tvcitr4bJmviiN22H8hHdIpkOxYZGrSlPCJIReXjxm5+mfGwNpPuZ81b7ud5FIvCjIPs56tj0t5Ej2tKfCGzC/MYQ46cDmSr0Qqoy63Z6rFaVYTptfDk/0x0wLho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738322952; c=relaxed/simple;
-	bh=i1uj7+Uas0u6N3Sko6/zoEab3vA4a3EBIJ2E5MD2fhg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jzf/cvFzLdunFKe5R5kGdg/UqSiTV45M1C+gNfcFVguVpZaSy0HET7jApG5RmMzhSMd0F4mrjcZqSCeymcpON+q0MXyo4jWV1G3rA6FAeCz9iwcH7nFgneu5RpXmBa9fu5hmY1ACDyGeqC779LxpXHCStqi9xBykE8d7d7U9r+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: c5rCoLmwTg2G+3RwrjQPWw==
-X-CSE-MsgGUID: 7sf8hJ92Q4SLXxuQeCLpsg==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 31 Jan 2025 20:29:09 +0900
-Received: from localhost.localdomain (unknown [10.226.92.122])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8F56A42E4450;
-	Fri, 31 Jan 2025 20:28:55 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
+	s=arc-20240116; t=1738331257; c=relaxed/simple;
+	bh=xc3M33C0iwXkHtkGreXFYtXp9BYNda0pGb+ISZTOV/A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uVHq+cFlRZ4MnhfYFdl6Aq0h/mcI8EowLQcOGFBE/tbCVUc0VFli/vmk0K1QesSIxTNkkNgssQyCTIgLQRL4hOBPfIBZyFrF5X2AUleajCNB9cdVCWeAOij3E17X8pL1swk+LQXVu1IkaZObdtm468p+gYAkhC9cKArXjvboOww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4Ykxz84RXkz4x0f5
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 31 Jan 2025 14:47:32 +0100 (CET)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:a916:3147:9f19:c260])
+	by baptiste.telenet-ops.be with cmsmtp
+	id 7pmw2E00W0naHe801pmwxH; Fri, 31 Jan 2025 14:47:24 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tdrM6-0000000FHxr-1qQW;
+	Fri, 31 Jan 2025 14:46:56 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tdrMG-0000000DFVN-1Vog;
+	Fri, 31 Jan 2025 14:46:56 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S . Miller" <davem@davemloft.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Alex Elder <elder@ieee.org>
+Cc: linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 5/8] arm64: dts: renesas: r9a09g057: Add support for enabling SDHI internal regulator
-Date: Fri, 31 Jan 2025 11:28:46 +0000
-Message-ID: <20250131112849.120078-2-biju.das.jz@bp.renesas.com>
+	linux-crypto@vger.kernel.org,
+	qat-linux@intel.com,
+	linux-gpio@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/3] Non-const bitfield helpers
+Date: Fri, 31 Jan 2025 14:46:50 +0100
+Message-ID: <cover.1738329458.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250131112849.120078-1-biju.das.jz@bp.renesas.com>
-References: <20250131112849.120078-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -59,90 +91,88 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for enabling SDHI internal regulator, by overriding the
-status on the board DTS, when needed.
+	Hi all,
 
-While at it, rename the gpio regulator label vqmmc_sdhi1->vqmmc_sdhi1_gpio
-to avoid conflicts with internal regulator node names.
+This is an updated subset of a patch series I sent more than 3 years
+ago[1].
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2:
- * New patch.
----
- arch/arm64/boot/dts/renesas/r9a09g057.dtsi    | 21 +++++++++++++++++++
- .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    |  4 ++--
- 2 files changed, 23 insertions(+), 2 deletions(-)
+<linux/bitfield.h> contains various helpers for accessing bitfields, as
+typically used in hardware registers for memory-mapped I/O blocks.
+These helpers ensure type safety, and deduce automatically shift values
+from mask values, avoiding mistakes due to inconsistent shifts and
+masks, and leading to a reduction in source code size.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-index f7a2f8ca864f..3b8dae0b2eb6 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-@@ -602,6 +602,13 @@ sdhi0: mmc@15c00000  {
- 			resets = <&cpg 0xa7>;
- 			power-domains = <&cpg>;
- 			status = "disabled";
-+
-+			vqmmc_sdhi0: vqmmc-regulator {
-+				regulator-name = "SDHI0-VQMMC";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <3300000>;
-+				status = "disabled";
-+			};
- 		};
- 
- 		sdhi1: mmc@15c10000 {
-@@ -615,6 +622,13 @@ sdhi1: mmc@15c10000 {
- 			resets = <&cpg 0xa8>;
- 			power-domains = <&cpg>;
- 			status = "disabled";
-+
-+			vqmmc_sdhi1: vqmmc-regulator {
-+				regulator-name = "SDHI1-VQMMC";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <3300000>;
-+				status = "disabled";
-+			};
- 		};
- 
- 		sdhi2: mmc@15c20000 {
-@@ -628,6 +642,13 @@ sdhi2: mmc@15c20000 {
- 			resets = <&cpg 0xa9>;
- 			power-domains = <&cpg>;
- 			status = "disabled";
-+
-+			vqmmc_sdhi2: vqmmc-regulator {
-+				regulator-name = "SDHI2-VQMMC";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <3300000>;
-+				status = "disabled";
-+			};
- 		};
- 	};
- 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
-index 0b705c987b6c..1ecea3872e94 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
-@@ -53,7 +53,7 @@ reg_3p3v: regulator1 {
- 		regulator-always-on;
- 	};
- 
--	vqmmc_sdhi1: regulator-vccq-sdhi1 {
-+	vqmmc_sdhi1_gpio: regulator-vccq-sdhi1 {
- 		compatible = "regulator-gpio";
- 		regulator-name = "SDHI1 VccQ";
- 		gpios = <&pinctrl RZV2H_GPIO(A, 2) GPIO_ACTIVE_HIGH>;
-@@ -244,7 +244,7 @@ &sdhi1 {
- 	pinctrl-1 = <&sdhi1_pins>;
- 	pinctrl-names = "default", "state_uhs";
- 	vmmc-supply = <&reg_3p3v>;
--	vqmmc-supply = <&vqmmc_sdhi1>;
-+	vqmmc-supply = <&vqmmc_sdhi1_gpio>;
- 	bus-width = <4>;
- 	sd-uhs-sdr50;
- 	sd-uhs-sdr104;
+The existing FIELD_{GET,PREP}() macros are limited to compile-time
+constants.  However, it is very common to prepare or extract bitfield
+elements where the bitfield mask is not a compile-time constant.
+To avoid this limitation, the AT91 clock driver introduced its own
+field_{prep,get}() macros.  Hence my v1 series aimed to make them
+available for general use, and convert several drivers to the existing
+FIELD_{GET,PREP}() and the new field_{get,prep}() helpers.
+
+Due to some pushback (mostly centered around using the typed
+{u*,be*,le*,...}_get_bits() macros instead, which of course would
+require making them work with non-constant masks first, too), this
+series was never applied, and became buried deep in my TODO haystack...
+However, several people still liked the idea: since v1, multiple copies
+of the field_{prep,get}() macros appeared upstream, and one more is
+queued for v6.15.
+
+Hence I think it's time to revive and consolidate...
+
+Changes compared to v1:
+  - Cast val resp. reg to the mask type,
+  - Fix 64-bit use on 32-bit architectures,
+  - Convert new upstream users:
+      - drivers/crypto/intel/qat/qat_common/adf_gen4_pm_debugfs.c
+      - drivers/gpio/gpio-aspeed.c
+      - drivers/iio/temperature/mlx90614.c
+      - drivers/pinctrl/nuvoton/pinctrl-ma35.c
+      - sound/usb/mixer_quirks.c
+  - Convert new user queued in renesas-devel for v6.15:
+      - drivers/soc/renesas/rz-sysc.c
+  - Drop the last 14 RFC patches.
+    They can be updated/resubmitted/applied later.
+
+I can take all three patches through the Renesas tree, and provide an
+immutable branch with the first patch for ther interested parties.
+
+Thanks for your comments!
+
+[1] "[PATCH 00/17] Non-const bitfield helper conversions"
+    https://lore.kernel.org/all/cover.1637592133.git.geert+renesas@glider.be
+
+Geert Uytterhoeven (3):
+  bitfield: Add non-constant field_{prep,get}() helpers
+  clk: renesas: Use bitfield helpers
+  soc: renesas: Use bitfield helpers
+
+ drivers/clk/at91/clk-peripheral.c             |  1 +
+ drivers/clk/at91/pmc.h                        |  3 --
+ drivers/clk/renesas/clk-div6.c                |  6 ++--
+ drivers/clk/renesas/rcar-gen3-cpg.c           | 15 +++-----
+ drivers/clk/renesas/rcar-gen4-cpg.c           |  9 ++---
+ .../qat/qat_common/adf_gen4_pm_debugfs.c      |  8 +----
+ drivers/gpio/gpio-aspeed.c                    |  5 +--
+ drivers/iio/temperature/mlx90614.c            |  5 +--
+ drivers/pinctrl/nuvoton/pinctrl-ma35.c        |  4 ---
+ drivers/soc/renesas/renesas-soc.c             |  4 +--
+ drivers/soc/renesas/rz-sysc.c                 |  3 +-
+ include/linux/bitfield.h                      | 34 +++++++++++++++++++
+ sound/usb/mixer_quirks.c                      |  4 ---
+ 13 files changed, 52 insertions(+), 49 deletions(-)
+
 -- 
 2.43.0
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
