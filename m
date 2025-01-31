@@ -1,167 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-12777-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12778-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB70A23BAD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 10:53:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA77A23BBC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 10:58:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 280161889FDC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 09:53:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE23916430C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 09:58:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90BC51A08B5;
-	Fri, 31 Jan 2025 09:53:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C38D7195FE8;
+	Fri, 31 Jan 2025 09:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VSwbDH9M"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7525D199223;
-	Fri, 31 Jan 2025 09:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD382158875;
+	Fri, 31 Jan 2025 09:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738317209; cv=none; b=PKX7bAiAu26RfPlEX6pNgaTNM/Nwcbemjt1lFz0LJMyBGM0CRsIiJj9RQylE2ukTzrdI9SzMwZ/vUEhjVUTKT9H4gyMJejOERSyROgOOaRJVGJNpPfsSnzdvad+Twl/epWQ//q9qnpvMrJaD3BtwFlRkj6a5+59ImtOUXaOsdTc=
+	t=1738317486; cv=none; b=Y6eiIu9qDXYedw2FzK9d59/UNIThSPcqSP05XObcjcWVQg7d0OEh0JjlwTK7gxZTHxYaCGlZN5dZYAdvINW3Z7S5SlIZvcEWnJKKssw7o9eZPtracp3XtT8n7n/mi/RfPHL+uIPlpZCDvaweM9XiTE2Fgcyo/AizHEa0juIWy2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738317209; c=relaxed/simple;
-	bh=OJ9M0fx8f061oFJ5AwEPS5f50xIUEZg/bNTDXpQnMKI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Thgdkkr9xfKhFVqmbUYq4j/UeA1bKn06ju33BpumG/gD7TeuxOPuMoUIPjQmSXrYHvYsqREhnBuiqyg7atE7kFV2ufb0EbVijwPMmu9Up3gay5ZHudonFV2kvSm4rv09Tr8+AIrZhw4pCJ22snGZLR+UGQF6gvGi+iqTYr/aY1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5187f0b893dso557477e0c.3;
-        Fri, 31 Jan 2025 01:53:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738317205; x=1738922005;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=o58uTMMNFS4Q0L85ZfDPFylZSbgHXx097G7NyDQv2i8=;
-        b=q7BR/WrdVXMUT0rTsb3FpNKZFnvFyEx3+gNV7RRn4WjHQpAV9s5Hab5pB3KA641GA2
-         Msq0PXrhKj4f+i14ctFlMP8i1fSkJ717SVYc03N2/SQhZCHEJG0iFGNbEJiMkorDLl7n
-         6tYz+0SeklDdTMf3m++dHJo04qzH27D2j0xiEnQrZoHUlS+0XwSzdZlQaZMgVg5kczI8
-         zAyPoGoYJ9SoFLE4aL+kCjGvRaKF3shJgSYsKvW5nX1Mld3s1grPbaHnv8kzLTY/XtT6
-         foKL9Rjj0B1SPV7lT1zWohpU9fo9QbPx4lgW9RAH2J0OZGoCkHCYli/II/h3Jgkg6R6y
-         1JNw==
-X-Forwarded-Encrypted: i=1; AJvYcCVJCh7vM0hBsVQdze2sEXITpUHnndkQtHtKm07J3p5Tis0ol4HH865XQz39+ODy3pM5dxxkR0NzDoqe@vger.kernel.org, AJvYcCWDFgA7t10RoU33fs3pWLKMpJHWX+kVMoNLpetySvLxBJ+6suiCJI7wNjhNrbWArYcbXyO1N/POxU7KNFCMYrH6v8M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCcMM7mjA11b7e+xYUh8NSO7F22CnoP45xAfAAsqwNu6nfgu/x
-	FYp6oZeNHUgaMLo1JHbfH8Fz8A48hTtr9yman3k4JWAJlGV2p2UknUdJ+x2updU=
-X-Gm-Gg: ASbGncskZw6tZTYfX9QXaNlmrLV4ZdtMn34I0MrVU3nKkn83tu/ez3U4XpP6c1/nvtm
-	SCKbyrQOBn8B4DKPNXwQO8yq2e2x5XvegMUWMU/aVRgPkze4XwkDFip6p3V4+zQkzDgnursTAGu
-	QIXciYwO5U3JML3YNiupTciJ2IyW3AsnGPQA/ZYaPkGv6IsLCSUnSawuKXxdq5dpFD6BMgMGRDj
-	xDCI4GnuVsHxQqsYPrEv/NjAZPKwna7/ISKl5/brfeWD8Aq3Ky8SOTZ0Z355Z8seCdr+J/Wmv5J
-	QU9xHdsOj0o10IaHs0zXcjTN+A/aUjjH7jW46i0MfPIz59MMny1l4w==
-X-Google-Smtp-Source: AGHT+IE1WlxdUMwaUnS0laEw9w1wmuW0YDLBoeF9pTg5u1dDHlCxc+whaFLD1NcllQhdjSnOzT8GBg==
-X-Received: by 2002:a05:6122:238c:b0:50d:5e21:ef39 with SMTP id 71dfb90a1353d-51e9e3e8c6fmr7649659e0c.1.1738317205094;
-        Fri, 31 Jan 2025 01:53:25 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51eb1be84ddsm473752e0c.9.2025.01.31.01.53.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jan 2025 01:53:24 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-85c4c9349b3so474783241.3;
-        Fri, 31 Jan 2025 01:53:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX8qT8GzGPA2NTupU1ZofGRWYe4ui3gfu0DLuZ68wiDnZdrBjVUkQRxUzWHhJ6YnoT4jMg9Mp/uRgLX@vger.kernel.org, AJvYcCXXiwSqCcckUCPZs4t9O9D9JMDBOwBjXYqCIenZ/6z5mCc/Dgp4RW6OW897R4RhG3Fb6x1t+Sd1Egmk1u1ZKKB1miU=@vger.kernel.org
-X-Received: by 2002:a05:6102:3ed5:b0:4b2:5d10:2cc6 with SMTP id
- ada2fe7eead31-4b9a4f23e07mr7603457137.6.1738317204143; Fri, 31 Jan 2025
- 01:53:24 -0800 (PST)
+	s=arc-20240116; t=1738317486; c=relaxed/simple;
+	bh=/T9gtw9NlYmosYncUfToBkjbHu4CZfqvnznaVEIlP6w=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YT7hkGI/MjlTmtSPCX9W5KuoRWpIvVedsehTyb9hgvovN80PGVzG0QvpmeWKuX4w41+gSWS0b02hbM3AUlhhH/LCVzLJVNEv8DllfEHFgVDBqIjV/47DAvaVPyXdcnHnmoks/1tndsgpUfkS9P0Iumj/e31jZMzYRAuFmYOw9JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VSwbDH9M; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1738317482;
+	bh=/T9gtw9NlYmosYncUfToBkjbHu4CZfqvnznaVEIlP6w=;
+	h=From:Subject:Date:To:Cc:From;
+	b=VSwbDH9Mv9WCDLnqt770xu+bh4y19cwpj+iUisr9xSm8VPnKgYghmZsUQ4+o+l4nK
+	 oSHzSxuGYmosJ6OBGgUT9S3LX0KHecf0E/r+Te7J5IIxwfJzLGpSlcZWAyexy55gA8
+	 tJsS5jpFN8rarXBcxFEML7uTNuD06eJcqeNpFoYWigD8o99ELj8mvUXtF842X4W9ey
+	 xjOxiLrRWlVWl064OrzhK9XN7DpgKOaY1dlJZWH4ItH6CthJDu0c8XJlir1/gyn6s/
+	 noezWAKAMl0s46da0y1PB5GzVlDtTqmnv/m4bBbip640d2dvA5MZmm7LuZfVPNQeQl
+	 3qozCRd28A4ew==
+Received: from apertis-1.home (2a01cb088cca73006086f5F072C6A07a.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:8cca:7300:6086:f5f0:72c6:a07a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 59AF417E0FC3;
+	Fri, 31 Jan 2025 10:58:02 +0100 (CET)
+From: Julien Massot <julien.massot@collabora.com>
+Subject: [PATCH v3 0/2] Add basic support for MYIR Remi Pi
+Date: Fri, 31 Jan 2025 10:57:58 +0100
+Message-Id: <20250131-myir-remi-pi-v3-0-2dda53e79291@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250131094812.118340-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250131094812.118340-1-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 31 Jan 2025 10:53:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWyEEPLTc7y+3PP2xWH8e0Ho-fxpO2=SgxW0O6+S0pAAQ@mail.gmail.com>
-X-Gm-Features: AWEUYZmGjIbMT5HT7Ryhuh9-zuTjarNP4o4GHQiQZq3NCHMcWFbcty6bTmSHSqI
-Message-ID: <CAMuHMdWyEEPLTc7y+3PP2xWH8e0Ho-fxpO2=SgxW0O6+S0pAAQ@mail.gmail.com>
-Subject: Re: [PATCH] of: base: Add of_get_available_child_by_name()
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKaenGcC/3XMQQqDMBCF4atI1k1JRmO0q96jdBHjWAfUSFJCR
+ bx7o6sidPk/eN/KAnrCwG7ZyjxGCuSmFPklY7Y30ws5takZCFBCAvBxIc89jsRn4nXRlkKpTlW
+ 6Zukye+zoc3CPZ+qewtv55dCj3Nc/UJRccIFFgdI2lanF3bphMI3z5mrdyHYswi+gTwAkQDdtb
+ qQtQSs4A9u2fQEMZU087QAAAA==
+X-Change-ID: 20250122-myir-remi-pi-94d6055f5879
+To: Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, kernel@collabora.com
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Julien Massot <julien.massot@collabora.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
 
-Hi Biju,
+The Remi Pi is a compact board based on the Renesas RZ/G2L SoC.
 
-On Fri, 31 Jan 2025 at 10:48, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> There are lot of drivers using of_get_child_by_name() followed
-> by of_device_is_available() to check the child node availabilty
-> by name for a given parent. Provide a helper for these users to
-> simplify the code.
->
-> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+This initial patchset add support for basic functions:
+     - UART
+     - I2C
+     - HDMI
+     - Ethernet
 
-Thanks for your patch!
+More work is needed to support the remaining functions such as
+USB Type C, SD card, Audio, Wi-Fi and Bluetooth.
 
-> --- a/drivers/of/base.c
-> +++ b/drivers/of/base.c
-> @@ -824,6 +824,34 @@ struct device_node *of_get_child_by_name(const struct device_node *node,
->  }
->  EXPORT_SYMBOL(of_get_child_by_name);
->
-> +/**
-> + * of_get_available_child_by_name - Find the child node availabilty by name for a given parent
+Some schematics are available at https://down.myir-tech.com/RemiPi/
 
-available child node?
+Signed-off-by: Julien Massot <julien.massot@collabora.com>
+---
+Changes in v3:
+- Use 'MYIR' spelling consistently
+- Removed: scif1, and scif2 nodes, and enable scif4
+- Changed regulator-1p8v vin-supply to reg_5p0v
+- Added 'reset-gpios' for boh ethernet phys
+- Dropped unused 'spi0' pinctrl
+- Removed 'sdhi0_pins_uhs' duplicated pinctrl
+- Removed 'usb1_pins' they are not mentionned in the schematics
+- Sort all the references to nodes alphabetically
+- Link to v2: https://lore.kernel.org/r/20250127-myir-remi-pi-v2-0-7bd3a1c62752@collabora.com
 
-> + * @node:      parent node
-> + * @name:      child name to look for.
-> + *
-> + * This function looks for child node for given matching name and check the
+Changes in v2:
+- Reorder Makefile entry to be sorted
+- Remove underscore from DT nodes names
+- Fix compatible for ethernet nodes and remove uneeded properties
+- Remove uneeded x1-clock
+- Link to v1: https://lore.kernel.org/r/20250122-myir-remi-pi-v1-0-0e44e1cb8a90@collabora.com
 
-checks
+---
+Julien Massot (2):
+      dt-bindings: soc: renesas: Document MYIR Remi Pi board
+      arm64: renesas: add initial support for MYIR Remi Pi
 
-> + * device availability for use.
+ .../devicetree/bindings/soc/renesas/renesas.yaml   |   7 +
+ arch/arm64/boot/dts/renesas/Makefile               |   1 +
+ .../arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dts | 351 +++++++++++++++++++++
+ 3 files changed, 359 insertions(+)
+---
+base-commit: c4b9570cfb63501638db720f3bee9f6dfd044b82
+change-id: 20250122-myir-remi-pi-94d6055f5879
 
-device's
-
-> + *
-> + * Return: A node pointer if found, with refcount incremented, use
-> + * of_node_put() on it when done.
-> + * Returns NULL if node is not found.
-> + */
-> +struct device_node *of_get_available_child_by_name(const struct device_node *node,
-> +                                                  const char *name)
-> +{
-> +       struct device_node *child;
-> +
-> +       for_each_child_of_node(node, child)
-> +               if (of_node_name_eq(child, name))
-> +                       break;
-
-child = of_get_child_by_name(node, name);
-
-> +
-> +       if (child && !of_device_is_available(child))
-> +               of_node_put(child);
-
-Missing return NULL.
-
-> +
-> +       return child;
-> +}
-> +EXPORT_SYMBOL(of_get_available_child_by_name);
-> +
->  struct device_node *__of_find_node_by_path(const struct device_node *parent,
->                                                 const char *path)
->  {
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+Best regards,
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Julien Massot <julien.massot@collabora.com>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
