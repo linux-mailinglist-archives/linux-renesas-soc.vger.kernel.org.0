@@ -1,320 +1,213 @@
-Return-Path: <linux-renesas-soc+bounces-12767-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12768-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37705A237B3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 00:16:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1CFA23845
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 01:33:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97478164CD2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2025 23:16:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D51E416404F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jan 2025 00:33:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7E741F12F9;
-	Thu, 30 Jan 2025 23:16:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D57E49479;
+	Fri, 31 Jan 2025 00:33:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="MLjAIdE0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Es+yEPOS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6B71482E1
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 23:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3833ECF
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 31 Jan 2025 00:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738278989; cv=none; b=Hcc2/NcJxAynwfQBQLXEAJMGBw7E6NESaAicH+XZmZjpLMSlUdd6rczGpzBAHouw5nVIr17teqbBSk38Ew2XPpP3kpifsIqYgrRKNhEbca1XAc5b3etZcA0vxHSNXW7Hs9qRYCIx7XGDhNSgVkBTrcFso9hFFetdjZ/JA8PzJK8=
+	t=1738283621; cv=none; b=Mx2VyHZoipqx6K4M6PUTC4bdebSPN5XaEdJTbHnfTXlpL/aMwfYl1pIKaBlzJyuFAjoDVuBW/eD1Q3+n7/l/TUQmRVLSWnZ6EU4tQ75uasLehoXLH68u8FvKchiTT7/DmiqLQDCqOKPv4MYB/bO4bSnZvdwI98S3YUcm/Z1s3GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738278989; c=relaxed/simple;
-	bh=TGahVvidfwxP6TepVdPQTcGpGmgLsnQxPjpRz+CZAFc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h2M40MR/O3Fvh6jkTl9irQ6uSI2uq99IltvHth4Sv/3WqipfD2ej3ZTuIjBWwQw25icr6hfaIXdJZiSk+Go2cd26+ZGA1OyE+wJruXc2rhVDOzO3fRohlYqJihG2q7pgRBVvn15ccepm3FGVzw7/YybT91omm96Cl/Gcx8FnAww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=MLjAIdE0; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43626213fffso16286645e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2025 15:16:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1738278984; x=1738883784; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kKipKjwmAYHSpItleSKPId0JyA0V7zJvz2+mQe2PcFk=;
-        b=MLjAIdE0bylsUNSGJSESLj3wBUGEji1zgn06/qPyMPOCUntKk8Od+sUK5F/IZ60XV7
-         BLDOTLmOuyaZLrkt8eTQfNk+WpMLz6cOvZ+NlJEKBFmNye2XK9F7FQweTOiz4pOFnJ+O
-         839VJxQ0VVOR4nkcmzPdAbk+PVqi/8GG/lHrwBHADWjE42LwI42Vd/e88qyDhPykm03t
-         F1xoLOr5Wa+FXDhBUOfK9dgZPM5de2VzjyHsastItVpeUXw8UYdTEwqqpFH5t1158yD+
-         9Dfb8ZNxrjqaxvgTYELht8Bpu+B2JhR3sNIYgH335q9pxbvfaK4MUM1bCJu6ua/p5IEW
-         RwDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738278984; x=1738883784;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kKipKjwmAYHSpItleSKPId0JyA0V7zJvz2+mQe2PcFk=;
-        b=RBUiAdst5PUup2YlJccwTGN3AHsh8xlCedDDXcZwEwy36QQprFxRvTkdRBnmXrXPKN
-         vke1t8z9285W5CDktkp5+Vvh6938ZkWU4O0S5O97N7yZTmBcGS6G7DeOo/MMxDJK3qDp
-         NI3Qi83flHDcixZVH8lri+JPhl0QwLxf8wvufsMdQ5k1YvD7OkP/1Vb4ZrCtOEM14/J3
-         XlTUvcvD2wqsVb97FJc25Qpb8INOCdTpN75fSGhsdILVazMNeXVh/yfY7esh3Cex6S1k
-         7xO+/0c6wYkZYhX8tx/EVQu1v63bt9jCEjIO5RfxEeBjlBDaXaKKlx1UBHyJ3VxOUgVy
-         GQNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrRkAAFG293+Q3a9YgMy/LRRVXZkXi8vKJvUsqBbbNguZo7LaOSUBlUrm5YIywnCxbRnhDwQyrrus6+GCS27bcig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHJnaWPQoQjbpQ72cGOBmyJOctt26+TGd+jJ7YqgN52+yInVI3
-	g0dRtq94xRA5AdOMXStz5hQ3eXVYyoJ5uR6is487ko3q0MUZ8nii0bWrWHOmk8s=
-X-Gm-Gg: ASbGnct+j42H7FJpanoCQyyKG2cO1mYjuRIzzf1Jnd5OTxRg6s9lwPvkOxOe5aHD/5M
-	cx/xQhJ9jX9Ww4fWPDgmQT0Z79NE/jpg+RFD3SGCO80VrVwEccxP23gd0/bB17mFuhYmXJ+GkKp
-	x4I+X4x/WAmxq+TgSXjaE3rNA1UVHREFyeeKkR4FqjMWvF0O8JUb+jpWK5lciPOvHn7Wgxc32Q+
-	pyXtI7H/dSjUqOnLGI+P8iXEUmNzFd6PM/KhjhDXQ6ysVHJTi4eaYYalGwZc1vS/cRF93HoouOe
-	b4YMysFLOCCyyXfTU8BHlmVR
-X-Google-Smtp-Source: AGHT+IFcX0KAMJy9mDTmsmnBGbqaMI8pUxKSFAWR413yvxqX324Lhy/8MDI3PwdZ8Dx+waNguOL2CQ==
-X-Received: by 2002:a05:600c:3b83:b0:436:e3ea:64dd with SMTP id 5b1f17b1804b1-438e6eff1fbmr11181485e9.11.1738278984176;
-        Thu, 30 Jan 2025 15:16:24 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.173])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c0ecc80sm3263917f8f.16.2025.01.30.15.16.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2025 15:16:23 -0800 (PST)
-Message-ID: <e7374f91-a65d-4882-8a9b-de478582e09e@tuxon.dev>
-Date: Fri, 31 Jan 2025 01:16:21 +0200
+	s=arc-20240116; t=1738283621; c=relaxed/simple;
+	bh=wh+S/nnaSlX1WcviUNZ1Axr4jaZDoit5U6jF/OnkrZw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uUs816Z/LdoPxek0V0on4xtYwBHXuduZ2JDzSr8d77e18zyNGPHhF+TAf45AJZXeQoxZGAM+zb4hDwelLHUr4g3lnzcumyJMa7lHjEq1XNsVh+cEGHVFM4QLJcQ8l+CTsSL5tbr3aHHxxxBhd1gSj0jDrEtfcoTLO53WH4e+pOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Es+yEPOS; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738283619; x=1769819619;
+  h=date:from:to:cc:subject:message-id;
+  bh=wh+S/nnaSlX1WcviUNZ1Axr4jaZDoit5U6jF/OnkrZw=;
+  b=Es+yEPOSUJ576e68GFEHbGpMtM+VHYMEl3RfHfMA8ZJZ7cYE2l95L/Ss
+   YGPnI8bZFoGIsgKzyui2siUrNQpKIQqdrRWAP4/4nDV/QvwmxMPpdyyum
+   RVcIy3Q3attOxSEHPAglEqzU7136KGmQH0DEdu1ThfjG5Sp7iQjegyDra
+   iQ0dbPVok1RJZrtChOToIIpRhsaXjq/eRnxqAB/vnxVJp2gYbrHhbETOe
+   Hn4vcHK54PER7hPll1Dy46z//50vHh4WLFd+HgGbtA2lHVPmgISJ9d5Vs
+   Yx8wpiF0zjVpYSiZdPdvwwRqVPITL9YbhrsrWyLEhWv1tFbi1x08Br++x
+   Q==;
+X-CSE-ConnectionGUID: 3Jy2NsNlQnyH8yuUuYaU8A==
+X-CSE-MsgGUID: UGgZ44FPQYahcwK6HVag4Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="64218038"
+X-IronPort-AV: E=Sophos;i="6.13,246,1732608000"; 
+   d="scan'208";a="64218038"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 16:33:39 -0800
+X-CSE-ConnectionGUID: xUDDD4LVQHuGewawBXIuPA==
+X-CSE-MsgGUID: VIlR273QTjC2SqwKdARWNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,246,1732608000"; 
+   d="scan'208";a="109440498"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 30 Jan 2025 16:33:38 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tdeyV-000lSV-2u;
+	Fri, 31 Jan 2025 00:33:35 +0000
+Date: Fri, 31 Jan 2025 08:32:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-drivers-for-v6.15] BUILD
+ SUCCESS 4e8a5f545765a036e7b0e65872b0efce45a043ee
+Message-ID: <202501310848.D41OmVjj-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] thermal: of: Export non-devres helper to
- register/unregister thermal zone
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: rafael@kernel.org, rui.zhang@intel.com, lukasz.luba@arm.com,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com,
- sboyd@kernel.org, p.zabel@pengutronix.de, ulf.hansson@linaro.org,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250103163805.1775705-1-claudiu.beznea.uj@bp.renesas.com>
- <20250103163805.1775705-3-claudiu.beznea.uj@bp.renesas.com>
- <Z5pkUNNvsWPjRQvy@mai.linaro.org>
- <65a16c3f-456e-40ec-91b0-afb57269ed46@tuxon.dev>
- <Z5tPR_tv7vWDkUI7@mai.linaro.org>
- <6ed7d545-82d7-4bca-95ec-95447586bb58@tuxon.dev>
- <b496d933-3c57-4b02-ab65-0582a30939af@linaro.org>
- <98ddf1b6-1804-4116-b4e2-f54a62c27966@tuxon.dev>
- <7d1bf72b-183a-429d-9a0c-10e1936a9abe@linaro.org>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <7d1bf72b-183a-429d-9a0c-10e1936a9abe@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Hi, Daniel,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v6.15
+branch HEAD: 4e8a5f545765a036e7b0e65872b0efce45a043ee  soc: renesas: r9a09g057-sys: Add a callback to print SoC-specific extra features
 
-On 31.01.2025 00:33, Daniel Lezcano wrote:
-> On 30/01/2025 21:53, Claudiu Beznea wrote:
->> Hi, Daniel,
->>
->> On 30.01.2025 19:24, Daniel Lezcano wrote:
->>> On 30/01/2025 11:30, Claudiu Beznea wrote:
->>>>
->>>>
->>>> On 30.01.2025 12:07, Daniel Lezcano wrote:
->>>>> On Thu, Jan 30, 2025 at 11:08:03AM +0200, Claudiu Beznea wrote:
->>>>>> Hi, Daniel,
->>>
->>> [ ... ]
->>>
->>>>>>> Would the IP need some cycles to capture the temperature accurately
->>>>>>> after the
->>>>>>> clock is enabled ?
->>>>>>
->>>>>> There is nothing about this mentioned about this in the HW manual of the
->>>>>> RZ/G3S SoC. The only points mentioned are as described in the driver
->>>>>> code:
->>>>>> - wait at least 3us after each IIO channel read
->>>>>> - wait at least 30us after enabling the sensor
->>>>>> - wait at least 50us after setting OE bit in TSU_SM
->>>>>>
->>>>>> For this I chose to have it implemented as proposed.
->>>>>
->>>>> IMO, disabling/enabling the clock between two reads through the pm
->>>>> runtime may
->>>>> not be a good thing, especially if the system enters a thermal situation
->>>>> where
->>>>> it has to mitigate.
->>>>>
->>>>> Without any testing capturing the temperatures and compare between the
->>>>> always-on
->>>>> and on/off, it is hard to say if it is true or not. Up to you to test
->>>>> that or
->>>>> not. If you think it is fine, then let's go with it.
->>>>
->>>> I tested it with and w/o the runtime PM and on/off support (so, everything
->>>> ON from the probe) and the reported temperature values were similar.
->>>
->>>
->>> Did you remove the roundup to 0.5°C ?
->>
->> I did the testing as suggested and, this time, collected results and
->> compared side by side. I read the temperature for 10 minutes, 60 seconds
->> after the Linux prompt showed up. There is, indeed, a slight difference b/w
->> the 2 cases.
->>
->> When the runtime PM doesn't touch the clocks on read the reported
->> temperature varies b/w 53-54 degrees while when the runtime PM
->> enables/disables the clocks a single read reported 55 degrees, the rest
->> reported 54 degrees.
->>
->> I plotted the results side by side here:
->> https://i2.paste.pics/f07eaeddc2ccc3c6695fe5056b52f4a2.png?
->> trs=0a0eaab99bb59ebcb10051eb298f437c7cd50c16437a87392aebc16cd9013e18&rand=vWXm2VTrbt
->>
->> Please let me know how do you consider it.
-> 
+elapsed time: 787m
 
-After sending this to you I figured it out that precision is lost somewhere
-so I re-tested it with the following diff (multiplied parts of the equation
-with 1000):
+configs tested: 120
+configs skipped: 4
 
-diff --git a/drivers/thermal/renesas/rzg3s_thermal.c
-b/drivers/thermal/renesas/rzg3s_thermal.c
-index 6719f9ca05eb..84e18ff69d7c 100644
---- a/drivers/thermal/renesas/rzg3s_thermal.c
-+++ b/drivers/thermal/renesas/rzg3s_thermal.c
-@@ -83,7 +83,7 @@ static int rzg3s_thermal_get_temp(struct
-thermal_zone_device *tz, int *temp)
-        }
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-        ret = 0;
--       ts_code_ave = DIV_ROUND_CLOSEST(ts_code_ave, TSU_READ_STEPS);
-+       ts_code_ave = DIV_ROUND_CLOSEST(MCELSIUS(ts_code_ave), TSU_READ_STEPS);
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20250130    gcc-13.2.0
+arc                   randconfig-002-20250130    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                   randconfig-001-20250130    gcc-14.2.0
+arm                   randconfig-002-20250130    clang-20
+arm                   randconfig-003-20250130    gcc-14.2.0
+arm                   randconfig-004-20250130    clang-20
+arm                        realview_defconfig    clang-19
+arm                        shmobile_defconfig    gcc-14.2.0
+arm                        vexpress_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250130    clang-20
+arm64                 randconfig-002-20250130    gcc-14.2.0
+arm64                 randconfig-003-20250130    clang-20
+arm64                 randconfig-004-20250130    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250130    gcc-14.2.0
+csky                  randconfig-002-20250130    gcc-14.2.0
+hexagon                          allmodconfig    clang-20
+hexagon                           allnoconfig    clang-20
+hexagon               randconfig-001-20250130    clang-20
+hexagon               randconfig-002-20250130    clang-20
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250130    clang-19
+i386        buildonly-randconfig-002-20250130    clang-19
+i386        buildonly-randconfig-003-20250130    gcc-11
+i386        buildonly-randconfig-004-20250130    gcc-12
+i386        buildonly-randconfig-005-20250130    gcc-12
+i386        buildonly-randconfig-006-20250130    gcc-12
+i386                                defconfig    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250130    gcc-14.2.0
+loongarch             randconfig-002-20250130    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                           ip22_defconfig    gcc-14.2.0
+mips                           jazz_defconfig    clang-21
+nios2                 randconfig-001-20250130    gcc-14.2.0
+nios2                 randconfig-002-20250130    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                              defconfig    gcc-14.2.0
+parisc                randconfig-001-20250130    gcc-14.2.0
+parisc                randconfig-002-20250130    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-16
+powerpc                        fsp2_defconfig    gcc-14.2.0
+powerpc               randconfig-001-20250130    gcc-14.2.0
+powerpc               randconfig-002-20250130    clang-16
+powerpc               randconfig-003-20250130    gcc-14.2.0
+powerpc64             randconfig-001-20250130    gcc-14.2.0
+powerpc64             randconfig-002-20250130    clang-21
+powerpc64             randconfig-003-20250130    clang-21
+riscv                            allmodconfig    clang-21
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-21
+riscv                               defconfig    clang-19
+riscv                 randconfig-001-20250131    clang-19
+riscv                 randconfig-002-20250131    clang-21
+s390                             alldefconfig    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.2.0
+s390                                defconfig    clang-15
+s390                  randconfig-001-20250131    clang-16
+s390                  randconfig-002-20250131    gcc-14.2.0
+sh                               allmodconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                                  defconfig    gcc-14.2.0
+sh                    randconfig-001-20250131    gcc-14.2.0
+sh                    randconfig-002-20250131    gcc-14.2.0
+sh                      rts7751r2d1_defconfig    gcc-14.2.0
+sh                             sh03_defconfig    gcc-14.2.0
+sh                        sh7785lcr_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                 randconfig-001-20250131    gcc-14.2.0
+sparc                 randconfig-002-20250131    gcc-14.2.0
+sparc64                             defconfig    gcc-14.2.0
+sparc64               randconfig-001-20250131    gcc-14.2.0
+sparc64               randconfig-002-20250131    gcc-14.2.0
+um                               allmodconfig    clang-20
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-21
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250131    clang-19
+um                    randconfig-002-20250131    clang-21
+um                           x86_64_defconfig    clang-15
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250130    clang-19
+x86_64      buildonly-randconfig-002-20250130    gcc-12
+x86_64      buildonly-randconfig-003-20250130    gcc-12
+x86_64      buildonly-randconfig-004-20250130    clang-19
+x86_64      buildonly-randconfig-005-20250130    gcc-12
+x86_64      buildonly-randconfig-006-20250130    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                generic_kc705_defconfig    gcc-14.2.0
+xtensa                  nommu_kc705_defconfig    gcc-14.2.0
+xtensa                randconfig-001-20250131    gcc-14.2.0
+xtensa                    smp_lx200_defconfig    gcc-14.2.0
+xtensa                         virt_defconfig    gcc-14.2.0
 
-        /*
-         * According to the HW manual (section 40.4.4 Procedure for
-Measuring the Temperature)
-@@ -91,11 +91,8 @@ static int rzg3s_thermal_get_temp(struct
-thermal_zone_device *tz, int *temp)
-         *
-         * Tj = (ts_code_ave - priv->calib0) * 165 / (priv->calib0 -
-priv->calib1) - 40
-         */
--       *temp = DIV_ROUND_CLOSEST((ts_code_ave - priv->calib1) * 165,
--                                 (priv->calib0 - priv->calib1)) - 40;
--
--       /* Report it in mili degrees Celsius and round it up to 0.5 degrees
-Celsius. */
--       *temp = roundup(MCELSIUS(*temp), 500);
-+       *temp = DIV_ROUND_CLOSEST((u64)(ts_code_ave -
-MCELSIUS(priv->calib1)) * MCELSIUS(165),
-+                                 MCELSIUS(priv->calib0 - priv->calib1)) -
-MCELSIUS(40);
-
- rpm_put:
-        pm_runtime_mark_last_busy(dev);
-
-With this, the results seems similar b/w runtime PM and no runtime PM cases.
-
-The tests were executed after the board was off for few hours. The
-first test was with runtime PM suspend/resume on each read. Then the board
-was rebooted and re-run the test w/o runtime PM suspend/resume on reads.
-
-Figure with results is here:
-https://i2.paste.pics/5f353a4f04b07b4bead3086624aba23f.png?trs=0a0eaab99bb59ebcb10051eb298f437c7cd50c16437a87392aebc16cd9013e18&rand=5n34QNjWID
-
-
-> Thanks for taking the time to provide a figure
-> 
-> Testing thermal can be painful because it should be done under certain
-> conditions.
-> 
-> I guess there was no particular work load on the system when running the
-> tests.
-
-No load, indeed.
-
-> 
-> At the first glance, it seems, without the pm runtime, the measurement is
-> more precise as it catches more thermal changes. But the test does not give
-> information about the thermal behavior under stress. And one second
-> sampling is too long to really figure it out.
-> 
-> In the kernel source tree, there is a tool to read the temperature in an
-> optimized manner, you may want to use it to read the temperature at a
-> higher rate. It is located in tools/thermal/thermometer
-> 
-> Compiling is a bit fuzzy ATM, so until it is fixed, here are the steps:
-> 
-> (you should install libconfig-dev and libnl-3-dev packages).
-> 
-> cd $LINUX_DIR/tools/thermal/lib
-> make
-> LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LINUX_DIR/tools/thermal/lib
-> 
-> cd $LINUX_DIR/tools
-> make thermometer
-> 
-> 
-> 
-> Then change directory:
-> 
-> cd $LINUX_DIR/tools/thermal/thermometer
-> 
-> 
-> Run the tool:
-> 
-> ./thermometer -o out -c t.conf -l DEBUG -- <my_command>
-> 
-> 
-> The content of the configuration file t.conf is:
-> 
-> thermal-zones = (
->           {    name = "cpu[0_9].*-thermal";
->         polling = 100; }
->       )
-> 
-> All the captured data will be in the 'out' directory
-> 
-> For 'my_command', I suggest to use a script containing:
-> 
-> sleep 10; dhrystone -t 1 -r 120; sleep 10
-> 
-> If you need the dhrystone binary, let me know.
-> 
-> The thermal zone device tree configuration should be changed to use a 65°C
-> passive trip point instead of 100°C (and the kernel setup with the step
-> wise governor as default).
-> 
-> The resulting figure from the temperature should show a flat temperature
-> figure during 10 seconds, then the temperature increasing until reaching
-> the temperature threshold of 65°C, the temperature stabilizing around it,
-> then followed by a temperature decreasing when the test finishes.
-> 
-> If the temperature does not reach the limit, decrease the trip point
-> temperature or increase the dhrystone duration (the -r 120 option)
-> 
-> At this point, you should the test with and without pm runtime but in order
-> to have consistent results, you should wait ~20 minutes between two tests.
-> 
-> The shape of the figures will give the immediate information about how the
-> mitigation vs thermal sensor vs cooling device behave.
-> 
-> Additionally, you can enable the thermal DEBUGFS option and add the
-> collected information statistics from /sys/kernel/debug/thermal/*** in the
-> results.
-> 
-> 
-> Hope that helps
-
-Thank you for all these details. I'll have a look on it but starting with
-Monday as I won't have access to setup in the following days.
-
-Thank you,
-Claudiu
-
-> 
-> 
-> 
-> 
-> 
-> 
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
