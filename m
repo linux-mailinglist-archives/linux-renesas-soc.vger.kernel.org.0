@@ -1,90 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-12803-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12804-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0761DA24824
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Feb 2025 11:09:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C59A248CF
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Feb 2025 12:58:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF76A188529D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Feb 2025 10:09:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD3B6188401A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Feb 2025 11:58:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C50B1474C9;
-	Sat,  1 Feb 2025 10:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22C6D1922FB;
+	Sat,  1 Feb 2025 11:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uu1OD8PD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B29332AD20;
-	Sat,  1 Feb 2025 10:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BDC157A67;
+	Sat,  1 Feb 2025 11:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738404538; cv=none; b=OqAAE67SX1xXoJW3nAo3qaK9ze5+d3u2f2wbE4GirdXeQ2AQrVcNOlRIkhqi2VOeklYSvmy4YIs5/m1v1TvtTZcFm6R4E4ngGgTUeWTCo1YpueB833DUqx6zpvEEBlbdgr1uwo2Fjh2q4NMCo8xMVhWBSYJTXP7sc6xkubXvkMs=
+	t=1738411118; cv=none; b=uI63Hg+5txIRZ7c5BM9WsdjLli0hLun6dpRw0aBlOA4r5dqP+/zlkEY8vcGSqsuVWTHwS1T+vhtFw56pNfQSfM3BIQvxyLzYtcGDm50RVx/jSN7LWocFSzYA8b4y47WOyaQHnyO3F5PDgdoN5LryiwNpxjNHAOkl4js4s/mF4lQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738404538; c=relaxed/simple;
-	bh=MWng4kz1R/7X2hutMtB5Aa5LMzsZusJUpzCbVnFDv6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c0rh3y2X+sAVByrKNvYYJlwRKOsCJbqmVzEfRSsWnCnEd9FI49SWw/RknjeZwOyiiLp8lQgrK0NySP/EkVJtGONkaV1pE3jRv+lG7Tji0Kw1jSDL1hqtlXsVhr2hf0HgGWVdGBrk93e0OBapyj5xQmZvKCzwzxP0iF1HtDevmVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: Dv6qrRyyRFWMdW8eeRf/XA==
-X-CSE-MsgGUID: 3bIcAGRBRoGnfqOFSySPlQ==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 01 Feb 2025 19:08:48 +0900
-Received: from localhost.localdomain (unknown [10.226.92.62])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2C6AA40062C1;
-	Sat,  1 Feb 2025 19:08:34 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] media: platform: exynos4-is: Use of_get_available_child_by_name()
-Date: Sat,  1 Feb 2025 10:08:29 +0000
-Message-ID: <20250201100833.34642-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1738411118; c=relaxed/simple;
+	bh=bnKVyC6XSU4nUgrpxZAOdHUdcTS5vZBC1FxhMWFIe04=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Kn5KL7XECWC7geRRhOeHPf6bljM9Syi8+CgwS1WTtLoEL0JcFp/A4XpNTg87meZjih6GTgRuA93QlWqPzvBfB8tdSYwAxjyreJpe7ddBiIafqKzWHMR+oBUXPDoljgmJKRrWp+O4Q5dsBuJ0IB0NFiysmi5bBCJAtfO9uTLTNs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uu1OD8PD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EA68C4CED3;
+	Sat,  1 Feb 2025 11:58:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738411117;
+	bh=bnKVyC6XSU4nUgrpxZAOdHUdcTS5vZBC1FxhMWFIe04=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Uu1OD8PD1FFZo9/sdlWD9CvasFKUU+ItngHTnsK8eZxrafJrH4eXDeCw0tcxilP9Z
+	 SKJnBG7Aeb0q7hXvOKNcsfH524+jA/wSOXmoYhxNpkWH74+Eiuv/yayZwQ5jWH45hx
+	 ECR+WdQWYXbabaL0oStRIBoqOQvMljX30tkj46hNQ0DGg7eXXKDJgMU1kMyQuIH7Fo
+	 k3sQGEryuiRVF7zVlvikacHmUr3+nyOASCOfVfTkzo02b2nWjKzitpOVQHomaYkYia
+	 mYFKo1L8FLLtfLEPCkWjXGIDvjgX+XZrZ4KARbpyZ158WPWKP04bfUOPueM2ZcQ2uv
+	 BOYhv1rSQHpKg==
+Message-ID: <7fe9dad9-85e2-4cf0-98bc-cca20ff62df5@kernel.org>
+Date: Sat, 1 Feb 2025 12:58:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: platform: exynos4-is: Use
+ of_get_available_child_by_name()
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
+References: <20250201100833.34642-1-biju.das.jz@bp.renesas.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250201100833.34642-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Simplify fimc_md_is_isp_available() by using
-of_get_available_child_by_name().
+On 01/02/2025 11:08, Biju Das wrote:
+> Simplify fimc_md_is_isp_available() by using
+> of_get_available_child_by_name().
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> This patch is only compile tested and depend upon[1]
+> [1] https://lore.kernel.org/all/20250201093126.7322-1-biju.das.jz@bp.renesas.com/
+> ---
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-This patch is only compile tested and depend upon[1]
-[1] https://lore.kernel.org/all/20250201093126.7322-1-biju.das.jz@bp.renesas.com/
----
- drivers/media/platform/samsung/exynos4-is/media-dev.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Dependency won't be in 6.14-rc1, so you will need to send it for cycle
+after that.
 
-diff --git a/drivers/media/platform/samsung/exynos4-is/media-dev.h b/drivers/media/platform/samsung/exynos4-is/media-dev.h
-index a50e58ab7ef7..ce89465c22de 100644
---- a/drivers/media/platform/samsung/exynos4-is/media-dev.h
-+++ b/drivers/media/platform/samsung/exynos4-is/media-dev.h
-@@ -179,8 +179,8 @@ int fimc_md_set_camclk(struct v4l2_subdev *sd, bool on);
- static inline bool fimc_md_is_isp_available(struct device_node *node)
- {
- 	struct device_node *child __free(device_node) =
--		of_get_child_by_name(node, FIMC_IS_OF_NODE_NAME);
--	return child ? of_device_is_available(child) : false;
-+		of_get_available_child_by_name(node, FIMC_IS_OF_NODE_NAME);
-+	return child != NULL;
- }
- #else
- #define fimc_md_is_isp_available(node) (false)
--- 
-2.43.0
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
