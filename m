@@ -1,40 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-12807-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12808-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A2FA24B77
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Feb 2025 19:53:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EBA8A24D0F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Feb 2025 09:27:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 086AE163812
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Feb 2025 18:53:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E25247A18AA
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Feb 2025 08:26:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9BF11CAA86;
-	Sat,  1 Feb 2025 18:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 043701D516D;
+	Sun,  2 Feb 2025 08:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Er14Dtt3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from out.smtpout.orange.fr (out-13.smtpout.orange.fr [193.252.22.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814331CAA8D;
-	Sat,  1 Feb 2025 18:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9F18BE7;
+	Sun,  2 Feb 2025 08:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738435985; cv=none; b=dnKGyiy4ddT1+h5htZcsHUH6AzaackKz72Gweh2lHdksD/sMp/gtFHMEwa7Qh6WJ/R79/fJP5zToPLb+43VXwjvTYiciNzECRMNgJaBefUrmahhdVRGvHrMKIUpWYJuoaSmSTLZ0XtX4KeQabHD0Jltk8/DEzIM7nu+GNudi+VE=
+	t=1738484863; cv=none; b=r7I6IAAd8B5HpnbfRXWLtYdxv6MYPdBP/oLmyeTLde2Zr51UUwgRNYEMGPZmGRTOpvBwEmz90CSlN1cpCMv3Nc/JpV9K+ml2agsMvwTBexcnx1QIn9gbwhCk90sJTiFpVpsAu7tP5jJ6yqke+/4ab8O/eieU2SfhpNBcYBYEF4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738435985; c=relaxed/simple;
-	bh=IWZP2FeroAYCmDrqHIdLqsLMHsO6gkmcHX08RRKaDPM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Dmm8ImCUmHAeJ6/AYcFyeZfcTlgQckUHjfMLHxmHY+cGgyUwPAto9T9SS0xiuJ1H+4km+7wOxTbmHe1aejUhlqGsnILlUvpC9GUPF/D49PLKFGiS7bL9q6RtGycXpX05K2848y/j1cyGzoRmyK7rzu5g+nQrak5ywThQeXUx45I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.2.102] (213.87.152.188) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sat, 1 Feb
- 2025 21:52:44 +0300
-Message-ID: <2cdfed6a-4461-4c57-96b8-a6c928f2f0ac@omp.ru>
-Date: Sat, 1 Feb 2025 21:52:43 +0300
+	s=arc-20240116; t=1738484863; c=relaxed/simple;
+	bh=3R02TGIEWd2cVE8jGoGk2IukoLrWOAmI6UyxCl1vFdc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LUgU023YRTxZuRNY2oxBcMpXpDjnIJs5WAvy4bNrsR+IxiMNFMm4801PCYAEsuRlxo0shOtlEXLlIWhJWmrAsR54NkfvETJJRjx+g7kttnNa55zVNtwfLWbNwOUR+qAb8sYl78QGpRkYKz3Yw8koIE44Ngxy1Y+Itugh7dDksxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=Er14Dtt3; arc=none smtp.client-ip=193.252.22.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [172.16.82.72] ([124.33.176.97])
+	by smtp.orange.fr with ESMTPA
+	id eVIrtwgZkM6ZbeVIwtQSlb; Sun, 02 Feb 2025 09:26:29 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1738484790;
+	bh=PzrthrLkW4R8v6fQu4F9Z0+3j1oj2AKD6gdwJR3+YjY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=Er14Dtt3+zfNicUpvicGUD6Vdf5OQJsDpkGPvY598Y41dT4BnaZJiPDU0Z9Am45FA
+	 rt5j0Pz9QRRm/z1mN2d3bb772DaBoyfWVgR/c2muJ80mlphsG3rFguogAus2nGUtIq
+	 SMzYzyRktW1gkaZRsNIAjVI989zqNQFAkzvJwc+c2MnnUIjwGsK+qKlmGw7er9lbI/
+	 pIddcTj+3U4H8qpjYBDjjnhQpTydKf0sXi6FZhIfK4nK0TsNcNc/SvIiJquLWgQ3LP
+	 O1s8+gqFJZHGsDqv+oFJDfLSh35L6j+QPDYeBSJJCpC011UxtV+bXz1kDtn/PestXd
+	 +aDON8InPsqFw==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 02 Feb 2025 09:26:30 +0100
+X-ME-IP: 124.33.176.97
+Message-ID: <e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr>
+Date: Sun, 2 Feb 2025 17:26:04 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -42,71 +57,132 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] can: rcar_canfd: Use of_get_available_child_by_name()
-To: Biju Das <biju.das.jz@bp.renesas.com>, Marc Kleine-Budde
-	<mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-CC: Wolfram Sang <wsa+renesas@sang-engineering.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
-	<u.kleine-koenig@baylibre.com>, <linux-can@vger.kernel.org>, Prabhakar
- Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das
-	<biju.das.au@gmail.com>, <linux-renesas-soc@vger.kernel.org>
-References: <20250201094642.16243-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH treewide v2 1/3] bitfield: Add non-constant
+ field_{prep,get}() helpers
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+ qat-linux@intel.com, linux-gpio@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>,
+ Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>,
+ Alex Elder <elder@ieee.org>
+References: <cover.1738329458.git.geert+renesas@glider.be>
+ <1824412519cb8791ab428065116927ee7b77cf35.1738329459.git.geert+renesas@glider.be>
 Content-Language: en-US
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-In-Reply-To: <20250201094642.16243-1-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <1824412519cb8791ab428065116927ee7b77cf35.1738329459.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 02/01/2025 18:42:12
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 19
-X-KSE-AntiSpam-Info: Lua profiles 190726 [Feb 01 2025]
-X-KSE-AntiSpam-Info: Version: 6.1.1.7
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 50 0.3.50
- df4aeb250ed63fd3baa80a493fa6caee5dd9e10f
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.152.188
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 19
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 02/01/2025 18:45:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 2/1/2025 5:25:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On 2/1/25 12:46 PM, Biju Das wrote:
+On 31/01/2025 at 22:46, Geert Uytterhoeven wrote:
+> The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> constants.  However, it is very common to prepare or extract bitfield
+> elements where the bitfield mask is not a compile-time constant.
 
-> Simplify rcar_canfd_probe() using of_get_available_child_by_name().
+Why is it that the existing FIELD_{GET,PREP}() macros must be limited to
+compile time constants? Instead of creating another variant for
+non-constant bitfields, wouldn't it be better to make the existing macro
+accept both?
+
+As far as I can see, only __BUILD_BUG_ON_NOT_POWER_OF_2()  and
+__BF_FIELD_CHECK() need to be adjusted. I am thinking of this:
+
+diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
+index 63928f173223..c6bedab862d1 100644
+--- a/include/linux/bitfield.h
++++ b/include/linux/bitfield.h
+@@ -8,6 +8,7 @@
+ #define _LINUX_BITFIELD_H
+
+ #include <linux/build_bug.h>
++#include <linux/compiler.h>
+ #include <asm/byteorder.h>
+
+ /*
+@@ -62,15 +63,13 @@
+
+ #define __BF_FIELD_CHECK(_mask, _reg, _val, _pfx)                      \
+        ({                                                              \
+-               BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+-                                _pfx "mask is not constant");          \
+-               BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
+-               BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+-                                ~((_mask) >> __bf_shf(_mask)) &        \
+-                                       (0 + (_val)) : 0,               \
++               BUILD_BUG_ON_MSG(statically_true((_mask) == 0),         \
++                                _pfx "mask is zero");                  \
++               BUILD_BUG_ON_MSG(statically_true(~((_mask) >>
+__bf_shf(_mask)) & \
++                                                (0 + (_val))),         \
+                                 _pfx "value too large for the field"); \
+-               BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+-                                __bf_cast_unsigned(_reg, ~0ull),       \
++
+BUILD_BUG_ON_MSG(statically_true(__bf_cast_unsigned(_mask, _mask) > \
++
+__bf_cast_unsigned(_reg, ~0ull)), \
+                                 _pfx "type of reg too small for mask"); \
+                __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+                                              (1ULL << __bf_shf(_mask))); \
+diff --git a/include/linux/build_bug.h b/include/linux/build_bug.h
+index 3aa3640f8c18..3b8055ebb55f 100644
+--- a/include/linux/build_bug.h
++++ b/include/linux/build_bug.h
+@@ -18,9 +18,9 @@
+
+ /* Force a compilation error if a constant expression is not a power of
+2 */
+ #define __BUILD_BUG_ON_NOT_POWER_OF_2(n)       \
+-       BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
++       BUILD_BUG_ON(statically_true((n) & ((n) - 1)))
+ #define BUILD_BUG_ON_NOT_POWER_OF_2(n)                 \
+-       BUILD_BUG_ON((n) == 0 || (((n) & ((n) - 1)) != 0))
++       BUILD_BUG_ON(statically_true(!(n) || ((n) & ((n) - 1))))
+
+ /*
+  * BUILD_BUG_ON_INVALID() permits the compiler to check the validity of the
+
+
+> To avoid this limitation, the AT91 clock driver and several other
+> drivers already have their own non-const field_{prep,get}() macros.
+> Make them available for general use by consolidating them in
+> <linux/bitfield.h>, and improve them slightly:
+>   1. Avoid evaluating macro parameters more than once,
+>   2. Replace "ffs() - 1" by "__ffs()",
+>   3. Support 64-bit use on 32-bit architectures.
 > 
-> Simplify rcar_canfd_probe() using of_get_available_child_by_name().
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-   Twice? :-)
+(...)
 
-> While at it, move of_node_put(child) inside the if block to avoid
-> additional check if of_child is NULL.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-[...]
 
-MBR, Sergey
+Yours sincerely,
+Vincent Mailhol
 
 
