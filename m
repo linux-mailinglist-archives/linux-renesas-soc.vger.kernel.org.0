@@ -1,123 +1,246 @@
-Return-Path: <linux-renesas-soc+bounces-12815-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12816-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4877A2532A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Feb 2025 08:44:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6AAA2583A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Feb 2025 12:33:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8588618840F2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Feb 2025 07:44:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6029D3A95D5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Feb 2025 11:33:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 257191E7C38;
-	Mon,  3 Feb 2025 07:44:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D83A6202C43;
+	Mon,  3 Feb 2025 11:33:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="mRvKnnWs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HfaGjjUO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBF41D86C3;
-	Mon,  3 Feb 2025 07:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FFC20101A
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Feb 2025 11:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738568683; cv=none; b=d4OeZ2MhM/TckPGXCMnSkBjYUxgNjYUZgZ3EztGHbwxNQd6eauZRp+Q5AcoJd6P9+Sr6iRGVYyMjqyWrlHCrlMKWvT9KH1OCzcv0isc6XkPFVh1DL8R4Btc7wASI9uJN8iMuahG5sNHWJcX30LH4VXdI6aTSQQLjtd6mjMpkIho=
+	t=1738582408; cv=none; b=J36w3qs6O4WAnCwNzjugxlXXFFlUmGDmu7s1rVnimnSw+/hp6OiLDCDKbfOG+611IZ+PlsvxFI8/aEN7HG79iMKwMjp6awRPcJCRrBfIOrKqxovdjEOgsVC1IoSpRowg6G6hedBZuk8AwpvLwYIq2btvAgj1oBvVFKRfCHw7pnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738568683; c=relaxed/simple;
-	bh=x1beuisn9wdEKP1QdS1UhUe3+GT+LqGgI15rKS+Adds=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PBS2W+TN9NlQUKii18bmNWAbfkPBQpDxslQpEHeQp9R60UqvcvZmNqQqIMIWRffTblPrQG1vKLU4+2UP2bERaMJPCfcVatVfKnh6Nlz2Q50PpxLdjr+BixYxcJkHPaiAkeGB7877gCvVexgexycPSjaNtRrIO0gWhpUivML+/AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=mRvKnnWs; arc=none smtp.client-ip=168.119.38.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=x1beuisn9wdEKP1QdS1UhUe3+GT+LqGgI15rKS+Adds=;
-	t=1738568681; x=1739778281; b=mRvKnnWso7bumZit+yviqahz/44SggGsn0LU225JzCFCnWw
-	qkExAMOaXIxp9bIgjunoUdpGVPXuqaSpv6kKrcwJ22yC89lKYgaUf8r5naJrAAAh4uPi1GsG4ML6l
-	Bf4IeLdDPUx7i7vW+7d+uoSuG7PeJgajncxQQczZwRL6T68UKKpSBbrb2cMIh9hNpcDJSak/dcJ98
-	Ounk7o4ivaH0UXjG3gCeNc0LUBfysnYlK1C4Q8SDEbTw25DCm67kkUUSI1me78ACOpYCYUTs6jc77
-	O2XNSB4qygsj3h82m/1sqpafeLlUH1wb8LjgegC/oLGHGfFBpcTnyhY/OFtBi+Xg==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1ter7q-00000001RTp-38Nc;
-	Mon, 03 Feb 2025 08:44:11 +0100
-Message-ID: <74cab7d1ec31e7531cdda0f1eb47acdebd5c8d3f.camel@sipsolutions.net>
-Subject: Re: [PATCH treewide v2 1/3] bitfield: Add non-constant
- field_{prep,get}() helpers
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Yury Norov <yury.norov@gmail.com>, Vincent Mailhol
-	 <mailhol.vincent@wanadoo.fr>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-clk@vger.kernel.org,
- 	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, qat-linux@intel.com,
- linux-gpio@vger.kernel.org, 	linux-aspeed@lists.ozlabs.org,
- linux-iio@vger.kernel.org, 	linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Michael Turquette	 <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Nicolas Ferre	
- <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>,  Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Herbert Xu	 <herbert@gondor.apana.org.au>, "David S . Miller"
- <davem@davemloft.net>,  Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,  Andrew Jeffery
- <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Jonathan Cameron
- <jic23@kernel.org>,  Lars-Peter Clausen	 <lars@metafoo.de>, Jacky Huang
- <ychuang3@nuvoton.com>, Shan-Chun Hung	 <schung@nuvoton.com>, Rasmus
- Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Jakub Kicinski <kuba@kernel.org>, Alex Elder
- <elder@ieee.org>
-Date: Mon, 03 Feb 2025 08:44:06 +0100
-In-Reply-To: <Z5-xMUqrDuaE8Eo_@thinkpad>
-References: <cover.1738329458.git.geert+renesas@glider.be>
-	 <1824412519cb8791ab428065116927ee7b77cf35.1738329459.git.geert+renesas@glider.be>
-	 <e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr>
-	 <Z5-xMUqrDuaE8Eo_@thinkpad>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	s=arc-20240116; t=1738582408; c=relaxed/simple;
+	bh=c3y6A8OL8KIVfaPebGX1NU3/Tv2EsPCCiJZdSDyKkJg=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=julBvwBE03Jg+wxO7YMeDeFsuU1Pyy7qPNlRdr5l9y8/kBmlgJ3k9Plhde6+cUvaXpXsEASvq8ex+VSid37xmkxkZrrZ943iGp4IHEg3oIOJZorPjUDqKbMpWdnBjpIw1jTRJ/4GMl/CI1OFLFfU3xJUhQMEfpMSxcm8H/xgs0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HfaGjjUO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E2BDC4CED2
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Feb 2025 11:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738582408;
+	bh=c3y6A8OL8KIVfaPebGX1NU3/Tv2EsPCCiJZdSDyKkJg=;
+	h=Subject:From:Date:To:From;
+	b=HfaGjjUO9zJljUWi2pLtirYVsUHFLe7sIOMiZ5zh/Zj9V3GiiNgyrvwjMdJGupNaw
+	 tqp8pnsxjEa/PiCb8t2dHBX1N4bVJeotZcy4BVVPlcOVOSVKAfP8unUVPZzcntXd+W
+	 FcsLcJhr8G0UW1XE7tNb0UOIPHzUyCsMhCwaMGr1DdHsP+Q0U9HLHj1xW/dkIhhzgq
+	 yYarOaRda2/YpUP44PGecXBMeYBInPcKD+UvlUQnyH/2pc9Q4ZLW0idwp0fRA85Fyp
+	 +CsHTZh1lrKFXV92rGJ88324GAAMlkNe7fF7zDitvdC9Q0dzltOyqIRLwhlcH8a+jg
+	 ZHHJpy/tRb03Q==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3A541380AA76
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Feb 2025 11:33:56 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <173858243486.3100304.15498969009994341800.git-patchwork-summary@kernel.org>
+Date: Mon, 03 Feb 2025 11:33:54 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-On Sun, 2025-02-02 at 12:53 -0500, Yury Norov wrote:
->=20
-> > Instead of creating another variant for
-> > non-constant bitfields, wouldn't it be better to make the existing macr=
-o
-> > accept both?
->=20
-> Yes, it would definitely be better IMO.
+Hello:
 
-On the flip side, there have been discussions in the past (though I
-think not all, if any, on the list(s)) about the argument order. Since
-the value is typically not a constant, requiring the mask to be a
-constant has ensured that the argument order isn't as easily mixed up as
-otherwise.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-With a non-constant mask there can also be no validation that the mask
-is contiguous etc.
+Series: i3c: introduce and use generic parity helper
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Alexandre Belloni <alexandre.belloni@bootlin.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=922817
+  Lore link: https://lore.kernel.org/r/20250107090204.6593-1-wsa+renesas@sang-engineering.com
+    Patches: [v4,1/5] bitops: add generic parity calculation for u8
+             [v4,2/5] hwmon: (spd5118) Use generic parity calculation
+             [v4,3/5] i3c: dw: use parity8 helper instead of open coding it
+             [v4,4/5] i3c: mipi-i3c-hci: use parity8 helper instead of open coding it
+             [v4,5/5] i3c: cdns: use parity8 helper instead of open coding it
 
-Now that doesn't imply a strong objection - personally I've come to
-prefer the lower-case typed versions anyway - but something to keep in
-mind when doing this.
+Patch: dt-bindings: display: Correct indentation and style in DTS example
+  Submitter: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+  Committer: Rob Herring (Arm) <robh@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=922918
+  Lore link: https://lore.kernel.org/r/20250107125854.227233-1-krzysztof.kozlowski@linaro.org
 
-However, the suggested change to BUILD_BUG_ON_NOT_POWER_OF_2 almost
-certainly shouldn't be done for the same reason - not compiling for non-
-constant values is [IMHO] part of the API contract for that macro. This
-can be important for the same reasons.
+Series: hwmon: (lm75) add I3C support
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Guenter Roeck <linux@roeck-us.net>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=919686
+  Lore link: https://lore.kernel.org/r/20241219225522.3490-7-wsa+renesas@sang-engineering.com
+    Patches: [RFC,1/5] hwmon: (lm75) simplify lm75_write_config()
+             [RFC,2/5] hwmon: (lm75) simplify regulator handling
+             [RFC,3/5] hwmon: (lm75) Remove superfluous 'client' member from private struct
+             [RFC,4/5] hwmon: (lm75) separate probe into common and I2C parts
 
-(Obviously, doing that change now doesn't invalidate existing code, but
-it does remove checks that may have been intended to be present in the
-code.)
+Series: drm: Add DSI/DP support for Renesas r8a779h0 V4M and grey-hawk board
+  Submitter: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+  Committer: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=918500
+  Lore link: https://lore.kernel.org/r/20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com
+    Patches: [v5,1/7] drm/rcar-du: dsi: Fix PHY lock bit check
+             [v5,2/7] drm/rcar-du: Write DPTSR only if the second source exists
+             [v5,3/7] dt-bindings: display: renesas,du: Add missing constraints
+             [v5,4/7] dt-bindings: display: renesas,du: Add r8a779h0
+             [v5,5/7] dt-bindings: display: bridge: renesas,dsi-csi2-tx: Add r8a779h0
+             [v5,6/7] drm/rcar-du: dsi: Add r8a779h0 support
+             [v5,7/7] drm/rcar-du: Add support for r8a779h0
 
-johannes
+Patch: rtc: use boolean values with device_init_wakeup()
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Alexandre Belloni <alexandre.belloni@bootlin.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=918531
+  Lore link: https://lore.kernel.org/r/20241217071331.3607-2-wsa+renesas@sang-engineering.com
+
+Patch: selftests: timers: clocksource-switch: Adapt progress to kselftest framework
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Shuah Khan <skhan@linuxfoundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=807962
+  Lore link: https://lore.kernel.org/r/6d7a665392e75c0af8fd4ad5b95bd3f0489236ee.1701973869.git.geert+renesas@glider.be
+
+Patch: media: rcar-csi2: Update D-PHY startup on V4M
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Committer: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=916414
+  Lore link: https://lore.kernel.org/r/20241210155400.3137792-1-niklas.soderlund+renesas@ragnatech.se
+
+Series: Add NXP P3T1755 and fix LM75B docs
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Guenter Roeck <linux@roeck-us.net>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=919009
+  Lore link: https://lore.kernel.org/r/20241218074131.4351-5-wsa+renesas@sang-engineering.com
+    Patches: [v2,1/3] dt-bindings: hwmon: lm75: Add NXP P3T1755
+             [v2,2/3] hwmon: (lm75) Add NXP P3T1755 support
+             [v2,3/3] hwmon: (lm75) Fix LM75B document link
+
+Series: Improvements/fixes on the DPI interface
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Biju Das <biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=901727
+  Lore link: https://lore.kernel.org/r/20241022082433.32513-1-biju.das.jz@bp.renesas.com
+    Patches: [v2,1/2] drm: renesas: rz-du: Drop DU_MCR0_DPI_OE macro
+             [v2,2/2] drm: renesas: rz-du: rzg2l_du_encoder: Fix max dot clock for DPI
+
+Series: Fix missing rtnl lock in suspend path
+  Submitter: Kory Maincent <kory.maincent@bootlin.com>
+  Committer: Paolo Abeni <pabeni@redhat.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=929021
+  Lore link: https://lore.kernel.org/r/20250129-fix_missing_rtnl_lock_phy_disconnect-v3-0-24c4ba185a92@bootlin.com
+    Patches: [net,v3,1/2] net: ravb: Fix missing rtnl lock in suspend/resume path
+             [net,v3,2/2] net: sh_eth: Fix missing rtnl lock in suspend/resume path
+
+Patch: media: platform: rzg2l-cru: rzg2l-video: Fix the comment in rzg2l_cru_start_streaming_vq()
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=887197
+  Lore link: https://lore.kernel.org/r/20240905112508.160560-1-biju.das.jz@bp.renesas.com
+
+Patch: i3c: fix kdoc parameter description for module_i3c_i2c_driver()
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Alexandre Belloni <alexandre.belloni@bootlin.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=919674
+  Lore link: https://lore.kernel.org/r/20241219220338.10315-1-wsa+renesas@sang-engineering.com
+
+Patch: drm: renesas: rz-du: Increase supported resolutions
+  Submitter: Chris Brandt <chris.brandt@renesas.com>
+  Committer: Biju Das <biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=911305
+  Lore link: https://lore.kernel.org/r/20241120150328.4131525-1-chris.brandt@renesas.com
+
+Patch: ASoC: renesas: rz-ssi: Add a check for negative sample_space
+  Submitter: Dan Carpenter <dan.carpenter@linaro.org>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=923290
+  Lore link: https://lore.kernel.org/r/e07c3dc5-d885-4b04-a742-71f42243f4fd@stanley.mountain
+
+Patch: dt-bindings: usb: Correct indentation and style in DTS example
+  Submitter: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=922933
+  Lore link: https://lore.kernel.org/r/20250107131015.246461-1-krzysztof.kozlowski@linaro.org
+
+Patch: dt-bindings: ufs: Correct indentation and style in DTS example
+  Submitter: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+  Committer: Rob Herring (Arm) <robh@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=922934
+  Lore link: https://lore.kernel.org/r/20250107131019.246517-1-krzysztof.kozlowski@linaro.org
+
+Series: media: v4l: fwnode: Add support for CSI-2 C-PHY line orders
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Committer: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=911525
+  Lore link: https://lore.kernel.org/r/20241121134108.2029925-1-niklas.soderlund+renesas@ragnatech.se
+    Patches: [v2,1/4] media: dt-bindings: Add property to describe CSI-2 C-PHY line orders
+             [v2,4/4] media: rcar-csi2: Allow specifying C-PHY line order
+
+Series: hwmon: (isl28022) doc fixes and minor code cleanup
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Guenter Roeck <linux@roeck-us.net>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=911187
+  Lore link: https://lore.kernel.org/r/20241120083349.22226-5-wsa+renesas@sang-engineering.com
+    Patches: [1/3] hwmon: (isl28022) use proper path for DT bindings
+             [2/3] hwmon: (isl28022) document shunt voltage channel
+             [3/3] hwmon: (isl28022) apply coding style to module init/exit
+
+Patch: [v2] drm/bridge: ite-it6263: Support VESA-24 input format
+  Submitter: Tommaso Merciai <tomm.merciai@gmail.com>
+  Committer: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=914807
+  Lore link: https://lore.kernel.org/r/20241205080210.1285385-1-tommaso.merciai.xr@bp.renesas.com
+
+Patch: watchdog: rzv2h_wdt: Use local `dev` pointer in probe
+  Submitter: Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Wim Van Sebroeck <wim@linux-watchdog.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=917705
+  Lore link: https://lore.kernel.org/r/20241213171157.898934-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Patch: [v3] ASoC: dt-bindings: renesas,rsnd: remove post-init-providers property
+  Submitter: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=918888
+  Lore link: https://lore.kernel.org/r/87ikrhrfws.wl-kuninori.morimoto.gx@renesas.com
+
+Patch: [RFC,v2] hwmon: (lm75) add I3C support for P3T1755
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Guenter Roeck <linux@roeck-us.net>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=919800
+  Lore link: https://lore.kernel.org/r/20241220093635.11218-1-wsa+renesas@sang-engineering.com
+
+Patch: ASoC: da7213: Initialize the mutex
+  Submitter: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=927799
+  Lore link: https://lore.kernel.org/r/20250123121036.70406-1-claudiu.beznea.uj@bp.renesas.com
+
+Patch: i2c: add kdoc for the new debugfs entry of clients
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=925586
+  Lore link: https://lore.kernel.org/r/20250115073918.8297-1-wsa+renesas@sang-engineering.com
+
+
+Total patches: 44
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
