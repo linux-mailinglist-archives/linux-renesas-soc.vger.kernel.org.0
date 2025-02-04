@@ -1,151 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-12843-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12844-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21852A274AF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2025 15:45:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 040DCA275D7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2025 16:30:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F04D3A3F2B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2025 14:45:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A30DF7A1A41
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2025 15:29:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98993211A24;
-	Tue,  4 Feb 2025 14:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A249214805;
+	Tue,  4 Feb 2025 15:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rxFt1+76"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BB5213E6D;
-	Tue,  4 Feb 2025 14:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7272147F9;
+	Tue,  4 Feb 2025 15:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738680303; cv=none; b=WwvYA9iY/a/MFPqAhkhyB8w8r0iP9THAxUNqz95ZIGT19nXedfnjzo/AxfVADGXJBrzQFSswoMZsPGYB+xJAi76iMWzSNpBhfMuUgx85BIiZnuOpqybL/6xwj1ocIDEyDf4HedppLk7cCcuZ3qUWBaHGp1rP9rX8xtBJ0CMQZu8=
+	t=1738683014; cv=none; b=J1uA4ouxV8o92N1UXB9e6Op15WtEDwLZGMMcpUUU0qu+xBiZ+NceFxmSv2IXuNF1hD18NH3mhyZpa+3o30VKc3cKn+BMvpTr2EJsxAaDc4UCweOtq20Kfz7vIbcvvBIMG6aRR1YwzWIFqEp36IXtAz9SsIDdAcvUlRMh4uuCf0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738680303; c=relaxed/simple;
-	bh=Al09zTPmds8XPTTGdnYx2Vrxx4rrbmGm90vzgpxyLzg=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ae8oEdo++9yhb8ixpn66zFDEhNrOK00Z6XyYO723ywXsge4fFD+xy9KYs+wrL9VyhjBaMiEPaTB5n16GDRdTyPcfj7ciQ/KMGMHAYxXHCDPgsIOgh5zFzYaB5xxzEzQbP20Rz0sLZvZE0Gs64HJjjkZsrrPTyKQGhqxsf9Eyggg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YnR2Z2DCnz6J9yR;
-	Tue,  4 Feb 2025 22:44:06 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1EECF140B55;
-	Tue,  4 Feb 2025 22:44:59 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 4 Feb
- 2025 15:44:58 +0100
-Date: Tue, 4 Feb 2025 14:44:57 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-CC: <prabhakar.mahadev-lad.rj@bp.renesas.com>, <jic23@kernel.org>,
-	<lars@metafoo.de>, <ulf.hansson@linaro.org>, <linux-iio@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Claudiu
- Beznea" <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v2 1/2] iio: adc: rzg2l_adc: Drop
- devm_pm_runtime_enable()
-Message-ID: <20250204144457.00000248@huawei.com>
-In-Reply-To: <427572c8-72b7-41fa-b065-fcb398a30779@tuxon.dev>
-References: <20250117114540.289248-1-claudiu.beznea.uj@bp.renesas.com>
-	<20250117114540.289248-2-claudiu.beznea.uj@bp.renesas.com>
-	<427572c8-72b7-41fa-b065-fcb398a30779@tuxon.dev>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1738683014; c=relaxed/simple;
+	bh=w12EPpGUmvzDudWzppT/O+ACvWWy08Cbo3XC+tGv3iY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GZvmOOkrKGR2+i9/Hlr9Boq6eMQ41tlm6K3U7jvap+Z/Tz/V4npUmtwKsCAN38aQysqM5/0Ydmb+i62mPzZAbJA5fUs2u2GxjyjPg0JlinCjFIEiohg6eY2qtk3uGllLDq+8SvWz+9QnrAQetsLrYTh2G0omlzR/BZMQMpGFGiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rxFt1+76; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F517C4CEE2;
+	Tue,  4 Feb 2025 15:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738683014;
+	bh=w12EPpGUmvzDudWzppT/O+ACvWWy08Cbo3XC+tGv3iY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rxFt1+76LToM21A8s0ynlnAIwt78hr6Di4Rj31ycjaxNsQldtEz4HGEKhDCpZBIoU
+	 Xq7Uyz1X4dOfpnShEge2okV+AlHBJXtcWuP46mvOedK7nxngJBLhC9mfqClLlHO4AK
+	 m+iBiNjJZnet6vZuKO6jTDzRyc/CYRlBuu40fbiQTidRQ+FjMq4imH0KziZHiC07Vs
+	 yHXFoZLweaKE9xL0bnUKC6Uai0BGtZPAOhRb+gLgYbIyPKjDVAV9MTomKE5Jk+0r3r
+	 Z1Ki34lpSJDD3f7NpPDeqiev2aYna2qG+7mqi/vzbvodKXpJ1+Z96jQ2BaoarLuvEX
+	 +0olbUxhCUEmw==
+Date: Tue, 4 Feb 2025 07:30:11 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, qat-linux@intel.com,
+ linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Jonathan Cameron
+ <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang
+ <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, Yury Norov
+ <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Johannes
+ Berg <johannes@sipsolutions.net>, Alex Elder <elder@ieee.org>
+Subject: Re: [PATCH treewide v2 1/3] bitfield: Add non-constant
+ field_{prep,get}() helpers
+Message-ID: <20250204073011.5f6ca125@kernel.org>
+In-Reply-To: <e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr>
+References: <cover.1738329458.git.geert+renesas@glider.be>
+	<1824412519cb8791ab428065116927ee7b77cf35.1738329459.git.geert+renesas@glider.be>
+	<e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- frapeml500008.china.huawei.com (7.182.85.71)
 
-On Tue, 4 Feb 2025 14:25:38 +0200
-Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-
-> Hi, Jonathan,
+On Sun, 2 Feb 2025 17:26:04 +0900 Vincent Mailhol wrote:
+> On 31/01/2025 at 22:46, Geert Uytterhoeven wrote:
+> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> > constants.  However, it is very common to prepare or extract bitfield
+> > elements where the bitfield mask is not a compile-time constant.  
 > 
-> On 17.01.2025 13:45, Claudiu wrote:
-> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > 
-> > On all systems where the rzg2l_adc driver is used, the ADC clocks are part
-> > of a PM domain. The code that implements the PM domains support is in
-> > drivers/clk/renesas/rzg2l-cpg.c, the functions of interest for this commit
-> > being rzg2l_cpg_attach_dev() and rzg2l_cpg_deattach_dev(). The PM
-> > domains support is registered with GENPD_FLAG_PM_CLK which, according to
-> > the documentation, instructs genpd to use the PM clk framework while
-> > powering on/off attached devices.
-> > 
-> > During probe, the ADC device is attached to the PM domain
-> > controlling the ADC clocks. Similarly, during removal, the ADC device is
-> > detached from the PM domain.
-> > 
-> > The detachment call stack is as follows:
-> > 
-> > device_driver_detach() ->
-> >   device_release_driver_internal() ->
-> >     __device_release_driver() ->
-> >       device_remove() ->
-> >         platform_remove() ->
-> >           dev_pm_domain_detach()
-> > 
-> > During driver unbind, after the ADC device is detached from its PM domain,
-> > the device_unbind_cleanup() function is called, which subsequently invokes
-> > devres_release_all(). This function handles devres resource cleanup.
-> > 
-> > If runtime PM is enabled via devm_pm_runtime_enable(), the cleanup process
-> > triggers the action or reset function for disabling runtime PM. This
-> > function is pm_runtime_disable_action(), which leads to the following call
-> > stack of interest when called:
-> > 
-> > pm_runtime_disable_action() ->
-> >   pm_runtime_dont_use_autosuspend() ->
-> >     __pm_runtime_use_autosuspend() ->
-> >       update_autosuspend() ->
-> >         rpm_idle()
-> > 
-> > The rpm_idle() function attempts to runtime resume the ADC device. However,
-> > at the point it is called, the ADC device is no longer part of the PM
-> > domain (which manages the ADC clocks). Since the rzg2l_adc runtime PM
-> > APIs directly modifies hardware registers, the
-> > rzg2l_adc_pm_runtime_resume() function is invoked without the ADC clocks
-> > being enabled. This is because the PM domain no longer resumes along with
-> > the ADC device. As a result, this leads to system aborts.
-> > 
-> > Drop the devres API for runtime PM enable along with the other devres APIs
-> > after it (devm_request_irq(), devm_register_iio_device()).
-> > 
-> > Fixes: 89ee8174e8c8 ("iio: adc: rzg2l_adc: Simplify the runtime PM code")
-> > Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > ---  
-> 
-> As of my understanding, currently there is is no conclusion from the
-> discussion at [1]. If it's not too early in the discussion, can you please
-> let me know how would you prefer to go forward for fixing this driver?
-> 
+> Why is it that the existing FIELD_{GET,PREP}() macros must be limited to
+> compile time constants?
 
-Quickest might be to propose a patch similar to the one for i2c that thread
-references. Post that as an RFC and see if Greg KH or anyone else shoots it
-down? Also verify it fixes what you see here of course!
+Hard no, some high performance networking drivers use this on 
+the fastpath. We want to make sure that the compiler doesn't
+do anything stupid, and decomposes the masks at build time.
 
-It was on my list to do, but quite a few other things on that list so
-if you have time that would be great.
+The macros work just fine for a *lot* of code:
 
-Thanks,
+$ git grep -E 'FIELD_(PREP|GET)\(' | wc -l
+22407
 
-Jonathan
-
-> Thank you,
-> Claudiu
-> 
-> [1]
-> https://lore.kernel.org/all/20250103140042.1619703-2-claudiu.beznea.uj@bp.renesas.com/
-> 
-
+BTW aren't u32_get_bits(), u32_replace_bits() etc. not what 
+you need in the first place? I think people don't know about
+those, with all due respect the way they are coded up looks 
+like an IOCCC submission..
 
