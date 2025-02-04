@@ -1,164 +1,300 @@
-Return-Path: <linux-renesas-soc+bounces-12840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12841-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DCEA271C8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2025 13:28:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CDCBA2746E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2025 15:33:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77363163EB8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2025 12:28:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C9633A3E8D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2025 14:33:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF15C20DD7D;
-	Tue,  4 Feb 2025 12:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ixySQ/IH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1967821323B;
+	Tue,  4 Feb 2025 14:33:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4E52F46
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Feb 2025 12:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509652D057;
+	Tue,  4 Feb 2025 14:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738671945; cv=none; b=kx/VVCBouJ2W3YaE3TPnDCwEthy5e5MujVEcBCeayN4HPGC4Wzj4Hm3ZRlhwrBLsIvbm5w/r1ODxklTcpajt3GWnMmcqThfVes2wW0le2kyW2bKkQXtNjEDwLN2S0dAJS4cAYQSU5uzBdlm0zjZVaoScWY8pe6f0Q7K3g/FjGM8=
+	t=1738679592; cv=none; b=Qc2ft1esq9lpfE+sDxILB3oFWhU6ss8rC4YR2mgZQa3AQbKs5ERYXkSGSzQMp96svk3YjEc5cwIEG7yBpLbLLQol4AyWdGaJO+Mys/nJJ7YougyJjGqUOtrKFNWD2SiE+IzG1N29Y8rJXP05fDWCsu1jdzZxgfvZsSPkAvCzWq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738671945; c=relaxed/simple;
-	bh=UF8GapJmGo29AFZeeR/1BFU1zOCQJ5GoPWEKGnnavmM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P2wkgP2EUe/X80ua/QeD/1jLnGfte/OUgaD+xpYt3yeSwkxbQtOAdMJ6U34uOv1lkFnoSaOYQptQFfJ5c9/X4NXnbm/xZxzmoO6LWgK01+ukSi+3i99W4wwFdMm1LIySIj+B4WJsRpHFovax3oKeXMMvr8g5x5HiwkBD1rtWt4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ixySQ/IH; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-aaef00ab172so889996066b.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Feb 2025 04:25:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1738671941; x=1739276741; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Vc6R+5OOxcNOuD/zaO6f9SUtDza8IUtwA/z2Z7xjXzA=;
-        b=ixySQ/IHU4XHhEuvcXBaJWLj9S6xym1/KbE4KThmfrpW0pyVXtUefQyWJWrPPkrFW2
-         v8RywWQE0kdLw5AVaMNrRWK85o1XeZi8R8fo/rZtZhzVjVOK3a0mgyyYVUns3+T3gBe7
-         a8tNbeYOzEdGci4PuTVQzNckLEzzwSafZS/kQ3VhJshC2CHbwgHPzVKrDDG6j6S9lJP+
-         h04o275FhWFPxN1gwJ21QKk4Cw8HnZ/PFxfHV5ToefHZNhb9dSKL374SYizu0LjVXAro
-         fYAey9FFZ40uzyVOh1PReDSMz1s0Uc9+OPdx9XPCjhlif3iexF+J330VioUC63QYxYOw
-         wtdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738671941; x=1739276741;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vc6R+5OOxcNOuD/zaO6f9SUtDza8IUtwA/z2Z7xjXzA=;
-        b=uu6MuOvzAZKKXDlPUawdl8+pJOO8Lb23T4iK+zVIFp4L1qhx+2YhVWwunLrzQK0gAZ
-         Zaqby56jjYzZkHE2GdpMHUKStH/oxonoHnnvX7fjvTe40rkLZHw6fPC1AeCyi0DVBlrS
-         RxbCZi5bNvzQtzIi0hOYxmGf4pMCjSWXpz0+a1KKnitegzZJyL39FejUbJjyq/MRPduK
-         OVVRQ6azPm6dkxftT0f21lvvSrqGOFSwl0t/JUMKSGu8AKsDAiUnYuyEuDT+kBkX1sR6
-         OAhBxzazxCeOfwC/vJ4w/qxzVaG4GE5kIXtf06L2uoDnZ3wjpI6dMm+9EJsJxBsdzFyJ
-         5/tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXKeYP22NMG3PM/W1irPwIOkCJeZpy8HnGqjTsU5ZymFMNBfhJVLlxFo/EEvNDGlUW7YtvzJQEV3VCJqfRIclNrdA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7MoDwjVAvZ2fsFnIq0QBjyPdRpM+42OlwrybRYjnazv26uw4F
-	Y0kPyGBgR1GlADYs5PiDr7V5dCnnP2AyJ2PrQtcPaJEW58SPtviJu/+YaSo8XrU=
-X-Gm-Gg: ASbGncvr+6CNAtd0zJFAFcJamfw3N5XOW0muySH7yd4J2l2IKz1vYVpxsAgvbdzuLCG
-	v5vKoihzbZX5faADGhCWlNf6bWfyS7DSpXw+TKHVZXZ8h1BdtYjZbQ+qpTHOtgJ8nIn7QCKvhC/
-	cTd9uXRPrsM7pcTeChtS1dLZ9weqW8WxOZvafaB3CQKVG1M4A1l8+zTxRdFbkUbs4g/fnfS3YSB
-	/0IIa1Y6GcHMmtLas95BWEua+JsW00BO2bMAFoiA2p1z0/ggliXaHYfkshZ2eJOdJx5m/3Y32aM
-	RtNPlR8QtGNYqeW/6FqLH+rs
-X-Google-Smtp-Source: AGHT+IH8oagarziM8PLmDhoL6DDR+DiVeWD1pSDTDCV03o98SK6xK1MGwh6xnR9MLRXiwKmejmc6UA==
-X-Received: by 2002:a05:6402:268d:b0:5dc:740b:3cdb with SMTP id 4fb4d7f45d1cf-5dc740b3efcmr57701205a12.29.1738671940727;
-        Tue, 04 Feb 2025 04:25:40 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.173])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e4a31b37sm920440966b.143.2025.02.04.04.25.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 04:25:40 -0800 (PST)
-Message-ID: <427572c8-72b7-41fa-b065-fcb398a30779@tuxon.dev>
-Date: Tue, 4 Feb 2025 14:25:38 +0200
+	s=arc-20240116; t=1738679592; c=relaxed/simple;
+	bh=3R63IJE4ryM7OJvdDBZ43Xj4Z2vvihHK05SYN6fsRXU=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=vErRheuOTIxEcSueYoaZ4kYdO1214p+DOHDl6Fl893wbNhyLmcN9vbVE9wrmrwrFfF1Yw1NOIAskyI9p+nZbWGxokwYBKn46UcLiITm6CmDEZbiLmZvQhq/0meCn1oHLVsAjO2n/37XSLCeBOMIhXKoBQyJ+YM4slAvONjyz9gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YnQkt2SxVz6L4vs;
+	Tue,  4 Feb 2025 22:30:30 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id B29B1140B67;
+	Tue,  4 Feb 2025 22:33:05 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 4 Feb
+ 2025 15:33:04 +0100
+Date: Tue, 4 Feb 2025 14:33:03 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+CC: Daniel Lezcano <daniel.lezcano@linaro.org>, Claudiu
+	<claudiu.beznea@tuxon.dev>, <rafael@kernel.org>, <rui.zhang@intel.com>,
+	<lukasz.luba@arm.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <geert+renesas@glider.be>, <magnus.damm@gmail.com>,
+	<mturquette@baylibre.com>, <sboyd@kernel.org>, <p.zabel@pengutronix.de>,
+	<linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>, "Claudiu
+ Beznea" <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 2/6] thermal: of: Export non-devres helper to
+ register/unregister thermal zone
+Message-ID: <20250204143303.0000174a@huawei.com>
+In-Reply-To: <CAPDyKFq40KB6jKapnm0mOkFGB9-7VEGiBhNrVn_2fzrcziq0=Q@mail.gmail.com>
+References: <20250103163805.1775705-1-claudiu.beznea.uj@bp.renesas.com>
+	<20250103163805.1775705-3-claudiu.beznea.uj@bp.renesas.com>
+	<46c8e8ff-ea39-4dbd-a26c-67fcabf4b589@linaro.org>
+	<CAPDyKFq40KB6jKapnm0mOkFGB9-7VEGiBhNrVn_2fzrcziq0=Q@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] iio: adc: rzg2l_adc: Drop devm_pm_runtime_enable()
-To: prabhakar.mahadev-lad.rj@bp.renesas.com, jic23@kernel.org,
- lars@metafoo.de, ulf.hansson@linaro.org
-Cc: linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250117114540.289248-1-claudiu.beznea.uj@bp.renesas.com>
- <20250117114540.289248-2-claudiu.beznea.uj@bp.renesas.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <20250117114540.289248-2-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-Hi, Jonathan,
+On Wed, 15 Jan 2025 16:42:37 +0100
+Ulf Hansson <ulf.hansson@linaro.org> wrote:
 
-On 17.01.2025 13:45, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> On all systems where the rzg2l_adc driver is used, the ADC clocks are part
-> of a PM domain. The code that implements the PM domains support is in
-> drivers/clk/renesas/rzg2l-cpg.c, the functions of interest for this commit
-> being rzg2l_cpg_attach_dev() and rzg2l_cpg_deattach_dev(). The PM
-> domains support is registered with GENPD_FLAG_PM_CLK which, according to
-> the documentation, instructs genpd to use the PM clk framework while
-> powering on/off attached devices.
-> 
-> During probe, the ADC device is attached to the PM domain
-> controlling the ADC clocks. Similarly, during removal, the ADC device is
-> detached from the PM domain.
-> 
-> The detachment call stack is as follows:
-> 
-> device_driver_detach() ->
->   device_release_driver_internal() ->
->     __device_release_driver() ->
->       device_remove() ->
->         platform_remove() ->
->           dev_pm_domain_detach()
-> 
-> During driver unbind, after the ADC device is detached from its PM domain,
-> the device_unbind_cleanup() function is called, which subsequently invokes
-> devres_release_all(). This function handles devres resource cleanup.
-> 
-> If runtime PM is enabled via devm_pm_runtime_enable(), the cleanup process
-> triggers the action or reset function for disabling runtime PM. This
-> function is pm_runtime_disable_action(), which leads to the following call
-> stack of interest when called:
-> 
-> pm_runtime_disable_action() ->
->   pm_runtime_dont_use_autosuspend() ->
->     __pm_runtime_use_autosuspend() ->
->       update_autosuspend() ->
->         rpm_idle()
-> 
-> The rpm_idle() function attempts to runtime resume the ADC device. However,
-> at the point it is called, the ADC device is no longer part of the PM
-> domain (which manages the ADC clocks). Since the rzg2l_adc runtime PM
-> APIs directly modifies hardware registers, the
-> rzg2l_adc_pm_runtime_resume() function is invoked without the ADC clocks
-> being enabled. This is because the PM domain no longer resumes along with
-> the ADC device. As a result, this leads to system aborts.
-> 
-> Drop the devres API for runtime PM enable along with the other devres APIs
-> after it (devm_request_irq(), devm_register_iio_device()).
-> 
-> Fixes: 89ee8174e8c8 ("iio: adc: rzg2l_adc: Simplify the runtime PM code")
+> On Thu, 9 Jan 2025 at 18:34, Daniel Lezcano <daniel.lezcano@linaro.org> w=
+rote:
+> >
+> >
+> > Ulf,
+> >
+> > can you have a look at this particular patch please ?
+> >
+> > Perhaps this scenario already happened in the past and there is an
+> > alternative to fix it instead of this proposed change =20
+>=20
+> I think the patch makes sense.
+>=20
+> If there is a PM domain that is attached to the device that is
+> managing the clocks for the thermal zone, the detach procedure
+> certainly needs to be well controlled/synchronized.
+>=20
+Does this boil down to the same issue as
+https://lore.kernel.org/linux-iio/20250128105908.0000353b@huawei.com/
+?
+
+Just to point out there is another way like is done in i2c:
+https://elixir.bootlin.com/linux/v6.12.6/source/drivers/i2c/i2c-core-base.c=
+#L630
+
+Register a devres_release_group() in bus probe() and release it before
+the dev_pm_domain_detach() call.  That keeps the detach procedure well
+controlled and synchronized as it is entirely in control of the driver.
+
+That IIO thread has kind of died out for now though with no resolution
+so far.
+
+Jonathan
+
+
+> >
+> >
+> > On 03/01/2025 17:38, Claudiu wrote: =20
+> > > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > >
+> > > On the Renesas RZ/G3S (and other Renesas SoCs, e.g., RZ/G2{L, LC, UL}=
+),
+> > > clocks are managed through PM domains. These PM domains, registered on
+> > > behalf of the clock controller driver, are configured with
+> > > GENPD_FLAG_PM_CLK. In most of the Renesas drivers used by RZ SoCs, the
+> > > clocks are enabled/disabled using runtime PM APIs.
+> > >
+> > > During probe, devices are attached to the PM domain controlling their
+> > > clocks. Similarly, during removal, devices are detached from the PM d=
+omain.
+> > >
+> > > The detachment call stack is as follows:
+> > >
+> > > device_driver_detach() ->
+> > >    device_release_driver_internal() ->
+> > >      __device_release_driver() ->
+> > >        device_remove() ->
+> > >          platform_remove() ->
+> > >         dev_pm_domain_detach()
+> > >
+> > > In the upcoming Renesas RZ/G3S thermal driver, the
+> > > struct thermal_zone_device_ops::change_mode API is implemented to
+> > > start/stop the thermal sensor unit. Register settings are updated wit=
+hin
+> > > the change_mode API.
+> > >
+> > > In case devres helpers are used for thermal zone register/unregister =
+the
+> > > struct thermal_zone_device_ops::change_mode API is invoked when the
+> > > driver is unbound. The identified call stack is as follows:
+> > >
+> > > device_driver_detach() ->
+> > >    device_release_driver_internal() ->
+> > >      device_unbind_cleanup() ->
+> > >        devres_release_all() ->
+> > >          devm_thermal_of_zone_release() ->
+> > >         thermal_zone_device_disable() ->
+> > >           thermal_zone_device_set_mode() ->
+> > >             rzg3s_thermal_change_mode()
+> > >
+> > > The device_unbind_cleanup() function is called after the thermal devi=
+ce is
+> > > detached from the PM domain (via dev_pm_domain_detach()).
+> > >
+> > > The rzg3s_thermal_change_mode() implementation calls
+> > > pm_runtime_resume_and_get()/pm_runtime_put_autosuspend() before/after
+> > > accessing the registers. However, during the unbind scenario, the
+> > > devm_thermal_of_zone_release() is invoked after dev_pm_domain_detach(=
+).
+> > > Consequently, the clocks are not enabled, as the device is removed fr=
+om
+> > > the PM domain at this time, leading to an Asynchronous SError Interru=
+pt.
+> > > The system cannot be used after this.
+> > >
+> > > Add thermal_of_zone_register()/thermal_of_zone_unregister(). These wi=
+ll
+> > > be used in the upcomming RZ/G3S thermal driver.
+> > >
+> > > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com> =20
+>=20
 > Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
+>=20
+> Kind regards
+> Uffe
+>=20
+> > > ---
+> > >   drivers/thermal/thermal_of.c |  8 +++++---
+> > >   include/linux/thermal.h      | 14 ++++++++++++++
+> > >   2 files changed, 19 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_o=
+f.c
+> > > index fab11b98ca49..8fc35d20db60 100644
+> > > --- a/drivers/thermal/thermal_of.c
+> > > +++ b/drivers/thermal/thermal_of.c
+> > > @@ -329,11 +329,12 @@ static bool thermal_of_should_bind(struct therm=
+al_zone_device *tz,
+> > >    *
+> > >    * @tz: a pointer to the thermal zone structure
+> > >    */
+> > > -static void thermal_of_zone_unregister(struct thermal_zone_device *t=
+z)
+> > > +void thermal_of_zone_unregister(struct thermal_zone_device *tz)
+> > >   {
+> > >       thermal_zone_device_disable(tz);
+> > >       thermal_zone_device_unregister(tz);
+> > >   }
+> > > +EXPORT_SYMBOL_GPL(thermal_of_zone_unregister);
+> > >
+> > >   /**
+> > >    * thermal_of_zone_register - Register a thermal zone with device n=
+ode
+> > > @@ -355,8 +356,8 @@ static void thermal_of_zone_unregister(struct the=
+rmal_zone_device *tz)
+> > >    *  - ENOMEM: if one structure can not be allocated
+> > >    *  - Other negative errors are returned by the underlying called f=
+unctions
+> > >    */
+> > > -static struct thermal_zone_device *thermal_of_zone_register(struct d=
+evice_node *sensor, int id, void *data,
+> > > -                                                         const struc=
+t thermal_zone_device_ops *ops)
+> > > +struct thermal_zone_device *thermal_of_zone_register(struct device_n=
+ode *sensor, int id, void *data,
+> > > +                                                  const struct therm=
+al_zone_device_ops *ops)
+> > >   {
+> > >       struct thermal_zone_device_ops of_ops =3D *ops;
+> > >       struct thermal_zone_device *tz;
+> > > @@ -429,6 +430,7 @@ static struct thermal_zone_device *thermal_of_zon=
+e_register(struct device_node *
+> > >
+> > >       return ERR_PTR(ret);
+> > >   }
+> > > +EXPORT_SYMBOL_GPL(thermal_of_zone_register);
+> > >
+> > >   static void devm_thermal_of_zone_release(struct device *dev, void *=
+res)
+> > >   {
+> > > diff --git a/include/linux/thermal.h b/include/linux/thermal.h
+> > > index 69f9bedd0ee8..adbb4092a064 100644
+> > > --- a/include/linux/thermal.h
+> > > +++ b/include/linux/thermal.h
+> > > @@ -195,13 +195,23 @@ struct thermal_zone_params {
+> > >
+> > >   /* Function declarations */
+> > >   #ifdef CONFIG_THERMAL_OF
+> > > +struct thermal_zone_device *thermal_of_zone_register(struct device_n=
+ode *sensor, int id, void *data,
+> > > +                                                  const struct therm=
+al_zone_device_ops *ops);
+> > >   struct thermal_zone_device *devm_thermal_of_zone_register(struct de=
+vice *dev, int id, void *data,
+> > >                                                         const struct =
+thermal_zone_device_ops *ops);
+> > >
+> > > +void thermal_of_zone_unregister(struct thermal_zone_device *tz);
+> > >   void devm_thermal_of_zone_unregister(struct device *dev, struct the=
+rmal_zone_device *tz);
+> > >
+> > >   #else
+> > >
+> > > +static inline
+> > > +struct thermal_zone_device *thermal_of_zone_register(struct device_n=
+ode *sensor, int id, void *data,
+> > > +                                                  const struct therm=
+al_zone_device_ops *ops)
+> > > +{
+> > > +     return ERR_PTR(-ENOTSUPP);
+> > > +}
+> > > +
+> > >   static inline
+> > >   struct thermal_zone_device *devm_thermal_of_zone_register(struct de=
+vice *dev, int id, void *data,
+> > >                                                         const struct =
+thermal_zone_device_ops *ops)
+> > > @@ -209,6 +219,10 @@ struct thermal_zone_device *devm_thermal_of_zone=
+_register(struct device *dev, in
+> > >       return ERR_PTR(-ENOTSUPP);
+> > >   }
+> > >
+> > > +static inline void thermal_of_zone_unregister(struct thermal_zone_de=
+vice *tz)
+> > > +{
+> > > +}
+> > > +
+> > >   static inline void devm_thermal_of_zone_unregister(struct device *d=
+ev,
+> > >                                                  struct thermal_zone_=
+device *tz)
+> > >   { =20
+> >
+> >
+> > --
+> > <http://www.linaro.org/> Linaro.org =E2=94=82 Open source software for =
+ARM SoCs
+> >
+> > Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+> > <http://twitter.com/#!/linaroorg> Twitter |
+> > <http://www.linaro.org/linaro-blog/> Blog =20
+>=20
 
-As of my understanding, currently there is is no conclusion from the
-discussion at [1]. If it's not too early in the discussion, can you please
-let me know how would you prefer to go forward for fixing this driver?
-
-Thank you,
-Claudiu
-
-[1]
-https://lore.kernel.org/all/20250103140042.1619703-2-claudiu.beznea.uj@bp.renesas.com/
 
