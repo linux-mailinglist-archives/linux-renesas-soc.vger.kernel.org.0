@@ -1,60 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-12863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326F1A28A83
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 13:42:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1173AA28A86
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 13:43:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0900162176
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 12:42:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59DB03A485F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 12:42:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6775C22A80B;
-	Wed,  5 Feb 2025 12:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB78E151987;
+	Wed,  5 Feb 2025 12:42:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34AB0151987;
-	Wed,  5 Feb 2025 12:42:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2D6422CBF0;
+	Wed,  5 Feb 2025 12:42:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738759373; cv=none; b=IGG8av1J2M9xX3F55UYTuPgVn8lV5SFxQAEiguuLw/M2blW/eWqga9aGx0YI5EN0d16wYmK7g0TnC7uGpbQk5NXuQz++PgxsrglRoEiVjHOylXomZciQm00fnjq2w/RtEmtaSYco1COJX1mDlnvkm8mjRQWXyHPx3nV+67qD52s=
+	t=1738759375; cv=none; b=XrVARagHYr/1n3rzdpR+eQP9xnGcf3/PbV0dIYkMTmqs+9/DyFsulTtECQIJeLt3rXvwN6RCzu4/NocHvkyDMLQU632d4LR/7oG3t09epXWyqNouA8pX7J3I0RvrAz9ufpv9VsR2MrbDGvWQvckTR52zD3mvnZFdM+ctE3cGGAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738759373; c=relaxed/simple;
-	bh=YEYdw+RFyZttEyYMNGQiwpZ9nMRJRavaUV89oFfVInc=;
+	s=arc-20240116; t=1738759375; c=relaxed/simple;
+	bh=M59bAyhFbBpgimep1aNSv2IjiEbV0AW5sYtPvby1jk4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hJTT6M8a3edwlJ8yiSG1JdvP1Z5wP134LodXIU47wyC8h7js37oDVSqBDyh/tsADvOCrz9W41bjpABBCLrxzwViyALtllIG8MMTo+Eczq05dzsMmyFP7uEGZzopFyRZUmUwWqO7gTd8+tVc9q7agA5yfldguBMd0Ys9l+SAlY4U=
+	 MIME-Version; b=j9yyysl5DI4ibldkYfsSEUN3gsEAeeDPDQXfeBTfd24S/45RdjlDv3frhyk7aTFK56Knnx04g67/N0DMmGjPoprUgCgzd5scPWzCvnm+5XwP8DsyDB4J/3XvtmsqWsaGueAmsw5zq9ggjJlzZD0ASQ86ivN9LA5DQAIr5fzdwXE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: qJDgGzujQ7SrbqbP/MsImQ==
-X-CSE-MsgGUID: Pn+2gzssSaqklt7ImdEg4g==
+X-CSE-ConnectionGUID: T6ydRXaWRROGraya7wGKig==
+X-CSE-MsgGUID: KqT/9pnmRKGRVER+RoQePg==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Feb 2025 21:42:48 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 05 Feb 2025 21:42:52 +0900
 Received: from localhost.localdomain (unknown [10.226.92.225])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9599F41F86AF;
-	Wed,  5 Feb 2025 21:42:43 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 18CD341F86A7;
+	Wed,  5 Feb 2025 21:42:48 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
+To: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Vladimir Oltean <olteanv@gmail.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+	Paolo Abeni <pabeni@redhat.com>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
 	netdev@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH net-next v2 1/7] of: base: Add of_get_available_child_by_name()
-Date: Wed,  5 Feb 2025 12:42:21 +0000
-Message-ID: <20250205124235.53285-2-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH net-next v2 2/7] net: dsa: rzn1_a5psw: Use of_get_available_child_by_name()
+Date: Wed,  5 Feb 2025 12:42:22 +0000
+Message-ID: <20250205124235.53285-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250205124235.53285-1-biju.das.jz@bp.renesas.com>
 References: <20250205124235.53285-1-biju.das.jz@bp.renesas.com>
@@ -66,90 +62,45 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are lot of drivers using of_get_child_by_name() followed by
-of_device_is_available() to find the available child node by name for a
-given parent. Provide a helper for these users to simplify the code.
+Simplify a5psw_probe() by using of_get_available_child_by_name().
 
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Rob Herring <robh@kernel.org>
+While at it, move of_node_put(mdio) inside the if block to avoid code
+duplication.
+
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-previous v2->v2
- * Added Rb tag from Rob.
-v1->previous v2:
- * Updated commit description.
- * Updated kerneldoc comment block
- * Avoided code duplication by using of_get_child_by_name().
+v1->v2:
+ * Rebased and added patch suffix net-next.
 ---
- drivers/of/base.c  | 27 +++++++++++++++++++++++++++
- include/linux/of.h |  9 +++++++++
- 2 files changed, 36 insertions(+)
+ drivers/net/dsa/rzn1_a5psw.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/of/base.c b/drivers/of/base.c
-index af6c68bbb427..e37b088f1fad 100644
---- a/drivers/of/base.c
-+++ b/drivers/of/base.c
-@@ -824,6 +824,33 @@ struct device_node *of_get_child_by_name(const struct device_node *node,
- }
- EXPORT_SYMBOL(of_get_child_by_name);
+diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
+index 66974379334a..31ea8130a495 100644
+--- a/drivers/net/dsa/rzn1_a5psw.c
++++ b/drivers/net/dsa/rzn1_a5psw.c
+@@ -1248,18 +1248,16 @@ static int a5psw_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto clk_disable;
  
-+/**
-+ * of_get_available_child_by_name - Find the available child node by name for a given parent
-+ * @node:	parent node
-+ * @name:	child name to look for.
-+ *
-+ * This function looks for child node for given matching name and checks the
-+ * device's availability for use.
-+ *
-+ * Return: A node pointer if found, with refcount incremented, use
-+ * of_node_put() on it when done.
-+ * Returns NULL if node is not found.
-+ */
-+struct device_node *of_get_available_child_by_name(const struct device_node *node,
-+						   const char *name)
-+{
-+	struct device_node *child;
-+
-+	child = of_get_child_by_name(node, name);
-+	if (child && !of_device_is_available(child)) {
-+		of_node_put(child);
-+		return NULL;
-+	}
-+
-+	return child;
-+}
-+EXPORT_SYMBOL(of_get_available_child_by_name);
-+
- struct device_node *__of_find_node_by_path(const struct device_node *parent,
- 						const char *path)
- {
-diff --git a/include/linux/of.h b/include/linux/of.h
-index eaf0e2a2b75c..9d6b8a61607f 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -301,6 +301,8 @@ extern struct device_node *of_get_compatible_child(const struct device_node *par
- 					const char *compatible);
- extern struct device_node *of_get_child_by_name(const struct device_node *node,
- 					const char *name);
-+extern struct device_node *of_get_available_child_by_name(const struct device_node *node,
-+							  const char *name);
+-	mdio = of_get_child_by_name(dev->of_node, "mdio");
+-	if (of_device_is_available(mdio)) {
++	mdio = of_get_available_child_by_name(dev->of_node, "mdio");
++	if (mdio) {
+ 		ret = a5psw_probe_mdio(a5psw, mdio);
++		of_node_put(mdio);
+ 		if (ret) {
+-			of_node_put(mdio);
+ 			dev_err(dev, "Failed to register MDIO: %d\n", ret);
+ 			goto hclk_disable;
+ 		}
+ 	}
  
- /* cache lookup */
- extern struct device_node *of_find_next_cache_node(const struct device_node *);
-@@ -578,6 +580,13 @@ static inline struct device_node *of_get_child_by_name(
- 	return NULL;
- }
- 
-+static inline struct device_node *of_get_available_child_by_name(
-+					const struct device_node *node,
-+					const char *name)
-+{
-+	return NULL;
-+}
-+
- static inline int of_device_is_compatible(const struct device_node *device,
- 					  const char *name)
- {
+-	of_node_put(mdio);
+-
+ 	ds = &a5psw->ds;
+ 	ds->dev = dev;
+ 	ds->num_ports = A5PSW_PORTS_NUM;
 -- 
 2.43.0
 
