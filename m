@@ -1,198 +1,335 @@
-Return-Path: <linux-renesas-soc+bounces-12860-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12861-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8194EA28940
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 12:29:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA31A28984
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 12:41:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C0DE161262
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 11:29:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C30A53A5164
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 11:41:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 792CA22CBC6;
-	Wed,  5 Feb 2025 11:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QHFiPboo"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99BD122CBEE;
+	Wed,  5 Feb 2025 11:39:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D1C22B8A0;
-	Wed,  5 Feb 2025 11:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AD222B8A0;
+	Wed,  5 Feb 2025 11:39:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738754915; cv=none; b=MklmAEa0kRMQSVaj5uIgVqq1AH7DS2/gi/dNb20elXh9D64oId5ZG+TL8eKiM1wEQTEOZQHoIrukZSplNQ3qwbhYnoxKmcQcr/9HwQGFkekIOnGdQQ01Lb9zFshbc1v4wjVkvhhuQHVf49lRfODf/6b8DL0o9xLwI/+3G1usv98=
+	t=1738755594; cv=none; b=U6oibl8fwWk+fyOxABmPyV1QNuf9hfEwxPwkAOM1YILgTtnk68qOYIwmFSMof6omD4Sk9CmEYBTcfz4o6DLzqUPLlM9jo3RJHcwYgbVHa7oTzuu7grAkSzDej/JkAB4QxYt7MjunwbYWCPkt2moYHIFUJ0euEZc9zRJVMndp/aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738754915; c=relaxed/simple;
-	bh=h+wVNmyylYiGnfgPser+Aho0uLJrCJGw90EKVPYZExg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eRyrRwPEpPjH1OZ60rbvpHWS8cf3dZNfSNel2AiF/y6J/i4fZ4db0pbQEBxmF3ZvosOfaqFMS7VoNL7kkxnNC5HJjeD3Hp/Ty2KPc//3ygybdF7Xdwq4xltuA3SQr8+G7K56uvNPwkSWeDM/v+HNDkfhCnbGDheDVGTkx0RK21A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QHFiPboo; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-518954032b2so1991433e0c.0;
-        Wed, 05 Feb 2025 03:28:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738754906; x=1739359706; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0Zfbqjn/+BTjGn3HRQo9g+ZrBnXWD2gznbIgT8os1cQ=;
-        b=QHFiPbooPXsLFS0T2/A+UmTqI7E1rEmH9KIBrRSkMYZz2wVWYSfk+GaBqd2S/cLQHk
-         YH82aJw6re+UGDghegxtxu0X7VibQW8w2+eMCIMwNtQx7l12CakYOD6KkDpovJ2tCZv9
-         tV84MNGFtE3KzDXAXrjyxHAFEklb27iOVQ1Pvy+0Ed5rftaLEnf5cKOt7SvmhDx2OoBB
-         MwlI9XZi1D91MYjvZQrRYCNZIgzgWVikY4MPRWO4a6VtGLf62bdU9zhTkx2nX/0mGE8h
-         S2wrw5mksrge+IdbjPm7x67rYrKZM1GtyDc3LuCVz0Y5Z3kjpNphtwAVBF+jmT7mLY4n
-         +eIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738754906; x=1739359706;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0Zfbqjn/+BTjGn3HRQo9g+ZrBnXWD2gznbIgT8os1cQ=;
-        b=ea2H8eOspU+qlJRdX4sGnpPQgQ4YN07PvmF4xCQX53TEjgLCUTE2GZpHFy5/dCBoEa
-         7fOtYWTlo4hPPSqCn9jH/tqKTywgA1s1VPRoutEyJwezhJpLoUiKH8Rsjhnfv5700LA/
-         S65UPFKECK8cijO88Ghc7UqnZqOOfbN1qcszAEjXNITSkBZ4Gj6ZL3CBZa0fRY8w/ZVY
-         hKjyp8cMwxi1ALxHsG1SrAhozMqMOrCrRxPaolNGhaRsC5VMOdzH7zVjc0udoqVHoKYA
-         ec+9yfcxlpBJqb2TCOYUIq8ow64S6Ky0XBOLzgaW2ZwrDr3bhaGNHJmnbMqlsjqjHK0V
-         oizg==
-X-Forwarded-Encrypted: i=1; AJvYcCWcb642A6R0in5NBar3bwYB5WQGHOuHbwjPsalMm49CARjdLAHOOGaF0Z0pSW6BfSey2gtvQNpElTPh@vger.kernel.org, AJvYcCWrX4V5wUHHjDOqMSweZYBRazZS3mSwtT9uoJ5si+cghnENap8CXJCrzWKDh+vFPshY3e4y+7/TnZmYmA+/@vger.kernel.org, AJvYcCXcL61OFBl4wreXaBs0ui0pD7CVZTpdo18DMsNMMJRu0Uww8UiVp/C+a4Dc3B8ParESZbQQddGdN2py/cyjiAIzaWE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1Nx0IAx5pdCB5f0dVJ5P0KRHdtKedjRUAwutOy45lq5iT3WhI
-	SbrIP/oT1pcpctdAzO7SNG50I8Ckx3+ARldWgR7TdEFwbFlsd0etU0VdljpM3igR/vuxSQlImVi
-	ZtnzkCgNknbaVWR926RvAlkJ4yRYROec+Q2k=
-X-Gm-Gg: ASbGnctxCxUjMWpYBfmcOpAoexaoXACgQ/8WyiGxes9FAIMaMEsQjHRBfDH3ztnmTxo
-	MmtgqM3XEBYu9yEuhrgGLrrFUOuBeSTjp7NYTFBg2iXp+gTpi9N7AagpCBQr9OeWQRU2z4K7E
-X-Google-Smtp-Source: AGHT+IEiOtyV8TvJVJz+35M5l1s+wtDuJEj3wSUA7ZuKuOJo+VuTHNinmiau/J43XHvARudE69SFhEIjAco2Q5H0D94=
-X-Received: by 2002:a05:6122:4081:b0:516:157d:c5fb with SMTP id
- 71dfb90a1353d-51f0c5126dcmr1233268e0c.10.1738754905728; Wed, 05 Feb 2025
- 03:28:25 -0800 (PST)
+	s=arc-20240116; t=1738755594; c=relaxed/simple;
+	bh=JuhDBXqqW8GETPfT0ftd0AdkeZW0m2a2KI7DDoLASms=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dVRDZrjNCbyKA5+/ag4yphOSCLPUtcBwtOLDkYRAR4IKjl+tTKMmMzwmWoa94dexS3rYG0MPdjExeGhRdLpmHJE9whKeHlEUtcjLPIJp8z237DIeJbilsBcdhpIN04W20WV+/p8dvrkHoKyvaFr8aE1Oh8Zk7JmIEZDmWNPvZtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YnyrQ6QDcz6L4tl;
+	Wed,  5 Feb 2025 19:37:10 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 17349140C98;
+	Wed,  5 Feb 2025 19:39:49 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 5 Feb
+ 2025 12:39:48 +0100
+Date: Wed, 5 Feb 2025 11:39:46 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+CC: Ulf Hansson <ulf.hansson@linaro.org>, Daniel Lezcano
+	<daniel.lezcano@linaro.org>, <rafael@kernel.org>, <rui.zhang@intel.com>,
+	<lukasz.luba@arm.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <geert+renesas@glider.be>, <magnus.damm@gmail.com>,
+	<mturquette@baylibre.com>, <sboyd@kernel.org>, <p.zabel@pengutronix.de>,
+	<linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>, "Claudiu
+ Beznea" <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 2/6] thermal: of: Export non-devres helper to
+ register/unregister thermal zone
+Message-ID: <20250205113946.00002fbb@huawei.com>
+In-Reply-To: <567adde6-a348-41c0-b415-80daf16d3dbb@tuxon.dev>
+References: <20250103163805.1775705-1-claudiu.beznea.uj@bp.renesas.com>
+	<20250103163805.1775705-3-claudiu.beznea.uj@bp.renesas.com>
+	<46c8e8ff-ea39-4dbd-a26c-67fcabf4b589@linaro.org>
+	<CAPDyKFq40KB6jKapnm0mOkFGB9-7VEGiBhNrVn_2fzrcziq0=Q@mail.gmail.com>
+	<20250204143303.0000174a@huawei.com>
+	<567adde6-a348-41c0-b415-80daf16d3dbb@tuxon.dev>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250205100116.2032765-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20250205100116.2032765-1-claudiu.beznea.uj@bp.renesas.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 5 Feb 2025 11:27:59 +0000
-X-Gm-Features: AWEUYZl9lUEDen7YN-g7ZtGYCoVQWpMYzvVY7RHscL8of6VR3asaUGW6PGI55-c
-Message-ID: <CA+V-a8sd6B+_dSqrQJTggO2mr4GRQ8sqg3ES205mhgp0yz-fLA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Add suspend/resume support for
- pull up/down
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be, linus.walleij@linaro.org, 
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Wed, Feb 5, 2025 at 10:13=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
->
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> The Renesas RZ/G3S supports a power-saving mode where power to most of th=
-e
-> SoC components is lost, including the PIN controller. Save and restore th=
-e
-> pull-up/pull-down register contents to ensure the functionality is
-> preserved after a suspend/resume cycle.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
->  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 19 ++++++++++++++++++-
->  1 file changed, 18 insertions(+), 1 deletion(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Wed, 5 Feb 2025 10:33:39 +0200
+Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
 
-Cheers,
-Prabhakar
+> Hi, Jonathan,
+>=20
+> On 04.02.2025 16:33, Jonathan Cameron wrote:
+> > On Wed, 15 Jan 2025 16:42:37 +0100
+> > Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> >  =20
+> >> On Thu, 9 Jan 2025 at 18:34, Daniel Lezcano <daniel.lezcano@linaro.org=
+> wrote: =20
+> >>>
+> >>>
+> >>> Ulf,
+> >>>
+> >>> can you have a look at this particular patch please ?
+> >>>
+> >>> Perhaps this scenario already happened in the past and there is an
+> >>> alternative to fix it instead of this proposed change   =20
+> >>
+> >> I think the patch makes sense.
+> >>
+> >> If there is a PM domain that is attached to the device that is
+> >> managing the clocks for the thermal zone, the detach procedure
+> >> certainly needs to be well controlled/synchronized.
+> >> =20
+> > Does this boil down to the same issue as
+> > https://lore.kernel.org/linux-iio/20250128105908.0000353b@huawei.com/
+> > ? =20
+>=20
+> Yes, as described in the cover letter.
+>=20
+> >=20
+> > Just to point out there is another way like is done in i2c:
+> > https://elixir.bootlin.com/linux/v6.12.6/source/drivers/i2c/i2c-core-ba=
+se.c#L630
+> >=20
+> > Register a devres_release_group() in bus probe() and release it before
+> > the dev_pm_domain_detach() call.  That keeps the detach procedure well
+> > controlled and synchronized as it is entirely in control of the driver.=
+ =20
+>=20
+> From the IIO thread I got that Ulf doesn't consider it a good approach for
+> all the cases.
+>=20
 
-> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/re=
-nesas/pinctrl-rzg2l.c
-> index 4fae24453c11..7eb91ac5ba42 100644
-> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> @@ -318,6 +318,7 @@ struct rzg2l_pinctrl_pin_settings {
->   * @pmc: PMC registers cache
->   * @pfc: PFC registers cache
->   * @iolh: IOLH registers cache
-> + * @pupd: PUPD registers cache
->   * @ien: IEN registers cache
->   * @sd_ch: SD_CH registers cache
->   * @eth_poc: ET_POC registers cache
-> @@ -331,6 +332,7 @@ struct rzg2l_pinctrl_reg_cache {
->         u32     *pfc;
->         u32     *iolh[2];
->         u32     *ien[2];
-> +       u32     *pupd[2];
->         u8      sd_ch[2];
->         u8      eth_poc[2];
->         u8      eth_mode;
-> @@ -2712,6 +2714,11 @@ static int rzg2l_pinctrl_reg_cache_alloc(struct rz=
-g2l_pinctrl *pctrl)
->                 if (!cache->ien[i])
->                         return -ENOMEM;
->
-> +               cache->pupd[i] =3D devm_kcalloc(pctrl->dev, nports, sizeo=
-f(*cache->pupd[i]),
-> +                                             GFP_KERNEL);
-> +               if (!cache->pupd[i])
-> +                       return -ENOMEM;
-> +
->                 /* Allocate dedicated cache. */
->                 dedicated_cache->iolh[i] =3D devm_kcalloc(pctrl->dev, n_d=
-edicated_pins,
->                                                         sizeof(*dedicated=
-_cache->iolh[i]),
-> @@ -2953,7 +2960,7 @@ static void rzg2l_pinctrl_pm_setup_regs(struct rzg2=
-l_pinctrl *pctrl, bool suspen
->         struct rzg2l_pinctrl_reg_cache *cache =3D pctrl->cache;
->
->         for (u32 port =3D 0; port < nports; port++) {
-> -               bool has_iolh, has_ien;
-> +               bool has_iolh, has_ien, has_pupd;
->                 u32 off, caps;
->                 u8 pincnt;
->                 u64 cfg;
-> @@ -2965,6 +2972,7 @@ static void rzg2l_pinctrl_pm_setup_regs(struct rzg2=
-l_pinctrl *pctrl, bool suspen
->                 caps =3D FIELD_GET(PIN_CFG_MASK, cfg);
->                 has_iolh =3D !!(caps & (PIN_CFG_IOLH_A | PIN_CFG_IOLH_B |=
- PIN_CFG_IOLH_C));
->                 has_ien =3D !!(caps & PIN_CFG_IEN);
-> +               has_pupd =3D !!(caps & PIN_CFG_PUPD);
->
->                 if (suspend)
->                         RZG2L_PCTRL_REG_ACCESS32(suspend, pctrl->base + P=
-FC(off), cache->pfc[port]);
-> @@ -2983,6 +2991,15 @@ static void rzg2l_pinctrl_pm_setup_regs(struct rzg=
-2l_pinctrl *pctrl, bool suspen
->                         }
->                 }
->
-> +               if (has_pupd) {
-> +                       RZG2L_PCTRL_REG_ACCESS32(suspend, pctrl->base + P=
-UPD(off),
-> +                                                cache->pupd[0][port]);
-> +                       if (pincnt >=3D 4) {
-> +                               RZG2L_PCTRL_REG_ACCESS32(suspend, pctrl->=
-base + PUPD(off),
-> +                                                        cache->pupd[1][p=
-ort]);
-> +                       }
-> +               }
-> +
->                 RZG2L_PCTRL_REG_ACCESS16(suspend, pctrl->base + PM(off), =
-cache->pm[port]);
->                 RZG2L_PCTRL_REG_ACCESS8(suspend, pctrl->base + P(off), ca=
-che->p[port]);
->
-> --
-> 2.43.0
->
->
+Maybe true (I'll let Ulf comment!) and I think the solution proposed here is
+not great because it is putting the cost on every driver rather than solving
+the basic problem in one place (and there is clear precedence in other
+bus subsystems). Ideally I'd like more people to get involved in that discu=
+ssion.
+
+Jonathan
+
+
+
+> Thank you,
+> Claudiu
+>=20
+> >=20
+> > That IIO thread has kind of died out for now though with no resolution
+> > so far.
+> >=20
+> > Jonathan
+> >=20
+> >  =20
+> >>>
+> >>>
+> >>> On 03/01/2025 17:38, Claudiu wrote:   =20
+> >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>>>
+> >>>> On the Renesas RZ/G3S (and other Renesas SoCs, e.g., RZ/G2{L, LC, UL=
+}),
+> >>>> clocks are managed through PM domains. These PM domains, registered =
+on
+> >>>> behalf of the clock controller driver, are configured with
+> >>>> GENPD_FLAG_PM_CLK. In most of the Renesas drivers used by RZ SoCs, t=
+he
+> >>>> clocks are enabled/disabled using runtime PM APIs.
+> >>>>
+> >>>> During probe, devices are attached to the PM domain controlling their
+> >>>> clocks. Similarly, during removal, devices are detached from the PM =
+domain.
+> >>>>
+> >>>> The detachment call stack is as follows:
+> >>>>
+> >>>> device_driver_detach() ->
+> >>>>    device_release_driver_internal() ->
+> >>>>      __device_release_driver() ->
+> >>>>        device_remove() ->
+> >>>>          platform_remove() ->
+> >>>>         dev_pm_domain_detach()
+> >>>>
+> >>>> In the upcoming Renesas RZ/G3S thermal driver, the
+> >>>> struct thermal_zone_device_ops::change_mode API is implemented to
+> >>>> start/stop the thermal sensor unit. Register settings are updated wi=
+thin
+> >>>> the change_mode API.
+> >>>>
+> >>>> In case devres helpers are used for thermal zone register/unregister=
+ the
+> >>>> struct thermal_zone_device_ops::change_mode API is invoked when the
+> >>>> driver is unbound. The identified call stack is as follows:
+> >>>>
+> >>>> device_driver_detach() ->
+> >>>>    device_release_driver_internal() ->
+> >>>>      device_unbind_cleanup() ->
+> >>>>        devres_release_all() ->
+> >>>>          devm_thermal_of_zone_release() ->
+> >>>>         thermal_zone_device_disable() ->
+> >>>>           thermal_zone_device_set_mode() ->
+> >>>>             rzg3s_thermal_change_mode()
+> >>>>
+> >>>> The device_unbind_cleanup() function is called after the thermal dev=
+ice is
+> >>>> detached from the PM domain (via dev_pm_domain_detach()).
+> >>>>
+> >>>> The rzg3s_thermal_change_mode() implementation calls
+> >>>> pm_runtime_resume_and_get()/pm_runtime_put_autosuspend() before/after
+> >>>> accessing the registers. However, during the unbind scenario, the
+> >>>> devm_thermal_of_zone_release() is invoked after dev_pm_domain_detach=
+().
+> >>>> Consequently, the clocks are not enabled, as the device is removed f=
+rom
+> >>>> the PM domain at this time, leading to an Asynchronous SError Interr=
+upt.
+> >>>> The system cannot be used after this.
+> >>>>
+> >>>> Add thermal_of_zone_register()/thermal_of_zone_unregister(). These w=
+ill
+> >>>> be used in the upcomming RZ/G3S thermal driver.
+> >>>>
+> >>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>   =
+=20
+> >>
+> >> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> >>
+> >> Kind regards
+> >> Uffe
+> >> =20
+> >>>> ---
+> >>>>   drivers/thermal/thermal_of.c |  8 +++++---
+> >>>>   include/linux/thermal.h      | 14 ++++++++++++++
+> >>>>   2 files changed, 19 insertions(+), 3 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_=
+of.c
+> >>>> index fab11b98ca49..8fc35d20db60 100644
+> >>>> --- a/drivers/thermal/thermal_of.c
+> >>>> +++ b/drivers/thermal/thermal_of.c
+> >>>> @@ -329,11 +329,12 @@ static bool thermal_of_should_bind(struct ther=
+mal_zone_device *tz,
+> >>>>    *
+> >>>>    * @tz: a pointer to the thermal zone structure
+> >>>>    */
+> >>>> -static void thermal_of_zone_unregister(struct thermal_zone_device *=
+tz)
+> >>>> +void thermal_of_zone_unregister(struct thermal_zone_device *tz)
+> >>>>   {
+> >>>>       thermal_zone_device_disable(tz);
+> >>>>       thermal_zone_device_unregister(tz);
+> >>>>   }
+> >>>> +EXPORT_SYMBOL_GPL(thermal_of_zone_unregister);
+> >>>>
+> >>>>   /**
+> >>>>    * thermal_of_zone_register - Register a thermal zone with device =
+node
+> >>>> @@ -355,8 +356,8 @@ static void thermal_of_zone_unregister(struct th=
+ermal_zone_device *tz)
+> >>>>    *  - ENOMEM: if one structure can not be allocated
+> >>>>    *  - Other negative errors are returned by the underlying called =
+functions
+> >>>>    */
+> >>>> -static struct thermal_zone_device *thermal_of_zone_register(struct =
+device_node *sensor, int id, void *data,
+> >>>> -                                                         const stru=
+ct thermal_zone_device_ops *ops)
+> >>>> +struct thermal_zone_device *thermal_of_zone_register(struct device_=
+node *sensor, int id, void *data,
+> >>>> +                                                  const struct ther=
+mal_zone_device_ops *ops)
+> >>>>   {
+> >>>>       struct thermal_zone_device_ops of_ops =3D *ops;
+> >>>>       struct thermal_zone_device *tz;
+> >>>> @@ -429,6 +430,7 @@ static struct thermal_zone_device *thermal_of_zo=
+ne_register(struct device_node *
+> >>>>
+> >>>>       return ERR_PTR(ret);
+> >>>>   }
+> >>>> +EXPORT_SYMBOL_GPL(thermal_of_zone_register);
+> >>>>
+> >>>>   static void devm_thermal_of_zone_release(struct device *dev, void =
+*res)
+> >>>>   {
+> >>>> diff --git a/include/linux/thermal.h b/include/linux/thermal.h
+> >>>> index 69f9bedd0ee8..adbb4092a064 100644
+> >>>> --- a/include/linux/thermal.h
+> >>>> +++ b/include/linux/thermal.h
+> >>>> @@ -195,13 +195,23 @@ struct thermal_zone_params {
+> >>>>
+> >>>>   /* Function declarations */
+> >>>>   #ifdef CONFIG_THERMAL_OF
+> >>>> +struct thermal_zone_device *thermal_of_zone_register(struct device_=
+node *sensor, int id, void *data,
+> >>>> +                                                  const struct ther=
+mal_zone_device_ops *ops);
+> >>>>   struct thermal_zone_device *devm_thermal_of_zone_register(struct d=
+evice *dev, int id, void *data,
+> >>>>                                                         const struct=
+ thermal_zone_device_ops *ops);
+> >>>>
+> >>>> +void thermal_of_zone_unregister(struct thermal_zone_device *tz);
+> >>>>   void devm_thermal_of_zone_unregister(struct device *dev, struct th=
+ermal_zone_device *tz);
+> >>>>
+> >>>>   #else
+> >>>>
+> >>>> +static inline
+> >>>> +struct thermal_zone_device *thermal_of_zone_register(struct device_=
+node *sensor, int id, void *data,
+> >>>> +                                                  const struct ther=
+mal_zone_device_ops *ops)
+> >>>> +{
+> >>>> +     return ERR_PTR(-ENOTSUPP);
+> >>>> +}
+> >>>> +
+> >>>>   static inline
+> >>>>   struct thermal_zone_device *devm_thermal_of_zone_register(struct d=
+evice *dev, int id, void *data,
+> >>>>                                                         const struct=
+ thermal_zone_device_ops *ops)
+> >>>> @@ -209,6 +219,10 @@ struct thermal_zone_device *devm_thermal_of_zon=
+e_register(struct device *dev, in
+> >>>>       return ERR_PTR(-ENOTSUPP);
+> >>>>   }
+> >>>>
+> >>>> +static inline void thermal_of_zone_unregister(struct thermal_zone_d=
+evice *tz)
+> >>>> +{
+> >>>> +}
+> >>>> +
+> >>>>   static inline void devm_thermal_of_zone_unregister(struct device *=
+dev,
+> >>>>                                                  struct thermal_zone=
+_device *tz)
+> >>>>   {   =20
+> >>>
+> >>>
+> >>> --
+> >>> <http://www.linaro.org/> Linaro.org =E2=94=82 Open source software fo=
+r ARM SoCs
+> >>>
+> >>> Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+> >>> <http://twitter.com/#!/linaroorg> Twitter |
+> >>> <http://www.linaro.org/linaro-blog/> Blog   =20
+> >> =20
+> >  =20
+>=20
+
 
