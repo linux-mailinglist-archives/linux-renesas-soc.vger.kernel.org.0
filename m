@@ -1,107 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-12864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12866-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1173AA28A86
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 13:43:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A75ACA28A9D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 13:45:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59DB03A485F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 12:42:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3BB941636C3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 12:44:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB78E151987;
-	Wed,  5 Feb 2025 12:42:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5223922DF97;
+	Wed,  5 Feb 2025 12:44:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MTe1WtGJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2D6422CBF0;
-	Wed,  5 Feb 2025 12:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FCC22DF94;
+	Wed,  5 Feb 2025 12:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738759375; cv=none; b=XrVARagHYr/1n3rzdpR+eQP9xnGcf3/PbV0dIYkMTmqs+9/DyFsulTtECQIJeLt3rXvwN6RCzu4/NocHvkyDMLQU632d4LR/7oG3t09epXWyqNouA8pX7J3I0RvrAz9ufpv9VsR2MrbDGvWQvckTR52zD3mvnZFdM+ctE3cGGAM=
+	t=1738759466; cv=none; b=F/ERfK//JPYRpbKXdWaK6e2FX/L+uzfOZUVjScHtqD05CWCuq5ZbnBR9sIyD/NY6ylFllh3L6wnxqk5zFMXc/4E/hZy8eU3+Lvqc8zzedHTHrv3Y8nVYp/XEepovheq4TXj2JDmlt+igLlS+UnunwNKmGkxrun/onfneNC4PyrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738759375; c=relaxed/simple;
-	bh=M59bAyhFbBpgimep1aNSv2IjiEbV0AW5sYtPvby1jk4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j9yyysl5DI4ibldkYfsSEUN3gsEAeeDPDQXfeBTfd24S/45RdjlDv3frhyk7aTFK56Knnx04g67/N0DMmGjPoprUgCgzd5scPWzCvnm+5XwP8DsyDB4J/3XvtmsqWsaGueAmsw5zq9ggjJlzZD0ASQ86ivN9LA5DQAIr5fzdwXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: T6ydRXaWRROGraya7wGKig==
-X-CSE-MsgGUID: KqT/9pnmRKGRVER+RoQePg==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Feb 2025 21:42:52 +0900
-Received: from localhost.localdomain (unknown [10.226.92.225])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 18CD341F86A7;
-	Wed,  5 Feb 2025 21:42:48 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH net-next v2 2/7] net: dsa: rzn1_a5psw: Use of_get_available_child_by_name()
-Date: Wed,  5 Feb 2025 12:42:22 +0000
-Message-ID: <20250205124235.53285-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250205124235.53285-1-biju.das.jz@bp.renesas.com>
-References: <20250205124235.53285-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1738759466; c=relaxed/simple;
+	bh=8iLfXxhY+M8Fm+e3Wt34iJHyPl/Cf4DZ4AeRbBEWBC0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=F1mk5PQqS/6MP5X8iOudQxvlxuXF0L9bO5pltF1sp/RLk4A88kAF0h0AFbt8TalhpP6XNYfhMwLLbuDgRqwVF3rc81iynUR0FFuD5gqCMqhowQYUQHR38kSgRGrgXHsn798Nb27l4Po7Dgzd8kxsCFNZG9XDSRNfPCllwNEEL1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MTe1WtGJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0915C4CED1;
+	Wed,  5 Feb 2025 12:44:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738759465;
+	bh=8iLfXxhY+M8Fm+e3Wt34iJHyPl/Cf4DZ4AeRbBEWBC0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=MTe1WtGJDjMorHOW5FQDX7stZjlSIR5BKBb1nxgTOddR23mvtzJEQp2EjZVzmA3ZV
+	 ei0+GAEzHchEnUdtZuCOwUR70IAIDljD3wq+OGubiRws4c3KBEcXPM9JwFjqMDX6Gk
+	 lky7XZSV1SQQh52/glHKiLqJ/TdCv3IEsCErZxgT7Uxv/iL7+fAUtiW3MpcUjZFOBV
+	 SyoHRBf83M+wojx/QWZqkjyOvhGBY5WXJPrts5deDGTOo78yBsvNIeO/31PsWiXsYY
+	 RpRrzKbzFOfiJP7hgh6RT8xYP6wLyWG3c/UqBnSWoLrjM6cUKpQCbJ1T+HjrGNs4Ke
+	 ZapRkjw0hNyDQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Rob Herring <robh@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
+References: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] ASoC: soc-core: Stop using of_property_read_bool() for
+ non-boolean properties
+Message-Id: <173875946347.32457.4558405909681470251.b4-ty@kernel.org>
+Date: Wed, 05 Feb 2025 12:44:23 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-Simplify a5psw_probe() by using of_get_available_child_by_name().
+On Wed, 22 Jan 2025 09:21:27 +0100, Geert Uytterhoeven wrote:
+> On R-Car:
+> 
+>     OF: /sound: Read of boolean property 'simple-audio-card,bitclock-master' with a value.
+>     OF: /sound: Read of boolean property 'simple-audio-card,frame-master' with a value.
+> 
+> or:
+> 
+> [...]
 
-While at it, move of_node_put(mdio) inside the if block to avoid code
-duplication.
+Applied to
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Rebased and added patch suffix net-next.
----
- drivers/net/dsa/rzn1_a5psw.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
-index 66974379334a..31ea8130a495 100644
---- a/drivers/net/dsa/rzn1_a5psw.c
-+++ b/drivers/net/dsa/rzn1_a5psw.c
-@@ -1248,18 +1248,16 @@ static int a5psw_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto clk_disable;
- 
--	mdio = of_get_child_by_name(dev->of_node, "mdio");
--	if (of_device_is_available(mdio)) {
-+	mdio = of_get_available_child_by_name(dev->of_node, "mdio");
-+	if (mdio) {
- 		ret = a5psw_probe_mdio(a5psw, mdio);
-+		of_node_put(mdio);
- 		if (ret) {
--			of_node_put(mdio);
- 			dev_err(dev, "Failed to register MDIO: %d\n", ret);
- 			goto hclk_disable;
- 		}
- 	}
- 
--	of_node_put(mdio);
--
- 	ds = &a5psw->ds;
- 	ds->dev = dev;
- 	ds->num_ports = A5PSW_PORTS_NUM;
--- 
-2.43.0
+Thanks!
+
+[1/1] ASoC: soc-core: Stop using of_property_read_bool() for non-boolean properties
+      commit: 6eab7034579917f207ca6d8e3f4e11e85e0ab7d5
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
 
