@@ -1,335 +1,193 @@
-Return-Path: <linux-renesas-soc+bounces-12861-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA31A28984
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 12:41:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1020CA2899D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 12:43:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C30A53A5164
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 11:41:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6C7C18826C0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 11:43:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99BD122CBEE;
-	Wed,  5 Feb 2025 11:39:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E03BC22ACD4;
+	Wed,  5 Feb 2025 11:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ECZjYL80"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AD222B8A0;
-	Wed,  5 Feb 2025 11:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F591519BB
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Feb 2025 11:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738755594; cv=none; b=U6oibl8fwWk+fyOxABmPyV1QNuf9hfEwxPwkAOM1YILgTtnk68qOYIwmFSMof6omD4Sk9CmEYBTcfz4o6DLzqUPLlM9jo3RJHcwYgbVHa7oTzuu7grAkSzDej/JkAB4QxYt7MjunwbYWCPkt2moYHIFUJ0euEZc9zRJVMndp/aA=
+	t=1738755752; cv=none; b=cZFPBxBHefc3lGpOCrW9WkOS5rBlpfZyrASi09h7u1vzOBlL91VSFz036L/of5Euz2SO+XzWqvAWvU/J3FbPu+rmgY/UKDFYKp9DkHuGwREVn3yHrWWhXfDqlNyopQSz5UcRZGaT0tN5ilk8OWTm6cx66h4HpD0ZWwRkaE6dlXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738755594; c=relaxed/simple;
-	bh=JuhDBXqqW8GETPfT0ftd0AdkeZW0m2a2KI7DDoLASms=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dVRDZrjNCbyKA5+/ag4yphOSCLPUtcBwtOLDkYRAR4IKjl+tTKMmMzwmWoa94dexS3rYG0MPdjExeGhRdLpmHJE9whKeHlEUtcjLPIJp8z237DIeJbilsBcdhpIN04W20WV+/p8dvrkHoKyvaFr8aE1Oh8Zk7JmIEZDmWNPvZtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YnyrQ6QDcz6L4tl;
-	Wed,  5 Feb 2025 19:37:10 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 17349140C98;
-	Wed,  5 Feb 2025 19:39:49 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 5 Feb
- 2025 12:39:48 +0100
-Date: Wed, 5 Feb 2025 11:39:46 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-CC: Ulf Hansson <ulf.hansson@linaro.org>, Daniel Lezcano
-	<daniel.lezcano@linaro.org>, <rafael@kernel.org>, <rui.zhang@intel.com>,
-	<lukasz.luba@arm.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-	<conor+dt@kernel.org>, <geert+renesas@glider.be>, <magnus.damm@gmail.com>,
-	<mturquette@baylibre.com>, <sboyd@kernel.org>, <p.zabel@pengutronix.de>,
-	<linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>, "Claudiu
- Beznea" <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 2/6] thermal: of: Export non-devres helper to
- register/unregister thermal zone
-Message-ID: <20250205113946.00002fbb@huawei.com>
-In-Reply-To: <567adde6-a348-41c0-b415-80daf16d3dbb@tuxon.dev>
-References: <20250103163805.1775705-1-claudiu.beznea.uj@bp.renesas.com>
-	<20250103163805.1775705-3-claudiu.beznea.uj@bp.renesas.com>
-	<46c8e8ff-ea39-4dbd-a26c-67fcabf4b589@linaro.org>
-	<CAPDyKFq40KB6jKapnm0mOkFGB9-7VEGiBhNrVn_2fzrcziq0=Q@mail.gmail.com>
-	<20250204143303.0000174a@huawei.com>
-	<567adde6-a348-41c0-b415-80daf16d3dbb@tuxon.dev>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1738755752; c=relaxed/simple;
+	bh=DULEVcv0yeibZWZ3qskICTNfIQMfCqrEWTv32kzYUTg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=g9SOSdvBUSlVgBTg4Ylw+7YbS/CUR1CPlYvkxa+iCDBHUyJoKCUOakHCuLHVbPjLJQP3mzhZYuaPFtPSymAEtz27qfT7KdwcsNlVS/iSNL7Ddt/8nsSsC/rDFu/UnnwG3prRRIfKhZnk/Nv6dvLzlK+6DoJDiIDzetvqSGxID/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ECZjYL80; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738755751; x=1770291751;
+  h=date:from:to:cc:subject:message-id;
+  bh=DULEVcv0yeibZWZ3qskICTNfIQMfCqrEWTv32kzYUTg=;
+  b=ECZjYL80OsZ9JZTJRDGbrMi9NDRzeaZ4xqqlypQkSBz2pVwLqwmOZf35
+   fJBXADGo+B4V+tOrSkQT0UvObwEoGpopw3ktblAmWcMqYTrgfyA2nPWW+
+   JQMyRY0lAVojPQPE38+OnC5kapZlVPJeqwt9WEs/nogU4O8PIHGfFlkWQ
+   SLc5G9bCa9EBopulE3qkB34YtyHPBbWQ6DJsrFAbSZiMDbWH4bZAl4pD5
+   l5yyXCjABeGy8R5hvyKwlgD1IZcIeAEzz/bxJHcozgKkrO9rc1S0rP2GG
+   FIvpTlGljH18+T4V63ZD49yl5L3/k7fSS2dRH7y4j5g/nqqUKGz5xSMf3
+   w==;
+X-CSE-ConnectionGUID: 4CxhWp3OSY+M7RXgvOwPbQ==
+X-CSE-MsgGUID: RdEwCGOjQ0WY9NAxylNDaA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="49933370"
+X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
+   d="scan'208";a="49933370"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 03:42:30 -0800
+X-CSE-ConnectionGUID: hEFfdEW3RMS9yJAIeg/5PQ==
+X-CSE-MsgGUID: 5DpwNVbxQ3itU0MGJLLv2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="115850752"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 05 Feb 2025 03:42:29 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfdnW-000tpb-26;
+	Wed, 05 Feb 2025 11:42:26 +0000
+Date: Wed, 05 Feb 2025 19:42:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:topic/renesas-overlays-v6.14-rc1]
+ BUILD SUCCESS a6263076d33836d4e49c64ca19d2b4b0ac47779f
+Message-ID: <202502051903.zAqTr3PH-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
- frapeml500008.china.huawei.com (7.182.85.71)
 
-On Wed, 5 Feb 2025 10:33:39 +0200
-Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-overlays-v6.14-rc1
+branch HEAD: a6263076d33836d4e49c64ca19d2b4b0ac47779f  arm64: dts: renesas: white-hawk-cpu: Add overlay for CP97/98
 
-> Hi, Jonathan,
->=20
-> On 04.02.2025 16:33, Jonathan Cameron wrote:
-> > On Wed, 15 Jan 2025 16:42:37 +0100
-> > Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> >  =20
-> >> On Thu, 9 Jan 2025 at 18:34, Daniel Lezcano <daniel.lezcano@linaro.org=
-> wrote: =20
-> >>>
-> >>>
-> >>> Ulf,
-> >>>
-> >>> can you have a look at this particular patch please ?
-> >>>
-> >>> Perhaps this scenario already happened in the past and there is an
-> >>> alternative to fix it instead of this proposed change   =20
-> >>
-> >> I think the patch makes sense.
-> >>
-> >> If there is a PM domain that is attached to the device that is
-> >> managing the clocks for the thermal zone, the detach procedure
-> >> certainly needs to be well controlled/synchronized.
-> >> =20
-> > Does this boil down to the same issue as
-> > https://lore.kernel.org/linux-iio/20250128105908.0000353b@huawei.com/
-> > ? =20
->=20
-> Yes, as described in the cover letter.
->=20
-> >=20
-> > Just to point out there is another way like is done in i2c:
-> > https://elixir.bootlin.com/linux/v6.12.6/source/drivers/i2c/i2c-core-ba=
-se.c#L630
-> >=20
-> > Register a devres_release_group() in bus probe() and release it before
-> > the dev_pm_domain_detach() call.  That keeps the detach procedure well
-> > controlled and synchronized as it is entirely in control of the driver.=
- =20
->=20
-> From the IIO thread I got that Ulf doesn't consider it a good approach for
-> all the cases.
->=20
+elapsed time: 1195m
 
-Maybe true (I'll let Ulf comment!) and I think the solution proposed here is
-not great because it is putting the cost on every driver rather than solving
-the basic problem in one place (and there is clear precedence in other
-bus subsystems). Ideally I'd like more people to get involved in that discu=
-ssion.
+configs tested: 100
+configs skipped: 1
 
-Jonathan
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20250205    gcc-13.2.0
+arc                   randconfig-002-20250205    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                   randconfig-001-20250205    gcc-14.2.0
+arm                   randconfig-002-20250205    gcc-14.2.0
+arm                   randconfig-003-20250205    clang-16
+arm                   randconfig-004-20250205    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250205    gcc-14.2.0
+arm64                 randconfig-002-20250205    gcc-14.2.0
+arm64                 randconfig-003-20250205    gcc-14.2.0
+arm64                 randconfig-004-20250205    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250205    gcc-14.2.0
+csky                  randconfig-002-20250205    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250205    clang-17
+hexagon               randconfig-002-20250205    clang-19
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250205    gcc-12
+i386        buildonly-randconfig-002-20250205    gcc-12
+i386        buildonly-randconfig-003-20250205    gcc-12
+i386        buildonly-randconfig-004-20250205    gcc-11
+i386        buildonly-randconfig-005-20250205    clang-19
+i386        buildonly-randconfig-006-20250205    clang-19
+i386                                defconfig    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250205    gcc-14.2.0
+loongarch             randconfig-002-20250205    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250205    gcc-14.2.0
+nios2                 randconfig-002-20250205    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20250205    gcc-14.2.0
+parisc                randconfig-002-20250205    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-16
+powerpc               randconfig-001-20250205    clang-16
+powerpc               randconfig-002-20250205    gcc-14.2.0
+powerpc               randconfig-003-20250205    gcc-14.2.0
+powerpc64             randconfig-001-20250205    clang-18
+powerpc64             randconfig-002-20250205    gcc-14.2.0
+powerpc64             randconfig-003-20250205    clang-18
+riscv                            allmodconfig    clang-21
+riscv                            allyesconfig    clang-21
+riscv                 randconfig-001-20250205    gcc-14.2.0
+riscv                 randconfig-002-20250205    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250205    clang-17
+s390                  randconfig-002-20250205    clang-19
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20250205    gcc-14.2.0
+sh                    randconfig-002-20250205    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250205    gcc-14.2.0
+sparc                 randconfig-002-20250205    gcc-14.2.0
+sparc64               randconfig-001-20250205    gcc-14.2.0
+sparc64               randconfig-002-20250205    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250205    gcc-11
+um                    randconfig-002-20250205    clang-21
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250205    clang-19
+x86_64      buildonly-randconfig-002-20250205    clang-19
+x86_64      buildonly-randconfig-003-20250205    clang-19
+x86_64      buildonly-randconfig-004-20250205    gcc-12
+x86_64      buildonly-randconfig-005-20250205    clang-19
+x86_64      buildonly-randconfig-006-20250205    clang-19
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250205    gcc-14.2.0
+xtensa                randconfig-002-20250205    gcc-14.2.0
 
-
-> Thank you,
-> Claudiu
->=20
-> >=20
-> > That IIO thread has kind of died out for now though with no resolution
-> > so far.
-> >=20
-> > Jonathan
-> >=20
-> >  =20
-> >>>
-> >>>
-> >>> On 03/01/2025 17:38, Claudiu wrote:   =20
-> >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>>
-> >>>> On the Renesas RZ/G3S (and other Renesas SoCs, e.g., RZ/G2{L, LC, UL=
-}),
-> >>>> clocks are managed through PM domains. These PM domains, registered =
-on
-> >>>> behalf of the clock controller driver, are configured with
-> >>>> GENPD_FLAG_PM_CLK. In most of the Renesas drivers used by RZ SoCs, t=
-he
-> >>>> clocks are enabled/disabled using runtime PM APIs.
-> >>>>
-> >>>> During probe, devices are attached to the PM domain controlling their
-> >>>> clocks. Similarly, during removal, devices are detached from the PM =
-domain.
-> >>>>
-> >>>> The detachment call stack is as follows:
-> >>>>
-> >>>> device_driver_detach() ->
-> >>>>    device_release_driver_internal() ->
-> >>>>      __device_release_driver() ->
-> >>>>        device_remove() ->
-> >>>>          platform_remove() ->
-> >>>>         dev_pm_domain_detach()
-> >>>>
-> >>>> In the upcoming Renesas RZ/G3S thermal driver, the
-> >>>> struct thermal_zone_device_ops::change_mode API is implemented to
-> >>>> start/stop the thermal sensor unit. Register settings are updated wi=
-thin
-> >>>> the change_mode API.
-> >>>>
-> >>>> In case devres helpers are used for thermal zone register/unregister=
- the
-> >>>> struct thermal_zone_device_ops::change_mode API is invoked when the
-> >>>> driver is unbound. The identified call stack is as follows:
-> >>>>
-> >>>> device_driver_detach() ->
-> >>>>    device_release_driver_internal() ->
-> >>>>      device_unbind_cleanup() ->
-> >>>>        devres_release_all() ->
-> >>>>          devm_thermal_of_zone_release() ->
-> >>>>         thermal_zone_device_disable() ->
-> >>>>           thermal_zone_device_set_mode() ->
-> >>>>             rzg3s_thermal_change_mode()
-> >>>>
-> >>>> The device_unbind_cleanup() function is called after the thermal dev=
-ice is
-> >>>> detached from the PM domain (via dev_pm_domain_detach()).
-> >>>>
-> >>>> The rzg3s_thermal_change_mode() implementation calls
-> >>>> pm_runtime_resume_and_get()/pm_runtime_put_autosuspend() before/after
-> >>>> accessing the registers. However, during the unbind scenario, the
-> >>>> devm_thermal_of_zone_release() is invoked after dev_pm_domain_detach=
-().
-> >>>> Consequently, the clocks are not enabled, as the device is removed f=
-rom
-> >>>> the PM domain at this time, leading to an Asynchronous SError Interr=
-upt.
-> >>>> The system cannot be used after this.
-> >>>>
-> >>>> Add thermal_of_zone_register()/thermal_of_zone_unregister(). These w=
-ill
-> >>>> be used in the upcomming RZ/G3S thermal driver.
-> >>>>
-> >>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>   =
-=20
-> >>
-> >> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> >>
-> >> Kind regards
-> >> Uffe
-> >> =20
-> >>>> ---
-> >>>>   drivers/thermal/thermal_of.c |  8 +++++---
-> >>>>   include/linux/thermal.h      | 14 ++++++++++++++
-> >>>>   2 files changed, 19 insertions(+), 3 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_=
-of.c
-> >>>> index fab11b98ca49..8fc35d20db60 100644
-> >>>> --- a/drivers/thermal/thermal_of.c
-> >>>> +++ b/drivers/thermal/thermal_of.c
-> >>>> @@ -329,11 +329,12 @@ static bool thermal_of_should_bind(struct ther=
-mal_zone_device *tz,
-> >>>>    *
-> >>>>    * @tz: a pointer to the thermal zone structure
-> >>>>    */
-> >>>> -static void thermal_of_zone_unregister(struct thermal_zone_device *=
-tz)
-> >>>> +void thermal_of_zone_unregister(struct thermal_zone_device *tz)
-> >>>>   {
-> >>>>       thermal_zone_device_disable(tz);
-> >>>>       thermal_zone_device_unregister(tz);
-> >>>>   }
-> >>>> +EXPORT_SYMBOL_GPL(thermal_of_zone_unregister);
-> >>>>
-> >>>>   /**
-> >>>>    * thermal_of_zone_register - Register a thermal zone with device =
-node
-> >>>> @@ -355,8 +356,8 @@ static void thermal_of_zone_unregister(struct th=
-ermal_zone_device *tz)
-> >>>>    *  - ENOMEM: if one structure can not be allocated
-> >>>>    *  - Other negative errors are returned by the underlying called =
-functions
-> >>>>    */
-> >>>> -static struct thermal_zone_device *thermal_of_zone_register(struct =
-device_node *sensor, int id, void *data,
-> >>>> -                                                         const stru=
-ct thermal_zone_device_ops *ops)
-> >>>> +struct thermal_zone_device *thermal_of_zone_register(struct device_=
-node *sensor, int id, void *data,
-> >>>> +                                                  const struct ther=
-mal_zone_device_ops *ops)
-> >>>>   {
-> >>>>       struct thermal_zone_device_ops of_ops =3D *ops;
-> >>>>       struct thermal_zone_device *tz;
-> >>>> @@ -429,6 +430,7 @@ static struct thermal_zone_device *thermal_of_zo=
-ne_register(struct device_node *
-> >>>>
-> >>>>       return ERR_PTR(ret);
-> >>>>   }
-> >>>> +EXPORT_SYMBOL_GPL(thermal_of_zone_register);
-> >>>>
-> >>>>   static void devm_thermal_of_zone_release(struct device *dev, void =
-*res)
-> >>>>   {
-> >>>> diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-> >>>> index 69f9bedd0ee8..adbb4092a064 100644
-> >>>> --- a/include/linux/thermal.h
-> >>>> +++ b/include/linux/thermal.h
-> >>>> @@ -195,13 +195,23 @@ struct thermal_zone_params {
-> >>>>
-> >>>>   /* Function declarations */
-> >>>>   #ifdef CONFIG_THERMAL_OF
-> >>>> +struct thermal_zone_device *thermal_of_zone_register(struct device_=
-node *sensor, int id, void *data,
-> >>>> +                                                  const struct ther=
-mal_zone_device_ops *ops);
-> >>>>   struct thermal_zone_device *devm_thermal_of_zone_register(struct d=
-evice *dev, int id, void *data,
-> >>>>                                                         const struct=
- thermal_zone_device_ops *ops);
-> >>>>
-> >>>> +void thermal_of_zone_unregister(struct thermal_zone_device *tz);
-> >>>>   void devm_thermal_of_zone_unregister(struct device *dev, struct th=
-ermal_zone_device *tz);
-> >>>>
-> >>>>   #else
-> >>>>
-> >>>> +static inline
-> >>>> +struct thermal_zone_device *thermal_of_zone_register(struct device_=
-node *sensor, int id, void *data,
-> >>>> +                                                  const struct ther=
-mal_zone_device_ops *ops)
-> >>>> +{
-> >>>> +     return ERR_PTR(-ENOTSUPP);
-> >>>> +}
-> >>>> +
-> >>>>   static inline
-> >>>>   struct thermal_zone_device *devm_thermal_of_zone_register(struct d=
-evice *dev, int id, void *data,
-> >>>>                                                         const struct=
- thermal_zone_device_ops *ops)
-> >>>> @@ -209,6 +219,10 @@ struct thermal_zone_device *devm_thermal_of_zon=
-e_register(struct device *dev, in
-> >>>>       return ERR_PTR(-ENOTSUPP);
-> >>>>   }
-> >>>>
-> >>>> +static inline void thermal_of_zone_unregister(struct thermal_zone_d=
-evice *tz)
-> >>>> +{
-> >>>> +}
-> >>>> +
-> >>>>   static inline void devm_thermal_of_zone_unregister(struct device *=
-dev,
-> >>>>                                                  struct thermal_zone=
-_device *tz)
-> >>>>   {   =20
-> >>>
-> >>>
-> >>> --
-> >>> <http://www.linaro.org/> Linaro.org =E2=94=82 Open source software fo=
-r ARM SoCs
-> >>>
-> >>> Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-> >>> <http://twitter.com/#!/linaroorg> Twitter |
-> >>> <http://www.linaro.org/linaro-blog/> Blog   =20
-> >> =20
-> >  =20
->=20
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
