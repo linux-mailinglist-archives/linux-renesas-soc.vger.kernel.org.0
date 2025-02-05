@@ -1,310 +1,221 @@
-Return-Path: <linux-renesas-soc+bounces-12851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12852-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8C1A285A2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 09:33:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2233EA2865B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 10:19:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E99C01650B2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 08:33:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86C293A75C6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 09:19:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEE0222A1CA;
-	Wed,  5 Feb 2025 08:33:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8917622A1CA;
+	Wed,  5 Feb 2025 09:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="lJqo5xnH"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="mEUxIGZ4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010050.outbound.protection.outlook.com [52.101.228.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F3222A1D3
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Feb 2025 08:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738744427; cv=none; b=p+E5LN8RmW2F1EaHa7lr42yIx2i+wIvRYpiKJgA2HDEEpkiwfTIYrmLFMzcJdUoz+5ykae+wgveVvK/cQ96USvdS+X3CxHveKKhJ7JB1URVX9BCn3Tew4QjaDsUL6uh8RwBqccXdTI6pEmEwthAXrF5USUZOX2YVVQ5DN8k0V8Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738744427; c=relaxed/simple;
-	bh=tyDu95QILmv23E+SCN8/LpSR8y4LOLUkoXXA3keVQjA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nk08gjJdxQUkJj5iewwZslqXan9/NTYoYtuHUHbArvqN9AnCfCiubXon9mjcDpDoX4qFNRBUD2SlRAmiHRyR5RIoyh0hNjoTEhmQX75M8G4y261a9bAEs7ediMsL/wP1Ku2W1ud3Mjabhxo+hRxbHLq+YU553zp1q5/bEplOCWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=lJqo5xnH; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ab39f84cbf1so1170518466b.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Feb 2025 00:33:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1738744423; x=1739349223; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZWJMgZaIr7eyfAuY5Dzkz5IEHRAy8S7VHAn+U+qmklk=;
-        b=lJqo5xnHt6Vq8N9Gn4s8GqDYmsypPisnG+fjhs8ZBwjz+f5j6nh5BCBm+yrZgs1wLz
-         V1d4UNhzUN8mMTENcoce2lbMaKuVy2rLPs0VVPxkUUOb9pjV5JcyoA0jKLwh474LobGQ
-         iyCxx2tUcvCLaGu1P3wXxo3ce2rIeaUtXSTQtDcRTJl0lceBLWwNT6lOMgsYtrlxU9tn
-         jIEceR/nqY/ksRJiuRH1kdx5UQQ6fDyRfuovPcs8BwgYwzXzTvs4qXMQC5AsbzOa7DgO
-         sY5HCH/VBgvtpUgqDTjmxi0N8oEOFvhinNg26etoDzaTtDzbdxZUgPaaEH/nJ8duNPLp
-         AMgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738744423; x=1739349223;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZWJMgZaIr7eyfAuY5Dzkz5IEHRAy8S7VHAn+U+qmklk=;
-        b=n9X4imJDBBDusSVfhB05AXO27frcIocQ5eywivBF1hfkR3mashNk8fdaadMv7TZNPv
-         CSTngxdp64xSDUrFy4cT9VppyqoirhY5ZMd3VfRh832pCHZfIM9btod5wdVPmYwY8alp
-         b/avJ3kW56Wp9ziJp1BriQvn9YIN/P5y/SkhToHg3enMez2f8Y4NogNTrZqIenTBnhtf
-         PMwXlZVu2WxtxETjvN6eBQSJvHQsmu1U3oCwlcRmW+mN/koDljGrWjBQdGhOiy70vntf
-         8xG1948mWKeBSCxt/ImpR9Ogp2JspGAJBWSWW/KFG6U+USUTisGasfS/LeKdhRtkaE/N
-         m/Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCX3NLNg53NKX1nOlr2Y2lTIjSPm9gvhfAkbVbUqyYc5S+i4b3G11ZYXgLWFe+cc0oYwZNezobW5T3JVrggJQHM5QA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoEWPQLcJ0gztl63QOU0+ggnUpNhpI5cpkcdGwpw5CrxhIbiVK
-	CejQf65cDQVxJH8KuxZg5ntNMh75Vmp4e7oWnMjEWFBPas9nV6Hq8n53G4uYmfI=
-X-Gm-Gg: ASbGnctRD/S+yVZ0YRQHez95wOFiak4m5NSKNscGyRcluXpZF/ykQWqGkxp8CtlP4j6
-	3CoN8nN/r6go2i1ChenHEkJFWtt2kLLHejKMx9OBK6/QnrG9uQMD5NjaInpTtR3vMNpEe9s6cND
-	gNHkZLkE1zxNjuXt3f0u5Cmzy6ySegCLv1M6Rj4PcKTc3GK9q4ttCUeU+KdhNl5a1jz6S4S5uIn
-	mlM/c6xdgt712l9MsRA45Pa4jKnu0SOrf+Ioyvpy1sQpnHjgSrQs6wuFggaGMFDapeNiDdikGRO
-	ILzmrtZ/ocrUwcOlZ9lK/wgq
-X-Google-Smtp-Source: AGHT+IGEhtb+H3GSiFZ15hfS2O4DULBg79tuO2z8AqJ7PA+RjBlmFu+bQNPdm0vgf5fs1z4uefNclg==
-X-Received: by 2002:a17:906:6a1a:b0:ab3:974:3d45 with SMTP id a640c23a62f3a-ab75e24c011mr195996166b.1.1738744423032;
-        Wed, 05 Feb 2025 00:33:43 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.173])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e49ff2c6sm1074003866b.96.2025.02.05.00.33.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Feb 2025 00:33:42 -0800 (PST)
-Message-ID: <567adde6-a348-41c0-b415-80daf16d3dbb@tuxon.dev>
-Date: Wed, 5 Feb 2025 10:33:39 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB822205E3C;
+	Wed,  5 Feb 2025 09:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738747187; cv=fail; b=I31Pm2pi1QiP4UmSMLMgMEcYTkJwrjnJd1j+yVWpaIZ2/gUZSJGhLw+51zKABFH2ifL55skvZRSQvK3feS8VqJ1VY7xCwTRIH4fMZYIDFYSgbNGIXFNXaD12tIX8ns2bcqo8b7bq4USDLKsnTxI5PJdzvdVzmfoUEqzJkYPZ+as=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738747187; c=relaxed/simple;
+	bh=Ergd6+kJKmF4FdAjWYNj3A6dtLmCmOkvYi2mwgQ0zXo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=tP73T4xMR3BImDH+N/XgW/qfySo2z3L9p5+PfgWVJB9ma6bnbTQg+IdQ5Cl29zkLsWv/lpcYvN81F+WGASwbHNdRorXS9Ngm9EslnKBVEE0yl9HDCYCUVUJpefGJ7ni2Bk5diszy9X0PiB9TxBVPejQ2T8BtTz/0sOnh1BZrhOo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=mEUxIGZ4; arc=fail smtp.client-ip=52.101.228.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KF4XeYV606mV66F+zco73/5WIuOCNy24tndtGDo4atCe4j97nRpsV69/JjKjtc2HrCC4xNvBPPVfrX0jkRWra7aRpjP/PHyli8w1Lpkxkh+47yuudMQN5jShYeAaNiN1t9M6jIBPvYQpMTEhv8gU6K4qJTAqvg0OZqrgL07gOF0Ri7H8IGgH9F8VxSyLQF9S0Vl+CjhaHllfaC7aTN/Coi6ikUW8RPDlq4M81dtV0t+RRADfKSkTxUrtrClI0lg9TzKDtBoXD0VouW8pOOiiB4xZmGLC/dGC4ziFrVwp441VgiVeJ6qeEBf69rkzxNPkOp314RSOhxhexZwfq9a80Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ergd6+kJKmF4FdAjWYNj3A6dtLmCmOkvYi2mwgQ0zXo=;
+ b=gKYMVUF+0gepuO052gYp//1lyip3lOlTdLKeaKIQ8d46VqizTFr/PwMOoy7Gz1gFnCNPt85y2sxrkI7zaNP6ApKl85Wsck+XdFvIVm3Glri7wgacktdizveA4T9oykm0UYmGIiZIb+YSXqZfizUkZwXMh84RMvhnRQbCpuFo3wVXkFOBoPVL4sN6Xxkb2Yt6FPlC6ijMXkHFH9uPqU4g3vywbPh9ykPQOG5OWmLSYagyl0XThFb07EQVPUzI8z6sPgRSjtVBuB/+ZldkaQo2kC1ppt/VrKaffSn7MHLC+/8xN6fxE3NqoeYwGhUgM5IvvZAlCSOaibRnpLJYgrTLRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ergd6+kJKmF4FdAjWYNj3A6dtLmCmOkvYi2mwgQ0zXo=;
+ b=mEUxIGZ40R7hMV7VLFb2JSWz/+0Z2NeHXzhuX6w47a+gjMhMpZyCcWbEofegGHRTGJxD1VGZmXvgRiEPC66APBXhXsuqaxeLd3KDtahykX54ovioleEK/Bx7fZNF+qSAMK7TqLTlaLX5CIxUHK4PQIFjEUotOsv3FyKCjK+i29U=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYRPR01MB12348.jpnprd01.prod.outlook.com (2603:1096:405:fe::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.26; Wed, 5 Feb
+ 2025 09:19:41 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8422.010; Wed, 5 Feb 2025
+ 09:19:40 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+CC: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Prabhakar Mahadev
+ Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>
+Subject: RE: [PATCH v2 4/8] arm64: dts: renesas: r9a09g047: Add SDHI0-SDHI2
+ nodes
+Thread-Topic: [PATCH v2 4/8] arm64: dts: renesas: r9a09g047: Add SDHI0-SDHI2
+ nodes
+Thread-Index: AQHbc9LGzXxVCK4Pn02eIse6cZFbkbM4ZPqAgAARZMA=
+Date: Wed, 5 Feb 2025 09:19:40 +0000
+Message-ID:
+ <TY3PR01MB113461C01CD900DA03E2C628286F72@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250131112429.119882-1-biju.das.jz@bp.renesas.com>
+ <20250131112429.119882-5-biju.das.jz@bp.renesas.com>
+ <CAMuHMdVnEtoWU5_DTmN6WsftPb1pButHfCzpXEjK1w5OUKzsdQ@mail.gmail.com>
+In-Reply-To:
+ <CAMuHMdVnEtoWU5_DTmN6WsftPb1pButHfCzpXEjK1w5OUKzsdQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYRPR01MB12348:EE_
+x-ms-office365-filtering-correlation-id: b300eadd-c34b-4d41-6d52-08dd45c6386b
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?cGVmZmpLeFhpTVM0V1Rra2sxb3M3ZmtReVYvL0hMc0hnOU5HSnUvb0RUdmYv?=
+ =?utf-8?B?dTFUcEttK1gzMUFjWWxDOEhON3FjUHpxOU1OODk2MHMrazhRSFBDN1VyYU9M?=
+ =?utf-8?B?RzNNbVNaR2JteTNiUk03U1o4Mzd2a0tuczRpMmpMRFloNkUvTUxra0dFMzdE?=
+ =?utf-8?B?Y0hKZE5RSWt6UmlLb3lrMm1oNHEyWmR3b20zbHBuRlhBRjIwOEhIUE16djZK?=
+ =?utf-8?B?YVZxckc5WUVtbUo5TXRMNmR0Q0R1bDlqeWJwSzhIUFNxUE1Uc3p2WTN2alkr?=
+ =?utf-8?B?ZTR6NFptSllsQm5Ldkd4MEdCa1pHUTQ0V0FDcnh5Q3AyQWJvbEdhNEZ4dGti?=
+ =?utf-8?B?M0R2cFUweUloZXlBc0VRdkxEdnMxRU5FZktTY0tFYnVzVldsVDE4TVBla3N4?=
+ =?utf-8?B?RWhqMVo5aVFQcjRHT0FxdU0ybmpEZlJsMEVyMW50d0tZMFphQjdOdHB0Vkk3?=
+ =?utf-8?B?RUNPUWlNZjUwY1ZSTk02LzJMdnJNZHgzTld2YnBSVjZEdW4vOEI5UXRWdWZx?=
+ =?utf-8?B?THJEWTRFa2RZT3A0RUUwV1ZZcWx3MVZtK3hzUWt6T0dXV2lUVWVKcmJua2hi?=
+ =?utf-8?B?QlArZGR1TmtqZUZOY1NzL0UvRFZUekdHZHk5OHgva25rREFBbjVBTFd0Q1dP?=
+ =?utf-8?B?aFJRQUg0V2t1ZEhNUzFDdVZGL1hrZU1wTmpyeG1qR0E3NFY1NExxamhxMjlB?=
+ =?utf-8?B?ZXVhZEZZT1JranVRbmFjbk9kNkdLbXlydTBaMWc1dWZER2dlU1JGU3BTWG14?=
+ =?utf-8?B?VC8ycHNoa0Y2VDQ5R084Wkw0TjQ0NVhpUVlaUG9haGJmL3Z6NDFQeCs2YlBn?=
+ =?utf-8?B?WVlpUU91bmVUeGJVRHNQYlhuam84UmtHWksyUjJKTHJCZWpnZ1JVRUdlajAr?=
+ =?utf-8?B?RmNwa3R4cWlUUjlBWmVPaHpTOXlZYkt6TTJ2RkxIL2R2RDdCckZQS3VtVEJw?=
+ =?utf-8?B?L3ZFUDl2Tk16NVo1Y2ozbDlJb3hGTnNKdnN2b2NSUG92UE5WWEhiU0VMSVlT?=
+ =?utf-8?B?UktaMFJlNFEybUROMFBQUzcxMEFLSU1EdDVtaE01RVRKUG1FanY4RnhPRktC?=
+ =?utf-8?B?VWJVR29wQ1VTWUJ2cEpVcWJVaUo0bXdOZHNLMStYZGZoalViWW1DT0ROajdt?=
+ =?utf-8?B?cTFDMjVIaWE1Vzg4TFdMY1JQUndLQVJDRGRibVcyWDJlVXBwc1AxQzJhUnhu?=
+ =?utf-8?B?clI4L3BUQVJwM0tQcmxKKzEzTjlGVzJ5TnhLbDc2VFA2c0xLS0xBUmRGZ2VK?=
+ =?utf-8?B?ZmdXQUVPV1BIR3ZaeWFuN3dxUGFzSmF5SVNSOUpqNlZFM3o2cXVJb25HZGxM?=
+ =?utf-8?B?MlorM3Y3YW5uMDExYmJJcS8zWlo0N3c5UStiN04vbFA5Sk9wMGFtQzNtSnZN?=
+ =?utf-8?B?NDloMEpHeVRrUkttR0JNNm01ZEI4QmpJcnZSUnNEd1BMOEpqajJPZDU0SzZs?=
+ =?utf-8?B?QVkyREJmanYxVFlFelViYTBLVktkNmRrWnM0UldIRTQ1aXduZk9GOWF1Z0Iw?=
+ =?utf-8?B?d01hSFAxeUo3L2lTQTFZNFlsLzNwSjRLRC9wUXFNdWFCTlp6Rmpsa3BBYUdR?=
+ =?utf-8?B?YVlkWW1KZ3J4bGUrYmptek0zS1IvSnViVGkzbTE1SUx6cWhNTDkxZTNXQStW?=
+ =?utf-8?B?YTJmQWJMY3lZVHpEWG01NXNpUFI2MTVjTDJGVlcwNnNwRGtqUFJBRlZnM21K?=
+ =?utf-8?B?UTRFdXloT1ltVStkU1I4TXMrZ0V5Y0ZpUDlpYjE2YVN4UTc5NW11cThhZzVM?=
+ =?utf-8?B?akFldlRLdDlsRWVmQ3lTWVNiOVRMK2VBQktMemtnYXgxUG5IRVdXWEdSZWor?=
+ =?utf-8?B?WmM1K0tVTVNhbkJsKyt3R0c4dVpBenVzMzNvNEs2ay9CaU8vczBnUCtTdlBD?=
+ =?utf-8?B?OE9DMUJsTkRMRDZ4WXAvRHRkLzIyS3BadzY3RVM0ZVFEOHJ2RTN5ODNuVi9u?=
+ =?utf-8?Q?OwqMb4sOSWCL7WlcN5DU4yZF3j4D1kwx?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?anZtSWJmdVBLMU9aUXRvaU1ybUZmUFBhNitQMG4wUnRwMzBUaE9mUnRmeTlM?=
+ =?utf-8?B?OGJ1a3ZyTWJrRkVKcjU4Z1N4c1NaZFFZSWdLQVdjcVN2OHhDQXYrd1JhYW1F?=
+ =?utf-8?B?S0JBT1YxZjdFbFBCVzdjUU5kS1lhTzUvMDZrZmtzSXFJcUxRWnpWTndRRHhX?=
+ =?utf-8?B?ekNsNFlBM0NrdUM3QzBIVTgzRlRJL2NvZE92ekhjNlp2QklQWU1SbjBjNnZs?=
+ =?utf-8?B?SHJNaVc5Z2F6bEdtK2x2dVdpWDBNNVR4WU9nczNEZzQyZHB0YnU5aWlZaERo?=
+ =?utf-8?B?MzlJRG9KNW1QR1gyMmN5RXVpUEpzUG41VWJKRGxZOUY5OGxQZWcyays1MjRS?=
+ =?utf-8?B?S2svVFZqZ0h5VWFBNHZKRjV2RC84T2U1emd2bnhXMkFwQmI4eXFWZ1ZiK2dD?=
+ =?utf-8?B?aGp4ZG5zNVRsR3R3b05nUWxhOUFjM2UxS24zNEZtZVBJejhUQ095OFA4bTVn?=
+ =?utf-8?B?WFhnRngyN3NpeHB1alEvUmhEdU1ud0p6cy9KOThsbERCQW82U3Z5c0J5S3Ew?=
+ =?utf-8?B?clBtZGZJcVBvSlI1N2xhU0wzV01CbWpyblhBMHFqeXY3aUdWeWo3MDJkbll0?=
+ =?utf-8?B?UlZlNjhQcTBLRUZtVDFwNnJGTzBhblF4K3ZkcmNpbC9IN2hkNEhUVEM3Nmdk?=
+ =?utf-8?B?VEZzcWo3WmY3YUQ5cC9kOHNmZEFZWFp5akwxUlM5aGppVEVQMDRIdTdWQ2lE?=
+ =?utf-8?B?T0sxZXk2NXVxazdGYUJUOHVYN0V4UjJCcWRNaHBDVTNLY2hScm1HcWNaUjFk?=
+ =?utf-8?B?cHBuOXlQTENxem5vUjBXWThOOURGb1F6NDZKenRxQTR1dFQ5K0tvK1ZoZmhH?=
+ =?utf-8?B?Y2dOR0QyZHRWSWNxT3Y3Wi9nTkZwQUQ4enM5Yzg0NExyR1RYQlpvM2J0eGJM?=
+ =?utf-8?B?WlA0VEQ5ZGRPMmgxTHE0cVkwUzZWMW9laFdZRXpvSlg4V0NaYjNIelBpVnc4?=
+ =?utf-8?B?c1ZhNjMybElzNUp0bXk1aEN6dGpQN1hIS3N4cGJOMUw5cm5CR3lGL1RUUFRu?=
+ =?utf-8?B?RkdYVk14T2l5NDFTeFB4WnVhYXVPZ1lQQVdXMnIvNFVyc29tUStYbGJkcEMz?=
+ =?utf-8?B?ZTBMSzhDZFpQaGVBZkc5R1RiR3RJKzloVUx4QWREWUcxc2d5WXdMaU5TUGRX?=
+ =?utf-8?B?WUZUSUtKdnZRSzlBeG5udFNGWnpLY1dKVy9DSjMyQ1pGemVSaUtTckN3K1Fm?=
+ =?utf-8?B?MStUcmFyYkZ1MHArNmZObjQzaWNlTGs1M2hibzdHbGRocGdYeDEyd0ZKUzUv?=
+ =?utf-8?B?UUpldFl5UTlRYVVIaTJ2M2RzNG5ybGJFQnZPakszYTBuUHRZeVl2Rm44SVpV?=
+ =?utf-8?B?aDFjV01EWmlad1FDbUZScHVkVWRVdGx4N3p5YlNaeDY3dmMvTEF4ODF2M3da?=
+ =?utf-8?B?STFOcDRSNGNTTXVjUVM0ZVhDSTlOc0dpcGNvd05WYUpIUCtFMU1pSzFhRU5Z?=
+ =?utf-8?B?dnRJbU8zK2t1R2FtMUJwbkhGZ0F5OTNsQWtaR1JrTUh5akQ2NHBQSEc4OUc1?=
+ =?utf-8?B?VWRoQzlNOXBLaTdMMjAvaUZUNkQra3FJMFRvc2pMUUdOZjdxeGNmQjd5YUV2?=
+ =?utf-8?B?dG9LMkgzbmVRY1BwYjEvbnJ3YXR0akRiNEg2cGdyTk1TMS9tQjFaSnhjUzd6?=
+ =?utf-8?B?KzdsVlVhK0pibGhUZC9JNzBzallEMHR0aUR1VFdoT3g0ME1yUTU1dHZ2a2tH?=
+ =?utf-8?B?eUxjUlAreEZFK1RNTlZUR01uN1FwMGgyUHYvbmVKNWlNMHNCYnM4bHZLUjFs?=
+ =?utf-8?B?dlM1c0lLY1hOYVJSNG9PWCtQcTBhVGNkVWxvcHQ1c25VbzlRQTVYMk0zN2Rz?=
+ =?utf-8?B?MWdsdTZ5YlQrOWpOZG1rS2NvaUZ0dTI1NlFiWno3MkJTV0V4TVhrOU9oWkFv?=
+ =?utf-8?B?WEJiSTdrR29aYVpSYUw4aXBTY0ZudkNrMDlJYUhJd3N2aDFjYUNKUGgzY090?=
+ =?utf-8?B?OW00ajRQWVlRUHAvUXVCdzhnNHN2TFBlK3pjbU5uRCtqQWc1eEljQ09vc1BK?=
+ =?utf-8?B?RTdscnJNUWJnaWxQaStSWUV3OXN5M3F0THJpa3ZrRmhYTEF0R2MzaENwdUov?=
+ =?utf-8?B?QzlocThPOThuQWE3cmpIdnA5QjFnZER1Z0k5MlgzRi9ObjFMdVEvbXNpUFlt?=
+ =?utf-8?B?alF0enVHd3Z3dkVMQ3pYcy9NdytoM2NPamw2NlQ0Y3JuQi9maDRuTUpBYjd1?=
+ =?utf-8?B?WGc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] thermal: of: Export non-devres helper to
- register/unregister thermal zone
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org,
- rui.zhang@intel.com, lukasz.luba@arm.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
- magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
- p.zabel@pengutronix.de, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250103163805.1775705-1-claudiu.beznea.uj@bp.renesas.com>
- <20250103163805.1775705-3-claudiu.beznea.uj@bp.renesas.com>
- <46c8e8ff-ea39-4dbd-a26c-67fcabf4b589@linaro.org>
- <CAPDyKFq40KB6jKapnm0mOkFGB9-7VEGiBhNrVn_2fzrcziq0=Q@mail.gmail.com>
- <20250204143303.0000174a@huawei.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <20250204143303.0000174a@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b300eadd-c34b-4d41-6d52-08dd45c6386b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2025 09:19:40.8290
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /iR+2W0R4LAfV4E1pupktYonfqFmYojHUdfN6EPOilDm/W4xDk5bumcFCmiGDa2aZ0s5l5vk52p6z+hs2nD30E+XPaew6BEiR1UbBJarTDM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB12348
 
-Hi, Jonathan,
-
-On 04.02.2025 16:33, Jonathan Cameron wrote:
-> On Wed, 15 Jan 2025 16:42:37 +0100
-> Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> 
->> On Thu, 9 Jan 2025 at 18:34, Daniel Lezcano <daniel.lezcano@linaro.org> wrote:
->>>
->>>
->>> Ulf,
->>>
->>> can you have a look at this particular patch please ?
->>>
->>> Perhaps this scenario already happened in the past and there is an
->>> alternative to fix it instead of this proposed change  
->>
->> I think the patch makes sense.
->>
->> If there is a PM domain that is attached to the device that is
->> managing the clocks for the thermal zone, the detach procedure
->> certainly needs to be well controlled/synchronized.
->>
-> Does this boil down to the same issue as
-> https://lore.kernel.org/linux-iio/20250128105908.0000353b@huawei.com/
-> ?
-
-Yes, as described in the cover letter.
-
-> 
-> Just to point out there is another way like is done in i2c:
-> https://elixir.bootlin.com/linux/v6.12.6/source/drivers/i2c/i2c-core-base.c#L630
-> 
-> Register a devres_release_group() in bus probe() and release it before
-> the dev_pm_domain_detach() call.  That keeps the detach procedure well
-> controlled and synchronized as it is entirely in control of the driver.
-
-From the IIO thread I got that Ulf doesn't consider it a good approach for
-all the cases.
-
-Thank you,
-Claudiu
-
-> 
-> That IIO thread has kind of died out for now though with no resolution
-> so far.
-> 
-> Jonathan
-> 
-> 
->>>
->>>
->>> On 03/01/2025 17:38, Claudiu wrote:  
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> On the Renesas RZ/G3S (and other Renesas SoCs, e.g., RZ/G2{L, LC, UL}),
->>>> clocks are managed through PM domains. These PM domains, registered on
->>>> behalf of the clock controller driver, are configured with
->>>> GENPD_FLAG_PM_CLK. In most of the Renesas drivers used by RZ SoCs, the
->>>> clocks are enabled/disabled using runtime PM APIs.
->>>>
->>>> During probe, devices are attached to the PM domain controlling their
->>>> clocks. Similarly, during removal, devices are detached from the PM domain.
->>>>
->>>> The detachment call stack is as follows:
->>>>
->>>> device_driver_detach() ->
->>>>    device_release_driver_internal() ->
->>>>      __device_release_driver() ->
->>>>        device_remove() ->
->>>>          platform_remove() ->
->>>>         dev_pm_domain_detach()
->>>>
->>>> In the upcoming Renesas RZ/G3S thermal driver, the
->>>> struct thermal_zone_device_ops::change_mode API is implemented to
->>>> start/stop the thermal sensor unit. Register settings are updated within
->>>> the change_mode API.
->>>>
->>>> In case devres helpers are used for thermal zone register/unregister the
->>>> struct thermal_zone_device_ops::change_mode API is invoked when the
->>>> driver is unbound. The identified call stack is as follows:
->>>>
->>>> device_driver_detach() ->
->>>>    device_release_driver_internal() ->
->>>>      device_unbind_cleanup() ->
->>>>        devres_release_all() ->
->>>>          devm_thermal_of_zone_release() ->
->>>>         thermal_zone_device_disable() ->
->>>>           thermal_zone_device_set_mode() ->
->>>>             rzg3s_thermal_change_mode()
->>>>
->>>> The device_unbind_cleanup() function is called after the thermal device is
->>>> detached from the PM domain (via dev_pm_domain_detach()).
->>>>
->>>> The rzg3s_thermal_change_mode() implementation calls
->>>> pm_runtime_resume_and_get()/pm_runtime_put_autosuspend() before/after
->>>> accessing the registers. However, during the unbind scenario, the
->>>> devm_thermal_of_zone_release() is invoked after dev_pm_domain_detach().
->>>> Consequently, the clocks are not enabled, as the device is removed from
->>>> the PM domain at this time, leading to an Asynchronous SError Interrupt.
->>>> The system cannot be used after this.
->>>>
->>>> Add thermal_of_zone_register()/thermal_of_zone_unregister(). These will
->>>> be used in the upcomming RZ/G3S thermal driver.
->>>>
->>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>  
->>
->> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
->>
->> Kind regards
->> Uffe
->>
->>>> ---
->>>>   drivers/thermal/thermal_of.c |  8 +++++---
->>>>   include/linux/thermal.h      | 14 ++++++++++++++
->>>>   2 files changed, 19 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
->>>> index fab11b98ca49..8fc35d20db60 100644
->>>> --- a/drivers/thermal/thermal_of.c
->>>> +++ b/drivers/thermal/thermal_of.c
->>>> @@ -329,11 +329,12 @@ static bool thermal_of_should_bind(struct thermal_zone_device *tz,
->>>>    *
->>>>    * @tz: a pointer to the thermal zone structure
->>>>    */
->>>> -static void thermal_of_zone_unregister(struct thermal_zone_device *tz)
->>>> +void thermal_of_zone_unregister(struct thermal_zone_device *tz)
->>>>   {
->>>>       thermal_zone_device_disable(tz);
->>>>       thermal_zone_device_unregister(tz);
->>>>   }
->>>> +EXPORT_SYMBOL_GPL(thermal_of_zone_unregister);
->>>>
->>>>   /**
->>>>    * thermal_of_zone_register - Register a thermal zone with device node
->>>> @@ -355,8 +356,8 @@ static void thermal_of_zone_unregister(struct thermal_zone_device *tz)
->>>>    *  - ENOMEM: if one structure can not be allocated
->>>>    *  - Other negative errors are returned by the underlying called functions
->>>>    */
->>>> -static struct thermal_zone_device *thermal_of_zone_register(struct device_node *sensor, int id, void *data,
->>>> -                                                         const struct thermal_zone_device_ops *ops)
->>>> +struct thermal_zone_device *thermal_of_zone_register(struct device_node *sensor, int id, void *data,
->>>> +                                                  const struct thermal_zone_device_ops *ops)
->>>>   {
->>>>       struct thermal_zone_device_ops of_ops = *ops;
->>>>       struct thermal_zone_device *tz;
->>>> @@ -429,6 +430,7 @@ static struct thermal_zone_device *thermal_of_zone_register(struct device_node *
->>>>
->>>>       return ERR_PTR(ret);
->>>>   }
->>>> +EXPORT_SYMBOL_GPL(thermal_of_zone_register);
->>>>
->>>>   static void devm_thermal_of_zone_release(struct device *dev, void *res)
->>>>   {
->>>> diff --git a/include/linux/thermal.h b/include/linux/thermal.h
->>>> index 69f9bedd0ee8..adbb4092a064 100644
->>>> --- a/include/linux/thermal.h
->>>> +++ b/include/linux/thermal.h
->>>> @@ -195,13 +195,23 @@ struct thermal_zone_params {
->>>>
->>>>   /* Function declarations */
->>>>   #ifdef CONFIG_THERMAL_OF
->>>> +struct thermal_zone_device *thermal_of_zone_register(struct device_node *sensor, int id, void *data,
->>>> +                                                  const struct thermal_zone_device_ops *ops);
->>>>   struct thermal_zone_device *devm_thermal_of_zone_register(struct device *dev, int id, void *data,
->>>>                                                         const struct thermal_zone_device_ops *ops);
->>>>
->>>> +void thermal_of_zone_unregister(struct thermal_zone_device *tz);
->>>>   void devm_thermal_of_zone_unregister(struct device *dev, struct thermal_zone_device *tz);
->>>>
->>>>   #else
->>>>
->>>> +static inline
->>>> +struct thermal_zone_device *thermal_of_zone_register(struct device_node *sensor, int id, void *data,
->>>> +                                                  const struct thermal_zone_device_ops *ops)
->>>> +{
->>>> +     return ERR_PTR(-ENOTSUPP);
->>>> +}
->>>> +
->>>>   static inline
->>>>   struct thermal_zone_device *devm_thermal_of_zone_register(struct device *dev, int id, void *data,
->>>>                                                         const struct thermal_zone_device_ops *ops)
->>>> @@ -209,6 +219,10 @@ struct thermal_zone_device *devm_thermal_of_zone_register(struct device *dev, in
->>>>       return ERR_PTR(-ENOTSUPP);
->>>>   }
->>>>
->>>> +static inline void thermal_of_zone_unregister(struct thermal_zone_device *tz)
->>>> +{
->>>> +}
->>>> +
->>>>   static inline void devm_thermal_of_zone_unregister(struct device *dev,
->>>>                                                  struct thermal_zone_device *tz)
->>>>   {  
->>>
->>>
->>> --
->>> <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
->>>
->>> Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
->>> <http://twitter.com/#!/linaroorg> Twitter |
->>> <http://www.linaro.org/linaro-blog/> Blog  
->>
-> 
-
+SGkgR2VlcnQgVXl0dGVyaG9ldmVuLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+
+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4ay5vcmc+DQo+IFNlbnQ6
+IDA1IEZlYnJ1YXJ5IDIwMjUgMDg6MTcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MiA0LzhdIGFy
+bTY0OiBkdHM6IHJlbmVzYXM6IHI5YTA5ZzA0NzogQWRkIFNESEkwLVNESEkyIG5vZGVzDQo+IA0K
+PiBIaSBCaWp1LA0KPiANCj4gT24gRnJpLCAzMSBKYW4gMjAyNSBhdCAxMjoyNSwgQmlqdSBEYXMg
+PGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPiB3cm90ZToNCj4gPiBBZGQgU0RISTAtU0RISTIg
+bm9kZXMgdG8gUlovRzNFICgiUjlBMDlHMDQ3IikgU29DIERUU0kuDQo+ID4NCj4gPiBTaWduZWQt
+b2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+ID4gLS0tDQo+
+ID4gdjEtPnYyOg0KPiA+ICAqIFN0YXR1cyBvZiBpbnRlcm5hbCByZWd1bGF0b3IgaXMgZGlzYWJs
+ZWQgaW4gdGhlIFNvQyAuZHRzaS4gT3ZlcnJpZGUNCj4gPiAgICB0aGUgc3RhdHVzIGluIHRoZSBi
+b2FyZCBEVFMgd2hlbiBuZWVkZWQuDQo+IA0KPiBUaGFua3MgZm9yIHRoZSB1cGRhdGUhDQo+IA0K
+PiA+IC0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOWEwOWcwNDcuZHRzaQ0KPiA+
+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOWEwOWcwNDcuZHRzaQ0KPiA+IEBA
+IC00MTAsNiArNDEwLDY2IEBAIGdpYzogaW50ZXJydXB0LWNvbnRyb2xsZXJAMTQ5MDAwMDAgew0K
+PiA+ICAgICAgICAgICAgICAgICAgICAgICAgIGludGVycnVwdC1jb250cm9sbGVyOw0KPiA+ICAg
+ICAgICAgICAgICAgICAgICAgICAgIGludGVycnVwdHMgPSA8R0lDX1BQSSA5IElSUV9UWVBFX0xF
+VkVMX0xPVz47DQo+ID4gICAgICAgICAgICAgICAgIH07DQo+ID4gKw0KPiA+ICsgICAgICAgICAg
+ICAgICBzZGhpMDogbW1jQDE1YzAwMDAwICB7DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
+Y29tcGF0aWJsZSA9ICJyZW5lc2FzLHNkaGktcjlhMDlnMDQ3IiwgInJlbmVzYXMsc2RoaS1yOWEw
+OWcwNTciOw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwweDAgMHgxNWMwMDAw
+MCAwIDB4MTAwMDA+Ow0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIGludGVycnVwdHMgPSA8
+R0lDX1NQSSA3MzUgSVJRX1RZUEVfTEVWRUxfSElHSD4sDQo+ID4gKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIDxHSUNfU1BJIDczNiBJUlFfVFlQRV9MRVZFTF9ISUdIPjsNCj4g
+PiArICAgICAgICAgICAgICAgICAgICAgICBjbG9ja3MgPSA8JmNwZyBDUEdfTU9EIDB4YTM+LCA8
+JmNwZyBDUEdfTU9EIDB4YTU+LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IDwmY3BnIENQR19NT0QgMHhhND4sIDwmY3BnIENQR19NT0QgMHhhNj47DQo+ID4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgY2xvY2stbmFtZXMgPSAiY29yZSIsICJjbGtoIiwgImNkIiwgImFjbGsi
+Ow0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIHJlc2V0cyA9IDwmY3BnIDB4YTc+Ow0KPiA+
+ICsgICAgICAgICAgICAgICAgICAgICAgIHBvd2VyLWRvbWFpbnMgPSA8JmNwZz47DQo+ID4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgc3RhdHVzID0gImRpc2FibGVkIjsNCj4gPiArDQo+ID4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgdnFtbWNfc2RoaTA6IHZxbW1jLXJlZ3VsYXRvciB7DQo+IA0K
+PiBzZGhpMF92cW1tYz8gKHNhbWUgZm9yIHRoZSBvdGhlcnMpDQoNCkl0IGlzIG9rIHRvIG1lLg0K
+DQpDaGVlcnMsDQpCaWp1DQo=
 
