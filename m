@@ -1,34 +1,34 @@
-Return-Path: <linux-renesas-soc+bounces-12881-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12882-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED61CA29750
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 18:25:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1452A29A0F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 20:28:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C6FB3A146B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 17:24:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A43841889D69
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 19:28:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76A671DE4E1;
-	Wed,  5 Feb 2025 17:24:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 997CE1FF5FF;
+	Wed,  5 Feb 2025 19:28:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="cQJQL+7P"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Vlm5sa+I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A853E2E64A;
-	Wed,  5 Feb 2025 17:24:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F53A38F82;
+	Wed,  5 Feb 2025 19:28:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738776278; cv=none; b=sw7ShAVc02VZBUvVogqwBGTmX7+X4WgCaa+e1isb6tBOcEo5tt9QGLQ0T1w2yTXOIKlhuP4z3HLOlrDEonCrPpAflk2TrFxmtbXmMunB7Bi6iEkoM6I9kyMHpiM5TGyK9vws2ZQKjRv9kjLj7gES8tV1FNQG2rNvfTsRQsx43wI=
+	t=1738783688; cv=none; b=vEOf3jKIWi2qbesxWoIsW/n2d2MdibCz5yRBaYWsa8T8O6z7EgvSabYmBTVt6W0inOaou2Sn6NcymwP50fhYromwZq2OCKoMbGe1vvTKmf/NuZczOxlfBI0OCa1xuDsJyU5KPDkqe4uXUSfmnQkm4K9DjrDtP7wUGPbVMLFvRr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738776278; c=relaxed/simple;
-	bh=S9fokhhJa6Jwtua/H5Dra0dqKsvHzFJ6psHbNOLIuN4=;
+	s=arc-20240116; t=1738783688; c=relaxed/simple;
+	bh=ARv2kuv1WdLz5e6A/Zs92BFETgS2nRXbUiLMxJQ9p/o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RHlDsPqYcyTiwdhX0CPKzxa+QJz8/yg1/RakEsVXGa09Ac9vkG1DLJfbj054zrA6bNpPac7mP8+7/LU5pIK0o2wLlOl61dZybMRlMFY9zVyrs8+atjJqNmkNsG7s6UK56BIg1y/32KAYu2g3x86AZu7QmHLJkSn8t85F4lESHhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=cQJQL+7P; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=mMnOPBxR9UX5mG2xNc1y6PcPVSalltZkvVN8ImyoJoSgB+GdiKCyD7uqBRCcSKmo05kEnV9ybUx5digln0INtI62utvFQoLM3X8dkb1g7OpFCo02b1/Nwb7jzCpuqMEKJtYt2r5jaW1I3NZjwAl4/5Iv8c3mvFrC3/SS5was2vA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Vlm5sa+I; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
@@ -36,25 +36,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=iiXE6ImDeXhqYWAO+mw4d1zn1BVCUrtoSSuTrLxEg+o=; b=cQJQL+7PTZAtKcaPqresuEaFo8
-	YYMZFbvZF7rMmnHW6TvjbdG35SoFUk2bJuiKxw8Wi8Slqs3EYdMI1p2ObFTbD2qsRLbnpFYcDy59s
-	YKCy4GuREXv8pXUuVvMDLSVWWGCzTU4OdDqsmFdcOQyaSX6BiG0KkD7eB2lgd3FQgYHc=;
+	bh=L3089WJW54oVnmL9DxNrP2/r2oAqezCtpZFJmUTCoXo=; b=Vlm5sa+IRgtWN1um3nZQpuqgGq
+	Ru+1jE5uLzZLOexroAUspi/rI0APosvBFJVxKMLT0kiCiZMHm4hRwN9BD6XtdzyUffu2xmoWSOF84
+	ZYZbnJjy77vMB8uukujoiR8t/Zg2Sf9A6wT+niK986Al/4RMJBF347GQ6t3OFdt/3kvU=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1tfj8T-00BFe9-63; Wed, 05 Feb 2025 18:24:25 +0100
-Date: Wed, 5 Feb 2025 18:24:25 +0100
+	id 1tfl40-00BHgf-K9; Wed, 05 Feb 2025 20:27:56 +0100
+Date: Wed, 5 Feb 2025 20:27:56 +0100
 From: Andrew Lunn <andrew@lunn.ch>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>,
-	Cl__ment L__ger <clement.leger@bootlin.com>,
+To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next] net: pcs: rzn1-miic: fill in PCS
- supported_interfaces
-Message-ID: <ce0f9fc7-b646-43f4-8b3c-9eff2e916b7b@lunn.ch>
-References: <E1tfhYq-003aTm-Nx@rmk-PC.armlinux.org.uk>
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Michael Dege <michael.dege@renesas.com>,
+	Christian Mardmoeller <christian.mardmoeller@renesas.com>,
+	Dennis Ostermann <dennis.ostermann@renesas.com>
+Subject: Re: [PATCH net-next] net: renesas: rswitch: cleanup max_speed setting
+Message-ID: <8ffa6442-2a3d-4903-84fc-e3f9b8bdd94f@lunn.ch>
+References: <20250203170941.2491964-1-nikita.yoush@cogentembedded.com>
+ <59bc0c2b-0ece-427e-80c5-5b6920132989@lunn.ch>
+ <af3fb019-48fa-42e0-9e02-a4b0d3a724bc@cogentembedded.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,16 +69,35 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1tfhYq-003aTm-Nx@rmk-PC.armlinux.org.uk>
+In-Reply-To: <af3fb019-48fa-42e0-9e02-a4b0d3a724bc@cogentembedded.com>
 
-On Wed, Feb 05, 2025 at 03:43:32PM +0000, Russell King (Oracle) wrote:
-> Populate the PCS supported_interfaces bitmap with the interfaces that
-> this PCS supports. This makes the manual checking in miic_validate()
-> redundant, so remove that.
+On Wed, Feb 05, 2025 at 05:26:09PM +0100, Nikita Yushchenko wrote:
+> > You should only need max-speed when you have a PHY which can do more
+> > than the MAC.
 > 
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> This is exactly the case.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+O.K. Please expand the commit message to explain this.
 
-    Andrew
+> Unfortunately I don't have the spider schematics nearby, but AFAIU (one of
+> flavours of) the board has PHYs capable of 5G but connected over SGMII.
+> When two such boards are connected to each other, on mainline kernel
+> auto-negotiation takes noticeably longer than with the Renesas BSP kernel.
+
+I'm actually curious how it established a link at all. If both PHYs
+are advertising 5G, they should be happy on the media side. They will
+get link. But they will ask the MAC to swap to 5000BaseX or similar. I
+assume the MAC cannot do that, but what does it do? How does the PHY
+know it should try something slower?
+
+> > Also, phylink handles this a lot better than phylib. So you might want
+> > to change rswitch to phylink, especially if you have link speeds > 1G.
+> 
+> The reverse switch happened in commit c16a5033f77b ("net: renesas: rswitch: Convert to phy_device").
+> I did not check the tech details of that, but decided not to touch it.
+
+Might be worth taking another look, especially if anybody wants to use
+SFPs.
+
+	Andrew
 
