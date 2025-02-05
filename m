@@ -1,105 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-12866-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12867-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75ACA28A9D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 13:45:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68EE5A28C74
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 14:50:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3BB941636C3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 12:44:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA6AD7A381E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 13:45:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5223922DF97;
-	Wed,  5 Feb 2025 12:44:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7746D14A630;
+	Wed,  5 Feb 2025 13:46:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MTe1WtGJ"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="GoazA48I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FCC22DF94;
-	Wed,  5 Feb 2025 12:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828D3149C53
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Feb 2025 13:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738759466; cv=none; b=F/ERfK//JPYRpbKXdWaK6e2FX/L+uzfOZUVjScHtqD05CWCuq5ZbnBR9sIyD/NY6ylFllh3L6wnxqk5zFMXc/4E/hZy8eU3+Lvqc8zzedHTHrv3Y8nVYp/XEepovheq4TXj2JDmlt+igLlS+UnunwNKmGkxrun/onfneNC4PyrE=
+	t=1738763194; cv=none; b=WsjtoYVKGfdJY75esa1Q74/AwhSvCClbD3NSrP428sOQZ+ZKOQgFpRsdiBgAVr9gy3wf1Wp/tlZ2+8egVPSmRLuGspLO5xQYe2x9mRgw4NEKexyKGwjvNaVBeJ/C3r1AhXhPFz+IwrBkiNiCIxwgjOxAbY+gn74Ll43BBm/Z/6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738759466; c=relaxed/simple;
-	bh=8iLfXxhY+M8Fm+e3Wt34iJHyPl/Cf4DZ4AeRbBEWBC0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=F1mk5PQqS/6MP5X8iOudQxvlxuXF0L9bO5pltF1sp/RLk4A88kAF0h0AFbt8TalhpP6XNYfhMwLLbuDgRqwVF3rc81iynUR0FFuD5gqCMqhowQYUQHR38kSgRGrgXHsn798Nb27l4Po7Dgzd8kxsCFNZG9XDSRNfPCllwNEEL1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MTe1WtGJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0915C4CED1;
-	Wed,  5 Feb 2025 12:44:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738759465;
-	bh=8iLfXxhY+M8Fm+e3Wt34iJHyPl/Cf4DZ4AeRbBEWBC0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MTe1WtGJDjMorHOW5FQDX7stZjlSIR5BKBb1nxgTOddR23mvtzJEQp2EjZVzmA3ZV
-	 ei0+GAEzHchEnUdtZuCOwUR70IAIDljD3wq+OGubiRws4c3KBEcXPM9JwFjqMDX6Gk
-	 lky7XZSV1SQQh52/glHKiLqJ/TdCv3IEsCErZxgT7Uxv/iL7+fAUtiW3MpcUjZFOBV
-	 SyoHRBf83M+wojx/QWZqkjyOvhGBY5WXJPrts5deDGTOo78yBsvNIeO/31PsWiXsYY
-	 RpRrzKbzFOfiJP7hgh6RT8xYP6wLyWG3c/UqBnSWoLrjM6cUKpQCbJ1T+HjrGNs4Ke
-	 ZapRkjw0hNyDQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Rob Herring <robh@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
-References: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] ASoC: soc-core: Stop using of_property_read_bool() for
- non-boolean properties
-Message-Id: <173875946347.32457.4558405909681470251.b4-ty@kernel.org>
-Date: Wed, 05 Feb 2025 12:44:23 +0000
+	s=arc-20240116; t=1738763194; c=relaxed/simple;
+	bh=ODcL6Yxbj5cfyzCwYxhXJf9ai40FiBV7YJaFkeuxK88=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xq5Jwlbvoq1WANxwaqHn/Te7YrNRhPu4qa+g746XjBHjCsIYbzpwuk9S4zCW981r1K1tlk0p/MeedJArPMg9fcE0HQ8gKSeCvS/tq1gBuon56fhWGUKFcbyTGa2gPh+RqxkwZ3bHqXFNUUyxFnU4vPw+g4v5PbgZIeLDvzAhWgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=GoazA48I; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=FlKa0VMf792zDz
+	DUcLRwxTAZBpC0lZ3knvWFQqm0lA0=; b=GoazA48I25U53I2FSlk4P3DPSvGZdb
+	l6Ve1sNifpYrrU3sW4Ux+UxQkDxu1wXH5RUBbXpBhNDxc5H0pQ/+R2bi591e04Vi
+	mi3M1DToajLx1uXgpcnKOnPjPvygblmRMZHNEVxQoXMSo15SXkMZccKGml3uhixY
+	J6giFXUHlitajCSN0WqniasEXrHFGLkE8jWiHhP5dOhzes5eRH7SqrHBaJrmAH7K
+	+HgQgpEKws3C/SsbvoLnsadokfQczRFfFdtCLowRIIp4w8/PDW6hX0TF+tyanXRg
+	pQh4DVrfDbto5yAlfkMmmdyoruXJrFEr69xagmbWgKN+k86ctT6twR2A==
+Received: (qmail 3407749 invoked from network); 5 Feb 2025 14:46:26 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Feb 2025 14:46:26 +0100
+X-UD-Smtp-Session: l3s3148p1@RqgOWmUtisFtK/OC
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-i2c@vger.kernel.org
+Subject: [PATCH 0/2] i2c: revert flag based client handling
+Date: Wed,  5 Feb 2025 14:42:25 +0100
+Message-ID: <20250205134623.6921-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Transfer-Encoding: 8bit
 
-On Wed, 22 Jan 2025 09:21:27 +0100, Geert Uytterhoeven wrote:
-> On R-Car:
-> 
->     OF: /sound: Read of boolean property 'simple-audio-card,bitclock-master' with a value.
->     OF: /sound: Read of boolean property 'simple-audio-card,frame-master' with a value.
-> 
-> or:
-> 
-> [...]
+It turned out the new mechanism does not handle all muxing cases. Revert
+the changes to give a proper solution more time.
 
-Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Wolfram Sang (2):
+  Revert "i2c: Replace list-based mechanism for handling
+    userspace-created clients"
+  Revert "i2c: Replace list-based mechanism for handling auto-detected
+    clients"
 
-Thanks!
+ drivers/i2c/i2c-core-base.c | 113 ++++++++++++++++++++++++------------
+ include/linux/i2c.h         |  10 +++-
+ 2 files changed, 83 insertions(+), 40 deletions(-)
 
-[1/1] ASoC: soc-core: Stop using of_property_read_bool() for non-boolean properties
-      commit: 6eab7034579917f207ca6d8e3f4e11e85e0ab7d5
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.45.2
 
 
