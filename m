@@ -1,146 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-12872-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12873-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E856FA28E87
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 15:14:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B846A2951A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 16:44:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72348162266
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 14:14:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B1E77165BF5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Feb 2025 15:44:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4E1F1494DF;
-	Wed,  5 Feb 2025 14:14:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4F6D186E40;
+	Wed,  5 Feb 2025 15:44:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bsGK/3QF"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="i2VFE+Zw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316651519AA
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Feb 2025 14:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A80815FA7B;
+	Wed,  5 Feb 2025 15:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738764844; cv=none; b=mm9m+nlfU0CTDRzrdhANhIeVw+HrjbWe9TnK9uJ7rf1MsoH6n/lntQKS82uyMiTYslE/0XZ5lcCkwQa1O7EHvT2FWtyZmkdi/evU3ATJ2AtmgUtWMGmjcwpVVUT8umhKqfNNmLPjeewBBAXxPuGuU5oQ3Jiu9JqA4sm6kEOIs6w=
+	t=1738770242; cv=none; b=ph6Lymby3FMB6ALxdCLEXF07OGDVy71Jypwuk/FkHjYO3HLAgJVLOhBPH0Fmi6STxpoAkhegUUstFxjUp3djKJs5tBITuqQQRu1uvkLx13sBjmRPjb/DIfRDz2jef0cqDvEe84malLZIUOsw5kqgrpIf2OnIwWTGrI48XKjk3rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738764844; c=relaxed/simple;
-	bh=8G3pdmLPUL8nwQ67PrY+OiDknV/QWiQsMXtrZALGckc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m0PIHRQ8knvuAqrQ1aEbRdRH4OzNx2gVoOpOKcKYi0P6aGVTogTA/y0WDT50rntDJagtYjjnBZpS9eS24IJioIJcLNCLEb+Eg2d9f3I4/xy9dQMc3oOY31bKO3hvn8lLIHjH2nHQL1WplF9j3QW6OYdgDnmQK2wu8IFA/NfPJlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bsGK/3QF; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-51eb1818d4fso3523445e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Feb 2025 06:14:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738764842; x=1739369642; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i0xTWwRdjjKhlQ5L0/DBHR6AelyLikMHlBGThrkh4pU=;
-        b=bsGK/3QFI69s+j+E4xfZ6APM/3SP+GFLCjGYTukJgFbNucSMMmBqFJOIaZiRo6uVmu
-         L646zkPlg0YqyIUPyuDTmaI5fAcaIkkHWRj3z0DsG8mwIgx7MPEMNOwuH9J3hNAElw00
-         BLPL9i2kknnUoGA3a2gSdlmNO/gyqISKfReoqrpYEUwHn3UjZX0FdEbhBHMzuTMEvKyp
-         gJSikHeZ1qsLx9PXskNMOSpOTpsM6R0PWg5h0uC3tCX1uAOUf6KlGcqM9boRvyFU+FQP
-         grzd0Pbb5lKZJX/WjuCpcCbmEbPCe8bf2eb8QA0XrmJt2+W48dO/YzN4ULESL5etdVaZ
-         9S6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738764842; x=1739369642;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i0xTWwRdjjKhlQ5L0/DBHR6AelyLikMHlBGThrkh4pU=;
-        b=GSb//+8L/Y04AD4YyU+QWrJr/KVufL1eJyt0pZOSZ3gqIPfN3WMIBgtOPnbIWtu/kL
-         kou3SzCR+MYusbpP2hvNn/UdCwM1XxW9JxcS7aASBaaThumNwwKRRo5N0zTIf3Y+/298
-         6eKuWsYe/cKYKFRdJZuR1ym4GoFZ8N6mO3pRXyJ3QVYad/HRD/MSPWUS7eKVy6k5Ol8f
-         PWav57lqpWso3HQ5vGMfaUZhyqfSy4/uovYxgdxnchdTRTtmxAer0la4JNq9xBA3EXBm
-         3o9S+IC1NPlPzQb/qxPmrdHFNRRbZ2uRs2LvUo+ZIasD+uzxNl7DRWGOhpPf2KSlt68N
-         ExRg==
-X-Forwarded-Encrypted: i=1; AJvYcCX7Pcgkv+xxUP3ZqVNrdsMyYq7XS4EIoq50DdswPY/lHCZbj5S3B9gR9nVH1GAd/4rvO9UputP4WkKGgOEU0tPcoQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDIy4N4L6dzCo2GGgbw33Vo2SluPvY/Xw2UU0ANVrjiObaKPRt
-	zOyhm9iZ70FMAxSb9ulaawNBg/YQO1Ilc2Nxjh4+l/SHbZGIjW2LVwQTli6ZlR4B6CzeV3gUA54
-	sfpykrLgceMgc4FECk/ussQBz/oM=
-X-Gm-Gg: ASbGncv4/ZkYUJjdMbns59wjhlO9cXM+qS7b+ODMO5HZ5XvFuLZzUY2lOzaQytALjrH
-	lx0vTZCrUsdYwhGn9JoBpoJ+DHwjIbA05Yv6VYO5IlwLz9pHeF2YkXP9B5Gbr43r0shC0dNHu
-X-Google-Smtp-Source: AGHT+IH0hm1roYOsKfWhB9Oc9nU9TN7dMhTrVhBpALu5/YhxdXJVjaTpzRXH/M3caU472fR/U2lIIlsiOdKsUsJkt6w=
-X-Received: by 2002:a05:6122:3542:b0:518:9040:6700 with SMTP id
- 71dfb90a1353d-51f0c51b48emr2049535e0c.11.1738764841890; Wed, 05 Feb 2025
- 06:14:01 -0800 (PST)
+	s=arc-20240116; t=1738770242; c=relaxed/simple;
+	bh=3wTXueV/0ry3dwoBWf3S3UNb7ff2VP83EEMeipAYG70=;
+	h=From:To:Cc:Subject:MIME-Version:Content-Disposition:Content-Type:
+	 Message-Id:Date; b=DZXy4FzCwsFYFLHvVq3py8l0wk3OCUHlYFr5ixgM8DdI+n9/Fq1nwEEwgXtrGp9CFHCIqdEzR5Jov7NL4TVAa0yFveXZLi2O5soaVe224AfkkI3D7iaWUYlIT6y2XTviIe1EctakLDSoRCxqVeyGNfxHHWicb0L1qv94DCc0tHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=i2VFE+Zw; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
+	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+	Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=HlG8zghp3Ba5hSTSJEAI4GQj2NKSYIMKvt1QHE/jTjM=; b=i2VFE+ZwNMfgr33FhsZIW9M3Fp
+	rwnB4WKpZwCmMAlA/mvKhF6JSBUWnE6xUZLGHd/FrJxZXnRBlNQtwzXtQp68d1NpGAIYW79yBiaGl
+	h1c3+Hj977p8zp/tomIwqCJ0FyLoE0jcBnvH8EStjlbuh/82WVo2v6EGXWSlvIEFEjp3RqhH90+Uz
+	3FRjbJNA26waEGD3BeXVr5nCaOXqKtu+u/e7qYSW2sh2cewk/LYYrwa6sxecq7dZoQi43w17J6EPP
+	o9RI05ugx43S4nvuH0VkASiM2enK8rN32Odn61FkGlrH/oxUCK5XSDnMtVlZtzLdpS3Hc+ZlfSagV
+	PoIi2Vig==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:46534 helo=rmk-PC.armlinux.org.uk)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <rmk@armlinux.org.uk>)
+	id 1tfhZA-0007Yz-0f;
+	Wed, 05 Feb 2025 15:43:52 +0000
+Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
+	id 1tfhYq-003aTm-Nx; Wed, 05 Feb 2025 15:43:32 +0000
+From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>
+Cc: "Cl__ment L__ger" <clement.leger@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	linux-renesas-soc@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [PATCH net-next] net: pcs: rzn1-miic: fill in PCS
+ supported_interfaces
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <d184b4527cf7791f8c0d6f46ce4c901e662692df.1738749745.git.geert+renesas@glider.be>
-In-Reply-To: <d184b4527cf7791f8c0d6f46ce4c901e662692df.1738749745.git.geert+renesas@glider.be>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 5 Feb 2025 14:13:36 +0000
-X-Gm-Features: AWEUYZmZ9ptk2ug06M4_mUepyObgEbqM_WZibh21YXaeJDb9Pal_0-SRMrYAPP4
-Message-ID: <CA+V-a8uFq_jam5UJ8ytwg+LmuD3odPf3UH0dtxdv4gvjNvnpLQ@mail.gmail.com>
-Subject: Re: [PATCH LOCAL] riscv: rzfive: defconfig: Disable unsupported ISA extensions
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <E1tfhYq-003aTm-Nx@rmk-PC.armlinux.org.uk>
+Sender: Russell King <rmk@armlinux.org.uk>
+Date: Wed, 05 Feb 2025 15:43:32 +0000
 
-On Wed, Feb 5, 2025 at 10:10=E2=80=AFAM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Disable support for ISA extensions that are not supported by RZ/Five:
->   - Svnapot extension support for supervisor mode NAPOT pages,
->   - Svpbmt extension support for supervisor mode page-based memory
->     types,
->   - VECTOR extension support,
->   - Zawrs extension support for more efficient busy waiting,
->   - Zba and Zbb extension support for bit manipulation instructions,
->   - Zbc extension support for carry-less multiplication
->     instructions,
->   - Zicboz extension support for faster zeroing of memory,
->   - T-Head vendor extension support.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Not intended for upstream merge.
-> To be applied to the topic/renesas-defconfig branch.
-> ---
->  arch/riscv/configs/rzfive_defconfig | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Populate the PCS supported_interfaces bitmap with the interfaces that
+this PCS supports. This makes the manual checking in miic_validate()
+redundant, so remove that.
 
-Boot tested on v6.14-rc1
+Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+---
+ drivers/net/pcs/pcs-rzn1-miic.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-Cheers,
-Prabhakar
+diff --git a/drivers/net/pcs/pcs-rzn1-miic.c b/drivers/net/pcs/pcs-rzn1-miic.c
+index 61944574d087..11a96459a425 100644
+--- a/drivers/net/pcs/pcs-rzn1-miic.c
++++ b/drivers/net/pcs/pcs-rzn1-miic.c
+@@ -268,17 +268,6 @@ static void miic_link_up(struct phylink_pcs *pcs, unsigned int neg_mode,
+ 		     (MIIC_CONVCTRL_CONV_SPEED | MIIC_CONVCTRL_FULLD), val);
+ }
+ 
+-static int miic_validate(struct phylink_pcs *pcs, unsigned long *supported,
+-			 const struct phylink_link_state *state)
+-{
+-	if (phy_interface_mode_is_rgmii(state->interface) ||
+-	    state->interface == PHY_INTERFACE_MODE_RMII ||
+-	    state->interface == PHY_INTERFACE_MODE_MII)
+-		return 1;
+-
+-	return -EINVAL;
+-}
+-
+ static int miic_pre_init(struct phylink_pcs *pcs)
+ {
+ 	struct miic_port *miic_port = phylink_pcs_to_miic_port(pcs);
+@@ -307,7 +296,6 @@ static int miic_pre_init(struct phylink_pcs *pcs)
+ }
+ 
+ static const struct phylink_pcs_ops miic_phylink_ops = {
+-	.pcs_validate = miic_validate,
+ 	.pcs_config = miic_config,
+ 	.pcs_link_up = miic_link_up,
+ 	.pcs_pre_init = miic_pre_init,
+@@ -363,6 +351,10 @@ struct phylink_pcs *miic_create(struct device *dev, struct device_node *np)
+ 	miic_port->pcs.ops = &miic_phylink_ops;
+ 	miic_port->pcs.neg_mode = true;
+ 
++	phy_interface_set_rgmii(miic_port->pcs.supported_interfaces);
++	__set_bit(PHY_INTERFACE_MODE_RMII, miic_port->pcs.supported_interfaces);
++	__set_bit(PHY_INTERFACE_MODE_MII, miic_port->pcs.supported_interfaces);
++
+ 	return &miic_port->pcs;
+ }
+ EXPORT_SYMBOL(miic_create);
+-- 
+2.30.2
 
-> diff --git a/arch/riscv/configs/rzfive_defconfig b/arch/riscv/configs/rzf=
-ive_defconfig
-> index 14bb3fa1ed104d6e..b98acc93e3e37566 100644
-> --- a/arch/riscv/configs/rzfive_defconfig
-> +++ b/arch/riscv/configs/rzfive_defconfig
-> @@ -31,7 +31,16 @@ CONFIG_ARCH_RENESAS=3Dy
->  CONFIG_ERRATA_SIFIVE=3Dy
->  CONFIG_NONPORTABLE=3Dy
->  # CONFIG_RISCV_ISA_SUPM is not set
-> +# CONFIG_RISCV_ISA_SVNAPOT is not set
-> +# CONFIG_RISCV_ISA_SVPBMT is not set
-> +# CONFIG_RISCV_ISA_V is not set
-> +# CONFIG_RISCV_ISA_ZAWRS is not set
-> +# CONFIG_RISCV_ISA_ZBA is not set
-> +# CONFIG_RISCV_ISA_ZBB is not set
-> +# CONFIG_RISCV_ISA_ZBC is not set
->  # CONFIG_RISCV_ISA_ZICBOM is not set
-> +# CONFIG_RISCV_ISA_ZICBOZ is not set
-> +# CONFIG_RISCV_ISA_VENDOR_EXT_THEAD is not set
->  # CONFIG_EFI is not set
->  CONFIG_PM_AUTOSLEEP=3Dy
->  CONFIG_CPU_IDLE=3Dy
-> --
-> 2.43.0
->
->
 
