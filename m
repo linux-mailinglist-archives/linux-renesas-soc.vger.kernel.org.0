@@ -1,195 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-12912-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12914-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3A3A2AA36
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 14:41:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB25A2AA77
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 14:55:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0674D188260B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 13:41:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29DDD1889ACE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 13:55:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 800F41EA7FD;
-	Thu,  6 Feb 2025 13:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9198E1C6FF5;
+	Thu,  6 Feb 2025 13:55:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3B541EA7E6;
-	Thu,  6 Feb 2025 13:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38ADE199B9;
+	Thu,  6 Feb 2025 13:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738849284; cv=none; b=qXYJsI5ywEkUDvfwKERiUHUr5y5LO+mhZhiV3hvFEYs0Na8tiAahlOsywlHgxyWvzD6MjPVDvlF1JHCNd2hOUfwDl8B3lgEGlauh9FWeM6m3hfAKFJpRtxjxWGMGl954JpcxSUbkuyxCzDsCI9X4KkmjO37rbXNouh2pP0WNEOs=
+	t=1738850128; cv=none; b=aZZlMiZvQsKf1BCLW6dqJna/JfHoGvJWK7Zebi/6C+Ptf5lH/i8WjpAu8PjmcupqJAoWLb0nQ3SqodDZ//r0gY5FeCpvRE8r2aPpS4tuvZ48wPtuEO9LJaWhAzzLb998xnPNJNihzVgcg8OAPEBkAhcw8ez9r/TmsNFU2uD8pvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738849284; c=relaxed/simple;
-	bh=3kz+7Vs0zqj/PvRtFzztlBaYM3X6IkOs6QTrXY46dZ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M0u1BQOLRcz5QUE62uXUa7dX3iVskKq/GNECxXRdQmYc/3weDxAa6vkvJ60k0YEFyarsYpJyOVQSdVoYq2jnTDJmU4U3A7/cdWby9jCz1yRimJ6vxvVvycWbSuR1IIaLPmfVHmKArvl+NbV4gm99XJpbMe86sPcGUJAeQT4tt6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: EhVsAoveQMOtfsAIDaVbag==
-X-CSE-MsgGUID: 8cfiY52QS/mKy0B8YQ7X9g==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 06 Feb 2025 22:41:22 +0900
-Received: from localhost.localdomain (unknown [10.226.92.229])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 63AAA4019C60;
-	Thu,  6 Feb 2025 22:41:19 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v3 8/8] arm64: dts: renesas: r9a09g047e57-smarc: Enable SDHI1
-Date: Thu,  6 Feb 2025 13:40:32 +0000
-Message-ID: <20250206134047.67866-9-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250206134047.67866-1-biju.das.jz@bp.renesas.com>
-References: <20250206134047.67866-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1738850128; c=relaxed/simple;
+	bh=ZCZr5sozyZgu0CY7jpLwBEURc5rUI6AVwu0Ci2grIBs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ArZvRJqwjHokGtguxN/Xd9OTuKxAuqpZo23VdhgPcqJAIQNThwJ+QKkU+72WKF7npbaaKznkAnOifApSPju15vJno+tO1PfExXD7KgrePGwpkw1hspq923+sriRc/WNEgGIhdxbwnv1C8c9tTFFCXUnSmWB/QAeDNCxBHDid+pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-866f414ccedso549180241.1;
+        Thu, 06 Feb 2025 05:55:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738850125; x=1739454925;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=udU39gsf+akq6HCw80QzG+NzxjMAWnoUTDvRFN/6jgM=;
+        b=qTs5t4VKeq8+4itNQQ7dQ26YCSA0tUWD0N0u4yIXIBTm5UTz/6vffQ7SE4xuCkxNF9
+         m91bzePkAUpIchvX5Z0kjbvoe/B7p/ylVr+RV31zvGI7KVOG7KuozYDOjqSEj2qhET1f
+         77EWEWirXovC13i4ki1fSivnWYyb7UHtemzbdzdpH91UOu7vNxsfre36Pjju5FSPRcXy
+         /Au/A/BpksczByNOCyBP6BnSX+xIjy55hhAd7vBQlgh1btHg0WJ3nrFUPGzI7nRVHSAG
+         axkIlUVxO2g8jSJXitSqariBA9LKch49D7Fk13HCo8TkqB2XlqXjS6xAowSYjrJMJUpe
+         bAmg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZYrBi+DMrjIWbnsBMZTEvgoTSHzj84bvE21HSuwJwgSKg/6KVdj41nxK9l/l4iZdtM5DTc/IwcGMh6L56@vger.kernel.org, AJvYcCVanQ+m6rlfe+0TQ7uDdfJQan2VZxdLu80I38wlPvuEFxBNbYLC3FEvMnoVdguEigGxUOv3fvO6OIA8EKZK1LBMA3c=@vger.kernel.org, AJvYcCWmAmUyWPCqbSfx1n3h7dLo4p+Tmf/GOXfdjtLC00zTqNXWBExXotArv24IJiwJNb7SxLvKPhmglWBgueA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxc5MS96HhEZ3FyEdyAUwyyHRcFFzifqxUGx4Oco9FlX0qEFVUN
+	W3sz+ZCDYz125KVTBDW+DPtx1gzf5PeZgJ5gwmuzvzwk8F1yJ/f476d8O4Dj
+X-Gm-Gg: ASbGncu9K7PhAVDI+FMhoqMzRD6jo95K8RMwvQrfZYiWK6ZUGXTuoCrG6NE/BSePAxk
+	u6UO+YhQIAB5WaBhxCgT/12cXCvkVLfg0aM03Mh38mfChNIn9P4Qpoq0yksg68BHVj/XRDqL6c9
+	aGwo50MbLMeFoxVO5D3Jr6y5KD3cDa2EY7uySXRm3uAKu/4l48O495B5i06cM833Mx+xYuMd2bC
+	jRb+IfgYS0vZDm98b9LdVJIdxk+kaPQwCBWynfC7Yy7As3BYX6L3lZqlwamFvN1n+uSHkLAYTK/
+	2cm8NBkMKz1ElbLpDJtPo5clTH79U2AI8E7BhILvlbhl5cKUUgGGa1HFOw==
+X-Google-Smtp-Source: AGHT+IHMzTpAr4ur5sVChtFu3Z8mUiP7yBFa/KRaAaQfjRgTABHAWsoFJ8VVwTT2TrUoDEAIV1JOXg==
+X-Received: by 2002:a05:6102:b10:b0:4b1:1b67:6a5c with SMTP id ada2fe7eead31-4ba47abab86mr4592666137.18.1738850124694;
+        Thu, 06 Feb 2025 05:55:24 -0800 (PST)
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4ba76ebe373sm229823137.12.2025.02.06.05.55.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Feb 2025 05:55:24 -0800 (PST)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5189105c5f5so542473e0c.0;
+        Thu, 06 Feb 2025 05:55:24 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU1+8jDYJeX4eQNBkQOCk0qIIa4wJxHYwTgPv2dgmzumYfjEYq3DDD7IBn9kWYK2siarIqKwh70QKlt0hEqKZ/IIJM=@vger.kernel.org, AJvYcCU9SISi/48XYi8VUfC/oS+d1r8qI7dMGAuyCYyN4rxnk+ckwJwVL3xc7sqyguwogxHQIDqYuqr+qk7nJfNu@vger.kernel.org, AJvYcCWocFMMkyJw2PXkQL0yXFuJekSGmidgSztC2f08SPCgc7xLeCDJ1SLDHpaRPpp2SeaTs5oxXn1kJx7P5eY=@vger.kernel.org
+X-Received: by 2002:a05:6102:292a:b0:4b2:4877:2de4 with SMTP id
+ ada2fe7eead31-4ba479df281mr4184465137.15.1738850124232; Thu, 06 Feb 2025
+ 05:55:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250205093108.2027894-1-claudiu.beznea.uj@bp.renesas.com> <CAMuHMdVD-=n5LdRk42SicdH6MoffTfNGtAz_1AMQ1c7Mui7dFg@mail.gmail.com>
+In-Reply-To: <CAMuHMdVD-=n5LdRk42SicdH6MoffTfNGtAz_1AMQ1c7Mui7dFg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 6 Feb 2025 14:55:11 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVTifmJ82geKC5Ta2yM-uH6dFZab1_Tc_vTDWzZ3o4D1w@mail.gmail.com>
+X-Gm-Features: AWEUYZmaPrRwoy5Whha0O4pj7at87u5ymYx_wgG0HEUA78KoZ0A4m-0briIbJFU
+Message-ID: <CAMuHMdVTifmJ82geKC5Ta2yM-uH6dFZab1_Tc_vTDWzZ3o4D1w@mail.gmail.com>
+Subject: Re: [PATCH v5] serial: sh-sci: Update the suspend/resume support
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, p.zabel@pengutronix.de, 
+	wsa+renesas@sang-engineering.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Enable SDHI1 on the RZ/G3E SMARC EVK platform using gpio regulator for
-voltage switching.
+Hi Claudiu,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2->v3:
- * Added header file gpio.h.
-v1->v2:
- * Replaced the regulator usd_vdd_3p3v->reg_3p3v.
- * Renamed the gpio-hog node sd1-pwr-en->sd1-pwr-en-hog.
- * Sorted sd1 pin ctrl nodes.
----
- .../boot/dts/renesas/r9a09g047e57-smarc.dts   | 46 +++++++++++++++++++
- .../boot/dts/renesas/renesas-smarc2.dtsi      | 18 ++++++++
- 2 files changed, 64 insertions(+)
+On Thu, 6 Feb 2025 at 13:47, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Wed, 5 Feb 2025 at 10:31, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> > @@ -3546,13 +3559,41 @@ static int sci_probe(struct platform_device *dev)
+> >         return 0;
+> >  }
+> >
+> > +static void sci_console_save_restore(struct sci_port *s, bool save)
+> > +{
+> > +       struct sci_suspend_regs *regs = &s->suspend_regs;
+> > +       struct uart_port *port = &s->port;
+> > +
+> > +       if (save) {
+> > +               regs->scsmr = sci_serial_in(port, SCSMR);
+> > +               regs->scscr = sci_serial_in(port, SCSCR);
+> > +               regs->scfcr = sci_serial_in(port, SCFCR);
+> > +               regs->scsptr = sci_serial_in(port, SCSPTR);
+> > +               regs->scbrr = sci_serial_in(port, SCBRR);
+> > +               regs->semr = sci_serial_in(port, SEMR);
+>
+> The SCFCR, SCSPTR, and SEMR registers do not exist on all
+> variants.  Hence you should call sci_getreg() and check if
+> plat_sci_reg.size is non-zero first, else you will trigger the WARN()
+> in sci_serial_in().
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-index 152a00aa354b..5d7983812c70 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-@@ -9,7 +9,9 @@
- 
- /* Switch selection settings */
- #define SW_SD0_DEV_SEL		0
-+#define SW_SDIO_M2E		0
- 
-+#include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/pinctrl/renesas,r9a09g047-pinctrl.h>
- #include "r9a09g047e57.dtsi"
- #include "rzg3e-smarc-som.dtsi"
-@@ -19,6 +21,16 @@ / {
- 	model = "Renesas SMARC EVK version 2 based on r9a09g047e57";
- 	compatible = "renesas,smarc2-evk", "renesas,rzg3e-smarcm",
- 		     "renesas,r9a09g047e57", "renesas,r9a09g047";
-+
-+	vqmmc_sd1_pvdd: regulator-vqmmc-sd1-pvdd {
-+		compatible = "regulator-gpio";
-+		regulator-name = "SD1_PVDD";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpios = <&pinctrl RZG3E_GPIO(1, 5) GPIO_ACTIVE_HIGH>;
-+		gpios-states = <0>;
-+		states = <3300000 0>, <1800000 1>;
-+	};
- };
- 
- &pinctrl {
-@@ -26,9 +38,43 @@ scif_pins: scif {
- 		pins = "SCIF_TXD", "SCIF_RXD";
- 		renesas,output-impedance = <1>;
- 	};
-+
-+	sd1-pwr-en-hog {
-+		gpio-hog;
-+		gpios = <RZG3E_GPIO(1, 6) GPIO_ACTIVE_HIGH>;
-+		output-high;
-+		line-name = "sd1_pwr_en";
-+	};
-+
-+	sdhi1_pins: sd1 {
-+		sd1-cd {
-+			pinmux = <RZG3E_PORT_PINMUX(1, 4, 8)>; /* SD1CD */
-+		};
-+
-+		sd1-ctrl {
-+			pinmux = <RZG3E_PORT_PINMUX(G, 0, 1)>, /* SD1CLK */
-+				 <RZG3E_PORT_PINMUX(G, 1, 1)>; /* SD1CMD */
-+		};
-+
-+		sd1-data {
-+			pinmux = <RZG3E_PORT_PINMUX(G, 2, 1)>, /* SD1DAT0 */
-+				 <RZG3E_PORT_PINMUX(G, 3, 1)>, /* SD1DAT1 */
-+				 <RZG3E_PORT_PINMUX(G, 4, 1)>, /* SD1DAT2 */
-+				 <RZG3E_PORT_PINMUX(G, 5, 1)>; /* SD1DAT3 */
-+		};
-+	};
- };
- 
- &scif0 {
- 	pinctrl-0 = <&scif_pins>;
- 	pinctrl-names = "default";
- };
-+
-+&sdhi1 {
-+	pinctrl-0 = <&sdhi1_pins>;
-+	pinctrl-1 = <&sdhi1_pins>;
-+	pinctrl-names = "default", "state_uhs";
-+
-+	vmmc-supply = <&reg_3p3v>;
-+	vqmmc-supply = <&vqmmc_sd1_pvdd>;
-+};
-diff --git a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-index e378d55e6e9b..fd82df8adc1e 100644
---- a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-+++ b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-@@ -5,6 +5,15 @@
-  * Copyright (C) 2024 Renesas Electronics Corp.
-  */
- 
-+/*
-+ * Please set the switch position SW_OPT_MUX.1 on the carrier board and the
-+ * corresponding macro SW_SDIO_M2E on the board DTS:
-+ *
-+ * SW_SDIO_M2E:
-+ *     0 - SMARC SDIO signal is connected to uSD1
-+ *     1 - SMARC SDIO signal is connected to M.2 Key E connector
-+ */
-+
- / {
- 	model = "Renesas RZ SMARC Carrier-II Board";
- 	compatible = "renesas,smarc2-evk";
-@@ -16,9 +25,18 @@ chosen {
- 
- 	aliases {
- 		serial3 = &scif0;
-+		mmc1 = &sdhi1;
- 	};
- };
- 
- &scif0 {
- 	status = "okay";
- };
-+
-+&sdhi1 {
-+	bus-width = <4>;
-+	sd-uhs-sdr50;
-+	sd-uhs-sdr104;
-+
-+	status = "okay";
-+};
+As expected, the WARN() is triggered on any R-Car platform during
+system suspend.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
