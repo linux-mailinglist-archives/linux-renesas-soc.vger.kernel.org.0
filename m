@@ -1,182 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-12903-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12904-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F043A2A72C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 12:17:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6728DA2A8BF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 13:47:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28F90188804E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 11:17:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A18223A1C65
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 12:47:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C43C2147E4;
-	Thu,  6 Feb 2025 11:16:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF910225783;
+	Thu,  6 Feb 2025 12:47:33 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0CB22D4E1;
-	Thu,  6 Feb 2025 11:16:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7284E13D897;
+	Thu,  6 Feb 2025 12:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738840594; cv=none; b=srNOsGlR3MDwba/jxS5Hiyd0C+NsxqXwol2vmjeMJVsSRxopbNnfpwjWgAJ8ex76IqGjnPv0gjUx949lgvayb4AwEgEkEitTP8c+5UrnzHlGMsWme4wXutaMWlFxJaj7l9cU9aJki0E7gsXOIWdYtbzbtb1YTBmkgi9NJjp7IB4=
+	t=1738846053; cv=none; b=c71bC8ZSjSl6iODv3tlQ2ASALFFxgmIDiEReUpyNtxQjD6TT2+EIidWf2CLjZukdB0fRbw3zkM72p8zGxfYs6+ecWe75Va0NQeFzTFHwpiPyMPxD/EnKCKaulWpC5jXMczy8zHnhYexFnht2UDUNK9rvPHeyEmr5gDxHgYQKulw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738840594; c=relaxed/simple;
-	bh=UuLdarRfuoxlFPi1Ph8y04dtaYoWHWGc7aTrO93gla4=;
+	s=arc-20240116; t=1738846053; c=relaxed/simple;
+	bh=hlPLCYaZIhAZc34hNxKd9PksJrrQZyULhCIlDD9ay/M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QuilRGJc4MMQrxxH9qKBY1aO53Efjn74dGN6Nr8A4/5GQ8YOT9qCI4U6Ejdp77A4nYYZopN9vOJ+D7an33v2uTA0QncqjfkwUz1Wlrjx4Qo89PMnBpKfqu89iU1iRiGLih36KiRh/pnL9K4yXIlP/r8wd6g/DSJ4eSXSQ1HhhbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.43
+	 To:Cc:Content-Type; b=jaqUlEw362EzbqigiX3eP25s68jNLmYT/6061ZGnfrK8NadEyMfgYfCBW+TWgCUeHVKUZ3RTpmb8D81BjBjaGk8YitDnZvBSM1jsfASq1k6OSoqR/B5izmQ0Z3VBgF1d5awDZsy/kDLd4KkpVMMbv6A6pcqDfIIRnbaOiQlyddM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-4ba7ab22192so116853137.3;
-        Thu, 06 Feb 2025 03:16:31 -0800 (PST)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-866e49506a5so242851241.3;
+        Thu, 06 Feb 2025 04:47:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738840589; x=1739445389;
+        d=1e100.net; s=20230601; t=1738846049; x=1739450849;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=//+PJmIs/7Gi54i7iKXDbeeOP+JccMOw2lnKBTAPwIc=;
-        b=Z/UHMfNiXqjm4hSuM10e/kkKIdp/bcvSihm8GsuluTu5MPMwHfMHqZcLqqfK6IWajX
-         7nB9YBsIAfvErdhRxdVw79GC5I+AnKCIK8sp04hzbmM6t8CjXq3UxXvyc0XDsHkH72X3
-         4vsunjZ/ujjiDfl4fwm/ilH37FSCqPCSHi+jusdA/jVslRokuwygX0hjQvYdjwS3mgCr
-         61oG0bI+c1a7xcfPJFBWYgDwiI/cGINa7JKMEGvSDVsydnDuXgNVbbeIGLyaRacDxrQi
-         jrOK2LWZfrSwSRfTn/X/n+xnRtwmNadhTmdp+bT8/1gcI7PM9sNOETBC6j1LXPWTa7Bk
-         zdaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmPappiV0YY2bJLHbIhWF8iKbnVZh57j/NkmRDA0clMkLIRm8iV57vM9RIfG8GLEPJqZCRoq7sl6KeuX1Hr+wt26M=@vger.kernel.org, AJvYcCV9tWZIriT4aEvBeeQKkN2j8kbBkIppbRps1Dt4sRldCJ/7JlDLJ7N1iXgZEE7P1hMQKlmC2+MKWmsJ@vger.kernel.org, AJvYcCVDtT8nSsnascwcksx7TjXuoH7ZpZVmLWjZ5+KHaJHNPrv1BIkqgTvY0KVpbuDOu6lM6vqud95t3WBKyW2k@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyqah6kTeE2/sdbDvlIvk5sqPVek9xGcheXw/ANIgoIAwTuBHp9
-	DqWKrIBll3u4WRFVFIx7km5oaP/RwcPhzV+YLS1G0DH4GPRJXBhOpUmTEzxp
-X-Gm-Gg: ASbGncsozqceXjcMyDprLOPt/mdEBGAERIxyYQvIOzYKff8TNEHR3UNIR/cPhvvQOYH
-	Y9gD/UyuqqW9sdfC1ycT72P56X3RwKAbh2g3BQ+3nHyaXy0I8QEQhUbogcJYD7tEj1f2nNwJ2KW
-	zsm6GRpVxxg6m/pV9h0EiM2yx/Z8qrFEGcp3EHSp/KAjsCmNLbsCZFMpesXHKQ5I/dKNVQgoyP9
-	rGvTIFjXNvCKjm9lsNHQWy6sCHyfEMT9EDB9KMbKFpKZbReuNJNO4OGpQXLDcFxEMtf34I9lxl5
-	mmihOjaBE7/t0iQL4Z0IReJfid7Tr03t0+AUD5gtXWgS/G4bwF5tuA==
-X-Google-Smtp-Source: AGHT+IGtJFEpnvpe1ZSxHHRAhFckKnv6hnji8IewNnvyXm9Bzsz6E5o1LxxoLPL6SBecp/TvNa5n4A==
-X-Received: by 2002:a05:6102:1515:b0:4b6:3d72:5c28 with SMTP id ada2fe7eead31-4ba47a8c4e3mr4694876137.18.1738840589258;
-        Thu, 06 Feb 2025 03:16:29 -0800 (PST)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-866f97d7902sm163420241.27.2025.02.06.03.16.28
+        bh=+G5tJ1SBCwqyhbBN/5U55ihfT4hs7XGR0NON5bWUjWY=;
+        b=cFnqwqyk+SQGxYOZ55+im8J7qCaUY+6JLcMGtdcElEwxINDOp3Ev/Rzb1PZ/VP6u2y
+         Y11elwEXtZXW8KLDhHK75XVMAQGzGQl6TkFTy2hhkc9iu6lJCeJFEixUvOT4ybtiDyZT
+         r0FhPPmpGQ3wZCW7+kl6/+bb6apU8chhNTKatpaOB1C94361GyJs82fpljGVZMTfGX9w
+         pOxvdGj3FeKzCawKBTUtoA3DH1rg6Ho37118vqghFhumgYnuolpm2efyrgxolF3zrWla
+         8ywWNxDKMFaVHcFQlhs1hfgEAjOio+UAVojtZKEhSvKAzKQ9QkWeu1dEoMtxmgoOJYkb
+         NmjA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8gMsb0FSrOw19VF0tburpnlIF3bhRfe68AajHpkEHm5a89bwhrcS1pIM48pZsTHRK6w/suy2udARh0FM=@vger.kernel.org, AJvYcCUoTq8IbM8TkCxnZlmWlTe57YrRAO+jHVnJ+l6a//Ty2dbfEzKcqqHIarxZmBnRWlpmYbPJJOSZG9MciihOxK++vpw=@vger.kernel.org, AJvYcCUwVOngqJoIjEuH35HJZoVWEhXI8MxfZUqBmhcoxI5ya2NyRuF6cdawX5ig20SdKcn2IZTQijwID+Knxfu3@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMX79esiS2Mw/JovNVzQe6M3Wk+GN5KANOUM/7NRo18/VKNsJg
+	cvXAO6KWuE9Dc5MmYadeAAwQfsEGvGBdVCfU6My0UVv0Brt1UqBFtsvnAY8a
+X-Gm-Gg: ASbGncu0DjlCzjEyrno0QLr+MykrTrihUUBx7SowUz8Ht2RVhAqjtJySg6Ru/uMBj8v
+	w9a5NQKjQU+DyjOY5on+bvYyCGFvSIC/ZYNEHrwpNu8Hrsz+1TgQq+MSG6P3rBNzs/PTYd6GP9+
+	vtr8MHc4+fVX3FYSUsl+1fOL8fj2m+Fv57i11TFGkoZgFoj+uq8IVT+R98Faz/IJYJfzrF4dQlJ
+	bJHGjXLFIktxhBjdrEsZnIZz+4KTXsAHaarNsUtI28Ei2gjMGfIg9gkBC6SA3SfoyP4icT3yref
+	AGY/+gzbzmLQKpfEWJittlHF0SR8mdfxCp3yx1SHnBc6GYd/ZDca3A==
+X-Google-Smtp-Source: AGHT+IGwmfEtD+UxdUUBtaackkQ8ZYKteUeGf/3id88TCtAx0KF58l+FbDTyleFik7sgr51EcCQQIA==
+X-Received: by 2002:a05:6122:daa:b0:518:80fb:df24 with SMTP id 71dfb90a1353d-51f0c3ba2b1mr3979136e0c.3.1738846049163;
+        Thu, 06 Feb 2025 04:47:29 -0800 (PST)
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51f228ddaf3sm157815e0c.38.2025.02.06.04.47.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Feb 2025 03:16:28 -0800 (PST)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-8622c3be2f4so198754241.1;
-        Thu, 06 Feb 2025 03:16:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVnK3t4LTJ0elWnHKMHNDNL9DFXrv5f7uROZcZ6lP2HX3JNEgNaINPWzZl3X8uGnkP9mYKsqi6VaDFuFpQIX0XVi9g=@vger.kernel.org, AJvYcCWjvuCxc9OfTDpDq+DdMruIFgjcqY20/Cz4WK5elIQZqa9AdYR0AYFseCMFAiB4eD3WSaDZquLpWzyy@vger.kernel.org, AJvYcCXRbRGhcOWToqvvJUIliwXv0M9NrhVYhk9bAX06fwHuZlVJ0NBjWlv5/KE/TC66Rvo1aD7uV8B5mvlx939n@vger.kernel.org
-X-Received: by 2002:a05:6102:809e:b0:4b1:16f8:efc4 with SMTP id
- ada2fe7eead31-4ba4791aa90mr4226310137.12.1738840588352; Thu, 06 Feb 2025
- 03:16:28 -0800 (PST)
+        Thu, 06 Feb 2025 04:47:28 -0800 (PST)
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4aff5b3845eso281050137.2;
+        Thu, 06 Feb 2025 04:47:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUcwXvCMqQ3hgKn6eEut4gcOexY5W9mshzV3BSyGKP1ZNYV4Ok2lVBdNveN10cVNKeRUeaLOYE+y/sUANg=@vger.kernel.org, AJvYcCVuPb4o68eVNvuYD97DVTnRMnjLghkbes+tZlib9RKDck23faSaO9JjjfBpti3dboMoDRm9Z6d9SSIaGS4OVdNqVPw=@vger.kernel.org, AJvYcCWzB9CZJuuHb40OsOm6SemB3+xkVe1jT7DCuVGAATmA+kwgR0aMrxDyBKpW65Zdo8qFcRCdXMbyHCVfc34w@vger.kernel.org
+X-Received: by 2002:a05:6102:3f4c:b0:4b2:5d10:29db with SMTP id
+ ada2fe7eead31-4ba4788dc4bmr4048348137.7.1738846048176; Thu, 06 Feb 2025
+ 04:47:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250131-myir-remi-pi-v3-0-2dda53e79291@collabora.com> <20250131-myir-remi-pi-v3-2-2dda53e79291@collabora.com>
-In-Reply-To: <20250131-myir-remi-pi-v3-2-2dda53e79291@collabora.com>
+References: <20250205093108.2027894-1-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20250205093108.2027894-1-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 6 Feb 2025 12:16:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXAS6pnNcT=A7i9La22tbDXYf7EKqbJzHuK2ze2gf6cgg@mail.gmail.com>
-X-Gm-Features: AWEUYZlTMlTyS7G50P-0xRIKRghcKDvJbTN5YUG58ZUK4AGmfGIcfS-edw6EtK0
-Message-ID: <CAMuHMdXAS6pnNcT=A7i9La22tbDXYf7EKqbJzHuK2ze2gf6cgg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] arm64: renesas: add initial support for MYIR Remi Pi
-To: Julien Massot <julien.massot@collabora.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, kernel@collabora.com, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Thu, 6 Feb 2025 13:47:16 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVD-=n5LdRk42SicdH6MoffTfNGtAz_1AMQ1c7Mui7dFg@mail.gmail.com>
+X-Gm-Features: AWEUYZne_WBzKasHYk-6bHwEfEptlcy-SFLtTSYTxOaPCQ-1NvT_d103f7w8GZ8
+Message-ID: <CAMuHMdVD-=n5LdRk42SicdH6MoffTfNGtAz_1AMQ1c7Mui7dFg@mail.gmail.com>
+Subject: Re: [PATCH v5] serial: sh-sci: Update the suspend/resume support
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, p.zabel@pengutronix.de, 
+	wsa+renesas@sang-engineering.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Julien,
+Hi Claudiu,
 
-On Fri, 31 Jan 2025 at 10:58, Julien Massot <julien.massot@collabora.com> wrote:
-> Add basic support for the MYIR Remi Pi (based on r9a07g044l2):
->  - UART
->  - i2c
->  - emmc
->  - USB host
->  - HDMI output
->  - Ethernet
+On Wed, 5 Feb 2025 at 10:31, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
+> The Renesas RZ/G3S supports a power saving mode where power to most of the
+> SoC components is turned off. When returning from this power saving mode,
+> SoC components need to be re-configured.
+>
+> The SCIFs on the Renesas RZ/G3S need to be re-configured as well when
+> returning from this power saving mode. The sh-sci code already configures
+> the SCIF clocks, power domain and registers by calling uart_resume_port()
+> in sci_resume(). On suspend path the SCIF UART ports are suspended
+> accordingly (by calling uart_suspend_port() in sci_suspend()). The only
+> missing setting is the reset signal. For this assert/de-assert the reset
+> signal on driver suspend/resume.
+>
+> In case the no_console_suspend is specified by the user, the registers need
+> to be saved on suspend path and restore on resume path. To do this the
+> sci_console_save_restore() function was added. There is no need to
+> cache/restore the status or FIFO registers. Only the control registers.
+> The registers that will be saved/restored on suspend/resume are
+> specified by the struct sci_suspend_regs data structure.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>
+> The v4 of this patch was part of a series with 4 patches. As the rest of
+> the patches were applied I dropped the cover letter. The v4 cover letter
+> is located here:
+> https://lore.kernel.org/all/20250120130936.1080069-1-claudiu.beznea.uj@bp.renesas.com
+>
+> Changes in v5:
+> - fixed typo in patch description
+> - adjusted the patch description to reflect the new patch content
+> - added struct sci_suspend_regs and dropped the suspend_cacheable
+>   flag introduced previously in struct plat_sci_reg; along with it
+>   the updates in sci_port_params[] were also dropped;
+>   also, the function (now sci_console_save_restore()) that saves
+>   and restores the registers content was adjusted accordingly
+> - s/sci_console_setup/sci_console_save_restore/g
 
 Thanks for the update!
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dts
-> @@ -0,0 +1,351 @@
-
-> +/ {
-> +       model = "MYIR Tech Limited Remi Pi MYB-YG2LX-REMI";
-> +       compatible = "myir,remi-pi", "renesas,r9a07g044l2", "renesas,r9a07g044";
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+> @@ -3546,13 +3559,41 @@ static int sci_probe(struct platform_device *dev)
+>         return 0;
+>  }
+>
+> +static void sci_console_save_restore(struct sci_port *s, bool save)
+> +{
+> +       struct sci_suspend_regs *regs = &s->suspend_regs;
+> +       struct uart_port *port = &s->port;
 > +
-> +       aliases {
-> +               ethernet0 = &eth0;
-> +               ethernet1 = &eth1;
-> +
-> +               i2c0 = &i2c0;
-> +               i2c1 = &i2c1;
-> +               i2c2 = &i2c2;
-> +               i2c3 = &i2c3;
-> +
-> +               mmc0 = &sdhi0;
-> +
-> +               serial0 = &scif0;
-> +               serial3 = &scif3;
+> +       if (save) {
+> +               regs->scsmr = sci_serial_in(port, SCSMR);
+> +               regs->scscr = sci_serial_in(port, SCSCR);
+> +               regs->scfcr = sci_serial_in(port, SCFCR);
+> +               regs->scsptr = sci_serial_in(port, SCSPTR);
+> +               regs->scbrr = sci_serial_in(port, SCBRR);
+> +               regs->semr = sci_serial_in(port, SEMR);
 
-Wasn't the plan to drop scif3, so it can be used by an RTOS running
-on the Cortex-A33 core?
+The SCFCR, SCSPTR, and SEMR registers do not exist on all
+variants.  Hence you should call sci_getreg() and check if
+plat_sci_reg.size is non-zero first, else you will trigger the WARN()
+in sci_serial_in().
 
-> +               serial4 = &scif4;
-> +       };
-> +
-> +       chosen {
-> +               stdout-path = "serial0:115200n8";
-> +       };
-> +
-> +       memory@48000000 {
-> +               device_type = "memory";
-> +               /* first 128MB is reserved for secure area. */
-> +               reg = <0x0 0x48000000 0x0 0x38000000>;
-> +       };
-> +
-> +       reg_5p0v: regulator-5p0v {
+> +       } else {
+> +               sci_serial_out(port, SCSMR, regs->scsmr);
+> +               sci_serial_out(port, SCSCR, regs->scscr);
+> +               sci_serial_out(port, SCFCR, regs->scfcr);
+> +               sci_serial_out(port, SCSPTR, regs->scsptr);
+> +               sci_serial_out(port, SCBRR, regs->scbrr);
+> +               sci_serial_out(port, SEMR, regs->semr);
 
-> +       reg_3p3v: regulator-3p3v {
+Likewise for sci_serial_out().
 
-> +       reg_1p8v: regulator-1p8v {
+> +       }
+> +}
 
-> +       reg_1p1v: regulator-vdd-core {
+Given there's nothing really shared anymore, I would split this in
+separate sci_console_save() and sci_console_restore() functions.
 
-> +       hdmi-out {
-
-More sorting work to do...
-
-> +};
-
-> +       sdhi0_pins: sd0 {
-> +               sd0_data {
-> +                       pins = "SD0_DATA0", "SD0_DATA1", "SD0_DATA2", "SD0_DATA3",
-> +                              "SD0_DATA4", "SD0_DATA5", "SD0_DATA6", "SD0_DATA7";
-> +                       power-source = <1800>;
-> +               };
-> +
-> +               sd0_ctrl {
-
-Here, too. Plus the underscores reported by Krzysztof.
-
-> +                       pins = "SD0_CLK", "SD0_CMD";
-> +                       power-source = <1800>;
-> +               };
-> +
-> +               sd0_rst {
-> +                       pins = "SD0_RST#";
-> +                       power-source = <1800>;
-> +               };
-> +       };
-
-I fixed the style issues locally, so if you can confirm or deny the removal
-of scif3, I can fix that while applying.
-
-Thanks!
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
