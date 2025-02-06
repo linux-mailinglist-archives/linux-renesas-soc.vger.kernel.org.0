@@ -1,56 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-12924-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12925-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6DBA2B4AC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 23:04:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FDDA2B4B0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 23:04:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 893FA3A661E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 22:04:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D97EE163F8B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 22:04:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08E0E22FF35;
-	Thu,  6 Feb 2025 22:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59E3923908E;
+	Thu,  6 Feb 2025 22:03:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F1E923908E;
-	Thu,  6 Feb 2025 22:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 564BD23AE74;
+	Thu,  6 Feb 2025 22:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738879413; cv=none; b=soiARMp6IJy5zplikQRSHxG2wTA5XRzygfKdHLJwkq3wldKFTMtIhgKThzZjK2UrlxbN8tqC5Ka7ZLIQEspIjsaY7sWVEFbIIS+YAxoStGVZKCsGQxDEmMk5x0kw737kRDjlWyC5LrKLuMW9Y7xnfX7RFrpf9Yzg7iO9nxMPKDk=
+	t=1738879417; cv=none; b=oHig99ZFZVqQM/Vg+9w/roV62eRxjbv/gDyRed1W5hGC5lnzBUihdtUq3FJJtBYLEi9NEc8gbobYCv18B1W/QjQAiFlONluyF4o7pzyZ8VRVOL1sJJcb/y6yxqYmsYAkYYwLZ514yDdOwF3N+bdaWUzH+C3Lt7mhBXC7BIsdfJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738879413; c=relaxed/simple;
-	bh=VzwUIlUNsYR3IUvd79NMgBs63LVlWJuqP965TSTFG9M=;
+	s=arc-20240116; t=1738879417; c=relaxed/simple;
+	bh=a5V2P83UdWQGsFHOrXM1fYOOBUBQht1jtYPrERkq910=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Mli+UKI/UoMual6lkj6BE8zjh+rOPLRf/DaMBrjMURtbJJbj08qNpNrBIo/+pADVf9jLk+i5i8QRLbfpu2n7ElmfzXR06dihzTbsmjml9rGSF6AgkSLHOHt8xgpFd2waPAN/Tb/aHA8rpll9barlrvwizh6jqEmZbHxvAyEmuZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=SyIlPT6gyoGmoRfhTChvxqpXccWLadf5nVeGqMlZd4W/KL4qGyy0ewuENY3mTUkgI2hTxPSdi3moR2d0X0j10ukcfkMVHjQX+YMAzWewawASrGYlZRXmmDc1hha0xjB77dxWCijPr7d+4Z/5CY0bvF48cC6LZzQWu90bW9g6Z4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: 9JmMVHxNRwOKL49DmlJoQw==
-X-CSE-MsgGUID: lx80E4IAQdyI9b/yQ0P9mw==
+X-CSE-ConnectionGUID: e1bwZSMmQOaUZBgzLM3Rfg==
+X-CSE-MsgGUID: 9uuRVnmeTkObsqF/nvMNLQ==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 07 Feb 2025 07:03:31 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 07 Feb 2025 07:03:34 +0900
 Received: from mulinux.example.org (unknown [10.226.93.55])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5B2C540AF2B1;
-	Fri,  7 Feb 2025 07:03:27 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id E3F7440AF4A4;
+	Fri,  7 Feb 2025 07:03:31 +0900 (JST)
 From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+To: Thomas Gleixner <tglx@linutronix.de>,
 	Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 3/7] dt-bindings: dma: rz-dmac: Document RZ/V2H(P) family of SoCs
-Date: Thu,  6 Feb 2025 22:03:04 +0000
-Message-Id: <20250206220308.76669-4-fabrizio.castro.jz@renesas.com>
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 4/7] irqchip/renesas-rzv2h: Add rzv2h_icu_register_dma_req_ack
+Date: Thu,  6 Feb 2025 22:03:05 +0000
+Message-Id: <20250206220308.76669-5-fabrizio.castro.jz@renesas.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250206220308.76669-1-fabrizio.castro.jz@renesas.com>
 References: <20250206220308.76669-1-fabrizio.castro.jz@renesas.com>
@@ -62,238 +56,148 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document the Renesas RZ/V2H(P) family of SoCs DMAC block.
-The Renesas RZ/V2H(P) DMAC is very similar to the one found on the
-Renesas RZ/G2L family of SoCs, but there are some differences:
-* It only uses one register area
-* It only uses one clock
-* It only uses one reset
-* Instead of using MID/IRD it uses REQ NO/ACK NO
-* It is connected to the Interrupt Control Unit (ICU)
+On the Renesas RZ/V2H(P) family of SoCs, DMAC IPs are connected
+to the Interrupt Control Unit (ICU).
+For DMA transfers, a request number and an ack number must be
+registered with the ICU, which means that the DMAC driver has
+to be able to instruct the ICU driver with the registration of
+such ids.
+
+Export rzv2h_icu_register_dma_req_ack so that the DMA driver
+can register both ids in one go.
 
 Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 ---
- .../bindings/dma/renesas,rz-dmac.yaml         | 152 +++++++++++++++---
- 1 file changed, 127 insertions(+), 25 deletions(-)
+ drivers/irqchip/irq-renesas-rzv2h.c       | 61 +++++++++++++++++++++++
+ include/linux/irqchip/irq-renesas-rzv2h.h | 19 +++++++
+ 2 files changed, 80 insertions(+)
+ create mode 100644 include/linux/irqchip/irq-renesas-rzv2h.h
 
-diff --git a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-index 82de3b927479..d4dd22432e49 100644
---- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-+++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-@@ -11,19 +11,23 @@ maintainers:
+diff --git a/drivers/irqchip/irq-renesas-rzv2h.c b/drivers/irqchip/irq-renesas-rzv2h.c
+index fe2d29e91026..0fdbf9ce89a9 100644
+--- a/drivers/irqchip/irq-renesas-rzv2h.c
++++ b/drivers/irqchip/irq-renesas-rzv2h.c
+@@ -15,6 +15,7 @@
+ #include <linux/err.h>
+ #include <linux/io.h>
+ #include <linux/irqchip.h>
++#include <linux/irqchip/irq-renesas-rzv2h.h>
+ #include <linux/irqdomain.h>
+ #include <linux/of_address.h>
+ #include <linux/of_platform.h>
+@@ -41,6 +42,8 @@
+ #define ICU_TSCLR				0x24
+ #define ICU_TITSR(k)				(0x28 + (k) * 4)
+ #define ICU_TSSR(k)				(0x30 + (k) * 4)
++#define ICU_DMkSELy(k, y)			(0x420 + (k) * 0x20 + (y) * 4)
++#define ICU_DMACKSELk(k)			(0x500 + (k) * 4)
  
- properties:
-   compatible:
--    items:
--      - enum:
--          - renesas,r7s72100-dmac # RZ/A1H
--          - renesas,r9a07g043-dmac # RZ/G2UL and RZ/Five
--          - renesas,r9a07g044-dmac # RZ/G2{L,LC}
--          - renesas,r9a07g054-dmac # RZ/V2L
--          - renesas,r9a08g045-dmac # RZ/G3S
--      - const: renesas,rz-dmac
-+    oneOf:
-+      - items:
-+          - enum:
-+              - renesas,r7s72100-dmac # RZ/A1H
-+              - renesas,r9a07g043-dmac # RZ/G2UL and RZ/Five
-+              - renesas,r9a07g044-dmac # RZ/G2{L,LC}
-+              - renesas,r9a07g054-dmac # RZ/V2L
-+              - renesas,r9a08g045-dmac # RZ/G3S
-+          - const: renesas,rz-dmac
+ /* NMI */
+ #define ICU_NMI_EDGE_FALLING			0
+@@ -80,6 +83,19 @@
+ #define ICU_TINT_EXTRACT_GPIOINT(x)		FIELD_GET(GENMASK(31, 16), (x))
+ #define ICU_PB5_TINT				0x55
+ 
++/* DMAC */
++#define ICU_DMAC_DkSEL_CLRON_MASK		BIT(15)
++#define ICU_DMAC_DkRQ_SEL_MASK			GENMASK(9, 0)
++#define ICU_DMAC_DMAREQ_MASK			(ICU_DMAC_DkRQ_SEL_MASK | \
++						 ICU_DMAC_DkSEL_CLRON_MASK)
 +
-+      - const: renesas,r9a09g057-dmac # RZ/V2H(P)
- 
-   reg:
-     items:
-       - description: Control and channel register block
-       - description: DMA extended resource selector block
-+    minItems: 1
- 
-   interrupts:
-     maxItems: 17
-@@ -52,6 +56,7 @@ properties:
-     items:
-       - description: DMA main clock
-       - description: DMA register access clock
-+    minItems: 1
- 
-   clock-names:
-     items:
-@@ -61,14 +66,22 @@ properties:
-   '#dma-cells':
-     const: 1
-     description:
--      The cell specifies the encoded MID/RID values of the DMAC port
--      connected to the DMA client and the slave channel configuration
--      parameters.
-+      For the RZ/A1H, RZ/Five, RZ/G2{L,LC,UL}, RZ/V2L, and RZ/G3S SoCs, the cell
-+      specifies the encoded MID/RID values of the DMAC port connected to the
-+      DMA client and the slave channel configuration parameters.
-       bits[0:9] - Specifies MID/RID value
-       bit[10] - Specifies DMA request high enable (HIEN)
-       bit[11] - Specifies DMA request detection type (LVL)
-       bits[12:14] - Specifies DMAACK output mode (AM)
-       bit[15] - Specifies Transfer Mode (TM)
-+      For the RZ/V2H(P) SoC the cell specifies the REQ NO, the ACK NO, and the
-+      slave channel configuration parameters.
-+      bits[0:9] - Specifies the REQ NO
-+      bits[10:16] - Specifies the ACK NO
-+      bit[17] - Specifies DMA request high enable (HIEN)
-+      bit[18] - Specifies DMA request detection type (LVL)
-+      bits[19:21] - Specifies DMAACK output mode (AM)
-+      bit[22] - Specifies Transfer Mode (TM)
- 
-   dma-channels:
-     const: 16
-@@ -80,12 +93,29 @@ properties:
-     items:
-       - description: Reset for DMA ARESETN reset terminal
-       - description: Reset for DMA RST_ASYNC reset terminal
-+    minItems: 1
- 
-   reset-names:
-     items:
-       - const: arst
-       - const: rst_async
- 
-+  renesas,icu:
-+    description:
-+      On the RZ/V2H(P) SoC configures the ICU to which the DMAC is connected to.
-+      It must contain the phandle to the ICU, and the index of the DMAC as seen
-+      from the ICU (e.g. parameter k from register ICU_DMkSELy).
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    items:
-+      - items:
-+          - description: phandle to the ICU node.
-+          - description: The DMAC index.
-+              4 for DMAC0
-+              0 for DMAC1
-+              1 for DMAC2
-+              2 for DMAC3
-+              3 for DMAC4
++#define ICU_DMAC_PREP_DkSEL_CLRON(x)		FIELD_PREP(ICU_DMAC_DkSEL_CLRON_MASK, (x))
++#define ICU_DMAC_PREP_DkRQ_SEL(x)		FIELD_PREP(ICU_DMAC_DkRQ_SEL_MASK, (x))
++#define ICU_DMAC_PREP_DMAREQ(sel, clr)		(ICU_DMAC_PREP_DkRQ_SEL(sel) | \
++						ICU_DMAC_PREP_DkSEL_CLRON(clr))
 +
- required:
-   - compatible
-   - reg
-@@ -98,27 +128,62 @@ allOf:
-   - $ref: dma-controller.yaml#
++#define ICU_DMAC_DACK_SEL_MASK			GENMASK(6, 0)
++
+ /**
+  * struct rzv2h_icu_priv - Interrupt Control Unit controller private data structure.
+  * @base:	Controller's base address
+@@ -94,6 +110,50 @@ struct rzv2h_icu_priv {
+ 	raw_spinlock_t			lock;
+ };
  
-   - if:
--      not:
--        properties:
--          compatible:
--            contains:
--              enum:
--                - renesas,r7s72100-dmac
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a09g057-dmac
-     then:
-+      properties:
-+        reg:
-+          maxItems: 1
-+        clocks:
-+          maxItems: 1
-+        resets:
-+          maxItems: 1
++void rzv2h_icu_register_dma_req_ack(struct platform_device *icu_dev, u8 dmac_index, u8 dmac_channel,
++				    u16 req_no, u8 ack_no)
++{
++	struct rzv2h_icu_priv *priv = platform_get_drvdata(icu_dev);
++	u32 icu_dmackselk, dmaack, dmaack_mask;
++	u32 icu_dmksely, dmareq, dmareq_mask;
++	u8 k, field_no;
++	u8 y, upper;
 +
-+        clock-names: false
-+        reset-names: false
++	if (req_no >= 0x1b5)
++		req_no = RZV2H_ICU_DMAC_REQ_NO_DEFAULT;
 +
-       required:
-         - clocks
--        - clock-names
-         - power-domains
-+        - renesas,icu
-         - resets
--        - reset-names
++	if (ack_no >= 0x50)
++		ack_no = RZV2H_ICU_DMAC_ACK_NO_DEFAULT;
++
++	y = dmac_channel / 2;
++	upper = dmac_channel % 2;
++
++	dmareq = ICU_DMAC_PREP_DMAREQ(req_no, 0);
++	dmareq_mask = ICU_DMAC_DMAREQ_MASK;
++
++	if (upper) {
++		dmareq <<= 16;
++		dmareq_mask <<= 16;
++	}
++
++	k  = ack_no / 4;
++	field_no = ack_no % 4;
++
++	dmaack_mask = ICU_DMAC_DACK_SEL_MASK << (field_no * 8);
++	dmaack = ack_no << (field_no * 8);
++
++	guard(raw_spinlock_irqsave)(&priv->lock);
++
++	icu_dmksely = readl(priv->base + ICU_DMkSELy(dmac_index, y));
++	icu_dmksely = (icu_dmksely & ~dmareq_mask) | dmareq;
++	writel(icu_dmksely, priv->base + ICU_DMkSELy(dmac_index, y));
++
++	icu_dmackselk = readl(priv->base + ICU_DMACKSELk(k));
++	icu_dmackselk = (icu_dmackselk & ~dmaack_mask) | dmaack;
++	writel(icu_dmackselk, priv->base + ICU_DMACKSELk(k));
++}
++EXPORT_SYMBOL_GPL(rzv2h_icu_register_dma_req_ack);
++
+ static inline struct rzv2h_icu_priv *irq_data_to_priv(struct irq_data *data)
+ {
+ 	return data->domain->host_data;
+@@ -446,6 +506,7 @@ static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
+ 		goto put_dev;
+ 	}
  
-     else:
--      properties:
--        clocks: false
--        clock-names: false
--        power-domains: false
--        resets: false
--        reset-names: false
-+      if:
-+        not:
-+          properties:
-+            compatible:
-+              contains:
-+                enum:
-+                  - renesas,r7s72100-dmac
-+      then:
-+        properties:
-+          reg:
-+            minItems: 2
-+          clocks:
-+            minItems: 2
-+          resets:
-+            minItems: 2
-+
-+          renesas,icu: false
-+
-+        required:
-+          - clocks
-+          - clock-names
-+          - power-domains
-+          - resets
-+          - reset-names
-+
-+      else:
-+        properties:
-+          clocks: false
-+          clock-names: false
-+          power-domains: false
-+          resets: false
-+          reset-names: false
-+          renesas,icu: false
++	platform_set_drvdata(pdev, rzv2h_icu_data);
+ 	rzv2h_icu_data->irqchip = &rzv2h_icu_chip;
  
- additionalProperties: false
- 
-@@ -164,3 +229,40 @@ examples:
-         #dma-cells = <1>;
-         dma-channels = <16>;
-     };
+ 	rzv2h_icu_data->base = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
+diff --git a/include/linux/irqchip/irq-renesas-rzv2h.h b/include/linux/irqchip/irq-renesas-rzv2h.h
+new file mode 100644
+index 000000000000..686d050a239a
+--- /dev/null
++++ b/include/linux/irqchip/irq-renesas-rzv2h.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Renesas RZ/V2H(P) Interrupt Control Unit (ICU)
++ *
++ * Copyright (C) 2025 Renesas Electronics Corporation.
++ */
 +
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/renesas-cpg-mssr.h>
++#ifndef __LINUX_IRQ_RENESAS_RZV2H
++#define __LINUX_IRQ_RENESAS_RZV2H
 +
-+    dmac0: dma-controller@11400000 {
-+        compatible = "renesas,r9a09g057-dmac";
-+        reg = <0x11400000 0x10000>;
-+        interrupts = <GIC_SPI 499 IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 89  IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 90  IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 91  IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 92  IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 93  IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 94  IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 95  IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 96  IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 97  IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 98  IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 99  IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 100 IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 101 IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 102 IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 103 IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 104 IRQ_TYPE_EDGE_RISING>;
-+        interrupt-names = "error",
-+                          "ch0", "ch1", "ch2", "ch3",
-+                          "ch4", "ch5", "ch6", "ch7",
-+                          "ch8", "ch9", "ch10", "ch11",
-+                          "ch12", "ch13", "ch14", "ch15";
-+        clocks = <&cpg CPG_MOD 0x0>;
-+        power-domains = <&cpg>;
-+        resets = <&cpg 0x31>;
-+        #dma-cells = <1>;
-+        dma-channels = <16>;
-+        renesas,icu = <&icu 4>;
-+    };
++#include <linux/platform_device.h>
++
++#define RZV2H_ICU_DMAC_REQ_NO_DEFAULT		0x3ff
++#define RZV2H_ICU_DMAC_ACK_NO_DEFAULT		0x7f
++
++void rzv2h_icu_register_dma_req_ack(struct platform_device *icu_dev, u8 dmac_index, u8 dmac_channel,
++				    u16 req_no, u8 ack_no);
++
++#endif
 -- 
 2.34.1
 
