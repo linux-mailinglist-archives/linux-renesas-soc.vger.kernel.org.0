@@ -1,88 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-12917-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12918-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57577A2ADCA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 17:31:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F90A2AE48
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 17:59:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D88BD16A297
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 16:31:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D740316ACF6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 16:59:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68074237173;
-	Thu,  6 Feb 2025 16:31:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8989422F161;
+	Thu,  6 Feb 2025 16:59:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ip8dSdgZ"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="En63QP+t"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CE723716F;
-	Thu,  6 Feb 2025 16:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7AB1EDA3E
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Feb 2025 16:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738859491; cv=none; b=TKhyQ5YvOq9tBKZXIQWoSm5hg54k095ePHBwj8+hffnMwghAhrLcVRsAWblnKIyZLSpD0U7CMoA6ETy152Cbakzgx7Ly042+74YcukUDbrIjg/nFa7Q58PY4ORgtt3YG1u+1VDs/JyWhEN3krPj9xopUm1QvA0GEMT918G7msog=
+	t=1738861163; cv=none; b=BzW1cBU9wCXQRKGQlyiefkC/jDF7VNlQ6QmV5zTwn2rs3qE/QWgTCCYBMTXXUFVrub7xjoqChuSpe7TWjm4l3AWiX+CD9Uhpy90+s18Un0Cz+fNbEyl68iA4X1pQcbEFASbxgxwS7HpRpBQ7u3tsmqIU7iuJLjgiIE1dtk37cGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738859491; c=relaxed/simple;
-	bh=O7MmoChRGtc8LpF5Rkcd2RkPAj/N0FC4Lbj3w9f4ER0=;
+	s=arc-20240116; t=1738861163; c=relaxed/simple;
+	bh=Apx60P0LvBsdt/onPnjsn8S3kHAtcKf5FZN6n5RfSBI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uWdDwMRZ8sjDpWf6ESeKx44lw3yPPicTgfyoKPjisBOUfXOXQoV16GJE2H6IcUu0+xxKMEg89pPp5wNt3sxAfO4uBzyTHVrvc4C6nLYZ3j4zTk2wTSMc0IvZriPOAP0zu/amOL6fpHl6N5XqtetP0+YNb0dgVNPbMqmnBQ/ACQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ip8dSdgZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D7F4C4CEDF;
-	Thu,  6 Feb 2025 16:31:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738859490;
-	bh=O7MmoChRGtc8LpF5Rkcd2RkPAj/N0FC4Lbj3w9f4ER0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ip8dSdgZaiDZe7CzVI/3NkwS4I63q9V9WkOGkF+fHo/t3zXUQ3tAHCffRi92hQLmN
-	 i3FzSF8QPnAXcc+siOGmmc02BeDEwUS6y8DEagD5b+dN1H+nk3diOEG/B6YCgse1jZ
-	 BgfwtGfRtj/pG1N3tgJSzKfVoYfaLrCU0bI7zraO2lUrwx4e9TIDlJjqgiUbKsOs9s
-	 0w3efNRGkP6OUuCWWr2WSyvlmMB9Mb5Noy8id6oSwtY9kmLrx2Tec2N0+X2HV65dYF
-	 gRd79u63yCpeFvrEugYaN7YmNDcuBbrBOKR42Ye11VtRQ4QKyKDhheOYhsoiAE3kYP
-	 rvGyu3aw3AHRw==
-Date: Thu, 6 Feb 2025 16:31:26 +0000
-From: Simon Horman <horms@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net-next] net: renesas: rswitch: Convert to
- for_each_available_child_of_node()
-Message-ID: <20250206163126.GY554665@kernel.org>
-References: <54f544d573a64b96e01fd00d3481b10806f4d110.1738771798.git.geert+renesas@glider.be>
- <6d09e337-8bca-4ef7-bbfc-d824829ad211@cogentembedded.com>
- <CAMuHMdUgydc4q-dSsUQ_zLpkvbv9-26T3tpEO6e7OF491jTrEQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NHVlpXvMsjpazdFO/m4K/2ryAyGu4f4eyTq/dM5nvWa8W9vvGcpFM4c6F/e13FxA9rysrBmNiif4/s+9c8gp9zFZwkKs+ujbU+u5dFocbhOxWfRzMTBhOXnswEWpYVv1OIpLYR9+TFuUTawrd2Qw+7Vbs/seTOwDGtzEvG5J/4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=En63QP+t; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=jkjg
+	Givi1rvjpRlcA2YiPM6fIezOTe8fvsGmux0RmEI=; b=En63QP+tnFGxkMkCs/9m
+	h+rAVSEDwle71w8n0DzlOWf65KmT+Ry4YjeGbl8iHrZ1Z4SQQ/YhHPYRinwcFWoB
+	bauMiu9kr7509xSO4/+2mNLhIi/94g6Biw1HecR4DJGSe9jpwpE/LqI13PSKGwuZ
+	tfGMjnrrR54jzEmrXwcSoNj9kEfKu/qqANB/I/d8E5D+UYnxLfJfeiXDVXr37f0g
+	SkPDWzyB2gGkST806+qRcF2eFXaFGgzodLLjwi92Cn21DSXACkOYZ5RUledcJJt+
+	YJqaOWB/o9TGWEM/jYJRwSDXO9gIZLBuHFy3zms5L/VUEizT2jMyxMatozjaEEZO
+	vg==
+Received: (qmail 3798681 invoked from network); 6 Feb 2025 17:59:10 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Feb 2025 17:59:10 +0100
+X-UD-Smtp-Session: l3s3148p1@jr8mKXwtKONehh99
+Date: Thu, 6 Feb 2025 17:59:08 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 0/2] i2c: revert flag based client handling
+Message-ID: <Z6TqXGYIBUjhWtDH@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org
+References: <20250205134623.6921-1-wsa+renesas@sang-engineering.com>
+ <87c4716f-d6bd-4a4e-91dc-70f73b9109dc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="XpUa3pQ9q62QmFWE"
+Content-Disposition: inline
+In-Reply-To: <87c4716f-d6bd-4a4e-91dc-70f73b9109dc@gmail.com>
+
+
+--XpUa3pQ9q62QmFWE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUgydc4q-dSsUQ_zLpkvbv9-26T3tpEO6e7OF491jTrEQ@mail.gmail.com>
 
-On Wed, Feb 05, 2025 at 05:18:14PM +0100, Geert Uytterhoeven wrote:
-> Hi Nikita,
-> 
-> On Wed, 5 Feb 2025 at 17:15, Nikita Yushchenko
-> <nikita.yoush@cogentembedded.com> wrote:
-> > > Simplify rswitch_get_port_node() by using the
-> > > for_each_available_child_of_node() helper instead of manually ignoring
-> > > unavailable child nodes, and leaking a reference.
-> >
-> > FYI, I have a patch in my queue that replaces this code with traversing child nodes (via
-> > for_each_available_child_of_node()) and only creating devices for ports actually defined in the device tree.
-> 
-> OK, thanks for letting me know!
+Hi Heiner,
 
-I am assuming that we can treat Nikita's patch as being orthogonal to this one.
+> With RFC fix (v2) sent, the issue should be solved.
+> Would be good to have your feedback on the fix approach.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+I had a glimpse, and the patch was too intrusive for a quick fix with
+changing the locking everywhere. So, I will still revert the original
+changes to buy us more time. In addition, as we overlooked one code
+path, we should double check that we didn't overlook another one in that
+regard, i.e. muxes. We should develop better test cases, too.
+
+Happy hacking,
+
+   Wolfram
+
+
+--XpUa3pQ9q62QmFWE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmek6lgACgkQFA3kzBSg
+KbYneQ//RbXmHUlaRqWeojp7dOjRm1DAIe0ZZQJfVxk/xP5ol+nJtly4qeVac4d0
+m8wTMfcMa6DGkBaWsV5e/IDaKy21GOxZmSu6XwotByozMGDoZhWwzSfgyBPLAr+0
+0FpjM6z5yDNpDvJTx5hGjOc89mbO6oEOx1GIYSFgtgza7Nq93sR1m1fQ43Xq1uMu
+gaMVVG+CivS1Q+XVIH5DnHUUT3WIJiuFWxrThD0CXHn8FEWxPunQP83IuAColqdt
+gNoJkGT46zm/VSWXw/brdVpFcsIEactYBI+da6UvZRC1AyMsCcTHHLMb10et6jn2
++f17MB1DWXrQ6l5tYRIHj/dhDq0bzIiED6MaqFBGuS1BP2+1fSZrxvGVJrcXxKPW
+M7SF8/lPBG5nBMbjS3UEYG1ciCPxPZqPvX8x4TG8YKbpXkpjniPcYprhnJ49s37z
+o60lnPBmba2X8W8ZmI/i1DASot0vu3UtBt41OADhCsXMQNTKfJgLB9+kXYvsNz8B
+J2f9iren41cx1OrnRPv00XfIi6Sp2TFn5NFv3j0Dr/caTQfxo4jKlF0yfVNCHheE
+agL4lN3g9EQyAwVhXNvnfHnqmIICJciXaJgBSxLJfp58APcQj+8R3qydXdrWxxJO
+C3YRCIKap8zu2oJTLHsdAIlAIE9wI+RgD/SlxokDeOC2jWUgwLM=
+=ojow
+-----END PGP SIGNATURE-----
+
+--XpUa3pQ9q62QmFWE--
 
