@@ -1,62 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-12916-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12917-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3215DA2ADC1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 17:30:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57577A2ADCA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 17:31:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D4AAD188B855
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 16:30:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D88BD16A297
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Feb 2025 16:31:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CEFC236A81;
-	Thu,  6 Feb 2025 16:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68074237173;
+	Thu,  6 Feb 2025 16:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E9Utx0If"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ip8dSdgZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4413C1F4199;
-	Thu,  6 Feb 2025 16:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CE723716F;
+	Thu,  6 Feb 2025 16:31:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738859402; cv=none; b=gIII5ozX6/EA0eXEDnyUve2rOivNYFwB48JNAYqxTPjad+VUQDPgI0OZRjYcX6iFyVF8j6mWEdtm9hzIh/9RSSkPUueaomkKkugk88nPUJRosarorQq9a3pAoBj17YHsx1gaUXzgUAKZVfV+1L3096o4d0qoiwVrW7SPkIhHj9c=
+	t=1738859491; cv=none; b=TKhyQ5YvOq9tBKZXIQWoSm5hg54k095ePHBwj8+hffnMwghAhrLcVRsAWblnKIyZLSpD0U7CMoA6ETy152Cbakzgx7Ly042+74YcukUDbrIjg/nFa7Q58PY4ORgtt3YG1u+1VDs/JyWhEN3krPj9xopUm1QvA0GEMT918G7msog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738859402; c=relaxed/simple;
-	bh=81NrjgCnXD7DSczcSEeZnY7pa/85ZiSEAh6VI4FZN5U=;
+	s=arc-20240116; t=1738859491; c=relaxed/simple;
+	bh=O7MmoChRGtc8LpF5Rkcd2RkPAj/N0FC4Lbj3w9f4ER0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jWWhCZYJqCgTlt1ojcEUNHc6Ip1hMC3MJA2lZMs/Zv4c4Xyxvs79Us8JhojZfcSTdm7NSyPDxuQx/IH7GKQ4wn8j/vudkhOifpAn1dFZv2YUVdokX35RgBBRi3q6jJ2DTq0aWlcagj5y8/zj1UWPh9KbGIcv4ARAbTRK7yYl8Ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E9Utx0If; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3446C4CEE2;
-	Thu,  6 Feb 2025 16:29:59 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=uWdDwMRZ8sjDpWf6ESeKx44lw3yPPicTgfyoKPjisBOUfXOXQoV16GJE2H6IcUu0+xxKMEg89pPp5wNt3sxAfO4uBzyTHVrvc4C6nLYZ3j4zTk2wTSMc0IvZriPOAP0zu/amOL6fpHl6N5XqtetP0+YNb0dgVNPbMqmnBQ/ACQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ip8dSdgZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D7F4C4CEDF;
+	Thu,  6 Feb 2025 16:31:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738859402;
-	bh=81NrjgCnXD7DSczcSEeZnY7pa/85ZiSEAh6VI4FZN5U=;
+	s=k20201202; t=1738859490;
+	bh=O7MmoChRGtc8LpF5Rkcd2RkPAj/N0FC4Lbj3w9f4ER0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E9Utx0IfxTtLtKIf6bqy7cv1DpzUTcTy4MCnn0dI0vKtHwLbpM0mMTgzWF68JZ8St
-	 JPOMUMEvvne5y533/Noqecy7CN5gwmKyQ6xH4nNou+t++GVZw3mJIJdGYULGBkjXci
-	 JXQsriVdg4+1TQPB8BYAWeVG2ZwhOL9UUZOV7rtt3g/iXSjxt9t2mNx+acuB4LHcws
-	 gV/A5xy3JNkpg9mln0WFUJ/ObPYubZtsr0RuJlDxrg38s+vcbjnIagGTovkQrvIDbF
-	 l2YM6kwQR58LJ2TisKUS6VFxrn5iCuDf1Mi+rxvnUe8V0RO1WbUmnQWjLBlzxFciXW
-	 EB39cavUh1YNw==
-Date: Thu, 6 Feb 2025 16:29:57 +0000
+	b=ip8dSdgZaiDZe7CzVI/3NkwS4I63q9V9WkOGkF+fHo/t3zXUQ3tAHCffRi92hQLmN
+	 i3FzSF8QPnAXcc+siOGmmc02BeDEwUS6y8DEagD5b+dN1H+nk3diOEG/B6YCgse1jZ
+	 BgfwtGfRtj/pG1N3tgJSzKfVoYfaLrCU0bI7zraO2lUrwx4e9TIDlJjqgiUbKsOs9s
+	 0w3efNRGkP6OUuCWWr2WSyvlmMB9Mb5Noy8id6oSwtY9kmLrx2Tec2N0+X2HV65dYF
+	 gRd79u63yCpeFvrEugYaN7YmNDcuBbrBOKR42Ye11VtRQ4QKyKDhheOYhsoiAE3kYP
+	 rvGyu3aw3AHRw==
+Date: Thu, 6 Feb 2025 16:31:26 +0000
 From: Simon Horman <horms@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net-next] net: pcs: rzn1-miic: Convert to
- for_each_available_child_of_node() helper
-Message-ID: <20250206162957.GX554665@kernel.org>
-References: <3e394d4cf8204bcf17b184bfda474085aa8ed0dd.1738771631.git.geert+renesas@glider.be>
+Subject: Re: [PATCH net-next] net: renesas: rswitch: Convert to
+ for_each_available_child_of_node()
+Message-ID: <20250206163126.GY554665@kernel.org>
+References: <54f544d573a64b96e01fd00d3481b10806f4d110.1738771798.git.geert+renesas@glider.be>
+ <6d09e337-8bca-4ef7-bbfc-d824829ad211@cogentembedded.com>
+ <CAMuHMdUgydc4q-dSsUQ_zLpkvbv9-26T3tpEO6e7OF491jTrEQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,14 +66,23 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3e394d4cf8204bcf17b184bfda474085aa8ed0dd.1738771631.git.geert+renesas@glider.be>
+In-Reply-To: <CAMuHMdUgydc4q-dSsUQ_zLpkvbv9-26T3tpEO6e7OF491jTrEQ@mail.gmail.com>
 
-On Wed, Feb 05, 2025 at 05:09:47PM +0100, Geert Uytterhoeven wrote:
-> Simplify miic_parse_dt() by using the for_each_available_child_of_node()
-> helper instead of manually skipping unavailable child nodes.
+On Wed, Feb 05, 2025 at 05:18:14PM +0100, Geert Uytterhoeven wrote:
+> Hi Nikita,
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> On Wed, 5 Feb 2025 at 17:15, Nikita Yushchenko
+> <nikita.yoush@cogentembedded.com> wrote:
+> > > Simplify rswitch_get_port_node() by using the
+> > > for_each_available_child_of_node() helper instead of manually ignoring
+> > > unavailable child nodes, and leaking a reference.
+> >
+> > FYI, I have a patch in my queue that replaces this code with traversing child nodes (via
+> > for_each_available_child_of_node()) and only creating devices for ports actually defined in the device tree.
+> 
+> OK, thanks for letting me know!
+
+I am assuming that we can treat Nikita's patch as being orthogonal to this one.
 
 Reviewed-by: Simon Horman <horms@kernel.org>
-
 
