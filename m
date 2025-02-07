@@ -1,172 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-12932-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-12933-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 872AFA2BCE9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Feb 2025 08:49:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 583CEA2BE4D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Feb 2025 09:45:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 21E31160C51
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Feb 2025 07:49:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5AECF7A53B3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Feb 2025 08:44:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E103A1A3A94;
-	Fri,  7 Feb 2025 07:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="q5aa2etM";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+NPum2S2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AB80188907;
+	Fri,  7 Feb 2025 08:45:20 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBEB1A4E70;
-	Fri,  7 Feb 2025 07:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175561A23BC;
+	Fri,  7 Feb 2025 08:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738914571; cv=none; b=FpvPV1kOhVuV3RccZm1qeexadsklPQZma26TzbbrAqIQcfGMY5+elBVpdGQQZOQjllJvnGCjlceVJtwNUizAAB3YbIWKAFRbsF/j4SaE4MYLMR1zP/ubyf6D/yTzTbgmMweQrIe5rsBx0zHkHPCRjelheUYpnqXb9ziTATdzBww=
+	t=1738917920; cv=none; b=Yg7VhVq/J85EdPpEIMGEFeMxkmGA/JZMeX/dtMetSp1mc4IFYZF3VDU00LFeM/ZgGrPM+DVSabHhkuBqbz39MNKJZHwQME5t/C6RJr3Nk21hy2pRYwEXbDbBhRwXHyx9zBsBJgBSxeS6HGXYUTsPuCpfz4NHTJqty2GlBff9Dws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738914571; c=relaxed/simple;
-	bh=Bje5bojcRM8J4jR5HPNaqNStWU0axgYTUejPVJig7EU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sDrJIuflqA27JSN21y36E1zb3Pxga5OVSwoygaGtGl8tjCxFmLjGpbmlkoX91I26G5VdNk9msuhMw6Im2lMHJUpfo1lS72uOSypJtmAw2RkuZ1UqgFJJMb5C0AXdQ0DMt3FxWp+CjrOv1obuxvUHzuLDzM/xIfvm/OjHJIXZjjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=q5aa2etM; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+NPum2S2; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1738914567;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2f8vfzWNSnHoscologJ/G9sN68QvAuR2/hQ39ggmHe4=;
-	b=q5aa2etMX90igNKwS1KcBtWR/FJmkrr9JNZCjM+W+3Az5GrMQQz2HKNYg1rDKcWn1CtFB2
-	rPehQGSvoI7b/4JT1EL2zkdlgL5aHkWPBv74bOT6J6Ko60M3PsEHby0gUNLa62C6UEd1rC
-	fqD8M58pcXUJtp/RDqOnwHDybPHQQAsoGzQLKFGaRigO/Vn0lROkVtaOUrKc0Ci82AIVrI
-	/pMZ3ywPEp6UzyVmnokVfRmeyHyqWIA8izOUYMOWLbskQ7l9KKY6fp5l2b8mglaS5iCRhX
-	VRU7W+IjPocAYfcKojMFTgHYCbOxUtQ5wBq0ulHJVunJCNn/CRbsi9sy75ZbuQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1738914567;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2f8vfzWNSnHoscologJ/G9sN68QvAuR2/hQ39ggmHe4=;
-	b=+NPum2S23nHQ50f22LhjHCI0twVdcSnghFuXP40PeEMPDLzfPJJmHB97jhwaXUyTIr9KsU
-	8pidCWl7h7cmrHCw==
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, Lad
- Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 4/7] irqchip/renesas-rzv2h: Add
- rzv2h_icu_register_dma_req_ack
-In-Reply-To: <20250206220308.76669-5-fabrizio.castro.jz@renesas.com>
-References: <20250206220308.76669-1-fabrizio.castro.jz@renesas.com>
- <20250206220308.76669-5-fabrizio.castro.jz@renesas.com>
-Date: Fri, 07 Feb 2025 08:49:27 +0100
-Message-ID: <87ed0amby0.ffs@tglx>
+	s=arc-20240116; t=1738917920; c=relaxed/simple;
+	bh=u5uf4Tir0xtyLJKs+PEP57pDaPKUCR5Tk4tC6W+Pwrc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=alAUzNizwhXFfPJQf+corWFAMQHXGlEQhrISOzr6NeelD38DGsn7wCDkMQF+DHAGlhyvWH3AA7ZO+iiOSFvZr10FoMNKh5fhKX4WflB6EBaqNTMd9XAZxb/mm8VhTnQEhixdwxFtHK6f/JcCXcC/+CDPLpNBEs4OJwiObFU4NAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-866fbf798baso366979241.2;
+        Fri, 07 Feb 2025 00:45:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738917915; x=1739522715;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EBXViw2B5++lx3lKvCWR8ZB0A4ECbVpnUmvGe59jHB4=;
+        b=LXekXXfTj0Z+jhDtTQCyxXnRuHaYIU8gLAXcJXinj9kWyW3rR6Tc5H3mAP2VFwbezE
+         o22NYUT84p/L0+Nt3wdoWucSJV1bDLdE/9Bz6jZcp4y3jP9f8RQuaBBGhL7eQk0phYyO
+         r65q4hm2EGfpiAqunfLQSLrW5W25Arrg71Xj0+RxQh9+4i97UqqaeY50+VLezlJj2x6M
+         ERzsr4ZOFQdQMXGEBNt1b7lpLawAKbqKk3leSu+gmMwLil/k70aG75GjQvlLATYIH/yJ
+         OaEOk7BM8d8uzP1y2EQ8FsFwrc6q5GXZbPD4fyaQp5WdVXKsgFehUPPrRt06af78RUEf
+         9ZaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/I3P5q8aURyA1sFRR45B/z/AXNyGe+z0d9Gz7SMZmDIXG7I3fctAau5lgbaWVp5DzO19gxaBEwVKv@vger.kernel.org, AJvYcCW33S/JDRTFmkcD/Tc4vBX0pFPmOkOfIBX54ikZWgoWXoCfksb6R1vDhysfeQcfO/6H4ytXDgcAbboJuJKy+rgbe1Y=@vger.kernel.org, AJvYcCXrn+YJwB/zUl9VUTSM1v+peTrvPNps72bnPwM7ZEkJjLIxkl+HO8OwStk+UqahGh2vJJN7OFiUX44cK+/i@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkXQmau9PlsJyYGyZR3H7t/L63ZFF1+/HQBbDPZKFbbl+8zxxg
+	CWlLgOkSuCYJQyvSWzFhQTlDyxaSJjX+rEmKQQz347UW6HcyQYfj7xpQa+gn
+X-Gm-Gg: ASbGncvsUaWrWo/BrIdfpd0BG+CGuJrvMJbhGUs/ktzJRA8+zT1HR0bBKOsLpb/oShK
+	vb+LqdJhDCbAIQmvyeNgjopO0/9t/MnKjQOoraqSN4TehHARe/PPOqYax4pijP/czHRVnGvbuip
+	lYpaDw/ksvFbifiVwCgN4VEx6qASAnwV3LCWMFsu3bjBRM+LKNNOknk6Ugf/J6Bt484x+Yq7wP+
+	rZpnLfJAubO3bbHo4U7PasbPOuqRX4rFdWDo79xuvODGk3gxnfqJGerDVaSL1v7NzpEbc0WvEt1
+	M6cLR6l2xcC0YJ/L6BseE7Z2KWmI2Kzb/JgnkF2NJWS/DtA2/+aQ4Q==
+X-Google-Smtp-Source: AGHT+IFnQrVzR9eRppe56mDFwd3I+xj3xG59VzrBWgMBhhoNMgKb8yVkQOAbZPDqOowSoAPJ3kTx7Q==
+X-Received: by 2002:a05:6102:578d:b0:4b1:340a:ce63 with SMTP id ada2fe7eead31-4ba85e3dae8mr1279456137.11.1738917915216;
+        Fri, 07 Feb 2025 00:45:15 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4ba773045f8sm560930137.26.2025.02.07.00.45.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Feb 2025 00:45:14 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-864e4f5b253so517213241.1;
+        Fri, 07 Feb 2025 00:45:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV65zjgcQQACjbK/qJd2Aj2I1d3wkGWC39AycXTsG0fACPIfBaQqN43bg9yg9mYd7mKoIDszHYrjfIR@vger.kernel.org, AJvYcCX37+8vENechgh3LQRrgXn0OhKb78H4ZkOlbzXu7FEjO+8Tj5UhsOpgq2Qx2YWCtF5nnPzGcb4pfHs99Xao@vger.kernel.org, AJvYcCXuMJf+Etf9d5kHH9v4BPYJHJwk/NnMFJ/7b8M84+nw5U0G3g0Bv+ZzRLzWiodJqPgYrRrw6oe7FWclASI3zReU6cs=@vger.kernel.org
+X-Received: by 2002:a05:6102:4b13:b0:4b2:c391:7d16 with SMTP id
+ ada2fe7eead31-4ba85df078fmr1195440137.7.1738917914082; Fri, 07 Feb 2025
+ 00:45:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250131-myir-remi-pi-v3-0-2dda53e79291@collabora.com>
+ <20250131-myir-remi-pi-v3-2-2dda53e79291@collabora.com> <CAMuHMdXAS6pnNcT=A7i9La22tbDXYf7EKqbJzHuK2ze2gf6cgg@mail.gmail.com>
+ <950770a2406dd9ac3163e677c6d887d06df5b8c6.camel@collabora.com>
+In-Reply-To: <950770a2406dd9ac3163e677c6d887d06df5b8c6.camel@collabora.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 7 Feb 2025 09:45:01 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW5yn-ups7+uJqmEXcZjZ=LqxmxRPfFM=zLh+EvWsC-XQ@mail.gmail.com>
+X-Gm-Features: AWEUYZmxZYxOa7pFoJM9l8ZXRqq9cw7oUCIl5Wo35rPZxgOoflR7oSAg2hN9nGg
+Message-ID: <CAMuHMdW5yn-ups7+uJqmEXcZjZ=LqxmxRPfFM=zLh+EvWsC-XQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] arm64: renesas: add initial support for MYIR Remi Pi
+To: Julien Massot <julien.massot@collabora.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, kernel@collabora.com, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 06 2025 at 22:03, Fabrizio Castro wrote:
+Hi Julien,
 
-https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#function-references-in-changelogs
+On Fri, 7 Feb 2025 at 08:16, Julien Massot <julien.massot@collabora.com> wrote:
+> > On Fri, 31 Jan 2025 at 10:58, Julien Massot <julien.massot@collabora.com> wrote:
+> > > Add basic support for the MYIR Remi Pi (based on r9a07g044l2):
+> > >  - UART
+> > >  - i2c
+> > >  - emmc
+> > >  - USB host
+> > >  - HDMI output
+> > >  - Ethernet
+> > >
+> > > Signed-off-by: Julien Massot <julien.massot@collabora.com>
+> >
+> > Thanks for the update!
 
-> On the Renesas RZ/V2H(P) family of SoCs, DMAC IPs are connected
-> to the Interrupt Control Unit (ICU).
-> +#define ICU_DMkSELy(k, y)			(0x420 + (k) * 0x20 + (y) * 4)
-> +#define ICU_DMACKSELk(k)			(0x500 + (k) * 4)
->  
->  /* NMI */
->  #define ICU_NMI_EDGE_FALLING			0
-> @@ -80,6 +83,19 @@
->  #define ICU_TINT_EXTRACT_GPIOINT(x)		FIELD_GET(GENMASK(31, 16), (x))
->  #define ICU_PB5_TINT				0x55
->  
-> +/* DMAC */
-> +#define ICU_DMAC_DkSEL_CLRON_MASK		BIT(15)
-> +#define ICU_DMAC_DkRQ_SEL_MASK			GENMASK(9, 0)
-> +#define ICU_DMAC_DMAREQ_MASK			(ICU_DMAC_DkRQ_SEL_MASK | \
-> +						 ICU_DMAC_DkSEL_CLRON_MASK)
-> +
-> +#define ICU_DMAC_PREP_DkSEL_CLRON(x)		FIELD_PREP(ICU_DMAC_DkSEL_CLRON_MASK, (x))
-> +#define ICU_DMAC_PREP_DkRQ_SEL(x)		FIELD_PREP(ICU_DMAC_DkRQ_SEL_MASK, (x))
-> +#define ICU_DMAC_PREP_DMAREQ(sel, clr)		(ICU_DMAC_PREP_DkRQ_SEL(sel) | \
-> +						ICU_DMAC_PREP_DkSEL_CLRON(clr))
-
-That's a pretty convoluted way to create a mask whihc has the CLRON bit
-always set to 0 according to the only usage site.
-
-> +#define ICU_DMAC_DACK_SEL_MASK			GENMASK(6, 0)
-
-> +void rzv2h_icu_register_dma_req_ack(struct platform_device *icu_dev, u8 dmac_index, u8 dmac_channel,
-> +				    u16 req_no, u8 ack_no)
-> +{
-> +	struct rzv2h_icu_priv *priv = platform_get_drvdata(icu_dev);
-> +	u32 icu_dmackselk, dmaack, dmaack_mask;
-> +	u32 icu_dmksely, dmareq, dmareq_mask;
-> +	u8 k, field_no;
-> +	u8 y, upper;
-> +
-> +	if (req_no >= 0x1b5)
-
-In the DMA part you use proper defines for this, but here you put magic
-numbers into the code. Please share the defines and use them consistently.
-
-> +		req_no = RZV2H_ICU_DMAC_REQ_NO_DEFAULT;
-> +
-> +	if (ack_no >= 0x50)
-> +		ack_no = RZV2H_ICU_DMAC_ACK_NO_DEFAULT;
-> +
-> +	y = dmac_channel / 2;
-> +	upper = dmac_channel % 2;
-> +
-> +	dmareq = ICU_DMAC_PREP_DMAREQ(req_no, 0);
-> +	dmareq_mask = ICU_DMAC_DMAREQ_MASK;
-> +
-> +	if (upper) {
-> +		dmareq <<= 16;
-> +		dmareq_mask <<= 16;
-> +	}
-
-You already have macros for this, so the obvious thing to do is to put
-the shift magic into them:
-
-/* Two 16 bit fields per register */
-#define ICU_DMAC_DMAREQ_SHIFT(ch)		((ch & 0x01) * 16)
-
-#define ICU_DMAC_PREP_DMAREQ(sel, ch)		(ICU_DMAC_PREP_DkRQ_SEL(sel)	\
-                                                 << ICU_DMAC_DMAREQ_SHIFT(ch))
-#define ICU_DMAC_DMAREQ_MASK(ch)		(ICU_DMAC_DkRQ_SEL_MASK		\
-                                                 << ICU_DMAC_DMAREQ_SHIFT(ch))
-
-        dmareq = ICU_DMAC_PREP_DMAREQ(req_no, ch);
-        dmareq_mask = ICU_DMAC_DMAREQ_MASK(ch);
-
-> +	k  = ack_no / 4;
-> +	field_no = ack_no % 4;
-> +
-> +	dmaack_mask = ICU_DMAC_DACK_SEL_MASK << (field_no * 8);
-> +	dmaack = ack_no << (field_no * 8);
-
-Same here.
-
-> +	guard(raw_spinlock_irqsave)(&priv->lock);
-> +
-> +	icu_dmksely = readl(priv->base + ICU_DMkSELy(dmac_index, y));
-> +	icu_dmksely = (icu_dmksely & ~dmareq_mask) | dmareq;
-> +	writel(icu_dmksely, priv->base + ICU_DMkSELy(dmac_index, y));
-> +
-> +	icu_dmackselk = readl(priv->base + ICU_DMACKSELk(k));
-> +	icu_dmackselk = (icu_dmackselk & ~dmaack_mask) | dmaack;
-> +	writel(icu_dmackselk, priv->base + ICU_DMACKSELk(k));
+> > I fixed the style issues locally, so if you can confirm or deny the removal
+> > of scif3, I can fix that while applying.
+>
+> Confirmed, we should not enable scif3.
 
 Thanks,
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.15 with the above fixed.
 
-        tglx
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
