@@ -1,128 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-13013-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13014-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64116A2F2E7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 17:15:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1FCA2F60F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 18:57:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1761B1889EF5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 16:15:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 327CE7A157E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 17:56:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30D092580FF;
-	Mon, 10 Feb 2025 16:14:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64DB92566D1;
+	Mon, 10 Feb 2025 17:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="XTGtMdZ9";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="spkI8om1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C95D1F4609
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Feb 2025 16:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4865825B68D;
+	Mon, 10 Feb 2025 17:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739204082; cv=none; b=Eo6IemdhSJc2CLdxIciPGaREuoZWCR9/3jOwngdM/HekUQAZJG5JNQaSSwkR95CiOPXMChiQlipLXR8t7wykbGxoJKROQJP2BF1DzbhaFBTN3OUP3LQOw8cnTSOkcUbTOWj49oeBBT3/COyc38GdNBKQmdPkAM4fbu0xbFMMDhA=
+	t=1739210207; cv=none; b=miKaKqkAFQjQXrrWVjDWxAF+95uWn8m+Gh8oGDSQif2K03PHK8WKMTeGv9jJrKovng02chIZrOqyU9gCVGdUmZFy5pAKBjd0ZywxB+/6ntnLy8tMsN9k/E+nRGxHJ9v4moHY2Y7vSqNBpJtHjxXQLjXKTKIvchnpkVc4wppKprI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739204082; c=relaxed/simple;
-	bh=u5B5BaUIbKY67asPnZulk6SCYRMsnIg2yM5cwrZupGw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I41ovmSR5yog7Yu+O6DXvahgCgkoUryQZCxT6TWvj7ND1dQI0YXN0epfyU9phM54bc4AcM9HbdXbQnj2TRtyzCqACBdqsfgR0SFrD8M3atf31fvFWxGPuOjMxLaIZti7lPujE8/Gt/6mIocv5ve0s1tz8BdHP1XEx7jAje3zD8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-866fe7d07d0so1050120241.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Feb 2025 08:14:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739204078; x=1739808878;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gcHURsGRyqGHMRG97wEPnf5Pws9q0cKD5BNKIMlLPWA=;
-        b=hUu2ePfbEXK/Kc0NiYd4q3MM9gVgC8ICEpwpP1/NbXYRnvy7IRkmEfE8IH4yPIIcBd
-         QlFrex5UZjcMhbz7jUFjXwcAWNXEguTBUsaiuYYJOeYLvZGwZYq1d+vFPvYS/nj2QI8b
-         IsHFcNnxkuHU1Upd5IYSnhK7Fk5kzF+3cDmXoDpuXiAIDZ6owXaf6rv67yrAoXbbfdoE
-         SXT1iLmgjz7rxkZYH+2R/lkHyBNsW71XmWSDoWVp/IuUF7O5Sgssdgt7156Z1mMFth4b
-         AKwolCqie/Hk3puF/4pE62ENBAxZNk72WBBJ6lxjBJtwZwpAWRPGSwild54Rn1O7ODnC
-         Ls4g==
-X-Gm-Message-State: AOJu0YyCoKH+/n2xs1xTeRXo2AipLEjG6/AYB7hK7f6v1HmWfP8ABL6I
-	I6gjpegvhxMUAu40jLq5mZDPaJ9ksWelhuuJ7sOLWlFk3lpVXZCKl25gnHsw
-X-Gm-Gg: ASbGncvMpoUeMIqixMMiKsujd1rUicCoVXjKqfqQhvUTvL8J5BwR08OVt1XA9HDECVC
-	XkMJkrud4ieVqZnlwL8/zRwhLcH90HwspcVlIShTF+ULZQMS0qT6/UcFNpBn3OXx++sKVvcZGea
-	Q1R2wuaKKcUE5f95tIfl1TfA0/b09HbJPRgJktS5nU+sYPsXbtpJ5bVL0vYIXZxj5zZYWWuL6ZL
-	oJm8Bx8UEgU18O4au8lBeffikpcRXGV1CkDlWgTT4378Ah8YEPmx6BbLNTlpA2Vv3ZG3ZMJgGiN
-	8c8izNBuLoJiBjkjdTt2SOAud+tCqOTSUMm2D/gGWfmXpQGZPYU0dA==
-X-Google-Smtp-Source: AGHT+IEczKtYj0G04U0KSTvB3nc/OFRs6gIc0d2wtLy2HaOcqI4tx/E3QcMfi6mbuEv537RPjskLMA==
-X-Received: by 2002:a05:6122:2388:b0:51f:4154:c1b2 with SMTP id 71dfb90a1353d-51f4154c297mr6709959e0c.2.1739204078490;
-        Mon, 10 Feb 2025 08:14:38 -0800 (PST)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52050a2c061sm118919e0c.32.2025.02.10.08.14.38
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2025 08:14:38 -0800 (PST)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4baf654570fso445065137.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Feb 2025 08:14:38 -0800 (PST)
-X-Received: by 2002:a05:6102:508a:b0:4b6:8d8b:82c6 with SMTP id
- ada2fe7eead31-4ba85e70c19mr8513345137.15.1739204077889; Mon, 10 Feb 2025
- 08:14:37 -0800 (PST)
+	s=arc-20240116; t=1739210207; c=relaxed/simple;
+	bh=zanr0Rvco2X6yCtrqiaHCX5WrY3B9zkm0/099sXDRrc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uCP3mrBqthS5O0j8CltU/A738pcxFHqT5IKxD4V5OoWrPDbFGZdK3bm2ypy+gazOSQTQEvnjO5M8WtDC8RCprSV0wt1konRircOf3xotviykL0hTygZqbnSggwroktGG171fkNaYCsSn4p7ypfylT0Jt6v7kUMsQOt6YEQYQSIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=XTGtMdZ9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=spkI8om1; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfout.phl.internal (Postfix) with ESMTP id 1E50D138016A;
+	Mon, 10 Feb 2025 12:56:43 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Mon, 10 Feb 2025 12:56:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1739210203; x=1739296603; bh=oy
+	vwNRLrt6bsmaX+kj3Lci83QE5SXWaneaIuBcKf3UQ=; b=XTGtMdZ9OAGxvcv4Nj
+	ugzjv8ckLKicGZ85kxujq29MXWGLCYqev1w1Ul+sku0tMK54anfwfglFfhFxcBTh
+	OHKS0KehOktUnC/wy8QkiRdKl6Akgpn3RSrC9iZrXWFpGXJ4yLZ2WJJNAv6r8Oru
+	HNuy040t0EHEsKIxQv3t6a6Of12kRhs5s0+/idWvwNLq4vulhe2WJVM7sStnA+0g
+	zLa0IDgiC8gETLt3kLbgqLX4pDJjBxA6N7pxnfN9IIqpSGEngg8HUPi3Jkow7fS8
+	yaN3Uh5fUrWzpwQMuyca2ARyZKwepGmYQ4ZO2QoVJAWqoEQKyFTP4i3myy601DSk
+	P07w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1739210203; x=1739296603; bh=oyvwNRLrt6bsmaX+kj3Lci83QE5S
+	XWaneaIuBcKf3UQ=; b=spkI8om1AyrXTY8ZMtN0jp+3du6lZUTTco9cSgrnyaVz
+	+jNRZkxgNqPDz1aWJ0tLKZdpAGQ9bwfrQYwbPie/N1aKmHDSd62U34E86vyJPrSu
+	Qm2ZVPkXLTSSTe6XXwad+pgMHpj1pIkXTlAkdbZoC6aXPGaz0eLUf2cwyiuPI8vd
+	NGukhbWIYJ6siHoLMJRJSgW+zSW2jyJulRnvZOaceVK/zpVIhPrE0vdKjaa1KPPI
+	aIdS7GseWTEi6vucm5iTkCe1w2c/SvRzU062mYQ7fD0g7zTS7xSuYYwQF+Ukzhc9
+	vFBMUX4hHliV19a5IBbKwRJ/qCIU2GOraQT8mf3hrQ==
+X-ME-Sender: <xms:2j2qZ6QyT-HuQ1nOoSoSIHvETMaPOWfy3jimeANBAtlzo76hqssNXA>
+    <xme:2j2qZ_wDXkVUDQ6fydf2CRJPSm219R5fkTseHZkHAlhYv3tAX3I4dFXtn8GWgb6Sq
+    AK63xFg0RZAOgkLmqE>
+X-ME-Received: <xmr:2j2qZ31yTCxZ_AMyuXEFXTh-I2TnbtE1y9uy7NBLNcvUhWBw-GlpTk26jUqDAFp9CA2AhArWA5FFAFhMXzbIukiPbQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefkeejfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
+    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
+    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
+    htohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshgrkhgrrhhirdgrihhl
+    uhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhrvghn
+    vghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqd
+    hmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidq
+    rhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdr
+    shgv
+X-ME-Proxy: <xmx:2j2qZ2B5iMFloGWnXOuhoYqQYTjg5qJaXLfT2UJmdZU00ay9Cg7XOQ>
+    <xmx:2j2qZziy62RfaQQqnvJae43O0SuGhE-m9uAJJtz3i_254wE1fEyRXg>
+    <xmx:2j2qZyrO_xYGY_rRTBslz6TONgrW_zqbSIfnKG6sEhJlorVGIQHH6A>
+    <xmx:2j2qZ2gVeotWEBGlZaiBBJ13OK-fTB0j5opnX1jkzWNidTtxDfTdKQ>
+    <xmx:2z2qZ-WIPvGfgrwWxSarfzdYuvVMsD8YODAOFm-lyJoKUrcYPj0dRmZH>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 10 Feb 2025 12:56:42 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 0/5] media: rcar-vin: Remove emulated SEQ_{TB,BT}
+Date: Mon, 10 Feb 2025 18:56:10 +0100
+Message-ID: <20250210175615.1686529-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250129165122.2980-1-thierry.bultel.yh@bp.renesas.com>
- <20250129165122.2980-7-thierry.bultel.yh@bp.renesas.com> <CAMuHMdVUhXQ80DRbr7yFNgzmGMuDEuScZZhKihhtee1U4qP3UA@mail.gmail.com>
- <Z6oSv8TDtnI5Tvye@superbuilder>
-In-Reply-To: <Z6oSv8TDtnI5Tvye@superbuilder>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Feb 2025 17:14:25 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW7RvX8bYSP7jL+BUkZJn=j2aECYCxNCNCFu1TZF4DAWg@mail.gmail.com>
-X-Gm-Features: AWEUYZlrpNDR0ImtKW2UmVXk3_kKVErko0phIHEF753dgkWSp35Rqpo9dYK0aMw
-Message-ID: <CAMuHMdW7RvX8bYSP7jL+BUkZJn=j2aECYCxNCNCFu1TZF4DAWg@mail.gmail.com>
-Subject: Re: [PATCH 06/14] clk: renesas: Add support for RZ/T2H family clock
-To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Thierry,
+Hello,
 
-On Mon, 10 Feb 2025 at 15:53, Thierry Bultel
-<thierry.bultel.yh@bp.renesas.com> wrote:
-> On Mon, Feb 10, 2025 at 03:06:29PM +0100, Geert Uytterhoeven wrote:
-> > On Wed, 29 Jan 2025 at 17:52, Thierry Bultel
-> > <thierry.bultel.yh@bp.renesas.com> wrote:
-> > > Add the CPG driver for T2H family.
-> > >
-> > > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-> >
-> > > --- /dev/null
-> > > +++ b/drivers/clk/renesas/rzt2h-cpg.c
+When the driver was converted from soc_camera emulated support for
+V4L2_FIELD_SEQ_TB and V4L2_FIELD_SEQ_BT where added. This was done by
+capturing twice to the same VB2 buffer, but at different offsets.
 
-> > Given RZ/T2 does not use the "write bit 16 + n when touching bit
-> > n"-scheme (like RZ/G2L and RZ/V2H), I am wondering if it would be easier
-> > to use renesas-cpg-mssr.c instead, like R-Car and RZ/A2M are doing?
->
-> Because this is the early support for RZ/T2H CPG, the patch
-> does not show the all differences that the driver will have with
-> renesas-cpg-mssr.c
-> Taking an example, renesas-cpg-mssr.c does not seem to
-> handle all the clock types (eg  case CLK_TYPE_MUX) that RZ/T2H
-> uses. I am just afraid that even if renesas-cpg-mssr.c would
-> eventually fit now, significant changes would be required later.
-> But you have a wider sight on this than me.
+This trend out to be a bad idea and the wrong place to try and emulate
+this kind of thing. Further more it is fragile when it comes to things
+like suspend/resume and scaling. Just how fragile it was have been made
+more apparent when more features where added to the driver for things
+the hardware really can do.
 
-Sure, you will have to add a few new clock types, and a new set of
-Module Stop and Module Reset Control Registers.
+If user-space really want to capture things in a SEQ_{TB,BT} fashion
+this emulation of capturing twice to the same buffer with a different
+offset can be emulated their instead of the kernel, where it always
+should have been.
 
-We'll see. I also don't have a full view on the RZ/T2 internals yet...
+This series removes this emulation in patch 1/5 and then proceeds to
+remove a lot of cruft code needed to support it. The primary cleanups in
+patch 2/5 - 4/5 revolve around simplifying the VIN internal state
+tracking from 5 to 2 states needed to support the emulation.
 
-Gr{oetje,eeting}s,
+Finally patch 5/5 removes a hack in the R-Car CSI-2 driver which was
+added to support this emulation, and is no longer needed.
 
-                        Geert
+I have tested this on Gen2, Gen3 and Gen4 without hitting any
+regressions or other issues, other then of course SEQ_{TB,BT} are no
+longer enumerated as output formats.
+
+For changelog see individual patches.
+
+Niklas Söderlund (5):
+  media: rcar-vin: Remove emulated SEQ_{TB,BT}
+  media: rcar-vin: Remove superfluous suspended state
+  media: rcar-vin: Remove superfluous starting state
+  media: rcar-vin: Simplify the shutdown process
+  media: rcar-csi2: Remove hack to detect NTSC content
+
+ drivers/media/platform/renesas/rcar-csi2.c    |   8 +-
+ .../platform/renesas/rcar-vin/rcar-core.c     |   6 +-
+ .../platform/renesas/rcar-vin/rcar-dma.c      | 132 ++++--------------
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |   7 -
+ .../platform/renesas/rcar-vin/rcar-vin.h      |  40 +-----
+ 5 files changed, 33 insertions(+), 160 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.48.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
