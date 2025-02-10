@@ -1,199 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-13010-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13011-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79792A2F20A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 16:48:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA620A2F222
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 16:52:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48DA73A3216
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 15:48:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 58FCD160E42
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 15:52:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D33671F8BBC;
-	Mon, 10 Feb 2025 15:48:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF94A1F8BC6;
+	Mon, 10 Feb 2025 15:52:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E15624BCFB;
-	Mon, 10 Feb 2025 15:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6431E32A2;
+	Mon, 10 Feb 2025 15:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739202514; cv=none; b=N/XPma9a/nfMfui1Z7TVIlzq7wXHpJqEKtCaNTvrDCHwof3Ws5kulqCEaQPFmEx7I4DEY2JEn98RsnXhumzB6PQj6RUDIexJ/n0dLMfNYZSbIY0aGIQXcYiGBntiz38RiZzUSt+2vVs4cNUUXWvPVwlyFRWgVDw/FlvCIEm7FCI=
+	t=1739202751; cv=none; b=XttlZuHuOYtqVWsGu5NQrqTUfuiZQV1RpDi0HnuipZKVALC4lDDbnoxrHCyo8FFawjk6PMmqk/P62JB3BwQ7EAhJhOvpGHdcrvdrN01+Iyv+GpKkIr+rWWWbM5nAcdh0n/Bxo6Ctl9SspuYsBbASrH2eyU0u35fCEgNsH9dr+zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739202514; c=relaxed/simple;
-	bh=XRbgmbcCpwhcGuhyGTfVaQu7cnuve9h9DUd6LS4b0Xk=;
+	s=arc-20240116; t=1739202751; c=relaxed/simple;
+	bh=T4p3xEVBvyWcXEeHEOyj70pPzf7pMCYhQAyjCMJja4c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K0pkFWySXIUjJm7qrLkS39l3RjC0vNt7zlCVj+byU5Ov2OOfCs/8aj6bx+e4pfANErFcD1/wkYMU3IfUdP/R+L2unGdL8jx29LXrGWEY6LTN0bRQnftlsfpQoipLIQShlg5776j6nyk0KBCY4wEvYFl0BIscV+6iDdZgWtTWuxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.170
+	 To:Cc:Content-Type; b=u3ECJAphPSUa7e1j3woW0ibcnMGyrFF+rblYuJItvGvc7OahK2KwMuPeEIvzSRUtHMDp70LIT+Alszvf5s5CG34QI+J1j/l7Cho8WguTq2PhhYYNOgYFsHHM5DjRelyYJFjb0uZj1e7VNUKXrP6RdC+JwpoI3VKjdFGGBrupPkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5205539e38cso84301e0c.0;
-        Mon, 10 Feb 2025 07:48:32 -0800 (PST)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4ba6ef7d736so878938137.0;
+        Mon, 10 Feb 2025 07:52:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739202511; x=1739807311;
+        d=1e100.net; s=20230601; t=1739202748; x=1739807548;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=W0eRsoRzBIkH6thuFISXXPJYJ/VgMzRxeCVSBedmQw0=;
-        b=RnDCHJb3V7eO5kx6OX9XwEk9EEN4SSrpQoY/Cl7lX2Kv7ONDMdsq8V+rKPeRpv/+5L
-         sOzuCL8Ik9Lg3rOlSvCMNwSZxRRd3DHpRvaV+9efkvA+UyZMjTyFnWw/5Xu9h3LoIDJy
-         IOqz0kozGobKzw+9bdntea/ZSR5sRNeq2BcbhqpxDGGnWDiImZOTbTYpFNItKFpah9jT
-         HCM4kelLOkkjl6nn0NKi5GRTJI+jTCkTQc1dQaiqe/eC5PFgi7k51e1FhxWawLZFmozD
-         49XP0MdbWQlQZTjJ+8f3rO/THWURqCv8iqFvFTtaaXjCTzYliXr19Uuu/mRVzcauSUKw
-         y5Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCVsgu4y9/9i37PrvdgX0TEjW3/lE5xLYNSBPHJjhtD9Sw1Q1gb4m4X3GrGUyylkeLuWTHraIZf4EGKhCR4=@vger.kernel.org, AJvYcCWMIY1QOB8/3sNpwPw0hrd9FHKeVrSsvHuhmmqwXgdf06eve8qM8REv7uwh7cgErDBIbARsq+522BtXkUW9@vger.kernel.org, AJvYcCXyPVPEQyhPWpUZTfFDJ5ObaKoZCppxjJ/jemSNxCfHYyQ/mfubdbMI/18u9pXcj3npfSPMX3XkJgKJpxAvr+KSRVo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2kpJSNFu+jUjIH2UKTXk4+zqkW02FNs05sYSSTUSttZN/l/qY
-	nZDfOXncjYw6c13xPROJQWKug1+Ct+V9MGwZD85Eu3w5Zl+goQcrYRr1efiW
-X-Gm-Gg: ASbGncupMB2WtJTCdrh8yaHLEfeGP63H0MZRC1hFAVaYNV1aUNtRxZj8SfOVxIGGv1x
-	7Lprw5rDEAdGVpt4I2eaqVr38Ar574yZaCtaBBDcoeTr4POwYpn/4ef3vpeUtMhAt4doZvmL9pN
-	HFbAU5yj8J/mjwvCTiTziqp83xs9zDZffsESLipRgQQre35RYmMb2HNG8LAal9lMnNbhH9D7Wjr
-	u7jJpiisqnrgYyEg3qvbuu9labNvpeyXKE/BHoZqOzcw+AGFfYE8tOqK6z3XMSo45VuTh+F1i8Q
-	b3/uX96tU3gRnCwYetQeRTjhARRFX4QDBdWAIxgF44iZxfai4Ex7EVhAkQ==
-X-Google-Smtp-Source: AGHT+IFGvWAEPy1qpQbZnDor9xOczAajmISrLfNshtuaAebwTk3x8qqzlowf4OzHx50APsqaKuzJnw==
-X-Received: by 2002:a05:6122:8c0e:b0:520:535e:89f2 with SMTP id 71dfb90a1353d-520571293e6mr331128e0c.3.1739202511534;
-        Mon, 10 Feb 2025 07:48:31 -0800 (PST)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-866f9688cb9sm1541441241.15.2025.02.10.07.48.30
+        bh=rqgJlFK8yCMJ6X48gHpDD9aLdWGuTZHvmJepaNnjpLk=;
+        b=hEoEthVIvnfu04PqFskHfq34BBTgQm71JgEuWo5FsYZY92MmKCmE7XHPtLdzVKvpNI
+         bx/lGnzU5wwcw9p5sQqftFVum1BW4rpZlzLXKfxit7tzlqRRkREGAzguTozJo2tMkgfb
+         boERdCLhDe3F3tf7oJNZUNUwW0fq16QJSua3X3I8LW/z8ad+zqg2OFsIs4rhxVeaRbzg
+         pTBNrJt0a3XRyPKe9U1+1V155v0+hweZSVEU26nA6M1b6SbVXXOJEy1crdJBUazkmGfE
+         B5/pwPWfT0WgQvZ1EPQpXOKd6eBQ85I54HWA/VPAaT710+alPIYfFtaYUc3v1NNfCwAQ
+         d/Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCVGSpVKNXMITR++xHFFxCuqYYzRVneGXYOCzYYt/TfON3YMSufTTKEGjJTVdhNgeEqCzDp/7kvWpB5sGvMx6ntK2SM=@vger.kernel.org, AJvYcCWbWqjwPfI7R/pBUBT/R2of0XHDK3vpTs4ACOKvezgzocs/bUKuqek2vi/DT/v5MJV8Lfj7NoNRDB+b@vger.kernel.org, AJvYcCXt4BoDeAHILSOsJmHDeWwIOMWOBBMsZC2m4ojuKeVJlQvO5d93Q0FoXd1fAcYI3YAsNSjtJlQgx+s+LF6/@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxnh0z32ytbIB8ognd+ibPsHcPe6TRoa8TQwiJrI68wUJz9+JgF
+	f48mT8nDT2QUfMy6HWlLLYb/PKC4da1SBy5XSq3qqm/UEAlh1YdBIRgy0mi2
+X-Gm-Gg: ASbGncv0r6bFNWjVf18bXKCO5OVlSRjQKO0SzI20SWO0eVy0KWj2iD0DNtTWkSxnNAd
+	FgdMpoqUwuqaSzju/icaKeqj2zfZYK5AfUJ+XhynPGmqvFi049mJHkuib4AGKgXibt8zqihF44c
+	3QfmE0ei24mkWSNiaS7cgsjWRhXG2o2mXLTXZme7b6zDcf/x1LFBCA/DP/GbEiMjT2Fkc0niNau
+	+G20qYhyUMQ2TYFbg8SbckMSjIigMB8TuzcqFHaNXGy+M8qWbXsLEIz1aPSaRMufXKsMgEtc1Sx
+	lDGtLdKGUXfyoP29x1bLoLbCrV18BCxATbKX8gnVc/RORi7/wFn8nA==
+X-Google-Smtp-Source: AGHT+IE5zabgmCeNCXYOisSZwfHqqxV99as9LMzSq8Oen3EhV/ZWO9YYbZ/5MbAoZLEihhaL1Fz4kw==
+X-Received: by 2002:a05:6102:442b:b0:4b9:c326:f992 with SMTP id ada2fe7eead31-4ba85f70fc1mr8480869137.20.1739202748680;
+        Mon, 10 Feb 2025 07:52:28 -0800 (PST)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-866f97d7902sm1664647241.27.2025.02.10.07.52.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2025 07:48:31 -0800 (PST)
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5205539e38cso84289e0c.0;
-        Mon, 10 Feb 2025 07:48:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWf+DUae0JYsKUg5I0peIXRV5pkOuz/E9j1OgFlMdSZv4UmkObD1nAXieWtjSnF+42dGZsq3aIX8C0rL0k=@vger.kernel.org, AJvYcCXX3ina1ZcCwBfoVsRzBRLW0/M+12/qLXDWk90rhh7ON3tzsBA9hFo0ON+6ujXZp2A5XRpkL2qBFWbGjKNO@vger.kernel.org, AJvYcCXcxxRS4ydGVX7uhQx304SbUzEdnhKuRDLzwosCk9Ib/Qnf/KyQ99/v1nwGiV0XDiUkVijT0XP0psKlw5vw/8N31F0=@vger.kernel.org
-X-Received: by 2002:a05:6122:3c89:b0:520:5185:1c77 with SMTP id
- 71dfb90a1353d-520571df82bmr327489e0c.7.1739202510671; Mon, 10 Feb 2025
- 07:48:30 -0800 (PST)
+        Mon, 10 Feb 2025 07:52:28 -0800 (PST)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4bbbf49a329so237841137.2;
+        Mon, 10 Feb 2025 07:52:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWLJGeg+CY4LwWK+970dWukTtyDazrTSKCM0L/m5cvSMfaQ6lidRK61Nwd3fMXllIvVZtWVZNZYp+pobH56swPFaTE=@vger.kernel.org, AJvYcCWso0JjmxUELdqnhzfMilzG9E/yPiAeE8XHXKJc8GBQV8hnpp3Wmw6cmwvYOsuVJmDl/3j9pQ0n9cmQ4XuH@vger.kernel.org, AJvYcCXhYbr5LyYfIt8hg0G3X1SqACH4ceyjjwktu5ZYn9ZGAJriHDcdSfHG7wLo1DYvhRKHMtpGfqTYra0b@vger.kernel.org
+X-Received: by 2002:a05:6102:41a7:b0:4bb:9b46:3f93 with SMTP id
+ ada2fe7eead31-4bb9b4679f8mr4715145137.8.1739202748211; Mon, 10 Feb 2025
+ 07:52:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250129165122.2980-1-thierry.bultel.yh@bp.renesas.com> <20250129165122.2980-11-thierry.bultel.yh@bp.renesas.com>
-In-Reply-To: <20250129165122.2980-11-thierry.bultel.yh@bp.renesas.com>
+References: <20250129165122.2980-1-thierry.bultel.yh@bp.renesas.com> <20250129165122.2980-13-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250129165122.2980-13-thierry.bultel.yh@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Feb 2025 16:48:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUCY=PyfcJKMu=WGAzHWfGZVctL3-e=UdAd-tCOQTP-Mw@mail.gmail.com>
-X-Gm-Features: AWEUYZliuKwQC_t8rVe7nhn5Dl6HdfHxuxvGHE_HUJo--DyPL2dBFWMp-GfIoSs
-Message-ID: <CAMuHMdUCY=PyfcJKMu=WGAzHWfGZVctL3-e=UdAd-tCOQTP-Mw@mail.gmail.com>
-Subject: Re: [PATCH 10/14] serial: sh-sci: Introduced sci_of_data
+Date: Mon, 10 Feb 2025 16:52:16 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUMaUa_+TNKzuiFXgbQG-AABETVekobE8DYf5xHwrEFcg@mail.gmail.com>
+X-Gm-Features: AWEUYZkW-vmSFH_ns7VR-yte7YX_5QFDxQJ7jAHfL7OPzQAkycq4iI5H0LiX-XY
+Message-ID: <CAMuHMdUMaUa_+TNKzuiFXgbQG-AABETVekobE8DYf5xHwrEFcg@mail.gmail.com>
+Subject: Re: [PATCH 12/14] arm64: dts: renesas: Add initial support for
+ renesas RZ/T2H SoC
 To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Thierry,
 
-On Wed, 29 Jan 2025 at 17:56, Thierry Bultel
+On Wed, 29 Jan 2025 at 17:52, Thierry Bultel
 <thierry.bultel.yh@bp.renesas.com> wrote:
-> The aim here is to provide an easier support to more different SCI
-> controllers, like the RZ/T2H one.
+> Add the initial dtsi for the RZ/T2H Soc:
 >
-> The existing .data field of_sci_match is changed to a structure containing
-> all what that can be statically initialized, and avoid a call to
-> 'sci_probe_regmap', in both 'sci_init_single', and 'early_console_setup'.
+> - gic
+> - armv8-timer
+> - cpg clock
+> - sci0 uart
 >
-> 'sci_probe_regmap' is now assumed to be called in the only case where the
-> device description is from a board file instead of a dts.
->
-> In this way, there is no need to patch 'sci_probe_regmap' for adding new
-> SCI type, and also, the specific sci_port_params for a new SCI type can be
-> provided by an external file.
+> also add arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi, that keeps
+> all 4 CPUs enabled, for consistency with later support of -m24
+> and -m04 SoC revisions, that only have 2 and 1 Cortex-A55, respectively,
+> and that will use /delete-node/ to disable the missing CPUs.
 >
 > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-> @@ -2968,9 +2968,7 @@ static int sci_init_single(struct platform_device *dev,
->         int ret;
->
->         sci_port->cfg   = p;
-> -       sci_port->ops   = &sci_port_ops;
->
-> -       port->ops       = &sci_uart_ops;
-
-This relies on sci_parse_dt() having filled in both ops, which is not
-done in the non-DT case (i.e. legacy SuperH).
-
->         port->iotype    = UPIO_MEM;
->         port->line      = index;
->         port->has_sysrq = IS_ENABLED(CONFIG_SERIAL_SH_SCI_CONSOLE);
-> @@ -3010,7 +3008,16 @@ static int sci_init_single(struct platform_device *dev,
->                 for (i = 1; i < ARRAY_SIZE(sci_port->irqs); i++)
->                         sci_port->irqs[i] = sci_port->irqs[0];
->
-> -       sci_port->params = sci_probe_regmap(p);
-> +       /*
-> +        * sci_port->params params can be NULL when using a board file instead
-> +        * of a dts.
-> +        */
-> +       if (sci_port->params == NULL) {
-> +               sci_port->params = sci_probe_regmap(p);
-
-... hence sci_probe_regmap() should fill in the ops.
-
-> +               if (unlikely(sci_port->params == NULL))
-> +                       return -EINVAL;
-
-This case is already handled below.
-
-> +       }
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+> @@ -0,0 +1,129 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Device Tree Source for the RZ/T2H SoC
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corp.
+> + */
 > +
->         if (unlikely(sci_port->params == NULL))
->                 return -EINVAL;
->
-
-> @@ -3336,7 +3348,7 @@ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
->         struct reset_control *rstc;
->         struct plat_sci_port *p;
->         struct sci_port *sp;
-> -       const void *data;
-> +       const struct sci_of_data *data;
->         int id, ret;
->
->         if (!IS_ENABLED(CONFIG_OF) || !np)
-> @@ -3382,8 +3394,12 @@ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
->         sp = &sci_ports[id];
->         *dev_id = id;
->
-> -       p->type = SCI_OF_TYPE(data);
-> -       p->regtype = SCI_OF_REGTYPE(data);
-> +       p->type = data->type;
-> +       p->regtype = data->regtype;
+> +#include <dt-bindings/clock/r9a09g077-cpg.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
 > +
-> +       sp->ops = data->ops;
-> +       sp->port.ops = data->uart_ops;
-> +       sp->params = data->params;
->
->         sp->has_rtscts = of_property_read_bool(np, "uart-has-rtscts");
->
+> +/ {
+> +       compatible = "renesas,r9a09g077";
+> +       #address-cells = <2>;
+> +       #size-cells = <2>;
+> +
+> +       extal: extal {
+> +               compatible = "fixed-clock";
+> +               #clock-cells = <0>;
+> +               /* This value must be overridden by the board */
+> +               clock-frequency = <0>;
+> +       };
+> +
+> +       loco: loco {
+> +               compatible = "fixed-clock";
+> +               #clock-cells = <0>;
+> +               /* This value must be overridden by the board */
+> +               clock-frequency = <0>;
+> +       };
+> +
+> +       cpus {
 
-> --- a/drivers/tty/serial/sh-sci_common.h
-> +++ b/drivers/tty/serial/sh-sci_common.h
+Please sort nodes without unit addresses alphabetically, by node name.
 
-"struct sci_of_data" should be introduced here, instead of in the
-previous patch.
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
+> @@ -0,0 +1,8 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Device Tree Source for the RZ/T2H 4-core SoC
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corp.
+> + */
+> +
+> +#include "r9a09g077.dtsi"
 
-> @@ -172,7 +172,8 @@ extern void sci_flush_buffer(struct uart_port *port);
->  #define max_sr(_port)          fls((_port)->sampling_rate_mask)
->
->  #ifdef CONFIG_SERIAL_SH_SCI_EARLYCON
-> -extern int __init early_console_setup(struct earlycon_device *device, int);
-> +extern int __init early_console_setup(struct earlycon_device *device,
-> +                                     const struct sci_of_data *data);
->  #endif
->
->  #endif /* __SH_SCI_COMMON_H__ */
+compatible = "renesas,r9a09g077m44", "renesas,r9a09g077";
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
