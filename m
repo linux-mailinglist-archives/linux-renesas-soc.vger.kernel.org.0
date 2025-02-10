@@ -1,68 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-13000-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13001-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13577A2EF62
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 15:11:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD8FA2EF80
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 15:16:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 10C8018877C0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 14:11:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB84B3A30FC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2025 14:15:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB76D23314D;
-	Mon, 10 Feb 2025 14:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29384235C1F;
+	Mon, 10 Feb 2025 14:15:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA34235BFE
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Feb 2025 14:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46EEA29422;
+	Mon, 10 Feb 2025 14:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739196652; cv=none; b=oN2KFWi7M3MSQjnOZ2qAEMoR2cyP73mRRV+La/dD/6oZTgGQg3bK5q321Yq5vfwg2h9UNMLjT6LVH219ZRu9Ek6oZ3S7FveJ8d/S0Wks8qjr/FIpqFN40iehFnYtWgjNzDrZ+iX5MEAR49T0tUUhsExd7EVnevYTbAKEqGzRdjM=
+	t=1739196926; cv=none; b=Ifu9N/YbF+HmE/qTM1k92tNaaKOXTnSrdOHSPdDInhYGy+jjj1qnDSPpsIZ38I5HrnnPKtnwgsA6MGNTS7RF2Rgdh88sJe9RxnyJDC/jQO1MdbJXgTdQTaeOBSL/jYAvanhsi7eMMaRGOgeMJ5jCq1y5BqLvtgobNtDlvFNsvt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739196652; c=relaxed/simple;
-	bh=SpN8r/moajXKSiV0CoNePFuKEVtlnh0Hduab4Er07Fg=;
+	s=arc-20240116; t=1739196926; c=relaxed/simple;
+	bh=A9PgrsXSRNKEPfOJomrogXIlnGOX5hrS1mbx+8uD1SE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U6C9rhugCmRrXignCCtdirt3qv3brK/yOi+GE4vx4E7ld1+YTdr3NPcBxeFcfQ7h25IyclNRDaQYR4yEnWT0exW04vVik7tAzkcIvb6YDlkXiWKY1xnraVa1QBYFer70jwwijMhtPB2VHc1T/N1Ob+uyBOoX13zfCcdo58/m5vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
+	 To:Cc:Content-Type; b=bg8CJXOh49dGdbOZZu1aRHqER02GCyNhmBzxC77ZDwxgofBsZUE1XDXd9FGG9DJjJ7dSF1nf7F2bZePyt+Uedk4vI9LSWJWdfIgQw8VlkZIKYLueiDJODbnn35VIkqcqLkeh8Q80NeZaoGLntNJADItgBApPpOFypplgUvYQD1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4bbc047a3c3so880041137.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Feb 2025 06:10:50 -0800 (PST)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4ba9680271fso1663168137.1;
+        Mon, 10 Feb 2025 06:15:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739196649; x=1739801449;
+        d=1e100.net; s=20230601; t=1739196922; x=1739801722;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=j0xb5gYqtaa2MGHbtx12QQaIuGbQ4G+OU6FdByrhluw=;
-        b=g+EgQTPihCEoRf3wwOLtuc9fNiW7/90O5EPfljW0pSMuf2BFV6+IChI/UjfKM4z89x
-         fdYTN02rK3iufmPkg7NaCjwWo4WiGi2HcyI/OjfMyADr2OdwuHrE4DFiVoFHydfXqmGS
-         8yvc51k1+diqkWSmAR86hVvhRCr43WctmmCnMBdfJNb10pIWF3BFjxRCeRLIKYdoJscU
-         mxVjMi9DM6lc9DGY8kkqkvMaMAzi5zPwLxJGht7l6jINhxq4r7mujwueneDWjAmuRwC3
-         7jMoagkXhAsYJP1ud5wjs6HITZUc/w4e0dXT0HVTXeInnoVA+Ea4m/JCFckDBVV40C+M
-         HP7w==
-X-Gm-Message-State: AOJu0YwYoCZjTAhYqNqSTDoSKfN85p0Hj1SSwL/iXZW57MN25mGk89vB
-	qFoGn151OfxLsSUn6zJOEvioVs3GKSgx4aa+NnDseuUaavfZ2NTrhaXYyC5V
-X-Gm-Gg: ASbGnctQ4Rj+oNTe1zXXxq0TzC+2TRIkxFyYgWcPC1fdeXUemTNrZvOiEBp7ZbXjL8T
-	x0nnEZP5fuau7UFqr5QfKFKSMjxCa9wX/jPg8Z5zLCZFyKhHSI9WjaLAz60fUM29kAwcMgtHpeX
-	agDDT9DuPk2jp6jY1Zq4WFmk3AVLg118nNhENv+gG6K072LCPDiJHLju8j8O3M40gBw572Qp036
-	oAxQKNXzPNJQse7S9WB+Xnfrk6EswuvC6uuws/FKNASOLaA63r6Q2iLPpm/ir6f/dCJJKp8DAom
-	agihLCl5X6fhCrAJ3/1jvr7dO2zAFn2T+nyBlI7W/Yo9Y+WMIJmnOg==
-X-Google-Smtp-Source: AGHT+IF5KDebyY1+bRgA6lx5i4gjUWh0iwSJoErCt2r66oxuM6TQRPvLDBnDqtzTWH2uKm7+EAO1kA==
-X-Received: by 2002:a05:6102:32ce:b0:4bb:d062:452 with SMTP id ada2fe7eead31-4bbd0621467mr1570792137.3.1739196649558;
-        Mon, 10 Feb 2025 06:10:49 -0800 (PST)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4ba76ebcf54sm1747710137.11.2025.02.10.06.10.48
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=sxuehLgcBoD1P6oKVRxDFIHudAPxcjV73MhKrBH3pHs=;
+        b=vuN+qFLiL/KtaRO6tZUhw0MKaHP41z4DsdyTYAEVr1IJZR7ivM9HHGPHBlgH0DOry8
+         iXN/gAS5u5m1H7uvUAiJynuFBXnW1JvD72VW3hH/yYtmgKI/f+aHKwhtlv/JjMST9X01
+         xBZpQTtpPLCHGmA7BlRHCCSnVUhWCm9SDh1QUQLgqGM3lV0MeiPyyOfb9hfjYErwdU39
+         TE7EDvu9uPpeYC1LaIFnoGkHshqqILFGOYlgQmQq+W3CLHPPFWZEA6PLjCYCGUnyUnL3
+         2pBniHf4OS8TSTo4NU7cP5KjduGuHkP9p892AEwIWu9ZFhXSx2hCVBJRaLTJLJdaxXD5
+         C39g==
+X-Forwarded-Encrypted: i=1; AJvYcCUwpBuksD8H4iDUxZH1Phq2IKyc5OcLB7//6elhcwb/LUBKRn6oKI/hHALUtPKwrwTulrE/HwgmUtPBnw8s@vger.kernel.org, AJvYcCWCrVcMCrzbeJ/dwKw9Voj8LRG31yDvx/YRggWYHEIiE09oAYhNBITT3N1EXpQJgnqilTuvzukwJvIgnXSn@vger.kernel.org, AJvYcCXb+JealS6R+nWrvjsGNemt5HBRb6DY7rBpEwEOH+JLjfHsp9gpCY2ikmb2ZV7RvWku4YSt1gQZRSlS@vger.kernel.org, AJvYcCXqKe/6fZE7/eV7D/6oNNE7gA/IiVrn+1DIWi5KSCOcXorWrG4aT22ZBNs8g7dsTckpESvbHuJlXkHJ/07eqjE5OFQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOVlP66eJgKvi+sTtqqyDBy8ssHwRRrS4IC8+wNe/uhJ7ggihf
+	+529nJapYZ2/dhIwsCv0HDFIuzqjugzOOaEdgOHyiIBi4pcUtF6JdIVuJSBL
+X-Gm-Gg: ASbGncs0wbeVR1kmyT1vdhxblfGooTx5sW1LXoCh07TaUTmFPf1LqP/2C9IGjKHa/pP
+	2xwrpXrmURT4alY0vcpCAFmLoUuhw4xhHvgIjLH1eRISytWopDGcDEzyUHHmlB/jCRQn0pYOUWA
+	9iepVVF1aIhZoo69zWA+XiqdgqTzdxs/fGPglc3Bs2f0EYmgA2pgkhvgm7XAPCJ0Nj/yI8t/sDE
+	MUbuyt0q83inNJAe+QuJUGrkLS/X+GrMKS03znVudKXh77hH3ojyg7qChdB5Is78uOXusOutZNj
+	4p5FIdcs+GQY4xCtAoKcelurWY4uOYThkIZfggOj24h0jQdCfoC0bg==
+X-Google-Smtp-Source: AGHT+IFkZIv+UuNG5hhRVrPRHp164vpV1+c2pvI9OyfRBD/G8mDUCOOqEQY6hIZFZqrG6C3KaRIEHg==
+X-Received: by 2002:a05:6102:5490:b0:4bb:c670:7ef4 with SMTP id ada2fe7eead31-4bbc670837amr2438177137.3.1739196922628;
+        Mon, 10 Feb 2025 06:15:22 -0800 (PST)
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4bbdcf078ccsm63429137.3.2025.02.10.06.15.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2025 06:10:49 -0800 (PST)
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4affbb7ef2dso3345463137.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Feb 2025 06:10:48 -0800 (PST)
-X-Received: by 2002:a05:6102:3c88:b0:4bb:de88:d027 with SMTP id
- ada2fe7eead31-4bbde88d206mr434470137.7.1739196648659; Mon, 10 Feb 2025
- 06:10:48 -0800 (PST)
+        Mon, 10 Feb 2025 06:15:22 -0800 (PST)
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4b9486a15a0so2998715137.0;
+        Mon, 10 Feb 2025 06:15:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVYu8lEBXYrAOEkx8tLFD5NUe6orqc38kfeZk8iniM0JavXd4bRRIFjQjMWG9RqqIZlhvuN+9LTmPX1@vger.kernel.org, AJvYcCVf5utrZmQFto+T2Nh/GXq74sRIVBqJX94NzdtEZHH6Xk1T0NyYM5mm9PRwViJWFRFyxnyC0v+F7movrrpn@vger.kernel.org, AJvYcCVvtyzBD1r6QBXGZ2T+5ST/u0isDZx4D6RCFE4jP3BTWxdzgqii8JY4s7ID3gmvYSa2mBsLVs+opDFPJt4vZO+FELc=@vger.kernel.org, AJvYcCXho9SruSvC0N5gLc/BqxeMrbnZixjWjUY4q/xV7DjlEf7DVoUtq6EVzjTyB8fV3vOgGONamKbnedV7BGfT@vger.kernel.org
+X-Received: by 2002:a05:6102:162b:b0:4bb:c630:dcbe with SMTP id
+ ada2fe7eead31-4bbc6311774mr2601198137.11.1739196921936; Mon, 10 Feb 2025
+ 06:15:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -70,61 +71,71 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250129165122.2980-1-thierry.bultel.yh@bp.renesas.com>
- <20250129165122.2980-4-thierry.bultel.yh@bp.renesas.com> <CAMuHMdWLdLiyQUuO-Xox5zQ9waTqWYk474yYL4qqfyfkvxFs6Q@mail.gmail.com>
- <Z6oG2vPy0miE2GZw@superbuilder>
-In-Reply-To: <Z6oG2vPy0miE2GZw@superbuilder>
+ <20250129165122.2980-3-thierry.bultel.yh@bp.renesas.com> <CAMuHMdVB2W6R+xYeTUKSv_dMGruECSft-P19m6nZD61=ROngXw@mail.gmail.com>
+ <TY3PR01MB11346D5D895C190EBE8C8A84B86F22@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB11346D5D895C190EBE8C8A84B86F22@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Feb 2025 15:10:36 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXwuM+D_AgqMU4KhPSmHKCreYhq5fLjhX1pn0bv2pV01Q@mail.gmail.com>
-X-Gm-Features: AWEUYZkyUfPFKGZXcwHIs9tM4wKzcXHqLNq-QNylSbwu5KTV4fsxptJp78xzDeQ
-Message-ID: <CAMuHMdXwuM+D_AgqMU4KhPSmHKCreYhq5fLjhX1pn0bv2pV01Q@mail.gmail.com>
-Subject: Re: [PATCH 03/14] dt-bindings: soc: Document the Renesas RZ/T2H
- Evaluation board for the R9A09G077 SoC
-To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org
+Date: Mon, 10 Feb 2025 15:15:10 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUpaV71Svyenq=hXMk3GfjgZvHn-0APkv_LKSzyytKzag@mail.gmail.com>
+X-Gm-Features: AWEUYZn4-yY_D8g0FNPB0KsKrTKyUuZA5A4EpCp9Dr-kxloDMrY4NFg8EU8hFMQ
+Message-ID: <CAMuHMdUpaV71Svyenq=hXMk3GfjgZvHn-0APkv_LKSzyytKzag@mail.gmail.com>
+Subject: Re: [PATCH 02/14] dt-bindings: serial: Document sci bindings for the
+ Renesas RZ/T2H (a.k.a r9a09g077) SoC
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Thierry,
+Hi Biju,
 
-On Mon, 10 Feb 2025 at 15:03, Thierry Bultel
-<thierry.bultel.yh@bp.renesas.com> wrote:
-> On Mon, Feb 10, 2025 at 02:21:05PM +0100, Geert Uytterhoeven wrote:
-> > On Wed, 29 Jan 2025 at 17:52, Thierry Bultel
-> > <thierry.bultel.yh@bp.renesas.com> wrote:
-> > > Add the RZ/T2H Evaluation board (r9a9g077m44-dev) in documentation.
+On Mon, 10 Feb 2025 at 14:19, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > -----Original Message-----
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Sent: 10 February 2025 13:15
+> > Subject: Re: [PATCH 02/14] dt-bindings: serial: Document sci bindings for the Renesas RZ/T2H (a.k.a
+> > r9a09g077) SoC
 > >
-> > This is the Evaluation Board Kit for RZ/T2H, "RZ/T2H-EVKIT" aka "rzt2hevb"?
->
-> Yes. AFAIK there is no other one as of today.
->
-> > > --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> > > +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> > > @@ -537,6 +537,8 @@ properties:
+> > On Wed, 29 Jan 2025 at 17:52, Thierry Bultel <thierry.bultel.yh@bp.renesas.com> wrote:
+> > > Document RZ/T2H (a.k.a r9a09g077) in SCI binding.
 > > >
-> > >        - description: RZ/T2H (R9A09G077)
-> > >          items:
-> > > +          - enum:
-> > > +            - renesas,r9a9g077m44-dev # RZ/T2H Evaluation Board
+> > > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 > >
-> > Perhaps "renesas,rzt2hevb" or "renesas,rzt2h-evb"?
+> > Thanks for your patch!
+> >
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/serial/renesas,rzsci.yaml
+> > > @@ -0,0 +1,100 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/serial/renesas,rzsci.yaml#
+> >
+> > "rzsci" is IMHO a bad name, as SCI on RZ/T2 differs from the similar-named "SCI" (sometimes called
+> > "RSCI" or "SCIg") on RZ/A1H, RZ/A2M, RZ/G2L, RZ/V2L, and RZ/G3S (and most old SuperH SoCs).
+> >
+> > BTW, I believe the variant on RZ/T2 is also used on RZ/N2, RZ/V2H, and RZ/G3E?
+> >
+> > However, binding-wise, they all seem to be very similar.
+> > So perhaps you can just add this to the existing
+> > Documentation/devicetree/bindings/serial/renesas,sci.yaml?
 >
-> We would lose the 'm44' variant information by doing so,
-> is that acceptable ?
-> But anyway this should rather match the dts file name
-> that comes in a later patch (named: r9a09g077m44-rzt2h-evk.dts)
->
-> So what about 'r9a09g077m44-rzt2h-evk' here instead ?
+> It is present in RZ/G3E as well.
+> RSCI supports sci, scif, i2c and spi that is the reason renesas,rzsci.yaml introduced.
 
-You would still have the "m44" info in the fallback compatible value:
+If you plan to add support for I2C and SPI, you will need different
+bindings under Documentation/devicetree/bindings/{i2c,spi}/.
 
-    compatible = "renesas,rzt2h-evb", "renesas,r9a9g077m44", "renesas,r9a9g077";
+Note that we already have drivers/spi/spi-sh-sci.c (without DT support),
+but it's definitely sub-optimal for the fancy new variant in RZ/T2...
 
-A variant with the single-core variant would have:
+> You mean add this in renesas,sci.yaml and then expand??
 
-    compatible = "renesas,rzt2h-evb", "renesas,r9a9g077m04", "renesas,r9a9g077";
-
-Cfr. e.g. the Salvator-X(S) development boards, which are available
-with different processor options (R-Car H3/M3-W/M3-N + "Gen3e" variants).
+Indeed. Differences seem to be minimal.
 
 Gr{oetje,eeting}s,
 
