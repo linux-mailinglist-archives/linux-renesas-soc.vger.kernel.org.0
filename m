@@ -1,229 +1,283 @@
-Return-Path: <linux-renesas-soc+bounces-13055-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13056-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA3EA31112
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2025 17:18:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 859D2A31899
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2025 23:26:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E296C3AA232
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2025 16:17:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D3F7168772
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2025 22:26:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36402253F35;
-	Tue, 11 Feb 2025 16:16:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D279A268FDB;
+	Tue, 11 Feb 2025 22:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LsFaIp0X"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791D0255E34;
-	Tue, 11 Feb 2025 16:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C951267714;
+	Tue, 11 Feb 2025 22:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739290601; cv=none; b=qHbMzm4o8VmJdBn+kEoSWXIHCZDmFcJg0RS0GzmthK4CYwJlM4idg/5/Z4+G+9Jk5twFQiCme3L4XOZ0oNEt4AESeCN0K/wD783a990ERM4l+z+KWT+CZYyds7Yn+wpqpKQMd5A6jLqPwg2MseKpPry/LIN++oI69OLAbEO9S/4=
+	t=1739312792; cv=none; b=UzLaHYbAeU5VHDfaRSpUuplLLirRCwcJdyyToYeySchmqRM3ODFfz/OL+ld1Zpo+zUSA5J0rsqk77+OgmkN8OaVgl146deZoqF/iLI7Im/IkDCBYoCm7nxC//8obqSC/LTyW0DgSVmjvpBgWKP4P1gL+bK6+uvFob01IrXrTCso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739290601; c=relaxed/simple;
-	bh=8/EU+brzdQekYGKHLTWjfcXsNGf5cAuhaSkvj4HJZu4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=upQAbcMECjYsqMug6OBgwcXFOxOE31UZWMrM7KrLhcboNGTzwgj0Y+nvnjD3i2zN2EQay5yN0Ik2jVIy9wWZEWMMhdi9JzUmK5Bo3R7as/xZzY8N9QQWo9j0pzk9p613rva+cQ7q/yQLmu1/3VpdCYlX0EbWSj8qqEGs5wT2Yq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6d8e8445219so45950276d6.0;
-        Tue, 11 Feb 2025 08:16:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739290598; x=1739895398;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GSrn4BFBKiNaDlc/+eWZmaHOtn4P6CwgbesXN1qmuFE=;
-        b=b/njLvC73WPwnA0HRCvnyc6c6yaF+a6XyRz7JoPRuoB9onPJ2NSm1Wse8eUyY3wZbI
-         P5MbnbcjFc+gncS9oOMYMr4opqVFhgBtl2lS3cUKKdFkBnEtbDtt8mNxLupGeYfPOdjW
-         TD2vaD0ze0wXGuFwLwBfnfXRbfPgEaSTVVveF+bHulLcGlzG7KPIDKu7Ms4Svo/hifO7
-         WzQmS0SC31UrUTP9usl9zCIDXdg7vOLhtIv+0WbRFLl7SaxTtblmHmPBhzOK0xHajLsG
-         0zhwb43RU+JBlquuXe3F2eGq+lyLw2GkxGfUuW4khxtdDEhy/5b+MiAuzPPTz+ITbLE4
-         PLVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWxSj2uZq2rCbzLUZwTLcaINAOT0JFJAay0IwSF66XsNRXuAp1LDtHTiiPhaS8zqwC3oIEALctPm2YxiNU=@vger.kernel.org, AJvYcCXvtg0HK/HtPbO29ecRPrh4ixsaCCaJqC3tGwio988SiabbLDczOJL6bi5h+osjEIZkAFgOwhrzghxbCs8ZJDbZmok=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAyASve8W5KsLu6UXJ4pIx5G9t6Or+zZkHADWlaV8xJuUp0l+d
-	oZltCf/bmAOPkkd7mKnKOPxiPnEgfmy207l0pYfMrIHHmUFLUvAAmATrYUwqYsk=
-X-Gm-Gg: ASbGncup0B3LNhfSc7ROhLr+uocG2i4Ny0anRIFOHl1zr4YBOssIA5xhUD68B724BFX
-	b0CA+qkV/H8cJAo8ahkkmTeyiWQmFOTizlFAICwciZZH5Ng6CJoUPnpvKw/PVdUpcmhYSRi2Q/4
-	7eVW2hFwEYgMzrBguTXb5Nf8iB31Hn3S700KChAYdglS0uD3sloaJXpaIMWDOf2jETK+viyvnoe
-	QO9OdNhhTAAasmQgpkpX5b01rCkhkCLSFaSf8kBUJ6LeQsRnSu2MhQxNEdYkOs4NqFNCBUl8ocz
-	trtzPwkRoYrY+k9vHukj+ABPhXxY35EkvzWw0i7XFjbMLAFJZi2e0yN3kQ==
-X-Google-Smtp-Source: AGHT+IGSVNttvvGFL3W3B/o6gyaJdCzGXWTy8S0WaL2Xw8gfuX8muNbFl4cavlkKZAgCl19utPOfCA==
-X-Received: by 2002:a05:6214:411c:b0:6e2:481c:3713 with SMTP id 6a1803df08f44-6e445705b4emr237686316d6.37.1739290597991;
-        Tue, 11 Feb 2025 08:16:37 -0800 (PST)
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com. [209.85.222.170])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e43e6b3c32sm59699466d6.124.2025.02.11.08.16.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Feb 2025 08:16:37 -0800 (PST)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c05dc87ad9so264571985a.3;
-        Tue, 11 Feb 2025 08:16:37 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX7DCXPGJzsaousH2vphq2Z9/FpqtnYqA8k7SXq1WN6MAquXXnY5PVW5jK0mckK8X5KdgX/6PSaiNxPWnYvQ2cenCQ=@vger.kernel.org, AJvYcCXaoXILREKZH9XPLv6x3FKwFTnLgubtY8Be/pSZUhO+UcZyxb9BWHf97xSEi4j0Qj+Bse/7fDcXFRP6X2A=@vger.kernel.org
-X-Received: by 2002:a05:620a:288a:b0:7c0:174d:e350 with SMTP id
- af79cd13be357-7c047c9774amr3740159085a.36.1739290597503; Tue, 11 Feb 2025
- 08:16:37 -0800 (PST)
+	s=arc-20240116; t=1739312792; c=relaxed/simple;
+	bh=ZiCYq37YDGQSbnisBGMOuc5JJI4Fc3ZsQrKxYb8IE/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S+e2m/zbMfjGLgeWncmiOjVTvAIC/TSv2eZrqmNXIIY31+uBY1QHTrpOU9MjFjWyJIOkPSHwCPttPy1u/SJuT+MyueCbB5b6D6/Lv8R31znHalCsCaJxmJK3V3B39Xh7O4NdbgJ+TksK26CIsljsnPIufL4tii+TGrHSWFs5kHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LsFaIp0X; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D164DC4CEDD;
+	Tue, 11 Feb 2025 22:26:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739312792;
+	bh=ZiCYq37YDGQSbnisBGMOuc5JJI4Fc3ZsQrKxYb8IE/4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LsFaIp0XxEWYbpcLJ89WV7TcBNK9RpDgupgyeTPsG2H0fFD2ZAr30fhpx0W/TIkLc
+	 rb7XzSZPSdDHrmgC9KVGnQAk28KijT1phke59uyNXwaUXceK4y/p4442QIKLe2RVE3
+	 y3BVRNMY8M+7uSX9SZT011P1xsvclCpsu+FjiEjPj9DYod43MV/JuF+K3+1crNFtd9
+	 L+bsh1KIfJRKxrGPfSTmeaCSHe4sRZzq5n315WlTxKD33vq69DmqkYl2iLROuIU/9G
+	 oMZb8u48t4UBCsv82MBOR+eEvVuKi7teOeZ/a7O+ajEH8N/pUc2RN77ziYIl/cK6M9
+	 pUhBPKD46AkFA==
+Date: Tue, 11 Feb 2025 16:26:30 -0600
+From: Rob Herring <robh@kernel.org>
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>, dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 3/7] dt-bindings: dma: rz-dmac: Document RZ/V2H(P) family
+ of SoCs
+Message-ID: <20250211222630.GA1288508-robh@kernel.org>
+References: <20250206220308.76669-1-fabrizio.castro.jz@renesas.com>
+ <20250206220308.76669-4-fabrizio.castro.jz@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241011172003.1242841-1-fabrizio.castro.jz@renesas.com>
- <CAMuHMdUrg+gqJsg2LaBkzaLPzh4nZefqVdqH2rLhCEGQDya88g@mail.gmail.com> <TY3PR01MB120897A4A7AEF860A13F87E72C2FD2@TY3PR01MB12089.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB120897A4A7AEF860A13F87E72C2FD2@TY3PR01MB12089.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 11 Feb 2025 17:16:25 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWYZizs_3Q6mEXCfaivmSy7CYEj1uvHVrA7=9NM+9Ov1w@mail.gmail.com>
-X-Gm-Features: AWEUYZkLQIU0RpCEnnqM5nXIcmSBKeSN0X0hlcQNaAx_PqrFead9E5SNkLPt0NU
-Message-ID: <CAMuHMdWYZizs_3Q6mEXCfaivmSy7CYEj1uvHVrA7=9NM+9Ov1w@mail.gmail.com>
-Subject: Re: [PATCH v4] irqchip/renesas-rzg2l: Fix missing put_device
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Markus Elfring <elfring@users.sourceforge.net>, 
-	Markus Elfring <Markus.Elfring@web.de>, Marc Zyngier <maz@kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Chris Paterson <Chris.Paterson2@renesas.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Dan Williams <dan.j.williams@intel.com>, 
-	Peter Zijlstra <peterz@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250206220308.76669-4-fabrizio.castro.jz@renesas.com>
 
-Hi Fabrizio,
+On Thu, Feb 06, 2025 at 10:03:04PM +0000, Fabrizio Castro wrote:
+> Document the Renesas RZ/V2H(P) family of SoCs DMAC block.
+> The Renesas RZ/V2H(P) DMAC is very similar to the one found on the
+> Renesas RZ/G2L family of SoCs, but there are some differences:
+> * It only uses one register area
+> * It only uses one clock
+> * It only uses one reset
+> * Instead of using MID/IRD it uses REQ NO/ACK NO
+> * It is connected to the Interrupt Control Unit (ICU)
+> 
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> ---
+>  .../bindings/dma/renesas,rz-dmac.yaml         | 152 +++++++++++++++---
+>  1 file changed, 127 insertions(+), 25 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> index 82de3b927479..d4dd22432e49 100644
+> --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> @@ -11,19 +11,23 @@ maintainers:
+>  
+>  properties:
+>    compatible:
+> -    items:
+> -      - enum:
+> -          - renesas,r7s72100-dmac # RZ/A1H
+> -          - renesas,r9a07g043-dmac # RZ/G2UL and RZ/Five
+> -          - renesas,r9a07g044-dmac # RZ/G2{L,LC}
+> -          - renesas,r9a07g054-dmac # RZ/V2L
+> -          - renesas,r9a08g045-dmac # RZ/G3S
+> -      - const: renesas,rz-dmac
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,r7s72100-dmac # RZ/A1H
+> +              - renesas,r9a07g043-dmac # RZ/G2UL and RZ/Five
+> +              - renesas,r9a07g044-dmac # RZ/G2{L,LC}
+> +              - renesas,r9a07g054-dmac # RZ/V2L
+> +              - renesas,r9a08g045-dmac # RZ/G3S
+> +          - const: renesas,rz-dmac
+> +
+> +      - const: renesas,r9a09g057-dmac # RZ/V2H(P)
+>  
+>    reg:
+>      items:
+>        - description: Control and channel register block
+>        - description: DMA extended resource selector block
+> +    minItems: 1
+>  
+>    interrupts:
+>      maxItems: 17
+> @@ -52,6 +56,7 @@ properties:
+>      items:
+>        - description: DMA main clock
+>        - description: DMA register access clock
+> +    minItems: 1
+>  
+>    clock-names:
+>      items:
+> @@ -61,14 +66,22 @@ properties:
+>    '#dma-cells':
+>      const: 1
+>      description:
+> -      The cell specifies the encoded MID/RID values of the DMAC port
+> -      connected to the DMA client and the slave channel configuration
+> -      parameters.
+> +      For the RZ/A1H, RZ/Five, RZ/G2{L,LC,UL}, RZ/V2L, and RZ/G3S SoCs, the cell
+> +      specifies the encoded MID/RID values of the DMAC port connected to the
+> +      DMA client and the slave channel configuration parameters.
+>        bits[0:9] - Specifies MID/RID value
+>        bit[10] - Specifies DMA request high enable (HIEN)
+>        bit[11] - Specifies DMA request detection type (LVL)
+>        bits[12:14] - Specifies DMAACK output mode (AM)
+>        bit[15] - Specifies Transfer Mode (TM)
+> +      For the RZ/V2H(P) SoC the cell specifies the REQ NO, the ACK NO, and the
+> +      slave channel configuration parameters.
+> +      bits[0:9] - Specifies the REQ NO
+> +      bits[10:16] - Specifies the ACK NO
+> +      bit[17] - Specifies DMA request high enable (HIEN)
+> +      bit[18] - Specifies DMA request detection type (LVL)
+> +      bits[19:21] - Specifies DMAACK output mode (AM)
+> +      bit[22] - Specifies Transfer Mode (TM)
+>  
+>    dma-channels:
+>      const: 16
+> @@ -80,12 +93,29 @@ properties:
+>      items:
+>        - description: Reset for DMA ARESETN reset terminal
+>        - description: Reset for DMA RST_ASYNC reset terminal
+> +    minItems: 1
+>  
+>    reset-names:
+>      items:
+>        - const: arst
+>        - const: rst_async
+>  
+> +  renesas,icu:
+> +    description:
+> +      On the RZ/V2H(P) SoC configures the ICU to which the DMAC is connected to.
+> +      It must contain the phandle to the ICU, and the index of the DMAC as seen
+> +      from the ICU (e.g. parameter k from register ICU_DMkSELy).
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    items:
+> +      - items:
+> +          - description: phandle to the ICU node.
+> +          - description: The DMAC index.
+> +              4 for DMAC0
+> +              0 for DMAC1
+> +              1 for DMAC2
+> +              2 for DMAC3
+> +              3 for DMAC4
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -98,27 +128,62 @@ allOf:
+>    - $ref: dma-controller.yaml#
+>  
+>    - if:
+> -      not:
+> -        properties:
+> -          compatible:
+> -            contains:
+> -              enum:
+> -                - renesas,r7s72100-dmac
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a09g057-dmac
+>      then:
+> +      properties:
+> +        reg:
+> +          maxItems: 1
+> +        clocks:
+> +          maxItems: 1
+> +        resets:
+> +          maxItems: 1
+> +
+> +        clock-names: false
+> +        reset-names: false
+> +
+>        required:
+>          - clocks
+> -        - clock-names
+>          - power-domains
+> +        - renesas,icu
+>          - resets
+> -        - reset-names
+>  
+>      else:
+> -      properties:
+> -        clocks: false
+> -        clock-names: false
+> -        power-domains: false
+> -        resets: false
+> -        reset-names: false
+> +      if:
 
-On Tue, 11 Feb 2025 at 16:49, Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Sent: 11 February 2025 15:12
-> > Subject: Re: [PATCH v4] irqchip/renesas-rzg2l: Fix missing put_device
-> >
-> > On Fri, 11 Oct 2024 at 19:20, Fabrizio Castro
-> > <fabrizio.castro.jz@renesas.com> wrote:
-> > > rzg2l_irqc_common_init calls of_find_device_by_node, but the
-> > > corresponding put_device call is missing.
-> > > This also gets reported by make coccicheck.
-> > >
-> > > Make use of the cleanup interfaces from cleanup.h to call into
-> > > __free_put_device (which in turn calls into put_device) when
-> > > leaving function rzg2l_irqc_common_init and variable "dev" goes
-> > > out of scope.
-> > >
-> > > Mind that we don't want to "put" "dev" when rzg2l_irqc_common_init
-> > > completes successfully, therefore assign NULL to "dev" to prevent
-> > > __free_put_device from calling into put_device within the successful
-> > > path.
-> > >
-> > > "make coccicheck" will still complain about missing put_device calls,
-> > > but those are false positives now.
-> > >
-> > > Fixes: 3fed09559cd8 ("irqchip: Add RZ/G2L IA55 Interrupt Controller d=
-river")
-> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> >
-> > Revisiting commit d038109ac1c6bf61 ("irqchip/renesas-rzg2l: Fix missing
-> > put_device")...
-> >
-> > > --- a/drivers/irqchip/irq-renesas-rzg2l.c
-> > > +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-> > > @@ -8,6 +8,7 @@
-> > >   */
-> > >
-> > >  #include <linux/bitfield.h>
-> > > +#include <linux/cleanup.h>
-> > >  #include <linux/clk.h>
-> > >  #include <linux/err.h>
-> > >  #include <linux/io.h>
-> > > @@ -530,12 +531,12 @@ static int rzg2l_irqc_parse_interrupts(struct r=
-zg2l_irqc_priv *priv,
-> > >  static int rzg2l_irqc_common_init(struct device_node *node, struct d=
-evice_node *parent,
-> > >                                   const struct irq_chip *irq_chip)
-> > >  {
-> > > +       struct platform_device *pdev =3D of_find_device_by_node(node)=
-;
-> > > +       struct device *dev __free(put_device) =3D pdev ? &pdev->dev :=
- NULL;
-> >
-> > Now there is a variable holding "&pdev->dev", all below references
-> > to the latter can be replaced by "dev"...
->
-> Right! I will shortly send a patch for this.
+Please try to avoid nesting if/then/else. Not sure that's easy or not 
+here. This diff is hard to read.
 
-Thanks in advance!
+> +        not:
+> +          properties:
+> +            compatible:
+> +              contains:
+> +                enum:
+> +                  - renesas,r7s72100-dmac
+> +      then:
+> +        properties:
+> +          reg:
+> +            minItems: 2
+> +          clocks:
+> +            minItems: 2
+> +          resets:
+> +            minItems: 2
+> +
+> +          renesas,icu: false
+> +
+> +        required:
+> +          - clocks
+> +          - clock-names
+> +          - power-domains
+> +          - resets
+> +          - reset-names
+> +
+> +      else:
+> +        properties:
+> +          clocks: false
+> +          clock-names: false
+> +          power-domains: false
+> +          resets: false
+> +          reset-names: false
+> +          renesas,icu: false
+>  
+>  additionalProperties: false
+>  
+> @@ -164,3 +229,40 @@ examples:
+>          #dma-cells = <1>;
+>          dma-channels = <16>;
+>      };
+> +
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +
+> +    dmac0: dma-controller@11400000 {
+> +        compatible = "renesas,r9a09g057-dmac";
 
-> > >         struct irq_domain *irq_domain, *parent_domain;
-> > > -       struct platform_device *pdev;
-> > >         struct reset_control *resetn;
-> > >         int ret;
-> > >
-> > > -       pdev =3D of_find_device_by_node(node);
-> > >         if (!pdev)
-> > >                 return -ENODEV;
-> > >
-> > > @@ -591,6 +592,17 @@ static int rzg2l_irqc_common_init(struct device_=
-node *node, struct device_node
-> > *
-> > >
-> > >         register_syscore_ops(&rzg2l_irqc_syscore_ops);
-> > >
-> > > +       /*
-> > > +        * Prevent the cleanup function from invoking put_device by a=
-ssigning
-> > > +        * NULL to dev.
-> > > +        *
-> > > +        * make coccicheck will complain about missing put_device cal=
-ls, but
-> > > +        * those are false positives, as dev will be automatically "p=
-ut" via
-> > > +        * __free_put_device on the failing path.
-> > > +        * On the successful path we don't actually want to "put" dev=
-.
-> > > +        */
-> > > +       dev =3D NULL;
-> > > +
-> > >         return 0;
-> >
-> > Can't the above be replaced by
-> >
-> >     no_free_ptr(dev);
-> >
-> > ? Or would Coccinelle still complain?
->
-> If I use no_free_ptr the compiler complains that its return value is not =
-used:
->
-> In file included from ../drivers/irqchip/irq-renesas-rzg2l.c:11:
-> ../drivers/irqchip/irq-renesas-rzg2l.c: In function =E2=80=98rzg2l_irqc_c=
-ommon_init=E2=80=99:
-> ../include/linux/cleanup.h:215:15: warning: ignoring return value of =E2=
-=80=98__must_check_fn=E2=80=99 declared with attribute =E2=80=98warn_unused=
-_result=E2=80=99 [-Wunused-result]
->   215 |  ((typeof(p)) __must_check_fn(__get_and_null(p, NULL)))
->       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../drivers/irqchip/irq-renesas-rzg2l.c:595:2: note: in expansion of macro=
- =E2=80=98no_free_ptr=E2=80=99
->   595 |  no_free_ptr(dev);
->       |  ^~~~~~~~~~~
+Is this example really different enough from the others to need it? I 
+would drop it.
 
-I hadn't tried it myself, and thus hadn't noticed that warning.
-Interestingly, the addition of __must_check_fn()[1] predates the
-documentation[2] that shows the above construct...
+Rob
 
-[1] commit 85be6d842447067c ("cleanup: Make no_free_ptr() __must_check"),
-[2] commit d5934e76316e84ec ("cleanup: Add usage and style documentation").
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
