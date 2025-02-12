@@ -1,144 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-13097-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13098-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4720FA32F2F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 20:04:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D789DA33231
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 23:13:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D93863A2064
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 19:04:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 728943AA1CA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 22:13:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6BD025A622;
-	Wed, 12 Feb 2025 19:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CxO6A8hC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D277B204086;
+	Wed, 12 Feb 2025 22:13:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B491FC0FD;
-	Wed, 12 Feb 2025 19:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45C151EBA0C;
+	Wed, 12 Feb 2025 22:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739387059; cv=none; b=f2R3HcD4WrUDEdesLoUSKMcuJtGvYQm8A1ybILDH8wKOmu0ZIS0WJRKdzkpm9GwdfARwg0XOEoStlYHiURZ2eO86kl+GRCNqZWzDs9bORZYe1tkc4MWX5fGr3PDdOmhfiii/P14BwQymhpIQtXwmDf4VWnf8c41o+HmzPcGuCmU=
+	t=1739398399; cv=none; b=O9pCdd3f2Xi+uyoio6sKwf8u4LHWTMo13rFU07WjQqLJhh5BckFpnYs92CrBFNsmTxW9gYArtq6wY7lJvM2NZnJ006N3ZwXU+l2gYhyOfTo46FPaTl2/k5GBbkpoi7leaPdMedcz3j29jyJi8kQgVPELQqRTQd3v4A5z9FwE7lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739387059; c=relaxed/simple;
-	bh=BxoXSqBhEvRgMwVZ/Lsu4gBKNSrjVQ6Vg0s/Z8jm2bw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MJxvkHLYIiGDvxi8vUzNikZMZBdjf6aRYsbPSfHnbvCm0EadJLujXf8SIO6Uabard/Io1NBMZh0BqdDuBiDZztdW32A7dkAMFRAiDZdvsvYEii9aLGNL9XHrS7tLoISqhQlTCx1S1/LtmcnV8KWfy7bRv0sj1aUzMEjZ8K2zX18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CxO6A8hC; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739387058; x=1770923058;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BxoXSqBhEvRgMwVZ/Lsu4gBKNSrjVQ6Vg0s/Z8jm2bw=;
-  b=CxO6A8hCMTmkhSJ3aM9SdEJ8LWAXcUY0qB8do8LRpH/ikX6Gy4C0VEcz
-   RmqTeGo1C8ZJeeQAPvuvUlazNmXQxUFAtIq29iAjoYNRmqbTlYIuENwxd
-   TmDsEkSU3gV6pTycoAOQUan/doRdl8EFEcd7ipdjl7KGooo7S0SE7J9kq
-   2OvyIiKuFlSiqsCA/UGEvDRCJKeNP0pP3wBhmVH1Hc/ngPDTR9NgP+Y8s
-   Iu8LiwJJ2ZAYSnv4oS09emJ7H3OJMZMbQxkteHdI+viU2rDQ3xkvK1RLK
-   RWWf8dPoDDkx5rks3aY7zA0aXU939CXKbPoxWBJ/dIBzCYiW2Eyvw4wra
-   w==;
-X-CSE-ConnectionGUID: p8MfJOqtQ5um4A6er36/Uw==
-X-CSE-MsgGUID: OyUx1EqySwWo7RiNi6m/8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="50692888"
-X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
-   d="scan'208";a="50692888"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 11:04:18 -0800
-X-CSE-ConnectionGUID: 9fa88icUR72valktVDhKhw==
-X-CSE-MsgGUID: Di7M1Du7RpyTDVR3QRe60Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
-   d="scan'208";a="117915659"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 11:04:13 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tiI1p-0000000Avre-3MI0;
-	Wed, 12 Feb 2025 21:04:09 +0200
-Date: Wed, 12 Feb 2025 21:04:09 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andi Shyti <andi.shyti@kernel.org>,
+	s=arc-20240116; t=1739398399; c=relaxed/simple;
+	bh=N5IK13DJ6LnwPwC02e2aqsOqTe2QDLovLs8E0lyG83c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IWdW0YX+9nQUoubXszSFSnLCM8HQ61M32ICw28ikMPCGtM0BUfKWipA3HQfHMejyXTLEZGlI/wJR5y6MhlXsN703yw5MTvHiNs6oPbBtBbrL7uRwPUHnlyF58kAZVXevrThMOz2XFjPARFWs9Qjq7nWR2XsKs0s6JqknxeI10vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: asgVNVzpSty0OW2moQBTDw==
+X-CSE-MsgGUID: viPmXcvdSf6GhzuDzqklCQ==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 13 Feb 2025 07:13:13 +0900
+Received: from mulinux.example.org (unknown [10.226.93.8])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id C5DA340AACBB;
+	Thu, 13 Feb 2025 07:13:07 +0900 (JST)
+From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To: Vinod Koul <vkoul@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Krzysztof Adamski <krzysztof.adamski@nokia.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Stefan Roese <sr@denx.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: Re: [PATCH v1 1/8] i2c: Introduce i2c_10bit_addr_from_msg()
-Message-ID: <Z6zwqbzd5evG0H2z@smile.fi.intel.com>
-References: <20250212163359.2407327-1-andriy.shevchenko@linux.intel.com>
- <20250212163359.2407327-2-andriy.shevchenko@linux.intel.com>
- <CAMuHMdW1wxQ0cddeE72D+Sii4HkT4bJfeTWX4-8FfHiFr+=3DA@mail.gmail.com>
+	linux-clk@vger.kernel.org,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/7] Add DMAC support to the RZ/V2H(P)
+Date: Wed, 12 Feb 2025 22:12:58 +0000
+Message-Id: <20250212221305.431716-1-fabrizio.castro.jz@renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdW1wxQ0cddeE72D+Sii4HkT4bJfeTWX4-8FfHiFr+=3DA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 12, 2025 at 07:36:46PM +0100, Geert Uytterhoeven wrote:
-> On Wed, 12 Feb 2025 at 17:35, Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > There are already a lot of drivers that have been using
-> > i2c_8bit_addr_from_msg() for 7-bit addresses, now it's time
-> > to have the similar for 10-bit addresses.
+Dear All,
 
-...
+This series adds DMAC support to the Renesas RZ/V2H(P).
 
-> > +static inline u8 i2c_10bit_addr_from_msg(const struct i2c_msg *msg)
-> 
-> Having never used 10-bit addressing myself, or even looked into it,
-> it took me a while to understand what this helper really does...
-> So this returns the high byte of the artificial 16-bit address that
-> must be used to address a target that uses 10-bit addressing?
-> Hence I think this should be renamed, to better match its purpose.
+Cheers,
+Fab
 
-Since you are giving a constructive feedback, please, propose the name.
+v1->v2:
+* Improved macros in ICU driver
+* Shared new macros between ICU driver and DMAC driver
+* Improved dt-bindings
 
-> > +{
-> > +       /*
-> > +        * 10-bit address
-> > +        *   addr_1: 5'b11110 | addr[9:8] | (R/nW)
-> > +        *   addr_2: addr[7:0]
-> 
-> I think the second comment line does not belong here, as this function
-> doesn't care about that part.
+Fabrizio Castro (7):
+  clk: renesas: r9a09g057: Add entries for the DMACs
+  dt-bindings: dma: rz-dmac: Restrict properties for RZ/A1H
+  dt-bindings: dma: rz-dmac: Document RZ/V2H(P) family of SoCs
+  irqchip/renesas-rzv2h: Add rzv2h_icu_register_dma_req_ack
+  dmaengine: sh: rz-dmac: Allow for multiple DMACs
+  dmaengine: sh: rz-dmac: Add RZ/V2H(P) support
+  arm64: dts: renesas: r9a09g057: Add DMAC nodes
 
-I think the comment is okay to stay. It explains the full picture which is
-helpful. It may be extended to say that the function returns only addr_1.
-
-> > +        */
-> > +       return 0xf0 | ((msg->addr & GENMASK(9, 8)) >> 7) | (msg->flags & I2C_M_RD);
-> > +}
-> 
-> Probably you also want to add a similar but much simpler helper to
-> return the low byte?
-
-Wouldn't it be too much?
+ .../bindings/dma/renesas,rz-dmac.yaml         | 113 ++++++++++--
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    | 165 +++++++++++++++++
+ drivers/clk/renesas/r9a09g057-cpg.c           |  24 +++
+ drivers/clk/renesas/rzv2h-cpg.h               |   2 +
+ drivers/dma/sh/Kconfig                        |   1 +
+ drivers/dma/sh/rz-dmac.c                      | 167 ++++++++++++++++--
+ drivers/irqchip/irq-renesas-rzv2h.c           |  56 ++++++
+ include/linux/irqchip/irq-renesas-rzv2h.h     |  21 +++
+ 8 files changed, 516 insertions(+), 33 deletions(-)
+ create mode 100644 include/linux/irqchip/irq-renesas-rzv2h.h
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
 
