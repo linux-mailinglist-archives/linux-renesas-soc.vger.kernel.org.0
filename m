@@ -1,113 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-13076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45313A32673
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 14:01:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50254A32BB2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 17:34:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1E3E1881266
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 13:01:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70F0E167E99
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 16:34:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76263205AC1;
-	Wed, 12 Feb 2025 13:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0314A254AF8;
+	Wed, 12 Feb 2025 16:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RreI3u+A"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06C7204F6A
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Feb 2025 13:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408F53398A;
+	Wed, 12 Feb 2025 16:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739365280; cv=none; b=jo4ZA05QWB98s9wht/0qcBqLCCvAqQanJYKieaIt54O2AK1ykPBFYa+t8Yc2DWpwfe4RsF7XJ8li1Qbt8PNSh1YRJs5ni14NrhkA/Qp3PcyxYEtlYZSWGqZYm0V0ckrhfs+B+Cy9LY3X/u2GYEC3R+a4N8GI1kmihr5QBS1JJtY=
+	t=1739378049; cv=none; b=DGuFG/ZJ2mcRACwEsIgSGwFeyb3Bg8HM326csYFoBD3bPDX2EasZQKvCi26mQo0nIBrla/8kAlo5mYmxMfkTBHPtrNz8z8kP9fj8EyM4bwtnxzpbOq8RiCs+Svj9yL9VIARzYQphssKkj01pyjuep16a41PxrZPB9NG624Y6qU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739365280; c=relaxed/simple;
-	bh=3GwdOqa6Huktj8Sk4HWI3OLgpYkeLDMrdbIh/o3/XfQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PnpxmmxOvUyRzAjiHmMwHavbE9QoF0lTWPe8EEPMeDSSAnABZE0rMSphmGWs9nIrSvMsJ44OfWrVoru+wTLiHn64ugVBEWL4ErBogic4QRjRH3WkMatksdp929Rk0bYk/Mbv8uF6lfFYPw5VHw8EzZEibzLieTxMNnya5xoR98Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5de4c7720bcso8314971a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Feb 2025 05:01:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739365273; x=1739970073;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Dqwlo1LIhmw+DTyrdXQy6aDFaKpUFdk3sRubAy+VYoQ=;
-        b=C01bTphPUNh+VWgxmxIClz8y88p51Uy7315czwKFb8TddeeLoEhFJCYmyTfCC3rOu7
-         gLGtRARfufulP4oQKnfFpPUkCEx5VUzq7mVgipHo6xguuAR7b3iVUZEx4TIZGerzhEvl
-         1pwmQMg11xR/lKehbc3Ccm1/sESgnw7S+PovEH8KwZ4Cg2u+expikD1xBBiQKXGu+Eng
-         g+fK4KMixr8u2ME1e3sqoD8DPCRTzstwx/0kdquclNSU4Z0+g2MCJrEkTL+Fy9AKCHcg
-         I3/u610c3h6v70PYxtoJgFUedbjP0qsoF3CaY/9FOQYKEsxUeYWBOgUsHPU8PLia4wYQ
-         9Tsw==
-X-Forwarded-Encrypted: i=1; AJvYcCVCZ6JRAG++umOMgWWJw9EVhKFkcCPwwwGMAauHjD7xhZRuvr+Uhs5O7bUvxQdaL8aobX8j7V30gfZKmM1f4jo62w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwS3FZOqRujARX9hBSfVtJIyHdaW7YrbzFCzZObh8lsfh9OVk4d
-	H0j8QT4OwHoM0RrvX7lCkW3Crs59QGYUd4dLpmZLS3blDltoLWFufQVFuF/squ0=
-X-Gm-Gg: ASbGncvf6twlF8XcXvIpD+Ckfd+QEAQVirJcZeaiNPdDyFQbw5GOEANmUzzRXl+VgFM
-	grcg1VVITh10RkFRsVcKVToeETjbllu7DQXq6sBR/6ba+ZQ62K9J4yiVECHq1aWiwAOQD6K/CIm
-	NBQoihd2su+DNM75StlYv9Lwa283hDStfuhze3t+xa7LaBYQESO0cV/DsbsWtlusGShjRnzuDIC
-	qkMACw+wHOPAAKehgYNX7DDPJoNOgnN1BBguCssRZIASifNBFJ7PI0Bpo2Jw0JSUKzOH+XilSIE
-	02C/Jubn2x+2iSyuXvPhwzoTDfl4hS5VeWO/+yxTCnSCrXpG8FQVTQ==
-X-Google-Smtp-Source: AGHT+IHV0v/z91b4wYc0vAMD4EwVbY6K+kMEaiXB/aU3ndxIr1YD/tdL+VwepWe9JPyYV6eBaTfDeA==
-X-Received: by 2002:a05:6402:354e:b0:5d3:d4cf:fea0 with SMTP id 4fb4d7f45d1cf-5deadde030cmr2482273a12.21.1739365272768;
-        Wed, 12 Feb 2025 05:01:12 -0800 (PST)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com. [209.85.208.50])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dcf1b7ae5asm11493861a12.24.2025.02.12.05.01.12
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2025 05:01:12 -0800 (PST)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5dea50ee572so2599087a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Feb 2025 05:01:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUQsG5VH5ixw7sc6brlv7RKZLsptlekpQD91/tXvU8SXGKshFFqs4EUhLraFpqcZOaLLYzmCQtZ7uASy+LRVi1/GQ==@vger.kernel.org
-X-Received: by 2002:a05:6402:3510:b0:5de:44b1:46c with SMTP id
- 4fb4d7f45d1cf-5deadd7504cmr2883282a12.7.1739365266080; Wed, 12 Feb 2025
- 05:01:06 -0800 (PST)
+	s=arc-20240116; t=1739378049; c=relaxed/simple;
+	bh=kCFQDLNfPixVyUh7+fi7hXH2lVNVmZoD/srcHAu/zkY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IuqV+GnOjq5oZTNIAbKUvLWB7Zt7cfBLlgdD85eXsDT4r2oh0+SGBZnpydDHubOKBImEEde+Mj2BmWROkdWTIkTyIBAteQca6O1E4xvnisDf2NrNoVX5PDBKLegBu2ko5PXq4vyZGuwkXnjDJw3iGbNcTufrHPm7ZOlTZr1cpAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RreI3u+A; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739378049; x=1770914049;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=kCFQDLNfPixVyUh7+fi7hXH2lVNVmZoD/srcHAu/zkY=;
+  b=RreI3u+AbcacJ7/p1ziYDTxcufSXFMnnA8hf9JVrWO0lKhh7n74f8X2D
+   kBNOBaxYX4mfrC90xbusLlyBVvu0rfdsHfBT7pGySMfyRte/vNBwRopWT
+   2nR+2oplo2GJIKqNzi8PboLBcd0neMZMlglf/h59EWH34vCblWT7NlH0N
+   RWDJwczfofdv8gHYyC0dxgc4YRq4iciwSmkeM/6uvTEKebT5ihRpzJo4j
+   JUH20B5xapnHI/M0HvoOkPWYKQ6I55J54N5QQ2f43pSlnzydv9z0LYChf
+   MEWSDu4MziCFpKMsSiSv8q1qlApXyoMpJFW1v7JCUftcvkW1jfjLEQCQa
+   g==;
+X-CSE-ConnectionGUID: NHqBuaBjSfqcdLA8fZeUPg==
+X-CSE-MsgGUID: qIQKqpmUS7qIstJa0NjtKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="51032331"
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
+   d="scan'208";a="51032331"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 08:34:08 -0800
+X-CSE-ConnectionGUID: irz/hdSsQPyHAJdCuCCBCA==
+X-CSE-MsgGUID: lO25qOasSlKvhSxXSqtPRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
+   d="scan'208";a="117879143"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa004.jf.intel.com with ESMTP; 12 Feb 2025 08:34:02 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 8E55F11E; Wed, 12 Feb 2025 18:34:01 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: Krzysztof Adamski <krzysztof.adamski@nokia.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Stefan Roese <sr@denx.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH v1 0/8] i2c: busses: Introduce and use i2c_10bit_addr_from_msg()
+Date: Wed, 12 Feb 2025 18:32:25 +0200
+Message-ID: <20250212163359.2407327-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.45.1.3035.g276e886db78b
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250212111231.143277-1-biju.das.jz@bp.renesas.com> <20250212111231.143277-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250212111231.143277-3-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 12 Feb 2025 14:00:48 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXXyQC8PkLs41Q_oz_M+8V2s5bOHzZvBk3i+5xczj1idw@mail.gmail.com>
-X-Gm-Features: AWEUYZmv832T5hNNa4kf8fQJCfU-QfK-A-eTWcNkYD7xYLZES2nypQoNPsfWVKc
-Message-ID: <CAMuHMdXXyQC8PkLs41Q_oz_M+8V2s5bOHzZvBk3i+5xczj1idw@mail.gmail.com>
-Subject: Re: [PATCH v5 02/12] irqchip/renesas-rzv2h: Fix wrong variable usage
- in rzv2h_tint_set_type()
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 12 Feb 2025 at 12:12, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The variable tssel_n is used for selecting TINT source and titsel_n for
-> setting the interrupt type. The variable titsel_n is wrongly used for
-> enabling the TINT interrupt in rzv2h_tint_set_type(). Fix this issue by
-> using the correct variable tssel_n.
->
-> While at it, move the tien variable assignment near to tssr.
->
-> Fixes: 0d7605e75ac2 ("irqchip: Add RZ/V2H(P) Interrupt Control Unit (ICU) driver")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+For 8-bit addresses we have a helper function, define similar one
+for 10-bit addresses and use it in the drivers. It allows to remove
+some boilerplate code.
 
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Closes: https://lore.kernel.org/CAMuHMdU3xJpz-jh=j7t4JreBat2of2ksP_OR3+nKAoZBr4pSxg@mail.gmail.com
+Andy Shevchenko (8):
+  i2c: Introduce i2c_10bit_addr_from_msg()
+  i2c: axxia: Use i2c_10bit_addr_from_msg() helper
+  i2c: bcm-kona: Use i2c_10bit_addr_from_msg() helper
+  i2c: eg20t: Use i2c_10bit_addr_from_msg() helper
+  i2c: kempld: Use i2c_10bit_addr_from_msg() helper
+  i2c: mt7621: Use i2c_10bit_addr_from_msg() helper
+  i2c: mv64xxx: Use i2c_*bit_addr_from_msg() helpers
+  i2c: rzv2m: Use i2c_10bit_addr_from_msg() helper
 
-Gr{oetje,eeting}s,
-
-                        Geert
+ drivers/i2c/busses/i2c-axxia.c    | 19 ++-----------------
+ drivers/i2c/busses/i2c-bcm-kona.c |  9 ++++-----
+ drivers/i2c/busses/i2c-eg20t.c    | 28 +++++-----------------------
+ drivers/i2c/busses/i2c-kempld.c   |  4 +---
+ drivers/i2c/busses/i2c-mt7621.c   |  4 +---
+ drivers/i2c/busses/i2c-mv64xxx.c  | 10 ++--------
+ drivers/i2c/busses/i2c-rzv2m.c    | 10 +++-------
+ include/linux/i2c.h               | 10 ++++++++++
+ 8 files changed, 28 insertions(+), 66 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.45.1.3035.g276e886db78b
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
