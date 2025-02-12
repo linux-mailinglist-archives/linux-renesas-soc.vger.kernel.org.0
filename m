@@ -1,186 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-13070-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13075-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9FBA32490
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 12:15:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F984A3261F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 13:45:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DE793A8EF5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 11:14:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03A25168987
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2025 12:45:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1415320AF62;
-	Wed, 12 Feb 2025 11:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65A2720CCF5;
+	Wed, 12 Feb 2025 12:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="PJjHheBp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5361C20A5CC
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Feb 2025 11:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B572046BE;
+	Wed, 12 Feb 2025 12:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739358794; cv=none; b=W/bldE0NKmpRnTrUYMsDl8IqLxJbb2fasuN0WBYZgzNiEj9GbBhBHjQ3NJa4z6IJMwEYPmR+9lt6XsoUqbeUBeBWMmfo+tCGhEO5pFHJdTfG2yfpGltnzKf03Io/zH32n83QFHDuSrLeOScfILXFVaVK+7hNEOuMHapgNEu22sE=
+	t=1739364330; cv=none; b=omiyqU4ZVyiB610Qe6zH+LLCSnivOw+W+YBsrJW0gIas7gaXt+6ysFQg8ZKb80acvn4g+bdkPamCtpTdi42TvEcSWOUjyr6bHo+tE2vjX2rJYqlGnkdNmrrIn8jlPFynkm9P6QE9IE6F+Jc9nvx2693TINqmZ9oGszenZ7CBXw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739358794; c=relaxed/simple;
-	bh=2t5aLnDSenvrgHCXp9rVvIn8iqu9oAgz0ZHD2uK4RUg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OfFs7ZNe2WOdttWc/V1BF+990TKf6WCUta4lYeb33IPqGBEvsePfijYH2WjiSgM64wXffGAPyzxW/uRxCsZMckShLCgI9tUCnx9AWUNMoTQGkwBOKZXjP3ogKnD7dmN5ndg5x3yWbk7chiaJH9yBOf8X2zYypg9tEYAZFPGE+Pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: sf4EFf8eQUex8mTtZJSj8g==
-X-CSE-MsgGUID: cFuxHVL+Sfi3ahWG+KkdqQ==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 12 Feb 2025 20:13:12 +0900
-Received: from localhost.localdomain (unknown [10.226.92.135])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id A1443425CA29;
-	Wed, 12 Feb 2025 20:13:09 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Subject: [PATCH v5 12/12] irqchip/renesas-rzv2h: Add RZ/G3E support
-Date: Wed, 12 Feb 2025 11:12:21 +0000
-Message-ID: <20250212111231.143277-13-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250212111231.143277-1-biju.das.jz@bp.renesas.com>
-References: <20250212111231.143277-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1739364330; c=relaxed/simple;
+	bh=4JRn5iL42MJEpQHlbzIijk4WcEtoHNrpGhgeTaJH47M=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=r2/JbVqMSDLPLHyGSqV9jXDstHlAd64rocxTlC0NLJOZQXFF1CB5oyy35kJDLg/eh+m88OtI8WMwdjU73+Qf0e4m8dj6FiW2LvvMbbSygEk47DGYhx+Zda7JRRyus9bRnY6MjcbbrpHhzvaJgKr+j8EGtrwt0xLV26ys04OcQF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=PJjHheBp; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1739364319; x=1739969119; i=markus.elfring@web.de;
+	bh=4JRn5iL42MJEpQHlbzIijk4WcEtoHNrpGhgeTaJH47M=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=PJjHheBpgdSXsx+Umol8T4yAdHWvj+q6JEM1R+fHcAJj4aShKG2t7Fbc7E8cHDVU
+	 U9AqmWFUcHLiRk9Cy3Vq9gNuajj1WxIbXcUhJwQUuLqpVEorfg06OS2NV+TSvlHdU
+	 pfb2kdngqIh0l6u3BCSNviBVtM1Q6dIG2coiN3FFz5dSxCSvzWmomdA31f/ldG50Z
+	 EAucS96Ngx7tWglfg8YWhsLnk9OhovsbTfUz4IfUIA5Wb/zJVgLnlwFquyttjDeQB
+	 zjjE9Ffof7JcnCS1f+8N97nHo+Vc05RqLxWx5IP3vbVbj6HpduET0hbrrfUxuN+3r
+	 6l8n5xq2K8M3dChoPA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.11]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M5j5y-1tkvvo3XqM-00EmgE; Wed, 12
+ Feb 2025 13:45:18 +0100
+Message-ID: <93a7e08f-8a3b-42cc-8d36-f570f02087c8@web.de>
+Date: Wed, 12 Feb 2025 13:45:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Chenyuan Yang <chenyuan0y@gmail.com>, linux-gpio@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Richard Cochran <richardcochran@gmail.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, Zijie Zhao <zzjas98@gmail.com>
+References: <20250210232552.1545887-1-chenyuan0y@gmail.com>
+Subject: Re: [PATCH] pinctrl: Fix potential NULL pointer dereference
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250210232552.1545887-1-chenyuan0y@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:rgoJ3QjOvQt09jtD0DLsUfO5e7MhvKcjufuUn6etTbSAzv4U3ac
+ mZO2uQndJA0ga8cEN0mJUO7oXcxaYpMFY4RDMlOyxT+a4HIL4TGFY4vQPnpx0TxVMaDme/N
+ 2oE4qiIj6hRvywCy1WMJoEMADsVbNlUwrGdl4la3Ogabz//TqoALd2fRq5spvNDS0GXlS9V
+ n8BGpZnWcfcJeldkOI+Bg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:D62wot44SxI=;8nMv1FZOUoEfbybwFK41pXY7feP
+ d/BWTy/ImuK4OscXNFI38Xsa90iI36mjKKyFNI0bPSN/TjPL5C519qpb3RVGa6zAIfrBmlmeJ
+ sUNCUJBtKWIS9jkIMMGW9vUBSnJf+OeUtmSUe292FVTiHLl57aDN1dK2AQ2KRzwhFuH9ALz8D
+ jaBb6kWanEwB6un6a8dvylEiAJL/4WExurSjoAPKbNWXaNr16dqTf1CGNRZix0YAhumzYMHYj
+ g2d/Y1sfDSxZJe22alEHkOfWfkghKY0mWmdo/1cphaUoRNDUij9QYbmOphuQIwP+kV9uz97cQ
+ ZzBPrSvGWlIseb2YFPW8Gk/LHpLiDRGwx6eGDae1oMezV7T1huDhSl8rEn4XvYGno74Qs009a
+ fJ8zYam0zHV8pwEj1nhm7njhdgUT5/F/jz+vgoamr1bKKagjb0a2oK8YvjGOU1HgHAXRkqj96
+ w5h2vg0ZprrCVqva+er7ymeDBteHG14HikBBHX38JMH+1ZMq8+G9eceRM/sGhXTSPtPOx8KSM
+ aX2Y4epXX+DE7i2nD45dHh5UwcMzsPlPjz1sUJcGgy5cuJTDdn6snivIrR8WrRZztEOHxgDRK
+ hf5pH8Xk3EqI8TnKGOPupUOUb1+mTbfsaf+2s8NFufajv7/5KjvMHcJLrD2aY4ha6uXAIQM9q
+ g1Xmm+aiZW2S8E50DbxYtH10UDdOX3v1ByxFj2RsYu/z2olaf7n27tth3pCc6pphLAH7xrjrM
+ hmj4NN9sKPyD/OVNIxk9IPWV2qCa4D58Odte99iRPUzv3mFdyPAfi32bZF1yp/BnW334i6hkY
+ 5LdKCxqHpLp1MPSNHBNARN6ZOJTm4C/7/k0HJWzwNgr6P8Z25jG5r56wkQ92hwspGUhxz2VXU
+ xoODn8+KDzgUxfcdoXRyXE4XUQVs73s56X2GdxqxjbKjPk7LSFRR9vbZHSPbrhfru0doStKj9
+ 0FcSNa274heNYQG317LjsmIrhvuai1WJffle1FiZ6R3bfo/3goHC8tStc+3zKO5IZ94FAENWD
+ hc9UW7SAXqZR5AUBHjmPiKVS4GLvRtFvKYhC1dA3fo/YoyVqPoEI6309ZlsicNVbHl91EoBZi
+ 4RrK9UmrpBmxbqMud1afkbfyMLHFSoW6H1tE6awMURL6Qf8oOy/zQkG+fVTN62C2fZyKCZnXT
+ 2ED5zeQZp7zHvHR6W2/50wp0f849FSAD0L6nYnwcpMM45d8tc3L61JGu3tu4yLJ5/X2X6kKm9
+ swn73UsGU6FDm62xdjYfbcgMpDEzyDIVN0x+1ondfl0VnnfHTJNYXssze6O4QT7AxKMxSx0d3
+ FHMwLtnTd+K80y45d0gRHNL/+umnxQCxX9HHBHnTghRAZdaIR987f/JYbhOevjhl9aYnnJlTi
+ EL79gWpvgOLe2Eh5TSbJJoHCuoo3Ci8cQBvJRdSYB7jiJ8oL5xTWbQs50srgYQvjtO4B4jhTS
+ xUzyDxw==
 
-The ICU block on the RZ/G3E SoC is almost identical to the one found on
-the RZ/V2H SoC, with the following differences:
- - The TINT register base offset is 0x800 instead of zero.
- - The number of GPIO interrupts for TINT selection is 141 instead of 86.
- - The pin index and TINT selection index are not in the 1:1 map.
- - The number of TSSR registers is 16 instead of 8.
- - Each TSSR register can program 2 TINTs instead of 4 TINTs.
+> The `chip.label` could be NULL. Add missing check in the
+> rza2_gpio_register().
 
-Add support for the RZ/G3E driver by filling the rzv2h_hw_info table and
-adding LUT for mapping between pin index and TINT selection index.
+Another wording suggestion:
+The data structure member =E2=80=9Cchip.label=E2=80=9D could become NULL
+after a failed devm_kasprintf() call in the implementation
+of the function =E2=80=9Crza2_gpio_register=E2=80=9D.
+Thus add a check for such a return value.
 
-Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v4->v5:
- * Added Rb tag from Geert.
-v3->v4:
- * Updated commit description fixing typos
- * Updated rzg3e_hw_params with .field_width and dropped .tien,
-  .tssel_mask,.tssel_shift, .tssr_k as it can be derived from former.
-v2->v3:
- * No change.
-v1->v2:
- * Introduced ICU_RZG3E_{TSSEL_MAX_VAL,TINT_OFFSET} macros and used these
-   macros in struct rzv2h_hw_params rather than using the hex constants.
----
- drivers/irqchip/irq-renesas-rzv2h.c | 46 +++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
 
-diff --git a/drivers/irqchip/irq-renesas-rzv2h.c b/drivers/irqchip/irq-renesas-rzv2h.c
-index 6cfa7f663ce0..9b64acc22adc 100644
---- a/drivers/irqchip/irq-renesas-rzv2h.c
-+++ b/drivers/irqchip/irq-renesas-rzv2h.c
-@@ -72,15 +72,19 @@
- 
- #define ICU_TINT_EXTRACT_HWIRQ(x)		FIELD_GET(GENMASK(15, 0), (x))
- #define ICU_TINT_EXTRACT_GPIOINT(x)		FIELD_GET(GENMASK(31, 16), (x))
-+#define ICU_RZG3E_TINT_OFFSET			0x800
-+#define ICU_RZG3E_TSSEL_MAX_VAL			0x8c
- #define ICU_RZV2H_TSSEL_MAX_VAL			0x55
- 
- /**
-  * struct rzv2h_hw_info - Interrupt Control Unit controller hardware info structure.
-+ * @tssel_lut:		TINT lookup table
-  * @t_offs:		TINT offset
-  * @max_tssel:		TSSEL max value
-  * @field_width:	TSSR field width
-  */
- struct rzv2h_hw_info {
-+	const u8	*tssel_lut;
- 	u16		t_offs;
- 	u8		max_tssel;
- 	u8		field_width;
-@@ -305,6 +309,9 @@ static int rzv2h_tint_set_type(struct irq_data *d, unsigned int type)
- 	if (tint > priv->info->max_tssel)
- 		return -EINVAL;
- 
-+	if (priv->info->tssel_lut)
-+		tint = priv->info->tssel_lut[tint];
-+
- 	hwirq = irqd_to_hwirq(d);
- 	tint_nr = hwirq - ICU_TINT_START;
- 
-@@ -518,18 +525,57 @@ static int rzv2h_icu_init_common(struct device_node *node, struct device_node *p
- 	return ret;
- }
- 
-+/* Mapping based on port index on Table 4.2-6 and TSSEL bits on Table 4.6-4 */
-+static const u8 rzg3e_tssel_lut[] = {
-+	81, 82, 83, 84, 85, 86, 87, 88,		/* P00-P07 */
-+	89, 90, 91, 92, 93, 94, 95, 96,		/* P10-P17 */
-+	111, 112,				/* P20-P21 */
-+	97, 98, 99, 100, 101, 102, 103, 104,	/* P30-P37 */
-+	105, 106, 107, 108, 109, 110,		/* P40-P45 */
-+	113, 114, 115, 116, 117, 118, 119,	/* P50-P56 */
-+	120, 121, 122, 123, 124, 125, 126,	/* P60-P66 */
-+	127, 128, 129, 130, 131, 132, 133, 134,	/* P70-P77 */
-+	135, 136, 137, 138, 139, 140,		/* P80-P85 */
-+	43, 44, 45, 46, 47, 48, 49, 50,		/* PA0-PA7 */
-+	51, 52, 53, 54, 55, 56, 57, 58,		/* PB0-PB7 */
-+	59, 60,	61,				/* PC0-PC2 */
-+	62, 63, 64, 65, 66, 67, 68, 69,		/* PD0-PD7 */
-+	70, 71, 72, 73, 74, 75, 76, 77,		/* PE0-PE7 */
-+	78, 79, 80,				/* PF0-PF2 */
-+	25, 26, 27, 28, 29, 30, 31, 32,		/* PG0-PG7 */
-+	33, 34, 35, 36, 37, 38,			/* PH0-PH5 */
-+	4, 5, 6, 7, 8,				/* PJ0-PJ4 */
-+	39, 40, 41, 42,				/* PK0-PK3 */
-+	9, 10, 11, 12, 21, 22, 23, 24,		/* PL0-PL7 */
-+	13, 14, 15, 16, 17, 18, 19, 20,		/* PM0-PM7 */
-+	0, 1, 2, 3				/* PS0-PS3 */
-+};
-+
-+static const struct rzv2h_hw_info rzg3e_hw_params = {
-+	.tssel_lut	= rzg3e_tssel_lut,
-+	.t_offs		= ICU_RZG3E_TINT_OFFSET,
-+	.max_tssel	= ICU_RZG3E_TSSEL_MAX_VAL,
-+	.field_width	= 16,
-+};
-+
- static const struct rzv2h_hw_info rzv2h_hw_params = {
- 	.t_offs		= 0,
- 	.max_tssel	= ICU_RZV2H_TSSEL_MAX_VAL,
- 	.field_width	= 8,
- };
- 
-+static int rzg3e_icu_init(struct device_node *node, struct device_node *parent)
-+{
-+	return rzv2h_icu_init_common(node, parent, &rzg3e_hw_params);
-+}
-+
- static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
- {
- 	return rzv2h_icu_init_common(node, parent, &rzv2h_hw_params);
- }
- 
- IRQCHIP_PLATFORM_DRIVER_BEGIN(rzv2h_icu)
-+IRQCHIP_MATCH("renesas,r9a09g047-icu", rzg3e_icu_init)
- IRQCHIP_MATCH("renesas,r9a09g057-icu", rzv2h_icu_init)
- IRQCHIP_PLATFORM_DRIVER_END(rzv2h_icu)
- MODULE_AUTHOR("Fabrizio Castro <fabrizio.castro.jz@renesas.com>");
--- 
-2.43.0
+How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and =
+=E2=80=9CCc=E2=80=9D) accordingly?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.14-rc2#n145
 
+
+Can a summary phrase like =E2=80=9CPrevent null pointer dereference in rza=
+2_gpio_register()=E2=80=9D
+be nicer?
+
+
+> This is similar to commit 3027e7b15b02
+> ("ice: Fix some null pointer dereference issues in ice_ptp.c").
+> Besides, mediatek_gpio_bank_probe() in drivers/gpio/gpio-mt7621.c also
+> has a very similar check.
+
+I find such auxiliary information not so relevant here.
+
+Regards,
+Markus
 
