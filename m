@@ -1,152 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-13113-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0EAFA33CB5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 11:27:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5412A33CEE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 11:47:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A2D9161767
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 10:27:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A4A2188AB8F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 10:47:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 676022135BF;
-	Thu, 13 Feb 2025 10:27:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BD7C212FB4;
+	Thu, 13 Feb 2025 10:47:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C711212FA8;
-	Thu, 13 Feb 2025 10:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2974207E15
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Feb 2025 10:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739442428; cv=none; b=QEz6A4DSL/IZX+ExxLi/lY0aB05yS9HbkIMALc5JJ918TfAHT3AAuWHueiXJbucJXePBNYU0yqYmrrDghJlww8+9fgr3TjnzYN9xBqa0TuUzgLVHqfS3AYTT54cE2UJ211lZZ8OgdvALh/tGW+Hg9jO5UYVBwrpDA195WEOeIJ0=
+	t=1739443659; cv=none; b=nWfZNK2SZO5dP+5TwRsnoJASskQNb+aRbow65BGbBx9SMRIU9w8mrEaE2jrP/MoLTEWHdLLsNlPRi1RTPC135QSFdby5d8IRRwhFAvUs4O662VdED81hEsRSIlbFg7oATq2KlI5JayKrzuDUe9Xd4X6Srh6BzsAG3kA5uNnSfLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739442428; c=relaxed/simple;
-	bh=nXgtec5yfvXrRWWYRsZ4bDFNattFo59xnRbwG8aLwJo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TLl9GVycJbyyaXXRN6rBWbfUei2/onY4eR6mWyKPuA9c3rRUGGfQqPHn7ajMobMY5ntRdWHPr2/YeWDPsgnGHxzrrFWAjPBuTdCKJjHQI24K4+YDph5p+4reAHTUKmSzXP6vbXPvBkvscVUknoZFp8h481Tw+Q2nHCKDOkt3hCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-86718541914so978000241.1;
-        Thu, 13 Feb 2025 02:27:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739442424; x=1740047224;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a4BQvSjdPvwvlHZOZKVU4dEkUHYrrJIZUOAsZTtgVLc=;
-        b=VGlkPrPViZuvkTt2ZlXb/Tzsqh6Ssqu0CJCG4FFPE3lqUyNrsLTQZJvNh7v4oXtehp
-         krWbjIaqvXzvIPRXWtSdwD2rMJnK27D2IMUUabzt6RHW478CPZHGt8hPx/4F9VTvXtnq
-         MEa0FFYeE8Lr0v3tXk5Jk0v6dZXcn3yivh++2GziJKT6Bk5WIWPkqjEYszoiBGb99RVA
-         wEt/nPQFn/O3B+i8JzjasYGiPHtA4Vcrxzq3Vmu/YN09Td1D8iPm4vitiiaSNNK8uy7x
-         3qAABfFgsAkQ5g5wy3SZMKSs7wWCW/mQyxyuWimSY0S/VKKSnpnt1bgZfFyLDNNFtxTH
-         q+PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJHkvNa9xjaHlK9zpOoFBRqO/VXeBXOUIAJs0O63plNZ/H8rEDD+AdvcFU9RTLSsQsjKVRFuK1kw==@vger.kernel.org, AJvYcCVZBzw1rK/eESbQbNU3lVPaqkG/s4tW5RXUBBL4WVyunzmDbZ1j5CkSe8F24+KS/9Vu3joumIcGb+JnMUserI13u7A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YythjcXtHVcI4GBabjXbs98MR8dYwzVKBvWQQ++OQZ1ZRnkYMcY
-	U0zgtf2JL1drhenliIj1ZgrPJ34VkeWNT2uTYM79zrzLXZfr8zO+AyQ89kXIgmE=
-X-Gm-Gg: ASbGncs5g9S1zRhMZGR1mMiu2ELXsXix4UNwTxsuPuGUW2CsbNCoL2sjT/m/0o/Fsn7
-	nAAq3whPf9pyEatulzhgRharArG3xg42pLONXoOQ4XvZU0gbDUcxzfJ1xwLT67RhhRMy8cn/38P
-	f0VekGJcjG4VA9A/OtyhfDlHe2/1Hs5R/j8ih56EYgJ3v7Jtc7TyB194qjQB+3aOuku6GfFuekr
-	ZeQsbN3jRofl3z81Pi3SszTyih46PKezuElpxV/Qie0MNfrNgaL8A2/pwRbxCE/kaoFvCYOXifA
-	jvvXQvPqLGaIg2uu3pOsJAUzNo9ZgT9kbn4YamNkutaBtKeoZnjS7A==
-X-Google-Smtp-Source: AGHT+IHvA3+YrUJiEWttnbxu9B6Mf3qZXcRp1ksm3t4/m4q7GIHs3Z7AjZRdanvLczZ+3ZJuTPd4aQ==
-X-Received: by 2002:a05:6122:4897:b0:516:1e32:f8c7 with SMTP id 71dfb90a1353d-520786743d8mr2036544e0c.0.1739442424378;
-        Thu, 13 Feb 2025 02:27:04 -0800 (PST)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-868e8547fd6sm144797241.3.2025.02.13.02.27.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Feb 2025 02:27:04 -0800 (PST)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4b9486a15a0so1041117137.0;
-        Thu, 13 Feb 2025 02:27:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUkHAG9RnbOU9AGBycB8JFubmnDYyKL/UTi/WOABnvr1cd40W6UtFfrDIHHjK1/EMHeXLDuFF+K/k8K+B0XoudeVQs=@vger.kernel.org, AJvYcCVo1ebY2wFd3rPH499XC0PMt9JBQSAvArcGItWc3sLnG3Xqsd4GVzFC3iCSY/ZR+kjk7b5+Q4xddg==@vger.kernel.org
-X-Received: by 2002:a05:6102:2424:b0:4bb:b7ff:c486 with SMTP id
- ada2fe7eead31-4bc050376fbmr1353306137.12.1739442424014; Thu, 13 Feb 2025
- 02:27:04 -0800 (PST)
+	s=arc-20240116; t=1739443659; c=relaxed/simple;
+	bh=gb2lywRTuISE8Acijb3xotjXVJzZlSaXWQBshazghYs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=iTv4WwBfbP9wHPHDU7BRd0qWi4nOSzEd4oM9pWfQ0Dd3g1Luy7GixLWiX1kk1GqJmq8dMmwjdtWUxwLgwMIaPFrzRhltKnQG+VPBLS2Og0EncuUGpTQGgb2LCdKECLHlvv3ioSTGGaK7HgcwqPHA/xiNlb49mSbcGuvDjCOrfOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tiWki-0003sp-2b; Thu, 13 Feb 2025 11:47:28 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tiWkg-000jie-0j;
+	Thu, 13 Feb 2025 11:47:26 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tiWkg-0003g4-0Z;
+	Thu, 13 Feb 2025 11:47:26 +0100
+Message-ID: <3516a8364bfe64bd24f5330b006b17581150e717.camel@pengutronix.de>
+Subject: Re: [PATCH 2/6] irqchip/renesas-rzg2l: Use
+ devm_reset_control_get_exclusive_deasserted()
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Thomas Gleixner
+	 <tglx@linutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, Lad
+ Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org
+Date: Thu, 13 Feb 2025 11:47:26 +0100
+In-Reply-To: <20250212182034.366167-3-fabrizio.castro.jz@renesas.com>
+References: <20250212182034.366167-1-fabrizio.castro.jz@renesas.com>
+	 <20250212182034.366167-3-fabrizio.castro.jz@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMuHMdXN9A-1P_qe=BwKjLaoqxU8iJUQK6h8=s-apR4Y0em_0Q@mail.gmail.com>
- <CAMuHMdXXWH0Do5zXWJ1Uc6dyEb9o1chGSyeyzgDrX+v1wZ7e_A@mail.gmail.com> <CAGETcx_wA9RB9QhMPqsLHDFZ4cwOFgE8dBL9ssFkT=J6DEgjGg@mail.gmail.com>
-In-Reply-To: <CAGETcx_wA9RB9QhMPqsLHDFZ4cwOFgE8dBL9ssFkT=J6DEgjGg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 13 Feb 2025 11:26:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUCXJkg3rkngXf7cqa50u-TEAOntV6O=Nvg33Q9diPJPw@mail.gmail.com>
-X-Gm-Features: AWEUYZmKRqIGNWtC5Wby5dZMR568x7wkurDrEaa0GNlacN_xsgZ6oH6hx-u5EoQ
-Message-ID: <CAMuHMdUCXJkg3rkngXf7cqa50u-TEAOntV6O=Nvg33Q9diPJPw@mail.gmail.com>
-Subject: Re: s2idle blocked on dev->power.completion
-To: Saravana Kannan <saravanak@google.com>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Linux PM list <linux-pm@vger.kernel.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
+On Mi, 2025-02-12 at 18:20 +0000, Fabrizio Castro wrote:
+> Use devm_reset_control_get_exclusive_deasserted() to simplify
+> rzg2l_irqc_common_init().
+>=20
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
-On Thu, 13 Feb 2025 at 09:31, Saravana Kannan <saravanak@google.com> wrote:
-> On Mon, Feb 10, 2025 at 2:24=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Fri, 7 Feb 2025 at 16:08, Geert Uytterhoeven <geert@linux-m68k.org> =
-wrote:
-> > > Instrumenting all dev->power.completion accesses in
-> > > drivers/base/power/main.c reveals that resume is blocked in dpm_wait(=
-)
-> > > in the call to wait_for_completion() for regulator-1p2v, which is
-> > > indeed a dependency for the SN65DSI86 DSI-DP bridge.  Comparing
-> >
-> > [...]
-> >
-> > > Looking at /sys/devices/virtual/devlink, the non-working case has the
-> > > following extra entries:
-> >
-> > Note that the SN65DSI86 DSI-DP bridge driver uses the auxiliary bus
-> > to create four subdevices:
-> >   - ti_sn65dsi86.aux.0,
-> >   - ti_sn65dsi86.bridge.0,
-> >   - ti_sn65dsi86.gpio.0,
-> >   - ti_sn65dsi86.pwm.0.
-> > None of them have supplier:* symlinks in sysfs, so perhaps that is
-> > the root cause of the issue?
->
-> Sorry, I haven't had time to look into this closely. Couple of
-> questions/suggestions that might give you some answers.
->
-> Is this an issue only happening for s2idle or for s2ram too? I'd guess
-> both, but if not, that might tell you something?
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-The two (very similar) boards I could reproduce the issue on do not
-support s2ram yet.
-
-> The only reason the wait_for_completion() wouldn't work is because the
-> supplier is not "completing"?
-
-Yes, the diff shows ca. 70 additional calls to "complete_all()" in the
-good case.
-
-> There's some weird direct_complete logic
-> that I haven't fully understood. You can look at that to see if some
-> of the devices are skipping their resumes and hence the "completes"
-> too? Also, runtime PM and some flag can cause some lazy resume or
-> avoid suspending already suspended devices behavior. Check that too.
-
-Thanks, will give it a try...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+regards
+Philipp
 
