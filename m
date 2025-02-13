@@ -1,130 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-13136-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13137-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12766A34A85
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 17:46:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9E5A34A95
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 17:48:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C07F0179D0B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 16:42:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77BEE16EA92
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 16:42:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3C9320371A;
-	Thu, 13 Feb 2025 16:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pc6MGpjb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2B6A241684;
+	Thu, 13 Feb 2025 16:37:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5BF6202C53;
-	Thu, 13 Feb 2025 16:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D6C23A9BE;
+	Thu, 13 Feb 2025 16:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739464632; cv=none; b=EdKADpwuizuzTjhBFbRMQjQJRFnUh3G1momE/fkOe+StTf6OwygoNMCA6SySPvJ4rRr6kxSOHXHKzz685h+lQ7jsBnO4OuK9x2iLpV5bwfA0O+/z1kEkXkiPH6EgiZhZUjJtHHbi2YhaHaR7KahX/YT9IgxVumykn5my7hixu84=
+	t=1739464659; cv=none; b=ebFRLKaVWhU2KTe4PMEvGfE1uX4qRqlqz/RlyfZNfYuszOmF7Hy+eB2nghRXAwr1qoqUwLsWQfeuYGgIkwxq3UvXe94mb9vve5TSrY3gpSpT4PODr1uknXu6CUeKFMDWUgc6fPDzyqLJn9I/w1nOJVZ4u794yg4VWK8eNOyXAW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739464632; c=relaxed/simple;
-	bh=sbbmkWE/R2bCCyJ/6gUWFB9ZcoZuMGcfquTsn87Iqp0=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rr12oJkikEuZZeLtGr+eM96ks5W7w7jdFqbJmEbqwqUk/OzaVdMUwgzIEx/DQE9+5V84LXxeYM/1qBv+b/dQwG+qqKtsLGntuV5bTgZgQi72Www8GqKAH0qrb7DVFoKxkRSO9RN3xTNsZw0OaXw1L1ty4dJ3XthM5cE5fLkaqpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pc6MGpjb; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739464631; x=1771000631;
-  h=date:from:to:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=sbbmkWE/R2bCCyJ/6gUWFB9ZcoZuMGcfquTsn87Iqp0=;
-  b=Pc6MGpjbvZ3XIALdKgbV0wESenyzFtFNzpKdmmiQnYcOK9xSbYPxzv9o
-   Zj4woGdCFG9WUCEFxWm05sluH07TN2x03ylnHF+/HztizO4KxcQNv/iHz
-   0KWtZcMMa1ttLhFr282BivkDnrtmoA3l6LPe5quhqAOGYzfaB45BZto+P
-   nYaejT+itC1I0VyyODGNDCQiPFI/n86Igp6Vy6cixx9KCV0+vLiRZRhtB
-   F1Pmp9Y2JgXGBBMOOGqceKYOpC7fwB46WYfsxrIobR+EWTrNfot7m3b69
-   F7Rfniov+nvtMlkp7mlgC5e8yw2XiGJnDeCaRXoxlYQ8wsYMLFn7Cs9Uq
-   Q==;
-X-CSE-ConnectionGUID: GlYLMqdATnmxGpKLyNe+xQ==
-X-CSE-MsgGUID: f4zWaU/FTa6e/HFAQkTlfQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="51577447"
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="51577447"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 08:37:11 -0800
-X-CSE-ConnectionGUID: W3VNhbcRSYeFkWd3XmfLAQ==
-X-CSE-MsgGUID: sEuhhK7cQdiQB1cBIOxlyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="113720797"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 08:37:06 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ticD0-0000000BDu9-3wkb;
-	Thu, 13 Feb 2025 18:37:02 +0200
-Date: Thu, 13 Feb 2025 18:37:02 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	Krzysztof Adamski <krzysztof.adamski@nokia.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Kamal Dasu <kamal.dasu@broadcom.com>, Stefan Roese <sr@denx.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: Re: [PATCH v2 06/10] i2c: kempld: Use i2c_10bit_addr_*_from_msg()
- helpers
-Message-ID: <Z64frt9vbdLVYbrB@smile.fi.intel.com>
-References: <20250213141045.2716943-1-andriy.shevchenko@linux.intel.com>
- <20250213141045.2716943-7-andriy.shevchenko@linux.intel.com>
- <Z64ajR7CSIDNmIKz@shikoro>
+	s=arc-20240116; t=1739464659; c=relaxed/simple;
+	bh=CK0l7lhLTq4Xp3yGLyuG+nJaX7lurAythDmF7aJVzos=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e5hesszMd0NZiRweDSr3aZLU2wYdQYLqfQTvEO5HRLTPF4ca3zuGrvfg/3WrJ+0e1+RcOF/GeJxYlAVHwlrUlqTaudu8muWchbVch1EbFsDlnGUtuYGdkUxlV5csLztKmum0hKYEvM8jqVtoR93QX7ULZZBz7m1j0iSY8dAJcWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4bbc406499fso265645137.1;
+        Thu, 13 Feb 2025 08:37:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739464656; x=1740069456;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XGv6Y4EFWbhWaAQ/I5rgl8Ej7T+QeeGkeoFH3pU7Lio=;
+        b=AvV8L3UyWMIbqCrye3h5KmEMH6oHFc2xgRlkBiB35o73gil9wpMxsyPc7t/NthmU9A
+         m0PWkKww80lLyMenEH4yuAJwE+tknWYWQQihB7gP/RkyRlXdbQYM/0hnv+lB3CsrSMrC
+         SQICUjMJhYj31GGbDO/b6SR7Dz48IVMzcssLOBcVDwJCHbwIpF8n6M4FO68pCR0xoa9n
+         Y1IbQPioXZs10m73p4F93qOLqbS2PF/1hlFEmvv2MPT5W0UqCN7ly3TkmK8tECeBV9/q
+         rxbqxzwxAnnbGapr8GObBqXn/08pYp36fLUoMNZDDq96TWzzWRNJANDKRasjVx3WuYYQ
+         40rw==
+X-Forwarded-Encrypted: i=1; AJvYcCUxyy093YOjyutriIUcLaXdinqCRuw/UNc7ZhaWqSlrnsyI66/o3oEBmHdsWcL5lwRX7TaSI4IrrRC2@vger.kernel.org, AJvYcCVdTBttaZ2fbCx5/8cH1KfvYhkcND1phUTk5eBcLTpo86e2+vbDXJhnuIeEYyvD+yEN/NLzMMDQU9ssM2E66Dyvs5o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4LTluhiavYnzJHd4n0KrhzL1yBrVG7gsn/pL8ThvXjML5r190
+	rZQppzAld8r5GHDFSEpg7nQkW9DnP2892126es04sShDBbKKQbd/gYzBgtT88RI=
+X-Gm-Gg: ASbGncssjGc23Aq3jFIWP1WhMU+35G2Edid9RudC4q54APM97bUyg+4MWPqWqSMp8ox
+	4NxkDPhwGBa6vrIINmBPuZtMAofo8nz1rdWhFSQeMQLcdhSURom7GhGzcLvmVsYMEAIPjwM87oA
+	gUc+RKNy8mJSIVf3FOzTHlI3/84G9jb3u0a7OYQuvml+jzKvDM1VNLtug1FQFYm8Dh+Apb67R7a
+	cnGDgNCyWxhC1FnixhZqZGQw70uiMquySkYVohcyRHHzqPkVcef3spTVpV0FQTWvRKjUkTZZQSR
+	YjaNiII4DOY28ohI8BAQf6mz3Fy4x8dZWSWiUpmdBu5cncx/d/eyJg==
+X-Google-Smtp-Source: AGHT+IG5O89mRMMeA2tLeQNundpG5OUxEHfxFxGe1SYYxjzieWOQJ0bZe8xznj40HaTI43IbEVAO7Q==
+X-Received: by 2002:a05:6102:fa5:b0:4bb:d062:43e with SMTP id ada2fe7eead31-4bbf5271be6mr9125990137.0.1739464655739;
+        Thu, 13 Feb 2025 08:37:35 -0800 (PST)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4bc07807a1csm207538137.16.2025.02.13.08.37.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Feb 2025 08:37:35 -0800 (PST)
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4ba722d3916so332501137.2;
+        Thu, 13 Feb 2025 08:37:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU5IRXUS9Vhi+F7Amt/sqMpxSPxNY306Lv1CEUH1EUIynDBbl0xy4ECyddT2X9/wVNWUzv0HoxyWnH6@vger.kernel.org, AJvYcCWQ+MZR1xd8T5iXaAzSjcVF6wKMGnN0+CD4NLsy6f7WVTtllQQFQ6gFKvRVrnS9MyERhRQ6jS4a3ETQWfkQ/v7pydo=@vger.kernel.org
+X-Received: by 2002:a05:6102:a4c:b0:4bb:d394:46cc with SMTP id
+ ada2fe7eead31-4bbf54922d5mr7706927137.2.1739464655329; Thu, 13 Feb 2025
+ 08:37:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z64ajR7CSIDNmIKz@shikoro>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <875xlrshp5.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <875xlrshp5.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 13 Feb 2025 17:37:23 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVRuxPR7JjEnNV_UzUvsrGtssk7TFKK68u0QZiuYALQkw@mail.gmail.com>
+X-Gm-Features: AWEUYZltp1ERIZ5YEJFcR7JiirUl6G1Yz3PhWzhWKoBojAQL0s9SOJj4pvG6kQo
+Message-ID: <CAMuHMdVRuxPR7JjEnNV_UzUvsrGtssk7TFKK68u0QZiuYALQkw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: ulcb/kf: Use TDM Split Mode for capture
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 13, 2025 at 05:15:09PM +0100, Wolfram Sang wrote:
+On Mon, 3 Feb 2025 at 06:47, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> Current ulcb/kf of -mix+split.dtsi is using TDM Split Mode, but only for
+> playback. Use TDM Split Mode on capture too.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-...
+LGTM (IANAAE), so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.15.
 
-> >  	/* Second part of 10 bit addressing */
-> >  	if (i2c->state == STATE_ADDR10) {
-> > -		kempld_write8(pld, KEMPLD_I2C_DATA, i2c->msg->addr & 0xff);
-> > +		addr = i2c_10bit_addr_lo_from_msg(msg);
-> > +		i2c->state = STATE_START;
-> 
-> Any reason you moved this?
+AE = Audio Expert...
 
-Yes, I would like to be in sync in the above state machine case, just upper in
-the code which is not visible in this patch.
+Gr{oetje,eeting}s,
 
-> > +		kempld_write8(pld, KEMPLD_I2C_DATA, addr);
-> 
-> Maybe we could skip using 'addr' here?
-
-Same reason as above.
-
-> >  		kempld_write8(pld, KEMPLD_I2C_CMD, I2C_CMD_WRITE);
-> >  
-> > -		i2c->state = STATE_START;
-> >  		return 0;
-> >  	}
+                        Geert
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
