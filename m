@@ -1,129 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-13112-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13113-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6C7A33BED
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 11:03:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EAFA33CB5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 11:27:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB05316324C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 10:03:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A2D9161767
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2025 10:27:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B34B20F094;
-	Thu, 13 Feb 2025 10:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lJ3Ixv9P"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 676022135BF;
+	Thu, 13 Feb 2025 10:27:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7D420E717
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Feb 2025 10:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C711212FA8;
+	Thu, 13 Feb 2025 10:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739440980; cv=none; b=j7K1NbXQypmRY6mqF7Xe2OJcqFmpwk3mdG+8Jgf3CnR1MGvd5sEMl2oKom7akaWkTVQZDwVHLchyTIcDwzteS3V9MXnZwz0KQorX7MDT0plNw++QkJJeohJp7lH8xHL+M1Mrn/CbxsU1tjNMFl4RR1dj1z12T177cVYcl0XyKgg=
+	t=1739442428; cv=none; b=QEz6A4DSL/IZX+ExxLi/lY0aB05yS9HbkIMALc5JJ918TfAHT3AAuWHueiXJbucJXePBNYU0yqYmrrDghJlww8+9fgr3TjnzYN9xBqa0TuUzgLVHqfS3AYTT54cE2UJ211lZZ8OgdvALh/tGW+Hg9jO5UYVBwrpDA195WEOeIJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739440980; c=relaxed/simple;
-	bh=UnlssmYuhIn+vcCNx5MG2qEpYo19Mi6vK6bTbOK52kg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mVe3m5kePwirvjm1GWxgF0fiyrQHFI30oM2yGm4kKa3dY7QH3tZ3Xv6NOLWIM3XIjFQKGCZN6rxkXrjjBQyz97tozlKgkd+hIJnNU6/TnszDRXCiOJxA//AdaWsnFFe6fKmOVFTvEG543zhY2kJkzc6trHj76Fg3u9B5WCCEMLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lJ3Ixv9P; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Unls
-	smYuhIn+vcCNx5MG2qEpYo19Mi6vK6bTbOK52kg=; b=lJ3Ixv9PpDUPZy+veSDx
-	ziTRqgIsOzwTnHddIoiDBXPFEseEJoG1keRyAs9yKz58AyHx+dto1xstv6SsJBlD
-	cHh0saavR8n2B+kcgw2b0pnrG2gzY/ztdM/09hWnqBLizcPgmLQUbecXC5SKKpDU
-	0lBVwBH+NU21FsEcURx5TU51xG56lNRQ4cYcGyd1Zj7giHXpsot/m1SaWaseV37U
-	rZSXdttsmML8+ouc7rvSRfjF8fBgpYLVdnGE27n8N1qseFjWwd81RvoT8HYywvDD
-	wJePDoyrx4FO03lPiva4MOrX0sVKdZbaUOFD7RS0GpCP7NkQznf4wpdyC7ZIKbZU
-	0g==
-Received: (qmail 1823272 invoked from network); 13 Feb 2025 11:02:55 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Feb 2025 11:02:55 +0100
-X-UD-Smtp-Session: l3s3148p1@JVB1KQMusMxehh99
-Date: Thu, 13 Feb 2025 11:02:55 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	Krzysztof Adamski <krzysztof.adamski@nokia.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Stefan Roese <sr@denx.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: Re: [PATCH v1 1/8] i2c: Introduce i2c_10bit_addr_from_msg()
-Message-ID: <Z63DT_XdzEWrP4eR@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	Krzysztof Adamski <krzysztof.adamski@nokia.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Stefan Roese <sr@denx.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-References: <20250212163359.2407327-1-andriy.shevchenko@linux.intel.com>
- <20250212163359.2407327-2-andriy.shevchenko@linux.intel.com>
- <CAMuHMdW1wxQ0cddeE72D+Sii4HkT4bJfeTWX4-8FfHiFr+=3DA@mail.gmail.com>
- <Z6zwqbzd5evG0H2z@smile.fi.intel.com>
+	s=arc-20240116; t=1739442428; c=relaxed/simple;
+	bh=nXgtec5yfvXrRWWYRsZ4bDFNattFo59xnRbwG8aLwJo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TLl9GVycJbyyaXXRN6rBWbfUei2/onY4eR6mWyKPuA9c3rRUGGfQqPHn7ajMobMY5ntRdWHPr2/YeWDPsgnGHxzrrFWAjPBuTdCKJjHQI24K4+YDph5p+4reAHTUKmSzXP6vbXPvBkvscVUknoZFp8h481Tw+Q2nHCKDOkt3hCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-86718541914so978000241.1;
+        Thu, 13 Feb 2025 02:27:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739442424; x=1740047224;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a4BQvSjdPvwvlHZOZKVU4dEkUHYrrJIZUOAsZTtgVLc=;
+        b=VGlkPrPViZuvkTt2ZlXb/Tzsqh6Ssqu0CJCG4FFPE3lqUyNrsLTQZJvNh7v4oXtehp
+         krWbjIaqvXzvIPRXWtSdwD2rMJnK27D2IMUUabzt6RHW478CPZHGt8hPx/4F9VTvXtnq
+         MEa0FFYeE8Lr0v3tXk5Jk0v6dZXcn3yivh++2GziJKT6Bk5WIWPkqjEYszoiBGb99RVA
+         wEt/nPQFn/O3B+i8JzjasYGiPHtA4Vcrxzq3Vmu/YN09Td1D8iPm4vitiiaSNNK8uy7x
+         3qAABfFgsAkQ5g5wy3SZMKSs7wWCW/mQyxyuWimSY0S/VKKSnpnt1bgZfFyLDNNFtxTH
+         q+PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJHkvNa9xjaHlK9zpOoFBRqO/VXeBXOUIAJs0O63plNZ/H8rEDD+AdvcFU9RTLSsQsjKVRFuK1kw==@vger.kernel.org, AJvYcCVZBzw1rK/eESbQbNU3lVPaqkG/s4tW5RXUBBL4WVyunzmDbZ1j5CkSe8F24+KS/9Vu3joumIcGb+JnMUserI13u7A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YythjcXtHVcI4GBabjXbs98MR8dYwzVKBvWQQ++OQZ1ZRnkYMcY
+	U0zgtf2JL1drhenliIj1ZgrPJ34VkeWNT2uTYM79zrzLXZfr8zO+AyQ89kXIgmE=
+X-Gm-Gg: ASbGncs5g9S1zRhMZGR1mMiu2ELXsXix4UNwTxsuPuGUW2CsbNCoL2sjT/m/0o/Fsn7
+	nAAq3whPf9pyEatulzhgRharArG3xg42pLONXoOQ4XvZU0gbDUcxzfJ1xwLT67RhhRMy8cn/38P
+	f0VekGJcjG4VA9A/OtyhfDlHe2/1Hs5R/j8ih56EYgJ3v7Jtc7TyB194qjQB+3aOuku6GfFuekr
+	ZeQsbN3jRofl3z81Pi3SszTyih46PKezuElpxV/Qie0MNfrNgaL8A2/pwRbxCE/kaoFvCYOXifA
+	jvvXQvPqLGaIg2uu3pOsJAUzNo9ZgT9kbn4YamNkutaBtKeoZnjS7A==
+X-Google-Smtp-Source: AGHT+IHvA3+YrUJiEWttnbxu9B6Mf3qZXcRp1ksm3t4/m4q7GIHs3Z7AjZRdanvLczZ+3ZJuTPd4aQ==
+X-Received: by 2002:a05:6122:4897:b0:516:1e32:f8c7 with SMTP id 71dfb90a1353d-520786743d8mr2036544e0c.0.1739442424378;
+        Thu, 13 Feb 2025 02:27:04 -0800 (PST)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-868e8547fd6sm144797241.3.2025.02.13.02.27.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Feb 2025 02:27:04 -0800 (PST)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4b9486a15a0so1041117137.0;
+        Thu, 13 Feb 2025 02:27:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUkHAG9RnbOU9AGBycB8JFubmnDYyKL/UTi/WOABnvr1cd40W6UtFfrDIHHjK1/EMHeXLDuFF+K/k8K+B0XoudeVQs=@vger.kernel.org, AJvYcCVo1ebY2wFd3rPH499XC0PMt9JBQSAvArcGItWc3sLnG3Xqsd4GVzFC3iCSY/ZR+kjk7b5+Q4xddg==@vger.kernel.org
+X-Received: by 2002:a05:6102:2424:b0:4bb:b7ff:c486 with SMTP id
+ ada2fe7eead31-4bc050376fbmr1353306137.12.1739442424014; Thu, 13 Feb 2025
+ 02:27:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="knIGSBLjShPS7lvY"
-Content-Disposition: inline
-In-Reply-To: <Z6zwqbzd5evG0H2z@smile.fi.intel.com>
+References: <CAMuHMdXN9A-1P_qe=BwKjLaoqxU8iJUQK6h8=s-apR4Y0em_0Q@mail.gmail.com>
+ <CAMuHMdXXWH0Do5zXWJ1Uc6dyEb9o1chGSyeyzgDrX+v1wZ7e_A@mail.gmail.com> <CAGETcx_wA9RB9QhMPqsLHDFZ4cwOFgE8dBL9ssFkT=J6DEgjGg@mail.gmail.com>
+In-Reply-To: <CAGETcx_wA9RB9QhMPqsLHDFZ4cwOFgE8dBL9ssFkT=J6DEgjGg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 13 Feb 2025 11:26:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUCXJkg3rkngXf7cqa50u-TEAOntV6O=Nvg33Q9diPJPw@mail.gmail.com>
+X-Gm-Features: AWEUYZmKRqIGNWtC5Wby5dZMR568x7wkurDrEaa0GNlacN_xsgZ6oH6hx-u5EoQ
+Message-ID: <CAMuHMdUCXJkg3rkngXf7cqa50u-TEAOntV6O=Nvg33Q9diPJPw@mail.gmail.com>
+Subject: Re: s2idle blocked on dev->power.completion
+To: Saravana Kannan <saravanak@google.com>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Linux PM list <linux-pm@vger.kernel.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Saravana,
 
---knIGSBLjShPS7lvY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Thu, 13 Feb 2025 at 09:31, Saravana Kannan <saravanak@google.com> wrote:
+> On Mon, Feb 10, 2025 at 2:24=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Fri, 7 Feb 2025 at 16:08, Geert Uytterhoeven <geert@linux-m68k.org> =
+wrote:
+> > > Instrumenting all dev->power.completion accesses in
+> > > drivers/base/power/main.c reveals that resume is blocked in dpm_wait(=
+)
+> > > in the call to wait_for_completion() for regulator-1p2v, which is
+> > > indeed a dependency for the SN65DSI86 DSI-DP bridge.  Comparing
+> >
+> > [...]
+> >
+> > > Looking at /sys/devices/virtual/devlink, the non-working case has the
+> > > following extra entries:
+> >
+> > Note that the SN65DSI86 DSI-DP bridge driver uses the auxiliary bus
+> > to create four subdevices:
+> >   - ti_sn65dsi86.aux.0,
+> >   - ti_sn65dsi86.bridge.0,
+> >   - ti_sn65dsi86.gpio.0,
+> >   - ti_sn65dsi86.pwm.0.
+> > None of them have supplier:* symlinks in sysfs, so perhaps that is
+> > the root cause of the issue?
+>
+> Sorry, I haven't had time to look into this closely. Couple of
+> questions/suggestions that might give you some answers.
+>
+> Is this an issue only happening for s2idle or for s2ram too? I'd guess
+> both, but if not, that might tell you something?
 
+The two (very similar) boards I could reproduce the issue on do not
+support s2ram yet.
 
-Just a generic comment: please don't spend too much energy on 10-bit
-support. I have never seen it used in the wild. It seems more like an
-academic excercise.
+> The only reason the wait_for_completion() wouldn't work is because the
+> supplier is not "completing"?
 
+Yes, the diff shows ca. 70 additional calls to "complete_all()" in the
+good case.
 
---knIGSBLjShPS7lvY
-Content-Type: application/pgp-signature; name="signature.asc"
+> There's some weird direct_complete logic
+> that I haven't fully understood. You can look at that to see if some
+> of the devices are skipping their resumes and hence the "completes"
+> too? Also, runtime PM and some flag can cause some lazy resume or
+> avoid suspending already suspended devices behavior. Check that too.
 
------BEGIN PGP SIGNATURE-----
+Thanks, will give it a try...
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmetw0sACgkQFA3kzBSg
-Kba7ew/+Kqcp2Fze4DeH75uP2OB/QbNpx80sb7qHDvTBoOdL9TX6daJGbx9NejYD
-4cXfgTJtWcAuiwn1QkGFPTMUqUzpc/0KOK3GC6OAGvm5ey4/HDXKzBiue8zKbiOa
-da195dsvzjs7f9kMARVNMzzqXYr3NZXcLAZDPlR2ifCiFGVnK3xYkUPACWjZEWzI
-fy15U37jiPuCE/3TSHBc+1/q8p2T/vQ2h0AApKD8NgpsnORqYx5oeXMf/ztjI+RM
-vfzNPKvxb6Y2ppaPZWx6teAZfCA52Bn2twzmbwQBpsRdR8s8lUp00IO9aX/xZGQi
-zCVMD74Kz7B0lvmAvJHv/23vHofoRiZmIATiL0zl6u2wm1zlzsTv0zFk0PVqBLGZ
-ZZ3DEOORzPNpfx/csYx9U1J0L1OIoqgc+/y2FnfQIIXmTOvnwHNJb9AD5pTr7b1u
-YjfwprDAc9yJI/ps63zcYwioTc6CjTENNLeHwTSFgmjdvPn2KJTLNiG5GHB8zY5T
-QrOPvOGOI2hLs6LbWrCxQnRcrItIsjAV8ClxwlTRIllAXeqMZAc+2W6KhmukwsOs
-Uin3nyrmWNw1vx50tN/mJ+BeN7A5Kh9vhwLp1+40Auz5CUErrJtyfuPV8kNzH8wz
-5zooWxoWZMwZ2x2SFgTy1iVtPJZ9m0ytQi6P+Yv6Xu8uqDgy+Q0=
-=+YyW
------END PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
---knIGSBLjShPS7lvY--
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
