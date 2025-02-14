@@ -1,126 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-13164-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C556DA35C83
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 12:27:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B2CA35F0E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 14:28:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28C5B3AE281
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 11:26:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 62B3516EF56
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 13:22:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3774C261595;
-	Fri, 14 Feb 2025 11:26:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49F64264FBA;
+	Fri, 14 Feb 2025 13:20:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jTFlee+/"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="V4gbX4vD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A372263C63
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Feb 2025 11:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC6F264FA8;
+	Fri, 14 Feb 2025 13:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739532401; cv=none; b=LbEUk3Jeg7A6H6j9BaZIoSGa6ZdEGvgCAzlMIVVMFRIVTWd6/5XirkuVn3oh0Fn8pUU88a97mRBqtkfVMdaspAnuewtFhAI+F0A/RVVEuKC5xOSz6l/N+Avic0Dk74sXbF3k83hrgs1r9ZAzzMkvklVNCr12CvbbRyoAlFWDz+s=
+	t=1739539245; cv=none; b=jjH5YiEtWs+dYHUODLUyT+40qYANbFThVdBg+FRRQfYD61OeNgwLY7nLAPkIWoeEhCTL1i1W645GKM6Q/iv5xei6K11QefeR8TetzRDCzBn/th509DeZuroMoQ+4J0ecFAUqbbOQzbdREz0raoBpF3l6iT+3NLVgaQaofoO0Ml8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739532401; c=relaxed/simple;
-	bh=9CFmR3NtOILyiu4Bu+g3fs7HgLLo6IFCFDt9ttxv4TY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CTLMfCGQXPTs+ThWmtv8Cl31kEd4uaCFzPpKlyPDtuEIzU7OnIxLGJO7jXLgWF6sCjNC7E5ji/RZNQokkQvaysIGWxHbIEV/aRBTIXlzRoQoW8KGhJrxDNnSq1vICC46u0FaqJPYEuRp9k2Vp+7aPTkg5vZJJEAs2u2GAQl9oxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jTFlee+/; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e53c9035003so1521763276.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Feb 2025 03:26:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739532398; x=1740137198; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NewR8BVnLAvb+QHkWMp14O+AvzFEsqhZDEpEAFt1rM0=;
-        b=jTFlee+/f9TVv2DoWD+zvahsgmXyLxLv+CGARzJoBaY+haN96p8CSKap6H/8kFKmVi
-         8PBn+EGSWWrNqvgwQy/22zKvnGxJ4BN01GzVQC0uf6NR7eSUza4MsoGlgPn6YlwxURyP
-         LJUw+EC5ZwZpDDm7Kmrj2ePnKOFEkpBVHIHl0UlbLnqW6XGmOIB0y6mXhXImJ5tWu0MO
-         RLyqVuPYuZbqSnQ/vUyQz7Q7DD8Ul79CkJV5s0QORh9r0fDudVe5F9SwfGcItCa2uwwb
-         jjBxr3Jre7cNOX1QFLe4uzsOEwQ/+12+4O6wUcJGCl7RbRIPuWIg8DRDAbC0bzQ1TJmN
-         kLjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739532398; x=1740137198;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NewR8BVnLAvb+QHkWMp14O+AvzFEsqhZDEpEAFt1rM0=;
-        b=sNNKTqYlbHkC9d2Z3gVvRIFXxEI4am4HGiE/7aVQzriKw3HL22IPSzCbZoGw7e6c0M
-         qrzoveYPQqi+4UWYTZpI0CYHBDYsZmAqQ3g87rILEGJ48E9N/jayQrsOaUjLAX73Byoa
-         GL6doDJuJwsDc074CbY01hyoiVOpQ/Lki8NDZcqGaUMERy6dUSB6NbUMSYgj8NvXo8SE
-         Ovj3nHeVG9JPFJzcP/FUaiCAy1uvvA+Mspgddsg/U6W8MPngG/pghgBQQLUUo22La2oW
-         7SsL8zji+jjnwsKItJdwUKdNfOSYV82NBTQM98eMGlcHzao/IrttSMhsa7k+m2pZ2lKi
-         hDCA==
-X-Gm-Message-State: AOJu0YyfMwIPBQDNycFX7TvR6iiKAvIghmKGOee5vj5pZT38q0YlOjRs
-	vCghu/gki5I8hmqEZyc72lfuqn7HdFkW5KTekJClbh9EWMjr59nmOnwmuCfVJwynvMYj1oNpCeM
-	Yfoly/XdjnBISXiFjbC24DpxmfKYT1d4O7eWJ6Q==
-X-Gm-Gg: ASbGncuUwu0cIwxL8qapUeXlTUeqeMflZM+2+tdDSJqOfw++eJ7RJl+mJ8XbWKse7xP
-	81p14jigjKoK9h2+Fgh4bsJHztqRnzCtPsZyAbLej/+igxpiEFurkfdIjJVIr21VhCYD2HrSzrA
-	==
-X-Google-Smtp-Source: AGHT+IFDX2eFmViL+5OfSdYQnUicI9/siMdarIoycTUrSgGa7HJlcc6AqAWw01jHHuRRs9G125oUVvKi+mqUSg2uSFo=
-X-Received: by 2002:a05:6902:2b8b:b0:e58:32b4:4868 with SMTP id
- 3f1490d57ef6-e5da8102cedmr6577945276.3.1739532398616; Fri, 14 Feb 2025
- 03:26:38 -0800 (PST)
+	s=arc-20240116; t=1739539245; c=relaxed/simple;
+	bh=e4a+q+RAMhA8fYnShfynVbYqZqP4/1an4yJ9FOUP/jk=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:Mime-Version:
+	 References:In-Reply-To; b=d6+1bI4EfQ+PK/Bk++Al/63wfOcAFXXt4C8sgwTQ0u/s1kfn+3SpnKrUb/4DJjKQNQ82DExMIKl8eAwobYcr/zUNIsiYTBTXwCRxs26iMrSt2XuCfzoKJjhIgvsu/x7r7gf1+au0OURYBwSqk4XJ5uuYSwchqMF/qZ5I1GpkTGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=V4gbX4vD; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BF63644428;
+	Fri, 14 Feb 2025 13:20:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1739539241;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rOCi9rhcANoHWr2ZMX7vTB+ne39Ad/Gv+eLqaTBAmak=;
+	b=V4gbX4vD59+0iFSy3lk0mjAWfXowsqy/5PmB67YkkNUjabN9S0wutbebsfbMQtCwGDjivi
+	mY6JHqKCtfV5EcewFobpb2PZzrG484q3aA5oHQyZNQF0NB/s5+fELSSkW3/MBxKe2R0d0W
+	BJHca2LVlOsILgju/B+aGG9j3OWGRUr7sPOzKY7pTW3mzdh42gsj7OORL+pqCj3/yZAWqX
+	dpgNTj+Ju0cRCuGi9e/NMIvLqMDP+spMOagq2vmmR+ytr7xFo0yXBW/yxWMXZHrvPKNpxm
+	BH/qkSpbsEWfuPZfLq6sHd1USFPT3Wr0Sv9vMNKSM6y1LIYahm7tKoa/8D3fLg==
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 14 Feb 2025 14:20:39 +0100
+Message-Id: <D7S772FNL7ZM.JNEXBJY6PJ44@bootlin.com>
+Cc: "Magnus Damm" <magnus.damm@gmail.com>, "Rob Herring"
+ <robh+dt@kernel.org>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski+dt@linaro.org>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Herve Codina" <herve.codina@bootlin.com>,
+ "Milan Stevanovic" <milan.stevanovic@se.com>, "Jimmy Lalande"
+ <jimmy.lalande@se.com>, "Pascal Eberhard" <pascal.eberhard@se.com>,
+ <linux-renesas-soc@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Gareth Williams"
+ <gareth.williams.jx@renesas.com>, "Wolfram Sang"
+ <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v2 2/2] ARM: dts: r9a06g032: add r9a06g032-rzn1d400-eb
+ board device-tree
+From: "Thomas Bonnefille" <thomas.bonnefille@bootlin.com>
+To: "Miquel Raynal" <miquel.raynal@bootlin.com>, "Geert Uytterhoeven"
+ <geert@linux-m68k.org>, "Romain Gantois" <romain.gantois@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <05c2ef630694a28b560426d8c426881cc14e8f7c.1738748678.git.geert+renesas@glider.be>
-In-Reply-To: <05c2ef630694a28b560426d8c426881cc14e8f7c.1738748678.git.geert+renesas@glider.be>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 14 Feb 2025 12:26:02 +0100
-X-Gm-Features: AWEUYZkIpsTyC0FKSztaRjDkRsJdclXeZO3ETJo0ehA80cyTKZy1G6MUW_Wd4yU
-Message-ID: <CAPDyKFouXuTZCqHUBwzg=BU7CbFJLa_Cd7q3Bs1wc-xzruMCfQ@mail.gmail.com>
-Subject: Re: [PATCH v2] pmdomain: renesas: rcar-sysc: Drop fwnode_dev_initialized()
- call
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org, 
-	Saravana Kannan <saravanak@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20230209133507.150571-1-clement.leger@bootlin.com>
+ <20230209133507.150571-3-clement.leger@bootlin.com>
+ <CAMuHMdWUorkDYXZvsd-9rjwEkeJYC_FMfexZHaGYHDry=9Yjdg@mail.gmail.com>
+ <20230215092933.2f71ece0@fixe.home> <20230215115441.361aed53@fixe.home>
+ <CAMuHMdVhGFyrWx6oD-K9WhZRtYT_xJ_kWRA+vhdvB_JubFk8YA@mail.gmail.com>
+ <CAMuHMdX4nMA6HSu=UkNEWJWKK432VB5YVQCWn_rDZ6mNSv+41g@mail.gmail.com>
+ <87mshsvqjk.fsf@bootlin.com>
+In-Reply-To: <87mshsvqjk.fsf@bootlin.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegleejiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurheptgffkfevuffhvfgggffofhgjsehtqhertdertdejnecuhfhrohhmpedfvfhhohhmrghsuceuohhnnhgvfhhilhhlvgdfuceothhhohhmrghsrdgsohhnnhgvfhhilhhlvgessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeelfeefhfdtveehjedthefhtefggfdtheduieekiefhjeevheffhfelteefuddtnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepthhhohhmrghsrdgsohhnnhgvfhhilhhlvgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudeipdhrtghpthhtohepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdprhgtphhtthhopehgvggvrhhtsehlihhnuhigqdhmieekkhdrohhrghdprhgtphhtthhopehrohhmrghinhdrghgrnhhtohhishessghoohhtlhhinhdrtghomhdprhgtphhtthhopehmrghgnhhushdruggrmhhmsehgm
+ hgrihhlrdgtohhmpdhrtghpthhtoheprhhosghhodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriiihshiithhofhdrkhhoiihlohifshhkihdoughtsehlihhnrghrohdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomh
+X-GND-Sasl: thomas.bonnefille@bootlin.com
 
-On Wed, 5 Feb 2025 at 10:45, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
->
-> As of commit bab2d712eeaf9d60 ("PM: domains: Mark fwnodes when their
-> powerdomain is added/removed") in v5.12, the pmdomain core takes care of
-> marking the fwnode initialized, so there is no need to repeat it.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Saravana Kannan <saravanak@google.com>
+Hello Geert,
 
-Applied for next, thanks!
+I've started working on this issue, however I have one problem :
 
-Kind regards
-Uffe
+>> Hi Cl=C3=A9ment,
+>>
+>> On Wed, Feb 15, 2023 at 12:31=E2=80=AFPM Geert Uytterhoeven
+>> <geert@linux-m68k.org> wrote:
+>>> On Wed, Feb 15, 2023 at 11:52 AM Cl=C3=A9ment L=C3=A9ger
+>>> <clement.leger@bootlin.com> wrote:
+>>> > Le Wed, 15 Feb 2023 09:29:33 +0100,
+>>> > Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com> a =C3=A9crit :
+>>> > > Le Tue, 14 Feb 2023 17:25:14 +0100,
+>>> > > Geert Uytterhoeven <geert@linux-m68k.org> a =C3=A9crit :
+>>> > > > On Thu, Feb 9, 2023 at 2:32 PM Cl=C3=A9ment L=C3=A9ger <clement.l=
+eger@bootlin.com> wrote:
+>>> > > > > The EB board (Expansion board) supports both RZ/N1D and RZ-N1S.=
+ Since this
+>>> > > > > configuration targets only the RZ/N1D, it is named r9a06g032-rz=
+n1d400-eb.
+>>> > > > > It adds support for the 2 additional switch ports (port C and D=
+) that are
+>>> > > > > available on that board.
+>>> > > > >
+>>> > > > > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.c=
+om>
+>>> > > >
+>>> > > > Thanks for your patch!
+>>> > > >
+>>> > > > > --- /dev/null
+>>> > > > > +++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts
+>>>
+>>> > > > > +       pinctrl-0 =3D <&pins_eth1>, <&pins_eth2>, <&pins_eth3>,=
+ <&pins_eth4>,
+>>> > > > > +                   <&pins_mdio1>;
+>>> > > > > +
+>>> > > > > +       mdio {
+>>> > > > > +               /* CN15 and CN16 switches must be configured in=
+ MDIO2 mode */
+>>> > > > > +               switch0phy1: ethernet-phy@1 {
+>>> > > > > +                       reg =3D <1>;
+>>> > > > > +                       marvell,reg-init =3D <3 16 0 0x1010>;
+>>> > > >
+>>> > > > marvell,reg-init is not documented in any DT bindings document?
+>>> > >
+>>> > > Indeed, this is not somethiong that should be made available here. =
+It's
+>>> > > only inverting the LED polarity but supported by some internal patc=
+h.
+>>> > > I'll remove that.
+>>>
+>>> > I actually was confused by a property I added in another device-tree =
+but
+>>> > marvell,reg-init exists, is handled by the marvell phy driver and use=
+d
+>>> > in a few device-trees. Strangely, it is not documented anywhere. So I
+>>> > can either remove that (and the LED won't work properly) or let it li=
+ve
+>>> > depending on what you prefer.
+>>>
+>>> In that case, please keep it.
+>>> But the property really should be documented, one day...
 
+As Cl=C3=A9ment mentioned, this property is used to set up the LEDs for
+Marvell PHY. However, Marvell's PHYs have no dedicated bindings; only
+their associated switches do. PHY's usually don't have their own yaml,
+so there is no easy place where to add this property. We could however
+describe them in the numerous switch bindings that embed a Marvell PHY,
+which are: Qualcomm ETHQOS, Cadence MACB/GEM, Gianfar, Freescale FEC,
+Renesas switches and of course Marvell switches.
 
-> ---
-> v2:
->   - Add Acked-by.
-> ---
->  drivers/pmdomain/renesas/rcar-sysc.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/pmdomain/renesas/rcar-sysc.c b/drivers/pmdomain/renesas/rcar-sysc.c
-> index b99326917330f5f1..dce1a6d37e80127d 100644
-> --- a/drivers/pmdomain/renesas/rcar-sysc.c
-> +++ b/drivers/pmdomain/renesas/rcar-sysc.c
-> @@ -434,8 +434,6 @@ static int __init rcar_sysc_pd_init(void)
->         }
->
->         error = of_genpd_add_provider_onecell(np, &domains->onecell_data);
-> -       if (!error)
-> -               fwnode_dev_initialized(of_fwnode_handle(np), true);
->
->  out_put:
->         of_node_put(np);
-> --
-> 2.43.0
->
+I already thought of doing it in the binding of the renesas switch, like
+this :
+
+Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml:
+```
+
+\[...\]
+
+mdio:
+$ref: /schemas/net/mdio.yaml#
+patternProperties:
+'@\[0-9a-f\]+$':
+properties:
+marvel,reg-init:
+- description: Lorem Ipsum
+
+unevaluatedProperties: false
+
+\[...\]
+
+```
+but it would document it only for this particular switch.=20
+It is also possible to do it in the main mdio.yaml on the model of this:
+https://elixir.bootlin.com/linux/v6.13.1/source/Documentation/devicetree/bi=
+ndings/spi/spi-peripheral-props.yaml#L121
+
+What's your opinion on this ?
+
+Moreover, everywhere this property is used in the kernel, it is to set
+up the LEDs. Nowadays, the Marvell PHY driver should be able to handle
+LEDs without this property. Therefore, this property should be
+deprecated in this case.
+
+Regards,
+Thomas
 
