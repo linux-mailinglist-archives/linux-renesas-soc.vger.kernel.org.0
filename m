@@ -1,128 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-13150-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13151-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDF5A3533E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 01:51:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E55DFA35867
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 09:04:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 100AC18900E3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 00:51:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 935887A13D9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 08:03:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4484F1FC3;
-	Fri, 14 Feb 2025 00:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JTmTR0aH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6344921E0A2;
+	Fri, 14 Feb 2025 08:04:51 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6C327540A;
-	Fri, 14 Feb 2025 00:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70F31632C8;
+	Fri, 14 Feb 2025 08:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739494274; cv=none; b=uAmAcGB7e14myFtm49Ms7F4GIqg5Yn1wU0GoSdOOhjmZG1/skpevAoie0r4J5I741z+sAaR8kCWDjVxsGpSsrhl5E5uAEPP9yzGrYXchA4Pitrz1e5CjOX8ZSgCDeZ6yRN2Z274OuLvruqSL54qE7flKhBABn87hX05Z84W2yqQ=
+	t=1739520291; cv=none; b=eCjgDdXRhfe3g5trCDAgib5OKOjjXRkiiq3svNGw724RkAd0q1qyiwUZUK/csg/vvbivNaBaFQcNeCL/KBnidRpJrvVuWE/vhFH67XfQBHZLbIxdiOnO+MXY+pYSWDbKhRD0Fz3FRY2szwOXVXWSE5TiTDaVs3/dPT2W9B6RvJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739494274; c=relaxed/simple;
-	bh=K1X3DkMA19cWyDleWkjNb4apbrF799/8Rd4lXd6Vu4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q4qqlJaECPIA9E6e3V1C2g/wL9A6Hv19hqi9+v10g30puftb1Ou/KrHxma/3hn0VqM13wxWvEgHZdPURKeeW2glZ/Aki16gqsrixx9FbAiFxJBAq/EoYmydILH4iRGGPzMcTQV5F+55RvgJMSvAz0ltnyk8AhNd7VQoIh19Zoik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JTmTR0aH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B6C66B5;
-	Fri, 14 Feb 2025 01:49:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739494192;
-	bh=K1X3DkMA19cWyDleWkjNb4apbrF799/8Rd4lXd6Vu4s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JTmTR0aH678vx6L/vJbGLBrTp1zzAnti2LexjtdF10LNDar4VDGfdsOsj2kDlzQ6h
-	 A10OM6fdXPzmwz199K+TSrfVo9MZGPN1mSwvuX7LzaUncLOsrshbkm+KXTOiANHuJj
-	 /8dR5U1FYNVTtLRlgMoTGJQE8AVu4KPBb8e5seIE=
-Date: Fri, 14 Feb 2025 02:50:59 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 8/8] media: rzg2l-cru: rzg2l-core: Use
- devm_pm_runtime_enable()
-Message-ID: <20250214005059.GG8393@pendragon.ideasonboard.com>
-References: <20250210114540.524790-1-tommaso.merciai.xr@bp.renesas.com>
- <20250210114540.524790-9-tommaso.merciai.xr@bp.renesas.com>
+	s=arc-20240116; t=1739520291; c=relaxed/simple;
+	bh=vYvVgAJLQm7ccE+HrE//utOM8SSI5WytHPDwHky6veA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DsncRG6xxEmG9f7B1eCJKwkDiYyQLNlbOPQcbbmTGVz1FibzLLltzIhECmoo6Xv3+DktKiZ3uYzY0D6PLN056ZHc/9FQVRMCA27KbWhRQBmtiRJLJF7rVeTDRZOhrlMHjEXFJseeH4o/6N75v51hQmJIaEfJdklR3svKOFusfRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-85c4c9349b3so455416241.3;
+        Fri, 14 Feb 2025 00:04:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739520287; x=1740125087;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GEmjeJJTOC7QfeGz/l1e5CAhsK/j60DY8H03y2S0Hl8=;
+        b=FtkLFsr03eskLgFGe5+wiLwyIjbtCL5AyqJhQJQGKW4dgzACb+PFMD48QNGHVaHMA6
+         AldLkDjuUdLFO9keX++GyWFbq/AMmAC+SXB1L0jfxLYdURgdpigkvSbdbzBlA57pLMs6
+         iHZNP5L1fwdldlc9Y+5sbKGjtqbWFmIHTtM3MJVUAnd6pBL0s/OKRhtutWTv8kGv1NGX
+         TTjeKbV2zbE2SV+UX6vw4tW1cCrU+j7WjXcEzvhMbV/BkmJY3ZEzKmwPxA+ogFWyjdK5
+         iQVami0vh20rWmku/yAfBq36ob9PK2rV9bkJ/1grbUV7/GXkFPLvHFvr9GOah1dRswCF
+         LiXg==
+X-Forwarded-Encrypted: i=1; AJvYcCUEUNqUV/XYmJrOeILJE4RkCAKQ5O63Zk+EwDBj5lAgbUiT5TZ0BA3kWnJAWTo8LUrAKAFj4Ui2hbzoAm6J@vger.kernel.org, AJvYcCUu/93H8Z4O8NDwXLQ2gZRct8x6HZNglxhhEHi5snk9tp0McF4j0HBf7G4itfic64LKMmoesEWcPYU=@vger.kernel.org, AJvYcCW0LS91HVePv6GpykvqdYJWx1Y2TJXbsAXaj4mj9N6vaxgCO8FzLgBMrENz42Yz5ZdD42sYkg5z1HjkifJHCrW3tvg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFPWGlmQlTuwfxmv7WSMH5o46U7xLClVU1QTlqA7D5A0Zm9iVW
+	zvDn+KdPorrbAWwMlJmizncwe8dYz9qNCh3jOR0a3surr6AzhTbn8SWG1PWQGCQ=
+X-Gm-Gg: ASbGnctzocCMXSx1Tabnaayq1lgF9q+uKknIKvpvIsZ3iXp0GQ8lBnrHiDaU0iN+Rks
+	UGY5YBEHOy1gWv13/IPdwU0UUDlZwMVIZd6grxwUWASoGvAxowqcuIL+lA+sofL+2UG8cFETuQo
+	qpd2iN/LicYGrlF+X0iuN6eNJ051UaFUEt5PLCB4VXKmc2xElrPJDZo2TLluQBDbKeWuUukL/Ap
+	rqqDWf5YGalMj4BgrxYslX8DeKMbH5W18mKJsq0tW/rZ4iKzs1bJ2VOdCXOpzBr51zR/vy9nJU+
+	pSn9TYO3O3m9YFiKYZDYcvxnjMcvLAUjC6rwp9wRzz97bz3T70vuUw==
+X-Google-Smtp-Source: AGHT+IHsKwUj7IFzLK9JwQPUrw/pHh3ifR3R85zEH1CJrS4QIUrkQEU/SLf6q6gnPRLAN3mG1dKAbg==
+X-Received: by 2002:a05:6102:2c84:b0:4bb:eb4a:f9ec with SMTP id ada2fe7eead31-4bbf22df260mr9463252137.16.1739520286957;
+        Fri, 14 Feb 2025 00:04:46 -0800 (PST)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-868e85984c6sm477397241.16.2025.02.14.00.04.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Feb 2025 00:04:46 -0800 (PST)
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4bbd554fe87so471369137.0;
+        Fri, 14 Feb 2025 00:04:46 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVDPkQHj9DUfAJYCnQjLh7a3xsg8JAL3oGWGzU6Sfn2Rl+4a+SZ8IEkZkeTODEWdQ7gl+Sb7v3rKO4=@vger.kernel.org, AJvYcCWhKIH3VqyqKDGenfcWkLITAHCGQsmX1i+IaZb6xwQmKOF6Ap5+cdgwdJpQRsE0hQI6BlltJGqT1K4Iv2LhbLQrKcc=@vger.kernel.org, AJvYcCXnMMrIG6OvbV8nu0+YN8DMGohWSWRIwo/I+OZebb4jhOBvT+9ZKz5Odej2x/+4ZwdKOyeYDX6HaTavWz/N@vger.kernel.org
+X-Received: by 2002:a05:6102:1611:b0:4bb:9b46:3f87 with SMTP id
+ ada2fe7eead31-4bbf21b4b54mr9074741137.6.1739520286475; Fri, 14 Feb 2025
+ 00:04:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250210114540.524790-9-tommaso.merciai.xr@bp.renesas.com>
+References: <20250212163359.2407327-1-andriy.shevchenko@linux.intel.com>
+ <20250212163359.2407327-2-andriy.shevchenko@linux.intel.com>
+ <CAMuHMdW1wxQ0cddeE72D+Sii4HkT4bJfeTWX4-8FfHiFr+=3DA@mail.gmail.com> <65f5eiy6kh6nhdjgpylrdjpw35jbae4s454u7qeqamh5hny7ms@ip4btvgxlaq4>
+In-Reply-To: <65f5eiy6kh6nhdjgpylrdjpw35jbae4s454u7qeqamh5hny7ms@ip4btvgxlaq4>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 14 Feb 2025 09:04:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXfj=kmaQ6OgUwyhNq+ZK2ZbpSfD2BS0B96VHoKAMonVQ@mail.gmail.com>
+X-Gm-Features: AWEUYZlKBGDrp8GUpmIDR1fGcTzBqQ1-W6-xx6LlSCcVReodURXv16fRWTmPbuY
+Message-ID: <CAMuHMdXfj=kmaQ6OgUwyhNq+ZK2ZbpSfD2BS0B96VHoKAMonVQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/8] i2c: Introduce i2c_10bit_addr_from_msg()
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	Krzysztof Adamski <krzysztof.adamski@nokia.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Stefan Roese <sr@denx.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Gregory CLEMENT <gregory.clement@bootlin.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Tommaso,
+Hi Andi,
 
-Thank you for the patch.
+On Thu, 13 Feb 2025 at 23:41, Andi Shyti <andi.shyti@kernel.org> wrote:
+> > > @@ -952,6 +952,16 @@ static inline u8 i2c_8bit_addr_from_msg(const struct i2c_msg *msg)
+> > >         return (msg->addr << 1) | (msg->flags & I2C_M_RD);
+> > >  }
+> > >
+> > > +static inline u8 i2c_10bit_addr_from_msg(const struct i2c_msg *msg)
+> >
+> > Having never used 10-bit addressing myself, or even looked into it,
+> > it took me a while to understand what this helper really does...
+> > So this returns the high byte of the artificial 16-bit address that
+> > must be used to address a target that uses 10-bit addressing?
+> > Hence I think this should be renamed, to better match its purpose.
+>
+> It's coherent with i2c_8bit_addr_from_msg(), right?
 
-On Mon, Feb 10, 2025 at 12:45:40PM +0100, Tommaso Merciai wrote:
-> Use newly added devm_pm_runtime_enable() into rzg2l_cru_probe() and
-> drop unnecessary pm_runtime_disable() from rzg2l_cru_probe() and
-> rzg2l_csi2_remove().
-> 
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> index 70fed0ce45ea..5548b328d970 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> @@ -287,7 +287,9 @@ static int rzg2l_cru_probe(struct platform_device *pdev)
->  
->  	cru->num_buf = RZG2L_CRU_HW_BUFFER_DEFAULT;
->  	pm_suspend_ignore_children(dev, true);
-> -	pm_runtime_enable(dev);
-> +	ret = devm_pm_runtime_enable(dev);
-> +	if (ret)
-> +		return ret;
+Is it? Unlike i2c_8bit_addr_from_msg(), it does not return the full
+address,
 
-Leaking DMA.
+Gr{oetje,eeting}s,
 
->  
->  	ret = rzg2l_cru_media_init(cru);
->  	if (ret)
-> @@ -297,7 +299,6 @@ static int rzg2l_cru_probe(struct platform_device *pdev)
->  
->  error_dma_unregister:
->  	rzg2l_cru_dma_unregister(cru);
-> -	pm_runtime_disable(dev);
->  
->  	return ret;
->  }
-> @@ -306,8 +307,6 @@ static void rzg2l_cru_remove(struct platform_device *pdev)
->  {
->  	struct rzg2l_cru_dev *cru = platform_get_drvdata(pdev);
->  
-> -	pm_runtime_disable(&pdev->dev);
-> -
->  	v4l2_async_nf_unregister(&cru->notifier);
->  	v4l2_async_nf_cleanup(&cru->notifier);
->  
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
