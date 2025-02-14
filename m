@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-13153-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13154-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D86A35A84
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 10:42:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE80A35A86
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 10:42:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB1F318905EA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 09:42:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ADFE23AD354
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 09:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F690241673;
-	Fri, 14 Feb 2025 09:42:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AB9223F422;
+	Fri, 14 Feb 2025 09:42:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7635223A9AA
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Feb 2025 09:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CBE241660
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Feb 2025 09:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739526138; cv=none; b=sQ3UmjeAqwj7l4uIuWdiosaPZFQV2NJChMy35kFYNkdh5cFur8Zu8zHAPNPFI3fj3wAVIGeVhpgVUsTqSqvr/6wspuwYuEMMnfsjplmjXLT6rlFPTbNRSMwAXz7gnL1rLReI1fFl5OCVsW+5g5osTDmSwNLupf5yY8fD0e7yaZU=
+	t=1739526139; cv=none; b=VEQr1gbsajW49qnyE+5sSe8O5yuyCO4xi4BLogeqRaXDYFoHZyF/144h12XXYH4qDTR0giNU2mgbHFA7r8AjfElbYvrW1itCsmr/IzEp3zerqet5dUeL7z116O2LZrnqV0z8KEGyLg3HNV6PjsEZP3vCkzO5kafpWeIs7ydEExo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739526138; c=relaxed/simple;
-	bh=8k+NU+/0uqZFr2UdsDW/kOxEr4reqzjxJAbx7dqhIaQ=;
+	s=arc-20240116; t=1739526139; c=relaxed/simple;
+	bh=eXfeyXIOBKg7bIwINN+nZAJVj7Fi6EoT/vbIpEehkCE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=agF9Pt6tvoWPy5V7yzxkMNXB2HtPp72lYK+eNRbWER+7FdceuYmBcsIyrS42LE9GFImepkkBU/tG4ltFhxYS8HujM8bLa6HTyHXjXToCU5QYQ3rw20NqhJVn+2VEfihL6b5QlhJG0haOBUkaYfnESO/thaAGgtpX96l95iDGyMs=
+	 MIME-Version; b=XpuZOhA4OVWxAw9y1ApwNNAez7ojSKVfoYusDOCIR48DBVkqoVGpKF4J3/1jQXNAuv40JkNykgL2gpKlwBRbko+IYovwRob761iJgrxkV0sIAyKG6Srh3pqOOOay6VHJgqTGzZtspL0Y4//NUYyTn9tJ/++nzxi5UT7n2iNZhos=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4YvRsf5Bhgz4wxPQ
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Feb 2025 10:42:14 +0100 (CET)
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4YvRsg4JkZz4x1sS
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Feb 2025 10:42:15 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:6395:73cc:7fc4:4cab])
-	by baptiste.telenet-ops.be with cmsmtp
-	id DMi72E0041MuxXz01Mi7PJ; Fri, 14 Feb 2025 10:42:07 +0100
+	by albert.telenet-ops.be with cmsmtp
+	id DMi72E0091MuxXz06Mi7Ja; Fri, 14 Feb 2025 10:42:08 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tisCj-00000006Xjj-3LeY;
+	id 1tisCj-00000006Xjm-3TOO;
 	Fri, 14 Feb 2025 10:42:07 +0100
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tisD1-00000000ggX-05HU;
+	id 1tisD1-00000000ggb-0ErY;
 	Fri, 14 Feb 2025 10:42:07 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Magnus Damm <magnus.damm@gmail.com>,
@@ -52,9 +52,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/2] ARM: dts: renesas: r9a06g032: Fix UART dma channel order
-Date: Fri, 14 Feb 2025 10:42:03 +0100
-Message-ID: <bcb604ad6e567de4e0410756ba840c82a32ff7d3.1739525488.git.geert+renesas@glider.be>
+Subject: [PATCH 2/2] ARM: dts: renesas: r9a06g032: Drop snps,dw-apb-uart compatibility
+Date: Fri, 14 Feb 2025 10:42:04 +0100
+Message-ID: <e290dd28ecb68b4e164172a905da18a5a2d438a1.1739525488.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1739525488.git.geert+renesas@glider.be>
 References: <cover.1739525488.git.geert+renesas@glider.be>
@@ -68,81 +68,75 @@ Content-Transfer-Encoding: 8bit
 
 make dtbs_check:
 
-    arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dtb: serial@50000000: dma-names:0: 'tx' was expected
-	    from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-    arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dtb: serial@50000000: dma-names:1: 'rx' was expected
-	    from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+    arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dtb: serial@40060000: compatible: 'oneOf' conditional failed, one must be fixed:
+	    ['renesas,r9a06g032-uart', 'renesas,rzn1-uart', 'snps,dw-apb-uart'] is too long
     ...
 
-The DT bindings specify a fixed order of the channels in the dmas and
-dma-names properties, while the Linux driver does not care.
-Get rid of the warnings by changing the order in the DTS to match the
-bindings.
+As per commit 72b0505f0830df95 ("dt: serial: Add Renesas RZ/N1 binding
+documentation"), the RZ/N1 UART is a modified Synopsys DesignWare UART.
+The modifications only relate to DMA, so you could actually use the
+controller with the Synopsys compatible string if you are not using DMA,
+but you should not do so.  Hence the first three UARTs (which don't
+support DMA) were added with a "snps,dw-apb-uart" fallback, to use the
+existing Synopsys DesignWare UART support.
+
+Since support for the RZ/N1-specific compatible value was added to the
+driver a long time ago (commit 2ff5fa7f742ab0c6 ("serial: 8250_dw: Add
+compatible string for Renesas RZ/N1 UART") in v4.19), the extra
+compatible value can be dropped safely.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm/boot/dts/renesas/r9a06g032.dtsi | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Alternatively, the bindings[1] could be augmented with an extra section:
+
+    - items:
+        - enum:
+            - renesas,r9a06g032-uart
+            - renesas,r9a06g033-uart
+        - const: renesas,rzn1-uart
+        - const: snps,dw-apb-uart     # RZ/N1 without DMA
+
+and perhaps extra logic to prohibit the dmas property when both
+renesas,rzn1-uart and snps,dw-apb-uart are present.
+
+Given the complexity of the latter, I went for the simple solution.
+
+[1] Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+---
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/arch/arm/boot/dts/renesas/r9a06g032.dtsi b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-index 7548291c8d7ede43..87e03446fb4de705 100644
+index 87e03446fb4de705..fc523106c2a4c6a0 100644
 --- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
 +++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-@@ -211,8 +211,8 @@ uart3: serial@50000000 {
- 			reg-io-width = <4>;
- 			clocks = <&sysctrl R9A06G032_CLK_UART3>, <&sysctrl R9A06G032_HCLK_UART3>;
- 			clock-names = "baudclk", "apb_pclk";
--			dmas = <&dmamux 0 0 0 0 0 1>, <&dmamux 1 0 0 0 1 1>;
--			dma-names = "rx", "tx";
-+			dmas = <&dmamux 1 0 0 0 1 1>, <&dmamux 0 0 0 0 0 1>;
-+			dma-names = "tx", "rx";
- 			status = "disabled";
+@@ -171,7 +171,7 @@ usb@2,0 {
  		};
  
-@@ -224,8 +224,8 @@ uart4: serial@50001000 {
- 			reg-io-width = <4>;
- 			clocks = <&sysctrl R9A06G032_CLK_UART4>, <&sysctrl R9A06G032_HCLK_UART4>;
- 			clock-names = "baudclk", "apb_pclk";
--			dmas = <&dmamux 2 0 0 0 2 1>, <&dmamux 3 0 0 0 3 1>;
--			dma-names = "rx", "tx";
-+			dmas = <&dmamux 3 0 0 0 3 1>, <&dmamux 2 0 0 0 2 1>;
-+			dma-names = "tx", "rx";
- 			status = "disabled";
+ 		uart0: serial@40060000 {
+-			compatible = "renesas,r9a06g032-uart", "renesas,rzn1-uart", "snps,dw-apb-uart";
++			compatible = "renesas,r9a06g032-uart", "renesas,rzn1-uart";
+ 			reg = <0x40060000 0x400>;
+ 			interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
+ 			reg-shift = <2>;
+@@ -182,7 +182,7 @@ uart0: serial@40060000 {
  		};
  
-@@ -237,8 +237,8 @@ uart5: serial@50002000 {
- 			reg-io-width = <4>;
- 			clocks = <&sysctrl R9A06G032_CLK_UART5>, <&sysctrl R9A06G032_HCLK_UART5>;
- 			clock-names = "baudclk", "apb_pclk";
--			dmas = <&dmamux 4 0 0 0 4 1>, <&dmamux 5 0 0 0 5 1>;
--			dma-names = "rx", "tx";
-+			dmas = <&dmamux 5 0 0 0 5 1>, <&dmamux 4 0 0 0 4 1>;
-+			dma-names = "tx", "rx";
- 			status = "disabled";
+ 		uart1: serial@40061000 {
+-			compatible = "renesas,r9a06g032-uart", "renesas,rzn1-uart", "snps,dw-apb-uart";
++			compatible = "renesas,r9a06g032-uart", "renesas,rzn1-uart";
+ 			reg = <0x40061000 0x400>;
+ 			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+ 			reg-shift = <2>;
+@@ -193,7 +193,7 @@ uart1: serial@40061000 {
  		};
  
-@@ -250,8 +250,8 @@ uart6: serial@50003000 {
- 			reg-io-width = <4>;
- 			clocks = <&sysctrl R9A06G032_CLK_UART6>, <&sysctrl R9A06G032_HCLK_UART6>;
- 			clock-names = "baudclk", "apb_pclk";
--			dmas = <&dmamux 6 0 0 0 6 1>, <&dmamux 7 0 0 0 7 1>;
--			dma-names = "rx", "tx";
-+			dmas = <&dmamux 7 0 0 0 7 1>, <&dmamux 6 0 0 0 6 1>;
-+			dma-names = "tx", "rx";
- 			status = "disabled";
- 		};
- 
-@@ -263,8 +263,8 @@ uart7: serial@50004000 {
- 			reg-io-width = <4>;
- 			clocks = <&sysctrl R9A06G032_CLK_UART7>, <&sysctrl R9A06G032_HCLK_UART7>;
- 			clock-names = "baudclk", "apb_pclk";
--			dmas = <&dmamux 4 0 0 0 20 1>, <&dmamux 5 0 0 0 21 1>;
--			dma-names = "rx", "tx";
-+			dmas = <&dmamux 5 0 0 0 21 1>, <&dmamux 4 0 0 0 20 1>;
-+			dma-names = "tx", "rx";
- 			status = "disabled";
- 		};
- 
+ 		uart2: serial@40062000 {
+-			compatible = "renesas,r9a06g032-uart", "renesas,rzn1-uart", "snps,dw-apb-uart";
++			compatible = "renesas,r9a06g032-uart", "renesas,rzn1-uart";
+ 			reg = <0x40062000 0x400>;
+ 			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+ 			reg-shift = <2>;
 -- 
 2.43.0
 
