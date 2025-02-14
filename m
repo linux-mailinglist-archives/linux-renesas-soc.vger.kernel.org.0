@@ -1,126 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-13167-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13170-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E60A35F80
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 14:55:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0AC3A35F99
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 14:56:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90717188CD3D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 13:55:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B6E816974B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2025 13:56:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD681263F3C;
-	Fri, 14 Feb 2025 13:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="crneWQcu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62400266193;
+	Fri, 14 Feb 2025 13:56:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34BD263C82;
-	Fri, 14 Feb 2025 13:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8239D265621
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Feb 2025 13:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739541334; cv=none; b=FyA7t3hvIlyJA5SbXu3+7EwsqIL03xUkiA8wseLdyR9ORkhH1W6bZBtWonsKDi3iq7CfNzIidNUQ04wPk09z59CNLibqBfv8kMiub2M22V1zAQTGzhkjbM1gcbMKcmFE2l2ZA3A4qYDkOjkzHwYAxrMQNqI+x/PFEoKLh7rbKus=
+	t=1739541392; cv=none; b=FVFRL2l4H/LBVMLGVcbivKl+BZUU4vy90reD9GZULiUn2pPOeJkjD9LiAE8pCXYV5hl2cKxlajGojVYd/V94TTv5QcLOC6UuP7dOWaf7VT/Q0Q0/Afhk17l/tIitTztqJ/X8tdHNkmxvnGRnNAYHvfqqR3QnMmX7FjABobmoqRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739541334; c=relaxed/simple;
-	bh=wTI8w/v9e9Rb84CllROH8OzFtvROoc5l4ay396nLp7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WuhBZsqFCQu6KLAIT9JxDiFacN1Ql7iuezypD8uvicwn9Eh/3Mp1CWrZqjAoJG/hUNninQdi8LbLU84hyAK5YY1O6RqSCIBj6k5MVgPOUfLU4kgbQ9OOHmEZqH9NaujFOhrpo/vbkqg3rc9LXbk6sJsf7JxaypqE5BDdT1ZgiLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=crneWQcu; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739541333; x=1771077333;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wTI8w/v9e9Rb84CllROH8OzFtvROoc5l4ay396nLp7A=;
-  b=crneWQcuAA90qcteWiQSD1ielRw+os/yl5j8eSXrgZo7mDCg/CfQg4aN
-   +6EpKqYAjElqApdMlAzk2ZDE1B9coFy2d3ZWFcchoZvRMSZnixKS+CakD
-   8Le328qFIsC+TKAIPMoOQW25LEvt6PxPe8FY8mhs7M+5IbrW2r31z0xcy
-   e1z+bFZG+zuQqabznLFLsb8wFl0TZc20l8PnlOhpp3CyDaehyWKbtge4b
-   3oBk9hFlGONga29vcpxe9pg/ovxNu/rCHLdLhLrAAS94Dq7dNwjWG/5se
-   T3pYhJjz9+wrE3GDUmVISveL0jR3WH18b+hRtu24TYmGb4lLJQcTdzEfo
-   w==;
-X-CSE-ConnectionGUID: jiOoJiMDSIW/USgHPqOjbQ==
-X-CSE-MsgGUID: M/OPItTWTJaqcypAekWGdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="39520282"
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="39520282"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 05:55:32 -0800
-X-CSE-ConnectionGUID: 5wI/a5w8RZG6uE1e5D2VEA==
-X-CSE-MsgGUID: Wolqe3ftT++lWNrCklu2zQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="144320806"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 05:55:28 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tiwA8-0000000BV4U-2nDd;
-	Fri, 14 Feb 2025 15:55:24 +0200
-Date: Fri, 14 Feb 2025 15:55:24 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andi Shyti <andi.shyti@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1739541392; c=relaxed/simple;
+	bh=veJJxIvxnpCnxt1HkukhxI/mnr0l3/TL9eBE4sYCmlQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tj8+ytihKgDp/Xc2rc9/vHGIZBkyitiDnGxRLSdz1n/8uTPCo8LXNNeSzS+k6CNRg119tfbDEIR0NBbwGGIvnmCcdwaq/4mwjZaZSUY0eTk2lb0fXd6S7Jb+IubC0onwQ7QMhubdbdupcujFIULEoDRTHFYU6MvCVblQLGB8CaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+	by gauss.telenet-ops.be (Postfix) with ESMTPS id 4YvYVy0Y4Sz4x3yP
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Feb 2025 14:56:26 +0100 (CET)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:6395:73cc:7fc4:4cab])
+	by michel.telenet-ops.be with cmsmtp
+	id DRvu2E00M1MuxXz06RvuMZ; Fri, 14 Feb 2025 14:56:25 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tiwAL-00000006p2a-0rh2;
+	Fri, 14 Feb 2025 14:55:54 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tiwAc-00000000qEe-1aws;
+	Fri, 14 Feb 2025 14:55:54 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Miller <davem@davemloft.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Alex Elder <elder@ieee.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: linux-clk@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
-	Krzysztof Adamski <krzysztof.adamski@nokia.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Stefan Roese <sr@denx.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: Re: [PATCH v1 1/8] i2c: Introduce i2c_10bit_addr_from_msg()
-Message-ID: <Z69LTGY4mpiCCWY3@smile.fi.intel.com>
-References: <20250212163359.2407327-1-andriy.shevchenko@linux.intel.com>
- <20250212163359.2407327-2-andriy.shevchenko@linux.intel.com>
- <CAMuHMdW1wxQ0cddeE72D+Sii4HkT4bJfeTWX4-8FfHiFr+=3DA@mail.gmail.com>
- <65f5eiy6kh6nhdjgpylrdjpw35jbae4s454u7qeqamh5hny7ms@ip4btvgxlaq4>
- <CAMuHMdXfj=kmaQ6OgUwyhNq+ZK2ZbpSfD2BS0B96VHoKAMonVQ@mail.gmail.com>
+	linux-crypto@vger.kernel.org,
+	qat-linux@intel.com,
+	linux-gpio@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3 0/4] Non-const bitfield helpers
+Date: Fri, 14 Feb 2025 14:55:49 +0100
+Message-ID: <cover.1739540679.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXfj=kmaQ6OgUwyhNq+ZK2ZbpSfD2BS0B96VHoKAMonVQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 14, 2025 at 09:04:34AM +0100, Geert Uytterhoeven wrote:
+	Hi all,
 
-...
+This is an updated subset of a patch series I sent more than 3 years
+ago[2].
 
-> > > > +static inline u8 i2c_10bit_addr_from_msg(const struct i2c_msg *msg)
-> > >
-> > > Having never used 10-bit addressing myself, or even looked into it,
-> > > it took me a while to understand what this helper really does...
-> > > So this returns the high byte of the artificial 16-bit address that
-> > > must be used to address a target that uses 10-bit addressing?
-> > > Hence I think this should be renamed, to better match its purpose.
-> >
-> > It's coherent with i2c_8bit_addr_from_msg(), right?
-> 
-> Is it? Unlike i2c_8bit_addr_from_msg(), it does not return the full
-> address,
+<linux/bitfield.h> contains various helpers for accessing bitfields, as
+typically used in hardware registers for memory-mapped I/O blocks.
+These helpers ensure type safety, and deduce automatically shift values
+from mask values, avoiding mistakes due to inconsistent shifts and
+masks, and leading to a reduction in source code size.
 
-Yeah, hi/lo together will be coherent, hence I sent a v2 with Geert's
-suggestion being incorporated.
+The existing FIELD_{GET,PREP}() macros are limited to compile-time
+constants.  However, it is very common to prepare or extract bitfield
+elements where the bitfield mask is not a compile-time constant.
+To avoid this limitation, the AT91 clock driver introduced its own
+field_{prep,get}() macros.  Hence my v1 series aimed to make them
+available for general use, and convert several drivers to the existing
+FIELD_{GET,PREP}() and the new field_{get,prep}() helpers.
+
+Due to some pushback (mostly centered around using the typed
+{u*,be*,le*,...}_get_bits() macros instead, which of course would
+require making them work with non-constant masks first, too), this
+series was never applied, and became buried deep in my TODO haystack...
+However, several people still liked the idea: since v1, multiple copies
+of the field_{prep,get}() macros appeared upstream, and one more is
+queued for v6.15.
+
+Hence I think it's time to revive and consolidate...
+
+Changes compared to v2[1]:
+  - New patch "[PATCH v3 1/4] bitfield: Drop underscores from macro
+    parameters",
+  - Add Acked-by,
+  - Drop underscores from macro parameters,
+  - Use __auto_type where possible,
+  - Correctly cast reg to the mask type,
+  - Introduces __val and __reg intermediates to simplify the actual
+    operation,
+  - Drop unneeded parentheses,
+  - Clarify having both FIELD_{GET,PREP}() and field_{get,prep}(),
+
+Changes compared to v1[2]:
+  - Cast val resp. reg to the mask type,
+  - Fix 64-bit use on 32-bit architectures,
+  - Convert new upstream users:
+      - drivers/crypto/intel/qat/qat_common/adf_gen4_pm_debugfs.c
+      - drivers/gpio/gpio-aspeed.c
+      - drivers/iio/temperature/mlx90614.c
+      - drivers/pinctrl/nuvoton/pinctrl-ma35.c
+      - sound/usb/mixer_quirks.c
+  - Convert new user queued in renesas-devel for v6.15:
+      - drivers/soc/renesas/rz-sysc.c
+  - Drop the last 14 RFC patches.
+    They can be updated/resubmitted/applied later.
+
+I can take all four patches through the Renesas tree, and provide an
+immutable branch with the first two patches for the interested parties.
+
+Thanks for your comments!
+
+[1] "[PATCH v2 0/3] Non-const bitfield helpers"
+    https://lore.kernel.org/all/cover.1738329458.git.geert+renesas@glider.be
+[2] "[PATCH 00/17] Non-const bitfield helper conversions"
+    https://lore.kernel.org/all/cover.1637592133.git.geert+renesas@glider.be
+
+Geert Uytterhoeven (4):
+  bitfield: Drop underscores from macro parameters
+  bitfield: Add non-constant field_{prep,get}() helpers
+  clk: renesas: Use bitfield helpers
+  soc: renesas: Use bitfield helpers
+
+ drivers/clk/at91/clk-peripheral.c             |   1 +
+ drivers/clk/at91/pmc.h                        |   3 -
+ drivers/clk/renesas/clk-div6.c                |   6 +-
+ drivers/clk/renesas/rcar-gen3-cpg.c           |  15 +--
+ drivers/clk/renesas/rcar-gen4-cpg.c           |   9 +-
+ .../qat/qat_common/adf_gen4_pm_debugfs.c      |   8 +-
+ drivers/gpio/gpio-aspeed.c                    |   5 +-
+ drivers/iio/temperature/mlx90614.c            |   5 +-
+ drivers/pinctrl/nuvoton/pinctrl-ma35.c        |   4 -
+ drivers/soc/renesas/renesas-soc.c             |   4 +-
+ drivers/soc/renesas/rz-sysc.c                 |   3 +-
+ include/linux/bitfield.h                      | 122 ++++++++++++------
+ sound/usb/mixer_quirks.c                      |   4 -
+ 13 files changed, 97 insertions(+), 92 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.43.0
 
+Gr{oetje,eeting}s,
 
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
