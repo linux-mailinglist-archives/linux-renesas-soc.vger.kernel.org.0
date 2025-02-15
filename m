@@ -1,127 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-13188-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9922FA36E74
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Feb 2025 14:19:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4611A36E77
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Feb 2025 14:25:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6DC063B1EF5
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Feb 2025 13:18:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68E4E18945D3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Feb 2025 13:25:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A34C31C84C3;
-	Sat, 15 Feb 2025 13:18:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C076A1ACECB;
+	Sat, 15 Feb 2025 13:25:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="lxUmLtrK"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iYd+UBly"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CEC478F35
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Feb 2025 13:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F59278F35;
+	Sat, 15 Feb 2025 13:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739625531; cv=none; b=WCI8eQKBU6tUwKkGIjLH9X4ynNe8KOsYI3jRE2IC/EnnplyLllOSxdoRKwtPnjnYPbLXthQ7EKIlhG2ZVLR4PJm6r40foKvTr4GCp4z+WhQ5qpiYsyjE1lWpCN9Oy2eFtPcaFiNFU3Up9FF4NuitoYRzTWOcNpvxZMhGbRfplrs=
+	t=1739625945; cv=none; b=pSXU/n6LHdUeKHhMDTnT3NdEc4cB3XySXc4YeOjPyTQ/FsM8R56oIiocSf9mV47M0w81eYgs3RlVnIv5ni+RBjHK0xSNvznv1fKjWA60zx4MYGWnSPMVbr73cE4sKcVnITVPcmlVjkXTIyf3gyoIHTSVW1jh7rYrjbVhy3vhjpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739625531; c=relaxed/simple;
-	bh=b6icX88GUI1+i0qFjXdViO6fgfTNslKBapLU99JDsdM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nG+k9ZEFG+XLxLNGosDRbdwVz6lqmjusZ07eeOtjEz+LEb/QTIsgyT+KqPow98klydbXhF6BNOiCxz83VRq/Or2s14ex8z5GBnIVWtDRzBLq/iLxxexcOBwY8SnQObDTRgKmhXVvcO3PfCjJRx475BohX6LUCKdrbHiEb0nw+fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=lxUmLtrK; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5dea50ee572so4357150a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Feb 2025 05:18:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1739625527; x=1740230327; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=d1Soy9HKLDRhtgvZqgnl4BT3HK1yJOBepLUK2HNIXt0=;
-        b=lxUmLtrK0jfEmrohvwavhNdbdu6o50Z7gDWlGGq9WHoP8TiZhqQ1tNP8QcC+b/ScoV
-         ZJa495btIiL1BKhLn7dxJFo/3ReBfQT7br9U3nm8eXiuZmtm834fP/tSCuEn/5VtPJ8r
-         DDkEcz4Mz4rw7itCd7tFLXGfHdZMh7nObp0BTs/gflZMp3zjD25eztSRRM3fLOCG9Dbh
-         ycmv3mBHsSKR5yMxZYBnOwFYkjvk2vCE2LYaCPfF9vOqqZ8uTBgEBg7Vy/zIaj7MK9nQ
-         IaqnU7vj0UqdtzQpsVN+jl3lo2rbTvMo6cUWyR3CKnzzGSTETNAsViTvJ4fCvokAJbmF
-         P3uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739625527; x=1740230327;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=d1Soy9HKLDRhtgvZqgnl4BT3HK1yJOBepLUK2HNIXt0=;
-        b=nRLvjE8ea6Znuxxrzb5nrT6xJ8DNfkKD6cjFK+guEjk0OpDwdvDhulOE6RYwUda36U
-         /ULMRxsFW0OBHJ/6oShXF1ggdaatn2G/euzvnFO4H2aDcYW4rFni21sUYwGMhjkpPS9R
-         zRHrI1XninTQve6WjOxuTWWkUVr1sUcJN6nYuNBV6a5bMRvmfziDap1J+letxrc8PiiQ
-         lDTNGNZALgFhXii/Y3BvPkfpUEwPmEGCpU5SLUqoF4PpokcneDrJSUb8XHHhcSvNL3rV
-         VBGEa/0Zni+P0TqdM+efbH0HbYUP8x5g9zC+6iisyxmMLo4KDPcNTKIrC2wnN7YK/Rv4
-         4Q2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXY4guCjFM9nZJq79YxV0n0+YWTdGupSsRz/vvv3F8tQKrYALW9KHrl7vv9wLFNk8WIRgBhC8Mdd+jH66Kx4xZbSA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmEl3q7AiUelD5KqDql+mrXOBoxtQejKFWKXwvkwB6wfU/WgAH
-	3SiVZE/ZfK0m/pngo0Pn9mWeYDu5X+tBJAhBoYXTNMapNDAg4c2rsiaZ/jMWviQ=
-X-Gm-Gg: ASbGncsov/NONPmXZ4Hon6/86HHeRGM5h4qpNLVYGOcmCRixS+1DU22CdhJtuaGccsL
-	kUUm1eGhzBFZBaf/CJB1jsdAKLDJR7izWmE/kSLf7c0AzzoqSTh8DGOEY+isN1rCJnkwAbs7C4r
-	LdMy/89bbWsUyAxQRdOfjWyriEYfuhTtCCijZ6pKNFP4jj9WAF79DmiCb2hpyNrEnQVBoB1RIGA
-	ApS41L4e4TpAG0i17OseCRedQaeX+cBOeoOgz5r9FdiCPLoprCeUzh3HCRnO69T/OlYa6nAOvqN
-	c7VtK+3KgX0r8lgu31Gtq/4Vokl2f79injjYwsYlkEyaRw==
-X-Google-Smtp-Source: AGHT+IFMrBPMiwy4hh2gSuBvAuc2QNDGynYaCQjJMK2b6mLiJrQx4XpH0JunoWzRU7sOAKxbiiK2rQ==
-X-Received: by 2002:a05:6402:2114:b0:5de:d226:83b7 with SMTP id 4fb4d7f45d1cf-5e0360419aamr2320384a12.8.1739625526853;
-        Sat, 15 Feb 2025 05:18:46 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.173])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dece1d3693sm4455433a12.39.2025.02.15.05.18.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Feb 2025 05:18:46 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	john.madieu.xa@bp.renesas.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1739625945; c=relaxed/simple;
+	bh=iG6VMukGPc/hgAfKcP4d3ou1L72wlxfihRu1g+yvA5k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NlRypw4zlQ2T90PQi1L49Dl6Nalggg3dC1gIHpPqUNntcY276sLRK8e7jnNGsERNCkt9Lc1FZXfsl/uESlafx5z9BHX1x0nnNyhmJJEo3v9++LPFQq9iPFdLIbLnfql3X2DzSnzHAiBj5K5d7AQFBP/DNPuIu0H0pltH2Xhb5YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iYd+UBly; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C6A4C4CEDF;
+	Sat, 15 Feb 2025 13:25:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1739625944;
+	bh=iG6VMukGPc/hgAfKcP4d3ou1L72wlxfihRu1g+yvA5k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iYd+UBlyE29k/KHy9iorTBKgRbEr19knJ+iMu0p5afMdDIElXB6VB8xlzO4oOP0io
+	 GiEX65U4jgkx3BEhJZqQQq+U+FG3Q5PN098/Bm9PIefkShV3vM61jMWCwZ1/XwZRVM
+	 nzP31WsI596lOiEWoMr+ul5CGcZLmRm/7cuJ2/ao=
+Date: Sat, 15 Feb 2025 14:25:41 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: rafael@kernel.org, dakr@kernel.org, jic23@kernel.org,
+	ulf.hansson@linaro.org, daniel.lezcano@linaro.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH] soc: renesas: rz-sysc: Suppress binding attributes
-Date: Sat, 15 Feb 2025 15:18:43 +0200
-Message-ID: <20250215131843.228905-1-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
+ probe resources
+Message-ID: <2025021539-untrained-prompter-a48f@gregkh>
+References: <20250215130849.227812-1-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250215130849.227812-1-claudiu.beznea.uj@bp.renesas.com>
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Sat, Feb 15, 2025 at 03:08:49PM +0200, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> On the Renesas RZ/G3S (and other Renesas SoCs, e.g., RZ/G2{L, LC, UL}),
+> clocks are managed through PM domains. These PM domains, registered on
+> behalf of the clock controller driver, are configured with
+> GENPD_FLAG_PM_CLK. In most of the Renesas drivers used by RZ SoCs, the
+> clocks are enabled/disabled using runtime PM APIs. The power domains may
+> also have power_on/power_off support implemented. After the device PM
+> domain is powered off any CPU accesses to these domains leads to system
+> aborts.
+> 
+> During probe, devices are attached to the PM domain controlling their
+> clocks and power. Similarly, during removal, devices are detached from the
+> PM domain.
+> 
+> The detachment call stack is as follows:
+> 
+> device_driver_detach() ->
+>   device_release_driver_internal() ->
+>     __device_release_driver() ->
+>       device_remove() ->
+>         platform_remove() ->
+> 	  dev_pm_domain_detach()
+> 
+> During driver unbind, after the device is detached from its PM domain,
+> the device_unbind_cleanup() function is called, which subsequently invokes
+> devres_release_all(). This function handles devres resource cleanup.
+> 
+> If runtime PM is enabled in driver probe via devm_pm_runtime_enable(), the
+> cleanup process triggers the action or reset function for disabling runtime
+> PM. This function is pm_runtime_disable_action(), which leads to the
+> following call stack of interest when called:
+> 
+> pm_runtime_disable_action() ->
+>   pm_runtime_dont_use_autosuspend() ->
+>     __pm_runtime_use_autosuspend() ->
+>       update_autosuspend() ->
+>         rpm_idle()
+> 
+> The rpm_idle() function attempts to resume the device at runtime. However,
+> at the point it is called, the device is no longer part of a PM domain
+> (which manages clocks and power states). If the driver implements its own
+> runtime PM APIs for specific functionalities - such as the rzg2l_adc
+> driver - while also relying on the power domain subsystem for power
+> management, rpm_idle() will invoke the driver's runtime PM API. However,
+> since the device is no longer part of a PM domain at this point, the PM
+> domain's runtime PM APIs will not be called. This leads to system aborts on
+> Renesas SoCs.
+> 
+> Another identified case is when a subsystem performs various cleanups
+> using device_unbind_cleanup(), calling driver-specific APIs in the process.
+> A known example is the thermal subsystem, which may call driver-specific
+> APIs to disable the thermal device. The relevant call stack in this case
+> is:
+> 
+> device_driver_detach() ->
+>   device_release_driver_internal() ->
+>     device_unbind_cleanup() ->
+>       devres_release_all() ->
+>         devm_thermal_of_zone_release() ->
+> 	  thermal_zone_device_disable() ->
+> 	    thermal_zone_device_set_mode() ->
+> 	      struct thermal_zone_device_ops::change_mode()
+> 
+> At the moment the driver-specific change_mode() API is called, the device
+> is no longer part of its PM domain. Accessing its registers without proper
+> power management leads to system aborts.
+> 
+> Open a devres group before calling the driver probe, and close it
+> immediately after the driver remove function is called and before
+> dev_pm_domain_detach(). This ensures that driver-specific devm actions or
+> reset functions are executed immediately after the driver remove function
+> completes. Additionally, it prevents driver-specific runtime PM APIs from
+> being called when the device is no longer part of its power domain.
+> 
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+> 
+> Hi,
+> 
+> Although Ulf gave its green light for the approaches on both IIO [1],
+> [2] and thermal subsystems [3], Jonathan considered unacceptable the
+> approaches in [1], [2] as he considered it may lead to dificult to
+> maintain code and code opened to subtle bugs (due to the potential of
+> mixing devres and non-devres calls). He pointed out a similar approach
+> that was done for the I2C bus [4], [5].
+> 
+> As the discussions in [1], [2] stopped w/o a clear conclusion, this
+> patch tries to revive it by proposing a similar approach that was done
+> for the I2C bus.
+> 
+> Please let me know you input.
 
-The matching data for the rz-sysc driver is marked with __initconst, which
-means it is discarded after initialization. Because of this, attempting to
-unbind/bind the driver through sysfs after system boot can lead to "Unable
-to handle kernel paging request at virtual address" errors due to accessing
-freed memory.
+I'm with Jonathan here, the devres stuff is getting crazy here and you
+have drivers mixing them and side affects happening and lots of
+confusion.  Your change here is only going to make it even more
+confusing, and shouldn't actually solve it for other busses (i.e. what
+about iio devices NOT on the platform bus?)
 
-Since the System Controller (SYSC) is an essential block for Renesas SoCs,
-suppress binding attributes to prevent them being exposed in sysfs,
-avoiding potential issues.
+Why can't your individual driver handle this instead?
 
-Fixes: 1660e5ea6a3e ("soc: renesas: Add SYSC driver for Renesas RZ family")
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- drivers/soc/renesas/rz-sysc.c | 1 +
- 1 file changed, 1 insertion(+)
+thanks,
 
-diff --git a/drivers/soc/renesas/rz-sysc.c b/drivers/soc/renesas/rz-sysc.c
-index 1c98da37b7d1..14db508f669f 100644
---- a/drivers/soc/renesas/rz-sysc.c
-+++ b/drivers/soc/renesas/rz-sysc.c
-@@ -120,6 +120,7 @@ static int rz_sysc_probe(struct platform_device *pdev)
- static struct platform_driver rz_sysc_driver = {
- 	.driver = {
- 		.name = "renesas-rz-sysc",
-+		.suppress_bind_attrs = true,
- 		.of_match_table = rz_sysc_match
- 	},
- 	.probe = rz_sysc_probe
--- 
-2.43.0
-
+greg k-h
 
