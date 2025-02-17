@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-13211-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 878ACA381D2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Feb 2025 12:34:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 885EBA3821D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Feb 2025 12:44:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1AD1E3B5109
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Feb 2025 11:32:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4763F18843FB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Feb 2025 11:44:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B68B6218AB9;
-	Mon, 17 Feb 2025 11:32:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E7A2219A7A;
+	Mon, 17 Feb 2025 11:44:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1E182163AD;
-	Mon, 17 Feb 2025 11:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BC23219A94;
+	Mon, 17 Feb 2025 11:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739791970; cv=none; b=aE8oaLeRmicbl/au2qhA3xhlgf1HJqfQOIup43V+HYy/rXgphQoS2IPSAGO/YaVowjlidF0BY5iVy+HUeMDSsKyUYGngwYGBtf+cUNNk1qc3Nm4TcxAiHLqFFwaVJK/PB8yt7noZhaAszHv46UiKWTJINuRYpraMmYjVh9RWHoo=
+	t=1739792658; cv=none; b=JhyUZTb/XhIsF3IAoDOOZnE0GGxt8BwnEcPlmrb/b6ONA6fyT5dLKX4aUpg3ayEHAlAc9nUIpI3q5NUWdJ8NZDf7WSszcXtvYa2zoq1GexjH27XMas0GDtSjVc/tGT5V+tWhs7RAxsAtOo2vXVE2NmIRSOJW7Z7JuQChLjuOWf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739791970; c=relaxed/simple;
-	bh=DFLb6IVl4mNW1EFPqfdN70EXUJGhhe9sYcXcWWXebkU=;
+	s=arc-20240116; t=1739792658; c=relaxed/simple;
+	bh=AAFbj9nY/mRi1qGspmVJ+yHswu/z2qI/MxMGUFdh3eU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PBUvdLuNkKIWhJ3PVdWaYbrIBEeURp7NWhAygKBZj9YkN2EXHnxtuzYXxn4fXAhp++UpIDlKX9GEZxJBa2PRCI59USPROvfsHnmYqnfo/0lVOFPJKWeFu3Vo1O1HqCyDux7YftC5NnMa8CL6QjjGi1RERvr5juRRfY+sRGW1s5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 In-Reply-To:Content-Type; b=cfRNNp7LWI1Ff0rXRzb7nTK6PflI2YDsIH3nMeTqizyMM3YFTwbnGP3MlAzSQN+UZD2keaGXDBDeAqjUia+xK41KwYNlCFMi1NKEaJ0NoleiGzCdH8XZZp8f/N7ayc2hVE5lMGxEIyoYXGO81P5KiuhiJQx3ON0HJHblkL4lSPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: QJcZQBhaSOuQ2U9P3L7JdA==
-X-CSE-MsgGUID: e4yTUGrxTImScQgZokNf6w==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 17 Feb 2025 20:32:46 +0900
+X-CSE-ConnectionGUID: GYM/Z20KSIW1usH1dsZlmA==
+X-CSE-MsgGUID: NmK1gJR/R6mvJLl/43JQ8g==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 17 Feb 2025 20:44:14 +0900
 Received: from [10.24.1.21] (unknown [10.24.1.21])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 49E3940763E9;
-	Mon, 17 Feb 2025 20:32:44 +0900 (JST)
-Message-ID: <8b88aff0-aae1-4edb-9249-860d598d5c16@bp.renesas.com>
-Date: Mon, 17 Feb 2025 11:32:42 +0000
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id DEDA44292EAB;
+	Mon, 17 Feb 2025 20:44:11 +0900 (JST)
+Message-ID: <000e0794-d3cd-4c2e-8eec-9216ac6a08b3@bp.renesas.com>
+Date: Mon, 17 Feb 2025 11:44:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -43,77 +43,149 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/13] serial: sh-sci: Fix a comment about SCIFA
+Subject: Re: [PATCH v2 05/13] clk: renesas: Pass sub struct of cpg_mssr_priv
+ to cpg_clk_register
 Content-Language: en-GB
 To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
- thierry.bultel@linatsea.fr, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org
+ thierry.bultel@linatsea.fr, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20250217105354.551788-1-thierry.bultel.yh@bp.renesas.com>
- <20250217105354.551788-8-thierry.bultel.yh@bp.renesas.com>
+ <20250217105354.551788-6-thierry.bultel.yh@bp.renesas.com>
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
-In-Reply-To: <20250217105354.551788-8-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250217105354.551788-6-thierry.bultel.yh@bp.renesas.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------01sWo6aOdjt1db8EPZoQCs2Q"
+ boundary="------------YBLQ0JorpZHIEAmCAyeC6Y0a"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------01sWo6aOdjt1db8EPZoQCs2Q
-Content-Type: multipart/mixed; boundary="------------qH2zvFRoMbay6H9t04GHo7s4";
+--------------YBLQ0JorpZHIEAmCAyeC6Y0a
+Content-Type: multipart/mixed; boundary="------------YQ5C76oQXCTeK001HLbo2ZG3";
  protected-headers="v1"
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
 To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
- thierry.bultel@linatsea.fr, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org
-Message-ID: <8b88aff0-aae1-4edb-9249-860d598d5c16@bp.renesas.com>
-Subject: Re: [PATCH v2 07/13] serial: sh-sci: Fix a comment about SCIFA
+ thierry.bultel@linatsea.fr, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <000e0794-d3cd-4c2e-8eec-9216ac6a08b3@bp.renesas.com>
+Subject: Re: [PATCH v2 05/13] clk: renesas: Pass sub struct of cpg_mssr_priv
+ to cpg_clk_register
 References: <20250217105354.551788-1-thierry.bultel.yh@bp.renesas.com>
- <20250217105354.551788-8-thierry.bultel.yh@bp.renesas.com>
-In-Reply-To: <20250217105354.551788-8-thierry.bultel.yh@bp.renesas.com>
+ <20250217105354.551788-6-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250217105354.551788-6-thierry.bultel.yh@bp.renesas.com>
 
---------------qH2zvFRoMbay6H9t04GHo7s4
-Content-Type: multipart/mixed; boundary="------------s4dpGfJq0FX0RGypHTVDQ5xI"
+--------------YQ5C76oQXCTeK001HLbo2ZG3
+Content-Type: multipart/mixed; boundary="------------1OMPQVuedhTrUjkxWedXfoXo"
 
---------------s4dpGfJq0FX0RGypHTVDQ5xI
+--------------1OMPQVuedhTrUjkxWedXfoXo
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 17/02/2025 10:52, Thierry Bultel wrote:
-> The comment was correct when it was added, at that time RZ/T1 was
-> the only SoC in the RZ/T line. Since then, further SoCs have been
-> added with RZ/T names which do not use the same SCIFA register
-> layout and so the comment is now misleading.
->=20
-> So we update the comment to explicitly reference only RZ/T1 SoCs.
->=20
-> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-> ---
->  drivers/tty/serial/sh-sci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-> index 924b803af440..b8f9034f891a 100644
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-> @@ -291,7 +291,7 @@ static const struct sci_port_params sci_port_params=
-[SCIx_NR_REGTYPES] =3D {
->  	},
-> =20
->  	/*
-> -	 * The "SCIFA" that is in RZ/A2, RZ/G2L and RZ/T.
-> +	 * The "SCIFA" that is in RZ/A2, RZ/G2L and RZ/T1.
->  	 * It looks like a normal SCIF with FIFO data, but with a
->  	 * compressed address space. Also, the break out of interrupts
->  	 * are different: ERI/BRI, RXI, TXI, TEI, DRI.
+Hi Thierry,
 
-Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+On 17/02/2025 10:52, Thierry Bultel wrote:
+> In a coming evolution, the registration callback will need more paramet=
+ers
+> from cpg_mssr_priv (like another base address with clock controllers
+> with double register block).
+> Instead of adding more parameters, mode the needed parameters to a publ=
+ic
+> sub-struct.
+
+This is missing the Signed-off-by line.
+
+I also think you should mention that rmw_lock is moved to the new struct
+as it will be needed in the subsequent patch, since none of the
+functions modified by this patch to take a `struct cpg_mssr_pub`
+argument use that lock.
+
+[snip]
+
+> diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/=
+rcar-gen3-cpg.c
+> index 027100e84ee4..aafeb139fdb4 100644
+> --- a/drivers/clk/renesas/rcar-gen3-cpg.c
+> +++ b/drivers/clk/renesas/rcar-gen3-cpg.c
+> @@ -345,9 +345,11 @@ static const struct soc_device_attribute cpg_quirk=
+s_match[] __initconst =3D {
+> =20
+>  struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
+>  	const struct cpg_core_clk *core, const struct cpg_mssr_info *info,
+> -	struct clk **clks, void __iomem *base,
+> -	struct raw_notifier_head *notifiers)
+> +	struct cpg_mssr_pub *pub)
+>  {
+> +	struct raw_notifier_head *notifiers =3D &pub->notifiers;
+> +	void __iomem *base =3D pub->base0;
+> +	struct clk **clks =3D pub->clks;
+>  	const struct clk *parent;
+>  	unsigned int mult =3D 1;
+>  	unsigned int div =3D 1;
+> @@ -431,7 +433,7 @@ struct clk * __init rcar_gen3_cpg_clk_register(stru=
+ct device *dev,
+>  			}
+> =20
+>  			writel(value, csn->reg);
+> -			cpg_simple_notifier_register(notifiers, csn);
+> +			cpg_simple_notifier_register(&pub->notifiers, csn);
+
+This change isn't needed as you've added a notifiers variable at the
+start of the function.
+
+>  			break;
+>  		}
+> =20
+
+[snip]
+
+> diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renes=
+as/renesas-cpg-mssr.c
+> index 79e7a90c3b1b..7d5fba3aef19 100644
+> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+> @@ -127,7 +127,6 @@ static const u16 srstclr_for_gen4[] =3D {
+>   *
+>   * @rcdev: Optional reset controller entity
+>   * @dev: CPG/MSSR device
+> - * @base: CPG/MSSR register block base address
+>   * @reg_layout: CPG/MSSR register layout
+>   * @rmw_lock: protects RMW register accesses
+>   * @np: Device node in DT for this CPG/MSSR module
+> @@ -143,6 +142,7 @@ static const u16 srstclr_for_gen4[] =3D {
+>   *                 [].val: Saved values of SMSTPCR[]
+>   * @reserved_ids: Temporary used, reserved id list
+>   * @num_reserved_ids: Temporary used, number of reserved id list
+> + * @pub: Data passed to clock registration callback
+>   * @clks: Array containing all Core and Module Clocks
+>   */
+>  struct cpg_mssr_priv {
+> @@ -150,16 +150,13 @@ struct cpg_mssr_priv {
+>  	struct reset_controller_dev rcdev;
+>  #endif
+>  	struct device *dev;
+> -	void __iomem *base;
+>  	enum clk_reg_layout reg_layout;
+> -	spinlock_t rmw_lock;
+
+You can remove the documentation line for @base in the comment above.
+
+>  	struct device_node *np;
+> =20
+>  	unsigned int num_core_clks;
+>  	unsigned int num_mod_clks;
+>  	unsigned int last_dt_core_clk;
+> =20
+> -	struct raw_notifier_head notifiers;
+
+As above, you can remove the @notifiers entry from the comment above.
+
+Thanks,
 
 --=20
 Paul Barker
---------------s4dpGfJq0FX0RGypHTVDQ5xI
+--------------1OMPQVuedhTrUjkxWedXfoXo
 Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
 Content-Description: OpenPGP public key
@@ -177,22 +249,22 @@ ZyZGVsEsOuGCLkekUMF/5dwOhEDXrY42VR/ZxdDTY99dznQkwTt4o7FOmkY=3D
 =3DsIIN
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------s4dpGfJq0FX0RGypHTVDQ5xI--
+--------------1OMPQVuedhTrUjkxWedXfoXo--
 
---------------qH2zvFRoMbay6H9t04GHo7s4--
+--------------YQ5C76oQXCTeK001HLbo2ZG3--
 
---------------01sWo6aOdjt1db8EPZoQCs2Q
+--------------YBLQ0JorpZHIEAmCAyeC6Y0a
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZ7MeWgUDAAAAAAAKCRDbaV4Vf/JGvdFJ
-AP9JZp2/jU1Bv8acfiXD9Xob8a+WURoXntZ7+s8T+dakbgEA3ZjSJzVdj5wcYBHNSpRrFu7FpLRN
-xR+C+QyVe/el9w8=
-=D9VZ
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZ7MhCgUDAAAAAAAKCRDbaV4Vf/JGvWbH
+AP0SmohalwuqwIWVjH9ceGZjqqUNzIE7rwe4EX7d25ynJQD/TZ88Z3DQ+nrK/jIDJE3jmtKKlnHS
+F9PXuxREjxw56gs=
+=mEbh
 -----END PGP SIGNATURE-----
 
---------------01sWo6aOdjt1db8EPZoQCs2Q--
+--------------YBLQ0JorpZHIEAmCAyeC6Y0a--
 
