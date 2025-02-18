@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-13250-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13251-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84DFA39B44
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 12:44:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8732DA39B48
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 12:44:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A0B3B7A4059
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 11:43:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00B391894B3C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 11:44:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5F8E23FC58;
-	Tue, 18 Feb 2025 11:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CE27240610;
+	Tue, 18 Feb 2025 11:44:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PU++f5oX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="emDlw/lz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A30923ED7E;
-	Tue, 18 Feb 2025 11:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1DB23F29F;
+	Tue, 18 Feb 2025 11:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739879051; cv=none; b=Q2o0Db5TdBKQshZAZRWBQ2HTBc1yqUmj0bS/8dQzArGVueMuGI8drmIYTeJRD2Rp1hg6WH6YN1mgiqDqNarY/oT5eUip9cJ1Ff0ax53lW9+ROSssktZnVwZJoqUvZ2AtQNgAUaqHvpKgF3h0wBo1fCLhLPB7ZoKhfajXwDdFlLI=
+	t=1739879053; cv=none; b=gvlQMY7IZiUCyjphIvz5b6RM785PwCTqHo01bcjRYxMkb2VOdUF8979WDUdLvf9jiG54tQRH3xvTt4XwkngvqbrBnt4Y+ZavjNJp5q0J6gWKAgX7KVaAW277KyQVsQS4WcYOkEcaYu1M931+H46vTA8smnxtVPJIOYqKo5xAGa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739879051; c=relaxed/simple;
-	bh=3Rn6yPlYrw6pH9OJVXTXzmCWtEjRBGlFtZuKMuHsDvk=;
+	s=arc-20240116; t=1739879053; c=relaxed/simple;
+	bh=a/nx0v5W8zPHrdzHmAiXYWM/KVbHpWKw6d3pe4Vtq8w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ELdQeqj6nfWX22G5DE3G7kKazqm8yoFOdKZeH8Tn2/5jROk2VOpF/kcP0iO7Mpf3jwwt35JxhGmY362MSE9lnE+7epxHsMAIqCF9ZAoX3f3p0Fs4QW7SfX5gX9pZXN6tpd/rfbm0ZHOWBoqOF790xSN7KDJf9RmPI+IqrxKFkH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PU++f5oX; arc=none smtp.client-ip=209.85.128.44
+	 MIME-Version; b=hfoKalg3lndVknHH7mNG30UnWMtt09uaiG6/Op0u3VIJ0CNAjtQ34uGL17MqkSnboBtjYJnSEe155m82ZiSl2yxrttY2zxFQIaKQK6/7PXNMwujAe3UNXwOtHFXrbE8QbxPL052IneOlYX54I/6YsmqR6q7j04SbT4ZYlV/UnCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=emDlw/lz; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43932b9b09aso58652395e9.3;
-        Tue, 18 Feb 2025 03:44:09 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-38f22fe889aso4210208f8f.3;
+        Tue, 18 Feb 2025 03:44:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739879048; x=1740483848; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1739879049; x=1740483849; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FD2lS/I/h0H9Wm4W1lO9wLjJM7Kr10MSDNg3fub6NTg=;
-        b=PU++f5oXQX8hd4KIgkmmWhrf80ihtx3/UX/UgDhe2+QvA2lHk4WuFkCwLAPBu8zXn0
-         DS96O7scjMoEpgO/dvvEbUT7xcl/T6rhhCoiAc40TghA13T1jNHCakcJaCUL5pIEgocT
-         4tpnip8k3AWjXdcApQLjaqyst/9tzL2EMoz6eueTiAezaEepm8A+EmNUT4USFwwwAX0J
-         89bJYHxttyLosXyPTSV0CdnSNPcx6F6fyYgUrOSObPUS4uitYOlDh6sp2/4985UX8Zhs
-         ri21kdhdhS3b3ioVSPuPT0r/tYzRhkUHcwLLfbFtzO3s3ejSaOhitYpvF2/AYj/gmcKL
-         oJKA==
+        bh=QXIltzyBmDltiRnO//siLSwcpmQT4Ch+dy3eT2XAQ+U=;
+        b=emDlw/lzzjlhfzAjHR+iO6X6zrkCVdL0x6w9YKiHCnl3ujwrusZgmq6zj/hS06D51e
+         wYUqO46/m77qos0Nyu8Dj5Fo1gWCbY8fW7ib4Alq3ksOHe6Y/cwsMW8G0iw+la79Munu
+         fjNUj8Zcxhy8NNQPk9Km8TGt+tdv+iDnag71fG2Ach6wXmC/MS5RtqxSCVLBJqWg67wd
+         5ZN0EGFmLi8Z71mGWxyBvEzc7IoVxXQK8RVHgh+taY4UOVhtDj+CnF3KP4lN/UQs7R0z
+         T1bKm8O3QgGjBLoAZWieEe2k2fZJkMGTTcsuEdj3SPNsjm+ltrz2cmdj+XltM205cnEM
+         OGcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739879048; x=1740483848;
+        d=1e100.net; s=20230601; t=1739879049; x=1740483849;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FD2lS/I/h0H9Wm4W1lO9wLjJM7Kr10MSDNg3fub6NTg=;
-        b=r732iy+kZCluUCKPzBTCLDpB6boLek0JZ0yfvBEAy3NA8F5l7ZpcbR77OaObcLJtL2
-         2BamBNERiAFKockOokXC0+o3ZagQbVvjI4fS0d8am7BCSFNWAUcOYiHMI+VnE2p4EIXl
-         s1X4SF/WEFGctH+eSyYP+AUFFz71QmIPsKzirX+7jnvbzqLrdjSXBOQN8BJ2tqy0ywzS
-         Un5dO3kAa5xD08qn5x6nY1ZfZCkwHmmnNwJy/qF7Qfu3Bz8x9ymF4lGMq8o+x6SZPSOP
-         e5BXxYx1SAT1dJIkPqt5OnUtXENmvmFVdRStUOMzvFRtP0H2rT7tAEsdB1VuAeXk3UK6
-         +hMw==
-X-Forwarded-Encrypted: i=1; AJvYcCWjjXa1jkZLjjmVd4ejOtqPqEcit8bAGXAugSj/XU+jBYPuETyDlA8iHdI2QVzSZLaxaGhCHpbJPls=@vger.kernel.org, AJvYcCXDfpsmYpFUu9Hu2iOlqWReeyRE45M1bv4xLd0xUqBy+5O/c9Puysi2wX++cgD+7ChpRUawKQVYPdxVpHvB@vger.kernel.org
-X-Gm-Message-State: AOJu0YyylP2kdjWLhKKr7nMyLyvJr0cOu0Tkyln2/b2d563UXdRwevsN
-	pIu6LEwpODpcQfREEQap4Yzi5wrcwQdPY28nkRiqT8C0mPu4Cy86
-X-Gm-Gg: ASbGnctrlso21Su9tDHHqtfZN0bQ9QXi18iTODWylAs3YkFjR6bo0YjZ94YDvKaKw31
-	nU0sQLhyf3Y6Uknf3OWdU1kwMfLS9A3ODEeTgbt1bQgkhHNF65ZoMs1tDdKk0WuAyom0i5kSF7+
-	KooMMdnAz5BRw2UpT3P/bzmhArBpIBCZvqxP+EDyM34BkePEtEymEN4CIeFuXRarpoJvFKEwpnQ
-	hlNC5JlkO2AtlU2V3PHUbxKWc0cf4BRvHcjUhBqHhmxSc1uQNTyCPTb6w4gx0+PXFrceecStDPM
-	4RokvuLadsb9WBSf6teo1y1STmvvLsK+S8cgGBPts7Cf
-X-Google-Smtp-Source: AGHT+IGxtnwlmszNOsjbP+aDY8Mj7UC6ytmWzNFzK7VjhkGuPWSBG6ATnBfWrNd9pFTDZ3gdi+WE8g==
-X-Received: by 2002:a05:6000:2c1:b0:38f:474f:f3f3 with SMTP id ffacd0b85a97d-38f474ff5bdmr7381111f8f.13.1739879048203;
-        Tue, 18 Feb 2025 03:44:08 -0800 (PST)
+        bh=QXIltzyBmDltiRnO//siLSwcpmQT4Ch+dy3eT2XAQ+U=;
+        b=xIraZrzDvQZZS3tPacJTY7kpxx7tMayIhAtx2kAOi/WqIfkNDRm9+LghCXEz1sv3IW
+         Y99cbnjgfkkesfWr9BrggK+xJ4sX+/zDutbm/1J9jm3hva6pQnpVkmReoD5T7Q3mGnbC
+         DJph8sEBgqqeRtj3TwsHBZstt4eOUEyPHuTpsxKk9rer57O0MMoYHS5tivQbTvqfSnmo
+         DUMAoZEkJHn0Aynptn7D9ALei705bB/G7XCL/Pv4N3OengR2cgcrYSokKbB+DusQ9wI1
+         51pz+P7AzOGGIJtEA+USfY9Fc/wmyi2U7+/24O/RR1QibsD9XCo+zGQ4GDS60K33RhXu
+         LZdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZe5gluHHbsL7mQ5n3lmF0QKjumiSzq0TYL857EBc5RRx2fl0pQc0F3+mYiVVv2cxDM5+Fr7/8ZKtwsvNI@vger.kernel.org, AJvYcCXYY/kw/WxKL2guqHFN3WYwR++fW+wnjeA9Nmf4rJ7xrhxfDUPbndZHo729qTuXMOdBtlRVTJAUJ3o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5FSBo2zHquvKhpDnV3D7t+hEWrdd7aHAuHpoPfR4fVd4oGoc2
+	54HU1HIxq+BH5zsoLrcdVNLjS1IksCQF5ehqcn3i785U/GdjYa0Iq/K0avhrNxo=
+X-Gm-Gg: ASbGncvfS2YSHQe8+TD5Ured5ZCv8BwumAtxHycuGyjBV3mFQaW5mhIJ1HeqiCRNaE9
+	0HDqR4C4fJDsuZCDraujNQRD8uPcIG+lT44o7V4qLQirXmHkOndog+J4zKrD/iZ/IGVVBEQ+StD
+	LvPjxbtk4vnMOSyxQI/xELImY1XB5kEVsJfz3hAsILuGhNhWvi2yLeHixFXTcA/X7k5sxPzQ0sG
+	90WDl4ECL2/EM5cn/xYPFuCJVyiNLqDMXaCBFTS1pnbSPmmuPPMhLzRcpvTLVZ1oVJ02+rpAgtM
+	7qhONOyD9VEYSF82iLz7Yx9+bKpPy2QuU5ge1Y6kXXnY
+X-Google-Smtp-Source: AGHT+IF429mp8r0/H9MppSYzvlU+QM11GgGTXHrnGbTDKrUdpxTK4JlPMHayXHI1AqGbIXjQ7D1TkQ==
+X-Received: by 2002:adf:ce8e:0:b0:38c:5fbf:10ca with SMTP id ffacd0b85a97d-38f33f511c0mr12535462f8f.39.1739879049214;
+        Tue, 18 Feb 2025 03:44:09 -0800 (PST)
 Received: from prasmi.Home ([2a06:5906:61b:2d00:6940:cc67:5b00:b151])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f25915146sm14997029f8f.56.2025.02.18.03.44.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f25915146sm14997029f8f.56.2025.02.18.03.44.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 03:44:07 -0800 (PST)
+        Tue, 18 Feb 2025 03:44:08 -0800 (PST)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -84,9 +84,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 1/3] clk: renesas: rzv2h-cpg: Move PLL access macros to source file
-Date: Tue, 18 Feb 2025 11:43:51 +0000
-Message-ID: <20250218114353.406684-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 2/3] clk: renesas: rzv2h-cpg: Add support for enabling PLLs
+Date: Tue, 18 Feb 2025 11:43:52 +0000
+Message-ID: <20250218114353.406684-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250218114353.406684-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250218114353.406684-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -100,49 +100,105 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Move the `PLL_CLK_ACCESS()`, `PLL_CLK1_OFFSET()`, and `PLL_CLK2_OFFSET()`
-macros from `rzv2h-cpg.h` to `rzv2h-cpg.c`, as they are not intended for
-use by SoC-specific CPG drivers.
+Some RZ/V2H(P) SoC variants do not have a GPU, resulting in PLLGPU being
+disabled by default in TF-A. Add support for enabling PLL clocks in the
+RZ/V2H(P) CPG driver to manage this.
 
-Additionally, update `PLL_CLK1_OFFSET()` and `PLL_CLK2_OFFSET()` to use
-the `FIELD_GET()` macro for better readability and simplify the
-`PLL_CLK_ACCESS()` macro.
+Introduce `is_enabled` and `enable` callbacks to handle PLL state
+transitions. With the `enable` callback, PLLGPU will be turned ON only
+when the GPU node is enabled; otherwise, it will remain off. Define new
+macros for PLL standby and monitor registers to facilitate this process.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/clk/renesas/rzv2h-cpg.c | 4 ++++
- drivers/clk/renesas/rzv2h-cpg.h | 3 ---
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ drivers/clk/renesas/rzv2h-cpg.c | 57 +++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
 diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index 419dc8cd2766..1ebaefb36133 100644
+index 1ebaefb36133..d7230a7e285c 100644
 --- a/drivers/clk/renesas/rzv2h-cpg.c
 +++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -56,6 +56,10 @@
+@@ -56,9 +56,16 @@
  
  #define CPG_CLKSTATUS0		(0x700)
  
-+#define PLL_CLK_ACCESS(n)	(!!((n) & BIT(31)))
-+#define PLL_CLK1_OFFSET(n)	FIELD_GET(GENMASK(15, 0), (n))
-+#define PLL_CLK2_OFFSET(n)	(PLL_CLK1_OFFSET(n) + (0x4))
++#define PLL_STBY_RESETB		BIT(0)
++#define PLL_STBY_RESETB_WEN	BIT(16)
++#define PLL_MON_RESETB		BIT(0)
++#define PLL_MON_LOCK		BIT(4)
 +
+ #define PLL_CLK_ACCESS(n)	(!!((n) & BIT(31)))
+ #define PLL_CLK1_OFFSET(n)	FIELD_GET(GENMASK(15, 0), (n))
+ #define PLL_CLK2_OFFSET(n)	(PLL_CLK1_OFFSET(n) + (0x4))
++#define PLL_STBY_OFFSET(n)	(PLL_CLK1_OFFSET(n) - (0x4))
++#define PLL_MON_OFFSET(n)	(PLL_STBY_OFFSET(n) + (0x10))
+ 
  /**
   * struct rzv2h_cpg_priv - Clock Pulse Generator Private Data
-  *
-diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-index fd8eb985c75b..81f44b94f6d5 100644
---- a/drivers/clk/renesas/rzv2h-cpg.h
-+++ b/drivers/clk/renesas/rzv2h-cpg.h
-@@ -87,9 +87,6 @@ enum clk_types {
+@@ -144,6 +151,54 @@ struct ddiv_clk {
  
- /* BIT(31) indicates if CLK1/2 are accessible or not */
- #define PLL_CONF(n)		(BIT(31) | ((n) & ~GENMASK(31, 16)))
--#define PLL_CLK_ACCESS(n)	((n) & BIT(31) ? 1 : 0)
--#define PLL_CLK1_OFFSET(n)	((n) & ~GENMASK(31, 16))
--#define PLL_CLK2_OFFSET(n)	(((n) & ~GENMASK(31, 16)) + (0x4))
+ #define to_ddiv_clock(_div) container_of(_div, struct ddiv_clk, div)
  
- #define DEF_TYPE(_name, _id, _type...) \
- 	{ .name = _name, .id = _id, .type = _type }
++static int rzv2h_cpg_pll_clk_is_enabled(struct clk_hw *hw)
++{
++	struct pll_clk *pll_clk = to_pll(hw);
++	struct rzv2h_cpg_priv *priv = pll_clk->priv;
++	u32 mon_offset = PLL_MON_OFFSET(pll_clk->conf);
++	u32 val;
++
++	val = readl(priv->base + mon_offset);
++
++	/* Ensure both RESETB and LOCK bits are set */
++	return (val & (PLL_MON_RESETB | PLL_MON_LOCK)) ==
++	       (PLL_MON_RESETB | PLL_MON_LOCK);
++}
++
++static int rzv2h_cpg_pll_clk_enable(struct clk_hw *hw)
++{
++	bool enabled = rzv2h_cpg_pll_clk_is_enabled(hw);
++	struct pll_clk *pll_clk = to_pll(hw);
++	struct rzv2h_cpg_priv *priv = pll_clk->priv;
++	u32 conf = pll_clk->conf;
++	unsigned long flags = 0;
++	u32 stby_offset;
++	u32 mon_offset;
++	u32 val;
++	int ret;
++
++	if (enabled)
++		return 0;
++
++	stby_offset = PLL_STBY_OFFSET(conf);
++	mon_offset = PLL_MON_OFFSET(conf);
++
++	val = PLL_STBY_RESETB_WEN | PLL_STBY_RESETB;
++	spin_lock_irqsave(&priv->rmw_lock, flags);
++	writel(val, priv->base + stby_offset);
++	spin_unlock_irqrestore(&priv->rmw_lock, flags);
++
++	/* ensure PLL is in normal mode */
++	ret = readl_poll_timeout(priv->base + mon_offset, val,
++				 (val & (PLL_MON_RESETB | PLL_MON_LOCK)) ==
++				 (PLL_MON_RESETB | PLL_MON_LOCK), 0, 250000);
++	if (ret)
++		dev_err(priv->dev, "Failed to enable PLL 0x%x/%pC\n",
++			stby_offset, hw->clk);
++
++	return ret;
++}
++
+ static unsigned long rzv2h_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
+ 						   unsigned long parent_rate)
+ {
+@@ -165,6 +220,8 @@ static unsigned long rzv2h_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
+ }
+ 
+ static const struct clk_ops rzv2h_cpg_pll_ops = {
++	.is_enabled = rzv2h_cpg_pll_clk_is_enabled,
++	.enable = rzv2h_cpg_pll_clk_enable,
+ 	.recalc_rate = rzv2h_cpg_pll_clk_recalc_rate,
+ };
+ 
 -- 
 2.43.0
 
