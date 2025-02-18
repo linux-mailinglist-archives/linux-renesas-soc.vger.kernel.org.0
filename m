@@ -1,55 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-13243-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A55A399AF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 11:54:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1720A39A5E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 12:17:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A6873AE964
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 10:51:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAC201739BF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 11:15:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A631123AE67;
-	Tue, 18 Feb 2025 10:51:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FD4623C8A9;
+	Tue, 18 Feb 2025 11:14:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB8802376E0;
-	Tue, 18 Feb 2025 10:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235BF24111E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Feb 2025 11:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739875860; cv=none; b=d/tWRJP3CR/pwSO5meG9tYh3qYieHgkD2kOddfHJ52YCmIe6on+9FTwtqmPK/Gkb8utY62eT1nOt/B9w8q/9F2pJ0zfhukXeEuBiq3wBtVTbs7xBnOoozlXu/RDurJhQytmU7qN6LBTKQ5Dbcpng8RoEigcEsKVKDPAcvaZk0fU=
+	t=1739877280; cv=none; b=k3O1ByemBDYxO/BvM6cNu8+5y8rRhLzmR5kSwV5YU8f8KwU61VQDmuwrTJg+2Py3ZpASwE708holLD5r1+4fkuH6iQ1AUAgdGnX0SqdJLMZMlqeteLnGbmVOY2j7AEHRO2ALWkuDwgCOuhttQRWe8pxmd83aOEA85P7lQo2Vq6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739875860; c=relaxed/simple;
-	bh=ZoIQF26rmEJf9RCXZUKPNH9hhsauii+mZjsUmvxT+EY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eDQ6czdeehg8d0xHUbLD/6B3drqFAUYh9ivyMEIWHHDqJnmw+dCtuAcSGCvSYBTP/SXsLA8g1hbJtkJFrf8B3n/Ahzza2HenI0td7xYuQPdIQWs9qqr61agc2zi823m8LTJcI5sDjrTQNeEMINniml3NYEgKwFuj1tH7GfDQcBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: u7PajCclRR6/G0UKZnQh5A==
-X-CSE-MsgGUID: UKTFrJcfTLi7Q0LozL8W4g==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 18 Feb 2025 19:50:58 +0900
-Received: from localhost.localdomain (unknown [10.226.92.208])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8EFD042A47AC;
-	Tue, 18 Feb 2025 19:50:55 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 11/11] arm64: dts: renesas: r9a09g047e57-smarc: Enable CANFD
-Date: Tue, 18 Feb 2025 10:50:01 +0000
-Message-ID: <20250218105007.66358-12-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250218105007.66358-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1739877280; c=relaxed/simple;
+	bh=CzKvQA0VswSdpIHPfZkDC1XIgL8JGpwAbo8/WLHhC+0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dIcQS4XIiGC+BtC1ggr+QU46gE/SixlCVCdh7IInJXCRA2sKmsE3S1hhjPGWBcqNYMkb+ln70QoffUJEEgL4GMGZVYFQv76VFim1yGHC0zbL0ZD0rw19kZZSvkDH6RqXX/pkqtujG3dU0aSzA23LKh70Tnh2NsvK73WnBTEXabA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1tkLYP-0005B9-Ti; Tue, 18 Feb 2025 12:14:17 +0100
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1tkLYN-001aFH-2r;
+	Tue, 18 Feb 2025 12:14:15 +0100
+Received: from pengutronix.de (p5b164285.dip0.t-ipconnect.de [91.22.66.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 702BE3C5B2C;
+	Tue, 18 Feb 2025 11:14:15 +0000 (UTC)
+Date: Tue, 18 Feb 2025 12:14:15 +0100
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-can@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH 00/11] Add support for RZ/G3E CANFD
+Message-ID: <20250218-outgoing-binturong-of-tact-aa4d49-mkl@pengutronix.de>
 References: <20250218105007.66358-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -57,114 +66,57 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="z6lokcnpvxqlpaay"
+Content-Disposition: inline
+In-Reply-To: <20250218105007.66358-1-biju.das.jz@bp.renesas.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Enable CANFD on the RZ/G3E SMARC EVK platform.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- .../boot/dts/renesas/r9a09g047e57-smarc.dts   | 45 +++++++++++++++++++
- .../boot/dts/renesas/renesas-smarc2.dtsi      | 15 +++++++
- 2 files changed, 60 insertions(+)
+--z6lokcnpvxqlpaay
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 00/11] Add support for RZ/G3E CANFD
+MIME-Version: 1.0
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-index 5d7983812c70..2a4b7bb3a1a6 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-@@ -10,6 +10,8 @@
- /* Switch selection settings */
- #define SW_SD0_DEV_SEL		0
- #define SW_SDIO_M2E		0
-+#define SW_GPIO8_CAN0_STB	0
-+#define SW_GPIO9_CAN1_STB	0
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/pinctrl/renesas,r9a09g047-pinctrl.h>
-@@ -33,7 +35,50 @@ vqmmc_sd1_pvdd: regulator-vqmmc-sd1-pvdd {
- 	};
- };
- 
-+&canfd {
-+	pinctrl-0 = <&canfd_pins>;
-+	pinctrl-names = "default";
-+
-+	channel1 {
-+		status = "okay";
-+	};
-+
-+	channel4 {
-+		status = "okay";
-+	};
-+};
-+
- &pinctrl {
-+#if SW_GPIO8_CAN0_STB
-+	can0-stb-hog {
-+		gpio-hog;
-+		gpios = <RZG3E_GPIO(5, 4) GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "can0_stb";
-+	};
-+#endif
-+
-+#if SW_GPIO9_CAN1_STB
-+	can1-stb-hog {
-+		gpio-hog;
-+		gpios = <RZG3E_GPIO(5, 5) GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "can1_stb";
-+	};
-+#endif
-+
-+	canfd_pins: canfd {
-+		can1_pins: can1 {
-+			pinmux = <RZG3E_PORT_PINMUX(L, 2, 3)>, /* RX */
-+				 <RZG3E_PORT_PINMUX(L, 3, 3)>; /* TX */
-+		};
-+
-+		can4_pins: can4 {
-+			pinmux = <RZG3E_PORT_PINMUX(5, 2, 3)>, /* RX */
-+				 <RZG3E_PORT_PINMUX(5, 3, 3)>; /* TX */
-+		};
-+	};
-+
- 	scif_pins: scif {
- 		pins = "SCIF_TXD", "SCIF_RXD";
- 		renesas,output-impedance = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-index fd82df8adc1e..a480358c5771 100644
---- a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-+++ b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-@@ -12,6 +12,17 @@
-  * SW_SDIO_M2E:
-  *     0 - SMARC SDIO signal is connected to uSD1
-  *     1 - SMARC SDIO signal is connected to M.2 Key E connector
-+ *
-+ * Please set the switch position SW_GPIO_CAN_PMOD on the carrier board and the
-+ * corresponding macro SW_GPIO8_CAN0_STB/SW_GPIO8_CAN0_STB on the board DTS:
-+ *
-+ * SW_GPIO8_CAN0_STB:
-+ *	0 - Connect to GPIO8 PMOD (default)
-+ *	1 - Connect to CAN0 transceiver STB pin
-+ *
-+ * SW_GPIO9_CAN1_STB:
-+ *	0 - Connect to GPIO9 PMOD (default)
-+ *	1 - Connect to CAN1 transceiver STB pin
-  */
- 
- / {
-@@ -29,6 +40,10 @@ aliases {
- 	};
- };
- 
-+&canfd {
-+	status = "okay";
-+};
-+
- &scif0 {
- 	status = "okay";
- };
--- 
-2.43.0
+On 18.02.2025 10:49:50, Biju Das wrote:
+> The CAN-FD module on RZ/G3E is very similar to the one on both R-Car V4H
+> and RZ/G2L, but differs in some hardware parameters:
+>  * No external clock, but instead has ram clock.
+>  * Support up to 6 channels.
+>  * 20 interrupts.
 
+Thanks for you contribution. Can you split this series in fixes and
+enhancements and post the fixes as a separate series. Please add
+stable@k.o on Cc if needed.
+
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--z6lokcnpvxqlpaay
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAme0a4QACgkQDHRl3/mQ
+kZy1HQf/Ra/7NSy+7EbzmQjtexxW1MNCxtpZKA3Bh5+doGSLvtiwwD5TePU41XMc
+36D4mLSyExIuxREb6Zd188JVf0W9PVoFO6paThCK1jPKzTJI0H5u2dTXrbyFYm5N
+b+udrsOoV6ivihs9itEePaQ7QwZMEG6ONZSvPw9maHNzIvUdJeukqOtTSvWzATCa
+T/NHWcR6rZk1Xjf/JhKeTythzpu7WmcqHbNE/VOHzWLDubKJvXw5nmMN6q2Ob76V
+lCMGx3Lm+ww3mhBO6T2ObN5j9LsIwI9YHk14kwhgUZ8a5xATAJIZ2keBtnpRAWmv
+J110WHSpR1bGISUnlsgik8KJncgeOg==
+=r/2J
+-----END PGP SIGNATURE-----
+
+--z6lokcnpvxqlpaay--
 
