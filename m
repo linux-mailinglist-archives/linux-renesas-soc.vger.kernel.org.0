@@ -1,184 +1,170 @@
-Return-Path: <linux-renesas-soc+bounces-13229-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13230-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D148A39707
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 10:27:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B89A39884
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 11:17:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0CF0E174096
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 09:25:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C6FC47A1C38
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 10:16:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B82F22F3AB;
-	Tue, 18 Feb 2025 09:25:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B47722FAE1;
+	Tue, 18 Feb 2025 10:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YsBGbMwc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C0F1F94A;
-	Tue, 18 Feb 2025 09:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2273C23024C
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Feb 2025 10:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739870723; cv=none; b=BbDmZkwEJHpOngvjngZJUY/jxgQ6mURUx+sTrTslY2CJPPO499ZibVLJbaSjkpGFGKHAfE57+plIb0EaxfiW+P0vxVdg/DNi0G+9Jx/x6qgzjpGl6F0OGmnYYi01sacnQDHL5DywHrg6y4U8lxrWDMzv+q8ykn4JNZiuKnlmnvw=
+	t=1739873759; cv=none; b=Eth4sy5DSrhSYcEGy028CcIyJBujLyYcMJMd97naOKAUBIDe+sHv4ZMDyLf/aVpFsoZnx7/yBHGycRkb6dwzidGpi5HSNuPc3ALgq5HtSVz00I/Ik28ZrplSud+1dwMateINkD0qc7J/Wucz5l2IEGW+vwgtePjNC6oFZU46u8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739870723; c=relaxed/simple;
-	bh=2A+HPgq4kw3LHWNne2m/gQ/v0dE8qcC9rhzvU6/BKms=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ed5vn3HmQKELJBeQR7HqwJSS7lFb0hum/NBmTHc6tRkd1v3Uo3uZbF1eovkkYQnmObLFK7zk+k/HTGMe5aRIl1nCaP1HuDXVf9sTo2PwX2X1lu3aqjiHQY+I4NkMEfOgqZNGJm2kArfrpfUTR7SvqHAqR9DPG2Y8G8nwS1sQxqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5209ea469e9so2042279e0c.0;
-        Tue, 18 Feb 2025 01:25:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739870719; x=1740475519;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6e+XkVhruxUj9hYDMFwzpshD1I1yvdexdZUX8aeqRjQ=;
-        b=Sp+2rTCXn8yCvha93yEvj4SE8O8xqBjGuoAicI2vEo2yNQ41YdwZC40SRbIpj6KtdU
-         5HMqd7LbiLj2RMH6aIw/4yAX/LGUyfUxw/eM9NDGbzajSjvJG7FC2EsrFilANznNdJIC
-         u9dG0tIvAziGEKGRrs6wAqUvLyFyTM0csgEdHBSK/uMUhKmDfFd7jYt/kPtCsP00GVDr
-         GjIPAyTtGN3awBOJayRGJxzI4LCXZrygk0PpIqkamRtspuVv2Pq6FEXJEVqGGq/nd2h/
-         IJ9ZHBzIcF+miciNV/zh2bGOYDswr+UvUgYF0eCeTZfiB744y/SPj0xM22YZCeDjIa0Y
-         JBJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUTLX/onvgWpm3fikqPNMnTRwRQVc6wzPLWAJjB4WEuFnwhfQg+SLbKM6SNg9hl+LionleDZCalQjNld7/CmecsCQ==@vger.kernel.org, AJvYcCVcf2jSwrpVtOypbwLmhROgZRonjilytt49lZemsOWpsyxV7LhKelCab/FGeaQmWLnMVWuB7uaf@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOtfanjcN/bxNGpYve2QlNL90qHfOo3BxHMaZGGYG960HjxSAN
-	JvFSF2quOAOAMpMqV5i1qt/Q2SstH9OoFeByLvPYMlrUBs3iLt9GQQ7RwzH8FYM=
-X-Gm-Gg: ASbGnctFj+hENqoDwEjKO5raJk20Hnj1yC6XoYTvoIVkZrIIjUp31HpPTASE1zt6+OW
-	nSmodr1GCYZVqCF4HVCVCG59GP2ZKs53dIiwap0xPOoDT57fwntF6GCu7Jpx+FsZNBy4iBukJp0
-	CU4jsLB+oHcL13rQOVCrqDveiXO+Yz2D+tDuQ9dvfJxrMHQlkA/csS/zu/6JQeu1RW3AzF2PegL
-	AZTdQEBG5G/ovHj6OB9NtLdnd15xmOnoBp3PhMu6qx5MtFySRTcZV4uycghr+u6Sx7NcQEPrO4H
-	9DG+cvRvMQNBiknK6/rxH8GJ6ISBkfNasiXUJrSVD8ony/jXCP/v/w==
-X-Google-Smtp-Source: AGHT+IEEF/9w4eanA8pthwvr4xzFjx6NKjXpDBdJWnJ252CK5mg2qI/Ab6ZmWoEaDgeYf9R0eDlsCg==
-X-Received: by 2002:ac5:c85b:0:b0:520:abfc:4f10 with SMTP id 71dfb90a1353d-520abfc5121mr3456433e0c.3.1739870718888;
-        Tue, 18 Feb 2025 01:25:18 -0800 (PST)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-869044f1107sm1601956241.17.2025.02.18.01.25.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2025 01:25:18 -0800 (PST)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4b9486a15a0so3781119137.0;
-        Tue, 18 Feb 2025 01:25:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUCyFcJtvz+w2tz71cAnTipl8gxbtgHGn+SVWzyj8jSOC0QzAE3LL9EhtfZixy3OgVNb//o9rLJ@vger.kernel.org, AJvYcCWu8GrNw7UYRJkFXGZ7udLdxyO9iYQUjdLm0g0VpnPBvfKS2T6RbeojR/cGEiO9SA5xJBkp4goV/O0PYNoM4QBZuw==@vger.kernel.org
-X-Received: by 2002:a05:6102:34b:b0:4bd:860f:ff2 with SMTP id
- ada2fe7eead31-4bd860f10cfmr4418314137.4.1739870718057; Tue, 18 Feb 2025
- 01:25:18 -0800 (PST)
+	s=arc-20240116; t=1739873759; c=relaxed/simple;
+	bh=sBTdqtOgD16fApVUeqBYVKlviQM3uaMS7VNpQQS1yRI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OFbqJB7XReFO6+hsMthVFeL5LDQFPPgk5hlnzA+TY7pY9VK9kfC3O+VtS7k19PD6ViDelu3+DXiDMeP+mEzJ86EwWTIDUeoa758Qj0UHRBWbSPXt3jze0tToG302dW7ehylROkAHg+/tNYEap7k93HgjCAcFh8eJEbFHzkqnLUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YsBGbMwc; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=DWNdU6NHbFUKWE
+	wBPm/fHWiiYU/V553IRXpMN4Dsz7w=; b=YsBGbMwcvE9NjdbhTQcYvj42UaThrm
+	puvdO2MMxHzlTz/Wq3HkwVOtWQg36Uve996i5AoS8T2Z3zZqG1cF8R3gzfzHdzo5
+	OrCGGqmY6Frk1ALJXcDXNILfNslz9oC6pOvT+KYQEO8ObYcLqqxXJ8gwGXfseq0a
+	c6sXRUx6+QEthvosxh3DYTkh2TbVCzfmO6rhr8jG1TmG9Sj5VAKcJgyoBWwNikR1
+	y9Ae6yLwJdgDR/JHIsUeOXAYYsdkJpnLejsoCEBgwnJJ/xGB285N4/iPajfIesIH
+	Q3GAhp1BEV2vBwkbsyAENBx15+33vC650Pg8y0A+6c9aiX6On4fnI40A==
+Received: (qmail 157857 invoked from network); 18 Feb 2025 11:15:53 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Feb 2025 11:15:53 +0100
+X-UD-Smtp-Session: l3s3148p1@eooI7Wcu9pEujnvP
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Joseph Jang <jjang@nvidia.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-rtc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH] selftest: rtc: skip some tests if the alarm only supports minutes
+Date: Tue, 18 Feb 2025 11:15:47 +0100
+Message-Id: <20250218101548.6514-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250214174650.2056949-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20250214174650.2056949-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 18 Feb 2025 10:25:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXBUU3rNxQbHZxGgC2S1GecsLs7RmB8FJvmc9F3SCUDSg@mail.gmail.com>
-X-Gm-Features: AWEUYZl4_uJMHXPeHvfbjIrwfWbSOO1mQge9bKgHdmnh8AXGWvdCSYwBMMdGvH0
-Message-ID: <CAMuHMdXBUU3rNxQbHZxGgC2S1GecsLs7RmB8FJvmc9F3SCUDSg@mail.gmail.com>
-Subject: Re: [net-next] net: phy: marvell-88q2xxx: Init PHY private structure
- for mv88q211x
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Stefan Eichenberger <eichest@gmail.com>, Dimitri Fedrau <dima.fedrau@gmail.com>, netdev@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Niklas,
+There are alarms which have only minute-granularity. The RTC core
+already has a flag to describe them. Use this flag to skip tests which
+require the alarm to support seconds.
 
-On Fri, 14 Feb 2025 at 18:50, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> When adding LED support for mv88q222x devices the PHY private data
-> structure was added to the mv88q211x code path, the data structure is
-> however only allocated during mv88q222x probe. This results in a nullptr
-> deference for mv88q2110 devices.
->
->         Unable to handle kernel NULL pointer dereference at virtual addre=
-ss 0000000000000001
->         Mem abort info:
->           ESR =3D 0x0000000096000004
->           EC =3D 0x25: DABT (current EL), IL =3D 32 bits
->           SET =3D 0, FnV =3D 0
->           EA =3D 0, S1PTW =3D 0
->           FSC =3D 0x04: level 0 translation fault
->         Data abort info:
->           ISV =3D 0, ISS =3D 0x00000004, ISS2 =3D 0x00000000
->           CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
->           GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
->         [0000000000000001] user address but active_mm is swapper
->         Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
->         CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.14.0-rc1-arm64=
--renesas-00342-ga3783dbf2574 #7
->         Hardware name: Renesas White Hawk Single board based on r8a779g2 =
-(DT)
->         pstate: 20400005 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
->         pc : mv88q2xxx_config_init+0x28/0x84
->         lr : mv88q2110_config_init+0x98/0xb0
->         sp : ffff8000823eb9d0
->         x29: ffff8000823eb9d0 x28: ffff000440942000 x27: ffff80008144e400
->         x26: 0000000000001002 x25: 0000000000000000 x24: 0000000000000000
->         x23: 0000000000000009 x22: ffff8000810534f0 x21: ffff800081053550
->         x20: 0000000000000000 x19: ffff0004437d6800 x18: 0000000000000018
->         x17: 00000000000961c8 x16: ffff0006bef75ec0 x15: 0000000000000001
->         x14: 0000000000000001 x13: ffff000440218080 x12: 071c71c71c71c71c
->         x11: ffff000440218080 x10: 0000000000001420 x9 : ffff8000823eb770
->         x8 : ffff8000823eb650 x7 : ffff8000823eb750 x6 : ffff8000823eb710
->         x5 : 0000000000000000 x4 : 0000000000000800 x3 : 0000000000000001
->         x2 : 0000000000000000 x1 : 00000000ffffffff x0 : ffff0004437d6800
->         Call trace:
->          mv88q2xxx_config_init+0x28/0x84 (P)
->          mv88q2110_config_init+0x98/0xb0
->          phy_init_hw+0x64/0x9c
->          phy_attach_direct+0x118/0x320
->          phy_connect_direct+0x24/0x80
->          of_phy_connect+0x5c/0xa0
->          rtsn_open+0x5bc/0x78c
->          __dev_open+0xf8/0x1fc
->          __dev_change_flags+0x198/0x220
->          dev_change_flags+0x20/0x64
->          ip_auto_config+0x270/0xefc
->          do_one_initcall+0xe4/0x22c
->          kernel_init_freeable+0x2a8/0x308
->          kernel_init+0x20/0x130
->          ret_from_fork+0x10/0x20
->         Code: b907e404 f9432814 3100083f 540000e3 (39400680)
->         ---[ end trace 0000000000000000 ]---
->         Kernel panic - not syncing: Attempted to kill init! exitcode=3D0x=
-0000000b
->         SMP: stopping secondary CPUs
->         Kernel Offset: disabled
->         CPU features: 0x000,00000070,00801250,8200700b
->         Memory Limit: none
->         ---[ end Kernel panic - not syncing: Attempted to kill init! exit=
-code=3D0x0000000b ]---
->
-> Fix this by using a generic probe function for both mv88q211x and
-> mv88q222x devices that allocates the PHY private data structure, while
-> only the mv88q222x probes for LED support.
->
-> Fixes: a3783dbf2574 ("net: phy: marvell-88q2xxx: Add support for PHY LEDs=
- on 88q2xxx")
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Thanks, this fixes the crash during boot on Gray Hawk Single
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested with a Renesas RZ-N1D board. This RTC obviously has only minute
+resolution for the alarms. Output now looks like this:
 
-Gr{oetje,eeting}s,
+#  RUN           rtc.alarm_alm_set ...
+#      SKIP      Skipping test since alarms has only minute granularity.
+#            OK  rtc.alarm_alm_set
+ok 5 rtc.alarm_alm_set # SKIP Skipping test since alarms has only minute granularity.
 
-                        Geert
+Before it was like this:
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+#  RUN           rtc.alarm_alm_set ...
+# rtctest.c:255:alarm_alm_set:Alarm time now set to 09:40:00.
+# rtctest.c:275:alarm_alm_set:data: 1a0
+# rtctest.c:281:alarm_alm_set:Expected new (1489743644) == secs (1489743647)
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+
+ tools/testing/selftests/rtc/rtctest.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/tools/testing/selftests/rtc/rtctest.c b/tools/testing/selftests/rtc/rtctest.c
+index 3e4f0d5c5329..e0a148261e6f 100644
+--- a/tools/testing/selftests/rtc/rtctest.c
++++ b/tools/testing/selftests/rtc/rtctest.c
+@@ -29,6 +29,7 @@ enum rtc_alarm_state {
+ 	RTC_ALARM_UNKNOWN,
+ 	RTC_ALARM_ENABLED,
+ 	RTC_ALARM_DISABLED,
++	RTC_ALARM_RES_MINUTE,
+ };
+ 
+ FIXTURE(rtc) {
+@@ -88,7 +89,7 @@ static void nanosleep_with_retries(long ns)
+ 	}
+ }
+ 
+-static enum rtc_alarm_state get_rtc_alarm_state(int fd)
++static enum rtc_alarm_state get_rtc_alarm_state(int fd, int need_seconds)
+ {
+ 	struct rtc_param param = { 0 };
+ 	int rc;
+@@ -103,6 +104,10 @@ static enum rtc_alarm_state get_rtc_alarm_state(int fd)
+ 	if ((param.uvalue & _BITUL(RTC_FEATURE_ALARM)) == 0)
+ 		return RTC_ALARM_DISABLED;
+ 
++	/* Check if alarm has desired granularity */
++	if (need_seconds && (param.uvalue & _BITUL(RTC_FEATURE_ALARM_RES_MINUTE)))
++		return RTC_ALARM_RES_MINUTE;
++
+ 	return RTC_ALARM_ENABLED;
+ }
+ 
+@@ -227,9 +232,11 @@ TEST_F(rtc, alarm_alm_set) {
+ 		SKIP(return, "Skipping test since %s does not exist", rtc_file);
+ 	ASSERT_NE(-1, self->fd);
+ 
+-	alarm_state = get_rtc_alarm_state(self->fd);
++	alarm_state = get_rtc_alarm_state(self->fd, 1);
+ 	if (alarm_state == RTC_ALARM_DISABLED)
+ 		SKIP(return, "Skipping test since alarms are not supported.");
++	if (alarm_state == RTC_ALARM_RES_MINUTE)
++		SKIP(return, "Skipping test since alarms has only minute granularity.");
+ 
+ 	rc = ioctl(self->fd, RTC_RD_TIME, &tm);
+ 	ASSERT_NE(-1, rc);
+@@ -295,9 +302,11 @@ TEST_F(rtc, alarm_wkalm_set) {
+ 		SKIP(return, "Skipping test since %s does not exist", rtc_file);
+ 	ASSERT_NE(-1, self->fd);
+ 
+-	alarm_state = get_rtc_alarm_state(self->fd);
++	alarm_state = get_rtc_alarm_state(self->fd, 1);
+ 	if (alarm_state == RTC_ALARM_DISABLED)
+ 		SKIP(return, "Skipping test since alarms are not supported.");
++	if (alarm_state == RTC_ALARM_RES_MINUTE)
++		SKIP(return, "Skipping test since alarms has only minute granularity.");
+ 
+ 	rc = ioctl(self->fd, RTC_RD_TIME, &alarm.time);
+ 	ASSERT_NE(-1, rc);
+@@ -357,7 +366,7 @@ TEST_F_TIMEOUT(rtc, alarm_alm_set_minute, 65) {
+ 		SKIP(return, "Skipping test since %s does not exist", rtc_file);
+ 	ASSERT_NE(-1, self->fd);
+ 
+-	alarm_state = get_rtc_alarm_state(self->fd);
++	alarm_state = get_rtc_alarm_state(self->fd, 0);
+ 	if (alarm_state == RTC_ALARM_DISABLED)
+ 		SKIP(return, "Skipping test since alarms are not supported.");
+ 
+@@ -425,7 +434,7 @@ TEST_F_TIMEOUT(rtc, alarm_wkalm_set_minute, 65) {
+ 		SKIP(return, "Skipping test since %s does not exist", rtc_file);
+ 	ASSERT_NE(-1, self->fd);
+ 
+-	alarm_state = get_rtc_alarm_state(self->fd);
++	alarm_state = get_rtc_alarm_state(self->fd, 0);
+ 	if (alarm_state == RTC_ALARM_DISABLED)
+ 		SKIP(return, "Skipping test since alarms are not supported.");
+ 
+-- 
+2.39.2
+
 
