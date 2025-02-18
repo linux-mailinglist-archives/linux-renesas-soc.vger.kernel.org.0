@@ -1,139 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-13300-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13301-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1DC6A3AA7E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 22:08:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EE1A3AB3D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 22:41:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 779383A0887
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 21:07:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA2ED1664CC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 21:41:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5CEB2862A1;
-	Tue, 18 Feb 2025 21:07:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05F431D5AD3;
+	Tue, 18 Feb 2025 21:41:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GuDLjxdN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vt/d17Lc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9EB2862A0;
-	Tue, 18 Feb 2025 21:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35FA1D5165
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Feb 2025 21:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739912848; cv=none; b=T0aEGqfwGHLLrzuYCPnCx84ovYr9Bi+yan+qsFVQtxAGmUr66z6gw4jTlDMa2x7X2jHIbb+wwrap0PT5WCT+RtN/ykPkXG/z/ljocE5O/rVc7kBwmZ5/X1T4bs9Hk04Dmip7aAi+tEw2myY890EF7Lozk2L5XXi9Qm3uEmUkKCs=
+	t=1739914901; cv=none; b=bIIXnUA1B4MJ2wXC1c2j0dDJYpZnV2c4KI+4O2r4XfxHLpEPVqVYcM+ICywcOTMfOJeCFRWEnCvxBpf9VCthemaZt1VNYvfiTDa9uvGnRQm/ZElU7tLVqNkt7s4rP4xM+0pJPPfwmBFI0hXIW9Ee4chqmkCDTuVNeBClYQBzLtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739912848; c=relaxed/simple;
-	bh=un1WmHqXukfmvrLkFiLVRUbAP7Kc9NnfZJdv/1KC0c8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fNkZHzlxrmfXZ/1HLSDiv7tDpLZ7dougZZnpQoNVPQK9Ob6yKxF4G0YbFl3vV+7zOPLW5BVF10RNJNJCL4TKfRDN6+X6EutGH4R6TrkQJ0+QnOBWKI16+DFRTZzBWUSTxWjhiHqtsCsgVRc7Z+eyd9gcZPURYUrz2qsoM5+Pnuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GuDLjxdN; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-52099627b5aso132931e0c.1;
-        Tue, 18 Feb 2025 13:07:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739912846; x=1740517646; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YUmz9mNlmOFx7fnJvKvu+IO94Ojxss29t7xq6j7B+j8=;
-        b=GuDLjxdNa3DewrszWlvGkVoAERun6tTyefKFZd0gZzeQ7AmWPl+tPjD5yyOLxN/c//
-         HBVCcbF/AR0R8Ltc0GAQP6aRIYuS1QRRxzeA4Ll0gp9yuzJElpIUdhTjrrPGeIXgSxHA
-         faEnAHG2nUKhH44doCkp9V73i3FN3kS/R42FWvGZNsF801mU25hMYCibSvxI4asm2mfs
-         6bAf5sX6cpQocHRxY7P3lLavUKolSmonYT61lTHq/BBNNgNU9QFyW0SvEFfJ24scZoe9
-         VO96Nx66UTbKjQpSguctJpJkYerGGiwvLyxigYRh/ZATGFOTIe0ryumP16JF9uS6Qr02
-         hr8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739912846; x=1740517646;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YUmz9mNlmOFx7fnJvKvu+IO94Ojxss29t7xq6j7B+j8=;
-        b=RS2bVv0Lh2m5ZMcYSv5dK+vUTdXEo2nTVIB4zMXzH7H4aowrBEGvK9GzA28VRaf/80
-         tBNevIf94Y6yS5N7x850688nUitBiSaJ85RH8OIG7+aPPU2KMdDN2MovHS08VD7/u2Lt
-         hsdIzgrVvZ3ahEL9xqxeswQw1BdGjVr+b7nf/UKAyZyNQ/W2w7K2r9G5jpfF58WOoldC
-         IVH5YFNAYugwTGhBPm/g64GJ4+5QJFu0yWA8IvFOqn7L1kfYLGK7eoeZAYPz8fC2sEnX
-         lwuG4zG7FOHhxpCf2v9JvFaWcflCpCSKhrmG96YlIiNJiflTrIt3MVp7vYUawOrYndlw
-         VMJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU14GNbCnHQ40gNcDWwu0uMGgLJVRNUZzsIhg7IZ11ylU2kNL8B5ug8MPEMfXh3lGBd17we5l6moJU=@vger.kernel.org, AJvYcCWp0NczfhcueAVVFIomdyYVPYUHvh2feP4LdIDEwimj+2dBBcgYD30RDgDRm0htnLZ9ayRLz2kX6BNuQ7vS9XpdBPg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlvMm8UGes6tzDpRO3d/HHeO7poi280FSlLXiqqI9owNuSGZgE
-	7kdoEfpfD5JSM5kDJjrhjNlC5ZRmHqO4nQ+RZU0IEnxLDiUoYdlTVRTX4tCtHLUY2t4O52W6Ibf
-	gXC66tuNBSOX9MfOvF5xh6m7e2uo=
-X-Gm-Gg: ASbGnctb7yZDh4/gfmwRGx/N6012RWToN77jVRSvGy5WHvwzF/jXiUxcq3uiTpzLcxM
-	YXYH0pAimlsokYkdyTUluZG0ih7Mgy79A7ot3THqwee9LN+KLfmgoHYFzZFfiCdS6kje9qMIn
-X-Google-Smtp-Source: AGHT+IHHg0gJQicqT/YRBfdVUSvVS4oKvqKpZIF+JFNtFeMUtdcvhVDthvk+zUZcJUrCA4deF8WCEbtjZPSb3k6Fgpc=
-X-Received: by 2002:a05:6122:2a56:b0:51e:ffd1:67f3 with SMTP id
- 71dfb90a1353d-521c33956femr1175006e0c.7.1739912845827; Tue, 18 Feb 2025
- 13:07:25 -0800 (PST)
+	s=arc-20240116; t=1739914901; c=relaxed/simple;
+	bh=+g2JQHK48qz0KypJ7sBB1KY2sUwRlGcJHHBbqPvjQZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QL8izwVpfS4gqQRal+JMKuf75g3NH0copZBx8PRNCDH9Jl8aoxKOd4HYMqSXUzClVZFXPZFvAY1d/Rim9VTC/d9TG1iFChnkBtIBoK6hUSDE19TnHx4vtoLrwtuR8lqeUePkGPuAudx4r/ZvNkFws4X0L6K9shJHp8cul+pZ4XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vt/d17Lc; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739914900; x=1771450900;
+  h=date:from:to:cc:subject:message-id;
+  bh=+g2JQHK48qz0KypJ7sBB1KY2sUwRlGcJHHBbqPvjQZ4=;
+  b=Vt/d17LcqdN/c8Pj2u4U/DcftfPNBwF8/2CAHbEIidIZ5ptSAREIC743
+   yX6NTYaAFNceDHJNrGDTLbh4eLIQX7O26zNrP1nE/1MvjPCSP57GjQ7Ga
+   ebzNs7gq5FFP7HNAdFfdj8LbzzQumB+gy7/2JY1Y2rEYSygjLz9sqVVXT
+   rDh72RQiMmrhmPebEiJGwQCR+RXF/t76zbtdwioWoXJtM2zdAOc8tbhRg
+   Woyj0jxmbhobQXJw+GllWkgBdQ9+Xpi3WbvCyafgQZkEjCc56RCUAIUv1
+   9M8j/t8imDWAXMVpMBbaUbkOE4D2P1KLcKVz6gkVzJCAzR6xlwAGDhD38
+   Q==;
+X-CSE-ConnectionGUID: SwRLVjV2SVS2LRsYLy51rQ==
+X-CSE-MsgGUID: WoBL6MYPQUGDKZDe/CC/bQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="52040322"
+X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
+   d="scan'208";a="52040322"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 13:41:40 -0800
+X-CSE-ConnectionGUID: manMQvjnSnalzt274ysWHg==
+X-CSE-MsgGUID: i78DLlijSRmUmmwDUZ5nhA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="114998162"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 18 Feb 2025 13:41:39 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tkVLQ-0000uJ-2U;
+	Tue, 18 Feb 2025 21:41:33 +0000
+Date: Wed, 19 Feb 2025 05:40:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-dts-for-v6.15] BUILD SUCCESS
+ e5bfc2c5a2e6b4dbb3103cce7004557492dd47cd
+Message-ID: <202502190540.SPs9K5kA-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250203143511.629140-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250203143511.629140-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 18 Feb 2025 21:07:00 +0000
-X-Gm-Features: AWEUYZmBfl7qTjIPZlALeH7jw8POlOspLxhblK_ubWh16ACTMZS0xQBQJ1dlTJk
-Message-ID: <CA+V-a8uesAcYB4Be1Df9w+K3NbWZBDTq1mXz2KBPVkXBk754YQ@mail.gmail.com>
-Subject: Re: [PATCH v7] i2c: riic: Implement bus recovery
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Andi Shyti <andi.shyti@kernel.org>, 
-	Chris Brandt <chris.brandt@renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Wolfram,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.15
+branch HEAD: e5bfc2c5a2e6b4dbb3103cce7004557492dd47cd  arm64: dts: renesas: r9a08g045: Add OPP table
 
-On Mon, Feb 3, 2025 at 2:35=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.co=
-m> wrote:
->
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Implement bus recovery by reinitializing the hardware to reset the bus
-> state and generating 9 clock cycles (and a stop condition) to release
-> the SDA line.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
-> Resending this patch which was part of v6 [0] series.
->
-> [0] https://lore.kernel.org/lkml/Z4ZCJYPgvS0Ke39g@shikoro/T/
->
-> Hi Wolfram,
->
-> Ive replied to your comments on v2 here [1] as to why the generic
-> recovery algorithm was not used.
->
-> [1] https://lore.kernel.org/all/CA+V-a8s4-g9vxyfYMgnKMK=3DOej9kDBwWsWehWL=
-YTkxw-06w-2g@mail.gmail.com/
->
-> Cheers,
-> Prabhakar
->
-> v6->v7
-> - None
->
-> v2->v6
-> - Included RB and TB from Claudiu.
->
-> v1->v2
-> - Used single register read to check SDA/SCL lines
-> ---
->  drivers/i2c/busses/i2c-riic.c | 100 ++++++++++++++++++++++++++++++----
->  1 file changed, 90 insertions(+), 10 deletions(-)
->
-Gentle ping.
+elapsed time: 732m
 
-Cheers,
-Prabhakar
+configs tested: 11
+configs skipped: 107
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+arm               allmodconfig    gcc-14.2.0
+arm               allyesconfig    gcc-14.2.0
+arm    randconfig-001-20250218    gcc-14.2.0
+arm    randconfig-002-20250218    gcc-14.2.0
+arm    randconfig-003-20250218    gcc-14.2.0
+arm    randconfig-004-20250218    clang-21
+arm64             allmodconfig    clang-18
+arm64  randconfig-001-20250218    clang-21
+arm64  randconfig-002-20250218    clang-21
+arm64  randconfig-003-20250218    gcc-14.2.0
+arm64  randconfig-004-20250218    clang-16
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
