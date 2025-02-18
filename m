@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-13241-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13242-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDEBA3999D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 11:51:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1847BA399AD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 11:54:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B974163866
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 10:51:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 392E33ADE8B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 10:51:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88E97239579;
-	Tue, 18 Feb 2025 10:50:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B528323AE82;
+	Tue, 18 Feb 2025 10:50:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF068239070;
-	Tue, 18 Feb 2025 10:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D83D23A564;
+	Tue, 18 Feb 2025 10:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739875853; cv=none; b=Fw2ezEcJZjhyFes+isyEQaAVauDU2B4+q8STZYeZhDsW/stgTThrTMNnrvUhg6gzTFNGAeo9hsgfUTMU6N4lHHXVQTSKsX/BixyjR3VOMK9WhdiVdkkWl0Iobp0A2fNMI119PnGn3uFcmoY7kS3fCag+OtALQAPHxcq6yyLmLew=
+	t=1739875858; cv=none; b=uRnwWTxz2sPXqsXZvkQkRYvVCLLS43SpEF+uMNcEvnbv53NecatGGXJ6z6kgWV39WNeGsoDeubwAPd01SSPPFT8byv2fNx0WTLfz0YAxdrQw4OX3RvJGuw1gNG6VAlKs2uwIk/dSG3c1KCcfe0WqmVJnEKe2wM+7v16iqxRooAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739875853; c=relaxed/simple;
-	bh=hSc/80u3LQnzJqBf8Z0qBL64vgBZkyeODrRh/YO+GfM=;
+	s=arc-20240116; t=1739875858; c=relaxed/simple;
+	bh=s1zP5px4Jctl6FMS3oPzoP9goN7oBicFnfaNAyoBZj4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WLyz3fVi28Mb9tJSPfoiFqpgWHULJ0jRuu9BDiLwXRpzIkQd1baLyyk3mIUimB9ushw/w5hpPdzDncszQY9GRNCfFi2PiiqIZrp3s4XHrYaIiRKb7oWMakhZCOdwfILaKLsmuuVY4/dJcq+fR2FZ1+MLsP92LHBUY/0Hpa8SRK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=o3F67rq1sJAL7m/JouLkUPi8hz9eRkZbMd765EHiCVU1fYlAH1SuUinyxoj8E93DW3kUeOIv3OmcaqT8VQtAx/WG+kyg3d5dlge/dckkDy8G1X+hBdyjmGXEKd3qUr6EVh6OB3UgxFpUs6bk39RvO9gLYIOoIcnqT0oGbb988b0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: Blbq7tWTQGGFKq1xTsGayg==
-X-CSE-MsgGUID: RrsSATdNSKGmdqv86IWsXw==
+X-CSE-ConnectionGUID: MU5SqQJWS3+EWbkADvf+aw==
+X-CSE-MsgGUID: aVxjImqAQYO7Jc+hFcP7yQ==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 18 Feb 2025 19:50:51 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 18 Feb 2025 19:50:55 +0900
 Received: from localhost.localdomain (unknown [10.226.92.208])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 80AFE42A47AC;
-	Tue, 18 Feb 2025 19:50:48 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0E3A842A5EA4;
+	Tue, 18 Feb 2025 19:50:51 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	linux-can@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 09/11] can: rcar_canfd: Add RZ/G3E support
-Date: Tue, 18 Feb 2025 10:49:59 +0000
-Message-ID: <20250218105007.66358-10-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH 10/11] arm64: dts: renesas: r9a09g047: Add CANFD node
+Date: Tue, 18 Feb 2025 10:50:00 +0000
+Message-ID: <20250218105007.66358-11-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250218105007.66358-1-biju.das.jz@bp.renesas.com>
 References: <20250218105007.66358-1-biju.das.jz@bp.renesas.com>
@@ -59,62 +59,86 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CAN-FD IP found on the RZ/G3E SoC is similar to R-Car Gen4, but
-it has no external clock instead it has clk_ram, it has 6 channels
-and supports 20 interrupts. Add support for RZ/G3E CAN-FD driver.
+Add CANFD node to RZ/G3E ("R9A09G047") SoC DTSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/net/can/rcar/rcar_canfd.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi | 62 ++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
-diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-index d6d7ba3e9ca1..69ccd69f68dd 100644
---- a/drivers/net/can/rcar/rcar_canfd.c
-+++ b/drivers/net/can/rcar/rcar_canfd.c
-@@ -607,6 +607,14 @@ static const struct rcar_canfd_hw_info rzg2l_hw_info = {
- 	.multi_channel_irqs = 1,
- };
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+index 4bc0b77f721a..7cb8b22af6c3 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+@@ -272,6 +272,68 @@ scif0: serial@11c01400 {
+ 			status = "disabled";
+ 		};
  
-+static const struct rcar_canfd_hw_info r9a09g047_hw_info = {
-+	.max_channels = 6,
-+	.postdiv = 1,
-+	.multi_channel_irqs = 1,
-+	.gen4_type = 1,
-+	.only_internal_clks = 1,
-+};
++		canfd: can@12440000 {
++			compatible = "renesas,r9a09g047-canfd";
++			reg = <0 0x12440000 0 0x40000>;
++			interrupts = <GIC_SPI 709 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 710 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 697 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 703 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 711 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 698 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 704 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 712 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 699 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 705 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 713 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 700 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 706 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 714 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 701 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 707 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 715 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 702 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 708 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 716 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "g_err", "g_recc",
++					  "ch0_err", "ch0_rec", "ch0_trx",
++					  "ch1_err", "ch1_rec", "ch1_trx",
++					  "ch2_err", "ch2_rec", "ch2_trx",
++					  "ch3_err", "ch3_rec", "ch3_trx",
++					  "ch4_err", "ch4_rec", "ch4_trx",
++					  "ch5_err", "ch5_rec", "ch5_trx";
++			clocks = <&cpg CPG_MOD 156>,
++				 <&cpg CPG_MOD 157>,
++				 <&cpg CPG_MOD 158>;
++			clock-names = "fck", "ram_clk", "can_clk";
++			assigned-clocks = <&cpg CPG_MOD 158>;
++			assigned-clock-rates = <80000000>;
++			resets = <&cpg 161>,
++				 <&cpg 162>;
++			reset-names = "rstp_n", "rstc_n";
++			power-domains = <&cpg>;
++			status = "disabled";
 +
- /* Helper functions */
- static inline bool is_gen4(struct rcar_canfd_global *gpriv)
- {
-@@ -1861,6 +1869,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
- 	u32 rule_entry = 0;
- 	bool fdmode = true;			/* CAN FD only mode - default */
- 	char name[9] = "channelX";
-+	struct clk *clk_ram;
- 	int i;
- 
- 	info = of_device_get_match_data(dev);
-@@ -1950,6 +1959,11 @@ static int rcar_canfd_probe(struct platform_device *pdev)
- 		gpriv->extclk = !gpriv->info->only_internal_clks;
- 	}
- 
-+	clk_ram = devm_clk_get_optional_enabled(dev, "ram_clk");
-+	if (IS_ERR(clk_ram))
-+		return dev_err_probe(dev, PTR_ERR(clk_ram),
-+				     "cannot get ram clock\n");
++			channel0 {
++				status = "disabled";
++			};
++			channel1 {
++				status = "disabled";
++			};
++			channel2 {
++				status = "disabled";
++			};
++			channel3 {
++				status = "disabled";
++			};
++			channel4 {
++				status = "disabled";
++			};
++			channel5 {
++				status = "disabled";
++			};
++		};
 +
- 	addr = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(addr)) {
- 		err = PTR_ERR(addr);
-@@ -2112,6 +2126,7 @@ static SIMPLE_DEV_PM_OPS(rcar_canfd_pm_ops, rcar_canfd_suspend,
- 
- static const __maybe_unused struct of_device_id rcar_canfd_of_table[] = {
- 	{ .compatible = "renesas,r8a779a0-canfd", .data = &rcar_gen4_hw_info },
-+	{ .compatible = "renesas,r9a09g047-canfd", .data = &r9a09g047_hw_info },
- 	{ .compatible = "renesas,rcar-gen3-canfd", .data = &rcar_gen3_hw_info },
- 	{ .compatible = "renesas,rcar-gen4-canfd", .data = &rcar_gen4_hw_info },
- 	{ .compatible = "renesas,rzg2l-canfd", .data = &rzg2l_hw_info },
+ 		wdt1: watchdog@14400000 {
+ 			compatible = "renesas,r9a09g047-wdt", "renesas,r9a09g057-wdt";
+ 			reg = <0 0x14400000 0 0x400>;
 -- 
 2.43.0
 
