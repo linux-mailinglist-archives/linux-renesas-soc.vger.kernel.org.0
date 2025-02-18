@@ -1,60 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-13232-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13233-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F96A39988
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 11:50:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C99A399A4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 11:53:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A5B31889D77
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 10:50:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E756E3A9AA1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 10:50:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE4752376E0;
-	Tue, 18 Feb 2025 10:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9984323770D;
+	Tue, 18 Feb 2025 10:50:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CB0313D51E;
-	Tue, 18 Feb 2025 10:50:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3533313D51E;
+	Tue, 18 Feb 2025 10:50:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739875819; cv=none; b=cOVgI/jppG7gRLMqVh5dziUPGN4b6wFA7P5agfjP2O8galh2wFZhcJ6NKYZReLxG3C+JrutEEBBAvMudni8yZ+eNC6DtB6uJcUQKBNJlMchX+fwK8/VIGjp7bBMLv12htiVpHMhvl5E4L2WdKNrzFSMVS/jTLHFDyzE5oICdk9M=
+	t=1739875822; cv=none; b=rv3dPSd0vbMTZvA+OmicNd3rLaKpzc50ZwlTpeGcL5BgJH+JrVvN971lU1qBNgSFs5LtDCB2XfMVhfW1/DYzQVaysufkgmvPUkU+fZK/e/E9BBTJxRLAG+0Y3rZN6u8V09VHCVphRrzO+RZIe73z02w+T5y4+nNIs9UPbHABVd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739875819; c=relaxed/simple;
-	bh=cukJ0YpKR1kt8Y9Av4A4pHlmztUO8OZigwY0OI8Yu8k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BQUqro1eYwLZz2+eiFkY+2NKOmT6UgPmFOQvhev3zq/kYg5gXYr1cw9qpuNPDdYX9LEsptAa0NXcRq3iA+msK9JnLTn6S/AkLp3VTfm5szH6WB9sTRok2YQEyatVSDD/Ve+oMQQ4eUleVfi/aX9MrG6LBhUf9Eq5ew9VfKbCo4A=
+	s=arc-20240116; t=1739875822; c=relaxed/simple;
+	bh=S61HY/Jrag/mMuYjRYnoF9AcCl/s2V9XZHEQINzvGXs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Lt8+3CsZqMEQuQVflTBP/w5UlYapKhJ46vdSMArFojXhYNOUeNK8hwTmJ6Qx18fdg5yVL0Xqhuy154GJkMbaNEJWzyhotpoXwWXaM6LK3GDEQ9RXMmrgnsShdWRGk2gobz9K8cIZ7aAqeY3BzAPh+bGnzz40wqadrdvnvEiKRuM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: ydLRkTBhR9mxWRn+7xkR4w==
-X-CSE-MsgGUID: HGdy3ZEoRriNBJMOUoAl7Q==
+X-CSE-ConnectionGUID: 15C/WmBeQwSnb23zhORlmg==
+X-CSE-MsgGUID: 3R2xbDLISWm5WZqUiySFcA==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 18 Feb 2025 19:50:14 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 18 Feb 2025 19:50:17 +0900
 Received: from localhost.localdomain (unknown [10.226.92.208])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id CD4B042A5EA4;
-	Tue, 18 Feb 2025 19:50:09 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5351842A5EA4;
+	Tue, 18 Feb 2025 19:50:15 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-can@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 00/11] Add support for RZ/G3E CANFD
-Date: Tue, 18 Feb 2025 10:49:50 +0000
-Message-ID: <20250218105007.66358-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 01/11] clk: renesas: r9a09g047: Add CANFD clock/reset
+Date: Tue, 18 Feb 2025 10:49:51 +0000
+Message-ID: <20250218105007.66358-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250218105007.66358-1-biju.das.jz@bp.renesas.com>
+References: <20250218105007.66358-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,35 +57,55 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CAN-FD module on RZ/G3E is very similar to the one on both R-Car V4H
-and RZ/G2L, but differs in some hardware parameters:
- * No external clock, but instead has ram clock.
- * Support up to 6 channels.
- * 20 interrupts.
+Add CANFD clock and reset entries.
 
-Biju Das (11):
-  clk: renesas: r9a09g047: Add CANFD clock/reset
-  dt-bindings: can: renesas,rcar-canfd: Fix typo in pattern properties
-    for R-Car V4M
-  dt-bindings: can: renesas,rcar-canfd: Simplify the conditional schema
-  dt-bindings: can: renesas,rcar-canfd: Document RZ/G3E support
-  can: rcar_canfd: Fix page entries in the AFL list
-  can: rcar_canfd: Add gen4_type variable to struct rcar_canfd_hw_info
-  can: rcar_canfd: Add only_internal_clks variable to struct
-    rcar_canfd_hw_info
-  can: rcar_canfd: Enhance multi_channel_irqs handling
-  can: rcar_canfd: Add RZ/G3E support
-  arm64: dts: renesas: r9a09g047: Add CANFD node
-  arm64: dts: renesas: r9a09g047e57-smarc: Enable CANFD
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/clk/renesas/r9a09g047-cpg.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
- .../bindings/net/can/renesas,rcar-canfd.yaml  | 182 +++++++++++++-----
- arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  62 ++++++
- .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  45 +++++
- .../boot/dts/renesas/renesas-smarc2.dtsi      |  15 ++
- drivers/clk/renesas/r9a09g047-cpg.c           |  10 +
- drivers/net/can/rcar/rcar_canfd.c             |  46 +++--
- 6 files changed, 305 insertions(+), 55 deletions(-)
-
+diff --git a/drivers/clk/renesas/r9a09g047-cpg.c b/drivers/clk/renesas/r9a09g047-cpg.c
+index 51fd24c20ed5..31bdc75f6f9f 100644
+--- a/drivers/clk/renesas/r9a09g047-cpg.c
++++ b/drivers/clk/renesas/r9a09g047-cpg.c
+@@ -34,6 +34,7 @@ enum clk_ids {
+ 	CLK_PLLCLN_DIV2,
+ 	CLK_PLLCLN_DIV8,
+ 	CLK_PLLCLN_DIV16,
++	CLK_PLLCLN_DIV20,
+ 	CLK_PLLDTY_ACPU,
+ 	CLK_PLLDTY_ACPU_DIV4,
+ 
+@@ -76,6 +77,7 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
+ 	DEF_FIXED(".pllcln_div2", CLK_PLLCLN_DIV2, CLK_PLLCLN, 1, 2),
+ 	DEF_FIXED(".pllcln_div8", CLK_PLLCLN_DIV8, CLK_PLLCLN, 1, 8),
+ 	DEF_FIXED(".pllcln_div16", CLK_PLLCLN_DIV16, CLK_PLLCLN, 1, 16),
++	DEF_FIXED(".pllcln_div20", CLK_PLLCLN_DIV20, CLK_PLLCLN, 1, 20),
+ 
+ 	DEF_DDIV(".plldty_acpu", CLK_PLLDTY_ACPU, CLK_PLLDTY, CDDIV0_DIVCTL2, dtable_2_64),
+ 	DEF_FIXED(".plldty_acpu_div4", CLK_PLLDTY_ACPU_DIV4, CLK_PLLDTY_ACPU, 1, 4),
+@@ -130,6 +132,12 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
+ 						BUS_MSTOP(1, BIT(7))),
+ 	DEF_MOD("riic_7_ckm",			CLK_PLLCLN_DIV16, 9, 11, 4, 27,
+ 						BUS_MSTOP(1, BIT(8))),
++	DEF_MOD("canfd_0_pclk",			CLK_PLLCLN_DIV16, 9, 12, 4, 28,
++						BUS_MSTOP(10, BIT(14))),
++	DEF_MOD("canfd_0_clk_ram",		CLK_PLLCLN_DIV8, 9, 13, 4, 29,
++						BUS_MSTOP(10, BIT(14))),
++	DEF_MOD("canfd_0_clkc",			CLK_PLLCLN_DIV20, 9, 14, 4, 30,
++						BUS_MSTOP(10, BIT(14))),
+ 	DEF_MOD("sdhi_0_imclk",			CLK_PLLCLN_DIV8, 10, 3, 5, 3,
+ 						BUS_MSTOP(8, BIT(2))),
+ 	DEF_MOD("sdhi_0_imclk2",		CLK_PLLCLN_DIV8, 10, 4, 5, 4,
+@@ -174,6 +182,8 @@ static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
+ 	DEF_RST(9, 14, 4, 15),		/* RIIC_6_MRST */
+ 	DEF_RST(9, 15, 4, 16),		/* RIIC_7_MRST */
+ 	DEF_RST(10, 0, 4, 17),		/* RIIC_8_MRST */
++	DEF_RST(10, 1, 4, 18),		/* CANFD_0_RSTP_N */
++	DEF_RST(10, 2, 4, 19),		/* CANFD_0_RSTC_N */
+ 	DEF_RST(10, 7, 4, 24),		/* SDHI_0_IXRST */
+ 	DEF_RST(10, 8, 4, 25),		/* SDHI_1_IXRST */
+ 	DEF_RST(10, 9, 4, 26),		/* SDHI_2_IXRST */
 -- 
 2.43.0
 
