@@ -1,140 +1,351 @@
-Return-Path: <linux-renesas-soc+bounces-13292-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13293-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2985A3A053
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 15:46:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADDEFA3A1B7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 16:52:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0070017794A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 14:40:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DCD76173A08
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2025 15:52:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A487226A0CD;
-	Tue, 18 Feb 2025 14:40:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C361726E16D;
+	Tue, 18 Feb 2025 15:51:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GY9/ggAn"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="kNRm+8Ni"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010016.outbound.protection.outlook.com [52.101.228.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAD02EAE6;
-	Tue, 18 Feb 2025 14:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739889601; cv=none; b=jIQGJqcnOPvcSwgZq2jIJVYU9FbwjLTySb64mkYCbIBSb5NbBi0iZFU5+SZ0T8sFndPirq4RlDKGc8E9Grfvyg7H1CGbVzyOOEtbdYcTtewLbx8neGsp81whATpeVLcTbpZ/wFir/Js0cDNXEuvgeuvcf7SwsnupzAKL3VpkQWw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739889601; c=relaxed/simple;
-	bh=l5nTSB7lblqeVaAbGAXfqruUCSQEjQUjzok/W2tTmrg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Cg6hR2Yzyc8r8hh0M1C7aPQ+h1dMPzzgEGKjL9qthzjVZ9bU6gUc+sHynNEyRx/qyvVBlim4DFUfHBY0eKKC5ZrOL6DCj5OuEXAx0nx/uOrll/uYkpGWp1A2R2XqqoqUdKsyGCWT32fjNSqlAMflizULB1aqD3xkT+A9cuF7MbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GY9/ggAn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E958FC4CEE8;
-	Tue, 18 Feb 2025 14:40:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739889601;
-	bh=l5nTSB7lblqeVaAbGAXfqruUCSQEjQUjzok/W2tTmrg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=GY9/ggAnpH8ZBp+F/EP3NSUBYOpgyjyhsBsMrba/OizvlhboGK/EJyxglQ0Einzny
-	 NkX9Lt4t9Tqy01cSa9lJRTsxu5hCy7Dgb7uLU8CowJ37jVUnOOXxdQMh8G3ICXh9rT
-	 2+rudTsAry30cWwBK0fn3SHdSnkVQiOtG8i+zWexBpJ4mMdEMzAioV7vm6Th66VsKL
-	 YSjw/2u2QZHz+9aN3l9l7s5wy8QYqT/8o2tABys6DRlNC1ADs1oOZjcvr9hNF/SpkV
-	 15zLxEm2xs7injkZJ4R0WWM5HVoXiUllgy6iJxmaqDZ2kdD3ukc9a3ZwBpDV6rvZwu
-	 H1Cr8WYzZN9uA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7138F380AAE9;
-	Tue, 18 Feb 2025 14:40:32 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25FEE26E14C;
+	Tue, 18 Feb 2025 15:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739893918; cv=fail; b=X7D6toH7ZHR7EGPEajDe5RXXIOSL04VCQNwqu9A2REArDvq+ECxugUx7QgCWG4cuJ9SuNfOOchZ+T9GahzQvdmESkgmCR+K2F4mNaYAIFiT6TdjMln3LSAlbIz1s7/9h6/GuWqu92JvCoIzOEHAgv24eaSzARllE3ROA02jjrQg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739893918; c=relaxed/simple;
+	bh=WwtWtdLx7rDqzPPQw/iUtJctNBDVfZjAbFEjfZwpyDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=MpnZ9hOmpXUtO+L4diBjpNRXWk1DMNtv7NDNiuiB+ZmU2HqzqyPfgw/EwwFXTgQMD/VnSIrDeUgohn9XLZJdv/bwebNm+7n9RUdLeXSW4XUZfSMjnT9SFKsffdXrqnPeINLFbKCXOzFYLnJ7lz9geLxt33977UKxNKlUS7A6exA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=kNRm+8Ni; arc=fail smtp.client-ip=52.101.228.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=smNEa46mUSDlFcklrknS10jDAh3Pth5HKMoNPJMZd8T8q1rQUMV7qHOhQE3YsMH4alA5uD+nnEUnkL4Q5y/ctyOIlzWxIX5N1m3hp4QO3sYT82JPO6HD43moRK10OpeqJNnwhJcb6GO2HzIOUint56jOiI3uV3zDSl9465fiE1/+qFDGF0tx7aUDSg46z2TfGOeczgZ58L2RoilJZFo6E/nStWUqSHrxVdn14xugU8j+EAeWVhqd/+A8L5exXD5I13jNlmnFuLwhd9N3w75RvrwZUm4mMPJIUhQWkrA8qDX6FFnmPR1YsXENGNC3BNUUdlPG8Xo106sBiN+OuqMjCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=li0wYahItCRRyuDPuqxYtglUTZz/SdWZLdbccAv/G90=;
+ b=tngKqA1Y8XfST7awq0MiTx38NEtrlit1gD3fkQNUUCmLooTNfI0dCCfEynFfmfZmMtMllLx8P7GIc18k9XpzCPxPIJ/fcmUWUtwx6oi6/gjNqT4Hb0rSjAbrPRcH7RMqO/TKrRJepHkF+DiQJ+vix5zTTFsIyZzLki9yShvbfQFeYE1joUa4c0iSsbk2SyRYksEVEyNowXqAh2WFCSr/awYBrNPi7mS5nsS41Rucv0OGFPHg8vgxV7C+kJ2bCWJEkVYCvmCYzkyoKi9ZjyuQgY+hOK8Ojh97Ydgxb+OJodSH6pxEytGSKsKwFXfGxqoCQ5IiPwRJI5DhTUf9PHQlFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=li0wYahItCRRyuDPuqxYtglUTZz/SdWZLdbccAv/G90=;
+ b=kNRm+8NihS5hIjPzQPDOVx2/iHKn29vzH9bfGHadoB1xuE9s2dVEPimVpjsAK4sPfGL4BmhCNSOMshgoLh2xjdVAOkC/KZnD1yumeDhWNZ5nYE2JCXqen/Pr7C6bWP+/kHjhCUWzlSxHrE/L5hPjvpqfAQBGObXNTasyX9JEBtQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
+ by TYAPR01MB6505.jpnprd01.prod.outlook.com (2603:1096:400:94::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Tue, 18 Feb
+ 2025 15:51:50 +0000
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3%5]) with mapi id 15.20.8445.017; Tue, 18 Feb 2025
+ 15:51:50 +0000
+Date: Tue, 18 Feb 2025 16:51:35 +0100
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tommaso Merciai <tomm.merciai@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/8] media: dt-bindings: renesas,rzg2l-cru: Document
+ Renesas RZ/G3E SoC
+Message-ID: <Z7Ssh5HbbjxpoRxR@tom-desktop>
+References: <20250210114540.524790-1-tommaso.merciai.xr@bp.renesas.com>
+ <20250210114540.524790-5-tommaso.merciai.xr@bp.renesas.com>
+ <20250214004500.GC8393@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250214004500.GC8393@pendragon.ideasonboard.com>
+X-ClientProxiedBy: FR4P281CA0087.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cd::11) To OS9PR01MB13950.jpnprd01.prod.outlook.com
+ (2603:1096:604:35e::5)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next] net: phy: marvell-88q2xxx: Init PHY private structure for
- mv88q211x
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <173988963128.4107754.507613354421997026.git-patchwork-notify@kernel.org>
-Date: Tue, 18 Feb 2025 14:40:31 +0000
-References: <20250214174650.2056949-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20250214174650.2056949-1-niklas.soderlund+renesas@ragnatech.se>
-To: =?utf-8?q?Niklas_S=C3=B6derlund_=3Cniklas=2Esoderlund+renesas=40ragnatech=2E?=@codeaurora.org,
-	=?utf-8?q?se=3E?=@codeaurora.org
-Cc: andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- eichest@gmail.com, dima.fedrau@gmail.com, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|TYAPR01MB6505:EE_
+X-MS-Office365-Filtering-Correlation-Id: 534265cf-9d22-48c1-82de-08dd50342859
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|52116014|7416014|376014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?O6eAWNTihlEbTEZJ3RvbPZgauN1zQp0Zk6CaUjhPMQvQASHIF6PzC7XWYmKo?=
+ =?us-ascii?Q?S7ph/ptxRbtGVvVL1+qpYKVeWYRdfpzU/wfZHvpirc3apwFUqtQQCUpbFYpc?=
+ =?us-ascii?Q?VV9v4zxRoghPIDdIQ1rGLiKO+X8sffGpcaUgfexsNl46AA9F5XdSLN3uAJ8n?=
+ =?us-ascii?Q?PwLN0YgCt0jgGtBe/3Xj6379qlALDqbP0FnCnUdoXwXrWND6N1CAU7K0a8AN?=
+ =?us-ascii?Q?l+7tVZQZmAnd04rOOwxw51vNmRb4T0FfF0YDXpYQ+4kPTgIhthfOa4ZUmlVx?=
+ =?us-ascii?Q?XJFE5sni66R9yxWWG77TLt38Mg8Gm2EKV5gPVc2MW3ojYUmtetplp7Su1qNA?=
+ =?us-ascii?Q?K1/rQv0pa2o+1mXR2h33CtBgUiklM7ckL36X3rGnAHKM+MNzTp31MP8pQHFQ?=
+ =?us-ascii?Q?FDsQ1h6jNU3ZIBGck3gMZJYrgW+jUI1TZiO/sEt1BjPVOyCpxFLpmmTiqT4T?=
+ =?us-ascii?Q?LpDx38NOItI3clXmB4SkJb/ALsQsebNR8RYrH09bphJMZT9NI/gqAYWwrsNc?=
+ =?us-ascii?Q?NCUl6zIScagcCJf91HosC4wxLE1eFpKhxiCBY/MwW7ugF+obYgR0D3Mr4J7m?=
+ =?us-ascii?Q?6XRSwj11JEJGjBYaZsBR46R0/MzOAG41ROpuk+rfegM6ICuA5UXlSMSu6hAi?=
+ =?us-ascii?Q?PRZuGflT2aH2pK834gA3sYyD1Ouckc7Bm71bcVlm4FKUQ5Zmt4VLh1bb44KI?=
+ =?us-ascii?Q?mH7awuq5mMtIbKDIDq8aHqnYNZqFi8T0wd5ASfpPT0aeRc6xGkK7bIvWozq+?=
+ =?us-ascii?Q?B0NEAiXWcP4ZMBKwrkEjVMMggJgKqkR0Eopc78Z9MHd/g/ockd3DOXtxiLHR?=
+ =?us-ascii?Q?Hf+vpgfIaMXRCj+zk2ZAAsAQoY6r2Rxe9khCYp5jV7sQd44PlZgvgHb2uYHN?=
+ =?us-ascii?Q?pFvai38CEaj5TiV0yVmxaQWldHGT664XdZNP0Ul053DYL7hkYswzH8dtlQR1?=
+ =?us-ascii?Q?wF1ZKEDEK80LzJUmSwiKXvMv37p9skFGDCAk3N5NnVktThUprAWHyEnCwbyP?=
+ =?us-ascii?Q?lp2rQ+fPqyJzWirnmUs7GkR/doXo+O8lzt9/FXQ8FynDGn/QZ6W2OZ5Fl1D1?=
+ =?us-ascii?Q?fuqwRU2bzJhmd9+KRNRYFng2T/vgXvPy/21sfoTH9oXgf2vdArBkQZnpylXa?=
+ =?us-ascii?Q?VYxw9sUU43K2mriiapUZzY5TssFZ5dN1flIPPddyZ/rallU18ZTuuMYiFYCC?=
+ =?us-ascii?Q?YytjCE7tdf7JvDgTKqXTX5GYxzmv7nHmSkqVLJOjNKmxb6En4lCvp5Yd8zYS?=
+ =?us-ascii?Q?KJu6UDVS6eL8t2bweU+IlW3BGPNefJY1Xf1u7yPeJKFheAVMI56CZq6Mk6hG?=
+ =?us-ascii?Q?YiceeKM0PW7epnkd13mJTPaGtmYudkPSzbdwXGaZRjPjH2KeKWhGDjv38RMx?=
+ =?us-ascii?Q?9b7+TzXgGJWt55GtkwE2p7GH0msLzXHwUHO7eIlcT9CDbrI2oTeacU2mnZJD?=
+ =?us-ascii?Q?d+1FbihqeB7T5SNNsZ0Xd81DvMg3tZ6i?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?+JMXxNUUM35OjixTgZlPZkh5h7JpzzX4uYLTixla31tToKg39Ek+Cdc3vFpU?=
+ =?us-ascii?Q?M8BJ0Yjoq6sU7WPA8CuTOIvW3Zb1Q34gwWn2DmQOpMw2PJu0QHKzpCEzjGSo?=
+ =?us-ascii?Q?FsYi/OrblMR6NV8RZId2G4a51lHgIpQHpDI2NIHlH2lMz3IcdTZRQiNzInQe?=
+ =?us-ascii?Q?akM/5EoUHplPMScldG2EjlYTCm7Fg0nYDcyCkkF8OxUpBXY4KN+HZA6JohJ4?=
+ =?us-ascii?Q?qIKWO91xj59QCE0aTYWbfeaYxPd9iAXgMWJBaxMNj/6R05jSVrca1F+fWvdf?=
+ =?us-ascii?Q?pZC6CeTIpslQOK5nfsLWNzxHoNJGMgXowUCohUBIV6ksTgTMS7/78wakWQiw?=
+ =?us-ascii?Q?C/Mqi87Wsnh5Dir85TVCNTOcjNInKuGqq4NZRgvdNAdEBXo5w6uYVTBpQf9F?=
+ =?us-ascii?Q?9BEL8Msp7r4SfS3LMdhZKc8TGyoISx9NL5hNfrQhgn69l8oZkbuUSOlDg2Om?=
+ =?us-ascii?Q?wL+OMiOTD9yGWL+fM/0S8mVyNF7+YcJj+7m4ZTTpS4jGoAF286AV7BEDsvKm?=
+ =?us-ascii?Q?mvdgCeX8pa/YyrnnJQ+R/qZqYTtA9RBAHwOm3fPesfohbOKveVpGVBzZVe56?=
+ =?us-ascii?Q?EIciVafP9bJx8+U8X7yw7tiroA1E4eZUC08aLgMWLKWQb/t186ksmIaiUPZS?=
+ =?us-ascii?Q?XU5vK1EFKmBJGRL2vQ7Pj6FS28ffXmDUXqr9HEAdaG45DP1qzvrf3UCZv6M/?=
+ =?us-ascii?Q?qjhRHhMznZ6Pnj21O/WOi7hM7ICQ6ySAVdAzkuSynmYr/mOniWVx0yDbWBJU?=
+ =?us-ascii?Q?pOdU7Nnc5Yxy92xich+ac8tPQE/wOV1ysjrmCVaeLlFjrThnJWmaW54b7KOZ?=
+ =?us-ascii?Q?mbiGlXvjhQYOg8Z9ZwJH8gb4Yz5QAAniu3TsR4BhM3sC4C/eb/a3cqJ13Yli?=
+ =?us-ascii?Q?O1Ek1azx23iKhDb40JA+ijAIZ9n19SEbvRQWCAtdKEws8M9HkoZX/NrYvWjH?=
+ =?us-ascii?Q?3sW9a6WAxLq+31jNdYiuJvjCegCnGusK8uoPgxvbirGKkWAVW5W5DhpXkLDe?=
+ =?us-ascii?Q?hVnOTlxMmJz7Xf7E3vMy3CZAokKx6jz8iQWZWMVF8sLgaQ0YdV83jEZECoNM?=
+ =?us-ascii?Q?oLVGSV/l6iRrUEdGMl+ZV8hAaIOrwSTF+LWyj+w3uvfhosSGdzSnw8jiREAM?=
+ =?us-ascii?Q?ii/EsaqrGRgONuD+rq9m2aIC9CQABCr8KGiATXnavl98M1Nw6E0LAhG+1FB+?=
+ =?us-ascii?Q?AQz58rTV/RC69l2kySnFXoqvwWk+ZjUIa1GrCS5Kt0ZJZoQcdQteUpiNGfMc?=
+ =?us-ascii?Q?9WeNfDa+F1Tg/TUdOA6i7RycyDe15mbvxJdF2G2MAazHmopUV8qDHuC2xXbC?=
+ =?us-ascii?Q?jufq1iFjaMM3CRPzuLTIABFNLhAc98bUeEHAX/xZGavdVLSFySTvtu6Q7b8w?=
+ =?us-ascii?Q?Y5sjNzQEL+URx0ukDf3a0jfs2pWmIevraRKeDkoFfbzEkUEUDIJHw5VSNgfI?=
+ =?us-ascii?Q?HaIRVEaSDryqeOdE0VMVMKF3bg3SsMxAVe4SVuAUKhGmgIkx/4EuEF8znAPr?=
+ =?us-ascii?Q?eqTrIz0YnpM1rJZAGkBolUaozMNt5ysbTVlbSXcBVsNoyn1jshnFfZdwpyue?=
+ =?us-ascii?Q?WqYhanyPztXbQn1DHTLqKbY8vjmvuss38NpsGtuR6zUj7eFKKI8bYo5wP9Zk?=
+ =?us-ascii?Q?rLsyiam3wQScVeWaMU5Pkt0=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 534265cf-9d22-48c1-82de-08dd50342859
+X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 15:51:50.5598
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lPZIROYq4SAF6jy8xPmhsuhA4DGvKLVls31I5SBxM2/hVlqOXQovBDdbMmtgSmWTN3CBOAXXYxQMWqL8bPfFivoeKQIj8mjEqMF3qSaee/8LzvJEfNbVnjqvacqfJS7N
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6505
 
-Hello:
+Hi Laurent,
 
-This patch was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+Thanks for your review.
 
-On Fri, 14 Feb 2025 18:46:50 +0100 you wrote:
-> When adding LED support for mv88q222x devices the PHY private data
-> structure was added to the mv88q211x code path, the data structure is
-> however only allocated during mv88q222x probe. This results in a nullptr
-> deference for mv88q2110 devices.
+On Fri, Feb 14, 2025 at 02:45:00AM +0200, Laurent Pinchart wrote:
+> Hi Tommaso,
 > 
-> 	Unable to handle kernel NULL pointer dereference at virtual address 0000000000000001
-> 	Mem abort info:
-> 	  ESR = 0x0000000096000004
-> 	  EC = 0x25: DABT (current EL), IL = 32 bits
-> 	  SET = 0, FnV = 0
-> 	  EA = 0, S1PTW = 0
-> 	  FSC = 0x04: level 0 translation fault
-> 	Data abort info:
-> 	  ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
-> 	  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-> 	  GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-> 	[0000000000000001] user address but active_mm is swapper
-> 	Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
-> 	CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.14.0-rc1-arm64-renesas-00342-ga3783dbf2574 #7
-> 	Hardware name: Renesas White Hawk Single board based on r8a779g2 (DT)
-> 	pstate: 20400005 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> 	pc : mv88q2xxx_config_init+0x28/0x84
-> 	lr : mv88q2110_config_init+0x98/0xb0
-> 	sp : ffff8000823eb9d0
-> 	x29: ffff8000823eb9d0 x28: ffff000440942000 x27: ffff80008144e400
-> 	x26: 0000000000001002 x25: 0000000000000000 x24: 0000000000000000
-> 	x23: 0000000000000009 x22: ffff8000810534f0 x21: ffff800081053550
-> 	x20: 0000000000000000 x19: ffff0004437d6800 x18: 0000000000000018
-> 	x17: 00000000000961c8 x16: ffff0006bef75ec0 x15: 0000000000000001
-> 	x14: 0000000000000001 x13: ffff000440218080 x12: 071c71c71c71c71c
-> 	x11: ffff000440218080 x10: 0000000000001420 x9 : ffff8000823eb770
-> 	x8 : ffff8000823eb650 x7 : ffff8000823eb750 x6 : ffff8000823eb710
-> 	x5 : 0000000000000000 x4 : 0000000000000800 x3 : 0000000000000001
-> 	x2 : 0000000000000000 x1 : 00000000ffffffff x0 : ffff0004437d6800
-> 	Call trace:
-> 	 mv88q2xxx_config_init+0x28/0x84 (P)
-> 	 mv88q2110_config_init+0x98/0xb0
-> 	 phy_init_hw+0x64/0x9c
-> 	 phy_attach_direct+0x118/0x320
-> 	 phy_connect_direct+0x24/0x80
-> 	 of_phy_connect+0x5c/0xa0
-> 	 rtsn_open+0x5bc/0x78c
-> 	 __dev_open+0xf8/0x1fc
-> 	 __dev_change_flags+0x198/0x220
-> 	 dev_change_flags+0x20/0x64
-> 	 ip_auto_config+0x270/0xefc
-> 	 do_one_initcall+0xe4/0x22c
-> 	 kernel_init_freeable+0x2a8/0x308
-> 	 kernel_init+0x20/0x130
-> 	 ret_from_fork+0x10/0x20
-> 	Code: b907e404 f9432814 3100083f 540000e3 (39400680)
+> Thank you for the patch.
 > 
-> [...]
+> On Mon, Feb 10, 2025 at 12:45:36PM +0100, Tommaso Merciai wrote:
+> > The CRU block found on the Renesas RZ/G3E ("R9A09G047") SoC has five
+> > interrups:
+> > 
+> >  - image_conv:    image_conv irq
+> >  - axi_mst_err:   AXI master error level irq
+> >  - vd_addr_wend:  Video data AXI master addr 0 write end irq
+> >  - sd_addr_wend:  Statistics data AXI master addr 0 write end irq
+> >  - vsd_addr_wend: Video statistics data AXI master addr 0 write end irq
+> > 
+> > This IP has only one input port 'port@1' similar to the RZ/G2UL CRU.
+> > 
+> > Document the CRU block found on the Renesas RZ/G3E ("R9A09G047") SoC.
+> > 
+> > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > ---
+> >  .../bindings/media/renesas,rzg2l-cru.yaml     | 33 ++++++++++++-------
+> >  1 file changed, 22 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> > index bc1245127025..7e4a7ed56378 100644
+> > --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> > @@ -17,24 +17,34 @@ description:
+> >  
+> >  properties:
+> >    compatible:
+> > -    items:
+> > -      - enum:
+> > -          - renesas,r9a07g043-cru       # RZ/G2UL
+> > -          - renesas,r9a07g044-cru       # RZ/G2{L,LC}
+> > -          - renesas,r9a07g054-cru       # RZ/V2L
+> > -      - const: renesas,rzg2l-cru
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - renesas,r9a07g043-cru       # RZ/G2UL
+> > +              - renesas,r9a07g044-cru       # RZ/G2{L,LC}
+> > +              - renesas,r9a07g054-cru       # RZ/V2L
+> > +          - const: renesas,rzg2l-cru
+> > +
+> > +      - const: renesas,r9a09g047-cru        # RZ/G3E
+> >  
+> >    reg:
+> >      maxItems: 1
+> >  
+> >    interrupts:
+> > -    maxItems: 3
+> > +    maxItems: 5
+> >  
+> >    interrupt-names:
+> > -    items:
+> > -      - const: image_conv
+> > -      - const: image_conv_err
+> > -      - const: axi_mst_err
+> > +    oneOf:
+> > +      - items:
+> > +          - const: image_conv
+> > +          - const: image_conv_err
+> > +          - const: axi_mst_err
+> > +      - items:
+> > +          - const: image_conv
+> > +          - const: axi_mst_err
+> > +          - const: vd_addr_wend
+> > +          - const: sd_addr_wend
+> > +          - const: vsd_addr_wend
+> 
+> This should move to a conditional block.
 
-Here is the summary with links:
-  - [net-next] net: phy: marvell-88q2xxx: Init PHY private structure for mv88q211x
-    https://git.kernel.org/netdev/net-next/c/4991b88c2514
+I think here we can do similar to patch 2/8.
+What about setting here:
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+  interrupts:
+    minItems: 3
+    maxItems: 5
 
+  interrupt-names:
+    minItems: 3
+    maxItems: 5
 
+Then move interrupts and interrupt-names into
+the conditional block:
+
+allOf:
+  - if:
+      properties:
+        compatible:
+          contains:
+            enum:
+              - renesas,r9a07g044-cru
+              - renesas,r9a07g054-cru
+    then:
+      properties:
+        interrupts:
+          minItems: 3
+          maxItems: 3
+        interrupt-names:
+          items:
+            - const: image_conv
+            - const: image_conv_err
+            - const: axi_mst_err
+        ports:
+          required:
+            - port@0
+            - port@1
+
+  - if:
+      properties:
+        compatible:
+          contains:
+            enum:
+              - renesas,r9a07g043-cru
+    then:
+      properties:
+        interrupts:
+          minItems: 3
+          maxItems: 3
+        interrupt-names:
+          items:
+            - const: image_conv
+            - const: image_conv_err
+            - const: axi_mst_err
+        ports:
+          properties:
+            port@0: false
+
+          required:
+            - port@1
+
+  - if:
+      properties:
+        compatible:
+          contains:
+            const: renesas,r9a09g047-cru
+    then:
+      properties:
+        interrupts:
+          minItems: 5
+          maxItems: 5
+        interrupt-names:
+          items:
+            - const: image_conv
+            - const: axi_mst_err
+            - const: vd_addr_wend
+            - const: sd_addr_wend
+            - const: vsd_addr_wend
+        ports:
+          properties:
+            port@0: false
+
+          required:
+            - port@1
+
+> 
+> >  
+> >    clocks:
+> >      items:
+> > @@ -120,6 +130,7 @@ allOf:
+> >            contains:
+> >              enum:
+> >                - renesas,r9a07g043-cru
+> > +              - renesas,r9a09g047-cru
+> >      then:
+> >        properties:
+> >          ports:
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+
+Thanks & Regards,
+Tommaso
 
