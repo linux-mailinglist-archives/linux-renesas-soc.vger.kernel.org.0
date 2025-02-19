@@ -1,181 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-13362-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13363-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C598BA3C338
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 16:12:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F6AA3C39A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 16:27:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A28C33A7A0C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 15:12:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60A47188CB55
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 15:27:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9D491F3D54;
-	Wed, 19 Feb 2025 15:12:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 649481DEFF5;
+	Wed, 19 Feb 2025 15:26:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NFew1VZB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mU6qUece"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5611DE3DB;
-	Wed, 19 Feb 2025 15:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5989C1E885
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Feb 2025 15:26:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739977976; cv=none; b=UPLy0BGkB8SYnHm+AMM5ddwWAIlWL2Z83gGvSQs1NazVGXT9TW8UqNpu7mLigl0EpLQQcVKacvSJrxeYv7mnSRb7yARJ9x49f8ZwnkLblucd0/BU0rq7ia8fseAd3LN0jbaeVCc0w8xC8RwEiRcksqKdM2D0KKeiCsZENd11rTM=
+	t=1739978817; cv=none; b=Mbk42u3hf1QgcTlNou4ytifUPrE1LAoBzYjY9PC+CBYqYBz4cJcLFd0qMTKPs/xH7gHoHSCm6yhSAqPDIdYE7l08ike9n/rofyK+cOm4qwC4yJsFXEr3p0DvI3lsv8HWZcc2UgrVHj845HFmhoihNuidkX+GEevURdQvp/V6NmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739977976; c=relaxed/simple;
-	bh=29oxftSFXsmpDE4X4dZAZ6VvDZJaQKQuZeE68GZKBb8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rk4uyUit+4Opqv1U/+PrpkAd1HzzL/bJKSd0/xdWGjuZ5QvOViZfoSFOM2H3nRFy0/0zOYglYr1ev4spmZURlxZ10UZ+ymHemhxjVXjtQ1x1CCrhsgYAbrFD/u+ZfIXccP2CPKAePaws2hFDYDFgliRAVkOiWtS2Uty4ThAmOa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NFew1VZB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 927F1169;
-	Wed, 19 Feb 2025 16:11:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739977889;
-	bh=29oxftSFXsmpDE4X4dZAZ6VvDZJaQKQuZeE68GZKBb8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NFew1VZBeE6rU09ufexPjt/w3BDgT0EVFy+yMXjoh5u+RfqjlewLGm3HoxddeHXSL
-	 X4p4SVEAUowkB79nOEF8IBmh03EqZYEd6/OERvSeYeBIOYieaL1wE9pYvTBnWLQW3X
-	 ooPtmh37zuZ0q2K1NeQiev2nHB78cbtdFmQgAoy8=
-Date: Wed, 19 Feb 2025 17:12:37 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Tommaso Merciai <tomm.merciai@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/8] media: dt-bindings: renesas,rzg2l-csi2: Document
- Renesas RZ/V2H(P) SoC
-Message-ID: <20250219151237.GB31825@pendragon.ideasonboard.com>
-References: <20250210114540.524790-1-tommaso.merciai.xr@bp.renesas.com>
- <20250210114540.524790-3-tommaso.merciai.xr@bp.renesas.com>
- <20250214002951.GB8393@pendragon.ideasonboard.com>
- <20250219145139.GA2551711-robh@kernel.org>
+	s=arc-20240116; t=1739978817; c=relaxed/simple;
+	bh=pU/hwavBNW4yNgm73HvieynhuPnpFxaHVe0JfiFMDSo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QN3fKYijfUOrHTK8eE8w6vIpPZcoZuBTotyugwTFa/5wBNg1/JnKcYh8JvjRTsf567q5tcqk+jgVlRgdSIRmbzDpKWhcvx96dbtoy7GFrJ4qfiMPTIg2IioQdaTf1j1lpgulvrGH9MkNv+Xz8C29c0WtIDVgGeaNhazAYoH921A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mU6qUece; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739978815; x=1771514815;
+  h=date:from:to:cc:subject:message-id;
+  bh=pU/hwavBNW4yNgm73HvieynhuPnpFxaHVe0JfiFMDSo=;
+  b=mU6qUece/g51IDZMYIdbe23TT7bYDNjRlgqhMMb1L5NGnY/XXRFAMFXO
+   Lgy+vLdOKprCYFE2FEe30U5C9+b0Ps0D8uX/dc0hBd23CCuvYCe0rSvQ7
+   XnE2AqGXInY08e5D/pcHQHets/U8WjIC20kPRcvY/hK8SVzY5KwbdJZMP
+   kmzD0hNhuxXY7HICrmFPhTeBDwAR8QQ9rkOiwXbX3KrKQunRWI7+g/f2K
+   rHXFwTWns1D+b1AHNAGya6LfA2ii3mgE/xyxP4XTv6JwuQM3gCYjUnR7H
+   eYy2WZDGbixc0X7fwaO68dU1LkYxaJ6hyIoqOPqkrus8oWQlaE3DRRO+W
+   A==;
+X-CSE-ConnectionGUID: G5DnLHnDR5uzolHPGGXuvg==
+X-CSE-MsgGUID: bHjAjmHlRQmhCvnxtSq9sg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40929789"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="40929789"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 07:26:55 -0800
+X-CSE-ConnectionGUID: dZVQ4E6JRcmq2dpJr3gfQg==
+X-CSE-MsgGUID: 1DKdEeO2Su6Xn1AZKkTaBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; 
+   d="scan'208";a="145609678"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 19 Feb 2025 07:18:17 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tklpf-00035v-2q;
+	Wed, 19 Feb 2025 15:17:59 +0000
+Date: Wed, 19 Feb 2025 23:15:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ 9a1cc30e4908d74ee360d7dfeb19074ec6cd5a55
+Message-ID: <202502192330.827vIBDa-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250219145139.GA2551711-robh@kernel.org>
 
-On Wed, Feb 19, 2025 at 08:51:39AM -0600, Rob Herring wrote:
-> On Fri, Feb 14, 2025 at 02:29:51AM +0200, Laurent Pinchart wrote:
-> > Hi Tommaso, Prabhakar,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Mon, Feb 10, 2025 at 12:45:34PM +0100, Tommaso Merciai wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > 
-> > > The MIPI CSI-2 block on the Renesas RZ/V2H(P) SoC is similar to the one
-> > > found on the Renesas RZ/G2L SoC, with the following differences:
-> > > - A different D-PHY
-> > > - Additional registers for the MIPI CSI-2 link
-> > > - Only two clocks
-> > > 
-> > > Add a new compatible string, `renesas,r9a09g057-csi2`, for the RZ/V2H(P)
-> > > SoC.
-> > > 
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > > ---
-> > >  .../bindings/media/renesas,rzg2l-csi2.yaml    | 63 ++++++++++++++-----
-> > >  1 file changed, 48 insertions(+), 15 deletions(-)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> > > index 7faa12fecd5b..0d07c55a3f35 100644
-> > > --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> > > @@ -17,12 +17,15 @@ description:
-> > >  
-> > >  properties:
-> > >    compatible:
-> > > -    items:
-> > > -      - enum:
-> > > -          - renesas,r9a07g043-csi2       # RZ/G2UL
-> > > -          - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
-> > > -          - renesas,r9a07g054-csi2       # RZ/V2L
-> > > -      - const: renesas,rzg2l-csi2
-> > > +    oneOf:
-> > > +      - items:
-> > > +          - enum:
-> > > +              - renesas,r9a07g043-csi2 # RZ/G2UL
-> > > +              - renesas,r9a07g044-csi2 # RZ/G2{L,LC}
-> > > +              - renesas,r9a07g054-csi2 # RZ/V2L
-> > > +          - const: renesas,rzg2l-csi2
-> > > +
-> > 
-> > I'd drop the empty line.
-> > 
-> > > +      - const: renesas,r9a09g057-csi2 # RZ/V2H(P)
-> > >  
-> > >    reg:
-> > >      maxItems: 1
-> > > @@ -31,16 +34,24 @@ properties:
-> > >      maxItems: 1
-> > >  
-> > >    clocks:
-> > > -    items:
-> > > -      - description: Internal clock for connecting CRU and MIPI
-> > > -      - description: CRU Main clock
-> > > -      - description: CRU Register access clock
-> > > +    oneOf:
-> > > +      - items:
-> > > +          - description: Internal clock for connecting CRU and MIPI
-> > > +          - description: CRU Main clock
-> > > +          - description: CRU Register access clock
-> > > +      - items:
-> > > +          - description: CRU Main clock
-> > > +          - description: CRU Register access clock
-> > >  
-> > >    clock-names:
-> > > -    items:
-> > > -      - const: system
-> > > -      - const: video
-> > > -      - const: apb
-> > > +    oneOf:
-> > > +      - items:
-> > > +          - const: system
-> > > +          - const: video
-> > > +          - const: apb
-> > > +      - items:
-> > > +          - const: video
-> > > +          - const: apb
-> > 
-> > I would move the clocks and clock-names definitions to the conditional
-> > below. Otherwise I think a device tree that has two clocks only but
-> > incorrectly uses "system" and "video" instead of "video" and "apb" will
-> > validate.
-> 
-> No, that wouldn't be allowed. The preference is to have it like this 
-> because it discourages creating more variations. If the names are all 
-> defined in if/then schema, then you can just add a new one with any 
-> names you want. Though if the variations become such a mess, then 
-> defining them in the if/then schemas would probably be better.
-> 
-> It would be better if 'clocks' could be reworked to avoid the 'oneOf' 
-> though (oneOf == poor error messages). It just needs a 'minItems: 2' 
-> added and the descriptions reworded for both cases.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: 9a1cc30e4908d74ee360d7dfeb19074ec6cd5a55  [LOCAL] riscv: rzfive: defconfig: Update rzfive_defconfig
 
-Don't the items in clocks need to match the items in clock-names ? We
-can't reorder clock-names items as that would be an ABI breakage, so we
-can't reorder clocks items either.
+elapsed time: 1455m
 
--- 
-Regards,
+configs tested: 102
+configs skipped: 1
 
-Laurent Pinchart
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20250219    gcc-13.2.0
+arc                   randconfig-002-20250219    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                   randconfig-001-20250219    gcc-14.2.0
+arm                   randconfig-002-20250219    clang-17
+arm                   randconfig-003-20250219    clang-15
+arm                   randconfig-004-20250219    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250219    clang-21
+arm64                 randconfig-002-20250219    gcc-14.2.0
+arm64                 randconfig-003-20250219    gcc-14.2.0
+arm64                 randconfig-004-20250219    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250219    gcc-14.2.0
+csky                  randconfig-002-20250219    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250219    clang-14
+hexagon               randconfig-002-20250219    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250219    clang-19
+i386        buildonly-randconfig-002-20250219    clang-19
+i386        buildonly-randconfig-003-20250219    gcc-12
+i386        buildonly-randconfig-004-20250219    clang-19
+i386        buildonly-randconfig-005-20250219    clang-19
+i386        buildonly-randconfig-006-20250219    gcc-12
+i386                                defconfig    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250219    gcc-14.2.0
+loongarch             randconfig-002-20250219    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250219    gcc-14.2.0
+nios2                 randconfig-002-20250219    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20250219    gcc-14.2.0
+parisc                randconfig-002-20250219    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-16
+powerpc               randconfig-001-20250219    clang-15
+powerpc               randconfig-002-20250219    clang-17
+powerpc               randconfig-003-20250219    gcc-14.2.0
+powerpc64             randconfig-001-20250219    gcc-14.2.0
+powerpc64             randconfig-002-20250219    gcc-14.2.0
+powerpc64             randconfig-003-20250219    gcc-14.2.0
+riscv                             allnoconfig    gcc-14.2.0
+riscv                 randconfig-001-20250219    clang-21
+riscv                 randconfig-002-20250219    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250219    clang-18
+s390                  randconfig-002-20250219    clang-21
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20250219    gcc-14.2.0
+sh                    randconfig-002-20250219    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250219    gcc-14.2.0
+sparc                 randconfig-002-20250219    gcc-14.2.0
+sparc64               randconfig-001-20250219    gcc-14.2.0
+sparc64               randconfig-002-20250219    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250219    clang-21
+um                    randconfig-002-20250219    clang-21
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250219    gcc-12
+x86_64      buildonly-randconfig-002-20250219    clang-19
+x86_64      buildonly-randconfig-003-20250219    gcc-12
+x86_64      buildonly-randconfig-004-20250219    clang-19
+x86_64      buildonly-randconfig-005-20250219    gcc-12
+x86_64      buildonly-randconfig-006-20250219    clang-19
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250219    gcc-14.2.0
+xtensa                randconfig-002-20250219    gcc-14.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
