@@ -1,78 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-13375-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13376-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95780A3C4A7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 17:16:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA7DA3C4C1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 17:19:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C4AFE7A3EDE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 16:15:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9456516AD32
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 16:17:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A4F1FDE02;
-	Wed, 19 Feb 2025 16:15:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B99811FE444;
+	Wed, 19 Feb 2025 16:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="NoKy3zm0"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="BH/R74WP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523B11E8331
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Feb 2025 16:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5B1748F
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Feb 2025 16:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739981755; cv=none; b=RrSLgSAamUFW6I76O/iPa7cCaUN4h36E6zHdpoXhiH/fSnnddCl1RVJs4PJyQlSLazer57k7pL+RM9a15H08hJfkGnoLYtNMjU8+A33ylsJ2m0NfvGEeroDOD/szw8pl1HrkTbjKxZV4bw9NbA4Fg85AFZN1g1tv16C7NdYZPAE=
+	t=1739981858; cv=none; b=fwGwviX71jptsIq2nlmT9oad8ZdHZyL7KO4aV7Yl+FJrIGcwHzJZc0uWKQ2SojvoTFjXkQH9Mzb2nk605u5vtUeBYNi/BxNvFDxs84WW6amntZVVjjHvl6uCMI3Zmbak/4RMJgbX/aUJDjSRf2aUjELtJCBIOYjVKttchxcvYfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739981755; c=relaxed/simple;
-	bh=jYP3oUxOykgszQEZALo7cXOu9zDyqHi75sgn9lMVd8U=;
+	s=arc-20240116; t=1739981858; c=relaxed/simple;
+	bh=ceLVZIQiEmcQitphSISYjez4ESWwsr0B6WSI8k4wTLw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LnkZin0leUwpmgxP3EoOy0VrF9IzI/J482bTgQR55OFkpmAKmkEwhSVWeNmaz3+rDJcrfoLPh+CiCFWISK+hqm1/kcCggPcujKCIqF+rq6snS+0fziCHu7OIz4pWy/y/EOEugW223A6EMWxNMtw6eguJpay5qJ1RtBiSeRlbeUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=NoKy3zm0; arc=none smtp.client-ip=209.85.218.49
+	 In-Reply-To:Content-Type; b=HVX7rIKE7ZARBJ9GFb/NBrKuejLwK+5q12AeJp/zjWr02Up6+mOoCZ798scq9g4CNjtWFtMj8l2olvqBOBbWsLLT7MtHrrTviNA5PuW4XFSLRJP6+5AtwoLKBiyc6rnDSL5vkKpv6nNHIEaU81fre7K1KwQXST74hvW7KmdSu64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=BH/R74WP; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-abbac134a19so1397966b.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Feb 2025 08:15:53 -0800 (PST)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5e033c2f106so6459537a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Feb 2025 08:17:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1739981751; x=1740586551; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1739981855; x=1740586655; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=h89HTe/tN0B10+LNl92cdXHG46JoxeywocoM5Bh9DWc=;
-        b=NoKy3zm0rYeRNrEmxrEpvL7/Q9TuUVep2la9SgPOmI/Y3pL+UFWSjFFJkbctCscZJ2
-         S5ocIMHUqwBHky9gWoGfF3BI+GU1QdVEY9zuJuFWiAS9s8bVUi4TI65qZGvNqjfVnMsI
-         sk0x8YXtG0x+ebmMKcbTGSAzLD3nl71LiyLX7QNY1IaIwL1Go8RYNvFXQm7T/VKpN3OY
-         E45Z2ZYvDnUil2f1LWSa8DQSdBx+kIZtzfmwHKQiDfO51X1sYXI8hs810QEt1dLMP8iG
-         Yq+TiuorteRTMHX9ZXsSLSkara+0jJgngdaIlFiu+fE6L3du9g320oAUy7nVl9e2wQog
-         tiVA==
+        bh=HejSJgJQcfFFAzTEJQMkHvtlK7Scumc9KiDgQ1jWL0c=;
+        b=BH/R74WPzt/8LYuGelhyLub63/d3Ert9KHNdGwjutcpyNYwDxKjr531dgFjymRhN64
+         GHX9koymmfOEvIE7sS709/rhGRrd/WnHqtr3ZagPXwLzwndxVmU4OufskSAw6orkoOLU
+         UgFjeoMenY0WKYvytrefwNIRSFnQ9IBz7DUT7xb3z0mjocPCIdld0lMRKzYJB6kJoDLW
+         mDnburCLMy9F4jDBbFVgJQDaYsVUH0n0uVJSlvERHsi3zMURpv6l4as+B7jljDhOPq9h
+         L9+VbWe+OVOWAKEx0yx9SS+WJg4CevhftOXS/nSF5uaDmS2o4X4H6io9g0inYa/fe7wY
+         twLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739981751; x=1740586551;
+        d=1e100.net; s=20230601; t=1739981855; x=1740586655;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h89HTe/tN0B10+LNl92cdXHG46JoxeywocoM5Bh9DWc=;
-        b=tYJp3lwGRgPbE2JSflwOidDOo11iYJrvWRC+BSof10sym3erfXDemlUiTO+9mmMtq5
-         jR5i4hsA9WsrkuagJdIc1XyiAGzl3P/yGGCo/NOmCgEPd3sCsWegWuSjIgoEYadlzZG6
-         Ugr6UZRGw4uIiMT5uikvxOs4vkJCs2N0c92Ry0Xf2ex30iQAtcHuUNpeg8DzNqkqLcyq
-         2L1ff9BJktNPes4Wdkgz5AFeohjNrEwDSjNEQMzoatSEIzmRwhe56Ydh0Y+CbquhK3vN
-         xp3nBKXeplK/QAUDlPQganLnQYsIcsJoz0/Yj2tojc35dQoYwaaM2q9v4Voljsq26H3b
-         yZ0w==
-X-Gm-Message-State: AOJu0Yzb6pd/gYPKEPvNN8TBrsCkiqSXzgGNHMyZRFEG2yxhvZws2LIF
-	cLmJZrZlTJ+OdlmeRNSY9InqKvJKyAUEHDjU/mCLBBETkBq/MJ9C/B3PeZ5appc=
-X-Gm-Gg: ASbGnctx/p452ZqIgR/aB2fsjEWm56pUY5ByWeXgD2hJS4I2MamNOcLzYqkhy9Lz+Nx
-	50McE/wJbmAvkH8f/ZWxSu2PASiWlDOozBJlrS3ejCH/a7qtmT9FqW4LLGCeP8APNp62GzQ++IK
-	F2bLBcgr6q5TIuA44zUxsZQgOZwx6ugOQ+NdYbZsY+ALTmJzaJPtLIr23F7YtWrV0hxgzWi/9uD
-	W0hs6bOk65wcaYf1wAB6zNrwnqFriZqe6hZl0SuGjT9CeYGvrVJh9+eVpApr83qDZ1R8HSpPCce
-	hWpjOg3xHYmq7+ofk4JZ5jI=
-X-Google-Smtp-Source: AGHT+IFiFYqo71zXgrKVNjvpkw6kSC58U3/FltEHaZdAEiHjs1T3I77KF/UZNliKfKxYH2d2UsL+vA==
-X-Received: by 2002:a17:906:3118:b0:ab7:da56:af9f with SMTP id a640c23a62f3a-abb711c3de7mr1770699866b.49.1739981751230;
-        Wed, 19 Feb 2025 08:15:51 -0800 (PST)
+        bh=HejSJgJQcfFFAzTEJQMkHvtlK7Scumc9KiDgQ1jWL0c=;
+        b=so/tAqWs0koHqzQt8zLTDIq254IMrn59cYzrHeETsyfliR7yNro7I9U2ogHgSCspJT
+         oeJZV7rn+fyP47CbH/YOth9nGsq0scoFpPJbvOnfYh1zurdSLszXUPgFKFQltkbXv6g9
+         A2/sC2InMCjBcV7zrcyoFhhEkfTp4NS4dyX78oChLeSir+aOforua8O4vI4QvJ/qHKYk
+         N9idqkbFvP6KaNLuHj3spR60Qp3Pbp6zXRDmgx47Ymj89vUczEO4ochdf3AuWac2dNsh
+         g/BYLTxWS8fZo/nmeWMQggN/ZHT6Cqlkotvw4kb6o65QTNsRh7oT2fEvmAKErAYP6dFd
+         7fuw==
+X-Forwarded-Encrypted: i=1; AJvYcCVi4ikPaRvt95wzxErcbDTFv0ytdZZ/MkHcTAQHOgQjtzOz+rJSqFaguRe3SQyHiXfj1uee6n4T9u4mOzQHMTg7hw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2sWCTfESvGgqAW0zWta+bkRz5jblg9gzDdddEUmtE7fjvOPCz
+	Onk0ponNq0Kb08xDTHs6G/4BptAOfNHnwNwvmqHFKmQYZHz4e9WezzYm2hXsfF0=
+X-Gm-Gg: ASbGncvK0ng+GvOofK96gdexdJb6MPh3a33g0eX2LtV2QPxWjUnrrdKZM4cEWK4jKBm
+	rAY7OgqQ5xj9CkFxLO39zqUAKicLTizF+QtGfoUQn+E3l7og5YdsTDqTmLNAbF3dwfCZhApUGJ1
+	6eM7YAjiEAdh66v8wPZVJywfv1M3wgE6ZUkCVUZTWZ9BDUsRc7tedhvSFDeYsrynyFDBFTSxHfL
+	TQXdQXdeA/ZkJAFlxpY1pR1SDAdKLmqjUwHc4jV4tN7kGb70aXeRgXZj4i3fdAlDtOhAx1KjJWE
+	ZfPk6dyNALPsQmp7WtOAs/I=
+X-Google-Smtp-Source: AGHT+IGfUVTc8q0ff+aqRcU4u7qX8iIkWfV/1/hphxf4aJV7O0tPiAEGukjDGHF4YsVK3fbVAZBivA==
+X-Received: by 2002:a05:6402:2347:b0:5e0:8c55:50d with SMTP id 4fb4d7f45d1cf-5e08c5514bbmr7648059a12.14.1739981854600;
+        Wed, 19 Feb 2025 08:17:34 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.25])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb94e4d0adsm687953066b.56.2025.02.19.08.15.50
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb96fa4d79sm652128066b.126.2025.02.19.08.17.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Feb 2025 08:15:50 -0800 (PST)
-Message-ID: <b9b14a25-675e-4e3f-afcc-e82d5ed740a7@tuxon.dev>
-Date: Wed, 19 Feb 2025 18:15:49 +0200
+        Wed, 19 Feb 2025 08:17:34 -0800 (PST)
+Message-ID: <4a7c7a87-b293-4522-961b-d6a45f12542b@tuxon.dev>
+Date: Wed, 19 Feb 2025 18:17:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -80,31 +81,32 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT 0/5] phy: renesas: rcar-gen3-usb2: Fixes for Renesas
- RZ/G3S
-To: yoshihiro.shimoda.uh@renesas.com, vkoul@kernel.org, kishon@kernel.org,
- horms+renesas@verge.net.au, fabrizio.castro@bp.renesas.com, robh@kernel.org
-Cc: linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-kernel@vger.kernel.org,
+Subject: Re: [PATCH RFT 0/3] usb: renesas_usbhs: Fixes for renesas_usbhs
+To: gregkh@linuxfoundation.org, biju.das.jz@bp.renesas.com,
+ geert+renesas@glider.be, yoshihiro.shimoda.uh@renesas.com,
+ laurent.pinchart@ideasonboard.com, phil.edworthy@renesas.com, balbi@ti.com,
+ kuninori.morimoto.gx@renesas.com
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250219160749.1750797-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20250219161239.1751756-1-claudiu.beznea.uj@bp.renesas.com>
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 Content-Language: en-US
-In-Reply-To: <20250219160749.1750797-1-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20250219161239.1751756-1-claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+
 Adding reference to the missing series (see below).
 
-On 19.02.2025 18:07, Claudiu wrote:
+
+On 19.02.2025 18:12, Claudiu wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
 > Hi,
 > 
-> Series add fixes for the Renesas USB2 PHY driver identified while
-> working on the Renesas RZ/G3S USB support. These changes are
-> needed for the upcomming RZ/G3S USB support (especially for the
-> power management support).
+> Series add fixes for the Renesas USBHS driver identified while
+> working on the Renesas USB PHY driver (series at [1]).
 > 
 > Series (with [1] on top) was tested on Renesas RZ/G3S with consecutive
 > unbind/bind and data transfer tests before/after the unbind/bind.
@@ -127,24 +129,22 @@ On 19.02.2025 18:07, Claudiu wrote:
 > - r9a07g043f01-smarc.dts
 > 
 > Please give it a try also on your devices with [1] on top as well.
+
+[1]
+https://lore.kernel.org/all/20250219160749.1750797-1-claudiu.beznea.uj@bp.renesas.com
+
 > 
 > Thank you,
 > Claudiu Beznea
-
-[1]
-https://lore.kernel.org/all/20250219161239.1751756-1-claudiu.beznea.uj@bp.renesas.com
-
 > 
-> Claudiu Beznea (5):
->   phy: renesas: rcar-gen3-usb2: Fix role detection on unbind/bind
->   phy: renesas: rcar-gen3-usb2: Move IRQ request in probe
->   phy: renesas: rcar-gen3-usb2: Lock around hardware registers and
->     driver data
->   phy: renesas: rcar-gen3-usb2: Assert PLL reset on PHY power off
->   phy: renesas: rcar-gen3-usb2: Set timing registers only once
+> Claudiu Beznea (3):
+>   usb: renesas_usbhs: Call clk_put()
+>   usb: renesas_usbhs: Use devm_usb_get_phy()
+>   usb: renesas_usbhs: Flush the notify_hotplug_work
 > 
->  drivers/phy/renesas/phy-rcar-gen3-usb2.c | 134 +++++++++++++----------
->  1 file changed, 74 insertions(+), 60 deletions(-)
+>  drivers/usb/renesas_usbhs/common.c     | 6 +++++-
+>  drivers/usb/renesas_usbhs/mod_gadget.c | 2 +-
+>  2 files changed, 6 insertions(+), 2 deletions(-)
 > 
 
 
