@@ -1,170 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-13328-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13329-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C54A3C01C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 14:38:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C07A3C07D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 14:50:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08C383A6899
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 13:36:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF3B9188FF69
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 13:49:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A12751E3769;
-	Wed, 19 Feb 2025 13:36:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 670981E8339;
+	Wed, 19 Feb 2025 13:49:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EHph9ofT"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R+9lbiSc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACB01E5718;
-	Wed, 19 Feb 2025 13:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2B31C4A16;
+	Wed, 19 Feb 2025 13:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739972183; cv=none; b=VJwwMY6iJrOKP99qj6QqthQbtI7AGHyGpU834S8dNgyHYa4/hqm43eEEEuSMfZ+3uEXE5AfgzPtYRpI0lLhGh0ca0gVNV0uMzvYfDDJmYr7fpn1kLsQNPBrujoz6v/5bsS6fTAmR1jK9orvV60X+NIDP/HMwACHNaEhIJBWbMik=
+	t=1739972987; cv=none; b=W0roSWGMiuHnffPPt5EP7E1owsFxtsibJsMA80EsL881qI58fWt2U04LygkpLwEfbKAg7sfrJ8MobqpFAzekJOp3MDj3NPFyFBmgcQC3xUs0L/O/OCFrulde2lq5LGhxrVR+/8UkzUKNWlXTa2J6w+tiITg0G8ANsVnev8S3hZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739972183; c=relaxed/simple;
-	bh=7ihWjXMDbjH1f4hkfj9yu5zjMSN4SJcUGVD62F9f64Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F6P3613P6eq+5a2tpssHQKIS3befUcA6LUF1rQIAphQ4IHBWYaRs3vU7bYArqsti07r5Y/mAP8Yvx2eZh2q0TcA434/Gu85+BHAz7179Orq6R9Z6KU5EZOucccKVheyd8S5LNRbkzVtro9vwB4bnKPEEZa2aS54N+HJTvXT4pcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EHph9ofT; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30737db1aa9so63425071fa.1;
-        Wed, 19 Feb 2025 05:36:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739972179; x=1740576979; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HSsnV19R3euCe7A+mmLLwP9bRWysONanwRs/f83625E=;
-        b=EHph9ofTvDHNDUiWoC5q9QoZazOKIE+mXp9G1Q9LoaK7hTUOsGe1QfgVmaB6QaQ156
-         ZccPgs6KyZBUT1o59d0GhKl7DgNP/4YlkN/FnhSe8eAq01AWKyP/rHsSNTmazugBg0K7
-         PBRJfTN/vvaISoQeKAuH7pXHMc3KwH1+rc111zvK4ftR+FhGR5DSGlO7l8JTvwgU/xKC
-         5EJFxhxzvXVp7MkQLmOvbRrdaXaboGsYfP7/Itbtc5gLFRn5xTCY/O8ZAvdXmm1QtIap
-         W6wO/7JcHTvRKu9rDQMkrvxlB4R2dhgCifcMTkonhn4kHw+c94PWLCEX5IGpSsR2jBc/
-         FJLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739972179; x=1740576979;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HSsnV19R3euCe7A+mmLLwP9bRWysONanwRs/f83625E=;
-        b=RflRrUdlzLEAYFjHlbQHGnVdSE79TAPWd4CUhuUCivBPVkNwtBnamio48f0UG4h9Na
-         WkGRbFjQuG3czAItUlgpLHCpJ+8FWe4N1WMrYGSrDYjSMP5obmyiz78nBW3l5oH+zp8B
-         cA7bojwC5YiysS46aaOnELX1tsWZV9ozzeFEPQzs1499Ndg8wujoWJ4ZQIkHZ4ADVEZ8
-         D+NERPB9/MLcF/lGsQoJf2QJbflQ1FMpj6fgmxg4V3GwkP5nQ6Ti7qT7wl3B0zwuM+uD
-         GznHG4fA5kBeaD9NUGehhOJKAYTHO4IOz/IgEmRyUAXjdL1hYE+qjy270jITIq9zsNmQ
-         h86g==
-X-Forwarded-Encrypted: i=1; AJvYcCVlAafVaG1XGUPmAWa6lJ3ra7QzrZF2OhXG0F+GAxMEZwcHmadcKY3GEbTh9ZTtLGZHpCNqKDG6Cx96@vger.kernel.org, AJvYcCX1gtrW92ZbAYc5xAOA9FG0Fj+TCoa9D91VdsKk0Tow036k0HEzWKVJlQ2Oiv7KUjTk0HF/O7NkozRj6APy@vger.kernel.org, AJvYcCX6AR8svjcZ73abSVUYw/2fs+9Y2EpfGIA0AIBmFaxw0pv04L+5Ifb2D+2fgM9NI6E58ehKted8QPoi@vger.kernel.org, AJvYcCXnBJrzY47FM7s6JYFUyqDenI8UGvf3udMzLOUiu9dKX4vcGyxLISy97iFjj2badw1J2llMdvy61qToygH2MiH+jA0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztFpwL6O4+LO3DopVY7a0X3YusvLDS923Jxs6SwGGwrAznEbw+
-	x8WOlSDzdyHl6hrAMfOhpERB44e514dpagreT3i2hLUvglClSlH8MlEzhg==
-X-Gm-Gg: ASbGncvI10lddu6egYTdZJBK7aideVykkyh1U5YIEAeJpIWUfx84LRzl7NjeEPX+e5M
-	TxCdkH+ILU5N1whDfCZVmWf8+ehEORSAD++AmMCglemYT0wJeU+RhqWg6A78DjWtql3uPDfreEv
-	uFIIpOPJ9ZlMPYruum4ThRMgrk4IQwBV55qWpbmZu1UBO4fZ1Vkw8AsV0b0e6TSERsG7gYSiTo/
-	oZ3Pyh/j/lHaoCLv2AvU4wD18NZ9GX20+0ZbwhJgWlOpm7OGqls6Nw2NC21tNqYJZtkLzuyi6Md
-	V48qT4cqVP8NxA0PCviZPb5lDnJnUULyCqVEAiLIG+AyMeCun1bTKPLvtp1xmNY20vqZpIKT
-X-Google-Smtp-Source: AGHT+IECONOuwKIydK//bT3AGqnTWMmCdF2rv/KJJHD8I1175BIY8l67zp+r+qNFr42gMLhOkEmBmA==
-X-Received: by 2002:a05:651c:2222:b0:308:f4cc:951b with SMTP id 38308e7fff4ca-30a45035a2fmr14037951fa.23.1739972178597;
-        Wed, 19 Feb 2025 05:36:18 -0800 (PST)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a258703c9sm13795701fa.7.2025.02.19.05.36.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Feb 2025 05:36:16 -0800 (PST)
-Message-ID: <f1c6078e-39bf-499f-b7ab-17526b3e60a9@gmail.com>
-Date: Wed, 19 Feb 2025 15:36:14 +0200
+	s=arc-20240116; t=1739972987; c=relaxed/simple;
+	bh=rSI6cx/RPfMQe4oAO+y9gJg7CLsr656IO2NxzyrCboE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XBb2vwCRd2n+irfSGvIVg2JObgkntkLx5J9Cfifw+6JM8lW2etDtCfJXrqlt6Q9DurxJJnk1TZEfmOhb1qNFPo5fYd2o9tXDHOeiskyT1q36u8mBhqZAB1BG5z7cSxH5wdV1gLYyNOrDsnSwGGPuzqxyuUTaalVHIeHHNZeGatA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R+9lbiSc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47A6A169;
+	Wed, 19 Feb 2025 14:48:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1739972900;
+	bh=rSI6cx/RPfMQe4oAO+y9gJg7CLsr656IO2NxzyrCboE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=R+9lbiScC/nHVPWs9+SGMll4rlZQvE99G0dNxHodkmScLMqc6qRbBCIQ1GBw2Wl/u
+	 zg0C0hKOpfzXmfzaGXcLpESzUjwDu5QxTAtDC7IcEJx7rsIqM2qzKwqnWEbCIVg6Rx
+	 gysF0+UACX+aXx6/LEPdnO9JaSOlhjPrRUr/LacM=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH 00/18] media: rcar: Streams support
+Date: Wed, 19 Feb 2025 15:48:54 +0200
+Message-Id: <20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/9] iio: adc: rzg2l_adc: Use adc-helpers
-To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
- <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <cover.1739967040.git.mazziesaccount@gmail.com>
- <25c5d22f6f0cbd1355eee2e9d9103c3ee71cebdc.1739967040.git.mazziesaccount@gmail.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <25c5d22f6f0cbd1355eee2e9d9103c3ee71cebdc.1739967040.git.mazziesaccount@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEnhtWcC/6WQwWrDMBBEf8Xo2spoZUu2TCn9j5LDWt7EIpGda
+ h1TCPn3Kg70lEvpaZmFeTuzV8GUArHoiqtItAYO85QFvBbCjzgdSIYha6GVNkqDk8ljkrwkwsg
+ S9gNh21pFhkS2nBPtw/eG+9w9dKKvS6Yuj6WIxIwbtSveMrRWoF2e2tQlgLZZSpBTOJ6QS54HS
+ qfLNLwkmoiRPxIeJlzIjyXT+/3iUx444zYeKFtXf+L9lu6KrTJo9agcaQgoQzynWWpfNR5UZQl
+ ct8KzHPdnKWiMBVOCba3R7l85NLRynzCSHIi9PCPzMqb5chilta0yVEPlmrpb9d3dI5P0c4xh6
+ Qpf903TOOy9tWJ3u/0A3n0s4/QBAAA=
+X-Change-ID: 20250219-rcar-streams-1fdea8860e5e
+To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: b4 0.15-dev-42535
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4516;
+ i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=rSI6cx/RPfMQe4oAO+y9gJg7CLsr656IO2NxzyrCboE=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnteFvxiG4uHuUogZ/dy0udlygvfz2o08EGqUlt
+ VDbNW3puX2JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ7XhbwAKCRD6PaqMvJYe
+ 9XkwD/sGzrtr9Fr9Y6BM5C2NgVKGxEG12mdpbbcDP3SvC+/z6sUd+s42yrr4V8N+AnYBs14BBOu
+ kQYPYL20rmIkvAjAHeC1mORYiKfYz1o6V8bwlt6NB/xYPaSokFtXR4FFpJE5Y++OQ+OdSgCTFqt
+ wRymxVuPALYJcxUdg21Zl/dWdDCrEyQqmwBG0V/NtisqXyCBQ7UbgPiDaQkwDGA9TVwM6O8xOOy
+ m3WzzDjI4NDEDhySVuxtuA27AwLfrNMGsvPczRIDEPQDgzTC/sm2sHIE47n6577dxp4ytXODQ4Z
+ Mi4a5wkn+IQLq6oevcNIPaHO9jg4ob4N4dDXqPEVl8KXJQSkoKX2EdxaE65vhM35hhf7mqox1vz
+ CBjQ0bjhCg54Qdewv4gZ/BTXw4MnIWfqYhD4FAG2GgG3MMff3C5MiZ7S5AwF6L5lGjuEiD980m/
+ lVMCpOInLn1T8NesMLESPkkgjg2ckDoNb0KG92zwrDi7V5PaiGLqhgWPwhzanPG33vTKHpFlM7v
+ LlYP68xur7ss4e443T30SJhSE1tH2Ndm7evwZ/spkoDd4mWCLvKft0cmthUn6WFtOgVQffNRh06
+ S7sOvxibfooXMev0I1zmomIrP9v6IfrC2otHI8RXaTkzGWvVtdKkRgDp8fsE2McNcdlIFp/481Y
+ pJuOL48vynqnvag==
+X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-On 19/02/2025 14:31, Matti Vaittinen wrote:
-> The new devm_iio_adc_device_alloc_chaninfo() -helper is intended to help
-> drivers avoid open-coding the for_each_node -loop for getting the
-> channel IDs. The helper provides standard way to detect the ADC channel
-> nodes (by the node name), and a standard way to convert the "reg",
-> "diff-channels", "single-channel" and the "common-mode-channel" to
-> channel identification numbers used in the struct iio_chan_spec.
-> Furthermore, the helper checks the ID is in range of 0 ... num-channels.
-> 
-> The original driver treated all found child nodes as channel nodes. The
-> new helper requires channel nodes to be named channel[@N]. This should
-> help avoid problems with devices which may contain also other but ADC
-> child nodes. Quick grep from arch/* with the rzg2l_adc's compatible
-> string didn't reveal any in-tree .dts with channel nodes named
-> othervice. Also, same grep shows all the .dts seem to have channel IDs
-> between 0..num of channels.
-> 
-> Use the new helper.
-> 
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> 
-> ---
-> Revision history:
-> v2 => v3:
->   - New patch
-> 
-> I picked the rzg2l_adc in this series because it has a straightforward
-> approach for populating the struct iio_chan_spec. Only other member
-> in the stuct besides the .channel, which can't use a 'template' -data,
-> is the .datasheet_name. This makes the rzg2l_adc well suited for example
-> user of this new helper. I hope this patch helps to evaluate whether these
-> helpers are worth the hassle.
-> 
-> The change is compile tested only!! Testing before applying is highly
-> appreciated (as always!).
-> ---
->   drivers/iio/adc/rzg2l_adc.c | 41 ++++++++++++++++++-------------------
->   1 file changed, 20 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
-> index cd3a7e46ea53..3e1c74019785 100644
-> --- a/drivers/iio/adc/rzg2l_adc.c
-> +++ b/drivers/iio/adc/rzg2l_adc.c
-> @@ -11,6 +11,7 @@
+Add streams support to Renesas rcar platform driver.
 
-...
+The series attempts to keep compatibility with the current upstream.
+However, in upstream there's some kind of custom multi-stream support
+implemented to the rcar driver, which breaks at patch "media: rcar-csi2:
+Simplify rcsi2_calc_mbps()".
 
->   
-> +static const struct iio_chan_spec rzg2l_adc_chan_template = {
-> +	.type = IIO_VOLTAGE,
+The behavior should not change when using a single stream.
 
-I just rebased this to v6.14-rc3 and noticed the channel type can no 
-longer come from the template. There are also some other minor changes. 
-I'll fix this in v4 if this same approach is kept.
+A problem with the series currently is that it has a lot of
+dependencies that are not in upstream yet.
 
-> +	.indexed = 1,
-> +	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),
-> +};
-> +
+Testing is even more problematic, as the only way currently for me to
+get multiple streams is by using the GMSL2 deserializer add-on board
+with GMSL2 serializers. These are not supported in upstream. If someone
+has the hardware and wants to test, I can share the very-WIP branch that
+contains the missing pieces.
 
-Yours,
-	-- Matti
+ Tomi
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Tomi Valkeinen (18):
+      media: rcar-vin: Add RCAR_GEN4 model value
+      media: rcar-vin: Fix RAW8
+      media: rcar-vin: Fix RAW10
+      media: rcar-isp: Improve ISPPROCMODE_DT_PROC_MODE_VC
+      media: rcar-isp: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Fix typo
+      media: rcar-csi2: Move rcar2_calc_mbps()
+      media: rcar-csi2: Simplify rcsi2_calc_mbps()
+      media: rcar-csi2: Optimize rcsi2_calc_mbps()
+      media: rcar-csi2: Switch to Streams API
+      media: rcar-isp: Switch to Streams API
+      media: rcar-csi2: Add .get_frame_desc op
+      media: rcar-isp: Call get_frame_desc to find out VC & DT
+      media: rcar-csi2: Add more stream support to rcsi2_calc_mbps()
+      media: rcar-csi2: Call get_frame_desc to find out VC & DT (Gen3)
+      media: rcar-csi2: Add full streams support
+      media: rcar-isp: Add full streams support
+
+ drivers/media/platform/renesas/rcar-csi2.c         | 430 ++++++++++++++-------
+ drivers/media/platform/renesas/rcar-isp.c          | 228 ++++++++---
+ .../media/platform/renesas/rcar-vin/rcar-core.c    |   2 +-
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c |  20 +-
+ .../media/platform/renesas/rcar-vin/rcar-v4l2.c    |   8 +-
+ drivers/media/platform/renesas/rcar-vin/rcar-vin.h |   1 +
+ 6 files changed, 499 insertions(+), 190 deletions(-)
+---
+base-commit: c4b7779abc6633677e6edb79e2809f4f61fde157
+change-id: 20250219-rcar-streams-1fdea8860e5e
+prerequisite-message-id: <20240129202254.1126012-1-niklas.soderlund+renesas@ragnatech.se>
+prerequisite-patch-id: 23c9dfd64dd6176312d50191e60b0a92937c0051
+prerequisite-patch-id: c49831184e0a6ff063cadbc79381c0f68d5b0f63
+prerequisite-patch-id: 47104e797dfef692022a72cb62d7fad2fc44f0f5
+prerequisite-patch-id: c89cf1fd9e528e6685ba8ce1e93e94f019f43913
+prerequisite-patch-id: e096565500ed748974824328adf14905ae40bcaa
+prerequisite-patch-id: 87a61e2c15f59928a96e9213c338cc2a65344c58
+prerequisite-message-id: <20240129195954.1110643-1-niklas.soderlund+renesas@ragnatech.se>
+prerequisite-patch-id: 748963119debbf990374b9eb06659381a3924824
+prerequisite-change-id: 20250120-rcar-media-impro-2c37c1036e19:v1
+prerequisite-patch-id: 3741e9cc665b78b56d18eee0041626d3c739dad5
+prerequisite-patch-id: 99a13857e0de3c1cadc7a971f6c3fb4449599313
+prerequisite-patch-id: a034cd446e21ba28273607f1d928c13739fb83f9
+prerequisite-patch-id: cdf480b4562e749c4190ceec50e78a8dac155bd5
+prerequisite-patch-id: 94c99ecd291d3d3f86b148406bbc383405016f2a
+prerequisite-patch-id: 690790ff01515aa452e73581c3ee4312246bfbc2
+prerequisite-patch-id: 74c5bed5396ef54ded950b9c449ea23b8f67636b
+prerequisite-patch-id: 3a6b197715760886ab383fefe1d5f95f40d8b063
+prerequisite-patch-id: e9f04f626ae08c981faa66de72663e8940a4f92e
+prerequisite-patch-id: 58b5dc8fd9026dcfede60b005294692964def2a1
+prerequisite-message-id: <20250210175615.1686529-1-niklas.soderlund+renesas@ragnatech.se>
+prerequisite-patch-id: a4aa6a184c6a21fc4536c11e14d9b5cc61f13346
+prerequisite-patch-id: 1b0091875529d392b142814005baa38b2ef77f98
+prerequisite-patch-id: 4c960ae93b1e663b11194903ed1810e0ed1e4f59
+prerequisite-patch-id: a5641e1dcad0f39baef8996b6731a471046f18f9
+prerequisite-patch-id: 481317ba4b987cbb069c31f3372686a59c0fcb67
+prerequisite-change-id: 20250218-frame-desc-passthrough-66805e413974:v2
+prerequisite-patch-id: da0097f1a6c5b58f87210acd974d7eba0b721dc3
+prerequisite-patch-id: 7cc5997549353a7e300f4778fd883e900d2251b2
+prerequisite-patch-id: 57d4622505842a9c9b8cbedb49745a155826c464
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
 
