@@ -1,232 +1,230 @@
-Return-Path: <linux-renesas-soc+bounces-13348-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13349-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176B9A3C0F4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 15:01:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0A1A3C20A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 15:25:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C822173A8F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 13:56:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C3513B8358
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 14:23:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0368A1F5845;
-	Wed, 19 Feb 2025 13:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D59D61EDA15;
+	Wed, 19 Feb 2025 14:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="aZ9FX4v0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ybTO+Bz3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1951F5826;
-	Wed, 19 Feb 2025 13:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3A51EB5C1;
+	Wed, 19 Feb 2025 14:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739973241; cv=none; b=REM5AfyRL0p3cFES0LXmyj0lDvjLbwR8O0zghx36Vs1mmHVtdWGfaiHUhIB6gG+gmlg9v3vw/g7S2LPJO9xoV/TnfXgTJbhaXeISwE5WprHrieLQlIAiq6pn1unTyXa0V+CchCFwMYk36BJDXw9E56f4igwLiX20t2OtcPLAqP0=
+	t=1739974984; cv=none; b=Qn2JLIdZgA591HL0ZENWJ8JtX+CRQbkK1YTIn1/DEC6Oz4j6ZTV30bPI6S0LLw0nRsuDJMbeNJ/55OXNlh052GJxDu1GMXiLS1s6ynPvextGQD0fyFmVDVFt5xTzTKKPeccX2WDPcQyPB/pBe27n5Q9+ARbvXFH3Kk8EU4HKTYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739973241; c=relaxed/simple;
-	bh=DeOM5Df75GHcS0Y0GEoM4mWgDbiEGb7EsgOY7riDYLM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tLbN1WkFSuXxtFAGFhW0qfUgTUrfT1g9K85Mj0vKZ5G9CCnt98yPG3th0ormhxW51qfzoHKPOq8lE7QE4wgOZmbUittM1/bKVFZ9+MRnFGMNS+V+2jNfYhvbi5XgtUsyVL012W28UkVXLvezqnqadwaaHucCTNMp1CySYqgbtKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-51eb181331bso2150801e0c.0;
-        Wed, 19 Feb 2025 05:53:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739973238; x=1740578038;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MUq3A1UUbsdcNtzCPSmxTLUPZ2kU+mhmD/anFDh6E6M=;
-        b=PobW5Wnn3C7iL5wbMALxXEKC/eBsaSSch4YOjQY5GqqYXjvdDURMSODAV/SJvuuuyc
-         VyGx01poetlcroStHytwQpqdph+jOLoe7JSNgyHDwdFArjj18tTnVRjA9FOvnv84Vk8H
-         xX0vYBnYxTXt7ZWB0TvSMfXtxKIJ9xc18i+VLH+sC7Jxn5p5NAtLU3ctPp29I2MH4AWD
-         LzggXDGmTmpCtzbCA9Yh/3b1VQ/aI7+Yn4xktMXMWJTa7pd5Ni2n9dHLQZ6mwdyE6q1U
-         a1n8R8rSiVx7/46WoV7Emd6YJ1pczEmU321WGPMgBI1vMCClGHqyMa+vKxBygDQTyxbS
-         v3fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVcow0zkL3utM+/0WzfCdOKy1Mese+weCoUObJzDBCwPK+Iw8kL2BGieP4dbBe7l2pzmzsmjpJm3DWV3XE=@vger.kernel.org, AJvYcCWBlOoFUz2enkF+MO7IRpuB37kMn/WJo73tpeUlsi0URxEebDDjhBmyJEteuJCyGQsuiSTDPcgy51GfvkWMItp11LU=@vger.kernel.org, AJvYcCWzEcSwefVU6SqyFR1rlrSjsCj9PikVfIawjRSj9fI9Jt/UB+dBNqCgV2UKXUHKQTG8PEbdLKEzZ829fo9j@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3Q6wM6wD2zXW/BFr21cvlpUvx1iooR84/90yBj32ShgT1lBgX
-	ocoF2NgBe8pgdb+jU8idakROPmifDBeTpUdKU0z85OeUlDpiEZ2b/oDgDV47
-X-Gm-Gg: ASbGnct/IiseQ1faLHhEVNiTWy4SrJPFuQin0JvoPAe197yYSNA4ycWfGAHmNjcCrY4
-	BqeHd5i4WQM7BhkC3dPDF0or3J5rRcq0gAhdPPVljuyCgESd94MOtk/uKlKvjxS9jPxG9Fw6xJQ
-	FrSpf4IypdOrI/WT8OiJr6BHaXHX9i5qOreMazbUmPvZRz+ehoIFizdrNrqeMU1v0CYO3ArdF26
-	tx8lL8neUCwW5/yM6kHd3nNIIgvEOkwljnLOWr9EMTe2OovaWEp53Df6cwQqlgt97GNe5KlGPtV
-	aXV+IR1cma9VFXWHIjQznBP6DbYHmOwMZzwQZGMtRRX4fHe70O6YKQ==
-X-Google-Smtp-Source: AGHT+IH2/DOziPeSOrx9DFGbCIRJIP1XV7UIX47ILp59xz26B+risO2EnZs5ORpYVN1OKZ+4WdKa5w==
-X-Received: by 2002:a05:6122:2807:b0:520:3465:7302 with SMTP id 71dfb90a1353d-5209dae23b9mr9340216e0c.5.1739973237634;
-        Wed, 19 Feb 2025 05:53:57 -0800 (PST)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52099016353sm2566809e0c.31.2025.02.19.05.53.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Feb 2025 05:53:57 -0800 (PST)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-867120d67baso2251169241.0;
-        Wed, 19 Feb 2025 05:53:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVGDR2oWM4XOcQUP1YKwwzhQ+7OU2Iy/g6qMHO76wr/QRyd0GOPgPt7PdD3ScMxe7I6uqomf64Qq8Ix82HknyPi7cs=@vger.kernel.org, AJvYcCWHHrwxJH/JJm4kOohAXqgLxXiBdzJ/6GwFa06IIEzgItNgBCIyrT8uuhs+KeiGiOmGnZiWw947MueyqTY=@vger.kernel.org, AJvYcCXs5xZ6EDpY70WpPTFYNu5JmsaFKqsBba4ChlyJfIylWmMYBmR/+6LjfQP+JHwFPHcF8n8tWTI2z71Hy43g@vger.kernel.org
-X-Received: by 2002:a05:6102:1486:b0:4af:ba51:a25f with SMTP id
- ada2fe7eead31-4bd3fe03a8emr10763151137.20.1739973237124; Wed, 19 Feb 2025
- 05:53:57 -0800 (PST)
+	s=arc-20240116; t=1739974984; c=relaxed/simple;
+	bh=GMhxOFVzGI4erLQXgw91divzo6a4uvOVK4Y5gsWBM54=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DImGZd5pTd9sIg12UklZBDShTUb2ioUT6jShRmoz5vbtOgNQQWiRMfxE9TrYDA4fnYscX6xQj3H1thgKmCmIK00VeAKJNZ1jnsU4DyHYOBnIVVWc6QvbSW6n8y3eezR72pHeWUTasq1AUZ1I6yX4XRLRA7hgz9qrInCV/M73rf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=aZ9FX4v0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ybTO+Bz3; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 27FE61140141;
+	Wed, 19 Feb 2025 09:23:00 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Wed, 19 Feb 2025 09:23:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1739974979;
+	 x=1740061379; bh=tpPmE/RsTpp8jwsCCCg4q49jzsglo558wxYqwyWM3rE=; b=
+	aZ9FX4v0ZbaC7HuxE3JEkTbEHor6CKY6a2cPvmRpEoO7+hu5a6DMW7IHtJL8klwO
+	Tt7greGz4UHQypPMXAUmJcKuJkjownVJQK1qvRedyD1cMROI4qRi5BtifBEkyK2R
+	mnoSZOptDi51Z1MZoZ59rjNneKBZ/9/sHqid8tFKT7DSBMtgEQt1yxP8edam84VC
+	8tKcDtDwWrfvY6QqQxiN5i1flb74uO+zDzuDFsf4iT5Ort5pxJWNCcIK/XOLjAW7
+	EG9o787PvVmPowGktdotL2U202AyJPFWZdUJQ/vEi9KyTFUmXGi+xScTgWAgus3w
+	04dH+DNpr08tatdoUN2FNg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739974979; x=
+	1740061379; bh=tpPmE/RsTpp8jwsCCCg4q49jzsglo558wxYqwyWM3rE=; b=y
+	bTO+Bz3f4UUCgvUENdu/JR4s1tQWnEp57ihiT7ADukM2oj7QIxWGq3WTvZ4bdxQ3
+	tjJ17bj09pQZsJJ2oqH6vWtutcEWiLoWOASGLubVv8ttvJlMxSVaK9tsuSJlSvFs
+	7WN5PnXPTYjMJ9skh9CkW5jS4Cy8frcPtiCEi+vX5dsK8qOAHD5IQXBJiVOjmRwU
+	qFQkpnOz109aFzEZ2ONGs+mNe6/wM39sNFYI1Rs8oEm/6wm/DAHDBBmAYkWLsupu
+	pV3+pj5Y/3nUcflenEG251/y0mxqBuM4Jm6uYR8+Cyp2vJfz3admxxkXHYHTx3Sy
+	7Nhld7BKdqZZKc+/qiT0w==
+X-ME-Sender: <xms:Q-m1Z8Crcx4Pn8AczcDYlAbejtC1qGgfXJMNUcY4DrzHuP9x1DTFaQ>
+    <xme:Q-m1Z-i8hABRGXZzL2OpXkKwiYlYom0g5-FPt4H4bDSbMBm7PDiSwJ8ySP-T8pOGw
+    0WMBNnCryY5_1m6Q_E>
+X-ME-Received: <xmr:Q-m1Z_k2fcfu0jmoxkNkW6dmRH_JMe9oVg5WQou99FzAe9zzcUh6RnusgwrRh7Cg_EEsffaAoUFQLHqNqb-ltl_qTLvwgvuHuw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigeegkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveet
+    gedtvddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhs
+    ohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepledpmh
+    houggvpehsmhhtphhouhhtpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhr
+    vghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehmtghhvg
+    hhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsrghkrghrihdrrghilhhushes
+    lhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgr
+    shdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqd
+    hkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmtghhvghh
+    rggsodhhuhgrfigviheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgruhhrvghnth
+    drphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehj
+    rggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrhgurdgtohhm
+X-ME-Proxy: <xmx:Q-m1ZyyKI1AP20Qavr1jQFVTMgfzdxSzrfj1yqVAPgahkbpGLSwFUQ>
+    <xmx:Q-m1ZxQhGdJirnfoYs0Qa_Od15govXdIHn2mLVj6BfQnBUvfPcZsPQ>
+    <xmx:Q-m1Z9apwV-wX3-wrN0jFSWA4ZaNRDOfNiXQwvwrBOrFKmBE1b-Ndg>
+    <xmx:Q-m1Z6Ql8Vv-aOIfukw6mRd9SQV0C5iCSXT4_EyZDhzu8TIIOPb20Q>
+    <xmx:Q-m1Z--NH9n3y8nBnNq_jUOliDPCPqz8Fy0zXl77Vd32GoehN6MWCtuY>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Feb 2025 09:22:59 -0500 (EST)
+Date: Wed, 19 Feb 2025 15:22:56 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 00/18] media: rcar: Streams support
+Message-ID: <20250219142256.GA512344@ragnatech.se>
+References: <20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250217105354.551788-1-thierry.bultel.yh@bp.renesas.com> <20250217105354.551788-10-thierry.bultel.yh@bp.renesas.com>
-In-Reply-To: <20250217105354.551788-10-thierry.bultel.yh@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 19 Feb 2025 14:53:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVptwisoHJq9683r92XS-sgO8Uk52zxnEQUn6DTd3DeEw@mail.gmail.com>
-X-Gm-Features: AWEUYZlPWgTUBbSUFTlt0CkgO_l4QftcwNhYeYkw57XRyKWMyk7h1RhnU_p-Cnk
-Message-ID: <CAMuHMdVptwisoHJq9683r92XS-sgO8Uk52zxnEQUn6DTd3DeEw@mail.gmail.com>
-Subject: Re: [PATCH v2 09/13] serial: sh-sci: Introduced sci_of_data
-To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-Cc: thierry.bultel@linatsea.fr, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com>
 
-Hi Thierry,
+Hi Tomi,
 
-On Mon, 17 Feb 2025 at 12:04, Thierry Bultel
-<thierry.bultel.yh@bp.renesas.com> wrote:
-> The aim here is to provide an easier support to more different SCI
-> controllers, like the RZ/T2H one.
->
-> The existing .data field of_sci_match is changed to a structure containing
-> all what that can be statically initialized, and avoid a call to
-> 'sci_probe_regmap', in both 'sci_init_single', and 'early_console_setup'.
->
-> 'sci_probe_regmap' is now assumed to be called in the only case where the
-> device description is from a board file instead of a dts.
->
-> In this way, there is no need to patch 'sci_probe_regmap' for adding new
-> SCI type, and also, the specific sci_port_params for a new SCI type can be
-> provided by an external file.
->
-> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+I'm happy to see this, nice work.
 
-Thanks for your patch!
+Unfortunately it does not apply to the media-tree. As this series is a 
+mix of fixes and new features as well as covering multiple drivers. Do 
+you think it would make sens to break out the fixes per driver which we 
+could review and apply ASAP and the new features which we can review but 
+need to wait until the dependencies are meet?
 
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-> @@ -3009,7 +3010,6 @@ static int sci_init_single(struct platform_device *dev,
->                 for (i = 1; i < ARRAY_SIZE(sci_port->irqs); i++)
->                         sci_port->irqs[i] = sci_port->irqs[0];
->
-> -       sci_port->params = sci_probe_regmap(p);
->         if (unlikely(sci_port->params == NULL))
->                 return -EINVAL;
+If the new features depends on stuff that is hard to upport, maybe just 
+focus on the fixes to get them out of the way?
 
-Ideally, this check can be removed here... (see below)
+On 2025-02-19 15:48:54 +0200, Tomi Valkeinen wrote:
+> Add streams support to Renesas rcar platform driver.
+> 
+> The series attempts to keep compatibility with the current upstream.
+> However, in upstream there's some kind of custom multi-stream support
+> implemented to the rcar driver, which breaks at patch "media: rcar-csi2:
+> Simplify rcsi2_calc_mbps()".
 
->
-> @@ -3264,9 +3264,14 @@ static void sci_remove(struct platform_device *dev)
->                 device_remove_file(&dev->dev, &dev_attr_rx_fifo_timeout);
->  }
->
-> -#define SCI_OF_DATA(type, regtype)     (void *)((type) << 16 | (regtype))
-> -#define SCI_OF_TYPE(data)              ((unsigned long)(data) >> 16)
-> -#define SCI_OF_REGTYPE(data)           ((unsigned long)(data) & 0xffff)
-> +#define SCI_OF_DATA(_type, _regtype) (\
-> +&(struct sci_of_data) {\
-> +       .type = (_type), \
-> +       .regtype = (_regtype),\
-> +       .ops = &sci_port_ops,\
-> +       .uart_ops = &sci_uart_ops,\
-> +       .params = &sci_port_params[_regtype],\
-> +})
+I would not worry about breaking the make shift multi-stream, it was 
+based on our first attempt to allow streams for GMSL many years ago and 
+it was bonkers ;-) As long as it don't break a single streams, even from 
+subdevs that do not themself support streams I'm happy.
 
-Doing it this way means each and every entry in of_sci_match[] has its
-own copy of struct sci_of_data, even if it is identical to one of the
-others. Unfortunately s/struct sci_of_data/const struct sci_of_data/
-doesn't help, so I'm afraid you have to deduplicate them explicitly.
-
->
->  static const struct of_device_id of_sci_match[] __maybe_unused = {
->         /* SoC-specific types */
-> @@ -3334,7 +3339,7 @@ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
->         struct reset_control *rstc;
->         struct plat_sci_port *p;
->         struct sci_port *sp;
-> -       const void *data;
-> +       const struct sci_of_data *data;
->         int id, ret;
->
->         if (!IS_ENABLED(CONFIG_OF) || !np)
-> @@ -3380,8 +3385,12 @@ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
->         sp = &sci_ports[id];
->         *dev_id = id;
->
-> -       p->type = SCI_OF_TYPE(data);
-> -       p->regtype = SCI_OF_REGTYPE(data);
-> +       p->type = data->type;
-> +       p->regtype = data->regtype;
-> +
-> +       sp->ops = data->ops;
-> +       sp->port.ops = data->uart_ops;
-> +       sp->params = data->params;
->
->         sp->has_rtscts = of_property_read_bool(np, "uart-has-rtscts");
->
-> @@ -3471,6 +3480,7 @@ static int sci_probe(struct platform_device *dev)
->                 }
->
->                 dev_id = dev->id;
-> +               sp->params = sci_probe_regmap(p, &sci_ports[dev_id]);
-
-sp is still uninitialized here, so it crashes on SuperH.
-
-In adition
-
-if (!sp->params)
-        return -ENODEV;
-
->         }
->
->         sp = &sci_ports[dev_id];
-> @@ -3560,19 +3570,23 @@ sh_early_platform_init_buffer("earlyprintk", &sci_driver,
->  static struct plat_sci_port port_cfg __initdata;
->
->  int __init early_console_setup(struct earlycon_device *device,
-> -                                     int type)
-> +                              const struct sci_of_data *data)
->  {
->         const struct sci_common_regs *regs;
->
->         if (!device->port.membase)
->                 return -ENODEV;
->
-> -       device->port.type = type;
-> +       device->port.type = data->type;
->         memcpy(&sci_ports[0].port, &device->port, sizeof(struct uart_port));
-> -       port_cfg.type = type;
-> +
-> +       port_cfg.type = data->type;
-> +       port_cfg.regtype = data->regtype;
-> +
->         sci_ports[0].cfg = &port_cfg;
-> -       sci_ports[0].ops = &sci_port_ops;
-> -       sci_ports[0].params = sci_probe_regmap(&port_cfg);
-> +       sci_ports[0].params = data->params;
-> +       sci_ports[0].ops = data->ops;
-> +       sci_ports[0].port.ops = data->uart_ops;
->         regs = sci_ports[0].params->common_regs;
->
->         port_cfg.scscr = sci_ports[0].ops->read_reg(&sci_ports[0].port, regs->control);
-
-I think you have to do some extra setup in sci_probe_earlyprintk(), too.
-That function contains the second caller of sci_init_single(), and
-thus relied on sci_init_single() calling sci_probe_regmap() before.
-I haven't tested that case on actual hardware yet.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> 
+> The behavior should not change when using a single stream.
+> 
+> A problem with the series currently is that it has a lot of
+> dependencies that are not in upstream yet.
+> 
+> Testing is even more problematic, as the only way currently for me to
+> get multiple streams is by using the GMSL2 deserializer add-on board
+> with GMSL2 serializers. These are not supported in upstream. If someone
+> has the hardware and wants to test, I can share the very-WIP branch that
+> contains the missing pieces.
+> 
+>  Tomi
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+> Tomi Valkeinen (18):
+>       media: rcar-vin: Add RCAR_GEN4 model value
+>       media: rcar-vin: Fix RAW8
+>       media: rcar-vin: Fix RAW10
+>       media: rcar-isp: Improve ISPPROCMODE_DT_PROC_MODE_VC
+>       media: rcar-isp: Move {enable|disable}_streams() calls
+>       media: rcar-csi2: Move {enable|disable}_streams() calls
+>       media: rcar-csi2: Fix typo
+>       media: rcar-csi2: Move rcar2_calc_mbps()
+>       media: rcar-csi2: Simplify rcsi2_calc_mbps()
+>       media: rcar-csi2: Optimize rcsi2_calc_mbps()
+>       media: rcar-csi2: Switch to Streams API
+>       media: rcar-isp: Switch to Streams API
+>       media: rcar-csi2: Add .get_frame_desc op
+>       media: rcar-isp: Call get_frame_desc to find out VC & DT
+>       media: rcar-csi2: Add more stream support to rcsi2_calc_mbps()
+>       media: rcar-csi2: Call get_frame_desc to find out VC & DT (Gen3)
+>       media: rcar-csi2: Add full streams support
+>       media: rcar-isp: Add full streams support
+> 
+>  drivers/media/platform/renesas/rcar-csi2.c         | 430 ++++++++++++++-------
+>  drivers/media/platform/renesas/rcar-isp.c          | 228 ++++++++---
+>  .../media/platform/renesas/rcar-vin/rcar-core.c    |   2 +-
+>  drivers/media/platform/renesas/rcar-vin/rcar-dma.c |  20 +-
+>  .../media/platform/renesas/rcar-vin/rcar-v4l2.c    |   8 +-
+>  drivers/media/platform/renesas/rcar-vin/rcar-vin.h |   1 +
+>  6 files changed, 499 insertions(+), 190 deletions(-)
+> ---
+> base-commit: c4b7779abc6633677e6edb79e2809f4f61fde157
+> change-id: 20250219-rcar-streams-1fdea8860e5e
+> prerequisite-message-id: <20240129202254.1126012-1-niklas.soderlund+renesas@ragnatech.se>
+> prerequisite-patch-id: 23c9dfd64dd6176312d50191e60b0a92937c0051
+> prerequisite-patch-id: c49831184e0a6ff063cadbc79381c0f68d5b0f63
+> prerequisite-patch-id: 47104e797dfef692022a72cb62d7fad2fc44f0f5
+> prerequisite-patch-id: c89cf1fd9e528e6685ba8ce1e93e94f019f43913
+> prerequisite-patch-id: e096565500ed748974824328adf14905ae40bcaa
+> prerequisite-patch-id: 87a61e2c15f59928a96e9213c338cc2a65344c58
+> prerequisite-message-id: <20240129195954.1110643-1-niklas.soderlund+renesas@ragnatech.se>
+> prerequisite-patch-id: 748963119debbf990374b9eb06659381a3924824
+> prerequisite-change-id: 20250120-rcar-media-impro-2c37c1036e19:v1
+> prerequisite-patch-id: 3741e9cc665b78b56d18eee0041626d3c739dad5
+> prerequisite-patch-id: 99a13857e0de3c1cadc7a971f6c3fb4449599313
+> prerequisite-patch-id: a034cd446e21ba28273607f1d928c13739fb83f9
+> prerequisite-patch-id: cdf480b4562e749c4190ceec50e78a8dac155bd5
+> prerequisite-patch-id: 94c99ecd291d3d3f86b148406bbc383405016f2a
+> prerequisite-patch-id: 690790ff01515aa452e73581c3ee4312246bfbc2
+> prerequisite-patch-id: 74c5bed5396ef54ded950b9c449ea23b8f67636b
+> prerequisite-patch-id: 3a6b197715760886ab383fefe1d5f95f40d8b063
+> prerequisite-patch-id: e9f04f626ae08c981faa66de72663e8940a4f92e
+> prerequisite-patch-id: 58b5dc8fd9026dcfede60b005294692964def2a1
+> prerequisite-message-id: <20250210175615.1686529-1-niklas.soderlund+renesas@ragnatech.se>
+> prerequisite-patch-id: a4aa6a184c6a21fc4536c11e14d9b5cc61f13346
+> prerequisite-patch-id: 1b0091875529d392b142814005baa38b2ef77f98
+> prerequisite-patch-id: 4c960ae93b1e663b11194903ed1810e0ed1e4f59
+> prerequisite-patch-id: a5641e1dcad0f39baef8996b6731a471046f18f9
+> prerequisite-patch-id: 481317ba4b987cbb069c31f3372686a59c0fcb67
+> prerequisite-change-id: 20250218-frame-desc-passthrough-66805e413974:v2
+> prerequisite-patch-id: da0097f1a6c5b58f87210acd974d7eba0b721dc3
+> prerequisite-patch-id: 7cc5997549353a7e300f4778fd883e900d2251b2
+> prerequisite-patch-id: 57d4622505842a9c9b8cbedb49745a155826c464
+> 
+> Best regards,
+> -- 
+> Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Kind Regards,
+Niklas Söderlund
 
