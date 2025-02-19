@@ -1,121 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-13351-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13350-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD71A3C213
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 15:26:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C10F7A3C209
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 15:25:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76BEB3AFAFC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 14:25:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 081507A5B57
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2025 14:24:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B0C01F2B8D;
-	Wed, 19 Feb 2025 14:25:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AAB51EFFA7;
+	Wed, 19 Feb 2025 14:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="DeRJqtv0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MAcanNsf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D3B1F17E8
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Feb 2025 14:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8791EFFA1;
+	Wed, 19 Feb 2025 14:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739975109; cv=none; b=KwL/tTVv3Yd+Iss3i7bN3F+cqCECHG4AQ8QY+1mV/dNBfmwQOUAA5w5IxDTbSdpMlTLSsbS74rI5UGA6cAxTXOLhjF6wnPQ8yoNc4WsyZaXTBxduPwGdkzgem/Kin+q4PowghUYfjhR/qzThcUGXMI7l5seysPZoRZjPqQJUJ4U=
+	t=1739975105; cv=none; b=roqOOk7czzUL9wLRREjuRmfoWCbfNRBvqVB2XvIOC7kBgND4+9C0OjLiQ1ghUd0kRG0fFT7maNeAvjo4Z88yjynTxVfhI+26kIeJg2wD1xfgm52o41wcDIIHBxXVOTayIoPNp3MCo4fzN7CA8935j4Jlu/3WXigfhPNo+YHSv+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739975109; c=relaxed/simple;
-	bh=ltI4g7nPmJeeGqiwBzK/MJgSPoL3ykRP0wBimvKDGws=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nVBkwXg8n5uqyDTAZFlofQFDXkpfdxWb1BkJL5PTz5OS0pQJvoyRJBmF7pvvcqW45qZbASBoPaBLycld4xbD2ihGeYO1fyktNDRET0YTcmK2UXUZm4kU/t2bI9I6wMsXGNp7mWoVbcTsNmPjrXQ4d1E8hmTOj7iT0O7dPO93tSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:47f6:a1ad:ad8e:b945])
-	by baptiste.telenet-ops.be with cmsmtp
-	id FSQw2E00557WCNj01SQwj5; Wed, 19 Feb 2025 15:24:58 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.97)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tkl09-0000000B3Sy-2RlP;
-	Wed, 19 Feb 2025 15:24:56 +0100
-Received: from geert by rox.of.borg with local (Exim 4.97)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tkl0S-0000000BaPR-105W;
-	Wed, 19 Feb 2025 15:24:56 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-serial@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+	s=arc-20240116; t=1739975105; c=relaxed/simple;
+	bh=vQc9aAx8CcdK82FZkUz6HZQjjJMhvLybA0eSKC4QkKw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZW1ZSD/5uYckCmXyWt41PIrqksfrWaYsno95eXTtdpVbksDMRYgdc0fmn+CXt80nb150py//LxwRbbZ23JI+KFe9he0RbXgf+ewzNr7FgmBEDHE6TYV9SLTsg+VQXMHjoD21jiAzmfBZx9Wl9LwGWoD47bm+nkFC3wmjOxQAC/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=DeRJqtv0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MAcanNsf; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 0FC95254019E;
+	Wed, 19 Feb 2025 09:25:02 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-11.internal (MEProxy); Wed, 19 Feb 2025 09:25:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1739975101;
+	 x=1740061501; bh=2FT/S7jmQJ86nFa5PyoiBPEHzmHzcMxWb1OSX8bVYD0=; b=
+	DeRJqtv0dybEZdWYUQZK1kr98zo74tguhSSwPIuhfnoUI7yCj9MpPirPiN7EqlGV
+	Z1okIQQJZ+x1tJqEK+UIcgEePQVDS61gfiiX/WYzVXuGiurMaHcD0NcahZKxjh93
+	2Rkj9pjFPAD9YD19SSYTOfDsjBwOIszw7bFn/29yB5CIa3RQus7Q9VYoPAzLK19Q
+	+Bu677MJt+kUyfevlEVh5XIXnaX9QZM02d9CJIUHd53LyOSW4esvAg1jg1rMl6aE
+	ErxHLo7znqHcHxkDmsPoU880bGdBRd3c1AF7ti7oK/wRRlUc3dm/wslmNGwdqsXd
+	j7VmNzrq8s1hmD6Ef4ZyYw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739975101; x=
+	1740061501; bh=2FT/S7jmQJ86nFa5PyoiBPEHzmHzcMxWb1OSX8bVYD0=; b=M
+	AcanNsfZjEYNhM6YLpSKa+TYkhNHfIGIGLiD56lzHtpMNf4NKrTzlOmo25E9kK8v
+	KeZs3hQQ543cSM07nDqqATIOQmXwnDYonri4/nR4bYW2LNnZORJWrPofrX6j3hQh
+	vhmIPIXDtyY9/oEs5QOHcBF1ArmJLoisAvkXDDaY5+N3iF8JNF+6rlrXQyXlSLEL
+	XXvSCYVDJ9bFQI6PH8NJTgfPV6GU5fLs1YFPOeUuaPfGx9bWg0J6sw6hJ9mhKEBG
+	sggtL2RdHkpcOSKS1l9OW/pwL55okOa/JlN4sWQbyAkYSSNYhtQTey+/IpzzuvBD
+	xrbN86WY3lQ/vheYQW4ZA==
+X-ME-Sender: <xms:vem1Z74jn6PjbmOp1LJDMdHgSxFT71_RH8VYrauBpAO9dgWUN81tNQ>
+    <xme:vem1Zw4I_aNs5sDSeqmGbIrhegNxYyWRumkfU5jiBq4z484n7pwXAa-SvJ0HhEgWS
+    n_0eXOYvfnjdJvMm6M>
+X-ME-Received: <xmr:vem1ZydaQbBW5UtCrHyizcR71oEaJF_Q_RTdqbXWcI5fkkU9uxC28gKdndZmrx1RBvjhOQAC2zFFc3SMWdtVdw4I4UOPkCXR7Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigeegkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveet
+    gedtvddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhs
+    ohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepledpmh
+    houggvpehsmhhtphhouhhtpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhr
+    vghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehmtghhvg
+    hhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsrghkrghrihdrrghilhhushes
+    lhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgr
+    shdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqd
+    hkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmtghhvghh
+    rggsodhhuhgrfigviheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgruhhrvghnth
+    drphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehj
+    rggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrhgurdgtohhm
+X-ME-Proxy: <xmx:vem1Z8LYqfWUVO4lVSEobQcYX7rYwaQhfMuLnsPcmM0a1vhjVmKJIw>
+    <xmx:vem1Z_JaK33J5Dlf9Ui2qwv860I8yHxLfA2bkaUMV6UTYswOnWjC6w>
+    <xmx:vem1Z1zBKXMvckVJh-RYwN6UGvqsOPfTg4AhWOOL77i8E11cn-oaRg>
+    <xmx:vem1Z7KN7QcVjNwf1IiyhRm3HopQfZKMb-NXx32dvP2qcnlLeLbNqw>
+    <xmx:vem1ZwWuzsh7srGPUUS4H90AzVrHKKKWATgnrfG3wtj0XcoWWETJIh9n>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Feb 2025 09:25:01 -0500 (EST)
+Date: Wed, 19 Feb 2025 15:24:59 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] serial: sh-sci: Save and restore SCDL and SCCKS
-Date: Wed, 19 Feb 2025 15:24:54 +0100
-Message-ID: <20250219142454.2761556-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 07/18] media: rcar-csi2: Fix typo
+Message-ID: <20250219142459.GB512344@ragnatech.se>
+References: <20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com>
+ <20250219-rcar-streams-v1-7-f1b93e370aab@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250219-rcar-streams-v1-7-f1b93e370aab@ideasonboard.com>
 
-On (H)SCIF with a Baud Rate Generator for External Clock (BRG), there
-are multiple ways to configure the requested serial speed.  If firmware
-uses a different method than Linux, and if any debug info is printed
-after the Bit Rate Register (SCBRR) is restored, but before termios is
-reconfigured (which configures the alternative method), the system may
-lock-up during resume.
+Hi Tomi,
 
-Fix this by saving and restoring the contents of the Frequency Division
-(DL) and Clock Select (CKS) registers as well.
+On 2025-02-19 15:49:01 +0200, Tomi Valkeinen wrote:
+> Fix typo with variable name 'msps'.
 
-Fixes: 22a6984c5b5df8ea ("serial: sh-sci: Update the suspend/resume support")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-This can be reproduced on e.g. Salvator-X(S) by enabling the debug
-print in sci_brg_calc(), and using s2ram with no_console_suspend.
----
- drivers/tty/serial/sh-sci.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+FWIW, this is not a typo, C-PHY uses symbols per seconds, not bits per 
+second.
 
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index df6512c9c0ff28db..70f34b8a93888eb9 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -109,6 +109,8 @@ struct sci_suspend_regs {
- 	u16 scscr;
- 	u16 scfcr;
- 	u16 scsptr;
-+	u16 scdl;
-+	u16 sccks;
- 	u8 scbrr;
- 	u8 semr;
- };
-@@ -3571,6 +3573,10 @@ static void sci_console_save(struct sci_port *s)
- 		regs->scfcr = sci_serial_in(port, SCFCR);
- 	if (sci_getreg(port, SCSPTR)->size)
- 		regs->scsptr = sci_serial_in(port, SCSPTR);
-+	if (sci_getreg(port, SCDL)->size)
-+		regs->scdl = sci_serial_in(port, SCDL);
-+	if (sci_getreg(port, SCCKS)->size)
-+		regs->sccks = sci_serial_in(port, SCCKS);
- 	if (sci_getreg(port, SCBRR)->size)
- 		regs->scbrr = sci_serial_in(port, SCBRR);
- 	if (sci_getreg(port, SEMR)->size)
-@@ -3590,6 +3596,10 @@ static void sci_console_restore(struct sci_port *s)
- 		sci_serial_out(port, SCFCR, regs->scfcr);
- 	if (sci_getreg(port, SCSPTR)->size)
- 		sci_serial_out(port, SCSPTR, regs->scsptr);
-+	if (sci_getreg(port, SCDL)->size)
-+		sci_serial_out(port, SCDL, regs->scdl);
-+	if (sci_getreg(port, SCCKS)->size)
-+		sci_serial_out(port, SCCKS, regs->sccks);
- 	if (sci_getreg(port, SCBRR)->size)
- 		sci_serial_out(port, SCBRR, regs->scbrr);
- 	if (sci_getreg(port, SEMR)->size)
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/rcar-csi2.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+> index 845fb3e155f1..92697ea3df01 100644
+> --- a/drivers/media/platform/renesas/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> @@ -1301,7 +1301,7 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
+>  	const struct rcar_csi2_format *format;
+>  	const struct v4l2_mbus_framefmt *fmt;
+>  	unsigned int lanes;
+> -	int msps;
+> +	int mbps;
+>  	int ret;
+>  
+>  	/* Use the format on the sink pad to compute the receiver config. */
+> @@ -1314,9 +1314,9 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
+>  	if (ret)
+>  		return ret;
+>  
+> -	msps = rcsi2_calc_mbps(priv, format->bpp, lanes);
+> -	if (msps < 0)
+> -		return msps;
+> +	mbps = rcsi2_calc_mbps(priv, format->bpp, lanes);
+> +	if (mbps < 0)
+> +		return mbps;
+>  
+>  	/* Reset LINK and PHY*/
+>  	rcsi2_write(priv, V4H_CSI2_RESETN_REG, 0);
+> @@ -1352,7 +1352,7 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
+>  	rcsi2_write16(priv, V4H_PPI_RW_COMMON_CFG_REG, 0x0003);
+>  
+>  	/* C-PHY settings */
+> -	ret = rcsi2_c_phy_setting_v4h(priv, msps);
+> +	ret = rcsi2_c_phy_setting_v4h(priv, mbps);
+>  	if (ret)
+>  		return ret;
+>  
+> 
+> -- 
+> 2.43.0
+> 
+
 -- 
-2.43.0
-
+Kind Regards,
+Niklas Söderlund
 
