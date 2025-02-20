@@ -1,250 +1,473 @@
-Return-Path: <linux-renesas-soc+bounces-13384-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13385-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2C1A3D1E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 08:16:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A99A9A3D1E3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 08:15:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89CDC3A68A8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 07:13:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 961F7188A091
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 07:13:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F19B1E766E;
-	Thu, 20 Feb 2025 07:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E597F1E5B78;
+	Thu, 20 Feb 2025 07:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="cF5KiIRw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mnmsY+yk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010036.outbound.protection.outlook.com [52.101.228.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310A91E5721;
-	Thu, 20 Feb 2025 07:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740035518; cv=fail; b=JgX3UIf2KMYWYDQaEvWeUKDZLuc7wLGv5GnFCGoN9cl2ujzhmmRhSHHvuoxxkJQgl2qKx06VlYbo9KgXn98YpuxEqw1v5SPE/5ymlFgQWZ6J3ER2jvsKFmnVtKgMZKzwhu7x2DbYIwLebyf3HbSBpQq/Sltg38d73cpAq2XhyDw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740035518; c=relaxed/simple;
-	bh=mjqWUtzoM675AzY6Y4xsoMrRYH5tHFm/sU6uUqZsUAA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=b/V0fXr1NmeW1vFvMUwJ52PE4WaxtY2EadXaOpAJiQfaa0DVYGjfgf32GGL82SsIPiBiXuQspINKNoRtRD5EXDxNQor1oA7Fx64CBKUfMpLuhscnBVbPlSQ6Fbr2Zap+enGA/73RQBY7jG5PDYxac8meeoiVrAghJJbL3bPvfsw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=cF5KiIRw; arc=fail smtp.client-ip=52.101.228.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IEef6EXb2iW055ooKqY5LaLBUpnA9+m1MnahSCLfDNxmfbCfodzMKy3+rk3TpAgLmenlkzQJ5IMilvaFkUqoNnayV/BSgr7uQkAQgUTy5Cza3xEz6n11gUvL+VuD+mgKeLaBqzcAD9yIJAF5VisqH2/8b4YG6kiycgyVC6Ky7L9XiDgdLz6g4BvL1GRE7buSRihdtj8C3F2hSa8cxf4Cd0GJS7fsA/t+oeojsa2mq/j7o7qQC1LI9ZDmjfDzNiS6DEP8JVHJQoaeJMOHnrVLd97m6RTYFIxu1VutQ8uwEQUyL1s+ImKeJ9ksg7isia3X/XMdkGXSXATHYsRsT5jdEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VgNhVm58Vkd7wGvhPgiVzBPG4D1CguSxLW9LZSRHuuE=;
- b=MADaPQfAt5X1OlIficWcVlRnOMK9LxRytY39KKMuxeHSMmmFxTi3QLygeoXwkgRUN4vP4Bevkyoz447Cky9HZNqRMhK/ZJQVW8dXTxkb4QWOBDu07PMfZdt7tzVzFgFuP1utrv0SIHN91S8G7i9CbFRh2eSi4n4YW1dvSclpfqpChVIY1b1Sr9pYzK7xjfnXYPaISs54av/yXy9BkpsFMYRPCG8p46eGGmHucwZcgTk7bZg5+t/0C79v333nPLNJ3NgC+cUtvmOgre6vfa2xylbtW0Y+U/Z26y+bvhrw4oL/0sQQN2ZhS75z0vifhbn3m3wYux8VqZX1ceGZLC0H1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VgNhVm58Vkd7wGvhPgiVzBPG4D1CguSxLW9LZSRHuuE=;
- b=cF5KiIRwko0kyM8H4okGiTV7SpmcBzvLPjhndZf7ROlI9blWwa9GrQsWiPIZK7FQHYL/Y442KLlzuU53abLcEbJ61h8LWoldyxsmhzTW/vbZvNMw9YPyzyp0E8hrYqYfzoYUkmE5URzMOHEHAnlpFqZRCUh21U8Ls1PKSbtM14U=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OS3PR01MB7803.jpnprd01.prod.outlook.com (2603:1096:604:178::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.14; Thu, 20 Feb
- 2025 07:11:47 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.8466.015; Thu, 20 Feb 2025
- 07:11:45 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>, Wolfram Sang
-	<wsa+renesas@sang-engineering.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
-	<magnus.damm@gmail.com>, "linux-mmc@vger.kernel.org"
-	<linux-mmc@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Subject: RE: [PATCH v3 0/8] Add RZ/G3E SDHI support
-Thread-Topic: [PATCH v3 0/8] Add RZ/G3E SDHI support
-Thread-Index: AQHbeJzGvJIoLl8m3E2Od8hqLuKjDbNP236Q
-Date: Thu, 20 Feb 2025 07:11:45 +0000
-Message-ID:
- <TY3PR01MB11346306FD267025422957B3486C42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250206134047.67866-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250206134047.67866-1-biju.das.jz@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB7803:EE_
-x-ms-office365-filtering-correlation-id: 0359eb8d-32de-4ad0-7e27-08dd517dd5a1
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?bF/VTYY+tD32bMw4R9mWEA9UDAnpHcg66zXnErYKdjvmNINjTcIK2SdlB6nn?=
- =?us-ascii?Q?mTC3ULVvn/I1a/pChGn8H1vNlyTsH7dUWJjE/drIGJUHheyXPUX+uqlwAnDM?=
- =?us-ascii?Q?4nF7VsYKbIp5+HyvxSmOfXl25qcjLnTEG1dzfncOWBJukFDVgzKIDaRYJawx?=
- =?us-ascii?Q?TSPIrCiQ1hFZLJWUbuDe8CW+PcyKi+W8T0+YakOjiAfdzKnp+GJtiWR3I8Up?=
- =?us-ascii?Q?dWwNjmlpn8cLT5mvgzSYhXbvvGdjfd47F6peNQhGe5cCw9dSYMXc8Yu1qXdK?=
- =?us-ascii?Q?FhQ0I76RKVBml5KCpqz5d8UQGKhy6sdPXuEQQcSI2rskGXsJKYu0j8FJr+1F?=
- =?us-ascii?Q?LJqUdvGR4ZgAhJtd7KdQNP60KkkP/Mafevtte5zJoPt4YSkYdgVrLfZSWNKk?=
- =?us-ascii?Q?Oxu3oZ514FKXhU/HiG4BCmg7M49v6DD9Aoo7qZvNwLqLiESDtNhEOq28utn1?=
- =?us-ascii?Q?ACJlEwfMxkgqyQEMCLoCrre3+qaPfkNnsTIJHauhDSNJuG/zHjwGkpkZDt47?=
- =?us-ascii?Q?ITh2PmIaaVsSQM0wOeLsuaG2gcyLcjrQyO1VWHuLwp1R1zMQ8YtWlQzgdoJT?=
- =?us-ascii?Q?oV0iNO/Fe5pMO8on3mpLOE2kXY2Cfo9JO0akB9BaHLZSYxXsHrYpCdav/WA+?=
- =?us-ascii?Q?ek0t5uBLKaVWcEUBykH2Wqb7wYOqSm6MA1sAPj8pxvRqQ8KeqeTMoTbNlfKd?=
- =?us-ascii?Q?GmG/aze4wbhNL2NNXovdVEXtDyD2J99DvP4klk7sk6vsKdqhId7BHglorLV9?=
- =?us-ascii?Q?dpbxGr7xmHRpX+B0vmv3qkuk0H6mg2I10pbtJTA4ugqSKe7H/Wz1/4YgWqau?=
- =?us-ascii?Q?Bb9pkIc0mLd3/qkHCWxI8z0mGQMWvh52+VmYPBJ/XLA41zoCJpnQnX/1g33C?=
- =?us-ascii?Q?n/At9pgAyq5/df/GPn5broqCoaFtjL+yEcgdNkbxYZ+I4iCU3Olk6wqTpE0n?=
- =?us-ascii?Q?sh7AMHe7U1Ggb97rsYzwYDtoCH0mO4jhoUoIcqOlqtOAENnJ0lpTuwP7lZ8F?=
- =?us-ascii?Q?7EobYPkFpcTUINk4l4aUr3encU+HN/JPR4NfxeoWQ4C2Y2HgIRh7mtGwME8j?=
- =?us-ascii?Q?2agEc3a96PO2plUjNzG8n+7U4P8MEHxSebQ5lSElJlKWq0cPoQ8qUfD37Bsa?=
- =?us-ascii?Q?m4aVCyC++bTnNd8eSEOs8LJVfnlHyQgC0U5nqh159S21JtYUsORm5RndnLgz?=
- =?us-ascii?Q?4LL1IBicX//qqHcHbCzBq07QOkY2L3PxKYkjWfwROjzk6ILmXiIXgsXO/gFD?=
- =?us-ascii?Q?tGjivNvGtxfZVKeW1fsu2BoQ/DCtuyy7QGdw0XXdEU3wBOywo6p/sVDFrDJe?=
- =?us-ascii?Q?gyC25hcHbJs+OvzQgjQMBZmw4wFXmAjbn+tJ5RaXUniKvTyA2mjHp+LM3f1k?=
- =?us-ascii?Q?mrZkTo9XKlY3+U7LMNVCpVMx8Z7CDgonnS+ffu9fzYq8o59VwrdT7y/nRoaO?=
- =?us-ascii?Q?xse7+Lmitq1pzDAq/Eey5pCGkvIpz4no?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?1Hivw0uiXb4trqPIJ85zwTddcC5gYTfdILsq+iw+YStMOSvyxo8W6g0vvK/I?=
- =?us-ascii?Q?FMq3L276LuYeRud7FeTNlsBVeBoDhd9yoXGfwdf/8d4e55iYK6qDMI54sCqV?=
- =?us-ascii?Q?hF35FZL66h9hLAWOxIRzDxO/xJ2lxked+CSYM4DESwKrS0+piugCCSd7Gl7i?=
- =?us-ascii?Q?yyKsu93JACERKUZAg2Z2DWh1QwQqtq6IRIMsIZLKsG0FOZ23keLU0u7V//hX?=
- =?us-ascii?Q?Yl2NLFct5VCWRTMbSmVl7mpKW9+CkQQBkYmmuwkxaU9FQLVsa0RDdjykIk01?=
- =?us-ascii?Q?/JUrkFGDFVieVVB20DR4US0ZZvlkqUyKQU7STo9mlY2iH94259jnGXIfZplv?=
- =?us-ascii?Q?zyZrEev5bw7YDWrbmfjx7Y2s9J6LsP3gJp4nUa9L05WHxyabxsvJhQtq1EYN?=
- =?us-ascii?Q?Ae+H0AOH+vvfR3Lgv6CmZmLU7w6c6id/xgxFkuTpBe69e+VB3QyEJFaP+5Wg?=
- =?us-ascii?Q?zen2An35AwnxskfQfQcYYfH3DngnNITkiBzc2jwGVOSGyLsCLzhZyfhQMGS4?=
- =?us-ascii?Q?/KhEIQ48HAyIq/lY56BXOnXEL0Lnk8pX1gHqeUc9G5dj2Gr5x9Vq6/S9aPYe?=
- =?us-ascii?Q?XZE7RVus1OkWZFDFf2Iil8YtFXav/DbTMEtaluzmmoTsgx7J2JJ2nKAMHetw?=
- =?us-ascii?Q?9FtBv4IBiM1Iy6TLx7OQPKopiSf8lqR3aBs+PnC9uOnDTC05wcvo1hJ2k7G1?=
- =?us-ascii?Q?aUQoK/hc6zaj9yCNCpe1LzRvNuBtRdpSntXm7LoTVo8iaasDzQnYSh7IQmHE?=
- =?us-ascii?Q?tbrBPd1OgnilAytvaC1vDq0W8mOSHu33G5JOiDdQg9XnAJsb3Dg0+9krRwVH?=
- =?us-ascii?Q?W2/7pghbWc7SZh5TpvfC2IK3UmJeo+hzF/rUHrdEVlEp/pmq/P7zrWfVFRdp?=
- =?us-ascii?Q?qVbKp7CLSu9mtagxBkahPDaqvGoHY7mtHI/PjeGflIIUbUgObysJCC/Q+jjZ?=
- =?us-ascii?Q?p/UeuObHAdQYIaShSLsh1vPwUlVxvs8M/pwcGMkdy9gMBmEfmYinCesqYKpm?=
- =?us-ascii?Q?+kobDs2MxNhS+rnzbgseOOyt+ZZiFjQb7i/Jvgz/15YhApdnV0ZGwUdKn5aM?=
- =?us-ascii?Q?BSTYulrnCbaW6PRwU5K43AJFhdinMZaNWB5XoEhV71NeqBusSowHTvvNQw3j?=
- =?us-ascii?Q?LWoww273OBf9rjN9PtV+yFMLcgePIR5lWjsxq6/tV9mJha907+XFnUECuKd1?=
- =?us-ascii?Q?LY7BrSWLBbPjsaUg6gSh7V8oL684fHgupjqUwn/rCgj6mHvTGEXLY8kro5Jx?=
- =?us-ascii?Q?Fq5R6G1ZSAbqLzR1vYE9Zz9mA7YExEFGcUDnFFFOmhrH4sh+ARzTQSyZoxAj?=
- =?us-ascii?Q?PdrmLbPilBHzxhKBNUlizkljmeSzCB7emP5zMly7FbWnvuE3nw/327oBdLtl?=
- =?us-ascii?Q?M+9OWEVasqHbMI9DZDpZRfwuzKJ2lytKr7PZ+tiL3+isgTe99MIl/ZBjjLxb?=
- =?us-ascii?Q?pFQJ3x0BeGjHagHSt82/kY4hgy+Nu8hMEOm20TObF1So9URaE2Y0B4GQAy0f?=
- =?us-ascii?Q?UIcDOap8qqFIfBrDroaE31dQIZvdP/SyfX+g9WH07nxGBo5w/YNu+3lJD4c1?=
- =?us-ascii?Q?k51WB+08ZXVeN8k5sbqS+6ejmslphQ2tBtNzv4Wy9BxJ0+096O+N/QHsLano?=
- =?us-ascii?Q?Eg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE931E4937;
+	Thu, 20 Feb 2025 07:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740035588; cv=none; b=nI0dacM7FRF+BX4DsmLP4jTzQDjySQM1kCA+WXlWFTcnejbtfNMHV5V67hbuUZ/XaS2aXt0CUPCxa1olG4D87yQIS5R6id1Lbx3jlNRiq3t88IX+Rw+uc7QXVUF09XigOwof3J9A7Cvy4pQZXNd9MSXDP90qpbD1YRZPJy2qhO8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740035588; c=relaxed/simple;
+	bh=PJgSIw9XkHYZLj89vwvjA1zq1i+3FNHoBiCWYf6Ow9M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=df5qOY9MPSTykHLhqQzdF5FighzGaDQqWKigBg1VFazfXkLaJE25iWh4EPoO1qSkLlIC7CzbVZEauAjRsjPI+lDdHBThRKi+knmiqbI5jt/my8r028jJavE9tJr6ElFTcYAbr1ffXyy4D7JseL7Vj+wsWoqW9Xpjguf1GwWqwV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mnmsY+yk; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3072f8dc069so5534441fa.3;
+        Wed, 19 Feb 2025 23:13:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740035584; x=1740640384; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+GAX2Ms3C+1iFEiEooYALMC1zyJP6nScc6k91Dyj8T4=;
+        b=mnmsY+ykWWzZbu17se2/tEjtheWNeM7srVRa+AGXWBXmk4HUkusajagvvIChU6xagr
+         NSfDl9HnoNBYWFXgDxUiOR6i4K7YOTI6ZRIlx2m8bPZjF4bNlXWVcm0nMTXcsiy7XkUD
+         LfUI54obFRs96GddU0pFKicGiHBUf2AOE5Oxoumur068wnwLUxPuSwajnIkRczKQqLjp
+         epqA7yj3gvlj0jMMk7u5cHWA3U1ZxHVaSc+PA9xz7kmApN2rIhMViTtxwnEpnv6verX/
+         s0WIU9TISwkEMRw5bZtmAxRT0blh3lovkVqpQcUfWCxWcbo2mncRxkln+/kT0dooRqq4
+         3iEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740035584; x=1740640384;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+GAX2Ms3C+1iFEiEooYALMC1zyJP6nScc6k91Dyj8T4=;
+        b=VYMRU/kL3p+G3QVmk0Yjxc+XGsgLLESez0Cj1aazT8JqINF6SuAmWQJQrnJsPyCJVP
+         FXMZLrrFAEXQnVXWL9lDahYM8sqbebB06MIiii0feestdL1T97V4LsTWZMDxMYU/uumT
+         ojLuoxWlAKhFAD0CDZAJ+gwohADUiI3S+9bZzOw6T58+NuC0Ti0ylH+eLk07L7Z7SF2T
+         lWKnC/YEdK9hhT+FaWbnMyFrI/YY0ifrrZlPpbjuUfOfe8/4Ct4rfZ7541sMPR19EbiG
+         4VshnC0wypSNgiMCk98Fh/zGxffDAKX0eb9hxeTz102/L2Pzr5deSUxeV0Ta8UjUe07f
+         613A==
+X-Forwarded-Encrypted: i=1; AJvYcCUYbFXxoQY5fxolgN5XoMvO+EbIr2gptet6s3QkLAfwyHH9jNeXsbfkSLWUi+39mF7BePBrMO9NEl3WH47v1ahddGQ=@vger.kernel.org, AJvYcCVCDeqNgnk1tXorK5/EMx4blL7H+ODkQxGltkBLM9E2oC3M0d1qdlo29fyt6pu1P3uGPMFO/d1mu3bs@vger.kernel.org, AJvYcCW15fOcgpOoL7cf1e9RsvEonqjXAvT7y8W28CK/g1REKe9sjMS71nT9bShB7hB+8ftkwH7t4DCjfY5L8VSw@vger.kernel.org, AJvYcCXYulZIKPxviyuCeYea29+SlrqHa78Hlt42jAZVE8cjHeLZYwyoBMBds2Hw4jZ5B15VjMrdjiXKAzZB@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCfoJSX/+VgOSR1btoXA6n4W+w1SoUm+Q+tfXjBG0RgrsHpksI
+	1mwclT/ZZx+EiKJoKtp9EsmbbHhSuEGwnrQmnr6okJoy/86wXXM3
+X-Gm-Gg: ASbGncuBPESj+CJB3ZBdC92RDUQGzhyjfhw/QTz0lpaORROOx7MXqc8KnK3h6485yRF
+	e9/G/XBKWYbB+VOM2Y1uEEVRt57bKycE75aVGNTKszvTMRnhbCJfUcMQQr2PLLGINwFuKfHhmfu
+	Y7MyBWOgXXplArTYY64BjTvGWVpHJ/Wz52kWdE2EovgSI+hXrZMU/U9JAdHy08+bBm+uHHAizXT
+	K3dIs4PJI3Jq9xkhJtXVh0F5oxRTXJh+YW7PgiTMaDVJjn1BDZ3gHxq/LdlYRBGADrQutnI6sPH
+	77vZfElHR92q3x+FKFHEwZVlyr5rn1ZS27akxKi5O8Sa5nP+xTcatbfsVST0Kx55qEXtzqZU
+X-Google-Smtp-Source: AGHT+IFKp9trN/cn2Qm66dYQMf1hABQUmyHBmZFJ75NYzdUOuFn45L/HlCdjW3lLCknW0qJmzNb4EQ==
+X-Received: by 2002:a2e:8650:0:b0:308:f479:5696 with SMTP id 38308e7fff4ca-30a44dc4ff1mr17598221fa.15.1740035583979;
+        Wed, 19 Feb 2025 23:13:03 -0800 (PST)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30921447bdcsm21379171fa.35.2025.02.19.23.13.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Feb 2025 23:13:03 -0800 (PST)
+Message-ID: <b1c1ed68-2f4d-447c-9957-5a1bbc63ef6e@gmail.com>
+Date: Thu, 20 Feb 2025 09:13:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0359eb8d-32de-4ad0-7e27-08dd517dd5a1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2025 07:11:45.3022
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0UKLfoJfQdYEaZrulIMe41p8j1PSlJ2ccwh9Ho8PNq7Yj4HVUxabanQoIo0l4vBacID6TEQ+q5nO0CVEo/MOaHjy9SjJz9+Zo3DxTgAUim0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB7803
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/9] iio: adc: add helpers for parsing ADC nodes
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
+ David Lechner <dlechner@baylibre.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <cover.1739967040.git.mazziesaccount@gmail.com>
+ <6c5b678526e227488592d004c315a967b9809701.1739967040.git.mazziesaccount@gmail.com>
+ <Z7ZB7RQhyI5Dohrq@smile.fi.intel.com>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <Z7ZB7RQhyI5Dohrq@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Ulf, Wolfram,
+Hi Andy,
 
-> -----Original Message-----
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> Sent: 06 February 2025 13:40
-> Subject: [PATCH v3 0/8] Add RZ/G3E SDHI support
->=20
-> The SD/MMC block on the RZ/G3E ("R9A09G047") SoC is similar to that of th=
-e RZ/V2H, but the SD0 channel
-> has only dedicated pins, so we must use SD_STATUS register to control vol=
-tage and power enable
-> (internal regulator).
->=20
-> For SD1 and SD2 channel we can either use gpio regulator or internal regu=
-lator (using SD_STATUS
-> register) for voltage switching.
->=20
-> For SD0, fixed voltage(eMMC) uses fixed regulator and non-fixed voltage
-> (SD) uses internal regulator.
->=20
-> v2->v3:
->  * Collected tags
->  * Renamed internal regulator labels vqmmc_sdhi{0..2}->sdhi{0..2}_vqmmc.
->  * Updated regulator phandles on SoM/Board dts.
->  * Dropped renaming the gpio regulator label vqmmc_sdhi1->vqmmc_sdhi1_gpi=
-o.
->  * Renamed node sd0emmc->sd0-emmc
->  * Renamed sd0-emmc-{ctrl,data,rst}->sd0-{ctrl,data,rst}
->  * Moved header file gpio.h from patch#6 to patch#8.
->  * Dropped overriding internal regulator name.
->  * Dropped #if guard in pinctrl node for SDHI0
->  * Renamed the label/node sdhi0_pins: sd0->sdhi0_usd_pins: sd0-usd.
-> v1->v2:
->  * Collected tags.
->  * Documented internal regulator as optional property for both RZ/G3E and
->    RZ/V2H SoCs.
->  * Updated commit description for regulator used in SD0 fixed and
->    non-fixed voltage case in patch#3.
->  * As the node enabling of internal regulator is controlled through statu=
-s,
->    added a check for device availability.
->  * Status of internal regulator is disabled in the SoC .dtsi. Override
->    the status in the board DTS when needed.
->  * Added support for enabling SDHI internal regulator in RZ/V2H
->  * Added missing header file gpio.h
->  * Used fixed regulator for eMMC on SD0 and dropped sd0-iovs pins for
->    eMMC.
->  * Sorted pinctrl nodes for sd2
->  * Enabled internal regulator for SD2.
->  * Added support for enabling SD on SDHI0
->  * Replaced the regulator usd_vdd_3p3v->reg_3p3v.
->  * Renamed the gpio-hog node sd1-pwr-en->sd1-pwr-en-hog.
->  * Sorted sd1 pin ctrl nodes.
->=20
-> Biju Das (8):
->   dt-bindings: mmc: renesas,sdhi: Document RZ/G3E support
->   mmc: renesas_sdhi: Arrange local variables in reverse xmas tree order
->   mmc: renesas_sdhi: Add support for RZ/G3E SoC
->   arm64: dts: renesas: r9a09g047: Add SDHI0-SDHI2 nodes
->   arm64: dts: renesas: r9a09g057: Add support for enabling SDHI internal
->     regulator
->   arm64: dts: renesas: rzg3e-smarc-som: Enable SDHI{0,2}
->   arm64: dts: renesas: rzg3e-smarc-som: Add support for enable SD on
->     SDHI0
->   arm64: dts: renesas: r9a09g047e57-smarc: Enable SDHI1
->=20
->  .../devicetree/bindings/mmc/renesas,sdhi.yaml |  16 ++
->  arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  60 +++++++
->  .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  49 ++++++
->  arch/arm64/boot/dts/renesas/r9a09g057.dtsi    |  21 +++
->  .../boot/dts/renesas/renesas-smarc2.dtsi      |  18 ++
->  .../boot/dts/renesas/rzg3e-smarc-som.dtsi     | 154 ++++++++++++++++++
->  drivers/mmc/host/renesas_sdhi.h               |   1 +
->  drivers/mmc/host/renesas_sdhi_core.c          | 136 +++++++++++++++-
->  drivers/mmc/host/tmio_mmc.h                   |   5 +
->  9 files changed, 459 insertions(+), 1 deletion(-)
+Long time no hear ;) First of all, thanks for the review!
 
-Gentle ping.
+On 19/02/2025 22:41, Andy Shevchenko wrote:
+> On Wed, Feb 19, 2025 at 02:30:27PM +0200, Matti Vaittinen wrote:
+>> There are ADC ICs which may have some of the AIN pins usable for other
+>> functions. These ICs may have some of the AIN pins wired so that they
+>> should not be used for ADC.
+>>
+>> (Preferred?) way for marking pins which can be used as ADC inputs is to
+>> add corresponding channels@N nodes in the device tree as described in
+>> the ADC binding yaml.
+>>
+>> Add couple of helper functions which can be used to retrieve the channel
+>> information from the device node.
+> 
+> ...
+> 
+>>   - Rename iio_adc_device_get_channels() as
+> 
+> as?
 
-Cheers,
-Biju
+Oh, looks like I got interrupted :) Thanks!
+
+> 
+> ...
+> 
+>> obj-$(CONFIG_FSL_MX25_ADC) += fsl-imx25-gcq.o
+>>   obj-$(CONFIG_GEHC_PMC_ADC) += gehc-pmc-adc.o
+>>   obj-$(CONFIG_HI8435) += hi8435.o
+>>   obj-$(CONFIG_HX711) += hx711.o
+> 
+>> +obj-$(CONFIG_IIO_ADC_HELPER) += industrialio-adc.o
+> 
+> Shouldn't this be grouped with other IIO core related objects?
+
+I was unsure where to put this. The 'adc' subfolder contained no other 
+IIO core files, so there really was no group. I did consider putting it 
+on top of the file but then just decided to go with the alphabetical 
+order. Not sure what is the right way though.
+
+>>   obj-$(CONFIG_IMX7D_ADC) += imx7d_adc.o
+>>   obj-$(CONFIG_IMX8QXP_ADC) += imx8qxp-adc.o
+>>   obj-$(CONFIG_IMX93_ADC) += imx93_adc.o
+> 
+> ...
+> 
+> 
+> + bitops.h
+> 
+>> +#include <linux/device.h>
+>> +#include <linux/errno.h>
+> 
+> + export.h
+> 
+> + module.h
+> 
+>> +#include <linux/property.h>
+> 
+> + types.h
+
+Thanks!
+
+> ...
+> 
+>> +EXPORT_SYMBOL_GPL(iio_adc_device_num_channels);
+> 
+> No namespace?
+
+I was considering also this. The IIO core functions don't belong into a 
+namespace - so I followed the convention to keep these similar to other 
+IIO core stuff.
+
+(Sometimes I have a feeling that the trend today is to try make things 
+intentionally difficult in the name of the safety. Like, "more difficult 
+I make this, more experience points I gain in the name of the safety".)
+
+Well, I suppose I could add a namespace for these functions - if this 
+approach stays - but I'd really prefer having all IIO core stuff in some 
+global IIO namespace and not to have dozens of fine-grained namespaces 
+for an IIO driver to use...
+
+> ...
+> 
+>> +	if (!allowed_types || allowed_types & (~IIO_ADC_CHAN_PROP_TYPE_ALL)) {
+> 
+> Unneeded parentheses around negated value.
+> 
+>> +		dev_dbg(dev, "Invalid adc allowed prop types 0x%lx\n",
+>> +			allowed_types);
+>> +
+>> +		return -EINVAL;
+>> +	}
+>> +	if (found_types & (~allowed_types)) {
+> 
+> Ditto.
+> 
+>> +		long unknown_types = found_types & (~allowed_types);
+> 
+> Ditto and so on...
+> 
+> Where did you get this style from? I think I see it first time in your
+> contributions. Is it a new preferences? Why?
+
+Last autumn I found out my house was damaged by water. I had to empty 
+half of the rooms and finally move out for 2.5 months. Now I'm finally 
+back, but during the moves I lost my printed list of operator 
+precedences which I used to have on my desk. I've been writing C for 25 
+years or so, and I still don't remember the precedence rules for all 
+bitwise operations - and I am fairly convinced I am not the only one.
+
+What I understood is that I don't really have to have a printed list at 
+home, or go googling when away from home. I can just make it very, very 
+obvious :) Helps me a lot.
+
+> 
+>> +		int type;
+>> +
+>> +		for_each_set_bit(type, &unknown_types,
+>> +				 IIO_ADC_CHAN_NUM_PROP_TYPES - 1) {
+>> +			dev_err(dev, "Unsupported channel property %s\n",
+>> +				iio_adc_type2prop(type));
+>> +		}
+>> +
+>> +		return -EINVAL;
+>> +	}
+> 
+> ...
+> 
+>> +int iio_adc_device_channels_by_property(struct device *dev, int *channels,
+>> +		int max_channels, const struct iio_adc_props *expected_props)
+>> +{
+>> +	int num_chan = 0, ret;
+>> +
+>> +	device_for_each_child_node_scoped(dev, child) {
+>> +		u32 ch, diff[2], se;
+>> +		struct iio_adc_props tmp;
+>> +		int chtypes_found = 0;
+>> +
+>> +		if (!fwnode_name_eq(child, "channel"))
+>> +			continue;
+>> +
+>> +		if (num_chan == max_channels)
+>> +			return -EINVAL;
+>> +
+>> +		ret = fwnode_property_read_u32(child, "reg", &ch);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		ret = fwnode_property_read_u32_array(child, "diff-channels",
+>> +						     &diff[0], 2);
+> 
+> 						     diff, ARRAY_SIZE(diff));
+> 
+> (will require array_size.h)
+
+thanks :) And thanks for being helpful with the header - and there is no 
+sarcasm!
+
+>> +		if (!ret)
+>> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_DIFF;
+>> +
+>> +		ret = fwnode_property_read_u32(child, "single-channel", &se);
+>> +		if (!ret)
+>> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED;
+>> +
+>> +		tmp = *expected_props;
+>> +		/*
+>> +		 * We don't bother reading the "common-mode-channel" here as it
+>> +		 * doesn't really affect on the primary channel ID. We remove
+>> +		 * it from the required properties to allow the sanity check
+>> +		 * pass here  also for drivers which require it.
+>> +		 */
+>> +		tmp.required &= (~BIT(IIO_ADC_CHAN_PROP_COMMON));
+> 
+> Redundant outer parentheses. What's the point, please?
+
+Zero need to think of precedence.
+
+>> +		ret = iio_adc_prop_type_check_sanity(dev, &tmp, chtypes_found);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_DIFF)
+>> +			ch = diff[0];
+>> +		else if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED)
+>> +			ch = se;
+>> +
+>> +		/*
+>> +		 * We assume the channel IDs start from 0. If it seems this is
+>> +		 * not a sane assumption, then we can relax this check or add
+>> +		 * 'allowed ID range' parameter.
+>> +		 *
+>> +		 * Let's just start with this simple assumption.
+>> +		 */
+>> +		if (ch >= max_channels)
+>> +			return -ERANGE;
+>> +
+>> +		channels[num_chan] = ch;
+>> +		num_chan++;
+>> +	}
+>> +
+>> +	return num_chan;
+>> +
+>> +}
+> 
+> ...
+> 
+>> +int devm_iio_adc_device_alloc_chaninfo(struct device *dev,
+>> +				const struct iio_chan_spec *template,
+>> +				struct iio_chan_spec **cs,
+>> +				const struct iio_adc_props *expected_props)
+>> +{
+>> +	struct iio_chan_spec *chan;
+>> +	int num_chan = 0, ret;
+>> +
+>> +	num_chan = iio_adc_device_num_channels(dev);
+>> +	if (num_chan < 1)
+>> +		return num_chan;
+>> +
+>> +	*cs = devm_kcalloc(dev, num_chan, sizeof(**cs), GFP_KERNEL);
+>> +	if (!*cs)
+>> +		return -ENOMEM;
+>> +
+>> +	chan = &(*cs)[0];
+> 
+> This and above and below will be easier to read if you introduce a temporary
+> variable which will be used locally and assigned to the output later on.
+> Also the current approach breaks the rule that infiltrates the output even in
+> the error cases.
+
+Agree. Thanks.
+
+> 
+>> +	device_for_each_child_node_scoped(dev, child) {
+>> +		u32 ch, diff[2], se, common;
+>> +		int chtypes_found = 0;
+>> +
+>> +		if (!fwnode_name_eq(child, "channel"))
+>> +			continue;
+>> +
+>> +		ret = fwnode_property_read_u32(child, "reg", &ch);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		ret = fwnode_property_read_u32_array(child, "diff-channels",
+>> +						     &diff[0], 2);
+> 
+> As per above.
+> 
+>> +		if (!ret)
+>> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_DIFF;
+>> +
+>> +		ret = fwnode_property_read_u32(child, "single-channel", &se);
+>> +		if (!ret)
+>> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED;
+> 
+>> +		ret = fwnode_property_read_u32(child, "common-mode-channel",
+>> +					       &common);
+> 
+> I believe this is okay to have on a single line,
+
+I try to keep things under 80 chars. It really truly helps me as I'd 
+like to have 3 parallel terminals open when writing code. Furthermore, I 
+hate to admit it but during the last two years my near vision has 
+deteriorated... :/ 40 is getting more distant and 50 is approaching ;)
+
+> 
+>> +		if (!ret)
+>> +			chtypes_found |= BIT(IIO_ADC_CHAN_PROP_COMMON);
+>> +
+>> +		ret = iio_adc_prop_type_check_sanity(dev, expected_props,
+>> +						     chtypes_found);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		*chan = *template;
+>> +		chan->channel = ch;
+>> +
+>> +		if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_DIFF) {
+>> +			chan->differential = 1;
+>> +			chan->channel = diff[0];
+>> +			chan->channel2 = diff[1];
+>> +
+>> +		} else if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED) {
+>> +			chan->channel = se;
+>> +			if (chtypes_found & BIT(IIO_ADC_CHAN_PROP_COMMON))
+>> +				chan->channel2 = common;
+>> +		}
+>> +
+>> +		/*
+>> +		 * We assume the channel IDs start from 0. If it seems this is
+>> +		 * not a sane assumption, then we have to add 'allowed ID ranges'
+>> +		 * to the struct iio_adc_props because some of the callers may
+>> +		 * rely on the IDs being in this range - and have arrays indexed
+>> +		 * by the ID.
+>> +		 */
+>> +		if (chan->channel >= num_chan)
+>> +			return -ERANGE;
+>> +
+>> +		chan++;
+>> +	}
+>> +
+>> +	return num_chan;
+>> +}
+> 
+> ...
+> 
+>> +#ifndef _INDUSTRIAL_IO_ADC_HELPERS_H_
+>> +#define _INDUSTRIAL_IO_ADC_HELPERS_H_
+> 
+> + bits.h
+> 
+>> +#include <linux/iio/iio.h>
+> 
+> I'm failing to see how this is being used in this header.
+
+I suppose it was the struct iio_chan_spec. Yep, forward declaration 
+could do, but I guess there would be no benefit because anyone using 
+this header is more than likely to use the iio.h as well.
+
+> 
+>> +struct device;
+>> +struct fwnode_handle;
+>> +
+>> +enum {
+>> +	IIO_ADC_CHAN_PROP_REG,
+>> +	IIO_ADC_CHAN_PROP_SINGLE_ENDED,
+>> +	IIO_ADC_CHAN_PROP_DIFF,
+>> +	IIO_ADC_CHAN_PROP_COMMON,
+>> +	IIO_ADC_CHAN_NUM_PROP_TYPES
+>> +};
+>> +
+>> +/*
+>> + * Channel property types to be used with iio_adc_device_get_channels,
+>> + * devm_iio_adc_device_alloc_chaninfo, ...
+> 
+> Looks like unfinished sentence...
+
+Intention was to just give user an example of functions where this gets 
+used, and leave room for more functions to be added. Reason is that 
+lists like this tend to end up being incomplete anyways. Hence the ...
+
+> 
+>> + */
+>> +#define IIO_ADC_CHAN_PROP_TYPE_REG BIT(IIO_ADC_CHAN_PROP_REG)
+>> +#define IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED BIT(IIO_ADC_CHAN_PROP_SINGLE_ENDED)
+>> +#define IIO_ADC_CHAN_PROP_TYPE_SINGLE_COMMON					\
+>> +	(BIT(IIO_ADC_CHAN_PROP_SINGLE_ENDED) | BIT(IIO_ADC_CHAN_PROP_COMMON))
+>> +#define IIO_ADC_CHAN_PROP_TYPE_DIFF BIT(IIO_ADC_CHAN_PROP_DIFF)
+>> +#define IIO_ADC_CHAN_PROP_TYPE_ALL GENMASK(IIO_ADC_CHAN_NUM_PROP_TYPES - 1, 0)
+> 
+>> +int devm_iio_adc_device_alloc_chaninfo(struct device *dev,
+>> +				const struct iio_chan_spec *template,
+>> +				struct iio_chan_spec **cs,
+>> +				const struct iio_adc_props *expected_props);
+>> +
+>> +int iio_adc_device_channels_by_property(struct device *dev, int *channels,
+>> +				int max_channels,
+>> +				const struct iio_adc_props *expected_props);
+>> +#endif /* _INDUSTRIAL_IO_ADC_HELPERS_H_ */
+> 
+> 
+
 
