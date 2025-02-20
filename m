@@ -1,55 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-13421-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13422-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D60A3DE01
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 16:14:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16631A3DE78
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 16:28:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 930094222B9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 15:12:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD3DD168F47
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 15:27:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEFBC1FCF6D;
-	Thu, 20 Feb 2025 15:12:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B2021FCFF9;
+	Thu, 20 Feb 2025 15:27:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CF71FCCF7
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Feb 2025 15:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CFB61FCF6B;
+	Thu, 20 Feb 2025 15:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740064344; cv=none; b=s4julVrT35TKCOf+w0l0E2GUNOlBVFhFSrsual8B2n4yiAK2owJy1bhnXPrli0LsEVxob2yfb+StTL3D6DTNa2MGay1u6TEb72iKNX82RQwysXRB2sTWQ0ZFj5TuIKaIxyu/rEtjfL98i8Z2bJoxm/VL8PUoCmmYxMSsML5F1go=
+	t=1740065261; cv=none; b=ubIxvGoSJsqd90EJ0r85X3RrZu0k6KF6f3WwujUJFqDZtAw92cQJ1CIBJS50jfdgzRlSd6O9BqwZRT1ESXBS/wb9zB2jLphxbi5jqHbHF0AQVqwD4RXhIOJPJ531dxBNF/qfyiru0idBmfdvIzkIIIFQqTfWW/lP5Va/1fFLqlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740064344; c=relaxed/simple;
-	bh=I2c9D+583DIn0oLjbjCxnIf4feeCVl6vepzjhZLcn1o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VObC+sn8i/3EZYIecjDUxamLX85NI2jn+Oq7qG9Gyi0RzQEUfa+h7K7TaEfaD+NgJv8ev5r6tsLhuD3pl7P65umscymqjWuiqW7L2wMhIIYqcn4DSasWXnQR+0vRNKsHxbAAbL2+DEH3ug2eAnZI3QPlwgxNnxCNpjFbPxArsZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b586:2686:e976:446f])
-	by michel.telenet-ops.be with cmsmtp
-	id FrCD2E00C3dp1uk06rCDv9; Thu, 20 Feb 2025 16:12:14 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.97)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tl8DS-0000000BFaC-0dSe;
-	Thu, 20 Feb 2025 16:12:13 +0100
-Received: from geert by rox.of.borg with local (Exim 4.97)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tl8Dl-0000000DLHq-2r2Z;
-	Thu, 20 Feb 2025 16:12:13 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Su Hui <suhui@nfschina.com>
-Cc: linux-i2c@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+	s=arc-20240116; t=1740065261; c=relaxed/simple;
+	bh=+oGoxw2St+KAb0RzXyAAChRY7fZPyFzJUmlMrZyCNWw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p+u7eWtwrXvZ60Pg4fWZ12xdcNOkE/1HPB6gPwLNTHx/U5+CRxo8BJQxWeGnt4rhH77TLO3ZsBsxfIpPOvddJ/3iubJoKo2sr03yzd/UUyC/2wBPrO3lni1/8GBPHc8NHiXfZv/LgKukRVew/cVinV1VtyiBOfV4p+jpHvvxzUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: xpjqCMLHR0ajY3bA2LXALw==
+X-CSE-MsgGUID: /L6eAmP/Ty+a+/dn3J48kw==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 21 Feb 2025 00:27:37 +0900
+Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.134])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 7B31840436EB;
+	Fri, 21 Feb 2025 00:27:31 +0900 (JST)
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: mturquette@baylibre.com,
+	magnus.damm@gmail.com,
+	krzk+dt@kernel.org,
+	rui.zhang@intel.com,
+	daniel.lezcano@linaro.org,
+	sboyd@kernel.org,
+	geert+renesas@glider.be,
+	lukasz.luba@arm.com,
+	rafael@kernel.org,
+	robh@kernel.org,
+	p.zabel@pengutronix.de
+Cc: biju.das.jz@bp.renesas.com,
+	claudiu.beznea.uj@bp.renesas.com,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	john.madieu@gmail.com,
 	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] i2c: core: Allocate temporary client dynamically
-Date: Thu, 20 Feb 2025 16:12:12 +0100
-Message-ID: <f9aa39362e918b62aec0567f899b37d8d3c44710.1740064176.git.geert+renesas@glider.be>
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: [PATCH 0/7] thermal: renesas: Add support fot RZ/G3E
+Date: Thu, 20 Feb 2025 16:26:05 +0100
+Message-ID: <20250220152640.49010-1-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -57,73 +64,53 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-drivers/i2c/i2c-core-base.c: In function ‘i2c_detect.isra’:
-drivers/i2c/i2c-core-base.c:2544:1: warning: the frame size of 1312 bytes is larger than 1024 bytes [-Wframe-larger-than=]
- 2544 | }
-      | ^
+Hello,
 
-Fix this by allocating the temporary client structure dynamically, as it
-is a rather large structure (1216 bytes, depending on kernel config).
+This series adds support for the temperature sensor unit (TSU) found on the
+Renesas RZ/G3E SoC.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Mostly compile-tested, as apparently I have no I2C devices for which
-driver->detect and driver->address_list are valid.
+The series consists of 7 patches (some of which are not related to the thermal
+framework) that progressively add TSU support as follows:
+- patch 1/7:	adds syscon/regmap support for accessing system controller
+		registers, enabling access to TSU calibration values
+- patch 2/7:	adds clock and reset signals to the CPG driver
 
-Apparently an alternative solution was posted before, but that does not
-fully address the potential stack size issue:
-"[PATCH] i2c: core: mark i2c_detect_address noinline_for_stack".
-https://lore.kernel.org/20250210080217.2772467-1-suhui@nfschina.com
----
- drivers/i2c/i2c-core-base.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+- patch 3/7:	adds dt-bindings
+- patch 4/7:	adds the actual TSU driver for the RZ/G3E
+- patch 5/6:	adds safety mechanism to make sure we we protect the chip in
+		case of consecutive read failures
+- patch 6-7/7:	add DT node and defconfig enablement
 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index 35a221e2c11c1460..7ad1ad5c8c3f5694 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -2506,7 +2506,7 @@ static int i2c_detect_address(struct i2c_client *temp_client,
- static int i2c_detect(struct i2c_adapter *adapter, struct i2c_driver *driver)
- {
- 	const unsigned short *address_list;
--	struct i2c_client temp_client;
-+	struct i2c_client *temp_client;
- 	int i, err = 0;
- 
- 	address_list = driver->address_list;
-@@ -2527,19 +2527,24 @@ static int i2c_detect(struct i2c_adapter *adapter, struct i2c_driver *driver)
- 		return 0;
- 
- 	/* Set up a temporary client to help detect callback */
--	memset(&temp_client, 0, sizeof(temp_client));
--	temp_client.adapter = adapter;
-+	temp_client = kzalloc(sizeof(*temp_client), GFP_KERNEL);
-+	if (!temp_client)
-+		return -ENOMEM;
-+
-+	temp_client->adapter = adapter;
- 
- 	for (i = 0; address_list[i] != I2C_CLIENT_END; i += 1) {
- 		dev_dbg(&adapter->dev,
- 			"found normal entry for adapter %d, addr 0x%02x\n",
- 			i2c_adapter_id(adapter), address_list[i]);
--		temp_client.addr = address_list[i];
--		err = i2c_detect_address(&temp_client, driver);
-+		temp_client->addr = address_list[i];
-+		err = i2c_detect_address(temp_client, driver);
- 		if (unlikely(err))
- 			break;
- 	}
- 
-+	kfree(temp_client);
-+
- 	return err;
- }
- 
+Regards,
+
+John Madieu (7):
+  soc: renesas: rz-sysc: add syscon/regmap support
+  clk: renesas: r9a09g047: Add clock and reset signals for the TSU IP
+  dt-bindings: thermal: r9a09g047-tsu: Document the TSU unit
+  thermal: renesas: rzg3e: Add thermal driver for the Renesas RZ/G3E SoC
+  thermal: renesas: rzg3e: Add safety check when reading temperature
+  arm64: dts: renesas: r9a09g047: Add TSU node
+  arm64: defconfig: Enable RZ/G3E thermal
+
+ .../thermal/renesas,r9a09g047-tsu.yaml        | 123 +++++
+ MAINTAINERS                                   |   7 +
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  49 ++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/r9a09g047-cpg.c           |   3 +
+ drivers/soc/renesas/Kconfig                   |   1 +
+ drivers/soc/renesas/r9a09g047-sys.c           |   1 +
+ drivers/soc/renesas/rz-sysc.c                 |  30 +-
+ drivers/soc/renesas/rz-sysc.h                 |   2 +
+ drivers/thermal/renesas/Kconfig               |   7 +
+ drivers/thermal/renesas/Makefile              |   1 +
+ drivers/thermal/renesas/rzg3e_thermal.c       | 479 ++++++++++++++++++
+ 12 files changed, 703 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
+ create mode 100644 drivers/thermal/renesas/rzg3e_thermal.c
+
 -- 
-2.43.0
+2.25.1
 
 
