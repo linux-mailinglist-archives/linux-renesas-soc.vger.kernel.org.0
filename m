@@ -1,262 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-13396-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13397-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1188A3DA41
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 13:41:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA2DA3DAB9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 14:05:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7591617C98F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 12:41:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7F3919C091F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 13:04:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 852551F4610;
-	Thu, 20 Feb 2025 12:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eogWL2iq"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F364D1F3FCB;
+	Thu, 20 Feb 2025 13:04:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C327A1F3FD7;
-	Thu, 20 Feb 2025 12:41:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11F91D63E8;
+	Thu, 20 Feb 2025 13:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740055289; cv=none; b=tgCKlYCZ0PGslxTjWQjPsa+2Aih5nvwNT03JMewMhwEfLDhCj+bJ2m4IZ4Qdpg7uoGNu2vhTyZmiY3O5CdVYMaCUDcd5N9/Zn22tb7fAkJhAXr8DnuFdmGBmsJpZSjllirW5tOnNmMdj9Vt+QwTWeoYQyx8U8kMWwyffbUx5wZQ=
+	t=1740056651; cv=none; b=cwpI1rLJIQFrHZFYToBzXxNU4i9tFa+8O4xVtJ95UKF4Drn4RtJM3cY57E2oG1KbkiehA1vRmY/DZJX4VksBcQV1tRp9h/6WTXvIJ+LROH3uzjKsGb4/KwdxCTz+FGSumxrsXkPuSGxFcYTOJhhkJq2S+OwiaGUT38YE5MBxOUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740055289; c=relaxed/simple;
-	bh=LeIpn0tC1VxcvvTy4WIzSMid7/q9gL2QZySYy1PWKyA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bBFIcNys8kJYI9mwoauVUrRmDcjFKZXEk8xuYZmKdBbgwrYJSJJfF5EUwwB8vvn7NyIv/REk2CcEcvK2M1DxEnfPvS1qVAQzHMX1g4JwhmEDAnzxJ8t8w/dBzDTiaLMaxuKR3TXW05/N7lmWDRNbozFozjSLZtaTTu1TZSxIYks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eogWL2iq; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740055288; x=1771591288;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LeIpn0tC1VxcvvTy4WIzSMid7/q9gL2QZySYy1PWKyA=;
-  b=eogWL2iqusvqHVd/eiTts50CMt+fT8ZLySfFu+Z55nRkWYUeYS2a47jJ
-   3bx43mxj+ot5trkEJI2Qytx0j9eaGPke/LtoJyuanfoltEQRxBzgylL8x
-   i2Yen8pnAo/h/2DxlQb9gRsXc0ZG8MWxMeXpBsHr56w0RL3InYPt0DP/5
-   4nPj+GKoFMBBDVqQPHcnydEkOwMoldCiYC4bnrwk1rEQZCruRgOCM4X6f
-   t72F3Si92hAQZXYbTr1TAxYmoUCnnnx2xcp7KIxSfYhAR0vnMUs/lWEMO
-   I2m58awqFKF6KCw2bxFnXdrX/2qeMr2OedM59ok/UrSkTNCov9+Zm5gzC
-   A==;
-X-CSE-ConnectionGUID: OQZ3mpSKSG6jYEOHu5jlsw==
-X-CSE-MsgGUID: zrSU11XKQJ+KkibiJ/MY1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40951635"
-X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="40951635"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 04:41:27 -0800
-X-CSE-ConnectionGUID: 9dH+52A+TUCTpmU05P8WYg==
-X-CSE-MsgGUID: kRr+uJgAQdC/atds2MA++g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="120136529"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 04:41:22 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tl5ri-0000000DKcf-3Ad8;
-	Thu, 20 Feb 2025 14:41:18 +0200
-Date: Thu, 20 Feb 2025 14:41:18 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 2/9] iio: adc: add helpers for parsing ADC nodes
-Message-ID: <Z7ci7tUlRQqZEZSN@smile.fi.intel.com>
-References: <cover.1739967040.git.mazziesaccount@gmail.com>
- <6c5b678526e227488592d004c315a967b9809701.1739967040.git.mazziesaccount@gmail.com>
- <Z7ZB7RQhyI5Dohrq@smile.fi.intel.com>
- <b1c1ed68-2f4d-447c-9957-5a1bbc63ef6e@gmail.com>
+	s=arc-20240116; t=1740056651; c=relaxed/simple;
+	bh=Mha/8UrxRleFZQYMkP6GQUQk8CTzZhBFY96OkKnYSjU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m6/JMjq7Pa9L7OU8aOcXl7iAWgyuQV3owcZxDOXkdN9/yGB2hn+ZuhcDnuZJHbOCtc4PRmLg/rlbwBq3cX19Nek+cNG/ZQPggTuxkqEfLUOjSC6eikJO21pKtl5Xd8fOVd0NO9ZDNrCV8gjaMzlnaAMCjzMHjGONQSk3yudedvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-46fcbb96ba9so10330321cf.0;
+        Thu, 20 Feb 2025 05:04:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740056648; x=1740661448;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V6W8Q39R68WnbcobKnCWwlaQPZp7/owzyTSa6NkVd/0=;
+        b=BlT76OjD/cc9E6zeDoo0zSN26nhWQ31MUdBn6NqGGkpKd2DAt177AMK59yp5mj9J6C
+         HCbPblS6pjPWoUktqgr/hMO+MSZnaC8lserT4D0Q1M3X2GET9KpsPPh2MuiZJqwBya82
+         Aa/PD2qn5tA/0sLbgBscqIsObuCP8MT+VhxyGKuxRrmBFPLwVL9GeeI2B8HKcmu/Px0w
+         cTavfSaj+Bv/aAQg9bzYf8rDLnIzbOmKAK9NVUGCE/7jbhE40pKl0ZqdikRWVtZduIVt
+         vjs+PlC5Wtr57tWLOC6Jvi36z+w8Brgw6rPyvuImV+Codpu3zSEXCKKGU4sVUl/eEgm5
+         ZdSA==
+X-Forwarded-Encrypted: i=1; AJvYcCUN8ERr+FocLlsfeO7sOSVGvN/ojv6ShViOftcoIUma7smRl01/O4PATLvubo7qWDUyAOqju3oKbg2L7KLl@vger.kernel.org, AJvYcCVXXA2JgFnATcaSbsOZZaS/YznKn9b+w6Ietqcixt48MuMyIzbMzccaQ49lJHYQNNT+PeODdZRp1cYW@vger.kernel.org, AJvYcCWwl+LRAtaRnSO1m3p0av3qJMrP8bBKCyokckuSIor1iI8K4/b1KuZBMPo5JwuvvK6QcsP6tS8qmWe23sONm4BuY1k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5Qx28cpuHmiFaJb4MY1xuYfvNB0upV1ctQmlpRwPNdoBjnvpf
+	BAwyLzq2NhHiVSre8VLll17kvdusLkrmjMopN6BWBECOZqZuidZQtJnFa/SQ
+X-Gm-Gg: ASbGncvk4XDmkr1rhvWuo92oGpU2RygJXwDm6oucz8o9VcGzdfjlKS+BIL7FvGasNK/
+	VKQNntGPy62Dk6Xw+yG50x7IDBrfoM/drJaw9E7TMTgMLfV1wxE0VMf4balJmaJgkUa6Ssmc57V
+	KB1dw+R6VpesOBoe1HnMAN1SZ1DB0FLZeV5MEsA4Oh6M7E3Fv1yJeIZxYGmd91fTVMgcdZxzNi7
+	Bx7fGkUQJ8IrUOcmBMWOI5vTuz9Zaj1r1F2dEjKxYep3/LPSKbW2b7WaqR1tJ9eTA7M606bksZP
+	KFmxOoPsWf/cLqDgKURsNSgHQRfPtjOds/xqWI9URtqTya5242JH2A==
+X-Google-Smtp-Source: AGHT+IGE2RuroQyGy1aaRRm1atUok6TisnAW63CFyKY/2LW9ya3J7mRQNvGGJcOaMRoGA7v/HGbS3Q==
+X-Received: by 2002:a05:622a:1649:b0:472:a26:744c with SMTP id d75a77b69052e-4720a267587mr77432021cf.12.1740056648283;
+        Thu, 20 Feb 2025 05:04:08 -0800 (PST)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com. [209.85.219.47])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47206db8041sm23133581cf.39.2025.02.20.05.04.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Feb 2025 05:04:07 -0800 (PST)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6dd01781b56so10799886d6.0;
+        Thu, 20 Feb 2025 05:04:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVkRRRDRkMhKKLjsT+3dFnTxXBHUMBHzhr3uebWZqr8TQ9C430hKbzFht6fySjl0jCdWCxb9exwewcUzPXV@vger.kernel.org, AJvYcCWblsNfupDfG7m5PXc+eU34p685lMQmJ71WgbAha8uaXWMDIWRaSYlYr87k5nnGEF+JEH82NHKa4QwbRGgbT9Ghig4=@vger.kernel.org, AJvYcCXkWoVp6oWYfJ5CY7PlPOyuXWqQ0dZGvNPytLMpCsL89aUydsukY9aV7g1wuuzk69Y9JnnQr3NyWIHV@vger.kernel.org
+X-Received: by 2002:a05:6214:2244:b0:6e6:591b:fa61 with SMTP id
+ 6a1803df08f44-6e66cc892ccmr359413246d6.7.1740056647522; Thu, 20 Feb 2025
+ 05:04:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b1c1ed68-2f4d-447c-9957-5a1bbc63ef6e@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250217105354.551788-1-thierry.bultel.yh@bp.renesas.com> <20250217105354.551788-13-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250217105354.551788-13-thierry.bultel.yh@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 20 Feb 2025 14:03:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUE0OZrSXDhEDyVgis8wTQiAB6P_RrZYGSNMgGfTnbqwA@mail.gmail.com>
+X-Gm-Features: AWEUYZlffVkFKENb1UN5sgmQVBw_zHj8WBpcHEQxtdBCTKHWSHN3FWEQrj0J-tU
+Message-ID: <CAMuHMdUE0OZrSXDhEDyVgis8wTQiAB6P_RrZYGSNMgGfTnbqwA@mail.gmail.com>
+Subject: Re: [PATCH v2 12/13] arm64: dts: renesas: Add initial support for
+ renesas RZ/T2H eval board
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Cc: thierry.bultel@linatsea.fr, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 20, 2025 at 09:13:00AM +0200, Matti Vaittinen wrote:
-> On 19/02/2025 22:41, Andy Shevchenko wrote:
-> > On Wed, Feb 19, 2025 at 02:30:27PM +0200, Matti Vaittinen wrote:
+Hi Thierry,
 
-...
+On Mon, 17 Feb 2025 at 11:55, Thierry Bultel
+<thierry.bultel.yh@bp.renesas.com> wrote:
+> Add the initial device tree for the RZ/T2H evaluation board.
+>
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 
-> > > obj-$(CONFIG_FSL_MX25_ADC) += fsl-imx25-gcq.o
-> > >   obj-$(CONFIG_GEHC_PMC_ADC) += gehc-pmc-adc.o
-> > >   obj-$(CONFIG_HI8435) += hi8435.o
-> > >   obj-$(CONFIG_HX711) += hx711.o
-> > 
-> > > +obj-$(CONFIG_IIO_ADC_HELPER) += industrialio-adc.o
-> > 
-> > Shouldn't this be grouped with other IIO core related objects?
-> 
-> I was unsure where to put this. The 'adc' subfolder contained no other IIO
-> core files, so there really was no group. I did consider putting it on top
-> of the file but then just decided to go with the alphabetical order. Not
-> sure what is the right way though.
+Thanks for your patch!
 
-I think it would be nice to have it grouped even if this one becomes
-the first one.
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+> @@ -0,0 +1,35 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Device Tree Source for the RZ/T2H Development EVK board
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corp.
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "r9a09g077m44.dtsi"
+> +
+> +/ {
+> +       model = "Renesas Development EVK based on r9a09g077m44";
+> +       compatible = "renesas,r9a9g077m44-rzt2h-evk", "renesas,r9a9g077m44", "renesas,r9a9g077";
 
-> > >   obj-$(CONFIG_IMX7D_ADC) += imx7d_adc.o
-> > >   obj-$(CONFIG_IMX8QXP_ADC) += imx8qxp-adc.o
-> > >   obj-$(CONFIG_IMX93_ADC) += imx93_adc.o
+s/r9a9g077/r9a09g077/
 
-...
+"make dtbs_check" would have told you...
 
-> > > +EXPORT_SYMBOL_GPL(iio_adc_device_num_channels);
-> > 
-> > No namespace?
-> 
-> I was considering also this. The IIO core functions don't belong into a
-> namespace - so I followed the convention to keep these similar to other IIO
-> core stuff.
+Gr{oetje,eeting}s,
 
-But it's historically. We have already started using namespaces
-in the parts of IIO, haven't we?
-
-> (Sometimes I have a feeling that the trend today is to try make things
-> intentionally difficult in the name of the safety. Like, "more difficult I
-> make this, more experience points I gain in the name of the safety".)
-> 
-> Well, I suppose I could add a namespace for these functions - if this
-> approach stays - but I'd really prefer having all IIO core stuff in some
-> global IIO namespace and not to have dozens of fine-grained namespaces for
-> an IIO driver to use...
-
-...
-
-> > > +	if (!allowed_types || allowed_types & (~IIO_ADC_CHAN_PROP_TYPE_ALL)) {
-> > 
-> > Unneeded parentheses around negated value.
-> > 
-> > > +	if (found_types & (~allowed_types)) {
-> > 
-> > Ditto.
-> > 
-> > > +		long unknown_types = found_types & (~allowed_types);
-> > 
-> > Ditto and so on...
-> > 
-> > Where did you get this style from? I think I see it first time in your
-> > contributions. Is it a new preferences? Why?
-> 
-> Last autumn I found out my house was damaged by water. I had to empty half
-> of the rooms and finally move out for 2.5 months.
-
-Sad to hear that... Hope that your house had been recovered (to some extent?).
-
-> Now I'm finally back, but
-> during the moves I lost my printed list of operator precedences which I used
-> to have on my desk. I've been writing C for 25 years or so, and I still
-> don't remember the precedence rules for all bitwise operations - and I am
-> fairly convinced I am not the only one.
-
-~ (a.k.a. negation) is higher priority in bitops and it's idiomatic
-(at least in LK project).
-
-> What I understood is that I don't really have to have a printed list at
-> home, or go googling when away from home. I can just make it very, very
-> obvious :) Helps me a lot.
-
-Makes code harder to read, especially in the undoubtful cases like
-
-	foo &= (~...);
-
-> > > +		int type;
-> > > +
-> > > +		for_each_set_bit(type, &unknown_types,
-> > > +				 IIO_ADC_CHAN_NUM_PROP_TYPES - 1) {
-> > > +			dev_err(dev, "Unsupported channel property %s\n",
-> > > +				iio_adc_type2prop(type));
-> > > +		}
-> > > +
-> > > +		return -EINVAL;
-> > > +	}
-
-...
-
-> > > +		tmp.required &= (~BIT(IIO_ADC_CHAN_PROP_COMMON));
-> > 
-> > Redundant outer parentheses. What's the point, please?
-> 
-> Zero need to think of precedence.
-
-Huh? See above.
-Everything with equal sign is less precedence than normal ops.
-
-...
-
-> > > +		ret = fwnode_property_read_u32(child, "common-mode-channel",
-> > > +					       &common);
-> > 
-> > I believe this is okay to have on a single line,
-> 
-> I try to keep things under 80 chars. It really truly helps me as I'd like to
-> have 3 parallel terminals open when writing code. Furthermore, I hate to
-> admit it but during the last two years my near vision has deteriorated... :/
-> 40 is getting more distant and 50 is approaching ;)
-
-It's only 86 altogether with better readability.
-We are in the second quarter of 21st century,
-the 80 should be left in 80s...
-
-(and yes, I deliberately put the above too short).
-
-...
-
-> > > +#include <linux/iio/iio.h>
-> > 
-> > I'm failing to see how this is being used in this header.
-> 
-> I suppose it was the struct iio_chan_spec. Yep, forward declaration could
-> do, but I guess there would be no benefit because anyone using this header
-> is more than likely to use the iio.h as well.
-
-Still, it will be a beast to motivate people not thinking about what they are
-doing. I strongly prefer avoiding the use of the "proxy" or dangling headers.
-
-...
-
-> > > +/*
-> > > + * Channel property types to be used with iio_adc_device_get_channels,
-> > > + * devm_iio_adc_device_alloc_chaninfo, ...
-> > 
-> > Looks like unfinished sentence...
-> 
-> Intention was to just give user an example of functions where this gets
-> used, and leave room for more functions to be added. Reason is that lists
-> like this tend to end up being incomplete anyways. Hence the ...
-
-At least you may add ').' (without quotes) to that to make it clear.
-
-> > > + */
+                        Geert
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
