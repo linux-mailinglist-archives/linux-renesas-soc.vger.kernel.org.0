@@ -1,123 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-13435-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13436-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA71A3E050
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 17:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD58A3E0F9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 17:38:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7BC131891F62
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 16:18:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5EF411893558
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 16:38:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9E0D1FFC4E;
-	Thu, 20 Feb 2025 16:18:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VNlekTg7"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD2F120DD43;
+	Thu, 20 Feb 2025 16:37:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934621DF265;
-	Thu, 20 Feb 2025 16:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B2A20C028;
+	Thu, 20 Feb 2025 16:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740068308; cv=none; b=CZIasIHr7wutXH5ivN6Za0kGg71ozj+q5Mzpii4JkyhjlXgkL5QRU9ZbOSp6rS8z0vZAfDtcOG0wdhZ+Fc4tgIJ6xd+YGkNV/FFX9bS5BJAJGeioYy2s9OgASsgxWcD7UEgQyJuniP9YNPPzltEu3RJTYcTlkP0NBV4ENfBmUPc=
+	t=1740069476; cv=none; b=UYoT2FxZbAzWS7f5KDhPLkIJqYkh31yGcgBzHe7YKfyLoWUwyH+wI/qCIPACKjD/K3+0eTQLaLofG3xkEMziw7d2+N8JioWhrge70ZdfXPv68bA2Dk0Kj7De8WE4wTX5IRqIVxH9C/neUGY/61bsW2YzufnzwZ+vmAbiW6liQqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740068308; c=relaxed/simple;
-	bh=9RlNbYnLFzVjYgxQyd9KBfI9XCJfe/tCHW00K82XgB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b1jIcgyOHaTZHMqxegMdWefN1Sb3Up534prgLAA1DDBxYV+wXowFWNdRpQjlKU4CvdoCbclJK4n3GsAJTRE/McgjbavR0JN2eHc6nwUSwRZA0RYzWfICLr6AwMnKW6iR8pRmCBIxnuJBdLpVNiEaRqcFG39MisTVBOKoL5Cd8xI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VNlekTg7; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740068307; x=1771604307;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9RlNbYnLFzVjYgxQyd9KBfI9XCJfe/tCHW00K82XgB4=;
-  b=VNlekTg75J0qAfGXfCvz0vp9dqZZQvGYx1+ARWw+GevfDx2ZXEEsqZnY
-   EP12CT5KYU2m5qe/J5UdIeollr3MxqD8LeOG46/PH5IlfUSQv1TT5bNTR
-   oN1bDImQ7RLyF2Wt4+7LndeRXNa5rtyqrnQfWe6DeM1CqnB0co3wmKq/B
-   /rufj10FsJRtDmVRPq4jy/wkk8gWpU1aBcjP++YIz7VNKE6hAK2LTJXaR
-   wLsxEJ6u4j9zZzcyzZauVn4+Xu1botvPUdM5oxzgpK4C4w7g2pPzllIq0
-   rM2mkWK0OWKRhgpbL4pakdx4bF+W7dYCVlJ7mOj4miR39qMoy08g/L31b
-   g==;
-X-CSE-ConnectionGUID: PgqEARegRjyuSKZrIoJggA==
-X-CSE-MsgGUID: aXyg0+ITTbWTTroNejoE6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="63329824"
-X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="63329824"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 08:18:26 -0800
-X-CSE-ConnectionGUID: MUBFVS80SV+FEOQ9rn5jww==
-X-CSE-MsgGUID: 0PpoekXBQF2IG16mnDk74Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="138294951"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Feb 2025 08:18:21 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tl9Fj-0004UJ-01;
-	Thu, 20 Feb 2025 16:18:19 +0000
-Date: Fri, 21 Feb 2025 00:17:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 7/9] iio: adc: sun20i-gpadc: Use adc-helpers
-Message-ID: <202502210037.162FN3PM-lkp@intel.com>
-References: <21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount@gmail.com>
+	s=arc-20240116; t=1740069476; c=relaxed/simple;
+	bh=yUP6Ml0SkjJrNYT4euZBFTfnQ7/I1EV76KsG8ZvtDe8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ajn6EFQRbwuF0aOU68ZaQU8wbA9BRglGjh08x7bwk5Nm/nY1Jqx/+0hBicH7dDiq+9zEyQN8VREvzGPCg3RMkWptVIOyrX6cVRQn+2V1gt4SY0a/pgfnwVto2NAnqFkZVHSUC4HOKWewxYCrLkVNv3MW8c3w4bgkV2YElUpAlV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4bdb423b971so359648137.2;
+        Thu, 20 Feb 2025 08:37:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740069473; x=1740674273;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5mOC/Hou2LDsCci1LmZJN3OUWf7BOW8gSXzAXvMn/8s=;
+        b=WrlsZ/NjHZTnC3+SqRuRIx1oMpevepW6pqPy+vXPvV6vT7LGb8Fs+dZYFfZUQPhamD
+         u/b+t+FOMDdU+/KE4SwzcA3Tu+oSTLiIHG7F15IYR987FMiWaNDMCzT73ZGTr8PF9rHR
+         +neA2ItMBqxkTf1HODmAvpgY+342dpBKi0gIOUdi18EmCoIEqMM8C/+bJjEi0R6O6pDK
+         7gzAgyaTFILw8Xn6wYHY1fTIJ4N45cgIdCrJUm/L6m0Gu1CPC8cKG+rbHd63aQsoaPzh
+         MZpEv7+KR4BQDWIKWJ4KEndHJYDyqJz+6v+Q9Gvm9oegwASeBeZSi3GLMNLWfkyTCRKf
+         ybRg==
+X-Forwarded-Encrypted: i=1; AJvYcCV97ld0E48wapH2HqckPVo6E2EOgOgqXRsrzBMNTf/wb9sA81MdvWYZWhWuVIs8qFzvWiV0NAcMfjLUWmo=@vger.kernel.org, AJvYcCWhMTkaVAaqs8+V+pd7+Im8q5lM39foF8/N1T7wrMtoxuuS6jGazuvRzYUA2gwwUTk8jEu9sH0IVGtnhlH8KUFJBks=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9/LIyDzJveEy4sbb5I6NXRSHaCZkqRKKrV5xNQnK4/5//7U5p
+	6yrI2GSTRRGYzW9zxW06E+610TEa8ZsTJfDMyh4JLg/y7yo8nU2v3KL4vxEY
+X-Gm-Gg: ASbGncsLXXU5LimQHuEavZJZYD6v+E+HvVRxmmFtqrTbC7qQP2YrtperFrf+Xg+TSfm
+	q1zhaO1josEGH0jRxE2UYF7jSqbyzJUrKRILsUtVA7eTDm90Bc73wMT7S5QO1XxuY3DmqOfe1+h
+	lCW20Gr9DY+taR6qVXO+2ephspwXna99QMn95kLEytXA09A/hkeRCIqKH3Ws3er3ZcoQCv5AAwf
+	nuo80s18jeZjqeScrz4hlUKunBzJNyFJaI/rsabFBK/0oTBW3MdbaZPk4c7X/lptI50wAwWLDdp
+	QCU53YnDbQMoiRwWqfk7Q476Pa++8rk0vQ6CnUUre6mYhLCdyr+jrA==
+X-Google-Smtp-Source: AGHT+IG8jH4ddJzR3W010WfLj1VCNIJx3UkxqFKizPF8mVb7TxNrQYN39/aSKowkIpWZnFrcvj/pGw==
+X-Received: by 2002:a05:6102:419e:b0:4b2:cc94:1881 with SMTP id ada2fe7eead31-4bf44a9cd4cmr1911121137.21.1740069472654;
+        Thu, 20 Feb 2025 08:37:52 -0800 (PST)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-868e86cae00sm3370622241.28.2025.02.20.08.37.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Feb 2025 08:37:52 -0800 (PST)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-86949b5b5b1so299203241.3;
+        Thu, 20 Feb 2025 08:37:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU5WO5t+399pWpqRrzxtqDIWrn8qssLAa5VBsVCiCbC01gEknfXjvHAc8vvOCdY8P2lzTEuENLexmbGm6NVZAiXf6U=@vger.kernel.org, AJvYcCWLq9mEFTdcigpZajQRXeUaryLG8/88rIWy0yZH8ekiyOhRrT0fZ2IwJWJYr6KIn9ZB3Bk9n2+3acl/So4=@vger.kernel.org
+X-Received: by 2002:a05:6122:2015:b0:518:965c:34a with SMTP id
+ 71dfb90a1353d-521df759896mr1850276e0c.2.1740069472225; Thu, 20 Feb 2025
+ 08:37:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount@gmail.com>
+References: <20250215131843.228905-1-claudiu.beznea.uj@bp.renesas.com> <CAMuHMdW4sN6x5C7iQgiZD=Vmzg=BA1v+WjS7aapXmuM2_y8JvQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdW4sN6x5C7iQgiZD=Vmzg=BA1v+WjS7aapXmuM2_y8JvQ@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 20 Feb 2025 17:37:40 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWwzwHnZazp79q0R7n7MjKDQXRH_RqRSmNd1vdN_9JTqA@mail.gmail.com>
+X-Gm-Features: AWEUYZkRDEETuHmgJt02lKTac-M6ROhdNpTutS5TtHgJrMgv_Gp5nV7DfCBOBdw
+Message-ID: <CAMuHMdWwzwHnZazp79q0R7n7MjKDQXRH_RqRSmNd1vdN_9JTqA@mail.gmail.com>
+Subject: Re: [PATCH] soc: renesas: rz-sysc: Suppress binding attributes
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: magnus.damm@gmail.com, john.madieu.xa@bp.renesas.com, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Matti,
+Hi Claudiu,
 
-kernel test robot noticed the following build errors:
+On Thu, 20 Feb 2025 at 17:00, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Sat, 15 Feb 2025 at 14:18, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >
+> > The matching data for the rz-sysc driver is marked with __initconst, which
+> > means it is discarded after initialization. Because of this, attempting to
+> > unbind/bind the driver through sysfs after system boot can lead to "Unable
+> > to handle kernel paging request at virtual address" errors due to accessing
+> > freed memory.
+> >
+> > Since the System Controller (SYSC) is an essential block for Renesas SoCs,
+> > suppress binding attributes to prevent them being exposed in sysfs,
+> > avoiding potential issues.
+> >
+> > Fixes: 1660e5ea6a3e ("soc: renesas: Add SYSC driver for Renesas RZ family")
+> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v6.15.
 
-[auto build test ERROR on 5bc55a333a2f7316b58edc7573e8e893f7acb532]
+As the offending commit is only in renesas-devel, I'll fold the fix into
+the original commit.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/dt-bindings-ROHM-BD79124-ADC-GPO/20250219-203748
-base:   5bc55a333a2f7316b58edc7573e8e893f7acb532
-patch link:    https://lore.kernel.org/r/21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount%40gmail.com
-patch subject: [PATCH v3 7/9] iio: adc: sun20i-gpadc: Use adc-helpers
-config: i386-buildonly-randconfig-002-20250220 (https://download.01.org/0day-ci/archive/20250221/202502210037.162FN3PM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210037.162FN3PM-lkp@intel.com/reproduce)
+Gr{oetje,eeting}s,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502210037.162FN3PM-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "devm_iio_adc_device_alloc_chaninfo" [drivers/iio/adc/sun20i-gpadc-iio.ko] undefined!
+                        Geert
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
