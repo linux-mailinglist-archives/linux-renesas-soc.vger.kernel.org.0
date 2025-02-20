@@ -1,79 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-13385-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13386-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99A9A3D1E3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 08:15:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D299FA3D46B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 10:18:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 961F7188A091
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 07:13:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A452188CEF5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 09:18:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E597F1E5B78;
-	Thu, 20 Feb 2025 07:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C06A11C3C1F;
+	Thu, 20 Feb 2025 09:18:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mnmsY+yk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MCflKzMR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE931E4937;
-	Thu, 20 Feb 2025 07:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3961BCA1B;
+	Thu, 20 Feb 2025 09:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740035588; cv=none; b=nI0dacM7FRF+BX4DsmLP4jTzQDjySQM1kCA+WXlWFTcnejbtfNMHV5V67hbuUZ/XaS2aXt0CUPCxa1olG4D87yQIS5R6id1Lbx3jlNRiq3t88IX+Rw+uc7QXVUF09XigOwof3J9A7Cvy4pQZXNd9MSXDP90qpbD1YRZPJy2qhO8=
+	t=1740043124; cv=none; b=uxdKElgXr3W9yb/9bDWa+EF+Nk0n9DrusVxogabqNgy2te2qmK2sHb1JtS2Y04AfGHJPSamhc4cmtVrc1VrcmSkkyOmiGLJpb+nKWjz0kmohI5Ekf0UUqZ1aIARUFCSRxrt740nwcAmOPW3Li98dUq/PK9wZISUM8fweDJD2bh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740035588; c=relaxed/simple;
-	bh=PJgSIw9XkHYZLj89vwvjA1zq1i+3FNHoBiCWYf6Ow9M=;
+	s=arc-20240116; t=1740043124; c=relaxed/simple;
+	bh=rDMfEBktHvp+szTvl/bHoN4+LBUAdzQGlxLMdvMPTnc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=df5qOY9MPSTykHLhqQzdF5FighzGaDQqWKigBg1VFazfXkLaJE25iWh4EPoO1qSkLlIC7CzbVZEauAjRsjPI+lDdHBThRKi+knmiqbI5jt/my8r028jJavE9tJr6ElFTcYAbr1ffXyy4D7JseL7Vj+wsWoqW9Xpjguf1GwWqwV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mnmsY+yk; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3072f8dc069so5534441fa.3;
-        Wed, 19 Feb 2025 23:13:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740035584; x=1740640384; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+GAX2Ms3C+1iFEiEooYALMC1zyJP6nScc6k91Dyj8T4=;
-        b=mnmsY+ykWWzZbu17se2/tEjtheWNeM7srVRa+AGXWBXmk4HUkusajagvvIChU6xagr
-         NSfDl9HnoNBYWFXgDxUiOR6i4K7YOTI6ZRIlx2m8bPZjF4bNlXWVcm0nMTXcsiy7XkUD
-         LfUI54obFRs96GddU0pFKicGiHBUf2AOE5Oxoumur068wnwLUxPuSwajnIkRczKQqLjp
-         epqA7yj3gvlj0jMMk7u5cHWA3U1ZxHVaSc+PA9xz7kmApN2rIhMViTtxwnEpnv6verX/
-         s0WIU9TISwkEMRw5bZtmAxRT0blh3lovkVqpQcUfWCxWcbo2mncRxkln+/kT0dooRqq4
-         3iEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740035584; x=1740640384;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+GAX2Ms3C+1iFEiEooYALMC1zyJP6nScc6k91Dyj8T4=;
-        b=VYMRU/kL3p+G3QVmk0Yjxc+XGsgLLESez0Cj1aazT8JqINF6SuAmWQJQrnJsPyCJVP
-         FXMZLrrFAEXQnVXWL9lDahYM8sqbebB06MIiii0feestdL1T97V4LsTWZMDxMYU/uumT
-         ojLuoxWlAKhFAD0CDZAJ+gwohADUiI3S+9bZzOw6T58+NuC0Ti0ylH+eLk07L7Z7SF2T
-         lWKnC/YEdK9hhT+FaWbnMyFrI/YY0ifrrZlPpbjuUfOfe8/4Ct4rfZ7541sMPR19EbiG
-         4VshnC0wypSNgiMCk98Fh/zGxffDAKX0eb9hxeTz102/L2Pzr5deSUxeV0Ta8UjUe07f
-         613A==
-X-Forwarded-Encrypted: i=1; AJvYcCUYbFXxoQY5fxolgN5XoMvO+EbIr2gptet6s3QkLAfwyHH9jNeXsbfkSLWUi+39mF7BePBrMO9NEl3WH47v1ahddGQ=@vger.kernel.org, AJvYcCVCDeqNgnk1tXorK5/EMx4blL7H+ODkQxGltkBLM9E2oC3M0d1qdlo29fyt6pu1P3uGPMFO/d1mu3bs@vger.kernel.org, AJvYcCW15fOcgpOoL7cf1e9RsvEonqjXAvT7y8W28CK/g1REKe9sjMS71nT9bShB7hB+8ftkwH7t4DCjfY5L8VSw@vger.kernel.org, AJvYcCXYulZIKPxviyuCeYea29+SlrqHa78Hlt42jAZVE8cjHeLZYwyoBMBds2Hw4jZ5B15VjMrdjiXKAzZB@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCfoJSX/+VgOSR1btoXA6n4W+w1SoUm+Q+tfXjBG0RgrsHpksI
-	1mwclT/ZZx+EiKJoKtp9EsmbbHhSuEGwnrQmnr6okJoy/86wXXM3
-X-Gm-Gg: ASbGncuBPESj+CJB3ZBdC92RDUQGzhyjfhw/QTz0lpaORROOx7MXqc8KnK3h6485yRF
-	e9/G/XBKWYbB+VOM2Y1uEEVRt57bKycE75aVGNTKszvTMRnhbCJfUcMQQr2PLLGINwFuKfHhmfu
-	Y7MyBWOgXXplArTYY64BjTvGWVpHJ/Wz52kWdE2EovgSI+hXrZMU/U9JAdHy08+bBm+uHHAizXT
-	K3dIs4PJI3Jq9xkhJtXVh0F5oxRTXJh+YW7PgiTMaDVJjn1BDZ3gHxq/LdlYRBGADrQutnI6sPH
-	77vZfElHR92q3x+FKFHEwZVlyr5rn1ZS27akxKi5O8Sa5nP+xTcatbfsVST0Kx55qEXtzqZU
-X-Google-Smtp-Source: AGHT+IFKp9trN/cn2Qm66dYQMf1hABQUmyHBmZFJ75NYzdUOuFn45L/HlCdjW3lLCknW0qJmzNb4EQ==
-X-Received: by 2002:a2e:8650:0:b0:308:f479:5696 with SMTP id 38308e7fff4ca-30a44dc4ff1mr17598221fa.15.1740035583979;
-        Wed, 19 Feb 2025 23:13:03 -0800 (PST)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30921447bdcsm21379171fa.35.2025.02.19.23.13.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Feb 2025 23:13:03 -0800 (PST)
-Message-ID: <b1c1ed68-2f4d-447c-9957-5a1bbc63ef6e@gmail.com>
-Date: Thu, 20 Feb 2025 09:13:00 +0200
+	 In-Reply-To:Content-Type; b=XsdR428vxkBXjNplMfBkT4atUCI0wzvErjfXAgdApcoRP2TsTeC+D02q0zu0AmcHWOGdHYbWYg2W0nKx/N1a9Au0W+NbOoGizkCGIA3mLolb2LmOdr2RQkXOIRTX+ntAchgFB6eVo0hEnDHEqiph3hw/7rbb0TW7p05MR/Xop2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MCflKzMR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C8209FC;
+	Thu, 20 Feb 2025 10:17:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740043037;
+	bh=rDMfEBktHvp+szTvl/bHoN4+LBUAdzQGlxLMdvMPTnc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MCflKzMRvgTy2hfuI5a2ljwZDJzOf2C3Hv2y/t4qNlc8VfTh+yDzr+EMyW0xhr4hg
+	 5MM+vikZ8SONezzNfXItYOYZ4iMb0FQ7iYGn6DlESItj6oaF5/MPrTeCrbTRC8QAiD
+	 oibrIxDY2haC1/0/tPOnvT8uwPYLf2YQS7VqqbJg=
+Message-ID: <dcd59a75-7945-4a2e-99f9-3abbb3e9de14@ideasonboard.com>
+Date: Thu, 20 Feb 2025 11:18:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -81,393 +50,348 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/9] iio: adc: add helpers for parsing ADC nodes
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <cover.1739967040.git.mazziesaccount@gmail.com>
- <6c5b678526e227488592d004c315a967b9809701.1739967040.git.mazziesaccount@gmail.com>
- <Z7ZB7RQhyI5Dohrq@smile.fi.intel.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <Z7ZB7RQhyI5Dohrq@smile.fi.intel.com>
+Subject: Re: [PATCH v3 02/25] drm/dumb-buffers: Provide helper to set pitch
+ and size
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20250218142542.438557-1-tzimmermann@suse.de>
+ <20250218142542.438557-3-tzimmermann@suse.de>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250218142542.438557-3-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Andy,
+Hi,
 
-Long time no hear ;) First of all, thanks for the review!
+On 18/02/2025 16:23, Thomas Zimmermann wrote:
+> Add drm_modes_size_dumb(), a helper to calculate the dumb-buffer
+> scanline pitch and allocation size. Implementations of struct
+> drm_driver.dumb_create can call the new helper for their size
+> computations.
+> 
+> There is currently quite a bit of code duplication among DRM's
+> memory managers. Each calculates scanline pitch and buffer size
+> from the given arguments, but the implementations are inconsistent
+> in how they treat alignment and format support. Later patches will
+> unify this code on top of drm_mode_size_dumb() as much as possible.
+> 
+> drm_mode_size_dumb() uses existing 4CC format helpers to interpret
+> the given color mode. This makes the dumb-buffer interface behave
+> similar the kernel's video= parameter. Current per-driver implementations
+> again likely have subtle differences or bugs in how they support color
+> modes.
+> 
+> The dumb-buffer UAPI is only specified for known color modes. These
+> values describe linear, single-plane RGB color formats or legacy index
+> formats. Other values should not be specified. But some user space
+> still does. So for unknown color modes, there are a number of known
+> exceptions for which drm_mode_size_dumb() calculates the pitch from
+> the bpp value, as before. All other values work the same but print
+> an error.
+> 
+> v3:
+> - document the UAPI semantics
+> - compute scanline pitch from for unknown color modes (Andy, Tomi)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/drm_dumb_buffers.c | 116 +++++++++++++++++++++++++++++
+>   include/drm/drm_dumb_buffers.h     |  14 ++++
+>   include/uapi/drm/drm_mode.h        |  46 +++++++++++-
+>   3 files changed, 175 insertions(+), 1 deletion(-)
+>   create mode 100644 include/drm/drm_dumb_buffers.h
+> 
+> diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
+> index 9916aaf5b3f2..600ab281712b 100644
+> --- a/drivers/gpu/drm/drm_dumb_buffers.c
+> +++ b/drivers/gpu/drm/drm_dumb_buffers.c
+> @@ -25,6 +25,8 @@
+>   
+>   #include <drm/drm_device.h>
+>   #include <drm/drm_drv.h>
+> +#include <drm/drm_dumb_buffers.h>
+> +#include <drm/drm_fourcc.h>
+>   #include <drm/drm_gem.h>
+>   #include <drm/drm_mode.h>
+>   
+> @@ -57,6 +59,120 @@
+>    * a hardware-specific ioctl to allocate suitable buffer objects.
+>    */
+>   
+> +static int drm_mode_align_dumb(struct drm_mode_create_dumb *args,
+> +			       unsigned long pitch_align,
+> +			       unsigned long size_align)
+> +{
+> +	u32 pitch = args->pitch;
+> +	u32 size;
+> +
+> +	if (!pitch)
+> +		return -EINVAL;
+> +
+> +	if (pitch_align)
+> +		pitch = roundup(pitch, pitch_align);
+> +
+> +	/* overflow checks for 32bit size calculations */
+> +	if (args->height > U32_MAX / pitch)
+> +		return -EINVAL;
+> +
+> +	if (!size_align)
+> +		size_align = PAGE_SIZE;
+> +	else if (!IS_ALIGNED(size_align, PAGE_SIZE))
+> +		return -EINVAL;
+> +
+> +	size = ALIGN(args->height * pitch, size_align);
+> +	if (!size)
+> +		return -EINVAL;
+> +
+> +	args->pitch = pitch;
+> +	args->size = size;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * drm_mode_size_dumb - Calculates the scanline and buffer sizes for dumb buffers
+> + * @dev: DRM device
+> + * @args: Parameters for the dumb buffer
+> + * @pitch_align: Scanline alignment in bytes
+> + * @size_align: Buffer-size alignment in bytes
+> + *
+> + * The helper drm_mode_size_dumb() calculates the size of the buffer
+> + * allocation and the scanline size for a dumb buffer. Callers have to
+> + * set the buffers width, height and color mode in the argument @arg.
+> + * The helper validates the correctness of the input and tests for
+> + * possible overflows. If successful, it returns the dumb buffer's
+> + * required scanline pitch and size in &args.
+> + *
+> + * The parameter @pitch_align allows the driver to specifies an
+> + * alignment for the scanline pitch, if the hardware requires any. The
+> + * calculated pitch will be a multiple of the alignment. The parameter
+> + * @size_align allows to specify an alignment for buffer sizes. The
+> + * returned size is always a multiple of PAGE_SIZE.
+> + *
+> + * Returns:
+> + * Zero on success, or a negative error code otherwise.
+> + */
+> +int drm_mode_size_dumb(struct drm_device *dev,
+> +		       struct drm_mode_create_dumb *args,
+> +		       unsigned long pitch_align,
+> +		       unsigned long size_align)
+> +{
+> +	u64 pitch = 0;
+> +	u32 fourcc;
+> +
+> +	/*
+> +	 * The scanline pitch depends on the buffer width and the color
+> +	 * format. The latter is specified as a color-mode constant for
+> +	 * which we first have to find the corresponding color format.
+> +	 *
+> +	 * Different color formats can have the same color-mode constant.
+> +	 * For example XRGB8888 and BGRX8888 both have a color mode of 32.
+> +	 * It is possible to use different formats for dumb-buffer allocation
+> +	 * and rendering as long as all involved formats share the same
+> +	 * color-mode constant.
+> +	 */
+> +	fourcc = drm_driver_color_mode_format(dev, args->bpp);
+> +	if (fourcc != DRM_FORMAT_INVALID) {
+> +		const struct drm_format_info *info = drm_format_info(fourcc);
+> +
+> +		if (!info)
+> +			return -EINVAL;
+> +		pitch = drm_format_info_min_pitch(info, 0, args->width);
+> +	} else if (args->bpp) {
+> +		/*
+> +		 * Some userspace throws in arbitrary values for bpp and
+> +		 * relies on the kernel to figure it out. In this case we
+> +		 * fall back to the old method of using bpp directly. The
+> +		 * over-commitment of memory from the rounding is acceptable
+> +		 * for compatibility with legacy userspace. We have a number
+> +		 * of deprecated legacy values that are explicitly supported.
+> +		 */
+> +		switch (args->bpp) {
+> +		default:
+> +			drm_warn(dev, "Unknown color mode %d; guessing buffer size.\n",
+> +				 args->bpp);
+> +			fallthrough;
+> +		case 12:
+> +		case 15:
+> +		case 30: /* see drm_gem_afbc_get_bpp() */
+> +		case 10:
+> +		case 64: /* used by Mesa */
+> +			pitch = args->width * DIV_ROUND_UP(args->bpp, SZ_8);
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!pitch || pitch > U32_MAX)
+> +		return -EINVAL;
+> +
+> +	args->pitch = pitch;
+> +
+> +	return drm_mode_align_dumb(args, pitch_align, size_align);
+> +}
+> +EXPORT_SYMBOL(drm_mode_size_dumb);
+> +
+>   int drm_mode_create_dumb(struct drm_device *dev,
+>   			 struct drm_mode_create_dumb *args,
+>   			 struct drm_file *file_priv)
+> diff --git a/include/drm/drm_dumb_buffers.h b/include/drm/drm_dumb_buffers.h
+> new file mode 100644
+> index 000000000000..6fe36004b19d
+> --- /dev/null
+> +++ b/include/drm/drm_dumb_buffers.h
+> @@ -0,0 +1,14 @@
+> +/* SPDX-License-Identifier: MIT */
+> +
+> +#ifndef __DRM_DUMB_BUFFERS_H__
+> +#define __DRM_DUMB_BUFFERS_H__
+> +
+> +struct drm_device;
+> +struct drm_mode_create_dumb;
+> +
+> +int drm_mode_size_dumb(struct drm_device *dev,
+> +		       struct drm_mode_create_dumb *args,
+> +		       unsigned long pitch_align,
+> +		       unsigned long size_align);
+> +
+> +#endif
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index c082810c08a8..eea09103b1a6 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -1058,7 +1058,7 @@ struct drm_mode_crtc_page_flip_target {
+>    * struct drm_mode_create_dumb - Create a KMS dumb buffer for scanout.
+>    * @height: buffer height in pixels
+>    * @width: buffer width in pixels
+> - * @bpp: bits per pixel
+> + * @bpp: color mode
+>    * @flags: must be zero
+>    * @handle: buffer object handle
+>    * @pitch: number of bytes between two consecutive lines
+> @@ -1066,6 +1066,50 @@ struct drm_mode_crtc_page_flip_target {
+>    *
+>    * User-space fills @height, @width, @bpp and @flags. If the IOCTL succeeds,
+>    * the kernel fills @handle, @pitch and @size.
+> + *
+> + * The value of @bpp is a color-mode number describing a specific format
+> + * or a variant thereof. The value often corresponds to the number of bits
+> + * per pixel for most modes, although there are exceptions. Each color mode
+> + * maps to a DRM format plus a number of modes with similar pixel layout.
+> + * Framebuffer layout is always linear.
+> + *
+> + * Support for all modes and formats is optional. Even if dumb-buffer
+> + * creation with a certain color mode succeeds, it is not guaranteed that
+> + * the DRM driver supports any of the related formats. Most drivers support
+> + * a color mode of 32 with a format of DRM_FORMAT_XRGB8888 on their primary
+> + * plane.
+> + *
+> + * +------------+------------------------+------------------------+
+> + * | Color mode | Framebuffer format     | Compatibles            |
+> + * +============+========================+========================+
+> + * |     32     |  * DRM_FORMAT_XRGB8888 |  * DRM_FORMAT_XBGR8888 |
+> + * |            |                        |  * DRM_FORMAT_RGBX8888 |
+> + * |            |                        |  * DRM_FORMAT_BGRX8888 |
+> + * +------------+------------------------+------------------------+
+> + * |     24     |  * DRM_FORMAT_RGB888   |  * DRM_FORMAT_BGR888   |
+> + * +------------+------------------------+------------------------+
+> + * |     16     |  * DRM_FORMAT_RGB565   |  * DRM_FORMAT_BGR565   |
+> + * +------------+------------------------+------------------------+
+> + * |     15     |  * DRM_FORMAT_XRGB1555 |  * DRM_FORMAT_XBGR1555 |
+> + * |            |                        |  * DRM_FORMAT_RGBX1555 |
+> + * |            |                        |  * DRM_FORMAT_BGRX1555 |
+> + * +------------+------------------------+------------------------+
+> + * |      8     |  * DRM_FORMAT_C8       |  * DRM_FORMAT_R8       |
+> + * +------------+------------------------+------------------------+
+> + * |      4     |  * DRM_FORMAT_C4       |  * DRM_FORMAT_R4       |
+> + * +------------+------------------------+------------------------+
+> + * |      2     |  * DRM_FORMAT_C2       |  * DRM_FORMAT_R2       |
+> + * +------------+------------------------+------------------------+
+> + * |      1     |  * DRM_FORMAT_C1       |  * DRM_FORMAT_R1       |
+> + * +------------+------------------------+------------------------+
+> + *
+> + * Color modes of 10, 12, 15, 30 and 64 are only supported for use by
+> + * legacy user space. Please don't use them in new code. Other modes
+> + * are not support.
+> + *
+> + * Do not attempt to allocate anything but linear framebuffer memory
+> + * with single-plane RGB data. Allocation of other framebuffer
+> + * layouts requires dedicated ioctls in the respective DRM driver.
 
-On 19/02/2025 22:41, Andy Shevchenko wrote:
-> On Wed, Feb 19, 2025 at 02:30:27PM +0200, Matti Vaittinen wrote:
->> There are ADC ICs which may have some of the AIN pins usable for other
->> functions. These ICs may have some of the AIN pins wired so that they
->> should not be used for ADC.
->>
->> (Preferred?) way for marking pins which can be used as ADC inputs is to
->> add corresponding channels@N nodes in the device tree as described in
->> the ADC binding yaml.
->>
->> Add couple of helper functions which can be used to retrieve the channel
->> information from the device node.
-> 
-> ...
-> 
->>   - Rename iio_adc_device_get_channels() as
-> 
-> as?
+According to this, every driver that supports, say, NV12, should 
+implement their own custom ioctl to do the exact same thing? And, of 
+course, every userspace app that uses, say, NV12, should then add code 
+for all these platforms to call the custom ioctls?
 
-Oh, looks like I got interrupted :) Thanks!
+As libdrm's modetest currently supports YUV formats with dumb buffers, 
+should we remove that code, as it's not correct and I'm sure people use 
+libdrm code as a reference?
 
-> 
-> ...
-> 
->> obj-$(CONFIG_FSL_MX25_ADC) += fsl-imx25-gcq.o
->>   obj-$(CONFIG_GEHC_PMC_ADC) += gehc-pmc-adc.o
->>   obj-$(CONFIG_HI8435) += hi8435.o
->>   obj-$(CONFIG_HX711) += hx711.o
-> 
->> +obj-$(CONFIG_IIO_ADC_HELPER) += industrialio-adc.o
-> 
-> Shouldn't this be grouped with other IIO core related objects?
+Well, I'm not serious above, but I think all my points from the earlier 
+version are still valid. I don't like this. It changes the parameters of 
+the ioctl (bpp used to be bits-per-pixel, not it's "color mode"), and 
+the behavior of the ioctl, behavior that we've had for a very long time, 
+and we have no idea how many users there are that will break (could be 
+none, of course). And the documentation changes make the current 
+behavior and uses wrong or legacy.
 
-I was unsure where to put this. The 'adc' subfolder contained no other 
-IIO core files, so there really was no group. I did consider putting it 
-on top of the file but then just decided to go with the alphabetical 
-order. Not sure what is the right way though.
+Clearly we need something new and better for the buffer allocation, but 
+for the time being, I'd be more comfortable just keep the current 
+behavior, at least for all the drivers I use or maintain: omapdrm, 
+tidss, renesas, xlnx, tilcdc.
 
->>   obj-$(CONFIG_IMX7D_ADC) += imx7d_adc.o
->>   obj-$(CONFIG_IMX8QXP_ADC) += imx8qxp-adc.o
->>   obj-$(CONFIG_IMX93_ADC) += imx93_adc.o
-> 
-> ...
-> 
-> 
-> + bitops.h
-> 
->> +#include <linux/device.h>
->> +#include <linux/errno.h>
-> 
-> + export.h
-> 
-> + module.h
-> 
->> +#include <linux/property.h>
-> 
-> + types.h
-
-Thanks!
-
-> ...
-> 
->> +EXPORT_SYMBOL_GPL(iio_adc_device_num_channels);
-> 
-> No namespace?
-
-I was considering also this. The IIO core functions don't belong into a 
-namespace - so I followed the convention to keep these similar to other 
-IIO core stuff.
-
-(Sometimes I have a feeling that the trend today is to try make things 
-intentionally difficult in the name of the safety. Like, "more difficult 
-I make this, more experience points I gain in the name of the safety".)
-
-Well, I suppose I could add a namespace for these functions - if this 
-approach stays - but I'd really prefer having all IIO core stuff in some 
-global IIO namespace and not to have dozens of fine-grained namespaces 
-for an IIO driver to use...
-
-> ...
-> 
->> +	if (!allowed_types || allowed_types & (~IIO_ADC_CHAN_PROP_TYPE_ALL)) {
-> 
-> Unneeded parentheses around negated value.
-> 
->> +		dev_dbg(dev, "Invalid adc allowed prop types 0x%lx\n",
->> +			allowed_types);
->> +
->> +		return -EINVAL;
->> +	}
->> +	if (found_types & (~allowed_types)) {
-> 
-> Ditto.
-> 
->> +		long unknown_types = found_types & (~allowed_types);
-> 
-> Ditto and so on...
-> 
-> Where did you get this style from? I think I see it first time in your
-> contributions. Is it a new preferences? Why?
-
-Last autumn I found out my house was damaged by water. I had to empty 
-half of the rooms and finally move out for 2.5 months. Now I'm finally 
-back, but during the moves I lost my printed list of operator 
-precedences which I used to have on my desk. I've been writing C for 25 
-years or so, and I still don't remember the precedence rules for all 
-bitwise operations - and I am fairly convinced I am not the only one.
-
-What I understood is that I don't really have to have a printed list at 
-home, or go googling when away from home. I can just make it very, very 
-obvious :) Helps me a lot.
-
-> 
->> +		int type;
->> +
->> +		for_each_set_bit(type, &unknown_types,
->> +				 IIO_ADC_CHAN_NUM_PROP_TYPES - 1) {
->> +			dev_err(dev, "Unsupported channel property %s\n",
->> +				iio_adc_type2prop(type));
->> +		}
->> +
->> +		return -EINVAL;
->> +	}
-> 
-> ...
-> 
->> +int iio_adc_device_channels_by_property(struct device *dev, int *channels,
->> +		int max_channels, const struct iio_adc_props *expected_props)
->> +{
->> +	int num_chan = 0, ret;
->> +
->> +	device_for_each_child_node_scoped(dev, child) {
->> +		u32 ch, diff[2], se;
->> +		struct iio_adc_props tmp;
->> +		int chtypes_found = 0;
->> +
->> +		if (!fwnode_name_eq(child, "channel"))
->> +			continue;
->> +
->> +		if (num_chan == max_channels)
->> +			return -EINVAL;
->> +
->> +		ret = fwnode_property_read_u32(child, "reg", &ch);
->> +		if (ret)
->> +			return ret;
->> +
->> +		ret = fwnode_property_read_u32_array(child, "diff-channels",
->> +						     &diff[0], 2);
-> 
-> 						     diff, ARRAY_SIZE(diff));
-> 
-> (will require array_size.h)
-
-thanks :) And thanks for being helpful with the header - and there is no 
-sarcasm!
-
->> +		if (!ret)
->> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_DIFF;
->> +
->> +		ret = fwnode_property_read_u32(child, "single-channel", &se);
->> +		if (!ret)
->> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED;
->> +
->> +		tmp = *expected_props;
->> +		/*
->> +		 * We don't bother reading the "common-mode-channel" here as it
->> +		 * doesn't really affect on the primary channel ID. We remove
->> +		 * it from the required properties to allow the sanity check
->> +		 * pass here  also for drivers which require it.
->> +		 */
->> +		tmp.required &= (~BIT(IIO_ADC_CHAN_PROP_COMMON));
-> 
-> Redundant outer parentheses. What's the point, please?
-
-Zero need to think of precedence.
-
->> +		ret = iio_adc_prop_type_check_sanity(dev, &tmp, chtypes_found);
->> +		if (ret)
->> +			return ret;
->> +
->> +		if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_DIFF)
->> +			ch = diff[0];
->> +		else if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED)
->> +			ch = se;
->> +
->> +		/*
->> +		 * We assume the channel IDs start from 0. If it seems this is
->> +		 * not a sane assumption, then we can relax this check or add
->> +		 * 'allowed ID range' parameter.
->> +		 *
->> +		 * Let's just start with this simple assumption.
->> +		 */
->> +		if (ch >= max_channels)
->> +			return -ERANGE;
->> +
->> +		channels[num_chan] = ch;
->> +		num_chan++;
->> +	}
->> +
->> +	return num_chan;
->> +
->> +}
-> 
-> ...
-> 
->> +int devm_iio_adc_device_alloc_chaninfo(struct device *dev,
->> +				const struct iio_chan_spec *template,
->> +				struct iio_chan_spec **cs,
->> +				const struct iio_adc_props *expected_props)
->> +{
->> +	struct iio_chan_spec *chan;
->> +	int num_chan = 0, ret;
->> +
->> +	num_chan = iio_adc_device_num_channels(dev);
->> +	if (num_chan < 1)
->> +		return num_chan;
->> +
->> +	*cs = devm_kcalloc(dev, num_chan, sizeof(**cs), GFP_KERNEL);
->> +	if (!*cs)
->> +		return -ENOMEM;
->> +
->> +	chan = &(*cs)[0];
-> 
-> This and above and below will be easier to read if you introduce a temporary
-> variable which will be used locally and assigned to the output later on.
-> Also the current approach breaks the rule that infiltrates the output even in
-> the error cases.
-
-Agree. Thanks.
-
-> 
->> +	device_for_each_child_node_scoped(dev, child) {
->> +		u32 ch, diff[2], se, common;
->> +		int chtypes_found = 0;
->> +
->> +		if (!fwnode_name_eq(child, "channel"))
->> +			continue;
->> +
->> +		ret = fwnode_property_read_u32(child, "reg", &ch);
->> +		if (ret)
->> +			return ret;
->> +
->> +		ret = fwnode_property_read_u32_array(child, "diff-channels",
->> +						     &diff[0], 2);
-> 
-> As per above.
-> 
->> +		if (!ret)
->> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_DIFF;
->> +
->> +		ret = fwnode_property_read_u32(child, "single-channel", &se);
->> +		if (!ret)
->> +			chtypes_found |= IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED;
-> 
->> +		ret = fwnode_property_read_u32(child, "common-mode-channel",
->> +					       &common);
-> 
-> I believe this is okay to have on a single line,
-
-I try to keep things under 80 chars. It really truly helps me as I'd 
-like to have 3 parallel terminals open when writing code. Furthermore, I 
-hate to admit it but during the last two years my near vision has 
-deteriorated... :/ 40 is getting more distant and 50 is approaching ;)
-
-> 
->> +		if (!ret)
->> +			chtypes_found |= BIT(IIO_ADC_CHAN_PROP_COMMON);
->> +
->> +		ret = iio_adc_prop_type_check_sanity(dev, expected_props,
->> +						     chtypes_found);
->> +		if (ret)
->> +			return ret;
->> +
->> +		*chan = *template;
->> +		chan->channel = ch;
->> +
->> +		if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_DIFF) {
->> +			chan->differential = 1;
->> +			chan->channel = diff[0];
->> +			chan->channel2 = diff[1];
->> +
->> +		} else if (chtypes_found & IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED) {
->> +			chan->channel = se;
->> +			if (chtypes_found & BIT(IIO_ADC_CHAN_PROP_COMMON))
->> +				chan->channel2 = common;
->> +		}
->> +
->> +		/*
->> +		 * We assume the channel IDs start from 0. If it seems this is
->> +		 * not a sane assumption, then we have to add 'allowed ID ranges'
->> +		 * to the struct iio_adc_props because some of the callers may
->> +		 * rely on the IDs being in this range - and have arrays indexed
->> +		 * by the ID.
->> +		 */
->> +		if (chan->channel >= num_chan)
->> +			return -ERANGE;
->> +
->> +		chan++;
->> +	}
->> +
->> +	return num_chan;
->> +}
-> 
-> ...
-> 
->> +#ifndef _INDUSTRIAL_IO_ADC_HELPERS_H_
->> +#define _INDUSTRIAL_IO_ADC_HELPERS_H_
-> 
-> + bits.h
-> 
->> +#include <linux/iio/iio.h>
-> 
-> I'm failing to see how this is being used in this header.
-
-I suppose it was the struct iio_chan_spec. Yep, forward declaration 
-could do, but I guess there would be no benefit because anyone using 
-this header is more than likely to use the iio.h as well.
-
-> 
->> +struct device;
->> +struct fwnode_handle;
->> +
->> +enum {
->> +	IIO_ADC_CHAN_PROP_REG,
->> +	IIO_ADC_CHAN_PROP_SINGLE_ENDED,
->> +	IIO_ADC_CHAN_PROP_DIFF,
->> +	IIO_ADC_CHAN_PROP_COMMON,
->> +	IIO_ADC_CHAN_NUM_PROP_TYPES
->> +};
->> +
->> +/*
->> + * Channel property types to be used with iio_adc_device_get_channels,
->> + * devm_iio_adc_device_alloc_chaninfo, ...
-> 
-> Looks like unfinished sentence...
-
-Intention was to just give user an example of functions where this gets 
-used, and leave room for more functions to be added. Reason is that 
-lists like this tend to end up being incomplete anyways. Hence the ...
-
-> 
->> + */
->> +#define IIO_ADC_CHAN_PROP_TYPE_REG BIT(IIO_ADC_CHAN_PROP_REG)
->> +#define IIO_ADC_CHAN_PROP_TYPE_SINGLE_ENDED BIT(IIO_ADC_CHAN_PROP_SINGLE_ENDED)
->> +#define IIO_ADC_CHAN_PROP_TYPE_SINGLE_COMMON					\
->> +	(BIT(IIO_ADC_CHAN_PROP_SINGLE_ENDED) | BIT(IIO_ADC_CHAN_PROP_COMMON))
->> +#define IIO_ADC_CHAN_PROP_TYPE_DIFF BIT(IIO_ADC_CHAN_PROP_DIFF)
->> +#define IIO_ADC_CHAN_PROP_TYPE_ALL GENMASK(IIO_ADC_CHAN_NUM_PROP_TYPES - 1, 0)
-> 
->> +int devm_iio_adc_device_alloc_chaninfo(struct device *dev,
->> +				const struct iio_chan_spec *template,
->> +				struct iio_chan_spec **cs,
->> +				const struct iio_adc_props *expected_props);
->> +
->> +int iio_adc_device_channels_by_property(struct device *dev, int *channels,
->> +				int max_channels,
->> +				const struct iio_adc_props *expected_props);
->> +#endif /* _INDUSTRIAL_IO_ADC_HELPERS_H_ */
-> 
-> 
+  Tomi
 
 
