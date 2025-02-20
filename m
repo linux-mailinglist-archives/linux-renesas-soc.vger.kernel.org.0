@@ -1,134 +1,186 @@
-Return-Path: <linux-renesas-soc+bounces-13393-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13394-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFF8A3D65A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 11:20:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD61A3D763
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 11:53:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 029687A9F9F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 10:19:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 836B21893480
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 10:53:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B96D1F0E48;
-	Thu, 20 Feb 2025 10:20:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ADDA1F1508;
+	Thu, 20 Feb 2025 10:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wF6C4CGD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716FB1F0E31;
-	Thu, 20 Feb 2025 10:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7229B1EFF9B;
+	Thu, 20 Feb 2025 10:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740046849; cv=none; b=TFmYcvSORPmVl1i1aVEz3R9DPSQJC0rhcXVaDMREqqUOvBQSswsY3QjQ8fak4Fs4VtK7B50FyOtQjx8JgT9p0WurXbSLFrd3mNBhQ+caGYJZ5MLbmS9uj4uYuWk/iKAhqe2YpH3PeC4nZ0opQJ2iuuZEFcZVwKm4h03SyawP5wU=
+	t=1740048791; cv=none; b=iQodQLFujMWUyJwjmXUL3Yud6wk/6bwiOU689CnivogAgEY29RoMyn0jLveS8NL10azUNWHh6PbHIIM452PHXqal1gSlYNaYyKG4cxKMaw7I/pdtKGsdUx0TVK2qJhPN72Yof17jqPq6FkoE08Dm4fkmSXWB/Vphb8Rs2F6B+ZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740046849; c=relaxed/simple;
-	bh=nCeQIw1a3GqsNvMn90yy9cyPFUOXcIp/ujdvMKH5Dzk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E3sIcApIq6b6cLkWraUbPCjW17aYpetQdwVmpO9ddAtweQq4qrajjNWDHE+Wc7Uhd5YSuawwupGvYrrE7HttvRhwc0s/1OKgn9TskuucWtaIbCcBxZa6fHbJFNQBT4SVtkGMt51NKriV0j86fH+iwXe7WzvNowa8uRYsEskExiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-86718541914so994461241.1;
-        Thu, 20 Feb 2025 02:20:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740046845; x=1740651645;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fFhQ4zThibh1VhI4YsM0iMP4aCetSZWu8NKgm6e6W0s=;
-        b=Qq6U6FWhps8UNpbjSiEMnSNGFvuZHRQ51T/R6Iqf+73G7+LnxpkgU9Uts0yTA/ZTpF
-         TEdC8EA3AgZF1vB26zJv9t8+nd2ZFD4hhHl06NkW6xeOhxATyF6A6qR+gp8xOkqMMRTx
-         R2lt+KQLy/QJSlVTAAlLpoEdAPsuz1oGftcasZXF+abOvcp9Q4AS24VCPL/ON4ArpSag
-         g7i4/EpdcR46JQAJBynwep2sOZ2HeNAy2IrLi2215+0bUkHRA3O9utWEkXwAp/XZMejT
-         Gcu+nLVMZdmSos+DLulvrft5yqndcG0fI6rvddB8/veqQhas1r33tUfQ84Kck3ea8DL5
-         zpXg==
-X-Forwarded-Encrypted: i=1; AJvYcCUBQESbwE55KgD0IAILF+U8PBzRa1Ybmg7ssTD3fsEI1OTBn4BtGaE9OEPOLpjkNhznAE+u3p80fo+B@vger.kernel.org, AJvYcCVoTFXo760vq++RFhopeJWXhFPFQ4ZenawO+ktDeU7E5qcGA0kUYmQz5VDNHQrNuHCeJlIwjbzAYqjmHRlyx6w=@vger.kernel.org, AJvYcCW0ShFMCx3FTaEsw5S8SCIdol34oNi0cWmUKRyDOiIxdh+Sjw3BMIzFuuzyMoGzsSbKalYMaTiEkgJX@vger.kernel.org, AJvYcCWdJuId8q4727JVSJTII+A05W5K5H0NE3oaYT7RM46aPCyIQW//+oVXHH54HcRpjz2j8nzd5HIwnfdBMb4g99dq5iA=@vger.kernel.org, AJvYcCWkGfepUvj9aPF6tlFjWtXIFbhBHVWTaC6MLHuH67gRuJTdIG159//CQe7IYDEhiGLq11u0x4+IddhrB9gy@vger.kernel.org
-X-Gm-Message-State: AOJu0YydOSOZSKVkm+XpeUOckFgtBQ6PWFIdAdi5KXkEf5k4onHt/p9w
-	oYKgpQcITST8MQM3QiInLPvPpxcHuFtQj8K4sFSn6s1IOIZvSJ6tnYBkUFTZ
-X-Gm-Gg: ASbGncuJhV+wuuOrI5xLFkKJAwyXu/88gyEJHmmT/Jf4l8kE+/wMo+7H0GkvDFbwxt0
-	R8dPYqc91hIr5/2l1cMIX5WrD4Z5iGgCV94ML4cr+1HBj301pJmQWE1KL4YDVETmSqXY++FfqsW
-	tdseu/IOTB2AFBcMs/GeZhRDO6Tz6Jfpy6ADUr2nOrQcnWNNPvto0mBO+ezSHdtouphyHyIISZ9
-	MfRleihj1ulhRxgCJDGoe66IQQxMHdSGyO8Tj2bKitAUyxQxcrgv7s74KxY/beqnBROaNtWg3HC
-	lMJluJvTTS1rN8RpmSS48wH+7M97xVaaeRq0X99TiTdjo0+vmUrh8Q==
-X-Google-Smtp-Source: AGHT+IG4hLjmH1yRK63PnrEV4NX2BuRdzUhAcEbdxxgq2RV2rQo9bH3vkHnssAgNf7A6+g3GdPaeDg==
-X-Received: by 2002:a05:6102:5487:b0:4b2:9eee:666e with SMTP id ada2fe7eead31-4be99139d9bmr1213912137.4.1740046845207;
-        Thu, 20 Feb 2025 02:20:45 -0800 (PST)
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4bfb6291739sm105858137.2.2025.02.20.02.20.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Feb 2025 02:20:44 -0800 (PST)
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4b9486a15a0so1149829137.0;
-        Thu, 20 Feb 2025 02:20:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUtrZduQNktVEjZ9xYci95jzHSIFSR5CdU8p9dzZRuCY4p61K/VhsMAA6ad6OsBf/7Y9il+lFueKi3u@vger.kernel.org, AJvYcCVmNw+yF4QAuAxnC3z9bjvZnGdmnNN3xXUYzLxhcgdkHb2dNbbeyDJPIRyXxqD1MSyheqeQyiYnGZkiH8Av7Y8=@vger.kernel.org, AJvYcCVwFTERDK2BXLCUVJZeNU9RqKP4LZakA04LceGLK5TUhYdMQmwQFupbppjBNmMnr3WH7+vv6URMrFwGVIJq@vger.kernel.org, AJvYcCW8Ei6LMCEAUrlEPk8KzrN3lviOz4urHf4xiYJZt2CUkrekU/qGmLUxWxXkxjbgnzpCQgurJc8lvYmyDP2A3F23XEo=@vger.kernel.org, AJvYcCXEivZY5Vz3BPR0VREUKyBytjNLJ8FVHsf7UB/u8RsozzFN2PYhAe0VNC55MozMTcBGyCYS+BpEj+Lh@vger.kernel.org
-X-Received: by 2002:a05:6102:32c4:b0:4bc:2f67:f348 with SMTP id
- ada2fe7eead31-4be99123ea5mr1374985137.6.1740046844391; Thu, 20 Feb 2025
- 02:20:44 -0800 (PST)
+	s=arc-20240116; t=1740048791; c=relaxed/simple;
+	bh=cGmqrMQrzQNKvOYoVbXWr6Lo7FskS49XuKpEvHODBjA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oHiiC9zSxCy8c/R73xPoIBegmHPk8y+CEpOMvzT9/vJlAbOYc5hgKUUni+9wxCSrKRS/X9R1QWc6KUiyrSCSSN7MFsCFty4Hl0sifOIK3Zl+sxM8QLhvNt2jyqAh1HEtU9erKy/UtMI765o1klOs96aWvLQpXVTsG+o/0Yldsa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wF6C4CGD; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C69249FC;
+	Thu, 20 Feb 2025 11:51:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740048703;
+	bh=cGmqrMQrzQNKvOYoVbXWr6Lo7FskS49XuKpEvHODBjA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=wF6C4CGDoP+/HkpCLJaEAJQ5SUDGi9n0fFlEojmHm56G4KxPszUsR/q+aXtSRtihR
+	 AQoXwkJ+zXwR8f+vg71cO6pL6HL787yGlQcQZD3c6z5sRdwltXCONK8mS2/SPW2eEM
+	 lzKYZgKG0aXbNUjO1esnvXLsAJsX44MVKluFgT40=
+Message-ID: <596b960e-71f8-4c2c-9abe-058206df1dfb@ideasonboard.com>
+Date: Thu, 20 Feb 2025 12:53:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250210184910.161780-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250210184910.161780-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250210184910.161780-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 20 Feb 2025 11:20:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWb_dT3j8YcHWbzsYVPycq_gmA8Wh+ddTd6QdMBg01FHg@mail.gmail.com>
-X-Gm-Features: AWEUYZmB260fpyDdlTmFaPRzACzpTDwfXSEw8kB_8J6jvNhWLQhz013pT4c5rec
-Message-ID: <CAMuHMdWb_dT3j8YcHWbzsYVPycq_gmA8Wh+ddTd6QdMBg01FHg@mail.gmail.com>
-Subject: Re: [PATCH v4 7/9] watchdog: rzv2h_wdt: Configure CPG_ERRORRST_SEL2 register
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 02/25] drm/dumb-buffers: Provide helper to set pitch
+ and size
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20250218142542.438557-1-tzimmermann@suse.de>
+ <20250218142542.438557-3-tzimmermann@suse.de>
+ <dcd59a75-7945-4a2e-99f9-3abbb3e9de14@ideasonboard.com>
+ <355ed315-61fa-4a9d-b72b-8d5bc7b5a16c@suse.de>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <355ed315-61fa-4a9d-b72b-8d5bc7b5a16c@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Prabhakar,
+Hi,
 
-On Mon, 10 Feb 2025 at 19:49, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Currently, the watchdog driver relies on TF-A/U-Boot to configure the
-> `CPG_ERRORRST_SEL2` register. This register must be set correctly to
-> ensure a reset request is issued upon watchdog timer (WDT) underflow.
->
-> Now that the driver has access to the `syscon` handle for CPG, configure
-> `CPG_ERRORRST_SEL2` directly instead of depending on firmware. This
-> improves robustness by ensuring the required configuration is applied
-> within the driver itself.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 20/02/2025 12:05, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 20.02.25 um 10:18 schrieb Tomi Valkeinen:
+> [...]
+>>> + * Color modes of 10, 12, 15, 30 and 64 are only supported for use by
+>>> + * legacy user space. Please don't use them in new code. Other modes
+>>> + * are not support.
+>>> + *
+>>> + * Do not attempt to allocate anything but linear framebuffer memory
+>>> + * with single-plane RGB data. Allocation of other framebuffer
+>>> + * layouts requires dedicated ioctls in the respective DRM driver.
+>>
+>> According to this, every driver that supports, say, NV12, should 
+>> implement their own custom ioctl to do the exact same thing? And, of 
+>> course, every userspace app that uses, say, NV12, should then add code 
+>> for all these platforms to call the custom ioctls?
+> 
+> Yes, that's exactly the current status.
+> 
+> There has been discussion about a new dumb-create ioctl that takes a DRM 
+> format as parameter. I'm all for it, but it's out of the scope for this 
+> series.
+> 
+>>
+>> As libdrm's modetest currently supports YUV formats with dumb buffers, 
+>> should we remove that code, as it's not correct and I'm sure people 
+>> use libdrm code as a reference?
+> 
+> Of course not.
+> 
+>>
+>> Well, I'm not serious above, but I think all my points from the 
+>> earlier version are still valid. I don't like this. It changes the 
+>> parameters of the ioctl (bpp used to be bits-per-pixel, not it's 
+>> "color mode"), and the behavior of the ioctl, behavior that we've had 
+>> for a very long time, and we have no idea how many users there are 
+>> that will break (could be none, of course). And the documentation 
+>> changes make the current behavior and uses wrong or legacy.
+> 
+> Before I go into details about this statement, what use case exactly are 
+> you referring to when you say that behavior changes?
 
-Thanks for your patch!
+For every dumb_buffer allocation with bpp that is not divisible by 8, 
+the result is different, i.e. instead of DIV_ROUND_UP(width * bpp, 8), 
+we now have width * DIV_ROUND_UP(bpp, 8). This, of course, depends on 
+the driver implementation. Some already do the latter.
 
-IMHO doing it in the firmware stack is actually a good thing, as the
-watchdog policy is system-wide, and thus goes beyond Linux running on
-the application cores.
+This change also first calls the drm_driver_color_mode_format(), which 
+could change the behavior even more, but afaics at the moment does not. 
+Although, maybe some platform does width * DIV_ROUND_UP(bpp, 8) even for 
+bpp < 8, and then this series changes it for 1, 2 and 4 bpps (but not 
+for 3, 5, 6, 7, if I'm not mistaken).
 
-That is also the reason why commit 76b1c5b218f31811 ("[TEST] soc:
-renesas: rcar-rst: Enable WDT reset on early R-Car V4M") is only
-part of renesas-drivers[1], and not planned for upstream.  The sole
-exception on modern R-Car is R-Car V3U, cfr. commit cb9a39aacd3d6387
-("soc: renesas: rcar-rst: Allow WDT reset on R-Car V3U")[2].
+However, as the bpp is getting rounded up, this probably won't break any 
+user. But it _is_ a change in the behavior of a uapi, and every time we 
+change a uapi that's been out there for a long time, I'm getting 
+slightly uncomfortable.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?h=renesas-drivers-2025-02-18-v6.14-rc3&id=76b1c5b218f31811a7aaca588d3ec4ba584b7bf2
-[2] https://elixir.bootlin.com/linux/v6.13.3/source/drivers/soc/renesas/rcar-rst.c#L76
+So, as a summary, I have a feeling that nothing will break, but I can't 
+say for sure. And as I'm having trouble seeing the benefit of this 
+change for the user, I get even more uncomfortable.
 
-Gr{oetje,eeting}s,
+  Tomi
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
