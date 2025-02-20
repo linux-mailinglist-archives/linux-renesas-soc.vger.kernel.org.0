@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-13427-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13428-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2632AA3DEA8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 16:33:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D7BA3DE96
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 16:32:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9F293BBECB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 15:28:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6529A4201DE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 15:29:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19DDD20CCC3;
-	Thu, 20 Feb 2025 15:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BE011FFC4E;
+	Thu, 20 Feb 2025 15:28:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D475B20C00C;
-	Thu, 20 Feb 2025 15:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 237D31FDA99;
+	Thu, 20 Feb 2025 15:28:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740065291; cv=none; b=frxmn1whYgSroOrj1diWCViDDzIqzC9Uu2RG7wF1DSN6yKZ9GuajidY60uiZrbNBLjosGTjZWXunmsiNodUrb2l4l0hKq14A1SFo7pjTWH2/WPsqA+xW44YVNzSOJ/WiFlkIrIKybAFShjP/pMajLb2JbkCIC5pLkON0D4VtZV4=
+	t=1740065298; cv=none; b=epCrQTuIwpEECqhzngpb9nZpcIv2MvPRgemJxbG0n99Wn7aHDJlA7m5VGO6TIVdZOz2GjJitQP9OrGZgHD3Qf4NQX2f5zQg/VYzOiLA9SSf5FSILv0mjjMbuNNl13r5oqRiescuxyIn3QI70l9ln5mhSn5x8PhSVcl7qyp9EUuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740065291; c=relaxed/simple;
-	bh=SpWQh85zGyi6wSz/zp1SDb4fObo0nHPBblsuzhr5za4=;
+	s=arc-20240116; t=1740065298; c=relaxed/simple;
+	bh=usBPXFFU9MqU7K53My2sZMzvvydPBdqueacCzstI5VA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r6K6vZu4gX38Rv9PiB/JsWL70q0ANbLHdOQat3K7Fpz4LLoWEZIXK1llFxMXsEwmsbtqUdNRPsJakr3x/FFdDSLZM7eZJ4VBhui2K2DJJ/ukh42NMs20tbeZHkSwDErFiHAE/ne3999EXnql2DMWrs5plWSFCVO+P1+kJM+qtPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=U7UzUqmh0yDX6KYFVd6pysNib1Bs5cL6m9wQuyU5u9E4QciIP50KSy7iJD8Nxbo+0bKfj4HealqO+95aO4nMwl6P4AzzSzg/VG1GVYE9ZUd0LBkV/V+3Ds72tCtRs6Lp/+djc3wKm/4F06BmgzqK+ogE6qGFi6Ebw0rLqpP/jI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: gWl5MlYwR/i02rZOparpsA==
-X-CSE-MsgGUID: 7zjGwnoYTwyXIbKs1GBiew==
+X-CSE-ConnectionGUID: c8ByFnxfQW+HRcbRlb+2eg==
+X-CSE-MsgGUID: Y5f5dgZjQX2N2Tl2w2Bpog==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 21 Feb 2025 00:28:08 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 21 Feb 2025 00:28:14 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.134])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id D7A894043708;
-	Fri, 21 Feb 2025 00:28:02 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 252084043708;
+	Fri, 21 Feb 2025 00:28:08 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: mturquette@baylibre.com,
 	magnus.damm@gmail.com,
@@ -55,9 +55,9 @@ Cc: biju.das.jz@bp.renesas.com,
 	linux-renesas-soc@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH 5/7] thermal: renesas: rzg3e: Add safety check when reading temperature
-Date: Thu, 20 Feb 2025 16:26:10 +0100
-Message-ID: <20250220152640.49010-6-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH 6/7] arm64: dts: renesas: r9a09g047: Add TSU node
+Date: Thu, 20 Feb 2025 16:26:11 +0100
+Message-ID: <20250220152640.49010-7-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250220152640.49010-1-john.madieu.xa@bp.renesas.com>
 References: <20250220152640.49010-1-john.madieu.xa@bp.renesas.com>
@@ -69,111 +69,108 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Becaure reading temperature may fail, add mechanism to panic in case
-reading the temperature fails after a given number of trials. This is due
-to the thermal core disabling the thermal zone device after a couple of
-consecutive attempt failures.
+Add TSU node along with thermal zones and keep it enabled in the SoC DTSI.
 
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
-This is proposed in a seperate patch on purpose, as it may be subject to debate
-and would ease the review.
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi | 49 ++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
- drivers/thermal/renesas/rzg3e_thermal.c | 38 +++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/thermal/renesas/rzg3e_thermal.c b/drivers/thermal/renesas/rzg3e_thermal.c
-index 4b7b16b1fb09..b70bff45c88f 100644
---- a/drivers/thermal/renesas/rzg3e_thermal.c
-+++ b/drivers/thermal/renesas/rzg3e_thermal.c
-@@ -83,6 +83,19 @@
- #define TSU_TIMEOUT_US		10000
- #define TSU_MIN_CLOCK_RATE	24000000
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+index a6b83e057a40..8560be5b79cb 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+@@ -64,6 +64,7 @@ cpu0: cpu@0 {
+ 			next-level-cache = <&L3_CA55>;
+ 			enable-method = "psci";
+ 			clocks = <&cpg CPG_CORE R9A09G047_CA55_0_CORECLK0>;
++			#cooling-cells = <2>;
+ 			operating-points-v2 = <&cluster0_opp>;
+ 		};
  
-+/*
-+ * Number of consecutive errors before shutdown
-+ *
-+ * While simulating thermal sensor failure, we have noticed that the thermal
-+ * core tries to fetch the temperature a couple times and then disable the
-+ * thermal zone device. In case of extreme heat, this might lead to SoC
-+ * destruction.
-+ *
-+ * Let's prevent this by limitating the number of failure and panic in
-+ * case it happens.
-+ */
-+#define MAX_TEMP_READ_ERRORS       10
+@@ -74,6 +75,7 @@ cpu1: cpu@100 {
+ 			next-level-cache = <&L3_CA55>;
+ 			enable-method = "psci";
+ 			clocks = <&cpg CPG_CORE R9A09G047_CA55_0_CORECLK1>;
++			#cooling-cells = <2>;
+ 			operating-points-v2 = <&cluster0_opp>;
+ 		};
+ 
+@@ -84,6 +86,7 @@ cpu2: cpu@200 {
+ 			next-level-cache = <&L3_CA55>;
+ 			enable-method = "psci";
+ 			clocks = <&cpg CPG_CORE R9A09G047_CA55_0_CORECLK2>;
++			#cooling-cells = <2>;
+ 			operating-points-v2 = <&cluster0_opp>;
+ 		};
+ 
+@@ -94,6 +97,7 @@ cpu3: cpu@300 {
+ 			next-level-cache = <&L3_CA55>;
+ 			enable-method = "psci";
+ 			clocks = <&cpg CPG_CORE R9A09G047_CA55_0_CORECLK3>;
++			#cooling-cells = <2>;
+ 			operating-points-v2 = <&cluster0_opp>;
+ 		};
+ 
+@@ -302,6 +306,20 @@ wdt3: watchdog@13000400 {
+ 			status = "disabled";
+ 		};
+ 
++		tsu: thermal@14002000 {
++			compatible = "renesas,r9a09g047-tsu";
++			reg = <0 0x14002000 0 0x1000>;
++			interrupts = <GIC_SPI 250 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 251 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "S12TSUADI1", "S12TSUADCMPI1";
++			clocks = <&cpg CPG_MOD 0x10a>;
++			resets = <&cpg 0xf8>;
++			power-domains = <&cpg>;
++			#thermal-sensor-cells = <0>;
++			renesas,tsu-operating-mode = <0>;
++			renesas,tsu-calibration-sys = <&sys>;
++		};
 +
- /**
-  * struct rzg3e_thermal_priv - RZ/G3E thermal private data structure
-  * @base: TSU base address
-@@ -93,6 +106,7 @@
-  * @conv_complete: ADC conversion completion
-  * @reg_lock: protect shared register access
-  * @cached_temp: last computed temperature (milliCelsius)
-+ * @error_count: Track consecutive errors
-  * @trmval: trim (calibration) values
-  */
- struct rzg3e_thermal_priv {
-@@ -104,6 +118,7 @@ struct rzg3e_thermal_priv {
- 	struct completion conv_complete;
- 	spinlock_t reg_lock;
- 	int cached_temp;
-+	atomic_t error_count;
- 	u32 trmval[2];
- };
+ 		i2c0: i2c@14400400 {
+ 			compatible = "renesas,riic-r9a09g047", "renesas,riic-r9a09g057";
+ 			reg = <0 0x14400400 0 0x400>;
+@@ -502,6 +520,37 @@ gic: interrupt-controller@14900000 {
+ 		};
+ 	};
  
-@@ -200,6 +215,7 @@ static irqreturn_t rzg3e_thermal_adc_irq(int irq, void *dev_id)
- static int rzg3e_thermal_get_temp(struct thermal_zone_device *zone, int *temp)
- {
- 	struct rzg3e_thermal_priv *priv = thermal_zone_device_priv(zone);
-+	int error_count;
- 	u32 val;
- 	int ret;
- 
-@@ -217,7 +233,7 @@ static int rzg3e_thermal_get_temp(struct thermal_zone_device *zone, int *temp)
- 					TSU_POLL_DELAY_US, TSU_TIMEOUT_US);
- 	if (ret) {
- 		dev_err(priv->dev, "ADC conversion timed out\n");
--		return ret;
-+		goto handle_error;
- 	}
- 
- 	/* Start conversion */
-@@ -225,15 +241,33 @@ static int rzg3e_thermal_get_temp(struct thermal_zone_device *zone, int *temp)
- 
- 	if (!wait_for_completion_timeout(&priv->conv_complete,
- 					 msecs_to_jiffies(100))) {
-+		ret = -ETIMEDOUT;
- 		dev_err(priv->dev, "ADC conversion completion timeout\n");
--		return -ETIMEDOUT;
-+		goto handle_error;
- 	}
- 
- 	scoped_guard(spinlock_irqsave, &priv->reg_lock) {
- 		*temp = priv->cached_temp;
- 	}
- 
-+	/* Reset error count on successful read */
-+	atomic_set(&priv->error_count, 0);
- 	return 0;
++	thermal-zones {
++		cpu-thermal {
++			polling-delay = <1000>;
++			polling-delay-passive = <250>;
++			thermal-sensors = <&tsu>;
 +
-+handle_error:
-+	error_count = atomic_inc_return(&priv->error_count);
-+	if (error_count >= MAX_TEMP_READ_ERRORS) {
-+		dev_emerg(priv->dev,
-+			"Failed to read temperature %d times, initiating emergency shutdown\n",
-+			error_count);
-+		mdelay(100);
-+		panic("Temperature sensor failure - emergency shutdown");
-+	}
++			cooling-maps {
++				map0 {
++					trip = <&target>;
++					cooling-device = <&cpu0 0 3>, <&cpu1 0 3>,
++							 <&cpu2 0 3>, <&cpu3 0 3>;
++					contribution = <1024>;
++				};
++			};
 +
-+	dev_err(priv->dev, "Failed to read temperature (error %d), attempt %d/%d\n",
-+		ret, error_count, MAX_TEMP_READ_ERRORS);
++			trips {
++				target: trip-point {
++					temperature = <95000>;
++					hysteresis = <1000>;
++					type = "passive";
++				};
 +
-+	return ret;
- }
- 
- /* Convert temperature in milliCelsius to raw sensor code */
++				sensor_crit: sensor-crit {
++					temperature = <120000>;
++					hysteresis = <1000>;
++					type = "critical";
++				};
++			};
++		};
++	};
++
+ 	timer {
+ 		compatible = "arm,armv8-timer";
+ 		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
 -- 
 2.25.1
 
