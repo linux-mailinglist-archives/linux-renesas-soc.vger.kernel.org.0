@@ -1,150 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-13434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13435-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40592A3DFF4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 17:10:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA71A3E050
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 17:20:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 243B2163A29
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 16:10:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7BC131891F62
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2025 16:18:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17DE91FF5FE;
-	Thu, 20 Feb 2025 16:10:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9E0D1FFC4E;
+	Thu, 20 Feb 2025 16:18:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="EduweB5K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VNlekTg7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1231CDFA6;
-	Thu, 20 Feb 2025 16:10:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740067855; cv=pass; b=aMTLhOdq5e4XfQahmdSKtyY1BXpdnhHR4DiHV+QbDJAhz/c844espDR2Cx8a+quNfrBLupLwYRLNj79idKWUu4OOB9Zglsxae8EjoZ69tAcoVj6BBoZZ4DrsZB/2+4qaxGdt4Krsh4KXUTRtiBbIOzMM2GfBGbGmGyVVcLn16ls=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740067855; c=relaxed/simple;
-	bh=nI4YvPODF0CSfU1Q8RwoW99HnVMb3lO3KpFjsvSqG3s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AB8Zy0ZcqM7pLZ6A+prwHp0eXf7ptVylUEWDJPBaZNXsnPRkxM2KxmDD/9C7sEvGgLD3/mfx304BlX4cvnd/Uo4SHoVapntqEaYmA2YXa62YtEnb3cRL56H3+fEHFnlm7AhFnmJS8MJCWHYtW4UGJfSEVz03WO0hKshs6dG8wC4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=EduweB5K; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1740067826; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=fK0hgpnSc7wHdnScZwsvHvmbOkyWb03c01zpIeu3IanN4S/24IADwzwMmHCxMzZh69e0QFLKw+VJlDSQ5aln/0YB2RDSXVsVBcOmmHiTso9hMIalmUv2v2fkpsh2ReLVgNiLiHMfkoe1PZI015y2wn/sO3WfP5mg6mjLzsr/2s8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740067826; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ZELLhyNrX/AMU/X/XLHluCd0loXd+7aqRfqJaYVGOoE=; 
-	b=ViwEYwSYLaplLiRRebA+EavTbgXaGFDif39tG9l0dYzvRf0ts/sv5Zr3fKIj0Tpa2mXGglvmOEcv8ZzesWzbD/NQRcb1JjyqPZqc3wMYU5+EunyG9GZcm9+M2YI1x2DBHIaTHIgSZWttgVwQS7+aK1fAp99vFS8yjuL3nyBC814=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740067826;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=ZELLhyNrX/AMU/X/XLHluCd0loXd+7aqRfqJaYVGOoE=;
-	b=EduweB5KBkR0ccyYBTaR71kHlB+Cm2C1+uOYpnAGhP8fsVCU4dd1oLWvb0mZNeiJ
-	5LPdG3Z1MweoTCjWRid30oQ6iHV9OeNchE42cx4IMeeJ1b4OBPQ5wC3b9rSZ5Fztbc0
-	7ra/K4+6kLD4/HJUfSiWtBOZSIxhWfXx8uvFMDg0=
-Received: by mx.zohomail.com with SMTPS id 1740067825336681.7729656180264;
-	Thu, 20 Feb 2025 08:10:25 -0800 (PST)
-Message-ID: <d2bd8baf-e1f7-4e8a-9e33-259051d6f97a@collabora.com>
-Date: Thu, 20 Feb 2025 19:10:18 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934621DF265;
+	Thu, 20 Feb 2025 16:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740068308; cv=none; b=CZIasIHr7wutXH5ivN6Za0kGg71ozj+q5Mzpii4JkyhjlXgkL5QRU9ZbOSp6rS8z0vZAfDtcOG0wdhZ+Fc4tgIJ6xd+YGkNV/FFX9bS5BJAJGeioYy2s9OgASsgxWcD7UEgQyJuniP9YNPPzltEu3RJTYcTlkP0NBV4ENfBmUPc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740068308; c=relaxed/simple;
+	bh=9RlNbYnLFzVjYgxQyd9KBfI9XCJfe/tCHW00K82XgB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b1jIcgyOHaTZHMqxegMdWefN1Sb3Up534prgLAA1DDBxYV+wXowFWNdRpQjlKU4CvdoCbclJK4n3GsAJTRE/McgjbavR0JN2eHc6nwUSwRZA0RYzWfICLr6AwMnKW6iR8pRmCBIxnuJBdLpVNiEaRqcFG39MisTVBOKoL5Cd8xI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VNlekTg7; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740068307; x=1771604307;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9RlNbYnLFzVjYgxQyd9KBfI9XCJfe/tCHW00K82XgB4=;
+  b=VNlekTg75J0qAfGXfCvz0vp9dqZZQvGYx1+ARWw+GevfDx2ZXEEsqZnY
+   EP12CT5KYU2m5qe/J5UdIeollr3MxqD8LeOG46/PH5IlfUSQv1TT5bNTR
+   oN1bDImQ7RLyF2Wt4+7LndeRXNa5rtyqrnQfWe6DeM1CqnB0co3wmKq/B
+   /rufj10FsJRtDmVRPq4jy/wkk8gWpU1aBcjP++YIz7VNKE6hAK2LTJXaR
+   wLsxEJ6u4j9zZzcyzZauVn4+Xu1botvPUdM5oxzgpK4C4w7g2pPzllIq0
+   rM2mkWK0OWKRhgpbL4pakdx4bF+W7dYCVlJ7mOj4miR39qMoy08g/L31b
+   g==;
+X-CSE-ConnectionGUID: PgqEARegRjyuSKZrIoJggA==
+X-CSE-MsgGUID: aXyg0+ITTbWTTroNejoE6Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="63329824"
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
+   d="scan'208";a="63329824"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 08:18:26 -0800
+X-CSE-ConnectionGUID: MUBFVS80SV+FEOQ9rn5jww==
+X-CSE-MsgGUID: 0PpoekXBQF2IG16mnDk74Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
+   d="scan'208";a="138294951"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 20 Feb 2025 08:18:21 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tl9Fj-0004UJ-01;
+	Thu, 20 Feb 2025 16:18:19 +0000
+Date: Fri, 21 Feb 2025 00:17:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 7/9] iio: adc: sun20i-gpadc: Use adc-helpers
+Message-ID: <202502210037.162FN3PM-lkp@intel.com>
+References: <21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 21/25] drm/virtio: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>
-References: <20250109150310.219442-1-tzimmermann@suse.de>
- <20250109150310.219442-22-tzimmermann@suse.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20250109150310.219442-22-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount@gmail.com>
 
-On 1/9/25 17:57, Thomas Zimmermann wrote:
-> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
-> buffer size. Align the pitch to a multiple of 4.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Gurchetan Singh <gurchetansingh@chromium.org>
-> Cc: Chia-I Wu <olvaffe@gmail.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_gem.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> index 5aab588fc400..22cf1cd2fdfd 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> @@ -23,6 +23,7 @@
->   * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
->   */
->  
-> +#include <drm/drm_dumb_buffers.h>
->  #include <drm/drm_file.h>
->  #include <drm/drm_fourcc.h>
->  
-> @@ -66,15 +67,14 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
->  	struct virtio_gpu_object_params params = { 0 };
->  	struct virtio_gpu_device *vgdev = dev->dev_private;
->  	int ret;
-> -	uint32_t pitch;
-> +
-> +	ret = drm_mode_size_dumb(dev, args, SZ_4, 0);
+Hi Matti,
 
-Nit: I'd keep using PAGE_SIZE instead of 0 for more clarity, but that's
-an optional wish.
+kernel test robot noticed the following build errors:
 
-> +	if (ret)
-> +		return ret;
->  
->  	if (args->bpp != 32)
->  		return -EINVAL;
->  
-> -	pitch = args->width * 4;
-> -	args->size = pitch * args->height;
-> -	args->size = ALIGN(args->size, PAGE_SIZE);
-> -
->  	params.format = virtio_gpu_translate_format(DRM_FORMAT_HOST_XRGB8888);
->  	params.width = args->width;
->  	params.height = args->height;
-> @@ -92,7 +92,6 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
->  	if (ret)
->  		goto fail;
->  
-> -	args->pitch = pitch;
->  	return ret;
->  
->  fail:
+[auto build test ERROR on 5bc55a333a2f7316b58edc7573e8e893f7acb532]
 
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/dt-bindings-ROHM-BD79124-ADC-GPO/20250219-203748
+base:   5bc55a333a2f7316b58edc7573e8e893f7acb532
+patch link:    https://lore.kernel.org/r/21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount%40gmail.com
+patch subject: [PATCH v3 7/9] iio: adc: sun20i-gpadc: Use adc-helpers
+config: i386-buildonly-randconfig-002-20250220 (https://download.01.org/0day-ci/archive/20250221/202502210037.162FN3PM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210037.162FN3PM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502210037.162FN3PM-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "devm_iio_adc_device_alloc_chaninfo" [drivers/iio/adc/sun20i-gpadc-iio.ko] undefined!
 
 -- 
-Best regards,
-Dmitry
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
