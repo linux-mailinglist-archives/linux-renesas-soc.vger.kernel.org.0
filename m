@@ -1,95 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-13458-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13459-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5215CA3F166
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 11:08:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B62A8A3F181
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 11:11:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D111E3B64E5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 10:08:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A7B2189B5F0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 10:10:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C36A1204C29;
-	Fri, 21 Feb 2025 10:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D988204C3F;
+	Fri, 21 Feb 2025 10:10:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LQF5AnVY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WLcapchc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lKrGFb/s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Oulub/yC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T9F8oyq1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6911F4299
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Feb 2025 10:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4140E1F4299;
+	Fri, 21 Feb 2025 10:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740132504; cv=none; b=ej/zOy42YtDgnRzPeEBrs3qnxBZzkVniBxXH2fbeD4TnEySaO4GWJVqmRVX7otVMSh0iselQbiktM70+N+uV/0TTPrlrkyVe6Iq47lMhcaASzZjTF3R8sxBNvdJ3gsT1g5mbb6syLRvFFULubfilkaYbevq0iyFndBi9bJi4Q7k=
+	t=1740132632; cv=none; b=tNnL/LmHaqnRLUEDhUX5Qf+4DRj7IxtxjUAYjG7RTIo/5Auh5Y7U+8Y700VluhHpY3+baW57pC7l9HkfWkZF8SF1qSFOUz6CPb+Q68reIkwFCGk6/IzdZI7rvPUNaF2MtsST+/1b6cnjT6Z9EWICHL3/E6a1/kuO02TYTYDWR0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740132504; c=relaxed/simple;
-	bh=qWhmsFDSGAW2AefAUv9Cw78El34kaM//jsi1KIkxJPk=;
+	s=arc-20240116; t=1740132632; c=relaxed/simple;
+	bh=GABZIa1yk+ME7OqVVkc9YSIBFoStKBRMFdZ+km85+xA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mU9+oqTnOUal52ui45EEdt8HFfDmRqdgZNgnW65MuKjZRKyqK8ofX90Pq+HpdbWuaShio81W1ScNpc9FmNEpthDyXPkeUBYVLfoYPeVsB2wijgQx7YhqN9qdeoEvMXVJ6ZWc3MG60tDQwYmFF2VkMXmoGpxolPkUpPdFvgjDyM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LQF5AnVY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WLcapchc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lKrGFb/s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Oulub/yC; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EBE8C1F78A;
-	Fri, 21 Feb 2025 10:08:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740132501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=M2e6KH/BHcFK6w9SYbHcPx6nqA1qpuxt618HD/sPm9I=;
-	b=LQF5AnVYcLPwoUAaF2Bux+O59hCHAg6pl0zqiienZa7pQ4gvMY1PpgPpjwuZVrF8ZDKKpf
-	LjOteY2AeuwSxMSm1St3s7ejjMGetWwS66KGBEGLl6z5snb3SAsox8bmKkKYu8xbUpOlBJ
-	13eVsZCCqwC2ZqgfhDzxXWYmlFTZ0zo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740132501;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=M2e6KH/BHcFK6w9SYbHcPx6nqA1qpuxt618HD/sPm9I=;
-	b=WLcapchcQAQV8ZOFP+V3hwPjvdEPgPjJgGK+oZwFKvo+c3s2ayOg9oH8N7jbf3H7oR3eou
-	4NxoU8q4tY+j4BAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740132499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=M2e6KH/BHcFK6w9SYbHcPx6nqA1qpuxt618HD/sPm9I=;
-	b=lKrGFb/skhwoYPPUVwSDcJW0EBjnr2uy+nfYrcyElx4exsS5CnMWZrAHIeQaS2BxLRzSTH
-	LRhrkqsBRDfwgbOjbZ+zLPS2INLgWtN1L/nPh51l6Cps3I/LPfxVyC6WAPQqpTRm3vrsEp
-	4gh0h4aiWJXnVu93NI8oLcHmwg2Ypkc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740132499;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=M2e6KH/BHcFK6w9SYbHcPx6nqA1qpuxt618HD/sPm9I=;
-	b=Oulub/yCIhXM878lgyw9zPHPgLLNUSxAK7kXdKfRRv6S9EWcIdOxS23F73zZol16noWM+X
-	DGDIsV61UNIiQ5Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 74CDB136AD;
-	Fri, 21 Feb 2025 10:08:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sywjG5NQuGd7MwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Fri, 21 Feb 2025 10:08:19 +0000
-Message-ID: <cde8b955-a846-4be9-942b-64ca05550368@suse.de>
-Date: Fri, 21 Feb 2025 11:08:19 +0100
+	 In-Reply-To:Content-Type; b=jc7/fZszjZ8ZNAO4l+lzazrA4QB6WvNVbOlnNJFTR4RZaZSK5n6h0k4lvQmeZIVwkVcPxPD5ZBd/lADp/TPSH1svtTJg8PeDX+igzoLAllvB7/qU63AYtSQC4aDNlH29aNFPSMGxGaEZqtXf/TM4mocUH0IEHO808cabffdyfwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T9F8oyq1; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30737db1aa9so18378171fa.1;
+        Fri, 21 Feb 2025 02:10:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740132628; x=1740737428; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bG0BbpFoyNoqsk135c328imcMJ0+Nr3ev0Mcwuo/rmM=;
+        b=T9F8oyq1hL0rRgqyIbsoObHQs7gYhQLyWFWQffnjgMteATI/nTSAKAs1rVILnj0g9x
+         bbHKMio9ilwgPpAnOJ9XK3ckTqqo707Ebr18C1CPbONQvkXa9jebs4q+YVzzOqL55xUD
+         7OyxOGz0ar03mneTGhR7Ib63zMvX5lbKK2Mk1iYpQSbBi0TSxnD3vVCE4mubMEezXLdI
+         C4iGeg7VN+nerJXOb3jmNMKdgseswV+SCXxrPlToEcQ+1BwwZte8uIHeBxdj7xvXRnB6
+         kObu1p1xtkIjd1M2DwyOBUS5W1V4B2k3sKyG9fs3fRSFUFRgjIKr5c83dmpkYRsnJ0mR
+         3R6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740132628; x=1740737428;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bG0BbpFoyNoqsk135c328imcMJ0+Nr3ev0Mcwuo/rmM=;
+        b=PedEQTvatG8Q5u5DmRt6YOcZcryjo49kOa+OhCw5+nK7t305pHDDKvfxxsvFqT99EP
+         UN9Iz3r71HxzWN6KnUqRI4aX3+kQJdFdunCp28ud0Tn555Q0HZxTTSLHXSxhbJh8mK+I
+         rGO/vdjyQg1uue6fwPj/t7KydToBmVF53QazeUtqDWOe1Kxd0GZxFvj0dtctmVFH6ZsN
+         dAMBUKaOMpX0ekKpaXUO7rlrG5yMKEE00G+QnChp3DHrNsFGqIq1P7cr6lYwvPf428Jm
+         oXmZhKdDpavPpUi6ZSt2GD4Li9yxJptH8sj21zd1dRqYspm0Riq74C0ttVSZi3RKya0a
+         7L9w==
+X-Forwarded-Encrypted: i=1; AJvYcCW/LmlL9ad/qNLiFMiPgR6WCLoV19Sn2kM/vSkiWZ5vTTdFBft0HfYZRn3yOFopjI+oPwLGA5TT3QAT@vger.kernel.org, AJvYcCW/ZjeVFMtU7NLTLmvwFeXquiTTy+cDfauKPq7nRDYDl338LWbq3Iv7NLbsGP9I0js4R1jxDtV2BDTO@vger.kernel.org, AJvYcCWGJX9tbQjcOErhduAIIdsA+w9/S1jDtWJuGb7tlqH/GoUPV6R5sCQpKM/zubIVBb7hZo7VCVA74cd1QLn89wn8Fbs=@vger.kernel.org, AJvYcCWxSI5li4tlr8TMzxFMBk6DOA/KgtuJYJ35aq0C5cCRry7jP6cM9DvCGMWEbfgDTsVcI6JpJjRIqeMn+kaO@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbpJktofVAn+4l8NmDuNieLEHNYLBdeon516m1M3QZEQbQvEGy
+	Ifn1wToaSFEWVF0NjRD+Jsx3Y6vDo/p86gU3dQLTcxNqXzHUDNnI
+X-Gm-Gg: ASbGncsY4keqD3Ok8ABJgIHZ4Lhha4G6+7rfOPZNXzHlCOTEVBPgf897i58BWXK6grQ
+	Jw2TSsq+GRKtpw65MXBK83RVM9CeLsFzfjcYiXPRTbTJb4mqqObSfQ87hjPQXjtd/6ixAwt7K5B
+	RVEMfRJHuWqHs1YoCkJ8kSlNeL/sjxwWDEYgNdf0R0EysQQEL6l57ZjFVjDn9HRw+QU7m45aVJ7
+	xejEw7zATiDN1g7WlEku4a57Uc++sboNUsxWHzvVFp/hVP4rrOcb5Zq28j30KIv5f5m8/Iv5Vdq
+	qt6mhkWaUpRvcwl5E06GmdYgT5yTNjLPfYK/T2uruhL0SdoD2JqNZlR/K+NefMPe624gaO4gPx8
+	2OL1we1A=
+X-Google-Smtp-Source: AGHT+IEF7HCPBupTpoTIufUdFzsU1NW7CnwkRmSqsaZ2XXJ41DlnitRvGydjhmN16iRmcwFrBfhXBA==
+X-Received: by 2002:a05:6512:3f05:b0:542:2e09:639a with SMTP id 2adb3069b0e04-54838edddd1mr724643e87.10.1740132627920;
+        Fri, 21 Feb 2025 02:10:27 -0800 (PST)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5451f105c2fsm2638305e87.117.2025.02.21.02.10.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Feb 2025 02:10:26 -0800 (PST)
+Message-ID: <cb27d8b1-c978-4443-9ad2-96e930701976@gmail.com>
+Date: Fri, 21 Feb 2025 12:10:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -97,154 +82,169 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/25] drm/dumb-buffers: Provide helper to set pitch
- and size
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
- linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-tegra@vger.kernel.org, intel-xe@lists.freedesktop.org,
- xen-devel@lists.xenproject.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20250218142542.438557-1-tzimmermann@suse.de>
- <20250218142542.438557-3-tzimmermann@suse.de>
- <dcd59a75-7945-4a2e-99f9-3abbb3e9de14@ideasonboard.com>
- <355ed315-61fa-4a9d-b72b-8d5bc7b5a16c@suse.de>
- <596b960e-71f8-4c2c-9abe-058206df1dfb@ideasonboard.com>
- <87ca2b81-a67a-468b-ae2b-30d02a3a64bc@suse.de>
- <CAMuHMdVnZTj-8bqsbbZdhp0H7Bwib8GkEuXPcKNZjdo_jRRXgg@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAMuHMdVnZTj-8bqsbbZdhp0H7Bwib8GkEuXPcKNZjdo_jRRXgg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/9] iio: adc: add helpers for parsing ADC nodes
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
+ David Lechner <dlechner@baylibre.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <cover.1739967040.git.mazziesaccount@gmail.com>
+ <6c5b678526e227488592d004c315a967b9809701.1739967040.git.mazziesaccount@gmail.com>
+ <Z7ZB7RQhyI5Dohrq@smile.fi.intel.com>
+ <b1c1ed68-2f4d-447c-9957-5a1bbc63ef6e@gmail.com>
+ <Z7ci7tUlRQqZEZSN@smile.fi.intel.com>
+ <ec76334b-bb13-4076-811d-9174170dd677@gmail.com>
+ <Z7c2cBQpjoc9-Vyu@smile.fi.intel.com>
+ <9018e23c-da28-41b0-b774-1598b946a2a1@gmail.com>
+ <Z7dCnRzuQTaJXzmb@smile.fi.intel.com>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <Z7dCnRzuQTaJXzmb@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[ideasonboard.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,lists.xenproject.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
 
-Hi
-
-Am 21.02.25 um 10:57 schrieb Geert Uytterhoeven:
-> Hi Thomas,
->
-> On Fri, 21 Feb 2025 at 10:19, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Am 20.02.25 um 11:53 schrieb Tomi Valkeinen:
->>> This change also first calls the drm_driver_color_mode_format(), which
->>> could change the behavior even more, but afaics at the moment does not.
->> Because currently each driver does its own thing, it can be hard to
->> write user space that reliably allocates on all drivers. That's why it's
->> important that parameters are not just raw numbers, but have
->> well-defined semantics. The raw bpp is meaningless; it's also important
->> to know which formats are associated with each value. Otherwise, you
->> might get a dumb buffer with a bpp of 15, but it will be displayed
->> incorrectly. This patch series finally implements this and clearly
->> documents the assumptions behind the interfaces. The assumptions
->> themselves have always existed.
+On 20/02/2025 16:56, Andy Shevchenko wrote:
+> On Thu, Feb 20, 2025 at 04:21:37PM +0200, Matti Vaittinen wrote:
+>> On 20/02/2025 16:04, Andy Shevchenko wrote:
+>>> On Thu, Feb 20, 2025 at 03:40:30PM +0200, Matti Vaittinen wrote:
+>>>> On 20/02/2025 14:41, Andy Shevchenko wrote:
+>>>>> On Thu, Feb 20, 2025 at 09:13:00AM +0200, Matti Vaittinen wrote:
+>>>>>> On 19/02/2025 22:41, Andy Shevchenko wrote:
+>>>>>>> On Wed, Feb 19, 2025 at 02:30:27PM +0200, Matti Vaittinen wrote:
+> 
+> ...
+> 
+>>>>>>>> +EXPORT_SYMBOL_GPL(iio_adc_device_num_channels);
+>>>>>>>
+>>>>>>> No namespace?
+>>>>>>
+>>>>>> I was considering also this. The IIO core functions don't belong into a
+>>>>>> namespace - so I followed the convention to keep these similar to other IIO
+>>>>>> core stuff.
+>>>>>
+>>>>> But it's historically. We have already started using namespaces
+>>>>> in the parts of IIO, haven't we?
+>>>>
+>>>> Yes. But as I wrote, I don't think adding new namespaces for every helper
+>>>> file with a function or two exported will scale. We either need something
+>>>> common for IIO (or IIO "subsystems" like "adc", "accel", "light", ... ), or
+>>>> then we just keep these small helpers same as most of the IIO core.
+>>>
+>>> It can be still pushed to IIO_CORE namespace. Do you see an issue with that?
 >>
->> The color modes in drm_driver_color_mode_format() are set in stone and
->> will not change incompatibly. It's already a user interface. I've taken
->> care that the results do not change incompatibly compared to what the
->> dumb-buffer ioctl currently assumes. (C1-C4 are special, see below.)
+>> No. I've missed the fact we have IIO_CORE O_o. Thanks for pointing it out!
 >>
->>> Although, maybe some platform does width * DIV_ROUND_UP(bpp, 8) even
->>> for bpp < 8, and then this series changes it for 1, 2 and 4 bpps (but
->>> not for 3, 5, 6, 7, if I'm not mistaken).
->> True. 1, 2 and 4 would currently over-allocate significantly on some
->> drivers and the series will reduce this to actual requirements. Yet our
->> most common memory managers, gem-dma and gem-shmem, compute the sizes
->> correctly.
+>>> Or a new opaque namespace for the mentioned cases, something like IIO_HELPERS.
 >>
->> But there are currently no drivers that support C4, C2 or C1 formats;
->> hence there's likely no user space either. I know that Geert is
->> interested in making a driver that uses these formats on very low-end
->> hardware (something Atari or Amiga IIRC). Over-allocating on such
->> hardware is likely not an option.
-> Note that the gud and ssd130x drivers do support R1, and I believe
-> work is underway to add grayscale formats to ssd130x.
+>> I am unsure if it really benefits to split this out of the IIO_CORE. I've a
+>> feeling it falls into the category of making things harder for user with no
+>> apparent reason. But yes, the IIO_CORE makes sense.
+> 
+> Probably I was not clear, I mean to put this under a given namespace. There is
+> no a such, we have currently:
+> 
+> IIO_BACKEND
+> IIO_DMA_BUFFER
+> IIO_DMAENGINE_BUFFER
+> IIO_GTS_HELPER
+> IIO_RESCALE
 
-Nice find. Both use gem-shmem, which allocates without much overhead. So 
-any possible userspace should already be prepared for this scenario.
+Ah. So, the IIO core stuff is still not in a namespace. Those listed 
+above are all too specific (I believe, in general, and definitely to 
+carry ADC helpers).
 
->
->> The other values (3, 5, 6, 7) have no meaning I know of. 6 could be
->> XRGB2222, but I not aware of anything using that. We don't even have a
->> format constant for this.
-> Yeah, e.g. Amiga supports 3, 5, 6, and 7 bpp, but that is using
-> bitplanes.  There is already some sort of consensus to not expose
-> bitplanes to userspace in DRM, so limiting to 1, 2, 4, and 8 bpp
-> (which can be converted from C[1248]) is fine.
+Adding 'ADC_HELPERS' would just add yet another way too specific one. 
+So, currently there is no suitable namespace for these helpers, and I 
+still believe they fit best to where the rest of the IIO-core stuff is.
 
-There's been discussion about a new dumb-buffer ioctl that receives a 
-format constant and returns individual buffers for each plane. This 
-would allow for these use cases.
+If we want really play the namespace game, then the existing IIO stuff 
+should be put in a IIO_CORE-namespace instead of creating more new small 
+ones. I am afraid that adding all existing IIO core to a IIO_CORE 
+namespace and converting all existing users to use the IIO_CORE is not a 
+reasonable request for a person trying to:
 
-Best regards
-Thomas
+1. Write a driver
+2. Add a small helper to aid others (instead of just melding it all in 
+the given new driver - which does not benefit anyone else and just leads 
+to code duplication in the long run...)
 
->
-> Gr{oetje,eeting}s,
->
->                          Geert
->
+>>>>>> (Sometimes I have a feeling that the trend today is to try make things
+>>>>>> intentionally difficult in the name of the safety. Like, "more difficult I
+>>>>>> make this, more experience points I gain in the name of the safety".)
+>>>>>>
+>>>>>> Well, I suppose I could add a namespace for these functions - if this
+>>>>>> approach stays - but I'd really prefer having all IIO core stuff in some
+>>>>>> global IIO namespace and not to have dozens of fine-grained namespaces for
+>>>>>> an IIO driver to use...
+> 
+> ...
+> 
+>>>> foo &= (~bar);
+>>>>
+>>>> is _much_ faster than seeing:
+>>>
+>>> Strongly disagree. One need to parse an additional pair of parentheses,
+>>> and especially when it's a big statement inside with nested ones along
+>>> with understanding what the heck is going on that you need them in the
+>>> first place.
+>>>
+>>> On top of that, we have a common practices in the LK project and
+>>> with our history of communication it seems you are trying to do differently
+>>> from time to time. Sounds like a rebellion to me :-)
+>>
+>> I only rebel when I (in my opinion) have a solid reason :)
+>>
+>>>> foo &= ~bar;
+>>>>
+>>>> and having to google the priorities.
+>>>
+>>> Again, this is something a (regular) kernel developer keeps refreshed.
+>>> Or even wider, C-language developer.
+>>
+>> Ha. As I mentioned, I've been writing C on a daily bases for almost 25
+>> years. I wonder if you intent to say I am not a kernel/C-language developer?
+>> Bold claim.
+> 
+> I'm just surprised by seeing that style from a 25y experienced C developer,
+> that's all.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+I am not. If something, these 25 years have taught me to understand that 
+even if something is simple and obvious to me, it may not be simple and 
+obvious to someone else. Similarly, something obvious to someone else, 
+is not obvious to me. Hence, I am very careful when telling people that:
+
+ >>> Again, this is something a (regular) kernel developer keeps refreshed.
+ >>> Or even wider, C-language developer.
+
+I may however say that "this is something _I_ keep refreshed (as a 
+kernel/C-developer)".
+
+As an example,
+
+ >>>> foo &= (~bar);
+
+This is something _I_ find very clear and exact, with zero doubt if 
+negation is applied before &=. For _me_ the parenthesis there _help_, 
+and for _me_ the parenthesis cause no confusion when reading the code.
+
+I won't go and tell that I'd expect any C or kernel developer to be able 
+to fluently parse "foo &= (~bar)". (Whether I think they should is 
+another matter).
+
+Oh well, let's wait and see what Jonathan thinks of these helpers in 
+general. We can continue the parenthesis discussion when we know whether 
+the code is going to stay.
+
+Yours,
+	-- Matti
 
 
