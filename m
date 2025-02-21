@@ -1,256 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-13483-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7071EA3FBE8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 17:49:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E21A3FC95
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 18:02:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5029F16E552
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 16:43:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5936816E0BC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 16:59:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85A1720CCF4;
-	Fri, 21 Feb 2025 16:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezFa7UoS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CDCF2253A1;
+	Fri, 21 Feb 2025 16:57:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FFE200BBC;
-	Fri, 21 Feb 2025 16:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845A2225401
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Feb 2025 16:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740156075; cv=none; b=FwGKtOVZ/Nqu3PZM8nJb8lyVfujalgagTO217o5YoYz3yGFBp2GLwALNdBcQUhPPV6+ThGLIJ60Guf+kFKHiAw0oRDOEUxwWxu72KxxgimktYvlOUJsk4nMROxE5muS3IhvZWklxmm9dvBbW1dkK+0J1qXKglhYS2NM0+08Moh8=
+	t=1740157062; cv=none; b=XoagkkJjFGZsezAZtPCqHDz5BCP0jiVKqQsWGsjyx1dKhTzTZmdPE2RXdacGvomE+2sWAB0uWDJFB8KQ6qVr0BPLz/IjfsN/sBADv0ndEH5JOx+dM/6OaG8EGqu1EysIf7vHkRxTabiUphey/beI/8GG/1LflRZ7bdLJ3DdMp5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740156075; c=relaxed/simple;
-	bh=WscDxsnPeboOXwOU6QK25fEzgybvqretWJ8oeCzqNCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WMeaM3BJinPTP2x4rR8+LFOhpws5hGBfIMxPgrCo9Sgu7v0OxTvt635tp60u+z5Xrxcf8iL/zX93mqZwa0+h9Di7NW1pOse2Q/OtQTlIaL8apuAtVp2iw9gRo5h7PcjQp2RopMtS46fbwP7w5FrllafdIwjb39A2TKRIQvkVGuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezFa7UoS; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740156073; x=1771692073;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WscDxsnPeboOXwOU6QK25fEzgybvqretWJ8oeCzqNCQ=;
-  b=ezFa7UoS4ZmXU7sqSpiasnSFM26jJZGES2jzW+KI67SmUpiSkORwy/dH
-   OAISRtpnlzUtg3SFf54bMLMh2YmIFo9cvnovvaSc/GGVgnOYO8W9d+7FF
-   9EZDSYmBLebClYnOwV6ejVioe2Z9VhF2y7TzbS63uFLk5vc4mN1U79ZCk
-   cx7HO042NT9OW2weOGza1ZRLgtx9UiJWPGBmyzTN3VmMiiqq91aXxdDOw
-   bY/f09g6RnKiBSt/dUo9tVmmLGOtJ0RFBlBTUDAPuj93/LdTg4lCUQZwD
-   Tq9nOMIriETMM24bIEnMDJTQPbAUdaH2egnyyw7v7FVqHGdyXdtEWQbrk
-   A==;
-X-CSE-ConnectionGUID: enbT+JuaTbiv+jjPrx9eTg==
-X-CSE-MsgGUID: Hb+BfkJoRP6H6s9T/+fTBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="58390954"
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="58390954"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:41:13 -0800
-X-CSE-ConnectionGUID: UimGude1RQaPxjrN7gVF9g==
-X-CSE-MsgGUID: 7mnoeVakSyWE0PfzvQEy5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="120039765"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:41:08 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tlW5J-0000000Dh2u-1chT;
-	Fri, 21 Feb 2025 18:41:05 +0200
-Date: Fri, 21 Feb 2025 18:41:05 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 2/9] iio: adc: add helpers for parsing ADC nodes
-Message-ID: <Z7isoU9hKXlgsu33@smile.fi.intel.com>
-References: <cover.1739967040.git.mazziesaccount@gmail.com>
- <6c5b678526e227488592d004c315a967b9809701.1739967040.git.mazziesaccount@gmail.com>
- <Z7ZB7RQhyI5Dohrq@smile.fi.intel.com>
- <b1c1ed68-2f4d-447c-9957-5a1bbc63ef6e@gmail.com>
- <Z7ci7tUlRQqZEZSN@smile.fi.intel.com>
- <ec76334b-bb13-4076-811d-9174170dd677@gmail.com>
- <Z7c2cBQpjoc9-Vyu@smile.fi.intel.com>
- <9018e23c-da28-41b0-b774-1598b946a2a1@gmail.com>
- <Z7dCnRzuQTaJXzmb@smile.fi.intel.com>
- <cb27d8b1-c978-4443-9ad2-96e930701976@gmail.com>
+	s=arc-20240116; t=1740157062; c=relaxed/simple;
+	bh=KSWs0QhcV2YupcJqSYD2hlxsh7j9tFBb8ih1MS30eNY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mTmBrYFynivTJu/RsrNT27d15SqTbX8s+RxpdUjZq+cubDTW9Ow9HPupF44X2YOb2hh2343VhIVN7MJ2vaVy6kJJZFERUc9hO77lmDqv9b4lBqldVczIBpCV8IjPQflQGyNKDpDN9KQCBGr+S7FWex0VT2X/YkSm/fmvoeXzU1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:ae9a:419e:d123:9695])
+	by laurent.telenet-ops.be with cmsmtp
+	id GGxX2E00C0y8aK501GxXFX; Fri, 21 Feb 2025 17:57:33 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tlWKs-0000000BMsL-3MQD;
+	Fri, 21 Feb 2025 17:57:31 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tlWLD-0000000EOqh-0jKj;
+	Fri, 21 Feb 2025 17:57:31 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: soc@lists.linux.dev,
+	soc <soc@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL 0/5] Renesas SoC updates for v6.15
+Date: Fri, 21 Feb 2025 17:57:21 +0100
+Message-ID: <cover.1740156736.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cb27d8b1-c978-4443-9ad2-96e930701976@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 21, 2025 at 12:10:23PM +0200, Matti Vaittinen wrote:
-> On 20/02/2025 16:56, Andy Shevchenko wrote:
-> > On Thu, Feb 20, 2025 at 04:21:37PM +0200, Matti Vaittinen wrote:
-> > > On 20/02/2025 16:04, Andy Shevchenko wrote:
-> > > > On Thu, Feb 20, 2025 at 03:40:30PM +0200, Matti Vaittinen wrote:
-> > > > > On 20/02/2025 14:41, Andy Shevchenko wrote:
-> > > > > > On Thu, Feb 20, 2025 at 09:13:00AM +0200, Matti Vaittinen wrote:
-> > > > > > > On 19/02/2025 22:41, Andy Shevchenko wrote:
-> > > > > > > > On Wed, Feb 19, 2025 at 02:30:27PM +0200, Matti Vaittinen wrote:
+	Hi SoC folks,
 
-...
+This is my first pull request for the inclusion of Renesas SoC updates
+for v6.15.
 
-> > > > > > > > > +EXPORT_SYMBOL_GPL(iio_adc_device_num_channels);
-> > > > > > > > 
-> > > > > > > > No namespace?
-> > > > > > > 
-> > > > > > > I was considering also this. The IIO core functions don't belong into a
-> > > > > > > namespace - so I followed the convention to keep these similar to other IIO
-> > > > > > > core stuff.
-> > > > > > 
-> > > > > > But it's historically. We have already started using namespaces
-> > > > > > in the parts of IIO, haven't we?
-> > > > > 
-> > > > > Yes. But as I wrote, I don't think adding new namespaces for every helper
-> > > > > file with a function or two exported will scale. We either need something
-> > > > > common for IIO (or IIO "subsystems" like "adc", "accel", "light", ... ), or
-> > > > > then we just keep these small helpers same as most of the IIO core.
-> > > > 
-> > > > It can be still pushed to IIO_CORE namespace. Do you see an issue with that?
-> > > 
-> > > No. I've missed the fact we have IIO_CORE O_o. Thanks for pointing it out!
-> > > 
-> > > > Or a new opaque namespace for the mentioned cases, something like IIO_HELPERS.
-> > > 
-> > > I am unsure if it really benefits to split this out of the IIO_CORE. I've a
-> > > feeling it falls into the category of making things harder for user with no
-> > > apparent reason. But yes, the IIO_CORE makes sense.
-> > 
-> > Probably I was not clear, I mean to put this under a given namespace. There is
-> > no a such, we have currently:
-> > 
-> > IIO_BACKEND
-> > IIO_DMA_BUFFER
-> > IIO_DMAENGINE_BUFFER
-> > IIO_GTS_HELPER
-> > IIO_RESCALE
-> 
-> Ah. So, the IIO core stuff is still not in a namespace. Those listed above
-> are all too specific (I believe, in general, and definitely to carry ADC
-> helpers).
-> 
-> Adding 'ADC_HELPERS' would just add yet another way too specific one. So,
-> currently there is no suitable namespace for these helpers, and I still
-> believe they fit best to where the rest of the IIO-core stuff is.
-> 
-> If we want really play the namespace game, then the existing IIO stuff
-> should be put in a IIO_CORE-namespace instead of creating more new small
-> ones. I am afraid that adding all existing IIO core to a IIO_CORE namespace
-> and converting all existing users to use the IIO_CORE is not a reasonable
-> request for a person trying to:
-> 
-> 1. Write a driver
-> 2. Add a small helper to aid others (instead of just melding it all in the
-> given new driver - which does not benefit anyone else and just leads to code
-> duplication in the long run...)
+It consists of 5 parts:
 
-That's why more specific, but also a bit general might work, like IIO_HELPERS,
-considering that they may be used by many drivers.
+  [GIT PULL 1/5] Renesas ARM defconfig updates for v6.15
 
-While it may be not your call, somebody should do the job. Jonathan? :-)
+    - Supplement DTB with ATAG information, for older boards.
 
-> > > > > > > (Sometimes I have a feeling that the trend today is to try make things
-> > > > > > > intentionally difficult in the name of the safety. Like, "more difficult I
-> > > > > > > make this, more experience points I gain in the name of the safety".)
-> > > > > > > 
-> > > > > > > Well, I suppose I could add a namespace for these functions - if this
-> > > > > > > approach stays - but I'd really prefer having all IIO core stuff in some
-> > > > > > > global IIO namespace and not to have dozens of fine-grained namespaces for
-> > > > > > > an IIO driver to use...
+  [GIT PULL 2/5] Renesas ARM SoC updates for v6.15
 
-...
+    - Remove the legacy CMA reservation code on R-Car Gen2, which causes
+      issues with highmem.
 
-> > > > > foo &= (~bar);
-> > > > > 
-> > > > > is _much_ faster than seeing:
-> > > > 
-> > > > Strongly disagree. One need to parse an additional pair of parentheses,
-> > > > and especially when it's a big statement inside with nested ones along
-> > > > with understanding what the heck is going on that you need them in the
-> > > > first place.
-> > > > 
-> > > > On top of that, we have a common practices in the LK project and
-> > > > with our history of communication it seems you are trying to do differently
-> > > > from time to time. Sounds like a rebellion to me :-)
-> > > 
-> > > I only rebel when I (in my opinion) have a solid reason :)
-> > > 
-> > > > > foo &= ~bar;
-> > > > > 
-> > > > > and having to google the priorities.
-> > > > 
-> > > > Again, this is something a (regular) kernel developer keeps refreshed.
-> > > > Or even wider, C-language developer.
-> > > 
-> > > Ha. As I mentioned, I've been writing C on a daily bases for almost 25
-> > > years. I wonder if you intent to say I am not a kernel/C-language developer?
-> > > Bold claim.
-> > 
-> > I'm just surprised by seeing that style from a 25y experienced C developer,
-> > that's all.
-> 
-> I am not. If something, these 25 years have taught me to understand that
-> even if something is simple and obvious to me, it may not be simple and
-> obvious to someone else. Similarly, something obvious to someone else, is
-> not obvious to me. Hence, I am very careful when telling people that:
-> 
-> >>> Again, this is something a (regular) kernel developer keeps refreshed.
-> >>> Or even wider, C-language developer.
-> 
-> I may however say that "this is something _I_ keep refreshed (as a
-> kernel/C-developer)".
+  [GIT PULL 3/5] Renesas driver updates for v6.15
 
-True.
+    - Add a driver for the System Controller on RZ/G3S, RZ/G3E, and
+      RZ/V2H.
 
-> As an example,
-> 
-> >>>> foo &= (~bar);
-> 
-> This is something _I_ find very clear and exact, with zero doubt if negation
-> is applied before &=. For _me_ the parenthesis there _help_, and for _me_
-> the parenthesis cause no confusion when reading the code.
-> 
-> I won't go and tell that I'd expect any C or kernel developer to be able to
-> fluently parse "foo &= (~bar)". (Whether I think they should is another
-> matter).
+  [GIT PULL 4/5] Renesas DT binding updates for v6.15
 
-> Oh well, let's wait and see what Jonathan thinks of these helpers in
-> general. We can continue the parenthesis discussion when we know whether the
-> code is going to stay.
+    - Document support for the Yuridenki-Shokai Kakip (based on RZ/V2H)
+      and MYIR Remi Pi (based on RZ/G2L) boards,
+    - Document support for the RZ/G3E System Controller.
 
-Sure, but it's not only about these helpers, it's about the style in general.
-Spreading unneeded characters in the code seems to me as an attempt to put
-_your_ rules over the subsytem's ones. Whatever, let's Jonathan to judge, we
-will never agree on a keep growing list of things anyway...
+  [GIT PULL 5/5] Renesas DTS updates for v6.15
 
--- 
-With Best Regards,
-Andy Shevchenko
+    - Add support for the second and third Ethernet interfaces on the Gray
+      Hawk Single development board,
+    - Add Image Signal Processor helper block (FCPVX and VSPX) support for
+      the R-Car V3U and V4M SoCs,
+    - Add Watchdog and System Controller support for the RZ/G3E SoC and
+      the RZ/G3E SMARC Carrier-II EVK development board,
+    - Add initial support for the Yuridenki-Shokai Kakip and MYIR Remi Pi
+      boards,
+    - Add support for the spare UART and PMOD serial ports on the RZ/G3S
+      SMARC Carrier II board,
+    - Add a CPU Operating Performance Points table for the RZ/G3S SoC,
+    - Add boot phase tags on R-Car Gen2/3/4 and RZ/G2 boards,
+    - Miscellaneous fixes and improvements.
 
+Thanks for pulling!
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
