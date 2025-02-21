@@ -1,45 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-13454-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13451-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 241E3A3EEED
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 09:45:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CFEA3EEEB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 09:45:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7915317F039
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 08:45:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32F113AA5EB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 08:44:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DEE61B0406;
-	Fri, 21 Feb 2025 08:45:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C102010E2;
+	Fri, 21 Feb 2025 08:44:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BC3201005
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D72201031
 	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Feb 2025 08:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740127500; cv=none; b=bTzSgZoRfrXK/GclIFt3zyuzenIpjeuA1yfB/un6zzbA5rw3SDmtNrtbjyKtEI1NNCTLMsuDNu18xxyNNKU3yh9nVAiHH6R8Mhk10EMe8q8OyommjNdoCHWoontt70bV3HHwV0YLR7sh9VY2lnEzrV6+7ZP0jGFKRXKRKDLdQjA=
+	t=1740127499; cv=none; b=Q1c6wHXiZt0ZEVf1SpXNscVqyNTiUzXq0ee05/dZS09/GyzAQtQ0Dg8/7ToTjll5+cugheez8k9jSN7TZAQJ69PmNaSNaf6BaTcI3LHJAsTqvDpkhC1wB+c4un1sJsNDgpKNAKpjeXG7g3URXhUnG8QuyZosj2mO3eFndiJ4XVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740127500; c=relaxed/simple;
-	bh=j/3PdtzWpWzBm2J9MQh8FH2EGJEGksBmZ1DN/D/ISNQ=;
+	s=arc-20240116; t=1740127499; c=relaxed/simple;
+	bh=6i83hX6VwKD3ElMxhPpSnKnbx/de5TK77AP6kfQbiqA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K8bVBxvz5X9KDsiLa5z4hsuJwWlPmmGjQBkq2Dw9h86ZqWnJ7mxmJbYkMR8q/zBvFRu4fOHJ079brmVyBMYOY4lV+kna/Mi447p+csOYc45U1wU9MSYJ8tn5ME0hO0buBTwNK38H2kX3OlXOj9l0EqNrVrGpyxXCwbEVECoXOfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+	 MIME-Version; b=pmO81lKy0wuNhcI3Hfwort4sAN7p28DNn3HiawmvlEDCSnT1VLKCxA3we4XULZStI2Cbcb46XVdH2hJlAjbcnNFM3eNyC4JiWAJ4J/aDGvvm3hDuA5tGyNHh+HfRWIG3oyc+Ff2vEiGRilUfSRlSC8TgYhcTmlIGY68XvKGtMfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:ae9a:419e:d123:9695])
-	by baptiste.telenet-ops.be with cmsmtp
-	id G8kp2E0070y8aK5018kp1P; Fri, 21 Feb 2025 09:44:50 +0100
+	by albert.telenet-ops.be with cmsmtp
+	id G8kp2E0080y8aK5068kpU7; Fri, 21 Feb 2025 09:44:50 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tlOe4-0000000BKsb-2yMc;
+	id 1tlOe4-0000000BKsd-33gP;
 	Fri, 21 Feb 2025 09:44:49 +0100
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tlOeP-0000000E5K1-0W1i;
+	id 1tlOeP-0000000E5K4-0fTB;
 	Fri, 21 Feb 2025 09:44:49 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Michael Turquette <mturquette@baylibre.com>,
@@ -50,9 +50,9 @@ To: Michael Turquette <mturquette@baylibre.com>,
 Cc: linux-renesas-soc@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/3] clk: renesas: cpg-mssr: Remove obsolete nullify check
-Date: Fri, 21 Feb 2025 09:44:45 +0100
-Message-ID: <59ef3eccde0b0b63626480f27e77d5c68948ca98.1740126560.git.geert+renesas@glider.be>
+Subject: [PATCH 2/3] clk: renesas: rzg2l: Remove unneeded nullify checks
+Date: Fri, 21 Feb 2025 09:44:46 +0100
+Message-ID: <64702c33396dde2689b44d3e326aa1727ef1557a.1740126560.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1740126560.git.geert+renesas@glider.be>
 References: <cover.1740126560.git.geert+renesas@glider.be>
@@ -64,21 +64,19 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All core clock nullify users and helpers were removed in commit
-b1dec4e78599a2ce ("clk: renesas: rcar-gen3: Disable R-Car H3 ES1.*"),
-but the CPG/MSSR driver still checks for nullified core clocks.
-Remove the obsolete check.
+RZ/G2L family clock drivers never had a need to nullify clocks.
+Remove the unneeded checks.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/clk/renesas/renesas-cpg-mssr.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/clk/renesas/rzg2l-cpg.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
-index bf85501709f03b91..da021ee446ec8120 100644
---- a/drivers/clk/renesas/renesas-cpg-mssr.c
-+++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -338,11 +338,6 @@ static void __init cpg_mssr_register_core_clk(const struct cpg_core_clk *core,
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index a6b87cc66cbba485..b91dfbfb01e31cd8 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -1116,11 +1116,6 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_clk *core,
  	WARN_DEBUG(id >= priv->num_core_clks);
  	WARN_DEBUG(PTR_ERR(priv->clks[id]) != -ENOENT);
  
@@ -89,7 +87,19 @@ index bf85501709f03b91..da021ee446ec8120 100644
 -
  	switch (core->type) {
  	case CLK_TYPE_IN:
- 		clk = of_clk_get_by_name(priv->np, core->name);
+ 		clk = of_clk_get_by_name(priv->dev->of_node, core->name);
+@@ -1355,11 +1350,6 @@ rzg2l_cpg_register_mod_clk(const struct rzg2l_mod_clk *mod,
+ 	WARN_DEBUG(mod->parent >= priv->num_core_clks + priv->num_mod_clks);
+ 	WARN_DEBUG(PTR_ERR(priv->clks[id]) != -ENOENT);
+ 
+-	if (!mod->name) {
+-		/* Skip NULLified clock */
+-		return;
+-	}
+-
+ 	parent = priv->clks[mod->parent];
+ 	if (IS_ERR(parent)) {
+ 		clk = parent;
 -- 
 2.43.0
 
