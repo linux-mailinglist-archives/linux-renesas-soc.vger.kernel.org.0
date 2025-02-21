@@ -1,244 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-13495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64348A3FE03
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 18:53:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3FCCA3FE1B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 19:03:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E75919C501C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 17:53:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B8A33A10C0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2025 18:03:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14EEA24E4AD;
-	Fri, 21 Feb 2025 17:53:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD51F1EB18F;
+	Fri, 21 Feb 2025 18:03:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LaeMKIK8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PbGEdTU8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC76C36AF5;
-	Fri, 21 Feb 2025 17:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A64B1E5702
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Feb 2025 18:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740160429; cv=none; b=gikERCAjuidneirWq18/ipIME42madpPLapQQtVc2/ghftktBunSNF57zmk8/heOMSO90Bx6jaA9hH40rIl53xQ8fUHEIwVnIYJuFr1DCzUq6PJVv06TclB01l50PgYtFsipvZMAczTklX/PeWO2ipBlXmV/9s8SdudvPcbYsZc=
+	t=1740161024; cv=none; b=u+tCQYChYh3UUy8Hw2k0f1sQccRISeejVrkNhUpw9wt1vX6z8lEHUnCfZj2bGvXu0aQyTW/UijbiQdgTD2bVyhE72eDJMNvVmGSpAbVH26SE5xWrX2+E4AKYEBCZegzon6YMS3ga4bczfF0Wk9Whnd8P3yQtUJjUVEP5g6zfM7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740160429; c=relaxed/simple;
-	bh=AhfLsUYs81ln+JUI7FebmZbguccwKwkjJcb8hxjBs0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DJPGRBHUnS7RVDzkySX6twFYlZg5bUpIsglBO0ucaY04FS+7UXTUJMRoEc930+hRQd4Kprq1ztjJ3tOny0kPJ9REiC6CYWBYWG9dmmidpvrVTezZQVMtQYKRVCvR1PiHOdWAmG+QIwfYVZ1GNnbzNSZpzWvGlufjEkvp7qXESk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LaeMKIK8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B5E7C4CED6;
-	Fri, 21 Feb 2025 17:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740160428;
-	bh=AhfLsUYs81ln+JUI7FebmZbguccwKwkjJcb8hxjBs0g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LaeMKIK8nBlO67jR2mzQXmY9bIbPr/WjudVzFsxW8OrLTP/U0nhcDI+aMXa1OXZaR
-	 LOsC1AgSUuyZtTV2jbat7aAgfjCj3/1c25PT0ggdjpVKQr3Gvwh+27Fa6q49xn6tLk
-	 76xB751Ga4lM0zBwsZ0qu0MF+yUtRtDC9WU6kwD3rScHmQuEfZUcABlCpMSlOhzo2d
-	 sqL6OUJHNmOWi8fBqQKxZLjnkHn+y44tZPNX0f/OPiX+iU426YqNAQlPZfCbbiPXvG
-	 weTca1NP9p7scbT+DalBKVodzL1VLurqpB9qmyDctdq5yYVAmUZ3IIHWWY9GHXOK0y
-	 f/xDZDBRKwKyA==
-Date: Fri, 21 Feb 2025 17:53:43 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Simon Horman <horms@kernel.org>,
-	Duy Nguyen <duy.nguyen.rh@renesas.com>, linux-can@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v2 2/7] dt-bindings: can: renesas,rcar-canfd: Document
- RZ/G3E support
-Message-ID: <20250221-childlike-deepen-8daa4513d5b5@spud>
-References: <20250220130427.217342-1-biju.das.jz@bp.renesas.com>
- <20250220130427.217342-3-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1740161024; c=relaxed/simple;
+	bh=9PGP91ysIBpXBaREyxq06GNaqe4Ltkvf4yXt9edjogQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DVQvNB8wXr5e+98cDaDmruuzdacA6yscKTfSDGSOnW+PWVB5MNtp6u29E8WWzU4fxtTBxjSL8foLd7QHUN3Zx9pXcNkzuAxNtUD+i6xKjR+suPxtXNEf7XrCuQNcxuhuMLyMF/MsucqC0mLS8BMB3FITEa3tnE/zGXQhX3D8+N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PbGEdTU8; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740161022; x=1771697022;
+  h=date:from:to:cc:subject:message-id;
+  bh=9PGP91ysIBpXBaREyxq06GNaqe4Ltkvf4yXt9edjogQ=;
+  b=PbGEdTU8UrXj77okMxOnRPbeJ0ABdx+hRZ397MrmCm0xMnSC3QzaAzn7
+   +PVeFSbBZRYc7G7v2hYU97dkw02rbLbebFT7fb6pbyRZHdlKTr0ZKlH5g
+   mpkFG4alrj85KVWFM5ZEVrTdeapk/KeGyel339dnUrhN3ymiYee37uBCA
+   C1W7JGECK/+9HNR/EXB3UKMC4ru0YfFp3oVFdDEQcDbmZzgbSTVkQLUcG
+   z0WoiCb31lW2MBtAveYh4kLAf/okBvUdq73tA72woPeKPoKvqILhPi3B5
+   sKxWr+smAZ4ECxiw9xNiGYa79aO1895qBQrNxT/4InSYYHad3Lby4z/8c
+   Q==;
+X-CSE-ConnectionGUID: NPrg3F/7SC2Re3Kwj1aO+w==
+X-CSE-MsgGUID: FbApdQRuQkaJhZFZT/oktw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="52391515"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="52391515"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 10:02:47 -0800
+X-CSE-ConnectionGUID: l2gPHqLJRMGMTv5cstm+6w==
+X-CSE-MsgGUID: qCsDjk+qRAmZ/q4Ln5aipA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="152627453"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 21 Feb 2025 10:02:47 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tlXMK-0005r5-0c;
+	Fri, 21 Feb 2025 18:02:44 +0000
+Date: Sat, 22 Feb 2025 02:02:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-pinctrl-for-v6.15] BUILD
+ SUCCESS ea4065345643f3163e812e58ed8add2c75c3ee46
+Message-ID: <202502220213.Lx3TYeUN-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cehEN5ozafK3t6/Z"
-Content-Disposition: inline
-In-Reply-To: <20250220130427.217342-3-biju.das.jz@bp.renesas.com>
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v6.15
+branch HEAD: ea4065345643f3163e812e58ed8add2c75c3ee46  pinctrl: renesas: rzg2l: Suppress binding attributes
 
---cehEN5ozafK3t6/Z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 1448m
 
-On Thu, Feb 20, 2025 at 01:04:18PM +0000, Biju Das wrote:
-> Document support for the CAN-FD Interface on the RZ/G3E (R9A09G047) SoC,
-> which supports up to six channels.
->=20
-> The CAN-FD module on RZ/G3E is very similar to the one on both R-Car V4H
-> and RZ/G2L, but differs in some hardware parameters:
->  * No external clock, but instead has ram clock.
->  * Support up to 6 channels.
->  * 20 interrupts.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * No change.
-> ---
->  .../bindings/net/can/renesas,rcar-canfd.yaml  | 67 +++++++++++++++++--
->  1 file changed, 62 insertions(+), 5 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd=
-=2Eyaml b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
-> index f87f90f431e5..189d5303ad75 100644
-> --- a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
-> +++ b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
-> @@ -42,6 +42,8 @@ properties:
->                - renesas,r9a07g054-canfd    # RZ/V2L
->            - const: renesas,rzg2l-canfd     # RZ/G2L family
-> =20
-> +      - const: renesas,r9a09g047-canfd     # RZ/G3E
-> +
->    reg:
->      maxItems: 1
-> =20
-> @@ -59,6 +61,19 @@ properties:
->            - description: CAN1 error interrupt
->            - description: CAN1 transmit interrupt
->            - description: CAN1 transmit/receive FIFO receive completion i=
-nterrupt
-> +          - description: CAN2 error interrupt
-> +          - description: CAN2 transmit interrupt
-> +          - description: CAN2 transmit/receive FIFO receive completion i=
-nterrupt
-> +          - description: CAN3 error interrupt
-> +          - description: CAN3 transmit interrupt
-> +          - description: CAN3 transmit/receive FIFO receive completion i=
-nterrupt
-> +          - description: CAN4 error interrupt
-> +          - description: CAN4 transmit interrupt
-> +          - description: CAN4 transmit/receive FIFO receive completion i=
-nterrupt
-> +          - description: CAN5 error interrupt
-> +          - description: CAN5 transmit interrupt
-> +          - description: CAN5 transmit/receive FIFO receive completion i=
-nterrupt
-> +        minItems: 8
-> =20
->    interrupt-names:
->      oneOf:
-> @@ -74,15 +89,33 @@ properties:
->            - const: ch1_err
->            - const: ch1_rec
->            - const: ch1_trx
-> +          - const: ch2_err
-> +          - const: ch2_rec
-> +          - const: ch2_trx
-> +          - const: ch3_err
-> +          - const: ch3_rec
-> +          - const: ch3_trx
-> +          - const: ch4_err
-> +          - const: ch4_rec
-> +          - const: ch4_trx
-> +          - const: ch5_err
-> +          - const: ch5_rec
-> +          - const: ch5_trx
-> +        minItems: 8
-> =20
->    clocks:
->      maxItems: 3
-> =20
->    clock-names:
-> -    items:
-> -      - const: fck
-> -      - const: canfd
-> -      - const: can_clk
-> +    oneOf:
-> +      - items:
-> +          - const: fck
-> +          - const: canfd
-> +          - const: can_clk
-> +      - items:
-> +          - const: fck
-> +          - const: ram_clk
-> +          - const: can_clk
-> =20
->    power-domains:
->      maxItems: 1
-> @@ -173,7 +206,9 @@ allOf:
->        properties:
->          compatible:
->            contains:
-> -            const: renesas,rzg2l-canfd
-> +            enum:
-> +              - renesas,r9a09g047-canfd
-> +              - renesas,rzg2l-canfd
->      then:
->        properties:
->          resets:
-> @@ -187,6 +222,19 @@ allOf:
->        required:
->          - reset-names
-> =20
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a09g047-canfd
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          maxItems: 20
-> +
-> +        interrupt-names:
-> +          maxItems: 20
+configs tested: 74
+configs skipped: 1
 
-Should these be minItems instead of maxItems? The list has 20 elements
-at the moment (right?) so you're not adding any restriction here.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> +
->    - if:
->        properties:
->          compatible:
-> @@ -219,6 +267,15 @@ allOf:
->        patternProperties:
->          "^channel[4-7]$": false
-> =20
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a09g047-canfd
-> +    then:
-> +      patternProperties:
-> +        "^channel[6-7]$": false
-> +
->  unevaluatedProperties: false
-> =20
->  examples:
-> --=20
-> 2.43.0
->=20
+tested configs:
+alpha                           allyesconfig    gcc-14.2.0
+arc                             allmodconfig    gcc-13.2.0
+arc                             allyesconfig    gcc-13.2.0
+arc                  randconfig-001-20250221    gcc-13.2.0
+arc                  randconfig-002-20250221    gcc-13.2.0
+arm                             allmodconfig    gcc-14.2.0
+arm                             allyesconfig    gcc-14.2.0
+arm                  randconfig-001-20250221    gcc-14.2.0
+arm                  randconfig-002-20250221    clang-19
+arm                  randconfig-003-20250221    gcc-14.2.0
+arm                  randconfig-004-20250221    clang-21
+arm64                           allmodconfig    clang-18
+arm64                randconfig-001-20250221    clang-15
+arm64                randconfig-002-20250221    clang-21
+arm64                randconfig-003-20250221    clang-21
+arm64                randconfig-004-20250221    gcc-14.2.0
+csky                 randconfig-001-20250221    gcc-14.2.0
+csky                 randconfig-002-20250221    gcc-14.2.0
+hexagon                         allmodconfig    clang-21
+hexagon                         allyesconfig    clang-18
+hexagon              randconfig-001-20250221    clang-21
+hexagon              randconfig-002-20250221    clang-21
+i386                            allmodconfig    gcc-12
+i386                             allnoconfig    gcc-12
+i386                            allyesconfig    gcc-12
+i386       buildonly-randconfig-001-20250221    gcc-12
+i386       buildonly-randconfig-002-20250221    gcc-12
+i386       buildonly-randconfig-003-20250221    gcc-12
+i386       buildonly-randconfig-004-20250221    gcc-12
+i386       buildonly-randconfig-005-20250221    clang-19
+i386       buildonly-randconfig-006-20250221    clang-19
+i386                               defconfig    clang-19
+loongarch            randconfig-001-20250221    gcc-14.2.0
+loongarch            randconfig-002-20250221    gcc-14.2.0
+nios2                randconfig-001-20250221    gcc-14.2.0
+nios2                randconfig-002-20250221    gcc-14.2.0
+parisc               randconfig-001-20250221    gcc-14.2.0
+parisc               randconfig-002-20250221    gcc-14.2.0
+powerpc              randconfig-001-20250221    clang-21
+powerpc              randconfig-002-20250221    clang-21
+powerpc              randconfig-003-20250221    clang-17
+powerpc64            randconfig-001-20250221    clang-21
+powerpc64            randconfig-002-20250221    clang-21
+powerpc64            randconfig-003-20250221    clang-19
+riscv                randconfig-001-20250221    clang-21
+riscv                randconfig-002-20250221    clang-21
+s390                            allmodconfig    clang-19
+s390                            allyesconfig    gcc-14.2.0
+s390                 randconfig-001-20250221    gcc-14.2.0
+s390                 randconfig-002-20250221    gcc-14.2.0
+sh                              allmodconfig    gcc-14.2.0
+sh                              allyesconfig    gcc-14.2.0
+sh                   randconfig-001-20250221    gcc-14.2.0
+sh                   randconfig-002-20250221    gcc-14.2.0
+sparc                           allmodconfig    gcc-14.2.0
+sparc                randconfig-001-20250221    gcc-14.2.0
+sparc                randconfig-002-20250221    gcc-14.2.0
+sparc64              randconfig-001-20250221    gcc-14.2.0
+sparc64              randconfig-002-20250221    gcc-14.2.0
+um                              allmodconfig    clang-21
+um                              allyesconfig    gcc-12
+um                   randconfig-001-20250221    gcc-12
+um                   randconfig-002-20250221    gcc-12
+x86_64                           allnoconfig    clang-19
+x86_64                          allyesconfig    clang-19
+x86_64     buildonly-randconfig-001-20250221    gcc-12
+x86_64     buildonly-randconfig-002-20250221    clang-19
+x86_64     buildonly-randconfig-003-20250221    clang-19
+x86_64     buildonly-randconfig-004-20250221    clang-19
+x86_64     buildonly-randconfig-005-20250221    clang-19
+x86_64     buildonly-randconfig-006-20250221    clang-19
+x86_64                             defconfig    gcc-11
+xtensa               randconfig-001-20250221    gcc-14.2.0
+xtensa               randconfig-002-20250221    gcc-14.2.0
 
---cehEN5ozafK3t6/Z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ7i9pwAKCRB4tDGHoIJi
-0vbwAQClFPXZwni1ExsohSXdUXRb/iDkix2olv0zaC6TuTqTtgD/Rjt7hKzBAEAJ
-tBj2+gW11qB7pkfw7ZTcW4LNJHnHQAw=
-=fVJj
------END PGP SIGNATURE-----
-
---cehEN5ozafK3t6/Z--
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
