@@ -1,114 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-13513-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38FCA406EA
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2025 10:31:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6D9A408EA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2025 15:20:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A00BE425935
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2025 09:31:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 517394244C5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2025 14:19:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB8D6207679;
-	Sat, 22 Feb 2025 09:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="eoR+hgdD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4E0F1448F2;
+	Sat, 22 Feb 2025 14:19:20 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B8C2063F4
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 22 Feb 2025 09:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59D02156F41;
+	Sat, 22 Feb 2025 14:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740216655; cv=none; b=TUTawUu5PUOXxeGLESOYR3yHE19cx0MeJnyBrT6T/LiIHSRuXdjscTYsPJpEfHaJp4rMQuxgaWozY07Mtky0aB4CwbKOEGhBH8L8itB9+2kvW6oetHjECLujnoS4ezHGjimmPLt6PFNOojhWnKpUfjjKAC7NCOFNMGdCGSVjUMs=
+	t=1740233960; cv=none; b=Ui73iNp00JvP5+MlxWAjhzpzVWs1dyfaJxc261cxrgCG2DIzUQ0CqrEaCQd6YVPB+3qkTKtT/QJhYkHqvmYgvavRZWU0LsoQ/LqOEKodBJZmQepkvTUwk7ssrBl2dLrDpDi/3My+I6Y9MWGP1T16XmQgVjwcBimoK4C16y2R+KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740216655; c=relaxed/simple;
-	bh=YEOVvgmg7FxOvmZafWS72ZewGgi0VB1w/eqX5SfWyn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iKCF9WK5GNwnyyCpoqKVcOmpckgJxaFCyCaKaPQz7JMeLDh9rKiKv3AIWwkTGn4GjtgIJd/A7MKnMZHwmjq8bT5ymBJbwt/u/Dpd6RlfZoqWPYZCfRcbYs/j63DPwGGxKeixQ4s2wOAijR59ehB1y/aytjxgOTYPLFSElTTLmr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=eoR+hgdD; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=gwvH
-	R2pWT+FEQ338AH8GO4XbPqa1gdPGQfyRRNgfKy8=; b=eoR+hgdDrmxsFOnAZasD
-	YbaD8lYfrfItqfoeQfuyVjnQRwMt8HfvkD7q7TAI2W83FKcC/GdSXIGULUw+D9X0
-	mQUxR+fZBB6Tqwyj58VEIqmDN6Fp5OU1lp3oNzAJl7a9v81ccou4ZsUqsgIgARO/
-	Om+cNnutkEXcRfh7uwQQjlcVorwuiXdCakUq6ZAJ6lpl9uGnLsagciFfsLhQilYP
-	FbF/+ei9Co4T4mCxSY1B8Ucn0oRA89p9hIbl7uD1gCKkXgj6roEB1KaDahm+awHH
-	TiaX5cRUZx5M386kg65W7e0wzGFDSUtc3Tf6DfVnhtUXs6JFmP2MGrf5jgND8k0l
-	Lg==
-Received: (qmail 1532662 invoked from network); 22 Feb 2025 10:30:41 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Feb 2025 10:30:41 +0100
-X-UD-Smtp-Session: l3s3148p1@AeG9wrcualltKPLt
-Date: Sat, 22 Feb 2025 10:30:41 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Su Hui <suhui@nfschina.com>, linux-i2c@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] i2c: core: Allocate temporary client dynamically
-Message-ID: <Z7mZQRQhis-DHRFP@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Su Hui <suhui@nfschina.com>, linux-i2c@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <f9aa39362e918b62aec0567f899b37d8d3c44710.1740064176.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1740233960; c=relaxed/simple;
+	bh=UVCdIVJsnFhC5EPAk8rsCE0RK3FZZWu5YtUXp0PdQJM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bXSUOwGzJJBgZMbaJF6dl+tFRMa/I6LNYZwnElohWWcbC9xlK1SHm39JdounmRKflaVLSp1N0R/+KXbaNsuNx54vt5uM5jH4z53idwKKAEa+xvTdaheQ19Xn121PYfEmtHJXVdOhLCI1PU5BQibkvjxuxYJW0PscfW/LXS6r6lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: DXNgfJc4QGmu7yR6mhgowg==
+X-CSE-MsgGUID: xrE1GFjsSxeJp86URmNjKg==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 22 Feb 2025 23:19:08 +0900
+Received: from localhost.localdomain (unknown [10.226.92.41])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8ED55436E6E8;
+	Sat, 22 Feb 2025 23:19:06 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH] clk: renesas: rzv2h: Adjust for CPG_BUS_m_MSTOP starting from m = 1
+Date: Sat, 22 Feb 2025 14:17:01 +0000
+Message-ID: <20250222141903.41262-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZHZrXgIteYPz54AL"
-Content-Disposition: inline
-In-Reply-To: <f9aa39362e918b62aec0567f899b37d8d3c44710.1740064176.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 
+Avoid using the "- 1" for finding mstop_index in all functions accessing
+priv->mstop_count, by adjusting its pointer in rzv2h_cpg_probe().
 
---ZHZrXgIteYPz54AL
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+While at it, drop the intermediate local variable 'index'.
 
-On Thu, Feb 20, 2025 at 04:12:12PM +0100, Geert Uytterhoeven wrote:
-> drivers/i2c/i2c-core-base.c: In function =E2=80=98i2c_detect.isra=E2=80=
-=99:
-> drivers/i2c/i2c-core-base.c:2544:1: warning: the frame size of 1312 bytes=
- is larger than 1024 bytes [-Wframe-larger-than=3D]
->  2544 | }
->       | ^
->=20
-> Fix this by allocating the temporary client structure dynamically, as it
-> is a rather large structure (1216 bytes, depending on kernel config).
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Closes: https://lore.kernel.org/all/CAMuHMdX1gPNCFddg_DyK7Bv0BeFLOLi=5eteT_HhMH=Ph2wVvA@mail.gmail.com/
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/clk/renesas/rzv2h-cpg.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-As Arnd mentioned, this is basically a revert of 735668f8e5c9.
-Applied to for-current, thanks!
+diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
+index 419dc8cd2766..2b9771ab2b3f 100644
+--- a/drivers/clk/renesas/rzv2h-cpg.c
++++ b/drivers/clk/renesas/rzv2h-cpg.c
+@@ -447,8 +447,7 @@ static void rzv2h_mod_clock_mstop_enable(struct rzv2h_cpg_priv *priv,
+ {
+ 	unsigned long mstop_mask = FIELD_GET(BUS_MSTOP_BITS_MASK, mstop_data);
+ 	u16 mstop_index = FIELD_GET(BUS_MSTOP_IDX_MASK, mstop_data);
+-	unsigned int index = (mstop_index - 1) * 16;
+-	atomic_t *mstop = &priv->mstop_count[index];
++	atomic_t *mstop = &priv->mstop_count[mstop_index * 16];
+ 	unsigned long flags;
+ 	unsigned int i;
+ 	u32 val = 0;
+@@ -469,8 +468,7 @@ static void rzv2h_mod_clock_mstop_disable(struct rzv2h_cpg_priv *priv,
+ {
+ 	unsigned long mstop_mask = FIELD_GET(BUS_MSTOP_BITS_MASK, mstop_data);
+ 	u16 mstop_index = FIELD_GET(BUS_MSTOP_IDX_MASK, mstop_data);
+-	unsigned int index = (mstop_index - 1) * 16;
+-	atomic_t *mstop = &priv->mstop_count[index];
++	atomic_t *mstop = &priv->mstop_count[mstop_index * 16];
+ 	unsigned long flags;
+ 	unsigned int i;
+ 	u32 val = 0;
+@@ -630,8 +628,7 @@ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
+ 	} else if (clock->mstop_data != BUS_MSTOP_NONE && mod->critical) {
+ 		unsigned long mstop_mask = FIELD_GET(BUS_MSTOP_BITS_MASK, clock->mstop_data);
+ 		u16 mstop_index = FIELD_GET(BUS_MSTOP_IDX_MASK, clock->mstop_data);
+-		unsigned int index = (mstop_index - 1) * 16;
+-		atomic_t *mstop = &priv->mstop_count[index];
++		atomic_t *mstop = &priv->mstop_count[mstop_index * 16];
+ 		unsigned long flags;
+ 		unsigned int i;
+ 		u32 val = 0;
+@@ -926,6 +923,9 @@ static int __init rzv2h_cpg_probe(struct platform_device *pdev)
+ 	if (!priv->mstop_count)
+ 		return -ENOMEM;
+ 
++	/* Adjust for CPG_BUS_m_MSTOP starting from m = 1 */
++	priv->mstop_count -= 16;
++
+ 	priv->resets = devm_kmemdup(dev, info->resets, sizeof(*info->resets) *
+ 				    info->num_resets, GFP_KERNEL);
+ 	if (!priv->resets)
+-- 
+2.43.0
 
-
---ZHZrXgIteYPz54AL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAme5mT0ACgkQFA3kzBSg
-KbaGeA/9EzW9yZgoVWRbjzsIqng4h3fukQzyBUnluiM+YzmOy0i0OJAjZaoE//zp
-NESGZlGIrG7UjTT+FV0GKfCQIOdxx5Tn/fsBIvBeCf0C1JDS2F3EDwdG1/OMGZP8
-U0bSIfcE7RPagY/PXQgOCTAhhn2Jq5rZ1EjAgv47jCz0kzhctBu0QhclV0MvULVV
-New4PLP/CcgslnZXHSbdL8vQNvb6QaDD2RkUrET5FVk1iSCbOiPGzKMTG7+pFxPQ
-n+l1mAHwKqxi5eqBnmZp8873FINQE57jHl+pmBp/Kldf1XGNb5fleCyvB+W7Fea7
-CvdtbaCTsJ9unJRTdTS5MS+3DFYLToO+SahMEhnml55PGTrS5GFT804S/abeieei
-TOMa4eI8iC2Uqso0x9eZaWohKVqpdKQK26lK1bDFRbbB4URz2KWrDBA4pN3q0U5g
-s7KPQftTsU4F8+zUz8LMOhvD7biJZplSTyWXt52BULJJYLNt2KBxtx1IGje309jX
-PQtVvdljbqraqGvuUBPvhBUsMCaM3Uzb1+KoSaAK8V/0xpkrx1eBQ7SRDSxu0bHd
-7wi75h6HXeFnaJUnjh5SFNt7AJPnvw1y7LBg7FuqbBrZQ/umdOlEi+SfxnsXvovc
-ggn8i6yFwtz+HZEnh8IalNWnNX2BG3Apjb8lEMEuUZuM48hgTTQ=
-=96CV
------END PGP SIGNATURE-----
-
---ZHZrXgIteYPz54AL--
 
