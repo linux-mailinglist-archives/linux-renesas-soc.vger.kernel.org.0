@@ -1,105 +1,204 @@
-Return-Path: <linux-renesas-soc+bounces-13523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13524-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDEFA40FBD
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Feb 2025 17:30:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0EA4A410A9
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Feb 2025 19:09:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F79B174C46
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Feb 2025 16:30:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B64211700E3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Feb 2025 18:09:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1637D77104;
-	Sun, 23 Feb 2025 16:30:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C826D13E898;
+	Sun, 23 Feb 2025 18:09:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SW7/guI7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bjgz+UQ3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6793EEA8;
-	Sun, 23 Feb 2025 16:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B603A8F7;
+	Sun, 23 Feb 2025 18:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740328236; cv=none; b=n3Sv7Eumzbv0dyFEbc27werQamUVeJkJiZbPO0vCUHBXuWABwPUhWlHGa+GixkdzE9CRgXDwuILzyJmXAGnjYKnbQb7oDSDFEvQE16pQiU7t/8bkheh1yyI9J/eHmizRfSu3vQJPDL5tzJl+gKaR95PLJd4zDKwl0/DZu8hwBpk=
+	t=1740334155; cv=none; b=UHv84ffB2INpFx8fsjAdK0PxiKnQs8feM3+tUC6r4oRTQ2gOfnYAI93jMqt8eR2pVkb7afifEU032v1g8tw4T1P5IQ5Go3DoOwsPvKxYfZqF3yySaZapQmpf6ILPt9NTT162HZoFCR5c4d9mtOfolZ/vAAjZJ9eTizbDkeY0tRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740328236; c=relaxed/simple;
-	bh=QfKdiEk49aDWt010gngXbc3vJUxTK0YB03j5djAbuSM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nlqv7LgwCj8zMgssetHyffn7XpzQmEoqSuRy8YsiML7j9hZNtlr6yHy1sjv3WJk0JQbzAyPEJQ3CvevAhMV5fW4P7BOy8Q2a3F8gOs5cdUrl8z3SDylfwY/0v9g84hQG8l18HUjbXYbNTqykGwV4+94gDU80+Yyq+ok7J+AY/0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SW7/guI7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D82E5C4CEDD;
-	Sun, 23 Feb 2025 16:30:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740328235;
-	bh=QfKdiEk49aDWt010gngXbc3vJUxTK0YB03j5djAbuSM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=SW7/guI7iN1/8drBB39h5FaVJkqRojBn31+ZtOaZr/aaBcQue6cIy5785HZ3oXljI
-	 LlOBYYxYWKHKcJWFJdxoV3zXYKpE0BLR8pTvle0s8Ja5wcFDTffbOAoHN6L5d7Rw+9
-	 tqADmqonQH4E9OrvZhopW7RHnGAfOAMS0eoLk11Ofps6vd0nyRaWzA1M95vScL8NMV
-	 vFgfnLj5JyEn2y+1mSDcxfSoEFbrVrAumZlqbQzYbURtpuiK/h71NvTqXe8PFG7gcg
-	 sAxp72j1ftLeBSd+AZBa+NZ6AiqjX43hcWKBlATuc5AJocQ+atufejV26yCkg1sv90
-	 LEF5z7wRlxjeA==
-Date: Sun, 23 Feb 2025 16:30:18 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa
- <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>, Javier
- Carrasco <javier.carrasco.cruz@gmail.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 6/9] iio: adc: rzg2l_adc: Use adc-helpers
-Message-ID: <20250223163018.2c0290e8@jic23-huawei>
-In-Reply-To: <25c5d22f6f0cbd1355eee2e9d9103c3ee71cebdc.1739967040.git.mazziesaccount@gmail.com>
-References: <cover.1739967040.git.mazziesaccount@gmail.com>
-	<25c5d22f6f0cbd1355eee2e9d9103c3ee71cebdc.1739967040.git.mazziesaccount@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1740334155; c=relaxed/simple;
+	bh=8If/he3/Ufb6GzxJlC5qz9jCuFjwtlLMYqI6GW25NbY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ci5ij13q1LlTO65W3kxKpJHKoPArPjdxSH5v07djSbWXcxvGWet9x22x0GdPG1KmjM0oZnhkakTVR2hr/FPCPO38+1B8THuM49F4ePrluWjUSNcaPRdi8/D0YmUo7aPWO90EeOZbEgi2ZSEi0c1qgRfP9EntZWwME+sht4jjQpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bjgz+UQ3; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9692A496;
+	Sun, 23 Feb 2025 19:07:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740334066;
+	bh=8If/he3/Ufb6GzxJlC5qz9jCuFjwtlLMYqI6GW25NbY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bjgz+UQ3nJWuDXXgPd1/MRjVDFRw/W8WNEIcvAZXX5Flkac5RP/C/KqIn/keWllIA
+	 RnS0trk+8BJp623yWJQWB+HRjZ7sYbHD/1DHajRmQo1iSlSDcSvTKCmVMtCt45XjOM
+	 N/T5bq9N32lNSuXpDa03FhKUhYRC+32x7+oHF9Co=
+Date: Sun, 23 Feb 2025 20:08:55 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+	linux-media@vger.kernel.org, biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/18] media: dt-bindings: renesas,rzg2l-csi2:
+ Document Renesas RZ/V2H(P) SoC
+Message-ID: <20250223180855.GD15078@pendragon.ideasonboard.com>
+References: <20250221155532.576759-1-tommaso.merciai.xr@bp.renesas.com>
+ <20250221155532.576759-2-tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250221155532.576759-2-tommaso.merciai.xr@bp.renesas.com>
 
-On Wed, 19 Feb 2025 14:31:38 +0200
-Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+Hi Tommaso,
 
-> The new devm_iio_adc_device_alloc_chaninfo() -helper is intended to help
-> drivers avoid open-coding the for_each_node -loop for getting the
-> channel IDs. The helper provides standard way to detect the ADC channel
-> nodes (by the node name), and a standard way to convert the "reg",
-> "diff-channels", "single-channel" and the "common-mode-channel" to
-> channel identification numbers used in the struct iio_chan_spec.
-> Furthermore, the helper checks the ID is in range of 0 ... num-channels.
+Thank you for the patch.
+
+On Fri, Feb 21, 2025 at 04:55:15PM +0100, Tommaso Merciai wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> The original driver treated all found child nodes as channel nodes. The
-> new helper requires channel nodes to be named channel[@N]. This should
-> help avoid problems with devices which may contain also other but ADC
-> child nodes. Quick grep from arch/* with the rzg2l_adc's compatible
-> string didn't reveal any in-tree .dts with channel nodes named
-> othervice. Also, same grep shows all the .dts seem to have channel IDs
-> between 0..num of channels.
+> The MIPI CSI-2 block on the Renesas RZ/V2H(P) SoC is similar to the one
+> found on the Renesas RZ/G2L SoC, with the following differences:
+> - A different D-PHY
+> - Additional registers for the MIPI CSI-2 link
+> - Only two clocks
 > 
-> Use the new helper.
+> Add a new compatible string, `renesas,r9a09g057-csi2`, for the RZ/V2H(P)
+> SoC.
 > 
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> ---
+> Changes since v1:
+>  - Dropped empty line as suggested by LPinchart
+>  - Fixed minItems into else conditional block as suggested by RHerring
+> 
+>  .../bindings/media/renesas,rzg2l-csi2.yaml    | 59 ++++++++++++++-----
+>  1 file changed, 44 insertions(+), 15 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> index 7faa12fecd5b..1d7784e8af16 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> @@ -17,12 +17,14 @@ description:
+>  
+>  properties:
+>    compatible:
+> -    items:
+> -      - enum:
+> -          - renesas,r9a07g043-csi2       # RZ/G2UL
+> -          - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+> -          - renesas,r9a07g054-csi2       # RZ/V2L
+> -      - const: renesas,rzg2l-csi2
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a07g043-csi2 # RZ/G2UL
+> +              - renesas,r9a07g044-csi2 # RZ/G2{L,LC}
+> +              - renesas,r9a07g054-csi2 # RZ/V2L
+> +          - const: renesas,rzg2l-csi2
+> +      - const: renesas,r9a09g057-csi2 # RZ/V2H(P)
+>  
+>    reg:
+>      maxItems: 1
+> @@ -31,16 +33,24 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> -    items:
+> -      - description: Internal clock for connecting CRU and MIPI
+> -      - description: CRU Main clock
+> -      - description: CRU Register access clock
+> +    oneOf:
+> +      - items:
+> +          - description: Internal clock for connecting CRU and MIPI
+> +          - description: CRU Main clock
+> +          - description: CRU Register access clock
+> +      - items:
+> +          - description: CRU Main clock
+> +          - description: CRU Register access clock
+>  
+>    clock-names:
+> -    items:
+> -      - const: system
+> -      - const: video
+> -      - const: apb
+> +    oneOf:
+> +      - items:
+> +          - const: system
+> +          - const: video
+> +          - const: apb
+> +      - items:
+> +          - const: video
+> +          - const: apb
+>  
+>    power-domains:
+>      maxItems: 1
+> @@ -48,7 +58,7 @@ properties:
+>    resets:
+>      items:
+>        - description: CRU_PRESETN reset terminal
+> -      - description: CRU_CMN_RSTB reset terminal
+> +      - description: CRU_CMN_RSTB reset terminal or D-PHY reset
 
-I should have read on.  Definitely more convincing with these usecases.
-however drag them to start of series.  Better to add infrastructure
-so some use and then on to your new driver.
+I'd mention which SoCs these apply to:
 
-Looks good to me.
+      - description:
+          CRU_CMN_RSTB reset terminal (all but RZ/V2H) or D-PHY reset (RZ/V2H)
 
-Jonathan
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
+>  
+>    reset-names:
+>      items:
+> @@ -101,6 +111,25 @@ required:
+>    - reset-names
+>    - ports
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a09g057-csi2
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 2
+> +        clock-names:
+> +          maxItems: 2
+> +    else:
+> +      properties:
+> +        clocks:
+> +          minItems: 3
+> +        clock-names:
+> +          minItems: 3
+> +
+>  additionalProperties: false
+>  
+>  examples:
+
+-- 
+Regards,
+
+Laurent Pinchart
 
