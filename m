@@ -1,424 +1,310 @@
-Return-Path: <linux-renesas-soc+bounces-13546-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13547-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A512CA41537
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2025 07:14:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6891FA416E8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2025 09:07:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C6E73AED62
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2025 06:14:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5173E16FFFC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2025 08:07:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A1D31C8608;
-	Mon, 24 Feb 2025 06:14:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4816524060C;
+	Mon, 24 Feb 2025 08:07:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LDDKzqcC"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="JwQ0+1Ve"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011067.outbound.protection.outlook.com [40.107.74.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273A21C84A6;
-	Mon, 24 Feb 2025 06:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740377671; cv=none; b=ug4ToMltExQLFVhLvTOzpDqmvDETl/zV5FZTbMNHVbqw36dWo7JebjMqdzD/BTz7sRZ+WLwnp60u8LOkVUsKU/pTvVhtuOuPzVWfDImpZ8X62LODeRwpYZ64+OaVx61tSuzoZ/UTsjYyEMjKfwc/Xr5KVT2jyKjSOuLZcC6TGc4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740377671; c=relaxed/simple;
-	bh=z/+pBy5i56eYqVj5wXJDut4aMv6hSqnkB+BARdoJFPk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GaMVtYjIuAo5bOuuz5E5pMnPj/COzrItDB68T+mlzzIiQAuf9+GC2V4LlXoxPgwV7dXsGScsrFKI9n7+VXbt5tKV8eUW3bnJn0TDziEaj8TfR593ufZ+8CTPI2GFV0JHPKaLxFQJxJeE5Eq02GcXiGyjOOE/YvOv9KkYWk37B6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LDDKzqcC; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30738a717ffso30696821fa.0;
-        Sun, 23 Feb 2025 22:14:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740377667; x=1740982467; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D2/AhRT8DSfW/iFYbzjPys2wAflxjAkPB3hNCVPgcpU=;
-        b=LDDKzqcCUxku3gGi/9IcZXKsms5Fbq3p94/ewTkrONkDCjKyWCSTiRQYWWtyny3BNl
-         QDTuA5iMgQG7QlLc2y4Q12ju+dKhaOV5J7nugNkcrhT1s6uj2iwJ9BbKLu3hoccvp1rw
-         9LEv8ARKQYThp9oEqezHastc8fE9sGoLga6maiuvdiNYv1Q69NFtIdsMACyTKGAPJWmN
-         bAmQsEhgV9CzRtnKzg3Lq02Nc24DlwFdzIsbTBlwyo8RNwAJLcqflC+I8FEXhaF9vl2e
-         AnTtCxd/Gq8BqWHHWtfx9Lgw0nn1rk2kqBG5PXQqk/Mbp2vUZPb1GSiRpx4VAiVn4ajZ
-         JPQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740377667; x=1740982467;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D2/AhRT8DSfW/iFYbzjPys2wAflxjAkPB3hNCVPgcpU=;
-        b=KbDKorLvp0kAk6nyOGDaoOFzS8ivpv28Rwaloc3J2d60/fF0jINx9aYp/mnzMpZh5a
-         I2LOQCCfI2uCdMbUK/a6FQzI2Fi1KAIiuAgU1VVcCjv8OnnMV2Ie5EqIjE34vlRQFegd
-         e9Cf6NGB8KhCSQCutGXpEdy3hZJJo6vy47Zn2Qdp1nN9TJKdesMsd0QsbjeIfv0sWW0B
-         PFONPrGP/PavYsEqfZlhUWmVnEd/iRRFl8rNEKb8BGnkzRwjkLQDg3QD089UH6lZoZo/
-         yKdCtJR0U2VyTTVJGKIIXT1o18e+bDmwDoW6LTuf3En8b/hM246XAxq5nu/fgKLF7wCf
-         XiYA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/pbEFx9CUpDud22ZZ2JSOQSOdwsK/eirQOaTTOP/zEy/wdKg8KF/iiLmqhOnOERLFN0nc3ORetuo7yAEs@vger.kernel.org, AJvYcCWPwtXdDxuVYyHpiE4+DoLDm2dMaDPEexcULHSf7YwOg2Z/7mXxSLdikDdDn/wpUoy8AD+whC8L+nKWzpcCBUIgH1E=@vger.kernel.org, AJvYcCWpa/9oiwQD3ScvOoFMgOZIczpH/x/MFwCZ5HUxBDYJDAZApjQnXTQOpdOeq0DZKL7ha0fJfVS3Feo9@vger.kernel.org, AJvYcCWtNYjKogV2d3f7vPeMnJ047eCzuRNGJIgq7U9+J/NhJnqf+wWTeh5OAZCHSlTGMyvEpIYHzXqvGJub@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwUz32bRoQYlnwu162sUdAluZihjZrQlHaXtin2JqogPU2oqa6
-	OzydWXe2MB79+itfAWW+pL6SyRtFsJW09Ot6cztRBvP1XrSUan1x
-X-Gm-Gg: ASbGnctu674I+Kby/OiB6svAYcOv6u34mkJuN+8KxtmME8WLBXhZyMKH0m+f9spQ1kD
-	LoOhXLa2Z1+2/OLwykn3yWhUCu6Ro3V3jGcD52V+eh/4mBwDnym9dDNM1EzO7685RNoqRN6Gtn/
-	zKANI76iNbWdWoYviHxSeMMjQ1SizzLhQL2LcQuZOZwvCtjtvAw7/fy6CGbQgmKXf1UGFqq/eay
-	SXNzuLgIHtc6mvdlUUIU6VKIFsEPUMSjckG2KcpecpiNrE5+d/jHEOOLqd8hXAODOJ77MIRy141
-	QhrOO28CCCN9hd6tJSRLXzf15Nq0BTSv/xyYhq7INwtJSb7yEU5xTaCSM1uIIkyjOzNsmAd220g
-	cT7Cqorg=
-X-Google-Smtp-Source: AGHT+IE1bH5ugP5EuU0A9TbSNJydsntvckZB+spkMOEnBoSmkrWPCYe7ceeqNv2veChVyIT0h6M1mw==
-X-Received: by 2002:a05:6512:3b06:b0:545:2e85:c152 with SMTP id 2adb3069b0e04-54838f4c9d8mr5459799e87.34.1740377666817;
-        Sun, 23 Feb 2025 22:14:26 -0800 (PST)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5452e4b08dasm2904602e87.87.2025.02.23.22.14.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Feb 2025 22:14:26 -0800 (PST)
-Message-ID: <125ab96e-1e92-4022-95fe-324cd47ce1d9@gmail.com>
-Date: Mon, 24 Feb 2025 08:14:23 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468F619B5A3;
+	Mon, 24 Feb 2025 08:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740384448; cv=fail; b=rNO5D/RxbXqzOtu+OOuOfYEYKQ7IiloK6vhOUvHbaRNKB9elnvY5eabn+OPyqPIGitRNbIBgwjQRN7NcO+WsgSN50uyJQ1Vt6wNpCtCT7YGt6TulNovdiYqc2S0crbxaXVi3HZ9DUQP05pK0Rb7Y858fC8sxLMlifQTPvkj+oYY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740384448; c=relaxed/simple;
+	bh=XBC3X2F8uXgnO24wqvNe9eAW63aTAn04rAKaiVRUL2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ewJfPjXFxXyLYUOSjccFaD6UDoWKJzr4o0EJEy0Pxlbc4TRVOxqo2lXxmcSSymK1PRywk1WBIQcKiOUpd/FHYOpmljawmi7L+sZdIVNf+rG3mXbfSvAFIZgRbmvEBWy92Ie/38vYcKnmmSd1BEp3kL5n4ar7kurE4Sqq0x6akLg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=JwQ0+1Ve; arc=fail smtp.client-ip=40.107.74.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kiMF4Dm2LIXSGnKvXMZhV09M5+CwTjjvzfbH+ALZXDlMtvT85LqJ9JXSkJaL+f9rfgRrlN+x9io8vXZ0DdtQ2qIDtKW1gt4nrdBkt80tAou9iCKJvzn6uLus/RVqCAq2AP1t8SulNsNPEXCdVIifuXQ88ZMRmdiDNcFEVsYyQLwH2cum5qXR3qhzVue1Fqs8I1swiVqlFJMsdPbzSd4dnB+Bz+9h95omiDfjjraBRBi2C0ZCRGmI5RkraXEQhZeRCPhyLVOm6ZNW1lu3z1nYkCeAUL9ZM+KgMBRSCeWWgU6vqP1fuwPesnd4vq0MalQOUNL6jrYmmtOSRbMno3c+aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GVKwAxIjWjxUi3p4WZOtPJVpI5+a2zwZWcG0tfMt+Gc=;
+ b=v9NTJVT/MLSaKwDkkb+/9o0MQ4xr9wv8mxWIEyYMDoNDmWGDy2pLdzFxlw+XbYegBN3Buj6oJlbMX7gxPUbj145Qiqh6n+eY4rsRAPaUSbSszJXAIyCmSKAndxbUWGFrHfhvCaGcsI/hMQWOvLI+2UVTbDBBDecsE3kD987GhjSsPbmkVV/NZ1miSI1UKcqol8NhRpFNIcjx2PdJUyO4V9ZA55md/plmZv4JzRco6Z24o2qFLerFeFsnp8VrzTTB/FdLkRb1ndpSEbfO5e2b8oJ+AWv1C+Xs9HKWfmuhJ8tB6aPhKQbZiA37oxfuYOPO2y3d6LuO43uHTNlvLA3Lkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GVKwAxIjWjxUi3p4WZOtPJVpI5+a2zwZWcG0tfMt+Gc=;
+ b=JwQ0+1Ve0xHTAam6NKt3qQ552ravYhcGK5EHILq2cLJAlCc+rf5c6yxlpYmxl3qHQhY3RVpPZ56G5mup4Te3m8If0upNcE7hNVV6JO6u0FdoxZz/5SD/3HQIfQtUGbcnryChtI51VAQnCkXaUSZCHW3yK5x8SUOQXX2G35FCgL8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
+ by TY3PR01MB10957.jpnprd01.prod.outlook.com (2603:1096:400:3ad::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.20; Mon, 24 Feb
+ 2025 08:07:20 +0000
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3%5]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
+ 08:07:19 +0000
+Date: Mon, 24 Feb 2025 09:07:04 +0100
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+	linux-media@vger.kernel.org, biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/18] media: dt-bindings: renesas,rzg2l-csi2:
+ Document Renesas RZ/V2H(P) SoC
+Message-ID: <Z7woqD7DlVEz3vTj@tom-desktop>
+References: <20250221155532.576759-1-tommaso.merciai.xr@bp.renesas.com>
+ <20250221155532.576759-2-tommaso.merciai.xr@bp.renesas.com>
+ <20250223180855.GD15078@pendragon.ideasonboard.com>
+ <CA+V-a8vfipunwOoe0=dfP6XMjQUW2OrpqBsy+j_ZVu1AAc55WA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+V-a8vfipunwOoe0=dfP6XMjQUW2OrpqBsy+j_ZVu1AAc55WA@mail.gmail.com>
+X-ClientProxiedBy: FR0P281CA0172.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b4::14) To OS9PR01MB13950.jpnprd01.prod.outlook.com
+ (2603:1096:604:35e::5)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/9] iio: adc: Support ROHM BD79124 ADC
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Linus Walleij <linus.walleij@linaro.org>
-References: <cover.1739967040.git.mazziesaccount@gmail.com>
- <67b7713724d7591f6321a8f5dfef8cd711f38d34.1739967040.git.mazziesaccount@gmail.com>
- <20250223162807.41960b6b@jic23-huawei>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250223162807.41960b6b@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|TY3PR01MB10957:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0da8e3eb-ecf1-41f2-3019-08dd54aa42af
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|52116014|1800799024|376014|7416014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?RC9HaFlDT2dXY2RSUUo1ZjN0ZHlqSVY2bjYvdFJUQm5iYjNmdjh5YzJnSjBW?=
+ =?utf-8?B?RUEvbEN5YkJLclZaTGdJTUJUMElxdGxtdTZ6NDBlVXozTnRjeURlU09BVFVn?=
+ =?utf-8?B?bVJDZkRsdFpYdU9SQTVQcGdHNHZTNHlMMEFaeGdGdmR3WmdpNjR4WVJLelR5?=
+ =?utf-8?B?SGVxbmdCYll5UzMrVzZ2ZWxMM2ZJZGZiMnNPd2NQMFdVdVd4VERmbkNUOUVr?=
+ =?utf-8?B?WDJHVGFXZFpEam9QcjZRMzZnRE0zeTF0N3c0TWN3ckRRSlpLZkwycXhQaEN6?=
+ =?utf-8?B?WW4wUlRYc0ZoeXhhSVNZSTBaWllqQnpXOEYydkRWcWkraXVQSjhRbzdhNkZL?=
+ =?utf-8?B?SjlXSjdkMGIyTlRpOUNuYUxyZkxtOGhxZ1U0ZjVEcURNSElDazlrNzNsRnV5?=
+ =?utf-8?B?UEp6blhEdUI1WlhaODVhMGs1TEFNNzFhWEgxTXF6MXpUTnRHMzFxbEpkSHJl?=
+ =?utf-8?B?bEtONHJFWlRhL0dqc1VrU2F5UVh0bHVQWklrVDlTeUtZOUpmczBENzU5U3FZ?=
+ =?utf-8?B?YVF5elpxWHVyWDhoTUljM043MUhJTFY3b0NzWHhpbHRWSzFETmRCYS9FaUdO?=
+ =?utf-8?B?YVlwUlNVbEdSQTYxVkJBazhnYzRJMXp5dUJ0ZVhTOUxRT29Jck1tMk4yRGVD?=
+ =?utf-8?B?S2QyY2haelRsdmJidERJUS9GbEtHRWYySFh3dlVrODZtNmp6Nk5XcXluNERN?=
+ =?utf-8?B?RkRQUUpHVXNsWXh1M3BCS3pnY1BqVWNxZHJ1QVc3V1J4dUdyb3gybkJJeWdK?=
+ =?utf-8?B?WnRybmh4UW9OUHVDK28zb29kWVZ6WEdRTStTR3plaUhqVjIrZDdNSEtIT1FV?=
+ =?utf-8?B?TExVbktWWG1KU2cySDV3a2JWWCtLb3Nkc3A3TGR0SUdOZzNselpmc1ExeVNl?=
+ =?utf-8?B?MFFjQnY5ZURJVFlXQ1NYSkNRQml4VWJ6eGxGZjE2ZGtKL2ZoVFFPeVRrYkpv?=
+ =?utf-8?B?QWQyREp0SFFtOFl0L0hHcUh0Wng3ZGlWRHQ3UW1scWNnVWFYZDc1M2ZLU0Q4?=
+ =?utf-8?B?TDdGWlRuMVVnemVlSjlSZHlNU2VkVXBWRGllQkdDa1BVS3BtWDJOZEFCQkZU?=
+ =?utf-8?B?Q2drL2p0c1RwZXlTdjVEVmhaeWw3YmdQWGl5VVBlNnc3UXVwVXk1TVh4NHN5?=
+ =?utf-8?B?Y2hBQnlMTk9oSlMzV0hhZFRHMWk2dFNGdmlFblJkT1Uwc09jOHh1QW5McXc0?=
+ =?utf-8?B?aVprVWRLTkw0ZVNRdEgxdStUcnZVK3VjVDVsNEYrSVQ3dUNXV1c4T0ZpSlFJ?=
+ =?utf-8?B?WDVpT3NYSHB5aktWcnF3cndsc2hUVDJHeEJhalh2SUVvZlpIRGVpMWFobXBE?=
+ =?utf-8?B?U005TnNOQ1NSOUNMSG9lMGtwTkRJbFVpMVFIb3pxV1ZaeGtRRzFKR2UrMlVO?=
+ =?utf-8?B?NisxSXpHbkhLaFNFSkszZkRBdG9mampBN1NyTVZQcFlJM2Rtc08yY0owTzRz?=
+ =?utf-8?B?Um0rRnVzbVJaK1ZLbVg3RUJHSWxPKzdFY0FtRHJFODJ3VGF5WWFMdXc1WGlS?=
+ =?utf-8?B?ZzA3VkRLQzdXRVNjRmFJai9YN0grbmZtU01BTnFFZ1RkY2E3d2tFVWJBNmJ2?=
+ =?utf-8?B?WkJLa2lTZU9lbzM2c0hxS2h1UURiV2U5SjBpaVU0MW5tb3cyczBWOFRXeXJM?=
+ =?utf-8?B?ZlNkZm04V3lLeHV1eFRBK1dkR09FUnF3QkJjSkg4MlJMcjZVbEVSVlVySlFo?=
+ =?utf-8?B?SStzWmkvdUsveWpjMDN3QUFPcDc3cmhxVlNMSzBlSEZKSURLc3RqdVczQmFE?=
+ =?utf-8?B?RU9ZK2lXQWFjZGtjTG9SZVJsYmJpb3lkL0FYekNPanhyTUtOVjNtVVJDQmt4?=
+ =?utf-8?B?amVTMGs4cUo2ZThSWEh3V3MrZGFiYTN3a3RrOGFhUWlGQUFjakZuTlE1OVI4?=
+ =?utf-8?B?d3JXNHBsc2dNa2JWalZqaTVLbzhNQVFieUQwMVRlS0x2NnVMOEFwd3JTYU9o?=
+ =?utf-8?Q?b0nzczwqSKwLcN61ptID4ubiS1E9Ne67?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(1800799024)(376014)(7416014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?d0ZkQjhDUnJ1NEdUbWs1VC8waW4xeTU2YzNPeXhrNUJiemFhc1NCdnZxcmVT?=
+ =?utf-8?B?bm00blg0ZjVwdXdpNm0zb2pDOXR0c3ozVXA1STBzdXovMHMzUTVoSXQ4OWNk?=
+ =?utf-8?B?UmwxZ29pVm9id0MwWmNXNDFvcFg1UVFFNkxIRG16WW5BR2tmaFJjbHRRTGho?=
+ =?utf-8?B?TXBPS3VNbG9BWG40T09UUFdOWHVDQWw0V1BGWk9EUXdSeEFZZDNOdzJNTElj?=
+ =?utf-8?B?Wi9Lck01VFo4MmhrY0dFcEhUTUFuR05Pd0RuTHRLYW5PSFk1ejYvdjBnWjli?=
+ =?utf-8?B?eDZaWXlrM1lvMEt4UFVBMTBhNzdsZXU1SlRDVVgxY1lLNmhUaENLUDg0Y013?=
+ =?utf-8?B?K253ZThZTzZaYkRFbWo2RXhqUEpzWm9RL2tWSENSUVlLd0c0ckpFckJFS0lK?=
+ =?utf-8?B?cnYwb21GcElFYkpvQXVWbGZaTkNlb2NZNWE1aGlTV2RXREUzeUNiMWNHcHpr?=
+ =?utf-8?B?dk44MERySWRLMjkwVUxTOUNFRGtldlVwYWZOelpHcEJ4Vm9iR2dGRmV6NS9y?=
+ =?utf-8?B?MGdWa3pHaFVmcmZTTXFHQ1lYNFk2c2tEa1FBTXo5dFBJalUrNkR3dkZWc2RR?=
+ =?utf-8?B?MDFFRnlzTVJOc2h3bUQzSjFxTnVEMklqZ0pvZW4xM2M2V3hEbDZ0VTl0Uzdj?=
+ =?utf-8?B?WG9WSG1VVmRGOUNZVkFXWENzZ3YyV0tmOEtzdmQ1MkFnU2J1N1cxbTBvbHpZ?=
+ =?utf-8?B?aGI2Y0FTVDdnVkhDOFhLbGNrMmJ0bFVuWVVKRVhMU0FhUFJoR1A4ODVtMHAz?=
+ =?utf-8?B?WGlSV3oyVmo5NWhSWjduL0xFSFdHbm5URnlaTVZKa3ZtbmF5TXU1bHI4cHFW?=
+ =?utf-8?B?TUdYRzNtblNFZDRpc1ljbUNvd3V3enAvMFJ4dnV1MG95MGdQSjFqUnBoQXFT?=
+ =?utf-8?B?V0UxSlNzREJubVZLdDgvWG9UQVdnQWg0Y2c1VnBNRWx6WkpHaXc1ZGQzVWpM?=
+ =?utf-8?B?OUJ4Rng3dEp3TEowWmlpQzFCVjFBeTlBSDFWd2Zlc1ZUU1hOTUhyOEVoTW96?=
+ =?utf-8?B?M213Mk9LTjhycEV1NEF4UVlyT3FDdkREdFVib0tLdWpTMVVwRXdlTXhUWS9X?=
+ =?utf-8?B?YlUzVTZVSDN5Q1Y5eUwzL1pabVYxRU1tTjhVYkQ1VjZ0NWk4VkFnWHVseUlw?=
+ =?utf-8?B?YlBsNnNmcmZUSzY3VmZiU3djVEhYWTQ4UkdTc1VCeTVydzRNcG5heXJOQzcy?=
+ =?utf-8?B?UHR5aDRFTndxTVk4QU9FMFFxUnBtTXpxT3B5ZW5kN2ZpM0dQNzY0QklqandY?=
+ =?utf-8?B?N2llUkFYV2VlVElHNnlmRG81VEEzaHNqS1pwM25HallvbVJpUWU2Q2ZhdzNv?=
+ =?utf-8?B?RXduZnhYcUdPMHFFZTRKTENLQldacGZqckM4cnFNajcyVWZCQ2tPMzVrU1RK?=
+ =?utf-8?B?OUxFejd6THRUSi91WG9sbFAzeEdNNFlWa0NNaGRmVlpaT0xSM3pkVlVzNUUx?=
+ =?utf-8?B?RjhEdmFBU21JMkZuQW4xVzRFU1N3ZzBnclNMWTAwLzYzcExmeG9QK09Wdkpm?=
+ =?utf-8?B?elc5WFRlM2E0cTRIRXNXb3FjN0xGdmJvUElpZnQycURCRi9hcUcyMVhCWERJ?=
+ =?utf-8?B?KzR3YjhseGhhclQ1TjJyVUdoeGxEV0tMWUxqMDVCSjFyUnJkR2QzTUw1Vmxq?=
+ =?utf-8?B?UkxSTGUvMmtpK2V3MGp5NzBFcEhqOWphdEFZMzRpZmFDZTVzMHVUSW5wWkcx?=
+ =?utf-8?B?dUpQVTFzWVFYOGs0c2FpWUlkTlJUTnE0cis2aVpFUkdIT1VYRmFJb01CNU5l?=
+ =?utf-8?B?TEtLd0YyNkt5V3c3d3VKOFZnMzFJdlIvcjZlVzZDN3RwM1owaFFHUnh0Nitw?=
+ =?utf-8?B?NFVhU3FSaXFNOWZOMnpSVngvb2dpLzhBRlFLTWE5SG5sTzFUVWNKYzdlakQ4?=
+ =?utf-8?B?WDhkRDRBelBSZmpHUmZSM0JLdDlLSkZEZ1ZFRHdBVzNabkE5TnNIM3lKWXhi?=
+ =?utf-8?B?aVJ4WDlCN201ZC9sWDZFbklZdElicmxwYTBHWTRTRVI2ekxYb091dG9YODdt?=
+ =?utf-8?B?Z2ViS250UUR2NHBFaEtxSmp4SXY4RlZNNTh4TkJaa2JxWWhucXplWmxjZXY1?=
+ =?utf-8?B?VmU5SlRVY3Y4M3dmd1YxUFdCWVFRVDFaL3lOVGl5N3J4eVNuS0htWGdQLzl4?=
+ =?utf-8?B?RTBJU2dXSG5TanpsdDFDdHdGRDJldlU2QWxOU1A0aW9YdWZSL0p6K0QwZjE2?=
+ =?utf-8?Q?jBBMofzXXX4xvzkMkVuqNrY=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0da8e3eb-ecf1-41f2-3019-08dd54aa42af
+X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 08:07:19.7732
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uZDmv8SN2CIEbXyHJ6AfY4MuiOPK4qagTtBdxDdD6kjF/1kv+G8U4bnNUcnupsFNL1jWFSnl2NzOJkyCmBYvGihtm+C47EG5U2upgaG3bkJ889Rb0horsNfx/CxR/7kG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10957
 
-On 23/02/2025 18:28, Jonathan Cameron wrote:
-> On Wed, 19 Feb 2025 14:30:43 +0200
-> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+Hi Laurent, Prabhakar,
+
+Thanks for your review.
+
+On Sun, Feb 23, 2025 at 09:00:48PM +0000, Lad, Prabhakar wrote:
+> HI Laurent,
 > 
->> The ROHM BD79124 is a 12-bit, 8-channel, SAR ADC. The ADC supports
->> an automatic measurement mode, with an alarm interrupt for out-of-window
->> measurements. The window is configurable for each channel.
->>
->> The I2C protocol for manual start of the measurement and data reading is
->> somewhat peculiar. It requires the master to do clock stretching after
->> sending the I2C slave-address until the slave has captured the data.
->> Needless to say this is not well suopported by the I2C controllers.
->>
->> Thus the driver does not support the BD79124's manual measurement mode
->> but implements the measurements using automatic measurement mode relying
->> on the BD79124's ability of storing latest measurements into register.
->>
->> The driver does also support configuring the threshold events for
->> detecting the out-of-window events.
->>
->> The BD79124 keeps asserting IRQ for as long as the measured voltage is
->> out of the configured window. Thus the driver masks the received event
->> for a fixed duration (1 second) when an event is handled. This prevents
->> the user-space from choking on the events
->>
->> The ADC input pins can be also configured as general purpose outputs.
->> Those pins which don't have corresponding ADC channel node in the
->> device-tree will be controllable as GPO.
->>
->> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
->>
-> Hi Matti,
+> Thank you for the review.
 > 
-> Some fairly superficial review follows. I'm travelling for next few weeks
-> so not sure when I'll get time to take a more thorough look.
+> On Sun, Feb 23, 2025 at 6:09 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Tommaso,
+> >
+> > Thank you for the patch.
+> >
+> > On Fri, Feb 21, 2025 at 04:55:15PM +0100, Tommaso Merciai wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > The MIPI CSI-2 block on the Renesas RZ/V2H(P) SoC is similar to the one
+> > > found on the Renesas RZ/G2L SoC, with the following differences:
+> > > - A different D-PHY
+> > > - Additional registers for the MIPI CSI-2 link
+> > > - Only two clocks
+> > >
+> > > Add a new compatible string, `renesas,r9a09g057-csi2`, for the RZ/V2H(P)
+> > > SoC.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > > ---
+> > > Changes since v1:
+> > >  - Dropped empty line as suggested by LPinchart
+> > >  - Fixed minItems into else conditional block as suggested by RHerring
+> > >
+> > >  .../bindings/media/renesas,rzg2l-csi2.yaml    | 59 ++++++++++++++-----
+> > >  1 file changed, 44 insertions(+), 15 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > > index 7faa12fecd5b..1d7784e8af16 100644
+> > > --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > > @@ -17,12 +17,14 @@ description:
+> > >
+> > >  properties:
+> > >    compatible:
+> > > -    items:
+> > > -      - enum:
+> > > -          - renesas,r9a07g043-csi2       # RZ/G2UL
+> > > -          - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+> > > -          - renesas,r9a07g054-csi2       # RZ/V2L
+> > > -      - const: renesas,rzg2l-csi2
+> > > +    oneOf:
+> > > +      - items:
+> > > +          - enum:
+> > > +              - renesas,r9a07g043-csi2 # RZ/G2UL
+> > > +              - renesas,r9a07g044-csi2 # RZ/G2{L,LC}
+> > > +              - renesas,r9a07g054-csi2 # RZ/V2L
+> > > +          - const: renesas,rzg2l-csi2
+> > > +      - const: renesas,r9a09g057-csi2 # RZ/V2H(P)
+> > >
+> > >    reg:
+> > >      maxItems: 1
+> > > @@ -31,16 +33,24 @@ properties:
+> > >      maxItems: 1
+> > >
+> > >    clocks:
+> > > -    items:
+> > > -      - description: Internal clock for connecting CRU and MIPI
+> > > -      - description: CRU Main clock
+> > > -      - description: CRU Register access clock
+> > > +    oneOf:
+> > > +      - items:
+> > > +          - description: Internal clock for connecting CRU and MIPI
+> > > +          - description: CRU Main clock
+> > > +          - description: CRU Register access clock
+> > > +      - items:
+> > > +          - description: CRU Main clock
+> > > +          - description: CRU Register access clock
+> > >
+> > >    clock-names:
+> > > -    items:
+> > > -      - const: system
+> > > -      - const: video
+> > > -      - const: apb
+> > > +    oneOf:
+> > > +      - items:
+> > > +          - const: system
+> > > +          - const: video
+> > > +          - const: apb
+> > > +      - items:
+> > > +          - const: video
+> > > +          - const: apb
+> > >
+> > >    power-domains:
+> > >      maxItems: 1
+> > > @@ -48,7 +58,7 @@ properties:
+> > >    resets:
+> > >      items:
+> > >        - description: CRU_PRESETN reset terminal
+> > > -      - description: CRU_CMN_RSTB reset terminal
+> > > +      - description: CRU_CMN_RSTB reset terminal or D-PHY reset
+> >
+> > I'd mention which SoCs these apply to:
+> >
+> >       - description:
+> >           CRU_CMN_RSTB reset terminal (all but RZ/V2H) or D-PHY reset (RZ/V2H)
+> >
+> Maybe RZ/V2H(P).
 
-Yeah, unfortunately people are allowed to have other life beyond the 
-ROHM drivers :D
-Enjoy your journey(s) ;)
+Will fix this in v3 using:
 
-...
+	- description:
+          CRU_CMN_RSTB reset terminal (all but RZ/V2H(P)) or D-PHY reset (RZ/V2H(P))
 
->> +
->> +static int bd79124_event_ratelimit_hi(struct bd79124_data *data,
->> +				      unsigned int channel)
->> +{
->> +	int reg, limit;
->> +
->> +	guard(mutex)(&data->mutex);
->> +	data->alarm_suppressed[channel] |= BIT(IIO_EV_DIR_RISING);
->> +
->> +	reg = BD79124_GET_HIGH_LIMIT_REG(channel);
->> +	limit = BD79124_HIGH_LIMIT_MAX;
->> +
->> +	return __bd79124_event_ratelimit(data, reg, limit);
-> 
-> As below.
-> 
->> +}
->> +
->> +static int bd79124_event_ratelimit_lo(struct bd79124_data *data,
->> +				      unsigned int channel)
->> +{
->> +	int reg, limit;
->> +
->> +	guard(mutex)(&data->mutex);
->> +	data->alarm_suppressed[channel] |= BIT(IIO_EV_DIR_FALLING);
->> +
->> +	reg = BD79124_GET_LOW_LIMIT_REG(channel);
->> +	limit = BD79124_LOW_LIMIT_MIN;
->> +
->> +	return __bd79124_event_ratelimit(data, reg, limit);
-> 
-> I'd put reg and limit inline.  Local variables don't add much as
-> their meaning is obvious anyway from what you put in them.
-
-I can do this. The main purpose of those variables was to keep the 
-function calls easier to read (on my limited monitor).
-
->> +}
->> +
-
-...
-
->> +
->> +static int bd79124_chan_init(struct bd79124_data *data, int channel)
->> +{
->> +	struct bd79124_reg_init inits[] = {
->> +		{ .reg = BD79124_GET_HIGH_LIMIT_REG(channel), .val = 4095 },
->> +		{ .reg = BD79124_GET_LOW_LIMIT_REG(channel), .val = 0 },
->> +	};
->> +	int i, ret;
->> +
->> +	for (i = 0; i < ARRAY_SIZE(inits); i++) {
->> +		ret = regmap_write(data->map, inits[i].reg, inits[i].val);
->> +		if (ret)
->> +			return ret;
->> +	}
-> 
-> This is shorter as straight line code rather than a loop. I'd unwind
-> it.  Fine to bring in a loop 'setter' like this once the benefit is
-> significant.
-
-I suppose you're right. I think loops like this born out of a habit :)
-
->> +
->> +	return 0;
->> +}
->> +
->> +static bool bd79124_is_in_array(int *arr, int num_items, int val)
->> +{
->> +	int i;
->> +
->> +	for (i = 0; i < num_items; i++)
->> +		if (arr[i] == val)
->> +			return true;
->> +
->> +	return false;
->> +}
->> +
->> +static int bd79124_mux_init(struct bd79124_data *data)
->> +{
->> +	int adc_chans[BD79124_MAX_NUM_CHANNELS];
->> +	int num_adc, chan, regval = 0;
->> +
->> +	num_adc = iio_adc_device_channels_by_property(data->dev, &adc_chans[0],
->> +						      BD79124_MAX_NUM_CHANNELS,
->> +						      &expected_props);
->> +	if (num_adc < 0)
->> +		return num_adc;
->> +
->> +	/*
->> +	 * Set a mux register bit for each pin which is free to be used as
->> +	 * a GPO.
-> For this I would search the simpler iio_chan_spec array rather than passing
-> properties again.
-
-I kind of agree. I did it like this because I thought that the 
-'iio_adc_device_channels_by_property()' might be useful for other 
-callers as well. And, if we had 'iio_adc_device_channels_by_property()' 
-- then the code in this driver file becomes simple (as seen here). After 
-I looked at the couple of other drivers I didn't easily spot any other 
-driver needing the 'iio_adc_device_channels_by_property()' - so I 
-suppose it is simpler to drop it and loop through the 'iio_chan_spec' as 
-you suggest.
-
-  Just look for gaps.  Or do it in the top level probe()
-> function and build a bitmap of which channels are ADC ones from the iio_chan_spec
-> array and pass that down here.
-> 
->> +	 */
->> +	for (chan = 0; chan < BD79124_MAX_NUM_CHANNELS; chan++)
->> +		if (!bd79124_is_in_array(&adc_chans[0], num_adc, chan))
->> +			regval |= BIT(chan);
->> +
->> +	return regmap_write(data->map, BD79124_REG_PINCFG, regval);
->> +}
->> +
->> +static int bd79124_hw_init(struct bd79124_data *data)
->> +{
->> +	int ret, regval, i;
->> +
->> +	ret = bd79124_mux_init(data);
->> +	if (ret)
->> +		return ret;
->> +
->> +	for (i = 0; i < BD79124_MAX_NUM_CHANNELS; i++) {
->> +		ret = bd79124_chan_init(data, i);
->> +		if (ret)
->> +			return ret;
->> +		data->alarm_r_limit[i] = 4095;
->> +	}
->> +	/* Stop auto sequencer */
->> +	ret = regmap_clear_bits(data->map, BD79124_REG_SEQUENCE_CFG,
->> +				BD79124_MASK_SEQ_START);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Enable writing the measured values to the regsters */
->> +	ret = regmap_set_bits(data->map, BD79124_REG_GEN_CFG,
->> +			      BD79124_MASK_STATS_EN);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Set no channels to be auto-measured */
->> +	ret = regmap_write(data->map, BD79124_REG_AUTO_CHANNELS, 0x0);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Set no channels to be manually measured */
->> +	ret = regmap_write(data->map, BD79124_REG_MANUAL_CHANNELS, 0x0);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Set the measurement interval to 0.75 mS */
->> +	regval = FIELD_PREP(BD79124_MASK_AUTO_INTERVAL, BD79124_INTERVAL_075);
->> +	ret = regmap_update_bits(data->map, BD79124_REG_OPMODE_CFG,
->> +			BD79124_MASK_AUTO_INTERVAL, regval);
-> 
-> Where it doesn't make any other difference, align after (
-> 
-> If you are going shorter, single tab only.
-
-Single tab only? You mean like:
-
-ret = regmap_update_bits(data->map, BD79124_REG_OPMODE_CFG,
-	BD79124_MASK_AUTO_INTERVAL, regval);
-
-Do you prefer that even if the variable holding the return value was 
-longer than 8 chars? To me it looks odd if arguments on the next line 
-begin earlier than the function on previous line:
-
-longvariable = regmap_update_bits(data->map, BD79124_REG_OPMODE_CFG,
-	BD79124_MASK_AUTO_INTERVAL, regval);
-
-(Just ensuring I understood your preference).
+Thanks & Regards,
+Tommaso
 
 > 
-> 
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Sequencer mode to auto */
->> +	ret = regmap_set_bits(data->map, BD79124_REG_SEQUENCE_CFG,
->> +			      BD79124_MASK_SEQ_SEQ);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Don't start the measurement */
->> +	regval = FIELD_PREP(BD79124_MASK_CONV_MODE, BD79124_CONV_MODE_MANSEQ);
-> What is this for?
-
-Thank's for pointing it out! It is supposed to be used in call below. 
-The code works as it is just because the BD79124_CONV_MODE_MANSEQ 
-happens to be '0', but it's still better to use FIELD_PREP() for the 
-consistency. Below should change from:
-
->> +	return regmap_update_bits(data->map, BD79124_REG_OPMODE_CFG,
->> +			BD79124_MASK_CONV_MODE, BD79124_CONV_MODE_MANSEQ);
->> +
-to:
-
-	return regmap_update_bits(data->map, BD79124_REG_OPMODE_CFG,
-				  BD79124_MASK_CONV_MODE, regval);
-
-Good catch, thanks! :)
-
->> +}
->> +
->> +static int bd79124_probe(struct i2c_client *i2c)
->> +{
->> +	struct bd79124_data *data;
->> +	struct iio_dev *iio_dev;
->> +	const struct iio_chan_spec *template;
->> +	struct iio_chan_spec *cs;
->> +	struct device *dev = &i2c->dev;
->> +	int ret;
->> +
->> +	iio_dev = devm_iio_device_alloc(dev, sizeof(*data));
->> +	if (!iio_dev)
->> +		return -ENOMEM;
->> +
->> +	data = iio_priv(iio_dev);
->> +	data->dev = dev;
->> +	data->map = devm_regmap_init_i2c(i2c, &bd79124_regmap);
->> +	if (IS_ERR(data->map))
->> +		return dev_err_probe(dev, PTR_ERR(data->map),
->> +				     "Failed to initialize Regmap\n");
->> +
->> +	ret = devm_regulator_get_enable_read_voltage(dev, "vdd");
->> +	if (ret < 0)
->> +		return dev_err_probe(dev, ret, "Failed to get the Vdd\n");
->> +
->> +	data->vmax = ret;
->> +
->> +	ret = devm_regulator_get_enable(dev, "iovdd");
->> +	if (ret < 0)
->> +		return dev_err_probe(dev, ret, "Failed to enable I/O voltage\n");
->> +
->> +	ret = devm_delayed_work_autocancel(dev, &data->alm_enable_work,
->> +					   bd79124_alm_enable_worker);
->> +	if (ret)
->> +		return ret;
->> +
->> +	if (i2c->irq) {
->> +		template = &bd79124_chan_template;
->> +	} else {
->> +		template = &bd79124_chan_template_noirq;
->> +		dev_dbg(dev, "No IRQ found, events disabled\n");
->> +	}
->> +	ret = devm_iio_adc_device_alloc_chaninfo(dev, template, &cs,
->> +						 &expected_props);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	iio_dev->channels = cs;
->> +	iio_dev->num_channels = ret;
->> +	iio_dev->info = &bd79124_info;
->> +	iio_dev->name = "bd79124";
->> +	iio_dev->modes = INDIO_DIRECT_MODE;
->> +
->> +	data->gc = bd79124gpo_chip;
->> +	data->gc.parent = dev;
->> +
->> +	mutex_init(&data->mutex);
-> 
-> Whilst it doesn't bring huge advantage, now we have devm_mutex_init()
-> it seems reasonable to use it and maybe catch a use after free for the lock.
-
-Ah, indeed. It's a good to learn to 'habitually' use devm_mutex_init().
-
-Yours,
-	-- Matti
+> Cheers,
+> Prabhakar
 
