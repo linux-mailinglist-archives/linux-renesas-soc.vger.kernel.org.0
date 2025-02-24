@@ -1,51 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-13575-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13577-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632FBA42018
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2025 14:14:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 713C1A42011
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2025 14:14:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23F4C1898F3C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2025 13:14:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 199BC165704
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2025 13:13:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B14223BD0A;
-	Mon, 24 Feb 2025 13:13:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B70523BD1E;
+	Mon, 24 Feb 2025 13:13:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 151BE23BD0E
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Feb 2025 13:13:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50D6023BD0E
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Feb 2025 13:13:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740402792; cv=none; b=SRPRfcWS4+T3nPP9wHHsiCZTl6d2Au2asOiZ0hvazWyKvmO2Uip8nCRs8oJ0RZXWU36sjp0LDEJxVLVv9esLfBK0J4VXCfxsQa4nb3iN30p5YRVTa6RCWZfLVFwn6pt6cC/K8NwCQN/wUv6j6AlL2xW7waMNQ/dguSs9sTBslaE=
+	t=1740402794; cv=none; b=TU8i338qncw4Lvo5Lg62S+mOIeOKKk0gQ/01ytp2BKsY318eA6ykTSrXbzJPYqTbkdI5i+Mkx1Tuo4XXsCZzJdqC0IUdIozN+PJ3lV5WU+MDIgub131cretJBZzXw1bLTKVveoKGU0kTnjYIBQD9RKS3zL/qdLFr85czO7tfkmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740402792; c=relaxed/simple;
-	bh=+OHtsJNlln5FTil/zHx7L9mdJpA86TFaWk7hFKPbMf8=;
+	s=arc-20240116; t=1740402794; c=relaxed/simple;
+	bh=Q1WElZrVGj0IE/o0tquklVSALJgGT52+Oj7qV2+XB2I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ay7pnT76InoACBzFS2KsjmZgqLt3hlCO0SbVFgnTWQa1OLmAzv1fOa1QYmuFNYv+1Cq/FnJ3TRuSOE327ExCMGVaSrjNAVgAZUZNz9XXXZYG5RVe5g4LtJLYcqN5xfNoEw1t6AsyPbpk/qOqrwhNjhq2lIQDtRjABXVSgmC4L5g=
+	 MIME-Version; b=VdDNmTlawmub/AZaPcxrUopLdvZxBq5iAwQ8DutNnnocHZJ9ITUZAynxjnoRPljxjqbw79QIe34feBsr5iYOx5PrD/pa9G+CdsBmbiX0BSfPvrBUhBKnJaT9HjXEU0IsJzCVtDFxWdLbydgQdx6piFCI0ECm2jCOZsauvH35mm8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: gbw96fyLS/enLXUdg5acbQ==
-X-CSE-MsgGUID: 6tRRDf4AStm/526kDSMr0g==
+X-CSE-ConnectionGUID: U1PPxO4OSuaqBjlfkJd1og==
+X-CSE-MsgGUID: iVA1wt/GQAKDewpH3YpMqw==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Feb 2025 22:13:09 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 24 Feb 2025 22:13:11 +0900
 Received: from localhost.localdomain (unknown [10.226.92.231])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 07359400F319;
-	Mon, 24 Feb 2025 22:13:06 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id E1526402EC50;
+	Mon, 24 Feb 2025 22:13:09 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Thomas Gleixner <tglx@linutronix.de>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Subject: [PATCH v6 03/12] irqchip/renesas-rzv2h: Drop irqchip from struct rzv2h_icu_priv
-Date: Mon, 24 Feb 2025 13:11:19 +0000
-Message-ID: <20250224131253.134199-4-biju.das.jz@bp.renesas.com>
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v6 04/12] irqchip/renesas-rzv2h: Simplify rzv2h_icu_init()
+Date: Mon, 24 Feb 2025 13:11:20 +0000
+Message-ID: <20250224131253.134199-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250224131253.134199-1-biju.das.jz@bp.renesas.com>
 References: <20250224131253.134199-1-biju.das.jz@bp.renesas.com>
@@ -57,12 +56,12 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use rzv2h_icu_chip directly on irq_domain_set_hwirq_and_chip() and drop
-the global variable irqchip from struct rzv2h_icu_priv.
+Use devm_add_action_or_reset() for calling put_device in error path
+of rzv2h_icu_init() to simplify the code by using recently added devm_*
+helpers.
 
-Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v5->v6:
@@ -70,51 +69,94 @@ v5->v6:
 v4->v5:
  * No change.
 v3->v4:
- * Collected tag from Geert.
-v2->v3:
- * No change.
-v1->v2:
- * Collected tags.
+ * Collected the tags.
+v3:
+ * New patch 
 ---
- drivers/irqchip/irq-renesas-rzv2h.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/irqchip/irq-renesas-rzv2h.c | 37 +++++++++++++++--------------
+ 1 file changed, 19 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/irqchip/irq-renesas-rzv2h.c b/drivers/irqchip/irq-renesas-rzv2h.c
-index f6363246a71a..0573062c89c4 100644
+index 0573062c89c4..d724f32dde8f 100644
 --- a/drivers/irqchip/irq-renesas-rzv2h.c
 +++ b/drivers/irqchip/irq-renesas-rzv2h.c
-@@ -83,13 +83,11 @@
- /**
-  * struct rzv2h_icu_priv - Interrupt Control Unit controller private data structure.
-  * @base:	Controller's base address
-- * @irqchip:	Pointer to struct irq_chip
-  * @fwspec:	IRQ firmware specific data
-  * @lock:	Lock to serialize access to hardware registers
-  */
- struct rzv2h_icu_priv {
- 	void __iomem			*base;
--	const struct irq_chip		*irqchip;
- 	struct irq_fwspec		fwspec[ICU_NUM_IRQ];
- 	raw_spinlock_t			lock;
- };
-@@ -390,7 +388,7 @@ static int rzv2h_icu_alloc(struct irq_domain *domain, unsigned int virq, unsigne
- 	if (hwirq > (ICU_NUM_IRQ - 1))
- 		return -EINVAL;
+@@ -419,6 +419,11 @@ static int rzv2h_icu_parse_interrupts(struct rzv2h_icu_priv *priv, struct device
+ 	return 0;
+ }
  
--	ret = irq_domain_set_hwirq_and_chip(domain, virq, hwirq, priv->irqchip,
-+	ret = irq_domain_set_hwirq_and_chip(domain, virq, hwirq, &rzv2h_icu_chip,
- 					    (void *)(uintptr_t)tint);
- 	if (ret)
- 		return ret;
-@@ -446,8 +444,6 @@ static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
- 		goto put_dev;
++static void rzv2h_icu_put_device(void *data)
++{
++	put_device(data);
++}
++
+ static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
+ {
+ 	struct irq_domain *irq_domain, *parent_domain;
+@@ -431,41 +436,39 @@ static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
+ 	if (!pdev)
+ 		return -ENODEV;
+ 
++	ret = devm_add_action_or_reset(&pdev->dev, rzv2h_icu_put_device,
++				       &pdev->dev);
++	if (ret < 0)
++		return ret;
++
+ 	parent_domain = irq_find_host(parent);
+ 	if (!parent_domain) {
+ 		dev_err(&pdev->dev, "cannot find parent domain\n");
+-		ret = -ENODEV;
+-		goto put_dev;
++		return -ENODEV;
  	}
  
--	rzv2h_icu_data->irqchip = &rzv2h_icu_chip;
--
+ 	rzv2h_icu_data = devm_kzalloc(&pdev->dev, sizeof(*rzv2h_icu_data), GFP_KERNEL);
+-	if (!rzv2h_icu_data) {
+-		ret = -ENOMEM;
+-		goto put_dev;
+-	}
++	if (!rzv2h_icu_data)
++		return -ENOMEM;
+ 
  	rzv2h_icu_data->base = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
- 	if (IS_ERR(rzv2h_icu_data->base)) {
- 		ret = PTR_ERR(rzv2h_icu_data->base);
+-	if (IS_ERR(rzv2h_icu_data->base)) {
+-		ret = PTR_ERR(rzv2h_icu_data->base);
+-		goto put_dev;
+-	}
++	if (IS_ERR(rzv2h_icu_data->base))
++		return PTR_ERR(rzv2h_icu_data->base);
+ 
+ 	ret = rzv2h_icu_parse_interrupts(rzv2h_icu_data, node);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "cannot parse interrupts: %d\n", ret);
+-		goto put_dev;
++		return ret;
+ 	}
+ 
+ 	resetn = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+-	if (IS_ERR(resetn)) {
+-		ret = PTR_ERR(resetn);
+-		goto put_dev;
+-	}
++	if (IS_ERR(resetn))
++		return PTR_ERR(resetn);
+ 
+ 	ret = reset_control_deassert(resetn);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to deassert resetn pin, %d\n", ret);
+-		goto put_dev;
++		return ret;
+ 	}
+ 
+ 	pm_runtime_enable(&pdev->dev);
+@@ -496,8 +499,6 @@ static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
+ pm_disable:
+ 	pm_runtime_disable(&pdev->dev);
+ 	reset_control_assert(resetn);
+-put_dev:
+-	put_device(&pdev->dev);
+ 
+ 	return ret;
+ }
 -- 
 2.43.0
 
