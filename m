@@ -1,116 +1,183 @@
-Return-Path: <linux-renesas-soc+bounces-13646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13647-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8001CA43C58
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 11:56:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48087A43C72
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 11:58:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 43CBA17331E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 10:55:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E713C3B22C7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 10:57:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AA5F267385;
-	Tue, 25 Feb 2025 10:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 985A92676FC;
+	Tue, 25 Feb 2025 10:57:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Q6iPJKRS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AmtOnomg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B117126159E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Feb 2025 10:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99751267AF1;
+	Tue, 25 Feb 2025 10:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740480893; cv=none; b=QJ0/b+77z4kGNzQRs6ZqeIH9Vusb7XjUHaa0MjznxURrekKWFiaHvpGaUTZP+eag4pQfxJlxWzARQADP711KUzWFmQU5cHM8+RwcY3HEoBV2Dk5hSXRR90pnwXKJEugb3xhbmUEfgwz7/CORMJGsgw9Hzppl2Oi8/e2t4UqY2A4=
+	t=1740481022; cv=none; b=S6owzvO4wiDgiilFnnmAid+l1V2AfXzOGHaw5c9UhSdO1mdce0s0TaD4S+mxjGx3id0YrkdjrosW7ELWN60me0j/7bWNkun2/OAnVQfIrZz08vlPey+lY8GaQ/gtXjGgWEN2aSxsSkr6bH0CoQiAhPhRp4sfzJSuvdZoo9+tVZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740480893; c=relaxed/simple;
-	bh=45NnfZyD6oCrUoj122LYtZySjOPsdLiAPQrVbO7Gyhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tEKG3zW4tbujgl/ilmf/RwQ+M3BvZu33y3HjoeqbiGn9bk5UuNw7LxyBWRyH5StIps4/Sp/RBVQh7N7oEr1ot9FJovR2VDZRMmvQrgiJyOs6oMve6MzgZvOW4qWbR1bcJeB6q7tCFJj3L+kDPy71Lc/L0ceipZJxFLzg3H7PhEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Q6iPJKRS; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=45Nn
-	fZyD6oCrUoj122LYtZySjOPsdLiAPQrVbO7Gyhk=; b=Q6iPJKRSmunpnd5StQm+
-	Pmf4j1+2YM+EAFAD6ro4w0sFMZ4Orj5Cvl/0fSIhFmQCAI5Qw4zvwTUisFmynVzD
-	jZbtH7KwCs8HL2FQoDcEABGTOcLTFr9n8hZyV6M8CoKq4tyWDti0J9DwbZ+L5c2b
-	TntndAJpwPYmo1A8rR9LMefmHmP5pugUurp1KytN+jNfWpKuF/f8SRCqtC/zF6QR
-	8F0x25yOTZLdA4iTzS/BhNHvB8JMpfTX+TnZ9+qNZ4g5sMA2otUmQPiXN901sQKv
-	mpAdrewJkJOfCtA1T5AkRW/qQWGK0xVNdrBSCJ9u5zhKpbSAfdYtIvnZygOcGKzY
-	Mw==
-Received: (qmail 187332 invoked from network); 25 Feb 2025 11:54:49 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Feb 2025 11:54:49 +0100
-X-UD-Smtp-Session: l3s3148p1@KtsnSfUu6pQujnvP
-Date: Tue, 25 Feb 2025 11:54:49 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: Q: use 1s irqs to overcome alarm minute granularity?
-Message-ID: <Z72heU393-y555VT@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-References: <Z72ZFf-3Z78O44nm@ninjato>
- <2025022510474487653067@mail.local>
+	s=arc-20240116; t=1740481022; c=relaxed/simple;
+	bh=2YozzQHz8w8HrGbTyvr5eXnrPoFj0GWuc89p5e2auWs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nWWoTzG11xsTGGIfnaGFRn2aA8J/ayBgLNOWtiAHKmQz01stiVbFYyu3MD2J4mXArzc1l1TxemhLaS+N5KGyxG51xbVGukupvSisDDmT79510p3FAGqAiohTrCw4vaiWFAElhajudNX9m+0aAXuQri0201e4FH9bxg4AqJ257eA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AmtOnomg; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30a2cdb2b98so54619451fa.0;
+        Tue, 25 Feb 2025 02:57:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740481019; x=1741085819; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7/fHdL9OxTBfJ/OtLlF+A8QVXV0YakMI11nkG7r9zEY=;
+        b=AmtOnomgimrsh+JSqPKhw5JK9ZUgi4WKi4e7lshvrOVz4CDy/LR8MZiZuN12MvGeYt
+         kHEs1CQepDJDivhRX+EpzlH4guuRxck3iH0tZyizsmv+5TfYkIOO39iDF79VVyvvpx70
+         mCs4NrVXlis604mjsef+5grqX8+DviTDjHwBQWRdyweOZ/djRtvWoIhCUOsDwTjaLGJ+
+         ptCmfKczWq6JBxyLObjSn8j8GdBOzLxhxiOIK5RpJ1hflcQJ1cPE49PYkmT6iZnrTWJ9
+         nJjcO6QnTsg3K9lUt71piJGZIB+vfxDZzwAcpYe/QHhaBT0UgZ6k8huxLTDZqJiHSCTk
+         zSCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740481019; x=1741085819;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/fHdL9OxTBfJ/OtLlF+A8QVXV0YakMI11nkG7r9zEY=;
+        b=NRiIf3ZKr1r6CmFnrs+zSP+RddIrY+DkvzA25lcGrRNQaaApPklEV30kN+/40m1//q
+         Ng3Wloz10jqHdIREMI5yKXy5gU2vzMo4E9ZmGWSBDEGI4n4wYePT+nJe+DhoCQxbpcri
+         nfTmr/qL86Kay3OpFSJxGqw6q0BFkFG+Ug6Z4w34wD6N418qfebU0WJeFBwLGssyqfIi
+         dvQPcRkj1PCuushD3JhQtwHUlFP4uq/HXFJee/4apKXW+PdldcUUJu5Vg4KkT5X0V8h7
+         lPTFtBxfnpDARzhcTwgd1jxMXmNMx6NlGeeclbqJHBzHjqOelGsP2KJ2lWZXFh9DVhaR
+         uxJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWNiXnu3j9rfCF29jgZpKv4ivIHsfoqAUwVWRejOEnmSvT9Sb0p2/WiDoU6l8v7HhgclJbhaed3hw+j@vger.kernel.org, AJvYcCWYZK6cMig4vBOfob6YTpBkoUTR+qEgynzg1shPul2h4v3fh3dYZBHLsYR2idnnNxpfnpHU76wMfFQabT4d@vger.kernel.org, AJvYcCWiUmxNQEHehTW6LR6iT8keSANbpBQPHHJfOjKmaG0k2QN9Ffen5Z7Fpb1O00VnF3ArPgA67qG+ZG6n7Q==@vger.kernel.org, AJvYcCXpaRy3sDLMnJ589OHQy+9XTo52mjYN+QKxoEAlUrBPrRLeXiznbPq0qE1vt8t0bgULvLsSp2PQq3z3l+ccQm/+uXk=@vger.kernel.org, AJvYcCXxbuy1/K7kiDZQOtGEP+oXDkeLh/q5uenQ8VpEbAhojI0YBMRY+DDw9gfiIggftkyl+3WpIAjfKFZG@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEy0zFQn6+SxLT8BbqPgPxSWMKyV7qM5ttZWpA8J6ax+Gb3+eS
+	dnSCM4MrL5QRqVOUjHpum7eCQ6yIDjmDOPaVdg+50bt1tUlaKvan
+X-Gm-Gg: ASbGnctCbTNCdH/iMEx2QNAwaR3hmJaySAXhVlVCsNWvAYkRSC93fpMIgNkl7ZCBqyF
+	spLlBv7rUoeCNSq22/FTkwy6+bk9oRNlNLh+IsK3wEgBCe1zPjVTAGhaz/klEEfkfZ9iQQhq0AT
+	7H74eiAqbdGFJxuO/mWOnxHDrlS77MF20kooMCwBqbw0nJdVw2n2YXpg3EVCNDfUscJXqTb4/GM
+	+mYY1xJfIh9zMFusa37TxkwL4MO3YiJELjKYfg5TIgOjpxed0+TezzoHwJ8mRgIK5B76VkAg4Uq
+	aEAgr+Q6dy1xdGSlWjAF5y/XfQCs5k4VxMitlT0=
+X-Google-Smtp-Source: AGHT+IH2/CKNaTosFs8GlS0XdmUzabLuIWWzOTmpp5OU7F/me7OdOFzkGeicuNnt7xucX157I9qrZQ==
+X-Received: by 2002:a05:651c:22e:b0:308:f75f:457 with SMTP id 38308e7fff4ca-30a5b18ae70mr54123081fa.12.1740481018475;
+        Tue, 25 Feb 2025 02:56:58 -0800 (PST)
+Received: from [172.16.183.207] ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a81ae80besm1961621fa.93.2025.02.25.02.56.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Feb 2025 02:56:57 -0800 (PST)
+Message-ID: <1e0a9915-fe52-4569-9da0-b0761ba8fedb@gmail.com>
+Date: Tue, 25 Feb 2025 12:56:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="n9ulxRlfeKutuODQ"
-Content-Disposition: inline
-In-Reply-To: <2025022510474487653067@mail.local>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/10] property: Add
+ device_get_child_node_count_named()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Scally <djrscally@gmail.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
+ David Lechner <dlechner@baylibre.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Dumitru Ceclan <mitrutzceclan@gmail.com>,
+ Trevor Gamblin <tgamblin@baylibre.com>,
+ Matteo Martelli <matteomartelli3@gmail.com>,
+ Alisa-Dariana Roman <alisadariana@gmail.com>,
+ Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <cover.1740421248.git.mazziesaccount@gmail.com>
+ <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
+ <Z72QAOA9xXbP16K-@kuha.fi.intel.com> <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 25/02/2025 12:21, Andy Shevchenko wrote:
+> On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote:
+>>> +/**
+>>> + * device_get_child_node_count_named - number of child nodes with given name
+>>> + *
+>>> + * Scan device's child nodes and find all the nodes with a specific name and
+>>> + * return the number of found nodes. Potential '@number' -ending for scanned
+>>> + * names is ignored. Eg,
+>>> + * device_get_child_node_count(dev, "channel");
+>>> + * would match all the nodes:
+>>> + * channel { }, channel@0 {}, channel@0xabba {}...
+>>> + *
+>>> + * @dev: Device to count the child nodes for
+> 
+> This has an inconsistent kernel doc structure in comparison to the rest in this
+> file.
 
---n9ulxRlfeKutuODQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hmm. I'll take a look at the differences for v5.
 
+>>> + * Return: the number of child nodes with a matching name for a given device.
+>>> + */
+>>> +unsigned int device_get_child_node_count_named(const struct device *dev,
+>>> +					       const char *name)
+>>> +{
+>>> +	struct fwnode_handle *child;
+>>> +	unsigned int count = 0;
+>>> +
+>>> +	device_for_each_child_node(dev, child)
+>>> +		if (fwnode_name_eq(child, "channel"))
+>>
+>> s/"channel"/name/ ?
+>>
+>>> +			count++;
+>>> +
+>>> +	return count;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(device_get_child_node_count_named);
+>>
+>> I did not check how many users are you proposing for this, but if
+>> there's only one, then IMO this should not be a global function yet.
+>> It just feels to special case to me. But let's see what the others
+>> think.
+> 
+> The problem is that if somebody hides it, we might potentially see
+> a duplication in the future. So I _slightly_ prefer to publish and
+> then drop that after a few cycles if no users appear.
+> 
+> Also this misses the test cases.
 
-> > It would not only gain us a better resolution for alarms, but also
-> > allows for enabling UIE.
->=20
-> This is already something you can do. I admit this has become super
-> convoluted since Jon switched UIEs to be handled using the alarm
-> interrupt...
+I'll also take a look at the tests, but I have a bit of an attitude 
+problem what comes to unit testing. Adding tests for the sake of having 
+tests just hinders the development. It makes improving functions less 
+appealing (as tests need to be changed as well) and adds bunch of 
+inertia & maintenance cost. Sure, on complex functions having tests 
+increases the confidence that changes work - but I don't see much value 
+here.
 
-How can I enable UIE with alarms which do not support
-one-second-resolution? I found that most, if not all, drivers which have
-RTC_FEATURE_ALARM_RES_MINUTE or RTC_FEATURE_ALARM_RES_2S set, they all
-disable RTC_FEATURE_UPDATE_INTERRUPT. Which makes sense to me when I
-look at the UIE-via-alarms code in the RTC core. But, yes, it is
-convoluted, so maybe I am missing something?
+Do we have tests for all the property.h functions?
 
-Thanks for your fast reply!
-
-
---n9ulxRlfeKutuODQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAme9oXUACgkQFA3kzBSg
-KbYcIg/9FWlPQ6i+Ku1l/EsLOpp1tjJ/1jhqMeS6LfIz9o/SGl7HpW/WEaz36M8s
-QpKFGKJ7LWxoM9Ir+b5TE6z4Lk/MmgXTVVN7YO1UGwKxhbtp1AlChstG8mTAe5vb
-WH/8y8aA6uf4JlXvmRoWXCz3yGGSZMPRi2tPsLuB7RUO1PM+s1ntm9qsWez1REOi
-cJDY5sNf/f74K5Iqtx949cpZdLP6RT3P+zFiWtgPg6IWhAd4et/ksxszbPD8gaeJ
-tuBEapG8wb0sUljLlYTpC9TATEGZIiG335txZmo1R0IosbPbAx0HvQOr1qnXnNDC
-VwxyXqFZf033MwXmDDE+ltww4jl6DYYkjCm5w6NzUBpbUr5HoxvOlZXzO2RHilmT
-O3qsGmWWlWPVnAxhySzXNan9OeXyI8FYxQg2QgHgcVAkzpJcMJgZwsndq912hlvo
-8k5Q38aPRyLLQ69SC3D6r0QrkVNkUSZLGQrN5h6vALvK/e9f0JABH3zv2C3K3EbQ
-r/bSG429+QPSYR10f2amzgBWRiNh1K+v9bHzotbucMGWDdxIfiC4MWLhp6h2KFfT
-ZxpOf6mbK7bZuKdMZgqv8ca3CXxJ+AT2v5ncAZwMi8XgJl2ISGNQEhk1DGglIMaJ
-4ykA5ac05N2SZhaqPFpwPWc6PW9TiV8DKIEHzz4cxdK8YUifQdk=
-=V6WJ
------END PGP SIGNATURE-----
-
---n9ulxRlfeKutuODQ--
+Yours,
+	-- Matti
 
