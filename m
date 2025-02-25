@@ -1,177 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-13636-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41360A43B08
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 11:15:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DDAA43B2E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 11:19:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 221C11732FA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 10:09:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 629F97A6683
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 10:18:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9D04263F28;
-	Tue, 25 Feb 2025 10:07:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93522266B6C;
+	Tue, 25 Feb 2025 10:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+659pig"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="NFfdGqte"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF4D263C7C;
-	Tue, 25 Feb 2025 10:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F7F266573
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Feb 2025 10:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740478064; cv=none; b=Vmq2hEm1GTDiBUWOepdsZdrK75vi+hLEXIrv4qO1C59EnMk7DlhHz5cidIQbEnDTMoTRCnn1j7ibgh8xqsn/Y6sEb0nDOO6L0FzFxs2W6+uqqoX0urdkyux8M6r13pOq+QWBMDpgvcHxLBvX8/Dx1gciY/xvVBfcWRv8jYZ9V/Q=
+	t=1740478754; cv=none; b=NdMv+1b3FO+GEJxlQuuO1PoUb7ze6upHd4XCNsNXFPjk7OlZSRQneCt2oZQExxN4Yfg1u/ub3aDdYInwCtV+ri7OGSwLKO7WK6hTUA4ibZhh4OpiQOPGH6pNoo9jkCPEx+Ggw0zTjMO2s2gd9Phg6mjr7exuWIO9yjKWAgRgCeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740478064; c=relaxed/simple;
-	bh=YTqMj4ps1llscSuDb/2p+FJjVauDFbLTY2iu1MZb15U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bu0weg1qmANcnOtlBT7uhsFBEEkEmvDCdV6awaJALy8K/owPg4k2wSeHxhCr8O9xlsHEbtoDpjhti8QEvQi0+65jfPkxiNG6t7EZe8v2mzwM9F3HJTc6k3winkeBvCbUEpWXN1y7nqhMTSLuVPP5VgBG0fwx4lZZeiA9ZAYWSU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+659pig; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3098088c630so50618121fa.1;
-        Tue, 25 Feb 2025 02:07:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740478061; x=1741082861; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lAEbqPgmBi60dC78J9e9TaRL3Bq8nEEXaJp+eattnt8=;
-        b=B+659pigkcKaGAcqZYaxlphQIvHwA+vMv/vgSHMs/OkmA4REnPXOh/HSfGCwrP643e
-         yXvAHCFLY53ESkVtj2pS8q5tHUNhEOz0/Xl2SzLuwFMcyoAIO9H9LEYUCBpuKhvq3i1/
-         INYfaYxPvXMy0t8Hu1DBvaSdhLGXtkvabSDdUwNo5zZ+ARGdntuPojCOGKkXN1G9Eqga
-         hMcgoL8bjzVHzBi6B/4QLRQYcMBynXIQ3oISq1bQcGt47yPxliz9ye3nkgXpAM2Bmudc
-         y7jYnJ1lzW9BddfdpppaL1XEsl5TvGUBMIK2aMBOg4botv9ijMd70eL+4qvMp4tqdZDm
-         3CaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740478061; x=1741082861;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lAEbqPgmBi60dC78J9e9TaRL3Bq8nEEXaJp+eattnt8=;
-        b=f+8wsbDU4163gXr2Ou33xEQbgCLxie1hBobJz+1QqfG3nVwR7auHL7Zv8xKKFH4odO
-         hgGfpwXa2fDiR5BWZpkljPGo7HF9VChwzuv//1M5OxqwYRAzz5Eb3pXSN+TvAvwXrEfu
-         MdVKWepbACj2L2zvYgEUr7W8gc8Yy3ndoRXQ3veiHiF/zzu/lBN8OAy5Zi9IfamZuTzW
-         wg0cu9xTRhHNmE/eczF2nbLq65AfeLqqtrcxjUCzAkAEJTNliNu9o2BM0awQ33ONUII8
-         eCW6Suah4kbpdAFrlrzLHyQI8C7c8Ihm/WOweuHtxmC2Q/7bRQ8FNuvGUyidbj5B3ubG
-         kHHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVegutySvs7ZMwAUmjigu53aRJ7a7FWZhlkksoidle9P9V7vZXR3jmFgBjnbZniPlryLoxcvm96hgO8@vger.kernel.org, AJvYcCVsv1nnd2byJUH81vyjiOCU1LoTBLQwStTm03sX09bGujfyBFk/TpSO786U5obYW4tE7pUxVXsgbBcwl4TTRu2/68w=@vger.kernel.org, AJvYcCW0kBesrTh212qJXJjbS8cvO5FKHBZ0EyK2y1WkrBHfks8wYwRb750O/5cN4T3vI8ahLr50CrJng7xsGg==@vger.kernel.org, AJvYcCXiyFqXxycxjuFLnuqRmcVsLNv86qTvQu2RUcWA34VRtVT2/TNQFvZ2BQf3gipazYhdHbICb1Red748@vger.kernel.org, AJvYcCXuEKEvpAMdllMOsm0nKN7cj+ms3MmE3U1XsyU04Ujp05TzDeh8c5C645hShI5Yu1oGEOZgTV/Y/Q0qWpvG@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/kD06mV1RCY97r7GdddtKuavgL75kdCDBwJJRVDytgDaISuJS
-	lp64fCWtCy3mGhaJliAu+UA/McBX7yBCcaSzAqy70f4OwsHBxgNl
-X-Gm-Gg: ASbGncsmbiXNBMIYpEpkn8XEqWHcKLOnVWSoxIyFlzX5JVVjg8Ij+1Z9pFxHRbnLcKb
-	BLmK6FY7Xp97bADTWaj7clavF9B/UV1qPzAwdNCaWykwpJLUk5bOutEbzKCFZoev6I2GgqNhVIQ
-	YPZ4HX1lV2cIxaDd27YTOv+CIXJCQF0PbhqHpFnqzG8Vul3mkQaY4wBdn3A83aQ5SfrY9jtUE6L
-	qxmRRffeJ3/958SBtwJVyive9nVnejGCR3mhvMOS2jcGJ2rrArFrOKdqbeSexSuUlqsrvEJNK58
-	pwKdTmZcWcZRgx8E3xnl0PRjKr/Yt86yVtuteTE=
-X-Google-Smtp-Source: AGHT+IE9LtSoTYOkptRbtvW+Pr2kFGMFaZQ0FPl+alwBphqqI58uxcxrb6TXfUP19MarHnVygwrw5w==
-X-Received: by 2002:a05:6512:b8d:b0:545:2950:5360 with SMTP id 2adb3069b0e04-548510d7323mr856574e87.22.1740478060709;
-        Tue, 25 Feb 2025 02:07:40 -0800 (PST)
-Received: from [172.16.183.207] ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-548514f477esm130333e87.187.2025.02.25.02.07.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Feb 2025 02:07:38 -0800 (PST)
-Message-ID: <c3cc7f2a-ea0c-42a0-940c-95735d008989@gmail.com>
-Date: Tue, 25 Feb 2025 12:07:37 +0200
+	s=arc-20240116; t=1740478754; c=relaxed/simple;
+	bh=UsVMLDo+m64zyK+lmUJineIYg7VYad5kNvrRXF+EdbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ihhrLSUqKidmzlBhueqaN8A14DD6BHUsJCQBTnKTJXXpJXOqnLi8AdVGasul09iz6YkR7KRPE6IJNNYYZT4fX31cWqkB6Gf0dqsZpWsP4EBm/axLWh1M3M7Pqm2aZ2eV+G9sIQKM9RvCeaYP5QL5FKXMegxSVC0iehWKUeLcdcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=NFfdGqte; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:mime-version:content-type; s=k1; bh=5Xoxc08WwmhdH/WoNPYD56lohXL
+	6Tv3QWLszz+sCvIA=; b=NFfdGqteebMc0/384a8c5wEkhl/5d7HeAv6mCvxAmaS
+	4SAztN+SPyakIMCAELJmRFL87g1HZF9uKJOkLiKcbP2TjNz0E/4EP2ov3I2jr4eE
+	3o8mwLfn4pvQVERlv4cPRX0im4XsxNTdAnx5vFe5cWyl5jEGYS2KwfJMt76OYmo0
+	KW+e8jn6Ly9EHJrAuCZC2hnBIEKyrr6YAKcit7qH4OD+EDqzpR0xWWJxwGVeX+F8
+	z0y+iUxefRgwXJvvszNXbfnw1A09vZ1Y+nsVrsWzuHggrZYxVafoTdh4eF5L7QUU
+	L1ybdcOMosFC9+TnBfaMnpWpRF+UlNkS+bcnrfmP/bg==
+Received: (qmail 176125 invoked from network); 25 Feb 2025 11:19:02 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Feb 2025 11:19:02 +0100
+X-UD-Smtp-Session: l3s3148p1@TiIlyfQuLtsujnvP
+Date: Tue, 25 Feb 2025 11:19:01 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-rtc@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Q: use 1s irqs to overcome alarm minute granularity?
+Message-ID: <Z72ZFf-3Z78O44nm@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-rtc@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/10] property: Add
- device_get_child_node_count_named()
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Guillaume Stols <gstols@baylibre.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Dumitru Ceclan <mitrutzceclan@gmail.com>,
- Trevor Gamblin <tgamblin@baylibre.com>,
- Matteo Martelli <matteomartelli3@gmail.com>,
- Alisa-Dariana Roman <alisadariana@gmail.com>,
- Ramona Alexandra Nechita <ramona.nechita@analog.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <cover.1740421248.git.mazziesaccount@gmail.com>
- <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
- <Z72QAOA9xXbP16K-@kuha.fi.intel.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <Z72QAOA9xXbP16K-@kuha.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pksJuOurlPU6X6JM"
+Content-Disposition: inline
 
-On 25/02/2025 11:40, Heikki Krogerus wrote:
-> Hi,
-> 
->> +/**
->> + * device_get_child_node_count_named - number of child nodes with given name
->> + *
->> + * Scan device's child nodes and find all the nodes with a specific name and
->> + * return the number of found nodes. Potential '@number' -ending for scanned
->> + * names is ignored. Eg,
->> + * device_get_child_node_count(dev, "channel");
->> + * would match all the nodes:
->> + * channel { }, channel@0 {}, channel@0xabba {}...
->> + *
->> + * @dev: Device to count the child nodes for
->> + *
->> + * Return: the number of child nodes with a matching name for a given device.
->> + */
->> +unsigned int device_get_child_node_count_named(const struct device *dev,
->> +					       const char *name)
->> +{
->> +	struct fwnode_handle *child;
->> +	unsigned int count = 0;
->> +
->> +	device_for_each_child_node(dev, child)
->> +		if (fwnode_name_eq(child, "channel"))
-> 
-> s/"channel"/name/ ?
 
-Thanks Heikki for spotting this brainfart! :)
+--pksJuOurlPU6X6JM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
->> +			count++;
->> +
->> +	return count;
->> +}
->> +EXPORT_SYMBOL_GPL(device_get_child_node_count_named);
-> 
-> I did not check how many users are you proposing for this, but if
-> there's only one, then IMO this should not be a global function yet.
+Hi,
 
-I have no strong opinion on this. It starts with just 1 user (IIO ADC 
-channel stuff), but I've a feeling there are other areas which do 
-look-up nodes by name. I suppose "channels" are looked-up in other areas 
-of IIO as well. Lookups are probably done outside the IIO as well. I 
-haven't audited this, but I wouldn't be surprized if at least LEDs (and 
-perhaps clks/regulators?) could find this useful too.
+so alarms of the Renesas RZ-N1 RTC can only have one-minute-granularity.
+However, it does have a one-second-interrupt. Has it been tried already
+for some driver to use such an interrupt to emulate second-granularity
+of the alarm? My searches did not yield results so far.
 
-> It just feels to special case to me. But let's see what the others
-> think.
+So the idea is, of course, to the let the alarm fire on the minutes.
+Then, enable the second-update irqs until reading the seconds matches
+the requested seconds of the alarm.
 
-Yeah :) And thanks for spotting the "channel" -thing :)
+It would not only gain us a better resolution for alarms, but also
+allows for enabling UIE.
 
-Yours,
-	-- Matti
+I get it that handling the different interrupts may get tricky if e.g.
+there is a change in the timerqueue while something has already been
+setup or so. I need to research this, I have currently no idea how this
+is handled at all.
+
+But while doing so, I wanted to ask if there are already opinions if
+this approach is feasible or not. I can't imagine that I am the first
+one to try it, so there probably are experiences out there?
+
+Thanks and happy hacking,
+
+   Wolfram
+
+
+--pksJuOurlPU6X6JM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAme9mREACgkQFA3kzBSg
+KbZbmw/+IfpKP08eBbj/mD8xWmINuCz7zPOFa/JflZfmCL08MhDCnKRrKlN3FCDJ
+rEOQ4gagV/T7OXcXarWZRxxBR95lk/OQopnzp7nwpcUpkOFmjIAuYqSlobF34JHD
+x6GzAQrU/vFCPxJ9iexTHhr90W7tJ/33zhVtsU1YGffNV1KhahhQO8dFQwelypcC
+/mSzxsIbooJQhSlNZuepv4N4XalH+8G+550GjjfQMMazuxwH58joDolZnQf3cH4b
+aBa8K5eB8dNBlaR9SKNbhXvqU8kkD82yNiDAxtF79+974J5D3rNpQFNwAZ5pJ8cH
+b5kFWBXgIi48OeKjA1eLVb7wTiTtv8XHOjLrQD4CdcHIIHpw6d/MDaPeqSlx8BGC
+mbcSGtjMlTTjBDl6TEAokYQc5LfxWj9vBZ3liN/D2j3VmnWuntoKlz2ToVmO5jX6
+/h4M3ZGfeyILnZo+C+yEOuuNnzH9LVvk+NaB8tBqTAWw6AvPbEZ+CEyyUB/h9mhk
+fcQLc4KBbs7ete2usGi4GITOeD/b/S/AYxdhU5gQBZAiGIVaLF2VQN81CNVzGgyc
+YHE0qSWOcX2+OtpkvzL2uU0XxPzIMOtZhUf6Fq0+bbaBzqLNUwT3B/Q4vr1+Yk0l
+/PtD5tqPb3+vkuwQ3ixbsW9X8NMQPRU7jLRXwgOO0maFb5JF0SM=
+=fn2v
+-----END PGP SIGNATURE-----
+
+--pksJuOurlPU6X6JM--
 
