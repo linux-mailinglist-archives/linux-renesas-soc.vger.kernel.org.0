@@ -1,79 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-13658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13659-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FAD4A440DA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 14:32:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45192A44140
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 14:47:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4037C188F546
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 13:29:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3319A7A84CF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 13:44:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFCD126981E;
-	Tue, 25 Feb 2025 13:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2CDC269837;
+	Tue, 25 Feb 2025 13:45:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iQaa1Bmp"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TqAOEm8j"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23ACF268C52;
-	Tue, 25 Feb 2025 13:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D41265CBE;
+	Tue, 25 Feb 2025 13:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740490162; cv=none; b=rqKN+UlswhnY/z0+66gpdGxJ1HC9JdDbxtauXDOrwep3MIbgZrGBevmpiH2oj9JngpXUh5o2JzPsEseIugSK8Yi6CNpaQtfQzyvCuk1uAfzXwRN74+yEAB5g3B3sLdUTr6nRe0ollkV06YolpScsRgtPy7sKoqpLcVNX7Z/ih/c=
+	t=1740491129; cv=none; b=cWHZ6HyZc3UL9991b5WFOs/ZjRMwlNuTZ8qJmNdcQlqYFqcyG4AHtCUuL0qjQhIP7hUJpH1QfVJa1jWfdFs6MkhzLAPYiGA6c+eFoTnElUSWKh4xEas3VpMMxmH4Pz1ZD/3anxH8PnkED3NZjtoeUwQWfksjGNh/SnTI+G3SYNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740490162; c=relaxed/simple;
-	bh=rHQexzBVm+h27NJGWaGxccjhnh05Li9527fFlp5jf58=;
+	s=arc-20240116; t=1740491129; c=relaxed/simple;
+	bh=JFC+miNbc8z+8hh+i0aV4a/eWqJcZlJ5xtiAErPuktY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XA+mvSzbl4aH4ERIQJ9y5YixNDxG5bo/c6lPlM6qP1VqJpeHvC5IDQfgDLG8m2Pl2uwXa8js4O9h7xXwi8aj+zWHYIGpb5SWvOZwkfQQz0PZXZq/S35YAyrYTd2ZuodGgdY7UtwZ/qD8ONJLe5tXFWYk1r2+YcYp7M/WijCX1u4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iQaa1Bmp; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-543d8badc30so6499615e87.0;
-        Tue, 25 Feb 2025 05:29:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740490159; x=1741094959; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=R+FbrRxOgnYTZyaA+lF8b6QjfgGK+98gNFHNL4vg+8M=;
-        b=iQaa1BmpqwEtlhxZMJq69qGcoCfsj2ngBK3g6fVwyHnbuTF0+oQ6NDPWoMqvfnir9L
-         pXkFAhkzxlgDruRLbi5DHj7IDFVxIoDlKFSA57hxw64WYWxd4imKCfjRDeMFcSIqlBSe
-         uoWgGHYuLZndPcYHL+az9678E5uEbQJcyXJSPWAC8Fz6m5+UkcoM9QN+Qut8pnKhzl/F
-         tTUNG+Z4ZVeaW+9WKL6L4G3t1OgvWEWyCdq5+CKB4xhTEiuDtUtIX2X2ZGRwV5npkKqY
-         dfdH1KSOz+S86DxTDfdX9v3vXcunOlu6i3nMJQBMw693W3OG/0o5NmlA9qnN9cegRmHR
-         p8eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740490159; x=1741094959;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R+FbrRxOgnYTZyaA+lF8b6QjfgGK+98gNFHNL4vg+8M=;
-        b=QEDAXNqkbABnjIBPoQZ88KzhNIpeeye7fpyGKho/pDU+jBD70SQrHK12DixapvKIvD
-         yEagVq3L4uhf/t9rz4RpHPGHAYeLmEI5+x7vlpnMl3elojXyxgmsYBG5cPcNONybmDmu
-         S5pQqWuaBq9KyabYb+6MzxAfFgaSkrYMse8bM6NTD8A3ZI2sJoa3m+2GJba+TsA+xJml
-         Kez6CUntlp7js6HBW4fAjIW95GWkIAGAKmq5Es3irV7ryfY8GiHfbdIdxeeLUQfcQH8H
-         V2YtDYAkoY+wSoNOSyXKoc9jQItN3xQHjA2mLbFfjef/ZYtKqGZ0V1IkTeSnQlP2RUcs
-         Tbqg==
-X-Forwarded-Encrypted: i=1; AJvYcCUXDDbQGCoaDGD7bk7upmD3DgsLqYvExaYdpJxBgjm9eDdURgpFYPAlXLtKNVDoUaotT+ginpUZDd4x@vger.kernel.org, AJvYcCVzadywxTL2eSBTBT8iQLWz7VrGxjvZUqnRfmvEXni1BHRQu428Hddqg1dfaDVJMSzvXxCeFxAhGr5PL+07@vger.kernel.org, AJvYcCW0drSk5cxtXogapboWqhvEJekh22+Ldt5GUmdEXBs9jldIvl1OZuDWHXQuttdvCNP00VEo/9h5jn3fgtw66+1Eu54=@vger.kernel.org, AJvYcCXU8Yn8XpliQGWEmjf3n4kImvfY4bdB/c1L4g1WkkzqpwDanUY/5/7gci1rWe3pi5n3HrekegZkwKVkDQ==@vger.kernel.org, AJvYcCXt2sGPma7zSGmJEn+foyQrNRwIGaLSLFRQVgjbfdd6a0NueUDKPnT21qZ1FRaPXZ17dteX1T0HPrsS@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0MVaZS5TGjqxHA1xkhMTyOQA9gvuh7fZY1mpym/SeM8dC2R22
-	26QazjA1UMp2PuK1Y05RLyAkdDp8bU1hMfo2GW6oaUGJH80uWKuk
-X-Gm-Gg: ASbGncsoVszor2AjrItl39iAY2lHCQLAZRyIvOWgu4n3p48vXeKqb3KNQKUa5g43ZVT
-	WJMWlJrHgeSzUS5bohJrRc36RdvORvqOGsWUuJue5/AVnRyvQHuT7EkGhu+a/AcY0vs5oMs8+ZM
-	otSj6Hz6GWs7Z5hSKyIfW5VCGtxcNfOrnkrnVUNG8Djxnag4UpapII5EWYblN0owBopZZbq6NCq
-	DcJYy3k7kvJv31c9sWzVaLTATkcmWrqbxUIiGcwimJ+L+63j87lfV8+OImmamv/oizERbawjPbt
-	pnsJBmIXKUubTtf7DysWdyTzuqHrFCNq0OQMPNU=
-X-Google-Smtp-Source: AGHT+IGjIiZRQoCqQpRaub+un/XzTU053MAFUSi2TNm85/fj9TbmZ/3TfRa1taLP4aGsaQej3mQfPg==
-X-Received: by 2002:a05:6512:224b:b0:545:54b:6a05 with SMTP id 2adb3069b0e04-548510eebcdmr1461663e87.45.1740490158959;
-        Tue, 25 Feb 2025 05:29:18 -0800 (PST)
-Received: from [172.16.183.207] ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-548514b9db3sm181711e87.88.2025.02.25.05.29.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Feb 2025 05:29:18 -0800 (PST)
-Message-ID: <893a3c45-537e-47ad-afbd-1e5d3b9abe2c@gmail.com>
-Date: Tue, 25 Feb 2025 15:29:17 +0200
+	 In-Reply-To:Content-Type; b=I8BBgO//JPpsMtsi9qKV0AT02ntOwC+abOpqtqutW1M6tewTn6A+aJO3ZdKKwif6gxvozEKq8XhxlohKyt16Z3+aXQVl+BvrxQY1cV/CZ2DE699elZqjdyUPrRq/55oK0K/W969qJV7UUxTGPwteYadGp0q82G1Tq2C6lkkZxZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TqAOEm8j; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B326D82E;
+	Tue, 25 Feb 2025 14:43:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740491038;
+	bh=JFC+miNbc8z+8hh+i0aV4a/eWqJcZlJ5xtiAErPuktY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TqAOEm8jY6aGAOQ9BLN0iANHoj9EuhjvkXpBKUccldcKmyKt0NStoy2kNYhgofeYZ
+	 cUbxnpnvTsSayJiVOvExLLPlDM3UqxjFgDEnVVrdk1CIPi9iMuRQtQFt1hZU3tRKsg
+	 1eg95cZ+G1uKJIo455If+sXgT6dP77C6jL2Y3A4E=
+Message-ID: <f74af5cc-bca8-45c1-9204-b362fcd6f998@ideasonboard.com>
+Date: Tue, 25 Feb 2025 15:45:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -81,75 +50,206 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/10] property: Add
- device_get_child_node_count_named()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Scally <djrscally@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Guillaume Stols <gstols@baylibre.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Dumitru Ceclan <mitrutzceclan@gmail.com>,
- Trevor Gamblin <tgamblin@baylibre.com>,
- Matteo Martelli <matteomartelli3@gmail.com>,
- Alisa-Dariana Roman <alisadariana@gmail.com>,
- Ramona Alexandra Nechita <ramona.nechita@analog.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <cover.1740421248.git.mazziesaccount@gmail.com>
- <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
- <Z72QAOA9xXbP16K-@kuha.fi.intel.com> <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
- <ad39b453-7e5b-49bd-a4fd-6a4988636130@gmail.com>
- <Z72d7TzZ21WITW3f@smile.fi.intel.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <Z72d7TzZ21WITW3f@smile.fi.intel.com>
+Subject: Re: [PATCH v3 02/25] drm/dumb-buffers: Provide helper to set pitch
+ and size
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20250218142542.438557-1-tzimmermann@suse.de>
+ <20250218142542.438557-3-tzimmermann@suse.de>
+ <dcd59a75-7945-4a2e-99f9-3abbb3e9de14@ideasonboard.com>
+ <355ed315-61fa-4a9d-b72b-8d5bc7b5a16c@suse.de>
+ <596b960e-71f8-4c2c-9abe-058206df1dfb@ideasonboard.com>
+ <87ca2b81-a67a-468b-ae2b-30d02a3a64bc@suse.de>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <87ca2b81-a67a-468b-ae2b-30d02a3a64bc@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 25/02/2025 12:39, Andy Shevchenko wrote:
-> On Tue, Feb 25, 2025 at 12:29:31PM +0200, Matti Vaittinen wrote:
->> On 25/02/2025 12:21, Andy Shevchenko wrote:
->>> On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote:
+Hi,
 
-...
-
->>>>
->>>> I did not check how many users are you proposing for this, but if
->>>> there's only one, then IMO this should not be a global function yet.
->>>> It just feels to special case to me. But let's see what the others
->>>> think.
->>>
->>> The problem is that if somebody hides it, we might potentially see
->>> a duplication in the future. So I _slightly_ prefer to publish and
->>> then drop that after a few cycles if no users appear.
->>
->> After taking a very quick grep I spotted one other existing place where we
->> might be able to do direct conversion to use this function.
->>
->> drivers/net/ethernet/freescale/gianfar.c
->>
->> That'd be 2 users.
+On 21/02/2025 11:19, Thomas Zimmermann wrote:
+> Hi
 > 
-> I haven't checked myself, I believe your judgement,
+> Am 20.02.25 um 11:53 schrieb Tomi Valkeinen:
+>> Hi,
+>>
+>> On 20/02/2025 12:05, Thomas Zimmermann wrote:
+>>> Hi
+>>>
+>>> Am 20.02.25 um 10:18 schrieb Tomi Valkeinen:
+>>> [...]
+>>>>> + * Color modes of 10, 12, 15, 30 and 64 are only supported for use by
+>>>>> + * legacy user space. Please don't use them in new code. Other modes
+>>>>> + * are not support.
+>>>>> + *
+>>>>> + * Do not attempt to allocate anything but linear framebuffer memory
+>>>>> + * with single-plane RGB data. Allocation of other framebuffer
+>>>>> + * layouts requires dedicated ioctls in the respective DRM driver.
+>>>>
+>>>> According to this, every driver that supports, say, NV12, should 
+>>>> implement their own custom ioctl to do the exact same thing? And, of 
+>>>> course, every userspace app that uses, say, NV12, should then add 
+>>>> code for all these platforms to call the custom ioctls?
+>>>
+>>> Yes, that's exactly the current status.
+>>>
+>>> There has been discussion about a new dumb-create ioctl that takes a 
+>>> DRM format as parameter. I'm all for it, but it's out of the scope 
+>>> for this series.
+>>>
+>>>>
+>>>> As libdrm's modetest currently supports YUV formats with dumb 
+>>>> buffers, should we remove that code, as it's not correct and I'm 
+>>>> sure people use libdrm code as a reference?
+>>>
+>>> Of course not.
+>>>
+>>>>
+>>>> Well, I'm not serious above, but I think all my points from the 
+>>>> earlier version are still valid. I don't like this. It changes the 
+>>>> parameters of the ioctl (bpp used to be bits-per-pixel, not it's 
+>>>> "color mode"), and the behavior of the ioctl, behavior that we've 
+>>>> had for a very long time, and we have no idea how many users there 
+>>>> are that will break (could be none, of course). And the 
+>>>> documentation changes make the current behavior and uses wrong or 
+>>>> legacy.
+>>>
+>>> Before I go into details about this statement, what use case exactly 
+>>> are you referring to when you say that behavior changes?
+>>
+>> For every dumb_buffer allocation with bpp that is not divisible by 8, 
+>> the result is different, i.e. instead of DIV_ROUND_UP(width * bpp, 8), 
+>> we now have width * DIV_ROUND_UP(bpp, 8). This, of course, depends on 
+>> the driver implementation. Some already do the latter.
+> 
+> The current dumb-buffer code does a stride computation at [1], which is 
+> correct for all cases; although over-allocates sometimes. It's the one 
+> you describe as "width * DIV_ROUND_UP(bpp, 8)". It's in the ioctl entry 
+> point, so it's somewhat authoritative for all driver's implementations. 
+> It's also used by several drivers.
+> 
+> The other variant, "DIV_ROUND_UP(width * bpp, 8)", is used by gem-dma, 
+> gem-shmem and others. It can give incorrect results and possibly OOBs. 
+> To give a simple example, let's allocate 15-bit XRGB1555. Bpp is 15. 
+> With a width of 1024, that would result in 1920 bytes per scanline. But 
+> because XRGB1555 has a filler bit, so the pixel is actually 16 bit and a 
+> scanline needs to be 2048 bytes. The new code fixes that. This is not 
+> just a hypothetical scenario: we do have drivers that support XRGB1555 
+> and some of them also export a preferred_depth of 15 to userspace. [2] 
+> In the nearby comment, you'll see that this value is meant for dumb 
+> buffers.
+> 
+> Rounding up the depth value in user space is possible for RGB, but not 
+> for YUV. Here different pixel planes have a different number of bits. 
+> Sometimes pixels are sharing bits. The value of bits-per-pixel becomes 
+> meaningless. That's why it's also deprecated in struct drm_format_info. 
+> The struct instead uses a more complicated per-plane calculation to 
+> compute the number of bits per plane. [3] The user-space code currently 
+> doing YUV on dumb buffers simply got lucky.
+> 
+> [1] https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/ 
+> drm_dumb_buffers.c#L77
+> [2] https://elixir.bootlin.com/linux/v6.13.3/source/include/drm/ 
+> drm_mode_config.h#L885
+> [3] https://elixir.bootlin.com/linux/v6.13.3/source/include/drm/ 
+> drm_fourcc.h#L83
+> 
+>>
+>> This change also first calls the drm_driver_color_mode_format(), which 
+>> could change the behavior even more, but afaics at the moment does not. 
+> 
+> Because currently each driver does its own thing, it can be hard to 
+> write user space that reliably allocates on all drivers. That's why it's 
+> important that parameters are not just raw numbers, but have well- 
+> defined semantics. The raw bpp is meaningless; it's also important to 
+> know which formats are associated with each value. Otherwise, you might 
+> get a dumb buffer with a bpp of 15, but it will be displayed 
+> incorrectly. This patch series finally implements this and clearly 
+> documents the assumptions behind the interfaces. The assumptions 
+> themselves have always existed.
 
-I took a better look and you obviously shouldn't believe :) The gianfar 
-used of_node instead of the fwnode. So, it'd be a single caller at starters.
+This is perhaps where the biggest gap in understanding/view is: I have 
+always thought dumb-buffer's "bpp" to mean bits-per-pixel, where, for 
+more complex formats, "pixel" is not necessarily a visible pixel but a 
+container unit of some kind. So bpp * width = stride.
 
-Yours,
-	-- Matti
+It would not occur to me to allocate XRGB1555 dumb-buffer with 15 bpp, 
+but 16 bpp, as that's what a pixel takes. I have never seen the 
+dumb-buffer bpp connected directly to the pixel format (that's what the 
+ADDFB brings in).
+
+I may be alone with that thinking, but afaics the documentation leans a 
+bit on my interpretation (instead of considering bpp as a "color mode"), 
+although admittedly the docs also don't really say much so this may be 
+fully just my interpretation:
+
+https://man.archlinux.org/man/drm-memory.7.en
+
+https://cgit.freedesktop.org/drm/libdrm/tree/include/drm/drm_mode.h#n1055
+
+I (mostly) understand all the complexities around here, thanks to your 
+replies, and I think I'm ok with the series as it doesn't break anything 
+(need to test the v3, though).
+
+I still don't like it though =). And I would be happier with the simpler 
+"bpp" interpretation that I mentioned above, instead of it being a color 
+mode. But we can't have it both ways, and perhaps it's better to unify 
+the code and have the behavior explained explicitly as you do in this 
+series, even if the explanation only covers some RGB formats.
+
+  Tomi
+
 
