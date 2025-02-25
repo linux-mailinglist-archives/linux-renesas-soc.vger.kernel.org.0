@@ -1,183 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-13647-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13648-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48087A43C72
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 11:58:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D24A9A43C77
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 11:59:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E713C3B22C7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 10:57:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBB9618823D9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 10:59:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 985A92676FC;
-	Tue, 25 Feb 2025 10:57:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6B6F2676F6;
+	Tue, 25 Feb 2025 10:59:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AmtOnomg"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="E/L05BNj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99751267AF1;
-	Tue, 25 Feb 2025 10:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80E926738B
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Feb 2025 10:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740481022; cv=none; b=S6owzvO4wiDgiilFnnmAid+l1V2AfXzOGHaw5c9UhSdO1mdce0s0TaD4S+mxjGx3id0YrkdjrosW7ELWN60me0j/7bWNkun2/OAnVQfIrZz08vlPey+lY8GaQ/gtXjGgWEN2aSxsSkr6bH0CoQiAhPhRp4sfzJSuvdZoo9+tVZc=
+	t=1740481157; cv=none; b=EcjW+LiJ5qPNkZ4SVUYw1o7LS4BB7wd4BPYzE+sRvABgN/p4CEwzSOIa2U9MJPzEh84gXhNgjYb/2luERl308+eJj9GkfJduVFNcwy9dZlMe3ri+zC6bXMz5PhqYUITLHJTBCYuILNs7WH7mzwr7DvF2D6CMrZdyGlTUq3Bz+5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740481022; c=relaxed/simple;
-	bh=2YozzQHz8w8HrGbTyvr5eXnrPoFj0GWuc89p5e2auWs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nWWoTzG11xsTGGIfnaGFRn2aA8J/ayBgLNOWtiAHKmQz01stiVbFYyu3MD2J4mXArzc1l1TxemhLaS+N5KGyxG51xbVGukupvSisDDmT79510p3FAGqAiohTrCw4vaiWFAElhajudNX9m+0aAXuQri0201e4FH9bxg4AqJ257eA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AmtOnomg; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30a2cdb2b98so54619451fa.0;
-        Tue, 25 Feb 2025 02:57:00 -0800 (PST)
+	s=arc-20240116; t=1740481157; c=relaxed/simple;
+	bh=o8r6VoDayWho+fFv7e/gyRno+ziuEWDCAaPrX4Z89JU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MH02gSpn6CPx+8fvNzCu2Z+ow6/aMfku++NFYMrIP4ejfAYIZ8RbjdyInPiwKiHEKDdQHBfWBQO/6tJYkwoKigW1Cj2G5SBAEbxG5YLA/8LdKTMTCjyFD/2Mj2bBOv1TkjRbBpU0LLoyqqBQEYaaI3Dt07pHbp+jEd/jEeTL8Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=E/L05BNj; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-38f406e9f80so4995014f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Feb 2025 02:59:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740481019; x=1741085819; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7/fHdL9OxTBfJ/OtLlF+A8QVXV0YakMI11nkG7r9zEY=;
-        b=AmtOnomgimrsh+JSqPKhw5JK9ZUgi4WKi4e7lshvrOVz4CDy/LR8MZiZuN12MvGeYt
-         kHEs1CQepDJDivhRX+EpzlH4guuRxck3iH0tZyizsmv+5TfYkIOO39iDF79VVyvvpx70
-         mCs4NrVXlis604mjsef+5grqX8+DviTDjHwBQWRdyweOZ/djRtvWoIhCUOsDwTjaLGJ+
-         ptCmfKczWq6JBxyLObjSn8j8GdBOzLxhxiOIK5RpJ1hflcQJ1cPE49PYkmT6iZnrTWJ9
-         nJjcO6QnTsg3K9lUt71piJGZIB+vfxDZzwAcpYe/QHhaBT0UgZ6k8huxLTDZqJiHSCTk
-         zSCQ==
+        d=tuxon.dev; s=google; t=1740481154; x=1741085954; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VukLdfasfQBJ7tQS9WN8QAGcoRYc+03mfvZcv/fClqA=;
+        b=E/L05BNjXV/0bRMBQWfhyzoIJxIksrRK914J9uGQfIDxZFOSxyluXnAhSf/aSyxrvh
+         B5MSDBK4ZrgjJlyWVfLHgnWajA/CmMk3Z1deBTx0dNrLzjNtJ5HX/7QrjGFPYMgLQM8e
+         sJo/r2UifbYZkJRaCLQURYu8gbnwLVPb3XR4h3p7XZdma0CaMQ0RLvCtSQuxA55Mtmww
+         WgsmBi4bwbYL207YI8v4SyRMNmgDBCHfj0JH6FbXDdkRHMWIt/ByQUFRWMp6fcDve6Xj
+         n1HuXvaHr83PbNjThPXdhYKf8QSF3Gs+sD8EXjvNUdjTLpx0OVAGp35iWmliRakdYvIa
+         rMuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740481019; x=1741085819;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7/fHdL9OxTBfJ/OtLlF+A8QVXV0YakMI11nkG7r9zEY=;
-        b=NRiIf3ZKr1r6CmFnrs+zSP+RddIrY+DkvzA25lcGrRNQaaApPklEV30kN+/40m1//q
-         Ng3Wloz10jqHdIREMI5yKXy5gU2vzMo4E9ZmGWSBDEGI4n4wYePT+nJe+DhoCQxbpcri
-         nfTmr/qL86Kay3OpFSJxGqw6q0BFkFG+Ug6Z4w34wD6N418qfebU0WJeFBwLGssyqfIi
-         dvQPcRkj1PCuushD3JhQtwHUlFP4uq/HXFJee/4apKXW+PdldcUUJu5Vg4KkT5X0V8h7
-         lPTFtBxfnpDARzhcTwgd1jxMXmNMx6NlGeeclbqJHBzHjqOelGsP2KJ2lWZXFh9DVhaR
-         uxJw==
-X-Forwarded-Encrypted: i=1; AJvYcCWNiXnu3j9rfCF29jgZpKv4ivIHsfoqAUwVWRejOEnmSvT9Sb0p2/WiDoU6l8v7HhgclJbhaed3hw+j@vger.kernel.org, AJvYcCWYZK6cMig4vBOfob6YTpBkoUTR+qEgynzg1shPul2h4v3fh3dYZBHLsYR2idnnNxpfnpHU76wMfFQabT4d@vger.kernel.org, AJvYcCWiUmxNQEHehTW6LR6iT8keSANbpBQPHHJfOjKmaG0k2QN9Ffen5Z7Fpb1O00VnF3ArPgA67qG+ZG6n7Q==@vger.kernel.org, AJvYcCXpaRy3sDLMnJ589OHQy+9XTo52mjYN+QKxoEAlUrBPrRLeXiznbPq0qE1vt8t0bgULvLsSp2PQq3z3l+ccQm/+uXk=@vger.kernel.org, AJvYcCXxbuy1/K7kiDZQOtGEP+oXDkeLh/q5uenQ8VpEbAhojI0YBMRY+DDw9gfiIggftkyl+3WpIAjfKFZG@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEy0zFQn6+SxLT8BbqPgPxSWMKyV7qM5ttZWpA8J6ax+Gb3+eS
-	dnSCM4MrL5QRqVOUjHpum7eCQ6yIDjmDOPaVdg+50bt1tUlaKvan
-X-Gm-Gg: ASbGnctCbTNCdH/iMEx2QNAwaR3hmJaySAXhVlVCsNWvAYkRSC93fpMIgNkl7ZCBqyF
-	spLlBv7rUoeCNSq22/FTkwy6+bk9oRNlNLh+IsK3wEgBCe1zPjVTAGhaz/klEEfkfZ9iQQhq0AT
-	7H74eiAqbdGFJxuO/mWOnxHDrlS77MF20kooMCwBqbw0nJdVw2n2YXpg3EVCNDfUscJXqTb4/GM
-	+mYY1xJfIh9zMFusa37TxkwL4MO3YiJELjKYfg5TIgOjpxed0+TezzoHwJ8mRgIK5B76VkAg4Uq
-	aEAgr+Q6dy1xdGSlWjAF5y/XfQCs5k4VxMitlT0=
-X-Google-Smtp-Source: AGHT+IH2/CKNaTosFs8GlS0XdmUzabLuIWWzOTmpp5OU7F/me7OdOFzkGeicuNnt7xucX157I9qrZQ==
-X-Received: by 2002:a05:651c:22e:b0:308:f75f:457 with SMTP id 38308e7fff4ca-30a5b18ae70mr54123081fa.12.1740481018475;
-        Tue, 25 Feb 2025 02:56:58 -0800 (PST)
-Received: from [172.16.183.207] ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a81ae80besm1961621fa.93.2025.02.25.02.56.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Feb 2025 02:56:57 -0800 (PST)
-Message-ID: <1e0a9915-fe52-4569-9da0-b0761ba8fedb@gmail.com>
-Date: Tue, 25 Feb 2025 12:56:56 +0200
+        d=1e100.net; s=20230601; t=1740481154; x=1741085954;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VukLdfasfQBJ7tQS9WN8QAGcoRYc+03mfvZcv/fClqA=;
+        b=Uu1J9h0A64Rkj9j4EbL0aPiuvQ3p0/MRMqBkczvjftkXPTPIxQdd1laKc/ROGegME/
+         +a7Hhktai6LsDOjFpYgMYiLCY+YvoFjI6ZEewSRUsV6FIZ/Wm6P+X8uc+03fRs0LPpE+
+         r/LlR+kef+vAHNJ56DLWeN0j6RbSuceJtbzfdFsY+I7JNclWtCte2kU5mh3PmWMV7Ity
+         zusRKuC/uNH3fbp9NTUl3S19cOEcaAwupPMnjAwzZne/do7lYQNBXxZ6RIOOfYeEATFK
+         kolj+jsKboTJzEqO39rIoicOztBp1xfmoRfOS2QpFiJLMkszurKpuYVKJgREmWDpdIeH
+         6bUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVqX1obWJDk0Yk69UYupR3JxoYB8wviMypQUOUFF+Y2wowyvGg1iIbBVIVYsdVkVgtcPmV2FBawML8jcaYw/X6Qig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzpYrct+vh/EANLcO6VTv9SwMopgvd+rNWOGcXRbLuoCZRZEav
+	gatTbrN47cfFrMmv0+vUH33rF71MtDUCKWWZvp27BMWutNObPe2LgCsYFJEtt/0=
+X-Gm-Gg: ASbGncuzc+50DqghEQ7tFjaqx6FL6Ts57yMghBob6dAuGCw0zEuXmHhHJqCrpYsFpjV
+	ZNvU9+JrxjkqFjZjtQxN9ytGtmv0IZ6iHuKYO8UpV6/pkr/59/yP3R4Beav3gI+mqseOusce6/E
+	op8gweYyA2WZ7st5gx4frdBMj0nHTyaOeh58icjQ2fKtGL1lx1WL7fWw0ZXx29YBEAqeDmwh0Fm
+	vHnjdsMeT88veFbp8Plj7qT8/hEc8xBAYQK6vmZXYCVwQO5m2YiNLGjFn8yfF3n5ErNfOLWNfex
+	q6zNiJqUFFuwfFS2Vc9uJAhWAmNBUnj5Vn57KdrIv1q4hsxJ26zqJt8=
+X-Google-Smtp-Source: AGHT+IEOkq5gHMIs+2pPeri3jTIlWyLpg/AoBdUKgKzIKml00dWLCYeREqM/1PAF7HKRFa7tW8kiuw==
+X-Received: by 2002:a05:6000:4011:b0:38f:457e:3f2b with SMTP id ffacd0b85a97d-38f6e757322mr12822172f8f.6.1740481153865;
+        Tue, 25 Feb 2025 02:59:13 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.25])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ab2c50dcfsm12588815e9.0.2025.02.25.02.59.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2025 02:59:13 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: yoshihiro.shimoda.uh@renesas.com,
+	vkoul@kernel.org,
+	kishon@kernel.org,
+	horms+renesas@verge.net.au,
+	fabrizio.castro.jz@renesas.com
+Cc: claudiu.beznea@tuxon.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2 0/5] phy: renesas: rcar-gen3-usb2: Fixes for Renesas RZ/G3S
+Date: Tue, 25 Feb 2025 12:59:02 +0200
+Message-ID: <20250225105907.845347-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/10] property: Add
- device_get_child_node_count_named()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Scally <djrscally@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Guillaume Stols <gstols@baylibre.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Dumitru Ceclan <mitrutzceclan@gmail.com>,
- Trevor Gamblin <tgamblin@baylibre.com>,
- Matteo Martelli <matteomartelli3@gmail.com>,
- Alisa-Dariana Roman <alisadariana@gmail.com>,
- Ramona Alexandra Nechita <ramona.nechita@analog.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <cover.1740421248.git.mazziesaccount@gmail.com>
- <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
- <Z72QAOA9xXbP16K-@kuha.fi.intel.com> <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 25/02/2025 12:21, Andy Shevchenko wrote:
-> On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote:
->>> +/**
->>> + * device_get_child_node_count_named - number of child nodes with given name
->>> + *
->>> + * Scan device's child nodes and find all the nodes with a specific name and
->>> + * return the number of found nodes. Potential '@number' -ending for scanned
->>> + * names is ignored. Eg,
->>> + * device_get_child_node_count(dev, "channel");
->>> + * would match all the nodes:
->>> + * channel { }, channel@0 {}, channel@0xabba {}...
->>> + *
->>> + * @dev: Device to count the child nodes for
-> 
-> This has an inconsistent kernel doc structure in comparison to the rest in this
-> file.
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Hmm. I'll take a look at the differences for v5.
+Hi,
 
->>> + * Return: the number of child nodes with a matching name for a given device.
->>> + */
->>> +unsigned int device_get_child_node_count_named(const struct device *dev,
->>> +					       const char *name)
->>> +{
->>> +	struct fwnode_handle *child;
->>> +	unsigned int count = 0;
->>> +
->>> +	device_for_each_child_node(dev, child)
->>> +		if (fwnode_name_eq(child, "channel"))
->>
->> s/"channel"/name/ ?
->>
->>> +			count++;
->>> +
->>> +	return count;
->>> +}
->>> +EXPORT_SYMBOL_GPL(device_get_child_node_count_named);
->>
->> I did not check how many users are you proposing for this, but if
->> there's only one, then IMO this should not be a global function yet.
->> It just feels to special case to me. But let's see what the others
->> think.
-> 
-> The problem is that if somebody hides it, we might potentially see
-> a duplication in the future. So I _slightly_ prefer to publish and
-> then drop that after a few cycles if no users appear.
-> 
-> Also this misses the test cases.
+Series add fixes for the Renesas USB2 PHY driver identified while
+working on the Renesas RZ/G3S USB support. These changes are
+needed for the upcomming RZ/G3S USB support (especially for the
+power management support).
 
-I'll also take a look at the tests, but I have a bit of an attitude 
-problem what comes to unit testing. Adding tests for the sake of having 
-tests just hinders the development. It makes improving functions less 
-appealing (as tests need to be changed as well) and adds bunch of 
-inertia & maintenance cost. Sure, on complex functions having tests 
-increases the confidence that changes work - but I don't see much value 
-here.
+Series (with [1] on top) was tested on Renesas RZ/G3S with consecutive
+unbind/bind and data transfer tests before/after the unbind/bind.
 
-Do we have tests for all the property.h functions?
+The unbind/bind was also tested on the devices with the following
+device trees but w/o checking the data transfer (as I only had
+remote access w/o USB devices connected):
+- r8a7742-iwg21d-q7.dts
+- r8a7743-iwg20d-q7.dts
+- r8a7744-iwg20d-q7.dts
+- r8a7745-iwg22d-sodimm.dts
+- r8a77470-iwg23s-sbc.dts
+- r8a774a1-hihope-rzg2m-ex.dts
+- r8a774b1-hihope-rzg2n-ex.dts
+- r8a774e1-hihope-rzg2h-ex.dts
+- r9a07g043u11-smarc.dts
+- r9a07g044c2-smarc.dts
+- r9a07g044l2-smarc.dts
+- r9a07g054l2-smarc.dts
+- r9a07g043f01-smarc.dts
 
-Yours,
-	-- Matti
+Thank you,
+Claudiu Beznea
+
+Changes in v2:
+- dropped RFT
+- collected tags
+- fixed checkpatch.pl warnings
+
+[1] https://lore.kernel.org/all/20250219161239.1751756-1-claudiu.beznea.uj@bp.renesas.com/
+
+Claudiu Beznea (5):
+  phy: renesas: rcar-gen3-usb2: Fix role detection on unbind/bind
+  phy: renesas: rcar-gen3-usb2: Move IRQ request in probe
+  phy: renesas: rcar-gen3-usb2: Lock around hardware registers and
+    driver data
+  phy: renesas: rcar-gen3-usb2: Assert PLL reset on PHY power off
+  phy: renesas: rcar-gen3-usb2: Set timing registers only once
+
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 135 +++++++++++++----------
+ 1 file changed, 75 insertions(+), 60 deletions(-)
+
+-- 
+2.43.0
+
 
