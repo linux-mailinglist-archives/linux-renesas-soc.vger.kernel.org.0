@@ -1,183 +1,92 @@
-Return-Path: <linux-renesas-soc+bounces-13632-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13633-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CCAAA42D9B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2025 21:21:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C520A432EE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 03:20:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 102F11897569
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2025 20:21:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 10FBD17B70B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 02:20:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1103266B40;
-	Mon, 24 Feb 2025 20:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F51913A41F;
+	Tue, 25 Feb 2025 02:20:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bmWbPwxQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y/6QoWtp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1067B266196;
-	Mon, 24 Feb 2025 20:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135D0136352;
+	Tue, 25 Feb 2025 02:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740428411; cv=none; b=p7UYe2EWLWy24W+bKPOFk6y3pS0/FGE/edmBt2vYiIvdycxsqWoTq7jdfZwlu7i0MeNZJuVYMMe7mQWl1ys2oRZz8x+HwdnvbWWpH9JMOEml9wTtHKbU/HQ8Tk995yuQxjhWjKJd+VNBeOQJ/UAqmpq9gEpSCez+B91VucexYzc=
+	t=1740450005; cv=none; b=tjP6+HjdwfGxdPL8uiJ3kn2VvVBtsE4aR6kksyC9OVNNZrAlPbv6rjEIK5qFRA8OZGx3GPFXxQOj8E9zhJQDkmJbinQ6XIMcydwKuPpnO81SFShVv6moWdX/MMM5uAsIK2jjF9Vc61+4ijxqdVPNh+tnf4DyOW2XgSMJOAz5P+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740428411; c=relaxed/simple;
-	bh=WiLiBj0SJRFxfxK31XdalHPJfovGc7Rsw7QaWrP0nVU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oLsGtVaxpwvOuOVseSQ2pkmMexU4T0qnvHhgJzZ5ydK6yGSNzWgpZrIkEPwvbZsgRS/2jE+a4JDORFKAqIcPPrVJuNouVsPNCxbsLs0zMVCPn2dgvi7IXFPlPhNVAVC+d4dHDt3X9uEUXD8H4HCv5t5+Q5TAUhMTjoam6jQgjOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bmWbPwxQ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.103] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20780E62;
-	Mon, 24 Feb 2025 21:18:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740428314;
-	bh=WiLiBj0SJRFxfxK31XdalHPJfovGc7Rsw7QaWrP0nVU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=bmWbPwxQHixWMcoOldCF4PIntnRHDcoVoHtEqZBqdN8XLcWZgjfnaHN5XSI73YuqO
-	 dg2A1feTHBzacGUlrO1XFKR+y6NhRd7atOFeETWmcqczIuY4XEmRZpZb8syYfPLxAu
-	 +GfzFDNnkDAiQ64/iiwkkQKxb4nAm1BdT4UKO1pY=
-From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Date: Mon, 24 Feb 2025 21:19:46 +0100
-Subject: [PATCH v2 6/6] media: vsp1: rwpf: Support operations with IIF
+	s=arc-20240116; t=1740450005; c=relaxed/simple;
+	bh=g8R/KExjsjMHU++fl86tL9WrJhnFGwtWyWYnw0yoGxk=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=J9YGP80aC2MMeXWbDvwThW/zWcgvH/CEeQl4WLx81V+fcGJiT51NVXSyzqZdugK5bXP6wDVQxKKQlXdmhIVkIRT2ZLajjK6PHVRxE2sO9blHJyXCGtg6nOgDAT/H/g6Hmb7Z6kQSl+SyMzrbuAA27AnTZPWdGo0J6kn3G2KnthI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y/6QoWtp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4E75C4CEEA;
+	Tue, 25 Feb 2025 02:20:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740450004;
+	bh=g8R/KExjsjMHU++fl86tL9WrJhnFGwtWyWYnw0yoGxk=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Y/6QoWtpVm1ilManSvBLWHMWj7U8Nrqe1tpc0pfVugX92GijdTke6VPJqW+HPPZef
+	 2LVeQGQvgrhZmimKUpuViZ3RQAzK93a3PW/fo581/g5CKyOwmG9FT6PG3aW3le7QX9
+	 YB0yu1eROyWsaFqEsNqBaUGpeiXSgrLCo3r1c+bvG+P6av6aF98fRv6xoyUgb5Xf+d
+	 H0uP0jNG+HAJxI/Cv+pVwzzlFSe50h0AnPVuANLrZZt8JeQ+iMyDXGZRm62AosCYKD
+	 vCDKAWDMkm5nwwuzqehaO9vP1iEIS/YR8fEWlpgTEN+OvBea+3ZrVUvK6a6v6Ovfzl
+	 wPsI3TFyhkzQw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADD27380CFD8;
+	Tue, 25 Feb 2025 02:20:37 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250224-v4h-iif-v2-6-0305e3c1fe2d@ideasonboard.com>
-References: <20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com>
-In-Reply-To: <20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-X-Mailer: b4 0.15-dev-1b0d6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4208;
- i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=WiLiBj0SJRFxfxK31XdalHPJfovGc7Rsw7QaWrP0nVU=;
- b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBnvNRsit80a6Z3tyW/pK842HRUMRIMrv3YdA6vJ
- quy39XlfIeJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ7zUbAAKCRByNAaPFqFW
- PLorD/49Lh2mL+vg/uPNKWD/OcVw/XdyZfm2bG5clJDF1yVfzWUeH8Fif5OVEOsuznC3Fit3tfo
- 5vidnyF/8ufolJInIj6aZSoQ5f32tXLjeGqJzZwyoWDj9G0r77xb2ntj+fxtijsTsrW7bOf8z1z
- FM76ALLboU7EPobWE93jD1l7rVC8FaoRmcI5dVAR0qbi2OtIeM0HzKNHuwcaiCTiA7i+ItHwlhM
- fXAoPs5DbrKJGrKp001wKyxiGHPVKZ6SJWEsHozSSsJXu0O9yn9EIP8xRFPh0dvkVlB6Rbtw6J/
- T+CKzRAuE0iMgHGIVqlN3IGeMm5oNsREq7YRO/IG/P/ue/7nv4FhcMBjJ3Vd/opU5SSsr88Hlc1
- BjWPWKss/fELlMwXpkU3UkLLsmU54dU+dVP9Mykm9r/UDb5ujq/GxO3+p0wnfUrazDByJa1fByA
- t6AaM4aaGFhO4r72tiYbv79gQRSEHu8wcQ4hQ/dt1J2atxbGlXclaeJvOg5pPGU+UdZFql0W6wW
- YKTkSEdsVjQbaUC0wG3zyvlU9YeFAgBVd8u5Bc47/9GEPZZJGnQFBCh93NXHU/gf6NP3nO8aAOr
- +YeOzSwVu8MyKfiEnWCh4Vj+Kx6sk5c27HyWCEdDI50oD4M7y7NO9d92WY+oLeYmsOeBPYFHj+O
- LDB20kPNd2l6kbg==
-X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] net: ethernet: renesas: rcar_gen4_ptp: Remove bool
+ conversion
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <174045003649.3679724.9544329181307344377.git-patchwork-notify@kernel.org>
+Date: Tue, 25 Feb 2025 02:20:36 +0000
+References: <20250223233613.100518-2-thorsten.blum@linux.dev>
+In-Reply-To: <20250223233613.100518-2-thorsten.blum@linux.dev>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: yoshihiro.shimoda.uh@renesas.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ richardcochran@gmail.com, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 
-When the RPF/WPF units are used for ISP interfacing through
-the IIF, the set of accessible registers is limited compared to
-the regular VSPD operations.
+Hello:
 
-Support ISP interfacing in the rpf and wpf drivers by checking if
-the pipe features an IIF instance and writing only the relevant
-registers.
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
----
- drivers/media/platform/renesas/vsp1/vsp1_rpf.c | 11 +++++++++--
- drivers/media/platform/renesas/vsp1/vsp1_wpf.c | 14 ++++++++++----
- 2 files changed, 19 insertions(+), 6 deletions(-)
+On Mon, 24 Feb 2025 00:36:11 +0100 you wrote:
+> Remove the unnecessary bool conversion and simplify the code.
+> 
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+> ---
+>  drivers/net/ethernet/renesas/rcar_gen4_ptp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-index e10ed836153633c4fe27224d0df39c77d4c8ab89..dae94129a105a646917353dba0181f9c93327132 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-@@ -84,7 +84,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
- 	sink_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
- 	source_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SOURCE);
- 
--	infmt = VI6_RPF_INFMT_CIPM
-+	infmt = (pipe->iif ? 0 : VI6_RPF_INFMT_CIPM)
- 	      | (fmtinfo->hwfmt << VI6_RPF_INFMT_RDFMT_SHIFT);
- 
- 	if (fmtinfo->swap_yc)
-@@ -98,7 +98,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
- 	vsp1_rpf_write(rpf, dlb, VI6_RPF_INFMT, infmt);
- 	vsp1_rpf_write(rpf, dlb, VI6_RPF_DSWAP, fmtinfo->swap);
- 
--	if (entity->vsp1->info->gen == 4) {
-+	if (entity->vsp1->info->gen == 4 && !pipe->iif) {
- 		u32 ext_infmt0;
- 		u32 ext_infmt1;
- 		u32 ext_infmt2;
-@@ -174,6 +174,13 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
- 		       (left << VI6_RPF_LOC_HCOORD_SHIFT) |
- 		       (top << VI6_RPF_LOC_VCOORD_SHIFT));
- 
-+	/* No further configuration for VSPX. */
-+	if (pipe->iif) {
-+		/* VSPX wants alpha_sel to be set to 0. */
-+		vsp1_rpf_write(rpf, dlb, VI6_RPF_ALPH_SEL, 0);
-+		return;
-+	}
-+
- 	/*
- 	 * On Gen2 use the alpha channel (extended to 8 bits) when available or
- 	 * a fixed alpha value set through the V4L2_CID_ALPHA_COMPONENT control
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-index f176750ccd9847fdb8d51f7f51a6bd5092b70197..88db60596f0f2f459eddbbc2ea7247620d675dd8 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-@@ -247,8 +247,11 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
- 	sink_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
- 	source_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SOURCE);
- 
--	/* Format */
--	if (!pipe->lif || wpf->writeback) {
-+	/*
-+	 * Format configuration. Skip for IIF (VSPX) or if the pipe doesn't
-+	 * write to memory.
-+	 */
-+	if (!pipe->iif && (!pipe->lif || wpf->writeback)) {
- 		const struct v4l2_pix_format_mplane *format = &wpf->format;
- 		const struct vsp1_format_info *fmtinfo = wpf->fmtinfo;
- 
-@@ -291,7 +294,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
- 	 * Sources. If the pipeline has a single input and BRx is not used,
- 	 * configure it as the master layer. Otherwise configure all
- 	 * inputs as sub-layers and select the virtual RPF as the master
--	 * layer.
-+	 * layer. For VSPX configure the enabled sources as masters.
- 	 */
- 	for (i = 0; i < vsp1->info->rpf_count; ++i) {
- 		struct vsp1_rwpf *input = pipe->inputs[i];
-@@ -299,7 +302,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
- 		if (!input)
- 			continue;
- 
--		srcrpf |= (!pipe->brx && pipe->num_inputs == 1)
-+		srcrpf |= (pipe->iif || (!pipe->brx && pipe->num_inputs == 1))
- 			? VI6_WPF_SRCRPF_RPF_ACT_MST(input->entity.index)
- 			: VI6_WPF_SRCRPF_RPF_ACT_SUB(input->entity.index);
- 	}
-@@ -316,6 +319,9 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
- 	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index),
- 			   VI6_WPF_IRQ_ENB_DFEE);
- 
-+	if (pipe->iif)
-+		return;
-+
- 	/*
- 	 * Configure writeback for display pipelines (the wpf writeback flag is
- 	 * never set for memory-to-memory pipelines). Start by adding a chained
+Here is the summary with links:
+  - [net-next] net: ethernet: renesas: rcar_gen4_ptp: Remove bool conversion
+    https://git.kernel.org/netdev/net-next/c/6538c8ca8ee1
 
+You are awesome, thank you!
 -- 
-2.48.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
