@@ -1,147 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-13676-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13677-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D72A444FB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 16:51:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FCDEA447AB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 18:17:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 388E319C2FBD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 15:51:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2276517BDFB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 17:13:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 812451547CA;
-	Tue, 25 Feb 2025 15:51:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED0E619D891;
+	Tue, 25 Feb 2025 17:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C04iSjW1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA93F15539D
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Feb 2025 15:51:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB6D192590;
+	Tue, 25 Feb 2025 17:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740498692; cv=none; b=fxY8eeOColHHVZ9llVFi1K9CsWBtMHk67UefQNQiiX6Y57XabNYnQWrrnFeORZzT4EHufWSzc0NswhoB3eItG5nBKTUa4sm/NSNNWJlzxvxnunjooP74LEfrfzqtZNy0hJzT77uBV62iw1jt1r2wq1lgomLqKteircy2YxfQ+gM=
+	t=1740503429; cv=none; b=FFk+hXCLez3HOy68KyYkumGHzz/kiGjlekiSKNCe9+yCY6IL7ozVrbXwn6QntJy7JZ7hOQcVAjHhHBYwR8UgK0gXMRyzlHFmi5LUkmfTMNqcLLN20wzSDnwuJgw4WtmiyHjBy1DdyJtcZVuARALR96tfCtX1Y6/N4Kbay+EcBv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740498692; c=relaxed/simple;
-	bh=4L8WT6Lr2a21SbgbBkoDkOsvqgGQ4C+8PPulBTiaWKs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mzc0c7JJ0fjTTMrupVIPv1isx9B5Dr9KzH2kjeMfCuRIz3r7QiUilA2f6A3YczFebbnQQ3QKIedvH1p/rUHeoKMIhMfhGDuXtxW+kzqpffOMHUENwT1+B+taCPpNzS3o2yuZFLJuwdKWNEjWwYiAjJHTf5WN2TwHX10BIDjOAiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tmxDP-0003sT-Ik; Tue, 25 Feb 2025 16:51:23 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tmxDP-002neU-0l;
-	Tue, 25 Feb 2025 16:51:23 +0100
-Received: from pengutronix.de (p5b164285.dip0.t-ipconnect.de [91.22.66.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id EDC1A3CB977;
-	Tue, 25 Feb 2025 15:51:22 +0000 (UTC)
-Date: Tue, 25 Feb 2025 16:51:21 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, linux-can@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 08/11] can: rcar_canfd: Add shift table to struct
- rcar_canfd_hw_info
-Message-ID: <20250225-piquant-spiked-mouflon-3e88ac-mkl@pengutronix.de>
-References: <20250225154058.59116-1-biju.das.jz@bp.renesas.com>
- <20250225154058.59116-9-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1740503429; c=relaxed/simple;
+	bh=ERQwZnsyoQHMKJY3CYdQrCBoN9md4r7dtDwmZmlQpRc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JqVimSUU/R3mFe4q7Yct1ZzZEM0NcMpqkGKjhAOChWhczXx+Onx52CIrhLaqA1OiVBFGvhovSI0aSNoUdhqn3F6c5ZnffOCiAS4EyVXGtA50T+sbH1bjzIqbAlB94IfIa+MVBHsNATgxdzmuot06jykqNwmIgQM7bTehfzklyLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C04iSjW1; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30761be8fa7so54588081fa.2;
+        Tue, 25 Feb 2025 09:10:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740503426; x=1741108226; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IgyP5e7xOUTpkQRETAnA3jifh9ceyBbmwJiNbPRBD18=;
+        b=C04iSjW11PpkyyUDTEsKFYFKEEdJlalrzqY1cOVTUXulicuWVsSa+LCAGbaEZh/rJ3
+         lcO2u3qi8tPTpzy2LdSYeW+FrWjVeq+uB3kbaE4KdBWBSwtUgedKrScOOEKd+ZuNyaVZ
+         ENBc5Uk/bT97uZo6U3v49rmBxfxk718Oae/5IjNl4S2Zty0rzhcNLoLwjp9lgkGXjRlg
+         CLNDqwaGRYfR+85QNOS1DqA8TECfOuZK6kL4klnB5Ys5k6GKiAizSQbmiqiux3rGwrk8
+         VC/ohjQk9kuMpNVImKHrh5adfZinJ1fKrJNeoahG5xdT1Il1deGO6hI9iAs1oLLjCN4A
+         OdkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740503426; x=1741108226;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IgyP5e7xOUTpkQRETAnA3jifh9ceyBbmwJiNbPRBD18=;
+        b=XuHYgJLUzcyPcFe5Ck6ITlfhS2L2NfQ28wqoTJrynd3ACWEG4WY6JRWZ9NcJyXA6cz
+         Ndf5X4hwNAk6eStCaqKIa0wu28vjZYbIrk0UTFyec4R/PaNBQoE41KepCTMjvSZkla7m
+         TeVm4JG2Aw2eEn0DiyyVWB3uxFYUubYMKMmbihAkakYkWabpv0ySq5TMdLjG6+jNHOuO
+         pTLbGSSXLUbT+Hinq8t/ZhWgfF1fThW6dX1wCL08ZGGWS/rBvHe2X1FEYXM6iXzHAd3f
+         smnF1EjQDBO/fTL9O4pfYsY4U82DaDilFKaUXOZauszXVLoZ/q3l2COWlTi7nqxQ+L+i
+         Ryfw==
+X-Forwarded-Encrypted: i=1; AJvYcCV2WwXEvtgMaEuYihcTUoVOWpXF31dIQHbu/xfYcH77g5+Y0/thVZUbEPIYuZo7ULUBAIYiQRqCdzVEFWVSbsqNWKw=@vger.kernel.org, AJvYcCWiPgUt3P1KYRsvfBCSMprES5N6/DB0TzEbsv4a9pI6Q5HWOnUGtD7A6l8SW5nBv1g27Q2JxkuuocvppQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzv/lkBm2yptOIckH5XPYT+pGjy2MbWR4r1iPiseS1itRqIhZBa
+	7h9UcKj6BX4is8hcs0y8dmarYPEdhegzZnBd+dhy/2xoQkeSuGHZqenuPw==
+X-Gm-Gg: ASbGncuJeI3T5fQPJjdNm3/1CbX7ixoHfn/UsowkS5RW8a/VQ+NmFwXMCBpDjZ4r8Xz
+	yTQK+TAzv0rvtcIYXB43AmCuMsvH0eDq9c2uN/44kh40mZCweLq3dTXk/BC+A7EXCTfsFe2z+qz
+	vDbrNbV89H0ZxVrKC0pE1ucOpN+blNTtNstubHkwO9MzJwl2ZdaVILLZYjyiDeZnQM2/UtNlM0u
+	4omMiXHrO891CEIHUNvkAqcboyK7UUiUWzDzCxaJCrp9yQj7GW8BnunhykOpNdE9CrovBw/5J1D
+	9UxMKdQzrzmwKT/HKZMfNw1hNz+zn/XHiP/WcoD145sE7RRs7JYlTsVbTwyrO1P/OQBoZsfjLnM
+	S+5oyFfs=
+X-Google-Smtp-Source: AGHT+IF3Vp9P32MjQngfYLkStg04hGRZaKV13OwL27k3Cdmw2AdlXT4Wapr5xuF4c/2i9fwe/6luaQ==
+X-Received: by 2002:a2e:98d5:0:b0:309:d7f:f156 with SMTP id 38308e7fff4ca-30b7915f64cmr3301411fa.13.1740503425858;
+        Tue, 25 Feb 2025 09:10:25 -0800 (PST)
+Received: from ?IPV6:2a00:1fa0:4291:201c:341d:2759:437f:4b85? ([2a00:1fa0:4291:201c:341d:2759:437f:4b85])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a819f4a99sm2742881fa.52.2025.02.25.09.10.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Feb 2025 09:10:24 -0800 (PST)
+Message-ID: <12d6d0dc-bef2-45be-af42-393276a4c7ea@gmail.com>
+Date: Tue, 25 Feb 2025 20:10:21 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ycfonjcuzjhqmejj"
-Content-Disposition: inline
-In-Reply-To: <20250225154058.59116-9-biju.das.jz@bp.renesas.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/6] media: vsp1: Clean FRE interrupt status
+To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com>
+ <20250224-v4h-iif-v2-2-0305e3c1fe2d@ideasonboard.com>
+Content-Language: en-US
+From: Sergey Shtylyov <sergei.shtylyov@gmail.com>
+In-Reply-To: <20250224-v4h-iif-v2-2-0305e3c1fe2d@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 2/24/25 11:19 PM, Jacopo Mondi wrote:
 
---ycfonjcuzjhqmejj
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 08/11] can: rcar_canfd: Add shift table to struct
- rcar_canfd_hw_info
-MIME-Version: 1.0
-
-On 25.02.2025 15:40:47, Biju Das wrote:
-> R-Car Gen3 and Gen4 has some differences in the shift bits. Add a
-> shift table to handle these differences. After this drop the unused
-> functions reg_gen4() and is_gen4().
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> The VSPX generates "FRame End" (FRE) interrutps, one for each
+> buffer transferred to the ISP.
+> 
+> Even if the FRE interrupt is not enabled, it is reported as active
+> in the interrupt status register.
+> 
+> Make sure to clean it when handling the interrupt.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 > ---
-> v3:
->  * New patch.
-> ---
->  drivers/net/can/rcar/rcar_canfd.c | 78 ++++++++++++++++++++++---------
->  1 file changed, 56 insertions(+), 22 deletions(-)
->=20
-> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rca=
-r_canfd.c
-> index fcf5cb93f57c..09a9e548b022 100644
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> index d13e9b31aa7cff8610ea196ae4de88ab22e44e0f..17ace4c6844d19aaafc27e79f016cc05091372bf 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -69,7 +69,8 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+>  				i, wpf->entity.pipe->underrun_count);
+>  		}
+>  
+> -		if (status & VI6_WPF_IRQ_STA_DFE) {
+> +		if (status & VI6_WPF_IRQ_STA_DFE ||
+> +		    status & VI6_WPF_IRQ_STA_FRE) {
+
+   Maybe:
+
+		if (status & (VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE)) {
 
 [...]
 
-> +enum rcar_canfd_shift_id {
-> +	FIRST_RNC_SH,	/* Rule Number for Channel x */
-> +	SECOND_RNC_SH,	/* Rule Number for Channel x + 1 */
-> +	NTSEG2_SH,	/* Nominal Bit Rate Time Segment 2 Control */
-> +	NTSEG1_SH,	/* Nominal Bit Rate Time Segment 1 Control */
-> +	NSJW_SH,	/* Nominal Bit Rate Resynchronization Jump Width Control */
-> +	DTSEG2_SH,	/* Data Bit Rate Time Segment 2 Control */
-> +	DTSEG1_SH,	/* Data Bit Rate Time Segment 1 Control */
-> +	CFTML_SH,	/* Common FIFO TX Message Buffer Link */
-> +	CFM_SH,		/* Common FIFO Mode */
-> +	CFDC_SH,	/* Common FIFO Depth Configuration */
-> +};
+MBR, Sergey
 
-Please add a common prefix to the enums, i.e. RCANFD_.
-
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---ycfonjcuzjhqmejj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAme95vYACgkQDHRl3/mQ
-kZz2wAf/bNoPs32aPGZMS+JOZFWyGf1hwpFlyT/fKmNV3O2uoyYfEagGRTz6GUuN
-aImjtRtTyJEGf8CRllQfZoyTp0ElziVxGv9ynJlDtq7B4vhm8/8lh3bYjOYPoi7p
-wCnfprVs+1rqY/o73Lngk6cs38KrFKRYrz1QOEsRu5skphjq6SUgZnDVAwkpYLYc
-KopOAdTkcbZLAvpjzIztjX/Gei+9f+M9MW678jD8eJPHyFPzYEUO3YWUpLGVsKoN
-oOpeB66Ji0R3k2/ISxS4vZiqpOpzqr1aof9F/5O4xz1rNCoqQnB3tMv5VAo62MA7
-NJi3j1BMT+3HMhnowEh9rDRsLXAAbA==
-=5Q6K
------END PGP SIGNATURE-----
-
---ycfonjcuzjhqmejj--
 
