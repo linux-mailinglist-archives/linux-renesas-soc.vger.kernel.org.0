@@ -1,149 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-13685-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13686-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27ECA44EAA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 22:19:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CF5A45092
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 23:56:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FB0D3A2CA2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 21:18:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 10A137A63C3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2025 22:55:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4FEF19F41B;
-	Tue, 25 Feb 2025 21:18:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89B01235354;
+	Tue, 25 Feb 2025 22:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QSetpMIY"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="sRiT5u/F";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mo6A19Mf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1816318DB26;
-	Tue, 25 Feb 2025 21:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46C023237B;
+	Tue, 25 Feb 2025 22:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740518300; cv=none; b=jsu0FZ+Bd0jTdPXQQmq5K55Qr+R4EYYb9R81fYK061dYT1cxbj5j983bnl/49Xown4PM5UMP+OTREcnksYtduSd7MRDtsGRuxwvQZgSTnGLa7ExPC/Mi3qMQhUAjfvf7GLwcF2X7DBJchvEaBemV10T/FVZepAyqT7f4+GJV14Q=
+	t=1740524174; cv=none; b=DhvLlnkLvsp+RK8lNOrAL8QGAiM8ezcU/9ZAyf6M1E5qXZB0nUsg6nCqHy53wUi94Kva/tJtB0zqb6G3LvSNezl8B+QWGAOcMLswcsUKTDlUU7th/Hj0au/kjdV98XU1EDxRQ/LM8NDjHNBFCRCNnVVICMuU9Xgk1fc27TaD7dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740518300; c=relaxed/simple;
-	bh=AmI/ROhV4lpAECeyGeJEqy6tUHFxvNeAOstOpVPldJc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wc3Vo7D/CdAVFHnB069fXzDoMznTZ96QMstzbY5fcsg8hrUcM+ATMx8Yc1vdAR1CNcBxqNosnWPbHRG8AKFn0438H4hsoUYhRQ+qRVCgywH9RazQDHdS6kozkpNJ2B434OKUkNJdDkaUKd9vMNAkL8Oo18mEusNm5Y70VYAcCYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QSetpMIY; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-521b188df16so1444279e0c.2;
-        Tue, 25 Feb 2025 13:18:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740518298; x=1741123098; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ClmqOl/Tw6JC6bZhWsysftkJJqIKxw8FKGY3Yy+YdFc=;
-        b=QSetpMIYBK5OYrmUJ6eo6u4J0Pe3ps90usqNfOSs4VYXfw7/G98Eb9naOtzhANuIe3
-         NePKnPhrfQ7qem6wZEI9b0p89Jf1H0eYfixwhHRjRu8SZhFwp4Ifw5zRqUHre7BD+vel
-         KFL9PoWGACkPiF/rWNUGwET7rtRdxLzrW//08C8H8BSTpuT0HhIyLxiHWUZUAAwcUdnV
-         matOGtGzXqWLwptb9c4qs1KIUguKIVvFFJyi2gMUmxeEj8fADIB+IVNz7bsn1VKBwqQp
-         whqA26+Egzax7ppvW6m8yuw2ODsEmTqO3fR9SJB+g+A+psfYgYe/K9nxj0e1itqE72VH
-         chNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740518298; x=1741123098;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ClmqOl/Tw6JC6bZhWsysftkJJqIKxw8FKGY3Yy+YdFc=;
-        b=NhznzeTFBpU7RF9Se5NIoyoMsMKdqrx0P37eqoXRYuLg3X160nHrnGDaoqrYrRR0HB
-         9wH8HTrCZcIVMPc6F9ymFS4xszb6yhc+15afB2Mx64cSYJTBh59Q28cncH3x/+AOUviK
-         JprELaonO3Om7cTua+jxxsBI29IMg7SYNMNqo8wD94i4aTNGj5Bul9U8ST/Y0X38RiCJ
-         ttLwun0rn9eDA/G1Jav6iso4fCQfE8N8AwywnsxElsRyjMB9PxamZRTnpWTTDHrcP5vt
-         dMrGyZevBrKNiF/Sq/YJqZI0mlpFCCs/Vy1os3WDfeLhagQQfWiXlJRydoBqr/K/u24+
-         4fhA==
-X-Forwarded-Encrypted: i=1; AJvYcCUyUK+nxBmp9CPlw63j7rb9b5f/bikDKCUtq9qTBUYC6tIJEzeXYMu90Mg5uQrDDCA/7ZKC9jGr@vger.kernel.org, AJvYcCWvBEdhFaBKLZxS0gHMKq+vJQpVUpYJkfpicQlASWgeYlCtXunzPD9xvaeIpClicfKiFC4gcXkV+M5B0Zti8pctQQI=@vger.kernel.org, AJvYcCXZG4fiMqWARvaW2FrwzRER40n9geeI+3jhnBAXUfHzCLDBJ5GJjsdDeTFJacbq7ymW1iLEePj2xmSQ2mQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeetcVEKfSieeGvYdDtHa53ZkboKnrNFrDNHsohf2s2D8U4EQK
-	lnz+U7sPZ18lkKpJxOLsJxHxsfpZkwGJb/qqbxpmig45u6pRJ5VUybwx8epN1tNubkPioPdX1kT
-	/EA2o/TVkIQH83Sttz5rP9ZAfeC4=
-X-Gm-Gg: ASbGncvpQ8pqwB/1YwgPHzJU5/I0c1Wv3gDp+CZdgRMDQefRjPJSt49HmPgqr65VVtO
-	Atvq0LY1SjWrOWK4X3JFhwxDZOoS+ixUaZqyAUd1yflzmPeuyYuj/wQGNE2e6ozrWs5/eCvBEEg
-	CXx9U6fWE=
-X-Google-Smtp-Source: AGHT+IE1ro2Ea2GyyaX3xp2teX3THRLd4qkveKPG3P4FVT7E3q9jXm31Jo+kkD1ljGeB4qt1pCLbRlljtq0HjJqQfAg=
-X-Received: by 2002:a05:6122:3c94:b0:50b:e9a5:cd7b with SMTP id
- 71dfb90a1353d-5223cd2c8a8mr3161652e0c.9.1740518297995; Tue, 25 Feb 2025
- 13:18:17 -0800 (PST)
+	s=arc-20240116; t=1740524174; c=relaxed/simple;
+	bh=MLXsjM4OpYPkGdtcQe1WJfFmLK0HKbZxON1wdjGZOE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SDw9J+BF9zUAHmR4UpH4uCGpwBXkVpzDrvJchi1dOKXBi5KNVvmUkyHsBDpZwrqiL0w+MngSrRJV2HorrcjtExvGtHTkoXRL+I3XfUP5eFcB3VgREXC3tQYbmXx8Ej2T0uKWwGg4JzmiTEx9/2Xb0WVGdcDRELJkNzng5oqW7sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=sRiT5u/F; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mo6A19Mf; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfout.stl.internal (Postfix) with ESMTP id 8657A114018F;
+	Tue, 25 Feb 2025 17:56:09 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Tue, 25 Feb 2025 17:56:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1740524169;
+	 x=1740610569; bh=K598ZDf++Qaq8RRv1ivt1GifhME6grtmW2GDDOtSqEY=; b=
+	sRiT5u/FvWW4NmZQx1iSBe7KgVD6a9ZDcsklCaAsUtiwPykwadoR6YCJXluTPRfj
+	khykLO9FeSVCsgNkxAPSxJcte2q8yv0OM9hAdODe/ysIM7GRetxHwSZ9hFAHuCNy
+	QIH/xIXyF/HIjO0Nxk8v7krfvC9v1s1mYjphkGlodRm+Sc2jsrK4meYozWwoQzX9
+	PnmHsxJQ1gEUwdwZoj4fWtFmnAozyYFtGRwgZYETQvbL6RuBe2WlslToP+J052oT
+	wBnCP7EVWKXB04e7A5TgbHD5l31mQhFB4VykOs+FX6ro6rFGUvIxdl2daMyV1b6D
+	Ag9FHsfuJbMPGDbg5SDGTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740524169; x=
+	1740610569; bh=K598ZDf++Qaq8RRv1ivt1GifhME6grtmW2GDDOtSqEY=; b=m
+	o6A19Mf71H/0dWgLV2p34JK8b2CJk25P5iX8PYvTyfmLPNFfnbF4iLjmrrQjC6u6
+	yBXxd7xhzFrxzS6MzOl0oG/BTGsCSLTtw/lXjJFsKMu5uHehUi05K11aw24hADPP
+	aL5WGeyXJG2KMBuHVzOVDcDcYArPK/zZ3F72O2Dyy6sPMynNwx80Pk+fFuUlJM4V
+	ZKwBLgsh1DZ0XYnSIl802QQSJZP1h3tHcOFEP2Xf3xz6kKQbLGseCH/QTTue3HQb
+	P6HtTDDCtaT4DSX3WDq8j8/dp3ycBhQOZCJdNd1gmQ+x19/W4RMfR+1ZUnKsUo4H
+	2Ztysx9iWvlKaAjBxzvIA==
+X-ME-Sender: <xms:iUq-Z7iC2c6g9MgtvrLdoi6oHiUZpcznCPbXz7PZzgKWp_GH2IRteQ>
+    <xme:iUq-Z4AUpNehvIF1s5pkAJL0VkA-lIo1Gt_qUlnhZpegUz_nqj39iQrJ8OV8GcId7
+    iXBFiDDTI-jW7F5yus>
+X-ME-Received: <xmr:iUq-Z7ESqBiLEfqlY76Iacf6yhtwhFDjtS8fuYP9WXahhBEGs5Cn8-3KU35x-PBXc3i1E751dB2oq3tNXGnaXQNteAlJEOiqZA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekvdelhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveet
+    gedtvddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhs
+    ohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepjedpmh
+    houggvpehsmhhtphhouhhtpdhrtghpthhtohepjhgrtghophhordhmohhnughiodhrvghn
+    vghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlrghurhgvnh
+    htrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohep
+    khhivghrrghnrdgsihhnghhhrghmodhrvghnvghsrghssehiuggvrghsohhnsghorghrug
+    drtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrth
+    dorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhm
+X-ME-Proxy: <xmx:iUq-Z4Rnan5b3Ch2cS0gU_i3LyWmsjk77fHQI3PPBmZpBvG6AmSIEQ>
+    <xmx:iUq-Z4xvQo5c88fYTtEIWR_rG-KqTejovQsUTj99hPMKjxSpJ2rwcw>
+    <xmx:iUq-Z-7idwCF4A80qDqbnF9fWHAQIiuMa1O1-TB0OYGv-4ERW48MWA>
+    <xmx:iUq-Z9wE8_KnJS0qdqKYEgPjTAnyEEsYpAnNLD-HHVWyoNPN1_uicQ>
+    <xmx:iUq-Z7y-O0Wiqn2xnMvva0lANV8_5T49i8yW9qCUWFLhUtW_Jw4-NyNJ>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 25 Feb 2025 17:56:08 -0500 (EST)
+Date: Tue, 25 Feb 2025 23:56:05 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 0/6] media: renesas: vsp1: Add support for IIF
+Message-ID: <20250225225605.GA2676269@ragnatech.se>
+References: <20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250225105907.845347-1-claudiu.beznea.uj@bp.renesas.com> <20250225105907.845347-6-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20250225105907.845347-6-claudiu.beznea.uj@bp.renesas.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 25 Feb 2025 21:17:52 +0000
-X-Gm-Features: AQ5f1Jo2VftSleZ87D2j-IA4DPgIo3RBwdu6m9T9vVR3u6tfRaSwqq2-lvouTpI
-Message-ID: <CA+V-a8scgrFTe5GAUDSp7_v0M+iHEXBqpmjnavnPrSXYeXOQ0Q@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] phy: renesas: rcar-gen3-usb2: Set timing registers
- only once
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: yoshihiro.shimoda.uh@renesas.com, vkoul@kernel.org, kishon@kernel.org, 
-	horms+renesas@verge.net.au, fabrizio.castro.jz@renesas.com, 
-	linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com>
 
-On Tue, Feb 25, 2025 at 11:02=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev>=
- wrote:
->
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> phy-rcar-gen3-usb2 driver exports 4 PHYs. The timing registers are common
-> to all PHYs. There is no need to set them every time a PHY is initialized=
-.
-> Set timing register only when the 1st PHY is initialized.
->
-> Fixes: f3b5a8d9b50d ("phy: rcar-gen3-usb2: Add R-Car Gen3 USB2 PHY driver=
-")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi Jacopo,
+
+Thanks for your work.
+
+On 2025-02-24 21:19:40 +0100, Jacopo Mondi wrote:
+> The IIF (ISP InterFace) is a VSP2 function that reads data from
+> external memory using two RPF instances and feed it to the ISP.
+> 
+> The IIF support is modeled in the vsp1 driver as a new, simple,
+> entity type.
+> 
+> IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
+> interfacing. To prepare to support VSPX, support IIF first by
+> introducing a new entity and by adjusting the RPF/WPF drivers to
+> operate correctly when an IIF is present.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 > ---
->
 > Changes in v2:
-> - collected tags
->
->  drivers/phy/renesas/phy-rcar-gen3-usb2.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> - Collect tags
+> - Address review comments from Laurent, a lot of tiny changes here and
+>   there but no major redesign worth an entry in the patchset changelog
 
-Cheers,
-Prabhakar
+I'm still no expert on the VSP1 but the changes looks good, so FWIW.
 
-> diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renes=
-as/phy-rcar-gen3-usb2.c
-> index 21cf14ea3437..a89621d3f94b 100644
-> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> @@ -467,8 +467,11 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
->         val =3D readl(usb2_base + USB2_INT_ENABLE);
->         val |=3D USB2_INT_ENABLE_UCOM_INTEN | rphy->int_enable_bits;
->         writel(val, usb2_base + USB2_INT_ENABLE);
-> -       writel(USB2_SPD_RSM_TIMSET_INIT, usb2_base + USB2_SPD_RSM_TIMSET)=
-;
-> -       writel(USB2_OC_TIMSET_INIT, usb2_base + USB2_OC_TIMSET);
-> +
-> +       if (!rcar_gen3_is_any_rphy_initialized(channel)) {
-> +               writel(USB2_SPD_RSM_TIMSET_INIT, usb2_base + USB2_SPD_RSM=
-_TIMSET);
-> +               writel(USB2_OC_TIMSET_INIT, usb2_base + USB2_OC_TIMSET);
-> +       }
->
->         /* Initialize otg part (only if we initialize a PHY with IRQs). *=
-/
->         if (rphy->int_enable_bits)
-> --
-> 2.43.0
->
->
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+I also tested this with the ISP and it all works as expected,
+
+Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> 
+> ---
+> Jacopo Mondi (6):
+>       media: vsp1: Add support IIF ISP Interface
+>       media: vsp1: Clean FRE interrupt status
+>       media: vsp1: dl: Use singleshot DL for VSPX
+>       media: vsp1: rwpf: Break out format handling
+>       media: vsp1: rwpf: Support RAW Bayer and ISP config
+>       media: vsp1: rwpf: Support operations with IIF
+> 
+>  drivers/media/platform/renesas/vsp1/Makefile      |   2 +-
+>  drivers/media/platform/renesas/vsp1/vsp1.h        |   3 +
+>  drivers/media/platform/renesas/vsp1/vsp1_dl.c     |   7 +-
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c    |  14 ++-
+>  drivers/media/platform/renesas/vsp1/vsp1_entity.c |   8 ++
+>  drivers/media/platform/renesas/vsp1/vsp1_entity.h |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1_iif.c    | 133 ++++++++++++++++++++++
+>  drivers/media/platform/renesas/vsp1/vsp1_iif.h    |  26 +++++
+>  drivers/media/platform/renesas/vsp1/vsp1_pipe.c   |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1_pipe.h   |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1_regs.h   |   8 ++
+>  drivers/media/platform/renesas/vsp1/vsp1_rpf.c    |  18 ++-
+>  drivers/media/platform/renesas/vsp1/vsp1_rwpf.c   | 110 ++++++++++++++++--
+>  drivers/media/platform/renesas/vsp1/vsp1_wpf.c    |  14 ++-
+>  14 files changed, 327 insertions(+), 19 deletions(-)
+> ---
+> base-commit: b2c4bf0c102084e77ed1b12090d77a76469a6814
+> change-id: 20250123-v4h-iif-a1dda640c95d
+> 
+> Best regards,
+> -- 
+> Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
