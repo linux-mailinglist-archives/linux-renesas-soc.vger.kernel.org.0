@@ -1,205 +1,303 @@
-Return-Path: <linux-renesas-soc+bounces-13745-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13746-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB43A46694
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 17:29:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 230E6A46E87
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 23:28:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D54C719C0CA9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 16:10:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 985473B0A64
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 22:27:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 767B679D0;
-	Wed, 26 Feb 2025 16:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A34C925D90A;
+	Wed, 26 Feb 2025 22:27:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="EO3IEWiR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nb4KdYqa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B6C21C9E3
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Feb 2025 16:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB5E25D8E6
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Feb 2025 22:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740586211; cv=none; b=UU71ieAMwRRO/fuR21Sz9h95q1hmcCviMouJSSfyVwr5agSpzGXvJO+3vUWdviBJkxKRxrhg7H106Qj8AWzU4Iv1lrezifQNDkbTh8LSM62LNOJkCPxc5rrRyDeSzVLoLT4sqznsV9zGuAKe4VMN3bMf2vDVpdWbbgVf7HijTEQ=
+	t=1740608852; cv=none; b=RCXyWYxMzouPspn12zVxZfjJZg6ktB48M4TIEsqD3Z3ATSHuByhBBCSSHv7Fqj0tu9J0YQ9ixPGUmxD4Vr9/DpmTKHGPBjQlF5jqDmcTd3qxxk5RluZymRHDWCXsytiUAQ5E38YuLnl4qbLeLCjAqYCLUbOPmWpf/RCpnQUYAy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740586211; c=relaxed/simple;
-	bh=x2om7tYp0gEmgSJpi6j4oAprnXjR/G/t+gh7S3DVTUo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ebp84/kiR0GkrNO74/ut7K3MaCdvkjkIDAkKFCEYdquNWFqX2pQJUwxiFbpDgbLk/H40PefGgZ0lhi4jQauaArx+ae47thMi9ONVvhEaUGLPWJWks1d+Zfq4NK6ndi6qz8mQeYBydVFWjqQxbFfqZHoA1i1sRjEqKg7mxPtMods=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=EO3IEWiR; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2a88c7fabdeso12652fac.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Feb 2025 08:10:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740586207; x=1741191007; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8B98WlgviCORS8xNE8tp9wUkQXa0yNmModNYUMBxdlg=;
-        b=EO3IEWiRfrpJQ5dOfNxzA/rlUDiykFRHM/3dpBJGc/958dPGVuPBezPy60gZrRwpws
-         QT3qm4VHzMXStwm04EzFsbmGwmWJZD9kN/JzqyYd1cIGx+OjM6k/S27javqv9w+S8X3g
-         g5B7vuvdkkpKq6BM6LMxBS3ZYJJmdjiNpoaqkSYxOfByHKShaD4iHiOD/rl3Fr5e0qXH
-         FT6ND6aNA6und98x1kPy8CyB2yO3PzC18bEnLqhTh3k+9rH/oBk2UxEQQ9JRk3Y07CTk
-         +1M1z8ngZudpwwISzlk/5flP/TTOFo3WUOeulQXHWCMIslP50mi1fLLm+lJAijeMNKX8
-         dRFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740586207; x=1741191007;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8B98WlgviCORS8xNE8tp9wUkQXa0yNmModNYUMBxdlg=;
-        b=DFmz3MrqweZ2ArGjrXqi7UAPXCrpMYNKdRfxBlEjXEyEbCAwz3rrGd49ZdyXKgJs29
-         GC2JmKHQ0CKMhK91/zr4vTk00b40KqZtRfG1+du+Pla1fus3koPzEHsJ9AEOEyWrm8Bu
-         SKO4nk3nypcWVq6kzwzu4ZAJ5MdpoUa+HjNVBJO/R1XTtuqbQwANgvxmhQItMYvMDE2h
-         Ks3z5pyUFNFLEDZcmgQ5kVDi/KW0a7upSZXjk09H6nQK4MnGoTbrRHwfZMITCkyNEcX7
-         plWNuJrBbzcmGA5bGVJJhl+q203siOOoPVeRQX/3PhTm/JaD2T2MHnve9w8ugbAfjW+X
-         QP/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUU3SEaycHn+ssLVORSVtsIO6A/sR36/iX+qBDT/1DfcvRIL/TQ6O3O9N4gSaxjvfmbmTJLw+FWOBzmKeh2xDWwsA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyc3GUbTH6dPVIfWqkgGY45v069/qBjaUMLcCH8tPUjEXD2tvfn
-	DH4MfEmneyl7mskrnnLyI6wJ8+6Oi5MsNGjdrj39dKefF2X59kf2DUR2lqZxPQM=
-X-Gm-Gg: ASbGnct0oSwcFiHVp30+SK0GDb1R4fqrhQLzs0l5/2C5FeIxsIJZaU0T8wlu1NGh5sh
-	PhWGONmK5s1uGYyg09uKhr/Eslx0/IL8izX28+6cuJt4VRsFkIKaJWFclFqMtUIPYjRlOAZOpYe
-	RQyo9TZu21mZ+d9lVnPhDNi1xb8Ix2q/C10XvP6/5LuOqqY4iIOKhp+BdWI5P4TukFGaOXLPw+f
-	t1nggC35fFqq9dOdUf4QcMsWH1kS+cdFCU+bxmxD01IWNuplb32Vdv9W0yVvvMuEEeprc6wUhEJ
-	UNLWPjv7ZFkujgW7Wk7q3LNVkrPLEiY4YCn4VLVS3QPaKbTUhIM8QF0Z9rHcYAg=
-X-Google-Smtp-Source: AGHT+IEOYib871oGajJ0tAwCyUvFn0Ok9l/YPouvQLougV8cmfpAu3KKTSDRFWXcP1FZvlfxqquzJA==
-X-Received: by 2002:a05:6871:7c02:b0:29e:3c8d:61a0 with SMTP id 586e51a60fabf-2bd514ef349mr14836245fac.8.1740586207211;
-        Wed, 26 Feb 2025 08:10:07 -0800 (PST)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7289df559edsm745510a34.62.2025.02.26.08.10.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Feb 2025 08:10:06 -0800 (PST)
-Message-ID: <6f6e6550-5246-476f-9168-5e24151ab165@baylibre.com>
-Date: Wed, 26 Feb 2025 10:10:05 -0600
+	s=arc-20240116; t=1740608852; c=relaxed/simple;
+	bh=lpQ/9amqyj7RiWDKcK283gtw+aX89siGLl4PNy8VLZE=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=i3FhHhbiuFom/G+sF34hxB448Uen3Hi2fSx8Bkdbe2jjfzR+wpkBlSmCZg9ukWZe9YIGVCWNa5UdKvoZ7r/pFU2BR6qpN3H6xV1Jdeb1ajKPLKNmpBiWe604zm0DM9zOqOHWpbLw9MJtj5XyzQ2xbI/nwc3hTJ1hY/wDNCIkYUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nb4KdYqa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2374C4CED6;
+	Wed, 26 Feb 2025 22:27:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740608852;
+	bh=lpQ/9amqyj7RiWDKcK283gtw+aX89siGLl4PNy8VLZE=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=nb4KdYqa0HBD1pumWammDVXHa5Ft0gKFt9j7W3Tqz2yozB8w+1rDsXAwRPAMPXs/1
+	 ziQrqJ/reeBT4vv17H1Jk6TgIyM/sj7iluIp0Cw+stVpFh9waFXnkoKn4lTW2wF+IY
+	 jXP70F0PX6Ql1MTya4qZzs5lnpwAlxrwyCTXoGSpk8smqq8N5Ng19Oc47+U275jvi7
+	 IIu9T/uA7qRFgxOGKdgzXiWNo3WPxJJpb+nSiNg+4IwYh2RG/D8k0E4kqLBNjbOrff
+	 lCZyfmCOVQ6GfOj+QH96JZZEuDnjXeCeXCD+BkOBYn0vucU3CzsP6vvtn/vqf28O84
+	 /EXE6Kqkol3QA==
+Date: Wed, 26 Feb 2025 16:27:29 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 03/10] iio: adc: add helpers for parsing ADC nodes
-To: Matti Vaittinen <mazziesaccount@gmail.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
- <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Guillaume Stols <gstols@baylibre.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Dumitru Ceclan <mitrutzceclan@gmail.com>,
- Trevor Gamblin <tgamblin@baylibre.com>,
- Matteo Martelli <matteomartelli3@gmail.com>,
- Alisa-Dariana Roman <alisadariana@gmail.com>,
- Ramona Alexandra Nechita <ramona.nechita@analog.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <cover.1740421248.git.mazziesaccount@gmail.com>
- <23f5ee3e3bf7179930d66c720d5c4c33cdbe8366.1740421248.git.mazziesaccount@gmail.com>
- <0de7b0ac-eca5-49ba-b1b3-f249655f3646@baylibre.com>
- <1b308a10-9622-47f9-b489-bd969fbdfc34@gmail.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <1b308a10-9622-47f9-b489-bd969fbdfc34@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: geert@linux-m68k.org, thierry.bultel@linatsea.fr, 
+ linux-renesas-soc@vger.kernel.org, paul.barker.ct@bp.renesas.com
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250226130935.3029927-1-thierry.bultel.yh@bp.renesas.com>
+References: <20250226130935.3029927-1-thierry.bultel.yh@bp.renesas.com>
+Message-Id: <174060863352.3856919.17644733024265204774.robh@kernel.org>
+Subject: Re: [PATCH v3 00/13] Add initial support for Renesas RZ/T2H SoC
 
-On 2/26/25 12:28 AM, Matti Vaittinen wrote:
-> Hi David,
-> 
-> Thanks for taking a look at this :)
-> 
-> On 26/02/2025 02:26, David Lechner wrote:
->> On 2/24/25 12:33 PM, Matti Vaittinen wrote:
->>> There are ADC ICs which may have some of the AIN pins usable for other
->>> functions. These ICs may have some of the AIN pins wired so that they
->>> should not be used for ADC.
->>>
->>> (Preferred?) way for marking pins which can be used as ADC inputs is to
->>> add corresponding channels@N nodes in the device tree as described in
->>> the ADC binding yaml.
->>
->> I think "preferred?" is the key question here. Currently, it is assumed
->> that basically all IIO bindings have channels implicitly even if the
->> binding doesn't call them out. It just means that there is nothing
->> special about the channel that needs to be documented, but the channel
->> is still there.
-> 
-> I think this works well with the ADCs which have no other purpose for the pins but the ADC. The BD79124 (and some others) do allow muxing the ADC input pins for other purposes. There the DT bindings with nothing but the "reg" are relevant, and channels can't be trusted to just be there without those..
 
-Makes sense.
+On Wed, 26 Feb 2025 14:09:19 +0100, Thierry Bultel wrote:
+> 
+> This patchset brings basic support for Renesas RZ/T2H SoC and
+> its evaluation board. The 4 CPUs are enabled, only the serial
+> console is available and the board must boot on a ramdisk.
+> earlycon is supported, though.
+> 
+> The RZ/T2H serial controller (SCI) is quite different from the
+> other RZ SoCs, one of the big differences (but not the only) being
+> the 32 bits registers. In order to not modify the existing sh-sci
+> driver too much, a new set of 'ops' function pointer is introduced,
+> allowing to code the specifics of RZ/T2H in a separate file.
+> Termios setting is not supported yet, the default 115200 baudrate
+> being kept by default.
+> 
+> Clock support for RZ/T2H is added to the existing renesas-cpg-mssr
+> driver, with some little modifications so that more parameters are
+> passed to the device-specific registration callback.
+> At this stage, the assumption is made that most of the initialization
+> is done earlier by the bootloader. Module clock enable/disable is
+> not supported, because quite hard to test when the only available
+> peripheral is the serial console, and will come in a future patchset.
+> 
+> There is an underway discussion on how to group the user selectable
+> Renesas SoC option into bigger families, but such a change is out of
+> scope for this patchset.
+> 
+> This patch series is based on master + patch [1]
+> 
+> [1]: https://lore.kernel.org/all/20250207113313.545432-1-claudiu.beznea.uj@bp.renesas.com/
+> 
+> Thierry Bultel (13):
+>   dt-bindings: soc: Add Renesas RZ/T2H (R9A09G077) SoC
+>   dt-bindings: clock: Add cpg for the Renesas RZ/T2H SoC
+>   dt-bindings: serial: Add compatible for Renesas RZ/T2H SoC in sci
+>   soc: renesas: Add RZ/T2H (R9A09G077) config option
+>   clk: renesas: Pass sub struct of cpg_mssr_priv to cpg_clk_register
+>   clk: renesas: Add support for R9A09G077 SoC
+>   serial: sh-sci: Fix a comment about SCIFA
+>   serial: sh-sci: Introduced function pointers
+>   serial: sh-sci: Introduced sci_of_data
+>   serial: sh-sci: Add support for RZ/T2H SCI
+>   arm64: dts: renesas: Add initial support for renesas RZ/T2H SoC
+>   arm64: dts: renesas: Add initial support for renesas RZ/T2H eval board
+>   arm64: defconfig: Enable Renesas RZ/T2H SoC option
+> 
+>  .../bindings/clock/renesas,cpg-mssr.yaml      |   4 +-
+>  .../bindings/serial/renesas,sci.yaml          |  64 +-
+>  .../bindings/soc/renesas/renesas.yaml         |  10 +
+>  arch/arm64/boot/dts/renesas/Makefile          |   1 +
+>  arch/arm64/boot/dts/renesas/r9a09g077.dtsi    | 129 ++++
+>  .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    |  35 +
+>  arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi |  13 +
+>  arch/arm64/configs/defconfig                  |   2 +
+>  drivers/clk/renesas/Kconfig                   |   5 +
+>  drivers/clk/renesas/Makefile                  |   1 +
+>  drivers/clk/renesas/r7s9210-cpg-mssr.c        |   7 +-
+>  drivers/clk/renesas/r8a77970-cpg-mssr.c       |  11 +-
+>  drivers/clk/renesas/r9a09g077-cpg-mssr.c      | 237 +++++++
+>  drivers/clk/renesas/rcar-gen2-cpg.c           |   5 +-
+>  drivers/clk/renesas/rcar-gen2-cpg.h           |   3 +-
+>  drivers/clk/renesas/rcar-gen3-cpg.c           |   6 +-
+>  drivers/clk/renesas/rcar-gen3-cpg.h           |   6 +-
+>  drivers/clk/renesas/rcar-gen4-cpg.c           |   8 +-
+>  drivers/clk/renesas/rcar-gen4-cpg.h           |   3 +-
+>  drivers/clk/renesas/renesas-cpg-mssr.c        | 153 +++--
+>  drivers/clk/renesas/renesas-cpg-mssr.h        |  43 +-
+>  drivers/soc/renesas/Kconfig                   |   5 +
+>  drivers/tty/serial/Kconfig                    |   7 +
+>  drivers/tty/serial/Makefile                   |   1 +
+>  drivers/tty/serial/rzsci.c                    | 465 ++++++++++++++
+>  drivers/tty/serial/rzsci.h                    |  12 +
+>  drivers/tty/serial/sh-sci-common.h            | 171 +++++
+>  drivers/tty/serial/sh-sci.c                   | 603 ++++++++++--------
+>  drivers/tty/serial/sh-sci.h                   |   2 -
+>  .../clock/renesas,r9a09g077-cpg-mssr.h        |  49 ++
+>  include/linux/serial_sci.h                    |   3 +-
+>  include/uapi/linux/serial_core.h              |   3 +
+>  32 files changed, 1713 insertions(+), 354 deletions(-)
+>  create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+>  create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+>  create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
+>  create mode 100644 drivers/clk/renesas/r9a09g077-cpg-mssr.c
+>  create mode 100644 drivers/tty/serial/rzsci.c
+>  create mode 100644 drivers/tty/serial/rzsci.h
+>  create mode 100644 drivers/tty/serial/sh-sci-common.h
+>  create mode 100644 include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+> 
+> --
+> 2.43.0
+> 
+> 
+> 
 
-> 
->> Similarly, on several drivers we added recently that make use of adc.yaml
->> (adi,ad7380, adi,ad4695) we wrote the bindings with the intention that
->> if a channel was wired in the default configuration, then you would just
->> omit the channel node for that input pin. Therefore, this helper couldn't
->> be used by these drivers since we always have a fixed number of channels
->> used in the driver regardless of if there are explicit channel nodes in
->> the devicetree or not.
-> 
-> I think this works with the ICs where channels, indeed, always are there. But this is not the case with _all_ ICs. And in order to keep the consistency I'd actually required that if channels are listed in the DT, then _all_ the channels must be listed. Else it becomes less straightforward for people to understand how many channels there are based on the device tree. I believe this was also proposed by Jonathan during the v1 review:
-> 
->> > Hmm. That'd mean the ADC channels _must_ be defined in DT in order to be
->> > usable(?) Well, if this is the usual way, then it should be well known
->> > by users. Thanks.
->>
->> Yes. We basically have two types of binding wrt to channels.
->> 1) Always there - no explicit binding, but also no way to describe
->>    anything specific about the channels.
->> 2) Subnode per channel with stuff from adc.yaml and anything device
->>    specific.  Only channels that that have a node are enabled.
->>
 
-Hmm... does that mean we implemented it wrong on ad7380 and ad4695?
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
->> There are a few drivers that for historical reasons support both
->> options with 'no channels' meaning 'all channels'.
-> 
-> https://lore.kernel.org/all/20250201162631.2eab9a9a@jic23-huawei/
-> 
->> In my experience, the only time we don't populate all available channels
->> on an ADC, even if not used, is in cases like differential chips where
->> any two inputs can be mixed and matched to form a channel. Some of these,
->> like adi,ad7173-8 would have 100s or 1000s of channels if we tried to
->> include all possible channels. In those cases, we make an exception and
->> use a dynamic number of channels based on the devicetree. But for chips
->> that have less than 20 total possible channels or so we've always
->> provided all possible channels to userspace. It makes writing userspace
->> software for a specific chip easier if we can always assume that chip
->> has the same number of channels.
-> 
-> In any exception to this rule of describing all channels in DT should just avoid using these helpers and do things as they're done now. No one is forced to use them. But I am not really sure why would you not describe all the channels in the device-tree for ICs with less than 20 channels? I'd assume that if the channels are unconditionally usable in the hardware, then they should be in DT as well(?)
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-I devicetree, I think the tendency is to be less verbose and only add
-properties/nodes when there is something that is not the usual case.
-Default values are chosen to be the most usual case so we don't have
-to write so much in the .dts.
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
-> 
->>> Add couple of helper functions which can be used to retrieve the channel
->>> information from the device node.
->>>
->>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
->>>
-> 
-> Yours,
->     -- Matti
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/renesas/' for 20250226130935.3029927-1-thierry.bultel.yh@bp.renesas.com:
+
+arch/arm64/boot/dts/renesas/r8a77980a-condor-i.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77965-ulcb.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77960-ulcb-kf.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77965-ulcb-kf.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 2992]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 16384]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 16384]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-mipi-2.1.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77970-eagle.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-mipi-2.1.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 2992]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 16384]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77960-ulcb.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 16384]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77951-ulcb.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 2992]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77970-v3msk.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77990-ebisu.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77960-salvator-x.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77980-condor.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77960-salvator-xs.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779g3-white-hawk-single.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 16384]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 16384]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 16384]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77951-salvator-x.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77961-ulcb.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 2992]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a77995-draak.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 2992]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 2992]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 4096]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 16384]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 2992]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: clock-controller@e6150000: reg: [[0, 3860135936, 0, 2992]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#
+
+
+
+
 
 
