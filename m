@@ -1,80 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-13687-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B949A4513A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 01:10:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFB7A45169
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 01:26:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E8C7189E6A7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 00:09:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 82DC219C0724
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 00:27:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A46BC372;
-	Wed, 26 Feb 2025 00:09:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F40F156B81;
+	Wed, 26 Feb 2025 00:26:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="nu1u8jy7"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ajQVyawQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3CD1FAA
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Feb 2025 00:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A31E40C03
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Feb 2025 00:26:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740528550; cv=none; b=OHboiQt4TmuLjyu337MoWG+MZPizvx4Jk37xbrkS/OKeuKSm6upuYLCAaaO2g3C9aV6HgWdN97/ypQAR0lryMFq/ARHQpahfLCyXq8EOOiPsEOWvVOCk3wX1ntrNKNvo7nEKqE7ESLphujoQ+OmNtUOtK894PiaNhG19lFfNqfE=
+	t=1740529608; cv=none; b=FNjDM1QrmGqRfDAZu/pNjUYZNKAwQVlghsZ8QwcMeKwiCQTo8pOFamb62LI3ZrMwXzZU514jO48S154bfyafLwumC81xUPe0xjpiulaHMp2cu2AH3uvhgWEgZOanUjBq47zpMCrnuwf5GKtfDBfwC9F915NvUnYePzUgat4sg/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740528550; c=relaxed/simple;
-	bh=h26bDQt1EvZvwSeo1EG9AJe/Hyqmt8BinkNFg5j8KtQ=;
+	s=arc-20240116; t=1740529608; c=relaxed/simple;
+	bh=U8EoAqRFMwNN0vkZxxuJ747c1TkFoXybVwKQXTpYFNc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=so8o2evdHugFiiUg+0/jxRDJdc5Cy7nS4hC1cxQr4DEv9kV+b16M79mHayen6fPT5rHSiWimcXRHG90hGr/YRGbyXj0qp8fhM3YRN8PHr28GBEu+4A1gSMbjgv5x/eDTW70/fgqUkVCy8w1SBBtQ9GCg2SDdtsF9ftYbNP3XtTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=nu1u8jy7; arc=none smtp.client-ip=209.85.210.44
+	 In-Reply-To:Content-Type; b=Mv/zZiPcfhLC+fnuRhwCIYI4t9LmMYexe9dSfmI7ycCsSGPH7D2RQ3jwGw051lxxs5vdborTJLN29651yO5laD8waGUWUIiFvV7vMzNaxQrzzL7cYPD81VkH9yAatKCMNtk3atafVv1+vwwEN/4vYysGckXwbPDCqh6wSJkgKYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ajQVyawQ; arc=none smtp.client-ip=209.85.167.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7271cc3d73eso3328665a34.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Feb 2025 16:09:07 -0800 (PST)
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3f408052bdcso2194441b6e.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Feb 2025 16:26:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740528547; x=1741133347; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740529604; x=1741134404; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=juVLmpm4UqW3CDyHjhGjXXzInD2jAOQrY9jRma953QM=;
-        b=nu1u8jy7tEcmXzkguzmoirxSZw8jGD9slpgpn1qaBCjkesSUqnJPCxx59MkqdkBAlf
-         5cb+PxFJsGKCADh0TacvGS450pNcTR/RtYgwq7hrkyw7h07je3th7VLogBw4zfg2AxcD
-         1C00sN+lMFg/1iW94+gtP7tmO+HmoBka5iLWY5FPHvotiHSUnNmB+VQ5HLkV1nwA4keE
-         bHMV6p3V3MBLxaSS/C57SxJs+1fQHAkN7Ms+T4F2nHpPRAFTd3yVoUzIFKNKT9qUmIzF
-         M5w5VWteRDVIUiFVJ5Hituq+tzHTDlVqvX+b1qm7fJeO4RSZpSA+7+dcNZfIZu1RDUJM
-         po5Q==
+        bh=TtkdEm0DhE9kMHrzm4v1hwSlsrJYtgXqAtJA7aT6OdM=;
+        b=ajQVyawQVJadBMDPUptySchMkqqVEJx1NM6ucacylDf+Nd6HU7JEw+KpIn8LQoCL1n
+         Q9TC7gKbBXw/M3iiMMvV3g40ZQUkZlOMGgVcZTC/N+WVl/XK+yE1oVZyWVfixvNEUobc
+         6csOi93pB71E1HL3ULzFP8prHxcNAa1BKh2ZBbG466jRvyBvC5i7Fe0LkjefqVFUfSp5
+         d5W5E1u0Z72z1byg9+8GU5ukPeS2Exz2uVc3hu4fz5hMhi8auubwcGBYFnDRQl0Mh4cJ
+         e/mSCeT+PCQjOk2P3vQFF0aw2jptNtKYfdyVVs/xPE5ScKmkiZXQK7qdeafAWiJ1MEOD
+         k/PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740528547; x=1741133347;
+        d=1e100.net; s=20230601; t=1740529604; x=1741134404;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=juVLmpm4UqW3CDyHjhGjXXzInD2jAOQrY9jRma953QM=;
-        b=gV0+iXxFbPI/PhhLBQIsbQtjTxJiUonHyfFE7/RHI7LV+LlDThINb1x3qYUoVqK3uU
-         vOAmtWcmksIokJtn8k5H65DWh+gZmm/CGvi4Uz0h1v2LFmHA3nN4L3c305sqTbJomama
-         H3JPexuJDXN1j0fDNrPV5Y1gRqBNDiqQzbd5MbiVZLI4su1vhICmO8AOgJ1PmvmGQpwR
-         m2lowc4i1pfS6QMM5+nfSVcaz37GudkltjwT4tGTR6b20IMhGBfgB1lSXpTiKRG5AFUt
-         w4deTwM3f5X0y+hRIfAA7//EINGz+N/ax43eOsusokp1b/oKz0t+09dPxkZrQ8iUFK9r
-         Bc8A==
-X-Forwarded-Encrypted: i=1; AJvYcCX4ZmJZNTEJjRworJUT8bfLDDW9bFLUTQBwvrehiXdSm4hYrAKbKYQRS7HcYVmsjX2JL68LEZDDsuzOvq76PAitDw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxL5+0BDZ1i4w0IBFRrGYStFGmSGjczKhUhB7wnfoTmU6xMNoT1
-	uXAIGsQUH5OS3uLlhrG8fFjTL25xAnWOe+DYLBgnnpmgdcaonjAMWH7UZEAmtwZL06BNDI1R/8g
-	6
-X-Gm-Gg: ASbGncsvU+BjTk4YAiqaUsZlqI1m27hVPBAQi58l+k5pEL3mRk0QmbX8CvAfJ/4LSR2
-	b2V93KGrvE6FgBX/ols18dybB95VE9umjxyKLthyhxmnkuv5JHE8s1hIV0UY+XhEuc4w2Td8ifa
-	H6cJK5YDJ+ELz3oX5KK6Er15xdK48/FajCeKpaQdNGdrqcEZMiYm93sHBDmEhHPcbLC4Lg9MO0r
-	QOzryFDjguOAxVnSfku5Wl6uP88Dq7++1n2LB9F5ORknj99CkRlYsxGlEk/iC7UfEic7xHO16kF
-	A3tIvmKMBWM94ZE6fhVpMmRSsB5e3rNR38QV6m8AXR7VkSYPkHFwixQasCdstlk=
-X-Google-Smtp-Source: AGHT+IFcLe07eLzlySwjtDU+XuKdCvG3TGM5yw/uZ3tgI0c9sfN55oU4icGBmCi8OdnlyMQtoSSFWg==
-X-Received: by 2002:a05:6830:dc3:b0:727:24ab:3e4 with SMTP id 46e09a7af769-7274c1ac6f4mr15683376a34.9.1740528546779;
-        Tue, 25 Feb 2025 16:09:06 -0800 (PST)
+        bh=TtkdEm0DhE9kMHrzm4v1hwSlsrJYtgXqAtJA7aT6OdM=;
+        b=n9lHritYCxYOonLrxGg272iNSQZeRLph0AoYNjPgvvfMjLKSW2K3SreNO5wfGOHCcp
+         mT3EtTXTMlu4KbQfAgZkCjeBfEtKjiuIufulXQTVxPcbTcYxS7CnzoA5rxObK9YXV5mO
+         ltvHv5irIPcq/vhZE/O4OHpRQJ+JWdTPzRmxCnFMoaqaPPljq3K7V0/lXJRda0ENsKlx
+         +WI9k3jiiV5c/phb+FsdKuXVdhLu2noPrCRB1E0Nw8qhtw7nqS5a6R9y5eROu2B9OOfF
+         W57MHN4W20tmX0nGOf48hZWUX9krchgVGqCDGYu0ICxwLc7PnaFnRhEZhUOysqeG0cWn
+         vidA==
+X-Forwarded-Encrypted: i=1; AJvYcCUkpSNqTD788M7EkM3yXYQIhKwyqYQ0wwp3xU8UV0lm8/OVfhdFo0/pCOxQFOpjSMgpgmHIcJ3cWdYAHhlIsIx5SA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJodneCBYI+ePnE4eDtkTLkdHJnuORKutYrJxQJdX18AR1SOKn
+	MvaOLulSk7cs0gDRWm5UsI97mgcO+lXUGWIVZG9BNZMbhHGnnibPn8TVvXc9nSs=
+X-Gm-Gg: ASbGncs43k1iAp78//bmie/OA6JnqCs8oIwpaIUPaPm5OwH0ekUH/cT6yQoxGm85dyB
+	zHUssiPDEc0xa0WFZacvFIp3cpupB4IOnWvkKqLy8kYjm2jvcm1uBJjdTnaP0zX6H8nyc/E3VYJ
+	1uUQhlW1kI0wFID2CBqGQJIJNM84CH1khaKN0dGJYbFH4IgfBmijOdEs7Hczs3TNLmQuf9GhDiz
+	2FqsKZx67XNDGKEZd4MYjqqq2C2yQV9tTpdCe6BarkAXuwBnBHnKLleRIe9cScSngn3Z7g9heRs
+	eRpI9FmFW3LjOChRS2c7ne+RM2ztXOMRGeGeLsVBBScSDOGn5andbYMJpfMMT9o=
+X-Google-Smtp-Source: AGHT+IHrEzlhOgkq+zDuK43ZJTHn/TAq6eat4Ph04G840iIXAUXagf0yq5sPkcY8nyRgOxiDTjBreA==
+X-Received: by 2002:aca:1a0e:0:b0:3f4:ad6:5190 with SMTP id 5614622812f47-3f547de878fmr763766b6e.2.1740529604637;
+        Tue, 25 Feb 2025 16:26:44 -0800 (PST)
 Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7289dee9d50sm497552a34.34.2025.02.25.16.09.05
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f541c5bce1sm510105b6e.46.2025.02.25.16.26.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Feb 2025 16:09:06 -0800 (PST)
-Message-ID: <f0d0f114-3953-46b5-b9f6-9b35537e6f8e@baylibre.com>
-Date: Tue, 25 Feb 2025 18:09:04 -0600
+        Tue, 25 Feb 2025 16:26:43 -0800 (PST)
+Message-ID: <0de7b0ac-eca5-49ba-b1b3-f249655f3646@baylibre.com>
+Date: Tue, 25 Feb 2025 18:26:40 -0600
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,7 +81,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/10] iio: adc: ti-ads7924: Respect device tree config
+Subject: Re: [PATCH v4 03/10] iio: adc: add helpers for parsing ADC nodes
 To: Matti Vaittinen <mazziesaccount@gmail.com>,
  Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
@@ -112,77 +111,51 @@ Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
  linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev
 References: <cover.1740421248.git.mazziesaccount@gmail.com>
- <20dd0e4ea72fe39b90b611f9c08dbd4bc1d5217f.1740421248.git.mazziesaccount@gmail.com>
+ <23f5ee3e3bf7179930d66c720d5c4c33cdbe8366.1740421248.git.mazziesaccount@gmail.com>
 Content-Language: en-US
 From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20dd0e4ea72fe39b90b611f9c08dbd4bc1d5217f.1740421248.git.mazziesaccount@gmail.com>
+In-Reply-To: <23f5ee3e3bf7179930d66c720d5c4c33cdbe8366.1740421248.git.mazziesaccount@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2/24/25 12:34 PM, Matti Vaittinen wrote:
-> The ti-ads7924 driver ignores the device-tree ADC channel specification
-> and always exposes all 4 channels to users whether they are present in
-> the device-tree or not. Additionally, the "reg" values in the channel
-> nodes are ignored, although an error is printed if they are out of range.
+On 2/24/25 12:33 PM, Matti Vaittinen wrote:
+> There are ADC ICs which may have some of the AIN pins usable for other
+> functions. These ICs may have some of the AIN pins wired so that they
+> should not be used for ADC.
 > 
-> Register only the channels described in the device-tree, and use the reg
-> property as a channel ID.
+> (Preferred?) way for marking pins which can be used as ADC inputs is to
+> add corresponding channels@N nodes in the device tree as described in
+> the ADC binding yaml.
+
+I think "preferred?" is the key question here. Currently, it is assumed
+that basically all IIO bindings have channels implicitly even if the
+binding doesn't call them out. It just means that there is nothing
+special about the channel that needs to be documented, but the channel
+is still there.
+
+Similarly, on several drivers we added recently that make use of adc.yaml
+(adi,ad7380, adi,ad4695) we wrote the bindings with the intention that
+if a channel was wired in the default configuration, then you would just
+omit the channel node for that input pin. Therefore, this helper couldn't
+be used by these drivers since we always have a fixed number of channels
+used in the driver regardless of if there are explicit channel nodes in
+the devicetree or not.
+
+In my experience, the only time we don't populate all available channels
+on an ADC, even if not used, is in cases like differential chips where
+any two inputs can be mixed and matched to form a channel. Some of these,
+like adi,ad7173-8 would have 100s or 1000s of channels if we tried to
+include all possible channels. In those cases, we make an exception and
+use a dynamic number of channels based on the devicetree. But for chips
+that have less than 20 total possible channels or so we've always
+provided all possible channels to userspace. It makes writing userspace
+software for a specific chip easier if we can always assume that chip
+has the same number of channels.
+
+> 
+> Add couple of helper functions which can be used to retrieve the channel
+> information from the device node.
 > 
 > Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
 > 
-> ---
-> Revision history:
-> v3 => v4:
->  - Adapt to 'drop diff-channel support' changes to ADC-helpers
->  - select ADC helpers in the Kconfig
-> v2 => v3: New patch
-> 
-> Please note that this is potentially breaking existing users if they
-> have wrong values in the device-tree. I believe the device-tree should
-> ideally be respected, and if it says device X has only one channel, then
-> we should believe it and not register 4. Well, we don't live in the
-> ideal world, so even though I believe this is TheRightThingToDo - it may
-> cause havoc because correct device-tree has not been required from the
-> day 1. So, please review and test and apply at your own risk :)
-
-The DT bindings on this one are a little weird. Usually, if we don't
-use any extra properties from adc.yaml, we leave out the channels. In
-this case it does seem kind of like the original intention was to work
-like you are suggesting, but hard to say since the driver wasn't actually
-implemented that way. I would be more inclined to actually not make the
-breaking change here and instead relax the bindings to make channel nodes
-optional and just have the driver ignore the channel nodes by dropping
-the ads7924_get_channels_config() function completely. This would make
-the driver simpler instead of more complex like this patch does.
-
-> 
-> As a side note, this might warrant a fixes tag but the adc-helper -stuff
-> is hardly worth to be backported... (And I've already exceeded my time
-> budget with this series - hence I'll leave crafting backportable fix to
-> TI people ;) )
-> 
-> This has only been compile tested! All testing is highly appreciated.
-> ---
-
-...
-
-> -static int ads7924_get_channels_config(struct device *dev)
-> +static int ads7924_get_channels_config(struct iio_dev *indio_dev,
-> +				       struct device *dev)
-
-Could get dev from indio_dev->dev.parent and keep only one parameter
-to this function.
-
->  {
-> -	struct fwnode_handle *node;
-> -	int num_channels = 0;
-> +	struct iio_chan_spec *chan_array;
-> +	int num_channels = 0, i;
-
-Don't need initialization here.
-
-> +	static const char * const datasheet_names[] = {
-> +		"AIN0", "AIN1", "AIN2", "AIN3"
-> +	};
->  
 
