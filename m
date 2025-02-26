@@ -1,207 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-13713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13714-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 798E1A462FE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 15:36:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31DCCA46333
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 15:40:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C07947A7B14
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 14:32:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C7EDB3B0327
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 14:39:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AFB2221F3B;
-	Wed, 26 Feb 2025 14:32:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3023D21D3DA;
+	Wed, 26 Feb 2025 14:40:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="EKIewDmZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSdIy5Yl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010031.outbound.protection.outlook.com [52.101.228.31])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24ED192B77;
-	Wed, 26 Feb 2025 14:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740580379; cv=fail; b=MZqSn7oS3pY5KbRi3dgNtEyXQLo3GqQ+NIpMpz/zuvgUrAid12gLj+OtDp/VUj/tRHNR1CslldoBqNVQuolU0NpjD4MeF+YCN8+Rgc3ARRUFKPdK3e5/tiwVL5hMzMX6numNaa2aqquCSbL1Pp4QTmwicQhD7GkxGiiLG2Xc1X4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740580379; c=relaxed/simple;
-	bh=bxsxCCLK0OXxBS/JDJ+Yw9W6GBhlK9gvyABYWkzvnV4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=DZalA7AUfiuCWKgWgMdNhcg/YDSUj1O5TTLm5YlHQ7Dbe2FAc8RIQbcZqtaURZGcvDRcvq8zvIgcGex0bgK8JHpYd80jumPTNx8YP/sB3GmgUku+DZ9ezDAmjkoURSGCRyW7eijbz3dJokHj9QPxepR7hVsclsDzhtCABVkPG8s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=EKIewDmZ; arc=fail smtp.client-ip=52.101.228.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N1uIhdmpz98ah/9fXefpp2v1L1Ec67zhtXTmf5thxsQvy67KhRnP649aoJGZPcuM7DVZ/o8PQw94Xv548kU7zdzDBWvY0vNFSMquwuhASykKsuaccsVXmKOGOK7fl4lJSVre2FSm2LIN0w73nzJbmz9ToXiZeH7bck96jew/l33aRc4kJxqhY9hAoTBIf5yfduTWfFJigktfOVfKK7R8HcfKfuSEf4HzpoW7NrmR8+3Vyl0L/a517N3CAMlsSGZYbJN/RL/Bq+m/6DkK7ooCXLlf/8qIMsRIFPWsZKzIdnR98gkbtz2P8zhpuFMb/tC5um9fmwX2tNP+FrfnWNqPXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bxsxCCLK0OXxBS/JDJ+Yw9W6GBhlK9gvyABYWkzvnV4=;
- b=aMaShOzGOTKlrgR8R5nStZXLa2gThRmi7OFgjCLoVV4KL1jdaf0H8EzKjl6qxn0GmVWGSEFr4BcX+f5MBmQ3EapI04IPNO0er/YPjWXLmq+8i7LIh7J4IytuJK81QUOUAF+HwabWz8Gp1HKUTOF0/ne2BemcamCPVT/8UzxYejfr30FUHTNaVU3tWgZ3hW+Yilg9cff/3cgEWYqqVBY24NnhIxoQPPyxTxwNyMN2lQOuMBJUEFQZGTBcs9nu8Sa12VIcVQcxaOo9ZNqumqcAnDrNWcw0f/bmpOhyQtsNFUbUiI9qnrzETfxLWj81td5s+I+KirQ1cBeFkVRlJMdqWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bxsxCCLK0OXxBS/JDJ+Yw9W6GBhlK9gvyABYWkzvnV4=;
- b=EKIewDmZ9y59+alx9sBN/Zd1MIOo2dJkDYEloKdRYwV0CgV/6zFSjFN7uI5trcJGRPkbrv4/C1wudUUvG3x2gC+rp1hiPi2ceLimSjs93P5YOx4/7mX/JpU4M2kohbqxq2K/zR3m5YMDEbCyJTpR1lPDZS4KPqt5kwEwK8Xod3Q=
-Received: from TYCPR01MB11492.jpnprd01.prod.outlook.com (2603:1096:400:37e::7)
- by TYWPR01MB9939.jpnprd01.prod.outlook.com (2603:1096:400:237::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.19; Wed, 26 Feb
- 2025 14:32:52 +0000
-Received: from TYCPR01MB11492.jpnprd01.prod.outlook.com
- ([fe80::4a09:638d:4f7f:51ce]) by TYCPR01MB11492.jpnprd01.prod.outlook.com
- ([fe80::4a09:638d:4f7f:51ce%4]) with mapi id 15.20.8466.020; Wed, 26 Feb 2025
- 14:32:52 +0000
-From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "thierry.bultel@linatsea.fr"
-	<thierry.bultel@linatsea.fr>
-CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"geert@linux-m68k.org" <geert@linux-m68k.org>, Paul Barker
-	<paul.barker.ct@bp.renesas.com>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 13/13] arm64: defconfig: Enable Renesas RZ/T2H SoC
- option
-Thread-Topic: [PATCH v3 13/13] arm64: defconfig: Enable Renesas RZ/T2H SoC
- option
-Thread-Index: AQHbiE/a4G/Z4/2QWkiecfuwWl+1JrNZow+AgAAA7rA=
-Date: Wed, 26 Feb 2025 14:32:52 +0000
-Message-ID:
- <TYCPR01MB1149252F0825C9BCF6A1B832F8AC22@TYCPR01MB11492.jpnprd01.prod.outlook.com>
-References: <20250226130935.3029927-1-thierry.bultel.yh@bp.renesas.com>
- <20250226130935.3029927-14-thierry.bultel.yh@bp.renesas.com>
- <fe4ccf6d-bdf0-41eb-bffe-83d459319689@kernel.org>
-In-Reply-To: <fe4ccf6d-bdf0-41eb-bffe-83d459319689@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11492:EE_|TYWPR01MB9939:EE_
-x-ms-office365-filtering-correlation-id: 9b884b29-5f1a-49ab-af33-08dd567273e2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?x9/5bNxwxaDn5EvJ5oyUU6bbKmz+OBdWsMMJkdTLdqq0CKnGgcTLjckn8/?=
- =?iso-8859-1?Q?z6PSHOzXohk1P8gttuQ6mCr3/YIo5T60L06D1nHH78Or881Q3EHFA5NudG?=
- =?iso-8859-1?Q?Q7xSoIAB08mOog4ySZcep/5rBTLG6kDGFbaI1yOPaJxq2p9A8qWazDnVxi?=
- =?iso-8859-1?Q?1gPTL3vFzhR10cQKzFCWbi+HzOHvm6UPmk3r/RbgP4NAqCf3E0BLkK2F9O?=
- =?iso-8859-1?Q?CCywl76SPQpLnrFAotkZMAu6IsC07gPIgIRGdYus48283A84mCY7UOEKK7?=
- =?iso-8859-1?Q?PkKwo6MrNQF4916+JRw4hK6sC75CrLSFe7+P+YR9Zt5RTLa0nOmWkNNadq?=
- =?iso-8859-1?Q?ViQSmpuSto6+0oQjlCzliDCLhPdAnYwfha/ltosX9I65u/doW6KHen2gR6?=
- =?iso-8859-1?Q?PIW1syT9GcAg2MombL2vG+XvJC4y1iLfaMhG1Az1O4Zjhr25Vfow3uERL/?=
- =?iso-8859-1?Q?fw/ekE7T2D9rWJK1H7zC9n3sSb9LuaWD4h28/MdP4mtRmE6o6wIye5x6dx?=
- =?iso-8859-1?Q?PFr7xd+s02DK2VO3GEUkqY9IqwRip3M18JJO75PxpAjt60tjnWZahG1HYO?=
- =?iso-8859-1?Q?oyYmG+tBgFfm0Jluagf2r/kBMB+ct34J4uZXixZ1Tav5ms5v56RIMmSMeF?=
- =?iso-8859-1?Q?sZkv0D7eBIVR86+P0hoF2gV5KTf6pOwUa/u65OcV3bDJusR7ZoW+aTZJN5?=
- =?iso-8859-1?Q?HzCPW1tRhIFtguKcoLhEyYUPF0zfjpCNYt30Eet+SuvwqVBS7it65cN11t?=
- =?iso-8859-1?Q?UTMv8w/C7SQUXMYPfTvFpLaPyhzfdj9oTstNFuJrSwKnOyhhAHsv32PHpi?=
- =?iso-8859-1?Q?gIlWQrzMDsU1DucY/ZzlebCLJmREZqxmqZfG2+dRykI6drrFe75rZtr6t/?=
- =?iso-8859-1?Q?4tmI8uI3f60Svk0CPmzonVosIXeGyD9MNxHJjwsBq3JJV0pmTE5ICioECJ?=
- =?iso-8859-1?Q?u56aLbxS5zpAUR+dsJKT3U/CesrLmTcMKVdejQnebv/HoGvX91wUkS2ICS?=
- =?iso-8859-1?Q?OR5BV0nsXfxqJyHfcUm51X8lRt+T/wMqM3s6QxGEtkz7yKI/ifV2+35sKk?=
- =?iso-8859-1?Q?elliePYHtCUGl/X9RTD2XCO8mR3K5uYdXCsorufdCOBFvZDhLv4DO0G7lz?=
- =?iso-8859-1?Q?J9UkmuL2bxY6ELE6qyKvAWJv9y6ESTmi8l4gLSH8HhIWantBeeyQ3bAPHB?=
- =?iso-8859-1?Q?njK7yZF303JL7/6Qus+HrVKXKObq4XqxwbthEax3KZ+FEn1luxoY3KvOjD?=
- =?iso-8859-1?Q?BvBlvLFwyOnJtUJk3MBZWgO5uVp0HMXGyrsyWwU/oLDLGt4zrwxt3pI7xl?=
- =?iso-8859-1?Q?RSbTDF0eF8r5pwDlSuGsdHh0e6Kyw9o8hAQFtq9gCl/qr7G0ql+qSwcmTH?=
- =?iso-8859-1?Q?/1rfqSU6U+q0C0LLwwgfGxsQ03avzvk5twOrLA8mcE+xftl0Xq77hFNRpL?=
- =?iso-8859-1?Q?jXhM/+x9Sr7/qiWdJI3o3o2gy4DqXcnOR+yJesKiLee2MPoLRnuR/3C+1c?=
- =?iso-8859-1?Q?/FejjVc/oxo/lltBCiBjLv?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11492.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?Hl4Tof2nAFcN443myx8TXrkT9nabTZuLwfRn/L9LqxnacUt4zX3TFMnk6D?=
- =?iso-8859-1?Q?eABJMSs8hpiyw9Ah/W4RSxmpsMqI+WKisDEQ0mhbkFgeO9Q7F885nczXXN?=
- =?iso-8859-1?Q?939p/LTCvAtUkCCel/sC1ik8aGEVg95oWQJGzlHHym3/LPyF29W/b9wwOR?=
- =?iso-8859-1?Q?DmFhqBFwpNanJXeHEVlntGsdxo1jj+HS0bpWv/arLviMXsPyD/CEw5VDIu?=
- =?iso-8859-1?Q?9j8YVkI3qXPCTX7WIYLO5wdlzC1tFYOYL9bvaL/8MIN9Lxf4gPGhNPvIF5?=
- =?iso-8859-1?Q?aA9mBijvz4eLInX+34RPk5/VrGugGimZS08QHtY6wjdlRSMAKgfQJl6JTg?=
- =?iso-8859-1?Q?4deChCCrr9ZVZg1lHJskyUPu8TIb5webNNa737Gfw8iATvc0ATyIB6J495?=
- =?iso-8859-1?Q?WHQ8SbP+QyqcyG8qioEYgKrRuJpCO/k0JnsV6lCZv1RAGn5/nO+AmkMimy?=
- =?iso-8859-1?Q?U0/PPYTPJKBWCjfrY/MR7n7kUMOYc7jdDKlNgoZjU0l6SqBEYLnzyK+2s2?=
- =?iso-8859-1?Q?WY12DZRUtO60uVsoOO0jXDa7sATR+NPck7IZYSmXzPRDHBhyREYoma5gzG?=
- =?iso-8859-1?Q?9x3w1BMfCvg8pZFiJdDOrpkQJe1XDaZ7AYl8xFygyi3fpybUiO8Vzz0QOk?=
- =?iso-8859-1?Q?dqSdQADtuZvg5BoWNn99eNweUENTNXmv6ed/Qr2RUlrzeB8fswFqzK8FgW?=
- =?iso-8859-1?Q?Fq1gapLhyep3a5l0nSNKYm+LhYzI4ossC0rHWoDysc0ze9dTlsMjQO3urW?=
- =?iso-8859-1?Q?/UNvKyllb4bo2m4cUCuatoDr3G/XOJiKVsQ6FjA6Z2IJZ2g7MJPyMikD5o?=
- =?iso-8859-1?Q?5NVDPHlv6XGNgVL3peClxOIGo2JbW3sHxboT5H9oZV2iaCNcnzGao/BhC9?=
- =?iso-8859-1?Q?fagN8SCJWbbXMWfdON/v4E0VvM+p9m8wObBuS/JuUYZ2OGFe/vhgC6vnhF?=
- =?iso-8859-1?Q?7fDFEuFopHfbX5ojtbpgxG7xE1Tj4a19DznYq3Yr7sslpHMTK+Xd3XEHQm?=
- =?iso-8859-1?Q?YGjfkg9z/2s7hvqIU8Krty22eggeMuPFsrnfyXrABRaRUO7T+cImbGKYo8?=
- =?iso-8859-1?Q?NyBcPrLY5X3S2GiXGpB++a8ejBjsKU/+Q1mWFMdwgXamhb7dkjwnbWwFbm?=
- =?iso-8859-1?Q?Gb4kLc5AFD896Diepnz+Xcd58sRYyzv3GDWo1TrPSTAmwd/kzP1fBOmlb9?=
- =?iso-8859-1?Q?XsNh3OBGx0QNbfs+hr4Md7bQax8whtA/lTkrjpmGhfUQEtrjk5uDIcdfGN?=
- =?iso-8859-1?Q?0FHfCioMbGrZC93CDOu8d3uTJ3q1W6if2Q8L29Z/gvyDJsHjbyNz7wZU36?=
- =?iso-8859-1?Q?xwezSaxelvezhJvHeswy0Q09jYh8xy7caXuTXbyzQvFXVT/tD4EM6pv1xo?=
- =?iso-8859-1?Q?IeWqHsnGBOJvoS9ffJax0OnRu/IocY0RNj9EmRbv77jZFOd1BF+uRHIBYv?=
- =?iso-8859-1?Q?aCfQ2mO6hQKmtuzvC7bonnUWSX+zmeWXR6t6kdAtwOlWspChwQYAjW8b2b?=
- =?iso-8859-1?Q?DT2UIofm53SIQar72fZcDx2I91qvsfSWKEX+4+nMl9veKjhr/aHJrdWu/l?=
- =?iso-8859-1?Q?FnNoQSJZMq5H9tp2INGdrWRLJH7uyAKmZoC2YpjZIN54tIC7jX4P45c4F3?=
- =?iso-8859-1?Q?sHmI3sLTV7PVJ7I3s9lhRI5OpGx007fjEmZ3isK/4h5agDznbp9gyyRg?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0891B19CD0B;
+	Wed, 26 Feb 2025 14:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740580800; cv=none; b=IZnNbP7jd0eng3ezvC/gKZxYapQnkAz6yY1J0ByX1gs6iT8Kk1Z0P8uc1+cZDioGOLrp3SvSa8jw0hqUUwHz73/83pWPJBtr51oJ+abH49X9Xjxagw32fMmPyMIQIZgCqmer1YGOMPBY7SD3im0yXp8Pkm3URTUGWBTMqRRsEtU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740580800; c=relaxed/simple;
+	bh=UizutcGrQROvMXVefR0tVZ4gwid3/rjhlsvjPSmD9iE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AZNc0WqgiATaSmnaSP0xfIX5o3kaEI4+BnbLmfb/nS1fb+cKPgrKvSvYKy5EibT/8U7FVHcUdmQtNfwqRdBtz0WPOyYLt1nQKGACvTgbAbe607LRJRtO5rjTVKd+tHmIYfZ1REZSeawwo9EsPNSDJDr3Dh49Jq4AASqkN4kfqqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSdIy5Yl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA0DCC4CEE8;
+	Wed, 26 Feb 2025 14:39:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740580799;
+	bh=UizutcGrQROvMXVefR0tVZ4gwid3/rjhlsvjPSmD9iE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iSdIy5YlY9OjefogR2PNerBmmXht7wVcASIsAdgfHZjvfXcruSn9OpkJScfau3LwS
+	 NgGCYv9i+aRQsPXAEazB2ddgSi9EFSsDLtU54VxS6uIEfYwm70n5kCv3iqj4zSxq0z
+	 R5kKld/SXucL01J5frvAnHraua4g5fpPKb4F7kGFRd/TPdHGTthJe9Onhqh4BoBcrk
+	 3IMTnhjouOCKBU3PjmJyBk4OSIzGDQYTjAx1zd5qsUbgBau11WIRPtK+GjitGmRQnR
+	 qxIZrBhsnVi6kek4/urdheDB3JvE3TEBp4ZLrKgjeGjVtFCjCbk5XWwlaJ3Ty/eN7j
+	 oztEErZPQKj7A==
+Message-ID: <f134c607-2a03-4ee2-9f7a-befa1e4feb74@kernel.org>
+Date: Wed, 26 Feb 2025 15:39:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11492.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b884b29-5f1a-49ab-af33-08dd567273e2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Feb 2025 14:32:52.6845
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: T4XYkuFPqe2TqQ+ehlWlAPomTwXnAruAF15gE5B3VZMbAHwrncg8y7P0ij9L4rIHxLuIOYSzKi4BHrF3UTN1IAp5L7pG55FNs6c6o5HWJ4Tp31/v1myp9poeKUxlrjGz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9939
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 13/13] arm64: defconfig: Enable Renesas RZ/T2H SoC
+ option
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+ "thierry.bultel@linatsea.fr" <thierry.bultel@linatsea.fr>
+Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "geert@linux-m68k.org" <geert@linux-m68k.org>,
+ Paul Barker <paul.barker.ct@bp.renesas.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20250226130935.3029927-1-thierry.bultel.yh@bp.renesas.com>
+ <20250226130935.3029927-14-thierry.bultel.yh@bp.renesas.com>
+ <fe4ccf6d-bdf0-41eb-bffe-83d459319689@kernel.org>
+ <TYCPR01MB1149252F0825C9BCF6A1B832F8AC22@TYCPR01MB11492.jpnprd01.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <TYCPR01MB1149252F0825C9BCF6A1B832F8AC22@TYCPR01MB11492.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Krysztof,
+On 26/02/2025 15:32, Thierry Bultel wrote:
+> Hi Krysztof,
+> 
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzk@kernel.org> 
+>> Sent: mercredi 26 février 2025 15:22
+>> To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>; thierry.bultel@linatsea.fr
+>> Cc: linux-renesas-soc@vger.kernel.org; geert@linux-m68k.org; Paul Barker <paul.barker.ct@bp.renesas.com>; linux-arm->kernel@lists.infradead.org; linux-kernel@vger.kernel.org
+>> Subject: Re: [PATCH v3 13/13] arm64: defconfig: Enable Renesas RZ/T2H SoC option
+>>
+>> On 26/02/2025 14:09, Thierry Bultel wrote:
+>>> Selects support for RZ/T2H (aka r9a09g077), and SCI (serial) specific 
+>>> code for it.
+>>>
+>>> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+>>> Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+>>> ---
+>>
+>> You never responded to my comments at v1. So I asked at v2. Still no answer.
+>>
+>> That's v3 and still silence from your side.
+> 
+> Yes, I understand your position and have added a paragraph 
+> at the end of the cover letter about this point.
 
->-----Original Message-----
->From: Krzysztof Kozlowski <krzk@kernel.org>=20
->Sent: mercredi 26 f=E9vrier 2025 15:22
->To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>; thierry.bultel@lina=
-tsea.fr
->Cc: linux-renesas-soc@vger.kernel.org; geert@linux-m68k.org; Paul Barker <=
-paul.barker.ct@bp.renesas.com>; linux-arm->kernel@lists.infradead.org; linu=
-x-kernel@vger.kernel.org
->Subject: Re: [PATCH v3 13/13] arm64: defconfig: Enable Renesas RZ/T2H SoC =
-option
->
->On 26/02/2025 14:09, Thierry Bultel wrote:
->> Selects support for RZ/T2H (aka r9a09g077), and SCI (serial) specific=20
->> code for it.
->>=20
->> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
->> Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
->> ---
->
->You never responded to my comments at v1. So I asked at v2. Still no answe=
-r.
->
->That's v3 and still silence from your side.
+We do no read cover letters, unless look for dependencies, so if you
+disagree with someone you ought to respond to the email directly. Not
+silently discard.
 
-Yes, I understand your position and have added a paragraph=20
-at the end of the cover letter about this point.
+You keep adding more and more symbols, so your "out of scope of this
+patchset" is no true. Otherwise every contributor will use exactly the
+same arguments - "not my problem".
 
-Best regards
-Thierry
+So again NAK because it is something ought to be finally fixed (and is
+not even tricky to, so I don't ask for impossible).
 
->
->NAK
->
->Best regards,
->Krzysztof
+
+Best regards,
+Krzysztof
 
