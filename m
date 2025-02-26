@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-13710-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13711-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D45FA46289
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 15:24:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0ECA462AC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 15:27:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD63F189BA11
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 14:24:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A7D9F3B3FC8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2025 14:26:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 246612248AB;
-	Wed, 26 Feb 2025 14:22:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9395022B599;
+	Wed, 26 Feb 2025 14:23:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BQOwlOOY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1DN+8/i"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04802236F7;
-	Wed, 26 Feb 2025 14:22:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A6822B595;
+	Wed, 26 Feb 2025 14:23:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740579744; cv=none; b=Gq3AZGVGO+drwxoFqKS5gRvO0wNFkWxJv545ReUJ56V7WNd+q7vJlKmZS074Or925oI85WpEB1D8EBrOut1nEBKTRrEG6EXbGvlz+nDh9ZfKmU9CAo8ZY8igrsvt76xYjjTWHKlHZ+XaaVm/WhaIphBVAD9MzBcV8EtEiIw9DD8=
+	t=1740579823; cv=none; b=OgX06UDFN7jsK1uAZOlT3xNSEsBKwlSKiQk+mWN1fUAPofohxdL840waKfggDQoT9CKie9zCVpmq7hcgCpp8NRxj4ZVCvp1S5GoUZ/eOJ7/kxKnyR/8ZJqqCoduqJCc+rByINqnto0teTVP+XL6iH3EbdwGgl+084J/oX8+7pmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740579744; c=relaxed/simple;
-	bh=Dx2YL59vcH3avejDv320ymxqHG4J7PJa3Jre2dO4+dU=;
+	s=arc-20240116; t=1740579823; c=relaxed/simple;
+	bh=AAEKm1O7htp5NeH3NMI9L3J6SDIohMjK9ooiU+PU/cc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E+gZGd7MxcEsYVLPfEkWRjp04NACzQejdra7jc5iqF9B1AEtBqLcheKvhrUDEekIPSEVUzRD9wfbycMhxWALGBofQ28JDn4X2oNSoRPuob6OH0oko01kNlk0d3YsPgAW9ZXz8SBLE/ipSxEjxRn//HYfFSIRx/Du/n3/up7CumI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BQOwlOOY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E552BC4CED6;
-	Wed, 26 Feb 2025 14:22:21 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=h0zAKK8lZ/ayt3Z+lCFIwqYybusSiyzd0T/jlfQVOnYiSiRdVXJJ5aWZLsSTog28tQbcrB6L0pZB4qTpp5b9Vnug2g9Z/1QIi9MxFXgP4MvSazds2jlrSSOIOE6q6etsbmpY39ciZg+CRpuppoPt66dGwVbfGjWcHJJoIXo1vBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1DN+8/i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB389C4CED6;
+	Wed, 26 Feb 2025 14:23:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740579743;
-	bh=Dx2YL59vcH3avejDv320ymxqHG4J7PJa3Jre2dO4+dU=;
+	s=k20201202; t=1740579822;
+	bh=AAEKm1O7htp5NeH3NMI9L3J6SDIohMjK9ooiU+PU/cc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BQOwlOOYO8ozGaBpP8z44bRTDKdh6gCPsOaVmx+D6RTLwtbhF05j77W25PQrv8P7u
-	 h6H5LNrP3npc6/i4mwEWj+QALOWUuoAzJgwemX2B0ePhrObeMGQ81byF2aqdRbil2H
-	 8xG9oNgpu/dtaBzwEQFRs3KBT+zoCITMA382kuI8pdeeUAHOuyr86smp9cAIyeaIaF
-	 SevZgpxA36PwOa8yf0iZqSlBazgCDIJk5Mlbh21JjvcTNSksILICt2wbiNCSyeW2YF
-	 LhfbGbWeTpDihOQtXSeC4c+qw9JcmzBgA7AybKlynCWoReOY7bFM+CfHNHu08Tq5Ly
-	 JzOPa4XFCIyLw==
-Message-ID: <fe4ccf6d-bdf0-41eb-bffe-83d459319689@kernel.org>
-Date: Wed, 26 Feb 2025 15:22:19 +0100
+	b=I1DN+8/iEv1J0mjRLjUZDQUsEGe8kHDqvcRFHtejC6d6diiU/Ni2ditT1E7s4LFWE
+	 XHuvHlBUUcqXuAYFvvIFOs10FpyQ6ksQTLoOYMg7SJlKFdNP8Q0mKKfVlX6NQ6rjcw
+	 y6exKcM8nk+GlFoUcownxU54EMWM0uy36bNlMIKgxKy9t7/UYe3oyKMY2+e8YQmjww
+	 NNOhW5o2SAf0xkJfrG4llLtxRyICQa6lNdjfqWRPryLs9Tjxm9jXUMhtJ4mZCjA+D7
+	 wdoYMD7/dy1Xp9cjPHuFei8ghGvGkF0q0WUrPqSxnNB2tcmoIMra1PatsT1aAi6aCL
+	 3fah9XHMFWWew==
+Message-ID: <9e973021-8f10-4870-8534-29c7669c7c74@kernel.org>
+Date: Wed, 26 Feb 2025 15:23:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,15 +50,15 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 13/13] arm64: defconfig: Enable Renesas RZ/T2H SoC
- option
+Subject: Re: [PATCH v3 12/13] arm64: dts: renesas: Add initial support for
+ renesas RZ/T2H eval board
 To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
  thierry.bultel@linatsea.fr
 Cc: linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org,
- paul.barker.ct@bp.renesas.com, linux-arm-kernel@lists.infradead.org,
+ paul.barker.ct@bp.renesas.com, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20250226130935.3029927-1-thierry.bultel.yh@bp.renesas.com>
- <20250226130935.3029927-14-thierry.bultel.yh@bp.renesas.com>
+ <20250226130935.3029927-13-thierry.bultel.yh@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,23 +104,19 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250226130935.3029927-14-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250226130935.3029927-13-thierry.bultel.yh@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 26/02/2025 14:09, Thierry Bultel wrote:
-> Selects support for RZ/T2H (aka r9a09g077), and
-> SCI (serial) specific code for it.
+> Add the initial device tree for the RZ/T2H evaluation board.
 > 
 > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 > Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
-> ---
 
-You never responded to my comments at v1. So I asked at v2. Still no answer.
+Where did this happen? I see tags only to few patches, not all of them.
 
-That's v3 and still silence from your side.
-
-NAK
+Same questions for all other places.
 
 Best regards,
 Krzysztof
