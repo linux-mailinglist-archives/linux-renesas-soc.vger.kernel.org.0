@@ -1,159 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-13756-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13757-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5749A47C87
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2025 12:48:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1072A47D96
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2025 13:25:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 56BAE188D707
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2025 11:48:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB2303A2E28
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2025 12:25:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77F3A1A4E9D;
-	Thu, 27 Feb 2025 11:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBo/yt4d"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DD8722B8B1;
+	Thu, 27 Feb 2025 12:25:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8886FB0;
-	Thu, 27 Feb 2025 11:48:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F3B7225417;
+	Thu, 27 Feb 2025 12:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740656920; cv=none; b=EpaPAthS7y+1N7fs0GsGbXQgUKY+XvlQ7ctuBfIG2Rt8Aw7ccvQzgMu7GOmPHLeSkFBjiW71Ft2XImpVdVGmVGX28Cd/UVhXll6T7lNl1rjEbxjqA1oy/7Q8wpH3fpQACzYqFx/exMUs9C6wWXR3/xyQb4ovMbDbi96ySP/UZ2M=
+	t=1740659114; cv=none; b=jQVU1aA4rMtCF6KoFWRvm+WlMtOai3o8a+fOLa5iLfMk+XCIaZwm6X2IAn+sbZ58TH75KklUVZcqrg1jzZcVkKbWncfHlbPdTQ/1dEOuAvNEvv9PYspU99cB0kG+mCyxlVxAmeUGyANYDUzHM5ANJ2af6vITaQttbYfMsoNYtdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740656920; c=relaxed/simple;
-	bh=AhpAhn0faHwswWHSManQjfhQBejZiiPzZCY113iBWVE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BA6YiNuPi55pujKHGRh8vl3J+lX7o5Hawz45e3ZWE2Y3+fffuPH+fEM30H8yEAdRQm6Q72Y3LfHYdKAIdVJXWZoPRBxtry1nrr9iSYCwDFh1HomArG3a1CWJD1d7H9o967Ps7Mkf7h97D6qlRtsbIuiRLX8YT/qP0cRpDKu/CGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBo/yt4d; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D582BC4CEDD;
-	Thu, 27 Feb 2025 11:48:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740656919;
-	bh=AhpAhn0faHwswWHSManQjfhQBejZiiPzZCY113iBWVE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nBo/yt4d/vB9av6RmbJkoTqebihNKMeXmbE845X0SY/rDHaYYA0r69pPZKhTtt2f3
-	 B3dHqMOMQV20vaBP/LO2H2O/4R2lVXwQLNGthOghTPWiP3SiApJhlzNxvmmxX0VpeW
-	 QjFH+S78g6k88aq8nwDQg01yzedR+kPiOV0P0F0qyXk1G1qJWBEvD6eLWi+1J/zbp5
-	 yTtRlfTMuzDZ7+qLWyZBcirFf77gakS3Gu+vjWZs8HLrEJOMk62qSrbs6dqJULmP/C
-	 NjLeZZ5QIochcf2jYG+sDDGby0ZS4sqWVXS6PSP73pXcF7BqOIXhvGgZWlg0tpoUOm
-	 1x25pDn+qltRQ==
-Message-ID: <c4a44c39-5448-47d5-aeb1-32bab6e57047@kernel.org>
-Date: Thu, 27 Feb 2025 12:48:34 +0100
+	s=arc-20240116; t=1740659114; c=relaxed/simple;
+	bh=b3Eu3PVFgwBHfl2UMMUVPYQlp/YZioJOW4+lpM9Dmxw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Voy+E8boGP1ekQha/2irPmxEs++5beNnXWi1WPEioUnKGVQY6zxxQIKQM12kVHAbGxyv7G8Fv5lphq5Uy6Xs9rkvp+8lyMUTQefLJFaVLeiHh2iYvZfqLiSHY3VRLLswgVloD5IEQYinDYZYYcMb8JiaLN4c1J/ny/3YdPn81Cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: znxM1xLTR3mpvimHHn6aDw==
+X-CSE-MsgGUID: ml/HIhIST4aCimY9fdisBQ==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 27 Feb 2025 21:25:03 +0900
+Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.68])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id C581840029C3;
+	Thu, 27 Feb 2025 21:24:56 +0900 (JST)
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: john.madieu.xa@bp.renesas.com,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	rafael@kernel.org,
+	daniel.lezcano@linaro.org,
+	rui.zhang@intel.com,
+	lukasz.luba@arm.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	p.zabel@pengutronix.de,
+	catalin.marinas@arm.com,
+	will@kernel.org
+Cc: john.madieu@gmail.com,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	biju.das.jz@bp.renesas.com
+Subject: [PATCH v2 0/7] thermal: renesas: Add support fot RZ/G3E
+Date: Thu, 27 Feb 2025 13:24:36 +0100
+Message-ID: <20250227122453.30480-1-john.madieu.xa@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 13/13] arm64: defconfig: Enable Renesas RZ/T2H SoC
- option
-To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: "thierry.bultel@linatsea.fr" <thierry.bultel@linatsea.fr>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Paul Barker <paul.barker.ct@bp.renesas.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250226130935.3029927-1-thierry.bultel.yh@bp.renesas.com>
- <20250226130935.3029927-14-thierry.bultel.yh@bp.renesas.com>
- <fe4ccf6d-bdf0-41eb-bffe-83d459319689@kernel.org>
- <TYCPR01MB1149252F0825C9BCF6A1B832F8AC22@TYCPR01MB11492.jpnprd01.prod.outlook.com>
- <f134c607-2a03-4ee2-9f7a-befa1e4feb74@kernel.org>
- <CAMuHMdW1k71gL_OYug+aF=SEkMDuXLy_oLpikahYVcqPMsMbHg@mail.gmail.com>
- <4f737623-6083-4ef9-b7a3-d09ebafa92de@kernel.org>
- <TYCPR01MB11492DBCAD461B83B3CBE75E68ACD2@TYCPR01MB11492.jpnprd01.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <TYCPR01MB11492DBCAD461B83B3CBE75E68ACD2@TYCPR01MB11492.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 27/02/2025 11:48, Thierry Bultel wrote:
->>
->> This is fine, I am not against fine-grained SoC-enable options. However
->> all your SoCs should be enabled by default (default y if ARCH_RENESAS or
->> any other option which works for you) thus you won't be growing user-
->> selectable choices.
->>
->> Strictly speaking this still will be choice, because you need to trim
->> config, but all people and all distros will just ignore it  and don't see
->> it in defconfig.
->>
-> 
-> I understand.
-> 
-> All the ARCH_XXX SoC options are already under a menuconfig section, which
-> is defaulted to 'y' if ARCH_RENESAS.
+Hello,
 
-Indeed and it actually cannot have "if ARCH_RENESAS" due to how compile
-test is enabled there.
+This series adds support for the temperature sensor unit (TSU) found on the
+Renesas RZ/G3E SoC.
 
-> 
-> So I guess that this simple additional change would make it:
-> 
-> diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-> index 91a815e0a522..231880c21aa7 100644
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -358,6 +358,7 @@ config ARCH_R9A09G057
->  
->  config ARCH_R9A09G077
->         bool "ARM64 Platform support for RZ/T2H"
-> +       default y
->         help
->           This enables support for the Renesas RZ/T2H SoC variants.
+The series consists of 7 patches (some of which are not related to the thermal
+framework) that progressively add TSU support as follows:
+- patch 1/7:    adds syscon/regmap support for accessing system controller
+                registers, enabling access to TSU calibration values
+- patch 2/7:    adds clock and reset signals to the CPG driver
 
-Yes and then run savedefconfig and check if defconfig needs this symbol.
+- patch 3/7:    adds dt-bindings
+- patch 4/7:    adds the actual TSU driver for the RZ/G3E
+- patch 5/6:    adds safety mechanism to make sure we we protect the chip in
+                case of consecutive read failures
+- patch 6-7/7:  add DT node and defconfig enablement
 
-Best regards,
-Krzysztof
+
+Changes:
+
+v1 -> v2
+ * Fix yaml warnings from dt-binding
+ * Update IRQ names to reflect TSU expectations
+
+Regards,
+
+John Madieu (7):
+  soc: renesas: rz-sysc: add syscon/regmap support
+  clk: renesas: r9a09g047: Add clock and reset signals for the TSU IP
+  dt-bindings: thermal: r9a09g047-tsu: Document the TSU unit
+  thermal: renesas: rzg3e: Add thermal driver for the Renesas RZ/G3E SoC
+  thermal: renesas: rzg3e: Add safety check when reading temperature
+  arm64: dts: renesas: r9a09g047: Add TSU node
+  arm64: defconfig: Enable RZ/G3E thermal
+
+ .../thermal/renesas,r9a09g047-tsu.yaml        | 123 +++++
+ MAINTAINERS                                   |   7 +
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  49 ++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/r9a09g047-cpg.c           |   3 +
+ drivers/soc/renesas/Kconfig                   |   1 +
+ drivers/soc/renesas/r9a09g047-sys.c           |   1 +
+ drivers/soc/renesas/rz-sysc.c                 |  30 +-
+ drivers/soc/renesas/rz-sysc.h                 |   2 +
+ drivers/thermal/renesas/Kconfig               |   7 +
+ drivers/thermal/renesas/Makefile              |   1 +
+ drivers/thermal/renesas/rzg3e_thermal.c       | 479 ++++++++++++++++++
+ 12 files changed, 703 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
+ create mode 100644 drivers/thermal/renesas/rzg3e_thermal.c
+
+-- 
+2.25.1
+
 
