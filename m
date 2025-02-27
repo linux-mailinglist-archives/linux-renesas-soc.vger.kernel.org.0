@@ -1,213 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-13749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACD8A47735
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2025 09:06:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A32A478BF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2025 10:11:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E46673AD8B8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2025 08:04:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B1031885B3D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2025 09:11:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DB75227EA3;
-	Thu, 27 Feb 2025 08:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bH0IgmiF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E809A227B8E;
+	Thu, 27 Feb 2025 09:11:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565492222B8;
-	Thu, 27 Feb 2025 08:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C6E15DBB3;
+	Thu, 27 Feb 2025 09:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740643317; cv=none; b=uhBd/wXhUGMrvPszQgCj4r4zH82JIKhGOCfsrXIRoijuBU67DjP8sN9St8qb3098eA/klCusyktUHr6Rk49HVkZAa8tuvy+kAX4txEJwzHxv9KWnbQPufX7p9eOzbcFst546TaPz5gmJL3nkbrszcFDJS022XaWO84amyszi9go=
+	t=1740647492; cv=none; b=iCYqEBldOb4TEnDh8f5KIcrrh7/nMRpZnHLqBRqr/OdJGi0v4/1zHFah0PvxrCmTJbfevsQVTYnG0LIUuTApcungYJlhP7DWnwD3lImMmPBkiaAzwPZOSTCAQEO8RR7JqfXiHLLdCHFym2/21k3z8tPZHm/Z5eS1CAZoSWR2s+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740643317; c=relaxed/simple;
-	bh=runjjTr95i43OiT1nxM0NLq9jU5kyxMdjAifU3Y72ZE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CYzYpwW4t2rKaXewoZigSxvIvIFAswUHxKf1C4TAIu8rP5Djf5KDdNcv8nuBujDt0u4uPCak4AkMTgbbeKncZ8noo2WDYmDYX22Kb96jyCYKpCqyb0ovSTRgs8TLmO4D30xby7JnA4fHBE7+xOSgolOGj5nTy3OJzovoMmWR+EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bH0IgmiF; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1740647492; c=relaxed/simple;
+	bh=LR6jK8VXuLAnV44248xIvZulX6e5U7/HOijDfqpCCxY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G59XMg9JwhaIyguSfswt4WpomoOOWOqVHLBm1bkHWa3OoIEG721eiCMHZYU1UwGf6g0ds02zPCXRe4z1CuIj5IFT5XhryR2OH2bKAoNvacLxnlCppjIgp/7KBNUJ/WLFLqt3JC5HY8wW8t8TAr4OmTL8g01Gi37h6U91VH2Tf6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-54298ec925bso963233e87.3;
-        Thu, 27 Feb 2025 00:01:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740643313; x=1741248113; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nDtuSF+uNvwU/olXT0/1pp58GsxviGqVNXkV33zGjbs=;
-        b=bH0IgmiFcPevoY2hqONYARZZmNLCwMY0AfK9x7thqbgPf4J+Qn4hBAcN4pQrZdPGtn
-         McbOOwHbxpOO+7bjb8sRMU2W2Dg87h62N2jihV+zCmC/9jpDi9VNkXdeQe344sW+hzFI
-         YDzEyoax1yxUuIuAQsOdd9IYFRLSlQmjoFK3OamCegJstxIThmsNoRuwNZzN5frCOzVi
-         Qov1wO1hWKs4A5wQl3KU16hTjNjuCv9nzS1TTbFZz1nJ+om+OjRdQcEz1o+VwqT+3W/i
-         j6eYFHdEk/YpbRhOac6A9J1ZbfjZSY7OVIs/DAaFrjPfKkb2s4McUW5uV3eiBdTw4XIN
-         Hx5Q==
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5209962eefbso1381796e0c.1;
+        Thu, 27 Feb 2025 01:11:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740643313; x=1741248113;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nDtuSF+uNvwU/olXT0/1pp58GsxviGqVNXkV33zGjbs=;
-        b=R2oStxMYjyAK8xz7CelsV2cxglL9rGkJ384Awfzo+8IqjUR12N3Fgq9vLzApenM9zK
-         Ol5lk804Got6QYHLGT1edKka40463xxd4/E0iwPfUkPhFl3H+aPKiEilnxf6Bhb0x1Bx
-         h/3KE3rw5nUh/BZFAs7Z6/z6Ni0nxJ/F0/0Xqo5/1hbUi/MruijkYEg9rIcyLGlPMjDj
-         kXv+y/Nm6YI8TMvoJv4AayZHIVVA+ocM0Vu5i1yBj8eL6QAP5uP9RjfNOPYh4gqyTEtU
-         XS+pc5MMRhbmejwgh9xFRe7HF4OheYoR8RetDTAqHutJ8iOmgcSkA0Yp137PWsNILtms
-         FLvw==
-X-Forwarded-Encrypted: i=1; AJvYcCV9BRPb9UiMYR2nxIxAsiGeLQWlBPCV7B6VF06ZnM/iTjtXtt7S9ZXofMqMUVylaxZ89BvwciE3GvUfm4DD@vger.kernel.org, AJvYcCVv/EIZF+V5AntFDLd6F+ICMZ8qw6wVr4torMdM17P0K33j8UFPNt5yIdBTcD8JsZYHovgyjwCA7oLGrA==@vger.kernel.org, AJvYcCWYgdGo/urCe2P5C8zJ/PK9b2oJMLiLcyeWqoYat6gKQ8fhPwPQVD+LoFdCD4GXjiTquYliHZRdVkrF@vger.kernel.org, AJvYcCWhNLLCjC1tETtdbXjgZe6EhzMqFGOCX8BoXEjJbvMnWBoj3wZbWQ1GRzQtgsgMX6Rskz4crolJLCNUfl5L8FVqURw=@vger.kernel.org, AJvYcCWpyfxJfrazKeaaqoEmseP8EjcCE179XprKS0SXG2wfVeENEz0ueD2GfkVVTIrY3tuCnCP44dX1v1D+@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0jwv8oyT5NQzkjDl4y8rJ2IvY9tCV0TdHvOZmzQDwZWSS/O62
-	QVvBkOzsr9VwozZBFTKFnStdhe/YoxnGiROtXI09TKKpx4BzK8kw
-X-Gm-Gg: ASbGncu9+YoOvt8Mw6OMO4OHwlEr9JKZAFwM0C0Q6Kf3STV0dt1o+alh2+iiuYSsDDI
-	YRhGl/PQFBDRuZ35rbHNaL/Xlfm7DLTjavgH7G6QwP96fJaJNVqbALTMkb8Z7HZxOiF3MJvQzqL
-	I0VrbpKVZCf8LrMqcxfH7m2TVAd+lkri9jXbnNYfmDaKNKGUVLRnaReKXioZ5hGJKolo2xbmcQb
-	8TpDKStd6XUUJdAMDQJ6VyycYE/aYkHIsoiCpB0T5hQf8pAZ96SYxTkCx5vBgwWY304afoIhxst
-	8cESDawJOummLbGNu4DsTM0Am3o0N500WWj58D9QINc5L8VquZM8iBl/p9P5TWWHcSIiGEykWCn
-	tYPZjwvU=
-X-Google-Smtp-Source: AGHT+IFjVjmK2qHUacoPpo4OU31ZwGA6d9bKKSSD59w0ISV0sOUUwTnyPiZ3gMGZR/v96mmqDXra0A==
-X-Received: by 2002:a19:8c09:0:b0:549:43f8:824 with SMTP id 2adb3069b0e04-54943f8098dmr558221e87.26.1740643313017;
-        Thu, 27 Feb 2025 00:01:53 -0800 (PST)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549443bebd5sm98564e87.209.2025.02.27.00.01.50
+        d=1e100.net; s=20230601; t=1740647488; x=1741252288;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LYWgKNxTRqestiJejTHgE45BLxqTKFi1UYZCuNAfrVA=;
+        b=UEmVhiU6RFE4EUvZMNqy7Jz0uD2WQo2fK95hq5yijCzitm6x2K5+Hhq/eTdWiSqYvU
+         p9lpHDLXI2qJA2hKi8OQ7+fhnUvbs/9hhrXDG4vJp2x25te7oa5yKTlY1xWsZP7/7XCJ
+         bham5DDLRYTdkuZqA1q/IBzLwI0NW65CvIqJZ2JkO6AZuwgNJffzTeFXkbC9+bFxsmPh
+         rPuem8tOJw+edRaJON5Nvc6pfgKkkzDN9c3IXuHgyIxicQURkoiG64+amSLtilQkXd9J
+         uw7dCo+GwJ+W8XVdsJFyNBYT24prMORQGec93z71K2htO4yRDanQstX4nuEw7Rc2GSWa
+         L8Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCUOXEekwBP0GB5nGWo+RmTthAP8LUcqJnRxY0LN0vDKMxcLSmz7CbaL+IRF6euiIOaBJUG7Cd9aoKxB@vger.kernel.org, AJvYcCV1rtoQfexrq2k7TuL2AIuXyAK6O0cDBtpbyUiQD7tyKbRlwbVnVBY5J/3IF+pT+sa2BRNOP0MrLRV1@vger.kernel.org, AJvYcCVR1duMYXIuWgj/CD7JYk3rTfZlfJeS8SXIjBRF7Vc8zDffiCaRfbxagxrztv8N0va/EHGnBt5lPieo14fS@vger.kernel.org, AJvYcCW1LT/m3nxonYc66mOJz9UkoVpNi85qOjHOU58bViCU0mZftK+fRGje524bB7ssyJBhgxrqu5H3OMMGEXvfv2PY2Bs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzJIkt/zdPaZtELFS6qhyGrs9YmywMBorAVUifZSIe3E1Ih+Ty
+	c1Jfx/hCa4heWetVh3L1/TpK6cO4dbIhVgJXFxDiPf+kofCyWT+5k9C0emwr
+X-Gm-Gg: ASbGncsEbe5USzTKK8FZuwt5RZAa2CElFyuIua9EvUj/PXDf2TeHI9V/f8w5DmSNwqQ
+	+Tolxsr9Wm8n9I/OEAWbs1AbLCZV2YRiAqtUI3gDKdLk2/MB9EZtOBbiD8OikYb4tT/Ij7JbtZ0
+	NLzbQeYAZLrNRW3qGyyZKkP6/hiNFHNsbLWo2bpzOkPDB9Z884dF78B2Joa7Cz4U0pbwEZvQaIR
+	xllmHP8kP7JVjrVhc1vPZaiCF8swjvvrCp56o07ScB5PKc4FfEtmS9CI7YtvI7nSwVNfRm3P7nf
+	hpix6SsjItPfQPlibpvaq4ia+kAYXti38jIXRDWHICsMXhYxCHcVYwaqX32L0RUR
+X-Google-Smtp-Source: AGHT+IHjFSvvSb5W0P+ckgQLklto5qs5yF7rAJI2MHzk6nNpqg8VUIza6BzB1117jZjfQDSK8rMf0g==
+X-Received: by 2002:a05:6122:3718:b0:518:8753:34b0 with SMTP id 71dfb90a1353d-523496045cbmr1142334e0c.4.1740647488357;
+        Thu, 27 Feb 2025 01:11:28 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5234bf3dc22sm161556e0c.22.2025.02.27.01.11.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2025 00:01:51 -0800 (PST)
-Message-ID: <d7982b76-3da7-47ff-b2b2-f964610af1f7@gmail.com>
-Date: Thu, 27 Feb 2025 10:01:49 +0200
+        Thu, 27 Feb 2025 01:11:27 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-86718541914so1287409241.1;
+        Thu, 27 Feb 2025 01:11:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV3GUCfsU1rhWnAeZKK53UZhpJaGsRh7XVUKDo2uzOkJGokCK6F1NBcOq59XouCuSyLB4YcIk2/NPxP@vger.kernel.org, AJvYcCVDJEMTkKUe9tQ2jtZL/bqHR1K10oF4D/5439sW5RtoeffD0GeqbFCf7SFtKylJp8r19ETct60qTgPq@vger.kernel.org, AJvYcCVumTQ31KtC8XW/glAXxT4xOx2TX/3NbD6bHlCaOZUJXmHJxYlbODi+MEuanz8TMCayRrqN6baGdGu3lODBiz/iM+8=@vger.kernel.org, AJvYcCWFFLHkV0fE+Kzpm4aBQnPZq08Vxk5ih6LupW3lYMNUNMSvKueqEmqNlBljTrRjw2wvZp9KEGznMA/uXp2T@vger.kernel.org
+X-Received: by 2002:a67:f918:0:b0:4be:5b97:ea09 with SMTP id
+ ada2fe7eead31-4c030fc1744mr1059127137.1.1740647486985; Thu, 27 Feb 2025
+ 01:11:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/10] property: Add
- device_get_child_node_count_named()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Scally <djrscally@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Guillaume Stols <gstols@baylibre.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Dumitru Ceclan <mitrutzceclan@gmail.com>,
- Trevor Gamblin <tgamblin@baylibre.com>,
- Matteo Martelli <matteomartelli3@gmail.com>,
- Alisa-Dariana Roman <alisadariana@gmail.com>,
- Ramona Alexandra Nechita <ramona.nechita@analog.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <cover.1740421248.git.mazziesaccount@gmail.com>
- <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
- <Z72QAOA9xXbP16K-@kuha.fi.intel.com> <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
- <ad39b453-7e5b-49bd-a4fd-6a4988636130@gmail.com>
- <Z72d7TzZ21WITW3f@smile.fi.intel.com>
- <893a3c45-537e-47ad-afbd-1e5d3b9abe2c@gmail.com>
- <Z73M3Ua6u1FpgBEK@smile.fi.intel.com>
- <720f9c69-ca1f-45cb-9f6e-c8e4703c9aad@gmail.com>
- <Z78g_uiXumn4mvET@smile.fi.intel.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <Z78g_uiXumn4mvET@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250220152640.49010-1-john.madieu.xa@bp.renesas.com>
+ <20250220152640.49010-4-john.madieu.xa@bp.renesas.com> <20250220191718.GA3642117-robh@kernel.org>
+ <OSBPR01MB27752329B962BAC78F341440FFC22@OSBPR01MB2775.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB27752329B962BAC78F341440FFC22@OSBPR01MB2775.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 27 Feb 2025 10:11:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU_HrPiw_Fh2KS8A0_=sJ=c4RrxTBWomp8HpRSEMXLeAA@mail.gmail.com>
+X-Gm-Features: AQ5f1JrZ1TmGU8kkjrrEVIZPy-nw18PciO6X-3mzPsMwnndLE435TcVwPq4SZfQ
+Message-ID: <CAMuHMdU_HrPiw_Fh2KS8A0_=sJ=c4RrxTBWomp8HpRSEMXLeAA@mail.gmail.com>
+Subject: Re: [PATCH 3/7] dt-bindings: thermal: r9a09g047-tsu: Document the TSU unit
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Rob Herring <robh@kernel.org>, "mturquette@baylibre.com" <mturquette@baylibre.com>, 
+	"magnus.damm@gmail.com" <magnus.damm@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, 
+	"rui.zhang@intel.com" <rui.zhang@intel.com>, 
+	"daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>, "sboyd@kernel.org" <sboyd@kernel.org>, 
+	"geert+renesas@glider.be" <geert+renesas@glider.be>, "lukasz.luba@arm.com" <lukasz.luba@arm.com>, 
+	"rafael@kernel.org" <rafael@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"john.madieu@gmail.com" <john.madieu@gmail.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 26/02/2025 16:11, Andy Shevchenko wrote:
-> On Wed, Feb 26, 2025 at 04:04:02PM +0200, Matti Vaittinen wrote:
->> On 25/02/2025 15:59, Andy Shevchenko wrote:
->>> On Tue, Feb 25, 2025 at 03:29:17PM +0200, Matti Vaittinen wrote:
->>>> On 25/02/2025 12:39, Andy Shevchenko wrote:
->>>>> On Tue, Feb 25, 2025 at 12:29:31PM +0200, Matti Vaittinen wrote:
->>>>>> On 25/02/2025 12:21, Andy Shevchenko wrote:
->>>>>>> On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote:
-> 
-> ...
-> 
->>>>>>>>
->>>>>>>> I did not check how many users are you proposing for this, but if
->>>>>>>> there's only one, then IMO this should not be a global function yet.
->>>>>>>> It just feels to special case to me. But let's see what the others
->>>>>>>> think.
->>>>>>>
->>>>>>> The problem is that if somebody hides it, we might potentially see
->>>>>>> a duplication in the future. So I _slightly_ prefer to publish and
->>>>>>> then drop that after a few cycles if no users appear.
->>>>>>
->>>>>> After taking a very quick grep I spotted one other existing place where we
->>>>>> might be able to do direct conversion to use this function.
->>>>>>
->>>>>> drivers/net/ethernet/freescale/gianfar.c
->>>>>>
->>>>>> That'd be 2 users.
->>>>>
->>>>> I haven't checked myself, I believe your judgement,
->>>>
->>>> I took a better look and you obviously shouldn't believe :) The gianfar used
->>>> of_node instead of the fwnode. So, it'd be a single caller at starters.
->>>
->>> ...which is the same as dev_of_node(), which means that you can use your
->>> function there.
->>
->> I'm unsure what you mean. The proposed function
->> device_get_child_node_count_named() takes device pointer. I don't see how
->> dev_of_node() helps converting node to device?
-> 
-> dev_of_node() takes the device pointer and dev_fwnode() takes that as well,
-> it means that there is no difference which one to use OF-centric or fwnode
+Hi John,
 
-The proposed device_get_child_node_count_named() takes a device pointer. 
-I don't see how dev_of_node() helps if there is just of_node and no 
-device pointer available in the calling code. (Well, as I wrote below, I 
-could alter the gianfar code by dropping the gfar_of_group_count(), so 
-that I have the device pointer in caller). Anyways, I don't see how 
-dev_of_node() should help unless you're proposing I add a 
-of_get_child_node_count_named() or somesuch - which I don't think makes 
-sense.
+On Wed, 26 Feb 2025 at 16:40, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> > -----Original Message-----
+> > From: Rob Herring <robh@kernel.org>
+> > Sent: Thursday, February 20, 2025 8:17 PM
+> > Subject: Re: [PATCH 3/7] dt-bindings: thermal: r9a09g047-tsu: Document the
+> > TSU unit
+> >
+> > On Thu, Feb 20, 2025 at 04:26:08PM +0100, John Madieu wrote:
+> > > The Renesas RZ/G3E SoC includes a Thermal Sensor Unit (TSU) block
+> > > designed to measure the junction temperature. The device provides
+> > > real-time temperature measurements for thermal management, utilizing a
+> > > single dedicated channel (channel 1) for temperature sensing.
+> > >
+> > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> > > ---
+> > >  .../thermal/renesas,r9a09g047-tsu.yaml        | 123 ++++++++++++++++++
+> > >  1 file changed, 123 insertions(+)
+> > >  create mode 100644
+> > > Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
+> > >
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
+> > > b/Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
+> > > new file mode 100644
+> > > index 000000000000..dbd3860a31d0
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.
+> > > +++ yaml
 
-> API in this particular case. Just make sure that the function (and there
-> is also a second loop AFAICS) takes struct device *dev instead of struct
-> device_node *np as a parameter.
+> > > +  interrupts:
+> > > +    description: |
+> > > +      Interrupt specifiers for the TSU:
+> > > +      - S12TSUADI1: Conversion complete interrupt signal (pulse)
+> > > +      - S12TSUADCMPI1: Comparison result interrupt signal (level)
+> > > +
+> > > +  interrupt-names:
+> > > +    items:
+> > > +      - const: S12TSUADI1
+> > > +      - const: S12TSUADCMPI1
+> >
+> > Odd names for the interrupts... 'S12TSUAD' is the same for both, so that
+> > part is redundant from my perspective. I guess if these strings are
+> > meaningful for anyone familiar with this h/w, then it's fine.
+>
+> These names come from HW manual. I can change them into "conv"
+> (for conversion complete irq)  and "cmp" (for comparison
+> complete irq). What do you think ?
 
-I think I lost the track here :)
+These are the names from the point of view of the interrupt controller
+(Section 4.6 Interrupt Controller Table 4.6-24 List of Input Events).
+The silly "1" suffix does seem have a meaning here, as S12TSUADI0
+seems to be a DMAC request signal...
 
->> I think I could actually kill the whole gfar_of_group_count() function and
->> replace it with a direct call to the device_get_child_node_count_named() -
->> but I am not at all convinced that'd be worth including the property.h to a
->> file which is currently using only of_* -stuff. Well, I suppose it can be
->> asked from netdev peeps but I am not convinced they see it as a great idea.
->>
->> If I misunderstood your meaning - please elaborate.
-> 
-> The driver is quite old
+For the TSU bindings, we want the names from the point of view of the
+TSU.  Section 7.11 Temperature Sensor Unit (TSU) Table 7.11-3 List
+of Internal I/O Pins lists:
+  - S12TSUADI: Conversion complete interrupt signal (pulse)
+  - S12TSUADCMPI: Comparison result interrupt signal (level)
 
-I remember having to modify this driver somewhere around 2010 or so. :) 
-Time flies.
+So I'd go for "adi" and "adcmpi".
 
-> and has a lot of room to improve. Briefly looking it
-> may be almost fully converted to fwnode, but it's not your call (only if you
-> wish). Nevertheless, using agnostic APIs if they reduce code base is fine.
-> We have drivers that do OF and fwnode mixed approach (for various reasons,
-> one of which is the new API that is absent in OF realm.
+Gr{oetje,eeting}s,
 
-Well, we can propose this to netdev people but I wouldn't be surprized 
-if they requested full of_node => fwnode rewrite instead of removing 
-simple looking loop and bringing mixture of fwnode and of_node in driver.
+                        Geert
 
-Yours,
-	-- Matti
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
