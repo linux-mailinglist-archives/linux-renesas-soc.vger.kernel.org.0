@@ -1,110 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-13799-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13800-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD6AA49889
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 12:48:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5675A499BF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 13:47:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB7E01888210
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 11:48:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8E7AD1890263
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 12:47:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1E4B276D3C;
-	Fri, 28 Feb 2025 11:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=coldcon.co.za header.i=@coldcon.co.za header.b="LxnCSnLk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3988E26AABF;
+	Fri, 28 Feb 2025 12:47:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from outgoing50.jnb.host-h.net (outgoing50.jnb.host-h.net [129.232.250.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B222B276D01
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Feb 2025 11:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.232.250.13
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30DD84C79;
+	Fri, 28 Feb 2025 12:47:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740743316; cv=none; b=aeP79+IsCJQL++w5NzajNcbphbNa0DFye4JPOHb8bsqQKJkkf26kgW+HgjsBCotrMpsx8cDPPddAN3YC3hWk0Mmai2T4/eQJDQxIQ4Ikwa4HZg1awD6GsekGTjGRWQQwffdhA3VQKNAxy0hEVic7eXz17WycqQ/wed2NYf5yyuM=
+	t=1740746849; cv=none; b=TAHGhMzn18eZVw/2Xq9JIff84eggefCLXrwtHFnoCX9VrgHIonpnqcyG0JmQr8fcDLruI5z43aN+gYkd8ba/Cb5FsqJidEppekPLFSZUNwbM2PpjdE9JdadHqZpxanqjCPczpQxjxMAyWRO2j7wj/7s4pygJO0Yu5Oc+ASVfajQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740743316; c=relaxed/simple;
-	bh=LnJAb5OtSiiPPpVmdSEicOxdfy335XXtHun9Lv2d8Bw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OZuC0pUVvew5YzdITNN70Qtu2oKBcuTxKrCoE687JrtJ4V/ZdnR0mjthZl73tqk3FtZCNtpiUzzGaYULphRQpdpMwxz9qYi+LmeS0CdduquGJwQSBrOfxKDAGv18m+YFwUwHhS3KrBW3VG+2Zf1q2Jw8YhxeHoovyAVEaXzYWvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=coldcon.co.za; spf=fail smtp.mailfrom=coldcon.co.za; dkim=pass (2048-bit key) header.d=coldcon.co.za header.i=@coldcon.co.za header.b=LxnCSnLk; arc=none smtp.client-ip=129.232.250.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=coldcon.co.za
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=coldcon.co.za
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=coldcon.co.za; s=xneelo; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:sender:cc:bcc:
-	in-reply-to:references; bh=t+qwmUT3iOAm1DfPM+nbVN5TXLHXkSwi3Xte37fm8Y0=; b=Lx
-	nCSnLku4c2fgyFbsUZbB/lUNfA33QpiyFaVwT3cChRYKK9a9bonr7SN8q0esKXeEEQGWaaZkaeK0c
-	jfp17ExzyrRXMvinMpLuDsUm3A6P56h0iIG6/bqzq+KU0pmFoYgOoBJ+/xV4TSctEWVjEuoDFIcW/
-	9l9VbklG37oTLZs2RZQCPCbn3g0YIV2c0DgMGufIdpX6jd5Mr9+EVFD16d0YRDnKt4fP7yzqWol3i
-	d6OqVeIsP5INCy0AIKNyIUa3RhjobTSotJNcOOOhkXEXL1IgMXQSOMrQ4Dp7+UFvYQi+uRP5EvHvP
-	wwStOVWgQpxB+Son4bYA3sLfUgs8F5hQ==;
-Received: from dedi166.jnb2.host-h.net ([41.203.16.166])
-	by antispam1-jnb1.host-h.net with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <avaril@coldcon.co.za>)
-	id 1tnyr0-007ywx-7V
-	for linux-renesas-soc@vger.kernel.org; Fri, 28 Feb 2025 13:48:31 +0200
-Received: from [104.192.5.240] (helo=coldcon.co.za)
-	by dedi166.jnb2.host-h.net with esmtpsa (TLS1.2:ECDHE_SECP521R1__RSA_SHA512__AES_256_GCM:256)
-	(Exim 4.98)
-	(envelope-from <avaril@coldcon.co.za>)
-	id 1tnyqz-00000005vZB-13R4
-	for linux-renesas-soc@vger.kernel.org;
-	Fri, 28 Feb 2025 13:48:29 +0200
-Reply-To: funding@investorstrustco.net
-From: Iyke Nikolas <avaril@coldcon.co.za>
-To: linux-renesas-soc@vger.kernel.org
-Subject: Re: The Business Loan/financing.
-Date: 28 Feb 2025 11:48:28 +0000
-Message-ID: <20250228112431.FF589C2334A90FAA@coldcon.co.za>
+	s=arc-20240116; t=1740746849; c=relaxed/simple;
+	bh=9bP1U2B6Sfe/EacdLRYYsYCGLi/q2q/FftuH/jcOW9g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q9/rUwFe7PHEqi5vM3U2i7bcc34GhrY/LDv/ThLPwuU+78eSL4wZGz6m4oEpu1O54E1/7GJ1t0/6Jf18lNgsZUbjX1hubtJLPJ6lZsIsgGuh0WY/cldzSq0hWrTK3cTWBT8tpJOw3ezlwDc9n+yA1TiqaRZTvWf0cXYVq7fUxlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: 29ZszD1GT7G+954reVShNg==
+X-CSE-MsgGUID: X9G6k+gDQ1qLB9tAC6lkgw==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 28 Feb 2025 21:47:19 +0900
+Received: from localhost.localdomain (unknown [10.226.92.94])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id A3282402A420;
+	Fri, 28 Feb 2025 21:47:15 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v4 0/2] Add RZ/G3E SDHI support
+Date: Fri, 28 Feb 2025 12:47:07 +0000
+Message-ID: <20250228124713.153979-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authenticated-Sender: avaril@coldcon.co.za
-X-Virus-Scanned: Clear
-X-SpamExperts-Domain: coldcon.co.za
-X-SpamExperts-Username: 
-Authentication-Results: host-h.net; auth=pass (login) smtp.auth=@coldcon.co.za
-X-SpamExperts-Outgoing-Class: unsure
-X-SpamExperts-Outgoing-Evidence: Combined (0.88)
-X-Recommended-Action: accept
-X-Filter-ID: Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT+CzanhUpQxxY0jGcn2Rs0cPUtbdvnXkggZ
- 3YnVId/Y5jcf0yeVQAvfjHznO7+bT5x9BX7mVKxGMeKc4uo+avBbAKvEzYm74g8ZuJmRNLPV36tZ
- vDe6G+ib5hEM2vkr0IWdVUOA3Uoi89I6XCFtF9lJBMmyNbDn7R5kilAhwr3KtCfMSIIugTT4+3ce
- GAuJssckedUwwCw65nt5kyTd3g2y+gaXrHkgRC7/tI3CjXmVyoO/xDpdEgAVCaraAhMsXqwdAooo
- Bl61F2tGr4YBc2EQOjRFNyKdtS9SkiEPrAvml4DPJfUIOSRhHEJZ+BBd+VB02nkLZSrmz+olE44+
- sjwEjpq2zFoWRZL8o72CBW3vLXW/QcKr0iPdaChCh7Mz6xxpZZHt2sx3SpskijVFUJeJ7ZVcZ20v
- KiDu6LnR8m9k9VPiYRIoBtbhMWgtVmSuErxXOrVF62iVUaUQNtPivJpsKXL2aCOz/dKfKC6a5N0x
- exFQWp55y+7UUSv7gfJ7wOWlSxN+QfyjRpze3MmVolLP32zUwLFBjYrH4yoUAzbdXpzuixso6Us4
- kXRytWM05eyrEPGaUfvTQD8mTYnm5Vyb/eB36XvbBuC1U1srT4VxcBqZR3KVQgqF/fPYYAfEfsj4
- Qhrnb6bkhjWQH9zrUiS8nIqEKYBWWQAbKhnATgi/jKQpqjtXHAf2qKV0A14cs+TWFXnO5vCzfbxw
- JzJsCsf/Mzg958IFbKKlNc0N5cagQhEVniihuDwEGDcmr6e3OPSA0XfeKc2I9l078VTsJW0Jv5re
- ujkLi0kD7w7d/mJ/tvyJ0XL63tpIT3A61JGwlOLYUprz87nHk4ONuDXJEuI3ZuM7jUXIESohoO51
- xWmU8d7gf2mhhyJugAhnZGCvLFQwZ9Hna6E2h6CJ86QERC9wDViJ+fz+zM+w2AbTXwFtSaqprqV3
- tVCAxnH/R4n3uVt9q4N64aE3EybfLkyrDI3pP4F5LRArtsxyf3vYrw52JxsNbqNDT4Kf8NfG1XHw
- pAhkQqHI0C/U3fmRhZoR2Au6DQHn45ul56aUDpm44S6ORg==
-X-Report-Abuse-To: spam@antispamquarantine.host-h.net
-X-Complaints-To: abuse@antispammaster.host-h.net
+Content-Transfer-Encoding: 8bit
 
-Hello,
+The SD/MMC block on the RZ/G3E ("R9A09G047") SoC is similar to that
+of the RZ/V2H, but the SD0 channel has only dedicated pins, so we must
+use SD_STATUS register to control voltage and power enable (internal
+regulator).
 
-Do you require capital financing or low interest loans to advance=20
-your business projects or growth strategy? We can provide with=20
-the needed investments for your business. 
+For SD1 and SD2 channel we can either use gpio regulator or internal
+regulator (using SD_STATUS register) for voltage switching.
 
-Get back to me if interested?
+For SD0, fixed voltage(eMMC) uses fixed regulator and non-fixed voltage
+(SD) uses internal regulator.
 
-Best regards,
+v3->v4:
+ * Dropped dts patches as it is deferred for queuing.
+ * Arranged variables of same types close to each other in probe() and
+   dropped patch#2.
+ * Added sd_ctrl_read32().
+ * Replaced sd_ctrl_read32_rep()->sd_ctrl_read32().
+v2->v3:
+ * Collected tags
+ * Renamed internal regulator labels vqmmc_sdhi{0..2}->sdhi{0..2}_vqmmc.
+ * Updated regulator phandles on SoM/Board dts.
+ * Dropped renaming the gpio regulator label vqmmc_sdhi1->vqmmc_sdhi1_gpio.
+ * Renamed node sd0emmc->sd0-emmc
+ * Renamed sd0-emmc-{ctrl,data,rst}->sd0-{ctrl,data,rst}
+ * Moved header file gpio.h from patch#6 to patch#8.
+ * Dropped overriding internal regulator name.
+ * Dropped #if guard in pinctrl node for SDHI0
+ * Renamed the label/node sdhi0_pins: sd0->sdhi0_usd_pins: sd0-usd.
+v1->v2:
+ * Collected tags.
+ * Documented internal regulator as optional property for both RZ/G3E and
+   RZ/V2H SoCs.
+ * Updated commit description for regulator used in SD0 fixed and
+   non-fixed voltage case in patch#3.
+ * As the node enabling of internal regulator is controlled through status,
+   added a check for device availability.
+ * Status of internal regulator is disabled in the SoC .dtsi. Override
+   the status in the board DTS when needed.
+ * Added support for enabling SDHI internal regulator in RZ/V2H
+ * Added missing header file gpio.h
+ * Used fixed regulator for eMMC on SD0 and dropped sd0-iovs pins for
+   eMMC.
+ * Sorted pinctrl nodes for sd2
+ * Enabled internal regulator for SD2.
+ * Added support for enabling SD on SDHI0
+ * Replaced the regulator usd_vdd_3p3v->reg_3p3v.
+ * Renamed the gpio-hog node sd1-pwr-en->sd1-pwr-en-hog.
+ * Sorted sd1 pin ctrl nodes.
 
+Biju Das (2):
+  dt-bindings: mmc: renesas,sdhi: Document RZ/G3E support
+  mmc: renesas_sdhi: Add support for RZ/G3E SoC
 
-Iyke Nikolas
-Managing Partner
-Investors Trust
+ .../devicetree/bindings/mmc/renesas,sdhi.yaml |  16 +++
+ drivers/mmc/host/renesas_sdhi.h               |   1 +
+ drivers/mmc/host/renesas_sdhi_core.c          | 134 ++++++++++++++++++
+ drivers/mmc/host/tmio_mmc.h                   |  10 ++
+ 4 files changed, 161 insertions(+)
+
+-- 
+2.43.0
+
 
