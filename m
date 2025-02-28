@@ -1,258 +1,217 @@
-Return-Path: <linux-renesas-soc+bounces-13819-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBC3A49F30
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 17:44:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A52A49FA3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 18:01:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 138D97A83A4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 16:43:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B35093BEDC2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 16:59:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D419C274242;
-	Fri, 28 Feb 2025 16:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 765241F0992;
+	Fri, 28 Feb 2025 16:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vFBe+ny5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3276257430;
-	Fri, 28 Feb 2025 16:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B191F0985;
+	Fri, 28 Feb 2025 16:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740761051; cv=none; b=LPFt6ofVvs7seh0hruKeq0OmJZeRDdQbmTrfkbb392OwVjW9L5qHoiLBaC1uYl7zS53I3K1gFJMQ5yYM3nJlPaxloZ7B63b//uZyLP/HmJon/6fN+N7y/CSVp3guiExap7MeR03jDWKHZZ7YBV/dshOqbFd9F+6FsaO7ujexHKE=
+	t=1740761959; cv=none; b=cFrIGO7pV2s+ywy8W1hM9QzcH32I6+KFilMXtAcs6XOz1mCx6tX6r3mYstM8x8gP5UUjJwFS52I2ImHsNVHnNfHV/dsnnwl2LRQnWeR4U3Cl0bb4MGLK/fc8w9vZaw5fcNmzlH+xcczDm7gOC3vn28YJLgVv2D6rdVDYkEd2mrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740761051; c=relaxed/simple;
-	bh=rf3m6v1r74fRweU0q1PXsT9I9UyzsTiIrux0xoUMKMY=;
+	s=arc-20240116; t=1740761959; c=relaxed/simple;
+	bh=qOHi6yDNAQDvAh2OBX2mIKesEC+zW55DOff8GRvWCg4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Kk2liYUi6cnjyRFkOhP/mQ9mxpYHEkd8cYW6rYH3fOaRf2ETT1Y8dOJkkV7jc+F/8R6NRsehg+fJQ3J69zeOxgiB5FtqBh5Sd91XwZfQifZDFz6fVy/bNPTraax87CUAqNucHBwQcABUzWD/CcrL9+jBc/ZqinF1Kak51Rurg9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-520aede8ae3so1103394e0c.0;
-        Fri, 28 Feb 2025 08:44:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740761047; x=1741365847;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wZmsTExTN/j4WLtlXf53YNm76oJhWdLwjJkLBAO41lg=;
-        b=a2Txmw04H08+cQOF2aK0wpJjpo+HKXKI4jp6HtSWATKrCIr94EQsSE2WyPtbVtbo4o
-         Cpj38x2ACs4HDi8BmEynXOQvpYoowHhJK+LofiOeBrZ5csJUK1g7JA7uLUJfum36cPqt
-         mr3RRJ+Omne6vXHxzcuVTgv9ntk96biRl4bgdEDYv5oMKu4xIhZ8vF3gSGuZvBINLPnZ
-         IOgIXblOnhGcP/Q8qN0Gyi1T9PSw5/hak7ZPI9iO9pDaAIyO25y9oEQ0yHdEnIns6KxR
-         bmNb7rKnbZ32iMhUKh3RQLC7HgPrCM6RzxifR9FNQKN4h7KU3EDhMGa1xcYsIMr/Q7xM
-         sPkw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQhHZg8XMsPu7ZX8ICVzKJexb6njOcLR3qmbzGQfCG/uPsR0FvvKDxftnloksRwrCQ9/kYkQ+6qGuU@vger.kernel.org, AJvYcCUeeFp8jsvh4WpRIjdvtmNb97h9AKDwF9BD9mL3QqI3j83Hc4axtR3mYJWrHbAHOEzURlr/S/bgFC4gRl8KT++OLWs=@vger.kernel.org, AJvYcCWSvVQMJgiqPeMk5Hu9VTEnCx0El6sHWiLUkiBfzkFPV8yjMYMbYGu3f3YZ0XIAn5iPPbAKvTNqxJh0S61R@vger.kernel.org, AJvYcCX+hng0wrY2zrto53ctaLqz6M0orXnx+mThkQVo0stpGHuhSkxXnQjE56UKQo7vB1gNwzlDi/DdhVm1@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaF58nXNlhhJQvoQIh1+J2VWZRIqVqhI+zQYCX9L+B6PBEx1ME
-	/ckS4vQYh7Bl3cTD5KQx7IF4qvoKyMvFo9r3agIeTzawPo1Hp1NOxpQDWVrm
-X-Gm-Gg: ASbGncs/W6u82ABLisOsUZJGm0/7Isf8mu+YNfK16m88ge3a7kSJ83jfOkP/9Pw4Vx1
-	j6flowGkyjlaAXnt1FNzbpFX7WebxBsfmlXfiFRX+D0sxIqEiOOausy/nYYx8bM6j9uD9EReNkh
-	5+x2OHVuBD0q1GvIxN0zDa+hxhuDBp2S6GTIIuGwVoP+vzkuEpWf1/4L9O+fdpvgFN8VbTBit+9
-	Xn0soDVUC8885Nz3U6vlWyfgRBWd6nf/ugPrViIvs0+TxG06n69/TfuR72BqXue9oD0RaqwgIh9
-	Q7A7uAPld/44OfJcfRgEDJ6bpUSfFMgD8feGHRuv8Hrp3dAeixqqGtoYc7YzS09VRlBf
-X-Google-Smtp-Source: AGHT+IG8RXSvKIMrvgqfdujKmAoSNjsr32gwiYZKAgnvTQW5Z4XnXqJt7XsrBAx/9w9RIKq8I4O2NQ==
-X-Received: by 2002:a05:6102:3f0c:b0:4bb:e8c5:b164 with SMTP id ada2fe7eead31-4c044a0afc4mr3208679137.7.1740761045712;
-        Fri, 28 Feb 2025 08:44:05 -0800 (PST)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-86b3dd048d7sm562733241.23.2025.02.28.08.44.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Feb 2025 08:44:05 -0800 (PST)
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-51eb1a6ca1bso908785e0c.1;
-        Fri, 28 Feb 2025 08:44:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWIxZX6/NAaK8i7YcggE2GQYP2kGvh5bqu9GF+6yA//fq0uob5ueSXGUMsPIcQ32qgdqhjUKjiO7OeRtlyc@vger.kernel.org, AJvYcCWgX0JwFL45Dz74XLk3978hELanCHjjz+r64AaEq0MJZRqNH7OefaUbuXh0EcIw6JMJQxj9uHKfUGsr7zgxLvsYvYE=@vger.kernel.org, AJvYcCWjWFfXdJAMfGLoYPENKp3tCvsY4win29dFTkZOdW961HYcYKjKTKFlriAvL+0sc3T1tCM62WJUMf/i@vger.kernel.org, AJvYcCXlNRlxNClTmFWGIp7KduY5jZ51dLKcs+KL54hAhyY3b8zW17cAgwNno4LFX6XC9T2oHXXMkwq0UFap@vger.kernel.org
-X-Received: by 2002:a05:6102:6e89:b0:4c1:6feb:83aa with SMTP id
- ada2fe7eead31-4c16feb907bmr1367676137.9.1740761044598; Fri, 28 Feb 2025
- 08:44:04 -0800 (PST)
+	 To:Cc:Content-Type; b=UAKFnDp0JBQhltA2lhNf/7rA7ZCqg5LxzfsLhjQPMoV45LSw9LvfqcMkMmi+n1Zpxh6nJQ0xSWD5NO/0ozR15+9cWa8B3j0dhzW5fWEnDvLkQynIQ09syj4i3wfL695E1FLXaOxtPKgbPcQj7KFBGmMw4bbdTl7N07JbSxty9zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vFBe+ny5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00C26C4AF09;
+	Fri, 28 Feb 2025 16:59:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740761959;
+	bh=qOHi6yDNAQDvAh2OBX2mIKesEC+zW55DOff8GRvWCg4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=vFBe+ny5ptgIJQELJvKn89Ugx6KnDBOPhrEyrHfs9HOSDBZmlcgBgRmR71kqGtjKh
+	 C07djVodfYSYAFVJohZHLtJ9TTRuLy73cKn/oH8BDx4ijxHqwG1kkXJezGYbRng3sO
+	 3Faq7MPtuOx/6wnxpz/qeU6iyXGfwzIDnocx6SSD+glc4fqgGxKRrUM/6tzvKBQLi3
+	 ZW7jlkzsXb0DzGui4K8kVnGAma3uyL+EYw+rMqJTx5fBAeEPvlkhBWYFPSuDpBknTo
+	 gAd84rrjtYkjXLzGyQn+0KeR2CTjhxbvKGqf9ZVn3f0uqRDKmW1ZWZfGKHwAmx14Q8
+	 tm0y+QiIM/qgA==
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ab744d5e567so401802266b.1;
+        Fri, 28 Feb 2025 08:59:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUiPt4vx06mZWsAhCStvF8pbrgtPgYbEg660HxAcPLoPwCWi1jtOEh3+NPVtK8Lutcpop/JUypEfmGgidIs@vger.kernel.org, AJvYcCUnwR6kQhWPu2peVFNvUyvby9oXwm7jfc826G0hTLwtlL/E/ON2Qy9LMzF/T5vnIfP/k4YJX37sJtLR8Q==@vger.kernel.org, AJvYcCV/8GR2w28vod9Ujkvtk08nQxVRycg533eVno+FT2NzRZcl6IErDLrbmKMhcRnIGY3pLZT8hyguZBFY@vger.kernel.org, AJvYcCV/L9Ygw78jzoTnijOe9w73txxY4jyW/Rd04zXAoB2X4TB4DPpJptXyPdh1wyMVeQUuOjlURyt/IuWv@vger.kernel.org, AJvYcCXSSFgRimCbDB7h6OUL8sJYblQpAyZSF1wkVzWGNQJko9Ww5RQqcrV7goNXhTy8k5k4ChmGDmZ5FqGScVnxSvY1aUs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhTmzwnRLF+PyFBrpJW69XrGgpQY8bThCtfwhDgkYg7FpCqmXv
+	yYwlYawrsqkBDklP6pKn/kTLCpm6sK3Vrg657ML0loW7ZPqi1bKijYin79rNpYdd4eNRL7c0LGt
+	2d6rW80I7nntzpuNu/a6667Vsxg==
+X-Google-Smtp-Source: AGHT+IHA0zPRZLteCxoYig/yVyHsZYfuDj8GOG99a9h83rXOpmBqH7x7Q6QAw1T0TGyfEJFB+8YgmxVupI+GLspZlUw=
+X-Received: by 2002:a17:907:7212:b0:ab2:f6e5:3f1 with SMTP id
+ a640c23a62f3a-abf26430310mr376479566b.8.1740761957482; Fri, 28 Feb 2025
+ 08:59:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250220150110.738619-1-fabrizio.castro.jz@renesas.com>
- <20250220150110.738619-4-fabrizio.castro.jz@renesas.com> <CAMuHMdUjDw923oStxqY+1myEePH9ApHnyd7sH=_4SSCnGMr=sw@mail.gmail.com>
- <TYCPR01MB12093A1002C4F7D7B989D10C4C2CD2@TYCPR01MB12093.jpnprd01.prod.outlook.com>
- <CAMuHMdWzuNz_4LFtNtoiowq31b=wbA_9Qahj1f0EP-9Wq8X4Uw@mail.gmail.com>
- <TYCPR01MB12093D1484AD0E755B76FAE35C2CC2@TYCPR01MB12093.jpnprd01.prod.outlook.com>
- <CAMuHMdWUdOEjECPAJwKf7UwVs4OsUAEJ49xK+Xdn_bKXhRrt2Q@mail.gmail.com>
- <TYCPR01MB12093BE16360C82F9CB853AF4C2CC2@TYCPR01MB12093.jpnprd01.prod.outlook.com>
- <CAMuHMdXkgK-EdGhyrE6PRzskRXkJ8u+xQ=c5x1-=couedtcmqw@mail.gmail.com> <TYCPR01MB120935A45DD8D9E414D869453C2CC2@TYCPR01MB12093.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB120935A45DD8D9E414D869453C2CC2@TYCPR01MB12093.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 28 Feb 2025 17:43:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXaQ727Z9iTtZQ-jXfKV7=CN9Kootc8xtgqKazxP2XmAw@mail.gmail.com>
-X-Gm-Features: AQ5f1JqUjSj3XKk5vEOPOzlGpPhcerwgQOUvaXb7BuaBVldjXjsVJ49hpyOk6Go
-Message-ID: <CAMuHMdXaQ727Z9iTtZQ-jXfKV7=CN9Kootc8xtgqKazxP2XmAw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/7] dt-bindings: dma: rz-dmac: Document RZ/V2H(P)
- family of SoCs
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
+ <Z72QAOA9xXbP16K-@kuha.fi.intel.com> <Z72Zp8tpnvlFGdQ_@smile.fi.intel.com>
+ <ad39b453-7e5b-49bd-a4fd-6a4988636130@gmail.com> <Z72d7TzZ21WITW3f@smile.fi.intel.com>
+ <893a3c45-537e-47ad-afbd-1e5d3b9abe2c@gmail.com> <Z73M3Ua6u1FpgBEK@smile.fi.intel.com>
+ <720f9c69-ca1f-45cb-9f6e-c8e4703c9aad@gmail.com> <Z78g_uiXumn4mvET@smile.fi.intel.com>
+ <d7982b76-3da7-47ff-b2b2-f964610af1f7@gmail.com> <Z8B7h4_IWz43gFhO@smile.fi.intel.com>
+ <c9424f3e-1ff0-4c01-823a-19801cc3e7a7@gmail.com>
+In-Reply-To: <c9424f3e-1ff0-4c01-823a-19801cc3e7a7@gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 28 Feb 2025 10:59:06 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+tkXAAVK2D_AtENuXJZOF2eK=sUnjv3=7PM8nAyAB7Xw@mail.gmail.com>
+X-Gm-Features: AQ5f1JoN6diiX-hK5SeGqaOY2e_sxsMHOrauD5SGgB18pP2IXFo3RXN1kEkkKSk
+Message-ID: <CAL_Jsq+tkXAAVK2D_AtENuXJZOF2eK=sUnjv3=7PM8nAyAB7Xw@mail.gmail.com>
+Subject: Re: [PATCH v4 02/10] property: Add device_get_child_node_count_named()
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Daniel Scally <djrscally@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, 
+	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>, 
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Guillaume Stols <gstols@baylibre.com>, 
+	Olivier Moysan <olivier.moysan@foss.st.com>, Dumitru Ceclan <mitrutzceclan@gmail.com>, 
+	Trevor Gamblin <tgamblin@baylibre.com>, Matteo Martelli <matteomartelli3@gmail.com>, 
+	Alisa-Dariana Roman <alisadariana@gmail.com>, 
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Fabrizio,
-
-On Fri, 28 Feb 2025 at 17:32, Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > On Fri, 28 Feb 2025 at 16:38, Fabrizio Castro
-> > <fabrizio.castro.jz@renesas.com> wrote:
-> > > > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > > On Fri, 28 Feb 2025 at 15:55, Fabrizio Castro
-> > > > <fabrizio.castro.jz@renesas.com> wrote:
-> > > > > > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > > > > On Thu, 27 Feb 2025 at 19:16, Fabrizio Castro
-> > > > > > <fabrizio.castro.jz@renesas.com> wrote:
-> > > > > > > > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > > > > > > Sent: 24 February 2025 12:44
-> > > > > > > > Subject: Re: [PATCH v4 3/7] dt-bindings: dma: rz-dmac: Document RZ/V2H(P) family of SoCs
-> > > > > > > >
-> > > > > > > > On Thu, 20 Feb 2025 at 16:01, Fabrizio Castro
-> > > > > > > > <fabrizio.castro.jz@renesas.com> wrote:
-> > > > > > > > > Document the Renesas RZ/V2H(P) family of SoCs DMAC block.
-> > > > > > > > > The Renesas RZ/V2H(P) DMAC is very similar to the one found on the
-> > > > > > > > > Renesas RZ/G2L family of SoCs, but there are some differences:
-> > > > > > > > > * It only uses one register area
-> > > > > > > > > * It only uses one clock
-> > > > > > > > > * It only uses one reset
-> > > > > > > > > * Instead of using MID/IRD it uses REQ NO/ACK NO
-> > > > > > > > > * It is connected to the Interrupt Control Unit (ICU)
-> > > > > > > > >
-> > > > > > > > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > > > > > > >
-> > > > > > > > > v1->v2:
-> > > > > > > > > * Removed RZ/V2H DMAC example.
-> > > > > > > > > * Improved the readability of the `if` statement.
-> > > > > > > >
-> > > > > > > > Thanks for the update!
-> > > > > > > >
-> > > > > > > > > --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> > > > > > > > > +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> > > > > > > > > @@ -61,14 +66,22 @@ properties:
-> > > > > > > > >    '#dma-cells':
-> > > > > > > > >      const: 1
-> > > > > > > > >      description:
-> > > > > > > > > -      The cell specifies the encoded MID/RID values of the DMAC port
-> > > > > > > > > -      connected to the DMA client and the slave channel configuration
-> > > > > > > > > -      parameters.
-> > > > > > > > > +      For the RZ/A1H, RZ/Five, RZ/G2{L,LC,UL}, RZ/V2L, and RZ/G3S SoCs, the cell
-> > > > > > > > > +      specifies the encoded MID/RID values of the DMAC port connected to the
-> > > > > > > > > +      DMA client and the slave channel configuration parameters.
-> > > > > > > > >        bits[0:9] - Specifies MID/RID value
-> > > > > > > > >        bit[10] - Specifies DMA request high enable (HIEN)
-> > > > > > > > >        bit[11] - Specifies DMA request detection type (LVL)
-> > > > > > > > >        bits[12:14] - Specifies DMAACK output mode (AM)
-> > > > > > > > >        bit[15] - Specifies Transfer Mode (TM)
-> > > > > > > > > +      For the RZ/V2H(P) SoC the cell specifies the REQ NO, the ACK NO, and the
-> > > > > > > > > +      slave channel configuration parameters.
-> > > > > > > > > +      bits[0:9] - Specifies the REQ NO
-> > > > > > > >
-> > > > > > > > So REQ_NO is the new name for MID/RID.
-> > > > > >
-> > > > > > These are documented in Table 4.7-22 ("DMA Transfer Request Detection
-> > > > > > Operation Setting Table").
-> > > > >
-> > > > > REQ_NO is documented in both Table 4.7-22 and in Table 4.6-23 (column `DMAC No.`).
-> > > >
-> > > > Indeed. But not for all of them. E.g. RSPI is missing, IIC is present.
-> > >
-> > > I can see the RSPI related `REQ No.` in the version of the manual I am using,
-> > > although one must be very careful to look at the right entry in the table,
-> > > as the table is quite big, and the entries are ordered by `SPI No.`.
-> > >
-> > > For some devices, the SPI numbers are not contiguous therefore the device specific
-> > > bits may end up scattered.
-> > > For example, for `Name` `RSPI_CH0_sp_rxintpls_n` (mind that the `pls_n` substring
-> > > is on a new line in the table) you can see from Table 4.6-23 that
-> > > its `DMAC No.` is 140 (as you said, in decimal...).
+On Thu, Feb 27, 2025 at 9:06=E2=80=AFAM Matti Vaittinen
+<mazziesaccount@gmail.com> wrote:
+>
+> On 27/02/2025 16:49, Andy Shevchenko wrote:
+> > On Thu, Feb 27, 2025 at 10:01:49AM +0200, Matti Vaittinen wrote:
+> >> On 26/02/2025 16:11, Andy Shevchenko wrote:
+> >>> On Wed, Feb 26, 2025 at 04:04:02PM +0200, Matti Vaittinen wrote:
+> >>>> On 25/02/2025 15:59, Andy Shevchenko wrote:
+> >>>>> On Tue, Feb 25, 2025 at 03:29:17PM +0200, Matti Vaittinen wrote:
+> >>>>>> On 25/02/2025 12:39, Andy Shevchenko wrote:
+> >>>>>>> On Tue, Feb 25, 2025 at 12:29:31PM +0200, Matti Vaittinen wrote:
+> >>>>>>>> On 25/02/2025 12:21, Andy Shevchenko wrote:
+> >>>>>>>>> On Tue, Feb 25, 2025 at 11:40:16AM +0200, Heikki Krogerus wrote=
+:
 > >
-> > Thanks, I had missed it because the RSPI interrupts are spread across
-> > two places...
+> > ...
 > >
-> > > > And the numbers are shown in decimal instead of in hex ;-)
-> > > >
-> > > > > > > It's certainly similar. I would say that REQ_NO + ACK_NO is the new MID_RID.
-> > > > > > >
-> > > > > > > > > +      bits[10:16] - Specifies the ACK NO
-> > > > > > > >
-> > > > > > > > This is a new field.
-> > > > > > > > However, it is not clear to me which value to specify here, and if this
-> > > > > > > > is a hardware property at all, and thus needs to be specified in DT?
-> > > > > > >
-> > > > > > > It is a HW property. The value to set can be found in Table 4.6-27 from
-> > > > > > > the HW User Manual, column "Ack No".
-> > > > > >
-> > > > > > Thanks, but that table only shows values for SPDIF, SCU, SSIU and PFC
-> > > > > > (for external DMA requests).  The most familiar DMA clients listed
-> > > > > > in Table 4.7-22 are missing.  E.g. RSPI0 uses REQ_NO 0x8C/0x8D, but
-> > > > > > which values does it need for ACK_NO?
-> > > > >
-> > > > > Only a handful of devices need it. For every other device (and use case) only the
-> > > > > default value is needed.
-> > > >
-> > > > The default value is RZV2H_ICU_DMAC_ACK_NO_DEFAULT = 0x7f?
+> >>>>>>>>>>
+> >>>>>>>>>> I did not check how many users are you proposing for this, but=
+ if
+> >>>>>>>>>> there's only one, then IMO this should not be a global functio=
+n yet.
+> >>>>>>>>>> It just feels to special case to me. But let's see what the ot=
+hers
+> >>>>>>>>>> think.
+> >>>>>>>>>
+> >>>>>>>>> The problem is that if somebody hides it, we might potentially =
+see
+> >>>>>>>>> a duplication in the future. So I _slightly_ prefer to publish =
+and
+> >>>>>>>>> then drop that after a few cycles if no users appear.
+> >>>>>>>>
+> >>>>>>>> After taking a very quick grep I spotted one other existing plac=
+e where we
+> >>>>>>>> might be able to do direct conversion to use this function.
+> >>>>>>>>
+> >>>>>>>> drivers/net/ethernet/freescale/gianfar.c
+> >>>>>>>>
+> >>>>>>>> That'd be 2 users.
+> >>>>>>>
+> >>>>>>> I haven't checked myself, I believe your judgement,
+> >>>>>>
+> >>>>>> I took a better look and you obviously shouldn't believe :) The gi=
+anfar used
+> >>>>>> of_node instead of the fwnode. So, it'd be a single caller at star=
+ters.
+> >>>>>
+> >>>>> ...which is the same as dev_of_node(), which means that you can use=
+ your
+> >>>>> function there.
+> >>>>
+> >>>> I'm unsure what you mean. The proposed function
+> >>>> device_get_child_node_count_named() takes device pointer. I don't se=
+e how
+> >>>> dev_of_node() helps converting node to device?
+> >>>
+> >>> dev_of_node() takes the device pointer and dev_fwnode() takes that as=
+ well,
+> >>> it means that there is no difference which one to use OF-centric or f=
+wnode
+> >>
+> >> The proposed device_get_child_node_count_named() takes a device pointe=
+r. I
+> >> don't see how dev_of_node() helps if there is just of_node and no devi=
+ce
+> >> pointer available in the calling code.
 > >
-> > If you take this out, how to distinguish between ACK_NO = 0 and
-> > the default?
+> > ???
+> >
+> > The loops are working on
+> >
+> >       struct device_node *np =3D pdev->dev.np;
+> >
+> > which is the equivalent to
+> >
+> >       struct device_node *np =3D dev_of_node(&pdev->dev);
+> >
+> > which takes device pointer.
+> >
+> >> (Well, as I wrote below, I could
+> >> alter the gianfar code by dropping the gfar_of_group_count(), so that =
+I have
+> >> the device pointer in caller). Anyways, I don't see how dev_of_node() =
+should
+> >> help unless you're proposing I add a of_get_child_node_count_named() o=
+r
+> >> somesuch - which I don't think makes sense.
+> >
+> > Are you forbidding yourself to change the function prototype to take a =
+device
+> > pointer instead of device_node one? :-)
+> >
 >
-> I am not sure I understand what you mean, so my answer here may be completely off.
+> This is our point of misunderstanding. As I wrote, and as you can see
+> from the prototype, the function _is_ taking the device pointer. Hence I
+> didn't understand how dev_of_node() should help us.
 >
-> ACK No. 0 corresponds to SPDIF, CH0, TX, while ACK No. 0x7F is not valid.
-
-OK, that was my understanding, too.
-
-> My understanding of this is that there is a DACK_SEL field per ACK No (23 ICU_DMACKSELk
-> registers, 4 DACK_SEL fields per ICU_DMACKSELk registers -> 23 * 4 = 92 DACK_SEL fields),
-> to match the 92 ACK numbers listed in Table 4.6-27.
+> >>> API in this particular case. Just make sure that the function (and th=
+ere
+> >>> is also a second loop AFAICS) takes struct device *dev instead of str=
+uct
+> >>> device_node *np as a parameter.
+> >>
+> >> I think I lost the track here :)
+> >
+> > Make gfar_of_group_count() to take device pointer. As simple as that.
 >
-> Each DACK_SEL field should contain the global channel index (5 DMACs, 16 channels per DMAC
-> -> 5 * 16 = 80 channels in total) associated to the ACK No.
-> If DACK_SEL contains a valid channel number (0-79), then the corresponding signal
-> gets controlled accordingly, otherwise a fixed output is generated instead.
->
-> Mind that the code I sent wasn't dealing with it properly, but wasn't spotted due
-> to limited testing capabilities, and it's safe to take out, as the DACK_SEL fields
-> will all contain invalid channel numbers by default.
->
-> Looking ahead, there is a similar scenario with the TEND signals as well.
->
-> So for now the plan is to upstream support for memory/memory and device/memory (REQ No.,
-> tested with RSPI), add support for ACK No later (perhaps testing it with audio, or via
-> an external device), and finally TEND No if we get to it.
+> that'd just make the gfar_of_group_count() a wrapper of the
+> of_get_child_node_count_named(). I prefer killing whole
+> gfar_of_group_count().
 
-So which values will you put in the dmas property for RSPI?
-I assume:
-       bits[0:9] - Specifies REQ_NO value
-       bit[10] - Specifies DMA request high enable (HIEN)
-       bit[11] - Specifies DMA request detection type (LVL)
-       bits[12:14] - Specifies DMAACK output mode (AM)
-       bit[15] - Specifies Transfer Mode (TM)
-i.e. all remaining bits will be zero?
+Sigh. This is not that hard.
 
-How do you plan to handle adding ACK_NO bits later?
-I.e. how to distinguish between remaining bits zero and remaining
-bits containing a valid ACK_NO value (which can be zero, for SPDIF)?
+- unsigned int num_grps =3D gfar_of_group_count(np);
++ unsigned int num_grps =3D
+device_get_child_node_count_named(&ofdev->dev, "queue-groups");
 
-I hope I made myself clear this time.
-If not, weekend time ;-)
+And remove gfar_of_group_count() of course.
 
-Have a nice weekend!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Rob
 
