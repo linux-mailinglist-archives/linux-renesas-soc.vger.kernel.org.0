@@ -1,165 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-13828-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13829-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97101A4A482
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 22:10:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA323A4A505
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 22:24:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64CF93BA680
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 21:09:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9A4E164A63
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 21:24:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46CFC1CBA02;
-	Fri, 28 Feb 2025 21:09:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEA4B1D61BC;
+	Fri, 28 Feb 2025 21:24:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ncCt9+6O"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ejm8N4sG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046F21C84C3;
-	Fri, 28 Feb 2025 21:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892531C54B2
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Feb 2025 21:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740776994; cv=none; b=dotLZquAwEWZp3SzlN9+rtjfKvq0VmLhRJt5n6z1wCMa+N2EM0HzdxPdOeDTaIFujprQAfJCBA2Vsl5msJiYRd8Q5wQDUwDr7zrKwxqcapuagz7cEz7bKAvQbULZXmuv0U42uAyHE/EFeQ5TUMpsZ034VPSNv9736SWTi27kWSI=
+	t=1740777881; cv=none; b=YRxaHIVNIvkq3s7ur6SO+6Hi0+pOWaowJK/xfbkrSLZ8IS/EfR1D0DFca3Xg7y28p9a+SNxpsKQluS5ukDcBLbFOlHT4BP7maeSFJilmJebaaqxZ4rvkhOjJ75aVubA7b0yiDz/YCnAeEayptnt63AnMLpDMkZeW+LoxTP5pjM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740776994; c=relaxed/simple;
-	bh=7/U8iCK7D2OmaLt/mLjSMyZ4HHGedptSkAghoSNVdR0=;
+	s=arc-20240116; t=1740777881; c=relaxed/simple;
+	bh=PiF/znA9TOsmY+GaP/x14C+DjIvsVa121M6lAVA+eG4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y9Qk7L+Rb3LAXuikW1CvJOfTnIw9+euP9WIHApRV6dWpdkT+Bb8Vtf/OID9VEtbTTrY0jEUl+b766drJw52WM4eXEKCDNOGbK+Y7x4u+FvSOw5e4THq81UwMf43Hk9CaATT1RMZqzJlg6cC6h5ZP+ThOQQX2fNhDCx5rAbUCR2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ncCt9+6O; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4504AC4CED6;
-	Fri, 28 Feb 2025 21:09:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740776993;
-	bh=7/U8iCK7D2OmaLt/mLjSMyZ4HHGedptSkAghoSNVdR0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ncCt9+6O2jp3/i9DzHgh2AiW0gV8u83t8GiagV54aYXYuX4ucGyeDhfhUcylciR9e
-	 QgX9KI+t75Knp5nMwry11emnGByFvS6Rw7hhT6dsKMmhzaSHUm2wIdrWfwRPBfrLgD
-	 TMHG8Rql1XtDoLPuejlV/Ukndp+C5rt+/z4KGsbd3nHCogN0XpN9XS4nJoRzO804ny
-	 Ptxhjq3nBW7PYhTDXfn2mvAW3x1p1A2cDNkEFendNZVmwb+R3L+UR8VBb+i29Tn8Wc
-	 IcXlVID0YMj+1qBMD7K8soE3wPlyi6sQIdP39Eu1NZRz1sdezNKOHj4rUyY0tUXFOm
-	 J3iJ6ZlLJP/sw==
-Date: Fri, 28 Feb 2025 15:09:51 -0600
-From: Rob Herring <robh@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: John Madieu <john.madieu.xa@bp.renesas.com>, geert+renesas@glider.be,
-	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
-	rafael@kernel.org, daniel.lezcano@linaro.org, rui.zhang@intel.com,
-	lukasz.luba@arm.com, krzk+dt@kernel.org, conor+dt@kernel.org,
-	p.zabel@pengutronix.de, catalin.marinas@arm.com, will@kernel.org,
-	john.madieu@gmail.com, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, biju.das.jz@bp.renesas.com
-Subject: Re: [PATCH v2 3/7] dt-bindings: thermal: r9a09g047-tsu: Document the
- TSU unit
-Message-ID: <20250228210951.GA3720389-robh@kernel.org>
-References: <20250227122453.30480-1-john.madieu.xa@bp.renesas.com>
- <20250227122453.30480-4-john.madieu.xa@bp.renesas.com>
- <20250228-shampoo-uprising-44ae0d3bd68b@spud>
+	 Content-Type:Content-Disposition:In-Reply-To; b=lpatZjG9nlQY+7LbXAru4qSq1yXYYk96zX2IbG5B2Cp1zcZQfV+jykZPvimBvo8veiqpqdCK7+444oIt0b7PEpuoVtyZaNhOavfRUOJT0gdL24jF5iU9k7CLLUfOi72j4hETLcf5QY/Io5EOQ0cRjZlEnlrnQsFFy0Ia0KkFmVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ejm8N4sG; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=ccid
+	/zde0a5V/EEv0mlYZdra3MrMn1pD7LcMo0wtoDE=; b=ejm8N4sGwogAqf5DexAp
+	El0tKeGiONwMv96u8Es9zsHlkMdGP+uAxJgFpMZBoIXCSuZbfCfIZjmFHbYxck9D
+	8mKf3HjPZaAMWI3iEG3jrTHFLIuoGEO2ZhxKJLj9oSKrtGMTdJyKPxKxkVsaGSD7
+	wFqw/kPih6BGbSCYs0hkLyIS7qEW1Xy/SyVU4p+CSgS9uFI+ihLtfD/1UwKqdvEP
+	26R4wZcPqyMdOIvJKVhfeLulCfD7mPZPOY8eNoX+732UeYh3WKRBTIRaTMZQE/D7
+	pzEd4f+G7/i9Vj9HKK0iyBToLL+PUSSisr7uHNC0jF5D6absaHQOviloIxVXTBr6
+	8A==
+Received: (qmail 1428424 invoked from network); 28 Feb 2025 22:24:34 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Feb 2025 22:24:34 +0100
+X-UD-Smtp-Session: l3s3148p1@XIzVbjovQs0gAQnoAE04AOw9xELqAtuS
+Date: Fri, 28 Feb 2025 22:24:34 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH v4 2/2] mmc: renesas_sdhi: Add support for RZ/G3E SoC
+Message-ID: <Z8Ipkqod7SdGlDak@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+References: <20250228124713.153979-1-biju.das.jz@bp.renesas.com>
+ <20250228124713.153979-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6kxq6E+o9ifeNcAS"
+Content-Disposition: inline
+In-Reply-To: <20250228124713.153979-3-biju.das.jz@bp.renesas.com>
+
+
+--6kxq6E+o9ifeNcAS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250228-shampoo-uprising-44ae0d3bd68b@spud>
 
-On Fri, Feb 28, 2025 at 07:03:05PM +0000, Conor Dooley wrote:
-> On Thu, Feb 27, 2025 at 01:24:39PM +0100, John Madieu wrote:
-> > The Renesas RZ/G3E SoC includes a Thermal Sensor Unit (TSU) block designed
-> > to measure the junction temperature. The device provides real-time temperature
-> > measurements for thermal management, utilizing a single dedicated channel
-> > (channel 1) for temperature sensing.
-> > 
-> > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> > ---
-> > v1 -> v2:
-> >  * Fix reg property specifier to get rid of yamlint warnings
-> >  * Fix IRQ name to reflect TSU expectations
-> > 
-> >  .../thermal/renesas,r9a09g047-tsu.yaml        | 123 ++++++++++++++++++
-> >  1 file changed, 123 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml b/Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
-> > new file mode 100644
-> > index 000000000000..e786561ddbe3
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
-> > @@ -0,0 +1,123 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/thermal/renesas,r9a09g047-tsu.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas RZ/G3E Temperature Sensor Unit (TSU)
-> > +
-> > +maintainers:
-> > +  - John Madieu <john.madieu.xa@bp.renesas.com>
-> > +
-> > +description:
-> > +  The Temperature Sensor Unit (TSU) is an integrated thermal sensor that
-> > +  monitors the chip temperature on the Renesas RZ/G3E SoC. The TSU provides
-> > +  real-time temperature measurements for thermal management.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: renesas,r9a09g047-tsu
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    description: |
-> > +      Interrupt specifiers for the TSU:
-> > +      - S12TSUADI1: Conversion complete interrupt signal (pulse)
-> > +      - S12TSUADCMPI1: Comparison result interrupt signal (level)
-> > +
-> > +  interrupt-names:
-> > +    items:
-> > +      - const: adi
-> > +      - const: adcmpi
-> > +
-> > +  "#thermal-sensor-cells":
-> > +    const: 0
-> > +
-> > +  renesas,tsu-calibration-sys:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description: |
-> > +      Phandle to the system controller (sys) that contains the TSU
-> > +      calibration values used for temperature calculations.
-> > +
-> > +  renesas,tsu-operating-mode:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    enum: [0, 1]
-> > +    description: |
-> > +      TSU operating mode:
-> > +      0: Mode 0 - Conversion started by software
-> > +      1: Mode 1 - Conversion started by ELC trigger
-> 
-> Can you make this "software" and "elc" or something please, unless
-> people will genuinely find "0" and 1" to be more informative.
-> And why doesn't the property have a default?
 
-Or just make it boolean.
+> +static struct regulator_desc renesas_sdhi_vqmmc_regulator = {
+> +	.of_match	= of_match_ptr("vqmmc-regulator"),
+> +	.owner		= THIS_MODULE,
+> +	.type		= REGULATOR_VOLTAGE,
+> +	.ops		= &renesas_sdhi_regulator_voltage_ops,
+> +	.volt_table	= renesas_sdhi_vqmmc_voltages,
+> +	.n_voltages	= ARRAY_SIZE(renesas_sdhi_vqmmc_voltages),
+> +};
 
-Who/what decides the mode? If a user is going to want to change this, 
-then it should be a runtime control, not a DT property.
+...
 
-Rob
+> +		renesas_sdhi_vqmmc_regulator.name = "sdhi-vqmmc-regulator";
+> +		renesas_sdhi_vqmmc_regulator.of_match = of_match_ptr("vqmmc-regulator");
+> +		renesas_sdhi_vqmmc_regulator.type = REGULATOR_VOLTAGE;
+> +		renesas_sdhi_vqmmc_regulator.owner = THIS_MODULE;
+
+?
+
+Also, one space only before '=' in the struct initializer.
+
+
+--6kxq6E+o9ifeNcAS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfCKY4ACgkQFA3kzBSg
+KbZJ/Q//VT3N9uuN7+BBtVLyOChsO3sNaXNHHqrGiieTtsHArU8ye1N8nuWToO1W
+geLMm/7wn0SCjSdLkwspqJ8O/sEzf6kS0eBSDLWOg6OARzsD97odu3yjhFYlaYs0
+mLH01trGg0EVI0phYyZZvXOABHIt6buR5nRJk0QBGA1agb/bkcrN0NWuR8/TtETm
+GJzUIjVjtyg+q8uI30e/5YoNFI+/T7Y+nJwTvAqtB7up1Dpy+bxMi3YNIpYajGPZ
+6zgVQg+lZ91DuI2z2OM+XawY0ipIICMr4evehlfOe8h0J5QtZg66UvDKBstb398U
+iKKKm2tKN1CNr045y8sKejhjeSGqf03OkvUPsZSP7d7UBi31Jtull078hXKkT8WS
+ZKVxsBM/8vl4LUXV3kNbqPWOOSEI840gQIrQm/aRGT5HaaARC5X7pYgWxj+HlcZp
+hW79MW+07PUs+YVh028ijurRUshjGKQmjOoK5BcHthPZtdGuRRA0TI3fShr/KK20
+7x7Idq/tuZwb7gY98LF4QQdy0LkHiYPGq93hCljMAnMVqOhLO/pwvt7Cl5/ucy5g
+4WlbuaFRxm2OzfIXe3GgVCv3eLTRoTXELM2Of2NrU0IwgO3zVH8IvSlBsQX36ee/
+UWwVZYVi+PKNQteQm2CMkeqF2B6d8GyTpDW57wcfCviQkB00LsM=
+=Zl/L
+-----END PGP SIGNATURE-----
+
+--6kxq6E+o9ifeNcAS--
 
