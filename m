@@ -1,129 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-13795-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13796-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8525A49594
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 10:43:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DB7A496E6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 11:19:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7F5D1648E0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 09:42:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96B3C3AA5B9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2025 10:18:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D29822561B7;
-	Fri, 28 Feb 2025 09:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SdH6uKqk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 070BA25E80E;
+	Fri, 28 Feb 2025 10:17:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0442571B6
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Feb 2025 09:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EF125E46C;
+	Fri, 28 Feb 2025 10:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740735725; cv=none; b=ZaNiOVOlRUOJftPPt8HTjYzWVOZ4SP1aTUm186a3ZaojAP+mECtVNH1kzUEzd6mbnqlPWbSPkZIl9HdJ1Lede/IYq3SQIA5WPA6K44lIhcGyWkLrNXHoNkVjQrRB/cD1TygPIYB542r8IOyH7tuK8vM2qEDYHmh5mcVl53OKIGs=
+	t=1740737857; cv=none; b=J6sMlXI3EoMfHMHC8FiDvzW7sZ1PpmUb2RMtwATBcVaR9fLUqKPjnOVsjO7JK6tjG8AOGYXQddRMXUExn/2vqmvcmPtsnTHxUpo14hW+W2GgztAAAsFoIqQ8rAS8rlLv+vnXJd7zs/dGJtCinIN7n4ilaBSXsed7/UDOc8kpq3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740735725; c=relaxed/simple;
-	bh=Rk+R0zS5jhBcajlns+/geG3AiOAZBUWGIdTDCfcrhpI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FsdLYDh5PY51lHs3ymB1q9Cek0Z0aB4rYZvt8WV+PsvOAvKqJNrbiUI+JP5+S8lZo9Ivwi45JjQ04S5KaJJ0UGGdCCMsH7SxKHUaoed33qdAPNgCqa1GnsLBQDlWLcHmGxBFXN6CeAPBwnSkSDoFtUFMky0QFfcq/fi1MseG5m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=SdH6uKqk; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=QX0w
-	lTfLevkzlmRZF9imM2uFC9U5033boPLPntnbez4=; b=SdH6uKqkXy9EyWTWNno3
-	IiZWgmFsWn3SjH3U0oczFkyKvmDjl1N3zadCzvKGML69QQq/uvwNdvlpw+Mv3x/D
-	9EmBmiHEKSt74PoaSc7OJuyEMJEJFTgsciockKoRwbi5NkGtUYm04i8/zygluL2h
-	Z2SncWWPHjV/ObWxRRzze2P/eq5PJyE+6bnvN7ZhsPPRljzQQCnKeB/dnvamGF1b
-	87QByZnpG0wMs2U1Rh7Tmda8bx9PjvD9Y73sVChCjzKz5hDpKwn7290prJ9D8DD5
-	WPqbQyDJvPNk+WlMj+KGXqnD44oJS3DAdwgldP2PWIDRb+nwlrhjiVAQWi3fzPsF
-	tA==
-Received: (qmail 1243242 invoked from network); 28 Feb 2025 10:42:01 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Feb 2025 10:42:01 +0100
-X-UD-Smtp-Session: l3s3148p1@CndKnjAvjrO57tsS
-Date: Fri, 28 Feb 2025 10:42:00 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v3 3/8] mmc: renesas_sdhi: Add support for RZ/G3E SoC
-Message-ID: <Z8GE6G4TXC7dOB6_@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-References: <20250206134047.67866-1-biju.das.jz@bp.renesas.com>
- <20250206134047.67866-4-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1740737857; c=relaxed/simple;
+	bh=GFa+NuVufK/uGCpLIg299oeIpkh63tsKLsAAaNrx77w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cJzGgFpd8EOqAK3zZ3qzHIOFetmXpWHzcsyykNi5rQ0JjnSk5mzyrZtnY7Pf8nMaslTh54lyIViTINf7eNGSu//lfsLbmNWGY/wdEufqvN1yTxCKUvL3piH/b2UdxKwNBjEWEc0BLkic9NCzktcRC+CvQJJNop36Zm6zNl8OUNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-51f22008544so799782e0c.1;
+        Fri, 28 Feb 2025 02:17:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740737854; x=1741342654;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/kUD47B1lI176RCzaL81Lq6+uEk8CLF2tamPfj8ZlAM=;
+        b=Gi0SZ27QamWS2IhoCDKi55M9TqRKie3Je1le+yq2qCXEc4AlTzl8tZhbcSRBBLnlBy
+         gv5vyBEZ45orA9lAopCKJRC5YHfZLnQ9+5/tb6tK2ypENyofmyojzHfLgFYPbGlK/Gt4
+         VLYcUCvIDVDAFMjC2BRdZ9DqRZoE4vkhfP64XE9kJ2obQxZagIx2QUY00+fxEPUULDq6
+         i4OW7WtGTZXcVro7d41hXpuoUxn+ZCA8CJhig7wxd4t+Kwkg7WoszkBmI+z93+iDBNkL
+         DUcbnvqo33W+k5rwH2BSt+J1A6mp37j98Ad/Rji77gF7cd6HAN6xhSFTaiIVUqr9auCS
+         CaVg==
+X-Forwarded-Encrypted: i=1; AJvYcCUrPqWZkLXEVZ2CvoBq/ptTtUAsjkOX/qqz+nQiKzPOmCjhC+IvNRXKGBUUqsxC0B61m63mptBw96T9Ggyy@vger.kernel.org, AJvYcCVCxZ8bOSqECt/V7QrBJDn2QNLSQTNLKeRylbAKoBfdKg74vCUCGmfjv9cfgAJhUVh2U0NIeNemDAPg@vger.kernel.org, AJvYcCXcDNoTnJRmFw1AsWeUtWQsDi2yPi+ilPDcKG0FkcTy2leUPKXJr4Ej08sst3hKRYHvi4k2iTqPVFu+ezn252VoX9A=@vger.kernel.org, AJvYcCXwHeC0/Pn5koGg7Z3Wo6ELTIRK4Q9itvC5Xp8IOqxBEYpbqPT3a2s3LIVJzPvfA8OZspEFvZJudBBN@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbeoR6z9ge5SRRR9c2WqFcaxcEDyUFXTcnQgDbHhNoB/fKxn8G
+	datYMgMdstYw0A5Ja8Qbp05Z/kPdvOA3a/8tOGzJ4kkGTSlPn/vPxKWFmYx0
+X-Gm-Gg: ASbGncv+juaeIVlYrI11/+SM2iVxnDa2xki0gIOvxyY6PMQ7qjI6oMaijg1AgfYpLiQ
+	wnw4NDDQiFQ7O1bXxNVkfcdCjmq5iTZCnhfZ4YMaeOtT8mRQuoLy6lqu8zK8UATm0lwoDHZ/abh
+	ExGfvXw/PWRKU5gpxh9eDQ/GsnjUUONm85m5g3i379rlGuCtOrpBkJCb5rTe2MT2g1cPREk6xYE
+	KIdRUNiz6OJAooGDaKTw2IPU3YKgkG9+zaxTLrk0JXuYeOu+jJ8IqnqgrsGeDLt7YYLPjBrsdr5
+	6juXnnkumEXX/dqfataOjVMC5J2loU2SyjaLStfBIEFXHGnf4fHzdWfyXY4Y420L
+X-Google-Smtp-Source: AGHT+IH9L75/gXYLAs9T9jZdh7ykhdD65oq1QbiMCBXMsDNEY18WQTSEntCyxzCjjcu5TI0lNnvWDQ==
+X-Received: by 2002:a05:6122:2897:b0:520:3987:ce0b with SMTP id 71dfb90a1353d-5235b519bf9mr1578864e0c.2.1740737853659;
+        Fri, 28 Feb 2025 02:17:33 -0800 (PST)
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5234c0b9961sm517912e0c.46.2025.02.28.02.17.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Feb 2025 02:17:33 -0800 (PST)
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-86112ab1ad4so790458241.1;
+        Fri, 28 Feb 2025 02:17:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV+A2g79PvclmkknWxskyZu/l6EEePj9FROXVFIW+HhoQDSqY52b4aIyiHErlQ8mFmNDvW+xiAHhlBttLOs@vger.kernel.org, AJvYcCVJiy4cXouVhVkfztzfZTng+l34ieeFW7r+0c9JKIJNWgktXpT5ZrhkW1hUtvAlooQ/wD5zmboNG1kFCeI3gu9FbGM=@vger.kernel.org, AJvYcCVufKI1yBcz5eg2efv0G/vKE12DerPr2g3s72L23gXalLw/A/qmJTFPSd4U6zT9fB7Vjp/JNYRcuLOC@vger.kernel.org, AJvYcCXnMH12VYI2iPMyicD22L6MZNSRHQEZwiqA9imbaw5Jx7rx7K7OR1tlkNlFKzL71D8DWpXLcQMdFN3A@vger.kernel.org
+X-Received: by 2002:a05:6102:568a:b0:4ba:95f1:cc83 with SMTP id
+ ada2fe7eead31-4c044ed8255mr1633845137.16.1740737852990; Fri, 28 Feb 2025
+ 02:17:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HpoTkOiCXtn2yMmb"
-Content-Disposition: inline
-In-Reply-To: <20250206134047.67866-4-biju.das.jz@bp.renesas.com>
+References: <20250220150110.738619-1-fabrizio.castro.jz@renesas.com>
+ <20250220150110.738619-4-fabrizio.castro.jz@renesas.com> <CAMuHMdUjDw923oStxqY+1myEePH9ApHnyd7sH=_4SSCnGMr=sw@mail.gmail.com>
+ <TYCPR01MB12093A1002C4F7D7B989D10C4C2CD2@TYCPR01MB12093.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB12093A1002C4F7D7B989D10C4C2CD2@TYCPR01MB12093.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 28 Feb 2025 11:17:20 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWzuNz_4LFtNtoiowq31b=wbA_9Qahj1f0EP-9Wq8X4Uw@mail.gmail.com>
+X-Gm-Features: AQ5f1JqCbWr36YNaydbu24KJtpDiae4zRcoRgETN25iCQwcUEQYXT2lEPQq0yoE
+Message-ID: <CAMuHMdWzuNz_4LFtNtoiowq31b=wbA_9Qahj1f0EP-9Wq8X4Uw@mail.gmail.com>
+Subject: Re: [PATCH v4 3/7] dt-bindings: dma: rz-dmac: Document RZ/V2H(P)
+ family of SoCs
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Fabrizio,
 
---HpoTkOiCXtn2yMmb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 27 Feb 2025 at 19:16, Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Sent: 24 February 2025 12:44
+> > Subject: Re: [PATCH v4 3/7] dt-bindings: dma: rz-dmac: Document RZ/V2H(P) family of SoCs
+> >
+> > On Thu, 20 Feb 2025 at 16:01, Fabrizio Castro
+> > <fabrizio.castro.jz@renesas.com> wrote:
+> > > Document the Renesas RZ/V2H(P) family of SoCs DMAC block.
+> > > The Renesas RZ/V2H(P) DMAC is very similar to the one found on the
+> > > Renesas RZ/G2L family of SoCs, but there are some differences:
+> > > * It only uses one register area
+> > > * It only uses one clock
+> > > * It only uses one reset
+> > > * Instead of using MID/IRD it uses REQ NO/ACK NO
+> > > * It is connected to the Interrupt Control Unit (ICU)
+> > >
+> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> >
+> > > v1->v2:
+> > > * Removed RZ/V2H DMAC example.
+> > > * Improved the readability of the `if` statement.
+> >
+> > Thanks for the update!
+> >
+> > > --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> > > +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> > > @@ -61,14 +66,22 @@ properties:
+> > >    '#dma-cells':
+> > >      const: 1
+> > >      description:
+> > > -      The cell specifies the encoded MID/RID values of the DMAC port
+> > > -      connected to the DMA client and the slave channel configuration
+> > > -      parameters.
+> > > +      For the RZ/A1H, RZ/Five, RZ/G2{L,LC,UL}, RZ/V2L, and RZ/G3S SoCs, the cell
+> > > +      specifies the encoded MID/RID values of the DMAC port connected to the
+> > > +      DMA client and the slave channel configuration parameters.
+> > >        bits[0:9] - Specifies MID/RID value
+> > >        bit[10] - Specifies DMA request high enable (HIEN)
+> > >        bit[11] - Specifies DMA request detection type (LVL)
+> > >        bits[12:14] - Specifies DMAACK output mode (AM)
+> > >        bit[15] - Specifies Transfer Mode (TM)
+> > > +      For the RZ/V2H(P) SoC the cell specifies the REQ NO, the ACK NO, and the
+> > > +      slave channel configuration parameters.
+> > > +      bits[0:9] - Specifies the REQ NO
+> >
+> > So REQ_NO is the new name for MID/RID.
 
-On Thu, Feb 06, 2025 at 01:40:27PM +0000, Biju Das wrote:
-> The SDHI/eMMC IPs in the RZ/G3E SoC are similar to those=C2=A0in R-Car Ge=
-n3.
-> However, the RZ/G3E SD0 channel has Voltage level control and PWEN pin
-> support via SD_STATUS register.
->=20
-> internal regulator support is added to control the voltage levels of
-> the SD pins via sd_iovs/sd_pwen bits in SD_STATUS register by populating
-> vqmmc-regulator child node.
->=20
-> SD1 and SD2 channels have gpio regulator support and internal regulator
-> support. Selection of the regulator is based on the regulator phandle.
-> Similar case for SD0 fixed voltage (eMMC) that uses fixed regulator and
-> SD0 non-fixed voltage (SD0) that uses internal regulator.
+These are documented in Table 4.7-22 ("DMA Transfer Request Detection
+Operation Setting Table").
 
-Okay, since I don't see a constant state of the regulator, let's just
-restore the original value as you do here. I mean it works.
+> It's certainly similar. I would say that REQ_NO + ACK_NO is the new MID_RID.
+>
+> > > +      bits[10:16] - Specifies the ACK NO
+> >
+> > This is a new field.
+> > However, it is not clear to me which value to specify here, and if this
+> > is a hardware property at all, and thus needs to be specified in DT?
+>
+> It is a HW property. The value to set can be found in Table 4.6-27 from
+> the HW User Manual, column "Ack No".
 
-> +			if (priv->rdev)
-> +				sd_ctrl_read32_rep(host, CTL_SD_STATUS, &sd_status, 1);
+Thanks, but that table only shows values for SPDIF, SCU, SSIU and PFC
+(for external DMA requests).  The most familiar DMA clients listed
+in Table 4.7-22 are missing.  E.g. RSPI0 uses REQ_NO 0x8C/0x8D, but
+which values does it need for ACK_NO?
 
-What about introducing sd_ctrl_read32? Or ask the engineers to move
-SD_STATUS_IOVS to bit 15 ;)
+Gr{oetje,eeting}s,
 
+                        Geert
 
---HpoTkOiCXtn2yMmb
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfBhOgACgkQFA3kzBSg
-KbYmjRAAoc8WVWJlRBYVVb2ebJFZVgr2TjzcLLophjOg/6VX5zDYMMcrZvoeXYp6
-Hm14IuP2WG53HLNXFnJ0FCi3ZgsKH3kZbKXbSh1u7GvXrINJMOGz0P1JV1QnmGUN
-oZ+6JrKwBkeEDkMOeTqZ2NDHbruyHPdVxVT/5axKsKy44UJIn5LPK/6yl4PcbV3E
-V92n5ZGdmitoTNZLNp6/3Qzc8EefV2rClVgaZe0vBpcSA44H6bOGcxdXugyf3pn2
-i1B41YGLZ5oK5qXgMmE8vP3yWPpP8aEjLETn7KvqLt3BHv12lFcJIR2B27ymuvJ0
-MPJZadllC6S7huAGl8cajN0aGMMrFZvrGCBpiyQFi/Qt2cOonMj6AzUcQZ/7pe32
-GzIkYY079Z49yK7nJ0aH68ENS7a6/Al+Lf0BVGeRQ2xjeCAgQ1NrCT+caz73+7Cy
-IDoFWFEWKoZdx8hq+nQ/HC2Ic/BX+tC+kYV9VAACplDs7fz2w7MFYG5cDxL/fhnI
-OWPplYcVt/ctz2TFdVJc0DWim0uebXNWwUBPceZ/aSsiASCxXA/slpALNbpxYQ90
-vB7BuPZY7GDpcqik+ZKE7czZ051ViPebe81Vc+HukGZeJuX9PxXP+delLzB0k4/w
-G9c1CONKEEJUccj5/Y2CLTL9MV66/q6KP5R/fmllIL6Sq5ZkOSU=
-=i+uG
------END PGP SIGNATURE-----
-
---HpoTkOiCXtn2yMmb--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
