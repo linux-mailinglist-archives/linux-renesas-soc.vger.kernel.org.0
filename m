@@ -1,151 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-13874-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13875-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821B5A4B4EB
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Mar 2025 22:23:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C6CA4B4EF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Mar 2025 22:34:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 172C27A55D9
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Mar 2025 21:22:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9577E169D28
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Mar 2025 21:34:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C68AD1EB9FF;
-	Sun,  2 Mar 2025 21:23:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 492781EC01F;
+	Sun,  2 Mar 2025 21:34:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WZ1PfD5l"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="PYOvh62i"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D8F4A3C;
-	Sun,  2 Mar 2025 21:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7E713AF2;
+	Sun,  2 Mar 2025 21:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740950603; cv=none; b=A7juxVsUQ6zCk2As3nHcgze4FUJGug8xDqnNH7BiC37Jz1x5AbMJRlTlAZa5e1AGPreZDA3rSaNY6wbTkWP404ZfX6ZJzvJsGgKCu1iQ3f+bwoVcalIxiaGhS678sC3LuZB/U95Gvh4ZEgopNHecIyAl3NuzhdussxJMVQSYV/w=
+	t=1740951257; cv=none; b=Zp2xSsDZQKcn8bBQVp8M0UXswu8/aa8LRaHDDBieZ1n2M90xcJqKEiuz1NPk1WoI751CwqtsD1FrLuWiDqd3LRFh5ioqKRPBFX0HGfoi8LdNdo9azU/5JgR4BrytH7fAe93OHh+5C80azDleZx37/XMhptUQ6bbAT24DPbG7bJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740950603; c=relaxed/simple;
-	bh=itmERjA8wLIzggiNkT1BkrNcaT1kTLk2BdGZZhTB3zM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tWfKzagk7lZmtE9GQdD6Uzzn1EOJV1xY9Y4jOLWeZBVOc/BySOh7PlPS3g3JRsVSt4NZt6Q1S+FL7meg4YtdiiavJP6uaEFKF/qxDBSkOCsq/3B8HwtATGDajz6X83EPg3X2VTq5kR93qKsTMX49RHfW7mZX7KqOsiZtoloumiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WZ1PfD5l; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-520a48f37b4so3620927e0c.2;
-        Sun, 02 Mar 2025 13:23:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740950601; x=1741555401; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0a5VcwD256xt8hZeIi+3nzpsD3+r1ozerOjCt/VO9fM=;
-        b=WZ1PfD5lVMtI05XPd9S5h52gCX+W0I1/dzIg91OmIRo3rT1EZYxXse6XT+GNB1gt2e
-         A6SvBM4AcHTIcZIU6ly0TAKp9KlKFIj4JqViryIvjmKvC9/dQSgZ6pyVtUdMeE8QqH/G
-         xwjd1XmiK+9qkPTqMECJ6yOfAnKjLTfqGVIRD0BAFxwoNq84Eru5IgAUvw91UGKfudO7
-         MKVP6Txhr+C6K2UGVJnGME3en2BVdPtHiuxeboHURHVJpZjQpzCb7rRIXTBXTumetOg/
-         1GWH5OBFlcFwwAzLC0Czrts4qyLGTs9FulE1b1W0a6SfwcGkMhOV/FLvuRuizWJ2nVs6
-         FrhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740950601; x=1741555401;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0a5VcwD256xt8hZeIi+3nzpsD3+r1ozerOjCt/VO9fM=;
-        b=V36maLFdaxv19UV5Vr5fdjnalaI8rUuAf6o/iZGIiOugqft0jFwlgHpM/jFLX1uDs4
-         BOXnpO0X0y/V6lEGQTKYs/MK07HSbrhssrmWQR5u5CfqOcxkM0+uC+f8cXo7EJSz14N2
-         eh5aigFrnmR3jifrdrWsYaCtgIp21h6MyaZUd4twboh5+WinJFQeag/WKQZ3beFD/nX0
-         Z4+BCM+T4QAknqe0SL9mzUKmDvE6DxeoKvMzIo+hf1tLF8EKZeNdf0o5t0rlUALK8xO1
-         s34R19/I+xLFUo1q2rVhQ5HXZHLLRpLdtViyXfpRUl/fCniAAwX33UbkAnagRiO1QP1C
-         xCsw==
-X-Forwarded-Encrypted: i=1; AJvYcCVL9v8xwXaydoPhPpW8T7s4guSLUOgSbq0T13tD4popYL3dOXsRwmehoY2uu8NQVF3CtnqDhtZ4DvQsTi6E@vger.kernel.org, AJvYcCW2umaWr/DsFe+7thRmW7Hqwz78PmfYuybuGBbfrzkH6buWgokw84Li048wW/jst/GHy5sxpL1XD8XcgWVRqCrqbfE=@vger.kernel.org, AJvYcCWu6IFay+ow9etpwBw7O0L+pPZCbMqWhFTshwrYkLjbJYDPtDL9a2SO9fzl6y26AB5xf9n5LVVU43EZ@vger.kernel.org, AJvYcCXVOP0n9nBbYaapehsRXYAR9dQZ6j/176OB/3QSKfSvwFw3NlNFJV6guIz/4BK98lfxKgZT/WDD@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuN3KHUApNzJZKAps9Xvyybdb8qt9EdGMtIL+E2yLIzqOT4uuo
-	XLDBw8IPcQwUN6cb011eCiQGI+/FSV2f9at8L3eBbQ1Fht1zafoW0W8wiNtxb5Zq4XzvWDEL6bi
-	CZ6AGFyq+oo8teP6SiX39AQHzm1c=
-X-Gm-Gg: ASbGncv1T0o9llYE+kbfzlK0c5V7RW4bf/iL5u40mp1LKyoSlvseM1s8y6MUyI10vtQ
-	8t2j6rlwjOQk6Gj3nQFK8/eqn1gefdEdKq4/b8VqTyyb7zQ/6nDSA+TNMIvvKofWahZjTMHgm7S
-	a81GSgmBlMHRara9EPE657Zfj5oKuKTp+DlCdcxdAivKUAYFviVfz605eW3kY=
-X-Google-Smtp-Source: AGHT+IFJ3UmbV+l9CMcGhEU5IciKWaa4PDrXdrIX76I/NuKeDaRss+5ljbh83eQJRozs53b+HVsRcIqQrS5BXgQ5Scs=
-X-Received: by 2002:a05:6122:3c51:b0:520:5a87:66ff with SMTP id
- 71dfb90a1353d-5235a927992mr6262114e0c.0.1740950600980; Sun, 02 Mar 2025
- 13:23:20 -0800 (PST)
+	s=arc-20240116; t=1740951257; c=relaxed/simple;
+	bh=EcVTks8u1/lSKSH+VEHk4BTWhWV3/fcnwpliI9pwYyY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uwp0JmdvOcXj4hYqXnz/dJvkeExS5YekndtHnw9BJ5fuB1KDknFlUtJHpNQCRyRd2zg1qjVl/JSQ9fgAf3aLodwayiljgaGIr79+6pQv6jNyZ6ODLLQaEd2+1Yad4zl87PHkRdkTVrS0reCNeePJh8iMHpQv8NbBstq6bBwwkLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=PYOvh62i; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=f497gegEci+02syONskjbkNepSIjl7ZiAjck74yxeZk=; b=PYOvh62iH8Wk1BHYrPuQqWsakL
+	BXGaSwgTz525i0P6kUivxI0I4+9OeHzB1XSvY/GUocUuHTEQLSXA3FYtJeFB4oxFpUPG5b5B4xZ8/
+	S0899UtBtOHM6c27KSiMrXFzUin5bQ1w4qyvwbbgczHwOyewrd6xyXRGh7Cu5zMbIgWU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1toqwe-001bwG-0h; Sun, 02 Mar 2025 22:33:56 +0100
+Date: Sun, 2 Mar 2025 22:33:56 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 2/3] dt-bindings: net: Document GBETH bindings for
+ Renesas RZ/V2H(P) SoC
+Message-ID: <825379ce-f6dc-4c96-9a73-3562ffac79bc@lunn.ch>
+References: <20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250302181808.728734-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <a1dbb3e8-4a52-4cc2-8e7b-cf240f726d5e@lunn.ch>
+ <Z8SxSU9lOgbNf0he@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250302181808.728734-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <c5a75f20-9b61-448e-941b-1106cd06ea04@lunn.ch> <CA+V-a8sCMn+v5y5v9CyyV2VsRmLj-Uyowt61tTS9dWN43CD0_A@mail.gmail.com>
- <Z8THE2hpybzP74bH@shell.armlinux.org.uk>
-In-Reply-To: <Z8THE2hpybzP74bH@shell.armlinux.org.uk>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Sun, 2 Mar 2025 21:22:52 +0000
-X-Gm-Features: AQ5f1Jo8S_PYjx1kcN8o7cIhZ_VvEnN9r-baJSZ7mFVdP-O1OOvd3RytrD5Xi5Y
-Message-ID: <CA+V-a8up3Kv08sNarvC3gWLRpik3=_aKb3JCTGkxyGYMcj4Wbg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: net: Document GBETH bindings for Renesas
- RZ/V2H(P) SoC
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Andrew Lunn <andrew@lunn.ch>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8SxSU9lOgbNf0he@shell.armlinux.org.uk>
 
-Hi Russell,
+On Sun, Mar 02, 2025 at 07:28:09PM +0000, Russell King (Oracle) wrote:
+> On Sun, Mar 02, 2025 at 08:10:26PM +0100, Andrew Lunn wrote:
+> > > +  interrupts:
+> > > +    items:
+> > > +      - description: Subsystem interrupt
+> > > +      - description: The interrupt to manage the remote wake-up packet detection
+> > > +      - description: The interrupt that occurs when Tx/Rx enters/exits the LPI state
+> > > +      - description: Per-channel transmission-0 completion interrupt
+> > > +      - description: Per-channel transmission-1 completion interrupt
+> > > +      - description: Per-channel transmission-2 completion interrupt
+> > > +      - description: Per-channel transmission-3 completion interrupt
+> > > +      - description: Per-channel receive-0 completion interrupt
+> > > +      - description: Per-channel receive-1 completion interrupt
+> > > +      - description: Per-channel receive-2 completion interrupt
+> > > +      - description: Per-channel receive-3 completion interrupt
+> > > +
+> > > +  interrupt-names:
+> > > +    items:
+> > > +      - const: macirq
+> > > +      - const: eth_wake_irq
+> > > +      - const: eth_lpi
+> > > +      - const: tx0
+> > > +      - const: tx1
+> > > +      - const: tx2
+> > > +      - const: tx3
+> > > +      - const: rx0
+> > > +      - const: rx1
+> > > +      - const: rx2
+> > > +      - const: rx3
+> > 
+> > There has already been a discussion about trying to make the clock
+> > names more uniform. But what about interrupts? Which of these are in
+> > the IP databook? What names does the databook use for these
+> > interrupts?
+> 
+> >From a quick look, I haven't found anything that suggests the above
+> is possible, but it clearly is... so I'll look more tomorrow.
 
-On Sun, Mar 2, 2025 at 9:01=E2=80=AFPM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
->
-> On Sun, Mar 02, 2025 at 08:41:39PM +0000, Lad, Prabhakar wrote:
-> > Hi Andrew,
-> >
-> > On Sun, Mar 2, 2025 at 7:25=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wro=
-te:
-> > >
-> > > > +  clock-names:
-> > > > +    items:
-> > > > +      - const: stmmaceth
-> > > > +      - const: pclk
-> > > > +      - const: ptp_ref
-> > > > +      - const: tx
-> > > > +      - const: rx
-> > > > +      - const: tx-180
-> > > > +      - const: rx-180
-> > >
-> > > As Russell said in an older thread, tx and tx-180 are effectively the
-> > > same clock, but with an inverter added. You should be able to arrange
-> > > the clock tree that if you enable tx, it also enables tx-180 as a
-> > > parent/sibling relationship.
-> > >
-> > I can certainly do that, but not sure in the DT we will be describing
-> > the HW correctly then. I'll have to hide *-180  clocks In the DT and
-> > handle and turning on/off these clocks in the clock driver.
-> ...
-> >              clocks =3D  <&cpg CPG_MOD 0xbd>,
-> >                             <&cpg CPG_MOD 0xbc>,
-> >                             <&cpg CPG_CORE R9A09G057_GBETH_0_CLK_PTP_RE=
-F_I>,
-> >                             <&cpg CPG_MOD 0xb8>,
-> >                             <&cpg CPG_MOD 0xb9>,
-> >                             <&cpg CPG_MOD 0xba>,
-> >                             <&cpg CPG_MOD 0xbb>;
->
-> Your SoC designer really implemented the 0=C2=B0 and 180=C2=B0 as two sep=
-arate
-> independently controllable clocks?
->
-Yes there are separate bits to turn ON/OFF the 0=C2=B0 and 180=C2=B0 clocks=
-.
+stmmac_platform.c:	stmmac_res->irq = platform_get_irq_byname(pdev, "macirq");
+stmmac_platform.c:		platform_get_irq_byname_optional(pdev, "eth_wake_irq");
+stmmac_platform.c:		platform_get_irq_byname_optional(pdev, "eth_lpi");
+stmmac_platform.c:		platform_get_irq_byname_optional(pdev, "sfty");
 
-Cheers,
-Prabhakar
+So it looks like these are already in common code. So there should be
+no need to name them in individual bindings, they can be named in the
+common binding, and the vendor binding then just needs to indicate
+they are required, or not.
+
+What i have not yet figure out is how the names tx0, .. tx3 in this
+binding are used. There is no code added in this patchset. Yet
+loongson_dwmac_msi_config() and the intel stmmac_config_multi_msi()
+are the only ones setting res->tx_irq[], neither of which are using
+DT? I must be missing something somewhere.
+
+    Andrew
+
+
 
