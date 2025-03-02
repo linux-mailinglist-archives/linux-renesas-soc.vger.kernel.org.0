@@ -1,73 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-13881-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13882-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA508A4B512
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Mar 2025 23:02:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68CA4A4B51A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Mar 2025 23:03:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 660203A9FC0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Mar 2025 22:02:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F27B83AFF67
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Mar 2025 22:03:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43F1E1D5CC5;
-	Sun,  2 Mar 2025 22:02:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B74061EB9EF;
+	Sun,  2 Mar 2025 22:03:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ez4M9s/t"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Td5DlzlA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB7E2AE96;
-	Sun,  2 Mar 2025 22:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278822AE96;
+	Sun,  2 Mar 2025 22:03:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740952964; cv=none; b=EaL+stgKO6uAX3iwMvAiLZTaS5V8krZNW8Mzjr77K61bjzAtE2o0KZ3GChoTQ+B6+4cyPeW+asCddoh4umexRStY99bGrc3hrDPz/SBuh61boEy1ARt7LR+HcB7Z4dXq3eiI66Hgeb9hnDRKefYQhlRV5UoyXc0K3bfXdB8SxXc=
+	t=1740953028; cv=none; b=mMDSNO5NsDkQ/FCU/Bof1K5YpFO8HQGGEj459cLkIpgl1PBEHZPDKBUqWNuZZQKM/UGo0n9XnepLxOsddF5V5QZm9S/rLLOUn/s/ObCnzYCQVy5f7/km3mu5iVJdHZoqNN2Tx8yE1d5JanfR5Q42Hi9HLHlDmY05qJGdDLqXlME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740952964; c=relaxed/simple;
-	bh=KH5JszRKmU5TT/u6jheUA2cvRxsZb+VYGm/ULpbieeU=;
+	s=arc-20240116; t=1740953028; c=relaxed/simple;
+	bh=jZSWQtT1MoRNWumuCtYcb5b9s57EYgTMeTTtZs7awTE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cuht3upA59lJUSu5rL6WYbLge7dB5FzJ3WrnYNVKDk4PI7/8Riuf/sKtHZHbeW8JIGzbshd3MDzFX6pPkFrKf7KzdaR4wMxqMp2iQxKywv00pzl+9CzpbuP3XagBQ7Y4fZB+5bYpmyJ9SUfMZBeRzvATcptFGhljrH7VVonaokE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ez4M9s/t; arc=none smtp.client-ip=209.85.221.176
+	 To:Cc:Content-Type; b=ZSyxer/Tg/3syyy+J4kImtoVUO87qgnVcQQtGlLUt8GGhELUw+D4J07Ab618lBJbqgrlyX4JEDckPX4YznK24XHXsSN2DZLehfWwV/XTap9psQGldgCEQa8VhsmULdkZo2y/zFl4UEuk44KXfkQwcza3UNqtTA0hZT+J2LvjBBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Td5DlzlA; arc=none smtp.client-ip=209.85.221.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-51eb1a6954cso1567919e0c.0;
-        Sun, 02 Mar 2025 14:02:42 -0800 (PST)
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-523909ec175so134961e0c.0;
+        Sun, 02 Mar 2025 14:03:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740952961; x=1741557761; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1740953026; x=1741557826; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4o7NU/pDwXmJG1nln3D4KJpk/5AsulXf0XfkA2BzZAE=;
-        b=Ez4M9s/twlLEB4iI81Al5yBrKSkFwiImDqWy699zz3y8eGSx9VOJt/LVg5ugEpUciF
-         13yFAEmWU689B4rHu0hl/+ZTgUOm3zItiFwmKWMi9lpkbO4Pid2g7RCHLAOHjoz3Kf3C
-         FzEfwGzhn2OC4qHE5sY13Q70Abn+qHDFQFAZ9Rt7G0KgGa+B54PkCmCEKSYdjGEWWx41
-         6aPMCSqeeoipBWBlLb67qkh9QNdCCjjTG0BKR5F+PXOSFf0xaM04H/K/74X9sGrWuRx4
-         UqzUxaGDmPON09TibqDlgMuTUKIW49dUUTUyoKVykHDKHXeRHo0p+76slTC8uRxlqQBK
-         V3Hw==
+        bh=8rBYV72AXHGlxFfj7JTW/kVWLVkCEZCZeGHRRY9RxD0=;
+        b=Td5DlzlAJbnPo5l9WRVX7sZotxkxsJjawpKZL6WF4SMX5NLHIHkkoz1sAggDJq0Fw7
+         zIBWupCFJJbTq58gxEe4IO9VH5eM2V5PAeG9JXdXVTzOrU+drHY88lle66wQlq7AeRrk
+         qXtAe/QJHjh3q/vgY9aoFRo4ezb9sotLCE+xfAvuLcjrdFnhfQP3ku2E09cx5gf6Ow9u
+         5RylRBG6Y8I46hg4RofHywrSmVJNcd56J+SG4PsKY4gC8p6O375g0CxRbkXOx5GDqYuV
+         u+BohvTou3BTMbdoI9zGX9+gTCRL++tkgp2+As3KZc3IRgkrrmJC4QS0Sj6FW8zioanR
+         OqtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740952961; x=1741557761;
+        d=1e100.net; s=20230601; t=1740953026; x=1741557826;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4o7NU/pDwXmJG1nln3D4KJpk/5AsulXf0XfkA2BzZAE=;
-        b=qaN9BMOZOoK62bahxL3UB4ZoeWRrqcekkDKTzkLELo7wM3htJGDoC/btYjatlN/0dR
-         u9g5kBL91xHRaVqJzbxvmeBmLBCr9aSuPmbfn8ChP2lNtdxrMjLGmHm0GNjdIREGGitj
-         yF07zNDH1CZUt+SHd1oeXV8U0qur7/NhJg8282bG2VXP7ub9g0mP2y+inw6R+0pqW1zA
-         WfHSce12fZbmFAbFGH2GCKASefeywGegWH5fV4VXXaYsP339KT1RGFApKArUeW8jT6Oa
-         2IKaDZ/BSqDYxApF/Oc1TYNVHcBFRc2iM8LHYfSUeNiBS5eadHPASTRZw1+El3s8k3lQ
-         63NA==
-X-Forwarded-Encrypted: i=1; AJvYcCUv5PeYl8EXE3puU/SQUI2DETG89jV0LVb+Y749NzalwlO+cc9JnoyvHRm1vHWP0sicqcrsqBvN@vger.kernel.org, AJvYcCV+4Mx5GCdn8y1F9zL1zrfRXG45r23+V7g+l/DCBXIaNB8n2VG8h7JAhmWumQZFvRJ6DRTxhSX3jKMr@vger.kernel.org, AJvYcCWovAFl04DrPGJtl4zD85Yg7zt81ddo9JHr7aZzOPgvhx8JxZpaC/ZRIq3tNFzkeevMeB/4WC1vfjfewwZbjO7mXVk=@vger.kernel.org, AJvYcCXYhxs/uTkyN2l3kMNRnt+4Vp7Z/FgxxwWUAVTvGs9KN29O7xhOLlZqmxCH77zuuc4AMaCmjmTwJZlXdf1q@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBGsIJpKRm9ZY9VuSUf7cyXf+NTkdo5W3cM+9GdF9VQTSMJ+Ep
-	wkmCrMPlA4t5jG2v54NxYNG6T7/1vjD4n5CJQDbMKk2QStpTehG78V67jh5hWjdn2LIVnUKZNd9
-	qeOtG+7kK7bDndXRpDIlmbFziDtc=
-X-Gm-Gg: ASbGncs2z96lpjE3cGzXa4QERd11lbzxzc+WhvP/6mOD3NVIEG7nHeW0bZADeBO6qW9
-	kDEQJ8yJSnRojfKcvTZ1POSSOdnliAMhr5M31qyEC+PGGsGocn5lI7Y0sI+bNqGjd1MEfEFOkFk
-	uHaIHwRPF5+k6KYV5Bo4BR6MCEpQ==
-X-Google-Smtp-Source: AGHT+IHaHwQBDCH2xkw+MZJe3rCw4CZ3uF5ykjKx8f/DQ3Bqq5OROCgix3qYNsKU1Xk1hchICCoOIcmiYwJLu2o1c7o=
-X-Received: by 2002:a05:6122:2683:b0:518:773b:39f with SMTP id
- 71dfb90a1353d-5235b747589mr7242946e0c.4.1740952961203; Sun, 02 Mar 2025
- 14:02:41 -0800 (PST)
+        bh=8rBYV72AXHGlxFfj7JTW/kVWLVkCEZCZeGHRRY9RxD0=;
+        b=dYr6D7vDR/UnJPXk4TyAKkvs67tDasN+OND7lZXtHjOZp1GVmKkMtSalYkQoLkhA8v
+         JoCAraCy08sO4OtFwgXmOdoMQ+0DKrQ0uZ2fIeSwW+eop39awa0swwXbgXtwsAuC5pDs
+         LXeIxT5jZMlC+yBsFCETKHauGlysZjubfOxDTU2yEDLLPYsC9lGjg2KJAP300Cj5WLB0
+         C53UnL3NomcKUfKMywqtKwfEX5KESiYJStHfFHzcwtxYo8kKaQv/JJb99gk18VRZQIgL
+         QXdBkreEPZCRMeZQ8Xa1+Wp5P0h36jIfpl5Tqpjzbq4qRcx6miIn88RC6Xssq8uB8ZCV
+         CXgg==
+X-Forwarded-Encrypted: i=1; AJvYcCV9RIBXU89CvnhVx0Lgnr7atVzJKkCdPsGcFQPOsldu+WaF3q4Xxyrw707PzOzhAK1Rp+rZlHOMA1fa@vger.kernel.org, AJvYcCWYhxZulV/ON0rYg/PYkcx8bk+DJYSxCPwUb9r0V8iepq3xU27sXziccjLVK/lLTgNFFRK7LC2H@vger.kernel.org, AJvYcCWfh7rH12laHaotIXxpV212LpUNsK9pIMVl5LVYh3licdfuewpcaFdjUoWeYGu7Nvc6/DXxzz6sI6UafQCBuRTVJHI=@vger.kernel.org, AJvYcCXdGFL5pwFlEVXtwO9J5Kga8vZdRDX5D/yWwP7TjdNIkecWUFqCA+Z/wz6+TEsxcpZaIvp1UDh3WZ/Ldr1s@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywx/eGXCs4pcRKbWFmOzci8gti12E+30TtNbLLxtsYpVlHdTpAr
+	cDi5yKL8yJbyOKOpBEmQXaGQHsrd8PDNC/7a/fWzo+/zz2Ou8LTZXL90UvnQmOThZL1alHqnHds
+	4YVulY+u3x4LFV7ZTW/a2agXPdak=
+X-Gm-Gg: ASbGncsrEE0uqBPCZ/DFZJi8utKuT0HOxFiLPMOWgsvK7o0vPK/V/J3lIk9ADs6ajaE
+	sfQxA4Rrmzc+S2UtqOPj06f1wAzCFqA3GofhTadDdxi/85lS0nOHR+H46pElyzpjBE92l75NSrC
+	VcGHceKBuMNn9pcWYdGoAv/Cd1Qw==
+X-Google-Smtp-Source: AGHT+IH3UJrdA3i/Xvxm3LE77AjR0LEEM62ZR0frZhH2KAS0toglW6edmZbgKkcRvi1ggqaXXw7R+RbANl0jewTEKpA=
+X-Received: by 2002:a05:6122:21a1:b0:516:240b:58ff with SMTP id
+ 71dfb90a1353d-5235b855371mr6600043e0c.5.1740953025964; Sun, 02 Mar 2025
+ 14:03:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -75,193 +75,81 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250302181808.728734-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Z8SydsdDsZfdrdbE@shell.armlinux.org.uk> <CA+V-a8vCB7nP=tsv4UkOwODSs-9hiG-PxN6cpihfvwjq2itAHg@mail.gmail.com>
- <Z8TRQX2eaNzXOzV0@shell.armlinux.org.uk>
-In-Reply-To: <Z8TRQX2eaNzXOzV0@shell.armlinux.org.uk>
+ <20250302181808.728734-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <c5a75f20-9b61-448e-941b-1106cd06ea04@lunn.ch> <CA+V-a8sCMn+v5y5v9CyyV2VsRmLj-Uyowt61tTS9dWN43CD0_A@mail.gmail.com>
+ <Z8THE2hpybzP74bH@shell.armlinux.org.uk> <CA+V-a8up3Kv08sNarvC3gWLRpik3=_aKb3JCTGkxyGYMcj4Wbg@mail.gmail.com>
+ <86f41f06-d544-42f5-b2c0-6c4a76ad9eac@lunn.ch> <CA+V-a8tjOmn4BAamr6BrniTiyMxNYMCRrnZaqzEs_Xr=359Rvg@mail.gmail.com>
+ <Z8TSgxLqNwZ6zc3V@shell.armlinux.org.uk> <Z8TS+CsLa/uF36Xv@shell.armlinux.org.uk>
+In-Reply-To: <Z8TS+CsLa/uF36Xv@shell.armlinux.org.uk>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Sun, 2 Mar 2025 22:02:15 +0000
-X-Gm-Features: AQ5f1JotkAWLuW8Zsf6K55YVdVhdnqNspUbBfhFMKRQtavp3U8j0uogdAb0eFLg
-Message-ID: <CA+V-a8vykhxqP30iTwN6yrqDgT8YRVE_MadjiTFp653rHVqMNg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] net: stmmac: Add DWMAC glue layer for Renesas GBETH
+Date: Sun, 2 Mar 2025 22:03:20 +0000
+X-Gm-Features: AQ5f1JpkvC5pXHw3RqCBlSNswegbmIqYSMa12ZfJW-aj1djGEZXEKNRaU64l9-8
+Message-ID: <CA+V-a8v9SUur1c7357oWW2kgpLXSvCq3KLk5RgLXbUxBMxMAEg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: net: Document GBETH bindings for Renesas
+ RZ/V2H(P) SoC
 To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+Cc: Andrew Lunn <andrew@lunn.ch>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
 	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Russell,
-
-On Sun, Mar 2, 2025 at 9:44=E2=80=AFPM Russell King (Oracle)
+On Sun, Mar 2, 2025 at 9:51=E2=80=AFPM Russell King (Oracle)
 <linux@armlinux.org.uk> wrote:
 >
-> On Sun, Mar 02, 2025 at 09:20:49PM +0000, Lad, Prabhakar wrote:
-> > Hi Russell,
-> > > What is the reason for setting this flag? If it's because of suspend/
-> > > resume failures, does my "net: stmmac: fix resume failures due to
-> > > RX clock" series solve this for you without requiring this flag?
-> > >
-> > Ive set this flag based on the configuration supported by this IP.
-> > Unfortunately the platform which I am working on doesn't support s2r
-> > yet so I cannot test suspend/resume path yet. But I do see an issue
-> > when I unload and load just the glue module the DMA reset fails.
+> On Sun, Mar 02, 2025 at 09:49:55PM +0000, Russell King (Oracle) wrote:
+> > On Sun, Mar 02, 2025 at 09:43:47PM +0000, Lad, Prabhakar wrote:
+> > > On Sun, Mar 2, 2025 at 9:39=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> w=
+rote:
+> > > > > > Your SoC designer really implemented the 0=C2=B0 and 180=C2=B0 =
+as two separate
+> > > > > > independently controllable clocks?
+> > > > > >
+> > > > > Yes there are separate bits to turn ON/OFF the 0=C2=B0 and 180=C2=
+=B0 clocks.
+> > > >
+> > > > Do you know what the clock tree actually looks like? I can think of
+> > > > two different ways this could be implemented:
+> > > >
+> > > > ----+----------on/off---
+> > > >     |
+> > > >     +----not---on/off---
+> > > >
+> > > > or
+> > > >
+> > > > -------on/off-+------------------
+> > > >               |
+> > > >               +---not---on/off---
+> > > >
+> > > > In the first, the clocks are siblings. In the second there is
+> > > > parent/child relationship.
+> > > >
+> > > It's the first case in this SoC.
+> >
+> > Umm, okay. I'll just pick my jaw up off the floor. :D
+> >
+> > Given that, then yes, go with your existing clock binding, because
+> > that's the most sensible.
+> >
+> > However, what would be useful for future maintenance is to put some
+> > commentry at the top of the new glue file describing this (pictorially)
+> > so that when someone looks at this later we know why it is this way.
+> > It'll be useful information if someone else does the same because then
+> > we can say "hey, we already have a binding for this situation!"
 >
-> Thanks for that feedback - that's a scenario I hadn't considered.
+> Additionally, it would probably be useful to include it in the dt
+> binding commit description because that will probably assist the
+> review of that patch.
 >
-> I was trying to avoid having to disable LPI RX clock-stop on suspend by
-> ensuring that it was enabled at resume time. I think that's valid, but
-> you've brought up another similar scenario:
->
-> - device is brought up, configures RX clock stop
-> - links with media, negotiates EEE
-> - driver is unloaded, link doesn't go down, but due to no traffic goes
->   into idle, so RX clock is stopped
-> - driver reloaded, RX clock still stopped, reset fails
->
-> I would like to solve that so we can get the power savings from
-> stopping the clock, but still have reset work when necessary.
->
-I would be happy to test the patches ;)
-
-> I'm guessing that the "DMA reset fails" refers to this path:
->
-> stmmac_open() -> __stmmac_open() -> stmmac_hw_setup() ->
-> stmmac_init_dma_engine() -> stmmac_reset() ?
->
-Yes.
-
-> In other words, when the device is being brought back up
-> adminsitratively?
->
-> What happens if you (replace $if):
->
-> # ip li set dev $if down
-> # ip li set dev $if up
->
-> Does that also fail without STMMAC_FLAG_RX_CLK_RUNS_IN_LPI set?
->
-Logs without STMMAC_FLAG_RX_CLK_RUNS_IN_LPI flag set:
---------------------------------------------------------------
-root@rzv2h-evk-alpha:~# ip li set dev eth1 down
-[   33.606549] renesas-gbeth 15c40000.ethernet eth1: Link is Down
-root@rzv2h-evk-alpha:~#
-root@rzv2h-evk-alpha:~# ip li set dev eth0 down
-[   37.356992] renesas-gbeth 15c30000.ethernet eth0: Link is Down
-root@rzv2h-evk-alpha:~#
-root@rzv2h-evk-alpha:~# ip li set dev eth1 up
-[   43.974803] renesas-gbeth 15c40000.ethernet eth1: Register
-MEM_TYPE_PAGE_POOL RxQ-0
-[   43.983189] renesas-gbeth 15c40000.ethernet eth1: Register
-MEM_TYPE_PAGE_POOL RxQ-1
-[   43.991155] renesas-gbeth 15c40000.ethernet eth1: Register
-MEM_TYPE_PAGE_POOL RxQ-2
-[   43.999128] renesas-gbeth 15c40000.ethernet eth1: Register
-MEM_TYPE_PAGE_POOL RxQ-3
-[   44.072079] renesas-gbeth 15c40000.ethernet eth1: PHY [stmmac-1:00]
-driver [Microchip KSZ9131 Gigabit PHY] (irq=3DPOLL)
-[   44.094605] dwmac4: Master AXI performs fixed burst length
-[   44.100138] renesas-gbeth 15c40000.ethernet eth1: No Safety
-Features support found
-[   44.107748] renesas-gbeth 15c40000.ethernet eth1: IEEE 1588-2008
-Advanced Timestamp supported
-[   44.116725] renesas-gbeth 15c40000.ethernet eth1: registered PTP clock
-[   44.123352] renesas-gbeth 15c40000.ethernet eth1: configuring for
-phy/rgmii-id link mode
-root@rzv2h-evk-alpha:~#
-root@rzv2h-evk-alpha:~# ip li set dev eth1[   47.207761] renesas-gbeth
-15c40000.ethernet eth1: Link is Up - 1Gbps/Full - flow control off
-^C
-root@rzv2h-evk-alpha:~# ^C
-root@rzv2h-evk-alpha:~# ip li set dev eth0 up
-[   55.636722] renesas-gbeth 15c30000.ethernet eth0: Register
-MEM_TYPE_PAGE_POOL RxQ-0
-[   55.645139] renesas-gbeth 15c30000.ethernet eth0: Register
-MEM_TYPE_PAGE_POOL RxQ-1
-[   55.653111] renesas-gbeth 15c30000.ethernet eth0: Register
-MEM_TYPE_PAGE_POOL RxQ-2
-[   55.661073] renesas-gbeth 15c30000.ethernet eth0: Register
-MEM_TYPE_PAGE_POOL RxQ-3
-[   55.732087] renesas-gbeth 15c30000.ethernet eth0: PHY [stmmac-0:00]
-driver [Microchip KSZ9131 Gigabit PHY] (irq=3DPOLL)
-[   55.754612] dwmac4: Master AXI performs fixed burst length
-[   55.760143] renesas-gbeth 15c30000.ethernet eth0: No Safety
-Features support found
-[   55.767740] renesas-gbeth 15c30000.ethernet eth0: IEEE 1588-2008
-Advanced Timestamp supported
-[   55.776705] renesas-gbeth 15c30000.ethernet eth0: registered PTP clock
-[   55.783333] renesas-gbeth 15c30000.ethernet eth0: configuring for
-phy/rgmii-id link mode
-root@rzv2h-evk-alpha:~#
-root@rzv2h-evk-alpha:~# [   58.855844] renesas-gbeth 15c30000.ethernet
-eth0: tx_clk_stop=3D1
-[   58.861989] renesas-gbeth 15c30000.ethernet eth0: Link is Up -
-1Gbps/Full - flow control rx/tx
-
-root@rzv2h-evk-alpha:~#
-root@rzv2h-evk-alpha:~#
-
-Logs with STMMAC_FLAG_RX_CLK_RUNS_IN_LPI flag set:
---------------------------------------------------------------
-root@rzv2h-evk-alpha:~# ip li set dev eth1 down
-[   30.053790] renesas-gbeth 15c40000.ethernet eth1: Link is Down
-root@rzv2h-evk-alpha:~# ip li set dev eth0 down
-[   35.366935] renesas-gbeth 15c30000.ethernet eth0: Link is Down
-root@rzv2h-evk-alpha:~# ip li set dev eth1 up
-[   40.448563] renesas-gbeth 15c40000.ethernet eth1: Register
-MEM_TYPE_PAGE_POOL RxQ-0
-[   40.456725] renesas-gbeth 15c40000.ethernet eth1: Register
-MEM_TYPE_PAGE_POOL RxQ-1
-[   40.464893] renesas-gbeth 15c40000.ethernet eth1: Register
-MEM_TYPE_PAGE_POOL RxQ-2
-[   40.472840] renesas-gbeth 15c40000.ethernet eth1: Register
-MEM_TYPE_PAGE_POOL RxQ-3
-[   40.543895] renesas-gbeth 15c40000.ethernet eth1: PHY [stmmac-1:00]
-driver [Microchip KSZ9131 Gigabit PHY] (irq=3DPOLL)
-[   40.566419] dwmac4: Master AXI performs fixed burst length
-[   40.571949] renesas-gbeth 15c40000.ethernet eth1: No Safety
-Features support found
-[   40.579550] renesas-gbeth 15c40000.ethernet eth1: IEEE 1588-2008
-Advanced Timestamp supported
-[   40.588505] renesas-gbeth 15c40000.ethernet eth1: registered PTP clock
-[   40.595135] renesas-gbeth 15c40000.ethernet eth1: configuring for
-phy/rgmii-id link mode
-root@rzv2h-evk-alpha:~#
-root@rzv2h-evk-alpha:~# [   43.687551] renesas-gbeth 15c40000.ethernet
-eth1: Link is Up - 1Gbps/Full - flow control off
-
-root@rzv2h-evk-alpha:~# ip li set dev eth0 up
-[   49.644479] renesas-gbeth 15c30000.ethernet eth0: Register
-MEM_TYPE_PAGE_POOL RxQ-0
-[   49.652719] renesas-gbeth 15c30000.ethernet eth0: Register
-MEM_TYPE_PAGE_POOL RxQ-1
-[   49.660681] renesas-gbeth 15c30000.ethernet eth0: Register
-MEM_TYPE_PAGE_POOL RxQ-2
-[   49.669059] renesas-gbeth 15c30000.ethernet eth0: Register
-MEM_TYPE_PAGE_POOL RxQ-3
-[   49.740011] renesas-gbeth 15c30000.ethernet eth0: PHY [stmmac-0:00]
-driver [Microchip KSZ9131 Gigabit PHY] (irq=3DPOLL)
-[   49.762518] dwmac4: Master AXI performs fixed burst length
-[   49.768057] renesas-gbeth 15c30000.ethernet eth0: No Safety
-Features support found
-[   49.775655] renesas-gbeth 15c30000.ethernet eth0: IEEE 1588-2008
-Advanced Timestamp supported
-[   49.784609] renesas-gbeth 15c30000.ethernet eth0: registered PTP clock
-[   49.791236] renesas-gbeth 15c30000.ethernet eth0: configuring for
-phy/rgmii-id link mode
-root@rzv2h-evk-alpha:~#
-root@rzv2h-evk-alpha:~# [   52.871635] renesas-gbeth 15c30000.ethernet
-eth0: tx_clk_stop=3D1
-[   52.877777] renesas-gbeth 15c30000.ethernet eth0: Link is Up -
-1Gbps/Full - flow control rx/tx
-
+Sure will do that.
 
 Cheers,
 Prabhakar
