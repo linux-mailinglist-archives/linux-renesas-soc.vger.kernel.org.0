@@ -1,156 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-13882-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68CA4A4B51A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Mar 2025 23:03:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA96A4B85E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Mar 2025 08:33:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F27B83AFF67
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Mar 2025 22:03:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C657E18917B1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Mar 2025 07:33:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B74061EB9EF;
-	Sun,  2 Mar 2025 22:03:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A8491E5B76;
+	Mon,  3 Mar 2025 07:33:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Td5DlzlA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ho51QRC6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278822AE96;
-	Sun,  2 Mar 2025 22:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1B81EA7C0;
+	Mon,  3 Mar 2025 07:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740953028; cv=none; b=mMDSNO5NsDkQ/FCU/Bof1K5YpFO8HQGGEj459cLkIpgl1PBEHZPDKBUqWNuZZQKM/UGo0n9XnepLxOsddF5V5QZm9S/rLLOUn/s/ObCnzYCQVy5f7/km3mu5iVJdHZoqNN2Tx8yE1d5JanfR5Q42Hi9HLHlDmY05qJGdDLqXlME=
+	t=1740987193; cv=none; b=WD841827eWgK7swmCiLcvSn0slQRx8OOJULEZWHja5/9NtojBShyA/o6w1rwzK2xOy0ZLOPd2LhDXKDuXKzXqlVgByVqjnvZrAGiMRGfNH0wvrGlFiEOaGYwPbCMzgwykLRtx5mcgCjbUdccjfJJESp6O7XgB40Y2OGcwSC28ME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740953028; c=relaxed/simple;
-	bh=jZSWQtT1MoRNWumuCtYcb5b9s57EYgTMeTTtZs7awTE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZSyxer/Tg/3syyy+J4kImtoVUO87qgnVcQQtGlLUt8GGhELUw+D4J07Ab618lBJbqgrlyX4JEDckPX4YznK24XHXsSN2DZLehfWwV/XTap9psQGldgCEQa8VhsmULdkZo2y/zFl4UEuk44KXfkQwcza3UNqtTA0hZT+J2LvjBBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Td5DlzlA; arc=none smtp.client-ip=209.85.221.176
+	s=arc-20240116; t=1740987193; c=relaxed/simple;
+	bh=5eF7GEXxzpWu4yOg9pvtBatpJVXLkGtCFTy/RS33fx0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cX2ah5eks7PZ+DUXY9m4htQOmUtGrUTiFyJqf1VviWTkpFBVBPwi4qPVtK0v5lpQpGArHQuWxF5H6mBztw1b5DveQqWt9zUKjBm2+oYTX8VGGri0Ig5D5YaFn7b0xDKMbOWTYm/kUiRhLqrRvCyAWzYRFak6F0eFCz48P6YLJmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ho51QRC6; arc=none smtp.client-ip=209.85.208.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-523909ec175so134961e0c.0;
-        Sun, 02 Mar 2025 14:03:46 -0800 (PST)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30930b0b420so34255601fa.2;
+        Sun, 02 Mar 2025 23:33:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740953026; x=1741557826; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8rBYV72AXHGlxFfj7JTW/kVWLVkCEZCZeGHRRY9RxD0=;
-        b=Td5DlzlAJbnPo5l9WRVX7sZotxkxsJjawpKZL6WF4SMX5NLHIHkkoz1sAggDJq0Fw7
-         zIBWupCFJJbTq58gxEe4IO9VH5eM2V5PAeG9JXdXVTzOrU+drHY88lle66wQlq7AeRrk
-         qXtAe/QJHjh3q/vgY9aoFRo4ezb9sotLCE+xfAvuLcjrdFnhfQP3ku2E09cx5gf6Ow9u
-         5RylRBG6Y8I46hg4RofHywrSmVJNcd56J+SG4PsKY4gC8p6O375g0CxRbkXOx5GDqYuV
-         u+BohvTou3BTMbdoI9zGX9+gTCRL++tkgp2+As3KZc3IRgkrrmJC4QS0Sj6FW8zioanR
-         OqtA==
+        d=gmail.com; s=20230601; t=1740987189; x=1741591989; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZrfT43/ChI686f8asUl/9QZweWrcr9+CbhtUfhxyfBk=;
+        b=ho51QRC6OPKJ9x64toi81G2RUATlCM936OnIsg6d90HVpztMxGripzSodRgLYBfpfe
+         4VFvqxGWn1KNeGxE18c6FL4QNUiIUqSkaCe2I6j5mniOab/FsSn2bJLwyyNzSF++NhB2
+         GAeriIojcgYWidiVaqpdlRQdSJOcJ5MbSUR/swPTZOJhUiyBuUzloxH/ZeLfr1P4kn8o
+         xmbzVW52NlqJXDh/ny2Mvm+fZP9rVK8ZX1wm5M3V7sc2k++5GF2Vr8RXG9wcA2N1uEWh
+         XbHBZhn5mljV4Rt4NbqWlPyCVEBcNgo5pePSGSy3bPxL5VNw2VS/OhRE2AXMeWwJBveO
+         zGZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740953026; x=1741557826;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8rBYV72AXHGlxFfj7JTW/kVWLVkCEZCZeGHRRY9RxD0=;
-        b=dYr6D7vDR/UnJPXk4TyAKkvs67tDasN+OND7lZXtHjOZp1GVmKkMtSalYkQoLkhA8v
-         JoCAraCy08sO4OtFwgXmOdoMQ+0DKrQ0uZ2fIeSwW+eop39awa0swwXbgXtwsAuC5pDs
-         LXeIxT5jZMlC+yBsFCETKHauGlysZjubfOxDTU2yEDLLPYsC9lGjg2KJAP300Cj5WLB0
-         C53UnL3NomcKUfKMywqtKwfEX5KESiYJStHfFHzcwtxYo8kKaQv/JJb99gk18VRZQIgL
-         QXdBkreEPZCRMeZQ8Xa1+Wp5P0h36jIfpl5Tqpjzbq4qRcx6miIn88RC6Xssq8uB8ZCV
-         CXgg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9RIBXU89CvnhVx0Lgnr7atVzJKkCdPsGcFQPOsldu+WaF3q4Xxyrw707PzOzhAK1Rp+rZlHOMA1fa@vger.kernel.org, AJvYcCWYhxZulV/ON0rYg/PYkcx8bk+DJYSxCPwUb9r0V8iepq3xU27sXziccjLVK/lLTgNFFRK7LC2H@vger.kernel.org, AJvYcCWfh7rH12laHaotIXxpV212LpUNsK9pIMVl5LVYh3licdfuewpcaFdjUoWeYGu7Nvc6/DXxzz6sI6UafQCBuRTVJHI=@vger.kernel.org, AJvYcCXdGFL5pwFlEVXtwO9J5Kga8vZdRDX5D/yWwP7TjdNIkecWUFqCA+Z/wz6+TEsxcpZaIvp1UDh3WZ/Ldr1s@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywx/eGXCs4pcRKbWFmOzci8gti12E+30TtNbLLxtsYpVlHdTpAr
-	cDi5yKL8yJbyOKOpBEmQXaGQHsrd8PDNC/7a/fWzo+/zz2Ou8LTZXL90UvnQmOThZL1alHqnHds
-	4YVulY+u3x4LFV7ZTW/a2agXPdak=
-X-Gm-Gg: ASbGncsrEE0uqBPCZ/DFZJi8utKuT0HOxFiLPMOWgsvK7o0vPK/V/J3lIk9ADs6ajaE
-	sfQxA4Rrmzc+S2UtqOPj06f1wAzCFqA3GofhTadDdxi/85lS0nOHR+H46pElyzpjBE92l75NSrC
-	VcGHceKBuMNn9pcWYdGoAv/Cd1Qw==
-X-Google-Smtp-Source: AGHT+IH3UJrdA3i/Xvxm3LE77AjR0LEEM62ZR0frZhH2KAS0toglW6edmZbgKkcRvi1ggqaXXw7R+RbANl0jewTEKpA=
-X-Received: by 2002:a05:6122:21a1:b0:516:240b:58ff with SMTP id
- 71dfb90a1353d-5235b855371mr6600043e0c.5.1740953025964; Sun, 02 Mar 2025
- 14:03:45 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740987189; x=1741591989;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZrfT43/ChI686f8asUl/9QZweWrcr9+CbhtUfhxyfBk=;
+        b=VkCBPu6qDp8pK5yjTRuqyKTA4xOycQKoIUC8+P6GQqfxE38+S2Nnfmh+r+91wwTH3u
+         IT7IK/W6OodZAlttN+Dv/XEdTDdXefwJVlPKWUrHMwNfJTtAs3X4IbvbDlHQBSj04VJk
+         dQsy6qf1xYb2vXAxAProGYZjGRs0v8EOXdRUGC5X36K4t+nEH2VoPgZjBm+hYFmVtpM0
+         rDO4+mocapIjuTvX0PlQ2hE8rLabzhOx7TZMosDsaNnjYDSt2WVtnaW2rUqSR6kCQZ72
+         /V21K0YZBrQSnGAW2ulTm1g6XXD1S7l+3t7s7aUKNBUaMNCjmrvA+FF/gVWxuZrBOu0z
+         GX/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWdVjxCWTKrXcajx+ZnsG7UFKTwpBCqg5cpezOXjwX7x9YaULlQo6C5D29pLZIWyXOURooOtpt+dqb5Sp5L@vger.kernel.org, AJvYcCWfg8mea8W93IQkkYdu/kEOhRSMeW5CIp7yqpZRfO/VUMmktYxbEKKm/Wmyzdfvkcyfnj3onzvRjN1vPbko3XgHMAw=@vger.kernel.org, AJvYcCX2ezrCP4wPBgo16Zy1AYuXHiyJIEjX4pQQvT5yKKRslanNgFnNFosy5SvgVaZBg/kWIESuJffhFku4jQ==@vger.kernel.org, AJvYcCXi0dgqld08r9XeYzRgThyn1jWnCB3mtFO8IWq7ReSzkULwvoAqhCcMMBZHvHrg0O6uRW1Zy60XfObg@vger.kernel.org, AJvYcCXyE4bbDAsyK/qphGvzJmG8olFZyperlypvGf1ZpeNnf0uigvd2YLwxBygNf53uwr7uTFPsns/F60xi@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7ZDNMM92kKzSamDJAyNjvLulNnoIslp1fsEEI6s1hUClZ4Hdx
+	dD+fGTDxCQrlpVxT9qeX/nah48tZLJ1p/OoACBpwBiBiTBB+YujP
+X-Gm-Gg: ASbGnct9JZj1gcspvn009+izO+oHIQVK5x1LQ1tkkw5VV3c2kMpOgwIDtwNN88Ex5b/
+	3HTEGqrjiov4/KSOgA3Mban4+mZDpGAWFwH3aIILr1bqW5E0+yH1lCN0sXSy8BDB/Bbca/8qEM4
+	XXjDOMo92+MJE085JSyIJTXsBHQIcSoTqQ0P2De4nCTaMOilv95ct3Yy7ZoThDCrAhdSxcExGCa
+	DVN7ZSRloJOnMz1IRtzf7SyTgMHSsMnm2vsgp1Gvl++MuXhdT3kQCRM45mcNWwsRTcgu6MTy1Gc
+	2pfDKZYo7RpC+9ffdBJZqmisvsG/gXGh8h4o885O25Tgzw5JZNsRdaJey78NnqlPQrEq/z7EBxv
+	OsatlN1DkBq6Hpa6phH8nxOyVYg==
+X-Google-Smtp-Source: AGHT+IFYoPik8tqIuOOXAJZxxEM4FjnMpyrSDbqpvuiBUw+N4rWidoyXw4/acgqr1fgBuicookECFg==
+X-Received: by 2002:a05:6512:693:b0:545:b28:2fa9 with SMTP id 2adb3069b0e04-5494c122af7mr5686831e87.16.1740987189050;
+        Sun, 02 Mar 2025 23:33:09 -0800 (PST)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5495a7d6a2csm602975e87.227.2025.03.02.23.33.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Mar 2025 23:33:07 -0800 (PST)
+Message-ID: <ce2c1a21-f418-4ed9-9cd3-fe2a68f08c31@gmail.com>
+Date: Mon, 3 Mar 2025 09:33:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250302181808.728734-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <c5a75f20-9b61-448e-941b-1106cd06ea04@lunn.ch> <CA+V-a8sCMn+v5y5v9CyyV2VsRmLj-Uyowt61tTS9dWN43CD0_A@mail.gmail.com>
- <Z8THE2hpybzP74bH@shell.armlinux.org.uk> <CA+V-a8up3Kv08sNarvC3gWLRpik3=_aKb3JCTGkxyGYMcj4Wbg@mail.gmail.com>
- <86f41f06-d544-42f5-b2c0-6c4a76ad9eac@lunn.ch> <CA+V-a8tjOmn4BAamr6BrniTiyMxNYMCRrnZaqzEs_Xr=359Rvg@mail.gmail.com>
- <Z8TSgxLqNwZ6zc3V@shell.armlinux.org.uk> <Z8TS+CsLa/uF36Xv@shell.armlinux.org.uk>
-In-Reply-To: <Z8TS+CsLa/uF36Xv@shell.armlinux.org.uk>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Sun, 2 Mar 2025 22:03:20 +0000
-X-Gm-Features: AQ5f1JpkvC5pXHw3RqCBlSNswegbmIqYSMa12ZfJW-aj1djGEZXEKNRaU64l9-8
-Message-ID: <CA+V-a8v9SUur1c7357oWW2kgpLXSvCq3KLk5RgLXbUxBMxMAEg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: net: Document GBETH bindings for Renesas
- RZ/V2H(P) SoC
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Andrew Lunn <andrew@lunn.ch>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 06/10] iio: adc: ti-ads7924 Drop unnecessary function
+ parameters
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
+ David Lechner <dlechner@baylibre.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Dumitru Ceclan <mitrutzceclan@gmail.com>,
+ Trevor Gamblin <tgamblin@baylibre.com>,
+ Matteo Martelli <matteomartelli3@gmail.com>,
+ Alisa-Dariana Roman <alisadariana@gmail.com>,
+ Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <cover.1740421248.git.mazziesaccount@gmail.com>
+ <38d39befcca110132fd4349c87fcb5d7ff51a2c8.1740421248.git.mazziesaccount@gmail.com>
+ <20250302034649.2d9ec2a4@jic23-huawei>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20250302034649.2d9ec2a4@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Mar 2, 2025 at 9:51=E2=80=AFPM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
->
-> On Sun, Mar 02, 2025 at 09:49:55PM +0000, Russell King (Oracle) wrote:
-> > On Sun, Mar 02, 2025 at 09:43:47PM +0000, Lad, Prabhakar wrote:
-> > > On Sun, Mar 2, 2025 at 9:39=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> w=
-rote:
-> > > > > > Your SoC designer really implemented the 0=C2=B0 and 180=C2=B0 =
-as two separate
-> > > > > > independently controllable clocks?
-> > > > > >
-> > > > > Yes there are separate bits to turn ON/OFF the 0=C2=B0 and 180=C2=
-=B0 clocks.
-> > > >
-> > > > Do you know what the clock tree actually looks like? I can think of
-> > > > two different ways this could be implemented:
-> > > >
-> > > > ----+----------on/off---
-> > > >     |
-> > > >     +----not---on/off---
-> > > >
-> > > > or
-> > > >
-> > > > -------on/off-+------------------
-> > > >               |
-> > > >               +---not---on/off---
-> > > >
-> > > > In the first, the clocks are siblings. In the second there is
-> > > > parent/child relationship.
-> > > >
-> > > It's the first case in this SoC.
-> >
-> > Umm, okay. I'll just pick my jaw up off the floor. :D
-> >
-> > Given that, then yes, go with your existing clock binding, because
-> > that's the most sensible.
-> >
-> > However, what would be useful for future maintenance is to put some
-> > commentry at the top of the new glue file describing this (pictorially)
-> > so that when someone looks at this later we know why it is this way.
-> > It'll be useful information if someone else does the same because then
-> > we can say "hey, we already have a binding for this situation!"
->
-> Additionally, it would probably be useful to include it in the dt
-> binding commit description because that will probably assist the
-> review of that patch.
->
-Sure will do that.
+Hi dee Ho again Jonathan (and all),
 
-Cheers,
-Prabhakar
+On 02/03/2025 05:46, Jonathan Cameron wrote:
+> On Mon, 24 Feb 2025 20:34:01 +0200
+> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+> 
+>> Device pointer is the only variable which is used by the
+>> ads7924_get_channels_config() and which is declared outside this
+>> function. Still, the function gets the iio_device and i2c_client as
+>> parameters. The sole caller of this function (probe) already has the
+>> device pointer which it can directly pass to the function.
+>>
+>> Simplify code by passing the device pointer directly as a parameter
+>> instead of digging it from the iio_device's private data.
+>>
+>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> Looking again at this function it doesn't seem to be doing anything
+> useful at all.  It checks the channel nodes are in range, but
+> does nothing with that data. I'd just drop it entirely.
+> 
+> Ah. I see David suggested the same.
+> 
+> We can't really 'fix' what this was perhaps intended to do now
+> as what it does has become ABI :(
+
+
+I took another look at this.
+The logic in the ads7924 driver (without this patch) is actually:
+
+ads7924_get_channels_config(...)
+{
+	device_for_each_child_node(dev, node) {
+		if (fwnode_property_read_u32(node, "reg", &pval)) ..
+			continue;
+
+		if (channel >= ADS7924_CHANNELS)
+			continue;
+
+		num_channels++;
+	}
+
+if (!num_channels)
+	return -EINVAL;
+}
+
+...
+
+ads7924_probe()
+{
+	ret = ads7924_get_channels_config(...);
+	if (ret < 0)
+		return dev_err_probe(...);
+}
+
+So, it still returns an error, if no channels with valid 'reg' property 
+were found from the DT. It will also fail the probe().
+
+Thus, this change is not quite as likely to cause things to break as it 
+seemed. Still, for now anything with even single valid 'channel' has 
+been Ok, even if all the rest were garbage. This new variant would fail 
+if any of the 'channel' nodes contained no or bad 'reg'. Thus this can 
+still break things.
+
+Anyways, I'll follow your suggestion and drop this patch (unless you 
+have second thoughts) - but I will keep the function so it still 
+requires at least 1 valid channel node to be found.
+
+Yours,
+	-- Matti
+
 
