@@ -1,137 +1,284 @@
-Return-Path: <linux-renesas-soc+bounces-13894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13895-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311D0A4BD6E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Mar 2025 12:07:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E35EBA4BE47
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Mar 2025 12:24:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1D2C1896C9A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Mar 2025 11:05:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 847FE1887625
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Mar 2025 11:21:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE2421F37C3;
-	Mon,  3 Mar 2025 11:04:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED0F01F30DE;
+	Mon,  3 Mar 2025 11:19:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="jlXphypx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C32781F0E28;
-	Mon,  3 Mar 2025 11:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1E01F17E5;
+	Mon,  3 Mar 2025 11:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740999893; cv=none; b=gnPAN5Dc+GoQvEWIloUEjOjYjHih87/tU/HskZtnWI6CpaXJP6C31hDtZupWZoS2cV4rna3WyihFMSCmgwwfr6D4EgojBpHFeqNJ44w80i9W+wqppHooy4I6GO2iwdjf6ABnCtRe16dYzJ4evK3HxJckTjhDziMYcWVzA9F408U=
+	t=1741000766; cv=none; b=RGWwP3Ij0rioSuylauBfWLN5R7bc03bHOHrHRYeF1NP2kF+gxDv+INEGmIAiCR3rGEfG8JEcQShA65oCXDPEyUoyBawkVcA/4nQaedJXMTOhXfjyHjqdNIKuxXO8K9ADbPE5gRhzvSNQp3fHE0CBkm02MmuhKxPLVZVvKHfzse4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740999893; c=relaxed/simple;
-	bh=yR+YKysROohEErlYC99ff2Gs7mo6f9I6da75QvNX/24=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KoqTmCv0ezDXculPkjnVxMVlvKlz2hF7UYm2JDL6ltAAqhaQgm/9zadxL490cH83SN7GyHXQ9Xlb3kepDHk6bh2dcXP1bCZ+8ocYP/VHv5W7jiQ0qo4YM7fAOWgyGO4voOqFKPGQD5ztb/IN6lwhzXEsK9bi6U3tLcfTt1/Zxps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: +KgX7OR3QaWgGVwbigCV5w==
-X-CSE-MsgGUID: IgNT63C+SDuEGBDk/ac2Mw==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Mar 2025 20:04:51 +0900
-Received: from localhost.localdomain (unknown [10.226.92.114])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 18564400C742;
-	Mon,  3 Mar 2025 20:04:48 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 4/4] clk: renesas: r9a09g047: Add XSPI clock/reset
-Date: Mon,  3 Mar 2025 11:04:22 +0000
-Message-ID: <20250303110433.76576-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250303110433.76576-1-biju.das.jz@bp.renesas.com>
-References: <20250303110433.76576-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1741000766; c=relaxed/simple;
+	bh=wY1JDGsr4w7EVb29Z+PN4ZWHoWt/+wmUL/8nCGk4qnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YI8wGG4oyTJyhQS4mnmU2/Dlcdle5q+tKZdAfpZmTeSzBDPzmvJCIl0sCp1Zk12Rp8wg4UCdlafIMN9TJDU/1SpFTkeW6s9NKbCVmbUjwpamISMdEBhciED6C4Wq4w9fBLKJ9KEq9YUZpHBMfyMNUhSQV7fy1RFjvzNNzm5TBfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=jlXphypx; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=pNmUy0/SbO1mJMTByohCme5W5UOaVrI5mCX9RycYTCY=; b=jlXphypx+tFIa7QN6nmZyOHchy
+	mAL4FzNXqAx7NBd4kdGVHZF7nbcDi/32cz13sz0Fj9y1/1JM/3A/Y76+s7kFKn3mGfijIUupTU74Q
+	7zeNEGxo0ivgglhHYr/u2LibpbTUcHkmikL6bkI8o7tdVXrpmDkjuz1Lax0XLLmeKI/E9XRS1ZUdj
+	/Ci1QrCRh5Qp2rL6TItEj0fLU0FtSgMv/HXPfEGd4/bdsg2+c0e9GA24LNjWfF4v0YxAyyfBNvjOM
+	Dht70pkuWXppULK3LhsHptnbWfEkJtUnlAkcrbjK9tZ0DEhiNEovwD25XXFPRxUWevS3WVcgAbYUN
+	EEBdOUqQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:38926)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1tp3pC-0000Ky-2H;
+	Mon, 03 Mar 2025 11:19:06 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1tp3p7-0003kl-2o;
+	Mon, 03 Mar 2025 11:19:01 +0000
+Date: Mon, 3 Mar 2025 11:19:01 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 3/3] net: stmmac: Add DWMAC glue layer for Renesas GBETH
+Message-ID: <Z8WQJQo5kW9QV-wV@shell.armlinux.org.uk>
+References: <20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250302181808.728734-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Z8SydsdDsZfdrdbE@shell.armlinux.org.uk>
+ <CA+V-a8vCB7nP=tsv4UkOwODSs-9hiG-PxN6cpihfvwjq2itAHg@mail.gmail.com>
+ <Z8TRQX2eaNzXOzV0@shell.armlinux.org.uk>
+ <CA+V-a8vykhxqP30iTwN6yrqDgT8YRVE_MadjiTFp653rHVqMNg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+V-a8vykhxqP30iTwN6yrqDgT8YRVE_MadjiTFp653rHVqMNg@mail.gmail.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Add XSPI clock and reset entries.
+On Sun, Mar 02, 2025 at 10:02:15PM +0000, Lad, Prabhakar wrote:
+> Hi Russell,
+> 
+> On Sun, Mar 2, 2025 at 9:44 PM Russell King (Oracle)
+> <linux@armlinux.org.uk> wrote:
+> >
+> > On Sun, Mar 02, 2025 at 09:20:49PM +0000, Lad, Prabhakar wrote:
+> > > Hi Russell,
+> > > > What is the reason for setting this flag? If it's because of suspend/
+> > > > resume failures, does my "net: stmmac: fix resume failures due to
+> > > > RX clock" series solve this for you without requiring this flag?
+> > > >
+> > > Ive set this flag based on the configuration supported by this IP.
+> > > Unfortunately the platform which I am working on doesn't support s2r
+> > > yet so I cannot test suspend/resume path yet. But I do see an issue
+> > > when I unload and load just the glue module the DMA reset fails.
+> >
+> > Thanks for that feedback - that's a scenario I hadn't considered.
+> >
+> > I was trying to avoid having to disable LPI RX clock-stop on suspend by
+> > ensuring that it was enabled at resume time. I think that's valid, but
+> > you've brought up another similar scenario:
+> >
+> > - device is brought up, configures RX clock stop
+> > - links with media, negotiates EEE
+> > - driver is unloaded, link doesn't go down, but due to no traffic goes
+> >   into idle, so RX clock is stopped
+> > - driver reloaded, RX clock still stopped, reset fails
+> >
+> > I would like to solve that so we can get the power savings from
+> > stopping the clock, but still have reset work when necessary.
+> >
+> I would be happy to test the patches ;)
+> 
+> > I'm guessing that the "DMA reset fails" refers to this path:
+> >
+> > stmmac_open() -> __stmmac_open() -> stmmac_hw_setup() ->
+> > stmmac_init_dma_engine() -> stmmac_reset() ?
+> >
+> Yes.
+> 
+> > In other words, when the device is being brought back up
+> > adminsitratively?
+> >
+> > What happens if you (replace $if):
+> >
+> > # ip li set dev $if down
+> > # ip li set dev $if up
+> >
+> > Does that also fail without STMMAC_FLAG_RX_CLK_RUNS_IN_LPI set?
+> >
+> Logs without STMMAC_FLAG_RX_CLK_RUNS_IN_LPI flag set:
+> --------------------------------------------------------------
+> root@rzv2h-evk-alpha:~# ip li set dev eth1 down
+> [   33.606549] renesas-gbeth 15c40000.ethernet eth1: Link is Down
+> root@rzv2h-evk-alpha:~#
+> root@rzv2h-evk-alpha:~# ip li set dev eth0 down
+> [   37.356992] renesas-gbeth 15c30000.ethernet eth0: Link is Down
+> root@rzv2h-evk-alpha:~#
+> root@rzv2h-evk-alpha:~# ip li set dev eth1 up
+> [   43.974803] renesas-gbeth 15c40000.ethernet eth1: Register
+> MEM_TYPE_PAGE_POOL RxQ-0
+> [   43.983189] renesas-gbeth 15c40000.ethernet eth1: Register
+> MEM_TYPE_PAGE_POOL RxQ-1
+> [   43.991155] renesas-gbeth 15c40000.ethernet eth1: Register
+> MEM_TYPE_PAGE_POOL RxQ-2
+> [   43.999128] renesas-gbeth 15c40000.ethernet eth1: Register
+> MEM_TYPE_PAGE_POOL RxQ-3
+> [   44.072079] renesas-gbeth 15c40000.ethernet eth1: PHY [stmmac-1:00]
+> driver [Microchip KSZ9131 Gigabit PHY] (irq=POLL)
+> [   44.094605] dwmac4: Master AXI performs fixed burst length
+> [   44.100138] renesas-gbeth 15c40000.ethernet eth1: No Safety
+> Features support found
+> [   44.107748] renesas-gbeth 15c40000.ethernet eth1: IEEE 1588-2008
+> Advanced Timestamp supported
+> [   44.116725] renesas-gbeth 15c40000.ethernet eth1: registered PTP clock
+> [   44.123352] renesas-gbeth 15c40000.ethernet eth1: configuring for
+> phy/rgmii-id link mode
+> root@rzv2h-evk-alpha:~#
+> root@rzv2h-evk-alpha:~# ip li set dev eth1[   47.207761] renesas-gbeth
+> 15c40000.ethernet eth1: Link is Up - 1Gbps/Full - flow control off
+> ^C
+> root@rzv2h-evk-alpha:~# ^C
+> root@rzv2h-evk-alpha:~# ip li set dev eth0 up
+> [   55.636722] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-0
+> [   55.645139] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-1
+> [   55.653111] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-2
+> [   55.661073] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-3
+> [   55.732087] renesas-gbeth 15c30000.ethernet eth0: PHY [stmmac-0:00]
+> driver [Microchip KSZ9131 Gigabit PHY] (irq=POLL)
+> [   55.754612] dwmac4: Master AXI performs fixed burst length
+> [   55.760143] renesas-gbeth 15c30000.ethernet eth0: No Safety
+> Features support found
+> [   55.767740] renesas-gbeth 15c30000.ethernet eth0: IEEE 1588-2008
+> Advanced Timestamp supported
+> [   55.776705] renesas-gbeth 15c30000.ethernet eth0: registered PTP clock
+> [   55.783333] renesas-gbeth 15c30000.ethernet eth0: configuring for
+> phy/rgmii-id link mode
+> root@rzv2h-evk-alpha:~#
+> root@rzv2h-evk-alpha:~# [   58.855844] renesas-gbeth 15c30000.ethernet
+> eth0: tx_clk_stop=1
+> [   58.861989] renesas-gbeth 15c30000.ethernet eth0: Link is Up -
+> 1Gbps/Full - flow control rx/tx
+> 
+> root@rzv2h-evk-alpha:~#
+> root@rzv2h-evk-alpha:~#
+> 
+> Logs with STMMAC_FLAG_RX_CLK_RUNS_IN_LPI flag set:
+> --------------------------------------------------------------
+> root@rzv2h-evk-alpha:~# ip li set dev eth1 down
+> [   30.053790] renesas-gbeth 15c40000.ethernet eth1: Link is Down
+> root@rzv2h-evk-alpha:~# ip li set dev eth0 down
+> [   35.366935] renesas-gbeth 15c30000.ethernet eth0: Link is Down
+> root@rzv2h-evk-alpha:~# ip li set dev eth1 up
+> [   40.448563] renesas-gbeth 15c40000.ethernet eth1: Register
+> MEM_TYPE_PAGE_POOL RxQ-0
+> [   40.456725] renesas-gbeth 15c40000.ethernet eth1: Register
+> MEM_TYPE_PAGE_POOL RxQ-1
+> [   40.464893] renesas-gbeth 15c40000.ethernet eth1: Register
+> MEM_TYPE_PAGE_POOL RxQ-2
+> [   40.472840] renesas-gbeth 15c40000.ethernet eth1: Register
+> MEM_TYPE_PAGE_POOL RxQ-3
+> [   40.543895] renesas-gbeth 15c40000.ethernet eth1: PHY [stmmac-1:00]
+> driver [Microchip KSZ9131 Gigabit PHY] (irq=POLL)
+> [   40.566419] dwmac4: Master AXI performs fixed burst length
+> [   40.571949] renesas-gbeth 15c40000.ethernet eth1: No Safety
+> Features support found
+> [   40.579550] renesas-gbeth 15c40000.ethernet eth1: IEEE 1588-2008
+> Advanced Timestamp supported
+> [   40.588505] renesas-gbeth 15c40000.ethernet eth1: registered PTP clock
+> [   40.595135] renesas-gbeth 15c40000.ethernet eth1: configuring for
+> phy/rgmii-id link mode
+> root@rzv2h-evk-alpha:~#
+> root@rzv2h-evk-alpha:~# [   43.687551] renesas-gbeth 15c40000.ethernet
+> eth1: Link is Up - 1Gbps/Full - flow control off
+> 
+> root@rzv2h-evk-alpha:~# ip li set dev eth0 up
+> [   49.644479] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-0
+> [   49.652719] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-1
+> [   49.660681] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-2
+> [   49.669059] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-3
+> [   49.740011] renesas-gbeth 15c30000.ethernet eth0: PHY [stmmac-0:00]
+> driver [Microchip KSZ9131 Gigabit PHY] (irq=POLL)
+> [   49.762518] dwmac4: Master AXI performs fixed burst length
+> [   49.768057] renesas-gbeth 15c30000.ethernet eth0: No Safety
+> Features support found
+> [   49.775655] renesas-gbeth 15c30000.ethernet eth0: IEEE 1588-2008
+> Advanced Timestamp supported
+> [   49.784609] renesas-gbeth 15c30000.ethernet eth0: registered PTP clock
+> [   49.791236] renesas-gbeth 15c30000.ethernet eth0: configuring for
+> phy/rgmii-id link mode
+> root@rzv2h-evk-alpha:~#
+> root@rzv2h-evk-alpha:~# [   52.871635] renesas-gbeth 15c30000.ethernet
+> eth0: tx_clk_stop=1
+> [   52.877777] renesas-gbeth 15c30000.ethernet eth0: Link is Up -
+> 1Gbps/Full - flow control rx/tx
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/clk/renesas/r9a09g047-cpg.c | 15 +++++++++++++++
- drivers/clk/renesas/rzv2h-cpg.h     |  1 +
- 2 files changed, 16 insertions(+)
+I would like to get to the bottom of why this fails for module removal/
+insertion, but not for admistratively down/upping the interface.
 
-diff --git a/drivers/clk/renesas/r9a09g047-cpg.c b/drivers/clk/renesas/r9a09g047-cpg.c
-index 05d8ccc81157..438077b13198 100644
---- a/drivers/clk/renesas/r9a09g047-cpg.c
-+++ b/drivers/clk/renesas/r9a09g047-cpg.c
-@@ -35,9 +35,11 @@ enum clk_ids {
- 	CLK_PLLCM33_DIV4,
- 	CLK_PLLCM33_DIV5,
- 	CLK_PLLCM33_DIV16,
-+	CLK_PLLCM33_GEAR,
- 	CLK_SMUX2_XSPI_CLK0,
- 	CLK_SMUX2_XSPI_CLK1,
- 	CLK_PLLCM33_XSPI,
-+	CLK_PLLCM33_XSPI_DIV2,
- 	CLK_PLLCLN_DIV2,
- 	CLK_PLLCLN_DIV8,
- 	CLK_PLLCLN_DIV16,
-@@ -106,10 +108,13 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
- 	DEF_FIXED(".pllcm33_div5", CLK_PLLCM33_DIV5, CLK_PLLCM33, 1, 5),
- 	DEF_FIXED(".pllcm33_div16", CLK_PLLCM33_DIV16, CLK_PLLCM33, 1, 16),
- 
-+	DEF_DDIV(".pllcm33_gear", CLK_PLLCM33_GEAR, CLK_PLLCM33_DIV4, CDDIV0_DIVCTL1, dtable_2_64),
-+
- 	DEF_SMUX(".smux2_xspi_clk0", CLK_SMUX2_XSPI_CLK0, SSEL1_SELCTL2, smux2_xspi_clk0),
- 	DEF_SMUX(".smux2_xspi_clk1", CLK_SMUX2_XSPI_CLK1, SSEL1_SELCTL3, smux2_xspi_clk1),
- 	DEF_SDIV(".pllcm33_xspi", CLK_PLLCM33_XSPI, CLK_SMUX2_XSPI_CLK1, CSDIV0_DIVCTL3,
- 		 dtable_2_16),
-+	DEF_FIXED(".pllcm33_xspi_div2", CLK_PLLCM33_XSPI_DIV2, CLK_PLLCM33_XSPI, 1, 2),
- 	DEF_FIXED(".pllcln_div2", CLK_PLLCLN_DIV2, CLK_PLLCLN, 1, 2),
- 	DEF_FIXED(".pllcln_div8", CLK_PLLCLN_DIV8, CLK_PLLCLN, 1, 8),
- 	DEF_FIXED(".pllcln_div16", CLK_PLLCLN_DIV16, CLK_PLLCLN, 1, 16),
-@@ -178,6 +183,14 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
- 						BUS_MSTOP(10, BIT(14))),
- 	DEF_MOD("canfd_0_clkc",			CLK_PLLCLN_DIV20, 9, 14, 4, 30,
- 						BUS_MSTOP(10, BIT(14))),
-+	DEF_MOD("spi_hclk",			CLK_PLLCM33_GEAR, 9, 15, 4, 31,
-+						BUS_MSTOP(4, BIT(5))),
-+	DEF_MOD("spi_aclk",			CLK_PLLCM33_GEAR, 10, 0, 5, 0,
-+						BUS_MSTOP(4, BIT(5))),
-+	DEF_COUPLED("spi_clk_spi",		CLK_PLLCM33_XSPI_DIV2, 10, 1, 5, 1,
-+						BUS_MSTOP(4, BIT(5))),
-+	DEF_COUPLED("spi_clk_spix2",		CLK_PLLCM33_XSPI, 10, 1, 5, 2,
-+						BUS_MSTOP(4, BIT(5))),
- 	DEF_MOD("sdhi_0_imclk",			CLK_PLLCLN_DIV8, 10, 3, 5, 3,
- 						BUS_MSTOP(8, BIT(2))),
- 	DEF_MOD("sdhi_0_imclk2",		CLK_PLLCLN_DIV8, 10, 4, 5, 4,
-@@ -230,6 +243,8 @@ static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
- 	DEF_RST(10, 0, 4, 17),		/* RIIC_8_MRST */
- 	DEF_RST(10, 1, 4, 18),		/* CANFD_0_RSTP_N */
- 	DEF_RST(10, 2, 4, 19),		/* CANFD_0_RSTC_N */
-+	DEF_RST(10, 3, 4, 20),		/* SPI_HRESETN */
-+	DEF_RST(10, 4, 4, 21),		/* SPI_ARESETN */
- 	DEF_RST(10, 7, 4, 24),		/* SDHI_0_IXRST */
- 	DEF_RST(10, 8, 4, 25),		/* SDHI_1_IXRST */
- 	DEF_RST(10, 9, 4, 26),		/* SDHI_2_IXRST */
-diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-index 1f0e67f33cf9..3e95236b3b63 100644
---- a/drivers/clk/renesas/rzv2h-cpg.h
-+++ b/drivers/clk/renesas/rzv2h-cpg.h
-@@ -68,6 +68,7 @@ struct smuxed {
- #define CPG_CDDIV4		(0x410)
- #define CPG_CSDIV0		(0x500)
- 
-+#define CDDIV0_DIVCTL1	DDIV_PACK(CPG_CDDIV0, 4, 3, 1)
- #define CDDIV0_DIVCTL2	DDIV_PACK(CPG_CDDIV0, 8, 3, 2)
- #define CDDIV1_DIVCTL0	DDIV_PACK(CPG_CDDIV1, 0, 2, 4)
- #define CDDIV1_DIVCTL1	DDIV_PACK(CPG_CDDIV1, 4, 2, 5)
+Removal of your module will unregister the netdev, and part of that
+work will bring the netdev administratively down. When re-inserting
+the module, that will trigger various userspace events, and it will
+be userspace bringing the network interface(s) back up. This should
+be no different from administratively down/upping the interface but
+it seems you get different behaviour.
+
+I'd like to understand why that is, because at the moment I'm wondering
+whether my patches that address the suspend/resume need further work
+before I send them - but in order to assess that, I need to work out
+why your issue only seems to occur in the module removal/insertion
+and not down/up as well as I'd expect.
+
+Please could you investigate this?
+
+Thanks.
+
 -- 
-2.43.0
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
