@@ -1,150 +1,239 @@
-Return-Path: <linux-renesas-soc+bounces-13966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13971-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889A3A4E610
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 17:34:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA8DA4E9C0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 18:48:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9A5617A532
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 16:21:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF7B38C1C81
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 17:26:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1981E291FA4;
-	Tue,  4 Mar 2025 16:02:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DC392045A8;
+	Tue,  4 Mar 2025 17:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e23NUqv3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from beeline3.cc.itu.edu.tr (beeline3.cc.itu.edu.tr [160.75.25.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4FE27F4D8
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 17:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=160.75.25.117
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741107654; cv=pass; b=TM7PzsmkbIno0j3WZdJnOJeWYSTiG/20uW21H9tL/ksdgSWN0CGhbwNBNOg8b+qtoskK1k1Y/uU3EvsWCCltQuDzBVWQYC3haHmKu4e2iN0Mb4iX6bO6qCLAjx0x5zzimTPWc27k6rF66bYt+Ni/TIqD7ad7I7d+81gP2Iq8BAI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741107654; c=relaxed/simple;
+	bh=1mp2vKUVmI26A70dQBo01Ou2eZQLjU6l6l5xA0GYKQk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ro1uYfywGJRkHuSNS/j4grwC4mo2Q+F3enIbgSgO0uiifKJblwHiEfGz4bvrNc+8hjTxD6j3ir8xe2z+qXAyyYSe3rFHD5te74SE6HBns6kNYGtiGJGbcH94LdXezGB6HFS2jCTL1EfIHkL7XZvMxwVyebvv3JXO1Riy0w19myo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e23NUqv3; arc=none smtp.client-ip=209.85.221.179; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; arc=pass smtp.client-ip=160.75.25.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr
+Received: from lesvatest1.cc.itu.edu.tr (unknown [10.146.128.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by beeline3.cc.itu.edu.tr (Postfix) with ESMTPS id DADDE40CEC8C
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 20:00:50 +0300 (+03)
+X-Envelope-From: <root@cc.itu.edu.tr>
+Authentication-Results: lesvatest1.cc.itu.edu.tr;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=e23NUqv3
+Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
+	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6h792NLLzG32V
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 19:32:53 +0300 (+03)
+Received: by le1 (Postfix, from userid 0)
+	id 3D6F442765; Tue,  4 Mar 2025 19:32:05 +0300 (+03)
+Authentication-Results: lesva1.cc.itu.edu.tr;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e23NUqv3
+X-Envelope-From: <linux-kernel+bounces-541287-bozkiru=itu.edu.tr@vger.kernel.org>
+Authentication-Results: lesva2.cc.itu.edu.tr;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e23NUqv3
+Received: from fgw2.itu.edu.tr (fgw2.itu.edu.tr [160.75.25.104])
+	by le2 (Postfix) with ESMTP id DAF4742F57
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 12:42:02 +0300 (+03)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by fgw2.itu.edu.tr (Postfix) with SMTP id B39A72DCE3
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 12:42:02 +0300 (+03)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF4FA1892A29
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 09:42:08 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 642A51F151D;
+	Mon,  3 Mar 2025 09:41:45 +0000 (UTC)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8612356C9;
-	Tue,  4 Mar 2025 16:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FF71D63C0;
+	Mon,  3 Mar 2025 09:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741104158; cv=none; b=J0m+u4u8EKXHXMtA1BnUHpUEjz/qrN+0C3mPFHNtGGirI0c0ZihAP2F/EKXEuGQ/8IqzzQqp07blua+VEgjmf4Uty+R6YDHVMLpX7llzy2W96PD5p7bTg1i0q3kbki6bUgeHlVw46bnGshj0GhaTAXg3x8Id4a98lMH62XJCx9A=
+	t=1740994902; cv=none; b=HFEgYudIxrTJ0toGxnjL10716WhNsBUdaa9Zzl5nDA1xzbcxtJ3nfkrJxnFbQ+VUn0fiQeZ0gMSDrYgjntjwk35rEbTPthHfy3mxO76MPp9oGKzkBVW3lbpvbUK+8PFT57be8fgy9CXc7dwx9IJkCbROdajqhxffTSpHphelhKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741104158; c=relaxed/simple;
-	bh=D1LkyfRhE+4q4GnLe1NDgQGmZdZtQaKJPjx44GsJp3Y=;
+	s=arc-20240116; t=1740994902; c=relaxed/simple;
+	bh=1mp2vKUVmI26A70dQBo01Ou2eZQLjU6l6l5xA0GYKQk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fJvIeAWm7K6xid126MiWa5DeyRtPTc0++qzcHCZKOIzYZIkvej5cd1PGko9UcI08N99D7MoLzaf7Y7Ltsek3erw2HphfB+WoW5KjKm3wnxBYtWJyg/ItV1toc9Q5K+Hc5db/GbGFKrZCSnENicZ/fCVLaWJJkzmD0rzb2MY6zfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=D/1tEdHkwAgX6M7YfXtWJ88bTsLlMsWpIhOjOihlnkgvzmJxLOG0VkuYi3GsJDktSerDPn55v9XMggpZbnpMYiRfGvWC7gI5L8ICTgj48YNC5pEzUlPJTPjWm4hxr3n5h7Wl/Q5p50sSg5XLq2LCRn71w+0L6IB2l64wu0CgNYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e23NUqv3; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6e89063f754so43164116d6.0;
-        Tue, 04 Mar 2025 08:02:35 -0800 (PST)
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5209dad13b5so1394227e0c.2;
+        Mon, 03 Mar 2025 01:41:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740994899; x=1741599699; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dvPWkxqEAPTqlH2pKr9aYcT3uHD6wZBraLPueGfEY2M=;
+        b=e23NUqv3PaQdtRqQ66YNwuqoHITzvKHJFR6SBIVoxScFhIs43QHpRpnptIuD9k30OQ
+         wbgsB94PiAgHt/6U8u3aCrVanBwEL19M7ZFAABcgDyQJ04lsp9K3203frC23MGo0ozC8
+         fmxHQzMTvJz9DhYfHgheB3GuQoGIr8LEY7WwrbJ0iN7Ll6O0HzgFqdfLmsWFNRW5SuLR
+         KJZI3tGaRWH445bZwrDeDfr2aSB5A2PteveDD7h4HjQg4oqCZMwBP+5oGktCCNyTdLBA
+         cICF9bYZ6Jm59U1KEKiHQTgit/8GkaTwZ8Ly8P4C4QHaHuEbf/iPOjXPjTu9vXdsZVUx
+         Fmtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741104154; x=1741708954;
+        d=1e100.net; s=20230601; t=1740994899; x=1741599699;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JZedOmGnO/WUt3LVfOx/mchan0b5xgDqWjTw3G7ppsA=;
-        b=nFl/RGq4x2EqnDt/bkXuXfoDn3TzdV+/8JRVy9ysaV39j8gcK2pqex/UMJByVgcWPo
-         1c9pDiKwRvtAn9Mz8Fioa/IvdlhI9AVG6NfCsKeNTfsz4lsRMJBhzuz2kwVlU+S3SAOP
-         +q0tRzO4930ZWvo3/ylaPbhC1pEbdBsctM7YBMHr3JLtIvHH+dzMXNwpT2H07jUzU7Bb
-         YgoUoFygL/ruoWkvCMOwVhu2+HI6hYZF544WZspFGycvoD5424BLYInYvH09Tg3mSsw3
-         LC35QmzqiZMwulq4c+hqVnvZ0xoLNv/hAyctTcfcKuutfRMY8wRODphj1bn9bJXV+FrW
-         wknA==
-X-Forwarded-Encrypted: i=1; AJvYcCVrwVtVhM7EGIXHxxIjSpoaK6p8j5RSdmgmppzMYyrw48KganM3Tuiuke1NL3ZAafTRvh/8rfdqs2wWJTkkXZdPVIg=@vger.kernel.org, AJvYcCVxrS9OCtTNoTjGInRxXt7eZtiKRkL9SBAo6EAASOLgEOMOj+qeeLj2i57p36a2jNlJprv1V5JHgDeh@vger.kernel.org
-X-Gm-Message-State: AOJu0YywlScngRmVagjQpIGOElu4iy2QOGoHLstLjRB/UE+aZjC54M33
-	lqQo/GfV/H0FBthgsfQKNphF1hms3/At8SFwxmET6SQUpmcZ5Atpg0DIsHRx
-X-Gm-Gg: ASbGncs7XQWM+whEFaFO9f0uRR3t/pthlG+TitWBE3wsZwVb91krkAvMfH5NYkA2UXM
-	GbUDsD2CKRrZ0C1pDmQ+mGfOwtPNkjH1g5cAosPdLZILGR7LJe41OqGZLzfGVHBTikRi4vJBue0
-	kj20fobUcc+0FKytJAqzOjb2PiI4A1JG6hW8Wvul97LXcK6vk+3HMuKpCaRnRZQ2WOGTJF9vq1Z
-	Ep1LYYKd09g2cSzhYyEThA6W+eimybogKRUZ6F6GWpkgdYUXNISz2UWICdtoMhhKfrI48XQiDEi
-	g3aC1TwN+E9mCrvAvOGOy7K2gDhMzUTHuphmPNHbGnJszn0jdoXAnL2sdI5LIFmgnTE1oX4qaw5
-	hA8Yhieg=
-X-Google-Smtp-Source: AGHT+IEVfghHHcgsOBIc5SqPmyAwn46QCt/f/oxRUkVbkNCJ6A/vLCePd6vRIbXppp0mO9W1nyQ/+g==
-X-Received: by 2002:ad4:596c:0:b0:6e6:591b:fa62 with SMTP id 6a1803df08f44-6e8a0c87aa2mr265522746d6.5.1741104154472;
-        Tue, 04 Mar 2025 08:02:34 -0800 (PST)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com. [209.85.219.43])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e897634c48sm68373846d6.6.2025.03.04.08.02.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Mar 2025 08:02:34 -0800 (PST)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6e89063f754so43163876d6.0;
-        Tue, 04 Mar 2025 08:02:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX+BcRAOlB0AmAu2jvZPvwU2v5y0iL4lRM0TtCfc9rmHp9Sj3vMf1ikrqC8v2k6QBzY1mjF310sd8rNwJid11gpd1c=@vger.kernel.org, AJvYcCXAwWhf6oM+7ag8Mh8lkrB5mXJEZU4OGIcePB+5HUVPeNDO0uqk5aCVFwV+tqWV/pN2IBscHzGPkaEn@vger.kernel.org
-X-Received: by 2002:ad4:5f87:0:b0:6d8:9cbf:d191 with SMTP id
- 6a1803df08f44-6e8a0ce2c6amr239892866d6.12.1741104153854; Tue, 04 Mar 2025
- 08:02:33 -0800 (PST)
+        bh=dvPWkxqEAPTqlH2pKr9aYcT3uHD6wZBraLPueGfEY2M=;
+        b=j6F+ebVI+yqYpk6cHax8fysfqlFVtC49VZ/xok/0FF866Y3BEb6WGy0xY/2omiWjMc
+         r22P9v3xRtj2QGGiMpey9qIgmeYk+44SkVK9gU0E6kJ1tLOViu0lb6DDkupRWjPyCWQk
+         JCjvqgWrNZ4RQIrTlLlJBAWXkaU9ePGPBWsE151KB/V5jf/w0s3kkVEcmPVQN+FDlxEp
+         O4syBTAMRbBFagxaRkonswzSoCBo2XTPkmNeqgbWX9A0bb3dRDFCMWsKMLkV/JeGRnV7
+         mc3LQ5SOjk+f8iBzI7CGDd3b1f/B3IutOjmoAkHZhIXvc8ZPUP0p0AkUgLPUAYDut0J9
+         M3Vg==
+X-Forwarded-Encrypted: i=1; AJvYcCUQYHFaWUAOgM1lLouuZRSAze+phKtPR2tY2lwANycZ+eaYFXKtFDbwE8wbxdUtamL9ChSjni/IK1jq@vger.kernel.org, AJvYcCV8gj2y+HR2MIPHf46MMVHCuUWMHvpOwD0i1ScaM/4AR759FsrWJMYCT0GXLi0HpwSDnB+WJJVgIEX2tJsyR1K8DE0=@vger.kernel.org, AJvYcCWHsGF+4fYlLLdSmJdGziXmyDTdB8Ot5HXAt5AqUoRze68b1hlbOcFz9yQA1Gr7ZN24w411Dq0/@vger.kernel.org, AJvYcCXw9s2nRc5VkobJKBUon/hQtyoh7KW+VitNh5xXBFvevLZzyWe/5tVnWxo8qjJkWmiJG8iMG72GkGSuxCER@vger.kernel.org
+X-Gm-Message-State: AOJu0YyN+rJeQ+RRJFLSMwzNTO/eFMXdihjsXR/ugruOD8JDmRRMtTLT
+	lUCY464sSFqt+HTC3O0PTwzzwd0K2PnVCYkcJ7JhVbsXPgJAhTnd0y84Mbm9QeSqZHiy0jyE0/S
+	r1VuPrGqWj5j8EbS6I09GycRiSDs=
+X-Gm-Gg: ASbGnctLtOIS8pW4zqk6sqMOXOcEn3frbG1Y9qs602jfcs2KYyKnDg26Ev8h50wpRQr
+	Q/lNeKDxyVBGuSAuzxWsMge39Vt0nb0Lo+AMmj8Czar8DWh/dlE5y8/bUcbVYvp1ZLN0Ix5e2nu
+	+qVr1vXVjyvvRLk/+RnJN+sRteSA==
+X-Google-Smtp-Source: AGHT+IERFURjF0V9F0i1tRz0H80BBN4R7Ys/R93IoEJy+8aSzvVdJt+dIzm4nbyT8QIBFSDwiQIBvXRfbn+jqUG07wE=
+X-Received: by 2002:a05:6122:3a11:b0:516:230b:eec with SMTP id
+ 71dfb90a1353d-5235b76fb2dmr7208938e0c.5.1740994899107; Mon, 03 Mar 2025
+ 01:41:39 -0800 (PST)
+Precedence: bulk
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250121135833.3769310-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdV1ucHtbhWGEjTeCim7zJ0QQo1CDu3DPTeAruAb72q9Kg@mail.gmail.com> <20250122172707.GH3436806@ragnatech.se>
-In-Reply-To: <20250122172707.GH3436806@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Mar 2025 17:02:20 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUQetSZt+MUcOQ+EnCdab9wFdOTK0PgjHc1uS59SpSnnw@mail.gmail.com>
-X-Gm-Features: AQ5f1JpJXH-K3r_7IHZlrBTodNR197PWISicSlglzCNMMARIpTZ4troAjGtzVSY
-Message-ID: <CAMuHMdUQetSZt+MUcOQ+EnCdab9wFdOTK0PgjHc1uS59SpSnnw@mail.gmail.com>
-Subject: Re: [PATCH] gpio: rcar: Use raw_spinlock to protect register access
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+References: <20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250302181808.728734-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Z8SydsdDsZfdrdbE@shell.armlinux.org.uk> <CA+V-a8vCB7nP=tsv4UkOwODSs-9hiG-PxN6cpihfvwjq2itAHg@mail.gmail.com>
+In-Reply-To: <CA+V-a8vCB7nP=tsv4UkOwODSs-9hiG-PxN6cpihfvwjq2itAHg@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 3 Mar 2025 09:41:13 +0000
+X-Gm-Features: AQ5f1Jrg3u1RD4DQIf154BLRkJoky_ylNQJKg3RlaLUEp-AprMu8LUDXet_01JA
+Message-ID: <CA+V-a8un7Oy9NtfDUfs0DSwRVAFn52-vWj1Os=u_1dqijJhbMw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] net: stmmac: Add DWMAC glue layer for Renesas GBETH
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for more information
+X-ITU-Libra-ESVA-ID: 4Z6h792NLLzG32V
+X-ITU-Libra-ESVA: No virus found
+X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
+X-ITU-Libra-ESVA-Watermark: 1741712325.31794@7e5J/p60btX7gqgfe4QOCw
+X-ITU-MailScanner-SpamCheck: not spam
 
-Hi Niklas,
+Hi Russell,
 
-On Wed, 22 Jan 2025 at 18:27, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2025-01-21 15:49:59 +0100, Geert Uytterhoeven wrote:
-> > On Tue, Jan 21, 2025 at 2:59=E2=80=AFPM Niklas S=C3=B6derlund
-> > <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > > Use raw_spinlock in order to fix spurious messages about invalid cont=
-ext
-> > > when spinlock debugging is enabled. The lock is only used to serializ=
-e
-> > > register access.
-> > >
-> > >     [    4.239592] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >     [    4.239595] [ BUG: Invalid wait context ]
-> >
-> > [...]
-> >
-> > >     [    4.426274]  lock_acquire+0x1c4/0x33c
-> > >     [    4.429942]  _raw_spin_lock_irqsave+0x5c/0x80
-> > >     [    4.434307]  gpio_rcar_config_interrupt_input_mode+0x34/0x164
-> > >     [    4.440061]  gpio_rcar_irq_set_type+0xd4/0xd8
-> >
-> > > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnat=
-ech.se>
-> >
-> > Thanks for your patch!
-> > This indeed gets rid of the annoying messages on various R-Car boards.
-> > Unfortunately  I now start seeing other scary messages during resume
-> > from s2idle/s2ram.
+On Sun, Mar 2, 2025 at 9:20=E2=80=AFPM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
 >
-> I think this might be symtom of issues in those drivers too. As Claudiu
-> points out the issue in RAVB was discussed and fixed by patch [1].
+> Hi Russell,
 >
-> With this and patch and [1] applied I no longer see a splat when
-> resuming on M3N using WoL.
+> On Sun, Mar 2, 2025 at 7:33=E2=80=AFPM Russell King (Oracle)
+> <linux@armlinux.org.uk> wrote:
+> >
+> > On Sun, Mar 02, 2025 at 06:18:08PM +0000, Prabhakar wrote:
+> > > +     gbeth->dev =3D dev;
+> > > +     gbeth->regs =3D stmmac_res.addr;
+> > > +     plat_dat->bsp_priv =3D gbeth;
+> > > +     plat_dat->set_clk_tx_rate =3D stmmac_set_clk_tx_rate;
+> >
+> > Thanks for using that!
+> >
+> Yep, it shortens the glue driver further.
 >
-> I still think this patch is correct, but of course the bug on Marzen
-> should be fixed, but that is unrelated to this patch. Would you agree?
+> > > +     plat_dat->flags |=3D STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY |
+> > > +                        STMMAC_FLAG_EN_TX_LPI_CLOCKGATING |
+> >
+> > I would like to know what value tx_clk_stop is in
+> > stmmac_mac_enable_tx_lpi() for your setup. Ideally, stmmac should
+> > use the capability report from the PHY to decide whether the
+> > transmit clock can be gated, but sadly we haven't had any support
+> > in phylib/phylink for that until recently, and I haven't modified
+> > stmmac to allow use of that. However, it would be good to gain
+> > knowledge in this area.
+> >
+> tx_clk_stop =3D1,
+>
+> root@rzv2h-evk-alpha:~# ifconfig eth0 up
+> [  587.830436] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-0
+> [  587.838636] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-1
+> [  587.846792] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-2
+> [  587.854734] renesas-gbeth 15c30000.ethernet eth0: Register
+> MEM_TYPE_PAGE_POOL RxQ-3
+> [  587.926860] renesas-gbeth 15c30000.ethernet eth0: PHY [stmmac-0:00]
+> driver [Microchip KSZ9131 Gigabit PHY] (irq=3DPOLL)
+> [  587.949380] dwmac4: Master AXI performs fixed burst length
+> [  587.954910] renesas-gbeth 15c30000.ethernet eth0: No Safety
+> Features support found
+> [  587.962556] renesas-gbeth 15c30000.ethernet eth0: IEEE 1588-2008
+> Advanced Timestamp supported
+> [  587.971420] renesas-gbeth 15c30000.ethernet eth0: registered PTP clock
+> [  587.978004] renesas-gbeth 15c30000.ethernet eth0: configuring for
+> phy/rgmii-id link mode
+> root@rzv2h-evk-alpha:~# [  591.070448] renesas-gbeth 15c30000.ethernet
+> eth0: tx_clk_stop=3D1
+> [  591.076590] renesas-gbeth 15c30000.ethernet eth0: Link is Up -
+> 1Gbps/Full - flow control rx/tx
+>
+> With the below diff:
+>
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> index aec230353ac4..68f1954e6eea 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> @@ -1100,6 +1100,7 @@ static int stmmac_mac_enable_tx_lpi(struct
+> phylink_config *config, u32 timer,
+>         struct stmmac_priv *priv =3D netdev_priv(to_net_dev(config->dev))=
+;
+>         int ret;
+>
+> +       netdev_err(priv->dev, "tx_clk_stop=3D%d\n", tx_clk_stop);
+>         priv->tx_lpi_timer =3D timer;
+>         priv->eee_active =3D true;
+>
+> > > +                        STMMAC_FLAG_RX_CLK_RUNS_IN_LPI |
+> >
+I got some feedback from the HW team, based on the feedback this flag
+depends on the PHY device. I wonder if we should create a DT property
+for this. Please share your thoughts.
 
-Yes, I think we should proceed with this patch.
+Cheers,
+Prabhakar
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> 1.[PATCH net 1/2] net: ravb: Fix missing rtnl lock in suspend path
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
