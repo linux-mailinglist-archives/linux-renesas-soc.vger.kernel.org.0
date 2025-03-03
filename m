@@ -1,133 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-13969-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13973-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FD0A4E7D0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 18:10:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71376A4EA1D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 18:56:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E37017A4BB5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 17:06:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 518C7422DBE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 17:51:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D8F7294F3B;
-	Tue,  4 Mar 2025 16:45:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEA3B28FFC5;
+	Tue,  4 Mar 2025 17:31:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="GpzD4opl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VgzDSHC6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from beeline3.cc.itu.edu.tr (beeline3.cc.itu.edu.tr [160.75.25.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C24294EC8
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 16:45:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCF328F955
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 17:31:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=160.75.25.117
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741106756; cv=pass; b=G36acrlGc5/QHBcrQMzvdsqcW/G9S6/uEU19+Kb6GHPo2QoeHGzejNU98oC+MKWENjl6GO4uku8xiMW+KgF4UgnU3gYt4mhaoyXo0e1vsNBRYzSS2B1756+kkRMXiAvjPsmBFmYD3CJAisupYjSxJtbZB5MpltHacFlCIs9heoA=
+	t=1741109518; cv=pass; b=q8i/dH94khmNSroJkRBDmK+Lm3Z/1H04jLeJn8gaK3+p65HtbDc87MlywE5DKmTXW0z3AIo0jmQauvcLeUMF9gb56CgMbYUDPRxH6fRCgt/+3LajRsMi6pHC9mQzOie2KvCTR6CzWFxJZTao9nkhi+i7NJheD6iTGNlKjHrInDo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741106756; c=relaxed/simple;
-	bh=MuXhWb8I/WgZF55jUWmYmeYlpzilT+5kGD3/bEfg+Qs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ghPyfi4qihjrzCg/i1KUfUqZfTlsP/m5oupUP1of6VgXVucSAyTYaoeEhq9TbrpT5LpMJa3l5aqRdbt7T+7R7CEjISZln2P9EihMJnTTFHV/FdY8binrE83YVYQJ+UgW4t8HfZHuIho9FKkv0BUlRyx4a3yoVzui05WOmggTKiw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=fail (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=GpzD4opl reason="signature verification failed"; arc=none smtp.client-ip=78.32.30.218; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; arc=pass smtp.client-ip=160.75.25.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=armlinux.org.uk
+	s=arc-20240116; t=1741109518; c=relaxed/simple;
+	bh=uE+73JXciPA+V7kPRV8XWL/c5IUQ7yVFJ3PFc8BY5Ng=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QsG0KVAHLHpvfKc2XS9+wy/0O2fiTdgqYFlBrnMata3GEjviCHS1vu1u9mOSYOirvNUvu+N/j64KgybFQnlNm+ANLmImlJPzakg7Gae1P+Ac8R2Kay9t8McHRcnZvBnWDbuZhFvyHwIuly70ZUivSZ0zgu7Hw6Orn7HKgC+U8oA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VgzDSHC6; arc=none smtp.client-ip=209.85.167.49; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; arc=pass smtp.client-ip=160.75.25.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr
 Received: from lesvatest1.cc.itu.edu.tr (lesvatest1.cc.itu.edu.tr [10.146.128.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by beeline3.cc.itu.edu.tr (Postfix) with ESMTPS id 58B3040CEC97
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 19:45:52 +0300 (+03)
+	by beeline3.cc.itu.edu.tr (Postfix) with ESMTPS id B3D8B40CFBBE
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 20:31:54 +0300 (+03)
 X-Envelope-From: <root@cc.itu.edu.tr>
+Authentication-Results: lesvatest1.cc.itu.edu.tr;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=VgzDSHC6
 Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
-	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6hNS6Wp6zG42V
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 19:44:24 +0300 (+03)
+	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6g9r5FfdzG1VT
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 18:50:08 +0300 (+03)
 Received: by le1 (Postfix, from userid 0)
-	id E97864272B; Tue,  4 Mar 2025 19:44:21 +0300 (+03)
+	id D9D1242734; Tue,  4 Mar 2025 18:49:48 +0300 (+03)
 Authentication-Results: lesva1.cc.itu.edu.tr;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=GpzD4opl
-X-Envelope-From: <linux-kernel+bounces-541467-bozkiru=itu.edu.tr@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VgzDSHC6
+X-Envelope-From: <linux-kernel+bounces-541583-bozkiru=itu.edu.tr@vger.kernel.org>
 Authentication-Results: lesva2.cc.itu.edu.tr;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=GpzD4opl
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VgzDSHC6
 Received: from fgw2.itu.edu.tr (fgw2.itu.edu.tr [160.75.25.104])
-	by le2 (Postfix) with ESMTP id ED87E42EF2
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:04:00 +0300 (+03)
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by fgw2.itu.edu.tr (Postfix) with SMTP id 7FD6E2DCDE
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:04:00 +0300 (+03)
+	by le2 (Postfix) with ESMTP id 9758641EFB
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:31:51 +0300 (+03)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by fgw2.itu.edu.tr (Postfix) with SMTP id 6416E2DCE0
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:31:51 +0300 (+03)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F5AD3AD5E2
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 10:59:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8FC31887A9C
+	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 11:31:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F7961F4181;
-	Mon,  3 Mar 2025 10:58:34 +0000 (UTC)
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A1091F8917;
+	Mon,  3 Mar 2025 11:31:22 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B211F3B9D;
-	Mon,  3 Mar 2025 10:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407201EBA14;
+	Mon,  3 Mar 2025 11:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740999510; cv=none; b=LQ//U+brAMF1U7oEN9/sTDeECfUhQfxIZ+wA7bQQC+ISjZJ8NU6yF+BnfPgx5ogup4kMC8QQQCOC6iAVnvOWi7sd7kms3fkrpUtHeW36M+DPskM+XZy5cM7i5U7WX1S7juo3RTWS3PJLEnBdfUbaj41S2MJlcw4Si6ENXvgAUTM=
+	t=1741001478; cv=none; b=G130xr74T8i879vQJBGhEYWuhB4EMXxCjybPdt+AXdGtznvWGR05bAE2ZybG6fxTlSiS/aUT+G1A4YbP0QSkHr8HBo1zX6E3a35Ngv5TaE4hrdkQXRM77UIE5y+RdYDYDNBRuXko1H8xG6pZcGvLb1Z7sMsgVriD/J5fl2Q3PrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740999510; c=relaxed/simple;
-	bh=MuXhWb8I/WgZF55jUWmYmeYlpzilT+5kGD3/bEfg+Qs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HJLERoLLDMppbmfYGAqAWVuURV2Uzm3YqFimALW2BPptwzVUdWMjc0jsd523WN9jMix96Hb1EtvCAe70/bK/d9YTYrLgNe4k0VtQ26dGjynVEBdYWP0Bo4Wkvzk3Ah+yceNXxbb3Mz1x7blcsBEF7pEpodJcDGgCYe1kIHrag9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=GpzD4opl; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=zVOQIBvyGVn9misUYWwRCx37wyzZpBfrC8j7hiAI1TM=; b=GpzD4oplECLJoIzVb4BmodHX/E
-	HhO9eVfSr6xJOTEPWMFSpCtOCnbJgBDGPBlsi9s24PYSYbEtYdJbuKeJ90gOHwN72N3VFv2tA4ijP
-	ktNFCW8NIj8dOK1PWBiXjElXVkn/I65LiZ3Jril76QkgLTI/Bnvsh9LUnolgPtzxMncnRRS1jbzfk
-	Mf68n13ZrtowQkmA9pykzMPrzOELtoU4+W53NiOnhT51uYTt9GTkkQr24A+1gHtF+RJ8i0gFK42hw
-	Xnk1ZRi257P5e4QnPZ1N3y3+oTNKfpAvwTCfMxvBckdopN7kMcQyEAO6DPlRfSpb/wcQTrMVUSo53
-	RtZSUNuA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:56642)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1tp3Uz-0000I9-14;
-	Mon, 03 Mar 2025 10:58:13 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1tp3Uw-0003jb-2J;
-	Mon, 03 Mar 2025 10:58:10 +0000
-Date: Mon, 3 Mar 2025 10:58:10 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	s=arc-20240116; t=1741001478; c=relaxed/simple;
+	bh=uE+73JXciPA+V7kPRV8XWL/c5IUQ7yVFJ3PFc8BY5Ng=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kPSkUdd2vtABH+86fPN8AG2dbCZxbuYExGnj2QLwbLxa5uLav7EH42V3YZKoGfgN7pc/qiwy45zM/q6+h5vLLCjQv1mMaoMGo2d4S+0HxgszPFyTkWbjrhk9ldkmMlOD3Iy4misn4XS6isDI5WhIRI+bjrIFTMky11JskDgcm5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VgzDSHC6; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-54964f8ce4bso1070054e87.2;
+        Mon, 03 Mar 2025 03:31:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741001473; x=1741606273; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rKXywdzc/Et4yJtFDduOL5DqpXRTEQpflOuvO6/QFtE=;
+        b=VgzDSHC6Sa9fz+6hYG3hfQpXF/2dBZOiDvFK+N9GDY8aEPkkZhkif5qvqC0VbXs224
+         UPP8K/RtRodLhr2+9Su360phU2g/7vqrus7OSKd9dZ0fFAhar5jY6IrVxWsBdFWwgWjV
+         IZUQIiHcNXfDDnlJR4zKljtxLlyQ7aiP/qw9vIc84USCGPpEAD0fcqvTSs+tyepKc3dr
+         P1lveO7+c99orZutbBINfxitWPAbLKrDrB5byswiXHwyC+3TB3+KbQZ1WrYA/fIZMZnS
+         RJj3QuwGdwOAI4im4vI2rLU+rbM89mhXwpk3YlgvND398prdd4yUhUYnTfFT+Oh5Q2mh
+         cIXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741001473; x=1741606273;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rKXywdzc/Et4yJtFDduOL5DqpXRTEQpflOuvO6/QFtE=;
+        b=PUwa4tPhULuRV/5VFWwhIK2SjrWdaB8kF0BlEboR17Z9okS2o9g3DsY1dM6lkK1wZG
+         lP5VZ7eF+D7a/SZYP8HyxKoutI+trBsw6aOGulzyKmiXX2R9jXXBtacmG/e/a/Z/qSP0
+         HuRAiKZO+2coL6EhFunrfDDT8nZLGe+CNmnH6pJoyeD26d6UGCQSYaSstBMbgS17/2v7
+         5BtcYuzFT3eGGqKP/uf3PemgCDKkA4Lr2UyfiRzIRqy007c1dDHMRF7yRogdMsiNvOIr
+         rMapd+QSUiahDuAg3xEA0zdjaNLDqSIPkbo3qwNg0OxdyPbuPyxwEi5bNdtMWl4zkKzB
+         wdaA==
+X-Forwarded-Encrypted: i=1; AJvYcCUK3HRNM2ci7pQ/5m+R9wDjpQV3e+mO080sQFA0Q1olQ4JVT9VThZpSwAIe0Lj9xXMecxXzzjYRyP5YTcssaGmjV7A=@vger.kernel.org, AJvYcCUh5wilUuU2Ddt9075lSAe6vCLQLkJIIwO21u7sw8OUAL7czs5SAMpX9nI0nVwLgYlXcoNdvkH4bYjf@vger.kernel.org, AJvYcCVtJAkgylMRJD7CbS6EfJTADgNMUl2/QhecUGLH5NoTeHYARR/uJkmATaN9RGRD9Zp3Ir1rtOnYAtdg@vger.kernel.org, AJvYcCWMZx08vv66tKf5QD3WpbtIhoulkZvbDD9zhRlEgfVpts3S7P3YS9YVkk8/a6oYzK3+tSEY5MilwPWfww==@vger.kernel.org, AJvYcCWPFtO7yUalBNXnhVG5zLlxz6X8psHt+h8bq6o58OOn3flkvzybsQFNxZQ/kGhx2ksvyypHje9s@vger.kernel.org, AJvYcCXC5aJTjgefVoLvuAZamwgRSpmquNtqNDctTP3KquMP9owbMXXTTCUSkbRDlWmmms9M5nVy8oXJbq1ltzT0@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3SzPxh9Ki9Cbvh2GfKsmT8zNE26BzbbEf9UaiybrxtowjI5Ra
+	jtpRTAXe78qGbV+ommlDAOz7gIDP5TQ48cI1Zspj2PWZxwzOA5Sa
+X-Gm-Gg: ASbGnctVozXSzhFC4dGVDJOOL0B1cH4brC8PPAYd8/id6uvMcmTEHPraclVqSXX3bKi
+	qEVO4BmIXKs6HrkAfqt4xcaTSByqTmRWj0PuZryJtV/+AQpTSuwdb1FmMp9GcF2qjCztKSx8SuL
+	89AgNUNer8lkajLBhzaDaiIQO8H1cA//awOHCYwtJ1+7RKl2IF1eBb+qcSVTElqOt7P2hI25k0w
+	ThaaHY1/nIN3mB8o3E4Qd+8Ea8Dz97H9YSVEyVJwhrgbEfo/2UqoMMcTZtKt+czgROMZSSR9/Q5
+	8hwYbxHhprHtJVvL9YzZGsIfRi1MSUHloc6sBzykBUhxIb/0BWSkdt8jxJrsqTYpLkhP04+kRSP
+	5UH1YDCPqlyk=
+X-Google-Smtp-Source: AGHT+IHy7eVfyRfz75KlXzMg33WQpUvOMs2XoHaFWGcBRo3/jfRN7pYYEQKL0JaanfwqklYifmbf2g==
+X-Received: by 2002:a05:6512:3c92:b0:53e:39e6:a1c1 with SMTP id 2adb3069b0e04-5494c38bde7mr5379294e87.43.1741001472861;
+        Mon, 03 Mar 2025 03:31:12 -0800 (PST)
+Received: from mva-rohm (mobile-access-2e8451-125.dhcp.inet.fi. [46.132.81.125])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5495cb976e7sm595497e87.56.2025.03.03.03.31.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Mar 2025 03:31:11 -0800 (PST)
+Date: Mon, 3 Mar 2025 13:30:59 +0200
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 3/3] net: stmmac: Add DWMAC glue layer for Renesas GBETH
-Message-ID: <Z8WLQrmsi3ZbiQf1@shell.armlinux.org.uk>
-References: <20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250302181808.728734-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Z8SydsdDsZfdrdbE@shell.armlinux.org.uk>
- <CA+V-a8vCB7nP=tsv4UkOwODSs-9hiG-PxN6cpihfvwjq2itAHg@mail.gmail.com>
- <CA+V-a8un7Oy9NtfDUfs0DSwRVAFn52-vWj1Os=u_1dqijJhbMw@mail.gmail.com>
- <Z8V9OC_1llF3leZd@shell.armlinux.org.uk>
+	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Guillaume Stols <gstols@baylibre.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Dumitru Ceclan <mitrutzceclan@gmail.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Matteo Martelli <matteomartelli3@gmail.com>,
+	Alisa-Dariana Roman <alisadariana@gmail.com>,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: [PATCH v5 00/10] Support ROHM BD79124 ADC
+Message-ID: <cover.1740993491.git.mazziesaccount@gmail.com>
 Precedence: bulk
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -135,111 +170,149 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ok8G6d4pd5Kde/Tf"
 Content-Disposition: inline
-In-Reply-To: <Z8V9OC_1llF3leZd@shell.armlinux.org.uk>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for more information
-X-ITU-Libra-ESVA-ID: 4Z6hNS6Wp6zG42V
+X-ITU-Libra-ESVA-ID: 4Z6g9r5FfdzG1VT
 X-ITU-Libra-ESVA: No virus found
 X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
-X-ITU-Libra-ESVA-Watermark: 1741711488.34357@WRhYW7x+JBZhvLiEhqaFFA
+X-ITU-Libra-ESVA-Watermark: 1741714194.29898@viE+s9dzm+TXe1rVN6FE8Q
 X-ITU-MailScanner-SpamCheck: not spam
 
-On Mon, Mar 03, 2025 at 09:58:16AM +0000, Russell King (Oracle) wrote:
-> I think that the way forward would be to introduce yet another flag
-> (maybe STMMAC_FLAG_LPI_TX_CLK_PHY_CAP) and:
-> 
-> 	if (priv->plat->flags & STMMAC_FLAG_LPI_TX_CLK_PHY_CAP)
-> 		priv->tx_lpi_clk_stop = tx_clk_stop;
-> 	else
-> 		priv->tx_lpi_clk_stop = priv->plat->flags &
-> 					STMMAC_FLAG_EN_TX_LPI_CLOCKGATING;
-> 
-> and then where STMMAC_FLAG_EN_TX_LPI_CLOCKGATING is checked, that
-> becomes:
-> 
-> 	ret = stmmac_set_lpi_mode(priv, priv->hw, STMMAC_LPI_TIMER,
-> 				  priv->tx_lpi_clk_stop,
-> 				  priv->tx_lpi_timer);
 
-I'm thinking something like the following:
+--ok8G6d4pd5Kde/Tf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac.h b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-index 3a00a988cb36..04197496ee87 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-@@ -307,6 +307,7 @@ struct stmmac_priv {
- 	struct timer_list eee_ctrl_timer;
- 	int lpi_irq;
- 	u32 tx_lpi_timer;
-+	bool tx_lpi_clk_stop;
- 	bool eee_enabled;
- 	bool eee_active;
- 	bool eee_sw_timer_en;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 7d10e58e009e..7709d431e950 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -461,8 +461,7 @@ static void stmmac_try_to_start_sw_lpi(struct stmmac_priv *priv)
- 	/* Check and enter in LPI mode */
- 	if (!priv->tx_path_in_lpi_mode)
- 		stmmac_set_lpi_mode(priv, priv->hw, STMMAC_LPI_FORCED,
--			priv->plat->flags & STMMAC_FLAG_EN_TX_LPI_CLOCKGATING,
--			0);
-+				    priv->tx_lpi_clk_stop, 0);
- }
- 
- /**
-@@ -1110,13 +1109,18 @@ static int stmmac_mac_enable_tx_lpi(struct phylink_config *config, u32 timer,
- 
- 	priv->eee_enabled = true;
- 
-+	/* Update the transmit clock stop according to PHY capability if
-+	 * the platform allows
-+	 */
-+	if (priv->plat->flags & STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP)
-+		priv->tx_lpi_clk_stop = tx_clk_stop;
-+
- 	stmmac_set_eee_timer(priv, priv->hw, STMMAC_DEFAULT_LIT_LS,
- 			     STMMAC_DEFAULT_TWT_LS);
- 
- 	/* Try to cnfigure the hardware timer. */
- 	ret = stmmac_set_lpi_mode(priv, priv->hw, STMMAC_LPI_TIMER,
--				  priv->plat->flags & STMMAC_FLAG_EN_TX_LPI_CLOCKGATING,
--				  priv->tx_lpi_timer);
-+				  priv->tx_lpi_clk_stop, priv->tx_lpi_timer);
- 
- 	if (ret) {
- 		/* Hardware timer mode not supported, or value out of range.
-@@ -1262,6 +1266,10 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
- 	if (!(priv->plat->flags & STMMAC_FLAG_RX_CLK_RUNS_IN_LPI))
- 		priv->phylink_config.eee_rx_clk_stop_enable = true;
- 
-+	/* Set the default transmit clock stop bit based on the platform glue */
-+	priv->tx_lpi_clk_stop = priv->plat->flags &
-+				STMMAC_FLAG_EN_TX_LPI_CLOCKGATING;
-+
- 	mdio_bus_data = priv->plat->mdio_bus_data;
- 	if (mdio_bus_data)
- 		priv->phylink_config.default_an_inband =
-diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-index cd0d1383df87..102de1aeac17 100644
---- a/include/linux/stmmac.h
-+++ b/include/linux/stmmac.h
-@@ -183,7 +183,8 @@ struct dwmac4_addrs {
- #define STMMAC_FLAG_INT_SNAPSHOT_EN		BIT(9)
- #define STMMAC_FLAG_RX_CLK_RUNS_IN_LPI		BIT(10)
- #define STMMAC_FLAG_EN_TX_LPI_CLOCKGATING	BIT(11)
--#define STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY	BIT(12)
-+#define STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP	BIT(12)
-+#define STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY	BIT(13)
- 
- struct plat_stmmacenet_data {
- 	int bus_id;
+Support ROHM BD79124 ADC.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+This series adds also couple of IIO ADC helper functions for parsing the
+channel information from the device tree. There are also two helpers
+included for counting number of firmware child nodes with a specific name.
+
+Series does also convert couple of drivers to use these helpers. The
+rzg2l_adc and the sun20i-gpadc are converted to use the new ADC helper.
+
+The gianfar driver under net is added as an RFC patch to use the newly
+added firmware child node counting function.
+
+There has been some discussion about how useful these ADC helpers are,
+and whether they should support also differential and single ended channel
+configurations. This version does not include support for those - with the
+benefit of reduced complexity and easier to use API.
+
+patch 6/10 is small simplification for the ti-ads7924, and it can be
+taken independently from the rest of the series.
+
+NOTE: Patches 4...6 and the patch 10 are untested as I lack of relevant HW.
+They have been compile tested only.
+
+The ROHM BD79124 ADC itself is quite usual stuff. 12-bit, 8-channel ADC
+with threshold monitoring.
+
+Except that:
+ - each ADC input pin can be configured as a general purpose output.
+ - manually starting an ADC conversion and reading the result would
+   require the I2C _master_ to do clock stretching(!) for the duration
+   of the conversion... Let's just say this is not well supported.
+ - IC supports 'autonomous measurement mode' and storing latest results
+   to the result registers. This mode is used by the driver due to the
+   "peculiar" I2C when doing manual reads.
+
+Furthermore, the ADC uses this continuous autonomous measuring,
+and the IC keeps producing new 'out of window' IRQs if measurements are
+out of window - the driver disables the event for 1 seconds when sending
+it to user. This prevents generating storm of events
+
+Revision history:
+v4 =3D> v5: Fixes as per various review comments. Most notably:
+ - Drop the patch making the TI's ADC driver to respect device tree.
+ - Add (RFC) patch converting gianfar driver to use new name child-node
+   counting API as suggested by Andy.
+ - Add fwnode_get_child_node_count_named() as suggested by Rob.
+ Changes which were not proposed by reviewers:
+ - rebase to v6.14-rc5
+ - Do not include all recipients to all of the patches.
+ More accurate changelog in individual patches.
+v3 =3D> v4:
+ - Drop the ADC helper support for differential channels
+ - Drop the ADC helper for getting only channel IDs by fwnode.
+ - "Promote" the function counting the number of child nodes with a
+   specific name to the property.h (As suggested by Jonathan).
+ - Add ADC helpers to a namespace.
+ - Rebase on v6.14-rc3
+ - More minor changes described in individual patches.
+v2 =3D> v3:
+ - Restrict BD79124 channel numbers as suggested by Conor and add
+   Conor's Reviewed-by tag.
+ - Support differential and single-ended inputs
+ - Convert couple of existing drivers to use the added ADC helpers
+ - Minor fixes based on reviews
+Link to v2:
+https://lore.kernel.org/all/cover.1738761899.git.mazziesaccount@gmail.com/
+
+RFC v1 =3D> v2:
+ - Drop MFD and pinmux.
+ - Automatically re-enable events after 1 second.
+ - Export fwnode parsing helpers for finding the ADC channels.
+
+---
+
+Matti Vaittinen (10):
+  dt-bindings: ROHM BD79124 ADC/GPO
+  property: Add functions to count named child nodes
+  iio: adc: add helpers for parsing ADC nodes
+  iio: adc: rzg2l_adc: Use adc-helpers
+  iio: adc: sun20i-gpadc: Use adc-helpers
+  iio: adc: ti-ads7924 Drop unnecessary function parameters
+  iio: adc: Support ROHM BD79124 ADC
+  MAINTAINERS: Add IIO ADC helpers
+  MAINTAINERS: Add ROHM BD79124 ADC/GPO
+  net: gianfar: Use device_get_child_node_count_named()
+
+ .../bindings/iio/adc/rohm,bd79124.yaml        |  114 ++
+ MAINTAINERS                                   |   12 +
+ drivers/base/property.c                       |   57 +
+ drivers/iio/adc/Kconfig                       |   17 +
+ drivers/iio/adc/Makefile                      |    3 +
+ drivers/iio/adc/industrialio-adc.c            |   82 ++
+ drivers/iio/adc/rohm-bd79124.c                | 1108 +++++++++++++++++
+ drivers/iio/adc/rzg2l_adc.c                   |   38 +-
+ drivers/iio/adc/sun20i-gpadc-iio.c            |   38 +-
+ drivers/iio/adc/ti-ads7924.c                  |    7 +-
+ drivers/net/ethernet/freescale/gianfar.c      |   17 +-
+ include/linux/iio/adc-helpers.h               |   27 +
+ include/linux/property.h                      |    4 +
+ 13 files changed, 1462 insertions(+), 62 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/rohm,bd79124.=
+yaml
+ create mode 100644 drivers/iio/adc/industrialio-adc.c
+ create mode 100644 drivers/iio/adc/rohm-bd79124.c
+ create mode 100644 include/linux/iio/adc-helpers.h
+
+
+base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
+--=20
+2.48.1
+
+
+--ok8G6d4pd5Kde/Tf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmfFkusACgkQeFA3/03a
+ocWURggAh0aahWuhR4X2pAbWcrvLlgY0D9RSlfBWXUHB68G1gPrJjp5CTgZLemkh
+d8hIvugJVz+G6zfkewr+abXoQbFlTjXSnKUUB6DAt0uoeJolaV6QxfNX9JwyLhMH
+v5nQ2dValRMeFZVoh1hUCXjtrTFJCjBeGKqDb2Rb17SxjzYk09ObnyIJRh4MABsl
+pyiO6m0xFOLr5vjd7f2sygWRigBYQPuDyTcre5WG0o3vNBTlEfr9BmR8aPNGFaJs
+7KvjqfOj8BGczBrxIHCUxMiNkEIGCKODg1dMdm3VBLI03/Uy3LR73AEqzX3wjEY4
+BBEZarVDoaTTVCmV9HvB+kvmJdW1GQ==
+=xpnm
+-----END PGP SIGNATURE-----
+
+--ok8G6d4pd5Kde/Tf--
 
 
