@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-13891-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CACA4BD97
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Mar 2025 12:11:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95883A4BD75
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Mar 2025 12:08:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 198FB3B7F2E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Mar 2025 11:04:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01333175013
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Mar 2025 11:05:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C87F1F2BA1;
-	Mon,  3 Mar 2025 11:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEE3A1F30BB;
+	Mon,  3 Mar 2025 11:04:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 207141F0E28;
-	Mon,  3 Mar 2025 11:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FC253FFD;
+	Mon,  3 Mar 2025 11:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740999891; cv=none; b=KUf6MQx5vCBZH2uYFn9p05k/iXAjC8x3jrvPdyLYXXcva7Su+46zabjqNiUA1E4iWZeKCtMLvNbxAExucy0oGgSpXrCdpCoqShWCntioeP8m53auJ1gCsGNxxeGl+A32ZWyFZiFjq1gIJbhrnF1RbPrICombt8DxA2KWlkJJcUY=
+	t=1740999892; cv=none; b=kh761QbP/Woq32KgpvqA6dL+ZqqOLTCycJYT+/qzVkokiB8ZhT+6t/1KSxY8D6jTcT0to4joXRPLrt4CNDU1GgAOP65H0ErP8BOlZzk+n5KpQrbw4MDGe/449ONdnFM1rCAHz/OrBsr6GriJfrU++9WKRi/mFZGrTroHOEMLP8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740999891; c=relaxed/simple;
-	bh=YTEC9C2lxx6vdWNDbHY2an1d4VqQrA4e6lN8v9ExKxo=;
+	s=arc-20240116; t=1740999892; c=relaxed/simple;
+	bh=Th/LN0GZJEXOiYGsQhrigkVAWivgLdHq4P7FSbuCiwM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rDNJ7qzCQWlSu37NdNk7VYmaRYZMG9tpK6ZbFs6DRrj10n4+0KepNv9e/wFvw+okAZqZNddluCg/EvCWKpuI7VqNf3ZY3f2Kd2DdV7ROHFiEA6b13Nob7qFdqyUMj6Qfr0WeRd1Qmc86KF1xisc9r0vGRisx1mt3Oi15+MbRmQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=YVS3HFp5UJYsEQkI0IvfRWajDn4vA9rcCTwhKt3ywcaw1ptf+tI/jebB8NHZX+sldglPZpfM/ECvm8ySWQIf0LrWQsJVtXLBOqcbRGrCydSgmc8WmXR/n1Be3RG3/9UfvvoFriTFJwJ0UWp2HXshvMptnMdsZ+FZJtwCxAaaEzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: KTvHfodVRQeHmR3qyGn9dQ==
-X-CSE-MsgGUID: uxae/2MbSn6yzSIsLlmWbw==
+X-CSE-ConnectionGUID: luFxIBJ3Sq6Sx7LXgkDy2Q==
+X-CSE-MsgGUID: PWHJKa2eQM2+ihYHiuKLBA==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Mar 2025 20:04:41 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 03 Mar 2025 20:04:44 +0900
 Received: from localhost.localdomain (unknown [10.226.92.114])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 9A7DB400C742;
-	Mon,  3 Mar 2025 20:04:39 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8979A400CF09;
+	Mon,  3 Mar 2025 20:04:42 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Michael Turquette <mturquette@baylibre.com>,
@@ -43,9 +43,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-clk@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 1/4] clk: renesas: rzv2h-cpg: Add support for coupled clock
-Date: Mon,  3 Mar 2025 11:04:19 +0000
-Message-ID: <20250303110433.76576-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 2/4] clk: renesas: rzv2h-cpg: Add support for static dividers
+Date: Mon,  3 Mar 2025 11:04:20 +0000
+Message-ID: <20250303110433.76576-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250303110433.76576-1-biju.das.jz@bp.renesas.com>
 References: <20250303110433.76576-1-biju.das.jz@bp.renesas.com>
@@ -57,194 +57,88 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The spi and spix2 clk share same bit for clock gating. Add support
-for coupled clock with checking the monitor bit for both the clocks.
+Add support for static dividers that does not need rmw operation.
+This will avoid unnecessary memory allocation and using associated
+legacy APIs.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/clk/renesas/rzv2h-cpg.c | 83 ++++++++++++++++++++++++++++++++-
- drivers/clk/renesas/rzv2h-cpg.h | 19 ++++++--
- 2 files changed, 97 insertions(+), 5 deletions(-)
+ drivers/clk/renesas/rzv2h-cpg.c | 29 +++++++++++++++++++++++++++++
+ drivers/clk/renesas/rzv2h-cpg.h |  7 +++++++
+ 2 files changed, 36 insertions(+)
 
 diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index 469d29549e8e..19fe225d48ed 100644
+index 19fe225d48ed..42a517e11d42 100644
 --- a/drivers/clk/renesas/rzv2h-cpg.c
 +++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -111,6 +111,8 @@ struct pll_clk {
-  * @on_bit: ON/MON bit
-  * @mon_index: monitor register offset
-  * @mon_bit: montor bit
-+ * @enabled: soft state of the clock, if it is coupled with another clock
-+ * @sibling: pointer to the other coupled clock
-  */
- struct mod_clock {
- 	struct rzv2h_cpg_priv *priv;
-@@ -121,6 +123,8 @@ struct mod_clock {
- 	u8 on_bit;
- 	s8 mon_index;
- 	u8 mon_bit;
-+	bool enabled;
-+	struct mod_clock *sibling;
- };
- 
- #define to_mod_clock(_hw) container_of(_hw, struct mod_clock, hw)
-@@ -573,11 +577,56 @@ static int rzv2h_mod_clock_endisable(struct clk_hw *hw, bool enable)
- 
- static int rzv2h_mod_clock_enable(struct clk_hw *hw)
- {
--	return rzv2h_mod_clock_endisable(hw, true);
-+	struct mod_clock *clock = to_mod_clock(hw);
-+	int ret;
-+
-+	if (clock->sibling) {
-+		struct rzv2h_cpg_priv *priv = clock->priv;
-+		unsigned long flags;
-+		bool enabled;
-+
-+		spin_lock_irqsave(&priv->rmw_lock, flags);
-+		enabled = clock->sibling->enabled;
-+		clock->enabled = true;
-+		spin_unlock_irqrestore(&priv->rmw_lock, flags);
-+		if (enabled) {
-+			ret = rzv2h_mod_clock_is_enabled(&clock->hw);
-+			if (!ret) {
-+				dev_err(priv->dev, "Failed CLK_MON_ON 0x%x/%pC\n",
-+					GET_CLK_MON_OFFSET(clock->mon_index), hw->clk);
-+				ret = -ETIMEDOUT;
-+			} else {
-+				ret = 0;
-+			}
-+
-+			return ret;
-+		}
-+	}
-+
-+	ret = rzv2h_mod_clock_endisable(hw, true);
-+	if (ret)
-+		clock->enabled = false;
-+
-+	return ret;
+@@ -349,6 +349,32 @@ rzv2h_cpg_ddiv_clk_register(const struct cpg_core_clk *core,
+ 	return div->hw.clk;
  }
  
- static void rzv2h_mod_clock_disable(struct clk_hw *hw)
- {
-+	struct mod_clock *clock = to_mod_clock(hw);
-+
-+	if (clock->sibling) {
-+		struct rzv2h_cpg_priv *priv = clock->priv;
-+		unsigned long flags;
-+		bool enabled;
-+
-+		spin_lock_irqsave(&priv->rmw_lock, flags);
-+		enabled = clock->sibling->enabled;
-+		clock->enabled = false;
-+		spin_unlock_irqrestore(&priv->rmw_lock, flags);
-+		if (enabled)
-+			return;
-+	}
-+
- 	rzv2h_mod_clock_endisable(hw, false);
- }
- 
-@@ -587,6 +636,28 @@ static const struct clk_ops rzv2h_mod_clock_ops = {
- 	.is_enabled = rzv2h_mod_clock_is_enabled,
- };
- 
-+static struct mod_clock
-+*rzv2h_mod_clock_get_sibling(struct mod_clock *clock,
-+			     struct rzv2h_cpg_priv *priv)
++static struct clk * __init
++rzv2h_cpg_sdiv_clk_register(const struct cpg_core_clk *core, struct rzv2h_cpg_priv *priv)
 +{
-+	struct clk_hw *hw;
-+	unsigned int i;
++	struct ddiv cfg_ddiv = core->cfg.ddiv;
++	const struct clk *parent;
++	const char *parent_name;
++	struct clk_hw *clk_hw;
 +
-+	for (i = 0; i < priv->num_mod_clks; i++) {
-+		struct mod_clock *clk;
++	parent = priv->clks[core->parent];
++	if (IS_ERR(parent))
++		return ERR_CAST(parent);
 +
-+		if (priv->clks[priv->num_core_clks + i] == ERR_PTR(-ENOENT))
-+			continue;
++	parent_name = __clk_get_name(parent);
++	clk_hw = clk_hw_register_divider_table(priv->dev, core->name,
++					       parent_name, 0,
++					       priv->base + cfg_ddiv.offset,
++					       cfg_ddiv.shift, cfg_ddiv.width,
++					       core->flag, core->dtable,
++					       &priv->rmw_lock);
 +
-+		hw = __clk_get_hw(priv->clks[priv->num_core_clks + i]);
-+		clk = to_mod_clock(hw);
-+		if (clock->on_index == clk->on_index && clock->on_bit == clk->on_bit)
-+			return clk;
-+	}
++	if (IS_ERR(clk_hw))
++		return ERR_CAST(clk_hw);
 +
-+	return NULL;
++	return clk_hw->clk;
 +}
 +
- static void __init
- rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
+ static struct clk * __init
+ rzv2h_cpg_mux_clk_register(const struct cpg_core_clk *core,
  			   struct rzv2h_cpg_priv *priv)
-@@ -642,6 +713,16 @@ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
- 	}
- 
- 	priv->clks[id] = clock->hw.clk;
-+	if (mod->is_coupled) {
-+		struct mod_clock *sibling;
-+
-+		clock->enabled = rzv2h_mod_clock_is_enabled(&clock->hw);
-+		sibling = rzv2h_mod_clock_get_sibling(clock, priv);
-+		if (sibling) {
-+			clock->sibling = sibling;
-+			sibling->sibling = clock;
-+		}
-+	}
- 
- 	/*
- 	 * Ensure the module clocks and MSTOP bits are synchronized when they are
+@@ -451,6 +477,9 @@ rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
+ 	case CLK_TYPE_DDIV:
+ 		clk = rzv2h_cpg_ddiv_clk_register(core, priv);
+ 		break;
++	case CLK_TYPE_SDIV:
++		clk = rzv2h_cpg_sdiv_clk_register(core, priv);
++		break;
+ 	case CLK_TYPE_SMUX:
+ 		clk = rzv2h_cpg_mux_clk_register(core, priv);
+ 		break;
 diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-index b0e32e0c9ffd..4a568fef905d 100644
+index 4a568fef905d..1905e3a4afad 100644
 --- a/drivers/clk/renesas/rzv2h-cpg.h
 +++ b/drivers/clk/renesas/rzv2h-cpg.h
-@@ -162,6 +162,7 @@ enum clk_types {
-  * @on_bit: ON bit
-  * @mon_index: monitor register index
-  * @mon_bit: monitor bit
-+ * @is_coupled: flag to indicate coupled clock
-  */
- struct rzv2h_mod_clk {
- 	const char *name;
-@@ -173,9 +174,11 @@ struct rzv2h_mod_clk {
- 	u8 on_bit;
- 	s8 mon_index;
- 	u8 mon_bit;
-+	bool is_coupled;
+@@ -115,6 +115,7 @@ enum clk_types {
+ 	CLK_TYPE_FF,		/* Fixed Factor Clock */
+ 	CLK_TYPE_PLL,
+ 	CLK_TYPE_DDIV,		/* Dynamic Switching Divider */
++	CLK_TYPE_SDIV,		/* Static Switching Divider */
+ 	CLK_TYPE_SMUX,		/* Static Mux */
  };
  
--#define DEF_MOD_BASE(_name, _mstop, _parent, _critical, _no_pm, _onindex, _onbit, _monindex, _monbit) \
-+#define DEF_MOD_BASE(_name, _mstop, _parent, _critical, _no_pm, _onindex, \
-+		     _onbit, _monindex, _monbit, _iscoupled) \
- 	{ \
- 		.name = (_name), \
- 		.mstop_data = (_mstop), \
-@@ -186,16 +189,24 @@ struct rzv2h_mod_clk {
- 		.on_bit = (_onbit), \
- 		.mon_index = (_monindex), \
- 		.mon_bit = (_monbit), \
-+		.is_coupled = (_iscoupled), \
- 	}
- 
- #define DEF_MOD(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
--	DEF_MOD_BASE(_name, _mstop, _parent, false, false, _onindex, _onbit, _monindex, _monbit)
-+	DEF_MOD_BASE(_name, _mstop, _parent, false, false, _onindex, _onbit, \
-+		     _monindex, _monbit, false)
- 
- #define DEF_MOD_CRITICAL(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
--	DEF_MOD_BASE(_name, _mstop, _parent, true, false, _onindex, _onbit, _monindex, _monbit)
-+	DEF_MOD_BASE(_name, _mstop, _parent, true, false, _onindex, _onbit, \
-+		     _monindex, _monbit, false)
- 
- #define DEF_MOD_NO_PM(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
--	DEF_MOD_BASE(_name, _mstop, _parent, false, true, _onindex, _onbit, _monindex, _monbit)
-+	DEF_MOD_BASE(_name, _mstop, _parent, false, true, _onindex, _onbit, \
-+		     _monindex, _monbit, false)
-+
-+#define DEF_COUPLED(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
-+	DEF_MOD_BASE(_name, _mstop, _parent, false, false, _onindex, _onbit, \
-+		     _monindex, _monbit, true)
- 
- /**
-  * struct rzv2h_reset - Reset definitions
+@@ -142,6 +143,12 @@ enum clk_types {
+ 		.flag = CLK_DIVIDER_HIWORD_MASK)
+ #define DEF_CSDIV(_name, _id, _parent, _ddiv_packed, _dtable) \
+ 	DEF_DDIV(_name, _id, _parent, _ddiv_packed, _dtable)
++#define DEF_SDIV(_name, _id, _parent, _ddiv_packed, _dtable) \
++	DEF_TYPE(_name, _id, CLK_TYPE_SDIV, \
++		.cfg.ddiv = _ddiv_packed, \
++		.parent = _parent, \
++		.dtable = _dtable, \
++		.flag = CLK_DIVIDER_HIWORD_MASK)
+ #define DEF_SMUX(_name, _id, _smux_packed, _parent_names) \
+ 	DEF_TYPE(_name, _id, CLK_TYPE_SMUX, \
+ 		 .cfg.smux = _smux_packed, \
 -- 
 2.43.0
 
