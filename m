@@ -1,153 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-13945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03A3A4D538
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 08:46:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBC1A4D760
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 10:06:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD69818934EC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 07:44:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2C7A177005
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 09:05:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 879AA1F5429;
-	Tue,  4 Mar 2025 07:41:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 070C4202C40;
+	Tue,  4 Mar 2025 08:59:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ROzHeVnT"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="AL2XNqTy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E208C1F6679;
-	Tue,  4 Mar 2025 07:41:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8FF1FDE27
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 08:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741074094; cv=none; b=ojBD7Iefx53LH7HjONrNakJ5HbsEc8OiqGynIJxvqhLZingABQCZJim+kicsjz7VUPw9H6sSCHnFCHt4f+GPePOFRBXPp6xHIjsSGCcXYHl9lY7o2llgD9ioDS9P8j7rKf1Wk4x7DkMJUXUxBxwDSrdkUajWv7t5L+bikKgeqbc=
+	t=1741078744; cv=none; b=XAEdRIhRzZz1vUgcPzkCD0QAO5N0Z0LMHNctRCrxe7+J4Ikyct13J8FgMtG/txYl+/xEN5TauxnfD0mORr4U5V8BsuGp4Hf0if/VNPPMZz4udJTOdkXDD2o8oWMjRstoSGyQlAU8RAqq80uaD2nSwi+6btL8mp5vm3dtW5A+wOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741074094; c=relaxed/simple;
-	bh=42TYu4oQeWAKktlkMy/+5GJAWHHkWqbHXn93VmIIbi0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AA6+Ja9WRr2HNGCzoPq1F99i+WQ+D/kOgeM8c4NM4O79OMcg7WpWOLsds0DI7UkI+xYZRKKQa0d2Mxj9H47u+wEs+d/cV9PY8RkNUfw9kDTb+AKBa3cdSLDK1An8d7q4i6mHdytXQHWK0+yPZEC+NA0U3PsnrJaOdbHmQdNTsOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ROzHeVnT; arc=none smtp.client-ip=209.85.221.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5235d7f9599so1807239e0c.1;
-        Mon, 03 Mar 2025 23:41:32 -0800 (PST)
+	s=arc-20240116; t=1741078744; c=relaxed/simple;
+	bh=HSILkVA5vBIiizFYSmaF6BrUL10+HFIpOlfWfW+K+44=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cT2Bjzr27uy6E3tXKRxrEY2QQM9wcFTHrI7OUt7ik1dIHJFDF4MhqLeQ3LQVKmevpOW7w9EE4FWoNjl/ieTFe1KfyflNeoor83Kx/GU5Da4TXj4TRw+tO/Zw2egMrnhYdQwbF2FWppC13GhE0GwBKA5mAL7/3XCYCAm890KPeao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=AL2XNqTy; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-390ec7c2d40so3637466f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Mar 2025 00:59:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741074092; x=1741678892; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ehAVBZiKRCcTorj/dGG/XHRPf74AjYxU8xRvstVVW14=;
-        b=ROzHeVnTujMCWJ4V7AD68ceRj05GZnD28uup0eCznv+j8/MKf94cr0G2zVp175qk0k
-         bBq+B/uzZ0seVGRSvJMzzUbJtuIK5xPUjFdjChQ3O28I59lVx7VE/cOxb34P4tUKx912
-         gcAhm3ajvTclVUTlVRL6dF6QIwQszFRE7oCMqbuxSHLq3uTtLmhknc0M7OJrwg1DD1vC
-         2q+JnaontoivfHat+A2unpZ7nr59Qlmk1gxWJTdiD/Ue1wTEkhtjc3px79/2MDBHvyJQ
-         EG308SyWlW++/oBG324GyeinrlpLcbabXP3+7YkVDi7fmLkYnOy2jMVT1VTkplcPIkis
-         PNdw==
+        d=tuxon.dev; s=google; t=1741078741; x=1741683541; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fqP3ahwggB+Ec4UF+o8yzis0/YWb9Mn4LNCx06esETg=;
+        b=AL2XNqTyEqpvqxJdMsPnVcHHbnptPqPa9Ld/TXA+le0iKCLZTThVFE5yuMkmeDcczl
+         8XTMBCUyTZntsyDvCWirv4W8jue2pixtWs8150XqBO9yi4LSrYhlr9j922DInlFc0Nvl
+         ovQkwG+pZNMCrXZ1dB/g9MqunpzFIheLJUKnWRGIKEiLTgHiBZMJB5qMiT9HTqs4PM2k
+         qLvIwDDu/TfvtGGIu2+6ic4glNE4wCrVedYkiYMVdD99cmyjCejc+gFdWraHY2x+1onw
+         XUsfQ7Dd5OGyljUR+oI/X7XeG4vwxrfz+MOsLhMwp2ZViW1UWH68nLiMx2O88aSpx6Zw
+         wP+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741074092; x=1741678892;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ehAVBZiKRCcTorj/dGG/XHRPf74AjYxU8xRvstVVW14=;
-        b=a8aXbt4j1w89adqLZ+6pezaC+jrw7L2yqpYzwJvv/4qXFG9W4IGoEBYD5bXTKnc7zp
-         G7inRKOyuPDnzgSxQfdfA15Y9qqh+4T5F6bvNobPj38Mp8otJ+JGu9sRSysbbUM6R6rp
-         AzJh32O3/JVm2KmwzeaJbXmzfRq4A7xmt6rfCj4Q1CDoXS7unT8sILFsnGeezuTkfpJM
-         rlrSvMXH1AF7qVguitUUXSX7IbK9Glxx8npqdzMBnbois1P/YyOkRSadBOq9/7APYUC6
-         jySIDs3FI3PnIq2lJ/GY1UEanH1RXXwt7EF9XDyhbv5u8xL/fwcHaDUcltnY/MUVoiuV
-         1k3A==
-X-Forwarded-Encrypted: i=1; AJvYcCUwjMFH+pkIfUMWt2ufLuILyoT1MDEE2++n+eXWlvX9l38X+1uPxa7ZG2/KfuhVqkNIvWMvNq0Q7S9F3nw=@vger.kernel.org, AJvYcCVfjqMaCCFfgp88Uc2Os4xkI1FaFWCtGP8MzD4enRqXmO4KBJ4Xkwi2C04yY7gChA+dXqczg0jfYDhZV2FJxGEgriM=@vger.kernel.org, AJvYcCWxU0s5e0nmVSEqtCLLc1gpbJZBEr/Ra0x3dlfpOYUOymmblokKnFHjHoUfdqtOrpkr9b+n7mIb@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgiQelDz6Xw/7RRzNrwFts0D4naeyl0mu1LztoGsgi5J1Lci2j
-	FTqgoNi1Oo8MuMMRy2Od400vmiVeRMAuPnlXh/EPf6tJotJsv4FwFFaKpX9+G0hkpEAI36Xlkrx
-	HLcfR727LOZbsUtETAxzIS8kDsLc=
-X-Gm-Gg: ASbGncvRGvsDGAL67wRLiIKz28KbnVxFIiRgKpOgIsYYEJeBTS6McL5hjnkaLnVYO1q
-	LGhJ5TmzhTRyugjcAA6t/EgcXXqxDSqvE7iyjtlnqVonQKgInP9+9omBsyCC6cmNBuTIoMXlmAe
-	5AmOgXeW4F7H/5FyX+mMx0/TBctg==
-X-Google-Smtp-Source: AGHT+IGzl19ZwYyuOur1HDSOzm4Fn2GxpdVR/SulPoBBGwex5tdesWntt/9GvppHS1k1Qx+c6y3kEzRIKhGxwY4aDD0=
-X-Received: by 2002:a05:6122:1b8d:b0:50d:a31c:678c with SMTP id
- 71dfb90a1353d-5235b7e186cmr9987997e0c.2.1741074091599; Mon, 03 Mar 2025
- 23:41:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1741078741; x=1741683541;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fqP3ahwggB+Ec4UF+o8yzis0/YWb9Mn4LNCx06esETg=;
+        b=IirZQ4UHlfxrG7Cd6zOb1AK9Zd1ABcKtrQd0K96b+k6DcJiTu+4FY90B9BMvf8OtYg
+         T0jkjlMhlG3A4irYqdflz+wuhs3hkcYzc6EIZHLkCRPLvANAdW0mIb6PC1W9PgoP4zT8
+         S1fijLULzN5q/eB+RQtcp2yKoidW//KLPWANAy5roO+39ltUyMQCxUvIFcf1Kdw/qOgx
+         mBVvuqzkn5Do+8LrbcoIGMviRQ95eymp1SAsOZy8/ieEeZ30Ie8FlZvOUj91NBt1HW0J
+         nAMlU3XkUkE6gDFSROJgN6tVsGbmq5SDE8Q8hA5maGodfrPYQQfyJb1AQfyi1T1hwHnt
+         f07Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW7isfcSexmFJ+96p3k3thLjRrmg0qTU3KkLTv7N5oR5tm/7RJmTSyzVGYqtl4zsHG9BaaVH7tHzV5b+F30yVYTpA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYv1jU9vqLC05s/xlLKGCTuYfD7lkmxeZRIaULTWunWYAH74cs
+	5oouoO3vtS8+GcRKyeFpo/b7j9llEwSMzV6H8f6mZsJEAJi75luLomw27QnmV/s=
+X-Gm-Gg: ASbGncs8VHoGD9CM51ainvrrx5tPD4wZN82yTeByqxmohAaAGSg0ys7iwsEPNxi5X/Z
+	mYkL9lJCcmwPbFfeLrEOoxtjfTv0/RNQfQm33xo1bLinDXHQByWLhi6EJJsidlrpFrd6RySdi8d
+	si+bahr37zaAQuwZSwMcuN3UjXImeFQ3g5PmaDQ+n18VW2fPmbrWPF5nvtnQ7IJn4Yl9HjlddoM
+	tW8kX0Sq858z7Ca0RIR6JTaiZZgmgJb28nPZxIlWxQGV3+5eO3b/DvIWiAAQICoVjkrWi275HMe
+	AHg4i9lNedIOuVx6ETCHF/6mVzkJaqb8jli0b/zF2QFzfnAEnBwPFw==
+X-Google-Smtp-Source: AGHT+IEEccYK+D24g35rR7y+28h/qCLlvYXo70nHWkcjc7tufX7M7+n3T60EL+5hB1uyjzyEXD8y5g==
+X-Received: by 2002:a5d:6d0e:0:b0:390:ff25:79c8 with SMTP id ffacd0b85a97d-390ff257cccmr7156094f8f.20.1741078740828;
+        Tue, 04 Mar 2025 00:59:00 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.138])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e479608fsm17236647f8f.14.2025.03.04.00.58.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Mar 2025 00:59:00 -0800 (PST)
+Message-ID: <1100c663-362a-433c-9c70-8435807b29ac@tuxon.dev>
+Date: Tue, 4 Mar 2025 10:58:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250303190841.179890-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <TY3PR01MB11346BEF0C5C45C9EC6B3D3B586C82@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB11346BEF0C5C45C9EC6B3D3B586C82@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 4 Mar 2025 07:41:04 +0000
-X-Gm-Features: AQ5f1JpTkRcFMLmhBGcMNg_LIMp0NmjGG85q2_4qbfN8T5KnbQj34djf0J6nuj8
-Message-ID: <CA+V-a8t8o92C4OYac4xXxS7quieNZWWPJxoT2dsrZ0M0AmWW-A@mail.gmail.com>
-Subject: Re: [PATCH] reset: rzg2l-usbphy-ctrl: Correct reset status check
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] iio: adc: rzg2l_adc: Open a devres group
+To: prabhakar.mahadev-lad.rj@bp.renesas.com, jic23@kernel.org, lars@metafoo.de
+Cc: linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20250224120608.1769039-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250224120608.1769039-2-claudiu.beznea.uj@bp.renesas.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <20250224120608.1769039-2-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Biju,
+Hi, Jonathan,
 
-Thank you for the review.
+On 24.02.2025 14:06, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> On all systems where the rzg2l_adc driver is used, the ADC clocks are part
+> of a PM domain. The code that implements the PM domains support is in
+> drivers/clk/renesas/rzg2l-cpg.c, the functions of interest for this commit
+> being rzg2l_cpg_attach_dev() and rzg2l_cpg_deattach_dev(). The PM
+> domains support is registered with GENPD_FLAG_PM_CLK which, according to
+> the documentation, instructs genpd to use the PM clk framework while
+> powering on/off attached devices.
+> 
+> During probe, the ADC device is attached to the PM domain
+> controlling the ADC clocks. Similarly, during removal, the ADC device is
+> detached from the PM domain.
+> 
+> The detachment call stack is as follows:
+> 
+> device_driver_detach() ->
+>   device_release_driver_internal() ->
+>     __device_release_driver() ->
+>       device_remove() ->
+>         platform_remove() ->
+>           dev_pm_domain_detach()
+> 
+> During driver unbind, after the ADC device is detached from its PM domain,
+> the device_unbind_cleanup() function is called, which subsequently invokes
+> devres_release_all(). This function handles devres resource cleanup.
+> 
+> If runtime PM is enabled via devm_pm_runtime_enable(), the cleanup process
+> triggers the action or reset function for disabling runtime PM. This
+> function is pm_runtime_disable_action(), which leads to the following call
+> stack of interest when called:
+> 
+> pm_runtime_disable_action() ->
+>   pm_runtime_dont_use_autosuspend() ->
+>     __pm_runtime_use_autosuspend() ->
+>       update_autosuspend() ->
+>         rpm_idle()
+> 
+> The rpm_idle() function attempts to runtime resume the ADC device. However,
+> at the point it is called, the ADC device is no longer part of the PM
+> domain (which manages the ADC clocks). Since the rzg2l_adc runtime PM
+> APIs directly modifies hardware registers, the
+> rzg2l_adc_pm_runtime_resume() function is invoked without the ADC clocks
+> being enabled. This is because the PM domain no longer resumes along with
+> the ADC device. As a result, this leads to system aborts.
+> 
+> Open a devres group in the driver probe and release it in the driver
+> remove. This ensures the runtime PM is disabled (though the devres group)
+> after the rzg2l_adc_remove() finishes its execution avoiding the described
+> scenario.
 
-On Tue, Mar 4, 2025 at 6:43=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.com=
-> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for the patch.
->
-> > -----Original Message-----
-> > From: Prabhakar <prabhakar.csengg@gmail.com>
-> > Sent: 03 March 2025 19:09
-> > Subject: [PATCH] reset: rzg2l-usbphy-ctrl: Correct reset status check
-> >
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Ensure the reset status check explicitly evaluates whether all bits in =
-`port_mask` are set. Replace
-> > the double negation (`!!`) with an equality check to prevent incorrect =
-interpretation of partial bit
-> > matches as an asserted reset.
-> >
-> > Fixes: bee08559701f ("reset: renesas: Add RZ/G2L usbphy control driver"=
-)
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/reset/reset-rzg2l-usbphy-ctrl.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/re=
-set-rzg2l-usbphy-ctrl.c
-> > index 8a7f167e405e..6451f621e862 100644
-> > --- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> > +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> > @@ -88,7 +88,7 @@ static int rzg2l_usbphy_ctrl_status(struct reset_cont=
-roller_dev *rcdev,
-> >
-> >       port_mask =3D id ? PHY_RESET_PORT2 : PHY_RESET_PORT1;
-> >
-> > -     return !!(readl(priv->base + RESET) & port_mask);
-> > +     return (readl(priv->base + RESET) & port_mask) =3D=3D port_mask;
->
->
-> As per the hardware manual, these status bit is valid only when
-> Only when sel_pxreset=3D1.
->
-> If sel_pxreset=3D0, we are reporting invalid status to the caller.
->
-> Maybe we should check sel_pxreset while setting it and read it back to
-> Ensure that it is set to 1 and in this function just check for
-> phyrst_x bit for reporting status
->
-Ok, I will update it as above and send a v2.
+Can you please let me know if you consider this approach acceptable?
 
-Cheers,
-Prabhakar
+Thank you,
+Claudiu
 
