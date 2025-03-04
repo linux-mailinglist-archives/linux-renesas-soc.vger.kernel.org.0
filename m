@@ -1,227 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-13960-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13959-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260D0A4E10A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 15:35:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E055A4E021
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 15:05:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6A7F3A6D4C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 14:26:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A22341644C1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 14:05:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C52A920967E;
-	Tue,  4 Mar 2025 14:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YtHyLO03"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A6C32046A5;
+	Tue,  4 Mar 2025 14:05:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from beeline1.cc.itu.edu.tr (beeline1.cc.itu.edu.tr [160.75.25.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A22A20899C
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 14:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=160.75.25.115
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741098298; cv=pass; b=Zh3IlTSYdFHgX067MyupdtrzbYd2jGKy2LSX9SMWbi9XIR1Q6MGLyj6O/aCUunfnf6B1UyE00vUoM93/Fge7hiDxMyzlJjHOnJfBxisWSJWzvjzcN85VK715nZIQNjZIy9YegeNot/EjeuDWUkbqmx8YzRC9JlUQJK9tSpz4rbE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741098298; c=relaxed/simple;
-	bh=h/6aNDKIJEJax3YQY4YtbeLa1xekm6VvSIFc00ga2qE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cn+gWFkTkXG4XMZg5c1cPiqkzrJmY91qcTfq7qlfSbmyj46nf/Gz02WgL1dcZweVGZF+eq/BT+1E633EpfUgpqnNmMF7xg1VF4CMhZB221XLE35IJus9zN2lbLUu77C2+8Ge29EVDBdAxBPGjsjjBA/hU+nl6ICjJ5Osd/4dM8c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YtHyLO03; arc=none smtp.client-ip=209.85.208.181; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; arc=pass smtp.client-ip=160.75.25.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr
-Received: from lesvatest1.cc.itu.edu.tr (lesvatest1.cc.itu.edu.tr [10.146.128.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by beeline1.cc.itu.edu.tr (Postfix) with ESMTPS id 5607340D5710
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 17:24:55 +0300 (+03)
-X-Envelope-From: <root@cc.itu.edu.tr>
-Authentication-Results: lesvatest1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=YtHyLO03
-Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
-	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6dGB1Yn5zFwbm
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 17:23:46 +0300 (+03)
-Received: by le1 (Postfix, from userid 0)
-	id DBD3842725; Tue,  4 Mar 2025 17:23:32 +0300 (+03)
-Authentication-Results: lesva1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YtHyLO03
-X-Envelope-From: <linux-kernel+bounces-541594-bozkiru=itu.edu.tr@vger.kernel.org>
-Authentication-Results: lesva2.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YtHyLO03
-Received: from fgw1.itu.edu.tr (fgw1.itu.edu.tr [160.75.25.103])
-	by le2 (Postfix) with ESMTP id 0DA2641C98
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:35:17 +0300 (+03)
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by fgw1.itu.edu.tr (Postfix) with SMTP id D97783063EFC
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:35:16 +0300 (+03)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9684B1884B58
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 11:34:42 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CADD11FC7D4;
-	Mon,  3 Mar 2025 11:34:19 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336A51FBCA6;
-	Mon,  3 Mar 2025 11:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32221FC7C9;
+	Tue,  4 Mar 2025 14:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741001656; cv=none; b=SL3qrAt7irPBKhoXB3JhluKKLobKo+zZ9UAUDyUhW+Eozc+fQGUad8b5VNAk7FqmwF98qqV5WLvNaxSHzZ3MuEq5blkdh4N0DEwmUJiFJBXcMjUHD77BJZEhUYb9meXnOVsbw7wlvqiGCR7Tsg2TTtRU/5BikEQUsVnl5HUparM=
+	t=1741097104; cv=none; b=iiTaXEvajUfivbSoWwISIBuUdsLqcjEYkFgvlRCjJ/CsYFnFEJlxdteQlgbhJqN0WPTuuzsC/0IJbyRyTLDhbE9GEIk1siRGaXjykOGmjSesXO29d7E1M/yYFrr2OKaeLB2wWUqgL1NwNMCq4BI4dc4SDUUwMyy1Oy68areSBkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741001656; c=relaxed/simple;
-	bh=h/6aNDKIJEJax3YQY4YtbeLa1xekm6VvSIFc00ga2qE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WjqdfL4xdG+Jy82vmxx0U5OZ2+wu+V6kvN2iYK4YtaPFdX1AM50RdEcrK/7SkP5eQHssfw2S/l/V4DF+DkHG7j/FdKm+XZuWFKlcz7JD1bqdb4gjFRp5/yAL9Mouhl06eqffo/AalbFRQA1AiholJuWbNz1nDLor7fVOBnJw8vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YtHyLO03; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1741097104; c=relaxed/simple;
+	bh=1eoIIC4qiHRnKRLjedXcJ5O9iur+JZ4LV8C6XUhe3qc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CuevJAlDf7VaTcrZoMg1ElXaKN/IvQ4jRm5U/cPH1jVulYXkH5y5aweBtqNjLs6Wn+R+abKbEeqR7tYyYTqgj50iZI4h/yfgdwCHXb92dkjuMsnLNL7g2bQSk8XZRVwN0dJBaogmbQwD9UEJT/QehIC3POiwSJkvt9MFci/P/eA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30615661f98so45009581fa.2;
-        Mon, 03 Mar 2025 03:34:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741001653; x=1741606453; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jKyByvqg+jAL9PKNdpeqdSWpvScxjw4N93b4UfEb/Uo=;
-        b=YtHyLO0357ECTGFU22Up8x85UJV4NccqO2ot5RpmvHfIPZ3vvnrXJXeWuvH0Y83c0j
-         vDzYQjj3Vu7e9vE8pD86bwSQ52XKgbgblv8hN0lYcDNpx8AKWVt18gUW3PjKBCuyLtJc
-         xDmrQAktlv31L6f6rSG6CRyBAl26GxvCCWCfu0TDwnItIPIXy5Es01HjrGlFC5OB9nNU
-         1Z6W5BmobOIplVYoodfBNtNlBcxp+UrYNBxykmc56WEMcsfCE7JdWLIrpQ2qjJrhMw/4
-         ERCfqG4I2Un9Ene8LGq87OLauDH1L2F2yxgjrVI0PmpKJB+NhUMlspnU7tSVKowMU7CY
-         MBhg==
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7c3b533a683so243580985a.2;
+        Tue, 04 Mar 2025 06:05:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741001653; x=1741606453;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jKyByvqg+jAL9PKNdpeqdSWpvScxjw4N93b4UfEb/Uo=;
-        b=k6EQ7q0zetGUI/555PRqH2gjr191Kzn0t0GmkI/e7qOFKNX3DrFfC0I56xI62K972d
-         piyNAyGB2lnnHCAwdW+9Dmo4OJ4Ntkg1AvcIr6XrSZ2L8I4MawgRkNegkF0hUKYVh5Lz
-         7w+flSPp/H+en5bLzlf8bhUj4Pmiaixqr+RwVbgFqbfZ6vsy5in9nJQ56OCJdqWf9uUr
-         OMRs70Brgp8yQJ53Z+Z5OFjNOh2K6Xc9u1BlVmSvJUNerD0/S6+RrVXn3YY+xfA4sWHJ
-         h9vfSWNyqmZs+TM0CvUyxvnImBjXcl/GMFi+R10xLGQ9x+lc1WvtaJFJsXsaqOGIeJr9
-         72rg==
-X-Forwarded-Encrypted: i=1; AJvYcCV631R08IpNvPcBxg+9IMIJ5u/GB3wJZTDY3AkMkRJMS1G2KpcH5q1EOcAGItKcaSF4CMGgE7YQKbAwEu980WG0T0U=@vger.kernel.org, AJvYcCVbbkbKWHL3bqDhxp6wCOEJQ9qI0OhmeHlXqErvvDCPOGC+6C4s4woa8MuH6xckjrGTJMXi332XMhd4@vger.kernel.org, AJvYcCWJyIR02SyElbjgmEBH+WW5F2+fUyiLKu37jGmplrPOYY8/QWchAF2KQ1iZ++ZeCJbc+B8Uu41n8xm+Lg==@vger.kernel.org, AJvYcCWToZiGzVrgaBEL1eyPnyF6/ezpNF/mcrtJNaiXzMAELupn3xwq2e4TeOcHFwNmQPYE0f1arh2ax8P26cwH@vger.kernel.org, AJvYcCXA5vgkNQlQc7KLPxPnBN2lx8vZ/wn5C0H26nZ+1+kEGPXiBfJORVKhPUPiP+mQ3wQb5HnP5pjKmOrA@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgzoiniqZGGCdPNS5L1npXo+wc6V/M+XtlOnAPhWDWCSjvTPI3
-	8PGaheL5A4J2jrfVIk+tu37p6ahV9fNSh9UUqzFn4JbNmGXppxqK
-X-Gm-Gg: ASbGncu7haFeXXOgJcaB2VdkAH8CjYLEVLRMyGOsnB6XymcSsz414jORsB+yk7Cn7Tt
-	xco+h2H+J8oN5eltI8MXjQ0LuAoD50irpO9zJGQ3bxbyZZFofV+IKuw8OAx+9OQsGEl9S5mTRrL
-	FSxWN3gVqTWWIqQeUTXwt8zlchbvhfvlWz98MmjNQZY5fTb5RcKzRqgPPYDYviZZnkRusT8T003
-	mpM5ynOlMUrhMjnk6xki08udKgkk1fBdFNkiOKCjR+x2Dcd91kYd/nL53B05KFVzis105jlmAqe
-	jilsYjxsQaBZTsf3IoKpGwve01Qn4yzQrAPtWeh2l3K1J44inYSHfUSGzetoUUmizFdFqHUpcy1
-	pMD7MqRODbhc=
-X-Google-Smtp-Source: AGHT+IH2q/EQ50OKDdOvQmK3DgcD8QV9qiZg9HjaiRlsRxpoAX3Icmu9TOCjXHgkc5dFCtxPesT+sQ==
-X-Received: by 2002:a2e:9515:0:b0:307:dc1f:e465 with SMTP id 38308e7fff4ca-30b9326b162mr42530121fa.22.1741001653116;
-        Mon, 03 Mar 2025 03:34:13 -0800 (PST)
-Received: from mva-rohm (mobile-access-2e8451-125.dhcp.inet.fi. [46.132.81.125])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30b86875b76sm14035841fa.91.2025.03.03.03.34.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Mar 2025 03:34:12 -0800 (PST)
-Date: Mon, 3 Mar 2025 13:34:06 +0200
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Guillaume Stols <gstols@baylibre.com>,
-	Dumitru Ceclan <mitrutzceclan@gmail.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [PATCH v5 08/10] MAINTAINERS: Add IIO ADC helpers
-Message-ID: <78c18b224cd18b1bd83eea51c7e52dcea28e3d50.1740993491.git.mazziesaccount@gmail.com>
-References: <cover.1740993491.git.mazziesaccount@gmail.com>
-Precedence: bulk
+        d=1e100.net; s=20230601; t=1741097101; x=1741701901;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wEGRTygTyU6cymLHKZseFJhmsuIezHZQHssj+Olk7dA=;
+        b=oOsKP2EtuHAiJzsKQi3Xjm34nzzq0tlBwOyeYJg2xzAhZIKzINZy339df/TMIcLM3V
+         mU1JKcoTLSLB/z7Z/iky372RLBLwZc+IGWr1XepxhPmS3rpWOiZ+KoUMfXfqnhaxm+by
+         Q8WHCqpe0f5UIHmmxiMMcF4CC1kXIuA2XDfMjNFYb97q2BY809vQeXx+NBbPUxixI7ps
+         Uxb5SsXp0Gqmo7wPU1fQKVPNnMOjwpJjSGfGZBnvPeuk2a8vxgXG7jg8EzPFG7vOB0uv
+         mQE4dq7Dq1iTZzG6rr+KNoCK3lNYtjKsW38DNH9XEJ5SSjw0M/7XvSYIflXiLIvH1hBx
+         2ZiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5J2JyTtRgoYdZueHCW3D4XBjQqF/oT2ulBiyOvfw1mKcqEJ2Gmkj4/xgMmkVyRNnrX7km+k5taqZaxWXr@vger.kernel.org, AJvYcCUoa5KnKP9KKAjCP7XRUTrj3sQjT0K5k68s/ERxI6puTaqE7tc3IRGjVurzGW+6hXt12MK9rRnrbIdXmSmIQCiyO1s=@vger.kernel.org, AJvYcCV9L7EyFH2rl28/gTrIGumLj1OHEDMXpPBxT11qMfcdpUjKI//6EyyJOKDAxzhL5Czo7G/bSDQm@vger.kernel.org, AJvYcCWBOGagp1egzs4ihQY4vIf8K5IqnXwzT+GHn3VdSYRR4IH0rlqWgLWHrDAcvtzkb6Ms5TwWXBlOHz4g@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKQ/xAZeeWqFjSOAovnEzA45kSWYbErSUSo38qYa8/65K1ahTv
+	ltVPod5QNjdRKcEzcuvBoDUh5WewBgR6mp6l8XUXPtqWEqvAYgBaJYGcuIfu
+X-Gm-Gg: ASbGncsEt83bXHlolzm6ekHY0leFM0XYb1GRMM9X2kDyzO8DlkshjcUm5+Ko20INCpg
+	/8FbZG4ZRGCo4WDutH283okyhZGY6pnifz21QFw9lnB4cR8kcnJZcEtVvcylKdaFF0bpxYoiw3P
+	6GJ5T2z2ro3Q92uab5RhmhkKH15cq1/Xzt12yX7l8T915vNliswMDzXknEtWPYyI9yW+rQ1TRTm
+	YbDMfEZ8ArEtmeVHJ+Hz4W5yBuaEGjDRjeLd7vlhsLr5uqMpFoE2WqrH6OdxPD8ddNUD/Gr6mIz
+	4waTLS/CcIDwWamnNJdRckmvXfPvRHpDcPpBuyA6Bbz0Q1W2zJy7DuU1i28oWgSN1mf+UPOBftd
+	eB6q13sI=
+X-Google-Smtp-Source: AGHT+IE2N8f8hUagKLqg+WW0SX5zS2E+TiqiD9xESm5aR7zJzYlyjIWpNTeS1f6CZd3NHj8CEiawww==
+X-Received: by 2002:a05:620a:26a7:b0:7c3:d3a1:6f43 with SMTP id af79cd13be357-7c3d3a17071mr174218585a.57.1741097100956;
+        Tue, 04 Mar 2025 06:05:00 -0800 (PST)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com. [209.85.219.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c3b53ce7a6sm322668285a.31.2025.03.04.06.04.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Mar 2025 06:04:59 -0800 (PST)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6e88983cedaso43141756d6.1;
+        Tue, 04 Mar 2025 06:04:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUOSmxwrOqyDqku76a94/WWmtz1pA64t7uJWEGottWGbSsATILfz4aZ1LBlxlUJNZBDOmWdP7IfjHodPeem@vger.kernel.org, AJvYcCVktdYIZriim03kjfud4VwPDbrwe9ztsi4T3WggTkF+6Jm0nQUTOeIHMCDqdqsrPdf4JpU5OzuqjVzg@vger.kernel.org, AJvYcCW3gFLL1eK2c+VVADAINAdnA0hhMxvzykcz3pK2Gc0dAbXkAgmXcMAQaRiILgZzeNFfuHzNWeifaInXpThtY/G3/Hs=@vger.kernel.org, AJvYcCW88syuJ+YNOxeSuZTUMzT+Bw3L/4uHdXwHgTZugvglUtDRWj0HpetljevJ3s8u0dnzdPfdNOUB@vger.kernel.org
+X-Received: by 2002:a05:6214:21e7:b0:6e6:5aa2:4e4f with SMTP id
+ 6a1803df08f44-6e8a0d80ce8mr261405046d6.32.1741097099661; Tue, 04 Mar 2025
+ 06:04:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5Rvc/P61F8vV1THI"
-Content-Disposition: inline
-In-Reply-To: <cover.1740993491.git.mazziesaccount@gmail.com>
-X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for more information
-X-ITU-Libra-ESVA-ID: 4Z6dGB1Yn5zFwbm
-X-ITU-Libra-ESVA: No virus found
-X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
-X-ITU-Libra-ESVA-Watermark: 1741703031.52489@aCv0nnHXg+/FdLV8k1NDTA
-X-ITU-MailScanner-SpamCheck: not spam
+References: <20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250302181808.728734-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Z8SydsdDsZfdrdbE@shell.armlinux.org.uk> <CA+V-a8vCB7nP=tsv4UkOwODSs-9hiG-PxN6cpihfvwjq2itAHg@mail.gmail.com>
+ <Z8TRQX2eaNzXOzV0@shell.armlinux.org.uk> <CA+V-a8vykhxqP30iTwN6yrqDgT8YRVE_MadjiTFp653rHVqMNg@mail.gmail.com>
+ <Z8WQJQo5kW9QV-wV@shell.armlinux.org.uk> <TY3PR01MB113468803E298C5FA6FB6712886C82@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <Z8bPPaT4Vsob4FHH@shell.armlinux.org.uk>
+In-Reply-To: <Z8bPPaT4Vsob4FHH@shell.armlinux.org.uk>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 4 Mar 2025 15:04:47 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVQkzDhJmkpGah7omE7UqTgM3GSpVVDE-1mh9wW7O8vBA@mail.gmail.com>
+X-Gm-Features: AQ5f1JqGYJsTOdNI9PAwDvGf850hGSzvpOQrNGjb6j2I3wF8GT8UjrisfucgoQw
+Message-ID: <CAMuHMdVQkzDhJmkpGah7omE7UqTgM3GSpVVDE-1mh9wW7O8vBA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] net: stmmac: Add DWMAC glue layer for Renesas GBETH
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Emil Renner Berthing <kernel@esmil.dk>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Russell,
 
---5Rvc/P61F8vV1THI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 4 Mar 2025 at 11:00, Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
+> For the failure to happen, you need to check whether EEE is being used:
+>
+> # ethtool --show-eee ethX
 
-Add undersigned as a maintainer for the IIO ADC helpers.
+Doh, that's also not supported on Starlight (BeagleV beta).
 
-Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
----
-Revision history:
-RFC v1 =3D> v2:
- - New patch
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+I tried unbind/rebind regardless, and it works (sort of),
+using the old Beagle V Fedora rootfs on microSD:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8e0736dc2ee0..5b96fb864227 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11208,6 +11208,13 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	drivers/media/rc/iguanair.c
-=20
-+IIO ADC HELPERS
-+M:	Matti Vaittinen <mazziesaccount@gmail.com>
-+L:	linux-iio@vger.kernel.org
-+S:	Maintained
-+F:	drivers/iio/adc/industrialio-adc.c
-+F:	include/linux/iio/adc-helpers.h
-+
- IIO BACKEND FRAMEWORK
- M:	Nuno Sa <nuno.sa@analog.com>
- R:	Olivier Moysan <olivier.moysan@foss.st.com>
---=20
-2.48.1
+[root@fedora-starfive starfive-dwmac]# echo 10020000.ethernet > unbind
+starfive-dwmac 10020000.ethernet eth0: stmmac_dvr_remove: removing driver
+starfive-dwmac 10020000.ethernet eth0: Link is Down
+[root@fedora-starfive starfive-dwmac]# echo 10020000.ethernet > bind
+starfive-dwmac 10020000.ethernet: IRQ eth_lpi not found
+starfive-dwmac 10020000.ethernet: IRQ sfty not found
+starfive-dwmac 10020000.ethernet: Hash table entries set to unexpected value 32
+starfive-dwmac 10020000.ethernet: User ID: 0x59, Synopsys ID: 0x37
+starfive-dwmac 10020000.ethernet:        DWMAC1000
+starfive-dwmac 10020000.ethernet: DMA HW capability register supported
+starfive-dwmac 10020000.ethernet: RX Checksum Offload Engine supported
+starfive-dwmac 10020000.ethernet: COE Type 2
+starfive-dwmac 10020000.ethernet: Wake-Up On Lan supported
+starfive-dwmac 10020000.ethernet: Enhanced/Alternate descriptors
+starfive-dwmac 10020000.ethernet: Enabled extended descriptors
+starfive-dwmac 10020000.ethernet: Chain mode enabled
+starfive-dwmac 10020000.ethernet: Enable RX Mitigation via HW Watchdog Timer
+starfive-dwmac 10020000.ethernet: device MAC address fa:58:39:0a:37:37
+libphy: get_phy_c22_id: mii_bus stmmac phy_id = 0x00221622
+starfive-dwmac 10020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+starfive-dwmac 10020000.ethernet eth0: PHY [stmmac-0:07] driver
+[Micrel KSZ9031 Gigabit PHY] (irq=POLL)
+dwmac1000: Master AXI performs fixed burst length
+starfive-dwmac 10020000.ethernet eth0: No Safety Features support found
+starfive-dwmac 10020000.ethernet eth0: No MAC Management Counters available
+starfive-dwmac 10020000.ethernet eth0: IEEE 1588-2008 Advanced
+Timestamp supported
+starfive-dwmac 10020000.ethernet eth0: configuring for phy/rgmii-id link mode
+starfive-dwmac 10020000.ethernet eth0: Link is Up - 1Gbps/Full - flow
+control off
 
+Apparently the MAC address has changed, so the board got a different
+IP address from my DHCP server :-(
 
---5Rvc/P61F8vV1THI
-Content-Type: application/pgp-signature; name="signature.asc"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmfFk64ACgkQeFA3/03a
-ocUpgwf/SNY3Pn6d3XX6wgquUJWMeNypZTRBxzVX+t3Nm+6wYifiTOOpcNdIYHfV
-UEO/B8hbJ6BzXcUxHFFEUnq5pTr/a1gbQvg+rtBnZiXV95/wnLJjJgx9guw7IW48
-BjUoZhymuhP201Y3/EzSSXwe7MnrOTaUfcTwBxZQSsipdd8PK9co9V1EzEGGIeO+
-LqTyj2W1KqdWOE5qqnTZhzLj3fdEYfJoxyUdXWiHJEcmDyoc9qZ0HNnsLa59j5Co
-d+8xCLwqyB6CFOJWkl7gL/92nAyFvn1XzEvpuQGyz2Ouoo1cZexz/6s+UvexWkuo
-Hh1QZj0U9ni99bqIrOfrEk7zUk5lMQ==
-=gikD
------END PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---5Rvc/P61F8vV1THI--
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
