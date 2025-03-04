@@ -1,336 +1,315 @@
-Return-Path: <linux-renesas-soc+bounces-13947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13948-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29A4A4D819
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 10:26:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC69FA4D9AE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 11:02:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A60631887C37
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 09:26:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 455603A9B91
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Mar 2025 10:00:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFEB31FE45A;
-	Tue,  4 Mar 2025 09:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1B041FDA6D;
+	Tue,  4 Mar 2025 10:00:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="H8jehxoa"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="Nmoz8sAJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEF71FDE04
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Mar 2025 09:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3EF1EFF9F;
+	Tue,  4 Mar 2025 10:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741080321; cv=none; b=C/AN3OQ/uQZCSm9H1IJ5heMU4fzv+kiBu4ckrNVkTpqvQTNiTrwVIsSaav8qada9mTxUKEZZguDx9Nb/7swvhLKT1e2mIWdhoS3qGgKwCwlEt1zcnm0eD+lUob6giXfq+wvxcuqyVrR4iRo+pqGwk1fL6M0fIdIzY/G23+333Wo=
+	t=1741082459; cv=none; b=dTM1O83rE3i3rI3u6hHYSV1myIdEj7GrZusGunf2SMAuJGCTWH0Yw8s0KM/nmyWYNjOr+JOI7+GxI4COupTQfvpfMqyoi+MvH6y80qHiApt29iFGUjpcUGlds/8kTN+zLhNYzgx7ZGBe7maZs7Kpq2ZWVPY4crkHO0Oor5aP71Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741080321; c=relaxed/simple;
-	bh=xRC63YN3+rHHCv+C8M4xBY81AdOzVX+WwK/6KZrNcDs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W7bH/ZuVifZJoFhNPiEUaJ/1//llD3Wu5spPJ7OVdlydtdVgk2FqBxYJBfffcqSdx8VTUY+CR+IMmYQ6Fa+l33EXHMId3GDinpgqUKdhOCMB/Qg39q+kw+W6qQKVUcDShQDi42pq/jCRj2ga01ET6axRBDLfqbB7waHwXksk14U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=H8jehxoa; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30b83290b7bso62505991fa.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Mar 2025 01:25:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1741080315; x=1741685115; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WNHGZZAfC/OeouxLYsdw1LTwRghW2GqRfwvXDc9ArBc=;
-        b=H8jehxoaGE94GBwzsL2Jg+wwXvOwmQ79qqLwyyCfZkfIgEAPLg0xuq0Tr/DfO+azFS
-         6Uz1OFtDbhSK/+3iNWPeFr8fusAE0uP5BRTBi3E1pG7eQ1OzoWZ0+7oAuT+tLZe1bBC0
-         i3ijAKjGQikQGwZaxW1LsnB9n4A1nDwP1VkFXg6vDrOE9qPPm6MCoIzLsTok3N7oTIar
-         OZCtRy5rAyKjc4PD6OSarw1qKtR88tQNlq++7CidnoYzev7/2uIu2bB87veuAYDgxvna
-         oOw4h+DOYbA2HrdRVI3xW4+XqPVaABCiaDd1o/6QLxbEvS06M3l3K8BtQKWfCFm+Pxpk
-         LyyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741080315; x=1741685115;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WNHGZZAfC/OeouxLYsdw1LTwRghW2GqRfwvXDc9ArBc=;
-        b=XvK5zpZWO63DjxaaRCJdN8bD2UPPj5WDHXXTX+St9y1q8gKA1rYt/GmDO7DTUjIhf3
-         k5l8VnmG/OCiaA/Oihr+AXCvWXCCUWu9mHCsaIA7C3BSzpYvl8XVPRsaBieR71x+5Zty
-         QpTcqYd6+kZusEW+2zT6SWxuwyp2lLxxg6DgPCdIGglkotaAlZCM9VahkGWOat4Zyotm
-         TqbCKhI+sooK4/HqyhzD30L7dFvE8+I62pXk5uglEQBpADYBquZsENDRcwGUBmGq+XDN
-         fZqm109vbsZl2sleZXEaHc35nLHjF6OrJ60bZ+zIXmC5MzVPzdycx1P6dJ9jjKSIUUXj
-         oZ+A==
-X-Forwarded-Encrypted: i=1; AJvYcCXxM2iTG90+8zb0fzYMxan2AgylyECVA9/T73yoD0esxeQ28XByjhArc0X6dbjbPgFoJ6vGJ1ZJktUCsNzF9rKwdg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGbnJ6x6sa2Ieo5Ev1I8I7VRo4VJOSgMQUWCFVHqvLzfNvvGVu
-	FwYtqQk5VtaytJ8xjZl+v8q6NIPoLgM+LpCNK/wDk4i1C3NUADe6VRGolGBu2rxd2M0etWwOki1
-	Rk92iBe7IVOj2OX8zbQKld+cQgxb6r2flzoVwvQ==
-X-Gm-Gg: ASbGncuT4xXaMpGYNNg/YkkgXiTEtnl/CkiAo3KbSxMnNgFLg7HMbjz6D6RdzO/0tXy
-	SAsC8fxcJQ08nYuDc0yGmvPXoz5ovX4cZrbfN+7v32HCenBMWZCsqyFNeF4lp1VPfa/bRhwYHQ3
-	g7L1CsemIDwjsrVhGkRKqQOR1Iqg==
-X-Google-Smtp-Source: AGHT+IGBR2saDF3QQilBjubdBkLz9GIwt81EvLWpbxtqjDwEqBVukkswrlVo60Wa8sQgAwNowo9qt17F/oOZ+WCjClQ=
-X-Received: by 2002:a2e:9c92:0:b0:308:e803:1180 with SMTP id
- 38308e7fff4ca-30b9344cee6mr42882981fa.31.1741080315257; Tue, 04 Mar 2025
- 01:25:15 -0800 (PST)
+	s=arc-20240116; t=1741082459; c=relaxed/simple;
+	bh=Vgqe3zLO+Pp2/f9cP/ojjsyBApW+0sTc+qloiAFX9BY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N8g5U92Gk5kM50abjvGUBCedN+I41TRB/7Ef8DbsUhKMZ1JF5zPzpm2l0E33cLc64VqaL01rnOJ07ciXIhqgANWw0LirLQCTLri+ieQY2X+nI/2vj9QS40vGqZkmqzfY1aAAC4BDIO1YDysP5bJtrxllznx5viSlzvMmgLiNdHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=Nmoz8sAJ; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=qvlkut7rQLG9lL2VWbf+Ug+yb0MwlQH5yDChM2yjI98=; b=Nmoz8sAJIsWHRVnrQ4LIPHNGk4
+	L5paCqjU5GKfRzB4XM+bd/RANemYeM5zvxHcXtv7ysLlkKvg3UpWV4sgdU3QxoozDtMlUViwrIRGV
+	/tX/XxkMAd+mYtkXSEaFA8awJ6n++PzyATfL1V9mZJxJiECxIoFde9fueU86b9OLCdhedKXLJC4fc
+	iBhS4UqDj/dp5e3GGrKr+DXzL437iJC4Gf0lCjmPj0sulvFaw/YTIH03BUKqQy+mkBQ4QgP4TTVy1
+	u0KALHVg7kmmTuvqBZGb/gkSTmre+FAgoXNeSBdTJvQI/1H/WUV6BU+pTlXUlV9MO87CdIC83UR/d
+	MLUPjzQw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:50332)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1tpP4m-0002Nz-1b;
+	Tue, 04 Mar 2025 10:00:36 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1tpP4f-0004hB-2T;
+	Tue, 04 Mar 2025 10:00:29 +0000
+Date: Tue, 4 Mar 2025 10:00:29 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 3/3] net: stmmac: Add DWMAC glue layer for Renesas GBETH
+Message-ID: <Z8bPPaT4Vsob4FHH@shell.armlinux.org.uk>
+References: <20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250302181808.728734-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Z8SydsdDsZfdrdbE@shell.armlinux.org.uk>
+ <CA+V-a8vCB7nP=tsv4UkOwODSs-9hiG-PxN6cpihfvwjq2itAHg@mail.gmail.com>
+ <Z8TRQX2eaNzXOzV0@shell.armlinux.org.uk>
+ <CA+V-a8vykhxqP30iTwN6yrqDgT8YRVE_MadjiTFp653rHVqMNg@mail.gmail.com>
+ <Z8WQJQo5kW9QV-wV@shell.armlinux.org.uk>
+ <TY3PR01MB113468803E298C5FA6FB6712886C82@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1740993491.git.mazziesaccount@gmail.com> <e71c63c2f61135f9a8c7884525aab2c48f1e84c2.1740993491.git.mazziesaccount@gmail.com>
-In-Reply-To: <e71c63c2f61135f9a8c7884525aab2c48f1e84c2.1740993491.git.mazziesaccount@gmail.com>
-From: David Lechner <dlechner@baylibre.com>
-Date: Tue, 4 Mar 2025 10:25:03 +0100
-X-Gm-Features: AQ5f1JpLki6dbkM9Ig67nt3sfSzm1pr_ewW2yyuU-GO1iNjarygbWgXgDim39ws
-Message-ID: <CAMknhBGQaqFZJsPAoauZL4S5MYtN05EOQ-BO2vw5gH+Z2RLOhw@mail.gmail.com>
-Subject: Re: [PATCH v5 03/10] iio: adc: add helpers for parsing ADC nodes
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>, 
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Guillaume Stols <gstols@baylibre.com>, 
-	Dumitru Ceclan <mitrutzceclan@gmail.com>, Trevor Gamblin <tgamblin@baylibre.com>, 
-	Matteo Martelli <matteomartelli3@gmail.com>, Alisa-Dariana Roman <alisadariana@gmail.com>, 
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <TY3PR01MB113468803E298C5FA6FB6712886C82@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Mon, Mar 3, 2025 at 12:32=E2=80=AFPM Matti Vaittinen
-<mazziesaccount@gmail.com> wrote:
->
-> There are ADC ICs which may have some of the AIN pins usable for other
-> functions. These ICs may have some of the AIN pins wired so that they
-> should not be used for ADC.
->
-> (Preferred?) way for marking pins which can be used as ADC inputs is to
-> add corresponding channels@N nodes in the device tree as described in
-> the ADC binding yaml.
->
-> Add couple of helper functions which can be used to retrieve the channel
-> information from the device node.
->
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
->
-> ---
-> Revision history:
-> v4 =3D> v5:
-> - Inline iio_adc_device_num_channels()
-> - Fix Indenting function parameters
-> - Combine the max channel ID checks.
-> v3 =3D> v4:
->  - Drop diff-channel support
->  - Drop iio_adc_device_channels_by_property()
->  - Add IIO_DEVICE namespace
->  - Move industrialio-adc.o to top of the Makefile
->  - Some styling as suggested by Andy
->  - Re-consider included headers
-> v2 =3D> v3: Mostly based on review comments by Jonathan
->  - Support differential and single-ended channels
->  - Rename iio_adc_device_get_channels() as
->    iio_adc_device_channels_by_property()
->  - Improve spelling
->  - Drop support for cases where DT comes from parent device's node
->  - Decrease loop indent by reverting node name check conditions
->  - Don't set 'chan->indexed' by number of channels to keep the
->    interface consistent no matter how many channels are connected.
->  - Fix ID range check and related comment
-> RFC v1 =3D> v2:
->  - New patch
-> ---
->  drivers/iio/adc/Kconfig            |  3 ++
->  drivers/iio/adc/Makefile           |  2 +
->  drivers/iio/adc/industrialio-adc.c | 82 ++++++++++++++++++++++++++++++
->  include/linux/iio/adc-helpers.h    | 27 ++++++++++
->  4 files changed, 114 insertions(+)
->  create mode 100644 drivers/iio/adc/industrialio-adc.c
->  create mode 100644 include/linux/iio/adc-helpers.h
->
-> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> index 849c90203071..37b70a65da6f 100644
-> --- a/drivers/iio/adc/Kconfig
-> +++ b/drivers/iio/adc/Kconfig
-> @@ -6,6 +6,9 @@
->
->  menu "Analog to digital converters"
->
-> +config IIO_ADC_HELPER
-> +       tristate
-> +
->  config AB8500_GPADC
->         bool "ST-Ericsson AB8500 GPADC driver"
->         depends on AB8500_CORE && REGULATOR_AB8500
-> diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
-> index ee19afba62b7..1c410f483029 100644
-> --- a/drivers/iio/adc/Makefile
-> +++ b/drivers/iio/adc/Makefile
-> @@ -3,6 +3,8 @@
->  # Makefile for IIO ADC drivers
->  #
->
-> +obj-$(CONFIG_IIO_ADC_HELPER) +=3D industrialio-adc.o
-> +
->  # When adding new entries keep the list in alphabetical order
->  obj-$(CONFIG_AB8500_GPADC) +=3D ab8500-gpadc.o
->  obj-$(CONFIG_AD_SIGMA_DELTA) +=3D ad_sigma_delta.o
-> diff --git a/drivers/iio/adc/industrialio-adc.c b/drivers/iio/adc/industr=
-ialio-adc.c
-> new file mode 100644
-> index 000000000000..7bdae5330224
-> --- /dev/null
-> +++ b/drivers/iio/adc/industrialio-adc.c
-> @@ -0,0 +1,82 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Helpers for parsing common ADC information from a firmware node.
-> + *
-> + * Copyright (c) 2025 Matti Vaittinen <mazziesaccount@gmail.com>
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/errno.h>
-> +#include <linux/export.h>
-> +#include <linux/module.h>
-> +#include <linux/property.h>
-> +#include <linux/types.h>
-> +
-> +#include <linux/iio/adc-helpers.h>
-> +#include <linux/iio/iio.h>
-> +
-> +/**
-> + * devm_iio_adc_device_alloc_chaninfo_se - allocate and fill iio_chan_sp=
-ec for ADC
-> + *
-> + * Scan the device node for single-ended ADC channel information. Channe=
-l ID is
-> + * expected to be found from the "reg" property. Allocate and populate t=
-he
-> + * iio_chan_spec structure corresponding to channels that are found. The=
- memory
-> + * for iio_chan_spec structure will be freed upon device detach.
-> + *
-> + * @dev:               Pointer to the ADC device.
-> + * @template:          Template iio_chan_spec from which the fields of a=
-ll
-> + *                     found and allocated channels are initialized.
-> + * @max_chan_id:       Maximum value of a channel ID. Use -1 if no check=
-ing
-> + *                     is required.
-> + * @cs:                        Location where pointer to allocated iio_c=
-han_spec
-> + *                     should be stored.
-> + *
-> + * Return:     Number of found channels on succes. Negative value to ind=
-icate
+On Tue, Mar 04, 2025 at 06:58:44AM +0000, Biju Das wrote:
+> Hi Russel king,
+> 
+> > -----Original Message-----
+> > From: Russell King <linux@armlinux.org.uk>
+> > Sent: 03 March 2025 11:19
+> > Subject: Re: [PATCH 3/3] net: stmmac: Add DWMAC glue layer for Renesas GBETH
+> > 
+> > On Sun, Mar 02, 2025 at 10:02:15PM +0000, Lad, Prabhakar wrote:
+> > > Hi Russell,
+> > >
+> > > On Sun, Mar 2, 2025 at 9:44 PM Russell King (Oracle)
+> > > <linux@armlinux.org.uk> wrote:
+> > > >
+> > > > On Sun, Mar 02, 2025 at 09:20:49PM +0000, Lad, Prabhakar wrote:
+> > > > > Hi Russell,
+> > > > > > What is the reason for setting this flag? If it's because of
+> > > > > > suspend/ resume failures, does my "net: stmmac: fix resume
+> > > > > > failures due to RX clock" series solve this for you without requiring this flag?
+> > > > > >
+> > > > > Ive set this flag based on the configuration supported by this IP.
+> > > > > Unfortunately the platform which I am working on doesn't support
+> > > > > s2r yet so I cannot test suspend/resume path yet. But I do see an
+> > > > > issue when I unload and load just the glue module the DMA reset fails.
+> > > >
+> > > > Thanks for that feedback - that's a scenario I hadn't considered.
+> > > >
+> > > > I was trying to avoid having to disable LPI RX clock-stop on suspend
+> > > > by ensuring that it was enabled at resume time. I think that's
+> > > > valid, but you've brought up another similar scenario:
+> > > >
+> > > > - device is brought up, configures RX clock stop
+> > > > - links with media, negotiates EEE
+> > > > - driver is unloaded, link doesn't go down, but due to no traffic goes
+> > > >   into idle, so RX clock is stopped
+> > > > - driver reloaded, RX clock still stopped, reset fails
+> > > >
+> > > > I would like to solve that so we can get the power savings from
+> > > > stopping the clock, but still have reset work when necessary.
+> > > >
+> > > I would be happy to test the patches ;)
+> > >
+> > > > I'm guessing that the "DMA reset fails" refers to this path:
+> > > >
+> > > > stmmac_open() -> __stmmac_open() -> stmmac_hw_setup() ->
+> > > > stmmac_init_dma_engine() -> stmmac_reset() ?
+> > > >
+> > > Yes.
+> > >
+> > > > In other words, when the device is being brought back up
+> > > > adminsitratively?
+> > > >
+> > > > What happens if you (replace $if):
+> > > >
+> > > > # ip li set dev $if down
+> > > > # ip li set dev $if up
+> > > >
+> > > > Does that also fail without STMMAC_FLAG_RX_CLK_RUNS_IN_LPI set?
+> > > >
+> > > Logs without STMMAC_FLAG_RX_CLK_RUNS_IN_LPI flag set:
+> > > --------------------------------------------------------------
+> > > root@rzv2h-evk-alpha:~# ip li set dev eth1 down
+> > > [   33.606549] renesas-gbeth 15c40000.ethernet eth1: Link is Down
+> > > root@rzv2h-evk-alpha:~#
+> > > root@rzv2h-evk-alpha:~# ip li set dev eth0 down
+> > > [   37.356992] renesas-gbeth 15c30000.ethernet eth0: Link is Down
+> > > root@rzv2h-evk-alpha:~#
+> > > root@rzv2h-evk-alpha:~# ip li set dev eth1 up
+> > > [   43.974803] renesas-gbeth 15c40000.ethernet eth1: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-0
+> > > [   43.983189] renesas-gbeth 15c40000.ethernet eth1: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-1
+> > > [   43.991155] renesas-gbeth 15c40000.ethernet eth1: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-2
+> > > [   43.999128] renesas-gbeth 15c40000.ethernet eth1: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-3
+> > > [   44.072079] renesas-gbeth 15c40000.ethernet eth1: PHY [stmmac-1:00]
+> > > driver [Microchip KSZ9131 Gigabit PHY] (irq=POLL)
+> > > [   44.094605] dwmac4: Master AXI performs fixed burst length
+> > > [   44.100138] renesas-gbeth 15c40000.ethernet eth1: No Safety
+> > > Features support found
+> > > [   44.107748] renesas-gbeth 15c40000.ethernet eth1: IEEE 1588-2008
+> > > Advanced Timestamp supported
+> > > [   44.116725] renesas-gbeth 15c40000.ethernet eth1: registered PTP clock
+> > > [   44.123352] renesas-gbeth 15c40000.ethernet eth1: configuring for
+> > > phy/rgmii-id link mode
+> > > root@rzv2h-evk-alpha:~#
+> > > root@rzv2h-evk-alpha:~# ip li set dev eth1[   47.207761] renesas-gbeth
+> > > 15c40000.ethernet eth1: Link is Up - 1Gbps/Full - flow control off ^C
+> > > root@rzv2h-evk-alpha:~# ^C root@rzv2h-evk-alpha:~# ip li set dev eth0
+> > > up
+> > > [   55.636722] renesas-gbeth 15c30000.ethernet eth0: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-0
+> > > [   55.645139] renesas-gbeth 15c30000.ethernet eth0: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-1
+> > > [   55.653111] renesas-gbeth 15c30000.ethernet eth0: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-2
+> > > [   55.661073] renesas-gbeth 15c30000.ethernet eth0: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-3
+> > > [   55.732087] renesas-gbeth 15c30000.ethernet eth0: PHY [stmmac-0:00]
+> > > driver [Microchip KSZ9131 Gigabit PHY] (irq=POLL)
+> > > [   55.754612] dwmac4: Master AXI performs fixed burst length
+> > > [   55.760143] renesas-gbeth 15c30000.ethernet eth0: No Safety
+> > > Features support found
+> > > [   55.767740] renesas-gbeth 15c30000.ethernet eth0: IEEE 1588-2008
+> > > Advanced Timestamp supported
+> > > [   55.776705] renesas-gbeth 15c30000.ethernet eth0: registered PTP clock
+> > > [   55.783333] renesas-gbeth 15c30000.ethernet eth0: configuring for
+> > > phy/rgmii-id link mode
+> > > root@rzv2h-evk-alpha:~#
+> > > root@rzv2h-evk-alpha:~# [   58.855844] renesas-gbeth 15c30000.ethernet
+> > > eth0: tx_clk_stop=1
+> > > [   58.861989] renesas-gbeth 15c30000.ethernet eth0: Link is Up -
+> > > 1Gbps/Full - flow control rx/tx
+> > >
+> > > root@rzv2h-evk-alpha:~#
+> > > root@rzv2h-evk-alpha:~#
+> > >
+> > > Logs with STMMAC_FLAG_RX_CLK_RUNS_IN_LPI flag set:
+> > > --------------------------------------------------------------
+> > > root@rzv2h-evk-alpha:~# ip li set dev eth1 down
+> > > [   30.053790] renesas-gbeth 15c40000.ethernet eth1: Link is Down
+> > > root@rzv2h-evk-alpha:~# ip li set dev eth0 down
+> > > [   35.366935] renesas-gbeth 15c30000.ethernet eth0: Link is Down
+> > > root@rzv2h-evk-alpha:~# ip li set dev eth1 up
+> > > [   40.448563] renesas-gbeth 15c40000.ethernet eth1: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-0
+> > > [   40.456725] renesas-gbeth 15c40000.ethernet eth1: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-1
+> > > [   40.464893] renesas-gbeth 15c40000.ethernet eth1: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-2
+> > > [   40.472840] renesas-gbeth 15c40000.ethernet eth1: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-3
+> > > [   40.543895] renesas-gbeth 15c40000.ethernet eth1: PHY [stmmac-1:00]
+> > > driver [Microchip KSZ9131 Gigabit PHY] (irq=POLL)
+> > > [   40.566419] dwmac4: Master AXI performs fixed burst length
+> > > [   40.571949] renesas-gbeth 15c40000.ethernet eth1: No Safety
+> > > Features support found
+> > > [   40.579550] renesas-gbeth 15c40000.ethernet eth1: IEEE 1588-2008
+> > > Advanced Timestamp supported
+> > > [   40.588505] renesas-gbeth 15c40000.ethernet eth1: registered PTP clock
+> > > [   40.595135] renesas-gbeth 15c40000.ethernet eth1: configuring for
+> > > phy/rgmii-id link mode
+> > > root@rzv2h-evk-alpha:~#
+> > > root@rzv2h-evk-alpha:~# [   43.687551] renesas-gbeth 15c40000.ethernet
+> > > eth1: Link is Up - 1Gbps/Full - flow control off
+> > >
+> > > root@rzv2h-evk-alpha:~# ip li set dev eth0 up
+> > > [   49.644479] renesas-gbeth 15c30000.ethernet eth0: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-0
+> > > [   49.652719] renesas-gbeth 15c30000.ethernet eth0: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-1
+> > > [   49.660681] renesas-gbeth 15c30000.ethernet eth0: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-2
+> > > [   49.669059] renesas-gbeth 15c30000.ethernet eth0: Register
+> > > MEM_TYPE_PAGE_POOL RxQ-3
+> > > [   49.740011] renesas-gbeth 15c30000.ethernet eth0: PHY [stmmac-0:00]
+> > > driver [Microchip KSZ9131 Gigabit PHY] (irq=POLL)
+> > > [   49.762518] dwmac4: Master AXI performs fixed burst length
+> > > [   49.768057] renesas-gbeth 15c30000.ethernet eth0: No Safety
+> > > Features support found
+> > > [   49.775655] renesas-gbeth 15c30000.ethernet eth0: IEEE 1588-2008
+> > > Advanced Timestamp supported
+> > > [   49.784609] renesas-gbeth 15c30000.ethernet eth0: registered PTP clock
+> > > [   49.791236] renesas-gbeth 15c30000.ethernet eth0: configuring for
+> > > phy/rgmii-id link mode
+> > > root@rzv2h-evk-alpha:~#
+> > > root@rzv2h-evk-alpha:~# [   52.871635] renesas-gbeth 15c30000.ethernet
+> > > eth0: tx_clk_stop=1
+> > > [   52.877777] renesas-gbeth 15c30000.ethernet eth0: Link is Up -
+> > > 1Gbps/Full - flow control rx/tx
+> > 
+> down/upping the interface but it seems you get different behaviour.
+> > 
+> > I'd like to understand why that is, because at the moment I'm wondering whether my patches that
+> > address the suspend/resume need further work before I send them - but in order to assess that, I need
+> > to work out why your issue only seems to occur in the module removal/insertion and not down/up as well
+> > as I'd expect.
+> 
+> FYI, With linux next, On RZ/G3E SoC which has similar IP as RZ/V2H,i
+> ethernet works during suspend entry/exit
+> Even though STR is not fully functional yet.
 
-s/succes/success/
+For the failure to happen, you need to check whether EEE is being used:
 
-> + *             failure.
-> + */
-> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
-> +                                         const struct iio_chan_spec *tem=
-plate,
-> +                                         int max_chan_id,
-> +                                         struct iio_chan_spec **cs)
-> +{
-> +       struct iio_chan_spec *chan_array, *chan;
-> +       int num_chan =3D 0, ret;
-> +
-> +       num_chan =3D iio_adc_device_num_channels(dev);
-> +       if (num_chan < 1)
-> +               return num_chan;
-> +
-> +       chan_array =3D devm_kcalloc(dev, num_chan, sizeof(*chan_array),
-> +                                 GFP_KERNEL);
-> +       if (!chan_array)
-> +               return -ENOMEM;
-> +
-> +       chan =3D &chan_array[0];
-> +
-> +       device_for_each_child_node_scoped(dev, child) {
-> +               u32 ch;
-> +
-> +               if (!fwnode_name_eq(child, "channel"))
-> +                       continue;
-> +
-> +               ret =3D fwnode_property_read_u32(child, "reg", &ch);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               if (max_chan_id !=3D -1 && ch > max_chan_id)
-> +                       return -ERANGE;
-> +
+# ethtool --show-eee ethX
 
-Should we use return dev_err_probe() on these to help with debugging a bad =
-dtb?
+and check whether it states that EEE is enabled and active, and Tx LPI
+also shows the timer value.
 
-> +               *chan =3D *template;
-> +               chan->channel =3D ch;
-> +               chan++;
-> +       }
-> +
-> +       *cs =3D chan_array;
-> +
-> +       return num_chan;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(devm_iio_adc_device_alloc_chaninfo_se, "IIO_DRIVER"=
-);
+You need a PHY that does stop it's receive clock when the link enters
+low-power mode. PHYs are not required to have this ability implemented,
+and there's no way for software to know whether it is or not.
 
-We can make this less verbose by setting #define
-DEFAULT_SYMBOL_NAMESPACE at the start of the file. Then we can just do
-EXPORT_SYMBOL_GPL() throughout the rest of the file.
+Then, you need to be certain that your link partner does actually
+support EEE and signals LPI from its side, rather than just advertising
+EEE. Lastly, you need to ensure that there is no traffic over the cable
+when you're resuming for the period of the reset timeout for the
+failure to occur. If the link wakes up, the clock will be started and
+reset will complete.
 
-Also, I would prefer if the namespace matched config name (IIO_ADC_HELPER).
+One can rule out some of the above by checking the LPI status bits,
+either in the DWMAC or PHY which indicates whether transmit and/or
+receive seeing LPI signalled.
 
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("Matti Vaittinen <mazziesaccount@gmail.com>");
-> +MODULE_DESCRIPTION("IIO ADC fwnode parsing helpers");
-> diff --git a/include/linux/iio/adc-helpers.h b/include/linux/iio/adc-help=
-ers.h
-> new file mode 100644
-> index 000000000000..403a70b109ec
-> --- /dev/null
-> +++ b/include/linux/iio/adc-helpers.h
-> @@ -0,0 +1,27 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +
-> +/*
-> + * The industrial I/O ADC firmware property parsing helpers
-> + *
-> + * Copyright (c) 2025 Matti Vaittinen <mazziesaccount@gmail.com>
-> + */
-> +
-> +#ifndef _INDUSTRIAL_IO_ADC_HELPERS_H_
-> +#define _INDUSTRIAL_IO_ADC_HELPERS_H_
-> +
-> +#include <linux/property.h>
-> +
-> +struct device;
-> +struct iio_chan_spec;
-> +
-> +static inline int iio_adc_device_num_channels(struct device *dev)
-> +{
-> +       return device_get_child_node_count_named(dev, "channel");
-> +}
-> +
-> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
-> +                                         const struct iio_chan_spec *tem=
-plate,
-> +                                         int max_chan_id,
-> +                                         struct iio_chan_spec **cs);
-> +
+If the link doesn't enter low power, then the receive clock won't be
+stopped, and reset will complete. If the link wakes up during reset,
+then the clock will be restarted, and reset will complete before the
+timeout expires.
 
-There are some different opinions on this, but on the last patch I did
-introducing a new namespace, the consensus seems to be that putting
-the MODULE_IMPORT_NS() in the header file was convenient so that users
-of the API don't have to remember to both include the header and add
-the import macro.
+So, the possibility for a successful test is quite high.
 
-> +#endif /* _INDUSTRIAL_IO_ADC_HELPERS_H_ */
-> --
-> 2.48.1
->
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
