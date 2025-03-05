@@ -1,173 +1,172 @@
-Return-Path: <linux-renesas-soc+bounces-13993-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13994-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECFD7A4FE67
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 13:16:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BD9A4FE9D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 13:29:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE02F188FD1B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 12:16:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0AB07A6DDD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 12:27:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF31A245031;
-	Wed,  5 Mar 2025 12:15:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6DD524500E;
+	Wed,  5 Mar 2025 12:28:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="u0X1SoDr"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dV+xS43e"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33E01EA7D8
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Mar 2025 12:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECBE242911
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Mar 2025 12:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741176952; cv=none; b=u8+Q2SD4yM5zYbwwcuCV1UMyU/R0KY2HKUdX/mC4oR2rH3TgdvsL1roUNDhnPq9t4Y7Xf6Wp0MOT7gkLhoYOWVN4DHyMxy/rpdwG98eMr5SKbqLErBUXvlLZfBeUaLT44KctSvfXSzgDj9iBg1yjrulFwlnpFixodoqINCSagmE=
+	t=1741177733; cv=none; b=bsGxSEUe4u/kelJaJXLfjUw+hpff+e2Bditg92N0no+bWeFDqQE1MlsBLccnMelC/dAU7MHrkCl1AYmQPiLynfI3G/hRLLNtUwuOkd3mHgdAluLblnIcF82gM5iPw95kYSor72QI9reoE6cJUOQC00uZYhcDWo4Rn0tMtX9No74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741176952; c=relaxed/simple;
-	bh=v5VN0g2CJE82VhBGa6AxOCe3g3zhdg2n0niq+it5f6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WZZj9vzV9zGz0Y1xtpXBF+vBp7CDKeVnxarpWf5MDQtCwOmCzycJgJf3qEM8Jzcskq2vYbbMaQbsKYT4Pk9j5Eowa6zZH9fY+GKazUhr9MLGQYHUk0Y1OFzenaMGZkxwofxfrXARMVy6myb3Uf3LDPL2yo2C08H1v3kVsr7W8iU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=u0X1SoDr; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43995b907cfso43329495e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Mar 2025 04:15:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1741176949; x=1741781749; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BM6itYwhagxx2QRfXmJQSynU85dj8uyDPoe0oqhy1Yk=;
-        b=u0X1SoDr1LXRdxrtAoelxooQYtRgnmQ0gVxeE5B3Sh/V5u1y1Q3Ayos6QIhRgkRk4P
-         pugM+PU+1HEKKJLJCsZeK2WOdxRDHo9BILVDgySnv87VpnaUKJRQRjX27w1n080KMy4m
-         rqht/UcFLKW6yRIO1FKmv3tJQ1oxpyGwDSRKp34sm+jX4uSr1wzxju+3/HT61clM6PXu
-         yeG7bgPN5gqUtqXq5ACuRjyIutsdmMcmSO33VL/ucRmBGymXD57+wJ+g35PPaa8rfc7a
-         7JzQUCNC30fm9fB+kPAqqTCEQpWyGHtODp7E0dUZObhW5M47uEHBlKb6cWLv9VRFn6Xv
-         mOBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741176949; x=1741781749;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BM6itYwhagxx2QRfXmJQSynU85dj8uyDPoe0oqhy1Yk=;
-        b=oDAM1DksL6hpXbsJ9KUcdm1koFTY1T10YdBZ91bcGO7351iARilH+tJReyjvBPZsCZ
-         87rqFFchrfZUWTBVumkF4VBD55E/reKtgqx0GWVjdjZKsaekRgXqenfDeKZszr/OoonQ
-         y622gxVKl11Wu7tGXQCny57L7hHZLP9Y+q26u32LGevMT85ljCHqHJqDLfsIjf8m6bPF
-         1jBrpFc4MQYa6pkwdvvvxbuvj2moXidS2hhD2XVa1AKiBYUyHcQheEwZxFp1zNjZLEaC
-         nmVSfwcRVEAIawpoyeR/3ntA/9AHHqklFqITbugzp2DaRxLevsrqX3UsgOnYd5WFZFlv
-         tvdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXOCdrb6NbLCoRvu/Pkjk8g+ZVSdrNNqyegajFLPgtGaT9eUPH59k9J1JWDNoL2mKiASIt0eGah3M2VUXOuugi14A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFfmxfzSBJwhKCLreTttnLY0pwMbMj2h0MvB8j1bqGN7EgJ9Vw
-	0FB9Iu+IfHqVp+HQR/j0yVPb7QKv0a2mKHukr3WtIkQqs1Mzte8Mbw1ZplwX27k=
-X-Gm-Gg: ASbGncvq85DDZxJWSQjUofeO3JCmOSkN6WXsoqEHe5xFFycbiXe6SjHKYQRfdWFPKF0
-	RunHZAAYxABYk9FnNDuHCoPBfBfNUp+hXXemz8XLIzNsK0LcGDYNmU9Hvjn5Eq1SBUF7KbWD+gh
-	EUl1c+IcHOTIh/rM6pht0+gSIENP+k5Mh/lY8jlYyIYTVcIJBOYgbZ7jiNFuuM7/IyAe08OB0El
-	4zby+HqdQ7VGQwAA0M/DDdTyhI7N3zvmYkPZSr9IvXkdjisA4e935mGehbs+Ud9KOe3NnO0tNRU
-	eInrus0rZvLsqnkSH+ohjYg965VAUPzoMZyflI57t9cm
-X-Google-Smtp-Source: AGHT+IH5RfWTgST5qLkCs6Rz4XGjY9rY+LfHAoLcQzdtQiMJZKyVtDKB32hsLtqW4IEXyOcIA0d54A==
-X-Received: by 2002:a05:600c:1d01:b0:43b:c9a8:8fab with SMTP id 5b1f17b1804b1-43bd2ae025fmr19781605e9.19.1741176948927;
-        Wed, 05 Mar 2025 04:15:48 -0800 (PST)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:e514:53b3:5af8:e408])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bd426c01bsm16061945e9.2.2025.03.05.04.15.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 04:15:48 -0800 (PST)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	linux-gpio@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH] gpio: rcar: Use raw_spinlock to protect register access
-Date: Wed,  5 Mar 2025 13:15:43 +0100
-Message-ID: <174117687651.61264.2181182249374483578.b4-ty@linaro.org>
+	s=arc-20240116; t=1741177733; c=relaxed/simple;
+	bh=PNYKnsjNdF/7VQjOF4sJPkIXFYtRqiTXuF10W2BU7Go=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o1N7Jpsb9LGAl9kE1FYZgTUqukdjOhAsujIoISgMDNaZa6uHeDA9IDWqxfbCIeNwW5oTM2mk58O0v4pHY0yCz/0bCj/S9Ypz2FEm39ySsorleYlYMS+MksZfErFB4qvUNUyQ0FiKt/HMhZPQvJJLqW6lOyHCLVzJHA7LGBwfbWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=dV+xS43e; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=Dy3y/QpJfpEoCD
+	OF8uc5YAiC8mQQCg6gUqeh58GH4AU=; b=dV+xS43eA/PWkb++Phc1TuE6a6/SGr
+	SwQfPGn+kxnPE5ob5beVO7n/+zij9Qt3shyKnuw78F4Y3bmyohXtBHpClciSuVMi
+	muag54tyAN89mZOnRmBkqFH+kP/MMJS3cwviLZtuXo1hSpICPQo7z3U7XS80KOCC
+	MYfuWimCjgIBJ7iY0cI6PUaj1u0tq0UDr0sqjgWS2mCw1nAag7sno6zXCthPk094
+	yPfmc6HKcmTKD2HIp+Hm+jbiDYW8ISDBxk/mv2OFtWdD7oyVl8GxBWN/7e6HgDtZ
+	wXk2AqLB/tjcMKF4MgBpi6UtZQFFJwWYi1S6aNawoNkH15VFePdjle0A==
+Received: (qmail 2932195 invoked from network); 5 Mar 2025 13:28:45 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Mar 2025 13:28:45 +0100
+X-UD-Smtp-Session: l3s3148p1@GX7Oh5cvOIogAwDPXylhAB+mKiir6bOV
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Cosmo Chou <cosmo.chou@quantatw.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	linux-hwmon@vger.kernel.org
+Subject: [PATCH RFT v2] hwmon: (pt5161l) Use per-client debugfs entry
+Date: Wed,  5 Mar 2025 13:27:42 +0100
+Message-ID: <20250305122843.15056-2-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250121135833.3769310-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250121135833.3769310-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+The I2C core now offers a debugfs-directory per client. Use it and
+remove the custom handling.
 
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-On Tue, 21 Jan 2025 14:58:33 +0100, Niklas Söderlund wrote:
-> Use raw_spinlock in order to fix spurious messages about invalid context
-> when spinlock debugging is enabled. The lock is only used to serialize
-> register access.
-> 
->     [    4.239592] =============================
->     [    4.239595] [ BUG: Invalid wait context ]
->     [    4.239599] 6.13.0-rc7-arm64-renesas-05496-gd088502a519f #35 Not tainted
->     [    4.239603] -----------------------------
->     [    4.239606] kworker/u8:5/76 is trying to lock:
->     [    4.239609] ffff0000091898a0 (&p->lock){....}-{3:3}, at: gpio_rcar_config_interrupt_input_mode+0x34/0x164
->     [    4.239641] other info that might help us debug this:
->     [    4.239643] context-{5:5}
->     [    4.239646] 5 locks held by kworker/u8:5/76:
->     [    4.239651]  #0: ffff0000080fb148 ((wq_completion)async){+.+.}-{0:0}, at: process_one_work+0x190/0x62c
->     [    4.250180] OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean property 'frame-master' with a value.
->     [    4.254094]  #1: ffff80008299bd80 ((work_completion)(&entry->work)){+.+.}-{0:0}, at: process_one_work+0x1b8/0x62c
->     [    4.254109]  #2: ffff00000920c8f8
->     [    4.258345] OF: /soc/sound@ec500000/ports/port@1/endpoint: Read of boolean property 'bitclock-master' with a value.
->     [    4.264803]  (&dev->mutex){....}-{4:4}, at: __device_attach_async_helper+0x3c/0xdc
->     [    4.264820]  #3: ffff00000a50ca40 (request_class#2){+.+.}-{4:4}, at: __setup_irq+0xa0/0x690
->     [    4.264840]  #4:
->     [    4.268872] OF: /soc/sound@ec500000/ports/port@1/endpoint: Read of boolean property 'frame-master' with a value.
->     [    4.273275] ffff00000a50c8c8 (lock_class){....}-{2:2}, at: __setup_irq+0xc4/0x690
->     [    4.296130] renesas_sdhi_internal_dmac ee100000.mmc: mmc1 base at 0x00000000ee100000, max clock rate 200 MHz
->     [    4.304082] stack backtrace:
->     [    4.304086] CPU: 1 UID: 0 PID: 76 Comm: kworker/u8:5 Not tainted 6.13.0-rc7-arm64-renesas-05496-gd088502a519f #35
->     [    4.304092] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
->     [    4.304097] Workqueue: async async_run_entry_fn
->     [    4.304106] Call trace:
->     [    4.304110]  show_stack+0x14/0x20 (C)
->     [    4.304122]  dump_stack_lvl+0x6c/0x90
->     [    4.304131]  dump_stack+0x14/0x1c
->     [    4.304138]  __lock_acquire+0xdfc/0x1584
->     [    4.426274]  lock_acquire+0x1c4/0x33c
->     [    4.429942]  _raw_spin_lock_irqsave+0x5c/0x80
->     [    4.434307]  gpio_rcar_config_interrupt_input_mode+0x34/0x164
->     [    4.440061]  gpio_rcar_irq_set_type+0xd4/0xd8
->     [    4.444422]  __irq_set_trigger+0x5c/0x178
->     [    4.448435]  __setup_irq+0x2e4/0x690
->     [    4.452012]  request_threaded_irq+0xc4/0x190
->     [    4.456285]  devm_request_threaded_irq+0x7c/0xf4
->     [    4.459398] ata1: link resume succeeded after 1 retries
->     [    4.460902]  mmc_gpiod_request_cd_irq+0x68/0xe0
->     [    4.470660]  mmc_start_host+0x50/0xac
->     [    4.474327]  mmc_add_host+0x80/0xe4
->     [    4.477817]  tmio_mmc_host_probe+0x2b0/0x440
->     [    4.482094]  renesas_sdhi_probe+0x488/0x6f4
->     [    4.486281]  renesas_sdhi_internal_dmac_probe+0x60/0x78
->     [    4.491509]  platform_probe+0x64/0xd8
->     [    4.495178]  really_probe+0xb8/0x2a8
->     [    4.498756]  __driver_probe_device+0x74/0x118
->     [    4.503116]  driver_probe_device+0x3c/0x154
->     [    4.507303]  __device_attach_driver+0xd4/0x160
->     [    4.511750]  bus_for_each_drv+0x84/0xe0
->     [    4.515588]  __device_attach_async_helper+0xb0/0xdc
->     [    4.520470]  async_run_entry_fn+0x30/0xd8
->     [    4.524481]  process_one_work+0x210/0x62c
->     [    4.528494]  worker_thread+0x1ac/0x340
->     [    4.532245]  kthread+0x10c/0x110
->     [    4.535476]  ret_from_fork+0x10/0x20
-> 
-> [...]
+Changes since v1: - keep the debugfs init as a function
 
-Applied, thanks!
+ drivers/hwmon/pt5161l.c | 44 ++++++++---------------------------------
+ 1 file changed, 8 insertions(+), 36 deletions(-)
 
-[1/1] gpio: rcar: Use raw_spinlock to protect register access
-      commit: f02c41f87cfe61440c18bf77d1ef0a884b9ee2b5
-
-Best regards,
+diff --git a/drivers/hwmon/pt5161l.c b/drivers/hwmon/pt5161l.c
+index a9f0b23f9e76..58b3e0a71281 100644
+--- a/drivers/hwmon/pt5161l.c
++++ b/drivers/hwmon/pt5161l.c
+@@ -63,7 +63,6 @@ struct pt5161l_fw_ver {
+ /* Each client has this additional data */
+ struct pt5161l_data {
+ 	struct i2c_client *client;
+-	struct dentry *debugfs;
+ 	struct pt5161l_fw_ver fw_ver;
+ 	struct mutex lock; /* for atomic I2C transactions */
+ 	bool init_done;
+@@ -72,8 +71,6 @@ struct pt5161l_data {
+ 	bool mm_wide_reg_access; /* MM assisted wide register access */
+ };
+ 
+-static struct dentry *pt5161l_debugfs_dir;
+-
+ /*
+  * Write multiple data bytes to Aries over I2C
+  */
+@@ -568,21 +565,16 @@ static const struct file_operations pt5161l_debugfs_ops_hb_sts = {
+ 	.open = simple_open,
+ };
+ 
+-static int pt5161l_init_debugfs(struct pt5161l_data *data)
++static void pt5161l_init_debugfs(struct pt5161l_data *data)
+ {
+-	data->debugfs = debugfs_create_dir(dev_name(&data->client->dev),
+-					   pt5161l_debugfs_dir);
+-
+-	debugfs_create_file("fw_ver", 0444, data->debugfs, data,
++	debugfs_create_file("fw_ver", 0444, client->debugfs, data,
+ 			    &pt5161l_debugfs_ops_fw_ver);
+ 
+-	debugfs_create_file("fw_load_status", 0444, data->debugfs, data,
++	debugfs_create_file("fw_load_status", 0444, client->debugfs, data,
+ 			    &pt5161l_debugfs_ops_fw_load_sts);
+ 
+-	debugfs_create_file("heartbeat_status", 0444, data->debugfs, data,
++	debugfs_create_file("heartbeat_status", 0444, client->debugfs, data,
+ 			    &pt5161l_debugfs_ops_hb_sts);
+-
+-	return 0;
+ }
+ 
+ static int pt5161l_probe(struct i2c_client *client)
+@@ -604,17 +596,12 @@ static int pt5161l_probe(struct i2c_client *client)
+ 							 data,
+ 							 &pt5161l_chip_info,
+ 							 NULL);
++	if (IS_ERR(hwmon_dev))
++		return PTR_ERR(hwmon_dev);
+ 
+ 	pt5161l_init_debugfs(data);
+ 
+-	return PTR_ERR_OR_ZERO(hwmon_dev);
+-}
+-
+-static void pt5161l_remove(struct i2c_client *client)
+-{
+-	struct pt5161l_data *data = i2c_get_clientdata(client);
+-
+-	debugfs_remove_recursive(data->debugfs);
++	return 0;
+ }
+ 
+ static const struct of_device_id __maybe_unused pt5161l_of_match[] = {
+@@ -643,24 +630,9 @@ static struct i2c_driver pt5161l_driver = {
+ 		.acpi_match_table = ACPI_PTR(pt5161l_acpi_match),
+ 	},
+ 	.probe = pt5161l_probe,
+-	.remove = pt5161l_remove,
+ 	.id_table = pt5161l_id,
+ };
+-
+-static int __init pt5161l_init(void)
+-{
+-	pt5161l_debugfs_dir = debugfs_create_dir("pt5161l", NULL);
+-	return i2c_add_driver(&pt5161l_driver);
+-}
+-
+-static void __exit pt5161l_exit(void)
+-{
+-	i2c_del_driver(&pt5161l_driver);
+-	debugfs_remove_recursive(pt5161l_debugfs_dir);
+-}
+-
+-module_init(pt5161l_init);
+-module_exit(pt5161l_exit);
++module_i2c_driver(pt5161l_driver);
+ 
+ MODULE_AUTHOR("Cosmo Chou <cosmo.chou@quantatw.com>");
+ MODULE_DESCRIPTION("Hwmon driver for Astera Labs Aries PCIe retimer");
 -- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+2.45.2
+
 
