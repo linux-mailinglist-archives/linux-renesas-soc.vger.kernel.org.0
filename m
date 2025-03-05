@@ -1,58 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-13995-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13996-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFC4A4FEA2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 13:32:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4EAA4FECF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 13:39:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB980166BD8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 12:31:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 598F33A557D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 12:39:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 483941E7C24;
-	Wed,  5 Mar 2025 12:31:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DD3D24502C;
+	Wed,  5 Mar 2025 12:39:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="UoIj4Qmw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z7dfnPzo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D2922A1BF
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Mar 2025 12:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693FF205AB0;
+	Wed,  5 Mar 2025 12:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741177918; cv=none; b=j+48u9MMxVGLdKpK7AH9YfPIxE7mBV212Ib2iOVkjZXY4HMeagFwRsgtn5DCVRZai3fB5io+UMVknzkmNvdbgL6gFs3Q2N7tpdrPY98GJN7JZrzf1EpVRx11yPoWg9dIRkRVgeCeOnH/POzzJRzoGNMCpkmmXUo2jqy8OWeKpvQ=
+	t=1741178370; cv=none; b=EIJvHCpxKd51im1A6HwdLWc0oiACwMW44d/Pqg/B8j2Sjlo0aBuNZHZPcrK1/QqrTPG4vOsjK2zgljU1sUTE0NEjFfy8bGTyKP51W5Xpw3tRZkleWf1wd0pmyldNQwDax5UiIhLRJZxYie9T9wqt0fpbRkz+WTh3RTXFCPj1Lws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741177918; c=relaxed/simple;
-	bh=ds726Kg0hyNwQAqqHENQFz1hhTJQhLNkmGpHOmQYUws=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KMxn4AaqCXNcbR/O1jA1BspNo7IsYIFUZhI/z/ZoHDM7lT4/25/QLDdE90duU1BqMEA75yIEcRMWPWRH8RWvswnny0YtGTHRFy2Yy7S+DeJcGaxRkoBd/CuQVorc19sElHStYwRlMlOc3S3HDxu7jgnseg2vjY8i7sc2iDQ1nxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=UoIj4Qmw; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=ElYfFzYm6+hkEj
-	gzaTxnEHxgY4G9pehwaTd2Ai5ICc8=; b=UoIj4Qmwqh8GJK9oYdTjqP0hWZS3RD
-	n5inbbXyXKQ4XQAnCdmwBaMoUBRn+bf2NWrFS5NN53Xxw6gXPlZ/QkHxEvFsHhGT
-	RW+1oXF5LRRrwz7DohjcJgGisdwoTtixPa9JeDYK0WXJGoMAk63XXscp9vaescL2
-	YeHAzVldAKbsMEuO7SpVaIj1PARoJ1/mp+4wQApXYXuLAAR7ZI1Osd2b1tr7A5uo
-	Ftw8Tg2fVMsOvCP2sidER80s7PpDyKdV5ELrcxWPS45u/Np/1Tq84NKCsgdBoKKR
-	5ATvXGT8sBVYGwrxAqSUiPSpwZLscirjbIVr/h/kCx5D/S5cjEL1uNYg==
-Received: (qmail 2933127 invoked from network); 5 Mar 2025 13:31:53 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Mar 2025 13:31:53 +0100
-X-UD-Smtp-Session: l3s3148p1@QRP7kpcvEKkgAwDPXylhAB+mKiir6bOV
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Cosmo Chou <cosmo.chou@quantatw.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	linux-hwmon@vger.kernel.org
-Subject: [PATCH RFT v3] hwmon: (pt5161l) Use per-client debugfs entry
-Date: Wed,  5 Mar 2025 13:30:12 +0100
-Message-ID: <20250305123149.16990-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1741178370; c=relaxed/simple;
+	bh=HmoqT/18etnoxYWhN4OADq8WV7QOm8ma1y2ZrwuaUmM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q2BKohYhFSMCFR6bsxWzBsfilBZVGbV+k4w9dWSv4Hf+6r5e94fTi3nzYrjahLFB+Tx7KqzX0uPgcLiTMbPPeT4LkkDvLjIdpBvjEimpPBOLbxfpZwf6RLFzW+0TebhAAr7OLX/1ZqanJK+Kn8XgJ6e4r3Pl5BV702RICSiobtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z7dfnPzo; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43948021a45so61414405e9.1;
+        Wed, 05 Mar 2025 04:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741178366; x=1741783166; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WrUocNz0G2bLbjXW/MWqDPhEbG2yBFoa6AFz8VZ+w4k=;
+        b=Z7dfnPzoVxgUnHuW+ma+rulmQLIZqojB932FCRWybLwet9v4W1jmPorcVRWqy37UjB
+         XvgyLEegD29cZ/DObRvjnWPPYnF/3ietZLtIJ865+thYiqNtiwLpRfvzU3PfunaOgkha
+         pTbk5KTvMQb+ZDK3nZsAAS8Gn5q9iA2mvnA7UUz4f0RIBeGFprVD1Au1gBXkkEy8y4N8
+         4l0Npn73KrSgmPPdufD5hArEvEiCTiOH2VmIH3po5l/ogKoCN/ElwelOmhRehwy5V1rg
+         chamI1aJkeCOZCmJz6czLVnpPYNtuKiZZzoI9UQ5Ep2d64uUuHT9Qd8ItwbdCdo8/X7t
+         67uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741178366; x=1741783166;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WrUocNz0G2bLbjXW/MWqDPhEbG2yBFoa6AFz8VZ+w4k=;
+        b=uuSYgVTI7hIDTFHoDTJUAHxm6dLNSxL6pcBHN28Fe2MIwoCw+tzYMYoV6nwDNb4HFp
+         39B1lnP3a6nkPffw7icw9I4u2782GlRK8SZZ6RcvDgMsKb77E4Fr3b7a+9pqA58fae+6
+         3H9npsHQnXPKFIZL+QI39rbCuvuNA+1FiuEFNNIhWgYFlXaDSRkLq3++Sy7hHTzOcw1i
+         ShRtLTWYZWTT2AXSshog4mNgB10V3j2y+/3G19Xh/zmPneTMWwwmoeG8cVAHaixp45U9
+         AbRUyP30GHwuHZJ8w7UwPTBDsfzdnZbGTbC2EFOVzmsoY7tkAksFRdU/XBx7MhTWBMbv
+         938w==
+X-Forwarded-Encrypted: i=1; AJvYcCUEP+1idZOLbiGlqN97j/nXr8VSn/jdg6Hzx6dHDsUyQxa86abTHROwdluEDt6YbqAdI8umb1ixGFu4PrA=@vger.kernel.org, AJvYcCX3CmPKQV4nub7Km5rq+XtqznTpVWp0OlkA9XdIPVgP+aa5d+Pfcba5hFm+UcjwKtqaBqEF3Iv+6ADdo0n8jsy0pko=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzhs3Sx/rq2n66nyepNoSX/VLK2HtYf8lb2OzQhKUCJnOGIz27g
+	aI4VaOsMyWzqbXmJ3Kxx/XnWOB7M9c9PAfug2Rz5SVgnBdyoELIF
+X-Gm-Gg: ASbGnctBRDbd4m+Q4mQPj0FKeswIaA2LMh1AmXtJ4hYwqsuT6znwSDwI4uruBTea71E
+	nl4WAKywEzb9kZIXfEBmBMxQho2LhZa+HM8mxi7i2cHBymvlEaCGinuELIkYuF/KhPPxTjusx/T
+	/wOyN4O1RYlYLHUrij3RVPd6F4goy29tSqycqtR86dZ++du9mN+mXZrCT7juH/onGdLDt8ppBqz
+	VdXEnoarfaDGYG8HZ/K9E0o3k5dflLuQr4MZ7EYNlf/jRhDLdNElT3uqnmFondTGlQTuTGHXDAt
+	HzcxRHJT0IIBU6Q6uJVpT5i0NVbqW2uwQWhcD8X+/x3WGQXxHiUzfDIWBmxvkoNYa5IEbZY=
+X-Google-Smtp-Source: AGHT+IF8PD5y5BgnpZ0JrRcPo+rGn7vUPbSiNAvie1+rA+Nfg3LEigC9x54boXDrqBoWTbs6uLMllA==
+X-Received: by 2002:a05:600c:3b17:b0:43b:cf12:2ca1 with SMTP id 5b1f17b1804b1-43bd2969470mr25742575e9.10.1741178366174;
+        Wed, 05 Mar 2025 04:39:26 -0800 (PST)
+Received: from prasmi.Home ([2a06:5906:61b:2d00:8fc2:ef5:605a:34d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bd426d32dsm16851495e9.7.2025.03.05.04.39.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 04:39:25 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/2] Add USB2PHY control support for Renesas RZ/V2H(P) SoC
+Date: Wed,  5 Mar 2025 12:39:12 +0000
+Message-ID: <20250305123915.341589-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -61,115 +97,37 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The I2C core now offers a debugfs-directory per client. Use it and
-remove the custom handling.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-Changes since v2: add 'client' as a parameter to the debugfs init
-function.
+Hi All,
 
-Sorry, sent an old version as v2 :(
+This patch series adds support for the USB2PHY control on the Renesas
+RZ/V2H(P) SoC. The changes include documenting the USB2PHY control
+bindings and adding the USB2PHY control driver.
 
- drivers/hwmon/pt5161l.c | 46 ++++++++---------------------------------
- 1 file changed, 9 insertions(+), 37 deletions(-)
+These changes are necessary to support the USB2.0 on the RZ/V2H(P) SoC.
 
-diff --git a/drivers/hwmon/pt5161l.c b/drivers/hwmon/pt5161l.c
-index a9f0b23f9e76..20e3cfa625f1 100644
---- a/drivers/hwmon/pt5161l.c
-+++ b/drivers/hwmon/pt5161l.c
-@@ -63,7 +63,6 @@ struct pt5161l_fw_ver {
- /* Each client has this additional data */
- struct pt5161l_data {
- 	struct i2c_client *client;
--	struct dentry *debugfs;
- 	struct pt5161l_fw_ver fw_ver;
- 	struct mutex lock; /* for atomic I2C transactions */
- 	bool init_done;
-@@ -72,8 +71,6 @@ struct pt5161l_data {
- 	bool mm_wide_reg_access; /* MM assisted wide register access */
- };
- 
--static struct dentry *pt5161l_debugfs_dir;
--
- /*
-  * Write multiple data bytes to Aries over I2C
-  */
-@@ -568,21 +565,16 @@ static const struct file_operations pt5161l_debugfs_ops_hb_sts = {
- 	.open = simple_open,
- };
- 
--static int pt5161l_init_debugfs(struct pt5161l_data *data)
-+static void pt5161l_init_debugfs(struct i2c_client *client, struct pt5161l_data *data)
- {
--	data->debugfs = debugfs_create_dir(dev_name(&data->client->dev),
--					   pt5161l_debugfs_dir);
--
--	debugfs_create_file("fw_ver", 0444, data->debugfs, data,
-+	debugfs_create_file("fw_ver", 0444, client->debugfs, data,
- 			    &pt5161l_debugfs_ops_fw_ver);
- 
--	debugfs_create_file("fw_load_status", 0444, data->debugfs, data,
-+	debugfs_create_file("fw_load_status", 0444, client->debugfs, data,
- 			    &pt5161l_debugfs_ops_fw_load_sts);
- 
--	debugfs_create_file("heartbeat_status", 0444, data->debugfs, data,
-+	debugfs_create_file("heartbeat_status", 0444, client->debugfs, data,
- 			    &pt5161l_debugfs_ops_hb_sts);
--
--	return 0;
- }
- 
- static int pt5161l_probe(struct i2c_client *client)
-@@ -604,17 +596,12 @@ static int pt5161l_probe(struct i2c_client *client)
- 							 data,
- 							 &pt5161l_chip_info,
- 							 NULL);
-+	if (IS_ERR(hwmon_dev))
-+		return PTR_ERR(hwmon_dev);
- 
--	pt5161l_init_debugfs(data);
--
--	return PTR_ERR_OR_ZERO(hwmon_dev);
--}
--
--static void pt5161l_remove(struct i2c_client *client)
--{
--	struct pt5161l_data *data = i2c_get_clientdata(client);
-+	pt5161l_init_debugfs(client, data);
- 
--	debugfs_remove_recursive(data->debugfs);
-+	return 0;
- }
- 
- static const struct of_device_id __maybe_unused pt5161l_of_match[] = {
-@@ -643,24 +630,9 @@ static struct i2c_driver pt5161l_driver = {
- 		.acpi_match_table = ACPI_PTR(pt5161l_acpi_match),
- 	},
- 	.probe = pt5161l_probe,
--	.remove = pt5161l_remove,
- 	.id_table = pt5161l_id,
- };
--
--static int __init pt5161l_init(void)
--{
--	pt5161l_debugfs_dir = debugfs_create_dir("pt5161l", NULL);
--	return i2c_add_driver(&pt5161l_driver);
--}
--
--static void __exit pt5161l_exit(void)
--{
--	i2c_del_driver(&pt5161l_driver);
--	debugfs_remove_recursive(pt5161l_debugfs_dir);
--}
--
--module_init(pt5161l_init);
--module_exit(pt5161l_exit);
-+module_i2c_driver(pt5161l_driver);
- 
- MODULE_AUTHOR("Cosmo Chou <cosmo.chou@quantatw.com>");
- MODULE_DESCRIPTION("Hwmon driver for Astera Labs Aries PCIe retimer");
+v1->v2
+- Dropped binding postfix in subject line for patch 1/2
+- Moved accquiring the ctrl2 pin in deassert callback
+- Updated ctrl_status_bits
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (2):
+  dt-bindings: reset: Document RZ/V2H(P) USB2PHY Control
+  reset: Add USB2PHY control driver for Renesas RZ/V2H(P)
+
+ .../reset/renesas,rzv2h-usb2phy-ctrl.yaml     |  56 +++++
+ drivers/reset/Kconfig                         |   7 +
+ drivers/reset/Makefile                        |   1 +
+ drivers/reset/reset-rzv2h-usb2phy-ctrl.c      | 223 ++++++++++++++++++
+ 4 files changed, 287 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-ctrl.yaml
+ create mode 100644 drivers/reset/reset-rzv2h-usb2phy-ctrl.c
+
 -- 
-2.45.2
+2.43.0
 
 
