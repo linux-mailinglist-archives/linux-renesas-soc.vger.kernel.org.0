@@ -1,180 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-14018-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14021-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18584A504D7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 17:30:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 668A7A5052F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 17:40:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87E0B16639C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 16:28:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA7A016C371
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 16:39:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B7081922C4;
-	Wed,  5 Mar 2025 16:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B4C4250BFC;
+	Wed,  5 Mar 2025 16:38:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o8cpBsyK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ajS6v5Yu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F337518CBEC;
-	Wed,  5 Mar 2025 16:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1F719C542;
+	Wed,  5 Mar 2025 16:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741192016; cv=none; b=X8KAHrKhZCCu8QmbL5XEHj7giGmIW64MO6CjBjQD+uFKKwRq/YqnH1MiYNxx/EAoOlxRCuH8Z2UnQObcMMbDWw1baICB14sdvmdtdYKTssJC2cfJri9QpyosTV2vAoKcfm0xdARsRdN5pxTzBTWzvxyZP+R9uEfRuFlLYpATZPE=
+	t=1741192689; cv=none; b=J8HMZB32aFr3MunKFkSOKyful/Dt/MzgrEXYbsnodN7yXLKQJuXt6yEuCOq0E9mExWxvVEL/kZxU7vIfCG+Vw6rGnm6kQRT/0wIoaQx8WY11tf9oo9JEGGIf0BBUNM13xfCem7vaPXaWM+IIpxpQbv4HfdINF/4Ni4lcXDZ5RM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741192016; c=relaxed/simple;
-	bh=P7WBpNfMWlkeZYLPtMXBm6r4j5jCxaC3zCPq/3d6pBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vg0eQIxPOQwdnAmEY3rS4bv6RyeQ5QJ81MpqHCydD0Vr4vPMnV2mFNz0Fa9MwOVcG0w9kcej5q/bxEtHeFzXW72FsgiUFHXeguRXsU0YVeOxLxqDo0pJc1HhWEtbjqjcbRoZoM9uDuh/InJk1fkrkkqwGJM4H59rJvWDTklegIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o8cpBsyK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8094C4CED1;
-	Wed,  5 Mar 2025 16:26:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741192015;
-	bh=P7WBpNfMWlkeZYLPtMXBm6r4j5jCxaC3zCPq/3d6pBI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o8cpBsyKq0KWzty8WIz0ZECACHDD0hJZNy6ivB3XuBrSfrbv7XRJX5DnqvxpF/QVM
-	 9c9KRqhoO9nnx307sdv+2o4gXrBtSGi2ccKSt2P10446LpEyCEvX9Ag2DWNYO9+Bke
-	 +ZkriwCOfQ9Iboj8hd1ppr4i1KyZ71CtE4Ry4Nypg2TTPe/wsILjTj3wu1LpTUtNz9
-	 d/MZiFmzSbO1Ybq9Q/ScRcx4G4s0bcsGL4w49b0qAjgxFkDo3XILbC/4PNrG0knFUJ
-	 XOSEb3zMX8M3JrMphwJK6kVJEBKq+9n/2z59Z/Wve4e1YaKuSlHB884AWDCZ1I9a6k
-	 0y/EzFzqvXgvA==
-Date: Wed, 5 Mar 2025 16:26:50 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: reset: Document RZ/V2H(P) USB2PHY
- Control
-Message-ID: <20250305-cesspool-headlock-4d28a2a1333e@spud>
-References: <20250305123915.341589-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250305123915.341589-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1741192689; c=relaxed/simple;
+	bh=OwvDDv+rB+cBd+3VHKU2o92ijTiJPiX8okF4jWElzEI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gODYSQ3JcV0kpleOoeVJTGqliKPcJMzVMcHTwW75VEn5+QvUiTJLyyG1uCPsGcJVXazUvLrfJs+3pvWYuLNntCf3+1F/ql+K1+QGxhgLvJCP2C3KJKP8cwZVpD7orJhwQnVNQikKmYRr/NsW5IHT0DcxGl2E/uw1DVSMlBb9mZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ajS6v5Yu; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5235db99207so2664708e0c.2;
+        Wed, 05 Mar 2025 08:38:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741192686; x=1741797486; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IQlxiO/tzlizWCcvMOMLmTMjvNekxRADNnpIKuwzvg8=;
+        b=ajS6v5YuU6m6gjGJJb9IryCAodLzr0pg0AUj8rGPYvY2WrOKNhQc3LCM9QhnTKVpy5
+         FkYNIrm2OcPttE5fNQaoQ9DssnLfXgRrvTrEmuo4fOEIZO7MuLcy31wxzADXHS9Epb9f
+         +Ps/GONqoF4ugFshIOjX1lZdTrVPrcQYkUuo6vRnrzR551ivNd7isVyE1cmq+rjqJtF8
+         MfHZquHElV7SUxvWLHRrKR+aVN/la/xq/kzRxsgTazCAMgolu5OmZfRfcFzq5p5kToTF
+         IeGORVqJVch2XUZLglTbHfYDg2aMnTIFk7ahFZrlfryOWceWlB/dLh+ZsFu/ugqtCkhv
+         P0bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741192686; x=1741797486;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IQlxiO/tzlizWCcvMOMLmTMjvNekxRADNnpIKuwzvg8=;
+        b=tOJSyh2r2yQ7A/qpix1hPis8shiRxmy3+eiaNYlGpDTOl5mtw6nZJxUBQKhUDhwPnX
+         NPuoKfoFFFFdfdo0Fb3PLcZ+riueEzRkVGZ21uIdkHbpOP0TW8JNbrJ3KC41TY+bUkrd
+         cyROWlWpSPpJ1a6xLafg9GtoxPxtJvIVFT2hhBU54l70UxttxDvkVxrz/3QIO6ul6syy
+         Joh4lT1f/ax3JDwbiOxwRBYXndKONDCcvFY8GXhznzZsh5Zgaeg99x//ObAtSe4FRfIc
+         pHHphBEk9IrircGzT3rcJq+Pc54eEJuxKc24lxhb6Lp55uogQ9RzVHMhjZ2QWS5L447E
+         8ZNg==
+X-Forwarded-Encrypted: i=1; AJvYcCU1auik6tsK4coreIltJpqwZ7Fm1XKLUN7UDYUhBUvnJ/c5BjQVsnYh+B8piV9Z1KFpkTyacl5XNKirU9j91Jtk8Vk=@vger.kernel.org, AJvYcCVhp7GKS92oCDO1Q3NSR4FstQJIiDxmMMpvuQsqfOpiIxqKWD+TttEpGtjk64Kpv7utnGndKwi884A=@vger.kernel.org, AJvYcCXayg1tzZFZpME2QqDL0Qa7OfGbgmp7zDQWrRrwb1eASB7bzXpPpUNafgjGOIwHtZdV2fC/I4nPNSWdQafZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yww3jreR1xk0VhEw/3iCrdPew/IWk9au1TTZDsWpLJnqWW8zqJe
+	QPWzPkKMzi+q6GNHwNLFNxPAwJhHcHGXmPqkGbo7rtbuK+7KGjKXrHGtYAMgbvAgkb/janZh+dl
+	n8v+TYQL//PqLCwgzY3Urb2HfCAdau+bw
+X-Gm-Gg: ASbGnctVHvKLntfr/oOi5mT8MnQQVSMY1bdPo8BARGXwnVKUcWjQOrLjcO8eBV6CUAu
+	MhQAT71Rz1pHtqcrMo+PJS3yxVnSDdZlNH1HyZTC00VX2by6Y3Hr+66U7b7N/OalGSYedzmQjyB
+	Gx35TNWNgybVMz3SQBYHkM+40O6g==
+X-Google-Smtp-Source: AGHT+IGgP6P7tbPAFmk1OoR674ND19doqpjBCUa83A+ACGXwxElzV5jy1FoNKcrR2VQhDnBQk89neEvY/Mh21OU2Byg=
+X-Received: by 2002:a05:6122:3186:b0:50b:e9a5:cd7b with SMTP id
+ 71dfb90a1353d-523c628826bmr2411542e0c.9.1741192686457; Wed, 05 Mar 2025
+ 08:38:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="NLNEO0YrE4Ah9DUx"
-Content-Disposition: inline
-In-Reply-To: <20250305123915.341589-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-
---NLNEO0YrE4Ah9DUx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250218114353.406684-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250218114353.406684-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVwVemQfrDFH48n9Csp6=KtFs5MpZ6e+wLWSnEuh2gdvg@mail.gmail.com>
+In-Reply-To: <CAMuHMdVwVemQfrDFH48n9Csp6=KtFs5MpZ6e+wLWSnEuh2gdvg@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 5 Mar 2025 16:37:40 +0000
+X-Gm-Features: AQ5f1Jq9xGloZE_BIWzi9jwUpv744jv1tl6VmpAdYxsk-Ac88E_TEIGJLuTaN6c
+Message-ID: <CA+V-a8sj-jEu8y_qPv-KvVCu_YQCQ1MDK9zrRB93LjfhmB_qfQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] clk: renesas: rzv2h-cpg: Move PLL access macros to
+ source file
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 05, 2025 at 12:39:13PM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Add device tree binding document for the Renesas RZ/V2H(P) USB2PHY Control
-> Device. It mainly controls reset and power down of the USB2.0 PHY (for
-> both host and function).
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../reset/renesas,rzv2h-usb2phy-ctrl.yaml     | 56 +++++++++++++++++++
->  1 file changed, 56 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/reset/renesas,rzv2h=
--usb2phy-ctrl.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2ph=
-y-ctrl.yaml b/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy=
--ctrl.yaml
-> new file mode 100644
-> index 000000000000..ed156a1d3eb3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-ctrl.=
-yaml
-> @@ -0,0 +1,56 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-ctrl.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/V2H(P) USB2PHY Control
-> +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +
-> +description:
-> +  The RZ/V2H(P) USB2PHY Control mainly controls reset and power down of =
-the
-> +  USB2.0 PHY.
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,r9a09g057-usb2phy-ctrl  # RZ/V2H(P)
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  '#reset-cells':
-> +    const: 0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - resets
-> +  - power-domains
-> +  - '#reset-cells'
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/renesas,r9a09g057-cpg.h>
-> +
-> +    usbphy-ctrl@15830000 {
+Hi Geert,
 
-How come your nodename isn't "reset-controller"?
-Otherwise,
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Thank you for the review.
 
-> +        compatible =3D "renesas,r9a09g057-usb2phy-ctrl";
-> +        reg =3D <0x15830000 0x10000>;
-> +        clocks =3D <&cpg CPG_MOD 0xb6>;
-> +        resets =3D <&cpg 0xaf>;
-> +        power-domains =3D <&cpg>;
-> +        #reset-cells =3D <0>;
-> +    };
-> --=20
-> 2.43.0
->=20
+On Wed, Mar 5, 2025 at 4:19=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Tue, 18 Feb 2025 at 12:44, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Move the `PLL_CLK_ACCESS()`, `PLL_CLK1_OFFSET()`, and `PLL_CLK2_OFFSET(=
+)`
+> > macros from `rzv2h-cpg.h` to `rzv2h-cpg.c`, as they are not intended fo=
+r
+> > use by SoC-specific CPG drivers.
+> >
+> > Additionally, update `PLL_CLK1_OFFSET()` and `PLL_CLK2_OFFSET()` to use
+> > the `FIELD_GET()` macro for better readability and simplify the
+> > `PLL_CLK_ACCESS()` macro.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> The changes look correct to me, so
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> but I still have some comments...
+>
+> > --- a/drivers/clk/renesas/rzv2h-cpg.c
+> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
+> > @@ -56,6 +56,10 @@
+> >
+> >  #define CPG_CLKSTATUS0         (0x700)
+> >
+> > +#define PLL_CLK_ACCESS(n)      (!!((n) & BIT(31)))
+>
+> OK
+>
+> > +#define PLL_CLK1_OFFSET(n)     FIELD_GET(GENMASK(15, 0), (n))
+> > +#define PLL_CLK2_OFFSET(n)     (PLL_CLK1_OFFSET(n) + (0x4))
+>
+> IMO, the original versions are more readable, as they clearly show
+> the symmetry between encoding and decoding.
+>
+> Perhaps a good alternative would be a structure with bitfields and
+> a PACK() macro, like is used for DDIV and SMUX?
+>
+Sure, I'll do that. Is it OK if I make that change on top of this
+series or do you want me to rework and send a v2?
 
---NLNEO0YrE4Ah9DUx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ8h7SgAKCRB4tDGHoIJi
-0pjxAQCCM+leBdMKpufCfk6z+36Rw9aGaaFu6WHxaQTUt/L7pgEA7gE3pIUyynXQ
-pzmBA0RbkLKXinQRSP/AMvk6kDFlRQg=
-=bDXW
------END PGP SIGNATURE-----
-
---NLNEO0YrE4Ah9DUx--
+Cheers,
+Prabhakar
 
