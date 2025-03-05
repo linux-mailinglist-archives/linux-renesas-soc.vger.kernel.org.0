@@ -1,318 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-14041-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14042-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5710BA50E53
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 23:06:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C546A50E86
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 23:23:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BAA9C7A2A62
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 22:05:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ED65E167C27
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 22:23:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D86526562D;
-	Wed,  5 Mar 2025 22:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E638266B55;
+	Wed,  5 Mar 2025 22:23:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="EMeCvD2w"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A9tWZpGe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFDB2E3373;
-	Wed,  5 Mar 2025 22:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAEE266B56
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Mar 2025 22:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741212381; cv=none; b=Ow60Nwjxes+sexDovUwoYkv82JXGOrjErV0eLK9gpNObpgvuHmqDFbzmmNC9qsZ9h4JiE4XKBhsvzQWmwf0MkmXuCJthGoLn44GYA1oRoop24TWbvLY0eYZtUwlhpRorvhdPLj7Ms1pd5GjhpzFnZoTfJkt3ZHZQDRMIzXxu4N8=
+	t=1741213417; cv=none; b=GjRe7lg/n4hPk6TSmt+kxt0uNkDipnAZlHd9bXtoEjiZ5o0SC7Rrd6lZ3twdXsh31LT4g8TlcBC5kYCD5SuUQzVZRRipJpq7OKnEYi/XoeWwETSqGaSsHTvPlrJ/e3pal9tMi5JCMEfV2rt4FKVsV25oP6cp3z5M6XQt0mhff8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741212381; c=relaxed/simple;
-	bh=q9EXI6Pgompm/W6eQinVy1GNbMHg7R4F7kMhQcftXvo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ugab1Drnz8fZAI+FAdbMhywdJ5XWqNv5tDS3Fl7+MWhLIs0yhnGpeYU5XbxTWGHAMWFhrKfI6HuNTN3wVcvOfRDjvFZpT5YFL7MkGYJ4auRSUfporScHZ0m0+Yrr1BP9DGseRRCVVpV2Xej8LWYwSShjxJrBnsh/MPa/jwouwoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=EMeCvD2w; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9D832442A5;
-	Wed,  5 Mar 2025 22:06:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1741212376;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yEkg7dUbUd4gw9KUHkYnnXttXqIaC85A6vQzxpX1J28=;
-	b=EMeCvD2wVP+08ZFXKqOK8Mw5Oh+Hf7dMmzn+r+h0KYo04oEPe6JxxqDUGLg/MxkKbw2nYg
-	mHBmAJCBcdXCbAnxHWju0tzgCCSRdc4feYYsIMZ2VQsjDLOE2wgzzsxZgR22pZVLcNzvTW
-	JhmbKRfvFciXmNX/NAbSjXoOcmE6fbMtrwViW9dybP1vqWcrWPKYdPFefjg14fzJ2wxdqv
-	3vJKdpyaYLrOqKUN26hC+xVK4Gcmg+UYMHGoFKLC+bmHm407+emUP82t63d6+CRVdsEzmy
-	aBKyo6lNa7POnHmXc7OOjyazZ7Vu9+XhgVkOhL4UnDIOva/HW5W+Q9csZs6tyg==
-Date: Wed, 5 Mar 2025 23:06:15 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v2] rtc: rzn1: implement one-second accuracy for alarms
-Message-ID: <2025030522061502555577@mail.local>
-References: <20250305101038.9933-2-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1741213417; c=relaxed/simple;
+	bh=am2QtQAbUka0EU00ofGO9S5CBbuQtg1K0zlpNhYg8BE=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=aRWfMf1S8ScgN7dHWvDnYwvWJtXqSHsHt97D37f+8Nxhm4+xzz1dY5Np60lWEZ5HuIL9d9kTgWZ0cxpSORwQMiPUa9lBelVUgHuWbRl3HpKldVsQc3KXMGrwIW75MivCubCDC3vXTvw2UEfhdLZvGyKZkCIFtxAT3JNPLi28c/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A9tWZpGe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 949EDC4CEE8;
+	Wed,  5 Mar 2025 22:23:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741213416;
+	bh=am2QtQAbUka0EU00ofGO9S5CBbuQtg1K0zlpNhYg8BE=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=A9tWZpGe/oAzeCBY2QFymhr1bXB78nkfrJBA202yTlt4sSyKEohB1ChecPRHddDB2
+	 TVgY6xD6mfD38OX1vxzI4KsyT0MWPY5DBaJ1ZgfesxGLTIAmp0OchK5Ht2oA2i4iV2
+	 7d/M33ECAMC/Re1rj8EO6W59H4qnuFeg/eKeWqEYcjHJ7wGLIxxD+YgeIa27i7PapR
+	 ZsmrbSxw4C0j8ko1mydUFstCi5nIwawW3SF6Lm6fDXMUprV/yb9oVLE5eplO+F1EG3
+	 aIGtkKX+YrNiPFgwwYuOhybcNuERcpSCw02TDRtXAckqEdCutSsXAFtVY3qX70SXDf
+	 FnQxIGB9WZGIw==
+Date: Wed, 05 Mar 2025 16:23:35 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250305101038.9933-2-wsa+renesas@sang-engineering.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdehleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeetlhgvgigrnhgurhgvuceuvghllhhonhhiuceorghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeeiudeuteehhfekgeejveefhfeiudejuefhgfeljefgjeegkeeujeeugfehgefgnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeejjedrudehtddrvdegiedrvdduheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeejjedrudehtddrvdegiedrvdduhedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomheprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedprhgtphhtthhopeifshgrodhrvghnvghsrghssehsrghnghdqvghnghhinhgvvghrihhnghdrtghomhdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdprhgtp
- hhtthhopehlihhnuhigqdhrthgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-GND-Sasl: alexandre.belloni@bootlin.com
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+In-Reply-To: <3e4fca228eb049d54a1ae520104558505dbdf803.1741179629.git.geert+renesas@glider.be>
+References: <3e4fca228eb049d54a1ae520104558505dbdf803.1741179629.git.geert+renesas@glider.be>
+Message-Id: <174121293051.2932459.11282638089781621289.robh@kernel.org>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779f4: Add UFS tuning
+ parameters in E-FUSE
 
-Hello,
 
-On 05/03/2025 11:08:16+0100, Wolfram Sang wrote:
-> The hardware alarm only supports one-minute accuracy which is coarse and
-> disables UIE usage. Use the 1-second interrupt to achieve per-second
-> accuracy. It is activated once we hit the per-minute alarm. The new
-> feature is optional. When there is no 1-second interrupt, old behaviour
-> with per-minute accuracy is used as before. With this feature, all tests
-> of 'rtctest' are successfully passed.
+On Wed, 05 Mar 2025 14:35:13 +0100, Geert Uytterhoeven wrote:
+> Describe the location in the E-FUSE block of the PLL and AFE tuning
+> parameters for the Universal Flash Storage controller.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
+> Updated DT bindings and driver code are available in "[PATCH v3 0/7]
+> scsi: ufs: renesas: Add support for R-Car S4-8 ES1.2"
+> https://lore.kernel.org/cover.1741179611.git.geert+renesas@glider.be
+> ---
+>  arch/arm64/boot/dts/renesas/r8a779f4.dtsi | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 > 
-> Tested with the Renesas RZ/N1D board. Besides 'rtctest', I did some
-> manual testing with 'rtc' on top trying to stresstest corner cases.
-> 
-> Looking forward to comments. AFAICS, this is the first driver trying to
-> overcome the per-minute limitation using 1-second interrupts.
-> 
 
-What I'm really wondering about is the use case. What is expected here?
-I guess that would be so you could go back to sleep between each 1s
-interrupt? Does this actually happen and does it actually save any power
-versus waking up early and waiting for the timer to actually elapse?
 
-> Change since v1:
-> * consider 1s interrupt when setting the alarm->enabled flag
-> 
-> drivers/rtc/rtc-rzn1.c | 108 ++++++++++++++++++++++++++++++++++-------
->  1 file changed, 91 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-> index cb220807d925..eeb9612a666f 100644
-> --- a/drivers/rtc/rtc-rzn1.c
-> +++ b/drivers/rtc/rtc-rzn1.c
-> @@ -19,6 +19,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/rtc.h>
-> +#include <linux/spinlock.h>
->  
->  #define RZN1_RTC_CTL0 0x00
->  #define   RZN1_RTC_CTL0_SLSB_SUBU 0
-> @@ -27,6 +28,7 @@
->  #define   RZN1_RTC_CTL0_CE BIT(7)
->  
->  #define RZN1_RTC_CTL1 0x04
-> +#define   RZN1_RTC_CTL1_1SE BIT(3)
->  #define   RZN1_RTC_CTL1_ALME BIT(4)
->  
->  #define RZN1_RTC_CTL2 0x08
-> @@ -58,6 +60,13 @@
->  struct rzn1_rtc {
->  	struct rtc_device *rtcdev;
->  	void __iomem *base;
-> +	/*
-> +	 * Protects access to RZN1_RTC_CTL1 reg. rtc_lock with threaded_irqs
-> +	 * would introduce race conditions when switching interrupts because
-> +	 * of potential sleeps
-> +	 */
-> +	spinlock_t ctl1_access_lock;
-> +	struct rtc_time tm_alarm;
->  };
->  
->  static void rzn1_rtc_get_time_snapshot(struct rzn1_rtc *rtc, struct rtc_time *tm)
-> @@ -135,8 +144,38 @@ static int rzn1_rtc_set_time(struct device *dev, struct rtc_time *tm)
->  static irqreturn_t rzn1_rtc_alarm_irq(int irq, void *dev_id)
->  {
->  	struct rzn1_rtc *rtc = dev_id;
-> +	u32 ctl1, set_irq_bits = 0;
-> +
-> +	if (rtc->tm_alarm.tm_sec == 0)
-> +		rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
-> +	else
-> +		/* Switch to 1s interrupts */
-> +		set_irq_bits = RZN1_RTC_CTL1_1SE;
->  
-> -	rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
-> +	guard(spinlock)(&rtc->ctl1_access_lock);
-> +
-> +	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-> +	ctl1 &= ~RZN1_RTC_CTL1_ALME;
-> +	ctl1 |= set_irq_bits;
-> +	writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static irqreturn_t rzn1_rtc_1s_irq(int irq, void *dev_id)
-> +{
-> +	struct rzn1_rtc *rtc = dev_id;
-> +	u32 ctl1;
-> +
-> +	if (readl(rtc->base + RZN1_RTC_SECC) == bin2bcd(rtc->tm_alarm.tm_sec)) {
-> +		guard(spinlock)(&rtc->ctl1_access_lock);
-> +
-> +		ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-> +		ctl1 &= ~RZN1_RTC_CTL1_1SE;
-> +		writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-> +
-> +		rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
-> +	}
->  
->  	return IRQ_HANDLED;
->  }
-> @@ -144,14 +183,38 @@ static irqreturn_t rzn1_rtc_alarm_irq(int irq, void *dev_id)
->  static int rzn1_rtc_alarm_irq_enable(struct device *dev, unsigned int enable)
->  {
->  	struct rzn1_rtc *rtc = dev_get_drvdata(dev);
-> -	u32 ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-> +	struct rtc_time *tm = &rtc->tm_alarm, tm_now;
-> +	u32 ctl1;
-> +	int ret;
->  
-> -	if (enable)
-> -		ctl1 |= RZN1_RTC_CTL1_ALME;
-> -	else
-> -		ctl1 &= ~RZN1_RTC_CTL1_ALME;
-> +	guard(spinlock_irqsave)(&rtc->ctl1_access_lock);
->  
-> -	writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-> +	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-> +
-> +	if (enable) {
-> +		/*
-> +		 * Use alarm interrupt if alarm time is at least a minute away
-> +		 * or less than a minute but in the next minute. Otherwise use
-> +		 * 1 second interrupt to wait for the proper second
-> +		 */
-> +		do {
-> +			ctl1 &= ~(RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE);
-> +
-> +			ret = rzn1_rtc_read_time(dev, &tm_now);
-> +			if (ret)
-> +				return ret;
-> +
-> +			if (rtc_tm_sub(tm, &tm_now) > 59 || tm->tm_min != tm_now.tm_min)
-> +				ctl1 |= RZN1_RTC_CTL1_ALME;
-> +			else
-> +				ctl1 |= RZN1_RTC_CTL1_1SE;
-> +
-> +			writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-> +		} while (readl(rtc->base + RZN1_RTC_SECC) != bin2bcd(tm_now.tm_sec));
-> +	} else {
-> +		ctl1 &= ~(RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE);
-> +		writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-> +	}
->  
->  	return 0;
->  }
-> @@ -185,7 +248,7 @@ static int rzn1_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alrm)
->  	}
->  
->  	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-> -	alrm->enabled = !!(ctl1 & RZN1_RTC_CTL1_ALME);
-> +	alrm->enabled = !!(ctl1 & (RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE));
->  
->  	return 0;
->  }
-> @@ -216,6 +279,8 @@ static int rzn1_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
->  	writel(bin2bcd(tm->tm_hour), rtc->base + RZN1_RTC_ALH);
->  	writel(BIT(wday), rtc->base + RZN1_RTC_ALW);
->  
-> +	rtc->tm_alarm = alrm->time;
-> +
->  	rzn1_rtc_alarm_irq_enable(dev, alrm->enabled);
->  
->  	return 0;
-> @@ -304,7 +369,7 @@ static const struct rtc_class_ops rzn1_rtc_ops = {
->  static int rzn1_rtc_probe(struct platform_device *pdev)
->  {
->  	struct rzn1_rtc *rtc;
-> -	int alarm_irq;
-> +	int irq;
->  	int ret;
->  
->  	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
-> @@ -317,9 +382,9 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
->  	if (IS_ERR(rtc->base))
->  		return dev_err_probe(&pdev->dev, PTR_ERR(rtc->base), "Missing reg\n");
->  
-> -	alarm_irq = platform_get_irq(pdev, 0);
-> -	if (alarm_irq < 0)
-> -		return alarm_irq;
-> +	irq = platform_get_irq_byname(pdev, "alarm");
-> +	if (irq < 0)
-> +		return irq;
->  
->  	rtc->rtcdev = devm_rtc_allocate_device(&pdev->dev);
->  	if (IS_ERR(rtc->rtcdev))
-> @@ -329,8 +394,6 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
->  	rtc->rtcdev->range_max = RTC_TIMESTAMP_END_2099;
->  	rtc->rtcdev->alarm_offset_max = 7 * 86400;
->  	rtc->rtcdev->ops = &rzn1_rtc_ops;
-> -	set_bit(RTC_FEATURE_ALARM_RES_MINUTE, rtc->rtcdev->features);
-> -	clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
->  
->  	ret = devm_pm_runtime_enable(&pdev->dev);
->  	if (ret < 0)
-> @@ -349,13 +412,24 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
->  	/* Disable all interrupts */
->  	writel(0, rtc->base + RZN1_RTC_CTL1);
->  
-> -	ret = devm_request_irq(&pdev->dev, alarm_irq, rzn1_rtc_alarm_irq, 0,
-> -			       dev_name(&pdev->dev), rtc);
-> +	spin_lock_init(&rtc->ctl1_access_lock);
-> +
-> +	ret = devm_request_irq(&pdev->dev, irq, rzn1_rtc_alarm_irq, 0, "RZN1 RTC Alarm", rtc);
->  	if (ret) {
-> -		dev_err(&pdev->dev, "RTC timer interrupt not available\n");
-> +		dev_err(&pdev->dev, "RTC alarm interrupt not available\n");
->  		goto dis_runtime_pm;
->  	}
->  
-> +	irq = platform_get_irq_byname_optional(pdev, "pps");
-> +	if (irq >= 0)
-> +		ret = devm_request_irq(&pdev->dev, irq, rzn1_rtc_1s_irq, 0, "RZN1 RTC 1s", rtc);
-> +
-> +	if (irq < 0 || ret) {
-> +		set_bit(RTC_FEATURE_ALARM_RES_MINUTE, rtc->rtcdev->features);
-> +		clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
-> +		dev_warn(&pdev->dev, "RTC pps interrupt not available. Alarm has only minute accuracy\n");
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-Is this message really necessary? I remember someone giving a talk about
-how we should avoid adding countless strings to the kernel ;)
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-I'm on holidays and didn't reply to your previous email. The way to
-support UIE while keeping the alarm at 1 minute resolution would be to
-look at which timer is enabled.
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
-The rv8803 driver does:
+  pip3 install dtschema --upgrade
 
-	if (alrm->enabled) {
-		if (rv8803->rtc->uie_rtctimer.enabled)
-			rv8803->ctrl |= RV8803_CTRL_UIE;
-		if (rv8803->rtc->aie_timer.enabled)
-			rv8803->ctrl |= RV8803_CTRL_AIE;
 
-https://elixir.bootlin.com/linux/v6.13.5/source/drivers/rtc/rtc-rv8803.c#L439
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/renesas/' for 3e4fca228eb049d54a1ae520104558505dbdf803.1741179629.git.geert+renesas@glider.be:
 
-Like I said, this is a bit convoluted but there are only a few cases so
-I didn't bother hiding this behind a proper API.
+arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dtb: ufs@e6860000: Unevaluated properties are not allowed ('nvmem-cell-names', 'nvmem-cells' were unexpected)
+	from schema $id: http://devicetree.org/schemas/ufs/renesas,ufs.yaml#
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+
+
+
+
 
