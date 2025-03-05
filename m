@@ -1,57 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-13987-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13988-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE28AA4F932
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 09:52:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF67A4FA0D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 10:30:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE9A93ACCFD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 08:52:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB43416EECE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 09:30:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 759FA1FECCC;
-	Wed,  5 Mar 2025 08:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="V4ROWFPN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECAB1204C24;
+	Wed,  5 Mar 2025 09:30:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7CD1FDA66
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Mar 2025 08:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CC9F2E338B;
+	Wed,  5 Mar 2025 09:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741164734; cv=none; b=kVdjpN4QgZvMC7PBzyRCL543t//mLs2ZZw4dUeqBnOvY9dhU4fS3YRsq/2YFoNfS1jhLyt5ClvSVehtQM0ttcJmwj6b8Md+YamKuL5FNVJeH7UqPBPwXVLggKP2i7RByb4kTc2Q2I1ZygLka+ftC8qjHRZ1cFoJVhBkCHdmXBi4=
+	t=1741167009; cv=none; b=QT4kuUzHAQvxQ1jzg59vCLPLroBtHNeARz29XYDnO9KBwc6+Uvn40nzfuiJnHNY+BEc2WkbLGacZr7Oq6NIa37H8stzlFBoJt4/eTmTtHaPUOBoy3Xntqta/NozZe3U0JQbUgBu3MDEdIMsNj/vL4mFFl0AJ1c1pyFKp2qPqA0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741164734; c=relaxed/simple;
-	bh=8Qo2SQfdNxOhDAXKgSBcQjW1hFzqY35m9S/flozymjY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q0Jv9BBaEfMMqAr528QIALBr8Dc7Bpf/CJmcRw64/YQqR21BsSebKwixtcno2ESNotx75Eo3FmK7lPTmPnTQdzQ2FXTI2S7M3goQXfuWSKs1WlMeD3MeozpwcNkgHzwex8Q7+bd+CSnMUVs19XxnLRAjqOU2JMPjGOPKSwFr+fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=V4ROWFPN; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=EHkb/8HWXUe3Fu
-	vAzqLqjC7LTgd//jEOcrDgyrW2Stc=; b=V4ROWFPNdmsHVA5BcDbGKoGWOsp6VF
-	tRCjj/kcRsQgVU3G3c5mCk0eBZJCmvVFadN0QoxgZnfqgurgdUG6Uc/N3ENm8j7W
-	m5dMHPTH3vD+fGuNwivZNHZH69YRNhprWqhB/6xuPaYTipLQTMJdvN7nlMNwdRRU
-	k64MKVgycGzNGVcRyn41jJF0mB/d3Y3ZU0V1sUbwOt3klmC3ZTirGQ9aQGxeNmu7
-	L3hGDPtOOkAl4fZeS7ZqIitKxW2VlI6o+Y8sFNBZ+VPn5AQdCDBqp3tz0RsJMS96
-	S+3ZxFzn1F7RgzbqxG0xRuw5AyNwCo55OcCltTGnJSXC66biPrKaWXVg==
-Received: (qmail 2863125 invoked from network); 5 Mar 2025 09:51:59 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Mar 2025 09:51:59 +0100
-X-UD-Smtp-Session: l3s3148p1@xQKTgJQvdNYgAwDPXylhAB+mKiir6bOV
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: [PATCH] rtc: rzn1: implement one-second accuracy for alarms
-Date: Wed,  5 Mar 2025 09:47:37 +0100
-Message-ID: <20250305085155.6520-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1741167009; c=relaxed/simple;
+	bh=MrGkpKrquMTPeSOb8uEVtL40WPXsEm/bCJQkaaJsrI0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BQx1OfJ09Pb7CNfD+Y2TmyU1aFwCdUYvXPsMl+ZWqvJzJYJaxOhh3P6nu1s8QbktZ3IvibedRwQG6Gp/MpDPFurCVY+9197CSIEQ8FMKQwYEMa/OFp/HPIuenPFVBjWQFiYjb6aQOXo64WUpI6KOyxY2ksxj0eSltvM1DMEp5Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: jPoFaVfGTK2QZNVBqyCd3Q==
+X-CSE-MsgGUID: krVBVJARRjyzhQw/9YfZtg==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 05 Mar 2025 18:30:04 +0900
+Received: from localhost.localdomain (unknown [10.226.92.226])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id D4864401E50A;
+	Wed,  5 Mar 2025 18:30:00 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v6 0/2] Add RZ/G3E SDHI support
+Date: Wed,  5 Mar 2025 09:29:50 +0000
+Message-ID: <20250305092958.21865-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,213 +59,73 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The hardware alarm only supports one-minute accuracy which is coarse and
-disables UIE usage. Use the 1-second interrupt to achieve per-second
-accuracy. It is activated once we hit the per-minute alarm. The new
-feature is optional. When there is no 1-second interrupt, old behaviour
-with per-minute accuracy is used as before. With this feature, all tests
-of 'rtctest' are successfully passed.
+The SD/MMC block on the RZ/G3E ("R9A09G047") SoC is similar to that
+of the RZ/V2H, but the SD0 channel has only dedicated pins, so we must
+use SD_STATUS register to control voltage and power enable (internal
+regulator).
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+For SD1 and SD2 channel we can either use gpio regulator or internal
+regulator (using SD_STATUS register) for voltage switching.
 
-Tested with the Renesas RZ/N1D board. Besides 'rtctest', I did some
-manual testing with 'rtc' on top trying to stresstest corner cases.
+For SD0, fixed voltage(eMMC) uses fixed regulator and non-fixed voltage
+(SD) uses internal regulator.
 
-Looking forward to comments. AFAICS, this is the first driver trying to
-overcome the per-minute limitation using 1-second interrupts.
+v5->v6:
+ * Added const for renesas_sdhi_vqmmc_regulator.
+ * Added Rb tag from Wolfram for driver changes.
+v4->v5:
+ * Collected tag from Wolfram Sang.
+ * Dropped redundant struct renesas_sdhi_vqmmc_regulator initialization.
+ * Added one space before '=' in the struct initializer.
+v3->v4:
+ * Dropped dts patches as it is deferred for queuing.
+ * Arranged variables of same types close to each other in probe() and
+   dropped patch#2.
+ * Added sd_ctrl_read32().
+ * Replaced sd_ctrl_read32_rep()->sd_ctrl_read32().
+v2->v3:
+ * Collected tags
+ * Renamed internal regulator labels vqmmc_sdhi{0..2}->sdhi{0..2}_vqmmc.
+ * Updated regulator phandles on SoM/Board dts.
+ * Dropped renaming the gpio regulator label vqmmc_sdhi1->vqmmc_sdhi1_gpio.
+ * Renamed node sd0emmc->sd0-emmc
+ * Renamed sd0-emmc-{ctrl,data,rst}->sd0-{ctrl,data,rst}
+ * Moved header file gpio.h from patch#6 to patch#8.
+ * Dropped overriding internal regulator name.
+ * Dropped #if guard in pinctrl node for SDHI0
+ * Renamed the label/node sdhi0_pins: sd0->sdhi0_usd_pins: sd0-usd.
+v1->v2:
+ * Collected tags.
+ * Documented internal regulator as optional property for both RZ/G3E and
+   RZ/V2H SoCs.
+ * Updated commit description for regulator used in SD0 fixed and
+   non-fixed voltage case in patch#3.
+ * As the node enabling of internal regulator is controlled through status,
+   added a check for device availability.
+ * Status of internal regulator is disabled in the SoC .dtsi. Override
+   the status in the board DTS when needed.
+ * Added support for enabling SDHI internal regulator in RZ/V2H
+ * Added missing header file gpio.h
+ * Used fixed regulator for eMMC on SD0 and dropped sd0-iovs pins for
+   eMMC.
+ * Sorted pinctrl nodes for sd2
+ * Enabled internal regulator for SD2.
+ * Added support for enabling SD on SDHI0
+ * Replaced the regulator usd_vdd_3p3v->reg_3p3v.
+ * Renamed the gpio-hog node sd1-pwr-en->sd1-pwr-en-hog.
+ * Sorted sd1 pin ctrl nodes.
 
- drivers/rtc/rtc-rzn1.c | 106 ++++++++++++++++++++++++++++++++++-------
- 1 file changed, 90 insertions(+), 16 deletions(-)
+Biju Das (2):
+  dt-bindings: mmc: renesas,sdhi: Document RZ/G3E support
+  mmc: renesas_sdhi: Add support for RZ/G3E SoC
 
-diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-index cb220807d925..bc3c948c3d2f 100644
---- a/drivers/rtc/rtc-rzn1.c
-+++ b/drivers/rtc/rtc-rzn1.c
-@@ -19,6 +19,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/rtc.h>
-+#include <linux/spinlock.h>
- 
- #define RZN1_RTC_CTL0 0x00
- #define   RZN1_RTC_CTL0_SLSB_SUBU 0
-@@ -27,6 +28,7 @@
- #define   RZN1_RTC_CTL0_CE BIT(7)
- 
- #define RZN1_RTC_CTL1 0x04
-+#define   RZN1_RTC_CTL1_1SE BIT(3)
- #define   RZN1_RTC_CTL1_ALME BIT(4)
- 
- #define RZN1_RTC_CTL2 0x08
-@@ -58,6 +60,13 @@
- struct rzn1_rtc {
- 	struct rtc_device *rtcdev;
- 	void __iomem *base;
-+	/*
-+	 * Protects access to RZN1_RTC_CTL1 reg. rtc_lock with threaded_irqs
-+	 * would introduce race conditions when switching interrupts because
-+	 * of potential sleeps
-+	 */
-+	spinlock_t ctl1_access_lock;
-+	struct rtc_time tm_alarm;
- };
- 
- static void rzn1_rtc_get_time_snapshot(struct rzn1_rtc *rtc, struct rtc_time *tm)
-@@ -135,8 +144,38 @@ static int rzn1_rtc_set_time(struct device *dev, struct rtc_time *tm)
- static irqreturn_t rzn1_rtc_alarm_irq(int irq, void *dev_id)
- {
- 	struct rzn1_rtc *rtc = dev_id;
-+	u32 ctl1, set_irq_bits = 0;
-+
-+	if (rtc->tm_alarm.tm_sec == 0)
-+		rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
-+	else
-+		/* Switch to 1s interrupts */
-+		set_irq_bits = RZN1_RTC_CTL1_1SE;
- 
--	rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
-+	guard(spinlock)(&rtc->ctl1_access_lock);
-+
-+	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-+	ctl1 &= ~RZN1_RTC_CTL1_ALME;
-+	ctl1 |= set_irq_bits;
-+	writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t rzn1_rtc_1s_irq(int irq, void *dev_id)
-+{
-+	struct rzn1_rtc *rtc = dev_id;
-+	u32 ctl1;
-+
-+	if (readl(rtc->base + RZN1_RTC_SECC) == bin2bcd(rtc->tm_alarm.tm_sec)) {
-+		guard(spinlock)(&rtc->ctl1_access_lock);
-+
-+		ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-+		ctl1 &= ~RZN1_RTC_CTL1_1SE;
-+		writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-+
-+		rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
-+	}
- 
- 	return IRQ_HANDLED;
- }
-@@ -144,14 +183,38 @@ static irqreturn_t rzn1_rtc_alarm_irq(int irq, void *dev_id)
- static int rzn1_rtc_alarm_irq_enable(struct device *dev, unsigned int enable)
- {
- 	struct rzn1_rtc *rtc = dev_get_drvdata(dev);
--	u32 ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-+	struct rtc_time *tm = &rtc->tm_alarm, tm_now;
-+	u32 ctl1;
-+	int ret;
- 
--	if (enable)
--		ctl1 |= RZN1_RTC_CTL1_ALME;
--	else
--		ctl1 &= ~RZN1_RTC_CTL1_ALME;
-+	guard(spinlock_irqsave)(&rtc->ctl1_access_lock);
- 
--	writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-+	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-+
-+	if (enable) {
-+		/*
-+		 * Use alarm interrupt if alarm time is at least a minute away
-+		 * or less than a minute but in the next minute. Otherwise use
-+		 * 1 second interrupt to wait for the proper second
-+		 */
-+		do {
-+			ctl1 &= ~(RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE);
-+
-+			ret = rzn1_rtc_read_time(dev, &tm_now);
-+			if (ret)
-+				return ret;
-+
-+			if (rtc_tm_sub(tm, &tm_now) > 59 || tm->tm_min != tm_now.tm_min)
-+				ctl1 |= RZN1_RTC_CTL1_ALME;
-+			else
-+				ctl1 |= RZN1_RTC_CTL1_1SE;
-+
-+			writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-+		} while (readl(rtc->base + RZN1_RTC_SECC) != bin2bcd(tm_now.tm_sec));
-+	} else {
-+		ctl1 &= ~(RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE);
-+		writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-+	}
- 
- 	return 0;
- }
-@@ -216,6 +279,8 @@ static int rzn1_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
- 	writel(bin2bcd(tm->tm_hour), rtc->base + RZN1_RTC_ALH);
- 	writel(BIT(wday), rtc->base + RZN1_RTC_ALW);
- 
-+	rtc->tm_alarm = alrm->time;
-+
- 	rzn1_rtc_alarm_irq_enable(dev, alrm->enabled);
- 
- 	return 0;
-@@ -304,7 +369,7 @@ static const struct rtc_class_ops rzn1_rtc_ops = {
- static int rzn1_rtc_probe(struct platform_device *pdev)
- {
- 	struct rzn1_rtc *rtc;
--	int alarm_irq;
-+	int irq;
- 	int ret;
- 
- 	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
-@@ -317,9 +382,9 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
- 	if (IS_ERR(rtc->base))
- 		return dev_err_probe(&pdev->dev, PTR_ERR(rtc->base), "Missing reg\n");
- 
--	alarm_irq = platform_get_irq(pdev, 0);
--	if (alarm_irq < 0)
--		return alarm_irq;
-+	irq = platform_get_irq_byname(pdev, "alarm");
-+	if (irq < 0)
-+		return irq;
- 
- 	rtc->rtcdev = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(rtc->rtcdev))
-@@ -329,8 +394,6 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
- 	rtc->rtcdev->range_max = RTC_TIMESTAMP_END_2099;
- 	rtc->rtcdev->alarm_offset_max = 7 * 86400;
- 	rtc->rtcdev->ops = &rzn1_rtc_ops;
--	set_bit(RTC_FEATURE_ALARM_RES_MINUTE, rtc->rtcdev->features);
--	clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
- 
- 	ret = devm_pm_runtime_enable(&pdev->dev);
- 	if (ret < 0)
-@@ -349,13 +412,24 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
- 	/* Disable all interrupts */
- 	writel(0, rtc->base + RZN1_RTC_CTL1);
- 
--	ret = devm_request_irq(&pdev->dev, alarm_irq, rzn1_rtc_alarm_irq, 0,
--			       dev_name(&pdev->dev), rtc);
-+	spin_lock_init(&rtc->ctl1_access_lock);
-+
-+	ret = devm_request_irq(&pdev->dev, irq, rzn1_rtc_alarm_irq, 0, "RZN1 RTC Alarm", rtc);
- 	if (ret) {
--		dev_err(&pdev->dev, "RTC timer interrupt not available\n");
-+		dev_err(&pdev->dev, "RTC alarm interrupt not available\n");
- 		goto dis_runtime_pm;
- 	}
- 
-+	irq = platform_get_irq_byname_optional(pdev, "pps");
-+	if (irq >= 0)
-+		ret = devm_request_irq(&pdev->dev, irq, rzn1_rtc_1s_irq, 0, "RZN1 RTC 1s", rtc);
-+
-+	if (irq < 0 || ret) {
-+		set_bit(RTC_FEATURE_ALARM_RES_MINUTE, rtc->rtcdev->features);
-+		clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
-+		dev_warn(&pdev->dev, "RTC pps interrupt not available. Alarm has only minute accuracy\n");
-+	}
-+
- 	ret = devm_rtc_register_device(rtc->rtcdev);
- 	if (ret)
- 		goto dis_runtime_pm;
+ .../devicetree/bindings/mmc/renesas,sdhi.yaml |  16 +++
+ drivers/mmc/host/renesas_sdhi.h               |   1 +
+ drivers/mmc/host/renesas_sdhi_core.c          | 130 ++++++++++++++++++
+ drivers/mmc/host/tmio_mmc.h                   |  10 ++
+ 4 files changed, 157 insertions(+)
+
 -- 
-2.45.2
+2.43.0
 
 
