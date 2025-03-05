@@ -1,337 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-14013-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14014-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85703A501BF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 15:23:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E6EA5037E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 16:30:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EB56C7A3E57
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 14:22:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E1A297A41A0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 15:29:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5228E24C094;
-	Wed,  5 Mar 2025 14:21:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2422D2505C2;
+	Wed,  5 Mar 2025 15:30:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HFdDkeg8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N+3szpYO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262D1C2ED;
-	Wed,  5 Mar 2025 14:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629DA24EF7D
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Mar 2025 15:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741184496; cv=none; b=C2LwAdMF0LmChy6EYemKNtJi/1GsOIcm0cxEDmBe2hJcksruUkuIkJRA/Aj8tWtfwv7U1AX3NfSKHJi4V+ikWP9NygZDCHwWQeOoZU/QFC6SoT7PNEQ//68ZnU4iAdMY0WQPTDLBjC5pIGJY0vqTbrx2gMFzY/g5Kepitx2WV08=
+	t=1741188615; cv=none; b=Cj9ZKYqwYRX4Sv27iiwcu+Tn7SerHL9O2FuXVmart0pIzw3nPZx0kjez3f5q/ryYxz00a3o+RzMqz8oe5WiTnC2zE2YMp+9II6cAgKgjgmcixz37M3Keo8AJiR/3/tZBJnxp6kf6AsTHSHiHWOh7ZsRXNDMZNWuAT539mTdL9RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741184496; c=relaxed/simple;
-	bh=jvmchGdxVGZyNaODpuI7O279K1I8sOZ+LNSQ2rbqPXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DRP8Zg50Sol8i+i+qxzXdu3KdnuzKcUg32bUr0xvJSqRUq/J/PYi3q/mZsx1JjgFvBAmxc0UT4rgqc+GGlF5BExvvt+puJJqb9QFwSy5pfi9xmbsmb8VoASE84Rd/qdiVWeNX18udC/IxpRoeL4reUGoqG2TVLdv3UlwdhNjgEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HFdDkeg8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93567C4CED1;
-	Wed,  5 Mar 2025 14:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741184494;
-	bh=jvmchGdxVGZyNaODpuI7O279K1I8sOZ+LNSQ2rbqPXI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HFdDkeg8z5rr3Fue3DZgzCahgYCn6+S26dFM/oXCROCNHPq/q4QHiu/STez0WcVGD
-	 EZxO1pqBuJTu7AXJuUGu3Eo130kDAidx0qZws1ccSkINkdh7dQ30Bqy3VW3CU4xv6Z
-	 0tE2GFISgDSCEUyzMJgYmvea7fJEu1mxtk+9JNNkoGT79M2mHrru0fvjx6eWjUg1Hp
-	 nhjFiap1xObsb5SVhb87A6p5aZy9k0S8MqFxjPUUa0thQuRTOKaowGBLtim179vGFH
-	 hyZUTk0t+JyF9jlNzl1RNh70anXLVTto8XukqbucLkHMtsBgYkq7ONY/kpgKQLJeHe
-	 1X7wkY1bDnu1A==
-Date: Wed, 5 Mar 2025 14:21:22 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, lars@metafoo.de,
- linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>, gregkh@linuxfoundation.org, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v3 1/2] iio: adc: rzg2l_adc: Open a devres group
-Message-ID: <20250305142122.626336c3@jic23-huawei>
-In-Reply-To: <20250224120608.1769039-2-claudiu.beznea.uj@bp.renesas.com>
-References: <20250224120608.1769039-1-claudiu.beznea.uj@bp.renesas.com>
-	<20250224120608.1769039-2-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1741188615; c=relaxed/simple;
+	bh=mnY9jonjdWSCAjWdE1ebam44fxeas02C6YcQbXWx59A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FvID0HZ/JYQ7s0ftgMvx5C89Qaz/x4WjhY51yLNSF2CrdNRN4FzpTJYejhfzAakdjTYP+2vrvKn7oX8av2x3CjF5izsaJajRHoSa8TNOfAg8W4jyYbE7d07M4/ZgoEh8MkLBgW+kJ5gPO7JY1FCTSPtUFWthSPnzYaNZiDJVE/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N+3szpYO; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741188614; x=1772724614;
+  h=date:from:to:cc:subject:message-id;
+  bh=mnY9jonjdWSCAjWdE1ebam44fxeas02C6YcQbXWx59A=;
+  b=N+3szpYOsH2CqRBoEmFWuN8IEFFA3bWF9vJ65IMxRd/O0WJ466IXSrZT
+   wKfVE4xT/+NdljxMaW4K/72oXS1tAR2fVG/OFNgSQFGRiKSqe7cxRrdZI
+   PSmjnGAezF0SJYR/fTsBZpL+/QsnxKko3QwsWuJhPd94e/Ojj0JWLc0Iz
+   N37dZsu8AtAb3GDE2Y/qsZtQCuXUgqmpfCeYr3p0xjzU+08H4Ztq05vgb
+   GiGvsvGrL4dWVkufjsOCdBizvcGYSIzIDtE1z7S5A+rmQsn6FzsIhteTw
+   nMto0dg4aVbjsEzcY6mksY+P6Dt9fnptk6+RXAUCZBL1pcTIWaTwy8CO1
+   w==;
+X-CSE-ConnectionGUID: cDdBfTJZStWitYiYBv+/yg==
+X-CSE-MsgGUID: cggkcf+2S8yG9J/fJjF/EQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42064602"
+X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
+   d="scan'208";a="42064602"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 07:30:13 -0800
+X-CSE-ConnectionGUID: rMgbCoWeSUOlcTLgnKwWew==
+X-CSE-MsgGUID: e8mDrLgpQcmHJcP0uKH0UQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119640703"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 05 Mar 2025 07:30:12 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpqhF-000L9o-0m;
+	Wed, 05 Mar 2025 15:30:09 +0000
+Date: Wed, 05 Mar 2025 23:29:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk] BUILD SUCCESS
+ 5288fe0e2e9d2c147e18c5ce4d03d17f34132dde
+Message-ID: <202503052326.oVEiFXYt-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 24 Feb 2025 14:06:06 +0200
-Claudiu <claudiu.beznea@tuxon.dev> wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
+branch HEAD: 5288fe0e2e9d2c147e18c5ce4d03d17f34132dde  clk: renesas: r7s9210: Distinguish clocks by clock type
 
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> On all systems where the rzg2l_adc driver is used, the ADC clocks are part
-> of a PM domain. The code that implements the PM domains support is in
-> drivers/clk/renesas/rzg2l-cpg.c, the functions of interest for this commit
-> being rzg2l_cpg_attach_dev() and rzg2l_cpg_deattach_dev(). The PM
-> domains support is registered with GENPD_FLAG_PM_CLK which, according to
-> the documentation, instructs genpd to use the PM clk framework while
-> powering on/off attached devices.
-> 
-> During probe, the ADC device is attached to the PM domain
-> controlling the ADC clocks. Similarly, during removal, the ADC device is
-> detached from the PM domain.
-> 
-> The detachment call stack is as follows:
-> 
-> device_driver_detach() ->
->   device_release_driver_internal() ->
->     __device_release_driver() ->
->       device_remove() ->
->         platform_remove() ->
->           dev_pm_domain_detach()
-> 
-> During driver unbind, after the ADC device is detached from its PM domain,
-> the device_unbind_cleanup() function is called, which subsequently invokes
-> devres_release_all(). This function handles devres resource cleanup.
-> 
-> If runtime PM is enabled via devm_pm_runtime_enable(), the cleanup process
-> triggers the action or reset function for disabling runtime PM. This
-> function is pm_runtime_disable_action(), which leads to the following call
-> stack of interest when called:
-> 
-> pm_runtime_disable_action() ->
->   pm_runtime_dont_use_autosuspend() ->
->     __pm_runtime_use_autosuspend() ->
->       update_autosuspend() ->
->         rpm_idle()
-> 
-> The rpm_idle() function attempts to runtime resume the ADC device. However,
-> at the point it is called, the ADC device is no longer part of the PM
-> domain (which manages the ADC clocks). Since the rzg2l_adc runtime PM
-> APIs directly modifies hardware registers, the
-> rzg2l_adc_pm_runtime_resume() function is invoked without the ADC clocks
-> being enabled. This is because the PM domain no longer resumes along with
-> the ADC device. As a result, this leads to system aborts.
-> 
-> Open a devres group in the driver probe and release it in the driver
-> remove. This ensures the runtime PM is disabled (though the devres group)
-> after the rzg2l_adc_remove() finishes its execution avoiding the described
-> scenario.
-> 
-> Fixes: 89ee8174e8c8 ("iio: adc: rzg2l_adc: Simplify the runtime PM code")
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+elapsed time: 1452m
 
-+CC Greg KH given the in driver suggestion was his and I think
-this discussion is not necessarily over!  Also Dmitry for his info.
+configs tested: 106
+configs skipped: 1
 
-> ---
-> 
-> Changes in v3:
-> - open a devres group in probe and release it in remove; the failure
->   path of probe() was also updated to close the devres group
-> - dropped Ulf's Rb tag as the patch is different now
-> - updated the patch description to match the new approach
-> 
-> Note: a generic approach was proposed in [1] to have this in the platform
-> bus itself but wasn't seen acceptable.
-> 
-> [1] https://lore.kernel.org/all/20250215130849.227812-1-claudiu.beznea.uj@bp.renesas.com/
-> 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I missed this entirely sorry!  Travelling and far too much unread email
-at the moment :(
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              alldefconfig    gcc-13.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20250305    gcc-13.2.0
+arc                   randconfig-002-20250305    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                       imx_v4_v5_defconfig    clang-16
+arm                      integrator_defconfig    clang-15
+arm                          pxa3xx_defconfig    clang-21
+arm                   randconfig-001-20250305    gcc-14.2.0
+arm                   randconfig-002-20250305    clang-19
+arm                   randconfig-003-20250305    gcc-14.2.0
+arm                   randconfig-004-20250305    gcc-14.2.0
+arm                         s3c6400_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250305    clang-15
+arm64                 randconfig-002-20250305    gcc-14.2.0
+arm64                 randconfig-003-20250305    clang-21
+arm64                 randconfig-004-20250305    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250305    gcc-14.2.0
+csky                  randconfig-002-20250305    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250305    clang-21
+hexagon               randconfig-002-20250305    clang-18
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250304    clang-19
+i386        buildonly-randconfig-001-20250305    clang-19
+i386        buildonly-randconfig-002-20250304    clang-19
+i386        buildonly-randconfig-002-20250305    clang-19
+i386        buildonly-randconfig-003-20250304    gcc-12
+i386        buildonly-randconfig-003-20250305    clang-19
+i386        buildonly-randconfig-004-20250304    gcc-11
+i386        buildonly-randconfig-004-20250305    clang-19
+i386        buildonly-randconfig-005-20250304    gcc-11
+i386        buildonly-randconfig-005-20250305    clang-19
+i386        buildonly-randconfig-006-20250304    gcc-12
+i386        buildonly-randconfig-006-20250305    gcc-12
+i386                                defconfig    clang-19
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250305    gcc-14.2.0
+loongarch             randconfig-002-20250305    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                       m5249evb_defconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250305    gcc-14.2.0
+nios2                 randconfig-002-20250305    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                randconfig-001-20250305    gcc-14.2.0
+parisc                randconfig-002-20250305    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc               randconfig-001-20250305    clang-17
+powerpc               randconfig-002-20250305    gcc-14.2.0
+powerpc               randconfig-003-20250305    gcc-14.2.0
+powerpc64             randconfig-001-20250305    clang-19
+powerpc64             randconfig-002-20250305    clang-17
+powerpc64             randconfig-003-20250305    clang-19
+riscv                             allnoconfig    gcc-14.2.0
+riscv                 randconfig-001-20250305    clang-19
+riscv                 randconfig-002-20250305    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-15
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250305    gcc-14.2.0
+s390                  randconfig-002-20250305    gcc-14.2.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20250305    gcc-14.2.0
+sh                    randconfig-002-20250305    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250305    gcc-14.2.0
+sparc                 randconfig-002-20250305    gcc-14.2.0
+sparc64               randconfig-001-20250305    gcc-14.2.0
+sparc64               randconfig-002-20250305    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250305    clang-19
+um                    randconfig-002-20250305    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250304    clang-19
+x86_64      buildonly-randconfig-002-20250304    gcc-12
+x86_64      buildonly-randconfig-003-20250304    gcc-12
+x86_64      buildonly-randconfig-004-20250304    gcc-12
+x86_64      buildonly-randconfig-005-20250304    gcc-12
+x86_64      buildonly-randconfig-006-20250304    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250305    gcc-14.2.0
+xtensa                randconfig-002-20250305    gcc-14.2.0
 
-Anyhow, I don't 'love' this solution but it can be made neater and perhaps
-there is a mid way point using a new generic helper that will do the job.
-> Changes in v2:
-> - collected Ulf's tag
-> - add a comment above pm_runtime_enable() explaining the reason
->   it shouldn't be converted to devres
-> - drop devres calls that request IRQ and register IIO device
->   as proposed in the review process: Ulf, I still kept you Rb
->   tag; please let me know otherwise
-> 
->  drivers/iio/adc/rzg2l_adc.c | 88 ++++++++++++++++++++++++++++---------
->  1 file changed, 67 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
-> index 883c167c0670..7db04416e1cf 100644
-> --- a/drivers/iio/adc/rzg2l_adc.c
-> +++ b/drivers/iio/adc/rzg2l_adc.c
-> @@ -85,6 +85,7 @@ struct rzg2l_adc {
->  	struct reset_control *adrstn;
->  	const struct rzg2l_adc_data *data;
->  	const struct rzg2l_adc_hw_params *hw_params;
-> +	void *devres_group_id;
->  	struct completion completion;
->  	struct mutex lock;
->  	u16 last_val[RZG2L_ADC_MAX_CHANNELS];
-> @@ -429,60 +430,88 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
-In cases like this easiest path (and cleanest code) is
-to rename probe to __rzg2l_adc_probe() or similar and...
->  	struct device *dev = &pdev->dev;
->  	struct iio_dev *indio_dev;
->  	struct rzg2l_adc *adc;
-> +	void *devres_group_id;
->  	int ret;
->  	int irq;
->  
-> -	indio_dev = devm_iio_device_alloc(dev, sizeof(*adc));
-> -	if (!indio_dev)
-Have this code in an outer wrapper rzg2l_adc_probe()
-> +	/*
-> +	 * Open a devres group to allow using devm_pm_runtime_enable()
-> +	 * w/o interfeering with dev_pm_genpd_detach() in the platform bus
-> +	 * remove. Otherwise, durring repeated unbind/bind operations,
-> +	 * the ADC may be runtime resumed when it is not part of its power
-> +	 * domain, leading to accessing ADC registers without its clocks
-> +	 * being enabled and its PM domain being turned on.
-> +	 */
-> +	devres_group_id = devres_open_group(dev, NULL, GFP_KERNEL);
-> +	if (!devres_group_id)
->  		return -ENOMEM;
->  
-That then calls __rzg2l_adc_probe() here and if there is an error
-release the groups.  That's the minimum change I'd suggest here.
-
-Thinking forwards about what to do if we need to do this a lot.
-Maybe we can provide a platform device specific helper for this case
-that takes the 'actual probe' - here the __rzg2l_adc_probe() as
-a parameter and handles the devres groups stuff.  That would
-probably need a suitable devres_group_id in platform device you had
-in your platform bus code proposal or some more fiddly code
-not stash it in the driver specific structures that with the
-iio_priv() dance in IIO would become IIO specific unless we
-put one in struct iio_dev.  It might also be possible to write
-a complex macro that would create the relevant probe/remove()
-when passed both the internal __probe() and __remove and
-a snippet that accesses ((struct bob *)iio_priv(x))->devres_group_id.
-
-Anyhow that's a job for when we have several instances of this.
-
-> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*adc));
-> +	if (!indio_dev) {
-> +		ret = -ENOMEM;
-> +		goto release_group;
-> +	}
-> +
->  	adc = iio_priv(indio_dev);
->  
-> +	adc->devres_group_id = devres_group_id;
-
-With above scheme of a wrapper around original probe, this line would need
-to move to the wrapper.
-
->  	adc->hw_params = device_get_match_data(dev);
-> -	if (!adc->hw_params || adc->hw_params->num_channels > RZG2L_ADC_MAX_CHANNELS)
-> -		return -EINVAL;
-> +	if (!adc->hw_params || adc->hw_params->num_channels > RZG2L_ADC_MAX_CHANNELS) {
-> +		ret = -EINVAL;
-> +		goto release_group;
-> +	}
->  
->  	ret = rzg2l_adc_parse_properties(pdev, adc);
->  	if (ret)
-> -		return ret;
-> +		goto release_group;
->  
->  	mutex_init(&adc->lock);
->  
->  	adc->base = devm_platform_ioremap_resource(pdev, 0);
-> -	if (IS_ERR(adc->base))
-> -		return PTR_ERR(adc->base);
-> +	if (IS_ERR(adc->base)) {
-> +		ret = PTR_ERR(adc->base);
-> 	+		goto release_group;
-> +	}
->  
->  	adc->adrstn = devm_reset_control_get_exclusive_deasserted(dev, "adrst-n");
-> -	if (IS_ERR(adc->adrstn))
-> -		return dev_err_probe(dev, PTR_ERR(adc->adrstn),
-> -				     "failed to get/deassert adrst-n\n");
-> +	if (IS_ERR(adc->adrstn)) {
-> +		ret = dev_err_probe(dev, PTR_ERR(adc->adrstn),
-> +				    "failed to get/deassert adrst-n\n");
-> +		goto release_group;
-> +	}
->  
->  	adc->presetn = devm_reset_control_get_exclusive_deasserted(dev, "presetn");
-> -	if (IS_ERR(adc->presetn))
-> -		return dev_err_probe(dev, PTR_ERR(adc->presetn),
-> -				     "failed to get/deassert presetn\n");
-> +	if (IS_ERR(adc->presetn)) {
-> +		ret = dev_err_probe(dev, PTR_ERR(adc->presetn),
-> +				    "failed to get/deassert presetn\n");
-> +		goto release_group;
-> +	}
->  
->  	pm_runtime_set_autosuspend_delay(dev, 300);
->  	pm_runtime_use_autosuspend(dev);
->  	ret = devm_pm_runtime_enable(dev);
->  	if (ret)
-> -		return ret;
-> +		goto release_group;
->  
->  	platform_set_drvdata(pdev, indio_dev);
->  
->  	ret = rzg2l_adc_hw_init(dev, adc);
-> -	if (ret)
-> -		return dev_err_probe(&pdev->dev, ret,
-> -				     "failed to initialize ADC HW\n");
-> +	if (ret) {
-> +		ret = dev_err_probe(&pdev->dev, ret,
-> +				    "failed to initialize ADC HW\n");
-> +		goto release_group;
-> +	}
->  
->  	irq = platform_get_irq(pdev, 0);
-> -	if (irq < 0)
-> -		return irq;
-> +	if (irq < 0) {
-> +		ret = irq;
-> +		goto release_group;
-> +	}
->  
->  	ret = devm_request_irq(dev, irq, rzg2l_adc_isr,
->  			       0, dev_name(dev), adc);
->  	if (ret < 0)
-> -		return ret;
-> +		goto release_group;
->  
->  	init_completion(&adc->completion);
->  
-> @@ -492,7 +521,23 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
->  	indio_dev->channels = adc->data->channels;
->  	indio_dev->num_channels = adc->data->num_channels;
->  
-> -	return devm_iio_device_register(dev, indio_dev);
-> +	ret = devm_iio_device_register(dev, indio_dev);
-> +	if (ret)
-> +		goto release_group;
-> +
-> +	return 0;
-> +
-> +release_group:
-> +	devres_release_group(dev, devres_group_id);
-> +	return ret;
-> +}
-> +
-> +static void rzg2l_adc_remove(struct platform_device *pdev)
-> +{
-> +	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
-> +	struct rzg2l_adc *adc = iio_priv(indio_dev);
-> +
-> +	devres_release_group(&pdev->dev, adc->devres_group_id);
->  }
->  
->  static const struct rzg2l_adc_hw_params rzg2l_hw_params = {
-> @@ -614,6 +659,7 @@ static const struct dev_pm_ops rzg2l_adc_pm_ops = {
->  
->  static struct platform_driver rzg2l_adc_driver = {
->  	.probe		= rzg2l_adc_probe,
-> +	.remove		= rzg2l_adc_remove,
->  	.driver		= {
->  		.name		= DRIVER_NAME,
->  		.of_match_table = rzg2l_adc_match,
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
