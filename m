@@ -1,326 +1,284 @@
-Return-Path: <linux-renesas-soc+bounces-13990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13991-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77607A4FA12
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 10:30:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC86A4FB56
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 11:11:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 525B13A2913
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 09:30:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3707D3A62E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 10:10:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46FE71E2847;
-	Wed,  5 Mar 2025 09:30:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 606DC205ACB;
+	Wed,  5 Mar 2025 10:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="aNKcWg4x"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29914204F99;
-	Wed,  5 Mar 2025 09:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27650205AA3
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Mar 2025 10:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741167015; cv=none; b=dB0BVF+Z2OuE4HnDGrkNUGkHhgNM+ovRTzwYgEzfG16jko2wHl75mvYiFx1ciB6UwXdLCtSNJ4sTfGsVcrUPrYOpK83AZw/ljb+ge1/oHIxmNyprn/f/Sv41HSrQGZD0TgPB6M2HPPyDyoPHzIn4ntpL6axQSaLAS0YBc6lqTwE=
+	t=1741169449; cv=none; b=YHqyMLn5iiHBLifjWRbUBofzR9psL0GtBoyS4TbKBPZCt9pV9aqV9aoyZD5cs/sW9k05lxQVCLm5dIB1V1uiMNMBr7lKDF5wBwLo0Y9KO7SAo7skcv+9hOVWlVi5o52iVpc/YEKYkOLeS6mMySQP1X67qHFQv23AsCyPK5rx6RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741167015; c=relaxed/simple;
-	bh=MIZq+LNgdODndQlLYZ0QAvFfZt5RXa51uh7YX7Wzuuw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k2JMDYUX5YsBgZLU3aYQ0YPonUP0wjrWFXKQ+/aUm63WyrgdDfLqIHzurtYvZCWLd1gU55tU0G8MwFu/8jkvGccHqisjEOgLMz4zBEg1f/2RUDnYJoZOmPD+I0mkxUtFwSi8YvbKRNGwRgXgC6fZ668KGTH4qSMAzN5yvw/2pMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: Ax+8F2T+SKa0UvwQOEjtKg==
-X-CSE-MsgGUID: EmuayN+KRV+K4gEQX2Aj3A==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Mar 2025 18:30:11 +0900
-Received: from localhost.localdomain (unknown [10.226.92.226])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 841D7401ED68;
-	Wed,  5 Mar 2025 18:30:09 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v6 2/2] mmc: renesas_sdhi: Add support for RZ/G3E SoC
-Date: Wed,  5 Mar 2025 09:29:52 +0000
-Message-ID: <20250305092958.21865-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250305092958.21865-1-biju.das.jz@bp.renesas.com>
-References: <20250305092958.21865-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1741169449; c=relaxed/simple;
+	bh=/IY+SY2bKTFZ1BbceT9CLou7zwZuDASXClnyccCwtpQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hd8jfJd9TkOuLceBC1Md89A0PUL8i4MBNh2+1WK/fLzCBM2t2G00n04ErEqjCvXXcY2OvF+Tjgqojqep2ihbLC3YRLDR1MOXBb6oNnUVaUL0L4JPNskYjHldYoIVzZfnGZGCDjeH+dYrqKacZsauBebErfsP6ri9t13qcqoe66Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=aNKcWg4x; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=3kCcOBRlXC/cIa
+	RPUnep/oFdUu2qzW5jLGvJ5qW1msQ=; b=aNKcWg4xdYVdP9lvfgtQC9LhnnyKMX
+	xf0kPX91CQ9SSPjGGH6s5BFmukkmPfQRB8DvlZxXCLfVhLE/Hb0QxtOL1q+IyAmx
+	OuyRH2vRXKfysyFSPVDrQjRtWRjp/7bFtHbSWMUdmHJhSltBvAuhzDM4aP/dhAmq
+	fKR8Dv9VU0MCa45dvpIZDsacKmNR/ZWrXuOGLjAC52TPl0VJar5IA3zNJ2oWwPTP
+	uaMzyq9cFVxY8uyop3GBVYnLMUcsUtdrQ+qfsg08Qt2IfafNrp2FnecX5C1C3eak
+	uNAuS+Ev3bVF8wi+zclE5DR9mzOW40bBMxpt2g7PEEarWLjJqfHUblYw==
+Received: (qmail 2890386 invoked from network); 5 Mar 2025 11:10:41 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Mar 2025 11:10:41 +0100
+X-UD-Smtp-Session: l3s3148p1@xMgEmpUvGJkgAwDPXylhAB+mKiir6bOV
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org
+Subject: [PATCH v2] rtc: rzn1: implement one-second accuracy for alarms
+Date: Wed,  5 Mar 2025 11:08:16 +0100
+Message-ID: <20250305101038.9933-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The SDHI/eMMC IPs in the RZ/G3E SoC are similar to those in R-Car Gen3.
-However, the RZ/G3E SD0 channel has Voltage level control and PWEN pin
-support via SD_STATUS register.
+The hardware alarm only supports one-minute accuracy which is coarse and
+disables UIE usage. Use the 1-second interrupt to achieve per-second
+accuracy. It is activated once we hit the per-minute alarm. The new
+feature is optional. When there is no 1-second interrupt, old behaviour
+with per-minute accuracy is used as before. With this feature, all tests
+of 'rtctest' are successfully passed.
 
-internal regulator support is added to control the voltage levels of
-the SD pins via sd_iovs/sd_pwen bits in SD_STATUS register by populating
-vqmmc-regulator child node.
-
-SD1 and SD2 channels have gpio regulator support and internal regulator
-support. Selection of the regulator is based on the regulator phandle.
-Similar case for SD0 fixed voltage (eMMC) that uses fixed regulator and
-SD0 non-fixed voltage (SD0) that uses internal regulator.
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
-v5->v6:
- * Added const for renesas_sdhi_vqmmc_regulator.
- * Added Rb tag from Wolfram.
-v4->v5:
- * Dropped redundant struct renesas_sdhi_vqmmc_regulator initialization.
- * Added one space before '=' in the struct initializer.
-v3->v4:
- * Added sd_ctrl_read32()
- * Replaced sd_ctrl_read32_rep()->sd_ctrl_read32().
- * Arranged variables of same types close to each other in probe().
-v2->v3:
- * No change.
-v1->v2:
- * Updated commit description for regulator used in SD0 fixed and
-   non-fixed voltage case.
- * As the node enabling of internal regulator is controlled through status,
-   added a check for device availability.
----
- drivers/mmc/host/renesas_sdhi.h      |   1 +
- drivers/mmc/host/renesas_sdhi_core.c | 130 +++++++++++++++++++++++++++
- drivers/mmc/host/tmio_mmc.h          |  10 +++
- 3 files changed, 141 insertions(+)
 
-diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-index f12a87442338..291ddb4ad9be 100644
---- a/drivers/mmc/host/renesas_sdhi.h
-+++ b/drivers/mmc/host/renesas_sdhi.h
-@@ -95,6 +95,7 @@ struct renesas_sdhi {
+Tested with the Renesas RZ/N1D board. Besides 'rtctest', I did some
+manual testing with 'rtc' on top trying to stresstest corner cases.
+
+Looking forward to comments. AFAICS, this is the first driver trying to
+overcome the per-minute limitation using 1-second interrupts.
+
+Change since v1:
+* consider 1s interrupt when setting the alarm->enabled flag
+
+drivers/rtc/rtc-rzn1.c | 108 ++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 91 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
+index cb220807d925..eeb9612a666f 100644
+--- a/drivers/rtc/rtc-rzn1.c
++++ b/drivers/rtc/rtc-rzn1.c
+@@ -19,6 +19,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/rtc.h>
++#include <linux/spinlock.h>
  
- 	struct reset_control *rstc;
- 	struct tmio_mmc_host *host;
-+	struct regulator_dev *rdev;
+ #define RZN1_RTC_CTL0 0x00
+ #define   RZN1_RTC_CTL0_SLSB_SUBU 0
+@@ -27,6 +28,7 @@
+ #define   RZN1_RTC_CTL0_CE BIT(7)
+ 
+ #define RZN1_RTC_CTL1 0x04
++#define   RZN1_RTC_CTL1_1SE BIT(3)
+ #define   RZN1_RTC_CTL1_ALME BIT(4)
+ 
+ #define RZN1_RTC_CTL2 0x08
+@@ -58,6 +60,13 @@
+ struct rzn1_rtc {
+ 	struct rtc_device *rtcdev;
+ 	void __iomem *base;
++	/*
++	 * Protects access to RZN1_RTC_CTL1 reg. rtc_lock with threaded_irqs
++	 * would introduce race conditions when switching interrupts because
++	 * of potential sleeps
++	 */
++	spinlock_t ctl1_access_lock;
++	struct rtc_time tm_alarm;
  };
  
- #define host_to_priv(host) \
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index f73b84bae0c4..396fa2816a15 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -32,6 +32,8 @@
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/regulator/driver.h>
-+#include <linux/regulator/of_regulator.h>
- #include <linux/reset.h>
- #include <linux/sh_dma.h>
- #include <linux/slab.h>
-@@ -581,12 +583,24 @@ static void renesas_sdhi_reset(struct tmio_mmc_host *host, bool preserve)
- 
- 	if (!preserve) {
- 		if (priv->rstc) {
-+			u32 sd_status;
-+			/*
-+			 * HW reset might have toggled the regulator state in
-+			 * HW which regulator core might be unaware of so save
-+			 * and restore the regulator state during HW reset.
-+			 */
-+			if (priv->rdev)
-+				sd_status = sd_ctrl_read32(host, CTL_SD_STATUS);
+ static void rzn1_rtc_get_time_snapshot(struct rzn1_rtc *rtc, struct rtc_time *tm)
+@@ -135,8 +144,38 @@ static int rzn1_rtc_set_time(struct device *dev, struct rtc_time *tm)
+ static irqreturn_t rzn1_rtc_alarm_irq(int irq, void *dev_id)
+ {
+ 	struct rzn1_rtc *rtc = dev_id;
++	u32 ctl1, set_irq_bits = 0;
 +
- 			reset_control_reset(priv->rstc);
- 			/* Unknown why but without polling reset status, it will hang */
- 			read_poll_timeout(reset_control_status, ret, ret == 0, 1, 100,
- 					  false, priv->rstc);
- 			/* At least SDHI_VER_GEN2_SDR50 needs manual release of reset */
- 			sd_ctrl_write16(host, CTL_RESET_SD, 0x0001);
-+			if (priv->rdev)
-+				sd_ctrl_write32(host, CTL_SD_STATUS, sd_status);
-+
- 			priv->needs_adjust_hs400 = false;
- 			renesas_sdhi_set_clock(host, host->clk_cache);
++	if (rtc->tm_alarm.tm_sec == 0)
++		rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
++	else
++		/* Switch to 1s interrupts */
++		set_irq_bits = RZN1_RTC_CTL1_1SE;
  
-@@ -904,6 +918,102 @@ static void renesas_sdhi_enable_dma(struct tmio_mmc_host *host, bool enable)
- 	renesas_sdhi_sdbuf_width(host, enable ? width : 16);
+-	rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
++	guard(spinlock)(&rtc->ctl1_access_lock);
++
++	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
++	ctl1 &= ~RZN1_RTC_CTL1_ALME;
++	ctl1 |= set_irq_bits;
++	writel(ctl1, rtc->base + RZN1_RTC_CTL1);
++
++	return IRQ_HANDLED;
++}
++
++static irqreturn_t rzn1_rtc_1s_irq(int irq, void *dev_id)
++{
++	struct rzn1_rtc *rtc = dev_id;
++	u32 ctl1;
++
++	if (readl(rtc->base + RZN1_RTC_SECC) == bin2bcd(rtc->tm_alarm.tm_sec)) {
++		guard(spinlock)(&rtc->ctl1_access_lock);
++
++		ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
++		ctl1 &= ~RZN1_RTC_CTL1_1SE;
++		writel(ctl1, rtc->base + RZN1_RTC_CTL1);
++
++		rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
++	}
+ 
+ 	return IRQ_HANDLED;
  }
+@@ -144,14 +183,38 @@ static irqreturn_t rzn1_rtc_alarm_irq(int irq, void *dev_id)
+ static int rzn1_rtc_alarm_irq_enable(struct device *dev, unsigned int enable)
+ {
+ 	struct rzn1_rtc *rtc = dev_get_drvdata(dev);
+-	u32 ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
++	struct rtc_time *tm = &rtc->tm_alarm, tm_now;
++	u32 ctl1;
++	int ret;
  
-+static const unsigned int renesas_sdhi_vqmmc_voltages[] = {
-+	3300000, 1800000
-+};
+-	if (enable)
+-		ctl1 |= RZN1_RTC_CTL1_ALME;
+-	else
+-		ctl1 &= ~RZN1_RTC_CTL1_ALME;
++	guard(spinlock_irqsave)(&rtc->ctl1_access_lock);
+ 
+-	writel(ctl1, rtc->base + RZN1_RTC_CTL1);
++	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
 +
-+static int renesas_sdhi_regulator_disable(struct regulator_dev *rdev)
-+{
-+	struct tmio_mmc_host *host = rdev_get_drvdata(rdev);
-+	u32 sd_status;
++	if (enable) {
++		/*
++		 * Use alarm interrupt if alarm time is at least a minute away
++		 * or less than a minute but in the next minute. Otherwise use
++		 * 1 second interrupt to wait for the proper second
++		 */
++		do {
++			ctl1 &= ~(RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE);
 +
-+	sd_status = sd_ctrl_read32(host, CTL_SD_STATUS);
-+	sd_status &= ~SD_STATUS_PWEN;
-+	sd_ctrl_write32(host, CTL_SD_STATUS, sd_status);
++			ret = rzn1_rtc_read_time(dev, &tm_now);
++			if (ret)
++				return ret;
 +
-+	return 0;
-+}
++			if (rtc_tm_sub(tm, &tm_now) > 59 || tm->tm_min != tm_now.tm_min)
++				ctl1 |= RZN1_RTC_CTL1_ALME;
++			else
++				ctl1 |= RZN1_RTC_CTL1_1SE;
 +
-+static int renesas_sdhi_regulator_enable(struct regulator_dev *rdev)
-+{
-+	struct tmio_mmc_host *host = rdev_get_drvdata(rdev);
-+	u32 sd_status;
-+
-+	sd_status = sd_ctrl_read32(host, CTL_SD_STATUS);
-+	sd_status |= SD_STATUS_PWEN;
-+	sd_ctrl_write32(host, CTL_SD_STATUS, sd_status);
-+
-+	return 0;
-+}
-+
-+static int renesas_sdhi_regulator_is_enabled(struct regulator_dev *rdev)
-+{
-+	struct tmio_mmc_host *host = rdev_get_drvdata(rdev);
-+	u32 sd_status;
-+
-+	sd_status = sd_ctrl_read32(host, CTL_SD_STATUS);
-+
-+	return (sd_status & SD_STATUS_PWEN) ? 1 : 0;
-+}
-+
-+static int renesas_sdhi_regulator_get_voltage(struct regulator_dev *rdev)
-+{
-+	struct tmio_mmc_host *host = rdev_get_drvdata(rdev);
-+	u32 sd_status;
-+
-+	sd_status = sd_ctrl_read32(host, CTL_SD_STATUS);
-+
-+	return (sd_status & SD_STATUS_IOVS) ? 1800000 : 3300000;
-+}
-+
-+static int renesas_sdhi_regulator_set_voltage(struct regulator_dev *rdev,
-+					      int min_uV, int max_uV,
-+					      unsigned int *selector)
-+{
-+	struct tmio_mmc_host *host = rdev_get_drvdata(rdev);
-+	u32 sd_status;
-+
-+	sd_status = sd_ctrl_read32(host, CTL_SD_STATUS);
-+	if (min_uV >= 1700000 && max_uV <= 1950000) {
-+		sd_status |= SD_STATUS_IOVS;
-+		*selector = 1;
++			writel(ctl1, rtc->base + RZN1_RTC_CTL1);
++		} while (readl(rtc->base + RZN1_RTC_SECC) != bin2bcd(tm_now.tm_sec));
 +	} else {
-+		sd_status &= ~SD_STATUS_IOVS;
-+		*selector = 0;
++		ctl1 &= ~(RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE);
++		writel(ctl1, rtc->base + RZN1_RTC_CTL1);
 +	}
-+	sd_ctrl_write32(host, CTL_SD_STATUS, sd_status);
-+
-+	return 0;
-+}
-+
-+static int renesas_sdhi_regulator_list_voltage(struct regulator_dev *rdev,
-+					       unsigned int selector)
-+{
-+	if (selector >= ARRAY_SIZE(renesas_sdhi_vqmmc_voltages))
-+		return -EINVAL;
-+
-+	return renesas_sdhi_vqmmc_voltages[selector];
-+}
-+
-+static const struct regulator_ops renesas_sdhi_regulator_voltage_ops = {
-+	.enable = renesas_sdhi_regulator_enable,
-+	.disable = renesas_sdhi_regulator_disable,
-+	.is_enabled = renesas_sdhi_regulator_is_enabled,
-+	.list_voltage = renesas_sdhi_regulator_list_voltage,
-+	.get_voltage = renesas_sdhi_regulator_get_voltage,
-+	.set_voltage = renesas_sdhi_regulator_set_voltage,
-+};
-+
-+static const struct regulator_desc renesas_sdhi_vqmmc_regulator = {
-+	.name = "sdhi-vqmmc-regulator",
-+	.of_match = of_match_ptr("vqmmc-regulator"),
-+	.type = REGULATOR_VOLTAGE,
-+	.owner = THIS_MODULE,
-+	.ops = &renesas_sdhi_regulator_voltage_ops,
-+	.volt_table = renesas_sdhi_vqmmc_voltages,
-+	.n_voltages = ARRAY_SIZE(renesas_sdhi_vqmmc_voltages),
-+};
-+
- int renesas_sdhi_probe(struct platform_device *pdev,
- 		       const struct tmio_mmc_dma_ops *dma_ops,
- 		       const struct renesas_sdhi_of_data *of_data,
-@@ -911,7 +1021,10 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- {
- 	struct tmio_mmc_data *mmd = pdev->dev.platform_data;
- 	struct tmio_mmc_data *mmc_data;
-+	struct regulator_config rcfg = { .dev = &pdev->dev, };
-+	struct regulator_dev *rdev;
- 	struct renesas_sdhi_dma *dma_priv;
-+	struct device *dev = &pdev->dev;
- 	struct tmio_mmc_host *host;
- 	struct renesas_sdhi *priv;
- 	int num_irqs, irq, ret, i;
-@@ -1053,6 +1166,23 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 	if (ret)
- 		goto efree;
  
-+	rcfg.of_node = of_get_child_by_name(dev->of_node, "vqmmc-regulator");
-+	if (!of_device_is_available(rcfg.of_node)) {
-+		of_node_put(rcfg.of_node);
-+		rcfg.of_node = NULL;
-+	}
-+
-+	if (rcfg.of_node) {
-+		rcfg.driver_data = priv->host;
-+		rdev = devm_regulator_register(dev, &renesas_sdhi_vqmmc_regulator, &rcfg);
-+		of_node_put(rcfg.of_node);
-+		if (IS_ERR(rdev)) {
-+			dev_err(dev, "regulator register failed err=%ld", PTR_ERR(rdev));
-+			goto efree;
-+		}
-+		priv->rdev = rdev;
-+	}
-+
- 	ver = sd_ctrl_read16(host, CTL_VERSION);
- 	/* GEN2_SDR104 is first known SDHI to use 32bit block count */
- 	if (ver < SDHI_VER_GEN2_SDR104 && mmc_data->max_blk_count > U16_MAX)
-diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
-index a75755f31d31..41787ea77a13 100644
---- a/drivers/mmc/host/tmio_mmc.h
-+++ b/drivers/mmc/host/tmio_mmc.h
-@@ -44,6 +44,7 @@
- #define CTL_RESET_SD 0xe0
- #define CTL_VERSION 0xe2
- #define CTL_SDIF_MODE 0xe6 /* only known on R-Car 2+ */
-+#define CTL_SD_STATUS 0xf2 /* only known on RZ/{G2L,G3E,V2H} */
- 
- /* Definitions for values the CTL_STOP_INTERNAL_ACTION register can take */
- #define TMIO_STOP_STP		BIT(0)
-@@ -103,6 +104,10 @@
- /* Definitions for values the CTL_SDIF_MODE register can take */
- #define SDIF_MODE_HS400		BIT(0) /* only known on R-Car 2+ */
- 
-+/* Definitions for values the CTL_SD_STATUS register can take */
-+#define SD_STATUS_PWEN		BIT(0) /* only known on RZ/{G3E,V2H} */
-+#define SD_STATUS_IOVS		BIT(16) /* only known on RZ/{G3E,V2H} */
-+
- /* Define some IRQ masks */
- /* This is the mask used at reset by the chip */
- #define TMIO_MASK_ALL           0x837f031d
-@@ -226,6 +231,11 @@ static inline u32 sd_ctrl_read16_and_16_as_32(struct tmio_mmc_host *host,
- 	       ioread16(host->ctl + ((addr + 2) << host->bus_shift)) << 16;
+ 	return 0;
  }
+@@ -185,7 +248,7 @@ static int rzn1_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alrm)
+ 	}
  
-+static inline u32 sd_ctrl_read32(struct tmio_mmc_host *host, int addr)
-+{
-+	return ioread32(host->ctl + (addr << host->bus_shift));
-+}
+ 	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
+-	alrm->enabled = !!(ctl1 & RZN1_RTC_CTL1_ALME);
++	alrm->enabled = !!(ctl1 & (RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE));
+ 
+ 	return 0;
+ }
+@@ -216,6 +279,8 @@ static int rzn1_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
+ 	writel(bin2bcd(tm->tm_hour), rtc->base + RZN1_RTC_ALH);
+ 	writel(BIT(wday), rtc->base + RZN1_RTC_ALW);
+ 
++	rtc->tm_alarm = alrm->time;
 +
- static inline void sd_ctrl_read32_rep(struct tmio_mmc_host *host, int addr,
- 				      u32 *buf, int count)
+ 	rzn1_rtc_alarm_irq_enable(dev, alrm->enabled);
+ 
+ 	return 0;
+@@ -304,7 +369,7 @@ static const struct rtc_class_ops rzn1_rtc_ops = {
+ static int rzn1_rtc_probe(struct platform_device *pdev)
  {
+ 	struct rzn1_rtc *rtc;
+-	int alarm_irq;
++	int irq;
+ 	int ret;
+ 
+ 	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
+@@ -317,9 +382,9 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
+ 	if (IS_ERR(rtc->base))
+ 		return dev_err_probe(&pdev->dev, PTR_ERR(rtc->base), "Missing reg\n");
+ 
+-	alarm_irq = platform_get_irq(pdev, 0);
+-	if (alarm_irq < 0)
+-		return alarm_irq;
++	irq = platform_get_irq_byname(pdev, "alarm");
++	if (irq < 0)
++		return irq;
+ 
+ 	rtc->rtcdev = devm_rtc_allocate_device(&pdev->dev);
+ 	if (IS_ERR(rtc->rtcdev))
+@@ -329,8 +394,6 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
+ 	rtc->rtcdev->range_max = RTC_TIMESTAMP_END_2099;
+ 	rtc->rtcdev->alarm_offset_max = 7 * 86400;
+ 	rtc->rtcdev->ops = &rzn1_rtc_ops;
+-	set_bit(RTC_FEATURE_ALARM_RES_MINUTE, rtc->rtcdev->features);
+-	clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
+ 
+ 	ret = devm_pm_runtime_enable(&pdev->dev);
+ 	if (ret < 0)
+@@ -349,13 +412,24 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
+ 	/* Disable all interrupts */
+ 	writel(0, rtc->base + RZN1_RTC_CTL1);
+ 
+-	ret = devm_request_irq(&pdev->dev, alarm_irq, rzn1_rtc_alarm_irq, 0,
+-			       dev_name(&pdev->dev), rtc);
++	spin_lock_init(&rtc->ctl1_access_lock);
++
++	ret = devm_request_irq(&pdev->dev, irq, rzn1_rtc_alarm_irq, 0, "RZN1 RTC Alarm", rtc);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "RTC timer interrupt not available\n");
++		dev_err(&pdev->dev, "RTC alarm interrupt not available\n");
+ 		goto dis_runtime_pm;
+ 	}
+ 
++	irq = platform_get_irq_byname_optional(pdev, "pps");
++	if (irq >= 0)
++		ret = devm_request_irq(&pdev->dev, irq, rzn1_rtc_1s_irq, 0, "RZN1 RTC 1s", rtc);
++
++	if (irq < 0 || ret) {
++		set_bit(RTC_FEATURE_ALARM_RES_MINUTE, rtc->rtcdev->features);
++		clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
++		dev_warn(&pdev->dev, "RTC pps interrupt not available. Alarm has only minute accuracy\n");
++	}
++
+ 	ret = devm_rtc_register_device(rtc->rtcdev);
+ 	if (ret)
+ 		goto dis_runtime_pm;
 -- 
-2.43.0
+2.45.2
 
 
