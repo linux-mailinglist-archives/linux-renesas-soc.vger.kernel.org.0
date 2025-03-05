@@ -1,159 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-14028-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14029-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280B4A50686
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 18:38:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09AF0A506B9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 18:47:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 669373A7A88
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 17:38:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04BE93A6D90
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 17:47:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E5C524292A;
-	Wed,  5 Mar 2025 17:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D56A119F436;
+	Wed,  5 Mar 2025 17:47:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TV3flwBU"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="j8KN+BTp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NuN8zo+t"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9F81957E4;
-	Wed,  5 Mar 2025 17:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BDB198A0D;
+	Wed,  5 Mar 2025 17:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741196308; cv=none; b=phtqB1s79B2bE4A09sLigSPxYO39gKSBNxV7biwjEdBZhZQ0JCzdFLy7l0j8P8irNuKzge2qVCyRQwwexExZg9cjE1Qv7D1QCyhj1eQ+10D718aT9bBMHu3F1pI/ugTWrCPGHPlMMLESquV6RJU9cSrjKSSULy4I7Ne6wuM3Xrs=
+	t=1741196842; cv=none; b=pMpWlU7gYauviyS4lGtyJN3dCVEv3ov1Kw/hWjlCsn9D9b0PciUfj/4hzvsxTn++r12gDqJpryy5Oo6R4hq7Iv+ON4geYeN3O1uqCst+ns5K4LNs/NHs4FMxkQ4MhA9eWZOq7oU8KkHAS4Yv+7ty8gzPzSYAusnjRaAiDC3eXNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741196308; c=relaxed/simple;
-	bh=ijeMNbdG6/t/MFEhbiYg7NxdfQyaCwL0KeoeZZihREw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=tHrEvKlb228smlQ92OXil3HgWWRFK44eontkbughOoXJfGJBPHMgomgXlOEls+nNLyWBWPn9i+0zEywIG/KyQL133uq8mNZyGb2wbdqZhJqD8Ue2KabQf1r0BnVD5BEMR49dbd2xxUa1Ar5jpfPx0hCwd3KDg90JzxBwQ/Xg8m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TV3flwBU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 906A8C4CED1;
-	Wed,  5 Mar 2025 17:38:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741196307;
-	bh=ijeMNbdG6/t/MFEhbiYg7NxdfQyaCwL0KeoeZZihREw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=TV3flwBUO/G0FQf09lT08iTdwkyHwQLxOvyCqIuBuMonT1GOwm0cUoemhaPTTHeix
-	 h+8jch8k0QjY3uKAtLRojI7MG+hBjyNZ702wCXv2vaLEbYNJVD0++H/MhU33skYvp3
-	 7quINAI0nSkLMZ6a32qOQKcn+Faf0eFW03TjGB52SmUHh/l+w0PQgL7Q5H489hEgZy
-	 AL0uN49J4r0jqbO9L/62YHpoW6QE1Gzqo3Ifnxki16OdKKp78RkRCluQYYiioTTVqS
-	 T7gISCH9FLq5trvXbfXhw+9xoxwOGynufWk1wMnppCXeDJmuuJncKkgnHJODMYbjna
-	 NOYdAqxliI+Jg==
-Date: Wed, 5 Mar 2025 11:38:26 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	s=arc-20240116; t=1741196842; c=relaxed/simple;
+	bh=f1+UTpKlC4PMUklAk1R1vw95QbZFxwtMDnEjaAJmvr4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=it1ufEZN3oIxACPSJx5NvSJcukwBpFBc7KcsimCAgSDuNQlpqvI7qsTptxjPxOtpyS71F729RwL9DnvQfT9MuB1w8g1EffvPPiOS2lHi1yta7eZRxhlRzFa/itiyd5/pb/IwjONKTtPQBC4iqG014PWnhI/qLkR9ueMZIiEVvsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=j8KN+BTp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NuN8zo+t; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 99B39114015F;
+	Wed,  5 Mar 2025 12:47:19 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Wed, 05 Mar 2025 12:47:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1741196839; x=1741283239; bh=aO
+	QgaZQNUVttMX55uk46kNymM0NpV6zoAj52SI7QW/M=; b=j8KN+BTpfSwSYyovUp
+	0fuQOyvTtxywr7n/gmPR0vroEPo/SV4+FrceqG4Awidulm8mK+5yx2BjKkuu7uXd
+	BtrRmsW5DMXuLJtEG0dOO3gCOy6w1y9UhqPVwx8cvtp8dgp7xbYH5/m1EZcdVYuz
+	fvMpbyfyLGOvvaT/NoLoBnwopD3zGFzN4YUw+ZtCftQpf+aeS01dU9Fe4wkLVEs3
+	ag6P0izI4iJjbVMxp+gunqGaqvTTUl/j48HTyGnQXLVVX/EA2unIj0R+hQy9GgIz
+	ZSVde4wxW4GSk9nDzmT2ChYiYvsmQ6ANdtTfB/fL4v/Z+YDdQMuSs5ghTfZlIvHA
+	1kJg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1741196839; x=1741283239; bh=aOQgaZQNUVttMX55uk46kNymM0Np
+	V6zoAj52SI7QW/M=; b=NuN8zo+tI64uyV35Jzck7bTrh07CmC/lS2bJwSfKgG1m
+	1Iw5AFoPleSGZG0frrGU96RAfY7ifxvbIY5y8dIkwbnoPO7J80ab9MTF9SAJgY9G
+	jBNDaFUj8JvLNri01CqKHFN1XvIXR0Ke6pez9ss/cTGDgip7QFzmeVXPY8X7GEAh
+	HRsrEigYmPEtNyQI+31U7DGZuuG0IKbu18LNY1EFfyCOsWkGL/lJhoHJctClt1X+
+	dR3Vh6YMsQcSD5Lrz3Ccf1MJy5ao2/sOiXsnTQtgHga6eDOC+XfQQ9CwC4/+5rRB
+	E55xzLdkyElSZCCBF696LjPxS+GQyhnLSHhOxg8Byw==
+X-ME-Sender: <xms:J47IZ6fFkv4vIU_kxYqAVQDsX1pANmUgYHPC0yoPKVrld8Aew1MgLQ>
+    <xme:J47IZ0NO_JFv5tWPeSuREJrHoExLtiN4iTxKWzaVie8OGsVcHZxXSB9e1_wzS8v4a
+    IJJhCeA4jtef5KSYcs>
+X-ME-Received: <xmr:J47IZ7jc4Q3Dq5sgSq1sdZlabcjMhYBKvWOJJIFHCxMiwr9CNwskumrH0lhzd31BnbE_dedXf2rXnx99DWWhrUI49w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdehgeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
+    thgvrhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfe
+    etgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
+    ihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtph
+    htthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehrrghfrggvlheskhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhhivghlrdhlvgiitggrnhhosehlihhnrg
+    hrohdrohhrghdprhgtphhtthhopehruhhirdiihhgrnhhgsehinhhtvghlrdgtohhmpdhr
+    tghpthhtoheplhhukhgrshiirdhluhgsrgesrghrmhdrtghomhdprhgtphhtthhopehgvg
+    gvrhhtsehlihhnuhigqdhmieekkhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghn
+    vghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
+    hugidqphhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrghs
+    rdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:J47IZ3-2-yNLxRcb1AtEzQ5wM342iJ3Rv7iAgYCOSxUAC7-K22huIw>
+    <xmx:J47IZ2uSehMHGsreXFdavhZvwIt6DMJ96PTeGSliLAC5xeJlxPqCrg>
+    <xmx:J47IZ-EVR7CvIEYQwOyijfpf9VToxfrvjnTlAS1y_9av3yA-7iAeiw>
+    <xmx:J47IZ1MI9qcwCGF-kTgMAwHqbag86WDC8YSwN5-Rgr1zWPfxCiyjjA>
+    <xmx:J47IZ0BjIYXrqzDSD_k8IZSufmtcM_1Y9EeFNV_K4RYB_S4Nd_O2cVYx>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 5 Mar 2025 12:47:18 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Fan Ni <nifan.cxl@gmail.com>, Shradha Todi <shradha.t@samsung.com>,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, lpieralisi@kernel.org,
-	robh@kernel.org, bhelgaas@google.com, jingoohan1@gmail.com,
-	Jonathan.Cameron@huawei.com, a.manzanares@samsung.com,
-	pankaj.dubey@samsung.com, cassel@kernel.org, 18255117159@163.com,
-	xueshuai@linux.alibaba.com, renyu.zj@linux.alibaba.com,
-	will@kernel.org, mark.rutland@arm.com,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v7 3/5] Add debugfs based silicon debug support in DWC
-Message-ID: <20250305173826.GA303920@bhelgaas>
+	linux-renesas-soc@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v4 0/2] thermal: rcar_gen3: Improve reading calibration fuses
+Date: Wed,  5 Mar 2025 18:46:29 +0100
+Message-ID: <20250305174631.4119374-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250304171154.njoygsvfd567pb66@thinkpad>
 
-On Tue, Mar 04, 2025 at 10:41:54PM +0530, Manivannan Sadhasivam wrote:
-> On Wed, Mar 05, 2025 at 12:46:38AM +0900, Krzysztof Wilczyński wrote:
-> > > On Mon, 3 Mar 2025 at 20:47, Krzysztof Wilczyński <kw@linux.com> wrote:
-> > > > [...]
-> > > > > > +int dwc_pcie_debugfs_init(struct dw_pcie *pci)
-> > > > > > +{
-> > > > > > +   char dirname[DWC_DEBUGFS_BUF_MAX];
-> > > > > > +   struct device *dev = pci->dev;
-> > > > > > +   struct debugfs_info *debugfs;
-> > > > > > +   struct dentry *dir;
-> > > > > > +   int ret;
-> > > > > > +
-> > > > > > +   /* Create main directory for each platform driver */
-> > > > > > +   snprintf(dirname, DWC_DEBUGFS_BUF_MAX, "dwc_pcie_%s", dev_name(dev));
-> > > > > > +   dir = debugfs_create_dir(dirname, NULL);
-> > > > > > +   debugfs = devm_kzalloc(dev, sizeof(*debugfs), GFP_KERNEL);
-> > > > > > +   if (!debugfs)
-> > > > > > +           return -ENOMEM;
-> > > > > > +
-> > > > > > +   debugfs->debug_dir = dir;
-> > > > > > +   pci->debugfs = debugfs;
-> > > > > > +   ret = dwc_pcie_rasdes_debugfs_init(pci, dir);
-> > > > > > +   if (ret)
-> > > > > > +           dev_dbg(dev, "RASDES debugfs init failed\n");
-> > > > >
-> > > > > What will happen if ret != 0? still return 0?
-> > > 
-> > > And that is exactly what happens on Gray Hawk Single with R-Car
-> > > V4M: dw_pcie_find_rasdes_capability() returns NULL, causing
-> > > dwc_pcie_rasdes_debugfs_init() to return -ENODEV.
-> > > 
-> > > Debugfs issues should never be propagated upstream!
-> ...
+Hello,
 
-> > > So while applying, you changed this like:
-> > > 
-> > >             ret = dwc_pcie_rasdes_debugfs_init(pci, dir);
-> > >     -       if (ret)
-> > >     -               dev_dbg(dev, "RASDES debugfs init failed\n");
-> > >     +       if (ret) {
-> > >     +               dev_err(dev, "failed to initialize RAS DES debugfs\n");
-> > >     +               return ret;
-> > >     +       }
-> > > 
-> > >             return 0;
-> > > 
-> > > Hence this is now a fatal error, causing the probe to fail.
+This small series aims to remove the code duplication that was added
+when adding support for Gen4 devices. The logic to read the calibration
+fuses are identical for Gen3 and Gen4, but the registers are at
+different offsets.
 
-> Even though debugfs_init() failure is not supposed to fail the probe(),
-> dwc_pcie_rasdes_debugfs_init() has a devm_kzalloc() and propagating that
-> failure would be canolically correct IMO.
+Patch 1/2 is a small drive-by patch which fixes a style issue of the
+constants found when working on the fuses code. While patch 2/2 is the
+real work removing the code duplication.
 
-I'm not sure about this.  What's the requirement to propagate
-devm_kzalloc() failures?  I think devres will free any allocs that
-were successful regardless.
+It is tested on both Gen3 and Gen4 boards, but as not all boards have
+the fused calibration values and the driver fallback to hard coded 
+values only Gen4 have really been tested as I don't have access to a 
+Gen3 board with fused calibration values.
 
-IIUC, we resolved the Gray Hawk Single issue by changing
-dwc_pcie_rasdes_debugfs_init() to return success without doing
-anything when there's no RAS DES Capability.
+See individual patches for changelog.
 
-But dwc_pcie_debugfs_init() can still return failure, and that still
-causes dw_pcie_ep_init_registers() to fail, which breaks the "don't
-propagate debugfs issues upstream" rule:
+Niklas Söderlund (2):
+  thermal: rcar_gen3: Use lowercase hex constants
+  thermal: rcar_gen3: Reuse logic to read fuses on Gen3 and Gen4
 
-  int dw_pcie_ep_init_registers(struct dw_pcie_ep *ep)
-  {
-          ...
-          ret = dwc_pcie_debugfs_init(pci);
-          if (ret)
-                  goto err_remove_edma;
+ drivers/thermal/renesas/rcar_gen3_thermal.c | 105 +++++++++-----------
+ 1 file changed, 48 insertions(+), 57 deletions(-)
 
-          return 0;
+-- 
+2.48.1
 
-  err_remove_edma:
-          dw_pcie_edma_remove(pci);
-
-          return ret;
-  }
-
-We can say that kzalloc() failure should "never" happen, and therefore
-it's OK to fail the driver probe if it happens, but that doesn't seem
-like a strong argument for breaking the "don't propagate debugfs
-issues" rule.  And someday there may be other kinds of failures from
-dwc_pcie_debugfs_init().
-
-Bjorn
 
