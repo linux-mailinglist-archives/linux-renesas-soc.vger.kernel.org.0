@@ -1,284 +1,255 @@
-Return-Path: <linux-renesas-soc+bounces-13991-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-13992-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC86A4FB56
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 11:11:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 298F5A4FCDA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 11:54:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3707D3A62E4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 10:10:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C6421885A03
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 10:54:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 606DC205ACB;
-	Wed,  5 Mar 2025 10:10:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48FD021D5B4;
+	Wed,  5 Mar 2025 10:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="aNKcWg4x"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mJNFgGSg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27650205AA3
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Mar 2025 10:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56659219310;
+	Wed,  5 Mar 2025 10:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741169449; cv=none; b=YHqyMLn5iiHBLifjWRbUBofzR9psL0GtBoyS4TbKBPZCt9pV9aqV9aoyZD5cs/sW9k05lxQVCLm5dIB1V1uiMNMBr7lKDF5wBwLo0Y9KO7SAo7skcv+9hOVWlVi5o52iVpc/YEKYkOLeS6mMySQP1X67qHFQv23AsCyPK5rx6RQ=
+	t=1741172082; cv=none; b=HWdtyFh4a5zNwk/36c1wR7qQhkgwHf4VnAM6Y6NHCkCHDycjBmK1VNqki8I+aVjzb6vvlVKqtSzXUl86b7oAVTzvOnDPKAuzU0kSMAHNFyaoPvFpYPON8TaRND+NdBeDXzG9JpAr6uDyQSTJ2+prjahqUTYGuMjBV/tsr9x2b94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741169449; c=relaxed/simple;
-	bh=/IY+SY2bKTFZ1BbceT9CLou7zwZuDASXClnyccCwtpQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hd8jfJd9TkOuLceBC1Md89A0PUL8i4MBNh2+1WK/fLzCBM2t2G00n04ErEqjCvXXcY2OvF+Tjgqojqep2ihbLC3YRLDR1MOXBb6oNnUVaUL0L4JPNskYjHldYoIVzZfnGZGCDjeH+dYrqKacZsauBebErfsP6ri9t13qcqoe66Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=aNKcWg4x; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=3kCcOBRlXC/cIa
-	RPUnep/oFdUu2qzW5jLGvJ5qW1msQ=; b=aNKcWg4xdYVdP9lvfgtQC9LhnnyKMX
-	xf0kPX91CQ9SSPjGGH6s5BFmukkmPfQRB8DvlZxXCLfVhLE/Hb0QxtOL1q+IyAmx
-	OuyRH2vRXKfysyFSPVDrQjRtWRjp/7bFtHbSWMUdmHJhSltBvAuhzDM4aP/dhAmq
-	fKR8Dv9VU0MCa45dvpIZDsacKmNR/ZWrXuOGLjAC52TPl0VJar5IA3zNJ2oWwPTP
-	uaMzyq9cFVxY8uyop3GBVYnLMUcsUtdrQ+qfsg08Qt2IfafNrp2FnecX5C1C3eak
-	uNAuS+Ev3bVF8wi+zclE5DR9mzOW40bBMxpt2g7PEEarWLjJqfHUblYw==
-Received: (qmail 2890386 invoked from network); 5 Mar 2025 11:10:41 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Mar 2025 11:10:41 +0100
-X-UD-Smtp-Session: l3s3148p1@xMgEmpUvGJkgAwDPXylhAB+mKiir6bOV
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: [PATCH v2] rtc: rzn1: implement one-second accuracy for alarms
-Date: Wed,  5 Mar 2025 11:08:16 +0100
-Message-ID: <20250305101038.9933-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1741172082; c=relaxed/simple;
+	bh=QoUC6Qhyxqtfrpp/Ewhq5WKUwH5QMPUb0vC0OYmQgHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JfhwepmGIm8cJ9+mkU0ypcaXABDSynLx7R9tno5WFO49sB3fK65g3J6XPbfwas4AG7c3DWfboHaAur8QNaUoWb6LjWJjs29o24ZE7rtCRX5cdvOgvd4Oc57s/oFzdmSlh7JtwYpn2L3WfgECm4eT+DTuNxzCFaAEzvuavvlF3yM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mJNFgGSg; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5495c63bdc0so4384750e87.1;
+        Wed, 05 Mar 2025 02:54:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741172078; x=1741776878; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8Myb8iOfwo/K4CWy++bb3w2FblFyh4mmShUmyEU2xmU=;
+        b=mJNFgGSgWQt3++aNA/7vnhD9m7F/4oQulNHGVBO2WjhRnR0tGV49t7PXR94m5c0O4U
+         l2AiOB95YMJT09KNZyauQ05tSAAuSbKlLsA9LWZQN7as5BiJ0gjziC9eudWw6XIWjsIu
+         1SyBIA2YCMkm30NHGOX+sWLAdqzATlWsaZu7FC8bhVNpeG/V1+8axi93RUO8cSRdJcbg
+         OoOG9lufXDIf3y1ai8kmg58KbPWKyopYAzCmDiwzLWosGj0JXnFr4Vk44+lHU9kidXF6
+         t9LjIRi6fyquWXic95qaxZW75ssF3VAgGAY2f7na4QM6LGjOu8N5tDfjv1ojxSB+8nQF
+         tyxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741172078; x=1741776878;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Myb8iOfwo/K4CWy++bb3w2FblFyh4mmShUmyEU2xmU=;
+        b=tJd90vOXqxMFdVNG5PxK84wkyUj0tlee8JbgxCXiFSxffs7MJwEaB0ufwZsl1Sk59u
+         OYmIWTl73rjH89VvxO/lSdpiY8r/qZJdm7PlqfdR9XCUCmvPH/TKjYcz7EPwA3YmTAVF
+         C+eRJHzOCjxudfG5N+72dkcvvqt8Lm8o4kJmgKKSuLLCAw5rrrBjU7J3XKOdgV4jzUEo
+         c9R5EfwqhxmL06xeFAWVG8cCBVqqBoYBK+m1CZlmEI7LkQW+Tm0IQrxoNnbaEYazMMw8
+         ige9ecQ8fuaNkiDHCKr0ULWzT5FvC83iPvttKaM5i9ex15UHlqhXeAiKHVt5YDf5IHfr
+         o50g==
+X-Forwarded-Encrypted: i=1; AJvYcCUz1tzYld3sx9YZPavL0CNeHUN4N86lR8Ms9xA4BZDhHRJFEbp6oFlklTiR7UC+ooghj0q38pWhLfBbghBy@vger.kernel.org, AJvYcCVo8iXR0Je7164o1953bVC1QppG3flFG0iXWdmO57Crgh9kNZPzTq6HtdFyY6VfaQvgpiMGd/UxfN9YYg==@vger.kernel.org, AJvYcCW9crrH7X4LRCMiRT3YTRyX/YlNCRPAqDqgSJl761GC/HM1n30bSMEQB7XODyUrEUNRs37KLkC7GtIP@vger.kernel.org, AJvYcCWhnVMOa+vlzgZk4sf1H5zm5Nz3R1pNZt3T4Op5Su+FqPxpaYOft9Ln2YVhZOY5O+Zk2c5ovmqw0xcW0it75dcrhBE=@vger.kernel.org, AJvYcCX2byrfum9cVQhaqLYHpMmqjLGvT+QhO6ODQoZMBrLSVaf8Ucvb455HPdQwsAmMhrbbhMW70Ot9K1Rf@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGRtaRLb1+Vj7lPUxnSlbRgiJBU4+QW+P/WYa+zBq/jC5/lsYA
+	WonVIXWQAZiawuAB1qNyjWYNT0m7i6vuzn4DxIXrC1QcIReJBedg
+X-Gm-Gg: ASbGncsJDd0zsbKZx/r0p+O83DQQRKnkXJfS1MfszU4cQ75gA3k2brD8qsKkMlkLER5
+	gAFXfmMPUNipc8bG0qf86F8/V6FYIaPv+MRvHWwQtAa2hxA23hufXFSVaKym5obShFs0YnL/CsC
+	9LytseQr2kMuJgt0rqeb/EQg+0eQ/vDnvGtmO11b0mJ+6J4Wbo0F9luwPZOLlGXcT2KjVQo2mq+
+	cFRD/B15VycJfkYhjD+c+XgW+3gTPvDkVCnaUgierhgVtiSUmgVCoEH//fOIbYeFkdIxx5762Pd
+	pdrMDPWdpNP4J7He3JOP5hjr/xdIt0q/09FxPrKX+xDWV05aQE+XAXEAWef5gtJecXjLAZtNt4l
+	5CN5x02JTa+FhhGszN1Mw9B7tZA==
+X-Google-Smtp-Source: AGHT+IG7+dALkj4mnhqEtYuKNaMtYCVDDovKQLGo6i+y4ha0bmLUd9DW+/Gn+j0UXQCjVleXTiXGSQ==
+X-Received: by 2002:a05:6512:2214:b0:545:746:f36a with SMTP id 2adb3069b0e04-5497d376350mr1006837e87.34.1741172077938;
+        Wed, 05 Mar 2025 02:54:37 -0800 (PST)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5494ca38eaesm1601129e87.124.2025.03.05.02.54.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Mar 2025 02:54:35 -0800 (PST)
+Message-ID: <54a031d0-df47-4baa-a23a-1a79c0922542@gmail.com>
+Date: Wed, 5 Mar 2025 12:54:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/10] iio: adc: add helpers for parsing ADC nodes
+To: David Lechner <dlechner@baylibre.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>,
+ Dumitru Ceclan <mitrutzceclan@gmail.com>,
+ Trevor Gamblin <tgamblin@baylibre.com>,
+ Matteo Martelli <matteomartelli3@gmail.com>,
+ Alisa-Dariana Roman <alisadariana@gmail.com>,
+ Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <cover.1740993491.git.mazziesaccount@gmail.com>
+ <e71c63c2f61135f9a8c7884525aab2c48f1e84c2.1740993491.git.mazziesaccount@gmail.com>
+ <CAMknhBGQaqFZJsPAoauZL4S5MYtN05EOQ-BO2vw5gH+Z2RLOhw@mail.gmail.com>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <CAMknhBGQaqFZJsPAoauZL4S5MYtN05EOQ-BO2vw5gH+Z2RLOhw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The hardware alarm only supports one-minute accuracy which is coarse and
-disables UIE usage. Use the 1-second interrupt to achieve per-second
-accuracy. It is activated once we hit the per-minute alarm. The new
-feature is optional. When there is no 1-second interrupt, old behaviour
-with per-minute accuracy is used as before. With this feature, all tests
-of 'rtctest' are successfully passed.
+Thanks for the review David.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+On 04/03/2025 11:25, David Lechner wrote:
+> On Mon, Mar 3, 2025 at 12:32 PM Matti Vaittinen
+> <mazziesaccount@gmail.com> wrote:
+>>
+>> There are ADC ICs which may have some of the AIN pins usable for other
+>> functions. These ICs may have some of the AIN pins wired so that they
+>> should not be used for ADC.
+>>
+>> (Preferred?) way for marking pins which can be used as ADC inputs is to
+>> add corresponding channels@N nodes in the device tree as described in
+>> the ADC binding yaml.
+>>
+>> Add couple of helper functions which can be used to retrieve the channel
+>> information from the device node.
+>>
+>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>>
+>> ---
 
-Tested with the Renesas RZ/N1D board. Besides 'rtctest', I did some
-manual testing with 'rtc' on top trying to stresstest corner cases.
+>> + *
+>> + * Return:     Number of found channels on succes. Negative value to indicate
+> 
+> s/succes/success/
 
-Looking forward to comments. AFAICS, this is the first driver trying to
-overcome the per-minute limitation using 1-second interrupts.
+Thanks!
 
-Change since v1:
-* consider 1s interrupt when setting the alarm->enabled flag
+>> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
+>> +                                         const struct iio_chan_spec *template,
+>> +                                         int max_chan_id,
+>> +                                         struct iio_chan_spec **cs)
+>> +{
+>> +       struct iio_chan_spec *chan_array, *chan;
+>> +       int num_chan = 0, ret;
+>> +
+>> +       num_chan = iio_adc_device_num_channels(dev);
+>> +       if (num_chan < 1)
+>> +               return num_chan;
+>> +
+>> +       chan_array = devm_kcalloc(dev, num_chan, sizeof(*chan_array),
+>> +                                 GFP_KERNEL);
+>> +       if (!chan_array)
+>> +               return -ENOMEM;
+>> +
+>> +       chan = &chan_array[0];
+>> +
+>> +       device_for_each_child_node_scoped(dev, child) {
+>> +               u32 ch;
+>> +
+>> +               if (!fwnode_name_eq(child, "channel"))
+>> +                       continue;
+>> +
+>> +               ret = fwnode_property_read_u32(child, "reg", &ch);
+>> +               if (ret)
+>> +                       return ret;
+>> +
+>> +               if (max_chan_id != -1 && ch > max_chan_id)
+>> +                       return -ERANGE;
+>> +
+> 
+> Should we use return dev_err_probe() on these to help with debugging a bad dtb?
+> 
 
-drivers/rtc/rtc-rzn1.c | 108 ++++++++++++++++++++++++++++++++++-------
- 1 file changed, 91 insertions(+), 17 deletions(-)
+I am not fan of using dev_err_probe() in a 'library code'. This is 
+because we never know if there'll be some odd use-case where this is not 
+called from the probe.
 
-diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-index cb220807d925..eeb9612a666f 100644
---- a/drivers/rtc/rtc-rzn1.c
-+++ b/drivers/rtc/rtc-rzn1.c
-@@ -19,6 +19,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/rtc.h>
-+#include <linux/spinlock.h>
- 
- #define RZN1_RTC_CTL0 0x00
- #define   RZN1_RTC_CTL0_SLSB_SUBU 0
-@@ -27,6 +28,7 @@
- #define   RZN1_RTC_CTL0_CE BIT(7)
- 
- #define RZN1_RTC_CTL1 0x04
-+#define   RZN1_RTC_CTL1_1SE BIT(3)
- #define   RZN1_RTC_CTL1_ALME BIT(4)
- 
- #define RZN1_RTC_CTL2 0x08
-@@ -58,6 +60,13 @@
- struct rzn1_rtc {
- 	struct rtc_device *rtcdev;
- 	void __iomem *base;
-+	/*
-+	 * Protects access to RZN1_RTC_CTL1 reg. rtc_lock with threaded_irqs
-+	 * would introduce race conditions when switching interrupts because
-+	 * of potential sleeps
-+	 */
-+	spinlock_t ctl1_access_lock;
-+	struct rtc_time tm_alarm;
- };
- 
- static void rzn1_rtc_get_time_snapshot(struct rzn1_rtc *rtc, struct rtc_time *tm)
-@@ -135,8 +144,38 @@ static int rzn1_rtc_set_time(struct device *dev, struct rtc_time *tm)
- static irqreturn_t rzn1_rtc_alarm_irq(int irq, void *dev_id)
- {
- 	struct rzn1_rtc *rtc = dev_id;
-+	u32 ctl1, set_irq_bits = 0;
-+
-+	if (rtc->tm_alarm.tm_sec == 0)
-+		rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
-+	else
-+		/* Switch to 1s interrupts */
-+		set_irq_bits = RZN1_RTC_CTL1_1SE;
- 
--	rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
-+	guard(spinlock)(&rtc->ctl1_access_lock);
-+
-+	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-+	ctl1 &= ~RZN1_RTC_CTL1_ALME;
-+	ctl1 |= set_irq_bits;
-+	writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t rzn1_rtc_1s_irq(int irq, void *dev_id)
-+{
-+	struct rzn1_rtc *rtc = dev_id;
-+	u32 ctl1;
-+
-+	if (readl(rtc->base + RZN1_RTC_SECC) == bin2bcd(rtc->tm_alarm.tm_sec)) {
-+		guard(spinlock)(&rtc->ctl1_access_lock);
-+
-+		ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-+		ctl1 &= ~RZN1_RTC_CTL1_1SE;
-+		writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-+
-+		rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
-+	}
- 
- 	return IRQ_HANDLED;
- }
-@@ -144,14 +183,38 @@ static irqreturn_t rzn1_rtc_alarm_irq(int irq, void *dev_id)
- static int rzn1_rtc_alarm_irq_enable(struct device *dev, unsigned int enable)
- {
- 	struct rzn1_rtc *rtc = dev_get_drvdata(dev);
--	u32 ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-+	struct rtc_time *tm = &rtc->tm_alarm, tm_now;
-+	u32 ctl1;
-+	int ret;
- 
--	if (enable)
--		ctl1 |= RZN1_RTC_CTL1_ALME;
--	else
--		ctl1 &= ~RZN1_RTC_CTL1_ALME;
-+	guard(spinlock_irqsave)(&rtc->ctl1_access_lock);
- 
--	writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-+	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
-+
-+	if (enable) {
-+		/*
-+		 * Use alarm interrupt if alarm time is at least a minute away
-+		 * or less than a minute but in the next minute. Otherwise use
-+		 * 1 second interrupt to wait for the proper second
-+		 */
-+		do {
-+			ctl1 &= ~(RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE);
-+
-+			ret = rzn1_rtc_read_time(dev, &tm_now);
-+			if (ret)
-+				return ret;
-+
-+			if (rtc_tm_sub(tm, &tm_now) > 59 || tm->tm_min != tm_now.tm_min)
-+				ctl1 |= RZN1_RTC_CTL1_ALME;
-+			else
-+				ctl1 |= RZN1_RTC_CTL1_1SE;
-+
-+			writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-+		} while (readl(rtc->base + RZN1_RTC_SECC) != bin2bcd(tm_now.tm_sec));
-+	} else {
-+		ctl1 &= ~(RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE);
-+		writel(ctl1, rtc->base + RZN1_RTC_CTL1);
-+	}
- 
- 	return 0;
- }
-@@ -185,7 +248,7 @@ static int rzn1_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alrm)
- 	}
- 
- 	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
--	alrm->enabled = !!(ctl1 & RZN1_RTC_CTL1_ALME);
-+	alrm->enabled = !!(ctl1 & (RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE));
- 
- 	return 0;
- }
-@@ -216,6 +279,8 @@ static int rzn1_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
- 	writel(bin2bcd(tm->tm_hour), rtc->base + RZN1_RTC_ALH);
- 	writel(BIT(wday), rtc->base + RZN1_RTC_ALW);
- 
-+	rtc->tm_alarm = alrm->time;
-+
- 	rzn1_rtc_alarm_irq_enable(dev, alrm->enabled);
- 
- 	return 0;
-@@ -304,7 +369,7 @@ static const struct rtc_class_ops rzn1_rtc_ops = {
- static int rzn1_rtc_probe(struct platform_device *pdev)
- {
- 	struct rzn1_rtc *rtc;
--	int alarm_irq;
-+	int irq;
- 	int ret;
- 
- 	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
-@@ -317,9 +382,9 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
- 	if (IS_ERR(rtc->base))
- 		return dev_err_probe(&pdev->dev, PTR_ERR(rtc->base), "Missing reg\n");
- 
--	alarm_irq = platform_get_irq(pdev, 0);
--	if (alarm_irq < 0)
--		return alarm_irq;
-+	irq = platform_get_irq_byname(pdev, "alarm");
-+	if (irq < 0)
-+		return irq;
- 
- 	rtc->rtcdev = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(rtc->rtcdev))
-@@ -329,8 +394,6 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
- 	rtc->rtcdev->range_max = RTC_TIMESTAMP_END_2099;
- 	rtc->rtcdev->alarm_offset_max = 7 * 86400;
- 	rtc->rtcdev->ops = &rzn1_rtc_ops;
--	set_bit(RTC_FEATURE_ALARM_RES_MINUTE, rtc->rtcdev->features);
--	clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
- 
- 	ret = devm_pm_runtime_enable(&pdev->dev);
- 	if (ret < 0)
-@@ -349,13 +412,24 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
- 	/* Disable all interrupts */
- 	writel(0, rtc->base + RZN1_RTC_CTL1);
- 
--	ret = devm_request_irq(&pdev->dev, alarm_irq, rzn1_rtc_alarm_irq, 0,
--			       dev_name(&pdev->dev), rtc);
-+	spin_lock_init(&rtc->ctl1_access_lock);
-+
-+	ret = devm_request_irq(&pdev->dev, irq, rzn1_rtc_alarm_irq, 0, "RZN1 RTC Alarm", rtc);
- 	if (ret) {
--		dev_err(&pdev->dev, "RTC timer interrupt not available\n");
-+		dev_err(&pdev->dev, "RTC alarm interrupt not available\n");
- 		goto dis_runtime_pm;
- 	}
- 
-+	irq = platform_get_irq_byname_optional(pdev, "pps");
-+	if (irq >= 0)
-+		ret = devm_request_irq(&pdev->dev, irq, rzn1_rtc_1s_irq, 0, "RZN1 RTC 1s", rtc);
-+
-+	if (irq < 0 || ret) {
-+		set_bit(RTC_FEATURE_ALARM_RES_MINUTE, rtc->rtcdev->features);
-+		clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
-+		dev_warn(&pdev->dev, "RTC pps interrupt not available. Alarm has only minute accuracy\n");
-+	}
-+
- 	ret = devm_rtc_register_device(rtc->rtcdev);
- 	if (ret)
- 		goto dis_runtime_pm;
--- 
-2.45.2
+All in all, I'd leave adding most of the debugs to the callers - 
+especially because we do not expect to have bad device-trees after the 
+initial 'development stage' of a board. The board 'development stage' 
+should really reveal bugs which prevent the channels from being 
+registered - and after the DT is correct, these debug prints become 
+unnecessary (albeit minor) binary bloat.
+
+>> +               *chan = *template;
+>> +               chan->channel = ch;
+>> +               chan++;
+>> +       }
+>> +
+>> +       *cs = chan_array;
+>> +
+>> +       return num_chan;
+>> +}
+>> +EXPORT_SYMBOL_NS_GPL(devm_iio_adc_device_alloc_chaninfo_se, "IIO_DRIVER");
+> 
+> We can make this less verbose by setting #define
+> DEFAULT_SYMBOL_NAMESPACE at the start of the file. Then we can just do
+> EXPORT_SYMBOL_GPL() throughout the rest of the file.
+
+I am not sure what to think of this. I use the good old 'ctrl + ]' in my 
+editor when I need to check how a function was supposed to be used. That 
+jumps to the spot of code where the function is. I'd like to see the 
+namespace mentioned there in order to not accidentally miss the fact the 
+function belongs to one.
+
+OTOH, I do like simplifications. Yet, the added simplification might not 
+warrant the namespace not being visible in the function definition.
+
+> Also, I would prefer if the namespace matched config name (IIO_ADC_HELPER).
+
+I had some lengthy discussion about this with Andy and Jonathan during 
+earlier review versions. In short, I don't like the idea of very 
+fragmented namespaces in IIO, which will just complicate the drivers 
+without providing any obvious benefit.
+
+https://lore.kernel.org/all/20250222174842.57c091c5@jic23-huawei/
+
+>> +
+>> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
+>> +                                         const struct iio_chan_spec *template,
+>> +                                         int max_chan_id,
+>> +                                         struct iio_chan_spec **cs);
+>> +
+> 
+> There are some different opinions on this, but on the last patch I did
+> introducing a new namespace, the consensus seems to be that putting
+> the MODULE_IMPORT_NS() in the header file was convenient so that users
+> of the API don't have to remember to both include the header and add
+> the import macro.
+> 
+
+I do like this suggestion, and I believe this would be the balance 
+between getting the benefit of hiding part of the symbols - while not 
+unnecessarily complicating the callers. I know some people are opposing 
+it though. My personal opinion is that having the MODULE_IMPORT_NS() in 
+a header would be neatly simplifying the calling code with very little 
+harm, especially here where including the header hardly has use-cases 
+outside the IIO ADC.
+
+Unfortunately, the "safety" seems to often be a synonym for just "making 
+it intentionally hard". As Finnish people say: "Kärsi, kärsi, 
+kirkkaamman kruunun saat". :)
+(Roughly translated as "Suffer, suffer, you will get a brighter crown").
+
+Let's hear what Jonathan thinks of your suggestion.
+
+Thanks!
+	-- Matti
 
 
