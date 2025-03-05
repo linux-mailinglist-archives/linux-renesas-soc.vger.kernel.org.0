@@ -1,86 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-14040-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14041-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA53A50E37
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 22:57:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5710BA50E53
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 23:06:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09AF9188E372
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 21:57:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BAA9C7A2A62
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 22:05:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4402D265622;
-	Wed,  5 Mar 2025 21:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D86526562D;
+	Wed,  5 Mar 2025 22:06:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="EMeCvD2w"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EAB2571C6;
-	Wed,  5 Mar 2025 21:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFDB2E3373;
+	Wed,  5 Mar 2025 22:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741211857; cv=none; b=Rquon8wcHx3hvbJTn+ap1RlcXy/9XD1Ka7qaFZIabZ3+pFBE+VlGugk74+BpkRohbSfLm62qgLFvM7ASjUA+eOqOQ0H1gMII8EXAVckSkG0TRUwtIQnQnVPVCnb6xoyrfmbkyJ5dJdQDdC6+QP8unEjm9fY9mUQTJxa877sCGFE=
+	t=1741212381; cv=none; b=Ow60Nwjxes+sexDovUwoYkv82JXGOrjErV0eLK9gpNObpgvuHmqDFbzmmNC9qsZ9h4JiE4XKBhsvzQWmwf0MkmXuCJthGoLn44GYA1oRoop24TWbvLY0eYZtUwlhpRorvhdPLj7Ms1pd5GjhpzFnZoTfJkt3ZHZQDRMIzXxu4N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741211857; c=relaxed/simple;
-	bh=pXA55zWb3OLx17xkUOLHzdtk1lZRc2oejxk9utsYbcI=;
+	s=arc-20240116; t=1741212381; c=relaxed/simple;
+	bh=q9EXI6Pgompm/W6eQinVy1GNbMHg7R4F7kMhQcftXvo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HPf+szcXlj+PkDx8fx1wMyo+UqkHk6JCtSwr7O2fv0P1pNNSLnPZ8mRDUBugfx5sekORocg7GENsF27/OHUAK8NYX444VZzq5IHQKRyfLX32V6cfTh/lUFqntTYgrqrgCOYOvB4zqFLdm6JDC1x6JivnhHW55KJMcdANvjH8WQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22113560c57so137423925ad.2;
-        Wed, 05 Mar 2025 13:57:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741211854; x=1741816654;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G5oLj+118MekjPiNQhRObsqao3JOH+wuRmhMOoWyOZI=;
-        b=lSA8E3FkoOTtRoNF39xTPLwpfw5dljYujIsdGtqLChKKl1a0pC1OpnahfFleIkLxtH
-         nfqKe2CHgnnGTID7LdWS7YSVpTY+QE8s4f7IHqc35A6bW2f19Y5DgmSLYiLLONLlJ81E
-         9geTuhREoIiOMvTwGcBeGiRw+7IN5C8VUVT0KzvQ6MfBMb/yg0W1kd3DoqaWqtyDksf8
-         PwKRkkCXlEe9cugn3abFkHI7ev5gDJAl00Vub7JgQBhCx7jA+lKGh1Lr6BWhP3ylGWTM
-         mZOtAtEb3EaEx1iHZENT/nuYrbFZuc3jzq19VIO+Ho/BVemkZTtf+ZhEyiKKHteLaOmc
-         OJZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+MvpFMj59JwBOZyHyV1NHBbUi4HaScU+c0P8pBPT5xFkAYsrhXKo4RZxMCAbQJC0rWPzCveg+VcikflgVqgQd0HY=@vger.kernel.org, AJvYcCVbZABflsbLXbvzMbCphfnxasfjQ6bw9HoxRTpmYC6kywAQ/SMS3cxQQoJudvgE4xEwF35y1Yr57XmptjJF6POPZw==@vger.kernel.org, AJvYcCWjOLSRvfQPX6S1OVVXJbG66WvqTi4hjO1oUOd/1Nuzz2Ea9Z4kUG6+xCDoJ3b1h9xb1pz54uUcvMJC@vger.kernel.org, AJvYcCXPJY7YFyFhQ0ZxAY82ipll/qgrYdO/y9o7FMLqv5OY27oUCveJ/BurhhycXGspRCcb7cIZFgkVQgbAWvU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YygUezAjq7czkwR2Y0OD6+8HkTr+zL79MD9Dkr0L5dqwHHfjHMf
-	KqsWlqztjXi5z/Guig6VhQ8IONk0ox7SY/yQD4/hFQ9GN47aTJvk
-X-Gm-Gg: ASbGncuLRtlSkjybb30jQXWK2bHsM5jgohT+oW5OulD68lIR7hsA3B6BAEBJS1t+9Wr
-	OBbbuk7Q1QxOkGc9BAoOiNh7gXB4yGAbqFDVqD+ofaJJJ2FFy8YjJkb/+azZD2sqb9a+hJ+Tw+1
-	eowfgUyrK2QA/xbtFJkGGd9pPRKdFIOhhBrOtawXyVMPdTVXCcXFXbWZsRIfVMby/evqRt47ygy
-	iD3ir6QZYAex9H5ZYYVucjSsDudWGYx61BLjcahnrT4bZEc7oUD2lXLM4w2J7ANL0ogDSTpR5jm
-	9PWLUmtY76SRT49727Q2h0UYmmKtEwsGi7OtQWO9yfmPMBWfSANxq2WXtAd3dt5uVx40E8kmpSc
-	BS9A=
-X-Google-Smtp-Source: AGHT+IGuIOJavdPgCJ9sCafNt1cSRA420lYDVSVad8g7o0o+KgD598cgIajBU5IrPyUL8MNnaUygNQ==
-X-Received: by 2002:a05:6a21:1f81:b0:1ee:d6ff:5abd with SMTP id adf61e73a8af0-1f34947e736mr9366143637.14.1741211854471;
-        Wed, 05 Mar 2025 13:57:34 -0800 (PST)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-aee7dec415asm12522672a12.54.2025.03.05.13.57.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 13:57:33 -0800 (PST)
-Date: Thu, 6 Mar 2025 06:57:31 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Fan Ni <nifan.cxl@gmail.com>, Shradha Todi <shradha.t@samsung.com>,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, lpieralisi@kernel.org,
-	robh@kernel.org, bhelgaas@google.com, jingoohan1@gmail.com,
-	Jonathan.Cameron@huawei.com, a.manzanares@samsung.com,
-	pankaj.dubey@samsung.com, cassel@kernel.org, 18255117159@163.com,
-	xueshuai@linux.alibaba.com, renyu.zj@linux.alibaba.com,
-	will@kernel.org, mark.rutland@arm.com,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v7 3/5] Add debugfs based silicon debug support in DWC
-Message-ID: <20250305215731.GL847772@rocinante>
-References: <20250304171154.njoygsvfd567pb66@thinkpad>
- <20250305173826.GA303920@bhelgaas>
- <20250305182833.cgrwbrcwzjscxmku@thinkpad>
- <20250305190955.GK847772@rocinante>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ugab1Drnz8fZAI+FAdbMhywdJ5XWqNv5tDS3Fl7+MWhLIs0yhnGpeYU5XbxTWGHAMWFhrKfI6HuNTN3wVcvOfRDjvFZpT5YFL7MkGYJ4auRSUfporScHZ0m0+Yrr1BP9DGseRRCVVpV2Xej8LWYwSShjxJrBnsh/MPa/jwouwoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=EMeCvD2w; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9D832442A5;
+	Wed,  5 Mar 2025 22:06:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1741212376;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yEkg7dUbUd4gw9KUHkYnnXttXqIaC85A6vQzxpX1J28=;
+	b=EMeCvD2wVP+08ZFXKqOK8Mw5Oh+Hf7dMmzn+r+h0KYo04oEPe6JxxqDUGLg/MxkKbw2nYg
+	mHBmAJCBcdXCbAnxHWju0tzgCCSRdc4feYYsIMZ2VQsjDLOE2wgzzsxZgR22pZVLcNzvTW
+	JhmbKRfvFciXmNX/NAbSjXoOcmE6fbMtrwViW9dybP1vqWcrWPKYdPFefjg14fzJ2wxdqv
+	3vJKdpyaYLrOqKUN26hC+xVK4Gcmg+UYMHGoFKLC+bmHm407+emUP82t63d6+CRVdsEzmy
+	aBKyo6lNa7POnHmXc7OOjyazZ7Vu9+XhgVkOhL4UnDIOva/HW5W+Q9csZs6tyg==
+Date: Wed, 5 Mar 2025 23:06:15 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v2] rtc: rzn1: implement one-second accuracy for alarms
+Message-ID: <2025030522061502555577@mail.local>
+References: <20250305101038.9933-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -89,145 +61,258 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250305190955.GK847772@rocinante>
+In-Reply-To: <20250305101038.9933-2-wsa+renesas@sang-engineering.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdehleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeetlhgvgigrnhgurhgvuceuvghllhhonhhiuceorghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeeiudeuteehhfekgeejveefhfeiudejuefhgfeljefgjeegkeeujeeugfehgefgnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeejjedrudehtddrvdegiedrvdduheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeejjedrudehtddrvdegiedrvdduhedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomheprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedprhgtphhtthhopeifshgrodhrvghnvghsrghssehsrghnghdqvghnghhinhgvvghrihhnghdrtghomhdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdprhgtp
+ hhtthhopehlihhnuhigqdhrthgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-> > > > Even though debugfs_init() failure is not supposed to fail the probe(),
-> > > > dwc_pcie_rasdes_debugfs_init() has a devm_kzalloc() and propagating that
-> > > > failure would be canolically correct IMO.
-> > > 
-> > > I'm not sure about this.  What's the requirement to propagate
-> > > devm_kzalloc() failures?  I think devres will free any allocs that
-> > > were successful regardless.
-> > > 
-> > > IIUC, we resolved the Gray Hawk Single issue by changing
-> > > dwc_pcie_rasdes_debugfs_init() to return success without doing
-> > > anything when there's no RAS DES Capability.
-> > > 
-> > > But dwc_pcie_debugfs_init() can still return failure, and that still
-> > > causes dw_pcie_ep_init_registers() to fail, which breaks the "don't
-> > > propagate debugfs issues upstream" rule:
-> > > 
-> > >   int dw_pcie_ep_init_registers(struct dw_pcie_ep *ep)
-> > >   {
-> > >           ...
-> > >           ret = dwc_pcie_debugfs_init(pci);
-> > >           if (ret)
-> > >                   goto err_remove_edma;
-> > > 
-> > >           return 0;
-> > > 
-> > >   err_remove_edma:
-> > >           dw_pcie_edma_remove(pci);
-> > > 
-> > >           return ret;
-> > >   }
-> > > 
-> > > We can say that kzalloc() failure should "never" happen, and therefore
-> > > it's OK to fail the driver probe if it happens, but that doesn't seem
-> > > like a strong argument for breaking the "don't propagate debugfs
-> > > issues" rule.  And someday there may be other kinds of failures from
-> > > dwc_pcie_debugfs_init().
-> > > 
-> > 
-> > Fine with me. I was not too sure about propagating failure either.
+Hello,
+
+On 05/03/2025 11:08:16+0100, Wolfram Sang wrote:
+> The hardware alarm only supports one-minute accuracy which is coarse and
+> disables UIE usage. Use the 1-second interrupt to achieve per-second
+> accuracy. It is activated once we hit the per-minute alarm. The new
+> feature is optional. When there is no 1-second interrupt, old behaviour
+> with per-minute accuracy is used as before. With this feature, all tests
+> of 'rtctest' are successfully passed.
 > 
-> What if we do this?
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 > 
-> diff --git i/drivers/pci/controller/dwc/pcie-designware-debugfs.c w/drivers/pci/controller/dwc/pcie-designware-debugfs.c
-> index 586a9d107434..fddf71f014c4 100644
-> --- i/drivers/pci/controller/dwc/pcie-designware-debugfs.c
-> +++ w/drivers/pci/controller/dwc/pcie-designware-debugfs.c
-> @@ -162,7 +162,7 @@ void dwc_pcie_debugfs_deinit(struct dw_pcie *pci)
->  	debugfs_remove_recursive(pci->debugfs->debug_dir);
->  }
+> Tested with the Renesas RZ/N1D board. Besides 'rtctest', I did some
+> manual testing with 'rtc' on top trying to stresstest corner cases.
 > 
-> -int dwc_pcie_debugfs_init(struct dw_pcie *pci)
-> +void dwc_pcie_debugfs_init(struct dw_pcie *pci)
+> Looking forward to comments. AFAICS, this is the first driver trying to
+> overcome the per-minute limitation using 1-second interrupts.
+> 
+
+What I'm really wondering about is the use case. What is expected here?
+I guess that would be so you could go back to sleep between each 1s
+interrupt? Does this actually happen and does it actually save any power
+versus waking up early and waiting for the timer to actually elapse?
+
+> Change since v1:
+> * consider 1s interrupt when setting the alarm->enabled flag
+> 
+> drivers/rtc/rtc-rzn1.c | 108 ++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 91 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
+> index cb220807d925..eeb9612a666f 100644
+> --- a/drivers/rtc/rtc-rzn1.c
+> +++ b/drivers/rtc/rtc-rzn1.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/rtc.h>
+> +#include <linux/spinlock.h>
+>  
+>  #define RZN1_RTC_CTL0 0x00
+>  #define   RZN1_RTC_CTL0_SLSB_SUBU 0
+> @@ -27,6 +28,7 @@
+>  #define   RZN1_RTC_CTL0_CE BIT(7)
+>  
+>  #define RZN1_RTC_CTL1 0x04
+> +#define   RZN1_RTC_CTL1_1SE BIT(3)
+>  #define   RZN1_RTC_CTL1_ALME BIT(4)
+>  
+>  #define RZN1_RTC_CTL2 0x08
+> @@ -58,6 +60,13 @@
+>  struct rzn1_rtc {
+>  	struct rtc_device *rtcdev;
+>  	void __iomem *base;
+> +	/*
+> +	 * Protects access to RZN1_RTC_CTL1 reg. rtc_lock with threaded_irqs
+> +	 * would introduce race conditions when switching interrupts because
+> +	 * of potential sleeps
+> +	 */
+> +	spinlock_t ctl1_access_lock;
+> +	struct rtc_time tm_alarm;
+>  };
+>  
+>  static void rzn1_rtc_get_time_snapshot(struct rzn1_rtc *rtc, struct rtc_time *tm)
+> @@ -135,8 +144,38 @@ static int rzn1_rtc_set_time(struct device *dev, struct rtc_time *tm)
+>  static irqreturn_t rzn1_rtc_alarm_irq(int irq, void *dev_id)
 >  {
->  	char dirname[DWC_DEBUGFS_BUF_MAX];
->  	struct device *dev = pci->dev;
-> @@ -174,17 +174,15 @@ int dwc_pcie_debugfs_init(struct dw_pcie *pci)
->  	snprintf(dirname, DWC_DEBUGFS_BUF_MAX, "dwc_pcie_%s", dev_name(dev));
->  	dir = debugfs_create_dir(dirname, NULL);
->  	debugfs = devm_kzalloc(dev, sizeof(*debugfs), GFP_KERNEL);
-> -	if (!debugfs)
-> -		return -ENOMEM;
-> +	if (!debugfs) {
-> +		dev_err(dev, "failed to allocate memory for debugfs\n");
-> +		return;
+>  	struct rzn1_rtc *rtc = dev_id;
+> +	u32 ctl1, set_irq_bits = 0;
+> +
+> +	if (rtc->tm_alarm.tm_sec == 0)
+> +		rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
+> +	else
+> +		/* Switch to 1s interrupts */
+> +		set_irq_bits = RZN1_RTC_CTL1_1SE;
+>  
+> -	rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
+> +	guard(spinlock)(&rtc->ctl1_access_lock);
+> +
+> +	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
+> +	ctl1 &= ~RZN1_RTC_CTL1_ALME;
+> +	ctl1 |= set_irq_bits;
+> +	writel(ctl1, rtc->base + RZN1_RTC_CTL1);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static irqreturn_t rzn1_rtc_1s_irq(int irq, void *dev_id)
+> +{
+> +	struct rzn1_rtc *rtc = dev_id;
+> +	u32 ctl1;
+> +
+> +	if (readl(rtc->base + RZN1_RTC_SECC) == bin2bcd(rtc->tm_alarm.tm_sec)) {
+> +		guard(spinlock)(&rtc->ctl1_access_lock);
+> +
+> +		ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
+> +		ctl1 &= ~RZN1_RTC_CTL1_1SE;
+> +		writel(ctl1, rtc->base + RZN1_RTC_CTL1);
+> +
+> +		rtc_update_irq(rtc->rtcdev, 1, RTC_AF | RTC_IRQF);
 > +	}
-> 
->  	debugfs->debug_dir = dir;
->  	pci->debugfs = debugfs;
->  	err = dwc_pcie_rasdes_debugfs_init(pci, dir);
-> -	if (err) {
-> -		dev_err(dev, "failed to initialize RAS DES debugfs, err=%d\n",
-> -			err);
-> -		return err;
-> -	}
-> -
-> -	return 0;
-> +	if (err)
-> +		dev_warn(dev, "failed to initialize RAS DES debugfs, err=%d",
-> +			 err);
+>  
+>  	return IRQ_HANDLED;
 >  }
-> diff --git i/drivers/pci/controller/dwc/pcie-designware-ep.c w/drivers/pci/controller/dwc/pcie-designware-ep.c
-> index c6e76a07c2c9..11ff292ca87d 100644
-> --- i/drivers/pci/controller/dwc/pcie-designware-ep.c
-> +++ w/drivers/pci/controller/dwc/pcie-designware-ep.c
-> @@ -838,9 +838,7 @@ int dw_pcie_ep_init_registers(struct dw_pcie_ep *ep)
-> 
->  	dw_pcie_ep_init_non_sticky_registers(pci);
-> 
-> -	ret = dwc_pcie_debugfs_init(pci);
-> -	if (ret)
-> -		goto err_remove_edma;
-> +	dwc_pcie_debugfs_init(pci);
-> 
->  	return 0;
-> 
-> diff --git i/drivers/pci/controller/dwc/pcie-designware-host.c w/drivers/pci/controller/dwc/pcie-designware-host.c
-> index 2081e8c72d12..6501fb062c70 100644
-> --- i/drivers/pci/controller/dwc/pcie-designware-host.c
-> +++ w/drivers/pci/controller/dwc/pcie-designware-host.c
-> @@ -548,9 +548,7 @@ int dw_pcie_host_init(struct dw_pcie_rp *pp)
->  	if (pp->ops->post_init)
->  		pp->ops->post_init(pp);
-> 
-> -	ret = dwc_pcie_debugfs_init(pci);
-> -	if (ret)
-> -		goto err_stop_link;
-> +	dwc_pcie_debugfs_init(pci);
-> 
->  	return 0;
-> 
-> diff --git i/drivers/pci/controller/dwc/pcie-designware.h w/drivers/pci/controller/dwc/pcie-designware.h
-> index 7f9807d4e5de..dd129718fb41 100644
-> --- i/drivers/pci/controller/dwc/pcie-designware.h
-> +++ w/drivers/pci/controller/dwc/pcie-designware.h
-> @@ -815,12 +815,11 @@ dw_pcie_ep_get_func_from_ep(struct dw_pcie_ep *ep, u8 func_no)
->  #endif
-> 
->  #ifdef CONFIG_PCIE_DW_DEBUGFS
-> -int dwc_pcie_debugfs_init(struct dw_pcie *pci);
-> +void dwc_pcie_debugfs_init(struct dw_pcie *pci);
->  void dwc_pcie_debugfs_deinit(struct dw_pcie *pci);
->  #else
-> -static inline int dwc_pcie_debugfs_init(struct dw_pcie *pci)
-> +static inline void dwc_pcie_debugfs_init(struct dw_pcie *pci)
+> @@ -144,14 +183,38 @@ static irqreturn_t rzn1_rtc_alarm_irq(int irq, void *dev_id)
+>  static int rzn1_rtc_alarm_irq_enable(struct device *dev, unsigned int enable)
 >  {
-> -	return 0;
+>  	struct rzn1_rtc *rtc = dev_get_drvdata(dev);
+> -	u32 ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
+> +	struct rtc_time *tm = &rtc->tm_alarm, tm_now;
+> +	u32 ctl1;
+> +	int ret;
+>  
+> -	if (enable)
+> -		ctl1 |= RZN1_RTC_CTL1_ALME;
+> -	else
+> -		ctl1 &= ~RZN1_RTC_CTL1_ALME;
+> +	guard(spinlock_irqsave)(&rtc->ctl1_access_lock);
+>  
+> -	writel(ctl1, rtc->base + RZN1_RTC_CTL1);
+> +	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
+> +
+> +	if (enable) {
+> +		/*
+> +		 * Use alarm interrupt if alarm time is at least a minute away
+> +		 * or less than a minute but in the next minute. Otherwise use
+> +		 * 1 second interrupt to wait for the proper second
+> +		 */
+> +		do {
+> +			ctl1 &= ~(RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE);
+> +
+> +			ret = rzn1_rtc_read_time(dev, &tm_now);
+> +			if (ret)
+> +				return ret;
+> +
+> +			if (rtc_tm_sub(tm, &tm_now) > 59 || tm->tm_min != tm_now.tm_min)
+> +				ctl1 |= RZN1_RTC_CTL1_ALME;
+> +			else
+> +				ctl1 |= RZN1_RTC_CTL1_1SE;
+> +
+> +			writel(ctl1, rtc->base + RZN1_RTC_CTL1);
+> +		} while (readl(rtc->base + RZN1_RTC_SECC) != bin2bcd(tm_now.tm_sec));
+> +	} else {
+> +		ctl1 &= ~(RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE);
+> +		writel(ctl1, rtc->base + RZN1_RTC_CTL1);
+> +	}
+>  
+>  	return 0;
 >  }
->  static inline void dwc_pcie_debugfs_deinit(struct dw_pcie *pci)
+> @@ -185,7 +248,7 @@ static int rzn1_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alrm)
+>  	}
+>  
+>  	ctl1 = readl(rtc->base + RZN1_RTC_CTL1);
+> -	alrm->enabled = !!(ctl1 & RZN1_RTC_CTL1_ALME);
+> +	alrm->enabled = !!(ctl1 & (RZN1_RTC_CTL1_ALME | RZN1_RTC_CTL1_1SE));
+>  
+>  	return 0;
+>  }
+> @@ -216,6 +279,8 @@ static int rzn1_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
+>  	writel(bin2bcd(tm->tm_hour), rtc->base + RZN1_RTC_ALH);
+>  	writel(BIT(wday), rtc->base + RZN1_RTC_ALW);
+>  
+> +	rtc->tm_alarm = alrm->time;
+> +
+>  	rzn1_rtc_alarm_irq_enable(dev, alrm->enabled);
+>  
+>  	return 0;
+> @@ -304,7 +369,7 @@ static const struct rtc_class_ops rzn1_rtc_ops = {
+>  static int rzn1_rtc_probe(struct platform_device *pdev)
 >  {
-> 
-> I think this would be fine, especially given the rules around debugfs and
-> a quick look around Git history to see what the prefernce would be typically.
+>  	struct rzn1_rtc *rtc;
+> -	int alarm_irq;
+> +	int irq;
+>  	int ret;
+>  
+>  	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
+> @@ -317,9 +382,9 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
+>  	if (IS_ERR(rtc->base))
+>  		return dev_err_probe(&pdev->dev, PTR_ERR(rtc->base), "Missing reg\n");
+>  
+> -	alarm_irq = platform_get_irq(pdev, 0);
+> -	if (alarm_irq < 0)
+> -		return alarm_irq;
+> +	irq = platform_get_irq_byname(pdev, "alarm");
+> +	if (irq < 0)
+> +		return irq;
+>  
+>  	rtc->rtcdev = devm_rtc_allocate_device(&pdev->dev);
+>  	if (IS_ERR(rtc->rtcdev))
+> @@ -329,8 +394,6 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
+>  	rtc->rtcdev->range_max = RTC_TIMESTAMP_END_2099;
+>  	rtc->rtcdev->alarm_offset_max = 7 * 86400;
+>  	rtc->rtcdev->ops = &rzn1_rtc_ops;
+> -	set_bit(RTC_FEATURE_ALARM_RES_MINUTE, rtc->rtcdev->features);
+> -	clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
+>  
+>  	ret = devm_pm_runtime_enable(&pdev->dev);
+>  	if (ret < 0)
+> @@ -349,13 +412,24 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
+>  	/* Disable all interrupts */
+>  	writel(0, rtc->base + RZN1_RTC_CTL1);
+>  
+> -	ret = devm_request_irq(&pdev->dev, alarm_irq, rzn1_rtc_alarm_irq, 0,
+> -			       dev_name(&pdev->dev), rtc);
+> +	spin_lock_init(&rtc->ctl1_access_lock);
+> +
+> +	ret = devm_request_irq(&pdev->dev, irq, rzn1_rtc_alarm_irq, 0, "RZN1 RTC Alarm", rtc);
+>  	if (ret) {
+> -		dev_err(&pdev->dev, "RTC timer interrupt not available\n");
+> +		dev_err(&pdev->dev, "RTC alarm interrupt not available\n");
+>  		goto dis_runtime_pm;
+>  	}
+>  
+> +	irq = platform_get_irq_byname_optional(pdev, "pps");
+> +	if (irq >= 0)
+> +		ret = devm_request_irq(&pdev->dev, irq, rzn1_rtc_1s_irq, 0, "RZN1 RTC 1s", rtc);
+> +
+> +	if (irq < 0 || ret) {
+> +		set_bit(RTC_FEATURE_ALARM_RES_MINUTE, rtc->rtcdev->features);
+> +		clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
+> +		dev_warn(&pdev->dev, "RTC pps interrupt not available. Alarm has only minute accuracy\n");
 
-Changed dev_warn() to dev_err() per Bjorn's feedback off mailing list,
-and squashed against the current code on the branch.
+Is this message really necessary? I remember someone giving a talk about
+how we should avoid adding countless strings to the kernel ;)
 
-Thank you!
+I'm on holidays and didn't reply to your previous email. The way to
+support UIE while keeping the alarm at 1 minute resolution would be to
+look at which timer is enabled.
 
-	Krzysztof
+The rv8803 driver does:
+
+	if (alrm->enabled) {
+		if (rv8803->rtc->uie_rtctimer.enabled)
+			rv8803->ctrl |= RV8803_CTRL_UIE;
+		if (rv8803->rtc->aie_timer.enabled)
+			rv8803->ctrl |= RV8803_CTRL_AIE;
+
+https://elixir.bootlin.com/linux/v6.13.5/source/drivers/rtc/rtc-rv8803.c#L439
+
+Like I said, this is a bit convoluted but there are only a few cases so
+I didn't bother hiding this behind a proper API.
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
