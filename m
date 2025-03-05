@@ -1,63 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-14012-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14013-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99122A50146
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 15:03:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85703A501BF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 15:23:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48D8C3AA26D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 14:03:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EB56C7A3E57
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 14:22:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B93DD24A04E;
-	Wed,  5 Mar 2025 14:03:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5228E24C094;
+	Wed,  5 Mar 2025 14:21:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h/ZYHIog"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HFdDkeg8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865A033C9;
-	Wed,  5 Mar 2025 14:03:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262D1C2ED;
+	Wed,  5 Mar 2025 14:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741183405; cv=none; b=XRW0rEF6PGrOkEeJnJ5ixuGbzkUtZdsnT3NR5wnaGPS5gWDtGwMfkL9aOF33CJW9QmBYBmyioi9lxLV1ocjhnYJcp/uwyYw+zj2GJNvjCpepFm3GLMrJk/dwFTOQETqMJSH3ZxnEF7FCpxwkdGFnwA+YuOede63dosbzG7T8EC4=
+	t=1741184496; cv=none; b=C2LwAdMF0LmChy6EYemKNtJi/1GsOIcm0cxEDmBe2hJcksruUkuIkJRA/Aj8tWtfwv7U1AX3NfSKHJi4V+ikWP9NygZDCHwWQeOoZU/QFC6SoT7PNEQ//68ZnU4iAdMY0WQPTDLBjC5pIGJY0vqTbrx2gMFzY/g5Kepitx2WV08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741183405; c=relaxed/simple;
-	bh=degM1ilBkxGMxnY06GEy2rlEgKGpr79Xcavi569inws=;
+	s=arc-20240116; t=1741184496; c=relaxed/simple;
+	bh=jvmchGdxVGZyNaODpuI7O279K1I8sOZ+LNSQ2rbqPXI=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NrbJ+JzwHGXoQy1bWWALoGEYawcFE/rraWaUnrAROpKzll0WjFr2lNYT0GmMi9roHShJm704Qc493Xpt+CtyYMXxn05b6ZVCYTxFZGu6CPJRKo/5ntqTte1kqaZihCkL6SHgPTJJAlYdLM/PX6hgk64NFl1+FdW1NF5QAV7i6ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h/ZYHIog; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFA87C4CED1;
-	Wed,  5 Mar 2025 14:03:18 +0000 (UTC)
+	 MIME-Version:Content-Type; b=DRP8Zg50Sol8i+i+qxzXdu3KdnuzKcUg32bUr0xvJSqRUq/J/PYi3q/mZsx1JjgFvBAmxc0UT4rgqc+GGlF5BExvvt+puJJqb9QFwSy5pfi9xmbsmb8VoASE84Rd/qdiVWeNX18udC/IxpRoeL4reUGoqG2TVLdv3UlwdhNjgEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HFdDkeg8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93567C4CED1;
+	Wed,  5 Mar 2025 14:21:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741183405;
-	bh=degM1ilBkxGMxnY06GEy2rlEgKGpr79Xcavi569inws=;
+	s=k20201202; t=1741184494;
+	bh=jvmchGdxVGZyNaODpuI7O279K1I8sOZ+LNSQ2rbqPXI=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=h/ZYHIogC8FLJEDR3mKyn77xcKFyuo+jvktPp+nAX6YQ2yUf3aTR75K9mo8tlX9PY
-	 4yy1M8DaROc8xTJX1ZfxTKnN0irPwky428nivT0SqYGy/H1PQDZnws+drq07qZ5hz7
-	 Rb55tv8yh97pB4EuSly1iCJXHGm/dqyAXcsN7DB3+Ft5uDAV/k8mhe9wQ0Z2bXFZV3
-	 +WMITPVF/Se7zJe0e516SpPnLId9BfSBMU5oPJLVRvu1AJTAmHRq7+F1cPKv1kwDks
-	 E7UV7cP4KjaUUlvYAqVY+KkTIsU7nE7uDeCWk0M4b485yibadM/MghWFOmo9vgRIzW
-	 rurHGrv04jGqQ==
-Date: Wed, 5 Mar 2025 14:03:09 +0000
+	b=HFdDkeg8z5rr3Fue3DZgzCahgYCn6+S26dFM/oXCROCNHPq/q4QHiu/STez0WcVGD
+	 EZxO1pqBuJTu7AXJuUGu3Eo130kDAidx0qZws1ccSkINkdh7dQ30Bqy3VW3CU4xv6Z
+	 0tE2GFISgDSCEUyzMJgYmvea7fJEu1mxtk+9JNNkoGT79M2mHrru0fvjx6eWjUg1Hp
+	 nhjFiap1xObsb5SVhb87A6p5aZy9k0S8MqFxjPUUa0thQuRTOKaowGBLtim179vGFH
+	 hyZUTk0t+JyF9jlNzl1RNh70anXLVTto8XukqbucLkHMtsBgYkq7ONY/kpgKQLJeHe
+	 1X7wkY1bDnu1A==
+Date: Wed, 5 Mar 2025 14:21:22 +0000
 From: Jonathan Cameron <jic23@kernel.org>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org,
- dakr@kernel.org, ulf.hansson@linaro.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- geert@linux-m68k.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
- probe resources
-Message-ID: <20250305140309.744866b2@jic23-huawei>
-In-Reply-To: <8d83ea72-bb81-4c63-bf69-28cf5848ae20@tuxon.dev>
-References: <20250215130849.227812-1-claudiu.beznea.uj@bp.renesas.com>
-	<2025021539-untrained-prompter-a48f@gregkh>
-	<4bf01946-90e3-4169-91fa-10d9f90310e9@tuxon.dev>
-	<8d83ea72-bb81-4c63-bf69-28cf5848ae20@tuxon.dev>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, lars@metafoo.de,
+ linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Claudiu Beznea
+ <claudiu.beznea.uj@bp.renesas.com>, gregkh@linuxfoundation.org, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH v3 1/2] iio: adc: rzg2l_adc: Open a devres group
+Message-ID: <20250305142122.626336c3@jic23-huawei>
+In-Reply-To: <20250224120608.1769039-2-claudiu.beznea.uj@bp.renesas.com>
+References: <20250224120608.1769039-1-claudiu.beznea.uj@bp.renesas.com>
+	<20250224120608.1769039-2-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -68,176 +64,274 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 19 Feb 2025 14:45:07 +0200
-Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+On Mon, 24 Feb 2025 14:06:06 +0200
+Claudiu <claudiu.beznea@tuxon.dev> wrote:
 
-> Hi, Daniel, Jonathan,
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
-> On 15.02.2025 15:51, Claudiu Beznea wrote:
-> > Hi, Greg,
-> > 
-> > On 15.02.2025 15:25, Greg KH wrote:  
-> >> On Sat, Feb 15, 2025 at 03:08:49PM +0200, Claudiu wrote:  
-> >>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>
-> >>> On the Renesas RZ/G3S (and other Renesas SoCs, e.g., RZ/G2{L, LC, UL}),
-> >>> clocks are managed through PM domains. These PM domains, registered on
-> >>> behalf of the clock controller driver, are configured with
-> >>> GENPD_FLAG_PM_CLK. In most of the Renesas drivers used by RZ SoCs, the
-> >>> clocks are enabled/disabled using runtime PM APIs. The power domains may
-> >>> also have power_on/power_off support implemented. After the device PM
-> >>> domain is powered off any CPU accesses to these domains leads to system
-> >>> aborts.
-> >>>
-> >>> During probe, devices are attached to the PM domain controlling their
-> >>> clocks and power. Similarly, during removal, devices are detached from the
-> >>> PM domain.
-> >>>
-> >>> The detachment call stack is as follows:
-> >>>
-> >>> device_driver_detach() ->
-> >>>   device_release_driver_internal() ->
-> >>>     __device_release_driver() ->
-> >>>       device_remove() ->
-> >>>         platform_remove() ->
-> >>> 	  dev_pm_domain_detach()
-> >>>
-> >>> During driver unbind, after the device is detached from its PM domain,
-> >>> the device_unbind_cleanup() function is called, which subsequently invokes
-> >>> devres_release_all(). This function handles devres resource cleanup.
-> >>>
-> >>> If runtime PM is enabled in driver probe via devm_pm_runtime_enable(), the
-> >>> cleanup process triggers the action or reset function for disabling runtime
-> >>> PM. This function is pm_runtime_disable_action(), which leads to the
-> >>> following call stack of interest when called:
-> >>>
-> >>> pm_runtime_disable_action() ->
-> >>>   pm_runtime_dont_use_autosuspend() ->
-> >>>     __pm_runtime_use_autosuspend() ->
-> >>>       update_autosuspend() ->
-> >>>         rpm_idle()
-> >>>
-> >>> The rpm_idle() function attempts to resume the device at runtime. However,
-> >>> at the point it is called, the device is no longer part of a PM domain
-> >>> (which manages clocks and power states). If the driver implements its own
-> >>> runtime PM APIs for specific functionalities - such as the rzg2l_adc
-> >>> driver - while also relying on the power domain subsystem for power
-> >>> management, rpm_idle() will invoke the driver's runtime PM API. However,
-> >>> since the device is no longer part of a PM domain at this point, the PM
-> >>> domain's runtime PM APIs will not be called. This leads to system aborts on
-> >>> Renesas SoCs.
-> >>>
-> >>> Another identified case is when a subsystem performs various cleanups
-> >>> using device_unbind_cleanup(), calling driver-specific APIs in the process.
-> >>> A known example is the thermal subsystem, which may call driver-specific
-> >>> APIs to disable the thermal device. The relevant call stack in this case
-> >>> is:
-> >>>
-> >>> device_driver_detach() ->
-> >>>   device_release_driver_internal() ->
-> >>>     device_unbind_cleanup() ->
-> >>>       devres_release_all() ->
-> >>>         devm_thermal_of_zone_release() ->
-> >>> 	  thermal_zone_device_disable() ->
-> >>> 	    thermal_zone_device_set_mode() ->
-> >>> 	      struct thermal_zone_device_ops::change_mode()
-> >>>
-> >>> At the moment the driver-specific change_mode() API is called, the device
-> >>> is no longer part of its PM domain. Accessing its registers without proper
-> >>> power management leads to system aborts.
-> >>>
-> >>> Open a devres group before calling the driver probe, and close it
-> >>> immediately after the driver remove function is called and before
-> >>> dev_pm_domain_detach(). This ensures that driver-specific devm actions or
-> >>> reset functions are executed immediately after the driver remove function
-> >>> completes. Additionally, it prevents driver-specific runtime PM APIs from
-> >>> being called when the device is no longer part of its power domain.
-> >>>
-> >>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>> ---
-> >>>
-> >>> Hi,
-
-Hi Claudiu, Greg,
-
-Sorry, I missed this thread whilst travelling and only saw it because
-of reference from the in driver solution.
-
-> >>>
-> >>> Although Ulf gave its green light for the approaches on both IIO [1],
-> >>> [2] and thermal subsystems [3], Jonathan considered unacceptable the
-> >>> approaches in [1], [2] as he considered it may lead to dificult to
-> >>> maintain code and code opened to subtle bugs (due to the potential of
-> >>> mixing devres and non-devres calls). He pointed out a similar approach
-> >>> that was done for the I2C bus [4], [5].
-> >>>
-> >>> As the discussions in [1], [2] stopped w/o a clear conclusion, this
-> >>> patch tries to revive it by proposing a similar approach that was done
-> >>> for the I2C bus.
-> >>>
-> >>> Please let me know you input.  
-> >>
-> >> I'm with Jonathan here, the devres stuff is getting crazy here and you
-> >> have drivers mixing them and side affects happening and lots of
-> >> confusion.  Your change here is only going to make it even more
-> >> confusing, and shouldn't actually solve it for other busses (i.e. what
-> >> about iio devices NOT on the platform bus?)  
-
-In some cases they are already carrying the support as per the link
-above covering all i2c drivers.  I'd like to see a generic solution and
-I suspect pushing it to the device drivers rather than the bus code
-will explode badly and leave us with subtle bugs where people don't
-realise it is necessary. 
-
-https://lore.kernel.org/all/20250224120608.1769039-1-claudiu.beznea.uj@bp.renesas.com/
-is a lot nastier looking than what we have here. I'll review that in a minute
-to show that it need not be that bad, but none the less not pleasant.
-
-+CC linux-iio to join up threads and Dmitry wrt to i2c case (and HID that does
-similar)
-
-> > 
-> > You're right, other busses will still have this problem.
-> >   
-> >>
-> >> Why can't your individual driver handle this instead?  
-
-In my mind because it's the bus code that is doing the unexpected part by
-making calls in the remove path that are effectively not in the same order
-as probe because they occur between driver remove and related devres cleanup
-for stuff registered in probe.
-
-> > 
-> > Initially I tried it at the driver level by using non-devres PM runtime
-> > enable API but wasn't considered OK by all parties.
-> > 
-> > I haven't thought about having devres_open_group()/devres_close_group() in
-> > the driver itself but it should work.  
+> On all systems where the rzg2l_adc driver is used, the ADC clocks are part
+> of a PM domain. The code that implements the PM domains support is in
+> drivers/clk/renesas/rzg2l-cpg.c, the functions of interest for this commit
+> being rzg2l_cpg_attach_dev() and rzg2l_cpg_deattach_dev(). The PM
+> domains support is registered with GENPD_FLAG_PM_CLK which, according to
+> the documentation, instructs genpd to use the PM clk framework while
+> powering on/off attached devices.
 > 
-> Are you OK with having the devres_open_group()/devres_close_group() in the
-> currently known affected drivers (drivers/iio/adc/rzg2l_adc.c and the
-> proposed drivers/thermal/renesas/rzg3s_thermal.c [1]) ?
+> During probe, the ADC device is attached to the PM domain
+> controlling the ADC clocks. Similarly, during removal, the ADC device is
+> detached from the PM domain.
+> 
+> The detachment call stack is as follows:
+> 
+> device_driver_detach() ->
+>   device_release_driver_internal() ->
+>     __device_release_driver() ->
+>       device_remove() ->
+>         platform_remove() ->
+>           dev_pm_domain_detach()
+> 
+> During driver unbind, after the ADC device is detached from its PM domain,
+> the device_unbind_cleanup() function is called, which subsequently invokes
+> devres_release_all(). This function handles devres resource cleanup.
+> 
+> If runtime PM is enabled via devm_pm_runtime_enable(), the cleanup process
+> triggers the action or reset function for disabling runtime PM. This
+> function is pm_runtime_disable_action(), which leads to the following call
+> stack of interest when called:
+> 
+> pm_runtime_disable_action() ->
+>   pm_runtime_dont_use_autosuspend() ->
+>     __pm_runtime_use_autosuspend() ->
+>       update_autosuspend() ->
+>         rpm_idle()
+> 
+> The rpm_idle() function attempts to runtime resume the ADC device. However,
+> at the point it is called, the ADC device is no longer part of the PM
+> domain (which manages the ADC clocks). Since the rzg2l_adc runtime PM
+> APIs directly modifies hardware registers, the
+> rzg2l_adc_pm_runtime_resume() function is invoked without the ADC clocks
+> being enabled. This is because the PM domain no longer resumes along with
+> the ADC device. As a result, this leads to system aborts.
+> 
+> Open a devres group in the driver probe and release it in the driver
+> remove. This ensures the runtime PM is disabled (though the devres group)
+> after the rzg2l_adc_remove() finishes its execution avoiding the described
+> scenario.
+> 
+> Fixes: 89ee8174e8c8 ("iio: adc: rzg2l_adc: Simplify the runtime PM code")
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-I guess it may be the best of a bunch of not particularly nasty solutions...
++CC Greg KH given the in driver suggestion was his and I think
+this discussion is not necessarily over!  Also Dmitry for his info.
 
-Jonathan
+> ---
+> 
+> Changes in v3:
+> - open a devres group in probe and release it in remove; the failure
+>   path of probe() was also updated to close the devres group
+> - dropped Ulf's Rb tag as the patch is different now
+> - updated the patch description to match the new approach
+> 
+> Note: a generic approach was proposed in [1] to have this in the platform
+> bus itself but wasn't seen acceptable.
+> 
+> [1] https://lore.kernel.org/all/20250215130849.227812-1-claudiu.beznea.uj@bp.renesas.com/
+> 
 
+I missed this entirely sorry!  Travelling and far too much unread email
+at the moment :(
+
+Anyhow, I don't 'love' this solution but it can be made neater and perhaps
+there is a mid way point using a new generic helper that will do the job.
+> Changes in v2:
+> - collected Ulf's tag
+> - add a comment above pm_runtime_enable() explaining the reason
+>   it shouldn't be converted to devres
+> - drop devres calls that request IRQ and register IIO device
+>   as proposed in the review process: Ulf, I still kept you Rb
+>   tag; please let me know otherwise
 > 
-> Thank you,
-> Claudiu
+>  drivers/iio/adc/rzg2l_adc.c | 88 ++++++++++++++++++++++++++++---------
+>  1 file changed, 67 insertions(+), 21 deletions(-)
 > 
-> [1]
-> https://lore.kernel.org/all/20250103163805.1775705-5-claudiu.beznea.uj@bp.renesas.com
-> 
-> > 
-> > Thank you,
-> > Claudiu
-> >   
-> >>
-> >> thanks,
-> >>
-> >> greg k-h  
-> >   
-> 
+> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+> index 883c167c0670..7db04416e1cf 100644
+> --- a/drivers/iio/adc/rzg2l_adc.c
+> +++ b/drivers/iio/adc/rzg2l_adc.c
+> @@ -85,6 +85,7 @@ struct rzg2l_adc {
+>  	struct reset_control *adrstn;
+>  	const struct rzg2l_adc_data *data;
+>  	const struct rzg2l_adc_hw_params *hw_params;
+> +	void *devres_group_id;
+>  	struct completion completion;
+>  	struct mutex lock;
+>  	u16 last_val[RZG2L_ADC_MAX_CHANNELS];
+> @@ -429,60 +430,88 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+In cases like this easiest path (and cleanest code) is
+to rename probe to __rzg2l_adc_probe() or similar and...
+>  	struct device *dev = &pdev->dev;
+>  	struct iio_dev *indio_dev;
+>  	struct rzg2l_adc *adc;
+> +	void *devres_group_id;
+>  	int ret;
+>  	int irq;
+>  
+> -	indio_dev = devm_iio_device_alloc(dev, sizeof(*adc));
+> -	if (!indio_dev)
+Have this code in an outer wrapper rzg2l_adc_probe()
+> +	/*
+> +	 * Open a devres group to allow using devm_pm_runtime_enable()
+> +	 * w/o interfeering with dev_pm_genpd_detach() in the platform bus
+> +	 * remove. Otherwise, durring repeated unbind/bind operations,
+> +	 * the ADC may be runtime resumed when it is not part of its power
+> +	 * domain, leading to accessing ADC registers without its clocks
+> +	 * being enabled and its PM domain being turned on.
+> +	 */
+> +	devres_group_id = devres_open_group(dev, NULL, GFP_KERNEL);
+> +	if (!devres_group_id)
+>  		return -ENOMEM;
+>  
+That then calls __rzg2l_adc_probe() here and if there is an error
+release the groups.  That's the minimum change I'd suggest here.
+
+Thinking forwards about what to do if we need to do this a lot.
+Maybe we can provide a platform device specific helper for this case
+that takes the 'actual probe' - here the __rzg2l_adc_probe() as
+a parameter and handles the devres groups stuff.  That would
+probably need a suitable devres_group_id in platform device you had
+in your platform bus code proposal or some more fiddly code
+not stash it in the driver specific structures that with the
+iio_priv() dance in IIO would become IIO specific unless we
+put one in struct iio_dev.  It might also be possible to write
+a complex macro that would create the relevant probe/remove()
+when passed both the internal __probe() and __remove and
+a snippet that accesses ((struct bob *)iio_priv(x))->devres_group_id.
+
+Anyhow that's a job for when we have several instances of this.
+
+> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*adc));
+> +	if (!indio_dev) {
+> +		ret = -ENOMEM;
+> +		goto release_group;
+> +	}
+> +
+>  	adc = iio_priv(indio_dev);
+>  
+> +	adc->devres_group_id = devres_group_id;
+
+With above scheme of a wrapper around original probe, this line would need
+to move to the wrapper.
+
+>  	adc->hw_params = device_get_match_data(dev);
+> -	if (!adc->hw_params || adc->hw_params->num_channels > RZG2L_ADC_MAX_CHANNELS)
+> -		return -EINVAL;
+> +	if (!adc->hw_params || adc->hw_params->num_channels > RZG2L_ADC_MAX_CHANNELS) {
+> +		ret = -EINVAL;
+> +		goto release_group;
+> +	}
+>  
+>  	ret = rzg2l_adc_parse_properties(pdev, adc);
+>  	if (ret)
+> -		return ret;
+> +		goto release_group;
+>  
+>  	mutex_init(&adc->lock);
+>  
+>  	adc->base = devm_platform_ioremap_resource(pdev, 0);
+> -	if (IS_ERR(adc->base))
+> -		return PTR_ERR(adc->base);
+> +	if (IS_ERR(adc->base)) {
+> +		ret = PTR_ERR(adc->base);
+> 	+		goto release_group;
+> +	}
+>  
+>  	adc->adrstn = devm_reset_control_get_exclusive_deasserted(dev, "adrst-n");
+> -	if (IS_ERR(adc->adrstn))
+> -		return dev_err_probe(dev, PTR_ERR(adc->adrstn),
+> -				     "failed to get/deassert adrst-n\n");
+> +	if (IS_ERR(adc->adrstn)) {
+> +		ret = dev_err_probe(dev, PTR_ERR(adc->adrstn),
+> +				    "failed to get/deassert adrst-n\n");
+> +		goto release_group;
+> +	}
+>  
+>  	adc->presetn = devm_reset_control_get_exclusive_deasserted(dev, "presetn");
+> -	if (IS_ERR(adc->presetn))
+> -		return dev_err_probe(dev, PTR_ERR(adc->presetn),
+> -				     "failed to get/deassert presetn\n");
+> +	if (IS_ERR(adc->presetn)) {
+> +		ret = dev_err_probe(dev, PTR_ERR(adc->presetn),
+> +				    "failed to get/deassert presetn\n");
+> +		goto release_group;
+> +	}
+>  
+>  	pm_runtime_set_autosuspend_delay(dev, 300);
+>  	pm_runtime_use_autosuspend(dev);
+>  	ret = devm_pm_runtime_enable(dev);
+>  	if (ret)
+> -		return ret;
+> +		goto release_group;
+>  
+>  	platform_set_drvdata(pdev, indio_dev);
+>  
+>  	ret = rzg2l_adc_hw_init(dev, adc);
+> -	if (ret)
+> -		return dev_err_probe(&pdev->dev, ret,
+> -				     "failed to initialize ADC HW\n");
+> +	if (ret) {
+> +		ret = dev_err_probe(&pdev->dev, ret,
+> +				    "failed to initialize ADC HW\n");
+> +		goto release_group;
+> +	}
+>  
+>  	irq = platform_get_irq(pdev, 0);
+> -	if (irq < 0)
+> -		return irq;
+> +	if (irq < 0) {
+> +		ret = irq;
+> +		goto release_group;
+> +	}
+>  
+>  	ret = devm_request_irq(dev, irq, rzg2l_adc_isr,
+>  			       0, dev_name(dev), adc);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto release_group;
+>  
+>  	init_completion(&adc->completion);
+>  
+> @@ -492,7 +521,23 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+>  	indio_dev->channels = adc->data->channels;
+>  	indio_dev->num_channels = adc->data->num_channels;
+>  
+> -	return devm_iio_device_register(dev, indio_dev);
+> +	ret = devm_iio_device_register(dev, indio_dev);
+> +	if (ret)
+> +		goto release_group;
+> +
+> +	return 0;
+> +
+> +release_group:
+> +	devres_release_group(dev, devres_group_id);
+> +	return ret;
+> +}
+> +
+> +static void rzg2l_adc_remove(struct platform_device *pdev)
+> +{
+> +	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
+> +	struct rzg2l_adc *adc = iio_priv(indio_dev);
+> +
+> +	devres_release_group(&pdev->dev, adc->devres_group_id);
+>  }
+>  
+>  static const struct rzg2l_adc_hw_params rzg2l_hw_params = {
+> @@ -614,6 +659,7 @@ static const struct dev_pm_ops rzg2l_adc_pm_ops = {
+>  
+>  static struct platform_driver rzg2l_adc_driver = {
+>  	.probe		= rzg2l_adc_probe,
+> +	.remove		= rzg2l_adc_remove,
+>  	.driver		= {
+>  		.name		= DRIVER_NAME,
+>  		.of_match_table = rzg2l_adc_match,
 
 
