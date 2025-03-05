@@ -1,298 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-14031-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14032-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B710A506B7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 18:47:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F69EA509FF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 19:28:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B48D81721D4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 17:47:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E15E18831F3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 18:28:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3FFB19F436;
-	Wed,  5 Mar 2025 17:47:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C602B2505BD;
+	Wed,  5 Mar 2025 18:28:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="JWtETU1k";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uQKJF7xl"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rawN+bV5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D26E2505B8;
-	Wed,  5 Mar 2025 17:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198851D63C3
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Mar 2025 18:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741196847; cv=none; b=CEHzmLxp4pmnO5JdhU/QFMRuRShUXnH9btZwN7uo0+/l0Su3Yw+LufmM3Q/LPQUdvpeYBd6Qk36vO0yjh7JW/nmp71yS0fBDc7OJHoxJ+biB3rb385lHt67T4N7B800KvJ8dNm6cv00kzaVhE6j7lUl/OUxwvmAxUQatnJ0X6z4=
+	t=1741199325; cv=none; b=BlSOD8uniNpzZ1AMVUv11RO7h04V/WRFQNy114LyzotBpuHBZz1gtqVoSwE1bUx7xSTOOt/7oXD/WC6CD4k4iPyHYQBGE84yLHqSizg33/L33HbpYQVxQKGjPd2RZ7HY9D4HxA9xRLyypgcBlw01ZSKoK0/RlZyOK3oINB9tHVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741196847; c=relaxed/simple;
-	bh=ks56H3AiBmMIjouAI4Dhs1hONb0Y4tyZn132g7FieAQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TwDD4vEe5nkUoIxVd50cmmkfqMyKTjv4J1NiKsQcNCaolDI9K6xdA4tZ7fkDFl4UJI/09cu/0kj2Rak8JT30mNTx2mZ0+CIi6rYjCSY/lGO53ulyFDnNyKToiMuLkhTDQaJCbRThcmfAf+Q1tlklGFUL9xjLE6Pt/vs/hy/mbZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=JWtETU1k; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uQKJF7xl; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id EDDD813826D9;
-	Wed,  5 Mar 2025 12:47:24 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Wed, 05 Mar 2025 12:47:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1741196844;
-	 x=1741283244; bh=geSrkPbfTasR9PztTyigP59TRSgZrIn0wXQcKuj0LcQ=; b=
-	JWtETU1kqwLYSIK/MUd+brOAKLxYp6UEm7DJn7gt1Wq6gXPYKmiiNnd9oovPX22j
-	rkj9AslAepjGxzV9pOuK5OPvi7JLbPOubgypOblYKi36hWOAqzqbm360tU02bFIw
-	waYpFVtYpwA67PdVUEANSg6mMcg6nDlvoWiXC3UycIET1J1zYcHakg2pu51zYXNc
-	+sQrKYFdAKES1hzL9g+Rwg0zHu995ommQ/pTLoqZhWXtsVZVHeprnyqXghCdjofn
-	qwsLi9EBzVWUHMetS9v2YFM1lZZOePYmNGFBIHx3ecW06R69oCFEA1Jq7Za3RkrQ
-	Ze3T+wZTaSgolx5ozbed2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1741196844; x=
-	1741283244; bh=geSrkPbfTasR9PztTyigP59TRSgZrIn0wXQcKuj0LcQ=; b=u
-	QKJF7xlebRWVJ8/7cJUC5HCaOI5fcHJq67WVIYkM6zXeLXsvKY71VjhoixDMFKCS
-	9m1YL7jv9osTBLVSQOKWtcXGggSG6pQuTjZCb+ERcTIgVj0uwW9odzImrtJ8A/dW
-	hguvtrqUZC+jg5Mk8EfTqRfY8Ro++3BvjaXcPeL1SrqmtOILtOGRuABJJgeOIn9R
-	v4g4W9fEKCvB53sedYwcm6H/jmUMMZ3zN07G/Vyu1HSSeOG23eQXuJS63RZtIzV2
-	1Vq4x3Tb0R6xHiioehNB/VZm9FIg/WbBfA+sfGcC62wbZcdICLNq70HbPWKWG0tL
-	hjGJ9amLbnZm/DP1NDV4A==
-X-ME-Sender: <xms:LI7IZ_TACW3o8wdts1kwj4dWjTAB0sjS7dkPEg_C3IoGLEmVMwVjiw>
-    <xme:LI7IZwx8aPFc88ezVvfd-YOwgtiYqVP34zVJmqpgCr0MyBNS2o_SMjybPF8fcgm-Z
-    u1HZ49seZFiwLqIrfs>
-X-ME-Received: <xmr:LI7IZ03xX2OXEBHejO3-YlSRovgDvXrwbCGDNPUVo8QGSqAZAkRmdNB7lYz5WciDxnI-M0b_umzrAhozOVzwUDttgQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdehgeejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertder
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
-    rghtthgvrhhnpeehiefgueevuedtfefhheegkeevtdelueeukeevfeduhefhhfejfffgge
-    ffleefgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprh
-    gtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehrrghfrggvlhes
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhhivghlrdhlvgiitggrnhhosehlih
-    hnrghrohdrohhrghdprhgtphhtthhopehruhhirdiihhgrnhhgsehinhhtvghlrdgtohhm
-    pdhrtghpthhtoheplhhukhgrshiirdhluhgsrgesrghrmhdrtghomhdprhgtphhtthhope
-    hgvggvrhhtsehlihhnuhigqdhmieekkhdrohhrghdprhgtphhtthhopehlihhnuhigqdhr
-    vghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
-    hinhhugidqphhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhl
-    rghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgdprh
-    gtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsggv
-X-ME-Proxy: <xmx:LI7IZ_BXhADPd3D9RJmAWKcw2xNTY-KxL-m68MTEdmUxg2cOJXuBnQ>
-    <xmx:LI7IZ4jV3owaZrLu6Ou5eoIAhioPszJ5auCyhoK0K3jo-p1mGa-ltQ>
-    <xmx:LI7IZzq3_3g6r1_YbW8XSJbsI_ZRPZK2v1ZnFhblmKlq4pJJu0-ovg>
-    <xmx:LI7IZzixlOtf5zX89QDk2A9eDFhNgn_09o9cC5tvV8C_CgKkJm_Dfg>
-    <xmx:LI7IZ7NUHyCDT0E_3pDgbLchUXvDjZjU4TEBC0HI_F_tKx0xAV6oYAGE>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Mar 2025 12:47:23 -0500 (EST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
+	s=arc-20240116; t=1741199325; c=relaxed/simple;
+	bh=NXQNTWJeiSFzjPLlih2rgrST7ZU+kwSlPLsGUkO6i4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DnEwAESm+ICznqlLv+xm915BPD1JxZJA1iXU4kG8w4dxMB4pJj9+S+UJhVos5wyt6L4V7XPMEhveIBqNM0Gw20RvBIIXjiK6ikzOCwIW8dzGhZiKlcP55sND029pM/2ZUfqLJe4aIbYRZfKKT8gqZZ98e8CsW9IKd5y/8WF7A/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rawN+bV5; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2235908a30aso133304835ad.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Mar 2025 10:28:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741199323; x=1741804123; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IlUZuaZqa3JLI6rAH+eSKbr5zwilBRdu2UhafBOdrdc=;
+        b=rawN+bV57J1B+RzCmZ77uY16uIki+f4lQ9ppIpAkWldjdzIMnlkOIEnCKIAOSOoOGh
+         jjkd8TApQJ5n5ruGtpwgOVUfEhGfijcHsYT3n1Lgxot7HWpAEs4033eFWCbcs96WjKh4
+         Shg1NLPB9a7KkAA1MexVwFCjo2lSgPJSSk5PWnfaIKds+1qKqn60LIEYTR8TyCkrCjBy
+         I+H/B5fyojgxbNVaYXHGwkTySQA5rx9rBSLgztiGEDsiThM6W4QD0by8V20kTq2F/k7H
+         WKXJP/nejCrj4h0a4U+O+Cf8sR0SHPVoB1BemiMXZ2cUCARNCV+m5V7+laeDq2CIRyar
+         dQiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741199323; x=1741804123;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IlUZuaZqa3JLI6rAH+eSKbr5zwilBRdu2UhafBOdrdc=;
+        b=EG/z4M7/mREuTthg5RPseZmE/oo+5G/W0qPcR6DjREl7oVdXHxD22e7m9zxgbOvK7N
+         ACWkyYTvp+wY9dMWIgIowHCmqrU70VqLcq9OQdJLKVIsFrNHq4dnSISwWWWbevA2L7Ox
+         6nbIqYDhWUvGZLl0bp60lHBF6+mOWpyTw+Hy4nYSJPTdQS9pVHcyJ4loJN1yriQo8c1E
+         iDiZXbJ762xTD/OzlzV1BUNgVlMZSBrrWuHqiPT6p6b3gaIL0c88qWus89980ifOqC0k
+         e3mDXDGSs4yZfrz9jnMKF+NGxWRq3uUFyWVzPB9guQjKNRwbBYFMUgY4wRMXQRlvj5HA
+         6C+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUmunrqEab46+jxfOpBXvmfJoCfwZJf6PMOQVLS2Mi7VBZ4d2PjN0EoeLA5oVhkQw84FM4dF4l4oEz9Np0bWd4bIA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtGLbdntrAA4Sb37tP71K/r6zn5d10YBNdnj3mIA207H+I2mgm
+	770vOeMrNX7gJcWryLNx/Pb7wkXeUI+jdg6rYb1r4IiA08bmc4pJB9ZXH2/cEg==
+X-Gm-Gg: ASbGncv7aGLuUZdCB4y7Zpiq2yAVX3Fz9YLLGRzNdI/uDZqO8aHfnPC5EuMBzvH+ySQ
+	hFcqBDAQmC1oDGHZ6PdEKutSYK7C5tJGgXodByUn0PIhUZAm293n05H9JkZxYBn0zlu+x0Xhnry
+	KXaFJWDu+dx4Qzad4vfDyyXNV9eaIa3o0MU7bkBZ1feQ5WaX/Hbh/aDZIlz0FpoMKoQhEZwrqkO
+	45dHprFps12gSamn2yRG/Dt21zTdwQ1BuvPHTYej3Doo/1AC7QDPY/FO7+uzuCGkzoFXzblfnpt
+	25hea0o1UbnPeOitMqQPG8TPvNt67O85V2PJ9aqNcgMV70az/MTinCI4
+X-Google-Smtp-Source: AGHT+IF+TGwksJJjKWkdx/R8tEcgWJtus8Acn/xVNQz9+4wgbYvkHfwKDe4CHqeQdGOj/ucT3x99Xw==
+X-Received: by 2002:a05:6a21:3986:b0:1f0:e84c:866f with SMTP id adf61e73a8af0-1f3494967f1mr8474146637.21.1741199323380;
+        Wed, 05 Mar 2025 10:28:43 -0800 (PST)
+Received: from thinkpad ([120.60.140.239])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-aee7ddf2444sm12428366a12.3.2025.03.05.10.28.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 10:28:42 -0800 (PST)
+Date: Wed, 5 Mar 2025 23:58:33 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v4 2/2] thermal: rcar_gen3: Reuse logic to read fuses on Gen3 and Gen4
-Date: Wed,  5 Mar 2025 18:46:31 +0100
-Message-ID: <20250305174631.4119374-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250305174631.4119374-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250305174631.4119374-1-niklas.soderlund+renesas@ragnatech.se>
+	Fan Ni <nifan.cxl@gmail.com>, Shradha Todi <shradha.t@samsung.com>,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, lpieralisi@kernel.org,
+	robh@kernel.org, bhelgaas@google.com, jingoohan1@gmail.com,
+	Jonathan.Cameron@huawei.com, a.manzanares@samsung.com,
+	pankaj.dubey@samsung.com, cassel@kernel.org, 18255117159@163.com,
+	xueshuai@linux.alibaba.com, renyu.zj@linux.alibaba.com,
+	will@kernel.org, mark.rutland@arm.com,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v7 3/5] Add debugfs based silicon debug support in DWC
+Message-ID: <20250305182833.cgrwbrcwzjscxmku@thinkpad>
+References: <20250304171154.njoygsvfd567pb66@thinkpad>
+ <20250305173826.GA303920@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250305173826.GA303920@bhelgaas>
 
-The hardware calibration is fused on some, but not all, Gen3 and Gen4
-boards. The calibrations values are the same on both generations but
-located at different register offsets.
+On Wed, Mar 05, 2025 at 11:38:26AM -0600, Bjorn Helgaas wrote:
+> On Tue, Mar 04, 2025 at 10:41:54PM +0530, Manivannan Sadhasivam wrote:
+> > On Wed, Mar 05, 2025 at 12:46:38AM +0900, Krzysztof Wilczyński wrote:
+> > > > On Mon, 3 Mar 2025 at 20:47, Krzysztof Wilczyński <kw@linux.com> wrote:
+> > > > > [...]
+> > > > > > > +int dwc_pcie_debugfs_init(struct dw_pcie *pci)
+> > > > > > > +{
+> > > > > > > +   char dirname[DWC_DEBUGFS_BUF_MAX];
+> > > > > > > +   struct device *dev = pci->dev;
+> > > > > > > +   struct debugfs_info *debugfs;
+> > > > > > > +   struct dentry *dir;
+> > > > > > > +   int ret;
+> > > > > > > +
+> > > > > > > +   /* Create main directory for each platform driver */
+> > > > > > > +   snprintf(dirname, DWC_DEBUGFS_BUF_MAX, "dwc_pcie_%s", dev_name(dev));
+> > > > > > > +   dir = debugfs_create_dir(dirname, NULL);
+> > > > > > > +   debugfs = devm_kzalloc(dev, sizeof(*debugfs), GFP_KERNEL);
+> > > > > > > +   if (!debugfs)
+> > > > > > > +           return -ENOMEM;
+> > > > > > > +
+> > > > > > > +   debugfs->debug_dir = dir;
+> > > > > > > +   pci->debugfs = debugfs;
+> > > > > > > +   ret = dwc_pcie_rasdes_debugfs_init(pci, dir);
+> > > > > > > +   if (ret)
+> > > > > > > +           dev_dbg(dev, "RASDES debugfs init failed\n");
+> > > > > >
+> > > > > > What will happen if ret != 0? still return 0?
+> > > > 
+> > > > And that is exactly what happens on Gray Hawk Single with R-Car
+> > > > V4M: dw_pcie_find_rasdes_capability() returns NULL, causing
+> > > > dwc_pcie_rasdes_debugfs_init() to return -ENODEV.
+> > > > 
+> > > > Debugfs issues should never be propagated upstream!
+> > ...
+> 
+> > > > So while applying, you changed this like:
+> > > > 
+> > > >             ret = dwc_pcie_rasdes_debugfs_init(pci, dir);
+> > > >     -       if (ret)
+> > > >     -               dev_dbg(dev, "RASDES debugfs init failed\n");
+> > > >     +       if (ret) {
+> > > >     +               dev_err(dev, "failed to initialize RAS DES debugfs\n");
+> > > >     +               return ret;
+> > > >     +       }
+> > > > 
+> > > >             return 0;
+> > > > 
+> > > > Hence this is now a fatal error, causing the probe to fail.
+> 
+> > Even though debugfs_init() failure is not supposed to fail the probe(),
+> > dwc_pcie_rasdes_debugfs_init() has a devm_kzalloc() and propagating that
+> > failure would be canolically correct IMO.
+> 
+> I'm not sure about this.  What's the requirement to propagate
+> devm_kzalloc() failures?  I think devres will free any allocs that
+> were successful regardless.
+> 
+> IIUC, we resolved the Gray Hawk Single issue by changing
+> dwc_pcie_rasdes_debugfs_init() to return success without doing
+> anything when there's no RAS DES Capability.
+> 
+> But dwc_pcie_debugfs_init() can still return failure, and that still
+> causes dw_pcie_ep_init_registers() to fail, which breaks the "don't
+> propagate debugfs issues upstream" rule:
+> 
+>   int dw_pcie_ep_init_registers(struct dw_pcie_ep *ep)
+>   {
+>           ...
+>           ret = dwc_pcie_debugfs_init(pci);
+>           if (ret)
+>                   goto err_remove_edma;
+> 
+>           return 0;
+> 
+>   err_remove_edma:
+>           dw_pcie_edma_remove(pci);
+> 
+>           return ret;
+>   }
+> 
+> We can say that kzalloc() failure should "never" happen, and therefore
+> it's OK to fail the driver probe if it happens, but that doesn't seem
+> like a strong argument for breaking the "don't propagate debugfs
+> issues" rule.  And someday there may be other kinds of failures from
+> dwc_pcie_debugfs_init().
+> 
 
-Instead of having duplicated logic to read the and store the values
-create structure to hold the register parameters and have a common
-function do the reading.
+Fine with me. I was not too sure about propagating failure either.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-* Changes since v2
-- Use a structure instead of two helper functions to store the
-  parameters.
----
- drivers/thermal/renesas/rcar_gen3_thermal.c | 89 +++++++++------------
- 1 file changed, 40 insertions(+), 49 deletions(-)
+- Mani
 
-diff --git a/drivers/thermal/renesas/rcar_gen3_thermal.c b/drivers/thermal/renesas/rcar_gen3_thermal.c
-index deec17435901..24a702ee4c1f 100644
---- a/drivers/thermal/renesas/rcar_gen3_thermal.c
-+++ b/drivers/thermal/renesas/rcar_gen3_thermal.c
-@@ -67,11 +67,17 @@
- 
- struct rcar_gen3_thermal_priv;
- 
-+struct rcar_gen3_thermal_fuse_info {
-+	u32 ptat[3];
-+	u32 thcode[3];
-+	u32 mask;
-+};
-+
- struct rcar_thermal_info {
- 	int scale;
- 	int adj_below;
- 	int adj_above;
--	void (*read_fuses)(struct rcar_gen3_thermal_priv *priv);
-+	const struct rcar_gen3_thermal_fuse_info *fuses;
- };
- 
- struct equation_set_coef {
-@@ -253,59 +259,31 @@ static irqreturn_t rcar_gen3_thermal_irq(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
--static void rcar_gen3_thermal_read_fuses_gen3(struct rcar_gen3_thermal_priv *priv)
-+static void rcar_gen3_thermal_fetch_fuses(struct rcar_gen3_thermal_priv *priv)
- {
--	unsigned int i;
-+	const struct rcar_gen3_thermal_fuse_info *fuses = priv->info->fuses;
- 
- 	/*
- 	 * Set the pseudo calibration points with fused values.
- 	 * PTAT is shared between all TSCs but only fused for the first
- 	 * TSC while THCODEs are fused for each TSC.
- 	 */
--	priv->ptat[0] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN3_PTAT1) &
--		GEN3_FUSE_MASK;
--	priv->ptat[1] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN3_PTAT2) &
--		GEN3_FUSE_MASK;
--	priv->ptat[2] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN3_PTAT3) &
--		GEN3_FUSE_MASK;
-+	priv->ptat[0] = rcar_gen3_thermal_read(priv->tscs[0], fuses->ptat[0])
-+		& fuses->mask;
-+	priv->ptat[1] = rcar_gen3_thermal_read(priv->tscs[0], fuses->ptat[1])
-+		& fuses->mask;
-+	priv->ptat[2] = rcar_gen3_thermal_read(priv->tscs[0], fuses->ptat[2])
-+		& fuses->mask;
- 
--	for (i = 0; i < priv->num_tscs; i++) {
-+	for (unsigned int i = 0; i < priv->num_tscs; i++) {
- 		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
- 
--		tsc->thcode[0] = rcar_gen3_thermal_read(tsc, REG_GEN3_THCODE1) &
--			GEN3_FUSE_MASK;
--		tsc->thcode[1] = rcar_gen3_thermal_read(tsc, REG_GEN3_THCODE2) &
--			GEN3_FUSE_MASK;
--		tsc->thcode[2] = rcar_gen3_thermal_read(tsc, REG_GEN3_THCODE3) &
--			GEN3_FUSE_MASK;
--	}
--}
--
--static void rcar_gen3_thermal_read_fuses_gen4(struct rcar_gen3_thermal_priv *priv)
--{
--	unsigned int i;
--
--	/*
--	 * Set the pseudo calibration points with fused values.
--	 * PTAT is shared between all TSCs but only fused for the first
--	 * TSC while THCODEs are fused for each TSC.
--	 */
--	priv->ptat[0] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN4_THSFMON16) &
--		GEN4_FUSE_MASK;
--	priv->ptat[1] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN4_THSFMON17) &
--		GEN4_FUSE_MASK;
--	priv->ptat[2] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN4_THSFMON15) &
--		GEN4_FUSE_MASK;
--
--	for (i = 0; i < priv->num_tscs; i++) {
--		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
--
--		tsc->thcode[0] = rcar_gen3_thermal_read(tsc, REG_GEN4_THSFMON01) &
--			GEN4_FUSE_MASK;
--		tsc->thcode[1] = rcar_gen3_thermal_read(tsc, REG_GEN4_THSFMON02) &
--			GEN4_FUSE_MASK;
--		tsc->thcode[2] = rcar_gen3_thermal_read(tsc, REG_GEN4_THSFMON00) &
--			GEN4_FUSE_MASK;
-+		tsc->thcode[0] = rcar_gen3_thermal_read(tsc, fuses->thcode[0])
-+			& fuses->mask;
-+		tsc->thcode[1] = rcar_gen3_thermal_read(tsc, fuses->thcode[1])
-+			& fuses->mask;
-+		tsc->thcode[2] = rcar_gen3_thermal_read(tsc, fuses->thcode[2])
-+			& fuses->mask;
- 	}
- }
- 
-@@ -316,7 +294,7 @@ static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
- 
- 	/* If fuses are not set, fallback to pseudo values. */
- 	thscp = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN3_THSCP);
--	if (!priv->info->read_fuses ||
-+	if (!priv->info->fuses ||
- 	    (thscp & THSCP_COR_PARA_VLD) != THSCP_COR_PARA_VLD) {
- 		/* Default THCODE values in case FUSEs are not set. */
- 		static const int thcodes[TSC_MAX_NUM][3] = {
-@@ -342,7 +320,8 @@ static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
- 		return false;
- 	}
- 
--	priv->info->read_fuses(priv);
-+	rcar_gen3_thermal_fetch_fuses(priv);
-+
- 	return true;
- }
- 
-@@ -370,25 +349,37 @@ static void rcar_gen3_thermal_init(struct rcar_gen3_thermal_priv *priv,
- 	usleep_range(1000, 2000);
- }
- 
-+static const struct rcar_gen3_thermal_fuse_info rcar_gen3_thermal_fuse_info_gen3 = {
-+	.ptat = { REG_GEN3_PTAT1, REG_GEN3_PTAT2, REG_GEN3_PTAT3 },
-+	.thcode = { REG_GEN3_THCODE1, REG_GEN3_THCODE2, REG_GEN3_THCODE3 },
-+	.mask = GEN3_FUSE_MASK,
-+};
-+
-+static const struct rcar_gen3_thermal_fuse_info rcar_gen3_thermal_fuse_info_gen4 = {
-+	.ptat = { REG_GEN4_THSFMON16, REG_GEN4_THSFMON17, REG_GEN4_THSFMON15 },
-+	.thcode = { REG_GEN4_THSFMON01, REG_GEN4_THSFMON02, REG_GEN4_THSFMON00 },
-+	.mask = GEN4_FUSE_MASK,
-+};
-+
- static const struct rcar_thermal_info rcar_m3w_thermal_info = {
- 	.scale = 157,
- 	.adj_below = -41,
- 	.adj_above = 116,
--	.read_fuses = rcar_gen3_thermal_read_fuses_gen3,
-+	.fuses = &rcar_gen3_thermal_fuse_info_gen3,
- };
- 
- static const struct rcar_thermal_info rcar_gen3_thermal_info = {
- 	.scale = 167,
- 	.adj_below = -41,
- 	.adj_above = 126,
--	.read_fuses = rcar_gen3_thermal_read_fuses_gen3,
-+	.fuses = &rcar_gen3_thermal_fuse_info_gen3,
- };
- 
- static const struct rcar_thermal_info rcar_gen4_thermal_info = {
- 	.scale = 167,
- 	.adj_below = -41,
- 	.adj_above = 126,
--	.read_fuses = rcar_gen3_thermal_read_fuses_gen4,
-+	.fuses = &rcar_gen3_thermal_fuse_info_gen4,
- };
- 
- static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
 -- 
-2.48.1
-
+மணிவண்ணன் சதாசிவம்
 
