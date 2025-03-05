@@ -1,47 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-14009-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14005-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCE3A500AF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 14:35:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEFDA500A4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 14:34:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE7CB1883827
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 13:35:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF8AC188341B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Mar 2025 13:34:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A244724A051;
-	Wed,  5 Mar 2025 13:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2E4924A065;
+	Wed,  5 Mar 2025 13:34:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175A024A057
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Mar 2025 13:34:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFB224A04A
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Mar 2025 13:34:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741181677; cv=none; b=cwpyD1KnG5Ke3PjiZ2KyPQK1oPupYUCLo7jYNixAn94rbGbyi9uUhkV3pJSdAU4zaSBWXUiMP6YcAIZimzLFhpT6sKZDQGQAcmrIqj5/c5Mtt/yjMO/1AlPMhTcerhl5RIA6cIW1qMvaMZmdQxLWKreklNyHyiSpI+EtFPhKFgg=
+	t=1741181674; cv=none; b=lLV09f/TyJpDp/MrnqtDMl49xIp+6xOCLd1L4/E58nz7h3kh6QzJ/u4/levBg2wih7KI1UBOhhlUSENhMnRQKEW8RP/lehoZx8VKV9hLoqpOmYAhxs3/82lcWvBpA7+19q9AchM40OHELT8y7+Q6UIau9JrrKjmyKTeWX3z6FM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741181677; c=relaxed/simple;
-	bh=hLoRlqyS+e+uGVZDKx7s0osOIjH8n6sXEfL9c8+Q+ck=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uCAQRqTQHCcph58Qp5Cf3gpgTW5+grDWEqBS3zizOXj3MKOX4RAXOY2JDTqz8IKT0/cKUEX630EmotEleax0DB7coI7rWDdVx/HgoOmZjAj5Ve7UO3fEIb77Dew+YQEHnoO988W82IJ5bXnB7ly6W83RwChQsSO8peaV9RcybI0=
+	s=arc-20240116; t=1741181674; c=relaxed/simple;
+	bh=imVH2Wne9UX6v58rw6Wb8RgWDaX4qSg52ZAvFuprd3E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Hrnft2KgZUxlJsjAdI/R37e97ras2QTxlVyIMDEA6WdaXtH6y1qIQ7aci+Qibgid1yyCZKpl6vht9hExsyYot9aCyBc1BCRHQjX/ED723E/0TkiJDUGTphUpyTEygaFqv1l6VcMNI/Cu19t5JIvSPq3wZfADB6jQHHiNuarcdMw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4Z7D6v36XNz4x3G1
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Mar 2025 14:34:31 +0100 (CET)
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4Z7D6t4569z4x2Xc
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Mar 2025 14:34:30 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:fba:8cad:3d23:9db3])
-	by albert.telenet-ops.be with cmsmtp
-	id M1aL2E00D0exi8p061aLDL; Wed, 05 Mar 2025 14:34:23 +0100
+	by xavier.telenet-ops.be with cmsmtp
+	id M1aJ2E00F0exi8p011aJll; Wed, 05 Mar 2025 14:34:22 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tposn-0000000Cv3p-0vwh;
+	id 1tposn-0000000Cv3q-0yNA;
 	Wed, 05 Mar 2025 14:34:18 +0100
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tpot8-00000008woK-16wH;
+	id 1tpot8-00000008woN-1Iwi;
 	Wed, 05 Mar 2025 14:34:18 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -57,10 +58,12 @@ Cc: linux-scsi@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3 0/7] scsi: ufs: renesas: Add support for R-Car S4-8 ES1.2
-Date: Wed,  5 Mar 2025 14:34:08 +0100
-Message-ID: <cover.1741179611.git.geert+renesas@glider.be>
+Subject: [PATCH v3 1/7] dt-bindings: ufs: renesas,ufs: Add calibration data
+Date: Wed,  5 Mar 2025 14:34:09 +0100
+Message-ID: <2f337169f8183d48b7d94ee13565fea804aade84.1741179611.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1741179611.git.geert+renesas@glider.be>
+References: <cover.1741179611.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -69,79 +72,47 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi all,
+On R-Car S4-8 ES1.2, the E-FUSE block contains PLL and AFE tuning
+parameters for the Universal Flash Storage controller.  Document the
+related NVMEM properties, and update the example.
 
-Initialization of the UFS controller on R-Car S4-8 ES1.0 requires only
-static values.  However, other UFS controller variants (R-Car S4-8 ES 1.2)
-require dynamic values, like those obtained from E-FUSE, and downloading
-firmware.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v3:
+  - New.
+---
+ .../devicetree/bindings/ufs/renesas,ufs.yaml         | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Hence this patch series refactors the initialization code to prepare for
-this, and adds support for the UFS controller on R-Car S4-8 ES1.2.
-The accompanying DTS change is available at [1].
-
-Changes compared to v2[2]:
-  - Take over from Shimoda-san,
-  - New patches 1/7 (DT bindings update) and 7/7 (actual R-Car S4-8
-    ES1.2 support),
-  - Keep MAX_INDEX check, as it is still useful,
-  - Prefix data parameters of ufs_renesas_write_d0_d4() by "data_", for
-    consistency,
-  - Document kernel size impact of switching to init code,
-  - Rename ufs_renesas_init_ufshc() to ufs_renesas_init_step1_to_3(),
-  - Extract ufs_renesas_init_step4_to_6(),
-  - Move ufs_renesas_write_phy_10ad_10af() just before its sole user,
-
-Changes compared to v1[3]:
-  - Postpone removing the *_INDEX* enums until all users are gone,
-  - Combine declaration and initialization of ufs_renesas_init_param,
-  - Drop "_param" from ufs_renesas_*() helper function names.
-  - Move MODE_READ handling after MODE_POLL handling,
-  - Move ufs_renesas_read() after ufs_renesas_poll(),
-  - Remove not just MODE_WAIT, but all of the struct-based control.
-
-This has been tested on:
-  - Renesas Spider with R-Car S4-8 ES1.0 (broken before/after),
-  - Renesas S4 Starter Kit with R-Car S4-8 ES1.2 (works after).
-
-Thanks for your comments!
-
-[1] "[PATCH] arm64: dts: renesas: r8a779f4: Add UFS tuning parameters in
-     E-FUSE"
-    https://lore.kernel.org/3e4fca228eb049d54a1ae520104558505dbdf803.1741179629.git.geert+renesas@glider.be
-[2] "[PATCH v2 0/5] scsi: ufs: renesas: Refactor code for other UFS
-     controller"
-    https://lore.kernel.org/20240709023550.1750333-1-yoshihiro.shimoda.uh@renesas.com
-[3] "[PATCH 0/5] scsi: ufs: renesas: Refactor code for other UFS
-     controller"
-    https://lore.kernel.org/20240708120931.1703956-1-yoshihiro.shimoda.uh@renesas.com
-
-Geert Uytterhoeven (1):
-  dt-bindings: ufs: renesas,ufs: Add calibration data
-
-Yoshihiro Shimoda (6):
-  scsi: ufs: renesas: Replace init data by init code
-  scsi: ufs: renesas: Add register read to remove save/set/restore
-  scsi: ufs: renesas: Remove register control helper function
-  scsi: ufs: renesas: Refactor 0x10ad/0x10af PHY settings
-  scsi: ufs: renesas: Add reusable functions
-  scsi: ufs: renesas: Add initialization code for R-Car S4-8 ES1.2
-
- .../devicetree/bindings/ufs/renesas,ufs.yaml  |  12 +
- drivers/ufs/host/ufs-renesas.c                | 723 +++++++++++-------
- 2 files changed, 445 insertions(+), 290 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/ufs/renesas,ufs.yaml b/Documentation/devicetree/bindings/ufs/renesas,ufs.yaml
+index 1949a15e73d25849..ac11ac7d1d12f6c9 100644
+--- a/Documentation/devicetree/bindings/ufs/renesas,ufs.yaml
++++ b/Documentation/devicetree/bindings/ufs/renesas,ufs.yaml
+@@ -33,6 +33,16 @@ properties:
+   resets:
+     maxItems: 1
+ 
++  nvmem-cells:
++    maxItems: 1
++
++  nvmem-cell-names:
++    items:
++      - const: calibration
++
++dependencies:
++  nvmem-cells: [ nvmem-cell-names ]
++
+ required:
+   - compatible
+   - reg
+@@ -58,4 +68,6 @@ examples:
+         freq-table-hz = <200000000 200000000>, <38400000 38400000>;
+         power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
+         resets = <&cpg 1514>;
++        nvmem-cells = <&ufs_tune>;
++        nvmem-cell-names = "calibration";
+     };
 -- 
 2.43.0
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
