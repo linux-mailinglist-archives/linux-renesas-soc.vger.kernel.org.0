@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-14123-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14124-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF13A5527F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 18:10:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BEDA55290
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 18:12:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C86D77A8D91
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 17:09:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 814111897000
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 17:10:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6170D2566F8;
-	Thu,  6 Mar 2025 17:09:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E14A25A621;
+	Thu,  6 Mar 2025 17:09:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7E672566F3
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Mar 2025 17:09:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C76525A335
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Mar 2025 17:09:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741280987; cv=none; b=SJvFQE+gUNPMukb/VzVgYdUGFLZypckE7BQe0dMXI2zTnQh/8fwvK8t2VSm7dOvT7L0Sjdc5xrex3VpcEztAwFMaVilvJvNBBdFtgO0UAuNtSuIN4h5EAbwynXzm/kXRQcx6KpuY6HdBolOk/LA69ogeARY/t1Ac7qj8aA1Ngac=
+	t=1741280989; cv=none; b=D2BxuS3AT7LsnY9AFlHUvGN8miJzpL2iX4I8+bXu5MdXBNV1LVB/IAZfGqYjI/baE2k2VX6vyTQtonJTbbseN/aPsiFMus1Yf4IoFcwisW4YI6bR+iZToJajyZNq4jK7kmy+FnmhUAbpfYHMNtu4Orxk7FfwHTFYQrEz+b92Z1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741280987; c=relaxed/simple;
-	bh=rPIW2qjl6tceoJFLzU8IkOEwD8YN8homf0GNsMzWGh4=;
+	s=arc-20240116; t=1741280989; c=relaxed/simple;
+	bh=ht1VTzUJjt1q4cZ0rDWrYWFTWmBrlzHiUv4Iud2O9zM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KQ6R1tj/ZBabMgVsOFN6GImID2y01WgGoFW4JOwEulazNWKb7kQer1vt611jimCn563LtXbJs+oKCAtvitBBsF+usKyyRKPBvGDEJbOjN6B0KUt2y575nWI6qtf9sBrxOQSaQ8R7BbDj1QArwUF6JREsbCvzbyJdH7laSQCDa/0=
+	 MIME-Version; b=D9xdlAtZANtZvFhha280Qg+lp/DGuF4XqpPv6kceNbZww7fiiPDvNEvxvO+unnSjrJtv6FDxBo0dqSj5bHP4zNvpRIN2evpBniIThwSVUV0VjlHZOM7Pyqwpl8F5bGT3K4bXERbz349H8rRqSM8Kdnjb3AbpbRCn4qNxNrB13Rg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: sBcwueFgSN+udF3JvwPqrA==
-X-CSE-MsgGUID: Gsy3Ie8jThu67SpFS/AcaA==
+X-CSE-ConnectionGUID: SnkuPJhUSiO40MjL9b5NUg==
+X-CSE-MsgGUID: kjuzsth+ScOGSfryxtV0/Q==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 07 Mar 2025 02:09:45 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 07 Mar 2025 02:09:48 +0900
 Received: from localhost.localdomain (unknown [10.226.92.10])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6097540031E1;
-	Fri,  7 Mar 2025 02:09:43 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0676A400857C;
+	Fri,  7 Mar 2025 02:09:45 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
@@ -42,9 +42,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 5/8] memory: renesas-rpc-if: Add regmap to struct rpcif_info
-Date: Thu,  6 Mar 2025 17:09:15 +0000
-Message-ID: <20250306170924.241257-6-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 6/8] memory: renesas-rpc-if: Add wrapper functions
+Date: Thu,  6 Mar 2025 17:09:16 +0000
+Message-ID: <20250306170924.241257-7-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250306170924.241257-1-biju.das.jz@bp.renesas.com>
 References: <20250306170924.241257-1-biju.das.jz@bp.renesas.com>
@@ -56,74 +56,197 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The RZ/G3E XSPI has different regmap compared to RPC-IF. Add regmap to
-struct rpcif_info in order to support RZ/G3E XSPI.
+Even though XSPI and RPCIF has different register layout, reuse the code
+by adding wrapper functions to support both XSPI and RPC-IF.
+
+While at it, replace error check for pm_runtime_resume_and_get() as
+it can return positive value as well.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v1->v2:
- * No change.
+ * No change
 ---
- drivers/memory/renesas-rpc-if.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/memory/renesas-rpc-if.c | 96 ++++++++++++++++++++++-----------
+ 1 file changed, 65 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 9f3ac5cb9ff4..56b2e944beca 100644
+index 56b2e944beca..39208767fcd0 100644
 --- a/drivers/memory/renesas-rpc-if.c
 +++ b/drivers/memory/renesas-rpc-if.c
-@@ -32,6 +32,7 @@ static const struct regmap_access_table rpcif_volatile_table = {
- };
- 
- struct rpcif_info {
-+	const struct regmap_config *regmap_config;
- 	enum rpcif_type type;
- 	u8 strtim;
- };
-@@ -588,8 +589,8 @@ static int rpcif_probe(struct platform_device *pdev)
- 	rpc->base = devm_platform_ioremap_resource_byname(pdev, "regs");
- 	if (IS_ERR(rpc->base))
- 		return PTR_ERR(rpc->base);
--
--	rpc->regmap = devm_regmap_init(dev, NULL, rpc, &rpcif_regmap_config);
-+	rpc->info = of_device_get_match_data(dev);
-+	rpc->regmap = devm_regmap_init(dev, NULL, rpc, rpc->info->regmap_config);
- 	if (IS_ERR(rpc->regmap)) {
- 		dev_err(dev, "failed to init regmap for rpcif, error %ld\n",
- 			PTR_ERR(rpc->regmap));
-@@ -602,7 +603,6 @@ static int rpcif_probe(struct platform_device *pdev)
- 		return PTR_ERR(rpc->dirmap);
- 
- 	rpc->size = resource_size(res);
--	rpc->info = of_device_get_match_data(dev);
- 	rpc->rstc = devm_reset_control_array_get_exclusive(dev);
- 	if (IS_ERR(rpc->rstc))
- 		return PTR_ERR(rpc->rstc);
-@@ -633,21 +633,25 @@ static void rpcif_remove(struct platform_device *pdev)
+@@ -174,16 +174,11 @@ static void rpcif_rzg2l_timing_adjust_sdr(struct rpcif_priv *rpc)
+ 	regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000032);
  }
  
- static const struct rpcif_info rpcif_info_r8a7796 = {
-+	.regmap_config = &rpcif_regmap_config,
- 	.type = RPCIF_RCAR_GEN3,
- 	.strtim = 6,
- };
+-int rpcif_hw_init(struct device *dev, bool hyperflash)
++static int rpcif_hw_init_helper(struct rpcif_priv *rpc, bool hyperflash)
+ {
+-	struct rpcif_priv *rpc = dev_get_drvdata(dev);
+ 	u32 dummy;
+ 	int ret;
  
- static const struct rpcif_info rpcif_info_gen3 = {
-+	.regmap_config = &rpcif_regmap_config,
- 	.type = RPCIF_RCAR_GEN3,
- 	.strtim = 7,
- };
+-	ret = pm_runtime_resume_and_get(dev);
+-	if (ret)
+-		return ret;
+-
+ 	if (rpc->info->type == RPCIF_RZ_G2L) {
+ 		ret = reset_control_reset(rpc->rstc);
+ 		if (ret)
+@@ -231,12 +226,26 @@ int rpcif_hw_init(struct device *dev, bool hyperflash)
+ 	regmap_write(rpc->regmap, RPCIF_SSLDR, RPCIF_SSLDR_SPNDL(7) |
+ 		     RPCIF_SSLDR_SLNDL(7) | RPCIF_SSLDR_SCKDL(7));
  
- static const struct rpcif_info rpcif_info_rz_g2l = {
-+	.regmap_config = &rpcif_regmap_config,
- 	.type = RPCIF_RZ_G2L,
- 	.strtim = 7,
- };
+-	pm_runtime_put(dev);
+-
+ 	rpc->bus_size = hyperflash ? 2 : 1;
  
- static const struct rpcif_info rpcif_info_gen4 = {
-+	.regmap_config = &rpcif_regmap_config,
- 	.type = RPCIF_RCAR_GEN4,
- 	.strtim = 15,
- };
+ 	return 0;
+ }
++
++int rpcif_hw_init(struct device *dev, bool hyperflash)
++{
++	struct rpcif_priv *rpc = dev_get_drvdata(dev);
++	int ret;
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret)
++		return ret;
++
++	ret = rpcif_hw_init_helper(rpc, hyperflash);
++
++	pm_runtime_put(dev);
++
++	return ret;
++}
+ EXPORT_SYMBOL(rpcif_hw_init);
+ 
+ static int wait_msg_xfer_end(struct rpcif_priv *rpc)
+@@ -261,11 +270,9 @@ static u8 rpcif_bit_size(u8 buswidth)
+ 	return buswidth > 4 ? 2 : ilog2(buswidth);
+ }
+ 
+-void rpcif_prepare(struct device *dev, const struct rpcif_op *op, u64 *offs,
+-		   size_t *len)
++static void rpcif_prepare_helper(struct rpcif_priv *rpc, const struct rpcif_op *op,
++				 u64 *offs, size_t *len)
+ {
+-	struct rpcif_priv *rpc = dev_get_drvdata(dev);
+-
+ 	rpc->smcr = 0;
+ 	rpc->smadr = 0;
+ 	rpc->enable = 0;
+@@ -346,18 +353,21 @@ void rpcif_prepare(struct device *dev, const struct rpcif_op *op, u64 *offs,
+ 		rpc->enable |= RPCIF_SMENR_SPIDB(rpcif_bit_size(op->data.buswidth));
+ 	}
+ }
+-EXPORT_SYMBOL(rpcif_prepare);
+ 
+-int rpcif_manual_xfer(struct device *dev)
++void rpcif_prepare(struct device *dev, const struct rpcif_op *op, u64 *offs,
++		   size_t *len)
+ {
+ 	struct rpcif_priv *rpc = dev_get_drvdata(dev);
++
++	rpcif_prepare_helper(rpc, op, offs, len);
++}
++EXPORT_SYMBOL(rpcif_prepare);
++
++static int rpcif_manual_xfer_helper(struct rpcif_priv *rpc)
++{
+ 	u32 smenr, smcr, pos = 0, max = rpc->bus_size == 2 ? 8 : 4;
+ 	int ret = 0;
+ 
+-	ret = pm_runtime_resume_and_get(dev);
+-	if (ret < 0)
+-		return ret;
+-
+ 	regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
+ 			   RPCIF_PHYCNT_CAL, RPCIF_PHYCNT_CAL);
+ 	regmap_update_bits(rpc->regmap, RPCIF_CMNCR,
+@@ -465,15 +475,29 @@ int rpcif_manual_xfer(struct device *dev)
+ 			goto err_out;
+ 	}
+ 
+-exit:
+-	pm_runtime_put(dev);
+ 	return ret;
+ 
+ err_out:
+ 	if (reset_control_reset(rpc->rstc))
+-		dev_err(dev, "Failed to reset HW\n");
+-	rpcif_hw_init(dev, rpc->bus_size == 2);
+-	goto exit;
++		dev_err(rpc->dev, "Failed to reset HW\n");
++	rpcif_hw_init_helper(rpc, rpc->bus_size == 2);
++	return ret;
++}
++
++int rpcif_manual_xfer(struct device *dev)
++{
++	struct rpcif_priv *rpc = dev_get_drvdata(dev);
++	int ret;
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret)
++		return ret;
++
++	ret = rpcif_manual_xfer_helper(rpc);
++
++	pm_runtime_put(dev);
++
++	return ret;
+ }
+ EXPORT_SYMBOL(rpcif_manual_xfer);
+ 
+@@ -519,20 +543,15 @@ static void memcpy_fromio_readw(void *to,
+ 	}
+ }
+ 
+-ssize_t rpcif_dirmap_read(struct device *dev, u64 offs, size_t len, void *buf)
++static ssize_t rpcif_dirmap_read_helper(struct rpcif_priv *rpc, u64 offs,
++					size_t len, void *buf)
+ {
+-	struct rpcif_priv *rpc = dev_get_drvdata(dev);
+ 	loff_t from = offs & (rpc->size - 1);
+ 	size_t size = rpc->size - from;
+-	int ret;
+ 
+ 	if (len > size)
+ 		len = size;
+ 
+-	ret = pm_runtime_resume_and_get(dev);
+-	if (ret < 0)
+-		return ret;
+-
+ 	regmap_update_bits(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_MD, 0);
+ 	regmap_write(rpc->regmap, RPCIF_DRCR, 0);
+ 	regmap_write(rpc->regmap, RPCIF_DRCMR, rpc->command);
+@@ -549,9 +568,24 @@ ssize_t rpcif_dirmap_read(struct device *dev, u64 offs, size_t len, void *buf)
+ 	else
+ 		memcpy_fromio(buf, rpc->dirmap + from, len);
+ 
++	return len;
++}
++
++ssize_t rpcif_dirmap_read(struct device *dev, u64 offs, size_t len, void *buf)
++{
++	struct rpcif_priv *rpc = dev_get_drvdata(dev);
++	ssize_t length;
++	int ret;
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret)
++		return ret;
++
++	length = rpcif_dirmap_read_helper(rpc, offs, len, buf);
++
+ 	pm_runtime_put(dev);
+ 
+-	return len;
++	return length;
+ }
+ EXPORT_SYMBOL(rpcif_dirmap_read);
+ 
 -- 
 2.43.0
 
