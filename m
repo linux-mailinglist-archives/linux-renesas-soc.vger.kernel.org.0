@@ -1,113 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-14082-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14083-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5700A54D70
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 15:19:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDDD8A54D8D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 15:22:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 29FD616A7F4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 14:19:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 582781893DC2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 14:22:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D19ED1624D8;
-	Thu,  6 Mar 2025 14:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72B661624ED;
+	Thu,  6 Mar 2025 14:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="nrfZaU4I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34BC28F5E;
-	Thu,  6 Mar 2025 14:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A591624DB
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Mar 2025 14:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741270755; cv=none; b=n3yj/3RAlLWvkAaduM6Znn2HkedZelBBee7yQHMT5+Fa7cZ5S6dEIt+bvSXIvOU/PpZgPc5uy1eYJSJN35HvYvFU1+Gs542wQbKlyMSpc4lUHGNRFG26dX6zYalkHi4jIIqbn2GAuBlPcrn7AJrlV1l87zJbQojfHJejMOeTLxc=
+	t=1741270941; cv=none; b=czlWJpJ692SX7jIzY04I4wAdI9Mt3LDcIp8QSr9fByckTmJ5VW9xVeiSHM8Kmf7vfOYm3EnIDU2smHU6avY8ppnBZ7g5y16cIxE3bNlA7UOvQ5uUXh1vujfyedV3WtNykVGTtYMYbHPL7/hVs9wplpCtQdg2bdET4XPKwO+DP9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741270755; c=relaxed/simple;
-	bh=Q1j8gHpbri1CxFrvKlgL6l/RLbYkeNcBavgftpIbKpo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Chr0tDjkezYOt8+vGqi3Ow+Sfg9aXe9aY5MSbSMy+Nvmh25kkSTmA7/9snyfoP1nZsCHfKIPKmWXcoZMOUdpnNTLq6mZxCV+lcaHozbx3U2LLlhucQRuolX0m4fUM9whN+oYDmZh7M2kcBjUaQzlQyU4dNj8+6s2KGJ8dmPXaMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-abf518748cbso131696766b.2;
-        Thu, 06 Mar 2025 06:19:13 -0800 (PST)
+	s=arc-20240116; t=1741270941; c=relaxed/simple;
+	bh=VFbNjEz2+/wlUB7vGFfTzUXZhcULzXWdvo9/ByZBeMA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tq/Vr2wpqqfdb2VbOwS4p5KItLQLaOEuezT3Qx765Co3hSk1roWMxNt7NkUAvm32dYilrpwIA6Izl8fXStgbFJLggHBUzWc4WguRM2krsQ6BDCNlaqIAvxFixo4YjCgZVqUtpJ7AI0tZx5a4tSHWueD06PdxxiV7TqdJ32SyniM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=nrfZaU4I; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3912fdddf8fso222058f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 06 Mar 2025 06:22:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1741270938; x=1741875738; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qxWPSzHzc/Gn35u8MiTD5Axzok0afEcoR/THf4/r/lU=;
+        b=nrfZaU4IkHjsa3NAaXfdf0UPDhMBHJVIxY2nfxvfAZrHgcCkWVuJDZV7nFJ1KVtmgE
+         3MsE/btBochEru7zx8e1OLUjnJ685A1F3PvocidmbRqwGjvNF76rG1lQdujpsBn+MRqD
+         lMc+3wK4hyPcUInz7qzt3JbfTAkMgvavWvI629Trhtsq7BwspSdHLS0k4JJoE7vR/aIP
+         JuxWTXvGjAUyeyzwIPmzElSQwWjxMb0+SXZ9rsn3SfsOqVUIG8h0xFLx4nBzyPZRmyj4
+         ZPzdqybnpv6eQZxCtOJuvxpFj2lAbS7Daha2jftQII1LL06CkInfmjm2xSXJp/iOBd4v
+         wAEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741270749; x=1741875549;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/nVfiSll248rUsfwTdZE7ebVgcWytnodaotzGSUKaQ4=;
-        b=ClCZ+PBsxy7Rqlx39kJ/zSsVeRarWNo37tfZCOlwSb8q9msh8/B2TH2UM9rE/qF1wO
-         C7ipWiAqkUa/LcG+hZMJtXqH6eWJg4OP0tqFZWRObwv6LM3ivdg7DCCQgJXFjN+a0fiP
-         QSL5Wje7TS+af6JNQN2bpxwAYdzQtadrb7PVppfSZbJ0TVKFu5HwWIw+fW2nFPKMKG3b
-         zqBA/l1ismH1Ub1TdkcflnIwnMIz5z8CUayzE6EnvhLJCguJ/HYsnynvLFkl36Qm0Jm7
-         brHobEBl2q7WgdhzXcMLEzOIoVBMU3mkpH+M3V85L6JgUFQStYGfy1o2IR0utboCXMZo
-         cdNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUCxvidpILSqd+oqi3k7oAmH1WKSINiK0NS/9A9yhZ5fMw9AQjWxaDfPSHKyy9CInAwqdEktkIQdE8=@vger.kernel.org, AJvYcCVgA9p8+jaNxITD+3ORC22RAuXOMAb95fIXi5P250nTtu2aSDGywTnKLwyUCF/qD7a3C2GJBOMQ1/Rj@vger.kernel.org, AJvYcCVuhGNksJEPcRSYS1RLmt7zuiPuJvlgwGY+Lfa4hFRE9G3UIwq7ClJI1hnzhG+9lCb193cYT4PD1c+SXArJYX15X1M=@vger.kernel.org, AJvYcCWN6CaZ1y5qBteXMfb+1j+CfNKw+B19eYL26WgyYwmGNskwFsxpLat5Yh3Drz45IgsYV2S8a+p1c6j4b9Mr@vger.kernel.org, AJvYcCX3z75FDRao5tgoDGk+e11kYLxn0U/aWvjryPCcU6QbUrfU+fybj+lFs5dJpPfh6jR+hJOF2Xarfx9Z@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8r/lfztxhruQymMT7h6aTk7bYK9BogLcRXf+mWpbuJSStkHpX
-	ActfCyFTgGF7/iJw0JV4gFgG3JZSDjEzcXVmzgZALhwGFwuC/coGHo/ExbUX7Ho=
-X-Gm-Gg: ASbGnctMW0ywuAzdkIq7bX/JAuvB6yhI7cQXBClmcfczANW8wG87ZWTGHaCMIP+eAf8
-	FbUnQt1cgNGtZxAPYhy80pMvGq1ozT+c0MDgoXJH6PpwAzxzyOnlz1AjMSC0KtdI4OiguSkAWiw
-	vGwWbQ4+iasUsNrVgRT31+1/2lAPmux9Lq29JJaD3isu448sjf/HBkv/JG97Zr8l8MUriC1VKIz
-	yzOF3Ss9AsQpFXmWXsm8lS4BSvKi0IctuKxqeE1ylq8C2ue4tbXsq4OW91jZdLf7z9lH5I8SFKM
-	JzeBdIIetLC0kL6pfpEcuA9v/QFH5Bgls/sL3Mo1nENgkYgT6adIBTanawqyKJn3CavBf+0+7nW
-	6kyab+Uc=
-X-Google-Smtp-Source: AGHT+IHc53ajEExPLTmKtS4CSNRVGzQJulovXInObWfYQzjzXRe3tdupsM3v1I1o8ziklEj11TVPpA==
-X-Received: by 2002:a17:907:940d:b0:ac1:e7a2:f5e8 with SMTP id a640c23a62f3a-ac20da87bb6mr831742666b.35.1741270749148;
-        Thu, 06 Mar 2025 06:19:09 -0800 (PST)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac2397366b0sm103690766b.95.2025.03.06.06.19.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Mar 2025 06:19:06 -0800 (PST)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-abf538f7be0so137019566b.3;
-        Thu, 06 Mar 2025 06:19:06 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU3oScEQtf/dRxo5zlJDup1sCGlySalLmywSCvVjwee2z/6yg5+EinUZR7LzWA95YmX4wAMBr3cCgsC@vger.kernel.org, AJvYcCWCw4ffZBLzFZUePHVWj9YbSDauw9NW8Wh2YlWSoY9XBnHkQQDUjBYlou8fQR8cmFkrV+Xkqh6fAm2q@vger.kernel.org, AJvYcCWPBw01Ne78wM5e/A2V292n9S7q1LqtEWuNzIecysJGIia7H4ot1r+pXo9+g0+TOA+hxFDULPLmlwtlvYq3GQpZcT0=@vger.kernel.org, AJvYcCWZ0JA1nyA8sQc3KnRJfnxzAtb4ZK72W9T2atuaHtYqjZ+mXx48OYfA7fTo+ijqJEJFKP6kMYM9av0=@vger.kernel.org, AJvYcCXLDYTknwEqBKxNJZNyB4dXK6xAKuI7ZI+o6oEt3uwnwub7s5KdBWJedw8DKIlWGQOkOQtbJtHNe33m8qd0@vger.kernel.org
-X-Received: by 2002:a17:907:c27:b0:abc:c34:4130 with SMTP id
- a640c23a62f3a-ac20d8bf8c7mr709557766b.18.1741270746647; Thu, 06 Mar 2025
- 06:19:06 -0800 (PST)
+        d=1e100.net; s=20230601; t=1741270938; x=1741875738;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qxWPSzHzc/Gn35u8MiTD5Axzok0afEcoR/THf4/r/lU=;
+        b=Cbqc+IPz/4goghrLwzy+8SNccryLVqiAzIareM5pTuHTFAXilM/91w1ULKx66bOLET
+         aI9fGVW4JrD0ccc6zViDDcajTcim1Uf8NuoaTDm67FEzH+Z7mWT5VtD8kC+NzkyBk19Q
+         3zfI3aLwLJqWavINzI+1rOjmQO7GbeEVFhWc0KlIzWqWCF75BbiJLzdeKQoJZnFo70CO
+         NybT70kkENyTjSwQx8UR2s4OVT88LnFlzGvlSMrJxLaQBNYD4RD2w8bALaD19z/VfAoq
+         zfJLQ1/EOMKS13CMOxUsQzFXa6MGD5lv/eFqgm/nTMWH2JjXkQWS9jaEympUAbLmaFXS
+         3zAw==
+X-Forwarded-Encrypted: i=1; AJvYcCVlK3GA103050PPsQrThkpQzIk6Ge5GG/LDztJoNJ+p+TWJw1VTzGfrcOP7nfo9eyNnOnR/RNu6nJjZkzZvgjEBIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJU+u100pn6DdQqzH9sta9p6LXMJCVPedAzzjnecLNzu/idfBK
+	JakOzTYBn3PlV1w5VM4xrbiS2JBxXBI3evYeustmLOxsGmadTeTDpPHM5xJDEjU=
+X-Gm-Gg: ASbGncsmH3cR/vhQDNaIQ5/2mUUSHxJ2n2HuJ9z2YfdiJQL6atQJlyiz7gdGfq5ldXJ
+	vCJNBS+Sr/DSz8UxatisingWRkmNy/R1sESisoLD/0EXgmBU0ZdJ7iGBbUmIywyf6Uo8OzQ2e6u
+	zNgStv2QQdDhX/aet6cXuE5yDhDTEbR5stiVtq4rAF16QwEWxvKjoSV+fXjIKGoJvlPVcjdhjLD
+	9WizfhgS/rIIleFmYoVeEdUy2sZ0XRojm6ICaKyjCVrn0RqvtibaE9muX6luSbrwMYYYr48pVQn
+	DFSQFI+X1uCT+SGTvIvMnh4a3wkIaoz1xLE1iqjIpck=
+X-Google-Smtp-Source: AGHT+IFChfeAEV2PHdYq8EIIGSzRRpBIfJ68YMIUl/Po8biGKN3BXhslg6JIN0LNeFsPkfFqsFEoHw==
+X-Received: by 2002:a05:6000:1f84:b0:390:e535:8740 with SMTP id ffacd0b85a97d-391297dc61dmr2919324f8f.14.1741270937604;
+        Thu, 06 Mar 2025 06:22:17 -0800 (PST)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:ce13:b3e4:d0d:c6a2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bd426c01bsm52206175e9.2.2025.03.06.06.22.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Mar 2025 06:22:17 -0800 (PST)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Simon Horman <horms+renesas@verge.net.au>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: (subset) [PATCH 0/4] Fix missing of_node_put() calls
+Date: Thu,  6 Mar 2025 15:22:15 +0100
+Message-ID: <174127093376.41843.17930645720992126922.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250305163753.34913-1-fabrizio.castro.jz@renesas.com>
+References: <20250305163753.34913-1-fabrizio.castro.jz@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250227122453.30480-1-john.madieu.xa@bp.renesas.com> <20250227122453.30480-3-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250227122453.30480-3-john.madieu.xa@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 6 Mar 2025 15:18:51 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUoXSerYfb2L_tLmC2-5w9mhoZHc20LSYQgCHxB+bJOtw@mail.gmail.com>
-X-Gm-Features: AQ5f1JpSCkfow0oWUCpHHLfYKAm9cW04YyVX-MUYgns8UbS1cnyHUBvgSNPUv8M
-Message-ID: <CAMuHMdUoXSerYfb2L_tLmC2-5w9mhoZHc20LSYQgCHxB+bJOtw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] clk: renesas: r9a09g047: Add clock and reset
- signals for the TSU IP
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org, 
-	rafael@kernel.org, daniel.lezcano@linaro.org, rui.zhang@intel.com, 
-	lukasz.luba@arm.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	p.zabel@pengutronix.de, catalin.marinas@arm.com, will@kernel.org, 
-	john.madieu@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, biju.das.jz@bp.renesas.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 27 Feb 2025 at 13:25, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> Add required clocks and resets signals for the TSU IP available on the
-> Renesas RZ/G3E SoC
->
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk for v6.15.
 
-Gr{oetje,eeting}s,
+On Wed, 05 Mar 2025 16:37:49 +0000, Fabrizio Castro wrote:
+> This series is to fix a missing call to of_node_put() from
+> some of Renesas pinctrl/gpio drivers.
+> 
+> Cheers,
+> Fab
+> 
+> Fabrizio Castro (4):
+>   gpio: rcar: Fix missing of_node_put() call
+>   pinctrl: renesas: rzg2l: Fix missing of_node_put() call
+>   pinctrl: renesas: rzv2m: Fix missing of_node_put() call
+>   pinctrl: renesas: rza2: Fix missing of_node_put() call
+> 
+> [...]
 
-                        Geert
+Applied, thanks!
 
+[1/4] gpio: rcar: Fix missing of_node_put() call
+      commit: f5aae815b5f7e79460a724af4debfc9abcac0cc3
+
+Best regards,
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
