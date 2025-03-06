@@ -1,213 +1,286 @@
-Return-Path: <linux-renesas-soc+bounces-14076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14077-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1AC0A54C12
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 14:25:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07651A54C1D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 14:27:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8A68189254E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 13:25:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A86B1894B67
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 13:27:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D297A20E315;
-	Thu,  6 Mar 2025 13:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fJ5mqzPr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B41A20E31B;
+	Thu,  6 Mar 2025 13:27:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A31020E037;
-	Thu,  6 Mar 2025 13:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E5A20E310;
+	Thu,  6 Mar 2025 13:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741267509; cv=none; b=d0tTLc/h8GlHohsODcKsLj1W675L7z3cA99dcKdvmOgo2Pzas54haaBF0OTNj0UnIBSnebcyNxRP1fzDlS31PgNv0gPOHAvdhtqdg8Kr4exvHdKelBa/3nJkW7lFI+3B+Rb2qqnH5Ho+X/z8pHGhhnQMhWgWR1K7BvXKCtnl73U=
+	t=1741267642; cv=none; b=pOKC8rjMUbI36fQSNgTBH/Z40bXbhDav+HSovcsWXz6/8fHdB3Y2JQFFu94ImOb61OumFkjcquQVoIuzSeTdiGXJxenp8vRfu/gIjWF+108V6RFjQnnPBbRChyRxscIhjI6Oh8M8/pwiLuuv0sMN6cctR2t7r4PEFaLU3iDebbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741267509; c=relaxed/simple;
-	bh=hFWuuPdbuYxcb+LTn5HhjxwnaOnWLb+LGyugAIBeud4=;
+	s=arc-20240116; t=1741267642; c=relaxed/simple;
+	bh=XKcEeWbzH4fA5/cvRfTVPBDGny582CAz/diU/D9T8do=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D8gibK0fdveCdiWE1uPwva32I9wrwR7DpzoyxCu4crTh/+DCsfHtCMgJ4pzKpZb+aZX5VW/ObQ4ItwkdFhCVFP92D2VTstv3GubhtI+zDnRt/J6kb8p140tw3rvGMuR2mni5QBbKtx6w1mtNinfZ2AevittaQkOc2IqrvJn66VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fJ5mqzPr; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=ApGOFXxXY5xEoeIl/WBW66aQ7r/9ZlOn0m15WH05p+oNFV49qWgH7pOj3jTCkJsq2lhEupbkvm/KYx7bmxZOg/mZ9J6l0dste9tWfMf63AapHKw07fB7zRKg3qsdFgep6H7p202zdJ2TZwA8ws4AegxTmrPVBmHlKMQPevpS3vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5237c18a97eso222833e0c.2;
-        Thu, 06 Mar 2025 05:25:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741267507; x=1741872307; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pczLQVMYKQNjopy0MycJrlivlSAhMtMp/TTkHXcLHZw=;
-        b=fJ5mqzPrLwuD6gjTJ3d4L2HrAE64bH89pLqeNHJ7YV3ffTpCH4xRzsYro1QdvpAxZy
-         pfSlx1+aqUMZwr/UYAxiQ2Bd9ViyBB/oMDNLwcqnY9kJtTafvBpw+31uX+wRluKLIxoN
-         xvwRPQ5W23W75WBrf3jHF50rCSt9HraNq7sGfHCjYMi8LvSyOSj5AiwgneUYvJ7S0gwl
-         gmM3vdpr7a9oEI0aQwTov7BlmYsLnWhRs13N/cdpw+LKz8+j/jolmlU0J3ccYg0RonwP
-         Vw1cK0N2KM1VpAzyItY5dUSqeXhoDJmG8HXxUybtKtvgQ/W9IIkHogWKGdgXDM8IyoBw
-         FTnw==
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-86b6be2c480so226858241.0;
+        Thu, 06 Mar 2025 05:27:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741267507; x=1741872307;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pczLQVMYKQNjopy0MycJrlivlSAhMtMp/TTkHXcLHZw=;
-        b=edckGIrDFmrbeFgWD5vU0YvL+51awJC/ncqtxeVihDR+RI4YKVx6zKeTGvqMZkk7cA
-         jjCPYXX9hf2FleMY4ryrlgegiBZpQO7TLGlawk/eh4Lpgc8Bh/9jaP1vpy3WaVcPaRlP
-         TJ5Vp5sPb0fSuiM3GH3VfGJNYAtd34t1KXhO+qiMcQOKoW0LWzcxRdee5VpUC3k0myrN
-         QvwzU8ZLAsl+Ty+Zw8R9sE4DBgpX95LaHtZRH9KeIkLogPGxsmrwB8wdiTn7jHJIsGYP
-         XF+h9ZL0JLYH2kRVQCIjpYmsSoG7SZzpYLLyA+vqGtXrXm9Fpc9uIRUk1lHoZxpiGS8e
-         vA7A==
-X-Forwarded-Encrypted: i=1; AJvYcCVaf8dAil7I1D7TOooMeDeUl5eKpLnTVabw2uwiMgeCQ5/jxgAnz4c40y49PorjeNqvzcfpbQkXRbS3xRWz@vger.kernel.org, AJvYcCVt6XZVXdmWKQ3PH66jfja7Wlv9sYLrGJem8Y04s52tpkJ2EFiLY+9JQfGZDV410BSoe8vTCbJX/2A=@vger.kernel.org, AJvYcCWXELQmbfq5OsK8yoEvMatNeJJsOWsKwchDWaPo/YZgmJESSP4Ct+Zw0HgHyZM3WlqZutPo7nEuJpKcLr/xoGY4yjU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYhB5BaVv08BTgEj2uKhgAuiPUHmuVKrQLXvUehbesbIoClaZI
-	HpcQpYh/cjsJki97rMA23ECCP9ZCJ2FpVYq1RB6uW51AXiiUXKLGAY7i4eZLGDqPAOfZpJNZQWF
-	ClKcP9COssVIYm/Tr+jp0XrvdrkY=
-X-Gm-Gg: ASbGncsQk6btX+NyFCs3e7sF8rc84Bq3/xH4QM1Nks4mG+nhL6vd49TU3eQPm5AMWlq
-	D4IixpEIdj1r8AWeUATO5GllYIkdizHIJXJnajNavJ7t8I2yLnsX44fer7Qd4CXAzKIAFqw2ZNU
-	/sEHAQVdrA3LS317JriEAMjMOJ8w==
-X-Google-Smtp-Source: AGHT+IHgiM4ICdjafzmTABqUctgFSAnbeftgAaTIqLRQol12JOmBumy+PQVI/b3uj4OJSh5eWKjsIrneXRlQI/vMI3s=
-X-Received: by 2002:a05:6122:1d55:b0:520:652b:cdf9 with SMTP id
- 71dfb90a1353d-523c617d306mr4101936e0c.5.1741267506786; Thu, 06 Mar 2025
- 05:25:06 -0800 (PST)
+        d=1e100.net; s=20230601; t=1741267638; x=1741872438;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E1V4GXjxaHQ1MX8XrAYuwsdCJjMPQ0MFEVUQeYP147s=;
+        b=m3qxBlVPwOPZnKoVJLeJFLRQqSBq+WbqIqNIwbx7HmBOvt4sIcfh18c92G00LjtvQJ
+         w5a1MYM25R8JWyumJSeue63VPLAoiV3v2DYww+CviSXxBbO7NaHM4ch5YsC0nl/vv7AU
+         zYYO4DmPUx51yQwhH2ENUmJ6IcPM9B/IXAr327FjQhvy7pP7zHXIXcg4A9KvEdyUO6Kh
+         5WRFEU1VkbzA5KfNSfhIYRnod8YeMNf0V4gh3NPoKXQGq19EgNnMSuzy9TKHsnUrg8Ug
+         w++2t5Va1cAyEcT9yGddVj3YBTnVB5B43ScuixXLD3Gd6HNKtdECXK5hZiGZCJQ5CBqT
+         d+zw==
+X-Forwarded-Encrypted: i=1; AJvYcCU4gHPoXFd0H9ZuvkD/UCd9+3JKd5t/qtqsrI1wF7GF53Nj4fhH9+8lJcYns/dGMl9azQO5+94KVCPzduUB@vger.kernel.org, AJvYcCWYjG3/BuECLQptl9FrYWqlQLnlC/mUbTVyR9SsWpUq8gtOFZP7UtkZPdyUMsSNym+q/6lZCUNRg37e@vger.kernel.org, AJvYcCWcSesvGcWQFnXdAQ1fIEjV/mR5GqA8Q8lB9jKx0hS8mkRFhfHwtz2S51A3mI0lDOS0mdAuwTKGlB+M@vger.kernel.org, AJvYcCXhMWOUe76kpzRs5oFP4NOPSXI13pDo16svGp8GXkney8NdwodfFjEs1el9Gk/waZdpIr1kR+dBElbb8aBt5HzLy78=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxf2JQTgStjCK+DJH210+Y+KXxB5UgyoDdf1TTfcoCOcCQDzTfI
+	G4Mmn0j6Dsx+0SpowfnCCFeNIUvQPZnBgP2PVb22q3IZP23s8/yV5tX6NPdn
+X-Gm-Gg: ASbGncvRbFvGv+xl5+WXigAH2SMHGnWPGKgVo+l0ku4Bj4JdxBC6IQ/39cR59N5RbAs
+	mMmhiqg3Wa97GR/BF0BlcNcPzbothJk7KZUcPbQp5Modp6IqLH5PkLdSPvWy2cKZ960vWBWOQeK
+	6EoMZrOOE+FaI8znPMLPitcM8Q8cDBmRiSl0j6OAYRCSLIptVCu2PvDrXqbFywajUvX9jv+4ZMi
+	tV068QMFYrbfVHL5qAXTz+q8smm9MYanAymKHjYs3X8xdbB7Eomw4GCGez9SS/frQ9QkjtUDJK2
+	ZMBANtW6uwNEN1j5LEnRL2qYjSPpnAVG/eT9U+ha/TqA+i21UVZyHJiRASkU9WtedrYV/zRlYHD
+	8vFkh6+Y=
+X-Google-Smtp-Source: AGHT+IEy6Rv4wjm84q5K+TbBTG944eiJABN0mDsfYMGHJX/ZGbboYio9IbTuwHyaN29m5pVPVd1RoQ==
+X-Received: by 2002:a05:6102:dce:b0:4bb:cf25:c5a7 with SMTP id ada2fe7eead31-4c2e27a6d7dmr4441933137.7.1741267638412;
+        Thu, 06 Mar 2025 05:27:18 -0800 (PST)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-86d33ca65a9sm219399241.27.2025.03.06.05.27.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Mar 2025 05:27:18 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-86b6be2c480so226841241.0;
+        Thu, 06 Mar 2025 05:27:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU92WFNfySAnYVgKlWOUXgBHaW565dGpVNMpOpzEHn+/1MNShzgqaaPC2QX98aP+ZbjeaCvoblDJgIp@vger.kernel.org, AJvYcCUWpNX27F7ebNDUkBz3h1pY1ByBTTFcKVPP8Bzsun8T9ESkqvxBWkODOxesfiX35Of8+T8lXl1Z7btGQrBj@vger.kernel.org, AJvYcCXiBXrAqOoa+R2A3TM8EqkQ9+zsy+ToCENjOlElsCuMYeKbpo7oGQp6UC9Z2RNaqqYIcWMjQa+crshHZWPb1waIh8A=@vger.kernel.org, AJvYcCXvpHYzGUcDC92TMRiTc5rrAPamygUFPdZ4RTwEWWiRfSwTwea2XMSJQzeiKi+z0WkLlr1lkvHWazDY@vger.kernel.org
+X-Received: by 2002:a05:6102:e12:b0:4bd:3519:44be with SMTP id
+ ada2fe7eead31-4c2e2804512mr4388822137.15.1741267637914; Thu, 06 Mar 2025
+ 05:27:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250218114353.406684-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250218114353.406684-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdUhZ_qV=16jnWD6cPfuMmZpDUeRMTUgbqy=Mkzp-29=bA@mail.gmail.com>
- <CA+V-a8uvfb=a=K1YzGNeZdiAzeXWMpdbxj=6UuL_xQfxKmOBZA@mail.gmail.com> <CAMuHMdXermXD2yCJxYjw-bmWKiazF5LVJ8PHoELKEdp_q2UnfQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXermXD2yCJxYjw-bmWKiazF5LVJ8PHoELKEdp_q2UnfQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 6 Mar 2025 13:24:40 +0000
-X-Gm-Features: AQ5f1JrbmqE4Ljn85aeM0u0c_u1ndtYdv9GmzW5Js2FPoUxJ69rtGqH1qcFxjY0
-Message-ID: <CA+V-a8tRptyKJ2fmawvyN89bEMeN==7EeA7VXW24EpXenkUK_w@mail.gmail.com>
-Subject: Re: [PATCH 2/3] clk: renesas: rzv2h-cpg: Add support for enabling PLLs
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250305002112.5289-1-fabrizio.castro.jz@renesas.com> <20250305002112.5289-3-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20250305002112.5289-3-fabrizio.castro.jz@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 6 Mar 2025 14:27:06 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVeLiQKHm5BQXhqEjKTP4p7Y20b5ocsjvNCnicDQym19A@mail.gmail.com>
+X-Gm-Features: AQ5f1JroeThd9ulD1ahlmdpsXT6NLFZFZZdIi3Hy9pIsRu-zZy6kxIxGiyfRxZQ
+Message-ID: <CAMuHMdVeLiQKHm5BQXhqEjKTP4p7Y20b5ocsjvNCnicDQym19A@mail.gmail.com>
+Subject: Re: [PATCH v5 2/6] dt-bindings: dma: rz-dmac: Document RZ/V2H(P)
+ family of SoCs
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Conor Dooley <conor.dooley@microchip.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Geert
+Hi Fabrizio,
 
-On Thu, Mar 6, 2025 at 1:16=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
+On Wed, 5 Mar 2025 at 01:21, Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> Document the Renesas RZ/V2H(P) family of SoCs DMAC block.
+> The Renesas RZ/V2H(P) DMAC is very similar to the one found on the
+> Renesas RZ/G2L family of SoCs, but there are some differences:
+> * It only uses one register area
+> * It only uses one clock
+> * It only uses one reset
+> * Instead of using MID/IRD it uses REQ No
+> * It is connected to the Interrupt Control Unit (ICU)
 >
-> Hi Prabhakar,
->
-> On Thu, 6 Mar 2025 at 14:04, Lad, Prabhakar <prabhakar.csengg@gmail.com> =
-wrote:
-> > On Wed, Mar 5, 2025 at 4:42=E2=80=AFPM Geert Uytterhoeven <geert@linux-=
-m68k.org> wrote:
-> > > On Tue, 18 Feb 2025 at 12:44, Prabhakar <prabhakar.csengg@gmail.com> =
-wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Some RZ/V2H(P) SoC variants do not have a GPU, resulting in PLLGPU =
-being
-> > > > disabled by default in TF-A. Add support for enabling PLL clocks in=
- the
-> > > > RZ/V2H(P) CPG driver to manage this.
-> > >
-> > > Does it make sense to enable the GPU PLL if no GPU is present?
-> > >
-> > No it doesn't,  PLLGPU is enabled on needs basis ie if GPU node is
-> > enabled the PLLGPU is enabled, if GPU is disabled the PLLGPU will be
-> > untouched and will remain OFF. Note I also have a patch which does
-> > disable the PLL's but I have not added as this isn't tested with the
-> > full system running and I'm not sure if there will be any radiation if
-> > we turn ON/OFF PLLs (Im discussing this internally once approved I
-> > will add support to disable PLLs too).
->
-> OK. It just sounded a bit strange in the patch description,
->
-I'll reword it to make it clear.
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v4->v5:
+> * Removed ACK No from the specification of the dma cell.
+> * I have kept the tags received as this is a minor change and the
+>   structure remains the same as v4. Please let me know if this is
+>   not okay.
 
-> > > > Introduce `is_enabled` and `enable` callbacks to handle PLL state
-> > > > transitions. With the `enable` callback, PLLGPU will be turned ON o=
-nly
-> > > > when the GPU node is enabled; otherwise, it will remain off. Define=
- new
-> > > > macros for PLL standby and monitor registers to facilitate this pro=
-cess.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
-om>
-> > > > ---
-> > > >  drivers/clk/renesas/rzv2h-cpg.c | 57 +++++++++++++++++++++++++++++=
-++++
-> > > >  1 file changed, 57 insertions(+)
-> > > >
-> > > > diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/=
-rzv2h-cpg.c
-> > > > index 1ebaefb36133..d7230a7e285c 100644
-> > > > --- a/drivers/clk/renesas/rzv2h-cpg.c
-> > > > +++ b/drivers/clk/renesas/rzv2h-cpg.c
->
-> > > >  #define PLL_CLK_ACCESS(n)      (!!((n) & BIT(31)))
-> > > >  #define PLL_CLK1_OFFSET(n)     FIELD_GET(GENMASK(15, 0), (n))
-> > > >  #define PLL_CLK2_OFFSET(n)     (PLL_CLK1_OFFSET(n) + (0x4))
-> > > > +#define PLL_STBY_OFFSET(n)     (PLL_CLK1_OFFSET(n) - (0x4))
-> > >
-> > > Let's subtract 4...
-> > >
-> > > > +#define PLL_MON_OFFSET(n)      (PLL_STBY_OFFSET(n) + (0x10))
-> > >
-> > > ... and add 0x10. Where are we now? ;-)
-> > >
-> > > I think it would be better to store the PLL base offset instead of th=
-e
-> > > PLL CLK1 offset in cpg_core_clk.cfg.conf, and define offsets
-> > > relative to that:
-> > >
-> > You mean PLL_STBY offset in cpg_core_clk.cfg.conf and have the below
-> > CPG_PLL_XX macros.
->
-> Exactly, the PLL_STBY offset is the "base offset" of the various
-> CPG_PLL_* registers.
->
-> > Or maybe instead of using a conf can I add the below?
->
-> Sure, sounds fine!
->
-Thanks.
+Thanks for the update!
 
-> > +/**
-> > + * struct pll - Structure for PLL configuration
-> > + *
-> > + * @offset: STBY register offset
-> > + * @clk: Flag to indicate if CLK1/2 are accessible or not
-> > + * @sscen: Flag to indicate if SSCEN bit needs enabling/disabling
-> > + */
-> > +struct pll {
-> > +    unsigned int offset:8;
-> > +    unsigned int clk:1;
-> > +    unsigned int sscen:1;
->
-> This is a new flag?
->
-I was experimenting with this so just included this hunk but I wont
-add it as part of the current submission.
+> --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> @@ -61,14 +66,21 @@ properties:
+>    '#dma-cells':
+>      const: 1
+>      description:
+> -      The cell specifies the encoded MID/RID values of the DMAC port
 
-> > +};
-> > +
-> > +#define PLL_PACK(_offset, _clk, _sscen) \
-> > +    ((struct pll){ \
-> > +        .offset =3D _offset, \
-> > +        .clk =3D _clk \
-> > +        .sscen =3D _sscen \
-> > +    })
-> > +
-> > +#define PLLCA55        PLL_PACK(0x64, 1, 0)
->
-> 0x60
-Ouch.
+Please just insert "or the REQ No" and be done with it?
 
-Cheers,
-Prabhakar
+> -      connected to the DMA client and the slave channel configuration
+> -      parameters.
+> +      For the RZ/A1H, RZ/Five, RZ/G2{L,LC,UL}, RZ/V2L, and RZ/G3S SoCs, the cell
+> +      specifies the encoded MID/RID values of the DMAC port connected to the
+> +      DMA client and the slave channel configuration parameters.
+>        bits[0:9] - Specifies MID/RID value
+>        bit[10] - Specifies DMA request high enable (HIEN)
+>        bit[11] - Specifies DMA request detection type (LVL)
+>        bits[12:14] - Specifies DMAACK output mode (AM)
+>        bit[15] - Specifies Transfer Mode (TM)
+> +      For the RZ/V2H(P) SoC the cell specifies the DMAC REQ No and the slave channel
+> +      configuration parameters.
+> +      bits[0:9] - Specifies the DMAC REQ No
+> +      bit[10] - Specifies DMA request high enable (HIEN)
+> +      bit[11] - Specifies DMA request detection type (LVL)
+> +      bits[12:14] - Specifies DMAACK output mode (AM)
+> +      bit[15] - Specifies Transfer Mode (TM)
+
+... so the casual reader doesn't have to look for the (nonexisting)
+differences in the other bits.
+
+>
+>    dma-channels:
+>      const: 16
+> @@ -80,12 +92,29 @@ properties:
+>      items:
+>        - description: Reset for DMA ARESETN reset terminal
+>        - description: Reset for DMA RST_ASYNC reset terminal
+> +    minItems: 1
+>
+>    reset-names:
+>      items:
+>        - const: arst
+>        - const: rst_async
+>
+> +  renesas,icu:
+> +    description:
+> +      On the RZ/V2H(P) SoC configures the ICU to which the DMAC is connected to.
+
+Are other SoCs with ICU planned?
+
+> +      It must contain the phandle to the ICU, and the index of the DMAC as seen
+> +      from the ICU (e.g. parameter k from register ICU_DMkSELy).
+
+This is already described more formally below
+
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    items:
+> +      - items:
+> +          - description: phandle to the ICU node.
+> +          - description: The DMAC index.
+> +              4 for DMAC0
+> +              0 for DMAC1
+> +              1 for DMAC2
+> +              2 for DMAC3
+> +              3 for DMAC4
+
+Other SoCs may have other mappings.
+So perhaps leave out the translation table, but write:
+
+    The number of the DMAC as seen from the ICU, i.e. parameter k from
+register ICU_DMkSELy.
+    This may differ from the actual DMAC instance number!
+
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -98,13 +127,25 @@ allOf:
+>    - $ref: dma-controller.yaml#
+>
+>    - if:
+> -      not:
+> -        properties:
+> -          compatible:
+> -            contains:
+> -              enum:
+> -                - renesas,r7s72100-dmac
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,r9a07g043-dmac
+> +              - renesas,r9a07g044-dmac
+> +              - renesas,r9a07g054-dmac
+> +              - renesas,r9a08g045-dmac
+>      then:
+> +      properties:
+> +        reg:
+> +          minItems: 2
+> +        clocks:
+> +          minItems: 2
+> +        resets:
+> +          minItems: 2
+> +
+> +        renesas,icu: false
+> +
+>        required:
+>          - clocks
+>          - clock-names
+> @@ -112,13 +153,42 @@ allOf:
+>          - resets
+>          - reset-names
+>
+> -    else:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r7s72100-dmac
+> +    then:
+>        properties:
+
+    reg:
+        minItems: 2
+
+>          clocks: false
+>          clock-names: false
+>          power-domains: false
+>          resets: false
+>          reset-names: false
+> +        renesas,icu: false
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a09g057-dmac
+> +    then:
+> +      properties:
+> +        reg:
+> +          maxItems: 1
+> +        clocks:
+> +          maxItems: 1
+> +        resets:
+> +          maxItems: 1
+> +
+> +        clock-names: false
+> +        reset-names: false
+> +
+> +      required:
+> +        - clocks
+> +        - power-domains
+> +        - renesas,icu
+> +        - resets
+>
+>  additionalProperties: false
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
