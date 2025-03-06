@@ -1,54 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-14110-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14111-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2006DA55241
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 18:06:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 389ECA5525D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 18:08:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F5CC3A1D3D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 17:05:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C82FB1898C1A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 17:06:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0CF025A65F;
-	Thu,  6 Mar 2025 17:05:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86060211A07;
+	Thu,  6 Mar 2025 17:05:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F1857FD;
-	Thu,  6 Mar 2025 17:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDA4225A65B
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Mar 2025 17:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741280725; cv=none; b=dH1g99xdxPeCapnQO/SnV1d2ADd/50ONxmb1h9vmQZ9dhz4i3R/Gvib1X/fA0stsCEAP9ugUXg89/wn9aQqs1n39DMuCB3EJRXz5oQewIv9afGW4ED4y6yLge+tJ0ipYkxidiOvTB0LXLcejCbYjI1ut3Chrt974SityiE91QQc=
+	t=1741280728; cv=none; b=FwW+7GAK6xlQikbI7UK5FeQBXMmg+KxPqW4Bf6/7kuNcwlaMxTYiLXx/1QqVXzqcYod+b8LYZsZtd7866DGk93P3s9FSRRJ3mlvsK4nWOEcWTUUIct8FwH+4lW7gNoIzo10IqK1S+fVoOZjhdg6d+n8g6SLGRcXizj71iRMaL3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741280725; c=relaxed/simple;
-	bh=oPL7AcdLFNWLlMSc6qEktyyBhLnlf5M3wTvbx3Kf2Hs=;
+	s=arc-20240116; t=1741280728; c=relaxed/simple;
+	bh=r7oHqzq+xnFDNFIGHXcR/hAD9kM0Iw08pIkbqolXx4c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NoohrT3LczQxGju+66jSL8Nu3VcdNVBnV757S0u2m4kTCMx7u3MNyYWjsrg0s883L7h1H0jacaXnIK8HPcBIADUbc2tZdCE+0sVRkkS3777HeNa6sk5Tnc8N8I5u7UChhZhTPnoT6vzTMPogrKe+QMw+WjiWfM3DwQp1dP1wQ6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=nF3uigFQ2lXKH+w0HZCevDy8HKhTcl7anGHdvDg2hyql3op74/zEGe3bJ8uR0r2g2K917ExnR1uOjto6ZFUZAAWqwOW7i9Hw5yYlS49WP32sbG0Pdf20qGR7GePQGkNQutwRR9zv61gdE3UA1B2fYFJGdeOCFYI60ZLI2JXpgX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: S1NlkesqTYKSQ1hDd3zluQ==
-X-CSE-MsgGUID: uzXnZlP3TBCitPS2TlBYOg==
+X-CSE-ConnectionGUID: RM52uu1QQdGd2tcNzLYDlA==
+X-CSE-MsgGUID: 7kO4GkaRRm6CV4hm4UEl3g==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 07 Mar 2025 02:05:21 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 07 Mar 2025 02:05:24 +0900
 Received: from localhost.localdomain (unknown [10.226.92.10])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id D1E49401C948;
-	Fri,  7 Mar 2025 02:05:18 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 7E380401C59C;
+	Fri,  7 Mar 2025 02:05:22 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Mark Brown <broonie@kernel.org>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 1/8] dt-bindings: memory: Document RZ/G3E support
-Date: Thu,  6 Mar 2025 17:04:59 +0000
-Message-ID: <20250306170512.241128-2-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 2/8] memory: renesas-rpc-if: Move rpc-if reg definitions
+Date: Thu,  6 Mar 2025 17:05:00 +0000
+Message-ID: <20250306170512.241128-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250306170512.241128-1-biju.das.jz@bp.renesas.com>
 References: <20250306170512.241128-1-biju.das.jz@bp.renesas.com>
@@ -60,164 +56,317 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document support for the Expanded Serial Peripheral Interface (xSPI)
-Controller in the Renesas RZ/G3E (R9A09G047) SoC.
+Move rpc-if reg definitions to a header file for the preparation of adding
+support for RZ/G3E XSPI that has different register definitions.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v1->v2:
- * As rz-xspi is too generic, replaced file name rz-xspi->rzg3e-xspi
-   and dropped generic compatible rz-xspi.
- * Dropped prefix spi from interrupt names.
- * Updated the example with above changes.
- * Retained Rb tag from Rob as these changes are trivial.
+ * No change.
 ---
- .../renesas,rzg3e-xspi.yaml                   | 135 ++++++++++++++++++
- 1 file changed, 135 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml
+ drivers/memory/renesas-rpc-if-regs.h | 147 +++++++++++++++++++++++++++
+ drivers/memory/renesas-rpc-if.c      | 134 +-----------------------
+ 2 files changed, 148 insertions(+), 133 deletions(-)
+ create mode 100644 drivers/memory/renesas-rpc-if-regs.h
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml b/Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml
+diff --git a/drivers/memory/renesas-rpc-if-regs.h b/drivers/memory/renesas-rpc-if-regs.h
 new file mode 100644
-index 000000000000..4d5aa5812d74
+index 000000000000..8acb3914e795
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml
-@@ -0,0 +1,135 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/memory/renesas-rpc-if-regs.h
+@@ -0,0 +1,147 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * R-Car RPC Interface Registers Definitions
++ *
++ * Copyright (C) 2025 Renesas Electronics Corporation
++ */
 +
-+title: Renesas Expanded Serial Peripheral Interface (xSPI)
++#ifndef __RENESAS_RPC_IF_REGS_H__
++#define __RENESAS_RPC_IF_REGS_H__
 +
-+maintainers:
-+  - Biju Das <biju.das.jz@bp.renesas.com>
++#include <linux/bits.h>
 +
-+description: |
-+  Renesas xSPI allows a SPI flash connected to the SoC to be accessed via
-+  the memory-mapping or the manual command mode.
++#define RPCIF_CMNCR		0x0000	/* R/W */
++#define RPCIF_CMNCR_MD		BIT(31)
++#define RPCIF_CMNCR_MOIIO3(val)	(((val) & 0x3) << 22)
++#define RPCIF_CMNCR_MOIIO2(val)	(((val) & 0x3) << 20)
++#define RPCIF_CMNCR_MOIIO1(val)	(((val) & 0x3) << 18)
++#define RPCIF_CMNCR_MOIIO0(val)	(((val) & 0x3) << 16)
++#define RPCIF_CMNCR_MOIIO(val)	(RPCIF_CMNCR_MOIIO0(val) | RPCIF_CMNCR_MOIIO1(val) | \
++				 RPCIF_CMNCR_MOIIO2(val) | RPCIF_CMNCR_MOIIO3(val))
++#define RPCIF_CMNCR_IO3FV(val)	(((val) & 0x3) << 14) /* documented for RZ/G2L */
++#define RPCIF_CMNCR_IO2FV(val)	(((val) & 0x3) << 12) /* documented for RZ/G2L */
++#define RPCIF_CMNCR_IO0FV(val)	(((val) & 0x3) << 8)
++#define RPCIF_CMNCR_IOFV(val)	(RPCIF_CMNCR_IO0FV(val) | RPCIF_CMNCR_IO2FV(val) | \
++				 RPCIF_CMNCR_IO3FV(val))
++#define RPCIF_CMNCR_BSZ(val)	(((val) & 0x3) << 0)
 +
-+  The flash chip itself should be represented by a subnode of the XSPI node.
-+  The flash interface is selected based on the "compatible" property of this
-+  subnode:
-+  -  "jedec,spi-nor";
++#define RPCIF_SSLDR		0x0004	/* R/W */
++#define RPCIF_SSLDR_SPNDL(d)	(((d) & 0x7) << 16)
++#define RPCIF_SSLDR_SLNDL(d)	(((d) & 0x7) << 8)
++#define RPCIF_SSLDR_SCKDL(d)	(((d) & 0x7) << 0)
 +
-+allOf:
-+  - $ref: /schemas/spi/spi-controller.yaml#
++#define RPCIF_DRCR		0x000C	/* R/W */
++#define RPCIF_DRCR_SSLN		BIT(24)
++#define RPCIF_DRCR_RBURST(v)	((((v) - 1) & 0x1F) << 16)
++#define RPCIF_DRCR_RCF		BIT(9)
++#define RPCIF_DRCR_RBE		BIT(8)
++#define RPCIF_DRCR_SSLE		BIT(0)
 +
-+properties:
-+  compatible:
-+    const: renesas,r9a09g047-xspi  # RZ/G3E
++#define RPCIF_DRCMR		0x0010	/* R/W */
++#define RPCIF_DRCMR_CMD(c)	(((c) & 0xFF) << 16)
++#define RPCIF_DRCMR_OCMD(c)	(((c) & 0xFF) << 0)
 +
-+  reg:
-+    items:
-+      - description: xSPI registers
-+      - description: direct mapping area
++#define RPCIF_DREAR		0x0014	/* R/W */
++#define RPCIF_DREAR_EAV(c)	(((c) & 0xF) << 16)
++#define RPCIF_DREAR_EAC(c)	(((c) & 0x7) << 0)
 +
-+  reg-names:
-+    items:
-+      - const: regs
-+      - const: dirmap
++#define RPCIF_DROPR		0x0018	/* R/W */
 +
-+  interrupts:
-+    items:
-+      - description: Interrupt pulse signal by factors excluding errors
-+      - description: Interrupt pulse signal by error factors
++#define RPCIF_DRENR		0x001C	/* R/W */
++#define RPCIF_DRENR_CDB(o)	(u32)((((o) & 0x3) << 30))
++#define RPCIF_DRENR_OCDB(o)	(((o) & 0x3) << 28)
++#define RPCIF_DRENR_ADB(o)	(((o) & 0x3) << 24)
++#define RPCIF_DRENR_OPDB(o)	(((o) & 0x3) << 20)
++#define RPCIF_DRENR_DRDB(o)	(((o) & 0x3) << 16)
++#define RPCIF_DRENR_DME		BIT(15)
++#define RPCIF_DRENR_CDE		BIT(14)
++#define RPCIF_DRENR_OCDE	BIT(12)
++#define RPCIF_DRENR_ADE(v)	(((v) & 0xF) << 8)
++#define RPCIF_DRENR_OPDE(v)	(((v) & 0xF) << 4)
 +
-+  interrupt-names:
-+    items:
-+      - const: pulse
-+      - const: err_pulse
++#define RPCIF_SMCR		0x0020	/* R/W */
++#define RPCIF_SMCR_SSLKP	BIT(8)
++#define RPCIF_SMCR_SPIRE	BIT(2)
++#define RPCIF_SMCR_SPIWE	BIT(1)
++#define RPCIF_SMCR_SPIE		BIT(0)
 +
-+  clocks:
-+    items:
-+      - description: AHB clock
-+      - description: AXI clock
-+      - description: SPI clock
-+      - description: Double speed SPI clock
++#define RPCIF_SMCMR		0x0024	/* R/W */
++#define RPCIF_SMCMR_CMD(c)	(((c) & 0xFF) << 16)
++#define RPCIF_SMCMR_OCMD(c)	(((c) & 0xFF) << 0)
 +
-+  clock-names:
-+    items:
-+      - const: ahb
-+      - const: axi
-+      - const: spi
-+      - const: spix2
++#define RPCIF_SMADR		0x0028	/* R/W */
 +
-+  power-domains:
-+    maxItems: 1
++#define RPCIF_SMOPR		0x002C	/* R/W */
++#define RPCIF_SMOPR_OPD3(o)	(((o) & 0xFF) << 24)
++#define RPCIF_SMOPR_OPD2(o)	(((o) & 0xFF) << 16)
++#define RPCIF_SMOPR_OPD1(o)	(((o) & 0xFF) << 8)
++#define RPCIF_SMOPR_OPD0(o)	(((o) & 0xFF) << 0)
 +
-+  resets:
-+    items:
-+      - description: Hardware reset
-+      - description: AXI reset
++#define RPCIF_SMENR		0x0030	/* R/W */
++#define RPCIF_SMENR_CDB(o)	(((o) & 0x3) << 30)
++#define RPCIF_SMENR_OCDB(o)	(((o) & 0x3) << 28)
++#define RPCIF_SMENR_ADB(o)	(((o) & 0x3) << 24)
++#define RPCIF_SMENR_OPDB(o)	(((o) & 0x3) << 20)
++#define RPCIF_SMENR_SPIDB(o)	(((o) & 0x3) << 16)
++#define RPCIF_SMENR_DME		BIT(15)
++#define RPCIF_SMENR_CDE		BIT(14)
++#define RPCIF_SMENR_OCDE	BIT(12)
++#define RPCIF_SMENR_ADE(v)	(((v) & 0xF) << 8)
++#define RPCIF_SMENR_OPDE(v)	(((v) & 0xF) << 4)
++#define RPCIF_SMENR_SPIDE(v)	(((v) & 0xF) << 0)
 +
-+  reset-names:
-+    items:
-+      - const: hresetn
-+      - const: aresetn
++#define RPCIF_SMRDR0		0x0038	/* R */
++#define RPCIF_SMRDR1		0x003C	/* R */
++#define RPCIF_SMWDR0		0x0040	/* W */
++#define RPCIF_SMWDR1		0x0044	/* W */
 +
-+  renesas,xspi-cs-addr-sys:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: |
-+      Phandle to the system controller (sys) that allows to configure
-+      xSPI CS0 and CS1 addresses.
++#define RPCIF_CMNSR		0x0048	/* R */
++#define RPCIF_CMNSR_SSLF	BIT(1)
++#define RPCIF_CMNSR_TEND	BIT(0)
 +
-+patternProperties:
-+  "flash@[0-9a-f]+$":
-+    type: object
-+    additionalProperties: true
++#define RPCIF_DRDMCR		0x0058	/* R/W */
++#define RPCIF_DMDMCR_DMCYC(v)	((((v) - 1) & 0x1F) << 0)
 +
-+    properties:
-+      compatible:
-+        contains:
-+          const: jedec,spi-nor
++#define RPCIF_DRDRENR		0x005C	/* R/W */
++#define RPCIF_DRDRENR_HYPE(v)	(((v) & 0x7) << 12)
++#define RPCIF_DRDRENR_ADDRE	BIT(8)
++#define RPCIF_DRDRENR_OPDRE	BIT(4)
++#define RPCIF_DRDRENR_DRDRE	BIT(0)
 +
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - interrupt-names
-+  - clocks
-+  - clock-names
-+  - power-domains
-+  - resets
-+  - reset-names
-+  - '#address-cells'
-+  - '#size-cells'
++#define RPCIF_SMDMCR		0x0060	/* R/W */
++#define RPCIF_SMDMCR_DMCYC(v)	((((v) - 1) & 0x1F) << 0)
 +
-+unevaluatedProperties: false
++#define RPCIF_SMDRENR		0x0064	/* R/W */
++#define RPCIF_SMDRENR_HYPE(v)	(((v) & 0x7) << 12)
++#define RPCIF_SMDRENR_ADDRE	BIT(8)
++#define RPCIF_SMDRENR_OPDRE	BIT(4)
++#define RPCIF_SMDRENR_SPIDRE	BIT(0)
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/renesas-cpg-mssr.h>
++#define RPCIF_PHYADD		0x0070	/* R/W available on R-Car E3/D3/V3M and RZ/G2{E,L} */
++#define RPCIF_PHYWR		0x0074	/* R/W available on R-Car E3/D3/V3M and RZ/G2{E,L} */
 +
-+    spi@11030000 {
-+        compatible = "renesas,r9a09g047-xspi";
-+        reg = <0x11030000 0x10000>, <0x20000000 0x10000000>;
-+        reg-names = "regs", "dirmap";
-+        interrupts = <GIC_SPI 228 IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 229 IRQ_TYPE_EDGE_RISING>;
-+        interrupt-names = "pulse", "err_pulse";
-+        clocks = <&cpg CPG_MOD 0x9f>, <&cpg CPG_MOD 0xa0>,
-+                 <&cpg CPG_MOD 0xa1>, <&cpg CPG_MOD 0xa1>;
-+        clock-names = "ahb", "axi", "spi", "spix2";
-+        power-domains = <&cpg>;
-+        resets = <&cpg 0xa3>, <&cpg 0xa4>;
-+        reset-names = "hresetn", "aresetn";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++#define RPCIF_PHYCNT		0x007C	/* R/W */
++#define RPCIF_PHYCNT_CAL	BIT(31)
++#define RPCIF_PHYCNT_OCTA(v)	(((v) & 0x3) << 22)
++#define RPCIF_PHYCNT_EXDS	BIT(21)
++#define RPCIF_PHYCNT_OCT	BIT(20)
++#define RPCIF_PHYCNT_DDRCAL	BIT(19)
++#define RPCIF_PHYCNT_HS		BIT(18)
++#define RPCIF_PHYCNT_CKSEL(v)	(((v) & 0x3) << 16) /* valid only for RZ/G2L */
++#define RPCIF_PHYCNT_STRTIM(v)	(((v) & 0x7) << 15 | ((v) & 0x8) << 24) /* valid for R-Car and RZ/G2{E,H,M,N} */
 +
-+        flash@0 {
-+          compatible = "jedec,spi-nor";
-+          reg = <0>;
-+          spi-max-frequency = <40000000>;
-+          spi-tx-bus-width = <1>;
-+          spi-rx-bus-width = <1>;
-+        };
-+    };
++#define RPCIF_PHYCNT_WBUF2	BIT(4)
++#define RPCIF_PHYCNT_WBUF	BIT(2)
++#define RPCIF_PHYCNT_PHYMEM(v)	(((v) & 0x3) << 0)
++#define RPCIF_PHYCNT_PHYMEM_MASK GENMASK(1, 0)
++
++#define RPCIF_PHYOFFSET1	0x0080	/* R/W */
++#define RPCIF_PHYOFFSET1_DDRTMG(v) (((v) & 0x3) << 28)
++
++#define RPCIF_PHYOFFSET2	0x0084	/* R/W */
++#define RPCIF_PHYOFFSET2_OCTTMG(v) (((v) & 0x7) << 8)
++
++#define RPCIF_PHYINT		0x0088	/* R/W */
++#define RPCIF_PHYINT_WPVAL	BIT(1)
++
++#endif /* __RENESAS_RPC_IF_REGS_H__ */
+diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+index 15b4706aafee..20d1a6e4a500 100644
+--- a/drivers/memory/renesas-rpc-if.c
++++ b/drivers/memory/renesas-rpc-if.c
+@@ -18,139 +18,7 @@
+ 
+ #include <memory/renesas-rpc-if.h>
+ 
+-#define RPCIF_CMNCR		0x0000	/* R/W */
+-#define RPCIF_CMNCR_MD		BIT(31)
+-#define RPCIF_CMNCR_MOIIO3(val)	(((val) & 0x3) << 22)
+-#define RPCIF_CMNCR_MOIIO2(val)	(((val) & 0x3) << 20)
+-#define RPCIF_CMNCR_MOIIO1(val)	(((val) & 0x3) << 18)
+-#define RPCIF_CMNCR_MOIIO0(val)	(((val) & 0x3) << 16)
+-#define RPCIF_CMNCR_MOIIO(val)	(RPCIF_CMNCR_MOIIO0(val) | RPCIF_CMNCR_MOIIO1(val) | \
+-				 RPCIF_CMNCR_MOIIO2(val) | RPCIF_CMNCR_MOIIO3(val))
+-#define RPCIF_CMNCR_IO3FV(val)	(((val) & 0x3) << 14) /* documented for RZ/G2L */
+-#define RPCIF_CMNCR_IO2FV(val)	(((val) & 0x3) << 12) /* documented for RZ/G2L */
+-#define RPCIF_CMNCR_IO0FV(val)	(((val) & 0x3) << 8)
+-#define RPCIF_CMNCR_IOFV(val)	(RPCIF_CMNCR_IO0FV(val) | RPCIF_CMNCR_IO2FV(val) | \
+-				 RPCIF_CMNCR_IO3FV(val))
+-#define RPCIF_CMNCR_BSZ(val)	(((val) & 0x3) << 0)
+-
+-#define RPCIF_SSLDR		0x0004	/* R/W */
+-#define RPCIF_SSLDR_SPNDL(d)	(((d) & 0x7) << 16)
+-#define RPCIF_SSLDR_SLNDL(d)	(((d) & 0x7) << 8)
+-#define RPCIF_SSLDR_SCKDL(d)	(((d) & 0x7) << 0)
+-
+-#define RPCIF_DRCR		0x000C	/* R/W */
+-#define RPCIF_DRCR_SSLN		BIT(24)
+-#define RPCIF_DRCR_RBURST(v)	((((v) - 1) & 0x1F) << 16)
+-#define RPCIF_DRCR_RCF		BIT(9)
+-#define RPCIF_DRCR_RBE		BIT(8)
+-#define RPCIF_DRCR_SSLE		BIT(0)
+-
+-#define RPCIF_DRCMR		0x0010	/* R/W */
+-#define RPCIF_DRCMR_CMD(c)	(((c) & 0xFF) << 16)
+-#define RPCIF_DRCMR_OCMD(c)	(((c) & 0xFF) << 0)
+-
+-#define RPCIF_DREAR		0x0014	/* R/W */
+-#define RPCIF_DREAR_EAV(c)	(((c) & 0xF) << 16)
+-#define RPCIF_DREAR_EAC(c)	(((c) & 0x7) << 0)
+-
+-#define RPCIF_DROPR		0x0018	/* R/W */
+-
+-#define RPCIF_DRENR		0x001C	/* R/W */
+-#define RPCIF_DRENR_CDB(o)	(u32)((((o) & 0x3) << 30))
+-#define RPCIF_DRENR_OCDB(o)	(((o) & 0x3) << 28)
+-#define RPCIF_DRENR_ADB(o)	(((o) & 0x3) << 24)
+-#define RPCIF_DRENR_OPDB(o)	(((o) & 0x3) << 20)
+-#define RPCIF_DRENR_DRDB(o)	(((o) & 0x3) << 16)
+-#define RPCIF_DRENR_DME		BIT(15)
+-#define RPCIF_DRENR_CDE		BIT(14)
+-#define RPCIF_DRENR_OCDE	BIT(12)
+-#define RPCIF_DRENR_ADE(v)	(((v) & 0xF) << 8)
+-#define RPCIF_DRENR_OPDE(v)	(((v) & 0xF) << 4)
+-
+-#define RPCIF_SMCR		0x0020	/* R/W */
+-#define RPCIF_SMCR_SSLKP	BIT(8)
+-#define RPCIF_SMCR_SPIRE	BIT(2)
+-#define RPCIF_SMCR_SPIWE	BIT(1)
+-#define RPCIF_SMCR_SPIE		BIT(0)
+-
+-#define RPCIF_SMCMR		0x0024	/* R/W */
+-#define RPCIF_SMCMR_CMD(c)	(((c) & 0xFF) << 16)
+-#define RPCIF_SMCMR_OCMD(c)	(((c) & 0xFF) << 0)
+-
+-#define RPCIF_SMADR		0x0028	/* R/W */
+-
+-#define RPCIF_SMOPR		0x002C	/* R/W */
+-#define RPCIF_SMOPR_OPD3(o)	(((o) & 0xFF) << 24)
+-#define RPCIF_SMOPR_OPD2(o)	(((o) & 0xFF) << 16)
+-#define RPCIF_SMOPR_OPD1(o)	(((o) & 0xFF) << 8)
+-#define RPCIF_SMOPR_OPD0(o)	(((o) & 0xFF) << 0)
+-
+-#define RPCIF_SMENR		0x0030	/* R/W */
+-#define RPCIF_SMENR_CDB(o)	(((o) & 0x3) << 30)
+-#define RPCIF_SMENR_OCDB(o)	(((o) & 0x3) << 28)
+-#define RPCIF_SMENR_ADB(o)	(((o) & 0x3) << 24)
+-#define RPCIF_SMENR_OPDB(o)	(((o) & 0x3) << 20)
+-#define RPCIF_SMENR_SPIDB(o)	(((o) & 0x3) << 16)
+-#define RPCIF_SMENR_DME		BIT(15)
+-#define RPCIF_SMENR_CDE		BIT(14)
+-#define RPCIF_SMENR_OCDE	BIT(12)
+-#define RPCIF_SMENR_ADE(v)	(((v) & 0xF) << 8)
+-#define RPCIF_SMENR_OPDE(v)	(((v) & 0xF) << 4)
+-#define RPCIF_SMENR_SPIDE(v)	(((v) & 0xF) << 0)
+-
+-#define RPCIF_SMRDR0		0x0038	/* R */
+-#define RPCIF_SMRDR1		0x003C	/* R */
+-#define RPCIF_SMWDR0		0x0040	/* W */
+-#define RPCIF_SMWDR1		0x0044	/* W */
+-
+-#define RPCIF_CMNSR		0x0048	/* R */
+-#define RPCIF_CMNSR_SSLF	BIT(1)
+-#define RPCIF_CMNSR_TEND	BIT(0)
+-
+-#define RPCIF_DRDMCR		0x0058	/* R/W */
+-#define RPCIF_DMDMCR_DMCYC(v)	((((v) - 1) & 0x1F) << 0)
+-
+-#define RPCIF_DRDRENR		0x005C	/* R/W */
+-#define RPCIF_DRDRENR_HYPE(v)	(((v) & 0x7) << 12)
+-#define RPCIF_DRDRENR_ADDRE	BIT(8)
+-#define RPCIF_DRDRENR_OPDRE	BIT(4)
+-#define RPCIF_DRDRENR_DRDRE	BIT(0)
+-
+-#define RPCIF_SMDMCR		0x0060	/* R/W */
+-#define RPCIF_SMDMCR_DMCYC(v)	((((v) - 1) & 0x1F) << 0)
+-
+-#define RPCIF_SMDRENR		0x0064	/* R/W */
+-#define RPCIF_SMDRENR_HYPE(v)	(((v) & 0x7) << 12)
+-#define RPCIF_SMDRENR_ADDRE	BIT(8)
+-#define RPCIF_SMDRENR_OPDRE	BIT(4)
+-#define RPCIF_SMDRENR_SPIDRE	BIT(0)
+-
+-#define RPCIF_PHYADD		0x0070	/* R/W available on R-Car E3/D3/V3M and RZ/G2{E,L} */
+-#define RPCIF_PHYWR		0x0074	/* R/W available on R-Car E3/D3/V3M and RZ/G2{E,L} */
+-
+-#define RPCIF_PHYCNT		0x007C	/* R/W */
+-#define RPCIF_PHYCNT_CAL	BIT(31)
+-#define RPCIF_PHYCNT_OCTA(v)	(((v) & 0x3) << 22)
+-#define RPCIF_PHYCNT_EXDS	BIT(21)
+-#define RPCIF_PHYCNT_OCT	BIT(20)
+-#define RPCIF_PHYCNT_DDRCAL	BIT(19)
+-#define RPCIF_PHYCNT_HS		BIT(18)
+-#define RPCIF_PHYCNT_CKSEL(v)	(((v) & 0x3) << 16) /* valid only for RZ/G2L */
+-#define RPCIF_PHYCNT_STRTIM(v)	(((v) & 0x7) << 15 | ((v) & 0x8) << 24) /* valid for R-Car and RZ/G2{E,H,M,N} */
+-
+-#define RPCIF_PHYCNT_WBUF2	BIT(4)
+-#define RPCIF_PHYCNT_WBUF	BIT(2)
+-#define RPCIF_PHYCNT_PHYMEM(v)	(((v) & 0x3) << 0)
+-#define RPCIF_PHYCNT_PHYMEM_MASK GENMASK(1, 0)
+-
+-#define RPCIF_PHYOFFSET1	0x0080	/* R/W */
+-#define RPCIF_PHYOFFSET1_DDRTMG(v) (((v) & 0x3) << 28)
+-
+-#define RPCIF_PHYOFFSET2	0x0084	/* R/W */
+-#define RPCIF_PHYOFFSET2_OCTTMG(v) (((v) & 0x7) << 8)
+-
+-#define RPCIF_PHYINT		0x0088	/* R/W */
+-#define RPCIF_PHYINT_WPVAL	BIT(1)
++#include "renesas-rpc-if-regs.h"
+ 
+ static const struct regmap_range rpcif_volatile_ranges[] = {
+ 	regmap_reg_range(RPCIF_SMRDR0, RPCIF_SMRDR1),
 -- 
 2.43.0
 
