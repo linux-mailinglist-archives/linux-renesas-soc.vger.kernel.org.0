@@ -1,329 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-14073-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14074-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC293A54B6F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 14:05:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19867A54BA4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 14:11:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2AC6F7A8BC7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 13:04:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 373CC3AA7B5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 13:11:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93308209F44;
-	Thu,  6 Mar 2025 13:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="djNdtBsD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FBD920CCD2;
+	Thu,  6 Mar 2025 13:11:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB254BA4A;
-	Thu,  6 Mar 2025 13:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A2420B80B;
+	Thu,  6 Mar 2025 13:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741266293; cv=none; b=uZd/N8f10ht+vnsWex80zZgrkZMVazgZr3V8gpkky6V78bPiPiqY6ied1m0jFcCU5kaM9ZhyjA5A12YFnQEaqxeLiBibRXfa1GRlh8WcY4ohRN3I23sUcMzBkKxo+l9mS19u2QqqKmin/sbw+LausoAdPSDQ25+DLjop+726YUw=
+	t=1741266697; cv=none; b=kTBpBhkWglcoQgYH7yXF8/0P3Kpy77FOi8Yu/QbmHv75NJjBuQheoZQPgiL7vUbd9Hb5gPSvDkNCoLIJdEpqeqoHkH0mHSg1W6J6WxuvFYm3LHBFqPkP1ANYJJ7BvvIsgV3Gf6F6MWA+B+0ojfqniXX39EiE/Vz80iBNDyFhRZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741266293; c=relaxed/simple;
-	bh=qCDKpADemGDDYCfhI/N5KOQxe8pDvVbHCSJnDL6GYtc=;
+	s=arc-20240116; t=1741266697; c=relaxed/simple;
+	bh=dRlm/a0D4kSZUE2cc0CdWRwz+YlcaHXsHWagbpDoCqc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aj2Dv0OYam2+6dGWlqwWGg2HUryNqPnC4kHBPyjX6OUavxYXHuPfPNCv5RamFPkK/YRk8odRJ2M38w8y1ehyMbt/fZBdPt9Qo995K+Xd6yi8PVWPiCsfwdQ4UbsH1p21mUD+TiM5oXnEe+WReAp05U2E/5rFei7DADrm3v9mtqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=djNdtBsD; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=kTM/WL1ajSEiJMzoiw/I/be5Fc2Z60vRqbM0jpelNX9SiNjMc7xhU7PtcG0OsMJSi4u62ghAdr6RlbOHHVDHjafIGw4ItsUgadi09tTxTgJZtte69z0i7r8e+4PbJAFqVlL0MnSd6B+wz7HTsfyIklob5ldQ6rJcwvZaS+ATurI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6e1b11859a7so2134236d6.1;
-        Thu, 06 Mar 2025 05:04:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741266290; x=1741871090; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fwtQbo4c/+0nP1ZBh3OcW9J/EfLuZOrEvjWNhxSbfx0=;
-        b=djNdtBsDZeGelXkr0YzAo3M2IVLv9Zt3/E48okoyqsqiOwdpL3QphGUqszIUv7srTf
-         Ph6OLgPgCjgci9aGEGRJW0dn/lWvHKtn0bQMd5A8MTp4IeOddN+Pj4B3AMbkHKCSElE9
-         PUAANKR/YJc7D9cShz54V/qqGkUIS8rfsYG8+G2UkVdTIs/6oJ3vucDkOWGqkYmYOecG
-         O891CA0Aq5dGtu6LWiehB1/ci/RhVhBdavxRgesgptF5KYMStUR2TV8IeZN2TDFyuaJc
-         GnutF/Bk2a9aynwx6iY/vfKGOxJSOgQV6EVNmB7MIuptaE2wmrrFAUxLRXkywfaQ8qNx
-         x23w==
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7c0e135e953so60351985a.2;
+        Thu, 06 Mar 2025 05:11:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741266290; x=1741871090;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fwtQbo4c/+0nP1ZBh3OcW9J/EfLuZOrEvjWNhxSbfx0=;
-        b=ObvESyLWqzAjeZ76Epy5Bibvoi4W7yxpqNbZp6eFK4MXk1Oaqzcs965cHFuCVZlZ1X
-         fB6+xZSlHtTYHkmwOt9+OwsN2aJBI61o+LsNUGBF1GiSPsj6TkOKukTh0F35R9v7B3TT
-         msGKBBenYQc5w+ms4KeSWU1CkEsc2fvAM8JE5yiBiIhCK/458VAlwg1d/0eD9/DDpf3T
-         LyGqaqisivNhciTSZdxdi2tbCKjXXEFhlOU2QZ1rvYrbmayJ7hI5zED8DM6b8IRd2adl
-         daeI6Bha11zkhXKHQH98xGGFQBATFx+DrJxOvIuGgS/QyVQk5SAY7MN/vPVa/C3Tu46m
-         ExSA==
-X-Forwarded-Encrypted: i=1; AJvYcCVtrNwLZNXwhxlEBQgiWrxhG0D2qLaUg+A/gh8rfVGurpx+2sPkPIhQHfrwwEsxDBAXTs7ciB/IBIPmGXKD@vger.kernel.org, AJvYcCW+YfBZiY+Gfu6ySSk3It4FGZZ8LGdYHLy6yE4f4+BUppy7tMCBT8N+GIw+C5yUlnAglKtdrixZoAgHnFjSKMVeK/g=@vger.kernel.org, AJvYcCX53tUdc9KjE8ShifM13CTjo9E5lu07MXZU18uV9Goz1FuEMqFc+CucOBLY2i7xdTw6D6CydDp0gas=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrLLNtvDWmCbkF1zSFzAvC0FYaahHrPb4FsEhreAZv33RmCoGx
-	y11ZnTy6IrNjxPrCS4NIiPDmbDo4obI2jPM9w+18p8YoPek8t0QL7q0MOgMpi1UDkD7eCzKNiIV
-	seq3kTFk4e+UXAzAfWjljJ6whQTI=
-X-Gm-Gg: ASbGncu9NmkqgfG0IMXLQ7XGuUNupfieruJ1uQh9phdc+Ie5q5J9XC03sGYZ5ysyZnH
-	rTFj7UOJAx61iAM5quMW4cEfMAcixUoI6UEEJcuS4T1h2l175FrEDybC4JDBsLgkSTAQo1q7XeN
-	5osqVgtH0uOz73Ra+OD+I/iIlJ3FYboMsDlrrCzuHYIT3/PnHSjFwzHTxOsQ==
-X-Google-Smtp-Source: AGHT+IG3jsf38OT7KWRRfxdlMxgW5pX91fPtiKVDYvVnc1lux9uapmuHdKZS92YY6eWhXtrSE5hdsgHhdFYuxrlr/gI=
-X-Received: by 2002:a05:6214:3002:b0:6e8:91fd:cfc0 with SMTP id
- 6a1803df08f44-6e8e6cdd70fmr104063636d6.16.1741266290454; Thu, 06 Mar 2025
- 05:04:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1741266693; x=1741871493;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LPiHpN04cRTMOdXMK76w+uvEzeoLMRWkyD4DypyWh/A=;
+        b=iSkyXqfqTQS6lFPl7mG7QjV9joij0liZu/+GAsHsXB3HPut5XitttgPkwS/qMD/F9G
+         nvfWZ6u+YOxnT3SmTbknMTvrpuM5hKaOtpRCKYvFNIvQJCsnrCvD+aUK1gSfnL3a7R/f
+         3w5nv7veBmPDwt6k0i4mQPSJXxXVTeWPQtQs/TPfyhK1Y34UvcOIk5Jll/VttTTU6NNE
+         tsQCh7yyuVilcjOpw9p438gDcw2jGLA5A8mljKIsWJFn1FUuIUXm/6N3sYAA194Y+7TH
+         y9g0ZgyCpOtqmdLDqCjeKhvTDcu+Z3svS18OrqC60HqYIIxkcPJJ7LWi7HXEOKMCqAmL
+         w2zQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUVvczJX1MXiYEiJispCPCdqVeug3JdhATkuQ31DKiF7gLIe3Xzgj/DL9ap1YbKU4HgaFw3mFHEFpHHIbDc@vger.kernel.org, AJvYcCW8nXV4FujYZWulkMChupFvybDZQRubco/FCZt73oNCBkTPRTYovWBcLYR5LbArAnwUEqWzsXEHzYARk1YVdbXq3qM=@vger.kernel.org, AJvYcCWU+rd+6LbfEe1NTK/3FVIuC2xEMmMnfEaVjiL/gawox6n50pPqhh1oIXctSaiI77a8HGxSFKND@vger.kernel.org, AJvYcCXhlW3I5h/hwCaRxf4pDZlyxCT1QbalW3YfrJmYprv8k+M0O53xHadAANO070Lb1JZwky58PnCAJ8Z+@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzofljd6P/pprU19KkbLYnDXU/8sJKls65U8pKO+gd1LJvGRJao
+	TrQ6aHF+uSKVXzAmXEC07xpOIn1D/6Y2wfHBekJadpWMc0vEJib5kKh26FPD
+X-Gm-Gg: ASbGnctaVYQmkTaWhY8oU68NpClnpo088dlAJswdXB3z2aQ4WcxBlM0gdRPkjSO6eUu
+	FsJ5PkTe877FsGbjgCHJYpG6pZ/jh//7prt8+DUat01hc1r0zMr8E+g2No6dYC0Tf0W+tWvR+yu
+	pb/y1ZB5EJNJ/mI1pJXRrPWGL56sLmIuuaRgYGM4ud/+pB/TiLg6hhH8oTdEwF2x/OwMJryNmdP
+	wQ3YWyYOtlwCC7n2EMhdYM9BhAdzqh7c08kM43SV22pTwzO2gJ5qW2JinES9Y1zvIGjO9M38krU
+	zDxDyIOoZoGAjzt8mVJaq4yBsqrOeicM66Rld2I/xbV21sjZ1yHOdg+3Cjhf+jtBnkuabaSfT8a
+	uZFQjWPs=
+X-Google-Smtp-Source: AGHT+IGA0GTYfX576MPrdqnHBlogSbW8SR1edIWkOXKogDfOZQ6pkY1+USZcuGd+loTgkgECL7a8ig==
+X-Received: by 2002:a05:620a:269f:b0:7c3:c88d:18c1 with SMTP id af79cd13be357-7c3d8e66f9bmr1030108385a.20.1741266693511;
+        Thu, 06 Mar 2025 05:11:33 -0800 (PST)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com. [209.85.219.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c3e551102csm88766085a.101.2025.03.06.05.11.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Mar 2025 05:11:33 -0800 (PST)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6dd1962a75bso4025606d6.3;
+        Thu, 06 Mar 2025 05:11:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU2MYLlw7ibN328iY5WGHKJTJpB+zWFNru5IAPIHmM21e7jrvkYc0WDyJj94OTsIPEt4UA8RvHeJfrf@vger.kernel.org, AJvYcCUdqSgErJufchJQecfeWd7YjxtB7WXDRI70ZyBgPSKkH0h9o4Uhd/lqZWXzTM3s72r9lMaqAzZBv/v7q5lqv9xY0gc=@vger.kernel.org, AJvYcCUhF4j3BVecZX9BHCqBAvWCxFIYHsbcqke8PbFjK3281XKv02uN0ELyGzeVBGapm2nyAZZZ3+SwLjBVLPIa@vger.kernel.org, AJvYcCWtxKQ8KqjsI7hZKAscaiWJe0wF8x42oNcJ4tCmlRoYj+hVnSQmTfvAPqOAbP7ocdb23ouWw7j5@vger.kernel.org
+X-Received: by 2002:a05:6214:5002:b0:6e8:ddf6:d122 with SMTP id
+ 6a1803df08f44-6e8e6cffefdmr107547366d6.3.1741266692832; Thu, 06 Mar 2025
+ 05:11:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250218114353.406684-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250218114353.406684-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUhZ_qV=16jnWD6cPfuMmZpDUeRMTUgbqy=Mkzp-29=bA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUhZ_qV=16jnWD6cPfuMmZpDUeRMTUgbqy=Mkzp-29=bA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 6 Mar 2025 13:04:24 +0000
-X-Gm-Features: AQ5f1JrimiJhSM8I2aViC79LpPFgUNwzAcs3MANZ_cWJOmq-VxT3mgANqF6Vgl0
-Message-ID: <CA+V-a8uvfb=a=K1YzGNeZdiAzeXWMpdbxj=6UuL_xQfxKmOBZA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] clk: renesas: rzv2h-cpg: Add support for enabling PLLs
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+References: <20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250302181808.728734-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250302181808.728734-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 6 Mar 2025 14:11:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX-JwWQfU_hOXY5d_YEzGkyEV-VzFYhrCBFhYtTGEOh1Q@mail.gmail.com>
+X-Gm-Features: AQ5f1Jo9HIe02gzNttfvx4VNon6UEuLOlgjv2g1CM1n3RdjpdbNeDlaqNVgo36U
+Message-ID: <CAMuHMdX-JwWQfU_hOXY5d_YEzGkyEV-VzFYhrCBFhYtTGEOh1Q@mail.gmail.com>
+Subject: Re: [PATCH 3/3] net: stmmac: Add DWMAC glue layer for Renesas GBETH
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, 
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Prabhakar,
 
-Thank you for the review.
+On Sun, 2 Mar 2025 at 19:18, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Renesas RZ/V2H(P) SoC is equipped with Synopsys DesignWare Ethernet
+> Quality-of-Service IP block version 5.20. This commit adds DWMAC glue
+> layer for the Renesas GBETH found on the RZ/V2H(P) SoC.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Wed, Mar 5, 2025 at 4:42=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for your patch!
->
-> On Tue, 18 Feb 2025 at 12:44, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Some RZ/V2H(P) SoC variants do not have a GPU, resulting in PLLGPU bein=
-g
-> > disabled by default in TF-A. Add support for enabling PLL clocks in the
-> > RZ/V2H(P) CPG driver to manage this.
->
-> Does it make sense to enable the GPU PLL if no GPU is present?
->
-No it doesn't,  PLLGPU is enabled on needs basis ie if GPU node is
-enabled the PLLGPU is enabled, if GPU is disabled the PLLGPU will be
-untouched and will remain OFF. Note I also have a patch which does
-disable the PLL's but I have not added as this isn't tested with the
-full system running and I'm not sure if there will be any radiation if
-we turn ON/OFF PLLs (Im discussing this internally once approved I
-will add support to disable PLLs too).
+Thanks for your patch!
 
-GPU node enabled in board DTS:
----------------------------------------------
-root@rzv2h-evk-alpha:~# cat /sys/kernel/debug/clk/clk_summary | grep gpu
-    .pllgpu                          1       1        0
-1260000000  0          0     50000      Y      deviceless
-        no_connection_id
-       .pllgpu_gear                  1       1        0
-630000000   0          0     50000      Y         deviceless
-           no_connection_id
-          gpu_0_clk                  1       2        0
-630000000   0          0     50000      Y            14850000.gpu
-              no_connection_id
+A few early comments...
 
-                                             14850000.gpu
-      no_connection_id
-             gpu_0_ace_clk           0       1        0
-400000000   0          0     50000      N               deviceless
-                 of_clk_get_from_provider
-             gpu_0_axi_clk           1       2        0
-400000000   0          0     50000      Y               14850000.gpu
-                 bus
-root@rzv2h-evk-alpha:~#
+> --- a/drivers/net/ethernet/stmicro/stmmac/Kconfig
+> +++ b/drivers/net/ethernet/stmicro/stmmac/Kconfig
+> @@ -131,6 +131,17 @@ config DWMAC_QCOM_ETHQOS
+>           This selects the Qualcomm ETHQOS glue layer support for the
+>           stmmac device driver.
+>
+> +config DWMAC_RENESAS_GBETH
+> +       tristate "Renesas RZ/V2H(P) GBETH support"
+> +       default ARCH_RENESAS
 
-GPU node disabled in board DTS:
----------------------------------------------
-root@rzv2h-evk-alpha:~# cat /sys/kernel/debug/clk/clk_summary | grep gpu
-    .pllgpu                          0       0        0
-1260000000  0          0     50000      N      deviceless
-        no_connection_id
-       .pllgpu_gear                  0       0        0
-630000000   0          0     50000      Y         deviceless
-           no_connection_id
-          gpu_0_clk                  0       0        0
-630000000   0          0     50000      N            deviceless
-              no_connection_id
-             gpu_0_ace_clk           0       0        0
-400000000   0          0     50000      N               deviceless
-                 no_connection_id
-             gpu_0_axi_clk           0       0        0
-400000000   0          0     50000      N               deviceless
-                 no_connection_id
-root@rzv2h-evk-alpha:~#
+This auto-enables DWMAC_RENESAS_GBETH when building a kernel for e.g
+RZ/N1D, which uses stmmac with DWMAC_RZN1.  So I'll have to disable
+this explicitly in shmobile_defconfig.  This is not a big issue,
+we already have similar constructs (DRM_RCAR_USE_MIPI_DSI defaults to
+DRM_RCAR_DU, but is not used on R-Car Gen1/2).
 
+> +       depends on OF && (ARCH_RENESAS || COMPILE_TEST)
+> +       help
+> +         Support for Gigabit Ethernet Interface (GBETH) on Renesas
+> +         RZ/V2H(P) SoCs.
+> +
+> +         This selects the Renesas RZ/V2H(P) Soc specific glue layer support
+> +         for the stmmac device driver.
+> +
+>  config DWMAC_ROCKCHIP
+>         tristate "Rockchip dwmac support"
+>         default ARCH_ROCKCHIP
 
-> > Introduce `is_enabled` and `enable` callbacks to handle PLL state
-> > transitions. With the `enable` callback, PLLGPU will be turned ON only
-> > when the GPU node is enabled; otherwise, it will remain off. Define new
-> > macros for PLL standby and monitor registers to facilitate this process=
-.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/clk/renesas/rzv2h-cpg.c | 57 +++++++++++++++++++++++++++++++++
-> >  1 file changed, 57 insertions(+)
-> >
-> > diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2=
-h-cpg.c
-> > index 1ebaefb36133..d7230a7e285c 100644
-> > --- a/drivers/clk/renesas/rzv2h-cpg.c
-> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> > @@ -56,9 +56,16 @@
-> >
-> >  #define CPG_CLKSTATUS0         (0x700)
-> >
-> > +#define PLL_STBY_RESETB                BIT(0)
-> > +#define PLL_STBY_RESETB_WEN    BIT(16)
->
-> Please move these just below the definition of PLL_STBY_OFFSET().
-> (Hmm, [KMP]DIV() should be below PLL_CLK1_OFFSET(), and
->  SDIV() below PLL_CLK2_OFFSET()).
->
-OK.
+> --- /dev/null
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
 
-> > +#define PLL_MON_RESETB         BIT(0)
-> > +#define PLL_MON_LOCK           BIT(4)
->
-> Please move these just below the definition of PLL_MON_OFFSET().
->
-OK.
+> +static const char *const renesas_gbeth_clks[] __initconst = {
 
-> > +
-> >  #define PLL_CLK_ACCESS(n)      (!!((n) & BIT(31)))
-> >  #define PLL_CLK1_OFFSET(n)     FIELD_GET(GENMASK(15, 0), (n))
-> >  #define PLL_CLK2_OFFSET(n)     (PLL_CLK1_OFFSET(n) + (0x4))
-> > +#define PLL_STBY_OFFSET(n)     (PLL_CLK1_OFFSET(n) - (0x4))
->
-> Let's subtract 4...
->
-> > +#define PLL_MON_OFFSET(n)      (PLL_STBY_OFFSET(n) + (0x10))
->
-> ... and add 0x10. Where are we now? ;-)
->
-> I think it would be better to store the PLL base offset instead of the
-> PLL CLK1 offset in cpg_core_clk.cfg.conf, and define offsets
-> relative to that:
->
-You mean PLL_STBY offset in cpg_core_clk.cfg.conf and have the below
-CPG_PLL_XX macros.
+WARNING: modpost: vmlinux: section mismatch in reference:
+renesas_gbeth_probe+0x1e0 (section: .text) -> renesas_gbeth_clks
+(section: .init.rodata)
 
-Or maybe instead of using a conf can I add the below?
+Please drop the __initconst.
 
-+/**
-+ * struct pll - Structure for PLL configuration
-+ *
-+ * @offset: STBY register offset
-+ * @clk: Flag to indicate if CLK1/2 are accessible or not
-+ * @sscen: Flag to indicate if SSCEN bit needs enabling/disabling
-+ */
-+struct pll {
-+    unsigned int offset:8;
-+    unsigned int clk:1;
-+    unsigned int sscen:1;
-+};
-+
-+#define PLL_PACK(_offset, _clk, _sscen) \
-+    ((struct pll){ \
-+        .offset =3D _offset, \
-+        .clk =3D _clk \
-+        .sscen =3D _sscen \
-+    })
-+
-+#define PLLCA55        PLL_PACK(0x64, 1, 0)
+> +       "rx", "rx-180", "tx-180",
+> +};
 
+Gr{oetje,eeting}s,
 
->     #define CPG_PLL_STBY    0x000
->     #define CPG_PLL_CLK1    0x004
->     #define CPG_PLL_CLK2    0x008
->     #define CPG_PLL_MON     0x010
->
-> >
-> >  /**
-> >   * struct rzv2h_cpg_priv - Clock Pulse Generator Private Data
-> > @@ -144,6 +151,54 @@ struct ddiv_clk {
-> >
-> >  #define to_ddiv_clock(_div) container_of(_div, struct ddiv_clk, div)
-> >
-> > +static int rzv2h_cpg_pll_clk_is_enabled(struct clk_hw *hw)
-> > +{
-> > +       struct pll_clk *pll_clk =3D to_pll(hw);
-> > +       struct rzv2h_cpg_priv *priv =3D pll_clk->priv;
-> > +       u32 mon_offset =3D PLL_MON_OFFSET(pll_clk->conf);
-> > +       u32 val;
-> > +
-> > +       val =3D readl(priv->base + mon_offset);
->
-> As mon_offset is used only once, you can combine the above 4 lines
-> into a single line.
->
-OK.
+                        Geert
 
-> > +
-> > +       /* Ensure both RESETB and LOCK bits are set */
-> > +       return (val & (PLL_MON_RESETB | PLL_MON_LOCK)) =3D=3D
-> > +              (PLL_MON_RESETB | PLL_MON_LOCK);
-> > +}
-> > +
-> > +static int rzv2h_cpg_pll_clk_enable(struct clk_hw *hw)
-> > +{
-> > +       bool enabled =3D rzv2h_cpg_pll_clk_is_enabled(hw);
-> > +       struct pll_clk *pll_clk =3D to_pll(hw);
-> > +       struct rzv2h_cpg_priv *priv =3D pll_clk->priv;
-> > +       u32 conf =3D pll_clk->conf;
-> > +       unsigned long flags =3D 0;
-> > +       u32 stby_offset;
-> > +       u32 mon_offset;
-> > +       u32 val;
-> > +       int ret;
-> > +
-> > +       if (enabled)
->
->     if (!rzv2h_cpg_pll_clk_is_enabled(hw))
->
-> for brevity.
->
-OK.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> > +               return 0;
-> > +
-> > +       stby_offset =3D PLL_STBY_OFFSET(conf);
-> > +       mon_offset =3D PLL_MON_OFFSET(conf);
-> > +
-> > +       val =3D PLL_STBY_RESETB_WEN | PLL_STBY_RESETB;
-> > +       spin_lock_irqsave(&priv->rmw_lock, flags);
-> > +       writel(val, priv->base + stby_offset);
-> > +       spin_unlock_irqrestore(&priv->rmw_lock, flags);
->
-> A single writel does not need protection by a spinlock.
->
-OK, I will drop it.
-
-> > +
-> > +       /* ensure PLL is in normal mode */
-> > +       ret =3D readl_poll_timeout(priv->base + mon_offset, val,
-> > +                                (val & (PLL_MON_RESETB | PLL_MON_LOCK)=
-) =3D=3D
-> > +                                (PLL_MON_RESETB | PLL_MON_LOCK), 0, 25=
-0000);
->
-> How long does this typically take?
-> I.e. would it make sense to use a non-zero delay_us()?
->
-I'll rework on timeout value.
-
-Cheers,
-Prabhakar
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
