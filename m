@@ -1,131 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-14083-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14084-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDD8A54D8D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 15:22:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9632AA54E08
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 15:43:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 582781893DC2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 14:22:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4AC83A72CF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 14:43:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72B661624ED;
-	Thu,  6 Mar 2025 14:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="nrfZaU4I"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE2A2188724;
+	Thu,  6 Mar 2025 14:43:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A591624DB
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Mar 2025 14:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E0CDF71;
+	Thu,  6 Mar 2025 14:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741270941; cv=none; b=czlWJpJ692SX7jIzY04I4wAdI9Mt3LDcIp8QSr9fByckTmJ5VW9xVeiSHM8Kmf7vfOYm3EnIDU2smHU6avY8ppnBZ7g5y16cIxE3bNlA7UOvQ5uUXh1vujfyedV3WtNykVGTtYMYbHPL7/hVs9wplpCtQdg2bdET4XPKwO+DP9k=
+	t=1741272209; cv=none; b=j7aB2QWhtTgMhC8zaLykSGMsRqFwMJGlC+o+kkP2b8MFENk4hc0KJb5sYbzGhuR3zzeKBC7nwDo2vRoZU15kemXs56+h/mW4s/qsvaCH+CMvO3pSmx3l+udPA85aHA1PPTsedY87jAi9cX1S3ELDcaEAeqCOfEN+Vm63LOJd0LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741270941; c=relaxed/simple;
-	bh=VFbNjEz2+/wlUB7vGFfTzUXZhcULzXWdvo9/ByZBeMA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tq/Vr2wpqqfdb2VbOwS4p5KItLQLaOEuezT3Qx765Co3hSk1roWMxNt7NkUAvm32dYilrpwIA6Izl8fXStgbFJLggHBUzWc4WguRM2krsQ6BDCNlaqIAvxFixo4YjCgZVqUtpJ7AI0tZx5a4tSHWueD06PdxxiV7TqdJ32SyniM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=nrfZaU4I; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3912fdddf8fso222058f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 06 Mar 2025 06:22:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1741270938; x=1741875738; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qxWPSzHzc/Gn35u8MiTD5Axzok0afEcoR/THf4/r/lU=;
-        b=nrfZaU4IkHjsa3NAaXfdf0UPDhMBHJVIxY2nfxvfAZrHgcCkWVuJDZV7nFJ1KVtmgE
-         3MsE/btBochEru7zx8e1OLUjnJ685A1F3PvocidmbRqwGjvNF76rG1lQdujpsBn+MRqD
-         lMc+3wK4hyPcUInz7qzt3JbfTAkMgvavWvI629Trhtsq7BwspSdHLS0k4JJoE7vR/aIP
-         JuxWTXvGjAUyeyzwIPmzElSQwWjxMb0+SXZ9rsn3SfsOqVUIG8h0xFLx4nBzyPZRmyj4
-         ZPzdqybnpv6eQZxCtOJuvxpFj2lAbS7Daha2jftQII1LL06CkInfmjm2xSXJp/iOBd4v
-         wAEA==
+	s=arc-20240116; t=1741272209; c=relaxed/simple;
+	bh=5Z1DMv21sdf0Ne/VuvH+jXpSrvdILbGxdSvlin/45XM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Gl9NG+oLdota9NJ2r16dN1aytLZfsg1ilDQ0f2BHcHDn5diF/ASjbwGLlHKb+tCZBwzWTndc3gOxyUHrTkiCUzgo+9lh7kqZ0gbMZpnsWWaYVnY+pi6f7TgbpCHdH6O7GfcmRWRL1SiM2ynag/mdvSDtKKOtvuGiJvsf1nGupvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-523cbce3fecso686387e0c.0;
+        Thu, 06 Mar 2025 06:43:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741270938; x=1741875738;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qxWPSzHzc/Gn35u8MiTD5Axzok0afEcoR/THf4/r/lU=;
-        b=Cbqc+IPz/4goghrLwzy+8SNccryLVqiAzIareM5pTuHTFAXilM/91w1ULKx66bOLET
-         aI9fGVW4JrD0ccc6zViDDcajTcim1Uf8NuoaTDm67FEzH+Z7mWT5VtD8kC+NzkyBk19Q
-         3zfI3aLwLJqWavINzI+1rOjmQO7GbeEVFhWc0KlIzWqWCF75BbiJLzdeKQoJZnFo70CO
-         NybT70kkENyTjSwQx8UR2s4OVT88LnFlzGvlSMrJxLaQBNYD4RD2w8bALaD19z/VfAoq
-         zfJLQ1/EOMKS13CMOxUsQzFXa6MGD5lv/eFqgm/nTMWH2JjXkQWS9jaEympUAbLmaFXS
-         3zAw==
-X-Forwarded-Encrypted: i=1; AJvYcCVlK3GA103050PPsQrThkpQzIk6Ge5GG/LDztJoNJ+p+TWJw1VTzGfrcOP7nfo9eyNnOnR/RNu6nJjZkzZvgjEBIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJU+u100pn6DdQqzH9sta9p6LXMJCVPedAzzjnecLNzu/idfBK
-	JakOzTYBn3PlV1w5VM4xrbiS2JBxXBI3evYeustmLOxsGmadTeTDpPHM5xJDEjU=
-X-Gm-Gg: ASbGncsmH3cR/vhQDNaIQ5/2mUUSHxJ2n2HuJ9z2YfdiJQL6atQJlyiz7gdGfq5ldXJ
-	vCJNBS+Sr/DSz8UxatisingWRkmNy/R1sESisoLD/0EXgmBU0ZdJ7iGBbUmIywyf6Uo8OzQ2e6u
-	zNgStv2QQdDhX/aet6cXuE5yDhDTEbR5stiVtq4rAF16QwEWxvKjoSV+fXjIKGoJvlPVcjdhjLD
-	9WizfhgS/rIIleFmYoVeEdUy2sZ0XRojm6ICaKyjCVrn0RqvtibaE9muX6luSbrwMYYYr48pVQn
-	DFSQFI+X1uCT+SGTvIvMnh4a3wkIaoz1xLE1iqjIpck=
-X-Google-Smtp-Source: AGHT+IFChfeAEV2PHdYq8EIIGSzRRpBIfJ68YMIUl/Po8biGKN3BXhslg6JIN0LNeFsPkfFqsFEoHw==
-X-Received: by 2002:a05:6000:1f84:b0:390:e535:8740 with SMTP id ffacd0b85a97d-391297dc61dmr2919324f8f.14.1741270937604;
-        Thu, 06 Mar 2025 06:22:17 -0800 (PST)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:ce13:b3e4:d0d:c6a2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bd426c01bsm52206175e9.2.2025.03.06.06.22.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 06:22:17 -0800 (PST)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Simon Horman <horms+renesas@verge.net.au>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: (subset) [PATCH 0/4] Fix missing of_node_put() calls
-Date: Thu,  6 Mar 2025 15:22:15 +0100
-Message-ID: <174127093376.41843.17930645720992126922.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250305163753.34913-1-fabrizio.castro.jz@renesas.com>
-References: <20250305163753.34913-1-fabrizio.castro.jz@renesas.com>
+        d=1e100.net; s=20230601; t=1741272206; x=1741877006;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RUTS2miX6PVep9uVrOr0nGVc9hTpNXk1WYhPSxq21w8=;
+        b=JAOrzSO+11dlk6lppgZ84K0uruNNedjx9l01cSEQ3ZVwgJAXZQ34ysDIjCHq9fPT9m
+         m4Fpin3RvU7ivqzFoV6/HFNdrnVq5BBfwOZ4U6LAnD0Sp8rre3Tl949aNvYmCwTLn81+
+         yrJt1xa0LpXHa0J6xPlytIR8F2kf4oZcVxPcOgEOv9jL76AgDvrrrqvfjxkzmY19YQBt
+         2MjHWnwhy+tki3IbvWkxHS/93K8+4qKcUTiYesWyQiPL12Q+zLckBCHAxO4IvQ5i80y8
+         ko5PnSy3WDydjjTMgsHF54nF26ZiYQTKVs8XbQgpyjpsdSJzPA0Ab9TSbmHNxMVfl8FA
+         64Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCV0+sOo5Ba2ZQklVS8Eej9c20JzU6y0yw+M/b8b7IzDj1vqtN8ZXpmbpAKjgJau76iTAmaJOQsjmKHAm/XiCcnXgds=@vger.kernel.org, AJvYcCVQMKAT7lUm470rauYkR0HFfXmQsrN5cGAX3fitn5Z/A0KIvitsbfEIxpVBAWq97N+qlPT/zhq/CaM=@vger.kernel.org, AJvYcCWCJ75FHLmDgqa8lWUnB5RZG+1bbegRvyhBJ+thGm0tJzM+0DfyCuY4DsmsOFqG4R7iH2rXhj8wvKShVxwC@vger.kernel.org
+X-Gm-Message-State: AOJu0YwP5ytV2rT5hhtGTnEO/N7EJFyumeCYZ1KWv7pUBcEKWdq/UFyF
+	/SPQBZPuCl1XpdkZqtCVFe6oCeFAYa5XQo1iUhSApodRrRc3ZLOnwyGuVTvUTHA=
+X-Gm-Gg: ASbGncsHWDo9WEuo7E9Z3YVtdnkjUL+dymyUbGPbm14s2d9iIkfmidWrqKsYoKs9bti
+	kcmsn+/v/oNqHuyugNL3l7IUwv+oNDFZFhM5GXYoq4HbKJ8jFQ+fvQtSbuhYifSdIckX7Qjdhvu
+	lKnj+j+bAwYBbpf3P+61yRD1FgoTvyALVvN+mU2Ef8cx3ET2Zfu9KGBEoBKs58kBIxOumywk2V0
+	TwCoBT9ZVtL8SURdulHiVtxfFd7dR63xYuMU+706TPqJFBTVBmFgI7gXTxRbi3bDqlB+t306Wvp
+	c83XYtq3lmG5NGeHIO4sk/gfd8n9bTlYZzGZLnzxy3PAEXElwRVW+wvUrljsqRJrEUVSs9JaBq5
+	Jw9PIOsc2ICg=
+X-Google-Smtp-Source: AGHT+IEFTut9cn2GDd24OgwSJAM2WTxPxVzI97cvUXieVhoF3qUJxmVF8A3r+JTAuL5TrHKe7hsw3Q==
+X-Received: by 2002:a05:6122:2011:b0:520:5e9b:49b3 with SMTP id 71dfb90a1353d-523c614d999mr4981039e0c.3.1741272205794;
+        Thu, 06 Mar 2025 06:43:25 -0800 (PST)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-523d8cbbdb3sm194312e0c.48.2025.03.06.06.43.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Mar 2025 06:43:25 -0800 (PST)
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-51eb1a714bfso722134e0c.3;
+        Thu, 06 Mar 2025 06:43:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUZvbGAiKFWFCoPzmNLuj7SdS97ZLRNKNoNmAXQTlHlXPQfwpt7CC1hKmcQE6dfdgGSWGip/P+Mj+MijdGYXVD1zQQ=@vger.kernel.org, AJvYcCWMPoWpRX5mMGxyCUjMga9HfPdJeN8OHZj/h8MHpXPXZI9Ngwr3hmocTq+nl97DRcd4Nc8TQ8PGThm7dzH4@vger.kernel.org, AJvYcCXYsXzAWAD3en6dJMoZWs9vDdWn+zT1S07C4ObXkHK1HoGHEzxlcys3nGR7N7D7u1hIyOTle72T+vM=@vger.kernel.org
+X-Received: by 2002:a05:6102:160d:b0:4c1:869b:7db4 with SMTP id
+ ada2fe7eead31-4c2e27b2c9bmr4823796137.9.1741272203957; Thu, 06 Mar 2025
+ 06:43:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20250228202655.491035-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250228202655.491035-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250228202655.491035-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 6 Mar 2025 15:43:12 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWHpSiVzTeGKZ6tQiHp=6qdzeS6yc9inhQENwVEcSt=eQ@mail.gmail.com>
+X-Gm-Features: AQ5f1Jql0xtkZCUNZvipqcOLg7G1CwUSQ5JTJb7udm5La-IerxFIp1PkKoR1tUY
+Message-ID: <CAMuHMdWHpSiVzTeGKZ6tQiHp=6qdzeS6yc9inhQENwVEcSt=eQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] clk: renesas: rzv2h-cpg: Add macro for defining
+ static dividers
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Hi Prabhakar,
 
+On Fri, 28 Feb 2025 at 21:27, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Unlike dynamic dividers, static dividers do not have a monitor bit.
+> Introduce the `DEF_CSDIV()` macro for defining static dividers, ensuring
+> consistency with existing dynamic divider macros.
+>
+> Additionally, introduce the `CSDIV_NO_MON` macro to indicate the absence
+> of a monitor bit, allowing the monitoring step to be skipped when
+> `mon` is set to `CSDIV_NO_MON`.
+>
+> Note, `rzv2h_cpg_ddiv_clk_register()` will be re-used instead of generic
+> `clk_hw_register_divider_table()` for registering satic dividers
+> as some of the static dividers require RMW operations.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Wed, 05 Mar 2025 16:37:49 +0000, Fabrizio Castro wrote:
-> This series is to fix a missing call to of_node_put() from
-> some of Renesas pinctrl/gpio drivers.
-> 
-> Cheers,
-> Fab
-> 
-> Fabrizio Castro (4):
->   gpio: rcar: Fix missing of_node_put() call
->   pinctrl: renesas: rzg2l: Fix missing of_node_put() call
->   pinctrl: renesas: rzv2m: Fix missing of_node_put() call
->   pinctrl: renesas: rza2: Fix missing of_node_put() call
-> 
-> [...]
+Thanks for your patch!
 
-Applied, thanks!
+I understand this is in preparation of adding GBETH/XSPI clocks, and
+thus related to "[PATCH 2/4] clk: renesas: rzv2h-cpg: Add support for
+static dividers"[1]?
 
-[1/4] gpio: rcar: Fix missing of_node_put() call
-      commit: f5aae815b5f7e79460a724af4debfc9abcac0cc3
+> --- a/drivers/clk/renesas/rzv2h-cpg.h
+> +++ b/drivers/clk/renesas/rzv2h-cpg.h
+> @@ -25,6 +25,14 @@ struct ddiv {
+>         unsigned int monbit:5;
+>  };
+>
+> +/*
+> + * On RZ/V2H(P), the dynamic divider clock supports up to 19 monitor bits,
+> + * while on RZ/G3E, it supports up to 16 monitor bits. Use the maximum value
+> + * `0x1f` to indicate that monitor bits are not supported for static divider
+> + * clocks.
+> + */
+> +#define CSDIV_NO_MON   (0x1f)
+> +
+>  #define DDIV_PACK(_offset, _shift, _width, _monbit) \
+>         ((struct ddiv){ \
+>                 .offset = _offset, \
+> @@ -130,6 +138,8 @@ enum clk_types {
+>                 .parent = _parent, \
+>                 .dtable = _dtable, \
+>                 .flag = CLK_DIVIDER_HIWORD_MASK)
+> +#define DEF_CSDIV(_name, _id, _parent, _ddiv_packed, _dtable) \
+> +       DEF_DDIV(_name, _id, _parent, _ddiv_packed, _dtable)
+>  #define DEF_SMUX(_name, _id, _smux_packed, _parent_names) \
+>         DEF_TYPE(_name, _id, CLK_TYPE_SMUX, \
+>                  .cfg.smux = _smux_packed, \
 
-Best regards,
+However, Biju's patch adds a new composer DEF_SDIV(), and we end up
+with not using DEF_CSDIV() at all?
+
+[1] https://lore.kernel.org/20250303110433.76576-3-biju.das.jz@bp.renesas.com
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
