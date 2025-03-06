@@ -1,128 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-14049-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14050-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18091A545C1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 10:02:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3340DA54642
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 10:27:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF19C188F368
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 09:02:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 61EB6171E3A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 09:27:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BDFF2063F8;
-	Thu,  6 Mar 2025 09:02:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC96220101A;
+	Thu,  6 Mar 2025 09:27:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919171EDA10;
-	Thu,  6 Mar 2025 09:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE3E20967A;
+	Thu,  6 Mar 2025 09:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741251760; cv=none; b=QEN6MsD0vt/SBM6U0hmXqtKhAT0BCN+7h0e2BtylbAXZRc9VVn6mhahOeRuK+MlsAXli+lMsxjCxU4jCCWK6BuFVJ4FObaL1S4kZlxlJAsF3b4+zQovxtCLeCc50LZXLOQonyv3nBY/MI0MvPyvV8CIXfsIVHg4Rk3VQaiLYJdg=
+	t=1741253257; cv=none; b=dL2nf0Vi+LBfnrS9oXTiu6KbF5EbJakLnZzJt4+RuDJ+BkOpUOi+WP3hB6JHq9l3it0Xt3CJUNtgAY/9JK0GwwHf215lE/qmNCG4t3zj/DxQiRSMHih1e0Mjjy8vAT4jseGqAAzPyHGzW9GKaD0jOr9owW5BtLYOmtES066AFFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741251760; c=relaxed/simple;
-	bh=EmzY32j5rrDzC9R6X90mqEI/cN8KHLb58ft9sgUPtjY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ofUhNJX/mQ+8zqs0Gk/TdLKCvvwW7HJd1ONpqG8VXR77bRMIkNje0isVZfjQ3BqA1uyG4hdMnpr/CFsnJPiwEZWtph8Nj8XM5+qafoOOxcGF6lQrXpY0LOqsUmulRtnwSWfq8zRAz0Deq151Ot2TBDOzSkuCenAoRo4OaovwBJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+	s=arc-20240116; t=1741253257; c=relaxed/simple;
+	bh=Xclms58GZcd3iNyePkg8sI8vYZGcYSOTX4hu3NAdpV4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DVQzHN9+3Gel1wCGfN7XOU3lftsOmo3oDPt00kraTN92uINuDuwWQMq/As0fD2rvcjJPaYljkaPW3jb/jmeMBswKum+rTZTY/P6Vc48G9LY09hlm/3yVDAPx7pKW0B7g4aZw63rqZlAvpnq4yOMlkoNwabE8Uo/8fghUclz9TUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2feb91a25bdso666538a91.1;
-        Thu, 06 Mar 2025 01:02:38 -0800 (PST)
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-86b6be2c480so143242241.0;
+        Thu, 06 Mar 2025 01:27:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741251758; x=1741856558;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=61ZqbVDQw/xvqBk0WBOL0pupyCSc6ErVs2yZMS/tx8g=;
-        b=AQ5FqP6VfPPNcJYnrmq4XpuuJUSq07vOciGMMquxTeXLO4mgsJCK6ir5+QB+BeTBjj
-         hVhTmrFddAm8saH2cuDrlUai4JiXBHZZypqfQ99b9LwGldbkb+lZkTBv7GLWeWpDlvF4
-         F4QeWOGJanJ2KAHJkqGS2fIJT7gRy+wblfYRbxlHb7sbqmV3mUPEXHe//+VhQ3Ccl5ZK
-         kwNhDqfO+tE+cG1q6/MW4apXONeUkF7Iar8VL6vUmW+HdF65KhLNMOCEeIV5QPv8GtFV
-         mHdA/3iVbSNN07pb/GwYidMSiCDSH3o5GQ4QjfELqJ6mOyYwxmhan3FD+0KHJLCCd0b2
-         XHKw==
-X-Forwarded-Encrypted: i=1; AJvYcCUfArC9EKanpeTNI6iMvsdyO4LuiH6gwetQZWZU2Czp08t0Ckuq8WN6qUKaV6vas1+kvvvhkMtQ1IHn@vger.kernel.org, AJvYcCWmRtKSSUCc2x5bHtX8dwGmW4hmRCPPagr3OhcqQuZP2NmvsIFTeYt/9d0q3vxhn+DLQ16UhMizsscvrsJHTzVkLQ==@vger.kernel.org, AJvYcCXlXvaerZWUNODoU3oqOvGajzWhBoa1Oh4vEZ4gu6VmXMm8zC+xyUHQ1n/9O1FemHuvo2oku2A/QVgfipYXJJEr2dk=@vger.kernel.org, AJvYcCXn1k4xkNsbR9W0DaQoUV84Af9S8nryi2Chh9WlY5oOR+XMUcmL261J+cvNrf+hvCj+x286oDqqH69a0zg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaaAvOdf35JnE70AkrYp2A0xtagsau6wH+NsRqPNFlibtRb8JM
-	M5sgLtVophYz8U6dothx+KY2X8lSHJIkkQD2GOy7A+emn0rCj51B
-X-Gm-Gg: ASbGncvZCkaZAC+czwhUqNv0MYc3f2KlDuTbGau0R9FwrMLLof3oN6peGk/aSCoeVKY
-	TkfOoDq9Hdn+IvIGSxIPsWp3gLbSS5lNJzb5OCZRB5us3XnK4OoZYwrMmIZpjNPM8woYqN1prjG
-	PRLHOs+XuCV4gaohM5cuM4FOF3KrHWtlwqo6Ty37DGaPA5CfswVIyjNGHacgueAFxgFGEW4qmy+
-	UDs3MhlSGEvJWeJJC7YK12ZC5eBTaYKs19ANCH6juO5OP5nhw4oYqzBzhzSb9y0OCkGwg6p3Tnm
-	xt1mQTZNTm9kxeofNYJPLlI5+qHvTnmZqGGhpSFzqr5ey2wMGtMXo5NkeNrkEzpTRALL/IWqwbH
-	GNf0=
-X-Google-Smtp-Source: AGHT+IEVObRPs9r9DCgAFKVxTkcg7YE/ev/oTYXjSeBAHqcHwBFpzXUfu6D3RSOSTJvuqgree5Nh5A==
-X-Received: by 2002:a17:90b:4c07:b0:2ff:6ac2:c5a6 with SMTP id 98e67ed59e1d1-2ff6ac2c770mr1605779a91.31.1741251757794;
-        Thu, 06 Mar 2025 01:02:37 -0800 (PST)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2ff4e75ed7csm2641751a91.3.2025.03.06.01.02.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 01:02:37 -0800 (PST)
-Date: Thu, 6 Mar 2025 18:02:34 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bjorn Helgaas <helgaas@kernel.org>, Fan Ni <nifan.cxl@gmail.com>,
-	Shradha Todi <shradha.t@samsung.com>, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, lpieralisi@kernel.org,
-	robh@kernel.org, bhelgaas@google.com, jingoohan1@gmail.com,
-	Jonathan.Cameron@huawei.com, a.manzanares@samsung.com,
-	pankaj.dubey@samsung.com, cassel@kernel.org, 18255117159@163.com,
-	xueshuai@linux.alibaba.com, renyu.zj@linux.alibaba.com,
-	will@kernel.org, mark.rutland@arm.com,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v7 3/5] Add debugfs based silicon debug support in DWC
-Message-ID: <20250306090234.GA390800@rocinante>
-References: <20250304171154.njoygsvfd567pb66@thinkpad>
- <20250305173826.GA303920@bhelgaas>
- <20250305182833.cgrwbrcwzjscxmku@thinkpad>
- <20250305190955.GK847772@rocinante>
- <CAMuHMdVRSjkss3gPnocXpfPQ=mEo4AevpaU=fdGvm=kb3RTmcQ@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1741253252; x=1741858052;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HdQx+KIJsDnJBVSMaGvkI3YSEHabOEVxnWoOVvE9sdI=;
+        b=pevN3Qw5qJRtO+4f7bTvuO1th8AeCmYEIoljoW5GTYM45jWb1eK4cG2xyjLXwPXgo6
+         327dQsj00Pwt8KhcWByuYo3+sMOKkZVjEwtka1LSQrxWRDDeBPNWvcY1GU+p9RRoleMd
+         Lkz1foEOxraMqNR+9ff5cfNr18xXcPAQ2C3vwg39vN9k7WiwBT1RNbTzTeO+fYJ4BecK
+         oyzRp1vL95Lz/5nL7BYKhTJSww/TgtHNtZIaFntvJep3gbnP5UDxCrTay9XujuUM/H9M
+         PqcFY9Tvcck7llKTNkOrbqApHvfW2ojqwk60HjqL/wDv1gFWcDKyx1F1GEl6CFA3/xJ6
+         lnjg==
+X-Forwarded-Encrypted: i=1; AJvYcCUx3rHhLmmkMbf6kLX30sp+ir8T4XaZVu4oWk/s1hNVJQOt63gjcTkbwnPvNhBovcV4/Hr41mS5gPU=@vger.kernel.org, AJvYcCV+gCseCusZ7HvQ1jz32YE+iKnq5Bb9pbBUIvqAautLA6SMq4JknBWDKykkurvoCVGUV9OKRGcD19tslrUEaM7+k00=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyj7UTT3xBrTZBQVJ6FLFJ6lT6yOC2AP5wpj1E8uTVilu8Nayc+
+	ypX4eCSWWrJWSV1x4Zz7bjU0MjwsLhBHFaTbNsXICTeQRNaE6stxjfSeEG/9
+X-Gm-Gg: ASbGncsTsnpHoEm9ZmZWqJYjdiPDrj9iYAgkozcypUHZuktAFAl25fdEwBhTtyVQEEe
+	qHwGwfVojxupOcFwBOUUHtEj93PqrEKVzvKsnsrH1OCER36PjtHFW6cPTyD6uICHophwRsW/Rht
+	DHTHo3UHCmbrOzuO4PLA1uR7/TcYJabAeTAgbMQECME1SLcP5aByYxMhSkjxnrVnd7WPv5yWc83
+	Cwdmb8NwXSOCG+JALR2M4FRD7wMqa3dv70IXWr4D+AZUw04h/gdkVYarYLgB1oUGPZaPaYFaoWj
+	yA8CY+T2iU6Qqs74bSX5UoaQZHbG544IS+GXw/8X2Wh8Zbs6k8hZAVAhzcTqDSXQG0FMqIyXAW3
+	LQhOhl2c=
+X-Google-Smtp-Source: AGHT+IEFSU4sQz7l9qOmoB9JxeviVy8pk30eiCgEzyNPfxw/M+wUNjq0wZkCZiEe/Tzzcf9DXuUfiA==
+X-Received: by 2002:a05:6102:5491:b0:4b6:5e0f:6ddc with SMTP id ada2fe7eead31-4c2e27fe211mr3940422137.14.1741253252465;
+        Thu, 06 Mar 2025 01:27:32 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-86d33bdf83asm149878241.8.2025.03.06.01.27.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Mar 2025 01:27:32 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-86718c2c3b9so154394241.2;
+        Thu, 06 Mar 2025 01:27:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUKcxLvWzJV69kODeq6y0MLzNbk8c1EOqwqpZWa0NeIY9royuhcDUcX2AH5wRtlW7c8et9bpTbpnwQ1fPA3lP6X/5Y=@vger.kernel.org, AJvYcCXK0sso1u/rkys/n7Zml6WH+BNl+3aPOSSmqxfNvvgakYkRkd9TNa4nej0xoAGfLaLb3WesixhhunI=@vger.kernel.org
+X-Received: by 2002:a05:6102:f90:b0:4c1:9f48:617e with SMTP id
+ ada2fe7eead31-4c2e2971af8mr4003174137.21.1741253251858; Thu, 06 Mar 2025
+ 01:27:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVRSjkss3gPnocXpfPQ=mEo4AevpaU=fdGvm=kb3RTmcQ@mail.gmail.com>
+References: <20250222142009.41324-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250222142009.41324-1-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 6 Mar 2025 10:27:20 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX4EPzc+_kzpgfhURu_9yq1eNJB2CeOghis04GZPknY6w@mail.gmail.com>
+X-Gm-Features: AQ5f1Jpw1tHYD2UOe-1lIF0b3MJIrK9V3tez1L5A3Mfugh9nSp44LVgCDu-MAts
+Message-ID: <CAMuHMdX4EPzc+_kzpgfhURu_9yq1eNJB2CeOghis04GZPknY6w@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: rzv2h: Adjust for CPG_BUS_m_MSTOP starting
+ from m = 1
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+On Sat, 22 Feb 2025 at 15:20, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Avoid using the "- 1" for finding mstop_index in all functions accessing
+> priv->mstop_count, by adjusting its pointer in rzv2h_cpg_probe().
+>
+> While at it, drop the intermediate local variable index.
+>
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Closes: https://lore.kernel.org/all/CAMuHMdX1gPNCFddg_DyK7Bv0BeFLOLi=5eteT_HhMH=Ph2wVvA@mail.gmail.com/
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-[...]
-> Another issue is that the caller does not handle failures correctly,
-> given (A) the irqdomain WARNING I got, and (B) the half-registered
-> PCI bus, oopsing on "lspci"...
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk for v6.15.
 
-This is something we will look into.  A more robust DesignWare core is
-something we would definitely want to have.
+Gr{oetje,eeting}s,
 
-Sorry about the issues with this...
+                        Geert
 
-[...]
-> > -int dwc_pcie_debugfs_init(struct dw_pcie *pci)
-> > +void dwc_pcie_debugfs_init(struct dw_pcie *pci)
-> >  {
-> >         char dirname[DWC_DEBUGFS_BUF_MAX];
-> >         struct device *dev = pci->dev;
-> > @@ -174,17 +174,15 @@ int dwc_pcie_debugfs_init(struct dw_pcie *pci)
-> >         snprintf(dirname, DWC_DEBUGFS_BUF_MAX, "dwc_pcie_%s", dev_name(dev));
-> >         dir = debugfs_create_dir(dirname, NULL);
-> >         debugfs = devm_kzalloc(dev, sizeof(*debugfs), GFP_KERNEL);
-> > -       if (!debugfs)
-> > -               return -ENOMEM;
-> > +       if (!debugfs) {
-> > +               dev_err(dev, "failed to allocate memory for debugfs\n");
-> 
-> There is no need to print an error message when a memory allocation
-> fails, as the memory allocation core already takes care of that.
-> So please drop the dev_err() call.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Done.  Thank you!
-
-	Krzysztof
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
