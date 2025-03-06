@@ -1,136 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-14088-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14089-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F30A54E4F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 15:54:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2AB6A54E53
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 15:54:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6993D7A1999
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 14:53:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEA97164DCA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 14:54:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8970816DEB3;
-	Thu,  6 Mar 2025 14:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IbEWhMXn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B911718A6BA;
+	Thu,  6 Mar 2025 14:54:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DEC502BE;
-	Thu,  6 Mar 2025 14:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E75502BE;
+	Thu,  6 Mar 2025 14:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741272838; cv=none; b=Nt1pJlW4MhTmvXyqUgFWq67FziJDaRn45ZxIUBPTwrXYh1FjRiCMt4c5+RLt5UXHm6xU6owAyp653z/e/7fh081nNMaYyFWXJSQjkjm8fOG2H1vZUrWXg2KdvNINqo7HW2JPu2V080siRgBexNK+tBb5yz+Hdx09mR6g/Rg/GCc=
+	t=1741272859; cv=none; b=GijjF9mDyJBCqtic5bTUVxnb1+s7itmQ71TL22z1PY4qxU5I6bXXPrqU9ileV0KNFqvbMMgGNuUEIcwvdSzhXPx5thhYqM8RsqW3kCAHhH3wiscs5OKdWsMRyZcGEQ4N4yr0C8UQF4Gtlc/fQjOfPlezaR9ZQI0MSW8Ek6w57UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741272838; c=relaxed/simple;
-	bh=L43l5L0aKGMhRPcDQJ0/CC8lI+T8jjg5nrt/2iFPsvQ=;
+	s=arc-20240116; t=1741272859; c=relaxed/simple;
+	bh=3b05lQoPmfwdxN/nn39tzUnKU7Nb1LFlRiPMuFHjMaU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sk0FLAOBubSALc4Mhk3vhzVQSUGaBcgDaz8d7x0bJlh8yEJM09oqvsl7+m9c1XwP4Dh7422QwJRTfWCSoKNpbJprpF9/tJiSYkrtnXsBkaKFap9kL/JGnVuF7ssWzoXP3BPlpmAna1JPI7N1aDzwT9j5CUZhx7WZfz1/x1f9Qi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IbEWhMXn; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=GIW6FVNc8Fj2JMOiFIv4o1ms2eW3bV+9yMjy9kge3LnWveQM4/3UYoRpyquMN8DsjnvHpWv+W42sn+vuV+vDCBUiajAPYGQOimHquA/Lzek1SRq4F8KBM0VdIs8PTB4gUPZPm8f5Ukp00TOexM40wQb33qSYLUZCqAu9glRS2d0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-867129fdb0aso660683241.1;
-        Thu, 06 Mar 2025 06:53:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741272836; x=1741877636; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L43l5L0aKGMhRPcDQJ0/CC8lI+T8jjg5nrt/2iFPsvQ=;
-        b=IbEWhMXnK07h9WJ8Mk86Z6h3jBUTJrwZLJOTYflq8cUzvz+v8gnuMCnofG8vQYLj8a
-         ZsWt1MKqPR1CpvmLJwWO/IFJ7i1C98pYGlB9p9RMZtSphPj3Aq0H9da4wvwOrnlP3WU2
-         687Ol+GslPf04FHDBdZmkUUqHdgfMUWhfKzUPTfKVDI3G9TZXoa3BzFWY3/9gQ4rtkdW
-         8eR0DeQG9Kf3AgcBsQuu/xDG2hAexR6G2jDPsz4lBQNUzx1Fu4r+v1/dP9cEOEZWybLE
-         nSz2uT2R9yjvTpM0O7rGnO0v0EoadK4k2vP0gN6Fa0GFJAFwyy7TVG3elaT8/AKcBOgj
-         yf+g==
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-523dc3649edso185304e0c.0;
+        Thu, 06 Mar 2025 06:54:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741272836; x=1741877636;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L43l5L0aKGMhRPcDQJ0/CC8lI+T8jjg5nrt/2iFPsvQ=;
-        b=hvanAqEKEcF16/CCcr92YMrcnWA4qoypDHTD2AOzjYiCAyBwTrALBdZFe4GJONS46D
-         9kwgTdeCRuopQnzq4DLl++6Ckvrn3yY+NvXjMP+TLymzmuMI6qPy0EkcGB10Avt6GIhq
-         CRwKt7wPmmGPRTDiCMtRRRNnyRovS1dCN+dlXp34BdCSSDik0BzEwUyXg3x/jtr10TSY
-         WObjgWSZNyFmXaSQ9fXvf2M8c4H5rZG1QUhF5/zpn/gy9eUpYp7HEcgynj2qZ3iUbtGd
-         VIjO7/GhCHKf8doiJLoDofz6TY6GB5q4C6MpteKTU6oAwx9a+/kGJF4wxg6w8KW3qlZv
-         xPVA==
-X-Forwarded-Encrypted: i=1; AJvYcCU4EWqoeUDiFJvz82SsBgdYfwlpeXe+fBiNYaLG/boja/hZhodDKBGSmMDI8Y6I/s+jF4QxSvk5SsQuISJ0@vger.kernel.org, AJvYcCUknWd0smsoUS1HE5PDGiBGsNErPlTEfbN/LqGcJvpWdSWSdkmRXVBOw+urNQWJmnse+7stNsNpzluAQj2E5r7Kxjs=@vger.kernel.org, AJvYcCVvNPDK2tLLF91MzbrwtS3aZKFwScC682+0iDfkXXHMTv1VZGfkR5Xp1Sh4/H8jFEFl6HvpMV72i7I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWfMqn18vfn5a+yybF/iEZ22qFgAYuHjCRb4CZyA3devWdlIDl
-	nDG9Y5MHdnnpGjFRxADNQcJl7wW9o6GhzvUTRJp4+BBktoEgxvtZrqQ1xQuPpbG2JfjswOxMvzo
-	pClC1ePs56ECDbnmBr+gJ483YF28=
-X-Gm-Gg: ASbGncvmjhNTsGOQxVcRsclXl6EZnF7ftpe8XS8YvqHos4Z/mCVayl8UV4ULTGKmxiJ
-	jlpvGOGM61v09TIe8wkO2/pLDZgzAsz5kFdpVAVcyvVlpI3M8SbykfRQPDbPp5h6m6Isn3dmHS2
-	bQZD8/pChbQVfFwVNQBQfMqHiX/D/Gdlj0fiAH1PZzpPjwdviw4+dvgAyosw==
-X-Google-Smtp-Source: AGHT+IGqmLokJ3KJDo31L30El0w7xded9vOtZlXOa/9XYifoKLV65yNuKzrYpJ7pN5kz/xSTPRyXyI2MgwWh37bvkws=
-X-Received: by 2002:a05:6102:3711:b0:4bb:9b46:3f6f with SMTP id
- ada2fe7eead31-4c2e27505femr4829705137.1.1741272834716; Thu, 06 Mar 2025
- 06:53:54 -0800 (PST)
+        d=1e100.net; s=20230601; t=1741272855; x=1741877655;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BQszd6Rcuah2ZLoMRf35X23n2wyRO4Wt+Ll9IkLTxlA=;
+        b=nWjIrO80uh4sK7nUfjrQOpRb2px4PbWSJk5aVEUGzOfs85AniyRz1koylC3vgGoVw4
+         SyNS7Cw5F8Py+LN58xTg2A8SvPMjrNs7ORLrXhLpWNNYBeffjAI/m6YIPY799CoR/PGt
+         4mTmGv6HMQgAsA8oAyJUru+cWNUVfBZJa/hxH2FraNWOu/PNiLXjPEBK80rYj1ZiZBOM
+         Bhopl7nT0eODyYRSKGESCIxPKLSWKx7RmwtDOCGEY+6TaQ6svh6Tl75X+VAU81EUjjfs
+         fH1UB5TNQ8QOYTkFLVwTocBlc2DHupkPH0m7C/qdtnuEHfMWXXdMmv7aLtZgWjpdyxI1
+         gEVg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEo8jb2EQPGDD/Sl7EBw2Pp1kQjlfYG6IrAw3P3vd7Z9ANtiNWbfusHBEozQT9FwiW1Uiys2aX3wvm@vger.kernel.org, AJvYcCWAKT9iTJcSXqfdwlSOpO1iN22jkWC/I6PuXYyBhmkv5NpFQEVbx4i5OqPjqQZ6YC5nPld5PbtMuB6LV8ASLh3MIHg=@vger.kernel.org, AJvYcCXbPg87bdLELUkERtSKzIpdwsta2OISCJw2tkIpVKEr8dxqju8CDHSiDDIt+BVMIR1ABdCJ/y3B5N89r3C6@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMHd57pynWCCOQnaS794tJ2/3d4WzTaLcZvtqfOlNdtJ3Zmjja
+	xvst2pQmsHUCmis57LBfceUCTc8iE50oaNnL7HgWrq9IhBaDbgUpSjz25nT8D8o=
+X-Gm-Gg: ASbGnct4IjikYLoyJMON0sQAgLOVws+rGedbKBG3TnZFmy/C9rgdASNdrNZvuPGvx9W
+	fuv9lLXlXWxbvUK2+CzbLiU1SerCE3x3Cba/QyHqyF9Hb+GxXfzhUH7hrf+zEO4iSkXxWoqWePr
+	CxAJAjsF3T2qjsBX4F9nxjQWQHGxL4a0D+3NC7ML/iEuYKINoLuHJ6vBvHKECsj/RJWUynpZqcY
+	O4dC6a/3xsi1dmR0D3Iixl2wVgHnNTG20wuuMO1KEfA/f87aSEglfRoD9E9Hm3tiUXlvEk+akNF
+	LuVgJWnaOtgTc5WK/GRhmjAeFT0rrCvh3dLNnpr6JSnjGI5XP5uX8uU+4fLnYM/RfVDp1Gr8/6t
+	Y3riezmw=
+X-Google-Smtp-Source: AGHT+IH5Pt3jT4r99CLjSdWNCzRS3IE8UUvwYf6xLQrng7gN1DfIwz6DPRBZCZPi6jMC7PuPAnhqBg==
+X-Received: by 2002:a05:6122:3a10:b0:523:8230:70db with SMTP id 71dfb90a1353d-523c62ef265mr4288522e0c.10.1741272855243;
+        Thu, 06 Mar 2025 06:54:15 -0800 (PST)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-523d8cb6204sm191360e0c.39.2025.03.06.06.54.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Mar 2025 06:54:14 -0800 (PST)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-86d3907524cso169768241.0;
+        Thu, 06 Mar 2025 06:54:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVlKLEFzYZf/7IByBtDuanbjzvQ+YnnbLpG0ND6RlULLFcZehz4O6PZmuefGrzGp45lV67yEThVobXuo6IVD/Kz2ak=@vger.kernel.org, AJvYcCWju6aYynD+XL/jaW9XlHwERNaUbGqrDewcNn0FNbXKvCU6k8+xaJqmXRl/hTklN7fLKozrkX7dprPr@vger.kernel.org, AJvYcCXnzrcM3QUGn/DCy/XmLLxs+n9owyO1GLe+487yEhxk02tb9gm4VYmPDyS8LW+xYEpuSKOoxZF1xAGTb48I@vger.kernel.org
+X-Received: by 2002:a05:6102:4409:b0:4c1:9e13:8283 with SMTP id
+ ada2fe7eead31-4c2e2a5890amr5334076137.25.1741272854631; Thu, 06 Mar 2025
+ 06:54:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250228202655.491035-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250228202655.491035-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWHpSiVzTeGKZ6tQiHp=6qdzeS6yc9inhQENwVEcSt=eQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWHpSiVzTeGKZ6tQiHp=6qdzeS6yc9inhQENwVEcSt=eQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 6 Mar 2025 14:53:13 +0000
-X-Gm-Features: AQ5f1JquiS-A84gEKB4DV-1EHIFUYxRrS7q3p-iSDtPm8un50mh2qquePY6jixs
-Message-ID: <CA+V-a8uvLbmhngzAXC5Y-onQ3UEOR9jXDYrPtT0GFMRan2bnLw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] clk: renesas: rzv2h-cpg: Add macro for defining
- static dividers
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250305163753.34913-1-fabrizio.castro.jz@renesas.com> <20250305163753.34913-4-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20250305163753.34913-4-fabrizio.castro.jz@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 6 Mar 2025 15:54:01 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUq7+j8AZDiXzjU4pcw2RLp9dV_+Tw90SWqeXsVv+vauw@mail.gmail.com>
+X-Gm-Features: AQ5f1JryqcQ6dOrp6yyeJ4w_Y5UIsOTRUgkgptmLPhsjZZW92onlEA82BkBAw7E
+Message-ID: <CAMuHMdUq7+j8AZDiXzjU4pcw2RLp9dV_+Tw90SWqeXsVv+vauw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] pinctrl: renesas: rzv2m: Fix missing of_node_put() call
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+On Wed, 5 Mar 2025 at 17:38, Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> of_parse_phandle_with_fixed_args() requires its caller to
+> call into of_node_put() on the node pointer from the output
+> structure, but such a call is currently missing.
+>
+> Call into of_node_put() to rectify that.
+>
+> Fixes: 92a9b8252576 ("pinctrl: renesas: Add RZ/V2M pin and gpio controller driver")
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
-On Thu, Mar 6, 2025 at 2:43=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, 28 Feb 2025 at 21:27, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Unlike dynamic dividers, static dividers do not have a monitor bit.
-> > Introduce the `DEF_CSDIV()` macro for defining static dividers, ensurin=
-g
-> > consistency with existing dynamic divider macros.
-> >
-> > Additionally, introduce the `CSDIV_NO_MON` macro to indicate the absenc=
-e
-> > of a monitor bit, allowing the monitoring step to be skipped when
-> > `mon` is set to `CSDIV_NO_MON`.
-> >
-> > Note, `rzv2h_cpg_ddiv_clk_register()` will be re-used instead of generi=
-c
-> > `clk_hw_register_divider_table()` for registering satic dividers
-> > as some of the static dividers require RMW operations.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> I understand this is in preparation of adding GBETH/XSPI clocks, and
-> thus related to "[PATCH 2/4] clk: renesas: rzv2h-cpg: Add support for
-> static dividers"[1]?
->
-I will send out patches for GBETH clocks which will use the
-DEF_CSDIV() macro. Basically DEF_CSDIV() macro will be used IPs which
-require RMW operations whereas in case Biju's patch DEF_SDIV() macro
-will be used IP's which do not need RMW operations.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl for v6.15.
 
-Cheers,
-Prabhakar
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
