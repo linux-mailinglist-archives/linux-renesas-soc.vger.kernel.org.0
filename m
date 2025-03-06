@@ -1,90 +1,86 @@
-Return-Path: <linux-renesas-soc+bounces-14044-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14045-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB21A53F2A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 01:32:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3328A54204
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 06:19:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3CC0C1703D3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 00:32:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 466C27A7DE6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Mar 2025 05:18:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9975517BBF;
-	Thu,  6 Mar 2025 00:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E607B199FB2;
+	Thu,  6 Mar 2025 05:19:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="hzj+OhjT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D7JgQE1c"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2F933DB;
-	Thu,  6 Mar 2025 00:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2153119CC34;
+	Thu,  6 Mar 2025 05:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741221130; cv=none; b=cEPfMFZcE1UO5+vRQ8OEP/rn6nXRe/W6zPcJ2SwN+g+L860Ugorlzt1oH0oFwLGrNiXtJ4yNPalUZZt5zUaNgs03/+Lh75yXi9CZoEM+Tc/6vraD7VevNlrdIycL3nvoh86QhcfXr4LcjP7PzxZqrBYKONi+Va9aRabt8IBVUMc=
+	t=1741238351; cv=none; b=oA/0G+UY9Uec6rsV5tepC+noIkZt+ZNroT4tgSkdD2bMeYTNfCAlTWCsimuMBpGp+LMy4AAxSv7tdoB0ecygpxXaMFl7yB/G2RAxRtcdKyNCRaJavRulrdKrkI2Sz8VW3wZRf1iZXmxQqh/AGpW0HrMExZh3FgZhmmMeXGn7G6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741221130; c=relaxed/simple;
-	bh=YSgf5CDzA0ss+PwLHPtQej1mUa4XBDf4Gq7G9tQDejo=;
+	s=arc-20240116; t=1741238351; c=relaxed/simple;
+	bh=GBhGJQFVUp0DBFSgOeX2s/lBWXZsL6lcQdlBxwYdn+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AH3Ghvk44paEucq0lavDRMga0CkeK1wrVsdIYWtYuxTxVXFfUQreUe2lF0rQ260oZZT2wuQJ8By7OSWolEzd2UFhWaHOPEeJyaDkQZ7Jhe2Iv5I6CY89g34/zb2HzzCV+LI5eGnqhpFaOVMnQD16H2TA6JrfQt0/AKCVzoGojxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=hzj+OhjT; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=kUbOWVUUO3yOlnIfglKELSgnsKJiWXMSUdsbxd9R494=; b=hzj+OhjTv/kE2HesnAtGrZbxbc
-	C3DkNnsKLEf+ER8erB/OWR/2Pl+FITCYEUCZBhUiqo5WHCgP1+qPYrkBXlJx6okmYbnBLTi4LU3/q
-	4H2wcVpwk5OLZMldr7NGxReptG3u/d6Tr0FrqeYLmBQ+7QajxDKLh1U18pbleTn2F+Rg32jJWjlU7
-	ZBvnzTwdDfLxEfGisjzc8c2zqNN92W+YlFUqmvPtugMarW6MkQEZcfxuAD2MEGSNKUuD3Ri7NznhD
-	hUq5DUzfutJUZxtX/8QNdQgSQdDkZICP3VH5cSBdJvcZ0J5BjtdgoTg8eX5ayZIU29tHnOgTuMysg
-	rMmZWgqg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37982)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1tpz9R-000595-0h;
-	Thu, 06 Mar 2025 00:31:49 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1tpz9L-0006Ez-2j;
-	Thu, 06 Mar 2025 00:31:43 +0000
-Date: Thu, 6 Mar 2025 00:31:43 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 3/3] net: stmmac: Add DWMAC glue layer for Renesas GBETH
-Message-ID: <Z8js74ASE_b-y9sR@shell.armlinux.org.uk>
-References: <20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250302181808.728734-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Z8SydsdDsZfdrdbE@shell.armlinux.org.uk>
- <CA+V-a8vCB7nP=tsv4UkOwODSs-9hiG-PxN6cpihfvwjq2itAHg@mail.gmail.com>
- <Z8TRQX2eaNzXOzV0@shell.armlinux.org.uk>
- <CA+V-a8vykhxqP30iTwN6yrqDgT8YRVE_MadjiTFp653rHVqMNg@mail.gmail.com>
- <Z8WQJQo5kW9QV-wV@shell.armlinux.org.uk>
- <CA+V-a8vCqxCaB_UEf-Ysg3biu5VoQ2_0OxWnN97Mdee9Op3YDA@mail.gmail.com>
- <Z8XZh9nvX3yrE6wB@shell.armlinux.org.uk>
- <CA+V-a8teuTznxBE2_LqqQcqRgQu1saAMuOUST8jFLFFTALqUMw@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=McfRFsZemi/5BHVsru61Aa9kjWQkP6O/Bw8+HRz9SXqVtwd2odcroiJ4cZI+YdcL8ErI+AItmX7O8jTQtXs4uBTUxjIAtBzDoK/PAP0SyD4qv/PTNStnIW5ennRnHLgnKKCMGm5+g0S7xfaMxU9K0kJSE21zlY8vji5wOkAVBRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D7JgQE1c; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22401f4d35aso3412965ad.2;
+        Wed, 05 Mar 2025 21:19:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741238349; x=1741843149; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tJtwMe1X/zUAgfEFzqCMQ1vGgIM46WDrkgUgbvwlPwM=;
+        b=D7JgQE1cJT5V9AiKugphDS/aSgy02WbODB209KZNGp9H2VET9atNdgrmdgLym3myRE
+         z6FbuCmPYiDJzc3DxKdv1jSJh/dDO/skxhkjifAnIrcQvgxTzlbzVzxb28HX6TPr4Iko
+         YcrBshqcEz17k+DkYwAU2dQf71tqun+bs6V1EY2CvXfCQSI3THWzAIQ8dCWzSENyvyLa
+         ABbXWFOTPNl4w+ax3WpC+Aq15tmbKM+Jb5wGWQR7H24ipfRhK856bzP6EHer2fc32EdV
+         /lINhJGZStUvYm5zL3Gcdoxu6qOY/m1662NSGlPN42v6eOWkl0cstXqSFuN+SMMVWQ7G
+         wgyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741238349; x=1741843149;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tJtwMe1X/zUAgfEFzqCMQ1vGgIM46WDrkgUgbvwlPwM=;
+        b=R7VGde1NaMJJbcdFkGhuejRsNOji4f6wSPWUQBTWBBWyLlyV3aywT9mZVgi/kDJG9A
+         sToeV+tgCQvbGS4SLAn44aflDhMq7zRJGiEuM4FlYqPXeIQtdDo5H14WNj3blee5wfic
+         x3FaufrSfed5cXXKxZSfNIT5Gb5NgSkKP/reetoXruGJizy3ApuOufF0R2zgZlqYzYmm
+         lSASUhQBN0GC7M5IJjYCkpdLSl40tq3q4sWNeogOG1GfXpFEXwN+vQ1SdnKgeKeLHyMx
+         EBpqPmjRA0oTyCw6c8Q/4AvxWpLMMjrIS3zbPuTJ2dUuprmSHG/w1SHZ4wKq1jOineLC
+         Inug==
+X-Forwarded-Encrypted: i=1; AJvYcCVTf6EMmW+foA29aHDGl1vSYtcLWLIq+PnJu7GVn8OktNmr/CT0cynQ+lnvjEJyJMe66GZmCtgx/9vLlg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaaY4PAJYJo6xTbUqrLtFMimQ4Lao+2iSzrPnf40PNNqckr8xx
+	ghFjQ3O9yC0DbJg5FcYJD6hu/oE3/4EPEjRZoBoNAa4v3mo8EFEh3cMPwA==
+X-Gm-Gg: ASbGncuIinLM/OHyFWxdE/Ogr/+hFAwKQ13nhz/nqEVg+ESfkcDt3qN5JcN30GFo7vb
+	d4LPoHjJjEgmLUKEpVLLeLKtCoTCt1n224JBX21QC0qiohRnruUTDYA8YrnusDF8A8YY4WBKZa7
+	AsECNw3KgcDvWagSXN0u7XIVjYXaAgZA/mO/rZGt4cSOztElGCgvuZmsjCaJ5gqmmuzqa7r7Wpt
+	qPZeGRvTFJkyvQUSCGxuHyPCR8GMWvoiGgoYFSAu6SYfsScik+kbSPFVMrad8c0GPfkimrm8Xk2
+	tlAF/KV+Ng+2UEt5v+Ah1NDpbY7Jcu+8m5nBra8O1PGc3WFpLhY+Tqy6Lg==
+X-Google-Smtp-Source: AGHT+IFKXqpkkRR9FL29DsIZ/ED4xOiePf6uTtoiIZYEaOB6o4yt1mfNjDoCD26ggh6AnUZDCETS9Q==
+X-Received: by 2002:a05:6a00:170c:b0:736:3184:7fe8 with SMTP id d2e1a72fcca58-73682b54a53mr8560688b3a.2.1741238349063;
+        Wed, 05 Mar 2025 21:19:09 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-736984f725dsm392818b3a.95.2025.03.05.21.19.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 21:19:08 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 5 Mar 2025 21:19:07 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Cosmo Chou <cosmo.chou@quantatw.com>,
+	Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH RFT v3] hwmon: (pt5161l) Use per-client debugfs entry
+Message-ID: <25888f0b-bbd5-44bf-9c5d-406c3a469b3f@roeck-us.net>
+References: <20250305123149.16990-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -93,136 +89,23 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8teuTznxBE2_LqqQcqRgQu1saAMuOUST8jFLFFTALqUMw@mail.gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <20250305123149.16990-2-wsa+renesas@sang-engineering.com>
 
-On Wed, Mar 05, 2025 at 09:26:43PM +0000, Lad, Prabhakar wrote:
-> I did investigate on these lines:
+On Wed, Mar 05, 2025 at 01:30:12PM +0100, Wolfram Sang wrote:
+> The I2C core now offers a debugfs-directory per client. Use it and
+> remove the custom handling.
 > 
-> 1] With my current patch series I have the below in remove callback
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> Changes since v2: add 'client' as a parameter to the debugfs init
+> function.
 > 
-> +static void renesas_gbeth_remove(struct platform_device *pdev)
-> +{
-> +       struct renesas_gbeth *gbeth = get_stmmac_bsp_priv(&pdev->dev);
-> +
-> +       stmmac_dvr_remove(&pdev->dev);
-> +
-> +       clk_bulk_disable_unprepare(gbeth->num_clks, gbeth->clks);
-> +}
+> Sorry, sent an old version as v2 :(
 > 
-> After dumping the CLK registers I found out that the Rx and Rx-180 CLK
-> never got turned OFF after unbind.
+No worries.
 
-I think that's where further investigation needs to happen. This
-suggests there's more enables than disables for these clocks, but
-there's nothing that I can see in your submitted driver that would
-account for that behaviour.
+I think this is safe enough to apply. Added to my hwmon-next branch.
 
-> 2] I replaced the remove callback with below ie first turn OFF
-> Tx-180/Rx/Rx-180 clocks
-> 
-> +static void renesas_gbeth_remove(struct platform_device *pdev)
-> +{
-> +       struct renesas_gbeth *gbeth = get_stmmac_bsp_priv(&pdev->dev);
-> +
-> +       clk_bulk_disable_unprepare(gbeth->num_clks, gbeth->clks);
-> +
-> +      stmmac_dvr_remove(&pdev->dev);
-> +}
-> 
-> After dumping the CLK registers I confirmed all the clocks were OFF
-> (CSR/PCLK/Tx/Tx-180/Rx/Rx-180) after unbind operation. Now when I do a
-> bind operation Rx clock fails to enable, which is probably because the
-> PHY is not providing any clock.
-
-However, disabling clocks _before_ unregistering the net device is a
-bad thing to do! The netdev could still be in use.
-
-You can add:
-
-	if (ndev->phydev)
-		phy_eee_rx_clock_stop(ndev->phydev, false);
-
-just before unregister_netdev() in stmmac_dvr_remove() only as a way
-to test out that idea.
-
-Do the clock registers you refer to only update when the relevant
-clocks are actually running?
-
-> > However, PHYs that have negotiated EEE are permitted to stop their
-> > receive clock, which can be enabled by an appropriate control bit.
-> > phy_eee_rx_clock_stop() manipulates that bit. stmmac has in most
-> > cases permitted the PHY to stop its receive clock.
-> >
-> You mean phy_eee_rx_clock_stop() is the one which tells the PHY to
-> disable the Rx clocks? Actually I tried the below hunk with this as
-> well the Rx clock fails to be turned ON after unbind/bind operation.
-
-phy_eee_rx_clock_stop() doesn't turn the clock on/off per-se, it
-controls the bit which gives the PHY permission to disable the clock
-when the media is in EEE low-power mode. Note that 802.3 does not
-give a default setting for this bit, so:
-
-> diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
-> index 0ba434104f5b..e16f4a6f5715 100644
-> --- a/drivers/net/phy/phy.c
-> +++ b/drivers/net/phy/phy.c
-> @@ -1756,6 +1756,7 @@ EXPORT_SYMBOL_GPL(phy_eee_tx_clock_stop_capable);
->   */
->  int phy_eee_rx_clock_stop(struct phy_device *phydev, bool clk_stop_enable)
->  {
-> +       return 0;
->         int ret;
-> 
->         /* Configure the PHY to stop receiving xMII
-
-May not be wise, and if you want to ensure that the PHY does not stop
-the clock, then forcing clk_stop_enable to zero would be better.
-
-> > NVidia have been a recent victim of this - it is desirable to allow
-> > receive clock stop, but there hasn't been the APIs in the kernel
-> > to allow MAC drivers to re-enable the clock when they need it.
-> >
-> > Up until now, I had thought this was just a suspend/resume issue
-> > (which is NVidia's reported case). Your testing suggests that it is
-> > more widespread than that.
-> >
-> > While I've been waiting to hear from you, I've prepared some patches
-> > that change the solution that I proposed for NVidia (currently on top
-> > of that patch set).
->
-> I tried your latest patches [0], this didnt resolve the issue.
-
-I assume without the modification to phy_eee_rx_clock_stop() above -
-thanks. If so, then your issue is not EEE related.
-
-> [0] https://lore.kernel.org/all/Z8bbnSG67rqTj0pH@shell.armlinux.org.uk/
-
-Wasn't quite the latest, but still had the same build bug (thanks for
-reporting, now fixed.) Latest is equivalent so no need to re-test.
-
-> > However, before I proceed with them, I need you to get to the bottom
-> > of why:
-> >
-> > # ip li set dev $if down
-> > # ip li set dev $if up
-> >
-> > doesn't trigger it, but removing and re-inserting the module does.
-> >
-> Doing the above does not turn OFF/ON all the clocks. Looking at the
-> dump from the CLK driver on my platform only stmmaceth and pclk are
-> the clocks which get toggled and rest remain ON. Note Im not sure if
-> the PHY is disabling the Rx clocks when I run ip li set dev $if down I
-> cannot scope that pin on the board.
-> 
-> Please let me know if you have any pointers for me to look further
-> into this issue.
-
-Given the behaviour that you're reporting from your clock layer, I'm
-wondering if the problem is actually there... it seems weird that clocks
-aren't being turned off and on when they should.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Thanks,
+Guenter
 
