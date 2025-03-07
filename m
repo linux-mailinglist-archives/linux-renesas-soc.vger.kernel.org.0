@@ -1,88 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-14159-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14160-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB336A573EF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Mar 2025 22:45:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F251A5765D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Mar 2025 00:51:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED0157AAB25
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Mar 2025 21:44:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF94A1896F7B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Mar 2025 23:51:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57B95208973;
-	Fri,  7 Mar 2025 21:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4EE8213246;
+	Fri,  7 Mar 2025 23:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7KKr860"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SKNzLZhk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278E01E1DF1;
-	Fri,  7 Mar 2025 21:45:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5161537A7;
+	Fri,  7 Mar 2025 23:51:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741383921; cv=none; b=hz5Pw6oSPx3JiYlfOB13b5s9yE7HgAPg2NEZaOv9ZvLhUO7NnTLmjHs5P1Y0Z1PMM3ih7xjq2PKahE9Uk+ueTxpuedzwKsaKOdlOgu4PzgY+ZBwEw0E4tLQPrqgALB9KLd1qsLObvc/A2Ol1SUozpqWXJO86PAvufIAwQKgxqbM=
+	t=1741391466; cv=none; b=Mg0oE0zlcnlbBP9+aw3wQjlAHcqOFQ37LxZaLWBGNczul+a9gswAf7osO1QFNnRFOlxRiz7684+haEulkhR4Q7zV41trSNzC4WfD8n6dCyy0pgmSAmga2RJZ9vmQf0p8dt8055lflpzUS5fv3lA7FVdZW+dchT8447LHUQvHxEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741383921; c=relaxed/simple;
-	bh=exvCaQAecMG84V7ugK1HP+4nSWq8HFjLuH8XlyQhdkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kksFctStgkQNyHSaGPkW69+cWJCBey2ZiuIMRIg8srmsAUe8dqeJsxLvtKGyzcL+okMcwyLiCGjLcxqQRu8p3nuyixXykbfrsI1jbHbCAHuFYROh/rhVH/1ZH0JWEiCFPNEdoCLbEs49QvwT94+s/pl7vIBAf2oZULv+T8g0bZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7KKr860; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A609C4CED1;
-	Fri,  7 Mar 2025 21:45:20 +0000 (UTC)
+	s=arc-20240116; t=1741391466; c=relaxed/simple;
+	bh=HQ4++ZBWcKdzC2KL17+s3dBJ/J61Py38+YJbkNdGJPE=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=NleUT1L5GmZWiOhlaV66F8M5okTGeT6s8BZrvcix4T+TgSGspw4uKvFeebL7v4UTDc8WsgYz8hsrRu+GjdC5j4HHA1e4aZwJmObXRFP+YQheZNlhUSX+oHxiX9eWtEwRXLwtjXHfBFvYbn/Xw9AziYXIhFjhNZ50VMOE0KNEYpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SKNzLZhk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC1D0C4CED1;
+	Fri,  7 Mar 2025 23:51:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741383920;
-	bh=exvCaQAecMG84V7ugK1HP+4nSWq8HFjLuH8XlyQhdkM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m7KKr860b0jKBtRjU4K37jmpsjRIKBnvlMODn5HA2ang5Ax1ONMTJh3rgNZVNHFu3
-	 xq/YZOgNtpl0e5RlSKvRe9UvVqyrujV29zpfGFQ20U1exRIPHJP1LujZy38v/dov60
-	 qpiynHfPP5g2vDsBM5sNWxljo/uhuXbi6tu1Lmk67kxNss11Ry27js+i80/h3u+BF2
-	 K8pT/bY6dvyfoyWNmWejwZpTLYlceF7C0hjxof+JwGWtLZHB726v4fBWBKp2PtU9nX
-	 iEqGEHTlD3jCSU3efMwzbb5T/UZxic+2ZzzTGaAEBRLrRb8ymUMEFckyXFNUBPmeva
-	 tE7wQtG10ndsA==
-Date: Fri, 7 Mar 2025 15:45:18 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-Cc: geert@linux-m68k.org, linux-renesas-soc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	devicetree@vger.kernel.org, paul.barker.ct@bp.renesas.com,
-	linux-kernel@vger.kernel.org, thierry.bultel@linatsea.fr
-Subject: Re: [PATCH v4 03/13] dt-bindings: serial: Add compatible for Renesas
- RZ/T2H SoC in sci
-Message-ID: <174138391846.660308.3115874488734848744.robh@kernel.org>
-References: <20250306152451.2356762-1-thierry.bultel.yh@bp.renesas.com>
- <20250306152451.2356762-4-thierry.bultel.yh@bp.renesas.com>
+	s=k20201202; t=1741391464;
+	bh=HQ4++ZBWcKdzC2KL17+s3dBJ/J61Py38+YJbkNdGJPE=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=SKNzLZhkYuPr4YNrItTbUHbACBfMlNIxVDKmKf+UhP+an0Bjpg2wiuAWe0T5B4ZLj
+	 Li+2USiTuwKQJyRZKTCOWTh8MB5l/YFsu5DMpdKM+D4hlljGYD8gMRtz2+gn1IXmJT
+	 f9eeL8RhFNDSYwizTr2p8lXlzo62rLFumxv0o6vB1bkH8Tx+XojshorYvzNJTVOy76
+	 ttmwCqy1VAwmYN0C7tZrIYDoNle7qnIE1uuf+g9JUYb1/Q1mJZMBCjjMYf4PyaRH1t
+	 h5RDzv7Tu69QY2Bx0nRMdSFd2NFA6QyOqLdpOe75+x9E10xeVQBSL6gN4NDdCRFXT9
+	 DgK5wb/d5f6Mg==
+Message-ID: <dbf8ce431e149c7304b2e7487cf2b197.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250306152451.2356762-4-thierry.bultel.yh@bp.renesas.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cover.1741362159.git.geert+renesas@glider.be>
+References: <cover.1741362159.git.geert+renesas@glider.be>
+Subject: Re: [GIT PULL] clk: renesas: Updates for v6.15 (take two)
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>
+Date: Fri, 07 Mar 2025 15:51:00 -0800
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
 
+Quoting Geert Uytterhoeven (2025-03-07 07:47:40)
+>         Hi Mike, Stephen,
+>=20
+> The following changes since commit 9b12504e8c8c2f1f7e5f16afdd829603dd0c95=
+08:
+>=20
+>   clk: renesas: r9a09g047: Add CANFD clocks and resets (2025-02-20 17:42:=
+03 +0100)
+>=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-clk-for-v6.15-tag2
+>=20
+> for you to fetch changes up to e1a098330ef0555ad216e549a018d99aee7752c1:
+>=20
+>   clk: renesas: r9a09g047: Add clock and reset signals for the TSU IP (20=
+25-03-06 16:39:31 +0100)
+>=20
+> ----------------------------------------------------------------
 
-On Thu, 06 Mar 2025 16:24:37 +0100, Thierry Bultel wrote:
-> The SCI of RZ/T2H SoC (a.k.a r9a09g077), as a lot
-> of similarities with other Renesas SoC like G2L, G3S, V2L;
-> However, it has a different set of registers, and in addition to serial,
-> this IP also supports SCIe (encoder), SmartCard, i2c and spi.
-> This is why the 'renesas,sci' fallback for generic SCI does not apply for it.
-> 
-> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-> ---
-> Changes v3->v4:
->   - Added more details in commit description about why renesas,sci
->     does not apply.
->   - Removed uart-has-rtscts for !rzsci.
-> ----
->  .../bindings/serial/renesas,sci.yaml          | 63 ++++++++++++-------
->  1 file changed, 39 insertions(+), 24 deletions(-)
-> 
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-
+Thanks. Pulled into clk-next
 
