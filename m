@@ -1,195 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-14147-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14148-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D18A56D15
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Mar 2025 17:05:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70EEEA56D38
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Mar 2025 17:10:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A26B416E393
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Mar 2025 16:04:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B38F3B79EA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Mar 2025 16:09:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC3BC221573;
-	Fri,  7 Mar 2025 16:03:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2909227E97;
+	Fri,  7 Mar 2025 16:09:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uqtpgJxM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U7jhNvp5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A392206B6;
-	Fri,  7 Mar 2025 16:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4DF226D1A
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Mar 2025 16:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741363433; cv=none; b=WXiNDRn9K1pS7lUAboCjc2B8NYoCUL8Z27GXexTBxT/1xgolah0C6MemTRvtz75hYl+qthwGq3zoWDh0662dj4rCHmtvSaBvBcAPC5TKE1DwbdAHiEjQTuR+OByDvnIpcEky45+43iA8ziK+drKXVqsuyFwDOiW+vQ+Bxmxl2Vg=
+	t=1741363767; cv=none; b=EDv9sD27ZfoVgnEmC747u3+jvhVcclEhaFbpfn+goujZWh4dbemShwCPPKiiL3kkV1Hr7S/WiRorGF6BC3KjzVk43Sf/mToewnhYAH+TZbC6B5LT2tVMb8gewwz5oWAbWtAgLoMzjDqZlCiWrqIWRgWm/1lYpLC4KfCVJ/scnco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741363433; c=relaxed/simple;
-	bh=jKcE6LBMQIEZD2siLfa8qIZAQzMXrOFejG9YW9TQFCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=muoYEIAZG9HmRGJAlrl1PjmwbEwAt0TWI7xVn9j8u1dpz3nlg8qOl35TN7Ort4o51zXmWLtIfB2I5aM4H0kHhZgY6n7EHIse+GMVuq5q9rUkNk7HNxdSybfVC7A6615ROjVLLLibTJd3Ohlet5wJGYaCp1JZ5/TS3B4W+MPq4Xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uqtpgJxM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65FF8C4CEE3;
-	Fri,  7 Mar 2025 16:03:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741363433;
-	bh=jKcE6LBMQIEZD2siLfa8qIZAQzMXrOFejG9YW9TQFCA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uqtpgJxM+FeMrOrrVjR4r9cUjgMcwN9iUIv+6+iR8KBfhyMfBbVmAMm+VSjWprAou
-	 Hbymjq5Syj6JTZBa8Xjni9057HvoMx9qOQLbtsVRXcgEAHwb5dogZFSDMmyBGLqPUT
-	 AtOU81kinqiCYTA+fCx98rXK7uz5ZXzgoooO5oYNjrkNQZXgZak8KAnZhlAVdCk3Bc
-	 X2zpr2dmAZ8FE+P4BinuR9nTL4qyGZJXZGapTjFcAXfpoIaTMPinysbS6k/eZP5Zbl
-	 vlvqKNeR4VPnGk7kmjAYk1FuHqrgxWTPWcTzqZYHzfkgUWJkXty0GgdyQO5oY/9Zpm
-	 fQ7VtAswFxmfg==
-Date: Fri, 7 Mar 2025 16:03:46 +0000
-From: Conor Dooley <conor@kernel.org>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: "robh@kernel.org" <robh@kernel.org>,
-	"geert+renesas@glider.be" <geert+renesas@glider.be>,
-	"magnus.damm@gmail.com" <magnus.damm@gmail.com>,
-	"mturquette@baylibre.com" <mturquette@baylibre.com>,
-	"sboyd@kernel.org" <sboyd@kernel.org>,
-	"rafael@kernel.org" <rafael@kernel.org>,
-	"daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
-	"rui.zhang@intel.com" <rui.zhang@intel.com>,
-	"lukasz.luba@arm.com" <lukasz.luba@arm.com>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"john.madieu@gmail.com" <john.madieu@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 3/7] dt-bindings: thermal: r9a09g047-tsu: Document the
- TSU unit
-Message-ID: <20250307-barbell-pretzel-368d6a4d1336@spud>
-References: <20250227122453.30480-1-john.madieu.xa@bp.renesas.com>
- <20250227122453.30480-4-john.madieu.xa@bp.renesas.com>
- <20250228-shampoo-uprising-44ae0d3bd68b@spud>
- <OSBPR01MB2775DFC184F78E9FB50F28FFFFD52@OSBPR01MB2775.jpnprd01.prod.outlook.com>
- <20250307-everyone-ragweed-e05a10a9646b@spud>
- <OSBPR01MB277531D7C872C9EB0B287069FFD52@OSBPR01MB2775.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1741363767; c=relaxed/simple;
+	bh=l8HkmGrKcW78g+dolA2UqEvxmbd6ku/AT3JdwSRqSbk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TByulYsjPrqTfinaeU/XNejXj35K/LpzoJLZlKjDc881UIMRY3yaZmBZ+OygeoV3ukZIPFn/7Vkvuq9YsaIdU1/35968E3yTdzoeTBAsuqUiphFvmnNqUsWKKm8ih3wGVmNJRC4+F/5UrgC/mhDKLpr0rsbzCt2li62D0tO+ez0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U7jhNvp5; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741363766; x=1772899766;
+  h=date:from:to:cc:subject:message-id;
+  bh=l8HkmGrKcW78g+dolA2UqEvxmbd6ku/AT3JdwSRqSbk=;
+  b=U7jhNvp5IeBkP6fHGeWdRsfWSWv3ymZ+bqN14CTZbuf+KiLgjlCrTK7D
+   LzyYelSB5VuvMv5wHZ4xTzusTpk/xSzaBKOEv9xvQvZmM1+ANFZhSb9wZ
+   aofmMXYaZe5a58LJJjJ6d/NvfeaR9UdMsyFJYPZ1uBZO5L58uIICTlkAm
+   FWCj0kFeFMnGmBbexhFMcdlyJnFCEr+psiizMouoB5jvv+GLbMAxrw14R
+   H1+HvMNTLwTVQYyPy/qb181l9Oy4hbmmIg1a44X5nfBw4ekKhfax5P5jT
+   U06gaLcgQufyTkJnuDZw2m0tSlNEaULMCa7COyGBda7N0BSTS9Sz7vU84
+   w==;
+X-CSE-ConnectionGUID: lc10QBLwSKCpNN0m4r8xkg==
+X-CSE-MsgGUID: 43wvUGkjQK2OEu0peTG8og==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41669551"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="41669551"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 08:09:25 -0800
+X-CSE-ConnectionGUID: 1nWc4qPySMCg/pOJ8Zzifw==
+X-CSE-MsgGUID: 3eRV/TqKQ2W2TS8N0qPJ8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="119531044"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 07 Mar 2025 08:09:24 -0800
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tqaGI-0000iR-1D;
+	Fri, 07 Mar 2025 16:09:22 +0000
+Date: Sat, 08 Mar 2025 00:09:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-pinctrl-for-v6.15] BUILD
+ SUCCESS abcdeb4e299a11ecb5a3ea0cce00e68e8f540375
+Message-ID: <202503080000.fK1mArWX-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="FptXTXAIhD0gPfos"
-Content-Disposition: inline
-In-Reply-To: <OSBPR01MB277531D7C872C9EB0B287069FFD52@OSBPR01MB2775.jpnprd01.prod.outlook.com>
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v6.15
+branch HEAD: abcdeb4e299a11ecb5a3ea0cce00e68e8f540375  pinctrl: renesas: rza2: Fix missing of_node_put() call
 
---FptXTXAIhD0gPfos
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 1447m
 
-On Fri, Mar 07, 2025 at 03:55:27PM +0000, John Madieu wrote:
-> Hi Conor,
->=20
-> > -----Original Message-----
-> > From: Conor Dooley <conor@kernel.org>
-> > Sent: Friday, March 7, 2025 4:33 PM
-> > To: John Madieu <john.madieu.xa@bp.renesas.com>
-> > Subject: Re: [PATCH v2 3/7] dt-bindings: thermal: r9a09g047-tsu: Docume=
-nt
-> > the TSU unit
-> >=20
-> > On Fri, Mar 07, 2025 at 03:14:05PM +0000, John Madieu wrote:
-> > > Hi Conor,
-> > >
-> > > Thanks for your review!
-> > >
-> > > > -----Original Message-----
-> > > > From: Conor Dooley <conor@kernel.org>
-> > > > Sent: Friday, February 28, 2025 8:03 PM
-> > > > To: John Madieu <john.madieu.xa@bp.renesas.com>
-> > > > Subject: Re: [PATCH v2 3/7] dt-bindings: thermal: r9a09g047-tsu:
-> > > > Document the TSU unit
-> > > >
-> > > > On Thu, Feb 27, 2025 at 01:24:39PM +0100, John Madieu wrote:
-> > > > > The Renesas RZ/G3E SoC includes a Thermal Sensor Unit (TSU) block
-> > > > > designed to measure the junction temperature. The device provides
-> > > > > real-time temperature measurements for thermal management,
-> > > > > utilizing a single dedicated channel (channel 1) for temperature
-> > sensing.
-> > > > >
-> > > > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> > > > > ---
-> > > > > v1 -> v2:
-> > > > >  * Fix reg property specifier to get rid of yamlint warnings
-> > > > >  * Fix IRQ name to reflect TSU expectations
-> > > > >
-> > > > > +    enum: [0, 1]
-> > > > > +    description: |
-> > > > > +      TSU operating mode:
-> > > > > +      0: Mode 0 - Conversion started by software
-> > > > > +      1: Mode 1 - Conversion started by ELC trigger
-> > > >
-> > > > Can you make this "software" and "elc" or something please, unless
-> > > > people will genuinely find "0" and 1" to be more informative.
-> > > > And why doesn't the property have a default?
-> > >
-> > > Sorry for miss-specifying.
-> > > ELC is an external event trigger. May be should I specify it like tha=
-t ?
-> >=20
-> > If "elc trigger" is meaningful to people using hte device (IOW, it matc=
-hes
-> > datasheet wording) then that's fine I think.
->=20
-> "elc trigger" matches datasheet wording.
->=20
-> >=20
-> > > To make sure I got your point, do you mean specifying a default value
-> > > in bindings ?
-> >=20
-> > The property doesn't actually need to be required, it could easily have=
- a
-> > default (say software) and only be set in the case of using the elc
-> > trigger - which brings you to Rob's comment that it can just be a boole=
-an,
-> > setting the property if elc and leaving it out of software.
->=20
-> Got the point now. I can make it default to software trigger, and add opt=
-ional
-> Boolean property to ELC trigger. Let's say "renesas,elc-trigger;"
+configs tested: 108
+configs skipped: 2
 
-Yah, that works.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->=20
-> >=20
-> > Rob's other comment was
-> >=20
-> > | Who/what decides the mode? If a user is going to want to change this,
-> > | then it should be a runtime control, not a DT property.
->=20
-> Changes are not possible at runtime. Some customers may want software,
-> while other may want the external trigger, and this is immutable=20
-> configuration.
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20250307    gcc-13.2.0
+arc                   randconfig-002-20250307    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                   randconfig-001-20250307    clang-21
+arm                   randconfig-002-20250307    gcc-14.2.0
+arm                   randconfig-003-20250307    clang-19
+arm                   randconfig-004-20250307    clang-21
+arm                         wpcm450_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250307    gcc-14.2.0
+arm64                 randconfig-002-20250307    clang-15
+arm64                 randconfig-003-20250307    gcc-14.2.0
+arm64                 randconfig-004-20250307    clang-15
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250307    gcc-14.2.0
+csky                  randconfig-002-20250307    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250307    clang-21
+hexagon               randconfig-002-20250307    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386        buildonly-randconfig-001-20250307    clang-19
+i386        buildonly-randconfig-002-20250307    clang-19
+i386        buildonly-randconfig-003-20250307    gcc-11
+i386        buildonly-randconfig-004-20250307    clang-19
+i386        buildonly-randconfig-005-20250307    gcc-12
+i386        buildonly-randconfig-006-20250307    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250307    gcc-14.2.0
+loongarch             randconfig-002-20250307    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                         rt305x_defconfig    clang-19
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250307    gcc-14.2.0
+nios2                 randconfig-002-20250307    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                              defconfig    gcc-14.2.0
+parisc                randconfig-001-20250307    gcc-14.2.0
+parisc                randconfig-002-20250307    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc               randconfig-001-20250307    gcc-14.2.0
+powerpc               randconfig-002-20250307    clang-21
+powerpc               randconfig-003-20250307    clang-19
+powerpc64             randconfig-001-20250307    clang-21
+powerpc64             randconfig-002-20250307    gcc-14.2.0
+powerpc64             randconfig-003-20250307    gcc-14.2.0
+riscv                             allnoconfig    gcc-14.2.0
+riscv                               defconfig    clang-19
+riscv                 randconfig-001-20250307    gcc-14.2.0
+riscv                 randconfig-002-20250307    clang-19
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-15
+s390                             allyesconfig    gcc-14.2.0
+s390                                defconfig    clang-15
+s390                  randconfig-001-20250307    gcc-14.2.0
+s390                  randconfig-002-20250307    gcc-14.2.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                                  defconfig    gcc-14.2.0
+sh                    randconfig-001-20250307    gcc-14.2.0
+sh                    randconfig-002-20250307    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250307    gcc-14.2.0
+sparc                 randconfig-002-20250307    gcc-14.2.0
+sparc64                             defconfig    gcc-14.2.0
+sparc64               randconfig-001-20250307    gcc-14.2.0
+sparc64               randconfig-002-20250307    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-21
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250307    clang-17
+um                    randconfig-002-20250307    clang-21
+um                           x86_64_defconfig    clang-15
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250307    clang-19
+x86_64      buildonly-randconfig-002-20250307    gcc-12
+x86_64      buildonly-randconfig-003-20250307    clang-19
+x86_64      buildonly-randconfig-004-20250307    clang-19
+x86_64      buildonly-randconfig-005-20250307    clang-19
+x86_64      buildonly-randconfig-006-20250307    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250307    gcc-14.2.0
+xtensa                randconfig-002-20250307    gcc-14.2.0
 
-What makes it immutable? Set by some wiring on the board? I couldn't
-find the user in your driver patches to better understand how you were
-using it.
-
---FptXTXAIhD0gPfos
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHQEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ8sY4gAKCRB4tDGHoIJi
-0ut/APj8ly7agJVBfsuReMJT8RtHUn7mZHkeTYHpMWJm/lYEAQDHM+aoQ7IZhrsm
-zco87OB941IsVq/iRfFQNx78HSNvAQ==
-=kAfv
------END PGP SIGNATURE-----
-
---FptXTXAIhD0gPfos--
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
