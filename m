@@ -1,54 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-14144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE39A56C7F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Mar 2025 16:47:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 543A4A56C82
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Mar 2025 16:48:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BD1A188EE37
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Mar 2025 15:48:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B98D7188F5A6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Mar 2025 15:48:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6E6921A43B;
-	Fri,  7 Mar 2025 15:47:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3288421D008;
+	Fri,  7 Mar 2025 15:48:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD981194C78
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Mar 2025 15:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328E9194C78
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Mar 2025 15:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741362472; cv=none; b=mmJVLRDZR6WFWpjMBhX4Qio0o2jQeBrJaFbJwwCA/mLWTQDO2hkqmzvk4Nb4ZcOjWvHx2zy5FqOfM0dtwO3izud1eVUEgWQZgqHJu5bnJgKbHj5U2YhAshLTHi4+YaQlxgdAWIUD71WboiLWR/x96Lv8tssOrhc6vCEA7ZNkyHs=
+	t=1741362491; cv=none; b=c3qa8M1kep9+lzGZJqW0ySyKvFFtsQrLTZPe4G40v0Yt6eOUtUeEU4Pp2GLRTDzvHAWfH3PiyIKtl9KmDB759rYxhn7JAp21ARJTeVz91b1ScmBJeR1aj0arN9xLXGAde1HXpyRnkWU+8LVhtxn3HD1FhItCpyIfF4G/epoMTU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741362472; c=relaxed/simple;
-	bh=Y/mfJqBjqf5Nw6vf7SNq2r6eV+sL9+yy/LpBtGX1jXQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S/Y5rA8Mv2+pbeQ7NOJiFuTCkC7IwmDLehQT3W8h3DJwvIY87laJ1Im3AltAA0LEjLjQwsFF/pZ7zEkeSGuvxTi4aB6GQ7d6wk7KuGKaU9ail5YX+FqdezPG8C2c4aIbcy06F+PPsJYaS7OfPtkHZ5B55o/SM9U3UkNRD3A3zKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+	s=arc-20240116; t=1741362491; c=relaxed/simple;
+	bh=DOsj7nEOuzETluVCrKZYnhe2iQa3sgQWkcgQfOPCCKk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pyh1oJ+JGrrOPPhUSo2K0u7aqywdi15wKCcIuTOppMVexjesA0Hv9d27DO6/9T7bG0Fc6GwLDlCET7pVzO3PIpKEwn9IWLUp1I52pTKSMYc9oGz9uslnfEFdW1A9WIr5lAaHujPt2NENJRgPMv9+TnMkQ7rVxarOZ8kN4qm9MkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4Z8W0063WVz4wwjK
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 07 Mar 2025 16:48:00 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:d269:b36f:7a12:a76f])
-	by baptiste.telenet-ops.be with cmsmtp
-	id Mrnj2E00M2m8Uyj01rnjFv; Fri, 07 Mar 2025 16:47:43 +0100
+	by andre.telenet-ops.be with cmsmtp
+	id Mrnt2E0042m8Uyj01rntjQ; Fri, 07 Mar 2025 16:47:53 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tqZuz-0000000DBkp-3t2h;
-	Fri, 07 Mar 2025 16:47:43 +0100
+	id 1tqZv9-0000000DBku-3Z9o;
+	Fri, 07 Mar 2025 16:47:53 +0100
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tqZvL-00000009ss6-0CXC;
-	Fri, 07 Mar 2025 16:47:43 +0100
+	id 1tqZvU-00000009ssk-41VH;
+	Fri, 07 Mar 2025 16:47:52 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org,
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-gpio@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v6.15 (take two)
-Date: Fri,  7 Mar 2025 16:47:40 +0100
-Message-ID: <cover.1741362159.git.geert+renesas@glider.be>
+Subject: [GIT PULL] pinctrl: renesas: Updates for v6.15 (take two)
+Date: Fri,  7 Mar 2025 16:47:51 +0100
+Message-ID: <cover.1741362226.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -58,52 +60,37 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi Mike, Stephen,
+	Hi Linus,
 
-The following changes since commit 9b12504e8c8c2f1f7e5f16afdd829603dd0c9508:
+The following changes since commit ea4065345643f3163e812e58ed8add2c75c3ee46:
 
-  clk: renesas: r9a09g047: Add CANFD clocks and resets (2025-02-20 17:42:03 +0100)
+  pinctrl: renesas: rzg2l: Suppress binding attributes (2025-02-20 17:33:08 +0100)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.15-tag2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.15-tag2
 
-for you to fetch changes up to e1a098330ef0555ad216e549a018d99aee7752c1:
+for you to fetch changes up to abcdeb4e299a11ecb5a3ea0cce00e68e8f540375:
 
-  clk: renesas: r9a09g047: Add clock and reset signals for the TSU IP (2025-03-06 16:39:31 +0100)
+  pinctrl: renesas: rza2: Fix missing of_node_put() call (2025-03-06 16:41:46 +0100)
 
 ----------------------------------------------------------------
-clk: renesas: Updates for v6.15 (take two)
+pinctrl: renesas: Updates for v6.15 (take two)
 
-  - Add DMA clocks and reset on RZ/V2H,
-  - Add thermal (TSU) clock and reset on RZ/G3E,
-  - Miscellaneous fixes and improvements.
+  - Add missing of_node_put() calls.
 
 Thanks for pulling!
 
 ----------------------------------------------------------------
-Biju Das (1):
-      clk: renesas: rzv2h: Adjust for CPG_BUS_m_MSTOP starting from m = 1
+Fabrizio Castro (3):
+      pinctrl: renesas: rzg2l: Fix missing of_node_put() call
+      pinctrl: renesas: rzv2m: Fix missing of_node_put() call
+      pinctrl: renesas: rza2: Fix missing of_node_put() call
 
-Fabrizio Castro (1):
-      clk: renesas: r9a09g057: Add entries for the DMACs
-
-Geert Uytterhoeven (3):
-      clk: renesas: cpg-mssr: Remove obsolete nullify check
-      clk: renesas: rzg2l: Remove unneeded nullify checks
-      clk: renesas: r7s9210: Distinguish clocks by clock type
-
-John Madieu (1):
-      clk: renesas: r9a09g047: Add clock and reset signals for the TSU IP
-
- drivers/clk/renesas/r7s9210-cpg-mssr.c | 10 ++++------
- drivers/clk/renesas/r9a09g047-cpg.c    |  3 +++
- drivers/clk/renesas/r9a09g057-cpg.c    | 24 ++++++++++++++++++++++++
- drivers/clk/renesas/renesas-cpg-mssr.c |  5 -----
- drivers/clk/renesas/rzg2l-cpg.c        | 10 ----------
- drivers/clk/renesas/rzv2h-cpg.c        | 12 ++++++------
- drivers/clk/renesas/rzv2h-cpg.h        |  2 ++
- 7 files changed, 39 insertions(+), 27 deletions(-)
+ drivers/pinctrl/renesas/pinctrl-rza2.c  | 2 ++
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 2 ++
+ drivers/pinctrl/renesas/pinctrl-rzv2m.c | 2 ++
+ 3 files changed, 6 insertions(+)
 
 Gr{oetje,eeting}s,
 
