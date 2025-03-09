@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-14189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF6DA58875
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Mar 2025 22:14:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B824BA58878
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Mar 2025 22:15:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A78791885A00
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Mar 2025 21:15:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B216188DEFE
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Mar 2025 21:15:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BB40221554;
-	Sun,  9 Mar 2025 21:14:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D6B3221703;
+	Sun,  9 Mar 2025 21:14:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lmAizCNE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CclIsDMo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF75220689;
-	Sun,  9 Mar 2025 21:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D1E2206BE;
+	Sun,  9 Mar 2025 21:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741554870; cv=none; b=f7vPN2aDy8LtsgvqpEqDPE9ed02I9W9VGvrqZWYjTorn5mgRwUiR2h8rSBm2deoEN9fISi1aIdDYJiBzz+Si8qmo3quRtGb2nMh8ixZxb2EVJB8UvsHILInVs8mIk0dBTg5I90V5YXOOPfV7+hVXh5GHCNhObFxO8w+YLUJ/gbo=
+	t=1741554871; cv=none; b=lIE+oTjhFMFFpMScW/WWLN2CwgmS9s+8Bdm09cqcE0Sq6/K6H+WoxWR8T313daPC8r637bqaSvuYjszQ5ftXb9dpNWuHfTFqIuwDcFG+IBagbMUF6UMHvjz4F9zue26tFFwamyudmYXCL96o3KDMyKMf/nehMm9UPBr6RsDeCp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741554870; c=relaxed/simple;
-	bh=p4tw7sIno7aVydPLMnfjr/iLNqWWqcNw8pI/a7Z8t+I=;
+	s=arc-20240116; t=1741554871; c=relaxed/simple;
+	bh=R/BXmOQg30jl0nVpS/h0fNQD8heiMCgc156WqboVeJ4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ELoLpw42cvjFMdDmlVfKI8XN+yi3LtdE44ZU9E/fyj/h27xwf4oQU5DjpEhpub0bQYSfwq3SDyialUxkxDRutBPkxDTYZaTvgaXuFiCRQ08NVTQWALkX+djfgNe0Ygm5+pOsOQmuaWqlGna22wCde3AcTnLTbPhvz+d/sJiBCm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lmAizCNE; arc=none smtp.client-ip=209.85.128.52
+	 MIME-Version; b=TP8dFXZgTT7Bda/Z+bloWYgJK/VxjSR54pHsukyAc8xt2J5AFhCledkAlFAVBKthv6plGBh53zJmU6M2ie9FozkQshTT6TQyfUVcyz7K1g7XiY0IAyAD+MxKJ4MYsGtswAZw/2xogJ7Dvch4y1Qeud0s43bZFqLbz8eZZ6Bnjmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CclIsDMo; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cf58eea0fso2103585e9.0;
-        Sun, 09 Mar 2025 14:14:28 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4394345e4d5so20049195e9.0;
+        Sun, 09 Mar 2025 14:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741554867; x=1742159667; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1741554868; x=1742159668; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CrQCeWkox3LKz8pG/0aW5QkQIzDRaa4lkk69wZlu4/0=;
-        b=lmAizCNEcRb28vAxmbaC/zFAOgatai4z0VWOZQtxoS25P1HNW1Cp/s3Kh/mmMocgtm
-         1Y9dxMMTH64afnoOUeYoellQjAB1fRMeENKoZZ2yXAVAjBr3zdOVnV0Upn4bhWay+4ks
-         s0XsElI7WSjM+6PUlRosq92OjASbu03rTRg9mj9J5Pk8ZThqMaCzcSYwvD5N86oyRmms
-         ZfsVuaRrRzzAUd2LM1TYF88VYb7Jr2swv4e/5WVClYAa3BCSz5Fq1lbxL+Fw0BFEpfv0
-         5FcoyQJWLhPzEWRjbYFqmNWX15iXKytjckGAImj859E8pFMmgIYyqw8a4lUWhELvpXLd
-         zPFQ==
+        bh=LAShnsPUhf9cglR8slP2JBk+kW7Nxb0DmVJJ6OxiJRs=;
+        b=CclIsDMo8CYB8SaqdIUXTXjHkVvuzVvZ/RjkTrk9AnH3sQbtRIaDv/aF7z/Yk/LABX
+         zM19gVa7UpKMeY1U88pMFzJveOWidDg+yMVppNjkkEwMCdBmV77chqkyRFCnJiK5Noew
+         6LjTwbU+I5Qv7+yCPS9MxtLMbp+tZuZ3qD4u8uVi2Ao2223Qx5QBCvRYfsBysXAvjFY2
+         gdA4L378pHW05wlOSP2d5eBSBbLuz012/mkNUNp5Z1etusyzICahqWTJ4YDPUCwm2zRQ
+         lJuPkr595cr3gH63Q6rHsOztYISUOlNzT0YrT6js9K4sbtfUfJhX7k6u4E3MzWDhUWns
+         K2ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741554867; x=1742159667;
+        d=1e100.net; s=20230601; t=1741554868; x=1742159668;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CrQCeWkox3LKz8pG/0aW5QkQIzDRaa4lkk69wZlu4/0=;
-        b=aBtfCFsS7dsx6JeAsDCWYO8DWgf+V1z9lqtK9TgWi/jWCxreGJ4g4cSxkpP/1UYjiY
-         LNa6EfiV0RHEy6n+j3JmAEN84B7BYy6XX0l+U87dtvsb6pcIHlP1TkP8/b8CS5D7SliP
-         +turnbrmJnDw5nJwvGMbP4/OLDZAM3X5vjCceGnUPkT/Wykl+CrqLjqApGsUdw8iHy+N
-         hiMO7epV86N8q+FRtcGLBV5rqoZA/6IE23nFxjlFJSJ4NpLjzGHHKLO8xWmiVZJNIE+Y
-         /kmRMhL02I768Iq8MkVVRGdGsmoKh0Ag8WmG6F++ojgDYOkQ5QsqitUZP7Aup67/NlSZ
-         7MqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWC7A2dIY2jOFc6/KuA6vypJezRteL2yKKYMnAf5T0KjLL6iiVVlOTR+Pi5FH1Qc2jGt7Jgu5g/WlbUWK16PETr714=@vger.kernel.org, AJvYcCXygWTTDCixYOZgMLPcB54XRe/KheDzLIhCa/nQPgm07bFaUk0mHeZ7zDrrbrsZ15bLE3jYqC9w6otuvUY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywxRvY311N+RDwqQBRYSCVVYiFxphaUDrrAI7/BnHV16Uni5MU
-	bORlVTYVUJxWnbfBZXUo8cUZnUr78lSpicJby9/4pvkeUWbNFZyK
-X-Gm-Gg: ASbGncttMovLLkeHaodNmtGdRP4Gl3foUxZwSbS9V62lXxgw7r76uET6t4c/TOrfQ0E
-	CT0sr2vENZwVlFX/MN90ywLF7hxZEdtSyBMpFchZo+S8nPfdrww402EGPP++RfCatiayzv+x3PH
-	p2qG0JdxOmgjWH0XQlUubGJg3PizI2vIkYfOirJ0tVhO3XZSHuwREAphLvs4HSm2oVBTSlSk8kK
-	GmKTl0JndYBN/SZE8bk0FARNLfG1Rx8UunnfDd+YgRAOcS33816QaVrowT2e7eDjlXo2tWxkwmK
-	oeCnEDucG79r5vGb4+WeYGqA2WouGUQvflau9bzb9zvKYdCSzAy5Xjz/XVqwPd3Um6iFP9n3Vyd
-	DrxAfIjo9
-X-Google-Smtp-Source: AGHT+IGnmkx/xNxOL/OQ/1kn2+TTCWf85yqTkdX3FkV68fvBFjLQjqET6YPRrfDPu/WR4GmLazuEzA==
-X-Received: by 2002:a05:600c:4e8e:b0:43b:cc3c:60bc with SMTP id 5b1f17b1804b1-43c5a60ed21mr71724985e9.15.1741554867009;
+        bh=LAShnsPUhf9cglR8slP2JBk+kW7Nxb0DmVJJ6OxiJRs=;
+        b=bhRmUXry1EQXTs1xQuP37exo6j0J1Q9EgDqgLXNFL4xWqgP6NExJEufyX6vNtd9gtq
+         E5sdRDzCnLsJs9hgzXrHHLlUUSvbSKv8kiysNgPET29oZMyXJK6L56U09nQHtVFfhjAp
+         A8n7femtEJY/M4S+hxkn98cZdP0I7zgG1IDTkWYaSuV2P9adCREOPu9ygXCFqV3gcUQQ
+         1oWdFBFy6P/rQ6sRUI4LTSN3A59ybL13wgkPw10N5fBWHiRSEohe7/ASyonZ5vclBjzx
+         Jq5873VhphizDS8u4PHCAOsid1SIxAn/2Shjek8F0ocxCfQU2InO6XiS49MAI2umIO33
+         WOcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBlq5jWYtgH3vYO7hvJDoac2f1vSce3r0XIt9CHttDtkBrJxjSKHEczrS1jL6B5N+FytVI0GsyC+w6US14d61NC9Y=@vger.kernel.org, AJvYcCVRF9hb5x4rexw2wjN61cnJ3PunGjephfP2Nzer8CIz2YTxUKE9r6iCJs3VoMcfWKO+cb6y0YJCRmUpG2I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyc1O28GqLCSGSvMKjfIooteX+pf6NzUegh+deo4ZfJAg5w649j
+	RAG3f3x2XN/aS1VboUanIp/yuJwH9BsQKqZiyURiOJfsj6Q/lCh6
+X-Gm-Gg: ASbGnct0YGVQpyWatOLG0ktbu3KHkW4q0KSpnFr0Cm6g+n47ehIsXAegkFjkXNKBhFY
+	6SuuombISq03a+nr2Mgjc6DvVDGu/1FOO1oGAJH9WmJfU6rzVfag+IBOswV0y8t5whGqR6C8xVv
+	2WPQVS0BmJACLlMZKxvnQ3iz/VU3PCoG4ywE/jpLgDgJH9YCd/gdZSDDTF16Cag7rkEICR7hJUR
+	8SUbQImzkuJdnodOGndst3a9Pv9nrsarGHADdvmXSR3x+b4AVrodyO9kCEQmCvfcIQAWr9PDfxk
+	PQ2J39NhD963n8jWyHMVVqn/4w7T8Qi8YaPyGjglk9hrMw4KiVJ2GgyLUXEU9w3VwhVhBYjKBQ=
+	=
+X-Google-Smtp-Source: AGHT+IHv+w3TxswrfWotUBiLv8XrK+czTV7uOweKd1xPSuLoak2fV6j2Wg9pUQtMgecpAh+agMYb/g==
+X-Received: by 2002:a05:600c:218c:b0:43c:eae0:6264 with SMTP id 5b1f17b1804b1-43ceae0630dmr25742865e9.25.1741554867984;
         Sun, 09 Mar 2025 14:14:27 -0700 (PDT)
 Received: from prasmi.Home ([2a06:5906:61b:2d00:e951:ba7a:6a53:bac5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ce70d13b4sm64443845e9.38.2025.03.09.14.14.26
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ce70d13b4sm64443845e9.38.2025.03.09.14.14.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Mar 2025 14:14:26 -0700 (PDT)
+        Sun, 09 Mar 2025 14:14:27 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -85,9 +85,9 @@ Cc: linux-clk@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 4/5] clk: renesas: rzv2h: Rename PLL field macros for consistency
-Date: Sun,  9 Mar 2025 21:14:01 +0000
-Message-ID: <20250309211402.80886-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 5/5] clk: renesas: r9a09g057: Add clock and reset entries for GE3D
+Date: Sun,  9 Mar 2025 21:14:02 +0000
+Message-ID: <20250309211402.80886-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250309211402.80886-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250309211402.80886-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -101,52 +101,97 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Rename PLL field extraction macros to include the associated register name
-(`CPG_PLL_CLK1` or `CPG_PLL_CLK2`) to maintain consistency with other PLL
-register macros. Update all corresponding macro references accordingly.
+Add PLLGPU along with the necessary clock and reset entries for GE3D.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
 v1->v2
-- New patch
+- Dropped reviewed tag from Geert as PLLGPU macro was added
 ---
- drivers/clk/renesas/rzv2h-cpg.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/clk/renesas/r9a09g057-cpg.c | 14 ++++++++++++++
+ drivers/clk/renesas/rzv2h-cpg.h     |  2 ++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index 76ad037b4361..a11aa0c4295d 100644
---- a/drivers/clk/renesas/rzv2h-cpg.c
-+++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -48,11 +48,11 @@
- #define CPG_PLL_STBY_RESETB	BIT(0)
- #define CPG_PLL_STBY_RESETB_WEN	BIT(16)
- #define CPG_PLL_CLK1(x)		((x) + 0x004)
--#define KDIV(val)		((s16)FIELD_GET(GENMASK(31, 16), (val)))
--#define MDIV(val)		FIELD_GET(GENMASK(15, 6), (val))
--#define PDIV(val)		FIELD_GET(GENMASK(5, 0), (val))
-+#define CPG_PLL_CLK1_KDIV(x)	((s16)FIELD_GET(GENMASK(31, 16), (x)))
-+#define CPG_PLL_CLK1_MDIV(x)	FIELD_GET(GENMASK(15, 6), (x))
-+#define CPG_PLL_CLK1_PDIV(x)	FIELD_GET(GENMASK(5, 0), (x))
- #define CPG_PLL_CLK2(x)		((x) + 0x008)
--#define SDIV(val)		FIELD_GET(GENMASK(2, 0), (val))
-+#define CPG_PLL_CLK2_SDIV(x)	FIELD_GET(GENMASK(2, 0), (x))
- #define CPG_PLL_MON(x)		((x) + 0x010)
- #define CPG_PLL_MON_RESETB	BIT(0)
- #define CPG_PLL_MON_LOCK	BIT(4)
-@@ -203,10 +203,10 @@ static unsigned long rzv2h_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
- 	clk1 = readl(priv->base + CPG_PLL_CLK1(pll.offset));
- 	clk2 = readl(priv->base + CPG_PLL_CLK2(pll.offset));
+diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9a09g057-cpg.c
+index 031f332893a1..da20dbaead1f 100644
+--- a/drivers/clk/renesas/r9a09g057-cpg.c
++++ b/drivers/clk/renesas/r9a09g057-cpg.c
+@@ -29,6 +29,7 @@ enum clk_ids {
+ 	CLK_PLLDTY,
+ 	CLK_PLLCA55,
+ 	CLK_PLLVDO,
++	CLK_PLLGPU,
  
--	rate = mul_u64_u32_shr(parent_rate, (MDIV(clk1) << 16) + KDIV(clk1),
--			       16 + SDIV(clk2));
-+	rate = mul_u64_u32_shr(parent_rate, (CPG_PLL_CLK1_MDIV(clk1) << 16) +
-+			       CPG_PLL_CLK1_KDIV(clk1), 16 + CPG_PLL_CLK2_SDIV(clk2));
+ 	/* Internal Core Clocks */
+ 	CLK_PLLCM33_DIV4,
+@@ -47,6 +48,7 @@ enum clk_ids {
+ 	CLK_PLLVDO_CRU1,
+ 	CLK_PLLVDO_CRU2,
+ 	CLK_PLLVDO_CRU3,
++	CLK_PLLGPU_GEAR,
  
--	return DIV_ROUND_CLOSEST_ULL(rate, PDIV(clk1));
-+	return DIV_ROUND_CLOSEST_ULL(rate, CPG_PLL_CLK1_PDIV(clk1));
- }
+ 	/* Module Clocks */
+ 	MOD_CLK_BASE,
+@@ -87,6 +89,7 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
+ 	DEF_FIXED(".plldty", CLK_PLLDTY, CLK_QEXTAL, 200, 3),
+ 	DEF_PLL(".pllca55", CLK_PLLCA55, CLK_QEXTAL, PLLCA55),
+ 	DEF_FIXED(".pllvdo", CLK_PLLVDO, CLK_QEXTAL, 105, 2),
++	DEF_PLL(".pllgpu", CLK_PLLGPU, CLK_QEXTAL, PLLGPU),
  
- static const struct clk_ops rzv2h_cpg_pll_ops = {
+ 	/* Internal Core Clocks */
+ 	DEF_FIXED(".pllcm33_div4", CLK_PLLCM33_DIV4, CLK_PLLCM33, 1, 4),
+@@ -110,6 +113,8 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
+ 	DEF_DDIV(".pllvdo_cru2", CLK_PLLVDO_CRU2, CLK_PLLVDO, CDDIV4_DIVCTL1, dtable_2_4),
+ 	DEF_DDIV(".pllvdo_cru3", CLK_PLLVDO_CRU3, CLK_PLLVDO, CDDIV4_DIVCTL2, dtable_2_4),
+ 
++	DEF_DDIV(".pllgpu_gear", CLK_PLLGPU_GEAR, CLK_PLLGPU, CDDIV3_DIVCTL1, dtable_2_64),
++
+ 	/* Core Clocks */
+ 	DEF_FIXED("sys_0_pclk", R9A09G057_SYS_0_PCLK, CLK_QEXTAL, 1, 1),
+ 	DEF_DDIV("ca55_0_coreclk0", R9A09G057_CA55_0_CORE_CLK0, CLK_PLLCA55,
+@@ -238,6 +243,12 @@ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst = {
+ 						BUS_MSTOP(9, BIT(7))),
+ 	DEF_MOD("cru_3_pclk",			CLK_PLLDTY_DIV16, 13, 13, 6, 29,
+ 						BUS_MSTOP(9, BIT(7))),
++	DEF_MOD("gpu_0_clk",			CLK_PLLGPU_GEAR, 15, 0, 7, 16,
++						BUS_MSTOP(3, BIT(4))),
++	DEF_MOD("gpu_0_axi_clk",		CLK_PLLDTY_ACPU_DIV2, 15, 1, 7, 17,
++						BUS_MSTOP(3, BIT(4))),
++	DEF_MOD("gpu_0_ace_clk",		CLK_PLLDTY_ACPU_DIV2, 15, 2, 7, 18,
++						BUS_MSTOP(3, BIT(4))),
+ };
+ 
+ static const struct rzv2h_reset r9a09g057_resets[] __initconst = {
+@@ -287,6 +298,9 @@ static const struct rzv2h_reset r9a09g057_resets[] __initconst = {
+ 	DEF_RST(12, 14, 5, 31),		/* CRU_3_PRESETN */
+ 	DEF_RST(12, 15, 6, 0),		/* CRU_3_ARESETN */
+ 	DEF_RST(13, 0, 6, 1),		/* CRU_3_S_RESETN */
++	DEF_RST(13, 13, 6, 14),		/* GPU_0_RESETN */
++	DEF_RST(13, 14, 6, 15),		/* GPU_0_AXI_RESETN */
++	DEF_RST(13, 15, 6, 16),		/* GPU_0_ACE_RESETN */
+ };
+ 
+ const struct rzv2h_cpg_info r9a09g057_cpg_info __initconst = {
+diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
+index 0a99a85433bd..2f59547e69bf 100644
+--- a/drivers/clk/renesas/rzv2h-cpg.h
++++ b/drivers/clk/renesas/rzv2h-cpg.h
+@@ -28,6 +28,7 @@ struct pll {
+ 	})
+ 
+ #define PLLCA55		PLL_PACK(0x60, 1)
++#define PLLGPU		PLL_PACK(0x120, 1)
+ 
+ /**
+  * struct ddiv - Structure for dynamic switching divider
+@@ -63,6 +64,7 @@ struct ddiv {
+ #define CDDIV1_DIVCTL1	DDIV_PACK(CPG_CDDIV1, 4, 2, 5)
+ #define CDDIV1_DIVCTL2	DDIV_PACK(CPG_CDDIV1, 8, 2, 6)
+ #define CDDIV1_DIVCTL3	DDIV_PACK(CPG_CDDIV1, 12, 2, 7)
++#define CDDIV3_DIVCTL1	DDIV_PACK(CPG_CDDIV3, 4, 3, 13)
+ #define CDDIV3_DIVCTL2	DDIV_PACK(CPG_CDDIV3, 8, 3, 14)
+ #define CDDIV3_DIVCTL3	DDIV_PACK(CPG_CDDIV3, 12, 1, 15)
+ #define CDDIV4_DIVCTL0	DDIV_PACK(CPG_CDDIV4, 0, 1, 16)
 -- 
 2.43.0
 
