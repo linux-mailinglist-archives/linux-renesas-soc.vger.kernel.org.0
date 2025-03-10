@@ -1,67 +1,66 @@
-Return-Path: <linux-renesas-soc+bounces-14235-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14236-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2D7A5A6D6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 23:17:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C6DA5A6DA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 23:17:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 33A583AD05F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 22:16:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19A3F1893514
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 22:17:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15F531E5B84;
-	Mon, 10 Mar 2025 22:16:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44E061E8339;
+	Mon, 10 Mar 2025 22:16:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n2lLNBl4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWdJKGL4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2A41DFE20;
-	Mon, 10 Mar 2025 22:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B241E411C;
+	Mon, 10 Mar 2025 22:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741645014; cv=none; b=pksp4iX5ARMqkt3FLb/FkuEJNr0zC1o+I43baCEXBw57ULrivCmVDv2O4FOKbJdzBnMdk8wyC5P9P53IJ58g5PIH+fgGP9oLwI5ST12RzyA4ao9Ym4Q2iX+CQmNqEN48QmgYXbLN52gUX/8WRgkjE+Ot+K/yL4DBAvzsFQKZreQ=
+	t=1741645015; cv=none; b=QK1zPfe3LLT7068pejr/Cu5pRdlgZdmufy1zdFVtdZprA0KROlXf5E+uvCyUBVMvwauv7Z8447Z2ZvFzaZkcSJXMwUFpkDyPxC6TYgWBEv6W5k8hSoUpW9dl3Sx7oIGcvppAPfegIybTTZ9Dih2+TKiAtIclv0Mr+tSsHd8oQJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741645014; c=relaxed/simple;
-	bh=myoSGgj74XPWSsdzkbKReU54Ix7Ldof7Y/C1MVgScH0=;
+	s=arc-20240116; t=1741645015; c=relaxed/simple;
+	bh=uPzVgNJtr9kkTWtPDLiGgIWOsAJbSrZd8+u0qOMgpFE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZYw6MEx4Horkk5cLW+SLM+5OfSfBfPN4XilauSZw9tcDDEjV2qmopvJW5J7RcJXB8Xdq+r0BCLgk3Tm/jltgV+IAWCIYZqxGXCsx27U1J1bjLupeqzVNk5JxdnS4ehwG8myx9kDXhM/VnPXAj4s/Uxd+AMOu/9U37p4soWtV3PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n2lLNBl4; arc=none smtp.client-ip=198.175.65.14
+	 In-Reply-To:To:Cc; b=h+W03x40HhbbPtXsrtifI/JLAKriBrWnFETbF2lip1Uk+kNr5Leu+hK72rcuXFLRjGOhOyEpSrQRJMv/YkmZt3ER5CEBvlTMkJQ3P0NkTWw/GLa+eBFK4cyvRjgqxVb4ZYgPsOhigeF/fBiKW/CuZXqVPgjgJqedLASZHAU6DAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iWdJKGL4; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741645012; x=1773181012;
+  t=1741645013; x=1773181013;
   h=from:date:subject:mime-version:content-transfer-encoding:
    message-id:references:in-reply-to:to:cc;
-  bh=myoSGgj74XPWSsdzkbKReU54Ix7Ldof7Y/C1MVgScH0=;
-  b=n2lLNBl4SO8voCKJhysCR9eLrxAB+mrVbtJvLIsHfGy+mIKtxY3sXmNP
-   CcOpDPtiPqI/i60JzEnVXLgm5OBwXoIfsddB7yGhRt3TCUet3c/9wOZvI
-   OZUtOVekqhiDp84FeUhjUc8fPcgm2XvjNC4Hvr75XEdwZG4RraancmRZn
-   MCYRgfbSjvB+auYBYyi0fwRRQK5ymJfRQ4lRtWlvB2GQOD99sY8h7eo6K
-   tUN0FuFY+mP/LVGCkl+YJx1WZpeLGSwbeujSID76/I0yZ6sjd9fyEyU0R
-   9BZqlslISUbIwT8Tl/NAQ+QYLrp1MBh4/rNX+UYlUtSl8lx7QAZwwVq3z
-   w==;
-X-CSE-ConnectionGUID: KHO+s8xXQPmsYcZsqlmb7w==
-X-CSE-MsgGUID: P08JWCspTBqmm8wnXx6Pkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="46443285"
+  bh=uPzVgNJtr9kkTWtPDLiGgIWOsAJbSrZd8+u0qOMgpFE=;
+  b=iWdJKGL4sT798gygWiKmecVle75QtY31ZV53CIw62wZcLUPnbwr5+HhH
+   CmmV+PscjBaEdBPnHPQF/g2n7/NrWS63eJ4txqMG+elkUicJzBTRpvd+O
+   fDg59gKLltWqZHiOh/TVY5kEW/pLWRemiCRXuwdj4eovF4affOFTtwMvU
+   GxsotTsrbCOK2YbsnPnoC6OJWT8AZSqZvNFe1k4534Do3f1R/HxBRikpr
+   z0MBuzWtDpm/X1t7CJBmmoxnGg065gTVfbs9bA+HYXPbZhv8PcAVJeoGF
+   oO92/R86Hbc3pXdZawhHCQdTJXhRyTsW852IDNQPvKhRKavs23GrSxKc9
+   A==;
+X-CSE-ConnectionGUID: zsFT/Rc7SxeDeeBz9MDLGQ==
+X-CSE-MsgGUID: qiF90Tk8Sr+EJ80CXSPLpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="46443300"
 X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="46443285"
+   d="scan'208";a="46443300"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 15:16:50 -0700
-X-CSE-ConnectionGUID: 9M7MY91sQ0GFODloV84q9g==
-X-CSE-MsgGUID: WnZ+pzQ2RKC4p8tI+T5R2g==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 15:16:51 -0700
+X-CSE-ConnectionGUID: pyIFQ1evQc2fPiccT80O7w==
+X-CSE-MsgGUID: Rsad+2zVT/S5NLl9/fCAXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="143315035"
+   d="scan'208";a="143315040"
 Received: from jekeller-desk.jf.intel.com ([10.166.241.15])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 15:16:50 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 15:16:51 -0700
 From: Jacob Keller <jacob.e.keller@intel.com>
-Date: Mon, 10 Mar 2025 15:16:36 -0700
-Subject: [PATCH net 1/5] igb: reject invalid external timestamp requests
- for 82580-based HW
+Date: Mon, 10 Mar 2025 15:16:37 -0700
+Subject: [PATCH net 2/5] renesas: reject PTP_STRICT_FLAGS as unsupported
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -70,7 +69,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250310-jk-net-fixes-supported-extts-flags-v1-1-854ffb5f3a96@intel.com>
+Message-Id: <20250310-jk-net-fixes-supported-extts-flags-v1-2-854ffb5f3a96@intel.com>
 References: <20250310-jk-net-fixes-supported-extts-flags-v1-0-854ffb5f3a96@intel.com>
 In-Reply-To: <20250310-jk-net-fixes-supported-extts-flags-v1-0-854ffb5f3a96@intel.com>
 To: Tony Nguyen <anthony.l.nguyen@intel.com>, 
@@ -93,57 +92,47 @@ Cc: intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, Jacob Keller <jacob.e.keller@intel.com>
 X-Mailer: b4 0.14.2
 
-The igb_ptp_feature_enable_82580 function correctly checks that unknown
-flags are not passed to the function. However, it does not actually check
-PTP_RISING_EDGE or PTP_FALLING_EDGE when configuring the external timestamp
-function.
+The ravb_ptp_extts() function checks the flags coming from the
+PTP_EXTTS_REQUEST ioctl, to ensure that future flags are not accepted on
+accident.
 
-The data sheet for the 82580 product says:
+This was updated to 'honor' the PTP_STRICT_FLAGS in commit 6138e687c7b6
+("ptp: Introduce strict checking of external time stamp options.").
+However, the driver does not *actually* validate the flags.
 
-  Upon a change in the input level of one of the SDP pins that was
-  configured to detect Time stamp events using the TSSDP register, a time
-  stamp of the system time is captured into one of the two auxiliary time
-  stamp registers (AUXSTMPL/H0 or AUXSTMPL/H1).
+I originally fixed this driver to reject future flags in commit
+592025a03b34 ("renesas: reject unsupported external timestamp flags"). It
+is still unclear whether this hardware timestamps the rising, falling, or
+both edges of the input signal.
 
-  For example to define timestamping of events in the AUXSTMPL0 and
-  AUXSTMPH0 registers, Software should:
+Accepting requests with PTP_STRICT_FLAGS is a bug, as this could lead to
+users mistakenly assuming a request with PTP_RISING_EDGE actually
+timestamps the rising edge only.
 
-  1. Set the TSSDP.AUX0_SDP_SEL field to select the SDP pin that detects
-     the level change and set the TSSDP.AUX0_TS_SDP_EN bit to 1.
+Reject requests with PTP_STRICT_FLAGS (and hence all PTP_EXTTS_REQUEST2
+requests) until someone with access to the datasheet or hardware knowledge
+can confirm the timestamping behavior and update this driver.
 
-  2. Set the TSAUXC.EN_TS0 bit to 1 to enable timestamping
-
-The same paragraph is in the i350 and i354 data sheets.
-
-The wording implies that the time stamps are captured at any level change.
-There does not appear to be any way to only timestamp one edge of the
-signal.
-
-Reject requests which do not set both PTP_RISING_EDGE and PTP_FALLING_EDGE
-when operating under PTP_STRICT_FLAGS mode via PTP_EXTTS_REQUEST2.
-
-Fixes: 38970eac41db ("igb: support EXTTS on 82580/i354/i350")
+Fixes: 6138e687c7b6 ("ptp: Introduce strict checking of external time stamp options.")
 Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
 ---
- drivers/net/ethernet/intel/igb/igb_ptp.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/net/ethernet/renesas/ravb_ptp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/igb/igb_ptp.c b/drivers/net/ethernet/intel/igb/igb_ptp.c
-index f9457055612004c10f74379122063e8136fe7d76..b89ef4538a18d7ca11325ddc15944a878f4d807e 100644
---- a/drivers/net/ethernet/intel/igb/igb_ptp.c
-+++ b/drivers/net/ethernet/intel/igb/igb_ptp.c
-@@ -509,6 +509,11 @@ static int igb_ptp_feature_enable_82580(struct ptp_clock_info *ptp,
- 					PTP_STRICT_FLAGS))
- 			return -EOPNOTSUPP;
+diff --git a/drivers/net/ethernet/renesas/ravb_ptp.c b/drivers/net/ethernet/renesas/ravb_ptp.c
+index 6e4ef7af27bf31ab2aad8e06a65e0ede6046e3c0..b4365906669f3bd40953813e263aeaafd2e1eb70 100644
+--- a/drivers/net/ethernet/renesas/ravb_ptp.c
++++ b/drivers/net/ethernet/renesas/ravb_ptp.c
+@@ -179,8 +179,7 @@ static int ravb_ptp_extts(struct ptp_clock_info *ptp,
+ 	/* Reject requests with unsupported flags */
+ 	if (req->flags & ~(PTP_ENABLE_FEATURE |
+ 			   PTP_RISING_EDGE |
+-			   PTP_FALLING_EDGE |
+-			   PTP_STRICT_FLAGS))
++			   PTP_FALLING_EDGE))
+ 		return -EOPNOTSUPP;
  
-+		/* Both the rising and falling edge are timstamped */
-+		if (rq->extts.flags & PTP_STRICT_FLAGS &&
-+		    (rq->extts.flags & PTP_EXTTS_EDGES) != PTP_EXTTS_EDGES)
-+			return -EOPNOTSUPP;
-+
- 		if (on) {
- 			pin = ptp_find_pin(igb->ptp_clock, PTP_PF_EXTTS,
- 					   rq->extts.index);
+ 	if (req->index)
 
 -- 
 2.48.1.397.gec9d649cc640
