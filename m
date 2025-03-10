@@ -1,208 +1,278 @@
-Return-Path: <linux-renesas-soc+bounces-14228-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14229-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A19A5A2A5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 19:22:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDEC5A5A3B9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 20:25:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C9711895423
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 18:22:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 466B73AD985
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 19:25:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92A9A232367;
-	Mon, 10 Mar 2025 18:22:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF428235377;
+	Mon, 10 Mar 2025 19:25:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U+XCKo7w"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TI1r+x0F"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95772309B0;
-	Mon, 10 Mar 2025 18:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8186829D0B;
+	Mon, 10 Mar 2025 19:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741630942; cv=none; b=Xtz+tdh21aymWxxQS04IIYxxS4nBOycPY9ydS064PZyVONZCnYLM6P1QbtCkpTJKrR60277Dm/EMCe9lD0Ea8cv/VfQ38MC3J770oQZYN1v0QeL/nmxZ18fMK4xvnj5eILEpHTmd2AENILGaznDTpyE0AQbOnS749UKPZ1Dy9Q4=
+	t=1741634720; cv=none; b=ogBcwZ+a4qxIcQCVkQUh78Ea8OWsXwMAivbOSQzIQd+VNVAmJ3EqspSDvMdRtS/kCl6a7KvxMEk88/IIC/Cq0jKbLfEAiSu2oq6H7yZem81Y0+YJ+QeP9Fdw+glm/gDynwXmutW48gF4u01tXnUWH6fU2/LyFoO4p4pWYMuZ17U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741630942; c=relaxed/simple;
-	bh=Dow8nikHJE8XsnkuX7AwuXTf/FlFHfui7cMftFHMses=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QCVAecfStbLqrK0/DaZ+iB5g7sfJSvqyr1q1hNFuARzsE9RRLiwJQnqVHbcpHKw2xYADGSQyUOByb89AAHHSPEIAhdBIuKONPkIN3jYrJMJH3e1l4LlDDU5hdhVHp9ccXocfpuLl5FtLma+pThs7UKRguhDIK6aYub9+iBT8QME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U+XCKo7w; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-524038ba657so1576284e0c.0;
-        Mon, 10 Mar 2025 11:22:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741630939; x=1742235739; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CX5sgk1NrsSTqmDkZHWU3VI4LtlzTriqnBk+dv+I4P0=;
-        b=U+XCKo7wF5MscTUFZg26l/eyYuISi3hvCVUYBjHIFSs1RFjmyNjx/r+g18DiZV9Hc/
-         44Xmd9VjooCfsg1IfQlwo32Peo6v1bDjboyiEzkG7HAOX5gb7BEc4TQfVDZeON4MSIws
-         BStgM2zGujOh183VHTfbCG6GxkcPqnSEXwFXHN7sAlw/Gpm5Sm9M/p2RwXfJuta9rThU
-         XDr1v1Kc7dlJ42OgaPPAJKlGmoGrJlTpmtIFEZ4jDRaQGPXtlGjggb1WJnnViUa6jnoj
-         XRHJzRewc/jbCijSjaT8pw0paapuxFtoyWGiu13n69lmKZd7WEbL22xK389AFkam9ko3
-         ZlNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741630939; x=1742235739;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CX5sgk1NrsSTqmDkZHWU3VI4LtlzTriqnBk+dv+I4P0=;
-        b=aBx05XpV1O0pw2EHyOff2kB7Rkt5xHUGd5Nvt4GEOyNAefXoDsLLFlA97dBCxG4Z6Z
-         xSMBCtlXwlhCK8iXTmp9TgUqbmMDpTkaq4scTZmvKoJMozPO+KgWapYZDd8ZOORG0pN8
-         5iTgGbWvoeEbWezI4YQ/YoZYH29SnhxkCbQexgJamVLlgnizH6fLt2FwSoiICHI2HDth
-         MbBRVnY4Q1gAtIg2554sqpMVC7/kIDvWKAi/mQC27ZExoZoAthvKCAYbu+dzm2K0nhwQ
-         YxrALHqKLrwSWe4P9lJN4TZ8hVhOhNj9aHSJewoiYj6+MvYa36dsItGqQwc4ut7rn5Uc
-         +Unw==
-X-Forwarded-Encrypted: i=1; AJvYcCUG6t+yrgdr6uCM7urKOV+y+/rSWOTpwIMItrL5aoeTO9Eru5tsX++Z8zZVapt18N8ZbY+fQ0G8pRi8JoY=@vger.kernel.org, AJvYcCW2Y3FXJUTmynDtT+lsHVdBCTUTzIAF18SBDTdDcPvapoh3mJIZ88Sa8/dtsZAVYrNjlnyHr1atEIRVfMN7JncCbaA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdOwQbgccetJGYawkNIWGM/a3jd/YosH4e9hKqxARbOonpGCXt
-	CWsWbVHFgBO/E/FXqkn78dKl23JDwHMd3K1QY/6EesDKqF9hi8pvjK8Hw36S2bNS8aMrI9TNnTw
-	HVt6FS/La9raIUVSVt8UTHigFjrw=
-X-Gm-Gg: ASbGnctMdJSXy9GJ7qxStX4Lgn7rXq2nhGMG94reu5X+AYUgXErXIMciVL67kTO8J51
-	VWFjm2rJABQ9oexscNWOGTP3Fflonw3TIPgRniCMG6HgrRyYSPZ4ezlyOB4D2m0RvklBUFp3RS6
-	d0LrpwnH3sR9fsfDqjhuY8qthJdKfTLDoXbjfHjBYZytmpsylBjRgE1l/QPzI=
-X-Google-Smtp-Source: AGHT+IEPdZEq7coX5pTau7t6SmigM2UHhPJpEQBqoV1F/spx0U3PKqxHmTngw+7V/xU1dBEu/uWWeuytZzjMsJJxwno=
-X-Received: by 2002:a05:6122:469e:b0:520:4d63:72da with SMTP id
- 71dfb90a1353d-524196d8362mr552754e0c.6.1741630939544; Mon, 10 Mar 2025
- 11:22:19 -0700 (PDT)
+	s=arc-20240116; t=1741634720; c=relaxed/simple;
+	bh=HiJOVJUbPj9Y5EXs3EtkfouEzE6hMa/6Du8rJbM/8EI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AfSdfkA5QsqXcPF37CzDMZqUl4iUTMX3gBAUn7RMUgogHIuwnDCaDB8cZAehXalC7lHWVV16GSNeB10oqqEAxtZtbYwZEBRZo4iuQylEw4ei6vEklSRuOmIXn6ocoAOd6JAkZzk3c1sauaxOt6Tx/MnrlwsahryDvyRNQ6NdM6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TI1r+x0F; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9842BC4CEE5;
+	Mon, 10 Mar 2025 19:25:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741634718;
+	bh=HiJOVJUbPj9Y5EXs3EtkfouEzE6hMa/6Du8rJbM/8EI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TI1r+x0FIda8jW33SCD3Gv5Oz3Fcych+C9ZVqYndpSHwUYvX+I/aAlBs9Owiifmmx
+	 /Iu63dqXpopc8YBmK80269Dcs104vl1hmZnDLqLwFPyAT+Pj8e5ehGrIowBBd1vjN/
+	 SIKvbM/nqcvQSOfWE9ST4IKanpPHDFxX04whzNpCFzYwzEHSsakIbsLURs5bEeOCzC
+	 hqaF0mW6r1COEkHffTA1PKjcWH5qcytkZMeXqh8M5lVAy7JZ/xMXucG87Md231yowD
+	 cyJydDRql0PGCKRZ7wSsNyxGL+sJl+Hyq8apZ3+e7qNkXEZNux636deiwmQhu4caRP
+	 yHp++Me/nGUWg==
+Date: Mon, 10 Mar 2025 19:25:03 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>, Matti Vaittinen
+ <matti.vaittinen@fi.rohmeurope.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa
+ <nuno.sa@analog.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>, Dumitru Ceclan
+ <mitrutzceclan@gmail.com>, Trevor Gamblin <tgamblin@baylibre.com>, Matteo
+ Martelli <matteomartelli3@gmail.com>, Alisa-Dariana Roman
+ <alisadariana@gmail.com>, Ramona Alexandra Nechita
+ <ramona.nechita@analog.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v5 03/10] iio: adc: add helpers for parsing ADC nodes
+Message-ID: <20250310192503.71671275@jic23-huawei>
+In-Reply-To: <4d5212b3-3801-408c-9a5d-c6111189793c@gmail.com>
+References: <cover.1740993491.git.mazziesaccount@gmail.com>
+	<e71c63c2f61135f9a8c7884525aab2c48f1e84c2.1740993491.git.mazziesaccount@gmail.com>
+	<CAMknhBGQaqFZJsPAoauZL4S5MYtN05EOQ-BO2vw5gH+Z2RLOhw@mail.gmail.com>
+	<54a031d0-df47-4baa-a23a-1a79c0922542@gmail.com>
+	<20250308162928.72bd1d1b@jic23-huawei>
+	<4d5212b3-3801-408c-9a5d-c6111189793c@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250309211402.80886-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250309211402.80886-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250309211402.80886-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 10 Mar 2025 18:21:53 +0000
-X-Gm-Features: AQ5f1Jr7XdViOvlSMZDdyZAppvrQKWrkpa5abBLYLSyis9LKmLDk6xicWFaKdXw
-Message-ID: <CA+V-a8sqJy1HJYkxZONqSEsFuCmENgbs_ofLyaUChtRJpj_ebg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] clk: renesas: rzv2h-cpg: Add support for enabling PLLs
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+On Mon, 10 Mar 2025 09:41:00 +0200
+Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 
-On Sun, Mar 9, 2025 at 9:14=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.co=
-m> wrote:
->
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Some RZ/V2H(P) SoC variants do not have a GPU, resulting in PLLGPU being
-> disabled by default in TF-A. Add support for enabling PLL clocks in the
-> RZ/V2H(P) CPG driver to manage this.
->
-> Introduce `is_enabled` and `enable` callbacks to handle PLL state
-> transitions. With the `enable` callback, PLLGPU will be turned ON only
-> when the GPU node is enabled; otherwise, it will remain off. Define new
-> macros for PLL standby and monitor registers to facilitate this process.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> - Updated macros to get PLL offsets
-> - Switched to readl_poll_timeout_atomic() and updated the timeout
-> ---
->  drivers/clk/renesas/rzv2h-cpg.c | 49 +++++++++++++++++++++++++++++++++
->  1 file changed, 49 insertions(+)
->
-> diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-=
-cpg.c
-> index e489ce28ae63..76ad037b4361 100644
-> --- a/drivers/clk/renesas/rzv2h-cpg.c
-> +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> @@ -44,12 +44,18 @@
->  #define CPG_BUS_1_MSTOP                (0xd00)
->  #define CPG_BUS_MSTOP(m)       (CPG_BUS_1_MSTOP + ((m) - 1) * 4)
->
-> +#define CPG_PLL_STBY(x)                ((x))
-> +#define CPG_PLL_STBY_RESETB    BIT(0)
-> +#define CPG_PLL_STBY_RESETB_WEN        BIT(16)
->  #define CPG_PLL_CLK1(x)                ((x) + 0x004)
->  #define KDIV(val)              ((s16)FIELD_GET(GENMASK(31, 16), (val)))
->  #define MDIV(val)              FIELD_GET(GENMASK(15, 6), (val))
->  #define PDIV(val)              FIELD_GET(GENMASK(5, 0), (val))
->  #define CPG_PLL_CLK2(x)                ((x) + 0x008)
->  #define SDIV(val)              FIELD_GET(GENMASK(2, 0), (val))
-> +#define CPG_PLL_MON(x)         ((x) + 0x010)
-> +#define CPG_PLL_MON_RESETB     BIT(0)
-> +#define CPG_PLL_MON_LOCK       BIT(4)
->
->  #define DDIV_DIVCTL_WEN(shift)         BIT((shift) + 16)
->
-> @@ -141,6 +147,47 @@ struct ddiv_clk {
->
->  #define to_ddiv_clock(_div) container_of(_div, struct ddiv_clk, div)
->
-> +static int rzv2h_cpg_pll_clk_is_enabled(struct clk_hw *hw)
-> +{
-> +       struct pll_clk *pll_clk =3D to_pll(hw);
-> +       struct rzv2h_cpg_priv *priv =3D pll_clk->priv;
-> +       u32 val =3D readl(priv->base + CPG_PLL_MON(pll_clk->pll.offset));
-> +
-> +       /* Ensure both RESETB and LOCK bits are set */
-> +       return (val & (CPG_PLL_MON_RESETB | CPG_PLL_MON_LOCK)) =3D=3D
-> +              (CPG_PLL_MON_RESETB | CPG_PLL_MON_LOCK);
-> +}
-> +
-> +static int rzv2h_cpg_pll_clk_enable(struct clk_hw *hw)
-> +{
-> +       struct pll_clk *pll_clk =3D to_pll(hw);
-> +       struct rzv2h_cpg_priv *priv =3D pll_clk->priv;
-> +       struct pll pll =3D pll_clk->pll;
-> +       u32 stby_offset;
-> +       u32 mon_offset;
-> +       u32 val;
-> +       int ret;
-> +
-> +       if (rzv2h_cpg_pll_clk_is_enabled(hw))
-> +               return 0;
-> +
-> +       stby_offset =3D CPG_PLL_STBY(pll.offset);
-> +       mon_offset =3D CPG_PLL_MON(pll.offset);
-> +
-> +       writel(CPG_PLL_STBY_RESETB_WEN | CPG_PLL_STBY_RESETB,
-> +              priv->base + stby_offset);
-> +
-> +       /* ensure PLL is in normal mode */
-> +       ret =3D readl_poll_timeout_atomic(priv->base + mon_offset, val,
-> +                                       (val & (CPG_PLL_MON_RESETB | CPG_=
-PLL_MON_LOCK)) =3D=3D
-> +                                       (CPG_PLL_MON_RESETB | CPG_PLL_MON=
-_LOCK), 10, 100);
-This timeout didnt work when I power cycled after a complete shutdown overn=
-ight.
+> On 08/03/2025 18:29, Jonathan Cameron wrote:
+> > On Wed, 5 Mar 2025 12:54:33 +0200
+> > Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+> >  =20
+> >> Thanks for the review David.
+> >>
+> >> On 04/03/2025 11:25, David Lechner wrote: =20
+> >>> On Mon, Mar 3, 2025 at 12:32=E2=80=AFPM Matti Vaittinen
+> >>> <mazziesaccount@gmail.com> wrote: =20
+> >>>>
+> >>>> There are ADC ICs which may have some of the AIN pins usable for oth=
+er
+> >>>> functions. These ICs may have some of the AIN pins wired so that they
+> >>>> should not be used for ADC.
+> >>>>
+> >>>> (Preferred?) way for marking pins which can be used as ADC inputs is=
+ to
+> >>>> add corresponding channels@N nodes in the device tree as described in
+> >>>> the ADC binding yaml.
+> >>>>
+> >>>> Add couple of helper functions which can be used to retrieve the cha=
+nnel
+> >>>> information from the device node.
+> >>>>
+> >>>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> >>>>
+> >>>> --- =20
+> >> =20
+> >>>> + *
+> >>>> + * Return:     Number of found channels on succes. Negative value t=
+o indicate =20
+> >>>
+> >>> s/succes/success/ =20
+> >>
+> >> Thanks!
+> >> =20
+> >>>> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
+> >>>> +                                         const struct iio_chan_spec=
+ *template,
+> >>>> +                                         int max_chan_id,
+> >>>> +                                         struct iio_chan_spec **cs)
+> >>>> +{
+> >>>> +       struct iio_chan_spec *chan_array, *chan;
+> >>>> +       int num_chan =3D 0, ret;
+> >>>> +
+> >>>> +       num_chan =3D iio_adc_device_num_channels(dev);
+> >>>> +       if (num_chan < 1)
+> >>>> +               return num_chan;
+> >>>> +
+> >>>> +       chan_array =3D devm_kcalloc(dev, num_chan, sizeof(*chan_arra=
+y),
+> >>>> +                                 GFP_KERNEL);
+> >>>> +       if (!chan_array)
+> >>>> +               return -ENOMEM;
+> >>>> +
+> >>>> +       chan =3D &chan_array[0];
+> >>>> +
+> >>>> +       device_for_each_child_node_scoped(dev, child) {
+> >>>> +               u32 ch;
+> >>>> +
+> >>>> +               if (!fwnode_name_eq(child, "channel"))
+> >>>> +                       continue;
+> >>>> +
+> >>>> +               ret =3D fwnode_property_read_u32(child, "reg", &ch);
+> >>>> +               if (ret)
+> >>>> +                       return ret;
+> >>>> +
+> >>>> +               if (max_chan_id !=3D -1 && ch > max_chan_id)
+> >>>> +                       return -ERANGE;
+> >>>> + =20
+> >>>
+> >>> Should we use return dev_err_probe() on these to help with debugging =
+a bad dtb?
+> >>>     =20
+> >>
+> >> I am not fan of using dev_err_probe() in a 'library code'. This is
+> >> because we never know if there'll be some odd use-case where this is n=
+ot
+> >> called from the probe.
+> >>
+> >> All in all, I'd leave adding most of the debugs to the callers -
+> >> especially because we do not expect to have bad device-trees after the
+> >> initial 'development stage' of a board. The board 'development stage'
+> >> should really reveal bugs which prevent the channels from being
+> >> registered - and after the DT is correct, these debug prints become
+> >> unnecessary (albeit minor) binary bloat.
+> >> =20
+> >>>> +               *chan =3D *template;
+> >>>> +               chan->channel =3D ch;
+> >>>> +               chan++;
+> >>>> +       }
+> >>>> +
+> >>>> +       *cs =3D chan_array;
+> >>>> +
+> >>>> +       return num_chan;
+> >>>> +}
+> >>>> +EXPORT_SYMBOL_NS_GPL(devm_iio_adc_device_alloc_chaninfo_se, "IIO_DR=
+IVER"); =20
+> >>>
+> >>> We can make this less verbose by setting #define
+> >>> DEFAULT_SYMBOL_NAMESPACE at the start of the file. Then we can just do
+> >>> EXPORT_SYMBOL_GPL() throughout the rest of the file. =20
+> >>
+> >> I am not sure what to think of this. I use the good old 'ctrl + ]' in =
+my
+> >> editor when I need to check how a function was supposed to be used. Th=
+at
+> >> jumps to the spot of code where the function is. I'd like to see the
+> >> namespace mentioned there in order to not accidentally miss the fact t=
+he
+> >> function belongs to one.
+> >>
+> >> OTOH, I do like simplifications. Yet, the added simplification might n=
+ot
+> >> warrant the namespace not being visible in the function definition.
+> >> =20
+> >>> Also, I would prefer if the namespace matched config name (IIO_ADC_HE=
+LPER). =20
+> >>
+> >> I had some lengthy discussion about this with Andy and Jonathan during
+> >> earlier review versions. In short, I don't like the idea of very
+> >> fragmented namespaces in IIO, which will just complicate the drivers
+> >> without providing any obvious benefit.
+> >>
+> >> https://lore.kernel.org/all/20250222174842.57c091c5@jic23-huawei/
+> >> =20
+> >>>> +
+> >>>> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
+> >>>> +                                         const struct iio_chan_spec=
+ *template,
+> >>>> +                                         int max_chan_id,
+> >>>> +                                         struct iio_chan_spec **cs);
+> >>>> + =20
+> >>>
+> >>> There are some different opinions on this, but on the last patch I did
+> >>> introducing a new namespace, the consensus seems to be that putting
+> >>> the MODULE_IMPORT_NS() in the header file was convenient so that users
+> >>> of the API don't have to remember to both include the header and add
+> >>> the import macro.
+> >>>     =20
+> >>
+> >> I do like this suggestion, and I believe this would be the balance
+> >> between getting the benefit of hiding part of the symbols - while not
+> >> unnecessarily complicating the callers. I know some people are opposing
+> >> it though. My personal opinion is that having the MODULE_IMPORT_NS() in
+> >> a header would be neatly simplifying the calling code with very little
+> >> harm, especially here where including the header hardly has use-cases
+> >> outside the IIO ADC.
+> >>
+> >> Unfortunately, the "safety" seems to often be a synonym for just "maki=
+ng
+> >> it intentionally hard". As Finnish people say: "K=C3=A4rsi, k=C3=A4rsi,
+> >> kirkkaamman kruunun saat". :)
+> >> (Roughly translated as "Suffer, suffer, you will get a brighter crown"=
+).
+> >>
+> >> Let's hear what Jonathan thinks of your suggestion. =20
+> >=20
+> > For this particular case my intent was that all the IIO exports that
+> > are suitable for use in simple IIO drives will be in this namespace,
+> > we just haven't started that conversion yet.
+> >=20
+> > As such, having it defined from a header for this helper isn't a good
+> > thing to do. =20
+>=20
+> Hmm. I agree.
+>=20
+> >  Generally I prefer to see in driver code what namespaces
+> > are involved but do understand the other viewpoint. In this case I
+> > definitely don't think it is appropriate unless we go for a specific na=
+mespace
+> > for just this helper. =20
+>=20
+> I suppose having the MODULE_IMPORT_NS() in the header would actually=20
+> make the more fine-grained namespaces (like IIO_ADC_HELPERS, IIO_GTS,=20
+> ...) much more usable. That'd relieved the drivers from explicitly=20
+> listing multiple namespaces while nicely limiting the visibility.
+>=20
+> If IIO was my territory, I might want to ask people to go with that=20
+> approach - but I am quite happy being a freeloade.. errm, I mean,=20
+> bystander ;)
+>=20
+It relieves the burden but I'd still prefer explicit opt in to namespaces
+unless there is general agreement on the approach of doing it in headers
+which there has not been so far.
 
-I will update the timeout as below, this Ive made sure the below delay
-works OK after complete shutdown.
+Jonathan
 
-/*
-* Ensure PLL enters into normal mode
-*
-* Note: There is no HW information about the worst case latency.
-*
-* Since this value might be dependent on external xtal rate, pll
-* rate or even the other emulation clocks rate, use 2000 as a
-* "super" safe value.
-*/
-ret =3D readl_poll_timeout_atomic(priv->base + mon_offset, val,
-                                                    (val &
-(CPG_PLL_MON_RESETB | CPG_PLL_MON_LOCK)) =3D=3D
+> Thanks!
+>=20
+> Yours,
+> 	-- Matti
 
-(CPG_PLL_MON_RESETB | CPG_PLL_MON_LOCK), 200, 2000);
-
-Please let me know shall I send v3 with this change or wait for your review=
-.
-
-Cheers,
-Prabhakar
 
