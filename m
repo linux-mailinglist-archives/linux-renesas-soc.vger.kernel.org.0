@@ -1,178 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-14221-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14222-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08BFCA595E3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 14:16:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B932A595EA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 14:16:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6FBE3A5224
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 13:16:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D147616F0B8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 13:16:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ADB0227EA0;
-	Mon, 10 Mar 2025 13:16:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1339B229B1F;
+	Mon, 10 Mar 2025 13:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kdxatPs3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F53374EA;
-	Mon, 10 Mar 2025 13:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D8E229B05;
+	Mon, 10 Mar 2025 13:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741612576; cv=none; b=gZz1+R7SyBcQlYC1J2+ErDXO2HOP/rg6BYgTX/9YldEyJ1GQPci6S6LOMeXmrKD8KbaccvXzFNQl40vqVIKErGapaRMMgcYuecmyOX3e3kvJK0x8DNNO0q56xyuf89NRytYbFRxctAmGMYDkcguTfIj9HUArog/vdxxFLZFnNhs=
+	t=1741612585; cv=none; b=BtmkG0ywYJN2bY727dEJSSNAwznfhgQ2/i4p9m7WB8jRWrBm4bMus7ab2v/x5xTKTgrxKJJRYIsZqY1dDIOfHUQOMfVE79AKJe6KNy96ZJ7SFx/6bcf2+M0VbiPqku5iGV2aW9fe3zd4OrPwuSnw5OZSXtMa97brez+oI2f31IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741612576; c=relaxed/simple;
-	bh=+pe8nMgc4fByYrl/J+ifCMz86M7Dbvi7gJXrq56sYKw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ohoWH1wvDHKIrlSdrwgbg4osXR1N9hiKkYBV+mSTcySi+VZVYj4VOVI2JfjKQGyaZCSM0EZJNg9Oa2Cra0/7pI1P1xBug6HHHP4A0GwWzItW4cEYKNF5zO7AYxVZ9i0L8YhiSE1GY88Ij80C4EMUBX2yi78Zg1Y271aNPELMNRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1741612585; c=relaxed/simple;
+	bh=M8qonvUQhRRmrlcJ0hhHz3omTRWoZtZPhcLCp42I2ts=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZL1dPfTUvErOeuo0+WIdQahK+pZMa4xjOzIw7MtE8ulhYJ1JrlPHfC4cDucfR6DSa2URNwOSr0uLIan5xXKhyZXbWVnR7xiK5/3nF1qtjCX2FgcK6xbDHFyC53yBVnZaeh1LP9G/0l57NSX7Pu4YGOknXaKvs22ZfDBHy9uLXNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kdxatPs3; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-86b68e51af4so1571739241.1;
-        Mon, 10 Mar 2025 06:16:13 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-547bcef2f96so4366444e87.1;
+        Mon, 10 Mar 2025 06:16:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741612581; x=1742217381; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VelmRFPde53xqbAzlgnHoP18LxVcPepOhlqsb8RM6wc=;
+        b=kdxatPs3D5rjJZ0UDPQadawfJaNd3m5s/6hskTybniAqAZo8fb62F0zTOovZo+MGPG
+         N69PcNROfjXgw5/0V2UHapnfv+bAGAamrGMSrn/wXmYhzDSJGL4PF/VwqJpyaWUvOEoL
+         jboGTlHZyNj3AocW2CJ4AuyreWuUn5Vn8Kxi01Owkfbqyl9ujA1rtluCHQDJNIlltbzP
+         KG+rvK46QKaNsSiQeo77cppagyKt00MuRwVQLQg7okSk/oRQ2HdeL6kAXqG6mnO6bxGm
+         9em/FfUqWMnWAI/jOHMzOOX/S47Ejrt6pKFtYLAuVaOtsAoAMYhaUjOI2tnyvK0Soohq
+         Rbyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741612572; x=1742217372;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3bwMEAH7Tb2p80rG5YQFDISiH+2UdxhzZVsTz2rTT24=;
-        b=t7j3P1PB0LMPauR2TSwADqFHF9kh9wqf0O/5vcm8YwCCZVhPYYIZB0Jtyg3sIJdf2p
-         9e+R7ZSz+LiTDryi37ZJUQ5QyCNUMMA5+PCv4pWcbb1TH73i2CbyZPfddKLUWekJ9t5V
-         v5cwmaCPuynNkXFJnYFS9lva0/tj5XvxRn5NEUFvsETGugrNEjs/P30E9sE5s41ZU43p
-         AO1LGmXuSiMYLQZ07WpSG9v2Qxdkf8CLs9uJPVkNdZKNsjzDzqwUF5+MwkzXny5CJqXb
-         UN1403kQAFCTp5HYe/KyT4o5wlRwx2K9z65CUm0xgc/y9lRrFJxVZcty5y6VxRIppSnn
-         C9Kg==
-X-Forwarded-Encrypted: i=1; AJvYcCULVEHMV3HQRdKtqoTXhnGRgMra/mieCmSS15UgAR9muZae4NDcSq3+PS0/Czjiy2GeGvPVdCFQVsPkSw==@vger.kernel.org, AJvYcCW3iqEwe7AonyEAwR1kdMfa2UwTRXPaViYdnPiB4q3DuB5LgQoXKHROl0fo9/QyqMJOCFrnWipqvVfx@vger.kernel.org, AJvYcCWBjew7Qg5f6ogFrgSqhc5wmOG549CZnvGJD4o6dycVGDqylq90b80CwZiw4SLcHyewyt1LXa4V0vrS9eiyXMBp5SU=@vger.kernel.org, AJvYcCXKKES9M/K57Cy43q03UUatKTJvB5cA1Llar/NBtdQDjqJnfhVqujtFRVLUpO4jrQ9kdGhWmhuNa1G58Hcf@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHrhOCrPM9KepIGIUuIkslSKiof/Kd2YUn4ENNfxikrg/GU0jF
-	uNcaAxVaJCcSPL96Oz6IWnhqFEHkZ/fS17UL8QlMLg+5D2tDbC7td2bYcge10sA=
-X-Gm-Gg: ASbGnct+F+ohhZFG9dMs666/wzZII150jggJ/0ugx73GzoTm8UAfAtmRZ00h8MuDNnO
-	rbmI1Sa6M3sy5fsJNg393FzohleJRI7g4bIWTNEtZHZ+OTte5DRS4UTpd2W0qrQQapZ7NMBFDzz
-	0aLpmMQQY4AiuhqqLXehqZHUXxEwVJLTOXraL7TmbprlkH1dbGMNZRJOFleDHCpqMaydx74uMVz
-	wDSSzwKCWf3gV+3uss4T7xklP1zj5JMd2+CCtAfE+v14Kziv0/J0fwmv7w3orrJP9Ps+F6OGODH
-	qban99AsFUmO8a1swglXzju6DgNMZ1ZEmZBSVeMA3wbmDy8HaYmUQRr8uqH/i6fsArZC2pWrAOR
-	GvizaZuc=
-X-Google-Smtp-Source: AGHT+IGWrgaTcuRoRn5yEgZmzyybev0b5x8Pgfkri+MWcuiq9g+56xaQ0aMAe/Ds6Y7so3QX7LZ2mA==
-X-Received: by 2002:a05:6102:a54:b0:4c1:b001:b53 with SMTP id ada2fe7eead31-4c30a65e00bmr7130200137.18.1741612572572;
-        Mon, 10 Mar 2025 06:16:12 -0700 (PDT)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c2fbca4f0dsm1953416137.21.2025.03.10.06.16.12
+        d=1e100.net; s=20230601; t=1741612581; x=1742217381;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VelmRFPde53xqbAzlgnHoP18LxVcPepOhlqsb8RM6wc=;
+        b=CRQGgGnHEGZVJFu1pTLhzChHJBBGVP5Zh2zhuFO29fVmQ5ryu7y6C7UzDKKu297oSs
+         vAt9RyIf4dYUTdxfSIYhxbnJdTbjgXHwBvU2UuQoMvxRddfOfl4wVzcTDk2QoSuteaRA
+         LwALY388PEqCvQt7p0ZXFmKUm/YwiLhmuPkN4E/3shiGN5yS9sCwEK1kgfc96sLw5v0L
+         aRSHZr9hIAy13zpLzmsWKdIImHlQXbclsHPP4Cg4ltkIZdC0HLpBHoO/TOsnjAI4VvJe
+         lvUoKPiInBlbuWuE2Z++/ez1mJwpPbQEliw0yQnrhiCHySQVLEb3adGOu/QFXSI8a9Ae
+         Ekiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUSSi3Y5rTtmbxuoCsLPpgv2K/bRoG22m3NZZhgBN0SEbE6EqJy9Wt7nTh6l9Bab7cMXjUvKDERFC3x5o8=@vger.kernel.org, AJvYcCVP8SIUnub90OByUcGYgbMTuHa9Q5fdKFdvBtuwse0dNLKi03GwtESIOLQJEy7q2yxHdzQeR/jmzZRyRlTJ86j6E68=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVxzRfpPk5KRl1KQbvTuznzosp0+tvWR8xLlwosuOJMHGrxWEk
+	nbGiEaKCbnrsL67gQt8z0ioUBcuTMkfOh/P8QIZR+0g9tBcT1/P3
+X-Gm-Gg: ASbGnct40xgG1u5Uyl6dfdok85llZ0aauGnwE0CUhsrxZHL4xN0BRFq6XERLWHCOrwo
+	dkztgknF/KD/NQeoI5oB4+3/IoJ1sNOYANV7Pcr2kSILCF8oRkwEG/4sMlAr5IG4lUOSrLHVeOW
+	asdOfmiO1srLPU+DIvpZrC2+7HVZ+bbCF5k6n/RrTBqKU7AAzylH3Df2uH7vchImYDo8JWsbwj+
+	Hn67I0i/cqJhF4GrAm8yxlWbBZ7oZruN0W6H/XNj7BJTdAWxg2BkE3Zff7n2JbC5OG327Cggmnb
+	pcFMlKwPk0YAHO1yApPrJ9ybScRJ68t01mq1tIXU4cZ8CTxJP9/DG0lC/W1mk37kKHd4Zy2GHHi
+	d1ePONk1i3ZXqStM92ro60SYxF02B3XwoHHTY
+X-Google-Smtp-Source: AGHT+IEN6RA/FhUKAi67rrISyQvUAXdp5U/gAvAoDg3KjSkA/WcDoaiTVPJIm1UgDUAvGtdLc/DPIg==
+X-Received: by 2002:a05:6512:ba6:b0:549:8ed4:fb64 with SMTP id 2adb3069b0e04-54990e6725bmr5092561e87.24.1741612581068;
+        Mon, 10 Mar 2025 06:16:21 -0700 (PDT)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5498b1bbee4sm1461221e87.168.2025.03.10.06.16.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Mar 2025 06:16:12 -0700 (PDT)
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-86718c2c3b9so1617846241.2;
-        Mon, 10 Mar 2025 06:16:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU7bS4SNYBFIDCLQzyaCt9+rVecXwAtEP3CFAQXCYj672PkPZSKFT4Ak0TcmEDrRMHHM+QtamChMj1wxpxS@vger.kernel.org, AJvYcCUyfVV02FlPf1N7Cu31Jvh4mXvAWJY7Egi4nDxOpicFaJzB92g1tFhuxal6T7wQjsdyXH62kBoFa5dF8aGZbcly920=@vger.kernel.org, AJvYcCWMAklpG8RKLlce+oKS/RE/hZ5nVZzsj6pwdA4cYb8V0VbKmYjdEHr3bh+hP+p4AKgRB5iGKA0fysiD@vger.kernel.org, AJvYcCXYULFZRpvku56HBjE350JYXjrdIBn5v9H5n3SmTh6OVjuf9GAR5hxyLo+sJX52hBBiQPAzHlcgeCCmPg==@vger.kernel.org
-X-Received: by 2002:a05:6102:3583:b0:4c3:6c4:e174 with SMTP id
- ada2fe7eead31-4c30a65d92emr7228931137.16.1741612572135; Mon, 10 Mar 2025
- 06:16:12 -0700 (PDT)
+        Mon, 10 Mar 2025 06:16:20 -0700 (PDT)
+Message-ID: <a9f27271-320b-4cd3-a3bb-bd5aa3ac30da@gmail.com>
+Date: Mon, 10 Mar 2025 15:16:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250109-dt-type-warnings-v1-0-0150e32e716c@kernel.org>
- <20250109-dt-type-warnings-v1-2-0150e32e716c@kernel.org> <CAMuHMdU=QR-JLgEHKWpsr6SbaZRc-Hz9r91JfpP8c3n2G-OjqA@mail.gmail.com>
- <CAL_JsqJNgxLgvB502Bk=5aMeP2rY6KVL_FykeSyN1tsDRXi9cA@mail.gmail.com> <CAMuHMdWZsQ9UbwVub=36P_2DCPEN0aORz9FxCbivKkOyeWkuww@mail.gmail.com>
-In-Reply-To: <CAMuHMdWZsQ9UbwVub=36P_2DCPEN0aORz9FxCbivKkOyeWkuww@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Mar 2025 14:15:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUHsTYjamDkyoe_CwJhXbf7LpAPk+Dazd4wChEmfcuYPQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JraxfzSSZiwFZoSk4-gLUnOHP6AW4upV-5J6BIK6IbQAuD0VMWwpRICbuw
-Message-ID: <CAMuHMdUHsTYjamDkyoe_CwJhXbf7LpAPk+Dazd4wChEmfcuYPQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] of: Warn when of_property_read_bool() is used on
- non-boolean properties
-To: Rob Herring <robh@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, linux-acpi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/15] gpio: bd71815: use new line value setter callbacks
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Ray Jui <rjui@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Marek Vasut <marek.vasut+renesas@gmail.com>, Michael Buesch <m@bues.ch>,
+ Thomas Richard <thomas.richard@bootlin.com>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Andy Shevchenko <andy@kernel.org>,
+ Support Opensource <support.opensource@diasemi.com>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, chrome-platform@lists.linux.dev,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20250310-gpiochip-set-conversion-v1-0-03798bb833eb@linaro.org>
+ <20250310-gpiochip-set-conversion-v1-3-03798bb833eb@linaro.org>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20250310-gpiochip-set-conversion-v1-3-03798bb833eb@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 15 Jan 2025 at 12:20, Geert Uytterhoeven <geert@linux-m68k.org> wro=
-te:
-> On Tue, Jan 14, 2025 at 8:19=E2=80=AFPM Rob Herring <robh@kernel.org> wro=
-te:
-> > On Tue, Jan 14, 2025 at 12:35=E2=80=AFPM Geert Uytterhoeven
-> > <geert@linux-m68k.org> wrote:
-> > > On Thu, Jan 9, 2025 at 8:42=E2=80=AFPM Rob Herring (Arm) <robh@kernel=
-.org> wrote:
-> > > > The use of of_property_read_bool() for non-boolean properties is
-> > > > deprecated. The primary use of it was to test property presence, bu=
-t
-> > > > that has been replaced in favor of of_property_present(). With thos=
-e
-> > > > uses now fixed, add a warning to discourage new ones.
-> > > >
-> > > > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > >
-> > > Thanks for your patch, which is now commit c141ecc3cecd7647 ("of:
-> > > Warn when of_property_read_bool() is used on non-boolean properties")
-> > > in dt-rh/for-next.
-> > >
-> > > I have bisected a failure in secondary CPU bring-up on R-Car H1 (quad
-> > > Cortex-A9 MPCore) to this commit:
-> > >
-> > >      Detected Renesas R-Car Gen1 r8a7779 ES1.0
-> > >      smp: Bringing up secondary CPUs ...
-> > >     -CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
-> > >     -CPU1: Spectre v2: using BPIALL workaround
-> > >     -CPU2: thread -1, cpu 2, socket 0, mpidr 80000002
-> > >     -CPU2: Spectre v2: using BPIALL workaround
-> > >     -CPU3: thread -1, cpu 3, socket 0, mpidr 80000003
-> > >     -CPU3: Spectre v2: using BPIALL workaround
-> > >     -smp: Brought up 1 node, 4 CPUs
-> > >     -SMP: Total of 4 processors activated (2000.00 BogoMIPS).
-> > >     +CPU1: failed to come online
-> > >     +CPU2: failed to come online
-> > >     +CPU3: failed to come online
-> > >     +smp: Brought up 1 node, 1 CPU
-> > >     +SMP: Total of 1 processors activated (500.00 BogoMIPS).
-> > >      CPU: All CPU(s) started in SVC mode.
-> > >
-> > > Reverting this commit on top of my work tree fixes the issue, too.
-> > > However, I do not see how this commit could impact CPU bring-up?
-> >
-> > Strange. Perhaps the of_property_read_bool was inlined into some
-> > special section before?
->
-> I re-added the old inline of_property_read_bool(), but with a different
-> name.  CPU bringup starts working again if I replace at least one call
-> to of_property_read_bool() in arch/arm/mm/cache-l2x0.c:aurora_of_parse()
-> by a call to the inline variant, or even if I just add
->
->     pr_info("xf_property_read_bool(np, \"wt-override\") =3D %d\n",
-> xf_property_read_bool(np, "wt-override"));
->
-> to that function. Note that that function is not called at all on my plat=
-form.
->
-> This small change causes quite some reordering in arch/arm/mm/cache-l2x0.=
-s,
-> so it looks like a layout issue. More analysis will follow...
+On 10/03/2025 14:40, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> 
+> struct gpio_chip now has callbacks for setting line values that return
+> an integer, allowing to indicate failures. Convert the driver to using
+> them.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-The assembler SMP bring-up code for Renesas SoCs lacked an alignment
-directive.  I have posted a fix:
-https://lore.kernel.org/r/CAMuHMdU=3DQR-JLgEHKWpsr6SbaZRc-Hz9r91JfpP8c3n2G-=
-OjqA@mail.gmail.com
+Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
 
-Gr{oetje,eeting}s,
+Thanks!
 
-                        Geert
+> ---
+>   drivers/gpio/gpio-bd71815.c | 15 ++++++---------
+>   1 file changed, 6 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpio/gpio-bd71815.c b/drivers/gpio/gpio-bd71815.c
+> index 08ff2857256f..36701500925e 100644
+> --- a/drivers/gpio/gpio-bd71815.c
+> +++ b/drivers/gpio/gpio-bd71815.c
+> @@ -37,21 +37,18 @@ static int bd71815gpo_get(struct gpio_chip *chip, unsigned int offset)
+>   	return (val >> offset) & 1;
+>   }
+>   
+> -static void bd71815gpo_set(struct gpio_chip *chip, unsigned int offset,
+> -			   int value)
+> +static int bd71815gpo_set(struct gpio_chip *chip, unsigned int offset,
+> +			  int value)
+>   {
+>   	struct bd71815_gpio *bd71815 = gpiochip_get_data(chip);
+> -	int ret, bit;
+> +	int bit;
+>   
+>   	bit = BIT(offset);
+>   
+>   	if (value)
+> -		ret = regmap_set_bits(bd71815->regmap, BD71815_REG_GPO, bit);
+> -	else
+> -		ret = regmap_clear_bits(bd71815->regmap, BD71815_REG_GPO, bit);
+> +		return regmap_set_bits(bd71815->regmap, BD71815_REG_GPO, bit);
+>   
+> -	if (ret)
+> -		dev_warn(bd71815->dev, "failed to toggle GPO\n");
+> +	return regmap_clear_bits(bd71815->regmap, BD71815_REG_GPO, bit);
+>   }
+>   
+>   static int bd71815_gpio_set_config(struct gpio_chip *chip, unsigned int offset,
+> @@ -88,7 +85,7 @@ static const struct gpio_chip bd71815gpo_chip = {
+>   	.owner			= THIS_MODULE,
+>   	.get			= bd71815gpo_get,
+>   	.get_direction		= bd71815gpo_direction_get,
+> -	.set			= bd71815gpo_set,
+> +	.set_rv			= bd71815gpo_set,
+>   	.set_config		= bd71815_gpio_set_config,
+>   	.can_sleep		= true,
+>   };
+> 
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
