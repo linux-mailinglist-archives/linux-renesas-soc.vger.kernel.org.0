@@ -1,142 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-14226-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14227-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABC5A597FE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 15:44:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A60A59ABF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 17:15:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 77C9C3A4D0B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 14:44:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9254A189038A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 16:15:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAF3C22CBF9;
-	Mon, 10 Mar 2025 14:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78D2F22FADE;
+	Mon, 10 Mar 2025 16:15:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dv545fOY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g3kuO3S+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D893522CBED;
-	Mon, 10 Mar 2025 14:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CEFA1BCA1B;
+	Mon, 10 Mar 2025 16:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741617876; cv=none; b=brD1uCb+CDT4hKcHDQmBDccw831HFssBC2/G7s0BcieQ0tf+Yyuf2tIq7vH/oHWKBQpDj4NCePKrK6SFsXjsKT0gT6e2sMkuiP58AqeZMb0FnnONHmBn//JHR8hiqfNdjBpf7Aj7QWW6uzSQe/u03QGyUH4q/jUM+Mcl59LABBI=
+	t=1741623320; cv=none; b=LqU5e0l2vmVeEy82H2rCEc+/+D9+C/tdGAalq0O/bmYdyyQ9BFKi5VOHvd1SRmYyHsyr3sgTV2hSxzIaMZAYMOmpVCpHvbWI9RmNLTISz7s+3TQR4whzHFn9u56RyBeLMOBACmzr6qB20xJbCZVFPDBQrSWme0D5l/seoftx9Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741617876; c=relaxed/simple;
-	bh=QRALNFtdN+eVm7tbZOOG157YtH485xLMQcdhF3aH1K0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n0e3iPRyRqPjR8iZmVPXZCpb53bLoBC6XKxCj0uksmXBgpTPBKcTUAkIf0pH/sEFJdp53NmtfVd87R4vaJTMCtJa7243C/vB2QxC1+zDNCki6K2srknKBq5vcJuxP2ru4iOEkQiQOW+N61KJ9Fmk00w5rK89JWpXumI1wYV8Zrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dv545fOY; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30795988ebeso46200411fa.3;
-        Mon, 10 Mar 2025 07:44:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741617873; x=1742222673; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fErUntllWsLjAOuJrcnV9q/2Ltwr2+uinPcLby2r5I8=;
-        b=dv545fOYr7ySHfc7iGwSY43TgFdGfoGs31Pu+feAE2q0mwWMD9/4nt7uJID3d7Dz8t
-         MEnI1a2/eYJSp1UJeMeK8vZuDihSCXpZ3Egb5JoM/jMJLMZEsZHb5cXdd8b0zFXbrXGH
-         6UwZUlDlbQpBMJAoFIXgmLL7qGvTrOxKg7YZVPJiLqlRK5UbZCbBlZy/SAda4/ug2KC7
-         Ka0e2wgJZDIvWMRyKzJFNXCzFeHL2fPbOfrylApgznQ+RppuKtJTu4gAvbyaj5rat4fE
-         M65+v/qeKLjlO3zMqD72/ywJNQKa5deZIhBoGgwrhwv6IGc4sV3vUL5d7jwy0z0qotrq
-         leLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741617873; x=1742222673;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fErUntllWsLjAOuJrcnV9q/2Ltwr2+uinPcLby2r5I8=;
-        b=CQ0dKq8ECA72StGU20urMiFhFoi73DYQ+LHrXcBzUkyL6hcq/Q244d8yOdcAxF2Irk
-         YUW6g3B49VKO7wugfh1IQdCf6bO1Ap3yHGpZ1f4pBxKnl+ArWgOpf/z+Nz32YIM5fDd4
-         p/OU+aekR4ORxVrp/fuE1qqmIVTvcOjOIps0ZtVxIxJWmkGAJJqZNsXFJ9x7177NobwE
-         ow3XJsI/V7LNhngAFPxYbbDWDCMK+n0lEjPlQdMg9aS+R9Yeiehl9pbaurhym9ZF4Jso
-         hsIDAWilGRb6DTrVaAnQxSU+sVaDRxrLe+lR9NDyGoaZpKDD4Aeyrh/J5932UeJNLayS
-         vmdw==
-X-Forwarded-Encrypted: i=1; AJvYcCUtG37CkWMN2Zt4MTQ9Mq7BTfC2E1XWLpSvac8nuL1D3wJT0FtJYEkjo+vlTwHlJs9VXISBJhrfeuHcqZy0uKUVVQ8=@vger.kernel.org, AJvYcCV+E2evBpzBDos48Ol/TotBe1JA46sV3op1AsdMBw4/vU4Ln8HZiupUUpjwia0Hl8sN5ThWxwP3Z/o4azjS@vger.kernel.org, AJvYcCWrzU4SejRnK0kS/F6pKYF8ggoq/SY6t+HTYq9RIBRPbYDdZE87eEs7L8zrmj+4C3HZYVG0ctRSOvDy@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXPTSiNj1+bnBpmS4fMecj/12NeI6zWN6TETiauRL15p8eF1yJ
-	65Di0jxxRbliasmI5RwGOveyD1dU3zOomrOxQP8qKesbbfx44T8l
-X-Gm-Gg: ASbGnctwdXZGpUEFp9LdPVpY8RwUS3igFrcxNlJlY4DIP2y+tZTHJjd8e+a8vL7PPgi
-	wrsz7VDlDHZxg4oPXx10T1Xlzud6IX+aC2dGA9xqCD/RJ/ZWctnUjlaMBLmsXXHGtt7R7nGiHZJ
-	tgXG095Mk8HjJnk5GK9cqlGPDSNFQFR/guasX5vrg3bYX54yFHj3m9u/67mIYvYF6l1ZLhioKZV
-	pNISq8YrljpDXwO1z1Wi5+DrAWLrYtDN4pkL8GBTm54fdaGtZzUeNo27GwJ9zQUwbnTdkbunlSM
-	hk/b5x2z7RNQnw2Hsnbtrr+mtC9VpN5uPURUK326Op7lZwnaiCBF72DWEgQLJL8kWo5WShxAZRk
-	jmZUGyEp1yKJDF5UWauKGc9bqPQ==
-X-Google-Smtp-Source: AGHT+IH4FjRMCiAVJcOW54+yHBkZfOm6jFItnfmr9qhQZcQ7xY0zUfHMZWO62R1wiuF+voU7frBmdQ==
-X-Received: by 2002:a2e:be11:0:b0:30c:d32:aba8 with SMTP id 38308e7fff4ca-30c0d32af78mr15711901fa.30.1741617872593;
-        Mon, 10 Mar 2025 07:44:32 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30be99e81cbsm16554601fa.93.2025.03.10.07.44.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Mar 2025 07:44:32 -0700 (PDT)
-Message-ID: <82383b62-0537-4d73-9495-8b880ef9dbb2@gmail.com>
-Date: Mon, 10 Mar 2025 16:44:30 +0200
+	s=arc-20240116; t=1741623320; c=relaxed/simple;
+	bh=RCE73KHSUJ50jx3NFplvsYyJfYQ1fa2jm0Y9GrKAnwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tK/QPsDucSoPRhhR6d6cq6US7YyUIClPeS51NPW2GD4RrfgbPJbw6e0X3mo9/GVSAELmovLcN3oeU1FrvQKjQ+kJqh/mrPDVqAem1Ij5ZiK40cWjnIsqUkVb/glYGx7f7NdyG/RkiFgFuerjmRZNgzwwlAPhUMlnCD9ehW0yYdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g3kuO3S+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D516C4CEE5;
+	Mon, 10 Mar 2025 16:15:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741623318;
+	bh=RCE73KHSUJ50jx3NFplvsYyJfYQ1fa2jm0Y9GrKAnwM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g3kuO3S+Nx7mCzhWvx/E/uIZ2vURLJ4P2hDaJ/deXkTW5gSBPZ/iLJVR2JXwWHjUB
+	 +QryoEs3PGgZ3VFmGnP3YWKk+omEPpJalBHrodC6z5anZmuMoXxlTc+ndYdHSSa0Ow
+	 0905svS6DLYRFVfGYi2VTtnGFESX5SAVoXdRjKWyj//gNXF64A5J6arWZ78ImhY5ZF
+	 Z+RuABasjNYhtf9eI7lt+nKeTWLg2jtryY+RblgQtZmgE3JMw2cXb8hGqfbNSX1yNo
+	 9t326LigmhFb7EiFJePa+VlsNLKXHRXxuogam0HqQws4j4NmCLSnM/w1XJYOlbWsWQ
+	 TuaRFNZZuP75g==
+Date: Mon, 10 Mar 2025 16:15:12 +0000
+From: Conor Dooley <conor@kernel.org>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: "robh@kernel.org" <robh@kernel.org>,
+	"geert+renesas@glider.be" <geert+renesas@glider.be>,
+	"magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+	"mturquette@baylibre.com" <mturquette@baylibre.com>,
+	"sboyd@kernel.org" <sboyd@kernel.org>,
+	"rafael@kernel.org" <rafael@kernel.org>,
+	"daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
+	"rui.zhang@intel.com" <rui.zhang@intel.com>,
+	"lukasz.luba@arm.com" <lukasz.luba@arm.com>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"will@kernel.org" <will@kernel.org>,
+	"john.madieu@gmail.com" <john.madieu@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2 3/7] dt-bindings: thermal: r9a09g047-tsu: Document the
+ TSU unit
+Message-ID: <20250310-blurry-scam-bee8233878bc@spud>
+References: <20250227122453.30480-1-john.madieu.xa@bp.renesas.com>
+ <20250227122453.30480-4-john.madieu.xa@bp.renesas.com>
+ <20250228-shampoo-uprising-44ae0d3bd68b@spud>
+ <OSBPR01MB2775DFC184F78E9FB50F28FFFFD52@OSBPR01MB2775.jpnprd01.prod.outlook.com>
+ <20250307-everyone-ragweed-e05a10a9646b@spud>
+ <OSBPR01MB277531D7C872C9EB0B287069FFD52@OSBPR01MB2775.jpnprd01.prod.outlook.com>
+ <20250307-barbell-pretzel-368d6a4d1336@spud>
+ <OSBPR01MB2775D121B55A0C543F251BAEFFD72@OSBPR01MB2775.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/15] gpio: bd71828: use new line value setter callbacks
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Ray Jui <rjui@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Marek Vasut <marek.vasut+renesas@gmail.com>, Michael Buesch <m@bues.ch>,
- Thomas Richard <thomas.richard@bootlin.com>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Andy Shevchenko <andy@kernel.org>,
- Support Opensource <support.opensource@diasemi.com>,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, chrome-platform@lists.linux.dev,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-References: <20250310-gpiochip-set-conversion-v1-0-03798bb833eb@linaro.org>
- <20250310-gpiochip-set-conversion-v1-4-03798bb833eb@linaro.org>
- <475375c9-9d72-4583-a21e-37b17c6b8c46@gmail.com>
- <CAMRc=MfofTMnfCYenUTstWUeGN5RYzJTrg2nGSzCe8tdBMksmw@mail.gmail.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <CAMRc=MfofTMnfCYenUTstWUeGN5RYzJTrg2nGSzCe8tdBMksmw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Y4DhUv2VFm8QJbH+"
+Content-Disposition: inline
+In-Reply-To: <OSBPR01MB2775D121B55A0C543F251BAEFFD72@OSBPR01MB2775.jpnprd01.prod.outlook.com>
 
-On 10/03/2025 15:22, Bartosz Golaszewski wrote:
-> On Mon, Mar 10, 2025 at 2:20 PM Matti Vaittinen
-> <mazziesaccount@gmail.com> wrote:
->>
->>> @@ -28,12 +27,10 @@ static void bd71828_gpio_set(struct gpio_chip *chip, unsigned int offset,
->>>         * we are dealing with - then we are done
->>>         */
->>>        if (offset == HALL_GPIO_OFFSET)
->>> -             return;
->>> +             return 0;
->>
->> Should this be -EINVAL (or, can this check be just dropped?) Value of an
->> input pin is tried to be set.
->>
-> 
-> I don't want to break existing users but I did notice that and figured
-> that we should rather check this in core GPIO code not each individual
-> driver.
 
-Makes sense :) Thanks!
+--Y4DhUv2VFm8QJbH+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In that case,
+On Sun, Mar 09, 2025 at 10:39:27AM +0000, John Madieu wrote:
+> Hi Conor,
+>=20
+> > -----Original Message-----
+> > From: Conor Dooley <conor@kernel.org>
+> > Sent: Friday, March 7, 2025 5:04 PM
+> > To: John Madieu <john.madieu.xa@bp.renesas.com>
+> > Subject: Re: [PATCH v2 3/7] dt-bindings: thermal: r9a09g047-tsu: Docume=
+nt
+> > the TSU unit
+> >=20
+> > On Fri, Mar 07, 2025 at 03:55:27PM +0000, John Madieu wrote:
+> > > Hi Conor,
+> > >
+> > > > > > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> > > > > > > ---
+> > > > > > > v1 -> v2:
+> > > > > > >  * Fix reg property specifier to get rid of yamlint warnings
+> > > > > > >  * Fix IRQ name to reflect TSU expectations
+> > > > > > >
+> > > > > > > +    enum: [0, 1]
+> > > > > > > +    description: |
+> > > > > > > +      TSU operating mode:
+> > > > > > > +      0: Mode 0 - Conversion started by software
+> > > > > > > +      1: Mode 1 - Conversion started by ELC trigger
+> > > > > >
+> > > > > > Can you make this "software" and "elc" or something please,
+> > > > > > unless people will genuinely find "0" and 1" to be more
+> > informative.
+> > > > > > And why doesn't the property have a default?
+> > > > >
+> > > > > Sorry for miss-specifying.
+> > > > > ELC is an external event trigger. May be should I specify it like
+> > that ?
+> > > >
+> > > > If "elc trigger" is meaningful to people using hte device (IOW, it
+> > > > matches datasheet wording) then that's fine I think.
+> > >
+> > > "elc trigger" matches datasheet wording.
+> > >
+> > > >
+> > > > > To make sure I got your point, do you mean specifying a default
+> > > > > value in bindings ?
+> > > >
+> > > > The property doesn't actually need to be required, it could easily
+> > > > have a default (say software) and only be set in the case of using
+> > > > the elc trigger - which brings you to Rob's comment that it can just
+> > > > be a boolean, setting the property if elc and leaving it out of
+> > software.
+> > >
+> > > Got the point now. I can make it default to software trigger, and add
+> > > optional Boolean property to ELC trigger. Let's say "renesas,elc-
+> > trigger;"
+> >=20
+> > Yah, that works.
+> >=20
+> > >
+> > > >
+> > > > Rob's other comment was
+> > > >
+> > > > | Who/what decides the mode? If a user is going to want to change
+> > > > | this, then it should be a runtime control, not a DT property.
+> > >
+> > > Changes are not possible at runtime. Some customers may want software,
+> > > while other may want the external trigger, and this is immutable
+> > > configuration.
+> >=20
+> > What makes it immutable? Set by some wiring on the board? I couldn't fi=
+nd
+> > the user in your driver patches to better understand how you were using
+> > it.
+>=20
+> I haven't prototyped ELC trigger yet. Since the hardware manual
+> describes about ELC trigger, I have documented it in bindings. If you
+> think, it is not needed at this stage, then I can drop it now and
+> revisit later.
 
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+Ideally a binding is complete, even if the driver isn't. To me
+"immutable" would mean something like "the trigger type is determined by
+hardware or firmware configuration", but if it is determined by register
+writes (e.g. wired up for elc trigger, but you can opt for software
+trigger in the driver) then it should be a userspace control.
 
-> 
-> I put that on my TODO list.
-> 
-> Bart
+--Y4DhUv2VFm8QJbH+
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ88QEAAKCRB4tDGHoIJi
+0vhMAQCm2Y7JfoFQzgyGUf9s0PImQnGR4b2zFgNyA8NdDDoM3QD/eDs9SL5uwZcg
+mBlbEbmXWmVrRzklDQPVrwR33fZJwQg=
+=zZHw
+-----END PGP SIGNATURE-----
+
+--Y4DhUv2VFm8QJbH+--
 
