@@ -1,108 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-14192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14193-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE74AA58DD7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 09:17:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BEC9A58EAD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 09:56:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5C1D3AC69B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 08:17:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C2CDC7A59E7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Mar 2025 08:55:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 018F12206B7;
-	Mon, 10 Mar 2025 08:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ElBEvPr/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3944A224244;
+	Mon, 10 Mar 2025 08:56:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746AB216E01
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Mar 2025 08:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833BE1A724C;
+	Mon, 10 Mar 2025 08:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741594633; cv=none; b=lqpnjZ7PaAwP+/eZF8Fjzl4YGtCZt76pydzB7jZAL1fjoC1dWV82TvFE34bcaCHFDjRvYiZeSPpCvxnmoFtuZa5HqZ6KIzJC3qCcDZ102W/p3I2gzacFC82wBgkzjXtrhVA/CYHN5AB19CqXCZpvr66z4b3uhUmUNU9olNva1FM=
+	t=1741596967; cv=none; b=oSN3ml6WRDLtQ0T7X8E7Td1YKPKI7PzqS2r6FsOfurZMjhi9pz2G+TyByPpOYU67flxDb2aX9GTWMY+dnSFAhKJKP+eo9Qd+ZeFe9xXXI3wJpXM9NvWER1jBDBEJJmV2gqreqMcwwXC7xjRXiuMGz5LIhw11Mg6MNedGtFObmdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741594633; c=relaxed/simple;
-	bh=ajtTKpPOuwD8ouYXkz8A36B0kNdWX2gGS6ppiXisxGA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hyEF/sxTPfs/Ohejy9cli2QxaW88oUqmEghA2W123pka97DWsuh3qKP/FMQshWpybGW8tZToaZQ7t/TpC820k91atZor+HeeTlx1Aj9bmdrkd0Sczv/5ZwY4dAZnHW/N4LeFANIQP6DwNgVS0ljJkNcTl34nA+v2rNs753wRVYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ElBEvPr/; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=ajtT
-	KpPOuwD8ouYXkz8A36B0kNdWX2gGS6ppiXisxGA=; b=ElBEvPr/sGAXiZEoS2rr
-	sNpHG8FduedbNnJ26ZfH+Lp5ECEOlOzoMx8QVTHPNf0Ch9Lg2pMsDEs1H//rDxzh
-	XrvRxuqpUYz1lncVEYoX6ZmWmeubRNahxjdiLv44/tplfiNowoGNglPnHtIOv30u
-	Bsyl0cY90MrjPedhmCap/6P0gl4Ix+/I/Y1zN2k6zaIfQiMpfs9TmHz64HtVcMAt
-	PQmwwC/sZv89vNu0yW34JzdmenJLsYjr0AR/oNNIvtRyL3Tr5SYbV26sCZnJCOUw
-	2aKY0DXFRMaM3n18Zqr5zXSRfnV1Ul1dOoiJMquJa5S2LdpHSU1/5iu7m9WM/9aJ
-	Ow==
-Received: (qmail 391353 invoked from network); 10 Mar 2025 09:17:00 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Mar 2025 09:17:00 +0100
-X-UD-Smtp-Session: l3s3148p1@T82WmPgv0KQtnPBl
-Date: Mon, 10 Mar 2025 09:16:58 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v2] rtc: rzn1: implement one-second accuracy for alarms
-Message-ID: <Z86f-tvJ42ui9Esv@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	linux-rtc@vger.kernel.org
-References: <20250305101038.9933-2-wsa+renesas@sang-engineering.com>
- <2025030522061502555577@mail.local>
- <Z8qYM2-LQPgIe2JE@shikoro>
- <20250307183817b7747a66@mail.local>
+	s=arc-20240116; t=1741596967; c=relaxed/simple;
+	bh=zm1uCCw5br8R96XpzbymPnTV8ASQ73LyltBb7kJpJww=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gr1+Lvs98kVip797NULedbgPYdzaax25aWQR9Cjrer7xsltLNp4tP5j1qXe/JYqtslJfpyX7YDyOpHo7wsS4qV/G1t84uYnjzTBySiFIIn6hoOOVmaqid1dMB1AdYKZc0ZyUukW7X4CdntI+CDhPlRKBoDBHL7muF+JvkyCcm1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-86b9d1f7249so3156683241.2;
+        Mon, 10 Mar 2025 01:56:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741596962; x=1742201762;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z9qOEgoHD2ZOm0Tdo+UKnJiqz4fDlnLBAdr7n9Lr6XU=;
+        b=JFBczOaPYhB62W3jE23JkVuCKYAAwjzVYu4EKBguDunyMGDAv4XNWk04hoeHSWnGnt
+         CuoUR3JR4FURM1EU3wM3+yAPIM9j8V+HnLilIohePx+icuS3koTtvHRc3x5zVAN4AXSU
+         rrb6r6/7JGX5jxBfdC4yYod6wxVG4s1nUX6eMsWOyu9XTCOYhZNFoEm+hYkWNPI2x2+Y
+         IYW6J6926XhUTMhEXn6lgo5m5V8bJTe3CgdMqzfRbQMTf61KkeQdJyYkcmOefb/wLlKP
+         dvQaLjhRDmFrcaXR63o/UFadmg+7UssDPvzAxD+BamGdA9RS2gieHAEmiz41zKVrrU2x
+         1niQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUKwYO4U6NhqbwSTS4K55eEuiyL0QQXbMCQC3pzxT6LJMKEPAreX0t1p0kWH4/7fqqhp8SudcWFDI0=@vger.kernel.org, AJvYcCWMkoWxRUJ2nMNmDNy+EVMoJUaPpEznuR8zWUgxAMRjqCYMhu35v9wdw7fb+d7vR/mB+9NgSaSo@vger.kernel.org, AJvYcCWz/EzHmpr4ng8nNYMcssrkV6M4biXj3BV34y3OC3j7SygwpOgc+EEfigK4GQk+Toma1/okR5CEb644TqRvFF940Ko=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+Js91eRL7NeVFjAjMf4ejwQYFEGe5jgyVmqegBqdKma4tvxJN
+	5xRtNFQsv7inbxMpeHDaKoBFNqH2MkEShRFjE6P2G0atnFductxtiuwzkI67
+X-Gm-Gg: ASbGnctuyP6mM2D9PZTTe6STN8goi/waK7+HfeAKed/J2mRiY5R7N/i+6Hlg+6WDPqT
+	EWUTNNpXNHDVf823908GaJ8wIqJtg8ZEnjEMDfhL58zOIhmBwiVwJWaA4Dp2gkuzjyRpWS25uPh
+	JcRLxoVeNDO4ZOZN1XOEPHFK7pZoZazbRspoi89br/aPSso3X57oEFtGxjIFEiR6zgiuU98hvTd
+	A1e5543IHK2ceFy4aV5C8FK/ocfhUqgefszr6FZIHdUpcKNFOhthF20mJ6mnlIUIhAgfZ09GKdS
+	PXWtO4d4z0zabb+sCioSRjvZn6mzo+r8Sh68u4Nwsb3N6r9dMgWMVCrbwSMExrOW4eIr6pSKxzz
+	C0ucFkJM=
+X-Google-Smtp-Source: AGHT+IEhwXR/fZUMNKgrz8kaD82Wwkg8faYZL0hStgYOvmBR5Y69N3EXoh8Em1so7R093UwGpo4beA==
+X-Received: by 2002:a05:6102:cd3:b0:4bb:e1c9:80b4 with SMTP id ada2fe7eead31-4c30a36790dmr8344918137.0.1741596962514;
+        Mon, 10 Mar 2025 01:56:02 -0700 (PDT)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c2fb4217e4sm1823429137.4.2025.03.10.01.56.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Mar 2025 01:56:01 -0700 (PDT)
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-86d2fba8647so3716590241.0;
+        Mon, 10 Mar 2025 01:56:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV2AK0Mo4c0IfJbCiCYWMgIsfhlvgDVRD9nHN3YXkMc6o/HQae2HFphJp6BAoqPPiAxewpqHcZdVA9Iraq2Mn3wxqk=@vger.kernel.org, AJvYcCVP7C1aXH3CHIFCAPB8UbUadR6ecScB3jbPmAuSr7fbVemq41yAOQ0wqIScJkEFozHWYXWCr9aC+zY=@vger.kernel.org, AJvYcCWANjHTIzSRp22u8iPKw3iUqkOKz/bv42t+0naAObjHkAayVZCehip2lD/bUIvWFbnN6Fm8d0pl@vger.kernel.org
+X-Received: by 2002:a05:6102:1613:b0:4bb:d062:452 with SMTP id
+ ada2fe7eead31-4c30a537426mr8549471137.3.1741596961465; Mon, 10 Mar 2025
+ 01:56:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pQaGs0Ax7ika6uLF"
-Content-Disposition: inline
-In-Reply-To: <20250307183817b7747a66@mail.local>
+References: <20250220094516.126598-1-biju.das.jz@bp.renesas.com>
+ <20250220094516.126598-3-biju.das.jz@bp.renesas.com> <CAMuHMdUs=+niOyBW0us=UjZTnqeYjVsLWZSmROndCO8azER=3g@mail.gmail.com>
+ <CAMuHMdU2JW-LGK+uj4Y8tQc2wh2VTBJ0V+wuwt9Vwn5CzLeNuw@mail.gmail.com>
+In-Reply-To: <CAMuHMdU2JW-LGK+uj4Y8tQc2wh2VTBJ0V+wuwt9Vwn5CzLeNuw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 10 Mar 2025 09:55:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXS+mWjjT5JsFarWTcNam7qGLGOgjx7dY_WVyADoD9S=w@mail.gmail.com>
+X-Gm-Features: AQ5f1Jp8hwfq5J7BQvgCygoye3phUk6XXqY-1H4IS6iRHcBk3n8163xKokNuEQk
+Message-ID: <CAMuHMdXS+mWjjT5JsFarWTcNam7qGLGOgjx7dY_WVyADoD9S=w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] can: rcar_canfd: Fix page entries in the AFL list
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Rob Herring <robh@kernel.org>, Ulrich Hecht <ulrich.hecht+renesas@gmail.com>, 
+	linux-can@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, 7 Mar 2025 at 16:02, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Fri, 7 Mar 2025 at 15:41, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Thu, 20 Feb 2025 at 10:45, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > There are a total of 96 AFL pages and each page has 16 entries with
+> > > registers CFDGAFLIDr, CFDGAFLMr, CFDGAFLP0r, CFDGAFLP1r holding
+> > > the rule entries (r = 0..15).
+> > >
+> > > Currently, RCANFD_GAFL* macros use a start variable to find AFL entries,
+> > > which is incorrect as the testing on RZ/G3E shows ch1 and ch4
+> > > gets a start value of 0 and the register contents are overwritten.
+> > >
+> > > Fix this issue by using rule_entry corresponding to the channel
+> > > to find the page entries in the AFL list.
+> > >
+> > > Fixes: dd3bd23eb438 ("can: rcar_canfd: Add Renesas R-Car CAN FD driver")
+> > > Cc: stable@vger.kernel.org
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> > This finally fixes CAN2 and CAN3 on the White Hawk and White Hawk
+> > Single development boards based on R-Car V4H with 8 CAN channels
+> > (the transceivers for CAN4-7 are not mounted), so
+> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > Unfortunately, it does not fix CAN2 and CAN3 on the Gray Hawk Single
+> > development board, which is based on R-Car V4M with 4 CAN channels.
+> >
+> > > --- a/drivers/net/can/rcar/rcar_canfd.c
+> > > +++ b/drivers/net/can/rcar/rcar_canfd.c
+> > > @@ -787,10 +787,11 @@ static void rcar_canfd_configure_controller(struct rcar_canfd_global *gpriv)
+> > >  }
+> > >
+> > >  static void rcar_canfd_configure_afl_rules(struct rcar_canfd_global *gpriv,
+> > > -                                          u32 ch)
+> > > +                                          u32 ch, u32 rule_entry)
+> > >  {
+> > >         u32 cfg;
+> > >         int offset, start, page, num_rules = RCANFD_CHANNEL_NUMRULES;
+> > > +       u32 rule_entry_index = rule_entry % 16;
+> > >         u32 ridx = ch + RCANFD_RFFIFO_IDX;
+> > >
+> > >         if (ch == 0) {
+> >
+> > The out-of-context code does:
+> >
+> >                 start = 0; /* Channel 0 always starts from 0th rule */
+> >         } else {
+> >                 /* Get number of Channel 0 rules and adjust */
+> >                 cfg = rcar_canfd_read(gpriv->base, RCANFD_GAFLCFG(ch));
+> >                 start = RCANFD_GAFLCFG_GETRNC(gpriv, 0, cfg);
+> >         }
+> >
+> > After your changes below, "start" is set but never used.
+> >
+> > Looking at the actual behavior of your patch, the same can be achieved
+> > by updating start, by adding a single line here:
+> >
+> >     start += (ch & -2) * num_rules;
+> >
+> > > @@ -802,7 +803,7 @@ static void rcar_canfd_configure_afl_rules(struct rcar_canfd_global *gpriv,
+> > >         }
+> > >
+> > >         /* Enable write access to entry */
+> > > -       page = RCANFD_GAFL_PAGENUM(start);
+> > > +       page = RCANFD_GAFL_PAGENUM(rule_entry);
+>
+> The similar fix in the BSP[1] keeps the old value of start here.
+> However, it does not make a difference for me (both R-Car V4H and V4M).
 
---pQaGs0Ax7ika6uLF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Sorry, forgot to add the link
+[1] https://github.com/renesas-rcar/linux-bsp/commit/e9ba9ac6fe77baa3
 
+Gr{oetje,eeting}s,
 
-> Yes, you followed the code correctly, I have a series that is removing
-> RTC_UF that I didn't send yet.
+                        Geert
 
-Please CC me when you send this. I am interested.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
---pQaGs0Ax7ika6uLF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfOn/YACgkQFA3kzBSg
-Kbb/fg/8CkMc3D75OUlGQdkuFjaLXsCX+fkxAVVvPvbAhVf3HwQBrPxzLVbB5Fxl
-PAEcu2DV5HPOsle5nfcSPOhKzSKHtsU8hgBS5RDoGm6TQX3mbVDLMzVRDLfp/keq
-RVCO7y+RfwDayqMCfUILdK6kl3sJCxMVaY7AUbMoyMlp9nUBk6Jhcbv0u/7zFHI6
-T0IC+GozzUCYTm1+iBwPu5MsZpb7pE1LtsKpIHJA19blDhqgEYcNIJtoKEyvklXq
-NmUgMG3TKyAlycP5GBDd3sDEaG6imP3+tvgAYAMxudMs5SfMhCP2TVNuzvG4I6uh
-SqXQbnZLbkiRgK5qlUZ9tDyDM3ApM7+bqaDBqYaf2Mb1CVD4AJpKA6QFCbdAzzPH
-zQ2B/l2aKLc+M8aJoODtTfGVFWwybN5tc5pPrm13oqVk3PITe5lgSJxHjIuzF7OS
-mvuoTzZHm+VneyDMitOUOUDA7jidDSk/ciH3MxvYsURrEwN+7Vj655ADcr8N32o0
-R9lGeO/M8D0LsUe4jPPrONA+wxdLJ0aWec7PrK4pD+yubotowXDA1a5Qux6953+b
-8qMwr61WPCrrFl4gN1Ivg8L+cNhjcTBH6fp+d7W9aYdhEC1Y0i0piAZRjMVfYud9
-zJpXBEu1dYIYc5a+7WBz1yIcwA3zVTOm+TIJxQ5zvRMbML1c4Ig=
-=jHoW
------END PGP SIGNATURE-----
-
---pQaGs0Ax7ika6uLF--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
