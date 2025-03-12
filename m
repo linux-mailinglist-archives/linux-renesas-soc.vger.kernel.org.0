@@ -1,57 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-14304-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14305-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB2B6A5D79F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Mar 2025 08:52:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC76A5D834
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Mar 2025 09:30:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3120B17AA9E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Mar 2025 07:52:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDAC23A28B2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Mar 2025 08:29:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 704A122D4F6;
-	Wed, 12 Mar 2025 07:52:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4B615CD74;
+	Wed, 12 Mar 2025 08:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YU6PwO5O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fI27ctok"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144D41D63C5
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Mar 2025 07:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4862817BB6
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Mar 2025 08:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741765959; cv=none; b=GWuw1DamPNmeRF5CSGtg6/MTZJ1NUNhQjyHl7rru7yP1YJBIAu3q1d+/B1O4Jj/7qs7mzVzBtBMNkl1EYUBiMWnRlICN2JtoMl25wfzvM9gJNR5O9zp1yfyocgcSkUD+31/IqwDe9n7VHJci5uyO29Q7tMGU0B8ABzwLH+8H7Ow=
+	t=1741768198; cv=none; b=QOMmAhm6Ig3Yu96u0K6duo4DlPmq3oXQzIWGmaqKfE5GVSusOH61B4Db9D6eOlipA8b3oVy+XVt/p855LCHLPymuqwaeojBJYwnRKPfAL8UgNQoeDQL+2AX+37A910GAi+jEeveL1tawU4Sn8n5eP7bLOyA+YzllW+8ZScKYw+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741765959; c=relaxed/simple;
-	bh=7WhIts/RD1g8IPmV6Yt28GadnJfovcDFdIxByPCm9mg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ue0UvdvWt1I6sh3comPUzPYIBfVgEiJkh9+G6b1vo1QR0+ZcK4ROaCjdKpHQUy5bgEy86fggdfsRBdNqJGjFEFegSgm1NL2rLZMu+BuFCfJIHtPZNk1pABiwmqZ4iBSctO5Bv5QsD9fBifouDTogLFvWf/VS7bvo9hOkM9IZ8cU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YU6PwO5O; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=Bd2yOTijR3c71+
-	Cv+kr5An7YZ2C9sfT4F8ehKxNITps=; b=YU6PwO5OngYsFNws8Iqwl23cIZrwVU
-	/fPyjizkYOevRJTGHmcYExER/kIw6aXGKOi8pUB4Ncb2Q79BKPqRxacxgIi0xfA9
-	cdaG+LzKcGtONUcbW5ASYp/KfqY9xN6KsjBCxIonJCmAvaZbDI2eW5zMCBAK1tA4
-	L96tQYQ70rK7sOSz0v0nOXQrOvsoGTvwruJGRAgrRURET/vkP4X0lsn++puODsj1
-	Cag0T5Fnv1Lo4w4ssmp5KJs/InJv51cHLuF+tAexmc3JQTJxDI9BBmjgw+puV4Nb
-	8yjfQMO1IED5g7r8dcZO8hKnh/cCrsf+4gofPA31bPho8Xc+2ZYGFy4A==
-Received: (qmail 1142796 invoked from network); 12 Mar 2025 08:52:32 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Mar 2025 08:52:32 +0100
-X-UD-Smtp-Session: l3s3148p1@2hTYfCAwbt8gAwDPXwyXABj42nrU+gpI
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: [PATCH] rtc: rzn1: clear interrupts on remove
-Date: Wed, 12 Mar 2025 08:52:26 +0100
-Message-ID: <20250312075226.22022-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1741768198; c=relaxed/simple;
+	bh=nCRiHIzkqPkcaK0mXZJO2dQLhKMlBE3UY6TuRTv0wKA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=UbpIuP3/aL892hHvuAFdfNrK6BT3EJhX7kMGT/iB0J2i1cvgkF55712kj2+lznk793xdZLcvrMaHW74g1qO2yp0tMrs6jdtkRp1E1CUeQPx5OVCl7T/MM42Xf3K9ufUHtQFNcmn7dk2lJERuOPjSJasbXkKsPj0pExMYD9aCTc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fI27ctok; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFFCAC4CEE3
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Mar 2025 08:29:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741768197;
+	bh=nCRiHIzkqPkcaK0mXZJO2dQLhKMlBE3UY6TuRTv0wKA=;
+	h=Subject:From:Date:To:From;
+	b=fI27ctok3J/TYvXJOT/c9FOvp4QoS1fWK2iaH1PLAXFKfK141KZ/Ovi4QJleLO3Hr
+	 yh0uNzMyr6Jzv9W21kh8CIBF0yeQQX+nDZkTY9jyNv3kH0MLq0TFyeg6JD3C40b1uA
+	 GN4c2GksSVObNR/voCl6SbXf8dRdrMM6AB6ZTVeXxhVHMnTbu/23NqUeNm48KGLsCU
+	 rc5ShzG85VfnK6yj38D0TSHnw8y3Sm+fvEonfgcWSHMsgnd227dCG+yvjfH9A1uOBg
+	 bJZuuzL8pomAZHI6DBORrVNF8HiKWZxt3NTJDmyGb8IEshhXpoOGmzzOySuWN0K907
+	 uoTVXi0dZSZ3Q==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3B0923806647
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Mar 2025 08:30:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -59,33 +51,30 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <174176823178.381553.12490479595926364251.git-patchwork-summary@kernel.org>
+Date: Wed, 12 Mar 2025 08:30:31 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-It is good practice to clear running interrupts before removing the
-driver. This is not really a bugfix because on current systems RuntimePM
-will disable the module clock, so interrupts won't be initiated. The
-dependency on that behaviour is subtle, though. Better be self-contained
-and clean up when removing.
+Hello:
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/rtc/rtc-rzn1.c | 3 +++
- 1 file changed, 3 insertions(+)
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-index eeb9612a666f..d15aa8fad5af 100644
---- a/drivers/rtc/rtc-rzn1.c
-+++ b/drivers/rtc/rtc-rzn1.c
-@@ -444,6 +444,9 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
- 
- static void rzn1_rtc_remove(struct platform_device *pdev)
- {
-+	/* Disable all interrupts */
-+	writel(0, rtc->base + RZN1_RTC_CTL1);
-+
- 	pm_runtime_put(&pdev->dev);
- }
- 
+Patch: ARM: shmobile: smp: Enforce shmobile_smp_* alignment
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=942273
+  Lore link: https://lore.kernel.org/r/c499234d559a0d95ad9472883e46077311051cd8.1741612208.git.geert+renesas@glider.be
+
+
+Total patches: 1
+
 -- 
-2.47.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
