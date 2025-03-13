@@ -1,180 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-14344-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14345-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B81CA5F48B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 13:33:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26465A5F578
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 14:08:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D3063BA196
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 12:33:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED31C3AC253
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 13:07:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 695BE267711;
-	Thu, 13 Mar 2025 12:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgzDi35J"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 861B2267735;
+	Thu, 13 Mar 2025 13:06:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C1321423A;
-	Thu, 13 Mar 2025 12:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37BA267B7A
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Mar 2025 13:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741869090; cv=none; b=WXWxQiTDr0E5JZU8zF9FlYals5pmRZFj+DI0MwLnpqoUekmbX8Cl7nyGloQBozFC6dtGNid2cIgs2ZSP4WzPzFqJA9NLwEw3IdWX1BTwRKKDJtsX5MMXAijNZ5XtKDuiDLR079NRfZICpO6Wz/baF3viBkptH+bRuK3FnF33le0=
+	t=1741871191; cv=none; b=cdEzMitmTNze0i/pF3T21dKYyNo863YHAasJWgpK7lM1kGkzSCdl458+c/zOE/YBzUEOPFpVk3X5meSEJ1D6Uv919oCR5H5ZsSVkETlPBAeBDFnyuS9ivYiEaE3uXjCIfcUwk7f/9H3xT4/Q3xdUun7wM9VlzvbOz9cdUI9Pc84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741869090; c=relaxed/simple;
-	bh=SaIYexesddvO0UWpmRz0MzTzyVkL/mdX/8rqZt/hSb4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h+iVaCgqNkMABbgeCcY0KkPuHMJscZ8Kz8ofCo+wpGSXweRsEXcOKcYchNY78TMCIV+r+S5IzdiOyPq04zryFD3aLvpqZmtLtmGnd4aEwnQtTtXbU5ReluuH1hkMtmTLCbJ35JFAtxUpX+2fmeO1RN3PUBg2hTmg8Frt4rVZqkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgzDi35J; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741869088; x=1773405088;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SaIYexesddvO0UWpmRz0MzTzyVkL/mdX/8rqZt/hSb4=;
-  b=hgzDi35JTJqmywopeUpr27IGiRGw+iv7PXHfmbkxZ046+ozsxLa3p/Cq
-   EA2qdB0CNqz6vjEXghAGAOXpWWWt/KxsbnZ62vlrwNZevf8EUtDyjEwA8
-   Xi8EOmEzMAsC7htI+X+1FrgKNgw+WPl4E0ePSZjsfH2x4zglyPgMmnSH+
-   eaaZZkPiSd6GmyJOXniR8pMhjbmceq7iOOFvBNis8LpWekPI3Qs1seoy7
-   H+YbDAQ0Cg50lNavFiqUOQZNTVdD7VC5MXeL4G4dWkPooqhES31Y+MNNr
-   H4AUHGfn/INIhEM4x+NKWHAnSN4Ww8bxz4j5NvIneQRtbGaUwpqP1FgTa
-   w==;
-X-CSE-ConnectionGUID: hcG73BDfTHy3C8i7AnXEAQ==
-X-CSE-MsgGUID: JJemP9z0S9iepOLkuY1qrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="30571962"
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="30571962"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 05:31:27 -0700
-X-CSE-ConnectionGUID: jQelpd4eTZ2rpBfxbdM9hA==
-X-CSE-MsgGUID: JO4NOY5VRgq94b7DdOX/ZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="121441131"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 05:31:22 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tshiY-00000002Aba-2whI;
-	Thu, 13 Mar 2025 14:31:18 +0200
-Date: Thu, 13 Mar 2025 14:31:18 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Guillaume Stols <gstols@baylibre.com>,
-	Dumitru Ceclan <mitrutzceclan@gmail.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v7 03/10] iio: adc: add helpers for parsing ADC nodes
-Message-ID: <Z9LQFqSweiV-zT3b@smile.fi.intel.com>
-References: <cover.1741849323.git.mazziesaccount@gmail.com>
- <c8899e8c535a1d93cd7588b7c160eb0fae5d26d2.1741849323.git.mazziesaccount@gmail.com>
+	s=arc-20240116; t=1741871191; c=relaxed/simple;
+	bh=6zXjh1h2grdtWlh32q/xSiG2WPMUoNGZUBzmL6hMRUM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CQNo4NY5xT/GjaBz+rMcyVSxhiEy1wdVIw0hKrKdojnr7r9Q/9GZ/90XyLy+kNYfuqtC2nlx8KKA60albadvJ9dPobzLtYanSd4dhWUlYl27b1J8hT8gl7oioeV8/1FvHi3B3k04AlzOMAJpeI4fkA+9zrgbUSkW8INt7Lr8LKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tsiGM-0001HM-Ri; Thu, 13 Mar 2025 14:06:14 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tsiGL-005XTg-2Z;
+	Thu, 13 Mar 2025 14:06:13 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tsiGL-0009sV-2J;
+	Thu, 13 Mar 2025 14:06:13 +0100
+Message-ID: <c27ab4ca4563d20a73ffc8a577f960fe59ffa88f.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] reset: Add USB2PHY control driver for Renesas
+ RZ/V2H(P)
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Prabhakar
+ <prabhakar.csengg@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,  Magnus Damm <magnus.damm@gmail.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>,  Prabhakar Mahadev Lad
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chris Paterson
+ <Chris.Paterson2@renesas.com>
+Date: Thu, 13 Mar 2025 14:06:13 +0100
+In-Reply-To: <TY3PR01MB12089B78E1DE163B740A51134C2D32@TY3PR01MB12089.jpnprd01.prod.outlook.com>
+References: 
+	<20250305123915.341589-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	 <20250305123915.341589-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	 <30b6841b3ce199488698ab272f103a0364adb000.camel@pengutronix.de>
+	 <TY3PR01MB12089B78E1DE163B740A51134C2D32@TY3PR01MB12089.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c8899e8c535a1d93cd7588b7c160eb0fae5d26d2.1741849323.git.mazziesaccount@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 13, 2025 at 09:18:18AM +0200, Matti Vaittinen wrote:
-> There are ADC ICs which may have some of the AIN pins usable for other
-> functions. These ICs may have some of the AIN pins wired so that they
-> should not be used for ADC.
-> 
-> (Preferred?) way for marking pins which can be used as ADC inputs is to
-> add corresponding channels@N nodes in the device tree as described in
-> the ADC binding yaml.
-> 
-> Add couple of helper functions which can be used to retrieve the channel
-> information from the device node.
+Hi Fabrizio,
 
-...
+On Do, 2025-03-13 at 10:14 +0000, Fabrizio Castro wrote:
+> Hi Philipp,
+>=20
+> Thanks for your feedback!
+>=20
+> > From: Philipp Zabel <p.zabel@pengutronix.de>
+> > Sent: 13 March 2025 08:37
+> > Subject: Re: [PATCH v2 2/2] reset: Add USB2PHY control driver for Renes=
+as RZ/V2H(P)
+> >=20
+> > On Mi, 2025-03-05 at 12:39 +0000, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >=20
+> > > Add support for the USB2PHY control driver on the Renesas RZ/V2H(P) S=
+oC.
+> > > Make the driver handle reset and power-down operations for the USB2PH=
+Y.
+> > >=20
+> > > Pass OF data to support future SoCs with similar USB2PHY hardware but
+> > > different register configurations. Define device-specific initializat=
+ion
+> > > values and control register settings in OF data to ensure flexibility
+> > > for upcoming SoCs.
+> > >=20
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+> > > ---
+> > >  drivers/reset/Kconfig                    |   7 +
+> > >  drivers/reset/Makefile                   |   1 +
+> > >  drivers/reset/reset-rzv2h-usb2phy-ctrl.c | 223 +++++++++++++++++++++=
+++
+> > >  3 files changed, 231 insertions(+)
+> > >  create mode 100644 drivers/reset/reset-rzv2h-usb2phy-ctrl.c
+> > >=20
+[...]
+> > > diff --git a/drivers/reset/reset-rzv2h-usb2phy-ctrl.c b/drivers/reset=
+/reset-rzv2h-usb2phy-ctrl.c
+> > > new file mode 100644
+> > > index 000000000000..a6daeaf37e1c
+> > > --- /dev/null
+> > > +++ b/drivers/reset/reset-rzv2h-usb2phy-ctrl.c
+> > > @@ -0,0 +1,223 @@
+[...]
+> > > +static const struct rzv2h_usb2phy_regval rzv2h_init_vals[] =3D {
+> > > +	{ .reg =3D 0xc10, .val =3D 0x67c },
+> > > +	{ .reg =3D 0xc14, .val =3D 0x1f },
+> > > +	{ .reg =3D 0x600, .val =3D 0x909 },
+> >=20
+> > What are these registers and what are those values doing?
+>=20
+> Unfortunately, there are some licensing restrictions on this IP, this is
+> the best that we can do, as per the license agreement.
 
-> +int devm_iio_adc_device_alloc_chaninfo_se(struct device *dev,
-> +					  const struct iio_chan_spec *template,
-> +					  int max_chan_id,
-> +					  struct iio_chan_spec **cs)
-> +{
-> +	struct iio_chan_spec *chan_array, *chan;
-> +	int num_chan = 0, ret;
+How am I expected to review this?
 
-Unneeded assignment.
+For now, I'll assume that these registers are not related to reset
+functionality at all, and that this driver should be a phy controller
+driver instead of a reset controller driver.
 
-> +	num_chan = iio_adc_device_num_channels(dev);
-> +	if (num_chan < 1)
-> +		return num_chan;
+Can you convince me otherwise without breaking license agreements?
 
-This is really interesting code. So, if the above returns negative error code,
-we return it, if it returns 0, we return success (but 0 channels)?
-
-Shouldn't we do *cs = NULL; at the case of 0 channels if it's a success?
-(Under success I assume that returned values are okay to go with, and cs in
-your case will be left uninitialised or contain something we don't control.
-
-> +	chan_array = devm_kcalloc(dev, num_chan, sizeof(*chan_array),
-> +				  GFP_KERNEL);
-> +	if (!chan_array)
-> +		return -ENOMEM;
-> +
-> +	chan = &chan_array[0];
-> +
-> +	device_for_each_named_child_node_scoped(dev, child, "channel") {
-> +		u32 ch;
-> +
-> +		ret = fwnode_property_read_u32(child, "reg", &ch);
-> +		if (ret)
-> +			return ret;
-
-> +		if (max_chan_id != -1 && ch > max_chan_id)
-> +			return -ERANGE;
-
-Hmm... What if max_chan_id is equal to an error code?
-Or in other words, why -1 is special and not all negative numbers?
-
-Also note, you used unsigned type and compare it to int which,
-in case of being negative will give promotion. The ch will not be
-big enough in most cases (unless it's great than (INT_MAX + 1).
-
-TL;DR: you have a potential integer overflow here.
-
-> +		*chan = *template;
-> +		chan->channel = ch;
-> +		chan++;
-> +	}
-> +
-> +	*cs = chan_array;
-> +
-> +	return num_chan;
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+regards
+Philipp
 
