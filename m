@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-14350-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14351-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86205A5F883
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 15:36:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1ECA5FC81
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 17:48:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6FDA14216FA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 14:36:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FC2C3AF112
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 16:48:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FDB3269AF5;
-	Thu, 13 Mar 2025 14:32:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DD881FAC30;
+	Thu, 13 Mar 2025 16:48:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817C3267738;
-	Thu, 13 Mar 2025 14:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637DB126C03;
+	Thu, 13 Mar 2025 16:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741876377; cv=none; b=r8IaWsq8X3U6JIwbIGqRsEcw6Ac883wVpCqgl3R+Ckr1/ecm7V0jA41Jdab+cZ7u1ggA75yqVFQWjVt9o5ZZH5vDEqITllvuaW8ZiLCjQrSjJA9kuUf6ThioGA1yoVHhgfOwxIFMaBoSXbZe9KDnfjNgjKAhYeDZf+rcRT0wx6Q=
+	t=1741884526; cv=none; b=C8rmuM3xpKJVGRJd2xyROoMWCMBUjMQd6SBr3X6a3J1U5PeiMVymMNY5sT+UGEgv51oEbHfBImgdFi++QqvG+sqb4H4FS87Cic1Bd19plEQPhUYpsKCenoTIDFaMus9JL8lq4M8RMbD3Bx6pAi5Uy3H24P+nuSr8J8+dduiF74A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741876377; c=relaxed/simple;
-	bh=iX3cA2HK76pcwOvRpz8gubtaOjLb8n2WVMacaAiM/9U=;
+	s=arc-20240116; t=1741884526; c=relaxed/simple;
+	bh=ihatrWyg/H40s8cnRfeXugTi2GFjdX7CEEuJjpbqy5I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SNjvzo5qU5IzWpJXADCqQPr7mlhFi7mbKbDcTwKtjTw8VsN3e4OLSyKiVeJ0hdvAl8FjBlK9CPl5QlkAIQ1mHPpCe7Wgcwmn1/A5S/8JeXQVdTvOgWiSl++ZiXwbm2ATZoCYzwIAlolctdxTbE606uLA5MhK4x3TmjCKsPUvD6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.42
+	 To:Cc:Content-Type; b=uerVIPasfxYNNMnl5RCosMKOq5JZlBJyMqLTwxDilyB6eTF+PRjg66INwLPDmkQE3YtmOSXWBcS8oZo9TORYaVbF6q4jezTyExB4efrQ0NfWNtVOzD1uGsQINfHqfZLO2X+BFP/1o9Lv7WqUDgk4AJ1jSLn6hHZ7w60wlms9oSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6e6c082eac0so10373626d6.0;
-        Thu, 13 Mar 2025 07:32:54 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-86911fd168dso474755241.1;
+        Thu, 13 Mar 2025 09:48:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741876373; x=1742481173;
+        d=1e100.net; s=20230601; t=1741884523; x=1742489323;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/BH4etTF8KwRmanIMJ5g8gQ5kEM3Izri0CoFiYQLuMU=;
-        b=oUpzPPvQpuj5CD/Po3w1Wha49Vr3BamHWm9Da5vUNaBNveNBXWmhdumZK988KlvbH8
-         qM/b6fq4j6cl0di8NY3pbH+nZzAp63+buu7JqjYUL+og7OD1ZmfKKwx527mgxPouiy9r
-         d1CAkWBIHMMvZxuOTedHzIOhyH1hItBLICTg8jPrUN2nF7X3XZq7l7atIwn1uypz/Dif
-         26oiXer+IkG1ZmgVM/xgl5kO229Hgl14HKb99MuJdT2kSAXaJXB6H/uRYTZVze9+jocy
-         dn5xgAyOvFTSsyHOZXpNe5z2okr4G/KCpIVGeVPo7QquZV88CzQ3zM2v6kDKRx54qt46
-         t/yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVFoIdc3HTl4yuUgFCortND/WwoFez6/J8Drem8apppDHsxdUV3FsptM67ZbiBs8zSGVzCE82tE4/P91MDZvXTg/w0=@vger.kernel.org, AJvYcCW7dV2yzBz62Uy2+Wq2QPRZKpodMOBxmXwOWLQhAWv60f0itB1RD0C+wlEtPzV6HPzjNxf2NfITww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDh4U2z/4o6JM9mLZb/qPYVwIU8CpzJeSr3wr+/rgSZFEKjwTr
-	yl5vyjIlojDFD1ZOuMTRv7WunDrpGS690l+nitN4XrJa0HUrKYMDwoopW+QZ
-X-Gm-Gg: ASbGncu93E+bzZUHoXZzdB4kt74BowPdx4js1yjKp1PgJaVCnm2sQICtM0wsssrn4PK
-	TNlorto52FdDKiRVxnm5e+yVemn61rWaARxUWb179ipZaVsQWtp35JV0fGWyfpUupR50PB+u0ZO
-	f6Q/OwxWCmRJrM7PsWnNC3Guq7vtUuZC8H5MmL0g+RsyLaXh1TNHpb11o8D8wUL+mOYfPNm6bQs
-	SWuFa5JP+QN4FkfkknU9WokmFsy1JMHFVOVQzQg2M0o2UDD6GWj+YFUNft6+CR62Lr9wHIXVjax
-	dguFzvo6raKx28Jqsqd2xNN8UVM2rGLsZcNbRd3tx6pzNirrKbiapvUVzxeXrjbgyooM3MR7DFJ
-	lvx3rAms=
-X-Google-Smtp-Source: AGHT+IGXUDZGLO18qnFS8eLFX3OxpujVPl/gkaZNhJDUtyc9xGs8Lnw9ZCeDCqW3yBxrvT3FfBOm2A==
-X-Received: by 2002:a05:6214:1bcc:b0:6ea:d629:f47d with SMTP id 6a1803df08f44-6ead629f57dmr73323506d6.44.1741876372546;
-        Thu, 13 Mar 2025 07:32:52 -0700 (PDT)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-86d90d68eb2sm211401241.7.2025.03.13.07.32.51
+        bh=wrfw6BdH8MD0atOJWU+atZIlWEB0GsesjOa67f4JQFg=;
+        b=f8ZXZJx+tlJuDYkNeJVykuBmc170RwlwsASoOZTdiMP+yHi51Or78M0FVIA3I08T0Q
+         IfL5Ip5qSGsBPSGSRgPZC+OHrAvq0gixVULCF7jX06gtGiH7jgOjkdGx33eVzNff8Dok
+         kjrhIQLEoPZM0tH10R7gyPR7aoOYBZVzu3WW+2BpZioQhzXfv6oPp5KBd8u96tGkxcpM
+         OmyjkmE2fPJUvbZvTv0OCEwjUzVOBjKuseBS0HTMsgR19YJLtPqpuvsB1Dlx/9XPkaQ4
+         dPh3wyKM0BdozTKgN329w7cB64ly+qrPHGqkpe5Dfzt6mzbsz34kMRk/0YZHdG9qp+pA
+         cLkg==
+X-Forwarded-Encrypted: i=1; AJvYcCXQjIC+AxeiVfWnB/chLOWHCC+UFNDocsejn4oDkmAUcFPu5D/UYd0PSVfwuKQ3Gbl56nSU0sNkAujmMmsP/L5qSqQ=@vger.kernel.org, AJvYcCXiEJnQ24WSZpui3cFJ4Jji5i2CMESmraf33yGM18KlqR2d3oiRTLVxRGzG2jB3gkNJwzSiyG8fgQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW+b3c08YY7jSTmv+zZpRM1W85A7daC875oay8coyYhTYKq+zF
+	/zK0sOgYMXlE1z7y+o6bM4rwti0N/jb6a3UOHfr7Ae8o0H7+Jv1OrnBpqvWZVIE=
+X-Gm-Gg: ASbGncvcdGqWqO73+8+yMQvRzboEpBN0LMN+CTk2PZbo4vKrhRQSaXDKy6VhUoiNJf2
+	6aq+L+NH+uGhcrtHYrysDPP03iGp1zJfHCdEdrD7WXH4BHObf7Yg/NGCKx0HCN6kDeYY/w5SZUj
+	eXVYifToMD2IwdI5jQu9wF2Md8rRy5FGf/T7J8vmxGzk3dFg8nksOMiA0izJd9xnghys4nyslOL
+	AmHngqM/KULOihNhPqs5NOX9/FQ66YWNarbRIHJjqV26r2jowrUIKV+aT/77xS4e3U1z4nBnHIx
+	Hnk+0MChSgVEOSYnwaH2flBTqE948eZz1V+9JK3kk7LTLpy9+tuJZwCEnf5WEBnJ91/RFyXQ8P1
+	pGU/GaC4=
+X-Google-Smtp-Source: AGHT+IHcWaL8guBTFIMNXUar1nGN18e4ItKStal2MXGrM8n0n4Jkn/xAa11X+4Q4dVd3qyV4iuS/jw==
+X-Received: by 2002:a05:6102:3f02:b0:4ba:974c:891e with SMTP id ada2fe7eead31-4c37eda04ebmr899756137.17.1741884522886;
+        Thu, 13 Mar 2025 09:48:42 -0700 (PDT)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-86d90d68a13sm250192241.5.2025.03.13.09.48.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Mar 2025 07:32:51 -0700 (PDT)
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-868da0af0fcso448171241.2;
-        Thu, 13 Mar 2025 07:32:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW2IUm/DrRYI4Etgw1aQ5bXGQLH4WD1UNseZcvqLeRMsW5leGvrvz9OOWhm+f9boQtQSENNRXKTGD5MuX6d9imSxM8=@vger.kernel.org, AJvYcCX5UTqpWpRXB4wWh9AYQLhoKDtBK3sa/tGXKcjECZKc+6iK/V6s92uYLffyFL1EovsNRZTWC2HQHw==@vger.kernel.org
-X-Received: by 2002:a05:6102:d8f:b0:4bb:e6bc:e16d with SMTP id
- ada2fe7eead31-4c30a6b1f28mr19722590137.20.1741876371022; Thu, 13 Mar 2025
- 07:32:51 -0700 (PDT)
+        Thu, 13 Mar 2025 09:48:42 -0700 (PDT)
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-868da0af0fcso502451241.2;
+        Thu, 13 Mar 2025 09:48:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUY+ihppORP5l+M/sg2NgZmJjJRizmMbyGtSIWvXmqkPDiV/Tz345wT6AdM7C4UHsHvSkUQdSlc0w==@vger.kernel.org, AJvYcCVbhGn/R9O+WGq8yYEZnME2eT5FYjSUG1C5QkSGItkW1NHYnSaBDQNRELWrpj/vKnFbNc8PEXqzrBss0CIOHcGMXfc=@vger.kernel.org
+X-Received: by 2002:a05:6102:3e11:b0:4c1:9328:107d with SMTP id
+ ada2fe7eead31-4c37edea758mr1275968137.24.1741884522491; Thu, 13 Mar 2025
+ 09:48:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -73,15 +73,16 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <CAMuHMdXN9A-1P_qe=BwKjLaoqxU8iJUQK6h8=s-apR4Y0em_0Q@mail.gmail.com>
  <CAMuHMdXXWH0Do5zXWJ1Uc6dyEb9o1chGSyeyzgDrX+v1wZ7e_A@mail.gmail.com>
- <CAGETcx_wA9RB9QhMPqsLHDFZ4cwOFgE8dBL9ssFkT=J6DEgjGg@mail.gmail.com> <CAMuHMdUCXJkg3rkngXf7cqa50u-TEAOntV6O=Nvg33Q9diPJPw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUCXJkg3rkngXf7cqa50u-TEAOntV6O=Nvg33Q9diPJPw@mail.gmail.com>
+ <CAGETcx_wA9RB9QhMPqsLHDFZ4cwOFgE8dBL9ssFkT=J6DEgjGg@mail.gmail.com>
+ <CAMuHMdUCXJkg3rkngXf7cqa50u-TEAOntV6O=Nvg33Q9diPJPw@mail.gmail.com> <CAMuHMdWLEHwjaNnysDZ_Unqj-SwmUdwRao_oJvYvVsQ9SCn06A@mail.gmail.com>
+In-Reply-To: <CAMuHMdWLEHwjaNnysDZ_Unqj-SwmUdwRao_oJvYvVsQ9SCn06A@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 13 Mar 2025 15:32:39 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWLEHwjaNnysDZ_Unqj-SwmUdwRao_oJvYvVsQ9SCn06A@mail.gmail.com>
-X-Gm-Features: AQ5f1JpJVmaxOlX9uCCFjKjL22U0WLUrpcwd4rJdfdEnxO1oQRAp4pCBKMVxjFU
-Message-ID: <CAMuHMdWLEHwjaNnysDZ_Unqj-SwmUdwRao_oJvYvVsQ9SCn06A@mail.gmail.com>
+Date: Thu, 13 Mar 2025 17:48:30 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXcJN5M7PqJ1eABOOCfeMjvs51rMRzMxU=d2L=3LVgh_w@mail.gmail.com>
+X-Gm-Features: AQ5f1JomkofPPtQ7zXslnmFk_uvpA4OoXG79ky7o55RIlfGqGEip72q7DKrcluM
+Message-ID: <CAMuHMdXcJN5M7PqJ1eABOOCfeMjvs51rMRzMxU=d2L=3LVgh_w@mail.gmail.com>
 Subject: Re: s2idle blocked on dev->power.completion
-To: Saravana Kannan <saravanak@google.com>
+To: Saravana Kannan <saravanak@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
 	Linux PM list <linux-pm@vger.kernel.org>, 
 	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
@@ -90,208 +91,110 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Saravana,
 
-On Thu, 13 Feb 2025 at 11:26, Geert Uytterhoeven <geert@linux-m68k.org> wro=
+On Thu, 13 Mar 2025 at 15:32, Geert Uytterhoeven <geert@linux-m68k.org> wro=
 te:
-> On Thu, 13 Feb 2025 at 09:31, Saravana Kannan <saravanak@google.com> wrot=
-e:
-> > On Mon, Feb 10, 2025 at 2:24=E2=80=AFAM Geert Uytterhoeven <geert@linux=
--m68k.org> wrote:
-> > > On Fri, 7 Feb 2025 at 16:08, Geert Uytterhoeven <geert@linux-m68k.org=
-> wrote:
-> > > > Instrumenting all dev->power.completion accesses in
-> > > > drivers/base/power/main.c reveals that resume is blocked in dpm_wai=
-t()
-> > > > in the call to wait_for_completion() for regulator-1p2v, which is
-> > > > indeed a dependency for the SN65DSI86 DSI-DP bridge.  Comparing
+> On Thu, 13 Feb 2025 at 11:26, Geert Uytterhoeven <geert@linux-m68k.org> w=
+rote:
+> > On Thu, 13 Feb 2025 at 09:31, Saravana Kannan <saravanak@google.com> wr=
+ote:
+> > > On Mon, Feb 10, 2025 at 2:24=E2=80=AFAM Geert Uytterhoeven <geert@lin=
+ux-m68k.org> wrote:
+> > > > On Fri, 7 Feb 2025 at 16:08, Geert Uytterhoeven <geert@linux-m68k.o=
+rg> wrote:
+> > > > > Instrumenting all dev->power.completion accesses in
+> > > > > drivers/base/power/main.c reveals that resume is blocked in dpm_w=
+ait()
+> > > > > in the call to wait_for_completion() for regulator-1p2v, which is
+> > > > > indeed a dependency for the SN65DSI86 DSI-DP bridge.  Comparing
+> > > >
+> > > > [...]
+> > > >
+> > > > > Looking at /sys/devices/virtual/devlink, the non-working case has=
+ the
+> > > > > following extra entries:
+> > > >
+> > > > Note that the SN65DSI86 DSI-DP bridge driver uses the auxiliary bus
+> > > > to create four subdevices:
+> > > >   - ti_sn65dsi86.aux.0,
+> > > >   - ti_sn65dsi86.bridge.0,
+> > > >   - ti_sn65dsi86.gpio.0,
+> > > >   - ti_sn65dsi86.pwm.0.
+> > > > None of them have supplier:* symlinks in sysfs, so perhaps that is
+> > > > the root cause of the issue?
 > > >
-> > > [...]
+> > > Sorry, I haven't had time to look into this closely. Couple of
+> > > questions/suggestions that might give you some answers.
 > > >
-> > > > Looking at /sys/devices/virtual/devlink, the non-working case has t=
-he
-> > > > following extra entries:
-> > >
-> > > Note that the SN65DSI86 DSI-DP bridge driver uses the auxiliary bus
-> > > to create four subdevices:
-> > >   - ti_sn65dsi86.aux.0,
-> > >   - ti_sn65dsi86.bridge.0,
-> > >   - ti_sn65dsi86.gpio.0,
-> > >   - ti_sn65dsi86.pwm.0.
-> > > None of them have supplier:* symlinks in sysfs, so perhaps that is
-> > > the root cause of the issue?
+> > > Is this an issue only happening for s2idle or for s2ram too? I'd gues=
+s
+> > > both, but if not, that might tell you something?
 > >
-> > Sorry, I haven't had time to look into this closely. Couple of
-> > questions/suggestions that might give you some answers.
+> > The two (very similar) boards I could reproduce the issue on do not
+> > support s2ram yet.
 > >
-> > Is this an issue only happening for s2idle or for s2ram too? I'd guess
-> > both, but if not, that might tell you something?
+> > > The only reason the wait_for_completion() wouldn't work is because th=
+e
+> > > supplier is not "completing"?
+> >
+> > Yes, the diff shows ca. 70 additional calls to "complete_all()" in the
+> > good case.
+
+>   4. When the issue happens, /sys/devices/virtual/devlink shows 3
+>      more links:
+>        A. platform:feb00000.display is a supplier of platform:fed80000.ds=
+i-encoder
+>        B. platform:fed80000.dsi-encoder is a supplier of platform:feb0000=
+0.display
+
+Their status file report "dormant".
+
+>        C. i2c:1-002c is a supplier of platform:fed80000.dsi-encoder
+
+Its status file reports "available".
+
+>   5. What happens in dpm_noirq_resume_devices()?
 >
-> The two (very similar) boards I could reproduce the issue on do not
-> support s2ram yet.
+>        /*
+>         * Trigger the resume of "async" devices upfront so they don't hav=
+e to
+>         * wait for the "non-async" ones they don't depend on.
+>         */
+>         i2c-1 (i2c bus) and 1-002c (bridge device) are async,
+>         thus triggered first.
+>         After that, the remaining devices are resumed.
 >
-> > The only reason the wait_for_completion() wouldn't work is because the
-> > supplier is not "completing"?
+>      In the bad case:
 >
-> Yes, the diff shows ca. 70 additional calls to "complete_all()" in the
-> good case.
+>        device_resume_noirq(fed80000.dsi-encoder, async=3Dfalse)
+>          dpm_wait_for_superior()
+>            parent soc: skipping wait_for_completion()
+>            dpm_wait_for_suppliers()
+>              supplier feb00000.display: skipped, DL_STATE_DORMANT
+>              ^^^^^^^^^^^^^^^^^^^^^^^^^
+> Cfr. extra link A above (harmless)
 >
-> > There's some weird direct_complete logic
-> > that I haven't fully understood. You can look at that to see if some
-> > of the devices are skipping their resumes and hence the "completes"
-> > too? Also, runtime PM and some flag can cause some lazy resume or
-> > avoid suspending already suspended devices behavior. Check that too.
->
-> Thanks, will give it a try...
+>              supplier e6150000.clock-controller: skipping wait_for_comple=
+tion()
+>              supplier 1-002c: wait_for_completion() =3D> BLOCKED
+>              ^^^^^^^^^^^^^^^
+> Cfr. extra link C above, but the bridge device hasn't been resumed yet.
 
-More findings:
+Changing the test for "DL_STATE_DORMANT"[1] in dpm_wait_for_suppliers()
+to also include "DL_STATE_AVAILABLE" makes it skip supplier 1-002c,
+and fixes the issue.  Does that make sense?
 
-1. The issue does not happen with "fw_devlink=3Doff".
-   It does happen with all of "fw_devlink=3D(permissive|on|rpm)".
+If yes, I will send a proper patch.
 
-2. Looking at differences in direct_complete state didn't help.
-
-3. When the issue happens, two more dependency cycle fixes are printed:
-
-       /soc/dsi-encoder@fed80000: Fixed dependency cycle(s) with
-/soc/i2c@e6508000/bridge@2c
-       /soc/i2c@e6508000/bridge@2c: Fixed dependency cycle(s) with
-/soc/dsi-encoder@fed80000
-
-     These are not new: the first one is printed 4 instead of 3 times,
-     the second one is printed 3 instead of 2 times.
-
-  4. When the issue happens, /sys/devices/virtual/devlink shows 3
-     more links:
-       A. platform:feb00000.display is a supplier of
-platform:fed80000.dsi-encoder
-       B. platform:fed80000.dsi-encoder is a supplier of
-platform:feb00000.display
-       C. i2c:1-002c is a supplier of platform:fed80000.dsi-encoder
-
-     A and B are due to endpoint links between ports of the display
-     and dsi-encoder nodes.
-     C is due to the endpoint links between ports1 of the bridge and
-     dsi-encoder nodes. However, I'd expect platform:fed80000.dsi-encoder
-     being a supplier of i2c:1-002c, too?
-
-     Note that feb00000.display is one of the devices that
-     were probe deferred, due no driver for fed80000.dsi-encoder
-     being available.
-     The other device that was probe-deferred is
-     ti_sn65dsi86.bridge.1068, which is an auxiliary-bus subdevice of
-     i2c:1-002c.
-
-  5. What happens in dpm_noirq_resume_devices()?
-
-       /*
-        * Trigger the resume of "async" devices upfront so they don't have =
-to
-        * wait for the "non-async" ones they don't depend on.
-        */
-        i2c-1 (i2c bus) and 1-002c (bridge device) are async,
-        thus triggered first.
-        After that, the remaining devices are resumed.
-
-     In the bad case:
-
-       device_resume_noirq(fed80000.dsi-encoder, async=3Dfalse)
-         dpm_wait_for_superior()
-           parent soc: skipping wait_for_completion()
-           dpm_wait_for_suppliers()
-             supplier feb00000.display: skipped, DL_STATE_DORMANT
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-Cfr. extra link A above (harmless)
-
-             supplier e6150000.clock-controller: skipping wait_for_completi=
-on()
-             supplier 1-002c: wait_for_completion() =3D> BLOCKED
-             ^^^^^^^^^^^^^^^
-Cfr. extra link C above, but the bridge device hasn't been resumed yet.
-
-Then it continues resuming async devices:
-
-       device_resume_noirq(i2c-1, async=3Dtrue)
-         dpm_wait_for_superior()
-           parent e6508000.i2c: wait_for_completion(), completed
-           dpm_wait_for_suppliers()
-             (none)
-         complete_all()
-
-       device_resume_noirq(1-002c, async=3Dtrue)
-         dpm_wait_for_superior()
-           parent i2c-1: wait_for_completion(), completed
-           dpm_wait_for_suppliers
-             supplier e6050000.pinctrl: wait_for_completion(), completed
-             supplier regulator-1p2v: wait_for_completion() =3D> BLOCKED
-             ^^^^^^^^^^^^^^^^^^^^^^^
-The regulator hasn't been resumed yet.
-
-     In the good case:
-
-       device_resume_noirq(fed80000.dsi-encoder, async=3Dfalse)
-         dpm_wait_for_superior()
-           parent soc: skipping wait_for_completion()
-           dpm_wait_for_suppliers()
-             supplier e6150000.clock-controller: skipping wait_for_completi=
-on()
-         complete_all()
-         ^^^^^^^^^^^^
-As feb00000.display and 1-002c are not suppliers, fed80000.dsi-encoder
-does not have to wait for them.
-
-       [...]
-
-       device_resume_noirq(regulator-1p2v, async=3Dfalse)
-                           ^^^^^^^^^^^^^^^
-After a while, the regulator is resumed...
-
-         dpm_wait_for_superior()
-           parent platform: wait_for_completion()
-           dpm_wait_for_suppliers()
-             (none)
-         complete_all()
-
-       [...]
-
-       device_resume_noirq(regulator.1, async=3Dfalse)
-                           ^^^^^^^^^^^^^^^
-followed by the virtual counterpart.
-         dpm_wait_for_superior()
-           parent regulator-1p2v: skipping wait_for_completion()
-           dpm_wait_for_suppliers ()
-             (none)
-         complete_all()
-
-       [...]
-
-       device_resume_noirq(1-002c, async=3Dtrue)
-                           ^^^^^^
-The bridge is resumed much later...
-
-         dpm_wait_for_superior()
-           parent i2c-1: wait_for_completion(), completed
-           dpm_wait_for_suppliers
-             supplier e6050000.pinctrl: wait_for_completion(), completed
-             supplier regulator-1p2v: wait_for_completion(), completed
-             ^^^^^^^^^^^^^^^^^^^^^^^
-             supplier regulator-1p8v: wait_for_completion(), completed
-             supplier e6050980.gpio: wait_for_completion(), completed
-             supplier e61c0000.interrupt-controller:
-wait_for_completion(), completed
-             supplier regulator.1: wait_for_completion(), completed
-             ^^^^^^^^^^^^^^^^^^^^
-... after the regulators were resumed
-             supplier regulator.2: wait_for_completion(), completed
-         complete_all()
-
-So the issue seems to be the creation of link C
-(i2c:1-002c is a supplier of platform:fed80000.dsi-encoder).
 Thanks!
+
+[1] https://elixir.bootlin.com/linux/v6.13.6/source/drivers/base/power/main=
+.c#L270
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+--=20
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
