@@ -1,171 +1,389 @@
-Return-Path: <linux-renesas-soc+bounces-14329-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14330-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185D8A5ECC3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 08:20:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21482A5EE27
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 09:38:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B8073A87CE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 07:19:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3847F3A3918
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 08:37:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BE301FC7C9;
-	Thu, 13 Mar 2025 07:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dwNQlxQ+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A75DA1FAC57;
+	Thu, 13 Mar 2025 08:37:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13A01FC0ED;
-	Thu, 13 Mar 2025 07:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F5F26136A
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Mar 2025 08:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741850367; cv=none; b=bOvazebPc+kBl/GR4F3JIsYk+J/2kJ3u8zYSbdxUwYUGg1tZ24ZMdDBDVDzmG/9Hb1Aj7YBrlaEbZQAX0q1AW0wdwJInNgaSjgCO6Xzk5j4qyqNbBN9glnWhUoSVBRkFP2wiX8JUVC74d0B9zVxtAs1+1thmjWujkP4axw6q8ws=
+	t=1741855039; cv=none; b=h3zubEC0U540Bj7zpmXE4fEQ8WnDC+zho2RxGSZvabPSGebo5RzvKljx3r0R3/C/YFcve0XNEcZqLzFPCOqBqucSD190rJWFZfL9HYKmKWxwMi7WXf7WmYmZZKKFV2UMCw+3oCdHsWllr0zLnN19uCJixXdXYiR4nWZhgqDcEio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741850367; c=relaxed/simple;
-	bh=Ybr4ppd4ggfhezGrA8SGEZN+uoR4U/7erGa8s7nsu5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BlL3Ymr0ELMFVStbpsC3jxD75CqroRkHqKaZNSbk5X0RrEKxXbBm3HIUOFfhxzDHKsvCGU7M9qZZqPVfteegCoQH3AaDaaVMZ7DN118RXV4uc/sVf/DMBLDnQQZ8RdzVTahq1aEIMwKgeVQIA+vDcLUXYjRrDzDAaVebS0vy3eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dwNQlxQ+; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30bd21f887aso5509391fa.1;
-        Thu, 13 Mar 2025 00:19:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741850364; x=1742455164; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xFwqzBXDybwuD2vjc1RKwbgfdx/o0MRc2L5yNvshUHo=;
-        b=dwNQlxQ+wC0d3jXCdfEhHVUbQe2q7DyJGgyluwoOuMeHBgmKUBsEznEYy5Vfticld1
-         WrnRj2i1O1Q5Zqhzq+yIbIA/0dQsbj9UartQOnkCBiAQUIUqm5rH39kofM40m0sj5mtg
-         AE+M2qOVej6OVIBUxGa2thu3Z0x0T8tlmSSNsoxrNuM7qQmZLD2Go5pqE/2Hg/i0rMmg
-         Gu6RSxieGg4PNwYD9jn9GxGXCijO8s66Bn4bn1sJD679n77hIXVeW6lQZBHpVOGKhtMl
-         plsKf+DDaEy0wbmYpre7aBtJvf1yTNPWIJ8tWhkR4ubSG0jM6mis/dbEGUX4uMwksXTF
-         G3tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741850364; x=1742455164;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xFwqzBXDybwuD2vjc1RKwbgfdx/o0MRc2L5yNvshUHo=;
-        b=L4++30+uswUmPT7MGKP3ZTS/AGuYw3uiCCdv62mR9CjJtKtT3GjlQifA3hOtKtqrpg
-         OV3Sr2hqb4Y2IZCJ+FF657e/pj4mjieqaJrUDrCNM7WqS733eY9wVust3Kpx3nNE8CQn
-         LNXNIT3U1+nVwcVc9ZAEHqVyh5xjxQeRGxZ0qanFioC17geJE8DgtBpEnwXiiwUA9sAz
-         ooOd4nQ+ZZDNRUidYdArF1mVs22tCXQdLPQIG0v+f6ejymUsblL0OJnThv6jeLZEPIkp
-         PCk6D7EkcW3RlceE9+VKIkdokrife1FKJ0LBZYFYcoEGeRYtTIwx0oD8nC+im3LTFFbn
-         FcEA==
-X-Forwarded-Encrypted: i=1; AJvYcCUKS2PUv4YvaLwtZ7H7DS1Kz9yzM/79jY6AjwWHKvO5yjbU88EI1MdnNmo51NrqpfIsxRUz4DeLcaXBuA==@vger.kernel.org, AJvYcCUh7uvkqCVDXVtFCHOtiXw2FUPcO4S8cvmw3dHidJ6yQG3zDPQfjAc4cxl8EOl3UZLRo/GtM+n/Rv1U@vger.kernel.org, AJvYcCVkyAVPUQ6k+UefXx/j7ldNeCjbUZlKe3NBVMv0I48hPTnN5VPTiy4kBvzrnqYMW8SOr5FhFYnlqWMfwPia@vger.kernel.org, AJvYcCWZ4n8uyfoRPg2/g4E+JIHitKyEB6w6JbnnRXQnLi2FspQ2QCI5J1w1YAPpTUbyS3rE5Ng0EbpWHPsL@vger.kernel.org, AJvYcCWfTa58u6XxRdPraQEk8cGprMtG0OktL9OeoTz94IDQ5a/nYYSGHiay2pUWIMwZJh0EgoMXTG9FbSqzoe9AI5bhBU8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvQZMlH11OmuzA6T/q9K2IPlvbkAaUGXJmH+1VoYcftb9aDrdJ
-	UuoRBdvpVggHu8z+ZyqP9Fr4+Ja3rXYnIZvXVMxZ52SP/YMYA2YW
-X-Gm-Gg: ASbGncvOdt+XdHcy6J8CSzu0ZAfDuxOVmBbtTuMcvalkepuLVqK4Ur6RZvsLnw+T8mD
-	oX6A7AN/PJf7AShAdDbYVfNRkX7UqzrEO/AHmDfDoYxmzsO02Oavd4DHVH6fpfTbK1aB10OECbr
-	dcwu/kgYBH+a0LnMQFFlHmext2tILQPTLc/jYMNvg6Wpt5j4+jBa2OR0GMQLWo4KoEtQcVoiQdM
-	JUkShb6tuttFzV38ApnquWicJNMVHSPgSJx3fBj+SEE9N9lK0Y27DddNurjfJ1asBnNXcLWbmP1
-	/q9UGTQPFR1DF+DIC2P+2qVITaDwBMQHXwF2k2XBiPvnneoW5ss=
-X-Google-Smtp-Source: AGHT+IEjv3VEotqH5VFMYNkLSITb7yxLQ+/ZPsDGqrkSfM+X1MuBHj1FF3/q86MbLY14fdbT78uThw==
-X-Received: by 2002:a05:6512:3da3:b0:545:1082:91a1 with SMTP id 2adb3069b0e04-54990e2bd29mr8607537e87.7.1741850363715;
-        Thu, 13 Mar 2025 00:19:23 -0700 (PDT)
-Received: from mva-rohm ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba8851c4sm117554e87.199.2025.03.13.00.19.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 00:19:21 -0700 (PDT)
-Date: Thu, 13 Mar 2025 09:19:17 +0200
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Guillaume Stols <gstols@baylibre.com>,
-	Dumitru Ceclan <mitrutzceclan@gmail.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [PATCH v7 07/10] MAINTAINERS: Add IIO ADC helpers
-Message-ID: <b1d1358a6e8f436fe6a6d5704e63abab660950c8.1741849323.git.mazziesaccount@gmail.com>
-References: <cover.1741849323.git.mazziesaccount@gmail.com>
+	s=arc-20240116; t=1741855039; c=relaxed/simple;
+	bh=HZEIsCns7sqTp7Ma0UvCw0qlrrLhGqA4e7H2SdN/8+c=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cnV4lFybu4a11w3zgnl3fKUXyY9LIMDBkNoY5HouRT+hmzcS6qQqx0mxqwtqJ7jJ0+tV34oRVAbbQB0gIKviCdWSy/hEdXhJPVNR8aw7kX/A7vUmXFIqRU36EqQy28acHSrniipI8JgdNeO9BluDkO6uGRlsau23D3+4+530XrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tse3r-0007kx-Fj; Thu, 13 Mar 2025 09:37:03 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tse3q-005VPv-1G;
+	Thu, 13 Mar 2025 09:37:02 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tse3q-0003Jw-1B;
+	Thu, 13 Mar 2025 09:37:02 +0100
+Message-ID: <30b6841b3ce199488698ab272f103a0364adb000.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] reset: Add USB2PHY control driver for Renesas
+ RZ/V2H(P)
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Prabhakar <prabhakar.csengg@gmail.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Magnus
+ Damm <magnus.damm@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Thu, 13 Mar 2025 09:37:02 +0100
+In-Reply-To: <20250305123915.341589-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: 
+	<20250305123915.341589-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	 <20250305123915.341589-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="H8QAWWuku4uOTwSt"
-Content-Disposition: inline
-In-Reply-To: <cover.1741849323.git.mazziesaccount@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
+On Mi, 2025-03-05 at 12:39 +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Add support for the USB2PHY control driver on the Renesas RZ/V2H(P) SoC.
+> Make the driver handle reset and power-down operations for the USB2PHY.
+>=20
+> Pass OF data to support future SoCs with similar USB2PHY hardware but
+> different register configurations. Define device-specific initialization
+> values and control register settings in OF data to ensure flexibility
+> for upcoming SoCs.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/reset/Kconfig                    |   7 +
+>  drivers/reset/Makefile                   |   1 +
+>  drivers/reset/reset-rzv2h-usb2phy-ctrl.c | 223 +++++++++++++++++++++++
+>  3 files changed, 231 insertions(+)
+>  create mode 100644 drivers/reset/reset-rzv2h-usb2phy-ctrl.c
+>=20
+> diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
+> index 5b3abb6db248..bac08dae8905 100644
+> --- a/drivers/reset/Kconfig
+> +++ b/drivers/reset/Kconfig
+> @@ -218,6 +218,13 @@ config RESET_RZG2L_USBPHY_CTRL
+>  	  Support for USBPHY Control found on RZ/G2L family. It mainly
+>  	  controls reset and power down of the USB/PHY.
+> =20
+> +config RESET_RZV2H_USB2PHY_CTRL
+> +	tristate "Renesas RZ/V2H(P) (and similar SoCs) USB2PHY control driver"
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	help
+> +	  Support for USB2PHY Control found on the RZ/V2H(P) SoC (and similar S=
+oCs).
+> +	  It mainly controls reset and power down of the USB2 PHY.
+> +
+>  config RESET_SCMI
+>  	tristate "Reset driver controlled via ARM SCMI interface"
+>  	depends on ARM_SCMI_PROTOCOL || COMPILE_TEST
+> diff --git a/drivers/reset/Makefile b/drivers/reset/Makefile
+> index 677c4d1e2632..3cb3df018cf8 100644
+> --- a/drivers/reset/Makefile
+> +++ b/drivers/reset/Makefile
+> @@ -30,6 +30,7 @@ obj-$(CONFIG_RESET_QCOM_AOSS) +=3D reset-qcom-aoss.o
+>  obj-$(CONFIG_RESET_QCOM_PDC) +=3D reset-qcom-pdc.o
+>  obj-$(CONFIG_RESET_RASPBERRYPI) +=3D reset-raspberrypi.o
+>  obj-$(CONFIG_RESET_RZG2L_USBPHY_CTRL) +=3D reset-rzg2l-usbphy-ctrl.o
+> +obj-$(CONFIG_RESET_RZV2H_USB2PHY_CTRL) +=3D reset-rzv2h-usb2phy-ctrl.o
+>  obj-$(CONFIG_RESET_SCMI) +=3D reset-scmi.o
+>  obj-$(CONFIG_RESET_SIMPLE) +=3D reset-simple.o
+>  obj-$(CONFIG_RESET_SOCFPGA) +=3D reset-socfpga.o
+> diff --git a/drivers/reset/reset-rzv2h-usb2phy-ctrl.c b/drivers/reset/res=
+et-rzv2h-usb2phy-ctrl.c
+> new file mode 100644
+> index 000000000000..a6daeaf37e1c
+> --- /dev/null
+> +++ b/drivers/reset/reset-rzv2h-usb2phy-ctrl.c
+> @@ -0,0 +1,223 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/V2H(P) USB2PHY control driver
+> + *
+> + * Copyright (C) 2025 Renesas Electronics Corporation
+> + */
+> +
+> +#include <linux/cleanup.h>
+> +#include <linux/delay.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+> +#include <linux/reset-controller.h>
+> +
+> +struct rzv2h_usb2phy_regval {
+> +	u16 reg;
+> +	u16 val;
+> +};
+> +
+> +struct rzv2h_usb2phy_data {
+> +	const struct rzv2h_usb2phy_regval *init_vals;
+> +	unsigned int init_val_count;
+> +
+> +	u16 ctrl_reg;
+> +	u16 ctrl_assert_val;
+> +	u16 ctrl_deassert_val;
+> +	u16 ctrl_status_bits;
+> +	u16 ctrl_release_val;
+> +
+> +	u16 ctrl2_reg;
+> +	u16 ctrl2_acquire_val;
+> +	u16 ctrl2_release_val;
+> +};
+> +
+> +struct rzv2h_usb2phy_ctrl_priv {
+> +	const struct rzv2h_usb2phy_data *data;
+> +	void __iomem *base;
+> +	struct device *dev;
+> +	struct reset_controller_dev rcdev;
+> +	spinlock_t lock;
 
---H8QAWWuku4uOTwSt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Lock without comment.
 
-Add undersigned as a maintainer for the IIO ADC helpers.
+> +};
+> +
+> +#define rcdev_to_priv(x) container_of(x, struct rzv2h_usb2phy_ctrl_priv,=
+ rcdev)
 
-Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
----
-Revision history:
-v2 =3D>
- - No changes
-RFC v1 =3D> v2:
- - New patch
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+I'd prefer this to be an inline function.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8e0736dc2ee0..5b96fb864227 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11208,6 +11208,13 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	drivers/media/rc/iguanair.c
-=20
-+IIO ADC HELPERS
-+M:	Matti Vaittinen <mazziesaccount@gmail.com>
-+L:	linux-iio@vger.kernel.org
-+S:	Maintained
-+F:	drivers/iio/adc/industrialio-adc.c
-+F:	include/linux/iio/adc-helpers.h
-+
- IIO BACKEND FRAMEWORK
- M:	Nuno Sa <nuno.sa@analog.com>
- R:	Olivier Moysan <olivier.moysan@foss.st.com>
---=20
-2.48.1
+> +
+> +static int rzv2h_usbphy_ctrl_assert(struct reset_controller_dev *rcdev,
+> +				    unsigned long id)
+> +{
+> +	struct rzv2h_usb2phy_ctrl_priv *priv =3D rcdev_to_priv(rcdev);
+> +	const struct rzv2h_usb2phy_data *data =3D priv->data;
+> +	struct device *dev =3D priv->dev;
+> +	int ret;
+> +
+> +	ret =3D pm_runtime_resume_and_get(dev);
+> +	if (ret) {
+> +		dev_err(dev, "pm_runtime_resume_and_get failed\n");
+> +		return ret;
+> +	}
+> +	scoped_guard(spinlock, &priv->lock) {
+> +		writel(data->ctrl2_acquire_val, priv->base + data->ctrl2_reg);
 
+Comparing to deassert, I wonder why is there no ctrl_acquire_val?
 
---H8QAWWuku4uOTwSt
-Content-Type: application/pgp-signature; name="signature.asc"
+> +		writel(data->ctrl_assert_val, priv->base + data->ctrl_reg);
+> +	}
+> +
+> +	/* The reset line needs to be asserted for more than 10 microseconds. *=
+/
+> +	udelay(11);
 
------BEGIN PGP SIGNATURE-----
+Could this be usleep_range() instead?
 
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmfShvUACgkQeFA3/03a
-ocXgIAf/SYEOEjN0fysrCaCgrEuPeg5uKTPDg9mCm7K35bm36KYpZkrUX4WcZFsG
-HxF+grWO98il0+w8YpYtNFVU0ureaf+sM0frxSTd5Iv2BfQMa2flmcnrEqXPgPtP
-FZ/hZA6gUAgExUU+fs+nQbSqLkYxuYp8z0NxwnipVYJz6JupSNgI3jevCBY/mXXp
-Deb88x3LzC9x2iwaGd1yaMhs2JeSbkeZWSz0fmvinB0881zxkId2EvLR3eJ5NBuZ
-pOJXGC/SACubM7oIo4BTJ3UQhODieMHUZEhaMgbxzwuuvpDWhCqwz90UvNj5ZSGy
-jv61+IuPJ3I14vufpID4JxSi7Xe2ig==
-=01Pj
------END PGP SIGNATURE-----
+> +	pm_runtime_put(dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_usbphy_ctrl_deassert(struct reset_controller_dev *rcdev=
+,
+> +				      unsigned long id)
+> +{
+> +	struct rzv2h_usb2phy_ctrl_priv *priv =3D rcdev_to_priv(rcdev);
+> +	const struct rzv2h_usb2phy_data *data =3D priv->data;
+> +	struct device *dev =3D priv->dev;
+> +	int ret;
+> +
+> +	ret =3D pm_runtime_resume_and_get(dev);
+> +	if (ret) {
+> +		dev_err(dev, "pm_runtime_resume_and_get failed\n");
+> +		return ret;
+> +	}
+> +
+> +	scoped_guard(spinlock, &priv->lock) {
+> +		writel(data->ctrl_deassert_val, priv->base + data->ctrl_reg);
+> +		writel(data->ctrl2_release_val, priv->base + data->ctrl2_reg);
+> +		writel(data->ctrl_release_val, priv->base + data->ctrl_reg);
+> +	}
+> +
+> +	pm_runtime_put(dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_usbphy_ctrl_status(struct reset_controller_dev *rcdev,
+> +				    unsigned long id)
+> +{
+> +	struct rzv2h_usb2phy_ctrl_priv *priv =3D rcdev_to_priv(rcdev);
+> +	struct device *dev =3D priv->dev;
+> +	int ret;
+> +	u32 reg;
+> +
+> +	ret =3D pm_runtime_resume_and_get(dev);
+> +	if (ret) {
+> +		dev_err(dev, "pm_runtime_resume_and_get failed\n");
+> +		return ret;
+> +	}
+> +
+> +	scoped_guard(spinlock, &priv->lock)
+> +		reg =3D readl(priv->base + priv->data->ctrl_reg);
+> +
+> +	pm_runtime_put(dev);
+> +
+> +	return (reg & priv->data->ctrl_status_bits) =3D=3D priv->data->ctrl_sta=
+tus_bits;
+> +}
+> +
+> +static const struct reset_control_ops rzv2h_usbphy_ctrl_reset_ops =3D {
+> +	.assert =3D rzv2h_usbphy_ctrl_assert,
+> +	.deassert =3D rzv2h_usbphy_ctrl_deassert,
+> +	.status =3D rzv2h_usbphy_ctrl_status,
+> +};
+> +
+> +static int rzv2h_reset_of_xlate(struct reset_controller_dev *rcdev,
+> +				const struct of_phandle_args *reset_spec)
+> +{
+> +	/* No special handling needed, we have only one reset line per device *=
+/
+> +	return 0;
+> +}
+> +
+> +static int rzv2h_usb2phy_ctrl_probe(struct platform_device *pdev)
+> +{
+> +	const struct rzv2h_usb2phy_data *data;
+> +	struct rzv2h_usb2phy_ctrl_priv *priv;
+> +	struct device *dev =3D &pdev->dev;
+> +	struct reset_control *rstc;
+> +	int error;
+> +
+> +	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	data =3D of_device_get_match_data(dev);
+> +	if (!data)
+> +		return dev_err_probe(dev, -ENODEV,
+> +				     "failed to match device\n");
+> +
+> +	priv->data =3D data;
+> +	priv->dev =3D dev;
+> +	priv->base =3D devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(priv->base))
+> +		return PTR_ERR(priv->base);
+> +
+> +	rstc =3D devm_reset_control_get_shared_deasserted(dev, NULL);
+> +	if (IS_ERR(rstc))
+> +		return dev_err_probe(dev, PTR_ERR(rstc),
+> +				     "failed to get deasserted reset\n");
+> +
+> +	spin_lock_init(&priv->lock);
+> +	dev_set_drvdata(dev, priv);
+> +
+> +	error =3D devm_pm_runtime_enable(dev);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "Failed to enable pm_runtime\n");
+> +
+> +	error =3D pm_runtime_resume_and_get(dev);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "pm_runtime_resume_and_get failed\n")=
+;
+> +
+> +	for (unsigned int i =3D 0; i < data->init_val_count; i++)
+> +		writel(data->init_vals[i].val, priv->base + data->init_vals[i].reg);
+> +
+> +	pm_runtime_put(dev);
+> +
+> +	priv->rcdev.ops =3D &rzv2h_usbphy_ctrl_reset_ops;
+> +	priv->rcdev.of_reset_n_cells =3D 0;
+> +	priv->rcdev.nr_resets =3D 1;
+> +	priv->rcdev.of_xlate =3D rzv2h_reset_of_xlate;
+> +	priv->rcdev.of_node =3D dev->of_node;
+> +	priv->rcdev.dev =3D dev;
+> +
+> +	return devm_reset_controller_register(dev, &priv->rcdev);
+> +}
+> +
+> +static const struct rzv2h_usb2phy_regval rzv2h_init_vals[] =3D {
+> +	{ .reg =3D 0xc10, .val =3D 0x67c },
+> +	{ .reg =3D 0xc14, .val =3D 0x1f },
+> +	{ .reg =3D 0x600, .val =3D 0x909 },
 
---H8QAWWuku4uOTwSt--
+What are these registers and what are those values doing?
+
+> +};
+> +
+> +static const struct rzv2h_usb2phy_data rzv2h_of_data =3D {
+> +	.init_vals =3D rzv2h_init_vals,
+> +	.init_val_count =3D ARRAY_SIZE(rzv2h_init_vals),
+> +	.ctrl_reg =3D 0,
+> +	.ctrl_assert_val =3D 0x206,
+> +	.ctrl_status_bits =3D BIT(2),
+> +	.ctrl_deassert_val =3D 0x200,
+> +	.ctrl_release_val =3D 0x0,
+> +	.ctrl2_reg =3D 0xb04,
+> +	.ctrl2_acquire_val =3D 0x303,
+> +	.ctrl2_release_val =3D 0x3,
+
+This is really opaque. I would have expected some defines for the
+register bits (or fields?) at least.
+
+> +};
+> +
+> +static const struct of_device_id rzv2h_usb2phy_ctrl_match_table[] =3D {
+> +	{ .compatible =3D "renesas,r9a09g057-usb2phy-ctrl", .data =3D &rzv2h_of=
+_data },
+> +	{ /* Sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, rzv2h_usb2phy_ctrl_match_table);
+> +
+> +static struct platform_driver rzv2h_usb2phy_ctrl_driver =3D {
+> +	.driver =3D {
+> +		.name		=3D "rzv2h_usb2phy_ctrl",
+> +		.of_match_table	=3D rzv2h_usb2phy_ctrl_match_table,
+> +	},
+> +	.probe =3D rzv2h_usb2phy_ctrl_probe,
+> +};
+> +module_platform_driver(rzv2h_usb2phy_ctrl_driver);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>")=
+;
+> +MODULE_DESCRIPTION("Renesas RZ/V2H(P) USB2PHY Control");
+
+regards
+Philipp
+
 
