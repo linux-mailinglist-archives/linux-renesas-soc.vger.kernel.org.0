@@ -1,130 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-14323-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14324-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB48A5E726
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Mar 2025 23:16:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A4CA5E9AD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 03:16:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 721143BB07E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Mar 2025 22:16:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BE4A18983E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 02:16:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80E611F0E2A;
-	Wed, 12 Mar 2025 22:16:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C77D7081C;
+	Thu, 13 Mar 2025 02:15:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZU0vjVmN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgCkbNU8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE58B1F03D8;
-	Wed, 12 Mar 2025 22:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED716FC5;
+	Thu, 13 Mar 2025 02:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741817773; cv=none; b=NAcuWcEnze2DQuUN5f1ee5RM7bKFCgPS6HeCsjFTRfppEw2h47RE72lD46EH26VAsOUqWRHwMv9YFOoPEAxaVAiglMCT85kfXW8GSbf3l13gnXeh0C7PFSWvyR/WK3ntkEvDeHFvRC5iiOL0FB0Pap9dcyBpqh13ak2la4frFUY=
+	t=1741832158; cv=none; b=beCq7QCJcR/CYKlBDcMoZ0Od2hRFmvaTaE3nXcKnNSUlU88hGivbOOp2L6KVyhxMncF6St8dQ4SN46Azq+RwPTminVzdAh8DOKD6F7iaHKVvWoK9Aa3JfVJGbyuBcz1XRqbwlzZ1GWEp3XIx/D+VDqnsJycdToLJy6xW28c63dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741817773; c=relaxed/simple;
-	bh=dZtHQmHw2E/TNV4LhtJkvHxvd1dLBtC07ImShwyJx1c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oIsHwryE6zp/uppaO35pMHuGnyUDvCba2CtqFBlQP8lM8Bo4ol5pHVqYME6MEgPtF8q0sQssfAdpnrEbGJhviBB4jJFdpUnCkNZ5pIKDl7sECX3CU+vxoIlX8FUU9m2FsA8eLRGwiwvkmcpWYW18hEYwuNeiKYljJAtFrgHy0Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZU0vjVmN; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1741832158; c=relaxed/simple;
+	bh=96yJDyEP9BeK2cVK+9MUvmIHjdk7wR1LKgFfN3+p/fM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kZG1xr4cXUcwJaTCDlX8eTb7IQU5VBrFpxaB0AJqWviYqcQrlnLFxEcwsvjoPiyu1MyXhW0ORzi15ftKfT1dkUtBMmV4RnksDYZyu4z+56g2WfBDYjrikyyzOUqhJ0dTTmsjviBUPTGODMrKmNVubaF2v1j3XPtMDevw++s9+hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgCkbNU8; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741817772; x=1773353772;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=dZtHQmHw2E/TNV4LhtJkvHxvd1dLBtC07ImShwyJx1c=;
-  b=ZU0vjVmNwb13IxsezdyVAJFPfP44KITuMRdGrjZ2NidMGHzlOh2zg9+H
-   F2Z67pbtWxfRU+wATNmCeV9IR8kqlPQEMyhKUlKkVeX2aUPQjyMCEOvEo
-   16LplSKIdLxgfTdOhVhtThinXmmJSHzlnKZlU9k+6bzNGfllbtHsgHxi7
-   T+rJEg1Omi/xQL86AikwsYfzL1j7O8T8/fGFalNLr18e60yazA2A9SN7h
-   VL0GSRJOyUXx+/WZk/hO+RXrlgOlU0i/UaVZ8RsYEZiT/QlE8NVTdumXq
-   t1gZXxbRUTil85vV7ZZdQzUpjfgWqDe4si3/WnwPxaPRs12jv9l24kKmC
-   Q==;
-X-CSE-ConnectionGUID: B3zqPGFURBW21N+3jJdO9g==
-X-CSE-MsgGUID: ltJWj/1iQYiULtOGLBPgLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="54288432"
-X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
-   d="scan'208";a="54288432"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 15:16:08 -0700
-X-CSE-ConnectionGUID: n41JY1lQQdaoPy2xR1G+TQ==
-X-CSE-MsgGUID: 7j8DIBiETSWs78ngq/acow==
+  t=1741832156; x=1773368156;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=96yJDyEP9BeK2cVK+9MUvmIHjdk7wR1LKgFfN3+p/fM=;
+  b=lgCkbNU8xDWZ1tFWchRtnulHPQIWUlxY3OD3fD+cDL96EcvUqAPy3J06
+   OKcXSPPYZHiK82sO39PZWI0YpSt8gQbOxNzdUwKC090bt11bqpfe3yVQP
+   z2uk81FdQbrXjm3zofGQS9yy9kBoUtt5L1aIRugMJh7kVZxRX5vIja0k4
+   3ljTNknrgHnNS3odIlBDBop3MCwbbL3PV8W8h5NxwuYslkLryRV2M6qU/
+   PcSkPHDSBt+xZmPLDZbu2nASjCOARKr+rM+ScnFTTbEAieMEQXBq5m9+L
+   n0yHYRR+OnEV7+ctDhcjeZXmbefb34kc/ZW1dSJHHh7HT0CqYIZo9ji24
+   g==;
+X-CSE-ConnectionGUID: pAcCZdqySs2h9+9nXDOk1Q==
+X-CSE-MsgGUID: oIJGlP3gSPSNEqux3nj3hg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="43038850"
+X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
+   d="scan'208";a="43038850"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 19:15:55 -0700
+X-CSE-ConnectionGUID: KHahmpZOTNOqvrR+C7Song==
+X-CSE-MsgGUID: H65afRTcQ5CspG2G7V7fvw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
-   d="scan'208";a="125950251"
-Received: from jekeller-desk.jf.intel.com ([10.166.241.15])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 15:16:07 -0700
-From: Jacob Keller <jacob.e.keller@intel.com>
-Date: Wed, 12 Mar 2025 15:15:54 -0700
-Subject: [PATCH net v2 5/5] ptp: ocp: reject unsupported periodic output
- flags
+X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
+   d="scan'208";a="125887063"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Mar 2025 19:15:31 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tsY6V-000936-1q;
+	Thu, 13 Mar 2025 02:15:25 +0000
+Date: Thu, 13 Mar 2025 10:15:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+	airlied@gmail.com, mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com, geert@linux-m68k.org,
+	tomi.valkeinen@ideasonboard.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+	freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+	nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+	spice-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+	intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v4 18/25] drm/renesas/rz-du: Compute dumb-buffer sizes
+ with drm_mode_size_dumb()
+Message-ID: <202503130956.VyNIuYfU-lkp@intel.com>
+References: <20250311155120.442633-19-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250312-jk-net-fixes-supported-extts-flags-v2-5-ea930ba82459@intel.com>
-References: <20250312-jk-net-fixes-supported-extts-flags-v2-0-ea930ba82459@intel.com>
-In-Reply-To: <20250312-jk-net-fixes-supported-extts-flags-v2-0-ea930ba82459@intel.com>
-To: Tony Nguyen <anthony.l.nguyen@intel.com>, 
- Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Richard Cochran <richardcochran@gmail.com>, Ruud Bos <kernel.hbk@gmail.com>, 
- Paul Barker <paul.barker.ct@bp.renesas.com>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Bryan Whitehead <bryan.whitehead@microchip.com>, 
- UNGLinuxDriver@microchip.com, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- Jonathan Lemon <jonathan.lemon@gmail.com>, Lasse Johnsen <l@ssejohnsen.me>, 
- Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
- Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
-Cc: intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, Jacob Keller <jacob.e.keller@intel.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250311155120.442633-19-tzimmermann@suse.de>
 
-The ptp_ocp_signal_from_perout() function supports PTP_PEROUT_DUTY_CYCLE
-and PTP_PEROUT_PHASE. It does not support PTP_PEROUT_ONE_SHOT, but does not
-reject a request with such an unsupported flag.
+Hi Thomas,
 
-Add the appropriate check to ensure that unsupported requests are rejected
-both for PTP_PEROUT_ONE_SHOT as well as any future flags.
+kernel test robot noticed the following build errors:
 
-Fixes: 1aa66a3a135a ("ptp: ocp: Program the signal generators via PTP_CLK_REQ_PEROUT")
-Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
----
- drivers/ptp/ptp_ocp.c | 4 ++++
- 1 file changed, 4 insertions(+)
+[auto build test ERROR on next-20250311]
+[also build test ERROR on v6.14-rc6]
+[cannot apply to drm-exynos/exynos-drm-next rockchip/for-next tegra/for-next drm-xe/drm-xe-next linus/master v6.14-rc6 v6.14-rc5 v6.14-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
-index b651087f426f50a73229ca57634fc5d6912e0a87..4a87af0980d695a9ab1b23e2544f620759ccb892 100644
---- a/drivers/ptp/ptp_ocp.c
-+++ b/drivers/ptp/ptp_ocp.c
-@@ -2090,6 +2090,10 @@ ptp_ocp_signal_from_perout(struct ptp_ocp *bp, int gen,
- {
- 	struct ptp_ocp_signal s = { };
- 
-+	if (req->flags & ~(PTP_PEROUT_DUTY_CYCLE |
-+			   PTP_PEROUT_PHASE))
-+		return -EOPNOTSUPP;
-+
- 	s.polarity = bp->signal[gen].polarity;
- 	s.period = ktime_set(req->period.sec, req->period.nsec);
- 	if (!s.period)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-dumb-buffers-Sanitize-output-on-errors/20250311-235818
+base:   next-20250311
+patch link:    https://lore.kernel.org/r/20250311155120.442633-19-tzimmermann%40suse.de
+patch subject: [PATCH v4 18/25] drm/renesas/rz-du: Compute dumb-buffer sizes with drm_mode_size_dumb()
+config: powerpc64-randconfig-003-20250313 (https://download.01.org/0day-ci/archive/20250313/202503130956.VyNIuYfU-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503130956.VyNIuYfU-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503130956.VyNIuYfU-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c: In function 'rzg2l_du_dumb_create':
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c:80:15: error: implicit declaration of function 'drm_mode_size_dumb'; did you mean 'drm_mode_set_name'? [-Wimplicit-function-declaration]
+      80 |         ret = drm_mode_size_dumb(dev, args, 16 * args->bpp / 8, 0);
+         |               ^~~~~~~~~~~~~~~~~~
+         |               drm_mode_set_name
+
+
+vim +80 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+
+    70	
+    71	/* -----------------------------------------------------------------------------
+    72	 * Frame buffer
+    73	 */
+    74	
+    75	int rzg2l_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+    76				 struct drm_mode_create_dumb *args)
+    77	{
+    78		int ret;
+    79	
+  > 80		ret = drm_mode_size_dumb(dev, args, 16 * args->bpp / 8, 0);
+    81		if (ret)
+    82			return ret;
+    83	
+    84		return drm_gem_dma_dumb_create_internal(file, dev, args);
+    85	}
+    86	
 
 -- 
-2.48.1.397.gec9d649cc640
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
