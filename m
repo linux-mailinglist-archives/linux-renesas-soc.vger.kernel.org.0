@@ -1,68 +1,68 @@
-Return-Path: <linux-renesas-soc+bounces-14324-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14325-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A4CA5E9AD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 03:16:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F49BA5EA5D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 04:59:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BE4A18983E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 02:16:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 62DA817578A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 03:59:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C77D7081C;
-	Thu, 13 Mar 2025 02:15:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3A07135A63;
+	Thu, 13 Mar 2025 03:59:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgCkbNU8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kGiEvRdO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED716FC5;
-	Thu, 13 Mar 2025 02:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5ED6A33B;
+	Thu, 13 Mar 2025 03:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741832158; cv=none; b=beCq7QCJcR/CYKlBDcMoZ0Od2hRFmvaTaE3nXcKnNSUlU88hGivbOOp2L6KVyhxMncF6St8dQ4SN46Azq+RwPTminVzdAh8DOKD6F7iaHKVvWoK9Aa3JfVJGbyuBcz1XRqbwlzZ1GWEp3XIx/D+VDqnsJycdToLJy6xW28c63dg=
+	t=1741838359; cv=none; b=KIONPtfx5WdCI1T5B3viT5MfBO2OCqbPTfymH2CAEuw0akFlPDvrcT+k34+BkeEWXj3pB0nNi+C7+j/tC6QpaOEicAFow+IzbofcApY3T5P49+1VWSekiNbCsLpkfTBBrCKHmU/FyqNymi0x25O93HrqJ+RDiWg5ke827dGZAgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741832158; c=relaxed/simple;
-	bh=96yJDyEP9BeK2cVK+9MUvmIHjdk7wR1LKgFfN3+p/fM=;
+	s=arc-20240116; t=1741838359; c=relaxed/simple;
+	bh=cYwKWE3qx6aAxxggYpyZsccNMSnGdzKXacMIEiXDO/w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kZG1xr4cXUcwJaTCDlX8eTb7IQU5VBrFpxaB0AJqWviYqcQrlnLFxEcwsvjoPiyu1MyXhW0ORzi15ftKfT1dkUtBMmV4RnksDYZyu4z+56g2WfBDYjrikyyzOUqhJ0dTTmsjviBUPTGODMrKmNVubaF2v1j3XPtMDevw++s9+hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgCkbNU8; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=t4pWUiBCKmeOuA42q8Lw+lPUQQpxeB/O4vqtSqkVlc4X3/eq6gEch8NsMzZuEEUYROjgRfxcHgW6d8z2Usdmlo7hQy2KofO60UqxBXuaAATQrfv+JGvgduNBV7FCnfUVdBwbEiurIm7JIDS5An0kXIrxOgaDLK+zfXbCD6fM8Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kGiEvRdO; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741832156; x=1773368156;
+  t=1741838358; x=1773374358;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=96yJDyEP9BeK2cVK+9MUvmIHjdk7wR1LKgFfN3+p/fM=;
-  b=lgCkbNU8xDWZ1tFWchRtnulHPQIWUlxY3OD3fD+cDL96EcvUqAPy3J06
-   OKcXSPPYZHiK82sO39PZWI0YpSt8gQbOxNzdUwKC090bt11bqpfe3yVQP
-   z2uk81FdQbrXjm3zofGQS9yy9kBoUtt5L1aIRugMJh7kVZxRX5vIja0k4
-   3ljTNknrgHnNS3odIlBDBop3MCwbbL3PV8W8h5NxwuYslkLryRV2M6qU/
-   PcSkPHDSBt+xZmPLDZbu2nASjCOARKr+rM+ScnFTTbEAieMEQXBq5m9+L
-   n0yHYRR+OnEV7+ctDhcjeZXmbefb34kc/ZW1dSJHHh7HT0CqYIZo9ji24
+  bh=cYwKWE3qx6aAxxggYpyZsccNMSnGdzKXacMIEiXDO/w=;
+  b=kGiEvRdO7ypxyKy9Dq7ERrqi+cRZELn0kZdpKbsZ9OglnTZ44djU0w9U
+   rjeUe0OEb+klJuessPL5uKt88muhj50SvsOaN0V2wnozm05W+p53IaV0a
+   uPMjbQl9b2Wg4CAEsb+rHQ25D4+EY3Kcb5EWfESAoWiFyVGheoDM4By5P
+   pGxliT9RptJ7/9KXDqWxzxRo5rPJYZBFRFLRvjzFf2pvYkgFRVfIYgFZP
+   3ynis5t86WFyYFcm33LJOuri/7AwpZX0p4or3qkgFyNo7gqyMVpXQ2Y/T
+   B2xA7uHaZV+RuLH6lzZLfwzcuMwJP+qEWPJKV8zq/4PIF8DjTxuCqN9I0
    g==;
-X-CSE-ConnectionGUID: pAcCZdqySs2h9+9nXDOk1Q==
-X-CSE-MsgGUID: oIJGlP3gSPSNEqux3nj3hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="43038850"
+X-CSE-ConnectionGUID: aiFTEeKMQT6QnIFQ0ebjSw==
+X-CSE-MsgGUID: KqjYrxgPQReL4mlthIVafQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="68294328"
 X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
-   d="scan'208";a="43038850"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 19:15:55 -0700
-X-CSE-ConnectionGUID: KHahmpZOTNOqvrR+C7Song==
-X-CSE-MsgGUID: H65afRTcQ5CspG2G7V7fvw==
+   d="scan'208";a="68294328"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 20:59:17 -0700
+X-CSE-ConnectionGUID: Jk/rBPr/R+CE+fsVXvv0Hg==
+X-CSE-MsgGUID: rCVWNuURQ4Kucu2VbRCsgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
-   d="scan'208";a="125887063"
+   d="scan'208";a="121530505"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Mar 2025 19:15:31 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 12 Mar 2025 20:59:12 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tsY6V-000936-1q;
-	Thu, 13 Mar 2025 02:15:25 +0000
-Date: Thu, 13 Mar 2025 10:15:12 +0800
+	id 1tsZij-00096K-1j;
+	Thu, 13 Mar 2025 03:59:01 +0000
+Date: Thu, 13 Mar 2025 11:58:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
 	airlied@gmail.com, mripard@kernel.org,
@@ -81,7 +81,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Biju Das <biju.das.jz@bp.renesas.com>
 Subject: Re: [PATCH v4 18/25] drm/renesas/rz-du: Compute dumb-buffer sizes
  with drm_mode_size_dumb()
-Message-ID: <202503130956.VyNIuYfU-lkp@intel.com>
+Message-ID: <202503131309.ZzS9Tova-lkp@intel.com>
 References: <20250311155120.442633-19-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -108,25 +108,42 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-dum
 base:   next-20250311
 patch link:    https://lore.kernel.org/r/20250311155120.442633-19-tzimmermann%40suse.de
 patch subject: [PATCH v4 18/25] drm/renesas/rz-du: Compute dumb-buffer sizes with drm_mode_size_dumb()
-config: powerpc64-randconfig-003-20250313 (https://download.01.org/0day-ci/archive/20250313/202503130956.VyNIuYfU-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503130956.VyNIuYfU-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-003-20250313 (https://download.01.org/0day-ci/archive/20250313/202503131309.ZzS9Tova-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503131309.ZzS9Tova-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503130956.VyNIuYfU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503131309.ZzS9Tova-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c: In function 'rzg2l_du_dumb_create':
->> drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c:80:15: error: implicit declaration of function 'drm_mode_size_dumb'; did you mean 'drm_mode_set_name'? [-Wimplicit-function-declaration]
+   In file included from drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c:10:
+   In file included from include/drm/drm_atomic.h:31:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:36:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2296:
+   include/linux/vmstat.h:507:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     507 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c:80:8: error: call to undeclared function 'drm_mode_size_dumb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
       80 |         ret = drm_mode_size_dumb(dev, args, 16 * args->bpp / 8, 0);
-         |               ^~~~~~~~~~~~~~~~~~
-         |               drm_mode_set_name
+         |               ^
+   drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c:80:8: note: did you mean 'drm_mode_set_name'?
+   include/drm/drm_modes.h:530:6: note: 'drm_mode_set_name' declared here
+     530 | void drm_mode_set_name(struct drm_display_mode *mode);
+         |      ^
+   1 warning and 1 error generated.
 
 
-vim +80 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+vim +/drm_mode_size_dumb +80 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
 
     70	
     71	/* -----------------------------------------------------------------------------
