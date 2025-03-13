@@ -1,31 +1,31 @@
-Return-Path: <linux-renesas-soc+bounces-14345-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14346-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26465A5F578
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 14:08:55 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA33A5F581
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 14:10:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED31C3AC253
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 13:07:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CC06C7AE906
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Mar 2025 13:08:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 861B2267735;
-	Thu, 13 Mar 2025 13:06:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58469267AF3;
+	Thu, 13 Mar 2025 13:09:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37BA267B7A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Mar 2025 13:06:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2EE267B02
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Mar 2025 13:09:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741871191; cv=none; b=cdEzMitmTNze0i/pF3T21dKYyNo863YHAasJWgpK7lM1kGkzSCdl458+c/zOE/YBzUEOPFpVk3X5meSEJ1D6Uv919oCR5H5ZsSVkETlPBAeBDFnyuS9ivYiEaE3uXjCIfcUwk7f/9H3xT4/Q3xdUun7wM9VlzvbOz9cdUI9Pc84=
+	t=1741871367; cv=none; b=I7KJfs7W0JDwMFMwAhRDXWJo+g8bHkA8AQ5WqkgcnJdNZALBav1jFg79f3DsKjO+wZcRlQKdbMmEm8GNs3VWFmkv3vd10rZKT+0WqfLUMn4NA8nMU9b+kREE/UASCHuhhsSgH5sUBnlimE6cfqbtRlLJ8hE2rvOIlQn8oNqurVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741871191; c=relaxed/simple;
-	bh=6zXjh1h2grdtWlh32q/xSiG2WPMUoNGZUBzmL6hMRUM=;
+	s=arc-20240116; t=1741871367; c=relaxed/simple;
+	bh=ve2ATQHHnc36X4Fy/bS0Obe/zU7UQSKs/y99y/c4DFU=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CQNo4NY5xT/GjaBz+rMcyVSxhiEy1wdVIw0hKrKdojnr7r9Q/9GZ/90XyLy+kNYfuqtC2nlx8KKA60albadvJ9dPobzLtYanSd4dhWUlYl27b1J8hT8gl7oioeV8/1FvHi3B3k04AlzOMAJpeI4fkA+9zrgbUSkW8INt7Lr8LKo=
+	 Content-Type:MIME-Version; b=Xd/SEHHpczLrpBdmO4gBuAZ7LxRijXi1ulsurqVPSvpZu8MAJSAF4P9Ld0XETCMCpqWSl5OMAlLkYqU6jOHugxrYglL9w4298ipSjJN2ZA/w3X7op1NTBxuY84nZISkigdyGXBcClVOwN6HqZ0QyFwDvOnjBf1UgI385RB1F4+M=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -33,38 +33,38 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tsiGM-0001HM-Ri; Thu, 13 Mar 2025 14:06:14 +0100
+	id 1tsiJF-0001jm-Ok; Thu, 13 Mar 2025 14:09:13 +0100
 Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tsiGL-005XTg-2Z;
-	Thu, 13 Mar 2025 14:06:13 +0100
+	id 1tsiJF-005XU3-0n;
+	Thu, 13 Mar 2025 14:09:13 +0100
 Received: from pza by lupine with local (Exim 4.96)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tsiGL-0009sV-2J;
-	Thu, 13 Mar 2025 14:06:13 +0100
-Message-ID: <c27ab4ca4563d20a73ffc8a577f960fe59ffa88f.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] reset: Add USB2PHY control driver for Renesas
- RZ/V2H(P)
+	id 1tsiJF-0009ur-0W;
+	Thu, 13 Mar 2025 14:09:13 +0100
+Message-ID: <18780ad4be2c28999af314c97ae4104fb161a691.camel@pengutronix.de>
+Subject: Re: [PATCH v2 1/2] dt-bindings: reset: Document RZ/V2H(P) USB2PHY
+ Control
 From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Prabhakar
- <prabhakar.csengg@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
-  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,  Magnus Damm <magnus.damm@gmail.com>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Biju Das <biju.das.jz@bp.renesas.com>,  Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chris Paterson
- <Chris.Paterson2@renesas.com>
-Date: Thu, 13 Mar 2025 14:06:13 +0100
-In-Reply-To: <TY3PR01MB12089B78E1DE163B740A51134C2D32@TY3PR01MB12089.jpnprd01.prod.outlook.com>
+To: Conor Dooley <conor@kernel.org>, "Lad, Prabhakar"
+	 <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,  Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Thu, 13 Mar 2025 14:09:12 +0100
+In-Reply-To: <20250306-slather-audition-a6b28ba1483e@spud>
 References: 
 	<20250305123915.341589-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-	 <20250305123915.341589-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-	 <30b6841b3ce199488698ab272f103a0364adb000.camel@pengutronix.de>
-	 <TY3PR01MB12089B78E1DE163B740A51134C2D32@TY3PR01MB12089.jpnprd01.prod.outlook.com>
+	 <20250305123915.341589-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	 <20250305-cesspool-headlock-4d28a2a1333e@spud>
+	 <CA+V-a8uQTL+SHYqVU_J0th4PT6YPF7q6ypzDu33nS_6onWLoOQ@mail.gmail.com>
+	 <20250306-slather-audition-a6b28ba1483e@spud>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -79,68 +79,14 @@ X-SA-Exim-Mail-From: p.zabel@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
-
-On Do, 2025-03-13 at 10:14 +0000, Fabrizio Castro wrote:
-> Hi Philipp,
->=20
-> Thanks for your feedback!
->=20
-> > From: Philipp Zabel <p.zabel@pengutronix.de>
-> > Sent: 13 March 2025 08:37
-> > Subject: Re: [PATCH v2 2/2] reset: Add USB2PHY control driver for Renes=
-as RZ/V2H(P)
-> >=20
-> > On Mi, 2025-03-05 at 12:39 +0000, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >=20
-> > > Add support for the USB2PHY control driver on the Renesas RZ/V2H(P) S=
-oC.
-> > > Make the driver handle reset and power-down operations for the USB2PH=
-Y.
-> > >=20
-> > > Pass OF data to support future SoCs with similar USB2PHY hardware but
-> > > different register configurations. Define device-specific initializat=
-ion
-> > > values and control register settings in OF data to ensure flexibility
-> > > for upcoming SoCs.
-> > >=20
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
->
-> > > ---
-> > >  drivers/reset/Kconfig                    |   7 +
-> > >  drivers/reset/Makefile                   |   1 +
-> > >  drivers/reset/reset-rzv2h-usb2phy-ctrl.c | 223 +++++++++++++++++++++=
-++
-> > >  3 files changed, 231 insertions(+)
-> > >  create mode 100644 drivers/reset/reset-rzv2h-usb2phy-ctrl.c
-> > >=20
+On Do, 2025-03-06 at 16:26 +0000, Conor Dooley wrote:
 [...]
-> > > diff --git a/drivers/reset/reset-rzv2h-usb2phy-ctrl.c b/drivers/reset=
-/reset-rzv2h-usb2phy-ctrl.c
-> > > new file mode 100644
-> > > index 000000000000..a6daeaf37e1c
-> > > --- /dev/null
-> > > +++ b/drivers/reset/reset-rzv2h-usb2phy-ctrl.c
-> > > @@ -0,0 +1,223 @@
-[...]
-> > > +static const struct rzv2h_usb2phy_regval rzv2h_init_vals[] =3D {
-> > > +	{ .reg =3D 0xc10, .val =3D 0x67c },
-> > > +	{ .reg =3D 0xc14, .val =3D 0x1f },
-> > > +	{ .reg =3D 0x600, .val =3D 0x909 },
-> >=20
-> > What are these registers and what are those values doing?
->=20
-> Unfortunately, there are some licensing restrictions on this IP, this is
-> the best that we can do, as per the license agreement.
+> That sounds awfully like "it was wrong before, and I want to keep using
+> the wrong node name"... If you're claiming to be some other class of
+> device, "ctrl" should really be "controller" like all the other sorts of
+> controllers ;)
 
-How am I expected to review this?
-
-For now, I'll assume that these registers are not related to reset
-functionality at all, and that this driver should be a phy controller
-driver instead of a reset controller driver.
-
-Can you convince me otherwise without breaking license agreements?
+There are "usb-phy-controller" nodes on the rcar-gen2 SoCs.
 
 regards
 Philipp
