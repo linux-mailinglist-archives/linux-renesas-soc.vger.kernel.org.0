@@ -1,144 +1,214 @@
-Return-Path: <linux-renesas-soc+bounces-14375-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14376-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D72C1A6128D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 14:26:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BAE1A612B3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 14:32:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26A9316E3F5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 13:26:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE10E16DA05
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 13:32:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66DAA1FF1DA;
-	Fri, 14 Mar 2025 13:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k2u5RcoG"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA2761FF7DC;
+	Fri, 14 Mar 2025 13:31:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACFA2E3398;
-	Fri, 14 Mar 2025 13:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE7E1FF1DA;
+	Fri, 14 Mar 2025 13:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741958792; cv=none; b=nJ0NygE8ezvQ2z6YqsU3nBjXp32RMVD0iviHuyKJMYKzMNBkDssCo0+Y9GekRbAlD/xh04Vu9EW+jIt77qCn1aGPpjCMEKhtXpv/HEaMFHLaRk1xjedm/taLYX6l9ihuuauYjjTHiI6pBKMdsPygTJ61vrrO/+N/8LkfOeESdKY=
+	t=1741959114; cv=none; b=qrzO35479o6kX9LOVE1ipwfLmW/ww8nkLgVvEnO/2aAZf0a0Hsw1/GVL1nsJmyJayzmz5/IymJc+VKYGB4+YL6jEO+u1cVmrxiBRlTnErpdIkO37ntnVQovmuK5vPRsJB7xtF5fmtx1urolYTaQTeG+Lzu7eks/LU1JdeOyvFZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741958792; c=relaxed/simple;
-	bh=a1ewCs15d7EUwAKtdHew2LfV3smx2PG4+Aap1SXq+x4=;
+	s=arc-20240116; t=1741959114; c=relaxed/simple;
+	bh=/1OyBHCSUGEHUQF+hraCaikN7Atdl5ChyYCCJK/MRwk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tLQyTb0grWJKgenhwwVzrH88t70vWH1OQytD8hIeZDiT4+8s6kw4Os9R09NRV5TZmMB2khjXuWSABs2K0k46xlK7yjsxAkGWk9ojU0/9CvDutP7M8b0MeYi4yegn8PqIXE8IuaolUoCTgFhbAMHcmFqLOBnm1AFnNBFmYGsYCxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k2u5RcoG; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=ZEWoX+lIlKu/jmLREh58d/xBffmqXBzMH9qZXOrCpIILwgh7Vw/ZvM5wABfUlUHEqY4sCUdZD+/INw47/LoHQDKSXVS83Hl6Vne7xYjfVBbRYnsAzpyYyKaMpn3diBkGaULcrLuM2OhITRjrTMLzVgKcAVUvPi7tuK7Xi/qAvPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-523fa0df55dso2637991e0c.1;
-        Fri, 14 Mar 2025 06:26:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741958789; x=1742563589; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wyULV2YmhZdLQ8JK+SLrjPauKQSBOhz1Nvb61q64AGQ=;
-        b=k2u5RcoGS/KgCfkeQ4IOqDCFOK1Cvx/UAz0EyQ1g3LbYbPdpVIRTeOTN8fn1TDdwRn
-         w9LTImcCUNqPl8bGsNhsu2KURoyhmvwfPhBsBNNBdenfUeBSWMhQX0x8MrI1GbumiY3u
-         6RAI54/4e2hFANo9aNuzHNm+l5IDvfXeLJqFyjpn83dtCHF39AnOcE+24/kIPc7ucpZp
-         eRvPC1/U65nHEHGfnA6PH7Wlb+VJEmmmTJJ/r4eMR4Mu/rNjrpb6EpruYPTcRVzh0iMO
-         pL1ZCTWVd1pf3F2203CYMG9v4HT0vAofxMDUt0hg+1BunFaWd2QkuaUCPVdSkrx6LLMV
-         39Fg==
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-86d3ac0fec0so2017703241.1;
+        Fri, 14 Mar 2025 06:31:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741958789; x=1742563589;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wyULV2YmhZdLQ8JK+SLrjPauKQSBOhz1Nvb61q64AGQ=;
-        b=HpHjz496+nYQ1GeC813mCqxkj81x+00iUhuW0MrNtjK4ETKGdn2uhKr9xgQxbT3yzz
-         jJD4FPDB6Ozli1MB2RTwolYpac+KyUwpHnWqA07QiOBODEqeO11tz77UiMsEb9a2a0eb
-         JxkWByNbw2w9yOnVE16fGZLOzNdLghRA6FvKCzx5zLLE98/5Y3M/YCszd/McPpw635gd
-         oBpK9SZbsDZlAopeh7if0dagskyG8aOpr7h7UcK9+koKTfu/qC8P4CB1OhmXt/4TpWHn
-         2qvzhc5vXMA84+jOaqP2xPyaUVDS32QpTWNj1r+DRQQm9KBO/ZawnDjwXTxcjhTqx32I
-         tw+g==
-X-Forwarded-Encrypted: i=1; AJvYcCUanjnS9imvxFPAUJlRY/AUAuKUYOau/aiHdfYpyY4SLkdPYhWTQnCDGwk9LfODKRkXrDNBPG2aH94x0UPA@vger.kernel.org, AJvYcCVHkhR0Mwzeui0AejHHNPTRcj2oyd4KHSzkYpfvhEGMD6bYDhMD185PQA5k7B11Mz1XO+iQ8IMrWgo=@vger.kernel.org, AJvYcCX/zyo8WCnGAYPuS8HzTdFUyGkLuZre+UI2eRwKuY9NXXSpQItov6juZJ3AQdMwSTPLTtzZFmFjIgY3gad6SJ2Ol+E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhtqUi4z6YsGQTPuXxsMvH/tR46NKzBLy6vPsEQJBrnHliUPUI
-	nfWbkgj08A658+rX2lmv3Fp+VWkbjwUB5NthA3K/NOJC2hAYVdOQ93it1cL15WmiccKswCVvYxM
-	2EkY5tp+FMGifqlkDPtpzsckZX/R/dBxk
-X-Gm-Gg: ASbGnctbvETUgUv8wt+M8U/K4QFq8NQAJ3kDiJIKbF5KE5uk4BJYwPuoNOZicaXne2y
-	3zh0BqQiedsHc/InV4nNvO+we3FfeYayqRRMchZt8/TqWyAWUEZAX2UjUu4nDnIv2tNtm8spJ1K
-	2rqTJQs4xOOxL0+HkcsVyapoGh2A==
-X-Google-Smtp-Source: AGHT+IHWtmEo1+EDvlsPdWDsjR/+rksCl4aBp8qnpq4JIJmYST5qgVAs+Cx6K79rRZ0Y9jaQodtaiC0jygkOLDDsgUc=
-X-Received: by 2002:a05:6122:3782:b0:523:e4c6:dddb with SMTP id
- 71dfb90a1353d-5243a15b6f4mr7059436e0c.0.1741958789562; Fri, 14 Mar 2025
- 06:26:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1741959111; x=1742563911;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IdsP/C7vJvwzf5r3hUg1C5beEovb2PN7Hr+v7lfHHzM=;
+        b=Tu2cn0fPaFg0LO3uQHQOEpdHG7b4lCF4XEchh4wKct+1MYNrdbex/j6vg1taKxW9VU
+         MfvSoIQBY/1/NcjczkVtDGODZzaZbQ5hU6Xsipl2Gqo4Xgx27ztF6cFs3kET5mo87bn3
+         5ND/QpxOqBrtdi2lfmwkXXFYkLe/pCowlVujrF0sBU5oqJVis7PMxiX7RKWACqirsx0V
+         eUYCTHyKHBFdhImUKE/FY0svihBpH8y/LvrL8Ddm877pwKifoHrplFCPMZLqRRISSwdP
+         s0ygKpS9hsWrQZhT0+fnT0pCLjdbdaM4dmQu31kBh6+n6l7/Won9bUsQoeRRrUARztU9
+         iw+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUXVSmRZlQrlpmOuDAymJH+Q12dgGUlbFGBhTcGsbJS8ve+jxXO2swnRVG0OVURAZT/qGvo8M5832zL@vger.kernel.org, AJvYcCW46WsnIM8Imy1830NAUMx030p9pzenvmsH5QTUObvMdBuOx1+fNWu30IA9kO3OxQvVkOu2PV+m+gN01mQEWHmrwJ0=@vger.kernel.org, AJvYcCWPCsv1uqAXxsoUO35T8fBtrv3HGRjBKU6FcA/987tHcbnet9X0eG/ZYWALdajZjelvIh3fG3U0qah4@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnZM2UKjKd6xFA52mjWJWcPh2tPv1xAf3dirfXAlcEMZ63jnWb
+	f5Wsf9Q7fmsavTwFQvonJ3QLLE/5AcEVLwmMPLZtB4BP03Y/sIWUchTofb4KUKk=
+X-Gm-Gg: ASbGncskUkq3YbSG0Z6w520qGgYPxFqpM6Kb+xLNAo+ijuyvlVRXKLRXT+4MPNcRbMC
+	V9Ha2RBsMtJwjBNjwb/DBN5u7yP0v6Yv6bd36pkyvWIxBsPPGAOhp+KxiCupu5doVUFB/vYt7IP
+	nW2QNcelOY+GZlUZLxuN4uecnmIUerK6NDYH2PsEAvXfjtERBe7LD8FiAnKrd9leHh4iJp4vboP
+	7x3HmMKakV0J66QLdxrD+fCuDXLIi1A4F71WviwUHGn2raR5Ujvi35oepl6iIE1L2x86Mru5P6z
+	f3uawV+GbZK7vLHS3zGbuluqvo/rHaqZYfp1BbW/v5sWeiKdCPxUcBG4iDgdisbw+aAa8QUo+OA
+	sS6axkBw=
+X-Google-Smtp-Source: AGHT+IFOGr9YoJOoW3vf8W+00ednyoOhlfJzjaDhfIzxDOBx5guCg0oovUHeIQg/ykmahoIcmEBEgw==
+X-Received: by 2002:a05:6102:579b:b0:4c3:6544:c250 with SMTP id ada2fe7eead31-4c38322a7bbmr1415548137.23.1741959111192;
+        Fri, 14 Mar 2025 06:31:51 -0700 (PDT)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c3759dd36bsm477976137.18.2025.03.14.06.31.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Mar 2025 06:31:50 -0700 (PDT)
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-86d5e42c924so2024225241.3;
+        Fri, 14 Mar 2025 06:31:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUR2ddbfQUKrAy5HgPOCc6o0614UDmuUBoC1urRuiOdEpaypLi3h/0gcPVrtDFhnt3BYk7GU6FNFWJ5@vger.kernel.org, AJvYcCVLb2SrttCNGW699jNYvXAlhVZAwhCvdvyfSE5cvKOMAL6SI0oflLnxHhB++3rRq2oXQ3vxwJpX0h0c@vger.kernel.org, AJvYcCXAKvFX3D9/pPtRb094IBWMrDJYOUWTtELz5MidaleCU7NtyWPB7CdRl6x5wWTCaVMVmQQCYv1bWXYLCkKUgj+SYcI=@vger.kernel.org
+X-Received: by 2002:a05:6102:579b:b0:4c3:6544:c250 with SMTP id
+ ada2fe7eead31-4c38322a7bbmr1415474137.23.1741959110736; Fri, 14 Mar 2025
+ 06:31:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250309211402.80886-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250309211402.80886-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdU5tr2sNZQtVkT922sJd_7Lbt=nYUujX0WtnrzkWOJqiQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdU5tr2sNZQtVkT922sJd_7Lbt=nYUujX0WtnrzkWOJqiQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 14 Mar 2025 13:26:03 +0000
-X-Gm-Features: AQ5f1JrV4PHhFqtGVE7ctpK40g8AtfmAvdlUDemWvkd-J_FwgcQljHoue9rWgco
-Message-ID: <CA+V-a8uhJPssjTsKPwfh7G7P26uuRj+xy_uZF6SQPPQOTx33-A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] clk: renesas: rzv2h: Refactor PLL configuration handling
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250306124256.93033-1-biju.das.jz@bp.renesas.com> <20250306124256.93033-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250306124256.93033-2-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 14 Mar 2025 14:31:38 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU0X=4KNXhh98igqmnwHuv20jxQe73hd=Gy7cALrHBFPw@mail.gmail.com>
+X-Gm-Features: AQ5f1Jpi-XUERR2icvC7fNOdIA4hq_UVesFXSE3aaSFd1c0D_mXqh7qc21TWCkw
+Message-ID: <CAMuHMdU0X=4KNXhh98igqmnwHuv20jxQe73hd=Gy7cALrHBFPw@mail.gmail.com>
+Subject: Re: [PATCH v4 01/11] dt-bindings: can: renesas,rcar-canfd: Simplify
+ the conditional schema
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Simon Horman <horms@kernel.org>, Duy Nguyen <duy.nguyen.rh@renesas.com>, linux-can@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
+	Conor Dooley <conor.dooley@microchip.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Biju,
 
-Thank you for the review.
+On Thu, 6 Mar 2025 at 13:43, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> RZ/G3E SoC has 20 interrupts, 2 resets and 6 channels that need more
+> branching with conditional schema. Simplify the conditional schema with
+> if statements rather than the complex if-else statements to prepare for
+> supporting RZ/G3E SoC.
+>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-On Fri, Mar 14, 2025 at 1:04=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Sun, 9 Mar 2025 at 22:14, Prabhakar <prabhakar.csengg@gmail.com> wrote=
-:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Refactor PLL handling by introducing a `struct pll` to encapsulate PLL
-> > configuration parameters, ensuring consistency with the existing dynami=
-c
-> > divider structure.
-> >
-> > Introduce the `PLL_PACK()` macro to simplify PLL structure initializati=
-on
-> > and update the `DEF_PLL()` macro to use the new `pll` structure. Modify
-> > relevant clock register functions to utilize the structured PLL data
-> > instead of raw configuration values.
-> >
-> > This refactoring improves code readability, maintainability, and
-> > alignment with the existing clock configuration approach.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-clk for v6.16.
->
-> > --- a/drivers/clk/renesas/rzv2h-cpg.h
-> > +++ b/drivers/clk/renesas/rzv2h-cpg.h
-> > @@ -10,6 +10,25 @@
-> >
-> >  #include <linux/bitfield.h>
-> >
-> > +/**
-> > + * struct pll - Structure for PLL configuration
-> > + *
-> > + * @offset: STBY register offset
-> > + * @clk: Flag to indicate if CLK1/2 are accessible or not
->
-> If you don't mind, I'll rename this to "has_clkn" while applying.
->
-sounds good to me, thank you for taking care of it.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Cheers,
-Prabhakar
+> --- a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
+> +++ b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
+
+> @@ -117,52 +145,71 @@ allOf:
+>      then:
+>        properties:
+>          interrupts:
+> -          items:
+> -            - description: CAN global error interrupt
+> -            - description: CAN receive FIFO interrupt
+> -            - description: CAN0 error interrupt
+> -            - description: CAN0 transmit interrupt
+> -            - description: CAN0 transmit/receive FIFO receive completion interrupt
+> -            - description: CAN1 error interrupt
+> -            - description: CAN1 transmit interrupt
+> -            - description: CAN1 transmit/receive FIFO receive completion interrupt
+> +          minItems: 8
+> +          maxItems: 8
+>
+>          interrupt-names:
+> -          items:
+> -            - const: g_err
+> -            - const: g_recc
+> -            - const: ch0_err
+> -            - const: ch0_rec
+> -            - const: ch0_trx
+> -            - const: ch1_err
+> -            - const: ch1_rec
+> -            - const: ch1_trx
+> +          minItems: 8
+> +          maxItems: 8
+>
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,rcar-gen3-canfd
+> +              - renesas,rcar-gen4-canfd
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          minItems: 2
+> +          maxItems: 2
+> +
+> +        interrupt-names:
+> +          minItems: 2
+> +          maxItems: 2
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,rzg2l-canfd
+> +    then:
+> +      properties:
+>          resets:
+> +          minItems: 2
+>            maxItems: 2
+>
+>          reset-names:
+> -          items:
+> -            - const: rstp_n
+> -            - const: rstc_n
+> +          minItems: 2
+> +          maxItems: 2
+>
+>        required:
+>          - reset-names
+> -    else:
+> -      properties:
+> -        interrupts:
+> -          items:
+> -            - description: Channel interrupt
+> -            - description: Global interrupt
+> -
+> -        interrupt-names:
+> -          items:
+> -            - const: ch_int
+> -            - const: g_int
+>
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,rcar-gen3-canfd
+> +              - renesas,rcar-gen4-canfd
+> +    then:
+> +      properties:
+>          resets:
+>            maxItems: 1
+
+I understand you introduced separate if-blocks for interrupts and
+resets because RZ/G3E can reuse only a part of the RZ/G2L rules.
+However, at least the rules for R-Car Gen3/4 could be kept together,
+reducing the number of lines.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
