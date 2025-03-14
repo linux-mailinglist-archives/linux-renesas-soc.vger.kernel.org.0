@@ -1,244 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-14359-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14360-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453A7A60CB2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 10:05:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21DD1A60D3D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 10:27:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD52F19C5890
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 09:05:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BE243AEA36
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 09:27:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A681DE8A3;
-	Fri, 14 Mar 2025 09:05:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 129311DE4C1;
+	Fri, 14 Mar 2025 09:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Ssv9/9i2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863801D619D;
-	Fri, 14 Mar 2025 09:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8961EA7DB
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Mar 2025 09:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741943102; cv=none; b=TWye5p7t/9p5UXuQ77HeVOICYXwG6VDa9CdINj35oJqVrXvXk9X5wOfwFjQjvkiGuKyuT2FysK9wbpmI41D1yD8P+pjZafv1YstejQFRUSq+dfMHnCSwbwmF2XYYY28AbzzvcqYepV1lLcVoOV4lxrIga8sHXG23xttbFjoNXbI=
+	t=1741944452; cv=none; b=pPJaSveVZSil3dVD/nqBQ3Bfe+cNCwVz7AWZUe3HSvZIeKqbP7UhPZm7Wk92yw9bT1Vqtd0/ZAqJIfIJId59QfRlJtsm/Ahi/AMJrI4eNBjvLv0tVpp14gbE3LG2zD1xS9B9j98G+neaY+VvKXk67sfcoP00zyUdynm3pK8sg8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741943102; c=relaxed/simple;
-	bh=nvH3uncH0bvUPmkr8rI3ncI1+kzq869QL35edx2aCwY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bXjBPAnYL6Vdnc8lwGZUwOVxsFUsXZBb/uviCQPis+6jPuAyGL8YMW/jQY2gZ2MOE93QnCpQhwIHPMjRjSv4lz3v0eIfSumffRpbrZybAqvYKytF8xzmFSBrUNDU81JWgJqn0OyLUF+YmBtUHK3ePTrMRosuNPTJgtsPvPEAch8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-86c29c0acdfso899474241.3;
-        Fri, 14 Mar 2025 02:05:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741943098; x=1742547898;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TKbt8iHgwdEIoDOURXW5r6Dn/HIhQtmrAuFwAE1RJos=;
-        b=DubRuh68kb5za9dSnD1kCn4JOGqwwdwv/Dcw1IwhuXG/czaMoWGChMPWid40m5g6JX
-         iVRBfcJHE0SwSB3h86bo0GMfV8LyVxUrrDn4GLA3s40aCkqYoyhHYiwxP0QTpNgq0T/j
-         RZPR/PWWXBT5FbQIz65gGPINZ6iT+GhhVCMsjE4jfdKjsgd4AZywhZOytlK7h6g4hE9K
-         CczZKtxRR5sWOk1X9UgGD0jBnhIWChgDwHYzlxt2xd2roUiReQVNxfhduQbluSwh90Hb
-         bxoS2Mkuhz6lf1SL4q6bffI5LOhnKWVBDdJrP3tmKhm+CgNfKCMkA3llnpsV0An29kn5
-         Wg8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVUUjYXcIUFPG2IMqTAR/JYcI9XYufwQTZQ17hvY5WEbdUSEXs/BkErHRVToa3XKbm2IFNDUMTnEcAAclSfR+MH+XE=@vger.kernel.org, AJvYcCXmBaMxO1TtoKWnBzLfuea6AtIvg01IlutkaThPY+rWurDAzPdd+LuKU1kXK91aN5ljBkrXCRr7IA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcEh/fJAuyUNV+64yfc6vW78wn5osgaVx/Ckd3b6IB0LS35Ngr
-	fuYvfBbIu5PY5bZyFB/1VHCoKWg6MDsQSLi7Zmem1QaCOys2DdUABbeeaNOcpuI=
-X-Gm-Gg: ASbGncvhSnxw/QVCLhEsIMrVjszUsrUNOjGnfj9kbl5EhDg1vGYj+s+Sy9RP3JMP9rU
-	apGnv+RzTmGbrcxEv5luF8RGCBx3EWBb1N65D9mb0ToIxwFnY0vGCM9TYL/L0LN4zmpKCNtg0Zs
-	dhbo2nv0xjHBD45oqy5pGgaNVb4ryo8g2s78eTEoTmjtYhfdyVHSDbrlbM4P/9WXwyZJ2IrVQEd
-	5tlMYmgWunwMbthdJ1b7NXA2jLBj74+QgwCOsfxolKQFvQq28I9i9ryjExHXXA69pBdnk/D3ApO
-	5CT1SSAxbi1h18930fy78ackAEsAt1GbTO5L/IcySvkd+cIPJ/IEjk7mSijPwBvNj93rE7ep4Fx
-	HGgq2Ylk=
-X-Google-Smtp-Source: AGHT+IFh8jVDYLHsw1RJbUy9qWXtrKYXLTC16EiVEaCOXvCJ7lzORvCDrpXHgaeB9RHb3fQqqw/s5g==
-X-Received: by 2002:a05:6102:5126:b0:4c1:9e65:f90b with SMTP id ada2fe7eead31-4c3831f7ae6mr740815137.17.1741943098271;
-        Fri, 14 Mar 2025 02:04:58 -0700 (PDT)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-86d90e748efsm508899241.24.2025.03.14.02.04.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Mar 2025 02:04:58 -0700 (PDT)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-86718c2c3b9so826150241.2;
-        Fri, 14 Mar 2025 02:04:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVRmEopnRIxyJl68KRQk9RVPIObslhBpzna89gymkynLeyrmOEG1bD7O51EpTLzL/3raKULirjOXw==@vger.kernel.org, AJvYcCWC1cQ6qpKVdWLO+VM1lpMnT/QOXC+7Q5eNC7E0eoc5yXEl91xRn1qd8MlcfjSxulq4bP46gXBtQB7yAdbkDuTyAc8=@vger.kernel.org
-X-Received: by 2002:a05:6102:2ac8:b0:4c1:9695:c7c with SMTP id
- ada2fe7eead31-4c38322a29bmr584595137.24.1741943097598; Fri, 14 Mar 2025
- 02:04:57 -0700 (PDT)
+	s=arc-20240116; t=1741944452; c=relaxed/simple;
+	bh=rH5BPNCFUrIEm55reCBqkIYS8ktfmP7P25NMwiRHTEk=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l2vX+Rdoj/xDuo0/1tZYEcTuBkrtIH7iVi1U8BjLEVvkllRkTnf1ZlJOvT1rymlcRyFM4so1zPU4CdCz2mE7f96Gb9lAOCftsUfx/nDCs1+Ooffws4oMjFVqXW2VhA6vLE1Rcrbg5RtnA1F+QcAOXf53S7tO1TkBkz21rwvl8pI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Ssv9/9i2; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=8k4q
+	FdFkadb6qlEXAc8nbYRxaXe84ueNqj88c4yJGmE=; b=Ssv9/9i2zX6unTV+li7B
+	QL9k9FdbptUBU8rFl0aP6pqRcSGce5IHRD9w5RF7Q9IsIgntvzFh7+JCo0lSPTNN
+	/HaDDClBHe1sjMm/Uf1E+qlmCk3QRylUu8z3HUy3FplYMBYnoZ8nZ/GCXTx0Xzgr
+	MukFF45yvXJM0LRp13DT4UpmTEEMO4bjxW6yZB3gcpCZ2n+qEaHwU0zUp3uXUqI6
+	L0HJdDuwpKsxMSJ8gYqFEtkCHoMQKqa67qT7TMno9QFRtG3rVqvjsE7bvRrwzCkE
+	gsdi3EDjqqOQOVf6e7kBrl5Z4iUZt+ugSUj3H1GnETCXxihCmhfS6b5d95fN0Bp1
+	ag==
+Received: (qmail 1951326 invoked from network); 14 Mar 2025 10:27:26 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Mar 2025 10:27:26 +0100
+X-UD-Smtp-Session: l3s3148p1@Nr/zC0owIrEgAwDPXyTHAJp038nK7dx+
+Date: Fri, 14 Mar 2025 10:27:26 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>, linux-renesas-soc@vger.kernel.org,
+	linux-mmc@vger.kernel.org
+Subject: Re: [RFC PATCH v2] mmc: suspend MMC also when unbinding
+Message-ID: <Z9P2fkfVsNGz2Ghg@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org
+References: <20241104092215.20946-2-wsa+renesas@sang-engineering.com>
+ <CAPDyKFrOx3CiVjiWTPwqMC8XONwQ2C=NHFGw_h_XqA1yoZni8g@mail.gmail.com>
+ <Z5C6KWGh-y1P7Xrg@ninjato>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMuHMdXN9A-1P_qe=BwKjLaoqxU8iJUQK6h8=s-apR4Y0em_0Q@mail.gmail.com>
- <CAMuHMdXXWH0Do5zXWJ1Uc6dyEb9o1chGSyeyzgDrX+v1wZ7e_A@mail.gmail.com>
- <CAGETcx_wA9RB9QhMPqsLHDFZ4cwOFgE8dBL9ssFkT=J6DEgjGg@mail.gmail.com>
- <CAMuHMdUCXJkg3rkngXf7cqa50u-TEAOntV6O=Nvg33Q9diPJPw@mail.gmail.com>
- <CAMuHMdWLEHwjaNnysDZ_Unqj-SwmUdwRao_oJvYvVsQ9SCn06A@mail.gmail.com>
- <CAMuHMdXcJN5M7PqJ1eABOOCfeMjvs51rMRzMxU=d2L=3LVgh_w@mail.gmail.com>
- <CAJZ5v0jKOeZxzUXu9bHA4=SDio1FT3ZmfoOGqNNZO2+DN+U21Q@mail.gmail.com> <CAJZ5v0iJqUGX8cL2ZEm3420VMP0nWY2rPwCNsLLCs+sCaDDtbQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0iJqUGX8cL2ZEm3420VMP0nWY2rPwCNsLLCs+sCaDDtbQ@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 14 Mar 2025 10:04:44 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVTbf60gk-sfyHME6Xi_9wiW_VNvgsH0+Uy54WWpg4jiw@mail.gmail.com>
-X-Gm-Features: AQ5f1JrKtr8q2avG9v70wyHagbS1NGd5KOIiQj7W2tyN_HZ61QF50EafRHY3vbk
-Message-ID: <CAMuHMdVTbf60gk-sfyHME6Xi_9wiW_VNvgsH0+Uy54WWpg4jiw@mail.gmail.com>
-Subject: Re: s2idle blocked on dev->power.completion
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Saravana Kannan <saravanak@google.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Linux PM list <linux-pm@vger.kernel.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YOEZK1VOOlVt5I7Q"
+Content-Disposition: inline
+In-Reply-To: <Z5C6KWGh-y1P7Xrg@ninjato>
+
+
+--YOEZK1VOOlVt5I7Q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Rafael,
+Hi Ulf,
 
-On Thu, 13 Mar 2025 at 18:35, Rafael J. Wysocki <rafael@kernel.org> wrote:
-> On Thu, Mar 13, 2025 at 6:27=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.=
-org> wrote:
-> > On Thu, Mar 13, 2025 at 5:48=E2=80=AFPM Geert Uytterhoeven <geert@linux=
--m68k.org> wrote:
-> > > On Thu, 13 Mar 2025 at 15:32, Geert Uytterhoeven <geert@linux-m68k.or=
-g> wrote:
-> > > > On Thu, 13 Feb 2025 at 11:26, Geert Uytterhoeven <geert@linux-m68k.=
-org> wrote:
-> > > > > On Thu, 13 Feb 2025 at 09:31, Saravana Kannan <saravanak@google.c=
-om> wrote:
-> > > > > > On Mon, Feb 10, 2025 at 2:24=E2=80=AFAM Geert Uytterhoeven <gee=
-rt@linux-m68k.org> wrote:
-> > > > > > > On Fri, 7 Feb 2025 at 16:08, Geert Uytterhoeven <geert@linux-=
-m68k.org> wrote:
-> > > > > > > > Instrumenting all dev->power.completion accesses in
-> > > > > > > > drivers/base/power/main.c reveals that resume is blocked in=
- dpm_wait()
-> > > > > > > > in the call to wait_for_completion() for regulator-1p2v, wh=
-ich is
-> > > > > > > > indeed a dependency for the SN65DSI86 DSI-DP bridge.  Compa=
-ring
-> > > > > > >
-> > > > > > > [...]
-> > > > > > >
-> > > > > > > > Looking at /sys/devices/virtual/devlink, the non-working ca=
-se has the
-> > > > > > > > following extra entries:
-> > > > > > >
-> > > > > > > Note that the SN65DSI86 DSI-DP bridge driver uses the auxilia=
-ry bus
-> > > > > > > to create four subdevices:
-> > > > > > >   - ti_sn65dsi86.aux.0,
-> > > > > > >   - ti_sn65dsi86.bridge.0,
-> > > > > > >   - ti_sn65dsi86.gpio.0,
-> > > > > > >   - ti_sn65dsi86.pwm.0.
-> > > > > > > None of them have supplier:* symlinks in sysfs, so perhaps th=
-at is
-> > > > > > > the root cause of the issue?
-> > > > > >
-> > > > > > Sorry, I haven't had time to look into this closely. Couple of
-> > > > > > questions/suggestions that might give you some answers.
-> > > > > >
-> > > > > > Is this an issue only happening for s2idle or for s2ram too? I'=
-d guess
-> > > > > > both, but if not, that might tell you something?
-> > > > >
-> > > > > The two (very similar) boards I could reproduce the issue on do n=
-ot
-> > > > > support s2ram yet.
-> > > > >
-> > > > > > The only reason the wait_for_completion() wouldn't work is beca=
-use the
-> > > > > > supplier is not "completing"?
-> > > > >
-> > > > > Yes, the diff shows ca. 70 additional calls to "complete_all()" i=
-n the
-> > > > > good case.
-> > >
-> > > >   4. When the issue happens, /sys/devices/virtual/devlink shows 3
-> > > >      more links:
-> > > >        A. platform:feb00000.display is a supplier of platform:fed80=
-000.dsi-encoder
-> > > >        B. platform:fed80000.dsi-encoder is a supplier of platform:f=
-eb00000.display
-> > >
-> > > Their status file report "dormant".
-> > >
-> > > >        C. i2c:1-002c is a supplier of platform:fed80000.dsi-encoder
-> > >
-> > > Its status file reports "available".
-> > >
-> > > >   5. What happens in dpm_noirq_resume_devices()?
-> > > >
-> > > >        /*
-> > > >         * Trigger the resume of "async" devices upfront so they don=
-'t have to
-> > > >         * wait for the "non-async" ones they don't depend on.
-> > > >         */
-> > > >         i2c-1 (i2c bus) and 1-002c (bridge device) are async,
-> > > >         thus triggered first.
-> > > >         After that, the remaining devices are resumed.
-> > > >
-> > > >      In the bad case:
-> > > >
-> > > >        device_resume_noirq(fed80000.dsi-encoder, async=3Dfalse)
-> > > >          dpm_wait_for_superior()
-> > > >            parent soc: skipping wait_for_completion()
-> > > >            dpm_wait_for_suppliers()
-> > > >              supplier feb00000.display: skipped, DL_STATE_DORMANT
-> > > >              ^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > Cfr. extra link A above (harmless)
-> > > >
-> > > >              supplier e6150000.clock-controller: skipping wait_for_=
-completion()
-> > > >              supplier 1-002c: wait_for_completion() =3D> BLOCKED
-> > > >              ^^^^^^^^^^^^^^^
-> > > > Cfr. extra link C above, but the bridge device hasn't been resumed =
-yet.
-> > >
-> > > Changing the test for "DL_STATE_DORMANT"[1] in dpm_wait_for_suppliers=
-()
-> > > to also include "DL_STATE_AVAILABLE" makes it skip supplier 1-002c,
-> > > and fixes the issue.  Does that make sense?
-> >
-> > Good question.
-> >
-> > DL_STATE_AVAILABLE essentially means that the consumer hasn't been
-> > probed yet, but it doesn't mean that it can be suspended before its
-> > supplier.
->
-> I really meant "resumed before its supplier", sorry for the confusion.
->
-> Generally speaking, suppliers need to be resumed first regardless of
-> the status of the consumers.
+On Wed, Jan 22, 2025 at 10:28:09AM +0100, Wolfram Sang wrote:
+> Hi Ulf,
+>=20
+> slowly coming back to this one.
+>=20
+> > > +       card->state &=3D ~MMC_STATE_PRESENT; // TBD: mmc_card_clear_p=
+resent()
+> >=20
+> > This is nice from a consistency point of view. Although, I don't want
+> > us to use this bit as an indication to inform the bus_ops->suspend()
+> > callback what to do. It seems prone to problems.
+>=20
+> Makes sense. We can use another bit like MMC_STATE_NEEDS_SUSPEND. That
+> would also...
+>=20
+> > > +       host->bus_ops->suspend(host);
+> >=20
+> > I think this is a step in the right direction. Somehow we need to be
+> > able to call the bus_ops->suspend() before we call put_device() and
+> > before we clear the host->card pointer.
+> >=20
+> > However, we don't want to call bus_ops->suspend() in all cases from
+> > mmc_remove_card(), but *only* when it gets called from
+> > mmc_remove_host()->mmc_stop_host(), via the
+> > "host->bus_ops->remove(host)" callback.
+> >=20
+> > I am wondering whether we should just re-work/split-up the code a bit
+> > to make this work. In principle, when mmc_remove_card() is called from
+> > the path above, we should not let it call put_device(), but leave that
+> > part to the caller (mmc_stop_host()) instead. Or something along those
+> > lines.
+>=20
+> ... avoid this :) Refactoring every code which calls mmc_remove_card()
+> to handle the additional put_device() on its own seems intrusive to me.
+> And error prone, new users might forget to do it. And that for only one
+> use case where we want to do extra stuff.
+>=20
+> Leaving out put_device() within mmc_remove_card() only for that one case
+> is bad API design, of course.
+>=20
+> So, I envision more something along this:
+>=20
+> 	if (card->state & MMC_STATE_NEEDS_SUSPEND)
+> 		mmc_suspend()
 
-Exactly, and that's being violated here.
-Before resume, dpm_noirq_list contains:
-     [...]
-   - fed80000.dsi-encoder
-     [...]
-   - regulator-1p2v
-     [...]
-   - 1-002c
-which is the order in which devices are to be resumed.
+Shall I try this...
 
-regulator-1p2v is a supplier of 1-002c: OK.
-1-002c is a supplier of fed80000.dsi-encoder: NG.
+>=20
+> Maybe even more generic?
+>=20
+> 	if (card->state & MMC_STATE_PREPARE_REMOVE)
+> 		bus_ops->prepare_remove()
 
-As devices are resumed in the inverse order they have been suspended
-before, suspend order is also wrong.  Hence checking also for
-DL_STATE_AVAILABLE would just fix the symptom, and not the cause, right?
+=2E.. or even this suggestion?
 
-Gr{oetje,eeting}s,
+All the best,
 
-                        Geert
+   Wolfram
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+>=20
+> Or am I missing something from your suggestion?
+>=20
+> > > +       enum mmc_pm_reason reason =3D mmc_card_present(host->card) ?
+> > > +                                   MMC_PM_REASON_SUSPEND : MMC_PM_RE=
+ASON_REMOVAL;
+> >=20
+> > I don't think it makes sense to differentiate between a regular
+> > "suspend" and a "host-removal". The point is, we don't know what will
+> > happen beyond the host-removal. The platform may shutdown or the host
+> > driver probes again.
+> >=20
+> > Let's just use the same commands as we use for suspend.
+>=20
+> Sadly, I think it makes sense because of our HW. We cannot control the
+> regulators directly. PSCI handles them. And for shutdown, it will do
+> "something". For normal suspend, nothing will happen because PSCI will
+> not be called. This is why Shimoda-san introduced
+> "full-pwr-cycle-in-suspend" back then.
+>=20
+> The differentiation is needed a little above:
+>=20
+> > -	    ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) || !is_suspend ||
+> > -	     (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND)))
+> > +	    (can_pwr_cycle_now || reason =3D=3D MMC_PM_REASON_SHUTDOWN))
+> >               err =3D mmc_poweroff_notify(host->card, notify_type);
+>=20
+> Here. Poweroff notification is only valid in the POWEROFF case for us.
+>=20
+> Thanks for your time,
+>=20
+>    Wolfram
+>=20
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+
+
+--YOEZK1VOOlVt5I7Q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfT9noACgkQFA3kzBSg
+KbaJ2Q//agJaSzN5qj5LjbH21/pd02ODa36bZKmO+Q8hra6T6LFLIG7kgXzlMqoR
+ocE9FqNt/fgmr9MgvOoqTdPwl6YLjOREysc0JKOErOXnTnptDGITeuzLgoa9QYlJ
+bWg1kSFwXw+tozM5FCservfiIwhfElZs4v0I6syAKIzBXztb2Bp4clxr6FhejEeN
+Ull0FXaCBbd50fzfu/A36ShmQKpoxKmd+x6pmczpWA+6wehG/hO0mylODlpTs5QU
+rQzrIijCVTYQLhjHYzlvaidTJLJKVcvr1RIHPQaamAxSb0iFLQDI7StiKg45LHN1
+DfGJsEfM1IxQaHBEr45RwgafPdzJ1wQbXsowOAvOagi3Ezibq2bJCHWt4W8xKXCF
+LOcpLcH8kG3Yre++5vsnOlNzIqI4oqyNJmIO+6h3QBEvQDPONbYpAEt1hBesROxn
+zq7H6gdaiBVVKSpgqXjoO0AfoxItYoqvtqpOz1eoUXGiVjdAcdH4jV29nQPv+laN
+CuvnLgO8WO7093QQUuFtJIsByLmfnAZx4AbBbgjXimXXmxWN0ciVd9hGfzyLXoq4
+yyxcsqRE3Irvn+pFYeMbglt9AjjH9GF9t1RzWbwcGvwomj3qBlFi/Zi9GB1NFTAE
++cfQR7mrJLa1xXx40dKEq9mPBzMxVjT6DCWd+FYtt6/N+gwn40c=
+=6qpu
+-----END PGP SIGNATURE-----
+
+--YOEZK1VOOlVt5I7Q--
 
