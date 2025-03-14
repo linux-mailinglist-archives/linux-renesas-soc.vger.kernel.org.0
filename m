@@ -1,65 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-14357-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF93A60C45
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 09:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0347A60C49
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 09:54:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 024683B6D48
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 08:53:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2923A3A656C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 08:54:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 888A21D86FB;
-	Fri, 14 Mar 2025 08:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CF061953A9;
+	Fri, 14 Mar 2025 08:54:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ksC6KD/V"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3EE1D63C3
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Mar 2025 08:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF4313B29B
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Mar 2025 08:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741942417; cv=none; b=PABPyeoQklMt1NkMQQTV0/jwWwrKPSByqIRiz5EHSarSs350uuMKwauy1AqWuZVJ3pTDe/qJos6OAnObG9o4CpnDZdX9uJ/Lb5wv3YBMS1FaL49OvtBVC4T08uKa6JoXAzjXwQUkmkQW+E064PkP8eWqFshv880Cngnd/1LoKRc=
+	t=1741942496; cv=none; b=E1oQTgy5bwZEV/eWJhl9YWL+90ruG5RdBIbLcrfAAEs/7WfmmxRXSATDEQU7kv/z9rlqRXqa7LX8nLGWa2/gkhwsadGbmo4QqFykaTrl9n7/sU2aB8wqTylYLmKUk6Mni9FnuNTLRCYrAMPnleD/bbzvEOolE7hlEMFoA30BQag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741942417; c=relaxed/simple;
-	bh=LG+zWUiU+YDS4u7udi6xwwIRvt4cLa8ZSYa7+ZaV17I=;
+	s=arc-20240116; t=1741942496; c=relaxed/simple;
+	bh=MBz1bcRKfsFEVJsDtb3kn690F8mE3rVuQqKJeipJAEc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iblNZ49VjOoXlfSU3iFVfLGRwshTeTOUFry4LrREf4F1o2HxAIzG91xZh8vgj6MCXGj4YHdQ+yfMymACIUxhh21mbuV/CIYwI3cEJHuEGJe0hzv0YdgOhnL7B5+m+A7bqTPyrdC0lhmAYBDC9LpqtvFEoncPr89AfkQntM6PLik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tt0n5-0007tf-7y; Fri, 14 Mar 2025 09:53:15 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tt0n3-005fmP-13;
-	Fri, 14 Mar 2025 09:53:13 +0100
-Received: from pengutronix.de (p5b1645f7.dip0.t-ipconnect.de [91.22.69.247])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id EB3603DB854;
-	Fri, 14 Mar 2025 08:53:12 +0000 (UTC)
-Date: Fri, 14 Mar 2025 09:53:12 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Duy Nguyen <duy.nguyen.rh@renesas.com>, Simon Horman <horms@kernel.org>, stable@vger.kernel.org, 
-	linux-can@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v3 0/2] R-Car CANFD fixes
-Message-ID: <20250314-coyote-of-inspiring-perception-9f5089-mkl@pengutronix.de>
-References: <20250307170330.173425-1-biju.das.jz@bp.renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=M7FwiJtIAgjzz0knMH3lQLlDUD/DsPV+yISKju0DJAYeuRb1J2vLpVxKAVnFjIC4NeZuAtFkbH+aXXVBpZjNx1hTBhla7kQksepEfmqB+66wxmdGUghulp21ACcILzdbST19VNI9fkVj1YcMvbZl90ehPAkXf0fKLs6jTQvPiTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ksC6KD/V; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=MBz1
+	bcRKfsFEVJsDtb3kn690F8mE3rVuQqKJeipJAEc=; b=ksC6KD/VkEHRZFqHmU7/
+	HiIQ65LBcco5B4+8gxSCukRWK7/d8AumXeVRAWCEhcvB5ewC6zZw3p84kYwYZpvJ
+	e2RL9S28tWWEJ9LMEorOPy2txc4vpOwp1i+bl4tupBr3u6orlou6ScuG9zjTqUwd
+	uNwK6uXl7TmXf5IiD+pI1dz8xs5+1SjOmfp1kKDFb2a+bP7vwgl6503BrZ1zOJhZ
+	U/OqEvqfb3F1kwmgd43f8SIDC/Ro3+PXTECwS+ts82HuFO72Hz54tt/aYZzEV0l7
+	WTFmSOFxHSUaGjIEF1v0mH382mkGLVIi+h9SRa+g7r3BPa0vkaMd/Dl1M/sEiGqa
+	cQ==
+Received: (qmail 1937771 invoked from network); 14 Mar 2025 09:54:43 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Mar 2025 09:54:43 +0100
+X-UD-Smtp-Session: l3s3148p1@YZnvlkkwBIUgAwDPXyTHAJp038nK7dx+
+Date: Fri, 14 Mar 2025 09:54:43 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [RFC PATCH 1/4] dt-bindings: rtc: rzn1: add optional second clock
+Message-ID: <Z9Pu0_niK4XOThvE@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org
+References: <20250313102546.27335-1-wsa+renesas@sang-engineering.com>
+ <20250313102546.27335-2-wsa+renesas@sang-engineering.com>
+ <20250314-sexy-impartial-raccoon-7e8dca@krzk-bin>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,70 +79,49 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sfhcrqzzuf5ym3x3"
+	protocol="application/pgp-signature"; boundary="mVr91rY3i28z2UsX"
 Content-Disposition: inline
-In-Reply-To: <20250307170330.173425-1-biju.das.jz@bp.renesas.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20250314-sexy-impartial-raccoon-7e8dca@krzk-bin>
 
 
---sfhcrqzzuf5ym3x3
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--mVr91rY3i28z2UsX
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 0/2] R-Car CANFD fixes
-MIME-Version: 1.0
 
-On 07.03.2025 17:03:25, Biju Das wrote:
-> This patch series addresses 2 issues
->  1) Fix typo in pattern properties for R-Car V4M.
->  2) Fix page entries in the AFL list.
->=20
-> v2->v3:
->  * Collected tags.
->  * Dropped unused variables cfg and start from
->    rcar_canfd_configure_afl_rules().
-> v1->v2:
->  * Split fixes patches as separate series.
->  * Added Rb tag from Geert for binding patch.
->  * Added the tag Cc:stable@vger.kernel.org
->=20
-> Biju Das (2):
->   dt-bindings: can: renesas,rcar-canfd: Fix typo in pattern properties
->     for R-Car V4M
->   can: rcar_canfd: Fix page entries in the AFL list
->=20
->  .../bindings/net/can/renesas,rcar-canfd.yaml  |  2 +-
->  drivers/net/can/rcar/rcar_canfd.c             | 28 ++++++++-----------
->  2 files changed, 12 insertions(+), 18 deletions(-)
 
-Applied to linux-can.
+> Probably the binding was incomplete and you always had external crystal
+> connected. I assume you want to keep old DTS, so it is fine for me:
 
-Thanks,
-Marc
+The documentation explicitly mentions how to wire clock lines if you are
+not using the RTC and have no oscillator. But yeah, then the RTC DT node
+should be disabled.
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+And yes, I want to be backwards compatible.
 
---sfhcrqzzuf5ym3x3
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Thanks!
+
+
+--mVr91rY3i28z2UsX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmfT7nYACgkQDHRl3/mQ
-kZyQcQf9GCCP/HKTjBxyq7lVtcXFI0SYyIzqN2BocqvkOk+LX8jiBhabI2Dj3LLi
-Kxuv4HZRFDTf9zQXa690wOcWtBnRBKxDb+jXFBZY7lEnH59WhJlH1FVX7GkFOtmx
-cbDqwS/nrzW2VH2w7+wLlgsyQvcKycB9VvxO6lQvbgqSltageE/Jl45e9aquCY7l
-GhZjcVMltZhy0jA6IVqGpjicXYESfrZYYD+H7fJ3xo7tDIVdG/LdvSx3x71/+/Ct
-dALlcctsLVAEqh26BrpbIMv0hed5QZUFXbDRla5D5z/rRswkPsioqJMkPGfhGMB5
-e1V95RJmMYEelyf3EsO1mxs25dtC/Q==
-=SXcH
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfT7s8ACgkQFA3kzBSg
+KbZ54g/9E/ss/oMZht39U/AUfGSpSbVG23K5eKs5d9YgpRYWT17YIt8GexSIHkzm
+LZDvDUdzZdhaw/m7C6Nwoxpcx3GkeY3H035uSHrk6thY3T8f4wnK6wh0W53PTBS/
+Nn+qmdkFYd7y7vIXDzBzx4xdub1W+KgtHI9lhirwm9YyyuLgbp47vbZlT/PTiInx
+oV709O0V2ST7J+5g7rtJ6SZNA9fw5AY5OlomQLc0gkt51/9Zj5R2HApEtxyJE0bC
+DSeHLtriUzmR/cMp3nOPlThZa9CwF2zNbUkj+mWoX+/pMkCMJwZD4ufs0Ec5stN8
+uP1czuT5KNMnCKpwv8pRyl/n1w9je4CiVSJLHbw7POYYei0iZfYLSevDXRXVWi2R
+tRurHrkkItd5/PEY9eYAQsl/aiDGvyZtked7E1pRugW4TFeOxuFoxgxa+IMNEASX
+GQ03aBdEIHMkIwWlrrbsDZr4SnLwiLETy/Lfxb2YobBBqNqa+P2y9ROvg2mUzNGw
+nSv+qJmsTCs/TOzJohkbeLK5dRuB/+veVXjassrQx1yqWGPsyL6w01vomgPIFiFj
+JYeaT6TViE/1j1c6MeOPk5Qy6GL0SQ0HySATyQPAKyruE8K8WbMBmEM9DCSivyeK
+QApvCtA5KS8FozFNnCSgzG3fg/235CAg59hQN3ClwX8JzagijiA=
+=yk/n
 -----END PGP SIGNATURE-----
 
---sfhcrqzzuf5ym3x3--
+--mVr91rY3i28z2UsX--
 
