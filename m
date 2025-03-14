@@ -1,189 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-14372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF380A611FB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 14:05:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1160A61222
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 14:11:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D3071B62C23
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 13:05:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 258138812AB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 13:11:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4552A1F4169;
-	Fri, 14 Mar 2025 13:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C34171FF1C9;
+	Fri, 14 Mar 2025 13:11:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F672E3398;
-	Fri, 14 Mar 2025 13:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A002B9A6;
+	Fri, 14 Mar 2025 13:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741957496; cv=none; b=paVhoJXu1QbA7652p6VqgbIb2q9Do3T0cCzg+E5ynIuBuZ5jRE2x04Y6BqFkFcYBhX9Wp4zgKKjD/B1UmZk7HVMTDYJ+WAbUISENijoTtX7IkQYCoKp/wzeTygch57jATXKSykzNv6zTIffQ5rtPYjl7jaVfRA8hYlwuTcD73g8=
+	t=1741957904; cv=none; b=p9xNLPB/NxUGRLgHtMmdXpyYQyzQG4IG4fOSJLf2eGjcJNSpVjvFcwaRR7gs3LXVaaAtoSJzRfJ618pi3XUbmDHsF3oyPMiCh524Nol2tVYggoMnPLemrr8ATH12GX1Vx14eOg1arha+rJ1Y+D7MXlttI7UkbWeh4aj7yqgkL/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741957496; c=relaxed/simple;
-	bh=zyomwtA57UlhAsFzz5wOac89yRYEs905pl0IQvNIO/Q=;
+	s=arc-20240116; t=1741957904; c=relaxed/simple;
+	bh=NSYTNJ5LL57V21x+L1DLxd5qspeGvQVZf38LlJfFLCM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DiuLO3f3hPFkpZZ8bfpwHEARJGHQFaNRgt9/gGuhK26Fudw1b4FWrv908qXh9jyeMCB+pSPiJOUGw8StN3FJH9J8PSUPx8IrIFxZ+4CvGMeLX4LtW0oQPGX3Rr0Ki/FPswoyhr7WGfzjGy9rol07/Q7Fcz/UR1VSOzW/5sYRBpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.175
+	 To:Cc:Content-Type; b=tZ/IMOBCPAq+VDx9Ptn1aFAXdt5hG4Vlc9vJ/ug1pmoL9yKkCa8QwNAutj6SI+fC7j/rJx6CqgjM8qHsBWGUt3lzPkqoPw5DGeu1OZ08471sm43E6ij1UUQ2fFXTFUDO5+4UomZproLSGAaX1nXzsIp65WLtu7MPklZmGGPVpoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7be8f28172dso133525985a.3;
-        Fri, 14 Mar 2025 06:04:54 -0700 (PDT)
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4769bbc21b0so20718651cf.2;
+        Fri, 14 Mar 2025 06:11:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741957492; x=1742562292;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6N7MIvrxusn0ziXilYjMqdfovi7E20CQcJ0QC4pu9oE=;
-        b=XhHiNRn5YZKA2QvuySYoVQmv7ETnCHq7U8e4nbl/TwN2BFRLhHI5RmlbWBcyMPH/l+
-         EDqxhVimkgewFxVAvkLnxYa0TOOUKnQ9ym64+Eg9KmvT5uErcV7QJAIRicBB+KyhQAV7
-         jrNV7sIdbiTfzH1AKVGPYruQckEegOyHDQEIyB1zKVAROFs9MBlbk+uCh+6oDbE+kSdu
-         HbuOdqFj2nYZoCyM/Z89SpYWpRfcPFdEnyZS1UDSChdzP0DXifnHhTkwz4zoyaDirjXN
-         oIasORy0mouw4sc43E979zjnBTZ8QjcVGXSdk9gEWd9mX9aAVVXY1DLsxGu53nKI2CG6
-         4jmw==
-X-Forwarded-Encrypted: i=1; AJvYcCU2XohIcBK+yf/Gm1LaXIP/ogafW8CsoWao1mVN5GcA39kLm4EGlG4mEJi0AvuYP1YNXDkr6rdbnpUD9qrkBZfrmb8=@vger.kernel.org, AJvYcCWoUVFZ+2nq5KnaeRVos9ztz+cfJFsgNYYcY5RzcfSzwBSCzEUqKO393Dp76CysZ3uCetkqwJ7NiKI=@vger.kernel.org, AJvYcCWqY1gMOrMZ2FY9yd6EBDLmXlhkpDQJB9TvKeICIrSaVwdfk36giSIumlGSD0XppZZBONFy1zPJqKafk/nd@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2sEEF6F5PrWzOmbbrEHQt0J6Zp04IK7weCrSvp5cqbpOaJzvU
-	nTboMh9BmLXXkl3DjMznoX9+Xb/LbIZl5+GVRhew0fB7oFSAoqo1ws7Uf8p+DcM=
-X-Gm-Gg: ASbGncupw/FKE3C/zsvb3zIy3fS7OsnnBf6Q++2KZ0QAbbcnamRSbiSyJguxU29yDlL
-	zYvDPnUe7OcJSDGRCYDZdeIJkcTiPmRnuZMtxlBYwLV6Aqp/1wKtUG6ucfvcotbd+9vvO61iAVb
-	7vu4NcwM/YYIkJylhA00qdMuPqTDJHSpup7l65JaJJgsKF4UAeHMrhlV+SsuOSZnj/B1m/l3SY3
-	u6m607Jvylv5Ptk6t3kEVHV8pbrMUed5vGCmz1VXA0aougDl7PFiIk5mMiA0afeSeY7fJFbFevG
-	gpQPttvCMvq/BjA6XQ+mI6IMOiF30qzfG8106I8I1FOsN6fTDF15NRIYxhvEpRx4oIViOwe9ZZd
-	0g6dEd/w=
-X-Google-Smtp-Source: AGHT+IFj0SyXnZXn3tqcs7zBp+PiSloeTHYZ7W2Cwv7AyVnD4T9DgXzNgI+D4ozd4baCUuiSQD4Mww==
-X-Received: by 2002:a05:620a:6603:b0:7c5:5909:18d2 with SMTP id af79cd13be357-7c57c73b897mr358442185a.7.1741957492162;
-        Fri, 14 Mar 2025 06:04:52 -0700 (PDT)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com. [209.85.219.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c573c9d641sm248511985a.65.2025.03.14.06.04.51
+        d=1e100.net; s=20230601; t=1741957900; x=1742562700;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jLH57wE5+szvegzTPkshZrPoehwl/7DXCYMMg2YeFZ4=;
+        b=dOtHvCUKFg3nfMS5l08J3Z090vqoR4EUyeVLAPsKQS5Wn9X+fpbqJtSbEAx948VE4m
+         Xvyku0GpWD0bejE6cNk4sqPE7u32qddOowEnZ4bjJfvJO1vPBrS1XT8sggG0gj/nNZou
+         9WjfGjVz/jD7SL85X4PleZm9Kp3xReJcv1G+9+1ieCIx0LTwtec64wtheey9nUqssoIu
+         QWyfsBd4ZGrFXAHSKoO1MGPjhtLJPzntCMhziqhTyloit5meVQeqhxeNpGBQ2TT3WBIs
+         HbPbocVhqaQ+L74aPL94Yx63MorDUPC9S1yH4OizCtQ72K1ZRqbnjrUc6tPYRQjgOFyc
+         lwwg==
+X-Forwarded-Encrypted: i=1; AJvYcCVneSfEsCln/7h/+UHS0RlKlXKJjGhplk6AikrJrKqcINqWKj0R9fqk7/+yZVfcqqf3/h1JuhUzYvTsLBsbIJ4BL1g=@vger.kernel.org, AJvYcCXNYTafAD7M4pba00dio/sIGtlltUq+9+S9N/trBYb1VtkfMP2ppR9lZOnu/6hKHUMvtWH0Y9BNipA=@vger.kernel.org, AJvYcCXvn67zwBs1IpoLub+F9UfNlO77adCxBmt6jmb7IFguKzzkKkQ04UWHG8q/ZEpOWpziSwLCn42ExiHCo7s2@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/fFJrtznNp9d0sXKJ3wVZqxccCF1wC+BeCJKGGBdqXP3tBRMV
+	i8VwVtHPyT9cbO5jkRH5m3k2GuwCAVnUhy7fZaPgHG6NGUvJXIO1zK8ITX3+Ls0=
+X-Gm-Gg: ASbGncsxo68o1k5Nvj2RtoAs/kaZAJBWjPKi8W+qQJe2zXTah+6NOuFNpDdY72GB4tU
+	/WKcEA7Ci8nYEG2on7z7tjqaiUGcpsg3OvBJ0LjrvzeyhvoexGgHLZC/NEYzcx/Jbu0Whl0n68z
+	2lO+myHFxdcTy4rn1pLBh9uwf53mx2Bm3XZkm91FeFHVUol9f+VqacnDI0NB1QvIbJZ9do7U4M3
+	PAXiw+mluBGmjrW/Vp6kd0JWdV+h31pAO3QbgMv+K81RsWDw6fB6kTBTvb1RqAaI2uey9hHYBAc
+	rgvDl6o+TjxpGas+/N03fWz88HoP17mz8P22d+k46UBiCFh2ctls/Q/hUkFxdlF0X1+hcYyjxmZ
+	shjbLnnRGH04=
+X-Google-Smtp-Source: AGHT+IFr/ZoYE/bM8f4TNb1gmkqlpzAa/gcDKU5aKiyKS9fIt/4MNi2S2uh4wPgcf/eVheZA7VMJrA==
+X-Received: by 2002:ac8:5a43:0:b0:476:a6bc:a93a with SMTP id d75a77b69052e-476c800e062mr34086201cf.0.1741957900424;
+        Fri, 14 Mar 2025 06:11:40 -0700 (PDT)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com. [209.85.222.173])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-476bb63ab9fsm22856931cf.26.2025.03.14.06.11.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Mar 2025 06:04:51 -0700 (PDT)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6df83fd01cbso9790386d6.2;
-        Fri, 14 Mar 2025 06:04:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUWktwdOM2EAdjCNX6RJ1xrXy8KsC+EH74otOGsXKFH/vMXdTqTHP5lsqUqH3IpqUzydW0vbu3tSLY=@vger.kernel.org, AJvYcCUc8q+oLJNIg/B5dmnD1waM2G0XNp4At824IWk/GZvb8Ai1X1gRtUo1XYyv/CrtS+ktFTbnpoB+IHt6OFgx45etcLA=@vger.kernel.org, AJvYcCXBTE0P94TBwfgO3itz5O1okuHWo98h2cOXJci8Foi35cUWFksg6SrrZ7Katzdv3zrdkNpGwNeYUzixBGDg@vger.kernel.org
-X-Received: by 2002:a05:6214:19ee:b0:6ea:d033:2853 with SMTP id
- 6a1803df08f44-6eaeaa07d5amr37576526d6.16.1741957491115; Fri, 14 Mar 2025
- 06:04:51 -0700 (PDT)
+        Fri, 14 Mar 2025 06:11:40 -0700 (PDT)
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7be49f6b331so194898985a.1;
+        Fri, 14 Mar 2025 06:11:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU2MPVg6Ss0nCG/MBRxZGs9iTTif1g9QTSm9/ikL+yNUkA79jRnhNNQ7Ag51NNoyFfC9YGJ0qoflBQ=@vger.kernel.org, AJvYcCWlINeF4v23QB84oItCmlGrV/T/UUtLl+z3aqK8BiWT44ZlwoZ3iC2LqSEBBYixzuJKvbK5ah4sPQYImLr/5/UKh+U=@vger.kernel.org, AJvYcCXb1xaGSrh6x6r/jYegGMxvcZca9D1lP2wN7PHmoPRSB3tLofCMyAjT+tpt9nCvDrQMeKl10gPnYII7j/jB@vger.kernel.org
+X-Received: by 2002:a05:620a:191a:b0:7c5:4eee:53f8 with SMTP id
+ af79cd13be357-7c57c8abb12mr277499785a.41.1741957899329; Fri, 14 Mar 2025
+ 06:11:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250309211402.80886-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250309211402.80886-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CA+V-a8sqJy1HJYkxZONqSEsFuCmENgbs_ofLyaUChtRJpj_ebg@mail.gmail.com>
-In-Reply-To: <CA+V-a8sqJy1HJYkxZONqSEsFuCmENgbs_ofLyaUChtRJpj_ebg@mail.gmail.com>
+References: <20250309211402.80886-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250309211402.80886-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250309211402.80886-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 14 Mar 2025 14:04:38 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXkwUXn0tVVg6BzUbtnSzENGokSY7oXPQW2fuX9QiZz0w@mail.gmail.com>
-X-Gm-Features: AQ5f1JqeLXs1t72wc6b0zZMY1NqsyZTfGb4kquJly8mm4cjwxKYeZnMJFeumbKQ
-Message-ID: <CAMuHMdXkwUXn0tVVg6BzUbtnSzENGokSY7oXPQW2fuX9QiZz0w@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] clk: renesas: rzv2h-cpg: Add support for enabling PLLs
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+Date: Fri, 14 Mar 2025 14:11:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV6DPJ3NzyEU67w0yWOdyBe8F2LPA1LWveaFV6XQ26zNA@mail.gmail.com>
+X-Gm-Features: AQ5f1JrcZ7OEH-XsS3Zz1LNRLwLurlTFkJ_x1OU9Uk9XKOFyuHsQsCWJ0afZEiA
+Message-ID: <CAMuHMdV6DPJ3NzyEU67w0yWOdyBe8F2LPA1LWveaFV6XQ26zNA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] clk: renesas: rzv2h: Rename PLL field macros for consistency
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
-
-On Mon, 10 Mar 2025 at 19:22, Lad, Prabhakar <prabhakar.csengg@gmail.com> w=
-rote:
-> On Sun, Mar 9, 2025 at 9:14=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
-com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Some RZ/V2H(P) SoC variants do not have a GPU, resulting in PLLGPU bein=
-g
-> > disabled by default in TF-A. Add support for enabling PLL clocks in the
-> > RZ/V2H(P) CPG driver to manage this.
-> >
-> > Introduce `is_enabled` and `enable` callbacks to handle PLL state
-> > transitions. With the `enable` callback, PLLGPU will be turned ON only
-> > when the GPU node is enabled; otherwise, it will remain off. Define new
-> > macros for PLL standby and monitor registers to facilitate this process=
-.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v1->v2
-> > - Updated macros to get PLL offsets
-> > - Switched to readl_poll_timeout_atomic() and updated the timeout
-
-Thanks for the update!
+On Sun, 9 Mar 2025 at 22:14, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Rename PLL field extraction macros to include the associated register name
+> (`CPG_PLL_CLK1` or `CPG_PLL_CLK2`) to maintain consistency with other PLL
+> register macros. Update all corresponding macro references accordingly.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- a/drivers/clk/renesas/rzv2h-cpg.c
-> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
-
-> > +static int rzv2h_cpg_pll_clk_enable(struct clk_hw *hw)
-> > +{
-> > +       struct pll_clk *pll_clk =3D to_pll(hw);
-> > +       struct rzv2h_cpg_priv *priv =3D pll_clk->priv;
-> > +       struct pll pll =3D pll_clk->pll;
-> > +       u32 stby_offset;
-> > +       u32 mon_offset;
-> > +       u32 val;
-> > +       int ret;
-> > +
-> > +       if (rzv2h_cpg_pll_clk_is_enabled(hw))
-> > +               return 0;
-> > +
-> > +       stby_offset =3D CPG_PLL_STBY(pll.offset);
-> > +       mon_offset =3D CPG_PLL_MON(pll.offset);
-> > +
-> > +       writel(CPG_PLL_STBY_RESETB_WEN | CPG_PLL_STBY_RESETB,
-> > +              priv->base + stby_offset);
-> > +
-> > +       /* ensure PLL is in normal mode */
-> > +       ret =3D readl_poll_timeout_atomic(priv->base + mon_offset, val,
-> > +                                       (val & (CPG_PLL_MON_RESETB | CP=
-G_PLL_MON_LOCK)) =3D=3D
-> > +                                       (CPG_PLL_MON_RESETB | CPG_PLL_M=
-ON_LOCK), 10, 100);
-> This timeout didnt work when I power cycled after a complete shutdown ove=
-rnight.
->
-> I will update the timeout as below, this Ive made sure the below delay
-> works OK after complete shutdown.
->
-> /*
-> * Ensure PLL enters into normal mode
-> *
-> * Note: There is no HW information about the worst case latency.
-> *
-> * Since this value might be dependent on external xtal rate, pll
-> * rate or even the other emulation clocks rate, use 2000 as a
-> * "super" safe value.
-> */
-> ret =3D readl_poll_timeout_atomic(priv->base + mon_offset, val,
->                                                     (val &
-> (CPG_PLL_MON_RESETB | CPG_PLL_MON_LOCK)) =3D=3D
->
-> (CPG_PLL_MON_RESETB | CPG_PLL_MON_LOCK), 200, 2000);
->
-> Please let me know shall I send v3 with this change or wait for your revi=
-ew.
-
-I can incorporate this fix while queuing in renesas-clk for v6.16.
-But, please explain what is "the other emulation clocks rate"?
+i.e. will queue in renesas-clk for v6.16.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
                                 -- Linus Torvalds
 
