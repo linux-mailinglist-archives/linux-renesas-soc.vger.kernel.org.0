@@ -1,260 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-14394-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14395-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04102A619F0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 19:57:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF135A61A04
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 20:02:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A00D4631EF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 18:57:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DF2C463387
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Mar 2025 19:02:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5019320487E;
-	Fri, 14 Mar 2025 18:57:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D174202968;
+	Fri, 14 Mar 2025 19:02:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nwiO6ZXT"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YLpwZDBg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DC92046BB;
-	Fri, 14 Mar 2025 18:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDEA2AEE1
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Mar 2025 19:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741978628; cv=none; b=SGM426xfFu1eb212gKK1MhEc/AagHPbxzO3uWcnX9Io5nhVObYGL81bg8hXmXe8jZkHITIyuGjWf/MEF9pEV2c0MOqmg5Dsi7Gdx6VQdAwi1R1MwzgIGjXFSORmarrK4ueOeJVYFM5N9CMuVc6BJ1ByLleHyM8IV0xM2KpdH9xA=
+	t=1741978920; cv=none; b=o9Shi1gYLlZW4SzEP/Pyakc306eK86Z+EgCEVTnuXpDtABikPg5OgAdfT/vwZ/0DTUX/XbDCblYh3BQk51kTKusAfe6ZHB8Dg7A24GjmjpvoWfyCMw+VQzUOAIwkeA/juZqWG5fjB8Bj90dKSw8GaV/d1Wc8kLmVSPG8++AsGQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741978628; c=relaxed/simple;
-	bh=oWMLKqlpdyMMgvnwsO9aH3FYTBJZlIyLFhVMWBKeawg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=bfsrYRu2ThB0Q9VN4I5FoqliJhYOuKx0/txFAfzwmdSDjrEyKc1cyBSF+o72z+ml24Le1dGuvfZwKz6MfUFFZBni5XeHOPGPFaTdS0UQLGKCMQnFo6FImnaAYckTsLFa971X0ErNze9cIh/aaYom82jgq97FecYaqGULMdUem9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nwiO6ZXT; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DBFFE43205;
-	Fri, 14 Mar 2025 18:56:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1741978618;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=gRy+psuhrZFbfyIXjmCG9/DFj0+xk0amMMh76es7yh4=;
-	b=nwiO6ZXTV6dtatZJVeAa/QlnW7NpY9+ty44O25qXbIa21txXvexVar236eu4vmlCF661bm
-	80Ix5TNeckiWBBUvipvIfebk6Y6dxDWPPPGkdKYk070yNv6Ma0aJSpzlRFmTe8jSHldhoL
-	b4zNdzNv/pDaf3osIbYDJw8ZnWXVRkeXDJ+WgoRNrkRsuW8Mly9kbqynaBrV6v1TVM84Np
-	GRxanFpAHP+4yJqhXI71VhY0q8IDUFadhkLkTpjOONGYx44BSNNg234zP8l+i7YsFz5avb
-	MQcTe16n9701XWedI7tei7awK0v4JlnRKbI5lsVyivtDJU4wiEmcQ+hWZRuIhw==
-From: Thomas Bonnefille <thomas.bonnefille@bootlin.com>
-Date: Fri, 14 Mar 2025 19:56:29 +0100
-Subject: [PATCH v3] ARM: dts: r9a06g032: add r9a06g032-rzn1d400-eb board
+	s=arc-20240116; t=1741978920; c=relaxed/simple;
+	bh=zS+VIJjPhOlqAPHbDVyzgjWl85m3r5eFV1c/Tnbug5k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=riLSKEGBpushk18x1p2WexoGllWEseBE2vZgE2Sq26q885WfKP8Ru+Uuf13wII4hKMYxsedsqmWnmpewZjaA1clJrDzOpMgzvwEB3aQpZR5MekqNU8PzwQkrpvjGFqbF+KS82PqMMyyvGV5wVhneY/2sRipRqpuF6/sPyFU+Udk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YLpwZDBg; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=zS+V
+	IJjPhOlqAPHbDVyzgjWl85m3r5eFV1c/Tnbug5k=; b=YLpwZDBgF/VSqDMynIRm
+	LJDJQiJypZ+nVqjD3C61y0f/+/7m9iRFAGS1FSY0kQcHLSps4z5NjG4D25ZI3/MK
+	hTMTeNuP4JOGaE4IcjUiAnaeyqkuJUU6ap/LTXfocrOrcg1gmDLx+W1KWshnBmT2
+	ULz4ztm95hEx5EqyZJNIB35NE8U3S2eXqqCeBczc+nlJGRJHuqsdjlhMgi5j3Hfg
+	qEBa5L6WbKMhQ4l0r+/DD4JouZfW2ecHQLm/a60r2vWjfYuCjFTdnsR9vGHe5OQl
+	bMIjbs7JUZQqZ5rXhPHA0Hup2MHuqt/XfI6d+HYZumjOPA3Xnj8ujWCXno5jk+gT
+	Pw==
+Received: (qmail 2137754 invoked from network); 14 Mar 2025 20:01:52 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Mar 2025 20:01:52 +0100
+X-UD-Smtp-Session: l3s3148p1@FGpDElIwgI0ujnuL
+Date: Fri, 14 Mar 2025 20:01:52 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Thomas Bonnefille <thomas.bonnefille@bootlin.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Subject: Re: [PATCH v3] ARM: dts: r9a06g032: add r9a06g032-rzn1d400-eb board
  device-tree
+Message-ID: <Z9R9IHyXK0TBcPZa@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Thomas Bonnefille <thomas.bonnefille@bootlin.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+References: <20250314-rzn1d400-eb-v3-1-45c4fd3f6e01@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250314-rzn1d400-eb-v3-1-45c4fd3f6e01@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIANx71GcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHUUlJIzE
- vPSU3UzU4B8JSMDI1MDQyNz3aKqPMMUEwMD3dQkXeO0ZEMTc8tEQ+NUMyWgjoKi1LTMCrBp0bG
- 1tQC+sFIIXQAAAA==
-X-Change-ID: 20250127-rzn1d400-eb-3fc1479a13e6
-To: Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- =?utf-8?q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>, 
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>, 
- Thomas Bonnefille <thomas.bonnefille@bootlin.com>
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeduieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkvfevofesthekredtredtjeenucfhrhhomhepvfhhohhmrghsuceuohhnnhgvfhhilhhlvgcuoehthhhomhgrshdrsghonhhnvghfihhllhgvsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeejgfduudejgffgvdduteeuteejvdeuieegkedvkefgueekleeghfeuueefieeiieenucfkphepvdgrtddumegtsgduleemleehsgelmegrtgdttdemvggstdgtmegurggsfeemkeeiugelmeefudegvgenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudelmeelhegsleemrggttddtmegvsgdttgemuggrsgefmeekieguleemfedugegvpdhhvghloheplgduledvrdduieekrddurdduvdgnpdhmrghilhhfrhhomhepthhhohhmrghsrdgsohhnnhgvfhhilhhlvgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddvpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsq
- dhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesghhmrghilhdrtghomhdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-GND-Sasl: thomas.bonnefille@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Txifhr+AlaUgRoBc"
+Content-Disposition: inline
+In-Reply-To: <20250314-rzn1d400-eb-v3-1-45c4fd3f6e01@bootlin.com>
 
-From: Clément Léger <clement.leger@bootlin.com>
 
-The EB board (Expansion board) supports both RZ/N1D and RZ-N1S. Since this
-configuration targets only the RZ/N1D, it is named r9a06g032-rzn1d400-eb.
-It adds support for the 2 additional switch ports (port C and D) that are
-available on that board.
+--Txifhr+AlaUgRoBc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+On Fri, Mar 14, 2025 at 07:56:29PM +0100, Thomas Bonnefille wrote:
+> From: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
+>=20
+> The EB board (Expansion board) supports both RZ/N1D and RZ-N1S. Since this
+> configuration targets only the RZ/N1D, it is named r9a06g032-rzn1d400-eb.
+> It adds support for the 2 additional switch ports (port C and D) that are
+> available on that board.
+>=20
+> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
+>=20
+> [Thomas moved the dts to the renesas directory and declared the leds in
+> each phy]
+>=20
+> Signed-off-by: Thomas Bonnefille <thomas.bonnefille@bootlin.com>
 
-[Thomas moved the dts to the renesas directory and declared the leds in
-each phy]
+Oh, cool! I will definitely test it next week. Thanks a lot!
 
-Signed-off-by: Thomas Bonnefille <thomas.bonnefille@bootlin.com>
----
-This short series adds support for the RZ/N1 Expansion Board. This board
-is a carrier board on which a daughter board (either RZ/N1D or RZ/N1S)
-can be plugged. The device-tree that is added by this series enables the
-use to the 2 external switch ports that are present on this board.
----
-V3:
- - Drop bindings commit as it was applied to master
- - Move Makefile modification to arch/arm/boot/dts/renesas/Makefile
- - Declare LEDs in PHY.
- - Use the driver default LED configuration as there was no reason to
-   use a different one.
 
-V2:
- - Add "renesas,rzn1d400-db" in list of compatibles for EB board
- - Replace '_' with '-' in eth pins node name
- - Split some long lines in dts
----
- arch/arm/boot/dts/renesas/Makefile                 |   1 +
- .../arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts | 120 +++++++++++++++++++++
- 2 files changed, 121 insertions(+)
+--Txifhr+AlaUgRoBc
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/arch/arm/boot/dts/renesas/Makefile b/arch/arm/boot/dts/renesas/Makefile
-index 833a02447ecf7a02bd2efe70fae15213ede9a6de..947c7fe0280337a3aa6e9a0257f406694892239c 100644
---- a/arch/arm/boot/dts/renesas/Makefile
-+++ b/arch/arm/boot/dts/renesas/Makefile
-@@ -30,4 +30,5 @@ dtb-$(CONFIG_ARCH_RENESAS) += \
- 	r8a7794-alt.dtb \
- 	r8a7794-silk.dtb \
- 	r9a06g032-rzn1d400-db.dtb \
-+	r9a06g032-rzn1d400-eb.dtb \
- 	sh73a0-kzm9g.dtb
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-new file mode 100644
-index 0000000000000000000000000000000000000000..20478941170bade197afb5cc9b3d694bd9a30951
---- /dev/null
-+++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-@@ -0,0 +1,120 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the RZN1D-EB Board
-+ *
-+ * Copyright (C) 2023 Schneider-Electric
-+ *
-+ */
-+
-+#include "r9a06g032-rzn1d400-db.dts"
-+
-+/ {
-+	model = "RZN1D-EB Board";
-+	compatible = "renesas,rzn1d400-eb", "renesas,rzn1d400-db",
-+		     "renesas,r9a06g032";
-+};
-+
-+&mii_conv2 {
-+	renesas,miic-input = <MIIC_SWITCH_PORTD>;
-+	status = "okay";
-+};
-+
-+&mii_conv3 {
-+	renesas,miic-input = <MIIC_SWITCH_PORTC>;
-+	status = "okay";
-+};
-+
-+&pinctrl{
-+	pins_eth1: pins-eth1 {
-+		pinmux = <RZN1_PINMUX(12, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(13, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(14, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(15, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(16, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(17, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(18, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(19, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(20, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(21, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(22, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(23, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>;
-+		drive-strength = <6>;
-+		bias-disable;
-+	};
-+
-+	pins_eth2: pins-eth2 {
-+		pinmux = <RZN1_PINMUX(24, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(25, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(26, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(27, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(28, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(29, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(30, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(31, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(32, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(33, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(34, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(35, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>;
-+		drive-strength = <6>;
-+		bias-disable;
-+	};
-+};
-+
-+&switch {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pins_eth1>, <&pins_eth2>, <&pins_eth3>, <&pins_eth4>,
-+		    <&pins_mdio1>;
-+
-+	mdio {
-+		/* CN15 and CN16 switches must be configured in MDIO2 mode */
-+		switch0phy1: ethernet-phy@1 {
-+			reg = <1>;
-+			leds {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				led@0 {
-+					reg = <0>;
-+				};
-+				led@1 {
-+					reg = <1>;
-+				};
-+				led@2 {
-+					reg = <2>;
-+				};
-+			};	
-+		};
-+
-+		switch0phy10: ethernet-phy@10 {
-+			reg = <10>;
-+			leds {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				led@0 {
-+					reg = <0>;
-+				};
-+				led@1 {
-+					reg = <1>;
-+				};
-+				led@2 {
-+					reg = <2>;
-+				};
-+			};	
-+		};
-+	};
-+};
-+
-+&switch_port2 {
-+	label = "lan2";
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&switch0phy10>;
-+	status = "okay";
-+};
-+
-+&switch_port3 {
-+	label = "lan3";
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&switch0phy1>;
-+	status = "okay";
-+};
+-----BEGIN PGP SIGNATURE-----
 
----
-base-commit: 9c5968db9e625019a0ee5226c7eebef5519d366a
-change-id: 20250127-rzn1d400-eb-3fc1479a13e6
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfUfRoACgkQFA3kzBSg
+KbbnTA//UVMxsSokBVUsoucOsPcgopRUy4JIr/IfHjKqhD1z0GrjT6QVBeUhKV41
+ddKB8oFb0voidl15RNyFgF2sfl2rGVmvz7QWob5FZeGYLoPrCJJ9BF2YxBachGYV
+qxTtljqsYpmduFOV3U3xH9vZbSPbQNVS09aMHMMXUeKNArjwQG6HEnB0sA2N3nwp
+8fMPL9yzrtXBOhmE+lNxCNn+Fq18Mw2r4H8VB3o2YlaHXFBp7l0cN/fG/NNe+eg+
+st+VxbYtOo1u3U4NH923nCiXshz7VthEI5DPgCnB7dmY5zk5fX7rx3b13vRUyVzM
+OkAtQv/383aoi6Imh6qibj8s8IAn2nbjmrRUOGBDAuSCUxed1YpeibOLx53fLnLm
+UKlWpaeG4W8aOvBl9p6hyCF4inkShXxE996LK6fP1i9HNhhGfgXv8WHgNLE7/dcx
+rXSY7xALjEBze8InOFA+9d/SqYlfdmnPMCGXMLufKLN76A601widsRNVNGuQbEPN
+2TE8vOPy9B8A6OVjL3C6t2E1Ou1uIUIal1tZwCl6a20hq3zdfe17bxRzXvcjjAMz
+6X0aDO9eMA5+WfQdIiNkwdZSkh3mN1BdveIz4pkm+JCLdAikvni75ngyOwuAaY1E
+l+M7bV5ePvYFGoH0Ybtt3c6Q9das7shYbVzfHZ8B1zrYB+RWKME=
+=bZxX
+-----END PGP SIGNATURE-----
 
-Best regards,
--- 
-Thomas Bonnefille <thomas.bonnefille@bootlin.com>
-
+--Txifhr+AlaUgRoBc--
 
