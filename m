@@ -1,146 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-14407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF27A62E4E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Mar 2025 15:40:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B802BA62F1A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Mar 2025 16:28:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1300517A266
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Mar 2025 14:40:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 964E9189A4C3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Mar 2025 15:28:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49D74201260;
-	Sat, 15 Mar 2025 14:40:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8074A2036E8;
+	Sat, 15 Mar 2025 15:28:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tSwny3M0"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="p4fMIjsg";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="F1CQqFu6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CBF1F5829;
-	Sat, 15 Mar 2025 14:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19EB1C8621;
+	Sat, 15 Mar 2025 15:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742049651; cv=none; b=RW5C5JyjRUR/gXLorCXrJ4FNzjUFHhFeWJKVOBaHYx2RVFJDKbSDnnpiHxUFy6u9uL4N2mu3nBPvC3BnphZDaMX2gAv2AC4HVDqyBmRbzj0vU+UdLboRslQii7i5p3QvLQpCO9RCyWbECl4qH3UmMbL1bIQ2ExUlwH+cCnYt4R8=
+	t=1742052509; cv=none; b=fF1KMTJ2G/eXqYXDZ0lTlWcfSnwgefhE2dNjkbmgmlN8mkJKmqwberOO+eIkRb3Eu4j4dpcDu6qp0D1K0e30eRjkogLpaTRSvfHDZSeOeUsRkMY5rjXGo33v+kl8qd7BVEL5xvTs4TcbgFwJtiW5witcy0gA1kUdP+4LN/FWS8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742049651; c=relaxed/simple;
-	bh=jukAIyNl6zV7FQ8eFLX6hEnx9n+cyDrr7s4BAmlCCuY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zrkr2K2+jwNYyImD4XBQheQHEjwJFHxHgVakbG27+0kxy2NuYQWQv8EuxFnXdLYsn+X31ibq9A0Qc3StasOk/bW0h4vA0PZkwzT6qoiXYeWTl870Ao6Xp3F26QK1/1ip487e7Qo70h0EOcXLZoOOoxguPMMKq4xAjh8NcbccS00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tSwny3M0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84DCEC4CEF0;
-	Sat, 15 Mar 2025 14:40:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742049650;
-	bh=jukAIyNl6zV7FQ8eFLX6hEnx9n+cyDrr7s4BAmlCCuY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tSwny3M0Fy9L4SEF9o06O7gWchKf8FInavY7KvaBt0UqMwJcGvDZb/+mg/QlWzdBq
-	 XyniZKc2llefHOlfDThCV7xHjoqk2jD9Y+ctNKYeoC3GAvdFb+TLX/k0PC41bWp5eT
-	 gfAB7T+rmYHlHgEgJPhUQjewpf2uWwbT71XTL3766WChXkDDUFAkEJELTOAbFC6x4k
-	 wuravzjpeMqnWGJqFqEVq1lidAoCnq6sXujNarGxKSb5kkO04F1w04Q3Z/vnk8Ac49
-	 rxVtxt9ZM9ePnqyyVp1GtyzOtHutBpwbOgtH1heHe0olf24Ik4blxRj/6z9Zb4i1hN
-	 o9+jDbsHYByCQ==
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2bcbd92d5dbso1665633fac.2;
-        Sat, 15 Mar 2025 07:40:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUwJjescGEjZ3ZsspRmAbIMgxvRKyDzS78oer2B3QMjIl9dh5Kh19fGyxu1NWbjcVapF8xeaE6lbjAAx+ev@vger.kernel.org, AJvYcCV3YB5hEnVdQq6FSOZ3GwpoHTUfXTXs48En0l/EILgKUhJGFAWSkbrbfkmtYoSC8HZeYkYxjX+/iu0=@vger.kernel.org, AJvYcCVnt0yvkLBFEYr6ZIbpM++K67ahRYauVva62y+qUE7snv5IAEvJEuEz8sJPjaYYnL0pdiLJViBZ5JQ0@vger.kernel.org, AJvYcCWjLaBweURmIuivgjrJC/ebKqDnTXO0a29Aez1RBxZqhOZJ49C3zKTFH6EG4HelnpeMshJgw18nXU1tD6WpPw+da+0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKgTeXuNu2dFWXg9+eWtAZmjgPdW7OeM5RKlgrnx4fMcPRo330
-	+3A1syex5bwkdKRwaCtTMynAV3Tunbgjhz2wL2NWk2DdVTO20KtTHgXCZQz8QjPnFlSVPE+UnvS
-	w6crnHnasUBRBv+dulbKdKNWN1AU=
-X-Google-Smtp-Source: AGHT+IHik3WQQoX9zF5tpYBAQvaTiEqRAZgWWvK14P5mWp9ukc+dySow79iOHU/fbGpqaKacY4VYneA6saIrQxgTb/s=
-X-Received: by 2002:a05:6870:80c7:b0:2c2:542b:bcdb with SMTP id
- 586e51a60fabf-2c690ec423amr3207224fac.1.1742049649762; Sat, 15 Mar 2025
- 07:40:49 -0700 (PDT)
+	s=arc-20240116; t=1742052509; c=relaxed/simple;
+	bh=xQpMZTzVjfaxtZK3HFRaSD8FZty8a3G+WNehh/7Hm3Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jPeAzgZiUe3ymJ1toyGfQ1LPp9/BSYBMxzo7fqzUrhB7Gumu4TKvcntSFgViv6kiBkBm3uIoQfSNunSNP9IptNv6t1YR2b1Zd8RluOj7YhLimTFYeGG92krZ1HjZfRU7HmpIdsLMcAW263m53ScteTED8UNatfJCqExwQuPUDKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=p4fMIjsg; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=F1CQqFu6; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id AA71B2540169;
+	Sat, 15 Mar 2025 11:28:25 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Sat, 15 Mar 2025 11:28:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1742052505; x=1742138905; bh=K1
+	XvBQhkRucCWDCw23u4rf9x/uFMiCykS2+9ghIWZ7I=; b=p4fMIjsgLBPct+ybBH
+	n5hvBxuzshztaP/ZS61I0XWJNHQgAqIFN2KJTStt+Zu1WUph7vQTS1xepq2iUwa1
+	XZ5dSlhs1WuYmyqbGU0AeHLMOTWUD+Zp5Ky9iC2vZDQdAI4SbxDWVeDyQZy++fPM
+	trTbeqDgNx3d4oRVQMFx5k6+t2vlsqbuDaXwsKacaVrxGWE8WGxaO7w1ACFUFpDo
+	tZFIeC7twWst+lEbWrOQKoPSWcS/ICdf/M6Py1ufIhSAHCVOq5Rl6d3I4wSp7zLw
+	dilQHzshbyB5fXG2Y9kWGQKU73W1R6n2doh5u0258f3CbR34ZQjlJOQyd0f6jDar
+	iRPQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1742052505; x=1742138905; bh=K1XvBQhkRucCWDCw23u4rf9x/uFM
+	iCykS2+9ghIWZ7I=; b=F1CQqFu657KXbbJFaxGKufP2niSgMlIKdUfiSUgFrIsA
+	pQSg4VapIXX3PDYugkQbX4t9jg8S5cUC3/pJJ1N9s4wUh77hJ32qpziQBMhy+qRf
+	ffnZlZwlIoUVmfqH/NX3UEjlOyputDjYgE4vLBEoymqRsH+gfkgUYGM+ENMNJ0Zt
+	ekzCL/oNzoSG5aaOpDcYV8oJZqROwk0b2vtt77aG7bRVqiWRrdf/zroH/jA73rrk
+	1RHQqinlbfuZl4eGsDg3KU78QG5B2c36yVkOyU6e14LtwSzOx8bqNFsJwRfIujMI
+	tBNwQX4fjvfHMjOpIn0F/WwyKsaC7V0RegplsiLrgg==
+X-ME-Sender: <xms:mJzVZyXmRM9Lbo-yrlDQVPQuTPuZSVvb_l1Qn7xs5ITE66ptybxWCQ>
+    <xme:mJzVZ-lXLa_gZ489GzLnq_R27Vr6RSCX1rjSMk4iJRL2QnGmj39QOCUjtdrn3D4eA
+    C2HjIY0px1pDdu_Akk>
+X-ME-Received: <xmr:mJzVZ2YcdmPyGRX2RFpk_6Rn4GF9KX--lHOYJTVBp5LfX80EfLCqEWh7rOZ0bU3cy3ucw0tzZqDTtPC9DnvATS5ryw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeegtdekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
+    thgvrhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfe
+    etgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
+    ihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtph
+    htthhopedufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsges
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhn
+    ohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvsh
+    grshesghhlihguvghrrdgsvgdprhgtphhtthhopehhvhgvrhhkuhhilhesgihsgegrlhhl
+    rdhnlhdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlh
+    drtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshho
+    nhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiuggvrg
+    hsohhnsghorghrugdrtghomh
+X-ME-Proxy: <xmx:mJzVZ5UnuV0R2E9Lvg_0oufXQrh-bRI3bj8IFel0UIQ1KZ0fssonxg>
+    <xmx:mJzVZ8l8BTFq5jhe8W039ZYbJzakzSJL7t5aVgnWcOYhhe30vPBM9w>
+    <xmx:mJzVZ-dTpaXaBP-nLethBhvQHt1ixcb8c7MazB2MuK86qdGI2il7Hw>
+    <xmx:mJzVZ-HUVy5zeEjLIybfncjqKkX62sfjTBz3QIVa53kK0cQD7DggTA>
+    <xmx:mZzVZ6nuF8QCbZPMkx0k0qhP6WbsWZZ5nGX3Tnt4vFYiZTSX8Xu1_Z2->
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 15 Mar 2025 11:28:24 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/7] rcar-isp: Prepare for ISP core support
+Date: Sat, 15 Mar 2025 16:27:01 +0100
+Message-ID: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250309121324.29633-1-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250309121324.29633-1-john.madieu.xa@bp.renesas.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Sat, 15 Mar 2025 15:40:38 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jBeJqSoSzfKLZ6oSDFEU43u1HZUVd3dH_vrbHjo0Kx9w@mail.gmail.com>
-X-Gm-Features: AQ5f1Jrwc1Zf-QXqmckFCMck3yH4PHI7ibYOMynl9qIg3YCFIP5fQlhd2k7H5PE
-Message-ID: <CAJZ5v0jBeJqSoSzfKLZ6oSDFEU43u1HZUVd3dH_vrbHjo0Kx9w@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] thermal: Add CPU hotplug cooling driver
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: geert+renesas@glider.be, niklas.soderlund+renesas@ragnatech.se, 
-	conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, rafael@kernel.org, 
-	daniel.lezcano@linaro.org, magnus.damm@gmail.com, 
-	claudiu.beznea.uj@bp.renesas.com, devicetree@vger.kernel.org, 
-	john.madieu@gmail.com, rui.zhang@intel.com, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
-	linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Mar 9, 2025 at 1:13=E2=80=AFPM John Madieu
-<john.madieu.xa@bp.renesas.com> wrote:
->
-> MIME-Version: 1.0
-> Content-Type: text/plain; charset=3DUTF-8
-> Content-Transfer-Encoding: 8bit
->
-> This patch series introduces a new thermal cooling driver that implements=
- CPU
-> hotplug-based thermal management. The driver dynamically takes CPUs offli=
-ne
-> during thermal excursions to reduce power consumption and prevent overhea=
-ting,
-> while maintaining system stability by keeping at least one CPU online.
+Hello,
 
-So as far as I am concerned, this is a total no-go.  CPU offline is
-not designed to be triggered from within a driver.
+This series prepares for adding support for the ISP core functionality 
+found on some R-Car ISP instances. No core support is however added in 
+this series, the focus is to get the easy changes out of the way to 
+avoid conflicts of fixes and new features being added in parallel on top 
+of this.
 
-> 1- Problem Statement
->
-> Modern SoCs require robust thermal management to prevent overheating unde=
-r heavy
-> workloads. Existing cooling mechanisms like frequency scaling may not alw=
-ays
-> provide sufficient thermal relief, especially in multi-core systems where
-> per-core thermal contributions can be significant.
+Patch 1/7 extends the dt-bindings to allow describing both the CSISP and 
+ISPCORE blocks. Patch 2/7, 3/7 and 4/7 updates the existing bindings to 
+match the new style. While the change breaks the dt-bindings the driver 
+is compatible with both styles.
 
-What about idle injection?
+Patch 5/7 prepares for the addition of the ISP core functions that will 
+span multiple files by moving the driver implementation from a single C 
+file to a directory where it can grow. The intent is to get this out of 
+the way without bikeshedding the real ISP core work so fixes and such 
+can be based on the new file structure as early as possible.
 
-> 2- Solution Overview
->
-> The driver:
->
->  - Integrates with the Linux thermal framework as a cooling device
->  - Registers per-CPU cooling devices that respond to thermal trip points
->  - Uses CPU hotplug operations to reduce thermal load
->  - Maintains system stability by preserving the boot CPU from being put o=
-ffline,
->  regardless the CPUs that are specified in cooling device list.
->  - Implements proper state tracking and cleanup
->
-> Key Features:
->
->  - Dynamic CPU online/offline management based on thermal thresholds
->  - Device tree-based configuration via thermal zones and trip points
+Patch 6/7 and 7/7 prepares the driver for dealing with two regions for 
+when the ISP core work is integrated.
 
-So DT-only.  Not nice.
+There is no functional gain in this series apart from correctly 
+describing the hardware in dt.
 
->  - Hysteresis support through thermal governor interactions
+Niklas Söderlund (7):
+  dt-bindings: media: renesas,isp: Add ISP core function block
+  arm64: dts: renesas: r8a779a0: Add ISP core function block
+  arm64: dts: renesas: r8a779g0: Add ISP core function block
+  arm64: dts: renesas: r8a779h0: Add ISP core function block
+  media: rcar-isp: Move driver to own directory
+  media: rcar-isp: Rename base register variable
+  media: rcar-isp: Parse named cs memory region
 
-I'd rather not combine thermal governors with CPU offline.
+ .../bindings/media/renesas,isp.yaml           | 56 +++++++++++++++--
+ MAINTAINERS                                   |  2 +-
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi     | 60 ++++++++++++++-----
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi     | 30 +++++++---
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi     | 21 +++++--
+ drivers/media/platform/renesas/Kconfig        | 18 +-----
+ drivers/media/platform/renesas/Makefile       |  2 +-
+ .../media/platform/renesas/rcar-isp/Kconfig   | 17 ++++++
+ .../media/platform/renesas/rcar-isp/Makefile  |  4 ++
+ .../renesas/{rcar-isp.c => rcar-isp/csisp.c}  | 56 ++++++++++-------
+ 10 files changed, 189 insertions(+), 77 deletions(-)
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/Kconfig
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/Makefile
+ rename drivers/media/platform/renesas/{rcar-isp.c => rcar-isp/csisp.c} (89%)
 
->  - Safe handling of CPU state transitions during module load/unload
+-- 
+2.48.1
 
-Are you sure that it is really safe?
-
->  - Compatibility with existing thermal management frameworks
-
-I'm not sure about this.
-
-So one of the things that CPU offline does, which you probably are not
-aware of, is breaking CPU affinity which is a very brutal thing for
-user space if it is not expecting that to happen.  Also it migrates
-interrupts between CPUs that also may confuse things.  So don't do it
-from the kernel, really.
-
-Thanks, Rafael
 
