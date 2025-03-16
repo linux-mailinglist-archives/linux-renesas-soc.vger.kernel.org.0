@@ -1,133 +1,183 @@
-Return-Path: <linux-renesas-soc+bounces-14434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14435-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9565A63519
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Mar 2025 11:47:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B8CA63550
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Mar 2025 12:21:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2DFF188F348
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Mar 2025 10:47:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EC343A3F47
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Mar 2025 11:20:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90077178CF8;
-	Sun, 16 Mar 2025 10:47:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D67419D06B;
+	Sun, 16 Mar 2025 11:21:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="BoT5ngFc"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="hSkLXpw0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="1BxvC84S"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A1B1863E
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Mar 2025 10:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B0918E750;
+	Sun, 16 Mar 2025 11:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742122040; cv=none; b=JQUFUPL8WJywe41O8jr5R5axKg6ZfS75vpi8e3mQO07SXPuWF50XuVrcsHoQFo0RP7pFlVsPrItytnLkYaxJ+LsbckYzRCmtTf7sz3TKW7PLtg/Kzw2PiNKiPjn39ij+mcIuTldwBYyztkqS/8fH2D2vxmpYlANXBW+6WWz3KLo=
+	t=1742124065; cv=none; b=d96hiXdi8o/25nOe3/5VpyeLtzTdoqR+U8fQv8uJEA/LcGXWK8qBKdspvH3rSe2vpxM+/oDONHs70tAHGQwCBKYCR7/zSnpdQMhENqsuPckpK6bndAnyYvFJKzWPgN/1LQ30B/wZNgQaefanr8oNjDQtVuCZC248j5rwRUDjrnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742122040; c=relaxed/simple;
-	bh=hXyLp3/t4fJFFU8lybKRdTO/SUlAWwMutkfxcLi3+xM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gOJgC/S0mvjX9Aou0Fe3j6zqYZR11+lV9/hXGiyWVtyJ178yiscb2czBJI9MzB4sRiN7gIQ2RIMl/TTZxXahKvtVyfV1eQmEeWeqeiff1xOePPjocBIZbqFcjGyUon76WvZQmldHvNhXqS0LRuEgbG0LDT+YsrS+Gln12kvxDNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=BoT5ngFc; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1742124065; c=relaxed/simple;
+	bh=TGq0jAaCJxV7ApKrQmmMGQVQxpebTOHnt7iay5hOEhg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XLVz/knlSR/cIUJ8WNr0WjonuZHISf/nHuahL1wheSS8cgqE5Icql9RVLXz9arsjcIuQlUNsM2Sip4VmhzR68J2/FneuBIA2HZxCN39nAFoEYyfHrsg4o5d6nSlca9mPe/tsLwMnuMMpJHqd4LaB3sCIsfFpTgZOUOHdQNUyjME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=hSkLXpw0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=1BxvC84S; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 9BF8D25400E0;
+	Sun, 16 Mar 2025 07:21:00 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Sun, 16 Mar 2025 07:21:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1742124060; x=1742210460; bh=Wz
+	Irl9nCxBpVkIpeEIwRQ4jdekZ1b9KgT8u2zSPY4pc=; b=hSkLXpw0bXTOA9Zcnm
+	4DAFoK16xTs/kNzkHbkBFPKwPhzPkT/BQVIeOX6XqWW8u24V94Uun99qXmQpgMCe
+	0LeGH5WPJ2VjdwiaMFqy+bt57MnVRGgUCXOlMIN4Yb3MTVoXqeHUlLzVDQDb1qxg
+	lXAQH7GKuOIbIcfWlAocQ4M8hYXulwdxKk/GCZHwcWwW6oyZ23ALqibx5IgsQLd3
+	ikOAk4qz5N0m7u196DbFRQTDsTDK/5LiqzQZhGmb5XNz+f31xB3v4xtJXVjh5AVS
+	NoXfdY8w8xJbWe8HfoHZx35zwY7hUfNGfPsTfMmhB5Fu8DyKaMOHdiy0odUEYHWg
+	ZVJg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=hXyL
-	p3/t4fJFFU8lybKRdTO/SUlAWwMutkfxcLi3+xM=; b=BoT5ngFciF61OB6tuJe/
-	zQCFLrXTdXkeU3KsipSm5TVBldzDH2DTKbvToTqBIHl355jY4LY5ap7S5Fr5DLH4
-	b5AZAh2zBUH2LPjH+INXbCS0TZX8wzrSGoy0OW183iWCSX2XW+UZhQClYObEhzL+
-	LRWQfz2QC2PHli2ak8i3Fr6S8rFwXCMM+lBljAXr/svoDaboHyCEjc0a+EIXQCs/
-	8uHJYBp2hfS91Fx830w1hHt1my2bpSuBDsNAhu/iBS5cMyJqfFgwXjgywnDoXcUV
-	FIqAdhBWxsaPeW869IA/V5XdiuxcaQ0hcuSXW4S8lotEJIm+RaW0qHN9dAqkXeRC
-	Xw==
-Received: (qmail 2664548 invoked from network); 16 Mar 2025 11:47:05 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Mar 2025 11:47:05 +0100
-X-UD-Smtp-Session: l3s3148p1@a/p2ZHMw2M0ujnuL
-Date: Sun, 16 Mar 2025 11:47:04 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: make use of debugfs_init
- callback
-Message-ID: <Z9asKLWKyrDXDwjh@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	dri-devel@lists.freedesktop.org
-References: <20250315201651.7339-2-wsa+renesas@sang-engineering.com>
- <m46j43oj4twmpl7ild4ej4wjfuxjddtaqg4ilg5zi7dnnua3bo@oqd7uu5sr6lk>
- <Z9ZuMzPS8dmQWe8D@shikoro>
- <Z9Z5S7ES8d7mjTsJ@shikoro>
- <20250316094042.GB29719@pendragon.ideasonboard.com>
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1742124060; x=1742210460; bh=WzIrl9nCxBpVkIpeEIwRQ4jdekZ1
+	b9KgT8u2zSPY4pc=; b=1BxvC84SLYjSN3EkaiLKr1m+i7ygFwowVLw344yD3SG3
+	CAR+F8+nF5PVlZD/qxYxoO/RHKqy6Lj722t9SvnquK0+brY9oh8OvergvHtWGyuT
+	+dpinFcQbZhznYm/LLVdGzOLdjPXJDRWGJFC3unfMPv0GG0fQQ+HRiQepiBiXoTd
+	oCDZlk1Eg2NX7xERgqXOSZNL5ApH6U8j4OxqOMeSHRATW1HmNQJmjF5Q/kQBwmzp
+	DEw1d8VPg27hUUq70d49WhS5ymo8ylQYb3l0/NKhFNCzh122Smhbnwj5zUBoEprL
+	yjeL51mGMHuJKbhdSaa8UGYP4UEPgXTcxf9gOyDLRA==
+X-ME-Sender: <xms:G7TWZ3iGTDsC6rtcX4jf48mDpMhzpt8N7nqZvrmwUvpGS3P6LIgymw>
+    <xme:G7TWZ0At-05OJmzcBd38b8eOPwROe5a6MQMK7m8VDRJO_IAprgdgkav2UBaW7XgAk
+    V-PyQj7HPMRNoU1czw>
+X-ME-Received: <xmr:G7TWZ3Ec-nlgpz8ZwKlyZjbta5s2KJT30DmcL9pcxiBc42ML5ZSbLzlMs6xvGGC-6BRxMeL4PlNR6vRz_-Wp3mtcQA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeeigeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
+    thgvrhhnpedutdeugeegudduvdfhffdtteeiveekhfffgeejvdektdehteeuvdetgeevhe
+    evleenucffohhmrghinheprhgvphhorhhtvggurdgtrghtnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunh
+    gusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepuddupdhmohguvgepshhm
+    thhpohhuthdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhope
+    hhkhgrlhhlfigvihhtudesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigsegr
+    rhhmlhhinhhugidrohhrghdruhhkpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhloh
+    hfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhr
+    tghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggsvghnih
+    esrhgvughhrghtrdgtohhmpdhrtghpthhtohepughimhgrrdhfvggurhgruhesghhmrghi
+    lhdrtghomhdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:G7TWZ0QOGyDjXfPqFBWELf0-aLTBwFHQgCRXw1BQh9mDDRkM7_Jkgw>
+    <xmx:G7TWZ0zvSVU3u6_6F5_VKReDP-ll5oRdfFLn1WW8S01CL-H-08dv9Q>
+    <xmx:G7TWZ67Hb8CAiliwPYMeV2VveYIrKvkgd1RZJ8RUX6nI-JyDdq1XNw>
+    <xmx:G7TWZ5zqA8iGlO2T7f74zoGZxfhgUAl3EVGGJhzJ1a8va10f_IeY1g>
+    <xmx:HLTWZ-4hX7W2CBcP4vfanqCrB3E71OJrqpxRWZK5UyrMu_8Te_UkOOte>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 16 Mar 2025 07:20:59 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Dimitri Fedrau <dima.fedrau@gmail.com>,
+	netdev@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [net-next] net: phy: marvell-88q2xxx: Enable temperature sensor for mv88q211x
+Date: Sun, 16 Mar 2025 12:20:33 +0100
+Message-ID: <20250316112033.1097152-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uCOmUinykMQcIgmN"
-Content-Disposition: inline
-In-Reply-To: <20250316094042.GB29719@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+The temperature sensor enabled for mv88q222x devices also functions for
+mv88q211x based devices. Unify the two devices probe functions to enable
+the sensors for all devices supported by this driver.
 
---uCOmUinykMQcIgmN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The same oddity as for mv88q222x devices exists, the PHY must be up for
+a correct temperature reading to be reported.
 
+    # cat /sys/class/hwmon/hwmon9/temp1_input
+    -75000
 
-> > Just to make sure: there can only be one bridge, right? Because the
-> > suggested name is not unique.
->=20
-> Bridges can be chained. It's highly unlikely that a chain would contain
-> multiple bridges of the same model, as that would be quite pointless,
-> but in theory it could happen.
+    # ifconfig end5 up
 
-Thanks for the input, Laurent. I suggest to keep the unique name then.
+    # cat /sys/class/hwmon/hwmon9/temp1_input
+    59000
 
+Worth noting is that while the temperature register offsets and layout
+are the same between mv88q211x and mv88q222x devices their names in the
+datasheets are different. This change keeps the mv88q222x names for the
+mv88q211x support.
 
---uCOmUinykMQcIgmN
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/net/phy/marvell-88q2xxx.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/net/phy/marvell-88q2xxx.c b/drivers/net/phy/marvell-88q2xxx.c
+index 15c0f8adc2f5..cdd40b613ce8 100644
+--- a/drivers/net/phy/marvell-88q2xxx.c
++++ b/drivers/net/phy/marvell-88q2xxx.c
+@@ -834,6 +834,7 @@ static int mv88q2xxx_leds_probe(struct phy_device *phydev)
+ static int mv88q2xxx_probe(struct phy_device *phydev)
+ {
+ 	struct mv88q2xxx_priv *priv;
++	int ret;
+ 
+ 	priv = devm_kzalloc(&phydev->mdio.dev, sizeof(*priv), GFP_KERNEL);
+ 	if (!priv)
+@@ -841,17 +842,6 @@ static int mv88q2xxx_probe(struct phy_device *phydev)
+ 
+ 	phydev->priv = priv;
+ 
+-	return 0;
+-}
+-
+-static int mv88q222x_probe(struct phy_device *phydev)
+-{
+-	int ret;
+-
+-	ret = mv88q2xxx_probe(phydev);
+-	if (ret)
+-		return ret;
+-
+ 	ret = mv88q2xxx_leds_probe(phydev);
+ 	if (ret)
+ 		return ret;
+@@ -1124,7 +1114,7 @@ static struct phy_driver mv88q2xxx_driver[] = {
+ 		.phy_id_mask		= MARVELL_PHY_ID_MASK,
+ 		.name			= "mv88q2220",
+ 		.flags			= PHY_POLL_CABLE_TEST,
+-		.probe			= mv88q222x_probe,
++		.probe			= mv88q2xxx_probe,
+ 		.get_features		= mv88q2xxx_get_features,
+ 		.config_aneg		= mv88q2xxx_config_aneg,
+ 		.aneg_done		= genphy_c45_aneg_done,
+-- 
+2.48.1
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfWrCUACgkQFA3kzBSg
-KbbkpA/+PiDYP8ftwHVQ3yphrpYxq9ssEIVfn75gZixWL+Ji2kdbRypF2zcPDxAu
-nglnA+ucHEyuJ9vWvvnT//MPN3rDrzojgNyEYsrUtFB3CZpGd2QFhNaZzaNzfA82
-dBTjOLwg37TjmPtXhOHetks6IvWsaE044+1chfZzOBbedIL9Lq8JFtgGp5d9LHSK
-P+dm1BS0dXONGC9HsBrzfLEFf21fGbcxJzUliXfDz8d9HXcsnyjAgaKgel6CB0IM
-gqtQjC1HHsyCdwUEc8pkhHcRKN0yfLEZUh97OQgxTdUDS9WDTPHqAK5YFJ1re/aV
-3LY6XPXSEku07Ow82v+UGp/ssWXGulfdG8D/Sv+u8aql2BzeT+41kAQObdrYqpuP
-1fl+pUJwdjpBe9VXbAA3qYoG58g7Czb6VWZkSmAFMlTY5fnCxuHUpIHiHgaATr9p
-b/H1qdQLgcvSPcEq7yMiz+czrzIaImTsLOqXxxV2FrNfgMxFlnisb7cTF28Saft1
-abeuCj6I3Banmz7KzJalbzyca12tD2yCDZjy5V4VWmvD/wCNh2fcug21AqB96xQ2
-5hHaDK2JvnGixCg1unrdK3AfUPj9D5xzCb3NWKK15i+t2zfqq3F6ZQvJsZd/Bf6h
-+1LrOSno40j8RZt2Ur6GH57u3j0u9lcvKVSJCSBaLK8qxe39X8Y=
-=nnSk
------END PGP SIGNATURE-----
-
---uCOmUinykMQcIgmN--
 
