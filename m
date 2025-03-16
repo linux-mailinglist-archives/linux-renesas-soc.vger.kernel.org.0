@@ -1,180 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-14438-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14439-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E98A63637
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Mar 2025 16:23:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 461E2A6364F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Mar 2025 16:43:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4640816C43F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Mar 2025 15:23:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95D4816DA6A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Mar 2025 15:43:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B2081A0BE1;
-	Sun, 16 Mar 2025 15:23:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A39E818CC1C;
+	Sun, 16 Mar 2025 15:43:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hcW+Wz6m"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hBfyneZa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22C84430;
-	Sun, 16 Mar 2025 15:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AAF42A8B
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Mar 2025 15:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742138610; cv=none; b=A1A5IVFiYasOs2z2+0+jqSFRoy/dtnrsc6drUBedVbKqRQMw+U9q7KZANQ0jh4E3K1EcMegpAbN4Vge5XOefhVwEjB+fb2gIANEuJOLsrfPoU1FrNC5fG2JlpSkJCZD97t9rfTbAEGh+ZaSzjyorDcdKUYPGIOtFEhb95x6M8MU=
+	t=1742139804; cv=none; b=XWi41dYUZUzPYk4Gaf5+6y9ENjKYZ5xcsavtQgtsNIjL0e3ixRaL8ebvf8y7DEuEWWXorvxNVcAbZwjTkMIFc9OcjQcYbwFQiG50de0NRlGQFDiREWkXLqdVBhXq3TOaBFoeeMUlZKLIzFVMOCkAhY5PcjwQfReeb9bDWHJRAkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742138610; c=relaxed/simple;
-	bh=u5O2hIJYLpbvuv5WUuWmiEwpTZ5Wm51O/tTwGa4eZww=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HKDe8n25cQYHuKpWWVYtxO70gtRjVnq5K/+UJ/lR0iO7/+YW9oyDyDtW+CD2Q5PDtLQhx2mkPRd/oSydYbHxWd6f550O5y0vjL4BsBwm+ZmYfjX60fvx9h8iJNA0OhIcUPVbkeF09zi+EDg7z/w6n+WILqT2S3omjmZnKNXn3IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hcW+Wz6m; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39727fe912cso685925f8f.3;
-        Sun, 16 Mar 2025 08:23:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742138607; x=1742743407; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5JLfCmTWfDl5v+BTl1A4AkzQ9L0soYHfycDaefH0XAA=;
-        b=hcW+Wz6m7A+606OzrhRCD4UaARKkh0hXnW6JqX/B4WB4+TxWfUPpBKacPV1/s2iOh/
-         NyVFRM6kyYnn5u9ZVwEwIsKp+VSZ7YyYFg5Xvjk8xR+9VWHBFZ/Apa4Vs2Tc2eYA5Eri
-         zwRfjqQZd2glV+TjvuGWgJT6r6BfVT9L36cw2sZ0QeyOrQo4AM4AbtpOzREWXl+pCDU3
-         c7MhIglN8lYfmWVcfAciCQpHSaYjYFjnORw8gInFFxwfGDlK9cx8DvIiHAEZtd0o3/Ac
-         cstic/irYgxt3TNQiX/MfjTp5X/kRtprvk0rYKxHvZlGMN7oTWjJpBs7v632k2cOk0+e
-         wjzg==
+	s=arc-20240116; t=1742139804; c=relaxed/simple;
+	bh=6rB6NhnEtPbCs+IDsQlal5MewlTNYehy+dDFEmwxLmQ=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AVInkhsOnew2wp/ht2i14PWvdnu6LjIUUv2SbO9WZu21nA0D6o0Lo3Vzna1DuDAokJsYrhsmXPJLtkQZDF0VZ0KIC3ZcJT4rURmUIYVsNSVv93wLnAvD2ovOpr3Lh36vMj6qlBvlkZUEZJwvULyIZYVobCwAQ8ADBRvMoHIeiJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hBfyneZa; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52GDgcOi001148
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Mar 2025 15:43:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=nTKnVV8zpjbA9rOF3XkcFyf8
+	84J/ODhN0CmXOd3fWGQ=; b=hBfyneZaM9Oub1KLXo2JPnUlVMFfzqGOt1fDcZR3
+	mFQvVu78ux7JwwMTWdVpOOSecdYOnkuXqyF3QlFocnk8Ds4gJSfl+7wwOT0wGmg/
+	3k2wBrYJVeuNZlNobVyxubQjgvxuzbMOMSFGgjUnDitQ2+9ZGs0D6m8oNdKyuW0I
+	UfnCQQs1NTToOdbZo3lk4WzTUuIlefF1U9vaDZo5cmivjKIDeqKnSXGBr3axhCE6
+	M+YX9FQ2WpdJhwi7LBrt5XUflm/VKDXguvKuQIKtxmAChQURIgsIV3fFNJ5MS7Z2
+	KEkIhv7UvK1P6HIlEiMeO0Mw7HMue+LWQQ31EBPrbn6alQ==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d1x7tcaf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Mar 2025 15:43:15 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6e8ed78717eso69876576d6.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Mar 2025 08:43:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742138607; x=1742743407;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5JLfCmTWfDl5v+BTl1A4AkzQ9L0soYHfycDaefH0XAA=;
-        b=r2JW7HR8cbUmnbzLdicH83J8VDfBZyHfmzQnkDWAyHfu3+lszd7x8IPDyFy59JWhcK
-         rkoy3jP/CeD30MXPQe/XA4V4eZKMvVKTkjE6zBBf1qaWEU/NcGbegIDb6Cg913RV7vW9
-         mGxg2T8CoAnCIfprRTaWtLYfdXGgqcwVPgQXcXhetTO8ln0SMGcRArPaFGNC+Ga4d6Jr
-         UpTqjehl296NaB4KDotdX/1w3Vu3rOrNMPHrpgZVWlwC8+Jp23ya3+JN6v8CQB/62YHf
-         ZCldu8T+Lyc77b1uiLW0M95B0bjHD8OzJmaYfgwI0XutS9CtguthyIE4HyfNvCl2u96e
-         lQ1A==
-X-Forwarded-Encrypted: i=1; AJvYcCV8Bz6d3N61RtiZXt99ACUV+ugB5zXrV0IOxP20vzZxOVP2VsQYn5M5V2zsh46p6c1uPPZj1muvnJe4wQjnwwKr4Q==@vger.kernel.org, AJvYcCX05WU9jqevBv1SMvGaq4LS6AXCIZgL4jaJJ/T0MVNGabyhdCQyvw9GJ33y9FKKLFdi/+W06zLm@vger.kernel.org
-X-Gm-Message-State: AOJu0YzD3Yykhyq5VwjJhm4guvvSaituiGbMfg4up93EPhngT/FMu2Qv
-	RUw+hjtAbJP2qD+Is0GE06xpTf4++QDZEFf+gjNgQlJCfYyySbIsRJ1vDQ==
-X-Gm-Gg: ASbGnct1eC7craQ6SaaCptIv++e5UKXmPKZv9QehHeQ0wXpE7d9sbuMI8RTeFlLy11K
-	OoVs/OyvRI9wIpIdy+vRC1zzSNxoX3P8uHybLwXSQNZ6uou3fPHPZtijfnN9lsDpemQ2sf+b0hO
-	zZMwwoesJDscAgei6ueCYZWplWoBI18VISl4D6Z4Z5vYVQbDfy48A09czxEd8Cp6SEEVlSmfWm5
-	iFyGTq9k0py6v+QfTK3ly7rQDsr7dTNr1vatbqutJISEQumswIARATO4Z2NkqfRF7/X97AbqWei
-	dy//dbm1q5E0irCvqHJ6+x4CV7Ac8KM8fklNb1dem9aqh8h2MOH+
-X-Google-Smtp-Source: AGHT+IFMprZ+lrOTonOkV8j0h3jidkgGClxGggEhlu2SpBMX7tvixbc44IbbH2Gs8iM2ZllLhhCmFw==
-X-Received: by 2002:a5d:5f85:0:b0:38d:d701:419c with SMTP id ffacd0b85a97d-3971f9e521fmr11466329f8f.41.1742138606691;
-        Sun, 16 Mar 2025 08:23:26 -0700 (PDT)
-Received: from debian ([2a00:79c0:612:2500:45fb:7d1a:5e4d:9727])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d1fd274c4sm51983375e9.0.2025.03.16.08.23.25
+        d=1e100.net; s=20230601; t=1742139795; x=1742744595;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nTKnVV8zpjbA9rOF3XkcFyf884J/ODhN0CmXOd3fWGQ=;
+        b=tymZAaNFo2ayAKS6rrILJD9v4Z6GjmtgMgpza3ZsRH/bP6ymLdVQKTMfToxBLtGoG+
+         dejhXdtKJNCw/6fhANO8cW4s1JMTNqRy9NhM5+soII8QZg6qZoXoGu4YCrASGp2hXaXA
+         IGBEA1WZ3GgiQTfmHG7NxPgUeSIaeCrGzlnafxlk1DqaJfJdtxE/l6RwbP7SBd6+/z6N
+         v7w2IvbTLXHYeVusQAM2pcuLIKYZ/vmKrYk2uDJhNVvGsnrr8tsYKR4gr6PpMxsPlhVU
+         e9uyuTFQzTCZdU/WIOEf2rUNnxHJ3AEMdbqQcaS54Kfdq6CkijULclHdTEAz1ifxBQK1
+         gHqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWh22VMJq4Q2cO3UECOFZZZEldiPQCUT/k9tfurgh1eWnsW+7f8O3q6vHadJO0eZBdbaW5YFlK2/2xOk1ci4auzEQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwT7FmwO4Kd2fEkxms5uCxhU5BjzFaJ6X0B206QCVl+4OBjIEP
+	y4cv975lnLMjVuUMD+4x+5sTUcmbCSEsmUwVKNH+PL8Ym+2MzPHP8wBsqySkgAQqzXuPfiQNU61
+	GSRr7sNmraywJKU7EB8jW7krzQHHqq7kHRL6psFbD/4EFX+utsxMR7NJ58oHog09nNJ3a8Q==
+X-Gm-Gg: ASbGncs4vvaU/a6BWQxEq3HyE/aI7eDqWOXJxkzSq99fs3UNisUU+r18o+ONjXLxVJC
+	i1s45LAGtygpB6OxXZ5xjk9bUh9cLifzI9is8fxiE+0ZRWdpB8i5E0//0nCazng9jNby1WZE5TQ
+	kuWB9veiPe3coR/PSW7IP21IrwgOCejXnmoRNa69FYsaUBEt1Qg3SH9RvDZ5oc1LiYuqO8ZfCrF
+	K2i5X6ZPr1b54g3sg0WOkd9VeM05C3C0K0AqMjlnD0WCK5CYSw7mel8TNH7GeHfY7yVueQxWgL/
+	fHoO2kVBihZ5VM0CezjUk9JwPXj6vrrKQ0A/9xkfHGPnp5me/kFLBD6pddoYyAsj3p7lxgRKpLM
+	0BuA=
+X-Received: by 2002:a05:6214:20c1:b0:6e4:269f:60fd with SMTP id 6a1803df08f44-6eaeaa8dbcfmr169377416d6.23.1742139794782;
+        Sun, 16 Mar 2025 08:43:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHVicho57Y1BnXkMY5rcn5kz+aTOc5CkCnSLuY7XVtUqHQzAeN8zk7y/0byzpjmwxoqpvC9vA==
+X-Received: by 2002:a05:6214:20c1:b0:6e4:269f:60fd with SMTP id 6a1803df08f44-6eaeaa8dbcfmr169377116d6.23.1742139794442;
+        Sun, 16 Mar 2025 08:43:14 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba7befe4sm1098326e87.55.2025.03.16.08.43.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Mar 2025 08:23:26 -0700 (PDT)
-Date: Sun, 16 Mar 2025 16:23:24 +0100
-From: Dimitri Fedrau <dima.fedrau@gmail.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [net-next] net: phy: marvell-88q2xxx: Enable temperature sensor
- for mv88q211x
-Message-ID: <20250316152324.GA12356@debian>
-References: <20250316112033.1097152-1-niklas.soderlund+renesas@ragnatech.se>
+        Sun, 16 Mar 2025 08:43:12 -0700 (PDT)
+Date: Sun, 16 Mar 2025 17:43:09 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: make use of debugfs_init
+ callback
+Message-ID: <u767di6jhx2ufl77d5zo2eg7rjqq7cladstsggvncophzerhbi@kr2vjer2bfby>
+References: <20250315201651.7339-2-wsa+renesas@sang-engineering.com>
+ <m46j43oj4twmpl7ild4ej4wjfuxjddtaqg4ilg5zi7dnnua3bo@oqd7uu5sr6lk>
+ <Z9ZuMzPS8dmQWe8D@shikoro>
+ <Z9Z5S7ES8d7mjTsJ@shikoro>
+ <20250316094042.GB29719@pendragon.ideasonboard.com>
+ <Z9asKLWKyrDXDwjh@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250316112033.1097152-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <Z9asKLWKyrDXDwjh@shikoro>
+X-Proofpoint-GUID: 4n67qKKTf7vdOWLMxdfRpqJa6HsIq1Ns
+X-Proofpoint-ORIG-GUID: 4n67qKKTf7vdOWLMxdfRpqJa6HsIq1Ns
+X-Authority-Analysis: v=2.4 cv=Jem8rVKV c=1 sm=1 tr=0 ts=67d6f193 cx=c_pps a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=bOCYWOrEvSxgmqsQ7gIA:9 a=CjuIK1q_8ugA:10 a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-16_06,2025-03-14_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=724 spamscore=0 mlxscore=0 malwarescore=0 adultscore=0
+ phishscore=0 impostorscore=0 priorityscore=1501 lowpriorityscore=0
+ bulkscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503160114
 
-Hi Niklas,
+On Sun, Mar 16, 2025 at 11:47:04AM +0100, Wolfram Sang wrote:
+> 
+> > > Just to make sure: there can only be one bridge, right? Because the
+> > > suggested name is not unique.
+> > 
+> > Bridges can be chained. It's highly unlikely that a chain would contain
+> > multiple bridges of the same model, as that would be quite pointless,
+> > but in theory it could happen.
+> 
+> Thanks for the input, Laurent. I suggest to keep the unique name then.
 
-Am Sun, Mar 16, 2025 at 12:20:33PM +0100 schrieb Niklas Söderlund:
-> The temperature sensor enabled for mv88q222x devices also functions for
-> mv88q211x based devices. Unify the two devices probe functions to enable
-> the sensors for all devices supported by this driver.
-> 
-> The same oddity as for mv88q222x devices exists, the PHY must be up for
-> a correct temperature reading to be reported.
-> 
->     # cat /sys/class/hwmon/hwmon9/temp1_input
->     -75000
-> 
->     # ifconfig end5 up
-> 
->     # cat /sys/class/hwmon/hwmon9/temp1_input
->     59000
-> 
-> Worth noting is that while the temperature register offsets and layout
-> are the same between mv88q211x and mv88q222x devices their names in the
-> datasheets are different. This change keeps the mv88q222x names for the
-> mv88q211x support.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/net/phy/marvell-88q2xxx.c | 14 ++------------
->  1 file changed, 2 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/net/phy/marvell-88q2xxx.c b/drivers/net/phy/marvell-88q2xxx.c
-> index 15c0f8adc2f5..cdd40b613ce8 100644
-> --- a/drivers/net/phy/marvell-88q2xxx.c
-> +++ b/drivers/net/phy/marvell-88q2xxx.c
-> @@ -834,6 +834,7 @@ static int mv88q2xxx_leds_probe(struct phy_device *phydev)
->  static int mv88q2xxx_probe(struct phy_device *phydev)
->  {
->  	struct mv88q2xxx_priv *priv;
-> +	int ret;
->  
->  	priv = devm_kzalloc(&phydev->mdio.dev, sizeof(*priv), GFP_KERNEL);
->  	if (!priv)
-> @@ -841,17 +842,6 @@ static int mv88q2xxx_probe(struct phy_device *phydev)
->  
->  	phydev->priv = priv;
->  
-> -	return 0;
-> -}
-> -
-> -static int mv88q222x_probe(struct phy_device *phydev)
-> -{
-> -	int ret;
-> -
-> -	ret = mv88q2xxx_probe(phydev);
-> -	if (ret)
-> -		return ret;
-> -
->  	ret = mv88q2xxx_leds_probe(phydev);
->  	if (ret)
->  		return ret;
-> @@ -1124,7 +1114,7 @@ static struct phy_driver mv88q2xxx_driver[] = {
->  		.phy_id_mask		= MARVELL_PHY_ID_MASK,
->  		.name			= "mv88q2220",
->  		.flags			= PHY_POLL_CABLE_TEST,
-> -		.probe			= mv88q222x_probe,
-> +		.probe			= mv88q2xxx_probe,
->  		.get_features		= mv88q2xxx_get_features,
->  		.config_aneg		= mv88q2xxx_config_aneg,
->  		.aneg_done		= genphy_c45_aneg_done,
-> -- 
-> 2.48.1
-> 
 
-thanks for your patch. Looks good to me.
-Did you have the chance to test the LED support as well ? I'm asking
-because mv88q2xxx_leds_probe gets called in mv88q2xxx_probe. LED
-handling should be equal for all 88Q2XXX devices, adding the support
-should be easy. Anyway:
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Reviewed-by: Dimitri Fedrau <dima.fedrau@gmail.com>
 
-Best regards,
-Dimitri Fedrau
+-- 
+With best wishes
+Dmitry
 
