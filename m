@@ -1,114 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-14507-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14508-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44973A6529D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 15:16:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5C0A653A8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 15:33:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 62BAF164D97
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 14:15:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 357B63AFD9E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 14:33:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3783923F429;
-	Mon, 17 Mar 2025 14:15:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE33F23ED77;
+	Mon, 17 Mar 2025 14:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QuR0oIxl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF8919D880;
-	Mon, 17 Mar 2025 14:15:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAF023958D
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 14:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742220944; cv=none; b=WlFehQ4cVNsBUFpq7S9NYvLbeOU2PrYQn2Y7ftRgtJirB7KcgmjC/nG4npT/m5nVDoilgRK4AOLWJGQN5psDs6rrDuUxg+wFVFNLVtVRXRpOeYBQopUcOxg8/ohvMJ4OXaNgl5nnWHCubvvKHjIf9kVi83B8pf+kd0D1fm0nKtU=
+	t=1742222008; cv=none; b=EQECFqQBG4YjP2wCqqZZbXDvP0O5WQpY+PMFRiSt9Dai642C/QhbkjZvWA/ZOOHgT0f9ysEbiF3iHanfmjIFQKfB6vNL7UN2FqSSXGYBacQriwh7s9/cbu1oLHXJGoQJxzc2v3mxtf5sIIi3M8xsDcAUpfwPWrltvsGFitAQLE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742220944; c=relaxed/simple;
-	bh=OMZc0I63BYEg1BbWhVN1wyG+cCsB/OYlH2SKLlv4/vA=;
+	s=arc-20240116; t=1742222008; c=relaxed/simple;
+	bh=JYPC9lHuQrU33xf9HFBMIvI/S8KQAZN6c+OkozQ9mnE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kl1ZiggTOoK+aREz9sCMQds0UU1GbMdV/Jzwu0YRvfNsDkg1ebxDf3VY/979I5WELOv4+FsMt+n79P+ZmJeJiroTJaxu5TZ3t3OHzuPjI/DIVI1spkHgpHq6ihF/UoAJOMtI2l9jSfcfy+eyN8G1XK3bxKQcAjN1txDPSDLakmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6dd01781b56so59497316d6.0;
-        Mon, 17 Mar 2025 07:15:41 -0700 (PDT)
+	 To:Cc:Content-Type; b=dyF154/uPjFjWB9glpAEs3sc+MFc8y+bbLDjSJB+2TozBevH80kxua+pu9hiSpuONjTibaZlqMbiM0aonI6DBSpl44gYatybV4zjdXnL86X9FFpt87RUWgVd/CCxyQcJPKhMzfPRNUzdDW/ogeCmPn9BV2uxebXbhXsY52FnlX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QuR0oIxl; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30bfed67e08so50279411fa.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 07:33:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1742222002; x=1742826802; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XDNe3093iFCHOB0BF0trzQBjwvxbWGfcsFI1fzTSQYc=;
+        b=QuR0oIxlU51dMNHo1gQ4rdzvex9etafQjHImD5jYRJ22q9SGhh+v3raMJb8gDbZWRy
+         c9RbDcXYQ7m/lIpqMWqSHYf9V82lrAeuoNxKr8mlexOHm0SGxthbr0HF4nh+RT7PmBBI
+         37btUdkDYbrLVaX/JMkudH68zS+V67HncDj5A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742220940; x=1742825740;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4tezPVpe/3lf57s116y09EgYof6W7k3WcYX6W0Xe56Q=;
-        b=ivW5woHC+WAZ3kb5f/ovPmEDQk8PmJoRAiWrDj9ZP2Rt2kynO8cGuYdAAFO/bawLW2
-         rsHeSiTMdN/8vwAeULTl3vXCaiDT4vBh/MBeMqOxlPBOJhYUfBglHn0Oox1w0TZ8niOD
-         8Sw6/zZf7MoymGFB1tAeR4MAHtS3/0IRMDn6hW06FbWduyCADKbznVKYG5VzaJ2R+Mhw
-         6Aj3h39jD6oWFeJSKXHJuA1vtFu8K/tlxUy0Acu7zvPJ12p0UcQAULDDwUbBFqLGuop6
-         i2WNAO1TKYAa3SDKb+tzhVjVv7yMLs9fhMGzqmGF8obDnMsEsjp71umTNSbhnGREYeQI
-         bFpw==
-X-Forwarded-Encrypted: i=1; AJvYcCUPBS0SranKC3XYifdX07VuZGh3ujfXOmN/UNxEWSdhOAGVoHd8wvPP1DN10pTl6RYrWmMhwCjcpu4=@vger.kernel.org, AJvYcCVLvFM00Vu349x9S2ViJOubscXT6RAFP3KNbUyKJxQJjPU/tL+JKqQ/dS5uiFh1k2eOZFljy6orKMp2jqaPyk8eFyU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9CIsDLJyPuC8xzhljnOu8zkV1rHDtptGttZb2dFhjMzLkiFKG
-	eJu5Sqi1Kp+LPrqDIwXkwfxOdFJPkRzdcpn2sbbbJWRvRStjpk2JyGSBOKFn
-X-Gm-Gg: ASbGncvzO14PBgprmS4qDCsX4qwF/nU5XCqxC2OqCdLMjVNcnnrJeDa0q9mcRVMoUa9
-	KYRA0krzvO9jxpU/xU8M7WhtaraIsCUDwkF7R3gHqTlGNOOqxoHMr4Sh2NAuB3XhRMFOWccnYEy
-	eqGUtX7b77ib+KGjC59lC3qmiLHnuFx9qga9/ioVA85cY6MKCEFRJhJLJdLJo2yji+7T6fRvHlg
-	kH4WaXbUaddL38qFDhOi6RVeR430/0yHNW8Ag6CBDV1g6CHjVaFQRy4jSCjoTi1qfNgeOTAX5Hg
-	qHbHtoA62i/GIs+9gR2owSESvro5DUSsXFiwftJSIVscX+VuvTfaVODcYSO71qnucSnKprmJacW
-	VE4e9GTPBkmI=
-X-Google-Smtp-Source: AGHT+IGPGoUcnjtQVojDjGRINL8umAH0kuSgbjs6oA3RRjpIG3iQyMgd1yfllfNFWLKGBgh4k9rdmQ==
-X-Received: by 2002:ad4:5aaf:0:b0:6e4:4393:de7 with SMTP id 6a1803df08f44-6eaea990e93mr212455986d6.2.1742220940053;
-        Mon, 17 Mar 2025 07:15:40 -0700 (PDT)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com. [209.85.160.176])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eade330cf4sm55159736d6.77.2025.03.17.07.15.39
+        d=1e100.net; s=20230601; t=1742222002; x=1742826802;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XDNe3093iFCHOB0BF0trzQBjwvxbWGfcsFI1fzTSQYc=;
+        b=KWZSQl3gWRINdKq//yRz8jmibNwxe1qOko/eeBrUqHpdOnzPk/FqLedFfTX7wBzEYY
+         ezhwwa8cZQGcfFc3TErNP1KdRUco6HPERJsfFD3mAQG0axjfaRTVsHnyfztZq/jhwzlo
+         Giu3GU0TsvMTqLJKtDdJw++HQl5dm18J6rCyVK3rOt3bqPq9sTu4jwxnISIoG46s7Nty
+         EPilKBm+B0fIUylsh5bolptX0NUBWQFpP9oymupWcePrYEzUHiwtWwwFqOJcXbXVblQx
+         XGOBMerolqvlyTm3TlO3iz4UC9fKOHxhNRlUoq1/PGU3MDLHS58Nw5Ym62hmMJ+VC7oJ
+         Ac3g==
+X-Gm-Message-State: AOJu0YzUOp8HCH9xXYCaP6NX0D2/QjoLflhjVJ1FZoDMfZLeFKvJhAOV
+	8GsBIfI4EKujqK14Or3YaNYjEzKpUz+BKz1ybLf2QrcuyQAzH77BUv6rd/4jPGaLyg2dwfL6YPk
+	=
+X-Gm-Gg: ASbGncuHVBhJFO1ik4dkDYPYdbnqF8GovWE2CaFvheAjRHWSB7Yo8cU/5t/ETQU4S8z
+	/nvum07OJV+gdHnEdZmL1/1AKFU3RgAl3RE4X8WjEvsYt+Ydi/olwNgh7yka5dMG7ZzNYpEkMvC
+	CAKI/3dPYzeQ7Qs9QzXVIzYDohrrkXbvC7T7XUvMUhoo/L9NlPKzssF4LDHZxYc/szfHN6vwkdc
+	ol3IGLC81Qltbkhkac/mxZ1oPUnXMMhC2Tf53m6bqLk334HIzMBNE6HRR+1O77vaWVtzHcm2X/n
+	0DnGVtDqa5ic9+ngNYNOZDQPZhRu3MC8YGfjdQh1AGPThVuq3cQ+LnLUJg3JDghgQVxpQUyIbtz
+	8HOejfym1
+X-Google-Smtp-Source: AGHT+IHgZduaU+tiE168t8f3mfIFet4P1aD0iKJZoxaE6nVSFKqfRcqAIzCi3jmoBfaWxHdIYYjHpQ==
+X-Received: by 2002:a2e:a546:0:b0:30c:5c6:91e0 with SMTP id 38308e7fff4ca-30c4a74e129mr68598101fa.2.1742222002092;
+        Mon, 17 Mar 2025 07:33:22 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f116a56sm16229091fa.54.2025.03.17.07.33.19
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Mar 2025 07:15:39 -0700 (PDT)
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-476ab588f32so21608521cf.2;
-        Mon, 17 Mar 2025 07:15:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU7C1wOFgIPNZpn694cPc2u9riTTGtOownE+Svp9/uEUZ80l9enIfUe/pYnW/x8UM2qH9GJE9xUH+BGszEHRu2ZnlI=@vger.kernel.org, AJvYcCUYkalzSIUb/QvdRJk+BoymeXQwytarTMvcxYEtoMtI9fCYSeejoOWgIOvG+5+yhNW/vlUIVbzYUxc=@vger.kernel.org
-X-Received: by 2002:ac8:5a4e:0:b0:476:add4:d2bf with SMTP id
- d75a77b69052e-476c8143482mr154183561cf.22.1742220939067; Mon, 17 Mar 2025
- 07:15:39 -0700 (PDT)
+        Mon, 17 Mar 2025 07:33:21 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-549946c5346so4633384e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 07:33:19 -0700 (PDT)
+X-Received: by 2002:a05:6512:ba9:b0:549:5b54:2c77 with SMTP id
+ 2adb3069b0e04-549c3924ecfmr8094901e87.32.1742221999211; Mon, 17 Mar 2025
+ 07:33:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250317123619.70988-1-biju.das.jz@bp.renesas.com> <20250317123619.70988-17-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250317123619.70988-17-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 17 Mar 2025 15:15:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXqtk91Dfj9KNgK5UDx==+QLsXEfe7+0PPODtaqGmX1Pg@mail.gmail.com>
-X-Gm-Features: AQ5f1JplSefAdyGXDtnXl6ck7eRVJ_t0LcfRe4Bsm5lTuFqHsd6R1tkAeX_CzcM
-Message-ID: <CAMuHMdXqtk91Dfj9KNgK5UDx==+QLsXEfe7+0PPODtaqGmX1Pg@mail.gmail.com>
-Subject: Re: [PATCH v5 16/16] can: rcar_canfd: Add RZ/G3E support
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	linux-can@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
+References: <20250315201651.7339-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250315201651.7339-2-wsa+renesas@sang-engineering.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 17 Mar 2025 07:33:07 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W76iNvReU=itxjX2rW430uezJz386-1pbd_QeY-OnHPg@mail.gmail.com>
+X-Gm-Features: AQ5f1Jp6NWZTpFKw-xlMJCY9hQkuIldAdH8N1R9LoiSLuWY4HBRzAz-oTXvTRMw
+Message-ID: <CAD=FV=W76iNvReU=itxjX2rW430uezJz386-1pbd_QeY-OnHPg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: make use of debugfs_init callback
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 17 Mar 2025 at 13:37, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The CAN-FD IP found on the RZ/G3E SoC is similar to R-Car Gen4, but
-> it has no external clock instead it has clk_ram, it has 6 channels
-> and supports 20 interrupts. Add support for RZ/G3E CAN-FD driver.
+Hi,
+
+On Sat, Mar 15, 2025 at 1:17=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Do not create a custom directory in debugfs-root, but use the
+> debugfs_init callback to create a custom directory at the given place
+> for the bridge. The new directory layout looks like this on a Renesas
+> GrayHawk-Single with a R-Car V4M SoC:
+>
+>         /sys/kernel/debug/dri/feb00000.display/DP-1/1-002c
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
-> v4->v5:
->  * Updated error description as "cannot get enabled ram clock"
->  * Updated r9a09g047_hw_info table.
+>
+> Changes since v1:
+> * switch from 'client->debugfs' to DRM 'debugfs_init' callback
+> * remove RFT because tested on hardware
+>
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 40 +++++++--------------------
+>  1 file changed, 10 insertions(+), 30 deletions(-)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-Gr{oetje,eeting}s,
+I'll plan to apply this next week assuming freedesktop is back up.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-Doug
 
