@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-14518-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14519-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FDFFA65497
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 15:57:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97181A654A6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 15:59:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B39C3AB610
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 14:57:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C3FDB3A458C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 14:58:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 586AD248889;
-	Mon, 17 Mar 2025 14:56:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8055245036;
+	Mon, 17 Mar 2025 14:57:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LEniNIG5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V260F5MX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 299B32459E7;
-	Mon, 17 Mar 2025 14:56:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A896B23FC55;
+	Mon, 17 Mar 2025 14:57:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742223406; cv=none; b=FTjHtxQ79MQQNOTDY1ID5XLOiOpmxqCMZqmfaAs1syapjhQjGYnmUyMnz4j82BBU7ss+688m0+SOaPHDQYUASjY6lEh9srCYehsCplRV39Oq+MsJXJ7HOX1TjO4YD+dtwMszu5mjURS2yfCUtFbpCDCClcZ4LCG6GeBR6IUrgUs=
+	t=1742223458; cv=none; b=CS0fA76H2FfoQA+WvOouO/nEuJMHory+JKUf40JOdcFHpTUGcprh7XiNygLyVA5YC4YObQa8Q94qcrD3B668ReWestPbekuGx8eNCbwCOlpv/jrAgn2HqErVilSFwhHgpLNyDnh2RlnqoNZIMge7ello5xIKReXeX9FuqlPR09s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742223406; c=relaxed/simple;
-	bh=B2ENly7R6r/XJpTTYG6qrVYYiaB3FjsbjEIrrOr3wYg=;
+	s=arc-20240116; t=1742223458; c=relaxed/simple;
+	bh=GA3nbkILXNlbtQRdQ4pAHXJgCJBvmFjuvs1trzNI0yQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BNJH9BF8WeA1tnnxst/7w/4dSdsXpIcJkcV5txY/ZwgFxG8eZQ7MANFh1y6cwaVnI6n+q526CHp8bS1UjBdU0ZHbZUE1yseqTEnj4cTLhjJvNjMVBTpv+l8rv6IJd1D4oR6q+MKzWdWg1LoFRmU/WAEzxsV5o6tthLKQduHR2hY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LEniNIG5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34E74C4CEE3;
-	Mon, 17 Mar 2025 14:56:38 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=qwpMIzhcgd9TBlVRX6R/ILJP07fAQEwuukT/I8OneX7+U8Yvr0iLIZ62sgtzim6V4NZID9UCJCa9kXvXoWKw1xAkyGh8DXdCNz+eIlF5QCW5dRCCx7s6/Q2kZ4hLnMhw2R6P8KK7eSBG2qXQ2Fl04lESX9fgC9HBUSdLQyNQgCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V260F5MX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF212C4CEE3;
+	Mon, 17 Mar 2025 14:57:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742223405;
-	bh=B2ENly7R6r/XJpTTYG6qrVYYiaB3FjsbjEIrrOr3wYg=;
+	s=k20201202; t=1742223458;
+	bh=GA3nbkILXNlbtQRdQ4pAHXJgCJBvmFjuvs1trzNI0yQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LEniNIG554JAWcwubqotetd8oyRRvCOIzriSmNCLXVVV7VciatbyugzKjPblP+z2E
-	 LPTFoNv1PapF4WukJkWhQ6+qmBsRuIAELFSQmn+G3RQGQJV8YNaC2pd2Uwyjlu8zJC
-	 y2rUolaRta/ZLA/9+08PpBkbo5Zh75A/meJZ0N14r7MBU7s5c1aczmkD7808xd7L4+
-	 vWa4BSTnb+PxdCqJyhkGhjMCbaHGb4vCQHMmjZg78fhO17t+8RtQerb7Ru8MpGfEIb
-	 jF9nrqlFkYJyhQzpke0C3/rpcYKEvUGJubmcTdBA/473d38IPRkaXouauD+LXM3PNZ
-	 wZCqJ6A6wMzfw==
-Message-ID: <bb157e3f-d73e-4b08-9d01-0836bbe95172@kernel.org>
-Date: Mon, 17 Mar 2025 15:56:36 +0100
+	b=V260F5MXOHIOcbubiWU4JWgAZEPMn8spdQS3bdKmaZDRIpwBL0AGekA3G+LI41V/y
+	 8Pkb6MtGY8aygSFjjW55le1GJhHkgNo+8mZ9fDEuU3WjnHxhzGetifeql3Sg5LfPCo
+	 7j0aYXt1u2ubJDEILmZNuIJuh/OrmoJV6F+tkrDyWG8IelXP0r6+gVMtqxuRjiGqkd
+	 rSL0sRuaSu3iXCLVrhmswPUEh8hcHo3c1anSDSzoMx+D+dJZteoT8Dry08iLFqPgR9
+	 1MPCj9zcqdg3kIP7rO0MnvsJgpX5IuHico1nf5Rpr/bwy8iHwBH/KiY076A1Xo7azY
+	 78+cLpzFWszqw==
+Message-ID: <5876368b-1549-4ce0-af43-80f712f457c8@kernel.org>
+Date: Mon, 17 Mar 2025 15:57:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,29 +50,22 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/6] arm64: defconfig: Enable RZ/G3E thermal
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "robh@kernel.org"
- <robh@kernel.org>, "rafael@kernel.org" <rafael@kernel.org>,
- "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
- "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "john.madieu@gmail.com" <john.madieu@gmail.com>,
- "rui.zhang@intel.com" <rui.zhang@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "sboyd@kernel.org" <sboyd@kernel.org>, Biju Das
- <biju.das.jz@bp.renesas.com>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "lukasz.luba@arm.com" <lukasz.luba@arm.com>
-References: <20250315081225.92118-1-john.madieu.xa@bp.renesas.com>
- <20250315081225.92118-7-john.madieu.xa@bp.renesas.com>
- <20250317-bipedal-inchworm-of-poetry-b60fc9@krzk-bin>
- <OSBPR01MB2775B7252468BCE234BFF7D5FFDF2@OSBPR01MB2775.jpnprd01.prod.outlook.com>
- <CAMuHMdXxWCG-9tE7MsO3i+VXSjj6cZvH50fnQA=xvNfcQw842g@mail.gmail.com>
+Subject: Re: [PATCH 1/7] dt-bindings: media: renesas,isp: Add ISP core
+ function block
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250315152708.328036-2-niklas.soderlund+renesas@ragnatech.se>
+ <20250317-furry-independent-clam-33db01@krzk-bin>
+ <20250317115006.GB868399@ragnatech.se>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -118,37 +111,38 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <CAMuHMdXxWCG-9tE7MsO3i+VXSjj6cZvH50fnQA=xvNfcQw842g@mail.gmail.com>
+In-Reply-To: <20250317115006.GB868399@ragnatech.se>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 17/03/2025 14:06, Geert Uytterhoeven wrote:
-> Hi John,
-> 
-> On Mon, 17 Mar 2025 at 12:14, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
->>> From: Krzysztof Kozlowski <krzk@kernel.org>
->>> On Sat, Mar 15, 2025 at 09:12:16AM +0100, John Madieu wrote:
->>>> Enable the CONFIG_RZG3E_THERMAL flag for the RZ/G3E SoC.
->>>
->>> s/RZ/Renesas RZ/ and which *upstream* board uses it? This is not your
->>> platform defconfig, but all platforms and all users defconfig.
-
-
-...
-
+On 17/03/2025 12:50, Niklas Söderlund wrote:
+> On 2025-03-17 12:33:07 +0100, Krzysztof Kozlowski wrote:
+>> On Sat, Mar 15, 2025 at 04:27:02PM +0100, Niklas Söderlund wrote:
+>>>    ports:
+>>>      $ref: /schemas/graph.yaml#/properties/ports
+>>> @@ -103,10 +138,14 @@ properties:
+>>>  required:
+>>>    - compatible
+>>>    - reg
+>>> +  - reg-names
+>>>    - interrupts
+>>> +  - interrupt-names
+>>>    - clocks
+>>> +  - clock-names
+>>>    - power-domains
+>>>    - resets
+>>> +  - reset-names
 >>
->> Hence my choice for RZG3E_THERMAL, or did I miss something in your comment?
+>> Another point, this will spawn bunch of warnings for no real reason.
+>> Just drop all the xxx-names from properties and from here.
 > 
-> I think Krzysztof is complaining about "RZ/G3E SoC" in the patch
-> description, not about the name of the config symbol (which is fixed).
-> In addition, he asks for mentioning the board this will be used on.
-> 
-> E.g.:
-> 
->     Enable the Renesas RZ/G3E thermal driver, as used on the Renesas
->     RZ/G3E SMARC EVK board.
+> I'm sorry maybe I'm missing something, but if I drop them from 
+> properties how can I add checks to makesure the names are either "cs" or 
 
-Yes.
+Why do you need to check for the names? There will be no names, so
+nothing to check for.
+
+> "core"?
 
 Best regards,
 Krzysztof
