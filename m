@@ -1,104 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-14450-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14451-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01181A64657
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 09:55:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E70FA64767
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 10:31:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F31D63A90AA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 08:55:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7DC8188FC2E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 09:29:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3688421D3F2;
-	Mon, 17 Mar 2025 08:55:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ACBE221F15;
+	Mon, 17 Mar 2025 09:28:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="F1srN8GY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xb7LNp3m"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27AF220680;
-	Mon, 17 Mar 2025 08:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC601221D8B;
+	Mon, 17 Mar 2025 09:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742201720; cv=none; b=RLmaG3xuLaCa2htlKzXhXitGiGv7LY1bcndGnLDRoj0hr/vsXe4OJRKnEv8O5PqlhMgyvSgCtbnZzK0e0WtDESmepvwZoQTTDYX1KVhNlfuJEpCPIl9OHXXU9Z0kfp4zAgiW10wfU8enciufzHc4sFofPX7Akt4cmQ9gIv1HsWE=
+	t=1742203725; cv=none; b=BR/xzixOSQ5FJemrUNC2uGdVKtgVZFO4CNzjGkKVIbllDHie9w2OGbPgcP3L+ibZ4GDi0bIYkX/YC0+e2/xlQK62z6nzKhBPfQ+oBvDBxZ3RhRnZ/tZMD5Hxec1M2oGCpmNH4hRcyTO9hQEUVh8e4A6/o3wq1drOyNzrx6Ip4D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742201720; c=relaxed/simple;
-	bh=vtb1sSBAcfXvY1uG5Q7s9tt2E94rmTRsRCzvhzT17jI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=uhr5FHylr6CZrIf33CKfHDcmrhQB8yiFWDstrb0Kc/enZtqkKH3x2JlIwwYg1IFkvBmJYQuxn0uNlFR4WQeG3n/qJJWJ9nTQJsVd4R/79qPxM/r2f9xu+lJmOvJRuUaWwJXcZVwunqJR7gAM7J8aVjDSsTNU1cvi2fACpFEpWSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=F1srN8GY; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5E42543216;
-	Mon, 17 Mar 2025 08:55:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1742201715;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vtb1sSBAcfXvY1uG5Q7s9tt2E94rmTRsRCzvhzT17jI=;
-	b=F1srN8GYEp+gYJXJpYy4OspDS2GleijS10oUVAdNFalNgsdIn+uCy1osakETgMKxo6qh7z
-	zdJnuiL1DF2B0bi9hOOuX67taM+ye96g0BEGqwOKt+nGGJRreHp9Bsf8c4zhIxJtDOvyTh
-	IdM3shVvD7ZwUsVehX/cSWpIrDpGFs/TkTxqSuBkgdTcoWcIkze999uk25j/eKojm3UfbM
-	vJv8R3nHrvvrirv6JZ5HzbIFIzz/hU+RWQGtIycQUCQTyCSbZ2GdlyAa8SNBTgiUUWguNY
-	tW/7LVSfm1D4Or9fX9BsFdZMxXt3JHphWVvAgLgb73QpPsPLi0dBLQ/Hbxr4qA==
+	s=arc-20240116; t=1742203725; c=relaxed/simple;
+	bh=VrQP9zv6me9y/ttzDtGZKAyPHxugPahSMAz9MlLhgD0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n1hI8N86q0k1H+F00wNp1z7vgd2TTEr6JJAqxjiTndd/0WOEk/noakiW7J027N+/w81VZI4iHl1jNPhyYaux4AqwT37unvxRXyDIy8qWetCVhZoillSjWCx+JVxVHVRvzkVdI57x7XwRS/xID+DRoQk+jyCfCx5ZYKD8Or3YeQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xb7LNp3m; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76896C4CEE3;
+	Mon, 17 Mar 2025 09:28:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742203724;
+	bh=VrQP9zv6me9y/ttzDtGZKAyPHxugPahSMAz9MlLhgD0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Xb7LNp3mg2qW45yC1vAuxlQBRlu8+pLU4uozZMk7dGKtioy+V0XdwhnMKTcRYUkpx
+	 NZMdIN208ZPFLSebQbCHAeDgdeJVERGOQtezEBT4/SK5Go5najpMV8408VH+KamDXD
+	 FoAs+47VOcJ+Axskkv35IgBxN4aoxGTm/mytrLS82cQ7r8fVSg8J8Y/xH3K2BxF0Xw
+	 URzYQCSGteh7QT7P+gdKNlcpGH6X+mvmx4QNdQPa5oKH7t9t3eHlZIjXtGjW3J2XwN
+	 hpUJoR5MqepIHT7Q2ns0mC3hToXqinCTJASatIWYsq+T9VWKm93C+pxmTJ9WLrslJt
+	 3D4EiSY2hyv0A==
+Date: Mon, 17 Mar 2025 10:28:40 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: geert+renesas@glider.be, conor+dt@kernel.org, krzk+dt@kernel.org, 
+	robh@kernel.org, rafael@kernel.org, daniel.lezcano@linaro.org, 
+	magnus.damm@gmail.com, devicetree@vger.kernel.org, john.madieu@gmail.com, 
+	rui.zhang@intel.com, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	sboyd@kernel.org, biju.das.jz@bp.renesas.com, linux-pm@vger.kernel.org, 
+	lukasz.luba@arm.com
+Subject: Re: [PATCH v3 2/6] dt-bindings: thermal: r9a09g047-tsu: Document the
+ TSU unit
+Message-ID: <20250317-ubiquitous-acrid-gorilla-71d726@krzk-bin>
+References: <20250315081225.92118-1-john.madieu.xa@bp.renesas.com>
+ <20250315081225.92118-3-john.madieu.xa@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 17 Mar 2025 09:55:13 +0100
-Message-Id: <D8IEYQ1JUKWF.2PH24V7F92OYT@bootlin.com>
-Subject: Re: [PATCH v3] ARM: dts: r9a06g032: add r9a06g032-rzn1d400-eb board
- device-tree
-From: "Thomas Bonnefille" <thomas.bonnefille@bootlin.com>
-To: "Wolfram Sang" <wsa+renesas@sang-engineering.com>
-Cc: "Geert Uytterhoeven" <geert+renesas@glider.be>, "Magnus Damm"
- <magnus.damm@gmail.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
- =?utf-8?q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
- <linux-renesas-soc@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?=
- <clement.leger@bootlin.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250314-rzn1d400-eb-v3-1-45c4fd3f6e01@bootlin.com>
- <Z9R9IHyXK0TBcPZa@shikoro>
-In-Reply-To: <Z9R9IHyXK0TBcPZa@shikoro>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeeltdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkuffhvfevofhfjgesthhqredtredtjeenucfhrhhomhepfdfvhhhomhgrshcuuehonhhnvghfihhllhgvfdcuoehthhhomhgrshdrsghonhhnvghfihhllhgvsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekvdehudejfeejlefhuddvgfejjeegleetieetheegfeevhfeikeduleejieffgfenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehthhhomhgrshdrsghonhhnvghfihhllhgvsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopeifshgrodhrvghnvghsrghssehsrghnghdqvghnghhinhgvvghrihhnghdrtghomhdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesghhmrghilhdrtghomhdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihko
- dgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhm
-X-GND-Sasl: thomas.bonnefille@bootlin.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250315081225.92118-3-john.madieu.xa@bp.renesas.com>
 
-On Fri Mar 14, 2025 at 8:01 PM CET, Wolfram Sang wrote:
-> On Fri, Mar 14, 2025 at 07:56:29PM +0100, Thomas Bonnefille wrote:
->> From: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
->>=20
->> The EB board (Expansion board) supports both RZ/N1D and RZ-N1S. Since th=
-is
->> configuration targets only the RZ/N1D, it is named r9a06g032-rzn1d400-eb=
-.
->> It adds support for the 2 additional switch ports (port C and D) that ar=
-e
->> available on that board.
->>=20
->> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
->>=20
->> [Thomas moved the dts to the renesas directory and declared the leds in
->> each phy]
->>=20
->> Signed-off-by: Thomas Bonnefille <thomas.bonnefille@bootlin.com>
->
-> Oh, cool! I will definitely test it next week. Thanks a lot!
+On Sat, Mar 15, 2025 at 09:12:12AM +0100, John Madieu wrote:
+> The Renesas RZ/G3E SoC includes a Thermal Sensor Unit (TSU) block designed
+> to measure the junction temperature. The device provides real-time temperature
+> measurements for thermal management, utilizing a single dedicated channel
+> (channel 1) for temperature sensing.
 
-Hello, thank you very much, I would be really interested to know if the
-LEDS on the ethernet port work on the board, as I didn't have the EB but
-a similar product with the same SoC.
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+
+Please run scripts/checkpatch.pl and fix reported warnings. After that,
+run also 'scripts/checkpatch.pl --strict' and (probably) fix more
+warnings. Some warnings can be ignored, especially from --strict run,
+but the code here looks like it needs a fix. Feel free to get in touch
+if the warning is not clear.
+
+> 
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> ---
+> v1 -> v2:
+>  * Fix reg property specifier to get rid of yamlint warnings
+>  * Fix IRQ name to reflect TSU expectations
+
+... 
+
+> +  interrupts:
+> +    description: |
+> +      Interrupt specifiers for the TSU:
+> +      - S12TSUADI1: Conversion complete interrupt signal (pulse)
+> +      - S12TSUADCMPI1: Comparison result interrupt signal (level)
+
+Same problems as before - you need to list and describe items to have
+constraints. Otherwise why 5 interrupts are allowed but only two
+interrupt-names (test this)?
+
+There is no syntax like above in any other bindings. If you found such,
+please share the filename so we can fix it.
+
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: adi
+> +      - const: adcmpi
+> +
+> +  "#thermal-sensor-cells":
+> +    const: 0
+> +
+> +  renesas,tsu-calibration-sys:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      Phandle to the system controller (sys) that contains the TSU
+> +      calibration values used for temperature calculations.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - resets
+> +  - power-domains
+> +  - interrupts
+> +  - interrupt-names
+> +  - "#thermal-sensor-cells"
+> +  - renesas,tsu-calibration-sys
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/renesas,r9a09g047-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    tsu: thermal@14002000 {
+> +        compatible = "renesas,r9a09g047-tsu";
+> +        reg = <0x14002000 0x1000>;
+> +        clocks = <&cpg CPG_MOD 0x10a>;
+> +        resets = <&cpg 0xf8>;
+> +        power-domains = <&cpg>;
+> +        interrupts = <GIC_SPI 250 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 251 IRQ_TYPE_LEVEL_HIGH>;
+> +        interrupt-names = "adi", "adcmpi";
+> +        #thermal-sensor-cells = <0>;
+> +        renesas,tsu-calibration-sys = <&sys>;
+> +    };
+> +
+> +    thermal-zones {
+
+Drop the node, no need to show how to use provider binding.
+
+Best regards,
+Krzysztof
+
 
