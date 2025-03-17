@@ -1,142 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-14494-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE7BA64FDC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 13:54:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1D2A65036
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 14:06:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F0013B394D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 12:53:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6C19165885
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 13:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 648E921E098;
-	Mon, 17 Mar 2025 12:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69B0C23BD13;
+	Mon, 17 Mar 2025 13:06:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5CE149E00
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 12:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5742356B0;
+	Mon, 17 Mar 2025 13:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742216042; cv=none; b=UFIl1SiV+M1BEMy433rH5h7Sq1oIWg6ltbQdNFKPVqtlrchd1hSPX+G7hG8IHmH1FsD/tIEjMsh2Sw9BsJwcioyzmToYQMZsSgDIGeRehrHiYCoQF/CRRAOkvJyV5k7+H1FKsm/GNC4qObvVQHCWNFSbMMQTQoZPq8s2s2v1igc=
+	t=1742216812; cv=none; b=G7vM8i8fI1UT9k/oJLQswkuGfW5aX+71sCFWfluuJIzMFJRxIvoMzzlUWgSp1CPAPDXsZRpX/kBrWKTvcatr6wTJRnhlCSX9PjN2OqvBkQ/DlT3V/Fr3nuf1JNqgz1wSK4mh6dNVwqcBm9W4tfq3/8dGXKvOlD038+vhGPb8hGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742216042; c=relaxed/simple;
-	bh=uipBXGLs+vfZafCbj4SFHOml66FpdN6uxnIAcVtib+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sGLzIOWmGfzi3N53Nz/baEu0MOevw7W3Mgk/MZ7sigohLoH96m5yAC+0Wxzy1rz3SPYkh/HV/TCyT/K0Ll9+864e1CCLoIJQdeRfmFyjUdB0nJaixeRBdhMNhUBIZtdV+yRFuONonbrD8wt/c8PpknDyqyIx0ru4bPopww3ivkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tu9x6-0003hS-LO; Mon, 17 Mar 2025 13:52:22 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tu9wy-000FqB-30;
-	Mon, 17 Mar 2025 13:52:13 +0100
-Received: from pengutronix.de (p5b1645f7.dip0.t-ipconnect.de [91.22.69.247])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 062533DE875;
-	Mon, 17 Mar 2025 12:52:13 +0000 (UTC)
-Date: Mon, 17 Mar 2025 13:52:11 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, linux-can@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 07/16] can: rcar_canfd: Add rnc_field_width variable
- to struct rcar_canfd_hw_info
-Message-ID: <20250317-carmine-wolverine-of-discussion-a45336-mkl@pengutronix.de>
-References: <20250317123619.70988-1-biju.das.jz@bp.renesas.com>
- <20250317123619.70988-8-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1742216812; c=relaxed/simple;
+	bh=qLLnqbUdQc9QQW9rNrgFZooAzxlpgOV67H1WdYcrmsw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PcUEpvElYTARkHU3MXJMC66Q7GjyL1pSRgZUQmaz0FNkAR8Irt5yhLL5JcSKlRe3HlmuAs2zaaxNPqCSPK+EQYRavqERfpeoZozDM1jRVPmlAGqA6Zelr1YADONRyQryggopk3eqVsoA9TkIUVFitgmnVwd9j+EcPwDbC49zNbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c592764e24so56387885a.0;
+        Mon, 17 Mar 2025 06:06:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742216808; x=1742821608;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O716qHSqjIZ+TTPaEOmQdWi3YCLXAx4bTootKFbaaeY=;
+        b=HHPNNUreEhVYIraK/+vx7FjSVCRrrcJuXaYVls6w7NPjKT9cT5zg4l2pwMqkBLKfrE
+         k1KE4g+Pn4ZcOnsKhKlDy08IDWfl+Ht/qJncCrUZzwmTedS+laWbV5Dfik7InsoUuwUm
+         GUru64Sd/m6MOcuzbbaVVcIySGkU6LRMzdTL0yD9wadwCLe4ScmT96o1qxx3Q7t9WuDt
+         gMHj5taPgJ6Zor1rlbqRqfYDv9tQqA599HW5YBWKpK1Dl2iO5CHrwAfHfew3zrqTNGx6
+         dFuWyYyQcw1SW82lA5rKL0K5DEMjOqdMEgaqq4htbGzdGho2qmoWUZagNNZvC9E8xVEI
+         2Acg==
+X-Forwarded-Encrypted: i=1; AJvYcCVH6YW4iyrlm9tU1K/0NjB57d3qSZmUP0fNz0gmK9ubSIiJUPUCRpfwNxcED1xoKBInYPPa3OVuOuk+FpvO10MW7HY=@vger.kernel.org, AJvYcCWWD0tEBXd/8V98zAvh91xJW9bvexsRTv9iZobHS+KiZQ1450bosS45NHyAQPWIyVIeY+tHJ4Tz2BO/bkpv@vger.kernel.org, AJvYcCXQJtUMn+esj5194f31C9ATpgZ9wmHpLjmy/s1+PsNE9Rih1nO5IwtcxLaqr4D5gAAcIdL3p4r3STg=@vger.kernel.org, AJvYcCXRF20itvs01v8LQkgknkjynO0QsViiubOG9pcLzy4gskIU7SAe7Z9Qx6KJj77YvyWpLx9FVYM5vaW1@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmR+Cak5U6aC5iByn5NZNbJn3+nBsI32IP+lazV41LzL8zyS0f
+	otkO+UgTXZMD75bic9VEV9VqosaLN+jSD8oQ3OAaI4v/d8qcNAwvfdswqpcr
+X-Gm-Gg: ASbGnctrjCi/7dl8afpradCzIoT07XXH4nADEWvgu58r8hCW/+15Jutx6QBOOXGTIBs
+	4UcClrWv0USPi/ef8MQchodTY1DHsRaCAOq04PfOgYAjYJ+hj3lfDAwtBpUW0+alRQGbp/KCNYk
+	CiCB1r28mievatzqHLyj4ycjNaehsjFGsayhUgpaYZFNhT7XCvN5pm+K51qAOIQA2EEMEmyhD7O
+	QSACbMF6Zl5wqykZVkbP6XL39hTz0ecg151RTg3dzkYi27DvGB70qG7rVv2kQSFP+2Xj0YwCtt5
+	JlaYlZxhQ7vN8As51TiW3qU3rNurFudMDZ7UZba8xAy6pEyLjoTj3HfUGiG+XPfF2cztFBPNGaD
+	mqAqdNOQNC5E=
+X-Google-Smtp-Source: AGHT+IEfq4DsBnaJ1NgW3Gz9MymASWkZW2hXaU0TsChLfQTAs2T+Vz6ILemYCBZRX9uH8vE88cZaUQ==
+X-Received: by 2002:a05:620a:d93:b0:7c5:95cb:59ac with SMTP id af79cd13be357-7c595cb5b5fmr154355185a.28.1742216807784;
+        Mon, 17 Mar 2025 06:06:47 -0700 (PDT)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com. [209.85.160.175])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c573d6fb39sm581509585a.85.2025.03.17.06.06.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 06:06:46 -0700 (PDT)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4766cb762b6so40845161cf.0;
+        Mon, 17 Mar 2025 06:06:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVQZ7EsvYjt42HFcQgO+Cx8LMfOwvRp0KIrYitloSISDUsUro7vqECEvOzKvrktddzEzJeeW4/R+mk=@vger.kernel.org, AJvYcCVbh9DNqfQaMZN8uzvJit8onyLgwcdEjiLP2oV56iSSfxFuDuvi9wNX0t79a49Kt2fHdKQAFl7utnswuK98GoLfHYs=@vger.kernel.org, AJvYcCWYmRwy5cuJFIwB63PLpK8i5NXLUMrFkMZ77b1LHH7qobHk0XHiicN8MbOxCTIX8EYlzE7WIi2Dbo0gzZ8D@vger.kernel.org, AJvYcCXhCXBWlOT2yNKU+5fDvz/lb7sM/Dcf3TQZioh+0eiwoLHBFBINP0fGhvC2a8qqqOcWZDKmwifgDHwC@vger.kernel.org
+X-Received: by 2002:ac8:7d4d:0:b0:476:add4:d2c7 with SMTP id
+ d75a77b69052e-476ba3a2503mr286445171cf.0.1742216806135; Mon, 17 Mar 2025
+ 06:06:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tcx6wmu7jh3xcmbx"
-Content-Disposition: inline
-In-Reply-To: <20250317123619.70988-8-biju.das.jz@bp.renesas.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+References: <20250315081225.92118-1-john.madieu.xa@bp.renesas.com>
+ <20250315081225.92118-7-john.madieu.xa@bp.renesas.com> <20250317-bipedal-inchworm-of-poetry-b60fc9@krzk-bin>
+ <OSBPR01MB2775B7252468BCE234BFF7D5FFDF2@OSBPR01MB2775.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB2775B7252468BCE234BFF7D5FFDF2@OSBPR01MB2775.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 17 Mar 2025 14:06:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXxWCG-9tE7MsO3i+VXSjj6cZvH50fnQA=xvNfcQw842g@mail.gmail.com>
+X-Gm-Features: AQ5f1JqJN9njXYPbrlhYUCLeIXSPDCUMX-_U49TlAyAAPE5dm5sX_GhqYhuToiE
+Message-ID: <CAMuHMdXxWCG-9tE7MsO3i+VXSjj6cZvH50fnQA=xvNfcQw842g@mail.gmail.com>
+Subject: Re: [PATCH v3 6/6] arm64: defconfig: Enable RZ/G3E thermal
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, "geert+renesas@glider.be" <geert+renesas@glider.be>, 
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, 
+	"robh@kernel.org" <robh@kernel.org>, "rafael@kernel.org" <rafael@kernel.org>, 
+	"daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>, "magnus.damm@gmail.com" <magnus.damm@gmail.com>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"john.madieu@gmail.com" <john.madieu@gmail.com>, "rui.zhang@intel.com" <rui.zhang@intel.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, "sboyd@kernel.org" <sboyd@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, "lukasz.luba@arm.com" <lukasz.luba@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi John,
 
---tcx6wmu7jh3xcmbx
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 07/16] can: rcar_canfd: Add rnc_field_width variable
- to struct rcar_canfd_hw_info
-MIME-Version: 1.0
+On Mon, 17 Mar 2025 at 12:14, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> > From: Krzysztof Kozlowski <krzk@kernel.org>
+> > On Sat, Mar 15, 2025 at 09:12:16AM +0100, John Madieu wrote:
+> > > Enable the CONFIG_RZG3E_THERMAL flag for the RZ/G3E SoC.
+> >
+> > s/RZ/Renesas RZ/ and which *upstream* board uses it? This is not your
+> > platform defconfig, but all platforms and all users defconfig.
+> >
+>
+> Noted for the fix.
+>
+> However, most thermal drivers use SOC-specific config options,
+> as we can see in arm64 defconfig:
+>
+> [...]
+> CONFIG_IMX8MM_THERMAL=m
+> CONFIG_K3_THERMAL=m
+> CONFIG_QORIQ_THERMAL=m
+> CONFIG_SUN8I_THERMAL=y
+> CONFIG_ROCKCHIP_THERMAL=m
+> CONFIG_RCAR_THERMAL=y
+> CONFIG_RCAR_GEN3_THERMAL=y
+> CONFIG_RZG2L_THERMAL=y
+> CONFIG_ARMADA_THERMAL=y
+> CONFIG_MTK_THERMAL=m
+> CONFIG_MTK_LVTS_THERMAL=m
+> CONFIG_BCM2711_THERMAL=m
+> CONFIG_BCM2835_THERMAL=m
+> CONFIG_BRCMSTB_THERMAL=m
+> [...]
+>
+> Hence my choice for RZG3E_THERMAL, or did I miss something in your comment?
 
-On 17.03.2025 12:36:01, Biju Das wrote:
-> R-Car Gen4 packs 2 RNC values in a 32-bit word, whereas R-Car Gen3 packs
-> up to 4 values in a 32-bit word. Handle this difference by adding
-> rnc_field_width variable to struct rcar_canfd_hw_info and update the macro
-> RCANFD_GAFLCFG.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v5:
->  * New patch.
-> ---
->  drivers/net/can/rcar/rcar_canfd.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rca=
-r_canfd.c
-> index 32d700962d69..924a116cd9ab 100644
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -85,6 +85,7 @@
->  		((gpriv)->fdmode ? RCANFD_GERFL_CMPOF : 0)))
-> =20
->  /* AFL Rx rules registers */
-> +#define RCANFD_RNC_PER_REG(gpriv)	(32 / (gpriv)->info->rnc_field_width)
+I think Krzysztof is complaining about "RZ/G3E SoC" in the patch
+description, not about the name of the config symbol (which is fixed).
+In addition, he asks for mentioning the board this will be used on.
 
-Nitpick/micro optimization:
+E.g.:
 
-Rename that to something like rnc_stride and put in value you need, i.e.
-1 or 2.
+    Enable the Renesas RZ/G3E thermal driver, as used on the Renesas
+    RZ/G3E SMARC EVK board.
 
-regards,
-Marc
+Gr{oetje,eeting}s,
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+                        Geert
 
---tcx6wmu7jh3xcmbx
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmfYGvcACgkQDHRl3/mQ
-kZykoAf/RSNDqd5JKwaZQMvn32yXT2Hn/N4JvdVkxwSWDv2ckqciXdO52rjgwtzj
-VzgKBzTC4p+wD6aOT/UGaWEK1uuVIJcnvN5NTD3omV7TOCmK8M24N+gKZ0jeDOfs
-8siOtvsEjL9KFUKjcbMzJK8huo6H9C57B+kahnpid07nMRKYL2f59h11nery/67m
-HDu5ZmZNhnB8jBESnbTqOmBbuJT+D+r+yc4M4VeUntOvt17rRP9Rpabm3+aM0h9f
-EQBEg7jU11CckCbLZqocJ94cbEiyOuWdgX4DPl+J4rgNtyOrYvvq0LXXWUgd3LW1
-6BkXmGuvymCW4IWqyM1+lWw+9Livbg==
-=9Fxh
------END PGP SIGNATURE-----
-
---tcx6wmu7jh3xcmbx--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
