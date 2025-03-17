@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-14543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14540-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B889A6597C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 18:04:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9D4A659A4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 18:07:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AAA7116B93B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 17:03:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A40678878E8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 17:03:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CE711E51EC;
-	Mon, 17 Mar 2025 16:59:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3AA01DF74B;
+	Mon, 17 Mar 2025 16:59:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="uMmI0rcj";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bQdb3yZh"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="BWHQNqOm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZkbVyYy0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749E71E1E11;
-	Mon, 17 Mar 2025 16:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581A41E1DEC;
+	Mon, 17 Mar 2025 16:59:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742230792; cv=none; b=sjPNPjGP6p4gGiFvjpywG8aa4ZEWRmdDEwXtN47ZurfnYGJ0t9hnZsPDKJvNXonmbWHPOfUqIZ7d9zQ25BB33XLhnwGujGVhZ+mhJMM5ZoTaNeMJmrlysA2x6z4URX78nnzYfa2KWOT9MLXcOaw0E7jHSnnTLzLnsoWPdL8pY7w=
+	t=1742230785; cv=none; b=Azq9RvRgJZbjb9EmfeRCMSImQyb9OGtjaZ2mZ1KTGI7V0TfEigMt1igQxiC6yfB1DxRzg1Y5HXQaDeYR1Jv2aabcropzjFtq5iyYVunI0J1fjFslnZEFmm8V7vO/QsLyV+txDWbiRf6mlSBUsecZjOO2p3Bmzn5qtFBkLAguVe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742230792; c=relaxed/simple;
-	bh=V+GE6I/TSfO7wbmT38NbMoin6nvsLBuxdEvWFNFvk/A=;
+	s=arc-20240116; t=1742230785; c=relaxed/simple;
+	bh=BK9DSjiwh1/KPwMnNT+dNR1Cl4/OQ574rA92JhXRGho=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A+8iHmTfuL1LnXUPOrfuMUFGdxZz4OtscPRpPkh+ixlQ4+UAbrNyqy1LDWfbBo7RPvqHx193oJWOECT5YYOzU0gliQ/e/SSWloULGEUFB2wtaR2kMWZu+TRDqSQ2235sCm6NoPoByxxm2vg3H645ekHU9ugGkCsYJodmJLuC/CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=uMmI0rcj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bQdb3yZh; arc=none smtp.client-ip=202.12.124.148
+	 MIME-Version:Content-Type; b=g36Kd3vLrPLV7GtrdJeJKhJGIO7TR/7q2Wf1QVDWKqvofTGMNcRPWxnSv3l4SNkULWz71gLSJZWUarafYTP6DSK1oRwWpGEcSiGB3ZAjIdX8gpB5zzghQ/d6KiTrZ7/aH/G2KjrVG/Wv86E0GIKmmbmaW3kcc7fGE1jRmHRV/GA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=BWHQNqOm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZkbVyYy0; arc=none smtp.client-ip=202.12.124.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id 7328B114008A;
-	Mon, 17 Mar 2025 12:59:49 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Mon, 17 Mar 2025 12:59:49 -0400
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5A9C81140086;
+	Mon, 17 Mar 2025 12:59:42 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Mon, 17 Mar 2025 12:59:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1742230789;
-	 x=1742317189; bh=Z3tuW86ORbBe6F3naKWmj7ux2j8k9utV5nAuGIUpi4w=; b=
-	uMmI0rcjiKhf90WLZhlSW357HlPPj2Y+O/ZOSau9SJxm5DTQn++mqP9wNUib+cs0
-	7Og/qqLRR6zpqpiS8WpJ66NpoUGC7MZvH0M+0b/zYCqMi6fmjvgUT1S+dpbQ+0fs
-	EmWgvUsDVgREAuYqySp0bM7NOG9KeJG49LsKqXZm9y87zNj5tTVYQwjv7CNL6SK6
-	9CzEYwzu7i8D5fZqrH+R4t7agtO+0OxwDXdxu4AfIiU3vGGxqBBN+7g4c5OAPy9s
-	TvXo2gZs1q/PZuohXdKdgTXKU5szqpRfWBV0j3e3ghFTCMFd2Ih1GdLd+AuRA5IB
-	LrPh16Q3no/wP3BLL8LngQ==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1742230782;
+	 x=1742317182; bh=jns65N7Mh8OrAzqzfQeXmVS4VxVjbDQZB013QFFMEHg=; b=
+	BWHQNqOmedmdOZkzTI2CSulSTpTRAXKRBPkxnfQuW8OGzfcgsi40v6vjd0B/0yN7
+	o5dgjLel7DT5SrHRAmzU8TwdoyK1B7w7S/VwNMTbGK8oIeb79Hx3tA9ycCuplF+V
+	MOB/Y0CiZmIriKnV/q5Vw81s2XHNzif27nGHkt86T59eKlyY/Hx9j4/DDU9laU+d
+	zKoV+kyVudPvnfvPf63O9qjEg7Z7+rLPDYWDimf5rqtcFvCdCy1jD8xG/4s0lMSH
+	7Tb8mQXm3LREB6OZRiA5OjHITZPxmTvNSM1R2RhCMv5Ay/+ZXfLSviGNAZBcxrMV
+	jvptLen3b+PlDhQUUitfjQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742230789; x=
-	1742317189; bh=Z3tuW86ORbBe6F3naKWmj7ux2j8k9utV5nAuGIUpi4w=; b=b
-	Qdb3yZh75uLPGZSGQdy71e/suE+knN2LgW/jisFldwDYvICNhJ3q34dw2KAy6Yx5
-	RHHQEPqbxdV4RNa6nqskfQST+jkZHHNZzwFXZGrSlrlw8CAthVzYdIriZcwWZWzT
-	Sf4eglaRstkGQyNovpfm+M37uGjTwLM8Sl22GDRlJjkvtX8snSg7HIfRx5lOMjqw
-	5f3spW5s0IywI6mMEWDj8GR5D6TUvikgv9DgIslynGxrUuu0Jr1vMqq8A2unndhp
-	3yVs/RI7YdwKYVm2HYohaBiRm0IXSJ+KiY7sFsC1JfWIq3UFl2O99lwpVREBWfr4
-	Dq9I7QcU2gdfKYdOspGwQ==
-X-ME-Sender: <xms:BVXYZ7qSpFYg_Rf9HdkOAC9Qy26Z7_q_sqOQOZeC8HWshHYMrTeMWA>
-    <xme:BVXYZ1qxU5fHkQq0U3VO8cLITd_zHA0QZ_kGlrja24TPuLvhGNI9V7VVQLU8fS3b8
-    1qZiTR2Zj_4wYwMypY>
-X-ME-Received: <xmr:BVXYZ4O3USK6XOKS90BG9NtpzRFj0W36w9QW8NAGOIvOyyY_CSpnD6lnQ000JZLjbDCS7UCioGv0sISXKiMLt9kzkw>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742230782; x=
+	1742317182; bh=jns65N7Mh8OrAzqzfQeXmVS4VxVjbDQZB013QFFMEHg=; b=Z
+	kbVyYy0pBNVU1E0TWkdzIydVoGWhIoaSHL2eV1Sdw/QRi8+rGSrrp3KGKt7iixlZ
+	R8fs+fXUnKqcE4Yc5WBtgqTs8IlOKldFB6rcJJlKLbLo/4uIHaTe/Y01mRFu7LVq
+	+uJBBM05eSvHusnLRv4akQzwzoXbivEqVxpkcdcX4boQm96Ogle6+DbcKHvRNWOW
+	hfISjcQN7USJ9C7MU/bu8XC8dBavF1Uuyqd0Ji/rIQdjFt3Crd8Kc6/EFQDCuonK
+	lQhvmtTvu0CWXDEPFkJ8nFHSSFjxEfut02/+EK9JzFAYshxfm9/R1YmsUR5wSgOl
+	v991rcHnv9fOh550p137w==
+X-ME-Sender: <xms:_lTYZ62xlfszqMeRyJcMW_7-buJT9NtzusnGaDCpIi8es6mcEHe4Wg>
+    <xme:_lTYZ9Ew0LVa6TG2EF28CRn5OdJ3aH-iiqzAiMDwklpegozrX86GttRwwjNA-kFyr
+    m0iVeluLH4HUE1M474>
+X-ME-Received: <xmr:_lTYZy7njKt7RRdPNj5X0vtZtd2-kTt6NKJzugOTUkqHkXK1cagiu57hqNJE9i4qv6gDSp6PTKYPvwPEMVYp_O89GQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedttdeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
@@ -83,14 +83,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedttdeiucetufdote
     htoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhr
     ghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrh
     grghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:BVXYZ-5AUhNgX9mxtYTUQx7L7mdhWa7_bZWbKtrzKlyPWU-1IpCN4A>
-    <xmx:BVXYZ649B5zLsW_ig_Py7cfFgMz06G7JKFHSFEJc1xJmo0PAQWKYkQ>
-    <xmx:BVXYZ2gzzjHAJ8BFrxOb_3T0hsMMQMtW9H3TDk2amM42zWZsmRyyDw>
-    <xmx:BVXYZ87keH1pB27kqe7YWtBhhbpQNdHca_6fnRHHII0u4N8cXdlqHg>
-    <xmx:BVXYZxZG1CL7vybOCB90CdHx0Wird1RXScCpjbRfV5umsTl_EusqPfNU>
+X-ME-Proxy: <xmx:_lTYZ70u_emtN_Jpy3JUI2lcv_bHlycKeYdGtDmoSAvxYa71nVG0RQ>
+    <xmx:_lTYZ9F4SlEoCtL_TJYlf0GcT4sDfYYEq8G6aPiUy0QRjxIU-52z5w>
+    <xmx:_lTYZ0_T06St2mWAeMve4K6y-RtuvuyHBcH9k0tsmhrkVML2dlPjWg>
+    <xmx:_lTYZymEez8P3Vc49JRcRXOs9M_GCjvFpHwsctOUn0p3GYvzgXn-Ng>
+    <xmx:_lTYZ02RWzuqHgamwRcqD134lT64d2R-sPO8ScOIAUGl5lFQf6SNkvA4>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 17 Mar 2025 12:59:48 -0400 (EDT)
+ 17 Mar 2025 12:59:41 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -99,9 +99,9 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 5/6] media: rcar-vin: Merge all notifiers
-Date: Mon, 17 Mar 2025 17:59:06 +0100
-Message-ID: <20250317165907.2412377-6-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 2/6] media: rcar-vin: Change link setup argument
+Date: Mon, 17 Mar 2025 17:59:03 +0100
+Message-ID: <20250317165907.2412377-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250317165907.2412377-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250317165907.2412377-1-niklas.soderlund+renesas@ragnatech.se>
@@ -114,335 +114,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The VIN usage of v4l-async is complex and stems from organic growth of
-the driver of supporting both private local subdevices (Gen2, Gen3) and
-subdevices shared between all VIN instances (Gen3 and Gen4).
+The link setup callback once acted on each VIN instance, and expected to
+be called once for each VIN instance. This have changed as the driver
+grew support for later hardware generations and the callback is now
+expected to setup links for all VIN in the group.
 
-The driver used a separate notifier for each VIN for the private local
-ones, and a shared group notifier for the shared ones. This was complex
-and lead to subtle bugs when unbinding and later rebinding subdevices in
-on of the notifiers having to handle different edge cases depending on
-if it also had subdevices in the other notifiers etc.
+The argument to the callback have however remained a pointer to a single
+VIN instance. This pointer was then used to get the group structure. Fix
+this and pass the group as the single argument to the link setup
+callback making the expectation of the function clear.
 
-To simplify this have the Gen2 devices allocate and form a VIN group
-too. This way all subdevices on all models can be collect in a
-single group notifier. Then there is only a single complete callback for
-all where the video devices and subdevice nodes can be registered etc.
+There is no intentional change in behavior.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- .../platform/renesas/rcar-vin/rcar-core.c     | 263 ++++++++----------
- .../platform/renesas/rcar-vin/rcar-vin.h      |   2 -
- 2 files changed, 114 insertions(+), 151 deletions(-)
+ .../platform/renesas/rcar-vin/rcar-core.c     | 52 ++++++++++++-------
+ .../platform/renesas/rcar-vin/rcar-vin.h      |  2 +-
+ 2 files changed, 34 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index 5b8b3cd93915..8c63c9904ec9 100644
+index fcb3162f9ab6..91e871580e70 100644
 --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
 +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -43,6 +43,9 @@
+@@ -65,7 +65,7 @@ static void rvin_group_cleanup(struct rvin_group *group)
+ }
  
- #define v4l2_dev_to_vin(d)	container_of(d, struct rvin_dev, v4l2_dev)
+ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin,
+-			   int (*link_setup)(struct rvin_dev *),
++			   int (*link_setup)(struct rvin_group *),
+ 			   const struct media_device_ops *ops)
+ {
+ 	struct media_device *mdev = &group->mdev;
+@@ -115,7 +115,7 @@ static void rvin_group_release(struct kref *kref)
+ }
  
-+static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
-+					  struct v4l2_subdev *subdev);
-+
- /* -----------------------------------------------------------------------------
-  * Gen3 Group Allocator
-  */
-@@ -232,7 +235,10 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
+ static int rvin_group_get(struct rvin_dev *vin,
+-			  int (*link_setup)(struct rvin_dev *),
++			  int (*link_setup)(struct rvin_group *),
+ 			  const struct media_device_ops *ops)
+ {
+ 	struct rvin_group *group;
+@@ -246,7 +246,7 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
  		}
  	}
  
--	return vin->group->link_setup(vin->group);
-+	if (vin->group->link_setup)
-+		return vin->group->link_setup(vin->group);
-+
-+	return  0;
+-	return vin->group->link_setup(vin);
++	return vin->group->link_setup(vin->group);
  }
  
  static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
-@@ -240,22 +246,31 @@ static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
- 				     struct v4l2_async_connection *asc)
- {
- 	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
--	unsigned int i;
-+	struct rvin_group *group = vin->group;
- 
--	for (i = 0; i < RCAR_VIN_NUM; i++)
--		if (vin->group->vin[i])
--			rvin_v4l2_unregister(vin->group->vin[i]);
-+	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++)
-+		if (group->vin[i])
-+			rvin_v4l2_unregister(group->vin[i]);
- 
- 	mutex_lock(&vin->group->lock);
-+	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
-+		if (!group->vin[i] || group->vin[i]->parallel.asc != asc)
-+			continue;
-+
-+		group->vin[i]->parallel.subdev = NULL;
-+
-+		vin_dbg(group->vin[i], "Unbind parallel subdev %s\n",
-+			subdev->name);
-+	}
- 
--	for (i = 0; i < RVIN_REMOTES_MAX; i++) {
--		if (vin->group->remotes[i].asc != asc)
-+	for (unsigned int i = 0; i < RVIN_REMOTES_MAX; i++) {
-+		if (group->remotes[i].asc != asc)
- 			continue;
--		vin->group->remotes[i].subdev = NULL;
-+
-+		group->remotes[i].subdev = NULL;
-+
- 		vin_dbg(vin, "Unbind %s from slot %u\n", subdev->name, i);
--		break;
- 	}
--
- 	mutex_unlock(&vin->group->lock);
- 
- 	media_device_unregister(&vin->group->mdev);
-@@ -266,21 +281,38 @@ static int rvin_group_notify_bound(struct v4l2_async_notifier *notifier,
- 				   struct v4l2_async_connection *asc)
- {
- 	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
--	unsigned int i;
-+	struct rvin_group *group = vin->group;
- 
--	mutex_lock(&vin->group->lock);
-+	guard(mutex)(&group->lock);
- 
--	for (i = 0; i < RVIN_REMOTES_MAX; i++) {
-+	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
-+		int ret;
-+
-+		if (!group->vin[i] || group->vin[i]->parallel.asc != asc)
-+			continue;
-+
-+		ret = rvin_parallel_subdevice_attach(group->vin[i], subdev);
-+		if (ret)
-+			return ret;
-+
-+		v4l2_set_subdev_hostdata(subdev, group->vin[i]);
-+
-+		vin_dbg(group->vin[i], "Bound subdev %s\n", subdev->name);
-+
-+		return 0;
-+	}
-+
-+	for (unsigned int i = 0; i < RVIN_REMOTES_MAX; i++) {
- 		if (vin->group->remotes[i].asc != asc)
- 			continue;
-+
- 		vin->group->remotes[i].subdev = subdev;
- 		vin_dbg(vin, "Bound %s to slot %u\n", subdev->name, i);
--		break;
-+
-+		return 0;
- 	}
- 
--	mutex_unlock(&vin->group->lock);
--
--	return 0;
-+	return -ENODEV;
- }
- 
- static const struct v4l2_async_notifier_operations rvin_group_notify_ops = {
-@@ -374,7 +406,7 @@ static int rvin_parallel_parse_of(struct rvin_dev *vin)
- 		goto out;
- 	}
- 
--	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
-+	asc = v4l2_async_nf_add_fwnode(&vin->group->notifier, fwnode,
- 				       struct v4l2_async_connection);
- 	if (IS_ERR(asc)) {
- 		ret = PTR_ERR(asc);
-@@ -424,6 +456,12 @@ static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
- 		if (!(vin_mask & BIT(i)))
- 			continue;
- 
-+		/* Parse local subdevice. */
-+		ret = rvin_parallel_parse_of(vin->group->vin[i]);
-+		if (ret)
-+			return ret;
-+
-+		/* Prase shared subdevices. */
- 		for (id = 0; id < max_id; id++) {
- 			if (vin->group->remotes[id].asc)
- 				continue;
-@@ -603,124 +641,6 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
+@@ -909,35 +909,46 @@ static int rvin_csi2_create_link(struct rvin_group *group, unsigned int id,
  	return 0;
  }
  
--static void rvin_parallel_subdevice_detach(struct rvin_dev *vin)
--{
--	rvin_v4l2_unregister(vin);
--	vin->parallel.subdev = NULL;
--
--	if (!vin->info->use_mc)
--		rvin_free_controls(vin);
--}
--
--static int rvin_parallel_notify_complete(struct v4l2_async_notifier *notifier)
--{
--	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
--	struct media_entity *source;
--	struct media_entity *sink;
--	int ret;
--
--	ret = v4l2_device_register_subdev_nodes(&vin->v4l2_dev);
--	if (ret < 0) {
--		vin_err(vin, "Failed to register subdev nodes\n");
--		return ret;
--	}
--
--	if (!video_is_registered(&vin->vdev)) {
--		ret = rvin_v4l2_register(vin);
--		if (ret < 0)
--			return ret;
--	}
--
--	if (!vin->info->use_mc)
--		return 0;
--
--	/* If we're running with media-controller, link the subdevs. */
--	source = &vin->parallel.subdev->entity;
--	sink = &vin->vdev.entity;
--
--	ret = media_create_pad_link(source, vin->parallel.source_pad,
--				    sink, vin->parallel.sink_pad, 0);
--	if (ret)
--		vin_err(vin, "Error adding link from %s to %s: %d\n",
--			source->name, sink->name, ret);
--
--	return ret;
--}
--
--static void rvin_parallel_notify_unbind(struct v4l2_async_notifier *notifier,
--					struct v4l2_subdev *subdev,
--					struct v4l2_async_connection *asc)
--{
--	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
--
--	vin_dbg(vin, "unbind parallel subdev %s\n", subdev->name);
--
--	mutex_lock(&vin->lock);
--	rvin_parallel_subdevice_detach(vin);
--	mutex_unlock(&vin->lock);
--}
--
--static int rvin_parallel_notify_bound(struct v4l2_async_notifier *notifier,
--				      struct v4l2_subdev *subdev,
--				      struct v4l2_async_connection *asc)
--{
--	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
--	int ret;
--
--	mutex_lock(&vin->lock);
--	ret = rvin_parallel_subdevice_attach(vin, subdev);
--	mutex_unlock(&vin->lock);
--	if (ret)
--		return ret;
--
--	v4l2_set_subdev_hostdata(subdev, vin);
--
--	vin_dbg(vin, "bound subdev %s source pad: %u sink pad: %u\n",
--		subdev->name, vin->parallel.source_pad,
--		vin->parallel.sink_pad);
--
--	return 0;
--}
--
--static const struct v4l2_async_notifier_operations rvin_parallel_notify_ops = {
--	.bound = rvin_parallel_notify_bound,
--	.unbind = rvin_parallel_notify_unbind,
--	.complete = rvin_parallel_notify_complete,
--};
--
--static void rvin_parallel_cleanup(struct rvin_dev *vin)
--{
--	v4l2_async_nf_unregister(&vin->notifier);
--	v4l2_async_nf_cleanup(&vin->notifier);
--}
--
--static int rvin_parallel_init(struct rvin_dev *vin)
--{
--	int ret;
--
--	v4l2_async_nf_init(&vin->notifier, &vin->v4l2_dev);
--
--	ret = rvin_parallel_parse_of(vin);
--	if (ret)
--		return ret;
--
--	if (!vin->parallel.asc)
--		return -ENODEV;
--
--	vin_dbg(vin, "Found parallel subdevice %pOF\n",
--		to_of_node(vin->parallel.asc->match.fwnode));
--
--	vin->notifier.ops = &rvin_parallel_notify_ops;
--	ret = v4l2_async_nf_register(&vin->notifier);
--	if (ret < 0) {
--		vin_err(vin, "Notifier registration failed\n");
--		v4l2_async_nf_cleanup(&vin->notifier);
--		return ret;
--	}
--
--	return 0;
--}
--
- /* -----------------------------------------------------------------------------
-  * CSI-2
-  */
-@@ -895,11 +815,63 @@ static int rvin_csi2_create_link(struct rvin_group *group, unsigned int id,
- 	return 0;
- }
- 
-+static int rvin_parallel_setup_links(struct rvin_group *group)
-+{
-+	u32 flags = MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE;
-+	int ret = 0;
-+
-+	mutex_lock(&group->lock);
-+	/* If the group also have links don't enable the link. */
-+	for (unsigned int i = 0; i < RVIN_REMOTES_MAX; i++) {
-+		if (group->remotes[i].subdev) {
-+			flags = 0;
-+			break;
-+		}
-+	}
-+
-+	/* Create links */
-+	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
-+		struct rvin_dev *vin = group->vin[i];
-+		struct media_entity *source;
-+		struct media_entity *sink;
-+
-+		/* Noting to do if their is no VIN or parallel subdev. */
-+		if (!vin || !vin->parallel.subdev)
-+			continue;
-+
-+		source = &vin->parallel.subdev->entity;
-+		sink = &vin->vdev.entity;
-+
-+		ret = media_create_pad_link(source, vin->parallel.source_pad,
-+					    sink, 0, flags);
-+		if (ret)
-+			break;
-+	}
-+	mutex_unlock(&group->lock);
-+
-+	return ret;
-+}
-+
- static int rvin_csi2_setup_links(struct rvin_group *group)
+-static int rvin_csi2_setup_links(struct rvin_dev *vin)
++static int rvin_csi2_setup_links(struct rvin_group *group)
  {
- 	const struct rvin_group_route *routes, *route;
+-	const struct rvin_group_route *route;
++	const struct rvin_group_route *routes, *route;
  	unsigned int id;
--	int ret = -EINVAL;
-+	int ret;
-+
+ 	int ret = -EINVAL;
+ 
 +	/* Find any VIN in group to get route info. */
 +	routes = NULL;
 +	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
@@ -454,88 +186,101 @@ index 5b8b3cd93915..8c63c9904ec9 100644
 +	if (!routes)
 +		return -ENODEV;
 +
-+	ret = rvin_parallel_setup_links(group);
-+	if (ret)
-+		return ret;
- 
- 	/* Find any VIN in group to get route info. */
- 	routes = NULL;
-@@ -914,6 +886,7 @@ static int rvin_csi2_setup_links(struct rvin_group *group)
- 
  	/* Create all media device links between VINs and CSI-2's. */
- 	mutex_lock(&group->lock);
-+	ret = -EINVAL;
- 	for (route = routes; route->chsel; route++) {
+-	mutex_lock(&vin->group->lock);
+-	for (route = vin->info->routes; route->chsel; route++) {
++	mutex_lock(&group->lock);
++	for (route = routes; route->chsel; route++) {
  		/* Check that VIN' master is part of the group. */
- 		if (!group->vin[route->master])
-@@ -941,7 +914,6 @@ static int rvin_csi2_setup_links(struct rvin_group *group)
+-		if (!vin->group->vin[route->master])
++		if (!group->vin[route->master])
+ 			continue;
  
- static void rvin_csi2_cleanup(struct rvin_dev *vin)
+ 		/* Check that CSI-2 is part of the group. */
+-		if (!vin->group->remotes[route->csi].subdev)
++		if (!group->remotes[route->csi].subdev)
+ 			continue;
+ 
+ 		for (id = route->master; id < route->master + 4; id++) {
+ 			/* Check that VIN is part of the group. */
+-			if (!vin->group->vin[id])
++			if (!group->vin[id])
+ 				continue;
+ 
+-			ret = rvin_csi2_create_link(vin->group, id, route);
++			ret = rvin_csi2_create_link(group, id, route);
+ 			if (ret)
+ 				goto out;
+ 		}
+ 	}
+ out:
+-	mutex_unlock(&vin->group->lock);
++	mutex_unlock(&group->lock);
+ 
+ 	return ret;
+ }
+@@ -991,30 +1002,33 @@ static int rvin_csi2_init(struct rvin_dev *vin)
+  * ISP
+  */
+ 
+-static int rvin_isp_setup_links(struct rvin_dev *vin)
++static int rvin_isp_setup_links(struct rvin_group *group)
  {
--	rvin_parallel_cleanup(vin);
- 	rvin_group_notifier_cleanup(vin);
- 	rvin_group_put(vin);
- 	rvin_free_controls(vin);
-@@ -964,18 +936,11 @@ static int rvin_csi2_init(struct rvin_dev *vin)
- 	if (ret)
- 		goto err_controls;
+ 	unsigned int i;
+ 	int ret = -EINVAL;
  
--	/* It's OK to not have a parallel subdevice. */
--	ret = rvin_parallel_init(vin);
--	if (ret && ret != -ENODEV)
--		goto err_group;
--
- 	ret = rvin_group_notifier_init(vin, 1, RVIN_CSI_MAX);
- 	if (ret)
--		goto err_parallel;
-+		goto err_group;
+ 	/* Create all media device links between VINs and ISP's. */
+-	mutex_lock(&vin->group->lock);
++	mutex_lock(&group->lock);
+ 	for (i = 0; i < RCAR_VIN_NUM; i++) {
+ 		struct media_pad *source_pad, *sink_pad;
+ 		struct media_entity *source, *sink;
+ 		unsigned int source_slot = i / 8;
+ 		unsigned int source_idx = i % 8 + 1;
++		struct rvin_dev *vin;
  
- 	return 0;
--err_parallel:
--	rvin_parallel_cleanup(vin);
- err_group:
- 	rvin_group_put(vin);
- err_controls:
-@@ -1448,7 +1413,9 @@ static int rcar_vin_probe(struct platform_device *pdev)
- 		    rvin_group_id_to_master(vin->id) == vin->id)
- 			vin->scaler = vin->info->scaler;
- 	} else {
--		ret = rvin_parallel_init(vin);
-+		ret = rvin_group_get(vin, NULL, NULL);
-+		if (!ret)
-+			ret = rvin_group_notifier_init(vin, 0, 0);
+-		if (!vin->group->vin[i])
++		vin = group->vin[i];
++
++		if (!vin)
+ 			continue;
  
- 		if (vin->info->scaler)
- 			vin->scaler = vin->info->scaler;
-@@ -1478,8 +1445,6 @@ static void rcar_vin_remove(struct platform_device *pdev)
- 		rvin_isp_cleanup(vin);
- 	else if (vin->info->use_mc)
- 		rvin_csi2_cleanup(vin);
--	else
--		rvin_parallel_cleanup(vin);
+ 		/* Check that ISP is part of the group. */
+-		if (!vin->group->remotes[source_slot].subdev)
++		if (!group->remotes[source_slot].subdev)
+ 			continue;
  
- 	rvin_id_put(vin);
+-		source = &vin->group->remotes[source_slot].subdev->entity;
++		source = &group->remotes[source_slot].subdev->entity;
+ 		source_pad = &source->pads[source_idx];
  
+-		sink = &vin->group->vin[i]->vdev.entity;
++		sink = &vin->vdev.entity;
+ 		sink_pad = &sink->pads[0];
+ 
+ 		/* Skip if link already exists. */
+@@ -1030,7 +1044,7 @@ static int rvin_isp_setup_links(struct rvin_dev *vin)
+ 			break;
+ 		}
+ 	}
+-	mutex_unlock(&vin->group->lock);
++	mutex_unlock(&group->lock);
+ 
+ 	return ret;
+ }
 diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-index 1131d43e38e3..47253de5681c 100644
+index f87d4bc9e53e..1131d43e38e3 100644
 --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
 +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-@@ -181,7 +181,6 @@ struct rvin_info {
-  * @vdev:		V4L2 video device associated with VIN
-  * @v4l2_dev:		V4L2 device
-  * @ctrl_handler:	V4L2 control handler
-- * @notifier:		V4L2 asynchronous subdevs notifier
-  *
-  * @parallel:		parallel input subdevice descriptor
-  *
-@@ -221,7 +220,6 @@ struct rvin_dev {
- 	struct video_device vdev;
- 	struct v4l2_device v4l2_dev;
- 	struct v4l2_ctrl_handler ctrl_handler;
--	struct v4l2_async_notifier notifier;
+@@ -290,7 +290,7 @@ struct rvin_group {
+ 	struct v4l2_async_notifier notifier;
+ 	struct rvin_dev *vin[RCAR_VIN_NUM];
  
- 	struct rvin_parallel_entity parallel;
+-	int (*link_setup)(struct rvin_dev *vin);
++	int (*link_setup)(struct rvin_group *group);
  
+ 	struct {
+ 		struct v4l2_async_connection *asc;
 -- 
 2.48.1
 
