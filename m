@@ -1,232 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-14458-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14459-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52CBCA649CA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 11:28:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD4AA64AF0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 11:53:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE11E7A2CF1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 10:27:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CBB618889F6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 10:52:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4580923370D;
-	Mon, 17 Mar 2025 10:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 642D62356C9;
+	Mon, 17 Mar 2025 10:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D66pzehu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4076219A67;
-	Mon, 17 Mar 2025 10:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A652C221730
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 10:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742207267; cv=none; b=CPcJE6gmDJjHnEer6QfuW3HDNsTE4Tde/b6VGh2Pf6oJN/hfyZELcR9/01Ye4MZ4GXspFGq/pomXWr16byL3SvUkWS87y4XHq+96PlHAd64TT8CXaH4g7hHJ/XenyLi98RM35o01PVAFMaNYUqPYidC6bR+yNvOwnp4JfvB9exI=
+	t=1742208723; cv=none; b=G7ljVzQ6we9r3ZVsJghOVV7sB91Zsyfpk5e8L9frAvPIZSkFXY9g7dxm3TFCTvTuFWcIiAUdqcmskGQ7ZEyQi2FtfLoYrgtiHMLzgBcJ/EntAwuyXaiuNxsYotqyRgDvr/YnI2bZVxMuE/xfhiHXc7kbL3wWdE8n/FHaTvU7I0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742207267; c=relaxed/simple;
-	bh=2jv2oNnuMomXh9Kr1t2fb+sIQ5lE6UaVgX/GXBxiVg0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=P0+qBwWQCXGkSKAN1W4Idlb+IUOrRNrYYgm/rJQvbwpoi+IpI18pM5yMbzA/6Wzd4JEXFP5k8pMp03WUM25s0oFpH7sg++jeT41InGdmVCii9MoKRC2p2cFuybVOLOFY2EcfIKFrLSDsXiXaMkzNWtGEA7FIvWyDI7jAVdTJyOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: D4GfsnCxQ+6aG0qymhfE/w==
-X-CSE-MsgGUID: rAaiZvVRRKO+OkoXRswZAA==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 17 Mar 2025 19:27:36 +0900
-Received: from [10.226.93.170] (unknown [10.226.93.170])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id AD8C9402ADFF;
-	Mon, 17 Mar 2025 19:27:33 +0900 (JST)
-Message-ID: <999cb080-ea61-45e5-9ea0-356fb8bc4639@bp.renesas.com>
-Date: Mon, 17 Mar 2025 10:27:32 +0000
+	s=arc-20240116; t=1742208723; c=relaxed/simple;
+	bh=sVFBQhrcAWlKClBKcDG2mFfwLfjULiYni95nXG0ePBs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Boo0czbGvM/WEJsesQAYuhRSJxp5QFbHTkWUVOGhOV5yowsnKoNKKxm5vF53Cmd+wA9P+HBybDsR9GocfAy+UZSv7pVD/Xi1l995JvJ6XLR59UYh49CmPjLlXSPMM2ZD6BFFqEpGpgCQW4NBMN1CE1tTZR/jtgsHyiKRhuxAoZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D66pzehu; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6f6ca9a3425so45445187b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 03:52:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742208721; x=1742813521; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lr2110cYvl7za6wMxgJOpzLaRT8Ay8EQwITnfCfbHks=;
+        b=D66pzehu7JjmisGcpM+PY/lt7nkC8+5BWDRvHzgojKASojlVMPp6/n/lEFo00Uo5LA
+         e3CHUMiorFtneyLasmIzP3+Q3qgruehLFG25K1WcAioU4IikVcFrBwSkHlWfzEkCZRvf
+         qvcISQEO5s12xvHcNTNFHdi8+uoRtwGGDOgSTM9M37m5eMg7hDU/HtIKIOC555msoI8W
+         kDxO7YqWAztr1TC5GviuxT0n+iYyNdHcay86vKxj6WBX8m6jI3iAFePLr4U2C5Kc9RM3
+         Z8lhSVcCfRVW4dmwHhWkOMX4lZC9p3UH2+7W6PHBNW6xt4epaDp7gNAIg4qkPwnWZtiM
+         9g+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742208721; x=1742813521;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lr2110cYvl7za6wMxgJOpzLaRT8Ay8EQwITnfCfbHks=;
+        b=pJCgqtv/SdmL5DuVkSt+ZGRdYBn/vrcwh2hdmSgHc9zQiwUSZrrO6oNqEsZCZvDFvm
+         iPsqqMguUumIgn+vnwz5CUn+O9E3Oonq6y6yvEaHHqjBOAUkUwZl19laC5M6yKMO6Xok
+         yRc3oQhQGe6m53Gril7ZFrk03yo8Ynb0HW+hqOdwQQjAff6b5GBA9l9ctDnHe1IhXN0m
+         7bMbKxa+mBHebZO4XlVJ/Q2OLMLXYhK6ofGtJWs+qcOZGStLTneRzgntfUMDCxYKgqil
+         Ob2Sre0BY3KmGlJA1YdoZ+Mxzujas0t67tStJseLI+BWJu/BqZIWDCfAWEZVirMXhZAS
+         4gzg==
+X-Forwarded-Encrypted: i=1; AJvYcCVGgb3J9h+xZu45kWzXKz0IuNsR2grPErll9aqtlMf72EsiutO72lRIQ6hQW9qPxVh+k90HjUlf3h8r9kaqIrt0eQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVRXAQV7jJM1aVuk6xTWxHYcZaQkDPllUfM5gUqMcHDekowegY
+	f5tkbcg0Llarv/LqZykZqXJn1MtvL88DlbxBoX7+FECLTUay9F/Z4ltWh1n7tbfLW4ObDZ27LxC
+	w2zZOSio9hIYXGeLVNStcQEjSf8V2gzHQdwzIiWPzr8hCTWlX
+X-Gm-Gg: ASbGncvIIxGYRf75ttR8ielhZQT/UJ2Aocvdfo0NIXmSwHqF4CptAGIXgxgKw7/Msfe
+	k3IDt8o0phY+ptxF8M8xToY8NsK9UC+oTIyl2I28C2Wpeu4HvwI6FVye3DHqoHbxJIdTyLFngAY
+	2osSDuml+UCHVdmniIPhYmPb+HeKs=
+X-Google-Smtp-Source: AGHT+IFf7X3movNjHtqdVTvAfIHVx7pgogDuutwiMoW5qPqhCnfU9dayLqxs4JjWyA9VJmoQdVD/1A6kQ2keCggN8U8=
+X-Received: by 2002:a05:690c:46c6:b0:6ff:26eb:fadd with SMTP id
+ 00721157ae682-6ff46074375mr148199567b3.26.1742208720778; Mon, 17 Mar 2025
+ 03:52:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/13] serial: sh-sci: Introduced function pointers
-Content-Language: en-GB
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
- thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- Ulrich Hecht <uli@fpond.eu>, Linux-sh list <linux-sh@vger.kernel.org>
-References: <20250306152451.2356762-1-thierry.bultel.yh@bp.renesas.com>
- <20250306152451.2356762-9-thierry.bultel.yh@bp.renesas.com>
- <CAMuHMdVM_ozW4LAA4DstQuDfEcOnOcXZ2QHGv8nYMKDPWJe43Q@mail.gmail.com>
- <Z9fxfV9jAGJ51fcn@shikoro>
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-In-Reply-To: <Z9fxfV9jAGJ51fcn@shikoro>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------GSaVrcKpNAh8KYWgWD9dUaOq"
+References: <dc39e555-8ef7-4a39-9253-65bcf3e50c01@stanley.mountain>
+In-Reply-To: <dc39e555-8ef7-4a39-9253-65bcf3e50c01@stanley.mountain>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 17 Mar 2025 11:51:25 +0100
+X-Gm-Features: AQ5f1JpqClchOclXJ-ISZPJXO2_ekcieYheM6YIoLWy4nEFQ2I-b44apFo7Ppjc
+Message-ID: <CAPDyKFpO0a+hg0HrgXm0yv0p5JwMrD3aMN43boM73JP-EMpDWw@mail.gmail.com>
+Subject: Re: [PATCH next] mmc: renesas_sdhi: fix error code in renesas_sdhi_probe()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-mmc@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------GSaVrcKpNAh8KYWgWD9dUaOq
-Content-Type: multipart/mixed; boundary="------------O6kgC8qtnfCsHbkVJ7nSz61a";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
- thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- Ulrich Hecht <uli@fpond.eu>, Linux-sh list <linux-sh@vger.kernel.org>
-Message-ID: <999cb080-ea61-45e5-9ea0-356fb8bc4639@bp.renesas.com>
-Subject: Re: [PATCH v4 08/13] serial: sh-sci: Introduced function pointers
-References: <20250306152451.2356762-1-thierry.bultel.yh@bp.renesas.com>
- <20250306152451.2356762-9-thierry.bultel.yh@bp.renesas.com>
- <CAMuHMdVM_ozW4LAA4DstQuDfEcOnOcXZ2QHGv8nYMKDPWJe43Q@mail.gmail.com>
- <Z9fxfV9jAGJ51fcn@shikoro>
-In-Reply-To: <Z9fxfV9jAGJ51fcn@shikoro>
+On Fri, 14 Mar 2025 at 11:11, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> If devm_regulator_register() fails then propagate the error code.  Don't
+> return success.
+>
+> Fixes: fae80a99dc03 ("mmc: renesas_sdhi: Add support for RZ/G3E SoC")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
---------------O6kgC8qtnfCsHbkVJ7nSz61a
-Content-Type: multipart/mixed; boundary="------------Ijb1tC0cLv8GylxNAv6i7gC5"
+Applied for next, thanks!
 
---------------Ijb1tC0cLv8GylxNAv6i7gC5
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Kind regards
+Uffe
 
-On 17/03/2025 09:55, Wolfram Sang wrote:
-> Hi all,
->=20
-> sorry for missing this series so far and thanks to Geert for pulling me=
 
-> into the loop.
->=20
->> While most rough edges have been polished by now (thanks!), and the
->> driver seems to still work on a variety of platforms, I am still
->> worried about the impact of this change:
->>   - Maintainability and future bug fixing?
->=20
-> I hate to see development work going to waste, yet I have to say I am
-> also concerned about the maintainability of this driver after this very=
-
-> intrusive changeset. The driver is already quite complex. Adding anothe=
-r
-> layer of complexity (function pointers) will make proper bugfixing for
-> all supported instances quite harder, I'd think.
->=20
-> Has it been discussed to have this as a separate driver? Were there
-> reasons against it? This is really an open question. Maybe it is
-> justified to do it like this if we have reasons for it.
->=20
-> Seeing that SCI core needs 800+ lines changed and we still have a
-> seperate driver with 460 lines driver, I do wonder if copying the logic=
-
-> from SCI core to a seperate driver would make sense. I am aware that th=
-e
-> core has currently 3500+ lines currently. I'd estimate it would shrink
-> quite a bit when copying because you won't need to handle all the
-> differences to other SCI entries.
->=20
-> Again, this is not a request to follow my suggestion, it is an open
-> question to make sure all paths have been considered.
-
-Hi Geert, Wolfram,
-
-Thierry is out of the office this week so we can follow this up next
-week, but I do want to give some input in the meantime.
-
-We discussed both approaches internally and did an initial
-proof-of-concept of a separate driver. The result was over 1,000 lines
-of code copy-pasted from the existing sh-sci driver into the new driver,
-which is generally something maintainers want us to avoid doing. The
-trade off here is whether we want a single more complex driver, or two
-copies of much of the code so that bugfixes/improvements to the common
-sections in the future need to be duplicated.
-
-The RZ/V2H and RZ/G3E have interfaces of both the existing sh-sci
-register layout ("SCIF" ports in RZ/V2H & RZ/G3E manual) and the RZ/T2H
-style register layout ("RSCI" ports in RZ/V2H manual, "SCI" ports in
-RZ/G3E manual), so keeping things closely aligned as we move forward
-will be beneficial. I expect that this will be easier with a combined
-driver.
-
-Thanks,
-
---=20
-Paul Barker
---------------Ijb1tC0cLv8GylxNAv6i7gC5
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------Ijb1tC0cLv8GylxNAv6i7gC5--
-
---------------O6kgC8qtnfCsHbkVJ7nSz61a--
-
---------------GSaVrcKpNAh8KYWgWD9dUaOq
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZ9f5FAUDAAAAAAAKCRDbaV4Vf/JGvc9m
-AP9eGklGc56ll2C1TBfHvkIFUNbW1y9Hzwk00cBLYsy+8QEA+3jtJ2DfsW0bZ6yH9NnzAN46Iay7
-WtqeXOrDyo9qIAo=
-=dKJM
------END PGP SIGNATURE-----
-
---------------GSaVrcKpNAh8KYWgWD9dUaOq--
+> ---
+>  drivers/mmc/host/renesas_sdhi_core.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index 396fa2816a15..fa6526be3638 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -1178,6 +1178,7 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>                 of_node_put(rcfg.of_node);
+>                 if (IS_ERR(rdev)) {
+>                         dev_err(dev, "regulator register failed err=%ld", PTR_ERR(rdev));
+> +                       ret = PTR_ERR(rdev);
+>                         goto efree;
+>                 }
+>                 priv->rdev = rdev;
+> --
+> 2.47.2
+>
 
