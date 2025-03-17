@@ -1,135 +1,231 @@
-Return-Path: <linux-renesas-soc+bounces-14522-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01AEDA6553B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 16:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35532A655CE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 16:34:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D1B61897952
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 15:13:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D8CF1894851
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 15:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FBD2248176;
-	Mon, 17 Mar 2025 15:13:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7802B241693;
+	Mon, 17 Mar 2025 15:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="UZS9BoPW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xu5dSa01"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7152475C2;
-	Mon, 17 Mar 2025 15:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A6C155A4D;
+	Mon, 17 Mar 2025 15:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742224391; cv=none; b=IJyAEAMXMW7UrZnOikzFTM2HiecdF3Kt9CIJOmCQp+iPWkRipcayFtZyay1PR4651Av/PipF/Pz/JwBDSl6xA6Yg3G4lg+xqBCP09AFAR5GK+2aIYmEAlp8iyYCzxAGX5yytoWQNx4MblCNEm3P2gNWJG78OyKrI8ItUz2QozcI=
+	t=1742225653; cv=none; b=FIxNfcKTApHnvf6RFQ9yrQloSJToUzk2DbOY+uSylWh6lIbxN4+lnmsdrnonpUWy3to/xnsa6YPAoxuubPVBGz4iAmTn1z0hBvNmegCiDYn0oEH253kKnkP9xsMPCyGx6DCBMleExYwxsyAl8BAEHo+cRpIP4r5Jv38JMKDV4hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742224391; c=relaxed/simple;
-	bh=8ki4q0Edxr8GKUpbOiCXmfNSUZiSPK+DhkD9J9jyQTY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HmdS8GyuOKq2+cdaPowJj8jZ5hh4R8bRMd2oKKIaDZQ9Tz4DpBrz6rc5IwUHft0boZgXyukudJOg0mFjhoCXmgDr7Jw4bnaBGIfrss6C9TVPj423rzYLe8uf+mS+xi5BI63kqWbKSEqSsUkKjJ0flAeigsWiEagM9adnowxNzeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7c56a3def84so456835185a.0;
-        Mon, 17 Mar 2025 08:13:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742224387; x=1742829187;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lQ8jIa57lwjhm1REatzmQlcd9Rf1xXrQeJeoH6yAZjc=;
-        b=jDSYVr3mtlyyljhWPj9n4NCO6ayOLMHDBnU8Yfp5mpGpFGKBRwxHBv3HUU/3NGfsfj
-         q6ruu4qVj9e5xT2dE2az/5rXSsj22OQawCRapw86LZE4hhUXMzFklvymWxYBQFbl1yTu
-         pIJ2fyzPtnLHnMvM3k6OIHzGYlrIsOulivvfIG3DVwVWK8Fjnpk5wv8ULkMwrdUBpFxw
-         D+S5nQuZnumHY2+i/plWadC30229XRbAUU42wLnqMCz8n9NiEIIpEW4GGKka7NM/PeLX
-         bkZZiuo4iKbKzt921MyvVkL/HrzSVygr37CJpokfkB+Bs1Cj5NmkjgAkTPQ8BwjVytjn
-         KQIA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJLhKB9ebFvIOu2BJjCSympVHGF86FDkjOpchGXQAbQj6ESSeQ2nmu21q6KAnNJzQkWOM+DZVs6n/dOQKc@vger.kernel.org, AJvYcCWW2MO22yiL7HMmhawMIS1gLN0mXgCBKlCOWyoSBAHhUWwbXmjdU1DKspGd93P7vVrCfBWyVPvNs3AymeLB7eOA7WA=@vger.kernel.org, AJvYcCX8h3ayvmmVsFi5KMD/D9l3a8LSp9JMRuMKhHgUGfYpoCf11GFOU9PJ68rpZ8om0QkbSA3CS4o56N8=@vger.kernel.org, AJvYcCXrhbf0mWI0XpRZEDU+fJ9Ybk54nKDPzyhlHtDGQKV8TjFvJc1XezlS6AP65QSv766sjC77hF8FYFxU@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuIBrtrzvTJNGyOSbYJdey2oXOQai8R3ME4ZRlT7vv6rXVBd7T
-	8cVn+Y1sevZyOGtrw+0i/Nm226MSWqxPNmffvi6GJX8g2xzcN1Ek/vu8h3yY
-X-Gm-Gg: ASbGncuvMptg7M1INEnD5JRuwqpTd0dI5MvGJR3zRz16a9gkl1gFWZvz+ULSYdKZ5dg
-	lYOLVzHbvXIKQwiEBSIeOmgi/rAXbgtMvM5ihLSgu5yaM55pcDgBFC+H0nWq4VM6NhEhVLS2CKk
-	n4j8JNJ1Z0iPzqrwnhdXHCx632uFImaJKS0+psEg0ToCSPotoN4MYRRI9VRZh3qj4MSUrdcQIWf
-	JJzG24hObq5FvkKeqE9zyuhqxFoDlLyjP4hnT5ox2gA1FaAe/buSnPRVbKKZIoSg/msF8deeTXx
-	Qer0TFTcLFjj/16hq5qc3D5sxdg5AGVYHetdAYno3fxm9o0XORIJFNzYFG2NPKeLPeskJW/LCk/
-	f45Zg0Ikpm+I=
-X-Google-Smtp-Source: AGHT+IFCoXgloUWugsECO/wjOvuvljNjOYRf2E09vbfpLGYKrHWqmT6Q+QXr5hqozMUtvZbXn2B48Q==
-X-Received: by 2002:a05:620a:4706:b0:7c5:5909:18dc with SMTP id af79cd13be357-7c57c778293mr1845261285a.14.1742224387367;
-        Mon, 17 Mar 2025 08:13:07 -0700 (PDT)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com. [209.85.222.175])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c573c9d641sm595699885a.65.2025.03.17.08.13.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Mar 2025 08:13:06 -0700 (PDT)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7c2303a56d6so522431785a.3;
-        Mon, 17 Mar 2025 08:13:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUitvTI2s+dKcTq7fQow5RFh6FJHX+DFe3h1/iiN1ilJ7VIJcQsj6fiIXqkML/2az6WQ02OFToRWKE=@vger.kernel.org, AJvYcCW5BSaHEcGRLKtrxJxeZtXQQd15Xd7PPAHr3sqOi/0UgRMbimhJ+A+FVaZBAbfY1ZrADCWyy5StoAcp9B5S@vger.kernel.org, AJvYcCWvIIprG5pWHEc3JHDu19YdSJj4AJGSiSAJoWErn1uqU+1Y4swCHw2Hc65RZsABWBB1O5K0wuumFuAayAOTFh+tsIk=@vger.kernel.org, AJvYcCXUK4LWn6TjRLfrFeMYgqJfkU/Ww6+bVy+ApSscdOJVkiD8UhdCivBmNx/POIhj+lPsGudJcmMNP1+C@vger.kernel.org
-X-Received: by 2002:a05:620a:8085:b0:7c5:4711:dc56 with SMTP id
- af79cd13be357-7c57c8f0a91mr2168801385a.48.1742224386414; Mon, 17 Mar 2025
- 08:13:06 -0700 (PDT)
+	s=arc-20240116; t=1742225653; c=relaxed/simple;
+	bh=fRZwhrJ2pgBmVwr6Mo9Sg4wK++x6a5qVhMl8r+dyf3E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bMk8tYZL4p4zDc8Cl8sXtHifDNOuHHGXQYxlOThlMqtMXfwOhJGaG+50HOZee+f7wGs1fk+uopX7ZNtpjRAsyue23/QKD0FKl9ZCzH/o8qp6OO0Gn1OJrNlXkeedCKE/w9BlFp2Yr+oJqifmIll7ywePTdaIdC3Xw+VNaC+O9wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=UZS9BoPW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xu5dSa01; arc=none smtp.client-ip=202.12.124.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-13.internal (phl-compute-13.phl.internal [10.202.2.53])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 2B1372540185;
+	Mon, 17 Mar 2025 11:34:10 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-13.internal (MEProxy); Mon, 17 Mar 2025 11:34:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1742225650;
+	 x=1742312050; bh=d3MdEOp885vWWG3VIVdeEouBeT28sMeSfk0so6WLe34=; b=
+	UZS9BoPWB6ko4zqwQIMEBruaoU7AwlLqUOcAvjEusnhTY2bEP+HVAGV/Eay2CpfL
+	Z4M6/Rk4JgY0zlnmGGMejJI9lCfavFy4B3/5vx9RtyqeC1lSrOXJxQrUFqgSSnjW
+	QaD/lIAYDbhgvZlsBeoveYqCJaRrWZegKtwjiuSlS/dIgeC0Z67nf4qkkGZDt652
+	qSvel+7bJQ6MNLy9xMnMnwhh6QOabGtwfkIWACto22F+ecn21evt+XoncjIKc4/B
+	HV7NhSoV+OrbF9nUkFRAaHXdtPSo7g48Fdle7t296JRaIeBTEfVonQ7G3WBlLbZv
+	VNL51wbT45U31BJHJTrREA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742225650; x=
+	1742312050; bh=d3MdEOp885vWWG3VIVdeEouBeT28sMeSfk0so6WLe34=; b=x
+	u5dSa01p6DENAQ4IpfIxuZXMJYehTHAV4t9xGoS18Hvgsdmzf6JHiAiEAO0UKAZN
+	+W+x2ogdNzeXuQL+Cfc5UOsYD3CF/DHexTvddDDW8c1KxT+yHPrx5o5byN7GPUCZ
+	4ntfV9efhH3z4+Ld7SfiKvecpRz4NAK4Y9bovqc4o7vsUCry1qRPSFwaxLSq6zfg
+	NgMiqB7EdcVIbYHhoPwGgzSLsSLozsm8KdTDpkQcVvyh2/s1kPRPxZVMJIv+wpwj
+	8fapWPp04vqcv1zRzIfv3ft0pdTOhLlXp/+/knfKISO84SjY6haqoLbqOvOYAUsn
+	J5btii39u88anNnR5ABBQ==
+X-ME-Sender: <xms:8UDYZ9dtcr7SFs0mN1DUw3-QaV9r8jKkFysLViBV5C98WBx08dNpBg>
+    <xme:8UDYZ7MKkuHlaheciLQcyA3B4eEZJprVdowPZQH27_4vTsMIIsNG5g8V6ZuIhPQxH
+    wUPbdH5cGWxE61vuGA>
+X-ME-Received: <xmr:8UDYZ2i4L09IDzh4CuxT5uOi2pFofxnsCK7H_uyaD1iejNawNWgfRFSHg_hSl34cbWT7qHXUuzFBKy7ijZ6OQKKBBgr6elNdhQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeelkeekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
+    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
+    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
+    rghtthgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehff
+    dtvdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+    pehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthh
+    drshgvpdhnsggprhgtphhtthhopedufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    ohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmtghhvghhrggssehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorh
+    doughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghs
+    sehglhhiuggvrhdrsggvpdhrtghpthhtohephhhvvghrkhhuihhlseigshegrghllhdrnh
+    hlpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrdgt
+    ohhmpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsg
+    horghrugdrtghomh
+X-ME-Proxy: <xmx:8UDYZ29gwgvfYkd6AyEtK6OVrNzu7GyAt2ppOz64wu-VJ6siFnpOzA>
+    <xmx:8UDYZ5uN_ghoSDm4_wflCmxs_J1S8a_2cIj0kzUf96X75517XvIUDw>
+    <xmx:8UDYZ1EpZv2yUJNO-DdaitjNxwZ4nwqrKsaiUMrXx15zMHoKS3A8_Q>
+    <xmx:8UDYZwPv53R7RlIcLsfGAS4aVDk2QEvdVi-x9DxlAOI0imh5lLrKkQ>
+    <xmx:8kDYZ6OtUahSFic_XVCS1aEVQeomVnzeW7i7srqQNj32vZxLXPDfMxXy>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 17 Mar 2025 11:34:08 -0400 (EDT)
+Date: Mon, 17 Mar 2025 16:34:06 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/7] dt-bindings: media: renesas,isp: Add ISP core
+ function block
+Message-ID: <20250317153406.GB919085@ragnatech.se>
+References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250315152708.328036-2-niklas.soderlund+renesas@ragnatech.se>
+ <20250317-merry-ringtail-of-competition-7d46fb@krzk-bin>
+ <20250317114904.GA868399@ragnatech.se>
+ <573bb90b-bada-4dde-b88a-f92db1d1a3d1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250315081225.92118-1-john.madieu.xa@bp.renesas.com> <20250315081225.92118-2-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250315081225.92118-2-john.madieu.xa@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 17 Mar 2025 16:12:54 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXWGLUzJFKdDR3hLf0iOoKzb15fNQmvzZZQq-a8e6cxfQ@mail.gmail.com>
-X-Gm-Features: AQ5f1Jpg6lX0oXExhMFjEColgNw9-KenJiMYc5N0Q9n60tEKl9Tzw_t66R6DG7U
-Message-ID: <CAMuHMdXWGLUzJFKdDR3hLf0iOoKzb15fNQmvzZZQq-a8e6cxfQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] soc: renesas: rz-sysc: add syscon/regmap support
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, 
-	rafael@kernel.org, daniel.lezcano@linaro.org, magnus.damm@gmail.com, 
-	devicetree@vger.kernel.org, john.madieu@gmail.com, rui.zhang@intel.com, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	sboyd@kernel.org, biju.das.jz@bp.renesas.com, linux-pm@vger.kernel.org, 
-	lukasz.luba@arm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <573bb90b-bada-4dde-b88a-f92db1d1a3d1@kernel.org>
 
-On Sat, 15 Mar 2025 at 09:12, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> The RZ/G3E system controller has various registers that control or report
-> some properties specific to individual IPs. The regmap is registered as a
-> syscon device to allow these IP drivers to access the registers through the
-> regmap API.
->
-> As other RZ SoCs might have custom read/write callbacks or max-offsets, let's
-> register a custom regmap configuration.
->
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+On 2025-03-17 16:02:34 +0100, Krzysztof Kozlowski wrote:
+> On 17/03/2025 12:49, Niklas Söderlund wrote:
+> > Hi Krzysztof,
+> > 
+> > Thanks for your feedback.
+> > 
+> > On 2025-03-17 12:31:51 +0100, Krzysztof Kozlowski wrote:
+> >> On Sat, Mar 15, 2025 at 04:27:02PM +0100, Niklas Söderlund wrote:
+> >>> diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> >>> index c4de4555b753..de9bc739e084 100644
+> >>> --- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> >>> +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> >>> @@ -25,19 +25,54 @@ properties:
+> >>>            - renesas,r8a779h0-isp # V4M
+> >>>        - const: renesas,rcar-gen4-isp # Generic R-Car Gen4
+> >>>    reg:
+> >>> -    maxItems: 1
+> >>> +    minItems: 1
+> >>> +    maxItems: 2
+> >>> +
+> >>> +  reg-names:
+> >>> +    minItems: 1
+> >>> +    items:
+> >>> +      - const: cs
+> >>> +      - const: core
+> >>
+> >> All of this and further must be restricted per compatible. Otherwise
+> >> commit msg should explain why one SoC can have it different on different
+> >> boards.
+> > 
+> > I will expand the commit message. In short this can't be restricted per 
+> > compatible, different instances of the IP on the same board can and can 
+> > not have a core part.
+> 
+> s/Same board/same SoC/? Or you really meant that same SoC on different
+> boards will have or have not that ISP core?
+> 
+> Both are odd, first even weirder.
+> 
+> I wonder if some other difference is not the documented. E.g. same IP
+> blocks are not exactly the same, but have different programming model.
 
-> --- a/drivers/soc/renesas/rz-sysc.c
-> +++ b/drivers/soc/renesas/rz-sysc.c
-> @@ -6,8 +6,10 @@
->   */
->
->  #include <linux/io.h>
-> +#include <linux/mfd/syscon.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> +#include <linux/regmap.h>
->  #include <linux/sys_soc.h>
->
->  #include "rz-sysc.h"
-> @@ -81,6 +83,14 @@ static int rz_sysc_soc_init(struct rz_sysc *sysc, const struct of_device_id *mat
->         return 0;
->  }
->
-> +static struct regmap_config rz_sysc_regmap = {
+The IP block named "ISP" is in fact two different things on R-Car Gen4 
+SoCs. I know it's confusing and not logical but that's how they are 
+made.
 
-WARNING: struct regmap_config should normally be const
+- One part is the ISP Channel Selector, this is a function that sits on 
+  the CIS-2 receiver data bus. It is responsible for selecting which 
+  CSI-2 Virtual Channel is routed to which DMA capture engine.
 
-Aborting review, new version has been posted...
+  This part is what the rcar-isp.ko driver have always supported and 
+  every instance of the ISP that is described in tree deals with just 
+  this one function as this is the one we always had documentation for.
 
-Gr{oetje,eeting}s,
+  This block is the one the reg-names and clock-names labels "cs".
 
-                        Geert
+- One part that we now wish to add is the ISP Core. This is a 
+  traditional ISP that act on image data in different ways. This is what 
+  I try to model with the reg-name and clock-name labeled "core".
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+  This is new and we have not had documentation for this until recently.  
+  Unfortunately the "core" and "cs" functions is implemented in the same 
+  IP block. And to operate the "core" one needs to also deal with "cs".  
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+To make it more interesting all ISP Channel Selectors (cs) do not have a 
+companion ISP Core, but most do. The lack of a ISP core is OK, it just 
+means that video capture path can't manipulate the image as much as 
+paths that do.
+
+It's not ideal but to support the ISP Core and ISP Channel Selecotr the 
+rcar-isp.ko module needs both "core" and "cs" clocks and regs. And to 
+support just the Channel Selector it only needs the "cs" resources.
+
+
+Sorry if I have been confusing. A good example of this is patch 4/7 in 
+this series. It shows the V4M board that have 2 ISP instances, one that 
+have both cs and core functions, and one that only have cs function.
+
+> 
+> What is this ISP core responsible for inside Renesas ISP? How many ISPs
+> are inside of SoC?
+
+The ISP core is responsible for image manipulation. ISP Channel Selector 
+for CSI-2 channel routing. The number of ISP varies between SoCs:
+
+
+V3U: Have 4 ISP instances, all 4 have cs and core.
+V4H: Have 2 ISP instances, both have cs and core.
+V4M: Have 2 ISP instances, one have cs and core, one have only cs.
+
+> 
+> And how would it work? You have two exactly the same IP blocks in the
+> SoC, but one you program differently than other. How do you know which one?
+
+All cs blocks are the same on all SoCs. The core block is the same on 
+V4H and V4M, and different on V3U.
+
+> 
+> Best regards,
+> Krzysztof
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
