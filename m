@@ -1,86 +1,186 @@
-Return-Path: <linux-renesas-soc+bounces-14462-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14463-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335FEA64C45
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 12:20:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E959A64CBC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 12:32:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 565317A20FC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 11:19:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 421853AFCB2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 11:31:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23C40233141;
-	Mon, 17 Mar 2025 11:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC04B233728;
+	Mon, 17 Mar 2025 11:31:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VQzp9ikd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1hCQxNu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F411E19F133
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 11:20:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAEA22FDEF;
+	Mon, 17 Mar 2025 11:31:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742210417; cv=none; b=H0DKlmwucODn2N5F5N8d0mT/+mE/gUZui6IsDg7LZ8jQgJvsGcXdZU+XYoS/1CzPXJhhsEe7cYo8h6Cl07gGCTuRgItGvfcXaJiqWo8zQzl5+nrZei041kBjn6+e6RD18koX//NlP8yyjyCEoOc9vSLS8HxKITaDeoAt1BT3CSw=
+	t=1742211115; cv=none; b=m+QSHbiz5fUpGjitYb5+O1KYYFiBV7cLdmyh8VLDJK1WNlU0+EHMJJHmOBuLX0dlUX9mgF8XVxaDrR0w4v15PxmxQ2HVo0EmFgjqDGDJc9ngvNpZaJnXq8iKxDLjfQP9jOb2VUYlvg81yxPQMn1fszWN3KMVfJEx7BljlzN1fHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742210417; c=relaxed/simple;
-	bh=gepm7eEs+eOdsK/0envpXJq/8iZFnb0qumLA+Rk9g60=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=dMjPFW6uarcvP7Xt+oHfKPn/7nbpkFKC0JB2vgje+814e7zkBxEuYNzsVSf8ckL7gD4BdyOWyHWKH5naR6xhNB6YvQG6CBeO6IJPtKhi8moVkmIiRZZbTeX+HW2NUp+9YSUexlobTVd79UFkTuQWXffK/OF1iwPT/3CUVLpBRGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VQzp9ikd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D40ACC4CEE3
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 11:20:16 +0000 (UTC)
+	s=arc-20240116; t=1742211115; c=relaxed/simple;
+	bh=H3zpgL+lCiZOqENycMl3Ma7kHbOZCKm9xVVNVoMukyM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=elFWuj+ELKugHfCkBNzGx0+oHvpaDAZJbpNQm2b+L1gAW8YqOjfbP4mUVgAp05tyx3KOcF2ObuKXVcWLB5JI/FrM2wW+7Ri7Oqkh9PKyraPzTHykMYWm2egheurqwrMEqxP/gptAN74KPbXr2RBAOcqCIlesiOpdsc8/dNk8osI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1hCQxNu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F26ADC4CEE3;
+	Mon, 17 Mar 2025 11:31:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742210416;
-	bh=gepm7eEs+eOdsK/0envpXJq/8iZFnb0qumLA+Rk9g60=;
-	h=Subject:From:Date:To:From;
-	b=VQzp9ikdA3mlcSbC8QNLaIrxcEYj/YPg0j7BMU4QOl/TL2XV3Z1qDXCHbdjBAEZLu
-	 4VwkiKQj79fcWWl9l1R+b390o5nRKdunymHF/2AC1bz/Iwdz192gxX6K4dy4wzurNb
-	 bpBi75woOQnq2Cy76MFFur+VlV3jlQHDMkIMaW1z4ZXQ92gGj57NKy69+s7nNXU3uY
-	 XQbEDA+CHRx0cks1TRV5a6eb2RcvJrPIFxSSiWl3I/ykB6n8s01meY1H8T51dTk3/d
-	 Ftfy7TIsncbsjmRPd2KpGet5T5gEaUzrInawR1NEKBBN+tGp6CRGWpBnXA8NLDvGvE
-	 pE8cdtepLSjEw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3ACD13804CB5
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 11:20:53 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1742211115;
+	bh=H3zpgL+lCiZOqENycMl3Ma7kHbOZCKm9xVVNVoMukyM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=o1hCQxNuQNZys42vV7aSyxY/j8a4rPvzx8UkJsOHlorgFuksDi6jfVLsus2l56ELd
+	 eTKXqH0JR0zEG4aakwoWyMoVVRUpvrqa4hIrn1capejtLkNvfE1S9qnN4QQS5+0Pv0
+	 YMfK58e3Hn2VpytHs2EF7AKLUNB0WHXeeR1f+b1tZVjgKmgkwgEMg0jLsSyWmuom8E
+	 Wb/PHSRTxRu2F6GZ/mja1HozByd1vJOumUXM4cr4Iegn6gH59dS6XmU12xCVBwB9Z1
+	 HU347d5mZQvo8tEc8/4n0tvaGPtfk/z8j4eDzjF6k3ntsgaKDWtKkyd3V4OqIBUffS
+	 9nsVeU3IuU0SA==
+Date: Mon, 17 Mar 2025 12:31:51 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/7] dt-bindings: media: renesas,isp: Add ISP core
+ function block
+Message-ID: <20250317-merry-ringtail-of-competition-7d46fb@krzk-bin>
+References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250315152708.328036-2-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <174221045164.3375011.10122625998213885496.git-patchwork-summary@kernel.org>
-Date: Mon, 17 Mar 2025 11:20:51 +0000
-To: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250315152708.328036-2-niklas.soderlund+renesas@ragnatech.se>
 
-Hello:
+On Sat, Mar 15, 2025 at 04:27:02PM +0100, Niklas S=C3=B6derlund wrote:
+> diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/D=
+ocumentation/devicetree/bindings/media/renesas,isp.yaml
+> index c4de4555b753..de9bc739e084 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> @@ -25,19 +25,54 @@ properties:
+>            - renesas,r8a779h0-isp # V4M
+>        - const: renesas,rcar-gen4-isp # Generic R-Car Gen4
+>    reg:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    minItems: 1
+> +    items:
+> +      - const: cs
+> +      - const: core
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+All of this and further must be restricted per compatible. Otherwise
+commit msg should explain why one SoC can have it different on different
+boards.
 
-Patch: arm64: dts: renesas: Remove undocumented compatible micron,mt25qu512a
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=942015
-  Lore link: https://lore.kernel.org/r/20250309184326.75452-1-biju.das.jz@bp.renesas.com
+> =20
+>    interrupts:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  interrupt-names:
+> +    minItems: 1
+> +    items:
+> +      - const: cs
+> +      - const: core
+> =20
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    items:
+> +      - const: cs
+> +      - const: core
+> =20
+>    power-domains:
+>      maxItems: 1
+> =20
+>    resets:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  reset-names:
+> +    minItems: 1
+> +    items:
+> +      - const: cs
+> +      - const: core
+> +
+> +  renesas,vspx:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      A phandle to the companion VSPX responsible for the Streaming Brid=
+ge
 
-Patch: arm64: dts: renesas: r8a779f4: Add UFS tuning parameters in E-FUSE
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=940571
-  Lore link: https://lore.kernel.org/r/3e4fca228eb049d54a1ae520104558505dbdf803.1741179629.git.geert+renesas@glider.be
+But what does this device needs it for?
 
+> +      functionality. This property is not mandatory and not all ISP devi=
+ces
+> +      have one attached.
 
-Total patches: 2
+Drop last sentence, redundant. Instead disallow it (renesas,vspx: false)
+for all the variants not having VSPX.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> =20
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+> @@ -103,10 +138,14 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> +  - reg-names
+>    - interrupts
+> +  - interrupt-names
+>    - clocks
+> +  - clock-names
+>    - power-domains
+>    - resets
+> +  - reset-names
+>    - ports
+> =20
+>  additionalProperties: false
+> @@ -119,11 +158,16 @@ examples:
+> =20
+>      isp1: isp@fed20000 {
+>              compatible =3D "renesas,r8a779a0-isp", "renesas,rcar-gen4-is=
+p";
+> -            reg =3D <0xfed20000 0x10000>;
+> -            interrupts =3D <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
+> +            reg =3D <0xfed20000 0x10000>, <0xfee00000 0x10000>;
+> +            reg-names =3D "cs", "core";
+> +            interrupts =3D <GIC_SPI 154 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
+> +            interrupt-names =3D "cs", "core";
+>              clocks =3D <&cpg CPG_MOD 613>;
+> +            clock-names =3D "cs";
 
+Why no core? The names feel inconsistent. If your block has "core" reg
+for the "ISP core" sublock, why there is no "ISP core" clock for that
+subblock?
+
+Best regards,
+Krzysztof
 
 
