@@ -1,124 +1,238 @@
-Return-Path: <linux-renesas-soc+bounces-14535-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14536-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B2F4A65777
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 17:10:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F146A65793
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 17:11:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC8B81884E67
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 16:05:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7610188A3B9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 16:07:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C349A18A6DB;
-	Mon, 17 Mar 2025 16:05:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 425921953BB;
+	Mon, 17 Mar 2025 16:06:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bl2FPEv1"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Qyu/kgYd";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IaS9OcaX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014741E52D;
-	Mon, 17 Mar 2025 16:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB7C18D65C;
+	Mon, 17 Mar 2025 16:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742227511; cv=none; b=AICEsbnWRh8281Ug18rS2rx2j+OT457zp/GmBiEewLpnmC2SRcSjMxzI9NdNewqarphrMPk4hr3uxoNimBJlka72iKNUN5XS9yl/YNkB2DhStE6upPlWLpMmQCAdG4jyxDm11YxBoGqW9GO/rz5clCcmwIw60WBMevpq3BS+OxE=
+	t=1742227602; cv=none; b=KmfTqhYreDDAg/cMCTiHgcQYIaxrVLvK8GYh+5+cfZWSnpy/olIeD3Pppjg4HES5bArPIBDJeIt/9pUUWYbqnSc/tcTgQeiDKQSuHSf3sTvsvZhz0fCNL33rPXmsoSZ1n4jJRZh8yvua8ziHa81+mvjd1tBpjf4r8izUwzU1ppM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742227511; c=relaxed/simple;
-	bh=A5B/PhJUtLxRi+P6FMPnXSx2/wJ6ZVPzqvrCVBB9aq0=;
+	s=arc-20240116; t=1742227602; c=relaxed/simple;
+	bh=uKSng1NdF7mMLeG85plqfcAhWbLkZq5SvvhEzRGdFGA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sLXV1VetiQbGN6gSnoCbY4a7lR2YjHcPIUARS2Az8NUWKrmeGGg12ozB+J1gyqO1XZlK7oCM0ab04s35w6OdWvIUW2YalzijgflPSC8JW+kEOkjaVNUr+NDK56OoR/t5ePepu9OAVF90UWiLhCB+DVCiAWIkNJRO5WIWVP6J0bM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bl2FPEv1; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742227510; x=1773763510;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A5B/PhJUtLxRi+P6FMPnXSx2/wJ6ZVPzqvrCVBB9aq0=;
-  b=bl2FPEv1YvGZcH4CxaF89HlLgnUkaJvUHJJKWH85q7TyKdYmHOJy6/dY
-   V5R/vZwJ/Bs/X0iAYwWTFCAA/qhCeS9duMQY4TmqBBEYxId2KN9p/8sz0
-   eSD5dUzZnBfqAprkPtcxLJGsVum4VTfagSBot54PWxY1qqeHgHEi6zAk3
-   H1LfgL3NukxX3p35HeAtfAKo5bBNqEtPHyq9Q0ROfw6dJN6M/RLIawZNV
-   3KJHoX10+HNGP6ST7ftitT/1q6RiQs4wWebitmcVJWeEZyYXu0Z/DT7D9
-   6LG1n3bB+lLS23pbFJJyn+zQ6UKHHTSYIKiptxBbcfuQLrgHcBY1JvcEt
-   g==;
-X-CSE-ConnectionGUID: QUMTo5zCQnund+AbHYWiEA==
-X-CSE-MsgGUID: gL6aZ/O8StuTsXhuEgrtbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43240919"
-X-IronPort-AV: E=Sophos;i="6.14,254,1736841600"; 
-   d="scan'208";a="43240919"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 09:02:48 -0700
-X-CSE-ConnectionGUID: DSYoy4p4QZKjzbx9XHcphQ==
-X-CSE-MsgGUID: Sc9g6W+HQtmggN+zymuG9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,254,1736841600"; 
-   d="scan'208";a="122470611"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 09:02:44 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tuCvH-00000003Lxf-2miG;
-	Mon, 17 Mar 2025 18:02:39 +0200
-Date: Mon, 17 Mar 2025 18:02:39 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Guillaume Stols <gstols@baylibre.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Dumitru Ceclan <mitrutzceclan@gmail.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=sLozZvzFTiD6Mv5+3GQUSqdn5VjSQCkuzLeNj9RshUohBPPgTA9pnTHxCJTkog5KtTpEBDoe8Q4zrSOeAJUxZBZxqT/ovTRUcZm1gGaw2tjVosSTQzLmb5GaSAQirGYmEt5V4/+aNt3oUdMuHUF9v0zEYMWSnuZoLtwgJpnSeeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Qyu/kgYd; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IaS9OcaX; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id 25E711140125;
+	Mon, 17 Mar 2025 12:06:38 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Mon, 17 Mar 2025 12:06:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1742227598;
+	 x=1742313998; bh=pa+ksCuTnDtddf/P8FrweoZ2KX/mskfwkwWXLugHfHM=; b=
+	Qyu/kgYd8xoCVrvDV4o8HE69nVh5RGJK/9qTPPcaAQRpV+fcojmsajk/GOsHeiB/
+	M+/yiRj/LifkAj078pxyCZyYadgbFWe4BMbanmKyySgZOPye6Bj46419OfJ2Zm8F
+	vW/oSQGV/B8mRuOxuWHdfPkNC7+Ld3DtGFEy4cTAsHTIBWzHLmdMYKAqHJRFiD3k
+	Y05uzVVySHAhXC6wj+iQ9vPk6mT5EmUyPLkB3TQwggZGp/einzyrhtKQZ8PEuepe
+	y0mhmQ15ZPGQDcjD4sczzji7wrMLBEAlHdnjPdYMP0Pgwfo/GLOFaNw935avZKu2
+	6iTKHbhdqTYtyKlBHt/ynw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742227598; x=
+	1742313998; bh=pa+ksCuTnDtddf/P8FrweoZ2KX/mskfwkwWXLugHfHM=; b=I
+	aS9OcaXE09PeELKcnYzWbzLTGJ7WW4tfAHTxbg543yRhrT3qjr1k2huRwBuD0yWF
+	EBC9I7ho9gjMVk09pQlIwcBBnpDK28wm16rgZJqwRqZvtJYctqx9C72mEY6JD4zV
+	UGe0NWyAAoypxY5knR8TZswHxgXVaCL+gMXCPMlkKBJapZkupKTBLiPSk7zUJpOM
+	i+mGw0iD8WAdacst/YI+o7q5nYW0Rg4DO5KC4DL5H1TgHxQ0bZpeuvd7gd/8ufnT
+	n5IKuFTQxHL7G6M1Ae7q26h7jD4mJe59Zt8HqXrH5r38MnYMWQzLAhcpVPcpXMVP
+	kj6+mQS9+4VOXizIFc6VQ==
+X-ME-Sender: <xms:jUjYZ9miTwEbFc9gRZbXbaHZlN0M1kDnRnj-aKmq2g9qDm4kEoXfng>
+    <xme:jUjYZ41oObEZh7Yaj1pufMR7Aq8z8Tq1w0H4f0q-INpAo6SO4Mb_brDZH7xxOHWY8
+    eiH8355nKnslMBAIII>
+X-ME-Received: <xmr:jUjYZzqKvKieZHVMBN7CY1pFzKnhtOswKWW4T4s08yILULthLMB1EORUfi_lEwSNTrHDK6EU1F4CPDHXGGviPEQ3f8aFwo8qaQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeelleehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
+    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
+    houggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeev
+    teegtddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdr
+    shhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeeipd
+    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehjrggtohhpohdrmhhonhguihdorhgv
+    nhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvg
+    hnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthho
+    pehkihgvrhgrnhdrsghinhhghhgrmhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrh
+    gurdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgv
+    rhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:jUjYZ9li0jorVd0-d02PhtYBMCIuDmkvTFeLc7jMkttKrI55tS1T-w>
+    <xmx:jUjYZ73QsppsnyRKlKGDDuJWr207NEybAl0qjnhBuYvsTBLmYCJmew>
+    <xmx:jUjYZ8tKz1q5KDaRDKUUguUSP4eQFfZJDVE_47phpzwza4bckaZVCw>
+    <xmx:jUjYZ_XLNldMXCKiTh825K6bQle5iOSvs9JCZ25-AAxCyv4oBugyMQ>
+    <xmx:jUjYZ1pwP8oAiPoYQOMDPdrhFTeX-mbEI2h2MIGm65eiKr92xaCMd-JV>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 17 Mar 2025 12:06:37 -0400 (EDT)
+Date: Mon, 17 Mar 2025 17:06:35 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8 04/10] iio: adc: rzg2l_adc: Use adc-helpers
-Message-ID: <Z9hHnzuvFBd4FRPB@smile.fi.intel.com>
-References: <cover.1742225817.git.mazziesaccount@gmail.com>
- <69b627227e675d94c27f42783d7cf9ada93f730b.1742225817.git.mazziesaccount@gmail.com>
+Subject: Re: [PATCH v3 7/7] media: vsp1: pipe: Add RAW Bayer formats mapping
+Message-ID: <20250317160635.GA949127@ragnatech.se>
+References: <20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com>
+ <20250317-v4h-iif-v3-7-63aab8982b50@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <69b627227e675d94c27f42783d7cf9ada93f730b.1742225817.git.mazziesaccount@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250317-v4h-iif-v3-7-63aab8982b50@ideasonboard.com>
 
-On Mon, Mar 17, 2025 at 05:51:02PM +0200, Matti Vaittinen wrote:
-> The new devm_iio_adc_device_alloc_chaninfo_se() -helper is intended to
-> help drivers avoid open-coding the for_each_node -loop for getting the
-> channel IDs. The helper provides standard way to detect the ADC channel
-> nodes (by the node name), and a standard way to convert the "reg"
-> -properties to channel identification numbers, used in the struct
-> iio_chan_spec. Furthermore, the helper can optionally check the found
-> channel IDs are smaller than given maximum. This is useful for callers
-> which later use the IDs for example for indexing a channel data array.
-> 
-> The original driver treated all found child nodes as channel nodes. The
-> new helper requires channel nodes to be named channel[@N]. This should
-> help avoid problems with devices which may contain also other but ADC
-> child nodes. Quick grep from arch/* with the rzg2l_adc's compatible
-> string didn't reveal any in-tree .dts with channel nodes named
-> otherwise. Also, same grep shows all the .dts seem to have channel IDs
-> between 0..num of channels.
-> 
-> Use the new helper.
+Hi Jacopo,
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Thanks for your work.
+
+On 2025-03-17 12:56:45 +0100, Jacopo Mondi wrote:
+> Add formats definition for RAW Bayer formats in vsp1_pipe.c.
+> 
+> 8-bits RAW Bayer pixel formats map on VSP format RGB332.
+> 10, 12 and 16 bits RAW Bayer pixel formats map on RGB565 insted.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 72 ++++++++++++++++++++++++-
+>  1 file changed, 71 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> index 8e9be3ec1b4dbdad1cbe35ae3a88952f46e41343..6592513ca833175bdbfe850d61d1b5957ad27e0d 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> @@ -30,10 +30,80 @@
+>   */
+>  
+>  static const struct vsp1_format_info vsp1_video_formats[] = {
+> -	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	/* Raw Bayer 8-bit: Maps on RGB332 */
+> +	{ V4L2_PIX_FMT_SBGGR8, MEDIA_BUS_FMT_Y8_1X8,
+> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGBRG8, MEDIA_BUS_FMT_Y8_1X8,
+> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGRBG8, MEDIA_BUS_FMT_Y8_1X8,
+> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SRGGB8, MEDIA_BUS_FMT_Y8_1X8,
+>  	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+>  	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+>  	  1, { 8, 0, 0 }, false, false, 1, 1, false },
+> +
+> +	/* Raw Bayer 10/12/16-bit: Maps on RGB565 */
+
+I have tested this with 10 and 12 bit bayer formats and all of them only 
+need the VI6_RPF_DSWAP_P_WDS swap bit set. Setting VI6_RPF_DSWAP_P_BTS 
+do not work.
+
+I have not tested on with 16 bit as the interface I use don't support it 
+but I suspect this holds true for 16 bit too.
+
+With this fixed for at least 10 and 12,
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+
+> +	{ V4L2_PIX_FMT_SBGGR10, MEDIA_BUS_FMT_Y10_1X10,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGBRG10, MEDIA_BUS_FMT_Y10_1X10,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGRBG10, MEDIA_BUS_FMT_Y10_1X10,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SRGGB10, MEDIA_BUS_FMT_Y10_1X10,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
+> +
+> +	{ V4L2_PIX_FMT_SBGGR12, MEDIA_BUS_FMT_Y12_1X12,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGBRG12, MEDIA_BUS_FMT_Y12_1X12,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGRBG12, MEDIA_BUS_FMT_Y12_1X12,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SRGGB12, MEDIA_BUS_FMT_Y12_1X12,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
+> +
+> +	{ V4L2_PIX_FMT_SBGGR16, MEDIA_BUS_FMT_Y16_1X16,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGBRG16, MEDIA_BUS_FMT_Y16_1X16,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGRBG16, MEDIA_BUS_FMT_Y16_1X16,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SRGGB16, MEDIA_BUS_FMT_Y16_1X16,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
+> +
+> +	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
+>  	{ V4L2_PIX_FMT_ARGB444, MEDIA_BUS_FMT_ARGB8888_1X32,
+>  	  VI6_FMT_ARGB_4444, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+>  	  VI6_RPF_DSWAP_P_WDS,
+> 
+> -- 
+> 2.48.1
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Kind Regards,
+Niklas Söderlund
 
