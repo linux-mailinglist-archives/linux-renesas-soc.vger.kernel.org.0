@@ -1,142 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-14495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1D2A65036
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 14:06:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7860A65049
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 14:09:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6C19165885
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 13:06:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9048F3A5B27
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 13:09:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69B0C23BD13;
-	Mon, 17 Mar 2025 13:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86E6123C8BB;
+	Mon, 17 Mar 2025 13:09:30 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5742356B0;
-	Mon, 17 Mar 2025 13:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEE18F5E;
+	Mon, 17 Mar 2025 13:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742216812; cv=none; b=G7vM8i8fI1UT9k/oJLQswkuGfW5aX+71sCFWfluuJIzMFJRxIvoMzzlUWgSp1CPAPDXsZRpX/kBrWKTvcatr6wTJRnhlCSX9PjN2OqvBkQ/DlT3V/Fr3nuf1JNqgz1wSK4mh6dNVwqcBm9W4tfq3/8dGXKvOlD038+vhGPb8hGw=
+	t=1742216970; cv=none; b=EL5uLi2tzc0fnAnO2cqsHiBTh0cvPzTQzE0yj/CPfsaFwNHLlPZVgSUE8kSYbv6HshU4c0norNOQ3fmXEfmpTP0wZP6bGxPK9SaAn6oluFdp6pEeZ6OT4WEXeP/c1YQqZcyogEDTwtDqhhw2Sn1Iy0rateGgcAv5Z6JCn+N//SI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742216812; c=relaxed/simple;
-	bh=qLLnqbUdQc9QQW9rNrgFZooAzxlpgOV67H1WdYcrmsw=;
+	s=arc-20240116; t=1742216970; c=relaxed/simple;
+	bh=WK4jCHcoB/NcyW/w3QGZ/0KBCvY7QpmJfoCluUmq/K4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PcUEpvElYTARkHU3MXJMC66Q7GjyL1pSRgZUQmaz0FNkAR8Irt5yhLL5JcSKlRe3HlmuAs2zaaxNPqCSPK+EQYRavqERfpeoZozDM1jRVPmlAGqA6Zelr1YADONRyQryggopk3eqVsoA9TkIUVFitgmnVwd9j+EcPwDbC49zNbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.179
+	 To:Cc:Content-Type; b=kC82jIeAbtrhP+27aoPP2yIM+xTmbD4Mz2BVUWdev9bJ1RKlUxjlcDghV81CQhiqA2sdM8NBgUqWPSlJAFsX2EEWgbdcJj3+dHyfsdGhKncrTLMRfLLbDRSmkaYT/9QSSqG/K1pFbTDmByCqBFnNoyCUSJ1hmcmiadjB6VaeKkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c592764e24so56387885a.0;
-        Mon, 17 Mar 2025 06:06:50 -0700 (PDT)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6e8fb8ad525so39813846d6.3;
+        Mon, 17 Mar 2025 06:09:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742216808; x=1742821608;
+        d=1e100.net; s=20230601; t=1742216966; x=1742821766;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=O716qHSqjIZ+TTPaEOmQdWi3YCLXAx4bTootKFbaaeY=;
-        b=HHPNNUreEhVYIraK/+vx7FjSVCRrrcJuXaYVls6w7NPjKT9cT5zg4l2pwMqkBLKfrE
-         k1KE4g+Pn4ZcOnsKhKlDy08IDWfl+Ht/qJncCrUZzwmTedS+laWbV5Dfik7InsoUuwUm
-         GUru64Sd/m6MOcuzbbaVVcIySGkU6LRMzdTL0yD9wadwCLe4ScmT96o1qxx3Q7t9WuDt
-         gMHj5taPgJ6Zor1rlbqRqfYDv9tQqA599HW5YBWKpK1Dl2iO5CHrwAfHfew3zrqTNGx6
-         dFuWyYyQcw1SW82lA5rKL0K5DEMjOqdMEgaqq4htbGzdGho2qmoWUZagNNZvC9E8xVEI
-         2Acg==
-X-Forwarded-Encrypted: i=1; AJvYcCVH6YW4iyrlm9tU1K/0NjB57d3qSZmUP0fNz0gmK9ubSIiJUPUCRpfwNxcED1xoKBInYPPa3OVuOuk+FpvO10MW7HY=@vger.kernel.org, AJvYcCWWD0tEBXd/8V98zAvh91xJW9bvexsRTv9iZobHS+KiZQ1450bosS45NHyAQPWIyVIeY+tHJ4Tz2BO/bkpv@vger.kernel.org, AJvYcCXQJtUMn+esj5194f31C9ATpgZ9wmHpLjmy/s1+PsNE9Rih1nO5IwtcxLaqr4D5gAAcIdL3p4r3STg=@vger.kernel.org, AJvYcCXRF20itvs01v8LQkgknkjynO0QsViiubOG9pcLzy4gskIU7SAe7Z9Qx6KJj77YvyWpLx9FVYM5vaW1@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmR+Cak5U6aC5iByn5NZNbJn3+nBsI32IP+lazV41LzL8zyS0f
-	otkO+UgTXZMD75bic9VEV9VqosaLN+jSD8oQ3OAaI4v/d8qcNAwvfdswqpcr
-X-Gm-Gg: ASbGnctrjCi/7dl8afpradCzIoT07XXH4nADEWvgu58r8hCW/+15Jutx6QBOOXGTIBs
-	4UcClrWv0USPi/ef8MQchodTY1DHsRaCAOq04PfOgYAjYJ+hj3lfDAwtBpUW0+alRQGbp/KCNYk
-	CiCB1r28mievatzqHLyj4ycjNaehsjFGsayhUgpaYZFNhT7XCvN5pm+K51qAOIQA2EEMEmyhD7O
-	QSACbMF6Zl5wqykZVkbP6XL39hTz0ecg151RTg3dzkYi27DvGB70qG7rVv2kQSFP+2Xj0YwCtt5
-	JlaYlZxhQ7vN8As51TiW3qU3rNurFudMDZ7UZba8xAy6pEyLjoTj3HfUGiG+XPfF2cztFBPNGaD
-	mqAqdNOQNC5E=
-X-Google-Smtp-Source: AGHT+IEfq4DsBnaJ1NgW3Gz9MymASWkZW2hXaU0TsChLfQTAs2T+Vz6ILemYCBZRX9uH8vE88cZaUQ==
-X-Received: by 2002:a05:620a:d93:b0:7c5:95cb:59ac with SMTP id af79cd13be357-7c595cb5b5fmr154355185a.28.1742216807784;
-        Mon, 17 Mar 2025 06:06:47 -0700 (PDT)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com. [209.85.160.175])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c573d6fb39sm581509585a.85.2025.03.17.06.06.46
+        bh=qtbTnvmiP4bx4iOjl5tq+F4cbWROIjCVx5OCmLqCnqY=;
+        b=mz1/MlUiwV8uE0RPM/dO8MeRspdotp6wKG/nRq0tfZM0+3xePIuqcXv0vUujRvN5lC
+         bxovRRL1oIgtrEL8xsBjELENxYO+aYDkP/+KrjVwb4iWqcUfzMcYHGJfwKIUHD88rWU0
+         wSRpcOXr8CMDu6uea7+Vxs+sCrDHE2y2s7kMrgG71RoqwJDrhFJeVz2KV9tgchF2zhFY
+         41xTI1n7B35FmI6KSR3rIbaAnrBnoIm3Y4OiA4Qyq9nmvS/QRymy6/QDFYdKRaQdkbVd
+         Pu0JmqWo1GQxsOKrqawDb3LR9SYBHiAl1sWrH8/EOHYyiZwBge6cuMrY/3W+H8tVfrU1
+         dqew==
+X-Forwarded-Encrypted: i=1; AJvYcCXSFo0gsenGZcGhD/2ZYISOS0N2vSdSp3KNL+cs2+EEBy04boyvFsOnvk9Gjlh8m2T/awdgE8rsRlLI@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDwZrxfxt3zd+aFBS3VDUJctHOTMzlTXXx7eu7SbagGFHwnOH5
+	bm0HnzquONkB2eygikjUc0nOQeovloK6iNE2mcVoIuUmespoXvU+2mRKEF5w
+X-Gm-Gg: ASbGncsqDwUtjnHgEKSRpSMnxMYzs1eOfLg5eCL5MV3oiHBziWjc4rqllJenBNXcDSG
+	wQjgAv+cDGIfnxzq8XaHzzDEn/AUEy09YrZy6iuYscN+SYDqGbT8L2T3MsjvV06taDc0fKaBpw2
+	UloZ5HhM+3O7NNpZjLtOhLTAmwySqiGupkkd8W+aALzyade0BX3AYZGcO4JWWmupbddcRuJK7z0
+	LAZJSfqT4zOaCzVRObM+W+Klg523Qa2obLqPmOKRWWlwsDvcoYvWnqV9jmmg7Rq1ENxdiVT88dE
+	AyzkAkSSdWT6NVfZsUEqlV6tJ5Y2LNnd1IQk9IbOA+EAJkjEqsF0Cr0GfL3jAJaKJBUmRiyicyX
+	ndfqOFEA=
+X-Google-Smtp-Source: AGHT+IFcRGCTcAy7uHCcusZQGAVU7YhybjGNOBaB1IR+o4I0n3T9ZgYwiHkwT8niBWNQLsIRRNZm/Q==
+X-Received: by 2002:ad4:5bca:0:b0:6e8:f2aa:a8b0 with SMTP id 6a1803df08f44-6eaeaa26867mr181129246d6.18.1742216966105;
+        Mon, 17 Mar 2025 06:09:26 -0700 (PDT)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com. [209.85.219.41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eade330c52sm54523916d6.91.2025.03.17.06.09.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Mar 2025 06:06:46 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4766cb762b6so40845161cf.0;
-        Mon, 17 Mar 2025 06:06:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVQZ7EsvYjt42HFcQgO+Cx8LMfOwvRp0KIrYitloSISDUsUro7vqECEvOzKvrktddzEzJeeW4/R+mk=@vger.kernel.org, AJvYcCVbh9DNqfQaMZN8uzvJit8onyLgwcdEjiLP2oV56iSSfxFuDuvi9wNX0t79a49Kt2fHdKQAFl7utnswuK98GoLfHYs=@vger.kernel.org, AJvYcCWYmRwy5cuJFIwB63PLpK8i5NXLUMrFkMZ77b1LHH7qobHk0XHiicN8MbOxCTIX8EYlzE7WIi2Dbo0gzZ8D@vger.kernel.org, AJvYcCXhCXBWlOT2yNKU+5fDvz/lb7sM/Dcf3TQZioh+0eiwoLHBFBINP0fGhvC2a8qqqOcWZDKmwifgDHwC@vger.kernel.org
-X-Received: by 2002:ac8:7d4d:0:b0:476:add4:d2c7 with SMTP id
- d75a77b69052e-476ba3a2503mr286445171cf.0.1742216806135; Mon, 17 Mar 2025
- 06:06:46 -0700 (PDT)
+        Mon, 17 Mar 2025 06:09:25 -0700 (PDT)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6e8fb8ad525so39813466d6.3;
+        Mon, 17 Mar 2025 06:09:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWErUa92juq7CUVJlTuCLPjxdstMYDhL+jMIULlNlipPq8ArbxmNdNcjhx239mydTZPwIbobWAdQt1l@vger.kernel.org
+X-Received: by 2002:a05:6214:20cf:b0:6e6:698f:cb00 with SMTP id
+ 6a1803df08f44-6eaeab09fddmr207524016d6.42.1742216965500; Mon, 17 Mar 2025
+ 06:09:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250315081225.92118-1-john.madieu.xa@bp.renesas.com>
- <20250315081225.92118-7-john.madieu.xa@bp.renesas.com> <20250317-bipedal-inchworm-of-poetry-b60fc9@krzk-bin>
- <OSBPR01MB2775B7252468BCE234BFF7D5FFDF2@OSBPR01MB2775.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSBPR01MB2775B7252468BCE234BFF7D5FFDF2@OSBPR01MB2775.jpnprd01.prod.outlook.com>
+References: <20250317120356.67609-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250317120356.67609-2-wsa+renesas@sang-engineering.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 17 Mar 2025 14:06:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXxWCG-9tE7MsO3i+VXSjj6cZvH50fnQA=xvNfcQw842g@mail.gmail.com>
-X-Gm-Features: AQ5f1JqJN9njXYPbrlhYUCLeIXSPDCUMX-_U49TlAyAAPE5dm5sX_GhqYhuToiE
-Message-ID: <CAMuHMdXxWCG-9tE7MsO3i+VXSjj6cZvH50fnQA=xvNfcQw842g@mail.gmail.com>
-Subject: Re: [PATCH v3 6/6] arm64: defconfig: Enable RZ/G3E thermal
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, "geert+renesas@glider.be" <geert+renesas@glider.be>, 
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, 
-	"robh@kernel.org" <robh@kernel.org>, "rafael@kernel.org" <rafael@kernel.org>, 
-	"daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>, "magnus.damm@gmail.com" <magnus.damm@gmail.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"john.madieu@gmail.com" <john.madieu@gmail.com>, "rui.zhang@intel.com" <rui.zhang@intel.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, "sboyd@kernel.org" <sboyd@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, "lukasz.luba@arm.com" <lukasz.luba@arm.com>
+Date: Mon, 17 Mar 2025 14:09:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU2eFVxWnSgdKvA9qRVg48mHzh59Ok=ciCkD8PAsMUnCw@mail.gmail.com>
+X-Gm-Features: AQ5f1Jp9JDio910iymgabLS1A-l7gPuoPSq0jwD6d6jVfuyA1aHbup4gJETHE34
+Message-ID: <CAMuHMdU2eFVxWnSgdKvA9qRVg48mHzh59Ok=ciCkD8PAsMUnCw@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: renesas: r9a06g032: use proper ordering for
+ UART DMA channels
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi John,
+Hi Wolfram,
 
-On Mon, 17 Mar 2025 at 12:14, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> > From: Krzysztof Kozlowski <krzk@kernel.org>
-> > On Sat, Mar 15, 2025 at 09:12:16AM +0100, John Madieu wrote:
-> > > Enable the CONFIG_RZG3E_THERMAL flag for the RZ/G3E SoC.
-> >
-> > s/RZ/Renesas RZ/ and which *upstream* board uses it? This is not your
-> > platform defconfig, but all platforms and all users defconfig.
-> >
+On Mon, 17 Mar 2025 at 13:04, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Commit ec956e2c6f4e ("dt-bindings: serial: snps-dw-apb-uart: Switch
+> dma-names order") enforces "tx", "rx" ordering of DMA channels. Adhere
+> to it to let the dtbs_check pass it. There is no ABI breakage because
+> the Linux driver never expected a certain ordering and no other usage is
+> known.
 >
-> Noted for the fix.
->
-> However, most thermal drivers use SOC-specific config options,
-> as we can see in arm64 defconfig:
->
-> [...]
-> CONFIG_IMX8MM_THERMAL=m
-> CONFIG_K3_THERMAL=m
-> CONFIG_QORIQ_THERMAL=m
-> CONFIG_SUN8I_THERMAL=y
-> CONFIG_ROCKCHIP_THERMAL=m
-> CONFIG_RCAR_THERMAL=y
-> CONFIG_RCAR_GEN3_THERMAL=y
-> CONFIG_RZG2L_THERMAL=y
-> CONFIG_ARMADA_THERMAL=y
-> CONFIG_MTK_THERMAL=m
-> CONFIG_MTK_LVTS_THERMAL=m
-> CONFIG_BCM2711_THERMAL=m
-> CONFIG_BCM2835_THERMAL=m
-> CONFIG_BRCMSTB_THERMAL=m
-> [...]
->
-> Hence my choice for RZG3E_THERMAL, or did I miss something in your comment?
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-I think Krzysztof is complaining about "RZ/G3E SoC" in the patch
-description, not about the name of the config symbol (which is fixed).
-In addition, he asks for mentioning the board this will be used on.
+Thanks for your patch!
 
-E.g.:
-
-    Enable the Renesas RZ/G3E thermal driver, as used on the Renesas
-    RZ/G3E SMARC EVK board.
+Looks identical to commit 5f7ebb81112c3f50 ("ARM: dts: renesas:
+r9a06g032: Fix UART dma channel order") in renesas-dts-for-v6.15
+(next-20250224 and later).
 
 Gr{oetje,eeting}s,
 
