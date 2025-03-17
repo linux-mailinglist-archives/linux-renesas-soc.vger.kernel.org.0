@@ -1,167 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-14520-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14521-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D669A654DE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 16:03:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DACCA65500
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 16:06:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8439D3AACF0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 15:02:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D57B1717CE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 15:04:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14FA72405ED;
-	Mon, 17 Mar 2025 15:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmnJJUlx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2C9C24503B;
+	Mon, 17 Mar 2025 15:04:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FF82356D5;
-	Mon, 17 Mar 2025 15:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C754421C194;
+	Mon, 17 Mar 2025 15:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742223762; cv=none; b=BksJv9ljzqjNvyuFKc3yEXN/u2BCl0G0iSEFPHVPfVpZM/7YpJKFDYXRrRztp7TI1ELNKFMZ/L9gaB3EynBNHYi0KZvjwA9WSyd/jfvYv4qUH5aoMppb2kP/YEsCn7FH8/qDNoElvU3AIZqLtjpmGmyU4pPeRm0wTMW2OnTJ9S0=
+	t=1742223849; cv=none; b=ZhQotJtTzMv9UEaix+OR7WDQy/P8d/dHQhW2lz59qsE3u1vGh7cPGF7ePWqmuvGvlQLtecYBzjtkHCpfEmSBufwwo1VF6gzrg9AQX9ogMF/RjNtbOI0N1a7NKNjIBRgEj1vTWuLrGrbBYlMRECvmuSU0miK6UppOpRDv3bcGp1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742223762; c=relaxed/simple;
-	bh=5+WA2jvK1Y92HiccBOISC6s0excdcJ1mZkNYAv6bnPU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZEb9mDUdlG3D/XvoKxxHCvDUC6dl0SAHgj1CsxvRNcIwgCFJ86EkOFj2wPNShTnbgLv1Wx0yC2JNjdcqWWUAxcdkBSrldVRtfAYYYuorAEY/P9WC51xvYo9mHzKRo0m84JCRJFVW/R7O0DK9Oexy67/B5P9ABjPrs4NWJYngOc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmnJJUlx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8CF4C4CEE9;
-	Mon, 17 Mar 2025 15:02:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742223761;
-	bh=5+WA2jvK1Y92HiccBOISC6s0excdcJ1mZkNYAv6bnPU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cmnJJUlxOfRaM+u2c5mUY1xncRUnF7a8IP+WunZDZ/S/6nGNjU+Ul9IEx2NEbYoX/
-	 qVzgv3ZYjIE0CqugzdiBEsF+ei0einUXB9IlwlskFU0PfpT1D6KnrmKh8JLDGKM7JX
-	 P9GagA62K+cHjTZqLh28cwasjAvLQzM8NbW0PuuLJXUywOFHxqIg46DVDe1iKSu+Gk
-	 JwkMG7O2jmWhXl+COg0PoqigxOQ1yLQJMzP5HkEd/DGZqV3BUDWD9JCM47tkc9cIZp
-	 yNDcSXcoYzKbh074sPqE+iI/sO/wNWcaVNaq9YqBzPKa+mAwI74Rq8i/OxYbZj+VW7
-	 2qstanPfFYV1g==
-Message-ID: <573bb90b-bada-4dde-b88a-f92db1d1a3d1@kernel.org>
-Date: Mon, 17 Mar 2025 16:02:34 +0100
+	s=arc-20240116; t=1742223849; c=relaxed/simple;
+	bh=dhH/Id0pu7bbQ4g/wNKM18ywLnQklaShXBh3uRD2XTY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z2ghJ5yIHC9AwRmns3jd0mMtlk33/xDD+8O6KZ6tCstQU3Ci7EiIYEMdP/v1JDAtCIp8/rucMrGGwteNOUBgyBByEtxAf7iSJGnj4yAZ53pURKqjhpYa2vVzI/UAONb5WxS52UksTxHi25x5sDG1jsH8aiG0lNlJKQT9RBwRxFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7c3bf231660so542448385a.0;
+        Mon, 17 Mar 2025 08:04:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742223844; x=1742828644;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wYk7rUbV1AQGgwNQvYhtnikSWM5qBSUIOV3bM088vmo=;
+        b=vLbkHYGgaymktvXHjwa9IBLHKf5wyVGF5ogRNHPMB9CaBEaUONqpgxJGJM5MwvXMgy
+         +8s/eJ0huez6plXr9zGqxpze+APjwWYeqwkrjRNE90dRzlBl1vTLLxe+cBz5eWO754/L
+         uU3rsYZb3kB0wPOveQ3WezBd+zVV5JfJF4L/pRFEo1f/b87amCWhKtWJpcjYPmwLBUp5
+         JiumBXyFz2O3evnAOgVOMX09xNziR+GiULByX1r60SlBxHl2OYgNKmLbgZLo39VOm4Dv
+         S8UZXWzX7Q0wEJfUb5DWbvmfOWUmpmEmauVC41+qQHgqQVkQb+5as//6UUHO6oMkClfM
+         AMLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW44wIkoo5NzaBIxqGMPSyv0jO81DZA3Po2oeUHiYVTVKxzfz0QFR7adOfb/laOjWuXi/tdOmLLb2o=@vger.kernel.org, AJvYcCWLhMUIwNv2cK28g2/IJMacZoFdvNNipF99hW32CnrKqsU6ZlwUjtVf3kkIyz8mAlO9WkCycYPGrpFOYIfekIsdAjM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWJsheslfF8vMocTtUxFY7QYSedltRJQrqqqwHAe7uFvHSAYfH
+	E6WpIBk6ofsi349uw6EWiVi7IngJygx98+dfJjzEW4+vuddAawdEzpFZcVvX
+X-Gm-Gg: ASbGncv0ue1T+VKOh2jZbjlgDO3imv8VLOFH0D/XgkxLBsfc/nsETXzvTtzDhl1s2Kv
+	k2gFQom3K4KqVtBhUTszqGBQmjjmD+2kLK5VLQTA77GEJvVyUVijsPQplo2/r6GmmK9cGQ2rqp7
+	w/pL0/f07UV79FvZYngLt7qedyByGJrY/wmY8CT8FVjwzLSuX9ltPbud4tul0yf6hsRG0Yc4RPA
+	cRV4JCp+rL/0VsMcUMw5VH6pSEUHchkxQgL/FfxLr72qoMP58AG3vpJAmt49oZDlJY4ry35YTmC
+	bnnjT78BqTs85R7XmGU4opfHa1HQieGUqmpYIMkWp78ckrPqrPzViFilXjK1kfK5KT/NUXBeqaF
+	STszeLeY=
+X-Google-Smtp-Source: AGHT+IGSsO4tM30uDrpas6YAUFi7TMNjIpVE3XK+5RbJuaEWyLY/KSrGRQO5ldPFmae2VSmcQBAeqQ==
+X-Received: by 2002:a05:620a:2697:b0:7c5:5a97:f770 with SMTP id af79cd13be357-7c57c8c04c7mr1531969085a.41.1742223843969;
+        Mon, 17 Mar 2025 08:04:03 -0700 (PDT)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com. [209.85.219.43])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c573c9a74fsm596798885a.51.2025.03.17.08.04.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 08:04:03 -0700 (PDT)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6e8ffa00555so38065756d6.0;
+        Mon, 17 Mar 2025 08:04:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWjiDQIlNDEsg0ZSqPKbFFyLAG9ktA1k03VCAHhmV4JSnb06zREswP2EiJ7BFzmLohPOZISC13z6cg=@vger.kernel.org, AJvYcCXsZpyBkYhq6J8ROdF8kmwtkUdJpVbokbQwc2TSper3wtK+EETVobNaT84f5U9mh5mybySyuzc2I5bdPqDozIrSrG4=@vger.kernel.org
+X-Received: by 2002:ad4:5aae:0:b0:6ea:d69c:a22e with SMTP id
+ 6a1803df08f44-6eaeaae36f5mr168169546d6.30.1742223842882; Mon, 17 Mar 2025
+ 08:04:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] dt-bindings: media: renesas,isp: Add ISP core
- function block
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
- <20250315152708.328036-2-niklas.soderlund+renesas@ragnatech.se>
- <20250317-merry-ringtail-of-competition-7d46fb@krzk-bin>
- <20250317114904.GA868399@ragnatech.se>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250317114904.GA868399@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250317123619.70988-1-biju.das.jz@bp.renesas.com>
+ <20250317123619.70988-13-biju.das.jz@bp.renesas.com> <CAMuHMdVbcNqeNXnLRAhS-1g+VrTEwzfLiyNt+WCfuJDuF-Hacg@mail.gmail.com>
+ <TY3PR01MB113466DCECC55DDE9913833F186DF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB113466DCECC55DDE9913833F186DF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 17 Mar 2025 16:03:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXbk8gqhd4FFGmFNQRrEwbOToQvr-00LE2pZWoZq65GGg@mail.gmail.com>
+X-Gm-Features: AQ5f1Jr4yPLIOXs0Wfe0Q4EA29Wimv8RMVdD_vomrUy6InT4b8ezDw-ZVH7MCZA
+Message-ID: <CAMuHMdXbk8gqhd4FFGmFNQRrEwbOToQvr-00LE2pZWoZq65GGg@mail.gmail.com>
+Subject: Re: [PATCH v5 12/16] can: rcar_canfd: Add mask table to struct rcar_canfd_hw_info
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	"linux-can@vger.kernel.org" <linux-can@vger.kernel.org>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"biju.das.au" <biju.das.au@gmail.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 17/03/2025 12:49, Niklas Söderlund wrote:
-> Hi Krzysztof,
-> 
-> Thanks for your feedback.
-> 
-> On 2025-03-17 12:31:51 +0100, Krzysztof Kozlowski wrote:
->> On Sat, Mar 15, 2025 at 04:27:02PM +0100, Niklas Söderlund wrote:
->>> diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
->>> index c4de4555b753..de9bc739e084 100644
->>> --- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
->>> +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
->>> @@ -25,19 +25,54 @@ properties:
->>>            - renesas,r8a779h0-isp # V4M
->>>        - const: renesas,rcar-gen4-isp # Generic R-Car Gen4
->>>    reg:
->>> -    maxItems: 1
->>> +    minItems: 1
->>> +    maxItems: 2
->>> +
->>> +  reg-names:
->>> +    minItems: 1
->>> +    items:
->>> +      - const: cs
->>> +      - const: core
->>
->> All of this and further must be restricted per compatible. Otherwise
->> commit msg should explain why one SoC can have it different on different
->> boards.
-> 
-> I will expand the commit message. In short this can't be restricted per 
-> compatible, different instances of the IP on the same board can and can 
-> not have a core part.
+Hi Biju,
 
-s/Same board/same SoC/? Or you really meant that same SoC on different
-boards will have or have not that ISP core?
+On Mon, 17 Mar 2025 at 15:46, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > -----Original Message-----
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Sent: 17 March 2025 14:13
+> > Subject: Re: [PATCH v5 12/16] can: rcar_canfd: Add mask table to struct rcar_canfd_hw_info
+> >
+> > On Mon, 17 Mar 2025 at 13:37, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > R-Car Gen3 and Gen4 have some differences in the mask bits. Add a mask
+> > > table to handle these differences.
+> > >
+> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > > v4->v5:
+> > >  * Improved commit description by replacing has->have.
+> > >  * Collected tag.
+> > >  * Dropped RCANFD_EEF_MASK and RCANFD_RNC_MASK as it is taken
+> > >    care by gpriv->channels_mask and info->num_supported_rules.
+> >
+> > Thanks for the update!
+> >
+> > All mask values are just the maximum values of various parameters.
+> > Hence they could be replaced by the latter, like you already did for the RNC mask.
+>
+> But this will increase memory size, right? Currently we have rcar-gen3 and gen4 tables
+> 2 tables used by 4 hardware info variants.
+>
+> If we drop tables and use variable with max values like RNC MASK, then this will be
+> like 4 tables for 4 hardware info variants, right?
+>
+> Please correct me if my understanding is wrong.
 
-Both are odd, first even weirder.
+It depends where you store the parameters: in the (two) tables, or in the (four)
+hardware info structures...
 
-I wonder if some other difference is not the documented. E.g. same IP
-blocks are not exactly the same, but have different programming model.
+Gr{oetje,eeting}s,
 
-What is this ISP core responsible for inside Renesas ISP? How many ISPs
-are inside of SoC?
+                        Geert
 
-And how would it work? You have two exactly the same IP blocks in the
-SoC, but one you program differently than other. How do you know which one?
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Best regards,
-Krzysztof
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
