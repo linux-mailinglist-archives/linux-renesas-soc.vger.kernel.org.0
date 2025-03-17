@@ -1,156 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-14443-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14444-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC7DA64394
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 08:28:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1F2A6452A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 09:22:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3CD63B1269
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 07:28:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 486263B1C3F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 08:22:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 846FE21A931;
-	Mon, 17 Mar 2025 07:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C475D21CFFA;
+	Mon, 17 Mar 2025 08:22:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="BCiaZEWT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KbkBjope"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB721993B2
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 07:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDD821C9F1;
+	Mon, 17 Mar 2025 08:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742196500; cv=none; b=oMkls2MEk1DwwfOIHZDfbzWNvPorPv8IiCY3bVbPdYtlGbG52D4Oc0zhHNOy3ZkDXPvQu2FBs1AtJ7oeQI0yflSQ+CrgTlnBDiLNCkTljRNEOIwq69n8Ixmo73A+3agA/A+z9WPj372yWAuvIkkDuTik4/j/5e7pKXPF6rm+3Uc=
+	t=1742199738; cv=none; b=ifAdW0YXqlb+Tnrz+ajfpn70rAPhZyV4lKXZ4dRbQv+ZlGh/pgCLSc4r1wKKaTJyrRTKRV+YMOTEC01faBR2Fth7UGVvnfQS7ey8yOcihCdiKbLK3uOpq16JN5eSX6mkukunY3mAFm+5lsCYGl1DbboTzyd9hlvCdlfAo1cmQSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742196500; c=relaxed/simple;
-	bh=JCZ8NJHlL5qeLs16kSk8UAGx4B14ozu5Wfh9P0ZeBWY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bVea2iW7DmKn5Lzl+JCBgq0NVlI6xhTaDr3u0VxiI52LJss+R5C7W2JyDAwbiXw5NaOpEGV1oBg3cmn5XomhumzIrpdJDbPRVMhlgTjmqpW2iLH5pof/ZKQFH36OwnqxCxQ4XJ8bO7rYi1aMb5XlHPUCrjPFOIPgxfWp54Qjrbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=BCiaZEWT; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3965c995151so2713191f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 00:28:18 -0700 (PDT)
+	s=arc-20240116; t=1742199738; c=relaxed/simple;
+	bh=5YRSK7/kMdbdHj+6rcKNANI5ccwGPToBCiTHQMNwgiY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IqBoKcTjGsHtS7RyA2kzTySyr6uStb3CQaYMP5DHtPcunaPoDC6tPWs0iTJAVwbKwDcgveevC5e9VsSJC2FJJaNloYKopsCXw14/xWAGeRpXRw+DZTySaiBH+18zRXtxL1mq3fwNewkTZzFWGDFseLgbSQGL2DchqnJU9IAguUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KbkBjope; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30bf1d48843so39420771fa.2;
+        Mon, 17 Mar 2025 01:22:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1742196497; x=1742801297; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MmeybRpBrE7pprKBEyj/DYqPzBvtjQqQQdCE2g+fCIc=;
-        b=BCiaZEWTloPXQTn5yT/9HZhi3oy7DyJeIktN7PsemMvY4fJFErlM8tzgcfdZtsWPak
-         W5ilVOJK1QJCi+pSsPKXcwaWyW6IoRpbK0Bl79xmJpctKevB/0yhjjubb1xI16wdX8Px
-         o23WnvV7sL0KiFh4XnRRwVDW65V4+jY7a2/NOtht/TrTKatHBdBMbKb5IjdCQNuEU1US
-         UZku1zkeF6PCNHggbk85BR5jH0YKfUKhj1PatCC8Q3BIYXSKK+kx5hRFDiUTHtcatopj
-         CjaqM8fxwTN/OWbUSj99QZv/DglPc0jUrT70u+bc55Dt4LgRmXSWV3UydZlmGMfyG6zJ
-         y/nQ==
+        d=gmail.com; s=20230601; t=1742199734; x=1742804534; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/8FRI6cy9CCt8b2M5LhQNzurCwCuZ436s4fIsfr2+0s=;
+        b=KbkBjoper1YlosN1XEUA/zyyPXp057aySLx3GWcsfk2MX43VmMw6vylweyV81stj8r
+         5dT/M+kDrpHatxtvoV3prjBfZ4L/rq9VD/bamkgrR0dOvW4071n9JbrFgXAmk95EklCv
+         ySQH7Xns0YvivxGAFaFOTAbMmng05I8Xuz0q8ZyaF9ghcHekSjaqRq9p7qu8vm4Ay9WB
+         qO157A3iV3ttZtttESLo4YgwYZABVneE3mqqXScRHzCW/gf23JMGzBjbrC/sSDo0h7V/
+         pdIaCughE2KNdzrTng4kDP2h4W+9Ji0BOnSmCmaZtDNdFsk8QI5Gy4G7sSST6teqJmmq
+         B2mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742196497; x=1742801297;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MmeybRpBrE7pprKBEyj/DYqPzBvtjQqQQdCE2g+fCIc=;
-        b=GocYlhHBRizAfDcNu3Yln+3rvh055iSnLdJyjdokEDTOHLCBCCIUWqDUiMnddd1Smd
-         BgnRZaVNziTIUtKJOUGwP3H3Ytl2NeBpV30ihOXjLsG5WFWPKYLSUoC0d0yCrkeu3q7h
-         AjHMrQf7fGRfHglc9D5hg/ui+s07qzxkPa12uMeeb66ByIiUTNKzd4gMOydVSpvegzjn
-         3LIh41LFRsbdvgy3LAD4csUrCKNNACLjuS4VOi1XKX1Om9QtSE+nQmVReM1LNdi+bJGy
-         nqXEE0YtiXnuBQkW5JSI9nI+B7C6tH2Z8JDVuCkIGoeC8UbCVtPr3ozI3gOTOv0gsvwO
-         Pktw==
-X-Forwarded-Encrypted: i=1; AJvYcCWzG5XRpPE5Cf/4YOq4q6e9DZIgKyVyDdSm4eSUxgr/WuabJHtbLh21BL63LLgz71XnpSj7RWYHt0cmtt3zGQGmzA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9GZ2TcOaFxiQoUKkg8EhxSCAwv3Pa7+lc/6lcB+2VtT9XNF/o
-	443Ues4MG56XHViEuQifENSZ/jVfIjd9ZOuBE/3c1Wjt9RRiXgvmldLj5lpgxfM=
-X-Gm-Gg: ASbGncvYHri5ep6FhT/KM9ubkgggGOzCHaBL1wakhxIyoOZKKzsIuiqbUk1zG5WGRxH
-	P3acynOt+AUzNOFeGiypmBuIAS/37S3BLjY14yv+g+iBORNNkshW5qKqh5du+vVkDl+xRkzZQe4
-	FJE1z9HKkX3OyjyY14Aq1xxGwnMGd6PyknBLHZWfGIcFK2Tc6g/TcUrNuMCra6EOJsKhCKppq3L
-	MLIc8gWnmxp7V8JRA4DB1hmigb3xYK/xQXzXNZehRzl5wzT5HcWLB4/hIVabLNVgyVCClrtngQL
-	XiNXMthuZ8W0Ss0jnuBrszUWUDHOj0CygtjxQUOAMBsr
-X-Google-Smtp-Source: AGHT+IF0SQg1rbhlVfPRDe4evUEMB6cbst75qf2siyPSgaa7hhC48ie0idr/zrL8lWoqGTejEIooqA==
-X-Received: by 2002:a05:6000:4025:b0:391:2e0f:efce with SMTP id ffacd0b85a97d-3971cd57552mr11869458f8f.1.1742196496768;
-        Mon, 17 Mar 2025 00:28:16 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:8f96:5dba:51a8:70a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c7df320csm13962684f8f.7.2025.03.17.00.28.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Mar 2025 00:28:16 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Ray Jui <rjui@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Michael Buesch <m@bues.ch>,
-	Thomas Richard <thomas.richard@bootlin.com>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 00/15] gpio: more gpio_chip setter conversions
-Date: Mon, 17 Mar 2025 08:28:14 +0100
-Message-ID: <174219649255.10395.5377350063272830181.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250310-gpiochip-set-conversion-v1-0-03798bb833eb@linaro.org>
-References: <20250310-gpiochip-set-conversion-v1-0-03798bb833eb@linaro.org>
+        d=1e100.net; s=20230601; t=1742199734; x=1742804534;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/8FRI6cy9CCt8b2M5LhQNzurCwCuZ436s4fIsfr2+0s=;
+        b=AjdPPdp5LndyIXjsOh3Mjh2PCNloM3GFD9MVLbEtD/8HVlUDzS5MP7KCpmPK7O1dy1
+         YwDRjMjN51GMSOmu6HUxyLYz1ZYbCjWBxkmEG+RtOKJ5qBxHTYh/7qwaML1kKxBKXVIh
+         CIjfte6AYw+GH4j2eaBgcBkoAftsno8rtrjt6iUH29XG6CLvq0/WNb/A3kKpHQR079g3
+         NumPwlvDz1ixvuFEkTnzvVNwgtHphHf3Biaj1t7tiTYK2ROfItMsBaK3W7X4S1EnS4Kg
+         mUtwPhiMYg+Xu9K4CBPotGbo1QA1mWh1L0+L+5GXzXODtvIZiuo/pFzDz5gzVhco5SPA
+         EPKw==
+X-Forwarded-Encrypted: i=1; AJvYcCUMRLt3QDFx4oo7Lv1eFsRmEvHgGKQvcUZLyxpAjvyyr9tAkSe/hm41hhEt8Tr+qnIZVZdDxrMtVm5gDA==@vger.kernel.org, AJvYcCUiBWECvoGQabUFV+ZbffOODESlRymoVMZyzjC657Nw/lIKNenujUIoGri1QRNQjtI15QReuF1/qI3i32nN@vger.kernel.org, AJvYcCV1SZ0Uznavogk+oGzAb8APKCSjY6bTbn4DgRpG5rEQQQ56WIzNpJPC5gLEkaEdAcqSjOgl/xrSUoAX@vger.kernel.org, AJvYcCVn/tVl2cfXS2Vk1zJayfOrbZ3Nnc6dRNZUPjeUiXxcQ+wfcolS942Gmg5MVTRSyFvQOE03snr/4weV3mCZ6cQoJc4=@vger.kernel.org, AJvYcCW2zTe9yDaDojhaB+xfSQNnLepsm2Io6CgG5KtHUJJWayW1KuhpnUrOEWnsOFQCodQe2o6CC0MrwWFv@vger.kernel.org
+X-Gm-Message-State: AOJu0YznyyIiJZLW5K261wA9sWwTVzdWdmLeijXY22DHIRyTRbWA5+8i
+	jpHw0TuYHwm1E+gaHeHPpQ5aEQ40WZNYVwWlqIwmsN8mcSE+v30g
+X-Gm-Gg: ASbGncsU2vsZqhCY2jXQ2oloHKzo49SN2kk+Pm4Q/yWekBaCIm9HtYdM6HMH/b3WHBE
+	XCibrxLSU3ZviZrvJrnpoGKTq+DT7hatZC5D9UvYtTkwcDAntyjw5MVq4bc9cUx3wLJi/ai1jCd
+	KG3c6252ku8Ki0PWv25wXIhCzn37ttaz0DvG8lQXUYEbseOcdthI31xV/RQxOy0fhgN3YD7cAMP
+	czeaaiEstfio+R/fxSILkZdfSBjOYCzCqFUFjX6LFL4jtaYQ6bFvxCU2OUFpn7tsJDpEFw068Fj
+	EMv0pcFjl5O3cmLKuSz9nh4jLEDSR+1+zwBxgHQsNY16SL6jS9o78tjIHuKC2Si1C/Ykuy6svu8
+	a/FCcMLv7izSDonbza2JcyGuMWg==
+X-Google-Smtp-Source: AGHT+IHBKGlUlP46i1muxXD2BoUJCo9oeQCMBPNLoYtEWkTjbhR1aqc3+f20CvsiTwirEb5eGG/pEA==
+X-Received: by 2002:a2e:be06:0:b0:30c:1fc4:418e with SMTP id 38308e7fff4ca-30c4a8d225bmr66527681fa.26.1742199733797;
+        Mon, 17 Mar 2025 01:22:13 -0700 (PDT)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f1c2233sm15370161fa.69.2025.03.17.01.22.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 01:22:13 -0700 (PDT)
+Message-ID: <66a93de8-f5a2-4ffd-9c97-c646934cc90d@gmail.com>
+Date: Mon, 17 Mar 2025 10:22:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 03/10] iio: adc: add helpers for parsing ADC nodes
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, Nuno Sa <nuno.sa@analog.com>,
+ David Lechner <dlechner@baylibre.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>,
+ Dumitru Ceclan <mitrutzceclan@gmail.com>,
+ Trevor Gamblin <tgamblin@baylibre.com>,
+ Matteo Martelli <matteomartelli3@gmail.com>,
+ Alisa-Dariana Roman <alisadariana@gmail.com>,
+ Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <cover.1741849323.git.mazziesaccount@gmail.com>
+ <c8899e8c535a1d93cd7588b7c160eb0fae5d26d2.1741849323.git.mazziesaccount@gmail.com>
+ <20250316093752.0eacaa16@jic23-huawei>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20250316093752.0eacaa16@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-
-
-On Mon, 10 Mar 2025 13:40:14 +0100, Bartosz Golaszewski wrote:
-> This is another round of GPIO driver conversions to using the
-> int-returning value setter callbacks.
+On 16/03/2025 11:38, Jonathan Cameron wrote:
+> On Thu, 13 Mar 2025 09:18:18 +0200
+> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 > 
-> 
+>> There are ADC ICs which may have some of the AIN pins usable for other
+>> functions. These ICs may have some of the AIN pins wired so that they
+>> should not be used for ADC.
+>>
+>> (Preferred?) way for marking pins which can be used as ADC inputs is to
+>> add corresponding channels@N nodes in the device tree as described in
+>> the ADC binding yaml.
+>>
+>> Add couple of helper functions which can be used to retrieve the channel
+>> information from the device node.
+> I suspect we'll need the addition of an optional trailing timestamp
+> channel at somepoint. But we can add that when we need it as only
+> matters for drivers doing iio_push_to_buffers_with_timestamp()
 
-Applied, thanks!
+This is true. That'll enable using this for devices with buffers - which 
+is not possible right now as most buffer users do timestamps. I'll leave 
+adding the parameter to first buffered user though, but I think it's 
+good to say out loud this is doable :) Thanks!
 
-[01/15] gpio: bcm-kona: use lock guards
-        commit: cd7d117a297149b61871d441fa1a8146c55c435d
-[02/15] gpio: bcm-kona: use new line value setter callbacks
-        commit: d5cc72803b146c811b01f9a5b91e97337adf5784
-[03/15] gpio: bd71815: use new line value setter callbacks
-        commit: 7bd2bb7901a67f6b14c913596acb471351f500a5
-[04/15] gpio: bd71828: use new line value setter callbacks
-        commit: 8a050f738d41d337fb73ef582916328dc5bd73e1
-[05/15] gpio: bd9571mwv: use new line value setter callbacks
-        commit: fe7667f2085ee7d66a6a34e6bf6830be7e641b52
-[06/15] gpio: bt8xx: allow to build the module with COMPILE_TEST=y
-        commit: c948feeadba290e989b049913576b3d30ba02235
-[07/15] gpio: bt8xx: use lock guards
-        commit: b9a557d05a7dde42b1e3652751eea6c06091402e
-[08/15] gpio: bt8xx: use new line value setter callbacks
-        commit: 19c39c53752ae0b5cbf7577bcdf7c13d1c146e65
-[09/15] gpio: cgbc: use new line value setter callbacks
-        commit: 1e69c7532a188a84b4cb535944fd7d60393a1fc8
-[10/15] gpio: creg-snps: use new line value setter callbacks
-        commit: 68f5b74e0db7ab57885ad4ec05f7418cac8f4063
-[11/15] gpio: cros-ec: use new line value setter callbacks
-        commit: 2661dc2de18617ac827aa9b50cb145bf5a185896
-[12/15] gpio: crystalcove: use new line value setter callbacks
-        commit: 96498b83b3ded5f01207775d681374d62111d548
-[13/15] gpio: cs5535: use new line value setter callbacks
-        commit: 588dfcdb162855b954f92fce73a12e3fa86ded01
-[14/15] gpio: da9052: use new line value setter callbacks
-        commit: 489c19cee3b9fd58e7967dbc4e54cdf212b073a0
-[15/15] gpio: da9055: use new line value setter callbacks
-        commit: 2eb5dc9a4b0d193b27289281faa05aadab978b41
+> Otherwise no additional comments from me.
 
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Yours,
+	-- Matti
 
