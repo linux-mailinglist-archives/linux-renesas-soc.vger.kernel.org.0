@@ -1,194 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-14546-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14547-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17867A65E50
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 20:45:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2CAA66182
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 23:24:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1ED637AD48B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 19:43:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F16633A6919
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 22:24:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22F871EFF8A;
-	Mon, 17 Mar 2025 19:44:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03B09204C3A;
+	Mon, 17 Mar 2025 22:24:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="JqMuCFPB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZsWAigZa"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eBXgsaMS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2DF1C6FF7;
-	Mon, 17 Mar 2025 19:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303D81F869E;
+	Mon, 17 Mar 2025 22:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742240667; cv=none; b=dm3O/4+AkiVjxig47Ut6vyA3zyXCyZ5giY948XNvkQQCJl0nWwVF66IEVZvUplDhOZz5P/+o8fotnH81Zm3721AqQs0wSzjGyWGCW844BuibBMpG/E/R/Rcke+wLEQSgXV/+G3hH8uqsxAFaWVNIfIq1eaNlOOMtZmjkLdeFX8Q=
+	t=1742250282; cv=none; b=ilVhZHaQtTdzpbWC9CA+5LtUMYH4SAW7vvRCyYCIjIOzfyQcHoXjgYV+IkssTh00WSMnTLFpkQp9ow9nnPGD1Ccd8b6LWQKGNT2rdw7XEwjtLEw+9mAOVAIppr0HK797dPIFj7ieNL14n+ZNymb66tIpQteysV1U62haZripA08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742240667; c=relaxed/simple;
-	bh=e6pKxjRpOywJYjLXV9cUmzm3EkOq+DyNe+4o7auCxhU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lzb5RTHnupcAWt3aekHnGWexfsMdAxRSuYzx/kijEYBfzMFtdeD/fCMTrtL4xnalOuJ6vcCzzdhApJtozaG8DcJWPeqSJEkqmjo9PGz8kVtFVaXNGLQA6U6eCvmE0IByfytZUg7hQy4TEmt+xsrsQRD0NK4uX4Qito76Txrg74k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=JqMuCFPB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZsWAigZa; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 6004311401BE;
-	Mon, 17 Mar 2025 15:44:23 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Mon, 17 Mar 2025 15:44:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1742240663;
-	 x=1742327063; bh=3FmmIDjQM+RHX1Lvf7nP6PhbyWa8+bI1w43RRWznJ2g=; b=
-	JqMuCFPBNwYmSgrxLgQM8RjvFFnHo5OJ3cxcVR0XMgm7TuwC9wMK0jnL6OzGlq9v
-	aqsVoKp1otmjFcXn1HZL8oWQiFrzQwzkP7nsGtpzZtwjmRsVMEhynEaKVHnyXX3z
-	rmkLe/FxFcgZNZI0QCqc5OtU7qO+LSzWdeU7t9nbOAOL0+LZ4wG+Kc/uMivbl80u
-	NcZ10oRik3VwQIQ23hDEw5+M+4GN1B52YJUEnFt72/oi0r+pZqGbqmI6NumLGKHY
-	rHEewpiQUzw7E1v3yJ97yLN3iOl8NIiO1HAt9D+IV6xmKacTDMkRSzPjaNRq4JNw
-	1TzQM6Q4K6Rmj0tirUuz2g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742240663; x=
-	1742327063; bh=3FmmIDjQM+RHX1Lvf7nP6PhbyWa8+bI1w43RRWznJ2g=; b=Z
-	sWAigZasCYA+Oby5335c7cPIsdqWFXx0rKPzl22MkHCdZCxnR1AKOA6LB9lxsIC0
-	PQK1lc3juygdEc+YBk3gJHcZ1n0mZegYuwdK2D4Oz+5M5SVr4MukBPOlbtfHEVLK
-	k1VW0jr3+qPHoRYL/ZaETZ2zPcnehf2DXx6cUIWCk+clLgZ77Kn6Wg6EGzFiro0B
-	/NTIvKphkpVq0qan6KgRiwiiYzNDD+zdL4lTmbO8UCj2I+eM4/uhWsFMX7VTOqRE
-	AnTPyg1Hk1s8ttrNgRu81/AQQUQdQvAyAIpVIaraW1JRZwVSXEHJoayA0pBCQfC7
-	xJJdZIs+72AAShV6Vi5rw==
-X-ME-Sender: <xms:lnvYZ7Vy6SqHfzWCeBw4LCC9hhokB8LM54FHJXB1yOCS5yq2jHUOHQ>
-    <xme:lnvYZzmRRv_adClB2xRhitLvdOE9BNHHcq4lp5KvSFSFYulyZ1LNGtLOXbR1NORiv
-    RFGRdI65BsMklslvvQ>
-X-ME-Received: <xmr:lnvYZ3ZjcV3bpKoOm6aKY9PG_4g-mgy_zwtoPeYLchrrst8fD6a1Q7HkpZ7BUAxB74K3G0ZWFYyd3c94LR59FsedRUAUs-B7wA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedtgedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
-    rghtthgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehff
-    dtvdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthh
-    drshgvpdhnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    ohepghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtohepkhhriihkse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhrii
-    hkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghr
-    nhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrh
-    drsggvpdhrtghpthhtohephhhvvghrkhhuihhlseigshegrghllhdrnhhlpdhrtghpthht
-    ohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhm
-X-ME-Proxy: <xmx:lnvYZ2XJTvIjBv2fhuKktxQxNJyDki8BEFymEoPjECmmoFlCLXgevQ>
-    <xmx:lnvYZ1lC3G8eJYCH0C2cnEk8hrcvxtaqlPsM_SqK__Pl6mwOP5A_5w>
-    <xmx:lnvYZzfSVl2ZjrGD3hGkWgpew___Wbj6ITa7k3GzYXYNBxRxllLkPg>
-    <xmx:lnvYZ_F8Jq4EYrzF5yfQVdfy7tEuaH007rK9AF-8So4GpH8t9wFeZw>
-    <xmx:l3vYZ69HjrRjWaoaML-sHbbLPYMZAW0FV_z8_sMrqmCPhMe6YUE3lDNr>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 17 Mar 2025 15:44:21 -0400 (EDT)
-Date: Mon, 17 Mar 2025 20:44:19 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/7] dt-bindings: media: renesas,isp: Add ISP core
- function block
-Message-ID: <20250317194419.GB949127@ragnatech.se>
-References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
- <20250315152708.328036-2-niklas.soderlund+renesas@ragnatech.se>
- <20250317-furry-independent-clam-33db01@krzk-bin>
- <20250317115006.GB868399@ragnatech.se>
- <5876368b-1549-4ce0-af43-80f712f457c8@kernel.org>
- <20250317153726.GC919085@ragnatech.se>
- <CAMuHMdXU4JxDe-L+UcUwzndariz=mfed7UyVXW2Mv0yggXZw4w@mail.gmail.com>
+	s=arc-20240116; t=1742250282; c=relaxed/simple;
+	bh=l5Rupot/LMVZlcsfabiGNdgECH3hJKhybWRxZsRFbL4=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NAXCm56dro5bLMgSREicc1SrGzgQ23xClirpRcvypq4sKNLqZQNwvRntbuYNkaySQ4dBMma0XVDnVGO99TmRvesSdFwF9Prp/45PGVXY9/05qapSBHqZyvK+jl8/75OqP1p5oIIB6SV7DSvjlphqyk9K3MXX/lkKUEaIZ3K8D+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=eBXgsaMS; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3DA654439B;
+	Mon, 17 Mar 2025 22:24:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742250278;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M2STKYUhOmDt07N+wZvQQRmRKAJf5qqOn7zGtjiE31E=;
+	b=eBXgsaMSEKG5aQdFIyE/wR84CpGzJwcMd3Colat6o4xcVM1gW2ZYCsiMdWuwWUqexYCZY+
+	tXFw3R9+h0T87wD2FAOXZT4DbglKLQs8q0841+ZkNjXqpsVdyX7nlWBfqOMp1ZK9gnKgKt
+	HTtu9tibJu4LfdsfZJCgsgnamapdlYlymZOanzQDXvYThRYymNkoi2+dQPjc/C7oKRDLA3
+	0hCyuq9eYNmO/8bQr0F+x0MmMC3Q13JCNtB4i1kX1vmgp6BuJc73MuQgRv9XgCASKEX8p6
+	Oy3ujEd7UdY5BSS7240rPQygGKn+D9cENpOjrhgd3dTsMYui7rTHtLueUBBRHg==
+Date: Mon, 17 Mar 2025 23:24:37 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v2] rtc: rzn1: implement one-second accuracy for alarms
+Message-ID: <20250317222437f14a32f0@mail.local>
+References: <20250305101038.9933-2-wsa+renesas@sang-engineering.com>
+ <2025030522061502555577@mail.local>
+ <Z8qYM2-LQPgIe2JE@shikoro>
+ <20250307183817b7747a66@mail.local>
+ <Z86f-tvJ42ui9Esv@shikoro>
+ <Z86rueNSSps2foF9@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXU4JxDe-L+UcUwzndariz=mfed7UyVXW2Mv0yggXZw4w@mail.gmail.com>
+In-Reply-To: <Z86rueNSSps2foF9@shikoro>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedtjeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedutdfgheetveetvdetleelfeffkefhtdfhleegfeeuleegueeugefgheehledvgeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemvgdtrgemvdgumeeifeejtdemjeekvgdtmegttdgvkeemvdektdeimeekrggtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemvdgumeeifeejtdemjeekvgdtmegttdgvkeemvdektdeimeekrggtiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomheprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedprhgtphhtthhopeifshgrodhrvghnvghsrghssehsrghnghdqvghnghhinhgvvghrihhnghdrtghomhdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhso
+ hgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhrthgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-Hi Geert,
-
-Thanks for your feedback.
-
-On 2025-03-17 20:21:14 +0100, Geert Uytterhoeven wrote:
-> Hi Niklas,
+On 10/03/2025 10:07:05+0100, Wolfram Sang wrote:
+> Hi Alexandre,
 > 
-> On Mon, 17 Mar 2025 at 16:37, Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > On 2025-03-17 15:57:31 +0100, Krzysztof Kozlowski wrote:
-> > > On 17/03/2025 12:50, Niklas Söderlund wrote:
-> > > > On 2025-03-17 12:33:07 +0100, Krzysztof Kozlowski wrote:
-> > > >> On Sat, Mar 15, 2025 at 04:27:02PM +0100, Niklas Söderlund wrote:
-> > > >>>    ports:
-> > > >>>      $ref: /schemas/graph.yaml#/properties/ports
-> > > >>> @@ -103,10 +138,14 @@ properties:
-> > > >>>  required:
-> > > >>>    - compatible
-> > > >>>    - reg
-> > > >>> +  - reg-names
-> > > >>>    - interrupts
-> > > >>> +  - interrupt-names
-> > > >>>    - clocks
-> > > >>> +  - clock-names
-> > > >>>    - power-domains
-> > > >>>    - resets
-> > > >>> +  - reset-names
-> > > >>
-> > > >> Another point, this will spawn bunch of warnings for no real reason.
-> > > >> Just drop all the xxx-names from properties and from here.
-> > > >
-> > > > I'm sorry maybe I'm missing something, but if I drop them from
-> > > > properties how can I add checks to makesure the names are either "cs" or
-> > >
-> > > Why do you need to check for the names? There will be no names, so
-> > > nothing to check for.
-> >
-> > Ahh I see. But I would like to have names if possible.
-> >
-> > The driver is backward compatible with the old bindings, and going
-> > forward we have better bindings with names. All users are updated in the
-> > next commits in this series so the warnings will go way rather quickly.
+> On Mon, Mar 10, 2025 at 09:16:58AM +0100, Wolfram Sang wrote:
+> > 
+> > > Yes, you followed the code correctly, I have a series that is removing
+> > > RTC_UF that I didn't send yet.
+> > 
+> > Please CC me when you send this. I am interested.
 > 
-> Note that the driver does not _have_ to obtain the "cs" clock by name,
-> as it will always be the first clock anyway ("make dtbs_check" will
-> sort-of enforce that).  So you can simplify the code by obtaining
-> the first clock without specifying a name, and the second (optional)
-> clock with a name.
+> Do you also have a series pending simplifying handling of
+> 'max_user_freq'? AFAICS this is totally HW independent now, meaning we
+> can just deal with the constant max value in the core and remove messing
+> with with it in the drivers. If you don't have such a series, I am
+> willing to work on this.
+> 
 
-I understand that, and for this fix this would be acceptable. I'm just 
-trying to think a head, something I should have done when first writing 
-these bindings...
+Yes, I have something I worked on a few years ago now. I was wondering
+about the proper default policy which is 64 Hz right now and which max
+value we should allow, this is 4096Hz but we have one RTC setting 8192.
 
-I'm fearing a scenario where we will need to add a 3rd reg region or 
-clock. I don't think we will need that for the compatible values we have 
-here, but then I never though we get the documentation that now allows 
-us to describe the second region...
+I don't this it matters too much because there seem to be very few
+userspace programs using RTC_IRQP_SET and RTC_PIE_ON, muse, tutka,
+twclock, tvtime and mplayer. They are all either very old or this is an
+optional feature with a better replacement.
 
-If you and Krzysztof are happy without names I can move forward with 
-that too, I'm just trying to learn from my mistakes ;-) I will give it a 
-few days and then head down this road without names.
+While I'm reviewing all your other series, do you mind having a look at
+https://lore.kernel.org/all/20250205173918.600037-1-herve.codina@bootlin.com/
+It has been submitted a while ago now.
+
 
 -- 
-Kind Regards,
-Niklas Söderlund
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
