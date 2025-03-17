@@ -1,249 +1,269 @@
-Return-Path: <linux-renesas-soc+bounces-14448-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16F7A64599
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 09:33:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 905CEA64647
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 09:52:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3D4E1893E0F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 08:33:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 975457A2A86
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 08:51:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 480A4221F18;
-	Mon, 17 Mar 2025 08:33:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 502EC21CC79;
+	Mon, 17 Mar 2025 08:52:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="gnU3dR9U"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hOsgpE75"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010004.outbound.protection.outlook.com [52.101.229.4])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232DB221F04;
-	Mon, 17 Mar 2025 08:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.4
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742200388; cv=fail; b=Q7S4GOSLjr0TTeOnbuPoO9B+cxbUKF6j7ZR50HJoFDdX51v8/Ee85PsRKPxtKiDNrHPr4Q6+1TDQ9Jm4mOV+p9L6e0h1koTjbPsHgnxqhsPl09ru5lGqAVYJptNrAs4Pb7HaYnNbreLxXNz9fFHDz8AykI6H2XUFUqW3oyCu6sc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742200388; c=relaxed/simple;
-	bh=gifNC82ceshT4UjRcb4Ua8hugGtELF8VWLbj8crBcn4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=N2hvt03hVhHwIucwNDLpduKNdJKkuDHe1xGTGqquXTVPHF1uJVtxMyOt6zgzAM0GoWkGuZU8q8vZ/zmYdjHztVwOghH5hFZJSNGIKv//9MdzW7fMqL1Vi1puxQErVu9OdXFNZox4WpM1tTmzsYDwIx7gb3FfEr7wvDxC6TAk4GY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=gnU3dR9U; arc=fail smtp.client-ip=52.101.229.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yx4QotAI8e1ZKJlr7QnwbGN5OPoSwTb1/5pUh30KQUcGZEMFdTPv13KIfZlB3YQrmFw8EQltDOc9jwQ93DeV7Gzb30HWC4regZN6m4NXwDyt9kfPoaMh0P2f17Hw4M0FkJjdC1XPy60nGwVts1OyoqHK9ddK6IckysdxeTDnzSsibcgZ+QBoIRUPEmhYD0CcWTtEUSOfuMq3o13edcAMfC42ggu0Zj3YyFNbM19diipRuIOSJvcxhciYzeYLgM5l72dM5Ozq6gNlHwXsP1s33jWCz04im+I0fhP03C70+Dh+Ydsa6F4k9PegXBAqTaOf6+5tHnvwVdzM0SkLyuvjOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I/AGmSHfMPj5sp77JN7HSy4yxuaXHCVm/ZAYQFSpVCE=;
- b=pn5xSgD5e0k0R1malIA0vnVN5yyTUGzxGKPq7f2z1tQRJcgOSBwWLUo6ZJm294z3VwQrdBr6uwSjDHeC+NgAhafo10YX3z9J8D35YgyjcUlpcex7dk63btVz6OKDA5rRwvh98g0LDRkA9dyslZNx/dzCA5FiqDcVruS1FfL7Jj0/uIDU7qn4LZ9szvrBjeaUd//HFBTFh8XKd8rS5EAEYS77ZGC6x/sX3uS5qf+3LSubkG+e+Y4zHhwvvE5+YPJEPSjMB359jozDQwWOpXjL6iLYv2BXwoY65hLMTSRgWQ2L1zpow1uCD2fVsU8a0qd0GFNFpu1YioWiJB2l3tc/mA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I/AGmSHfMPj5sp77JN7HSy4yxuaXHCVm/ZAYQFSpVCE=;
- b=gnU3dR9UPpQxLel81Kvqt8pxl0b+ZWo0woDvFtBGCNwkgGTRmq+sBO0ofglBkOvT7lwT9AqqY9PuLtb3cEx3k14fjtoUN/IyiHps8dOWKg9KP+sSmLXpFMUUZJaw2Q2hyhQP61kXlIChQbW/qXDolKbBf5Gs08AxWerAQ7pfvRs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
- by OS7PR01MB15407.jpnprd01.prod.outlook.com (2603:1096:604:39c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Mon, 17 Mar
- 2025 08:33:03 +0000
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3%5]) with mapi id 15.20.8534.031; Mon, 17 Mar 2025
- 08:33:03 +0000
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Pavel Machek <pavel@denx.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] clk: renesas: rzv2h: Simplify rzv2h_cpg_assert()/rzv2h_cpg_deassert()
-Date: Mon, 17 Mar 2025 09:32:11 +0100
-Message-ID: <20250317083213.371614-4-tommaso.merciai.xr@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250317083213.371614-1-tommaso.merciai.xr@bp.renesas.com>
-References: <20250317083213.371614-1-tommaso.merciai.xr@bp.renesas.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR3P281CA0027.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::14) To OS9PR01MB13950.jpnprd01.prod.outlook.com
- (2603:1096:604:35e::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028EB1B412B;
+	Mon, 17 Mar 2025 08:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742201566; cv=none; b=WrqFJRPQKbyxEj3r4PqnAxykve+y2st5cNa0npqGx2jFJV5K7eAyFzHWEa/2EV4HCM7RQdqaMCo8TGvePZj2jMUCGwBd7V1MRXndDo3aVn0lCdnoV89cYxjux5Pg9i/bSrOouwZHJ5z8cm9P4/LPcDZnvtuk0EGNFLdTVOdYQwc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742201566; c=relaxed/simple;
+	bh=+B5JwbBFivWYCY+UmnrfWnqmPZMn4eiW/HdEXryOz38=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=YPciVA3ZSROELY/3zrgNrqcHK3xxupdbn2HXF7sjSKnBtBoxXmnMi2tgTHFvJTPDBiC/Ko63BYnV1INufnSGmCDGM9RsSie8Dm/RyANbqLhwtMp6CV/sP0W/J3OUYjr7FuA5G1nBkQWIjA+D20qSJ0AgP03jg8HUzxe8FOTWDAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hOsgpE75; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 08C3943277;
+	Mon, 17 Mar 2025 08:52:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742201555;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v1BOiXY0pQXsR3DKRb00y3Ktnt4JnMEzNfaWSPKCrJ0=;
+	b=hOsgpE75dFTLaSfPDI/FmtVR8cTYAMKR0TtQSV+ggmI+xHu964BaVmSPMTp/yb9S9Otd+0
+	+lpM7TgSYig1wUepQAEnp316THuGM9IjJjWrR6rzt/YHex+4QYYJld0lrInpZW2kOEc+2e
+	IaqLYKtho9k3+/CD3E0kRudVrd2yjuMSqonD8vSRaUIHiBUxrGI9l37j2sLBfmO5czRla3
+	YY+cScKl/ey/WQzGojqd8PSSI8BlA3lHmdL1tsqayOLfgWe2rS+Xbo6zy0Ct+iXK1QlYGB
+	TkI3JfJMS24H8ii7edgNJJNC0zv0fqMLQgViB3UQ/CmClAZW/7NB10A41p7AKA==
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|OS7PR01MB15407:EE_
-X-MS-Office365-Filtering-Correlation-Id: 13ed2208-0d20-43bb-c882-08dd652e5575
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|52116014|376014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?mYKCVjec5oirVjo99evUiOlXudk0X8t9FMMZQHVVG0+E7vjlNzydAGMNUt7A?=
- =?us-ascii?Q?PrpHsqqfRGrXSrvjYwUBFE7Is2GZ8HXizXelPW1ugJtKdPupwVhi/CoTwRv+?=
- =?us-ascii?Q?vFkRucCNR4svZd2mnsaQHj8Vk269hrqUlyGyEZiBeWG4WMwM3VO+1dmD/s2k?=
- =?us-ascii?Q?QhE4rf0CWeGUdzOt/opbhdnsGB6AxeT6MmQp/SfVoTh7olV2MAulHO3f0CpS?=
- =?us-ascii?Q?t/CAyY7SBQdvx0wimgjWIyytu6WHZJ4RJHbZIZIl+cK1gpqguCjMCRmyuJse?=
- =?us-ascii?Q?4cSf42+bBb5ZrJZt0RIafv5me/EBZUZ/kTQHMifYmbMDZbhCIh8OH5rkk2hB?=
- =?us-ascii?Q?WIX2pSZzqSa/FGHps2iHeh/lF3ZoWB5hGai8xQNVilVzmTyM6nFaOYvHqDuj?=
- =?us-ascii?Q?DjVfK1ryZl/IuDwLy2pfivW3HJHTwYKGMmVplZXlKqG5p5qu9pP5OqynSizA?=
- =?us-ascii?Q?4qOA1SFt4wYKJWr8WQMfz0xlzSuLN3jnnOaUYBnBzzBq4tlgdvAy5PvTUafb?=
- =?us-ascii?Q?kjsy1oIw8mNab6OjKmPwnU0qifs2JvZDC/fzP2aAQ/8IAk8zxAF/KX3c5Z4R?=
- =?us-ascii?Q?sesMX/UQMCpZlli648XQkZYmp104Or1vwWcp7OBiT75bkCfVlm7fuKy7nkpf?=
- =?us-ascii?Q?68R6Lc0rDV6Tt91uvKX/ctHFn7vBAUvp6x5HO0N20pJRvsl0GNbniQ+p/yKc?=
- =?us-ascii?Q?sG0FlzrQJBBVvYwEZxVXnnFn/6MF3f9OKrKiyUjRytzx4WeLHfUjW0ZQt5ax?=
- =?us-ascii?Q?euLdSm3al3ON917VMpSJcNyTP58sxqF6v+6Dh97V2mxROiUEmV96heEARhXh?=
- =?us-ascii?Q?4hQJceUgXfXzz7TxOqsVeslINZDzFbEs5YD+x5fgFqMJP8DH3o8byv8e2EyT?=
- =?us-ascii?Q?noyDBpHfNFpJhzk5Cn+iMhdxNN6hZKYvAoG/pZRr1wPBa/78IoGWlg/ToerY?=
- =?us-ascii?Q?kQcZ+rGD6KruWk0ysFu/ku/ALhQpLjgBnTlLC+ZW9FulfPTh2NSY9cKVr9vg?=
- =?us-ascii?Q?KZlVuDRrrJxAtKa1gw4z2O9gg6AYWOAaeL1qN7m96AWRWgQFpBq6rQaTias6?=
- =?us-ascii?Q?8xSR8cnm5WX9Vv0TTEbi4mJhOHj2X8QP0pcbjLO/g8xUMhQB7vj+dZ5IKsV5?=
- =?us-ascii?Q?DHJsbhFrkDmFJblQ0yfMvqNaTOXFNwGiQhOzwaF4QsJGfYtVvAZwcMIZQ17X?=
- =?us-ascii?Q?t48fHflk/za9EhZTmn/iM+2MQ0dspSV6SFJGOOeIew63by3mYxOYEPrNuNHq?=
- =?us-ascii?Q?BEeRZ3zYhn78t56bQMr7I8Q7DMWZZaZDdKTg8NowKQ1PXwUsvcFFYuBF+QPM?=
- =?us-ascii?Q?iHu4yCW7QgBruSxVWK5xyMF2tA5RAki2FyMWbNAIgUaFDuzUkPLRscp79JaY?=
- =?us-ascii?Q?UtePPk+VupW9UwrON/NVClzTkvN6NKLKvHP09ngX83EREBu53An+ovZXK5mG?=
- =?us-ascii?Q?qD8k9K2HIiaV5F2F4mw91v0NuKO5nY7v?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?EB5zIk4J+WPScfzKM9GEn9A6/5WWe+KTpBdbb6O85gXOS4g1n3pB8AZurY+1?=
- =?us-ascii?Q?IUCQRuOdp3fyMKRLvWeM6oAtCQfEq+9zffyuquAMN8+Jqs68ZtJ0FrDZvxh/?=
- =?us-ascii?Q?gaQn17jRgjXpUqrlGCCaMRtoVJASR3LSTA2udFKfjBtaMqpr2Va0PLGzb5/+?=
- =?us-ascii?Q?DIDczis3Lm2+HRc4Giqb880XFh47q8ctnSNk+Y0CLChWEBeXmOwhLUIwXFHu?=
- =?us-ascii?Q?hacjZOpxE3Ap1E7brybHKPcFuZvxM/oRoW4hN94vfo1KCPpTgjFsCypwYaJj?=
- =?us-ascii?Q?gQAk4hrxydlq9qjRBczwO7bRctmYBzGIZ/QLxC3VJQglvefrpD4uBLuonotj?=
- =?us-ascii?Q?uCkZW4edlVM31ceHu96BZKF30Na/lmUDOZ2XX2FdsC28WuwSHYGjDyQAKGcZ?=
- =?us-ascii?Q?3xnyCF7jFMs03QClxoD62r8floL7Qe6mHYiJmqUmXBeRVEb154xxO0a8P+5u?=
- =?us-ascii?Q?6ixtOt9j215uA8WGxuR1Pbw3wWOedQh/dczkFeGIN++2U9aHezoKG5W09yea?=
- =?us-ascii?Q?WvCgmwp0/2NqXCBFpq/FVgrdpW9ygtpKJuvQOJptnCwnP8IVMX0+eHumeQei?=
- =?us-ascii?Q?53NrPiM6A2HIld1sZS5mFk5Br00nUh81yOZm0k+bTqhZSAyv3o+bcZQqO/vh?=
- =?us-ascii?Q?6XnFCjxgM2Ynm+Sb2TcFlkqupTiGLHx3tu3lF8MQjm4JTYH9vicyzmw+9tZL?=
- =?us-ascii?Q?4T4OQdKkP/Yr7I/RU/d01VfNBBtR2CJ2bEq4x6GyNNZ42nfWNtViNCu7qoMR?=
- =?us-ascii?Q?Hg5gd412vVv6tKU9lbDVFPWC1pK2AyrDc67Z5tTdThzCNhGz6c8de2DGm1bD?=
- =?us-ascii?Q?HOINWilURUko34PIq3yaIyj+t7JAQh+CK9i+PIsKBsbQm5pqLS8dW09fJTZD?=
- =?us-ascii?Q?bSFu83AJ8NPp8RMtICJ4dxSHiHQ6qBsGkI/B62cdTy05EWXfIVLjvyZkrRx2?=
- =?us-ascii?Q?Cm3/mp1azODCikWpdvSJQJr9Yoe91mIbbvL4FRJCpABLPnGDt5tRBX7gCgka?=
- =?us-ascii?Q?AvHVCHq6bco0tpQ3hR125VI+bnpuBH9KRoBdpBM/Bu8mtmiB5ZD39e9E50li?=
- =?us-ascii?Q?0N3NRzQR0CVMb6JBTTxQkR4q/XNCJvsxO+gHEQDRiI7RY2T2SUKxapDh7dCq?=
- =?us-ascii?Q?QNNfQVLNnr4rSlDZKRtLeYE7qLq3JtIm+wD+SUlpfmlrkMRRLJL5ComOEW8m?=
- =?us-ascii?Q?CYdiSS+253hVW53icEFO/9QBOvUtVjinxVNxPsH6M9/pYh1AjVTm9z6ESOQz?=
- =?us-ascii?Q?6R1jzDz4hzUkFxps/eHFSR/ltTU8uk97RE5g8nNPEJLmeQP5xm2zKtEkrX2n?=
- =?us-ascii?Q?/wCR7pTLf8XGVH3+YO6ZP5vfSTt1v9Qq7+BEyDkTFTX3q2LJ2/0VadbfswMb?=
- =?us-ascii?Q?ZNrWQyK8/RrzkoA4WsPEfYA1VrbssUL4OGnJ1ckhmQZctTv5XJMtnTSvuhLG?=
- =?us-ascii?Q?/+tJjFEQHSZqZZJ6bCdxQC/dcceoxdF665rGwcbC+/miOJ9/BccDKFsHsyEx?=
- =?us-ascii?Q?gbNAZ9yCsX8FW+yoSI+hHzHiw8LshVANgRBJarupIW5euDg6iI4y+7SRCL8u?=
- =?us-ascii?Q?SUogEOqMQfduWy6UEG8cSMcu3r/hKhY0w+KntN5uQzkllwfTgOiEolwayOMY?=
- =?us-ascii?Q?DIyzmZDa8mbMr1EbRITYcsA=3D?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13ed2208-0d20-43bb-c882-08dd652e5575
-X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2025 08:33:03.6765
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DZbcoBGd9ER1wLMk1SkQWneuHgUPeH8E1VD1q5SgaFKJSEvjtWiRm71xa2Dens+YQQKMNtqPUcsWhZJfDoNSveeD6aOYWRVYj8/+/v3H/QFvX74WNPJW3I+N3yB1ifJn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB15407
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 17 Mar 2025 09:52:34 +0100
+Message-Id: <D8IEWP78KVOE.1SD29H0S51FZM@bootlin.com>
+Cc: "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
+ =?utf-8?q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+ <linux-renesas-soc@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?=
+ <clement.leger@bootlin.com>
+Subject: Re: [PATCH v3] ARM: dts: r9a06g032: add r9a06g032-rzn1d400-eb board
+ device-tree
+From: "Thomas Bonnefille" <thomas.bonnefille@bootlin.com>
+To: "Thomas Bonnefille" <thomas.bonnefille@bootlin.com>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>, "Magnus Damm"
+ <magnus.damm@gmail.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250314-rzn1d400-eb-v3-1-45c4fd3f6e01@bootlin.com>
+In-Reply-To: <20250314-rzn1d400-eb-v3-1-45c4fd3f6e01@bootlin.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeeltdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvefuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdfvhhhomhgrshcuuehonhhnvghfihhllhgvfdcuoehthhhomhgrshdrsghonhhnvghfihhllhgvsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedvkeelfefftdelleeuvefgleelieeftdfhveduledvhfffveejkefftdegffduheenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehthhhomhgrshdrsghonhhnvghfihhllhgvsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehthhhomhgrshdrsghonhhnvghfihhllhgvsegsohhothhlihhnrdgtohhmpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehmrghgnhhushdruggrmhhmsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughts
+ ehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomh
+X-GND-Sasl: thomas.bonnefille@bootlin.com
 
-rzv2h_cpg_assert() and rzv2h_cpg_deassert() functions are similar. Share
-this code via __rzv2h_cpg_assert(). This avoid code duplication.
+Hello,
+Erratum, there are some trailing whitespaces hiding in this file, it
+seems like I had some checkpatch problems.
+I'll send a v4 soon.
 
-Reported-by: Pavel Machek <pavel@denx.de>
-Closes: https://lore.kernel.org/cip-dev/Z9QA9rwuXCuVbOXp@duo.ucw.cz/
-Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
----
- drivers/clk/renesas/rzv2h-cpg.c | 34 ++++++++++++++-------------------
- 1 file changed, 14 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index bf3ccc0522d5..691bfe37ec1b 100644
---- a/drivers/clk/renesas/rzv2h-cpg.c
-+++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -652,16 +652,17 @@ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
- 		mod->name, PTR_ERR(clk));
- }
- 
--static int rzv2h_cpg_assert(struct reset_controller_dev *rcdev,
--			    unsigned long id)
-+static int __rzv2h_cpg_assert(struct reset_controller_dev *rcdev,
-+			      unsigned long id, bool assert)
- {
- 	struct rzv2h_cpg_priv *priv = rcdev_to_priv(rcdev);
- 	unsigned int reg = GET_RST_OFFSET(priv->resets[id].reset_index);
- 	u32 mask = BIT(priv->resets[id].reset_bit);
- 	u8 monbit = priv->resets[id].mon_bit;
--	u32 value = mask << 16;
-+	u32 value = assert ? (mask << 16) : ((mask << 16) | mask);
- 
--	dev_dbg(rcdev->dev, "assert id:%ld offset:0x%x\n", id, reg);
-+	dev_dbg(rcdev->dev, "%s id:%ld offset:0x%x\n",
-+		assert ? "assert" : "deassert", id, reg);
- 
- 	writel(value, priv->base + reg);
- 
-@@ -669,27 +670,20 @@ static int rzv2h_cpg_assert(struct reset_controller_dev *rcdev,
- 	mask = BIT(monbit);
- 
- 	return readl_poll_timeout_atomic(priv->base + reg, value,
--					 value & mask, 10, 200);
-+					 assert ? (value & mask) : !(value & mask),
-+					 10, 200);
-+}
-+
-+static int rzv2h_cpg_assert(struct reset_controller_dev *rcdev,
-+			    unsigned long id)
-+{
-+	return __rzv2h_cpg_assert(rcdev, id, true);
- }
- 
- static int rzv2h_cpg_deassert(struct reset_controller_dev *rcdev,
- 			      unsigned long id)
- {
--	struct rzv2h_cpg_priv *priv = rcdev_to_priv(rcdev);
--	unsigned int reg = GET_RST_OFFSET(priv->resets[id].reset_index);
--	u32 mask = BIT(priv->resets[id].reset_bit);
--	u8 monbit = priv->resets[id].mon_bit;
--	u32 value = (mask << 16) | mask;
--
--	dev_dbg(rcdev->dev, "deassert id:%ld offset:0x%x\n", id, reg);
--
--	writel(value, priv->base + reg);
--
--	reg = GET_RST_MON_OFFSET(priv->resets[id].mon_index);
--	mask = BIT(monbit);
--
--	return readl_poll_timeout_atomic(priv->base + reg, value,
--					 !(value & mask), 10, 200);
-+	return __rzv2h_cpg_assert(rcdev, id, false);
- }
- 
- static int rzv2h_cpg_reset(struct reset_controller_dev *rcdev,
--- 
-2.43.0
+On Fri Mar 14, 2025 at 7:56 PM CET, Thomas Bonnefille wrote:
+> From: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
+>
+> The EB board (Expansion board) supports both RZ/N1D and RZ-N1S. Since thi=
+s
+> configuration targets only the RZ/N1D, it is named r9a06g032-rzn1d400-eb.
+> It adds support for the 2 additional switch ports (port C and D) that are
+> available on that board.
+>
+> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
+>
+> [Thomas moved the dts to the renesas directory and declared the leds in
+> each phy]
+>
+> Signed-off-by: Thomas Bonnefille <thomas.bonnefille@bootlin.com>
+> ---
+> This short series adds support for the RZ/N1 Expansion Board. This board
+> is a carrier board on which a daughter board (either RZ/N1D or RZ/N1S)
+> can be plugged. The device-tree that is added by this series enables the
+> use to the 2 external switch ports that are present on this board.
+> ---
+> V3:
+>  - Drop bindings commit as it was applied to master
+>  - Move Makefile modification to arch/arm/boot/dts/renesas/Makefile
+>  - Declare LEDs in PHY.
+>  - Use the driver default LED configuration as there was no reason to
+>    use a different one.
+>
+> V2:
+>  - Add "renesas,rzn1d400-db" in list of compatibles for EB board
+>  - Replace '_' with '-' in eth pins node name
+>  - Split some long lines in dts
+> ---
+>  arch/arm/boot/dts/renesas/Makefile                 |   1 +
+>  .../arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts | 120 +++++++++++++++=
+++++++
+>  2 files changed, 121 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/renesas/Makefile b/arch/arm/boot/dts/renes=
+as/Makefile
+> index 833a02447ecf7a02bd2efe70fae15213ede9a6de..947c7fe0280337a3aa6e9a025=
+7f406694892239c 100644
+> --- a/arch/arm/boot/dts/renesas/Makefile
+> +++ b/arch/arm/boot/dts/renesas/Makefile
+> @@ -30,4 +30,5 @@ dtb-$(CONFIG_ARCH_RENESAS) +=3D \
+>  	r8a7794-alt.dtb \
+>  	r8a7794-silk.dtb \
+>  	r9a06g032-rzn1d400-db.dtb \
+> +	r9a06g032-rzn1d400-eb.dtb \
+>  	sh73a0-kzm9g.dtb
+> diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts b/arch/a=
+rm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..20478941170bade197afb5cc9=
+b3d694bd9a30951
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
+> @@ -0,0 +1,120 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the RZN1D-EB Board
+> + *
+> + * Copyright (C) 2023 Schneider-Electric
+> + *
+> + */
+> +
+> +#include "r9a06g032-rzn1d400-db.dts"
+> +
+> +/ {
+> +	model =3D "RZN1D-EB Board";
+> +	compatible =3D "renesas,rzn1d400-eb", "renesas,rzn1d400-db",
+> +		     "renesas,r9a06g032";
+> +};
+> +
+> +&mii_conv2 {
+> +	renesas,miic-input =3D <MIIC_SWITCH_PORTD>;
+> +	status =3D "okay";
+> +};
+> +
+> +&mii_conv3 {
+> +	renesas,miic-input =3D <MIIC_SWITCH_PORTC>;
+> +	status =3D "okay";
+> +};
+> +
+> +&pinctrl{
+> +	pins_eth1: pins-eth1 {
+> +		pinmux =3D <RZN1_PINMUX(12, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(13, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(14, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(15, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(16, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(17, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(18, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(19, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(20, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(21, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(22, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(23, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>;
+> +		drive-strength =3D <6>;
+> +		bias-disable;
+> +	};
+> +
+> +	pins_eth2: pins-eth2 {
+> +		pinmux =3D <RZN1_PINMUX(24, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(25, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(26, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(27, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(28, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(29, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(30, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(31, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(32, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(33, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(34, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+> +			 <RZN1_PINMUX(35, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>;
+> +		drive-strength =3D <6>;
+> +		bias-disable;
+> +	};
+> +};
+> +
+> +&switch {
+> +	pinctrl-names =3D "default";
+> +	pinctrl-0 =3D <&pins_eth1>, <&pins_eth2>, <&pins_eth3>, <&pins_eth4>,
+> +		    <&pins_mdio1>;
+> +
+> +	mdio {
+> +		/* CN15 and CN16 switches must be configured in MDIO2 mode */
+> +		switch0phy1: ethernet-phy@1 {
+> +			reg =3D <1>;
+> +			leds {
+> +				#address-cells =3D <1>;
+> +				#size-cells =3D <0>;
+> +
+> +				led@0 {
+> +					reg =3D <0>;
+> +				};
+> +				led@1 {
+> +					reg =3D <1>;
+> +				};
+> +				led@2 {
+> +					reg =3D <2>;
+> +				};
+> +			};=09
+> +		};
+> +
+> +		switch0phy10: ethernet-phy@10 {
+> +			reg =3D <10>;
+> +			leds {
+> +				#address-cells =3D <1>;
+> +				#size-cells =3D <0>;
+> +
+> +				led@0 {
+> +					reg =3D <0>;
+> +				};
+> +				led@1 {
+> +					reg =3D <1>;
+> +				};
+> +				led@2 {
+> +					reg =3D <2>;
+> +				};
+> +			};=09
+> +		};
+> +	};
+> +};
+> +
+> +&switch_port2 {
+> +	label =3D "lan2";
+> +	phy-mode =3D "rgmii-id";
+> +	phy-handle =3D <&switch0phy10>;
+> +	status =3D "okay";
+> +};
+> +
+> +&switch_port3 {
+> +	label =3D "lan3";
+> +	phy-mode =3D "rgmii-id";
+> +	phy-handle =3D <&switch0phy1>;
+> +	status =3D "okay";
+> +};
+>
+> ---
+> base-commit: 9c5968db9e625019a0ee5226c7eebef5519d366a
+> change-id: 20250127-rzn1d400-eb-3fc1479a13e6
+>
+> Best regards,
 
 
