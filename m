@@ -1,183 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-14474-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14475-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9970A64D98
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 13:00:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA54A64DD1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 13:04:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 45EAD18962D1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 11:59:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6AFE3A4315
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 12:04:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60DD023ED68;
-	Mon, 17 Mar 2025 11:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C229F1A5BB8;
+	Mon, 17 Mar 2025 12:04:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NWfJO4UQ"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hVvC6I28"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47F923E33A;
-	Mon, 17 Mar 2025 11:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5427119CD19
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 12:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742212669; cv=none; b=hZ/DKRU6z0amPEuDSoVSxIJNLbAgEapAyvO1Goqy4Gx5DSa8EHY93XNkwtBM/ayzJS0/68JryGS6ryZfiPUfAtCr4BWhNPXFbvZFDKFKKP0wHAw4q/f0xzjK4ic45F/Fm2N3avelp5I4Gfg0Dy2eXND5lU5DI07SkdX3zNNs95Y=
+	t=1742213060; cv=none; b=g3YSTJDrOwqABhjvgPvbTsrwxj6+5vjBIZVWlO2ZHY3PBgWOvShm7JJ6TYkKD3RWgyTZwXZTzneTKvKVvyoUTqx2PYh5D8TvYpdsNI3GuQhtQmvw15neLkZx9W87ykQuyxy8vWfubvsoiNoi4zoKI7O+yOpZNQXJYMMbQKsFe6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742212669; c=relaxed/simple;
-	bh=bq3PFayu/4BwfT2SlO+W2wU2snxSQnLdE8pQmBjWLnU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Wh5m6roboVyODjKmJhAW/1Q6qb9MVKCq7i1H95q2EiHOHomcBh/IrjjeEEG/9OnerCDQmKM/1oxK6ixKB8Kjs57AyXbf43rulnizSZNUlCNFUuVNDJQ0RgjH7dqHqgGu1u5xYOouLhAXXiSymq3xyDMVCb6QaNHGcG0nnVm3LLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NWfJO4UQ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.102] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCDB219C7;
-	Mon, 17 Mar 2025 12:55:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742212550;
-	bh=bq3PFayu/4BwfT2SlO+W2wU2snxSQnLdE8pQmBjWLnU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=NWfJO4UQ2sPYdFVkeRPNPkXcsxIBVsuLneDHkI39mrvzp/MYfREBuHpyHLFRkjLWk
-	 BIjG74rHteI2eN2vwtu8W1e3bu2XsoACaBknDo1W7RpX+k1L0h3OTtL5SbLQoClF4i
-	 0Nh4U8WDGBEqz4XiVJl27Ng0xsUbL1K1p95x1pc4=
-From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Date: Mon, 17 Mar 2025 12:56:45 +0100
-Subject: [PATCH v3 7/7] media: vsp1: pipe: Add RAW Bayer formats mapping
+	s=arc-20240116; t=1742213060; c=relaxed/simple;
+	bh=xD7c/TtPeI+1/i/izO1jiOyNgb8gXTF8nn2R3yoQ7Tw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iFl50C4TzqGlj2ozsDXI3tljKJrq4/jGz3JzH0M859D433HARGewK9TKXcmGs6gOupZ1sIjOIzgbOBVaqp58NMUtxmHWi6YvzKLQmcu+gLfvCJzaeg2Q2vpkSgw++19nexUhaOH/YztgQ6eJn+Igk6y7HQc9o416vao2fZ/qf3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hVvC6I28; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=5RA4whu2QwalP3
+	Cp7VKBx+SEgwqNfU0qSSnD0YK90k8=; b=hVvC6I28mvO5UUmqrZab6RZBVSy9b2
+	ZXTAlxO8egTvpsQLzwTKCqQn/Hnt7KyklQq7fdteBTiwK8/zw/WLjnYde2ACkLbJ
+	TiaLTe5EZ6PA+LeK2NAKcG60cuLJeoHM8p1E/Y6P0aNkUeRIYSWuRnm6s/HoQ3AO
+	7TNuOvmc4i+GZHGe5sNyHRJOcKe9MiFsXWGfjsd9C0Z92w/AVwnVXkkIJ4kwEvVn
+	kV9SXZjbDvxvOUpy885bgtKIWgUMgk44SxJ6X1ahMZYDNhkQShZF66PMezh8NLSy
+	35RMGyVJT34SbDN6mXHulF/LYRluRgTSn/2CDqqSAlmVYDaox3HbULtA==
+Received: (qmail 3133469 invoked from network); 17 Mar 2025 13:04:08 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Mar 2025 13:04:08 +0100
+X-UD-Smtp-Session: l3s3148p1@xfHglYgwnMUgAwDPXyTHAJp038nK7dx+
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH] ARM: dts: renesas: r9a06g032: use proper ordering for UART DMA channels
+Date: Mon, 17 Mar 2025 13:03:55 +0100
+Message-ID: <20250317120356.67609-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250317-v4h-iif-v3-7-63aab8982b50@ideasonboard.com>
-References: <20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com>
-In-Reply-To: <20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-X-Mailer: b4 0.15-dev-1b0d6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4791;
- i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=bq3PFayu/4BwfT2SlO+W2wU2snxSQnLdE8pQmBjWLnU=;
- b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBn2A4liAhyBVGNxI7gQVZyZo3ZAkozexTFiA19l
- lBOrTKfC/uJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ9gOJQAKCRByNAaPFqFW
- PI9RD/9TEnzECr/kPgF0R555kLpW4jEADpErswgIN6W/GbXMwUheqDyBE2CiTIKkISuIxnl1DuP
- /4VSmJzfXqiSVcDCvgrlawuOTJlHhdWhKtZoopgs2soJPvQaT6C+oUxEGHrvbjW1idVRuz3HgrI
- kB1nHO4hd3CS43UbMvdVY60EPmTkKb0bM20JQvD5spBn8LkdzlLvFPFZkAwt/NfzYZtoJt8m27p
- WRy9y9UrfMOQZgBlcqo94XfsRU3tWseUiBbY2hYZxYpTbvWanAlnv6p9OXpyY4dAJet6TE5W7eQ
- 6FpLMk14l737P4bMv1PblultZl/dayS2huQsYzyYhErKaqqDcMzkc75v1TGD8EN/WvKrM0aBeLt
- Nu3RvVJBtzv3o8m9PwWcJl+Lljq1B4e6uohSQR9E/UGi5J2PhvodnfM7IHz3jhr5DtevHrT66zB
- GeLWgLjcnj89u1iHqdKJFUwD27KwyIJzHeDS6caZ2Vu1pF5qBqjE7OpCEyldIfdtpeAZ6Fr8V/B
- 0WIhC6KBG2Ftw4trQ/W8le0B+XSzR6svTkr6GBb2prywtVYyWKfNuMRG/tcsMUJd4Spm+cikI7Q
- 111iWu/iEUFITOte6vY9WuUdsXiWiEbkQnYxnty/6noQq23ScB7lnSq+hfD97wSuGGQoEvW3StB
- v9zk5CD8yR/sPUg==
-X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
+Content-Transfer-Encoding: 8bit
 
-Add formats definition for RAW Bayer formats in vsp1_pipe.c.
+Commit ec956e2c6f4e ("dt-bindings: serial: snps-dw-apb-uart: Switch
+dma-names order") enforces "tx", "rx" ordering of DMA channels. Adhere
+to it to let the dtbs_check pass it. There is no ABI breakage because
+the Linux driver never expected a certain ordering and no other usage is
+known.
 
-8-bits RAW Bayer pixel formats map on VSP format RGB332.
-10, 12 and 16 bits RAW Bayer pixel formats map on RGB565 insted.
-
-Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 72 ++++++++++++++++++++++++-
- 1 file changed, 71 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-index 8e9be3ec1b4dbdad1cbe35ae3a88952f46e41343..6592513ca833175bdbfe850d61d1b5957ad27e0d 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-@@ -30,10 +30,80 @@
-  */
+diff --git a/arch/arm/boot/dts/renesas/r9a06g032.dtsi b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
+index 7548291c8d7e..87e03446fb4d 100644
+--- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
++++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
+@@ -211,8 +211,8 @@ uart3: serial@50000000 {
+ 			reg-io-width = <4>;
+ 			clocks = <&sysctrl R9A06G032_CLK_UART3>, <&sysctrl R9A06G032_HCLK_UART3>;
+ 			clock-names = "baudclk", "apb_pclk";
+-			dmas = <&dmamux 0 0 0 0 0 1>, <&dmamux 1 0 0 0 1 1>;
+-			dma-names = "rx", "tx";
++			dmas = <&dmamux 1 0 0 0 1 1>, <&dmamux 0 0 0 0 0 1>;
++			dma-names = "tx", "rx";
+ 			status = "disabled";
+ 		};
  
- static const struct vsp1_format_info vsp1_video_formats[] = {
--	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
-+	/* Raw Bayer 8-bit: Maps on RGB332 */
-+	{ V4L2_PIX_FMT_SBGGR8, MEDIA_BUS_FMT_Y8_1X8,
-+	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGBRG8, MEDIA_BUS_FMT_Y8_1X8,
-+	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGRBG8, MEDIA_BUS_FMT_Y8_1X8,
-+	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SRGGB8, MEDIA_BUS_FMT_Y8_1X8,
- 	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
- 	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
- 	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-+
-+	/* Raw Bayer 10/12/16-bit: Maps on RGB565 */
-+	{ V4L2_PIX_FMT_SBGGR10, MEDIA_BUS_FMT_Y10_1X10,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGBRG10, MEDIA_BUS_FMT_Y10_1X10,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGRBG10, MEDIA_BUS_FMT_Y10_1X10,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SRGGB10, MEDIA_BUS_FMT_Y10_1X10,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-+
-+	{ V4L2_PIX_FMT_SBGGR12, MEDIA_BUS_FMT_Y12_1X12,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGBRG12, MEDIA_BUS_FMT_Y12_1X12,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGRBG12, MEDIA_BUS_FMT_Y12_1X12,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SRGGB12, MEDIA_BUS_FMT_Y12_1X12,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-+
-+	{ V4L2_PIX_FMT_SBGGR16, MEDIA_BUS_FMT_Y16_1X16,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGBRG16, MEDIA_BUS_FMT_Y16_1X16,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGRBG16, MEDIA_BUS_FMT_Y16_1X16,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SRGGB16, MEDIA_BUS_FMT_Y16_1X16,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-+
-+	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
-+	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 10, 0, 0 }, false, false, 1, 1, false },
- 	{ V4L2_PIX_FMT_ARGB444, MEDIA_BUS_FMT_ARGB8888_1X32,
- 	  VI6_FMT_ARGB_4444, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
- 	  VI6_RPF_DSWAP_P_WDS,
-
+@@ -224,8 +224,8 @@ uart4: serial@50001000 {
+ 			reg-io-width = <4>;
+ 			clocks = <&sysctrl R9A06G032_CLK_UART4>, <&sysctrl R9A06G032_HCLK_UART4>;
+ 			clock-names = "baudclk", "apb_pclk";
+-			dmas = <&dmamux 2 0 0 0 2 1>, <&dmamux 3 0 0 0 3 1>;
+-			dma-names = "rx", "tx";
++			dmas = <&dmamux 3 0 0 0 3 1>, <&dmamux 2 0 0 0 2 1>;
++			dma-names = "tx", "rx";
+ 			status = "disabled";
+ 		};
+ 
+@@ -237,8 +237,8 @@ uart5: serial@50002000 {
+ 			reg-io-width = <4>;
+ 			clocks = <&sysctrl R9A06G032_CLK_UART5>, <&sysctrl R9A06G032_HCLK_UART5>;
+ 			clock-names = "baudclk", "apb_pclk";
+-			dmas = <&dmamux 4 0 0 0 4 1>, <&dmamux 5 0 0 0 5 1>;
+-			dma-names = "rx", "tx";
++			dmas = <&dmamux 5 0 0 0 5 1>, <&dmamux 4 0 0 0 4 1>;
++			dma-names = "tx", "rx";
+ 			status = "disabled";
+ 		};
+ 
+@@ -250,8 +250,8 @@ uart6: serial@50003000 {
+ 			reg-io-width = <4>;
+ 			clocks = <&sysctrl R9A06G032_CLK_UART6>, <&sysctrl R9A06G032_HCLK_UART6>;
+ 			clock-names = "baudclk", "apb_pclk";
+-			dmas = <&dmamux 6 0 0 0 6 1>, <&dmamux 7 0 0 0 7 1>;
+-			dma-names = "rx", "tx";
++			dmas = <&dmamux 7 0 0 0 7 1>, <&dmamux 6 0 0 0 6 1>;
++			dma-names = "tx", "rx";
+ 			status = "disabled";
+ 		};
+ 
+@@ -263,8 +263,8 @@ uart7: serial@50004000 {
+ 			reg-io-width = <4>;
+ 			clocks = <&sysctrl R9A06G032_CLK_UART7>, <&sysctrl R9A06G032_HCLK_UART7>;
+ 			clock-names = "baudclk", "apb_pclk";
+-			dmas = <&dmamux 4 0 0 0 20 1>, <&dmamux 5 0 0 0 21 1>;
+-			dma-names = "rx", "tx";
++			dmas = <&dmamux 5 0 0 0 21 1>, <&dmamux 4 0 0 0 20 1>;
++			dma-names = "tx", "rx";
+ 			status = "disabled";
+ 		};
+ 
 -- 
-2.48.1
+2.47.2
 
 
