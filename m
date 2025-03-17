@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-14541-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0F1A659A7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 18:08:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D653DA659AB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 18:08:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DFC7D3B6726
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 17:03:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63274887A80
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 17:03:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4FB21E1E16;
-	Mon, 17 Mar 2025 16:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22FBA1E1E0C;
+	Mon, 17 Mar 2025 16:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="eH8KbKQ5";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="z4cA04nR"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ohWAZtls";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="K/3WOFUz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2071DF97C;
-	Mon, 17 Mar 2025 16:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3AD1E1E07;
+	Mon, 17 Mar 2025 16:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742230787; cv=none; b=rCa31pp38aHIgrlIjQ55sbAJAGU8uKVYL2vXdAgevkz16pL+bA6/jfY6P4feCC3VeYE7qb3d/HCPYFtokvpZlGJXT0Nhg4rXBLAlo/BMQiBcNyPZV+mDh8aC7quxDxp6wXWolasJHFjju16roOY+Ky7uFzjzCRFsN3Z9lWY/wo4=
+	t=1742230790; cv=none; b=tCPj0ugVr4V+BvFx7O2V0Fo4Yhj5izqM/bu2C77qraT3gi6IiXL3bPlqAYbCm4t2/VFzPNN+IWb/ABtALx2W2KRjtesphq5hDfOYHSlDolnvUaFmM2q4Gp8eM1Mq0wHBMcehIcTBoH8JobSHXfoSFzh6POsnKFuGLFWQd2MDnjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742230787; c=relaxed/simple;
-	bh=ttS69TOM5I4/vpdJ2bhDhj5usucu9GXVpyEJAzE7GYA=;
+	s=arc-20240116; t=1742230790; c=relaxed/simple;
+	bh=+9koEqHsrALoo/BpV++A27eF+aoECu5xLcEJS5E/8LQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M6MtfFazTQ+zCPUyBBcW4+pOy1fKyustrEKMDZhQqDlHsJfPfWHNhKZEGqO6+NR/5NPd7sIq3tdJK9AR+wESOltZXc0NrEujlejRF3Itb4Crj2ScK0sYUpAkW7+fXOqxN3WzYWpuY1jQcnSFTsrG8stEpASGhO25hoH2t4SRkAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=eH8KbKQ5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=z4cA04nR; arc=none smtp.client-ip=202.12.124.148
+	 MIME-Version:Content-Type; b=G10XlF2oQM7gMoyB505L56Oq+Z90RfDJzcJC+jZQ6riu8ZMM+SJ4XYg1hMS7YlziGN/OvTFRJoMGCwsQ/2OvFhdnhsmz3cSwoXDhX1LKEv2SePTlPTb4kvKqx64AUfj+wEnzkB0wxrQoKB1eup7Qm0MFAbVOp7fxjTN597I5UTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ohWAZtls; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=K/3WOFUz; arc=none smtp.client-ip=202.12.124.156
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id AB9E711400A4;
-	Mon, 17 Mar 2025 12:59:44 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Mon, 17 Mar 2025 12:59:44 -0400
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 221EF2540208;
+	Mon, 17 Mar 2025 12:59:47 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Mon, 17 Mar 2025 12:59:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1742230784;
-	 x=1742317184; bh=sMP3Juj5OTy4GosmRJIZVTBtsvpQA565WTB93F1vhso=; b=
-	eH8KbKQ5gzpU6PpTjCE3kNIjuOXD+kwBXqrHOwmojOfHwfit8rJUI7oTGBTkP8WE
-	Y8hkdFWf7hPKq689gK78e/rcXcgmEI2Yasr40+fncCMU7arOob9RZ2ue9wWZ8K9l
-	MxUy19/Hxh72WaqMCLDlE1fh8xea1uiAtT7lbpu4TEh5n4ZjDiZZYglZWIbQT/2i
-	7wbDuDrXBWxafeZfgDCQPpPpt8dto9P1JE7TRuxbNzGlMjFu0z4wrVM5om/sQ35Y
-	Kb2JByIaupsTsXISRU84IuTQuI14ygPVKALbmENJzGW6NI5TRAIUZw1P8hjmbg9M
-	KhcI9JVuTfrAHcj83wKYZw==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1742230786;
+	 x=1742317186; bh=9qaswB/BM+jXyhY2tq1K588wgIkiTOuKBH2wJxz7DCs=; b=
+	ohWAZtlsrChyax4c6dPHK7DeA6ZrdtSSvmsU8RF1FoGAJA29Y3cdPmuGRcYMJ6xj
+	RpLX7wytbY29XC/QUZCVjVK1pjjSEr5s+fUEa+ZxIzLFgx805Kog7HXLcgayfSXE
+	eAEKH9upCoIbZZf0R+hcGdMlfceo/IUJDcB0b7IfYALIfpwpcC+Zff6foF2hWrlQ
+	LLLTUGM+W0YywbXGqG33KtE+PEjEyqDPU+rGrB5aaHs/Nches+2V9qfBDdImBtSE
+	/Z082d76Tv8B7aBzS54aSZ7XXVW6e1gVdIV80Q2MXM27GP/IimWkIngff8wTVcq9
+	ZHxZoqvVDjYiABMAJqpaBA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742230784; x=
-	1742317184; bh=sMP3Juj5OTy4GosmRJIZVTBtsvpQA565WTB93F1vhso=; b=z
-	4cA04nRq3DeRM0qtLd/XJGI0gE3sYiRcWGjbscVBuvocMAmqby+mlS1dCskN6kGV
-	lvcMk8vBWS4AgvfG7DL+aXgHhuUuX+hgd063bYdZaIsV6VZBc9ZLHYnjVnk8D5HM
-	p6bXEMO1MthCQPfodz4EtIM6eJpbTitnF5TU3/MkaSoeg4nZ4R6F7Qncw9XkIxWM
-	GF/6+w8k9ekeYLAXAM+cHuXPi9H5wHw+ovXGlBXUO8g5wbQsrxcBB1SnPhYbUMAj
-	vsndcnIlK3PNuDyKVYfMAE4d+y5jt4CRdyiOEsNuokssqOBFOlbnPzXFe7GzPutW
-	xbL+QqhFlxt7mce6bcTYQ==
-X-ME-Sender: <xms:AFXYZyN51pyQaneHe6ySD4rQnmJNfx8yFmoMdJaRceOBRa7ISfENEw>
-    <xme:AFXYZw8iYcahP6RKlYYKRgTb-yqHjDmBdIRKQmit4nql4oNxVO7eYD8bBpxKEqHJM
-    4VZiYUv3FJXuHFGmxg>
-X-ME-Received: <xmr:AFXYZ5RSKRuMsry0ZtVCnsA1Oz3ebjcGp858O72t81ANKt0oobSog7vY6o44TB22gbs99gTpc8vVeiOwxEINRpfR0g>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742230786; x=
+	1742317186; bh=9qaswB/BM+jXyhY2tq1K588wgIkiTOuKBH2wJxz7DCs=; b=K
+	/3WOFUzvMJG27bBMArvZF4FXTQ0BvIu9pLmSQcVeZj4d4fk4tO2IQR8KCEX3vYaF
+	48Y79U1tDwFDF3Mbr2sJ56boFGdNrHD28vRR6HEH4tD/2jWPqp5aI4qxeIQe6JYD
+	YqC1Gxgsm2+qg0et8mx5KODghLvvuaRcDk3MBiyQ8htetzj8SSdOje9G/BE9Zc24
+	lcSEFBPHLZnpvOKfEKn2sE87gPKh8qojik+XxyXMZPUHDfnP43+BR+dGxZAxvd43
+	2RGrb+dFDW/S/GIj251/Tq+Ue8Tpo1eBD9TMhhQmh2VnR6aQdGIbdaHxaetWtcpp
+	FcmaEFbWtU1dQaaMxlgHg==
+X-ME-Sender: <xms:AlXYZ9f6XWZTPmtYmgJCwhA76rzklnlWEHv7t-ROYpDBbQXqP9v4YQ>
+    <xme:AlXYZ7MTi_1CHR5Q_U17iSU6ke-4lP-fc7UcBCzdypuDmqsfn6pCJFcpnAyeLdCZt
+    -T2639TPRw--lmsitg>
+X-ME-Received: <xmr:AlXYZ2iNTkKqzR_0-ES3T2vP8dwfM7VSxeQtNBBKZCaTrN-ixAfbt3reTpgneQxQ1yQo2CESW4NLAYM8rfq-5XFBog>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedttdeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
@@ -83,14 +83,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedttdeiucetufdote
     htoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhr
     ghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrh
     grghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:AFXYZyuNHG7gmn08ctjyXKQXp2jXsJTySyeGlmSeuBnkc5ls7SKY6w>
-    <xmx:AFXYZ6eB5DL4QDol1KwHvdIKGHH0SiUyhulIWckHb1nh99sc6qhcYw>
-    <xmx:AFXYZ23aodB9kltXrkpSCSIsVxP9XD5GQsHuyLi8GzARIxp0AzJRWQ>
-    <xmx:AFXYZ-9_QZQcbx49LsVJN_kfVfbYKtuZ2mnB2seF89Q9U5Czh77AXA>
-    <xmx:AFXYZwtOIyIeUY84xaZkHOmaSfSVe5_st1pxRxy79zlkIs_zb3MTK_a2>
+X-ME-Proxy: <xmx:AlXYZ28RQZ9U3kx8sDjaFuH10r1c3vpdIflNPyMc66pBDfAGX0w2EQ>
+    <xmx:AlXYZ5vq9dQTA_liCFrWv7KRnEQYVZLKIz0UTMcoNVwbRrvwhiKrNA>
+    <xmx:AlXYZ1HCRs_gp7IOa7X4kj_8h3zAWD_NHnQZYpczB1arFzHLGbxlMA>
+    <xmx:AlXYZwMU_6ZJeHIayAwXtQ50i_kq7Ek1en6lkC1yrC8--_QqjDGWnA>
+    <xmx:AlXYZ6_w_HUIE09HUxwdkm-NNPD6Us1BnG1V6eRyLT5iwbNgvwGwFx-n>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 17 Mar 2025 12:59:43 -0400 (EDT)
+ 17 Mar 2025 12:59:46 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -99,9 +99,9 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 3/6] media: rcar-vin: Generate a VIN group ID for Gen2
-Date: Mon, 17 Mar 2025 17:59:04 +0100
-Message-ID: <20250317165907.2412377-4-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 4/6] media: rcar-vin: Prepare for unifying all v4l-async notifiers
+Date: Mon, 17 Mar 2025 17:59:05 +0100
+Message-ID: <20250317165907.2412377-5-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250317165907.2412377-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250317165907.2412377-1-niklas.soderlund+renesas@ragnatech.se>
@@ -114,169 +114,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Prepare to move Gen2 and earlier models to media controller by
-generating a unique VIN group id for each VIN instance. On Gen3 and Gen4
-it is important to have a specific id in the group as media graph routes
-depend on this. On Gen2 and earlier models all that will matter is to
-have a unique id in the range.
+The R-Car VIN driver is needless complex and uses more then one
+v4l-async notifier to attach to all its subdevices. Prepare for unifying
+them by moving rvin_parallel_parse_of() to where it needs to be when
+they are unified.
 
-Break out the id generation to a own function keeping the logic for Gen3
-and Gen4 while generating a sequential id for Gen2 models.
+The function is moved verbatim and there is no change in behavior.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
-* Changes since v1
-- Move ID allocation to probe.
-- Use ida_alloc_range() instead of implementing our own schema by
-  counting DT nodes.
----
- .../platform/renesas/rcar-vin/rcar-core.c     | 76 ++++++++++++++-----
- 1 file changed, 57 insertions(+), 19 deletions(-)
+ .../platform/renesas/rcar-vin/rcar-core.c     | 106 +++++++++---------
+ 1 file changed, 53 insertions(+), 53 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index 91e871580e70..7a7cf54ae7ec 100644
+index 7a7cf54ae7ec..5b8b3cd93915 100644
 --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
 +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -10,6 +10,7 @@
-  * Based on the soc-camera rcar_vin driver
-  */
- 
-+#include <linux/idr.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_graph.h>
-@@ -55,6 +56,7 @@
-  * be only one group for all instances.
-  */
- 
-+static DEFINE_IDA(rvin_ida);
- static DEFINE_MUTEX(rvin_group_lock);
- static struct rvin_group *rvin_group_data;
- 
-@@ -119,23 +121,8 @@ static int rvin_group_get(struct rvin_dev *vin,
- 			  const struct media_device_ops *ops)
- {
- 	struct rvin_group *group;
--	u32 id;
- 	int ret;
- 
--	/* Make sure VIN id is present and sane */
--	ret = of_property_read_u32(vin->dev->of_node, "renesas,id", &id);
--	if (ret) {
--		vin_err(vin, "%pOF: No renesas,id property found\n",
--			vin->dev->of_node);
--		return -EINVAL;
--	}
--
--	if (id >= RCAR_VIN_NUM) {
--		vin_err(vin, "%pOF: Invalid renesas,id '%u'\n",
--			vin->dev->of_node, id);
--		return -EINVAL;
--	}
--
- 	/* Join or create a VIN group */
- 	mutex_lock(&rvin_group_lock);
- 	if (rvin_group_data) {
-@@ -164,16 +151,15 @@ static int rvin_group_get(struct rvin_dev *vin,
- 	/* Add VIN to group */
- 	mutex_lock(&group->lock);
- 
--	if (group->vin[id]) {
--		vin_err(vin, "Duplicate renesas,id property value %u\n", id);
-+	if (group->vin[vin->id]) {
-+		vin_err(vin, "Duplicate renesas,id property value %u\n", vin->id);
- 		mutex_unlock(&group->lock);
- 		kref_put(&group->refcount, rvin_group_release);
- 		return -EINVAL;
+@@ -337,6 +337,59 @@ static void rvin_group_notifier_cleanup(struct rvin_dev *vin)
  	}
- 
--	group->vin[id] = vin;
-+	group->vin[vin->id] = vin;
- 
--	vin->id = id;
- 	vin->group = group;
- 	vin->v4l2_dev.mdev = &group->mdev;
- 
-@@ -1377,6 +1363,52 @@ static const struct of_device_id rvin_of_id_table[] = {
- };
- MODULE_DEVICE_TABLE(of, rvin_of_id_table);
- 
-+static int rvin_id_get(struct rvin_dev *vin)
-+{
-+	u32 oid;
-+	int id;
-+
-+	switch (vin->info->model) {
-+	case RCAR_GEN3:
-+		if (of_property_read_u32(vin->dev->of_node, "renesas,id", &oid))
-+			break;
-+
-+		if (oid < 0 || oid >= RCAR_VIN_NUM) {
-+			vin_err(vin, "%pOF: Invalid renesas,id '%u'\n",
-+				vin->dev->of_node, oid);
-+			return -EINVAL;
-+		}
-+
-+		vin->id = oid;
-+
-+		return 0;
-+	default:
-+		id = ida_alloc_range(&rvin_ida, 0, RCAR_VIN_NUM - 1,
-+				     GFP_KERNEL);
-+		if (id < 0)
-+			break;
-+
-+		vin->id = id;
-+
-+		return 0;
-+	}
-+
-+	vin_err(vin, "Can't figure out VIN id\n");
-+
-+	return -EINVAL;
-+}
-+
-+static void rvin_id_put(struct rvin_dev *vin)
-+{
-+	switch (vin->info->model) {
-+	case RCAR_GEN3:
-+		break;
-+	default:
-+		ida_free(&rvin_ida, vin->id);
-+		break;
-+	}
-+}
-+
- static int rcar_vin_probe(struct platform_device *pdev)
- {
- 	struct rvin_dev *vin;
-@@ -1404,6 +1436,9 @@ static int rcar_vin_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, vin);
- 
-+	if (rvin_id_get(vin))
-+		return -EINVAL;
-+
- 	if (vin->info->use_isp) {
- 		ret = rvin_isp_init(vin);
- 	} else if (vin->info->use_mc) {
-@@ -1421,6 +1456,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
- 
- 	if (ret) {
- 		rvin_dma_unregister(vin);
-+		rvin_id_put(vin);
- 		return ret;
- 	}
- 
-@@ -1445,6 +1481,8 @@ static void rcar_vin_remove(struct platform_device *pdev)
- 	else
- 		rvin_parallel_cleanup(vin);
- 
-+	rvin_id_put(vin);
-+
- 	rvin_dma_unregister(vin);
  }
  
++static int rvin_parallel_parse_of(struct rvin_dev *vin)
++{
++	struct fwnode_handle *ep, *fwnode;
++	struct v4l2_fwnode_endpoint vep = {
++		.bus_type = V4L2_MBUS_UNKNOWN,
++	};
++	struct v4l2_async_connection *asc;
++	int ret;
++
++	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
++	if (!ep)
++		return 0;
++
++	fwnode = fwnode_graph_get_remote_endpoint(ep);
++	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
++	fwnode_handle_put(ep);
++	if (ret) {
++		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
++		ret = -EINVAL;
++		goto out;
++	}
++
++	switch (vep.bus_type) {
++	case V4L2_MBUS_PARALLEL:
++	case V4L2_MBUS_BT656:
++		vin_dbg(vin, "Found %s media bus\n",
++			vep.bus_type == V4L2_MBUS_PARALLEL ?
++			"PARALLEL" : "BT656");
++		vin->parallel.mbus_type = vep.bus_type;
++		vin->parallel.bus = vep.bus.parallel;
++		break;
++	default:
++		vin_err(vin, "Unknown media bus type\n");
++		ret = -EINVAL;
++		goto out;
++	}
++
++	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
++				       struct v4l2_async_connection);
++	if (IS_ERR(asc)) {
++		ret = PTR_ERR(asc);
++		goto out;
++	}
++
++	vin->parallel.asc = asc;
++
++	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
++out:
++	fwnode_handle_put(fwnode);
++
++	return ret;
++}
++
+ static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
+ 				    unsigned int max_id)
+ {
+@@ -635,59 +688,6 @@ static const struct v4l2_async_notifier_operations rvin_parallel_notify_ops = {
+ 	.complete = rvin_parallel_notify_complete,
+ };
+ 
+-static int rvin_parallel_parse_of(struct rvin_dev *vin)
+-{
+-	struct fwnode_handle *ep, *fwnode;
+-	struct v4l2_fwnode_endpoint vep = {
+-		.bus_type = V4L2_MBUS_UNKNOWN,
+-	};
+-	struct v4l2_async_connection *asc;
+-	int ret;
+-
+-	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
+-	if (!ep)
+-		return 0;
+-
+-	fwnode = fwnode_graph_get_remote_endpoint(ep);
+-	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+-	fwnode_handle_put(ep);
+-	if (ret) {
+-		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
+-		ret = -EINVAL;
+-		goto out;
+-	}
+-
+-	switch (vep.bus_type) {
+-	case V4L2_MBUS_PARALLEL:
+-	case V4L2_MBUS_BT656:
+-		vin_dbg(vin, "Found %s media bus\n",
+-			vep.bus_type == V4L2_MBUS_PARALLEL ?
+-			"PARALLEL" : "BT656");
+-		vin->parallel.mbus_type = vep.bus_type;
+-		vin->parallel.bus = vep.bus.parallel;
+-		break;
+-	default:
+-		vin_err(vin, "Unknown media bus type\n");
+-		ret = -EINVAL;
+-		goto out;
+-	}
+-
+-	asc = v4l2_async_nf_add_fwnode(&vin->notifier, fwnode,
+-				       struct v4l2_async_connection);
+-	if (IS_ERR(asc)) {
+-		ret = PTR_ERR(asc);
+-		goto out;
+-	}
+-
+-	vin->parallel.asc = asc;
+-
+-	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
+-out:
+-	fwnode_handle_put(fwnode);
+-
+-	return ret;
+-}
+-
+ static void rvin_parallel_cleanup(struct rvin_dev *vin)
+ {
+ 	v4l2_async_nf_unregister(&vin->notifier);
 -- 
 2.48.1
 
