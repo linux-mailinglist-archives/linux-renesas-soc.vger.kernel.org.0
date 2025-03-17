@@ -1,131 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-14508-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14509-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB5C0A653A8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 15:33:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DDAA653CB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 15:39:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 357B63AFD9E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 14:33:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 388071623BD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Mar 2025 14:38:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE33F23ED77;
-	Mon, 17 Mar 2025 14:33:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QuR0oIxl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B81E243367;
+	Mon, 17 Mar 2025 14:38:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAF023958D
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 14:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BE33243364;
+	Mon, 17 Mar 2025 14:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742222008; cv=none; b=EQECFqQBG4YjP2wCqqZZbXDvP0O5WQpY+PMFRiSt9Dai642C/QhbkjZvWA/ZOOHgT0f9ysEbiF3iHanfmjIFQKfB6vNL7UN2FqSSXGYBacQriwh7s9/cbu1oLHXJGoQJxzc2v3mxtf5sIIi3M8xsDcAUpfwPWrltvsGFitAQLE0=
+	t=1742222334; cv=none; b=U6GV3LwRet4ZCuwmX2xexOwfnrtm4sNfa4o8p0QSTb/b32NOxccgoYE/0T+JeoL4z/5hpkfvkbxzj/EWaAFAQkQa4LcEtZn8zDw9f7USQ86DIrcApWsPu0CanL/+Ov4PnujxTvIJFL+Vlc1Pi7sIYz+bn289BiQdlEZs7xaJ7LY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742222008; c=relaxed/simple;
-	bh=JYPC9lHuQrU33xf9HFBMIvI/S8KQAZN6c+OkozQ9mnE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dyF154/uPjFjWB9glpAEs3sc+MFc8y+bbLDjSJB+2TozBevH80kxua+pu9hiSpuONjTibaZlqMbiM0aonI6DBSpl44gYatybV4zjdXnL86X9FFpt87RUWgVd/CCxyQcJPKhMzfPRNUzdDW/ogeCmPn9BV2uxebXbhXsY52FnlX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QuR0oIxl; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30bfed67e08so50279411fa.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 07:33:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1742222002; x=1742826802; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XDNe3093iFCHOB0BF0trzQBjwvxbWGfcsFI1fzTSQYc=;
-        b=QuR0oIxlU51dMNHo1gQ4rdzvex9etafQjHImD5jYRJ22q9SGhh+v3raMJb8gDbZWRy
-         c9RbDcXYQ7m/lIpqMWqSHYf9V82lrAeuoNxKr8mlexOHm0SGxthbr0HF4nh+RT7PmBBI
-         37btUdkDYbrLVaX/JMkudH68zS+V67HncDj5A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742222002; x=1742826802;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XDNe3093iFCHOB0BF0trzQBjwvxbWGfcsFI1fzTSQYc=;
-        b=KWZSQl3gWRINdKq//yRz8jmibNwxe1qOko/eeBrUqHpdOnzPk/FqLedFfTX7wBzEYY
-         ezhwwa8cZQGcfFc3TErNP1KdRUco6HPERJsfFD3mAQG0axjfaRTVsHnyfztZq/jhwzlo
-         Giu3GU0TsvMTqLJKtDdJw++HQl5dm18J6rCyVK3rOt3bqPq9sTu4jwxnISIoG46s7Nty
-         EPilKBm+B0fIUylsh5bolptX0NUBWQFpP9oymupWcePrYEzUHiwtWwwFqOJcXbXVblQx
-         XGOBMerolqvlyTm3TlO3iz4UC9fKOHxhNRlUoq1/PGU3MDLHS58Nw5Ym62hmMJ+VC7oJ
-         Ac3g==
-X-Gm-Message-State: AOJu0YzUOp8HCH9xXYCaP6NX0D2/QjoLflhjVJ1FZoDMfZLeFKvJhAOV
-	8GsBIfI4EKujqK14Or3YaNYjEzKpUz+BKz1ybLf2QrcuyQAzH77BUv6rd/4jPGaLyg2dwfL6YPk
-	=
-X-Gm-Gg: ASbGncuHVBhJFO1ik4dkDYPYdbnqF8GovWE2CaFvheAjRHWSB7Yo8cU/5t/ETQU4S8z
-	/nvum07OJV+gdHnEdZmL1/1AKFU3RgAl3RE4X8WjEvsYt+Ydi/olwNgh7yka5dMG7ZzNYpEkMvC
-	CAKI/3dPYzeQ7Qs9QzXVIzYDohrrkXbvC7T7XUvMUhoo/L9NlPKzssF4LDHZxYc/szfHN6vwkdc
-	ol3IGLC81Qltbkhkac/mxZ1oPUnXMMhC2Tf53m6bqLk334HIzMBNE6HRR+1O77vaWVtzHcm2X/n
-	0DnGVtDqa5ic9+ngNYNOZDQPZhRu3MC8YGfjdQh1AGPThVuq3cQ+LnLUJg3JDghgQVxpQUyIbtz
-	8HOejfym1
-X-Google-Smtp-Source: AGHT+IHgZduaU+tiE168t8f3mfIFet4P1aD0iKJZoxaE6nVSFKqfRcqAIzCi3jmoBfaWxHdIYYjHpQ==
-X-Received: by 2002:a2e:a546:0:b0:30c:5c6:91e0 with SMTP id 38308e7fff4ca-30c4a74e129mr68598101fa.2.1742222002092;
-        Mon, 17 Mar 2025 07:33:22 -0700 (PDT)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f116a56sm16229091fa.54.2025.03.17.07.33.19
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Mar 2025 07:33:21 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-549946c5346so4633384e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Mar 2025 07:33:19 -0700 (PDT)
-X-Received: by 2002:a05:6512:ba9:b0:549:5b54:2c77 with SMTP id
- 2adb3069b0e04-549c3924ecfmr8094901e87.32.1742221999211; Mon, 17 Mar 2025
- 07:33:19 -0700 (PDT)
+	s=arc-20240116; t=1742222334; c=relaxed/simple;
+	bh=o/Q72SbAFLIeIKcMmBjNv06VKL5qWKFA5ZM4mJnjfDI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=baFiyvduvEinXefzfyXq7yXFqn/eYxG3+F6QavQF/vl6sPkZHesbUNzPLJtlWvq2tWQjjQO7pTJJC8Frq50pM5nHw27aArEJc5J1Xu/TBhi40QRBYTwZ34Ouq/0wzkdQGkXV3i+J+NvtFV0UCzLYwZIezpHk48/Pl1bq+hbwX1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: BW5lC7U3TBatQXyFE42jtA==
+X-CSE-MsgGUID: eoiSUUEzTQaIGzYVX68NoA==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 17 Mar 2025 23:38:49 +0900
+Received: from ubuntu.adwin.renesas.com (unknown [10.226.93.200])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 80B63401A473;
+	Mon, 17 Mar 2025 23:38:44 +0900 (JST)
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: geert+renesas@glider.be,
+	conor+dt@kernel.org,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	rafael@kernel.org,
+	daniel.lezcano@linaro.org
+Cc: magnus.damm@gmail.com,
+	devicetree@vger.kernel.org,
+	john.madieu@gmail.com,
+	rui.zhang@intel.com,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	sboyd@kernel.org,
+	biju.das.jz@bp.renesas.com,
+	linux-pm@vger.kernel.org,
+	lukasz.luba@arm.com,
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v4 0/5] thermal: renesas: Add support fot RZ/G3E
+Date: Mon, 17 Mar 2025 15:34:27 +0100
+Message-ID: <20250317143442.100590-1-john.madieu.xa@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250315201651.7339-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250315201651.7339-2-wsa+renesas@sang-engineering.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 17 Mar 2025 07:33:07 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W76iNvReU=itxjX2rW430uezJz386-1pbd_QeY-OnHPg@mail.gmail.com>
-X-Gm-Features: AQ5f1Jp6NWZTpFKw-xlMJCY9hQkuIldAdH8N1R9LoiSLuWY4HBRzAz-oTXvTRMw
-Message-ID: <CAD=FV=W76iNvReU=itxjX2rW430uezJz386-1pbd_QeY-OnHPg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: make use of debugfs_init callback
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This series adds support for the temperature sensor unit (TSU) found on the
+Renesas RZ/G3E SoC.
 
-On Sat, Mar 15, 2025 at 1:17=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Do not create a custom directory in debugfs-root, but use the
-> debugfs_init callback to create a custom directory at the given place
-> for the bridge. The new directory layout looks like this on a Renesas
-> GrayHawk-Single with a R-Car V4M SoC:
->
->         /sys/kernel/debug/dri/feb00000.display/DP-1/1-002c
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->
-> Changes since v1:
-> * switch from 'client->debugfs' to DRM 'debugfs_init' callback
-> * remove RFT because tested on hardware
->
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 40 +++++++--------------------
->  1 file changed, 10 insertions(+), 30 deletions(-)
+The series consists of 5 patches (one of which is not related to the thermal
+framework) that progressively add TSU support as follows:
+- patch 1/5:    adds syscon/regmap support for accessing system controller
+                registers, enabling access to TSU calibration values
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+- patches 2-5/5:  add dt-bindings, actual driver, DT node, and config symbol.
 
-I'll plan to apply this next week assuming freedesktop is back up.
+Changes:
 
--Doug
+v1 -> v2
+ * Fix yaml warnings from dt-binding
+ * Update IRQ names to reflect TSU expectations
+
+v2 -> v3
+ * Remove useless 'renesas,tsu-operating-mode' property
+
+v3 -> v4
+ * Improve some commit messages
+ * Fix interrupt description in YAML binding file
+
+Regards,
+
+John Madieu (5):
+  soc: renesas: rz-sysc: add syscon/regmap support
+  dt-bindings: thermal: r9a09g047-tsu: Document the TSU unit
+  thermal: renesas: rzg3e: Add thermal driver for the Renesas RZ/G3E SoC
+  arm64: dts: renesas: r9a09g047: Add TSU node
+  arm64: defconfig: Enable the Renesas RZ/G3E thermal driver
+
+ .../thermal/renesas,r9a09g047-tsu.yaml        |  81 ++++
+ MAINTAINERS                                   |   7 +
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  48 ++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/soc/renesas/Kconfig                   |   1 +
+ drivers/soc/renesas/r9a09g047-sys.c           |   1 +
+ drivers/soc/renesas/rz-sysc.c                 |  30 +-
+ drivers/soc/renesas/rz-sysc.h                 |   2 +
+ drivers/thermal/renesas/Kconfig               |   7 +
+ drivers/thermal/renesas/Makefile              |   1 +
+ drivers/thermal/renesas/rzg3e_thermal.c       | 445 ++++++++++++++++++
+ 11 files changed, 623 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
+ create mode 100644 drivers/thermal/renesas/rzg3e_thermal.c
+
+-- 
+2.25.1
+
 
