@@ -1,419 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-15604-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15630-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C42A81969
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 01:34:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A28AA81A39
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 03:05:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1C73B19E0589
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 23:34:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F718884A16
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 01:05:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAA43256C79;
-	Tue,  8 Apr 2025 23:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A2108632C;
+	Wed,  9 Apr 2025 01:05:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="usCBlWPX"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="L7ZKMI+I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010042.outbound.protection.outlook.com [52.101.228.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08DA255E2A;
-	Tue,  8 Apr 2025 23:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744155238; cv=none; b=t1DpwIWY70+MUntC4kpVZEdkwC7hiJ9fqCGBHxyKM6c2CVrqZVLnil4mR/fHzCBNyUdNSdp+TkBGrEP0m4Om3hDPnTX61SxuEv6xmrcXKclwGiBuW6PKEEJft+2RTIo0ELTBAc0GINYTR0DgK7Uon8KNYx/rr7daCTivpj6bPBo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744155238; c=relaxed/simple;
-	bh=xfWSt4eSUFOPItyIyVv8CAmbdjIH3v4Jj3ahJVgRjyk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PV/07ztdYLoBTkK6tMUH08xW2B71BPN1WqEEI+We8V5BVHMD29XXynt0VGIAvKng4BHxsiTPxuFV3J9KKL1rqDZ7mcP29Z9mS/jbveiEy+4RXLYjAaf/JUTJm/8lR1/Y9ZXH8GJKcAytiflR8ygTvjFMxaK4zEt1IZYuZczMB7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=usCBlWPX; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 732E199F;
-	Wed,  9 Apr 2025 01:31:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1744155115;
-	bh=xfWSt4eSUFOPItyIyVv8CAmbdjIH3v4Jj3ahJVgRjyk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=usCBlWPXEChaIt9l0lgMV/9jJB+ljOhvhiMSiMTthD6H1YzQ1wRkkJzGM/Mhw4+az
-	 7yr9u1V2Xa35JozN7rvwp7uGMktALST/t/a76hcBFo8VsPB0tWFO8VmFm/Um2B/0ge
-	 qpcvCHhPgpwZNN9uh16Ro6wbO/4QLIt1RlBJ3OnE=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [yavta] [PATCH 3/3] Add colorspace support
-Date: Wed,  9 Apr 2025 02:33:23 +0300
-Message-ID: <20250408233323.7650-4-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250408233323.7650-1-laurent.pinchart@ideasonboard.com>
-References: <20250408233323.7650-1-laurent.pinchart@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1E129A2;
+	Wed,  9 Apr 2025 01:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744160710; cv=fail; b=f7L5MMr+lT7Ir7c/xy99qPWM9bHgyztWjc6+7rwxdFhy45tmlYAYzyBkJOOUYG40HWVsmDCkQntJ8Rdz2HYvuRGEh7DyTyEvYuddcM+72TxBLE7a5M14FuPAvtBAJsamLONb6rNsz3/cbbRb5TDEjK6vDiR+1VlSXGb37EODrJw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744160710; c=relaxed/simple;
+	bh=Bn4jwa7I/XaRIOQS5xWTCzj+N+yIlM9NSzFpkx8Xm5A=;
+	h=Message-ID:To:From:Date:Subject:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=A78e6Xgy9d+PlxB+drxxP/miI52EATJ6RaIwv/ah0LGfEb/7p7YAzioS8w2d9P7BjMyvV9C5G8tzUU3nfoO8abc+12DhyX+hm4CG1oKJOdKOneMHYcf1+ih1GqyCdZRvnkXoKhETIzuak2bAzIZx/pSBVaRbXxBPpvfyMl9wq+I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=L7ZKMI+I; arc=fail smtp.client-ip=52.101.228.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=C9KaZgUOj+nCyUPiXBfHsvksOidCRgtdR9Aj2W4YyNezcLHaB6a6VUukKMNOU5/yE6uz5O7sJlJaz5aO1NP+Ksra0Kf+dssFhHfBukCHamLbMWfHJouH8+Rv1ZdD+4uh5t9g8wp8CvghH7zVonk+fCo7DQ00IJ88xQkc3aO+NjnL1Mi63sz56wO/Abduz7I4N6GMCwvqWDC1iHOecJ3YGZtSUzNAiRuYR2umzGGBLBVRbIMygMXk65pBcqoNFZ+GMZ0iEIZ6FnUzymm13nt4Ce45sfIFLN+Gg815KMaLda40lcVpSLRqL0WZQLhz8qhDubpFjpMaMVcfOkoeX54rjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UXkUxxGiTuJZzg5CcoRAyGQzXYQmoV/DU2d/cJCg5eA=;
+ b=I9QR5cuuRwC/9dweV8FoSHnBj3zmXuD6sLs7MjdGOiN8VsLeSpg5ZRAJUlwmtBY5RV3MbDJMyipSlhTdIsCP9ZM83T54S2xcAFhmqM3IrHAHBj3U1gX4GKuTqx/PgRfpPWlsIhbxt/1m+SQCVoX5i50dVOcidgicRYx8CgTlm+YsLzVdQR2uutdesXaIOpWzFEqgaKOAGgYMaa86T3uvkMZmxYufpDVhBushB3LrvalMifBoGzw8t/JqFtcOZ4IExnT0nBexqJ39CQiYomJltpjd/ryVDV0sITA+BJQ2EDWWN0ZyAJBDZ8fXe02oLlnRhfhUUJ7dij57dl7/deeXnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UXkUxxGiTuJZzg5CcoRAyGQzXYQmoV/DU2d/cJCg5eA=;
+ b=L7ZKMI+I6nmbLZSGQ8S0H810bWEUTh7YwtsWlp0EjvKCMoF5o/dptjY9Zyl0WjHvuRpjvqO+qDd64I2J+1qP53iykEi15TpT6PYEoEI7NPfnwqAUbR7YDZi4BxguaO6efap20gF56GxMgD3ZGG5SIzZm73zseeLqShPHEYSr8IY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OS3PR01MB6437.jpnprd01.prod.outlook.com
+ (2603:1096:604:100::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Wed, 9 Apr
+ 2025 01:05:01 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8606.033; Wed, 9 Apr 2025
+ 01:05:01 +0000
+Message-ID: <874iyyb0w2.wl-kuninori.morimoto.gx@renesas.com>
+To: Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Date: Tue, 18 Mar 2025 11:06:33 +0900
+Subject: [PATCH 1/7] spi: renesas,sh-msiof: Living separately from MSIOF I2S Sound
+In-Reply-To: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
+References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=US-ASCII
+X-ClientProxiedBy: TYCP301CA0038.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:380::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB6437:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2546a94-454c-44fe-fe39-08dd77028e47
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|52116014|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?X1zl1Eh4HCB56VFpBVrtx97DpKxMjJr7NMT5NfyYxXZjW4HSdHbq1KyrbxeV?=
+ =?us-ascii?Q?jdQeghI2YN7sGnBQwYo8tPvvaB4kYnKjp/KfAu1YSAueWH1r+CXTEYgZbwyV?=
+ =?us-ascii?Q?KMEMnYK/Ce3c5E2StHtgRBNxO6f9NsnPuoTv1kMq7hTiQToHSwdTH3tBZ0xu?=
+ =?us-ascii?Q?NcLeb1CJPgpjxVRsstJm3hx8iK0OpMp9cHZIuOjm6TghQuepKR67Rfc6zR8P?=
+ =?us-ascii?Q?EUHfk6New4HrtXSUU2k3EWkYUGjvgYx4gmL/cxYPi6tBA3mSjNlZ20HK+aHW?=
+ =?us-ascii?Q?ie5HAjBJjeOsCgsh4bnnm7OQbHq+P+IT3w01TMfaoqy86ngTTHujBssPhntT?=
+ =?us-ascii?Q?+wMMU9N69da4xOja02uS4S1o7tNoVxljA3+KpiipAHSqxPJW6bGr4/Igbh7H?=
+ =?us-ascii?Q?uwGZ7Bz65qvGJKMbJtCg3rL0tpjatG7xyY4ttdi1ozOvshJ9RbYOF/Cc03jH?=
+ =?us-ascii?Q?c0pCUMyyYcqgNrx9D2rQFsquMfeMwel0fsq6fxAk1yNT2UZJ02jICM4NKUI9?=
+ =?us-ascii?Q?YnF6GF3yIwviMXmCdU6I1j3raVEfA3kaXvOj3Basyi+EEbepaj1PqYzZo63A?=
+ =?us-ascii?Q?Qg3hapVD4o68zMAc02pF72oclduJo4yzAUpBBTEj+7oiqaLLesskCsoqkNXl?=
+ =?us-ascii?Q?A/VRfqubs86YmjcWp4ctnUyRF4orEEFfenAkStvnr/uNFZSg5g0BvAeWlA8r?=
+ =?us-ascii?Q?vdQuOlCqVK1LrKJggLAVyY1WL1j5Ml0+DAsEOUicA+FqQef4Wzqk/wE8OdR/?=
+ =?us-ascii?Q?FSGhaNA5y9E+45aC7ZVqkLfsZuizTg56CEayHuzcGn94xHitBvezZMoRB/uo?=
+ =?us-ascii?Q?U91FDNRlq6OO4fUxdJzYlu10T5RdeijKt04vFdvaPtkPzRP2h1nyBafwmLvj?=
+ =?us-ascii?Q?COwnduy3zxVxcXUpmwSlhKFEE5fQIKtQrUepNryBlZPOwmD995rDENATa8oQ?=
+ =?us-ascii?Q?7aP9z2ydFgIcgMMnQxwQl1OfsZ5IMqvXgyu1LCKFRFSQZ1ZNxr56HkWK5vRD?=
+ =?us-ascii?Q?YBtSxoONI6BuYQ/HCRQmjYZn2yO9gwRXdezD3DLZmye7q+D3RgeVmced9APU?=
+ =?us-ascii?Q?REtyaboIQzZFKBFHXM6kbe0vnS5oqm2Ww28DfjKaq2c4EOdNDneNEBd+dmaA?=
+ =?us-ascii?Q?Q3zwU3zUg4h/0Q0Q0KAMyGrOFuhNPedIrDJs4a6DWsnR/qqOaMa1ztS7udQK?=
+ =?us-ascii?Q?FI8zTsXWHiMq38NFANOMYPJHZRjKq25d6m2GgJsVSCDcdwx7MiGns+62BhUm?=
+ =?us-ascii?Q?JKVRt25H5alJsaHowtdkXFNBrRJe/BR99Ds9MfmNcFegJgjnMsAOhw/7IbE4?=
+ =?us-ascii?Q?Arxq/l6DNB4i/vu0fYsohj1nJa6w6qXfb0G7HX7ykI2/nWKTNGEWp4NKLWgq?=
+ =?us-ascii?Q?pnZD9kzTXnPZAvqi70XOi+Kg8zDfEqZZV3nqlF+43eQi9LTGX8xiYaCzDODc?=
+ =?us-ascii?Q?HSCOBWQTtNvXdgnv0TlRsWrjxqdQjxR7gKGCFXojDVv15+WxEN2Hmg=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(52116014)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?5rJsaIGk/k+MCtF69GV6HpgCZY58NSN+fp50bBhfnoVSvPf0mGWYdONcRXOg?=
+ =?us-ascii?Q?RScZQmc2IH5TkToNctYLauLLlJI9NCdx09CR1vQsE97Q/X01jMJZKXb7rNUc?=
+ =?us-ascii?Q?uAoh7Gl2OY4ofZFZ/cojSVfZUsc7O0RZpudP8XQn+bRk1XcUo39ROIyfgch+?=
+ =?us-ascii?Q?TM884z1zWRTObgROcil/LSq1v2W1DtgRCSz2Z4aldnC00xnlfdhQAYGtthMz?=
+ =?us-ascii?Q?egVEmaLaeNWImmaplwf076yb7HogsCDQnQ0Ijcbq6w/c3jurXhaM6KYMtLpK?=
+ =?us-ascii?Q?OOOE03pvJ0I8/Mm7l0hq++ZX+K+Zs0FNh0r7XtAKcAtFRjeT2kQV1qEItfRX?=
+ =?us-ascii?Q?f+2FsCAmKdB2UQeshSEifA9oNelV4Dr7x8PEz3L/q6fuBI8Ggoi7RhYXUnhk?=
+ =?us-ascii?Q?iPdugjxXs8hxm8njVs7fVzxkH+GT57fMZM0RXrBAzKNa0jiNHkdCUeQqmbDo?=
+ =?us-ascii?Q?YRaiM+k/pe8fLgQ8aQFNBWK8qOAiNjP1uxueiJtL83ofp4v0GoiYPf0A1JNM?=
+ =?us-ascii?Q?CT98gcTKJjT0uQNF1vfJa7/LnC+mOg+KvK8KdTL3dIVuEKQMuOAwooGydchl?=
+ =?us-ascii?Q?v2hMC6nd/0V6GQdWYtPgVXb/k9HhMNqV4Jl524Cwe/9wKrFXzHlV+kzZSfqb?=
+ =?us-ascii?Q?FVgaC6T20GmrjiQxGeYRtleRrH2nWGmvDFaHSV44935CmRT2PyrOWSleucKp?=
+ =?us-ascii?Q?m3jNxILONxJVZ+guUpgPw/srCpjakErj+wa5+Jw+ZhxdEq3M1TEg5l8vSdt/?=
+ =?us-ascii?Q?SislFK5su8OX4itHbtXsL8S1fSqPu40B6kXssqSgDC2e6T99wOHSGRhbEJSA?=
+ =?us-ascii?Q?CEwBLiM7TVR6D/giTp9fjPryHoerkHjzvXa+AWlW038pvU3kGu9MU1EtWyqh?=
+ =?us-ascii?Q?JKxWixJ2fiSPRkm1DuiKhW7wH7EN1Wyjx6gU8uJQNIGqhzigZmLt33YzlUr+?=
+ =?us-ascii?Q?aM5mahiz0yIj75ujW5bi2sWm/n4QLTCTDe577to7ySumUPyI1qVBoZzQU5X1?=
+ =?us-ascii?Q?PdH7AMy3gWP/ujVaQQ2e+5EX0PWmev6UHo10A6H2wwJ34OCWmhjpeLyxEEOq?=
+ =?us-ascii?Q?i/f/6/v2oTdy1Mahsn8wGfnCrqrZQp69J23MkhsEb5nwV1L/UaJ4udUxvGrm?=
+ =?us-ascii?Q?h/bUp9VGoIcko+045rjAVM6xGepZTMOrXStIp5DtBPih5oDfUjqNHaA95aS6?=
+ =?us-ascii?Q?xQcX2eFqeqS9nyfiAUx09Jfi1O3DBeuNxLzn42ZFkI9srOYNG+849mrfjUv4?=
+ =?us-ascii?Q?p6UrTg64kC84Lc45QA/gfJwepvof3Uyk8UHM/X5pb+SmUKuexWOogxZxtDh6?=
+ =?us-ascii?Q?vyrlz3mUd2vlbkZqCFDBky5o02yfvehjw3lyiQaS0FE2A9iBGuvRDS2+zJXQ?=
+ =?us-ascii?Q?bucuq4n9QBDBPnWtQ9KYQ0xfkPH6/uYR+AiWZiZwp3dcJxy1fUy8rL7nHqSv?=
+ =?us-ascii?Q?yc0zqSjX996C3Cx22dDj86VyFYdnAGpdfCQxItG3d9dWt0Blu3A65OYTTYLP?=
+ =?us-ascii?Q?5672tyC0HJltgjLP8RIurGlK4Ep7Ze9C+IYS0aSzjbOXjNpYOZdvK82BzWfB?=
+ =?us-ascii?Q?n+bxZEI0i77t7PWAear7cYi3JoX3x12TRIV5Kkig8M3rfgPrhnKn9csajIDQ?=
+ =?us-ascii?Q?EMztTnVa4mnzBw2tb0UVp6Q=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2546a94-454c-44fe-fe39-08dd77028e47
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 01:05:01.8451
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ApzvNeKe+9hw0Y0+Inv2SrP9VBcJw8jFkYOCNFCTODLrpixI2jsULFLQ95ybZKchChYFihacxmS4GUbFNZ3SytfUH5hE0t+AJM8jqW/5EWQ7bg0qEFel7nyrzIW15mfR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6437
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Renesas MSIOF (Clock-Synchronized Serial Interface with FIFO) can work as
+both SPI and I2S. MSIOF-I2S will use Audio Graph Card/Card2 driver which
+uses Of-Graph in DT.
 
-Add four command line options to support setting the colorspace,
-transfer function, encoding and quantization.
+MSIOF-SPI/I2S are using same DT compatible properties.
+MSIOF-I2S         uses Of-Graph for Audio-Graph-Card/Card2,
+MSIOF-SPI doesn't use  Of-Graph.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Ignore MSIOF-I2S case (= Of-Graph) in MSIOF-SPI Doc.
+
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- yavta.c | 205 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 202 insertions(+), 3 deletions(-)
+ .../devicetree/bindings/spi/renesas,sh-msiof.yaml    | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/yavta.c b/yavta.c
-index 4f7306daa0ce..b463f5841100 100644
---- a/yavta.c
-+++ b/yavta.c
-@@ -184,6 +184,63 @@ static int pause_init(void)
- 	return 0;
- }
+diff --git a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
+index 49649fc3f95a..c491ef5bc78c 100644
+--- a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
++++ b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
+@@ -9,6 +9,18 @@ title: Renesas MSIOF SPI controller
+ maintainers:
+   - Geert Uytterhoeven <geert+renesas@glider.be>
  
-+/* -----------------------------------------------------------------------------
-+ * Key-value pairs handling
-+ */
++# sharing with MSIOF I2S
++# see
++# ${LINUX}/Documentation/devicetree/bindings/sound/renesas,msiof.yaml
++select:
++  properties:
++    compatible:
++      contains:
++        pattern: "^renesas,.*-msiof$"
++    port: false
++  required:
++    - compatible
 +
-+struct key_value {
-+	const char *name;
-+	unsigned int value;
-+};
-+
-+static int __key_value_get(const struct key_value *values,
-+			   unsigned int count, const char *name)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < count; ++i) {
-+		if (!strcmp(values[i].name, name))
-+			return values[i].value;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static void __key_value_list(const struct key_value *values,
-+			     unsigned int count, const char *type)
-+{
-+	unsigned int chars;
-+	unsigned int i;
-+	bool first = true;
-+
-+	chars = printf("%s: ", type);
-+
-+	for (i = 0; i < count; ++i) {
-+		unsigned int len = strlen(values[i].name);
-+
-+		if (chars + len >= 80) {
-+			printf(",\n\t");
-+			chars = 8;
-+			first = true;
-+		}
-+
-+		if (first)
-+			first = false;
-+		else
-+			chars += printf(", ");
-+
-+		chars += printf("%s", values[i].name);
-+	}
-+
-+	printf("\n");
-+}
-+
-+#define key_value_get(values, name) \
-+	__key_value_get(values, ARRAY_SIZE(values), name)
-+
-+#define key_value_list(values, type) \
-+	__key_value_list(values, ARRAY_SIZE(values), type)
-+
- /* -----------------------------------------------------------------------------
-  * Format handling
-  */
-@@ -449,6 +506,73 @@ static const char *v4l2_field_name(enum v4l2_field field)
- 	return "unknown";
- }
+ allOf:
+   - $ref: spi-controller.yaml#
  
-+static const struct key_value v4l2_colorspaces[] = {
-+	{ "DEFAULT", V4L2_COLORSPACE_DEFAULT },
-+	{ "SMPTE170M", V4L2_COLORSPACE_SMPTE170M },
-+	{ "SMPTE240M", V4L2_COLORSPACE_SMPTE240M },
-+	{ "REC709", V4L2_COLORSPACE_REC709 },
-+	{ "BT878", V4L2_COLORSPACE_BT878 },
-+	{ "470_SYSTEM_M", V4L2_COLORSPACE_470_SYSTEM_M },
-+	{ "470_SYSTEM_BG", V4L2_COLORSPACE_470_SYSTEM_BG },
-+	{ "JPEG", V4L2_COLORSPACE_JPEG },
-+	{ "SRGB", V4L2_COLORSPACE_SRGB },
-+	{ "OPRGB", V4L2_COLORSPACE_OPRGB },
-+	{ "BT2020", V4L2_COLORSPACE_BT2020 },
-+	{ "RAW", V4L2_COLORSPACE_RAW },
-+	{ "DCI_P3", V4L2_COLORSPACE_DCI_P3 },
-+};
-+
-+static const struct key_value v4l2_xfer_funcs[] = {
-+	{ "DEFAULT", V4L2_COLORSPACE_DEFAULT },
-+	{ "709", V4L2_XFER_FUNC_709 },
-+	{ "SRGB", V4L2_XFER_FUNC_SRGB },
-+	{ "OPRGB", V4L2_XFER_FUNC_OPRGB },
-+	{ "SMPTE240M", V4L2_XFER_FUNC_SMPTE240M },
-+	{ "NONE", V4L2_XFER_FUNC_NONE },
-+	{ "DCI_P3", V4L2_XFER_FUNC_DCI_P3 },
-+	{ "SMPTE2084", V4L2_XFER_FUNC_SMPTE2084 },
-+};
-+
-+static const struct key_value v4l2_encodings[] = {
-+	/* enum v4l2_ycbcr_encoding */
-+	{ "DEFAULT", V4L2_YCBCR_ENC_DEFAULT },
-+	{ "601", V4L2_YCBCR_ENC_601 },
-+	{ "709", V4L2_YCBCR_ENC_709 },
-+	{ "XV601", V4L2_YCBCR_ENC_XV601 },
-+	{ "XV709", V4L2_YCBCR_ENC_XV709 },
-+	{ "SYCC", V4L2_YCBCR_ENC_SYCC },
-+	{ "BT2020", V4L2_YCBCR_ENC_BT2020 },
-+	{ "BT2020_CONST_LUM", V4L2_YCBCR_ENC_BT2020_CONST_LUM },
-+	{ "SMPTE240M", V4L2_YCBCR_ENC_SMPTE240M },
-+	/* enum v4l2_hsv_encoding */
-+	{ "HSV180", V4L2_HSV_ENC_180 },
-+	{ "HSV256", V4L2_HSV_ENC_256 },
-+};
-+
-+static const struct key_value v4l2_quantizations[] = {
-+	{ "DEFAULT", V4L2_QUANTIZATION_DEFAULT },
-+	{ "FULL_RANGE", V4L2_QUANTIZATION_FULL_RANGE },
-+	{ "LIM_RANGE", V4L2_QUANTIZATION_LIM_RANGE },
-+};
-+
-+#define v4l2_colorspace_from_string(name) \
-+	key_value_get(v4l2_colorspaces, name)
-+#define v4l2_xfer_func_from_string(name) \
-+	key_value_get(v4l2_xfer_funcs, name)
-+#define v4l2_encoding_from_string(name) \
-+	key_value_get(v4l2_encodings, name)
-+#define v4l2_quantization_from_string(name) \
-+	key_value_get(v4l2_quantizations, name)
-+
-+#define list_colorspaces() \
-+	key_value_list(v4l2_colorspaces, "colorspace")
-+#define list_xfer_funcs() \
-+	key_value_list(v4l2_xfer_funcs, "xfer-func")
-+#define list_encodings() \
-+	key_value_list(v4l2_encodings, "encoding")
-+#define list_quantizations() \
-+	key_value_list(v4l2_quantizations, "quantization")
-+
- /* -----------------------------------------------------------------------------
-  *
-  */
-@@ -797,6 +921,10 @@ static int video_get_format(struct device *dev)
- static int video_set_format(struct device *dev, unsigned int w, unsigned int h,
- 			    unsigned int format, unsigned int stride,
- 			    unsigned int buffer_size, enum v4l2_field field,
-+			    enum v4l2_colorspace colorspace,
-+			    enum v4l2_xfer_func xfer_func,
-+			    enum v4l2_ycbcr_encoding encoding,
-+			    enum v4l2_quantization quantization,
- 			    unsigned int flags)
- {
- 	struct v4l2_format fmt;
-@@ -814,7 +942,11 @@ static int video_set_format(struct device *dev, unsigned int w, unsigned int h,
- 		fmt.fmt.pix_mp.pixelformat = format;
- 		fmt.fmt.pix_mp.field = field;
- 		fmt.fmt.pix_mp.num_planes = info->n_planes;
-+		fmt.fmt.pix_mp.colorspace = colorspace;
- 		fmt.fmt.pix_mp.flags = flags;
-+		fmt.fmt.pix_mp.ycbcr_enc = encoding;
-+		fmt.fmt.pix_mp.quantization = quantization;
-+		fmt.fmt.pix_mp.xfer_func = xfer_func;
- 
- 		for (i = 0; i < fmt.fmt.pix_mp.num_planes; i++) {
- 			fmt.fmt.pix_mp.plane_fmt[i].bytesperline = stride;
-@@ -830,8 +962,12 @@ static int video_set_format(struct device *dev, unsigned int w, unsigned int h,
- 		fmt.fmt.pix.field = field;
- 		fmt.fmt.pix.bytesperline = stride;
- 		fmt.fmt.pix.sizeimage = buffer_size;
-+		fmt.fmt.pix.colorspace = colorspace;
- 		fmt.fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
- 		fmt.fmt.pix.flags = flags;
-+		fmt.fmt.pix.ycbcr_enc = encoding;
-+		fmt.fmt.pix.quantization = quantization;
-+		fmt.fmt.pix.xfer_func = xfer_func;
- 	}
- 
- 	ret = ioctl(dev->fd, VIDIOC_S_FMT, &fmt);
-@@ -2298,6 +2434,8 @@ static void usage(const char *argv0)
- 	printf("    --buffer-size		Buffer size in bytes\n");
- 	printf("    --enum-formats		Enumerate formats\n");
- 	printf("    --enum-inputs		Enumerate inputs\n");
-+	printf("    --colorspace colorspace	Set the colorspace\n");
-+	printf("    --encoding encoding		Set the YCbCr encoding\n");
- 	printf("    --fd                        Use a numeric file descriptor insted of a device\n");
- 	printf("    --field field		Set the format field order\n");
- 	printf("\tValid values for field are none, top, bottom, interlaced, seq-tb, seq-bt,\n");
-@@ -2306,6 +2444,7 @@ static void usage(const char *argv0)
- 	printf("    --no-query			Don't query capabilities on open\n");
- 	printf("    --offset			User pointer buffer offset from page start\n");
- 	printf("    --premultiplied		Color components are premultiplied by alpha value\n");
-+	printf("    --quantization quantization	Set the quantization\n");
- 	printf("    --queue-late		Queue buffers after streamon, not before\n");
- 	printf("    --requeue-last		Requeue the last buffers before streamoff\n");
- 	printf("    --reset-controls		Reset all available controls to their default value\n");
-@@ -2313,6 +2452,13 @@ static void usage(const char *argv0)
- 	printf("    --skip n			Skip the first n frames\n");
- 	printf("    --sleep-forever		Sleep forever after configuring the device\n");
- 	printf("    --stride value		Line stride in bytes\n");
-+	printf("    --xfer-func xfer-func	Set the transfer function\n");
-+
-+	printf("\nValid fields values:\n");
-+	list_colorspaces();
-+	list_encodings();
-+	list_quantizations();
-+	list_xfer_funcs();
- }
- 
- #define OPT_ENUM_FORMATS	256
-@@ -2332,14 +2478,20 @@ static void usage(const char *argv0)
- #define OPT_QUEUE_LATE		270
- #define OPT_DATA_PREFIX		271
- #define OPT_RESET_CONTROLS	272
-+#define OPT_COLORSPACE		273
-+#define OPT_XFER_FUNC		274
-+#define OPT_ENCODING		275
-+#define OPT_QUANTIZATION	276
- 
- static const struct option opts[] = {
- 	{"buffer-size", 1, 0, OPT_BUFFER_SIZE},
- 	{"buffer-type", 1, 0, 'B'},
- 	{"capture", 2, 0, 'c'},
- 	{"check-overrun", 0, 0, 'C'},
-+	{"colorspace", 1, 0, OPT_COLORSPACE},
- 	{"data-prefix", 0, 0, OPT_DATA_PREFIX},
- 	{"delay", 1, 0, 'd'},
-+	{"encoding", 1, 0, OPT_ENCODING},
- 	{"enum-formats", 0, 0, OPT_ENUM_FORMATS},
- 	{"enum-inputs", 0, 0, OPT_ENUM_INPUTS},
- 	{"fd", 1, 0, OPT_FD},
-@@ -2357,6 +2509,7 @@ static const struct option opts[] = {
- 	{"pause", 2, 0, 'p'},
- 	{"premultiplied", 0, 0, OPT_PREMULTIPLIED},
- 	{"quality", 1, 0, 'q'},
-+	{"quantization", 1, 0, OPT_QUANTIZATION},
- 	{"queue-late", 0, 0, OPT_QUEUE_LATE},
- 	{"get-control", 1, 0, 'r'},
- 	{"requeue-last", 0, 0, OPT_REQUEUE_LAST},
-@@ -2370,6 +2523,7 @@ static const struct option opts[] = {
- 	{"time-per-frame", 1, 0, 't'},
- 	{"timestamp-source", 1, 0, OPT_TSTAMP_SRC},
- 	{"userptr", 0, 0, 'u'},
-+	{"xfer-func", 1, 0, OPT_XFER_FUNC},
- 	{0, 0, 0, 0}
- };
- 
-@@ -2392,6 +2546,7 @@ int main(int argc, char *argv[])
- 	int do_sleep_forever = 0, do_requeue_last = 0;
- 	int do_rt = 0, do_log_status = 0;
- 	int no_query = 0, do_queue_late = 0;
-+	int do_csc = 0;
- 	char *endptr;
- 	int c;
- 
-@@ -2415,6 +2570,10 @@ int main(int argc, char *argv[])
- 	unsigned int pause_count = (unsigned int)-1;
- 	struct v4l2_fract time_per_frame = {1, 25};
- 	enum v4l2_field field = V4L2_FIELD_ANY;
-+	enum v4l2_colorspace colorspace = V4L2_COLORSPACE_DEFAULT;
-+	enum v4l2_xfer_func xfer_func = V4L2_XFER_FUNC_DEFAULT;
-+	enum v4l2_ycbcr_encoding encoding = V4L2_YCBCR_ENC_DEFAULT;
-+	enum v4l2_quantization quantization = V4L2_QUANTIZATION_DEFAULT;
- 
- 	/* Capture loop */
- 	enum buffer_fill_mode fill_mode = BUFFER_FILL_NONE;
-@@ -2547,6 +2706,27 @@ int main(int argc, char *argv[])
- 		case OPT_BUFFER_SIZE:
- 			buffer_size = atoi(optarg);
- 			break;
-+		case OPT_COLORSPACE:
-+			ret = v4l2_colorspace_from_string(optarg);
-+			if (ret < 0) {
-+				printf("Invalid colorspace value '%s'\n", optarg);
-+				return 1;
-+			}
-+			colorspace = ret;
-+			do_csc = 1;
-+			break;
-+		case OPT_DATA_PREFIX:
-+			dev.write_data_prefix = true;
-+			break;
-+		case OPT_ENCODING:
-+			ret = v4l2_encoding_from_string(optarg);
-+			if (ret < 0) {
-+				printf("Invalid encoding value '%s'\n", optarg);
-+				return 1;
-+			}
-+			encoding = ret;
-+			do_csc = 1;
-+			break;
- 		case OPT_ENUM_FORMATS:
- 			do_enum_formats = 1;
- 			break;
-@@ -2578,6 +2758,15 @@ int main(int argc, char *argv[])
- 		case OPT_PREMULTIPLIED:
- 			fmt_flags |= V4L2_PIX_FMT_FLAG_PREMUL_ALPHA;
- 			break;
-+		case OPT_QUANTIZATION:
-+			ret = v4l2_quantization_from_string(optarg);
-+			if (ret < 0) {
-+				printf("Invalid quantization value '%s'\n", optarg);
-+				return 1;
-+			}
-+			quantization = ret;
-+			do_csc = 1;
-+			break;
- 		case OPT_QUEUE_LATE:
- 			do_queue_late = 1;
- 			break;
-@@ -2609,8 +2798,14 @@ int main(int argc, char *argv[])
- 		case OPT_USERPTR_OFFSET:
- 			userptr_offset = atoi(optarg);
- 			break;
--		case OPT_DATA_PREFIX:
--			dev.write_data_prefix = true;
-+		case OPT_XFER_FUNC:
-+			ret = v4l2_xfer_func_from_string(optarg);
-+			if (ret < 0) {
-+				printf("Invalid xfer-func value '%s'\n", optarg);
-+				return 1;
-+			}
-+			xfer_func = ret;
-+			do_csc = 1;
- 			break;
- 		default:
- 			printf("Invalid option -%c\n", c);
-@@ -2702,8 +2897,12 @@ int main(int argc, char *argv[])
- 
- 	/* Set the video format. */
- 	if (do_set_format) {
-+		if (do_csc && video_is_capture(&dev))
-+			fmt_flags |= V4L2_PIX_FMT_FLAG_SET_CSC;
-+
- 		if (video_set_format(&dev, width, height, pixelformat, stride,
--				     buffer_size, field, fmt_flags) < 0) {
-+				     buffer_size, field, colorspace, xfer_func,
-+				     encoding, quantization, fmt_flags) < 0) {
- 			video_close(&dev);
- 			return 1;
- 		}
 -- 
-Regards,
-
-Laurent Pinchart
+2.43.0
 
 
