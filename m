@@ -1,133 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-14603-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14604-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC41EA67AE5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 18:28:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52591A67B72
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 18:56:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 20434188C2A3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 17:26:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D7533BFF41
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 17:56:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5083211A11;
-	Tue, 18 Mar 2025 17:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1205C212F98;
+	Tue, 18 Mar 2025 17:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jeBs+xmx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1554A2116F7;
-	Tue, 18 Mar 2025 17:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FBF21019E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 17:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742318698; cv=none; b=m44P6SBFQJKLsZUsz57rDZaF6syAc57i3W9OWqLUJcDxtoi8pxzuuWWAd7nEoinuVuu1WG82KPutqPYMafvxTXoZxWBNc3wIKOHtqmgn1C/ix26w6pPnDquHBjXeRqGFPNVNa7X+CH3StuZY/cg9cLc2fQb9WKpvXFdu1+mi8hk=
+	t=1742320604; cv=none; b=o1zpBhK9cE5KbAxp25Ni/i36e/Ew9Y2BOFmzxFQ1n0q5+8Zavft+5tubi8AHcBeraXjBM2o4wPBYPYRUr4F5D7q4nwwhHEBfHz2fM8RIsOOD48xTE4fhq21t8Fj9QMrlwb7u7TelEL8V3KW6p7Zw6Wf2C5aQEXOF6lUMbB0DMhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742318698; c=relaxed/simple;
-	bh=ucssZ3UhhMj+KmH04MIyEZkp3eejH8AJj6Bc+qwhZ14=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KfSWnmcPpuRf0aty/+HUIOSaPOtbh5n+Vf++2ICVYol1dDqkWBaSFSNHTVE+4vOMcZZSUVPL11iPDCCHr46J8FtMWlIigX9w63eea3DAv62FgwyK1v/K96Uf2B4KYJIzhj0F2unv70RSYgBwhAW+f3/zj9iPlZ6Db+QULpUufjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CC10B113E;
-	Tue, 18 Mar 2025 10:25:04 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 971943F673;
-	Tue, 18 Mar 2025 10:24:52 -0700 (PDT)
-Message-ID: <25bd5477-a388-405f-a976-6b1a59860ef8@arm.com>
-Date: Tue, 18 Mar 2025 17:24:51 +0000
+	s=arc-20240116; t=1742320604; c=relaxed/simple;
+	bh=NLXl7cbouL6yGtBE+YySGWzp3SaYJ4IoNQECLsIUq/s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HuaNXy6nu0IFCmcOEqAXWGK2IwHUgstDb4W8z9Fk0myEM68Fubfv0ViRcD/XQOu5xwBJIAB0w4tCQ9Eb3hclkgqiTFK1z9Ooqd7QADLVqOIcfnFuc9flhdRxaFTPMqLaJh3w6610KUGwJ3LQazEc4TEFx6zWN+m8urQJmtSC8Mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jeBs+xmx; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30bf3f3539dso59128621fa.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 10:56:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1742320595; x=1742925395; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2ptw41iPQYR6728ZX8PJ0GiZO8H5LJxzZSU14XuXmLA=;
+        b=jeBs+xmxIA0WNSx/8UQtprkAVZPFuRNmsBrLuiQ8d5h/taLs+O1fi3xcIgIKrUTVi9
+         XjhqCuhfTgqmOT4UwbS378cegkpzVUnF3g7kVEMiLMJjZfyBlA3/KCvuNfgN9tw2g9po
+         4lkZjpP+Q5oT1gXznlz+9w5mKwSzxk8WyEu0A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742320595; x=1742925395;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2ptw41iPQYR6728ZX8PJ0GiZO8H5LJxzZSU14XuXmLA=;
+        b=lyThqfjqKRhbUn2IIBhuEK9CNdbiaEo/4wg9Yd6O2bUct0uRsAmA7oKyEwyGKnfsfG
+         uaZ9IgPGWGsPjiP//VoXyowyvw2FXYuRFYQxjakhoYVZbGpAm/TIiAZ1SPvAwVlxJBlQ
+         Kycrw0bQk96LKxindaKo0GPM6IwQjcvY6NUajX7Kt7D+Pk1kMcDhpfIDSTWwej6qcbry
+         VO0hjBJmkbFSF2zexUOCMO8ulJHg9yuf6hd/5ODefgvTsXiyt4EDtzHeBBJ2rvjzTFhs
+         o4GlgZij92dRnkC9yhO3wrpm029f6hFYtWHZ7Lw01esDBaGa6gELz8cgctCAmyGZq41n
+         0GDw==
+X-Gm-Message-State: AOJu0YwKdRzkFKYdAE0ioYvzoiacRkKV1nIojRVALF7S4kZWIdVpf6MB
+	DK4Ux8bBWqesuh5FB9eyDsqH1+ax3Bo682/3BmjARzSrp8dKwP0iEC4anhX1ShY7HbFTXc5VMpS
+	Prg==
+X-Gm-Gg: ASbGncvhesfiVDvjWVvw/ldb59vOXG2FYU8cJ82R4h9f+CIkKHtQ4Vg0rNLlkrf7bXt
+	F4oVCg1CvmXV/mUDOJNw1hgu0NdR34nP89FVQpa1aMTSLxjFTlSoPBa6xaYGNRiMB78V+kTCh5/
+	UvULS7C1rnibb1EJMzYjtaeaIShOhW7JHgjATAn8Qwg8ofZL+SuMkTp0/GnAR6KmAIkcBmubYUn
+	xYE/iuTzBEKp3nPlbPKfEf7+TE7qmMBzcoxlmA/ZGzTkkVLZMXNYQO8UNkqsmTwDG3uxxGaLSsV
+	pkhH8gZVdZP/TGtlJSt2c/Nx+17fIYkZsUy6MQM9KW82iXKn9FYl2OLoBDveOQ+sWj8Yzs04GdW
+	vGheNLgj0
+X-Google-Smtp-Source: AGHT+IHJU8A6Bi4LqAKbCgACgDJM3YPsrwfT7Y44hSi9WFQO96Grhhm+Toys8FmtdpnalrRHe46qlw==
+X-Received: by 2002:a2e:b982:0:b0:30c:433a:2886 with SMTP id 38308e7fff4ca-30cd95bcdfbmr26564311fa.8.1742320594936;
+        Tue, 18 Mar 2025 10:56:34 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f1da7eesm20829831fa.100.2025.03.18.10.56.33
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Mar 2025 10:56:34 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54957f0c657so6163347e87.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 10:56:33 -0700 (PDT)
+X-Received: by 2002:a05:6512:10d6:b0:549:74a7:12ce with SMTP id
+ 2adb3069b0e04-54a30486a73mr2802359e87.14.1742320593086; Tue, 18 Mar 2025
+ 10:56:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] iommu: Get DT/ACPI parsing into the proper probe
- path
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Hanjun Guo <guohanjun@huawei.com>, Sudeep Holla <sudeep.holla@arm.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Stuart Yoder <stuyoder@gmail.com>,
- Laurentiu Tudor <laurentiu.tudor@nxp.com>, Nipun Gupta
- <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Bjorn Helgaas <bhelgaas@google.com>, linux-acpi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, devicetree@vger.kernel.org,
- linux-pci@vger.kernel.org, Charan Teja Kalla <quic_charante@quicinc.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <cover.1740753261.git.robin.murphy@arm.com>
- <e3b191e6fd6ca9a1e84c5e5e40044faf97abb874.1740753261.git.robin.murphy@arm.com>
- <CAMuHMdWPFnHTFeeWL2-BU8tKOL-E5K2ROOz=LLBLTJJLCK9NgA@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <CAMuHMdWPFnHTFeeWL2-BU8tKOL-E5K2ROOz=LLBLTJJLCK9NgA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 18 Mar 2025 10:56:21 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UNHE=T0nOAcAskJy2L=ZUsRVvdKdcSi+3TEGqgSnjr_w@mail.gmail.com>
+X-Gm-Features: AQ5f1JovMX3_JB9V8QSJq3W_8Y9VFCM5iRqj4YkpDH-gdoHjWKF2FDKzoiar_Ok
+Message-ID: <CAD=FV=UNHE=T0nOAcAskJy2L=ZUsRVvdKdcSi+3TEGqgSnjr_w@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Check bridge connection failure
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi,
 
-On 18/03/2025 4:37 pm, Geert Uytterhoeven wrote:
-[...]
-> Thanks for your patch, which is now commit bcb81ac6ae3c2ef9 ("iommu:
-> Get DT/ACPI parsing into the proper probe path") in iommu/next.
-> 
-> This patch triggers two issues on R-Car Gen3 platforms:
-> 
-> 1. I am seeing a warning on Renesas Salvator-XS with R-Car M3N
-> (but not on the similar board with R-Car H3), and only for SATA[1].
-> Unfortunately commit 73d2f10957f517e5 ("iommu: Don't warn prematurely
-> about dodgy probes") does not help:
-[...]
->      Call trace:
->       __iommu_probe_device+0x208/0x38c (P)
->       iommu_probe_device+0x34/0x74
->       of_iommu_configure+0x128/0x200
->       of_dma_configure_id+0xdc/0x1d4
->       platform_dma_configure+0x48/0x6c
->       really_probe+0xf0/0x260
->       __driver_probe_device+0xec/0x104
->       driver_probe_device+0x3c/0xc0
+On Tue, Mar 18, 2025 at 8:56=E2=80=AFAM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> Read out and check the ID registers, so we can bail out if I2C
+> communication does not work or if the device is unknown. Tested on a
+> Renesas GrayHawk board (R-Car V4M) by using a wrong I2C address and by
+> not enabling RuntimePM for the device.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>
+> Changes since v2:
+> * switched to a new approach suggested by Doug (Thanks!). We add a
+>   dedicated read instead of using the first read. This prevents creating
+>   the aux devices. As a side-gain, we check now if the chip at the addres=
+s
+>   is really the one we want to support.
+>
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 
-Hurrah, this is the warning doing the correct job - something *is* off
-if we're now getting here without the IOMMU configuration being done
-already (for a normal device with no other funny business going on).
+Looks good to me.
 
-> 2. The IOMMU driver's iommu_ops.of_xlate() callback is called about
-> three times as much as before:
-
-That would suggest that the fwspec gets set up OK, then something later
-in the __iommu_probe_device() path fails and tears it down again, so the
-next attempt starts from scratch. Do you see the "Cannot attach to
-IPMMU" message firing? And similarly to the Rockchip case, does the
-below help?
-
-Thanks,
-Robin.
-
------>8-----
-diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-index 074daf1aac4e..5d416262ae5f 100644
---- a/drivers/iommu/ipmmu-vmsa.c
-+++ b/drivers/iommu/ipmmu-vmsa.c
-@@ -1081,6 +1081,7 @@ static int ipmmu_probe(struct platform_device *pdev)
-  		}
-  	}
-  
-+	platform_set_drvdata(pdev, mmu);
-  	/*
-  	 * Register the IPMMU to the IOMMU subsystem in the following cases:
-  	 * - R-Car Gen2 IPMMU (all devices registered)
-@@ -1103,7 +1104,6 @@ static int ipmmu_probe(struct platform_device *pdev)
-  	 * ipmmu_init() after the probe function returns.
-  	 */
-  
--	platform_set_drvdata(pdev, mmu);
-  
-  	return 0;
-  }
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
