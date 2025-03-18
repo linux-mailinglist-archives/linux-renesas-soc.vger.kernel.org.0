@@ -1,81 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-14610-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14611-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02BF5A67E72
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 22:01:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F28CA67F0A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 22:45:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9959819C0114
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 21:00:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A75216BD28
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 21:45:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0826D1DEFD0;
-	Tue, 18 Mar 2025 21:00:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 855982063FC;
+	Tue, 18 Mar 2025 21:45:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="S0XxPKkh"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Lfib3jtk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633B521147C
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 21:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281EF20469E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 21:45:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742331638; cv=none; b=VXlnrmiO1ExXy/UXhKS2nackdrGYWUu4VOxVXk5GrQSjfGwfsghDxKsQjcA4UNHlvZe63HzHmBLnCp2LFPKmCHl6jZWrb6Ji2GliFt85C+RxtVejHLlm7790tGVXhR95zzpqefV8zeRfRUigT8p78wj4SNUITg3TFrum3AvYVxw=
+	t=1742334310; cv=none; b=ExidERcc9Bw12CaAZiqy8kXyut6Ekz7q2pAWpc2vYTq6OK4jKcEyX9NCGjkYwsvoY/dKk1CBH7jNmYkcMG8Cfyog2VbuL7s5DHCIDtCb48O772Pbn0GpEd35E/P9FnrFPRwyj0JAfoD0VzMaxD6tz3Ag/3jWPYRKaQC2fdDCBpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742331638; c=relaxed/simple;
-	bh=jDbSn82C38j7+Xj6sOj+ms4Jc0IxsltW3mEpGzG+Ats=;
+	s=arc-20240116; t=1742334310; c=relaxed/simple;
+	bh=bMM1wi+NozKN3/tg/TNSU7TCynynqWTpswJC2Ltfdww=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eFllMdfQX3DzejcV/hWY9grcIjvCL0zwZ92ySu6kxSOYeVqw15XgRRprP2TlXKjTNfFS6jBr4X7sXAmD2tZRufJ3m6OZX/QjE6GbzKqVz1eJV9+VLP0EvQBYdhf9flRxZ/fcVNP/Yrpka0WfGSXSe12poH6QX0U65UzzthGOeaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=S0XxPKkh; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oqbuah0/+5j/OVpYQnIn5FSyMTgjkluXXR4HOysTd3zt0w29ZQKnC/dJWSxeQnXN+odaNi5+hUl0cbm9qSjYJmJ8Cvu+296RInDjiGwm9DKd2d9NZ/KYmpBtCS2IwqRVHUpZdpiqDenK1O+Omzd0jKH2p4uhskrJWGHrC5VnFK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Lfib3jtk; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Alm3
-	x2zwURgvPY8POW7lo0RkXBypewzaF7jaX9WC4CM=; b=S0XxPKkhONCFqnZSTTaL
-	X9zmPmBUQ//QQdqFKPQxtBjW/jkRQUUkjNHHB2W8CAVnnakMNZq9aoud7S8jVG6O
-	0GWrMIzQfUqmE9ptUl6YpkwMK4iOMA6ed5J+RSfWMB34pKoX8E0lKEskvG2Tt46E
-	zMUZQR4O9heU9K5yftfcrvBbqfr5JSCOF1dM+CTDPi86U+AF+7xy+CEcFy81fZwk
-	6+4uqF1UFBeogKmAkqJgD5yduG2aeDr/Ih5CAXx5euIDKIxez6TBjg0bIvVBVIlI
-	9XF7PS5L/3i3EK+I1iqqCNPU0+8YTfwICcqMj9pyBfewu/qQxlXqYEhqu7NS7tYL
-	JQ==
-Received: (qmail 3995406 invoked from network); 18 Mar 2025 22:00:31 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Mar 2025 22:00:31 +0100
-X-UD-Smtp-Session: l3s3148p1@t5D0MaQwsrgujnsn
-Date: Tue, 18 Mar 2025 22:00:31 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=b8Bo
+	+WjcBkSBJdu8LGh6iRdR5TxchwQpHG5ejNYnok4=; b=Lfib3jtkxEsXAP2Ny19i
+	9IMsJZGsfqdiDM3bfObY340JPfKytqUzvjWlls3tLek+PFFZRe7ORdvfoTYn2gdj
+	xgzZturlPW5LDiWL6l7bBciN7G8Liov9WASEPqIxqqleVAaqiTTK9ro5vV8g/PBp
+	k6jCUeWLJD/vVKj1DgpJzdTD4cZuGZZ4z/8WFlVo1VJcT/DrOYxdo+gckiqbOQBW
+	i5NUVvYujSS9bOGT4/gPseJJjVvYUUvGIVkAzjT6mgq5i0fzrE8WB2ruiNb+2uou
+	IlTfzCcBVyIHz7PiLvLQw6so9EKGIBsFet/XOW0H3tcdtHr0PaKsI7Mhd/bRM+hD
+	Rw==
+Received: (qmail 4009536 invoked from network); 18 Mar 2025 22:45:06 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Mar 2025 22:45:06 +0100
+X-UD-Smtp-Session: l3s3148p1@KjVg0aQw6Ogujnsn
+Date: Tue, 18 Mar 2025 22:45:05 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Check bridge connection
- failure
-Message-ID: <Z9ne78KhxfKYgnh_@ninjato>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	Ulrich Hecht <uli@fpond.eu>,
+	Linux-sh list <linux-sh@vger.kernel.org>
+Subject: Re: [PATCH v4 08/13] serial: sh-sci: Introduced function pointers
+Message-ID: <Z9npYaRwzhsoLxS9@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	dri-devel@lists.freedesktop.org
-References: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
- <20250318204133.GC22890@pendragon.ideasonboard.com>
+	Paul Barker <paul.barker.ct@bp.renesas.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	Ulrich Hecht <uli@fpond.eu>,
+	Linux-sh list <linux-sh@vger.kernel.org>
+References: <20250306152451.2356762-1-thierry.bultel.yh@bp.renesas.com>
+ <20250306152451.2356762-9-thierry.bultel.yh@bp.renesas.com>
+ <CAMuHMdVM_ozW4LAA4DstQuDfEcOnOcXZ2QHGv8nYMKDPWJe43Q@mail.gmail.com>
+ <Z9fxfV9jAGJ51fcn@shikoro>
+ <999cb080-ea61-45e5-9ea0-356fb8bc4639@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,56 +75,63 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="V93gJJxLrjmSUwfG"
+	protocol="application/pgp-signature"; boundary="ZSSzgJ/NPc9toIdY"
 Content-Disposition: inline
-In-Reply-To: <20250318204133.GC22890@pendragon.ideasonboard.com>
+In-Reply-To: <999cb080-ea61-45e5-9ea0-356fb8bc4639@bp.renesas.com>
 
 
---V93gJJxLrjmSUwfG
+--ZSSzgJ/NPc9toIdY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+Hi Paul,
 
-> > Read out and check the ID registers, so we can bail out if I2C
-> > communication does not work or if the device is unknown.
->=20
-> What's the advantage of that, what are you trying to guard against ?
+> We discussed both approaches internally and did an initial
+> proof-of-concept of a separate driver. The result was over 1,000 lines
+> of code copy-pasted from the existing sh-sci driver into the new driver,
+> which is generally something maintainers want us to avoid doing.
 
-That a random chip at address 0x2c will be used.
+Darn, 1000 lines of logic is a lot...
 
-> > Tested on a
-> > Renesas GrayHawk board (R-Car V4M) by using a wrong I2C address and by
-> > not enabling RuntimePM for the device.
->=20
-> What do you mean by not enabling runtime PM for the device ?
+> trade off here is whether we want a single more complex driver, or two
+> copies of much of the code so that bugfixes/improvements to the common
+> sections in the future need to be duplicated.
 
-I left out pm_runtime_get() before regmap_read_bulk().
+Exactly.
+
+> The RZ/V2H and RZ/G3E have interfaces of both the existing sh-sci
+> register layout ("SCIF" ports in RZ/V2H & RZ/G3E manual) and the RZ/T2H
+> style register layout ("RSCI" ports in RZ/V2H manual, "SCI" ports in
+> RZ/G3E manual), so keeping things closely aligned as we move forward
+> will be beneficial. I expect that this will be easier with a combined
+> driver.
+
+I will have a look at the series.
 
 Happy hacking,
 
    Wolfram
 
---V93gJJxLrjmSUwfG
+
+--ZSSzgJ/NPc9toIdY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfZ3usACgkQFA3kzBSg
-KbY+DQ/8Dn0anJh88GbCa2wy1JyR1GyUnytfETCtm9KO3YrpEWmLUwnHANZz/rVP
-HRz8Gf6QY80ebWW7ZaclpPwet21iVYc+Vi4vJCOx0pNS5HTOKs1z8pSL+B8dof7w
-5tH01QCTPNV4s88+0w3fH4rUaxzvmQKS6Uo+u9E8C+XTlofPORxl18ydImOkQ+cz
-0x+g344T54BmbRt6tcFfEniueHGeBb6BOMa949eTXYwMx9sleqmVrljuiP+VJO5x
-Y2t3aKFZjlaFlnE2eNmRyLk+Uct11/dx5Ezdh5FpuobP9CfrXLvAHJQKPAMzAmNw
-v726M3M+ket5xFc14rGk7FRUIgRdKhs2PaZlIJxuNwiYqDrBZs9cVcpoXYd8FPih
-GCA6rdJlR+b3Sm9vEB6J8eV+ON40tP8GTSPkKdjgwDX/vSargDC5yPFLkwN2Xgd0
-jzOi8M6eMow3tcyqWkedGwRvYTK9k+VA/ow0RVPWKpM2jzGk9xEjHyrrk+U1TE7T
-X2bcMZO0Z7X/Y4iIujFgSXlfjUZ/4A4v3myhjwqn3kQs5CqRlQbRDfxydfR0b3mS
-atN4MCGtIqQzwrq/9a2O2UunsI64bk59GQF5sYDMcQKYiyV3RYHfpjapg/X1a3vS
-IHF41DiZ2pS7BDcms/SsRVkrkQKQSZITsA09n0ltvbzUYHJQFXg=
-=kgfC
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfZ6V0ACgkQFA3kzBSg
+Kba5ahAAl/Ml/ppwI24PMjK1c4ePEYFQ5vJsj56tZw+c4I6ys1LCKjEuwYVYXYTe
+6Wg8A6/IxSYrxhrqqTECYBwcnryDDUNXJ5vKRdhqVPRCYVbgHIhqblKA4LVUTAzi
+9+e2Ip1hRNdZP+H/fSSN9zF2EDfQQng8J2pCIdcBkBzzTh/cYfCgdkpJnIMpKIe4
+SiEQKiOuVs1epIHFPpqO4vw46tw5SCgJCxtZetaqx5ZJRjn/d7YbCs7J5MDxAX8j
+bEloxNKmjLVdt5MCKhHXdhxmzwrf7lY6api2Le3unyiDFSA3PEzZnoVRThvY4Jux
+2UqwkjAiA7+LoIi+Mwan0b9v2hgby7QhuF47ZcHn+gIC4fVER+0Pxt69kxM0yt9U
+qjgjZNfG7v7MJZRAgePdxW8kzPU5ZWj8ympsxe6r5scPIMvujtM6tTCCYT62AXhX
+S3RnbP0+vVVh4xMUOvXP9ShX56H4b/JB92l51uc0xpPQVm287dT+5gexuu9j03vg
+dIyMaJnomQ2AJvMH3c32u10H5JtdXzl7Z5i9dCS6fFh03QkJjS3krHRXbk7pJqMT
+nV95tj3IBOmeDtP7Nb+dJ4Ni9Y9vK8hMpCSFkF8FFJnGcrUv3JF9ejcZ2aIu1pzy
+mr1dTJR2VZMrj6kbACexmh7lnrt8ZOO85OYCDt5iy0QcmMI9lIE=
+=yaiH
 -----END PGP SIGNATURE-----
 
---V93gJJxLrjmSUwfG--
+--ZSSzgJ/NPc9toIdY--
 
