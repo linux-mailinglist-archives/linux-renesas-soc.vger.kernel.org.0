@@ -1,130 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-14604-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14605-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52591A67B72
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 18:56:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFFFA67E1C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 21:42:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D7533BFF41
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 17:56:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30924188E422
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 20:42:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1205C212F98;
-	Tue, 18 Mar 2025 17:56:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D22CE20CCDB;
+	Tue, 18 Mar 2025 20:42:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jeBs+xmx"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kgEDTx8s"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FBF21019E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 17:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A821F1F4164
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 20:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742320604; cv=none; b=o1zpBhK9cE5KbAxp25Ni/i36e/Ew9Y2BOFmzxFQ1n0q5+8Zavft+5tubi8AHcBeraXjBM2o4wPBYPYRUr4F5D7q4nwwhHEBfHz2fM8RIsOOD48xTE4fhq21t8Fj9QMrlwb7u7TelEL8V3KW6p7Zw6Wf2C5aQEXOF6lUMbB0DMhM=
+	t=1742330520; cv=none; b=IxvceVxRPao/filC+UbW3vabR3swumOwlKQQlMxtq6kVDElWVWYChZ5Xb5fz4a6pXbEOOv+NOFYyMn3xF+bx6rKaVOVwIuUHePP5aMkIZ6uoWDsbc1VzfBxtJmxc3cQFlyB2IrKRY84q8jeAYD+c4qus+eLolVZUy3O/ROwXK9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742320604; c=relaxed/simple;
-	bh=NLXl7cbouL6yGtBE+YySGWzp3SaYJ4IoNQECLsIUq/s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HuaNXy6nu0IFCmcOEqAXWGK2IwHUgstDb4W8z9Fk0myEM68Fubfv0ViRcD/XQOu5xwBJIAB0w4tCQ9Eb3hclkgqiTFK1z9Ooqd7QADLVqOIcfnFuc9flhdRxaFTPMqLaJh3w6610KUGwJ3LQazEc4TEFx6zWN+m8urQJmtSC8Mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jeBs+xmx; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30bf3f3539dso59128621fa.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 10:56:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1742320595; x=1742925395; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2ptw41iPQYR6728ZX8PJ0GiZO8H5LJxzZSU14XuXmLA=;
-        b=jeBs+xmxIA0WNSx/8UQtprkAVZPFuRNmsBrLuiQ8d5h/taLs+O1fi3xcIgIKrUTVi9
-         XjhqCuhfTgqmOT4UwbS378cegkpzVUnF3g7kVEMiLMJjZfyBlA3/KCvuNfgN9tw2g9po
-         4lkZjpP+Q5oT1gXznlz+9w5mKwSzxk8WyEu0A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742320595; x=1742925395;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2ptw41iPQYR6728ZX8PJ0GiZO8H5LJxzZSU14XuXmLA=;
-        b=lyThqfjqKRhbUn2IIBhuEK9CNdbiaEo/4wg9Yd6O2bUct0uRsAmA7oKyEwyGKnfsfG
-         uaZ9IgPGWGsPjiP//VoXyowyvw2FXYuRFYQxjakhoYVZbGpAm/TIiAZ1SPvAwVlxJBlQ
-         Kycrw0bQk96LKxindaKo0GPM6IwQjcvY6NUajX7Kt7D+Pk1kMcDhpfIDSTWwej6qcbry
-         VO0hjBJmkbFSF2zexUOCMO8ulJHg9yuf6hd/5ODefgvTsXiyt4EDtzHeBBJ2rvjzTFhs
-         o4GlgZij92dRnkC9yhO3wrpm029f6hFYtWHZ7Lw01esDBaGa6gELz8cgctCAmyGZq41n
-         0GDw==
-X-Gm-Message-State: AOJu0YwKdRzkFKYdAE0ioYvzoiacRkKV1nIojRVALF7S4kZWIdVpf6MB
-	DK4Ux8bBWqesuh5FB9eyDsqH1+ax3Bo682/3BmjARzSrp8dKwP0iEC4anhX1ShY7HbFTXc5VMpS
-	Prg==
-X-Gm-Gg: ASbGncvhesfiVDvjWVvw/ldb59vOXG2FYU8cJ82R4h9f+CIkKHtQ4Vg0rNLlkrf7bXt
-	F4oVCg1CvmXV/mUDOJNw1hgu0NdR34nP89FVQpa1aMTSLxjFTlSoPBa6xaYGNRiMB78V+kTCh5/
-	UvULS7C1rnibb1EJMzYjtaeaIShOhW7JHgjATAn8Qwg8ofZL+SuMkTp0/GnAR6KmAIkcBmubYUn
-	xYE/iuTzBEKp3nPlbPKfEf7+TE7qmMBzcoxlmA/ZGzTkkVLZMXNYQO8UNkqsmTwDG3uxxGaLSsV
-	pkhH8gZVdZP/TGtlJSt2c/Nx+17fIYkZsUy6MQM9KW82iXKn9FYl2OLoBDveOQ+sWj8Yzs04GdW
-	vGheNLgj0
-X-Google-Smtp-Source: AGHT+IHJU8A6Bi4LqAKbCgACgDJM3YPsrwfT7Y44hSi9WFQO96Grhhm+Toys8FmtdpnalrRHe46qlw==
-X-Received: by 2002:a2e:b982:0:b0:30c:433a:2886 with SMTP id 38308e7fff4ca-30cd95bcdfbmr26564311fa.8.1742320594936;
-        Tue, 18 Mar 2025 10:56:34 -0700 (PDT)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f1da7eesm20829831fa.100.2025.03.18.10.56.33
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Mar 2025 10:56:34 -0700 (PDT)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54957f0c657so6163347e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 10:56:33 -0700 (PDT)
-X-Received: by 2002:a05:6512:10d6:b0:549:74a7:12ce with SMTP id
- 2adb3069b0e04-54a30486a73mr2802359e87.14.1742320593086; Tue, 18 Mar 2025
- 10:56:33 -0700 (PDT)
+	s=arc-20240116; t=1742330520; c=relaxed/simple;
+	bh=BROYdDLBFAJtM3u9uxo+6DwOUnRjaAG7FzL//0TnVa8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IBX6VLLRPeV8xgPJ6wLjVEeJ+ycUfNbDS6gQE1q7TbCQn2x23XXYCLy7L8rcuA9IAasiV8vaXtdEU4WDPrHDZNwOIWTdt9IxAwjf5uaSvyVEuMAyXV+rEJnN8/F4w+ztzSjYNajv93p9RY/3sq6ytF0egmxgJhhIVILbK1akA1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kgEDTx8s; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [194.75.195.10])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DDAF2778;
+	Tue, 18 Mar 2025 21:40:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742330414;
+	bh=BROYdDLBFAJtM3u9uxo+6DwOUnRjaAG7FzL//0TnVa8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kgEDTx8sWTNPqTsv4kVlsVLRtrLw4Bt89ibQ5XGuS8XdirLu3qyKfIug2jQKhrw3q
+	 20N56ZUNRj9DVh8EeyDJ12lVfp1sypJqHmmYB8HAthjO//PlvtGHZWxDkVxUktJ1gp
+	 hoJp3pkSeKOIxBQELyMCEasFS9gO6VliPBMouYsc=
+Date: Tue, 18 Mar 2025 22:41:33 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Check bridge connection
+ failure
+Message-ID: <20250318204133.GC22890@pendragon.ideasonboard.com>
+References: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 In-Reply-To: <20250318155549.19625-2-wsa+renesas@sang-engineering.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 18 Mar 2025 10:56:21 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UNHE=T0nOAcAskJy2L=ZUsRVvdKdcSi+3TEGqgSnjr_w@mail.gmail.com>
-X-Gm-Features: AQ5f1JovMX3_JB9V8QSJq3W_8Y9VFCM5iRqj4YkpDH-gdoHjWKF2FDKzoiar_Ok
-Message-ID: <CAD=FV=UNHE=T0nOAcAskJy2L=ZUsRVvdKdcSi+3TEGqgSnjr_w@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Check bridge connection failure
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Wolfram,
 
-On Tue, Mar 18, 2025 at 8:56=E2=80=AFAM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
+Thank you for the patch.
+
+On Tue, Mar 18, 2025 at 04:52:56PM +0100, Wolfram Sang wrote:
 > Read out and check the ID registers, so we can bail out if I2C
-> communication does not work or if the device is unknown. Tested on a
+> communication does not work or if the device is unknown.
+
+What's the advantage of that, what are you trying to guard against ?
+
+> Tested on a
 > Renesas GrayHawk board (R-Car V4M) by using a wrong I2C address and by
 > not enabling RuntimePM for the device.
->
+
+What do you mean by not enabling runtime PM for the device ?
+
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->
+> 
 > Changes since v2:
 > * switched to a new approach suggested by Doug (Thanks!). We add a
 >   dedicated read instead of using the first read. This prevents creating
->   the aux devices. As a side-gain, we check now if the chip at the addres=
-s
+>   the aux devices. As a side-gain, we check now if the chip at the address
 >   is really the one we want to support.
->
+> 
 >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 12 ++++++++++++
 >  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index 87fffaa52bb0..8caa7918933d 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -36,6 +36,7 @@
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+> +#define SN_DEVICE_ID_REGS			0x00	/* up to 0x07 */
+>  #define SN_DEVICE_REV_REG			0x08
+>  #define SN_DPPLL_SRC_REG			0x0A
+>  #define  DPPLL_CLK_SRC_DSICLK			BIT(0)
+> @@ -1875,6 +1876,7 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
+>  {
+>  	struct device *dev = &client->dev;
+>  	struct ti_sn65dsi86 *pdata;
+> +	u8 id_buf[8];
+>  	int ret;
+>  
+>  	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+> @@ -1918,6 +1920,16 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
+>  	if (ret)
+>  		return ret;
+>  
+> +	pm_runtime_get_sync(dev);
 
-Looks good to me.
+Missing error checking. You should probably use
+pm_runtime_resume_and_get().
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> +	ret = regmap_bulk_read(pdata->regmap, SN_DEVICE_ID_REGS, id_buf, ARRAY_SIZE(id_buf));
+> +	pm_runtime_put_autosuspend(dev);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to read device id\n");
+> +
+> +	/* The ID string is stored backwards */
+> +	if (strncmp(id_buf, "68ISD   ", ARRAY_SIZE(id_buf)))
+> +		return dev_err_probe(dev, -EOPNOTSUPP, "unsupported device id\n");
+> +
+>  	/*
+>  	 * Break ourselves up into a collection of aux devices. The only real
+>  	 * motiviation here is to solve the chicken-and-egg problem of probe
+
+-- 
+Regards,
+
+Laurent Pinchart
 
