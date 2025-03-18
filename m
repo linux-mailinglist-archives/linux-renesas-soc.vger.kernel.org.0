@@ -1,102 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-14560-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14561-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B9AA66E7F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 09:39:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3B7A66F1A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 09:55:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6854F3B4E44
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 08:38:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA463420894
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 08:54:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 200881FF7CD;
-	Tue, 18 Mar 2025 08:38:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 752ED201000;
+	Tue, 18 Mar 2025 08:54:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ljti+raa"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hjs+AQXy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC0A1993B2;
-	Tue, 18 Mar 2025 08:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BF51A3056
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 08:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742287094; cv=none; b=YshanWM+6mJwbcd9ADaZXZmJGAugetQcydBE69MHPeE3UohLrbj1oOjEc3FcWiBnlr0Fg7Kk7xHlfIwmwsG05z9TZCdY/+ebGMHo9XedaIQ8SJLKYo9s8CO18UvF30h3eRvEH/OyCFpklzZt0B4or5je5qN5nJdWTUZ4Q55HKGg=
+	t=1742288060; cv=none; b=D3+xxcXXBp6n6Ym/WVSmUF5X5zjA/LsWYcde1GP9IR5dvWk/81mZ52MXnEk24a3tKevx+h5e0wxUEGUCS0+zDyEVzmbYdukonOoQyM72QSEzDo+kG8L6oYdg1IeGULUSwp3LNY5StqsM/XXeZF27JBPyK1RVOEDP/WThYAMa9zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742287094; c=relaxed/simple;
-	bh=GtWNyQsWaempNqttFpp8AzPaBMJoSwKhswBcUlRoctc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Kuw30mCf7JckiVZOyeJb36bg8CXT/SKyb6HORAo3/AQkJ+3NkLXrjxoOcHYrF35ItWsx9SQN/huhUXkRdrY80auUnt5jTHr+YO3HkF8qgVgdHbrb0Ios99FyyTXMEnjJs9nSvztm3NZgCY6eRo+CNS0ZwWjsHAzFHuid7yZsSMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ljti+raa; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A52444455F;
-	Tue, 18 Mar 2025 08:38:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1742287090;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GtWNyQsWaempNqttFpp8AzPaBMJoSwKhswBcUlRoctc=;
-	b=ljti+raaFnHDAV+96UbL/7JkfOfiFzWILfajEVmKUc6BCpy8ikUc15a299iazQDS5/tVET
-	PA/DvnHUARU5Cqfo3d/fNJSc3JDpnjqQsTWbHWkQ45GHfDHbMt7Uq41vCnjPInVEIWiv61
-	Ec/wMAkDqjtNVA5HLO8rEm2VbGh1aYyz5ZsNi4Lf65dAF5yWIsLKjmXkEOooXE9mfjDVz5
-	4Lkh81VpTth5fRzTGzyXjJWGd+L8xM5YB6zgSBS5op9rL10XE8+pFRdcxG1/gEHsQ2FI2x
-	Xo2dJYnLXXeFX1U11Hc8eoXMkCLITcRjUBMKfdMyqXbGozCTwpvFPvgvOne32Q==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Thomas Bonnefille <thomas.bonnefille@bootlin.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,  Magnus Damm
- <magnus.damm@gmail.com>,  Rob Herring <robh@kernel.org>,  Krzysztof
- Kozlowski <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,
-  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-  linux-renesas-soc@vger.kernel.org,  devicetree@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?=
- <clement.leger@bootlin.com>
-Subject: Re: [PATCH v3] ARM: dts: r9a06g032: add r9a06g032-rzn1d400-eb board
- device-tree
-In-Reply-To: <20250314-rzn1d400-eb-v3-1-45c4fd3f6e01@bootlin.com> (Thomas
-	Bonnefille's message of "Fri, 14 Mar 2025 19:56:29 +0100")
-References: <20250314-rzn1d400-eb-v3-1-45c4fd3f6e01@bootlin.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Tue, 18 Mar 2025 09:38:08 +0100
-Message-ID: <87r02ud98v.fsf@bootlin.com>
+	s=arc-20240116; t=1742288060; c=relaxed/simple;
+	bh=Js9/nS+MIPxyikfrAQwlchDX6ZwWrhrB5CNrGfZ+bo8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q503zYJTDmia2KVlzyDWeKVBzE3v0VZdv3gKoCQlXSqsk8abw98xK0KSvg+Gt3m6g+t4tKZeviSwHU9IKGV5LglrwkrGusPcD/JCZNqdYKm5txlfT27OMez6fiSam4BKza8BXXbGPPeyj7xkct2cFa3CsRjugOMhyX/zo7SYyHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hjs+AQXy; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=2ayO8Klm1vIIw2
+	4IPuB7XQ4nODfqD+hrTlr7Ibbi9e8=; b=hjs+AQXy1ZWv1t3r++oPCwtEhGKvzW
+	2g8sEqKy8vHUWkw/hyir3kQ9XJ3KfK3MatMiz9W5Uo4PnZMPQthJGCkPA4g1o+8A
+	GVBxDoRI57WC/1zCGqsi8yzqNsO/dfWzrY9xSZePY/G/pRIfwyIVOgCGpuDUj7uH
+	1vhd906h9TXu2Nu2NKpcrLr2gpAJpcsbiHlSQ0xfun16p0xYxQaHgSnh8h+LqlXG
+	LCC8HoWfqMJtg+D6uRjxTxhkX4xk5ElErsI4S+MDw5GQzvZaU/27o8fqvsJrUv61
+	5ZTcr9VroDBUI+kWmcGvzceHV4t5MTAloa1c4rULhgJC9YfEvfbuyi3A==
+Received: (qmail 3650562 invoked from network); 18 Mar 2025 09:54:13 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Mar 2025 09:54:13 +0100
+X-UD-Smtp-Session: l3s3148p1@/tp6DJowMNggAwDPXyTHAJp038nK7dx+
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: serial: snps-dw-apb-uart: document RZ/N1 binding without DMA
+Date: Tue, 18 Mar 2025 09:53:53 +0100
+Message-ID: <20250318085353.18990-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeduleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufgjfhgffffkgggtgfesthhqredttderjeenucfhrhhomhepofhiqhhuvghlucftrgihnhgrlhcuoehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeffgefhjedtfeeigeduudekudejkedtiefhleelueeiueevheekvdeludehiedvfeenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduuddprhgtphhtthhopehthhhomhgrshdrsghonhhnvghfihhllhgvsegsohhothhlihhnrdgtohhmpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehmrghgnhhushdruggrmhhmsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtp
- hhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-On 14/03/2025 at 19:56:29 +01, Thomas Bonnefille <thomas.bonnefille@bootlin=
-.com> wrote:
+Renesas RZ/N1D has this UART with and without DMA support. Currently,
+only the binding with DMA support is described. Add the missing one
+without DMA support which can fallback even more.
 
-> From: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
->
-> The EB board (Expansion board) supports both RZ/N1D and RZ-N1S. Since this
-> configuration targets only the RZ/N1D, it is named r9a06g032-rzn1d400-eb.
-> It adds support for the 2 additional switch ports (port C and D) that are
-> available on that board.
->
-> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
->
-> [Thomas moved the dts to the renesas directory and declared the leds in
-> each phy]
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ .../bindings/serial/snps-dw-apb-uart.yaml     | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-While you do a new iteration, I'd suggest rewording this to:
+diff --git a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+index 1c163cb5dff1..645b14ffde90 100644
+--- a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
++++ b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+@@ -13,6 +13,20 @@ allOf:
+   - $ref: serial.yaml#
+   - $ref: rs485.yaml#
+ 
++  - if:
++      properties:
++        compatible:
++          items:
++            - enum:
++                - renesas,r9a06g032-uart
++                - renesas,r9a06g033-uart
++            - const: renesas,rzn1-uart
++            - const: snps,dw-apb-uart
++    then:
++      properties:
++        dmas: false
++        dma-names: false
++
+   - if:
+       properties:
+         compatible:
+@@ -30,6 +44,12 @@ allOf:
+ properties:
+   compatible:
+     oneOf:
++      - items:
++          - enum:
++              - renesas,r9a06g032-uart
++              - renesas,r9a06g033-uart
++          - const: renesas,rzn1-uart
++          - const: snps,dw-apb-uart
+       - items:
+           - enum:
+               - renesas,r9a06g032-uart
+-- 
+2.47.2
 
-Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
-[Thomas: move the DTS to the Renesas directory, declare the PHY LEDs]
-Signed-off-by: Thomas Bonnefille <thomas.bonnefille@bootlin.com>
-
-Cheers,
-Miqu=C3=A8l
 
