@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-14595-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845B6A675EB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 15:08:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52733A6761D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 15:17:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9A563A9370
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 14:07:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D51ED1886F9E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 14:09:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC77120D519;
-	Tue, 18 Mar 2025 14:08:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7546E20DD5C;
+	Tue, 18 Mar 2025 14:08:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bFIpv2Mq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="osX268sM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F6614A8B;
-	Tue, 18 Mar 2025 14:08:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFF920C006;
+	Tue, 18 Mar 2025 14:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742306886; cv=none; b=rcXO8/3e/nA2DQ3HPaFLusCfavbMbR6G/DPubjNFh/3ntSZ3YjXm8SS3z2D5G38CuUg1Vpx7Elivyz8r71U+/6T0G0Ce8xtAjV5ZvXro0xFkWNjh85SpnioFG7D1NqRNF/ps6fDCd/QY8pYvwNqOPJAMCpAKa/s+wrouJ9wzq1w=
+	t=1742306932; cv=none; b=UAGOllrdfT6pBnL1hHvlFRMqPBfLaton2A+chis76tg06EWhqycZ229VvKYjsB9oLHpD6eeeAWouYj4Q0uLacoE8qgYEavVCvcpqKCEmCyR4saugJSJ89PrQ1ITL1+aFoGyqW9r/ny/wnGsMY3xe4Yv+iwfu+/57H0s/F9zO7EE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742306886; c=relaxed/simple;
-	bh=ILLjAudTsqFUCQ45J2jmmZXxe4u//4VFOtoI3v3By4M=;
+	s=arc-20240116; t=1742306932; c=relaxed/simple;
+	bh=zwEgifMobld4uUocUPMZBeRolUHzD/YMncdDMRuLpC8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qoYG6S3Hf8zUAz9FyOpdhBTfJoUd/zpQLBoZWDea5T4OOUSnXS7U6BpJxxaEGhIBl3aPkZZro5fTPG8jW2XzS/dKXyom8rlwfR/oDBj/yOGfMXYtL9NE2DwQ0ro8yUFAZJMZILoGqiriVTmuWp/4NkZdvfP6m5xfaMgbMjlUxsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bFIpv2Mq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61E7AC4CEDD;
-	Tue, 18 Mar 2025 14:08:01 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=dW8RTCODebQ+EEpfCPhK7MN+fH2giSSNkDUhOisUdLAJeEpnDxdFbNU83w1crG8DWcUCWQKpfIxfNTVj/UgGlG5Tx5xfH0ZqRfMWnt5eZIK6ZPBHsqjd6/MMa5tNml6mIGVaydYW73xBhSJ6rU42Zdvyju5qjTm0OmqxQxXSb8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=osX268sM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FDADC4CEDD;
+	Tue, 18 Mar 2025 14:08:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742306886;
-	bh=ILLjAudTsqFUCQ45J2jmmZXxe4u//4VFOtoI3v3By4M=;
+	s=k20201202; t=1742306931;
+	bh=zwEgifMobld4uUocUPMZBeRolUHzD/YMncdDMRuLpC8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bFIpv2MqNsFaaPZkSzKsra7MAnaPKCKXTMM5M44edCTmoIilqhWFK/qbom919phg3
-	 kDqTAqC7PZuF2pHVMxCFVO4ha1TMvsEjY3RDXbLVBav2gaJyygi9fNEtxA7+mrJbm0
-	 Vt/OU+fwpxjO56K1jain15iVgkkR633aie3j9olGnl83ByWHZccQYuRMem3lsB8pNI
-	 5tdNO9LLr4V8YJ2kl7PgTub8WdA2Ny3zM2X5CXSUOqE7Dvo3iwMbNcRbU1pbYSxwYR
-	 ehOP2GEdwIUBKfEnhfnRgjccpl7/9s2LzLGy7dCwB/xAMiUc27cV5UJTPCslLQmVS0
-	 2jp2yGrW3kj5Q==
-Date: Tue, 18 Mar 2025 14:07:59 +0000
+	b=osX268sMbEfFNm+edoVczlAYnHxXzFwrBFGHGiH++bobaKSWhEM5NxDKNNOlLTDbd
+	 1geugkMov15jvkOhrRO5ScFFmBwwkk7eGfhvsU+dedlI8VWDHw0Fu8PioDyIgOXqzz
+	 +uAm5u4gx+oMEKkdRpMLb3KX7JW+ikb6aoVUb7P/lzNQ5vVfq+GD3/CDjWzHHdNz15
+	 9gaWRszIaSajQSkl4jNRALSaWG2EVADV8W3wIfmFSYsjtH4vGASNi/0wa4IfbBDlCD
+	 ZbtDFJndS6CUwNWyFq2VeLVwFFoxQngFFuCi8/aG6TtapzZkSBtN0A22zL240moNOP
+	 FbPOQURQFHUeA==
+Date: Tue, 18 Mar 2025 14:08:45 +0000
 From: Simon Horman <horms@kernel.org>
 To: Jacob Keller <jacob.e.keller@intel.com>
 Cc: Tony Nguyen <anthony.l.nguyen@intel.com>,
@@ -67,11 +67,11 @@ Cc: Tony Nguyen <anthony.l.nguyen@intel.com>,
 	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
 	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net v2 2/5] renesas: reject PTP_STRICT_FLAGS as
- unsupported
-Message-ID: <20250318140759.GW688833@kernel.org>
+Subject: Re: [PATCH net v2 3/5] net: lan743x: reject unsupported external
+ timestamp requests
+Message-ID: <20250318140845.GX688833@kernel.org>
 References: <20250312-jk-net-fixes-supported-extts-flags-v2-0-ea930ba82459@intel.com>
- <20250312-jk-net-fixes-supported-extts-flags-v2-2-ea930ba82459@intel.com>
+ <20250312-jk-net-fixes-supported-extts-flags-v2-3-ea930ba82459@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -80,31 +80,19 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250312-jk-net-fixes-supported-extts-flags-v2-2-ea930ba82459@intel.com>
+In-Reply-To: <20250312-jk-net-fixes-supported-extts-flags-v2-3-ea930ba82459@intel.com>
 
-On Wed, Mar 12, 2025 at 03:15:51PM -0700, Jacob Keller wrote:
-> The ravb_ptp_extts() function checks the flags coming from the
-> PTP_EXTTS_REQUEST ioctl, to ensure that future flags are not accepted on
-> accident.
+On Wed, Mar 12, 2025 at 03:15:52PM -0700, Jacob Keller wrote:
+> The lan743x_ptp_io_event_cap_en() function checks that the given request
+> sets only one of PTP_RISING_EDGE or PTP_FALLING_EDGE, but not both.
 > 
-> This was updated to 'honor' the PTP_STRICT_FLAGS in commit 6138e687c7b6
-> ("ptp: Introduce strict checking of external time stamp options.").
-> However, the driver does not *actually* validate the flags.
+> However, this driver does not check whether other flags (such as
+> PTP_EXT_OFF) are set, nor whether any future unrecognized flags are set.
 > 
-> I originally fixed this driver to reject future flags in commit
-> 592025a03b34 ("renesas: reject unsupported external timestamp flags"). It
-> is still unclear whether this hardware timestamps the rising, falling, or
-> both edges of the input signal.
+> Fix this by adding the appropriate check to the lan743x_ptp_io_extts()
+> function.
 > 
-> Accepting requests with PTP_STRICT_FLAGS is a bug, as this could lead to
-> users mistakenly assuming a request with PTP_RISING_EDGE actually
-> timestamps the rising edge only.
-> 
-> Reject requests with PTP_STRICT_FLAGS (and hence all PTP_EXTTS_REQUEST2
-> requests) until someone with access to the datasheet or hardware knowledge
-> can confirm the timestamping behavior and update this driver.
-> 
-> Fixes: 6138e687c7b6 ("ptp: Introduce strict checking of external time stamp options.")
+> Fixes: 60942c397af6 ("net: lan743x: Add support for PTP-IO Event Input External Timestamp (extts)")
 > Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
 
 Reviewed-by: Simon Horman <horms@kernel.org>
