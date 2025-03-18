@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-14607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14608-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95363A67E60
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 21:58:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3C4A67E63
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 21:58:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F12C03BB9FD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 20:57:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 480343B4244
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 20:58:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B6B62139D8;
-	Tue, 18 Mar 2025 20:57:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3BC4214223;
+	Tue, 18 Mar 2025 20:57:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LuoIWmfo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m+5OoxQ6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD3817A30D;
-	Tue, 18 Mar 2025 20:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36612135BC;
+	Tue, 18 Mar 2025 20:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742331475; cv=none; b=MsgIyeSwJoIhJn8oj8y9+ZWLiKmWlrhcxtvSEM6TkCYnUaSvAdaES9QHTA0OtWi3F8NnSEAN6AaWMXIbIN0x+Xr9wMwwQQpqO046y+6NW/4ammYCEL81UeabewDTBibnFpN4PDZz+fBrAC8pyqhpr8AS6z3wshdTeFf7HKM1e/0=
+	t=1742331476; cv=none; b=gFfu5oKX9n87Ib80t9+e82Gv9WuCOI0ZTVITG9Km8XlNa2LoKza/RKlhRUGu3bjWRDL+RYFcymbzUq+VUTFDsJOHtmB8LxzqMpS9yNaG2CcejfOW2TfAfIyfVrzrsvQBtMTqOjwB3/6vigeNFIszXYI62Foq6qHYYH7Z0OTfDc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742331475; c=relaxed/simple;
-	bh=D8zXftmgooMNEuXwEGXh7eQ5bSdZLKmudwqSE6iqe3w=;
+	s=arc-20240116; t=1742331476; c=relaxed/simple;
+	bh=iSX683jIYJ5Nbv8GosXqC/1aA+Rmp/P6MFB3vJYXDXI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mzYkNo1zUxNQd1nX1W1315aK1Z4whJ8WERviZb3Kg/6Zf2VHQQMS/xULPrW1ah3rnL5jDS4kkrRsbOC/hS2wzooQhEmzIVneLS1y/YJq+zmfnDN/SJCxQn31O8PZaEAffAikXNSfNhAQPvuU0lGhnjR05VdUKRrnF5rhazVxrhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LuoIWmfo; arc=none smtp.client-ip=209.85.221.46
+	 MIME-Version; b=XduZrlBLTT/TOA47VWje0M/6x0mJFQGB0iqvCsIeKY36FcIEK+vVaAw+ytpelhJ4CL7BSlPMSYfa5h94jTdxZEnJ96ufg+b2L0PuXz77soZgQ7ymUxTgmUOytR0l7KaGz6YPkwhfZ3dc5itW66buRydBnVqk1VASZfjCzhWTACw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m+5OoxQ6; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39104c1cbbdso3532055f8f.3;
-        Tue, 18 Mar 2025 13:57:53 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so42040085e9.2;
+        Tue, 18 Mar 2025 13:57:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742331472; x=1742936272; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1742331473; x=1742936273; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rOqWRXBRe2pqifdU7Acak1KZR++C20ubnAdFSNcNptk=;
-        b=LuoIWmfonpAZbHQjnGPcMmhpZ4Fi86XUIcDd5gi04UR70ia7bVc37lmPC5SDNkK4Sp
-         JVb2q75eWwWZGEa35JGezZL/pXjGYjWAhm0N+LeM3K56rG90npIiFoMM2Xwh6GhxTR1e
-         6gHT3NVnlwzBGPvPS+kYzcd5Vhrmi1CUjKzxVbqe1ID3pGmHbWbbCcEMW+/lrrMDFnSG
-         VYtJ7o9FM2Vw0KofzXru/Eorbuu0k72P/EhPAMEoo3wTrg8qIsYXtzrbZ5XT05FTQwus
-         gjF+Msftuw1gA9IoFU1gmYd3bptihLCOjkpenCZBRUMjGJQh6QPdeuUPgpxf+CLLOn4u
-         ub3A==
+        bh=Xs7vUt1wverkf1Iu/m6fNn9VLl/O1RwCIir4usjCQLk=;
+        b=m+5OoxQ6PlL6hAXkSv4JtEonFwC+v329SyhueC8p/LQD94gD0raUUzr9WpSbTKiNcZ
+         vGTXvVbhGu1pKbHhUSqD3FkKr8gMwrWcHNWqE5zuEu9qRI0IpwEOU8wYxGJQpPbsiHdE
+         BsZbPCV3wDqAT4nuIaaII30jxHccq84l5yXTTIBD7WBjPpoYoWq4a5XgbkH5xWUcVUut
+         sYsZIpxn1EFYpdQbT9PTleTjh75ETKTdwE0Qxx896yPBy/kQJQT5jzGhWiiz9fO3Kg2c
+         So5fAvWU7oQNzAz9ZjA+pkmdNbayiOYGDOtJ8TkXN2inQUyO+TJIlif0C0XmONFDWgfx
+         QWAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742331472; x=1742936272;
+        d=1e100.net; s=20230601; t=1742331473; x=1742936273;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rOqWRXBRe2pqifdU7Acak1KZR++C20ubnAdFSNcNptk=;
-        b=ck48YGo2nBgeWFTELOPaxAo6XTsJnAlC9ppOBAfczKL9htGjktHZ11A+3+Fp+qJdNe
-         NjoRRMEtfVHthpsQTl2UBD2PunxDwdRyIfJEw8iC/YS/4+Q/WIlxdKxUsGYNP+oPOp7o
-         6AdJl7MSfxbUSTqKqDlIPbAZUuGYOslUDVRNdB0/Z2r2vp1m98HY/B9UcTJSYR3IbdmW
-         A+uaP7UP0kOx/eGpjdq2vgpESIkNsCI+DiRQKTJqru0SvPb1nqrMB+GHzrc3nR9CspFZ
-         fCj3g8d6KlhDWJZzX47ZG9+4boWCNeYNXUOREUvZScGqNkBc40dJMcsdCVodDxtyzGxL
-         kPeA==
-X-Forwarded-Encrypted: i=1; AJvYcCU7f9svMDrV6ExP0NHep/AFNH4x7AboEvFtnUyjoqMTzo3SOq3rb3e3WzTVzh2qRt3ucMiz1wXK@vger.kernel.org, AJvYcCUIg/UnsQTn+T2LqGBhH8AqYEvIvoQl295+TKA+aVaUELa1ytwX/KMI90pdhaKKxKgaIpvdrUr/jUj2xH0FBoKBsqE=@vger.kernel.org, AJvYcCWjVdj7/cJhne5h8TR5ZVGS8z7flp6sifPOU7osIKIZVBQzwerCe8jwr74EC9BvhkIovz5db5LL3aM/XN0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywlt2K8NpH5/LGdSvnIiNOGJR4UkQya79MyQi4GkwcjsosnzQ/v
-	uN38q6bgAcnDd+HcYte4skUtSb5EVZAd2Wuyh2aoZdzg04jNk+Nu
-X-Gm-Gg: ASbGncuv0tBnCpout/+roa/EYuARit9c6Lg263pvqjSgJ594nuw8B55dOCXR+95qrww
-	axyrozOR21Uk9L/D3EZVd6fwSuEt9B1hjfK4787iVzdTDl2DIXocE+GMlHUcBmhpGEhq71TPwE2
-	iYHfACtWcMLukOzQajMD0Hkzz3+PVf2oxnHhUXZ8O/WLIhyHcxxujMIZTt3mTN7/MPy4g1ROoGS
-	TEWtWwzDylg02jpGCwe5/GAEqdDmfxMCXXBn0DfUlzquC5cfigQDNqOuWOimrw+xEjwHy7AGaBj
-	8oWF+zwJitGo6o5S/kpFXP/d03U0ZI8CEEu+ZwYWSSGZX+Qf38jmc9/nJDq74po5zklMHw==
-X-Google-Smtp-Source: AGHT+IHdGog0XJhc86+9+5MvyCOjHWnyT0IqtRxaIhNO99BGj46bimLiGEem31ojE8KbEcAcoXE7Qg==
-X-Received: by 2002:a5d:5f49:0:b0:391:27f1:fbf8 with SMTP id ffacd0b85a97d-399739b4becmr176145f8f.4.1742331471565;
-        Tue, 18 Mar 2025 13:57:51 -0700 (PDT)
+        bh=Xs7vUt1wverkf1Iu/m6fNn9VLl/O1RwCIir4usjCQLk=;
+        b=uKK0EjLhH0bVE9CnLyW0h8OxjePsSCQ4L8/s+mTVQpvU+w0qH/TsdNH0O611qSH1gE
+         3yJTss9Acv7fKFmy4v4RaYwnJQATYdnluWAGh/fnP4O+NTKt8+qptkwfO9+jKmXAl9FE
+         qh9u6jKlbS2zUpY4Ght+9wku1m1HKT0T5ReQTTK5NcrocB0gLFItzIWVAG/BKax0TuBC
+         ubLdISAKfwjf5aqy4oYF25uBPJ3wtbocwJopvXHy2U3LhpxSElBp2RjaGIS8icUSOlq9
+         KyJQcNJWxQSkBC18hJDuVzQJ4NKvnRdEPAJiRXwFJPnqzcTE0ZEDGycfXP2kpcI3jGXL
+         9wfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVAtxSjsanKNVYT2MR/AlhAbMjtei81CRbU2gj9pZ90QbEx1qADkzPrpnwPb8AxA+vr/nlgyqMi/dSijYssI409w4k=@vger.kernel.org, AJvYcCXR+9d5KsAVDWUu+yNuluEqemJQMYQiDRnpwDXQ+KQ8ytlvWZVlQm77Xh27WjW9IoVf+/3b7ID+@vger.kernel.org, AJvYcCXoWRiVasF1aj5rNHUAnKdrDRm9kyjt0Cy6W7h2ENxaGZvjInj8wYWFyMOB9YuX55JYZopl6oLQyh9uuEo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2egeCHClSgl7lM3ZCzK52kgl+eMb7kRkI4lAsuVGem7Il3/1Q
+	2bK0BZhOX+BgqGatOpEkZqZwmy8wBpG6JIfi2lHEgZCpj1lPZoPP
+X-Gm-Gg: ASbGncvClyX60pKUfRwl3iVtRbKmeT76KJ/2BIo869ZZuU5SIZKj5TwhyBvGk1NqKll
+	HOtR93um/cGoe8esbNa1ShzOyMtC0PonNsJ8t2YJndFLUkaE/Bs/FaIT5dNVynFryH8LrWTvpsA
+	zRg2fmLEJ6XP7qM8rHvKL/m1ZKIon+bF3XZOmGD5RR23n5r+Bzh1RbD5BaWJnsNKz3D0XA459w3
+	/nRQhmDPgzLWGb9xUC7at55mImMKtT/CKfzuoWBhq4HtMybfCGkp06y4T138n3aqjjIIGJQoGKp
+	bE76IM4PmtWZJ7WR9aTFbkIDZb5SAVqZmU91QsA69NSvBGQTicyEPvQeK0+ZJ/iYxz274w==
+X-Google-Smtp-Source: AGHT+IH9BhQMKh8BMydKoTUyoWRGW65UGlZYRSRUKhZ3QhlmVeX23Bpkmn2is3XEJmZ8mKDebYhAJw==
+X-Received: by 2002:a05:6000:21c7:b0:399:728f:4673 with SMTP id ffacd0b85a97d-399739cbd2amr171087f8f.33.1742331472830;
+        Tue, 18 Mar 2025 13:57:52 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:9ebf:9797:69d8:2d33])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c7df3537sm19212864f8f.8.2025.03.18.13.57.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c7df3537sm19212864f8f.8.2025.03.18.13.57.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 13:57:51 -0700 (PDT)
+        Tue, 18 Mar 2025 13:57:52 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -96,9 +96,9 @@ Cc: devicetree@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH net-next v4 1/3] dt-bindings: net: dwmac: Increase 'maxItems' for 'interrupts' and 'interrupt-names'
-Date: Tue, 18 Mar 2025 20:57:32 +0000
-Message-ID: <20250318205735.122590-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH net-next v4 2/3] dt-bindings: net: Document support for Renesas RZ/V2H(P) GBETH
+Date: Tue, 18 Mar 2025 20:57:33 +0000
+Message-ID: <20250318205735.122590-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250318205735.122590-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250318205735.122590-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -112,72 +112,267 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Increase the `maxItems` value for the `interrupts` and `interrupt-names`
-properties to 11 to support additional per-channel Tx/Rx completion
-interrupts on the Renesas RZ/V2H(P) SoC, which features the
-`snps,dwmac-5.20` IP.
+GBETH IP on the Renesas RZ/V2H(P) SoC is integrated with Synopsys
+DesignWare MAC (version 5.20). Document the device tree bindings for
+the GBETH glue layer.
 
-Refactor the `interrupt-names` property by replacing repeated `enum`
-entries with a `oneOf` list. Add support for per-channel receive and
-transmit completion interrupts using regex patterns.
+Generic compatible string 'renesas,rzv2h-gbeth' is added since this
+module is identical on both the RZ/V2H(P) and RZ/G3E SoCs.
+
+The Rx/Tx clocks supplied for GBETH on the RZ/V2H(P) SoC is depicted
+below:
+
+                      Rx / Tx
+-------+------------- on / off -------
+       |
+       |            Rx-180 / Tx-180
+       +---- not ---- on / off -------
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 ---
 v3->v4
-- Fixed maxItems for interrupt-names property
-- Added RB tag from Rob
+- No change
 
 v2->v3
-- Dropped adding `additionalItems`
-- Moved interrupts description into interrupt-names
-- Replaced enum with a oneOf and added Rx/Tx regex patterns
+- Dropped interrupts description from interrupts property as
+  snps,dwmac.yaml already describes it.
+- Dropped snps,en-tx-lpi-clockgating as this is being marked
+  as deprecated.
+- Updated Rx/Tx interrupt names to match the regex from patch 1/3
+- Listed Rx interrupts before Tx interrupts in example node for
+  consistency.
 
 v1->v2
-- No change
+- Updated commit description
+- Updated interrupts description for clarity
+- Updated interrupt-names for clarity
+- Updated example node
 ---
- .../devicetree/bindings/net/snps,dwmac.yaml   | 24 ++++++++++++-------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ .../bindings/net/renesas,r9a09g057-gbeth.yaml | 201 ++++++++++++++++++
+ .../devicetree/bindings/net/snps,dwmac.yaml   |   1 +
+ 2 files changed, 202 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/renesas,r9a09g057-gbeth.yaml
 
+diff --git a/Documentation/devicetree/bindings/net/renesas,r9a09g057-gbeth.yaml b/Documentation/devicetree/bindings/net/renesas,r9a09g057-gbeth.yaml
+new file mode 100644
+index 000000000000..02a6793c26f5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/net/renesas,r9a09g057-gbeth.yaml
+@@ -0,0 +1,201 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/net/renesas,r9a09g057-gbeth.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: GBETH glue layer for Renesas RZ/V2H(P) (and similar SoCs)
++
++maintainers:
++  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
++
++select:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - renesas,r9a09g057-gbeth
++          - renesas,rzv2h-gbeth
++  required:
++    - compatible
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,r9a09g057-gbeth # RZ/V2H(P)
++      - const: renesas,rzv2h-gbeth
++      - const: snps,dwmac-5.20
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: CSR clock
++      - description: AXI system clock
++      - description: PTP clock
++      - description: TX clock
++      - description: RX clock
++      - description: TX clock phase-shifted by 180 degrees
++      - description: RX clock phase-shifted by 180 degrees
++
++  clock-names:
++    items:
++      - const: stmmaceth
++      - const: pclk
++      - const: ptp_ref
++      - const: tx
++      - const: rx
++      - const: tx-180
++      - const: rx-180
++
++  interrupts:
++    minItems: 11
++
++  interrupt-names:
++    items:
++      - const: macirq
++      - const: eth_wake_irq
++      - const: eth_lpi
++      - const: rx-queue-0
++      - const: rx-queue-1
++      - const: rx-queue-2
++      - const: rx-queue-3
++      - const: tx-queue-0
++      - const: tx-queue-1
++      - const: tx-queue-2
++      - const: tx-queue-3
++
++  resets:
++    items:
++      - description: AXI power-on system reset
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - interrupt-names
++  - resets
++
++allOf:
++  - $ref: snps,dwmac.yaml#
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/renesas-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    ethernet@15c30000 {
++        compatible = "renesas,r9a09g057-gbeth", "renesas,rzv2h-gbeth", "snps,dwmac-5.20";
++        reg = <0x15c30000 0x10000>;
++        clocks =  <&cpg CPG_MOD 0xbd>, <&cpg CPG_MOD 0xbc>,
++                  <&ptp_clock>, <&cpg CPG_MOD 0xb8>,
++                  <&cpg CPG_MOD 0xb9>, <&cpg CPG_MOD 0xba>,
++                  <&cpg CPG_MOD 0xbb>;
++        clock-names = "stmmaceth", "pclk", "ptp_ref",
++                      "tx", "rx", "tx-180", "rx-180";
++        resets = <&cpg 0xb0>;
++        interrupts = <GIC_SPI 765 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 767 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 766 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 772 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 773 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 774 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 745 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 768 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 769 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 770 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 771 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-names = "macirq", "eth_wake_irq", "eth_lpi",
++                          "rx-queue-0", "rx-queue-1", "rx-queue-2",
++                          "rx-queue-3", "tx-queue-0", "tx-queue-1",
++                          "tx-queue-2", "tx-queue-3";
++        phy-mode = "rgmii-id";
++        snps,multicast-filter-bins = <256>;
++        snps,perfect-filter-entries = <128>;
++        rx-fifo-depth = <8192>;
++        tx-fifo-depth = <8192>;
++        snps,fixed-burst;
++        snps,force_thresh_dma_mode;
++        snps,axi-config = <&stmmac_axi_setup>;
++        snps,mtl-rx-config = <&mtl_rx_setup>;
++        snps,mtl-tx-config = <&mtl_tx_setup>;
++        snps,txpbl = <32>;
++        snps,rxpbl = <32>;
++        phy-handle = <&phy0>;
++
++        stmmac_axi_setup: stmmac-axi-config {
++            snps,lpi_en;
++            snps,wr_osr_lmt = <0xf>;
++            snps,rd_osr_lmt = <0xf>;
++            snps,blen = <16 8 4 0 0 0 0>;
++        };
++
++        mtl_rx_setup: rx-queues-config {
++            snps,rx-queues-to-use = <4>;
++            snps,rx-sched-sp;
++
++            queue0 {
++                snps,dcb-algorithm;
++                snps,priority = <0x1>;
++                snps,map-to-dma-channel = <0>;
++            };
++
++            queue1 {
++                snps,dcb-algorithm;
++                snps,priority = <0x2>;
++                snps,map-to-dma-channel = <1>;
++            };
++
++            queue2 {
++                snps,dcb-algorithm;
++                snps,priority = <0x4>;
++                snps,map-to-dma-channel = <2>;
++            };
++
++            queue3 {
++                snps,dcb-algorithm;
++                snps,priority = <0x8>;
++                snps,map-to-dma-channel = <3>;
++            };
++        };
++
++        mtl_tx_setup: tx-queues-config {
++            snps,tx-queues-to-use = <4>;
++
++            queue0 {
++                snps,dcb-algorithm;
++                snps,priority = <0x1>;
++            };
++
++            queue1 {
++                snps,dcb-algorithm;
++                snps,priority = <0x2>;
++            };
++
++            queue2 {
++                snps,dcb-algorithm;
++                snps,priority = <0x4>;
++            };
++
++            queue3 {
++                snps,dcb-algorithm;
++                snps,priority = <0x1>;
++            };
++        };
++
++        mdio {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            compatible = "snps,dwmac-mdio";
++
++            phy0: ethernet-phy@0 {
++                reg = <0>;
++            };
++        };
++    };
 diff --git a/Documentation/devicetree/bindings/net/snps,dwmac.yaml b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-index 78b3030dc56d..4d4fcaeca8a8 100644
+index 4d4fcaeca8a8..b525eca53850 100644
 --- a/Documentation/devicetree/bindings/net/snps,dwmac.yaml
 +++ b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-@@ -114,19 +114,25 @@ properties:
- 
-   interrupts:
-     minItems: 1
--    items:
--      - description: Combined signal for various interrupt events
--      - description: The interrupt to manage the remote wake-up packet detection
--      - description: The interrupt that occurs when Rx exits the LPI state
--      - description: The interrupt that occurs when HW safety error triggered
-+    maxItems: 11
- 
-   interrupt-names:
-     minItems: 1
-+    maxItems: 11
-     items:
--      - const: macirq
--      - enum: [eth_wake_irq, eth_lpi, sfty]
--      - enum: [eth_wake_irq, eth_lpi, sfty]
--      - enum: [eth_wake_irq, eth_lpi, sfty]
-+      oneOf:
-+        - description: Combined signal for various interrupt events
-+          const: macirq
-+        - description: The interrupt to manage the remote wake-up packet detection
-+          const: eth_wake_irq
-+        - description: The interrupt that occurs when Rx exits the LPI state
-+          const: eth_lpi
-+        - description: The interrupt that occurs when HW safety error triggered
-+          const: sfty
-+        - description: Per channel receive completion interrupt
-+          pattern: '^rx-queue-[0-3]$'
-+        - description: Per channel transmit completion interrupt
-+          pattern: '^tx-queue-[0-3]$'
- 
-   clocks:
-     minItems: 1
+@@ -75,6 +75,7 @@ properties:
+         - qcom,sm8150-ethqos
+         - renesas,r9a06g032-gmac
+         - renesas,rzn1-gmac
++        - renesas,rzv2h-gbeth
+         - rockchip,px30-gmac
+         - rockchip,rk3128-gmac
+         - rockchip,rk3228-gmac
 -- 
 2.43.0
 
