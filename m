@@ -1,185 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-14562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14563-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5952EA66F26
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 09:57:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6634DA66F41
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 10:06:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95DA119A1767
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 08:57:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7ACF919A30E0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 09:06:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33CEF1FF7DD;
-	Tue, 18 Mar 2025 08:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XwDvRBkh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67FB2204F81;
+	Tue, 18 Mar 2025 09:06:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117E7205AD0
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 08:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3321F5842;
+	Tue, 18 Mar 2025 09:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742288258; cv=none; b=uKfyEPRtmkZXpJuER8iVdq1pPrUOH99u03l0KvnnnrTGlg8D+yP1cQPV95//FdrxSOJlYF4eT46mZLmreN7CLA1Jd4tgy0KWgRDJiOOu6zzMMUrKjCD/d72uQw6xaMiSmk5p7f/W1J00wdu5Rqtk1Nt1DMiccOBO23UmORzJn1U=
+	t=1742288768; cv=none; b=HsSKbueUcQOwDSITSO02TvLehFk2IPiG2QLTzloK+9dDaQJzDDNW8ai2g7l9RBguXX8y3xajgfLdvEw0VdCHD+DSg+UeQwgbghVAeMYCubhsy8NkyrzwbirYR5jBu6hvw8/eJclahAt84o+rely03skwD33lyKkdo2YV4g6Ug9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742288258; c=relaxed/simple;
-	bh=L4ipmjPvkxp1Cv27fEnm2byaxBOYYkeas0niOYJt8aI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jaMRVgzRtRGUFueGFYnhh2ASGk8H8ZejN9EreUZdmqiDOfbORyEBBmxlqmAJridEgi5a9guuCv2cMZ+ub39PUO7XiMGR5iEfHA6vIexnk/CD4PIbCpU1QUy47Q6NT0+FvD/7GTbK4NV9lhw7vQAq9nf+z+SAeGhKUHO4eLbSzNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=XwDvRBkh; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=Lmd699ehV1Rp2n
-	uPHJpTcKwu6PpAaHMhWiN7Bp+Zft0=; b=XwDvRBkhmsIoCWX5NX13yvhp924zRt
-	vW01EWsDaXEW/WB4M4deM8A5s80jRJ1f0gljNU+nc5bwweHpA2YOyoIoPZlZBP8X
-	1tqwY4YVCAMCKs7gagHk5JZeqg9WH9fPNTnWUlfgAlqsXLyCnF2UJUFw/jyEAsg+
-	FkHvq3haJXvqjQVYBsD1S3NqiV0fy/JjJWg2+XLFk27vNb2D64HZfdU6elisEcjn
-	6dU9bV6PkOspK1RHFR14qb701f1ZsQBIIm5Swsm/AzjkztRfBzhDLltXHeb6cXxA
-	JaTO4JQhoePYNtNr2oju+k/c00DDD7l/U0igXe6qgRU7ixHs6nkU01aw==
-Received: (qmail 3652369 invoked from network); 18 Mar 2025 09:57:34 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Mar 2025 09:57:34 +0100
-X-UD-Smtp-Session: l3s3148p1@Rft0GJow3MggAwDPXyTHAJp038nK7dx+
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] misc: eeprom/idt_89hpesx: use per-client debugfs directory
-Date: Tue, 18 Mar 2025 09:57:28 +0100
-Message-ID: <20250318085727.20748-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1742288768; c=relaxed/simple;
+	bh=PTagmbpU3XF5H/sYqjJomzzmYuqGWjWIZvOG/uueeIQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dq1c6fc7K8Hnvb1eHqfx9Ezordksb20saUOFbfj5ZLvb1TUf4TVYOhNAyEoFsRBf3MCW7K12ytYAk8ZjYNtLshfY3vCe0ju1mP5H4tNT5anTqkfKaN8yYGfe7tQUWv8GIkbF6JfBQYTK0vEJjhnnEPo0/bBLe2/XVa7bKtpGXMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-86dde90e7a3so221211241.1;
+        Tue, 18 Mar 2025 02:06:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742288763; x=1742893563;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9lblAmMwxT4LQJ7oZOS5x8MeQfBd3ciA47yMs9M9n8E=;
+        b=Y27a2+T/jleNUHPKRXRC3hc90IRXVsOuhc+RvHyCQKze4i1tcfVbIflR/VVH8/KfgQ
+         ehtCcriKA+uq/uCwGsM9GD5XnU9czRYY6pOWVIx82go79AIIVDlFiYqNZfDnGhNkXVrA
+         ic7vUFb7PuYhNyxSKiJKOcJ/obATE0U40fdBPpOBkM2vjjZ+GXzTvl+hrKeWwANnTKIU
+         gITt7kS9viH9nZiv75jrPT8yQcCIQNXL00RR7mFzW7u/SZQt7lz79EfHTxU236l4HjlF
+         +ho8KevD6rzv/Fu9DcHUEHRhXGOOJ/a1S8jz0TkIdQo7JZ0G2w1QuL0JPWEX9P2HdSS5
+         Bo1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVFZg83BgsPfy5zSgC4q80QLUrQmsM3DpcfpWoY1C4VDoE8X6GZEUOy/hs+g7VQJ66ilswfYot5uIpkfj8F@vger.kernel.org, AJvYcCXWKCucCMRwdUpNXIdFU0TN2OvOOKa6djeOMQc7c3mowORRpseMn60liX0Lwe7V9h/jSM5oUQDA42wJ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5QeA74z3lEntr2H0lfxz46Mett5MWk0PjeJmvVRmIdgbDsozI
+	gUctHJHlODEhuo/ytg8ZFIqT/g2rpetFwJgnt31PBfGq6GcYpsaOr2b2DeQ3
+X-Gm-Gg: ASbGncsSEJFwMz1HnUl+poFqFDSWn0hKgXbgINaZQ5OUkNvJU4IFMfOsUntYHcOEP2u
+	6o9oEi+hbvygKiRzZsnNp9nJ/l4RcyhqDgw/ISUlN8Ul0JMor4TTf71bkTdFU+9yaMeuz5RNLy6
+	PKLK8fG/2gw4XfxSKi+njJFtIyCp7/o1ofYlKQWslMIaGrwYohm+rCZsPSTatVtWqhLNT22iIkD
+	QEQwipuOyJIFiKQwhvQHSF45cTv0qx6rtDBB9l0uabgKQkoTxwgR4AEvyEKNtC25ElqpW0/gqs0
+	tFjdNY2gmlvPGH93t9vbVJe2wwkflavRgGHS7cbI2ZKW+B7VNiZPrcHfXwCk/cBzFNDUAzfNRRY
+	E2GhoWq7QccI=
+X-Google-Smtp-Source: AGHT+IGlhLH6aKfdEVTCF1JqUHlH5ZDsggfkMDFJfahuYVcGI+ed3icY0UP02FNHiciSybMvAO1RDg==
+X-Received: by 2002:a05:6102:3908:b0:4bb:e2a1:183e with SMTP id ada2fe7eead31-4c4d915ecc3mr2639910137.18.1742288763488;
+        Tue, 18 Mar 2025 02:06:03 -0700 (PDT)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c37513df2dsm1811746137.23.2025.03.18.02.06.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Mar 2025 02:06:03 -0700 (PDT)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-523dc366e42so2067106e0c.2;
+        Tue, 18 Mar 2025 02:06:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV6FL2mb4V6smD7lMzqtlzKFv9DfZN1gyIio4u+jsraOtS8wWZyB+ERatSBdpTsmdA97ECUt8/0K/aF@vger.kernel.org, AJvYcCXZ99ZznbTfdcMnoBzhIByMMNBegx6GF1zcb7j0jVvICuOlBjCfo9LdqK4X1L69vM/UonksRzzDR5QsJzKv@vger.kernel.org
+X-Received: by 2002:a05:6102:5492:b0:4bb:dba6:99cd with SMTP id
+ ada2fe7eead31-4c4d9032809mr2176944137.8.1742288762977; Tue, 18 Mar 2025
+ 02:06:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250318085353.18990-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250318085353.18990-2-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 18 Mar 2025 10:05:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWP8a5eR_1sk2oUe02KdiDaibHnqAHbn2mSyBHzP1FNJA@mail.gmail.com>
+X-Gm-Features: AQ5f1JpyJMk16UbgbB5Lcp9JQK_N1tLC5wrggwzoADVVJsQawPIxoC1UstSz0Nk
+Message-ID: <CAMuHMdWP8a5eR_1sk2oUe02KdiDaibHnqAHbn2mSyBHzP1FNJA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: serial: snps-dw-apb-uart: document RZ/N1
+ binding without DMA
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-serial@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The I2C core now provides a debugfs entry for each client. Let this
-driver use it instead of the custom directory.
+Hi Wolfram,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/misc/eeprom/idt_89hpesx.c | 75 +------------------------------
- 1 file changed, 2 insertions(+), 73 deletions(-)
+On Tue, 18 Mar 2025 at 09:54, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Renesas RZ/N1D has this UART with and without DMA support. Currently,
+> only the binding with DMA support is described. Add the missing one
+> without DMA support which can fallback even more.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-diff --git a/drivers/misc/eeprom/idt_89hpesx.c b/drivers/misc/eeprom/idt_89hpesx.c
-index 1fc632ebf22f..60c42170d147 100644
---- a/drivers/misc/eeprom/idt_89hpesx.c
-+++ b/drivers/misc/eeprom/idt_89hpesx.c
-@@ -60,11 +60,6 @@ MODULE_VERSION(IDT_89HPESX_VER);
- MODULE_LICENSE("GPL v2");
- MODULE_AUTHOR("T-platforms");
- 
--/*
-- * csr_dbgdir - CSR read/write operations Debugfs directory
-- */
--static struct dentry *csr_dbgdir;
--
- /*
-  * struct idt_89hpesx_dev - IDT 89HPESx device data structure
-  * @eesize:	Size of EEPROM in bytes (calculated from "idt,eecompatible")
-@@ -1324,35 +1319,6 @@ static void idt_remove_sysfs_files(struct idt_89hpesx_dev *pdev)
- 	sysfs_remove_bin_file(&dev->kobj, pdev->ee_file);
- }
- 
--/*
-- * idt_create_dbgfs_files() - create debugfs files
-- * @pdev:	Pointer to the driver data
-- */
--#define CSRNAME_LEN	((size_t)32)
--static void idt_create_dbgfs_files(struct idt_89hpesx_dev *pdev)
--{
--	struct i2c_client *cli = pdev->client;
--	char fname[CSRNAME_LEN];
--
--	/* Create Debugfs directory for CSR file */
--	snprintf(fname, CSRNAME_LEN, "%d-%04hx", cli->adapter->nr, cli->addr);
--	pdev->csr_dir = debugfs_create_dir(fname, csr_dbgdir);
--
--	/* Create Debugfs file for CSR read/write operations */
--	debugfs_create_file(cli->name, 0600, pdev->csr_dir, pdev,
--			    &csr_dbgfs_ops);
--}
--
--/*
-- * idt_remove_dbgfs_files() - remove debugfs files
-- * @pdev:	Pointer to the driver data
-- */
--static void idt_remove_dbgfs_files(struct idt_89hpesx_dev *pdev)
--{
--	/* Remove CSR directory and it sysfs-node */
--	debugfs_remove_recursive(pdev->csr_dir);
--}
--
- /*
-  * idt_probe() - IDT 89HPESx driver probe() callback method
-  */
-@@ -1382,7 +1348,7 @@ static int idt_probe(struct i2c_client *client)
- 		goto err_free_pdev;
- 
- 	/* Create debugfs files */
--	idt_create_dbgfs_files(pdev);
-+	debugfs_create_file(pdev->client->name, 0600, client->debugfs, pdev, &csr_dbgfs_ops);
- 
- 	return 0;
- 
-@@ -1399,9 +1365,6 @@ static void idt_remove(struct i2c_client *client)
- {
- 	struct idt_89hpesx_dev *pdev = i2c_get_clientdata(client);
- 
--	/* Remove debugfs files first */
--	idt_remove_dbgfs_files(pdev);
--
- 	/* Remove sysfs files */
- 	idt_remove_sysfs_files(pdev);
- 
-@@ -1550,38 +1513,4 @@ static struct i2c_driver idt_driver = {
- 	.remove = idt_remove,
- 	.id_table = idt_ids,
- };
--
--/*
-- * idt_init() - IDT 89HPESx driver init() callback method
-- */
--static int __init idt_init(void)
--{
--	int ret;
--
--	/* Create Debugfs directory first */
--	if (debugfs_initialized())
--		csr_dbgdir = debugfs_create_dir("idt_csr", NULL);
--
--	/* Add new i2c-device driver */
--	ret = i2c_add_driver(&idt_driver);
--	if (ret) {
--		debugfs_remove_recursive(csr_dbgdir);
--		return ret;
--	}
--
--	return 0;
--}
--module_init(idt_init);
--
--/*
-- * idt_exit() - IDT 89HPESx driver exit() callback method
-- */
--static void __exit idt_exit(void)
--{
--	/* Discard debugfs directory and all files if any */
--	debugfs_remove_recursive(csr_dbgdir);
--
--	/* Unregister i2c-device driver */
--	i2c_del_driver(&idt_driver);
--}
--module_exit(idt_exit);
-+module_i2c_driver(idt_driver);
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+> +++ b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+> @@ -13,6 +13,20 @@ allOf:
+>    - $ref: serial.yaml#
+>    - $ref: rs485.yaml#
+>
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          items:
+> +            - enum:
+> +                - renesas,r9a06g032-uart
+> +                - renesas,r9a06g033-uart
+
+I think you can simplify by replacing the enum by
+
+    - pattern: "^renesas,.*$"
+
+> +            - const: renesas,rzn1-uart
+> +            - const: snps,dw-apb-uart
+> +    then:
+> +      properties:
+> +        dmas: false
+> +        dma-names: false
+> +
+>    - if:
+>        properties:
+>          compatible:
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.47.2
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
