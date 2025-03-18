@@ -1,217 +1,213 @@
-Return-Path: <linux-renesas-soc+bounces-14583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14584-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02567A67321
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 12:50:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBBEA67370
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 13:05:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C17477A1F01
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 11:49:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9E723B72D7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Mar 2025 12:05:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C48F91EDA1D;
-	Tue, 18 Mar 2025 11:50:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05AC3206F30;
+	Tue, 18 Mar 2025 12:05:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XllllLjk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D65A3FC2
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 11:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD81B1DD0C7
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Mar 2025 12:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742298606; cv=none; b=r30+DzNwbc68d8dUme79m/9s6/nip+cEOMTxgKUBFReCeBu4EY7xDS2BB/5Odnm2Z+qH4665bjxwkmfPXBJteG/f1WKPQJMMiOM7+jzM8gDLSUwoRunZAQmX1n7AW4P3hA2WCVVDL0e4XGyRhLAAWfCtgJByrNb5V/XDkv/QNB0=
+	t=1742299514; cv=none; b=cid+YJzf22m3jSxfAXulaFAgOPcmnkrVbhRuH8E2zb9+bduVAvyc1E+0pDD7+GIcuzsj2O97Gf9klRmq7B89YzArcXIt4xxScyEeJ4uDYhy6pLI75KnQnHcFrInWYLPLJROuspgmfDf/fSz2GPs+ezUMJIkeQyTc/6UB3eRJT/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742298606; c=relaxed/simple;
-	bh=Yp/qDoMzNatdeWfSitrmJD5Dj3BvZ/Id62v24G+ghLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KuzAfdMp/iqMa+NeAhMRB/mUFSdSDZWUkb91amuiZuPDp2HsQjNdsrFuyj0Txj62trHyhEiUmuhfw8T77srHkGYA3gHVnGACFZhempBi3C+1z630NrKsOoDr+FrV9fAZ9rtJ/ijP/Yy67X6GrxPOBQritOGHZRYPbfobwKCDmrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tuVSC-00017L-8K; Tue, 18 Mar 2025 12:49:52 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tuVSA-000Q3h-2S;
-	Tue, 18 Mar 2025 12:49:51 +0100
-Received: from pengutronix.de (p5b1645f7.dip0.t-ipconnect.de [91.22.69.247])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id C4D743DF919;
-	Tue, 18 Mar 2025 11:49:50 +0000 (UTC)
-Date: Tue, 18 Mar 2025 12:49:48 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	"linux-can@vger.kernel.org" <linux-can@vger.kernel.org>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"biju.das.au" <biju.das.au@gmail.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: RE: [PATCH v5 12/16] can: rcar_canfd: Add mask table to struct
- rcar_canfd_hw_info
-Message-ID: <20250318-inventive-aardwolf-of-security-5934f1-mkl@pengutronix.de>
-References: <20250317123619.70988-1-biju.das.jz@bp.renesas.com>
- <20250317123619.70988-13-biju.das.jz@bp.renesas.com>
- <CAMuHMdVbcNqeNXnLRAhS-1g+VrTEwzfLiyNt+WCfuJDuF-Hacg@mail.gmail.com>
- <TY3PR01MB113466DCECC55DDE9913833F186DF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CAMuHMdXbk8gqhd4FFGmFNQRrEwbOToQvr-00LE2pZWoZq65GGg@mail.gmail.com>
- <TYCPR01MB1133298C8595B3CA5D890289486DF2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
- <TY3PR01MB113465F5D2C480EE3F0B47FA986DE2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1742299514; c=relaxed/simple;
+	bh=ZdqBrGV8hDmRZo2UOW694+tDIT1CtjoyhsHezmoTets=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=l8pT2q308Q+eMCXWGWYtU6O/dyFLJuxg7HZLTSG70SXcW7G7+f9P4jEevP8N4578m+fC/jrL0t5H2RzC7AM61AMHPEpYLeMyPbhXZyGFsV3gv6n46xwdyO2crvPBAZdTinn40f7QmU3ERfiN4w5urSwt3lR09XfEkBmpz197DT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XllllLjk; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742299509; x=1773835509;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZdqBrGV8hDmRZo2UOW694+tDIT1CtjoyhsHezmoTets=;
+  b=XllllLjkmmqEysWX0XHHqOyu8xFRPJ3MT/LTHUJBHYjRcd1NYVBQvAKX
+   mc/luo5TKH3oDC9V5f/5DjDB8rjpnT6aN/PmWQfq5iM0/3IxUFi4kUDyG
+   PAiIT6y+w0KNaLQzn5IVuYdleCzwdm4ZcOdc1v/6YeEPLCV8u6NbO4xyo
+   BwdSjHmfMTmVQDugSc6DQ+ATuCCjY73h+DBlLmIbV8Akv8c6hnM7AcAPj
+   Kph21WMUjqV7fFEFjFNd2BJ3FrBZL8t8T66GdxN0tn46dcqPuPsD/kez7
+   KTZo8mQRA3CbuSuu2oOOtSllIHljH43akGigLhpImktyHASJAoN7vqRnG
+   Q==;
+X-CSE-ConnectionGUID: fil3IjbnR5KnxbQ17RrQvg==
+X-CSE-MsgGUID: +w86MfXsRFWYlGBGGFRNBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43172903"
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
+   d="scan'208";a="43172903"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 05:05:08 -0700
+X-CSE-ConnectionGUID: 2caNwj74SbSyG3hRhE1npw==
+X-CSE-MsgGUID: S9D0tsQ9QUe0ZUJop2orSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
+   d="scan'208";a="145420332"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 18 Mar 2025 05:05:07 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tuVgv-000DjD-0I;
+	Tue, 18 Mar 2025 12:05:05 +0000
+Date: Tue, 18 Mar 2025 20:04:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ a0228c18301bbf5d985526681c20d5000681ecbd
+Message-ID: <202503182056.4JgikL1d-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ahraxpjumadizmep"
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB113465F5D2C480EE3F0B47FA986DE2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: a0228c18301bbf5d985526681c20d5000681ecbd  Merge branch 'renesas-dts-for-v6.16' into renesas-devel
 
---ahraxpjumadizmep
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: RE: [PATCH v5 12/16] can: rcar_canfd: Add mask table to struct
- rcar_canfd_hw_info
-MIME-Version: 1.0
+elapsed time: 1448m
 
-On 18.03.2025 11:26:54, Biju Das wrote:
-> Hi Geert and Marc,
->=20
-> > -----Original Message-----
-> > From: Biju Das
-> > Sent: 17 March 2025 16:24
-> > Subject: RE: [PATCH v5 12/16] can: rcar_canfd: Add mask table to struct=
- rcar_canfd_hw_info
-> >=20
-> > Hi Geert,
-> >=20
-> > > -----Original Message-----
-> > > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > Sent: 17 March 2025 15:04
-> > > Subject: Re: [PATCH v5 12/16] can: rcar_canfd: Add mask table to
-> > > struct rcar_canfd_hw_info
-> > >
-> > > Hi Biju,
-> > >
-> > > On Mon, 17 Mar 2025 at 15:46, Biju Das <biju.das.jz@bp.renesas.com> w=
-rote:
-> > > > > -----Original Message-----
-> > > > > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > > > Sent: 17 March 2025 14:13
-> > > > > Subject: Re: [PATCH v5 12/16] can: rcar_canfd: Add mask table to
-> > > > > struct rcar_canfd_hw_info
-> > > > >
-> > > > > On Mon, 17 Mar 2025 at 13:37, Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> > > > > > R-Car Gen3 and Gen4 have some differences in the mask bits. Add
-> > > > > > a mask table to handle these differences.
-> > > > > >
-> > > > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > > ---
-> > > > > > v4->v5:
-> > > > > >  * Improved commit description by replacing has->have.
-> > > > > >  * Collected tag.
-> > > > > >  * Dropped RCANFD_EEF_MASK and RCANFD_RNC_MASK as it is taken
-> > > > > >    care by gpriv->channels_mask and info->num_supported_rules.
-> > > > >
-> > > > > Thanks for the update!
-> > > > >
-> > > > > All mask values are just the maximum values of various parameters.
-> > > > > Hence they could be replaced by the latter, like you already did =
-for the RNC mask.
-> > > >
-> > > > But this will increase memory size, right? Currently we have
-> > > > rcar-gen3 and gen4 tables
-> > > > 2 tables used by 4 hardware info variants.
-> > > >
-> > > > If we drop tables and use variable with max values like RNC MASK,
-> > > > then this will be like 4 tables for 4 hardware info variants, right?
-> > > >
-> > > > Please correct me if my understanding is wrong.
-> > >
-> > > It depends where you store the parameters: in the (two) tables, or in
-> > > the (four) hardware info structures...
-> >=20
-> > OK, you mean replace mask_table->max_val_table, rcar_gen{3,4}_mask_tabl=
-e->rcar_gen{3,4}_max_val_table
-> > and *_MASK->*_MAX_VAL??
->=20
-> The below parameters[1] has mask =3D max_parameter_val - 1.
->=20
-> I will update the table as below. Please let me know if there is any issu=
-e.
->=20
-> struct rcar_canfd_hw_info {
-> -       const u32 *mask_table;
-> +       const u32 *params;
-> };
->=20
-> -enum rcar_canfd_mask_id {
-> -       RCANFD_NTSEG2_MASK,     /* Nominal Bit Rate Time Segment 2 Contro=
-l */
-> -       RCANFD_NTSEG1_MASK,     /* Nominal Bit Rate Time Segment 1 Contro=
-l */
-> -       RCANFD_NSJW_MASK,       /* Nominal Bit Rate Resynchronization Jum=
-p Width Control */
-> -       RCANFD_DSJW_MASK,       /* Data Bit Rate Resynchronization Jump W=
-idth Control */
-> -       RCANFD_DTSEG2_MASK,     /* Data Bit Rate Time Segment 2 Control */
-> -       RCANFD_DTSEG1_MASK,     /* Data Bit Rate Time Segment 1 Control */
-> -       RCANFD_CFTML_MASK,      /* Common FIFO TX Message Buffer Link */
-> +enum rcar_canfd_parameter_id {
-> +       RCANFD_NTSEG2,          /* Nominal Bit Rate Time Segment 2 Contro=
-l */
-> +       RCANFD_NTSEG1,          /* Nominal Bit Rate Time Segment 1 Contro=
-l */
-> +       RCANFD_NSJW,            /* Nominal Bit Rate Resynchronization Jum=
-p Width Control */
-> +       RCANFD_DSJW,            /* Data Bit Rate Resynchronization Jump W=
-idth Control */
-> +       RCANFD_DTSEG2,  	  /* Data Bit Rate Time Segment 2 Control */
-> +       RCANFD_DTSEG1,  	  /* Data Bit Rate Time Segment 1 Control */
+configs tested: 120
+configs skipped: 3
 
-Another option is to evaluate, if you can use priv->can.bittiming_const
-and priv->can.data_bittiming_const instead.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Marc
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.3.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20250317    gcc-13.2.0
+arc                   randconfig-002-20250317    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-14.2.0
+arm                      integrator_defconfig    clang-21
+arm                   randconfig-001-20250317    gcc-14.2.0
+arm                   randconfig-002-20250317    gcc-14.2.0
+arm                   randconfig-003-20250317    gcc-14.2.0
+arm                   randconfig-004-20250317    clang-21
+arm                         s3c6400_defconfig    gcc-11.5.0
+arm                           sama5_defconfig    gcc-8.5.0
+arm                         socfpga_defconfig    gcc-14.2.0
+arm                           stm32_defconfig    gcc-8.5.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-8.5.0
+arm64                 randconfig-001-20250317    gcc-14.2.0
+arm64                 randconfig-002-20250317    gcc-14.2.0
+arm64                 randconfig-003-20250317    gcc-14.2.0
+arm64                 randconfig-004-20250317    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250317    gcc-14.2.0
+csky                  randconfig-002-20250317    gcc-14.2.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250317    clang-21
+hexagon               randconfig-002-20250317    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250317    gcc-12
+i386        buildonly-randconfig-002-20250317    clang-20
+i386        buildonly-randconfig-003-20250317    clang-20
+i386        buildonly-randconfig-004-20250317    clang-20
+i386        buildonly-randconfig-005-20250317    gcc-12
+i386        buildonly-randconfig-006-20250317    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250317    gcc-14.2.0
+loongarch             randconfig-002-20250317    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                            mac_defconfig    gcc-5.5.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                        maltaup_defconfig    clang-21
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250317    gcc-14.2.0
+nios2                 randconfig-002-20250317    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                       virt_defconfig    gcc-10.5.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20250317    gcc-14.2.0
+parisc                randconfig-002-20250317    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-21
+powerpc                     ppa8548_defconfig    gcc-8.5.0
+powerpc                      ppc44x_defconfig    clang-21
+powerpc               randconfig-001-20250317    clang-15
+powerpc               randconfig-002-20250317    clang-21
+powerpc               randconfig-003-20250317    gcc-14.2.0
+powerpc64             randconfig-001-20250317    gcc-14.2.0
+powerpc64             randconfig-002-20250317    gcc-14.2.0
+powerpc64             randconfig-003-20250317    clang-21
+riscv                            allmodconfig    clang-21
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-16
+riscv                 randconfig-001-20250317    gcc-14.2.0
+riscv                 randconfig-002-20250317    gcc-14.2.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-15
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250317    clang-15
+s390                  randconfig-002-20250317    clang-15
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                         ecovec24_defconfig    gcc-14.2.0
+sh                          kfr2r09_defconfig    gcc-5.5.0
+sh                          lboxre2_defconfig    gcc-14.2.0
+sh                    randconfig-001-20250317    gcc-14.2.0
+sh                    randconfig-002-20250317    gcc-14.2.0
+sh                     sh7710voipgw_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250317    gcc-14.2.0
+sparc                 randconfig-002-20250317    gcc-14.2.0
+sparc64               randconfig-001-20250317    gcc-14.2.0
+sparc64               randconfig-002-20250317    gcc-14.2.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250317    gcc-12
+um                    randconfig-002-20250317    clang-21
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250317    gcc-12
+x86_64      buildonly-randconfig-002-20250317    clang-20
+x86_64      buildonly-randconfig-003-20250317    gcc-12
+x86_64      buildonly-randconfig-004-20250317    gcc-12
+x86_64      buildonly-randconfig-005-20250317    gcc-12
+x86_64      buildonly-randconfig-006-20250317    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250317    gcc-14.2.0
+xtensa                randconfig-002-20250317    gcc-14.2.0
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---ahraxpjumadizmep
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmfZXdkACgkQDHRl3/mQ
-kZzIKggArm5zEMuDWugIeXpkzokgraJLAEO9CdDIrTl1C2aj6c9G4GxMEZRkqYlh
-rUyu8gZuRRzohF3B44Vfu7pxqK1bdy2zguUbJOisKQ/vhghkp4GKUmXXCZGSxY8t
-9pGvmJVpxKREVP2oNTej+cwH4X5II0fCh76GUfZ4jprTpylNCrZ+RocYyU+znqDk
-Fle0Sdq/yDIV1OM5k2bLbtEoGjXgG+vV4r3UFcEyldw/Hag6HeA3AJ7zoG4ksYDR
-37D16oc/kms5nzgItmUnB28TJfmvaAWw8W57jVCTNCpOhL+zdk2TUezHT2YCn9N8
-qgCYNfSCkgpNw/pU1hzu3wMrgTf7OQ==
-=5Uu0
------END PGP SIGNATURE-----
-
---ahraxpjumadizmep--
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
