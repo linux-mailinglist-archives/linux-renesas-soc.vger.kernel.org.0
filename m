@@ -1,65 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-14615-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14617-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D660CA68A8D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 12:05:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F5FA68A8F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 12:05:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 813413BF93D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 11:03:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A05C43BFC8C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 11:03:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C395B3010C;
-	Wed, 19 Mar 2025 11:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FD9525486D;
+	Wed, 19 Mar 2025 11:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="OS5/6vfs"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="OZ89A9Gk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8FA2063C0
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Mar 2025 11:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062768F5A
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Mar 2025 11:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742382197; cv=none; b=M25vEXoMSZmn4XyTO3dDz+6siW96kdLlV+x59wn7Fb87C6AV/TSHwbN5niHeVuhBikhJnUfwsisqx8wWJNXl4H5GmeRw1Y8uQj4mKe+ItyheMIgNg2yZVDpwGrF6ohk2aWCpPtkfJIWpHXIc2SH/sguZFCSaJkeqo08l8tUsQfQ=
+	t=1742382198; cv=none; b=ZyxjnTQRdqnKY2lEo5PNCzWk8u20kkKKq4SwKhxI1ixGOww8FIy5dxpz5aIkcgeb3bsr1tCNHOaxpdhm6jFFJeuxj+fMOpJ+nAR8ulsjjXACqBNEK7K5dLvjT1tHQuGF7y5WX+GluvWi033kxfFJQ/7f91TWbOIUHlVk68oUi0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742382197; c=relaxed/simple;
-	bh=xubUQCNPz5q+g+3mebQWXa30tiqFiIsAzICoA++Kvxk=;
+	s=arc-20240116; t=1742382198; c=relaxed/simple;
+	bh=01wlVeg860WtfNzlGREip3fyPeFq0pn9r0Dx2NrPhyQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tGFA00HYTcXbblTZiQz+6ZUkrIKSOE9OTPg2QbmDfri8X6fxeJ5vpznq6mqLmCNIWX3jBUlT7OM0CRocBveJN4dZjB3fXgxZzqhqLa1NsqzghcOCwid0gyuczMXByQhoACWaPzxRTzeallcOAQzuRTXRIiJY341vcER2PhHdlY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=OS5/6vfs; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=VgawM9B7DDzOxyoI1mdsae/nUYgHZ50371Ioq82CKJArda6HVmVD41LJNmrugDIsHoQs7AqT4wAL5TnP3IjGAo2PHX9oxDk2R++V48Z89xT8LH6FUDX1SLy0ynBYWRVz4jpEPRx0S+kmgDbJhTKMwQ1z/P7e2Uu4EbYCnbHLzQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=OZ89A9Gk; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=WPTrYpPtD4zuV6le0MidS8i3ANwcaQIiuvmGYmNNG+M=; b=OS5/6v
-	fsAqVuV+1hOeZ/aVXvEu3spA4j0JxT0ny3Ql7Zbksz8bQR7lndfY1/JJlZnJ7l/g
-	kjHnSuSEMHCoSMP8Yy1nyv6u3lvSopK2/589HDmReKoq+g/pgRDAi9B5YoxmAQoP
-	S3O2LKe/gluiyezklC7uPkwDtYw2lvQ78KUYhpjjM93NnQZZhjeRx/cPeOnxW63z
-	XSVgv1H/v3cr7Gu3EaPq2wxuYJjZfEMN1hqQQwc1ZkBvPT8cnr5iKDv7ZOXJDaSf
-	MqPxbNbt7X7I11uBSV5AfMSZkFY8nS1ArLLYo+ikjgvJA2ji7Nixal5DH0340bGG
-	fVsB+pyYtvqMneuA==
-Received: (qmail 81798 invoked from network); 19 Mar 2025 12:03:12 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Mar 2025 12:03:12 +0100
-X-UD-Smtp-Session: l3s3148p1@UMme968w8LwgAwDPXyTHAJp038nK7dx+
+	 s=k1; bh=aIdBVBebOZJBXXFgmL84aOdpDyKY/q2wSHA7igundHY=; b=OZ89A9
+	GkPBuymWreM6rpLmEU6UcPxn3Qac0iXLkQ+BLyKNNzexqzRC43WGAeaKcQhKyiT2
+	xdCp01LOFuSNP2KXnXzoJqAclANEWRJS62KqkeMawyk8jI+erBVzPnJPi8okUQMK
+	L/c1WEOu23w3gYYeseJU9dccT+W8vEC8LgSDblCNb2Q+wLk0S1S7cW5zNEsyeR2n
+	r98SPifZBEMJk3+Ihd6XAGr0Ah5FKPDJ8bpB2IA6aXf7v04tuYD7WUL9KsCMvWlG
+	n+vwjS9p7in8LUplBamOJecEPZa7kCGlhMvLNjUXcgHW3wO/5Y42VOMnxtWYXNQL
+	RSp3CRjs3slAlkIA==
+Received: (qmail 81854 invoked from network); 19 Mar 2025 12:03:13 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Mar 2025 12:03:13 +0100
+X-UD-Smtp-Session: l3s3148p1@1z6r968w9LwgAwDPXyTHAJp038nK7dx+
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH 1/3] dt-bindings: rtc: rzn1: add optional second clock
-Date: Wed, 19 Mar 2025 12:03:02 +0100
-Message-ID: <20250319110305.19687-2-wsa+renesas@sang-engineering.com>
+	linux-rtc@vger.kernel.org
+Subject: [PATCH 2/3] rtc: rzn1: Disable controller before initialization
+Date: Wed, 19 Mar 2025 12:03:03 +0100
+Message-ID: <20250319110305.19687-3-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250319110305.19687-1-wsa+renesas@sang-engineering.com>
 References: <20250319110305.19687-1-wsa+renesas@sang-engineering.com>
@@ -71,38 +64,52 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The external crystal can be a second clock input. It is needed for the
-SCMP counting method which allows using crystals different than 32768Hz.
-It is also needed for an upcoming SoC which only supports the SCMP
-method.
+Datasheet says that the controller must be disabled before setting up
+either SUBU or SCMP. This did not matter so far because the driver only
+supported SUBU which was the default, too. It is good practice to follow
+datasheet recommendations, though. It will also be needed because SCMP
+mode will be added in a later patch.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../devicetree/bindings/rtc/renesas,rzn1-rtc.yaml         | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/rtc/rtc-rzn1.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml b/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
-index f6e0c613af67..f6fdcc7090b6 100644
---- a/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
-+++ b/Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
-@@ -33,10 +33,14 @@ properties:
-       - const: pps
+diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
+index 3c2861983ff1..7777df1e3426 100644
+--- a/drivers/rtc/rtc-rzn1.c
++++ b/drivers/rtc/rtc-rzn1.c
+@@ -25,6 +25,7 @@
+ #define   RZN1_RTC_CTL0_SLSB_SUBU 0
+ #define   RZN1_RTC_CTL0_SLSB_SCMP BIT(4)
+ #define   RZN1_RTC_CTL0_AMPM BIT(5)
++#define   RZN1_RTC_CTL0_CEST BIT(6)
+ #define   RZN1_RTC_CTL0_CE BIT(7)
  
-   clocks:
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 2
+ #define RZN1_RTC_CTL1 0x04
+@@ -369,6 +370,7 @@ static const struct rtc_class_ops rzn1_rtc_ops = {
+ static int rzn1_rtc_probe(struct platform_device *pdev)
+ {
+ 	struct rzn1_rtc *rtc;
++	u32 val;
+ 	int irq;
+ 	int ret;
  
-   clock-names:
--    const: hclk
-+    minItems: 1
-+    items:
-+      - const: hclk
-+      - const: xtal
+@@ -406,6 +408,14 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
+ 	 * Ensure the clock counter is enabled.
+ 	 * Set 24-hour mode and possible oscillator offset compensation in SUBU mode.
+ 	 */
++	val = readl(rtc->base + RZN1_RTC_CTL0) & ~RZN1_RTC_CTL0_CE;
++	writel(val, rtc->base + RZN1_RTC_CTL0);
++	/* Wait 2-4 32k clock cycles for the disabled controller */
++	ret = readl_poll_timeout(rtc->base + RZN1_RTC_CTL0, val,
++				 !(val & RZN1_RTC_CTL0_CEST), 62, 123);
++	if (ret)
++		goto dis_runtime_pm;
++
+ 	writel(RZN1_RTC_CTL0_CE | RZN1_RTC_CTL0_AMPM | RZN1_RTC_CTL0_SLSB_SUBU,
+ 	       rtc->base + RZN1_RTC_CTL0);
  
-   power-domains:
-     maxItems: 1
 -- 
 2.47.2
 
