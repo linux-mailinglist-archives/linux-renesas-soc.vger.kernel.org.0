@@ -1,204 +1,224 @@
-Return-Path: <linux-renesas-soc+bounces-14636-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA14AA6927A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 16:10:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6D7A692FC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 16:19:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C0E31BA207E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 14:55:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11A9B465500
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 15:10:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5D3B1CAA75;
-	Wed, 19 Mar 2025 14:50:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DB791957FF;
+	Wed, 19 Mar 2025 15:03:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MoT6kVbq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nX3I6/yD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA7B1C9B62;
-	Wed, 19 Mar 2025 14:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6AB1DF24D
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Mar 2025 15:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742395813; cv=none; b=ZrhhwWRfVSAACYOlDwxa+1M5k5Xsto8WIPi6e2rFZmw0STQXwc5dV2fbWMUs5fNONI/GpT/dkSf9dgxI8WCIQSYiw3QnN38cmIzogvHpj7fXOeBK40Le2pgos3nEcXaiYwbq3cuxqJU0jJQV7Ei81EUv5nq5hd2gCl8U3/fEncA=
+	t=1742396632; cv=none; b=FV9YQaPAM00VRZ0laRpkwuY1tj8lgq9eWFO4cGT3gGYBuGToWlXPrxRc3WPr/jfOsK72wenVxOlXzkovP1aWgVHsZ2iGdLNphmKJdO2M1afLhTyDYor0E6wJAJgbU29VeatWECslM3C4IMIbqKR6FErdGmC4q5v8ePbiui/OkHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742395813; c=relaxed/simple;
-	bh=3F9NEowTuNHLMAc1h4HtO+FWEVyEP264qY5xCg55J2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RQyv6gR3FhIdfMrt75ZfqDXo6tWdJzXYdt+HAqGiO/nMZhYHWgQCv1+x+DUM+3YakCTQl31eQkH7G13kHQ9RfJ/sUboOFUM/AB/UPGwNct09T69TPqjCzm4Ye3nvyA0Z8SUOH6e4P7/1bM65hNC50WM7JOw5b5PXUMwUnLzdo6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MoT6kVbq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5269D55A;
-	Wed, 19 Mar 2025 15:48:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742395700;
-	bh=3F9NEowTuNHLMAc1h4HtO+FWEVyEP264qY5xCg55J2U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MoT6kVbqXJO/mKemirJD9knzCTwtiPN8lWz4kmOW1QYyDdbnjdGSSc0iikafpL3Rn
-	 /sm9LJT4esblrzSBlnrsui4dsliLO82MCT2JmFG3K8LrlRK1j75pADqMkL9X3iaWoY
-	 rJ2BECcyEhfdm6sISo3TyEN/TNbikBJ+Mi4mG3Bw=
-Date: Wed, 19 Mar 2025 15:50:00 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/7] arm64: dts: renesas: r8a779a0: Add ISP core function
- block
-Message-ID: <hwj6d3ll75magopi5oak4zmboy5dol3ztv3isd6wvrxmvbkx4b@ayjumbqmuk3l>
-References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
- <20250315152708.328036-3-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1742396632; c=relaxed/simple;
+	bh=X8D/cZ/m403F0Sq7Sb6QeKlFWVhFvMtrkc9MYtTQXJg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=i1wbf6YQ8b8eiL03YDLiWyxIgTd0cimTVYPeT41eooEPid1bAl3l3YyZt8/uVz92EiWqDNCHNUl8+zCCkS58pKXGa8rJ0cjcrsCLVMile+ec6d/ZAF12+dH6MFL3e0iNp28S5YXewAbsYoYlwyOTUbRNkbLk/4S/z/XmHikSY8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nX3I6/yD; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742396631; x=1773932631;
+  h=date:from:to:cc:subject:message-id;
+  bh=X8D/cZ/m403F0Sq7Sb6QeKlFWVhFvMtrkc9MYtTQXJg=;
+  b=nX3I6/yDbgsgaGUJZ31xLG1EOjP6LLS7M6YFRAQtyKqB00uEkAt/rS66
+   Jaq3cIz0QKmer2IwrS6/qpe7/kWls/K7wogSvXISMty6L/ZUQF1z5WXcs
+   9fzZpHTRQhlzttUZQn4bESo7ZJnfOQpmFDacwpPrtBZnDCJ+gIG40L9Wc
+   q1Hv2FuJ/wIF16WNNcdCPRCMJ5bmUsaVm71capXtz004/3aTp6CwPobvg
+   GmNGVuLYfzxMFU0DU+3VogXuGTJp6Dml5wMrcrdhaMrB+6Ak50kic1ycg
+   xH59T9Eq0yRRI4xpg6bHib2pXkN6Ni2m97a+ZOkjXvuz5gB47ubybMXKd
+   w==;
+X-CSE-ConnectionGUID: 1KIOLxABQTCJJj4LTudY+A==
+X-CSE-MsgGUID: 6fPk6l3OS36AYONt4ISzQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="54262236"
+X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
+   d="scan'208";a="54262236"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 08:03:50 -0700
+X-CSE-ConnectionGUID: Zk29EDzTTU2cfAxBkW2SLQ==
+X-CSE-MsgGUID: H5yQxReETFqgRhTXLLGiXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
+   d="scan'208";a="123588077"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 19 Mar 2025 08:03:49 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tuuxO-000FCH-25;
+	Wed, 19 Mar 2025 15:03:46 +0000
+Date: Wed, 19 Mar 2025 23:03:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk-for-v6.16] BUILD SUCCESS
+ d6def20625e52e64f829c733ff41b8e755f7d192
+Message-ID: <202503192314.VLtgcjAw-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250315152708.328036-3-niklas.soderlund+renesas@ragnatech.se>
 
-Hi Niklas
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.16
+branch HEAD: d6def20625e52e64f829c733ff41b8e755f7d192  clk: renesas: r9a09g057: Add clock and reset entries for GE3D
 
-On Sat, Mar 15, 2025 at 04:27:03PM +0100, Niklas Söderlund wrote:
-> All ISP instances on V3U have both a channel select and core function
-> block, describe the core region in addition to the existing cs region.
->
-> The interrupt number already described intended to reflect the cs
-> function but did incorrectly describe the core block. This was not
+elapsed time: 1446m
 
-I can't find the interrupt mapping table for V3U, so this is the only
-thing I can't check
+configs tested: 131
+configs skipped: 6
 
-> noticed until now as the driver do not make use of the interrupt for the
-> cs block.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-The rest looks good
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-9.3.0
+alpha                               defconfig    gcc-7.5.0
+arc                              allmodconfig    gcc-14.2.0
+arc                               allnoconfig    gcc-13.3.0
+arc                                 defconfig    gcc-14.2.0
+arc                   randconfig-001-20250319    gcc-14.2.0
+arc                   randconfig-002-20250319    gcc-14.2.0
+arm                              alldefconfig    gcc-9.3.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-6.5.0
+arm                         mv78xx0_defconfig    clang-19
+arm                        mvebu_v7_defconfig    clang-21
+arm                       netwinder_defconfig    gcc-9.3.0
+arm                          pxa168_defconfig    clang-19
+arm                             pxa_defconfig    gcc-8.5.0
+arm                   randconfig-001-20250319    clang-18
+arm                   randconfig-002-20250319    clang-21
+arm                   randconfig-003-20250319    clang-20
+arm                   randconfig-004-20250319    clang-16
+arm                         s5pv210_defconfig    gcc-9.3.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-8.5.0
+arm64                               defconfig    gcc-6.5.0
+arm64                 randconfig-001-20250319    gcc-14.2.0
+arm64                 randconfig-002-20250319    gcc-7.5.0
+arm64                 randconfig-003-20250319    gcc-12.3.0
+arm64                 randconfig-004-20250319    gcc-7.5.0
+csky                              allnoconfig    gcc-9.3.0
+csky                                defconfig    gcc-12.4.0
+csky                  randconfig-001-20250318    gcc-14.2.0
+csky                  randconfig-002-20250318    gcc-14.2.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon                             defconfig    clang-21
+hexagon               randconfig-001-20250318    clang-21
+hexagon               randconfig-002-20250318    clang-17
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250318    clang-20
+i386        buildonly-randconfig-002-20250318    clang-20
+i386        buildonly-randconfig-003-20250318    clang-20
+i386        buildonly-randconfig-004-20250318    clang-20
+i386        buildonly-randconfig-005-20250318    clang-20
+i386        buildonly-randconfig-006-20250318    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-13.3.0
+loongarch             randconfig-001-20250318    gcc-14.2.0
+loongarch             randconfig-002-20250318    gcc-14.2.0
+m68k                             allmodconfig    gcc-8.5.0
+m68k                              allnoconfig    gcc-5.5.0
+m68k                             allyesconfig    gcc-6.5.0
+m68k                                defconfig    gcc-8.5.0
+microblaze                       allmodconfig    gcc-9.3.0
+microblaze                        allnoconfig    gcc-11.5.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-10.5.0
+mips                      maltasmvp_defconfig    gcc-6.5.0
+mips                       rbtx49xx_defconfig    gcc-7.5.0
+nios2                             allnoconfig    gcc-8.5.0
+nios2                 randconfig-001-20250318    gcc-9.3.0
+nios2                 randconfig-002-20250318    gcc-5.5.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-5.5.0
+parisc                            allnoconfig    gcc-10.5.0
+parisc                           allyesconfig    gcc-9.3.0
+parisc                              defconfig    gcc-14.2.0
+parisc                randconfig-001-20250318    gcc-8.5.0
+parisc                randconfig-002-20250318    gcc-14.2.0
+powerpc                          allmodconfig    gcc-10.5.0
+powerpc                           allnoconfig    gcc-8.5.0
+powerpc                          allyesconfig    clang-21
+powerpc                     ksi8560_defconfig    gcc-9.3.0
+powerpc                      pcm030_defconfig    clang-15
+powerpc                      ppc6xx_defconfig    gcc-6.5.0
+powerpc               randconfig-001-20250318    clang-21
+powerpc               randconfig-002-20250318    clang-21
+powerpc               randconfig-003-20250318    gcc-14.2.0
+powerpc64             randconfig-001-20250318    clang-21
+powerpc64             randconfig-002-20250318    gcc-14.2.0
+powerpc64             randconfig-003-20250318    gcc-8.5.0
+riscv                            allmodconfig    clang-21
+riscv                             allnoconfig    gcc-7.5.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-21
+riscv                 randconfig-001-20250318    clang-21
+riscv                 randconfig-002-20250318    clang-21
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-15
+s390                             allyesconfig    gcc-13.2.0
+s390                                defconfig    clang-15
+s390                  randconfig-001-20250318    clang-15
+s390                  randconfig-002-20250318    gcc-12.4.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-10.5.0
+sh                               allyesconfig    gcc-14.2.0
+sh                                  defconfig    gcc-11.5.0
+sh                    randconfig-001-20250318    gcc-14.2.0
+sh                    randconfig-002-20250318    gcc-7.5.0
+sparc                            allmodconfig    gcc-6.5.0
+sparc                             allnoconfig    gcc-6.5.0
+sparc                 randconfig-001-20250318    gcc-14.2.0
+sparc                 randconfig-002-20250318    gcc-14.2.0
+sparc64                             defconfig    gcc-10.5.0
+sparc64               randconfig-001-20250318    gcc-11.5.0
+sparc64               randconfig-002-20250318    gcc-11.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-21
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250318    clang-21
+um                    randconfig-002-20250318    gcc-12
+um                           x86_64_defconfig    clang-15
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250318    clang-20
+x86_64      buildonly-randconfig-002-20250318    clang-20
+x86_64      buildonly-randconfig-003-20250318    clang-20
+x86_64      buildonly-randconfig-004-20250318    clang-20
+x86_64      buildonly-randconfig-005-20250318    gcc-12
+x86_64      buildonly-randconfig-006-20250318    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250318    gcc-14.2.0
+xtensa                randconfig-002-20250318    gcc-7.5.0
 
-> ---
->  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 60 +++++++++++++++++------
->  1 file changed, 44 insertions(+), 16 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> index f1613bfd1632..95ff69339991 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> @@ -2588,13 +2588,20 @@ du_out_dsi1: endpoint {
->  		isp0: isp@fed00000 {
->  			compatible = "renesas,r8a779a0-isp",
->  				     "renesas,rcar-gen4-isp";
-> -			reg = <0 0xfed00000 0 0x10000>;
-> -			interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 612>;
-> +			reg = <0 0xfed00000 0 0x10000>, <0 0xfec00000 0 0x100000>;
-> +			reg-names = "cs", "core";
-
-However, won't the presence of a "core" part trigger the probing of
-the forthcoming RPP core support, which should not support V3U as far
-I understood ?
-
-> +			interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "cs", "core";
-> +			clocks = <&cpg CPG_MOD 612>, <&cpg CPG_MOD 16>;
-> +			clock-names = "cs", "core";
->  			power-domains = <&sysc R8A779A0_PD_A3ISP01>;
-> -			resets = <&cpg 612>;
-> +			resets = <&cpg 612>, <&cpg 16>;
-> +			reset-names = "cs", "core";
->  			status = "disabled";
->
-> +			renesas,vspx = <&vspx0>;
-> +
->  			ports {
->  				#address-cells = <1>;
->  				#size-cells = <0>;
-> @@ -2672,13 +2679,20 @@ isp0vin07: endpoint {
->  		isp1: isp@fed20000 {
->  			compatible = "renesas,r8a779a0-isp",
->  				     "renesas,rcar-gen4-isp";
-> -			reg = <0 0xfed20000 0 0x10000>;
-> -			interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 613>;
-> +			reg = <0 0xfed20000 0 0x10000>, <0 0xfee00000 0 0x100000>;
-> +			reg-names = "cs", "core";
-> +			interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "cs", "core";
-> +			clocks = <&cpg CPG_MOD 613>, <&cpg CPG_MOD 17>;
-> +			clock-names = "cs", "core";
->  			power-domains = <&sysc R8A779A0_PD_A3ISP01>;
-> -			resets = <&cpg 613>;
-> +			resets = <&cpg 613>, <&cpg 17>;
-> +			reset-names = "cs", "core";
->  			status = "disabled";
->
-> +			renesas,vspx = <&vspx1>;
-> +
->  			ports {
->  				#address-cells = <1>;
->  				#size-cells = <0>;
-> @@ -2756,13 +2770,20 @@ isp1vin15: endpoint {
->  		isp2: isp@fed30000 {
->  			compatible = "renesas,r8a779a0-isp",
->  				     "renesas,rcar-gen4-isp";
-> -			reg = <0 0xfed30000 0 0x10000>;
-> -			interrupts = <GIC_SPI 157 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 614>;
-> +			reg = <0 0xfed30000 0 0x10000>, <0 0xfef00000 0 0x100000>;
-> +			reg-names = "cs", "core";
-> +			interrupts = <GIC_SPI 156 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 157 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "cs", "core";
-> +			clocks = <&cpg CPG_MOD 614>, <&cpg CPG_MOD 18>;
-> +			clock-names = "cs", "core";
->  			power-domains = <&sysc R8A779A0_PD_A3ISP23>;
-> -			resets = <&cpg 614>;
-> +			resets = <&cpg 614>, <&cpg 18>;
-> +			reset-names = "cs", "core";
->  			status = "disabled";
->
-> +			renesas,vspx = <&vspx2>;
-> +
->  			ports {
->  				#address-cells = <1>;
->  				#size-cells = <0>;
-> @@ -2840,13 +2861,20 @@ isp2vin23: endpoint {
->  		isp3: isp@fed40000 {
->  			compatible = "renesas,r8a779a0-isp",
->  				     "renesas,rcar-gen4-isp";
-> -			reg = <0 0xfed40000 0 0x10000>;
-> -			interrupts = <GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 615>;
-> +			reg = <0 0xfed40000 0 0x10000>, <0 0xfe400000 0 0x100000>;
-> +			reg-names = "cs", "core";
-> +			interrupts = <GIC_SPI 158 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "cs", "core";
-> +			clocks = <&cpg CPG_MOD 615>, <&cpg CPG_MOD 19>;
-> +			clock-names = "cs", "core";
->  			power-domains = <&sysc R8A779A0_PD_A3ISP23>;
-> -			resets = <&cpg 615>;
-> +			resets = <&cpg 615>, <&cpg 19>;
-> +			reset-names = "cs", "core";
->  			status = "disabled";
->
-> +			renesas,vspx = <&vspx3>;
-> +
->  			ports {
->  				#address-cells = <1>;
->  				#size-cells = <0>;
-> --
-> 2.48.1
->
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
