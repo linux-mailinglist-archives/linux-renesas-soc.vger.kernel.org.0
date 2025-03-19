@@ -1,204 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-14644-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA8DA69813
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 19:31:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 045DDA6983C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 19:42:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08F5D3B2A60
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 18:31:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30C8119C2D48
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 18:42:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1243620B1E6;
-	Wed, 19 Mar 2025 18:31:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44A0C20DD63;
+	Wed, 19 Mar 2025 18:42:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cluq2FFP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ld5MSFqs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1F8207DF1;
-	Wed, 19 Mar 2025 18:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A3820D519;
+	Wed, 19 Mar 2025 18:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742409108; cv=none; b=k1EiJYY877N4u6MS2JTr1yPA8ZcQusEv0fOfFMNiXOHI66I8AxEnWg2QoOsDR4HYaSdfhIX86nrIGw63/tHNtDYndNEDlq4zKtEBnJjn9WEaKcOlN//O8P2UreXXKu3GhhIgg1Xwizx0CDsDkZagAU5mjU1B452Ebo6xAtFmOo4=
+	t=1742409736; cv=none; b=g4bBUyHcUTC/ziLkV8AkM1mlSlM1aQkyQk2B6s4thaUcPuZv9DrJ73yDkqKkRM1Xien/dFL79rpK8CBK0Hf2d7JyxBzNzLSzkIvhEjrcbtJSnpqfAlthQDIMbU75HfXpLok8t9eoCaYa8fDiIALAosY5X0yDz3eRGDvLUgRgfvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742409108; c=relaxed/simple;
-	bh=L5Iwrj7nj39EP2MOSWzeT/LiVK4+eFVjy5gDzPEekZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZYy2w34o9rxSlcCNK7XuvEIWxfDRc9OBeijLL7LKJkhU4FeKog6OV1SHyf88GSplbFwmENb6ujjGzTZeDvJiC0DW7lBENVA3xw62yAM/xY/7boJuCM7445Vi4hDOeAT0dIobEdBVt0TDCaq3FxQWploCclVgoOD4nfAkf2NJ3bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cluq2FFP; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742409107; x=1773945107;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=L5Iwrj7nj39EP2MOSWzeT/LiVK4+eFVjy5gDzPEekZA=;
-  b=cluq2FFPVFLTkmXx3CeP/npT0ZQzBUN5BmlPixiWaUqL4RjkTgXicvjM
-   y10vUmcpJklP+U/5swrbiiQHaP4aQvCExEsa/rxwcFgiqLYC46foNzT1z
-   kRRDHdvc0ZiULgo2c7NPvEDjZUE/ihZjMAik+H4kzNwfPNlWKMbpPtCKO
-   6SQA7GNytX2pWi3UZHhTAXlLhJLmVoL6SpJ0OyiYcLotYG54lTQzVWcDy
-   5otUbvoEUsaCzc2W2n0ltLCNWFBYdJs7HdUjaT2zIffmKqVrpF/hn/57L
-   VlFd9Fh/zeV1TGb/elTFcLmctqKyF/tGCKY1R2u97uwlk1R+YfwSBpqwx
-   w==;
-X-CSE-ConnectionGUID: vz+W3ZtnQZugAkNBYCHBqQ==
-X-CSE-MsgGUID: ze4I27ahTt2hYG9ctZaNUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="61010918"
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="61010918"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 11:31:46 -0700
-X-CSE-ConnectionGUID: XVHcttv8QLqk6z57OW9imw==
-X-CSE-MsgGUID: AiYHT9Z9SCyG0TQ4vG67kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="127824689"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Mar 2025 11:31:40 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tuyCY-000FbC-15;
-	Wed, 19 Mar 2025 18:31:38 +0000
-Date: Thu, 20 Mar 2025 02:30:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next v4 3/3] net: stmmac: Add DWMAC glue layer for
- Renesas GBETH
-Message-ID: <202503200200.WXMnn3Kq-lkp@intel.com>
-References: <20250318205735.122590-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1742409736; c=relaxed/simple;
+	bh=I8TM6U4W8E1iammAjKzrmGqfsegq1HYaLtvp0NJi83M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FKLdak/2FJCkcBZ5FzAi8JIegNl2IISgpwlrp/rEHjLyL08AQkgF6xYGXWwF0tAGon6SkNl5aMjC6OLs+Uotx1ItADCO8ehzLVcCyaMUQfRW4LcOkA9ki3lwjDjZ7Y2Cl3kJ/Z2qa6AsA/iUeY6LVVn+930yDFw4SBfHxu5IrMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ld5MSFqs; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-523de5611a3so2774487e0c.1;
+        Wed, 19 Mar 2025 11:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742409733; x=1743014533; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hP+M6BjbnhzzbbapwY22IG+UhaXnw6zzi5Vog24T5U4=;
+        b=ld5MSFqszmSA1qTSs+T2HJOf2JKcNJmW3xvek14f3XvphNFqkHzfIXfAwK8VnyVGqU
+         wlusAmrCZig+34xEW2bia8jisK7G77vd5O23aMMUR5S8LsTvoUgZd2o7uFgKs2ZFUk6N
+         WJVO0Blu3kfLwkRsGwOy/+zbxGICAKUnosj9QX+G++KhXvWhLNZWwTrqYI5jv1NKAOW/
+         0wgP8MjXGCFCEYivp4nhk3kt/oYWKEa2aWtCWM7rfq4sg6zdm5bjvdirNeX8lDdYfQW4
+         +KY0I4lsewxDfRRCgLR1fTcEd3sL2fQvvyU2cO4UmcE3cwkaij373gqw7IZV+LmyQdLK
+         hS4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742409733; x=1743014533;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hP+M6BjbnhzzbbapwY22IG+UhaXnw6zzi5Vog24T5U4=;
+        b=hZkhqNATW2UQ83ju4b9PAl5NQ1OPZDYW8uA3hKykhS3Fxa1Gzkq7S+cGbJ10BmzBkH
+         9Hl5pBjYBW61YfIuJzw+gJ+6pWcZDeOLHJQ3/0dm9RvPB2OxwLPYnGNPjC480a7b7a35
+         EUdohq6DU0De/xG1/Z6U5RpbglQhH8fC99MN3NhCvBW3nQfW7FBU4QNLNjDnZl+FVsE9
+         HTsGFoo2OWuGKb2D96w05b7u11zYlUyQyFvr9yfV8lUNxHrs5JBIWbVs9bSh1UgUuJ+0
+         fA4rCaHB7sGWuGyVgU9c4jN3QMBC1xdW+J8+zhmSHgrM9bDf7s2Rr3l+JZg1gBKjzA8j
+         bGcA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6OnUiaYHCVcYWA/e541NF9CX9JICJR5RT1iGX6zrNu3vASrYUmooAdcxDVxc7vmtJWH2KgnLx4DcgMBgo@vger.kernel.org, AJvYcCUsCgZvu6wBqEaqc6ziViaFjVFS/G2420PC/gTO+5HgCrtz2Rlll7fvD4dmi4Fxzt06c2+kHyWWxpYEl4EMSVIQ59I=@vger.kernel.org, AJvYcCUtqWhYD5xXLuJadofqV6YV1UFNhDlc7CvNAi+dVZ7MA4NEEyUbBY4C4fzWzjGDvEScRXg7zwrU33lr@vger.kernel.org, AJvYcCV6b7ta921hkIXB83ViKKmLQwOwxJWtRFMWQeoQRx5pz9KO0TZmBxhCvIydcczMf8PWR8K6TTuY@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuGdrec1T7p5tx1gHSmVVeFwbCeao4dHixOQp4hANRczMRprVr
+	er9fWYo46DFlf7ZGNLQuiB1og9D/x+bc+PcjWUev3jciH8wZ9lqcQWPtjCAqO/PEhVHiLqakpDE
+	7x9HhMw7fCs6XJpAVfHIL0ssF4q0=
+X-Gm-Gg: ASbGncsVjDr8ns4mMbutXkVgsNHJetwwgTaW/7XDlqbrGNIT1KwF4jzltKWK8LzYD0T
+	sweREj5ewcn5vo7QMxwOApZXZVmq+nCsFYHCoZvG3jZLr/wsDXx9AJPNMPyTB2DbWnQ5LTupDtW
+	tIRTZQdC0Pb1rplYRTZFS2q+xKQg==
+X-Google-Smtp-Source: AGHT+IGvmmYvRZxaQpwOlm5/g30RcEwknbFzXlIE4/QcXAc1CEJMRoTLbZCqsGvZk1+U/GCOf7N2MIXZXFeiDK2BB34=
+X-Received: by 2002:a05:6122:2a4c:b0:51f:4154:c1b2 with SMTP id
+ 71dfb90a1353d-52589135db4mr3735030e0c.2.1742409733365; Wed, 19 Mar 2025
+ 11:42:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250318205735.122590-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250318205735.122590-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <202503200200.WXMnn3Kq-lkp@intel.com>
+In-Reply-To: <202503200200.WXMnn3Kq-lkp@intel.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 19 Mar 2025 18:41:46 +0000
+X-Gm-Features: AQ5f1Jola8EJXzzsGPrnYQKrU1Z9ZvkepFcnYY4hn435lmQbHPiVJntqetDza0o
+Message-ID: <CA+V-a8seHo-ngtbnysXLVq47ob1QU8m61F1_5guekxE9wur_-Q@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 3/3] net: stmmac: Add DWMAC glue layer for
+ Renesas GBETH
+To: kernel test robot <lkp@intel.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, oe-kbuild-all@lists.linux.dev, 
+	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
+Hello,
 
-kernel test robot noticed the following build errors:
+On Wed, Mar 19, 2025 at 6:31=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Prabhakar,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on net-next/main]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/dt-bindi=
+ngs-net-dwmac-Increase-maxItems-for-interrupts-and-interrupt-names/20250319=
+-050021
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20250318205735.122590-4-prabhaka=
+r.mahadev-lad.rj%40bp.renesas.com
+> patch subject: [PATCH net-next v4 3/3] net: stmmac: Add DWMAC glue layer =
+for Renesas GBETH
+> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/202503=
+20/202503200200.WXMnn3Kq-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250320/202503200200.WXMnn3Kq-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202503200200.WXMnn3Kq-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c: In function=
+ 'renesas_gbeth_probe':
+> >> drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c:125:7: error=
+: 'STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP' undeclared (first use in this functio=
+n); did you mean 'STMMAC_FLAG_EN_TX_LPI_CLOCKGATING'?
+>           STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
+>           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>           STMMAC_FLAG_EN_TX_LPI_CLOCKGATING
+>    drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c:125:7: note:=
+ each undeclared identifier is reported only once for each function it appe=
+ars in
+>
+The dependent patch [0] has now merged into net-next.
 
-[auto build test ERROR on net-next/main]
+[0] https://web.git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git=
+/commit/?id=3D0c1f1eb65425
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/dt-bindings-net-dwmac-Increase-maxItems-for-interrupts-and-interrupt-names/20250319-050021
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250318205735.122590-4-prabhakar.mahadev-lad.rj%40bp.renesas.com
-patch subject: [PATCH net-next v4 3/3] net: stmmac: Add DWMAC glue layer for Renesas GBETH
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250320/202503200200.WXMnn3Kq-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200200.WXMnn3Kq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503200200.WXMnn3Kq-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c: In function 'renesas_gbeth_probe':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c:125:7: error: 'STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP' undeclared (first use in this function); did you mean 'STMMAC_FLAG_EN_TX_LPI_CLOCKGATING'?
-          STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          STMMAC_FLAG_EN_TX_LPI_CLOCKGATING
-   drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c:125:7: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +125 drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
-
-    72	
-    73	static int renesas_gbeth_probe(struct platform_device *pdev)
-    74	{
-    75		struct plat_stmmacenet_data *plat_dat;
-    76		struct stmmac_resources stmmac_res;
-    77		struct device *dev = &pdev->dev;
-    78		struct renesas_gbeth *gbeth;
-    79		unsigned int i;
-    80		int err;
-    81	
-    82		err = stmmac_get_platform_resources(pdev, &stmmac_res);
-    83		if (err)
-    84			return dev_err_probe(dev, err,
-    85					     "failed to get resources\n");
-    86	
-    87		plat_dat = devm_stmmac_probe_config_dt(pdev, stmmac_res.mac);
-    88		if (IS_ERR(plat_dat))
-    89			return dev_err_probe(dev, PTR_ERR(plat_dat),
-    90					     "dt configuration failed\n");
-    91	
-    92		gbeth = devm_kzalloc(dev, sizeof(*gbeth), GFP_KERNEL);
-    93		if (!gbeth)
-    94			return -ENOMEM;
-    95	
-    96		plat_dat->num_clks = ARRAY_SIZE(renesas_gbeth_clks);
-    97		plat_dat->clks = devm_kcalloc(dev, plat_dat->num_clks,
-    98					      sizeof(*plat_dat->clks), GFP_KERNEL);
-    99		if (!plat_dat->clks)
-   100			return -ENOMEM;
-   101	
-   102		for (i = 0; i < plat_dat->num_clks; i++)
-   103			plat_dat->clks[i].id = renesas_gbeth_clks[i];
-   104	
-   105		err = devm_clk_bulk_get(dev, plat_dat->num_clks, plat_dat->clks);
-   106		if (err < 0)
-   107			return err;
-   108	
-   109		plat_dat->clk_tx_i = renesas_gbeth_find_clk(plat_dat, "tx");
-   110		if (!plat_dat->clk_tx_i)
-   111			return dev_err_probe(dev, -EINVAL,
-   112					     "error finding tx clock\n");
-   113	
-   114		gbeth->rstc = devm_reset_control_get_exclusive(dev, NULL);
-   115		if (IS_ERR(gbeth->rstc))
-   116			return PTR_ERR(gbeth->rstc);
-   117	
-   118		gbeth->dev = dev;
-   119		gbeth->regs = stmmac_res.addr;
-   120		gbeth->plat_dat = plat_dat;
-   121		plat_dat->bsp_priv = gbeth;
-   122		plat_dat->set_clk_tx_rate = stmmac_set_clk_tx_rate;
-   123		plat_dat->clks_config = renesas_gbeth_clks_config;
-   124		plat_dat->flags |= STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY |
- > 125				   STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
-   126				   STMMAC_FLAG_SPH_DISABLE;
-   127	
-   128		err = renesas_gbeth_clks_config(gbeth, true);
-   129		if (err)
-   130			return err;
-   131	
-   132		err = stmmac_dvr_probe(dev, plat_dat, &stmmac_res);
-   133		if (err)
-   134			renesas_gbeth_clks_config(gbeth, false);
-   135	
-   136		return err;
-   137	}
-   138	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Prabhakar
 
