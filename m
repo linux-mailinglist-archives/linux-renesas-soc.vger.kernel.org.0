@@ -1,154 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-14645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045DDA6983C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 19:42:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86146A69ABF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 22:22:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30C8119C2D48
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 18:42:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B7BA3189BD04
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 21:22:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44A0C20DD63;
-	Wed, 19 Mar 2025 18:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3132E2135DE;
+	Wed, 19 Mar 2025 21:22:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ld5MSFqs"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WsRbTkXh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A3820D519;
-	Wed, 19 Mar 2025 18:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F0419259E
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Mar 2025 21:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742409736; cv=none; b=g4bBUyHcUTC/ziLkV8AkM1mlSlM1aQkyQk2B6s4thaUcPuZv9DrJ73yDkqKkRM1Xien/dFL79rpK8CBK0Hf2d7JyxBzNzLSzkIvhEjrcbtJSnpqfAlthQDIMbU75HfXpLok8t9eoCaYa8fDiIALAosY5X0yDz3eRGDvLUgRgfvI=
+	t=1742419323; cv=none; b=tCXcr3ZIWkmcs7vnPG1chRQFHD3uMeFAaVWdbwjpnhxkdhevduMtMtPk8TKc7/BtUg7huFK6Z5i0Dbohb4DCHaakKiTpTqGpoZHYFmW+fUOUISwrrgOZmvgZyF7BnQv4d3WWhbNOm0o+KgQU5G3eKUe7Zz9JqbwNFiJQUfJztF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742409736; c=relaxed/simple;
-	bh=I8TM6U4W8E1iammAjKzrmGqfsegq1HYaLtvp0NJi83M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FKLdak/2FJCkcBZ5FzAi8JIegNl2IISgpwlrp/rEHjLyL08AQkgF6xYGXWwF0tAGon6SkNl5aMjC6OLs+Uotx1ItADCO8ehzLVcCyaMUQfRW4LcOkA9ki3lwjDjZ7Y2Cl3kJ/Z2qa6AsA/iUeY6LVVn+930yDFw4SBfHxu5IrMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ld5MSFqs; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-523de5611a3so2774487e0c.1;
-        Wed, 19 Mar 2025 11:42:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742409733; x=1743014533; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hP+M6BjbnhzzbbapwY22IG+UhaXnw6zzi5Vog24T5U4=;
-        b=ld5MSFqszmSA1qTSs+T2HJOf2JKcNJmW3xvek14f3XvphNFqkHzfIXfAwK8VnyVGqU
-         wlusAmrCZig+34xEW2bia8jisK7G77vd5O23aMMUR5S8LsTvoUgZd2o7uFgKs2ZFUk6N
-         WJVO0Blu3kfLwkRsGwOy/+zbxGICAKUnosj9QX+G++KhXvWhLNZWwTrqYI5jv1NKAOW/
-         0wgP8MjXGCFCEYivp4nhk3kt/oYWKEa2aWtCWM7rfq4sg6zdm5bjvdirNeX8lDdYfQW4
-         +KY0I4lsewxDfRRCgLR1fTcEd3sL2fQvvyU2cO4UmcE3cwkaij373gqw7IZV+LmyQdLK
-         hS4Q==
+	s=arc-20240116; t=1742419323; c=relaxed/simple;
+	bh=e04yedQXmFV0fUEoy3MX7U7nXzBv7zCj3PD8JoIkGng=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rzFCFsqWDT/X9R/Ik2EHfEkTrzTJzIfZ2NujfP4C6vZ557ralkRELSGcB7mI9QgmHO4wXLba5MF7ivqCo6+4Vtu3FtYV4HxSPOkgdMaDOM/FBGkBUtQYBO6ne2mBwo3/dY9YchA37rJhRqxxXB648QPCkYLU49PmyKO8kXE1sZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WsRbTkXh; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742419320;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cDWNLxb1CzYSCvOOKpH+bW9L/oTxpk65TwCMBk+ej2A=;
+	b=WsRbTkXhg2r70SIJj/keiW2QlSxdbOvCgUWgZNFwkCizx08Z1FQtOZibh7lNRFP15f/X5B
+	no6ADqIWnyhw85DAqbPG2f3j1GM4dpJkYWoRoEAWkC/8OU61OM5VO4jzD+RMvt+QjbWZSj
+	gjxsuhZgqavecdgFulJgsFyA/DeEuvA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-621-yTVfymr_MKW_WxI40KDTHQ-1; Wed, 19 Mar 2025 17:21:59 -0400
+X-MC-Unique: yTVfymr_MKW_WxI40KDTHQ-1
+X-Mimecast-MFC-AGG-ID: yTVfymr_MKW_WxI40KDTHQ_1742419318
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-39143311936so28218f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Mar 2025 14:21:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742409733; x=1743014533;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hP+M6BjbnhzzbbapwY22IG+UhaXnw6zzi5Vog24T5U4=;
-        b=hZkhqNATW2UQ83ju4b9PAl5NQ1OPZDYW8uA3hKykhS3Fxa1Gzkq7S+cGbJ10BmzBkH
-         9Hl5pBjYBW61YfIuJzw+gJ+6pWcZDeOLHJQ3/0dm9RvPB2OxwLPYnGNPjC480a7b7a35
-         EUdohq6DU0De/xG1/Z6U5RpbglQhH8fC99MN3NhCvBW3nQfW7FBU4QNLNjDnZl+FVsE9
-         HTsGFoo2OWuGKb2D96w05b7u11zYlUyQyFvr9yfV8lUNxHrs5JBIWbVs9bSh1UgUuJ+0
-         fA4rCaHB7sGWuGyVgU9c4jN3QMBC1xdW+J8+zhmSHgrM9bDf7s2Rr3l+JZg1gBKjzA8j
-         bGcA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6OnUiaYHCVcYWA/e541NF9CX9JICJR5RT1iGX6zrNu3vASrYUmooAdcxDVxc7vmtJWH2KgnLx4DcgMBgo@vger.kernel.org, AJvYcCUsCgZvu6wBqEaqc6ziViaFjVFS/G2420PC/gTO+5HgCrtz2Rlll7fvD4dmi4Fxzt06c2+kHyWWxpYEl4EMSVIQ59I=@vger.kernel.org, AJvYcCUtqWhYD5xXLuJadofqV6YV1UFNhDlc7CvNAi+dVZ7MA4NEEyUbBY4C4fzWzjGDvEScRXg7zwrU33lr@vger.kernel.org, AJvYcCV6b7ta921hkIXB83ViKKmLQwOwxJWtRFMWQeoQRx5pz9KO0TZmBxhCvIydcczMf8PWR8K6TTuY@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuGdrec1T7p5tx1gHSmVVeFwbCeao4dHixOQp4hANRczMRprVr
-	er9fWYo46DFlf7ZGNLQuiB1og9D/x+bc+PcjWUev3jciH8wZ9lqcQWPtjCAqO/PEhVHiLqakpDE
-	7x9HhMw7fCs6XJpAVfHIL0ssF4q0=
-X-Gm-Gg: ASbGncsVjDr8ns4mMbutXkVgsNHJetwwgTaW/7XDlqbrGNIT1KwF4jzltKWK8LzYD0T
-	sweREj5ewcn5vo7QMxwOApZXZVmq+nCsFYHCoZvG3jZLr/wsDXx9AJPNMPyTB2DbWnQ5LTupDtW
-	tIRTZQdC0Pb1rplYRTZFS2q+xKQg==
-X-Google-Smtp-Source: AGHT+IGvmmYvRZxaQpwOlm5/g30RcEwknbFzXlIE4/QcXAc1CEJMRoTLbZCqsGvZk1+U/GCOf7N2MIXZXFeiDK2BB34=
-X-Received: by 2002:a05:6122:2a4c:b0:51f:4154:c1b2 with SMTP id
- 71dfb90a1353d-52589135db4mr3735030e0c.2.1742409733365; Wed, 19 Mar 2025
- 11:42:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742419318; x=1743024118;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cDWNLxb1CzYSCvOOKpH+bW9L/oTxpk65TwCMBk+ej2A=;
+        b=wBCJDly72ntL9rf4SemITmathug4HiBrrmiOjphVtYYITRHc9FEBmCAnhFCvcRun+V
+         DnwthmgP6aRwH8C5hOw78QcAI+X46F7ftLXSmPaDhgQCNUNcKkegdfyd5E+NTgThyOnS
+         uyhiit3J4QR+KX2HpbXWTpf7wS7fSo7640Fv+5AC3TAib2HrdsteQ158HvUky2UWAWC8
+         zVviXyUrHTWNPUkI7nxrraSvL9y4cdbeHzMNf+yMxyxe4tFoETfMu7RtCdyucvDwPV6q
+         k51HgOcDbtZQ9kkuzsb3m+Nil6YfEt/z+/TAEFI8AocJWrVqDaYeIHnm+0TFxidl0DWu
+         r+sg==
+X-Forwarded-Encrypted: i=1; AJvYcCULTfbT4g8GBvFdmWB3BWFAvfL6MNVA0djmAr7gfNF9H5wglGMWVuph8DuMW3tkSnlU0GdBPB2KjDnV8tJoh8lPUA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yydsp5uy0o/jgDmm6ni6Yz58ZT9OtkgrY8ItLxbmxxj4rVHPKG/
+	4esslDCn2pWq5f7161dB2NBbHghHv5GaTjTRXtGMnuTHSMXZ14z5HBEPC96BqZRT+yHLu0EmEDT
+	UVxKTjoeCmjMaShIyQ5SRZJKsiZL9lRF9pfXIc3Uie8F42MuAIf5g1Lc96sjxw3H96GTJ
+X-Gm-Gg: ASbGncu8pv8727/ahxZ9I7wo5odhRzmSm0+oj3awTgHfD/vsMkWFVoXCjN9JAc2mMYv
+	HIJEnl/2tLYJomH3Gwil57TDURmzNlVvUuuQCGNtNh5QM/FTGi2CN2KlENA0VvyIYyr2P+9QAXZ
+	Pgnp4T6pWlEFx7IzDsJ2ncM/ekG6qGv3tuxVcg2XuWzxhudwOgta0yFXFThoraeuJtMWoNPAxO4
+	h80vtAIkYLyJt74a+IacfehEjltTbR3nCbaEeCZcjvTEtvj9ZE71jm/Yl9WYceW0B4t8tDIsXAc
+	JwLj2oafktLGxMtKwLNmA0MyhjkDX5s1QT3Qx94H+3A+WA==
+X-Received: by 2002:a5d:47af:0:b0:391:10c5:d1a8 with SMTP id ffacd0b85a97d-399739b4417mr4041374f8f.6.1742419317810;
+        Wed, 19 Mar 2025 14:21:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEaLSnhNgHajpagGDMQ1+5o7+6Po7P4WxyuDoDHztzaTcHpWdvzD63DxuxxFMe7m0VyNcvBCQ==
+X-Received: by 2002:a5d:47af:0:b0:391:10c5:d1a8 with SMTP id ffacd0b85a97d-399739b4417mr4041347f8f.6.1742419317363;
+        Wed, 19 Mar 2025 14:21:57 -0700 (PDT)
+Received: from [192.168.88.253] (146-241-10-172.dyn.eolo.it. [146.241.10.172])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb7e9f8asm21826669f8f.81.2025.03.19.14.21.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Mar 2025 14:21:56 -0700 (PDT)
+Message-ID: <4cfeb80e-8799-44dc-9b8b-7b7e0e329541@redhat.com>
+Date: Wed, 19 Mar 2025 22:21:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250318205735.122590-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <202503200200.WXMnn3Kq-lkp@intel.com>
-In-Reply-To: <202503200200.WXMnn3Kq-lkp@intel.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 19 Mar 2025 18:41:46 +0000
-X-Gm-Features: AQ5f1Jola8EJXzzsGPrnYQKrU1Z9ZvkepFcnYY4hn435lmQbHPiVJntqetDza0o
-Message-ID: <CA+V-a8seHo-ngtbnysXLVq47ob1QU8m61F1_5guekxE9wur_-Q@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 3/3] net: stmmac: Add DWMAC glue layer for
- Renesas GBETH
-To: kernel test robot <lkp@intel.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, 
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, oe-kbuild-all@lists.linux.dev, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v2 0/5] net: ptp: fix egregious supported flag checks
+To: Jacob Keller <jacob.e.keller@intel.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Richard Cochran
+ <richardcochran@gmail.com>, Ruud Bos <kernel.hbk@gmail.com>,
+ Paul Barker <paul.barker.ct@bp.renesas.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Bryan Whitehead <bryan.whitehead@microchip.com>,
+ UNGLinuxDriver@microchip.com,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Lasse Johnsen <l@ssejohnsen.me>, Vadim Fedorenko
+ <vadim.fedorenko@linux.dev>,
+ Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
+Cc: intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250312-jk-net-fixes-supported-extts-flags-v2-0-ea930ba82459@intel.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250312-jk-net-fixes-supported-extts-flags-v2-0-ea930ba82459@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 3/12/25 11:15 PM, Jacob Keller wrote:
+> In preparation for adding .supported_extts_flags and
+> .supported_perout_flags to the ptp_clock_info structure, fix a couple of
+> places where drivers get existing flag gets grossly incorrect.
+> 
+> The igb driver claims 82580 supports strictly validating PTP_RISING_EDGE
+> and PTP_FALLING_EDGE, but doesn't actually check the flags. Fix the driver
+> to require that the request match both edges, as this is implied by the
+> datasheet description.
+> 
+> The renesas driver also claims to support strict flag checking, but does
+> not actually check the flags either. I do not have the data sheet for this
+> device, so I do not know what edge it timestamps. For simplicity, just
+> reject all requests with PTP_STRICT_FLAGS. This essentially prevents the
+> PTP_EXTTS_REQUEST2 ioctl from working. Updating to correctly validate the
+> flags will require someone who has the hardware to confirm the behavior.
+> 
+> The lan743x driver supports (and strictly validates) that the request is
+> either PTP_RISING_EDGE or PTP_FALLING_EDGE but not both. However, it does
+> not check the flags are one of the known valid flags. Thus, requests for
+> PTP_EXT_OFF (and any future flag) will be accepted and misinterpreted. Add
+> the appropriate check to reject unsupported PTP_EXT_OFF requests and future
+> proof against new flags.
+> 
+> The broadcom PHY driver checks that PTP_PEROUT_PHASE is not set. This
+> appears to be an attempt at rejecting unsupported flags. It is not robust
+> against flag additions such as the PTP_PEROUT_ONE_SHOT, or anything added
+> in the future. Fix this by instead checking against the negation of the
+> supported PTP_PEROUT_DUTY_CYCLE instead.
+> 
+> The ptp_ocp driver supports PTP_PEROUT_PHASE and PTP_PEROUT_DUTY_CYCLE, but
+> does not check unsupported flags. Add the appropriate check to ensure
+> PTP_PEROUT_ONE_SHOT and any future flags are rejected as unsupported.
+> 
+> These are changes compile-tested, but I do not have hardware to validate the
+> behavior.
+> 
+> There are a number of other drivers which enable periodic output or
+> external timestamp requests, but which do not check flags at all. We could
+> go through each of these drivers one-by-one and meticulously add a flag
+> check. Instead, these drivers will be covered only by the upcoming
+> .supported_extts_flags and .supported_perout_flags checks in a net-next
+> series.
+> 
+> Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
 
-On Wed, Mar 19, 2025 at 6:31=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Prabhakar,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on net-next/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/dt-bindi=
-ngs-net-dwmac-Increase-maxItems-for-interrupts-and-interrupt-names/20250319=
--050021
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20250318205735.122590-4-prabhaka=
-r.mahadev-lad.rj%40bp.renesas.com
-> patch subject: [PATCH net-next v4 3/3] net: stmmac: Add DWMAC glue layer =
-for Renesas GBETH
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/202503=
-20/202503200200.WXMnn3Kq-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250320/202503200200.WXMnn3Kq-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503200200.WXMnn3Kq-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c: In function=
- 'renesas_gbeth_probe':
-> >> drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c:125:7: error=
-: 'STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP' undeclared (first use in this functio=
-n); did you mean 'STMMAC_FLAG_EN_TX_LPI_CLOCKGATING'?
->           STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
->           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->           STMMAC_FLAG_EN_TX_LPI_CLOCKGATING
->    drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c:125:7: note:=
- each undeclared identifier is reported only once for each function it appe=
-ars in
->
-The dependent patch [0] has now merged into net-next.
+I admit I'm the most significant source of latency, but this series is
+IMHO a bit risky to land this late in the cycle in the net tree,
+especially considering the lack of H/W testing for the BCM phy.
 
-[0] https://web.git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git=
-/commit/?id=3D0c1f1eb65425
+What about applying this to net-next instead?
 
-Cheers,
-Prabhakar
+Thanks,
+
+Paolo
+
 
