@@ -1,186 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-14616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14618-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FE0A68A83
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 12:04:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E8FA68BA8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 12:31:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C5D4519C5A8A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 11:03:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 786D51884A91
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 11:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36FFF253F23;
-	Wed, 19 Mar 2025 11:03:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E938225334A;
+	Wed, 19 Mar 2025 11:28:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Xwz3EoJd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tOpfNvWp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237B9253B60
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Mar 2025 11:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB351E1E11;
+	Wed, 19 Mar 2025 11:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742382198; cv=none; b=f4iw2fYExqcLjZmdjSLU0nFWYQafSeLHUVGPRhJDjlLth0iyYrUD4svlGtLu6dygoC4p48K7kMfC+JCdI/mh8I2ojCEti+6sxA743i58BABfatG4DFcIQwhaRKRYNPrv5N4tibSMFqwfbNsPQe4LZNtMeorj5GV+av8vlYhGmI8=
+	t=1742383707; cv=none; b=CUX9Eko6TcUsdOZ/Zs+fC+IpWJWkYB+phwVwLz0FX8egSqMHkCC0ttqU17jTYnfsg9fmZUiR14ZzS5J0/vh46BDzU4UW2YG/nKys+74XkZCfvz9T/nk1UZ/eKi1IKRpOqTK9pJo3YHmlR/RFCRjaR5NRdg9k/s69B56i1NGXbgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742382198; c=relaxed/simple;
-	bh=EGM2FZP7Zhcbi4zhfO5tysAJCQT95PnyWXQiDUAksIE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=seLevxYwXKSyyJ8JkggNO61kZ8Tc1BSEgrVQwO72M2C0r+1ZeyIrwtPx6V7cLpt+3pU45ilJu75Avf496ZK43mLu1N7wyY0Zl4+hjQOzBCn9kk+O71zczyajoiwIM4IA5YNAar12ptA789Y1yvDienghShSl7EhLV3wxW7rVQ6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Xwz3EoJd; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=756xis8oO3h/yTcbaLuD6IPizh01Kfz9ozXiWofJ6TE=; b=Xwz3Eo
-	Jdt8PrjfzO/ErFbHpGeNG8xrSPTDfs9J1h0EFLZ0rj/Q34gzbGa06yOAQ2e9V6AW
-	Ioiyx/gMjTMslCueFtaX7/FNsAFEf19S5e/FsjJB0ervXyRPM+7FI7GS5cPiU253
-	jZrAXJnRS2O6RURNe95rzVsAM3Cwy0AOPD8YBXXLR1LF+9ZDf+xzGxeEeJOqyG0M
-	IeZdlYQn/ZcPZYGqmCOCIuZO0ViPoIoYZL+NOkNWTnQRY7lVB9oFVJoPZyJj3jfA
-	UxHBGllTRSKGTJ0Zusw8vqEFb4wYL1fn/zFoFmXP/I8gLiOZLMvfAIow7Q6NZyVl
-	2mP0HWZxlC2i1U+w==
-Received: (qmail 81885 invoked from network); 19 Mar 2025 12:03:14 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Mar 2025 12:03:14 +0100
-X-UD-Smtp-Session: l3s3148p1@8Ry4968wBL0gAwDPXyTHAJp038nK7dx+
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: [PATCH 3/3] rtc: rzn1: support input frequencies other than 32768Hz
-Date: Wed, 19 Mar 2025 12:03:04 +0100
-Message-ID: <20250319110305.19687-4-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250319110305.19687-1-wsa+renesas@sang-engineering.com>
-References: <20250319110305.19687-1-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1742383707; c=relaxed/simple;
+	bh=4l1nbqfl/Z9DhYcOlNvzUWzMTbQcHY2vNoLRdgdG+4s=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nPM0p8zVMGQgM/VzT9iM3TW0y6PGOrKK3AY9VgN5/unnLDcqW3oU5TtDnc/cpZ2kQsgeqgvnNoa5w6aVAf/+ta3uJSssN/amUQGWAJIhX8IzfX02jRazzNSXxyhEnwFkOY3eW4TOsuIiWYaVaLRKD40AztrwA+mAaoclh9eLU7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tOpfNvWp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.102] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1AD3A22F;
+	Wed, 19 Mar 2025 12:26:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742383601;
+	bh=4l1nbqfl/Z9DhYcOlNvzUWzMTbQcHY2vNoLRdgdG+4s=;
+	h=From:Subject:Date:To:Cc:From;
+	b=tOpfNvWpbzvgy+TkteDCJ5GVOpYC5YBwKRbbshC1e6Lq5KRZKocVo7e2CQuOQOcNe
+	 4P6Ztis5+b52TunXyYDadXPlgFMtcgrs4q1FHV4z+VLfp7D8/2yhZgk9Ssj3g4V7to
+	 Ifn1z7KFQMxCdGbEzvD0oh+awXWYTpOAQUvK0nkY=
+From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: [PATCH v5 0/7] media: renesas: vsp1: Add support for IIF
+Date: Wed, 19 Mar 2025 12:28:13 +0100
+Message-Id: <20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE2q2mcC/3XMQY4CIRCF4asY1oOhCtDGlfcws6Ch2q7FNAYMc
+ WL67oNumERdvkp9/10UykxFHDZ3kaly4bS0Yb82Isx+OZPk2LZAhVYBalnNLJkn6SFGvzMqOBt
+ F+75kmvj2LJ2+2565XFP+fYYrPK6vjQpSyf1oyKJzTrvpyJF8ScuYfI7bkH7EI1Wxc0TTOTaut
+ LKkA0yE8QPXnWvYd64b32nvx8ENOFr1gZv/fOjcNA6KogkGAjj7hq/r+gefZRLDYgEAAA==
+X-Change-ID: 20250123-v4h-iif-a1dda640c95d
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, 
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: b4 0.15-dev-1b0d6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2832;
+ i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=4l1nbqfl/Z9DhYcOlNvzUWzMTbQcHY2vNoLRdgdG+4s=;
+ b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBn2qpW1t1vB9zbqRF4InUzz1fOCeQRAg4QUd2G7
+ B/eYQUDP1CJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ9qqVgAKCRByNAaPFqFW
+ PK6pD/9X0mgdk7XVGgK+Lw7Zo1AjtVYC5Yl1p31QOliNXnIZaoUwTSZglodoCR1BeDfX25hpKKT
+ ShDSdYo1NzfpVSkvU7c+zM58TC/jK/E/cQg7LUwpmMrJeK8zmIRVwbtNvu/m7o3CXjRENpnje3E
+ E9nNwlZxsqY93K1mizRKwujiCG8LwdoJzIo/+WWGRwDN/oHdlxoPCl2yoSdOk/F6bIiGV+wGfbp
+ UBtCLh5QuWgt0popXhpZn6B1GxSb+xdP43V/qKtg152mx2jFB3BtJg1qCUeRYucDwrloNESlspB
+ jOWNcj6A/ZiT+Z1knDDgsQxnARmDQvbGM4FpXi/qHZz4goUnXq/8whvsTatiGB3QT6nWdgRNxv6
+ NtYdr91ioxIVD8aAiTPGNF1mCxnLxp/4kMg19/TMrnBYkvKq17orWZctCHJnAH4o2cVOgQ6Seb8
+ u08NIjh56CAWL2G48lmxQ1s6oGcGh65GITE0qkZmCmZa2elgeo/EZxzTSujcC0CVHJTXYO81ywm
+ gQqwEt9wMzJuJgyje3Taoke57KGXlm19M1Unl0lszdOx4TBypVZp9pOGijwQ4KdjoAYPxO0F8Mf
+ bAGaTxKIv8kv6jhf6qi6O5ihipj8x70zvsIrv34Rda2bBn5e1rx0qZoREGtWxHV7+dcrGLmgBgD
+ RHiaLFWoFHhKxhA==
+X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-When using the SCMP mode instead of SUBU, this RTC can also support
-other input frequencies than 32768Hz. Also, upcoming SoCs will only
-support SCMP.
+The IIF (ISP InterFace) is a VSP2 function that reads data from
+external memory using two RPF instances and feed it to the ISP.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+The IIF support is modeled in the vsp1 driver as a new, simple,
+entity type.
+
+IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
+interfacing. To prepare to support VSPX, support IIF first by
+introducing a new entity and by adjusting the RPF/WPF drivers to
+operate correctly when an IIF is present.
+
+Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 ---
- drivers/rtc/rtc-rzn1.c | 51 +++++++++++++++++++++++++++++++-----------
- 1 file changed, 38 insertions(+), 13 deletions(-)
+Changes in v5:
+- Drop additional empty line 5/6
+- Link to v4: https://lore.kernel.org/r/20250318-v4h-iif-v4-0-10ed4c41c195@ideasonboard.com
 
-diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-index 7777df1e3426..47ab62d5380e 100644
---- a/drivers/rtc/rtc-rzn1.c
-+++ b/drivers/rtc/rtc-rzn1.c
-@@ -12,6 +12,7 @@
-  */
- 
- #include <linux/bcd.h>
-+#include <linux/clk.h>
- #include <linux/init.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
-@@ -22,7 +23,6 @@
- #include <linux/spinlock.h>
- 
- #define RZN1_RTC_CTL0 0x00
--#define   RZN1_RTC_CTL0_SLSB_SUBU 0
- #define   RZN1_RTC_CTL0_SLSB_SCMP BIT(4)
- #define   RZN1_RTC_CTL0_AMPM BIT(5)
- #define   RZN1_RTC_CTL0_CEST BIT(6)
-@@ -50,6 +50,8 @@
- #define   RZN1_RTC_SUBU_DEV BIT(7)
- #define   RZN1_RTC_SUBU_DECR BIT(6)
- 
-+#define RZN1_RTC_SCMP 0x3c
-+
- #define RZN1_RTC_ALM 0x40
- #define RZN1_RTC_ALH 0x44
- #define RZN1_RTC_ALW 0x48
-@@ -357,22 +359,21 @@ static int rzn1_rtc_set_offset(struct device *dev, long offset)
- 	return 0;
- }
- 
--static const struct rtc_class_ops rzn1_rtc_ops = {
-+static struct rtc_class_ops rzn1_rtc_ops = {
- 	.read_time = rzn1_rtc_read_time,
- 	.set_time = rzn1_rtc_set_time,
- 	.read_alarm = rzn1_rtc_read_alarm,
- 	.set_alarm = rzn1_rtc_set_alarm,
- 	.alarm_irq_enable = rzn1_rtc_alarm_irq_enable,
--	.read_offset = rzn1_rtc_read_offset,
--	.set_offset = rzn1_rtc_set_offset,
- };
- 
- static int rzn1_rtc_probe(struct platform_device *pdev)
- {
- 	struct rzn1_rtc *rtc;
--	u32 val;
--	int irq;
--	int ret;
-+	u32 val, use_scmp = 0;
-+	struct clk *xtal;
-+	unsigned long rate;
-+	int irq, ret;
- 
- 	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
- 	if (!rtc)
-@@ -404,10 +405,24 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		return ret;
- 
--	/*
--	 * Ensure the clock counter is enabled.
--	 * Set 24-hour mode and possible oscillator offset compensation in SUBU mode.
--	 */
-+	/* Only switch to scmp if we have an xtal clock with a valid rate and != 32768 */
-+	xtal = devm_clk_get_optional(&pdev->dev, "xtal");
-+	if (IS_ERR(xtal)) {
-+		ret = PTR_ERR(xtal);
-+		goto dis_runtime_pm;
-+	} else if (xtal) {
-+		rate = clk_get_rate(xtal);
-+
-+		if (rate < 32000 || rate > BIT(22)) {
-+			ret = -EOPNOTSUPP;
-+			goto dis_runtime_pm;
-+		}
-+
-+		if (rate != 32768)
-+			use_scmp = RZN1_RTC_CTL0_SLSB_SCMP;
-+	}
-+
-+	/* Disable controller during SUBU/SCMP setup */
- 	val = readl(rtc->base + RZN1_RTC_CTL0) & ~RZN1_RTC_CTL0_CE;
- 	writel(val, rtc->base + RZN1_RTC_CTL0);
- 	/* Wait 2-4 32k clock cycles for the disabled controller */
-@@ -416,8 +431,18 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto dis_runtime_pm;
- 
--	writel(RZN1_RTC_CTL0_CE | RZN1_RTC_CTL0_AMPM | RZN1_RTC_CTL0_SLSB_SUBU,
--	       rtc->base + RZN1_RTC_CTL0);
-+	/* Set desired modes leaving the controller disabled */
-+	writel(RZN1_RTC_CTL0_AMPM | use_scmp, rtc->base + RZN1_RTC_CTL0);
-+
-+	if (use_scmp) {
-+		writel(rate - 1, rtc->base + RZN1_RTC_SCMP);
-+	} else {
-+		rzn1_rtc_ops.read_offset = rzn1_rtc_read_offset;
-+		rzn1_rtc_ops.set_offset = rzn1_rtc_set_offset;
-+	}
-+
-+	/* Enable controller finally */
-+	writel(RZN1_RTC_CTL0_CE | RZN1_RTC_CTL0_AMPM | use_scmp, rtc->base + RZN1_RTC_CTL0);
- 
- 	/* Disable all interrupts */
- 	writel(0, rtc->base + RZN1_RTC_CTL1);
+Changes in v4:
+- Fix SWAP bits for RAW10, RAW12 and RAW16
+- Link to v3: https://lore.kernel.org/r/20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com
+
+Changes in v3:
+- Drop 2/6 from v2
+- Add 5/7 to prepare for a new implementation of 6/7
+- Individual changelog per patch
+- Add 7/7
+- Link to v2: https://lore.kernel.org/r/20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com
+
+Changes in v2:
+- Collect tags
+- Address review comments from Laurent, a lot of tiny changes here and
+  there but no major redesign worth an entry in the patchset changelog
+
+---
+Jacopo Mondi (7):
+      media: vsp1: Add support IIF ISP Interface
+      media: vsp1: dl: Use singleshot DL for VSPX
+      media: vsp1: rwpf: Break out format handling
+      media: vsp1: wpf: Propagate vsp1_rwpf_init_ctrls()
+      media: vsp1: rwpf: Initialize image formats
+      media: vsp1: rwpf: Support operations with IIF
+      media: vsp1: pipe: Add RAW Bayer formats mapping
+
+ drivers/media/platform/renesas/vsp1/Makefile      |   2 +-
+ drivers/media/platform/renesas/vsp1/vsp1.h        |   3 +
+ drivers/media/platform/renesas/vsp1/vsp1_dl.c     |   7 +-
+ drivers/media/platform/renesas/vsp1/vsp1_drv.c    |  11 ++
+ drivers/media/platform/renesas/vsp1/vsp1_entity.c |   8 ++
+ drivers/media/platform/renesas/vsp1/vsp1_entity.h |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_iif.c    | 121 ++++++++++++++++++++++
+ drivers/media/platform/renesas/vsp1/vsp1_iif.h    |  26 +++++
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.c   |  73 ++++++++++++-
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.h   |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_regs.h   |   8 ++
+ drivers/media/platform/renesas/vsp1/vsp1_rpf.c    |  18 +++-
+ drivers/media/platform/renesas/vsp1/vsp1_rwpf.c   |  91 ++++++++++++++--
+ drivers/media/platform/renesas/vsp1/vsp1_rwpf.h   |   4 +
+ drivers/media/platform/renesas/vsp1/vsp1_wpf.c    |  31 ++++--
+ 15 files changed, 380 insertions(+), 25 deletions(-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20250123-v4h-iif-a1dda640c95d
+
+Best regards,
 -- 
-2.47.2
+Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
 
