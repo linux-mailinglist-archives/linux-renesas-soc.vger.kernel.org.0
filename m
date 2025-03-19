@@ -1,240 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-14640-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14641-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C85A69339
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 16:25:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6CBA693AD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 16:38:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C0A63A3195
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 15:19:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A71CB17490F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Mar 2025 15:36:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A76051BD9C6;
-	Wed, 19 Mar 2025 15:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="reZMeO2s"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A3EF1C3308;
+	Wed, 19 Mar 2025 15:36:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F201957FF;
-	Wed, 19 Mar 2025 15:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A741C3BE1;
+	Wed, 19 Mar 2025 15:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742397570; cv=none; b=epL31AX810anhh2ShcrbhSLAdXcL2rGmJrwyoY+Gp369iR1unGjmw2L4WG/ikCoaIKtYaw6l4g/gScIgE0duq5FXwucq60Yv1rclB34ooHrBpHzVsaI2fh98DpUOYCmRW6tjr7pfGGKO0T05S5uSdEgREGurYx52uIjqDWUaTvE=
+	t=1742398573; cv=none; b=UvGPLIup5TKkApw971jP39G4WAQ6inF8E+BVnNhL3uMb0hnc865mOVZ2TRNLceIyreLaPclFp63ckDb/ij3zDEhsOVstLVPiHv9UJ45oidjE4Ei82GGcVFPnja3hdeQFlHpm28wpjwe/pu8vce3lSQVph6tZiwvbS19Qc+0dRrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742397570; c=relaxed/simple;
-	bh=75KZOsEBxSbCczYa0jJTN/upYNwqdtyGsR4PPJi/iXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FCZtNkH+wVtxTeZ7cwgps0+HHC7BF2XJRtKTE03CLOo0OONbT3bpo3HE9VD3aC+00poxQSQJIYkK0BxsMripevXIJmmbl+YCdPsWCLpIGO+uAf3hdKVHX9ey4UxSYdvTXYt+b/jHTmkF6lV9WHysmJb9n2gcSDqXm0RfoFOhJtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=reZMeO2s; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08B661E6;
-	Wed, 19 Mar 2025 16:17:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742397464;
-	bh=75KZOsEBxSbCczYa0jJTN/upYNwqdtyGsR4PPJi/iXA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=reZMeO2sgxiQKkPpJQnJEXfxYJeeBej9uPSDGv2o2iVkPQGAY3q1sg/R9rYPtRR/n
-	 JMHlCu8GGVLBTmhW2PJNrlcFXkFKa6pE+Mngb/+ou+PhzVElFrfLS2djiHoI9pJN0A
-	 tBBYmC2ds0+RkNSCKHKxIleqN55gdWHFivl3UUSA=
-Date: Wed, 19 Mar 2025 16:19:23 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/7] arm64: dts: renesas: r8a779a0: Add ISP core function
- block
-Message-ID: <gwkedvxrab62uyusei55nhaylekr46btmzwh6tc3vuaeomaa6g@xoo4jrofknqz>
-References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
- <20250315152708.328036-3-niklas.soderlund+renesas@ragnatech.se>
- <hwj6d3ll75magopi5oak4zmboy5dol3ztv3isd6wvrxmvbkx4b@ayjumbqmuk3l>
- <20250319150745.GE949127@ragnatech.se>
+	s=arc-20240116; t=1742398573; c=relaxed/simple;
+	bh=xdtm+471F3kzqqSki+lmuRp7EwkY5QYi6eOUgWf+UNQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=EOL2ZtSz0218xyXnEYf7bhUwXvGAu7jmr6oenx5f2YycVpmWlSXZVhxxdCiAETg/Y8FgwIS6C+Vxb8oveJBkz0YB57VMxBkjfSxOeOYAs16owtMqG2NVNGdK/0ZqWA5A/kTp/Mbj/oBjCw4bGmSfOfT/2uqe/2zItTpSMkza2qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.2.102] (213.87.131.243) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 19 Mar
+ 2025 18:35:48 +0300
+Message-ID: <5691f9a6-07f0-4295-a25d-cb5bc572e824@omp.ru>
+Date: Wed, 19 Mar 2025 18:35:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250319150745.GE949127@ragnatech.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] phy: can-transceiver: Re-instate "mux-states" property
+ presence check
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring
+	<robh@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol
+	<mailhol.vincent@wanadoo.fr>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay
+ Abraham I <kishon@kernel.org>, Peter Rosin <peda@axentia.se>, Aswath
+ Govindraju <a-govindraju@ti.com>
+CC: <linux-can@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <6bcfde63b3a6b25640a56be2e24a357e41f8400f.1742390569.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+In-Reply-To: <6bcfde63b3a6b25640a56be2e24a357e41f8400f.1742390569.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 03/19/2025 15:24:30
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 19
+X-KSE-AntiSpam-Info: Lua profiles 191947 [Mar 19 2025]
+X-KSE-AntiSpam-Info: Version: 6.1.1.11
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 51 0.3.51
+ 68896fb0083a027476849bf400a331a2d5d94398
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.131.243 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.131.243 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: {Tracking_ip_hunter}
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.131.243
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 19
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 03/19/2025 15:27:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 3/19/2025 12:11:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Hi Niklas
+On 3/19/25 4:27 PM, Geert Uytterhoeven wrote:
 
-On Wed, Mar 19, 2025 at 04:07:45PM +0100, Niklas Söderlund wrote:
-> Hi Jacopo,
->
-> Thanks for your feedback.
->
-> On 2025-03-19 15:50:00 +0100, Jacopo Mondi wrote:
-> > Hi Niklas
-> >
-> > On Sat, Mar 15, 2025 at 04:27:03PM +0100, Niklas Söderlund wrote:
-> > > All ISP instances on V3U have both a channel select and core function
-> > > block, describe the core region in addition to the existing cs region.
-> > >
-> > > The interrupt number already described intended to reflect the cs
-> > > function but did incorrectly describe the core block. This was not
-> >
-> > I can't find the interrupt mapping table for V3U, so this is the only
-> > thing I can't check
->
-> Page number 820, or search for "SPI 152" (fist one).
->
+> On the Renesas Gray Hawk Single development board:
+> 
+>     can-transceiver-phy can-phy0: /can-phy0: failed to get mux-state (0)
+> 
+> "mux-states" is an optional property for CAN transceivers.  However,
+> mux_get() always prints an error message in case of an error, including
+> when the property is not present, confusing the user.
+> 
+> Fix this by re-instating the property presence check.
+> 
+> This is bascially a revert of commit d02dfd4ceb2e9f34 ("phy:
 
-Uh, thanks
+   Basically. :-)
 
-> >
-> > > noticed until now as the driver do not make use of the interrupt for the
-> > > cs block.
-> > >
-> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> >
-> > The rest looks good
-> >
-> > > ---
-> > >  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 60 +++++++++++++++++------
-> > >  1 file changed, 44 insertions(+), 16 deletions(-)
-> > >
-> > > diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> > > index f1613bfd1632..95ff69339991 100644
-> > > --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> > > @@ -2588,13 +2588,20 @@ du_out_dsi1: endpoint {
-> > >  		isp0: isp@fed00000 {
-> > >  			compatible = "renesas,r8a779a0-isp",
-> > >  				     "renesas,rcar-gen4-isp";
-> > > -			reg = <0 0xfed00000 0 0x10000>;
-> > > -			interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>;
-> > > -			clocks = <&cpg CPG_MOD 612>;
-> > > +			reg = <0 0xfed00000 0 0x10000>, <0 0xfec00000 0 0x100000>;
-> > > +			reg-names = "cs", "core";
-> >
-> > However, won't the presence of a "core" part trigger the probing of
-> > the forthcoming RPP core support, which should not support V3U as far
-> > I understood ?
->
->
-> Correct the RPPX1 library will be given the change to probe on V3U, it
-> will detect it's not an RPPX1 gracefully not create an ISPCORE on V3U.
-> This describes the hardware, and there is an ISP core mapped at this
-> address, not just the same as on the others ;-) The driver is prepared
-> for this.
->
+> can-transceiver: Drop unnecessary "mux-states" property presence
+> check"), with two changes:
+>   1. Use the proper API for checking whether a property is present,
+>   2. Do not print an error message, as the mux core already takes care
+>      of that.
+> 
+> Fixes: d02dfd4ceb2e9f34 ("phy: can-transceiver: Drop unnecessary "mux-states" property presence check")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Alternatively, the multiplexer subsystem needs to gain support for
+> getting an optional mux...
+[...]
+MBR, Sergey
 
-Ack, just wanted to validat that
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-  j
-
-> >
-> > > +			interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>,
-> > > +				     <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>;
-> > > +			interrupt-names = "cs", "core";
-> > > +			clocks = <&cpg CPG_MOD 612>, <&cpg CPG_MOD 16>;
-> > > +			clock-names = "cs", "core";
-> > >  			power-domains = <&sysc R8A779A0_PD_A3ISP01>;
-> > > -			resets = <&cpg 612>;
-> > > +			resets = <&cpg 612>, <&cpg 16>;
-> > > +			reset-names = "cs", "core";
-> > >  			status = "disabled";
-> > >
-> > > +			renesas,vspx = <&vspx0>;
-> > > +
-> > >  			ports {
-> > >  				#address-cells = <1>;
-> > >  				#size-cells = <0>;
-> > > @@ -2672,13 +2679,20 @@ isp0vin07: endpoint {
-> > >  		isp1: isp@fed20000 {
-> > >  			compatible = "renesas,r8a779a0-isp",
-> > >  				     "renesas,rcar-gen4-isp";
-> > > -			reg = <0 0xfed20000 0 0x10000>;
-> > > -			interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
-> > > -			clocks = <&cpg CPG_MOD 613>;
-> > > +			reg = <0 0xfed20000 0 0x10000>, <0 0xfee00000 0 0x100000>;
-> > > +			reg-names = "cs", "core";
-> > > +			interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_HIGH>,
-> > > +				     <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
-> > > +			interrupt-names = "cs", "core";
-> > > +			clocks = <&cpg CPG_MOD 613>, <&cpg CPG_MOD 17>;
-> > > +			clock-names = "cs", "core";
-> > >  			power-domains = <&sysc R8A779A0_PD_A3ISP01>;
-> > > -			resets = <&cpg 613>;
-> > > +			resets = <&cpg 613>, <&cpg 17>;
-> > > +			reset-names = "cs", "core";
-> > >  			status = "disabled";
-> > >
-> > > +			renesas,vspx = <&vspx1>;
-> > > +
-> > >  			ports {
-> > >  				#address-cells = <1>;
-> > >  				#size-cells = <0>;
-> > > @@ -2756,13 +2770,20 @@ isp1vin15: endpoint {
-> > >  		isp2: isp@fed30000 {
-> > >  			compatible = "renesas,r8a779a0-isp",
-> > >  				     "renesas,rcar-gen4-isp";
-> > > -			reg = <0 0xfed30000 0 0x10000>;
-> > > -			interrupts = <GIC_SPI 157 IRQ_TYPE_LEVEL_HIGH>;
-> > > -			clocks = <&cpg CPG_MOD 614>;
-> > > +			reg = <0 0xfed30000 0 0x10000>, <0 0xfef00000 0 0x100000>;
-> > > +			reg-names = "cs", "core";
-> > > +			interrupts = <GIC_SPI 156 IRQ_TYPE_LEVEL_HIGH>,
-> > > +				     <GIC_SPI 157 IRQ_TYPE_LEVEL_HIGH>;
-> > > +			interrupt-names = "cs", "core";
-> > > +			clocks = <&cpg CPG_MOD 614>, <&cpg CPG_MOD 18>;
-> > > +			clock-names = "cs", "core";
-> > >  			power-domains = <&sysc R8A779A0_PD_A3ISP23>;
-> > > -			resets = <&cpg 614>;
-> > > +			resets = <&cpg 614>, <&cpg 18>;
-> > > +			reset-names = "cs", "core";
-> > >  			status = "disabled";
-> > >
-> > > +			renesas,vspx = <&vspx2>;
-> > > +
-> > >  			ports {
-> > >  				#address-cells = <1>;
-> > >  				#size-cells = <0>;
-> > > @@ -2840,13 +2861,20 @@ isp2vin23: endpoint {
-> > >  		isp3: isp@fed40000 {
-> > >  			compatible = "renesas,r8a779a0-isp",
-> > >  				     "renesas,rcar-gen4-isp";
-> > > -			reg = <0 0xfed40000 0 0x10000>;
-> > > -			interrupts = <GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>;
-> > > -			clocks = <&cpg CPG_MOD 615>;
-> > > +			reg = <0 0xfed40000 0 0x10000>, <0 0xfe400000 0 0x100000>;
-> > > +			reg-names = "cs", "core";
-> > > +			interrupts = <GIC_SPI 158 IRQ_TYPE_LEVEL_HIGH>,
-> > > +				     <GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>;
-> > > +			interrupt-names = "cs", "core";
-> > > +			clocks = <&cpg CPG_MOD 615>, <&cpg CPG_MOD 19>;
-> > > +			clock-names = "cs", "core";
-> > >  			power-domains = <&sysc R8A779A0_PD_A3ISP23>;
-> > > -			resets = <&cpg 615>;
-> > > +			resets = <&cpg 615>, <&cpg 19>;
-> > > +			reset-names = "cs", "core";
-> > >  			status = "disabled";
-> > >
-> > > +			renesas,vspx = <&vspx3>;
-> > > +
-> > >  			ports {
-> > >  				#address-cells = <1>;
-> > >  				#size-cells = <0>;
-> > > --
-> > > 2.48.1
-> > >
->
-> --
-> Kind Regards,
-> Niklas Söderlund
 
