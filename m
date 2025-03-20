@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-14692-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14693-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FA5A6A7D6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 15:02:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E15DCA6A7D2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 15:02:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3911485204
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 14:02:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2239B7AF9A4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 14:01:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59B8922576E;
-	Thu, 20 Mar 2025 14:01:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13511225793;
+	Thu, 20 Mar 2025 14:01:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xiTQvwwU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ovGwlYVK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA752253F8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E53E2222A5
 	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Mar 2025 14:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742479260; cv=none; b=NjtBJ2NnAohtBvR+HMhp3jEasVHT1NPsU8rLJhjUgGESV/MMNxwsYEAiK5N1wIbqMnOwht6MuoNqPL6mRYCWfUuu7Ojj0Mrl150WB1w4EQ5IFbM1HMdLuN6uxo2vFaMc6B7/oK6V6jcnXdq9PNsVUvWVNsbzRrCQSO7vVtYT8HY=
+	t=1742479261; cv=none; b=YuF/7f0aPA4hwSLj8rwzjihHibeTAMeG38aliJ6b6wsreG+bUCMHvTGk312uP9LAqHGTiXmXbijq0Ht7OAbmOpDTeojCZyK+GXVj73mJZd8xwRPh1axrdJEQuYIht2PGsVyI73p+ptNaqe3rcy81KuNXLmlvqPkLTP6rzSD5tvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742479260; c=relaxed/simple;
-	bh=5q7KCE9db7ERhm5lr7U4Yg37JmaxdnTD/f+2sXkyzxw=;
+	s=arc-20240116; t=1742479261; c=relaxed/simple;
+	bh=tJcpx7kVoOVh62Qzq7CsqXZyteSS2xTmfx3MklEEb5g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tZmVfsbfQ0ewgFwEiS2RLwZtcp2VyCnL/foSN81pr6qPqKOCT9zRzBmrwM4byV+wj2sn3YE/vm+2yeA1LIpuhnt4WZ1P5uRIb6m2VgJdDBscO1x0IA6NrVuMtmltWvhPBeWZo5NS9JSSZTXgk8hQB7F5aDzgJWXjaO2poyHGOKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xiTQvwwU; arc=none smtp.client-ip=209.85.167.51
+	 MIME-Version; b=Qbcxnb7N4bJwSxpNZdEy+kLnkuom9g8F1cGzhwbw3B//NW0h1hMNcyO8AhUGkd5J0bq3bHU2OVRHUauCBBlRwQY7ryM1DTgs7Un5alr/PuA5KUzNIMsC8ylvOq4mrnPeGsz9wJCW818gDTXWvEOY5J7OdPG0wKwC3FegdLXcaAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ovGwlYVK; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-543e4bbcd86so976376e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Mar 2025 07:00:57 -0700 (PDT)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54acc04516cso1026439e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Mar 2025 07:00:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742479256; x=1743084056; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1742479257; x=1743084057; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rXE9dlseC0dhD7d4oX2r9ZUURR/ikgG5O0SCUhzKJLQ=;
-        b=xiTQvwwUQMwy2rT+pjfqAWF6BwGiO35f3I4+17xJhhQRNv9pdDy/0/tTguJ2Cpd0c8
-         CJ+SBoG56JHPylJmxEX6nXspuwd98YAs2wzXaGSVeuJQ5BVSrymVnYYvVJpbPe0D+IKf
-         0lWWwnz0i8IlN5C9Z0umiA5mTxsmr8J0DBphm4fMb43o+DIxFlWp8gG5HbC2ulxzlUdq
-         wmAjL5V2BWkJ66WfXdc4H2NSxvyVU+mZLYU68j8kREDg+uUKrGCizsy1JUupUnp+IyId
-         qUh5OKBXbA/o0t8XoUKyggFwTtDi4sFzoTm7F+6NgQ+3TCy2Yv3gFT7x+X+djZ1JhIKH
-         uA+Q==
+        bh=+cpurPguaZZPLjWUcw85lV4P2hxnhe8DmTCMrQ+sP8E=;
+        b=ovGwlYVK5p5MCyM7n0n+8jzkYo3MDkQnvXTmQoBhq/Fjh5q1C8rjW8+ORWSc16MwdC
+         bfG2H8MJeRj1WXehec8O2cCg/yKJGsAJG6c2aSvvVjDVuAuWKHkNW7bKFLr9cHUW0cXS
+         OFIplJZpUJGcrZxpKZNOArUOjXFd8NcXyA4RNcOAfcjx8NcRArND8/CBRZlhB1k95wck
+         vEdwWTfLJR+uvJDNLiE6CdoXE4l9g9eBPfyoAzQh3ixQMw+V/7yzpV/DFJYm0fpcpumN
+         VvgkXx0rWCMtS6OCHQNWYM/7W048E8KX3lh+NXGxFqOEo6zAlH1+MZ/FuRNcD7rRE4IC
+         x7Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742479256; x=1743084056;
+        d=1e100.net; s=20230601; t=1742479257; x=1743084057;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rXE9dlseC0dhD7d4oX2r9ZUURR/ikgG5O0SCUhzKJLQ=;
-        b=G2FNGy3fhVrhTKQq7Mt2P+CenEiWJqbIUfgsPYlHnpLNMEdpu13onQgEDiWXgcG9Fo
-         WBHTmEVz4WXpqh51cDibxSeoOADSTrzVLZ7oQLUqkt1QbHqEqL8cQpVmQE+u1lMqiZnJ
-         FCuIMxJCZYAhbp4zr0iv+6gOMu0qE20HO7bk8qNyNwHH/zB/CQ6WIDglaihGDU8WeuNb
-         tI0j7V7zmNfwrMJ3wVycyyEo6SA4f3TCmhQClpcoO96h2/p+RcRuUOqhlhQMMMe2KL8N
-         dir+EJrTbic8+Lc5rBYzr5XubiAr6mzdQ+yj1b4hbGkrGwf+EycLbiZCxiAjNPcf2dt+
-         1V+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVKEQEEqjUo3FHbH9pD/V9J2VLcV0frM0Droe6mh3MdfhcT/bgX+/lNEKabQU/LO6hfzfNV0L8KgW+zpV7EDhaG2Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8w6rqxDQh2KbAtl5up4mjG8+FoYbb/5ZVIPmmQ+K/kT2utgHi
-	CJOtJC+zcij3DEXcHONW/KAr999Lbt6B6CiMsbuLd3KSeZx+HUA6bqfXi51WQ5k=
-X-Gm-Gg: ASbGncv/+tgWfUcIqnYm2098Or3zlQwMdNUN7srsggMzTSAxQYPFG6zcppxw2vrDi2z
-	ObrUxti+SKRnrpfvhKgZVnFBrftKPYAb35vHQ57J3tRYm+32gVLYeug/1oxm70t9/imlBbGwm0L
-	V/JjoJ1Q1waPFmfmiVIO6ZJnt1jFG+lo/3EbmBTe7gitAXHsHg/NnZcTcV25vp/zr8SDl9SvXRm
-	RwW8Vq9XjIDruSuUWlUYRuOqw/o9zJjqIWZmJnRa2UFSThG17fHFv9pDs2j1jn6w7wapPGFu8qp
-	4UewGHjPyggBBwkLR7qSY4LfV0TipT75+IFXawj0QNg9LwEwbTNzyjlyzdGlLn/rM4GMOvPUDly
-	A+CV8lXML9thlGSnJGUOVTOLpN1vLSw==
-X-Google-Smtp-Source: AGHT+IHyRLgkNoCEkf9M1ICxzrsASm6on3//oo9APTxgLDD9aYJ0CrJh/ehpG879EGIFtCHQch+O4A==
-X-Received: by 2002:a05:6512:b99:b0:54a:cc04:ea24 with SMTP id 2adb3069b0e04-54ad068688cmr1116238e87.46.1742479254697;
-        Thu, 20 Mar 2025 07:00:54 -0700 (PDT)
+        bh=+cpurPguaZZPLjWUcw85lV4P2hxnhe8DmTCMrQ+sP8E=;
+        b=QYKZZPwFUhuS2DoKR8yNtMqUSsHyPUk+vwrdYSBbIdPl/iGTHuqhyBVOxxeYKjoyPr
+         o5JgKaKBw/7Twh9XDGbx2T6oGSgvsJadY7K6SdOvPgzTrOVz+b1vQbGdoxJQk0uE0BXe
+         EDyeVm4juYoIQxOefufuwzg9a2lCImwVUUMS70mEDQA2Pkjm9h0yNQCLVHYTvE9BCmWu
+         G+TLTFgUwyfF2O54PAtz8GOH9gfa1TRZRK4LQ2KF8Dl22lPQ+gAaA9URmb8bUazJ0fyi
+         Ny7+HHgyj9M9SVTcPc99rjVcfl5gR5ApI242yWg4F7M8lMimLurxUB0fcX4Iv1W3/ges
+         GwvA==
+X-Forwarded-Encrypted: i=1; AJvYcCWEYTxGkrN7Mfwy7LyzfSpI4QCnJx+qpNK0MeeoTYT54A9pf0D9GzR2fqQZ1KjquG7PmFusS7Dp/2WBbEE0RKYfQg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKmZYHJmtAeerZ1++iTVN0DXzeGK73Oh1YIEX+wKuUqMUJkAFn
+	qiNt9v35SChZ9c0wnkZQzf4NzCoBXJFx9XfwoiUsYYKkukX6iPr/YTIZJmSk3UY=
+X-Gm-Gg: ASbGnctD5OHkr03cuJShZzHjQtMT2J8jdxgllz1UGtO0NP1ZGvMQgDGe6EtfQbn340M
+	iwDjlH83TVLxvVX2LUSLTiN7yOaGK1HLiEymOzTlbzb+XsgfR2vOTWonZ/6zJc+db+r4E8ImI0M
+	wT2AELbC7ox13ej8YzDdgNsmSEV9yLigG62vOXVx9mkOS8divER3PGCqbXTSHGmqdLT/mR6pEPv
+	hm6KM8w3Ds5JcRRVkeFztbbbYF3dmVERX3VH/TL4+h7Q8wI3ifgKtq7A8ixaYg23UJ6e8s7/12O
+	0oq2dcpd3pXbgyRTubIuGoQM/+L1ClPAgIMr4IwgWqBZxrNhM/tccMWgK6cVkkARFl+O5xy9TqN
+	+tFubh1PX3K4MWqD1U06akcZA6/gPfA==
+X-Google-Smtp-Source: AGHT+IFI1fZrjfRWED8P3YwlNenPg/UaJprkHPw65/8Gv1KQD06yFcLy7lNo8+Ww7atrOreTQU9wBQ==
+X-Received: by 2002:a05:6512:400c:b0:549:9078:dd46 with SMTP id 2adb3069b0e04-54acb21a517mr2932004e87.43.1742479256977;
+        Thu, 20 Mar 2025 07:00:56 -0700 (PDT)
 Received: from uffe-tuxpro14.. (h-178-174-189-39.A498.priv.bahnhof.se. [178.174.189.39])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba864dd9sm2295029e87.148.2025.03.20.07.00.52
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba864dd9sm2295029e87.148.2025.03.20.07.00.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Mar 2025 07:00:54 -0700 (PDT)
+        Thu, 20 Mar 2025 07:00:56 -0700 (PDT)
 From: Ulf Hansson <ulf.hansson@linaro.org>
 To: linux-mmc@vger.kernel.org,
 	Ulf Hansson <ulf.hansson@linaro.org>
@@ -81,9 +81,9 @@ Cc: Adrian Hunter <adrian.hunter@intel.com>,
 	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/5] mmc: core: Add support for graceful host removal for eMMC
-Date: Thu, 20 Mar 2025 15:00:35 +0100
-Message-ID: <20250320140040.162416-5-ulf.hansson@linaro.org>
+Subject: [PATCH 5/5] mmc: core: Add support for graceful host removal for SD
+Date: Thu, 20 Mar 2025 15:00:36 +0100
+Message-ID: <20250320140040.162416-6-ulf.hansson@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250320140040.162416-1-ulf.hansson@linaro.org>
 References: <20250320140040.162416-1-ulf.hansson@linaro.org>
@@ -96,42 +96,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 An mmc host driver may allow to unbind from its corresponding host device.
-If an eMMC card is attached to the host, the mmc core will just try to cut
-the power for it, without obeying to the eMMC spec.
+If an SD card is attached to the host, the mmc core will just try to cut
+the power for it, without obeying to the SD spec that potentially may
+damage the card.
 
-Potentially this may damage the card and it may also prevent us from
-successfully doing a re-initialization of it, which would typically happen
-if/when we try to re-bind the mmc host driver.
-
-To fix these problems, let's implement a graceful power-down of the card at
+Let's fix this problem by implementing a graceful power-down of the card at
 host removal.
 
-Reported-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- drivers/mmc/core/mmc.c | 27 +++++++++++++++++----------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+ drivers/mmc/core/sd.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/mmc/core/mmc.c b/drivers/mmc/core/mmc.c
-index 60af88ac0213..5a62a3d3df32 100644
---- a/drivers/mmc/core/mmc.c
-+++ b/drivers/mmc/core/mmc.c
-@@ -36,6 +36,7 @@
- enum mmc_poweroff_type {
- 	MMC_POWEROFF_SUSPEND,
- 	MMC_POWEROFF_SHUTDOWN,
-+	MMC_POWEROFF_UNBIND,
- };
- 
- static const unsigned int tran_exp[] = {
-@@ -2054,15 +2055,6 @@ static int mmc_poweroff_notify(struct mmc_card *card, unsigned int notify_type)
+diff --git a/drivers/mmc/core/sd.c b/drivers/mmc/core/sd.c
+index 8eba697d3d86..cb4254a43f85 100644
+--- a/drivers/mmc/core/sd.c
++++ b/drivers/mmc/core/sd.c
+@@ -1596,15 +1596,6 @@ static int mmc_sd_init_card(struct mmc_host *host, u32 ocr,
  	return err;
  }
  
 -/*
 - * Host is being removed. Free up the current card.
 - */
--static void mmc_remove(struct mmc_host *host)
+-static void mmc_sd_remove(struct mmc_host *host)
 -{
 -	mmc_remove_card(host->card);
 -	host->card = NULL;
@@ -140,36 +128,35 @@ index 60af88ac0213..5a62a3d3df32 100644
  /*
   * Card detection - card is alive.
   */
-@@ -2088,7 +2080,8 @@ static void mmc_detect(struct mmc_host *host)
+@@ -1630,7 +1621,8 @@ static void mmc_sd_detect(struct mmc_host *host)
  	mmc_put_card(host->card, NULL);
  
  	if (err) {
--		mmc_remove(host);
+-		mmc_sd_remove(host);
 +		mmc_remove_card(host->card);
 +		host->card = NULL;
  
  		mmc_claim_host(host);
  		mmc_detach_bus(host);
-@@ -2160,6 +2153,20 @@ static int _mmc_suspend(struct mmc_host *host, enum mmc_poweroff_type pm_type)
+@@ -1730,6 +1722,19 @@ static int _mmc_sd_suspend(struct mmc_host *host)
  	return err;
  }
  
 +/*
 + * Host is being removed. Free up the current card and do a graceful power-off.
 + */
-+static void mmc_remove(struct mmc_host *host)
++static void mmc_sd_remove(struct mmc_host *host)
 +{
 +	get_device(&host->card->dev);
 +	mmc_remove_card(host->card);
 +
-+	_mmc_suspend(host, MMC_POWEROFF_UNBIND);
++	_mmc_sd_suspend(host);
 +
 +	put_device(&host->card->dev);
 +	host->card = NULL;
 +}
-+
  /*
-  * Suspend callback
+  * Callback for suspend
   */
 -- 
 2.43.0
