@@ -1,119 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-14698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14699-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8501A6AA4F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 16:50:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF60DA6AB42
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 17:41:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3BDC298254A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 15:50:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 77BB58A7468
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 16:41:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E8731EB5D8;
-	Thu, 20 Mar 2025 15:50:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Gr4YoEnw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9D65221F25;
+	Thu, 20 Mar 2025 16:41:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215D71E5201
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Mar 2025 15:50:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C27D9221573;
+	Thu, 20 Mar 2025 16:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742485841; cv=none; b=LJq+43XMIeee2JTx+FiYWKUj9vsSKEe8pNHA1XFwyxU23lJG9RDHW+qGAQaVR4nnxbpAQLIeoiVwrIDbMrliBCtJSFd2vA8/e4mfHcuNViILqDLfMlVcXmTWa9rtnLSqkkElFHqE152EDBY1tl4jf8tPJzr4N8rB8ruTmpUz2rg=
+	t=1742488891; cv=none; b=SNb90MNZ99ZGFRY2uCoA7p/ZpXLHvfDtWO0TZ67+4vc82ZA7BiaEkMLuJRMkfpJNAg05noYjm5jfL8m0eMZmM0QbkaEg5ANoaf7QmPdWC20czQL8zt787ek5PParzMXV5Y8GiTbB3f7fogasDta23YzFWi+87BcMNi5F3Qw7+GU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742485841; c=relaxed/simple;
-	bh=UyBdXNFgm67KU+j1EDo5XsOZ0SNYD8as+5pMPGwvsws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gch2yihQSPo5xpRX0g0Md9IHBJ8RyDAbEwDuhv43dxAONpo4sFEyiX0Y8iLrGwbfsHlXmJ/+T9q8w+rN6wag1FqokEnrgMd8GKCssrnVvSleIZggs3nICaHX0UsMHROuJywl+IO7/z5uqiRDvS2h6ZNWfljE+JvI0xcIV1NNRTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Gr4YoEnw; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=UyBd
-	XNFgm67KU+j1EDo5XsOZ0SNYD8as+5pMPGwvsws=; b=Gr4YoEnwL2NBjGN79FNI
-	KRdPMDIaDCChdpDCj6diCg+HVhB8UPjLLRFNwmjVQla2f7qlZ3w3Zy+uemqhuwPt
-	jxL9hnqtPvwtvQYbOfmLxlRpRJW6CxUtVgqS+zqoz2VR5h7FBASPSCPckrYm8jSs
-	l1+Hwon/TAGLyHEAxSfDeDHBnEB35FP8JiqInroF7kT4ikO9wwmJ2IXFDOKLJy+x
-	1XBECDDH9sUS9+1Z3EuORpqCJoHAFheN4OKqkNBb76Nwbcai183oihwaMj8d9aJt
-	AUVFO9vdNYOgigN4zRQs+CVB7V8pmFitlgRUGdrQbEvd4N7aOSxT4SBqT17laZTt
-	YA==
-Received: (qmail 747425 invoked from network); 20 Mar 2025 16:50:34 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Mar 2025 16:50:34 +0100
-X-UD-Smtp-Session: l3s3148p1@PcAoGcgwQJgujnsn
-Date: Thu, 20 Mar 2025 16:50:33 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: linux-mmc@vger.kernel.org, Adrian Hunter <adrian.hunter@intel.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/5] mmc: core: Add support for graceful host removal for
- eMMC/SD
-Message-ID: <Z9w5SZmytn5g9SA9@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250320140040.162416-1-ulf.hansson@linaro.org>
+	s=arc-20240116; t=1742488891; c=relaxed/simple;
+	bh=Y00dHDsS1AEMR6VYop3qoh8OpnRF4NYOZCj5eD0mEeE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XvWU3VMonOiu4c5Jl+rwCdEmfwaYWvzdnjaPT5lGXRzv6GQJLC+MWPrO+MrJL3SEE0ydWv1dzZS7onssHy+oTnddHA0GxRV2xkp/ER6DMdtxj/5a4Oi7TJPBvWGtkQxm/FlSTu+1XVDnGn2Kl2WooSQfmUO27/eUbeKLmFKFYZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: Q9s0XjUtSgGCv0WOBtNGAQ==
+X-CSE-MsgGUID: DC83XCZ7RG2/GwxlDW+k6A==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 21 Mar 2025 01:41:27 +0900
+Received: from localhost.localdomain (unknown [10.226.93.24])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2C38B400721F;
+	Fri, 21 Mar 2025 01:41:23 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2 0/3] Enable CANFD and CAN Transceiver
+Date: Thu, 20 Mar 2025 16:41:15 +0000
+Message-ID: <20250320164121.193857-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="j0szOiKot0rmBNkW"
-Content-Disposition: inline
-In-Reply-To: <20250320140040.162416-1-ulf.hansson@linaro.org>
+Content-Transfer-Encoding: 8bit
 
+RZ/G3E SMARC EVK has 2 CANFD connectors connected to TCAN1046V-Q1
+Transceiver that is connected to channel1 and channel4 on the SoC.
+Enable CANFD and CAN Transceiver
 
---j0szOiKot0rmBNkW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v1->v2:
+ * Make it as separate series
+ * Replaced integer with hexadecimal for module clock and reset numbers.
+ * Defined the macros SW_LCD_EN and SW_PDM_EN  which routes signals to
+   CAN0 and CAN1 based on SYS.5 and BOOT.6 switches.
+ * Replaced GPIO hog with CAN Transceiver.
 
-On Thu, Mar 20, 2025 at 03:00:31PM +0100, Ulf Hansson wrote:
-> As pointed out by Wolfram Sang and already discussed at LKML [1] - an mmc=
- host
-> driver may allow to unbind from its corresponding host device. If there i=
-s and
-> eMMC/SD card attached to the host, the mmc core will just try to cut the =
-power
-> for it, without trying to make a graceful power-off, thus potentially we =
-could
-> damage the card.
->=20
-> This series intends to fix this problem for eMMC/SD cards.
->=20
-> Please help to test and review!
+Biju Das (3):
+  arm64: dts: renesas: r9a09g047: Add CANFD node
+  arm64: dts: renesas: r9a09g047e57-smarc: Enable CANFD
+  arm64: dts: renesas: r9a09g047e57-smarc: Enable CAN Transceiver
 
-Awesome! Thank you. Will surely check it out. Not before next week I am
-afraid. But already looking forward to testing it!
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    | 60 +++++++++++++++++++
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   | 53 ++++++++++++++++
+ .../boot/dts/renesas/renesas-smarc2.dtsi      | 29 +++++++++
+ .../boot/dts/renesas/rzg3e-smarc-som.dtsi     | 14 ++++-
+ 4 files changed, 153 insertions(+), 3 deletions(-)
 
+-- 
+2.43.0
 
---j0szOiKot0rmBNkW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfcOUUACgkQFA3kzBSg
-KbbFrg//TOs03sVI6OVfUHIF+m2I8NGYBR6Jr8ZvnegntJ1DO+1MiQSg5OmHs/A8
-mG94c+JO3yR6vC1vLs3/65xaFt2q0Yqn71krhcQgCI8G9DhVX5tBjm/OLtP/+9tt
-5cIeT+nixYNvs10Q00ZSeVIOHeXAAJnw4CgY768Jr7FGqw+4M6fPWzk/QSIo+iLD
-oCYfKlnj1cpyIZQoaN0Pb+ST3VWyib2WN7CL0iRqBJFEWK6NhFjunj2Pr2nwpkTQ
-X9Lai/qkhT2rL6iWcZvY6AxY3cnenZ+rlD5VZcJRqAp0V7HGXj8CMxyc2GHL0xbc
-ZRrEvlgE40X2FwWitlvQ2aIwxaOhBzrqullLyV+HJP306u24jNCfZUSaqLTfey04
-CBPHr5VMfsWwmoGdrROwVwe10oZfg2TNFtDJSa+hV645yvrSXsRHu9XHldaCg9lZ
-+1cwlQ0RT8Nfa+YmKoL+X32Am3Oe+ZciOwj+j+a2GeGUtSUBYlM4M3pEnNnyS3jy
-AhskO6ONr3Q8gfhvQhl08P4fOKgYkWYpaysu9siVDaEqpXi33nXnFD446sdhGab+
-G64ifA9U+UpxDivCNJ2FDCBV3XIzHo3CE6nM3zclSCu7ZFJczhcveLxtcERgJxol
-tFAo2YpHjSKJVObDJNgTlOPE3+XLTB1+mE7OjYO6dPtwWIkGuYA=
-=Oz+a
------END PGP SIGNATURE-----
-
---j0szOiKot0rmBNkW--
 
