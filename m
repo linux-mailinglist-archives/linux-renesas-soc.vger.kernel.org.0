@@ -1,135 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-14687-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14689-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8B0A6A6E5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 14:13:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320C6A6A7C8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 15:01:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7AAD7A6424
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 13:12:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CF6917A80C3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 14:00:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3819C1BD014;
-	Thu, 20 Mar 2025 13:13:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 777FD2236FC;
+	Thu, 20 Mar 2025 14:00:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="bJynYEbo"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q1lWHOCQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BF317996
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Mar 2025 13:13:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662B92222C0
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Mar 2025 14:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742476403; cv=none; b=gM4itNLolDCm4jVzAsTjfpWZxqIuwjEz31+co4vhkf6E65irJtAHTzTW8C8/DcDSRhWpagkzHx1l1CxAHsajTiXZlsYX8tzrrZjRuTSvWtsBNTcnl+AiiB7++KpC03KK08tjnWQs+pJvj5VyT/L9yGRwvZwF+/mOL7HMeC0OTmI=
+	t=1742479254; cv=none; b=aePwlE4CfR7zwzv0YeSaajqNJfDgGZKB305FVGpUaQTVhHVONnPQ5KRBLO464N5TwJylB2UshnypErcOiDsUv7wcgHUkCcGvo8XNCJg5CE4Iy2pR8c+GBerLgE87ie9WfYUqvbow35seatBXzVBvxIDwBlHnwn2DjRJ+jTgSfW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742476403; c=relaxed/simple;
-	bh=XZm5F3XNZhIwlOrdjUlExuCp7zU1bFU/Qi3fHM4Ybu8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eVYaeCdCqgwFeRxh3S42+U6kj3YfBjtFMkWI0DCLPz+/fK/uKnQfkTzPEh2UHm+WpKIsLq8zXaCa37IArh2Hz1JcMOcN8doic5auR9cLPjp6iK/7863S8ij2Nb+xMJPpQZ+JVTPmBYS/tpoQlUxlXEpEjFIVPBOheQrl7MO7CMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=bJynYEbo; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3914aba1ce4so626474f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Mar 2025 06:13:20 -0700 (PDT)
+	s=arc-20240116; t=1742479254; c=relaxed/simple;
+	bh=TMAuU4onZ/cymJIqOhYHnqnXdS4duBL3QBe64ptE4WE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TBdkFghCi6lP6caszLrxrt0XaYXxnlxZ+z0/bZI3noNACZ8S448ZL2O3+NDTxb5E8y41v6kjYC/KKuWBSB4M8Z1aGNhmvPP5pfXVnikybMFRrcFs+tZIAJMFoN1g7hTvXO9aRVC/CMu3YPl6HPBFhTAeaNxNIPas6ubwmEXjDKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q1lWHOCQ; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5493b5bc6e8so876975e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Mar 2025 07:00:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1742476399; x=1743081199; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=v48XcGCXr1VN5yM2ip52zsfw94KneamZu91HpkgNdOA=;
-        b=bJynYEborPNxyyxkfAcZegZLTX6DSa2gAahRl0TW9qp4p05vedyj7FA7GHPSQjHiyK
-         JzBU7eEZlcgCco7hScEnFP8UpRO6K4/yCCNtIuBEMbIWODv4Cb6yDBViWaGsUvBrr2/w
-         iv0pQloteQEUtiS8Ee0YDiGRCsrjZhepVMN8aR6cuh3PXI+BcKaUqq3pQztvT1esqJNv
-         T7qVkmn4cm2UbzigvDULTp5TYpTr8L7pQol5ZPVAjIoneuRU28XXObra+QK1EtK0akmz
-         Kx+NSHb0Uz/VxJpe9QsmYRaHMLDYSLVOVHlVNXGPspLI2cL0oXrYL8aio10M2ATwRx31
-         +mDw==
+        d=linaro.org; s=google; t=1742479250; x=1743084050; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jVzbvi3/XOkK9yO+8BTkmB73EOh3os+jpQOtKlsdsjI=;
+        b=Q1lWHOCQY33Aa/+3B6BQRldaZyHpuImNA3g9jUhdE2SkBpLJedbp+kAVzwCR5DS1jg
+         n0YgSQPkgMvDqmCEe3rULS6UKStWjWRugpgKfVSkjMAd57oKyvsB4HdGGoiYIXcC1KUr
+         sUrlQ1MJKu2DEi4pgBCu0mBd26oE8WQIRKwcIBbnIS4iJfa50DFjk07lCCIHboGFktz0
+         1D9ykGLkVyGk8mv04EXQPtnVfEcvqaHwL8URKhTLsGsULURNxT0Qh6vJZyrUMkgZUGR4
+         PsC7bPowtMnF4W9eha7ONc7mUe5Sg7j7+dvtoLkBMUxrgAncZeZnWHCrXJSBazbrJBEo
+         cihA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742476399; x=1743081199;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v48XcGCXr1VN5yM2ip52zsfw94KneamZu91HpkgNdOA=;
-        b=LjTubpmFsfD9CERjMyhJ18V/9sFf2eePOYXmOompNIrxz8cl0RTACoLW/hP2tbczJ0
-         NZTYj1uyiEblzSH0ifY+lj4WkOYpW0O245cBRV9QPluDSXBKOy4Si/lXaG6b4bPxt/1N
-         EEAz2kDldI47xcg7qYNpjQw1jnG/+gU/yDruBWHMbbNm8fYj6dIQz6tEC6zgrtkXcYtW
-         g4+8X2TRscJJy69jfizG9gKXAzSGoHTbNRZHV0BT7HQYipLvoBVbx8zY0cO2zOq0C0ui
-         rRPWqALvNlrkt5C9bOgRU98zUmNMm5jWwI3qfP6gb9GTMoXSyBfMmyV7orNBP3+eKU5p
-         YWIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUDAhRbUO27BRMAMo/YCJ+GAjtQrTVcz7GyH3e3ayXPrRB6IHwm3bC9/obG2V5mIY+LI3y4BlYO6FHr2wFb8W14RA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCqR3dbIkG62gHqkSejY+0ikT68VSjRLHw/5za3fFOscLm8X5G
-	rvoRnOeEIh6lyUmiD8Q9bqC3TwcqOzplwhcpGII2A7aKB/2xirFbcC4ij8sl3Uk=
-X-Gm-Gg: ASbGncu35I3Wp1sCXfX/TLMF4WlG4OKefvBzmHc2xytXZYe5jdqLvFJHiCPJ2RJQCdJ
-	DsOSVEUiTWEHBliyhj7IHdLwkF2aDvKml8vni9vAOybpJYPGF2w/C4587+ANo7NFlujukblr1ga
-	arM16C4UfZNNdIhebNT2ecK+ltLg2qqcEVK9W9ExxRw/f0kjZJ4rdQgBdscWHsT/Ivw9LL4nbZB
-	nlorWoG1VV88bynOHJ3s+jRArfr4bnMDCiswfLDnBMrDob7HOrwyqMzjXUnaaTyt8R7B3zfseFS
-	7QmNjym+B4x4oDHsCcE+Z8j7F/SA9ZM1Va4c1w0q49BDOJgIXMQjbg==
-X-Google-Smtp-Source: AGHT+IEl5veUunthB+o/ItpiVJl8NBc233c3fSE4ra0y5VSm79bnxcvguGhe+n8pCn3Yf22GVAAyvw==
-X-Received: by 2002:a5d:59ae:0:b0:398:9e96:e798 with SMTP id ffacd0b85a97d-399795a8cb5mr4010723f8f.13.1742476398470;
-        Thu, 20 Mar 2025 06:13:18 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.160])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3978ef9a23bsm19575491f8f.15.2025.03.20.06.13.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Mar 2025 06:13:17 -0700 (PDT)
-Message-ID: <d55ed22b-7a13-4037-9a11-1a65040f8a7c@tuxon.dev>
-Date: Thu, 20 Mar 2025 15:13:02 +0200
+        d=1e100.net; s=20230601; t=1742479250; x=1743084050;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jVzbvi3/XOkK9yO+8BTkmB73EOh3os+jpQOtKlsdsjI=;
+        b=GWzvTyha/aMI+yosj09GO2FP8leeTmwDusMNlnoAwg6jSfakymTOaM3dgejp/1+Klw
+         YV71suwYJgH+x+tSO2rLJOOIs7bpeQi8rrFHuha1fTZ3UpBCFPmGPedwbHveknrJFp2Q
+         UvDsaXGI90eROoXSz/RiTM6thyzvD+LG7kHdyOz8sse1Gu6l1TTmH+h1ttkHpAkaWF14
+         FzCP34dWb3yeeS32xgOxjemMLKk2JAoI/puBKmElneGU25bNVHKyanHOA9Oosu8Dx/ba
+         ZiP29952+h8sO3rnZ7DulTkqdf8uhwtvyQKpmNlES5YzHz66zpQpqKgMb1CEkCvMe+Ea
+         3SRg==
+X-Forwarded-Encrypted: i=1; AJvYcCWX6OksrtyGZAuRQYLXyJMZL15xoAXX9WEyAJb+4LIDysLqkKoOp5mEbj99ymNeCopOZrZR4W+Qh6IoSILNnLB2bg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXP3me4T5oGtNqtjRryZCrZukyXK4fZ1/wqdpDoHLCFk33qTvs
+	7IF7/YKSCrif15Is1ZAFp1AW6yIw+7KDdf8fjUr61FvcF2iAHhhHs1YvCxUTc6Q=
+X-Gm-Gg: ASbGncsliTMaaSpEURn9Hc6jdtrFSkpvO0l5477MQtDIjMoC+4cIDXUc1hFQNk7AI60
+	OWgfSbHQuiBecXLHaRsy8CvN0fDrl2BMyhsqL1PRk/hyuybalee6HNwMbH/TFESIiYkfCz5lU/T
+	kDijhYCXpSqS3lrPtVmqD2FHEVB9afYYBXWcnUdgzlbV5XsmriPiNUdChBQCowGdFZfKM1I5wnw
+	yH/HSxqi1Qtw6GHEpWkeSWxeoVopFniR5AdXjvC4T23TyHAnTkBLq532Y8v2/NCDEIIdh8zEOFd
+	y/CPf/2zyLtBjws8QK3sElUk3rwkXmI9rK4oWTOofiarQtgz0cwWJBuJnI98hCNm37gW3g0+EHf
+	wfvpT0l/f5tNKXesngy4=
+X-Google-Smtp-Source: AGHT+IFMYBU0DIXrF7R99VRRvNyaKksRIT+6rLXREKORT7TWKL6TEFXo8/nh8xP6GcxkGQSqzFY85g==
+X-Received: by 2002:a05:6512:3191:b0:545:49d:5474 with SMTP id 2adb3069b0e04-54ad062a16cmr981532e87.20.1742479248474;
+        Thu, 20 Mar 2025 07:00:48 -0700 (PDT)
+Received: from uffe-tuxpro14.. (h-178-174-189-39.A498.priv.bahnhof.se. [178.174.189.39])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba864dd9sm2295029e87.148.2025.03.20.07.00.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Mar 2025 07:00:47 -0700 (PDT)
+From: Ulf Hansson <ulf.hansson@linaro.org>
+To: linux-mmc@vger.kernel.org,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Adrian Hunter <adrian.hunter@intel.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] mmc: core: Add support for graceful host removal for eMMC/SD
+Date: Thu, 20 Mar 2025 15:00:31 +0100
+Message-ID: <20250320140040.162416-1-ulf.hansson@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 4/8] iio: adc: rzg2l_adc: Use adc-helpers
-To: Matti Vaittinen <mazziesaccount@gmail.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
- <lars@metafoo.de>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Chen-Yu Tsai <wens@csie.org>, David Lechner <dlechner@baylibre.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Guillaume Stols <gstols@baylibre.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Dumitru Ceclan <mitrutzceclan@gmail.com>,
- Trevor Gamblin <tgamblin@baylibre.com>,
- Matteo Martelli <matteomartelli3@gmail.com>,
- Alisa-Dariana Roman <alisadariana@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <cover.1742457420.git.mazziesaccount@gmail.com>
- <9a3a11561dbd3d5023da2da05cf2190793738242.1742457420.git.mazziesaccount@gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <9a3a11561dbd3d5023da2da05cf2190793738242.1742457420.git.mazziesaccount@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+As pointed out by Wolfram Sang and already discussed at LKML [1] - an mmc host
+driver may allow to unbind from its corresponding host device. If there is and
+eMMC/SD card attached to the host, the mmc core will just try to cut the power
+for it, without trying to make a graceful power-off, thus potentially we could
+damage the card.
 
+This series intends to fix this problem for eMMC/SD cards.
 
-On 20.03.2025 10:21, Matti Vaittinen wrote:
-> The new devm_iio_adc_device_alloc_chaninfo_se() -helper is intended to
-> help drivers avoid open-coding the for_each_node -loop for getting the
-> channel IDs. The helper provides standard way to detect the ADC channel
-> nodes (by the node name), and a standard way to convert the "reg"
-> -properties to channel identification numbers, used in the struct
-> iio_chan_spec. Furthermore, the helper can optionally check the found
-> channel IDs are smaller than given maximum. This is useful for callers
-> which later use the IDs for example for indexing a channel data array.
-> 
-> The original driver treated all found child nodes as channel nodes. The
-> new helper requires channel nodes to be named channel[@N]. This should
-> help avoid problems with devices which may contain also other but ADC
-> child nodes. Quick grep from arch/* with the rzg2l_adc's compatible
-> string didn't reveal any in-tree .dts with channel nodes named
-> otherwise. Also, same grep shows all the .dts seem to have channel IDs
-> between 0..num of channels.
-> 
-> Use the new helper.
-> 
-> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Please help to test and review!
 
-Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Kind regards
+Ulf Hansson
+
+[1]
+https://lore.kernel.org/all/20241007093447.33084-2-wsa+renesas@sang-engineering.com/
+
+Ulf Hansson (5):
+  mmc: core: Convert mmc_can_poweroff_notify() into a bool
+  mmc: core: Further avoid re-storing power to the eMMC before a
+    shutdown
+  mmc: core: Convert into an enum for the poweroff-type for eMMC
+  mmc: core: Add support for graceful host removal for eMMC
+  mmc: core: Add support for graceful host removal for SD
+
+ drivers/mmc/core/mmc.c | 66 +++++++++++++++++++++++++++++-------------
+ drivers/mmc/core/sd.c  | 25 +++++++++-------
+ 2 files changed, 61 insertions(+), 30 deletions(-)
+
+-- 
+2.43.0
+
 
