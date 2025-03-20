@@ -1,186 +1,88 @@
-Return-Path: <linux-renesas-soc+bounces-14679-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14680-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDA0A6A3CE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 11:36:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9040A6A42B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 11:52:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 030823B62AC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 10:34:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8BE08467ADF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 10:51:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93391214A98;
-	Thu, 20 Mar 2025 10:34:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60946224AE8;
+	Thu, 20 Mar 2025 10:51:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Df47gFRR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fCbuytOz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3282147F6
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Mar 2025 10:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3641A224248;
+	Thu, 20 Mar 2025 10:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742466883; cv=none; b=siCkMYHTKjwuoSPDFvyx5pCQcbj4opcL8EMaRGo6EnK/EJsj0Rp6kC2xzU7V6k/LIGbXW6W9vyIooCFHJSyEGz/UAOpzeNob422nP3ur4AjnkVOoMTXSSWOBhZaGqhUjxvKDvkLZL8jmbiHyFlyCyh72kukXjFcp3LRRIyeCTrQ=
+	t=1742467908; cv=none; b=pkFRl2Mm8610fdoBZv38/+1XiVKHeFvcNu51iW02RO4kEDyO56zNLCsdzaxPAnBM83mF0RmSWcmzxetmqJWf0U3B7tKQJL/1K94T3R6ySm6O8A1NUpXAIVY4rUd3p8kWOXR7IRHlzHW8o5zNzCiqylnTuV23PtCzyfiYh/MgU+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742466883; c=relaxed/simple;
-	bh=A+GsOcF7yksZA97OFNz4S5sU+EizGW4WHI35k7C0TAs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=figxUVn+d1R92ewltk7LeIXCbpSBb2Pvbxy6fEyjNToP8d3sKDw4t7nNiUTSqZQkZct5fKdNELsaY/5z33HkGpWdSKQgns0giW5zMrvkD2TCb6leLoiZZn/Ejza37OrvKr3f7aNZQGtVPuxEvQTlo9kDhQhTiUzLeKSzK7lXvcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Df47gFRR; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=oNmuFgaI/Z6zyc
-	vFg7S/Z2Ytc9xd2ZSpeL2zjdEosaQ=; b=Df47gFRRlKkE24FTQ7g6R3G2F0CaR0
-	ouGXHaLhO6uM7oYcpyXUZkG/8TukywijwAYEB8xYcbtkABN5R4Jk8Rkw6Eicym11
-	p+iNxnhP4hT7RlHsxZd3c+LwdV9ua9t3xRMlMzFdcckldcpMjxpLz94aiWUqnFp3
-	60sp+P/vBbPqbdUJXH5CNew1sfcsvGk7QCk06mXWuDCvA3IHARnMj576qnH7rBUM
-	+s6PSZNJA6G8hZRsTs0xGDOSDBi0K76PKaBYfjyKVfRle8nrQ+extPf4viMm9Wl4
-	SdNJlWtWTo+N0j3lSQqxAyf00+zBNY9aW3UHSYker9KPSIhcswo7gPgQ==
-Received: (qmail 609218 invoked from network); 20 Mar 2025 11:34:38 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Mar 2025 11:34:38 +0100
-X-UD-Smtp-Session: l3s3148p1@3kdUr8MwjIMgAwDPXyTHAJp038nK7dx+
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-rtc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [RFC PATCH] rtc: remove 'setdate' test program
-Date: Thu, 20 Mar 2025 11:33:54 +0100
-Message-ID: <20250320103433.11673-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1742467908; c=relaxed/simple;
+	bh=BjEhoxtDCErQXGy2WEbecrbbxNslFRLf4Yqb1mj6EZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s7n8MLUmpnvMzO6NvfR2IrvM9xIYSvxFA+DSiPwyZregOnyzIBO6kxj72ykzM/n47tK4m+etucHvYCiieWi9IvpPwzllBD2JplYvqH9BZIdj+5rA9F91J5H0cu1casiLEBPW7Yrz8G9FWwHtWrwK81/DOaMrtkWRpIPrKnPUgUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fCbuytOz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76726C4CEE8;
+	Thu, 20 Mar 2025 10:51:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742467907;
+	bh=BjEhoxtDCErQXGy2WEbecrbbxNslFRLf4Yqb1mj6EZg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fCbuytOz9HgKZDUhN4GWwBdEBLaiXIZ7wayseGh4188F8/Q6oTy3VhOEUtF9i9y9K
+	 QmBXIe/BzbxNAZ0BarQ4W2AL9/LwEnOcWusaZCaNzTZGg/2zair+uJw3VFke5hl+zY
+	 IltpYXKo4Vrs22iRXA+aNyJgFBaJr1kGCyNxOTyAHazaTduxLUwJjwJfxrpmQwNQBR
+	 a+5AiypOzL6nbWZwKSH4YLpgUDyLXUC4krep2X6k2WZ+aK6dNUIkIAYl6TJ19rmP+K
+	 pufIEDx5AT93z4mWK5+ee+oMG7ruiqzvJ52bZkyntEJlslHPMIf/u0wgRn7lV0jLmF
+	 hfgUW78U8iVZg==
+Date: Thu, 20 Mar 2025 11:51:42 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Chris Brandt <chris.brandt@renesas.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Andy Shevchenko <andy@kernel.org>
+Subject: Re: [PATCH v7] i2c: riic: Implement bus recovery
+Message-ID: <co7wju4k5lrg5vx6sakm2m7fkmvupjkjuniz6rjdb77kbqidgp@bryc2akucoaz>
+References: <20250203143511.629140-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250203143511.629140-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The tool is not embedded in the testing framework. 'rtc' from rtc-tools
-serves as a much better programming example. No need to carry this tool
-in the kernel tree.
+Hi Lad,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+On Mon, Feb 03, 2025 at 02:35:11PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Implement bus recovery by reinitializing the hardware to reset the bus
+> state and generating 9 clock cycles (and a stop condition) to release
+> the SDA line.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Alexandre, what is you opinion on this?
+I think you forgot here:
 
- tools/testing/selftests/rtc/.gitignore |  1 -
- tools/testing/selftests/rtc/Makefile   |  2 -
- tools/testing/selftests/rtc/setdate.c  | 77 --------------------------
- 3 files changed, 80 deletions(-)
- delete mode 100644 tools/testing/selftests/rtc/setdate.c
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
-diff --git a/tools/testing/selftests/rtc/.gitignore b/tools/testing/selftests/rtc/.gitignore
-index fb2d533aa575..a2afe7994e85 100644
---- a/tools/testing/selftests/rtc/.gitignore
-+++ b/tools/testing/selftests/rtc/.gitignore
-@@ -1,3 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0-only
- rtctest
--setdate
-diff --git a/tools/testing/selftests/rtc/Makefile b/tools/testing/selftests/rtc/Makefile
-index 9dbb395c5c79..547c244a2ca5 100644
---- a/tools/testing/selftests/rtc/Makefile
-+++ b/tools/testing/selftests/rtc/Makefile
-@@ -4,8 +4,6 @@ LDLIBS += -lrt -lpthread -lm
- 
- TEST_GEN_PROGS = rtctest
- 
--TEST_GEN_PROGS_EXTENDED = setdate
--
- TEST_FILES := settings
- 
- include ../lib.mk
-diff --git a/tools/testing/selftests/rtc/setdate.c b/tools/testing/selftests/rtc/setdate.c
-deleted file mode 100644
-index b303890b3de2..000000000000
---- a/tools/testing/selftests/rtc/setdate.c
-+++ /dev/null
-@@ -1,77 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/* Real Time Clock Driver Test
-- *	by: Benjamin Gaignard (benjamin.gaignard@linaro.org)
-- *
-- * To build
-- *	gcc rtctest_setdate.c -o rtctest_setdate
-- */
--
--#include <stdio.h>
--#include <linux/rtc.h>
--#include <sys/ioctl.h>
--#include <sys/time.h>
--#include <sys/types.h>
--#include <fcntl.h>
--#include <unistd.h>
--#include <stdlib.h>
--#include <errno.h>
--
--static const char default_time[] = "00:00:00";
--
--int main(int argc, char **argv)
--{
--	int fd, retval;
--	struct rtc_time new, current;
--	const char *rtc, *date;
--	const char *time = default_time;
--
--	switch (argc) {
--	case 4:
--		time = argv[3];
--		/* FALLTHROUGH */
--	case 3:
--		date = argv[2];
--		rtc = argv[1];
--		break;
--	default:
--		fprintf(stderr, "usage: rtctest_setdate <rtcdev> <DD-MM-YYYY> [HH:MM:SS]\n");
--		return 1;
--	}
--
--	fd = open(rtc, O_RDONLY);
--	if (fd == -1) {
--		perror(rtc);
--		exit(errno);
--	}
--
--	sscanf(date, "%d-%d-%d", &new.tm_mday, &new.tm_mon, &new.tm_year);
--	new.tm_mon -= 1;
--	new.tm_year -= 1900;
--	sscanf(time, "%d:%d:%d", &new.tm_hour, &new.tm_min, &new.tm_sec);
--
--	fprintf(stderr, "Test will set RTC date/time to %d-%d-%d, %02d:%02d:%02d.\n",
--		new.tm_mday, new.tm_mon + 1, new.tm_year + 1900,
--		new.tm_hour, new.tm_min, new.tm_sec);
--
--	/* Write the new date in RTC */
--	retval = ioctl(fd, RTC_SET_TIME, &new);
--	if (retval == -1) {
--		perror("RTC_SET_TIME ioctl");
--		close(fd);
--		exit(errno);
--	}
--
--	/* Read back */
--	retval = ioctl(fd, RTC_RD_TIME, &current);
--	if (retval == -1) {
--		perror("RTC_RD_TIME ioctl");
--		exit(errno);
--	}
--
--	fprintf(stderr, "\n\nCurrent RTC date/time is %d-%d-%d, %02d:%02d:%02d.\n",
--		current.tm_mday, current.tm_mon + 1, current.tm_year + 1900,
--		current.tm_hour, current.tm_min, current.tm_sec);
--
--	close(fd);
--	return 0;
--}
--- 
-2.47.2
+he sent his review in patch 0 on your v6.
 
+Wolfram, if you don't have anymore concerns here, I can take this
+in.
+
+Andi
 
