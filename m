@@ -1,117 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-14681-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14682-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39CBA6A458
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 11:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7AD0A6A46C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 12:06:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 45A71176420
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 10:58:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 543B617FCB0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 11:06:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF5A722539C;
-	Thu, 20 Mar 2025 10:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="QNpOVbTv"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9D91216392;
+	Thu, 20 Mar 2025 11:06:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88E0224B13
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Mar 2025 10:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9281581F0;
+	Thu, 20 Mar 2025 11:06:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742468303; cv=none; b=HpXAKMJrFeJQpuhxUI5D4QukmEs+H/bYYZgrRmERwR5rF2Hhug6CuJo60aiXSjB8IjNGK4M2Zs8295qHc+O0C95R3FeMBW8vCj2mSRoz6aCfvlCIjlxdHElEI6NmGhyQlv3YxaqXNPO03JEcs9lUXLricQr8hqMUdbjKUIx/cjQ=
+	t=1742468773; cv=none; b=Y707RUvTdi3Ai9Qd3Wk5FbVSOw6OsUj0ZAVo+DCoUpu0xYprBQ+Qs9stJ/EiKNb2lKOVsFM/AJTct8Tg5IyMGP1vDZ09oxC1nR1O8aGExe/UEjkerFtZecPH4RiIpUTZryqfO0vV6KQJxn3ad6a8szxLcT4zSAhCfOlFF8MQdkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742468303; c=relaxed/simple;
-	bh=VZmlhPiRioKD8JQT0RriZrihgupYPCfgyQh8LfVp0aU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NSE1YTbCd0WDWcWQZW4g7QbV9ilglkuryT2xcxSemqeFOqX179RDYCEd2fUk+RE6SA0Mxl4t2XS1ShwqLMaw4Cro7uEdMDtKqZJUZxWbOsetUSiqBSWfkG2YVCnFnhttEd8L3/x0TIrXDlMdlcCXUDsQKLCIkvnIpCnmNJFZah8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=QNpOVbTv; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=VZml
-	hPiRioKD8JQT0RriZrihgupYPCfgyQh8LfVp0aU=; b=QNpOVbTvI2Xxs0a4nSeD
-	e2YcIdaHFWU3tcDO6iQozEivmprhsF41/CSrPiuVM+WJgREDqGGmDSV4/i37Guf9
-	hXiM5FSsQ9RkuWDdbLZeZMoQSq7PLDaCFqJCt05wkQCZEJ377r8xs7lBsyuE4vWf
-	POYFRWakwxc+mu+eZfNq4jt9md0TBhthN7i5P0s7tnP65VlzXoLRKx+/KfIjFtsx
-	UIpFiO5PI/y9scyE9069Q2ly+yP4aHo5b+NfYqDPTfLLdQp7fFabGKUV0zsolsK1
-	fDGLlj0q4jnAoITz4b26CJaPJUi5oLJpmBOzr3Uh/JHtX5QJWDYS/xixgdoxGIYC
-	Rg==
-Received: (qmail 619648 invoked from network); 20 Mar 2025 11:58:19 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Mar 2025 11:58:19 +0100
-X-UD-Smtp-Session: l3s3148p1@S/8BBMQwDq0gAwDPXyTHAJp038nK7dx+
-Date: Thu, 20 Mar 2025 11:58:19 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Andy Shevchenko <andy@kernel.org>
-Subject: Re: [PATCH v7] i2c: riic: Implement bus recovery
-Message-ID: <Z9v0y7MLH9MgH0xj@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Andy Shevchenko <andy@kernel.org>
-References: <20250203143511.629140-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <co7wju4k5lrg5vx6sakm2m7fkmvupjkjuniz6rjdb77kbqidgp@bryc2akucoaz>
+	s=arc-20240116; t=1742468773; c=relaxed/simple;
+	bh=rMmzATW4tVDymDKE0vN8VJAOMhhj/PfsjKpdbIcqksA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tCWfHw7jQmrpaduGd0fqnGeABmr1IgZyh2Y56g950G6m+a2vcSuzpnJ81mvUg+D2wiL8l51hrc+PfukDmwGZZWmVeVWYweBKDGc3bHGg22AW5HPsBUlKnmTKPtdqcSGwqXESzPFg/+epJwFv17BbseFQGaJA8d6ccbmHvdfgBPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-523f19d39d3so325694e0c.2;
+        Thu, 20 Mar 2025 04:06:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742468770; x=1743073570;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ImC1ilYz8csQQTiElE4dlkIdMJPrZ9ZDKJ+eUaDLaJ4=;
+        b=RkfyzX6LFpYTLxnmG4Kk1o9qsbpy6kFYVMAN5AizWLObdaR10CI7P2Qihg3RK5t/96
+         W3xjOiqDvfecVPXqMUr26s8PK8NJ9wQVXHBhmsxbFknhcCLBPTfkzZUy7QZWTOTk/CFM
+         ztcTp+jWjSQqT4c/5QtQwZpPoMNgn0PDidmEmYhwjzWGliucCKaDlOtsJBjN9kao0Uqq
+         39idrU2Fr1WRliEa6Ss0mHbZRkrFEWEYJHvmYwYKGSrD1ajZkgMGfdWp3KbGWE0M1FWB
+         xhJklEt3a+5y4HObm5r4AJTwsiW1hFFyOKVPNFWx3x8Sv5GiHmdxEIRMU67Jc9HrlEue
+         U4fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUkfTUjXPifpcahhdu8C+jYQdG/YwlyzVaO2/g4CxCSEz307ty+DK/Q9/EYlrHB2d12jb65EPrq2NXu@vger.kernel.org, AJvYcCUy2aoWvO1gjuHVMzGnLtkKaIT7CnpqZPHh+E/1GMJZgN8tc/cxEBtkGACPf5Qi8Jsfs1aesUbvINxckYOmIAw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPRNw9DfP8HuA6sYn+OdLuxnofYvciz8K5so1ykw/bGvjPnQxs
+	j6joT0O9o3H/jBYdhUq2a9+69QpMtkAtuaBBr6840Hilm8Ejttfkm13Zf04P
+X-Gm-Gg: ASbGncsl2gBkvnu9i5Ca90UBheFsdoOTFVNNkVwAaO3l72Vn6YqAuh8ZFbbA5PJ/Khm
+	RLctS7lRinvdMPddFm0N3UPyuXDEQwB0QL7rd3cL84UYuINiqaMM/v+pqAvezdrCNE+kST89IiF
+	Kau3JLjyLYxZmFrlvh0g2ImemKYPPBWgjJWwd4HsId3csRhY7YCXE0NmIhT1Nao5wA4/y0m3zbX
+	nyj+pat5bs5C0le5VV8mAFCVJiVFyeEyAne1rQbiDf1+c/6V3jFnuz6DQqxWMyzsQsK4/p6lxNg
+	SYS//HNdaZvnEesU+YeleGFt1EgtHvvKkZaLwXplAhwhSt3Xldp4lz45syfMgSK4PDjccTjE7wW
+	s9DcoxmQ=
+X-Google-Smtp-Source: AGHT+IHpeyAIBciyN6hG5GaIshuXsPpPeXkTfMhui4TH3A6/Ih7pwSvXGVoIiy5GlLkmN17dlS0b7w==
+X-Received: by 2002:a05:6122:2391:b0:523:763b:3649 with SMTP id 71dfb90a1353d-525963663f6mr1784530e0c.6.1742468769606;
+        Thu, 20 Mar 2025 04:06:09 -0700 (PDT)
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5243a5a5432sm2849504e0c.16.2025.03.20.04.06.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Mar 2025 04:06:08 -0700 (PDT)
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-86b31db3c3bso214779241.3;
+        Thu, 20 Mar 2025 04:06:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX/uzJwQGmYukFggCPtMDKiZ0WEIDd+PATorKVF/R726BkzIv99afVGIWTLQ+2uBaK02roz9D/CoH/7/cOAF7I=@vger.kernel.org, AJvYcCXOP5z5vOP53dHAzhMwGGMphT25SPZX8oQ6pqgXUG2VZBL48tUOtIX5gI0dxbg4drixuECeq+WXjRdY@vger.kernel.org
+X-Received: by 2002:a05:6102:9d8:b0:4c3:9b0:9e6b with SMTP id
+ ada2fe7eead31-4c4fcd4bbbemr2027562137.10.1742468768441; Thu, 20 Mar 2025
+ 04:06:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tNfU8lFiG3SKvJJC"
-Content-Disposition: inline
-In-Reply-To: <co7wju4k5lrg5vx6sakm2m7fkmvupjkjuniz6rjdb77kbqidgp@bryc2akucoaz>
+References: <20250320103433.11673-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250320103433.11673-1-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 20 Mar 2025 12:05:56 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVwVyyZWfgFi12ujvSj8bVtDZyZvj+QMZ_iQbPbRDNHQQ@mail.gmail.com>
+X-Gm-Features: AQ5f1Jq_NsWp8NroIamQ-3N7pN5F3RiFVMT8Kt1Ob7GBfjLIVVkhLWqv1erTxtQ
+Message-ID: <CAMuHMdVwVyyZWfgFi12ujvSj8bVtDZyZvj+QMZ_iQbPbRDNHQQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] rtc: remove 'setdate' test program
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-rtc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Wolfram,
 
---tNfU8lFiG3SKvJJC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks for your patch!
 
-> Wolfram, if you don't have anymore concerns here, I can take this
-> in.
+On Thu, 20 Mar 2025 at 11:36, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> The tool is not embedded in the testing framework. 'rtc' from rtc-tools
+> serves as a much better programming example. No need to carry this tool
+> in the kernel tree.
 
-Please wait for my still outstanding review. I am sorry for the delay.
+Where can I find these "rtc-tools"? They don't seem to be carried
+by e.g. Ubuntu or Debian.  Google Search gives lots of results for
+something that looks completely unrelated.
 
+Ubuntu also suggest:
 
---tNfU8lFiG3SKvJJC
-Content-Type: application/pgp-signature; name="signature.asc"
+    $ rtc
+    Command 'rtc' not found, but can be installed with:
+    sudo apt install nvram-wakeup
 
------BEGIN PGP SIGNATURE-----
+Is that the same rtc tool?
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfb9MsACgkQFA3kzBSg
-Kba5RA/8D0Nn2OvEjEPzwQ3kPx3V9Eu+lYjHLL9GzDSsCfvFC9lRmubRwix9beLi
-70JV23cDTWiGC+1dYmzbeAVNq393LNR3kP3j78ASIBMWk539EgboqUbUpJz4+7d8
-c6/dNF0I8jd1sAR5KQg6fjzwDQviL1SW2s6FGFAuk/m5e6v4wm73QxqpMI23QlI0
-TJTz08tmNXrVIOABnVbtkW8v48BPbXDlteSTSK86rawtrGM3Ospb9Umq1N9vIwlk
-Uiopuo/9L51QqIFwNJYwjBBhu/lxjGJH7CmcgfCzF0jPQ4m0s1gStToN3cs/EJFN
-fxfUFT9SvdFtWwqFd6xlbKkMl7LF4erI3bDBc/LdefuYuQV1vGX4m3LHO3JIlAOC
-nGtGjIo49CBpIg9e2/IXlQbztCq0tMn790z98d3vNiBZRN6mf12l8cr3i38Xifgi
-RGz7r13rJdgTzna7SaR7/2oC2iV/IVpi10GgB8d49PtxzrE6tEGrTft38H0OXUPN
-odjCTrYq6jD0DhHcJu34iLBsT1HQtN/Bf1kh6q21ixlzxaVBzoa63dQEQuL5zXMe
-Sg6D5JgbitS0nTyMu5LrTzeyQ5vozDitkQbimr/hlOLVORpdzTT1xBCfxmnZ1XKo
-bA0SyUNpb+jfCXr+/ij/6SkngonSs6Il/O09BBxKI2cjLgbVRrM=
-=Ilwd
------END PGP SIGNATURE-----
+>  tools/testing/selftests/rtc/.gitignore |  1 -
+>  tools/testing/selftests/rtc/Makefile   |  2 -
+>  tools/testing/selftests/rtc/setdate.c  | 77 --------------------------
 
---tNfU8lFiG3SKvJJC--
+Iff this can be cross-compiled easily, it might be a better option
+than the rtc-tools I couldn't find...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
