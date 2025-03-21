@@ -1,139 +1,206 @@
-Return-Path: <linux-renesas-soc+bounces-14729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14730-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67226A6C458
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 21:37:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAAEA6C587
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 22:57:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 561533BCEB0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 20:37:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03DCB1898F21
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 21:57:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 457C7137C37;
-	Fri, 21 Mar 2025 20:37:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E21B232373;
+	Fri, 21 Mar 2025 21:57:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dlrUOX2S"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GYP6fsDD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976C32309A1
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Mar 2025 20:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F2D231C9F;
+	Fri, 21 Mar 2025 21:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742589444; cv=none; b=p5QPZ/2blTB1wgpxTg5zRhBUVUDIXp+ViFKKI7OR/3X+J8kaq090SmIqDUyUmS3pBiweSHM6qBEacsOUuilqvBdEcH9rbxYQ/YfldeNg3gqmtAJ7C6zb+szBRT4wRuDhd4nQ6xuGcGHcN5uqBwwyKG446MKbUx0YgSswJivOr5I=
+	t=1742594222; cv=none; b=VSojLZpcC7JcvIyP+rxGOaHunUwkIeMdj9KVONOsPwOPyDxpyr9o+ulSqQEycPCl2m3JOArMo4NbUv7HlkY0dBmETmcH2dMsC/FSB66LGIiMeuCrjc4dtjFqdLc9JMbJyweOCmlOTXhohRfyiZSzbHd1175olfp8z5APWb3JENg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742589444; c=relaxed/simple;
-	bh=JqLC8Hx0DambRc2RFuJvdQgKgMpMaa69lYJq4p8fPoA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S/QdgvaRb+j7TNGLfkRKjWMOMXa5fo6Sm+e++hUzWuyv5kI3jXQpz/hLxGeR3Ck7cByLxIOXfmCRfepasKVC1Cw+Kn1++SQTv6XnZv2lX7/sQ2VTY0+ZIsZykUrhD8S7t6pXOqqFqUiuuWAnXaFi66O7bY9thg/92O4LMynr56U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dlrUOX2S; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1742589441;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c3nrAPNCqv+uMph7FOR38ygPrAkDx5/grua1l5sijvE=;
-	b=dlrUOX2S/WH9X+7VTzyxi0sJGwYgo1zDs6PQteO3nQ/uH5GXSxnrlEQlPfdK/ZjWP2xB6H
-	f6v7WQqnzZyroG5U7zteT+fs3XfYEXTVZwxFyaoC3MwdgSf6TBMOch0Qt+F5ufBCRf5fBd
-	gD1l4eMTKBlvK2UxNTK6OvFtqLss3Eg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-136-iKd5ZCMyOAuTWk0KirPdEw-1; Fri, 21 Mar 2025 16:37:20 -0400
-X-MC-Unique: iKd5ZCMyOAuTWk0KirPdEw-1
-X-Mimecast-MFC-AGG-ID: iKd5ZCMyOAuTWk0KirPdEw_1742589439
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-39126c3469fso1053616f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Mar 2025 13:37:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742589439; x=1743194239;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c3nrAPNCqv+uMph7FOR38ygPrAkDx5/grua1l5sijvE=;
-        b=VPTQ6olHKRwke52oGqdaOsODBLqm1y/0+rYFU1F5ZcCLp0QsYFrZz4ViwmQe0beLCU
-         pU2FLP/KxemLreWRZlPQCmpjPl3uTIolGfPUDP/ZB6pYYyUCT1EXM8vBw79dQ97HdjfI
-         pK1kXCAk6RCyvhUwIqq5IoeunwJw+kVhOHfsOJydLY6xS+K/IauUW76dFJLNNC4lMPih
-         gA5Qi/9apDF9ElrSIiKvjG3sfG8KTygFWzP5KBRkgFnfVIEkH3qCuoE7cfQ1wwTVSRUk
-         JXBEJnMp9GqPijmjoaTvZ1tIOBjo3N8oEP2hR4IQQ4Zohzp0IUrtDgsAeLDIUgvpAR4j
-         Dr5w==
-X-Forwarded-Encrypted: i=1; AJvYcCVJRaEAb4wsS8KpnhNVVpgBjn04kkiOB/SNVH+jDkMpzEj/5tvvV8QQPC3+1CavjLQvH4kwzQkoUjRpTh8MfDt/DA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YycTRQjzRpJw3Bw4dhX1F3QzCsyV1Z1p2M/2TPuu+d/KHrOQ7KY
-	nG0NNPbByK9woTPkGrJz7CgTg9pT3xDTtQ+8mspaytNHtiL+8UsEtbhqUdJgBa0TXihjN7foduO
-	O4V3x/q3sJJnkWxTjNwbch0J0/j+/3rMgDELFzqpU9BaJTC87UwWg39P7QbdNlc7RAm4O
-X-Gm-Gg: ASbGnctu2u+FQE2yGk32lfoh+7TDjUddGKzFFmNzRn2TBd8EQ1cAl3fIW7dGYCfjvqQ
-	NuILHVda5jGvzKUcqDYrGiePLN+vcuhykil025Xxqrfxmp3wU+joN5uYVq0qJbKVOZ8eQtcSYKJ
-	68Bv5fklChrJT4EKHH8NJg4xqnDCeWXwTTQwJ6qk2KEY9EqizjzjZrjiyTQWJe0b4vyFEctUt5C
-	bUC93iJTRygnUW8zBGERxBfmBgLfV8fRoNdTt8DUIUzLL4K+1Sj905n37ZviEtWUtozNH4ZM6RL
-	KDMa6N6KRono/MMOr/bNKg8ENAN1bG1V2vSS+ntpe0jfOA==
-X-Received: by 2002:a05:6000:1867:b0:391:2eb9:bdc5 with SMTP id ffacd0b85a97d-3997f90d2bdmr4543348f8f.23.1742589438709;
-        Fri, 21 Mar 2025 13:37:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGJGJ04UqTM5mJpscFLEySJ8yQ0dp9I9ZT9RgN2HjfsRDgC7ejFbHBNNNgZWfsMQqglWX4Y3Q==
-X-Received: by 2002:a05:6000:1867:b0:391:2eb9:bdc5 with SMTP id ffacd0b85a97d-3997f90d2bdmr4543325f8f.23.1742589438306;
-        Fri, 21 Mar 2025 13:37:18 -0700 (PDT)
-Received: from [192.168.88.253] (146-241-77-210.dyn.eolo.it. [146.241.77.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fd181b6sm36766785e9.9.2025.03.21.13.37.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Mar 2025 13:37:17 -0700 (PDT)
-Message-ID: <9fe63634-9961-451a-b98d-0a9df1eef8b4@redhat.com>
-Date: Fri, 21 Mar 2025 21:37:16 +0100
+	s=arc-20240116; t=1742594222; c=relaxed/simple;
+	bh=XAGvWynXDWibkIhhVTdU5IuUHx6RupfoFAXHu1BGyqM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B85+SyGYsHqZEaYoIjH5YlE1Pmmr0oOqbjT7MtxBUezWYzj1KnWDStdsmdubZXxkfIQLeX3sJ3uREz2/Jf0vJlU1KAMhzFkLxygL69Uqw+vPGKb+VuincBZITvwnuaT0R+RKxDOqjYMvzpHjYfoh7jFcD/wH319q/ciGz3VxUr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GYP6fsDD; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [194.75.195.10])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B0CB346;
+	Fri, 21 Mar 2025 22:55:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742594113;
+	bh=XAGvWynXDWibkIhhVTdU5IuUHx6RupfoFAXHu1BGyqM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GYP6fsDDN5istxHehr7hViEXFogC6ddM1avVzyy71EUe0MI93LhKbSmAJXWc4suOU
+	 CDFKFHmLauYXh9bxWpNyeks+aSeWceXA3K/t/+i//ev6uDVcnBPADJXZeXSfuDJTdj
+	 POntF3JRH2F+9CPXEzwzTLZkuki+vqvr5y+U3Q1Q=
+Date: Fri, 21 Mar 2025 23:56:34 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v6 7/7] media: vsp1: pipe: Add RAW Bayer formats mapping
+Message-ID: <20250321215634.GB11255@pendragon.ideasonboard.com>
+References: <20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com>
+ <20250321-v4h-iif-v6-7-361e9043026a@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next] net: phy: marvell-88q2xxx: Enable temperature sensor
- for mv88q211x
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Russell King <linux@armlinux.org.uk>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Dimitri Fedrau <dima.fedrau@gmail.com>,
- netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250316112033.1097152-1-niklas.soderlund+renesas@ragnatech.se>
- <c17d4b58-9efd-4c09-8e20-e4f9e2e10100@gmail.com>
- <20250316120214.GA360499@ragnatech.se>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250316120214.GA360499@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250321-v4h-iif-v6-7-361e9043026a@ideasonboard.com>
 
-Hi,
+Hi Jacopo,
 
-On 3/16/25 1:02 PM, Niklas Söderlund wrote:
-> On 2025-03-16 12:47:55 +0100, Heiner Kallweit wrote:
->> On 16.03.2025 12:20, Niklas Söderlund wrote:
->>> The temperature sensor enabled for mv88q222x devices also functions for
->>> mv88q211x based devices. Unify the two devices probe functions to enable
->>> the sensors for all devices supported by this driver.
->>>
->>> The same oddity as for mv88q222x devices exists, the PHY must be up for
->>> a correct temperature reading to be reported.
->>>
->> In this case, wouldn't it make sense to extend mv88q2xxx_hwmon_is_visible()
->> and hide the temp_input attribute if PHY is down? 
->> Whatever down here means in detail: Link down? In power-down mode?
+Thank you for the patch.
+
+On Fri, Mar 21, 2025 at 04:45:39PM +0100, Jacopo Mondi wrote:
+> Add formats definition for RAW Bayer formats in vsp1_pipe.c.
 > 
-> These are good suggestions, this issue is being worked on [1]. I just 
-> wanted to highlight that this entablement behaves the same as the 
-> current models that support the temperature sensor and log how this was 
-> tested on mv88q211x.
+> 8-bits RAW Bayer pixel formats map on VSP format RGB332.
+
+s/map on/map to/
+
+> 10, 12 and 16 bits RAW Bayer pixel formats map on RGB565 insted.
 > 
-> 1.  https://lore.kernel.org/all/20250220-marvell-88q2xxx-hwmon-enable-at-probe-v2-0-78b2838a62da@gmail.com/
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> ---
+> v3->v4:
+> - Fix SWAP bits for RAW 10, 12 and 16
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 72 ++++++++++++++++++++++++-
+>  1 file changed, 71 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> index 8e9be3ec1b4d..a51061738edc 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> @@ -30,10 +30,80 @@
+>   */
+>  
+>  static const struct vsp1_format_info vsp1_video_formats[] = {
+> -	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	/* Raw Bayer 8-bit: Maps on RGB332 */
+> +	{ V4L2_PIX_FMT_SBGGR8, MEDIA_BUS_FMT_Y8_1X8,
+> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGBRG8, MEDIA_BUS_FMT_Y8_1X8,
+> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGRBG8, MEDIA_BUS_FMT_Y8_1X8,
+> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SRGGB8, MEDIA_BUS_FMT_Y8_1X8,
+>  	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+>  	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+>  	  1, { 8, 0, 0 }, false, false, 1, 1, false },
 
-My take is that you should at least clarify in the commit message the
-state required for a correct reading - e.g. link up vs power-up.
+Similarly to the media bus codes, could we have a single entry, using
+V4L2_PIX_FMT_GREY ? Same below with V4L2_PIX_FMT_Y10, V4L2_PIX_FMT_Y12
+and V4L2_PIX_FMT_Y16.
 
-Thanks,
+This would still duplicate entries, as V4L2_PIX_FMT_Y1[026] are
+essentially treated the same, and they are identical to
+V4L2_PIX_FMT_RGB565. We could ask the ISP driver to use
+V4L2_PIX_FMT_RGB565 (and V4L2_PIX_FMT_RGB332 for 8-bit raw) when
+configuring the VSPX, but that's a bit of a hack.
 
-Paolo
+Another option would be to handle the translation in
+vsp1_vspx_rwpf_set_subdev_fmt(). I would still in that case only expect
+the V4L2_PIX_FMT_GREY and V4L2_PIX_FMT_Y* 4CCs from the ISP driver. This
+patch could then be dropped.
 
+What's your preference ?
+
+> +
+> +	/* Raw Bayer 10/12/16-bit: Maps on RGB565 */
+> +	{ V4L2_PIX_FMT_SBGGR10, MEDIA_BUS_FMT_Y10_1X10,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
+
+The bpp values are used to calculate memory offsets. Unless I'm
+mistaken, you should use 16 here, not 10.
+
+> +	{ V4L2_PIX_FMT_SGBRG10, MEDIA_BUS_FMT_Y10_1X10,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGRBG10, MEDIA_BUS_FMT_Y10_1X10,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SRGGB10, MEDIA_BUS_FMT_Y10_1X10,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
+> +
+> +	{ V4L2_PIX_FMT_SBGGR12, MEDIA_BUS_FMT_Y12_1X12,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGBRG12, MEDIA_BUS_FMT_Y12_1X12,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGRBG12, MEDIA_BUS_FMT_Y12_1X12,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SRGGB12, MEDIA_BUS_FMT_Y12_1X12,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
+> +
+> +	{ V4L2_PIX_FMT_SBGGR16, MEDIA_BUS_FMT_Y16_1X16,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGBRG16, MEDIA_BUS_FMT_Y16_1X16,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SGRBG16, MEDIA_BUS_FMT_Y16_1X16,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_SRGGB16, MEDIA_BUS_FMT_Y16_1X16,
+> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS,
+> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
+> +
+> +	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
+
+This doesn't seem right, the patch is changing the V4L2_PIX_FMT_RGB332.
+
+>  	{ V4L2_PIX_FMT_ARGB444, MEDIA_BUS_FMT_ARGB8888_1X32,
+>  	  VI6_FMT_ARGB_4444, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+>  	  VI6_RPF_DSWAP_P_WDS,
+
+-- 
+Regards,
+
+Laurent Pinchart
 
