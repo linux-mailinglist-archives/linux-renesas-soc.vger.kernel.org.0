@@ -1,197 +1,206 @@
-Return-Path: <linux-renesas-soc+bounces-14721-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14722-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DFEA6BECE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 16:54:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D5CA6BEE7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 16:58:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A03B23BA35F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 15:52:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEA80188365A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 15:58:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2833E22652E;
-	Fri, 21 Mar 2025 15:52:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D750221569;
+	Fri, 21 Mar 2025 15:58:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oaHaHYtO"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="OgnspWY8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011067.outbound.protection.outlook.com [40.107.74.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE6042A94;
-	Fri, 21 Mar 2025 15:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742572336; cv=none; b=rYg7drnUbPR10MiRjJTAU0zw6GDUx6K6Jl5IMNHQzHTlyLLNg53AIcSz/GVfh6UrM2KzA6FZjCmkdWKf56JQSwPv/HlHYxH6sZzy4L4N1jjLM1xcGsiM8n8O+2FpxqylkPS/ntW6gnUeZGTIyFukegYgAyW720zK1kr+g6Tcohs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742572336; c=relaxed/simple;
-	bh=g1DDnj5fD1ZAtu0cPRAYle7RyFlSUuFSlUaHm4oy8gA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F/Ucnymkyd+VNG2RzcscQaSZIlxrNxuzil+GRKzuBCoIPAEm6k8Ddq3ynm95J+CyFaow2P9LhAL7PeNepkMyqrEYo2ZwJxdtmlZQUJs4InNteUUO1q2au8hUdJNGBld5I8k1qp9l2vU9itfE/KKl9IX5Wet69wNcsoZq3byjJTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oaHaHYtO; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 459D12C5;
-	Fri, 21 Mar 2025 16:50:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742572228;
-	bh=g1DDnj5fD1ZAtu0cPRAYle7RyFlSUuFSlUaHm4oy8gA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oaHaHYtOo9bV4KMSNdhULofTmTKihTEM8zaKPpI4nTHirL2tIHGnXU57RNYahtVmV
-	 SXh1To6IquYNipoe50Ucmnie0vNkHj9BNWksCdvhhKUMIA07QgldXZLdDr//STatzg
-	 nT8oFIVvtLq3g7Ua+BGDHxqr4Re4kmMrKdT3Va/M=
-Date: Fri, 21 Mar 2025 16:52:09 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v5 6/7] media: vsp1: rwpf: Support operations with IIF
-Message-ID: <3yyktuikkxbj64ajc2zcq6zgclecyuvq4wdsmsyqphn3cio65a@jc3dbz62z7sr>
-References: <20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com>
- <20250319-v4h-iif-v5-6-0a10456d792c@ideasonboard.com>
- <20250321120942.GB1752@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1BE42A94
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Mar 2025 15:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742572686; cv=fail; b=a4D5t2sNuKRZURGS7YcWM4GI//HWHtwDTn1YGSynsszio1Djws7FHxm6zCHOwtBKAwZ8wR/aAQkih/ai89Qt292oT4uRLq8Psyewy1+w39atSv474IaEzFZuX5GyXpqy6ptM6o81ARFtjLizzXmZtXWT9ffT6XPja86qnYB6wFc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742572686; c=relaxed/simple;
+	bh=EumWW6FcB1aRkkjGywrtQIQf5kMrh57P7kvJwMI6wgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=R4GI5w00BjgbtpdI3R/S8xZpF+thMx7ga9UQE1GKndJ6596Cb2/sj22n7/x31CJ3UD/8ke//Y9peRmYnLoGZaCzjFn8wVsgnsvVCDBmpGdJFZ7ewrJwX0mPPubRZlKRgl3zSSRqFw5dp5821vwJUAHotH+46w706QedyitRruzw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=OgnspWY8; arc=fail smtp.client-ip=40.107.74.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iHoNfL8MfdYxWEbTr5Ol1WKkPgPmU5z0xMahw/nnz1TenEhVg3Jee6OU6rTnUkNKrFwPm70CVe4NmPq7WTYwi663z90NjfptIFmrO0dfSGmSgjWOD0Sgqu+ydNuHe2M5ksSPoMpdaVZapGTVab9UOd5GiLTa2/OQPSuVu89hk5NWYt3eMVO80/JTdzz2J/PYBxhYQyp1FDuuysWc2pFQzrK1TrZZtQrtQ+0ow0iDrM8yvlqCbBi362KtBFvbrPz6BDPVNVVEbMF1YwnN/y8JVKA1YhMvebZypKK8el5TvOwHT9EMwPminu7U9VZwWPC8/WKev9pdmJV3Xfddn27Pnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D7un8zxAHgcWjno4YCM37F+HDnA1buGZiFJqdoadzdU=;
+ b=T4yCmlzBhQVqvaUkyAP9f3KNYrQzTQQrFgNVrVwtBtlGjNxuEPM75rKQqcBEyte/d8n6PRSq36erDngnDbuOqlgucEChKgYSXxSoAKw4eDk4+xBz/omLVhmGjpOcbg8Si6DDGSXnWIlSmOHBXdJXQBZbkyDufYMRaIRMqX2R0r2adHUlKSf5wptWJxdMTP/8dX+/EPeGNsBGwD/3hfFjyRETYgk2GUDlEBZV6/FJ24QZrNGZJIm0kcF5ydEnSHsp6uISuGeIdH+2P5A+5jsxjNKtvT566cS3A3fmffrnhmEuCkg2UFXs1Tfc4jBe2DRs/MtdQAmduAGAJfTzOH3MIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D7un8zxAHgcWjno4YCM37F+HDnA1buGZiFJqdoadzdU=;
+ b=OgnspWY8kfeorC46H0+ck6O9he6dJj+lZjs6U7OSZFzoz5nSd3ahP1PLMR7Nm2J0rGZOiZVky/n8U3exaF8FhzQNdJ0SP2I+qABR9dZCk7QXu2+MkYF57+9CXnMxM/pKZVBK15KNnZwrVcYJGRrqtAJQdSDOeZvxB1c+qJ2Ozyc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
+ by OS3PR01MB7972.jpnprd01.prod.outlook.com (2603:1096:604:1be::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.34; Fri, 21 Mar
+ 2025 15:58:00 +0000
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3%5]) with mapi id 15.20.8534.034; Fri, 21 Mar 2025
+ 15:58:00 +0000
+Date: Fri, 21 Mar 2025 16:57:47 +0100
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH] drm: renesas: rz-du: Support dmabuf import
+Message-ID: <Z92Mez77lkypuOeo@tom-desktop>
+References: <20250321104615.31809-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250321104615.31809-1-laurent.pinchart+renesas@ideasonboard.com>
+X-ClientProxiedBy: FR0P281CA0018.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:15::23) To OS9PR01MB13950.jpnprd01.prod.outlook.com
+ (2603:1096:604:35e::5)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250321120942.GB1752@pendragon.ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|OS3PR01MB7972:EE_
+X-MS-Office365-Filtering-Correlation-Id: bcbbea0a-af57-4bb9-27a4-08dd68912778
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|52116014|1800799024|376014|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?ROKvjouKMXb1GejXo1hMZujKp+BrAMvuGajbDKTY9UW5QmV7/zp64L1AYNw0?=
+ =?us-ascii?Q?PxV6xoxvhI5mIh3jTVYuzBAepDtcpMmA4o0Y8b5j2WgD/HgAAMF58jOH3Wy+?=
+ =?us-ascii?Q?xNuhtMsaHnNHjVpYE53PoCoD01opWCQLZPd7CYJHoH7/KOpxqb6vIav93f4U?=
+ =?us-ascii?Q?GJaYvYHLBJXECOl6eQDXs9jbPnIobJUmhlUL29Cf4opjr1qsCsmwgaHLUTyJ?=
+ =?us-ascii?Q?H4YfSgK/d8SIVDD7sfGS4xLbJ+NuEzgn3sF81QLmkdpqwKGPSnBQygb0c6Xu?=
+ =?us-ascii?Q?G0xmMq5OZEtsIrwr8KnpfArsskvaAasu7GhJLhUdGfvAGyxecASRQWxeVzFs?=
+ =?us-ascii?Q?gW2t/E6UJf/of4qqbWFNSqSK3XGqN6dXbtH6cYEno8yHVl0YJDg6zam9PvHl?=
+ =?us-ascii?Q?edLUWT5l+v1jzTM1FVgV+0Ti+fPzDNpYRyg7OBzEw4ODf7pl7ZeibQyU4YKw?=
+ =?us-ascii?Q?MiYWUuw8WKwltv2TXS+q1xvs4lPgTQEAmIMlzq+qJcJ7tP4hmr4kEZjMUsTM?=
+ =?us-ascii?Q?4SBnMjSZwLosCSm4gH629a61FQ9pWpDv7wyu+1MotvOB1+lHmzIcrn1Tcj1q?=
+ =?us-ascii?Q?K7Ggsqx8bP3/YwfNYPZxR4Cz+dnKyg4MzpNAC0h/FbDKooK0A/tMamBxKsIp?=
+ =?us-ascii?Q?8EkrtFQo7DEqtvZx3YBwB5KRR2TxOmz7GfbDsBAQk45gjF1U6yNrKXWh5m9L?=
+ =?us-ascii?Q?fFz9igC497nLmfNMH0NKYmpIDDh4o3MGcMnWUAx69jktPckxjXdg4eJj8VQQ?=
+ =?us-ascii?Q?CvOccI1O5xGdPzEr38vbHT07fmelIzAG82Xt6YtW7fzpnjDldORPZ3MFXk25?=
+ =?us-ascii?Q?8vUKrR3TJ78i7hq6GVj8ldGmuMoktGK4f6uSwmjHtHIc3VkRvvDIjmnFXtpf?=
+ =?us-ascii?Q?5jYZojIXJzdi0tN0Hm0jKE27pB1YAOUX/45ZQtabdu8XvLKdZ+yOQ5dpQTo4?=
+ =?us-ascii?Q?5kg8uOhgh4QFehWby/I+E1+ADhKNcj8qTrMSzWhLY2dW+g1/fkG4Wa4lRbOx?=
+ =?us-ascii?Q?mO2o6MKNY22YAJFr2/ijloxeKAKIKA4W2yX6C3qSCBls4h9qgTA+0cFQ8V1H?=
+ =?us-ascii?Q?1TvgLaMqy/Lh7JLeCPQtVoxlDOHTuP0InDtB9RP/RkxePg/MD8+Ilt6eakC9?=
+ =?us-ascii?Q?BuA6kYYH0n6ymvQ3FCihXdfWKPU9JqCl+IvUi3zq3LWlLz+tKll3mm0oKkLT?=
+ =?us-ascii?Q?is5yinU2PmFiw2AP83iNPXDDqzKrLtnzAmD2uW7ZrCdz0vonrveYuVQRzbdr?=
+ =?us-ascii?Q?Md7mCLxCFGTKqGQs0o0uzznFOuKMwQgz7AfKvar3pHwQSuI22BhTgE7VfCgB?=
+ =?us-ascii?Q?W3S967kbtr6Jgf8nfMW7PZn9C/SuAfVOr+gTKe8Hr8aFUzT3nES0bw3Oa4Yw?=
+ =?us-ascii?Q?Spg3U80TpC4pgbdlalzeYGO1yF0asYHbdsDQdDt1xrJ+6Hwx9+VM2qz7zreB?=
+ =?us-ascii?Q?4SzH7bcURUbIapuJnUi+q4dGM/lXSi3p?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(1800799024)(376014)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?4Z7qDP/4Kt/eS2EFGdNZeoE8zySda5H62qEoTNynEfMKju/9FXu3418g0HJG?=
+ =?us-ascii?Q?Ki6lVWEClFbpwEobcXeMMjLI2ZnppVBQyRckAHqa+tvTAZgCpbsF6hVL8k8p?=
+ =?us-ascii?Q?c2d8kfyYfgzLZ731684UXhpKDlWeQjayW/InbFMl2E4lFU1UH5RkB5wD0GEJ?=
+ =?us-ascii?Q?jnisLgEq7q4ddZ3qFEaeTX0rUAPTAXmkOqU5J7WLxfgUQBlkGgFLPxn8kJlp?=
+ =?us-ascii?Q?+veK8PyiMSCdXG+FE3ws37CxAH4o7JXCepJYz5q7S8XLOTve1CRumsd+v639?=
+ =?us-ascii?Q?4BvcqJJSTCRhJRJ6KfwqaJvuM2rSuKz8gq8UFBJseD15tXf2uMPfLAa4c6L8?=
+ =?us-ascii?Q?i6jter5OJbrUEWgB/Sy28a24TnGt0QMF/NnpxmAwKEhtHtMZjBCXIKQT0HqQ?=
+ =?us-ascii?Q?X9qkkW40oXMtvVahY7aln6Wgtm5YlecZeHX9vyiNOlmDNMRw5ZjhhkCMuIz6?=
+ =?us-ascii?Q?xUG3LbpdlcNVUAZt1II+6RQrXyLBRjEkZVyqhM2M6PNrCWSz//ZgF5U9AL1+?=
+ =?us-ascii?Q?uy2R5UPn42rGiYZTxmxm7pkUawo5hU/I1yQQJAvuBm8kwTdFsSWLQhbESCmZ?=
+ =?us-ascii?Q?HIACAVas3Lfmh3U/VaXrGprOnXKN+p8xB9sok9Itvm9zA5EhO89nFYAm/blz?=
+ =?us-ascii?Q?Y5zNgV77nOCF0CUj2D/5v5ooOfVJMVnPTely03b0NMjhpmuoE1YUvnGeso5R?=
+ =?us-ascii?Q?bI5nSEbvRuPzwQeVB56LY24SPvQCyOwr+uqVhlREDDfhrmV50QnosX6Rqiax?=
+ =?us-ascii?Q?uYngTg22nTfeqIdtkZuTeqkNMDIqS4T/nYJwCRGYIJsaqYuLzKa5tqMIgQIf?=
+ =?us-ascii?Q?+mdM9fl5MtvyAbgw2Vt1Wuw2AOwaoCtInngD2sboPqYyWcXbhc138CW1fEym?=
+ =?us-ascii?Q?d5P5uscJM6Sc9IXDGEHeEpU9XGDBtNneA4HUqlE2J15gza4qwo2TcdjhWmBj?=
+ =?us-ascii?Q?qZcQnPddxR90eJ6XcyWRimH51fXbnAO8210VhXjM+S+cBo4m8Ym4Hvy5QCb7?=
+ =?us-ascii?Q?Jr6nIX9YRSr7JoEx1EA8DWdqg5WxdVrT6/4LxQ7GPq6VfSC+X1qJsqj59AXp?=
+ =?us-ascii?Q?ZlCtuOhIp7OEBSmBdLGdIKt4SbyLVpbls3MZJkJe0jidO/21I5yHof3RRfGb?=
+ =?us-ascii?Q?3+9jlZpIFdyEvNo6RWnuV5/7TT9QdFS7554ccLMmdth9n9P7+YNBfNmyyFrc?=
+ =?us-ascii?Q?xR2BLoAvp/h9DB6HPZ/j9C/JBPY6OV0OYoCpOw7v2FlX+kVyXJrAnTw38+Y7?=
+ =?us-ascii?Q?0KRRNRvKowkUq9CnYqIhxdwdj2hb8+aF+WCLqdqbbRbpQZ1lthZn4OJzpNYr?=
+ =?us-ascii?Q?SwrubClm1SU9FjI4L8V3HoG+RqVEq+7y2gLabywo3fznxZdVz5wakFHW8ksI?=
+ =?us-ascii?Q?0nb8boXaDUkUcjpD2FkGE+W+3kR+oxY/X9BHwW26cpWvRCvtcsoTotqxUHzD?=
+ =?us-ascii?Q?CA7rRukqAsJurAyB/9tgNnHoiphZgQHH6i0u6eNeJyR8NaGFiTll/mkPHbjL?=
+ =?us-ascii?Q?SZYT7fNHATifaJnuIWgifXlIKpPWEZF1dtRC/N9uJ++tg68K+UUef1eZvj04?=
+ =?us-ascii?Q?3Qex8I9W5F04J6wtsoIf/oaFcXLQp8qCPaiFJGWCwo2I4lic0DI+4TQjGmJA?=
+ =?us-ascii?Q?PNMdHhpM9M/z9Kjjpdfc6O4=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcbbea0a-af57-4bb9-27a4-08dd68912778
+X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 15:58:00.1818
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fz1TgsXC62OIK7f1At4T7K+1Pme2/KmbOdI7QMQ51SIIhLMet15tjkfk4brEqGRsPVzFD9iab0MEYmQdeMfj/xKRNcJLu5+zbBgXa4cH9htKoGaKz87p7my3AjSb/jYm
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB7972
 
-Hi Laurent
+Hi Laurent,
+Thanks for your patch!
 
-On Fri, Mar 21, 2025 at 02:09:42PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Wed, Mar 19, 2025 at 12:28:19PM +0100, Jacopo Mondi wrote:
-> > When the RPF/WPF units are used for ISP interfacing through
-> > the IIF, the set of accessible registers is limited compared to
-> > the regular VSPD operations.
-> >
-> > Support ISP interfacing in the rpf and wpf entities by checking if
-> > the pipe features an IIF instance and writing only the relevant
-> > registers.
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/renesas/vsp1/vsp1_rpf.c | 11 +++++++++--
-> >  drivers/media/platform/renesas/vsp1/vsp1_wpf.c | 14 ++++++++++----
-> >  2 files changed, 19 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> > index 056491286577cc8e9e7a6bd096f1107da6009ea7..4e960fc910c16600b875286c2efec558ebdc1ee7 100644
-> > --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> > @@ -84,7 +84,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
-> >  	sink_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
-> >  	source_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SOURCE);
-> >
-> > -	infmt = VI6_RPF_INFMT_CIPM
-> > +	infmt = (pipe->iif ? 0 : VI6_RPF_INFMT_CIPM)
-> >  	      | (fmtinfo->hwfmt << VI6_RPF_INFMT_RDFMT_SHIFT);
-> >
-> >  	if (fmtinfo->swap_yc)
-> > @@ -98,7 +98,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
-> >  	vsp1_rpf_write(rpf, dlb, VI6_RPF_INFMT, infmt);
-> >  	vsp1_rpf_write(rpf, dlb, VI6_RPF_DSWAP, fmtinfo->swap);
-> >
-> > -	if (entity->vsp1->info->gen == 4) {
-> > +	if (entity->vsp1->info->gen == 4 && !pipe->iif) {
->
-> I think this can be dropped, because ...
->
-> >  		u32 ext_infmt0;
-> >  		u32 ext_infmt1;
-> >  		u32 ext_infmt2;
-> > @@ -163,6 +163,13 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
-> >  	if (pipe->interlaced)
-> >  		top /= 2;
-> >
-> > +	/* No further configuration for VSPX. */
-> > +	if (pipe->iif) {
-> > +		/* VSPX wants alpha_sel to be set to 0. */
-> > +		vsp1_rpf_write(rpf, dlb, VI6_RPF_ALPH_SEL, 0);
-> > +		return;
-> > +	}
-> > +
->
-> This block can be moved right after DSWAP. I can handle this when
-> applying the series if there's no need to resend for other reasons (I
-> would appreciate the change being tested first though).
+On Fri, Mar 21, 2025 at 12:46:15PM +0200, Laurent Pinchart wrote:
+> The rz-du driver uses GEM DMA helpers, but does not implement the
+> drm_driver .gem_prime_import_sg_table operation. This  prevents
+> importing dmabufs. Fix it by implementing the missing operation using
+> the DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE() helper macro.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Indeed, this is way nicer.
+I've tested this patch on RZ/G3E DSI.
+I can see performance increment.
+Thanks!
 
-I've sent v6 with the change you have suggested and re-tested it
-again.
+Tested-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-Thanks
-  j
-
->
-> >  	vsp1_rpf_write(rpf, dlb, VI6_RPF_LOC,
-> >  		       (left << VI6_RPF_LOC_HCOORD_SHIFT) |
-> >  		       (top << VI6_RPF_LOC_VCOORD_SHIFT));
-> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> > index a32e4b3527db41e7fac859ad8e13670141c1ef04..fafef9eeb3f898b774287d615bb4a99fed0b4cfe 100644
-> > --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> > @@ -247,8 +247,11 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
-> >  	sink_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
-> >  	source_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SOURCE);
-> >
-> > -	/* Format */
-> > -	if (!pipe->lif || wpf->writeback) {
-> > +	/*
-> > +	 * Format configuration. Skip for IIF (VSPX) or if the pipe doesn't
-> > +	 * write to memory.
-> > +	 */
-> > +	if (!pipe->iif && (!pipe->lif || wpf->writeback)) {
-> >  		const struct v4l2_pix_format_mplane *format = &wpf->format;
-> >  		const struct vsp1_format_info *fmtinfo = wpf->fmtinfo;
-> >
-> > @@ -291,7 +294,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
-> >  	 * Sources. If the pipeline has a single input and BRx is not used,
-> >  	 * configure it as the master layer. Otherwise configure all
-> >  	 * inputs as sub-layers and select the virtual RPF as the master
-> > -	 * layer.
-> > +	 * layer. For VSPX configure the enabled sources as masters.
-> >  	 */
-> >  	for (i = 0; i < vsp1->info->rpf_count; ++i) {
-> >  		struct vsp1_rwpf *input = pipe->inputs[i];
-> > @@ -299,7 +302,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
-> >  		if (!input)
-> >  			continue;
-> >
-> > -		srcrpf |= (!pipe->brx && pipe->num_inputs == 1)
-> > +		srcrpf |= (pipe->iif || (!pipe->brx && pipe->num_inputs == 1))
-> >  			? VI6_WPF_SRCRPF_RPF_ACT_MST(input->entity.index)
-> >  			: VI6_WPF_SRCRPF_RPF_ACT_SUB(input->entity.index);
-> >  	}
-> > @@ -316,6 +319,9 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
-> >  	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index),
-> >  			   VI6_WPF_IRQ_ENB_DFEE);
-> >
-> > +	if (pipe->iif)
-> > +		return;
-> > +
-> >  	/*
-> >  	 * Configure writeback for display pipelines (the wpf writeback flag is
-> >  	 * never set for memory-to-memory pipelines). Start by adding a chained
->
-> --
+> ---
+> Kieran, would you be able to test this ?
+> ---
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+> index cbd9b9841267..5e40f0c1e7b0 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+> @@ -79,7 +79,7 @@ DEFINE_DRM_GEM_DMA_FOPS(rzg2l_du_fops);
+>  
+>  static const struct drm_driver rzg2l_du_driver = {
+>  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> -	.dumb_create		= rzg2l_du_dumb_create,
+> +	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(rzg2l_du_dumb_create),
+>  	DRM_FBDEV_DMA_DRIVER_OPS,
+>  	.fops			= &rzg2l_du_fops,
+>  	.name			= "rzg2l-du",
+> 
+> base-commit: 9e75b6ef407fee5d4ed8021cd7ddd9d6a8f7b0e8
+> -- 
 > Regards,
->
+> 
 > Laurent Pinchart
+> 
+
+Thanks & Regards,
+Tommaso
+
 
