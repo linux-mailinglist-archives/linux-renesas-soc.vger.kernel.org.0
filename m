@@ -1,115 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-14703-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C48A6B034
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 22:57:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63450A6B3A8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 05:27:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D954F189E3C0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Mar 2025 21:57:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68ED34874BF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 04:27:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C555220696;
-	Thu, 20 Mar 2025 21:57:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE1861E8823;
+	Fri, 21 Mar 2025 04:27:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W7WMQ+5s"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="KxUvipl/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out.smtpout.orange.fr (out-72.smtpout.orange.fr [193.252.22.72])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7966190072;
-	Thu, 20 Mar 2025 21:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7ABCB664;
+	Fri, 21 Mar 2025 04:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742507819; cv=none; b=LA1EwBjM2jSR5fT5cw8S7AKo/N2qIctLDlUMKfBsvqClcAEBXDzm+k+mb+ikpg/ymoYlHOZ2R6Gu90p5Ix4nzGWZJlKXpYzXNskzzbNnZpFZORlRHb7wZ7PdPIUY6/wcCTZki9FWCwK1WnvgeCH6lVF2Wbx42suIGMKUPWDBQTM=
+	t=1742531270; cv=none; b=HMkS6pLZy1ZSVBTOCj48lgXaQTLjk/JW8+yB1R/5d8S6gbbCBP9F4X8XnLmymCdTxbXY83n8GFlrBrQdpmO+r9CDQ7hmYx34Y5Mh7FjshJLXVRHu7GzCsKKuoFrMPjvt3+aamfN8rzYwyJfF1cObCrKqo0k1SSWPP769MK3e4X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742507819; c=relaxed/simple;
-	bh=yvyJEB9EXfAAkC1ilk4/0tKZ5NC+WqsaLqZ167Krv+w=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=GWKmh702b9YKALedadisAI/zaTfS1dOP0/jTtfnlmIC3z+5eB+ca4iln6gfPL7lE6/UswtCleyOoaXdXH8y/IQRzogEBjlOXtLQngwkOknDfda38EcXEVew+7tQoGuzQshMZQFIFD+PxerwdYCpoGHUo3g1Er59qhf1rV/RLaQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W7WMQ+5s; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38BD7C4CEDD;
-	Thu, 20 Mar 2025 21:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742507819;
-	bh=yvyJEB9EXfAAkC1ilk4/0tKZ5NC+WqsaLqZ167Krv+w=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=W7WMQ+5suxcsBMdsRP1pwaPaeQFjZ8NdX8Wif1WF6csaZyEse4V9yZh5GpRQrTtHj
-	 pjeePOUW1jLK7ZQzsjAfYSEe+PF1FWyegd/hZuqNIk04D9sDZiN8Th2z2hA4dZir0a
-	 MfpoMLajsNjmRJHdRwW498pLjrbRUQkR0OnExoSabdEhrjEq8nZAfJkbBKxDbcEHWd
-	 gZlNLmiqC0BvRZXWVX3MHcTjnTZDyaORnX4WUWL+abYEoFjuHVFU7IaF0fbX+eRnu2
-	 oYQ9wWFY4s2FA0bSh5LfvZa+SYlWdhwi+eqx0st5VumisLKN46DFm8R8QnEQZnt1Ri
-	 eetTlc74ob84w==
-Message-ID: <983e0e616d62f236dcbc3eecbeab5ab4.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1742531270; c=relaxed/simple;
+	bh=C7HXbRAAikkBwHspUHiehLT+PSVXQ2/fzwqlCI0p5vc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WkWcEUYOp/z0NXwodu0xB+fIQJrnMERQuZQYJo8t5ja2ZVb0Iur0KHgkbhUk4AuwQx6iyGfKNA99jsZK2ghKAsa6wa4mcOxreKM7xENvQAmcONAgonxh+DjWUXzvGXjLmSLdSvydddHC6ShE5lMLH/LnR3MCxlI+dh48zdbpjrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=KxUvipl/; arc=none smtp.client-ip=193.252.22.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [172.16.82.72] ([124.33.176.97])
+	by smtp.orange.fr with ESMTPA
+	id vTpqtuCVJpih5vTpvtXDey; Fri, 21 Mar 2025 05:18:29 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1742530710;
+	bh=RfTovQ5pBBPXl/sQntAxGWbDNnwENYAK9Bt2Ch93r58=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=KxUvipl/mBH9mc3/+Jxp2x1493gZQeZOd7O1dWUrPtM6thSRht5eemzsz0bAhoVki
+	 UK6CTEtCyIr0B2njVsiL/Rbr4irCB0+2uOw5H+lalCF9jyZTppgCSLooDDJSUxSqiP
+	 KLwOa3oQaBRKfU1w7HcWDEh8qDV9uKdiX8SEa3TJYLNcfQMoUqnv/Y+c4nKoVmstXw
+	 QtOzdhj2FmatopgmqctXNjsEuD+W5CATzJW4ecmjZKK+YxcyTexp8CHwQ510jgHD3x
+	 Q85cTm7l4Tdfae2YGjxEcK0z2m8NKPbDmVd5zGOqFiHSeZzl8e/qDzEFkGwqSLiRK8
+	 h/GCI4MlrBSDQ==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 21 Mar 2025 05:18:30 +0100
+X-ME-IP: 124.33.176.97
+Message-ID: <7805e0db-7c17-438d-9985-f4feec644da6@wanadoo.fr>
+Date: Fri, 21 Mar 2025 13:18:18 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <TY3PR01MB11346D2881A8CC9C3019C978386D22@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250303110433.76576-1-biju.das.jz@bp.renesas.com> <20250303110433.76576-2-biju.das.jz@bp.renesas.com> <1347ee4d678ce81c33917b3802601aee.sboyd@kernel.org> <TY3PR01MB11346C31C2533FD074D87BBD286CA2@TY3PR01MB11346.jpnprd01.prod.outlook.com> <98c8c1eab30fc333974bd1ad88791356.sboyd@kernel.org> <TY3PR01MB113469E04E10E3D14FB3F69F186D52@TY3PR01MB11346.jpnprd01.prod.outlook.com> <TY3PR01MB11346D2881A8CC9C3019C978386D22@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Subject: RE: [PATCH 1/4] clk: renesas: rzv2h-cpg: Add support for coupled clock
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org <linux-renesas-soc@vger.kernel.org>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au <biju.das.au@gmail.com>, linux-clk@vger.kernel.org <linux-clk@vger.kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>
-Date: Thu, 20 Mar 2025 14:56:56 -0700
-User-Agent: alot/0.12.dev8+g17a99a841c4b
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] phy: can-transceiver: Re-instate "mux-states" property
+ presence check
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Rob Herring <robh@kernel.org>
+Cc: linux-can@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Marc Kleine-Budde <mkl@pengutronix.de>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Peter Rosin <peda@axentia.se>,
+ Aswath Govindraju <a-govindraju@ti.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
+References: <3d7e0d723908284e8cf06ad1f7950c03173178f3.1742483710.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <3d7e0d723908284e8cf06ad1f7950c03173178f3.1742483710.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Quoting Biju Das (2025-03-14 00:18:33)
-> Hi Stephen,
->=20
-> > -----Original Message-----
-> > From: Biju Das
-> > Sent: 07 March 2025 07:02
-> > Subject: RE: [PATCH 1/4] clk: renesas: rzv2h-cpg: Add support for coupl=
-ed clock
-> >=20
-> > Hi Stephen,
-> >=20
-> > > -----Original Message-----
-> > > From: Stephen Boyd <sboyd@kernel.org>
-> > > Sent: 06 March 2025 22:37
-> > > Subject: RE: [PATCH 1/4] clk: renesas: rzv2h-cpg: Add support for
-> > > coupled clock
-> > >
-> > > Quoting Biju Das (2025-03-06 02:10:50)
-> > > > > From: Stephen Boyd <sboyd@kernel.org> Quoting Biju Das (2025-03-03
-> > > > > 03:04:19)
-> > > > > > The spi and spix2 clk share same bit for clock gating. Add
-> > > > > > support for coupled clock with checking the monitor bit for bot=
-h the clocks.
-> > > > >
-> > > > > Could you add an intermediate parent clk of both spi and spix2
-> > > > > that only handles the enable bit for clock gating? Then the enable
-> > > > > count handling would be in the core
-> > > clk code.
-> > > >
-> > > > The parent clock rate of spi and spix2 are different. If we use an
-> > > > intermediate parent clk, What clk rate the parent will use??
-> > >
-> > > Alright, got it. Does the consumer care about the difference between =
-the two clks for the gating
-> > part?
-> >=20
-> > Although gating bit is same, for some reason their monitor bit is diffe=
-rent. So, to confirm clk on
-> > status we need to check respective monitor bits. Parallelly, I will che=
-ck with hardware team, does it
-> > need to monitor both these bits??
->=20
-> According to hardware team, the spix2 clock is twice the frequency of the=
- spi clock, and the clock ON/OFF
-> period displayed for each bit in the monitor register varies slightly due=
- to the difference in frequency.
->=20
-> So to check the status after changing the clock ON/OFF register setting,
-> please check the two monitor register bits together
->=20
+On 21/03/2025 at 00:15, Geert Uytterhoeven wrote:
+> On the Renesas Gray Hawk Single development board:
+> 
+>     can-transceiver-phy can-phy0: /can-phy0: failed to get mux-state (0)
+> 
+> "mux-states" is an optional property for CAN transceivers.  However,
+> mux_get() always prints an error message in case of an error, including
+> when the property is not present, confusing the user.
+> 
+> Fix this by re-instating the property presence check (this time using
+> the proper API) in a wrapper around devm_mux_state_get().  When the
+> multiplexer subsystem gains support for optional muxes, the wrapper can
+> just be removed.
+> 
+> In addition, propagate all real errors upstream, instead of ignoring
+> them.
 
-That answers the hardware side of the question. Why does software need
-to care that they're two different things vs. one clk?
+I would like to hear Rob's opinion on this. In d02dfd4ceb2e9f34 Rob
+purposely changed the function to ignore errors other than EPROBE_DEFER.
+
+Right now, I do not see a reason not to propagate the other errors, so
+I am in favor of this roll back. But maybe we are missing something?
+
+Otherwise, the patch looks good to me. Nice improvement over the v1. I
+will wait for Rob's comment to give my review tag.
+
+> Fixes: d02dfd4ceb2e9f34 ("phy: can-transceiver: Drop unnecessary "mux-states" property presence check")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Alternatively, the multiplexer subsystem needs to gain support for
+> getting an optional mux...
+> 
+> v2:
+>   - Add and use devm_mux_state_get_optional(),
+>   - No given tags added, as the new solution is different.
+> ---
+>  drivers/phy/phy-can-transceiver.c | 22 +++++++++++++++-------
+>  1 file changed, 15 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/phy/phy-can-transceiver.c b/drivers/phy/phy-can-transceiver.c
+> index 2bec70615449f94d..f59caff4b3d4c267 100644
+> --- a/drivers/phy/phy-can-transceiver.c
+> +++ b/drivers/phy/phy-can-transceiver.c
+> @@ -93,6 +93,16 @@ static const struct of_device_id can_transceiver_phy_ids[] = {
+>  };
+>  MODULE_DEVICE_TABLE(of, can_transceiver_phy_ids);
+>  
+> +/* Temporary wrapper until the multiplexer subsystem supports optional muxes */
+> +static inline struct mux_state *
+> +devm_mux_state_get_optional(struct device *dev, const char *mux_name)
+> +{
+> +	if (!of_property_present(dev->of_node, "mux-states"))
+> +		return NULL;
+> +
+> +	return devm_mux_state_get(dev, mux_name);
+> +}
+> +
+>  static int can_transceiver_phy_probe(struct platform_device *pdev)
+>  {
+>  	struct phy_provider *phy_provider;
+> @@ -114,13 +124,11 @@ static int can_transceiver_phy_probe(struct platform_device *pdev)
+>  	match = of_match_node(can_transceiver_phy_ids, pdev->dev.of_node);
+>  	drvdata = match->data;
+>  
+> -	mux_state = devm_mux_state_get(dev, NULL);
+> -	if (IS_ERR(mux_state)) {
+> -		if (PTR_ERR(mux_state) == -EPROBE_DEFER)> -			return PTR_ERR(mux_state);
+> -	} else {
+> -		can_transceiver_phy->mux_state = mux_state;
+> -	}
+> +	mux_state = devm_mux_state_get_optional(dev, NULL);
+> +	if (IS_ERR(mux_state))
+> +		return PTR_ERR(mux_state);
+> +
+> +	can_transceiver_phy->mux_state = mux_state;
+>  
+>  	phy = devm_phy_create(dev, dev->of_node,
+>  			      &can_transceiver_phy_ops);
+
+Yours sincerely,
+Vincent Mailhol
+
 
