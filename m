@@ -1,92 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-14706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F67A6B902
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 11:46:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FFBA6BA33
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 12:59:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B24E4848DE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 10:46:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 254B57A84B8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Mar 2025 11:58:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACF151EEA35;
-	Fri, 21 Mar 2025 10:46:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7046B224AF0;
+	Fri, 21 Mar 2025 11:59:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MjoP/Xji"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sM23YSNb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132421DE3CE
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Mar 2025 10:46:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA671E7C27;
+	Fri, 21 Mar 2025 11:59:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742554002; cv=none; b=U59PTpNyWh00Crr8BsEWLxHx3DAZGG/BGZWiIsGpRaAp/KlGwLR4U9MGQz+xhlJyoz28SdN4FYNQJM3b9qmTiDDhY4pCOqze5GEmcpq9s6BRajH6r3+ZQddTQ/1yTnufm31+UusJZbrH26fUWXPoD/zPNL+9N/wO9kCFFuuYjsk=
+	t=1742558377; cv=none; b=SJMeS1qvhIyukFx3OGWmDV+zFAtbegtno4MKdXha/EeK17qXTcm8d+SoIlB0FozmjNavXhk/oinFn6P/KwAHXU+rtetDDCE/f4oU+8/TwSUHj72WPhFZZyxxp7F04XS+drbqvtVUhoyvm6PeRvbifYXOAqFFOADr8r4kdW6GAX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742554002; c=relaxed/simple;
-	bh=zgkx+mvkOnrCh2pBOwwEUvScJTGSdLxt/O+zjzEmDi0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U1WXGSXZYj0yERGWVfn0yY9gCLf9w73Q5+5nCkpnHvToYBUBwpcsw2O4v29GOOT1/V1vNUpr4+7D13SJdZVDpP5Q/6ZWVsGF+pun55JBZRZMJPetvSt2m8NHtdzIjw41Ca/cI5kuQowVIMFNq1B9+IPzXWCZCgdEGSpC/Fv5p6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MjoP/Xji; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1742558377; c=relaxed/simple;
+	bh=oGvz3k8LBIe38TPWT/uh0M30dGfNLtDrv3HQTfczeXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L5qSqbHvrHaXYoS0OvukHoVR6g4NFqNNzGYyi5QUb6Repp5tPSkBpum5vrKFwxi6BjHRSmetJAr5XjRnmUEUn4l2Z56SqAg6CiFVg2FR5+uJO7BYxBK9pmOAAARq2eyMb3BKBcAxyCUtc1h/uoL3Msj2bdMTPgMNVi3PQz4d76o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sM23YSNb; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (unknown [157.231.223.213])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DAB37F6;
-	Fri, 21 Mar 2025 11:44:54 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6143EF6;
+	Fri, 21 Mar 2025 12:57:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742553895;
-	bh=zgkx+mvkOnrCh2pBOwwEUvScJTGSdLxt/O+zjzEmDi0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=MjoP/XjihxRO1BSEk4Me9n1B1T6TiQ+e76KkqhTsiOQCNUs6TvQFgbH7Tiqi/OmmO
-	 IkJAw0UUCISQ0SpmURwV4q1BRApix4mERyddqmJUehpVDAU7d2w7wJdOPfMRyLbaGl
-	 NDMABlx1PKKVKuoe4ayacehrX213yuJS1xpnekZI=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH] drm: renesas: rz-du: Support dmabuf import
-Date: Fri, 21 Mar 2025 12:46:15 +0200
-Message-ID: <20250321104615.31809-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.48.1
+	s=mail; t=1742558269;
+	bh=oGvz3k8LBIe38TPWT/uh0M30dGfNLtDrv3HQTfczeXg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sM23YSNbNPdKBs0as59XVRS6bBNOhOkBbs56mabpZz/6GoYzO9T3gEsD13j9vmXf5
+	 4+OzD7AmHejIrOoi7Z5KT/Mk7q/WqiRpQWmXM9OEImu2Ne0XH+Vhr4McTHgiQA2iEG
+	 l/NgC9J7cY8tyfu1it+ELvUo8Rsjovf6OLMiL0OM=
+Date: Fri, 21 Mar 2025 13:59:11 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 4/7] media: vsp1: wpf: Propagate vsp1_rwpf_init_ctrls()
+Message-ID: <20250321115911.GA1752@pendragon.ideasonboard.com>
+References: <20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com>
+ <20250319-v4h-iif-v5-4-0a10456d792c@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250319-v4h-iif-v5-4-0a10456d792c@ideasonboard.com>
 
-The rz-du driver uses GEM DMA helpers, but does not implement the
-drm_driver .gem_prime_import_sg_table operation. This  prevents
-importing dmabufs. Fix it by implementing the missing operation using
-the DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE() helper macro.
+Hi Jacopo,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-Kieran, would you be able to test this ?
----
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-index cbd9b9841267..5e40f0c1e7b0 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-@@ -79,7 +79,7 @@ DEFINE_DRM_GEM_DMA_FOPS(rzg2l_du_fops);
- 
- static const struct drm_driver rzg2l_du_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	.dumb_create		= rzg2l_du_dumb_create,
-+	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(rzg2l_du_dumb_create),
- 	DRM_FBDEV_DMA_DRIVER_OPS,
- 	.fops			= &rzg2l_du_fops,
- 	.name			= "rzg2l-du",
+On Wed, Mar 19, 2025 at 12:28:17PM +0100, Jacopo Mondi wrote:
+> vsp1_wpf.c calls vsp1_rwpf_init_ctrls() to initialize controls that
+> are common between RPF and WPF.
+> 
+> However, the vsp1_wpf.c implementation does not check for the function
+> call return value. Fix this by propagating to the caller the return
+> value.
+> 
+> While at it, drop a duplicated error message in wpf_init_controls() as
+> the caller already report it.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
-base-commit: 9e75b6ef407fee5d4ed8021cd7ddd9d6a8f7b0e8
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> 
+> ---
+> v2->v3:
+>   - New patch
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_wpf.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> index f176750ccd9847fdb8d51f7f51a6bd5092b70197..da651a882bbb7e4d58f2dfea9dcea60a41f4f79c 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> @@ -133,6 +133,7 @@ static int wpf_init_controls(struct vsp1_rwpf *wpf)
+>  {
+>  	struct vsp1_device *vsp1 = wpf->entity.vsp1;
+>  	unsigned int num_flip_ctrls;
+> +	int ret;
+>  
+>  	spin_lock_init(&wpf->flip.lock);
+>  
+> @@ -156,7 +157,9 @@ static int wpf_init_controls(struct vsp1_rwpf *wpf)
+>  		num_flip_ctrls = 0;
+>  	}
+>  
+> -	vsp1_rwpf_init_ctrls(wpf, num_flip_ctrls);
+> +	ret = vsp1_rwpf_init_ctrls(wpf, num_flip_ctrls);
+> +	if (ret < 0)
+> +		return ret;
+>  
+>  	if (num_flip_ctrls >= 1) {
+>  		wpf->flip.ctrls.vflip =
+> @@ -174,11 +177,8 @@ static int wpf_init_controls(struct vsp1_rwpf *wpf)
+>  		v4l2_ctrl_cluster(3, &wpf->flip.ctrls.vflip);
+>  	}
+>  
+> -	if (wpf->ctrls.error) {
+> -		dev_err(vsp1->dev, "wpf%u: failed to initialize controls\n",
+> -			wpf->entity.index);
+> +	if (wpf->ctrls.error)
+>  		return wpf->ctrls.error;
+> -	}
+>  
+>  	return 0;
+>  }
+
 -- 
 Regards,
 
 Laurent Pinchart
-
 
