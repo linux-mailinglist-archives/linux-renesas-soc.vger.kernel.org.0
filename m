@@ -1,197 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-14747-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14748-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31772A6D7F7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 11:02:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECD1A6D7FB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 11:03:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 578793A3FED
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 10:02:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A2F23AE1C7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 10:03:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF915136988;
-	Mon, 24 Mar 2025 10:02:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74AA619C542;
+	Mon, 24 Mar 2025 10:03:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB0D802;
-	Mon, 24 Mar 2025 10:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7143822339;
+	Mon, 24 Mar 2025 10:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742810548; cv=none; b=kVMjgTk42PRp0bGgz5V3mlKIagv0Jik3htCM6jvijDaxY0SvjZyLMIFAkslHCXZlDS4HCkBKnxbmJfRPitT97FX/AsSUtytVNxoQ3JN/AfsPqf8e5kqMc87T0MvhR61j1ureYbj/XZdo3g43LWSn8h/To+zOfmuxFs1jqEy/p2Y=
+	t=1742810624; cv=none; b=qKsCFx8JlVbxHOeWZTqcaW9NFcOEHfabUZU3kJcvcfxzLa1ZW/jb3acbSqM95ZKFfoKWlcUU815tbE/39IGArFYQWV5uqVI9ogJK9S67/87ORo17MASJlW/kGDBMggE4cR2OAazT/AlCFj6muX5M7H9LlL+p90RQQreCkKv9L/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742810548; c=relaxed/simple;
-	bh=d1P4SLwhm7rRZwEO/QkLAZ5XUSci2bFpIlPV4dqHZ8I=;
+	s=arc-20240116; t=1742810624; c=relaxed/simple;
+	bh=UUsI0Yf3LSlqidv27UoT1xNgBH1xYokdKDjpI7A6dro=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=snLgJYnTnhsCpKgPC7HcxuUiQQ9H/9KnQ+pcAzD1xNi/CoXnY+Cy6OB1iW8u+C39G+qt0Y1lUbKdHMRaSKk/4EPQKss3YedXX6fHNjOiCZY6qgMCq2D/dNK/RNw78XtXiwzF2m6qS1PbZE0gQdMQXXw9QzXe5w80O/oC3Z2iYHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+	 To:Cc:Content-Type; b=B9sT9EjbjkiHa7hAPkE1ZO0rAWPglxOuThFN5gxrd9JEIzErdwMiXHUZOFRmz7wfHe90Gd9ONBUQoDOcwwVfbmMqxpDS6SUTH6sQ5RQ9o6W5jOo9ru48RJMGbMq+aDua1UguQ/6DD+MaE14cIpfE0cnszRb8hs3sXhdbgsm3i/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5259331b31eso1915609e0c.0;
-        Mon, 24 Mar 2025 03:02:26 -0700 (PDT)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-523de538206so1710908e0c.2;
+        Mon, 24 Mar 2025 03:03:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742810545; x=1743415345;
+        d=1e100.net; s=20230601; t=1742810619; x=1743415419;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DjkldBobLlJzdi7GZoyKSocAvNLs1WqgQ5YPK5Fy6kQ=;
-        b=fzaWS2NUoJGYLwFQdX2U7AKFKOKhWai6hVfI20XfW7DK/PhxIF6gNESzLmZSDB/ynZ
-         vcIdNXy6pbeCKZ9FWCCTCd6QnzYU4i7HsImdFtbr9M4vFvSnn3EbGhObzHKtyYNnTo4j
-         NdwN84kT3zbI8irawpVaGLrDw/WvZQcfkcufvFh6sZYqbE54vl38jcNIJ2Pdug9xU/ky
-         H1Ytw1A8Jvn+gdq94psH+mj+7XWC3mczLK2Lkkp27gCuoQQWc0E8lMz2g9d1Lz66YIZW
-         VUVz80Wx5W9kGh69tljtop5d3hPjG70vlP9V52NsMbs39VxTOuFKvJEv9ck1BynTA0gd
-         5QsA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwBaqspgoYTIZQ2DFmWDZzmbPfqXdAdOYazf5EXb0GvR3yP3ol/McBB9BjUC+78JfTzSQ8v2O880FagDTywW/4Wrs=@vger.kernel.org, AJvYcCVk77baUu27voCMimhagB7fz6rLrR5ZWPTPedVnYJNkQPizZdBwWKeiaWHaB0ubf8yKDF9UA5vTgktLgn5w@vger.kernel.org, AJvYcCX4Jb5fYI3CnyUuI4QCcvHD/g14KbvjZeqeIDK4F/lF9c9wCHVlApuy6c2IuRfgzfr6hSBhi7AcliUFG8I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5WZSBRN0Z80O5xhMhJF2bk8fRAE2MoRsFFVcOaGP+xuI4S2Ys
-	KiesTsIG39hR0icDvSKZlQxeNr+UIK1lKxV4X2fJOQ9yOPpjT+kcOoN/pixf
-X-Gm-Gg: ASbGnctzPeAclA1XZmIFfMEXM79Qy26qle1aKnXcTJrA9FQ8pUJ8t0e0fxZcrGD6tGh
-	bw0dSHd8udUaUNBdYqoGOebDH649SfnxHLi2sOHAIa/f6LRYrxKkI8up9eB9u4qq3zSlg79Hzg0
-	Q839PQGMjCAt0SXFt6jIwoU4+Y9cELXttZgOUdfVExzdRxIUWyiS4+M1Oi4wqzNvugPibSSrxYf
-	P+VsF22hyel16UWS6NkfgoSQ7AhOx4mHfkJ1SlX8XUOiWd03VFkw83E40F1vcjB0iV+NPlj/r2B
-	vV06vE4DWpM0RgUp6lE3WI6mHSvhsaRsykguT4hHtnR78LToj+ihjU2chPtBAqjzNbVHWIDYIMv
-	0lbpmqlzAZLjGfpi6qrWu6A==
-X-Google-Smtp-Source: AGHT+IEwGAnj5QbTTGQlWhK0jUyMdSPOi92dPp54xzBkgPIHeSShqWNbSFKHzPn3y/CMHm2cssOXVw==
-X-Received: by 2002:a05:6122:3212:b0:523:9ee7:7f8e with SMTP id 71dfb90a1353d-525a8342034mr9241113e0c.4.1742810545067;
-        Mon, 24 Mar 2025 03:02:25 -0700 (PDT)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-525a735bfaasm1323702e0c.2.2025.03.24.03.02.24
+        bh=4an5EZEc/O/4TMi7/ZRMH2yqkpPVn07S2JgMUsIis3Y=;
+        b=n3JhTuT9x+Q7+6OYkO1f3yWIvoN9se5iSPPL6MGRXndXm5X1/yM4YKa7eR0EW8otP1
+         dZrk+B45OR6FG/gJk4Vtdh8xHmvAAycwBGz25w//wxsSmwKY4ljZiH11ts16zVIofffu
+         hIAm2Wypizr2bQGGZCXTKma/A/6DZi4nc5bGNIJRYskRUCXXLcE0TL54qHzSejKfN5pP
+         MnInvdCpvav+gkziJWd0Fgx+h8JtYjLrtchiaDrQiYeAmcr+d2uf5lxb1k9mIKGcurYk
+         f6mY6Vy8o5pjUn0pNUcflxMrD4hav1xGwCsrQU2bn+YDVI2jraalcF4jig37jRauQJTQ
+         Tk2A==
+X-Forwarded-Encrypted: i=1; AJvYcCUaI4K6YHgB7uu4sKCMZ1SMRA9IiKVrxhQEYthvt4duZdstTZotA4XhiNHyW2gJvjLRaAiahwts4R1i8cCS@vger.kernel.org, AJvYcCV3tuqIIWhoVWWUgf/oO1KEKP7o1U956vEYTlY68sP4gOVX3OSF+tEgQ4uKAC6u1f3eRmFoI1MDg7SXGKc8JWyrjZU=@vger.kernel.org, AJvYcCWswvPGyD5ZRAXtR2LdH84TXUybslCaMumlhQJCkCjr69JpLbzcaa95LOh3sS1Bn0hFr00rb9q5qVyfzB4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yynx+kEert8mNFekKhoofRzbJLSH+zy3c/pW25RW4av55U8CiRx
+	Qo0TLyMMwGLXcPaxN04umUacwPmTu0DTKc7gG0BsjE2zFwG89L7wXKsVZEza
+X-Gm-Gg: ASbGncuhDpSh4XARrPyExFZ6cQc8+55HQYG+HAb2ysU4oxy0vjYBRQ3fNZUmw8nOtWY
+	Y7HJTLaOzfl+ovFTloPnbZ+bqj7Ndl5g0GWIgW4cPG3MaVIsRGs55al8QjYQ3yxB0sRskFS2YtK
+	T/I71Jkk26cYPUUuNX1Cd32/jxgeSpbO/0j/PVASHdEEQLgK/VrA0twEuyWSFfH5+aH5z2ls6bB
+	XafZdkv3TPwZIWMht4mRuKgSYzZ5GDTjlxvE6cJdTNqqDx1IBSVLl3UAyyg2V+te2xeQLFOa8d4
+	5Gq/egquZFqb5z0J5A2RT6aOFQA5Iv+T1s3otECieoQNmnMMypm9fIzB+M/4XPnFmDyRk/jn1Ob
+	XUnSPpfcUvI+XE2vbhQ==
+X-Google-Smtp-Source: AGHT+IGeI0ZGzwpvG0mH7TuE44LwPqG0ell1IJjJ5zCz2gT1JnG7ijA73/zEUoTpR5qQd2pP2FujYQ==
+X-Received: by 2002:a05:6122:2398:b0:520:60c2:3fd with SMTP id 71dfb90a1353d-525a833acc5mr8117549e0c.3.1742810619256;
+        Mon, 24 Mar 2025 03:03:39 -0700 (PDT)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-525a7359ccdsm1327348e0c.4.2025.03.24.03.03.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Mar 2025 03:02:24 -0700 (PDT)
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-523f19d39d3so1953669e0c.2;
-        Mon, 24 Mar 2025 03:02:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXL9u7Vjc5Il9HYGgXWQ6NTfxxYqqObWkr9tVRjAYaBAxyJPHq7ItMbp1CTNH+uyFQf1FBFkT+zZC5EQK0=@vger.kernel.org, AJvYcCXTS4D1l6Mq47TvV+Er94S8cmxdWkBMWeKnl4AqjWYOYn3LdLHIpsbwuMMsZ+EFSJzFvDHNmpfeTTihp+vkQmzk354=@vger.kernel.org, AJvYcCXci6N1sTqCSPUSyzyZEdkgQvkxT+X63AneCM5jMAhjCvttHhuL7Xrr7lUXWC5jCz2YzqNsMz4gC74fBanA@vger.kernel.org
-X-Received: by 2002:a05:6122:3d44:b0:520:61ee:c814 with SMTP id
- 71dfb90a1353d-525a82f6fa5mr7693745e0c.1.1742810544546; Mon, 24 Mar 2025
- 03:02:24 -0700 (PDT)
+        Mon, 24 Mar 2025 03:03:38 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-86fbc8717fcso487072241.2;
+        Mon, 24 Mar 2025 03:03:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV4OsysQ9aXjizmIHvz8/0I0txxJCSC0olVI+ukrdGZ+ewAIqGgnK6KMF/bgUB9kQMg5U/OH0sqJYsFQxJ0@vger.kernel.org, AJvYcCWOjgpZyW9aORfSwgu1odA7WNZq/6cHF+65H5T3yjuuzdsLwktXK8MycQE06+wO3aDpSfS0u+rIhKkcw7g=@vger.kernel.org, AJvYcCXzq8oDDRspp8TEKpeDpcP06P+DOIBh8ISkOB3ucSB2eufUPuf70BsgHFqPJ5NqywSZCZb436L0ndS7AjtP7cVWy4g=@vger.kernel.org
+X-Received: by 2002:a05:6102:1624:b0:4bb:e36f:6a25 with SMTP id
+ ada2fe7eead31-4c50d50e074mr8130701137.13.1742810618396; Mon, 24 Mar 2025
+ 03:03:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250306152451.2356762-1-thierry.bultel.yh@bp.renesas.com>
- <20250306152451.2356762-9-thierry.bultel.yh@bp.renesas.com> <Z-ElHPod77Py1DPH@shikoro>
-In-Reply-To: <Z-ElHPod77Py1DPH@shikoro>
+References: <20250306152451.2356762-1-thierry.bultel.yh@bp.renesas.com> <20250306152451.2356762-10-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250306152451.2356762-10-thierry.bultel.yh@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 24 Mar 2025 11:02:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXgumyO_ibzTxzBqXzSyfixDVz-xLnQsTUr1kutk8vq=g@mail.gmail.com>
-X-Gm-Features: AQ5f1JqXVa8TgiB8RvZEysO-CT-OzoLoSNS1yvlhvJ61S6rYl6aF1M3zBRkgOxc
-Message-ID: <CAMuHMdXgumyO_ibzTxzBqXzSyfixDVz-xLnQsTUr1kutk8vq=g@mail.gmail.com>
-Subject: Re: [PATCH v4 08/13] serial: sh-sci: Introduced function pointers
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Date: Mon, 24 Mar 2025 11:03:26 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXZqnmhVcuRmdyxtyVwnonj1aKNdf=smroPrrcGe9yaxg@mail.gmail.com>
+X-Gm-Features: AQ5f1JqhpiWiWGXr9SpPiXsEU6lVLKlEGzKLi0nA39A7Ors4tZFbjTvGRx51fDI
+Message-ID: <CAMuHMdXZqnmhVcuRmdyxtyVwnonj1aKNdf=smroPrrcGe9yaxg@mail.gmail.com>
+Subject: Re: [PATCH v4 09/13] serial: sh-sci: Introduced sci_of_data
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 Cc: thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org, 
 	paul.barker.ct@bp.renesas.com, linux-kernel@vger.kernel.org, 
 	linux-serial@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 24 Mar 2025 at 10:25, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> On Thu, Mar 06, 2025 at 04:24:42PM +0100, Thierry Bultel wrote:
-> > The aim here is to prepare support for new sci controllers like
-> > the T2H/RSCI whose registers are too much different for being
-> > handled in common code.
-> >
-> > This named serial controller also has 32 bits register,
-> > so some return types had to be changed.
-> >
-> > The needed generic functions are no longer static, with prototypes
-> > defined in sh-sci-common.h so that they can be used from specific
-> > implementation in a separate file, to keep this driver as little
-> > changed as possible.
-> >
-> > For doing so, a set of 'ops' is added to struct sci_port.
-> >
-> > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+On Thu, 6 Mar 2025 at 16:26, Thierry Bultel
+<thierry.bultel.yh@bp.renesas.com> wrote:
+> The aim here is to provide an easier support to more different SCI
+> controllers, like the RZ/T2H one.
 >
-> Okay, the discussion about the general approach convinced me that we can
-> go this road. I will not do a line-by-line review of these patches, but
-> just check that it looks good to me in general. This patch here merely
-> shuffles code around and adds some inderection. If it works, it seems
-> good enough for me and we can improve on it incrementally:
+> The existing .data field of_sci_match is changed to a structure containing
+> all what that can be statically initialized, and avoid a call to
+> 'sci_probe_regmap', in both 'sci_init_single', and 'early_console_setup'.
 >
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 'sci_probe_regmap' is now assumed to be called in the only case where the
+> device description is from a board file instead of a dts.
 >
-> That means, though, that testing this series on a variety of SoCs is
-> especially important and I'd like to get confirmed that you did these
-> tests on SCI variations which are available on RZ hardware. According to
-> my research it would be those:
+> In this way, there is no need to patch 'sci_probe_regmap' for adding new
+> SCI type, and also, the specific sci_port_params for a new SCI type can be
+> provided by an external file.
 >
->         [SCIx_SCI_REGTYPE]
->                 /* RZ/Five, RZ/G2UL, RZ/V2L */
->                 .compatible = "renesas,sci",
-
-Tested as console on RZ/Five...
-
->         [SCIx_RZ_SCIFA_REGTYPE]
->                  /* The "SCIFA" that is in RZ/A2, RZ/G2L and RZ/T1 */
->                 .compatible = "renesas,scif-r7s9210",
->                 .compatible = "renesas,scif-r9a07g044",
-
-...RZA2MEVB...
-
->         [SCIx_SH4_SCIF_BRG_REGTYPE]
->                 /* a lot of RZ, too */
->                 .compatible = "renesas,rcar-gen1-scif",
->                 .compatible = "renesas,rcar-gen2-scif",
->                 .compatible = "renesas,rcar-gen3-scif",
->                 .compatible = "renesas,rcar-gen4-scif",
-
-...R-Car Gen1/2/3...
-
->
->         [SCIx_HSCIF_REGTYPE]
->                 /* R-Car Gen2-5 */
-
-... R-Car Gen3/4.
-
->                 /* a lot of RZ */
->                 .compatible = "renesas,hscif",
->
-> Please double check that I did not make a mistake. I'd think Geert tests
-> these on in his board farm anyway:
->
->         [SCIx_SH4_SCIF_REGTYPE]
->                 /* landisk */
->                 .compatible = "renesas,scif",
-
-Tested as console on Landisk and QEMU RTS7751R2D (both without DT,
-though)...
-
->
->         [SCIx_SCIFA_REGTYPE]
->                 /* R-Car Gen2 */
->                 .compatible = "renesas,scifa",
-
-... SH/R-Mobile...
-
->         [SCIx_SCIFB_REGTYPE]
->                 /* R-Car Gen2 */
->                 .compatible = "renesas,scifb",
-
-Not tested. SCIFB is very similar to SCIFA, so I am confident it is OK
-(all tests for PORT_SCIFA and PORT_SCIFB come in pairs).
-
->         [SCIx_SH2_SCIF_FIFODATA_REGTYPE]
->                 /* RZ/A1 */
->                 .compatible = "renesas,scif-r7s72100",
-
-Tested as console on RSK+RZA1.
-
-> We maybe can get hold of the next board. I will figure this out
-> internally (not super important for this series, but nice to have):
->
->         [SCIx_SH4_SCIF_NO_SCSPTR_REGTYPE]
->         /* SH Ecovec */
->         arch/sh/kernel/cpu/sh4a/setup-sh7723.c: .regtype        = SCIx_SH4_SCIF_NO_SCSPTR_REGTYPE,
->
-> That leaves some older SH boards out of the loop, but I think this is
-> OK. A quick research didn't let me obtain boards for these anymore.
-
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> ---
+> Changes v3->v4:
+>    - Fix the bot compilation error on superh in sci_probe_earlyprink()
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
