@@ -1,168 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-14751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF72A6D957
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 12:51:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D852A6DA12
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 13:26:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A2A961890F95
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 11:50:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6CDA3B21B3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 12:26:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E30225E823;
-	Mon, 24 Mar 2025 11:49:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A99E525E83A;
+	Mon, 24 Mar 2025 12:26:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V8s1npky"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="TPUqGKdj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B2725E803;
-	Mon, 24 Mar 2025 11:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E12A25E819
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Mar 2025 12:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742816966; cv=none; b=AndQ77Wd7el0nSNS1mv/8KHe1rRLlfie5CdpSUxKdUyaqyS8Pr5FIrotP6o4gZEVe9E9d+FJks4Sc+GQrXW+2QRznxWW7wiNqulmCQ5fnpAe/A2pYS/dyJY5+R0v0rhDzFzOU6VKwgPQGJLVCWTy8fZQR8qLbpbinOTX3g968m4=
+	t=1742819204; cv=none; b=SFbSAEtK4ZshztGtIeS4XRmbUaSG7z+G7vQ4N8GttS9fP/cRDjeqpqXDXbdLlWCdiJz04olu14VS1hTXogXZj740pZPP3MX+bYV0/NP3LTTBwIHhAGjtUgfcdEfhd9d5Aep6V8Q0kn5PT7Gr1CMynRx9cBg4T/w2SXzzg3uA0g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742816966; c=relaxed/simple;
-	bh=aLanm0QqoHMeJ689eljYWwN7d8uu1F99MXdNNkMINrc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=quEAMh0awVqBTOo9ENVyY+WKY6SHCX/vbuj5jZszITcdfja+T1v7ZLYfz60scJES36AHkkcPvf5cfAUA+iR7A+rU13K80qA2eWwPPhbGc+ikgiK5zv87mlSB/QtGCLSXOgTPLEWGDEQcF7mIfo7sCNcRh9By7mAX5Tc4Mz9DOaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=V8s1npky; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9EFB510DD;
-	Mon, 24 Mar 2025 12:47:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742816855;
-	bh=aLanm0QqoHMeJ689eljYWwN7d8uu1F99MXdNNkMINrc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=V8s1npky6WU6sKCA+fmXIjaiqdBUVAKdW4Z76dw2KXapqCJzmC+OFP2q4D23TC8gx
-	 dAUP0BcLt0mzbfp68K7EMqAF3xRxFMI1cJzsJpoCZLY3FVv/+Dw/LRYDs0febTsxqs
-	 eEau9qJdwXMJu180J45xIu0Soscuz6ryRWf948ak=
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Date: Mon, 24 Mar 2025 13:48:54 +0200
-Subject: [PATCH 3/3] media: rcar-vin: Fix RAW10
+	s=arc-20240116; t=1742819204; c=relaxed/simple;
+	bh=hzKJikXi8Sdam4B/PqIlud3Ck4EKL/r9ynDMwDVjci8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=REcJHN44fJh9gsgcc2HMiRSgnznzJ8YLBPJ41qb/ZgBR8tK2ZrUI4RqebJuLYiSFGrEnY7Gkkr3Tfipgf+9RPkHS6SZiV8qZC4mgfaK5p3JORUfxEAcBhRPytqzyl/7sUEBGbrxu65/sr5YDO+OA+N2+JclDoE3s052gqsIgnDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=TPUqGKdj; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-391342fc148so2922559f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Mar 2025 05:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1742819200; x=1743424000; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Phk711bqqwQtp/5ohR16dSgoW1rYqnvCMt8zHzDni7g=;
+        b=TPUqGKdjygNWlcpTeLDimpy36254zyMMHrxh46im4G4Hmffkmwu1jtBrbfq7ktCC3C
+         2CpL2RLHBN+kNk9Xyyk7y/020NqVIIvk4ZrC+6UeMF/9H9fJntFsrg9+kRPd2+8MLB3u
+         Sq7nRCqLp1dlAzd2PkcdX0ID3p9QyKncuciI5lLqP0QH+GSvo7BXoZZ4em0dkmgbULvz
+         Sg11lcZzqyJZ58CE327X9vibX+God7my9kMr6tWRPvgMngDWaIm2lZlhoW9LQcPOjVnJ
+         qkrY6kNaL3ufKGDvqSx6md4W5CWuI9ClcqNLe7jcXSW1niOvufI8AKBWXVLteZrANrhg
+         lMXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742819200; x=1743424000;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Phk711bqqwQtp/5ohR16dSgoW1rYqnvCMt8zHzDni7g=;
+        b=vcpCg1nO/sRnIq91xK50rBQDxkkgCxxOHvaWRu5oTuSauHMU+W7n5eGvWbWVQql9LS
+         tCVEpSw5AhsU+e3pUI/2tUy4xtRW7whzZTr4EUCJkIOcyrMujmGDJi9O9I5ahf4XAitf
+         OBRPB+6Jmb8j0qjTPbhPjU/C2H+ULarYCBoRf7Hi2z9sdLRm+f8ha0qDcksKFIZ4mej9
+         C3EqoVeKtBXFbzA5zqDFk+fr08ps6LFEVMWjPXAON20KaoJB/QAdB3Qzp73YiZ9Jbn+v
+         MIrYC5vet6TWi4FIrzKYHcUkDBY7krUBjtSAkpsZ7knsCMULHTcS2hTD7SHNERzQC/ZV
+         8gug==
+X-Forwarded-Encrypted: i=1; AJvYcCVSEWrjU61NVK0xK7QpZHkTGruGySOWEno0uek/JdgWUz1TaSvfyfo/N6IVHn62GFfFGfO3YMZoko0xmsNimkGjTw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyzfG0ey+AJztQP1zZdSvJ0x3vrq0Q0R+NMu9x67JKWVzdjyPu
+	yiee+yXATGgaFxBVymrHItETnEiKsQB7s86ISsguLabfmK9nVCud/DYd2ZnOkWg=
+X-Gm-Gg: ASbGncvO+ovB1qN0JlI91TKEB2LWa7sQ/ScRjBPtJcTAuaqaO2Pcti4rcHob1Q6uugg
+	yrSZCtEG5Of9bbnSW8ljVWJjxRPTBtOqkmSDBRZgOuflIiOoIs0tLJ5EQ9Jbt/OTU6+kgT6a1v1
+	X1U4qO+Q4JiQfBo0iXLgrjCIII3Yo16c4+vpBUdqAExPntyBEZYJwVi1yTM0bx4UAxzDMnocCp4
+	BZIvmIBQsjQktEmJBTmMNJITe28WbKEM4BQAMYL8SnTDRgr54Y+JR34PKy+PsmTD78MYD9RsU3+
+	GOr8j1wmm8FdMPQksV2Ml3TmhPhqbYqq5AhEDRiXyZvLnSBkkbAvPV0xQRy/kMOkOtNyjAW5Yg=
+	=
+X-Google-Smtp-Source: AGHT+IFyAHj/IByQ5z9fmeWSfg359IdFmkN1k1RzZoQFKjZ1j9affxNGuCzLwR/XkeM9MsmBLjG4aA==
+X-Received: by 2002:a5d:5f46:0:b0:399:7918:541a with SMTP id ffacd0b85a97d-3997f8f5c13mr11994851f8f.10.1742819199656;
+        Mon, 24 Mar 2025 05:26:39 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.46])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f9ef16csm10729080f8f.86.2025.03.24.05.26.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Mar 2025 05:26:39 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: prabhakar.mahadev-lad.rj@bp.renesas.com,
+	jic23@kernel.org,
+	lars@metafoo.de
+Cc: claudiu.beznea@tuxon.dev,
+	linux-iio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v4 0/2] iio: rzg2l_adc: Cleanups for rzg2l_adc driver
+Date: Mon, 24 Mar 2025 14:26:25 +0200
+Message-ID: <20250324122627.32336-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250324-rcar-fix-raw-v1-3-ae56c1c7a2f6@ideasonboard.com>
-References: <20250324-rcar-fix-raw-v1-0-ae56c1c7a2f6@ideasonboard.com>
-In-Reply-To: <20250324-rcar-fix-raw-v1-0-ae56c1c7a2f6@ideasonboard.com>
-To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2817;
- i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=aLanm0QqoHMeJ689eljYWwN7d8uu1F99MXdNNkMINrc=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn4Ua+hTUbk4ltQ36kDYhFUqSslrROA+tQb66X6
- iEo6cMsdSqJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ+FGvgAKCRD6PaqMvJYe
- 9SMFEACnEV5Ruyo+GmMLFswQoyA0NRzaDyRVzc2rmavXTDG085zhHNsH6xbZXOQX0Br1rRsLEfv
- u1NK22mA9526XgX4wRJvZLFpWED/+3Wk6f+UOxwE7iGFbbnbPo7bpJv1P12Fx/XpVvbdic6+IrK
- NPc5HHNjqP+5jukKEnomJiwivKhD5mLDrtn3NE7FxWY2+yt+AqsD6ycU9wRsgihMAsuyMeCZ2eS
- N8pVY9VOiY6xo0odX5sGcB5N4oE8DSC55Mk45QJ95BQd83jiOIuCEHQQ3RN07DKB32GH/cOt/tR
- aIu2RfwLXXuTgguQEAAFcxCjmqw0yfIOptu8t6bDIKJk+6QsOEHElFBSsDVTjlT4hS79C0QuhpR
- aLHh8qly5F/IT9YJ8PXrIUfTShdLhy381Td5f0yNaoh630HUjGX/Wl1ZF3pAY5gl02YQKLvWAIx
- RS0z7+ZmeRECa2Hei5m8WAk4UGGZi+gm061yD7Gj0AripPyclQ/C6bPGm16qYQmZAdP1/ArJzmN
- ZlTF5JeVPyaWwAM6xKWPAaOFm7Ss2312YFHqmgJDojxu5dPpNwYYUWLRIVfURIXdXfe+MyKUgA2
- n4aet++LA0nVOSfhczIJS4t20Z493mUK+6YRTtIC4tUgWjV2fjiJVW2nPefhX/sfYuD6kH1B4mk
- /1rN0pot3LP7WMA==
-X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Transfer-Encoding: 8bit
 
-Fix the following to get RAW10 formats working:
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-In rvin_formats, the bpp is set to 4 for RAW10. As VIN unpacks RAW10 to
-16-bit containers, the bpp should be 2.
+Hi,
 
-Don't set VNDMR_YC_THR to the VNDMR register. The YC_THR is "YC Data
-Through Mode", used for YUV formats and should not be set for RAW10.
+Series adds some cleanups for the RZ/G2L ADC driver after the support
+for the RZ/G3S SoC.
 
-Fix the check related to the RGB666 format and CSI-2 mode. The
-VNMC_INF_RGB666 define is the same as used for RAW10 on Gen4, and RAW10
-is allowed on CSI-2 (whereas RGB666 is not allowed on Gen3 on CSI-2).
-This feels a bit hacky, though, and the formats should really have been
-verified already earlier.
+Thank you,
+Claudiu Beznea
 
-Fixes: 1b7e7240eaf3 ("media: rcar-vin: Add support for RAW10")
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- drivers/media/platform/renesas/rcar-vin/rcar-dma.c  | 9 +++++++--
- drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c | 8 ++++----
- 2 files changed, 11 insertions(+), 6 deletions(-)
+Changes in v4:
+- open the devres group in its own function and rename the
+  rzg2l_adc_probe() to rzg2l_adc_probe_helper() to have simpler code
+- collected tags
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index 53046614f7a1..f8394be8a922 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -811,12 +811,17 @@ static int rvin_setup(struct rvin_dev *vin)
- 		case VNMC_INF_YUV8_BT656:
- 		case VNMC_INF_YUV10_BT656:
- 		case VNMC_INF_YUV16:
--		case VNMC_INF_RGB666:
- 			if (vin->is_csi) {
- 				vin_err(vin, "Invalid setting in MIPI CSI2\n");
- 				return -EINVAL;
- 			}
- 			break;
-+		case VNMC_INF_RGB666:
-+			if (vin->info->model == RCAR_GEN3 && vin->is_csi) {
-+				vin_err(vin, "Invalid setting in MIPI CSI2\n");
-+				return -EINVAL;
-+			}
-+			break;
- 		case VNMC_INF_RAW8:
- 			if (!vin->is_csi) {
- 				vin_err(vin, "Invalid setting in Digital Pins\n");
-@@ -913,7 +918,7 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case V4L2_PIX_FMT_SGBRG10:
- 	case V4L2_PIX_FMT_SGRBG10:
- 	case V4L2_PIX_FMT_SRGGB10:
--		dmr = VNDMR_RMODE_RAW10 | VNDMR_YC_THR;
-+		dmr = VNDMR_RMODE_RAW10;
- 		break;
- 	default:
- 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-index 756fdfdbce61..65da8d513b52 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-@@ -88,19 +88,19 @@ static const struct rvin_video_format rvin_formats[] = {
- 	},
- 	{
- 		.fourcc			= V4L2_PIX_FMT_SBGGR10,
--		.bpp			= 4,
-+		.bpp			= 2,
- 	},
- 	{
- 		.fourcc			= V4L2_PIX_FMT_SGBRG10,
--		.bpp			= 4,
-+		.bpp			= 2,
- 	},
- 	{
- 		.fourcc			= V4L2_PIX_FMT_SGRBG10,
--		.bpp			= 4,
-+		.bpp			= 2,
- 	},
- 	{
- 		.fourcc			= V4L2_PIX_FMT_SRGGB10,
--		.bpp			= 4,
-+		.bpp			= 2,
- 	},
- };
- 
+Changes in v3:
+- in patch 2/2 use a devres group for all the devm resources
+  acquired in the driver's probe
+
+Changes in v2:
+- updated cover letter
+- collected tags
+- updated patch 1/2 to drop devres APIs from the point the
+  runtime PM is enabled
+
+Claudiu Beznea (2):
+  iio: adc: rzg2l_adc: Open a devres group
+  iio: adc: rzg2l: Cleanup suspend/resume path
+
+ drivers/iio/adc/rzg2l_adc.c | 67 +++++++++++++++++++++++++------------
+ 1 file changed, 45 insertions(+), 22 deletions(-)
 
 -- 
 2.43.0
