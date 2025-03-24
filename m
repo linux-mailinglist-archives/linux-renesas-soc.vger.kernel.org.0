@@ -1,322 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-14742-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14743-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DB9A6D643
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 09:36:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4407A6D737
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 10:26:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C008A1892E89
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 08:35:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 072A03AA740
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Mar 2025 09:25:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5E7B25D213;
-	Mon, 24 Mar 2025 08:35:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10B8225D909;
+	Mon, 24 Mar 2025 09:26:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="SfCAn7tE";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xiBH4ekJ"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="VgCCbMV8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A229433A6;
-	Mon, 24 Mar 2025 08:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C3418FC80
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Mar 2025 09:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742805320; cv=none; b=vEa+fgZHm4lw28FZP/gp/irpi5YCyetWDNZ9pLpo9F/Tg5qruqeDVERpsrKFAfRT9GDgy7vc7EZzLa61CMpmc43CBlZ1hI4HXYU9DhwOwKsFHVChz9B1K2uM29BdKLsGKQsN3PQ73DhQMbYrFtG+sfGDMXPeRrad5tE6haZ/bqk=
+	t=1742808363; cv=none; b=uvHa0lCAhJiNbZlXZ892lrw6Fd1HFZyn/lODof/GWKU7CnF/3ZhsOSIXTax+KiRsARsN3jxmFFNDD6xBysGUAlGubqskkCtGFcUZMK95+174/N6CtWAfMfO7y0XF5jn9OtIoRKj2It7ZrYuiGaSMQt2h/i9g9/IAZhu47XD2mI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742805320; c=relaxed/simple;
-	bh=cwYcZRPCXPa9emtvchfdiZ66o4ChkzTRAs+VQebJAwc=;
+	s=arc-20240116; t=1742808363; c=relaxed/simple;
+	bh=bXzWlcGSjsEWQ68IzFcnBpij2zd/PeSHOnwycoVjz/k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aTp2P2d+JgUmt+wYaaDyfCwIDziZXUDA2hEiILH8On3sP8/iOg9s55CkLlnbTBi+sXAXX9XtxTk9qumyj1yKr6iN339rUWJ7IaDcv8bcliP3sLTaFo5eicuUix3X1Io1NfYN3a/qFEEH2u9Suz+7WSO556QnY2iF633huXXAEJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=SfCAn7tE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xiBH4ekJ; arc=none smtp.client-ip=103.168.172.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 4C5BA11400D4;
-	Mon, 24 Mar 2025 04:35:16 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Mon, 24 Mar 2025 04:35:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1742805316;
-	 x=1742891716; bh=HNAvz1h/RancO+tAPGxOIbKhxi5ud3TT5gGiuFDk/Gk=; b=
-	SfCAn7tEbPjF8yz83ZCXa1g2Ruy6rCNcPUiewQ7yuTg2mNb39gAESafAqJbuGhZX
-	GYaFNZDBO6QZUQBUpuE2kDZVNZZUk+SUJPqKcFzFK7330aFNAoNoX2N47mfhx6XR
-	Z6VYqn5KLDTwk4UB162rGVrxGSsFK1TFSfLaWzbZVrGiBrTpZvJgw/pv1z//LPJ0
-	eR9uq78PeySoHy9EuaexDJ0g+mXJNSrsf6ccrULDoHvGhWSTeYyeMC6iIttVYKHw
-	wHD+0LM4yiakjlnaioSSm+EIv8PVyw6dU+g5trxD9A9VQBE4ew4NfAfDOsalpn1G
-	vKD4f/G4KXQkWzWV49m2Cg==
+	 Content-Type:Content-Disposition:In-Reply-To; b=CXF9CEqCB5WinVEzUHhY4aRGbGqm/aoc2yiapeIKya6D2Bm10hayddGQDO0QDzxwzflM6QS6oPhWjXa9VCjPndN+6o6AYXautSa3KGNyfIcqCI4OtK+94tFYY9DjJ2p3lGHjASyZJBE03YpUude6J16nvoIKwOTXxCx65//KDLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=VgCCbMV8; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1742805316; x=
-	1742891716; bh=HNAvz1h/RancO+tAPGxOIbKhxi5ud3TT5gGiuFDk/Gk=; b=x
-	iBH4ekJv+ipmT3CCUF7vpBuE/PcVlb2ARBAjfopG8q0iHOfbtFGP1S+83mLUewAw
-	hxMlN+QKFnuqle9lkgKpdoxi9djnHIkn0p43wLQRZw4x+K0RByRvOOhb+aOW8xs8
-	25DqYKrEdleiJwiZKHkNR9YYDcGznz5dsYqoa+bVGy4rqMjI0sztss2j4eAWEcGB
-	TSS48pqEJKlfmVcaxGfDzGhGikauWKBP74quwY5knx12bE0rYUVX8j/Pq5qaH8sR
-	Bt7sS8xKDmDplfg5KoeS+Us5dwHmS+1Kzc3RmmTz2ZLczb41c/tlVDY0EiB8yZCb
-	VqOK6U+nV6J48oofVGL1Q==
-X-ME-Sender: <xms:RBnhZ89Kt0IuPLZplJCv41C31cytLM-1O-ORJdiXH8QVwiyiPGbSag>
-    <xme:RBnhZ0vwCtYHqOpz3VrVEnZZ8DyvsXcfnfXyUxzmuFpu89-4Se4ILUKg0nj65IdH2
-    TnnVNPw3EdGbSI2rds>
-X-ME-Received: <xmr:RBnhZyAKEH3CcHCXZDn3U-zHCIn2e0LOSGFEqFw_iPwRSDFlCQAx48OqH7jVxrVRjMirTZQ-ChRqpXMbRdfZYymZ25X_ARZbyA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduheelfeduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpehnihhklhgrshcushhouggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpefg
-    vedtueejhefgueekuedtjedtheeijefgieffgeevveeuvdejheefvdeiuefgleenucevlh
-    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdr
-    shhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpd
-    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehjrggtohhpohdrmhhonhguihesihgu
-    vggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthh
-    grrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjrggtohhpohdr
-    mhhonhguihdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpth
-    htohepkhhivghrrghnrdgsihhnghhhrghmodhrvghnvghsrghssehiuggvrghsohhnsgho
-    rghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvh
-    hgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:RBnhZ8d7UAM_IHge2oLepkQ808LcxT5nfa6amoh1sbYFUXVE3OtsSg>
-    <xmx:RBnhZxNCMaJx79RA-e0JebwIMCb4drOaWqCnj3wcEiqfVWU6uhr7ZQ>
-    <xmx:RBnhZ2nQwDQk4OvrIycG9KxO1Qpop2QWb6Ob_3XSzWIh99rho1T5tw>
-    <xmx:RBnhZzukwFJDNjOhVwgFl8iBPt9FFEV0gagitEzLqk5kqa12hYCSPA>
-    <xmx:RBnhZ0cjDWPcvF3AQ7LaoDwpILFKoBJmVDXqmwh2LwpfYM5kFfQMFgJ4>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 24 Mar 2025 04:35:15 -0400 (EDT)
-Date: Mon, 24 Mar 2025 09:35:13 +0100
-From: niklas soderlund <niklas.soderlund@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v6 7/7] media: vsp1: pipe: Add RAW Bayer formats mapping
-Message-ID: <20250324083513.GA2884853@ragnatech.se>
-References: <20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com>
- <20250321-v4h-iif-v6-7-361e9043026a@ideasonboard.com>
- <20250321215634.GB11255@pendragon.ideasonboard.com>
- <dkatmlnysvsy3g4n3m53bzxcqx4avklzfctxgjv4hl6sd7fte3@vlfsvasn53d7>
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=1Be7
+	wSq5LewJPH8TYYO4ZF9M8T/CeCfoqvhmc0odLmE=; b=VgCCbMV8Aujq2mm0vQCi
+	dwnvQn+4Asxa9MbZJ/uEWabOyAef150pnzY8QumOUzaTmAGtin5W4AV4Kx4dp8Ui
+	pXfcQUlSctbWotuEZZTFu+Z8mAtGf2uwPxYf2Vm7C3JML/jI3kXtDGioG7P+EAg6
+	NomuaDH73ZN7ZqGc/AB7HjL4hktG5lQEENeHN84nUUIn+ZB50X98ehf3QAGOfZOF
+	Vc0+srxApze0i15jT64ZuW1/bZB+ywI6iBvhj+lfrmMUJvOm/8IHuTjlDezqENtP
+	+RH9zPzIACoqzsif5dG7wYBKHURH77RjnY43+hHdjfFrgOGc5CU6AQRWrAolRhby
+	7A==
+Received: (qmail 2478914 invoked from network); 24 Mar 2025 10:25:49 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Mar 2025 10:25:49 +0100
+X-UD-Smtp-Session: l3s3148p1@rhqNMBMx7lZtKPH/
+Date: Mon, 24 Mar 2025 10:25:48 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Cc: thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org,
+	geert@linux-m68k.org, paul.barker.ct@bp.renesas.com,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v4 08/13] serial: sh-sci: Introduced function pointers
+Message-ID: <Z-ElHPod77Py1DPH@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org,
+	geert@linux-m68k.org, paul.barker.ct@bp.renesas.com,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+References: <20250306152451.2356762-1-thierry.bultel.yh@bp.renesas.com>
+ <20250306152451.2356762-9-thierry.bultel.yh@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DND0bWGSWizbPD8t"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dkatmlnysvsy3g4n3m53bzxcqx4avklzfctxgjv4hl6sd7fte3@vlfsvasn53d7>
+In-Reply-To: <20250306152451.2356762-9-thierry.bultel.yh@bp.renesas.com>
 
-Hello Jacopo,
 
-On 2025-03-24 09:27:56 +0100, Jacopo Mondi wrote:
-> Hi Laurent
-> 
-> On Fri, Mar 21, 2025 at 11:56:34PM +0200, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > On Fri, Mar 21, 2025 at 04:45:39PM +0100, Jacopo Mondi wrote:
-> > > Add formats definition for RAW Bayer formats in vsp1_pipe.c.
-> > >
-> > > 8-bits RAW Bayer pixel formats map on VSP format RGB332.
-> >
-> > s/map on/map to/
-> >
-> > > 10, 12 and 16 bits RAW Bayer pixel formats map on RGB565 insted.
-> > >
-> > > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > > ---
-> > > v3->v4:
-> > > - Fix SWAP bits for RAW 10, 12 and 16
-> > > ---
-> > >  drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 72 ++++++++++++++++++++++++-
-> > >  1 file changed, 71 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > index 8e9be3ec1b4d..a51061738edc 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > @@ -30,10 +30,80 @@
-> > >   */
-> > >
-> > >  static const struct vsp1_format_info vsp1_video_formats[] = {
-> > > -	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
-> > > +	/* Raw Bayer 8-bit: Maps on RGB332 */
-> > > +	{ V4L2_PIX_FMT_SBGGR8, MEDIA_BUS_FMT_Y8_1X8,
-> > > +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-> > > +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-> > > +	{ V4L2_PIX_FMT_SGBRG8, MEDIA_BUS_FMT_Y8_1X8,
-> > > +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-> > > +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-> > > +	{ V4L2_PIX_FMT_SGRBG8, MEDIA_BUS_FMT_Y8_1X8,
-> > > +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-> > > +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-> > > +	{ V4L2_PIX_FMT_SRGGB8, MEDIA_BUS_FMT_Y8_1X8,
-> > >  	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > >  	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-> > >  	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-> >
-> > Similarly to the media bus codes, could we have a single entry, using
-> > V4L2_PIX_FMT_GREY ? Same below with V4L2_PIX_FMT_Y10, V4L2_PIX_FMT_Y12
-> > and V4L2_PIX_FMT_Y16.
-> 
-> mmm, the SRGB mbus codes come from the R-Car ISP input image format.
-> I understand these are multiple identical entries, but having
-> somewhere a translation from SRGB->Y formats just to have fewer
-> entries here it feels a bit of an hack
-> 
-> >
-> > This would still duplicate entries, as V4L2_PIX_FMT_Y1[026] are
-> > essentially treated the same, and they are identical to
-> > V4L2_PIX_FMT_RGB565. We could ask the ISP driver to use
-> > V4L2_PIX_FMT_RGB565 (and V4L2_PIX_FMT_RGB332 for 8-bit raw) when
-> > configuring the VSPX, but that's a bit of a hack.
-> 
-> Indeed, but I don't think 3 "duplicated" entries are any bad, if
-> that's how the HW work.
-> 
-> >
-> > Another option would be to handle the translation in
-> > vsp1_vspx_rwpf_set_subdev_fmt(). I would still in that case only expect
-> > the V4L2_PIX_FMT_GREY and V4L2_PIX_FMT_Y* 4CCs from the ISP driver. This
-> 
-> Do you expect the ISP driver to translate SRGB to Y formats ?
-> 
-> 
-> > patch could then be dropped.
-> 
-> So are you suggesting to translate in the ISP driver
-> 
->         SRGB8 -> RGB332
-> 
->         SRGB10/12/16 -> RGB565
-> 
-> Niklas, what do you think ?
+--DND0bWGSWizbPD8t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I would rather keep the true formats in the API between the VSP and ISP, 
-that is keep it as is. If really needed maybe a translation in the VSP 
-driver prior to querying vsp1_video_formats[] could be added? But this 
-driver is complex enough as-is :-)
+On Thu, Mar 06, 2025 at 04:24:42PM +0100, Thierry Bultel wrote:
+> The aim here is to prepare support for new sci controllers like
+> the T2H/RSCI whose registers are too much different for being
+> handled in common code.
+>=20
+> This named serial controller also has 32 bits register,
+> so some return types had to be changed.
+>=20
+> The needed generic functions are no longer static, with prototypes
+> defined in sh-sci-common.h so that they can be used from specific
+> implementation in a separate file, to keep this driver as little
+> changed as possible.
+>=20
+> For doing so, a set of 'ops' is added to struct sci_port.
+>=20
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 
-> 
-> 
-> >
-> > What's your preference ?
-> >
-> > > +
-> > > +	/* Raw Bayer 10/12/16-bit: Maps on RGB565 */
-> > > +	{ V4L2_PIX_FMT_SBGGR10, MEDIA_BUS_FMT_Y10_1X10,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-> >
-> > The bpp values are used to calculate memory offsets. Unless I'm
-> > mistaken, you should use 16 here, not 10.
-> >
-> 
-> I'm rounding up in the vspx driver. However it is true these formats
-> are sampled in 16bpp chunks, so I can use 16 here.
-> 
-> > > +	{ V4L2_PIX_FMT_SGBRG10, MEDIA_BUS_FMT_Y10_1X10,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-> > > +	{ V4L2_PIX_FMT_SGRBG10, MEDIA_BUS_FMT_Y10_1X10,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-> > > +	{ V4L2_PIX_FMT_SRGGB10, MEDIA_BUS_FMT_Y10_1X10,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-> > > +
-> > > +	{ V4L2_PIX_FMT_SBGGR12, MEDIA_BUS_FMT_Y12_1X12,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-> > > +	{ V4L2_PIX_FMT_SGBRG12, MEDIA_BUS_FMT_Y12_1X12,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-> > > +	{ V4L2_PIX_FMT_SGRBG12, MEDIA_BUS_FMT_Y12_1X12,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-> > > +	{ V4L2_PIX_FMT_SRGGB12, MEDIA_BUS_FMT_Y12_1X12,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-> > > +
-> > > +	{ V4L2_PIX_FMT_SBGGR16, MEDIA_BUS_FMT_Y16_1X16,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-> > > +	{ V4L2_PIX_FMT_SGBRG16, MEDIA_BUS_FMT_Y16_1X16,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-> > > +	{ V4L2_PIX_FMT_SGRBG16, MEDIA_BUS_FMT_Y16_1X16,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-> > > +	{ V4L2_PIX_FMT_SRGGB16, MEDIA_BUS_FMT_Y16_1X16,
-> > > +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS,
-> > > +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-> > > +
-> > > +	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
-> > > +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-> > > +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-> >
-> > This doesn't seem right, the patch is changing the V4L2_PIX_FMT_RGB332.
-> 
-> If I'm not mistaken V4L2_PIX_FMT_RGB332 was
-> 
->         { V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
->           VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
->           VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
->           1, { 8, 0, 0 }, false, false, 1, 1, false }
-> 
-> and is now
-> 
->         { V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
->           VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
->           VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
->           1, { 10, 0, 0 }, false, false, 1, 1, false },
-> 
-> Seems like I messed up the bpp
-> 
-> With that fixed the diff looks saner. Thanks for spotting.
-> 
-> 
-> >
-> > >  	{ V4L2_PIX_FMT_ARGB444, MEDIA_BUS_FMT_ARGB8888_1X32,
-> > >  	  VI6_FMT_ARGB_4444, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > >  	  VI6_RPF_DSWAP_P_WDS,
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
+Okay, the discussion about the general approach convinced me that we can
+go this road. I will not do a line-by-line review of these patches, but
+just check that it looks good to me in general. This patch here merely
+shuffles code around and adds some inderection. If it works, it seems
+good enough for me and we can improve on it incrementally:
 
--- 
-Kind Regards,
-Niklas Söderlund
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+That means, though, that testing this series on a variety of SoCs is
+especially important and I'd like to get confirmed that you did these
+tests on SCI variations which are available on RZ hardware. According to
+my research it would be those:
+
+	[SCIx_SCI_REGTYPE]
+		/* RZ/Five, RZ/G2UL, RZ/V2L */
+		.compatible =3D "renesas,sci",
+
+	[SCIx_RZ_SCIFA_REGTYPE]
+		 /* The "SCIFA" that is in RZ/A2, RZ/G2L and RZ/T1 */
+		.compatible =3D "renesas,scif-r7s9210",
+		.compatible =3D "renesas,scif-r9a07g044",
+
+	[SCIx_RZV2H_SCIF_REGTYPE]
+		 /* RZ/V2H */
+		.compatible =3D "renesas,scif-r9a09g057",
+
+	[SCIx_SH4_SCIF_BRG_REGTYPE]
+		/* a lot of RZ, too */
+		.compatible =3D "renesas,rcar-gen1-scif",
+		.compatible =3D "renesas,rcar-gen2-scif",
+		.compatible =3D "renesas,rcar-gen3-scif",
+		.compatible =3D "renesas,rcar-gen4-scif",
+
+	[SCIx_HSCIF_REGTYPE]
+		/* R-Car Gen2-5 */
+		/* a lot of RZ */
+		.compatible =3D "renesas,hscif",
+
+Please double check that I did not make a mistake. I'd think Geert tests
+these on in his board farm anyway:
+
+	[SCIx_SH4_SCIF_REGTYPE]
+		/* landisk */
+		.compatible =3D "renesas,scif",
+
+	[SCIx_SCIFA_REGTYPE]
+		/* R-Car Gen2 */
+		.compatible =3D "renesas,scifa",
+
+	[SCIx_SCIFB_REGTYPE]
+		/* R-Car Gen2 */
+		.compatible =3D "renesas,scifb",
+
+	[SCIx_SH2_SCIF_FIFODATA_REGTYPE]
+		/* RZ/A1 */
+		.compatible =3D "renesas,scif-r7s72100",
+
+We maybe can get hold of the next board. I will figure this out
+internally (not super important for this series, but nice to have):
+
+	[SCIx_SH4_SCIF_NO_SCSPTR_REGTYPE]
+	/* SH Ecovec */
+	arch/sh/kernel/cpu/sh4a/setup-sh7723.c: .regtype        =3D SCIx_SH4_SCIF_=
+NO_SCSPTR_REGTYPE,
+
+That leaves some older SH boards out of the loop, but I think this is
+OK. A quick research didn't let me obtain boards for these anymore.
+
+So far, so good? Comments?
+
+Happy hacking,
+
+   Wolfram
+
+
+--DND0bWGSWizbPD8t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfhJRgACgkQFA3kzBSg
+KbbSKw/+N9OsSyV34D6J2L74Th3KIV/2RufjZwsHsg5WtBK/OIZAT2k6PRV7Yr7k
+0Agmr+1pDDtLo7eiHlMJZhlbWuGnEhyIwBryrrmSxgwbWo/6NSDJANMVHnGJa7mc
+MJLofQQMd/6oYTt7xf/o34eMb5E78WGMvG7Qr7AhURJo40tCXB1OTunSk8QOBa7Y
+MfGpSwGSHClvNUzJZLI6rxOe4Ow+blhaBv0nUNa6r2FjmT8S3yUr7l+DSr7hnkCK
+/IGFLlfIbK3YJ9jmoPYRBJl07Gmqhlz34IcihZKLm6DygU6gIWoFAEY9O/5e9I9U
+CUAZBkOF9FsuMnGhbWGaguUOPBWbCPpkuvs8bccNkrZtqsmLy5MPfQ3EthEVq7BR
+ArNZOGRl8+SiVrAyAZKcZYouDdTauHKzhJF6aWypJrZa7KaHjCh4N2fWyYEoH2Yc
+LzMUVUotTRTWTU4aghHbicp+ym7kSNbH5tE9OhSH2zqsmwapISTbA/230c6eaiFs
+p0J4BwDFJHyZfZTfwaCvyVJzJlMpSKWmfIZCtKFPoivPIQi1LMc3/vsxw3GJZgtf
+t2kewY7Uca3PhCj9HuyJG/tLp3xSwMR/hGLeiBcr9dP7ov2V+D93p2oVmxItXRyb
+tCU5WViobu5CiWHTKmMjWoFFuJ54HJMDTungXxbfqmGoI61kCXQ=
+=mLXO
+-----END PGP SIGNATURE-----
+
+--DND0bWGSWizbPD8t--
 
