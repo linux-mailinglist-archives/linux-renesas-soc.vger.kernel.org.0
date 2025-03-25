@@ -1,194 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-14798-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14799-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5229A704C0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Mar 2025 16:16:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4FDA70508
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Mar 2025 16:29:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A0FF416E8CF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Mar 2025 15:13:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8CF53BDD7F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Mar 2025 15:26:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF81A2030A;
-	Tue, 25 Mar 2025 15:13:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B04AA25D551;
+	Tue, 25 Mar 2025 15:26:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F09D25BAD7
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Mar 2025 15:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CAC425D529
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Mar 2025 15:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742915595; cv=none; b=W4yRiUUf4mPiBROv+rmSKTigS97EGBT2K1r9vI4DnfWqWn31w728Dh7Ou9XtnrzK1DrIwoNX/LaVQX82gR13rlYGcHAPsRRksVIwc4Tq0ELf/0x1l5JIIfgEIygR8aclC/q6MH7ovbXtIsqU1NtCZxQ7RPPw4/345Ggo5ZKdzb4=
+	t=1742916384; cv=none; b=M0lqkyxrUp+z79ZaDkO/GSL9nmooa7dg8IqKcp2RGQIE5R1F/tl0wTOE/hXsUU6HslMEpuCnc2lib5p2qohdr/RMZXNhtuQW4HZgzuagElQzgb03x8RIwaA02HDWwY65dB56nV3tldnR9eFKRI3M53eyOMSI/mi1AVQKQZ3FU6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742915595; c=relaxed/simple;
-	bh=Ymu8QmlYmsqTZ8/JVwzi+YS7QigP6MRwnkGHOEYR8+Q=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NjMp4YUt1qMV0OfvRHAW53gzL9lZq/mHhzIsRlvdnon06NkULEHiknEnC5TOuAoy32/P5Jk11LS3DZu+A1XCHmkJRztLr5LzrOJj+2GhJ3ECpQgJOYPPQtORyBTM9TuyuwzZFAw+6aY+hMPOga/MDM4fKW3Y197pvwllUTVZAjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tx5xd-0000BM-Rt; Tue, 25 Mar 2025 16:13:01 +0100
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tx5xc-001bMt-1Q;
-	Tue, 25 Mar 2025 16:13:00 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1tx5xc-000AEJ-2W;
-	Tue, 25 Mar 2025 16:13:00 +0100
-Message-ID: <ce3426b50a2593c23052b83848e95db8e49fdb8a.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] reset: Add USB2PHY control driver for Renesas
- RZ/V2H(P)
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Prabhakar
- <prabhakar.csengg@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
-  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,  Magnus Damm <magnus.damm@gmail.com>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Biju Das <biju.das.jz@bp.renesas.com>,  Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chris Paterson
- <Chris.Paterson2@renesas.com>
-Date: Tue, 25 Mar 2025 16:13:00 +0100
-In-Reply-To: <TYCPR01MB12093DB963348A8FD58409E5AC2DE2@TYCPR01MB12093.jpnprd01.prod.outlook.com>
-References: 
-	<20250305123915.341589-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-	 <20250305123915.341589-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-	 <30b6841b3ce199488698ab272f103a0364adb000.camel@pengutronix.de>
-	 <TY3PR01MB12089B78E1DE163B740A51134C2D32@TY3PR01MB12089.jpnprd01.prod.outlook.com>
-	 <c27ab4ca4563d20a73ffc8a577f960fe59ffa88f.camel@pengutronix.de>
-	 <TYCPR01MB12093DB963348A8FD58409E5AC2DE2@TYCPR01MB12093.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1742916384; c=relaxed/simple;
+	bh=KsyhWDZ9vz2zVV4SSVoQ1RCE2E0KDLZcwTuZVzKJ4U8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cBPbcjxCTM3fdRp8UhtuQ5H1U6q8iJEMxzKe6qfeeBPMwZwsPRlwFapyOb8pPj1rVW8QZ2PJPOK4lL/ymg3bj7hteZT58Q9nvHF3P/gHuYKOHXvF2PTFr/oPGUE1w9pt7GSQkbp4Iap1MTCoGlrxG1OKjEYpF192+M4W/K4BLJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ac25d2b2354so958954966b.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Mar 2025 08:26:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742916379; x=1743521179;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ey1ptOkb7OET1t+PI+4h/aljRyEZhfbvKjRYRUk152Y=;
+        b=OfAOvFj/1Otawvq/OsTByB1JxFfDPlKNtM5p7Y/4w0r+4IudnQM+F8nF/FPbne4tV9
+         VerHcPf9dXFHjPChgflHN6dX2N42mXsZ4HQ8gb9iuDuAc3PmyuO+C8cWVZC1/DEKQ8Au
+         +9VLheN/+3tJ6jdXAbBncDyv4OiN4idj+BOT8wB44qrTxSdOqi7OA0VAxSLoBqzF/92l
+         25cCVBd8Tykvi7bcN4bSvHdvvxpe+PMZRz70ty4MNltWveoHMMQZU8pmMpuV/zuHeHsn
+         nithPyCUcN4nlO98z2YwKcwXzR/P2ebLPE21Kt0jzMV3MRolu4kpRBEPn0UmKfXx+jsF
+         4paA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpPbYQ7d/9LPDF6MJlzWulFiYWRekyIIq7+j9E/jWR1sERYpRCluQVS4XQ/lAPRp20tw5omiQAZ8qF55F+9KTUUg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhMEkKvVRJcRjCve6WkGdfRxycZbz+qftxvR8HJI4+8mJjaO6P
+	Pdec4wM2BpsJ4yQVOH25DU9UEBC2aO69RN2mjCVpsRdJCMBbbUZpfBameUIYVRQ=
+X-Gm-Gg: ASbGncvbtpbAN2pv+bnxANSi2l7klkig8dsBBgyeI6ffVwxZH9nF2ec3J4JZQG1RuMk
+	9y6EsWIrmuOy+ZaLLOwCfAGVTWrkvbPrcMX8Lo9sAwZ8AZ7oKnTKTy/S79ONXspOAHjykUtNUkK
+	8SiPYMOa9lxhOB91EAdISF2tcs6PtqJjLcDboaE3SE8HGdKaK5kpuCHfSc3eSoPhuTSLW20Jr0I
+	eS8MFPNZIyYEBX2WNPA1iTC5OOBj0XUSYT5pV36zAt1LMov3LBQVtsYw7GO2TFIDe1NQfgwHXCZ
+	Z2dog7YSndOAWuA5KRVwkWpPKBqm7yc14n+hGVUmLPSNxQJqPtRz4F92OuAoJmdfX6d4fzKpwr/
+	2wByFTco=
+X-Google-Smtp-Source: AGHT+IE6OpVrMfFf8/ANq0uQPbDH4VmLM+gHwlXlcbdr2pxFPyuXXk907qR+OSUMJUGlrCY7N3TqiA==
+X-Received: by 2002:a17:907:c7cd:b0:ac1:ea29:4e63 with SMTP id a640c23a62f3a-ac3f2238d89mr1671674566b.26.1742916378348;
+        Tue, 25 Mar 2025 08:26:18 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com. [209.85.218.53])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ebcd0c7759sm7904855a12.51.2025.03.25.08.26.16
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Mar 2025 08:26:16 -0700 (PDT)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ac2bdea5a38so988336266b.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Mar 2025 08:26:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUwIsycpL5x0+/16LziOx46e40U7fI1FlZJHv5RiOaVSCoMht3LwmD5w9czjr1fOg87bNf7JVfSIe0z4n0Sj06AAQ==@vger.kernel.org
+X-Received: by 2002:a17:907:97c2:b0:ac6:ba92:79c9 with SMTP id
+ a640c23a62f3a-ac6ba927fdbmr398008166b.18.1742916376510; Tue, 25 Mar 2025
+ 08:26:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+References: <53be6667544de65a15415b699e38a9a965692e45.1742481687.git.robin.murphy@arm.com>
+In-Reply-To: <53be6667544de65a15415b699e38a9a965692e45.1742481687.git.robin.murphy@arm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 25 Mar 2025 16:26:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUtCqwzeWY8G+yHiu4biovymDVb_UtjfYPEQYyYr+dP4Q@mail.gmail.com>
+X-Gm-Features: AQ5f1JpxwyaVEoL_gG00SX4u4mmS2G73SUcVvP1i1roPtO6YBwlUw4Ll1yY2FDU
+Message-ID: <CAMuHMdUtCqwzeWY8G+yHiu4biovymDVb_UtjfYPEQYyYr+dP4Q@mail.gmail.com>
+Subject: Re: [PATCH] iommu/ipmmu-vmsa: Register in a sensible order
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: joro@8bytes.org, will@kernel.org, iommu@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Fabrizio, Prabhakar,
+Hi Robin,
 
-On Di, 2025-03-18 at 12:31 +0000, Fabrizio Castro wrote:
-> Hi Philipp,
->=20
-> Thanks for your feedback!
->=20
-> > From: Philipp Zabel <p.zabel@pengutronix.de>
-> > Sent: 13 March 2025 13:06
-> > Subject: Re: [PATCH v2 2/2] reset: Add USB2PHY control driver for Renes=
-as RZ/V2H(P)
-> >=20
-> > Hi Fabrizio,
-> >=20
-> > On Do, 2025-03-13 at 10:14 +0000, Fabrizio Castro wrote:
-> > > Hi Philipp,
-> > >=20
-> > > Thanks for your feedback!
-> > >=20
-> > > > From: Philipp Zabel <p.zabel@pengutronix.de>
-> > > > Sent: 13 March 2025 08:37
-> > > > Subject: Re: [PATCH v2 2/2] reset: Add USB2PHY control driver for R=
-enesas RZ/V2H(P)
-> > > >=20
-> > > > On Mi, 2025-03-05 at 12:39 +0000, Prabhakar wrote:
-> > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > >=20
-> > > > > Add support for the USB2PHY control driver on the Renesas RZ/V2H(=
-P) SoC.
-> > > > > Make the driver handle reset and power-down operations for the US=
-B2PHY.
-> > > > >=20
-> > > > > Pass OF data to support future SoCs with similar USB2PHY hardware=
- but
-> > > > > different register configurations. Define device-specific initial=
-ization
-> > > > > values and control register settings in OF data to ensure flexibi=
-lity
-> > > > > for upcoming SoCs.
-> > > > >=20
-> > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas=
-.com>
-> > > > > ---
-> > > > >  drivers/reset/Kconfig                    |   7 +
-> > > > >  drivers/reset/Makefile                   |   1 +
-> > > > >  drivers/reset/reset-rzv2h-usb2phy-ctrl.c | 223 +++++++++++++++++=
-++++++
-> > > > >  3 files changed, 231 insertions(+)
-> > > > >  create mode 100644 drivers/reset/reset-rzv2h-usb2phy-ctrl.c
-> > > > >=20
-> > [...]
-> > > > > diff --git a/drivers/reset/reset-rzv2h-usb2phy-ctrl.c b/drivers/r=
-eset/reset-rzv2h-usb2phy-ctrl.c
-> > > > > new file mode 100644
-> > > > > index 000000000000..a6daeaf37e1c
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/reset/reset-rzv2h-usb2phy-ctrl.c
-> > > > > @@ -0,0 +1,223 @@
-> > [...]
-> > > > > +static const struct rzv2h_usb2phy_regval rzv2h_init_vals[] =3D {
-> > > > > +	{ .reg =3D 0xc10, .val =3D 0x67c },
-> > > > > +	{ .reg =3D 0xc14, .val =3D 0x1f },
-> > > > > +	{ .reg =3D 0x600, .val =3D 0x909 },
-> > > >=20
-> > > > What are these registers and what are those values doing?
-> > >=20
-> > > Unfortunately, there are some licensing restrictions on this IP, this=
- is
-> > > the best that we can do, as per the license agreement.
-> >=20
-> > How am I expected to review this?
-> >=20
-> > For now, I'll assume that these registers are not related to reset
-> > functionality at all, and that this driver should be a phy controller
-> > driver instead of a reset controller driver.
-> >=20
-> > Can you convince me otherwise without breaking license agreements?
->=20
-> Sorry about the delay, as you may have figured out, we had to double chec=
-k with
-> the LSI team before making any statement.
->=20
-> We can confirm that `rzv2h_init_vals` contains the registers and correspo=
-nding
-> initialization values required to prepare the PHY to receive assert and d=
-eassert
-> requests. This is a one time only thing, done at probe.
-
-Thank you. Please document this in a comment next to the
-rzv2h_init_vals[] table.
-
-> After looking into things again, I have noticed that the probe function i=
-s missing
-> calling into the assert sequence, and the status of the reset is undefine=
-d, so
-> that's something to fix for v3 to make it initialize in asserted state.
->=20
-> The assert, deassert, and status operations are only touching reset relat=
-ed registers.
-> Nothing else.
+On Thu, 20 Mar 2025 at 15:41, Robin Murphy <robin.murphy@arm.com> wrote:
+> IPMMU registers almost-initialised instances, but misses assigning the
+> drvdata to make them fully functional, so initial calls back into
+> ipmmu_probe_device() are likely to fail unnecessarily. Reorder this to
+> work as it should, also pruning the long-out-of-date comment and adding
+> the missing sysfs cleanup on error for good measure.
 >
-> Therefore we believe this should be a port reset driver.
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Fixes: bcb81ac6ae3c ("iommu: Get DT/ACPI parsing into the proper probe path")
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+
+Thanks for your patch!
+
+This fixes the
+
+    sata_rcar ee300000.sata: late IOMMU probe at driver bind,
+something fishy here!
+    WARNING: CPU: 1 PID: 13 at drivers/iommu/iommu.c:571
+__iommu_probe_device+0x208/0x38c
+
+I saw on Salvator-XS with R-Car M3-N.
+
+It does not fix the second issue reported, so it is indeed too early for a
+"Closes: https://lore.kernel.org/CAMuHMdWPFnHTFeeWL2-BU8tKOL-E5K2ROOz=LLBLTJJLCK9NgA@mail.gmail.com"
+tag.
+
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/drivers/iommu/ipmmu-vmsa.c
+> +++ b/drivers/iommu/ipmmu-vmsa.c
+> @@ -1081,31 +1081,24 @@ static int ipmmu_probe(struct platform_device *pdev)
+>                 }
+>         }
 >
-> Thanks for your patience so far, and sorry for being cryptic.
+> +       platform_set_drvdata(pdev, mmu);
 
-Let's go ahead with this driver. I'd be happy about a MAINTAINERS entry
-for it.
+Nit: perhaps insert a blank line here, before the comment below?
 
-regards
-Philipp
+>         /*
+>          * Register the IPMMU to the IOMMU subsystem in the following cases:
+>          * - R-Car Gen2 IPMMU (all devices registered)
+>          * - R-Car Gen3 IPMMU (leaf devices only - skip root IPMMU-MM device)
+>          */
+> -       if (!mmu->features->has_cache_leaf_nodes || !ipmmu_is_root(mmu)) {
+> -               ret = iommu_device_sysfs_add(&mmu->iommu, &pdev->dev, NULL,
+> -                                            dev_name(&pdev->dev));
+> -               if (ret)
+> -                       return ret;
+> +       if (mmu->features->has_cache_leaf_nodes && ipmmu_is_root(mmu))
+> +               return 0;
+>
+> -               ret = iommu_device_register(&mmu->iommu, &ipmmu_ops, &pdev->dev);
+> -               if (ret)
+> -                       return ret;
+> -       }
+> +       ret = iommu_device_sysfs_add(&mmu->iommu, &pdev->dev, NULL, dev_name(&pdev->dev));
+> +       if (ret)
+> +               return ret;
+>
+> -       /*
+> -        * We can't create the ARM mapping here as it requires the bus to have
+> -        * an IOMMU, which only happens when bus_set_iommu() is called in
+> -        * ipmmu_init() after the probe function returns.
+> -        */
+> +       ret = iommu_device_register(&mmu->iommu, &ipmmu_ops, &pdev->dev);
+> +       if (ret)
+> +               iommu_device_sysfs_remove(&mmu->iommu);
+>
+> -       platform_set_drvdata(pdev, mmu);
+> -
+> -       return 0;
+> +       return ret;
+>  }
+>
+>  static void ipmmu_remove(struct platform_device *pdev)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
