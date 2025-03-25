@@ -1,171 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-14819-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5EAA706CB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Mar 2025 17:27:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2386A70778
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Mar 2025 17:58:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 655583A95DC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Mar 2025 16:25:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81CAB3AE76C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Mar 2025 16:55:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCB5925D205;
-	Tue, 25 Mar 2025 16:24:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66B8425332E;
+	Tue, 25 Mar 2025 16:55:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E24478F24;
-	Tue, 25 Mar 2025 16:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8546019EED3
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Mar 2025 16:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742919897; cv=none; b=HD9LOydpT7kzgMGkPG5YNbtFk5Y6i93RFFcK1nBaFWYzsl7XLbdq9LxJTXmQ5KEbI2iwvhP9LSyExpsibFXNVjsb/hQaT6SMlzJ3Z7Znd6FDAWhOPFdbe+tOMmbyPqO0KoNFyahnu6jxepg6/l8O0IrYOI5YgGzOYSFV+na96ww=
+	t=1742921716; cv=none; b=rPUZYSpAjqgX/t9p3oz8bGtqCzABZFI+QNH9i6u212ezqZbHgWXCDJhuLqMjpw6GxuapjEcE7ibVIFU+dtD2jGQPe/WDkM1YpW6RIKc/6u1aOp1N1/raPQsDEUYGdHykIwbUHFVx6eJQqNQffCu3sGwMapXXQ9Cb2hasjHnKTXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742919897; c=relaxed/simple;
-	bh=C7fBDqjXv2CVmINJYOBkk5XGIiofXHQLfQocU+kGCtk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hzfHbnoK2lldlaSAuVj/Peb2af5Kxn9DlRCFlkZn7r5SjeDI285xKFHQwe4ktMZ4IJz1fYWEY8idEN5j0pMdPX4sDpZ2PxWtn41n7uo86qn7Y5XJASr07OB6AoPyCRaYEjDjGIBaxiENtd/rDCwgSgWAkY7mwIWT51RfvKeTzSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-86d69774081so2511530241.0;
-        Tue, 25 Mar 2025 09:24:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742919895; x=1743524695;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l3iUGf60hSD8kCkzesJGsUCW6fH2x3e5r2ngVLOx6QY=;
-        b=hqPAHYvPFqCQk+PVzAwDQW+sJrq9BHbjs9HmyAjDXTO0dP10bcgTj2Sc+dSpbSre+z
-         aOTdBVBE1/kbJKkb/EuvO4BXIbUX6LmHssbIpnymCo6ihZqIu8FVVz/T8ZsEDRfIVKqJ
-         7fmUlZdi/i7jEw0KVwujGY0CbcIL3rA9TpB5V7YdR6uRaO1eAOzN8H19AHFnKqjNLWPY
-         LF57MP4xJQaVGLuin5+EMHF0QvrGeQBOWQoBNRCbJVoc5P8vhmVq/t28JJUgntdKEUsD
-         Aw92tgNqp3SSX6qAmpLYyl+3ait1iVyvw0Bh4OdihcPDFsQPIODz18egeTSOP3yqyubx
-         rX+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVTVR1Ag5J7D1+GUdWPtr4ZS/S4C2aYzonObmHDMNfMMZAcA1pXgPgycIs2e5Zortn5ecTp8v9lo0UHqXc=@vger.kernel.org, AJvYcCVgHshMf36r38RU3LeS6eKiGYx44iF2uvPf0D+lBpq2Q5JnI82ZWY6WnRortpBbJb7HUjlrrylU1YbLuX83JiG4JC4=@vger.kernel.org, AJvYcCVw5tQCWEkqqWr2HZngDvRtvHXc8P+NJozqcFB6QB8GzHIcoRi5shdm0PUu6fm5cyR6J5T1+d4eypMF9O8S@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0cBafIfM9Ee0/MrUfWEq2VoJsFN4WTolz8KDeVEUHmQy6YglM
-	782FXGhecHZObiFsj9X6L6vco9UQFC6P6H3Wd0U5/hguElxiFXOXJxooQVUKdDk=
-X-Gm-Gg: ASbGncsqmxfyr4/5FEItrRYN1zFX2cH0192C5BeGX71j1eUmfzSEbkxOHJOa2TJLrt4
-	Mr+erQEj6vfoelj1++p4TiGGGyerjnRWyy/yVu8XGl+kQJ9ajKmr/EN2+P5BLhqPpHm9qe8xuwO
-	pmW+aI5RwACod6Y7z6Im+LJcyBxLlwebrbE+BETM/CDeOyXjVaccdgSHBK5BDIcpQ6cnI7KPHTt
-	KINDaNEDOPKSbhWaH8XQAChsQXnAjXMMgacPe6kI5LvJTMzaW/QmChbhtG7f2VkLp65BGmGl9oh
-	VygerUxe8l7EPpuIP/8OPaF702NKNFKZY6lmCMHXLryF7XF2xPRAdCykrtsZuZs43Z5KHAJUby+
-	2KvxvV2Y=
-X-Google-Smtp-Source: AGHT+IFto9b5UOUPtnV1wp1D8cIG5F0mOE1Sx7UffouZOawKSn+ZDssypAWeSNwzC+SmvX5A56nDTg==
-X-Received: by 2002:a05:6102:dd2:b0:4bb:b809:36c6 with SMTP id ada2fe7eead31-4c50d4fb6admr14454091137.11.1742919894530;
-        Tue, 25 Mar 2025 09:24:54 -0700 (PDT)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c50bbb3affsm2061070137.4.2025.03.25.09.24.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Mar 2025 09:24:54 -0700 (PDT)
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-86d69774081so2511508241.0;
-        Tue, 25 Mar 2025 09:24:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCURJ19LYYbNOK7lgKgTs3QHoG1MJyIPQqd9k88FMl9STr3iG1nbI0TnPiGrvbEtUF74Q3vNyG1C4+QZdXGtuu6kNnY=@vger.kernel.org, AJvYcCUcbxHQvM6qFaNYC4NsRTIfKyxQyODePwGGAOC4PgAwHPF/9EjuBQcdPchJShNQeGeYOEpnob0bkltJcQQ=@vger.kernel.org, AJvYcCVTqJ55g22rByenzIFf/x+j2RVMTAjqqkV31Hr7HO5DcmP9yinGv59m9upGklMlxtYuaaYm5t0Fqe3jsFoK@vger.kernel.org
-X-Received: by 2002:a05:6102:3589:b0:4c2:2beb:b726 with SMTP id
- ada2fe7eead31-4c50d4f1cd2mr11387064137.10.1742919893845; Tue, 25 Mar 2025
- 09:24:53 -0700 (PDT)
+	s=arc-20240116; t=1742921716; c=relaxed/simple;
+	bh=NDcd24s2R2fV5azGb81g9lAoPjBQJwuAbP1pufUttOc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=dJXB/NrbNXVlnGADMxJoBei2GuQbbvWFRoy32NHRG8mNuKBN/z9absDe7bRlPS6J6ZpsGmPj/tuaGWPS5XAgSJDm5nKeII9EyFU1DNFbIFcWwifGgkbgbLnhfT9ncO+pIrTsSgqik9oN4gsAzVVMmwzTrGHq3wjhjRGj55zl1P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:219a:ecce:83a9:116f])
+	by baptiste.telenet-ops.be with cmsmtp
+	id V4v42E00Q1aTRbQ014v4qw; Tue, 25 Mar 2025 17:55:04 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tx7Xv-0000000Fc0k-23c9
+	for linux-renesas-soc@vger.kernel.org;
+	Tue, 25 Mar 2025 17:55:04 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tx7YO-0000000AOje-2L3L
+	for linux-renesas-soc@vger.kernel.org;
+	Tue, 25 Mar 2025 17:55:04 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2025-03-25-v6.14
+Date: Tue, 25 Mar 2025 17:55:04 +0100
+Message-ID: <20250325165504.2478312-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250306152451.2356762-1-thierry.bultel.yh@bp.renesas.com>
- <20250306152451.2356762-11-thierry.bultel.yh@bp.renesas.com>
- <Z-EpPL3tn54E8KG5@shikoro> <TYCPR01MB114922CBDC2911E2F644BDADC8AA42@TYCPR01MB11492.jpnprd01.prod.outlook.com>
- <Z-HVD6w6ivYR6pt5@shikoro> <TY3PR01MB1134602E988AD8428422E820086A72@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <Z-Jgdi5_SizHzcO0@shikoro> <TYCPR01MB11492F2D6D73B2EC18E46D6B98AA72@TYCPR01MB11492.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB11492F2D6D73B2EC18E46D6B98AA72@TYCPR01MB11492.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 25 Mar 2025 17:24:41 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU8VSD1Z4ing_NLXyo4x4ErzqkqzeM_n4nXX3h_GYCLnA@mail.gmail.com>
-X-Gm-Features: AQ5f1JrPdMUtwfzLYkd4tA2p5ykjTStKxFm2BOrBAk4-uGOWcV4_ArQkaw_jT80
-Message-ID: <CAMuHMdU8VSD1Z4ing_NLXyo4x4ErzqkqzeM_n4nXX3h_GYCLnA@mail.gmail.com>
-Subject: Re: [PATCH v4 10/13] serial: sh-sci: Add support for RZ/T2H SCI
-To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	"thierry.bultel@linatsea.fr" <thierry.bultel@linatsea.fr>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	Paul Barker <paul.barker.ct@bp.renesas.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Thierry,
+I have pushed renesas-drivers-2025-03-25-v6.14 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-On Tue, 25 Mar 2025 at 11:49, Thierry Bultel
-<thierry.bultel.yh@bp.renesas.com> wrote:
-> > From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > > > > > > +config SERIAL_RZ_SCI
-> > > > > >
-> > > > > > I think this name is too generic. Most RZ-variants so far do not
-> > > > > > have this SoC. Would 'RZT2H' work or is it too narrow then?
-> > > > >
-> > > > > This is too narrow, because for instance the RZ/N2H , which is
-> > > > > very similar, has the same SCI
-> > > >
-> > > > You know the differences better, what could be a suitable name?
-> > >
-> > > Please consider RZ/G3E and RZ/V2H SCI as well as it is almost similar
-> > IP.
-> >
-> > So, I am thinking to not use a name based on SoC but based on feature like
-> > SERIAL_SCI_32BIT or something. But I don't know the HW details enough to
-> > make the best possible name or maybe this is a bogus idea.
->
-> This seems a little bit confusing, and like said in former discussions,
-> the 32 bits registers are not the main difference.
->
-> Here are the known SoCs that have this IP, up to now:
->
-> RZ/T2H
-> RZ/N2H
-> RZ/G3E
-> RZ/V2H
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
+for-next branches of various subsystem trees and (b) branches with
+driver code submitted or planned for submission to maintainers into the
+master branch of my renesas-devel.git tree.
 
-+ RZ/V2N
+Today's version is based on renesas-devel-2025-03-24-v6.14.
 
-> So that seems reasonable to keep RZ in the name, even there are other RZ SoCs that
-> do not have it.
->
-> The HW documentation does not mention a better name, or revision,
+Included branches with driver code:
+  - renesas-clk-for-v6.16
 
-While the RZ/T2H and RZ/N2H documentation just call it "SCI" ("SCIE"
-for a reduced-functionality variant), the RZ/G3E, RZV2H, and RZ/V2N
-documentation calls it "RSCI". More below...
+Included fixes:
+  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+  - [LOCAL] riscv: rzfive: defconfig: Update rzfive_defconfig
 
-> so, the suggestion is to arbitrarily consider it as a new 'T2' type.
->
-> Would SERIAL_RZ_SCI_T2 (and rz-sci-t2 for the driver) be specific enough ?
-
-Please don't put the "SCI" in the middle of the part name
-=> SERIAL_RZT2_SCI.
-
-"RSCI" does not seem to be present on any Linux-capable Renesas SH,
-ARM or RISC-V SoC I have documentation for.  However it seems to
-originate from the RX series of microcontrollers:
-  - RX Family Application Note: Comparison of the Differences Between
-    the RSCI Module and the SCI Module[1],
-  - The RX26T documentation[2] shows RSCI on RX26T is very similar
-    to RSCI on the five RZ SoCs listed above, but not identical.
-    The RZ variant seems to be a reduced version with 16 instead of 32
-    FIFO entries, and less "special" (non-UART) modes.
-
-So I'm in favor of calling it "RSCI" (CONFIG_SERIAL_RSCI).
-
-[1] https://www.renesas.com/en/document/apn/comparison-differences-between-rsci-module-and-sci-module-rev100
-[2] https://www.renesas.com/en/products/microcontrollers-microprocessors/rx-32-bit-performance-efficiency-mcus/rx26t-32-bit-microcontroller-optimized-dual-motor-and-pfc-control
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - https://gitlab.freedesktop.org/drm/kernel.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
+  - https://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/drivers
+  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
+  - git://git.pengutronix.de/git/pza/linux#reset/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git#char-misc-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git#togreg
 
 Gr{oetje,eeting}s,
 
-                        Geert
-
+						Geert
 
 --
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
 
