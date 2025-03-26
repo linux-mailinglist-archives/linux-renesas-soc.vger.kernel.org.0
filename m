@@ -1,102 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-14825-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14826-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4F9A71342
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 10:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80016A713CF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 10:36:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 77E583AE93B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 09:01:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76AED3B9F4B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 09:35:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C35641A9B48;
-	Wed, 26 Mar 2025 09:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="fz6JMQxa"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5739C1624E5;
+	Wed, 26 Mar 2025 09:36:00 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1502919C57C
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Mar 2025 09:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3690F15381A;
+	Wed, 26 Mar 2025 09:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742979688; cv=none; b=upnLDm8XIxiRN98nt6ZMvx799xd8tyMZKAuY+hvE/hqT+xYhblmD1gNd/0GE353v9hahMkXY6EXWIBJH7xR2KhTC6uLPeVY1UAuDdDSyviHMbDt+jW58TifC9qA9+W0P6LBXn3MjMjqu8bNXHFqq00e1NyDaT8dWoWdcQk/hyV0=
+	t=1742981760; cv=none; b=mlpwUs8u378R3idpcxqXwL9efe0HxoSyFNNVTR0YipyYF5fPbhS40dNnxbsG2uFtGbZTjm9fpVx29d8A0tY2DU/z/2qEclnrEej90nP+oVB+PoVUoT/ae3ou97NojO7RjJ6OFtpofCRy8Wl5hEORVSNKacJMlG4fCDdwNcZI1B8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742979688; c=relaxed/simple;
-	bh=eDD4g6HDiV1YtqTZs/PmIG8u9bFA/7yg2fvRvWMhuFs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HH8uWJnfN1k6ThJ3KIt7NkY8qeNUjxgjujlNVmMBAOc67GGhsbPVAHf7vzi5M4DAJjmyDo2I8vZpliyzT4LYkluNj+LqotRnWD9QzQjPwKjCYPAsJtTjQo3Qiqvb/dbSDanVGPZ+XqYepdQdHXpW5PFfjtvYkwZjlyMqA/iyfKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=fz6JMQxa; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=+3xxi3QPwHftSA
-	+CLkZ2grWAAGv0GGU4/4NfNwtpY4U=; b=fz6JMQxaxiKCr8BObpq0LXHBK+BGIA
-	QsMN4RrBbT8aZG5bUJMFAHNhob/gCNcJE1t6Ax09bgbG5/odyd2fFo6Vm1nuWSgp
-	1x2rgZ7YIs//N/JwnjCnCAphcS4yrki/WkXBJqsQl21JXJsZ0QWKEo1/S+J4f6aU
-	LRZdGfPvpo+dikjRAaxC/qA4tygQZ2QLiE2vC9xF2AnYdNK+mjUDs8coCQ0A8HNY
-	WkJSa5+FKhU4OuPn6lqoLJm1aJm4gl0HLYLjwHYU9q2/DUcuENihp9d1jpetttuw
-	umKnYrjeXRl7KTIEfYC8Fr8FF5IIvavFYpB+Kgi5O1hw79FgJnjlJhcQ==
-Received: (qmail 3490736 invoked from network); 26 Mar 2025 10:01:21 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Mar 2025 10:01:21 +0100
-X-UD-Smtp-Session: l3s3148p1@hOS4FDsxiqkgAwDPXyTHAJp038nK7dx+
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-	linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH] dt-bindings: i2c: snps,designware-i2c: describe Renesas RZ/N1D variant
-Date: Wed, 26 Mar 2025 09:59:12 +0100
-Message-ID: <20250326090112.22495-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1742981760; c=relaxed/simple;
+	bh=1lET1WBXlbfygSS7ys/4Ss5cvlFBlp6i4eGQwRF40vE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y+FQzL9eMngjpm+IQ5cxGaSZ5iwwtJetZhyK/7NalEhsQw9miQxiMmlOMvzCCRHJih/Q3Q1KOV7wlY2cAyFAcQjekU1G+CsrzqDOaZGBMPAKQ9smuS8kT5vuTAVCiyUrqSezoO/wxKM8yWgBHTl5ms3479Qwt3HrpuPy6Aa1GFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-52403e39a23so6115159e0c.2;
+        Wed, 26 Mar 2025 02:35:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742981757; x=1743586557;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y+T9mKGmJnOxJt4RVj15BVMXT3ERgk+llKtZMhedaFI=;
+        b=Qa96FKNWgKGXWhN3fal3yYN+0A74uaZaZ1QxbFDA+/Ralse6n1G5ovpPuwC0VWYJ9w
+         V0VgYRRh2AQo6lb6N2WfKZcQt/C8S+CPOWyhXgjILiXX7gtzv3WbF0BoAJ4uZpusm+iz
+         fjjPkIjYInW5uoPxeA2PFSvMEecJuetZ6o4urth/HmovZi3MqCzYs+1UJZSGV6Vue7Q0
+         SnAQAaMKBUWfZmeXFZ7XkgySLn3wOS7kRyAXA+dVzBg2YmXNBsfvoOQRdbdfJftE4P34
+         8pu0kfgwYqLJXOEOZUfzqe5p9vtmRal6ikQ9V2yd+cY19T3zAwUvJzY19pEIA2fIhxJH
+         QrLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWqKmZiLMEZwNTxg9JAnpOGvZYGQqbFr1o1Ams5Uj5q3BiXy6DzdhDyT5VZ4J6DPThkcXNxiWLsmig=@vger.kernel.org, AJvYcCX28HiYfCdery1709PPWbb5SssboP2WTDxBI9P/EsYAJ91cZc35+otU4p8fsv5vQmoyIsUnhWWKYH3bQNOVVQCqNb4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylEvDw96+9O0QS/gV/NGMBxbY3yOzAdvZeNVHyaoLcb4u3SCeZ
+	RwE+aKZt/JvfSitLa6/cGP2b/Vyc1ZWTIHEFEcO6N9E9b0Gz+2/clNZPM+I0XV0=
+X-Gm-Gg: ASbGncuhzgw30HWn9N11ddyq9ev6t30/3noVtwsBD8nVNadiGY1KVoj07PmxxLdesTA
+	NrRwj0PKnjg21IWYLjiko9LMmBRuWvkYF+lRq3ikMST7827XCIfhkqjOcQ5N79kctJ9jt5GiArn
+	pCIBDjAqHU7QpBJd3gPbMo1dXsgZAkJzXjGyAutJ8RzXZmaqGMwBmRtr2HvOPEiyABRhBW1YYPt
+	4qbe24xQW++P6Fi7rRSUdrOhwVwBObvSvzZJYTPBNO5U3/lcOpQuxordYa8ieWZWmxFz6KYxkPz
+	unMO/KWuy+UPAt4uDWM5SDe6TPDfwZkBgqloQyVOkHCwyZ5qRCmCW6qmGPeZvtuI7VbsZevwVtx
+	hZ39PBi6y5sA=
+X-Google-Smtp-Source: AGHT+IFT778gVwFXEr6HE9VO38dRkHbTylIww2hx792Y90drOXXJssYf2mE3KN8GOKsUmH+znYgfvw==
+X-Received: by 2002:a05:6102:358e:b0:4bb:e511:15a6 with SMTP id ada2fe7eead31-4c50d4f8acemr16077804137.11.1742981756501;
+        Wed, 26 Mar 2025 02:35:56 -0700 (PDT)
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c50bdb5c18sm2333662137.27.2025.03.26.02.35.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Mar 2025 02:35:56 -0700 (PDT)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-520847ad493so6345841e0c.1;
+        Wed, 26 Mar 2025 02:35:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUkQuK6c+cJVnFLsvk09fXKeqd22/JcQ22owBi7QXJqncv7TJ5mEzI5BHHkhi/HOEP/qDWS+iJCrhg=@vger.kernel.org, AJvYcCV4NkwYiJrFdefdTKOjQpRfuypkcOJA65brrECTk6TGInSn5pvRkjapfaI0eZASSF065GmqSNoh9OLviYJzZi9Ybnw=@vger.kernel.org
+X-Received: by 2002:a05:6102:3a14:b0:4c1:869b:7db4 with SMTP id
+ ada2fe7eead31-4c50d4b52eamr14680055137.9.1742981756071; Wed, 26 Mar 2025
+ 02:35:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250320091101.33637-1-biju.das.jz@bp.renesas.com> <20250320091101.33637-8-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250320091101.33637-8-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 26 Mar 2025 10:35:44 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWtLuYzsPEQpJAruwOePSRzxiWODk0UzMGc9-CcHEHNbg@mail.gmail.com>
+X-Gm-Features: AQ5f1Jrs3fiTpEd-EPF_o8Np1srKI8RrQ0_UDSPj824LkY0Te3KcaNoDu6o7c_4
+Message-ID: <CAMuHMdWtLuYzsPEQpJAruwOePSRzxiWODk0UzMGc9-CcHEHNbg@mail.gmail.com>
+Subject: Re: [PATCH v6 07/18] can: rcar_canfd: Add rnc_stride variable to
+ struct rcar_canfd_hw_info
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	linux-can@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-So far, no differences are known, so it can fallback to the default
-compatible.
+On Thu, 20 Mar 2025 at 10:11, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> R-Car Gen4 packs 2 RNC values in a 32-bit word, whereas R-Car Gen3 packs
+> up to 4 values in a 32-bit word. Handle this difference by adding
+> rnc_stride variable to struct rcar_canfd_hw_info and update the macro
+> RCANFD_GAFLCFG.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v5->v6:
+>  * Replaced RCANFD_RNC_PER_REG macro with rnc_stride variable.
+>  * Updated commit description
+>  * Dropped Rb tag.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-If everyone is OK with this patch, does anyone mind if I shortcut it
-into the v6.15 mergewindow? It is just a documentation update and would
-simplify upstreaming the I2C chain for this board. One dependency less.
+Gr{oetje,eeting}s,
 
- .../devicetree/bindings/i2c/snps,designware-i2c.yaml         | 5 +++++
- 1 file changed, 5 insertions(+)
+                        Geert
 
-diff --git a/Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml b/Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml
-index e5d05263c45a..87eea87bdd52 100644
---- a/Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml
-+++ b/Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml
-@@ -27,6 +27,11 @@ properties:
-     oneOf:
-       - description: Generic Synopsys DesignWare I2C controller
-         const: snps,designware-i2c
-+      - description: Renesas RZ/N1D I2C controller
-+        items:
-+          - const: renesas,r9a06g032-i2c
-+          - const: renesas,rzn1-i2c
-+          - const: snps,designware-i2c
-       - description: Microsemi Ocelot SoCs I2C controller
-         items:
-           - const: mscc,ocelot-i2c
 -- 
-2.47.2
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
