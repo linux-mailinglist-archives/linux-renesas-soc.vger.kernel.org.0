@@ -1,260 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-14895-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14896-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37CC3A71F01
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 20:21:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 456D2A720DD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 22:37:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA54A177042
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 19:21:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D5F1017B54C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 21:37:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E73A253331;
-	Wed, 26 Mar 2025 19:21:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C3B7217730;
+	Wed, 26 Mar 2025 21:37:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZPtQBPVy"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="I2SdTmol"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D1415990C;
-	Wed, 26 Mar 2025 19:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FCF1F460E
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Mar 2025 21:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743016894; cv=none; b=hm0CXlK3m7ePFvcjyvPbPx3PLZRn6Juz9UGuewMeaMrLBLNC8qi0FW0BL6SSfWDveTmX/FIO0hsriQkLO3e/9ywRt8soDCtFKpwufZ02rSVBy8ntkXEjFxjwjt6+6rqhoano0xyCbVbb3+gQUHf3WSpUkvOHBkut2LO9LTkg4Ck=
+	t=1743025026; cv=none; b=to1i9G2Lfgy3GUCEVXaHirp5ByMWADQ2wkrWbP5Bkg0Wzp8HNbOS8bqxrk6iZPeS07r8IEAFBNXw3Vk+GvVfH5hE0HbnrD/gWf2sQMLVSTz4ip3IPEO/jB7F1bqrhZmqtpnuv4yCOfKaYycwCaevrd08E4UFEaH3PxEd9dFju68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743016894; c=relaxed/simple;
-	bh=9SujrNYMLA/XAMHXQB+2rCkk6Yg1jBiNU3xCW6K3B9w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UDmAEKU5pQsps3V28PieeooHO+Njbmfiz63OPRc/3b4lk4RXO4Bsv2lI9txXnqAgHkhKkl5w8+qHvWx6YXWKg9bkkyEyuWyPm8BM/AiCW7WzOTUfpap9V629D6xZxTOD3KcVB3ZWCiI1dwruGfuYDdU0nyavcC883K50ekWyUCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZPtQBPVy; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5240b014f47so100640e0c.1;
-        Wed, 26 Mar 2025 12:21:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743016891; x=1743621691; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=64vjjGgKkyej47wZkg9Q8gzWkXdomxA9oEZPcwE0Oo0=;
-        b=ZPtQBPVyyDWXoYnU9uFhHV+QqhPn8GIaTVlFnZrw0Gkjfs1uEwK3V4y8JJo1LKZrJw
-         zSWqdauIyJTTivBFnVsKLYc1LDpO/VJYSPhpbpBW3f0MeY0vIl+rzCi90w1DTsWkrel0
-         WK5BARvBjzGEHU+ZbP4/GpFVWgM8OWDE+2X6T7NEVorBIicJAK+ebpKbPv8EPM7lzX2D
-         a9QChfoaTa7mYCLJnd7PbpUc+lddhCw6DErbqR1LSwoslQ1kQXpAbDC9RlPVyRzrGCc0
-         GHMfdaKqPLlPpNYYbnGFs7Va0fKTmu+NVIrka/BsPe5gF8HfzgQiiidL8BWi6buMmrmD
-         mDwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743016891; x=1743621691;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=64vjjGgKkyej47wZkg9Q8gzWkXdomxA9oEZPcwE0Oo0=;
-        b=WiqJKThFJczmooXs2SU/emJf+mtDhuQoN6LHz3WqK/1vBFfHMrlUe7Nww378RYH5rt
-         iDxHItyYVcTMBXXAQAi9QNt2EvKf2WuDwdE0Ltmbjw4LyMIo2miuVqD3ZQfTTi/vwLdR
-         HSDlLGveoe7r5S7SElX/ol5bVO1dl+iZQ+3PMiBngRUup2IFY8YBSC5haV6IvZCul2dg
-         y9bgKYHAO5W3fAxksCqkOppZtXZyAeuWyxYpEQY3dAegLvZlWIzWW2WLpclsVBzVgoBv
-         tL5a8lfQoyKDTO1BwsotNoxFfz9n7uCGAvWLP5JbcFKqgW/AKuzjAz02gAg0nkG7VM2q
-         517g==
-X-Forwarded-Encrypted: i=1; AJvYcCUNFBGKlBuG7YBWYKUhsYnP0yfhUSUF3HfccUNXdeu9L6DRfM1w+cJi9D+3B0k4XHfcacHL8+0AXWpnew==@vger.kernel.org, AJvYcCUy4tlNwHhRH1ska91YonaTkEwYdUoA8V9oHU0bmYWA3/SR5/KunjS7e48eHKYVq7+vXs0rQhW9T2PWfFGF68sHwMQ=@vger.kernel.org, AJvYcCWZmden09U1k3WzZaKVOaSvjizRI6bDghfZdbfJ/fOQnpVX+fvORy//yqORbT7GQ9/yLnnTSY53ThxH+cJN@vger.kernel.org, AJvYcCWg7OR5AwjEWOsJpUkwoeCIq7euOMade+KnT2ingrICZgAZ/qS6CPApL6r0YkemkP2AyK6Nehl8mTJyNaJo@vger.kernel.org, AJvYcCX1J9ziV9C49Bw4jZGmWnkgBHCK6QnvMh0L+pOc9T2qjzPqwhyNgEt+dJ9Qdg5XQNPCUUYYAPg/oOPt@vger.kernel.org, AJvYcCXaqQlayKgOr6A7+EDvjZX0t38KvvJYmw1rHuJP+qSkubFKxXGjB4DP1KH5aSATEfUBntffhNhHK8pI@vger.kernel.org
-X-Gm-Message-State: AOJu0YyU4yK/Te9qwyNXsD1x1Y6S7yJyCrdEf8eN1CrMfPkTU/jBl63i
-	ImRjpiv2jLwgkSwlEmQrJSHzMxHyuJ7ydk0//tHCzVhFLALUoH1LjT3C8YTuHhTcvWttNKD6mom
-	rnYxEIDtLMsCqu/+sfuI6cn/yacc=
-X-Gm-Gg: ASbGncsXAFiucXKdHzOnjugnL7DW/HEZtcvAv17PF/UIzbS8igZBPlsmARuOogOuKsK
-	FnWmhxEi44gB7zDMDYbF6zreWGMq7HCb2y4BX7fSnGUZATXR73BFE9l3Scrg6zzaDHcqw4DXANc
-	73Dw9BzDU7HboJGzATBz1YsrnaW/Luv8ql41oelv0=
-X-Google-Smtp-Source: AGHT+IEMDUu/kTsNu1CbItYSDxUZeO1gxYDQkWcrekLYRRg2eqkHhtGCeqXHHIbGy6v6eIHaPx/Rv/onzgSKYSV/BuA=
-X-Received: by 2002:a05:6122:660c:b0:50b:e9a5:cd7b with SMTP id
- 71dfb90a1353d-52600a8ada4mr1173468e0c.9.1743016890983; Wed, 26 Mar 2025
- 12:21:30 -0700 (PDT)
+	s=arc-20240116; t=1743025026; c=relaxed/simple;
+	bh=ggJEOn/mT0hruEOaJ2xblMkpSzBqFCVlZ/M1b6YkRG4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JU8TgxOA4OtraFJ/1FG1JtGCyzKZ3Z5jIBrGOouGc/7+O/hOP2GO7M5rk5V+ZJJHwOjowi/kMdg+FLk1XZkt5NE6cxF7TnnlvprVI+TAgdA+ukx0S6ULnW6gJfZrE7YqQfmuNwzzswrcclEfYJMTUIvP3dj4gFeYVVrLYM4fiCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=I2SdTmol; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=waAV
+	8xyBKzqQjDVVgkGMpTYykVt5jQ2ShovVMktJ36M=; b=I2SdTmol5WiHSLji+9GD
+	LtkHPeIX9jdB2a0xukwVYKtQ0OeNz2qjkJlkNSzm1NuvBjaQHkOU0yQBd2XKMtLL
+	4pKLeeyxYrCDr+94RlpsIXPGnYGk0wTFy22fVluRBAdbVGlX0UKkpMERxVrlDxcW
+	Ac/0M+eOoGNgQI+LgciKDYqgSs+gp9Y1XGKk81SCUSOCySVB1+ouZOvXvBy29m//
+	lwKxczLqQr8MQuE/NRUPDZKIQkQIDihsdk8JfpJDeEztOB9QcYAUaG3/A8Q/V2a3
+	hEzp4k+dhTbijuiYSBK7iemisqKMT0bfsOuyZh01SzGt7V4HFymxETuuwfeZFYNe
+	TA==
+Received: (qmail 3763912 invoked from network); 26 Mar 2025 22:37:02 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Mar 2025 22:37:02 +0100
+X-UD-Smtp-Session: l3s3148p1@fghPo0UxYNwujnsv
+Date: Wed, 26 Mar 2025 22:37:01 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: i2c: snps,designware-i2c: describe Renesas
+ RZ/N1D variant
+Message-ID: <Z-RzfZKaw7qtYj0p@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Conor Dooley <conor@kernel.org>, linux-renesas-soc@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250326090112.22495-2-wsa+renesas@sang-engineering.com>
+ <20250326-unhidden-alfalfa-4dabbeb32c9d@spud>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250326143945.82142-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <174301523991.2716417.14351851624098585706.robh@kernel.org>
-In-Reply-To: <174301523991.2716417.14351851624098585706.robh@kernel.org>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 26 Mar 2025 19:21:03 +0000
-X-Gm-Features: AQ5f1Jp6yjmSyKSnpYoXWKYVnLBzGIWh9gTSXr8OSv020P_GOH986D8KqbvLGlA
-Message-ID: <CA+V-a8tBGdAFoUW1Dt2wZTeQBcVts-CGc9DgC24uvtFSfoUFeA@mail.gmail.com>
-Subject: Re: [PATCH 00/15] Add support for Renesas RZ/V2N SoC and EVK
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-serial@vger.kernel.org, 
-	Michael Turquette <mturquette@baylibre.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Conor Dooley <conor+dt@kernel.org>, 
-	Will Deacon <will@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
-	Jiri Slaby <jirislaby@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Stephen Boyd <sboyd@kernel.org>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tCgHaXXMp+Tzir+L"
+Content-Disposition: inline
+In-Reply-To: <20250326-unhidden-alfalfa-4dabbeb32c9d@spud>
+
+
+--tCgHaXXMp+Tzir+L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Rob,
 
-On Wed, Mar 26, 2025 at 7:11=E2=80=AFPM Rob Herring (Arm) <robh@kernel.org>=
- wrote:
->
->
-> On Wed, 26 Mar 2025 14:39:30 +0000, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > This patch series adds initial support for the Renesas RZ/V2N (R9A09G05=
-6)
-> > SoC and its evaluation board (EVK). The Renesas RZ/V2N is a vision AI
-> > microprocessor (MPU) designed for power-efficient AI inference and
-> > real-time vision processing. It features Renesas' proprietary AI
-> > accelerator (DRP-AI3), delivering up to 15 TOPS AI performance, making
-> > it ideal for applications such as Driver Monitoring Systems (DMS),
-> > industrial monitoring cameras, and mobile robots.
-> >
-> > Key features of the RZ/V2N SoC:
-> >   Processing Power:
-> >     - Quad Arm Cortex-A55 cores at 1.8GHz for high-performance computin=
-g
-> >     - Single Arm Cortex-M33 core at 200MHz for real-time processing
-> >     - 1.5MB on-chip SRAM for fast data access
-> >     - LPDDR4/LPDDR4X memory interface for high-speed RAM access
-> >
-> >   AI and Vision Processing:
-> >     - DRP-AI3 accelerator for low-power, high-efficiency AI inference
-> >     - Arm Mali-C55 ISP (optional) for image signal processing
-> >     - Dual MIPI CSI-2 camera interfaces for multi-camera support
-> >
-> >   High-Speed Interfaces:
-> >     - PCIe Gen3 (2-lane) 1ch for external device expansion
-> >     - USB 3.2 (Gen2) 1ch (Host-only) for high-speed data transfer
-> >     - USB 2.0 (Host/Function) 1ch for legacy connectivity
-> >     - Gigabit Ethernet (2 channels) for network communication
-> >
-> >   Industrial and Automotive Features:
-> >     - 6x CAN FD channels for automotive and industrial networking
-> >     - 24-channel ADC for sensor data acquisition
-> >
-> > LINK: https://tinyurl.com/renesas-rz-v2n-soc
-> >
-> > The series introduces:
-> > - Device tree bindings for various subsystems (SYS, SCIF, SDHI, CPG, pi=
-nctrl).
-> > - RZ/V2N SoC identification support.
-> > - Clock and pinctrl driver updates for RZ/V2N.
-> > - Initial DTSI and device tree for the RZ/V2N SoC and EVK.
-> > - Enabling RZ/V2N SoC support in `arm64 defconfig`.
-> >
-> > These patches have been tested on the RZ/V2N EVK with v6.14,
-> > logs can be found here https://pastebin.com/8i3jgVby
-> >
-> > Cheers,
-> > Prabhakar
-> >
-> > Lad Prabhakar (15):
-> >   dt-bindings: soc: renesas: Document Renesas RZ/V2N SoC variants
-> >   dt-bindings: soc: renesas: Document RZ/V2N EVK board
-> >   soc: renesas: Add config option for RZ/V2N (R9A09G056) SoC
-> >   dt-bindings: soc: renesas: Document SYS for RZ/V2N SoC
-> >   soc: renesas: sysc: Add SoC identification for RZ/V2N SoC
-> >   dt-bindings: serial: renesas: Document RZ/V2N SCIF
-> >   dt-bindings: mmc: renesas,sdhi: Document RZ/V2N support
-> >   dt-bindings: clock: renesas: Document RZ/V2N SoC CPG
-> >   clk: renesas: rzv2h-cpg: Sort compatible list based on SoC part numbe=
-r
-> >   clk: renesas: rzv2h: Add support for RZ/V2N SoC
-> >   dt-bindings: pinctrl: renesas: Document RZ/V2N SoC
-> >   pinctrl: renesas: rzg2l: Add support for RZ/V2N SoC
-> >   arm64: dts: renesas: Add initial SoC DTSI for RZ/V2N
-> >   arm64: dts: renesas: Add initial device tree for RZ/V2N EVK
-> >   arm64: defconfig: Enable Renesas RZ/V2N SoC
-> >
-> >  .../bindings/clock/renesas,rzv2h-cpg.yaml     |   5 +-
-> >  .../devicetree/bindings/mmc/renesas,sdhi.yaml |   4 +-
-> >  .../pinctrl/renesas,rzg2l-pinctrl.yaml        |   2 +
-> >  .../bindings/serial/renesas,scif.yaml         |   1 +
-> >  .../soc/renesas/renesas,r9a09g057-sys.yaml    |   1 +
-> >  .../bindings/soc/renesas/renesas.yaml         |  15 +
-> >  arch/arm64/boot/dts/renesas/Makefile          |   2 +
-> >  arch/arm64/boot/dts/renesas/r9a09g056.dtsi    | 264 ++++++++++++++++++
-> >  .../dts/renesas/r9a09g056n48-rzv2n-evk.dts    | 115 ++++++++
-> >  arch/arm64/configs/defconfig                  |   1 +
-> >  drivers/clk/renesas/Kconfig                   |   5 +
-> >  drivers/clk/renesas/Makefile                  |   1 +
-> >  drivers/clk/renesas/r9a09g056-cpg.c           | 152 ++++++++++
-> >  drivers/clk/renesas/rzv2h-cpg.c               |  18 +-
-> >  drivers/clk/renesas/rzv2h-cpg.h               |   1 +
-> >  drivers/pinctrl/renesas/Kconfig               |   1 +
-> >  drivers/pinctrl/renesas/pinctrl-rzg2l.c       |  36 ++-
-> >  drivers/soc/renesas/Kconfig                   |  10 +
-> >  drivers/soc/renesas/Makefile                  |   1 +
-> >  drivers/soc/renesas/r9a09g056-sys.c           | 107 +++++++
-> >  drivers/soc/renesas/rz-sysc.c                 |   3 +
-> >  drivers/soc/renesas/rz-sysc.h                 |   1 +
-> >  .../dt-bindings/clock/renesas,r9a09g056-cpg.h |  24 ++
-> >  .../pinctrl/renesas,r9a09g056-pinctrl.h       |  30 ++
-> >  24 files changed, 790 insertions(+), 10 deletions(-)
-> >  create mode 100644 arch/arm64/boot/dts/renesas/r9a09g056.dtsi
-> >  create mode 100644 arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.=
-dts
-> >  create mode 100644 drivers/clk/renesas/r9a09g056-cpg.c
-> >  create mode 100644 drivers/soc/renesas/r9a09g056-sys.c
-> >  create mode 100644 include/dt-bindings/clock/renesas,r9a09g056-cpg.h
-> >  create mode 100644 include/dt-bindings/pinctrl/renesas,r9a09g056-pinct=
-rl.h
-> >
-> > --
-> > 2.49.0
-> >
-> >
-> >
->
->
-> My bot found new DTB warnings on the .dts files added or changed in this
-> series.
->
-> Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-> are fixed by another series. Ultimately, it is up to the platform
-> maintainer whether these warnings are acceptable or not. No need to reply
-> unless the platform maintainer has comments.
->
-> If you already ran DT checks and didn't see these error(s), then
-> make sure dt-schema is up to date:
->
->   pip3 install dtschema --upgrade
->
->
-> This patch series was applied (using b4) to base:
->  Base: attempting to guess base-commit...
->  Base: tags/next-20250326 (best guess, 15/18 blobs matched)
->
-> If this is not the correct base, please add 'base-commit' tag
-> (or use b4 which does this automatically)
->
-> New warnings running 'make CHECK_DTBS=3Dy for arch/arm64/boot/dts/renesas=
-/' for 20250326143945.82142-1-prabhakar.mahadev-lad.rj@bp.renesas.com:
->
-> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: pinctrl@10410000:=
- 'interrupt-controller' is a required property
->         from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rz=
-g2l-pinctrl.yaml#
-> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: pinctrl@10410000:=
- '#interrupt-cells' is a required property
->         from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rz=
-g2l-pinctrl.yaml#
->
->
-As mentioned in patch 13/15 [0] the above warnings are expected this
-is because as part of the initial support, the ICU has not been added
-yet. The interrupt-related properties will be added to the pinctrl
-node along with ICU support.
+> > +          - const: renesas,r9a06g032-i2c
+> > +          - const: renesas,rzn1-i2c
+>=20
+> I don't really understand the rzn1/r9a06g032 difference here. Why are
+> both needed?
 
-[0] https://lore.kernel.org/all/20250326143945.82142-14-prabhakar.mahadev-l=
-ad.rj@bp.renesas.com/
+=46rom our experience with Renesas R-Car, we concluded to have a binding
+for the SoC and one for the family it belongs to.
 
-Cheers,
-Prabhakar
+For example, the already upstream watchdog bindings:
+
+      - items:
+          - enum:
+              - renesas,r9a06g032-wdt    # RZ/N1D
+          - const: renesas,rzn1-wdt      # RZ/N1
+
+I could add the comments here as well if that helps?
+
+
+--tCgHaXXMp+Tzir+L
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfkc30ACgkQFA3kzBSg
+KbZ9gQ//dX475wUUbL/5onLhQNDMhL7og0DOAz+Al6Ifj9XPFlB89HQ4QWHfZEyX
+bg968Z6GGAICmrUIXeD5dpDu9zFpm12iT7660ladzJPuM571c8qU/dos6WQoGa/a
+JcMMMKAn+nRPBlvVBKqv/pXV16+28mSWiCkM7bHQtbYiIfP0tSFFSLZVUhDWw7cp
+hGm4DKvjq8XMEj+Vjf41xHkLPfW8rHN5su6aLEDHQ2MM0KxnIvBIhunbRgKWSNFD
+TX1h/NfxoSbEYuu+qI2uo5dXhZiK/A2pANJeAUiv0yMThPDi0Jj2bFviOvRQKXe8
+Dr5aHjhB+JZVReAhwnNCbhUMqOuhM9tbZbhxp631xC7/RK0YeZwVyS6uKM4Qgykj
+5QmbCXwOkJ/+C7aPhhyz1Qv71616ZeLn2QrmRy0zimhTZnqcBiB0axKsAHBmgSKX
+Zvxjn+yXZFUs8uK6qJHvqBSaBazAtkfa8HwTU32fxtGRx38KZVIL88lkgw30QFR0
+fnZFuaGAVnPIFUQmYRULMGJ2Lr/iSn4em4rYoLsNHPOrBawj4GSP/N2x+13TbTjg
+6EtILAzrC07P+fnXflCmnWfWzqAX5me6wGgSlK/mVKwea2AH+nTXD6AeWPmDl12D
+H+M9luxnQetySGJ0VhTjc4anIaxAtnhLEv5ZBsaBzqqset5L9ig=
+=Rdvj
+-----END PGP SIGNATURE-----
+
+--tCgHaXXMp+Tzir+L--
 
