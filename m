@@ -1,128 +1,214 @@
-Return-Path: <linux-renesas-soc+bounces-14893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A22DA71DEB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 19:01:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88192A71EDF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 20:11:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11922188F794
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 18:01:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E15E41893615
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 19:12:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332B424C08B;
-	Wed, 26 Mar 2025 18:01:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1405254B10;
+	Wed, 26 Mar 2025 19:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IkZgRZm8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JGQQ9Zom"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05201219317;
-	Wed, 26 Mar 2025 18:01:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85216254855;
+	Wed, 26 Mar 2025 19:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743012087; cv=none; b=NF/UsScT2zkREkguLIvU/WLRtljuWKzxTMq17LDYW6w3mv7z+16XMSP1XGH0MJD2NAXRlanZ9EPviNRwAM/fJlhvcTKso5QGytatj6FowRrRbkrT1JVwEoVhtiuS8TqaqeKBLrdixCNJpl3fRHbujECgcKrye5TFx9T1ZAXCM00=
+	t=1743016300; cv=none; b=tPKAXO0CttZp05fJQEvPUed2y5yib6VjxC9+6mROqGy8ZjupgEeF64l2GFWaNCbW4znD5KY2k/NVuMX+yvtq1S4xFLT2Ku5dMbYN5rZtu3H7qATlb90Jdmafm4+KHLxniEITz6+BzWOkt1qqwARVy1LLgbibu2rdTXq63JIJBD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743012087; c=relaxed/simple;
-	bh=XODh12uIsFY2/tj2p+YwbHSsmwijeYtL0jmgiLU4w9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aPqgM/h4S4Shw8kFICy3MLwbjzzqePBG+ttnHyfPqvjuCz7pmNESHnR8yBixVe5D0JVpnnRU4yVz6TFpD2cXqiL2jN5iUt4l3DmUWgYdaclnBt4IAQrVH0FIw6N6GusezWBs0Ca0EYsuqwy7TIWqZDBSRTn+KhSckXsBKM7TlRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IkZgRZm8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C5ACC4CEE2;
-	Wed, 26 Mar 2025 18:01:24 +0000 (UTC)
+	s=arc-20240116; t=1743016300; c=relaxed/simple;
+	bh=p6PSDcM/+zJCZa2wx8tmkawqFwv4c4wkJ/mcRtrEBxI=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=q5BZqHlF/nO19LfLsv2XMENX2OJB46Gs1igpUTRuq9wBrS9TZHF/XqQRo1refHXqmEZYql1bcHkx9PsUkXkcfholXuyhkCvc93w2iOZppUOq9AIEQd8forkdV1gY80E411Gdnbap2SzayAkg7JEcmcXXoqi0L00V1rjHcIOVOlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JGQQ9Zom; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3F24C4CEE9;
+	Wed, 26 Mar 2025 19:11:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743012086;
-	bh=XODh12uIsFY2/tj2p+YwbHSsmwijeYtL0jmgiLU4w9I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IkZgRZm8wml2HVtC+O/eqSFAkprTGfM81nBDqexI5RRmNHZsV93BEQv1aei31/d9v
-	 yvD40/G5WuakWxjh6SNpAWOBfT7mMi/PGiwFslZt0nkdIuQoTvDNCDdjzUN33fDqJP
-	 xmWZYFAHMOLAKzGjFhTn91MBgA/OjohNO03bJYUoYh5RaIfpbvu3sM4BjZcJ90mm8w
-	 DQX4LFBWo+2RcpJ84AJzRdv2s15r924MY5w1c8/hawE8WM4VeAj4FP7RrFuKPBtDLi
-	 PTdlp77XVzoBC1vof6cGRhZONEuY+b3ANQuRQhecinu7nJ7+hIdkE64S3XbSDGOMce
-	 CJl9gNAFBnQaA==
-Date: Wed, 26 Mar 2025 18:01:21 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: i2c: snps,designware-i2c: describe Renesas
- RZ/N1D variant
-Message-ID: <20250326-unhidden-alfalfa-4dabbeb32c9d@spud>
-References: <20250326090112.22495-2-wsa+renesas@sang-engineering.com>
+	s=k20201202; t=1743016300;
+	bh=p6PSDcM/+zJCZa2wx8tmkawqFwv4c4wkJ/mcRtrEBxI=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=JGQQ9ZomZKQogiTpjeGHckH5smUSR+7wFLv4N79DIZm07XHJYBpXvSVZbaLkNOIrH
+	 DQ7S9g80Ura84vXqY5ONaTulbDruyvFFO2znj/Cpoa8jqaDBFgr8wGhwX/rrYOE1bu
+	 x45OJfdbx9RAGgK6Qu6hry8DnhwcnWyOpWIvdjHJyKrQgcupegZ3D8VOUECsAj2It/
+	 Si1tDFBtFHBWFKbnVVT33KYLSWtpx/WE8CbziQW7MjpAHzyMH2ou+k0+tnNtAZKrwZ
+	 yL7GhFeRqKYBFamcQzf74VImcnIYSV7RAW+xzja2OJgojUtt7yKhBbo1Vx2NVg0wkL
+	 iTdzl4aMQfwKQ==
+Date: Wed, 26 Mar 2025 14:11:39 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wO6ufMVLLAbN5dhW"
-Content-Disposition: inline
-In-Reply-To: <20250326090112.22495-2-wsa+renesas@sang-engineering.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ Magnus Damm <magnus.damm@gmail.com>, linux-serial@vger.kernel.org, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Conor Dooley <conor+dt@kernel.org>, Will Deacon <will@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ linux-renesas-soc@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ linux-kernel@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+In-Reply-To: <20250326143945.82142-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250326143945.82142-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Message-Id: <174301523991.2716417.14351851624098585706.robh@kernel.org>
+Subject: Re: [PATCH 00/15] Add support for Renesas RZ/V2N SoC and EVK
 
 
---wO6ufMVLLAbN5dhW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 26 Mar 2025 14:39:30 +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> This patch series adds initial support for the Renesas RZ/V2N (R9A09G056)
+> SoC and its evaluation board (EVK). The Renesas RZ/V2N is a vision AI
+> microprocessor (MPU) designed for power-efficient AI inference and
+> real-time vision processing. It features Renesas' proprietary AI
+> accelerator (DRP-AI3), delivering up to 15 TOPS AI performance, making
+> it ideal for applications such as Driver Monitoring Systems (DMS),
+> industrial monitoring cameras, and mobile robots.
+> 
+> Key features of the RZ/V2N SoC:
+>   Processing Power:
+>     - Quad Arm Cortex-A55 cores at 1.8GHz for high-performance computing
+>     - Single Arm Cortex-M33 core at 200MHz for real-time processing
+>     - 1.5MB on-chip SRAM for fast data access
+>     - LPDDR4/LPDDR4X memory interface for high-speed RAM access
+> 
+>   AI and Vision Processing:
+>     - DRP-AI3 accelerator for low-power, high-efficiency AI inference
+>     - Arm Mali-C55 ISP (optional) for image signal processing
+>     - Dual MIPI CSI-2 camera interfaces for multi-camera support
+> 
+>   High-Speed Interfaces:
+>     - PCIe Gen3 (2-lane) 1ch for external device expansion
+>     - USB 3.2 (Gen2) 1ch (Host-only) for high-speed data transfer
+>     - USB 2.0 (Host/Function) 1ch for legacy connectivity
+>     - Gigabit Ethernet (2 channels) for network communication
+> 
+>   Industrial and Automotive Features:
+>     - 6x CAN FD channels for automotive and industrial networking
+>     - 24-channel ADC for sensor data acquisition
+> 
+> LINK: https://tinyurl.com/renesas-rz-v2n-soc
+> 
+> The series introduces:
+> - Device tree bindings for various subsystems (SYS, SCIF, SDHI, CPG, pinctrl).
+> - RZ/V2N SoC identification support.
+> - Clock and pinctrl driver updates for RZ/V2N.
+> - Initial DTSI and device tree for the RZ/V2N SoC and EVK.
+> - Enabling RZ/V2N SoC support in `arm64 defconfig`.
+> 
+> These patches have been tested on the RZ/V2N EVK with v6.14,
+> logs can be found here https://pastebin.com/8i3jgVby
+> 
+> Cheers,
+> Prabhakar
+> 
+> Lad Prabhakar (15):
+>   dt-bindings: soc: renesas: Document Renesas RZ/V2N SoC variants
+>   dt-bindings: soc: renesas: Document RZ/V2N EVK board
+>   soc: renesas: Add config option for RZ/V2N (R9A09G056) SoC
+>   dt-bindings: soc: renesas: Document SYS for RZ/V2N SoC
+>   soc: renesas: sysc: Add SoC identification for RZ/V2N SoC
+>   dt-bindings: serial: renesas: Document RZ/V2N SCIF
+>   dt-bindings: mmc: renesas,sdhi: Document RZ/V2N support
+>   dt-bindings: clock: renesas: Document RZ/V2N SoC CPG
+>   clk: renesas: rzv2h-cpg: Sort compatible list based on SoC part number
+>   clk: renesas: rzv2h: Add support for RZ/V2N SoC
+>   dt-bindings: pinctrl: renesas: Document RZ/V2N SoC
+>   pinctrl: renesas: rzg2l: Add support for RZ/V2N SoC
+>   arm64: dts: renesas: Add initial SoC DTSI for RZ/V2N
+>   arm64: dts: renesas: Add initial device tree for RZ/V2N EVK
+>   arm64: defconfig: Enable Renesas RZ/V2N SoC
+> 
+>  .../bindings/clock/renesas,rzv2h-cpg.yaml     |   5 +-
+>  .../devicetree/bindings/mmc/renesas,sdhi.yaml |   4 +-
+>  .../pinctrl/renesas,rzg2l-pinctrl.yaml        |   2 +
+>  .../bindings/serial/renesas,scif.yaml         |   1 +
+>  .../soc/renesas/renesas,r9a09g057-sys.yaml    |   1 +
+>  .../bindings/soc/renesas/renesas.yaml         |  15 +
+>  arch/arm64/boot/dts/renesas/Makefile          |   2 +
+>  arch/arm64/boot/dts/renesas/r9a09g056.dtsi    | 264 ++++++++++++++++++
+>  .../dts/renesas/r9a09g056n48-rzv2n-evk.dts    | 115 ++++++++
+>  arch/arm64/configs/defconfig                  |   1 +
+>  drivers/clk/renesas/Kconfig                   |   5 +
+>  drivers/clk/renesas/Makefile                  |   1 +
+>  drivers/clk/renesas/r9a09g056-cpg.c           | 152 ++++++++++
+>  drivers/clk/renesas/rzv2h-cpg.c               |  18 +-
+>  drivers/clk/renesas/rzv2h-cpg.h               |   1 +
+>  drivers/pinctrl/renesas/Kconfig               |   1 +
+>  drivers/pinctrl/renesas/pinctrl-rzg2l.c       |  36 ++-
+>  drivers/soc/renesas/Kconfig                   |  10 +
+>  drivers/soc/renesas/Makefile                  |   1 +
+>  drivers/soc/renesas/r9a09g056-sys.c           | 107 +++++++
+>  drivers/soc/renesas/rz-sysc.c                 |   3 +
+>  drivers/soc/renesas/rz-sysc.h                 |   1 +
+>  .../dt-bindings/clock/renesas,r9a09g056-cpg.h |  24 ++
+>  .../pinctrl/renesas,r9a09g056-pinctrl.h       |  30 ++
+>  24 files changed, 790 insertions(+), 10 deletions(-)
+>  create mode 100644 arch/arm64/boot/dts/renesas/r9a09g056.dtsi
+>  create mode 100644 arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
+>  create mode 100644 drivers/clk/renesas/r9a09g056-cpg.c
+>  create mode 100644 drivers/soc/renesas/r9a09g056-sys.c
+>  create mode 100644 include/dt-bindings/clock/renesas,r9a09g056-cpg.h
+>  create mode 100644 include/dt-bindings/pinctrl/renesas,r9a09g056-pinctrl.h
+> 
+> --
+> 2.49.0
+> 
+> 
+> 
 
-On Wed, Mar 26, 2025 at 09:59:12AM +0100, Wolfram Sang wrote:
-> So far, no differences are known, so it can fallback to the default
-> compatible.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->=20
-> If everyone is OK with this patch, does anyone mind if I shortcut it
-> into the v6.15 mergewindow? It is just a documentation update and would
-> simplify upstreaming the I2C chain for this board. One dependency less.
->=20
->  .../devicetree/bindings/i2c/snps,designware-i2c.yaml         | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/i2c/snps,designware-i2c.ya=
-ml b/Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml
-> index e5d05263c45a..87eea87bdd52 100644
-> --- a/Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml
-> @@ -27,6 +27,11 @@ properties:
->      oneOf:
->        - description: Generic Synopsys DesignWare I2C controller
->          const: snps,designware-i2c
-> +      - description: Renesas RZ/N1D I2C controller
-> +        items:
-> +          - const: renesas,r9a06g032-i2c
-> +          - const: renesas,rzn1-i2c
 
-I don't really understand the rzn1/r9a06g032 difference here. Why are
-both needed?
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-> +          - const: snps,designware-i2c
->        - description: Microsemi Ocelot SoCs I2C controller
->          items:
->            - const: mscc,ocelot-i2c
-> --=20
-> 2.47.2
->=20
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
---wO6ufMVLLAbN5dhW
-Content-Type: application/pgp-signature; name="signature.asc"
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
------BEGIN PGP SIGNATURE-----
+  pip3 install dtschema --upgrade
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ+RA8QAKCRB4tDGHoIJi
-0v4QAP9DXKKZysCWunErwZHjrYGbQOXK48O3PgUAkjZ0t1lEAQD+LT9ExzPmd1LA
-AitpOoskg8ey9MBhSCaIF8WG99anfwQ=
-=VqwC
------END PGP SIGNATURE-----
 
---wO6ufMVLLAbN5dhW--
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: tags/next-20250326 (best guess, 15/18 blobs matched)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/renesas/' for 20250326143945.82142-1-prabhakar.mahadev-lad.rj@bp.renesas.com:
+
+arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: pinctrl@10410000: 'interrupt-controller' is a required property
+	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml#
+arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: pinctrl@10410000: '#interrupt-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml#
+
+
+
+
+
 
