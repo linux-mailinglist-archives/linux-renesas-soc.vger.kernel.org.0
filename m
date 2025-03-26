@@ -1,221 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-14822-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14823-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361BDA70ABA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Mar 2025 20:50:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 149DAA711A1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 08:50:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FAAC7A3828
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Mar 2025 19:49:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55BC817063D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 07:50:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F4D71F30AD;
-	Tue, 25 Mar 2025 19:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C105D1A01BF;
+	Wed, 26 Mar 2025 07:50:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hAuX5uJr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kAafwzOT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886A61F2C5F
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Mar 2025 19:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC29174EF0;
+	Wed, 26 Mar 2025 07:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742932192; cv=none; b=al3H4CFzd6rOpNm92BG25wIEWbekyfhJOWpCM8l4REN4I6Zw0ulviswjlZlVqob6fBitXt/6W8kY/lxcV9n6bGjN87tLJC0HrIg1GFKNpBafB/UFH/2EyuRqbC4pNLQzMNDevfLh8zsOLcmJsuaNVAzdAu3KOt+hIQioVooaia4=
+	t=1742975402; cv=none; b=s/uSVTXR4SWTktqPobsmjYw89UudQQuUWKxR3Q0EB3nhkEBRkfxwMygIPqs5TzyltkOwlS33/pAUeBhuLceXR2maALGfIr6G/k5TYsmUxdGJVkj5+z46uHCZUGO3RqwfkrLuudrcwXi9d3Tli+4A1lWJviNIDy+bSQA+AcW7ocA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742932192; c=relaxed/simple;
-	bh=52xQLSQMpkBapL/NFTENYmbNlWttF5Su+je3qOUNRAk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Fa3rXo8MbMrE0dJtipL9sZiPSeJCjip7B2/sAZCE0kpEUZNBIfnUIcK/2PtOKhhB0FHwuRbjDrwC6KZwwQIX/vG3Tgwf1PoiGZn1X9rTuKEQpYD45iXMq+mW5RN8gTmSr33Rgu83jUGA746M7r0GyitXOoPlnA4y/RKulTrG5N4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hAuX5uJr; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742932191; x=1774468191;
-  h=date:from:to:cc:subject:message-id;
-  bh=52xQLSQMpkBapL/NFTENYmbNlWttF5Su+je3qOUNRAk=;
-  b=hAuX5uJrgHZAmFlJyBYergs5ux86kKFhP3PWCC5NfIajcblZmr1tTI3k
-   r44HU7PB3xABIH8sK8d7i2R4Q1XoklxPFR5NBRG/f9kV8yWo4rMXFImoR
-   0OT7aGj8AP2oclQe1f8DCX/8+tb/ubvy95MD3/AmHedEJxg6xMagcbu1B
-   KK1U8B6y81wsf2j8U89YqxN9r9+cRkrUGgU0SZ0fn9f0aQttqljdJnPXo
-   JcYkGixBNTygrRcgoWq9KkfQIltnKOIMjeugxrWmVzNLx8AInFLiO10tN
-   yG0ymY3NemqfVwRimkkIDwsmOy3vN7j6aLzQcjMlUhyYWgSNYTWUTM+9u
-   g==;
-X-CSE-ConnectionGUID: 8z/b8mQwTYuVzCYYa+/Lvw==
-X-CSE-MsgGUID: EWBoeLMPTcWCpRD4ToNvUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="44379030"
-X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
-   d="scan'208";a="44379030"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 12:49:50 -0700
-X-CSE-ConnectionGUID: 7ECfSY8oQ9ijfetzAjca7A==
-X-CSE-MsgGUID: OXHgYVetQC+D31yeAZfxPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
-   d="scan'208";a="129527231"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 25 Mar 2025 12:49:48 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1txAHS-00058i-0X;
-	Tue, 25 Mar 2025 19:49:46 +0000
-Date: Wed, 26 Mar 2025 03:48:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:topic/renesas-defconfig] BUILD SUCCESS
- 18d25709b9f0fac242a953493e41f6dc3d4b865d
-Message-ID: <202503260305.2BX336KJ-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1742975402; c=relaxed/simple;
+	bh=+HmoQmZ+e63wV91IkgWswXeGaR7GVD5Pdeyax7MBkHs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CS1tzFr2Sud4Q8iyREzXcFtmrv5U3+Q9dAYyomNE4HrHAZLJEKjBbjx9GyKr25H1CE6MuCJGQBEWd+SE14d5EHOZYWYGw9xqusP3lptv2Ikqij17V1B4B7mwEORXE6s0h9HyxVPwdjpPBEjgDunkfA40RtZ8QT6B9bETroo6dJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kAafwzOT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30505C4CEE2;
+	Wed, 26 Mar 2025 07:50:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742975402;
+	bh=+HmoQmZ+e63wV91IkgWswXeGaR7GVD5Pdeyax7MBkHs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kAafwzOT0lqUjMuX53xExQ7/TqWhrFQcy8yTnO589rSH8pQKxFVH2wzK7MI296Bcg
+	 ywuBTgLyJrqKW4h3xFIU4VmsZHvJYX5wO84uzxlecTGcdBslqgBER1nHk/SSuj1zzb
+	 EHyThnjTCS5XBdsyiuDcWa4RCZwWdoX/Mb20CyDBmuORMauwh56q5ILjbbp3VMr0wj
+	 ++s/X1zrVLkbbWrTd//rW4jIoGnqo6wNKmYknR6vm+fPemc2LZSu/hSUpvbEz6yTwr
+	 dmlM3h64RA2/3DLaf6u0KMfQSVkgHNcym9iXR2Z2Q5QMKtKvu06QjfR6b4FCG359oe
+	 dLoJmx1CnPmZA==
+Date: Wed, 26 Mar 2025 08:49:57 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Cc: thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org, 
+	geert@linux-m68k.org, paul.barker.ct@bp.renesas.com, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 02/13] dt-bindings: clock: Add cpg for the Renesas
+ RZ/T2H SoC
+Message-ID: <20250326-enigmatic-cuscus-of-enhancement-410130@krzk-bin>
+References: <20250325160904.2688858-1-thierry.bultel.yh@bp.renesas.com>
+ <20250325160904.2688858-3-thierry.bultel.yh@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250325160904.2688858-3-thierry.bultel.yh@bp.renesas.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git topic/renesas-defconfig
-branch HEAD: 18d25709b9f0fac242a953493e41f6dc3d4b865d  Merge tag 'v6.14' into topic/renesas-defconfig
+On Tue, Mar 25, 2025 at 05:08:50PM +0100, Thierry Bultel wrote:
+> Document RZ/T2H (a.k.a r9a09g077) cpg-mssr (Clock Pulse Generator) binding.
+> 
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> ---
+> Changes v4->v5:
+>   - Set reg minItems and maxItems defaults at top level
+> Changes v3->v4:
+>   - Handle maxItems and clocks names properly in schema. 
 
-elapsed time: 1446m
 
-configs tested: 128
-configs skipped: 4
+Can you start using b4 or send patchsets in standard way? No links to
+previous versions in changelog and b4 diff does not work:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+b4 diff '20250325160904.2688858-1-thierry.bultel.yh@bp.renesas.com'
+Grabbing thread from lore.kernel.org/all/20250325160904.2688858-1-thierry.bultel.yh@bp.renesas.com/t.mbox.gz
+Checking for older revisions
+Grabbing search results from lore.kernel.org
+  Added from v4: 14 patches
+---
+Analyzing 140 messages in the thread
+Preparing fake-am for v4: dt-bindings: soc: Add Renesas RZ/T2H (R9A09G077) SoC
+ERROR: Could not fake-am version v4
+---
+Could not create fake-am range for lower series v4
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-14.2.0
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    gcc-14.2.0
-arc                   randconfig-001-20250325    gcc-14.2.0
-arc                   randconfig-002-20250325    gcc-13.3.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-14.2.0
-arm                        multi_v7_defconfig    gcc-14.2.0
-arm                   randconfig-001-20250325    gcc-5.5.0
-arm                   randconfig-002-20250325    gcc-5.5.0
-arm                   randconfig-003-20250325    gcc-5.5.0
-arm                   randconfig-004-20250325    clang-21
-arm                          sp7021_defconfig    gcc-14.2.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250325    gcc-9.5.0
-arm64                 randconfig-002-20250325    clang-18
-arm64                 randconfig-003-20250325    gcc-7.5.0
-arm64                 randconfig-004-20250325    clang-20
-csky                              allnoconfig    gcc-14.2.0
-csky                                defconfig    gcc-14.2.0
-csky                  randconfig-001-20250325    gcc-13.3.0
-csky                  randconfig-002-20250325    gcc-14.2.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250325    clang-16
-hexagon               randconfig-002-20250325    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250325    gcc-12
-i386        buildonly-randconfig-002-20250325    clang-20
-i386        buildonly-randconfig-003-20250325    gcc-12
-i386        buildonly-randconfig-004-20250325    clang-20
-i386        buildonly-randconfig-005-20250325    gcc-12
-i386        buildonly-randconfig-006-20250325    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250325    gcc-14.2.0
-loongarch             randconfig-002-20250325    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                       bvme6000_defconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                        qi_lb60_defconfig    clang-21
-mips                   sb1250_swarm_defconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250325    gcc-7.5.0
-nios2                 randconfig-002-20250325    gcc-9.3.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-14.2.0
-openrisc                  or1klitex_defconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-14.2.0
-parisc                randconfig-001-20250325    gcc-12.4.0
-parisc                randconfig-002-20250325    gcc-12.4.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-21
-powerpc                      cm5200_defconfig    clang-21
-powerpc                        fsp2_defconfig    gcc-14.2.0
-powerpc                      pmac32_defconfig    clang-21
-powerpc                      ppc44x_defconfig    clang-21
-powerpc               randconfig-001-20250325    clang-21
-powerpc               randconfig-002-20250325    clang-21
-powerpc               randconfig-003-20250325    gcc-9.3.0
-powerpc                  storcenter_defconfig    gcc-14.2.0
-powerpc                 xes_mpc85xx_defconfig    gcc-14.2.0
-powerpc64             randconfig-001-20250325    clang-15
-powerpc64             randconfig-002-20250325    clang-21
-powerpc64             randconfig-003-20250325    gcc-9.3.0
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-21
-riscv                 randconfig-001-20250325    gcc-9.3.0
-riscv                 randconfig-002-20250325    gcc-14.2.0
-s390                              allnoconfig    clang-15
-s390                             allyesconfig    gcc-14.2.0
-s390                                defconfig    clang-15
-s390                  randconfig-001-20250325    clang-18
-s390                  randconfig-002-20250325    clang-15
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-14.2.0
-sh                    randconfig-001-20250325    gcc-5.5.0
-sh                    randconfig-002-20250325    gcc-11.5.0
-sh                           se7206_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250325    gcc-8.5.0
-sparc                 randconfig-002-20250325    gcc-6.5.0
-sparc64                          alldefconfig    gcc-14.2.0
-sparc64                             defconfig    gcc-14.2.0
-sparc64               randconfig-001-20250325    gcc-8.5.0
-sparc64               randconfig-002-20250325    gcc-10.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-21
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250325    clang-21
-um                    randconfig-002-20250325    clang-21
-um                           x86_64_defconfig    clang-15
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250325    gcc-12
-x86_64      buildonly-randconfig-002-20250325    clang-20
-x86_64      buildonly-randconfig-003-20250325    gcc-12
-x86_64      buildonly-randconfig-004-20250325    gcc-12
-x86_64      buildonly-randconfig-005-20250325    clang-20
-x86_64      buildonly-randconfig-006-20250325    gcc-12
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250325    gcc-8.5.0
-xtensa                randconfig-002-20250325    gcc-8.5.0
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>  .../bindings/clock/renesas,cpg-mssr.yaml      | 55 +++++++++++++------
+>  .../clock/renesas,r9a09g077-cpg-mssr.h        | 49 +++++++++++++++++
+>  2 files changed, 88 insertions(+), 16 deletions(-)
+>  create mode 100644 include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+> 
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+> index 77ce3615c65a..5181ff826dbe 100644
+> --- a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+> +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+> @@ -52,9 +52,11 @@ properties:
+>        - renesas,r8a779f0-cpg-mssr # R-Car S4-8
+>        - renesas,r8a779g0-cpg-mssr # R-Car V4H
+>        - renesas,r8a779h0-cpg-mssr # R-Car V4M
+> +      - renesas,r9a09g077-cpg-mssr # RZ/T2H
+>  
+>    reg:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 2
+>  
+>    clocks:
+>      minItems: 1
+> @@ -63,11 +65,6 @@ properties:
+>    clock-names:
+>      minItems: 1
+>      maxItems: 2
+> -    items:
+> -      enum:
+> -        - extal     # All
+> -        - extalr    # Most R-Car Gen3 and RZ/G2
+> -        - usb_extal # Most R-Car Gen2 and RZ/G1
+>  
+>    '#clock-cells':
+>      description: |
+> @@ -92,16 +89,6 @@ properties:
+>        the datasheet.
+>      const: 1
+>  
+> -if:
+> -  not:
+> -    properties:
+> -      compatible:
+> -        items:
+> -          enum:
+> -            - renesas,r7s9210-cpg-mssr
+> -then:
+> -  required:
+> -    - '#reset-cells'
+>  
+>  required:
+>    - compatible
+> @@ -113,6 +100,42 @@ required:
+>  
+>  additionalProperties: false
+>  
+> +allOf:
+
+This goes befoer additionalProps. See example-schema.
+
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a09g077-cpg-mssr
+> +    then:
+> +      properties:
+> +        reg:
+> +          minItems: 2
+
+Missing constriants for clocks.
+
+Best regards,
+Krzysztof
+
 
