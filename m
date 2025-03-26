@@ -1,155 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-14833-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14834-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04F4A714E5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 11:32:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B9A4A71554
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 12:10:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0344E1649A8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 10:32:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8AA6188A1AB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 11:10:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE08E1B6D11;
-	Wed, 26 Mar 2025 10:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 477511D5CDD;
+	Wed, 26 Mar 2025 11:10:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjnLrUZJ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="J3FyAhXH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB63419D07A;
-	Wed, 26 Mar 2025 10:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8472320311;
+	Wed, 26 Mar 2025 11:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742985128; cv=none; b=Biwh0+MPQHc2TPwtgVE0H7LmrdRvSAAMgKmgy4AEsB5RI2qad7p5ObPGydqw5LcWYrwlrJSE7xk8CwX0CCNKhGkGKqIrGFHSQqSEfDGLePFIDMhzG6e2PDbqi7yDnKhitEQutSaHPv1515YHeVotcMbKrCXx71tS7uZqfE/REE8=
+	t=1742987423; cv=none; b=YJxJZj7zVnOQhuSh3PKCrDpY9YGP2nqDiPVeWf+EC5ruB0cRbZME4ceL34n9wvdlAHyCE+W73tm8hyuJoAktzALzUhU9nUm44bYX/o3zX01Vm8BZfhQpfwmBJoTzsnRKe6u37xJnx0DuUyGGoT6s2ynF1bpll0eLoaN1vNCkQKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742985128; c=relaxed/simple;
-	bh=pLZ7Hikim1hFAJMmXV9OSSK0+eRNe8C1ji9XUz/DthQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j/4KJ7pWv4sEN6qz94Agy1xYQkZiBj+cqxvp6T9wsVVXnO3KWMD+PeTyfGxCtIfhndnvVn18YugJBvygmi852msHQMM8h292/YcfAtjEB35Y5SThy2fzKbQpEklP1wE3NePH30kHCog7RCG6MEryQE1JxjbbvPwjTqjI8b9JtMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kjnLrUZJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 877B9C4CEE2;
-	Wed, 26 Mar 2025 10:32:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742985128;
-	bh=pLZ7Hikim1hFAJMmXV9OSSK0+eRNe8C1ji9XUz/DthQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kjnLrUZJCrUpN/4FS70xv0YmBlKd+hW4qxp7LiRPUIz5RNZNQTTfgDcnbfelukTxe
-	 Iyd3kSzF75YP93AeOU6zSkl0Kih9yee8UgnjO5/pTE5X1EqrrTJHK+JZOO301MgIAW
-	 fdg/CfQj05VettXh660+dVuxFAiP0CV6i7MumxdzTuSzzRiuNJsvD3dWlNJfnJjIla
-	 k+IRN9UMqSKnGC9t8djBXTJ0s/Pa34soLwcjPBR63XxaV6TLXrdlKBh3ckGlOzpRbZ
-	 KRZLqX/OSk2KfVk+dKM7+AadveGgTGLLQPCcfuEE7gQEVLoMvhyk70W0KlwDQp/yqJ
-	 9SHCFFwny/Eeg==
-Message-ID: <69bb8311-c0f7-4940-8c69-8b6de4f7c30e@kernel.org>
-Date: Wed, 26 Mar 2025 11:32:02 +0100
+	s=arc-20240116; t=1742987423; c=relaxed/simple;
+	bh=4YD/16LtjFiupou4GxoQ1WtgqCE6rS/iXLVUYiMRDjA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oov0mzgAT+S91QuxjmgIVBiFbjUWvioooZcKkHxnqNrn0woX2eHA4ai7bvyVR0hp52VjKK+ReLLKZINl/1SCYjWD1GDuRuN5ZvclQT6PjwShxPaLNnmGsXm2zenFfKv17Yx+OYh9v2Om7Nujyep/J6PhmABsHxJCMvLq+cTXQUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=J3FyAhXH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E639A3A4;
+	Wed, 26 Mar 2025 12:08:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742987306;
+	bh=4YD/16LtjFiupou4GxoQ1WtgqCE6rS/iXLVUYiMRDjA=;
+	h=From:Subject:Date:To:Cc:From;
+	b=J3FyAhXHgriv9OMlX/EIH45LyuVmZrkz7rBgn1SyMGgNsefi+LmBG9bN+9P9Tejyj
+	 wHqCpw7NxrIRgYf8SxX81LUvAQT8PLQcZCsXCfq88etK+bBjOjWST3bCXaOV+FhEEt
+	 HmA0T6vKtBt0vOnMiNCJs3KPiULbf4N6/Ppsw/DY=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v2 00/15] media: rcar: Streams support
+Date: Wed, 26 Mar 2025 13:09:22 +0200
+Message-Id: <20250326-rcar-streams-v2-0-d0d7002c641f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 02/13] dt-bindings: clock: Add cpg for the Renesas
- RZ/T2H SoC
-To: Paul Barker <paul.barker.ct@bp.renesas.com>,
- Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-Cc: thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org,
- geert@linux-m68k.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250325160904.2688858-1-thierry.bultel.yh@bp.renesas.com>
- <20250325160904.2688858-3-thierry.bultel.yh@bp.renesas.com>
- <20250326-enigmatic-cuscus-of-enhancement-410130@krzk-bin>
- <d2d09918-5555-47a7-8b82-f88e9ff022d7@bp.renesas.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <d2d09918-5555-47a7-8b82-f88e9ff022d7@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGTg42cC/22QzW6DMBCEXwX52i6yDTY/qqq8R5XDAkuwEiDdJ
+ bRVlHevSXroIcdZab6ZnasS4kCi6uSqmNYgYZ6isK+JagecDgShi1pZbZ22pgJukUEWJhwFTN8
+ RlqXX5EhFy5mpD9933Mf+oZk+L5G6PI5qJBG8U+vk7Q+qTeG8canxpXe2AgNTOJ5QUpk74tNl6
+ l6YJhKUHeNhwoXaIRV6V/9Lxs4bLbP5o2LsAYxf0BaVL/q+dF1G9WqeeawpoWccCTqSFs4osgw
+ 8Xw4DeF9qR7nJqiKv13xzNygE7TyOYamT3hpnvMlI51ptHw9Blpl/7nvGtO3l59OtBjT0pqkyy
+ gqN2OxC3FLmqZmRuzQGqP3tdvsFWT5W76EBAAA=
+X-Change-ID: 20250219-rcar-streams-1fdea8860e5e
+To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3687;
+ i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=4YD/16LtjFiupou4GxoQ1WtgqCE6rS/iXLVUYiMRDjA=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn4+CMk1K34BytShUzKWdpCYP7oWlf5EbooVkWV
+ ohXCO8HZGeJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ+PgjAAKCRD6PaqMvJYe
+ 9V2AEACaG+edWcxavzx5xTjd9GySnUhGZ01bBp2J3p0xPVymCoOds3t9347sgwgIeu8TjHZ5eAh
+ b0gIHzPw3l/Fx04tEoS+5M6PsAWVEJhSJn8zoeYT3R1Lq8Z/oWIL3hDyrgvf3ignxZOTe1XGOqh
+ ioZP7YXwLLBnaVquCQemDXladaxNkizHgP+J5K8U1D0vWdX3cXl/Y6b1RFaYx+LkJAI2D+Sql01
+ T0ot+Z10TqyTBPHxsP7jG+lIpXP5Wxdw0cBGe2dAblIxG8OeribkZfArhGQ7/DCVUVE5m7/47Vy
+ FSRnDb7K/fM9eDP6Bf9ON4W4DgxHgTUwzyizeDMHvp7ySg3wB/F4bpgXE00z4+zBEhg2xMEDcHu
+ 3zem71yZKMFLw3hE7PrbX9A92S1AOBHEYDIqMaKYyKEVrb5WSRDp8DYE5QtHERG8lOhqH5Sz9Gu
+ ZIaIqBxU4qkzmzkoN1bfZGLhS+7Ph5Eba5MGSRVIkaEbnOdUkOc3UQ06QovkvIPldVACMj85RBp
+ guIEXXGMMuy2dxqhBbT3OicDDyby458cWYVTd3/7lOKnLuqH0sGoG+FmwMBcvHzpvnrwXAowH3D
+ 9QnB2z7Fzx1QAI8vSoQVtCZpLHuzz/YnzXXwrtak2TeM1I6VdSr59YV6uA2IllmyH9lOjTLaHMt
+ AvLuNnBWryrdChA==
+X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-On 26/03/2025 11:28, Paul Barker wrote:
-> On 26/03/2025 07:49, Krzysztof Kozlowski wrote:
->> On Tue, Mar 25, 2025 at 05:08:50PM +0100, Thierry Bultel wrote:
->>> Document RZ/T2H (a.k.a r9a09g077) cpg-mssr (Clock Pulse Generator) binding.
->>>
->>> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
->>> ---
->>> Changes v4->v5:
->>>   - Set reg minItems and maxItems defaults at top level
->>> Changes v3->v4:
->>>   - Handle maxItems and clocks names properly in schema. 
->>
->>
->> Can you start using b4 or send patchsets in standard way? No links to
->> previous versions in changelog and b4 diff does not work:
->>
->> b4 diff '20250325160904.2688858-1-thierry.bultel.yh@bp.renesas.com'
->> Grabbing thread from lore.kernel.org/all/20250325160904.2688858-1-thierry.bultel.yh@bp.renesas.com/t.mbox.gz
->> Checking for older revisions
->> Grabbing search results from lore.kernel.org
->>   Added from v4: 14 patches
->> ---
->> Analyzing 140 messages in the thread
->> Preparing fake-am for v4: dt-bindings: soc: Add Renesas RZ/T2H (R9A09G077) SoC
->> ERROR: Could not fake-am version v4
->> ---
->> Could not create fake-am range for lower series v4
-> 
-> Hi Krzysztof,
-> 
-> The above b4 command works for me. Which b4 version are you using and
-> which base tree do you have checked out?
-> 
-> FYI, this series now applies cleanly on top of tty-next as Geert's
-> patch [1] has been integrated.
-> 
-> [1]: https://lore.kernel.org/linux-renesas-soc/11c2eab45d48211e75d8b8202cce60400880fe55.1741114989.git.geert+renesas@glider.be/T/#u
-Latest b4 and latest next (next-20250321). I tried next-20250317 as well.
+Add streams support to Renesas rcar platform driver.
+
+The series attempts to keep compatibility with the current upstream.
+However, in upstream there's some kind of custom multi-stream support
+implemented to the rcar driver, which breaks at patch "media: rcar-csi2:
+Simplify rcsi2_calc_mbps()".
+
+The behavior should not change when using a single stream.
+
+Testing is problematic, as the only way currently for me to get multiple
+streams is by using the GMSL2 deserializer add-on board with GMSL2
+serializers. These are not supported in upstream. If someone has the
+hardware and wants to test, I can share the very-WIP branch that
+contains the missing pieces.
+
+ Tomi
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Changes in v2:
+- Rebased on top of latest upstream, and updated the dependencies to
+  match the latest serieses sent.
+- Add new patch "media: rcar-csi2: Use the pad version of v4l2_get_link_freq()"
+- Drop "media: rcar-csi2: Fix typo" (it was not a typo)
+- Update the code in calc_mbps(). The previous method relied on
+  V4L2_CID_LINK_FREQ, but that's not available if the link-freq is
+  provided via get_mbus_config().
+- Dropped dependencies to Niklas' old series which doesn't apply
+  cleanly. It's needed for multi-stream, but not for the current
+  upstream which only has a single stream use case.
+- Link to v1: https://lore.kernel.org/r/20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com
+
+---
+Tomi Valkeinen (15):
+      media: rcar-csi2: Use the pad version of v4l2_get_link_freq()
+      media: rcar-isp: Improve ISPPROCMODE_DT_PROC_MODE_VC
+      media: rcar-isp: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Move rcar2_calc_mbps()
+      media: rcar-csi2: Simplify rcsi2_calc_mbps()
+      media: rcar-csi2: Optimize rcsi2_calc_mbps()
+      media: rcar-csi2: Switch to Streams API
+      media: rcar-isp: Switch to Streams API
+      media: rcar-csi2: Add .get_frame_desc op
+      media: rcar-isp: Call get_frame_desc to find out VC & DT
+      media: rcar-csi2: Add more stream support to rcsi2_calc_mbps()
+      media: rcar-csi2: Call get_frame_desc to find out VC & DT (Gen3)
+      media: rcar-csi2: Add full streams support
+      media: rcar-isp: Add full streams support
+
+ drivers/media/platform/renesas/rcar-csi2.c | 426 ++++++++++++++++++++---------
+ drivers/media/platform/renesas/rcar-isp.c  | 228 +++++++++++----
+ 2 files changed, 479 insertions(+), 175 deletions(-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20250219-rcar-streams-1fdea8860e5e
+prerequisite-message-id: <20250210175615.1686529-1-niklas.soderlund+renesas@ragnatech.se>
+prerequisite-patch-id: a4aa6a184c6a21fc4536c11e14d9b5cc61f13346
+prerequisite-patch-id: 1b0091875529d392b142814005baa38b2ef77f98
+prerequisite-patch-id: 4c960ae93b1e663b11194903ed1810e0ed1e4f59
+prerequisite-patch-id: a5641e1dcad0f39baef8996b6731a471046f18f9
+prerequisite-patch-id: 481317ba4b987cbb069c31f3372686a59c0fcb67
+prerequisite-change-id: 20250324-rcar-fix-raw-c7967ff85d3e:v1
+prerequisite-patch-id: b21819aa41855942f3474ff8135daccc9c7c652d
+prerequisite-patch-id: af375b9da2a977ea10d1fee2d500de5a2dbe53dd
+prerequisite-patch-id: 2278b5cd1de5008ef35f9c9f34e3a53bb98147da
+prerequisite-change-id: 20250218-frame-desc-passthrough-66805e413974:v4
+prerequisite-patch-id: bce4a915a29a64f88ed1bb600c08df37d2ba20c6
+prerequisite-patch-id: 69b75e7dad9ced905cb39a72f18bebbf3e8f998a
+prerequisite-patch-id: 58463f6944c76acd6cf203b14a2836cdb0db2461
 
 Best regards,
-Krzysztof
+-- 
+Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
 
