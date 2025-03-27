@@ -1,130 +1,164 @@
-Return-Path: <linux-renesas-soc+bounces-14926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14927-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C1BA7371B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Mar 2025 17:41:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BEE3A7373E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Mar 2025 17:47:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C1E93AF205
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Mar 2025 16:40:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C9A4189F703
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Mar 2025 16:44:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D96D20CCF1;
-	Thu, 27 Mar 2025 16:40:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8976B20E6F0;
+	Thu, 27 Mar 2025 16:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JjNJmDSj"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PibiQl0U"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209F41A3159;
-	Thu, 27 Mar 2025 16:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C561CAA7A
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Mar 2025 16:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743093647; cv=none; b=sh3CK+T03RFFeepvR3rBOHpXVBOBRpRdBeHta0Va5z9RsY2whbCXR4ncSSC+JeR7PR0FjpTOypktyJq1CNe0xAkC27l4Y0FqWfVKRsz6hPMlITDTdOt9KiaFQHHdjbjXijKRqT1mSVdhTz2QFUpMrqOL8/GzdlIQ5clH6i9BU1g=
+	t=1743093874; cv=none; b=qXTbeZq7uLGebcVS/5Xq6Zwt/lKn+rOe8AgVeIXfTxGfpWn39VVkaAm93L9Hol/h1zKr7fnJJLcH9YnRPXidl6aro0cZe0DxNifp0AIClAbuNg6VIA9cHO5QJiv4RGWGdSXfM7oVXF2PNW3xUEqQSc4W0X+MumJZjzQa4VrG+nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743093647; c=relaxed/simple;
-	bh=nw6QSPdQYYmQyRESFL7Fz5mINk4DCE5DFYZA3PpZUDw=;
+	s=arc-20240116; t=1743093874; c=relaxed/simple;
+	bh=zvcbSyO9PwWfz46UMsJf4c401+BJRbxXhYnxCIV0uZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q4yT8xdmOUevaz2JwgFb4h3VTLYZ3PDTmxPmWvn1F16xuFwIDqC7ffj1tKMeFzjgKbsiFnRc8k/29IIiohjnfyRO5JtBbkl7h/4vnMQNwmboEkdmVdOrTdsC9mo1k8JfCJ2pKKd3PEEUIg99T/m++d/OKLOZh+ZT6Wz2H0d2q/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JjNJmDSj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 733A2C4CEDD;
-	Thu, 27 Mar 2025 16:40:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743093646;
-	bh=nw6QSPdQYYmQyRESFL7Fz5mINk4DCE5DFYZA3PpZUDw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JjNJmDSjniiHESAwwEREi4LiwbjB3qor5cylvoS18QWsR+Spef+njkGLG72eVnT7y
-	 o0iaHMB+d73aM7hBDVdH0f4LqWTrnhAAat++01K8k+za6IJaN0SxSIkJZxyiEg3UP8
-	 yIqgGQ6xvariEMMzu0YlTCyclpVmNMCi1/7a699YhXlNjfn4VObZn6FTT2FB0hF/2c
-	 MGSbokdLs0844btP/PGeq6aIefHkqSZGiIdrffl3HFxA0Nnf6/ja6NSyj6VE0ad3aO
-	 kh778KziwBFVv4XvJILvkZqGI2RGLHqsQBwvwZTEeqtTSFLl9cOWkI/BEeb/A+mn1A
-	 vk5rep2sL1xwQ==
-Date: Thu, 27 Mar 2025 16:40:42 +0000
-From: Conor Dooley <conor@kernel.org>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=ui1A72y+E+WnuJsdczmPeQw0WSBUJZQHzSpphOFu6SI+ZtK6O+/kcKgbz9E32eIu+8GLF79FuKtoZiOCLigx9R/OHaJnopNtTLKM1DN4K1mqjqaP/Y7IOPVKPJmBDq/zbvWFoc7tMEpku7QwtoRF16A6qSqz/hP17UFEGPGgYrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PibiQl0U; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=hbwx
+	FimHjuyQqZmQbnUDmSjTT9QuBUrE9kGrrCegsl8=; b=PibiQl0UGvs02bQfzYYI
+	pkF7He1ovGQgWonPfhrXuPMoW8iOuyZLOUpnHNzzREGLMqHvW9XP70wFtIvAEX5e
+	cFMngdPs6iBpu2m3iNe0EQf14Dm/7XsPgTFm/9PzHVh0zJukwfDvxasKDPupxuS7
+	OshgLMyM9K0/YzNRomYpV2u/njpqUVhCNLZLcW048GCFkMNU9gMgxytwmKBfQP3u
+	f11qEJsnNOOOEEJI/HwrQrzrM57urM8B6hdwZbHXWxcmbpiLJzpKkSMkGJPonHLd
+	p8GwEP7/Wg1nVPgGGjJWuwq7xGWLheHbOmzrTo6QTZO17nrAkPe8w1Grbzwf1Vab
+	YA==
+Received: (qmail 4083466 invoked from network); 27 Mar 2025 17:44:24 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Mar 2025 17:44:24 +0100
+X-UD-Smtp-Session: l3s3148p1@gtWOqlUxgJEujnsv
+Date: Thu, 27 Mar 2025 17:44:23 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: reset: Document RZ/V2H(P) USB2PHY
- Control
-Message-ID: <20250327-comply-murky-cffc47465429@spud>
-References: <20250305123915.341589-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250305123915.341589-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250305-cesspool-headlock-4d28a2a1333e@spud>
- <CA+V-a8uQTL+SHYqVU_J0th4PT6YPF7q6ypzDu33nS_6onWLoOQ@mail.gmail.com>
- <20250306-slather-audition-a6b28ba1483e@spud>
- <18780ad4be2c28999af314c97ae4104fb161a691.camel@pengutronix.de>
- <CA+V-a8tYv_u4UM5XVysVMPbfJoVwKFHqucLdJOmDP-xrXZ0L5Q@mail.gmail.com>
- <CA+V-a8sfx-QwzPz_zEEmGAyAoqha5cfMs9CvWDVJ_b0-D7QfpQ@mail.gmail.com>
+Subject: Re: [PATCH 15/15] arm64: defconfig: Enable Renesas RZ/V2N SoC
+Message-ID: <Z-WAZ_IlMBB3XbTN@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250326143945.82142-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250326143945.82142-16-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <41c6f512-47a5-4723-bbdc-64ed85ae8391@kernel.org>
+ <Z-VETFWFT5NksD7J@ninjato>
+ <6fa375d2-5ba8-4b2b-8a54-f28b3cbedcfb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="t7DfaAM27KeM8t9g"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="c/EJiR+H9xTHY3mL"
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8sfx-QwzPz_zEEmGAyAoqha5cfMs9CvWDVJ_b0-D7QfpQ@mail.gmail.com>
+In-Reply-To: <6fa375d2-5ba8-4b2b-8a54-f28b3cbedcfb@kernel.org>
 
 
---t7DfaAM27KeM8t9g
-Content-Type: text/plain; charset=utf-8
+--c/EJiR+H9xTHY3mL
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 27, 2025 at 11:06:33AM +0000, Lad, Prabhakar wrote:
-> Hi Philipp and Conor
->=20
-> On Thu, Mar 13, 2025 at 1:17=E2=80=AFPM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> >
-> > Hi Philipp,
-> >
-> > On Thu, Mar 13, 2025 at 1:09=E2=80=AFPM Philipp Zabel <p.zabel@pengutro=
-nix.de> wrote:
-> > >
-> > > On Do, 2025-03-06 at 16:26 +0000, Conor Dooley wrote:
-> > > [...]
-> > > > That sounds awfully like "it was wrong before, and I want to keep u=
-sing
-> > > > the wrong node name"... If you're claiming to be some other class of
-> > > > device, "ctrl" should really be "controller" like all the other sor=
-ts of
-> > > > controllers ;)
-> > >
-> > > There are "usb-phy-controller" nodes on the rcar-gen2 SoCs.
-> > >
-> > Ok, I will rename the node name to "usb-phy-controller".
-> >
-> Fyi to chime in with other reset drivers I'll rename this binding file
-> to `renesas,rzv2h-usb2phy-reset.yaml` and have the node named
 
-> `usb2phy-reset@15830000` in the example node.
+> You did not object to last discussion about this (a month ago) - neither
+> to my comments nor to resolution - so this patchset repeating the same
 
-At that point, isn't it then "just" a reset controller with only a
-single device that it resets, so "reset-controller" is the right class
-of device to label it as?
+Because I cannot follow every Renesas patch series there is. You are
+long enough around to know that large companies have different entities,
+groups whatsoever. It is quite a challenge to streamline this via one
+group, we need to share work. We do try hard, though, and have a
+ARM/RISC-V/RENESAS ARCHITECTURE maintainer. Geert does a *hell of a job*
+getting all these submission into shape, and he surely does not accept
+code thrown over the wall. And geez, the patch series was just sent
+yesterday, you didn't give us even time to raise the issue internally.
 
---t7DfaAM27KeM8t9g
+> pattern from the same folks while ignoring previous talk is
+> contradicting "not too bad at fixing stuff".
+
+First, being a maintainer myself, I do understand the frustration of
+patch review not being honored. I can also agree that this series did
+not work out perfectly. But that does not mean that we don't care, in
+general.  Despite all imperfection and possibly different opinions, we
+try hard to be a good citizen and spend considerable time on doing
+things right. Accusing us of throwing just "code over the wall" because
+there is an issue somewhere which hasn't been worked on in one month is
+plain unfair.
+
+That all being said, we will fix it eventually.
+
+
+--c/EJiR+H9xTHY3mL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ+V/igAKCRB4tDGHoIJi
-0nDwAP492sO8TrE28FCvFPFQPB+n3zVDKJ701XsdVAH4BZIC8gD/WPlRuig/cC4Z
-dsNjG53TeGJNVW1VNZGR4PzVV2wLlgQ=
-=rz9f
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmflgGMACgkQFA3kzBSg
+KbZxSA/9Gqszzc/JQdPg5lFILYUjNMR2rLsA7Uc53vk3WyEcVSWmUaBjeGLU+ZkO
+2OkaPe6x+ULk1vXzpJYmHK8J93cMHK7/tXR8YBFXno9cL1s+/XdwWuLWq0xlMfc5
+weFwNN/e3mz8emxJWhi8AJ0sMhC6OTBL4qghprYH6ElZfxgpliuGWw59ei1gKnsX
+/p5mOmGEETy4DIbiJEYth/Jypl4NrhfZdMmTUWBTqAj7/HuaBvY1psifuwDtAe5F
+mY3FY3ES+6Hfzl76tsBQ6JEmRW9E+rZFR4Dv3M8XXaEYsZZ8fR1cwgQ1WXNbdmz/
+1QOmex7GF5ceEJWdhEqAVJhz+aN6+Ot0Zxv0BCpxJzEoIGg7SXYpfkVBrTSL66a5
+1trcWPmelNgqCRc65t+mvUmAfsELLXUE7h96hKtqDCQ0GNokdbqS0PuRCief56/b
+VwXftmqvTstdTB7zMf9qfg9uTCeQycuzAsZQOdNynvDKML9olp6di/+curLvv5BW
+M45znbdpzss7Ilwj3qbgIkFT2O0v8PGdqsn+1gQ8mgahnCe9OAtZl1hd8o0WDmnJ
+2sbZcCcYMLgZVa+bI8/20Vba8uOnMMLVWZ/jk8c8LiRu8mqtYNAFGM8ClHFfh31u
+hLSV0vYp+GarLkjMqXezTYhnugy344QNVLOm2atmMGI69u8dtWA=
+=0lVg
 -----END PGP SIGNATURE-----
 
---t7DfaAM27KeM8t9g--
+--c/EJiR+H9xTHY3mL--
 
