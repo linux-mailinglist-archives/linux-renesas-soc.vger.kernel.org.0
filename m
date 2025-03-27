@@ -1,170 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-14925-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CED3A736E3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Mar 2025 17:35:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C1BA7371B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Mar 2025 17:41:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 987217A69AB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Mar 2025 16:34:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C1E93AF205
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Mar 2025 16:40:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40C6419F111;
-	Thu, 27 Mar 2025 16:35:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D96D20CCF1;
+	Thu, 27 Mar 2025 16:40:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Es4wJgpW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JjNJmDSj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5932219ADBA
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Mar 2025 16:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209F41A3159;
+	Thu, 27 Mar 2025 16:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743093306; cv=none; b=MPijDl1v4ToKdpRHIFPNiQGph1i5361Sgr9DNTtJiUDLw89/uv9DoekiXoB6CCh9KguFnrw+bZNxWd/c4cNhD+zpx7Pb77Wd10caYm5E70uzKUdCnbgZLxmA9ORWk5afqJ5igCAf8Gp0wGbQ3FvGBjFXbASqw+I7RYxC5tX80n0=
+	t=1743093647; cv=none; b=sh3CK+T03RFFeepvR3rBOHpXVBOBRpRdBeHta0Va5z9RsY2whbCXR4ncSSC+JeR7PR0FjpTOypktyJq1CNe0xAkC27l4Y0FqWfVKRsz6hPMlITDTdOt9KiaFQHHdjbjXijKRqT1mSVdhTz2QFUpMrqOL8/GzdlIQ5clH6i9BU1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743093306; c=relaxed/simple;
-	bh=yrLrJ07jSyEkRNOIGSnIx6UIH6SW0uwq2gx5Xt6MpTw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GYW/GNL+tym5tj9C22A5+NH+bk4CB1GtZbFmtMuddc5duKBDdp1XqelLrvUVig6Ki46cXxWubIB+WH39qQ9igfVTY6BBpZvCbqmwp1KzKgOVpwI7XaMkYT16KnIJxb8sQ1O9K0PzRbCS34rs3qS08hK+Ec1uYjIceIGqcU6/2uA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Es4wJgpW; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43d0782d787so9200685e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Mar 2025 09:35:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1743093301; x=1743698101; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GGjDGhXvhOctDrW1nI1udXGMONQSxA0lH5by2Ntn0tg=;
-        b=Es4wJgpWTP8jzV/2d74v1syhkB6P/YbPKpMSQpi+7LHCy3AmT1Hdh+jh8vz4xdzbUp
-         2TLKwxYc81UpK8LTlzqTw5tLbjKtsxOrkbAXhZB5v31/tl+UH60puHzPQJ9SMSvpRHLG
-         TgbP+GOmJCIPLWmiPdTNy2PJnCEhAYJB3Ss+eM7HNNNePe1AzN+O6VFGCaL1wmyrPsEG
-         Ged4/X6chrEGM9B8V9FLwpuNzpyoeYwVMmJb1HLh5ahDDeR4o4ouM/6T/+xDKj4JR00r
-         Zhd7HBSIFYaNzZ5xB7DbfadSmxhwgTkKjRLE+cquz6cvQs8jsZIIESTMYDDYfFhsnyBr
-         PVqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743093301; x=1743698101;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GGjDGhXvhOctDrW1nI1udXGMONQSxA0lH5by2Ntn0tg=;
-        b=xSnWyT3iATrQ+KnPHAih8emAY4JVF+9XtyVBr6XpsJWjPYJ+Dj4zzM0M1s8QZwDGNM
-         X/mlSnuC9fF95hgjLTMnSXGnJ43215IoqBgq6uspJLHma1RRfg8BEx0q5SaV7Bb4lJJC
-         rWO4KWYp+y8v7O/fQACc7ococeTSl9r+c0Q9jYDziz+xrl+G2niDh6IAW8LTUddzJTk1
-         vE6fztkacqLuF0ovhDnxRrdhCYkPq5+WTfTgrVoHPs/rbCQ//Ymkr46wRcvHvPMpo8gr
-         /7iHAHhISssCi6FkT/F384wH6mXlW6JM+A2djfjV+KxmP5loix5jmPs8SBaNOC2dImBV
-         LM5A==
-X-Forwarded-Encrypted: i=1; AJvYcCVO1ctxlGkAR2gejRSQTCON0DZviQYzeBOrOoYH0qQpN80t2aH2pjmGJTWUMyTzFiwuG5alzUgaF7OTeICJ9ZNf6w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbaAmG7QqSW6twYXvzWxHV4MXHkJlTHHFMRiLad90keRQefnKU
-	mHAnex3/eoMIcrutMA35Nhw+Suy7bGI+37nWgSSFZMBOyM8Btr98FrZBVBJZMcI=
-X-Gm-Gg: ASbGncuFAB7xu4UMh8l/gKYhJGsIEW4EGJdPSLwmb2B8hnxnenLElQy5p4JjfXw9OKZ
-	dYJpN9T64UCkuXpJZ6A4QZFbLxiNp9xPRSl+c7cXevUIvycFS12kwxeOs43X4Tmj//1kuZgIa5p
-	Pnx5X+tVm/eIxBDXmMFlJt6GTasTsQELEet2PFaPbO02ME1s9NELRStNMDdyB1QKMiggV9p/h0e
-	VXpKKAIBZjHI/neiP1jXfY+ZtU/CzeXtgJUm+/2Y7+Z82V7/4Ugz+WsbjUX2qwyCoQ6dxEc5ZYP
-	+OYuOC5O4z0YGPSU2wH2+bGfMjzo7HPZ55DyhLuJLvhW13Em8ww0y23UPf1J+mL8
-X-Google-Smtp-Source: AGHT+IGawtvFBb4fS5ToIj7CyXU2x5hbH3B/DoIrPXE5LcvhbfIugmJW/IZ0c8unwGyuVy6PG4hKmQ==
-X-Received: by 2002:a05:600c:3ba1:b0:43c:ef55:f1e8 with SMTP id 5b1f17b1804b1-43d84fb5ffdmr36069095e9.13.1743093301462;
-        Thu, 27 Mar 2025 09:35:01 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d7ae6a206sm39611675e9.0.2025.03.27.09.35.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Mar 2025 09:35:00 -0700 (PDT)
-Message-ID: <a66f3c88-0fe7-4e9c-83cd-1fe4bca8b14e@tuxon.dev>
-Date: Thu, 27 Mar 2025 18:34:59 +0200
+	s=arc-20240116; t=1743093647; c=relaxed/simple;
+	bh=nw6QSPdQYYmQyRESFL7Fz5mINk4DCE5DFYZA3PpZUDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q4yT8xdmOUevaz2JwgFb4h3VTLYZ3PDTmxPmWvn1F16xuFwIDqC7ffj1tKMeFzjgKbsiFnRc8k/29IIiohjnfyRO5JtBbkl7h/4vnMQNwmboEkdmVdOrTdsC9mo1k8JfCJ2pKKd3PEEUIg99T/m++d/OKLOZh+ZT6Wz2H0d2q/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JjNJmDSj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 733A2C4CEDD;
+	Thu, 27 Mar 2025 16:40:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743093646;
+	bh=nw6QSPdQYYmQyRESFL7Fz5mINk4DCE5DFYZA3PpZUDw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JjNJmDSjniiHESAwwEREi4LiwbjB3qor5cylvoS18QWsR+Spef+njkGLG72eVnT7y
+	 o0iaHMB+d73aM7hBDVdH0f4LqWTrnhAAat++01K8k+za6IJaN0SxSIkJZxyiEg3UP8
+	 yIqgGQ6xvariEMMzu0YlTCyclpVmNMCi1/7a699YhXlNjfn4VObZn6FTT2FB0hF/2c
+	 MGSbokdLs0844btP/PGeq6aIefHkqSZGiIdrffl3HFxA0Nnf6/ja6NSyj6VE0ad3aO
+	 kh778KziwBFVv4XvJILvkZqGI2RGLHqsQBwvwZTEeqtTSFLl9cOWkI/BEeb/A+mn1A
+	 vk5rep2sL1xwQ==
+Date: Thu, 27 Mar 2025 16:40:42 +0000
+From: Conor Dooley <conor@kernel.org>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: reset: Document RZ/V2H(P) USB2PHY
+ Control
+Message-ID: <20250327-comply-murky-cffc47465429@spud>
+References: <20250305123915.341589-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250305123915.341589-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250305-cesspool-headlock-4d28a2a1333e@spud>
+ <CA+V-a8uQTL+SHYqVU_J0th4PT6YPF7q6ypzDu33nS_6onWLoOQ@mail.gmail.com>
+ <20250306-slather-audition-a6b28ba1483e@spud>
+ <18780ad4be2c28999af314c97ae4104fb161a691.camel@pengutronix.de>
+ <CA+V-a8tYv_u4UM5XVysVMPbfJoVwKFHqucLdJOmDP-xrXZ0L5Q@mail.gmail.com>
+ <CA+V-a8sfx-QwzPz_zEEmGAyAoqha5cfMs9CvWDVJ_b0-D7QfpQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] iio: rzg2l_adc: Cleanups for rzg2l_adc driver
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, lars@metafoo.de,
- linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, gregkh@linuxfoundation.org
-References: <20250324122627.32336-1-claudiu.beznea.uj@bp.renesas.com>
- <20250327153845.6ab73574@jic23-huawei>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <20250327153845.6ab73574@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="t7DfaAM27KeM8t9g"
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8sfx-QwzPz_zEEmGAyAoqha5cfMs9CvWDVJ_b0-D7QfpQ@mail.gmail.com>
 
-Hi, Jonathan,
 
-On 27.03.2025 17:38, Jonathan Cameron wrote:
-> On Mon, 24 Mar 2025 14:26:25 +0200
-> Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> 
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Hi,
->>
->> Series adds some cleanups for the RZ/G2L ADC driver after the support
->> for the RZ/G3S SoC.
-> 
-> This doesn't address Dmitry's comment or highlight the outstanding
-> question he had to Greg KH on v3.  
-> I appreciate you want to get this fixed but I'd rather we got
-> it 'right' first time!
+--t7DfaAM27KeM8t9g
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-My bad. As there was no input on platform bus patch I though this is not
-the desired way of going forward. Sorry for that.
+On Thu, Mar 27, 2025 at 11:06:33AM +0000, Lad, Prabhakar wrote:
+> Hi Philipp and Conor
+>=20
+> On Thu, Mar 13, 2025 at 1:17=E2=80=AFPM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> >
+> > Hi Philipp,
+> >
+> > On Thu, Mar 13, 2025 at 1:09=E2=80=AFPM Philipp Zabel <p.zabel@pengutro=
+nix.de> wrote:
+> > >
+> > > On Do, 2025-03-06 at 16:26 +0000, Conor Dooley wrote:
+> > > [...]
+> > > > That sounds awfully like "it was wrong before, and I want to keep u=
+sing
+> > > > the wrong node name"... If you're claiming to be some other class of
+> > > > device, "ctrl" should really be "controller" like all the other sor=
+ts of
+> > > > controllers ;)
+> > >
+> > > There are "usb-phy-controller" nodes on the rcar-gen2 SoCs.
+> > >
+> > Ok, I will rename the node name to "usb-phy-controller".
+> >
+> Fyi to chime in with other reset drivers I'll rename this binding file
+> to `renesas,rzv2h-usb2phy-reset.yaml` and have the node named
 
-> 
-> Also, please make sure to +CC anyone who engaged with an earlier version.
+> `usb2phy-reset@15830000` in the example node.
 
-Ok, will do it.
+At that point, isn't it then "just" a reset controller with only a
+single device that it resets, so "reset-controller" is the right class
+of device to label it as?
 
-> 
-> For reference of Greg if he sees this, Dmitry was expressing view that
-> the fix belongs in the bus layer not the individual drivers.
-> FWIW that feels like the right layer to me as well.
+--t7DfaAM27KeM8t9g
+Content-Type: application/pgp-signature; name="signature.asc"
 
-To me, too.
+-----BEGIN PGP SIGNATURE-----
 
-Thank you,
-Claudiu
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ+V/igAKCRB4tDGHoIJi
+0nDwAP492sO8TrE28FCvFPFQPB+n3zVDKJ701XsdVAH4BZIC8gD/WPlRuig/cC4Z
+dsNjG53TeGJNVW1VNZGR4PzVV2wLlgQ=
+=rz9f
+-----END PGP SIGNATURE-----
 
-> 
-> https://lore.kernel.org/all/Z8k8lDxA53gUJa0n@google.com/#t
-> 
-> Jonathan
-> 
-> 
-> 
->>
->> Thank you,
->> Claudiu Beznea
->>
->> Changes in v4:
->> - open the devres group in its own function and rename the
->>   rzg2l_adc_probe() to rzg2l_adc_probe_helper() to have simpler code
->> - collected tags
->>
->> Changes in v3:
->> - in patch 2/2 use a devres group for all the devm resources
->>   acquired in the driver's probe
->>
->> Changes in v2:
->> - updated cover letter
->> - collected tags
->> - updated patch 1/2 to drop devres APIs from the point the
->>   runtime PM is enabled
->>
->> Claudiu Beznea (2):
->>   iio: adc: rzg2l_adc: Open a devres group
->>   iio: adc: rzg2l: Cleanup suspend/resume path
->>
->>  drivers/iio/adc/rzg2l_adc.c | 67 +++++++++++++++++++++++++------------
->>  1 file changed, 45 insertions(+), 22 deletions(-)
->>
-> 
-
+--t7DfaAM27KeM8t9g--
 
