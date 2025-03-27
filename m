@@ -1,64 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-14899-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14900-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13095A72407
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 23:31:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0E4A72927
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Mar 2025 04:26:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA5C13ACA36
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Mar 2025 22:31:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1AE003B2507
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Mar 2025 03:26:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA4681A76AE;
-	Wed, 26 Mar 2025 22:31:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0797A1DE2D4;
+	Thu, 27 Mar 2025 03:24:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WpahnDsE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MFQvA/7I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDADC1B040B
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Mar 2025 22:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39591B0411;
+	Thu, 27 Mar 2025 03:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743028304; cv=none; b=n8yaxPrO/7pnz9J4fAbbDK8qsXMeDSWetWTPZEE4OJWwJVwWNAjdTl1CYVSDRwx/1oZ2oV5zTE1A8V+5mZI099UdaNsv6s832w8abn8Up9kP9FuRIa/jo6gx713yiwTYi6Blor7PvQ7hhisK/1gZZlgUsE/P2iYtmHfgMX/RDRg=
+	t=1743045857; cv=none; b=b3b2PcLjYFKHW1g2YJqWuEW3Un9hdC9mESdvMLNJsQGlLSadRnL9Rp7bl9ONdt9vgJAudnx8E2/SJ/gOU82N0HebRoiPm8Lp9H/uPJLEv7vbwnP8aa3e2p+rxDxvL0EWPknXugJp7Ng3IXPnd/iU8xqpC0qKm9+2nmwrZvsyqn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743028304; c=relaxed/simple;
-	bh=UsfnaCbfHX0S6oDxk4pR3+seu3B0/AH8MOkOA8GiqOE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RIeOo1tlyHey9lPYL0bNTiOu6dEMq4NfIWANTHdsdIW6QD0zKhItYTEK1yzhZVei8O6chd1pV6i5BVLR7E1LiQQaaSx5hJXRz2Qcn4FjYOIW/BjF0FoRI5U0Vqzcl8sNP92z9n/Ic+ckT6BVbcBtxlTsBDaSDAhR+gKrhapEATg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WpahnDsE; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=j+vnap5KKUmLNy
-	uj9wpVHMJmrsdxjxzBfUEJyBSA48o=; b=WpahnDsEeR1E0QhUxwXrqN1Af0cZTG
-	jpEBktE6NtEIhC3RW68StoIZ5VeSKDe24wfP9r9/NhK2RYGwDswwwRF14aDzSyuv
-	wTHxQL0YbRgabAAPWmKxnGURyxSZpnDB49oVavwVnZ07PiGYkaNikKbmsdici4R/
-	3Pm7G6JvHzHXnFtHccd9qE3ChPxKWDeFylClgsU1l4ZIwo991LFzdu6ZCvZGrOVE
-	ossM2UTtIBAriEZPJMNQsKE0pJR2yA/8vu3YDQK4cyhC+F1csFkGd6BHLwGoRPvd
-	cC7+F7/y/DvUd58YysXtnP5mBFLgVuNpjPPTDUKY6tFzKtIBytY6X9UA==
-Received: (qmail 3775632 invoked from network); 26 Mar 2025 23:31:39 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Mar 2025 23:31:39 +0100
-X-UD-Smtp-Session: l3s3148p1@jkqcZkYxBK4ujnsv
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-	linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v2] dt-bindings: i2c: snps,designware-i2c: describe Renesas RZ/N1D variant
-Date: Wed, 26 Mar 2025 23:26:58 +0100
-Message-ID: <20250326223123.11113-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1743045857; c=relaxed/simple;
+	bh=WzetoZhZ3xgmg7YT1JVI8VQIr1knizpmPZxAty/JhrQ=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=KEm4RuIDvMeIv4anRTpvHk6/vVSGq1Zm33VTN9d8pUW+VIdjMGWnUy++P20WiQmt4awX+QW9CqKK3AQFJes3uCqEfjruwKH66d2m/YjlppAMm/JoNjhf34SjBOH2hJJFOm/YWLmu675WpD8M7c5Z05vPJanNWb6XJ+Xs98VTjfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MFQvA/7I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8449C4CEDD;
+	Thu, 27 Mar 2025 03:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743045857;
+	bh=WzetoZhZ3xgmg7YT1JVI8VQIr1knizpmPZxAty/JhrQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=MFQvA/7IvgHjr9FBj2XUvLSoh5DCWxLOPIdNMV41tZ/ibMnHjH/QwD7XVC+hGviCs
+	 XWOOYdRLNQZQbpZkGUw9d08ZdR6lnHDfbzukv/PqwO0goKTKTgJ5Af+XqwwNgARw0t
+	 04CtsnK0aUiTDc9CK5Ow/b3DP3igVDsrXtlInymy9HwOSLsEsCGQbJaMunNlludfrZ
+	 GT9gtGkQiA+9YiJ7rk8Xi5juD+/3Ry0xHtXjK0c64ZOyYmBbm71C5gnx8aQPqeSna1
+	 pAvjR2JKQsfcuux/GBwwyMQEQgNNqBegey99IZIKBeoQjV7yhJucnkzsARAMuF6x7I
+	 M8ZzOlSxRlcUw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33CE8380AAFD;
+	Thu, 27 Mar 2025 03:24:55 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -66,38 +52,43 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] riscv: defconfig: Disable Renesas SoC support
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <174304589376.1549280.13761384336382427228.git-patchwork-notify@kernel.org>
+Date: Thu, 27 Mar 2025 03:24:53 +0000
+References: <e8a2fb273c8c68bd6d526b924b4212f397195b28.1738764211.git.geert+renesas@glider.be>
+In-Reply-To: <e8a2fb273c8c68bd6d526b924b4212f397195b28.1738764211.git.geert+renesas@glider.be>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-riscv@lists.infradead.org, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, conor.dooley@microchip.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
-So far, no differences are known, so it can fallback to the default
-compatible.
+Hello:
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
----
+This patch was applied to riscv/linux.git (for-next)
+by Alexandre Ghiti <alexghiti@rivosinc.com>:
 
-Changes since v1:
-* added comments to clarify SoC & family relationship
-* added Conor's ack (Thanks!)
+On Wed,  5 Feb 2025 15:07:17 +0100 you wrote:
+> Follow-up to commit e36ddf3226864e09 ("riscv: defconfig: Disable RZ/Five
+> peripheral support") in v6.12-rc1:
+> 
+>   - Disable ARCH_RENESAS, too, as currently RZ/Five is the sole Renesas
+>     RISC-V SoC,
+>   - Drop no longer needed explicit disable of USB_XHCI_RCAR, which
+>     depends on ARCH_RENESAS.
+> 
+> [...]
 
- .../devicetree/bindings/i2c/snps,designware-i2c.yaml         | 5 +++++
- 1 file changed, 5 insertions(+)
+Here is the summary with links:
+  - [v2] riscv: defconfig: Disable Renesas SoC support
+    https://git.kernel.org/riscv/c/c2db83fe1033
 
-diff --git a/Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml b/Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml
-index e5d05263c45a..bc5d0fb5abfe 100644
---- a/Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml
-+++ b/Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml
-@@ -27,6 +27,11 @@ properties:
-     oneOf:
-       - description: Generic Synopsys DesignWare I2C controller
-         const: snps,designware-i2c
-+      - description: Renesas RZ/N1D I2C controller
-+        items:
-+          - const: renesas,r9a06g032-i2c  # RZ/N1D
-+          - const: renesas,rzn1-i2c       # RZ/N1
-+          - const: snps,designware-i2c
-       - description: Microsemi Ocelot SoCs I2C controller
-         items:
-           - const: mscc,ocelot-i2c
+You are awesome, thank you!
 -- 
-2.47.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
