@@ -1,165 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-14962-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14964-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A87A74816
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 11:21:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB6FA7481A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 11:22:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 84819169D1D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 10:21:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D8623B13E3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 10:22:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 254FC214229;
-	Fri, 28 Mar 2025 10:21:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBE84214805;
+	Fri, 28 Mar 2025 10:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VIXIVEL3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A706213E66
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Mar 2025 10:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5DF214200
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Mar 2025 10:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743157265; cv=none; b=qZfrA/8lTNtUUmksh3MFodoO8VKt6/P3MauzsTgbpwgZ8KZqBNhuByN6K2hBPXS8G5JAABGVLDj5z05O2OptMxYlmRpNh89FQDJb5/nhjtMIuS9HIgZWql88jjQkISdtbRGyZJUU+VqE/XmGJZ19APxVW4tX/XzKwRnCCQz2sME=
+	t=1743157341; cv=none; b=tLkFkkOfFoniKLjfDvWYKp0aA7mY4TXubCGCXKcyoo1qMEU0xkkiAjcreZRoD7kenV7ZWVWPow4gNT4Tlbxr59LWw/kCtkSsd+8E3oGiwhXcMABSscJnUJhKMM/OEnf/wM2oD82GZmLqJsvQKMvbPmUHWzrotUYRVi8dIS1beIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743157265; c=relaxed/simple;
-	bh=FIqfVmCPKEO2JKFT6OA+t0YCHzqi+ywsJeLk80qvFA4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMbV318UYsepR44LuC9ZNTGQD769dyaE/rFK48Or0Z7FTjPD4/Zz8Tvtwhi3Hnl3PtDUKNlLFhSYBeqBKML6eNZGqY+DDSG+lUACbgMtu8HTxU8vJE+PR/BCJd4F+3vmpC2kk2hvIq7qXEwp6a25Noo1/dAUjtI6s3EpZNYmNsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1ty6pX-0006ph-Tm; Fri, 28 Mar 2025 11:20:51 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1ty6pW-0025AS-0B;
-	Fri, 28 Mar 2025 11:20:50 +0100
-Received: from pengutronix.de (p5b1645f7.dip0.t-ipconnect.de [91.22.69.247])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id B43C13E8786;
-	Fri, 28 Mar 2025 10:20:49 +0000 (UTC)
-Date: Fri, 28 Mar 2025 11:20:49 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, "biju.das.au" <biju.das.au@gmail.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: RE: [PATCH v7 05/18] can: rcar_canfd: Drop RCANFD_GERFL_EEF*
- macros in RCANFD_GERFL_ERR
-Message-ID: <20250328-serious-orange-oarfish-3631f1-mkl@pengutronix.de>
-References: <20250326122003.122976-1-biju.das.jz@bp.renesas.com>
- <20250326122003.122976-6-biju.das.jz@bp.renesas.com>
- <40392a70-3be4-4d11-8614-eebd5d9d24a8@wanadoo.fr>
- <TY3PR01MB11346C091544B49A6C160712E86A02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <deffdc35-86cf-4282-ba6d-f36890bf9fcd@wanadoo.fr>
- <TY3PR01MB11346DA97D5F685D96A638DB086A02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1743157341; c=relaxed/simple;
+	bh=1EvdB14G9dZ9V0d+gy+JSmSb+iAYQGCNgOKmRsIyMfY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QA1pVsBBkYC9I2hahvgKc1fQJbR1YYlei5cHD62ALlYFFc9IjbPYumkr6iSePAE10eCSf7DZWK1xOrWUMIX0vEhhEPnGl0klJl64Wr5F4GakMzMcmEZC7B5zFy/dcLq4bCvZHCs1QRpNb9V465BGumqC3ybAlZ/qOOdiQYyEk9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VIXIVEL3; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-700b17551cdso19673467b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Mar 2025 03:22:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743157339; x=1743762139; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QWcdknvSCYeb4zRihPe/MxApMaJfE7/coMmdm58k8mE=;
+        b=VIXIVEL3iR1pses4SVICAvRQoYKm3GrKW/gGsNf7jjGVM7GkO2q1XQb53KBo/m4Obz
+         r8n5PEm5q9hJ83FrOpNfKyY+W1hwzleT79Dpdl+03WqmAQOrNoUzECTDjRTWhNafhPZ8
+         N30bZ1g04ofeeTnP2keMVD6gndXLWONS1PUE1mYvzOzHDQ5QZhx0kCeJxOfYrv+5Rl3g
+         2q+lXnf+6VsEvLUd1enBmPba+C0VZrxYcxWKm459zsjJeVnmAwko8a1oMPV/dK7aiMWn
+         pazuDogB6I0SkpeuVmXImAI8SNzvjBm8QtiyOEnOnDQ4LxsX1hjYkQKURJi7IeYH4ECr
+         hY3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743157339; x=1743762139;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QWcdknvSCYeb4zRihPe/MxApMaJfE7/coMmdm58k8mE=;
+        b=utQVbJDl+oJB0GrHXfWkJMxOVWXf8DHwowztBL9Ufh3dvCZs3QQ1QzG4mXefjtGR7H
+         ORwC4hRFY/rHT3k475vI7xi9J7ckT6M51NuUzjBI1LdQntx913yDJfqmSNikK9Ny4FAB
+         ywuWTNDbsSIJIv0Yi7d6P8nvLnZ348LfbnRgRgksasii84sW/XHLtm8F9NDoPNYdiLNQ
+         4cLFVICpLxQJNhNgjyX9ETt1VmDkZqOdlPPkFqtil5H+w00L0o7QXoyUsIexyVxzKnET
+         FjFYUPdL37htqbBvWv6yl5Vrp1VjupcGLLanBR5WJzo75hL2kux+W7Dhm+CXq8f8eiRu
+         UO/A==
+X-Forwarded-Encrypted: i=1; AJvYcCX+S0YgBaarO/xulKy7ch1wn2s5GlDQiGyRHhMg99yd9GiuEzVTLjbmSuLYWvriF9NiBCEiE2rA2BGwdlkiFV+OLA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyDt5rxuoGdb5fLrO6yv2VmiMQoJYdJ2mw7OPp3gSs2vo/35Bn
+	p2kMdk9hQOVjc2vQUGAijMX40oZLbefzu4tGAGDOuAxN3/reuLEyzkK5Lcm+NKv0dPyKi4NuY+B
+	p8jFXaWGQOc/xg9SvFgO5HAKhg/utbSYN9DW+eYUDv2j+GlHH9iY=
+X-Gm-Gg: ASbGncuUJvpfRIUGnsXYvjP/+QCTYtGETaNkelKecFWZMqcyXtExRMAhWTDs/hd/ug/
+	6e4MstUXdTSBYjFG2k9oCgQaLmfzIz/NqFfXOU+YA1RpA9v9BAEFgfeHqYSrO0oUBhiyCr1i2OO
+	5ftNQzD9dW7VtCk5kPCVoU8KO55NU=
+X-Google-Smtp-Source: AGHT+IF+THyscD1I70Q1OyNT7wZ9pN5Y8ZMr40r0UC0Ra/TZGyedSTAVl7xxm7Ivr+fxGPflDlGfnf1oayC1W3EzhlY=
+X-Received: by 2002:a05:690c:9b08:b0:6fe:bf9d:8cca with SMTP id
+ 00721157ae682-70224c5ae42mr93037477b3.0.1743157338910; Fri, 28 Mar 2025
+ 03:22:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ixudpacwom357zfm"
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB11346DA97D5F685D96A638DB086A02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+References: <20250320140040.162416-1-ulf.hansson@linaro.org>
+ <20250320140040.162416-5-ulf.hansson@linaro.org> <PH7PR16MB61960D396B3E5B61571F7F82E5A02@PH7PR16MB6196.namprd16.prod.outlook.com>
+In-Reply-To: <PH7PR16MB61960D396B3E5B61571F7F82E5A02@PH7PR16MB6196.namprd16.prod.outlook.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 28 Mar 2025 11:21:42 +0100
+X-Gm-Features: AQ5f1Job6rz184fUICiPRY1Ma-qfbAVYw2uwJkaEoJZeRzZpT85dOgBmc4R44BA
+Message-ID: <CAPDyKFreJu8jZXoBJ2J1Mgj+OOAJX5rjzX0D4ZfbTj_uVrPKPw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] mmc: core: Add support for graceful host removal for eMMC
+To: Avri Altman <Avri.Altman@sandisk.com>
+Cc: "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, 28 Mar 2025 at 09:13, Avri Altman <Avri.Altman@sandisk.com> wrote:
+>
+> > +/*
+> > + * Host is being removed. Free up the current card and do a graceful power-
+> > off.
+> > + */
+> > +static void mmc_remove(struct mmc_host *host) {
+> > +     get_device(&host->card->dev);
+> > +     mmc_remove_card(host->card);
+> > +
+> > +     _mmc_suspend(host, MMC_POWEROFF_UNBIND);
+> Couldn't find how _mmc_suspend handles this new power off flag?
 
---ixudpacwom357zfm
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: RE: [PATCH v7 05/18] can: rcar_canfd: Drop RCANFD_GERFL_EEF*
- macros in RCANFD_GERFL_ERR
-MIME-Version: 1.0
+Right. You need to look closer at mmc_may_poweroff_notify() as it
+should return false if MMC_POWEROFF_UNBIND, unless
+MMC_CAP2_FULL_PWR_CYCLE.
 
-On 28.03.2025 09:51:43, Biju Das wrote:
-> > Yes, it starts at bit 16, but at which bit does it end?
-> >=20
-> > The GENMASK() helps to document the register names. Of course is works =
-if you replace the FIELD_PREP
-> > with a left shift, but you are replacing some meaningful information ab=
-out the register name, register
-> > start bit and end bit by just a start bit value. See? You just lost the=
- register name and end bit
-> > info.
-> >=20
-> > FIELD_PREP() is not only about doing the correct shift but also about d=
-ocumenting that you are putting
-> > the value into a specific register.
-> >=20
-> > When reading:
-> >=20
-> >   FIELD_PREP(RCANFD_GERFL_EEF0_7, gpriv->channels_mask)
-> >=20
-> > I immediately understand that you are putting the gpriv->channels_mask =
-value into the GERFL_EEF0_7
-> > register and I can look at the datasheet for details about that GERFL_E=
-EF0_7 if I want to.
->=20
-> Gen4 has 8 channels (GENMASK(16, 23)
-> G3E has 6 channels  (GENMASK(16, 21)
-> V4M has 4 channels  (GENMASK(16, 19)
-> V3H_2 has 3 channels (GENMASK(16,18)
-> All other SoCs has 2 channels (GENMASK(16,17)
->=20
-> So you mean, I should replace RCANFD_GERFL_EEF0_7 with a
->=20
-> Generic one RCANFD_GERFL_EEF(x) GENMASK(16, 16 + (x) - 1) to handle
-> this differences
->=20
-> Where x is the number of supported channels(info->max_channels)
->=20
-> and then use
->=20
-> FIELD_PREP(RCANFD_GERFL_EEF(x), gpriv->channels_mask)
+[...]
 
-The mask for FIELD_PREP must be compile time constant.
-
-Geert recently posted a series to add non constant helpers:
-
-| https://lore.kernel.org/all/1824412519cb8791ab428065116927ee7b77cf35.1738=
-329459.git.geert+renesas@glider.be/
-
-It seems it wasn't applied yet...
-
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---ixudpacwom357zfm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmfmd/4ACgkQDHRl3/mQ
-kZxrqggAirVpsuhf6kJMSHgUak0dMzjz9ekLF0Vi8qB6xmcK6OH786A+nkAB8kG8
-qOZ0wG0/1nZA1+1iFWkI27KZEv5fT1iUNXppBUYSYQk2dztz5M3lNpbkza6xI/or
-3f/ro3oSRhErX8OL/iwREX7IajLGECwnJTjO9Jon6rv3bRPVVpQ8cXFLf4kezX/j
-0sJPCUTiVivJvS1Jl7Fnl3cczhl2n83dK6LMHMZt/ObmIzF4AiiebacXrivyqzI/
-NOCvVDY1d97JXk/R+uzpZ9wgw3nhuStP1hsyvB/lJi1OFWH9ZWhwDXzRhWzUke+p
-IbbMUz/M7/FJKKXTfTUEXwHcPEaykQ==
-=qcRL
------END PGP SIGNATURE-----
-
---ixudpacwom357zfm--
+Kind regards
+Uffe
 
