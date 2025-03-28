@@ -1,492 +1,526 @@
-Return-Path: <linux-renesas-soc+bounces-14951-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14952-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95367A745C0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 09:55:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3FD8A745E7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 10:02:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 32D6917BE35
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 08:55:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B39A3188DD79
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 09:02:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3722521147C;
-	Fri, 28 Mar 2025 08:55:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A26291624C2;
+	Fri, 28 Mar 2025 09:02:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="l2DkOnrh"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Bc10YUyR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out.smtpout.orange.fr (out-67.smtpout.orange.fr [193.252.22.67])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010053.outbound.protection.outlook.com [52.101.229.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E115714375D;
-	Fri, 28 Mar 2025 08:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.67
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743152144; cv=none; b=IgsD//UisAutgFo/8kd3Xp0/Gz64QC1GJnmYl6BUtJuZ+LdXxhsZGP7iw1UijXOnIsqOujmCrVwE9ZxLJk70N7ylkAcSl11xyV6uhV9uNJRVOvaBmZ8knDCkAaa8J512t8xJkkGWtQv2+v+QIqLbk2buuJNfcYTm1vMAe2r3/nk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743152144; c=relaxed/simple;
-	bh=i2UCd9CTJqdl1BvJsa74TjHe+SdFc+PagWycl5GOCfk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iRtcBuMA+MHUDmZe0wDrNbXNaV/z+MF3DI7t0gPYnouFV8c3kncotpE+/BQgNr6glT/VVMnkBbhAa3i0A0omjFw+arBSOE7BrgNFN/x4Epecb4kl95m0IAxQVb/e6yNutvsVJD9ga2iaIUi8sBqkqyGBPnzFtRtUTFTdcF9ojxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=l2DkOnrh; arc=none smtp.client-ip=193.252.22.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [172.16.82.72] ([124.33.176.97])
-	by smtp.orange.fr with ESMTPA
-	id y5TptIcsRhqDwy5TttfmyL; Fri, 28 Mar 2025 09:54:29 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1743152069;
-	bh=KqC0MBA/hDJkF4hZt485kZTvkFQNygloRMOLFewr1Do=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=l2DkOnrhJEcMUkg4cwmJ1/1V9qk1g60nK4rugrphc+UK804HpAkSUf6x88OQajzS5
-	 o65gyXqnNpTK1UvLjfNpRk5byNtwTVnT9te/I8T1R5Ul0+qQroRhDhaVvDPAp8TV8e
-	 Uj0kqqcDyNMtfZQu1nVKpfkPNfh6VHkUG4niEIExebRlUQeAwzedChZQL33v3XtGp/
-	 zVwawPt8U3JxoRc6iJsX5fcd2js+xZiLsi0MCNw+nnwysKHRobDy6gBiUJQckEyvwk
-	 JVXSfEIiAGSvPn39wG8TWjK+4HenDH3MTmJ3LjkysGLfd9AVzjPJJJ9dWFHHfczZQh
-	 Q0diFNSkahlWw==
-X-ME-Helo: [172.16.82.72]
-X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
-X-ME-Date: Fri, 28 Mar 2025 09:54:29 +0100
-X-ME-IP: 124.33.176.97
-Message-ID: <7ff93ff9-f578-4be2-bdc6-5b09eab64fe6@wanadoo.fr>
-Date: Fri, 28 Mar 2025 17:54:21 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F301C84CA;
+	Fri, 28 Mar 2025 09:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743152534; cv=fail; b=qm0BzM2k2IBVrnMZ+4+c2DSXpzout/H2heVbXG+LA0lR6rakiJUqgPdA2ooLGfMmD129uejDXoCbor3ou8geQKEvr74VLA93WiWHhtYkVpGsq2174uNlqp/6lMxzGUicJkk5467ZpQ6UFhPzaMc4JeJ0PB+BzmWL0w3lkVDC3/U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743152534; c=relaxed/simple;
+	bh=O22H5T0i1E2DfNucrrXStycLPbAgnZ2nk94cGzoAOow=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=QGFyEO5AggWflNsIe/FQ1njHXGFxvkBFTe1WUzW3XXw8fETcpI2d8cuLs5mFwOT7vKJ7Im5YUcgAJW/UdZPsqNPhodSM1vfw2ttelduQmoLeH1vro/OJdjGlcm5jhH1zdP0ZzFodIaUCEVal3hMjm9A30Gi9l414EST78RnkftY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=Bc10YUyR; arc=fail smtp.client-ip=52.101.229.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v8xIKgDd/IwoUgb/OhNa8LwvreI+bA848QRp8Vhl7zQnYlxY552WNi7HvRsv3C5lCAiYM64W8YK51TAAFIcJNTzPOgtvsRY4vjVTx3vf/CFPnpGDv15DfrFmBlq/cmWs9iSXfqbWo3GxJ5kC357hDsQSiV5IDSdhIkDeSoBgrF1Rmbw+ih4InDjS22B2ZtIslWEgrzkUT68RiGzIPF7IYrS34/4dbN41oJddsobuVWWAD3kuETINtNS2Qh1DhiIxinnwlaPF0QpB0bnSED8nzribCJ7nMgkdpyMAv8RxBs9d8WmhMgRWUcL5nxXNb2BRadQ1tZKffuEQyBBxlJta+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O22H5T0i1E2DfNucrrXStycLPbAgnZ2nk94cGzoAOow=;
+ b=FJg8oWcdRR8ygz7QbWEjRL+w3ZqtB9cKHgWenN9MlVYKOr72pQZMk45p71telCwpEUuzlH7ID3CZPDor71Je7EeYeU5Rfts987eDfjHPPxowRWC+1MEQ5D2+tCfS8ZpUpP2hPHgxhuql56d8qiukXy6UClSCJ8JaW1gVPrzmIukbOjzFR98ZlyiM2W5yuEoYsWQoqPonnpSZM4jj5m8FJH++X9n9PS6lUPv6WJCH5gSnsSk+j/5pT4wgqHdt5zqosezphKbv2NQKQEGSh0hmJ8L9RLJrc8DyG8m11EiL7b8Fg1MzVLFUTuysLKik0VpPwzWNVu3z1oGSiNV43/pyJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O22H5T0i1E2DfNucrrXStycLPbAgnZ2nk94cGzoAOow=;
+ b=Bc10YUyRjTnwojEe3/LDshtezFhO9MOY6Vjt/E0j0836+oqy/7ONqrL+ixed09fC2gbGKoFFeFEpCOSPmIlCDforzKxbBodF7uhIuY+CYGJoFKAGx5KNIuJdd3srukzgd8N4J6WU6oze4XlhuQOwPJAU+h34HhHk5OE0lt5cmnc=
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
+ by TY7PR01MB14375.jpnprd01.prod.outlook.com (2603:1096:405:242::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Fri, 28 Mar
+ 2025 09:02:07 +0000
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::7497:30af:3081:1479]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::7497:30af:3081:1479%5]) with mapi id 15.20.8534.043; Fri, 28 Mar 2025
+ 09:02:07 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+CC: Wolfram Sang <wsa+renesas@sang-engineering.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?=
+	<u.kleine-koenig@baylibre.com>, "linux-can@vger.kernel.org"
+	<linux-can@vger.kernel.org>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>
+Subject: RE: [PATCH v7 04/18] can: rcar_canfd: Drop RCANFD_GAFLCFG_GETRNC
+ macro
+Thread-Topic: [PATCH v7 04/18] can: rcar_canfd: Drop RCANFD_GAFLCFG_GETRNC
+ macro
+Thread-Index: AQHbnkl4fNGnUGcaSk6ahnzsnbfIEbOIQWuAgAAAgVA=
+Date: Fri, 28 Mar 2025 09:02:07 +0000
+Message-ID:
+ <TYCPR01MB11332F02DC51A974450A676B486A02@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+References: <20250326122003.122976-1-biju.das.jz@bp.renesas.com>
+ <20250326122003.122976-5-biju.das.jz@bp.renesas.com>
+ <7ff93ff9-f578-4be2-bdc6-5b09eab64fe6@wanadoo.fr>
+In-Reply-To: <7ff93ff9-f578-4be2-bdc6-5b09eab64fe6@wanadoo.fr>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|TY7PR01MB14375:EE_
+x-ms-office365-filtering-correlation-id: e7e3ec27-5285-40fb-0e9d-08dd6dd737ab
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?eEk4MEhteG9JSVNMU2pQdU5kRXRGQURZQk9jV0RuOHdRUExGVUlZYkJPeUdR?=
+ =?utf-8?B?NjZ5ZlprSk9PQ3RkanEzRHNhSWl6NmZxOWNQVDdpSjAyYTQ4QVNVcUVtbGds?=
+ =?utf-8?B?eVZxaUxnU3pRTmM4VW1Xa3AyY2N4OGduSENZd1phZnRxNEJsejl0TlNQb0V6?=
+ =?utf-8?B?ZGRjcWpMNkdUcmVDRWVpYjVBa1loYThkQVFsU25UTVFDM2xJMzllTVp4YmNl?=
+ =?utf-8?B?WXZJN1M5RDl5SUtsZXBSc0RUT1BhcVM4RC8rbzBpSkQ5amxUWEhLZ3ZrZXZ4?=
+ =?utf-8?B?Sk5YRmRTWXJhSlJYN3FmVjFQUkh4RE1kT1FubTRGZ2toVlVGdXh4TklkSjhu?=
+ =?utf-8?B?aGNZOWNpVUFoUzNDZHZDQXNWZ0pDdFhSR2YwdlhxR3dBMHpwc2tZS2FhSjhZ?=
+ =?utf-8?B?WmlwN3hIZ0dYbUxHZVAwaWwxYlJaeTRkMWJYQUMwc1lnaUFscE16bSs1ckhU?=
+ =?utf-8?B?am8xWWh6R250TU9SSTBPaElpc2VBSVppWEFLRHRhdDc0NDBYc2hRMTFpdkc2?=
+ =?utf-8?B?dytzMlQ4aVFUbWh1bGlHQXcrb0x1YUtUay9wakswekRQK0pQSzFBZEgrb3lK?=
+ =?utf-8?B?eDkyems2bGpKN1hsYzVqSmtLOXZtUUdxbW82VUkzYUJndDJaQ2FKbVBQcmtq?=
+ =?utf-8?B?dmhBUmx3ekdZQlhNdUgvejBWZmQ1VDduY3VhbXovOUVIaTZXTVlzcmxrUFdr?=
+ =?utf-8?B?bTNzMjc4aEp1VWphTGlkaXR4ajMvbkVJaUloSDBoRVhGUW8zNVh4aXZZcDM3?=
+ =?utf-8?B?ejJhZnU5M2RDanpSNmtFLzk2R1M0OWhqNVJaK2g2akc4Y0JwbmNkVWVybUox?=
+ =?utf-8?B?d0lGY2VtYU5FVWpmMVJBOEdyak1BRDVrUndvVUdrMS9odXBxa2wzUUlaMk96?=
+ =?utf-8?B?OWY5MG9lNndsc1M5ZWEwazR4QTUveEZYbmFDK3VYWTBhekVGZ0dvSm81bWVT?=
+ =?utf-8?B?TktIUjB5VzVxRnRnbmdlMU9ZTXpiRFhmZjFrVkZoK0VnbTgvcDMwbzQxaU5N?=
+ =?utf-8?B?WXg4M05MVEszZWhvR2EweVFmcGMrK2NCcGc2cWdUUTNTMXVsMURaVVF6aENY?=
+ =?utf-8?B?Zll2WUIzdi9teUV5VFhoTE1MTTdmQ2Z2NXdzYk5rSkRZeG1MVU56alJFU3Ay?=
+ =?utf-8?B?NUYzYVJidzlNb0x2c0VMQUR0azRDRW10QU90UTM5MllFaDBBZVY2RFpTRGpI?=
+ =?utf-8?B?enJLcXloUVVmUVZPTWwxMENIUEY5TGowN2hQNnc0VFl3eHJjUTZyYkhTSDI3?=
+ =?utf-8?B?R0V0YkZzWmE1QTljdU9NeTZxUG1iL0gzQVlpdHkvbGh3SUFuTGcydndCd25Z?=
+ =?utf-8?B?TytXMWpValhFdlRMaWZLQzB3U1NNVVBGNjVneVF2R0FGUWp2TFpDcGl6dXBK?=
+ =?utf-8?B?QkpOWm5NNy9qSCtaNHJ6UGtYOFk1L2ZLb1pHRFJheDA4M2lmSkNHdzdvMVNu?=
+ =?utf-8?B?REFPa0FpSHhNbTErM1RVTEVhb3MzK3c4ZjBEaStGWFI5anlSWUxVTXRibmln?=
+ =?utf-8?B?emtrSWp3S2R6K0xzSzdyR2hZMi8zU0d6OE9tQ1Y3bHhtTE51Zi9BbkNrcU9R?=
+ =?utf-8?B?N09sdWFlVVdRbTNUZFBpVXFYbWVYTkx1L3JRSEIydG1Ed0R2aWU2WXgzanYr?=
+ =?utf-8?B?TVFjcGJDSVBVYWJ6RWRzSzVESk8xM1ZCdU9pdW82YmpBZHNnTHR3eE02a0pj?=
+ =?utf-8?B?Zzl4bHFDQTYrRlpKODJTaWRmL3RqejlIeHJVZlN0Qjg4MnBkLzQxUm4zMVhC?=
+ =?utf-8?B?SGZRczR6WjRmS2Vmc1VmZmdlaklJRnRzak5UbzVTdXB4QmY4MWdiNmU2UGMr?=
+ =?utf-8?B?Tmhlc2pydDhqWlRMVW5hWFZVUk12d2dDQTRXWGFEQVB0Y1dNOWlwbVUydG9X?=
+ =?utf-8?B?Qnk4VGtrZ0wyN2RBc25MbSs3dzM4QlMxemhESTlMYksxN1lReGxMWkNZUmFB?=
+ =?utf-8?Q?kIV6wnzO3gI=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?R2pPUktSYTh4T1QxSmVFelcyZGVnbWNiampTM0RuenA3ZFdsZFF1SmdQYUVR?=
+ =?utf-8?B?cDBTZUs2cng3eXBmR3pmYWJpMTRMSXBpckpGYUtiU1NuaklEeklEelZrYVNk?=
+ =?utf-8?B?bDVkWXcycER0WkZEK2ZOOHR3TXZYUTJrL25welFKT0hPeSszMXhPTkNOYXYw?=
+ =?utf-8?B?cmUwcVlqS3dxYmpwQjdzOHd4d21JOXplakNTa3FtODJaZCtxejBIdC9PSzI2?=
+ =?utf-8?B?ZWNsYXdRd0ZnZzM3WWNDOThRRzVpSlZKN28rWFdaUE1CYm9WVmZYM1lKcGFt?=
+ =?utf-8?B?SDdWUTlwSSt2L3ZCWlhUVmRQVytzeC9mRDhZM1dOY1VZdjRzTFYzUHREUkly?=
+ =?utf-8?B?NHQ1dUN1VmVJTWs0NFZPMjNDMnpsNTBKV05hQUhBWUJrK1lVaXlqNjd4N0Q2?=
+ =?utf-8?B?ek1xQVVrUnBnNlhrdGRONnBpREdXamtHTzZ6c3pZbXZrdnZtOHFWTEl4RGVB?=
+ =?utf-8?B?bWxOQlgyeEl4ejhCR1BIaitXRXBQakZSeXJkUjhnS2dzanBFS09MdlFiV0hE?=
+ =?utf-8?B?L3Q1aVpWMU5pcmJQQUhwVWZPZ2JLcU83eXhxd3VYS0NXeU9TMUp6R2NYbGhR?=
+ =?utf-8?B?bGlVODlzd1BVTXRUZm5UWkNtUGR2bGo4WHJ4VG8wZVNJZktxU2xOWExSejhB?=
+ =?utf-8?B?U1ZXQjlyeDNoMEJ1bjhlckoxbkhBcUpudkFZMjFPTGVIN1luZEpvMU9IL3pU?=
+ =?utf-8?B?dEN3d3gvbGpmRGFyL0UzVVkwRm1MWFY4bVZqMGRFMFJvUkI4ZkVtL3A3U1hp?=
+ =?utf-8?B?aFdtalpWMmRUT2RtUFBpYTR3YlYzQWJzL0ZDMExjV0NHOE5zbENqSDhCSmtF?=
+ =?utf-8?B?M1kyTzk1Mi9PVWNLMG9PTkFZODFhZEt1WE83a3lLb0pJekZHN2VJaHo5TGtv?=
+ =?utf-8?B?d2hVY2s4bGZaeGtMUlhmMjk2NzkwYUZVV1J6R2Z6SlgxVnlXZFJzK2EwNERQ?=
+ =?utf-8?B?dzFmTC95MjdMOEVEcERjbkJhRXNMVFF1aTU0a0FlQmVEUWJqOE9zOXRhczBt?=
+ =?utf-8?B?eG5ZNi93QlFoVDF2V0dtS1FKTnNPbjBQUndHMHljeWZpTUZKUi82b2hkbWdY?=
+ =?utf-8?B?MjBneldMQ3kxRHNXREp4VFJpMEZTYUNySU5qWDBxSVpUcEo0WFkwV2NSOGNi?=
+ =?utf-8?B?czNUTlE3WVZIeWljZERnekNva1pqVDZXOWlvL2YwVDJTenE5cUNiZEkxdWFj?=
+ =?utf-8?B?R09qbG5XU2R0aDllWTZ2SGdUNTVVenZSWU9xT04wa2dUc3k1emE3ZnY3Q2Fs?=
+ =?utf-8?B?aTl5cnd3TTNVVHEycFNINWhReXpyMm1jcnhhZnF6Vm1wSG9JektNdVpvdndB?=
+ =?utf-8?B?dGdMbWs2d2hZSjBwN25uVnpOS1FqRVN2VGlaVTVuRUswR1Q0Y1ZSaFo5ZnVL?=
+ =?utf-8?B?UFVTZ3EyNUR3enE1Z0t5TDJYTjYvaXM4VVVwK1RUeXhtUXUwb2U5c3duK3Rv?=
+ =?utf-8?B?aDNlTDhuWXJmS25pMWpGaVBuMjJmbHdWTXpWQTdYekJBR2t3ZThldWR3MTNh?=
+ =?utf-8?B?c1BWaGxqVlRhaHpLWERKTnA1NmpvUzZ5L3ozVUY4TnZHV2dpQzdaQ21XL2Rn?=
+ =?utf-8?B?N0NBcFZuZk9RVW5OeVZBR2F2NnhTMlM3ODZqYzRrd1ViYXV1ZmdpcUNxQmk4?=
+ =?utf-8?B?THIxNGRldGlGTlRudEFmbFhxOTFSSDJWYkVXTWxYOEFOUjNoV0pFSTNVZlZM?=
+ =?utf-8?B?NHVOVFp4ZkpveVZLQm5NaGhXdmFjV1ZYU0VSa0ZIbnBaZVF5TE5wTXlJeE4z?=
+ =?utf-8?B?OHJ2TzJ0bkl1TzFWUXN5WHZTV1NtKzU1SWkvckM5OFlyZ2cwQkxBdEg0UnZP?=
+ =?utf-8?B?L1d4VitHRnRBRy9TcEhXUGt0REttSzJ0dlBqRHBCVkh4VlBZdjhWNnF3YTFH?=
+ =?utf-8?B?R2cwSTc3bzFlN0NMS2JiUDh3RTc3YnFJUEJwc1JWTlVQTzYvMEpLZGZNSXBw?=
+ =?utf-8?B?YmJKYWpTejJ3YWFTZHR0d0IwcjVOeDhxbTBHVCt1VGc0TzE1ZzJRSDQyQ3Bk?=
+ =?utf-8?B?eG9YWnVZa29VRzBRUkpqQzVPV0czSCszRmZ1ZlRvUkdZcktibnYxZy9zSWo1?=
+ =?utf-8?B?ZU9lZWtqeGNKb094TDlNSHVVdjlKMVU3c0F0dW5TekFzTXVTK3ZOY3liUXZh?=
+ =?utf-8?B?ZmRPWXJMdXBYV0pCQ3JLWG15R1R6ZkVaaUFoMmxacDVLWVNWYkNSV1Z6MVp0?=
+ =?utf-8?B?enc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 04/18] can: rcar_canfd: Drop RCANFD_GAFLCFG_GETRNC
- macro
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- linux-can@vger.kernel.org,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
- Marc Kleine-Budde <mkl@pengutronix.de>
-References: <20250326122003.122976-1-biju.das.jz@bp.renesas.com>
- <20250326122003.122976-5-biju.das.jz@bp.renesas.com>
-Content-Language: en-US
-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
- GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
- bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
- BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
- 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
- yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
- CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
- ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <20250326122003.122976-5-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7e3ec27-5285-40fb-0e9d-08dd6dd737ab
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2025 09:02:07.5723
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9/AWwVriIkryWuOhZjGT0SXmg+aiwTXx6iPYc/PJgzDe59pYL9t5lx6HqYiR+cEAJEeCTHHu2m0C/eEKYmV8Lvvqwyuym4BdytY4PfqGD94=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB14375
 
-On 26/03/2025 at 21:19, Biju Das wrote:
-> Drop the unused macro RCANFD_GAFLCFG_GETRNC.
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v6->v7:
->  * No change.
-> v5->v6:
->  * Collected tag.
-> v5:
->  * New patch
-> ---
->  drivers/net/can/rcar/rcar_canfd.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-> index 2d9569fd0e0b..565a91c2ca83 100644
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -94,10 +94,6 @@
->  	(((x) & reg_gen4(gpriv, 0x1ff, 0xff)) << \
->  	 (reg_gen4(gpriv, 16, 24) - ((n) & 1) * reg_gen4(gpriv, 16, 8)))
->  
-> -#define RCANFD_GAFLCFG_GETRNC(gpriv, n, x) \
-> -	(((x) >> (reg_gen4(gpriv, 16, 24) - ((n) & 1) * reg_gen4(gpriv, 16, 8))) & \
-> -	 reg_gen4(gpriv, 0x1ff, 0xff))
-> -
->  /* RSCFDnCFDGAFLECTR / RSCFDnGAFLECTR */
->  #define RCANFD_GAFLECTR_AFLDAE		BIT(8)
->  #define RCANFD_GAFLECTR_AFLPN(gpriv, x)	((x) & reg_gen4(gpriv, 0x7f, 0x1f))
-
-
-It seems to me that there are a ton of unused macro in this module:
-
-Why are you removing just RCANFD_GAFLCFG_GETRNC an not the others?
-
-  $ make W=2 drivers/net/can/rcar/rcar_canfd.o
-  (...)
-  drivers/net/can/rcar/rcar_canfd.c: At top level:
-  drivers/net/can/rcar/rcar_canfd.c:159: warning: macro
-"RCANFD_CSTS_TRMSTS" is not used [-Wunused-macros]
-    159 | #define RCANFD_CSTS_TRMSTS              BIT(5)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:351: warning: macro "RCANFD_TMTASTS"
-is not used [-Wunused-macros]
-    351 | #define RCANFD_TMTASTS(y)               (0x0380 + (0x04 * (y)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:259: warning: macro
-"RCANFD_CFPTR_CFPTR" is not used [-Wunused-macros]
-    259 | #define RCANFD_CFPTR_CFPTR(x)           (((x) & 0xfff) << 16)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:430: warning: macro
-"RCANFD_C_RPGACC" is not used [-Wunused-macros]
-    430 | #define RCANFD_C_RPGACC(r)              (0x1900 + (0x04 * (r)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:135: warning: macro
-"RCANFD_CCTR_BOM_ISO" is not used [-Wunused-macros]
-    135 | #define RCANFD_CCTR_BOM_ISO             (0x0 << 21)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:297: warning: macro "RCANFD_GTSC" is
-not used [-Wunused-macros]
-    297 | #define RCANFD_GTSC                     (0x0094)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:331: warning: macro "RCANFD_FMSTS"
-is not used [-Wunused-macros]
-    331 | #define RCANFD_FMSTS                    (0x0240)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:61: warning: macro
-"RCANFD_GCTR_DEIE" is not used [-Wunused-macros]
-     61 | #define RCANFD_GCTR_DEIE                BIT(8)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:249: warning: macro
-"RCANFD_CFSTS_CFFLL" is not used [-Wunused-macros]
-    249 | #define RCANFD_CFSTS_CFFLL              BIT(1)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:356: warning: macro "RCANFD_TXQCC"
-is not used [-Wunused-macros]
-    356 | #define RCANFD_TXQCC(m)                 (0x03a0 + (0x04 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:154: warning: macro
-"RCANFD_CCTR_CHDMC_CHLT" is not used [-Wunused-macros]
-    154 | #define RCANFD_CCTR_CHDMC_CHLT          (0x2)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:378: warning: macro "RCANFD_GLOCKK"
-is not used [-Wunused-macros]
-    378 | #define RCANFD_GLOCKK                   (0x047c)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:82: warning: macro
-"RCANFD_GERFL_DEF" is not used [-Wunused-macros]
-     82 | #define RCANFD_GERFL_DEF                BIT(0)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:423: warning: macro "RCANFD_C_TMPTR"
-is not used [-Wunused-macros]
-    423 | #define RCANFD_C_TMPTR(p)               (0x1004 + (0x10 * (p)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:106: warning: macro
-"RCANFD_GAFLID_GAFLLB" is not used [-Wunused-macros]
-    106 | #define RCANFD_GAFLID_GAFLLB            BIT(29)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:372: warning: macro
-"RCANFD_GTINTSTS1" is not used [-Wunused-macros]
-    372 | #define RCANFD_GTINTSTS1                (0x0464)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:303: warning: macro "RCANFD_RMNB" is
-not used [-Wunused-macros]
-    303 | #define RCANFD_RMNB                     (0x00a4)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:305: warning: macro "RCANFD_RMND" is
-not used [-Wunused-macros]
-    305 | #define RCANFD_RMND(y)                  (0x00a8 + (0x04 * (y)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:495: warning: macro
-"RCANFD_CHANNELS_MASK" is not used [-Wunused-macros]
-    495 | #define RCANFD_CHANNELS_MASK
-BIT((RCANFD_NUM_CHANNELS) - 1)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:132: warning: macro
-"RCANFD_CCTR_CTME" is not used [-Wunused-macros]
-    132 | #define RCANFD_CCTR_CTME                BIT(24)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:345: warning: macro "RCANFD_TMTRSTS"
-is not used [-Wunused-macros]
-    345 | #define RCANFD_TMTRSTS(y)               (0x0350 + (0x04 * (y)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:335: warning: macro "RCANFD_CFRISTS"
-is not used [-Wunused-macros]
-    335 | #define RCANFD_CFRISTS                  (0x0248)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:337: warning: macro "RCANFD_CFTISTS"
-is not used [-Wunused-macros]
-    337 | #define RCANFD_CFTISTS                  (0x024c)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:363: warning: macro "RCANFD_THLCC"
-is not used [-Wunused-macros]
-    363 | #define RCANFD_THLCC(m)                 (0x0400 + (0x04 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:161: warning: macro
-"RCANFD_CSTS_EPSTS" is not used [-Wunused-macros]
-    161 | #define RCANFD_CSTS_EPSTS               BIT(3)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:444: warning: macro
-"RCANFD_F_CFDCRC" is not used [-Wunused-macros]
-    444 | #define RCANFD_F_CFDCRC(m)              (0x0510 + (0x20 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:399: warning: macro "RCANFD_C_RMDF0"
-is not used [-Wunused-macros]
-    399 | #define RCANFD_C_RMDF0(q)               (0x0608 + (0x10 * (q)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:400: warning: macro "RCANFD_C_RMDF1"
-is not used [-Wunused-macros]
-    400 | #define RCANFD_C_RMDF1(q)               (0x060c + (0x10 * (q)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:225: warning: macro
-"RCANFD_RFPTR_RFPTR" is not used [-Wunused-macros]
-    225 | #define RCANFD_RFPTR_RFPTR(x)           (((x) >> 16) & 0xfff)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:482: warning: macro
-"RCANFD_F_TMFDCTR" is not used [-Wunused-macros]
-    482 | #define RCANFD_F_TMFDCTR(p)             (0x4008 + (0x20 * (p)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:66: warning: macro
-"RCANFD_GCTR_GMDC_GTEST" is not used [-Wunused-macros]
-     66 | #define RCANFD_GCTR_GMDC_GTEST          (0x2)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:54: warning: macro
-"RCANFD_GCFG_TPRI" is not used [-Wunused-macros]
-     54 | #define RCANFD_GCFG_TPRI                BIT(0)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:138: warning: macro
-"RCANFD_CCTR_TDCVFIE" is not used [-Wunused-macros]
-    138 | #define RCANFD_CCTR_TDCVFIE             BIT(19)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:80: warning: macro
-"RCANFD_GERFL_THLES" is not used [-Wunused-macros]
-     80 | #define RCANFD_GERFL_THLES              BIT(2)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:483: warning: macro "RCANFD_F_TMDF"
-is not used [-Wunused-macros]
-    483 | #define RCANFD_F_TMDF(p, b)             (0x400c + (0x20 * (p))
-+ (0x04 * (b)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:347: warning: macro
-"RCANFD_TMTARSTS" is not used [-Wunused-macros]
-    347 | #define RCANFD_TMTARSTS(y)              (0x0360 + (0x04 * (y)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:202: warning: macro
-"RCANFD_FDCFG_TDCE" is not used [-Wunused-macros]
-    202 | #define RCANFD_FDCFG_TDCE               BIT(9)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:204: warning: macro
-"RCANFD_FDCFG_TDCO" is not used [-Wunused-macros]
-    204 | #define RCANFD_FDCFG_TDCO(x)            (((x) & 0x7f) >> 16)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:158: warning: macro
-"RCANFD_CSTS_RECSTS" is not used [-Wunused-macros]
-    158 | #define RCANFD_CSTS_RECSTS              BIT(6)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:139: warning: macro
-"RCANFD_CCTR_SOCOIE" is not used [-Wunused-macros]
-    139 | #define RCANFD_CCTR_SOCOIE              BIT(18)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:53: warning: macro "RCANFD_GCFG_DCE"
-is not used [-Wunused-macros]
-     53 | #define RCANFD_GCFG_DCE                 BIT(1)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:216: warning: macro
-"RCANFD_RFSTS_RFFLL" is not used [-Wunused-macros]
-    216 | #define RCANFD_RFSTS_RFFLL              BIT(1)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:358: warning: macro "RCANFD_TXQSTS"
-is not used [-Wunused-macros]
-    358 | #define RCANFD_TXQSTS(m)                (0x03c0 + (0x04 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:255: warning: macro
-"RCANFD_CFID_CFID_MASK" is not used [-Wunused-macros]
-    255 | #define RCANFD_CFID_CFID_MASK(x)        ((x) & 0x1fffffff)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:376: warning: macro "RCANFD_GTSTCTR"
-is not used [-Wunused-macros]
-    376 | #define RCANFD_GTSTCTR                  (0x046c)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:57: warning: macro
-"RCANFD_GCTR_TSRST" is not used [-Wunused-macros]
-     57 | #define RCANFD_GCTR_TSRST               BIT(16)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:422: warning: macro "RCANFD_C_TMID"
-is not used [-Wunused-macros]
-    422 | #define RCANFD_C_TMID(p)                (0x1000 + (0x10 * (p)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:333: warning: macro "RCANFD_RFISTS"
-is not used [-Wunused-macros]
-    333 | #define RCANFD_RFISTS                   (0x0244)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:140: warning: macro
-"RCANFD_CCTR_EOCOIE" is not used [-Wunused-macros]
-    140 | #define RCANFD_CCTR_EOCOIE              BIT(17)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:71: warning: macro
-"RCANFD_GSTS_GHLTSTS" is not used [-Wunused-macros]
-     71 | #define RCANFD_GSTS_GHLTSTS             BIT(1)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:481: warning: macro "RCANFD_F_TMPTR"
-is not used [-Wunused-macros]
-    481 | #define RCANFD_F_TMPTR(p)               (0x4004 + (0x20 * (p)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:329: warning: macro "RCANFD_FFSTS"
-is not used [-Wunused-macros]
-    329 | #define RCANFD_FFSTS                    (0x023c)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:360: warning: macro "RCANFD_TXQPCTR"
-is not used [-Wunused-macros]
-    360 | #define RCANFD_TXQPCTR(m)               (0x03e0 + (0x04 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:453: warning: macro "RCANFD_F_RMDF"
-is not used [-Wunused-macros]
-    453 | #define RCANFD_F_RMDF(q, b)             (0x200c + (0x04 * (b))
-+ (0x20 * (q)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:340: warning: macro "RCANFD_TMC" is
-not used [-Wunused-macros]
-    340 | #define RCANFD_TMC(p)                   (0x0250 + (0x01 * (p)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:370: warning: macro
-"RCANFD_GTINTSTS0" is not used [-Wunused-macros]
-    370 | #define RCANFD_GTINTSTS0                (0x0460)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:353: warning: macro "RCANFD_TMIEC"
-is not used [-Wunused-macros]
-    353 | #define RCANFD_TMIEC(y)                 (0x0390 + (0x04 * (y)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:398: warning: macro "RCANFD_C_RMPTR"
-is not used [-Wunused-macros]
-    398 | #define RCANFD_C_RMPTR(q)               (0x0604 + (0x10 * (q)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:260: warning: macro
-"RCANFD_CFPTR_CFTS" is not used [-Wunused-macros]
-    260 | #define RCANFD_CFPTR_CFTS(x)            (((x) & 0xff) << 0)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:97: warning: macro
-"RCANFD_GAFLCFG_GETRNC" is not used [-Wunused-macros]
-     97 | #define RCANFD_GAFLCFG_GETRNC(gpriv, n, x) \
-        |
-  drivers/net/can/rcar/rcar_canfd.c:367: warning: macro "RCANFD_THLPCTR"
-is not used [-Wunused-macros]
-    367 | #define RCANFD_THLPCTR(m)               (0x0440 + (0x04 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:442: warning: macro
-"RCANFD_F_CFDCTR" is not used [-Wunused-macros]
-    442 | #define RCANFD_F_CFDCTR(m)              (0x0508 + (0x20 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:203: warning: macro
-"RCANFD_FDCFG_TDCOC" is not used [-Wunused-macros]
-    203 | #define RCANFD_FDCFG_TDCOC              BIT(8)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:452: warning: macro
-"RCANFD_F_RMFDSTS" is not used [-Wunused-macros]
-    452 | #define RCANFD_F_RMFDSTS(q)             (0x2008 + (0x20 * (q)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:250: warning: macro
-"RCANFD_CFSTS_CFEMP" is not used [-Wunused-macros]
-    250 | #define RCANFD_CFSTS_CFEMP              BIT(0)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:180: warning: macro
-"RCANFD_CERFL_BORF" is not used [-Wunused-macros]
-    180 | #define RCANFD_CERFL_BORF               BIT(4)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:365: warning: macro "RCANFD_THLSTS"
-is not used [-Wunused-macros]
-    365 | #define RCANFD_THLSTS(m)                (0x0420 + (0x04 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:160: warning: macro
-"RCANFD_CSTS_BOSTS" is not used [-Wunused-macros]
-    160 | #define RCANFD_CSTS_BOSTS               BIT(4)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:451: warning: macro "RCANFD_F_RMPTR"
-is not used [-Wunused-macros]
-    451 | #define RCANFD_F_RMPTR(q)               (0x2004 + (0x20 * (q)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:424: warning: macro "RCANFD_C_TMDF0"
-is not used [-Wunused-macros]
-    424 | #define RCANFD_C_TMDF0(p)               (0x1008 + (0x10 * (p)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:425: warning: macro "RCANFD_C_TMDF1"
-is not used [-Wunused-macros]
-    425 | #define RCANFD_C_TMDF1(p)               (0x100c + (0x10 * (p)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:450: warning: macro "RCANFD_F_RMID"
-is not used [-Wunused-macros]
-    450 | #define RCANFD_F_RMID(q)                (0x2000 + (0x20 * (q)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:397: warning: macro "RCANFD_C_RMID"
-is not used [-Wunused-macros]
-    397 | #define RCANFD_C_RMID(q)                (0x0600 + (0x10 * (q)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:443: warning: macro
-"RCANFD_F_CFDSTS" is not used [-Wunused-macros]
-    443 | #define RCANFD_F_CFDSTS(m)              (0x050c + (0x20 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:70: warning: macro
-"RCANFD_GSTS_GSLPSTS" is not used [-Wunused-macros]
-     70 | #define RCANFD_GSTS_GSLPSTS             BIT(2)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:349: warning: macro "RCANFD_TMTCSTS"
-is not used [-Wunused-macros]
-    349 | #define RCANFD_TMTCSTS(y)               (0x0370 + (0x04 * (y)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:441: warning: macro
-"RCANFD_F_CFDCFG" is not used [-Wunused-macros]
-    441 | #define RCANFD_F_CFDCFG(m)              (0x0504 + (0x20 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:480: warning: macro "RCANFD_F_TMID"
-is not used [-Wunused-macros]
-    480 | #define RCANFD_F_TMID(p)                (0x4000 + (0x20 * (p)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:327: warning: macro "RCANFD_FESTS"
-is not used [-Wunused-macros]
-    327 | #define RCANFD_FESTS                    (0x0238)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:486: warning: macro
-"RCANFD_F_THLACC" is not used [-Wunused-macros]
-    486 | #define RCANFD_F_THLACC(m)              (0x6000 + (0x04 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:162: warning: macro
-"RCANFD_CSTS_SLPSTS" is not used [-Wunused-macros]
-    162 | #define RCANFD_CSTS_SLPSTS              BIT(2)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:488: warning: macro
-"RCANFD_F_RPGACC" is not used [-Wunused-macros]
-    488 | #define RCANFD_F_RPGACC(r)              (0x6400 + (0x04 * (r)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:137: warning: macro
-"RCANFD_CCTR_BOM_BEND" is not used [-Wunused-macros]
-    137 | #define RCANFD_CCTR_BOM_BEND            (0x2 << 21)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:428: warning: macro
-"RCANFD_C_THLACC" is not used [-Wunused-macros]
-    428 | #define RCANFD_C_THLACC(m)              (0x1800 + (0x04 * (m)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:374: warning: macro "RCANFD_GTSTCFG"
-is not used [-Wunused-macros]
-    374 | #define RCANFD_GTSTCFG                  (0x0468)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:342: warning: macro "RCANFD_TMSTS"
-is not used [-Wunused-macros]
-    342 | #define RCANFD_TMSTS(p)                 (0x02d0 + (0x01 * (p)))
-        |
-  drivers/net/can/rcar/rcar_canfd.c:163: warning: macro
-"RCANFD_CSTS_HLTSTS" is not used [-Wunused-macros]
-    163 | #define RCANFD_CSTS_HLTSTS              BIT(1)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:59: warning: macro
-"RCANFD_GCTR_THLEIE" is not used [-Wunused-macros]
-     59 | #define RCANFD_GCTR_THLEIE              BIT(10)
-        |
-  drivers/net/can/rcar/rcar_canfd.c:226: warning: macro
-"RCANFD_RFPTR_RFTS" is not used [-Wunused-macros]
-    226 | #define RCANFD_RFPTR_RFTS(x)            (((x) >> 0) & 0xffff)
-        |
-
-
-Yours sincerely,
-Vincent Mailhol
-
+SGkgVmluY2VudCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBWaW5j
+ZW50IE1haWxob2wgPG1haWxob2wudmluY2VudEB3YW5hZG9vLmZyPg0KPiBTZW50OiAyOCBNYXJj
+aCAyMDI1IDA4OjU0DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjcgMDQvMThdIGNhbjogcmNhcl9j
+YW5mZDogRHJvcCBSQ0FORkRfR0FGTENGR19HRVRSTkMgbWFjcm8NCj4gDQo+IE9uIDI2LzAzLzIw
+MjUgYXQgMjE6MTksIEJpanUgRGFzIHdyb3RlOg0KPiA+IERyb3AgdGhlIHVudXNlZCBtYWNybyBS
+Q0FORkRfR0FGTENGR19HRVRSTkMuDQo+ID4NCj4gPiBSZXZpZXdlZC1ieTogR2VlcnQgVXl0dGVy
+aG9ldmVuIDxnZWVydCtyZW5lc2FzQGdsaWRlci5iZT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1
+IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+ID4gLS0tDQo+ID4gdjYtPnY3Og0K
+PiA+ICAqIE5vIGNoYW5nZS4NCj4gPiB2NS0+djY6DQo+ID4gICogQ29sbGVjdGVkIHRhZy4NCj4g
+PiB2NToNCj4gPiAgKiBOZXcgcGF0Y2gNCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9uZXQvY2FuL3Jj
+YXIvcmNhcl9jYW5mZC5jIHwgNCAtLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA0IGRlbGV0aW9u
+cygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2Fu
+ZmQuYw0KPiA+IGIvZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jDQo+ID4gaW5kZXgg
+MmQ5NTY5ZmQwZTBiLi41NjVhOTFjMmNhODMgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9uZXQv
+Y2FuL3JjYXIvcmNhcl9jYW5mZC5jDQo+ID4gKysrIGIvZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNh
+cl9jYW5mZC5jDQo+ID4gQEAgLTk0LDEwICs5NCw2IEBADQo+ID4gIAkoKCh4KSAmIHJlZ19nZW40
+KGdwcml2LCAweDFmZiwgMHhmZikpIDw8IFwNCj4gPiAgCSAocmVnX2dlbjQoZ3ByaXYsIDE2LCAy
+NCkgLSAoKG4pICYgMSkgKiByZWdfZ2VuNChncHJpdiwgMTYsIDgpKSkNCj4gPg0KPiA+IC0jZGVm
+aW5lIFJDQU5GRF9HQUZMQ0ZHX0dFVFJOQyhncHJpdiwgbiwgeCkgXA0KPiA+IC0JKCgoeCkgPj4g
+KHJlZ19nZW40KGdwcml2LCAxNiwgMjQpIC0gKChuKSAmIDEpICogcmVnX2dlbjQoZ3ByaXYsIDE2
+LCA4KSkpICYgXA0KPiA+IC0JIHJlZ19nZW40KGdwcml2LCAweDFmZiwgMHhmZikpDQo+ID4gLQ0K
+PiA+ICAvKiBSU0NGRG5DRkRHQUZMRUNUUiAvIFJTQ0ZEbkdBRkxFQ1RSICovDQo+ID4gICNkZWZp
+bmUgUkNBTkZEX0dBRkxFQ1RSX0FGTERBRQkJQklUKDgpDQo+ID4gICNkZWZpbmUgUkNBTkZEX0dB
+RkxFQ1RSX0FGTFBOKGdwcml2LCB4KQkoKHgpICYgcmVnX2dlbjQoZ3ByaXYsIDB4N2YsIDB4MWYp
+KQ0KPiANCj4gDQo+IEl0IHNlZW1zIHRvIG1lIHRoYXQgdGhlcmUgYXJlIGEgdG9uIG9mIHVudXNl
+ZCBtYWNybyBpbiB0aGlzIG1vZHVsZToNCj4gDQo+IFdoeSBhcmUgeW91IHJlbW92aW5nIGp1c3Qg
+UkNBTkZEX0dBRkxDRkdfR0VUUk5DIGFuIG5vdCB0aGUgb3RoZXJzPw0KDQpUaGlzIG1hY3JvIGdv
+dCBzbGlwcGVkIHdoaWxlIGFkZGluZyB0aGUgZml4IFsxXSwNCg0KWzFdIGh0dHBzOi8vd2ViLmdp
+dC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5naXQv
+Y29tbWl0Lz9oPXY2LjE0JmlkPTFkYmEwYTM3NjQ0ZWQzMDIyNTU4MTY1YmJiNWNiOWJkYTU0MGVh
+ZjcNCg0KQ2FuIEkgc2VuZCBzZXBhcmF0ZSBwYXRjaCBqdXN0IGZvciBkcm9wcGluZyBhbGwgdW51
+c2VkIG1hY3JvcyBsaXN0ZWQgYmVsb3cgYnkgYWRkaW5nIGRlcGVuZGVuY3kNCnRvIHRoaXMgc2Vy
+aWVzPw0KDQpPciANCg0KWW91IHJlY29tbWVuZCB2OCwgYnkgdXBkYXRpbmcgdGhpcyBwYXRjaCBm
+b3IgcmVtb3ZpbmcgYWxsIHVudXNlZCBtYWNyb3M/DQoNCkNoZWVycywNCkJpanUNCg0KPiANCj4g
+ICAkIG1ha2UgVz0yIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQubw0KPiAgICguLi4p
+DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOiBBdCB0b3AgbGV2ZWw6DQo+
+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjE1OTogd2FybmluZzogbWFjcm8g
+IlJDQU5GRF9DU1RTX1RSTVNUUyIgaXMgbm90IHVzZWQgWy1XdW51c2VkLQ0KPiBtYWNyb3NdDQo+
+ICAgICAxNTkgfCAjZGVmaW5lIFJDQU5GRF9DU1RTX1RSTVNUUyAgICAgICAgICAgICAgQklUKDUp
+DQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzozNTE6
+IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfVE1UQVNUUyINCj4gaXMgbm90IHVzZWQgWy1XdW51c2Vk
+LW1hY3Jvc10NCj4gICAgIDM1MSB8ICNkZWZpbmUgUkNBTkZEX1RNVEFTVFMoeSkgICAgICAgICAg
+ICAgICAoMHgwMzgwICsgKDB4MDQgKiAoeSkpKQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25l
+dC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6MjU5OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0NGUFRS
+X0NGUFRSIiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAgIDI1OSB8ICNk
+ZWZpbmUgUkNBTkZEX0NGUFRSX0NGUFRSKHgpICAgICAgICAgICAoKCh4KSAmIDB4ZmZmKSA8PCAx
+NikNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjQz
+MDogd2FybmluZzogbWFjcm8gIlJDQU5GRF9DX1JQR0FDQyIgaXMgbm90IHVzZWQgWy1XdW51c2Vk
+LQ0KPiBtYWNyb3NdDQo+ICAgICA0MzAgfCAjZGVmaW5lIFJDQU5GRF9DX1JQR0FDQyhyKSAgICAg
+ICAgICAgICAgKDB4MTkwMCArICgweDA0ICogKHIpKSkNCj4gICAgICAgICB8DQo+ICAgZHJpdmVy
+cy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjEzNTogd2FybmluZzogbWFjcm8gIlJDQU5GRF9D
+Q1RSX0JPTV9JU08iIGlzIG5vdCB1c2VkIFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgMTM1
+IHwgI2RlZmluZSBSQ0FORkRfQ0NUUl9CT01fSVNPICAgICAgICAgICAgICgweDAgPDwgMjEpDQo+
+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzoyOTc6IHdh
+cm5pbmc6IG1hY3JvICJSQ0FORkRfR1RTQyIgaXMgbm90IHVzZWQgWy1XdW51c2VkLW1hY3Jvc10N
+Cj4gICAgIDI5NyB8ICNkZWZpbmUgUkNBTkZEX0dUU0MgICAgICAgICAgICAgICAgICAgICAoMHgw
+MDk0KQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6
+MzMxOiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0ZNU1RTIg0KPiBpcyBub3QgdXNlZCBbLVd1bnVz
+ZWQtbWFjcm9zXQ0KPiAgICAgMzMxIHwgI2RlZmluZSBSQ0FORkRfRk1TVFMgICAgICAgICAgICAg
+ICAgICAgICgweDAyNDApDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3Jj
+YXJfY2FuZmQuYzo2MTogd2FybmluZzogbWFjcm8gIlJDQU5GRF9HQ1RSX0RFSUUiIGlzIG5vdCB1
+c2VkIFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgIDYxIHwgI2RlZmluZSBSQ0FORkRfR0NU
+Ul9ERUlFICAgICAgICAgICAgICAgIEJJVCg4KQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25l
+dC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6MjQ5OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0NGU1RT
+X0NGRkxMIiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAgIDI0OSB8ICNk
+ZWZpbmUgUkNBTkZEX0NGU1RTX0NGRkxMICAgICAgICAgICAgICBCSVQoMSkNCj4gICAgICAgICB8
+DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjM1Njogd2FybmluZzogbWFj
+cm8gIlJDQU5GRF9UWFFDQyINCj4gaXMgbm90IHVzZWQgWy1XdW51c2VkLW1hY3Jvc10NCj4gICAg
+IDM1NiB8ICNkZWZpbmUgUkNBTkZEX1RYUUNDKG0pICAgICAgICAgICAgICAgICAoMHgwM2EwICsg
+KDB4MDQgKiAobSkpKQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2Fy
+X2NhbmZkLmM6MTU0OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0NDVFJfQ0hETUNfQ0hMVCIgaXMg
+bm90IHVzZWQgWy0NCj4gV3VudXNlZC1tYWNyb3NdDQo+ICAgICAxNTQgfCAjZGVmaW5lIFJDQU5G
+RF9DQ1RSX0NIRE1DX0NITFQgICAgICAgICAgKDB4MikNCj4gICAgICAgICB8DQo+ICAgZHJpdmVy
+cy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjM3ODogd2FybmluZzogbWFjcm8gIlJDQU5GRF9H
+TE9DS0siDQo+IGlzIG5vdCB1c2VkIFstV3VudXNlZC1tYWNyb3NdDQo+ICAgICAzNzggfCAjZGVm
+aW5lIFJDQU5GRF9HTE9DS0sgICAgICAgICAgICAgICAgICAgKDB4MDQ3YykNCj4gICAgICAgICB8
+DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjgyOiB3YXJuaW5nOiBtYWNy
+byAiUkNBTkZEX0dFUkZMX0RFRiIgaXMgbm90IHVzZWQgWy1XdW51c2VkLQ0KPiBtYWNyb3NdDQo+
+ICAgICAgODIgfCAjZGVmaW5lIFJDQU5GRF9HRVJGTF9ERUYgICAgICAgICAgICAgICAgQklUKDAp
+DQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzo0MjM6
+IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfQ19UTVBUUiINCj4gaXMgbm90IHVzZWQgWy1XdW51c2Vk
+LW1hY3Jvc10NCj4gICAgIDQyMyB8ICNkZWZpbmUgUkNBTkZEX0NfVE1QVFIocCkgICAgICAgICAg
+ICAgICAoMHgxMDA0ICsgKDB4MTAgKiAocCkpKQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25l
+dC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6MTA2OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0dBRkxJ
+RF9HQUZMTEIiIGlzIG5vdCB1c2VkIFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgMTA2IHwg
+I2RlZmluZSBSQ0FORkRfR0FGTElEX0dBRkxMQiAgICAgICAgICAgIEJJVCgyOSkNCj4gICAgICAg
+ICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjM3Mjogd2FybmluZzog
+bWFjcm8gIlJDQU5GRF9HVElOVFNUUzEiIGlzIG5vdCB1c2VkIFstV3VudXNlZC0NCj4gbWFjcm9z
+XQ0KPiAgICAgMzcyIHwgI2RlZmluZSBSQ0FORkRfR1RJTlRTVFMxICAgICAgICAgICAgICAgICgw
+eDA0NjQpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQu
+YzozMDM6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfUk1OQiIgaXMgbm90IHVzZWQgWy1XdW51c2Vk
+LW1hY3Jvc10NCj4gICAgIDMwMyB8ICNkZWZpbmUgUkNBTkZEX1JNTkIgICAgICAgICAgICAgICAg
+ICAgICAoMHgwMGE0KQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2Fy
+X2NhbmZkLmM6MzA1OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX1JNTkQiIGlzIG5vdCB1c2VkIFst
+V3VudXNlZC1tYWNyb3NdDQo+ICAgICAzMDUgfCAjZGVmaW5lIFJDQU5GRF9STU5EKHkpICAgICAg
+ICAgICAgICAgICAgKDB4MDBhOCArICgweDA0ICogKHkpKSkNCj4gICAgICAgICB8DQo+ICAgZHJp
+dmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjQ5NTogd2FybmluZzogbWFjcm8gIlJDQU5G
+RF9DSEFOTkVMU19NQVNLIiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAg
+IDQ5NSB8ICNkZWZpbmUgUkNBTkZEX0NIQU5ORUxTX01BU0sNCj4gQklUKChSQ0FORkRfTlVNX0NI
+QU5ORUxTKSAtIDEpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJf
+Y2FuZmQuYzoxMzI6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfQ0NUUl9DVE1FIiBpcyBub3QgdXNl
+ZCBbLVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAgIDEzMiB8ICNkZWZpbmUgUkNBTkZEX0NDVFJf
+Q1RNRSAgICAgICAgICAgICAgICBCSVQoMjQpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0
+L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzozNDU6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfVE1UUlNU
+UyINCj4gaXMgbm90IHVzZWQgWy1XdW51c2VkLW1hY3Jvc10NCj4gICAgIDM0NSB8ICNkZWZpbmUg
+UkNBTkZEX1RNVFJTVFMoeSkgICAgICAgICAgICAgICAoMHgwMzUwICsgKDB4MDQgKiAoeSkpKQ0K
+PiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6MzM1OiB3
+YXJuaW5nOiBtYWNybyAiUkNBTkZEX0NGUklTVFMiDQo+IGlzIG5vdCB1c2VkIFstV3VudXNlZC1t
+YWNyb3NdDQo+ICAgICAzMzUgfCAjZGVmaW5lIFJDQU5GRF9DRlJJU1RTICAgICAgICAgICAgICAg
+ICAgKDB4MDI0OCkNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9j
+YW5mZC5jOjMzNzogd2FybmluZzogbWFjcm8gIlJDQU5GRF9DRlRJU1RTIg0KPiBpcyBub3QgdXNl
+ZCBbLVd1bnVzZWQtbWFjcm9zXQ0KPiAgICAgMzM3IHwgI2RlZmluZSBSQ0FORkRfQ0ZUSVNUUyAg
+ICAgICAgICAgICAgICAgICgweDAyNGMpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nh
+bi9yY2FyL3JjYXJfY2FuZmQuYzozNjM6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfVEhMQ0MiDQo+
+IGlzIG5vdCB1c2VkIFstV3VudXNlZC1tYWNyb3NdDQo+ICAgICAzNjMgfCAjZGVmaW5lIFJDQU5G
+RF9USExDQyhtKSAgICAgICAgICAgICAgICAgKDB4MDQwMCArICgweDA0ICogKG0pKSkNCj4gICAg
+ICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjE2MTogd2Fybmlu
+ZzogbWFjcm8gIlJDQU5GRF9DU1RTX0VQU1RTIiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtDQo+IG1h
+Y3Jvc10NCj4gICAgIDE2MSB8ICNkZWZpbmUgUkNBTkZEX0NTVFNfRVBTVFMgICAgICAgICAgICAg
+ICBCSVQoMykNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5m
+ZC5jOjQ0NDogd2FybmluZzogbWFjcm8gIlJDQU5GRF9GX0NGRENSQyIgaXMgbm90IHVzZWQgWy1X
+dW51c2VkLQ0KPiBtYWNyb3NdDQo+ICAgICA0NDQgfCAjZGVmaW5lIFJDQU5GRF9GX0NGRENSQyht
+KSAgICAgICAgICAgICAgKDB4MDUxMCArICgweDIwICogKG0pKSkNCj4gICAgICAgICB8DQo+ICAg
+ZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjM5OTogd2FybmluZzogbWFjcm8gIlJD
+QU5GRF9DX1JNREYwIg0KPiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtbWFjcm9zXQ0KPiAgICAgMzk5
+IHwgI2RlZmluZSBSQ0FORkRfQ19STURGMChxKSAgICAgICAgICAgICAgICgweDA2MDggKyAoMHgx
+MCAqIChxKSkpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2Fu
+ZmQuYzo0MDA6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfQ19STURGMSINCj4gaXMgbm90IHVzZWQg
+Wy1XdW51c2VkLW1hY3Jvc10NCj4gICAgIDQwMCB8ICNkZWZpbmUgUkNBTkZEX0NfUk1ERjEocSkg
+ICAgICAgICAgICAgICAoMHgwNjBjICsgKDB4MTAgKiAocSkpKQ0KPiAgICAgICAgIHwNCj4gICBk
+cml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6MjI1OiB3YXJuaW5nOiBtYWNybyAiUkNB
+TkZEX1JGUFRSX1JGUFRSIiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAg
+IDIyNSB8ICNkZWZpbmUgUkNBTkZEX1JGUFRSX1JGUFRSKHgpICAgICAgICAgICAoKCh4KSA+PiAx
+NikgJiAweGZmZikNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9j
+YW5mZC5jOjQ4Mjogd2FybmluZzogbWFjcm8gIlJDQU5GRF9GX1RNRkRDVFIiIGlzIG5vdCB1c2Vk
+IFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgNDgyIHwgI2RlZmluZSBSQ0FORkRfRl9UTUZE
+Q1RSKHApICAgICAgICAgICAgICgweDQwMDggKyAoMHgyMCAqIChwKSkpDQo+ICAgICAgICAgfA0K
+PiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzo2Njogd2FybmluZzogbWFjcm8g
+IlJDQU5GRF9HQ1RSX0dNRENfR1RFU1QiIGlzIG5vdCB1c2VkIFstV3VudXNlZC0NCj4gbWFjcm9z
+XQ0KPiAgICAgIDY2IHwgI2RlZmluZSBSQ0FORkRfR0NUUl9HTURDX0dURVNUICAgICAgICAgICgw
+eDIpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzo1
+NDogd2FybmluZzogbWFjcm8gIlJDQU5GRF9HQ0ZHX1RQUkkiIGlzIG5vdCB1c2VkIFstV3VudXNl
+ZC0NCj4gbWFjcm9zXQ0KPiAgICAgIDU0IHwgI2RlZmluZSBSQ0FORkRfR0NGR19UUFJJICAgICAg
+ICAgICAgICAgIEJJVCgwKQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9y
+Y2FyX2NhbmZkLmM6MTM4OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0NDVFJfVERDVkZJRSIgaXMg
+bm90IHVzZWQgWy1XdW51c2VkLQ0KPiBtYWNyb3NdDQo+ICAgICAxMzggfCAjZGVmaW5lIFJDQU5G
+RF9DQ1RSX1REQ1ZGSUUgICAgICAgICAgICAgQklUKDE5KQ0KPiAgICAgICAgIHwNCj4gICBkcml2
+ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6ODA6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRf
+R0VSRkxfVEhMRVMiIGlzIG5vdCB1c2VkIFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgIDgw
+IHwgI2RlZmluZSBSQ0FORkRfR0VSRkxfVEhMRVMgICAgICAgICAgICAgIEJJVCgyKQ0KPiAgICAg
+ICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6NDgzOiB3YXJuaW5n
+OiBtYWNybyAiUkNBTkZEX0ZfVE1ERiINCj4gaXMgbm90IHVzZWQgWy1XdW51c2VkLW1hY3Jvc10N
+Cj4gICAgIDQ4MyB8ICNkZWZpbmUgUkNBTkZEX0ZfVE1ERihwLCBiKSAgICAgICAgICAgICAoMHg0
+MDBjICsgKDB4MjAgKiAocCkpDQo+ICsgKDB4MDQgKiAoYikpKQ0KPiAgICAgICAgIHwNCj4gICBk
+cml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6MzQ3OiB3YXJuaW5nOiBtYWNybyAiUkNB
+TkZEX1RNVEFSU1RTIiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAgIDM0
+NyB8ICNkZWZpbmUgUkNBTkZEX1RNVEFSU1RTKHkpICAgICAgICAgICAgICAoMHgwMzYwICsgKDB4
+MDQgKiAoeSkpKQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2Nh
+bmZkLmM6MjAyOiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0ZEQ0ZHX1REQ0UiIGlzIG5vdCB1c2Vk
+IFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgMjAyIHwgI2RlZmluZSBSQ0FORkRfRkRDRkdf
+VERDRSAgICAgICAgICAgICAgIEJJVCg5KQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9j
+YW4vcmNhci9yY2FyX2NhbmZkLmM6MjA0OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0ZEQ0ZHX1RE
+Q08iIGlzIG5vdCB1c2VkIFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgMjA0IHwgI2RlZmlu
+ZSBSQ0FORkRfRkRDRkdfVERDTyh4KSAgICAgICAgICAgICgoKHgpICYgMHg3ZikgPj4gMTYpDQo+
+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzoxNTg6IHdh
+cm5pbmc6IG1hY3JvICJSQ0FORkRfQ1NUU19SRUNTVFMiIGlzIG5vdCB1c2VkIFstV3VudXNlZC0N
+Cj4gbWFjcm9zXQ0KPiAgICAgMTU4IHwgI2RlZmluZSBSQ0FORkRfQ1NUU19SRUNTVFMgICAgICAg
+ICAgICAgIEJJVCg2KQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2Fy
+X2NhbmZkLmM6MTM5OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0NDVFJfU09DT0lFIiBpcyBub3Qg
+dXNlZCBbLVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAgIDEzOSB8ICNkZWZpbmUgUkNBTkZEX0ND
+VFJfU09DT0lFICAgICAgICAgICAgICBCSVQoMTgpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMv
+bmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzo1Mzogd2FybmluZzogbWFjcm8gIlJDQU5GRF9HQ0ZH
+X0RDRSINCj4gaXMgbm90IHVzZWQgWy1XdW51c2VkLW1hY3Jvc10NCj4gICAgICA1MyB8ICNkZWZp
+bmUgUkNBTkZEX0dDRkdfRENFICAgICAgICAgICAgICAgICBCSVQoMSkNCj4gICAgICAgICB8DQo+
+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjIxNjogd2FybmluZzogbWFjcm8g
+IlJDQU5GRF9SRlNUU19SRkZMTCIgaXMgbm90IHVzZWQgWy1XdW51c2VkLQ0KPiBtYWNyb3NdDQo+
+ICAgICAyMTYgfCAjZGVmaW5lIFJDQU5GRF9SRlNUU19SRkZMTCAgICAgICAgICAgICAgQklUKDEp
+DQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzozNTg6
+IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfVFhRU1RTIg0KPiBpcyBub3QgdXNlZCBbLVd1bnVzZWQt
+bWFjcm9zXQ0KPiAgICAgMzU4IHwgI2RlZmluZSBSQ0FORkRfVFhRU1RTKG0pICAgICAgICAgICAg
+ICAgICgweDAzYzAgKyAoMHgwNCAqIChtKSkpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0
+L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzoyNTU6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfQ0ZJRF9D
+RklEX01BU0siIGlzIG5vdCB1c2VkIFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgMjU1IHwg
+I2RlZmluZSBSQ0FORkRfQ0ZJRF9DRklEX01BU0soeCkgICAgICAgICgoeCkgJiAweDFmZmZmZmZm
+KQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6Mzc2
+OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0dUU1RDVFIiDQo+IGlzIG5vdCB1c2VkIFstV3VudXNl
+ZC1tYWNyb3NdDQo+ICAgICAzNzYgfCAjZGVmaW5lIFJDQU5GRF9HVFNUQ1RSICAgICAgICAgICAg
+ICAgICAgKDB4MDQ2YykNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNh
+cl9jYW5mZC5jOjU3OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0dDVFJfVFNSU1QiIGlzIG5vdCB1
+c2VkIFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgIDU3IHwgI2RlZmluZSBSQ0FORkRfR0NU
+Ul9UU1JTVCAgICAgICAgICAgICAgIEJJVCgxNikNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9u
+ZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjQyMjogd2FybmluZzogbWFjcm8gIlJDQU5GRF9DX1RN
+SUQiDQo+IGlzIG5vdCB1c2VkIFstV3VudXNlZC1tYWNyb3NdDQo+ICAgICA0MjIgfCAjZGVmaW5l
+IFJDQU5GRF9DX1RNSUQocCkgICAgICAgICAgICAgICAgKDB4MTAwMCArICgweDEwICogKHApKSkN
+Cj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjMzMzog
+d2FybmluZzogbWFjcm8gIlJDQU5GRF9SRklTVFMiDQo+IGlzIG5vdCB1c2VkIFstV3VudXNlZC1t
+YWNyb3NdDQo+ICAgICAzMzMgfCAjZGVmaW5lIFJDQU5GRF9SRklTVFMgICAgICAgICAgICAgICAg
+ICAgKDB4MDI0NCkNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9j
+YW5mZC5jOjE0MDogd2FybmluZzogbWFjcm8gIlJDQU5GRF9DQ1RSX0VPQ09JRSIgaXMgbm90IHVz
+ZWQgWy1XdW51c2VkLQ0KPiBtYWNyb3NdDQo+ICAgICAxNDAgfCAjZGVmaW5lIFJDQU5GRF9DQ1RS
+X0VPQ09JRSAgICAgICAgICAgICAgQklUKDE3KQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25l
+dC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6NzE6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfR1NUU19H
+SExUU1RTIiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAgICA3MSB8ICNk
+ZWZpbmUgUkNBTkZEX0dTVFNfR0hMVFNUUyAgICAgICAgICAgICBCSVQoMSkNCj4gICAgICAgICB8
+DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjQ4MTogd2FybmluZzogbWFj
+cm8gIlJDQU5GRF9GX1RNUFRSIg0KPiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtbWFjcm9zXQ0KPiAg
+ICAgNDgxIHwgI2RlZmluZSBSQ0FORkRfRl9UTVBUUihwKSAgICAgICAgICAgICAgICgweDQwMDQg
+KyAoMHgyMCAqIChwKSkpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3Jj
+YXJfY2FuZmQuYzozMjk6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfRkZTVFMiDQo+IGlzIG5vdCB1
+c2VkIFstV3VudXNlZC1tYWNyb3NdDQo+ICAgICAzMjkgfCAjZGVmaW5lIFJDQU5GRF9GRlNUUyAg
+ICAgICAgICAgICAgICAgICAgKDB4MDIzYykNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQv
+Y2FuL3JjYXIvcmNhcl9jYW5mZC5jOjM2MDogd2FybmluZzogbWFjcm8gIlJDQU5GRF9UWFFQQ1RS
+Ig0KPiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtbWFjcm9zXQ0KPiAgICAgMzYwIHwgI2RlZmluZSBS
+Q0FORkRfVFhRUENUUihtKSAgICAgICAgICAgICAgICgweDAzZTAgKyAoMHgwNCAqIChtKSkpDQo+
+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzo0NTM6IHdh
+cm5pbmc6IG1hY3JvICJSQ0FORkRfRl9STURGIg0KPiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtbWFj
+cm9zXQ0KPiAgICAgNDUzIHwgI2RlZmluZSBSQ0FORkRfRl9STURGKHEsIGIpICAgICAgICAgICAg
+ICgweDIwMGMgKyAoMHgwNCAqIChiKSkNCj4gKyAoMHgyMCAqIChxKSkpDQo+ICAgICAgICAgfA0K
+PiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzozNDA6IHdhcm5pbmc6IG1hY3Jv
+ICJSQ0FORkRfVE1DIiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtbWFjcm9zXQ0KPiAgICAgMzQwIHwg
+I2RlZmluZSBSQ0FORkRfVE1DKHApICAgICAgICAgICAgICAgICAgICgweDAyNTAgKyAoMHgwMSAq
+IChwKSkpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQu
+YzozNzA6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfR1RJTlRTVFMwIiBpcyBub3QgdXNlZCBbLVd1
+bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAgIDM3MCB8ICNkZWZpbmUgUkNBTkZEX0dUSU5UU1RTMCAg
+ICAgICAgICAgICAgICAoMHgwNDYwKQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4v
+cmNhci9yY2FyX2NhbmZkLmM6MzUzOiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX1RNSUVDIg0KPiBp
+cyBub3QgdXNlZCBbLVd1bnVzZWQtbWFjcm9zXQ0KPiAgICAgMzUzIHwgI2RlZmluZSBSQ0FORkRf
+VE1JRUMoeSkgICAgICAgICAgICAgICAgICgweDAzOTAgKyAoMHgwNCAqICh5KSkpDQo+ICAgICAg
+ICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzozOTg6IHdhcm5pbmc6
+IG1hY3JvICJSQ0FORkRfQ19STVBUUiINCj4gaXMgbm90IHVzZWQgWy1XdW51c2VkLW1hY3Jvc10N
+Cj4gICAgIDM5OCB8ICNkZWZpbmUgUkNBTkZEX0NfUk1QVFIocSkgICAgICAgICAgICAgICAoMHgw
+NjA0ICsgKDB4MTAgKiAocSkpKQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNh
+ci9yY2FyX2NhbmZkLmM6MjYwOiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0NGUFRSX0NGVFMiIGlz
+IG5vdCB1c2VkIFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgMjYwIHwgI2RlZmluZSBSQ0FO
+RkRfQ0ZQVFJfQ0ZUUyh4KSAgICAgICAgICAgICgoKHgpICYgMHhmZikgPDwgMCkNCj4gICAgICAg
+ICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjk3OiB3YXJuaW5nOiBt
+YWNybyAiUkNBTkZEX0dBRkxDRkdfR0VUUk5DIiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtDQo+IG1h
+Y3Jvc10NCj4gICAgICA5NyB8ICNkZWZpbmUgUkNBTkZEX0dBRkxDRkdfR0VUUk5DKGdwcml2LCBu
+LCB4KSBcDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQu
+YzozNjc6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfVEhMUENUUiINCj4gaXMgbm90IHVzZWQgWy1X
+dW51c2VkLW1hY3Jvc10NCj4gICAgIDM2NyB8ICNkZWZpbmUgUkNBTkZEX1RITFBDVFIobSkgICAg
+ICAgICAgICAgICAoMHgwNDQwICsgKDB4MDQgKiAobSkpKQ0KPiAgICAgICAgIHwNCj4gICBkcml2
+ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6NDQyOiB3YXJuaW5nOiBtYWNybyAiUkNBTkZE
+X0ZfQ0ZEQ1RSIiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAgIDQ0MiB8
+ICNkZWZpbmUgUkNBTkZEX0ZfQ0ZEQ1RSKG0pICAgICAgICAgICAgICAoMHgwNTA4ICsgKDB4MjAg
+KiAobSkpKQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZk
+LmM6MjAzOiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0ZEQ0ZHX1REQ09DIiBpcyBub3QgdXNlZCBb
+LVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAgIDIwMyB8ICNkZWZpbmUgUkNBTkZEX0ZEQ0ZHX1RE
+Q09DICAgICAgICAgICAgICBCSVQoOCkNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2Fu
+L3JjYXIvcmNhcl9jYW5mZC5jOjQ1Mjogd2FybmluZzogbWFjcm8gIlJDQU5GRF9GX1JNRkRTVFMi
+IGlzIG5vdCB1c2VkIFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgNDUyIHwgI2RlZmluZSBS
+Q0FORkRfRl9STUZEU1RTKHEpICAgICAgICAgICAgICgweDIwMDggKyAoMHgyMCAqIChxKSkpDQo+
+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzoyNTA6IHdh
+cm5pbmc6IG1hY3JvICJSQ0FORkRfQ0ZTVFNfQ0ZFTVAiIGlzIG5vdCB1c2VkIFstV3VudXNlZC0N
+Cj4gbWFjcm9zXQ0KPiAgICAgMjUwIHwgI2RlZmluZSBSQ0FORkRfQ0ZTVFNfQ0ZFTVAgICAgICAg
+ICAgICAgIEJJVCgwKQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2Fy
+X2NhbmZkLmM6MTgwOiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0NFUkZMX0JPUkYiIGlzIG5vdCB1
+c2VkIFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAgMTgwIHwgI2RlZmluZSBSQ0FORkRfQ0VS
+RkxfQk9SRiAgICAgICAgICAgICAgIEJJVCg0KQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25l
+dC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6MzY1OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX1RITFNU
+UyINCj4gaXMgbm90IHVzZWQgWy1XdW51c2VkLW1hY3Jvc10NCj4gICAgIDM2NSB8ICNkZWZpbmUg
+UkNBTkZEX1RITFNUUyhtKSAgICAgICAgICAgICAgICAoMHgwNDIwICsgKDB4MDQgKiAobSkpKQ0K
+PiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6MTYwOiB3
+YXJuaW5nOiBtYWNybyAiUkNBTkZEX0NTVFNfQk9TVFMiIGlzIG5vdCB1c2VkIFstV3VudXNlZC0N
+Cj4gbWFjcm9zXQ0KPiAgICAgMTYwIHwgI2RlZmluZSBSQ0FORkRfQ1NUU19CT1NUUyAgICAgICAg
+ICAgICAgIEJJVCg0KQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2Fy
+X2NhbmZkLmM6NDUxOiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0ZfUk1QVFIiDQo+IGlzIG5vdCB1
+c2VkIFstV3VudXNlZC1tYWNyb3NdDQo+ICAgICA0NTEgfCAjZGVmaW5lIFJDQU5GRF9GX1JNUFRS
+KHEpICAgICAgICAgICAgICAgKDB4MjAwNCArICgweDIwICogKHEpKSkNCj4gICAgICAgICB8DQo+
+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjQyNDogd2FybmluZzogbWFjcm8g
+IlJDQU5GRF9DX1RNREYwIg0KPiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtbWFjcm9zXQ0KPiAgICAg
+NDI0IHwgI2RlZmluZSBSQ0FORkRfQ19UTURGMChwKSAgICAgICAgICAgICAgICgweDEwMDggKyAo
+MHgxMCAqIChwKSkpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJf
+Y2FuZmQuYzo0MjU6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfQ19UTURGMSINCj4gaXMgbm90IHVz
+ZWQgWy1XdW51c2VkLW1hY3Jvc10NCj4gICAgIDQyNSB8ICNkZWZpbmUgUkNBTkZEX0NfVE1ERjEo
+cCkgICAgICAgICAgICAgICAoMHgxMDBjICsgKDB4MTAgKiAocCkpKQ0KPiAgICAgICAgIHwNCj4g
+ICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6NDUwOiB3YXJuaW5nOiBtYWNybyAi
+UkNBTkZEX0ZfUk1JRCINCj4gaXMgbm90IHVzZWQgWy1XdW51c2VkLW1hY3Jvc10NCj4gICAgIDQ1
+MCB8ICNkZWZpbmUgUkNBTkZEX0ZfUk1JRChxKSAgICAgICAgICAgICAgICAoMHgyMDAwICsgKDB4
+MjAgKiAocSkpKQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2Nh
+bmZkLmM6Mzk3OiB3YXJuaW5nOiBtYWNybyAiUkNBTkZEX0NfUk1JRCINCj4gaXMgbm90IHVzZWQg
+Wy1XdW51c2VkLW1hY3Jvc10NCj4gICAgIDM5NyB8ICNkZWZpbmUgUkNBTkZEX0NfUk1JRChxKSAg
+ICAgICAgICAgICAgICAoMHgwNjAwICsgKDB4MTAgKiAocSkpKQ0KPiAgICAgICAgIHwNCj4gICBk
+cml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6NDQzOiB3YXJuaW5nOiBtYWNybyAiUkNB
+TkZEX0ZfQ0ZEU1RTIiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAgIDQ0
+MyB8ICNkZWZpbmUgUkNBTkZEX0ZfQ0ZEU1RTKG0pICAgICAgICAgICAgICAoMHgwNTBjICsgKDB4
+MjAgKiAobSkpKQ0KPiAgICAgICAgIHwNCj4gICBkcml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2Nh
+bmZkLmM6NzA6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfR1NUU19HU0xQU1RTIiBpcyBub3QgdXNl
+ZCBbLVd1bnVzZWQtDQo+IG1hY3Jvc10NCj4gICAgICA3MCB8ICNkZWZpbmUgUkNBTkZEX0dTVFNf
+R1NMUFNUUyAgICAgICAgICAgICBCSVQoMikNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQv
+Y2FuL3JjYXIvcmNhcl9jYW5mZC5jOjM0OTogd2FybmluZzogbWFjcm8gIlJDQU5GRF9UTVRDU1RT
+Ig0KPiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtbWFjcm9zXQ0KPiAgICAgMzQ5IHwgI2RlZmluZSBS
+Q0FORkRfVE1UQ1NUUyh5KSAgICAgICAgICAgICAgICgweDAzNzAgKyAoMHgwNCAqICh5KSkpDQo+
+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzo0NDE6IHdh
+cm5pbmc6IG1hY3JvICJSQ0FORkRfRl9DRkRDRkciIGlzIG5vdCB1c2VkIFstV3VudXNlZC0NCj4g
+bWFjcm9zXQ0KPiAgICAgNDQxIHwgI2RlZmluZSBSQ0FORkRfRl9DRkRDRkcobSkgICAgICAgICAg
+ICAgICgweDA1MDQgKyAoMHgyMCAqIChtKSkpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0
+L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzo0ODA6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfRl9UTUlE
+Ig0KPiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtbWFjcm9zXQ0KPiAgICAgNDgwIHwgI2RlZmluZSBS
+Q0FORkRfRl9UTUlEKHApICAgICAgICAgICAgICAgICgweDQwMDAgKyAoMHgyMCAqIChwKSkpDQo+
+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzozMjc6IHdh
+cm5pbmc6IG1hY3JvICJSQ0FORkRfRkVTVFMiDQo+IGlzIG5vdCB1c2VkIFstV3VudXNlZC1tYWNy
+b3NdDQo+ICAgICAzMjcgfCAjZGVmaW5lIFJDQU5GRF9GRVNUUyAgICAgICAgICAgICAgICAgICAg
+KDB4MDIzOCkNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5m
+ZC5jOjQ4Njogd2FybmluZzogbWFjcm8gIlJDQU5GRF9GX1RITEFDQyIgaXMgbm90IHVzZWQgWy1X
+dW51c2VkLQ0KPiBtYWNyb3NdDQo+ICAgICA0ODYgfCAjZGVmaW5lIFJDQU5GRF9GX1RITEFDQyht
+KSAgICAgICAgICAgICAgKDB4NjAwMCArICgweDA0ICogKG0pKSkNCj4gICAgICAgICB8DQo+ICAg
+ZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjE2Mjogd2FybmluZzogbWFjcm8gIlJD
+QU5GRF9DU1RTX1NMUFNUUyIgaXMgbm90IHVzZWQgWy1XdW51c2VkLQ0KPiBtYWNyb3NdDQo+ICAg
+ICAxNjIgfCAjZGVmaW5lIFJDQU5GRF9DU1RTX1NMUFNUUyAgICAgICAgICAgICAgQklUKDIpDQo+
+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzo0ODg6IHdh
+cm5pbmc6IG1hY3JvICJSQ0FORkRfRl9SUEdBQ0MiIGlzIG5vdCB1c2VkIFstV3VudXNlZC0NCj4g
+bWFjcm9zXQ0KPiAgICAgNDg4IHwgI2RlZmluZSBSQ0FORkRfRl9SUEdBQ0MocikgICAgICAgICAg
+ICAgICgweDY0MDAgKyAoMHgwNCAqIChyKSkpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0
+L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzoxMzc6IHdhcm5pbmc6IG1hY3JvICJSQ0FORkRfQ0NUUl9C
+T01fQkVORCIgaXMgbm90IHVzZWQgWy1XdW51c2VkLQ0KPiBtYWNyb3NdDQo+ICAgICAxMzcgfCAj
+ZGVmaW5lIFJDQU5GRF9DQ1RSX0JPTV9CRU5EICAgICAgICAgICAgKDB4MiA8PCAyMSkNCj4gICAg
+ICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5jOjQyODogd2Fybmlu
+ZzogbWFjcm8gIlJDQU5GRF9DX1RITEFDQyIgaXMgbm90IHVzZWQgWy1XdW51c2VkLQ0KPiBtYWNy
+b3NdDQo+ICAgICA0MjggfCAjZGVmaW5lIFJDQU5GRF9DX1RITEFDQyhtKSAgICAgICAgICAgICAg
+KDB4MTgwMCArICgweDA0ICogKG0pKSkNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2Fu
+L3JjYXIvcmNhcl9jYW5mZC5jOjM3NDogd2FybmluZzogbWFjcm8gIlJDQU5GRF9HVFNUQ0ZHIg0K
+PiBpcyBub3QgdXNlZCBbLVd1bnVzZWQtbWFjcm9zXQ0KPiAgICAgMzc0IHwgI2RlZmluZSBSQ0FO
+RkRfR1RTVENGRyAgICAgICAgICAgICAgICAgICgweDA0NjgpDQo+ICAgICAgICAgfA0KPiAgIGRy
+aXZlcnMvbmV0L2Nhbi9yY2FyL3JjYXJfY2FuZmQuYzozNDI6IHdhcm5pbmc6IG1hY3JvICJSQ0FO
+RkRfVE1TVFMiDQo+IGlzIG5vdCB1c2VkIFstV3VudXNlZC1tYWNyb3NdDQo+ICAgICAzNDIgfCAj
+ZGVmaW5lIFJDQU5GRF9UTVNUUyhwKSAgICAgICAgICAgICAgICAgKDB4MDJkMCArICgweDAxICog
+KHApKSkNCj4gICAgICAgICB8DQo+ICAgZHJpdmVycy9uZXQvY2FuL3JjYXIvcmNhcl9jYW5mZC5j
+OjE2Mzogd2FybmluZzogbWFjcm8gIlJDQU5GRF9DU1RTX0hMVFNUUyIgaXMgbm90IHVzZWQgWy1X
+dW51c2VkLQ0KPiBtYWNyb3NdDQo+ICAgICAxNjMgfCAjZGVmaW5lIFJDQU5GRF9DU1RTX0hMVFNU
+UyAgICAgICAgICAgICAgQklUKDEpDQo+ICAgICAgICAgfA0KPiAgIGRyaXZlcnMvbmV0L2Nhbi9y
+Y2FyL3JjYXJfY2FuZmQuYzo1OTogd2FybmluZzogbWFjcm8gIlJDQU5GRF9HQ1RSX1RITEVJRSIg
+aXMgbm90IHVzZWQgWy1XdW51c2VkLQ0KPiBtYWNyb3NdDQo+ICAgICAgNTkgfCAjZGVmaW5lIFJD
+QU5GRF9HQ1RSX1RITEVJRSAgICAgICAgICAgICAgQklUKDEwKQ0KPiAgICAgICAgIHwNCj4gICBk
+cml2ZXJzL25ldC9jYW4vcmNhci9yY2FyX2NhbmZkLmM6MjI2OiB3YXJuaW5nOiBtYWNybyAiUkNB
+TkZEX1JGUFRSX1JGVFMiIGlzIG5vdCB1c2VkIFstV3VudXNlZC0NCj4gbWFjcm9zXQ0KPiAgICAg
+MjI2IHwgI2RlZmluZSBSQ0FORkRfUkZQVFJfUkZUUyh4KSAgICAgICAgICAgICgoKHgpID4+IDAp
+ICYgMHhmZmZmKQ0KPiAgICAgICAgIHwNCj4gDQo+IA0KPiBZb3VycyBzaW5jZXJlbHksDQo+IFZp
+bmNlbnQgTWFpbGhvbA0KDQo=
 
