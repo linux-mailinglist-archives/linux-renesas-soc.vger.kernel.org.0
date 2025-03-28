@@ -1,229 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-14976-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14977-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E358EA7493A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 12:32:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D39A7494A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 12:36:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCF1D1892B20
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 11:32:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 78A5B171F8A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 11:36:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C5FC1E1E0A;
-	Fri, 28 Mar 2025 11:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1843C21ABC5;
+	Fri, 28 Mar 2025 11:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="BMvwXtjr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3759D145B27;
-	Fri, 28 Mar 2025 11:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83E8219E93
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Mar 2025 11:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743161539; cv=none; b=d74oNy1mCBzkWmfP2lQ7Jd1+aYulluYB/eV6xLx+4h9XQfJkMnO2fTJisCqJfAOjlM/5Ilet4W5v/KDVnuBBQmz3iK+1Ef1Yf8sx+q8AZJe2C2K/cxpCDrunVt85VsHLoSMEiiXTAA7cEbRe+mt4bhV/6rssRthvTgubWpURBSA=
+	t=1743161811; cv=none; b=oLRY2Z7IUOC12vmYCnDwbWqRmmL1eIXUkAUKB8Q7XrdGR5cYaVyIvIA63T4CfOzt8wIGrknBcfLJ6VXnim+8xnYLxo4O0s1vWn/GsqXVyPUEsZmIeJiEUlhSkUaMfoReNAA8GWZciNalKQKqEXEsK5aTMfGgvqqULQD/UgB+/tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743161539; c=relaxed/simple;
-	bh=Mlw4SetQvxHQK/jnVDJCyQBL6wct+TcoCJMiF4QffJU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jn9HI0SyzEkh3+uLeLS7hlovkz6qbU6O1cOfrJ2CZ7S2VHGE1Z/0NMDJR8buFxn1czFx4J5/0K0r2OQ8Z+JMrmPAxUafPZv33qK6CQgZs3yi67eA331c5pxlbTX/XjDmNl26JRk+iq39L71lhWfv0n0PjpOhBWOtkHrJBgkBxJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-523dc190f95so1038508e0c.1;
-        Fri, 28 Mar 2025 04:32:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743161534; x=1743766334;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ijHoUEZyT+2IlX8UHxDCNKAX+1FUz2oJEoSvsAr2vfI=;
-        b=qp/VCRh+TrWRFZRc2mjVnpfwA8Rb7erSdYe2zLeyYNLRP3OoK2XkpvgfLhWwdTsIuB
-         Tnqw56kySo7m9DnlP1LW29Onr20h9bJ1+3AbXKaVcbPly9gpq0ZL087ptBp1TAYu2JnH
-         F1avrx0vJMlMUJ6qg7kilWklszLEwFfA7lKfa85gQypD6gLKV/fqHT4sopCQinP1vpX5
-         1ySIQR2VHH5lfhl/D6dudYiWX0PBP4tSxHWi+D11UvaGwnQzVcuHe9liPVAaUzPZ1cNV
-         zcQj1ar90w+SLROL7NsHUFYS7IxLFI0gWs3VF2raJ9yBvajm6SOpfHR9I7JBSQhiR7a3
-         Pl/A==
-X-Forwarded-Encrypted: i=1; AJvYcCUZQz0YfZ2fSt7kNb+Jk5ph3rYMZJnD0sa9PifxWtnhfKVlMUGrqhy7B3nJGcUXSa2XEv0BRIIcLuU=@vger.kernel.org, AJvYcCWeD0/RXtHCCgsclNs76ZmTjm7/0wqDU/ZL/xhUqnh+342Nb/VBMD6eEcE0i/qHjNqyaj4HYstILkZMi3rjkktEMqw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEMllxL0jDZqpshBeatWe9PmEqIyLK6fIINx+8TexOXvsvVlY2
-	0Aids7TVcrbQUed9kIwkDDg8GF7mVI6C1SapdsOeqQWFTSLHexrCjBjhdt0/
-X-Gm-Gg: ASbGncsq4NO5V3g1UwccMkFRWFp58O8/lDY+RrQZ2FtAn1NRc4deYuzcWRPgd8L23Yb
-	y5DcH/oDFPRkgsOdCuZ8giiQoUXo5Fs0c2AAM8YrHok57iXaJa2OcLTMmFh6GuCo1drMVj5m1QL
-	qN4HVe2oBbPnWROqZk7/A2rmki/xJH0S2hhl03Z5EvVEyNlxZ43q233q7N0PLvgvqOmbEuptEiZ
-	eQkbO/96pB1+OwaOzWGo8X7ZD21XfT2SOZy+u6oo5qo9dQifENrX9vxykn4kTYm9UkjaENc+Qde
-	I82SGGMUNuTimx1jZHqHiSynXQvdwn6pNhn7zEl5kwC6gGS40uNRu7Lph52sdZZ0OopCVu9MAD+
-	mStrylZM=
-X-Google-Smtp-Source: AGHT+IG8s6zIUqXao1gW2aTt3brCHOaWNIoi4uhLWz1tsMzoPmLHj6cEdyyELWm/hZ25GgbKFGUuCQ==
-X-Received: by 2002:a05:6122:3289:b0:523:e175:4af1 with SMTP id 71dfb90a1353d-52600a32552mr6029668e0c.6.1743161534384;
-        Fri, 28 Mar 2025 04:32:14 -0700 (PDT)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-871a33890a3sm330076241.22.2025.03.28.04.32.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Mar 2025 04:32:14 -0700 (PDT)
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-86dde90e7a3so972345241.1;
-        Fri, 28 Mar 2025 04:32:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUdj2OdggMlbqnL6NljrJpxFnFUII95OcsCDZCu49pe7rN1k+iJOC9KpeLzQL2qc00QMRR3JWofp/lsDSo0VPxg8UM=@vger.kernel.org, AJvYcCXbz4QSTAhwRhCY7LJVbyQn5P08MSmAw7hVEX7n6Is1okUOtEEdXT7eYKbpx9LgIOkjLfUK7/aWGDc=@vger.kernel.org
-X-Received: by 2002:a05:6102:f12:b0:4c4:e409:5f9e with SMTP id
- ada2fe7eead31-4c586f0fdd1mr7328723137.2.1743161533687; Fri, 28 Mar 2025
- 04:32:13 -0700 (PDT)
+	s=arc-20240116; t=1743161811; c=relaxed/simple;
+	bh=7CdE6abmdcbIw4a9HvwViWR/CuAR0UsUHY0bcNpvB9E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=co4QrCqBagaqr8ECvF2Fbgiuq7I9f+7Y8qT5lJQh7nyw7PtUJMydT92VQkccEocGmYFvlIKvkm8Tr+0N6I4Is5OvOP7sfv8zU106QnsZATVEBqm5N8J1lK47QrXhyZcLgv/ZnxQcXRZEhIX+XF/36ylSIR+3r7GAXEiSvGuf548=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=BMvwXtjr; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=QO5L
+	8F6Tv6G7jsBGSkmzV4B+MnJEKpypQ7BBXhNe5uo=; b=BMvwXtjrsCO2KFxfDJQj
+	RssVT0PKDnfrEWRxUThKN2A5e9tmgp14gHgIbXgzLpQa4sLafXKdFWGT3OgWNwAd
+	YoCaa5HUgn4TrQ81GK96sGwiia2TCba53RH8wYqXhkr4A5HMjTlAm+DN87GW4ZKG
+	P9Uye3Qd6jJTTfS0qnIlMO3cKq9qe/81rz/X8TjNP8uxRL5ox7HyLl3w46oCIyR9
+	tIgss4JKiwHLUoxVe0Rh6Dh1qWLNWYNOgq8arHYHtT6qJxPuftkftONH1Xy4XUdZ
+	mYIjCFKzz7iC2STfyvVvDYIdO4Yf4awtdQV93K5p9dqx77oraWQvbZlRuHZUoJtm
+	Vw==
+Received: (qmail 226379 invoked from network); 28 Mar 2025 12:36:44 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Mar 2025 12:36:44 +0100
+X-UD-Smtp-Session: l3s3148p1@vogefGUx3T1tKjIj
+Date: Fri, 28 Mar 2025 12:36:43 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 15/15] arm64: defconfig: Enable Renesas RZ/V2N SoC
+Message-ID: <Z-aJy23ZyXq9lTrV@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250326143945.82142-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250326143945.82142-16-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <41c6f512-47a5-4723-bbdc-64ed85ae8391@kernel.org>
+ <Z-VETFWFT5NksD7J@ninjato>
+ <6fa375d2-5ba8-4b2b-8a54-f28b3cbedcfb@kernel.org>
+ <Z-WAZ_IlMBB3XbTN@ninjato>
+ <de0f7848-1fe7-451f-b48b-e20fbf3d0c2b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250326122003.122976-1-biju.das.jz@bp.renesas.com>
- <20250326122003.122976-9-biju.das.jz@bp.renesas.com> <ee0f8bff-6dc4-4ddc-a2d2-89ed6fddcc8f@wanadoo.fr>
- <TY3PR01MB113467D894782F210DA15345E86A02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <1c797eda-658e-4902-8257-5b24fce0274f@wanadoo.fr>
-In-Reply-To: <1c797eda-658e-4902-8257-5b24fce0274f@wanadoo.fr>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 28 Mar 2025 12:32:01 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVRebZ7E+am=xHDLVm1G_9Fgtxr46XbJemtBF=D0vfyNQ@mail.gmail.com>
-X-Gm-Features: AQ5f1Jrz8IBMWkBVYyOzKWSQiQNIuZwjjhzoe3c7vdS0MCmkkpkTW9HtY_Tfpbc
-Message-ID: <CAMuHMdVRebZ7E+am=xHDLVm1G_9Fgtxr46XbJemtBF=D0vfyNQ@mail.gmail.com>
-Subject: Re: [PATCH v7 08/18] can: rcar_canfd: Simplify RCANFD_GAFLCFG_SETRNC macro
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, Marc Kleine-Budde <mkl@pengutronix.de>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	"linux-can@vger.kernel.org" <linux-can@vger.kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"biju.das.au" <biju.das.au@gmail.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rbVViYxK8BFEIzsn"
+Content-Disposition: inline
+In-Reply-To: <de0f7848-1fe7-451f-b48b-e20fbf3d0c2b@kernel.org>
 
-Hi Vincent,
 
-On Fri, 28 Mar 2025 at 12:21, Vincent Mailhol
-<mailhol.vincent@wanadoo.fr> wrote:
-> On 28/03/2025 at 19:54, Biju Das wrote:
-> >> From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-> >> On 26/03/2025 at 21:19, Biju Das wrote:
-> >>> The shift values in RCANFD_GAFLCFG_SETRNC are dictated by the field w=
-idth:
-> >>>   - R-Car Gen4 packs 2 values in a 32-bit word, using a field width
-> >>>     of 16 bits,
-> >>>   - R-Car Gen3 packs up to 4 values in a 32-bit word, using a field
-> >>>     width of 8 bits.
-> >>>
-> >>> Add rnc_field_width variable to struct rcar_canfd_hw_info to handle
-> >>> this difference and simplify the shift value in RCANFD_GAFLCFG_SETRNC
-> >>> macro by using a formula (32 - (n % rnc_stride + 1) * rnc_field_width=
-).
-> >>>
-> >>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+--rbVViYxK8BFEIzsn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> >>> --- a/drivers/net/can/rcar/rcar_canfd.c
-> >>> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> >>> @@ -89,7 +89,7 @@
-> >>>  /* RSCFDnCFDGAFLCFG0 / RSCFDnGAFLCFG0 */  #define
-> >>> RCANFD_GAFLCFG_SETRNC(gpriv, n, x) \
-> >>>     (((x) & ((gpriv)->info->num_supported_rules - 1)) << \
-> >>> -    (reg_gen4(gpriv, 16, 24) - ((n) & 1) * reg_gen4(gpriv, 16, 8)))
-> >>> +    (32 - (((n) % (gpriv)->info->rnc_stride + 1) *
-> >>> +(gpriv)->info->rnc_field_width)))
-> >>
-> >> I can not follow how this is the same. Let's take the gen4 as an examp=
-le. Before:
-> >>
-> >>   (reg_gen4(gpriv, 16, 24) - ((n) & 1) * reg_gen4(gpriv, 16, 8))) =3D
-> >>   16 - ((n & 1) * 16)
-> >>
-> >> So, I have:
-> >>
-> >>       n      shift value
-> >>      ---------------------------------
-> >>       0      16 - ((0 & 1) * 16) =3D 0
-> >>       1      16 - ((1 & 1) * 16) =3D 16
-> >>       2      16 - ((2 & 1) * 16) =3D 0
-> >>       3      16 - ((3 & 1) * 16) =3D 16
-> >>       4      16 - ((4 & 1) * 16) =3D 0
-> >>
-> >> After:
-> >>
-> >>   (32 - ((n % rnc_stride + 1)) * rnc_field_width) =3D
-> >
-> > 32 - (n % rnc_stride) + 1 =3D
-> >>   32 - ((n % (2 + 1)) * 16) =3D
-> >
-> >
-> >>   32 - ((n % 3) * 16)
-> >  32 - ((n % 2) + 1)) * 16) =3D
-> >
-> >>
-> >>       n      shift value
-> >>      ---------------------------------
-> >>       0      32 - ((0 % 3) * 16) =3D 32
-> >>       1      32 - ((1 % 3) * 16) =3D 16
-> >>       2      32 - ((2 % 3) * 16) =3D 0
-> >>       3      32 - ((3 % 3) * 16) =3D 32
-> >>       4      32 - ((4 % 3) * 16) =3D 16
-> >>
-> >> Is there something wrong in my calculation? What am I missing?
-> >
-> > 0     32 - ((0 % 2) + 1) * 16) =3D 16
-> > 1     32 - ((1 % 2) + 1) * 16) =3D 0
->
-> OK. Thanks. I didn't parse the parenthesis correctly. It's been a long
-> week, sorry for the noise.
->
-> >> More generally, it is really hard to review and understand what this m=
-acro does.
-> >
-> > Macro is doing a simple calculation.
-> >
-> > (32 - (n % rnc_stride + 1) * rnc_field_width)
->
-> This is before adding the tons of parenthesis. I did my review of best
-> effort and got it wrong not because the calculation is complication but
-> because of the noise introduced by those parenthesis (plus admittedly
-> some fatigue from the long week=E2=80=A6)
->
-> >> Can add one more patch:
-> >>
-> >>   can: rcar_canfd: turn RCANFD_GAFLCFG_SETRNC into a function
-> >>
-> >> and then apply your change?
-> >>
-> >> I do not see the reason why this needs to be a macro. If you make this=
- a function, at least, it will
-> >> be easier to follow what is going on and the compiler optimizer will i=
-nline it anyway so you should
-> >> not get any penalty.
-> >
-> > I am leaving Marc, Geert to provide their feedback on this.
->
-> The maintainers of the CAN drivers and Marc and myself. Of course, I do
-> appreciate Geert feedback here. But for doing this maintenance as a
-> volunteer, in exchange, I want you to make my review work (and the long
-> term maintenance) easier.
->
-> function-like macro are not welcome unless strictly needed and I am not
-> keen on dropping this ask.
+Hi Krzysztof,
 
-I agree the heavy use of macros can be improved.
+> We do not speak about same things. I speak of review being ignored for
+> multiple revisions in one patchset and then another patchset sending
+> exactly the same pattern.
 
-E.g. handling the access to the RNC field is spread across
-two macros:
-  - RCANFD_GAFLCFG_SETRNC() handles ch % something,
-  - RCANFD_GAFLCFG() handles ch / something.
+True, we are talking about two different things...
 
-A single function to write to the RNC field would make this more readable.
-This is just an example, there are many more of these...
+> Each of these contributors were not changing here anything, it's like
+> not their job. It looks like this will never get fixed, because each
+> person wants to just get their stuff merged, so let's ignore the
+> reviewers comments.
 
-Gr{oetje,eeting}s,
+... this is the technical part where you are correct. I am not arguing
+against it and the issue is currently being worked on as I write this
+mail.
 
-                        Geert
+Then, there is the communicative part which got me. A response like
+"NAK, I am not applying this until you finally fix the issue. And I am
+getting angry for being ignored the n-th time" is totally fine and clear
+enough. We can escalate that internally. But generalizing Renesas and
+ignoring that there are individual people there, trying to fix way more
+issues than this particular one, is what I percieved from your responses
+and what I considered above the line. And yes, I am aware that you are
+also doing a hell of a job going through all these DT and binding
+patches which I think are difficult to review.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+For me, we are entering the space where we can leave it like this and
+maybe discuss details over a drink at the next conference. You are
+invited then!
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Happy hacking,
+
+   Wolfram
+
+
+--rbVViYxK8BFEIzsn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIyBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfmiccACgkQFA3kzBSg
+KbZDvQ/3XUkMk0S3lualMv9+xB2AAfnJrhcA40zPXXl0VsEhKi2c8C+VsIllpelq
+mKMzoYZIki4mrXjJNSrEyQ/DqMTYeTlW2khVn+2qhGFZlAfbQh4zenvd+XkSGF/u
+JuKaG+IO0lj/rxnodhEPpjgOVODZXj2UhAOWTAGvGLozTkxoOLhCEYbGfhjEwL4N
+6f/G59wpFBYYhTUnYMMNqXZwZC71HZohhoY3hV8EBTKaZCcHV20S3DjEKxhJv0bu
+APNVjQLYlUg2LP+fyzhGqx9cAy6f5cRz4929/assP5Ga819bVxyxt/LOS7H2nn3v
+ma61v1RwaHwCjLx5xPvy+ZQS5FrtaljioWowZ7XNCytGvOtAxsRLQbcOZSc9kkqb
+LNlPqsy8aqdIBoVzwflVAESfYEMyC9Rn2BlJM0hKp1JS6nHqxkwUjanBzRHrXgDw
+Ya+b9vFJs0nImFcwYO3BbZwghcC4s0bs6ATdoUW7qfaeIWrwMb6JpZ05MejO6jIf
+h3xaaDzsw3OeiEYvxV8K4b+Ogor2dKIisgga4jY4D9hR8c10tr5K+khz9DfvXXKg
+zHD/o+2qIk4JRGwYUL/ZG94Et7tGbBn8OMEeTvvgKm2q8idTHkI3e1rowq2tkC9F
+6bJ/F2IIBC7AJy+Gw2WVFwnlD2BLE/HtfixdAHvi9rE5Thnj5A==
+=7p2i
+-----END PGP SIGNATURE-----
+
+--rbVViYxK8BFEIzsn--
 
