@@ -1,140 +1,265 @@
-Return-Path: <linux-renesas-soc+bounces-14993-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-14994-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C14A74D70
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 16:10:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD5FA74DA9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 16:26:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D1E8173854
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 15:10:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C860189CDF6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Mar 2025 15:26:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 533D51CAA74;
-	Fri, 28 Mar 2025 15:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7969F3594D;
+	Fri, 28 Mar 2025 15:26:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FHLVAD+L"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="MzLT7JqW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out.smtpout.orange.fr (out-74.smtpout.orange.fr [193.252.22.74])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92F81A9B5D;
-	Fri, 28 Mar 2025 15:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E0F23CB;
+	Fri, 28 Mar 2025 15:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743174599; cv=none; b=dQCRNr0nB5BTjzSR24lW2ZcjBXdTjijn80c+yptxSoJnitvCsyBRzsCkEme2VdL/eBcRH2bwj762FLOvPD5d3WEM0DrDVDWN8otqVxV24EXX8vcDOnqisuMiqNIELV60VzUIqJnMWyfqTTEl3PxBdpzsIX/Ad3wEvGRSF4zLqyQ=
+	t=1743175563; cv=none; b=dABgBCqGiyQPMEfJeuiKldb0udd1ffMmYa2eKEDagIEqnjXdc3n7g/J8lHPBq1JoGpBdfZQKXyJiAPRAWS2/vBa3mpQW7azalJ8FMDG6IEKAxDgQeWaXmaCLpdUoDxBWW7OLWMwR/HF5adbRIrKZlVa00BE6BEHzRTXQuj6h7EA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743174599; c=relaxed/simple;
-	bh=ah3hu0AHfgkkvSk7ohighiuYRZJ2eQBgx9wMy2atfE8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CWj5/ZuSM9jUS4WaWlqbjfAYF5eghbHMdVt+aNHZouWnlxRb3PIApixP5uzoogwRE9LPeXOIXspMZEAAXdPycC2G/W7X3hIkfsCRFOK1Gmz20rwvxqUX7L7ZdBaM2n4V2iJ2sDxj1rv9TQ4q4nO3bj8jQTBDI1xFzcVtbASkuZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FHLVAD+L; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-476b4c9faa2so30278521cf.3;
-        Fri, 28 Mar 2025 08:09:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743174594; x=1743779394; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cHMi97rW5XnYmsHSdrUIP8vR+FvAoZCe/aUt1UwDlcM=;
-        b=FHLVAD+L6FJ+TMxJVfnj+uKJ8j8MiRsOgoZk/Z7nZiC2SoD3TS2zw+d7GDp0ZWhwaA
-         UyLlP8WCPvmEnOKB+LFgHi+19fiUSVwW3FObjtWAocAxXsLHiLJuUwZYwohVuGnyluze
-         0fyxaGCXZOjXSZbWrDQekCvAuyStvLRZAgDSoCpTy1NoER9e+47v0ifO63a0FtSwJab7
-         flBt+5/GswLgGEQQ2GyfVfgVuj4+a++0iaUz4fIIVWXlj/JZ4PUZ0pa3hiVNqbxKDbrv
-         vIsOuGZBD+bz+F26qVn/nvb6wvtonysnYL3gE9k0vxQN1NbN72R3ENi/5sTmIntJC83B
-         hvJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743174594; x=1743779394;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cHMi97rW5XnYmsHSdrUIP8vR+FvAoZCe/aUt1UwDlcM=;
-        b=d5wLI3vhHM6mgjS+YYCbdm1EKEFXl76Sxo5lLOGXdrDa2Y3igN+O+Xx7F+DDS+yQOS
-         suwIC7myMqsk60txl1e2armLcOBww9oN0uEZQPSzeX1wuRY4RIUa09zlUIr443/8hJSV
-         hhpXVXzR3d2eCAbP9OIloCO+sfdfwNuD4QNYogbu6BgCJa07wx6K4PKU/NQ1qO+L0ZO3
-         2EW7PRH4aLKnhocuedPdMJtH7IAQMx3WL85L1erjksoHNKuLMmgaAnbMlasPin4Nv2Ca
-         KplwA0qa+CYoQtzVeXgcUBskVBZDq1ck2IVqfP2Gkee5AeOIVDAFmQ03QZn28/W4y90L
-         wi/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUQHjnqiXQFXGT1ATOmemmUzX4imCM7AtNWk/NH1y3gUu9nA9LlorcSjOQ639Jjw7dLE1pH+YID5+uB@vger.kernel.org, AJvYcCW0TjCmEtPTDftIgDYU86jo45b8jtLtnPifLsrLOQAaEBhY6BpUS7PpNpRAPIfaLJVDpGyYveElrCPf@vger.kernel.org, AJvYcCWBXWZ1mSf8c0n4KVB/z5nYg4iWWyDStZkVvy6/xmrPbCYv0JQWyxtAmDaUxzPbH8k/Q++nJ613tZuAyba9@vger.kernel.org, AJvYcCWHB+sCY+l3BS/OSL4m0YLxuysErqQzm9lglTzTjyEgVYj+vkjXneit/aYOyzFs0/GLbc8MhG20TM049A==@vger.kernel.org, AJvYcCXMNhrz7t4pWfoIqZiADf+8EbU2lr+WyJ0gR/Bf+0b3lNm9AAKdqbEjC5lnaU/7+PLKvBTSzX1iq7X9LKiI@vger.kernel.org, AJvYcCXUIJ2/ugWvsbgDJsyHnxUH5A4H3eVAo1j5Oa09fF1wAYsE8k2xMSOZGHFQvts46VRGd1/8aVHazqzk@vger.kernel.org, AJvYcCXhyStjkeOs/BJCk3WahDm8wIEV2LMtGMQz49SRZaduktziZaLISJmQss5GPFNT+Q+/led+9DTENgfJBOl57+Xt1oc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyG32a+CugVQugGqzVQKta+XQwWfSWSBorp8Nj9XL03uL9viayy
-	wAVYqvOsCkFJK0eMX+DR3bQ+SyFaf2VEMiAGkH9B6UOtbrtCc4u0A2a/Q8qBiehKRzdAoUUWVG1
-	V7V07e12X6GkqbbpY4yqYhAFG/4g=
-X-Gm-Gg: ASbGnct4K+/9UAQNiSZBfGDbIi4p9G2OAmo4QObrl8CQ/PB7hIKVGlRTdJan+RMjD3H
-	XZA0jCup/hIgRlaJwc67xv9/pXnFQGzQUzdJCn5aTsn6VGGHfcXpWD23UY8ExZBC8Z/ae/ZQ03p
-	/q/ytbRFaamVyZO+KYpsd5pebMG1BQ32XP7XjyWMVhXa5jnK72qVM/SVhM
-X-Google-Smtp-Source: AGHT+IG4QqpaNQDy731U58i3bQqCRBN4wxgf2WnACwyQB2g5h8HohI9uM8ZQbNABaLBYgrNgY/+RPwYvoW7m6YupGso=
-X-Received: by 2002:a05:622a:580c:b0:476:b3f0:a905 with SMTP id
- d75a77b69052e-4776e07acccmr119111651cf.8.1743174594347; Fri, 28 Mar 2025
- 08:09:54 -0700 (PDT)
+	s=arc-20240116; t=1743175563; c=relaxed/simple;
+	bh=NJmQq3+nuFff5yO10g6ZhH2WsaQaTa39pkH3W4jEIfA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nBTwVeP+RSm1hbgf/lTn6ZdginHfMSbven7zaN1KnJPoqDkPZZfQ9gmE1mifDMrFfRY/5wprD3Beo/P9UOvyM7yq4+s/hUgNpdnRBkgdla8ktF/QSYJeUHIpxSWc1cEDp0eBTuTQdGt48ZpLqm+6vwuXjRiGP85WaLgN+7Cfz0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=MzLT7JqW; arc=none smtp.client-ip=193.252.22.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [172.16.82.72] ([124.33.176.97])
+	by smtp.orange.fr with ESMTPA
+	id yBaet048JDCLUyBait7Bmi; Fri, 28 Mar 2025 16:25:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1743175556;
+	bh=flTBAYFCzoaspgtlvoo6CMakhNExORAANLgcY+2eurk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=MzLT7JqWQidftgqWEfQ+LSEXSHRadzKyw6SPRkyTSipMIt27W0oQVT7sc//Foi/bd
+	 tHQyCIwZVLEFnTJ4qb1YFPQuTyWsp/NQ7oC1S+oyKAyabgQ6pN2d9mXaKIrepIq944
+	 dlP7ZwBvVQ9yulDrz15A4WKyR2LIOlIacxNMEwM8GOVcZcx9wcKS+mDHoHVl0LXu5X
+	 901TKOkLFY2KafVNDN1ODuInCVdj3xu8yHZU0fxJ6ADaDFFj7bMCMWXH7ORQ9Jc4Tp
+	 /bVEoM82cozdoyNWZb0otbuQgz8/jQQUa5Ui1dw010VXFHf9ODvlp+PBbrIT8lNQZ9
+	 1LkHx/D518W4Q==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 28 Mar 2025 16:25:56 +0100
+X-ME-IP: 124.33.176.97
+Message-ID: <6b663ace-002c-44f9-bbdb-38af8a4e4da3@wanadoo.fr>
+Date: Sat, 29 Mar 2025 00:25:47 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250326143945.82142-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250326143945.82142-16-prabhakar.mahadev-lad.rj@bp.renesas.com> <41c6f512-47a5-4723-bbdc-64ed85ae8391@kernel.org>
-In-Reply-To: <41c6f512-47a5-4723-bbdc-64ed85ae8391@kernel.org>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 28 Mar 2025 15:09:28 +0000
-X-Gm-Features: AQ5f1JorkyU3M-MDsNZEjTYwlCJiHquCQUVcPMiTcuQthITmDLDNSbYjZqb0KuM
-Message-ID: <CA+V-a8sT3sV4D-i84G8D1q1s_PBGCQagc=YGSvTfTWVYJsHoeA@mail.gmail.com>
-Subject: Re: [PATCH 15/15] arm64: defconfig: Enable Renesas RZ/V2N SoC
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 15/18] can: rcar_canfd: Add shift table to struct
+ rcar_canfd_hw_info
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ linux-can@vger.kernel.org,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
+ Marc Kleine-Budde <mkl@pengutronix.de>
+References: <20250326122003.122976-1-biju.das.jz@bp.renesas.com>
+ <20250326122003.122976-16-biju.das.jz@bp.renesas.com>
+Content-Language: en-US
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <20250326122003.122976-16-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof,
+On 26/03/2025 at 21:19, Biju Das wrote:
+> R-Car Gen3 and Gen4 have some differences in the shift bits. Add a
+> shift table to handle these differences. After this drop the unused
+> functions reg_gen4() and is_gen4().
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v6->v7:
+>  * No change.
+> v5->v6:
+>  * No change.
+> v4->v5:
+>  * Collected tag.
+>  * Dropped RCANFD_FIRST_RNC_SH and RCANFD_SECOND_RNC_SH by using a
+>    formula (32 - (n % rnc_per_reg + 1) * rnc_field_width.
+> v3->v4:
+>  * Added prefix RCANFD_* to enum rcar_canfd_shift_id.
+> v3:
+>  * New patch.
+> ---
+>  drivers/net/can/rcar/rcar_canfd.c | 69 ++++++++++++++++++++++---------
+>  1 file changed, 50 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+> index a96cf499f04b..20e591421cc6 100644
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -111,13 +111,16 @@
+>  
+>  /* RSCFDnCFDCmNCFG - CAN FD only */
+>  #define RCANFD_NCFG_NTSEG2(gpriv, x) \
+> -	(((x) & ((gpriv)->info->nom_bittiming->tseg2_max - 1)) << reg_gen4(gpriv, 25, 24))
+> +	(((x) & ((gpriv)->info->nom_bittiming->tseg2_max - 1)) << \
+> +	 (gpriv)->info->shift_table[RCANFD_NTSEG2_SH])
+>  
+>  #define RCANFD_NCFG_NTSEG1(gpriv, x) \
+> -	(((x) & ((gpriv)->info->nom_bittiming->tseg1_max - 1)) << reg_gen4(gpriv, 17, 16))
+> +	(((x) & ((gpriv)->info->nom_bittiming->tseg1_max - 1)) << \
+> +	 (gpriv)->info->shift_table[RCANFD_NTSEG1_SH])
+>  
+>  #define RCANFD_NCFG_NSJW(gpriv, x) \
+> -	(((x) & ((gpriv)->info->nom_bittiming->sjw_max - 1)) << reg_gen4(gpriv, 10, 11))
+> +	(((x) & ((gpriv)->info->nom_bittiming->sjw_max - 1)) << \
+> +	 (gpriv)->info->shift_table[RCANFD_NSJW_SH])
+>  
+>  #define RCANFD_NCFG_NBRP(x)		(((x) & 0x3ff) << 0)
+>  
+> @@ -182,10 +185,12 @@
+>  #define RCANFD_DCFG_DSJW(gpriv, x)	(((x) & ((gpriv)->info->data_bittiming->sjw_max - 1)) << 24)
+>  
+>  #define RCANFD_DCFG_DTSEG2(gpriv, x) \
+> -	(((x) & ((gpriv)->info->data_bittiming->tseg2_max - 1)) << reg_gen4(gpriv, 16, 20))
+> +	(((x) & ((gpriv)->info->data_bittiming->tseg2_max - 1)) << \
+> +	 (gpriv)->info->shift_table[RCANFD_DTSEG2_SH])
+>  
+>  #define RCANFD_DCFG_DTSEG1(gpriv, x) \
+> -	(((x) & ((gpriv)->info->data_bittiming->tseg1_max - 1)) << reg_gen4(gpriv, 8, 16))
+> +	(((x) & ((gpriv)->info->data_bittiming->tseg1_max - 1)) << \
+> +	 (gpriv)->info->shift_table[RCANFD_DTSEG1_SH])
+>  
+>  #define RCANFD_DCFG_DBRP(x)		(((x) & 0xff) << 0)
+>  
+> @@ -227,10 +232,10 @@
+>  
+>  /* RSCFDnCFDCFCCk */
+>  #define RCANFD_CFCC_CFTML(gpriv, x)	\
+> -	(((x) & (gpriv)->info->max_cftml) << reg_gen4(gpriv, 16, 20))
+> -#define RCANFD_CFCC_CFM(gpriv, x)	(((x) & 0x3) << reg_gen4(gpriv,  8, 16))
+> +	(((x) & (gpriv)->info->max_cftml) << (gpriv)->info->shift_table[RCANFD_CFTML_SH])
+> +#define RCANFD_CFCC_CFM(gpriv, x)	(((x) & 0x3) << (gpriv)->info->shift_table[RCANFD_CFM_SH])
+>  #define RCANFD_CFCC_CFIM		BIT(12)
+> -#define RCANFD_CFCC_CFDC(gpriv, x)	(((x) & 0x7) << reg_gen4(gpriv, 21,  8))
+> +#define RCANFD_CFCC_CFDC(gpriv, x)	(((x) & 0x7) << (gpriv)->info->shift_table[RCANFD_CFDC_SH])
+>  #define RCANFD_CFCC_CFPLS(x)		(((x) & 0x7) << 4)
+>  #define RCANFD_CFCC_CFTXIE		BIT(2)
+>  #define RCANFD_CFCC_CFE			BIT(0)
+> @@ -511,12 +516,24 @@ enum rcar_canfd_reg_offset_id {
+>  	RCANFD_CFOFFSET,	/* Transmit/receive FIFO buffer access ID register */
+>  };
+>  
+> +enum rcar_canfd_shift_id {
+> +	RCANFD_NTSEG2_SH,	/* Nominal Bit Rate Time Segment 2 Control */
+> +	RCANFD_NTSEG1_SH,	/* Nominal Bit Rate Time Segment 1 Control */
+> +	RCANFD_NSJW_SH,		/* Nominal Bit Rate Resynchronization Jump Width Control */
+> +	RCANFD_DTSEG2_SH,	/* Data Bit Rate Time Segment 2 Control */
+> +	RCANFD_DTSEG1_SH,	/* Data Bit Rate Time Segment 1 Control */
+> +	RCANFD_CFTML_SH,	/* Common FIFO TX Message Buffer Link */
+> +	RCANFD_CFM_SH,		/* Common FIFO Mode */
+> +	RCANFD_CFDC_SH,		/* Common FIFO Depth Configuration */
+> +};
+> +
+>  struct rcar_canfd_global;
+>  
+>  struct rcar_canfd_hw_info {
+>  	const struct can_bittiming_const *nom_bittiming;
+>  	const struct can_bittiming_const *data_bittiming;
+>  	const u16 *regs;
+> +	const u8 *shift_table;
+>  	u16 num_supported_rules;
+>  	u8 rnc_stride;
+>  	u8 rnc_field_width;
+> @@ -643,10 +660,33 @@ static const u16 rcar_gen4_regs[] = {
+>  	[RCANFD_CFOFFSET] = 0x6400,
+>  };
+>  
+> +static const u8 rcar_gen3_shift_table[] = {
+> +	[RCANFD_NTSEG2_SH] = 24,
+> +	[RCANFD_NTSEG1_SH] = 16,
+> +	[RCANFD_NSJW_SH] = 11,
+> +	[RCANFD_DTSEG2_SH] = 20,
+> +	[RCANFD_DTSEG1_SH] = 16,
+> +	[RCANFD_CFTML_SH] = 20,
+> +	[RCANFD_CFM_SH] = 16,
+> +	[RCANFD_CFDC_SH] = 8,
+> +};
+> +
+> +static const u8 rcar_gen4_shift_table[] = {
+> +	[RCANFD_NTSEG2_SH] = 25,
+> +	[RCANFD_NTSEG1_SH] = 17,
+> +	[RCANFD_NSJW_SH] = 10,
+> +	[RCANFD_DTSEG2_SH] = 16,
+> +	[RCANFD_DTSEG1_SH] = 8,
+> +	[RCANFD_CFTML_SH] = 16,
+> +	[RCANFD_CFM_SH] = 8,
+> +	[RCANFD_CFDC_SH] = 21,
+> +};
 
-Thank you for the review.
+Exact same comment as previous patch. A structure looks more appropriate
+than an array here.
 
-On Thu, Mar 27, 2025 at 7:43=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 26/03/2025 15:39, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Enable support for the Renesas RZ/V2N (R9A09G056) SoC in the ARM64
-> > defconfig.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  arch/arm64/configs/defconfig | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfi=
-g
-> > index 11e7d0ad8656..c7b41f86c128 100644
-> > --- a/arch/arm64/configs/defconfig
-> > +++ b/arch/arm64/configs/defconfig
-> > @@ -1483,6 +1483,7 @@ CONFIG_ARCH_R9A07G054=3Dy
-> >  CONFIG_ARCH_R9A08G045=3Dy
-> >  CONFIG_ARCH_R9A09G011=3Dy
-> >  CONFIG_ARCH_R9A09G047=3Dy
-> > +CONFIG_ARCH_R9A09G056=3Dy
->
-> So the pattern will keep growing and none of you will ever bother to fix
-> it, because you have your patchset to throw over the wall.
->
-We are working on this internally, upon approval this change won't be
-needed anymore for the new Renesas SoCs.
+>  static const struct rcar_canfd_hw_info rcar_gen3_hw_info = {
+>  	.nom_bittiming = &rcar_canfd_gen3_nom_bittiming_const,
+>  	.data_bittiming = &rcar_canfd_gen3_data_bittiming_const,
+>  	.regs = rcar_gen3_regs,
+> +	.shift_table = rcar_gen3_shift_table,
+>  	.num_supported_rules = 256,
+>  	.rnc_stride = 4,
+>  	.rnc_field_width = 8,
+> @@ -661,6 +701,7 @@ static const struct rcar_canfd_hw_info rcar_gen4_hw_info = {
+>  	.nom_bittiming = &rcar_canfd_gen4_nom_bittiming_const,
+>  	.data_bittiming = &rcar_canfd_gen4_data_bittiming_const,
+>  	.regs = rcar_gen4_regs,
+> +	.shift_table = rcar_gen4_shift_table,
+>  	.num_supported_rules = 512,
+>  	.rnc_stride = 2,
+>  	.rnc_field_width = 16,
+> @@ -677,6 +718,7 @@ static const struct rcar_canfd_hw_info rzg2l_hw_info = {
+>  	.nom_bittiming = &rcar_canfd_gen3_nom_bittiming_const,
+>  	.data_bittiming = &rcar_canfd_gen3_data_bittiming_const,
+>  	.regs = rcar_gen3_regs,
+> +	.shift_table = rcar_gen3_shift_table,
+>  	.num_supported_rules = 256,
+>  	.rnc_stride = 4,
+>  	.rnc_field_width = 8,
+> @@ -688,17 +730,6 @@ static const struct rcar_canfd_hw_info rzg2l_hw_info = {
+>  };
+>  
+>  /* Helper functions */
+> -static inline bool is_gen4(struct rcar_canfd_global *gpriv)
+> -{
+> -	return gpriv->info == &rcar_gen4_hw_info;
+> -}
+> -
+> -static inline u32 reg_gen4(struct rcar_canfd_global *gpriv,
+> -			   u32 gen4, u32 not_gen4)
+> -{
+> -	return is_gen4(gpriv) ? gen4 : not_gen4;
+> -}
+> -
+>  static inline void rcar_canfd_update(u32 mask, u32 val, u32 __iomem *reg)
+>  {
+>  	u32 data = readl(reg);
 
-Cheers,
-Prabhakar
+Yours sincerely,
+Vincent Mailhol
+
 
