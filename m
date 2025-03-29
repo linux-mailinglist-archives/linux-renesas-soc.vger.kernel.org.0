@@ -1,173 +1,92 @@
-Return-Path: <linux-renesas-soc+bounces-15046-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15047-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC54A755A5
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 11:02:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFCCA7562E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 13:13:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4911F3A76C0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 10:02:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 806C13AC363
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 12:13:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C73AE1B043A;
-	Sat, 29 Mar 2025 10:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="rwwxVMWs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9D651C3308;
+	Sat, 29 Mar 2025 12:13:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A14B187FEC
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 29 Mar 2025 10:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9CB06FBF;
+	Sat, 29 Mar 2025 12:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743242556; cv=none; b=dnvqJILRjfr/Pn2y5Zcl4wJleJzuA6vuUdlqBlVFU/wajfqru3ZmsNuFoNkjB+9+lEDS/yt1r4HYRw4j6+LbEP5HmemsOhX42kodJSZGbBYMNjZZPVFuwoOyWiz9cF3B86iDvna8xY0Dvf0R2kzUbvSChT/X/Dz11lXxASDMNd4=
+	t=1743250395; cv=none; b=IeKlrov2vhagqUdULg1+XdlgshCcmem64Tuf7SqRMbil8LUPnZaiNIDvk65cgqs3gxYIil3+Xqg8iRpmYOEDPjc3E+Wk8ipnA7ArVpYiBz59zUSXmNsNzyf3QOQMVeY3ogAsMzkbhs4ju/aQBE/wb+lcMvgOWVQYrYFVKJ6X8Hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743242556; c=relaxed/simple;
-	bh=dH9+6RQdoDLhFzbAWFEt6un7a5fTJ8/Aw42J7tuTQSc=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nZtu68pRn8kI6yGheEkGmPV2YJxw8rFY20DD3S9ac1cF/J3reyEUlLfwrTUGN+gm3pEAidoiBzXtZQbVYCRVgoHvXJLJCLE1QLZqDIJNBuRdduDUF4S6WtAPr/S3VQ0OO6K3fdP28OC6Hc95kCXWYCHFTJVTuNPSA236F3Y12DA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=rwwxVMWs; arc=none smtp.client-ip=84.16.241.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
-Received: from [192.168.90.187] (unknown [94.110.49.146])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sander@svanheule.net)
-	by polaris.svanheule.net (Postfix) with ESMTPSA id B3CA15DACBF;
-	Sat, 29 Mar 2025 10:53:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-	s=mail1707; t=1743242026;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dH9+6RQdoDLhFzbAWFEt6un7a5fTJ8/Aw42J7tuTQSc=;
-	b=rwwxVMWs4hmFUXR5Td3TjP/acvp3cAlIDH0WpWA3tkqqv42r4ZU2uzI+Dr6NRRnaj1VyWq
-	YwQR+xbW0wQSsvZosFiVGmjRy2nhd6qBObzIqS67Wxefh8OC8WU8ptWfvzKnxOtoFlevj2
-	ka1d+rX8A8qDhkJOAty9gQUkKorj6txt8Ueq/WryT0xIHhPEunesc1MvNdSWtgHzpXo7e4
-	dnewaHqKAPgTeDxcfjAXVudN8K87bSuCfGxKE3nxk5zQtfDJHOfXRruuKO3IDSpaC6gtj6
-	OA9GO7oUv7v5Q84NRb5lYQJHYmneUNWPdixJ09rcyHD2BZMfa7NhU3C/hYsIdw==
-Message-ID: <27075369f1d53f840965a09601e10b130f622d16.camel@svanheule.net>
-Subject: Re: [PATCH] dt-bindings: gpio: Correct indentation and style in DTS
- example
-From: Sander Vanheule <sander@svanheule.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Linus Walleij	
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Rob
- Herring	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley	 <conor+dt@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
-  Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Shawn Guo	 <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Paul Walmsley	
- <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Shubhrajyoti Datta
- <shubhrajyoti.datta@amd.com>, Srinivas Neeli	 <srinivas.neeli@amd.com>,
- Michal Simek <michal.simek@amd.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Manikandan
- Muralidharan	 <manikandan.m@microchip.com>, Maxime Ripard
- <mripard@kernel.org>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Bert Vermeulen
- <bert@biot.com>, 	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	imx@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	s=arc-20240116; t=1743250395; c=relaxed/simple;
+	bh=jrK7b4pAGD3WtrjgK9dgREIRbNlUcV7RLSeQuht4Y5s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BUWik75sTTql0c62ETtJ99/YhyPTo7c8HFnUOeuGlkFll6rHv87tvnunYwsFBhpKhsAfDAyNH0Ozc43QxvYKYZOwP3hholoYorriZXQ3+NqyTSrgYOWP0EJEE0/p70UsYr4PVikbpcHnrAdbZOyN3BEQ/BVxKSNcTR8OvnlaDlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: PJoertgIQt+WaFThNYPYGw==
+X-CSE-MsgGUID: 9p+mjqpfRyWcSd03qq6CIQ==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 29 Mar 2025 21:13:05 +0900
+Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.9])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id BB22B40061A5;
+	Sat, 29 Mar 2025 21:13:01 +0900 (JST)
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: john.madieu.xa@bp.renesas.com,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	krzk+dt@kernel.org,
+	magnus.damm@gmail.com,
+	robh@kernel.org
+Cc: biju.das.jz@bp.renesas.com,
+	devicetree@vger.kernel.org,
+	john.madieu@gmail.com,
+	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Date: Sat, 29 Mar 2025 10:53:45 +0100
-In-Reply-To: <20250324125326.82270-1-krzysztof.kozlowski@linaro.org>
-References: <20250324125326.82270-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Subject: [PATCH 0/2] arm64: dts: renesas: r9a09g047e57-smarc: Add I2C2 and PMIC support
+Date: Sat, 29 Mar 2025 13:12:55 +0100
+Message-ID: <20250329121258.172099-1-john.madieu.xa@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Krysztof,
+Hi all,
 
-On Mon, 2025-03-24 at 13:53 +0100, Krzysztof Kozlowski wrote:
-> DTS example in the bindings should be indented with 2- or 4-spaces and
-> aligned with opening '- |', so correct any differences like 3-spaces or
-> mixtures 2- and 4-spaces in one binding.=C2=A0 While re-indenting, drop
-> unused labels.
->=20
-> No functional changes here, but saves some comments during reviews of
-> new patches built on existing code.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-> =C2=A0.../bindings/gpio/atmel,at91rm9200-gpio.yaml=C2=A0 | 16 ++---
-> =C2=A0.../bindings/gpio/fairchild,74hc595.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 20 +++---
-> =C2=A0.../devicetree/bindings/gpio/gpio-mxs.yaml=C2=A0=C2=A0=C2=A0 | 70 +=
-++++++++----------
-> =C2=A0.../devicetree/bindings/gpio/nxp,pcf8575.yaml | 24 +++----
-> =C2=A0.../bindings/gpio/realtek,otto-gpio.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 8 +--
-> =C2=A0.../bindings/gpio/renesas,em-gio.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 20 +++---
-> =C2=A0.../bindings/gpio/renesas,rcar-gpio.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 24 +++----
-> =C2=A0.../devicetree/bindings/gpio/sifive,gpio.yaml |=C2=A0 6 +-
-> =C2=A0.../bindings/gpio/toshiba,gpio-visconti.yaml=C2=A0 | 24 +++----
-> =C2=A0.../bindings/gpio/xlnx,gpio-xilinx.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 48 ++++++-------
-> =C2=A010 files changed, 130 insertions(+), 130 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/gpio/realtek,otto-gpio.yam=
-l
-> b/Documentation/devicetree/bindings/gpio/realtek,otto-gpio.yaml
-> index 39fd959c45d2..728099c65824 100644
-> --- a/Documentation/devicetree/bindings/gpio/realtek,otto-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/realtek,otto-gpio.yaml
-> @@ -81,7 +81,7 @@ dependencies:
-> =C2=A0
-> =C2=A0examples:
-> =C2=A0=C2=A0 - |
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio@3500 {
-> +=C2=A0=C2=A0=C2=A0 gpio@3500 {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible =3D "realtek,=
-rtl8380-gpio", "realtek,otto-gpio";
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg =3D <0x3500 0x1c>;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio-controller;
-> @@ -91,9 +91,9 @@ examples:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #interrupt-cells =3D <2>=
-;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 interrupt-parent =3D <&r=
-tlintc>;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 interrupts =3D <23>;
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-> +=C2=A0=C2=A0=C2=A0 };
-> =C2=A0=C2=A0 - |
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio@3300 {
-> +=C2=A0=C2=A0=C2=A0 gpio@3300 {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible =3D "realtek,=
-rtl9300-gpio", "realtek,otto-gpio";
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg =3D <0x3300 0x1c>, <=
-0x3338 0x8>;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpio-controller;
-> @@ -103,6 +103,6 @@ examples:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #interrupt-cells =3D <2>=
-;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 interrupt-parent =3D <&r=
-tlintc>;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 interrupts =3D <13>;
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-> +=C2=A0=C2=A0=C2=A0 };
-> =C2=A0
-> =C2=A0...
+This patch series adds initial support for the Renesas RAA215300 PMIC
+(CONFIG_REGULATOR_RAA215300 kernel symbol) on the RZ/G3E SMARC EVK board.
+To enable PMIC communication, the I2C2 pinctrl configuration is added first,
+followed by the RAA215300 node.
 
-FWIW
+Patch 1 adds the pin control configuration for I2C2 to enable communication
+with the PMIC over the appropriate bus.
 
-Reviewed-by: Sander Vanheule <sander@svanheule.net>
+Patch 2 introduces the device tree node for the RAA215300 PMIC, connected via
+I2C2. This will indirectly enable support for the built-in RTC chip, compatible
+with the ISL1208 (CONFIG_RTC_DRV_ISL1208 symbol needs to be enabled for support)
 
-Thanks!
+RTC and its alarm (via wakealarm sysfs file) have been tested and validated on
+RZ/G3E SMARC EVK board.
 
-Best,
-Sander
+This patch series depends upon [1].
+Feedback is welcome.
+
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20250207113653.21641-13-biju.das.jz@bp.renesas.com/
+
+John Madieu (2):
+  arm64: dts: renesas: rzg3e-smarc-som: Add I2C2 device pincontrol
+  arm64: dts: renesas: rzg3e-smarc-som: add raa215300 pmic support
+
+ .../boot/dts/renesas/rzg3e-smarc-som.dtsi     | 38 +++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+-- 
+2.25.1
 
 
