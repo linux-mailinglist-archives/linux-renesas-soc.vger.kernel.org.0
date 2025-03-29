@@ -1,41 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-15038-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15039-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7197DA7548D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 08:03:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7528A75496
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 08:18:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 145C73ACFBF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 07:03:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 996A17A5253
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 07:17:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F6262557C;
-	Sat, 29 Mar 2025 07:03:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E54101624C3;
+	Sat, 29 Mar 2025 07:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Mm/jkY21"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 452EAE555;
-	Sat, 29 Mar 2025 07:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF9235979
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 29 Mar 2025 07:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743231826; cv=none; b=hUtTLbBY00AvEifhMaA1o5qqPNQHl3YHianO7Gu1iOAa7VN/yFLaqX1cYFLyfzhXkqiIkl/HAUNgPuyxRfaONBcaof1Hpm+Ns3KcVytvl150axV+WBtxDdMp+HDY8LsEo36Td4KOJHjc02SEjcICsE2+z3qqsl+/8B+GmgmMB9k=
+	t=1743232690; cv=none; b=eRpvlKcLvWouzKCzR8VKBQTj1ugcrGiY/1vT2Tps5fbyOdo5p/4+YVIgV8KOjPPimbxnG9jLpPAdQ1C/uEq4w7LXGtwB6oyAo8JkKTwgGZlqut5F/XoYdRDEAp1HB4zbdHM4hNoiSvdNbSv9Crcc9H7CKfuL5ef4Zpt7MYVUMbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743231826; c=relaxed/simple;
-	bh=2beA8cDcWIdtdekuX8g1pqz0xOLSNaN8ZjGSH7bwWB4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f+9pZF8zFdJgOf+Zjl6NBIBRgnacdcM7+IhPOQlwTLyN2r4itZjKPTr9KtDxejQpma8IVtJEenNRWIin4SZYIqdu5zv4CUbPp3mXfpq0ChIEiSXovgDviCTm/7B2LL8iLmEVyYb2wH8mIa0KzoMtgUxO2h2qbLvwp6RglMR4FCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: FoFkQ5JrSqCHgBDbVBGbAQ==
-X-CSE-MsgGUID: pPB8W405Sm2oEVizY0cVVQ==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 29 Mar 2025 16:03:36 +0900
-Received: from localhost.localdomain (unknown [10.226.92.21])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 14C46417BE56;
-	Sat, 29 Mar 2025 16:03:31 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	s=arc-20240116; t=1743232690; c=relaxed/simple;
+	bh=SQ5a/0c9TzMxjdnRp/lTAc9obIpAwtemiz6iMrwyYSs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qrCKmMIXZf2vwPY0qrMUs46t7SIFD05WiyBXYF88XFA6+3xv0PDjRZXVvief+1AbAnUltMliWDWYTcoC/1iWV4lhPqJ6ZnT3f3WTnEOFpBuP4ikw+21gEbiuEYz5mvfc+XRqrdfAcXahXCIejgD3bXzwSADvcbF8cije3o8ud5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Mm/jkY21; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=SQ5a
+	/0c9TzMxjdnRp/lTAc9obIpAwtemiz6iMrwyYSs=; b=Mm/jkY21u2lj51ThR03A
+	qDclBr01poEU1knD48F/XYm77/drHoY2mJd9wYCWvT/IQeUrsdQ4npI6uwPm9ecY
+	QZ3bIfkehg9iM5wcs70tAjpi6s9iNsCxzEmZyZPCeBCKJS/gSDJLxxbKsL2RdAHw
+	1NBGhHat1pd1B9AbHQEpbNbkuPzhjmu96fhBV7cU3Q7eiULrNw69JUrsJyq14FcF
+	cna/FSPFq148/1/m5NsJ8yTKYb2HXb2jI4ae05/wWSlVKHVnIZGEEfaUz2n2jWXG
+	Cw1ieMez9XCGTfjkiRoAvyjrwDwSTUXJcMENtJZ+k6zvCN00nqWHOpbG85R5cpjF
+	Ug==
+Received: (qmail 500989 invoked from network); 29 Mar 2025 08:18:06 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Mar 2025 08:18:06 +0100
+X-UD-Smtp-Session: l3s3148p1@g/4A/XUxSKUgAwD6PzqDAV8182DI+BaV
+Date: Sat, 29 Mar 2025 08:18:08 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
 	Adrian Hunter <adrian.hunter@intel.com>,
 	AKASHI Takahiro <takahiro.akashi@linaro.org>,
 	Ben Chuang <ben.chuang@genesyslogic.com.tw>,
@@ -44,49 +56,72 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Shan-Chun Hung <shanchun1218@gmail.com>,
 	Peter Robinson <pbrobinson@gmail.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	linux-mmc@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
 	kernel test robot <lkp@intel.com>
-Subject: [PATCH] mmc: host: Kconfig: Fix undefined reference to rdev_get_drvdata()
-Date: Sat, 29 Mar 2025 07:03:24 +0000
-Message-ID: <20250329070329.32562-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH] mmc: host: Kconfig: Fix undefined reference to
+ rdev_get_drvdata()
+Message-ID: <Z-eesJwwOTN5qMoj@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	AKASHI Takahiro <takahiro.akashi@linaro.org>,
+	Ben Chuang <ben.chuang@genesyslogic.com.tw>,
+	Victor Shih <victor.shih@genesyslogic.com.tw>,
+	Sergey Khimich <serghox@gmail.com>,
+	Shan-Chun Hung <shanchun1218@gmail.com>,
+	Peter Robinson <pbrobinson@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-mmc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+References: <20250329070329.32562-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HJrzEgu6/wmVFVtf"
+Content-Disposition: inline
+In-Reply-To: <20250329070329.32562-1-biju.das.jz@bp.renesas.com>
 
-The driver no longer builds when regulator support is unavailable. Fix
-the build error undefined reference to rdev_get_drvdata() by selecting the
-REGULATOR in config MMC_SDHI.
 
-Fixes: fae80a99dc03 ("mmc: renesas_sdhi: Add support for RZ/G3E SoC")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202503290554.zASQT70Q-lkp@intel.com/
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/mmc/host/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+--HJrzEgu6/wmVFVtf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
-index 6824131b69b1..14f485248ff9 100644
---- a/drivers/mmc/host/Kconfig
-+++ b/drivers/mmc/host/Kconfig
-@@ -692,6 +692,7 @@ config MMC_SDHI
- 	tristate "Renesas SDHI SD/SDIO controller support"
- 	depends on SUPERH || ARCH_RENESAS || COMPILE_TEST
- 	select MMC_TMIO_CORE
-+	select REGULATOR
- 	select RESET_CONTROLLER if ARCH_RENESAS
- 	help
- 	  This provides support for the SDHI SD/SDIO controller found in
--- 
-2.43.0
+On Sat, Mar 29, 2025 at 07:03:24AM +0000, Biju Das wrote:
+> The driver no longer builds when regulator support is unavailable. Fix
+> the build error undefined reference to rdev_get_drvdata() by selecting the
+> REGULATOR in config MMC_SDHI.
 
+As said in a previous mail: I'd suggest MMC_SDHI_INTERNAL_DMAC.
+
+
+--HJrzEgu6/wmVFVtf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfnnrAACgkQFA3kzBSg
+KbZQFhAAmzsD4DOvmhNxY3zYbPLRkjhyvF7cEYYNd3g9BGhzXYrR2cy1tfKPe3oG
+c42fCjME0D3X9kXHhyDMAhZ7XFfoatt0oEZe3wGcZQRlgN+/ocrClFORGkBQHBvi
+bKrYeB0GxDxrd/CZCGr1dbphh6lmvNheERXgFSo8aF95Ydt6Xveat8wr0bA3zkn1
+1gqTRuDYqPrSk6iijWf+dtpvIVhdhwkaoscO+deGxVapruoqFGwERmYpRgCa1aUd
+FG4bsy1g9JdrRCls6+dag5AJY2bJasdFHi6xUk9C/JDQEfvgFgzQNWgpXrBUOHDE
+u3Oju95r28bbS1jioETOc4IyE3hlGNT1bEcWo2al9fbt1wxSOfYjH9dkbvsfGXFS
+bgdpncd5/HA30Gx0amWFnA57Nzzd2VHcJhbQWs5wPFWgi17jWr+LirHwBXPi8UrV
+Dsz9oNUq54LEiNYuqCiYlOoDxdR6WSb/PnbOjXaSzsZtk1z0M4r8+xzwyTbKX47q
+oIqwr0s5RQUkF7JpXTTkrHFNXa+hZCqWJAXDkhUSjksI8G55T+qMhjBXgshlrCDC
+7ACBQb7hHbzYqjI/Nn4i43HoZ3xhuh4uIKAl1eybNJRuP//lWe3bsruLRX68WEVU
+xiT6zR93AQ9Bto+ZCDaKq1BYcq5r0PkFZBKTdzxbAVBrC3vNx0c=
+=1XhS
+-----END PGP SIGNATURE-----
+
+--HJrzEgu6/wmVFVtf--
 
