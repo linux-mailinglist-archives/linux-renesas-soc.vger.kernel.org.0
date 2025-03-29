@@ -1,150 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-15043-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15044-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08E2A7551F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 09:21:18 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A091A7555B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 10:13:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 519B1170B54
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 08:21:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 07EBB7A5C73
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 09:12:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6B1A16F841;
-	Sat, 29 Mar 2025 08:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="QgRooTHi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="H4pHMqxJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FCFC18C02E;
+	Sat, 29 Mar 2025 09:13:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E63322B;
-	Sat, 29 Mar 2025 08:21:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5936C17B402;
+	Sat, 29 Mar 2025 09:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743236472; cv=none; b=mctNeyyFuDg1P5J+SQ7NzM/4BLmAFM/oxNKqSDWE92kteVFjMtLTgqDuuDvko3n0xLrsf1oy23UbRd0+qSnDbFRrqglYA4AmO1Agw5Ht60Ks4S5UcnuBMGc7hTfFWwGPP8m0AwAbXywL4ZOHGOCZE34k0rG1lhgceCQlVZigFcU=
+	t=1743239626; cv=none; b=uEYnbOfDuQ/2HZ+Ku1t6WqdqRdXpxSBrR5MvkNnisJhDPKB7+AEx4TBDyR3WVL3o6T6FVfMxMFuXGh0dSAw7OV8fJQR/fXLRUUn0VzgruqOXPz2OXQlVU8K6hSacck9ZAOgq2Q+UHuaenT9hqodniFwtielAVXBHbChCJHay18g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743236472; c=relaxed/simple;
-	bh=QDAB0m55g27E6p45mHvxVY4scga+fDK5Z4vdhZXG22w=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=tP2R9dgEGDpqE6H5neZgOpAZGBVPEtbLgKgip/Z80AtnwWZXRfv8VBMqL8UDZLqZlpY+k1E1vs2xHGPjXpAH1MGd97MLFSxSpxvYSMHu+ZUSPx5B4gwAWcqw62PKHPW8K14Vnin23xx8qoSEu/rtdDCH/85RKjgO0HBzf/aZn2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=QgRooTHi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=H4pHMqxJ; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.stl.internal (Postfix) with ESMTP id 4A83011400E1;
-	Sat, 29 Mar 2025 04:21:08 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-07.internal (MEProxy); Sat, 29 Mar 2025 04:21:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1743236468;
-	 x=1743322868; bh=SugjB2hxXE9R9kz/zxH8KYpJQN3Ownr5fZvSRSXceCg=; b=
-	QgRooTHi86+koT2nKn8GWz+UoGRfy68Gc4uiUV59OJw3Xe4TxXOTetDxXHUlhGKF
-	ZRWgggolyRZbckjyBX18CVhD4qiYksHV3aMWDWq/rem8n4hes7F10bgnIQudWUTS
-	UPWaBZObUvbf0j1VpQbgNiNGedf7/s08aToBMRF0zkbs4IWUy/bK5H7rAFh0TDpd
-	ZZY+r1HalbiMZOfJTEIQsE/l1DVw/L2xGeOjiuil3yQMSyRoSG8W2COovRv72lWb
-	T+cXFknJ8GgRaSNTzMBasQGKrHdbdwguY5FUVGsalyb53zmV3zUV0jeRANcKfk+c
-	627y9VTJDCiKoNI12NP68w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1743236468; x=
-	1743322868; bh=SugjB2hxXE9R9kz/zxH8KYpJQN3Ownr5fZvSRSXceCg=; b=H
-	4pHMqxJiE03vy/hfQjcC/PyroDBG8NCmlZ+PEGlDo13A6QugVx38a2gm1GVMExlL
-	TNOESnMWPIvwYsfMMXRt9iDxyONainI3JiUixn4BGGOAmbU1cw0E78wLlfO1Ixhh
-	GVqVa53ikqhOyz6wZpCly+bFqzX4ekTBo/w7dN0ZwW2mXU4hsb6Gwkmn7hcJnGhi
-	RfB7TX5x5mz4ATl2JyblBG3NSfENzDJ3M81Kqx1vX1+TCJp8JzE4h2pfkAHHo2Rj
-	1MpOuI/MRzpGYTwh6Fu7AphM8dYvYuf/uxdfRo6YN3zw76Pz9Xq0hy+SV5n94zwB
-	aoZPjPJ065y1zE7mgSaTw==
-X-ME-Sender: <xms:ca3nZ1ezqcfuVOyK9mmG3GApj90zmWejLb00bWdLLMpffPEv6ckjbQ>
-    <xme:ca3nZzOii4gLYtY-3KXom0GK3Qiz57oqszOICiZZqIpVwU5iLw90nFZl1zS06pn1u
-    MmHoS8-g3tOGGg3xWE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujeefieejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
-    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
-    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
-    udeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsihhjuhdruggrshdrjhiise
-    gsphdrrhgvnhgvshgrshdrtghomhdprhgtphhtthhopehprhgrsghhrghkrghrrdhmrghh
-    rgguvghvqdhlrggurdhrjhessghprdhrvghnvghsrghsrdgtohhmpdhrtghpthhtoheprg
-    hnghgvlhhoghhiohgrtggthhhinhhordguvghlrhgvghhnohestgholhhlrggsohhrrgdr
-    tghomhdprhgtphhtthhopegsvghnrdgthhhurghnghesghgvnhgvshihshhlohhgihgtrd
-    gtohhmrdhtfidprhgtphhtthhopehvihgtthhorhdrshhhihhhsehgvghnvghshihslhho
-    ghhitgdrtghomhdrthifpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlih
-    guvghrrdgsvgdprhgtphhtthhopegsihhjuhdruggrshdrrghusehgmhgrihhlrdgtohhm
-    pdhrtghpthhtohepphgsrhhosghinhhsohhnsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    epshgvrhhghhhogiesghhmrghilhdrtghomh
-X-ME-Proxy: <xmx:ca3nZ-g5kk8dsL37AyxnNlwKEAARWZQ8h1gw9O0-fdBW3aJ4NQRq2g>
-    <xmx:ca3nZ--DDBgkMbKK-IuyHfES0fE3EV8aS7cc_nIQ3Qs4gxSySlLg3Q>
-    <xmx:ca3nZxurdJrQILgcTj4RBFkiRxCudXsZT1cz15oDYEktZJ1-jg53Kg>
-    <xmx:ca3nZ9G4MT0LvY7J-XDEi9lN5EXOkZ-mjyj_MLgGKYbgCpZBsNX7nw>
-    <xmx:dK3nZxNCCSzLf7x4592_LWb-ZVbJFynfJ12Rjm5jIjAwQfMXD48dG2V_>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B33312220072; Sat, 29 Mar 2025 04:21:05 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1743239626; c=relaxed/simple;
+	bh=17n6VZ0MhfVLK2tNYRJ1i9vKm39gH+uTRlrdSNe0dSk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=DDD8McVWcxNT4YIIy4ahm7XmPD1eeMEzaHjQ1lyVe3dXvHEMWnPJztcVPJoapJ+ySOd6zklYUbjE06GP69calKFfAw4KmZD+OwoazzyadnJ+RZeBrtAdbcYU4Hnln0GA3hxToiV2o3T2hkj7LkFeXYpf0/Hfm6hmqvZVHaipgQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.2.102] (213.87.136.205) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sat, 29 Mar
+ 2025 12:13:29 +0300
+Message-ID: <f15da9fc-781d-440f-ac36-f19f96146433@omp.ru>
+Date: Sat, 29 Mar 2025 12:13:26 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Tf583c862d1eb4221
-Date: Sat, 29 Mar 2025 09:20:45 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Biju Das" <biju.das.jz@bp.renesas.com>,
- "Ulf Hansson" <ulf.hansson@linaro.org>
-Cc: "Adrian Hunter" <adrian.hunter@intel.com>,
- "Victor Shih" <victor.shih@genesyslogic.com.tw>,
- "Ben Chuang" <ben.chuang@genesyslogic.com.tw>,
- "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
- "Sergey Khimich" <serghox@gmail.com>,
- "Shan-Chun Hung" <shanchun1218@gmail.com>,
- "Peter Robinson" <pbrobinson@gmail.com>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Wolfram Sang" <wsa+renesas@sang-engineering.com>,
- "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
- "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "Biju Das" <biju.das.au@gmail.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- "kernel test robot" <lkp@intel.com>
-Message-Id: <60a19227-0bcf-4c50-866b-e659e436472b@app.fastmail.com>
-In-Reply-To: <20250329080036.49170-1-biju.das.jz@bp.renesas.com>
-References: <20250329080036.49170-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2] mmc: host: Kconfig: Fix undefined reference to
- rdev_get_drvdata()
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
+ I2C bus
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	<linux-renesas-soc@vger.kernel.org>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+	<magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	<devicetree@vger.kernel.org>
+References: <20250328153134.2881-7-wsa+renesas@sang-engineering.com>
+ <20250328153134.2881-9-wsa+renesas@sang-engineering.com>
+Content-Language: en-US
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+In-Reply-To: <20250328153134.2881-9-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 03/29/2025 09:01:46
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 19
+X-KSE-AntiSpam-Info: Lua profiles 192220 [Mar 29 2025]
+X-KSE-AntiSpam-Info: Version: 6.1.1.11
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 51 0.3.51
+ 68896fb0083a027476849bf400a331a2d5d94398
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.136.205 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.136.205 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: {Tracking_ip_hunter}
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.136.205
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 19
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 03/29/2025 09:04:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 3/29/2025 6:57:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Sat, Mar 29, 2025, at 09:00, Biju Das wrote:
->
-> diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
-> index 6824131b69b1..f62e436b1d4f 100644
-> --- a/drivers/mmc/host/Kconfig
-> +++ b/drivers/mmc/host/Kconfig
-> @@ -692,6 +692,7 @@ config MMC_SDHI
->  	tristate "Renesas SDHI SD/SDIO controller support"
->  	depends on SUPERH || ARCH_RENESAS || COMPILE_TEST
->  	select MMC_TMIO_CORE
-> +	select REGULATOR if ARCH_RENESAS
->  	select RESET_CONTROLLER if ARCH_RENESAS
+On 3/28/25 6:31 PM, Wolfram Sang wrote:
 
-You should never 'select' another subsystem from a device
-driver, that just causes circular dependencies leads to
-unintended effects when a subsystem suddenly gets turned on
-during 'make oldconfig' or 'make defconfig' when it should
-have remained disabled.
+> Schematics mention a 24cs64 on the bus, but I definitely have only a
+> 24c64. So, it is only mentioned as a comment.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  .../dts/renesas/r9a06g032-rzn1d400-db.dts     | 44 +++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+> index 31cdca3e623c..d50a1d91e968 100644
+> --- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+> @@ -57,6 +57,44 @@ fixed-link {
+>  	};
+>  };
+>  
+> +&i2c2 {
+> +	pinctrl-0 = <&pins_i2c2>;
+> +	pinctrl-names = "default";
+> +	status = "okay";
+> +	clock-frequency = <400000>;
+[...]> +	/* Some revisions may have a 24cs64 at address 0x58 */
+> +	eeprom@50 {
 
-I see that I forgot to send a patch I made when the problem
-showed up two weeks ago, I'll send my patch.
+   So 0x58 or 0x50?
 
-       Arnd
+> +		compatible = "atmel,24c64";
+> +		pagesize = <32>;
+> +		reg = <0x50>;
+> +	};
+> +};
+> +
+>  &mii_conv4 {
+>  	renesas,miic-input = <MIIC_SWITCH_PORTB>;
+>  	status = "okay";
+[...]
+
+MBR, Sergey
+
 
