@@ -1,64 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-15056-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15057-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05642A756BE
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 15:38:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B8FA7591E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Mar 2025 11:17:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E5F418932F8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Mar 2025 14:38:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC101188DB99
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Mar 2025 09:18:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9109A1D61B7;
-	Sat, 29 Mar 2025 14:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="HYJUWp1I"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB73175D50;
+	Sun, 30 Mar 2025 09:17:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-27.smtpout.orange.fr [80.12.242.27])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E119326AEC;
-	Sat, 29 Mar 2025 14:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.27
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AB8E360;
+	Sun, 30 Mar 2025 09:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743259107; cv=none; b=O+7P/MGDIwyHUQZY1XUIy7XTnzjWY5/ImTFpNQ0Q2zdHurnwCrCnuVzMOgER514xZMmiVAuuj97n28by14QFqxhB+RAjKZpIexgiI+PmIgO+9kH+kTV+OShJwpUkvEA7UGmSAjmdesANDzVMYMCWYVI+v53ZLTUTwgxgsijvy4o=
+	t=1743326269; cv=none; b=uFfjxmsbnCuKS6d1J+i5sot78OvMv84ZxfIUj1Ra03ToKeviQecCvPiZ/QQmNbFGVIa3kzfe4OxRDKWoCBXxlS3HxJmti+an9VY71x8h392PpJSNijMARk4ODnaONzNBlHn1QWVbIrlyXzXG8Ix1krM8q+xQuBLISwPbiCqEtgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743259107; c=relaxed/simple;
-	bh=l+dHcMyev7aJ/DOR2Dral9svlyRLsrbruZjTLse9CBA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JrYfoDcq9P1EAgHmAiAnM9PXsNKpB4TAfaHwphcmbaVGlYuubQtEcegs0W2nvGMDJkmT8sCby+XkHbLzO6SqE6eBZwiY5pieLif2L+mSX67auwWOiSH/3R/WaIu3JCm34BjyFrIILpxC28KSDDUifI6GzO9yFvw8a2uURSTg2h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=HYJUWp1I; arc=none smtp.client-ip=80.12.242.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from fedora.home ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id yXJ9tDUS38XbxyXJCt8j6b; Sat, 29 Mar 2025 15:37:15 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1743259035;
-	bh=jNo5sigsMldVErhuF43kHZ10y6ehCb/yTyOsz8Q29KI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=HYJUWp1IiRVUImtTcz4xpyR5HquyI7Yy6mqzQ2kJKjlUzbNTJnzVageYfxiCfWGqz
-	 ziJoya6pu3lLcWQpZb3NBBqMzHI+hoy5qWn7hs1rIkTgdlhLJdDc0R9PK6r5LumU4t
-	 BY7GV3BtibcsKMREyGNQq/uysb6LJQZJ/fpsoC4uv6LOpkfqKs8V4LfC2zwVA0z7Bv
-	 Q4YICI33Zcj+SMJT65CQ2Y0zcyTms4tjmlnl5ev9Q1/lRHfTPOybjYpD8mkurndXM7
-	 zjF0fO2+Vu13E2Q87AJZzCSJ5D+vF/yzjoayrt4XiJ1wnkoCFfVrcOfqiPxrPvirQ7
-	 VvEvBURtuiNpg==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 29 Mar 2025 15:37:15 +0100
-X-ME-IP: 90.11.132.44
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-i2c@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] i2c: rzv2m: Constify struct i2c_algorithm
-Date: Sat, 29 Mar 2025 15:37:07 +0100
-Message-ID: <537d93441ced53bffa6553b8ec93d007e64cb9a5.1743258995.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1743326269; c=relaxed/simple;
+	bh=u8hLdGe9mwn/p/thIeq0zUvxDZOAhkFYMiztxgZy+h0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GAjAIOtlXTk0fp0rjftgMo46PwwjUDre18Qo3aEGssAfAqajnKbZrM5OPuR3VM9bayadQ3LhZoT6uphwDWt0Kpeshjm4Kvo1v3Zix87K1ZbmeCFsQ0LCsTPENWg2QUl2hEocM88PUUExv2d8dyiBtaE5BzFXYZp4sx9fkmtyGZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: tHhtgsqSSFeaM1C1peT80g==
+X-CSE-MsgGUID: W7iNN95ZTCqzREwv9dLm9w==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 30 Mar 2025 18:17:44 +0900
+Received: from localhost.localdomain (unknown [10.226.92.49])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id C45A14001B4C;
+	Sun, 30 Mar 2025 18:17:41 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH] media: renesas: vsp1: Use %p4cc printk modifier to print FourCC codes
+Date: Sun, 30 Mar 2025 10:17:35 +0100
+Message-ID: <20250330091738.27052-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,44 +55,44 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-'struct i2c_algorithm' is not modified in this driver.
+Replace '%08x->%p4cc' printk modifier to print FourCC codes for pixel
+formats.
 
-Constifying this structure moves some data to a read-only section, so
-increase overall security, especially when the structure holds some
-function pointers.
-
-On a x86_64, with allmodconfig, as an example:
-Before:
-======
-   text	   data	    bss	    dec	    hex	filename
-  11027	    646	     16	  11689	   2da9	drivers/i2c/busses/i2c-rzv2m.o
-
-After:
-=====
-   text	   data	    bss	    dec	    hex	filename
-  11107	    566	     16	  11689	   2da9	drivers/i2c/busses/i2c-rzv2m.o
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-Compile tested-only.
----
- drivers/i2c/busses/i2c-rzv2m.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/renesas/vsp1/vsp1_drm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-rzv2m.c b/drivers/i2c/busses/i2c-rzv2m.c
-index 53762cc56d28..b0e9c0b62429 100644
---- a/drivers/i2c/busses/i2c-rzv2m.c
-+++ b/drivers/i2c/busses/i2c-rzv2m.c
-@@ -402,7 +402,7 @@ static const struct i2c_adapter_quirks rzv2m_i2c_quirks = {
- 	.flags = I2C_AQ_NO_ZERO_LEN,
- };
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+index b5d1f238f7be..f8a575f6188a 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+@@ -593,8 +593,8 @@ static int vsp1_du_pipeline_set_rwpf_format(struct vsp1_device *vsp1,
  
--static struct i2c_algorithm rzv2m_i2c_algo = {
-+static const struct i2c_algorithm rzv2m_i2c_algo = {
- 	.xfer = rzv2m_i2c_xfer,
- 	.functionality = rzv2m_i2c_func,
- };
+ 	fmtinfo = vsp1_get_format_info(vsp1, pixelformat);
+ 	if (!fmtinfo) {
+-		dev_dbg(vsp1->dev, "Unsupported pixel format %08x\n",
+-			pixelformat);
++		dev_dbg(vsp1->dev, "Unsupported pixel format %p4cc\n",
++			&pixelformat);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -849,11 +849,11 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+ 	}
+ 
+ 	dev_dbg(vsp1->dev,
+-		"%s: RPF%u: (%u,%u)/%ux%u -> (%u,%u)/%ux%u (%08x), pitch %u dma { %pad, %pad, %pad } zpos %u\n",
++		"%s: RPF%u: (%u,%u)/%ux%u -> (%u,%u)/%ux%u (%p4cc), pitch %u dma { %pad, %pad, %pad } zpos %u\n",
+ 		__func__, rpf_index,
+ 		cfg->src.left, cfg->src.top, cfg->src.width, cfg->src.height,
+ 		cfg->dst.left, cfg->dst.top, cfg->dst.width, cfg->dst.height,
+-		cfg->pixelformat, cfg->pitch, &cfg->mem[0], &cfg->mem[1],
++		&cfg->pixelformat, cfg->pitch, &cfg->mem[0], &cfg->mem[1],
+ 		&cfg->mem[2], cfg->zpos);
+ 
+ 	/*
 -- 
-2.49.0
+2.43.0
 
 
