@@ -1,62 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-15064-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15065-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D0EA75AA9
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Mar 2025 17:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F387A75AF9
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Mar 2025 18:39:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 517531888614
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Mar 2025 15:36:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1673F1887B10
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Mar 2025 16:39:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 543B41D61AA;
-	Sun, 30 Mar 2025 15:36:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C74521D86DC;
+	Sun, 30 Mar 2025 16:39:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VdfT6JH8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DSlP+kHK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C8935973;
-	Sun, 30 Mar 2025 15:36:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0E8175D50;
+	Sun, 30 Mar 2025 16:39:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743348998; cv=none; b=EbnJqtguz5+9gDQUm9XOGOc5STE0HA9Ee69l/xSxbFOV75J1WXs0MSNOWTDNRMbSclphI3icQptLKWFChP8/CxrtPZh2b4rJeQPonsVixidFqS00uYa0pq1WrAS3GgEQrPB7zM2FhOd2cYixRqhxFIl9Y0XucUy8OeJxPwnCLA0=
+	t=1743352783; cv=none; b=UFHE6rC1To+nGxga1nZa4SDrKax3nYAg+M1BpGsTLk2DEm7bNVMD0hnADZg0QAn8a1UWelLgrKXphbNfi5zeJbIvddD9GJdybn4tOFAqkorJ02HFvmKuvrfUjgedAJkEOWjNBqsD7L3iHamF20ubxQiQf+L410BK7zSgejZxWzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743348998; c=relaxed/simple;
-	bh=FTJ0vDMKBBzaCMUHsW6aS1lwvumacUsEATHIVqqD7hk=;
+	s=arc-20240116; t=1743352783; c=relaxed/simple;
+	bh=V5j1W1nJpZdHJRcysq7Oe534M79h+6sw32lCrhO5bko=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dvqp9+KjLPOrToavT9C/xDCN0LjJ/lT+RldN3HqqnJ68lm/c+bFkP810rH8X/Y3U9cry6G73xySnYeCqxSgZFN1YDC5qroClXArB5X4OTDkAKFtSA4YyL437oRSbbvgEtqp1HILl9PAh6e+KGO1XJb43ipUGfN+qwFrq/bQ4UPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VdfT6JH8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99098C4CEDD;
-	Sun, 30 Mar 2025 15:36:32 +0000 (UTC)
+	 MIME-Version:Content-Type; b=H687h5A76VYm0nK4WxqPE3+Ia7tJ0LNC+447PFAg6Zgc5G4zpYhbSGRejr/HYNRxv8o/eCoSzbLS0rr4KbkQ+wBg67PHmZ/z1OQSa2fud0lJ5wcXDoJ4Y7Gb97QfGBt2GGdkzmaZ2InDujMGBV3I7KDU8djRa859FUGQlDWbZV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DSlP+kHK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07588C4CEDD;
+	Sun, 30 Mar 2025 16:39:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743348997;
-	bh=FTJ0vDMKBBzaCMUHsW6aS1lwvumacUsEATHIVqqD7hk=;
+	s=k20201202; t=1743352783;
+	bh=V5j1W1nJpZdHJRcysq7Oe534M79h+6sw32lCrhO5bko=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VdfT6JH8o3I2bSBL35JE8GPR3JWZs7z0194qDGFO6qbXUhnFD7reDireTCi7pOHpy
-	 XTlqkOaON8sxxibCAYUjp0yMO0YD+EvnK0odUvi9SIwyckNnxKgtJnuaKjUUBV/lSI
-	 NgloaKoNLkgORBf4/aSUIA+hunDZdRs9zD8zwsqrWgZ3h+94a1Q7PbOAxD9SGVnRi1
-	 /PTKuqW8Q7X7UG+0zL6C4bZp3phcIz451qIuJZUU0pcY7SNBsvKSkxP9ScVc8h7Wbp
-	 kIsJx3+groNSvFPQoWvO1uU349NtnfsY4NOoEkFht3XqYC2dcet9vNek2GB+mpsDjL
-	 +PjLWwzJsKYZw==
-Date: Sun, 30 Mar 2025 16:36:27 +0100
+	b=DSlP+kHKxiKQhEBGuOxQvTYGW2bothqLP6dIcRecKrLJBpk2FAQQ1Sd6hhBeuzeRq
+	 uzc+n5Lat8DYzJqEunPmSYRE3SWpFes1lhxdokXGw03tLAp23GJKKluvvimOCXPXzr
+	 9UmTF60kHO92zccmwnCHVjfMlIklx5i4nr51Nr805xZSQQTjGsz6cSApKud+Fzabh+
+	 eHNWEZR4K7lM2YOA8ejB3M+0umjyLGGLRxj71D4WjHFXKgtGlKse1d6MhXjelM7wwm
+	 Rjrd49yz8AqS0I3NW6FBkjhGZOMp4ePleRmbdgPmKCS5dcaBzjQB7IfZSR5Jn1sy6G
+	 sB4EyXezgVr5Q==
+Date: Sun, 30 Mar 2025 17:39:29 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Claudiu <claudiu.beznea@tuxon.dev>,
- prabhakar.mahadev-lad.rj@bp.renesas.com, lars@metafoo.de,
- linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, rafael@kernel.org, ulf.hansson@linaro.org,
- Daniel Lezcano <daniel.lezcano@linaro.org>
-Subject: Re: [PATCH v4 0/2] iio: rzg2l_adc: Cleanups for rzg2l_adc driver
-Message-ID: <20250330163627.152d76ef@jic23-huawei>
-In-Reply-To: <2025032703-genre-excitable-9473@gregkh>
-References: <20250324122627.32336-1-claudiu.beznea.uj@bp.renesas.com>
-	<20250327153845.6ab73574@jic23-huawei>
-	<2025032703-genre-excitable-9473@gregkh>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Nuno Sa <nuno.sa@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Guillaume Stols <gstols@baylibre.com>, Olivier Moysan
+ <olivier.moysan@foss.st.com>, Dumitru Ceclan <mitrutzceclan@gmail.com>,
+ Trevor Gamblin <tgamblin@baylibre.com>, Matteo Martelli
+ <matteomartelli3@gmail.com>, Alisa-Dariana Roman <alisadariana@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ =?UTF-8?B?Sm/Do28=?= Paulo =?UTF-8?B?R29uw6dhbHZlcw==?=
+ <joao.goncalves@toradex.com>, Ramona Alexandra Nechita
+ <ramona.nechita@analog.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v10 2/8] property: Add functions to iterate named child
+Message-ID: <20250330173929.155477d1@jic23-huawei>
+In-Reply-To: <2767173b7b18e974c0bac244688214bd3863ff06.1742560649.git.mazziesaccount@gmail.com>
+References: <cover.1742560649.git.mazziesaccount@gmail.com>
+	<2767173b7b18e974c0bac244688214bd3863ff06.1742560649.git.mazziesaccount@gmail.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -67,50 +82,154 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 27 Mar 2025 17:22:20 +0100
-Greg KH <gregkh@linuxfoundation.org> wrote:
+On Mon, 24 Mar 2025 09:12:50 +0200
+Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 
-> On Thu, Mar 27, 2025 at 03:38:45PM +0000, Jonathan Cameron wrote:
-> > On Mon, 24 Mar 2025 14:26:25 +0200
-> > Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> >   
-> > > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > > 
-> > > Hi,
-> > > 
-> > > Series adds some cleanups for the RZ/G2L ADC driver after the support
-> > > for the RZ/G3S SoC.  
-> > 
-> > This doesn't address Dmitry's comment or highlight the outstanding
-> > question he had to Greg KH on v3.  
-> > I appreciate you want to get this fixed but I'd rather we got
-> > it 'right' first time!
-> > 
-> > Also, please make sure to +CC anyone who engaged with an earlier version.
-> > 
-> > For reference of Greg if he sees this, Dmitry was expressing view that
-> > the fix belongs in the bus layer not the individual drivers.
-> > FWIW that feels like the right layer to me as well.
-> > 
-> > https://lore.kernel.org/all/Z8k8lDxA53gUJa0n@google.com/#t  
+> There are a few use-cases where child nodes with a specific name need to
+> be parsed. Code like:
 > 
-> As this is a PM question, Rafael would be the best to ask.
-
-Sure. Perhaps Rafael missed previous discussion, so I've messaged
-him directly to draw his attention to the series.
-
-Claudiu, please include all relevant people in +CC.  Don't trim
-it down to those effected by a particular solution as has happened
-here. +CC Rafael, Daniel and Ulf.
-
-Thanks,
+> fwnode_for_each_child_node()
+> 	if (fwnode_name_eq())
+> 		...
+> 
+> can be found from a various drivers/subsystems. Adding a macro for this
+> can simplify things a bit.
+> 
+> In a few cases the data from the found nodes is later added to an array,
+> which is allocated based on the number of found nodes. One example of
+> such use is the IIO subsystem's ADC channel nodes, where the relevant
+> nodes are named as channel[@N].
+> 
+> Add helpers for iterating and counting device's sub-nodes with certain
+> name instead of open-coding this in every user.
+> 
+> Suggested-by: Jonathan Cameron <jic23@kernel.org>
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Whilst I've queued up the series, I'll be rebasing on rc1 anyway
+so if Sakari or anyone else still wants to comment on this patch
+or offer tags, go ahead!
 
 Jonathan
-
-
+> ---
+> Revision history:
+> v9 =>
+>  - No changes
+> v8 => v9:
+>  - Drop the fwnode_for_each_available_named_child_node() as suggested
+>    by Sakari during v8 review:
+>    https://lore.kernel.org/all/Z9mQPJwnKAkPHriT@kekkonen.localdomain/
+> v7 => v8:
+>  - Fix the example in fwnode_get_named_child_node_count() documentation
+>    to use the fwnode_get_named_child_node_count() and not the
+>    device_get_named_child_node_count()
+>  - Fix the rest of the new macro's indentiations
+> v6 => v7:
+>  - Improve kerneldoc
+>  - Inline device_get_named_child_node_count() and change it to call
+>    fwnode_get_named_child_node_count() inside
+>  - Fix indentiation of the new macros
+> v5 => v6:
+>  - Add helpers to also iterate through the nodes.
+> v4 => v5:
+>  - Use given name instead of string 'channel' when counting the nodes
+>  - Add also fwnode_get_child_node_count_named() as suggested by Rob.
+> v3 => v4:
+>  - New patch as suggested by Jonathan, see discussion in:
+> https://lore.kernel.org/lkml/20250223161338.5c896280@jic23-huawei/
+> ---
+>  drivers/base/property.c  | 27 +++++++++++++++++++++++++++
+>  include/linux/property.h | 20 ++++++++++++++++++++
+>  2 files changed, 47 insertions(+)
 > 
-> thanks,
-> 
-> greg k-h
+> diff --git a/drivers/base/property.c b/drivers/base/property.c
+> index c1392743df9c..f42f32ff45fc 100644
+> --- a/drivers/base/property.c
+> +++ b/drivers/base/property.c
+> @@ -945,6 +945,33 @@ unsigned int device_get_child_node_count(const struct device *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(device_get_child_node_count);
+>  
+> +/**
+> + * fwnode_get_named_child_node_count - number of child nodes with given name
+> + * @fwnode: Node which child nodes are counted.
+> + * @name: String to match child node name against.
+> + *
+> + * Scan child nodes and count all the nodes with a specific name. Potential
+> + * 'number' -ending after the 'at sign' for scanned names is ignored.
+> + * E.g.::
+> + *   fwnode_get_named_child_node_count(fwnode, "channel");
+> + * would match all the nodes::
+> + *   channel { }, channel@0 {}, channel@0xabba {}...
+> + *
+> + * Return: the number of child nodes with a matching name for a given device.
+> + */
+> +unsigned int fwnode_get_named_child_node_count(const struct fwnode_handle *fwnode,
+> +					       const char *name)
+> +{
+> +	struct fwnode_handle *child;
+> +	unsigned int count = 0;
+> +
+> +	fwnode_for_each_named_child_node(fwnode, child, name)
+> +		count++;
+> +
+> +	return count;
+> +}
+> +EXPORT_SYMBOL_GPL(fwnode_get_named_child_node_count);
+> +
+>  bool device_dma_supported(const struct device *dev)
+>  {
+>  	return fwnode_call_bool_op(dev_fwnode(dev), device_dma_supported);
+> diff --git a/include/linux/property.h b/include/linux/property.h
+> index e214ecd241eb..3e83babac0b0 100644
+> --- a/include/linux/property.h
+> +++ b/include/linux/property.h
+> @@ -167,6 +167,10 @@ struct fwnode_handle *fwnode_get_next_available_child_node(
+>  	for (child = fwnode_get_next_child_node(fwnode, NULL); child;	\
+>  	     child = fwnode_get_next_child_node(fwnode, child))
+>  
+> +#define fwnode_for_each_named_child_node(fwnode, child, name)		\
+> +	fwnode_for_each_child_node(fwnode, child)			\
+> +		if (!fwnode_name_eq(child, name)) { } else
+> +
+>  #define fwnode_for_each_available_child_node(fwnode, child)		       \
+>  	for (child = fwnode_get_next_available_child_node(fwnode, NULL); child;\
+>  	     child = fwnode_get_next_available_child_node(fwnode, child))
+> @@ -178,11 +182,19 @@ struct fwnode_handle *device_get_next_child_node(const struct device *dev,
+>  	for (child = device_get_next_child_node(dev, NULL); child;	\
+>  	     child = device_get_next_child_node(dev, child))
+>  
+> +#define device_for_each_named_child_node(dev, child, name)		\
+> +	device_for_each_child_node(dev, child)				\
+> +		if (!fwnode_name_eq(child, name)) { } else
+> +
+>  #define device_for_each_child_node_scoped(dev, child)			\
+>  	for (struct fwnode_handle *child __free(fwnode_handle) =	\
+>  		device_get_next_child_node(dev, NULL);			\
+>  	     child; child = device_get_next_child_node(dev, child))
+>  
+> +#define device_for_each_named_child_node_scoped(dev, child, name)	\
+> +	device_for_each_child_node_scoped(dev, child)			\
+> +		if (!fwnode_name_eq(child, name)) { } else
+> +
+>  struct fwnode_handle *fwnode_get_named_child_node(const struct fwnode_handle *fwnode,
+>  						  const char *childname);
+>  struct fwnode_handle *device_get_named_child_node(const struct device *dev,
+> @@ -210,6 +222,14 @@ int fwnode_irq_get_byname(const struct fwnode_handle *fwnode, const char *name);
+>  
+>  unsigned int device_get_child_node_count(const struct device *dev);
+>  
+> +unsigned int fwnode_get_named_child_node_count(const struct fwnode_handle *fwnode,
+> +					       const char *name);
+> +static inline unsigned int device_get_named_child_node_count(const struct device *dev,
+> +							     const char *name)
+> +{
+> +	return fwnode_get_named_child_node_count(dev_fwnode(dev), name);
+> +}
+> +
+>  static inline int device_property_read_u8(const struct device *dev,
+>  					  const char *propname, u8 *val)
+>  {
 
 
