@@ -1,183 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-15137-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15138-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9216A76476
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 12:46:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 214B5A764A0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 12:57:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5CEB16A508
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 10:46:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCCE5167612
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 10:57:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9A5E19D074;
-	Mon, 31 Mar 2025 10:46:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D71B81E1DF6;
+	Mon, 31 Mar 2025 10:57:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YoB6eldz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aghuHnW8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7221E0DF5
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Mar 2025 10:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF201E0B91;
+	Mon, 31 Mar 2025 10:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743417989; cv=none; b=sqt/JpkcThbM+Jx6lSp9MqDCZHCqwqEeU6npDKw4aNj0hh7FsG456FDeIfem2vCvOX/zn7ZbxugH0RV433+xBY44Rvf8iqDTt9kYhDDTrGtuoq532X3CwaIeaQKyf0Ch5DCn8PmJuFtMiKgDk4+BxrP/tR1KMOOHEkwZQTIPT4E=
+	t=1743418651; cv=none; b=kedU9NJJ9MomolxFarixd1LBS7NLH9XRt0FdVMdGm/Jqxfod3T8MHhUYFjbBFqQdk0Dfimixl6UKMgHDTrCU8otvuMML7dhgM9c6SBPtllwM3KkR1zyBvhyWfZaE/IoPqf/cP6B6XTdEy50vJi7TWssM6UmtwUvODNNDRZaLJ+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743417989; c=relaxed/simple;
-	bh=64HaiMEYmy3ijfrwfU+1bfvGwD+STOpIlQVnF3qt2Xw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K5VkTfZXudUiZbdeNauBnjz/s50ogZH2RoNNH1f2X6K5lg9P8khPr7dd7UskHg9F0DAjfh2/DdlUJVNUMi/9zypCaUKovfrSGyBUk+nlHYl25zFekIbctAaNgAwLXDk2UyRqfvxkRETETigKMaJ/nyEpEQeQaf21s8l5HNszIV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YoB6eldz; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=lmDz
-	XzjNgzjFisRxTIt3lxz6aQmh5NlFsLRwqSenSyM=; b=YoB6eldzzCx+zlCVmqVz
-	wu4nLbg24mzo3nZt8eipzJLQABS0qOEpomQc0FSXh2UKAylKKyZ4KdcAP/AoknTT
-	wuJXbRaBDMKCPuIINeO+ZQyWQveR5twYMPUjeTQ2bmsMYVu6/vWQdufiVAXRwsF1
-	FkK1Rl6ATQHP6BHsrW9zaOyzYqqiqvqbMcKobmVqmlWTLGrucbxiEDgjLj1TYu36
-	fDsp98MTYGyE2hiLNKplPUZjpT7BJx3ei6Fh+LHp+HnxblB62MztC6qtWullDb1o
-	KYFeIZOVvL2lBcN5w3FfcXTgKa+hxNgjwsBxujoDd80f/sJ+k+chfLpxZxkUIx1g
-	KQ==
-Received: (qmail 1202045 invoked from network); 31 Mar 2025 12:46:23 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 31 Mar 2025 12:46:23 +0200
-X-UD-Smtp-Session: l3s3148p1@akWKIaExIzNtKjAP
-Date: Mon, 31 Mar 2025 12:46:22 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Avri Altman <Avri.Altman@sandisk.com>,
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/5] mmc: core: Further avoid re-storing power to the
- eMMC before a shutdown
-Message-ID: <Z-pyfv_7gJ72YWhz@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Avri Altman <Avri.Altman@sandisk.com>,
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250320140040.162416-1-ulf.hansson@linaro.org>
- <20250320140040.162416-3-ulf.hansson@linaro.org>
- <PH7PR16MB6196C3AC7A7B7CA99A70E7DDE5A02@PH7PR16MB6196.namprd16.prod.outlook.com>
- <Z-pQj6ynnfMa77fM@shikoro>
- <CAPDyKFr0MvQDxsi-Qd0F=1KuR4Gy6s5bhVdOXRt9K14Z9sO2Kw@mail.gmail.com>
+	s=arc-20240116; t=1743418651; c=relaxed/simple;
+	bh=3iyJtbgGzB1OJBH5C9tTZhh5p8Zc2H+RQBAXZssCc3A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bUjB53w990Ij9+FeyHH7rSvvfP5lSlKUdD6x7f2ct54fdFGKgOlBmmfWo51mzvBKmFffednYuXC/Q51sPq5ZZHFoe+q7C3OTymooDKRwqQgUCeDFoLUG4WVi0vBemVc+JCrb6fqWmlpQ8Xgm8bPAnCKwvs7l38xA612GcKTpy6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aghuHnW8; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5240317b3e0so1407503e0c.0;
+        Mon, 31 Mar 2025 03:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743418649; x=1744023449; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DNNRG1/aA151htuH/eNkLqh0nhijCBN91yU1AUjfzl8=;
+        b=aghuHnW8QAM4LFHI/vLwr/YwoSHoQ90pZ+obkZTbuMF+a+1kT4UPr9UVzueWc4l0Vw
+         kZiLZsF/xOipxQG7Xs7QjkKRk93TNe+coH3333yx6DO3BMjIE1eVJB0c0H8G44Z6VSsw
+         lLNeQrPrE/uNu+1T5Jntuf+aLRx6i6ReOi3jgEQWXaaZg8FM4Lr8Kc70dsZhYXxzH5t7
+         1I6aqXEvldknxbmPBpCMF6vdOmFoyi6esQv9vqRLzTnNyNlXNSJnjZG9Ly6J765l5iKb
+         zNXGxOjBvXavfT/U3vaE+sdB9Sred65So6u+e3KEaFoePDN74vEaGyVunFzjmVRIcLVq
+         OFzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743418649; x=1744023449;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DNNRG1/aA151htuH/eNkLqh0nhijCBN91yU1AUjfzl8=;
+        b=kkQia31gwKn4i7JMXWWVMToGqmzsh3uC+3AYu2eDz0chSarS0KluwdgSsR//fjA/sH
+         Q1lQWYKQrR8pVqf7JAVxuUKUfjjCNvIaE386A3shWzbbrDhvJ9aGZwGDI87910+xPpse
+         begCt3uW3PkEm7H/Miby9IXPQkGB3SqUpLGHdjXAamPRbgoJAonmZSohtYxqN6pDQflX
+         O2HxVhzv4AcdEFurOiT4K0wIXcqwlVtLLkKHw7a2inOP665MSTMnrdhFKT67zHt/GMGh
+         kXc4r0+WdL6u7NGrRCq6LcMvPEBD+TdB/sjkeLSkylFPn+TwHSpeK5sXbppR7IcuKIIF
+         iRLA==
+X-Forwarded-Encrypted: i=1; AJvYcCUw3h6nnWbIIshbGycIKt3yAYEwGC/dWq5cQ1DHSAManlduz8suq1hxVHssAsJR7tmzM7H5cfIMwTMYM8g=@vger.kernel.org, AJvYcCWQszTeEgih4NDjbli5BHCtnbtBd5zcmUawCBesNi/OmZh8cLKEa7O0gWD3S7BL37fwMapWHSJpN5TgjCIBh2jJuSA=@vger.kernel.org, AJvYcCXlsvSyOFepEh4wzEUJWzku8W9HAZfC4RKgDxZQXON2ngDPqUAc6fpoO++vSvaDmjHtZ2G5n/6aUHPu@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbjNtGtFTCuVI1J4GfEfD9crnjQPJ7xNj4o4+mg3ikb7kq8Wyc
+	WT08m1aIniBm8Y0TKjLQZiCzj8OSMthMT+09bBaYZnqZQoxjYjQ/QfMHAa+z53K8rSTHRZ5kRrf
+	JaMhBwse/aa0Z0L5Kfd5yTRyA4dE=
+X-Gm-Gg: ASbGncv0lV36ug+J5sMM9T8Pw506DJbo0vSMN0+lsIi2A8EhvPoTvCD/ePuuarzsO05
+	bLTpM58mE2e145JhhIZnNJdQxW0gzh1UQYMGdzmkHAl0jF7CRQZGeeWHiBTX/Ds0JNuxzW08GBl
+	dgxvcQiJ/hezvoB6MT1oUr5Z65LIhsLqTb2NaQ5FXCK8BwTOmEcYgEZk88gf4=
+X-Google-Smtp-Source: AGHT+IEqYRcxUiARUhkAS+U3oiuXILK20HiYaw+X095+lOU7LXb76ms2yffoHkVVCV2OqJX0/p9GqGjoiVD1nyweXf0=
+X-Received: by 2002:a05:6122:d87:b0:520:6773:e5bf with SMTP id
+ 71dfb90a1353d-5261d353d3fmr3113600e0c.1.1743418648966; Mon, 31 Mar 2025
+ 03:57:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="peD/GrQrOvzTjyv/"
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFr0MvQDxsi-Qd0F=1KuR4Gy6s5bhVdOXRt9K14Z9sO2Kw@mail.gmail.com>
-
-
---peD/GrQrOvzTjyv/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250327120737.230041-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250327120737.230041-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <87zfh6yoly.wl-kuninori.morimoto.gx@renesas.com> <CA+V-a8uwJasrQZ+3Y1vgTKz+b_SBULXpXdGYxULUOpPkZgXjFg@mail.gmail.com>
+ <875xjq12vr.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <875xjq12vr.wl-kuninori.morimoto.gx@renesas.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 31 Mar 2025 11:57:03 +0100
+X-Gm-Features: AQ5f1JocOtJDqSG1p3iXddX3aNepbZDqcge-fFv546733q8ijn8MptjNPw0nAh4
+Message-ID: <CA+V-a8vqnNN119RbRJ5FvEUkWOd+FEHr9g+B3YnZasn=y7MWaQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] usb: renesas_usbhs: Reorder clock handling and power
+ management in probe
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-usb@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ulf,
+Hi Morimoto san,
 
-> > > > +static bool mmc_may_poweroff_notify(const struct mmc_host *host,
-> > > > +                               bool is_suspend)
+On Mon, Mar 31, 2025 at 1:05=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+>
+>
+> Hi Lad, Prabhakar
+>
+> > > >     usbhs_probe()
+> > > >         usbhs_sys_clock_ctrl()
+> > > >             usbhs_bset()
+> > > >                 usbhs_write()
+> > > >                     iowrite16()  <-- Register access before enablin=
+g clocks
+> > >
+> > > This patch itself is not so bad idea, but basically, we should not as=
+sume
+> > > the power/clock was enabled since kernel boot.
+> > > In this driver, register access happen only during power enable <->  =
+power
+> > > disable (except your issue case), and this is good idea. So, the stra=
+nge
+> > > is usbhs_sys_clock_ctrl() call in usbhs_probe() (without power enable=
+) I
+> > > guess.
+> > >
+> > > According to the comment, it is just caring boot loader, and
+> > > usbhs_sys_clock_ctrl() itself will be called when usbhsc_power_ctrl()=
+ was
+> > > called anyway. And more, if my understanding was correct, Renesas clo=
+ck
+> > > driver will stop all unused devices clock/power after boot.
+> > > So maybe we can just remove strange usbhs_sys_clock_ctrl() from usbhs=
+_probe() ?
+> > >
 > >
-> > Maybe add some comments about the difference between
-> > mmc_can_poweroff_notify() and mmc_may_poweroff_notify()? Like make it
-> > super-obvious, so I will easily remember next year again :)
->=20
-> mmc_can_* functions are mostly about checking what the card is capable
-> of. So mmc_can_poweroff_notify() should be consistent with the other
-> similar functions.
->=20
-> For eMMC power-off notifications in particular, it has become more
-> complicated as we need to check the power-off scenario along with the
-> host's capabilities, to understand what we should do.
->=20
-> I am certainly open to another name than mmc_may_power_off_notify(),
-> if that is what you are suggesting. Do you have a proposal? :-)
+> > After dropping usbhs_sys_clock_ctrl and removing the clock enabling
+> > done in this patch and with  `CONFIG_USB_G_SERIAL=3Dy` I hit the same
+> > issue.
+>
+> Ah...
+> OK, not only usbhs_sys_clock_ctrl(), but other initializer also
+> missing power in probe(). Thank you for reporting, your original patch
+> is reasonable.
+>
+Thanks! I'll send a V2 incorporating your review comments next week
+after v6.15-rc1 is released.
 
-Initially, I didn't think of new names but some explanation in comments.
-But since you are mentioning a rename now, how about:
-
-mmc_card_can_poweroff_notify() and mmc_host_can_poweroff_notify()?
-
-Similar to the commit 32f18e596141 ("mmc: improve API to make clear
-hw_reset callback is for cards") where I renamed 'hw_reset' to
-'card_hw_reset' for AFAICS similar reasons.
-
-> > > >     if (mmc_can_poweroff_notify(host->card) &&
-> > > > -           !(host->caps2 & MMC_CAP2_FULL_PWR_CYCLE))
-> > > > +       !mmc_may_poweroff_notify(host, true))
-> > > I guess this deserve some extra documentation because:
-> > > If MMC_CAP2_FULL_PWR_CYCLE is not set but MMC_CAP2_FULL_PWR_CYCLE_IN_=
-SUSPEND is set,
-> > > !mmc_may_poweroff_notify(host, true) will evaluate to false while !(h=
-ost->caps2 & MMC_CAP2_FULL_PWR_CYCLE) will evaluate to true.
->=20
-> Right. See more below.
->=20
-> >
-> > I agree, I neither get this. Another way to express my confusion is: Why
-> > do we set the 'is_suspend' flag to true in the shutdown function?
-> >
->=20
-> I understand your concern and I agree that this is rather messy.
-> Anyway, for shutdown, we set the is_suspend flag to false. The
-> reasoning behind this is that during shutdown we know that the card
-> will be fully powered-down (both vcc and vccq will be cut).
->=20
-> In suspend/runtime_suspend, we don't really know as it depends on what
-> the platform/host is capable of. If we can't do a full power-off
-> (maybe just vcc can be cut), then we prefer the sleep command instead.
-
-I do understand that. I don't see why this needs a change in the
-existing logic as Alan pointed out above.
-
-> I was hoping that patch3 should make this more clear (using an enum
-
-Sadly, it didn't. Using MMC_POWEROFF_SUSPEND first and then later
-MMC_POWEROFF_SHUTDOWN in mmc_shutdown() is still confusing. Do you want
-to return false in case none of the two PWR_CYCLE flags is set?
-
-> type), but I can try to add some comment(s) in the code to further
-> clarify the policy.
-
-Please do.
-
-All the best,
-
-   Wolfram
-
-
---peD/GrQrOvzTjyv/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfqcnkACgkQFA3kzBSg
-KbaiQA//dkFc0seaVdeLxN5dVKckn76uVsdr7AE0Q596zm2IshMyF+7AHyFq/AOJ
-KcXBybgkvwGdu6i88F5z2e4iTGO/cBPjmcfk5yopMaSur/z6OrstL0QpRpp2bEWs
-OnxLBVG8bFsmjs1d2ZsrvQ1mFyGJumOJsBKC5Ne0EFV3SkhNPrze6A6vwEFErYNI
-3liDyLp3wVrhWPw+SiC/MReil3gbP8cLgnVnQWoMpZfK4cOycUO5sUlkrZDRzDle
-Ke7/3rxnEc4bBQ8FmJpwc8hl3zsGFbPBBG4nVr3SIH+TmIvDfSdTFPT21pvM9ZX4
-bCmn52k5BI1FT7ccct2+pcOJhEeN6uK8Ivifz95Ps2foE3oNuZi3YX2e+x7erUOy
-FplGcJhie0EvzqRodJ5erc3Exq3pTDe7dQEqNoPCeD0XXfSokCVeq5ZaZ6cgyySE
-qb64iekC42gynfvR0KlcVwRTCLzkUShXDVOXpXOt0X2r9U3Pu+Qtv/r9INNYlZXo
-Q1lBWzGW/zvUDXpFlaWwjzvksg9lJ5uX/4GdRSiMs4CbMbpojydTuReFItt50kDb
-evhOJpcsW5pQTYi7LWDxhfqzAOspVoGM5hoQCAcLPU8GFt4nZotr30ZXQ0Ra+N5X
-IVa6RJwaIae51VgGY26FIk5IIxWRbeX54wIT0az6I8BymQv0TZg=
-=TQ8d
------END PGP SIGNATURE-----
-
---peD/GrQrOvzTjyv/--
+Cheers,
+Prabhakar
 
