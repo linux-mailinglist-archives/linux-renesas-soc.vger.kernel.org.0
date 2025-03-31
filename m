@@ -1,118 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-15194-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15195-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2F2A76ABF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 17:39:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BADAA76AC0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 17:39:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0501616D85A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 15:35:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3189516DBBC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 15:35:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49E84221566;
-	Mon, 31 Mar 2025 15:18:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C07E221560;
+	Mon, 31 Mar 2025 15:19:00 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C22421576C
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Mar 2025 15:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7683222155D
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Mar 2025 15:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743434305; cv=none; b=tvY+PfwUpMDE9HqkdqP5QKz6G38Gu67Xm8iX8PnO9J7q3LmJEew4nim60RvgNqQlUXjS1kS8BZsWnKddRh2J4zz24XvXNWoEyv3NdzKv/0IMkZ/zL08HsKJLUbMpxCaTB58ZPiXqA6+HgS7KxpYZKMVJRCCT5xBtxRC3GzDy460=
+	t=1743434340; cv=none; b=PqaHOUbY+JRVpAv5g494lYmQxest7sbNURXVh3XxCsFSRLoINZBT9nlV5GZA4QO6iZwAwojADzy7sbB1DctqaKprSUrRVi4ZKRyHtLMbLaoc0zJ3XeDsPBJikWmV/mJwFF10cWXEiIOoyIud4S0cbtB4LPCSFkTNYzbM0XvURtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743434305; c=relaxed/simple;
-	bh=BfMSbS7EP2gycnxkeAjXPBIlgYkvUY0Qk+/MDOq6OdM=;
+	s=arc-20240116; t=1743434340; c=relaxed/simple;
+	bh=0hzCphTNn201LqBHlyR6cl2v2A1z9/uucizHPVMMKlk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZJoD8+Ret59dQVwt7du5HCMOFC8blFBHteWNl1QwkBB8Q8oYU6qgRDCTgNzTu4RRv6FhrmSfGPU+hYFUvxAup/hRrcOPXVYx/QDxDO1s7mFUUGbx4xHnnPg8GMnPESWuyTI7XSyD/ZR3QSkGVl6nrs7PT+pfDVzB07j0cjjC1c0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.50
+	 To:Cc:Content-Type; b=KKFYvDGizpw2VEHZBwY50fbvDePOhS+PzYWzkH3bf56XGm4CKctjDRGJtCVovl+SATyofnpEzOqs3tXtatKIYTCWWjfAiNVV2afjORXeoVxfDWTOZ/Nh7GS3UiqX4fvt4rgsPpp7VTkNw/1M40mG5rhz17hZwEKPNSH0WMtr7sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-86b31db3c3bso1885406241.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Mar 2025 08:18:22 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-86d3907524cso1913023241.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Mar 2025 08:18:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743434302; x=1744039102;
+        d=1e100.net; s=20230601; t=1743434337; x=1744039137;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xEiqezeX890b+tGm5W4aY2AkCqMumv/WTIFIkxrBb6k=;
-        b=oLH8yQorVWuLl5OpYKmBIHHCHH8sHQMrEDhy5DnQOS8V4Yd/KlXmscpxArFiOGrq18
-         5zBBws5v6LygHk0NcRuPSjw+GSRSWPlXyc0CJnASwE05tqNhEWja8ZIUsgKu1HaUmfsU
-         crLD2GMrbJEo+Z7fA+jt+T0c8FqciMYsQgSQVKKL9x0xfumUWeSu60uKq+5OzZj6m0F7
-         W+ajwKH8mFNF2PeexlZX6Z12CAhmqSp8a+Z13SCGbSnhIR0GDcipn8ZRG2/FWzDfheDb
-         XfZU1RpYIbXS/7bxr1aEvhdwpOsVd+fcd1Oiawj1HKzhMSeOLf4wcFr5Ktd7AVJ1W72Z
-         20+w==
-X-Forwarded-Encrypted: i=1; AJvYcCX7ZPrulM0HOant6OzHS1kbo57TJoHqofST6IcYzMal+COAkMNIACspG1UhVYVJ6c/Gy/vjG11v/mtylmX4xPYLJw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9ZRa9Yeh9zWXOWDjySGfowBpf67uWGw9yQ/3yjxFv1GEWnYK+
-	dAHTAe3DZxv745YCrQ+69gjeb7GVR4HXmn5DAkbtb5NNjH28g/Li+p08el4e
-X-Gm-Gg: ASbGncuHs5pqJ8L/L2+s8uV7QV7kXNxP7ngQkWydjLd6mZdHaRT9pbEBhj3cn2cIPJo
-	8aAlbvTcwlHHFgGlqlXfp0PoFo6tcw4zYPRQ7B2ZLJKsI1JeK24zPCFpd/i1L/hIdYDmUcMvc+Z
-	Db2rH29jNdpV4ctzYx9zRZbm45X8Z/1kv3gBJKJgdMxsjoQeOHQ8VdrvORUmrFt2bLbiTO5TYTC
-	HPKmDzKa+0Pa2GkiaMZKcfInAh8ZxgaKmEbcBA4IdP5o6bl/NpuvANa/CvUrX9E2S7trlL67FCY
-	KEdq/NQd/ldnupkXJ7sVCU2GvMB7qYDEyd34B0pW8EGs1QxntzlnkOL+KIeeW6xR2IAlqe4+tO4
-	UcrQDfDo=
-X-Google-Smtp-Source: AGHT+IEs3Wq+Bd2lnUCWvSWKoZXo/Dj3OxRPEMMEi9GtdlvsROgOl/ZH/SZCz9+MhnyT2e1ZC9tZWA==
-X-Received: by 2002:a05:6102:304c:b0:4ba:974c:891e with SMTP id ada2fe7eead31-4c6d3960ce5mr5735217137.17.1743434301614;
-        Mon, 31 Mar 2025 08:18:21 -0700 (PDT)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c6bfc84381sm1656155137.6.2025.03.31.08.18.21
+        bh=JNL0W15M2vdnBf22pY9fC/bCkEI51E4GnUxEHufwCmA=;
+        b=Mm6aflSvC4d5JVYsHFgKq1udMZ64sbd58Nk5aCB9E5Cs+UCxiVx7r0VLt0Yj9u4lYF
+         qkFn0KpAdQUTOG8hX1fDnSyAL54adUo8JLoXLkuAZ+b76l4E2392P9iz2JFalnU7aExs
+         XrvDNm3H45hTUgSwP0rdHE4yh61sNSheOuUYP/VCBahHziZegh5+u2bnq/vqvc3mrLxC
+         NbdM/goDhwqs+SUVUzEWZ/wgvwH9bg279Mc0nFyu17b9/6rswf+yM24m1EylnculhvhE
+         BT3a9HCE5R+oCYt3N19ygbKZwz3bdux4U1wE7MTRioBR70r31Jseu5yx9JdKJvPl+78O
+         E+dA==
+X-Forwarded-Encrypted: i=1; AJvYcCX3c2z33JuT4hDaRrUVRsy5LsSw3vrwbTAk62/BdWzR+cXPfhCQK/43IH1mP3hdMFMXgvaGciKfCcGaJz8GEotGrw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdLnk487gojVOTVnJigIbCwbEfzPNBQBC6EikdfwdvTpKx3KFq
+	pdtXXqcVtHwuxQhIStKgMxtCctf+PafMuAzH2vPirMLcR+tfRXqSZe0I5Dg8
+X-Gm-Gg: ASbGncv4qoPOmQRNVt+RL2Mc9rwckaGp7695JG/i3Hw4r2SsdGS17EZrKUO9OxlI/M/
+	VL2BWw5V+YVr8IN828RjV3HM3oepo/8tCBnxQRix2i+/istPIGkCquPCTH67V/naWgt0aKPNEBx
+	eIm3q9UNSTvrty7mTe6SNLkEffEWL8s2AIw0+75b4bOpWf7RQCjbUHCtP+4NztuzaVBMB0PHdSW
+	ACXT6rvNhA7Rs4rRDjUqli2uf9SaE8UuFtA1PT9JblSk8FCnoRdJFJcBNk1woEZY38JogqkRj78
+	aDaSIv/4CPC/N7xBe7qj8RlaQexCIlUVFC9mcqxofE9g/SejKBaM8iyFa42Wd1l3ezE8tGGDz6o
+	GRed7A0A=
+X-Google-Smtp-Source: AGHT+IFxC8tIGEOkhN7Eki40FGSmTOkN0PKB6zIcrCyp5xjGPw8BAAMnAuD6SGYOgMig+gLGzaZrbQ==
+X-Received: by 2002:a67:e7c7:0:b0:4c3:c9:c667 with SMTP id ada2fe7eead31-4c6d39a490emr6296583137.24.1743434337033;
+        Mon, 31 Mar 2025 08:18:57 -0700 (PDT)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-871a320fce0sm1595376241.5.2025.03.31.08.18.56
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Mar 2025 08:18:21 -0700 (PDT)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-86fbb48fc7fso1684610241.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Mar 2025 08:18:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXl8yXw9npamgtIa0Lz7uBovliRFcTi9/aIKGVu04UKm6oNdSl9+OdJLReWcWR+Yy66PSdcsd0I7GtO0EtIE0jWJQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:41aa:b0:4c1:9159:859c with SMTP id
- ada2fe7eead31-4c6d38970c3mr5625379137.15.1743434301203; Mon, 31 Mar 2025
- 08:18:21 -0700 (PDT)
+        Mon, 31 Mar 2025 08:18:56 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-86d3907524cso1913010241.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Mar 2025 08:18:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVTtAeZHp+Q7i27qEamHYdg3TbK1VDaKWYVjcwgYbwXUuxrJ9qxzbUQFhgdwYkAJSZgrjhUZMqRPtk6/+nNzT1Xtg==@vger.kernel.org
+X-Received: by 2002:a05:6102:4b8c:b0:4c1:9cb2:8389 with SMTP id
+ ada2fe7eead31-4c6d37fd6b5mr6363675137.2.1743434336454; Mon, 31 Mar 2025
+ 08:18:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250327193318.344444-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250327193318.344444-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <TYCPR01MB11332B9F7292BEFFA29547F2586A02@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB11332B9F7292BEFFA29547F2586A02@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+References: <20250327193318.344444-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250327193318.344444-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250327193318.344444-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 31 Mar 2025 17:18:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXyb=iKoRBicAf4J8a3Zk=ciRNTtB_+k60xjciReMuv5Q@mail.gmail.com>
-X-Gm-Features: AQ5f1JqA8wqwwzl2_0lipggTwtk93R-uuZk6ApIwn9b4h-Ql1YYlamNvFdmlvG4
-Message-ID: <CAMuHMdXyb=iKoRBicAf4J8a3Zk=ciRNTtB_+k60xjciReMuv5Q@mail.gmail.com>
-Subject: Re: [PATCH RFC INTERNAL v2 1/4] soc: renesas: Kconfig: Enable SoCs by
- default when ARCH_RENESAS is set
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+Date: Mon, 31 Mar 2025 17:18:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXmC=jLOYpt3VfEis8sa4beYDUAwry+ZAvvGUybVPoqvg@mail.gmail.com>
+X-Gm-Features: AQ5f1JrCnSiCrVgMGYYsPO2X5Q7HF5nXt7N3nok8LCQgfDwAg__7wkQMDpaNNL4
+Message-ID: <CAMuHMdXmC=jLOYpt3VfEis8sa4beYDUAwry+ZAvvGUybVPoqvg@mail.gmail.com>
+Subject: Re: [PATCH RFC INTERNAL v2 2/4] arm64: defconfig: Remove individual
+ Renesas SoC entries
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Biju,
-
-On Fri, 28 Mar 2025 at 08:15, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Enable various Renesas SoCs by default when ARCH_RENESAS is selected.
-> > Adding default y if ARCH_RENESAS to the relevant configurations removes the need to manually enable
-> > individual SoCs in defconfig files.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-> Can we add this changes to newer devices for eg:RZ/T2H, RZ/V2N?
+On Thu, 27 Mar 2025 at 20:33, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> So that previous devices, they don't need to patch this file:
+> Remove explicit entries for individual Renesas SoCs from the defconfig
+> file.  Since all Renesas SoCs are enabled by default when ARCH_RENESAS
+> is selected, and ARCH_RENESAS is already enabled in the defconfig,
+> listing them separately is redundant.
 >
-> 1) If they want to do a standalone build for Image size optimization,
->  just remove the unwanted SoCs from defconfig.
->
-> 2) Debug some issues, some people just use defconfig from
->    different kernel version to try it out.
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-While defconfig files need an update, config files do not:
-running "make oldconfig" does not enable support for extra SoCs.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
