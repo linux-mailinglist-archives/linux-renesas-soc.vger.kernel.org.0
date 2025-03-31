@@ -1,231 +1,252 @@
-Return-Path: <linux-renesas-soc+bounces-15146-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15147-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9479DA765C5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 14:26:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CCE1A765CA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 14:27:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E6BAA3AAC9A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 12:26:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B72BE188CF51
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 12:27:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 642A51E5214;
-	Mon, 31 Mar 2025 12:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="hXdXSqLr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAFCB7E107;
+	Mon, 31 Mar 2025 12:27:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010018.outbound.protection.outlook.com [52.101.229.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020317E107;
-	Mon, 31 Mar 2025 12:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743423988; cv=fail; b=pxL22Wlrf+sHpXRZvt2s/X3QyIot3rdGcyzOd/P+8YEcDT6lFe7vHjGFWzfC9mk3fkthdrDTCsBdZ137k/I3S5B/8v2xVcDuwqFJ1+DhxbdC5vIeNtkgGQRJoaMo9tJQ02PY+Un72ZH8ohbE5mQr71skkaUSgTx2O0VPTajDJW8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743423988; c=relaxed/simple;
-	bh=MAkEZxUma9fLhEuwv2YoC7yZkjCTPBjH2CQMh67Q8iI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=U2sBS80cCxGxvsRRP6SFRBkbhmSzMPZKQdLVIUZ+ppQ0EM2ScNi8S/B/CKmCUi6j0LzIU2gDlH94X6vrL8zADSpCunbDTfQCTv/VWA792fIAA0ywiaY2XzZAyt0cCzJXhLbwebhDaSZCCuJG46k8I0CnBe6ov5fbKD3avKJRntE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=hXdXSqLr; arc=fail smtp.client-ip=52.101.229.18
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0C5E1E570B
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Mar 2025 12:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743424042; cv=none; b=SBoj5VrAzyHtEhLbOBS3l6UXWcQLYGmNin0myxGC/snyi0RqBYy2JZhLJ6hgGf2dGb3ImrWaTv+VKJkj1DVPnC05NDiwiekQ9Qt1HYj0u5EVSWd1SKp5doG2epHAaat38WiS3UmoOQsubuR5ds4n2g7+ekHk/lkTLa5THU8WNlw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743424042; c=relaxed/simple;
+	bh=OSTIUhx7q23JZHUpB+OV9c+7qJaAwVvr/qGTHzSv8wA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rrQwiCPgR4zSXjiB8S1PtUbbaGOH0HYkzw7bsYvNsb32rMHb5vNAVAFkl3XEYFrPEv2PJtbBq+7PeTU2uNvFaaSQVd3Nq8NXncgJMOaBZZcLZi19wpUu5lzbOt9ZxiY/CQjNypDS0sjIdLXOvxKSKrcUbrYnsJj7CNMcI3oAnOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iNNOXPZhYvS1jtJDuYuoQt66nHEvckU2B1EEfQSKru9Nmh61HiN8ZRkdvaamu9HY6nahjCibHTgB/O4q8hy75Na6Z6Wc58kLDbROtGMJsYMoKu90lbxcCNWxqt9olhBUBjY3Qbc1FQJGIbYWP5jVZCQ/p5qhKGDyLrEh6qMaMv3BzhihTP5PKeWS+ORnpVqZBr1Ou3k+XKpF0M26DGzVBItx3QXzCQ+hnmEwGEQiWWo/kXfiWNOIuiETBXSa0uzWmBelHK+EFjZ5dn2FQ+SLkUZewryD0/6QQLgx7G/NJHQEBl2fDdkH74M/s7/5racWGxnkCuhecukyaphw/PZ+Og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fqM7uqmeIVhVcFXXTAivcD405LTg/27cYTiCHPlrgRM=;
- b=ZphjAW0dYeIdqkCVuEghjttszmju6VF7JOp1RhPmYMDGU4fDcrn2Lw/0nyIMnD/+vj4uQzzmTURROA7ytU/BEhoGarme/5iP7Om9qblKTfqMPICvP99evyztWP289HZl885YsAwro1eeEGSB2WxQz57yUbIA45OOwAMlCW6FNnmY6A9ojCjMl+QPXvk8a0FFZm51cpnTihsk6EXw9TFri7ElT6zDZNAAZJ2mQ7J6BSN3gbKp1uddwWhnwJsZMu5KgdraVw1Sb5uYWTTTxo6dP1O20X5kNW5QDbLkVpJRN6RNNB0SYr1LzfL2t0mNG/PSWCz42jOIHtpAZolUEycsVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fqM7uqmeIVhVcFXXTAivcD405LTg/27cYTiCHPlrgRM=;
- b=hXdXSqLr+DZge5bc4ZEE0AgeZz1kpPGG3FlqESK1+9IrkM25pk00cp0orddyk2qUGiCieFkxDQRJqk7DUsQfYDQSbpg1ju2PhpKJcqysL56qHyZBrdRxlzxVY7QovyUKNDe0W1zBF+RdrsndpC63t4dkC4EcH9DwAZAEFBNEfVA=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TY1PR01MB10707.jpnprd01.prod.outlook.com (2603:1096:400:31c::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8583.37; Mon, 31 Mar
- 2025 12:26:22 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8583.036; Mon, 31 Mar 2025
- 12:26:16 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
-	laurent.pinchart <laurent.pinchart@ideasonboard.com>, Jonas Karlman
-	<jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Kieran Bingham
-	<kieran.bingham+renesas@ideasonboard.com>, Stephen Boyd <sboyd@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-CC: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, Fabrizio Castro
-	<fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH 08/17] drm: renesas: rz-du: mipi_dsi: Add min check for
- VCLK range
-Thread-Topic: [PATCH 08/17] drm: renesas: rz-du: mipi_dsi: Add min check for
- VCLK range
-Thread-Index: AQHbobfbHglmlyRQFEaaKUYQ1j02TLONLILg
-Date: Mon, 31 Mar 2025 12:26:16 +0000
-Message-ID:
- <TY3PR01MB11346D7FB3B5702E903029B0986AD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250330210717.46080-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250330210717.46080-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TY1PR01MB10707:EE_
-x-ms-office365-filtering-correlation-id: 00852c70-e5c5-417b-c5b5-08dd704f3c06
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700018|921020;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?EEVNIV8g7FiTrT/+ywVoRoYO9xq+PNJCB7tdslTwjwl6UjKMe0jPTRimQswv?=
- =?us-ascii?Q?1fIeggrBUavECbOf8YjaR2CNHcMvAOV/W4EX7AANIOdvKkMb5gjr1wfQrBbL?=
- =?us-ascii?Q?fhKMohLBsp8XpsEwWx7RSNUIh63mwtvaa4sCQlgMa/hQ6zbGNPDCSpGVq5C2?=
- =?us-ascii?Q?dkxhLMejhg36iEqxZr8RW5lNjjG7L3xJ2ySrgD3sN5m7EajwsvF/WnjuVlne?=
- =?us-ascii?Q?Zmzz9VhyAinHZUlQ4FCqahWKzdkurlT8ROtv6DV9t01ElQBbPzsbinE34rjU?=
- =?us-ascii?Q?usj29mTMg8MVBS4WQdrr1RuTU0KwL7TwOf/fQXxnGldd8VFoNFulIlJzZvwT?=
- =?us-ascii?Q?KnLyUnexE2zp2K3W3hVr2N/xYMblms2vgbs8f70ut/RATf10Dd+bH8QTu2g9?=
- =?us-ascii?Q?dRQ5c6uO7oHkSKFEzvPaKDfdYQlXQXF6Mnb5xRw2S/Z16kfHSe/yBBu8lhwq?=
- =?us-ascii?Q?H2XUmwu621vuD1iT5Q0Ex934ihI+miIItvE6jK52KKQzLjQ1ZrB0GjoCoSvR?=
- =?us-ascii?Q?qOgAH58nJBneDpOZ+AnCA9c/L/SobIqeaIagAhqQW6xWmrZ2T81t5+8fxmcr?=
- =?us-ascii?Q?3YVFEPxrdEsEfc5WXOtxEV1faRd5K2NVEXjA8vkqnTwyZx9n2zHXuau4sFuu?=
- =?us-ascii?Q?o0gy5uP4wZpwW/usgzKp9JkhVMdphYlANpnR3HlawH5+jv2kHpGAxOqnmiOR?=
- =?us-ascii?Q?g4q/ANBX6nSGAZ1wdJT2ksPHZaZITxw9HzlpJQFMchcmBahDmcZAOLW7xxTJ?=
- =?us-ascii?Q?DCJo7Tt3pjpjJ8ARxxlVzIEbNSdg/aG6NURqBRIDOiLzfDHj3/xnIyy3tQj4?=
- =?us-ascii?Q?eePau0WDwj8k/uLRUTdVMdquZ6n3SjXsqm3mCUn4AJojXnq8d+kZOfDb3W8/?=
- =?us-ascii?Q?ImiYGhMwhvac4r/zS80y+UTueB7x2F34zzkczKBtq3/Hc9HJUU4etZ3B7aAL?=
- =?us-ascii?Q?T7wxSLo954nnTOfFhk/oWCEwNo1MZ9/0aK5xGOFjqlbAxfkv6gDXF2/r1jSB?=
- =?us-ascii?Q?m2PyZFxrcYkVvCN3zoz8UGCCEU/a5JTNCWLC0wn/wkEvi1seIxrmx9tezrUs?=
- =?us-ascii?Q?IfM1gW09HWujmeSDIpnwZqVssI0mC+JyUDj3pEvYR6WutQWwJmKStFtGHYeu?=
- =?us-ascii?Q?0hTHH6/uFeM7KR2WuGwb4imJP7hfY82tfTGfbH0mGKbTt9La/6rZWo/zU41I?=
- =?us-ascii?Q?U/k6WUs9INzO4DMISqno0rozTHUgdOABkVsckFCmMJcxC+M8xDXgwhDcL+7K?=
- =?us-ascii?Q?Uv7CRs82EbmAKEk7T6sxnnqnBJgXDexlScqKOnw3kAbxo4wg/LbGTkniaWCd?=
- =?us-ascii?Q?Y4KbHYzFAW6szYRfOT9otrIbmoVu1EE7YmCmR9ntsUTl2keLxDyS8gh8s/et?=
- =?us-ascii?Q?gz+EV5KnHoF7cmRTUB54SuuRHSC6WhjRvD5e7WnrXLzrG9NCKlIYSjWglVI0?=
- =?us-ascii?Q?Hu2qXMy/1+34UxRzcCK70FiECBwKzdk6?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700018)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?Ota/t9FO0SRPuxUV1QhPvNmh8QhagM51kwhDk5+h4F2xGcdkEj7LEWE4hesQ?=
- =?us-ascii?Q?VNw7v/zRrff+lwO2Reefbscoshv16QY1Oj6TCleFtg1KUC9lgqlJvtLXOCkL?=
- =?us-ascii?Q?Qv1vhY0PCTNRCDD0i7yz5umbiI/91Z1CnRLr44rIFKuQuWrPjvrlx4nRDb+y?=
- =?us-ascii?Q?QwwzDTtOq+tulBpZgWCzOV8NJXXdSo440+vYZTUNnm4ZSE1gvv7LhE+5D28I?=
- =?us-ascii?Q?ZHoonk0k8OLopEOOxK6xx/KlPokAnM1bTEM9cJbDbleW/mmXZUdjmCFJ3VdC?=
- =?us-ascii?Q?tlTDyA2AZOjk+jb1+BpJGDKRuFtmH3WY8AkuBuEm1fBBS+johuxqyjmmi9Ht?=
- =?us-ascii?Q?FbMeqOh1e8mGaHNiZeIAtl0k854kpAGQNLcpohlMhqdfO6PG/0sdMZN4B2yu?=
- =?us-ascii?Q?MAP48BaCxHX7q40VzeTx6NsO8p1oig+cRqPjqXTCt4Q11Krd+A5t1lE8zccy?=
- =?us-ascii?Q?vXB+DdS3ORDE2KrmseqwHltcw4J/s0XRXyd9VxAyfCgsgsQWCWhmDohtJCap?=
- =?us-ascii?Q?XD+92mJDnFswnq0WC/cLwjo+4g+ucnhDCM6hJSUtn7wy3TE/YD4nV5l/a+Jl?=
- =?us-ascii?Q?Y3kXlqfdPUM56rObsq2yoRgL9IYOA2CaMry/qwPcJkN/gASRI4eXZcj1cWh+?=
- =?us-ascii?Q?MknjEBR02x5GVwL0rg86oZu2WOU4PvTHTcSYbVlhXEDOkIseOjymG1qMXyHi?=
- =?us-ascii?Q?8+TZqGmTZo5TN3iHjc54PXtWIm+kbRJkTLm02VOR3TcwinSnOM2qPR3UawH0?=
- =?us-ascii?Q?lJ7voAdnICw0YrlAYU8yQez9gLQF3vR9iIOqDKKPUnDCmzXLSvr35/IvF0Uk?=
- =?us-ascii?Q?se5j0ZLjHBpyHjGYzD5e11RQ/e92QUCBo360xit3iaMvMIvQw7R7o+Sdjl/w?=
- =?us-ascii?Q?4OiCrsFvrVfXKoXiYH1g52e57m6OYOqKniK1vALNqpkwM5l/PYirSp5Balq1?=
- =?us-ascii?Q?K3WW/KG39t2PW8eyuGp6SgY+a1vWa+gPop7BmQZSMPx0dO9Yvqbc/R2FH1q9?=
- =?us-ascii?Q?9vqu1xfHfSXKBRTw1O6Ej3/6iqwC/IfE6aiQ49qeWGwuMyWzWtR5hAJIErG9?=
- =?us-ascii?Q?X4WHhJwhjdSLgewZieQMiBEHCp305fBrm/F4Vu3N9PP4IfaqFZCYk4s7llQC?=
- =?us-ascii?Q?+DOLMd7WlLHeFBiISZoIGKtprGfa4GFeaWZdELrT1W2q0cXmj1ttuqO0sPcF?=
- =?us-ascii?Q?AiWJMGwRfsgQiU4dGZaruq0HT334E9gw/9AmueTrIS4nkAF65RwrjqBSoNqh?=
- =?us-ascii?Q?mUkCjxkXf89UdkgFuPNEJ8oSN2ADJU4K6CZZ+1/KWFWj8uLP4TJ9h52KYNqi?=
- =?us-ascii?Q?vass9c7WbrJS1r1OUc9HO2f0R3RIHTyrxfv1mXZm2e3ZQG2FRb7NqxGDPaZX?=
- =?us-ascii?Q?XuOcPR5FYOhwDdvVluV40V2jLkEbt6UqUZJIJgIF0ZyG2AJdLHi6JYkWaX25?=
- =?us-ascii?Q?nc9leXANX5ZRw0F77/SFWvklq6dKZPwtNGlE4lS4FHY8zVxkZnHItosA2FPU?=
- =?us-ascii?Q?7OZWWZLNJPUhAIH5GiGWWNjx9BobUCGL3S5iQiDDY2AjezDoaYIqv/SRC97t?=
- =?us-ascii?Q?HOywHExHCiRDmsIMyjfZNzVN+FN2KushJGdqhBQmX5C59jgSmM3YCxW9RssE?=
- =?us-ascii?Q?DQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-CSE-ConnectionGUID: OzRfi3L9QYuxIUS9lqcSug==
+X-CSE-MsgGUID: ISHIDNe3RC29BTdCWGen4w==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 31 Mar 2025 21:27:18 +0900
+Received: from superbuilder.administration.lan (unknown [10.226.93.144])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3155741F57EE;
+	Mon, 31 Mar 2025 21:27:15 +0900 (JST)
+From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+To: thierry.bultel@linatsea.fr
+Cc: linux-renesas-soc@vger.kernel.org,
+	geert@linux-m68k.org,
+	paul.barker.ct@bp.renesas.com,
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Subject: [PATCH v6 00/13] Add initial support for Renesas RZ/T2H SoC
+Date: Mon, 31 Mar 2025 14:26:41 +0200
+Message-ID: <20250331122657.3390355-1-thierry.bultel.yh@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00852c70-e5c5-417b-c5b5-08dd704f3c06
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2025 12:26:16.7751
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xgccKCkCqwnfYdzG+vKH/NnCqC1m5SBC8t34CU1gLbPRwHnrwXh1lbf8kz/MydkbB4ONPbFTkXLBbW6rUQ93KDQnLyJkhx9bTxeM4gsQwGY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB10707
+Content-Transfer-Encoding: 8bit
 
-Hi Prabhakar,
+This patchset brings basic support for Renesas RZ/T2H SoC and
+its evaluation board. The 4 CPUs are enabled, only the serial 
+console is available and the board must boot on a ramdisk. 
+earlycon is supported, though.
 
-Thanks for the patch.
+The RZ/T2H serial controller (SCI) is quite different from the 
+other RZ SoCs, one of the big differences (but not the only) being
+the 32 bits registers. In order to not modify the existing sh-sci 
+driver too much, a new set of 'ops' function pointer is introduced,
+allowing to code the specifics of RZ/T2H in a separate file.
+Termios setting is not supported yet, the default 115200 baudrate
+being kept by default.
 
-> -----Original Message-----
-> From: Prabhakar <prabhakar.csengg@gmail.com>
-> Sent: 30 March 2025 22:07
-> Subject: [PATCH 08/17] drm: renesas: rz-du: mipi_dsi: Add min check for V=
-CLK range
->=20
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> The VCLK range for Renesas RZ/G2L SoC is 148.5 MHz to 5.803 MHz. Add a mi=
-nimum clock check in the
-> mode_valid callback to ensure that the clock value does not fall below th=
-e valid range.
->=20
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Clock support for RZ/T2H is added to the existing renesas-cpg-mssr
+driver, with some little modifications so that more parameters are
+passed to the device-specific registration callback. 
+At this stage, the assumption is made that most of the initialization 
+is done earlier by the bootloader. Module clock enable/disable is 
+not supported, because quite hard to test when the only available 
+peripheral is the serial console, and will come in a future patchset.
 
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+This patch series applies to linux-next
 
-Cheers,
-Biju
 
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu=
-/drm/renesas/rz-
-> du/rzg2l_mipi_dsi.c
-> index fa7a1ae22aa3..c6f60b7f203b 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -585,6 +585,9 @@ rzg2l_mipi_dsi_bridge_mode_valid(struct drm_bridge *b=
-ridge,
->  	if (mode->clock > 148500)
->  		return MODE_CLOCK_HIGH;
->=20
-> +	if (mode->clock < 5803)
-> +		return MODE_CLOCK_LOW;
-> +
->  	return MODE_OK;
->  }
->=20
-> --
-> 2.49.0
+* [PATCH 1/13]
+  - Rebased on top of next-20250331
+* [PATCH 2/13]
+  - Set clock minItem constraint
+  - Moved additionalProperties after 'allOf' section
+* [PATCH 10/13]
+  - Rename SERIAL_RZ_SCI_T2 to CONFIG_SERIAL_RSCI
+  - Rename rz-sci-t2.{c,h} to rsci.{c,h}
+  - Rename port type to PORT_RSCI
+  - Rename sci_r9a09g077_data to of_sci_r9a09g077_data for consistency
+* [PATCH 12/13]
+  - Rebased on top of next-20250331
+* [PATCH 13/13]
+  - Renamed CONFIG_SERIAL_RZ_SCI_T2 to CONFIG_SERIAL_RSCI
+
+Changes v4->v5
+* [PATCH 2/13]:
+  - Set reg minItems and maxItems defaults at top level
+* [PATCH 8/13]:
+   - sci_shutdown is no longer static (systemd needs it)
+* [PATCH 10/13]:
+  - Rename SERIAL_RZ_SCI to SERIAL_RZ_SCI_T2
+  - Rename rzsci.{c,h} to rz-sci-t2.{c,h}
+  - Rename port type to PORT_RZ_SCI_T2
+  - Set sci_shutdown ops pointer (needed by systemd for having a console)
+* [PATCH 13/13]:
+   - Renamed CONFIG_SERIAL_RZ_SCI to CONFIG_SERIAL_RZ_SCI_T2
+
+Changes v3->v4
+* Remove all unwanted 'Reviewed by:' tags coming from internal patchwork.
+* [PATCH 2/13]: 
+  - Handle maxItems and clocks names properly in schema.
+* [PATCH 3/13]: 
+  - Add more details in commit description about why renesas,sci 
+    does not apply.
+  - Remove uart-has-rtscts for !rzsci.
+* [PATCH 4/13] & [PATCH 13/13] 
+  - Sets ARCH_R9A09G077 to Y by default.
+* [PATCH 6/13] 
+   - Add missing #include <bitfield.h> (reported by bot)
+   - Add missing __iomem address space in cpg_rzt2h_addr_from_offset and
+     return type (reported by bot)
+   - fixed clocks: inverted 'mult' and 'div' parameters when using 
+     the DEF_FIXED macro
+* [PATCH 8/13]
+   - Add missing #include <bitfield.h>
+   - Remove sci_poll_get_char sci_poll_put_char from sh-sci-common.h (both 
+     function are not used by rzsci yet).
+   - Add missing #ifdef around .poll_put_char pointer initialization.
+* [PATCH 9/13] 
+  - Fix the bot compilation error on superh in sci_probe_earlyprink()
+* [PATCH 10/13]
+  - Add missing #include <bitfield.h>
+  - Fix christmas tree code style in rzsci_transmit_chars.
+* [PATCH 13/13]
+  - Change the commit title.
+  - Remove CONFIG_ARCH_R9A09G077=y.
+
+Changes v2->v3
+* Amend [PATCH v2 05/13] with Signed-off-by, added comment about
+  moved parameters of priv data.
+* bindings:
+  - sci: own section for RZ/T2H sci, resets no required at this stage
+  - sci: 'uart-has-rtscts' is conditional to RZ/T2H.
+  - renesas: 'renesas,r9a09g077' is the fallback.
+  - cpg: renamed 'r9a09g077-cpg-mssr.h to 'renesas,r9a09g077-cpg-mssr.h'.
+  - cpg: update renesas,cpg-mssr.yaml (added loco clock, maxItems for registers is 2),
+    update commit description
+* rz/sci: 
+  - rebase the patchset on v6.14-rc3.
+  - removed unused register bits definitions in rzsci.c
+  - rzsci: replace the busy loop in rzsci_poll_put_char by 
+    readl_relaxed_poll_timeout_atomic
+  - change 'struct sci_suspend_regs' to opaque pointer in sci_port, 
+    kzalloc it with size returned from the added 'suspend_regs_size()' 
+    to specific ops.
+  - renamed 'sh-sci_common.h' to 'sh-sci-common.h'
+  - add Geert's fixes for SH crash
+  - do not use SCI_OF_DATA macro to avoid code duplication by compiler
+  - revert some global functions to static
+* clk:
+  - fixed Kconfig for selecting CLK_RENESAS_CPG_MSSR.
+  - code style.
+  - use macros for MSTPCR block selection.
+  - fixed erroneous offset in mstpcr_for_rzt2h array.
+  - fixed the forgotten rcar-gen2-cpg.c in [PATCH v2 05/13]
+ * defconfig;
+  - added commit description and SoB
+  - update cover letter about SoC options
+
+Changes v1->v2
+* CPG based on renesas-cpg-mssr (no more new CPG driver), updated cover letter
+  for that.
+* bindings: 
+  - passed dt_binding_check and added missing compatible strings, 
+  - document SoC + evaluation board in a single commit
+  - rzsci added to sci documentation
+  - fixed dependencies
+  - renamed the evaluation board to r9a9g077m44-rzt2h-evk
+  - removed clock module numbers & resets from binding header
+  - compatibles: renamed r9a09g077-rzt2h-evk to rzt2h-evk
+* rz/sci:
+  - added Renesas copyright
+  - fixed rzsci_receive_chars following Geert's advice, and comment
+    that 9-bits data is not supported
+  - fixed the regression (ops init) on non-DT legacy boards, sci_probe_regmap
+    called moved in the non-DT case.
+  - moved struct sci_of_data introduction in the appropriate commit
+* dts
+  - applied conventions (nodes alphabetical order & node names)
+  - added missing compatibles to r9a09g077m44.dtsi and r9a09g077m44-rzt2h-evk.dts
+ 
+
+
+Thierry Bultel (13):
+  dt-bindings: soc: Add Renesas RZ/T2H (R9A09G077) SoC
+  dt-bindings: clock: Add cpg for the Renesas RZ/T2H SoC
+  dt-bindings: serial: Add compatible for Renesas RZ/T2H SoC in sci
+  soc: renesas: Add RZ/T2H (R9A09G077) config option
+  clk: renesas: Pass sub struct of cpg_mssr_priv to cpg_clk_register
+  clk: renesas: Add support for R9A09G077 SoC
+  serial: sh-sci: Fix a comment about SCIFA
+  serial: sh-sci: Introduced function pointers
+  serial: sh-sci: Introduced sci_of_data
+  serial: sh-sci: Add support for RZ/T2H SCI
+  arm64: dts: renesas: Add initial support for renesas RZ/T2H SoC
+  arm64: dts: renesas: Add initial support for renesas RZ/T2H eval board
+  arm64: defconfig: Enable Renesas RZ/T2H serial SCI
+
+ .../bindings/clock/renesas,cpg-mssr.yaml      |  57 +-
+ .../bindings/serial/renesas,sci.yaml          |  63 +-
+ .../bindings/soc/renesas/renesas.yaml         |  10 +
+ arch/arm/boot/dts/renesas/Makefile            |   1 +
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    |  35 +
+ arch/arm64/boot/dts/renesas/r9a09g077.dtsi    | 129 ++++
+ arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi |  13 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/Kconfig                   |   5 +
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/r7s9210-cpg-mssr.c        |   7 +-
+ drivers/clk/renesas/r8a77970-cpg-mssr.c       |  11 +-
+ drivers/clk/renesas/r9a09g077-cpg-mssr.c      | 238 +++++++
+ drivers/clk/renesas/rcar-gen2-cpg.c           |   5 +-
+ drivers/clk/renesas/rcar-gen2-cpg.h           |   3 +-
+ drivers/clk/renesas/rcar-gen3-cpg.c           |   6 +-
+ drivers/clk/renesas/rcar-gen3-cpg.h           |   6 +-
+ drivers/clk/renesas/rcar-gen4-cpg.c           |   8 +-
+ drivers/clk/renesas/rcar-gen4-cpg.h           |   3 +-
+ drivers/clk/renesas/renesas-cpg-mssr.c        | 153 ++--
+ drivers/clk/renesas/renesas-cpg-mssr.h        |  43 +-
+ drivers/soc/renesas/Kconfig                   |   6 +
+ drivers/tty/serial/Kconfig                    |   7 +
+ drivers/tty/serial/Makefile                   |   1 +
+ drivers/tty/serial/rsci.c                     | 467 +++++++++++++
+ drivers/tty/serial/rsci.h                     |  12 +
+ drivers/tty/serial/sh-sci-common.h            | 167 +++++
+ drivers/tty/serial/sh-sci.c                   | 651 ++++++++++--------
+ drivers/tty/serial/sh-sci.h                   |   2 -
+ .../clock/renesas,r9a09g077-cpg-mssr.h        |  49 ++
+ include/linux/serial_sci.h                    |   3 +-
+ include/uapi/linux/serial_core.h              |   3 +
+ 32 files changed, 1775 insertions(+), 391 deletions(-)
+ create mode 100644 arch/arm/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
+ create mode 100644 drivers/clk/renesas/r9a09g077-cpg-mssr.c
+ create mode 100644 drivers/tty/serial/rsci.c
+ create mode 100644 drivers/tty/serial/rsci.h
+ create mode 100644 drivers/tty/serial/sh-sci-common.h
+ create mode 100644 include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+
+-- 
+2.43.0
 
 
