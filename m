@@ -1,217 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-15127-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15128-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0C5A763AC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 11:58:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFCEA763B7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 12:00:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BDE0E188A2ED
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 09:58:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4BA743A3A44
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Mar 2025 09:59:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 360301DF75A;
-	Mon, 31 Mar 2025 09:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CIR839RD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EED041DF269;
+	Mon, 31 Mar 2025 10:00:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0BB1DE3AA;
-	Mon, 31 Mar 2025 09:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7236A86338;
+	Mon, 31 Mar 2025 10:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743415082; cv=none; b=he5ZxibNDIGRZ6ItZGVC0RKrif/YZEuIykkccPPpWBhp5yqYOCfi+XqtQkIOIU7Gn0NuS2fWA2gTpSNhB5HPA0sOYBHRoJ672Tt7yqM6RgGuALWPuZ2KpEPLD8/OM0A8PI+jXXccpY7LUhJYT5ML+3klDGWxMyJLOmYhqpyiS4Y=
+	t=1743415206; cv=none; b=QfBEpqmslf6J+j6EnB9VVZk4rh8xDarCn4qGd8ySRDumuN9r3i2iVFaUSEPUg+Sg8ZxGu0ZJKuJWLasH8ogkizxJ5V49X0HUzwmmGhu0VzNajz1r7efmMymB7Nd5HZQRznba2hb/Leg3QK+4Kg4izlycFJPHdcHYdfVRaimxcpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743415082; c=relaxed/simple;
-	bh=yK7nu7eWJM3nujHNfRadysWMa7kXdY+e6WXSaZJuUlg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rz0eehTs6n3767PJp3QqrlNcpKC3v43ZQGDATTdyAEl0OzvJvrZdP+S6GOhnn2TTTo+c2VDuECieKYaBe2dKTYtMqIvKVUwrz5ItyF0dgMHJLpCkWN9BWYR+jdteRnvyVquJsE/nnV1kAt9UK3Pez6TILGVjPXH3s9preCxo66w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CIR839RD; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1743415206; c=relaxed/simple;
+	bh=RYhb5eHwn7GiR8GFxnjY8qU2kO/mpQDTuFA9lv5gM6s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mQfEr7M14tu2x4scIINt3nL/NasWptvM4J18hy5+cKEAa74jUXze5qarXYHfy+aCUTmFLN12Rmc9ErXHws/rf0ZGnOPYzHCTpmY0fvLePwzPffxc/O0BUzzlPd0Lh9GnTcZzzgrHm9moR8V+Y5SwfrWShW/DFn6NHtHsuywtjFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-54af20849bbso2678160e87.0;
-        Mon, 31 Mar 2025 02:57:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743415078; x=1744019878; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uGBJfvaNnxtRD6hIkqEgxjYX8qkJ7qsN5lK/+BN2aO0=;
-        b=CIR839RDBhQyMuLnCcPV1LrqYJJQ5zoRT0N4FO5efd2kxXv6rhvIpgOTMNYN2NVXt2
-         VUZvRgGRnaLcstwWAVJeywAhPUEwvB78xuNbevAHU0fkpWcG6ZnMuUkj+jjVlF3DiUY6
-         eguVLIUTGObxOf3ss4GtBNY+HzJoqk2vnPpUDNDAdXlWeIE0K9Ln20zRnkNNltyk2+SW
-         t8Rz5rIfF6x4+OTwesPWDt4DIu7SiKBOrFWxOy3Bj3w6dKJJFQzFmFyK9+HaxDKCj+AX
-         CdMET2AFNCSDujk/dFP5krDHB3zH49IsBDZ3xbNyozmjqLJJFUnAUsB5GukWYGxVL56Y
-         qUAQ==
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-523d8c024dfso1726543e0c.3;
+        Mon, 31 Mar 2025 03:00:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743415078; x=1744019878;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uGBJfvaNnxtRD6hIkqEgxjYX8qkJ7qsN5lK/+BN2aO0=;
-        b=eLaSx8hCEBFT7Wd+lUuSRSN5P1UhHDQ/4UukN0GyF4EaCuXn7vot0yCOOR9afX/r5+
-         lOZvEKauVdxj8rOh65gEkIIWBISatUBzDyUOAhzcAPlgwmklM98fsa/Rg0o3ubB2q2lH
-         IwerK4BW5tAYJUcbB6chmucbJEJH31qcAQVvbOkoGXRjpb/fKSeOLTcmBlmr+cznAyae
-         y9Eg3McNYIWg7VNx46PXVJ7Hur+bOnN3da58AQQil63SUYVF4GgYVStpcdJgxunYoL4M
-         qnC0+uMIrkVgByh0EFb4V0w2SULvADFWXY7cqkTlTpZOTdA13elsFV4kZwPq5/vpAKh7
-         eRyw==
-X-Forwarded-Encrypted: i=1; AJvYcCU9c9gV9FGOnz0ub3XKCZ+LEt7uaWr7eXe0qPTA3rAiHBQnifxqKB1gY3/+8WTLKqz2U+CsTxuanfBl@vger.kernel.org, AJvYcCUYLCamRjRg2H42fr5yiRcUBg9Fj463Cnx/9jxTq+uFr+LKZ0na6RtLyreW6yCbeoyQB/v4aXEvsxBkQg==@vger.kernel.org, AJvYcCVD99Xd/CcFGI6xlY/cfVt4zqg2IH/I6atGwbcpPLZOlD1/kqd4kWxvQ4KR4u9mePgn2odPlRXTY3yDwfZZ@vger.kernel.org, AJvYcCVvbPoAcnKebA5tAc01jeokX7/1gQNddjk8fOw0dV74V4PZd57n0srU9GiqUdmONlGWqpCCAEv1pWkhkIKf3vhvzFw=@vger.kernel.org, AJvYcCXAGvkeUCzPnH87k6yUykOiDgrrh7FascVuLy0G8ANrHL7xL+zdgmmFUhq13b42f0V2pWQYo6IptoVt@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+4FWhGY4EUCXNk8K8M1ssMaETcqFfUC/+vnywJ2DcXeOZbsDe
-	I1ZwNyqwlIDYq29QgUtHjtsXK94My10PooxQvgIuwDVooOinXSms
-X-Gm-Gg: ASbGncvsT8vfeQJl6M+mIb3INKON0FIpnCr7YeTwOLre0+2hIGs31ae141dFGiRG8pU
-	d+cxLiR28D8DThEXSp7S8FuqqNP3y9lk6YBnypApQdAbfGhwmU3ggnPcW4rNkcl2JtFfjVhHRBV
-	D90+ySB9ZccHctJTuwz2aI0ldaBUKxWbjp8c2f0IKBRKRUg51E/5CDsUWfE1uJEJRl/wZWceyRe
-	b5ddxKnpYBg8/96d4USy19oNIrpuH0ZMkOUJ/lcLCfHwDN2NyicmxgKF9efPO+KG0rlZhl6RKbg
-	xieaE6u+7br01KegHToQDxG67dIirZyqDbI7vv1ygEltKVqhAtqKBk+EWbbveEeuw/zQMGOnc23
-	I7CHgCuYAcdt5dxNHMagRhdh3eQ==
-X-Google-Smtp-Source: AGHT+IGqeY06WugE+f6xFNsS8xeFCBQw/6TOQOGCtpw4PCZBd5XxHX4TAt+/prfgf/QFIXCNENTg8Q==
-X-Received: by 2002:a05:6512:a95:b0:549:8cbb:5441 with SMTP id 2adb3069b0e04-54b10dc7c04mr2303336e87.15.1743415078069;
-        Mon, 31 Mar 2025 02:57:58 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b103721f6sm786241e87.108.2025.03.31.02.57.55
+        d=1e100.net; s=20230601; t=1743415202; x=1744020002;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IHHpQ0fy6841VegCJOINr5C7Mb1mxyzeTX09RBlZJPE=;
+        b=qD4rGg+iNimkBj+bEySt1QAelmdUaLYamHXjDh2o5CbB4iPI5dN7o/GncrUInI3jcp
+         CcNKNmdWT6K9jk+5PRGyLFa9KoKBQrMdLkV+quAyLccmIoja0u0kS5B68kMTlkTksXia
+         0bnGhOrAiDBdJkpIWRjDt8LeKG9/BoayAdQ1KS/DHmEPs0kIZArzZB9qwMpPyuHS7aYJ
+         1SWPsD0F5TAMQ6DwNeHQo61BCpZGwRo55XsYu+M4n7MlXASGIj5er3SuO53YBPF9HTLz
+         wrbFtWw/d7yuOCMoJ2aimcGBkPXNCvPdq7mv6z9sy/NZAXb44o8Tn45qAawZd2ot6nBi
+         6Y4w==
+X-Forwarded-Encrypted: i=1; AJvYcCVHuNcqzyMC/gOT3nWbKOP7H7llqSLgWOwBYNyPB3WQYCL3vt+b8JK46305oJCK8ZKyhlgGN9e4OaxDyrot@vger.kernel.org, AJvYcCWTwYt6Lh64rX3raopibHWqnS7WYantcvrGC3Hvl4qBhofKMyYxeVzJSvXAZPWiGh2NRgQDZT6xlYzq@vger.kernel.org, AJvYcCX8WFkHRi1lax5vp6cjKQxzQilvcCcvN2fXb7aRQF7jYcbZO3UyVzfirRQUMp0ZhyvjMrtymynMgL8r@vger.kernel.org, AJvYcCXfpE0o11lFszimtLec/h26a2ACCSD2olbGL2LWxW17pe2eF88xqRY1K65Gtxyv0PkwORadXjwf3Di2Ji8=@vger.kernel.org, AJvYcCXk5x4voaOV9fJwzrYA4ZZsBrUZ9ey5RSmezOfpLBcvhC1weYyHbyjtJAJLFP5Chuy/E9b+rotikry/FkedwYDt8W8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQHU4SDWuMat539mNF5Pf/ozApl5McQVR1oVv9fC6hzLt/Src+
+	JLX7g8YIWXstdaLzpbbZQR2s9Ay/bOdJPzHDYnrb0BuRNX3Q9qiO1lbKJb5c
+X-Gm-Gg: ASbGnctOstp1W6yyUuGbYO3Rll64NvVU8XknL6RhZo/szxSczOofCXbt3wHWGRtBl8F
+	RV4LHPEGTo23vDvAT9OPvcfcLMXgzvZCZzId0kRdqKLhRIC+3BMLmm8J6eoPag8QX8aqrW8Iluk
+	WSeRt8enXgIwbPXsq31FZnE9TVQNtPAWufyBTcF0uADjQRhi1lSdZ8JiqU+BJOn3TM8k03fIzIF
+	iFdJq2LZbd5I4Mk00u9jwbrlNGllKSK572rGpINQ2oAgUtZ//RJSvRVCrz6+dhFH+ZwBM9/sRQO
+	/YPf/18kwYQOxRSyueh3rvoFt4GXj5iYADdROtJuxjuC+ngRPDyRfOWSyM+hg63WvEMT9aANJHh
+	wzyavyayPBqc=
+X-Google-Smtp-Source: AGHT+IGEHtbpeJpXxn1AP0GsA5A7d2oyCMLrXejHUj6Bez09FoVRmKBg86HI6ZZpQ6qPAKwKC+qmTw==
+X-Received: by 2002:a05:6102:2b88:b0:4bb:e8c5:b172 with SMTP id ada2fe7eead31-4c6d3887c1emr4533100137.8.1743415201914;
+        Mon, 31 Mar 2025 03:00:01 -0700 (PDT)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-871a33b141fsm1495226241.28.2025.03.31.03.00.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Mar 2025 02:57:57 -0700 (PDT)
-Message-ID: <2f977814-bd9b-4b54-aa77-a36edb56e194@gmail.com>
-Date: Mon, 31 Mar 2025 12:57:55 +0300
+        Mon, 31 Mar 2025 03:00:01 -0700 (PDT)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-523ee30e0d4so2164511e0c.2;
+        Mon, 31 Mar 2025 03:00:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUGWbbiBYw5izBVSuenSH45hfwaHSphLOAkjmrhiFjcsDOOO4hLCLC9EL/Q5N86JGktCox27zncVP9arrb+@vger.kernel.org, AJvYcCURDvqAygdGCLVs2LAUNjAsRplEV0Y8iD49w5CnQFKyWXb4uFl1A82VbGzVJC8AOZUBMTGzB1Cou5TDC10=@vger.kernel.org, AJvYcCV/THnhSvAB5UDewnSSoXu4Ej/x8VWglzTtaVTVFrj85PL1SpjqF04IEsbm8JED27F289HjPcT+Bx7W@vger.kernel.org, AJvYcCVDAOi9NktOsgwpfy/FSYfVIYcabc4Nqn7ougWvFPyeQz/MhNf17zZOS3lh2kggUiXZql9zNg0Tm963@vger.kernel.org, AJvYcCVu2i5qbA2C5EYEP76UijMEnXxIYf8JyeFmkuPpu3bdhHiT1vUvivwqjzco3ivEGwdythRbQoreajU97S19kmd1GuY=@vger.kernel.org
+X-Received: by 2002:a05:6102:54a9:b0:4b9:bd00:454b with SMTP id
+ ada2fe7eead31-4c6d38ce35emr3497230137.13.1743415200600; Mon, 31 Mar 2025
+ 03:00:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 3/8] iio: adc: add helpers for parsing ADC nodes
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Nuno Sa <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Guillaume Stols <gstols@baylibre.com>,
- Dumitru Ceclan <mitrutzceclan@gmail.com>,
- Trevor Gamblin <tgamblin@baylibre.com>,
- Matteo Martelli <matteomartelli3@gmail.com>,
- Alisa-Dariana Roman <alisadariana@gmail.com>,
- Ramona Alexandra Nechita <ramona.nechita@analog.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <cover.1742560649.git.mazziesaccount@gmail.com>
- <f1d8b3e15237947738912c0d297b3e1e21d8b03e.1742560649.git.mazziesaccount@gmail.com>
- <Z-mnNtYLkwsTYjMh@debian-BULLSEYE-live-builder-AMD64>
- <4d66b3b5-bfcb-42f0-9096-7c448c863dfc@gmail.com>
- <20250331104849.3eb748a8@jic23-huawei>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250331104849.3eb748a8@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 31 Mar 2025 11:59:48 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWVd0K_w+vPDBcmCzxFJ3JgyXfUd+h0OTCdcjmj8D0trA@mail.gmail.com>
+X-Gm-Features: AQ5f1JpCL3EXQypQSgdlAcFOZc5JnfHR7qY1OVfeJ2JHPtlkNAoLdw5F_dFliuY
+Message-ID: <CAMuHMdWVd0K_w+vPDBcmCzxFJ3JgyXfUd+h0OTCdcjmj8D0trA@mail.gmail.com>
+Subject: Re: [PATCH 00/17] Add support for DU and DSI on the Renesas RZ/V2H(P) SoC
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 31/03/2025 12:48, Jonathan Cameron wrote:
-> On Mon, 31 Mar 2025 08:39:35 +0300
-> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
-> 
->> Hi Marcelo,
->>
->> Thanks for the review!
->>
->> On 30/03/2025 23:19, Marcelo Schmitt wrote:
->>> Hi Matti,
->>>
->>> The new helpers for ADC drivers look good to me.
->>> I am now very late to complain about anything but am leaving some minor comments
->>> below that can be completely ignored.
->>>
->>> Reviewed-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
->>>
->>> Thanks,
->>> Marcelo
->>>
->>> On 03/24, Matti Vaittinen wrote:
->>>> There are ADC ICs which may have some of the AIN pins usable for other
->>>> functions. These ICs may have some of the AIN pins wired so that they
->>>> should not be used for ADC.
->>>>
->>>> (Preferred?) way for marking pins which can be used as ADC inputs is to
->>>> add corresponding channels@N nodes in the device tree as described in
->>>> the ADC binding yaml.
->>> Not sure it's preferred to have ADC channels always declared in dt. That
->>> question was somewhat also raised during ADC doc review [1].
->>
->> I had missed that doc and the review. Interesting read, thanks for
->> pointing it :)
->>
->> We did also do a bit discussion about this during the review of the
->> earlier versions. I am not sure if we found an ultimate common consensus
->> though :)
->>
->> A recap as seen through my eyes:
->>
->> - It is preferred to have either _all_ or _none_ of the channels
->> described in the device tree.
->> https://lore.kernel.org/all/20250201162631.2eab9a9a@jic23-huawei/
->>
->> - This, however, is not _always_ required to be followed, and it may be
->> impractical in some cases:
->> https://lore.kernel.org/linux-iio/6f6e6550-5246-476f-9168-5e24151ab165@baylibre.com/#t
->>
->> - We do have bunch of existing drivers which we need to support. With
->> some very different approaches to bindings.
->> https://lore.kernel.org/linux-iio/20250302032054.1fb8a011@jic23-huawei/
->>
->>
->> My _personal_ thinking is that:
->>
->> This means that we can't hide the binding parsing in the IIO-core. We
->> can't go and change the channels in existing drivers.
->>
->> But, we can provide helpers (like this one) for drivers to use. I also
->> believe we should still try to have common (and preferred!) approach for
->> the _new_ drivers. Eventually, the new ones will be majority. Some of
->> the old ones die, and if we keep same practices for new ones, the old
->> ones will become rare exceptions while majority follows same principles ;)
->>
->>> In short, ADC
->>> channel may and may not be declared under ADC dt node. ADC bindings often don't
->>> enforce channels to be declared. On IIO side of things, many ADC drivers just
->>> populate channels even if they are not declared in dt.
->>> The ADCs you are supporting in the other patches of this series seem to require
->>> dt declared channels though.
->>>
->>> [1]: https://lore.kernel.org/linux-iio/20250118155153.2574dbe5@jic23-huawei/
->>>
->>> Would something like
->>>
->>> A common way of marking pins that can be used as ADC inputs is to add
->>> corresponding channel@N nodes in the device tree as described in the ADC
->>> binding yaml.
->>>
->>> be a good rephrasing of the above paragraph?
->>
->> Yes, if we don't want to guide new drivers to either have all usable
->> channels, or no channels in the device tree.
->>
->> I think Jonathan said he'll be rebasing this to rc1. I am a newcomer and
->> I should not enforce my view over more experienced ones ;) So, feel free
->> to reword the description as Marcelo suggests if you don't think we
->> should prefer one direction or the other.
-> 
-> I've gone with Marcelo's suggestion because I don't want to be too specific
-> here given the complex history.   We can absolutely encourage the all or
-> nothing description going forwards though as it is logical in the vast
-> majority of cases.
+Hi Prabhakar,
 
-Thanks for taking care of it :)
+Thanks for your series!
 
-Yours,
-	-- Matti
+On Sun, 30 Mar 2025 at 23:08, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> Note, the clock patches aplly on top of the following patch series:
+> - https://lore.kernel.org/all/20250228202655.491035-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> - https://lore.kernel.org/all/20250328200105.176129-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
+Same comment as on "[PATCH 0/6] clk: renesas: rzv2h: Add clock and
+reset entries for USB2 and GBETH".
+
+The first patch series was ultimately ignored because it was not clear how
+it related to other similar patches for the same driver; the
+second patch series is new, and depends on it.  So please coordinate
+and resend, based on renesas-clk-for-v6.16, or even better, v6.15-rc1
+next week.
+
+I may still review some clock patches (the ones that do not depend
+on pending new constructs) in this series this week, if time permits,
+but I won't apply them.
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
