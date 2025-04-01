@@ -1,187 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-15270-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15271-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F395A7831D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 22:08:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B660A78413
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 23:34:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F26ED16B3F3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 20:08:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C1543AC2CF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 21:34:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F23D20CCCC;
-	Tue,  1 Apr 2025 20:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5B58214811;
+	Tue,  1 Apr 2025 21:34:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="LBNJXKua";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="c+DYI407"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcm1eu9C"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D84D199943;
-	Tue,  1 Apr 2025 20:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5BD20F078;
+	Tue,  1 Apr 2025 21:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743538095; cv=none; b=k3TmT3IMPPTY750x2wF711Q4c65oI0sZYFbZkmc6EeJB5arLHzP7lvwzodVbTg6QJ2vDJcFX+Oc0/y745b3DiaDgcqXZTGlJ6apGdZIoyjmgHc2r1jXXjsscMXR6Rp7PDSmicUT5AAjdobtx16iKZN8tZebSz+M5/CuCFKHzjBU=
+	t=1743543261; cv=none; b=FaHr/STim9wBzqR52w4ppFpb7Uf19jGhksxDZCgQ714lR/oFfKVxnhLFXF75K5/CGqyugfUCFXOEP6LTxu5sDIeIvXikpfPqXZjEjwzqg3elfMMvU+rKQUWPoo8JARFpMClI1MJQctrr8lcmxMRwMuDrH9qxaFcC0bvbLyIZ1lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743538095; c=relaxed/simple;
-	bh=6yAPTyTOxkeWZlWnRGYP7SoNjoMpLU5gcEOBILNPoR4=;
+	s=arc-20240116; t=1743543261; c=relaxed/simple;
+	bh=uxEuMTnTnLQyuY/5/nABhOzyq2NytKQ9FMea/BjKrrc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G/T6GJVYHw8f6D9f92PmuccmpjZedoCrZTWi+LTOI078kfWFW1EEohYFZDfuT2rDwroSqH8hHygsGVGWPopVppe06yt7m3PqI0yMO0sRAv63A7ijU17LCor5J6JAHql80ZQ6g3r/jwrbhmRuXE/7G2NsTIFp+Ybqw+IdqJrTwbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=LBNJXKua; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=c+DYI407; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 5369F114002D;
-	Tue,  1 Apr 2025 16:08:12 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Tue, 01 Apr 2025 16:08:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1743538092;
-	 x=1743624492; bh=IroLAZPglAM7pFgkrdkyxi2ngFBYvJjGp+Nu95cgJlA=; b=
-	LBNJXKualZHiTwQFfuJKlAtEUY3hDluL1ToEN8npi3y7ly42ePfVGPGq9qg47jNe
-	2MSuMwco38VgYM5aEIv7+Wg+IQr7bpN8yJClRthLX8mqWgkVXqAdyAnATvTBFrwM
-	e6KRvjWqhW3MGoYzGU+9evO6IntHxQayzCnyDrb2EaboTkFG6KxrQcVkLxPMGOCe
-	Ewfb+OnDj608fL1OI9X73WJxOSzs5wi8NSn3i1yCtDFczo2slEolwTtLO4sXvuSS
-	ZAlFMTvWEJ3ZTDPh4OKvzIlLmTQGA495+jIsi1dbjwcU08uRQDqSF7sC7/rbdBP2
-	F69H0xgyZCqh3amMAIiFNg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1743538092; x=
-	1743624492; bh=IroLAZPglAM7pFgkrdkyxi2ngFBYvJjGp+Nu95cgJlA=; b=c
-	+DYI4074sU7Zywae4NYevjYiar1fyL4x0KxSlgB9P/Om7KZLVKwvljPUPPhrHTLW
-	cfH5fnHupdcmLOI29btrms3qRRZOmnWIaq32ywWEoFxNmJklZCfJgwwgh+Jp4AoI
-	EQ435NHFZV3owe66ey+1hD4tFMpkffqu+o+sl2ufERGm5ycDV0PvSW5miiDOVHSo
-	cKIwP1NHWbkuDg/QK4GyWgDyXUd+EpciCwJLSw5iqwGig8j7SJVB45sz5uMoOwZZ
-	9lUbk2/34bJSJbilVRJrfYiIoQN54lvuVJdYYi/z9hpfIpZF+C/lAeWnTpOtRlHc
-	8574J/DNKAXWdQQEiR4Dw==
-X-ME-Sender: <xms:rEfsZ-L5V-WJqceec1rxhwA_ZbcL2O77Pem1oj-vMrrRhYbkTO7Z6Q>
-    <xme:rEfsZ2KNRFFZEx2-wrxKxpwBX8wC5ip3bgjHxxKsCSkdRPk2PX56kiXd7JPFYTAqZ
-    6yJR1dcGreQhk6LNGI>
-X-ME-Received: <xmr:rEfsZ-uW7nr7b-WUYCbzFmmK_eLpP5Z7Iliym8sRysdqLIJQ0ib1mT-zosaipB2vHlm4s4I1zWgTou93TCUSKth2laMs6LvaXg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukeefjedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeev
-    teegtddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlh
-    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdr
-    shhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeeipd
-    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehjrggtohhpohdrmhhonhguihdorhgv
-    nhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvg
-    hnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthho
-    pehkihgvrhgrnhdrsghinhhghhgrmhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrh
-    gurdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgv
-    rhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:rEfsZzbQtOL9eawTMUeBONIZpQk-mVQFTgmo41YBadLdVx_JbmSOuw>
-    <xmx:rEfsZ1bvGPzZUb9TjDXXoOE_h4Bjami4Po1UIfuIFyPYoK-CbL_1sQ>
-    <xmx:rEfsZ_DH03V0CViQ3j30rFjwf5G_Qo8t0NHkd6Eamk4FxqoNdxOlrw>
-    <xmx:rEfsZ7ZSq1RKM_DX3KiuQ_QAuGKMmI3AwNFFLur129gFqSJ1IHGcfQ>
-    <xmx:rEfsZ6ObH5FEWM6Nvo9bBtpuYF6DkTxgbCmKbPy_yhnpgiwl5JWL96ct>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 1 Apr 2025 16:08:11 -0400 (EDT)
-Date: Tue, 1 Apr 2025 22:08:09 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=dP3AhnVDbPdtJRGxD00NvupThqYP008vftSuj8rOZufbxDqDrCwUArrqkObM3aC3YyxPgQE0wBBgCKMOfsh1AQOiDiZ0Aa5tPOwZ7X0tP+5pJyjvA4u2F/U8Ry2ArhtioMJAjOQH4lsF9wnWc70d3fGsV4iBB1Sa89AB0iw06z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcm1eu9C; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743543260; x=1775079260;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uxEuMTnTnLQyuY/5/nABhOzyq2NytKQ9FMea/BjKrrc=;
+  b=jcm1eu9CwbBKSnf+PFsSX60uXEQ8cQY9icoLc4y5g/yQ1IQ/yE4Fx3Uz
+   99ujwvj5KHv3cSnuAzl7I6KE6oZdC+JQbEinPy4ZlEQggSDP0/hivrZz3
+   ycOmFRdO67SrId30TPrkV4S0ahYzYb50uYuL7KfTXLtf1Wfe1U867srkq
+   rCIS+Dcm+Pk+DpptaJxLPd/nNyzUYECRxRV7n3yqmqSPrGZDBjUB3kcf9
+   X0MPM9Qhsu0DS5KJBGAHI9Nzb+v/JXq2c7MnFFPejcfjCp+O4IudOKIe3
+   WRjoUmfxAnYqdpjgc3aC2knPc14fMVNp8CK9OWaYARIi4I66QE23mGdtL
+   w==;
+X-CSE-ConnectionGUID: Miw4kORrTXGYevlZ1Ygvvg==
+X-CSE-MsgGUID: BiI9Y0HgR4C7lfiVf7/dGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="48677761"
+X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; 
+   d="scan'208";a="48677761"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 14:34:19 -0700
+X-CSE-ConnectionGUID: zm39YvqXSJO8mMlsi9+ZAA==
+X-CSE-MsgGUID: ufqPU0O4SU+eVSqPEO8/ww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; 
+   d="scan'208";a="126397890"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 01 Apr 2025 14:34:17 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tzjFH-000A9G-1M;
+	Tue, 01 Apr 2025 21:34:13 +0000
+Date: Wed, 2 Apr 2025 05:33:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v7 3/5] media: vsp1: wpf: Propagate vsp1_rwpf_init_ctrls()
-Message-ID: <20250401200809.GH1240431@ragnatech.se>
-References: <20250401-v4h-iif-v7-0-cc547c0bddd5@ideasonboard.com>
- <20250401-v4h-iif-v7-3-cc547c0bddd5@ideasonboard.com>
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: Re: [PATCH v7 5/5] media: vsp1: Add VSPX support
+Message-ID: <202504020532.rdq3yOcN-lkp@intel.com>
+References: <20250401-v4h-iif-v7-5-cc547c0bddd5@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250401-v4h-iif-v7-3-cc547c0bddd5@ideasonboard.com>
+In-Reply-To: <20250401-v4h-iif-v7-5-cc547c0bddd5@ideasonboard.com>
 
 Hi Jacopo,
 
-Thanks for your patch.
+kernel test robot noticed the following build warnings:
 
-On 2025-04-01 16:22:03 +0200, Jacopo Mondi wrote:
-> vsp1_wpf.c calls vsp1_rwpf_init_ctrls() to initialize controls that
-> are common between RPF and WPF.
-> 
-> However, the vsp1_wpf.c implementation does not check for the function
-> call return value. Fix this by propagating to the caller the return
-> value.
-> 
-> While at it, drop a duplicated error message in wpf_init_controls() as
-> the caller already report it.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+[auto build test WARNING on f2151613e040973c868d28c8b00885dfab69eb75]
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-vsp1-Add-support-IIF-ISP-Interface/20250401-222806
+base:   f2151613e040973c868d28c8b00885dfab69eb75
+patch link:    https://lore.kernel.org/r/20250401-v4h-iif-v7-5-cc547c0bddd5%40ideasonboard.com
+patch subject: [PATCH v7 5/5] media: vsp1: Add VSPX support
+config: i386-buildonly-randconfig-004-20250402 (https://download.01.org/0day-ci/archive/20250402/202504020532.rdq3yOcN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504020532.rdq3yOcN-lkp@intel.com/reproduce)
 
-> 
-> ---
-> v2->v3:
->   - New patch
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_wpf.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> index f176750ccd98..da651a882bbb 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> @@ -133,6 +133,7 @@ static int wpf_init_controls(struct vsp1_rwpf *wpf)
->  {
->  	struct vsp1_device *vsp1 = wpf->entity.vsp1;
->  	unsigned int num_flip_ctrls;
-> +	int ret;
->  
->  	spin_lock_init(&wpf->flip.lock);
->  
-> @@ -156,7 +157,9 @@ static int wpf_init_controls(struct vsp1_rwpf *wpf)
->  		num_flip_ctrls = 0;
->  	}
->  
-> -	vsp1_rwpf_init_ctrls(wpf, num_flip_ctrls);
-> +	ret = vsp1_rwpf_init_ctrls(wpf, num_flip_ctrls);
-> +	if (ret < 0)
-> +		return ret;
->  
->  	if (num_flip_ctrls >= 1) {
->  		wpf->flip.ctrls.vflip =
-> @@ -174,11 +177,8 @@ static int wpf_init_controls(struct vsp1_rwpf *wpf)
->  		v4l2_ctrl_cluster(3, &wpf->flip.ctrls.vflip);
->  	}
->  
-> -	if (wpf->ctrls.error) {
-> -		dev_err(vsp1->dev, "wpf%u: failed to initialize controls\n",
-> -			wpf->entity.index);
-> +	if (wpf->ctrls.error)
->  		return wpf->ctrls.error;
-> -	}
->  
->  	return 0;
->  }
-> 
-> -- 
-> 2.48.1
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504020532.rdq3yOcN-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/platform/renesas/vsp1/vsp1_vspx.c: In function 'vsp1_vspx_cleanup':
+>> drivers/media/platform/renesas/vsp1/vsp1_vspx.c:599:36: warning: variable 'vspx_pipe' set but not used [-Wunused-but-set-variable]
+     599 |         struct vsp1_vspx_pipeline *vspx_pipe;
+         |                                    ^~~~~~~~~
+--
+>> drivers/media/platform/renesas/vsp1/vsp1_vspx.c:395: warning: Function parameter or struct member 'desc' not described in 'vsp1_isp_job_prepare'
+>> drivers/media/platform/renesas/vsp1/vsp1_vspx.c:395: warning: expecting prototype for vsp1_vspx_job_prepare(). Prototype was for vsp1_isp_job_prepare() instead
+
+
+vim +/vspx_pipe +599 drivers/media/platform/renesas/vsp1/vsp1_vspx.c
+
+   596	
+   597	void vsp1_vspx_cleanup(struct vsp1_device *vsp1)
+   598	{
+ > 599		struct vsp1_vspx_pipeline *vspx_pipe;
 
 -- 
-Kind Regards,
-Niklas Söderlund
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
