@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-15265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15266-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC70BA7813C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 19:15:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13651A7813F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 19:15:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE0BF3AB203
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 17:15:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B9609168E51
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 17:15:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B13D620E704;
-	Tue,  1 Apr 2025 17:15:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40C5720FA84;
+	Tue,  1 Apr 2025 17:15:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MeI1u9Ng"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uli569u9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF24D203710;
-	Tue,  1 Apr 2025 17:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF6020E334;
+	Tue,  1 Apr 2025 17:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743527727; cv=none; b=oqitE/QBq7ebS5QPwGKbhB8kW5200Vq7FYZLhriwgn3srkPtBMYIDPALmc6cOfM6POrxR8hDYyoE3oGt5dvpj8hcB3PN3SNODB/5I7ilGsID/z4BfCqZMrJgRZBu4+KY/U8Ak+xlbB8i3NYowM62hLW7iO6GYD87zI7g7fXZYVs=
+	t=1743527729; cv=none; b=iY+QLwORKuXWqjkoqjtK/Ae9rTFm8XCab7ej/ScDgwhrCVE3zn7dJ5A8AOcfj2cW3pg0KD1tapqQCwW5NXrBhTkIR3BfpoKhLpg6JpGsAoPYVO0R2+8n1oX5dtW+ye60xSazzJ4NE/FikNUFFUCVihAjLLZJAX6zGRGMRtgjsZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743527727; c=relaxed/simple;
-	bh=sSTod8Q0IZeUVCmhxMoMISPtm8X+zOnIVSFa5ac4IwQ=;
+	s=arc-20240116; t=1743527729; c=relaxed/simple;
+	bh=YHPGEfE469rQVRmnnRqPn//vMrkL9roqUbQU0/K9SqU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HZiwoD288xw8D6dczNqxbGoavt1MVOLKQNM3EdNGn1o+pRaVjMN+x/4uSJtZZhkSvy8+njiDA4IiFg5+nDyIYxSNq6MJUhWzki73DWwb7XVCnjmDZzdJBTpgA6coK6WEr1wkavkgn3Z4gOqTTSoYDSKlYA/69T2jat8JitrRaaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MeI1u9Ng; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=itwLz2UfphjCwWEMhMSmRSXwTWQw+1rT4q0s6INvab5nmNjzcl1CfU8fOKJ6DQ28Dwo0aT6kCNaJlTs84yOmR62/D8qYO/z3yWlLmkSdCmub8x+hhjUxsnE2cUXYwnF28WMK2lUmszD5YKlasvp3BRFKnRl6cRKX4Yp9HLJo2h0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uli569u9; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso43926065e9.2;
-        Tue, 01 Apr 2025 10:15:25 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4394a823036so54987365e9.0;
+        Tue, 01 Apr 2025 10:15:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743527724; x=1744132524; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1743527725; x=1744132525; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R39K+NOK9nRU3xU/6tDyl5FSqNvJihxLE5DBP2+eT5M=;
-        b=MeI1u9NgCLwW7bBVtq3tmV+P9+Eq1LtOPnxE6520ltvQp6vql3PjTfzBXCAUQ990Bm
-         PBBgiWIHcpkLT1mnhZuzhK2qf5PMGK+EyTjuHXkn8ycuY6GZW8sYfZVMtSpli/MQ7yh6
-         y/kWKWujI5IN/ZdO3eA4qiv1s+fRJhs3xpR3hfL4R3U47O9u+YbsGViUrrAwZsTCEM8f
-         dHXyUDCeR+1TJP5IBFUktv5IQzNnicQ8Nebeglth4j10XXmI4Y6utZgd+U4SmLwaNdrW
-         019a91xzWxTK7iCfxiqSCW8jPA80pniJ18FXS3pbsL7FQtC9OgBDD3ij+i+yvt6VtsX1
-         81ww==
+        bh=8MFXX3VPRI7Nq6uujuo0cRZB3JmhIZrDLtfX0a4FSdo=;
+        b=Uli569u9Pn+sTl5i8pqXe4o2NgSPLwx5O6gm6tHB1M7z2gTlqzNog/BEHQeg3l0YmS
+         bQgW3LAoFvbbu/xsxlAQJ4zS82MUMTCUaSW47jEGJnGL0k6FkCpI1pty4/bFIvUCPKPw
+         5PVUPocwV0JuLqFhveBP4VXTjC3oJ3GyiRYtyxn0jPqnPFrODq2WqaCklAi9Cm/9OBKk
+         xQS/dk2eBWNwxLcZzzpBXH5A2xr+zJ7VLKFoQCytxfZNYsAZiiSAajj+NNSBIbTbbx+r
+         4AjZbjsqojJufyaDcHGVZBvKTe2kCYscBWrSc/T0Nbc0bQDJvOfx05mzfVjjwWvfN1Kw
+         iO9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743527724; x=1744132524;
+        d=1e100.net; s=20230601; t=1743527725; x=1744132525;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=R39K+NOK9nRU3xU/6tDyl5FSqNvJihxLE5DBP2+eT5M=;
-        b=Y52De50GxEPnQ1tbU5LwkEPTjL27qijQfqOWfWsdnT579+Eai5dDPOb5GWswA/lPB9
-         S25t8oxFetbxY+NANLn52tmu9QbsZ9mkjdnX8HHppLY6rQoryq4TQm11wmbwyq8cuel+
-         wfj93/mF6lag2O5Hjejgu5tuEYl01aQ4f9bKjmhGKMuMgJ3pe9rIB+INA6D6t/vA3N1O
-         cdc2tkcWsWimnehZtQ+rchJdETm+y9cfTw+pyRIaBNvYHeyqZUnOZUcCWQtmjrNLFGxr
-         RfQaVLsIXWEpmAvKJ7dcURVqEablhWMqJ3EVFQyfRFxAfCf9J4cOBz7C/E0l7lbElkmo
-         Lf7w==
-X-Forwarded-Encrypted: i=1; AJvYcCUjE+C4yt9QPelO1bG2JfbWzjdAra9n4YRWDFVYuI9pghLflN7i5tz35Q3v3IK2qy+7Vam2RXg0satN@vger.kernel.org, AJvYcCWdQOc7rPlwBos3KyeI2zjiSdiO/ayrXPs1hmD4dfVqnhOz3bGVVmYTTOcFf8GxuH2nEti9ZZxLzUfX8SMX@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQuSuuyG1SRoP0pNYCKM9f/P0znG39QxJ4pqJGq1DlG/VnJc+m
-	nRhYZnpUcFDliHqXHZThhcjfANkVguPTasrx7b7+BgXMO5snJcnHHP6a2g==
-X-Gm-Gg: ASbGnctQR/EeqHyvMCLAcKjaFQbjb2Kmt6tp0ueT4giH+OIWkeySBfbxjA6WKy4Atck
-	F4/aybYMWVPvWPF57n4qiVFFdbMF4S1965Aj1w7P/E6Cz1miz78JicAkT47ccoxbkZuEjH4e37o
-	OvkICG4/4kk+D8/Hh3TfK8vLd3uD7+VKIYNPsB//2c5cXcD0QjLZkxI84Qj/yc0/19GjcXFn94W
-	RBfLljPLoutnHATMGtOmgKOeTNGOlItzayBiMcWenNcmB/FtVfn8ojqpRDse3tbvxji7gYC1VEb
-	8IwNdZ0S16AFQMlQ8D3OEv9f/YY4caBoga3uwtvviooZ0ZFxjU66+vFqHgGkFvTMPNeIXw==
-X-Google-Smtp-Source: AGHT+IH5JMdfEMTZqOK9LW63AA1MRa6Q9PiIQ0MftYIpISHNbwAyl3rjPEMa8QFvsttpAeW7oX3Ghg==
-X-Received: by 2002:a05:600c:4e52:b0:43b:ca39:6c75 with SMTP id 5b1f17b1804b1-43ead8c33d6mr22707725e9.16.1743527724128;
-        Tue, 01 Apr 2025 10:15:24 -0700 (PDT)
+        bh=8MFXX3VPRI7Nq6uujuo0cRZB3JmhIZrDLtfX0a4FSdo=;
+        b=p/P1LNbgNGETdn1nn3DAuMv1qa2Rxh19zEsGw6brHq2bT+TNXRqvDcho9ZnNBjcYyP
+         cyE24FqI60lgbjFinHsfu6AzpvJJ1E3syEF3Rv4ErovEytTYiikK59jh2dZYCzLNVzgi
+         7IdiKu3QiU7Fip8UG+TfRULpWPTMNbIBC32POCnmFtrUxbG5pttNgFEr3AaoMQEfSEGQ
+         imTDjszwwhhX9v3l3dZd07MdaVuyR2+hSlHfnylEMYkrkk7OtxUYEvR4usWG9yTNkzqu
+         dHMZK+fkTs1FhwAzDyDalBFC/ivlOGCszDOP9EwnyZIXBuQNPIr6dxKNfI0Y6vNY/CTN
+         XLFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW5U+NtlG/NgzEyklu0GY9rBVGz3z9IyFb24tbPKFscXD+yDYl6VU/MeOAaWrra6fa6B7bYx1SP6t7Fmw8a@vger.kernel.org, AJvYcCX6XfLmwWtp1i9NF85AxqfAzrkKPkVFVkORv3rrCUybbfEyIMvfq3Zc9fOib3am7LDHU8uEXY6jrRyv@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3NK5W9YiyB8/ZCjBltv+GA4IxBk6MxVV+Fg0669y0pybOApPj
+	hirO03HVHghcdwiNe/UOaYcUQ1ndFXLV5pfUPYYzxkg+RUqv+xk2LX7kvA==
+X-Gm-Gg: ASbGnctHAqz5IHr/ObmJEvb0mBmKEGfKgUuNJFaxjyUdGrpwLurKCxFqAlOVKgFo1GX
+	DduceM2JdGp0lp8oC/TZDs9wdIqaHC3SH3c9D6ysvz/IVNKd6S4b3c3DMdCurtFZfswQCcMkPSN
+	aleKNpNaE2iQoGFbvzDWgbh+SS4TrT+1BGrGl3w5j43wp2b/Y2aPUtnKUka34rT7nO2gXJuFTqY
+	YHcV5oR0tpqiSpBeJ8TDRRMNlKhfiTYUnkKzVwuLsWW97tJ0ilKW2mwGiImCjI6E5R5F4UveteV
+	jSRaIh1osecMjDwbWjRWSDreZfH1Npn9s8knoQ9ND+VR/Sz8i5mXeWOjMeVLLWSszc30LA==
+X-Google-Smtp-Source: AGHT+IFK4gECNAmEV7mB2bgi2/MHttiqVonPZXNX4q8PDKxOQCSr0pGnOv5jm/ENSAX7yCAMr6JR0Q==
+X-Received: by 2002:a05:600c:30d4:b0:43e:b027:479a with SMTP id 5b1f17b1804b1-43eb02747bamr7977485e9.16.1743527725157;
+        Tue, 01 Apr 2025 10:15:25 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:f6ce:ff76:f4b6:b6c3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d8fccfd9bsm162583555e9.20.2025.04.01.10.15.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d8fccfd9bsm162583555e9.20.2025.04.01.10.15.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 10:15:23 -0700 (PDT)
+        Tue, 01 Apr 2025 10:15:24 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Philipp Zabel <p.zabel@pengutronix.de>,
@@ -86,9 +86,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 1/3] dt-bindings: reset: Document RZ/V2H(P) USB2PHY reset driver
-Date: Tue,  1 Apr 2025 18:14:30 +0100
-Message-ID: <20250401171432.101504-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 2/3] reset: Add USB2PHY port reset driver for Renesas RZ/V2H(P)
+Date: Tue,  1 Apr 2025 18:14:31 +0100
+Message-ID: <20250401171432.101504-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250401171432.101504-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250401171432.101504-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -102,78 +102,299 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add a device tree binding document for the Renesas RZ/V2H(P) USB2PHY reset
-driver. This driver controls the reset and power-down of the USB2.0 PHY,
-which is used for both host and function modes.
+Implement a USB2PHY port reset driver for the Renesas RZ/V2H(P) SoC.
+Enable control of USB2.0 PHY reset and power-down operations, including
+assert and deassert functionalities for the PHY.
+
+Leverage device tree (OF) data to support future SoCs with similar USB2PHY
+hardware but varying register configurations. Define initialization values
+and control register settings to ensure flexibility for upcoming platforms.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- .../reset/renesas,rzv2h-usb2phy-reset.yaml    | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
+ drivers/reset/Kconfig               |   7 +
+ drivers/reset/Makefile              |   1 +
+ drivers/reset/reset-rzv2h-usb2phy.c | 241 ++++++++++++++++++++++++++++
+ 3 files changed, 249 insertions(+)
+ create mode 100644 drivers/reset/reset-rzv2h-usb2phy.c
 
-diff --git a/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml b/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
+diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
+index 5b3abb6db248..c295b16866a6 100644
+--- a/drivers/reset/Kconfig
++++ b/drivers/reset/Kconfig
+@@ -218,6 +218,13 @@ config RESET_RZG2L_USBPHY_CTRL
+ 	  Support for USBPHY Control found on RZ/G2L family. It mainly
+ 	  controls reset and power down of the USB/PHY.
+ 
++config RESET_RZV2H_USB2PHY
++	tristate "Renesas RZ/V2H(P) (and similar SoCs) USB2PHY Reset driver"
++	depends on ARCH_RENESAS || COMPILE_TEST
++	help
++	  Support for USB2PHY Port reset Control found on the RZ/V2H(P) SoC
++	  (and similar SoCs).
++
+ config RESET_SCMI
+ 	tristate "Reset driver controlled via ARM SCMI interface"
+ 	depends on ARM_SCMI_PROTOCOL || COMPILE_TEST
+diff --git a/drivers/reset/Makefile b/drivers/reset/Makefile
+index 677c4d1e2632..34e2ed9c6023 100644
+--- a/drivers/reset/Makefile
++++ b/drivers/reset/Makefile
+@@ -30,6 +30,7 @@ obj-$(CONFIG_RESET_QCOM_AOSS) += reset-qcom-aoss.o
+ obj-$(CONFIG_RESET_QCOM_PDC) += reset-qcom-pdc.o
+ obj-$(CONFIG_RESET_RASPBERRYPI) += reset-raspberrypi.o
+ obj-$(CONFIG_RESET_RZG2L_USBPHY_CTRL) += reset-rzg2l-usbphy-ctrl.o
++obj-$(CONFIG_RESET_RZV2H_USB2PHY) += reset-rzv2h-usb2phy.o
+ obj-$(CONFIG_RESET_SCMI) += reset-scmi.o
+ obj-$(CONFIG_RESET_SIMPLE) += reset-simple.o
+ obj-$(CONFIG_RESET_SOCFPGA) += reset-socfpga.o
+diff --git a/drivers/reset/reset-rzv2h-usb2phy.c b/drivers/reset/reset-rzv2h-usb2phy.c
 new file mode 100644
-index 000000000000..c79f61c2373b
+index 000000000000..737b768829c9
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
-@@ -0,0 +1,56 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/reset/reset-rzv2h-usb2phy.c
+@@ -0,0 +1,241 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Renesas RZ/V2H(P) USB2PHY Port reset control driver
++ *
++ * Copyright (C) 2025 Renesas Electronics Corporation
++ */
 +
-+title: Renesas RZ/V2H(P) USB2PHY Port reset Control
++#include <linux/cleanup.h>
++#include <linux/delay.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/reset.h>
++#include <linux/reset-controller.h>
 +
-+maintainers:
-+  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
++struct rzv2h_usb2phy_regval {
++	u16 reg;
++	u16 val;
++};
 +
-+description:
-+  The RZ/V2H(P) USB2PHY Control mainly controls Port reset and power down of the
-+  USB2.0 PHY.
++struct rzv2h_usb2phy_reset_of_data {
++	const struct rzv2h_usb2phy_regval *init_vals;
++	unsigned int init_val_count;
 +
-+properties:
-+  compatible:
-+    const: renesas,r9a09g057-usb2phy-reset     # RZ/V2H(P)
++	u16 reset_reg;
++	u16 reset_assert_val;
++	u16 reset_deassert_val;
++	u16 reset_status_bits;
++	u16 reset_release_val;
 +
-+  reg:
-+    maxItems: 1
++	u16 reset2_reg;
++	u16 reset2_acquire_val;
++	u16 reset2_release_val;
++};
 +
-+  clocks:
-+    maxItems: 1
++struct rzv2h_usb2phy_reset_priv {
++	const struct rzv2h_usb2phy_reset_of_data *data;
++	void __iomem *base;
++	struct device *dev;
++	struct reset_controller_dev rcdev;
++	spinlock_t lock; /* protects register accesses */
++};
 +
-+  resets:
-+    maxItems: 1
++static inline struct rzv2h_usb2phy_reset_priv
++*rzv2h_usbphy_rcdev_to_priv(struct reset_controller_dev *rcdev)
++{
++	return container_of(rcdev, struct rzv2h_usb2phy_reset_priv, rcdev);
++}
 +
-+  power-domains:
-+    maxItems: 1
++/* This function must be called only after pm_runtime_resume_and_get() has been called */
++static void rzv2h_usbphy_assert_helper(struct rzv2h_usb2phy_reset_priv *priv)
++{
++	const struct rzv2h_usb2phy_reset_of_data *data = priv->data;
 +
-+  '#reset-cells':
-+    const: 0
++	scoped_guard(spinlock, &priv->lock) {
++		writel(data->reset2_acquire_val, priv->base + data->reset2_reg);
++		writel(data->reset_assert_val, priv->base + data->reset_reg);
++	}
 +
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - resets
-+  - power-domains
-+  - '#reset-cells'
++	usleep_range(11, 20);
++}
 +
-+additionalProperties: false
++static int rzv2h_usbphy_reset_assert(struct reset_controller_dev *rcdev,
++				     unsigned long id)
++{
++	struct rzv2h_usb2phy_reset_priv *priv = rzv2h_usbphy_rcdev_to_priv(rcdev);
++	struct device *dev = priv->dev;
++	int ret;
 +
-+examples:
-+  - |
-+    #include <dt-bindings/clock/renesas,r9a09g057-cpg.h>
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret) {
++		dev_err(dev, "pm_runtime_resume_and_get failed\n");
++		return ret;
++	}
 +
-+    reset-controller@15830000 {
-+        compatible = "renesas,r9a09g057-usb2phy-reset";
-+        reg = <0x15830000 0x10000>;
-+        clocks = <&cpg CPG_MOD 0xb6>;
-+        resets = <&cpg 0xaf>;
-+        power-domains = <&cpg>;
-+        #reset-cells = <0>;
-+    };
++	rzv2h_usbphy_assert_helper(priv);
++
++	pm_runtime_put(dev);
++
++	return 0;
++}
++
++static int rzv2h_usbphy_reset_deassert(struct reset_controller_dev *rcdev,
++				       unsigned long id)
++{
++	struct rzv2h_usb2phy_reset_priv *priv = rzv2h_usbphy_rcdev_to_priv(rcdev);
++	const struct rzv2h_usb2phy_reset_of_data *data = priv->data;
++	struct device *dev = priv->dev;
++	int ret;
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret) {
++		dev_err(dev, "pm_runtime_resume_and_get failed\n");
++		return ret;
++	}
++
++	scoped_guard(spinlock, &priv->lock) {
++		writel(data->reset_deassert_val, priv->base + data->reset_reg);
++		writel(data->reset2_release_val, priv->base + data->reset2_reg);
++		writel(data->reset_release_val, priv->base + data->reset_reg);
++	}
++
++	pm_runtime_put(dev);
++
++	return 0;
++}
++
++static int rzv2h_usbphy_reset_status(struct reset_controller_dev *rcdev,
++				     unsigned long id)
++{
++	struct rzv2h_usb2phy_reset_priv *priv = rzv2h_usbphy_rcdev_to_priv(rcdev);
++	struct device *dev = priv->dev;
++	int ret;
++	u32 reg;
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret) {
++		dev_err(dev, "pm_runtime_resume_and_get failed\n");
++		return ret;
++	}
++
++	reg = readl(priv->base + priv->data->reset_reg);
++
++	pm_runtime_put(dev);
++
++	return (reg & priv->data->reset_status_bits) == priv->data->reset_status_bits;
++}
++
++static const struct reset_control_ops rzv2h_usbphy_reset_ops = {
++	.assert = rzv2h_usbphy_reset_assert,
++	.deassert = rzv2h_usbphy_reset_deassert,
++	.status = rzv2h_usbphy_reset_status,
++};
++
++static int rzv2h_usb2phy_reset_of_xlate(struct reset_controller_dev *rcdev,
++					const struct of_phandle_args *reset_spec)
++{
++	/* No special handling needed, we have only one reset line per device */
++	return 0;
++}
++
++static int rzv2h_usb2phy_reset_probe(struct platform_device *pdev)
++{
++	const struct rzv2h_usb2phy_reset_of_data *data;
++	struct rzv2h_usb2phy_reset_priv *priv;
++	struct device *dev = &pdev->dev;
++	struct reset_control *rstc;
++	int error;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	data = of_device_get_match_data(dev);
++	if (!data)
++		return dev_err_probe(dev, -ENODEV,
++				     "failed to match device\n");
++
++	priv->data = data;
++	priv->dev = dev;
++	priv->base = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(priv->base))
++		return PTR_ERR(priv->base);
++
++	rstc = devm_reset_control_get_shared_deasserted(dev, NULL);
++	if (IS_ERR(rstc))
++		return dev_err_probe(dev, PTR_ERR(rstc),
++				     "failed to get deasserted reset\n");
++
++	spin_lock_init(&priv->lock);
++	dev_set_drvdata(dev, priv);
++
++	error = devm_pm_runtime_enable(dev);
++	if (error)
++		return dev_err_probe(dev, error, "Failed to enable pm_runtime\n");
++
++	error = pm_runtime_resume_and_get(dev);
++	if (error)
++		return dev_err_probe(dev, error, "pm_runtime_resume_and_get failed\n");
++
++	for (unsigned int i = 0; i < data->init_val_count; i++)
++		writel(data->init_vals[i].val, priv->base + data->init_vals[i].reg);
++
++	/* keep usb2phy in asserted state */
++	rzv2h_usbphy_assert_helper(priv);
++
++	pm_runtime_put(dev);
++
++	priv->rcdev.ops = &rzv2h_usbphy_reset_ops;
++	priv->rcdev.of_reset_n_cells = 0;
++	priv->rcdev.nr_resets = 1;
++	priv->rcdev.of_xlate = rzv2h_usb2phy_reset_of_xlate;
++	priv->rcdev.of_node = dev->of_node;
++	priv->rcdev.dev = dev;
++
++	return devm_reset_controller_register(dev, &priv->rcdev);
++}
++
++/*
++ * initialization values required to prepare the PHY to receive
++ * assert and deassert requests.
++ */
++static const struct rzv2h_usb2phy_regval rzv2h_init_vals[] = {
++	{ .reg = 0xc10, .val = 0x67c },
++	{ .reg = 0xc14, .val = 0x1f },
++	{ .reg = 0x600, .val = 0x909 },
++};
++
++static const struct rzv2h_usb2phy_reset_of_data rzv2h_reset_of_data = {
++	.init_vals = rzv2h_init_vals,
++	.init_val_count = ARRAY_SIZE(rzv2h_init_vals),
++	.reset_reg = 0,
++	.reset_assert_val = 0x206,
++	.reset_status_bits = BIT(2),
++	.reset_deassert_val = 0x200,
++	.reset_release_val = 0x0,
++	.reset2_reg = 0xb04,
++	.reset2_acquire_val = 0x303,
++	.reset2_release_val = 0x3,
++};
++
++static const struct of_device_id rzv2h_usb2phy_reset_of_match[] = {
++	{ .compatible = "renesas,r9a09g057-usb2phy-reset", .data = &rzv2h_reset_of_data },
++	{ /* Sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, rzv2h_usb2phy_reset_of_match);
++
++static struct platform_driver rzv2h_usb2phy_reset_driver = {
++	.driver = {
++		.name		= "rzv2h_usb2phy_reset",
++		.of_match_table	= rzv2h_usb2phy_reset_of_match,
++	},
++	.probe = rzv2h_usb2phy_reset_probe,
++};
++module_platform_driver(rzv2h_usb2phy_reset_driver);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>");
++MODULE_DESCRIPTION("Renesas RZ/V2H(P) USB2PHY Control");
 -- 
 2.49.0
 
