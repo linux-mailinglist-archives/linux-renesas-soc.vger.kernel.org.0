@@ -1,149 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-15245-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15246-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34437A77D5F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 16:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1B2A77D8C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 16:22:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EE5277A35D5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 14:10:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 192987A4974
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 14:21:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D9511C8639;
-	Tue,  1 Apr 2025 14:11:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEE9B20487D;
+	Tue,  1 Apr 2025 14:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wfGcb9EW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2AE1FAC55
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Apr 2025 14:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3138189F56;
+	Tue,  1 Apr 2025 14:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743516691; cv=none; b=Lp/RKycrNsYJSHBcK4MPYDhvwQcK9+5Eq8xIx1/oZiTJqmwF+yMdMWkq+lb4KhBgO2pVrvQ088cJaKW1H1+D/a1M5hqd6yKRj9fCPjnxfmvc++9NKQFgqMJm6IYlkEgGUNxBHhviudKaNpUoJFEo9lZsC4PpiKMgaDjML5v1l7U=
+	t=1743517342; cv=none; b=lAWTLwX7gvL/6a2pN4fA4KTS8jAG04x+B4ZUkgzP7raaao6jSkNvCGDHhD7T7KAaUgWhmLnv4yONm/Ypjq0K8cuwHVzDrKKTXxn96UiwNs0kGGH3sRW67IsJXs2PFwPZXcaBYNx8M4LUhyFrzk0RBq5q3Qe/A3zcahPE0sRz0UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743516691; c=relaxed/simple;
-	bh=jQK3cLGftQIeziLsvTcI17ChCJ5qEloH80Od82SzFc0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jOERD8e5PU2QunVI/3x7uLPbhJHkpZUprWkKpGm8Md70FHi9+57WD28+RhMpl8m2nx90o4uKK8MN6fxzPG4FwXCdImScWJSILDkCkZOzvuSQ22QchJ4Pm2jW7w8SkIapF8pw3qTlDJZg5Nn+SltHKklhY64sGWU1Ay2NwWE/mTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7c08fc20194so1084565385a.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Apr 2025 07:11:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743516687; x=1744121487;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4dbXshCLizYzdzsg1zBJcHBo28K7Ezm6HNKb+QYxbz8=;
-        b=K4PCUkEztNxJhEJCKX2wq8EYfYI3F4XSNYZtAwJ653nmUVW1rEe/5sbYfMpzBdnRRr
-         J0ShxtnS4R+jm0dx00TItWR4WFNGCUT5Gqd8ej4s2aRacUlkFlTWmh8jDLBZWaAJYZCd
-         bOJNXTous0N8Fep/5exayoQtkduCOb3YyqdrTDGp9PLB1AtdnuFYUXTNe9RsJOZaW29V
-         8V0AlK1bCqxTJvw6zoV3KfT+rwxjgqkgWnaDdBPgWzAyuGdVbkeJDSVp+ptWfwgNeADp
-         5pkAgQXFz+BFckt9m9C74X1Ez0wFf0Jm2jV8vyJHrUzRmCt85LwZaGmIk97MzdxP1a1G
-         F5eg==
-X-Forwarded-Encrypted: i=1; AJvYcCVXSOKzof7lVgX0sIExL9FthlZr+Wq/UM6EP0tjOt3BalX9eJ/dzLAlBs8sxrrD+t6pS+GE2FuXmdurOLilhT6IQg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9StB7xYkqeEgaAQEi+FKbgemb1mQnGCaaqqtk/rc2Akmk9sA+
-	mv8mbMwDfDR51P/Ec5UqTME6IImh9fqh0Eb5Ptb6oCJAXJsjoA0a+UOKVyFO
-X-Gm-Gg: ASbGncsHP9w6QP72RhERlQmlQJ3T68LGqoNCBs4qIL3rgwDCmdYBi8DRsrsH1m0CNch
-	ne2B0C9uFlRzyZm0L7+U0+//LuJXhm9dVsZXejghSGbDyQQTREGFrH/7mpdJKCVH1pNjapJte/I
-	idczk1iH/j0VU5i3/8SEnevKBZVIJ9EOM+M7Rw3r6YRYg9zWE534hH6M+B9mb6mUWdPdsRghoQf
-	X0eNRoEREeDhmvNtvCnyfpFGRRShbt2MadhbXnvmtTs2pBNoQ9scoh0Vn3DyzBZa6HddRmYaeo3
-	uZuTO4UKfI3Tut5n48yialktW1Km6fDxnxsXNpeAu4HHTJmn/sfoY/DcLs6IcszWq3yVG9hPe6l
-	zEDE+O2I=
-X-Google-Smtp-Source: AGHT+IHf1QoWP1mhqNeMIhV/O6nG/SPsXkdg8TTU0/EIMTJNv8H0UpWQdrxbpu0Rgb1Uw15YP5M/QA==
-X-Received: by 2002:a05:620a:240d:b0:7c5:4de8:bf65 with SMTP id af79cd13be357-7c690880c87mr1996429185a.36.1743516686721;
-        Tue, 01 Apr 2025 07:11:26 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-871a320fce0sm1979088241.5.2025.04.01.07.11.26
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Apr 2025 07:11:26 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-86feb84877aso2318991241.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Apr 2025 07:11:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUyn3+KPdW8nLzE89B2u1v7MS5AF8oZvAGblr/UZAvBRcQZxhH25n4G0Ahi1QHmlxEC7tQgXGJGDOIOhCiLErHRAg==@vger.kernel.org
-X-Received: by 2002:a05:6102:2ad5:b0:4c4:dead:59a3 with SMTP id
- ada2fe7eead31-4c6d3837dfdmr9191881137.2.1743516686211; Tue, 01 Apr 2025
- 07:11:26 -0700 (PDT)
+	s=arc-20240116; t=1743517342; c=relaxed/simple;
+	bh=1/8ZCtjaM+7YnLlEr/r3k4a0f7jCQQwIrTsQcIWIFfY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pGicnVWgNDwJlUEj2cT3uY4GsbKm61XnIwYk5IUWXRdLZ8fHUTF03R5U7d3XNRHMJ0Jxbqe2x5EA5yNKHW8D+M4Tq2okNzJWltWyGdvRdvUgvhm4xw+4XIFJ7KoBpvm/lhspwvsaFlwitNc8ihOof5lQCycWEBLRGmnY8GPUVN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wfGcb9EW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.101] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 260A66F9;
+	Tue,  1 Apr 2025 16:20:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1743517218;
+	bh=1/8ZCtjaM+7YnLlEr/r3k4a0f7jCQQwIrTsQcIWIFfY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=wfGcb9EWGGtLR7aUghuWNN/KGRp6dKVvAK1MD1MjBcaVavLeHGkHbgBh5erGzjvMX
+	 qYcCgX1iW9i2/4HU6xVdnYTzX1r5HfBVEAuIwJ5A5lSgO3VP03r12zx4RC56XLHsJ/
+	 gEivRkE9KxmxldfwCTq9+80+fvUV7D7I9CIR6N8M=
+From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: [PATCH v7 0/5] media: renesas: vsp1: Add support for VSPX and IIF
+Date: Tue, 01 Apr 2025 16:22:00 +0200
+Message-Id: <20250401-v4h-iif-v7-0-cc547c0bddd5@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <53be6667544de65a15415b699e38a9a965692e45.1742481687.git.robin.murphy@arm.com>
- <CAMuHMdUtCqwzeWY8G+yHiu4biovymDVb_UtjfYPEQYyYr+dP4Q@mail.gmail.com> <f72bcfb2-e2a1-4dd4-bedf-241b75178958@arm.com>
-In-Reply-To: <f72bcfb2-e2a1-4dd4-bedf-241b75178958@arm.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 1 Apr 2025 16:11:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXYDLUZGxFf6fnsKXg=EA2YkoNwMe8Uv0+Bo3w+4h-dhA@mail.gmail.com>
-X-Gm-Features: AQ5f1JobuqnYTkEVwZcXHOdw8llBj_Ln3GR8mFtvtzuLKH3AKUYuIBQ4wVFH8hQ
-Message-ID: <CAMuHMdXYDLUZGxFf6fnsKXg=EA2YkoNwMe8Uv0+Bo3w+4h-dhA@mail.gmail.com>
-Subject: Re: [PATCH] iommu/ipmmu-vmsa: Register in a sensible order
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: joro@8bytes.org, will@kernel.org, iommu@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIj262cC/3XOTW7DIBCG4atErEs1M/zYdNV7RF1gGNcsaiK7Q
+ o0i3704Gyy1Xn4jnlc8xMpL4lW8XR5i4ZLWlOc6upeLCJOfP1mmWLcgIANIShY9yZRG6TFGbzU
+ EZ6Kor28Lj+nnWbp+1D2l9Tsv92e44H792ygoQXaDZkPOOeXG9xTZr3kesl/ia8hfYk8VapxIN
+ 06VgwLDKuDIFE+4alxh17iq3Crvh971NBg44frI+8Z15QgcddAY0JkTbo7cNW72z3sEbWzsHIU
+ Tbg+csHFbubLIDrQCsv4fvm3bL6i6rh3gAQAA
+X-Change-ID: 20250123-v4h-iif-a1dda640c95d
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, 
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3354;
+ i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=1/8ZCtjaM+7YnLlEr/r3k4a0f7jCQQwIrTsQcIWIFfY=;
+ b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBn6/aRVBofGrmoV2ZA1kEaCKZW7XS+/fTPRuxoj
+ DOyfuiJPOaJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ+v2kQAKCRByNAaPFqFW
+ PD/JD/9l28mhEdzcD0fMZ6MXXY02w4Q1tmKlcLEV74VPs1iZlM48+nRqm1xW2mDosYxTGPSEqrT
+ P9SDTPhUfue6XmSikF42bnv9Njr4ZTiMzeK82dqor8s76U99h1vBhuBYTqc9vtUP93rQ3+60xAD
+ tnWE1oXbmGxsbqqzyaQ2S+jzhHpnDk3mq0WL9IW3a4/IgNyW4GMj2QZIWWdFfOfg+/gCn4rG943
+ ZOnCS26XepjmIJ5nQLvO4ftb+U9YDzI1HCgxGPdpvawLW6ar+dIi8SqoI03E1I1OemvJEj6xzyJ
+ bJdckWXSheKT/wQ4m3pK6PsGsv7QTQFQqT1d4nZYs435GuR7CzrNmXwfoc0s7fFvLZF5BsTtPv5
+ I6owlfcv5WxmRzJcOXjYQm4P3Cga09Mhk5VuVCa9boszlbrK8vYPibjG+wbKAPIu/idUO0pZZfc
+ vAfwFJn5HPS/A2xdG8N02SDJ21uiPbCr9j2voOdYCuLMqaCY0pgBPb3xZJBGuf/pkkVEf/gWnzQ
+ NU8nRt7OiGRhVyN+gYH2Yc2LU3QWYV1nWfHyYFO7tjSHWb7gIdzv5l94a8EP648M6xhpKbDvnG0
+ EV0jycRQqsF5PhCO/Icz1ftuH4OjfqaIQnvsCn/aSn4iSglUM9iggqbt1uToq1V3fVU3E0s0Ya0
+ s9IZSLETBqMnBRw==
+X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Hi Robin,
+The VSPX is a VSP2 function that reads data from
+external memory using two RPF instances and feed it to the ISP.
 
-On Tue, 1 Apr 2025 at 15:53, Robin Murphy <robin.murphy@arm.com> wrote:
-> On 2025-03-25 3:26 pm, Geert Uytterhoeven wrote:
-> > On Thu, 20 Mar 2025 at 15:41, Robin Murphy <robin.murphy@arm.com> wrote:
-> >> IPMMU registers almost-initialised instances, but misses assigning the
-> >> drvdata to make them fully functional, so initial calls back into
-> >> ipmmu_probe_device() are likely to fail unnecessarily. Reorder this to
-> >> work as it should, also pruning the long-out-of-date comment and adding
-> >> the missing sysfs cleanup on error for good measure.
-> >>
-> >> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> >> Fixes: bcb81ac6ae3c ("iommu: Get DT/ACPI parsing into the proper probe path")
-> >> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> >
-> > Thanks for your patch!
-> >
-> > This fixes the
-> >
-> >      sata_rcar ee300000.sata: late IOMMU probe at driver bind,
-> > something fishy here!
-> >      WARNING: CPU: 1 PID: 13 at drivers/iommu/iommu.c:571
-> > __iommu_probe_device+0x208/0x38c
-> >
-> > I saw on Salvator-XS with R-Car M3-N.
-> >
-> > It does not fix the second issue reported, so it is indeed too early for a
-> > "Closes: https://lore.kernel.org/CAMuHMdWPFnHTFeeWL2-BU8tKOL-E5K2ROOz=LLBLTJJLCK9NgA@mail.gmail.com"
-> > tag.
->
-> You mean .of_xlate being called multiple times? That's not an issue,
-> it's normal and expected. Every time an IOMMU instance registers, it
-> triggers a probe of all relevant devices which do not yet have an IOMMU
-> - this has never been selective, so if a device is associated with a
-> different already-registered IOMMU instance, but does not have a group
-> because that instance's .probe_device rejected it, that probe also gets
-> tried (and rejected) again.
->
-> The core code behaviour has been this way for a very long time, the only
-> new thing is that the .of_xlate calls are now in sync with their
-> corresponding .probe_device calls (and the latter are also now working
-> properly again for fwspec-based ops).
+The VSPX includes an IIF unit (ISP InterFace) modeled in the vsp1 driver
+as a new, simple, entity type.
 
-Hmm, I started seeing the extra calls only after bcb81ac6ae3c,
-i.e. not since a very long time?
+IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
+interfacing. To prepare to support VSPX, support IIF first by
+introducing a new entity and by adjusting the RPF/WPF drivers to
+operate correctly when an IIF is present.
 
-> Was it just that, or is there still something functionally amiss?
+Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+---
+Changes in v7:
+- Include VSPX driver in the series
+- Use existing VSP1 formats and remove patches extending formats on RPF
+- Rework VSPX driver to split jobs creation and scheduling in two
+  different API entry points
+- Fix VSPX stride using the user provided bytesperline and using the
+  buffer size for ConfigDMA buffers
+- Link to v6: https://lore.kernel.org/r/20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com
 
-That's all for now ;-)
+Changes in v6:
+- Little cosmetic change as suggested by Laurent
+- Collect tags
+- Link to v5: https://lore.kernel.org/r/20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com
 
-Gr{oetje,eeting}s,
+Changes in v5:
+- Drop additional empty line 5/6
+- Link to v4: https://lore.kernel.org/r/20250318-v4h-iif-v4-0-10ed4c41c195@ideasonboard.com
 
-                        Geert
+Changes in v4:
+- Fix SWAP bits for RAW10, RAW12 and RAW16
+- Link to v3: https://lore.kernel.org/r/20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com
 
+Changes in v3:
+- Drop 2/6 from v2
+- Add 5/7 to prepare for a new implementation of 6/7
+- Individual changelog per patch
+- Add 7/7
+- Link to v2: https://lore.kernel.org/r/20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com
+
+Changes in v2:
+- Collect tags
+- Address review comments from Laurent, a lot of tiny changes here and
+  there but no major redesign worth an entry in the patchset changelog
+
+---
+Jacopo Mondi (5):
+      media: vsp1: Add support IIF ISP Interface
+      media: vsp1: dl: Use singleshot DL for VSPX
+      media: vsp1: wpf: Propagate vsp1_rwpf_init_ctrls()
+      media: vsp1: rwpf: Support operations with IIF
+      media: vsp1: Add VSPX support
+
+ drivers/media/platform/renesas/vsp1/Makefile      |   3 +-
+ drivers/media/platform/renesas/vsp1/vsp1.h        |   4 +
+ drivers/media/platform/renesas/vsp1/vsp1_dl.c     |   7 +-
+ drivers/media/platform/renesas/vsp1/vsp1_drv.c    |  24 +-
+ drivers/media/platform/renesas/vsp1/vsp1_entity.c |   8 +
+ drivers/media/platform/renesas/vsp1/vsp1_entity.h |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_iif.c    | 121 +++++
+ drivers/media/platform/renesas/vsp1/vsp1_iif.h    |  29 ++
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.c   |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.h   |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_regs.h   |   9 +
+ drivers/media/platform/renesas/vsp1/vsp1_rpf.c    |   9 +-
+ drivers/media/platform/renesas/vsp1/vsp1_vspx.c   | 604 ++++++++++++++++++++++
+ drivers/media/platform/renesas/vsp1/vsp1_vspx.h   |  86 +++
+ drivers/media/platform/renesas/vsp1/vsp1_wpf.c    |  24 +-
+ include/media/vsp1.h                              |  73 +++
+ 16 files changed, 991 insertions(+), 13 deletions(-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20250123-v4h-iif-a1dda640c95d
+
+Best regards,
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
