@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-15237-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555BEA77A0C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 13:51:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53229A77A17
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 13:52:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83CC018846E0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 11:50:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8BAC13A0575
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 11:52:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8A7B1FDE31;
-	Tue,  1 Apr 2025 11:50:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DB661FBC92;
+	Tue,  1 Apr 2025 11:52:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fUDXbtE3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YCWmJsDH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3795B1F3B97
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Apr 2025 11:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72E71F3B97
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Apr 2025 11:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743508239; cv=none; b=LjiN3I9qL+xngq+kUN94M3BmBl74/M802WWu/1mBA+rtigo4EG0rnwP4mkf2jQfNbSoqUvgoxU2fi1XyhBol80IgUS+ZZijKp1EomDX96aPFQdjoecUZj8QD0a+BjD9Ofi0FLksNSclbzv497advaFraTFlVOen2ODWanSeqZdo=
+	t=1743508351; cv=none; b=SfxXV2lKjzjYLl7B2U72ZH8qKDvwln9+Ld0GG4XZUXsL2qgRXtQrXsurNw6jv5fwjoXaMQ8kxA7oB0wPHHPSc5SW1LgW5G7zg7WQCOpppBXWL/v+NAkBe0WmAsBjp/Q7+dRLBdF0MqdlVwNFhZ2yEfurgO3pjn8Az0DIGNW35DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743508239; c=relaxed/simple;
-	bh=Qxf7pul0wUbk0fSwy6plIWVWNrFDzhqa5xEHRCSsU98=;
+	s=arc-20240116; t=1743508351; c=relaxed/simple;
+	bh=5yzItQ8LqgsxF/Z/FOtRoqOr5/8mxxWTWVmuv/75QU4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=cZytWMb7RGa3ZJFJApgWM2j7oj3rjP3lAbqeVp4hQkN11JALRhhPsg2iUey+/rXnFvk7pFmjns+p9JfeeNwt2l+RoT+WREL5MBuTZ7gSuKfGGh0bBRKUTwoQdFgYM5mZAIwg5KbTBL/OgMKfh+QJsGPufdAmudmvCU5Kskqcrnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fUDXbtE3; arc=none smtp.client-ip=209.85.128.176
+	 To:Content-Type; b=J0BsuXoqEE2d1QuvouEwm0nN9+SWELb79GkdMckgSxi+AixRshJFfxMPvVgg0tmc57eDT7rl8po3wsgj79qu8yyGSUih91lXTHWZdVNU87Sr7zvt3rJw0Hw3JwLqIbQIQPsKUwbwP842Ddklaw52avT1dfkdTisPwbg4U+hhOGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YCWmJsDH; arc=none smtp.client-ip=209.85.219.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6ff1e375a47so48882747b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Apr 2025 04:50:37 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e6deb3eb7dbso116689276.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Apr 2025 04:52:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743508237; x=1744113037; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1743508349; x=1744113149; darn=vger.kernel.org;
         h=to:subject:message-id:date:from:in-reply-to:references:mime-version
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HOgeifCPueURI4iZ+PSvJq0F/yvoGRM/ptjc8joEL44=;
-        b=fUDXbtE3ZewZhxxomie3dorFzWVM/B/P5sTzgNGamUmpEozl6KGQYVha1BEIBKTckI
-         5b+FTTQUuBFgqbaNjLaeXRzkkSvSzK0j0aCzSR6nvrBtrt/YAAS+gXBon4CE4YLV8fA6
-         k4QbaaxoIRyHaVmD+F2XXQnFAncH5vGao67t1Qy6vPJTZux8RiqnKPMNwwjXrn/aZmP+
-         6mJetVf4ngHTQaCwOmsnbnMO+knQ3/N4SGvkzS1sIkIdjOlBeQPcUU8oBjZjrZuJMDv2
-         BBBDsTyNflgudGgvjOgwneKMyxg1GyB1Di+v8AR5R79vVOLMbf62nbkrtQRPOgdV/Vd2
-         BnsA==
+        bh=5yzItQ8LqgsxF/Z/FOtRoqOr5/8mxxWTWVmuv/75QU4=;
+        b=YCWmJsDHlUQxuY1RTTB+LDulZHtMdOhIPDoT+jy8nl9w3nWybIzv4Zr6Z9QgExa8yx
+         mXuaoWRQdor5DbyZus15LbDq46tnVQYi+Q1NgtvZGtZhVJbN/oA6FiRJkjAmeKvVUsI4
+         WeD76VV61jHg8sn2ppt/8IC+IKt8Q+ThZz71BFG67HJIShVkvFNP8vydITc9RxW4jj8U
+         urX7NVWBlqUCGWxukRHhuWII0enMGQekApRsnUVVZERC1zV4ASLXyaZ2ffkSjTw7XN1m
+         tjnfX7dNVMFHNtxg8ZWqVqjfXjLVujOmfcNCu1BIkH42i5LHKp9jljjINi7D24XPtQ4M
+         FDQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743508237; x=1744113037;
+        d=1e100.net; s=20230601; t=1743508349; x=1744113149;
         h=to:subject:message-id:date:from:in-reply-to:references:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HOgeifCPueURI4iZ+PSvJq0F/yvoGRM/ptjc8joEL44=;
-        b=XUphTfR4ErZpBtcqHRdYG9VkUOVu2/Grfvh5l7om4FgUhegrHH1O55UHgk567umwXG
-         3y/aBtqmlqOoz4cqWq1Df9pSqKiikyqIsZ8yzYK0mf96xU61mQ9tl4ruYMg0CVUuKxlz
-         FeZ7+Lv3NA7DizTej2D1vJzYSEemeg7n//WETB7h+9vzRKaqix9UWYfCiwKaiPSG0BsA
-         zIibSlsDAF0fpvX8/5feTx7pdq64Iv+Yvt6dBQ3sh+MtKpzx14P5wd80RtSIARVdn/x2
-         fca+VcE8aDnf7gAdlgqjGcUvOVQULy9DL29riy9a1iw675do89WMNULNktTmbmVWcabN
-         Cppg==
-X-Forwarded-Encrypted: i=1; AJvYcCVPlAVUbBEsam1LF7Yyg8aicI18FOBm9/WC+geHqkfFbdv+iVclM+ENR4E0G14z40Cm+7t/V107uOgKnWuoicFWPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxebyWZ5bgIV+2JT6+r7eWIQHEbvwP65s+mY5kemQ7qzfJLwcyH
-	M7PaM3TtiSs2b5IvdPiq9KtRD40N/8d8fhAOoq4MXwWleJ1kSDqp8tuNnFAqTyPcqdRK389tHIC
-	4/oBdfM42SExGV6kA8KcsrHL7SxFL9fbTxoEkVQ==
-X-Gm-Gg: ASbGncsPOGEVcBdoVYzZh9y/nUw2Bdyjfmq8yJIir9v7aCgHdTLVeWlFeGQQvYR3/jw
-	B/JGhd7BgZve4OymrtwiPRX/4hlU66/iZEMWjF0MAAO38F7WxXzjQwFsllOrrdSY60HSMzrMtjO
-	ByRd47z+4Ju/vT8sC1ZqCb5MpBQatR8WiypHPGrA==
-X-Google-Smtp-Source: AGHT+IEccr3CCj7xmEQlHsDfauhpuJ3bZ5uaub8hZq7c6Tbl/9LjElpjGlbWImSrgrcDwT40VZjgNc2LpyX75ImC3eM=
-X-Received: by 2002:a05:690c:6f85:b0:702:4eb0:6af with SMTP id
- 00721157ae682-7025734bd0emr179109817b3.31.1743508237063; Tue, 01 Apr 2025
- 04:50:37 -0700 (PDT)
+        bh=5yzItQ8LqgsxF/Z/FOtRoqOr5/8mxxWTWVmuv/75QU4=;
+        b=thuQGRkR4+uyiDl0dL/g1wDl8j2r1jQrY02Iyh23MtYKxzgD8QqqYF0QQ7G2vzf3FS
+         sv5elGmbsUz6IqEQuP9HEIXJo4xth/lNDqgp0O/vbZfMpXKXWAyN9DjP49C+63k/H2fy
+         0zg/BY85EDBZB9LqJWRqZZ4SQLxwHCGJ1ciN8Zsav5jDUeqtYMTwZjBpl4+j1B3QnZsT
+         p/Y1pRwH1NDiIXCvzhmZMgJQf34ovPLHBR6k3kgOC8BbjXJrqNZ1QJDiGrXOgdxEkSVk
+         BG+B5poUWpIRXvnxER6LnS8BQtKBIaMSEg7nrWh5eHMCJLslPq5xI9V8ERtN8M46AWxW
+         ukig==
+X-Forwarded-Encrypted: i=1; AJvYcCW/cevMnQ5ePAEEthNgGb2LSaATOq/5siBE38ykh/ROmrW0920iqgslbetGl7i5WZXylrlPC8hUhZJ8uS7xcxbidg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkyltLiFASJSMIqaDZjfXt8PFeXpCQdmHiDO7PW84EIV46fnoL
+	o20s29B/cwf9XkrzQN8zJv+97a8+y5J5sNIeoLmYKaf0i3PNRHo+YUQuJksYsxb7o40ptPXMgrg
+	NFMcPoIvmueGvND9TG/sWppTTZf+KqNRGYl8ovQ==
+X-Gm-Gg: ASbGncu++FjRt+LWmG/hBhSiS0he2YdEDlyz0Rs2OiJZTckllaZo6/gvXLjnPIiqfYH
+	V8bCnfOW6Kr5abW/MSV5Uc9hj4qvlDC/YtfkSnV4gOVxDIPOIQ8TrHrHVJgsqxbI5fvzMX1V8Gn
+	KYrbuoFBeWBxgDjSPJEaU9sgvXkPQ=
+X-Google-Smtp-Source: AGHT+IHxaEOwFTKWaB+ZSBcVAKNOPJ8aS6UOQcjmnOX5LqFicwu/ZfbZg7gfUlNZSAkuJ5/12Ji7ZaV/z2l4CYONuRg=
+X-Received: by 2002:a05:690c:6706:b0:6fd:3ff9:ad96 with SMTP id
+ 00721157ae682-70257302fe7mr178667017b3.37.1743508348824; Tue, 01 Apr 2025
+ 04:52:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -73,85 +73,31 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250320140040.162416-1-ulf.hansson@linaro.org>
- <20250320140040.162416-3-ulf.hansson@linaro.org> <PH7PR16MB6196C3AC7A7B7CA99A70E7DDE5A02@PH7PR16MB6196.namprd16.prod.outlook.com>
- <Z-pQj6ynnfMa77fM@shikoro> <CAPDyKFr0MvQDxsi-Qd0F=1KuR4Gy6s5bhVdOXRt9K14Z9sO2Kw@mail.gmail.com>
- <Z-pyfv_7gJ72YWhz@shikoro> <CAPDyKFqW92wJ9P5cyO0vcV14dU5Q-JRGR=oKOS362crFy6y2Pw@mail.gmail.com>
- <Z-uM3aRHJ_8bwu0W@shikoro>
-In-Reply-To: <Z-uM3aRHJ_8bwu0W@shikoro>
+ <20250320140040.162416-6-ulf.hansson@linaro.org> <Z-pSq5e9MXTX3qfe@shikoro>
+ <Z-uou73DUQoceMj5@shikoro> <Z-upJTp3ykMqvSAl@shikoro>
+In-Reply-To: <Z-upJTp3ykMqvSAl@shikoro>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 1 Apr 2025 13:50:01 +0200
-X-Gm-Features: AQ5f1Jo07Glme3B0Z5ezvlFDATG1bBux2mgX6GZTlztytvrlGC2oFJ5S_fWro3Q
-Message-ID: <CAPDyKFqf3K3-gv2+7yORw3nqxJ5bnFbCH2yB+E8=XOGuYuVsyA@mail.gmail.com>
-Subject: Re: [PATCH 2/5] mmc: core: Further avoid re-storing power to the eMMC
- before a shutdown
+Date: Tue, 1 Apr 2025 13:51:52 +0200
+X-Gm-Features: AQ5f1JreKDN8MR7O6t-gHP4ZYjEMdyeapyJn_AtqSCQXCxMcjN2-RxnBrWR5pKE
+Message-ID: <CAPDyKFoc7kWePb3SvnAHZDBNnpiA5Rmccgh3OufS_gSSfNbJrA@mail.gmail.com>
+Subject: Re: [PATCH 5/5] mmc: core: Add support for graceful host removal for SD
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Avri Altman <Avri.Altman@sandisk.com>, 
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+	linux-mmc@vger.kernel.org, Adrian Hunter <adrian.hunter@intel.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 1 Apr 2025 at 08:51, Wolfram Sang
+On Tue, 1 Apr 2025 at 10:51, Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
 >
-> Hi Ulf,
 >
-> > mmc_card_can_poweroff_notify() would not be consistent with all the
-> > other mmc_can_* helpers, so I rather stay with
-> > mmc_can_poweroff_notify(), for now. If you think a rename makes sense,
-> > I suggest we do that as a follow up and rename all the helpers.
+> > Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 >
-> I vageuly recall that the commit I mentioned below (renaming hw_reset to
-> card_hw_reset) should have been a start to do exactly this, renaming
-> more of the helpers. I drifted away. Yet, I still think this would make
-> MMC core code a lot easier to understand. I'll work on it today, timing
-> seems good with rc1 on the horizon...
+> Which also means that I tested the whole series on a Renesas Salvator-X
+> board with a R-Car M3-W SoC (Gen3).
+>
 
-Alright!
-
->
-> > mmc_host_can_poweroff_notify() seems fine to me!
->
-> Great!
->
-> > > I do understand that. I don't see why this needs a change in the
-> > > existing logic as Alan pointed out above.
-> >
-> > Aha. I get your point now. As stated in the commit message:
-> >
-> > Due to an earlier suspend request the eMMC may already have been properly
-> > powered-off, hence we are sometimes leaving the eMMC in its current state.
-> > However, in one case when the host has MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND
-> > set we may unnecessarily restore the power to the eMMC, let's avoid this.
->
-> Oookay, now I see what you are aiming at. It seems I got the PWR_CYCLE
-> flags wrong? I thought MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND is only a
-> subset of MMC_CAP2_FULL_PWR_CYCLE. The former can do the power cycles
-> only in suspend, while the latter can do them in suspend and shutdown.
-
-Not exactly. In shutdown we don't need specific caps. The card will be
-fully powered off no matter what. In other words, it's always better
-to do poweroff-notification if the card supports it.
-
-> So, in my thinking, full power cycle might also have the eMMC
-> powered-off during shutdown. This is wrong?
-
-See above.
-
->
-> > Let me try to clarify the commit message a bit with this information.
->
-> Whatever is the final outcome, it needs a comment in the code, I am
-> quite sure.
-
-I will add it!
-
->
-> Happy hacking,
->
->    Wolfram
->
+Great thanks! I will send a new version addressing your comments on patch2.
 
 Kind regards
 Uffe
