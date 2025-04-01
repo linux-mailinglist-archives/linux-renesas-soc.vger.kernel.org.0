@@ -1,189 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-15234-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15235-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F4DA77820
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 11:49:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C147A7787A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 12:09:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 22D2816B1BA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 09:49:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8DBF3AAAC1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 10:08:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 612AC1EFFA5;
-	Tue,  1 Apr 2025 09:49:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B2EE1EE014;
+	Tue,  1 Apr 2025 10:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="LMxgxRvZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A291EF394;
-	Tue,  1 Apr 2025 09:49:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873A01EEA27
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Apr 2025 10:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743500989; cv=none; b=YbocYjCJTQ85j8kdqO03pMqrWcu/7I0rvHWxytpODgLvsjNS9pqG7Y41gdYbwchgiafIZw2XfLsg5G0bGPmCOB8UsEV+RJj584w/BhZ5M/KKGgYpb7nv8Q54tBJ69QX2j8+vLiq0Q3r5qrS5K86X8hfmOov2fLXYbsMOIlrcRzA=
+	t=1743502149; cv=none; b=t4bfllSJ+R9lUbPjyy3Wvler2/Pj8PUG0GwnhTpP4T2dFojaURaMANPGizrwUG4TzOl4OxH8pVcy15rW/PM5fvMhdZLmbSa32/qcNNpeyDu+IukaFpBo/Bs+scRvvk1gKFaI5y47k9d1JnZg0RN9Y0yg7/QPuJnFlua8IGuHsac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743500989; c=relaxed/simple;
-	bh=c0/2Il+HKMHe/1KYQsOXrQrqmLFvTc+vMlTSyj4HAAk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gvMv25j46cIlJlL12SAmpjMiqvuH+wmEXZBdPu8vpLMg5Rdy4NF4oGuD6fVH9E4CbtnvVIK+g63YVZXRBdYNUn1MP1ek+KSL0r601ly72uD1rQP5gWjggmzKZB6YXhPtFE7NtFqsrNgMdTX7wm4oUg2GBtytdP8nbaf3F3cU+fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-523dc190f95so2658689e0c.1;
-        Tue, 01 Apr 2025 02:49:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743500985; x=1744105785;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y1zyMwtR40qQQhixsawu3/3AN+ghiZjIje47Qoy6I1M=;
-        b=oZvJ9Fjv40X1s/MMKjJ8Diqr+jgsvji/gGTa0muG/8JMayWID8fjagF6kvx4NdD0WF
-         koSjjAP5zROZHRADDphgkKaNYy5r4a55x8aBzwho5pCR1DAXm8yI/4C5xwcuhSSeuDMF
-         hjebH/QA1QrQpKWAGOU1G0GZAad2alWnCL1n1Z1foG5Wbw2X+NdcSaJCmQhmu4qdaPMN
-         V1afdcf26dp82yBeIqavMGbrQsjFDwyL/II5qRt1WR+t+QxkG+pipqUGzm0PZ0Y+iWeN
-         GPiO55z+E0VTSw1C0nKEmaNs1cuNjcnixhzIzPNVyocmapSx+VSHi2aP0P+jEEAja47d
-         fk6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUWJYExMEXuDPagURBiBvJKHrj5WcCZWUnC8pw69ziuapdfUOiX56eIQZvsELrMo9XsXSm9BQg+3ruKGtfo@vger.kernel.org, AJvYcCUvvyulFnfgp3CH79ufB79Ma73B0cm4KZv6FLJ0IJJKRznO3gCA8YFJzZcMFD6ACaBZSTA7rwMLOC4y@vger.kernel.org, AJvYcCV9sc0wf3HsON5U/QUlCMNvsjVTij5YigQFvu8pWguB6NQdfgz6TTtlTtMfEbuQtabys7qRFX5g728a@vger.kernel.org, AJvYcCWfYqP0dGxVBQB9SB036kef5FAAwvMw4tGESCraM6M9XnFfWTc8lGprWZarHsKpLpd1ZG5x5YukwwGm7oWq8IzSoow=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxF4wMR1mlJyEqloTsX3+aVQfs1AWWrpIgea9Sd+xod50OGj+sp
-	x1L2d1AccvdpXGjF1BbRMUAAfX//Bcvfwwp70hFLjZX/EBAlxMlfYy/N49in
-X-Gm-Gg: ASbGncsJg7aHI2osM8d8wU38X587otOxSjkm29ppYH03YOMAofXcLRrCRNAAtDJP8zR
-	uf1XhWB1i2EQDrs4iqbqExF038SKg7GPed+AiIff37Ck9C6qUEVCgN9rQguKrU3uU1aDJpMIHUx
-	dh26TA94uAAoKW6KvzvcOa+gxIPTYwBUggY/Xi2+iLx/uoWI+pGKNICTdEJgHmuX2A+hp5umrm0
-	lBHBJbqXgr2PJnSjYOGti+Ea9wqR2UIBndzSLhgtwqt76j6/jQWdblWcjPzsnurIv2AnyGx17gU
-	oJiRB/4OasAZupmqG4lGpUL4WLHes3iSrQ0J0w1WAEpNMDo02/YTp2c8w3s7c85LaJ5PrpGDyFi
-	z8ib1xT7UxYM=
-X-Google-Smtp-Source: AGHT+IH31MtTwEUy6Sj9tAhyj3bsRTSR/sK9B29+yGr3THhtU70h34iDwk+FjGtm0fNvN8lXzleXAw==
-X-Received: by 2002:a05:6122:2a4c:b0:50d:a31c:678c with SMTP id 71dfb90a1353d-5261d357a48mr7733493e0c.2.1743500984732;
-        Tue, 01 Apr 2025 02:49:44 -0700 (PDT)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5260e6a0afcsm1939593e0c.6.2025.04.01.02.49.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Apr 2025 02:49:44 -0700 (PDT)
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-523dc190f95so2658679e0c.1;
-        Tue, 01 Apr 2025 02:49:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUvmYzg31/a0xdzzctdsd4enlaH5dXhJb/gIMO7kRXpH7IufWIlw2Ei2jPo5x0SuAEYzIxQDLXiiZLr@vger.kernel.org, AJvYcCVbowwVgfKh7xJao6XC359jGDimY0cDaX0jz4cvLHYtCNYJcbO0nNkzLmYT2dOw5YpuT2/6qZqwc+nxqRk6WGCg5/w=@vger.kernel.org, AJvYcCVdYhtN9R1fFQMxteHCy4J/Tfw59xiJYlktKFlA9IFxWj/adviM/H8KJkkLNegpUOPeEj1c/wOozaNJ@vger.kernel.org, AJvYcCWHcj/U5hzDm/lmEGRuvQUT9+klTuJ/ldCUCGe21gOt77c/GJF6btyAMWRkFw3n7ZztFk1PDkHwx2UOg6LW@vger.kernel.org
-X-Received: by 2002:a05:6102:14a8:b0:4c5:1bea:1c29 with SMTP id
- ada2fe7eead31-4c6d39af686mr8115053137.19.1743500983709; Tue, 01 Apr 2025
- 02:49:43 -0700 (PDT)
+	s=arc-20240116; t=1743502149; c=relaxed/simple;
+	bh=36NpNNjl13Ta26IFroNQ5oZqlcqeSHwUikkx136LO0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L3HlcxG6xuyGSfwUhAdOzme5hJw0PWvp4c9COtkE/bHsNdEEe3Ufw7BGZ+StkJzDC3CBKXVEzxLW65a8AF8HLeB4Liqsfd0zswoAzVKzSa6hEbwxIP+34h0qXLmSE0fLGxv7JvHqLuDh5oC2wa2TL1aLERlw3+ACPnVF2nzAfR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=LMxgxRvZ; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=O5+o6l2k86+lZW
+	Qt3e6g6NmW2sXi4Hdxu8WkqElZOe4=; b=LMxgxRvZyoiOV4kxj9OiGpfLKit4B1
+	pQE5QvbgPUmy1GcL7RgCDskw6F7+lP+ADbmPMUOp6Vpp8y6WrIQekQCcL6Si5Cb2
+	JZfsOGGuYC9YZq8k/JzXPVuudxRgOYvWhZLOalnfjom9lQYgGHpw3g2Eznlv6J/P
+	B/YtrMJKn0W7S7Lj1Mu3hD26kPkckBXELeWQVUvs6Mf4oEqwAuM8U3g+LojtUx6P
+	+5Q2oZiDbMHy2YEWIJH1llg8GpatHMaPMrvkYBBPm8QkK6Vc8jOBaEXVJfss2810
+	wSG6MY/ZC06yQCnrOLH4hcGeq3OvTlyziNf/y/LeAcgrt0Ym/M+8W/gA==
+Received: (qmail 1562725 invoked from network); 1 Apr 2025 12:09:04 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Apr 2025 12:09:04 +0200
+X-UD-Smtp-Session: l3s3148p1@qS73ubQxnOsgAwDPXwSgADIEZgbhJYA3
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: mmc: arasan,sdhci: Add Renesas RZ/N1D
+Date: Tue,  1 Apr 2025 12:08:37 +0200
+Message-ID: <20250401100837.29792-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250330195715.332106-1-marek.vasut+renesas@mailbox.org> <20250330195715.332106-5-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250330195715.332106-5-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 1 Apr 2025 11:49:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUx31WHW+fUP0Qbfs-Si2+cLmxC=YRUKWvSudn7CBZ4Fg@mail.gmail.com>
-X-Gm-Features: AQ5f1JoeIvYp6dxZPMkSZCvf_rs3MuLZLQfoBSTfTx3w9rvwfJ19pgmFQ3EdrXU
-Message-ID: <CAMuHMdUx31WHW+fUP0Qbfs-Si2+cLmxC=YRUKWvSudn7CBZ4Fg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] arm64: dts: renesas: r8a779g3: Add Renesas R-Car V4H
- Sparrow Hawk board support
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	Aradhya Bhatia <a-bhatia1@ti.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Heiko Stuebner <heiko@sntech.de>, Junhao Xie <bigfoot@classfun.cn>, 
-	Kever Yang <kever.yang@rock-chips.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Marek,
+This instance has a wakeup irq defined. It is currently not used by the
+driver.
 
-Thanks for your patch!
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ .../devicetree/bindings/mmc/arasan,sdhci.yaml | 23 ++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-On Sun, 30 Mar 2025 at 21:58, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Add Renesas R-Car V4H Sparrow Hawk board based on R-Car V4H ES3.0 (R8A779G3)
+diff --git a/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml b/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml
+index 9075add020bf..7c59def3326e 100644
+--- a/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml
++++ b/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml
+@@ -38,6 +38,15 @@ allOf:
+             - items:
+                 - const: clk_out_sd1
+                 - const: clk_in_sd1
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,rzn1-sdhci
++    then:
++      properties:
++        interrupts:
++          minItems: 2
+ 
+ properties:
+   compatible:
+@@ -45,6 +54,10 @@ properties:
+       - const: arasan,sdhci-8.9a                # generic Arasan SDHCI 8.9a PHY
+       - const: arasan,sdhci-4.9a                # generic Arasan SDHCI 4.9a PHY
+       - const: arasan,sdhci-5.1                 # generic Arasan SDHCI 5.1 PHY
++      - items:
++          - const: renesas,r9a06g032-sdhci      # Renesas RZ/N1D SoC
++          - const: renesas,rzn1-sdhci           # Renesas RZ/N1 family
++          - const: arasan,sdhci-8.9a
+       - items:
+           - const: rockchip,rk3399-sdhci-5.1    # rk3399 eMMC PHY
+           - const: arasan,sdhci-5.1
+@@ -109,7 +122,15 @@ properties:
+       - const: gate
+ 
+   interrupts:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
++
++  interrupt-names:
++    minItems: 1
++    maxItems: 2
++    items:
++      - const: int
++      - const: wkup
+ 
+   phys:
+     maxItems: 1
+-- 
+2.47.2
 
-Retronix
-
-> SoC. This is a single-board computer with single gigabit ethernet, DSI-to-eDP
-> bridge, DSI and two CSI2 interfaces, audio codec, two CANFD ports, micro SD
-> card slot, USB PD supply, USB 3.0 ports, M.2 Key-M slot for NVMe SSD, debug
-> UART and JTAG.
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-> @@ -0,0 +1,671 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Device Tree Source for the R-Car V4H ES3.0 Sparrow Hawk board
-> + *
-> + * Copyright (C) 2025 Marek Vasut <marek.vasut+renesas@mailbox.org>
-> + */
-> +
-> +/dts-v1/;
-> +#include <dt-bindings/gpio/gpio.h>
-> +
-> +#include "r8a779g3.dtsi"
-> +
-> +/ {
-> +       model = "Retronix Sparrow Hawk board based on r8a779g3";
-> +       compatible = "retronix,sparrow-hawk", "renesas,r8a779g3",
-> +                    "renesas,r8a779g0";
-> +
-> +       aliases {
-> +               ethernet0 = &avb0;
-> +               i2c0 = &i2c0;
-> +               i2c1 = &i2c1;
-> +               i2c2 = &i2c2;
-> +               i2c3 = &i2c3;
-> +               i2c4 = &i2c4;
-> +               i2c5 = &i2c5;
-> +               serial0 = &hscif0;
-
-This assumes HSCIF0 is the main console.
-
-As you also have a second debug console on USB:
-
-    serial1 = &hscif1;
-
-And the serial port on the RPI I/O connector:
-
-    serial2 = &hscif3;
-
-> +               spi0 = &rpc;
-
-Do you need the spi0 alias?
-
-> +&pfc {
-> +       pinctrl-0 = <&scif_clk_pins>;
-> +       pinctrl-names = "default";
-> +
-> +       /* Page 22 / Ether_AVB0 */
-> +       avb0_pins: avb0 {
-> +               mux {
-> +                       groups = "avb0_link", "avb0_mdio", "avb0_rgmii",
-> +                                "avb0_txcrefclk";
-> +                       function = "avb0";
-> +               };
-> +
-> +               pins_mdio {
-
-Please no underscores in node names (everywhere).
-
-The rest LGTM.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
