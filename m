@@ -1,128 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-15235-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15236-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C147A7787A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 12:09:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A23F4A77928
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 12:55:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8DBF3AAAC1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 10:08:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D2F593A96BD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Apr 2025 10:55:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B2EE1EE014;
-	Tue,  1 Apr 2025 10:09:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 655B21F130F;
+	Tue,  1 Apr 2025 10:55:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="LMxgxRvZ"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="i3vlB+BU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873A01EEA27
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Apr 2025 10:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2E286353;
+	Tue,  1 Apr 2025 10:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743502149; cv=none; b=t4bfllSJ+R9lUbPjyy3Wvler2/Pj8PUG0GwnhTpP4T2dFojaURaMANPGizrwUG4TzOl4OxH8pVcy15rW/PM5fvMhdZLmbSa32/qcNNpeyDu+IukaFpBo/Bs+scRvvk1gKFaI5y47k9d1JnZg0RN9Y0yg7/QPuJnFlua8IGuHsac=
+	t=1743504927; cv=none; b=NKRic1w1Ijssr11yr+8sMWWHLs271reawDVdq2KW0bqNnyL2VmHCM7T8oOfd2Q7bI4e0zQ15fzcA8XUcOtnc8Sm4XRY04bAhji6P7n1c16aD9zTc9VSrOnWF1mquyQ1z0CuK0OtqeZ8Th2dkmD3AU7mqpei/LtF4UY2Hm+vLiic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743502149; c=relaxed/simple;
-	bh=36NpNNjl13Ta26IFroNQ5oZqlcqeSHwUikkx136LO0k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L3HlcxG6xuyGSfwUhAdOzme5hJw0PWvp4c9COtkE/bHsNdEEe3Ufw7BGZ+StkJzDC3CBKXVEzxLW65a8AF8HLeB4Liqsfd0zswoAzVKzSa6hEbwxIP+34h0qXLmSE0fLGxv7JvHqLuDh5oC2wa2TL1aLERlw3+ACPnVF2nzAfR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=LMxgxRvZ; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=O5+o6l2k86+lZW
-	Qt3e6g6NmW2sXi4Hdxu8WkqElZOe4=; b=LMxgxRvZyoiOV4kxj9OiGpfLKit4B1
-	pQE5QvbgPUmy1GcL7RgCDskw6F7+lP+ADbmPMUOp6Vpp8y6WrIQekQCcL6Si5Cb2
-	JZfsOGGuYC9YZq8k/JzXPVuudxRgOYvWhZLOalnfjom9lQYgGHpw3g2Eznlv6J/P
-	B/YtrMJKn0W7S7Lj1Mu3hD26kPkckBXELeWQVUvs6Mf4oEqwAuM8U3g+LojtUx6P
-	+5Q2oZiDbMHy2YEWIJH1llg8GpatHMaPMrvkYBBPm8QkK6Vc8jOBaEXVJfss2810
-	wSG6MY/ZC06yQCnrOLH4hcGeq3OvTlyziNf/y/LeAcgrt0Ym/M+8W/gA==
-Received: (qmail 1562725 invoked from network); 1 Apr 2025 12:09:04 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Apr 2025 12:09:04 +0200
-X-UD-Smtp-Session: l3s3148p1@qS73ubQxnOsgAwDPXwSgADIEZgbhJYA3
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH] dt-bindings: mmc: arasan,sdhci: Add Renesas RZ/N1D
-Date: Tue,  1 Apr 2025 12:08:37 +0200
-Message-ID: <20250401100837.29792-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1743504927; c=relaxed/simple;
+	bh=z2WSV4DlWcLPlyFbtutl1o1PrtF6Re6sVS35e/QuNHc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k5bV3Eozy4ILzjJgLGjFj6wXqDZeTjfoQyWZvcr6oZ6HIkXx9fW3xZkZgNpV+fKiOpkolOevWAYdJUs1olVBDJQHUWcxcxsmhY+H7H4v/CjMbGFtDmg7bT8KZBU4raDug8TNpIWcxH0qq10JwILN6N6Ir3RVsIMLyOV8w51kXI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=i3vlB+BU; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ZRlJh4CLCz9vLr;
+	Tue,  1 Apr 2025 12:55:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1743504916;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dLorxfawL86gg2F0j4j9NdXyKB8vOPzbGPbfhg6XtTk=;
+	b=i3vlB+BUBdIW+HJlb1QX1OsRPtMkKNXmYaJ6lS2LjLNfIrZY+7e2fD4WJ6hZmB/Mx8/MWO
+	I0QtIOYjGwP3bqeJXf4+L8VWfchRaO3/3tnoBcuUNfMh9eBypBoDARlzuRRr0NMwq48PaT
+	2LYD3CDEkSIhMNDpWDLDqKk3ZpEQuo3xeSzRU3EiGMuEGo7UssKrX1AXON1+4VZPrBBYM6
+	coylh8qZU1NX9MZF3c3I9xThLc4Cvsef62nMzfzr/t1CsShKyIRSfCtkJMgyevdcDSf36M
+	/VssBue1vxqPzqz25JsMhoZgIuylCsGUZ4v0fe6ynR3TeNgfvGDWO+pYdRFQSA==
+Message-ID: <43a1986e-3ccd-4fd5-9dcf-9ad945a99293@mailbox.org>
+Date: Tue, 1 Apr 2025 12:55:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 4/4] arm64: dts: renesas: r8a779g3: Add Renesas R-Car V4H
+ Sparrow Hawk board support
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-arm-kernel@lists.infradead.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84sk?=
+ =?UTF-8?Q?i?= <kw@linux.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <rafal@milecki.pl>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Heiko Stuebner <heiko@sntech.de>, Junhao Xie <bigfoot@classfun.cn>,
+ Kever Yang <kever.yang@rock-chips.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250330195715.332106-1-marek.vasut+renesas@mailbox.org>
+ <20250330195715.332106-5-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdUx31WHW+fUP0Qbfs-Si2+cLmxC=YRUKWvSudn7CBZ4Fg@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdUx31WHW+fUP0Qbfs-Si2+cLmxC=YRUKWvSudn7CBZ4Fg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 0780a5cab02defaccda
+X-MBO-RS-META: xj3qjesq94bd8gfmzt53ziqwbmtebsmm
 
-This instance has a wakeup irq defined. It is currently not used by the
-driver.
+On 4/1/25 11:49 AM, Geert Uytterhoeven wrote:
+> Hi Marek,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- .../devicetree/bindings/mmc/arasan,sdhci.yaml | 23 ++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml b/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml
-index 9075add020bf..7c59def3326e 100644
---- a/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml
-+++ b/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml
-@@ -38,6 +38,15 @@ allOf:
-             - items:
-                 - const: clk_out_sd1
-                 - const: clk_in_sd1
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,rzn1-sdhci
-+    then:
-+      properties:
-+        interrupts:
-+          minItems: 2
- 
- properties:
-   compatible:
-@@ -45,6 +54,10 @@ properties:
-       - const: arasan,sdhci-8.9a                # generic Arasan SDHCI 8.9a PHY
-       - const: arasan,sdhci-4.9a                # generic Arasan SDHCI 4.9a PHY
-       - const: arasan,sdhci-5.1                 # generic Arasan SDHCI 5.1 PHY
-+      - items:
-+          - const: renesas,r9a06g032-sdhci      # Renesas RZ/N1D SoC
-+          - const: renesas,rzn1-sdhci           # Renesas RZ/N1 family
-+          - const: arasan,sdhci-8.9a
-       - items:
-           - const: rockchip,rk3399-sdhci-5.1    # rk3399 eMMC PHY
-           - const: arasan,sdhci-5.1
-@@ -109,7 +122,15 @@ properties:
-       - const: gate
- 
-   interrupts:
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 2
-+
-+  interrupt-names:
-+    minItems: 1
-+    maxItems: 2
-+    items:
-+      - const: int
-+      - const: wkup
- 
-   phys:
-     maxItems: 1
+>> +               spi0 = &rpc;
+> 
+> Do you need the spi0 alias?
+
+Yes, it is used by U-Boot to enumerate SPI controllers.
+
+The rest is fixed in V2, thanks !
+
 -- 
-2.47.2
-
+Best regards,
+Marek Vasut
 
