@@ -1,380 +1,584 @@
-Return-Path: <linux-renesas-soc+bounces-15329-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15330-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4903A796F5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Apr 2025 22:59:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B42AA79885
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Apr 2025 01:09:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8090E1893C9B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Apr 2025 20:58:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70B973A9534
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Apr 2025 23:09:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3CCE1F3B83;
-	Wed,  2 Apr 2025 20:58:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79B021F5425;
+	Wed,  2 Apr 2025 23:09:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="ip2K6/5L"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B7G4Iepl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011010.outbound.protection.outlook.com [40.107.74.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3329193436;
-	Wed,  2 Apr 2025 20:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743627514; cv=fail; b=AIggIqCWxfUAiXFdnh25uuMZU3d0etkCoLN9/QDJq9XJCc7TZV4xtdgObDfl71g1eJ8XZF5kBHiVI+jXOvrqH1W0JWj47/xBCRKLExu1jEyI/qLo+NbcI8Zl/NQ7jmF/DJ5RF3LQp2LQFrB5jvvJ91dhWagXiO8Ml0fIByqPvVQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743627514; c=relaxed/simple;
-	bh=bT1KNc22uEhNisLTSeowRZZUz18kdmz/3BWCckM9ank=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=slyNadtvn6xzefkP8Xa+TVUlH60rKxjTSm1NjH2wKgSOcI2gY9YE8m5CETSbK4kZnRCEEikwfbH9ftfBagM7HEEiT0OwLE9ECfrEFA8WSr1o5Y4vg70FejYqkLqLDWZh1y9gQ8R1JvnvhvfdCFT/DSA0pIUKX7Fu1V+UlsE0428=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=ip2K6/5L; arc=fail smtp.client-ip=40.107.74.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mzYoypDPTUzJ+x0cGK4jVJfA4C3UnONACsKdWoB7tTPaWCYm+ap0IvptV4moQAGsXpqgfD+msCQWvCHx4ysce6RwpmpDdJMQM5rVbP4NXFKAwZtj1jQt6xd8IhzlphUT6VMw3+Q25cgsA1vYCTbn21Ji/leTju+69JD4xk7D0I68bxwgfxwp2vNlGu+OJaexsYDkbV/oxfV3sxziT76SzMMPUM0yZHKksikMOaCqyIBiznwTg47d6rCNb8BZ3veQ6lvM3ptVIoiBvA5UeKDKWRFz7ZtM2yKKZWYPYxtjp23BHtLr+Cr4axRFU6Mx54w+6JQfqAiKs6YA66uIJZMTpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nqOS5jd7xPa+9F2q7ZZT4Ur+tTbbi6JQeFuWuW9YicU=;
- b=JyvfRAjP9HiIMJf0+0Ya4MZnxQfxysCTMfllS1/D00IdlKkvTeOzGZPjQlBQtIAGvrwCqk4ILWPuhLif4d9VqWG42YYQr7zuDRiHXbuUB9PHhzhvBpMyef79LlXzsN59tLg7g4PDcMezI0sM8i+FYG85ZdtUjTgA6yNMOVxsTjlvSHPdU/HO362IB6tE+n7qOtkRNYDnFCj8Xhqc8pI4k8eo1J0PKkjgEIt04uXDbcZr8mC/NjTRQSZXNLKPDHT/CR3E1PsUJxuYlgh17rsRbJTeMvkE80rNKHDi5S44jN7juxawPI9a1s5DEC7EjSBg1zzgM4ElhV5JzsJSa/EkqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nqOS5jd7xPa+9F2q7ZZT4Ur+tTbbi6JQeFuWuW9YicU=;
- b=ip2K6/5LqCleQSKq6ReY/yOHie9hu1oElakg+x53SD7FMrzcFX9O9N+R1mTl4048KuaihcDCyH8BQhU2jCgQX7QXogTtWbt6UzEKRCDWPAtGq6FsfBwdAI2BSjXt+vrbBa+98353VxUHd2QKleyFImAxbGXGfNek1jxObREUZT0=
-Received: from OSBPR01MB2775.jpnprd01.prod.outlook.com (2603:1096:604:13::17)
- by OS3PR01MB6005.jpnprd01.prod.outlook.com (2603:1096:604:d3::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8583.42; Wed, 2 Apr
- 2025 20:58:23 +0000
-Received: from OSBPR01MB2775.jpnprd01.prod.outlook.com
- ([fe80::54f7:9a51:ae47:185b]) by OSBPR01MB2775.jpnprd01.prod.outlook.com
- ([fe80::54f7:9a51:ae47:185b%2]) with mapi id 15.20.8583.038; Wed, 2 Apr 2025
- 20:58:23 +0000
-From: John Madieu <john.madieu.xa@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>, "geert+renesas@glider.be"
-	<geert+renesas@glider.be>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "robh@kernel.org"
-	<robh@kernel.org>, "rafael@kernel.org" <rafael@kernel.org>,
-	"daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>
-CC: "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"john.madieu@gmail.com" <john.madieu@gmail.com>, "rui.zhang@intel.com"
-	<rui.zhang@intel.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "sboyd@kernel.org" <sboyd@kernel.org>,
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, "lukasz.luba@arm.com"
-	<lukasz.luba@arm.com>
-Subject: RE: [PATCH v5 1/5] soc: renesas: rz-sysc: add syscon/regmap support
-Thread-Topic: [PATCH v5 1/5] soc: renesas: rz-sysc: add syscon/regmap support
-Thread-Index: AQHbocDOdKVSAMtBFUO6x2CfxEhaz7OMwyOAgAQbZPA=
-Date: Wed, 2 Apr 2025 20:58:23 +0000
-Message-ID:
- <OSBPR01MB27755874489BF03659A1DDE8FFAF2@OSBPR01MB2775.jpnprd01.prod.outlook.com>
-References: <20250330214945.185725-1-john.madieu.xa@bp.renesas.com>
- <20250330214945.185725-2-john.madieu.xa@bp.renesas.com>
- <TY3PR01MB11346D2794D3D5C0FC870550286AD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TY3PR01MB11346D2794D3D5C0FC870550286AD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OSBPR01MB2775:EE_|OS3PR01MB6005:EE_
-x-ms-office365-filtering-correlation-id: 701457c1-ab97-42cf-fc7e-08dd72291b6b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|366016|1800799024|376014|7053199007|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?AXuXa+r7vj9cUt47MsYZpiZZXvH+JKlf5MTF/hFPOfZ7uoo7YctDYRFkTERe?=
- =?us-ascii?Q?rhqOylV3Eu2uO3DkvtJqcMupEtRrYgOl988iuDe6ckU+WUQrkepM8sAaCW1z?=
- =?us-ascii?Q?IsaIvXvIg+ues/DiYzpD9ds/+ZP7M27g0ge/k99fPAqDZYgMbgezhzDN9v6R?=
- =?us-ascii?Q?fcNSTk5+70L9dhBc+dwmBxcjr2tjmoEsHTVpxt4awStucpOEvuwd3k3nNrPV?=
- =?us-ascii?Q?ClR4Aw5kYl5W3hAVqnDuxDoxmnl+f2dw4Iyav7oV6iO1aCR9wCgGnTFV9gMz?=
- =?us-ascii?Q?x3zdvJYoiHkj4coflPErt4H6Ck/mVdDnvOgmPZqcbyiPD2DDwLkQ8er4+dWx?=
- =?us-ascii?Q?KtiZ9bwmSYP5oKicpE7r7Bo6NAWSPLbCB3HLgtYojKnW1AAN9F+AlOnxhOAC?=
- =?us-ascii?Q?Bok7ROHk8PMJ4wgCLxEZZESX6QIaPdwHLZbyTXu+2CX2MetODYRrib6Z1dsg?=
- =?us-ascii?Q?IwcJNV+Ed85gNyq1eMJ6LwRst7p6JJBKlFviCZGSRgyAOn3x55LgXTkDsj4A?=
- =?us-ascii?Q?475cp99+e2XN7vQRRBV3rH9JNs6Ibiw1GsbHZuK2XxHKSTVvOby03BVC7hLj?=
- =?us-ascii?Q?hlPNWwUPFTc74DCfmmL9WdPFSTSVAQSlwxMsDQiDgL/sybucDVG48MTbmINq?=
- =?us-ascii?Q?QGN943ckqGVK2HgwMAQAAynFcPWGdJ66fyekCHlEFwjc7HE5tVRNcsBKUJuF?=
- =?us-ascii?Q?F0j3x0Ylawr5ZXnNz0pCGdkQms5KNVd4hea+ol6PoMlQsN5DVBtPD7GpXo/2?=
- =?us-ascii?Q?SAgVitwtZg4PCW/gpPTsIKOywOKJXJgRyr5OC9dCFVqlrn+cjqZAnEZosXDU?=
- =?us-ascii?Q?Xm3LtWxxitU2klEjYxVdylrgnCTP63A4BVeQlrlufyKtSKTCLCdk5iZjsnF/?=
- =?us-ascii?Q?+uB16LK/Lo0rLPp3KijEjHQtpFCvHWJ4GjBxYZf96jIPVDl/c6GMIpFDw0LH?=
- =?us-ascii?Q?wA7p0SI5GxlA9Do3+t9LuvXPQTHLcpLpWgIBUYZ9AzROh2mOXXiR7J3CnZiI?=
- =?us-ascii?Q?22tpFR7ArT3m5TcnSKe6IuPJjI+clwWR8OY9igJYBAARW/uxwE7MNJrkf0gP?=
- =?us-ascii?Q?5Lf5z4vAjByQY9PbcUf9pbdmce7fhj6o7R4jLe42kbV1kYjNABnIxRs89buj?=
- =?us-ascii?Q?osJ24cHGWNOc4eyBk1i8R+30wAFY0e3A9Qv91tPIVPdLa4tlg1UuzPTZGRMT?=
- =?us-ascii?Q?qtSxR3rKM+BafpRj+Pjd9HgOuKTQVhaB9m3QFiqOCVxXEkTeCG9mLh6Ea9Kn?=
- =?us-ascii?Q?j7jX33icd8+qVLwropuzoz7RFXGW+8+vAPfvp3w7XfQ5lXqe7Ge6kmlshUMj?=
- =?us-ascii?Q?vXnb8kP9ShsH4QWg7dt9Btdcladj6HpxGdb6tilMOvhnZYeOqoC4N9p+crbB?=
- =?us-ascii?Q?aysuNhdn7ig9omQW7Z+pGxftcSDJgjI5X8hTn+nVOB3szrTjrm35yYjbZ2jC?=
- =?us-ascii?Q?kobs9xTqt6FGSVRJx3dCo492crGGz7aN?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSBPR01MB2775.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(7053199007)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?yj7roLuLWgPl/PmpvhUNsxcpl4BDEj1KrV6oRK73/urw29dHlnPT+puCGbua?=
- =?us-ascii?Q?7isfMvrEoeIe2kRgfIM3Fh2xsGUq0BWidG6Vgr0bW5iQJ3RAJqCPRm7OHA0u?=
- =?us-ascii?Q?0XJ6f1/wHFOyuFlEC3h0bwua+nzSX+6Dlb7ykB4iHC+4dtygP6Rz0P3GfqgR?=
- =?us-ascii?Q?g31CRzYtpGzQq+/Q0FLTvOwTjmkKXxH+25wetLoDB92BBS23PScjRuSwm0sU?=
- =?us-ascii?Q?3wNDcSTS7tiQaYvbbNKIuXld67aSijNl9q7I8oZzFW5d1mrQ+MR5ZRLFtTwt?=
- =?us-ascii?Q?PBVyEAisYcTKQcv8ZKs0DbOdisq/TG9EgnawjakFR2cEgNSExVZgoJs8WroE?=
- =?us-ascii?Q?X7bsBbqc9h1aZlFR5PGKCSnZNToVEYUMdxnkDJ67QazMnHFbE6NQebFgBOeQ?=
- =?us-ascii?Q?SisuKnSA+DpyAvbHBR7qZkaCcR7Qr3u5mi0S/1/l2Ko95U3H1+ScFo9f8Bby?=
- =?us-ascii?Q?Tv+SSB8vL2agHJBi0SxStk2xaChbYLXFHT+d9OnFGY/tGomr+9R/IDxRvbmC?=
- =?us-ascii?Q?/2ghoIdrRsITNtPKpa4XI1yDzl2hRIlmXjAlResseaovkPJRVHQJZ91ktsRv?=
- =?us-ascii?Q?Nln8dUCKd79rdUi5rY/Hm2hqPKThWR0aT41k/jw0QmCJ3cZ2K/Oj3ZhsfurS?=
- =?us-ascii?Q?ppLHOdzKbzUnMu6+9e92QY6d+NJoYt0VfLQJr9cboG2+4U0sIXksTLvs6QRy?=
- =?us-ascii?Q?84iggolYLM6LW/OTGf2NuGJloyVe5V0prbKscWJKrM6OUG3/0/lTCAZUEzL0?=
- =?us-ascii?Q?pDWeP7mqwVsZmrSRU2ypfpf17M/KahhL4bS6ISvF4UrxDmwnbweREXLxNJSA?=
- =?us-ascii?Q?s215n0My2SW5jgSRc0z9g7R6dbtlvbPjQXr8FLrA0LSioKmMNHjtTuhP7EfO?=
- =?us-ascii?Q?gc0A6Lu4TwfJ1iigrr3FeJTR8REfTuF+T1FuYW3hKlq+eAy5Bpg7BOqPfY9Y?=
- =?us-ascii?Q?QnUXxgt1uhMxC86nLJrcQw0/ecs5lFzkTCSffHUxjkBd801KPMFNVP5CTofy?=
- =?us-ascii?Q?kXEWwMtN1cjwmpj/+rpwUDfSxvBHRCttoyBY58ryX/6QZ8F1iRTNgTYhx0JQ?=
- =?us-ascii?Q?EEcMqK8s8PVj8YGmacAXDLHsoSFA6CScL9MTxjMLetLWtyyYrrRUM5PxRBpa?=
- =?us-ascii?Q?Y3imcdhIUGYkJ5YjU/4QlpIGaya2ETvIrTnNhRM2MtPAWyhLuSBqLtasNduf?=
- =?us-ascii?Q?btepY+6sCwmXjewwro1mUs3DUtWOiRja14iwz5TwOHb6Xty53o9AM9gHy8jT?=
- =?us-ascii?Q?sQfUNqMK9zYEXOMozb4CxfMovWqxPAXaug1Sf9RgAXSuTZk+YN5xgY3qzFnH?=
- =?us-ascii?Q?xad9yitsrO5M9dDTMyhTegCC1UcnttmggIZtmUjcAPfiw1kOK55s+OAImd3T?=
- =?us-ascii?Q?rNh5GRXRaGD2kfUyIBdBBa/A4FPGJ2/EzCWKRib4irirSHMPdAz1NXV+7J8K?=
- =?us-ascii?Q?BemU+5MhGG6WDXlb2KOd7hWFYBBi8xWf9PtUA8YK70tjuLYUuUa7ynYWi3vR?=
- =?us-ascii?Q?4BqYXANv8JyqLcjWbfZvqO1N2OOf6yJBjpFlqJ3CSKj+htyFXPgF/E5RsvBX?=
- =?us-ascii?Q?BAnH4YLPym2Mn4pHFczP7Q3jJRYLZUrnWo+p97SC3NwOYw26b3HB9BWy4uqM?=
- =?us-ascii?Q?1g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3781F4187;
+	Wed,  2 Apr 2025 23:09:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743635377; cv=none; b=HxWPN+Lv9lZb0JwcEU4jEIwnAWFyF8A1Jya/WalmtG5bWwczCMj25DkmKA3nihxDGc8P0210/owAAZddtiHUuhZ4Z4pNfV1WGJbQJz2/s6SuzicDedODNHodTWqQZBzKR45u80yqIFxpE9tHsQYFBmmUyA5gERPwZFrrSg5Ehzs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743635377; c=relaxed/simple;
+	bh=GdIGQS4JWH92td0gYbTr53cv3mx+ouGH9iqY3jwxAsM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kLqDxjBlqXS/Bg9xwhi89b3gySxRYdLZesgusa90wgkafdL2g+QktbAvNvw06LW6lNS6/ia8Ompz6NFc90rXIOIzeRKNaGZDJsySVKE6tTCmjTGCsvp0BljIbqTIuhfwtKirUtLJx7xLWW76UKuYIC56cO7NmD7V3T5JqnDz7zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B7G4Iepl; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-525b44ec88aso183617e0c.3;
+        Wed, 02 Apr 2025 16:09:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743635374; x=1744240174; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YSF8VV4MvAs29o9WCJ7b7nEHXuEuWfcY2dq9tAk4qwg=;
+        b=B7G4IepllFqH+anGLiXe45lUP2g5rJPmlQYEb8PEdSMHTmT0eU+tchAxr3lhcGW973
+         Pk71xACH/5ojW21QGKW/zgxWdp53UugU6IP5476Nc67tZ/BPjt5fEUILECCG5mJ7Ykcb
+         SwyRQq5XRyX19mZAm/1lDstRcoXEIQivjm82TMbVK82GWBmlZxFJbbACGM+XvQEEgHvj
+         P7Op+Lf+jmg8BNHMEvheULAzNnC07tl3ChML9Q3GZFUJ7MH9Fc37FB2Q44s1zuK+fVzR
+         SSIJlBZUq5NMQ16Me3BMLcs0MQOUouLVs/czEizTrJODzVJJ5jNhXpbHc2QMGog00g47
+         M2tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743635374; x=1744240174;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YSF8VV4MvAs29o9WCJ7b7nEHXuEuWfcY2dq9tAk4qwg=;
+        b=QrpjDAkwdnxH81oy+/k3g2lZBvpBs63VNKkMr60oZaL+XBl5F2at9rZ9S2OvZ18RFL
+         JUx9Wd+2O2mt+N7IE75TS/jNLO+YTvDQFKKn9He6xTryu9POeHNZR/vIHmpGcyJLewx3
+         d+Fy8iO3C7pfBQoGMA7munPj5gK+LdD5N2GysWp8L118nxY+RF44r8KZcO1M2JOPt6Sd
+         LSlGSl2pZMb6N7MCcxY+jEBeAVqEqChQT0fEP1U2ed1HikLn4BAKSIJtVK60oXhu42gD
+         xmym2qHRWX3jVsB8B5zC97XrV7lTQwB4EGk3Ro9xU0naBJ1+NEW0je5xrPDFCG0T/vUR
+         cJqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVefk0cOLwoF2J4sf87qG14EGbZIBuEHYcL60BBYoOlbMsqQCmh4uTQnOWUmuVQu+7fxLqwtmIwZrgv7L5iq9Rk8R0=@vger.kernel.org, AJvYcCWch3uPK1hABElAAdOwVhtgI5TDOCJLaGhUWeLlvdKWH7gYv5LtZQ2KQo3EXUADs0YLAO+T+XEubUvYHiUo@vger.kernel.org, AJvYcCWlWlHfTX21PnYU2vWdLoPYEy4yxLO0PrUfBpSd7FqrT8DqFqlyLcdf++eql5mncYIW4rLrxB/1Zj/Y@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxvb5btxYdHeCxHey67sAQu0uZhwYuuSro15NOMu9QzRXH0LJMj
+	HSW6/eapSYpIWrhQ6rm59EgMrHjTIJAQVDB7cw+cDBQO7Ep1CZ06zWqiOqETwMMACdI44MV+qjt
+	0Fmu8p0v1SCAMx+zl/LgMRMXenbQ=
+X-Gm-Gg: ASbGnctdbiuYpV7RcNhIif9u3p3+FwVbOwa6ArUmomM8wXmHTojBj4GZmlU1kFM+aob
+	+O/MILMjKoRFZo3NaC3XiJ+EsGtBP4/SJZsTuWDWgC94/GbwXYbhlKLv8ufWkkCABwKq2XXKKRv
+	HFbqSCEvFdHKLAzOuPAjsYVgfQzvGARTCAtWopKAF+Aw9yzxdCHt/t0HGnJms=
+X-Google-Smtp-Source: AGHT+IEDPD65/6nOqaW7JIFFkRiv245SS8Ti1US2KiFtD6WSliXhl469bxj57GU/ZqbUPZ+2u977aiebtOf+6zoyqyc=
+X-Received: by 2002:a05:6122:a07:b0:518:a261:adca with SMTP id
+ 71dfb90a1353d-5261d4759bcmr12276954e0c.8.1743635373876; Wed, 02 Apr 2025
+ 16:09:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSBPR01MB2775.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 701457c1-ab97-42cf-fc7e-08dd72291b6b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Apr 2025 20:58:23.5256
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LTq48MXlhb3DP8Vl8RyUC8nBlbuW9LtkIbUJR6bsv0XYxpvz9d+m8/bLmwA4sQCNzLDgahCq5Zf9snJC9ot+xRUPhK3+RxUFjgAJ/ZYtPQY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6005
+References: <20250401171432.101504-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250402-adamant-myrtle-raptor-40e19f@krzk-bin>
+In-Reply-To: <20250402-adamant-myrtle-raptor-40e19f@krzk-bin>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 3 Apr 2025 00:09:07 +0100
+X-Gm-Features: AQ5f1JqzXV9YacnNKGchHBfmyOV1CfEocABmajS7J8kE99xY7nSks_VNDWRyPAk
+Message-ID: <CA+V-a8vBgnw8nqpG+bOZfABgEUYc+JRxm9qDyexgd+7RSMw_GA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Add USB2PHY Port Reset Control driver for Renesas
+ RZ/V2H(P) SoC
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
+Hi Krzysztof,
 
-Thanks for your feedback.
+On Wed, Apr 2, 2025 at 7:57=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.org=
+> wrote:
+>
+> On Tue, Apr 01, 2025 at 06:14:29PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Hi All,
+> >
+> > This patch series adds support for the USB2PHY Port Reset control drive=
+r
+> > for the Renesas RZ/V2H(P) SoC. The changes include documenting the USB2=
+PHY
+> > Port Reset control bindings and adding the driver.
+> >
+> > v2->v3
+> > - Dropped Acks from Conor and Fabrizio, due to below changes
+> > - Renamed binding renesas,rzv2h-usb2phy-ctrl.yaml to
+> >   renesas,rzv2h-usb2phy-reset.yaml
+>
+> That's not really justifying dropping review.
+>
+I was in two minds here.
 
-> -----Original Message-----
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> Sent: Monday, March 31, 2025 8:08 AM
-> To: John Madieu <john.madieu.xa@bp.renesas.com>; geert+renesas@glider.be;
-> conor+dt@kernel.org; krzk+dt@kernel.org; robh@kernel.org;
-> rafael@kernel.org; daniel.lezcano@linaro.org
-> Subject: RE: [PATCH v5 1/5] soc: renesas: rz-sysc: add syscon/regmap
-> support
->=20
-> Hi John,
->=20
-> Thanks for the patch.
->=20
-> > -----Original Message-----
-> > From: John Madieu <john.madieu.xa@bp.renesas.com>
-> > Sent: 30 March 2025 22:50
-> > Subject: [PATCH v5 1/5] soc: renesas: rz-sysc: add syscon/regmap
-> > support
-> >
-> > The RZ/G3E system controller has various registers that control or
-> > report some properties specific to individual IPs. The regmap is
-> > registered as a syscon device to allow these IP drivers to access the
-> registers through the regmap API.
-> >
-> > As other RZ SoCs might have custom read/write callbacks or
-> > max-offsets, let's register a custom regmap configuration.
-> >
-> > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> > ---
-> > v1 -> v2: no changes
-> > v2 -> v3: no changes
-> > v3 -> v4: no changes
-> > v4 -> v5: no changes
-> >
-> > Note for Maintainers: There is a false positive warning reported by
-> > checkpatch.pl on this patch patch stating that the regmap_config struct
-> should be const, despite the fact it's updated in probe().
-> >
-> >  drivers/soc/renesas/Kconfig         |  1 +
-> >  drivers/soc/renesas/r9a09g047-sys.c |  1 +
-> >  drivers/soc/renesas/rz-sysc.c       | 30 ++++++++++++++++++++++++++++-
-> >  drivers/soc/renesas/rz-sysc.h       |  2 ++
-> >  4 files changed, 33 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-> > index 49648cf28bd2..3ffd3a4ca18d 100644
-> > --- a/drivers/soc/renesas/Kconfig
-> > +++ b/drivers/soc/renesas/Kconfig
-> > @@ -388,6 +388,7 @@ config RST_RCAR
-> >
-> >  config SYSC_RZ
-> >  	bool "System controller for RZ SoCs" if COMPILE_TEST
-> > +	select MFD_SYSCON
-> >
-> >  config SYSC_R9A08G045
-> >  	bool "Renesas RZ/G3S System controller support" if COMPILE_TEST diff
-> > --git a/drivers/soc/renesas/r9a09g047-sys.c
-> > b/drivers/soc/renesas/r9a09g047-sys.c
-> > index cd2eb7782cfe..5b010a519fab 100644
-> > --- a/drivers/soc/renesas/r9a09g047-sys.c
-> > +++ b/drivers/soc/renesas/r9a09g047-sys.c
-> > @@ -64,4 +64,5 @@ static const struct rz_sysc_soc_id_init_data
-> > rzg3e_sys_soc_id_init_data __initco
-> >
-> >  const struct rz_sysc_init_data rzg3e_sys_init_data =3D {
-> >  	.soc_id_init_data =3D &rzg3e_sys_soc_id_init_data,
-> > +	.max_register_offset =3D 0x170c,
->=20
->  Replace max_register_offset->rz_sysc_regmap
-> >  };
-> > diff --git a/drivers/soc/renesas/rz-sysc.c
-> > b/drivers/soc/renesas/rz-sysc.c index 1c98da37b7d1..bcbc23da954b
-> > 100644
-> > --- a/drivers/soc/renesas/rz-sysc.c
-> > +++ b/drivers/soc/renesas/rz-sysc.c
-> > @@ -6,8 +6,10 @@
-> >   */
-> >
-> >  #include <linux/io.h>
-> > +#include <linux/mfd/syscon.h>
-> >  #include <linux/of.h>
-> >  #include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> >  #include <linux/sys_soc.h>
-> >
-> >  #include "rz-sysc.h"
-> > @@ -81,6 +83,14 @@ static int rz_sysc_soc_init(struct rz_sysc *sysc,
-> const struct of_device_id *mat
-> >  	return 0;
-> >  }
-> >
-> > +static struct regmap_config rz_sysc_regmap =3D {
-> > +	.name =3D "rz_sysc_regs",
-> > +	.reg_bits =3D 32,
-> > +	.reg_stride =3D 4,
-> > +	.val_bits =3D 32,
-> > +	.fast_io =3D true,
-> > +};
-> > +
->=20
-> Move this to SoC specific file.
->=20
-> static const struct regmap_config rz_g3e_sysc_regmap =3D {
-> 	.name =3D "rz_g3e_sysc_regs",
-> 	.reg_bits =3D 32,
-> 	.reg_stride =3D 4,
-> 	.val_bits =3D 32,
-> 	.fast_io =3D true,
->       .max_register_offset =3D 0x170c,
-> };
->=20
+> Still not possible to compare it:
+>
+> b4 diff '20250401171432.101504-1-prabhakar.mahadev-lad.rj@bp.renesas.com'
+> Grabbing thread from lore.kernel.org/all/20250401171432.101504-1-prabhaka=
+r.mahadev-lad.rj@bp.renesas.com/t.mbox.gz
+> Checking for older revisions
+> Grabbing search results from lore.kernel.org
+> Nothing matching that query.
+I did get the same, does `b4` look for matching subjects, I ask
+because I changed between v2 and v3.
 
-I've implemented this SoC-specific const regmap_config* approach,
-and checkpatch does not warn anymore.
+Below are the changes from v2 -> v3:
+$ b4 diff  -m PATCH-v2-0-2-Add-USB2PHY-control-support-for-Renesas-RZ-V2H-P=
+-SoC.mbox
+ PATCH-v3-0-3-Add-USB2PHY-Port-Reset-Control-driver-for-Renesas-RZ-V2H-P-So=
+C.mbox
+Loading 20 messages from
+PATCH-v2-0-2-Add-USB2PHY-control-support-for-Renesas-RZ-V2H-P-SoC.mbox
+Loading 7 messages from
+PATCH-v3-0-3-Add-USB2PHY-Port-Reset-Control-driver-for-Renesas-RZ-V2H-P-SoC=
+.mbox
+---
+Diffing v2 and v3
+    Running: git range-diff b88e506a8af0..a85d31383c56
+84cdef6f74a8..e90a30abcf89
+---
+1:  093fce8efcbc ! 1:  73c076c4ea0b dt-bindings: reset: Document
+RZ/V2H(P) USB2PHY Control
+    @@ Metadata
+     Author: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Geert, if you are Ok with this approach, I can send the v6
-along with some other comment fixes that I've received.
+      ## Commit message ##
+    -    dt-bindings: reset: Document RZ/V2H(P) USB2PHY Control
+    +    dt-bindings: reset: Document RZ/V2H(P) USB2PHY reset driver
 
->=20
-> >  static const struct of_device_id rz_sysc_match[] =3D {  #ifdef
-> CONFIG_SYSC_R9A08G045
-> >  	{ .compatible =3D "renesas,r9a08g045-sysc", .data =3D
-> > &rzg3s_sysc_init_data }, @@ -97,14 +107,21 @@ MODULE_DEVICE_TABLE(of,
-> > rz_sysc_match);
-> >
-> >  static int rz_sysc_probe(struct platform_device *pdev)  {
-> > +	const struct rz_sysc_init_data *data;
-> >  	const struct of_device_id *match;
-> >  	struct device *dev =3D &pdev->dev;
-> > +	struct regmap *regmap;
-> >  	struct rz_sysc *sysc;
-> > +	int ret;
-> >
-> >  	match =3D of_match_node(rz_sysc_match, dev->of_node);
-> >  	if (!match)
-> >  		return -ENODEV;
-> >
-> > +	data =3D match->data;
-> > +	if (!data)
-> > +		return -EINVAL;
-> > +
-> >  	sysc =3D devm_kzalloc(dev, sizeof(*sysc), GFP_KERNEL);
-> >  	if (!sysc)
-> >  		return -ENOMEM;
-> > @@ -114,7 +131,18 @@ static int rz_sysc_probe(struct platform_device
-> *pdev)
-> >  		return PTR_ERR(sysc->base);
-> >
-> >  	sysc->dev =3D dev;
-> > -	return rz_sysc_soc_init(sysc, match);
-> > +	ret =3D rz_sysc_soc_init(sysc, match);
-> > +
-> > +	if (data->max_register_offset) {
-> 	If(data->rz_sysc_regmap)
->=20
-> > +		rz_sysc_regmap.max_register =3D data->max_register_offset;
-> Drop it.
->=20
-> > +		regmap =3D devm_regmap_init_mmio(dev, sysc->base,
-> &rz_sysc_regmap);
->=20
-> regmap =3D devm_regmap_init_mmio(dev, sysc->base, data->rz_sysc_regmap);
->=20
-> > +		if (IS_ERR(regmap))
-> > +			return PTR_ERR(regmap);
-> > +
-> > +		ret =3D of_syscon_register_regmap(dev->of_node, regmap);
-> > +	}
-> > +
-> > +	return ret;
-> >  }
-> >
-> >  static struct platform_driver rz_sysc_driver =3D { diff --git
-> > a/drivers/soc/renesas/rz-sysc.h b/drivers/soc/renesas/rz-sysc.h index
-> > aa83948c5117..37a3bb2c87f8 100644
-> > --- a/drivers/soc/renesas/rz-sysc.h
-> > +++ b/drivers/soc/renesas/rz-sysc.h
-> > @@ -34,9 +34,11 @@ struct rz_sysc_soc_id_init_data {
-> >  /**
-> >   * struct rz_sysc_init_data - RZ SYSC initialization data
-> >   * @soc_id_init_data: RZ SYSC SoC ID initialization data
-> > + * @max_register_offset: Maximum SYSC register offset to be used by
-> > + the regmap config
-> >   */
-> >  struct rz_sysc_init_data {
-> >  	const struct rz_sysc_soc_id_init_data *soc_id_init_data;
-> > +	u32 max_register_offset;
->=20
->       const struct regmap_config *rz_sysc_regmap;
->=20
-> Cheers,
-> Biju
->=20
-> >  };
-> >
-> >  extern const struct rz_sysc_init_data rzg3e_sys_init_data;
-> > --
-> > 2.25.1
+    -    Add device tree binding document for the Renesas RZ/V2H(P)
+USB2PHY Control
+    -    Device. It mainly controls reset and power down of the USB2.0 PHY =
+(for
+    -    both host and function).
+    +    Add a device tree binding document for the Renesas RZ/V2H(P)
+USB2PHY reset
+    +    driver. This driver controls the reset and power-down of the
+USB2.0 PHY,
+    +    which is used for both host and function modes.
 
-Regards,
-John
+         Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.=
+com>
 
+    - ## Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-ctrl=
+.yaml
+(new) ##
+    + ## Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-rese=
+t.yaml
+(new) ##
+     @@
+     +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+     +%YAML 1.2
+     +---
+    -+$id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-ctrl.y=
+aml#
+    ++$id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.=
+yaml#
+     +$schema: http://devicetree.org/meta-schemas/core.yaml#
+     +
+    -+title: Renesas RZ/V2H(P) USB2PHY Control
+    ++title: Renesas RZ/V2H(P) USB2PHY Port reset Control
+     +
+     +maintainers:
+     +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+     +
+     +description:
+    -+  The RZ/V2H(P) USB2PHY Control mainly controls reset and power
+down of the
+    ++  The RZ/V2H(P) USB2PHY Control mainly controls Port reset and
+power down of the
+     +  USB2.0 PHY.
+     +
+     +properties:
+     +  compatible:
+    -+    const: renesas,r9a09g057-usb2phy-ctrl  # RZ/V2H(P)
+    ++    const: renesas,r9a09g057-usb2phy-reset     # RZ/V2H(P)
+     +
+     +  reg:
+     +    maxItems: 1
+    @@ Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-ctrl.y=
+aml
+(new)
+     +  - |
+     +    #include <dt-bindings/clock/renesas,r9a09g057-cpg.h>
+     +
+    -+    usbphy-ctrl@15830000 {
+    -+        compatible =3D "renesas,r9a09g057-usb2phy-ctrl";
+    ++    reset-controller@15830000 {
+    ++        compatible =3D "renesas,r9a09g057-usb2phy-reset";
+     +        reg =3D <0x15830000 0x10000>;
+     +        clocks =3D <&cpg CPG_MOD 0xb6>;
+     +        resets =3D <&cpg 0xaf>;
+2:  a85d31383c56 ! 2:  8c715db41c21 reset: Add USB2PHY control driver
+for Renesas RZ/V2H(P)
+    @@ Metadata
+     Author: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+      ## Commit message ##
+    -    reset: Add USB2PHY control driver for Renesas RZ/V2H(P)
+    +    reset: Add USB2PHY port reset driver for Renesas RZ/V2H(P)
+
+    -    Add support for the USB2PHY control driver on the Renesas
+RZ/V2H(P) SoC.
+    -    Make the driver handle reset and power-down operations for the USB=
+2PHY.
+    +    Implement a USB2PHY port reset driver for the Renesas RZ/V2H(P) So=
+C.
+    +    Enable control of USB2.0 PHY reset and power-down operations, incl=
+uding
+    +    assert and deassert functionalities for the PHY.
+
+    -    Pass OF data to support future SoCs with similar USB2PHY hardware =
+but
+    -    different register configurations. Define device-specific
+initialization
+    -    values and control register settings in OF data to ensure flexibil=
+ity
+    -    for upcoming SoCs.
+    +    Leverage device tree (OF) data to support future SoCs with
+similar USB2PHY
+    +    hardware but varying register configurations. Define
+initialization values
+    +    and control register settings to ensure flexibility for
+upcoming platforms.
+
+         Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.=
+com>
+
+    @@ drivers/reset/Kconfig: config RESET_RZG2L_USBPHY_CTRL
+            Support for USBPHY Control found on RZ/G2L family. It mainly
+            controls reset and power down of the USB/PHY.
+
+    -+config RESET_RZV2H_USB2PHY_CTRL
+    -+    tristate "Renesas RZ/V2H(P) (and similar SoCs) USB2PHY control dr=
+iver"
+    ++config RESET_RZV2H_USB2PHY
+    ++    tristate "Renesas RZ/V2H(P) (and similar SoCs) USB2PHY Reset driv=
+er"
+     +    depends on ARCH_RENESAS || COMPILE_TEST
+     +    help
+    -+      Support for USB2PHY Control found on the RZ/V2H(P) SoC
+(and similar SoCs).
+    -+      It mainly controls reset and power down of the USB2 PHY.
+    ++      Support for USB2PHY Port reset Control found on the RZ/V2H(P) S=
+oC
+    ++      (and similar SoCs).
+     +
+      config RESET_SCMI
+          tristate "Reset driver controlled via ARM SCMI interface"
+    @@ drivers/reset/Makefile: obj-$(CONFIG_RESET_QCOM_AOSS) +=3D
+reset-qcom-aoss.o
+      obj-$(CONFIG_RESET_QCOM_PDC) +=3D reset-qcom-pdc.o
+      obj-$(CONFIG_RESET_RASPBERRYPI) +=3D reset-raspberrypi.o
+      obj-$(CONFIG_RESET_RZG2L_USBPHY_CTRL) +=3D reset-rzg2l-usbphy-ctrl.o
+    -+obj-$(CONFIG_RESET_RZV2H_USB2PHY_CTRL) +=3D reset-rzv2h-usb2phy-ctrl.=
+o
+    ++obj-$(CONFIG_RESET_RZV2H_USB2PHY) +=3D reset-rzv2h-usb2phy.o
+      obj-$(CONFIG_RESET_SCMI) +=3D reset-scmi.o
+      obj-$(CONFIG_RESET_SIMPLE) +=3D reset-simple.o
+      obj-$(CONFIG_RESET_SOCFPGA) +=3D reset-socfpga.o
+
+    - ## drivers/reset/reset-rzv2h-usb2phy-ctrl.c (new) ##
+    + ## drivers/reset/reset-rzv2h-usb2phy.c (new) ##
+     @@
+     +// SPDX-License-Identifier: GPL-2.0
+     +/*
+    -+ * Renesas RZ/V2H(P) USB2PHY control driver
+    ++ * Renesas RZ/V2H(P) USB2PHY Port reset control driver
+     + *
+     + * Copyright (C) 2025 Renesas Electronics Corporation
+     + */
+    @@ drivers/reset/reset-rzv2h-usb2phy-ctrl.c (new)
+     +    u16 val;
+     +};
+     +
+    -+struct rzv2h_usb2phy_data {
+    ++struct rzv2h_usb2phy_reset_of_data {
+     +    const struct rzv2h_usb2phy_regval *init_vals;
+     +    unsigned int init_val_count;
+     +
+    -+    u16 ctrl_reg;
+    -+    u16 ctrl_assert_val;
+    -+    u16 ctrl_deassert_val;
+    -+    u16 ctrl_status_bits;
+    -+    u16 ctrl_release_val;
+    ++    u16 reset_reg;
+    ++    u16 reset_assert_val;
+    ++    u16 reset_deassert_val;
+    ++    u16 reset_status_bits;
+    ++    u16 reset_release_val;
+     +
+    -+    u16 ctrl2_reg;
+    -+    u16 ctrl2_acquire_val;
+    -+    u16 ctrl2_release_val;
+    ++    u16 reset2_reg;
+    ++    u16 reset2_acquire_val;
+    ++    u16 reset2_release_val;
+     +};
+     +
+    -+struct rzv2h_usb2phy_ctrl_priv {
+    -+    const struct rzv2h_usb2phy_data *data;
+    ++struct rzv2h_usb2phy_reset_priv {
+    ++    const struct rzv2h_usb2phy_reset_of_data *data;
+     +    void __iomem *base;
+     +    struct device *dev;
+     +    struct reset_controller_dev rcdev;
+    -+    spinlock_t lock;
+    ++    spinlock_t lock; /* protects register accesses */
+     +};
+     +
+    -+#define rcdev_to_priv(x) container_of(x, struct
+rzv2h_usb2phy_ctrl_priv, rcdev)
+    ++static inline struct rzv2h_usb2phy_reset_priv
+    ++*rzv2h_usbphy_rcdev_to_priv(struct reset_controller_dev *rcdev)
+    ++{
+    ++    return container_of(rcdev, struct rzv2h_usb2phy_reset_priv, rcdev=
+);
+    ++}
+     +
+    -+static int rzv2h_usbphy_ctrl_assert(struct reset_controller_dev *rcde=
+v,
+    -+                    unsigned long id)
+    ++/* This function must be called only after
+pm_runtime_resume_and_get() has been called */
+    ++static void rzv2h_usbphy_assert_helper(struct
+rzv2h_usb2phy_reset_priv *priv)
+     +{
+    -+    struct rzv2h_usb2phy_ctrl_priv *priv =3D rcdev_to_priv(rcdev);
+    -+    const struct rzv2h_usb2phy_data *data =3D priv->data;
+    ++    const struct rzv2h_usb2phy_reset_of_data *data =3D priv->data;
+    ++
+    ++    scoped_guard(spinlock, &priv->lock) {
+    ++        writel(data->reset2_acquire_val, priv->base + data->reset2_re=
+g);
+    ++        writel(data->reset_assert_val, priv->base + data->reset_reg);
+    ++    }
+    ++
+    ++    usleep_range(11, 20);
+    ++}
+    ++
+    ++static int rzv2h_usbphy_reset_assert(struct reset_controller_dev *rcd=
+ev,
+    ++                     unsigned long id)
+    ++{
+    ++    struct rzv2h_usb2phy_reset_priv *priv =3D
+rzv2h_usbphy_rcdev_to_priv(rcdev);
+     +    struct device *dev =3D priv->dev;
+     +    int ret;
+     +
+    @@ drivers/reset/reset-rzv2h-usb2phy-ctrl.c (new)
+     +        dev_err(dev, "pm_runtime_resume_and_get failed\n");
+     +        return ret;
+     +    }
+    -+    scoped_guard(spinlock, &priv->lock) {
+    -+        writel(data->ctrl2_acquire_val, priv->base + data->ctrl2_reg)=
+;
+    -+        writel(data->ctrl_assert_val, priv->base + data->ctrl_reg);
+    -+    }
+     +
+    -+    /* The reset line needs to be asserted for more than 10
+microseconds. */
+    -+    udelay(11);
+    ++    rzv2h_usbphy_assert_helper(priv);
+    ++
+     +    pm_runtime_put(dev);
+     +
+     +    return 0;
+     +}
+     +
+    -+static int rzv2h_usbphy_ctrl_deassert(struct reset_controller_dev *rc=
+dev,
+    -+                      unsigned long id)
+    ++static int rzv2h_usbphy_reset_deassert(struct reset_controller_dev *r=
+cdev,
+    ++                       unsigned long id)
+     +{
+    -+    struct rzv2h_usb2phy_ctrl_priv *priv =3D rcdev_to_priv(rcdev);
+    -+    const struct rzv2h_usb2phy_data *data =3D priv->data;
+    ++    struct rzv2h_usb2phy_reset_priv *priv =3D
+rzv2h_usbphy_rcdev_to_priv(rcdev);
+    ++    const struct rzv2h_usb2phy_reset_of_data *data =3D priv->data;
+     +    struct device *dev =3D priv->dev;
+     +    int ret;
+     +
+    @@ drivers/reset/reset-rzv2h-usb2phy-ctrl.c (new)
+     +    }
+     +
+     +    scoped_guard(spinlock, &priv->lock) {
+    -+        writel(data->ctrl_deassert_val, priv->base + data->ctrl_reg);
+    -+        writel(data->ctrl2_release_val, priv->base + data->ctrl2_reg)=
+;
+    -+        writel(data->ctrl_release_val, priv->base + data->ctrl_reg);
+    ++        writel(data->reset_deassert_val, priv->base + data->reset_reg=
+);
+    ++        writel(data->reset2_release_val, priv->base + data->reset2_re=
+g);
+    ++        writel(data->reset_release_val, priv->base + data->reset_reg)=
+;
+     +    }
+     +
+     +    pm_runtime_put(dev);
+    @@ drivers/reset/reset-rzv2h-usb2phy-ctrl.c (new)
+     +    return 0;
+     +}
+     +
+    -+static int rzv2h_usbphy_ctrl_status(struct reset_controller_dev *rcde=
+v,
+    -+                    unsigned long id)
+    ++static int rzv2h_usbphy_reset_status(struct reset_controller_dev *rcd=
+ev,
+    ++                     unsigned long id)
+     +{
+    -+    struct rzv2h_usb2phy_ctrl_priv *priv =3D rcdev_to_priv(rcdev);
+    ++    struct rzv2h_usb2phy_reset_priv *priv =3D
+rzv2h_usbphy_rcdev_to_priv(rcdev);
+     +    struct device *dev =3D priv->dev;
+     +    int ret;
+     +    u32 reg;
+    @@ drivers/reset/reset-rzv2h-usb2phy-ctrl.c (new)
+     +        return ret;
+     +    }
+     +
+    -+    scoped_guard(spinlock, &priv->lock)
+    -+        reg =3D readl(priv->base + priv->data->ctrl_reg);
+    ++    reg =3D readl(priv->base + priv->data->reset_reg);
+     +
+     +    pm_runtime_put(dev);
+     +
+    -+    return (reg & priv->data->ctrl_status_bits) =3D=3D
+priv->data->ctrl_status_bits;
+    ++    return (reg & priv->data->reset_status_bits) =3D=3D
+priv->data->reset_status_bits;
+     +}
+     +
+    -+static const struct reset_control_ops rzv2h_usbphy_ctrl_reset_ops =3D=
+ {
+    -+    .assert =3D rzv2h_usbphy_ctrl_assert,
+    -+    .deassert =3D rzv2h_usbphy_ctrl_deassert,
+    -+    .status =3D rzv2h_usbphy_ctrl_status,
+    ++static const struct reset_control_ops rzv2h_usbphy_reset_ops =3D {
+    ++    .assert =3D rzv2h_usbphy_reset_assert,
+    ++    .deassert =3D rzv2h_usbphy_reset_deassert,
+    ++    .status =3D rzv2h_usbphy_reset_status,
+     +};
+     +
+    -+static int rzv2h_reset_of_xlate(struct reset_controller_dev *rcdev,
+    -+                const struct of_phandle_args *reset_spec)
+    ++static int rzv2h_usb2phy_reset_of_xlate(struct
+reset_controller_dev *rcdev,
+    ++                    const struct of_phandle_args *reset_spec)
+     +{
+     +    /* No special handling needed, we have only one reset line
+per device */
+     +    return 0;
+     +}
+     +
+    -+static int rzv2h_usb2phy_ctrl_probe(struct platform_device *pdev)
+    ++static int rzv2h_usb2phy_reset_probe(struct platform_device *pdev)
+     +{
+    -+    const struct rzv2h_usb2phy_data *data;
+    -+    struct rzv2h_usb2phy_ctrl_priv *priv;
+    ++    const struct rzv2h_usb2phy_reset_of_data *data;
+    ++    struct rzv2h_usb2phy_reset_priv *priv;
+     +    struct device *dev =3D &pdev->dev;
+     +    struct reset_control *rstc;
+     +    int error;
+    @@ drivers/reset/reset-rzv2h-usb2phy-ctrl.c (new)
+     +    for (unsigned int i =3D 0; i < data->init_val_count; i++)
+     +        writel(data->init_vals[i].val, priv->base +
+data->init_vals[i].reg);
+     +
+    ++    /* keep usb2phy in asserted state */
+    ++    rzv2h_usbphy_assert_helper(priv);
+    ++
+     +    pm_runtime_put(dev);
+     +
+    -+    priv->rcdev.ops =3D &rzv2h_usbphy_ctrl_reset_ops;
+    ++    priv->rcdev.ops =3D &rzv2h_usbphy_reset_ops;
+     +    priv->rcdev.of_reset_n_cells =3D 0;
+     +    priv->rcdev.nr_resets =3D 1;
+    -+    priv->rcdev.of_xlate =3D rzv2h_reset_of_xlate;
+    ++    priv->rcdev.of_xlate =3D rzv2h_usb2phy_reset_of_xlate;
+     +    priv->rcdev.of_node =3D dev->of_node;
+     +    priv->rcdev.dev =3D dev;
+     +
+     +    return devm_reset_controller_register(dev, &priv->rcdev);
+     +}
+     +
+    ++/*
+    ++ * initialization values required to prepare the PHY to receive
+    ++ * assert and deassert requests.
+    ++ */
+     +static const struct rzv2h_usb2phy_regval rzv2h_init_vals[] =3D {
+     +    { .reg =3D 0xc10, .val =3D 0x67c },
+     +    { .reg =3D 0xc14, .val =3D 0x1f },
+     +    { .reg =3D 0x600, .val =3D 0x909 },
+     +};
+     +
+    -+static const struct rzv2h_usb2phy_data rzv2h_of_data =3D {
+    ++static const struct rzv2h_usb2phy_reset_of_data rzv2h_reset_of_data =
+=3D {
+     +    .init_vals =3D rzv2h_init_vals,
+     +    .init_val_count =3D ARRAY_SIZE(rzv2h_init_vals),
+    -+    .ctrl_reg =3D 0,
+    -+    .ctrl_assert_val =3D 0x206,
+    -+    .ctrl_status_bits =3D BIT(2),
+    -+    .ctrl_deassert_val =3D 0x200,
+    -+    .ctrl_release_val =3D 0x0,
+    -+    .ctrl2_reg =3D 0xb04,
+    -+    .ctrl2_acquire_val =3D 0x303,
+    -+    .ctrl2_release_val =3D 0x3,
+    ++    .reset_reg =3D 0,
+    ++    .reset_assert_val =3D 0x206,
+    ++    .reset_status_bits =3D BIT(2),
+    ++    .reset_deassert_val =3D 0x200,
+    ++    .reset_release_val =3D 0x0,
+    ++    .reset2_reg =3D 0xb04,
+    ++    .reset2_acquire_val =3D 0x303,
+    ++    .reset2_release_val =3D 0x3,
+     +};
+     +
+    -+static const struct of_device_id rzv2h_usb2phy_ctrl_match_table[] =3D=
+ {
+    -+    { .compatible =3D "renesas,r9a09g057-usb2phy-ctrl", .data =3D
+&rzv2h_of_data },
+    ++static const struct of_device_id rzv2h_usb2phy_reset_of_match[] =3D {
+    ++    { .compatible =3D "renesas,r9a09g057-usb2phy-reset", .data =3D
+&rzv2h_reset_of_data },
+     +    { /* Sentinel */ }
+     +};
+    -+MODULE_DEVICE_TABLE(of, rzv2h_usb2phy_ctrl_match_table);
+    ++MODULE_DEVICE_TABLE(of, rzv2h_usb2phy_reset_of_match);
+     +
+    -+static struct platform_driver rzv2h_usb2phy_ctrl_driver =3D {
+    ++static struct platform_driver rzv2h_usb2phy_reset_driver =3D {
+     +    .driver =3D {
+    -+        .name        =3D "rzv2h_usb2phy_ctrl",
+    -+        .of_match_table    =3D rzv2h_usb2phy_ctrl_match_table,
+    ++        .name        =3D "rzv2h_usb2phy_reset",
+    ++        .of_match_table    =3D rzv2h_usb2phy_reset_of_match,
+     +    },
+    -+    .probe =3D rzv2h_usb2phy_ctrl_probe,
+    ++    .probe =3D rzv2h_usb2phy_reset_probe,
+     +};
+    -+module_platform_driver(rzv2h_usb2phy_ctrl_driver);
+    ++module_platform_driver(rzv2h_usb2phy_reset_driver);
+     +
+     +MODULE_LICENSE("GPL");
+     +MODULE_AUTHOR("Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>");
+-:  ------------ > 3:  e90a30abcf89 MAINTAINERS: Add entry for Renesas
+RZ/V2H(P) USB2PHY Port Reset driver
+
+
+
+Cheers,
+Prabhakar
 
