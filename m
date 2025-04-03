@@ -1,127 +1,266 @@
-Return-Path: <linux-renesas-soc+bounces-15342-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15343-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D0AA7A811
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Apr 2025 18:37:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCCEA7B163
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Apr 2025 23:38:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 57165188A257
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Apr 2025 16:38:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8937617E285
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Apr 2025 21:32:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0A8B23F403;
-	Thu,  3 Apr 2025 16:37:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 171BE1DFF0;
+	Thu,  3 Apr 2025 21:29:42 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A851E1514F6
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Apr 2025 16:37:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6879C19F13B
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Apr 2025 21:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743698272; cv=none; b=T++m5coxNBkAGcgROZXbaRWrm+90ioHfMwy3AgqULGQ1IlpBdGwkyUwzBx/240zz0TyzhAVEHzbAzr1RjKCEQRvimtYd/JPl9lr3ln4zkiRI9e6pmK75rTEfSLU4j7uImG5tIsLApnTAukjuv9DiWNc2qYatDA925ZGW55Szv3Q=
+	t=1743715782; cv=none; b=Oy7UhzKHCTiDjeZgIgkPxEQl8XjDpJpSYbFNaZYCJe9qj5DUltdokxlTvt0G86PPCIJYNIKeaodg7ls9xklT2Auo94sa/LVo5DMh8HCikQnelZkAPkgkwo1nOz+ZjLL+xoLZXBRN7ybEgCz0y9WMyv1i5TXo/tYKoyKK9sbQVZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743698272; c=relaxed/simple;
-	bh=b5hmLMqhQf/USzetL3WM3B7b9tLiPHJwGUG3zmeWSO8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sGxjSRyA+DsIiDUXB/BrghcpSIerMFAfSdp+DZyKxcGw3576jdE472rEF2iE2WTFr00pNkgUT52tC2MLeff1f5yQoYefzOnlzKAJAv/TYZuhCYu8KH6YX9tWkxuMFZ5LrjdrRNxmOPJ8Z3w+zM+ssGh/ytCRd2yH82FuImRvxFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41DC4106F;
-	Thu,  3 Apr 2025 09:37:51 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E462B3F59E;
-	Thu,  3 Apr 2025 09:37:47 -0700 (PDT)
-Message-ID: <9944524c-0ec9-450d-9fcc-63b021252182@arm.com>
-Date: Thu, 3 Apr 2025 17:37:46 +0100
+	s=arc-20240116; t=1743715782; c=relaxed/simple;
+	bh=qFqxridSZVDLqm6rmVvuhUqBSby4mHa/rGIlt79EO6E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AiAWtQUk1m4mjsLywFKbXKTrwRmi31cVBL1mB1sIwx7u+Yow09bi4SqvxeLoNLWwrszfiGRiW2czkvTBZVX7A+xcyNoZ/ml4YDjVZc4CNGAb0d+ctSDtifmRKr/9g5+2vMOiM9wbzs9xZwA4Ac3mUrdZXoN9rYCdVUGAPx2VbE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: /oIMzoplT9ONp2+6kvY9sA==
+X-CSE-MsgGUID: 1MUXrOhuSlGVK5fuvwjKgA==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 04 Apr 2025 06:29:31 +0900
+Received: from superbuilder.administration.lan (unknown [10.226.92.33])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 778E640B446A;
+	Fri,  4 Apr 2025 06:29:29 +0900 (JST)
+From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+To: thierry.bultel@linatsea.fr
+Cc: linux-renesas-soc@vger.kernel.org,
+	geert@linux-m68k.org,
+	paul.barker.ct@bp.renesas.com,
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Subject: [PATCH v7 00/13] Add initial support for Renesas RZ/T2H SoC
+Date: Thu,  3 Apr 2025 23:29:02 +0200
+Message-ID: <20250403212919.1137670-1-thierry.bultel.yh@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iommu/ipmmu-vmsa: Register in a sensible order
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: joro@8bytes.org, will@kernel.org, iommu@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org
-References: <53be6667544de65a15415b699e38a9a965692e45.1742481687.git.robin.murphy@arm.com>
- <CAMuHMdUtCqwzeWY8G+yHiu4biovymDVb_UtjfYPEQYyYr+dP4Q@mail.gmail.com>
- <f72bcfb2-e2a1-4dd4-bedf-241b75178958@arm.com>
- <CAMuHMdXYDLUZGxFf6fnsKXg=EA2YkoNwMe8Uv0+Bo3w+4h-dhA@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <CAMuHMdXYDLUZGxFf6fnsKXg=EA2YkoNwMe8Uv0+Bo3w+4h-dhA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 01/04/2025 3:11 pm, Geert Uytterhoeven wrote:
-> Hi Robin,
-> 
-> On Tue, 1 Apr 2025 at 15:53, Robin Murphy <robin.murphy@arm.com> wrote:
->> On 2025-03-25 3:26 pm, Geert Uytterhoeven wrote:
->>> On Thu, 20 Mar 2025 at 15:41, Robin Murphy <robin.murphy@arm.com> wrote:
->>>> IPMMU registers almost-initialised instances, but misses assigning the
->>>> drvdata to make them fully functional, so initial calls back into
->>>> ipmmu_probe_device() are likely to fail unnecessarily. Reorder this to
->>>> work as it should, also pruning the long-out-of-date comment and adding
->>>> the missing sysfs cleanup on error for good measure.
->>>>
->>>> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
->>>> Fixes: bcb81ac6ae3c ("iommu: Get DT/ACPI parsing into the proper probe path")
->>>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
->>>
->>> Thanks for your patch!
->>>
->>> This fixes the
->>>
->>>       sata_rcar ee300000.sata: late IOMMU probe at driver bind,
->>> something fishy here!
->>>       WARNING: CPU: 1 PID: 13 at drivers/iommu/iommu.c:571
->>> __iommu_probe_device+0x208/0x38c
->>>
->>> I saw on Salvator-XS with R-Car M3-N.
->>>
->>> It does not fix the second issue reported, so it is indeed too early for a
->>> "Closes: https://lore.kernel.org/CAMuHMdWPFnHTFeeWL2-BU8tKOL-E5K2ROOz=LLBLTJJLCK9NgA@mail.gmail.com"
->>> tag.
->>
->> You mean .of_xlate being called multiple times? That's not an issue,
->> it's normal and expected. Every time an IOMMU instance registers, it
->> triggers a probe of all relevant devices which do not yet have an IOMMU
->> - this has never been selective, so if a device is associated with a
->> different already-registered IOMMU instance, but does not have a group
->> because that instance's .probe_device rejected it, that probe also gets
->> tried (and rejected) again.
->>
->> The core code behaviour has been this way for a very long time, the only
->> new thing is that the .of_xlate calls are now in sync with their
->> corresponding .probe_device calls (and the latter are also now working
->> properly again for fwspec-based ops).
-> 
-> Hmm, I started seeing the extra calls only after bcb81ac6ae3c,
-> i.e. not since a very long time?
+This patchset brings basic support for Renesas RZ/T2H SoC and
+its evaluation board. The 4 CPUs are enabled, only the serial 
+console is available and the board must boot on a ramdisk. 
+earlycon is supported, though.
 
-OK, maybe not "very" - there are a lot of pieces in this puzzle that 
-have all moved underfoot over time, but the point I was getting at is 
-that although fwspec-based drivers *are* only now seeing those extra 
-.probe_device calls, the design of the core code has been *trying* to 
-make them since at least 3-ish years ago when the last of 
-bus_set_iommu() went away.
+The RZ/T2H serial controller (SCI) is quite different from the 
+other RZ SoCs, one of the big differences (but not the only) being
+the 32 bits registers. In order to not modify the existing sh-sci 
+driver too much, a new set of 'ops' function pointer is introduced,
+allowing to code the specifics of RZ/T2H in a separate file.
+Termios setting is not supported yet, the default 115200 baudrate
+being kept by default.
 
-Conversely though, you should also now *not* be seeing extra calls where 
-you weren't looking for them. I bet if you were to build the DMA driver 
-as a module and load/unload it a bunch of times, you would have seen 
-more repeated calls to .of_xlate/.probe_device, whereas now you 
-(correctly) won't.
+Clock support for RZ/T2H is added to the existing renesas-cpg-mssr
+driver, with some little modifications so that more parameters are
+passed to the device-specific registration callback. 
+At this stage, the assumption is made that most of the initialization 
+is done earlier by the bootloader. Module clock enable/disable is 
+not supported, because quite hard to test when the only available 
+peripheral is the serial console, and will come in a future patchset.
 
->> Was it just that, or is there still something functionally amiss?
-> 
-> That's all for now ;-)
+This patch series applies to linux-next
 
-Great!
+Changes v6->v7
+* [PATCH 2/13]
+  - Add description for reg property
+* [PATCH 3/13]
+  - Moved all rsci in a separate file
+  - Added example
+* [PATCH 10/13]
+  - Renamed compatible string to r9a09g077-rsci
+* [PATCH 11/13]
+  - Renamed compatible string to r9a09g077-rsci
+* [PATCH 12/13]
+  - lands in arm64 directory instead of arm
 
-Thanks,
-Robin.
+Changes v5->v6
+* [PATCH 1/13]
+  - Rebased on top of next-20250331
+* [PATCH 2/13]
+  - Set clock minItem constraint
+  - Moved additionalProperties after 'allOf' section
+* [PATCH 10/13]
+  - Rename SERIAL_RZ_SCI_T2 to CONFIG_SERIAL_RSCI
+  - Rename rz-sci-t2.{c,h} to rsci.{c,h}
+  - Rename port type to PORT_RSCI
+  - Rename sci_r9a09g077_data to of_sci_r9a09g077_data for consistency
+* [PATCH 12/13]
+  - Rebased on top of next-20250331
+* [PATCH 13/13]
+  - Renamed CONFIG_SERIAL_RZ_SCI_T2 to CONFIG_SERIAL_RSCI
+
+Changes v4->v5
+* [PATCH 2/13]:
+  - Set reg minItems and maxItems defaults at top level
+* [PATCH 8/13]:
+   - sci_shutdown is no longer static (systemd needs it)
+* [PATCH 10/13]:
+  - Rename SERIAL_RZ_SCI to SERIAL_RZ_SCI_T2
+  - Rename rzsci.{c,h} to rz-sci-t2.{c,h}
+  - Rename port type to PORT_RZ_SCI_T2
+  - Set sci_shutdown ops pointer (needed by systemd for having a console)
+* [PATCH 13/13]:
+   - Renamed CONFIG_SERIAL_RZ_SCI to CONFIG_SERIAL_RZ_SCI_T2
+
+Changes v3->v4
+* Remove all unwanted 'Reviewed by:' tags coming from internal patchwork.
+* [PATCH 2/13]: 
+  - Handle maxItems and clocks names properly in schema.
+* [PATCH 3/13]: 
+  - Add more details in commit description about why renesas,sci 
+    does not apply.
+  - Remove uart-has-rtscts for !rzsci.
+* [PATCH 4/13] & [PATCH 13/13] 
+  - Sets ARCH_R9A09G077 to Y by default.
+* [PATCH 6/13] 
+   - Add missing #include <bitfield.h> (reported by bot)
+   - Add missing __iomem address space in cpg_rzt2h_addr_from_offset and
+     return type (reported by bot)
+   - fixed clocks: inverted 'mult' and 'div' parameters when using 
+     the DEF_FIXED macro
+* [PATCH 8/13]
+   - Add missing #include <bitfield.h>
+   - Remove sci_poll_get_char sci_poll_put_char from sh-sci-common.h (both 
+     function are not used by rzsci yet).
+   - Add missing #ifdef around .poll_put_char pointer initialization.
+* [PATCH 9/13] 
+  - Fix the bot compilation error on superh in sci_probe_earlyprink()
+* [PATCH 10/13]
+  - Add missing #include <bitfield.h>
+  - Fix christmas tree code style in rzsci_transmit_chars.
+* [PATCH 13/13]
+  - Change the commit title.
+  - Remove CONFIG_ARCH_R9A09G077=y.
+
+Changes v2->v3
+* Amend [PATCH v2 05/13] with Signed-off-by, added comment about
+  moved parameters of priv data.
+* bindings:
+  - sci: own section for RZ/T2H sci, resets no required at this stage
+  - sci: 'uart-has-rtscts' is conditional to RZ/T2H.
+  - renesas: 'renesas,r9a09g077' is the fallback.
+  - cpg: renamed 'r9a09g077-cpg-mssr.h to 'renesas,r9a09g077-cpg-mssr.h'.
+  - cpg: update renesas,cpg-mssr.yaml (added loco clock, maxItems for registers is 2),
+    update commit description
+* rz/sci: 
+  - rebase the patchset on v6.14-rc3.
+  - removed unused register bits definitions in rzsci.c
+  - rzsci: replace the busy loop in rzsci_poll_put_char by 
+    readl_relaxed_poll_timeout_atomic
+  - change 'struct sci_suspend_regs' to opaque pointer in sci_port, 
+    kzalloc it with size returned from the added 'suspend_regs_size()' 
+    to specific ops.
+  - renamed 'sh-sci_common.h' to 'sh-sci-common.h'
+  - add Geert's fixes for SH crash
+  - do not use SCI_OF_DATA macro to avoid code duplication by compiler
+  - revert some global functions to static
+* clk:
+  - fixed Kconfig for selecting CLK_RENESAS_CPG_MSSR.
+  - code style.
+  - use macros for MSTPCR block selection.
+  - fixed erroneous offset in mstpcr_for_rzt2h array.
+  - fixed the forgotten rcar-gen2-cpg.c in [PATCH v2 05/13]
+ * defconfig;
+  - added commit description and SoB
+  - update cover letter about SoC options
+
+Changes v1->v2
+* CPG based on renesas-cpg-mssr (no more new CPG driver), updated cover letter
+  for that.
+* bindings: 
+  - passed dt_binding_check and added missing compatible strings, 
+  - document SoC + evaluation board in a single commit
+  - rzsci added to sci documentation
+  - fixed dependencies
+  - renamed the evaluation board to r9a9g077m44-rzt2h-evk
+  - removed clock module numbers & resets from binding header
+  - compatibles: renamed r9a09g077-rzt2h-evk to rzt2h-evk
+* rz/sci:
+  - added Renesas copyright
+  - fixed rzsci_receive_chars following Geert's advice, and comment
+    that 9-bits data is not supported
+  - fixed the regression (ops init) on non-DT legacy boards, sci_probe_regmap
+    called moved in the non-DT case.
+  - moved struct sci_of_data introduction in the appropriate commit
+* dts
+  - applied conventions (nodes alphabetical order & node names)
+  - added missing compatibles to r9a09g077m44.dtsi and r9a09g077m44-rzt2h-evk.dts
+ 
+
+
+Thierry Bultel (13):
+  dt-bindings: soc: Add Renesas RZ/T2H (R9A09G077) SoC
+  dt-bindings: clock: Add cpg for the Renesas RZ/T2H SoC
+  dt-bindings: serial: Add compatible for Renesas RZ/T2H SoC in sci
+  soc: renesas: Add RZ/T2H (R9A09G077) config option
+  clk: renesas: Pass sub struct of cpg_mssr_priv to cpg_clk_register
+  clk: renesas: Add support for R9A09G077 SoC
+  serial: sh-sci: Fix a comment about SCIFA
+  serial: sh-sci: Introduced function pointers
+  serial: sh-sci: Introduced sci_of_data
+  serial: sh-sci: Add support for RZ/T2H SCI
+  arm64: dts: renesas: Add initial support for renesas RZ/T2H SoC
+  arm64: dts: renesas: Add initial support for renesas RZ/T2H eval board
+  arm64: defconfig: Enable Renesas RZ/T2H serial SCI
+
+ .../bindings/clock/renesas,cpg-mssr.yaml      |  61 +-
+ .../bindings/serial/renesas,rsci.yaml         |  78 +++
+ .../bindings/soc/renesas/renesas.yaml         |  10 +
+ arch/arm64/boot/dts/renesas/Makefile          |   1 +
+ arch/arm64/boot/dts/renesas/r9a09g077.dtsi    | 129 ++++
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    |  35 +
+ arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi |  13 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/Kconfig                   |   5 +
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/r7s9210-cpg-mssr.c        |   7 +-
+ drivers/clk/renesas/r8a77970-cpg-mssr.c       |  11 +-
+ drivers/clk/renesas/r9a09g077-cpg-mssr.c      | 238 +++++++
+ drivers/clk/renesas/rcar-gen2-cpg.c           |   5 +-
+ drivers/clk/renesas/rcar-gen2-cpg.h           |   3 +-
+ drivers/clk/renesas/rcar-gen3-cpg.c           |   6 +-
+ drivers/clk/renesas/rcar-gen3-cpg.h           |   6 +-
+ drivers/clk/renesas/rcar-gen4-cpg.c           |   8 +-
+ drivers/clk/renesas/rcar-gen4-cpg.h           |   3 +-
+ drivers/clk/renesas/renesas-cpg-mssr.c        | 153 ++--
+ drivers/clk/renesas/renesas-cpg-mssr.h        |  43 +-
+ drivers/soc/renesas/Kconfig                   |   6 +
+ drivers/tty/serial/Kconfig                    |   7 +
+ drivers/tty/serial/Makefile                   |   1 +
+ drivers/tty/serial/rsci.c                     | 467 +++++++++++++
+ drivers/tty/serial/rsci.h                     |  12 +
+ drivers/tty/serial/sh-sci-common.h            | 167 +++++
+ drivers/tty/serial/sh-sci.c                   | 651 ++++++++++--------
+ drivers/tty/serial/sh-sci.h                   |   2 -
+ .../clock/renesas,r9a09g077-cpg-mssr.h        |  49 ++
+ include/linux/serial_sci.h                    |   3 +-
+ include/uapi/linux/serial_core.h              |   3 +
+ 32 files changed, 1818 insertions(+), 367 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/serial/renesas,rsci.yaml
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g077m44.dtsi
+ create mode 100644 drivers/clk/renesas/r9a09g077-cpg-mssr.c
+ create mode 100644 drivers/tty/serial/rsci.c
+ create mode 100644 drivers/tty/serial/rsci.h
+ create mode 100644 drivers/tty/serial/sh-sci-common.h
+ create mode 100644 include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+
+-- 
+2.43.0
+
 
