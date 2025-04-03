@@ -1,52 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-15345-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15346-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD36AA7B13E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Apr 2025 23:33:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9A4A7B15D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Apr 2025 23:37:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 459357A2330
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Apr 2025 21:31:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E03CA1896CAC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Apr 2025 21:33:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE3FA1D7E42;
-	Thu,  3 Apr 2025 21:30:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 786A71DC98B;
+	Thu,  3 Apr 2025 21:30:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDEF216CD33;
-	Thu,  3 Apr 2025 21:29:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 929941A5B8B;
+	Thu,  3 Apr 2025 21:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743715800; cv=none; b=kYR8CrVGIR82WgB7MUPmquq1Pm9ZvSbonYNJLexit2gRvYvpbJbZYhKJpnZ+0R9Ft3k3BHrbSAbswIEVuYGk1CQQO7rCo2+EWm3+771BU+0O9AfKvCdNGaMiZlYQy6GmsnktB477MnWVqRi0OSouzPBp4TArH/C2q60iZZmK3b0=
+	t=1743715801; cv=none; b=Qgg1SNk/BjjE1Oh9LADWSSYOr3lP7AOu2z9k5yt3J1vNWIl2qcSZsjRKHZp+071JTu/Vlwbm6AbxP7OyBmvkyXEpOIQ5Jf5eFAZq3sSXaen0VokgGP5vEkfGj1TZTPMI2h/F1lRAOjDQunEPlKpZs6Yrs4BZNqQ9z1E8oYsj8R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743715800; c=relaxed/simple;
-	bh=4UgEX2iXpq/hQ7VNduG/VorFw50QB2z5yQ3Tzb/nsHE=;
+	s=arc-20240116; t=1743715801; c=relaxed/simple;
+	bh=Vqzp6xIYMHJ7A/BZZJB/3UKo+fgZraSaSVDlPNyIG4I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bq9lOTM1B4BpseuXAnz8Q+mgo5MGccJ4hCsPdBbP/V5E6eGOs4k0L+vV1F/eHYCI73V7jNEbxYdh2kp3J3MvL3mNO6tTp/DnBzow4pQ+B6gOxEn04CG/JILh6pxZMZYT80mYDJfrLswWGlhku9z8uXBTORB3OLL+6Cm8a7M01uQ=
+	 MIME-Version; b=R1g5/46D/5Yzl0RH353sNh0RmsiZmP+H4PCjZuC7q//tRSsvZnR1ilNdJBreXCENFrm7fYYKltV9fsJvKrvlGXR4w5HmzjWg0LV0YyuGsSk7CGSwTvL31s0neQzKWgddACTz9fSUNrdDSLmb0z9xgTKEmfQpyKvrVSjIZvEuxB4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: bfyd+sPRR/u8CuV+6Gw2sQ==
-X-CSE-MsgGUID: nEJ7kJwoRfC6Fr/HWGvkcg==
+X-CSE-ConnectionGUID: IzfZHhiSRUGryFAdDcKyBw==
+X-CSE-MsgGUID: djGHs0TkQSS+DxEj7moOdA==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 04 Apr 2025 06:29:49 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 04 Apr 2025 06:29:57 +0900
 Received: from superbuilder.administration.lan (unknown [10.226.92.33])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id A3F7E40B446A;
-	Fri,  4 Apr 2025 06:29:46 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id B3AEE40B446A;
+	Fri,  4 Apr 2025 06:29:53 +0900 (JST)
 From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 To: thierry.bultel@linatsea.fr
 Cc: linux-renesas-soc@vger.kernel.org,
 	geert@linux-m68k.org,
 	paul.barker.ct@bp.renesas.com,
 	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	Rob Herring <robh@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 02/13] dt-bindings: clock: Add cpg for the Renesas RZ/T2H SoC
-Date: Thu,  3 Apr 2025 23:29:04 +0200
-Message-ID: <20250403212919.1137670-3-thierry.bultel.yh@bp.renesas.com>
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v7 03/13] dt-bindings: serial: Add compatible for Renesas RZ/T2H SoC in sci
+Date: Thu,  3 Apr 2025 23:29:05 +0200
+Message-ID: <20250403212919.1137670-4-thierry.bultel.yh@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250403212919.1137670-1-thierry.bultel.yh@bp.renesas.com>
 References: <20250403212919.1137670-1-thierry.bultel.yh@bp.renesas.com>
@@ -58,175 +59,113 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document RZ/T2H (a.k.a r9a09g077) cpg-mssr (Clock Pulse Generator) binding.
+RSCI of RZ/T2H SoC (a.k.a r9a09g077), as a lot
+of similarities with SCI in other Renesas SoC like G2L, G3S, V2L;
+However, it has a different set of registers, and in addition to serial,
+this IP also supports SCIe (encoder), SmartCard, i2c and spi.
+This is why the 'renesas,sci' fallback for generic SCI does not apply for it.
 
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 ---
-Changes v6->v7:
-  - Add description for reg property
-Changes v5->v6:
-  - Set clock minItem constraint
-  - Moved additionalProperties after 'allOf' section
-Changes v4->v5:
-  - Set reg minItems and maxItems defaults at top level
+Changes v6->v7: 
+  - Moved all rsci in a separate file
+  - Added example
+Changes v5->v6: none
+Changes v4->v5: none
 Changes v3->v4:
-  - Handle maxItems and clocks names properly in schema. 
----
- .../bindings/clock/renesas,cpg-mssr.yaml      | 61 ++++++++++++++-----
- .../clock/renesas,r9a09g077-cpg-mssr.h        | 49 +++++++++++++++
- 2 files changed, 94 insertions(+), 16 deletions(-)
- create mode 100644 include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+  - Added more details in commit description about why renesas,sci 
+    does not apply.
+  - Removed uart-has-rtscts for !rzsci.
+----
+ .../bindings/serial/renesas,rsci.yaml         | 78 +++++++++++++++++++
+ 1 file changed, 78 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/serial/renesas,rsci.yaml
 
-diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-index 77ce3615c65a..483440ad0e3f 100644
---- a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-+++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-@@ -52,9 +52,15 @@ properties:
-       - renesas,r8a779f0-cpg-mssr # R-Car S4-8
-       - renesas,r8a779g0-cpg-mssr # R-Car V4H
-       - renesas,r8a779h0-cpg-mssr # R-Car V4M
-+      - renesas,r9a09g077-cpg-mssr # RZ/T2H
- 
-   reg:
--    maxItems: 1
-+    minItems: 1
-+    items:
-+      - description: base address of register block 0
-+      - description: base address of register block 1
-+    description: base addresses of clock controller. Some controllers
-+      (like r9a09g077) use two blocks instead of a single one).
- 
-   clocks:
-     minItems: 1
-@@ -63,11 +69,6 @@ properties:
-   clock-names:
-     minItems: 1
-     maxItems: 2
--    items:
--      enum:
--        - extal     # All
--        - extalr    # Most R-Car Gen3 and RZ/G2
--        - usb_extal # Most R-Car Gen2 and RZ/G1
- 
-   '#clock-cells':
-     description: |
-@@ -92,16 +93,6 @@ properties:
-       the datasheet.
-     const: 1
- 
--if:
--  not:
--    properties:
--      compatible:
--        items:
--          enum:
--            - renesas,r7s9210-cpg-mssr
--then:
--  required:
--    - '#reset-cells'
- 
- required:
-   - compatible
-@@ -111,6 +102,44 @@ required:
-   - '#clock-cells'
-   - '#power-domain-cells'
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a09g077-cpg-mssr
-+    then:
-+      properties:
-+        reg:
-+          minItems: 2
-+        clocks:
-+          minItems: 2
-+        clock-names:
-+          items:
-+            - const: extal
-+            - const: loco
-+    else:
-+      properties:
-+        reg:
-+          maxItems: 1
-+        clock-names:
-+          items:
-+            enum:
-+              - extal     # All
-+              - extalr    # Most R-Car Gen3 and RZ/G2
-+              - usb_extal # Most R-Car Gen2 and RZ/G1
-+
-+  - if:
-+      not:
-+        properties:
-+          compatible:
-+            items:
-+              enum:
-+                - renesas,r7s9210-cpg-mssr
-+    then:
-+      required:
-+        - '#reset-cells'
-+
- additionalProperties: false
- 
- examples:
-diff --git a/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h b/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
+diff --git a/Documentation/devicetree/bindings/serial/renesas,rsci.yaml b/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
 new file mode 100644
-index 000000000000..27c9cdcdf7c8
+index 000000000000..ea879db5f485
 --- /dev/null
-+++ b/include/dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h
-@@ -0,0 +1,49 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+ *
-+ * Copyright (C) 2025 Renesas Electronics Corp.
-+ */
++++ b/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
+@@ -0,0 +1,78 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/serial/renesas,rsci.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+#ifndef __DT_BINDINGS_CLOCK_RENESAS_R9A09G077_CPG_H__
-+#define __DT_BINDINGS_CLOCK_RENESAS_R9A09G077_CPG_H__
++title: Renesas RSCI Serial Communication Interface
 +
-+#include <dt-bindings/clock/renesas-cpg-mssr.h>
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++  - Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 +
-+/* R9A09G077 CPG Core Clocks */
-+#define R9A09G077_CA55C0		0
-+#define R9A09G077_CA55C1		1
-+#define R9A09G077_CA55C2		2
-+#define R9A09G077_CA55C3		3
-+#define R9A09G077_SDHIHS		4
-+#define R9A09G077_CLK_PLL1_ETH_PHY	5
-+#define R9A09G077_CLK_OSC_ETH_PHY	6
-+#define R9A09G077_CLK_ETHPHY		7
-+#define R9A09G077_PCLKAH		8
-+#define R9A09G077_PCLKAM		9
-+#define R9A09G077_PCLKAL		10
-+#define R9A09G077_CLK_SEL_ETH_PHY	11
-+#define R9A09G077_DFI			12
-+#define R9A09G077_PCLKH			13
-+#define R9A09G077_PCLKM			14
-+#define R9A09G077_PCLKL			15
-+#define R9A09G077_PCLKGPTL		16
-+#define R9A09G077_PCLKSHOST		17
-+#define R9A09G077_PCLKRTC		18
-+#define R9A09G077_USB			19
-+#define R9A09G077_SPI0			20
-+#define R9A09G077_SPI1			21
-+#define R9A09G077_SPI2			22
-+#define R9A09G077_SPI3			23
-+#define R9A09G077_ETCLKA		24
-+#define R9A09G077_ETCLKB		25
-+#define R9A09G077_ETCLKC		26
-+#define R9A09G077_ETCLKD		27
-+#define R9A09G077_ETCLKE		28
-+#define R9A09G077_ETHCLKE		29
-+#define R9A09G077_ETHCLK_EXTAL		30
-+#define R9A09G077_ETH_REFCLK		31
-+#define R9A09G077_LCDC_CLKA		32
-+#define R9A09G077_LCDC_CLKP		33
-+#define R9A09G077_CA55			34
-+#define R9A09G077_LCDC_CLKD		35
++allOf:
++  - $ref: serial.yaml#
 +
-+#endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G077_CPG_H__ */
++properties:
++  compatible:
++    const: renesas,r9a09g077-rsci      # RZ/T2H
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    items:
++      - description: Error interrupt
++      - description: Receive buffer full interrupt
++      - description: Transmit buffer empty interrupt
++      - description: Transmit end interrupt
++
++  interrupt-names:
++    items:
++      - const: eri
++      - const: rxi
++      - const: txi
++      - const: tei
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: fck # UART functional clock
++
++  power-domains:
++    maxItems: 1
++
++  uart-has-rtscts: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - power-domains
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/renesas-cpg-mssr.h>
++
++    aliases {
++        serial0 = &sci0;
++    };
++
++    sci0: serial@80005000 {
++        compatible = "renesas,r9a09g077-rsci";
++        reg = <0x80005000 0x400>;
++        interrupts = <GIC_SPI 590 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 591 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 592 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 593 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-names = "eri", "rxi", "txi", "tei";
++        clocks = <&cpg CPG_MOD 108>;
++        clock-names = "fck";
++        power-domains = <&cpg>;
++    };
 -- 
 2.43.0
 
