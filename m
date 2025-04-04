@@ -1,132 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-15384-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15385-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD17BA7B87F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 10:01:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54409A7BA2E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 11:44:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A8B0189ADF6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 08:01:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4AD92177A5E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 09:44:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5178518BBB0;
-	Fri,  4 Apr 2025 08:01:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EE9A1B3950;
+	Fri,  4 Apr 2025 09:44:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fZTAsPvO"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="mNjoFrze"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EAB2770B
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Apr 2025 08:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F711B0F17;
+	Fri,  4 Apr 2025 09:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743753660; cv=none; b=nEuA5yu10k/aXmb3wJGbKNS0rJuSs2t6Qc3h04j/ZFtNJ3fLrMCBPdgedu1tFIRPesJl+CySg8N0exsA8grXVEq3NKcrrVSp8MWU1DNt74GJsr1qjEiFA9kS0iElXIHJkW/7Bif1AKvnCs1JX27PDFksxKZLAOCU7hK2Ychw1fA=
+	t=1743759850; cv=none; b=bDbSzPw3zijrnqsNiYlMzp1DQnB4AfliaFWvHcf5xcW2jPu7MkkGtHaJNJ8MJ18gwoPLk0o1t1dJpbOmjoZYJ9G0iwjwX39pGAT49T+5juMFc5wcIb7Va4XTdsGiAvOD33lgRalWsPqx2GgvQC4BGmHKVaoyK5x247EM6+qPCX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743753660; c=relaxed/simple;
-	bh=pr0/25F8iIEDARQYcJhcKSuVvjTXR5ohp+UJj7cy7aI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=F5cEpvZk8AHlMQhmt3fAGh+ntDrTuMNQmMogmENYP7mQkspvEWo/C+FiOMrbrmKNk9GcfDrgYM0FVnUKkjYu63KecrAYuMXNKsWxeIyh5s/4+oxjRO1SpgmDh6zyJAcTpILyVaURHA6TQ96kuXuN//XY8rccBjbGL8XKlJjJ34c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fZTAsPvO; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so11621425e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Apr 2025 01:00:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743753655; x=1744358455; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yx20aOl6hxNq71ohoplbiMtIwtQJkykeNvp+f1I4+W0=;
-        b=fZTAsPvO4hdg1K/x5vi86Yyu82MnOJceQ3onai+bDz46omGtA+OCKLKnvYrhlu9OBH
-         xrkeQ0q1xgIZD+gfX71/gl+wo9eUn6N1KdiAyf4VFDQhoGIN7IV+6ELH3yibzKrmcd9o
-         NHjYQCo2Mno8VFIKdPswc/1INaCx8+02HKfE98kxMZeH0Qby5azeXuuJTXnVgTfK4VoQ
-         mKZifOTnHzQIM3tk478xfaB32CgI23WtAl3Q9kZ4DxTSUCdty+WXTphypFweNcL/9934
-         mFQj0NlqWOLUKD6lXfUd+G8U6AjqEn3DQ4aoNhCDDDllc5XzW9tQsxa2kRmR2/Qkl26s
-         u5ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743753655; x=1744358455;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yx20aOl6hxNq71ohoplbiMtIwtQJkykeNvp+f1I4+W0=;
-        b=pioUKR0HIetiZi/8qXMbtXT6Ij8xURL7r2yZiyXtPiI5iQ18gjy2JqHwWQxYp4Lewg
-         nFKcE0K1ExvxVuDoCd33/NXTkx/ivDL6obrQTmEwnUvBEEltTcKMGJ9xOsRQv7+W+h3s
-         tlJGK6RFjO19n+TRVQJTEoY2/f/RNZOIzOSxnq77O2jMaGyTrkFlLerZJqswdQeHQCJX
-         vnNJ+7n2GpK4dGopac0th9/NhMTYm0LA7/5XpslEOFTtdvaKD2qlmFexr1LHKTgefSNv
-         9lK645t3lkXRJj0/O0lXd4Nkv6V1YftCO3Nj7ev479kUE2F3GWVqoG7C0yvl20dR+gDd
-         cJaw==
-X-Gm-Message-State: AOJu0Yw9NxGuJYgCk3JLJ7NtrXidaG69eLT9FBG3L9mpOZs5ZxzZd3BA
-	3Xye9xE+p/Z6cgkkX2kvAXE5MRDamXrzVbGY5nDqMmTSzUA4MaDP/7Adn8GwwWgQUJ1EDINA53f
-	V
-X-Gm-Gg: ASbGnctU6lmDAiX8k7VpRhbwNhfd36MWfpBNYpqP+Ka1fGK3PqGYOv9ztLoWVO8LIRJ
-	wmzidnOKJRPX3+EYVoFgasf1cYbimXlLMWTHJq6q5kAk1RTRLBFNbQVxX51kFKH1slUbyOyWZe9
-	lV7FzPUlFAzpeY6L/E9O7oDsuS3TgP2zqdwST1lLh0dG09renfQka/FuVQv/lOt3wxtgjRmH9so
-	I8taOXYPcdU3OS95OKaxBAZu2PdzfjLWBafMhWA2DRU97oOvclT5KWj31PbYmvw/dFoF8qQcZ+o
-	aHjuksgxao7Poeu0hCpSsg2DAGzAEatNHhEjzuCDUkbH1hGgn69DZzvLZAQlV8UBUULyCc5FO6o
-	syKw1QpaBNtc=
-X-Google-Smtp-Source: AGHT+IH92EJqbZhbFVGJDEY6lA8Jg2sdloS5bO5Q4lOiIY+vLsPpGyrboeSaBmRz18vx/ZTSttV78A==
-X-Received: by 2002:a5d:64cd:0:b0:390:eebc:6f32 with SMTP id ffacd0b85a97d-39d1466220fmr1243506f8f.48.1743753655066;
-        Fri, 04 Apr 2025 01:00:55 -0700 (PDT)
-Received: from localhost (p200300f65f14610400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f14:6104::1b9])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ea8d2bc7fsm50496335e9.0.2025.04.04.01.00.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 01:00:54 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] MAINTAINERS: Generalize ARM/RISC-V/RENESAS ARCHITECTURE
-Date: Fri,  4 Apr 2025 10:00:43 +0200
-Message-ID: <20250404080045.367845-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1743759850; c=relaxed/simple;
+	bh=/1xoPsKQlQBWMpLcgEjKZ/hJOcJIL0rM7P/QyChG6kU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZyjSC2dE3NTpw6GpRbuEL2ON1euWWEjJKtYswTOG28SxdmgxOAueZ5WBQKvPfeEvPweiYlvyxGK5k3C5oe0ej8C22JIWesPgrH/xXZZmOeJ1wIbCmVfDcVM1NHg5c68YCTxhlUwpdR5oSeCM1VqOCGWtsHa4n5fQNKudwmXk324=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=mNjoFrze; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1743759848; x=1775295848;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/1xoPsKQlQBWMpLcgEjKZ/hJOcJIL0rM7P/QyChG6kU=;
+  b=mNjoFrzeWd8peTAG5WC9J3+Cc9JqBm8ldSXpV+imLvRQa9XccuyrirYM
+   nkYPQMBk5V71KPnKqpR8U8AiKSFq9hQv9n+oNFp23OZBX6i1G/OF5ZK5L
+   UBgiTzLC55B3GqDdIm2BY4TtZ4C4fz57sSgpgknLcAAB9+ITjauwCzBXd
+   6DLdRDeYGLV439g196KXc1L5fp9M4mkCeRNcNpQhl/vg1cj0wI6JChAa1
+   OJMeivD6LvAyKUmQxrSTOHpQIMvWWSvUbgi7yDxL5V7C39d8EbA4bM3pW
+   /KsjuJVOCRQOTRICsz1Fl9OmsYeD7k72OUGq7faC5SqEYgFNn9/VHpHUa
+   g==;
+X-CSE-ConnectionGUID: CCbOwbOjQ2SseDv2d8Zv6w==
+X-CSE-MsgGUID: TTSMcQbYQG2UnIfQGa0ggw==
+X-IronPort-AV: E=Sophos;i="6.15,187,1739862000"; 
+   d="scan'208";a="39641646"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Apr 2025 02:44:01 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Fri, 4 Apr 2025 02:43:37 -0700
+Received: from DEN-DL-M70577 (10.10.85.11) by chn-vm-ex04.mchp-main.com
+ (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
+ Transport; Fri, 4 Apr 2025 02:43:28 -0700
+Date: Fri, 4 Apr 2025 09:43:28 +0000
+From: Daniel Machon <daniel.machon@microchip.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Vincenzo Frascino
+	<vincenzo.frascino@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla
+	<sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, "Bjorn
+ Andersson" <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Viresh Kumar
+	<vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
+	<sboyd@kernel.org>, <zhouyanjie@wanyeetech.com>, Conor Dooley
+	<conor@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, "Claudiu
+ Beznea" <claudiu.beznea@tuxon.dev>, Steen Hegelund
+	<Steen.Hegelund@microchip.com>, <UNGLinuxDriver@microchip.com>, Shawn Guo
+	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-arm-msm@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+	<imx@lists.linux.dev>, <linux-rockchip@lists.infradead.org>,
+	<linux-amlogic@lists.infradead.org>, <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 04/19] arm64: dts: microchip: sparx5: Fix CPU node
+ "enable-method" property dependencies
+Message-ID: <20250404094328.cojaf5cxrotnetln@DEN-DL-M70577>
+References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
+ <20250403-dt-cpu-schema-v1-4-076be7171a85@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1057; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=pr0/25F8iIEDARQYcJhcKSuVvjTXR5ohp+UJj7cy7aI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBn75GtwXL7vChmr7X6CN1PdBtkkIelvq/R+QaBy PKUstjArYaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZ++RrQAKCRCPgPtYfRL+ TiZOCAC7TV74Eg4xchbUyT6fdfyvJy2FDymVP9icFTyJ0jdpcJeSeJiIeLIDmV0rG67gfwtS4jl k75rfRgnth5JJ8AQb/OIibPdiAOY85um9QdLl169kEc6ZJidQQmIyHFa7xeqLm/MwsjWhfG2EiC y/ejXE/CGin2/ph+Y/VbGldTKy8XsCEfFJ3EQYN97dX8oU0rPlLO94BDt+lgTG40bMwGStsO/j2 XhCDSbp6LmgZswLYwXx6bShCkWZPEQAW6CofoDOukTsIjz5NmG46Oe0bR1yQ+WJbT9mcfyN5Cs8 dunLewUFiXcnCJW4AiIaH+IMAJnuSbvmxhSGFTyt00rsnpFd
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250403-dt-cpu-schema-v1-4-076be7171a85@kernel.org>
 
-Triggered by noticing that the pwm-rcar driver isn't covered by the
-Renesas maintainer entry, add this driver to it. Instead of adding it
-explicitly, just add a file regex for "rcar" (and drop the one entry
-that gets redundant by that).
+> The "spin-table" enable-method requires "cpu-release-addr" property,
+> so add a dummy entry. It is assumed the bootloader will fill in the
+> correct values.
+> 
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  arch/arm64/boot/dts/microchip/sparx5_pcb_common.dtsi | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/microchip/sparx5_pcb_common.dtsi b/arch/arm64/boot/dts/microchip/sparx5_pcb_common.dtsi
+> index 32bb76b3202a..83bf5c81b5f7 100644
+> --- a/arch/arm64/boot/dts/microchip/sparx5_pcb_common.dtsi
+> +++ b/arch/arm64/boot/dts/microchip/sparx5_pcb_common.dtsi
+> @@ -12,10 +12,12 @@ &psci {
+> 
+>  &cpu0 {
+>         enable-method = "spin-table";
+> +       cpu-release-addr = /bits/ 64 <0>;
+>  };
+> 
+>  &cpu1 {
+>         enable-method = "spin-table";
+> +       cpu-release-addr = /bits/ 64 <0>;
+>  };
+> 
+>  &uart0 {
+> 
+> --
+> 2.47.2
+>
 
-Looking at the output of
-
-	$ git ls-files | grep rcar
-
-only shows files related to that architecture, so no X: line is
-currently needed.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4cc3cfd35665..77155718a9e9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3061,10 +3061,10 @@ F:	arch/arm/include/debug/renesas-scif.S
- F:	arch/arm/mach-shmobile/
- F:	arch/arm64/boot/dts/renesas/
- F:	arch/riscv/boot/dts/renesas/
--F:	drivers/nvmem/rcar-efuse.c
- F:	drivers/pmdomain/renesas/
- F:	drivers/soc/renesas/
- F:	include/linux/soc/renesas/
-+N:	rcar
- K:	\brenesas,
+Reviewed-by: Daniel Machon <daniel.machon@microchip.com>
+Tested-by: Daniel Machon <daniel.machon@microchip.com>
  
- ARM/RISCPC ARCHITECTURE
-
-base-commit: a2cc6ff5ec8f91bc463fd3b0c26b61166a07eb11
--- 
-2.47.2
-
 
