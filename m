@@ -1,46 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-15360-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15361-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C8AA7B35C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 02:16:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB4DA7B396
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 02:22:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3AE1D3B7DD2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 00:15:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 66DB3189C9F7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 00:21:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E1171F4E57;
-	Fri,  4 Apr 2025 00:05:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB40A1FECD7;
+	Fri,  4 Apr 2025 00:06:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rzPf8vrW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VUR6Jv/s"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49061F4E48;
-	Fri,  4 Apr 2025 00:05:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D21C1FECC5;
+	Fri,  4 Apr 2025 00:06:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743725147; cv=none; b=AXwI7N/1qaHivpurirks3vLDPIDgC90e5FbNpbP68efgGmXNzGnQllHDbuB1Up0HRuG39jE3kyG6csLNZwqmUyaS5uunAA2hpAQse8OwIUACmfGy02KAmyjucuB2u4EoXwGyTuQ47t6VR0BMxj1FupyYxjqMPbQG9b2/Rs9yD4o=
+	t=1743725189; cv=none; b=VzlcBCUQmMsm+OpGx1PDg45IDZQaf1+iRweJ31SVjDYHafBybEOwALIEA3+3VC8b/iU7Srvz/m+dnjbjV6W2QNou+UZxn43eTaicB3YbRhb/AanID4qHEEpNkPErB18dQWG+OpoC424FCW7rNSiwlVuJXizysHSaz8/ksE8LRIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743725147; c=relaxed/simple;
-	bh=OZJ8hheOS8Ry/K/+nWGhn/y10IT0LzxBcz3eLA7JdZA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qgB/y3+hjHqHu/p2NbJu0WW4i/3Gqz5HgE6UIaRhwHmMkX5eMKHr8fhtMKbE4hfM4cd7Ie2KH9JBiHBq51sgtqRRepsQkCACVEwDboj0AGifZhlB1B2/vVH/5aXAyfW75IMpOZsfxjp2nijN0h1XbGr7Iesu/oxd+K8DCMOs2Xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rzPf8vrW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFE99C4CEEE;
-	Fri,  4 Apr 2025 00:05:46 +0000 (UTC)
+	s=arc-20240116; t=1743725189; c=relaxed/simple;
+	bh=19jQvQglCIX7UmwId0AixsHqVkVtQvrZZ4ovahq2e2o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VC28VZRDfk+p7MFvJ186KFMNGC5+PphJ9v5+lWhKiAeRNtjdAli3xBscCLVRQSEjeosmaR02f+cS4xNTRL/6+lnUdd78GZUU7FPFUAsMLWHi6tTHJZwgHukXLozOTXQPzohrPQgQt/nW8zmG46TduiJUXuZjyfCxRfbcr6lcnU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VUR6Jv/s; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52E87C4CEE3;
+	Fri,  4 Apr 2025 00:06:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743725147;
-	bh=OZJ8hheOS8Ry/K/+nWGhn/y10IT0LzxBcz3eLA7JdZA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rzPf8vrWiFfNqMm92UAgpFDALaE4EMejz1gIfZ1IGk/C1q/6dMxu2BRDaI8otPIaz
-	 ikq9uoFpNQuE2Nl1Lueb5g3p7h45I79HDD8lG0YLwux1m+MEdCDms+yzi1mR9Bi7T9
-	 hklWvQ1e1FPou62SZLlLywAtI1Z/cwh57MaBf1L3uMhwia1soD4C9j+I8s4ewTk7B6
-	 6JKDMYER0Iu+vZqeupVywIEGKuex90DG3esxHd3iw+FLJWawKJSYTVmr+TRVDQyF5P
-	 fnNoDuxohMVm8wMAgonDy1Uk0+XE5alrCARTFZZicC40Us20fPWv90Ou4/AeR3SreC
-	 TDDloR/Bg8lXQ==
+	s=k20201202; t=1743725189;
+	bh=19jQvQglCIX7UmwId0AixsHqVkVtQvrZZ4ovahq2e2o=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VUR6Jv/sQavniKmERGSfDzAEElT/t2k2R6tvGmBTFflE/PNxtMEjmt+Rs5a7wxkvA
+	 xycJrKa9f73PreTmXQxx0YBwlaRllkiVK07PXy1+4GXk4/MTHkM47S1eq/qNDC+8xo
+	 GHWJ9wUMxGPv8MZHvAdvg/lGXErg5ZertVFDj5ggh4VQ/aGGpBWjNxqUYN1TfPWrvg
+	 aQ1Wg14RxpC2nxEgl3tVJK4VhG8gM8nBRtO/bxvLO501I7B5MwUI1Pb/I05lorwFMh
+	 y1rLCyApK2q/Tv2q4Jpcz+yk4TwA4fBjKQQSQgXd6TuT1lPb7Kw1f6VW04bAY3MRuO
+	 yy0gy675zR72g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -51,12 +50,10 @@ Cc: Chenyuan Yang <chenyuan0y@gmail.com>,
 	linus.walleij@linaro.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-gpio@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 02/20] pinctrl: renesas: rza2: Fix potential NULL pointer dereference
-Date: Thu,  3 Apr 2025 20:05:22 -0400
-Message-Id: <20250404000541.2688670-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 01/16] pinctrl: renesas: rza2: Fix potential NULL pointer dereference
+Date: Thu,  3 Apr 2025 20:06:09 -0400
+Message-Id: <20250404000624.2688940-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250404000541.2688670-1-sashal@kernel.org>
-References: <20250404000541.2688670-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,7 +62,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.21
+X-stable-base: Linux 6.6.85
 Content-Transfer-Encoding: 8bit
 
 From: Chenyuan Yang <chenyuan0y@gmail.com>
@@ -86,7 +83,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/pinctrl/renesas/pinctrl-rza2.c b/drivers/pinctrl/renesas/pinctrl-rza2.c
-index af689d7c117f3..4b94c8b917d0e 100644
+index 990b96d459671..c5dc63d9bd3fc 100644
 --- a/drivers/pinctrl/renesas/pinctrl-rza2.c
 +++ b/drivers/pinctrl/renesas/pinctrl-rza2.c
 @@ -243,6 +243,9 @@ static int rza2_gpio_register(struct rza2_pinctrl_priv *priv)
