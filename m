@@ -1,168 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-15414-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17DE8A7C514
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 22:42:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5289CA7C534
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 22:57:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E030E3B325D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 20:42:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A3B66189FD7A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 20:57:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46F2421E0BD;
-	Fri,  4 Apr 2025 20:42:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B130F634;
+	Fri,  4 Apr 2025 20:57:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UsllvDr7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SLxE48oR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDC72E62C1
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Apr 2025 20:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D468719F101
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Apr 2025 20:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743799345; cv=none; b=O99Pk130d5NvYB/ebG0ofYDdqaC8pMW+xjvAkqo8VodCsE6wEbGr3n2fZ6ZZk+IJ2e9sDdxKiX55ty3tGcaTljteNr1SsAZvfL1Nz5x01f5qbJsLH6U1H7DDImPNqR2sS65sDNUlDnexfY9tM87e3r68PKiIehPj0lz97gTNc4o=
+	t=1743800241; cv=none; b=UVTEuPPNbAHaKRpS+E1kRT8M2kaK4GpwBNGAkZw+kb5ByzlsZGjFxTNoKnjiX/OkMe90epWO6s24l67ardMgODO9ekRx4CBU5RKXjWxbAPghyUx7dxIqkycPcCMG7hSHel/oYHjE7A0hR0miyXMFsdyGIGQAy5fMRD4RGMfLTq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743799345; c=relaxed/simple;
-	bh=p6LZnYfwuVevib83X2fj2dIlaEtzYIiTJ1wKXc6z23U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q7z5W+PoVT4iJtLaaj2vCjLvMyf/D/F71oE1TA0eXYBoEd/el+zRhRHlEm+2RN38/pS6Kz19cqCkuqkZCb/TvAMz0ahpyzOkl7xtK7ghSiwiFjNoisNjZJ3VeqgfdoAaW6rQcqV8DswQmC7K8M2G5DYiHWjWWv+PXs7sqV5Yg4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UsllvDr7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 534JEa1E000550
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 4 Apr 2025 20:42:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Dvhmq4YEot5WzH3QxroXInz9L/fpcl+l6rHMMX3PtHk=; b=UsllvDr7X0dVrVbg
-	KZrNk15XTlIpsHlSLRUHo1Rjd3mfVeLUdGKHjVPPT5oOtoD+m/7gYsxr82zV892q
-	b7DDA2z8RHrrKZPaefDEmcOzeLnzA/lFvL5E+X69QLvc+QhNryoD3SpGeyVat7A0
-	l7g8KWHIdbS8b8uQKBh4BbQqAUDVJHYqq5HvXdC6gjCVWJ9VCosCJBQDi43vBsmH
-	GoBGnTtv+L6v4/5iXkHEKdSOpElOzwzfnUz/k8AoMoGiD4+1akr5kALv4pZKHFDM
-	PDQPTTo607hZqu+RzrP4NeG19lbnkHE5lUaymOg4HAIwKg/Z1ceaJG4sp9s4dZoX
-	29V1lQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45t2d8av67-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Apr 2025 20:42:23 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4768b27fef3so3304951cf.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Apr 2025 13:42:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743799342; x=1744404142;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dvhmq4YEot5WzH3QxroXInz9L/fpcl+l6rHMMX3PtHk=;
-        b=jQkKcZggBROShsBTK7RWU75xSU9W+ikJCXRvHB1bJ3q/9JFZew9vETXjTgJ06DlapO
-         GHQzUnTudyr+irPryGi2I1SivoaX3FzmFOHmcqUoOMPdJsHCy1IhEOl1cWHlioMFuEFU
-         TBYcS9NFs5t03BPtdKDcvclKCJfb5yp83AuSSsF9kCi0UDzI+6p/pVi9t+3w47/mqjLH
-         dhhXeN07EBDrEqIgfRIAjKpYXfOkAHbf/f4F0NgYNm1OA6qj7DPAlDBf1/6K6dKRX3kg
-         qqoXDndarFqI9cuCFtiyOa8HGXrFjfK4IuqTKW7FZGepFAyOiOw38IveXfEGfvS1U5eg
-         RhmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW2Ny4+gAPih4pUck1vi0b7EkX5yZw5olorTsnyHzKwDSiq7Vlqhb1YNlV/zzR50sX4pwKKmzm48L0mrzzbhVbHlg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLPtJZ1Zj29zhHJ7XoOaJm1zaWJrdnypXK5tnui4BKCIcXIIg8
-	gxaSomk9951s+Kgja8a4SSvG8UQIFUov0SULsdN4gSxnF5HTFOnzRTVzEt/Mookr/dwIvoJomO5
-	SAVKekpM8Iz3DWN+a2Wo2ppFsQkguVjCrGjuJjggkQ66lIfYAQ2TCXGH6lFvTa/p37ugtQA==
-X-Gm-Gg: ASbGncseC6A/4QWHGfC7+ogpUvXrGdiikEgXJneE5jqBSbSpRxQCD/1oi85XAVd21EF
-	uz8B9E0OVK3YWJQOzV81BPX/0q4fNA7lIU6tcyHPi+O7JtJDzo3zbqmIy6NBJygMe4AkzoNqzlM
-	y+BAykMJYuz7NotdUPvrchEM8WqODBGEKOgm4GK1m/TDS/0t262oQe6eV98P9xP0waQPnBXszv1
-	wqoeiJShiN6Rm8hzVsgCV2EoUuaQXc3Pr0N3lq0OFEJQZmQ+cmhyv2f5wePXDj1rn1hiX6ZJXHV
-	iL1z4i/qfjoAA+lfWJrijmHPyCURuLvoGwNuJbiOEk9LwjWgjFKsW5vXA+Nu1QDh6mLmHw==
-X-Received: by 2002:a05:620a:2890:b0:7c5:c5cd:7599 with SMTP id af79cd13be357-7c774d0f248mr242293685a.3.1743799341826;
-        Fri, 04 Apr 2025 13:42:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE+SWzK4xJTznItCy4yyRIatUgCtVJCf8ZO8c+GM8oZYtvMasi6TSfEl5lIgHq+ml10q5QRWA==
-X-Received: by 2002:a05:620a:2890:b0:7c5:c5cd:7599 with SMTP id af79cd13be357-7c774d0f248mr242292385a.3.1743799341449;
-        Fri, 04 Apr 2025 13:42:21 -0700 (PDT)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7bfe5d442sm310126866b.26.2025.04.04.13.42.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Apr 2025 13:42:20 -0700 (PDT)
-Message-ID: <beb1e6a1-8fdf-451c-9c48-bb3abff89226@oss.qualcomm.com>
-Date: Fri, 4 Apr 2025 22:42:15 +0200
+	s=arc-20240116; t=1743800241; c=relaxed/simple;
+	bh=lfBNSrzdcxYPFhDVAgarg3j1GZbxKyb7ggiykvGJVQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DEGaWHmEr9pmEoCztcdYM5qY3brE5qnc1RVf2s6gD9pC+35tDpWmAy4YdrWERXLXNBjUKF9+0rU9cdcWk5MeJBAEZXSuE9NlP2rREC5fwa6RDp+panvkgKef6ehLWReszBM0AyBqgDZDhM5q+P8S98kuhZgYhCN3Uay0EB0UjEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SLxE48oR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C652316;
+	Fri,  4 Apr 2025 22:55:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1743800116;
+	bh=lfBNSrzdcxYPFhDVAgarg3j1GZbxKyb7ggiykvGJVQc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SLxE48oRyOWTL01g7k7qW72paTy1FpzjsNKm92B5mEiQWGPPP4yfMCIOyxWKVgQFT
+	 pG/FdnsyOufcUBi3T2s2CoGBCdCjX4nGucEFPQi95ZBYc2PMbRsKiY3bnXIzKnClii
+	 A3YVXj6OQVms8bBgDQpFOGW7CV29Zgfw+QHK3mfU=
+Date: Fri, 4 Apr 2025 23:56:45 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH] drm: renesas: Add zpos, alpha and blend properties to
+ RZ/G2L DU
+Message-ID: <20250404205645.GO4845@pendragon.ideasonboard.com>
+References: <20250404133047.172080-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/19] arm: dts: qcom: ipq4019: Drop redundant CPU
- "clock-latency"
-To: "Rob Herring (Arm)" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Rafael J. Wysocki"
- <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-        Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
-        Conor Dooley <conor@kernel.org>,
-        Nicolas Ferre
- <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        UNGLinuxDriver@microchip.com, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org,
-        imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
- <20250403-dt-cpu-schema-v1-11-076be7171a85@kernel.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250403-dt-cpu-schema-v1-11-076be7171a85@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=PqmTbxM3 c=1 sm=1 tr=0 ts=67f0442f cx=c_pps a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=EKXQiu_l0foPX_vtw34A:9 a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-ORIG-GUID: jT_Z5i2oOgBCuqwLEkIcQj1ha6FJabwH
-X-Proofpoint-GUID: jT_Z5i2oOgBCuqwLEkIcQj1ha6FJabwH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-04_09,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 impostorscore=0 mlxlogscore=751 mlxscore=0
- clxscore=1015 suspectscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
- malwarescore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504040141
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250404133047.172080-1-biju.das.jz@bp.renesas.com>
 
-On 4/4/25 4:59 AM, Rob Herring (Arm) wrote:
-> The "clock-latency" property is part of the deprecated opp-v1 binding
-> and is redundant if the opp-v2 table has equal or larger values in any
-> "clock-latency-ns". The OPP table has values of 256000, so it can be
-> removed.
+Hi Biju,
+
+Thank you for the patch.
+
+On Fri, Apr 04, 2025 at 02:30:45PM +0100, Biju Das wrote:
+> Add support for zpos, alpha and blend properties to RZ/G2L DU
+> driver as the IP supports all these properties.
 > 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> It is tested by the below modetest commands:
+> 
+> modetest -M rzg2l-du -s 44@42:1920x1080@AR24 -d -P \
+> 37@42:512x300+200+200@XR15
+> 
+> modetest -M rzg2l-du -w {32,37}:alpha:{0,65535}
+> modetest -M rzg2l-du -w {32,37}:zpos:{0,1}
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+> index 8643ff2eec46..040d4e4aff00 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+> @@ -340,6 +340,15 @@ int rzg2l_du_vsp_init(struct rzg2l_du_vsp *vsp, struct device_node *np,
+>  
+>  		drm_plane_helper_add(&plane->plane,
+>  				     &rzg2l_du_vsp_plane_helper_funcs);
+> +
+> +		drm_plane_create_alpha_property(&plane->plane);
+> +		drm_plane_create_zpos_property(&plane->plane, i, 0,
+> +					       num_planes - 1);
+> +
+> +		drm_plane_create_blend_mode_property(&plane->plane,
+> +					BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+> +					BIT(DRM_MODE_BLEND_PREMULTI) |
+> +					BIT(DRM_MODE_BLEND_COVERAGE));
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+It's interesting that the driver already handles the alpha, zpos and
+blend mode properties set in the state, but doesn't expose those
+properties to userspace.
 
-Konrad
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+>  	}
+>  
+>  	return 0;
+
+-- 
+Regards,
+
+Laurent Pinchart
 
