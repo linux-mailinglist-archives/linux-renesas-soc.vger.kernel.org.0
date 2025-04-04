@@ -1,85 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-15386-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15387-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD91A7BAE2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 12:33:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D105A7BB0D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 12:38:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8C2F47A420D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 10:31:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78A1D189F12B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Apr 2025 10:37:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72C8A1DF73D;
-	Fri,  4 Apr 2025 10:31:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D6F51D959B;
+	Fri,  4 Apr 2025 10:37:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m/4st2RZ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iwXkQ3H7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1681C6FF0
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Apr 2025 10:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1ECB1D7E54
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Apr 2025 10:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743762710; cv=none; b=jJ0JZO3kpTqLttJRt6yMHkPN7kH4y84dU1b3DSZOB3kqahnTYlwbPuLA004snSvruKsjiSMp/L//4M6a6Od2lSmS443grmuz9aIiD/X6OxdkWYFw5D3HiNj1ttgdZbdNvl80b/fsefEClzonJkDFhOUM5Dq7CeEKzt5ndOuZxUw=
+	t=1743763033; cv=none; b=iHbL+kIb8GYfTU2UTGizb2UpTrvm4gEys+msykhUQIFB4UgnvyiLfqXJQpyCe4HJfwfTmTse5LTevc1N63My+u3Lkz7WnNUJS0hMNPFnKzQQIQQCeRXVQtJzkuMZ/sXZbMI4QJo3EYGuV2LLb3GufRbaNYcvlnWNDEgPDQd5tUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743762710; c=relaxed/simple;
-	bh=puo0zeWGfg/XrDDKhEtVrd4WcWPM6KhzepuNu4U2cy4=;
+	s=arc-20240116; t=1743763033; c=relaxed/simple;
+	bh=XpFbSVqvEDgZgwyFUE/9ri5Zlpd76Q27/crMcE9fE2c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RMukXNDxuFQN7FnsScdIqYh1a0vOfW8Sbl1BEYFJ2JLo68rpITQinUQSybDhk0vBoyoYYoqIXmy40SCaQmEDQrRtsU14BW5qLKdvpBnHvhlXK/M5XYf7rc0xezfA2agvSNbQU2TvAQECA8CkmOk3nk6sFzmdW7dshHPpWodlvYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m/4st2RZ; arc=none smtp.client-ip=209.85.128.178
+	 To:Cc:Content-Type; b=HSZh51E3QeIxy2LWrQqzmpuZxS4GVUzsQtfKINxT9NfzTFLDAx7Tc75/BquvipzXubEQznoIHEpBpAVqk0e01lBcYc4TKY1fRhvj5uMpHHOnICvlmIDB/cREHLje8DEI4fRXIYZfDELEmVZnR6/WNbnFzNADoY3MZxKfotn6MHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iwXkQ3H7; arc=none smtp.client-ip=209.85.128.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7023843e467so18635827b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Apr 2025 03:31:47 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6feab7c5f96so18625787b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Apr 2025 03:37:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743762707; x=1744367507; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1743763030; x=1744367830; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=p2d7X4LZ95qskY0j6wRpuQmYie6Gy7m1icDTnjrkreI=;
-        b=m/4st2RZ1mYZE75yFAAubk3/IIDJ6JIabR/ozRM8VS8xImfsqQIuAVxlGtQU97pD/N
-         at9MecDkuLyDTFBTc/GnSfKatPHJXGGwPdSlb62nm79r/vCFoKJhws0GY0YYQdx6I9do
-         yc7ttS8xCmP/SM5eAR8IoV5v4lD5mxYS74ErF7dLTE1RcqS4ijiM5nZ1nrMGuJO+cmiB
-         7mnsRQRQDIFoc6BZxTFQAwLXf+0JHDocNLZKYAci5Rki3RGyrtWdNLmNjsNCdXAniL6Y
-         iHoJNl2txeZVsiBZJY783GrBNnFFFqE3lVM/e4l3QrhuC5MYIOWYY2fi4NrLLRA+Jcwo
-         aLeA==
+        bh=s85N6LbGyDvlbfm+7fjpbjUdhdaXcYheIAW+0EJPQoQ=;
+        b=iwXkQ3H7cVoSJCZqlnhIONUL/03XXTbrr+Z50cvIfpa5goqD+dL19peRpLIJhs89fc
+         iBAlQAnKWJ0DJQFs60qUVYIwQmrNtSIxPyyjmA+46KbXa3kmI28eROkylKIEnkLxkLtw
+         vx3Cw3g89qivoeNk+fzbZkUdwPv+Ocqh3iKp6Poyt3WvNjCgrKju9TXz92a3249xoArE
+         itzj8T6ReL7mzZdvsKeAw9iwD6nO3RfzLO1ysd4Taz3l+i0828EIc8S8JU14nejzPlV5
+         vvw3xiwdWhXb/GNHawsTO03PEN2bN3bM76OaYLj9DU26BC8RuJ6gXycZ7lNO3ibIvPm1
+         75FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743762707; x=1744367507;
+        d=1e100.net; s=20230601; t=1743763030; x=1744367830;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=p2d7X4LZ95qskY0j6wRpuQmYie6Gy7m1icDTnjrkreI=;
-        b=XZWtj+o98oO0Z88Qns6l6XrRM1MgibzkobVZqvEAehvRVNkZ2CIoquuU8UECT9NzEZ
-         9JrNwDmj5qoPQNLijhv3fsyqbs7RTnd76q3bAVFLMsQso2t9dBoHDzHy9spVgdoRgoYn
-         qj/JFrQMwKlIezvNhwhB8b8++XoeO0m1XQs2Reb+vA5cgD22lNjA+ITKhKm9wrDad/6f
-         uQx3s0C6BLBlh5SWgmAN3pUyWAOkUjfyVCTjQ0YLTGpNfC8OC4gUPqpJIXCXNAXofHM3
-         5nDQR0ele9c1WBSLHAzwACWHi3kljuTx0hA3UV/+UGrGDn2oRu/kJ6ilzSQBx/1vCLAB
-         Wdig==
-X-Forwarded-Encrypted: i=1; AJvYcCUdnyu/t3xbRYan9yA0yQs0xStU8UUfJBAGa5aVJV1A7wVmFzjwRsq+a7AVObLZ1qMrRv4pHgSnftgYe7v1C3IAog==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRh4xgpne2C9u/MvBV3QA9zCk0sncRYuumCPvigJM7+//KvavO
-	6+Aio6bQEHU4PdrCztPZ2Tu0NMWPTeyJ8tiVr6FEJVCR3iQ59DZ5fBe4OV8obGxyaZBsBdBj/S7
-	FmJsrQchyMTIbuqNSlz2AKdn2JNfBztS8sNqZNQ==
-X-Gm-Gg: ASbGnctuR0gMj2nQ2pkLo18EzEvJs6F20Eo015nzgSnWNgQqyK3B2X3Q7EYpzfoAau3
-	hJ7ePVOIOSJZTLXSNIe/TQezBjijk6tQtA0igNx6i6hlJsif9pHwSD4obrkcC0whWEod9QsPB5a
-	WXKkj3Elw/cmK48KnG/NbW//w7FKqjdY8TiFrt1g==
-X-Google-Smtp-Source: AGHT+IHL6tNiMt83fP/8QoVhxPRtZTRBqTJ/Cw9tCME3kjDGJ0WhVAtLf3L7QrkxkDkyR8ahdAf3HNvn/ambJdKtSJE=
-X-Received: by 2002:a05:690c:9a0d:b0:702:d85:5347 with SMTP id
- 00721157ae682-703e16473e9mr44558927b3.36.1743762706998; Fri, 04 Apr 2025
- 03:31:46 -0700 (PDT)
+        bh=s85N6LbGyDvlbfm+7fjpbjUdhdaXcYheIAW+0EJPQoQ=;
+        b=O3LQIrwvN+qSAg6fwwkhEY3AamnLJMd/scEf5KTjOegTwImyp8GVTJ4e68WVHU8pF+
+         ji9J2rSgFnIdwvrzOYk8SEmIDHxZdvAcQdmJ70t77EslPW4QVFB8fuzEbHPY8nXlV9X0
+         wwhcTjkWt8bW1tmG/Gw/fy1BelAqre8kLS4xvfDegAFyzKNDYvrOJad9xykQkJiJqASw
+         t/41feOFq94gW+dhtwu21PbRlpSu0PugpOKO+/MF9g4ggeHTYog/zmHRvOZXfJNqIhMr
+         0TLvrA/iP8eB1RkKBGHh7dOSeG4ORcrvs/BfyDtPgfQmD/nSrD2pIaQX40la015G8Tiq
+         xAMg==
+X-Forwarded-Encrypted: i=1; AJvYcCXuN+nSOhQtPp8FxlZabuzBxdZDLpMEYrVf0c3da4qMRHKiIjRBBS+ThpMdWNCQNDlH+KgUEsFuhuA3IwbG+Ib85Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8y8Lb0xDHENSRmO/9ARE7b+SMv4kEgZmx+GwFgUhGYF/CSWMg
+	iygRabX392A8WNPuRi1Px6hTsRk7djtq1ncNvinawR96qQ42ZA3jtlv1kgsFfkODGae46cMQUoI
+	yui73+8I7Jx9Oc02Uf8oYyU0jz0k7cO8U5u7kRw==
+X-Gm-Gg: ASbGncsxJ0UZWJ7wAQV5TaTgfTnoHymtMc+xlivNeD7t3PY5GpFu4vHtBV8n0hFs2qM
+	0TG/MF/1oI0TEsL0UTwfNoqd+KjPWG/NMcb1liSUQ6U4Jlybm9xBUnfmHYFACd2+0MZzu+0klv4
+	CNqQfoJRE/n0tTKmSmQBqSmM+h8dI=
+X-Google-Smtp-Source: AGHT+IGuuSb2kyra+w2zQGcM5KZ+95CLnIjAJJ+ZAGPbM9ApbFO7sbm4a8zwJjSrMRu7/2gU0ViAtYbSOKTRdRXJ4YY=
+X-Received: by 2002:a05:690c:4c11:b0:702:5689:356e with SMTP id
+ 00721157ae682-703e1546003mr46207307b3.12.1743763029893; Fri, 04 Apr 2025
+ 03:37:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org> <20250403-dt-cpu-schema-v1-9-076be7171a85@kernel.org>
-In-Reply-To: <20250403-dt-cpu-schema-v1-9-076be7171a85@kernel.org>
+References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org> <20250403-dt-cpu-schema-v1-18-076be7171a85@kernel.org>
+In-Reply-To: <20250403-dt-cpu-schema-v1-18-076be7171a85@kernel.org>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 4 Apr 2025 12:30:59 +0200
-X-Gm-Features: AQ5f1JoO4h1zt0Jv8N6Q3VB80QU6oNypKSnO1edlCmwT1znvOfAf3BOWzm_IC6U
-Message-ID: <CAPDyKFoEEp8AZ7aJ8-wwp8=n+T4gbij15oYaCNhF1Bd-E1nMbg@mail.gmail.com>
-Subject: Re: [PATCH 09/19] arm: dts: qcom: sdx55/sdx65: Fix CPU power-domain-names
+Date: Fri, 4 Apr 2025 12:36:33 +0200
+X-Gm-Features: AQ5f1JqCiMQtdQdQn1tCIXwltI0szojsJGdKxwputYjFQK19pJwwJrC7p_ihypo
+Message-ID: <CAPDyKFrFRrPVJ_t0JrAE1VTbS02hwr=L-EHtqb7CQiWzB1MnQg@mail.gmail.com>
+Subject: Re: [PATCH 18/19] dt-bindings: arm/cpus: Add power-domains constraints
 To: "Rob Herring (Arm)" <robh@kernel.org>
 Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -108,66 +108,55 @@ Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 4 Apr 2025 at 05:02, Rob Herring (Arm) <robh@kernel.org> wrote:
+On Fri, 4 Apr 2025 at 05:06, Rob Herring (Arm) <robh@kernel.org> wrote:
 >
-> "rpmhpd" is not documented nor used anywhere. As the enable-method is
-> "psci" use "psci" for the power-domain name.
+> The "power-domains" and "power-domains-names" properties are missing any
+> constraints. Add the constraints and drop the generic descriptions.
 >
 > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 > ---
->  arch/arm/boot/dts/qcom/qcom-sdx55.dtsi | 2 +-
->  arch/arm/boot/dts/qcom/qcom-sdx65.dtsi | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/devicetree/bindings/arm/cpus.yaml | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >
-> diff --git a/arch/arm/boot/dts/qcom/qcom-sdx55.dtsi b/arch/arm/boot/dts/qcom/qcom-sdx55.dtsi
-> index 39530eb580ea..64d9858b4248 100644
-> --- a/arch/arm/boot/dts/qcom/qcom-sdx55.dtsi
-> +++ b/arch/arm/boot/dts/qcom/qcom-sdx55.dtsi
-> @@ -57,7 +57,7 @@ cpu0: cpu@0 {
->                         enable-method = "psci";
->                         clocks = <&apcs>;
->                         power-domains = <&rpmhpd SDX55_CX>;
-> -                       power-domain-names = "rpmhpd";
-> +                       power-domain-names = "psci";
+> diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
+> index 6f74ebfd38df..5bd5822db8af 100644
+> --- a/Documentation/devicetree/bindings/arm/cpus.yaml
+> +++ b/Documentation/devicetree/bindings/arm/cpus.yaml
+> @@ -313,19 +313,15 @@ properties:
+>      maxItems: 1
+>
+>    power-domains:
+> -    description:
+> -      List of phandles and PM domain specifiers, as defined by bindings of the
+> -      PM domain provider (see also ../power_domain.txt).
+> +    maxItems: 1
 
-As I understand it, this isn't for cpu-power-mgmt but for
-cpu-performance-scaling.
+There are more than one in some cases. The most is probably three, I think.
 
-I have been thinking of adding a common power-domain-name for this,
-but never reached to do it. I think the last one we added was the
-Airoha SoC [1] which uses "perf", which seems to be the most common
-one. Still I don't see that being documented.
-
->                         operating-points-v2 = <&cpu_opp_table>;
->                 };
->         };
-> diff --git a/arch/arm/boot/dts/qcom/qcom-sdx65.dtsi b/arch/arm/boot/dts/qcom/qcom-sdx65.dtsi
-> index 6b23ee676c9e..bfd04e53c5a8 100644
-> --- a/arch/arm/boot/dts/qcom/qcom-sdx65.dtsi
-> +++ b/arch/arm/boot/dts/qcom/qcom-sdx65.dtsi
-> @@ -58,7 +58,7 @@ cpu0: cpu@0 {
->                         enable-method = "psci";
->                         clocks = <&apcs>;
->                         power-domains = <&rpmhpd SDX65_CX_AO>;
-> -                       power-domain-names = "rpmhpd";
-> +                       power-domain-names = "psci";
-
-Ditto.
-
->                         operating-points-v2 = <&cpu_opp_table>;
->                 };
->         };
+>
+>    power-domain-names:
+>      description:
+> -      A list of power domain name strings sorted in the same order as the
+> -      power-domains property.
+> -
+>        For PSCI based platforms, the name corresponding to the index of the PSCI
+>        PM domain provider, must be "psci". For SCMI based platforms, the name
+>        corresponding to the index of an SCMI performance domain provider, must be
+>        "perf".
+> +    enum: [ psci, perf, cpr ]
+>
+>    resets:
+>      maxItems: 1
 >
 > --
 > 2.47.2
 >
 >
 
+Other than above, feel free to add:
+
+Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+
 Kind regards
 Uffe
-
-[1]
-drivers/cpufreq/airoha-cpufreq.c
-Documentation/devicetree/bindings/cpufreq/airoha,en7581-cpufreq.yaml
-drivers/pmdomain/mediatek/airoha-cpu-pmdomain.c
 
