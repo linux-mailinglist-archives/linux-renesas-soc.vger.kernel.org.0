@@ -1,156 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-15494-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254CAA7E5F6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 18:17:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A97A7E5F1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 18:16:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE8DA17C7E4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 16:08:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DF3D4451D6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 16:08:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10BA5209F33;
-	Mon,  7 Apr 2025 16:05:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7433209F4D;
+	Mon,  7 Apr 2025 16:05:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qNNEfvCJ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mDrUICLP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67376154C00
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Apr 2025 16:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4AB20CCC4
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Apr 2025 16:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744041927; cv=none; b=oUYHcqrey3lpsiI6OxiDxefn8wZzDJlOC72Jmcz3e+5vGH554s5lK2XUTYgrMRaO3JNqiX+BSuvTaCcfqP1BnttDwe7ndFCZqrGquACOUOf0vOc0NluGsz5zEWCxDyh+sEAnq/q/EjrpUORmrlyqq4by5/hS3CnBGjFOJVuXVag=
+	t=1744041933; cv=none; b=kMFtbSSCi0jn0UDIvB7h5n5jbLE1u1EmCgNiyZu2GWjtFDtd70spXcDpE3zj/nJsgtNjrZPxxZPSe2D7gM5pLWzTL0a0JbIlCWiFdlipfeycpCpDOo/BuVe9VRgaZQ3Fck0OMQAo+TVtdCCMeRvhaxFlAHyb6E4BXqN44m6G6As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744041927; c=relaxed/simple;
-	bh=CRYlMNWz3u/08ZIs/XIMA8AZpRqVPaRQC/zaOHLZvkE=;
+	s=arc-20240116; t=1744041933; c=relaxed/simple;
+	bh=zaIj6bf60mYQTXK0HVRjO1dYSIbBBHmtY9FFgcvGbo0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QIQt8NsuR9fyVyMM07+P6Wzf6oAyPbXNePAv/Ajr+LZZj/1dAQzCzzsNlTLhorz6LXpDw7LsSAVk+Sni+rl74q9F1xtu8L3AoGH7f5TiCU7NbmCIb/aA2kXfp5dAU1cyaU4Ch4IzFirCX3uVRIYHHjsyqdMyNQOYawSFlH3u4c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qNNEfvCJ; arc=none smtp.client-ip=209.85.128.180
+	 To:Cc:Content-Type; b=lddBq13pQBvRofTNvtOugmodBvzi67c5/rLim9zwKf/t0GB6okdzc/0u4qSVp0UKQAQsUN2b3lC+Piv8727WpknL7m/N+Yfnijr87LiiA4+dg8ZwLxOlSQLM1c+JIic+4++41VWhtsIcIheMp5JZmDwzkRQPiw3JarearSNVqjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mDrUICLP; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6febf391132so41909267b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Apr 2025 09:05:24 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-70427fb838cso4658857b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Apr 2025 09:05:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744041923; x=1744646723; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1744041931; x=1744646731; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MYl7YIVWVZsKQC/OOQAULpw8JbGgIFbvz1XDkCe8Zvc=;
-        b=qNNEfvCJ77BEr+qxk88q7kddJCYuJMdKPc35csvyh+BiIgIBr/70ARVjlORU4Rh5zo
-         CWUtDMZNqJfZCKKmY7kT7wAIcA4GJPQw46oPzm3zBgUfSsSODsWIThFB8ax+YI389Ioh
-         5SF9hn4k9DoSaOpAIJ7jPLygSBBqGrfFz8Twb27QcuAJ9xnF+5a54GCKr0pNYw+0FHFX
-         sxjYFZMlj4vCSiMwa/a9zOWfnhIUyxXkaaRDjMjHQFKbLIrSbVSfm7Mj3q5SiqhIj3EW
-         PTsvhpy3Y/3mmGJjzIFuuMa60uuvlWWfqAey56geF69WjjL9Wt3ZCB+Un13q8vKK4GjU
-         ui+A==
+        bh=iyMXJxNU8APh7FepAd2LYAIeH/3a57mIaJumXNTEoaA=;
+        b=mDrUICLPrqvFpUD1L0lkc4goXFB/5JVCBd+tqksExz2wxw5nc4+YXqcfgARDQ/pmPV
+         o3qMUtWKYTgs1WNfZaEa362T8Oij5Kkhska+BseTv/9x+VM//jqT8WyWEB578en5p1mF
+         0u5zXc/Xw8R52EsJNaKlVEZSJZYWlauZhS6eCWboYuKKKH8HvvX9b1k3r9wdviSEeJs6
+         PKJcsRnmmkuyA4YbY4m2lurdmO+s3un/NerKAfZQXTifXbw1zNWulzXaNa2lqDpGGqOF
+         cWCqc/bbHyG9Mi+S77+kqezOwkYYVuaTrroV1ZgYxh/u7eOdpmejVHhD2+tDiX8SfxO7
+         3GMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744041923; x=1744646723;
+        d=1e100.net; s=20230601; t=1744041931; x=1744646731;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MYl7YIVWVZsKQC/OOQAULpw8JbGgIFbvz1XDkCe8Zvc=;
-        b=GlIi9O5JgihpwILiu5w7gXw3/zjprwEm4eAi1mlD/GRmIup6rCAtMUZryXjiegglUK
-         lh6ZbQsug/Igk3DnlVJd/LHJRQXi35rrAZ4quGpEkfh9iBWtIhn4yJaP8NJGGxWUVW2W
-         o/86KciX8rCFnOZdLMH5WqQayllTnfliDFcowUGKriwMBEA4QT9E7RaTx3Sn4phspyEK
-         LNOkYWCH0081L5iwedP0gMnfX/1CM6Ge8CvM1aNg8Zd8uZcV6zGICD2PgeQXIc6jb6S6
-         eSGImB2/WU4zKImxtlDfoXYv7cuA5eNU8JwhscBE02IsD7Y1zmxyG0uS4KO0bGe6Kdvy
-         W1iQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWz7MneFXrHlnpnkiPhmKUunYs4Oy6aznZ+WcszxYt/VUNPyy+i63NrUVhIgTE8BsTAnkPUsSlCzAmY5GR+Eh4j4Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxzf7NLvjXxZgNz5Q3HO8fKdzRHy2dan0jvG+CSnl1H/EJjFzhU
-	+DMBPt4MxM/OEi0T9Y48MugkPhkMTJ3EWmQyi0ObSpurDmJnsW70tQCBMi8kzZtvK0D98rZtnJq
-	PtKJ8roBSAqwfbynl3BIritp9ELsIhBDcPB+CLg==
-X-Gm-Gg: ASbGncuGpI1ff8arH7sKdLkjbLnWVm5hll55JuuoN+PRMzpEnXl+DLhZVImXyXZUIvm
-	8kx52qnMo71qHgp96+lFRN3Oh6ZmYc5vZVEqiqxXjNI0AdcAcPpYRhjgB4GeR3NE+/Sc1G9jrLq
-	VEF8aldXgpZLRTO/oeMdZEX3cXDlRY1VCR/UQgrg==
-X-Google-Smtp-Source: AGHT+IGDxc9ZlPb6nb5Z2zd90PGYLT3LmyVgNtNoQN7ui3U6zwBCuP16mCNDz0Fmuae4RzFpi7mdoWPuoFtnsuh24n0=
-X-Received: by 2002:a05:690c:4d01:b0:701:fa3e:83f5 with SMTP id
- 00721157ae682-703e3357338mr248959627b3.35.1744041923239; Mon, 07 Apr 2025
- 09:05:23 -0700 (PDT)
+        bh=iyMXJxNU8APh7FepAd2LYAIeH/3a57mIaJumXNTEoaA=;
+        b=O03eRHh8SM1S9HR7XeF0vVcPROUTZLFNIVR92v/4fiA8SnacVkn3fDg7lrVoDzTMMf
+         5GFXrZYsc/j4jBgBx0DGTk9HDEriJHy7icnMK0bz8bpmAIz2ZplSB8JjSwaU/EVcwt/F
+         Fm1TGDK00N8YR2WmMJnbtyc2GuNMSb04lV49oVCYYWbo1mkRIaGHxAA+AnBMax+K7j+D
+         MkqgVi/WGDx2gR6QdKLGzS7QOrYtnT9UivDuwdgrcFaziIHMTs2mBu9ahZhZ45xRViwN
+         y8fh6QqzXS5U+nr+H/6AFXDN7THmu4zpS1Qbj9ok/W6Rzu1x4F02RvJMQYSf/2XZ0y/t
+         eWGQ==
+X-Gm-Message-State: AOJu0YxaA8nnbUdymF6KE+ikPn8jSvJVwwbOYLo6vpvbViSwv29FwKUp
+	myi5cwuS4W91lWUkjBXPKTs80GDliKktmKsEw7G3rXa59LKIMGZuRoYU9ZF2brglLOb2NNHTP7h
+	zgvzpV18GibJeG5L89LTZIiRmMfPK7tmZ8Cfbnw==
+X-Gm-Gg: ASbGncu9zk5WVG9EC/Cn9H1jIVAWxUIYlRVIgrhKjCNwLZhoi/2Sqg9irDNRhLPySPa
+	98pRVLj7QzkGIzsCSqMg2/HINAtSRdMJ4/qiNibOKiFxarKIOTC+9iCQfqABrfpECPPqbQAK71o
+	9PDqaHs66gzcRKWoAjgpGYVwfKBMo=
+X-Google-Smtp-Source: AGHT+IFOHXrnkpBrQieKVZtIVdGZ28aD/0/BwHgFx8drk8Z2Zph8fJ0SKnIaOVRyh9bmDUc1XD5U19PreZpfxaF6YFQ=
+X-Received: by 2002:a05:690c:b13:b0:6ef:6f24:d093 with SMTP id
+ 00721157ae682-703e14f5f9emr226254967b3.6.1744041931060; Mon, 07 Apr 2025
+ 09:05:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250326220638.460083-1-ruslan.piasetskyi@gmail.com>
-In-Reply-To: <20250326220638.460083-1-ruslan.piasetskyi@gmail.com>
+References: <20250330221732.56072-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250330221732.56072-2-wsa+renesas@sang-engineering.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 7 Apr 2025 18:04:46 +0200
-X-Gm-Features: ATxdqUEMjWbobTx2vMpoyw4W4dRlizG6XIsBx3n4NggtPSnHg8-j2sy33AaH5wo
-Message-ID: <CAPDyKFoMdp6b2p4jWi+K9nDUV_cQhkWjSmQoOmX25LfQx3AehA@mail.gmail.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: Fix error handling in renesas_sdhi_probe
-To: Ruslan Piasetskyi <ruslan.piasetskyi@gmail.com>
-Cc: wsa+renesas@sang-engineering.com, salauyou.ihar@gmail.com, 
-	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Mon, 7 Apr 2025 18:04:55 +0200
+X-Gm-Features: ATxdqUHTMeuPepFJsQ2xSTB0Ac9B1r0lgCNmw4z146LWlOQ_Pb00QDY0YlXE9_Y
+Message-ID: <CAPDyKFr5xP5=Xo54Z9WgHuCegeUbfHo4HVn8du+SXRoghHAMAw@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: disable clocks if registering
+ regulator failed
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-mmc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 26 Mar 2025 at 23:08, Ruslan Piasetskyi
-<ruslan.piasetskyi@gmail.com> wrote:
+On Mon, 31 Mar 2025 at 00:18, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 >
-> After moving tmio_mmc_host_probe down, error handling has to be
-> adjusted.
+> Because the clocks were just enabled, bail out to the proper target if
+> there are problems with the regulator.
 >
-> Fixes: 74f45de394d9 ("mmc: renesas_sdhi: register irqs before registering controller")
-> Reviewed-by: Ihar Salauyou <salauyou.ihar@gmail.com>
-> Signed-off-by: Ruslan Piasetskyi <ruslan.piasetskyi@gmail.com>
+> Fixes: fae80a99dc03 ("mmc: renesas_sdhi: Add support for RZ/G3E SoC")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Applied for fixes and by adding a stable tag, thanks!
+Applied for fixes, thanks!
 
 Kind regards
 Uffe
 
 
 > ---
->  drivers/mmc/host/renesas_sdhi_core.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+>  drivers/mmc/host/renesas_sdhi_core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index f73b84bae0c4..6ebb3d1eeb4d 100644
+> index cea6af5daf99..8c83e203c516 100644
 > --- a/drivers/mmc/host/renesas_sdhi_core.c
 > +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -1112,26 +1112,26 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->         num_irqs = platform_irq_count(pdev);
->         if (num_irqs < 0) {
->                 ret = num_irqs;
-> -               goto eirq;
-> +               goto edisclk;
->         }
->
->         /* There must be at least one IRQ source */
->         if (!num_irqs) {
->                 ret = -ENXIO;
-> -               goto eirq;
-> +               goto edisclk;
->         }
->
->         for (i = 0; i < num_irqs; i++) {
->                 irq = platform_get_irq(pdev, i);
->                 if (irq < 0) {
->                         ret = irq;
-> -                       goto eirq;
+> @@ -1179,7 +1179,7 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>                 if (IS_ERR(rdev)) {
+>                         dev_err(dev, "regulator register failed err=%ld", PTR_ERR(rdev));
+>                         ret = PTR_ERR(rdev);
+> -                       goto efree;
 > +                       goto edisclk;
 >                 }
->
->                 ret = devm_request_irq(&pdev->dev, irq, tmio_mmc_irq, 0,
->                                        dev_name(&pdev->dev), host);
->                 if (ret)
-> -                       goto eirq;
-> +                       goto edisclk;
+>                 priv->rdev = rdev;
 >         }
->
->         ret = tmio_mmc_host_probe(host);
-> @@ -1143,8 +1143,6 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->
->         return ret;
->
-> -eirq:
-> -       tmio_mmc_host_remove(host);
->  edisclk:
->         renesas_sdhi_clk_disable(host);
->  efree:
 > --
-> 2.34.1
+> 2.47.2
 >
 
