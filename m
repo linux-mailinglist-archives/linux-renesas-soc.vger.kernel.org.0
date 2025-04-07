@@ -1,112 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-15442-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15443-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FACDA7DD1A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 14:04:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E08E4A7DD8A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 14:19:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5448F16DE01
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 12:04:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E50541655DC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 12:19:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A25824EA8F;
-	Mon,  7 Apr 2025 12:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63DD923907E;
+	Mon,  7 Apr 2025 12:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NS3nrsPW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EmHbDn4+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA7524A041;
-	Mon,  7 Apr 2025 12:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7619014A4C6;
+	Mon,  7 Apr 2025 12:19:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744027414; cv=none; b=EWplwRSjtpGOFoAv6vt5sE4zu7r6LZ9C0QIRbfpRNW2EXjFE6yG/0hTTFxFeweGv7zPfZKRj1HOA40hyzrCoR5wYPc/6ikX25ufF5Nr5NxEa4TDbjzf4hD7Snvwxds8kLTopK4b5llMTgMzy7XSIsrjlkU2GfMsGrbDr1YieGvc=
+	t=1744028349; cv=none; b=LBSSJvwWpZGjA7jjSucllmr1dbXr6BFha5ZH2nH4qMQMbbv8qS43vdVo9VPilQqiFJJuh3k4aNz4I1V5/iWJRW8psxnsDAuRwtfToy2GSu8fDGDjKprBqXOMmTlls/ngm7Gjuf+jLGhziB9VaGNNocyoSFZYVPHamlI6WyzQa5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744027414; c=relaxed/simple;
-	bh=XDIKwYmYHGQ2b/el+QvziXPsq3LTw/P1t5tMGx3sEro=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m37+BJV9S53K7T+wGO20PweyVvrjXPVkzodBVGOhemADLQMfsSi+f38qYAiX8Qst7IZ/voLQyhRX8Vrcuuc7A6epB6k/UCgh5Krdtckd18/AW/2aEekvcdK+ckwlPLWqNoROjgzX2ezJY/Nm1G9TX0ve9P9LSQ2lLGnng0XD0yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NS3nrsPW; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1744028349; c=relaxed/simple;
+	bh=zceCTIAOvUX7pV0cHo9UcV46pLDQG6lr+hSDqZx2jXc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e6kKBwUO8sXZ7+bcguMNHPgO12u2+IjGPkJWhqX4stVQwT2H+2EHRY1uBLxCC1mzfNIGFkipubAKHlKayRNy0mclNitpEqNjlPMQahau4UJlxikFjNBIIyimG+nTDpkYDDe2t2ZwPsbpPYfL/c9kK3DRNbSJJ/b0wSaPnyjLP1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EmHbDn4+; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf58eea0fso21812695e9.0;
-        Mon, 07 Apr 2025 05:03:31 -0700 (PDT)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43d2d952eb1so28832905e9.1;
+        Mon, 07 Apr 2025 05:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744027410; x=1744632210; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0jlNLcnvNhGWozOP5TrJtnP4GKF2MIUGeUULPGVlJT8=;
-        b=NS3nrsPW33/JEJLYTISARNPbtcLJMUOpLMl77pDPz9AOoSrOdBW2Vop25oLEd4NYbO
-         T8N85PY+DHm24aBbwHfZGTsidGcXIKCZXkGa3WnoYj4qHVJfTphC2XAByRtL5UbTUvgK
-         xnIbQloAooV/r/E9rnkrsbcsPBJo18Smg1aHcD5ci1uPdRRWlE1zXTIMq93e+SUNmdrJ
-         W2JhMG0lLMI7xrs/bPxtUbUykxAqJ3uGghD0FOaD3iT5D88RjRn56SIqzi4+BV77C6O4
-         BsbjDoJZ8mX6WQTjqsrCnaRdRJkS1cL7aNuHzy2mYWQsU5mIpUn0/95HqYTrytcFoVkv
-         +pZA==
+        d=gmail.com; s=20230601; t=1744028345; x=1744633145; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TOLEgMuTxD6y+Xh7epucBexEhDnmYD0IPTBWCattGBk=;
+        b=EmHbDn4+UoPpCer8C9VEY9okcpZVjPVseni5AmTjZOfwuHw738XIIlYZhmFt/vxsaI
+         qQLX8/A72KMYHOmQ09r6VAK87gJNDRLVhGyODeCDp7cOEWXoHWgFVR68GRAFiOzUgYi+
+         afkC9WfMQW55i/agIKBnfj4+w2bCB6DWdx4QUJ7mdRsP5CajSW6rpWDbWd1yVkyIPLGJ
+         ITIkwN80bjycEpECfjxcGhvk6Ggz7Ed52UZJqYv6Ee7ycZN7IuGoTGKerXHfA/EKZFxP
+         2nE5YjNyKG07PI5gWoOuRd8qLHTiDyKqxbYK8sgZWaYkY3HrB3RmaP96H2bq8PuBUlT0
+         IvLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744027410; x=1744632210;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0jlNLcnvNhGWozOP5TrJtnP4GKF2MIUGeUULPGVlJT8=;
-        b=alFlWkiUvcN0cbdqIHO/62t9goC6gj04exVD0R4utqyFL4VZTyTRTgqOlEqzJ6x9b5
-         pUVmDMD3EEmyikE/BQGosnU0fkB0bXhEsHPpll48aXssiNLqg9vdvlbqj3zdODS+/lhY
-         gJhS0g7r+2lykGxGAaSLI04eBKc2xEe60MNPdQx2V4t40dToz0P9Q1ajFGdH6ah7Jkz8
-         aUbxW3pfFzU45h6Bkqd+p00kCzpujzotAOuZS1Uyt/hfT9CimWBq2V4zqENIPB9FN3ja
-         TUSrrqUEWB424hl2IBH3YWxFRbgIpPYcPJ+fuhJZf4z2+e1v+Fy2nr01UXCKPa6p1b86
-         ucyw==
-X-Forwarded-Encrypted: i=1; AJvYcCUtSRqsYHejpluG/lgbocsmONajRzb0PIGC24xRxKtiBMyTXhVndKDGcQ4aEAf0DONZAx8/hf6AUpqKFEKF@vger.kernel.org, AJvYcCV5JcHLOw/W/tQbd7gA3Ez27nUscjHDlU3mQj0RQOd9LovV5h/459l1tlW3ScZ8cf7pJv0jGl2M2tDZs9OIFkYZD8A=@vger.kernel.org, AJvYcCWxZA3PsjaPyPn5RfCu0d7/36O6TTX5EAXcqyX6TU8ukmQpGK1cBC9TA05IYX13ydM+QxSY8Zzxxq3p@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRwEafQ++GNTQE6U9RbJ4ryh5ftvAj/pHZVMai2qnT94TE+7tB
-	9tXaBLDkqHF8WKG+kpsJ6hQJ4ocelGY52SPbNp81MRCQL6YyD0hS
-X-Gm-Gg: ASbGnctzfsCoUxnk2aoq5kdckAke+rfdVhKL16stPlYw5JT9Lh0FS3Ms/m1NoKyxcgl
-	z8UCmkZpS473QXjNpyhkWvphHUeC8iWIbnnPd+fyiRULIvlY+sYb2edzJFWrYcjwXMH9lSHgHEp
-	Cv4Q+1af9I7wGTtnSpn7O8RyaLGTgdtkUsPjKX07gjeAodcVM9KB+LHcO6Kvfa1/TJyzY+OycSc
-	Zp5d6h3Sg/qGzynye7HVX+KSOE1LccG3Mn5amczhEV4sLlfhqf7Sw5RMUC/Qbb0geBjek6fdwWm
-	U84j8blBe3vsFF8FiofkP0+iFadn3ZMI7QOYUlqw4NiGgtJY7LT1i42FmtgsvntK6h0dzg==
-X-Google-Smtp-Source: AGHT+IGjyUFck3wj/SREofHb8DcLu2Hm+aJoMFoZTMjKyCtTdhHd82E1VavPVf6TKGM9uUY5c0MBiw==
-X-Received: by 2002:a05:600c:1e13:b0:439:8c80:6af4 with SMTP id 5b1f17b1804b1-43ecf8d0b48mr110786015e9.19.1744027409649;
-        Mon, 07 Apr 2025 05:03:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744028345; x=1744633145;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TOLEgMuTxD6y+Xh7epucBexEhDnmYD0IPTBWCattGBk=;
+        b=atOklxwxHYxUSnrzTDcCnSlfcLhE04Ydj+kUkPXUl6E1G+rjMiEDhq10abXEXVI9KD
+         GVue+zazi9lZWyLxojcuA93Z4op9z1iwX9VNL3TXTBVICArXbP4vtK9GDHPGRHcX7Hmt
+         0MNI7JWW60jhPynCI4hHZUnvQl7J4Uj1bhJmo2gJJlQ340TkwHtSH11XitimCKa5mxxL
+         o7VRnJfxj7zlfEcQpAlhsNm3R9VwmoyeFLJadOqU2qWO7iLu/jMon4tS7wyDttzjcx6j
+         77yB4NkntzzVk46+9tqiITvJtg1hDcrZPbp4lFFxn4/YZCflHDB4L3YxG9BkDCS8n4Ym
+         TWIA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+D1cNG3tOMrz3pxH+F0yrhoAK8GuJshD0MrqZwHRUI/+LF6at/NkpFulOxKQU/i8TbyQBJBCaZdx8jGQF@vger.kernel.org, AJvYcCX/jm2LUGsqBE61rknpWo73zprltBlYNsfZrBuHBcc5iMQLMFKzRWQKUTji3vCwFqt3hXpEy4lt5Z0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKDwHQtewBi6SWnmqGBZYz4YULDPS4il7ZreXF3KfpHamgD9pe
+	o03Yqz89fImCvNAO7cis5kbImDW1m8SuBoTxuemrDXpmcCbsQRXI
+X-Gm-Gg: ASbGncsQncvp/7snKmadJA6oNOWl4Se+r8xnFLAeM31NR/FmsELcT9k21TWUWeWlomd
+	bLDB/5Ue+IX8B//Q/PuR/A2PjRBBgH1+bH5RmyJppFG8R7hM0bGHldWgnRHKEiEQY0biauI9CSn
+	Si5s4uQ39iPCGVMH3U2lelM0vY7LeRM1wIYxq5c6LhM87AQHzliVv3fT3PCp+sIc4Q/ijTw1CXg
+	Pvyatwis1WEBSWEGOtwPO9Pjj++ApT/ZsIj7l4DiEhE7luNKBHUv+xn5PL/6F+0a7qR9995+JB7
+	oDmD2pj6QU/sPemYpr/r5x6Oxe1nUfOWi7VrbdaAbDVKqGcr4bvs7jcN97SHDSh4P9AN6Q==
+X-Google-Smtp-Source: AGHT+IH0Td5/uv+zPsRJbD5kJyuy23VagyIn9vPBGge6iZPW00+v6A7Bfwy+n3IXqFGTQtoyberj7A==
+X-Received: by 2002:a05:600c:34d3:b0:43d:609:b305 with SMTP id 5b1f17b1804b1-43ee0697e04mr95676515e9.17.1744028345426;
+        Mon, 07 Apr 2025 05:19:05 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:78b9:80c2:5373:1b49])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c3020d943sm11986976f8f.74.2025.04.07.05.03.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301b8ae1sm12116112f8f.51.2025.04.07.05.19.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 05:03:28 -0700 (PDT)
+        Mon, 07 Apr 2025 05:19:04 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
+To: Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>
-Cc: netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH net-next v5 3/3] net: stmmac: Add DWMAC glue layer for Renesas GBETH
-Date: Mon,  7 Apr 2025 13:03:17 +0100
-Message-ID: <20250407120317.127056-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Andy Shevchenko <andy@kernel.org>
+Subject: [PATCH v8] i2c: riic: Implement bus recovery
+Date: Mon,  7 Apr 2025 13:18:59 +0100
+Message-ID: <20250407121859.131156-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250407120317.127056-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250407120317.127056-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -117,240 +99,217 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add the DWMAC glue layer for the GBETH IP found in the Renesas RZ/V2H(P)
-SoC.
+Implement bus recovery by reinitializing the hardware to reset the bus
+state and generating 9 clock cycles (and a stop condition) to release
+the SDA line.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 ---
-v4->v5
-- No change
+v7->v8
+- Included Acks from Andy and Fabrizio.
 
-v3->v4
-- Maintained reverse christmas tree order in renesas_gbeth_clks_config
-- Returned err in case of success in renesas_gbeth_probe()
+v6->v7
+- https://lore.kernel.org/all/20250203143511.629140-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-v2->v3
-- Handle clks from plat_dat
-- Replaced STMMAC_FLAG_EN_TX_LPI_CLOCKGATING flag with
-  STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP.
+v2->v6
+- Included RB and TB from Claudiu.
 
 v1->v2
-- Dropped __initconst for renesas_gbeth_clks array
-- Added clks_config callback
-- Dropped STMMAC_FLAG_RX_CLK_RUNS_IN_LPI flag as this needs
-  investigation.
+- Used single register read to check SDA/SCL lines
 ---
- drivers/net/ethernet/stmicro/stmmac/Kconfig   |  11 ++
- drivers/net/ethernet/stmicro/stmmac/Makefile  |   1 +
- .../stmicro/stmmac/dwmac-renesas-gbeth.c      | 165 ++++++++++++++++++
- 3 files changed, 177 insertions(+)
- create mode 100644 drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
+ drivers/i2c/busses/i2c-riic.c | 100 ++++++++++++++++++++++++++++++----
+ 1 file changed, 90 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/Kconfig b/drivers/net/ethernet/stmicro/stmmac/Kconfig
-index 3c820ef56775..2c99b23f0faa 100644
---- a/drivers/net/ethernet/stmicro/stmmac/Kconfig
-+++ b/drivers/net/ethernet/stmicro/stmmac/Kconfig
-@@ -131,6 +131,17 @@ config DWMAC_QCOM_ETHQOS
- 	  This selects the Qualcomm ETHQOS glue layer support for the
- 	  stmmac device driver.
+diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
+index d7dddd6c296a..888825423d94 100644
+--- a/drivers/i2c/busses/i2c-riic.c
++++ b/drivers/i2c/busses/i2c-riic.c
+@@ -51,6 +51,7 @@
  
-+config DWMAC_RENESAS_GBETH
-+	tristate "Renesas RZ/V2H(P) GBETH support"
-+	default ARCH_RENESAS
-+	depends on OF && (ARCH_RENESAS || COMPILE_TEST)
-+	help
-+	  Support for Gigabit Ethernet Interface (GBETH) on Renesas
-+	  RZ/V2H(P) SoCs.
+ #define ICCR1_ICE	BIT(7)
+ #define ICCR1_IICRST	BIT(6)
++#define ICCR1_CLO	BIT(5)
+ #define ICCR1_SOWP	BIT(4)
+ #define ICCR1_SCLI	BIT(1)
+ #define ICCR1_SDAI	BIT(0)
+@@ -69,6 +70,7 @@
+ #define ICMR3_ACKBT	BIT(3)
+ 
+ #define ICFER_FMPE	BIT(7)
++#define ICFER_MALE	BIT(1)
+ 
+ #define ICIER_TIE	BIT(7)
+ #define ICIER_TEIE	BIT(6)
+@@ -82,6 +84,8 @@
+ 
+ #define RIIC_INIT_MSG	-1
+ 
++#define RIIC_RECOVERY_CLK_CNT	9
 +
-+	  This selects the Renesas RZ/V2H(P) Soc specific glue layer support
-+	  for the stmmac device driver.
+ enum riic_reg_list {
+ 	RIIC_ICCR1 = 0,
+ 	RIIC_ICCR2,
+@@ -151,13 +155,16 @@ static int riic_bus_barrier(struct riic_dev *riic)
+ 	ret = readb_poll_timeout(riic->base + riic->info->regs[RIIC_ICCR2], val,
+ 				 !(val & ICCR2_BBSY), 10, riic->adapter.timeout);
+ 	if (ret)
+-		return ret;
++		goto i2c_recover;
+ 
+ 	if ((riic_readb(riic, RIIC_ICCR1) & (ICCR1_SDAI | ICCR1_SCLI)) !=
+ 	     (ICCR1_SDAI | ICCR1_SCLI))
+-		return -EBUSY;
++		goto i2c_recover;
+ 
+ 	return 0;
 +
- config DWMAC_ROCKCHIP
- 	tristate "Rockchip dwmac support"
- 	default ARCH_ROCKCHIP
-diff --git a/drivers/net/ethernet/stmicro/stmmac/Makefile b/drivers/net/ethernet/stmicro/stmmac/Makefile
-index 594883fb4164..91050215511b 100644
---- a/drivers/net/ethernet/stmicro/stmmac/Makefile
-+++ b/drivers/net/ethernet/stmicro/stmmac/Makefile
-@@ -20,6 +20,7 @@ obj-$(CONFIG_DWMAC_LPC18XX)	+= dwmac-lpc18xx.o
- obj-$(CONFIG_DWMAC_MEDIATEK)	+= dwmac-mediatek.o
- obj-$(CONFIG_DWMAC_MESON)	+= dwmac-meson.o dwmac-meson8b.o
- obj-$(CONFIG_DWMAC_QCOM_ETHQOS)	+= dwmac-qcom-ethqos.o
-+obj-$(CONFIG_DWMAC_RENESAS_GBETH) += dwmac-renesas-gbeth.o
- obj-$(CONFIG_DWMAC_ROCKCHIP)	+= dwmac-rk.o
- obj-$(CONFIG_DWMAC_RZN1)	+= dwmac-rzn1.o
- obj-$(CONFIG_DWMAC_S32)		+= dwmac-s32.o
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
-new file mode 100644
-index 000000000000..a0f7cacea810
---- /dev/null
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
-@@ -0,0 +1,165 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * dwmac-renesas-gbeth.c - DWMAC Specific Glue layer for Renesas GBETH
-+ *
-+ * The Rx and Tx clocks are supplied as follows for the GBETH IP.
-+ *
-+ *                         Rx / Tx
-+ *   -------+------------- on / off -------
-+ *          |
-+ *          |            Rx-180 / Tx-180
-+ *          +---- not ---- on / off -------
-+ *
-+ * Copyright (C) 2025 Renesas Electronics Corporation
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/device.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/reset.h>
-+
-+#include "dwmac4.h"
-+#include "stmmac_platform.h"
-+
-+struct renesas_gbeth {
-+	struct plat_stmmacenet_data *plat_dat;
-+	struct reset_control *rstc;
-+	struct device *dev;
-+	void __iomem *regs;
-+};
-+
-+static const char *const renesas_gbeth_clks[] = {
-+	"tx", "tx-180", "rx", "rx-180",
-+};
-+
-+static struct clk *renesas_gbeth_find_clk(struct plat_stmmacenet_data *plat_dat,
-+					  const char *name)
-+{
-+	for (unsigned int i = 0; i < plat_dat->num_clks; i++)
-+		if (!strcmp(plat_dat->clks[i].id, name))
-+			return plat_dat->clks[i].clk;
-+
-+	return NULL;
++i2c_recover:
++	return i2c_recover_bus(&riic->adapter);
+ }
+ 
+ static int riic_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+@@ -332,7 +339,7 @@ static const struct i2c_algorithm riic_algo = {
+ 	.functionality = riic_func,
+ };
+ 
+-static int riic_init_hw(struct riic_dev *riic)
++static int riic_init_hw(struct riic_dev *riic, bool recover)
+ {
+ 	int ret;
+ 	unsigned long rate;
+@@ -414,9 +421,11 @@ static int riic_init_hw(struct riic_dev *riic)
+ 		 rate / total_ticks, ((brl + 3) * 100) / (brl + brh + 6),
+ 		 t->scl_fall_ns / ns_per_tick, t->scl_rise_ns / ns_per_tick, cks, brl, brh);
+ 
+-	ret = pm_runtime_resume_and_get(dev);
+-	if (ret)
+-		return ret;
++	if (!recover) {
++		ret = pm_runtime_resume_and_get(dev);
++		if (ret)
++			return ret;
++	}
+ 
+ 	/* Changing the order of accessing IICRST and ICE may break things! */
+ 	riic_writeb(riic, ICCR1_IICRST | ICCR1_SOWP, RIIC_ICCR1);
+@@ -434,8 +443,74 @@ static int riic_init_hw(struct riic_dev *riic)
+ 
+ 	riic_clear_set_bit(riic, ICCR1_IICRST, 0, RIIC_ICCR1);
+ 
+-	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	if (!recover) {
++		pm_runtime_mark_last_busy(dev);
++		pm_runtime_put_autosuspend(dev);
++	}
++	return 0;
 +}
 +
-+static int renesas_gbeth_clks_config(void *priv, bool enabled)
++static int riic_recover_bus(struct i2c_adapter *adap)
 +{
-+	struct plat_stmmacenet_data *plat_dat;
-+	struct renesas_gbeth *gbeth = priv;
++	struct riic_dev *riic = i2c_get_adapdata(adap);
++	struct device *dev = riic->adapter.dev.parent;
 +	int ret;
++	u8 val;
 +
-+	plat_dat = gbeth->plat_dat;
-+	if (enabled) {
-+		ret = reset_control_deassert(gbeth->rstc);
++	ret = riic_init_hw(riic, true);
++	if (ret)
++		return ret;
++
++	/* output extra SCL clock cycles with master arbitration-lost detection disabled */
++	riic_clear_set_bit(riic, ICFER_MALE, 0, RIIC_ICFER);
++
++	for (unsigned int i = 0; i < RIIC_RECOVERY_CLK_CNT; i++) {
++		riic_clear_set_bit(riic, 0, ICCR1_CLO, RIIC_ICCR1);
++		ret = readb_poll_timeout(riic->base + riic->info->regs[RIIC_ICCR1], val,
++					 !(val & ICCR1_CLO), 0, 100);
 +		if (ret) {
-+			dev_err(gbeth->dev, "Reset deassert failed\n");
++			dev_err(dev, "SCL clock cycle timeout\n");
 +			return ret;
 +		}
-+
-+		ret = clk_bulk_prepare_enable(plat_dat->num_clks, plat_dat->clks);
-+		if (ret)
-+			reset_control_assert(gbeth->rstc);
-+	} else {
-+		clk_bulk_disable_unprepare(plat_dat->num_clks, plat_dat->clks);
-+		ret = reset_control_assert(gbeth->rstc);
-+		if (ret)
-+			dev_err(gbeth->dev, "Reset assert failed\n");
 +	}
 +
-+	return ret;
-+}
++	/*
++	 * The last clock cycle may have driven the SDA line high, so add a
++	 * short delay to allow the line to stabilize before checking the status.
++	 */
++	udelay(5);
 +
-+static int renesas_gbeth_probe(struct platform_device *pdev)
-+{
-+	struct plat_stmmacenet_data *plat_dat;
-+	struct stmmac_resources stmmac_res;
-+	struct device *dev = &pdev->dev;
-+	struct renesas_gbeth *gbeth;
-+	unsigned int i;
-+	int err;
++	/*
++	 * If an incomplete byte write occurs, the SDA line may remain low
++	 * even after 9 clock pulses, indicating the bus is not released.
++	 * To resolve this, send an additional clock pulse to simulate a STOP
++	 * condition and ensure proper bus release.
++	 */
++	if ((riic_readb(riic, RIIC_ICCR1) & (ICCR1_SDAI | ICCR1_SCLI)) !=
++	    (ICCR1_SDAI | ICCR1_SCLI)) {
++		riic_clear_set_bit(riic, 0, ICCR1_CLO, RIIC_ICCR1);
++		ret = readb_poll_timeout(riic->base + riic->info->regs[RIIC_ICCR1], val,
++					 !(val & ICCR1_CLO), 0, 100);
++		if (ret) {
++			dev_err(dev, "SCL clock cycle timeout occurred while issuing the STOP condition\n");
++			return ret;
++		}
++		/* delay to make sure SDA line goes back HIGH again */
++		udelay(5);
++	}
 +
-+	err = stmmac_get_platform_resources(pdev, &stmmac_res);
-+	if (err)
-+		return dev_err_probe(dev, err,
-+				     "failed to get resources\n");
++	/* clear any flags set */
++	riic_writeb(riic, 0, RIIC_ICSR2);
++	/* read back register to confirm writes */
++	riic_readb(riic, RIIC_ICSR2);
 +
-+	plat_dat = devm_stmmac_probe_config_dt(pdev, stmmac_res.mac);
-+	if (IS_ERR(plat_dat))
-+		return dev_err_probe(dev, PTR_ERR(plat_dat),
-+				     "dt configuration failed\n");
++	/* restore back ICFER_MALE */
++	riic_clear_set_bit(riic, 0, ICFER_MALE, RIIC_ICFER);
 +
-+	gbeth = devm_kzalloc(dev, sizeof(*gbeth), GFP_KERNEL);
-+	if (!gbeth)
-+		return -ENOMEM;
++	if ((riic_readb(riic, RIIC_ICCR1) & (ICCR1_SDAI | ICCR1_SCLI)) !=
++	    (ICCR1_SDAI | ICCR1_SCLI))
++		return -EINVAL;
 +
-+	plat_dat->num_clks = ARRAY_SIZE(renesas_gbeth_clks);
-+	plat_dat->clks = devm_kcalloc(dev, plat_dat->num_clks,
-+				      sizeof(*plat_dat->clks), GFP_KERNEL);
-+	if (!plat_dat->clks)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < plat_dat->num_clks; i++)
-+		plat_dat->clks[i].id = renesas_gbeth_clks[i];
-+
-+	err = devm_clk_bulk_get(dev, plat_dat->num_clks, plat_dat->clks);
-+	if (err < 0)
-+		return err;
-+
-+	plat_dat->clk_tx_i = renesas_gbeth_find_clk(plat_dat, "tx");
-+	if (!plat_dat->clk_tx_i)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "error finding tx clock\n");
-+
-+	gbeth->rstc = devm_reset_control_get_exclusive(dev, NULL);
-+	if (IS_ERR(gbeth->rstc))
-+		return PTR_ERR(gbeth->rstc);
-+
-+	gbeth->dev = dev;
-+	gbeth->regs = stmmac_res.addr;
-+	gbeth->plat_dat = plat_dat;
-+	plat_dat->bsp_priv = gbeth;
-+	plat_dat->set_clk_tx_rate = stmmac_set_clk_tx_rate;
-+	plat_dat->clks_config = renesas_gbeth_clks_config;
-+	plat_dat->flags |= STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY |
-+			   STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP |
-+			   STMMAC_FLAG_SPH_DISABLE;
-+
-+	err = renesas_gbeth_clks_config(gbeth, true);
-+	if (err)
-+		return err;
-+
-+	err = stmmac_dvr_probe(dev, plat_dat, &stmmac_res);
-+	if (err)
-+		renesas_gbeth_clks_config(gbeth, false);
-+
-+	return err;
-+}
-+
-+static void renesas_gbeth_remove(struct platform_device *pdev)
-+{
-+	stmmac_dvr_remove(&pdev->dev);
-+
-+	renesas_gbeth_clks_config(get_stmmac_bsp_priv(&pdev->dev), false);
-+}
-+
-+static const struct of_device_id renesas_gbeth_match[] = {
-+	{ .compatible = "renesas,rzv2h-gbeth", },
-+	{ /* Sentinel */ }
+ 	return 0;
+ }
+ 
+@@ -447,6 +522,10 @@ static const struct riic_irq_desc riic_irqs[] = {
+ 	{ .res_num = 5, .isr = riic_tend_isr, .name = "riic-nack" },
+ };
+ 
++static struct i2c_bus_recovery_info riic_bri = {
++	.recover_bus = riic_recover_bus,
 +};
-+MODULE_DEVICE_TABLE(of, renesas_gbeth_match);
 +
-+static struct platform_driver renesas_gbeth_driver = {
-+	.probe  = renesas_gbeth_probe,
-+	.remove = renesas_gbeth_remove,
-+	.driver = {
-+		.name		= "renesas-gbeth",
-+		.pm		= &stmmac_pltfr_pm_ops,
-+		.of_match_table	= renesas_gbeth_match,
-+	},
-+};
-+module_platform_driver(renesas_gbeth_driver);
-+
-+MODULE_AUTHOR("Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>");
-+MODULE_DESCRIPTION("Renesas GBETH DWMAC Specific Glue layer");
-+MODULE_LICENSE("GPL");
+ static int riic_i2c_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -493,6 +572,7 @@ static int riic_i2c_probe(struct platform_device *pdev)
+ 	strscpy(adap->name, "Renesas RIIC adapter", sizeof(adap->name));
+ 	adap->owner = THIS_MODULE;
+ 	adap->algo = &riic_algo;
++	adap->bus_recovery_info = &riic_bri;
+ 	adap->dev.parent = dev;
+ 	adap->dev.of_node = dev->of_node;
+ 
+@@ -505,7 +585,7 @@ static int riic_i2c_probe(struct platform_device *pdev)
+ 	pm_runtime_use_autosuspend(dev);
+ 	pm_runtime_enable(dev);
+ 
+-	ret = riic_init_hw(riic);
++	ret = riic_init_hw(riic, false);
+ 	if (ret)
+ 		goto out;
+ 
+@@ -613,7 +693,7 @@ static int riic_i2c_resume(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = riic_init_hw(riic);
++	ret = riic_init_hw(riic, false);
+ 	if (ret) {
+ 		/*
+ 		 * In case this happens there is no way to recover from this
 -- 
 2.49.0
 
