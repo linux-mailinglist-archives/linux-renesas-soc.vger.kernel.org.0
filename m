@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-15504-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15505-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B673A7E769
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 18:57:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F3DA7E784
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 18:59:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFA183A8A05
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 16:52:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A23BC16BFA6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 16:52:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F80021423A;
-	Mon,  7 Apr 2025 16:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E532215058;
+	Mon,  7 Apr 2025 16:52:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2kNzDb5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PXKbRxHU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4161919C56C;
-	Mon,  7 Apr 2025 16:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D925213E9E;
+	Mon,  7 Apr 2025 16:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744044742; cv=none; b=koTiF/7L+7aaAFemQK23MO7msNBXsgVcnkGOwPVt36YrU2iSJ3IC9P4Ve6BmZaap31wtq4NZH1YqHPcbv+1jps5kH99rYSXp9YR4jFpR68S9aRpQ0gdZAqf+qImcaIWQcT2uG2J2v6YlySlVDLb+JvbrTkiDOMPIKG0ouisRHFw=
+	t=1744044743; cv=none; b=RTh8V2mMa1jz8ZqEML9so4CNSgtjNDT0EAs5QjBXPOx1vs80ZMntttp9x6sfGmqB5udbEd14t5Zp7NsWbGKc0ltRywachsi2oOTPHWBgvPCrFb2afyYwaMpvEyoTJEo/vNgpoephXgb526GnLmPtiOrQBjTpoDEUBuT2/dZHHsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744044742; c=relaxed/simple;
-	bh=zbgJ6mg3C+/MKnz8M4eNny/MvicKYv6+ykizFwE9XRE=;
+	s=arc-20240116; t=1744044743; c=relaxed/simple;
+	bh=t23BigdHXTVLwdoDkMWMAn1WR1DFwTXnH8PIGUd0HWQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mMqI55P/CsAYnmNFw7J1ocA9+GM71v6kwAN/FiFFHsGKcgsUe0m4GVHFU4mg0tL90zPo3rh/MOXoAs8BNXFvr3NMUZeV4cLDkGOxYi6EEjYWRz/UYY4/GDgVujfNwtIeQXWo3nLatN9ZmixtQ/QRRFQqnKNWE+i1gMbrs25tN5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2kNzDb5; arc=none smtp.client-ip=209.85.221.54
+	 MIME-Version; b=k5qTzpRR8lLy8GSxSh4q5PnskZjL3/Mp8urPOUF42DweVcjh0yYjqNY7CsGHXFLTn0wjVE4guN32MlDFlIWIXbWu2UJVu44r4M+C3HP/UL+z9dXCeSC0oTmdiL2+Y3M1WEXWivcTli7UfCKPRhYPAlzqAFBn/ilS9k76MuQsi+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PXKbRxHU; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3913b539aabso2694227f8f.2;
-        Mon, 07 Apr 2025 09:52:19 -0700 (PDT)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43d0359b1fcso29454275e9.0;
+        Mon, 07 Apr 2025 09:52:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744044738; x=1744649538; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1744044740; x=1744649540; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xktnEXXKtQ396AGgEmOxLxFn+tjVbH2T7f18cyqhW5c=;
-        b=H2kNzDb5G9Mt73PyweIcDq0AyRc8ylIJSt+u9WTh832rnF7qlBErZimG81FOop0bDm
-         tWe1RzcWODXex9iWXmH4XMbBUv+/p5tO9ftK7hIAuZt706Rg2TEnlpxSID5sI/PR0Y8Z
-         4cGL+mYW0/i4i1DWYAp5QuLwh9IKKXh0+uG8km0kUB4D5fFKnwrkpU1TXg5796mn+M9J
-         E2ub8vsCNahEJck3HpkakYrmSkvTurLnNbapT8ar9LHklAHXJxVpdg6pnoBbQISEzQVz
-         02DJjJPEY1mXlE7QP38gwCLZm8vgNUsR/Q43DoYmx/b7CxRQU2Tz1Pm8S1t4+XPLgj/i
-         TOUA==
+        bh=hic8lAphkKhUOBEdKa+KxeuQM+tNn6kxbBP9aFXKdok=;
+        b=PXKbRxHUzi2p7SUswoNIoyw3+KBD++RrvvDIje3Z3Q6BpgSXvv9Hi2/MBYpXfYVR0D
+         s7cKFMlrbDQlBmp6WC1DDcK+stmNJB+js75NM+kVo7WxDxGfP6RqN3Usq0vdT/5s5xEU
+         70byVflZeNoK+j+V7Na7qo75uEEz/tK54rUk1xcFrYfF2H/isbjUM9UcU3FHs0/rY20g
+         cRnogEoF0MSKeUDP/89q+HVW7wJoi5d/C7RNOM4plPqQqG3DONb47X3YSAQbaibyL/3b
+         cpZCm6x4T5e27lTjxcgooIrUahNKO8KysDP3L9+wcrldkPJe4EuezI0HwG/oT6Wd1Fzk
+         5DTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744044738; x=1744649538;
+        d=1e100.net; s=20230601; t=1744044740; x=1744649540;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xktnEXXKtQ396AGgEmOxLxFn+tjVbH2T7f18cyqhW5c=;
-        b=QNN70PfDR+1rrPbofGryr8+HfghgQB+zh4F/mVZ2/SuVY3o3NP0vVBaa9+00Hrc4Eq
-         R0zXVA25pmTnrameE050Qa60u2PqCZNhbGS+bO7Mj9tybb6LP7AFN4I5nmYCt4FcOEvH
-         tATxQ5L7BrMl5PH+JS80YDe4+1+WYZW3RkFeWeIKAwZ9Ha+8Pbo0A10qmDVQUJgRaQdS
-         xCnRtCBVozHOFHQa3ZvlkjSob9sQVtkgbPmVl0ZJSBK1eNjkHJHkbwi5EYqTcZixGhqr
-         10/ii8J84IrHBkKaAp7uNZVNr16NNGN8hxtPZ+GVsbinR5+Ed/1J9BRvXTf4mgPuQ/Yv
-         6cVg==
-X-Forwarded-Encrypted: i=1; AJvYcCUdPBAY1dAby1uRFQZVBFysSSY+ZuDkSsNIuu+Qe7MVj7iSuWGqNGZ3eAcvICFm548nnjEIkoMmQRPP@vger.kernel.org, AJvYcCVUwOKnAwMUMwCDOLM+n6Jyn/KFjcc4+Z1zAHrdbBdLkHWNfSzj+LJsvDUSTglH132kErX6VL0kTqWd@vger.kernel.org, AJvYcCWzWkiix8/gjhRNp/8Fy/6d2zWJ+Rnnq5ksFa4/DMrnx3HnuFmNaAV+A8yQdVDmfWjkiCAoddCpTiiBQJUq@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGgypE1qrkh/+uLDL8Pr690C9ruERy60SEYL7RadceMQbAUZBb
-	M5wUg1EYtXsiQJJjC/W3CHmT2YMvtkzTSWLuEbjlkIASmOfCmKWs
-X-Gm-Gg: ASbGncvOz07BDN8V671isSyipJpHpJBxIFM+k2d+NN9yM8MhCp7SxuIB0YhG+mfP/AW
-	Y6J08on1V676LPD6Q92MylFUv1KTaF+wKwaPxlI/p3uU3+CRFNTMxg4KokxHPEEji3DtrBWUJzk
-	MhYIDhNjo7VYI+ox7CyplbBye93J4oh4VXDwmiaSAnsYPUH21b26x9LULY+d5EvbnwTmZ9YkW4q
-	kNkjN9fyU0toV4jkLYQ9qDoMUXTlh0EulxToe4UuT9Tb27W0zj70WA2mnPsi8Opt5AOfhvrKK2W
-	oP83zh0un606WZBQ5zRoh83QL74vJfqSffLcpGKyoDNt1vJK8tnpbzXR+JgXxoFkJggyKw==
-X-Google-Smtp-Source: AGHT+IE5Z0IG5PtFIIratWuAfb+xmtIzwhj56I4d3k4JvKf97Mvmg3LXofnC2+ZKqj4te/8TOmYLqQ==
-X-Received: by 2002:a5d:584c:0:b0:38d:e401:fd61 with SMTP id ffacd0b85a97d-39cba93cef6mr9886746f8f.49.1744044738390;
-        Mon, 07 Apr 2025 09:52:18 -0700 (PDT)
+        bh=hic8lAphkKhUOBEdKa+KxeuQM+tNn6kxbBP9aFXKdok=;
+        b=llc4GB57gTGpyzNCK2nvhb51Ekda4KaTkG6xJldC01pYxDDIrRgp3B3Ilsq5Pgdi2m
+         y8BrjFDN5vvUJrcU7Tpj/DiwvSYvogVz9K19EQkw2ccqGeC/BY9cNJeIQ5ytjffKptUZ
+         Zt5uU7x+0ooZI2Me3T87Deg8DtmE3nl/6W69Wyj5aomuebmtExcUvYiIDtwcKhSpyE8i
+         nDHVXNH7gfcd0o0BXN93450+1Q39/iGBdWXmT1t6hvu0MGbpl6M33tC3L3mrxWWYsqWT
+         ufEOhvVLZLs0hfR6iVihzAYPwWpJh2xwMJEl/v6n6zZGjO3/hJVlXaqG5umhuqserxlE
+         px9w==
+X-Forwarded-Encrypted: i=1; AJvYcCUAixwz7Filfzr7nUfREdwJSWTLA7hZCYdKDpFjea+WO4Y3fYNhljcB3MqQNnzHGQj2qChe7ITrisoe@vger.kernel.org, AJvYcCUa2D1oPPWqqWgrdT+etSIO3hnj6ERxRp6dmJIs6NkZcPnSVtiaUT2QyHWuWKNLORJyrOxqnuWV0jwG@vger.kernel.org, AJvYcCXbraHenS7cQPfZLtu8yR8P5rLo6pzhLTKa83lBNYYmESKIOmvPfulvuhad6UIjpusc/+gMoJgJXojwhJFL@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxVHqfBAe0T9OFrSA4ifDdDpEBXNg5Q9bI/+ztQtWhEUUidJfj
+	yoeB8IWCdPMlfALoXOZnEZnkQb8au0xdz42WFEhWwn7tinufDA8/
+X-Gm-Gg: ASbGncsvQmYmQuUUSmGMQNpXVMENeKktfzQNEN89z0OGeR5LqN2DJt8mUBOtt+o6/YF
+	rEgrVDag1LrduMwayKIl8dZqBVPbLWsQ21r0QwA27eP74YI4PrUmtjIwx/jm0O7YpJAUuJocizW
+	zEYF1js74nbAIyIWH/bsSBLsn1s39iZ6356CpNzOnwjImfyGkhFCxEoXhd44/n+FCnlawCqtEN3
+	kKQo0xobE+QvQmCsyVmo8dlv8t90KPqZfYjFnhXbXfwa+UMj60b13C5SNsE3cGXzaodK1O9WAaH
+	oQREKs2/WkWbi2s418Vmn4hc3y+9x9+E30uhim88HvTMHftWbQFKv8Lq2/GZkbAz63m+kQ==
+X-Google-Smtp-Source: AGHT+IGxECAOPlisZzoRyl5ma5z1rpqqMgA27pGjUKS53MT+25NNgxJlX60ILBGhaQlT53O1ANTexw==
+X-Received: by 2002:a05:600c:34c7:b0:439:4b23:9e8e with SMTP id 5b1f17b1804b1-43f0e55b4e6mr1718695e9.3.1744044739508;
+        Mon, 07 Apr 2025 09:52:19 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:78b9:80c2:5373:1b49])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec16ba978sm139272305e9.23.2025.04.07.09.52.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec16ba978sm139272305e9.23.2025.04.07.09.52.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 09:52:17 -0700 (PDT)
+        Mon, 07 Apr 2025 09:52:18 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -89,9 +89,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/9] clk: renesas: rzv2h-cpg: Add macro for defining static dividers
-Date: Mon,  7 Apr 2025 17:51:55 +0100
-Message-ID: <20250407165202.197570-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 3/9] clk: renesas: rzv2h-cpg: Support static dividers without RMW
+Date: Mon,  7 Apr 2025 17:51:56 +0100
+Message-ID: <20250407165202.197570-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250407165202.197570-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250407165202.197570-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -103,68 +103,72 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Unlike dynamic dividers, static dividers do not have a monitor bit.
-Introduce the `DEF_CSDIV()` macro for defining static dividers, ensuring
-consistency with existing dynamic divider macros.
+Add support for static dividers that do not require read-modify-write (RMW)
+operations. This enables the use of the generic clk_divider_ops instead of
+the custom RMW-based implementation.
 
-Additionally, introduce the `CSDIV_NO_MON` macro to indicate the absence
-of a monitor bit, allowing the monitoring step to be skipped when
-`mon` is set to `CSDIV_NO_MON`.
-
-Note, `rzv2h_cpg_ddiv_clk_register()` will be re-used instead of generic
-`clk_hw_register_divider_table()` for registering satic dividers
-as some of the static dividers require RMW operations.
-
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Co-developed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/clk/renesas/rzv2h-cpg.c |  3 +++
- drivers/clk/renesas/rzv2h-cpg.h | 10 ++++++++++
- 2 files changed, 13 insertions(+)
+ drivers/clk/renesas/rzv2h-cpg.c |  5 ++++-
+ drivers/clk/renesas/rzv2h-cpg.h | 12 ++++++++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index 4cda36d7f0a7..4123c30e8663 100644
+index 4123c30e8663..e53cd31c218e 100644
 --- a/drivers/clk/renesas/rzv2h-cpg.c
 +++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -298,6 +298,9 @@ static inline int rzv2h_cpg_wait_ddiv_clk_update_done(void __iomem *base, u8 mon
- 	u32 bitmask = BIT(mon);
- 	u32 val;
+@@ -380,7 +380,10 @@ rzv2h_cpg_ddiv_clk_register(const struct cpg_core_clk *core,
+ 		return ERR_PTR(-ENOMEM);
  
-+	if (mon == CSDIV_NO_MON)
-+		return 0;
-+
- 	return readl_poll_timeout_atomic(base + CPG_CLKSTATUS0, val, !(val & bitmask), 10, 200);
- }
+ 	init.name = core->name;
+-	init.ops = &rzv2h_ddiv_clk_divider_ops;
++	if (cfg_ddiv.no_rmw)
++		init.ops = &clk_divider_ops;
++	else
++		init.ops = &rzv2h_ddiv_clk_divider_ops;
+ 	init.parent_names = &parent_name;
+ 	init.num_parents = 1;
  
 diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-index 03e602d70f69..00b52b459aad 100644
+index 00b52b459aad..97054f207113 100644
 --- a/drivers/clk/renesas/rzv2h-cpg.h
 +++ b/drivers/clk/renesas/rzv2h-cpg.h
-@@ -45,6 +45,14 @@ struct ddiv {
+@@ -37,12 +37,15 @@ struct pll {
+  * @shift: position of the divider bit
+  * @width: width of the divider
+  * @monbit: monitor bit in CPG_CLKSTATUS0 register
++ * @no_rmw: flag to indicate if the register is read-modify-write
++ *        (1: no RMW, 0: RMW)
+  */
+ struct ddiv {
+ 	unsigned int offset:11;
+ 	unsigned int shift:4;
+ 	unsigned int width:4;
  	unsigned int monbit:5;
++	unsigned int no_rmw:1;
  };
  
-+/*
-+ * On RZ/V2H(P), the dynamic divider clock supports up to 19 monitor bits,
-+ * while on RZ/G3E, it supports up to 16 monitor bits. Use the maximum value
-+ * `0x1f` to indicate that monitor bits are not supported for static divider
-+ * clocks.
-+ */
-+#define CSDIV_NO_MON	(0x1f)
+ /*
+@@ -61,6 +64,15 @@ struct ddiv {
+ 		.monbit = _monbit \
+ 	})
+ 
++#define DDIV_PACK_NO_RMW(_offset, _shift, _width, _monbit) \
++	((struct ddiv){ \
++		.offset = (_offset), \
++		.shift = (_shift), \
++		.width = (_width), \
++		.monbit = (_monbit), \
++		.no_rmw = 1 \
++	})
 +
- #define DDIV_PACK(_offset, _shift, _width, _monbit) \
- 	((struct ddiv){ \
- 		.offset = _offset, \
-@@ -150,6 +158,8 @@ enum clk_types {
- 		.parent = _parent, \
- 		.dtable = _dtable, \
- 		.flag = CLK_DIVIDER_HIWORD_MASK)
-+#define DEF_CSDIV(_name, _id, _parent, _ddiv_packed, _dtable) \
-+	DEF_DDIV(_name, _id, _parent, _ddiv_packed, _dtable)
- #define DEF_SMUX(_name, _id, _smux_packed, _parent_names) \
- 	DEF_TYPE(_name, _id, CLK_TYPE_SMUX, \
- 		 .cfg.smux = _smux_packed, \
+ /**
+  * struct smuxed - Structure for static muxed clocks
+  *
 -- 
 2.49.0
 
