@@ -1,209 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-15485-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB673A7E4F2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 17:43:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4B7A7E4AF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 17:37:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B1CD427A9E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 15:29:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2913163B05
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 15:29:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6FC01FF1B9;
-	Mon,  7 Apr 2025 15:27:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 072B21FFC62;
+	Mon,  7 Apr 2025 15:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LBZvLE2G"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I6OlnTRM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BC31FCFD3;
-	Mon,  7 Apr 2025 15:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145B91FA177
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Apr 2025 15:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744039672; cv=none; b=bswnRZuVtOQXcPrTThzmYfJgeGEJm8evqH4RarMheH+22nWSuFYqclAXHUGMc3kBiVGediePhtAVt8OSFfqy08Wf7AtBEM0z80cA4XNtJTZvyTm25kzGYGhbQYUWFnb9UP/YXsW0zkj//RYTTjEJ2vakCyDvBRkiojzwjkXSUmA=
+	t=1744039688; cv=none; b=FX6yEjwIU0UdrRUc6/dBDgXzv1HnZWW2LBAi1IEVgp/27OBsCeNFeJ7vFep14zUZM8u2bzG1MbZoNKHz2Tcps3a+P8UNr+cxjlOPZ1qBD4e1yKN6Mh8So91xFOZcSlA4W6W/63T6jH5Yqt8RAQCQSne5Ol8Hg25lATaiatYcH8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744039672; c=relaxed/simple;
-	bh=ft5fAVeWE1b1HKhaLeGcIb2VFYMlP13maxhipyRumJQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZY2Xu1OM3QMHWceYmnS7TTCp5/YBiXwM1XWu86slA+7PA7qxkW4nGhj0c1fHD4YOkWfaQgr7A5pWQAfBbcoX6hC/V5WepP4bcnb0iYzRBkju6U7KBtt8v+RKSHMjgVscSQIn1xci7wdCMFH0jF7JB6NkuhwM+w6idGENVpzJQQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LBZvLE2G; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 72646431EA;
-	Mon,  7 Apr 2025 15:27:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744039667;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WgX6S64ngnXsjU0lQPqeLHBfnA+UnbXv6BjQk1oGXZU=;
-	b=LBZvLE2G+afaVJ2bwhuBl1x1YRR/aqaZ2Xm5yU+xaLjjIqM+WbNAKPx85Swnqti9EdXmCR
-	jxm3gIWcOaG1co2jTwQSHLMwRfa/o37ZW3TL5sERhaicxQw3i4iyp8UcVcTXkH1w4KSGdk
-	Y19KevZYjLYHr3HXXP8AducFPd1YdMFTPsJeGctmaMWsKIGeEO+n7SDKrX8kxYN5Z1gWgI
-	+UT+rfLgfI9oZV+al0AMr7X1Hj0w9CZsV0S3DJwxwGrF5CvYlrRAnPH725fFHTQ9VF1+RR
-	KAa03YipbyuRmYOv8qQstJ9OZTNaCvUkN6DRY2d/JonMQilxNjXgv50w/l7c9A==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Anusha Srivatsa <asrivats@redhat.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	=?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>,
-	Hui Pu <Hui.Pu@gehealthcare.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	dri-devel@lists.freedesktop.org,
-	asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
+	s=arc-20240116; t=1744039688; c=relaxed/simple;
+	bh=cLukb9C2aiYDFVtCN21ZKXnPdKtOqLTL6mgc0FrZp7M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oiRtByB4D3L5LNX3mVGVeAZCD6TcHatJvsUURruVZQevWhG3+BmTMpfAcw+Ox0RB+yXlOcoKnXgHp/cqaEpwujJFj3INETiS98felUxX2qUfPusNDXiLcce8Udc3QtRaSWazAJJ5LcGbw7dGyonJcqRBHndn6h72C1CAC/gU7JA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I6OlnTRM; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30613802a59so47792091fa.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Apr 2025 08:28:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744039685; x=1744644485; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kq8efX9K/jKkGa5RDf6t3vrgLuokcYYa4oIPfqD6CjI=;
+        b=I6OlnTRM201vUy+ZXODPHeJkUzVDlZQyuP2bUYZepXdkKsibZMnX6iWhE50C5OQxRS
+         Ah+VBHZLo7oaOYAn7jzEUwyKVQtSfRIzMFZymjW1tFIeW+6obJJOALVJ0RQVjLMyyMDg
+         Dr0xs75cX2gcVZaFm793jtelXkQZ+GT95XZMPezG7A361vKj+yBGYx55X1bMimRLEhTR
+         9Ulcwqa0rYkPPDqL6P0MWRizljf0t6/iUJjvrtlGJFJ7VocjOfJOdRn22oFrEwrOh5UR
+         V8Y22Oqxu5CookFLPzBh3KoPAfUuoQMb9FQpyTZsfoMbcxj3KrblT78EZXVw6gXt5iKh
+         WbUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744039685; x=1744644485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Kq8efX9K/jKkGa5RDf6t3vrgLuokcYYa4oIPfqD6CjI=;
+        b=YD3qX/B2dUrBQJRdDBGpDe9Y99RCX1DmhfkgfMLH+6e5FCK4VIDZ/8ZYnT4KGU6Veo
+         qSQ4RblFhGWIhkHSrlTSj9Qr2ZnxgPkeN1K4OcBIQm+1vtTwC7sPU7OYBUscqT6CWHii
+         RzGVp7nBU3Ygbmpm6PP+hIMUorD96gTb3OrECMm1eoOKuf4n/wUJM2h9mzOkNtt3q5Xy
+         Qftc8rf8lpOpmHMiUbmq7Cnty1Q91d51D6O9Yz9NmfqDREbcTZjDVk9KaFsr9CZHxjyH
+         CpXIoCi9cUODAVMH7a+dezGFB3eYY5E+0QSQurlB29Xj8PdwLMpfqnt41Hwi9Lqs36Hz
+         sofw==
+X-Forwarded-Encrypted: i=1; AJvYcCVzIEzbDfkbbkaxnAUmksXOipVPB8K+QCVsqF9DC8NuJ6VwqfZb19k4qJTSiJbLl+MQDDmn+Arb4V956pOILu8T8Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyt7qbx+1NVsygsMRG6bv+4n1nVxS62hjmuoP6/lIx8K8b0jaGw
+	a8+smAA9F01N9OOSHtNtumSAEMLEa8+Hcyf0v6es3XS2RV4x8SjsVEA+L0/ooXc=
+X-Gm-Gg: ASbGnctU2fxktj3ZgVZtAq6MOgNqc+lPTRF2wOQVll94Wmp9MHSMlMoUr8Xa0eRjeUG
+	i7OOglfrV85LeU+EQXJdgB05YwWMxNPQoFfbzTFIOG71V2yAyDtDrQ1LjUgNM3SBFTpy4fMz/Zo
+	05PZ18Lcnxnk5LOMdsnXdbFo/XO+BWQIO2Unx+jkSOV0mSfv001HPkWu+haN6FjeHUKcJ/B5I9/
+	hBlubiphhnMshzGEZKylNm07elLdnj22dGLdDtilRAp9BND8BKSu+6xdRC9jM8SA0VAEWyF1mxD
+	K4I1SocDfXTELPkY+mdP6dFa3d13cMFJo1vHcRvhAo8JbyIYx5wqm7M0JoktBij0EE1BpyBI2Og
+	x763lGKRsSHKmUR9TLbY=
+X-Google-Smtp-Source: AGHT+IFObqH9uOMbw/LDaPSoxjH4CdvHzcUd44Am3VfEgwwKnpzakyOKNpnsTiRoTRb5UeyoCfSx0w==
+X-Received: by 2002:a05:651c:1142:b0:30b:971c:96e6 with SMTP id 38308e7fff4ca-30f0c02cda3mr37282471fa.26.1744039685191;
+        Mon, 07 Apr 2025 08:28:05 -0700 (PDT)
+Received: from uffe-tuxpro14.. (h-178-174-189-39.A498.priv.bahnhof.se. [178.174.189.39])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f0314c62bsm16158691fa.61.2025.04.07.08.28.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Apr 2025 08:28:04 -0700 (PDT)
+From: Ulf Hansson <ulf.hansson@linaro.org>
+To: linux-mmc@vger.kernel.org,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Adrian Hunter <adrian.hunter@intel.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Avri Altman <Avri.Altman@sandisk.com>,
 	linux-renesas-soc@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH 34/34] drm/bridge: panel: convert to devm_drm_bridge_alloc() API
-Date: Mon,  7 Apr 2025 17:27:39 +0200
-Message-ID: <20250407-drm-bridge-convert-to-alloc-api-v1-34-42113ff8d9c0@bootlin.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
-References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/5] mmc: core: Add support for graceful host removal for eMMC/SD
+Date: Mon,  7 Apr 2025 17:27:50 +0200
+Message-ID: <20250407152759.25160-1-ulf.hansson@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.14.2
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtoffgsehtkeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudffiefgvdfftdffkeejjefhffduleejleeuieetieetgeehtefhjedtgeegieegnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihrdhfrhhithiirdgsohigpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedupdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvp
- dhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
 
-This is the new API for allocating DRM bridges.
+Changes in v2:
+	- Added reviewed/tested-by tags.
+	- Updated patch 2.
 
-The devm lifetime management of this driver is peculiar. The underlying
-device for the panel_bridge is the panel, and the devm lifetime is tied the
-panel device (panel->dev). However the panel_bridge allocation is not
-performed by the panel driver, but rather by a separate entity (typically
-the previous bridge in the encoder chain).
+As pointed out by Wolfram Sang and already discussed at LKML [1] - an mmc host
+driver may allow to unbind from its corresponding host device. If there is and
+eMMC/SD card attached to the host, the mmc core will just try to cut the power
+for it, without trying to make a graceful power-off, thus potentially we could
+damage the card.
 
-Thus when that separate entoty is destroyed, the panel_bridge is not
-removed automatically by devm, so it is rather done explicitly by calling
-drm_panel_bridge_remove(). This is the function that does devm_kfree() the
-panel_bridge in current code, so update it as well to put the bridge
-reference instead.
+This series intends to fix this problem for eMMC/SD cards.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
+Please help to test and review!
 
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-To: David Airlie <airlied@gmail.com>
-To: Simona Vetter <simona@ffwll.ch>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-To: Robert Foss <rfoss@kernel.org>
-To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-To: Jonas Karlman <jonas@kwiboo.se>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-To: Shawn Guo <shawnguo@kernel.org>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-To: Pengutronix Kernel Team <kernel@pengutronix.de>
-To: Fabio Estevam <festevam@gmail.com>
-To: Douglas Anderson <dianders@chromium.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Paul Kocialkowski <paulk@sys-base.io>
-Cc: Dmitry Baryshkov <lumag@kernel.org>
-Cc: Hervé Codina <herve.codina@bootlin.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: asahi@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org
-Cc: chrome-platform@lists.linux.dev
-Cc: imx@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-mediatek@lists.infradead.org
-Cc: linux-amlogic@lists.infradead.org
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: platform-driver-x86@vger.kernel.org
-Cc: linux-samsung-soc@vger.kernel.org
-Cc: linux-arm-msm@vger.kernel.org
-Cc: freedreno@lists.freedesktop.org
-Cc: linux-stm32@st-md-mailman.stormreply.com
----
- drivers/gpu/drm/bridge/panel.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+Kind regards
+Ulf Hansson
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 79b009ab9396048eac57ad47631a902e949d77c6..ddd1e91970d09b93aa64f50cd9155939a12a2c6f 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -287,15 +287,14 @@ struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
- 	if (!panel)
- 		return ERR_PTR(-EINVAL);
- 
--	panel_bridge = devm_kzalloc(panel->dev, sizeof(*panel_bridge),
--				    GFP_KERNEL);
--	if (!panel_bridge)
--		return ERR_PTR(-ENOMEM);
-+	panel_bridge = devm_drm_bridge_alloc(panel->dev, struct panel_bridge, bridge,
-+					     &panel_bridge_bridge_funcs);
-+	if (IS_ERR(panel_bridge))
-+		return (void *)panel_bridge;
- 
- 	panel_bridge->connector_type = connector_type;
- 	panel_bridge->panel = panel;
- 
--	panel_bridge->bridge.funcs = &panel_bridge_bridge_funcs;
- 	panel_bridge->bridge.of_node = panel->dev->of_node;
- 	panel_bridge->bridge.ops = DRM_BRIDGE_OP_MODES;
- 	panel_bridge->bridge.type = connector_type;
-@@ -327,7 +326,7 @@ void drm_panel_bridge_remove(struct drm_bridge *bridge)
- 	panel_bridge = drm_bridge_to_panel_bridge(bridge);
- 
- 	drm_bridge_remove(bridge);
--	devm_kfree(panel_bridge->panel->dev, bridge);
-+	devm_drm_put_bridge(panel_bridge->panel->dev, bridge);
- }
- EXPORT_SYMBOL(drm_panel_bridge_remove);
- 
+[1]
+https://lore.kernel.org/all/20241007093447.33084-2-wsa+renesas@sang-engineering.com/
+
+Ulf Hansson (5):
+  mmc: core: Convert mmc_can_poweroff_notify() into a bool
+  mmc: core: Further avoid re-storing power to the eMMC before a
+    shutdown
+  mmc: core: Convert into an enum for the poweroff-type for eMMC
+  mmc: core: Add support for graceful host removal for eMMC
+  mmc: core: Add support for graceful host removal for SD
+
+ drivers/mmc/core/mmc.c | 71 +++++++++++++++++++++++++++++-------------
+ drivers/mmc/core/sd.c  | 25 +++++++++------
+ 2 files changed, 64 insertions(+), 32 deletions(-)
 
 -- 
-2.49.0
+2.43.0
 
 
