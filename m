@@ -1,134 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-15493-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15494-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1503BA7E5E3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 18:15:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 254CAA7E5F6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 18:17:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 028293BB6E4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 16:07:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE8DA17C7E4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 16:08:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6360F20967A;
-	Mon,  7 Apr 2025 16:05:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10BA5209F33;
+	Mon,  7 Apr 2025 16:05:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DPVF7zbe"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qNNEfvCJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829C1209668
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Apr 2025 16:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67376154C00
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Apr 2025 16:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744041921; cv=none; b=dah02kGbAjSb12/Oqa8ep5r6cdg6z+SD3loYjwmYmnRoMlni6bfiJ/+blb4m3jw3gT3QkQRCaBYr5yR3JB2DFFJlmCDIHrnYMI2YV47ClyKs+8eY+4+DhgMXzE9mTdyRKQEO1FClsUuP7mWv8Y+Z8J+h+8csEkWv1fDpOGbfV18=
+	t=1744041927; cv=none; b=oUYHcqrey3lpsiI6OxiDxefn8wZzDJlOC72Jmcz3e+5vGH554s5lK2XUTYgrMRaO3JNqiX+BSuvTaCcfqP1BnttDwe7ndFCZqrGquACOUOf0vOc0NluGsz5zEWCxDyh+sEAnq/q/EjrpUORmrlyqq4by5/hS3CnBGjFOJVuXVag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744041921; c=relaxed/simple;
-	bh=u0aF0vd4QcjvPIuR0+km623x+V7ksr6MnKsaPN/8+xs=;
+	s=arc-20240116; t=1744041927; c=relaxed/simple;
+	bh=CRYlMNWz3u/08ZIs/XIMA8AZpRqVPaRQC/zaOHLZvkE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GyhxQZi/MLw7WJO8PsZLK3ILjXBbxKATY+Ott/lUyhvp3gtD2AXTCRwBfH5QIqZhqvxbBj8WP2YO21dVO4bnvzX2odTjirg8zvjHlzHw7XmZbRZt3CH9oZEFm++tATGivKFFxErNjrI6/3wSdeAnnxwePc5grZwrOB45uzm/H8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DPVF7zbe; arc=none smtp.client-ip=209.85.128.179
+	 To:Cc:Content-Type; b=QIQt8NsuR9fyVyMM07+P6Wzf6oAyPbXNePAv/Ajr+LZZj/1dAQzCzzsNlTLhorz6LXpDw7LsSAVk+Sni+rl74q9F1xtu8L3AoGH7f5TiCU7NbmCIb/aA2kXfp5dAU1cyaU4Ch4IzFirCX3uVRIYHHjsyqdMyNQOYawSFlH3u4c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qNNEfvCJ; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7020d8b110aso43072557b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Apr 2025 09:05:19 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6febf391132so41909267b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Apr 2025 09:05:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744041918; x=1744646718; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1744041923; x=1744646723; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sIltRROPIS1IFEA+sscZBf150A68RCMQ2MklOTTVcXo=;
-        b=DPVF7zbeZiok+kLrcO1mMH5DVBDyne3+gv1n9v70X32P+npah5RaGGrQQ4Xmv7MrCS
-         r0vXD5SL6nF78IAwk9X8voAEtQh/oYeXNItxXIpCQlnpn0L81ZrIP2MBeloBUfzWcbvz
-         jFIVwhc5u8zefr4AyHn5atFJiSVu+E+8/0oru43HXp/tY9m7lxqFlohmncelf4Bb1jfe
-         iTtHeUHbyMxqAbClhlyatFHyO3E7IFW+AJpZlVlxaf2pPtf9fOqeYyzfSMGhXKjNq9iv
-         W24wDbL0kK4UKLYZHj5l7MOcPwNxb0vGdiCFqopfl8Q+gAXT6o6TtOFF/TmJ/DVBhD2w
-         VUBw==
+        bh=MYl7YIVWVZsKQC/OOQAULpw8JbGgIFbvz1XDkCe8Zvc=;
+        b=qNNEfvCJ77BEr+qxk88q7kddJCYuJMdKPc35csvyh+BiIgIBr/70ARVjlORU4Rh5zo
+         CWUtDMZNqJfZCKKmY7kT7wAIcA4GJPQw46oPzm3zBgUfSsSODsWIThFB8ax+YI389Ioh
+         5SF9hn4k9DoSaOpAIJ7jPLygSBBqGrfFz8Twb27QcuAJ9xnF+5a54GCKr0pNYw+0FHFX
+         sxjYFZMlj4vCSiMwa/a9zOWfnhIUyxXkaaRDjMjHQFKbLIrSbVSfm7Mj3q5SiqhIj3EW
+         PTsvhpy3Y/3mmGJjzIFuuMa60uuvlWWfqAey56geF69WjjL9Wt3ZCB+Un13q8vKK4GjU
+         ui+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744041918; x=1744646718;
+        d=1e100.net; s=20230601; t=1744041923; x=1744646723;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sIltRROPIS1IFEA+sscZBf150A68RCMQ2MklOTTVcXo=;
-        b=gGwlBN34CtBsCINLfzM/xypF2s4cmf+8cbhE/3tY/mjgjHXQaR2GARJnPLVPAdw5Ee
-         gl8WMBZxd4gocogGjYtrR7bAMyhkrrTdgQHLWGNuWr0zZq3gb9KqfQIptB/4fCPomZZd
-         WTrJLsRuCnu/0i8+ihBmduci88YsXzyiRfYtP4ZRzs4PESPikLWhQLFSNh7c9pMEoxNB
-         kvVaFAO5N3jmU7lBFrBc8kAWm6tpXRkvyyzj7gdxy4lHMN/LDrEJY4z5g0Q+vacRywH+
-         a56NYlxh3svURBxPuNbXkM1cogCjvrelU2z1LhgQjGEhtdzMzobR9bKtEpnJvqaSi6Cz
-         bMUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWQZMxoPgTH54jb4vVIYem0mlpeIHFF/tDKv/de534WWcKSuAixHKi4vxH3GCLwHHS6ZAlYdNQegU1CH1MIa42jNA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtN33P+py6W87y1sg9/r7JFKqU3ENcLjxDPW5UYiZB/69isYn2
-	PzKGYfD72av1IO29VvAKZP6DOsuc39qMDJJa7Cqn9VfzeTPyf+pRAVeLzUqxzdbDY2bRw/hbS3B
-	L8rxyJpS6PbD1Kb92MCqY3HglSRRlAGTWwz9aMw==
-X-Gm-Gg: ASbGnctU2EKsrtMtgUX6xRM8JFLIr0xphgOloehZ+pduCebO8Dl+LCNGCIDsbEPoK9c
-	XJxfoQ3PeBXVaxaNdRDCFeIDt5ibTb4tMzgRNCDBnla2omT7dWrvjFW09eXmXb08ZfRV8hxnrVK
-	er+dBdPBqNhN0oJV18fg+Prh/DHmM=
-X-Google-Smtp-Source: AGHT+IHfemisUrYTSu+R+ITsGXJEjJhr5usaC/eR6dHy88Fr/iGTY4qDERK1sHs9feVLfrvg0UHQslChxfDxU3tm638=
-X-Received: by 2002:a05:690c:630a:b0:702:46a3:4721 with SMTP id
- 00721157ae682-703e153033amr248995447b3.15.1744041918403; Mon, 07 Apr 2025
- 09:05:18 -0700 (PDT)
+        bh=MYl7YIVWVZsKQC/OOQAULpw8JbGgIFbvz1XDkCe8Zvc=;
+        b=GlIi9O5JgihpwILiu5w7gXw3/zjprwEm4eAi1mlD/GRmIup6rCAtMUZryXjiegglUK
+         lh6ZbQsug/Igk3DnlVJd/LHJRQXi35rrAZ4quGpEkfh9iBWtIhn4yJaP8NJGGxWUVW2W
+         o/86KciX8rCFnOZdLMH5WqQayllTnfliDFcowUGKriwMBEA4QT9E7RaTx3Sn4phspyEK
+         LNOkYWCH0081L5iwedP0gMnfX/1CM6Ge8CvM1aNg8Zd8uZcV6zGICD2PgeQXIc6jb6S6
+         eSGImB2/WU4zKImxtlDfoXYv7cuA5eNU8JwhscBE02IsD7Y1zmxyG0uS4KO0bGe6Kdvy
+         W1iQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWz7MneFXrHlnpnkiPhmKUunYs4Oy6aznZ+WcszxYt/VUNPyy+i63NrUVhIgTE8BsTAnkPUsSlCzAmY5GR+Eh4j4Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxzf7NLvjXxZgNz5Q3HO8fKdzRHy2dan0jvG+CSnl1H/EJjFzhU
+	+DMBPt4MxM/OEi0T9Y48MugkPhkMTJ3EWmQyi0ObSpurDmJnsW70tQCBMi8kzZtvK0D98rZtnJq
+	PtKJ8roBSAqwfbynl3BIritp9ELsIhBDcPB+CLg==
+X-Gm-Gg: ASbGncuGpI1ff8arH7sKdLkjbLnWVm5hll55JuuoN+PRMzpEnXl+DLhZVImXyXZUIvm
+	8kx52qnMo71qHgp96+lFRN3Oh6ZmYc5vZVEqiqxXjNI0AdcAcPpYRhjgB4GeR3NE+/Sc1G9jrLq
+	VEF8aldXgpZLRTO/oeMdZEX3cXDlRY1VCR/UQgrg==
+X-Google-Smtp-Source: AGHT+IGDxc9ZlPb6nb5Z2zd90PGYLT3LmyVgNtNoQN7ui3U6zwBCuP16mCNDz0Fmuae4RzFpi7mdoWPuoFtnsuh24n0=
+X-Received: by 2002:a05:690c:4d01:b0:701:fa3e:83f5 with SMTP id
+ 00721157ae682-703e3357338mr248959627b3.35.1744041923239; Mon, 07 Apr 2025
+ 09:05:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250326143945.82142-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250326143945.82142-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250326143945.82142-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250326220638.460083-1-ruslan.piasetskyi@gmail.com>
+In-Reply-To: <20250326220638.460083-1-ruslan.piasetskyi@gmail.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 7 Apr 2025 18:04:42 +0200
-X-Gm-Features: ATxdqUFP_RvU6m6--vLVjW3iZgEwByAoHi4eONoRyG_VyZwI9qdEZYqg6kr0NJo
-Message-ID: <CAPDyKFrCy-rWeYz3qoRsTQkw+PY3e7=zGUN==4U5_8FvdHezGQ@mail.gmail.com>
-Subject: Re: [PATCH 07/15] dt-bindings: mmc: renesas,sdhi: Document RZ/V2N support
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Mon, 7 Apr 2025 18:04:46 +0200
+X-Gm-Features: ATxdqUEMjWbobTx2vMpoyw4W4dRlizG6XIsBx3n4NggtPSnHg8-j2sy33AaH5wo
+Message-ID: <CAPDyKFoMdp6b2p4jWi+K9nDUV_cQhkWjSmQoOmX25LfQx3AehA@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: Fix error handling in renesas_sdhi_probe
+To: Ruslan Piasetskyi <ruslan.piasetskyi@gmail.com>
+Cc: wsa+renesas@sang-engineering.com, salauyou.ihar@gmail.com, 
+	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-- trimmed cc-list
+On Wed, 26 Mar 2025 at 23:08, Ruslan Piasetskyi
+<ruslan.piasetskyi@gmail.com> wrote:
+>
+> After moving tmio_mmc_host_probe down, error handling has to be
+> adjusted.
+>
+> Fixes: 74f45de394d9 ("mmc: renesas_sdhi: register irqs before registering controller")
+> Reviewed-by: Ihar Salauyou <salauyou.ihar@gmail.com>
+> Signed-off-by: Ruslan Piasetskyi <ruslan.piasetskyi@gmail.com>
 
-On Wed, 26 Mar 2025 at 15:40, Prabhakar <prabhakar.csengg@gmail.com> wrote:
->
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add SDHI bindings for the Renesas RZ/V2N (a.k.a R9A09G056) SoC. Use
-> `renesas,sdhi-r9a09g057` as a fallback since the SD/MMC block on
-> RZ/V2N is identical to the one on RZ/V2H(P), allowing reuse of the
-> existing driver without modifications.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Applied for next, thanks!
+Applied for fixes and by adding a stable tag, thanks!
 
 Kind regards
 Uffe
 
 
 > ---
->  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/mmc/host/renesas_sdhi_core.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 >
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> index 773baa6c2656..7563623876fc 100644
-> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> @@ -69,7 +69,9 @@ properties:
->                - renesas,sdhi-r9a09g011 # RZ/V2M
->            - const: renesas,rzg2l-sdhi
->        - items:
-> -          - const: renesas,sdhi-r9a09g047 # RZ/G3E
-> +          - enum:
-> +              - renesas,sdhi-r9a09g047 # RZ/G3E
-> +              - renesas,sdhi-r9a09g056 # RZ/V2N
->            - const: renesas,sdhi-r9a09g057 # RZ/V2H(P)
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index f73b84bae0c4..6ebb3d1eeb4d 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -1112,26 +1112,26 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>         num_irqs = platform_irq_count(pdev);
+>         if (num_irqs < 0) {
+>                 ret = num_irqs;
+> -               goto eirq;
+> +               goto edisclk;
+>         }
 >
->    reg:
+>         /* There must be at least one IRQ source */
+>         if (!num_irqs) {
+>                 ret = -ENXIO;
+> -               goto eirq;
+> +               goto edisclk;
+>         }
+>
+>         for (i = 0; i < num_irqs; i++) {
+>                 irq = platform_get_irq(pdev, i);
+>                 if (irq < 0) {
+>                         ret = irq;
+> -                       goto eirq;
+> +                       goto edisclk;
+>                 }
+>
+>                 ret = devm_request_irq(&pdev->dev, irq, tmio_mmc_irq, 0,
+>                                        dev_name(&pdev->dev), host);
+>                 if (ret)
+> -                       goto eirq;
+> +                       goto edisclk;
+>         }
+>
+>         ret = tmio_mmc_host_probe(host);
+> @@ -1143,8 +1143,6 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>
+>         return ret;
+>
+> -eirq:
+> -       tmio_mmc_host_remove(host);
+>  edisclk:
+>         renesas_sdhi_clk_disable(host);
+>  efree:
 > --
-> 2.49.0
+> 2.34.1
 >
 
