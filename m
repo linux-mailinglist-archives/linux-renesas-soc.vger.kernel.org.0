@@ -1,134 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-15496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15497-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE4EA7E5FD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 18:17:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB17A7E67B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 18:30:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 91887445230
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 16:08:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C1DB842290D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 16:22:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C78A20550F;
-	Mon,  7 Apr 2025 16:05:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF46220ADD1;
+	Mon,  7 Apr 2025 16:18:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mR/eUC+Q"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GkZNiVdg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733FF209F5A
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Apr 2025 16:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC74520A5DF
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Apr 2025 16:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744041939; cv=none; b=Y9C8I/KmWnHxFn/x6yAjNqVFr5b4fzABn246eX0ovHflGswG7/CXcM5whpLkZk/3n332dxucm0E2tDcX73AYVh3arqGzC8bdopKwiA4zKgHEk/FpbTKxrlVBKX+pvId0/tTrUUxjkH/dCJhXCRifhDv2S0dhM+11OcIzVE3qE5k=
+	t=1744042731; cv=none; b=QKXbSFm4RNk3QT7r2v/jFSEH/REQWgk+zPwbBSPQqDppYzgIDUJortirDA1J9fhqss8A/RC3cFFT603W1vqhTYHK4aVgPWZVVB+yAlYc0EoBoasXXoRftEasFi6RBg+bw5h8U1un32CoGUKmDj1G6rbYc+HfOXbV8pLtdKuak5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744041939; c=relaxed/simple;
-	bh=ZWK4F5pkiuvCsD2a+W7pEbXy54LrutSpignndw+AF3s=;
+	s=arc-20240116; t=1744042731; c=relaxed/simple;
+	bh=UlaJZxSieBbasfgzz7gGd3ssb1FnKZpa7pEFR1lSHB8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j3Ratw7ha5C+eHRvWVe8DYMAj/BGRpxbkjJEVyDw1m+vH9HpocK9uAPdwZa/+f792WwDND7UM7LJZVQO15aEfTTMQT1hat4Z/IXe7wfww3C38TqkjuLwCTNVFvoMpPcKj4/g1erIu08t8R0o9I9lxKSn2XehbNK+m7h6hFscMxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mR/eUC+Q; arc=none smtp.client-ip=209.85.128.174
+	 To:Cc:Content-Type; b=NZfH0S8UsmRvuXoev1Nixcaf5yKXk01+4nkYVizO8Fzv4k1tf0pnQXnpKJ6LMhjfWUqNWski3rXrUrB0DTuSSEfiD02jysisDaPVVO7i5hEagG94hY3eB2bYBd7a2p+rHVWWDBggFHyaTOOM/K8ZeZUNOCQLcXU4/1+GDZy9T00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GkZNiVdg; arc=none smtp.client-ip=209.85.128.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6fee63b9139so40447757b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Apr 2025 09:05:37 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6ff37565154so41707277b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Apr 2025 09:18:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744041936; x=1744646736; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tUJomVxK9lUe1I+H3yOlCnm1A1CRl+UuxJsXdwrQjHg=;
-        b=mR/eUC+Q3FX2t3epG5Ji5tglS0MMkiNm2vdz6275vexf04lYnGHyAwcB+ytYZ1dQQJ
-         QgC4xt5OQnCgBa4nOkhSeV4vHyL0IsU5OLbg8lynXH/rueVA2eh/F1CJlTjyQ2SFtSTS
-         ZOrM6Ba2cvKQEWl1sry7P+puYt5WAfcph6Oe1S/a/uw9S8Pb8ABjFQCMyWO5Spf+UGeb
-         mkQ6r3hjQOh1o6L9diTLhSbF4LJLMHOfDY5lXKd8B32n3Vxp/aUCfI4AaiPrYT2FdgIS
-         4TJxIKP8qd2OXSp/gGmUMa+AzoJwnBys/tmqAhNNoZK9PBWXJotnRbv18uf9Ab3my2xr
-         xB/A==
+        d=linaro.org; s=google; t=1744042728; x=1744647528; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JX/CsfcApiydwjMPAUinCGMDhAd2IhhoMg3Tp/JQvVw=;
+        b=GkZNiVdgoYrCt4GLU6a3BxGNy+0nOhwhc93/g7IXLv8qM1QFN4qQrQQV3ifhdyKS8x
+         rhJcW4WHrF8x70BvUqJt3tusIYRLq0VxUGdiqzs5mX+KmQ36vJCnNOR/ACHAcb43IHxF
+         tMYmMWoO4e1x5G/G/zC5C5Ae/YKGpVqG35AZGMZNyjWxgs9eRlyAHDM1LrWwPxhZ2GIY
+         QjiX+K1T0CnbATnM3FP/4aYCz+BKHESYs+FL2XbjYGzrtPHl9H2e7x5SHDqzFNN/2LIr
+         +ktrOK+lRIcNMlhTkrtOh29EdpiHHBjni56aJBvdC1n1XJ/a41t3n5j7EN0ixexzPoyC
+         vb+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744041936; x=1744646736;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tUJomVxK9lUe1I+H3yOlCnm1A1CRl+UuxJsXdwrQjHg=;
-        b=JBNyXMVX2Cpkcn29bEJ9GjZmWv9JDWc0QJeXLsK1yHsR0rFZw49p7p7EQF5vN+2Dtz
-         CsYveLoGFOiGPLiacas3DZfpUfpod++01ngipQ7cJvspf7AxCob8RdvneVwDrVU6V2QG
-         0pMMyAOfsxtErMagFCg3dUc3UEiZsKyC8oaxzcdvrkx15sWsJqvuJLwRH51VU91vQLQ3
-         39+uiLtzy2DpifyyZ2Q6ZkSrMgvf+443VzyIFEU8RGj0tBPqJ5s4gSenzFcIZJTdVO4I
-         cpCPTOCs79nftimIgvFS7a6Qb4YYsameUwOHs8Mz1rP8mj2Yw6rFaEf+VYcZHMCohTtO
-         Pn9g==
-X-Gm-Message-State: AOJu0Yy6uBb8dCsIHTUptT0wxp+PJz+yyaOBII/PBOszeX+IHN3gFKgT
-	8zb/ubN986HQ11xYo3F2sqtrlkYzdtnerfvPsdbpBPzPxrjY4KoCjc6Tb+6psgLMwEBfkSCZmxF
-	SJDzDv0r6DPIZaKE8QAT4eQ4UTTe0Ec7Fzsc6EQ==
-X-Gm-Gg: ASbGncsxz0mwf7CN5sRnwI5XICge/f1KTCCdDwaw6QTXa60ld+jh8lq8fN1URm4FrGn
-	oiDppXlurB8l8XgDBLg8bWHsNGdnPYDe75xE82B1wr1l2VgWvtdzff6OVsK8O+dakeK5mwkA1Nv
-	Xklzy7+tJ8tckNWMoGWx2ShVf17Ts=
-X-Google-Smtp-Source: AGHT+IE5IIpGhJ3lxaYQndkRiN7XRvbQi05HhF3dU3/Cu76gPC7qI1JSQCWf2xHlhqowdnt6+Q28QG9tfwYBGNmeHZg=
-X-Received: by 2002:a05:690c:6f11:b0:702:66cd:10be with SMTP id
- 00721157ae682-7042d57dc3bmr327997b3.14.1744041936276; Mon, 07 Apr 2025
- 09:05:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744042728; x=1744647528;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JX/CsfcApiydwjMPAUinCGMDhAd2IhhoMg3Tp/JQvVw=;
+        b=AOO1bfh9FZ6Jv3M14EsiAfW19FGDj2uwjc1Ogh4agNTJUony7vJqjWoaSfiyVtisq/
+         dYu82QtuetQKkuZXyILXruhEQLrbuF7TnfGIdOs9/JrVdheFmggl1XVuxQjfHTpVgas0
+         rlr45YRQ5kPxJk5HGaYVb+Mn3ak1/tzIzGW7kHXQ2wipmGFdhlgIGWnZyg0k2HKt/sZu
+         HiEHs42o818Wa5JCHbEEkn6aYohnMf1oRIzayjcp6OM31rpPGRFxxvP3QGS/OaqLmF//
+         o3BMa/de/6p6W3sZKXSS2/6+aszPuIpMhjFFGnGKBHl7CHub84ctTTK8ZWcswBcY0JxA
+         bTOA==
+X-Forwarded-Encrypted: i=1; AJvYcCUuygcWpLlcEP7t35Y/xhBOMProrzjaLar2JA9bLj1YJ6NEt/X1iX5CyaJNV7ejh6vR/XMGdpyDIzW4AyEYS+X60Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxv2t4NEAG26a8Ek+CyjJ0CnCJxMD3oj7uTQh6Ztwb6bLyy1qzD
+	CWR4xfAhr4FNCy4zB5r6hktBSb0Tzc4Ro02vreJP3RAj0QFzlakNYyPmlJ1mGL85QUFXkkz804w
+	oMSbuVoyTDL9F+DTfSMGUHBZDFnvY0KGwoXvTZg==
+X-Gm-Gg: ASbGncvPjl0fLqp+RC1CQ8QmPDCGftEUha23IGo2YyS0xGXO1jFwq4xs0PFV1TwY/EW
+	OYUanbyVy6kZgzrT+xuhHABiML7zD9B7lMQW4I+4jmJbFlbmwxhdPTp5mgncH/B1vmOuA232plp
+	RU1uMzLcUh5kaLxHXzMJNTUki9MZs=
+X-Google-Smtp-Source: AGHT+IHKMX4Ob6QTTm80PFpdHe5OW6JJqpgeMbRrvzhWKoI17ZKitrO/G0aPEV6gKHvE71Av+QnfoRhbc/Xsg7bIvR4=
+X-Received: by 2002:a05:690c:640b:b0:6fb:1c5a:80ea with SMTP id
+ 00721157ae682-703f42fc252mr178401657b3.32.1744042728667; Mon, 07 Apr 2025
+ 09:18:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250331064400.16677-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250331064400.16677-2-wsa+renesas@sang-engineering.com>
+References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
+ <20250403-dt-cpu-schema-v1-18-076be7171a85@kernel.org> <CAPDyKFrFRrPVJ_t0JrAE1VTbS02hwr=L-EHtqb7CQiWzB1MnQg@mail.gmail.com>
+ <20250407-aloof-fox-of-relaxation-62963a@sudeepholla> <CAL_Jsq+6GG3j3_S94SYLwdGN7x8fjf5WuGL4uHfmgW-fFb=dKQ@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+6GG3j3_S94SYLwdGN7x8fjf5WuGL4uHfmgW-fFb=dKQ@mail.gmail.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 7 Apr 2025 18:04:59 +0200
-X-Gm-Features: ATxdqUHgvmOJJ1NJLmLUKmjL5ZYT7OOW4ygQlvFHRtO9JYlUwIXiz-e05ukyeTE
-Message-ID: <CAPDyKFoQTRO1Ax8wa2HZqngG_0gk7rJ4x5aNE1fcDS-Ln_YGRA@mail.gmail.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: improve registering irqs
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org
+Date: Mon, 7 Apr 2025 18:18:12 +0200
+X-Gm-Features: ATxdqUF_J2qNh9UdMVJ6Dqqt88GUYfovrcMe53xm4tXJ8-94vrSIdDD4MBgiib8
+Message-ID: <CAPDyKFpX7aqcme9c=TZ3JT_DssRatvXPFWSNN-3k5K8pUZvgeg@mail.gmail.com>
+Subject: Re: [PATCH 18/19] dt-bindings: arm/cpus: Add power-domains constraints
+To: Rob Herring <robh@kernel.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+	zhouyanjie@wanyeetech.com, Conor Dooley <conor@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Steen Hegelund <Steen.Hegelund@microchip.com>, Daniel Machon <daniel.machon@microchip.com>, 
+	UNGLinuxDriver@microchip.com, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org, 
+	imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 31 Mar 2025 at 08:44, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
+On Mon, 7 Apr 2025 at 14:49, Rob Herring <robh@kernel.org> wrote:
 >
-> The probe() function is convoluted enough, so merge sanity checks for
-> number of irqs into one place. Also, change the error code for 'no irq'
-> because ENXIO will not print a warning from the driver core.
+> On Mon, Apr 7, 2025 at 7:30=E2=80=AFAM Sudeep Holla <sudeep.holla@arm.com=
+> wrote:
+> >
+> > On Fri, Apr 04, 2025 at 12:36:33PM +0200, Ulf Hansson wrote:
+> > > On Fri, 4 Apr 2025 at 05:06, Rob Herring (Arm) <robh@kernel.org> wrot=
+e:
+> > > >
+> > > > The "power-domains" and "power-domains-names" properties are missin=
+g any
+> > > > constraints. Add the constraints and drop the generic descriptions.
+> > > >
+> > > > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/arm/cpus.yaml | 8 ++------
+> > > >  1 file changed, 2 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Docu=
+mentation/devicetree/bindings/arm/cpus.yaml
+> > > > index 6f74ebfd38df..5bd5822db8af 100644
+> > > > --- a/Documentation/devicetree/bindings/arm/cpus.yaml
+> > > > +++ b/Documentation/devicetree/bindings/arm/cpus.yaml
+> > > > @@ -313,19 +313,15 @@ properties:
+> > > >      maxItems: 1
+> > > >
+> > > >    power-domains:
+> > > > -    description:
+> > > > -      List of phandles and PM domain specifiers, as defined by bin=
+dings of the
+> > > > -      PM domain provider (see also ../power_domain.txt).
+> > > > +    maxItems: 1
+> > >
+> > > There are more than one in some cases. The most is probably three, I =
+think.
+> > >
+> >
+> > +1, there are users using "perf" and "psci" together now.
 >
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Where? That's just wrong.
 
-Applied for next, thanks!
+For SCMI for example, but other QC platforms use it too.
+
+"psci" is for CPU power management - we discussed the bad name "psci"
+before, but as it's already widely deployed maybe leave it as is? A
+better name would be "power", or something along those lines.
+"perf" is for CPU performance scaling.
 
 Kind regards
 Uffe
-
-
-> ---
->
-> Tested on a Renesas Spider board (R-Car S4)
->
->  drivers/mmc/host/renesas_sdhi_core.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index 8c83e203c516..4642fdb8bf65 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -1240,15 +1240,10 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->
->         sd_ctrl_write32_as_16_and_16(host, CTL_IRQ_MASK, host->sdcard_irq_mask_all);
->
-> -       num_irqs = platform_irq_count(pdev);
-> -       if (num_irqs < 0) {
-> -               ret = num_irqs;
-> -               goto edisclk;
-> -       }
-> -
->         /* There must be at least one IRQ source */
-> -       if (!num_irqs) {
-> -               ret = -ENXIO;
-> +       num_irqs = platform_irq_count(pdev);
-> +       if (num_irqs <= 0) {
-> +               ret = num_irqs ?: -ENOENT;
->                 goto edisclk;
->         }
->
-> --
-> 2.47.2
->
 
