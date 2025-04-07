@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-15489-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA64BA7E4E6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 17:42:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A482BA7E4AA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 17:37:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D3DC425F58
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 15:30:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11914189A4A4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 15:30:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C527A204C0F;
-	Mon,  7 Apr 2025 15:28:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26D45204F7C;
+	Mon,  7 Apr 2025 15:28:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s/X6XMk/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HdAI2e7m"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765B22040BF
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Apr 2025 15:28:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB9C204598
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Apr 2025 15:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744039693; cv=none; b=RjFGhbfaYKTuWE6UPiU2UegW6SlqwlV6EnMnyYwJe8ctVO26VzhaOusu+KyMJ/BBOBk0VmPKuq49tmSCpvKP5Jqtw08TTjnxwtB6hrqVkvv6wV64OS80QUSSK0UqRqvk0VTbplVxkJuzogqMCjekUVN1m9qlJTDmTysr0S0or+g=
+	t=1744039695; cv=none; b=GNLKwdrqVGEw6XCfBTKvldjZKGz1HdKpIHFXxfiJX4MIeYn1qgIcy3lg1xE5A/HSNPysSXPz1qePxhXZlqkGctJQwT9zZa76zujQxl8ERJcO7cseEHvGuu1H014JLS0lZlTD6UGXDomeoAgHVQ7slmIwyLVtX/XOufUcnboEXCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744039693; c=relaxed/simple;
-	bh=6z5WCu9BKEtjznjzzsmgKzbsHck7/xCTm4ZcI9BylgE=;
+	s=arc-20240116; t=1744039695; c=relaxed/simple;
+	bh=KZB+pX8+Z+t02Vyu3JiH1fIAeOGA3SvV4prne66BLo8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mgfWBe+pvQcERt2Zd/muKb+a71KSErrThIlapUJVZ+BeZYuZxj29jAuF0/EDf6jpMoDHuh6OqIvSlxQ26+AMgb8x7Azglx6Jo5t0U6TanUAN27zx/WggxKK1gvtSI4iy9GddcQll5d+C+YiDA7VFy/FGUKaJ5Ks56Nyzt6zWGVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s/X6XMk/; arc=none smtp.client-ip=209.85.208.169
+	 MIME-Version; b=oLVZENIxtweNpOYjNsbdJA/k+5QsCg4JVNz+FNnR0spIhLyMqZblm7SVQPJHJKyUtkivui/g6G4N3G3bBR/16nBx0DpQpAJjl9lxFPrSFaT8WwJ40qLVqOQJHdGaGpaBUqhUJzWAYHkueaSmM1h6rVqutmWvi4KQc5ZRXahT+LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HdAI2e7m; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30ddad694c1so48118541fa.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Apr 2025 08:28:10 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30dd5a93b49so41053901fa.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Apr 2025 08:28:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744039688; x=1744644488; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1744039690; x=1744644490; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kFgvCtbiUg2Axc8JMkDx3HvUYjKIsrcxL/JNSE1oUNI=;
-        b=s/X6XMk/75K9Gj3zRaB/0v0dyUzD88BJWMAWmkAwaPRsV+atJbPDRWp9NHg4tyvsjs
-         lfeDwP3wQTd4fp+rr/0qhAIjqBNq9DR0VGUp2ng9HULTpHM6XaARToYW+EZx6qXVQ68t
-         ytcRa+skw/uI1gABLngvZnKXVYRTrfwS2FWx8LqkJhhoOmcbpuWNWXT3v1KmkGXJZsWc
-         g2IJoz/PZcaCGDXptQRrIxP6xwMIvmic5pitZ167NFi6LLDb+iIgpEjgJjpFVSPTDNXI
-         2/e8Q1rXsfBNw2vmd5k7P6uRWF84wEZ5TJPMEt7M3UTXzyTSNGV+tC8QPxm7gqIr5qh4
-         mJxA==
+        bh=qa0NqKrTJ654Zn0Q1P84Jb3f7w9bMHpFgeDh4gI/15Y=;
+        b=HdAI2e7mDs1MEGlnG9DCsAZAN6uv0tgrwh0PSd6SBdIzNZ+h/bI9WrQsuMfu3fQL18
+         U7OfNz7jdvi2bdtbxaVOGmT9QldDz8Rt6Fjd8tM87Nymhv+D6pcLrEym3BD8GcFzZaRD
+         MPTrWww2ybXBfNJwwU98KOIF52xHJVylIbymjn2QH2fy1QOM+qoVb+O/k9WKpu+yHcZG
+         GMdg6tZcfwB0xAdmVWnq6WRhgqZncDirSyizjfrNlAmVN9GWvR8NsrnTdSL7FyXef4u6
+         hUW9tAOjwyaXzfLsy4JHkD2UWzenYg+tXhGiYPgu+Mx8gwf3qaabaiJ0EmlTcvg4XGR+
+         9nDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744039688; x=1744644488;
+        d=1e100.net; s=20230601; t=1744039690; x=1744644490;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kFgvCtbiUg2Axc8JMkDx3HvUYjKIsrcxL/JNSE1oUNI=;
-        b=uoRPAaQddxaO4p2wfc4YOK02xB0r0Wr/HfTikV9mbP6ndkOgq6lixBv3DH2UlXsgvx
-         Aa91QJYrjjm67MuqCMTHgmILVhBKtUXzlY0fi/dmPUnldoEPtxjJ372qSA2uRrq5Kltj
-         5nGEDhUlCqEEhb37PGJbHzdgwqalHxwBB+7VHPtzdzb4pWB7ijY41z4el2ga6dvs9feP
-         ztE2qzEwkqx5cp0TKRY9HJ/Dy5nmUxhPaKMqIeWg1vRfWr5S/r934bRq7Tr2FVYLO3bv
-         TOBUBIeRQmQoh0WkxhjB86SkyctB+a57PogkRDBfZtQ80s/fhhzff2Pc4sxmh+Ti7HE4
-         IXbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJZEwZJ5s8KvAfLXLLV80XWfvmNbAcrAmfihkB98voKbcV9Sa40NadINVY2Jg1rAHN/rUZl44m75PTO4Qx1DE/UQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzrPMElJlNAMCUR9FWeYqWz1kQ1/6eBa4o/UQuN4Q4UW9EqPts
-	ttofeG54patz/htSDU+homoFDoNdL/DVMF4agcgNcq37r0vcj+01Tafc/wLmBSU=
-X-Gm-Gg: ASbGncuo++tGb+YF6EpnDrVIgH5wheOf1ddbizfBKvB20wka80oMq05roupZSYVADh6
-	nke96oKfMgH6d/uPR3adzwoLSvGzdnJYJgphJteU96khHlYDd1xXggQvnj8dxB/0izyp8beA1Dd
-	DKd3/9apqRqrdqSPSxiMlfePs+2PAdh5UqBhjkUZkZKRXlLlCa7oRowAG5zQ2C51ttiqiPv69Rg
-	bvCgg+mFVQ5PMkk8iKYJ5d0LInhNjH+XQ4YvFebw/SuNDy7fztgVRUkXA6CcbDQM0m2FuplOuTB
-	FucKgZ9EzKSlQ+ZZ7a+qSaHd4iNFdxRJ7/9Hi/MuIRfKLnBEN/w4HFXs9YEi8MSOne2lfxeaRlo
-	EnsndbEQRVzc91YtdYN8=
-X-Google-Smtp-Source: AGHT+IFdkzDl7qG+++GgExUEpecThyhFzUirOW/vapvpkFtPwvl1pIIZxAmc9QEAxBzudyVIXtO/Ig==
-X-Received: by 2002:a05:651c:158c:b0:30c:2e22:c893 with SMTP id 38308e7fff4ca-30f0bf50edemr39634651fa.23.1744039688540;
-        Mon, 07 Apr 2025 08:28:08 -0700 (PDT)
+        bh=qa0NqKrTJ654Zn0Q1P84Jb3f7w9bMHpFgeDh4gI/15Y=;
+        b=UdQ+3dT1wLeQ7EtEe90MG4UF4AMXtquhB4LOgveffM/8wugAzzksOYdkin9I3pWFuv
+         6BZyFFTgoRHrBQRMAx0N2pOZbhxe2BI/64SbI3+9/NSU8zP9JapJ83i6j9QwdDyeHNGI
+         DedXiub43JSKe3JpMLMLfjO1nCWT8zF3+Q9q9CLtjMoB8UYaIa8crJTXm2JlFS1aJY/V
+         672YetNPtNpxwbNul5Puqgfc99qS7Sw719zcIZseli0kf//mUshFU7iCyOYs8+VbAnTH
+         gh+9N759BV4MUhpdjNYMKeqNT72gXKl6f2yMXIVS3d19QqkhvYSzE5wWXC+eM3S6nsqZ
+         hdaw==
+X-Forwarded-Encrypted: i=1; AJvYcCVTftvWsfuXltwipOFBAOcgRain5Wf5QURB4TEqLuZTUlMEDYSFe0vXBfXfB7zmApKyZfqBPpMDDd3kA1PI+WxRkw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEexv0dH+5opmQ7I638BZD4l0MTQu/1iU/ee2hJcGrQJTKfn2v
+	Mq/ZeqQWKFcXGjc7cTF0tLw9sRdF488K7gYBoUq4RArxkQFvcEloFCDbkLHFU4A=
+X-Gm-Gg: ASbGncv7HeyRxmfvSQ7XXQv6PJ7Yc3dsYgM7OX6GaYNxGqKcRUS+YZx+gqpMvsgaF/l
+	ubxo7ZJJDKwWpfOVCjCQ+u7z9FbGxydB3YmFyWxudwjtvHiw0vZ9j++KkHWF4HbNJBpR/m0sbHg
+	31dS/MSkkrQBCvqEdC+h1PiITZCajq7Pt/29mOEafrpnhOb3zzocJ63vbORrRWcDmwn2ItJ8PrI
+	6VY5eAkYJ2vH1C9TjY+KYrzKCIIykg8NmgPwFcO09IphwtW/kFCYmk4mCWqijYlW460ekjmj8ge
+	rb5JH093QHSZA3KHfDqPCBHolmZ3ETgjfZKAo+LC0kN8qAQVcSWKWfKMb5y1dHu8s2Jirz8lNYz
+	iU+NwoZTAg9qBRWM3cPdbCJxQAzqVqw==
+X-Google-Smtp-Source: AGHT+IFeOmjZZCVinZE9PYC+J15PmJZZVU9CLynwj9bgWoY1cdAzycB5GWB7cxZRv+fyPdkRgXGDbg==
+X-Received: by 2002:a05:651c:3130:b0:30b:cef8:de87 with SMTP id 38308e7fff4ca-30f0a0ec55dmr40033581fa.4.1744039689698;
+        Mon, 07 Apr 2025 08:28:09 -0700 (PDT)
 Received: from uffe-tuxpro14.. (h-178-174-189-39.A498.priv.bahnhof.se. [178.174.189.39])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f0314c62bsm16158691fa.61.2025.04.07.08.28.07
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f0314c62bsm16158691fa.61.2025.04.07.08.28.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 08:28:08 -0700 (PDT)
+        Mon, 07 Apr 2025 08:28:09 -0700 (PDT)
 From: Ulf Hansson <ulf.hansson@linaro.org>
 To: linux-mmc@vger.kernel.org,
 	Ulf Hansson <ulf.hansson@linaro.org>
@@ -82,9 +82,9 @@ Cc: Adrian Hunter <adrian.hunter@intel.com>,
 	Avri Altman <Avri.Altman@sandisk.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/5] mmc: core: Convert into an enum for the poweroff-type for eMMC
-Date: Mon,  7 Apr 2025 17:27:53 +0200
-Message-ID: <20250407152759.25160-4-ulf.hansson@linaro.org>
+Subject: [PATCH v2 4/5] mmc: core: Add support for graceful host removal for eMMC
+Date: Mon,  7 Apr 2025 17:27:54 +0200
+Message-ID: <20250407152759.25160-5-ulf.hansson@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250407152759.25160-1-ulf.hansson@linaro.org>
 References: <20250407152759.25160-1-ulf.hansson@linaro.org>
@@ -96,12 +96,18 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently we are only distinguishing between the suspend and the shutdown
-scenarios, which make a bool sufficient as in-parameter to the various PM
-functions for eMMC. However, to prepare for adding support for another
-scenario in a subsequent change, let's convert into using an enum.
+An mmc host driver may allow to unbind from its corresponding host device.
+If an eMMC card is attached to the host, the mmc core will just try to cut
+the power for it, without obeying to the eMMC spec.
 
-Suggested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Potentially this may damage the card and it may also prevent us from
+successfully doing a re-initialization of it, which would typically happen
+if/when we try to re-bind the mmc host driver.
+
+To fix these problems, let's implement a graceful power-down of the card at
+host removal.
+
+Reported-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
@@ -111,103 +117,68 @@ Changes in v2:
 	- None.
 
 ---
- drivers/mmc/core/mmc.c | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+ drivers/mmc/core/mmc.c | 27 +++++++++++++++++----------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/mmc/core/mmc.c b/drivers/mmc/core/mmc.c
-index ee65c5b85f95..c41cee7ef267 100644
+index c41cee7ef267..48656dadf93b 100644
 --- a/drivers/mmc/core/mmc.c
 +++ b/drivers/mmc/core/mmc.c
-@@ -33,6 +33,11 @@
- #define MIN_CACHE_EN_TIMEOUT_MS 1600
- #define CACHE_FLUSH_TIMEOUT_MS 30000 /* 30s */
+@@ -36,6 +36,7 @@
+ enum mmc_poweroff_type {
+ 	MMC_POWEROFF_SUSPEND,
+ 	MMC_POWEROFF_SHUTDOWN,
++	MMC_POWEROFF_UNBIND,
+ };
  
-+enum mmc_poweroff_type {
-+	MMC_POWEROFF_SUSPEND,
-+	MMC_POWEROFF_SHUTDOWN,
-+};
-+
  static const unsigned int tran_exp[] = {
- 	10000,		100000,		1000000,	10000000,
- 	0,		0,		0,		0
-@@ -2015,15 +2020,16 @@ static bool mmc_can_poweroff_notify(const struct mmc_card *card)
- }
- 
- static bool mmc_host_can_poweroff_notify(const struct mmc_host *host,
--					 bool is_suspend)
-+					 enum mmc_poweroff_type pm_type)
- {
- 	if (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE)
- 		return true;
- 
--	if (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND && is_suspend)
-+	if (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND &&
-+	    pm_type == MMC_POWEROFF_SUSPEND)
- 		return true;
- 
--	return !is_suspend;
-+	return pm_type == MMC_POWEROFF_SHUTDOWN;
- }
- 
- static int mmc_poweroff_notify(struct mmc_card *card, unsigned int notify_type)
-@@ -2120,11 +2126,13 @@ static int _mmc_flush_cache(struct mmc_host *host)
+@@ -2054,15 +2055,6 @@ static int mmc_poweroff_notify(struct mmc_card *card, unsigned int notify_type)
  	return err;
  }
  
--static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
-+static int _mmc_suspend(struct mmc_host *host, enum mmc_poweroff_type pm_type)
- {
-+	unsigned int notify_type = EXT_CSD_POWER_OFF_SHORT;
- 	int err = 0;
--	unsigned int notify_type = is_suspend ? EXT_CSD_POWER_OFF_SHORT :
--					EXT_CSD_POWER_OFF_LONG;
+-/*
+- * Host is being removed. Free up the current card.
+- */
+-static void mmc_remove(struct mmc_host *host)
+-{
+-	mmc_remove_card(host->card);
+-	host->card = NULL;
+-}
+-
+ /*
+  * Card detection - card is alive.
+  */
+@@ -2088,7 +2080,8 @@ static void mmc_detect(struct mmc_host *host)
+ 	mmc_put_card(host->card, NULL);
+ 
+ 	if (err) {
+-		mmc_remove(host);
++		mmc_remove_card(host->card);
++		host->card = NULL;
+ 
+ 		mmc_claim_host(host);
+ 		mmc_detach_bus(host);
+@@ -2160,6 +2153,20 @@ static int _mmc_suspend(struct mmc_host *host, enum mmc_poweroff_type pm_type)
+ 	return err;
+ }
+ 
++/*
++ * Host is being removed. Free up the current card and do a graceful power-off.
++ */
++static void mmc_remove(struct mmc_host *host)
++{
++	get_device(&host->card->dev);
++	mmc_remove_card(host->card);
 +
-+	if (pm_type == MMC_POWEROFF_SHUTDOWN)
-+		notify_type = EXT_CSD_POWER_OFF_LONG;
- 
- 	mmc_claim_host(host);
- 
-@@ -2136,7 +2144,7 @@ static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
- 		goto out;
- 
- 	if (mmc_can_poweroff_notify(host->card) &&
--	    mmc_host_can_poweroff_notify(host, is_suspend))
-+	    mmc_host_can_poweroff_notify(host, pm_type))
- 		err = mmc_poweroff_notify(host->card, notify_type);
- 	else if (mmc_can_sleep(host->card))
- 		err = mmc_sleep(host);
-@@ -2159,7 +2167,7 @@ static int mmc_suspend(struct mmc_host *host)
- {
- 	int err;
- 
--	err = _mmc_suspend(host, true);
-+	err = _mmc_suspend(host, MMC_POWEROFF_SUSPEND);
- 	if (!err) {
- 		pm_runtime_disable(&host->card->dev);
- 		pm_runtime_set_suspended(&host->card->dev);
-@@ -2203,11 +2211,11 @@ static int mmc_shutdown(struct mmc_host *host)
- 	 * us to send the preferred poweroff-notification cmd at shutdown.
- 	 */
- 	if (mmc_can_poweroff_notify(host->card) &&
--	    !mmc_host_can_poweroff_notify(host, true))
-+	    !mmc_host_can_poweroff_notify(host, MMC_POWEROFF_SUSPEND))
- 		err = _mmc_resume(host);
- 
- 	if (!err)
--		err = _mmc_suspend(host, false);
-+		err = _mmc_suspend(host, MMC_POWEROFF_SHUTDOWN);
- 
- 	return err;
- }
-@@ -2231,7 +2239,7 @@ static int mmc_runtime_suspend(struct mmc_host *host)
- 	if (!(host->caps & MMC_CAP_AGGRESSIVE_PM))
- 		return 0;
- 
--	err = _mmc_suspend(host, true);
-+	err = _mmc_suspend(host, MMC_POWEROFF_SUSPEND);
- 	if (err)
- 		pr_err("%s: error %d doing aggressive suspend\n",
- 			mmc_hostname(host), err);
++	_mmc_suspend(host, MMC_POWEROFF_UNBIND);
++
++	put_device(&host->card->dev);
++	host->card = NULL;
++}
++
+ /*
+  * Suspend callback
+  */
 -- 
 2.43.0
 
