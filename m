@@ -1,271 +1,185 @@
-Return-Path: <linux-renesas-soc+bounces-15530-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47EEFA7ED62
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 21:34:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6BBA7ED80
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 21:36:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 33EF6446040
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 19:28:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 781EE4441C6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 19:31:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B43325DB16;
-	Mon,  7 Apr 2025 19:16:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B991622331F;
+	Mon,  7 Apr 2025 19:27:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mga0pkUz"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Gi+8MJKk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA1F258CF3;
-	Mon,  7 Apr 2025 19:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB15A222587;
+	Mon,  7 Apr 2025 19:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744053419; cv=none; b=A/XXD0XMC5R3VNXuaEv5pYrdj/ocjgVoG1B7SZwQH0W0RWtFIIt00J/DP0kk8WXYpNRCBGn8f/TZDe+DjHdLqo0JENr4yuUMhdaJ4I7PSyPDcenDWvTHbzkn/5m6z6kb7VVq3h25c2qLoddJISUvxkIx1WHdkIPeFqOfVt8msMQ=
+	t=1744054069; cv=none; b=sJI6nE72atTxmpLbLmWTmNwZjPTWqykZAWOOF4gMppAW0n9N7yGbdy1N0DMOpv97MULvqq0l/GhE6lohh/4T9IlzaEvruCtPX7bK7xg/oi2qOXgh44x3XR2pVuow5/l9FcE8bzwCek2kYZH8j9cGNd5/dgtbR6hMMnt2fgsC6YA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744053419; c=relaxed/simple;
-	bh=naUjUisOyjlWOOpdHq+axpmjXsW6FuxI9hzLn5+iEpk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O6RR6NSfGfN3nqXiFdF7Dqosy9ctGLC0uda64R0uON+p8ltH/K6wdCcYDq9d8QXXkrmAb/FcxkUuF/XFiSLyUz1bcwi0Y6GgKVpKLvs3efZAxmY61GLAGpmCzUGxep+ajbawu4hLqkT9ycpgSU0d/SRJmLe6eawwA8U74C4iumA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mga0pkUz; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so32620095e9.1;
-        Mon, 07 Apr 2025 12:16:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744053415; x=1744658215; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=slVHo0owJS6MAx4PpzF19Vk9iA82FPjThq35k4/DBek=;
-        b=Mga0pkUzBkL4epgjjGdw0a8GI7v3SqYlv8m6SGnujbJ06uQ/Uil30TQRdCpldm/yCh
-         Y4VKsmL1VwPEXGRQxmE7gwzRYR1NpKEdo1vmEgopc16pDIA4kLJjerNESOp+ZjVBsRKj
-         iBYyvvu1Y9L5eyUCZBsmL8+pD83yHJGe0/vvSAmPmdK2It9RqSfohoa/n+KKicX09k2S
-         mVjZ5Lm04cJ1ZsyeKZovUFaGo0yac8/+McIH0PhNtyevQjbU30BaldDqEWS9QCGHfTCf
-         KMQ1DQe6h6zGmtS5o4olce0qG0XBFNtrDkMkK/yN9El2zIwmIs9uWyq/oWpiEI1xLqrj
-         ah4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744053415; x=1744658215;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=slVHo0owJS6MAx4PpzF19Vk9iA82FPjThq35k4/DBek=;
-        b=V+oO8XlKZR23lEOSPXYSgakP2wuMcJDJARDQZhT4tWWRLhk306jGcvEE7iiMxlsjx7
-         ExqqyqM3u/aISde3UtxkCq3aTvENJL1ggC2brIguVB2NBdzSH2NB9zcHBWfzI58dRYMS
-         H2dmJmdVckAo2xJbCz74TZMsLZx0Fj0+9wnYyIRM/j6GU3trVBReGNEJQ/2g//ZiaTeF
-         tmXHjIxx8NGU6wRxJ/xqjswOzPZpsAeY5wr9EU9tYSzRqGFlUL0+Ugut9Hp9daD9tfRw
-         lgf1YoAyzdghChJVmDKHQ8Bsbhzs26ULOuvgRV6EM5kNQlmr32WiqEdvDEbGJn9SJsk8
-         0nKw==
-X-Forwarded-Encrypted: i=1; AJvYcCUL8HVmFBFZ9zuhmYGyh/AU5TXixObokxnXukUxRPpZe/Ct75rBBtA7KSgcSn4o2Lb5IsbCJzm1/sNNeF45@vger.kernel.org, AJvYcCWBiuWMIg0sP5UFJ0VUbsRU1QAQAsZcSbtgcjwBbDl5LXJhT1CGY4hQJdIVhMirBwC7duZpd0MLe+OF@vger.kernel.org, AJvYcCWKsPZ7A5mG4Xh+4AfuVVTXj32sSdwIQZbqCyGs6EIP+CL9EOTiLgH2ZGvUwCHD1CJoLtfhAFMMvUeKfw==@vger.kernel.org, AJvYcCWpYWecdP7+7OTU37mdRhwwsxWoGYFk/A/r5LJu8tklxs7ffZAWDTkaspFwFIxylRPktrLd5cepRNHa@vger.kernel.org, AJvYcCXffxzjHUpdylwFOHkwbtkI9GQk9FzLGHaT5/N85XsCWtaCkVh927dWLKYfFN93DjEGQSLVS6EHAamSWLYb@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6DUocqvWpbWDlx6McZpnpWvk6KFnfqNX3OL8QRfPMyfKCLM4Q
-	vgww7UopwSH/tvVnQJDrE2lJep5hYQzOEZpzbdpqioLRFttdmO04
-X-Gm-Gg: ASbGncuaf17PxtwvaDHHUC89nHVMXpYMLN8EF1COxnDgj4hOHTYqf/Ipp3JhOP0J39/
-	ByCYSZam3PKfbXw0ToyINFd0wvGKeScEpU402xu6df9F39Q4l4XSlj6pL0HZ+Vn0TcKBzGkMG5S
-	8KiioZiUC/DTDR4zaS8jxZJa6mChbyAL7Wzg0VaffWM3AiurAJaT2WIQdj0NIiYxtAaoWR1reg3
-	yidZQAzGfew6mqcBGOMYn2LmNdxLLNTT31XdzFaj0OTSa8D+YEzUwmgfsmf9GW5xbe5wpcjqTum
-	2XNgEz8hWCRvOvwL/OiwAeLxeIHMJKyZvwTO/uGg8XWhM02hy+kC431rgjBV1YCtBjTIe2fH6Fi
-	xuB4c
-X-Google-Smtp-Source: AGHT+IEL42x7uF/NnsyHco9mxLN/kOyCWb/fw3/RZjhZSxcdSaQMTmnkfH2XrV/JBAeMjiDzVqMyiw==
-X-Received: by 2002:a05:6000:18af:b0:391:2ab1:d4c2 with SMTP id ffacd0b85a97d-39d0de62221mr9684236f8f.37.1744053415480;
-        Mon, 07 Apr 2025 12:16:55 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:78b9:80c2:5373:1b49])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c30096bb2sm12994453f8f.12.2025.04.07.12.16.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 12:16:54 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 12/12] arm64: dts: renesas: Add initial device tree for RZ/V2N EVK
-Date: Mon,  7 Apr 2025 20:16:28 +0100
-Message-ID: <20250407191628.323613-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250407191628.323613-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250407191628.323613-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1744054069; c=relaxed/simple;
+	bh=nWMPJiZ/C1me5It7a1cdWkDqp5i0FTr20WskxIIMaYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WSkKuzsv67Hu3rIkvH+mzsasjSXFweQV9rIV5SgDuZ6P0fbqVtC0/jFQVgPBznljvDr26FsloK/1WrTPDYBAFfPilOIBLQmImCQt/MOIvWPmsu18IYMdiYjfi3pTGFhGLL5jegfS5D+Abq6HdPcEHb3FLLuszv2mNMizV4+KQIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Gi+8MJKk; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 37D604421F;
+	Mon,  7 Apr 2025 19:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1744054065;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cjEt/IPzaAdKLiLHC8nJ5ihJ1fjZFnzeMJstnBzp7XQ=;
+	b=Gi+8MJKk54bvu0U11jHOJw08NvtnpAzunZzJXO4mlFlnzsLVy8DFQIv5f1cwemOl31f/in
+	yXq1Um8EF62nuW+7K5/FANGhJKfIDt3FpxkAeF2Uw52NGHGgsgSLt5hId5UF1i3v6U7LiQ
+	QV71SvnJzRB4Bv9Y0pBT6LtPqcjAci3aXj9uPyPUUIhwMeK2lXlaYCBe0svd+nHK7Htak4
+	/9HotCk7aCwdmAu+N82j0bdVIG/9XNextLdkUXD3MPHCRUDF3rNzBb5f+B2kzx0rN1agcB
+	y2M7EU6B7HGxiOcK1BDKg9fGTg+UZIk8/GVGNr8AJuzWT4pQ2/Cw+JF6m2DEKA==
+Date: Mon, 7 Apr 2025 21:27:39 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Ilpo =?UTF-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
+ Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
+ =?UTF-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Hui Pu
+ <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, LKML
+ <linux-kernel@vger.kernel.org>, chrome-platform@lists.linux.dev,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Hans de Goede
+ <hdegoede@redhat.com>
+Subject: Re: [PATCH 02/34] platform: arm64: acer-aspire1-ec: convert to
+ devm_drm_bridge_alloc() API
+Message-ID: <20250407212739.1e991b6a@booty>
+In-Reply-To: <a9000632-a6d1-d369-c317-9ee73aa645dc@linux.intel.com>
+References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
+	<20250407-drm-bridge-convert-to-alloc-api-v1-2-42113ff8d9c0@bootlin.com>
+	<a9000632-a6d1-d369-c317-9ee73aa645dc@linux.intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvddtuedtfefgueehiefhjeeiffekudfhgfdtledvffekhfegteduieejveevteehnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgeefpdhrtghpthhtohepihhlphhordhjrghrvhhinhgvnheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigr
+ dhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hello Ilpo,
 
-Add the initial device tree for the Renesas RZ/V2N EVK board, based on
-the R9A09G056N48 SoC. Enable basic board functionality, including:
+On Mon, 7 Apr 2025 19:46:59 +0300 (EEST)
+Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com> wrote:
 
-- Memory mapping (reserve the first 128MB for the secure area)
-- Clock inputs (QEXTAL, RTXIN, AUDIO_EXTAL)
-- PINCTRL configurations for peripherals
-- Serial console (SCIF)
-- SDHI1 with power control and UHS modes
+> On Mon, 7 Apr 2025, Luca Ceresoli wrote:
+>=20
+> > This is the new API for allocating DRM bridges.
+> >=20
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> >=20
+> > ---
+> >=20
+> > Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+> > Cc: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
+> > Cc: Hans de Goede <hdegoede@redhat.com>
+> > ---
+> >  drivers/platform/arm64/acer-aspire1-ec.c | 7 +++----
+> >  1 file changed, 3 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/drivers/platform/arm64/acer-aspire1-ec.c b/drivers/platfor=
+m/arm64/acer-aspire1-ec.c
+> > index 958fe1bf5f85bb69ac7962f217de9f0b40cde9a1..438532a047e68799ac53a16=
+a4c813fc16be997b9 100644
+> > --- a/drivers/platform/arm64/acer-aspire1-ec.c
+> > +++ b/drivers/platform/arm64/acer-aspire1-ec.c
+> > @@ -452,9 +452,9 @@ static int aspire_ec_probe(struct i2c_client *clien=
+t)
+> >  	int ret;
+> >  	u8 tmp;
+> > =20
+> > -	ec =3D devm_kzalloc(dev, sizeof(*ec), GFP_KERNEL);
+> > -	if (!ec)
+> > -		return -ENOMEM;
+> > +	ec =3D devm_drm_bridge_alloc(dev, struct aspire_ec, bridge, &aspire_e=
+c_bridge_funcs);
+> > +	if (IS_ERR(ec))
+> > +		return PTR_ERR(ec);
+> > =20
+> >  	ec->client =3D client;
+> >  	i2c_set_clientdata(client, ec);
+> > @@ -497,7 +497,6 @@ static int aspire_ec_probe(struct i2c_client *clien=
+t)
+> >  	fwnode =3D device_get_named_child_node(dev, "connector");
+> >  	if (fwnode) {
+> >  		INIT_WORK(&ec->work, aspire_ec_bridge_update_hpd_work);
+> > -		ec->bridge.funcs =3D &aspire_ec_bridge_funcs;
+> >  		ec->bridge.of_node =3D to_of_node(fwnode);
+> >  		ec->bridge.ops =3D DRM_BRIDGE_OP_HPD;
+> >  		ec->bridge.type =3D DRM_MODE_CONNECTOR_USB; =20
+>=20
+> Hi Luca,
+>=20
+> It took a while to locate where the code for the new helper is. I suggest=
+=20
+> if you need send another version of the series directly linking to the=20
+> commit in the cover letter so that it won't take multiple hoops to find i=
+t=20
+> if one wants to review the code and is not having all drm trees easily at=
+=20
+> hand. Here it is for the benefit of other pdx86 people:
+>=20
+> https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b=
+715ea3d1ba537ef2da95eec
 
-Update the Makefile to include the new DTB.
+Apologies, indeed you have a good point. I added the link to the cover
+letter so it will be in v2, if any.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-- Followed DTS coding style guidelines
----
- arch/arm64/boot/dts/renesas/Makefile          |   2 +
- .../dts/renesas/r9a09g056n48-rzv2n-evk.dts    | 114 ++++++++++++++++++
- 2 files changed, 116 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
+> Acked-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 5b99c337763a..ea7f93b7d2b3 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -152,6 +152,8 @@ dtb-$(CONFIG_ARCH_R9A09G011) += r9a09g011-v2mevk2.dtb
- 
- dtb-$(CONFIG_ARCH_R9A09G047) += r9a09g047e57-smarc.dtb
- 
-+dtb-$(CONFIG_ARCH_R9A09G056) += r9a09g056n48-rzv2n-evk.dtb
-+
- dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h44-rzv2h-evk.dtb
- dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h48-kakip.dtb
- 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-new file mode 100644
-index 000000000000..f379871c39cc
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-@@ -0,0 +1,114 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the RZ/V2N EVK board
-+ *
-+ * Copyright (C) 2025 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include "r9a09g056.dtsi"
-+
-+/ {
-+	model = "Renesas RZ/V2N EVK Board based on r9a09g056n48";
-+	compatible = "renesas,rzv2n-evk", "renesas,r9a09g056n48", "renesas,r9a09g056";
-+
-+	aliases {
-+		mmc1 = &sdhi1;
-+		serial0 = &scif;
-+	};
-+
-+	chosen {
-+		bootargs = "ignore_loglevel";
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	memory@48000000 {
-+		device_type = "memory";
-+		/* first 128MB is reserved for secure area. */
-+		reg = <0x0 0x48000000 0x1 0xf8000000>;
-+	};
-+
-+	reg_3p3v: regulator-3p3v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-3.3V";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
-+
-+	vqmmc_sdhi1: regulator-vqmmc-sdhi1 {
-+		compatible = "regulator-gpio";
-+		regulator-name = "SDHI1 VqmmC";
-+		gpios = <&pinctrl RZV2N_GPIO(A, 2) GPIO_ACTIVE_HIGH>;
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpios-states = <0>;
-+		states = <3300000 0>, <1800000 1>;
-+	};
-+};
-+
-+&audio_extal_clk {
-+	clock-frequency = <22579200>;
-+};
-+
-+&pinctrl {
-+	scif_pins: scif {
-+		pins = "SCIF_TXD", "SCIF_RXD";
-+		renesas,output-impedance = <1>;
-+	};
-+
-+	sd1-pwr-en-hog {
-+		gpio-hog;
-+		gpios = <RZV2N_GPIO(A, 3) GPIO_ACTIVE_HIGH>;
-+		output-high;
-+		line-name = "sd1_pwr_en";
-+	};
-+
-+	sdhi1_pins: sd1 {
-+		sd1-dat-cmd {
-+			pins = "SD1DAT0", "SD1DAT1", "SD1DAT2", "SD1DAT3", "SD1CMD";
-+			input-enable;
-+			renesas,output-impedance = <3>;
-+			slew-rate = <0>;
-+		};
-+
-+		sd1-clk {
-+			pins = "SD1CLK";
-+			renesas,output-impedance = <3>;
-+			slew-rate = <0>;
-+		};
-+
-+		sd1-cd {
-+			pinmux = <RZV2N_PORT_PINMUX(9, 4, 14)>; /* SD1_CD */
-+		};
-+	};
-+};
-+
-+&qextal_clk {
-+	clock-frequency = <24000000>;
-+};
-+
-+&rtxin_clk {
-+	clock-frequency = <32768>;
-+};
-+
-+&scif {
-+	pinctrl-0 = <&scif_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&sdhi1 {
-+	pinctrl-0 = <&sdhi1_pins>;
-+	pinctrl-1 = <&sdhi1_pins>;
-+	pinctrl-names = "default", "state_uhs";
-+	vmmc-supply = <&reg_3p3v>;
-+	vqmmc-supply = <&vqmmc_sdhi1>;
-+	bus-width = <4>;
-+	sd-uhs-sdr50;
-+	sd-uhs-sdr104;
-+	status = "okay";
-+};
--- 
-2.49.0
+Thanks!
 
+> I assume you want this to go through the drm tree where the helper alread=
+y=20
+> is?
+
+MY best guess is that drm-misc-next is the appropriate branch, and it
+is where the helper is already present, but I'll let maintainers decide
+what is most appropriate.
+
+Luca
+
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
