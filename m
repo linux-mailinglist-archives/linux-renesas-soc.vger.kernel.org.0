@@ -1,50 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-15428-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A871DA7D994
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 11:25:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05463A7D9B1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 11:32:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 403D6188860C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 09:23:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1B58188C2B5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Apr 2025 09:32:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B683419D898;
-	Mon,  7 Apr 2025 09:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF5F21A3172;
+	Mon,  7 Apr 2025 09:32:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75F4B22371F;
-	Mon,  7 Apr 2025 09:21:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9238219DF9A;
+	Mon,  7 Apr 2025 09:32:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744017719; cv=none; b=oerNNv8lhj+WbgxKhOJlQUteEj/AB2wWFajxLqrJ99MgVVEW9MHa+bUByK87YhRfcx6jfTxH/CV+0ycKM1f7kfJ1RUryKeVpsxHBzcJAOzcKr6AdXQFN6SNehVQ8dJDaNvGpF02g3QB3yeQzHuCqS5qxTbhSUBHJjm5K0tQRTMQ=
+	t=1744018329; cv=none; b=fi9aUnmjhx8Bgte+/pLjsFo+JCSm5ueG4X+VqeAMLLFnKMiwOjQsh/XwF2btJ1BeK8iCdBS9ZodybHH0w9NvMuM3/LL3Ql5jn+pausoPLqotAOyCLAR8i7lGVOnvbGcfiJoV2ZJKHkawaoqJLOxs6G5fMjQwsHP1DE31zNHO9fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744017719; c=relaxed/simple;
-	bh=QoPmrGpzCaYfMXH1u8wAwxADc4X76vl7sO+0xeqw84c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WDCJcjc6f8a01cwmEwqRs4YFCewAfYfUuxOQwPFw6KgBJXNd4YIL+iqq4JRwIKQdpPzOl/Ah5wg3BFGLfPLxdYkfeG9B+Dna7dcs+J/E2X3qjlIGGfvmPWU7909uxYFddr+ApcjW715wDWc9BsnHP4YIf/bINQ76uIpTmBfmjJU=
+	s=arc-20240116; t=1744018329; c=relaxed/simple;
+	bh=CuOMW1C4Pbg7FPpsMNXZPzmN5JzUgxIJ+FbcCmVWVhc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=idRgDJv8k/3w8y0+OQxkJ5PGi9Aw6X+RCu3W94iRFZw2ZsfUTFAwbPYDpgKD+OAsOLh0rwYY0Uo8xr3+PkvqsZ/rV/fnMR49eAa86ngrrQelMUsX4f86fWm3z2+9Ar+BPsCojTOqam/fz2ZxNkFuXHJQNRz+09bLJw5u2CESAzI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: uCQZrJjYTjeEuDbsNCz8sw==
-X-CSE-MsgGUID: I4oWyh6SRjOfRRZ4X0d51w==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 07 Apr 2025 18:21:49 +0900
+X-CSE-ConnectionGUID: enbYyVcuRWCQQW9gWwiRuw==
+X-CSE-MsgGUID: tktRxtAlRWes8p8Gq12P4A==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 07 Apr 2025 18:32:05 +0900
 Received: from localhost.localdomain (unknown [10.226.92.133])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5DDA9400388C;
-	Mon,  7 Apr 2025 18:21:47 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7BF2641C7D50;
+	Mon,  7 Apr 2025 18:32:00 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>
+To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH] mmc: renesas_sdhi: Use of_get_available_child_by_name()
-Date: Mon,  7 Apr 2025 10:21:41 +0100
-Message-ID: <20250407092144.35268-1-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2] media: platform: exynos4-is: Use of_get_available_child_by_name()
+Date: Mon,  7 Apr 2025 10:31:56 +0100
+Message-ID: <20250407093158.36290-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -54,32 +59,33 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the helper of_get_available_child_by_name() to simplify
-renesas_sdhi_probe().
+Simplify fimc_md_is_isp_available() by using
+of_get_available_child_by_name().
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/mmc/host/renesas_sdhi_core.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+v1->v2:
+ * Rebased to next as the dependency patch hits on 6.15-rc1.
+---
+ drivers/media/platform/samsung/exynos4-is/media-dev.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index fa6526be3638..e26e7995754e 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -1166,12 +1166,7 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 	if (ret)
- 		goto efree;
- 
--	rcfg.of_node = of_get_child_by_name(dev->of_node, "vqmmc-regulator");
--	if (!of_device_is_available(rcfg.of_node)) {
--		of_node_put(rcfg.of_node);
--		rcfg.of_node = NULL;
--	}
--
-+	rcfg.of_node = of_get_available_child_by_name(dev->of_node, "vqmmc-regulator");
- 	if (rcfg.of_node) {
- 		rcfg.driver_data = priv->host;
- 		rdev = devm_regulator_register(dev, &renesas_sdhi_vqmmc_regulator, &rcfg);
+diff --git a/drivers/media/platform/samsung/exynos4-is/media-dev.h b/drivers/media/platform/samsung/exynos4-is/media-dev.h
+index a50e58ab7ef7..ce89465c22de 100644
+--- a/drivers/media/platform/samsung/exynos4-is/media-dev.h
++++ b/drivers/media/platform/samsung/exynos4-is/media-dev.h
+@@ -179,8 +179,8 @@ int fimc_md_set_camclk(struct v4l2_subdev *sd, bool on);
+ static inline bool fimc_md_is_isp_available(struct device_node *node)
+ {
+ 	struct device_node *child __free(device_node) =
+-		of_get_child_by_name(node, FIMC_IS_OF_NODE_NAME);
+-	return child ? of_device_is_available(child) : false;
++		of_get_available_child_by_name(node, FIMC_IS_OF_NODE_NAME);
++	return child != NULL;
+ }
+ #else
+ #define fimc_md_is_isp_available(node) (false)
 -- 
 2.43.0
 
