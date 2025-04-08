@@ -1,57 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-15540-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15541-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32371A7F646
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 09:31:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE66FA7F737
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 10:03:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8451917026A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 07:29:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9FC171893978
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 08:03:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1C31261591;
-	Tue,  8 Apr 2025 07:29:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21101224251;
+	Tue,  8 Apr 2025 08:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYMqVzz7"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YmlTKyVG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9160310E0;
-	Tue,  8 Apr 2025 07:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6E4216605
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Apr 2025 08:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744097358; cv=none; b=pmthMnFJF4azMjzW5/192DE4GWBG3kh7na9JfoZTXAXRPDWMmSTrAY6Zzy7X0bql444oyVXHFS0LTVg3AOv1vGEA4bEf8FWhdD0m9hc2KXQZhCeLjcxOx0UqpBlPGLskgKLPAoPc4L5dmlS0jhM71bxXdTybGKufI4eJUU158sg=
+	t=1744099394; cv=none; b=dx2Us9gdHfpq6U+40lje2MEV6AgarUV1rnemEf1a9TSkwXBTZl3YpjBBTZpHbckeZ5u2VJKg80fTp2ujMe7oK3BigoTN81OlTFwGka+rFqkaEJdZOszpWXd6eyL+VmBh2bntRCWZ+A2qr6Dt7IKU+zI1iBuK2qSXUR6h+R2wmVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744097358; c=relaxed/simple;
-	bh=5KWxthNPPcDTO+MOo+gfSsFp9HUzpKoAl7or2dZMyhw=;
+	s=arc-20240116; t=1744099394; c=relaxed/simple;
+	bh=eOAw0hyWHLIINvb14CVs1GR58Bxf6TZohiFSnFDaF2U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TpNpXotqoqM0mLdmUgqhT0Ea4UVC7wApnVnkEH4NuNtpGsOTvBbMPPugbV9h7N889tk+aicJwJDqJKraIC3wRLVlOZanoOLYqAUhwltdO7DaWm2ZgGh9yAuyqZDysN7u2wFP75Gw8aAOIi1o998TIAr0KROedg1VeJ2ivK7C9l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYMqVzz7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78BD1C4CEE9;
-	Tue,  8 Apr 2025 07:29:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744097355;
-	bh=5KWxthNPPcDTO+MOo+gfSsFp9HUzpKoAl7or2dZMyhw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dYMqVzz7xyhpqKDxDzAU99VUUh8JRVqi05tFNXeewA7pHGyOQmSl7pjydY6VJcfOJ
-	 FfdHQvrCW4hD7CjL4IoqeFUu2ITH8xiANd4mGByWbYjJRcbwTAGQkKwIC9LE4WQbyu
-	 IXnVuHsNQ/tZrWwc9Pad0tBxcGJ4S2NU6QKAbQI4xOD+cQR6i+lM2+MtuMvx+ViI1H
-	 zIswq6+KCo6bAGEOVt0p9EpUNA1A+enSt+Mko1Z5NjvElccg5iT5S3LzpDnK5J7deB
-	 daBbmvkaC+QwM9Y5Lrk7Y5+LIw/9lPEDObh7BSj9w3iYTLilnVNjRp9IdZqwCvv43K
-	 l3q3jcY+yxjdQ==
-Date: Tue, 8 Apr 2025 09:29:12 +0200
-From: =?utf-8?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <ukleinek@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Rob Herring <robh@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, devicetree@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: timer: renesas,tpu: remove DoC
-Message-ID: <72v3ymskrew3kvi2uzjoq2gewp7wnade75tjl4bfp7sw35h2ne@rfc5mygrgb2y>
-References: <877c3vnq0k.wl-kuninori.morimoto.gx@renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=KXNbgiH8AXpV4dxM4W+MFBx6qIJBAMYiEhkS1Nn6BuFLIRv/b9lt552BASWfsAoYuaJV5xd7ZHZWNACQ6jKpzpu2NBxbxbMpwehuHQRrVSvVL85CKrYMNVHesDYMuk1XS1c2e6Yd6N+C579N32KbNbjpYCppIHxnZshz0JBKANw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YmlTKyVG; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=eOAw
+	0hyWHLIINvb14CVs1GR58Bxf6TZohiFSnFDaF2U=; b=YmlTKyVGuYg4ZkoKlIoi
+	PC2qp9kjkR2bU5Pm9PA8uQ8xV68iSkwgBVeqQW/KsbkFjrcUbI5kt8ce48C+dYIe
+	MbYBFLDhPn8sS/4WLGF/p9s/yYLQkKvcRqnf+DqbX9clAQhKbQvfPrK/Sryfagkl
+	aqH+280eqnHXCcIbqZgGmSeZ+XFEfK12zyQ4nOJx1pETMKx/V9rFy9JkaHWddcvA
+	KhqIajrZb3E+M1wOfMc+nIncIcDWruk6U4uUzGH8Z5BSEfPW5t00T3UJMdQegrNC
+	SSWhJwZkFCZPvutSnAU6U+MCw11kvlJWQJMGhAeAURMUuVP66dkgWPNxmyxJpbRR
+	FA==
+Received: (qmail 4102305 invoked from network); 8 Apr 2025 10:03:07 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Apr 2025 10:03:07 +0200
+X-UD-Smtp-Session: l3s3148p1@ahJnyD8yFpcgAwDPXyfYALbiJ46yNPq3
+Date: Tue, 8 Apr 2025 10:03:06 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Subject: Re: [PATCH v3] ARM: dts: r9a06g032: add r9a06g032-rzn1d400-eb board
+ device-tree
+Message-ID: <Z_TYOm6xuYcQEt_V@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+References: <20250314-rzn1d400-eb-v3-1-45c4fd3f6e01@bootlin.com>
+ <D8IEWP78KVOE.1SD29H0S51FZM@bootlin.com>
+ <Z_TA46i0KfFq89ch@shikoro>
+ <CAMuHMdWLvqKP6QnLGuR3AT1SEJ_XO5F4119JCqgptv4RFWx8tA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -59,44 +79,45 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vfexy5i6yj7er6zv"
+	protocol="application/pgp-signature"; boundary="O0J9fWFvFi2G9MU+"
 Content-Disposition: inline
-In-Reply-To: <877c3vnq0k.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <CAMuHMdWLvqKP6QnLGuR3AT1SEJ_XO5F4119JCqgptv4RFWx8tA@mail.gmail.com>
 
 
---vfexy5i6yj7er6zv
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--O0J9fWFvFi2G9MU+
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Subject: Re: [PATCH] dt-bindings: timer: renesas,tpu: remove DoC
-MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
 
-what is "DoC" in the Subject?
+> > Please do with the minor review comments addressed. I have some patches
+> > depending on it. Which means that I am using this DTS regularly now and
+> > it works great.
+>=20
+> v4 was posted on March 24th?
 
-On Tue, Apr 08, 2025 at 06:09:15AM +0000, Kuninori Morimoto wrote:
-> commit 1c4b5ecb7ea1 ("remove the h8300 architecture") removes Renesas TPU
-> timer driver. Let's remove its Doc.
+Mea culpa, I overlooked it in the list. I am sorry.
 
-s/Doc/binding documentation/ ?
 
-Best regards
-Uwe
-
---vfexy5i6yj7er6zv
+--O0J9fWFvFi2G9MU+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmf00EYACgkQj4D7WH0S
-/k7cLwf/fXisWT5vgttCLvvHZpLyax2898y2iXRY0F9310TLJmUbbOsQj2GdRiV+
-XWUqXZnbySRoFy9UFQVqRm9rxUT5cjuQMmd2Vt8Y1bJklwRknLbtw649eFStq1zI
-qq9CWymTez95H2G8GvfOzhJoqvNbO2X7070CivGjx1F/VVRPsJOHG4rQVP6LMk52
-PaUb+LI2BKHJelXDkcPrz9ZccMdgi8Kj25lfc5FMjQIScYG9MfFmDN6MWNsvmpI6
-wyv39GFIrtN1dHPWl8Tp0VwZ5N/C0uItw13RCDcDOPs1eYvYmDvTUtGhsO+xh8nv
-fd0tfzgFRSZmjzY8HnNGiCOkuEsfmg==
-=cnQY
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf02DYACgkQFA3kzBSg
+KbZKlw/6AjOgH6RhHYUZCXliEOaraIhmt7GNbKOGM1poWQNlOa2Wi4qSDbjE8Q/P
+EDdgHu9Kgwfm4C6NOn8Y6heSbnFSxhe2UQFsCHyDiUK5ABVayN1cI4IXldbF0YA2
+C1LL+SxWIYf5dNlQt0m+ZL1g1VkIUDNqKLByqXT854g/rk91Gwak/uhbUljhC/d0
+D31Q1afnNqc2FLAchDEddbpjW2ejJZIZM2MK1a9sF64Xnru5Y2GSuGAzjV5mKdj1
+r3MbgXvj+85GV6UNyoWhiFWhoS8LBe5CpXAoGCjB3zsmgsD6UZlXMnN33fr+1g9B
+ooD9YzWiPjqMRM2Fe2k58sM38mu4o2aAwotVXw/Xud50vs0fHd7inR88do+eq6kK
+dthigEb7wLkHYMHzXhzaGAWCW5m3Xt68wh36guUTQx0uRC3FgoJhBxGr6M5Scyf/
+YMIyu8p5NjE+Aktkjw9CtgC8jvfcICNxwlizqj8pBnGRl0SwQf0saukHf+f28m7P
+mbTTSexNVh1NmAdNubwtGcxA/P2zzyfQfCJfglSf4tSO+8vlBzq4s6gP4rR8br/1
+25AZM+SHFJvysENWujxmrsqVKzJ5svin3CRzSXvFsUmRbHpmTWUUQBe0zykkGFx/
+1jwGRNgo294/N2DpnbhT+Mqi7xQ8nf1pauB6HUUqYbU7lm48zNA=
+=0lay
 -----END PGP SIGNATURE-----
 
---vfexy5i6yj7er6zv--
+--O0J9fWFvFi2G9MU+--
 
