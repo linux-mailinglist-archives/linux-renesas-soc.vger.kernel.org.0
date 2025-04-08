@@ -1,139 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-15567-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4CC3A809A0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 14:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED982A80D3D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 16:05:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 85EE11BA30C6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 12:50:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4EECB1B643B1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 14:00:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76BCA26A0AE;
-	Tue,  8 Apr 2025 12:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE3EE1C84D4;
+	Tue,  8 Apr 2025 14:00:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mTXSrNQf"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="agWFaCKz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890A126A08E;
-	Tue,  8 Apr 2025 12:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56601C5F0E;
+	Tue,  8 Apr 2025 14:00:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744116335; cv=none; b=MTyyZFYZqSAViAgn4akvwYg33lAVC1xDCJeZL/puNRBNv2PfCb9QzFY5PTESzsr49ndp2npOmATmjtjO8LLMy3fLnRGabEVm9FHt1PhZ6naE29xUz93+QAlMSh8NM5Qte7p9tDgVv6ZoeSE1N/9EklqlknADUm/4RxIsnwE0QdQ=
+	t=1744120824; cv=none; b=bcoVEB82JEoElFQXT6QQOUnPRUsiTO+HUT+2omQywc9/d66R8eoYbz9H3fdX4BEGc6Kedof95jd7ALfdY0xC57vYEJbTJMwaEMqt45qiSiY90PPfE+I0k4hDAlrc3KdmUzjxi3xmfoWxGUUQ5V30JuFHNs2e7de7cbw5+LBuFlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744116335; c=relaxed/simple;
-	bh=UfX2oZ512LIWHF8adss2anxB8PcOJOHbSPlPhK0+WgE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=njbDT+e70SBoqz3OsYXgw0gK3HytmwEsvplW9fnxiW7Eht7CJdYSC/vMSrxUWv1zT9KZvkfBy8pg2ViPTcSxZW2oLHNPd7Vf0+T46d8ZIMbgDFV9q/b0ythtOVngnSUFz6ipClzS7uJA1H4EnrqNJkXSBZQ+yHp7iUONE2pcDX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mTXSrNQf; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-523de538206so2423326e0c.2;
-        Tue, 08 Apr 2025 05:45:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744116331; x=1744721131; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qCUfDk8Wpy6YLCT3cmf2+GSYL0xanBiWidTTdERXoLs=;
-        b=mTXSrNQfYIvyZkS4s4tpL8OTjL8BkA+Qm5ryjMChWa8+OBdAqnfKFskdxf2LVuoaOi
-         elhBr0FtkhWkK0TKPjOgGKbFGIYAmXG1UOvR/NHiXbfRve4T8UuFG4vREm6G9y+wI4uv
-         N07UeR/5ZQCq/8hiCHepusjpG7uHcYmQJKSjMdaZxMUe/0zaP37sn013x2l82Xicd9oa
-         HqUcJ9mJE1hkoSiEXQyzEwQdJTR4zZOIQKURvsonG+XLbCxHNh9kLdU/eMEH4l8G2l7S
-         HTZc/7UheNf7sy3yqm1F4V+gF8Vx984X6cGSvCpbYGr1PFj8Xn6XQtYRPXNBxcSyU9cb
-         Ni7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744116331; x=1744721131;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qCUfDk8Wpy6YLCT3cmf2+GSYL0xanBiWidTTdERXoLs=;
-        b=Jb1/PB5JqJbKK6rxLf2a1VK/JM1JZJWz34dx2mE37csYAUGsLQZ51MCnjP8FXDt0No
-         AXsvdPBIGc7P8oyGOJXJf/xAy9jBKAQEg3SpCzElb4jHgDePawzcY6fPCukXga4+k9Dd
-         daj09icmDonZmW5ilhxXsJhJFrw6OlxFVOTjUqRrx6JKxCbnj2DRPnRYNHWTYXSaJKsF
-         1rLwjysWR6S1IUankIXGSrwpflJAKtFdLQLDZB781XtpiI7B+x263WWU4EWt1isvUij/
-         ftHvgFP7LDXUkR7KGd0ioVwjGZRJ9mOxBG1/sbQFHosSjg5KDEiLsxIppG5HEHeRCtY7
-         4H/w==
-X-Forwarded-Encrypted: i=1; AJvYcCV1P+GLrMdS0EpS1LK9p61mk+DLqv8DuH52LB7WZ6Aecx2sHLha/Ng2YWTTzx7SPcFSQxMCsCp+gf/x8HOgp0rPtDE=@vger.kernel.org, AJvYcCWF4l+AxvRki2qyWPRmdVJzB+h9dOO7uQ5Kqlg5CqZPeIkY5CB2rTas9JQO98C86VoZF7YF4vv96/Qs@vger.kernel.org, AJvYcCXZCSF9VluqRoAGVQpNfhczsRJD4WNvV0fCIK9IKlMuK2dfsCBMDv/qq0gMhwTzlridPm/CNVMPg241SjU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyC0tk9988e8ouMG0tK9WLj4ylNUiOHG2iECc6q7zaVhHVQw2Wt
-	gbGRpIaFEbDRDKpUdT6j1PnMqAfsuDw7ON+O6DwvFRJchFW1nHw0JUV8RzEFf52fxB/aBQ9xrWt
-	tdYCwZC/O5PHYnsSEFrmujfVzNcg=
-X-Gm-Gg: ASbGncutQfRM8lccnJpprXqWEDTQ2L840ZuDQfZGaPLLhWzYdz39bRg2mEs0qkZuhKq
-	JoS2OL+VoQkCZZghAXzJgccZ+vQ/qwYnrZKvn7Q0SN9zxfNJYNZh0ZK22QUkw2lJBiQf4TBQvpS
-	TQDZDhtWT5wQ3SHbuAgyDTqF1m3mtfTsVg1j03nXt+dCMH5iLbyEo1rfSfrdOXHP4VbP56
-X-Google-Smtp-Source: AGHT+IHTAqillLElByfCXdiowxrLglQTthe56WV3Rq5oTwQJkq0LedDRIEvtz5ggo7IYxUqmxbHV/KgVaYqLR/V38kE=
-X-Received: by 2002:a05:6122:659c:b0:520:3987:ce0b with SMTP id
- 71dfb90a1353d-5276443fba4mr12367299e0c.2.1744116331368; Tue, 08 Apr 2025
- 05:45:31 -0700 (PDT)
+	s=arc-20240116; t=1744120824; c=relaxed/simple;
+	bh=/wWXE3fNrEBDvjgetUA+sZfMPO8BA8VN605MtRqkGR0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ib1/YekDze1RwM7ReOlnBlL6qP2MDW7l0ivAE6x7nrzO0QTU0M0cBGp83m1plcjy+MNxyhyg4oJmsT2op8oPKI3fwbjsMi1ZSqGxcmZ4BN1dDt4A1cjn6ngal8k24wHMbt1LQe1KFpl+UfNDouA+uSYRlOOX3PimDfHQjfbTVyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=agWFaCKz; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CE5A64439C;
+	Tue,  8 Apr 2025 14:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1744120820;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fBKTIrTR4k7s9CcKR0nOavz7/VdQkJ67KeiXhctPsas=;
+	b=agWFaCKz5DYKHJHSwgj6s0srG2h4/llx8UsELbyGK9KPjhh5GevfaIjGVnMpYFyIQjzyCH
+	XG3MZfnxdczNeWnWLN/fFFG469PhOTkWJvJksPFgC0pHM7Up5t8ci1Fu+aiHHvRGQWNRy8
+	nSJw/xQVSRKfcTXSntgIJx/vjsEyrvM1vxXdcPyKtOsaAFuP2KPD6ZVENkS+6Ahsyyt8KY
+	CXtRA84ls1KBj4ODIgtrQE9o08LaabXuDtIZ2deIODaRbJsENl6dx9hU2OFNb6+xdvs8Le
+	h/P8Dr5PyezmtCeTfocoFFzYzsVtaD/bde45qNTPGFqcp9j2Yb9BRQ7Wa+8avQ==
+Date: Tue, 8 Apr 2025 16:00:20 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: linux-renesas-soc@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-rtc@vger.kernel.org
+Subject: Re: [PATCH 0/8] rtc: sh: fight the bitrot
+Message-ID: <174412079595.3863545.11271710425205821777.b4-ty@bootlin.com>
+References: <20250227134256.9167-10-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250407105002.107181-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250407105002.107181-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <TYCPR01MB11040727E81F6DF8647D92343D8B52@TYCPR01MB11040.jpnprd01.prod.outlook.com>
- <TYCPR01MB110400F8DCB038CC28BC5C04BD8B52@TYCPR01MB11040.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB110400F8DCB038CC28BC5C04BD8B52@TYCPR01MB11040.jpnprd01.prod.outlook.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 8 Apr 2025 13:45:04 +0100
-X-Gm-Features: ATxdqUHcCkywLkFaBW_wgO1uOdmEJJpTjepowyESakdf0kHayJBxPyY9etgrikE
-Message-ID: <CA+V-a8uNMVcKZgJwZKptOB62UyFD==t0HPOc4j2GwaKwRrzKQg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] usb: renesas_usbhs: Reorder clock handling and
- power management in probe
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250227134256.9167-10-wsa+renesas@sang-engineering.com>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdefvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeefhfffkeejueehveeuveejvdelveejteduffehuedtffdufeejudffuedvtdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemrggutdefmeegfheltgemfeefjehfmehffeefugenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemrggutdefmeegfheltgemfeefjehfmehffeefugdphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomheprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfihsrgdorhgvnhgvshgrshesshgrnhhgqdgvnhhgihhnvggvrhhinhhgr
+ dgtohhmpdhrtghpthhtoheplhhinhhugidqrhhttgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-Hi Shimoda-san,
+On Thu, 27 Feb 2025 14:42:55 +0100, Wolfram Sang wrote:
+> When looking for hardware that supports UIE via alarm irqs, I came
+> across the Renesas Genmai board and its rtc-sh driver. The driver
+> basically works but there is still a lot of cruft left which is not
+> needed since the RTC core now uses the timerqueue.
+> 
+> Patch 1 is actually a bugfix for DT systems. Without it, alarm
+> interrupts don't work. I suggest backporting it to stable.
+> 
+> [...]
 
-On Tue, Apr 8, 2025 at 1:37=E2=80=AFPM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
->
-> Hello Prabhakar-san,
->
-> > From: Yoshihiro Shimoda, Sent: Tuesday, April 8, 2025 7:40 PM
-> <snip>
-> > > @@ -721,7 +736,7 @@ static int usbhs_probe(struct platform_device *pd=
-ev)
-> > >             if (ret) {
-> > >                     dev_warn(dev, "USB function not selected (GPIO)\n=
-");
-> > >                     ret =3D -ENOTSUPP;
-> > > -                   goto probe_end_mod_exit;
-> > > +                   goto probe_assert_rest;
->
-> nit:
-> I think that the label name " probe_assert_reset" or " probe_assert_rst" =
-is better.
->
-I'll fix this in v3 to use `probe_assert_reset`.
+Applied, thanks!
 
-> Anyway, I think that this patch seems good to me. So,
->
-> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->
-> Also, I tested this patch on my environment (R-Car H3) and it doesn't hav=
-e any regression.
-> So,
->
-> Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->
-Thank you for testing.
+[1/8] rtc: sh: assign correct interrupts with DT
+      https://git.kernel.org/abelloni/c/8f2efdbc303f
+[2/8] rtc: sh: remove update interrupt handling
+      https://git.kernel.org/abelloni/c/c090d390e5ed
+[3/8] rtc: sh: only disable carry interrupts in probe()
+      https://git.kernel.org/abelloni/c/fb06b6b54b33
+[4/8] rtc: sh: remove periodic interrupt handling
+      https://git.kernel.org/abelloni/c/a7e7d966ccab
+[5/8] rtc: sh: simplify irq setup after refactoring
+      https://git.kernel.org/abelloni/c/689602e0609e
+[6/8] rtc: sh: remove useless wrapper function
+      https://git.kernel.org/abelloni/c/33df0a509dad
+[7/8] rtc: sh: use local variables in probe() for mapping IO
+      https://git.kernel.org/abelloni/c/ea59ad0ca975
+[8/8] rtc: sh: minor fixes to adhere to coding style
+      https://git.kernel.org/abelloni/c/8003a5585fc8
 
-Cheers,
-Prabhakar
+Best regards,
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
