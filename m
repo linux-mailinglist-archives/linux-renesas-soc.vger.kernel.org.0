@@ -1,113 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-15537-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15538-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E88CA7F505
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 08:32:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD782A7F538
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 08:47:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D0453B0A82
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 06:31:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B9D318958B3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 06:47:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A2CA161321;
-	Tue,  8 Apr 2025 06:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hPu9xjLL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE62125FA17;
+	Tue,  8 Apr 2025 06:47:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A71207E15
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Apr 2025 06:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E97925F977;
+	Tue,  8 Apr 2025 06:47:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744093920; cv=none; b=HZNAfQ/Jt0sG/kp84p8UUWt/TbTlDuoYW/ujCzezgo62IF/cD82dyZhhytCemQOisfYwq141W4EUilMir1mnEeKcLMb/pEvrL1SwsKReDYfaCt1WVrurz3HJhyS3Do1af63uGSXLKqh6LKnRIWLW98Fc6DozggGlcpjIcO4dvHo=
+	t=1744094851; cv=none; b=rimHnvkC+h08IZsEqZGAu1Mkj3wLaEubHkkXilWeFdtIxZhb0v70X5VCF17s+u3vZ1cLepaeUWO3AwgyWJiAM9A4qwmmsXmNlv4S/feqc0DwYtIUhEcSk9DZGbAbAabSTqy4XeDqkcN8ZzxBsvDr5t5VH1wowmzlyaf5fztmwbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744093920; c=relaxed/simple;
-	bh=DCFRFeOvG9Se1vy9dxQqHhggxa1GPhQtzmON2CPVQ+I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vBn+R1BaVBeAeP8BVlgAE7U6CnKipSU7Ylv7hi7Qz3ajvQt8fqENy1K4uSHTOR4dTZoJS12QSXTr3ZrGO9tefXHFebognusTVgvIydK8Yc5Gh6A5ssI8kDpu+/NUx6GsRa+2Wm5Fg5FM/c8wdAqZqYTl0DdQhuqDxr/dpsesYRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hPu9xjLL; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=HDVRn+SJMaBmKN
-	TbjPM3o80W06WAYQY8MWdQY2wavDY=; b=hPu9xjLLor8ZbWoZRsVwF1TD3kNOol
-	I0/goJzYU7wxPZq2/pcX1VKywzGJ5gCfikz02az7Kiyssyyjmpjwy6t9pOdEMRbA
-	Y8MfEDFU3fouhu+v0qfIFt1UYQABnKA7HAlUB6dEXq2c/dic8lQxYwKnDGe8GqS1
-	eQZgTVum7m2npz3CF7gVohnNvhNl5X2RVZgVhvQvwwljN+FiZM794BM4RFPtRJvN
-	L4lIsIK5cio5b/YVxgkAVzYBjn95iFJ1bDAFyJFHgBW2loUT3F/8aV6X7tX03NfF
-	ggrgTN7EOJMGdXqVanT9Al4awq+YdFr59mfU9qwWHpltT6EPv8Fslwwg==
-Received: (qmail 4071147 invoked from network); 8 Apr 2025 08:31:45 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Apr 2025 08:31:45 +0200
-X-UD-Smtp-Session: l3s3148p1@fgGrgT4ySsMgAwDPXyfYALbiJ46yNPq3
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org
-Subject: [RFC PATCH net-next] net: phy: marvell: support DT configurations with only two LEDs
-Date: Tue,  8 Apr 2025 08:30:56 +0200
-Message-ID: <20250408063136.5463-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1744094851; c=relaxed/simple;
+	bh=LznuiCLeAAsy2EUBD4afyfky4pN2mCFkC6xY5e4MGWk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QRT5HQ9ZI68gk0rz9mHXbTa9GhYzV8yQu6PPhGVkgI81qfo+WA5pMS5opJhhD46fHJIleFRfwbkDVKs34eZSu3CwIkbat4PmjSBw5oGfY1O21nfGaQaJLrybdG45JGVhee2RmihfY7BQ2QHrR5ibQYBWzKG37axgYvLwAVr6hBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5262475372eso2380362e0c.2;
+        Mon, 07 Apr 2025 23:47:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744094848; x=1744699648;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d4uljG8jAAAP6X23V4NvLorg/bt3Tc12iNiDu12FtbE=;
+        b=ZBHW8WapWnUHvdJCWc8SEHxGPkR4RqnCdSG2OMVz0cHrder7onE6mmJRtmHzKVSnVg
+         R0cufvXYEeyw3IQUuwd5iWoYMejtm0KqIJan3OW+Bn0dOxHfCALCaZFdVvAmhRXH/UPg
+         e0jfepQRdVe7slhzNs86DA7uuvVQZrWPbzkHZQpYtwvAPFjJxY1Lmv6o8K43WHmrDpPm
+         GmzM/z8OAYgy12feUROL0DS8vC7P4+QSjqLTrr9tlE357cqho1HfJIJfkm6yFB1GBDGe
+         19ohAlnj4Dp1c4HQ8sRe7ZsdDX0/rUXjugA7bxcoaiEg3R9hdsdO2c/rIDEzf6CcccIn
+         5EGg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6CQO5w1ZPL/AI6/bncTcgSMWFJ2eY6FGWX/OW5tkXTM4T//bliRLc4/wTmFAMF4oXyczZWJUq+s9+KagJ0VBk0lo=@vger.kernel.org, AJvYcCWMWhV1oBndL4TqFq7vzcZBEcXzvlaXHZbpDKVLXhK5wm7MD2WHOiFr3auc9H5Bvu0bX+P5RiK1/jT3@vger.kernel.org, AJvYcCX0g0mj8Zym1kj6YYIPbmRdzgwXupo+auISd9Xv0M5gF8Ba9kjsAtjiTqnNsXwRPIG1DLjYVFYcosOgyiyq@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKr/H66ynr6b/hN2A4DirrZYzkHHoB3Mg/mSWZshcQtORVW9Yv
+	PjYKPhfY8peiinhclRPp2T2RsCn9a3gGufcYm6twWOcTnBF/pY1ln/b2oCuU
+X-Gm-Gg: ASbGnctai2NLDhZkSrUyNH3NccL0slohPVSeGQvx/D/FF+UR0feYU6OLkNeuIq88KOf
+	4sIiuH/MZDewGBPL6DGr6WCFIfX6f8TCD1e7cD8bKELAd7t90UKAezzeahiBwVv/MP1h2qnoXUs
+	MwuDwmcYbcMGaMWGxpaJwctX4+XDQqvJqjpLGjk1x0oBCnm0p6DhEXTMB/bST9enQXs3lX/NJYh
+	OccbQVzhp0Ifz++cXYgO3/vaKYvG3e/3i0+rpWeGrWehsU43K/NKePZoxP61xD/vftD67XTMymd
+	hZBs/gRd9pVl3mxSB2HK+9zDYn0LLgbLtr6GJghjEUzSkEr8u4ZgjhR3dmVosdzSHObPtUpROMS
+	pMXwq8ZDEvro=
+X-Google-Smtp-Source: AGHT+IGZnXABKGCPsDI0wEWyKRE2EkTBBZm4WR83fDyPegfIt3xqH4fxqOus1+ZHxEXsMONYrLHm9Q==
+X-Received: by 2002:a05:6102:534a:b0:4bb:d45c:7f4b with SMTP id ada2fe7eead31-4c8568f9c5bmr12623369137.11.1744094847698;
+        Mon, 07 Apr 2025 23:47:27 -0700 (PDT)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-873caa9a6d1sm206205241.26.2025.04.07.23.47.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Apr 2025 23:47:27 -0700 (PDT)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5241abb9761so2268138e0c.1;
+        Mon, 07 Apr 2025 23:47:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVs5bPlFTARlJsmf08JrUxILihWRzu+FjyCtxYx+BiEXG55BzhwolF8gMOa5j8AfWIykOnBP+hRxMDBmGjd@vger.kernel.org, AJvYcCWspqx6N1l2hd81jjgU5uU5vQezzQz44T7NbamjQDzJNwkNBhjYrrkFVLGSbrsusNqBa3pk/55C1tKC@vger.kernel.org, AJvYcCX2xMOGY8UeD/7MykRc9RF//b0KtBKYDfUAMJ95f4jddeaCIw8CV+Pbfr/BKEYmF4Ar90ibJk0fUDd33+39e67dwtk=@vger.kernel.org
+X-Received: by 2002:a05:6102:15a5:b0:4c2:ffc8:93d9 with SMTP id
+ ada2fe7eead31-4c8568c12bdmr11458882137.9.1744094847393; Mon, 07 Apr 2025
+ 23:47:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250314-rzn1d400-eb-v3-1-45c4fd3f6e01@bootlin.com>
+ <D8IEWP78KVOE.1SD29H0S51FZM@bootlin.com> <Z_TA46i0KfFq89ch@shikoro>
+In-Reply-To: <Z_TA46i0KfFq89ch@shikoro>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 8 Apr 2025 08:47:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWLvqKP6QnLGuR3AT1SEJ_XO5F4119JCqgptv4RFWx8tA@mail.gmail.com>
+X-Gm-Features: ATxdqUGsoQXbFsChzTbu6dT8PNNfqMxTuiDdt9ypFQBq3Z7H3KP4rtRuBQG_yHI
+Message-ID: <CAMuHMdWLvqKP6QnLGuR3AT1SEJ_XO5F4119JCqgptv4RFWx8tA@mail.gmail.com>
+Subject: Re: [PATCH v3] ARM: dts: r9a06g032: add r9a06g032-rzn1d400-eb board device-tree
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 
-The Renesas RZ/N1-extension board also connects only two out of three
-LED outputs from the Marvell PHY to the actual LEDs. The already
-existing setting MARVELL_PHY_LED0_LINK_LED1_ACTIVE fits this scenario,
-but a device flag cannot be used because the PHYs use a generic MDIO bus
-on which also PHYs from other vendors reside. So, the driver is updated
-to count the number of LED nodes in DT. If the number is 2, the
-alternative LED configuration is used, otherwise the default one.
+Hi Wolfram,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+On Tue, 8 Apr 2025 at 08:23, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > I'll send a v4 soon.
+>
+> Please do with the minor review comments addressed. I have some patches
+> depending on it. Which means that I am using this DTS regularly now and
+> it works great.
 
-Is this a proper approach? FYI I double checked that
-of_get_child_count() is NULL safe.
+v4 was posted on March 24th?
 
- drivers/net/phy/marvell.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/net/phy/marvell.c b/drivers/net/phy/marvell.c
-index 623292948fa7..b967b4fcd25a 100644
---- a/drivers/net/phy/marvell.c
-+++ b/drivers/net/phy/marvell.c
-@@ -843,7 +843,8 @@ static int m88e1510_config_aneg(struct phy_device *phydev)
- static void marvell_config_led(struct phy_device *phydev)
- {
- 	u16 def_config;
--	int err;
-+	int num_leds, err;
-+	struct device_node *np_leds;
- 
- 	switch (MARVELL_PHY_FAMILY_ID(phydev->phy_id)) {
- 	/* Default PHY LED config: LED[0] .. Link, LED[1] .. Activity */
-@@ -857,7 +858,9 @@ static void marvell_config_led(struct phy_device *phydev)
- 	 * LED[2] .. Blink, Activity
- 	 */
- 	case MARVELL_PHY_FAMILY_ID(MARVELL_PHY_ID_88E1510):
--		if (phydev->dev_flags & MARVELL_PHY_LED0_LINK_LED1_ACTIVE)
-+		np_leds = of_find_node_by_name(phydev->mdio.dev.of_node, "leds");
-+		num_leds = of_get_child_count(np_leds);
-+		if (phydev->dev_flags & MARVELL_PHY_LED0_LINK_LED1_ACTIVE || num_leds == 2)
- 			def_config = MII_88E1510_PHY_LED0_LINK_LED1_ACTIVE;
- 		else
- 			def_config = MII_88E1510_PHY_LED_DEF;
+                        Geert
+
 -- 
-2.47.2
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
