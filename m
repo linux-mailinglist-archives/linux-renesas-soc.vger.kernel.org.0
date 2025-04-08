@@ -1,64 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-15573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15574-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5942AA80F24
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 17:03:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AB22A80F61
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 17:12:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3653E1884EDD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 15:00:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 248EE3B7F6B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 15:07:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A24511DA612;
-	Tue,  8 Apr 2025 15:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67E2F1E8348;
+	Tue,  8 Apr 2025 15:07:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SRG4MO3K"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lDAitrKq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4141DE882
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Apr 2025 15:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58AA41E0DE8
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Apr 2025 15:07:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744124422; cv=none; b=iD7exXwrgHYsVWOFOUMXQlgWSRHR/IsbFbnyZj8aUIG2V+UAKBEQZlNiv/TBV+dPB0DOQNgufIfsqlFFxYOURu8x51ld50DyHK9dTONLNnaRvnfpIUjL16aE6iKk7WAhHN7JzEzTs472cRjsk18gR8ROWFzDiZ9BZ7oWrFx9s+Y=
+	t=1744124840; cv=none; b=I7D2AA5HAteYe7XtY/6IRawUTD3kDQ7j/3SliS0OtCcT9NAyPP6aVAE/LD4i2HTaDw1PvA1k/lTgL2vbHEsh+vus2GKAs+rV7jmL3C6baJeE76B/BHcGPYQctP0g686IWycWuwGArKyjlstcoNc8+MFv4e3JYKrQpldSI4rKiBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744124422; c=relaxed/simple;
-	bh=LekaMcJBmwO0dBp6xUmNHy7AZGB9+z57rJom0JEmKrU=;
+	s=arc-20240116; t=1744124840; c=relaxed/simple;
+	bh=rjC6pjbNE/DzxoKqwV8o1xDm6buKNmoptqlJL8Gns0M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CNMx7GbsJ2KwP/WvWMV+QUq9sT1LL3PkjCgyDvma8IYxz+wwSVE5tYFz5lr/CuGjJTMoJtwX60uhzhr9OE/JbJFpSy4niwdlAsIFs6diKUPkP47cn/mhJSY8A04fVWeeSozTb/XaUhIqTimjKdNuhYMTvzctju/VUNpjP5za9Fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=SRG4MO3K; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=G7WZG0CvgXGUe1oWgSf7CAJ1s/HxEmDJtYLc9pIVxhb1lA4f8UGvGOLz9MsdB0lnWJM6RSDxth0axbWTb/535W9Qxxmd43K6o+Y7bnoAE0TFV4iYBgL15pGZPlql9Uc2/nyHNzSQe1yIFw+SaDfKw8L84jhfdFWtwiVc1mF84Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lDAitrKq; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Leka
-	McJBmwO0dBp6xUmNHy7AZGB9+z57rJom0JEmKrU=; b=SRG4MO3KnBQHFa2DdePC
-	5XnNDRNXJr2ByyTpY0wLXyhJF5xYfU+KhgM5F8fbtUK6w91rWt4E26rEu+eVFyre
-	58ZfZs4WyFkikANJzTP2kfjcn+5TBR4N9dArX7nY95Svh42xkZXkCCe7sUUVGYVa
-	xVVbh6vTYoFoVL5+tvNP28WkPxWPP2v/eNIZtngtexP+jiWpFQ0AbN9cEAYel+QG
-	CFaDNYZKo0sKFDnJq4wsZqwgbTubS1eouyK4bw9jW7xWNBx/Wry0l1QbrAgLDVvm
-	UukIaFdxl9w0uKU8xkzg1St7YsI4WYaQSkwA0/rz/rgoLSzqMmexcoG2Mvg17QGx
-	Fg==
-Received: (qmail 54653 invoked from network); 8 Apr 2025 17:00:15 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Apr 2025 17:00:15 +0200
-X-UD-Smtp-Session: l3s3148p1@+CI1nEUyaNIujnsS
-Date: Tue, 8 Apr 2025 17:00:14 +0200
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=TmpX
+	czd7WfTCPYN06+iLo8DluYU4QJDaknbl1vfUGks=; b=lDAitrKqVAcgnJc9UaDO
+	aIZM29YzL8f37y1MJu46sIIMEr+URV/3gn3CT1/vcmLoDwSZdxmaDj94o4Fu88F9
+	t8F6tPPKXnSf0FeYbuKcNR7OmEniOBh5dZdl9eng1x/cFV6ur42FcruyW/b57+tf
+	oe0jYCK6YtkGQvWrGItvLFOamQSSkg61VjjjO6tkY4XhyS5zcV/m9KHMTsBgfZVc
+	dVrucnH7rvmOTjr1dE4NEEXdC+meE3fUiFnnV92i3meGI3p/DH5QBMNG/yCk6XRi
+	2HIqY/REi0QL6IgWNfiWUkRtOYevEmUHlnPRRpyXcn8DkrtBTwtJPZ2qnHz4xzgi
+	CA==
+Received: (qmail 57483 invoked from network); 8 Apr 2025 17:07:14 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Apr 2025 17:07:14 +0200
+X-UD-Smtp-Session: l3s3148p1@MVU3tUUylIoujnsS
+Date: Tue, 8 Apr 2025 17:07:14 +0200
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v2] rtc: rzn1: clear interrupts on remove
-Message-ID: <Z_U5_rJJaDl4Bfia@shikoro>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: linux-mmc@vger.kernel.org, Adrian Hunter <adrian.hunter@intel.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Avri Altman <Avri.Altman@sandisk.com>,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/5] mmc: core: Further avoid re-storing power to the
+ eMMC before a shutdown
+Message-ID: <Z_U7ogPkzZY9IVBB@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	linux-rtc@vger.kernel.org
-References: <20250312100105.36767-2-wsa+renesas@sang-engineering.com>
- <20250408142636821de253@mail.local>
+	Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Avri Altman <Avri.Altman@sandisk.com>,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250407152759.25160-1-ulf.hansson@linaro.org>
+ <20250407152759.25160-3-ulf.hansson@linaro.org>
+ <Z_TZxXORT8H99qv4@shikoro>
+ <CAPDyKFoOfNWa6b0jF0-a-imKqdDJQrdJe65OaOj3D0upmS7VXw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -66,47 +71,53 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xK5TWmjgZ3PdhLqE"
+	protocol="application/pgp-signature"; boundary="goCDa9/FPguGvFqo"
 Content-Disposition: inline
-In-Reply-To: <20250408142636821de253@mail.local>
+In-Reply-To: <CAPDyKFoOfNWa6b0jF0-a-imKqdDJQrdJe65OaOj3D0upmS7VXw@mail.gmail.com>
 
 
---xK5TWmjgZ3PdhLqE
+--goCDa9/FPguGvFqo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Apr 08, 2025 at 04:26:36PM +0200, Alexandre Belloni wrote:
-> On 12/03/2025 11:00:00+0100, Wolfram Sang wrote:
-> > It is good practice to clear running interrupts before removing the
-> > driver. This is not really a bugfix because on current systems RuntimePM
->=20
-> This is not completely true, most of the drivers would leave the
-> interrupt enabled after removing the driver because it can still
-> power on a device.
-
-Ah, okay. Good to know that scenario as well. Thanks.
 
 
---xK5TWmjgZ3PdhLqE
+> The rather long function-names "mmc_can_poweroff_notify" (that will
+> change to mmc_card_can_poweroff_notify with your series) and
+> "mmc_host_can_poweroff_notify" are rather self-explanatory, don't you
+> think?
+
+Well, you are the boss here, but frankly, I don't think it is obvious
+enough. I had to look twice and very closely to understand the logic.
+Not because of the function name, but for the reason why 'is_suspend' is
+true despite being in _shutdown(). Adrian was wondering about it the
+first time, too. So, I honestly think the comment is
+
+  for a maintainer -> superfluous
+  for a part-time-MMC-core-hacker -> helpful to remember
+  for someone new to the code -> essential
+
+Something like this.
+
+
+--goCDa9/FPguGvFqo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf1OfoACgkQFA3kzBSg
-Kbahkg/+PbB0dGJkcLxZmDaCZOEZ2j11bYKieepKs8S1KN53rdcVBwV3ZsjKqAtg
-BQO9EdHsoi2aNzUNzSP3CIIHPmZ4m9tELWzFDa/WGNjvuiV28fJcjiA7kjpUeNrN
-QnsdvF2siGhe3Pa07czREOd/QGoCh88cqRItPdnWdJrwZTM8MnS2qOaccmE1fMCT
-861tmby0mOTBQzRebLAfeeesxnmwGIhfL2svU64wnNqDu+ap+XZn/Z85wk/CWZJX
-xw5826kwzPz1Q4ExddD5Ky7y2eBRH7ZeNrO4nfVgjE568v/VWV4X+HUTluDa278N
-rCyCmLIuml5YWJPn+/Sa15LB3gxCymRZxdGJtHVVcoeYUtj49vfPZMsPLjw4HUNG
-uEu5qTRssvttMaX8I9zeHYLl20PAHEs9ETP828/OGw5nKo+FWH9wfFC0U+XPo3Uw
-VobNS6f1U7SzH2re1D9cECXkwzxtHeyTPE0lZkQDVjynFIqEPsSywssWVPaNotvl
-9FRpxneweBVGdweyNjx/bThvQBcyYgVekprjlsU/BcuOlL1CwW2l1hmDsNSS7DKM
-K8BD7VLO+T+5KULCm+ZPNp2lWhLl6lEcosGV0l22esjZr3UQ+QUxn99qw4b7Leo9
-AoplSMyRBzbC3FmZHEOH4ZppmYefcZ6MLMdS8r+fwHolL2IVQXI=
-=Ikax
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf1O6IACgkQFA3kzBSg
+KbYoQA//TgNUSNe9zHzT8rQ00QZjzk3V0AsFDPSoy0/kgkGzzTiJxW8y2AHaCsGb
+8DEFbBWJ/PjP5N7UcwD9d8yAFAEAVeTgYa+CD8RdoG4qFbnms+K/RAuyqwVwmowC
+O0AVGl7pWWe9f6WQuJ67VQQgu71+nOKz6y56dMw9Lx4oBeMPgKn3txkmB0y3+Jiu
+lalumNd3lbIaXKg3Y+L9+SBeliJzjigg+GsKWS2OJzxOPJp+sAq7p8Oyfjm43wuc
+qsTXlfZHUAQroZ7qmo/uQzzP88oqhCBd595T3J1w0MQ05wTAR9t3w+TiidKGAYPu
+Koin1pQehUtj41wc7QFej2IjSKnoZBPX317om6kWqZde9wVwaFrfo+IbYEVhlscG
+kWEfYv/YREThj9xbai0HauTKSTSSFN00a8698QePQs4cgdaQyVN4VmrEr8P6bXUY
+ZzWfrCx7UJwVZyqn0HbHvMkBPBMvo0YzH23sHpXnUU0aomjvEyfrx+17RTgexIdw
+At/Wq8cc0pz4Dl03tKWNnQmO7kUttqljt07zDo0BErzDaZOhJwDOKEVLnpoyq4DM
+yikaj8eOcRF5xiN1ztEXP4Vu+ql77c7PXrYbSmKxHsO8+VDJEQzR+AAYoK6LayvF
+iO6PTO/atqKeXILcVAJ31Kh/umNtLIUedo9So1y1N4SZvCq1kTc=
+=sJD/
 -----END PGP SIGNATURE-----
 
---xK5TWmjgZ3PdhLqE--
+--goCDa9/FPguGvFqo--
 
