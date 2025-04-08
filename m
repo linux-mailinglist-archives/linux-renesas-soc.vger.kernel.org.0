@@ -1,142 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-15545-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15546-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E3BA7FB94
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 12:22:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC2DA7FC6D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 12:42:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E9D60188DA27
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 10:17:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68922188E599
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Apr 2025 10:37:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A933F267AE9;
-	Tue,  8 Apr 2025 10:10:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DFEC267B71;
+	Tue,  8 Apr 2025 10:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OmPziao6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE9B267AE7;
-	Tue,  8 Apr 2025 10:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A30A267AF0;
+	Tue,  8 Apr 2025 10:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744107050; cv=none; b=Fx6E10asOc+ZrUXsB2viWtPxSTbFlWrzyijJKMC5+oH0qlvO5rDD3XhWsj7BBBgzdVN3MgR+udjxwU+8BY8SU9Go0579XKLLtunx1jnq178uSlH4OIkIdUwLzYYKqicKZO75QTG0e2rT8P4FCpG+SD4RRBV4MVJdEUQIQcUzhJM=
+	t=1744108598; cv=none; b=gf/L5v1G09z58Cy49F9vj9ZgRIwB+FWzoyUe2zjNOb5cvieRUDnMMrTAw02tzyIRQHvauz6jGVe5NENlVvHXVW4H6uShIzVqMhCeZYfMswg9amjA72NWdZRsHs8RKiQJ+K7RIFJX2s8+DDJY/wZnuxCBRmCWf1iz5thZVBSIXrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744107050; c=relaxed/simple;
-	bh=7u/xSUkUO9yn/yipKrfGD6s8VmTbpmnDhlrjOUEUufQ=;
+	s=arc-20240116; t=1744108598; c=relaxed/simple;
+	bh=/UphR4APFcK/PozCoAhhjfIcAkajuJZKr5WV2+8cQPc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AWtoaBUSeDSX6uXX0X0dUKtoEFg+BsO9517PUDm46owH9+mk0wYWl+Mbd8qcwtebZV/pO/7Axv1PMOoHjg6BvpPvp4h58SgtH4JHBSYEGv0LrbY28gQ+sZYwRTkmixLlGe5yUNG67SA3m8KDxID/ykE7Rjd8rgsTojAiXa9tmhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=bCWiZrwrGg3Dh3INCILuxfIApQdDtgX6CoFOhxl5wXU3Qpafv0dfrR7o0raL8yzmcsQ9lVqqQvPj7cKE/JFVBYmdi9gur5D3avodO460YdTrAFEJjLj5S8XHc8r+IxPFMD3EtKyAiaKaO7jXZVwL+JqsEPxf10cppi0Dqhg004Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OmPziao6; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-523dc190f95so2627561e0c.1;
-        Tue, 08 Apr 2025 03:10:48 -0700 (PDT)
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-523f721bc63so5611863e0c.0;
+        Tue, 08 Apr 2025 03:36:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744108595; x=1744713395; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KgmG0wqQuAR9ll3NJT03Os1B09ohhoP7nPRoSHR6bKo=;
+        b=OmPziao6wFNS8qvNYI7EMNZG9Ih1bHKoMPQos8gV1JtViB01pBRmD+AFOOGIqOemsz
+         qIy79u6sgNuUoP8ENcxQclcCXHaU4s19utH9kzdu8N6v08SMBq2TRT/VZCgFZr9tvLZL
+         /NH/j4tgEkNRd7URdCy3iZkY+hyBHjaV0L8oZv6zhf69GHTvz+3VOJ/btQ2JLtuyyfyW
+         ONWy0yx51KXuh5w6qlNjiSoNyqF/Kk6N3fT7cjxvLX4bBBI2Bz38Z77hgAAiqo4JN2Yc
+         li5g8lnIuarYhKYhqEO/S+6NDtWxqf6XUe8vKi7vFdmYLNiveUZ2oypxLtkdNpllZWW0
+         6NGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744107047; x=1744711847;
+        d=1e100.net; s=20230601; t=1744108595; x=1744713395;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sn0dEIDKEarsIBX53h4F7dKWgVPs41TGZ/71AYv7Vuk=;
-        b=C3RGo2qpNerlzuDgOjm8QMltwSDuh0pZJq50TC80arIQc984nS7eArIHZpKUKreSS1
-         +3eh/oheTM656qss5iZgxBjqetTQjz+jb62Mzg4ZxgAIy/DeOuYb/rt1mP8VYzBPkLIT
-         OSBvzY36XRYQGVnaN0x0b59LIYf8iGz6Uzxk2Tv7pPNUB5X7zwEs6Wuopf1evExubzR6
-         wRjJjlZ0nJFj8XZ/jTW81WdSjxuCVC7x7+PoAdYO2Cd6we6F6mFa9ERStEO6X1GEipMZ
-         hLBO1/pyen3gjRjJCmU4ST17+tQ0vDgNVgqNiJSkGTtR5q2tcqM2iDozE1UEgIohcT5b
-         WOdA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEC2lENhRHt0HMX5cVYIVlVhkgNYYkpwgayv3AG0EfxOBSe1uij8iSaHrVjCwa0/niTeFsD+yu5Ws=@vger.kernel.org, AJvYcCXxElTONtEseMGIow97MaK827QsZ8P2hYcgyLXyCZOBsYQ6q9dpNf79Gmbp+NCcO0I9iOLGG/Z3/19i/8OZF5re7qg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMb1c3b/rw0Ouhl9F/lcsGwnYM+NP3797j/TYtdgu8qd/7/eAp
-	DAM3xBHfat90FQbB0DGsCzzy6ebuzozURtfsSycK17NbAEvtcIqfkVGm//gP
-X-Gm-Gg: ASbGncvJqgSxhaxZOSTiw6MYW2WifzeoOTxbNwwxh4xBRr1PB1e5i+HLxREqJVe8b6S
-	nyq/3Oa0/hxC61Iv/TQTm2If8J7CZ1NYuc83TZbABSpHDEeRgcSCamyRbT2ZLD1weh4Mlu+uK2f
-	JQ66bDrRrfSZMQP9Gvb8FDBDruB3ZNMKdBdFSLmmo0qKvJddiEW52L/+a8fy8zPbLYd7MIyvPNV
-	NSgK7dI7lsSVO2fbxfvBwe41h9mgOw/soV0U7Th9LofYHQCoguuSZzQjoTVtugftKXJp96Ppqdo
-	IlaXM1FN5SCl9At4WnshMoISog/WEtT9wDRt3+SI/Y+Zw3vubCUQugutXyPIBqtY5ISaCFF3cVZ
-	H117fPAQVezutzdLyPw==
-X-Google-Smtp-Source: AGHT+IGagaV/gR8xBYykgGLsduR2pMAiQ6AYjhlgdUr+2X2KnYDde4Zs/D7ln0SLPbeiKbFb2pTLvA==
-X-Received: by 2002:a05:6122:8d2:b0:523:e175:4af1 with SMTP id 71dfb90a1353d-5277308100emr7753865e0c.6.1744107046947;
-        Tue, 08 Apr 2025 03:10:46 -0700 (PDT)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5279b55a2c7sm311228e0c.5.2025.04.08.03.10.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Apr 2025 03:10:46 -0700 (PDT)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-86d377306ddso2318674241.2;
-        Tue, 08 Apr 2025 03:10:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVFc6rkNU79NxiEVuc7GQ3ds9eFQ4LMfu8BTaHHsEvhSTUv3tCiOmkudjnVUlZVdSellLVNl0oSTbxF5jqGl7y4OEM=@vger.kernel.org, AJvYcCXzEGiXCnJswDdVc/Xr9DdlAyZbVn6IxFO7Qc/foJyfZ7gIWcL6oKZOpp03MnZb14qr2nDMUi6kCqM=@vger.kernel.org
-X-Received: by 2002:a05:6102:3c8d:b0:4bb:e2a1:183e with SMTP id
- ada2fe7eead31-4c86374a466mr9364968137.18.1744107046285; Tue, 08 Apr 2025
- 03:10:46 -0700 (PDT)
+        bh=KgmG0wqQuAR9ll3NJT03Os1B09ohhoP7nPRoSHR6bKo=;
+        b=PIlKiVCZDoV8otHO1MLelt+fZUK0x/mJubWOCH/P3FcADiUE+4IiesALH1IXZLx9AX
+         tCozZ1K5GVLnJTcG8iPoba+l2ha8c5FRMziMX2M7IpFL4zOUdg6F0CItBH/itXOf8ETL
+         XhYCg1k5hCc644QUfhpcCGuMZp3s0gHHhperZxN3yqk582qCyL4LkwvkeKFltG8X19rR
+         5RIkvVZ1gBh5XZ9vyNyCYDEav+lhJygsWHAc0RcNe6h4TUK/yzsm7k+eSgviiA2m0Vvi
+         AICnSyxRmQnlu3bXhYbr44xG38yWq7khOoeMTPsd+Ggeo9iD1pmLmNsTtr+mLIZ5cGN9
+         T7sQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQOSTFXSXQbvs77ls8j1bm4ECaa4aAtU3bTYnHQcGFtq4HxUh7VPcdb2coRAkG+I/loUI6dibLoEoy@vger.kernel.org, AJvYcCUmNX1uKanDenIl0pp4Gxku2x/0Aexgg4wCUBtWUXodUVnXlEiavMbQ6u29VIHJMXdf/3Mr5kUlW1F9pLQR@vger.kernel.org, AJvYcCV8pnbZRpj1vF4oTEbynCTopve3416J3DfcobahdRllzrsvOeIfy027+BtTrYd4ebBcvinoww5cZ/ky@vger.kernel.org, AJvYcCVeSxDUksHXQHyEml1ojnATRGzjOIJjzp+oQEj+BNDCehNmoOd0Odw9PpRa3i+6+zIo6/F1CttbtbDgTq8=@vger.kernel.org, AJvYcCXkTsgIyFTV4X2LK0WMC8XpX/hcaDN8ndYhRXiw5PSXjxyywEAIDwFH1LPHXpXKQwl4sJk+zPALgQ4CjLCYtiWnRPs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YykvkwR3kGIJtwXxBmdFs24lOputP351v4/MkIXgKjiYZXqdI1C
+	ckD6MubN+dIsb9+wDlnqYv0l7UNvxpKVxgxYT4fZS0dWJj9Z5oXA5JSdt0Aaq1E0KvfHvkgSqKo
+	Q6Q9ss3ic6V2w9VY9hhlBlILg8MQ=
+X-Gm-Gg: ASbGncuR+/3BcGkKScHseBn8k4S8oFo+ouAFsfcWJgI5OYv/ESoelKWOOiqC5wzVd6z
+	GEv4HInEHq9Dz91xPcgQIITmPacdxyl/SKl9sJQ0yrObN4LVhmafRCdJnxa3MRkmGpf1ljBz3Eo
+	RIIT4EYvlFMJlqZ3Wa3pBLOC3eIfog9Olw38pklyaz7udy3J/sQKoRt7G2Fw==
+X-Google-Smtp-Source: AGHT+IGMyNP2No7AuI19CdTtXFJE8koZoGDmQoARojlwrt1NccfGqz2JVp+QE7meuv23NLp5JcjsnmRCoc4VHK/gGxk=
+X-Received: by 2002:a05:6122:894:b0:523:771e:8b81 with SMTP id
+ 71dfb90a1353d-5279acd553cmr1706106e0c.7.1744108595413; Tue, 08 Apr 2025
+ 03:36:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250402102226.28032-1-biju.das.jz@bp.renesas.com> <20250402102226.28032-6-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250402102226.28032-6-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 8 Apr 2025 12:10:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWDrbAAwBz80ve6UbH8m4uCNe3gqoF6H0A1Sn9hUbw+FQ@mail.gmail.com>
-X-Gm-Features: ATxdqUFC43TJTsokU2r1u_JcihKvFsaDXQx3XWImF67c1WmQlJNrfU_QrZhj9HM
-Message-ID: <CAMuHMdWDrbAAwBz80ve6UbH8m4uCNe3gqoF6H0A1Sn9hUbw+FQ@mail.gmail.com>
-Subject: Re: [PATCH v8 05/19] can: rcar_canfd: Update RCANFD_GERFL_ERR macro
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	linux-can@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
+References: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250330210717.46080-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250331-magic-buzzard-from-valhalla-af88e3@krzk-bin>
+In-Reply-To: <20250331-magic-buzzard-from-valhalla-af88e3@krzk-bin>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 8 Apr 2025 11:36:09 +0100
+X-Gm-Features: ATxdqUEzNQOXPjrLjLavlNGBXC7oKKUbhfJS_OUOhwmcc79SQzhslZo05twijCQ
+Message-ID: <CA+V-a8tDfqH_utn7k0j=6s8HkjkLFrAanwZD8m8LpBxpWXO1QA@mail.gmail.com>
+Subject: Re: [PATCH 05/17] dt-bindings: display: renesas,rzg2l-du: Add support
+ for RZ/V2H(P) SoC
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
+Hi Krzysztof,
 
-On Wed, 2 Apr 2025 at 12:22, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Replace the macro RCANFD_GERFL_EEF0_7->RCANFD_GERFL_EEF. The macros
-> RCANFD_GERFL_EEF* in RCANFD_GERFL_ERR can be replaced by FIELD_PREP() and
-> drop the redundant macro RCANFD_GERFL_EEF(ch).
+Thank you for the review.
+
+On Mon, Mar 31, 2025 at 9:24=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v7->v8:
->  * Updated commit description.
->  * Replaced the macro RCANFD_GERFL_EEF0_7->RCANFD_GERFL_EEF.
->  * Dropped the redundant macro RCANFD_GERFL_EEF(ch).
->  * Dropped the tag.
-
-Thanks for the update!
-
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -938,7 +938,7 @@ static void rcar_canfd_global_error(struct net_device=
- *ndev)
->         u32 ridx =3D ch + RCANFD_RFFIFO_IDX;
+> On Sun, Mar 30, 2025 at 10:07:01PM +0100, Prabhakar wrote:
+> >  allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: renesas,r9a07g044-du
 >
->         gerfl =3D rcar_canfd_read(priv->base, RCANFD_GERFL);
-> -       if (gerfl & RCANFD_GERFL_EEF(ch)) {
-> +       if (gerfl & FIELD_PREP(RCANFD_GERFL_EEF, ch)) {
+> This goes probably after the if: block for renesas,r9a07g043u-du to keep
+> sorting (if I get numbers correctly).
+>
+Agreed, I'll maintain the sort order here.
 
-On RZ/Five: error: implicit declaration of function =E2=80=98FIELD_PREP=E2=
-=80=99,
-i.e. missing #include <linux/bitfield.h>.
+> > +    then:
+> > +      properties:
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DSI
+> > +            port@1:
+> > +              description: DPI
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> >    - if:
+> >        properties:
+> >          compatible:
+> > @@ -101,18 +119,20 @@ allOf:
+> >
+> >            required:
+> >              - port@0
+> > -    else:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: renesas,r9a09g057-du
+> > +    then:
+> >        properties:
+> >          ports:
+> >            properties:
+> >              port@0:
+> >                description: DSI
+>
+> port@1: false
+Agreed, more validation.
 
-I will do more review later...
-
->                 netdev_dbg(ndev, "Ch%u: ECC Error flag\n", ch);
->                 stats->tx_dropped++;
->         }
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
