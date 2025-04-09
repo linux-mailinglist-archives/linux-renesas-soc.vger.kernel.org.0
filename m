@@ -1,86 +1,89 @@
-Return-Path: <linux-renesas-soc+bounces-15653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7361A81F83
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 10:16:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F363FA8209B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 10:55:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8FBF4A755A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 08:16:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 45A4F3BECD9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 08:55:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E09A525A2D9;
-	Wed,  9 Apr 2025 08:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E04EF25D1E4;
+	Wed,  9 Apr 2025 08:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GBuVltAO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBA41D61AA;
-	Wed,  9 Apr 2025 08:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BA525C70A;
+	Wed,  9 Apr 2025 08:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744186566; cv=none; b=gbtDOWb+D8mLMFu/s5USs34rBxxvi8Aurc66rBFp2LBmTeAoYsxEx/gUPPi/zdQHqiaxwjVFJ5S8XF/6GWJlNhPo0Uty2ty6M4StYXQUmNRUYrFx0Quji+gfJgjge3XX/a1vObkJUHAsIMFEmsZ+TtblaAiHxlaEvhTp7qJUFGk=
+	t=1744188948; cv=none; b=czuvhH/VTS2cTU0Fmh44y7QpAOieuJlg26s0yR5Vr1Nqvles1tVXth8vMUDG9wr8sdOE0ZHXjS/AjowAKtvKHP9J1l0L7ho22hcGtRXkuy72zIeQ7MI1kq+3AJ80u5MUt7DdZFoi6IdJHodCbmTj+GjEtrmIZjuHLow+jz3D0Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744186566; c=relaxed/simple;
-	bh=4+jfWnsULLYPjAiJ9BsWu1PAB8C8puLtn3FhdNTOHOw=;
+	s=arc-20240116; t=1744188948; c=relaxed/simple;
+	bh=FkYGG/blNPkE+YJlD1UdzBjF3QbM1eptOxdUmwF+Lag=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oD0wlMhgG5jB7H0Z9ii7Cdy7jj3/GFuzcoKch2lBXFwWd5HroraDa5h+qtgjUAVsn73cWwHnhgZnNgJUlheWaze1snfZ5ZDZPJcHVv4kxVLI4iLqPANlGs0+buuP/vLZ3e0Mz+guOBWiElHoS37ish34RUBpamxBZVVf1nQdbHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=UFKP+YSs0dOSve6F0kyt80F2rK/WBosBpwY1o5rHow5JtC4kC51TXgBiKG6ZC87Dx5hI8qBXQgST0ZsJ8xMa/siH8R8+Hnj7El29y3iv3XcKK4uw3QMRNlUOPZTx7iR4fnt8S3yS+cSuioXsDksTh9f6P4UipNFBthhKwWNk5QA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GBuVltAO; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ac3b12e8518so1179470366b.0;
-        Wed, 09 Apr 2025 01:16:04 -0700 (PDT)
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5240a432462so483359e0c.1;
+        Wed, 09 Apr 2025 01:55:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744188946; x=1744793746; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xKkhSratOE8FhNwto8msCYe3EaTscTslbqKejN9e03g=;
+        b=GBuVltAOASHPZMHs0R//UippvcXFM+APF0GXC2G6z/71eAQlmcTeGBFqALFsXwsqEk
+         FVxhKuEVaHHuGGlArpEbE1g94ZZ/LoSOWvO55NSHIlhx8S6iLEgQ6XtpXc2Xkm96Cc3k
+         sAZmRPLixk6ie6T06fmPGyr6xkAaarMv1AXcktq2VgV+lrS8aak6ihjRHY2PDGENsNEY
+         pnB4Q/lW61O/V37zxtgl11v7kt/l/Wh629k2/c35shB116T4XpnjzRI+AgZHjNQyHJs8
+         k+2wAABErJ+SNfYGWvW0ELdPf1r6B1ye1IPCwo3Py0vdqqBqBrDAXSiofKJdosmmTo4l
+         BWHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744186562; x=1744791362;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g8wlwAvEfKUmPWwXyFA3bJ/dUP5Ua3CH+QEIQ4JbmjA=;
-        b=GgLlVFN1HAcNk+MESrTNkw36LRjNEvfML0h8sNKpJzHJxvvjAeiuVYBs7+Vy6Miymj
-         mW0Qb2CnQToBV7erfPYDGSfj41q3KD1p+sdSFaq1b3yvz5XAmznfTBnbOYYLnyxtXmdb
-         jMfArH3CnX6jnjFQJdXvIj7MCJl4QYEEqX34oj9T1YtT4E0gg/eAhouqnmU8+PioCkcn
-         DhJ37A+O1X+BaED6lKY/qkExfRV+Fcwf3t5m7OXWhvDOvl8H4jxIC4xMPtSHZ2Rw/t2y
-         j3d0gE1OcchgbW2shtVMmtyvkZLlC9DLyQyuWYkrDf/6ouOd0U0bg6mfdbzpUhVY0U2n
-         Hmjw==
-X-Forwarded-Encrypted: i=1; AJvYcCU6a+CRJM86/wI8xqbMercdoMzhdPRf+sQt+N57umpXGM4xy40ggKFZO+0gU1bhX1au/7/2W/3E89LX@vger.kernel.org, AJvYcCVO32k96ikAK70DQB/rWg9sDQhPDiKQEIeQNMVkhPBzMkMBq0bYaQP839Zu+gHypFSwFBmpq9ZmyM/iQUkkSR+mGJY=@vger.kernel.org, AJvYcCW3xbcNFy0mSwJtE0AKWJgStJyYAHPrJxuWXgS1+XpxDNPpRQD4qNC1I8lGCP3iUGuJIk+yXL0ZBG4A/vDc@vger.kernel.org, AJvYcCX/kpE4eI2VsBZw11oG1BuzKSwEmHp2brUzWOWt3b27Z/jxLPzU6HG5F3HukJGRdnIXBSc4IQJPB8YZ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyp1t4ToewxSJG2cevarTljSUJqX2O+Sb0o76Z1NDj8prrXUctr
-	eXoVwh+g3MU6NWP3MeeA29jX1k1+VYaUdPiiYKYqMnantgCLk9CE7c8m9C6bqjE=
-X-Gm-Gg: ASbGnctEV7viDZNGyCDEXG269awRB5PEBdCwZhXeMcCizKskP0E+QhUv+hg5ss30L54
-	cNJ2AbPdV2Pp/ro8cozZv1uqs0S5crCj6jrPArhjaKJ9knVQ37WimNQDP7nLdU5FdOcHN4sLax8
-	lOD6m0mYM77LZ8HUd/db0qz+cfoM8zhw2IgLZ3fHXK4JGEGBNhnLInQHHoJWOtlOQhysUwT0kRn
-	QBIG77y4wH4ylYSTlkaRIQnyaGk54GkwQNR5V80mU9kx0rPeuUixzcuPOtFTCzbOO6CSZ/RllkV
-	I75UnK43ry2LSvL7ccdg1Dh7R5psDCZF+AntB2Eh0OKBX0hlLfT9rn3DYHBAdbUvmO0ng4qUpcz
-	LA6A=
-X-Google-Smtp-Source: AGHT+IGt0R0EScqdOKJJjJcV0FS7JWTTJAiVN+6Vem403eidfIru3K8b51O21lhGygkiV9IMcMOWpw==
-X-Received: by 2002:a17:906:184b:b0:aca:a162:8707 with SMTP id a640c23a62f3a-acaa1628733mr114702566b.7.1744186561496;
-        Wed, 09 Apr 2025 01:16:01 -0700 (PDT)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1cb4158sm54538066b.90.2025.04.09.01.15.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Apr 2025 01:15:55 -0700 (PDT)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ac3b12e8518so1179439466b.0;
-        Wed, 09 Apr 2025 01:15:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUGEJD0AheT1zSLMzYXNWFzciMWxkYQhAn0RARAdbjgGdRhINLON5pZ7qsJ2UKzasOnUWWXKCn1+HeV@vger.kernel.org, AJvYcCUIj/KKVoQ/4ODSEjWDVz2Ia0cyij06mhcJxIe9p21aoJ7SGtcBXzOUkDqaGHDApWThq5RuKBJyXwxjwD9R@vger.kernel.org, AJvYcCVbHgqjOUJKZru1T0tpx59/jwgQHXsphSQF+QnF/nzod5xx7LfWWoRRlW0Ya0t97xKUXIk+Xwjb2iO1@vger.kernel.org, AJvYcCWZlku7gblLWc9MpuN7k35dCr/KxDe7NIXd6r5hcxR8ijRaADnhtFML78LQLkOL7Vvmcg5OStHoqWk8Na2udJjdPiU=@vger.kernel.org
-X-Received: by 2002:a17:907:2ce2:b0:ac3:878d:662 with SMTP id
- a640c23a62f3a-aca9d5d9738mr124075466b.9.1744186554430; Wed, 09 Apr 2025
- 01:15:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744188946; x=1744793746;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xKkhSratOE8FhNwto8msCYe3EaTscTslbqKejN9e03g=;
+        b=rHSzgBRkHlV88sNiHPnMSsAfaAcRWOpNLUhocSdgp2AEjqZFVd3MMUiz1JUaalAxv5
+         aldFUpXGXGbknr8dP5lZ7m+yFWZilq4ydtE5U4HNssPgK954w0Cnya1JbQNRHkgnm8jW
+         O3ey483dYj6QFZJSKJpnJD3Qnn5fii4uHn1xdlboFhXtVS49VvxE2oD0O0yBYYTPdMDx
+         pw+L6lWM20xeQwsBuAYrmhdRe5YVBurdB+KhZdbEsVUNCpwYKbsMfu/LckOU9UhxURO4
+         l0MSEVeL/sIzIpPhcPxFkuqQah+tj64+xzuoeZntnXDzIggrHQPamZFaHfF7iZWpk+Ws
+         Jvcw==
+X-Forwarded-Encrypted: i=1; AJvYcCUGwVrh0c3PJiT5VesenV3dUCJuCSiP7A6QiEHTdeSaW54rNvEQ+gmzWSMNY8ndT5zkfGXNV7kh5up67cmW@vger.kernel.org, AJvYcCVTbtkd+KYV8hRYGnEn0XHYuXc826hqllwLaGdkYw6JPeF2K6WF7TSlA8ZB80zNezQ0FOFkvHPnOuK3@vger.kernel.org, AJvYcCVcmtoGYTeRVPMtfXm7YrV9vnbtaOs7SJeUZf8FTU6FZGfAKuu1Jf/IpaqFqAupcjTa3E9dFZIFlkt1BWeh4F3WxPQ=@vger.kernel.org, AJvYcCWaCQe0Bk6LlQQhEunenz6K1+qjEP94dLeK2ZPoxED8KWVWkW6JRoTQIQ8vxb86tpEczaUhMqCJqKZl@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQjTGFdTpUlr72ztZSxf0OwakpQIp8LOpnp8MOzkbBD+pxmB3f
+	orhbl6K/rKBaYdWWGhMQap0EcYYgcyteCuIF19HyfGpkiS4FP3IA47EnLqaYnO++FgvdpYotD6e
+	koBwDxrp1t3s4zWdzTNgRFOskOCw=
+X-Gm-Gg: ASbGncsoeyrxDdRg7sLMeStvtir25exOQfhJ0Vhg7F05F8DMVNzSvFNvRSSkUZ0Re2Q
+	cGLFlNMgM4UdpMABtiil4oBYQR/Vts2IYd3H7MjK48am+AuJadnUDiXo79s80+rAuFzfcy5zZuh
+	+1dj5yBypJIpbVYK9yFDD5GZOo++EK96EA/0TteHy4aOk1TXzDbzaoDCA=
+X-Google-Smtp-Source: AGHT+IFkvSJE5U/9fmVpXSs+iaoY5nuY5+IWwlLNMnF2gNZkr5kIoflvPEnL4H4NBK6FHRKQDcdNNrDvBUNiQdI3bio=
+X-Received: by 2002:a05:6122:d89:b0:50d:39aa:7881 with SMTP id
+ 71dfb90a1353d-527a8beff21mr1371744e0c.0.1744188946056; Wed, 09 Apr 2025
+ 01:55:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250408200916.93793-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250408200916.93793-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250408200916.93793-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 9 Apr 2025 10:15:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVAxaLZJ4y0AWKrLobp55n5NPqQgEtHK_d1DDUM1LAkDw@mail.gmail.com>
-X-Gm-Features: ATxdqUFduY_Nysj8xnNB1omwilrHwMeJqiWwK4ZmMj1fQC_W_1_6CC0mYuD3HIA
-Message-ID: <CAMuHMdVAxaLZJ4y0AWKrLobp55n5NPqQgEtHK_d1DDUM1LAkDw@mail.gmail.com>
+References: <20250408200916.93793-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250408200916.93793-11-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVAxaLZJ4y0AWKrLobp55n5NPqQgEtHK_d1DDUM1LAkDw@mail.gmail.com>
+In-Reply-To: <CAMuHMdVAxaLZJ4y0AWKrLobp55n5NPqQgEtHK_d1DDUM1LAkDw@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 9 Apr 2025 09:55:20 +0100
+X-Gm-Features: ATxdqUF6pkX8g8cSssT4x6HUE0uVbLtqiF0Qca_2kkdcVwxXzZnsXvGx2QnlRqk
+Message-ID: <CA+V-a8uc22sYFwfB7CJK9gSmT7ibv5MxTPyTBJtJMijKcgbW5g@mail.gmail.com>
 Subject: Re: [PATCH v2 10/15] drm: renesas: rz-du: mipi_dsi: Use mHz for D-PHY
  frequency calculations
-To: Prabhakar <prabhakar.csengg@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
 	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
 	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -99,45 +102,51 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@lina
 	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
+Hi Geert,
 
-On Tue, 8 Apr 2025 at 22:09, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Thank you for the review.
+
+On Wed, Apr 9, 2025 at 9:16=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
 >
-> Pass the HSFREQ in milli-Hz to the `dphy_init()` callback to improve
-> precision, especially for the RZ/V2H(P) SoC, where PLL dividers require
-> high accuracy.
+> Hi Prabhakar,
 >
-> These changes prepare the driver for upcoming RZ/V2H(P) SoC support.
+> On Tue, 8 Apr 2025 at 22:09, Prabhakar <prabhakar.csengg@gmail.com> wrote=
+:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Pass the HSFREQ in milli-Hz to the `dphy_init()` callback to improve
+> > precision, especially for the RZ/V2H(P) SoC, where PLL dividers require
+> > high accuracy.
+> >
+> > These changes prepare the driver for upcoming RZ/V2H(P) SoC support.
+> >
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -33,7 +33,7 @@
->  struct rzg2l_mipi_dsi;
+> Thanks for your patch!
 >
->  struct rzg2l_mipi_dsi_hw_info {
-> -       int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, unsigned long hsfreq);
-> +       int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, unsigned long long hsfreq_mhz);
+> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > @@ -33,7 +33,7 @@
+> >  struct rzg2l_mipi_dsi;
+> >
+> >  struct rzg2l_mipi_dsi_hw_info {
+> > -       int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, unsigned long hsfr=
+eq);
+> > +       int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, unsigned long long=
+ hsfreq_mhz);
+>
+> Due to the lack of capitalization of the "hz" part, it is not clear
+> that the "m" stands for "milli" instead of "mega".
+> Perhaps hsfreq_mHz or hsfreq_millihz?
+>
+Agreed, I will use `hsfreq_millihz`. Shall I respin a new version as
+the initial patches do the same (i.e. use mhz).
 
-Due to the lack of capitalization of the "hz" part, it is not clear
-that the "m" stands for "milli" instead of "mega".
-Perhaps hsfreq_mHz or hsfreq_millihz?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
