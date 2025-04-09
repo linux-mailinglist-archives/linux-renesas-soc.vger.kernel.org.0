@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-15617-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15618-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B401A81A0D
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC4BA81A0E
 	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 02:48:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED65819E1256
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 00:48:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35DAD444EC1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 00:48:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B054B4C80;
-	Wed,  9 Apr 2025 00:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3CB93E47B;
+	Wed,  9 Apr 2025 00:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vP0Jhhuy"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tilxT1P6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D572C190
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Apr 2025 00:48:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA00926AF5
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Apr 2025 00:48:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744159715; cv=none; b=OZHhXpnq1r+4WP1cUTNEqOx6/TCr1jiq8tE2OKBQfMw2CkymBs68sX89tDjq2RU8oVGhnNo/jIGLV6ZAAt6o0yEgy76WhvX04e+733/KVE37alsea9X2llFMkAwLhmozIH0POQpJzPdzFhWhp263frDDZWHKoQmlR6V6yhTT530=
+	t=1744159717; cv=none; b=X/012D0RfrPAaBgQujNdxMRHiDu0Vp1jjl9lat3T8sQfmXYVa26WTEMmBCymK+z4vvokctqhy95RprwTdYRu+Q8q4Tk611uR3C6atZupLlTruSUHZxeaS+2rH943XJT9FvDfHHO7ehpS/Rqaf2PyNt8hi7o7qv+vT4p0JRemtjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744159715; c=relaxed/simple;
-	bh=WRAH/Ti6Mv+ZMPeZY3PjoPgvXAmUGgJqv4ICKncEb8M=;
+	s=arc-20240116; t=1744159717; c=relaxed/simple;
+	bh=RhQjDP9NiMlgxkk8SJAQurEn/dAQxRcm7sDcvdDOlZg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KRkRgc0hMhUCfCMbpDaA44hN/7YsYE+IssfetnTHtzaila54DV6CuvOc6giPgAaV4jCIuzKCmg7gDtq2CAgbb8Mb+JFJ8h9Jw9wzFK85TIBMJFEjZIKi19TZ9kK1tn6zTVKe9oczP8lXb+eVVJ+7bbD7wO7REZTQD8yd/Hrj+Xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vP0Jhhuy; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=nVXyz59EsoDxQK+oCFBYqREIQERCuSrvKGt97CXx/v1SM5w9LsoHDizaPsG4tOiDzD8a1v6tXl+Qe4Y/RAgGPTQi/r0Y9IfbdESZKwSvC3TD/l7SGJQ0m4jMHom3hOI6WERq3v4+RJreIbRXvUiETb29VX+Ifc4HrLpV3mh0Gok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tilxT1P6; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 05A9783D;
-	Wed,  9 Apr 2025 02:46:32 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C7C0EF2;
+	Wed,  9 Apr 2025 02:46:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1744159593;
-	bh=WRAH/Ti6Mv+ZMPeZY3PjoPgvXAmUGgJqv4ICKncEb8M=;
+	s=mail; t=1744159594;
+	bh=RhQjDP9NiMlgxkk8SJAQurEn/dAQxRcm7sDcvdDOlZg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vP0JhhuyAQZBCext7Vz0I4VZ/ovHVORts1xBiLauRQQ80EpPEM/sMCffEr0NrfG3T
-	 C/28Q6QP0OaG2wNm7e92JZDwN688MvPmRKoaOVofeH24vOrxyQAnz8RaOxnQ0Yl/JD
-	 bRyAQjpYeZ6urluk1wg6BBDco+H1MDN67kK9pP8Y=
+	b=tilxT1P6p/ZVZAWOyT0m5xI/p7uup+S+2tsL04pfsHZK6STmITL/qJG5U7A9eER2d
+	 61YXX2qH1OVnjVttt5OcwPI4RSd9ZH7QAKyUnvwhqJCmfyt+rJ4DsGj/BRp+cDVjcQ
+	 Ny0qnkb4L50TOzXlJv8g5cyVxvOTBaZ9j8qSI02c=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: [vsp-tests] [PATCH 05/16] gen-image: Update the RGB to YCbCr conversion to match VSP hardware
-Date: Wed,  9 Apr 2025 03:47:47 +0300
-Message-ID: <20250409004758.11014-6-laurent.pinchart@ideasonboard.com>
+Subject: [vsp-tests] [PATCH 06/16] gen-image: Split struct params into CSC and packing parameters
+Date: Wed,  9 Apr 2025 03:47:48 +0300
+Message-ID: <20250409004758.11014-7-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250409004758.11014-1-laurent.pinchart@ideasonboard.com>
 References: <20250409004758.11014-1-laurent.pinchart@ideasonboard.com>
@@ -59,201 +59,271 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-RGB to YCbCr conversion is only used at the moment to generate images
-for test cases that run fully YUV pipelines. The exact value of the RGB
-to YCbCr conversion matrices hasn't mattered much so far. However, this
-will change with introduction of tests that perform RGB to YCbCr
-conversion. To achieve pixel-perfect match between the reference and
-hardware frames, reference images need to be generated with the exact
-method used by the VSP.
-
-Replace the current coefficients by values obtained from
-reverse-engineering of the RGB to YCbCr conversion performed by the
-VSP1. Remove support for SMPTE240 and BT.2020, as the VSP hardware
-supports BT.601 and BT.709 only.
+To prepare for improvements to the format conversion code, split the
+struct params into CSC parameters and packing parameters.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- src/gen-image.c | 114 +++++++++++++++++++++---------------------------
- 1 file changed, 50 insertions(+), 64 deletions(-)
+ src/gen-image.c | 75 +++++++++++++++++++++++++------------------------
+ 1 file changed, 39 insertions(+), 36 deletions(-)
 
 diff --git a/src/gen-image.c b/src/gen-image.c
-index d053d7906159..50c10109289b 100644
+index 50c10109289b..40773c8ef967 100644
 --- a/src/gen-image.c
 +++ b/src/gen-image.c
-@@ -700,56 +700,51 @@ static void image_format_yuv_planar(const struct image *input, struct image *out
- }
+@@ -106,10 +106,13 @@ struct image {
+ 	void *data;
+ };
  
- /* -----------------------------------------------------------------------------
-- * Colorspace handling
-- *
-- * The code is inspired by the v4l2-tpg Linux kernel driver.
-+ * Format conversion (as performed by the Renesas VSP HST, HSI, RPF and WPF)
+-struct params {
+-	unsigned int alpha;
++struct csc_params {
+ 	enum v4l2_ycbcr_encoding encoding;
+ 	enum v4l2_quantization quantization;
++};
++
++struct pack_params {
++	unsigned int alpha;
+ 	bool no_chroma_average;
+ };
+ 
+@@ -134,7 +137,8 @@ struct options {
+ 	bool vflip;
+ 	bool rotate;
+ 	unsigned int compose;
+-	struct params params;
++	struct csc_params csc_params;
++	struct pack_params pack_params;
+ 	bool crop;
+ 	struct image_rect inputcrop;
+ 	enum histogram_type histo_type;
+@@ -461,7 +465,7 @@ static int image_write(const struct image *image, const char *filename)
   */
  
- static void colorspace_matrix(enum v4l2_ycbcr_encoding encoding,
- 			      enum v4l2_quantization quantization,
- 			      int (*matrix)[3][3])
+ static void image_format_rgb8(const struct image *input, struct image *output,
+-			      const struct params *params)
++			      const struct pack_params *params)
  {
--#define COEFF(v, r) ((int)(0.5 + (v) * (r) * 256.0))
--
-+	/*
-+	 * The value of the coefficients has been reverse-engineered by
-+	 * analyzing the VSP1 YUV output values for carefully crafted input RGB
-+	 * data. The hardware precision of the coefficients appears to be Q1.11.
-+	 *
-+	 * The exact way to derive those fixed-point coefficients from the
-+	 * BT.601 and BT.709 standard values is not know, none of the tested
-+	 * rounding methods (rounding down, rounding up, rounding to the closest
-+	 * integer, or rounding to minimum the error on the sum of each line)
-+	 * produce the fixed-point values used by the hardware.
-+	 *
-+	 * While the coefficients for BT.601 in both ranges, and BT.709 in
-+	 * limited range, differ from the values listed in the respective
-+	 * standards by at most a single unit, some of the BT.709 full range
-+	 * coefficients differ more significantly. The first line of the matrix
-+	 * matches the standard, but the second and third lines seem to be
-+	 * multiplied a factor approximately equal to 1.072. The reason is not
-+	 * currently understood.
-+	 */
- 	static const int bt601[3][3] = {
--		{ COEFF(0.299, 219),  COEFF(0.587, 219),  COEFF(0.114, 219)  },
--		{ COEFF(-0.169, 224), COEFF(-0.331, 224), COEFF(0.5, 224)    },
--		{ COEFF(0.5, 224),    COEFF(-0.419, 224), COEFF(-0.081, 224) },
-+		{  526,  1033,  201 },
-+		{ -304, -596,   900 },
-+		{  900, -753,  -146 },
- 	};
- 	static const int bt601_full[3][3] = {
--		{ COEFF(0.299, 255),  COEFF(0.587, 255),  COEFF(0.114, 255)  },
--		{ COEFF(-0.169, 255), COEFF(-0.331, 255), COEFF(0.5, 255)    },
--		{ COEFF(0.5, 255),    COEFF(-0.419, 255), COEFF(-0.081, 255) },
-+		{  612,   1202, 233  },
-+		{ -346,  -678,  1024 },
-+		{  1024, -857, -167  },
- 	};
- 	static const int rec709[3][3] = {
--		{ COEFF(0.2126, 219),  COEFF(0.7152, 219),  COEFF(0.0722, 219)  },
--		{ COEFF(-0.1146, 224), COEFF(-0.3854, 224), COEFF(0.5, 224)     },
--		{ COEFF(0.5, 224),     COEFF(-0.4542, 224), COEFF(-0.0458, 224) },
-+		{  374,  1258, 127 },
-+		{ -206, -693,  899 },
-+		{  899, -817, -83  },
- 	};
- 	static const int rec709_full[3][3] = {
--		{ COEFF(0.2126, 255),  COEFF(0.7152, 255),  COEFF(0.0722, 255)  },
--		{ COEFF(-0.1146, 255), COEFF(-0.3854, 255), COEFF(0.5, 255)     },
--		{ COEFF(0.5, 255),     COEFF(-0.4542, 255), COEFF(-0.0458, 255) },
--	};
--	static const int smpte240m[3][3] = {
--		{ COEFF(0.212, 219),  COEFF(0.701, 219),  COEFF(0.087, 219)  },
--		{ COEFF(-0.116, 224), COEFF(-0.384, 224), COEFF(0.5, 224)    },
--		{ COEFF(0.5, 224),    COEFF(-0.445, 224), COEFF(-0.055, 224) },
--	};
--	static const int smpte240m_full[3][3] = {
--		{ COEFF(0.212, 255),  COEFF(0.701, 255),  COEFF(0.087, 255)  },
--		{ COEFF(-0.116, 255), COEFF(-0.384, 255), COEFF(0.5, 255)    },
--		{ COEFF(0.5, 255),    COEFF(-0.445, 255), COEFF(-0.055, 255) },
--	};
--	static const int bt2020[3][3] = {
--		{ COEFF(0.2627, 219),  COEFF(0.6780, 219),  COEFF(0.0593, 219)  },
--		{ COEFF(-0.1396, 224), COEFF(-0.3604, 224), COEFF(0.5, 224)     },
--		{ COEFF(0.5, 224),     COEFF(-0.4598, 224), COEFF(-0.0402, 224) },
--	};
--	static const int bt2020_full[3][3] = {
--		{ COEFF(0.2627, 255),  COEFF(0.6780, 255),  COEFF(0.0593, 255)  },
--		{ COEFF(-0.1396, 255), COEFF(-0.3604, 255), COEFF(0.5, 255)     },
--		{ COEFF(0.5, 255),     COEFF(-0.4698, 255), COEFF(-0.0402, 255) },
-+		{  435,   1465, 148  },
-+		{ -240,  -807,  1047 },
-+		{  1047, -951, -96   },
- 	};
- 
- 	bool full = quantization == V4L2_QUANTIZATION_FULL_RANGE;
-@@ -764,12 +759,6 @@ static void colorspace_matrix(enum v4l2_ycbcr_encoding encoding,
- 	case V4L2_YCBCR_ENC_709:
- 		m = full ? &rec709_full : &rec709;
- 		break;
--	case V4L2_YCBCR_ENC_BT2020:
--		m = full ? &bt2020_full : &bt2020;
--		break;
--	case V4L2_YCBCR_ENC_SMPTE240M:
--		m = full ? &smpte240m_full : &smpte240m;
--		break;
- 	}
- 
- 	for (i = 0; i < ARRAY_SIZE(*m); ++i)
-@@ -781,23 +770,28 @@ static void colorspace_rgb2ycbcr(int m[3][3],
- 				 const uint8_t rgb[3], uint8_t ycbcr[3])
- {
- 	bool full = quantization == V4L2_QUANTIZATION_FULL_RANGE;
--	unsigned int y_offset = full ? 0 : 16;
-+	int y_min = full ? 0 : 16;
-+	int y_max = full ? 255 : 235;
-+	int cbcr_min = full ? 0 : 16;
-+	int cbcr_max = full ? 255 : 240;
-+	int div = 1 << 11;
- 	int r, g, b;
- 	int y, cb, cr;
--	int div;
- 
--	r = rgb[0] << 4;
--	g = rgb[1] << 4;
--	b = rgb[2] << 4;
-+	r = rgb[0];
-+	g = rgb[1];
-+	b = rgb[2];
- 
--	div = (1 << (8 + 4)) * 255;
--	y  = (m[0][0] * r + m[0][1] * g + m[0][2] * b + y_offset * div) / div;
--	cb = (m[1][0] * r + m[1][1] * g + m[1][2] * b + 128 * div) / div;
--	cr = (m[2][0] * r + m[2][1] * g + m[2][2] * b + 128 * div) / div;
-+	y  = (m[0][0] * r + m[0][1] * g + m[0][2] * b + y_min * div + div / 2) / div;
-+	cb = (m[1][0] * r + m[1][1] * g + m[1][2] * b + 128 * div + div / 2) / div;
-+	cr = (m[2][0] * r + m[2][1] * g + m[2][2] * b + 128 * div + div / 2) / div;
- 
--	ycbcr[0] = y;
--	ycbcr[1] = cb;
--	ycbcr[2] = cr;
-+#define CLAMP(x, low, high) \
-+	((x) < (low) ? (low) : ( (x) > (high) ? (high) : (x) ))
-+
-+	ycbcr[0] = CLAMP(y, y_min, y_max);
-+	ycbcr[1] = CLAMP(cb, cbcr_min, cbcr_max);
-+	ycbcr[2] = CLAMP(cr, cbcr_min, cbcr_max);
+ 	const uint8_t *idata = input->data;
+ 	uint8_t *odata = output->data;
+@@ -484,7 +488,7 @@ static void image_format_rgb8(const struct image *input, struct image *output,
  }
  
+ static void image_format_rgb16(const struct image *input, struct image *output,
+-			       const struct params *params)
++			       const struct pack_params *params)
+ {
+ 	const struct format_info *format = output->format;
+ 	const uint8_t *idata = input->data;
+@@ -508,7 +512,7 @@ static void image_format_rgb16(const struct image *input, struct image *output,
+ }
+ 
+ static void image_format_rgb24(const struct image *input, struct image *output,
+-			       const struct params *params)
++			       const struct pack_params *params)
+ {
+ 	struct color_rgb24 {
+ 		unsigned int value:24;
+@@ -540,7 +544,7 @@ static void image_format_rgb24(const struct image *input, struct image *output,
+ }
+ 
+ static void image_format_rgb32(const struct image *input, struct image *output,
+-			       const struct params *params)
++			       const struct pack_params *params)
+ {
+ 	const struct format_info *format = output->format;
+ 	const uint8_t *idata = input->data;
+@@ -564,13 +568,13 @@ static void image_format_rgb32(const struct image *input, struct image *output,
+ }
+ 
+ static void image_format_hsv24(const struct image *input, struct image *output,
+-			       const struct params *params)
++			       const struct pack_params *params)
+ {
+ 	memcpy(output->data, input->data, input->width * input->height * 3);
+ }
+ 
+ static void image_format_hsv32(const struct image *input, struct image *output,
+-			       const struct params *params)
++			       const struct pack_params *params)
+ {
+ 	const struct format_info *format = output->format;
+ 	const uint8_t *idata = input->data;
+@@ -598,7 +602,7 @@ static void image_format_hsv32(const struct image *input, struct image *output,
+  * chroma components of the two pixels to match the hardware behaviour.
+  */
+ static void image_format_yuv_packed(const struct image *input, struct image *output,
+-				    const struct params *params)
++				    const struct pack_params *params)
+ {
+ 	const struct format_info *format = output->format;
+ 	const uint8_t *idata = input->data;
+@@ -637,7 +641,7 @@ static void image_format_yuv_packed(const struct image *input, struct image *out
+ }
+ 
+ static void image_format_yuv_planar(const struct image *input, struct image *output,
+-				    const struct params *params)
++				    const struct pack_params *params)
+ {
+ 	const struct format_info *format = output->format;
+ 	const uint8_t *idata;
+@@ -797,7 +801,7 @@ static void colorspace_rgb2ycbcr(int m[3][3],
  static void image_colorspace_rgb_to_yuv(const struct image *input,
-@@ -851,10 +845,6 @@ static void image_convert_rgb_to_rgb(const struct image *input,
- 	}
+ 					struct image *output,
+ 					const struct format_info *format,
+-					const struct params *params)
++					const struct csc_params *params)
+ {
+ 	int matrix[3][3];
+ 	const uint8_t *idata = input->data;
+@@ -942,7 +946,7 @@ static void hst_rgb_to_hsv(const uint8_t rgb[3], uint8_t hsv[3])
+ 
+ static void image_rgb_to_hsv(const struct image *input,
+ 			     struct image *output,
+-			     const struct params *params)
++			     const struct csc_params *params)
+ {
+ 	const uint8_t *idata = input->data;
+ 	uint8_t *odata = output->data;
+@@ -999,8 +1003,7 @@ static void image_scale_bilinear(const struct image *input, struct image *output
+ #undef _C2
  }
  
--/* -----------------------------------------------------------------------------
-- * RGB to HSV conversion (as performed by the Renesas VSP HST)
-- */
--
- #define K 4
- static uint8_t hst_calc_h(uint8_t r, uint8_t g, uint8_t b)
+-static void image_scale(const struct image *input, struct image *output,
+-			const struct params *params)
++static void image_scale(const struct image *input, struct image *output)
  {
-@@ -1828,7 +1818,7 @@ static void usage(const char *argv0)
- 	printf("-C, --no-chroma-average		Disable chroma averaging for odd pixels on output\n");
- 	printf("    --crop (X,Y)/WxH		Crop the input image\n");
- 	printf("-e, --encoding enc		Set the YCbCr encoding method. Valid values are\n");
--	printf("				BT.601, REC.709, BT.2020 and SMPTE240M\n");
-+	printf("				BT.601 and REC.709\n");
- 	printf("-f, --format format		Set the output image format\n");
- 	printf("				Defaults to RGB24 if not specified\n");
- 	printf("				Use -f help to list the supported formats\n");
-@@ -2062,10 +2052,6 @@ static int parse_args(struct options *options, int argc, char *argv[])
- 				options->params.encoding = V4L2_YCBCR_ENC_601;
+ 	image_scale_bilinear(input, output);
+ }
+@@ -1564,7 +1567,7 @@ static int process(const struct options *options)
+ 		}
+ 
+ 		image_colorspace_rgb_to_yuv(input, yuv, options->input_format,
+-					    &options->params);
++					    &options->csc_params);
+ 		image_delete(input);
+ 		input = yuv;
+ 	} else if (options->input_format->rgb.bpp < 24) {
+@@ -1604,7 +1607,7 @@ static int process(const struct options *options)
+ 			goto done;
+ 		}
+ 
+-		image_scale(input, scaled, &options->params);
++		image_scale(input, scaled);
+ 		image_delete(input);
+ 		input = scaled;
+ 	}
+@@ -1715,9 +1718,9 @@ static int process(const struct options *options)
+ 
+ 		if (options->output_format->type == FORMAT_YUV)
+ 			image_colorspace_rgb_to_yuv(input, converted, format,
+-						    &options->params);
++						    &options->csc_params);
+ 		else
+-			image_rgb_to_hsv(input, converted, &options->params);
++			image_rgb_to_hsv(input, converted, &options->csc_params);
+ 
+ 		image_delete(input);
+ 		input = converted;
+@@ -1733,16 +1736,16 @@ static int process(const struct options *options)
+ 	case FORMAT_RGB:
+ 		switch (output->format->rgb.bpp) {
+ 		case 8:
+-			image_format_rgb8(input, output, &options->params);
++			image_format_rgb8(input, output, &options->pack_params);
+ 			break;
+ 		case 16:
+-			image_format_rgb16(input, output, &options->params);
++			image_format_rgb16(input, output, &options->pack_params);
+ 			break;
+ 		case 24:
+-			image_format_rgb24(input, output, &options->params);
++			image_format_rgb24(input, output, &options->pack_params);
+ 			break;
+ 		case 32:
+-			image_format_rgb32(input, output, &options->params);
++			image_format_rgb32(input, output, &options->pack_params);
+ 			break;
+ 		default:
+ 			ret = -EINVAL;
+@@ -1753,10 +1756,10 @@ static int process(const struct options *options)
+ 	case FORMAT_HSV:
+ 		switch (output->format->hsv.bpp) {
+ 		case 24:
+-			image_format_hsv24(input, output, &options->params);
++			image_format_hsv24(input, output, &options->pack_params);
+ 			break;
+ 		case 32:
+-			image_format_hsv32(input, output, &options->params);
++			image_format_hsv32(input, output, &options->pack_params);
+ 			break;
+ 		default:
+ 			ret = -EINVAL;
+@@ -1767,11 +1770,11 @@ static int process(const struct options *options)
+ 	case FORMAT_YUV:
+ 		switch (output->format->yuv.num_planes) {
+ 		case 1:
+-			image_format_yuv_packed(input, output, &options->params);
++			image_format_yuv_packed(input, output, &options->pack_params);
+ 			break;
+ 		case 2:
+ 		case 3:
+-			image_format_yuv_planar(input, output, &options->params);
++			image_format_yuv_planar(input, output, &options->pack_params);
+ 			break;
+ 		default:
+ 			ret = -EINVAL;
+@@ -2002,9 +2005,9 @@ static int parse_args(struct options *options, int argc, char *argv[])
+ 	memset(options, 0, sizeof(*options));
+ 	options->input_format = format_by_name("RGB24");
+ 	options->output_format = format_by_name("RGB24");
+-	options->params.alpha = 255;
+-	options->params.encoding = V4L2_YCBCR_ENC_601;
+-	options->params.quantization = V4L2_QUANTIZATION_LIM_RANGE;
++	options->pack_params.alpha = 255;
++	options->csc_params.encoding = V4L2_YCBCR_ENC_601;
++	options->csc_params.quantization = V4L2_QUANTIZATION_LIM_RANGE;
+ 	options->histo_type = HISTOGRAM_HGO;
+ 
+ 	opterr = 0;
+@@ -2031,7 +2034,7 @@ static int parse_args(struct options *options, int argc, char *argv[])
+ 				return 1;
+ 			}
+ 
+-			options->params.alpha = alpha;
++			options->pack_params.alpha = alpha;
+ 			break;
+ 		}
+ 
+@@ -2044,14 +2047,14 @@ static int parse_args(struct options *options, int argc, char *argv[])
+ 			  break;
+ 
+ 		case 'C':
+-			  options->params.no_chroma_average = true;
++			  options->pack_params.no_chroma_average = true;
+ 			  break;
+ 
+ 		case 'e':
+ 			if (!strcmp(optarg, "BT.601")) {
+-				options->params.encoding = V4L2_YCBCR_ENC_601;
++				options->csc_params.encoding = V4L2_YCBCR_ENC_601;
  			} else if (!strcmp(optarg, "REC.709")) {
- 				options->params.encoding = V4L2_YCBCR_ENC_709;
--			} else if (!strcmp(optarg, "BT.2020")) {
--				options->params.encoding = V4L2_YCBCR_ENC_BT2020;
--			} else if (!strcmp(optarg, "SMPTE240M")) {
--				options->params.encoding = V4L2_YCBCR_ENC_SMPTE240M;
+-				options->params.encoding = V4L2_YCBCR_ENC_709;
++				options->csc_params.encoding = V4L2_YCBCR_ENC_709;
  			} else {
  				printf("Invalid encoding value '%s'\n", optarg);
+ 				return 1;
+@@ -2108,9 +2111,9 @@ static int parse_args(struct options *options, int argc, char *argv[])
+ 
+ 		case 'q':
+ 			if (!strcmp(optarg, "limited")) {
+-				options->params.quantization = V4L2_QUANTIZATION_LIM_RANGE;
++				options->csc_params.quantization = V4L2_QUANTIZATION_LIM_RANGE;
+ 			} else if (!strcmp(optarg, "full")) {
+-				options->params.quantization = V4L2_QUANTIZATION_FULL_RANGE;
++				options->csc_params.quantization = V4L2_QUANTIZATION_FULL_RANGE;
+ 			} else {
+ 				printf("Invalid quantization value '%s'\n", optarg);
  				return 1;
 -- 
 Regards,
