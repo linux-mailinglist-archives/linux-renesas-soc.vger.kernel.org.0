@@ -1,272 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-15659-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15660-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941DEA8231C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 13:09:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD6CA82425
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 14:04:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 89E7C1BA287F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 11:09:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D1408A427C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 12:04:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D10A025A62C;
-	Wed,  9 Apr 2025 11:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pbCEdVHW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14B4525E806;
+	Wed,  9 Apr 2025 12:04:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A095813C9A3;
-	Wed,  9 Apr 2025 11:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB97825E827;
+	Wed,  9 Apr 2025 12:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744196954; cv=none; b=txvPpdIZ50mX/RrLyg9xwGnzN8BTLrE6ZV0pBhWDxri5SWQtk4qNuFe6MYh9IZkATs2FTndoiBNB4to8zBp4L1xv66775DxpCeKIVxWgnXhyu8GyUWOR0Cu8gDfwyKXgKGbF2IrroL+WceGOpUsOvDJsYu7h5Beyp2GSbapNVes=
+	t=1744200262; cv=none; b=ieI1b105YV6o30VoYcUpOic00q2Ir1BjjHQ2gBwEMczxvx8YnCg7CMqNVpA4j9f/hazAfTFZxJcFb7J6pMRuesOSL1Q4wuc7TQcP32lk4dU7RsMseJIBYpKouwZnCiBwkkdCKT6YaSegLvC2U/UpvT1cNoer3Pn748AsMjTfYwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744196954; c=relaxed/simple;
-	bh=7wbQ3lchSkZZ5tdZaoI/xJxofwaC7PcGBCfb35Zk+lg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BFasJy3WEs4aZjuXv5IP3Uryf2XkwhwbFit2IzfEN6+60OusStEZtit5PgkftUYYTzCIplAcz1nRfMK6whidfR2OzYIYCxJcY6JMY22N3vK7xtOsnJkZt/LJ6eGoM7jyhAW9/HZ8bcS0loFOqCVzDC3DWIR3NFJAe5gfLxQf9j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pbCEdVHW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24F6182E;
-	Wed,  9 Apr 2025 13:07:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1744196827;
-	bh=7wbQ3lchSkZZ5tdZaoI/xJxofwaC7PcGBCfb35Zk+lg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pbCEdVHW6aisqhSEnhUiViEGdyriqLYMvO7kiGWa/b3L7Yo5PltG4ukIQABSOsNxU
-	 a2RLxOhefl+JFnfCKCBU+yOHY39W60dnKWA7COKjMO4PhKBpoPkz5pniZvRSexppS2
-	 iTLjYtpnki94c8yGo2RK5omsakrSzPy/FhSG7B80=
-Date: Wed, 9 Apr 2025 14:08:40 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 11/17] media: rzg2l-cru: Add register mapping support
-Message-ID: <20250409110840.GG31475@pendragon.ideasonboard.com>
-References: <20250328173032.423322-12-tommaso.merciai.xr@bp.renesas.com>
- <TY3PR01MB11346ECE31CB6C8DC33459C2486AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CA+V-a8sJQnyJb_uq9yEcjHRW7ZFOw3g2XQyygcozWTgMjrYxRQ@mail.gmail.com>
- <TY3PR01MB113462DC897E0DB681B1C020F86AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CA+V-a8ukJ+_Bhy-4nU_CFD4rMoTRxEY-q+bXHHZ-9Mz8gQ362A@mail.gmail.com>
- <20250402092618.GH4845@pendragon.ideasonboard.com>
- <TY3PR01MB11346DF814762C667FF97074286AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CA+V-a8tsCEhmhNSbMMiuN6b2rJCoSekf+-e6EHr5wE5C000ZxQ@mail.gmail.com>
- <20250409012914.GD31475@pendragon.ideasonboard.com>
- <TY3PR01MB11346A5CBFD05A51E351DCE6586B42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1744200262; c=relaxed/simple;
+	bh=Zl3/2HsLnkQZhlP77mjqoQWm/HqvOUX4FHRc5EWasKw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nNSfdPZi6a1RQ05+8St+KdpG1khtbG5w7G/X3nYtOvXz++ZN1jO3BthQposXNoi/cN7bdGWLVv2Zx/QWBAyZJUWqcTgHbrWX51JNUOBzZ+SetZW45kYjVzR5kS3A4cCxC3O+0LIFfbUYwUcy9Z7sL13aGYxP9hkIpL+9H/eSGqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c597760323so601829285a.3;
+        Wed, 09 Apr 2025 05:04:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744200254; x=1744805054;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YmzH7vMjvNAAyBuDKK60gCht3yz0VYvg+ozYgMu8Zyg=;
+        b=Sn0+zAY/YYSPROAOrr6wceur3xypSgVV1OimsRgdQYzhkcu5OtPGaY3uss9Zj0IGEK
+         6r9ERPXgJsP9eLCGR7KPbBbIRsQIeBnDfW/zFdMdKTDyEDpZbsCVBacWvT6U/4lzoZWK
+         v78jPR05K1gzNOg0P8ZogPnr5O/Bu6EZgAGfrWEmIX6UB4U5FPzMgnC7ecGAp9RT08DB
+         /nd9kmOVhIMv7zP/3en31vIll+thMe5DAxfZcDJqDCVtyA+BEWjDGqP8u/DosAtHg7c0
+         YWCsKkQH6sKAdPU1gCYBJeDL8IMBbuN/ET2Ur+aKiLDv4SqUY7lV8QR+G/2qUBuErYNL
+         Z6Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCV/MKkkDxlAmtXTZNx1cn2uANUMwAsUE9LHCA+Gq7pNq5iahBKIFPHl7pz5RkH5g8U9ArRrexCpau4TIRKAeVGlCMk=@vger.kernel.org, AJvYcCV08QC2sFwHTnja/TupVsaCCZ4OARhWc3kuoshZKvajIvDiRnolW2FLfPvOsSmIoubZsjSYG+zVaGE87xao@vger.kernel.org, AJvYcCVeieWltp4Wogmq2nN/Shh3eE1ensXATuyo88eLVt9TkBiOzrCTihk4HfgVIXVEZ9U1THixorVN9RP+@vger.kernel.org, AJvYcCX+388ViuYEMfMWkt3HgzvRpgx6KY+KHZ8NtFozDxb4VEU8i5XFHKtYDFTPDQl1vj7KBBhCSPZ0tWda@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZ2BEyvlSJFcrCP0QkFueHvFk7MoYE0UX3z3w6roMWDZ3V/jBH
+	kvy+ZE8umBieL6gfSzxdNW2p2WJDLkIs083u5YozgMLFO7zLj1lycG0OlIjIbd0=
+X-Gm-Gg: ASbGncstJHCHguZfbQpihLbBv2eipbVuCNSG0epTZ9K9f9LkknYeuXHMv0k36pv4kQK
+	Q9U7s5ZbFwb4N5ylRmqUZIU7Ri1ja9MMKk55/4cd6spG4dtkL+bx6cj8hGJj0WS12VchFCPQV4u
+	OWdacwW0oiP7wk+QaC/jDPAi/+Yr2wAl8/Cm79pD1u9LV0tar9cbD95paWCFFc5OtqyV3IW3M9N
+	uddCZgfRKiaAv/EwkugZ1uChStEfkN7g1nQUPyXbaP69UFoC33bdNJKWLsA6VVOpTBgMkdqJZql
+	yn3nZVRp/13tqW9jiSxdOOzd+6nDn2W5/aKVk6K9xqDVk3fKkU4rVLKkzGZSSviGut/AzflHscb
+	beSURvi0=
+X-Google-Smtp-Source: AGHT+IGiUx2tIebJJMY7NsYZIENE44uBtP5y4rTW7h5UFICD7WbnXGCkD0zfYxajDSH13n0Tsfx0kA==
+X-Received: by 2002:a05:620a:801b:b0:7c5:a513:1ff0 with SMTP id af79cd13be357-7c79cbec027mr402949685a.34.1744200254287;
+        Wed, 09 Apr 2025 05:04:14 -0700 (PDT)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com. [209.85.222.169])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c7a10ba65esm64505985a.28.2025.04.09.05.04.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Apr 2025 05:04:13 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c5b2472969so657641085a.1;
+        Wed, 09 Apr 2025 05:04:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVQ4XLkWHwEQxPiNIglRBFRdTSIyEFz2Im25C/Yywi2i+qh/nTCZ7DHqzkC1FMJU9ZVpwULmkdxGKZSEGbby/JjLpA=@vger.kernel.org, AJvYcCWqMO9AGAb//GfUQ3z9VRxyA5fhvF2NBf5ZG4MrlUQEGB+9/wJbwuNAiD5nkSDuZKzSM9OejKEfjMfG@vger.kernel.org, AJvYcCXlK0Ynk9gTLVymhqA7l9KaUMYeU+IKVcsuGsDg/OvkZ2iFGtgPgPM3VLWNwxOjiIwzX2/umq82EEnR3vCQ@vger.kernel.org, AJvYcCXpgo5oAxF5rz/efRN+MIWvskUKNMDDgI/yjYGV4OD80d0N15bALKyxSN8yjw4KEC02jQGTqj3Fe88k@vger.kernel.org
+X-Received: by 2002:a05:620a:8015:b0:7c5:4bb7:8e45 with SMTP id
+ af79cd13be357-7c79cc3735cmr500823285a.40.1744200253727; Wed, 09 Apr 2025
+ 05:04:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <TY3PR01MB11346A5CBFD05A51E351DCE6586B42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250317083213.371614-1-tommaso.merciai.xr@bp.renesas.com> <20250317083213.371614-3-tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <20250317083213.371614-3-tommaso.merciai.xr@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 9 Apr 2025 14:04:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWYJvStvfM+-kBmRPm=WGK-jdgwRmRq3XCYkArme1qABQ@mail.gmail.com>
+X-Gm-Features: ATxdqUGL5Wv9cNxrSU_wKxf8voEFlXfaWsna3HsZsE1FeXTUErHgIxsiXEgoMt0
+Message-ID: <CAMuHMdWYJvStvfM+-kBmRPm=WGK-jdgwRmRq3XCYkArme1qABQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] clk: renesas: rzv2h: Improve rzv2h_ddiv_set_rate()
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, Pavel Machek <pavel@denx.de>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Biju,
+On Mon, 17 Mar 2025 at 09:33, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> Remove duplicate code into rzv2h_ddiv_set_rate().
+>
+> Reported-by: Pavel Machek <pavel@denx.de>
+> Closes: https://lore.kernel.org/cip-dev/Z9QBZo4GgtMjid0v@duo.ucw.cz/
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-On Wed, Apr 09, 2025 at 07:25:43AM +0000, Biju Das wrote:
-> On 09 April 2025 02:29, Laurent Pinchart wrote:
-> > On Mon, Apr 07, 2025 at 04:55:33PM +0000, Lad, Prabhakar wrote:
-> > > On Wed, Apr 2, 2025 at 10:39 AM Biju Das wrote:
-> > > > On 02 April 2025 10:26, Laurent Pinchart wrote:
-> > > > > On Wed, Apr 02, 2025 at 08:25:06AM +0000, Lad, Prabhakar wrote:
-> > > > > > On Wed, Apr 2, 2025 at 9:20 AM Biju Das wrote:
-> > > > > > > On 02 April 2025 08:35, Lad, Prabhakar wrote:
-> > > > > > > > On Wed, Apr 2, 2025 at 7:31 AM Biju Das wrote:
-> > > > > > > > > > On 28 March 2025 17:30, Tommaso Merciai wrote:
-> > > > > > > > > > From: Lad Prabhakar
-> > > > > > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > > > > >
-> > > > > > > > > > Prepare for adding support for RZ/G3E and RZ/V2HP SoCs,
-> > > > > > > > > > which have a CRU-IP that is mostly identical to RZ/G2L
-> > > > > > > > > > but with different register offsets and additional
-> > > > > > > > > > registers. Introduce a flexible register mapping
-> > > > > > > > > > mechanism to handle these variations.
-> > > > > > > > > >
-> > > > > > > > > > Define the `rzg2l_cru_info` structure to store register
-> > > > > > > > > > mappings and pass it as part of the OF match data.
-> > > > > > > > > > Update the read/write functions to check out-of-bound
-> > > > > > > > > > accesses and use indexed register offsets from
-> > > > > > > > > > `rzg2l_cru_info`, ensuring compatibility across different SoC variants.
-> > > > > > > > > >
-> > > > > > > > > > Signed-off-by: Lad Prabhakar
-> > > > > > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > > > > > Signed-off-by: Tommaso Merciai
-> > > > > > > > > > <tommaso.merciai.xr@bp.renesas.com>
-> > > > > > > > > > ---
-> > > > > > > > > > Changes since v2:
-> > > > > > > > > >  - Implemented new rzg2l_cru_write/read() that now are checking out-of-bound
-> > > > > > > > > >    accesses as suggested by LPinchart.
-> > > > > > > > > >  - Fixed AMnMBxADDRL() and AMnMBxADDRH() as suggested by LPinchart.
-> > > > > > > > > >  - Update commit body
-> > > > > > > > > >
-> > > > > > > > > > Changes since v4:
-> > > > > > > > > >  - Mark __rzg2l_cru_write_constant/__rzg2l_cru_read_constant
-> > > > > > > > > >    as __always_inline
-> > > > > > > > > >
-> > > > > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 46 ++++++++++++-
-> > > > > > > > > >  .../renesas/rzg2l-cru/rzg2l-cru-regs.h        | 66 ++++++++++---------
-> > > > > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  4 ++
-> > > > > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 58
-> > > > > > > > > > ++++++++++++++--
-> > > > > > > > > >  4 files changed, 139 insertions(+), 35 deletions(-)
-> > > > > > > > > >
-> > > > > > > > > > diff --git
-> > > > > > > > > > a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > > > > > > > > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > > > > > > > > index eed9d2bd08414..abc2a979833aa 100644
-> > > > > > > > > > ---
-> > > > > > > > > > a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > > > > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cor
-> > > > > > > > > > +++ e.c
-> > > > > > > > > > @@ -22,6 +22,7 @@
-> > > > > > > > > >  #include <media/v4l2-mc.h>
-> > > > > > > > > >
-> > > > > > > > > >  #include "rzg2l-cru.h"
-> > > > > > > > > > +#include "rzg2l-cru-regs.h"
-> > > > > > > > > >
-> > > > > > > > > >  static inline struct rzg2l_cru_dev
-> > > > > > > > > > *notifier_to_cru(struct v4l2_async_notifier *n)  { @@
-> > > > > > > > > > -269,6 +270,9 @@ static int rzg2l_cru_probe(struct
-> > > > > > > > > > platform_device *pdev)
-> > > > > > > > > >
-> > > > > > > > > >       cru->dev = dev;
-> > > > > > > > > >       cru->info = of_device_get_match_data(dev);
-> > > > > > > > > > +     if (!cru->info)
-> > > > > > > > > > +             return dev_err_probe(dev, -EINVAL,
-> > > > > > > > > > +                                  "Failed to get OF
-> > > > > > > > > > + match data\n");
-> > > > > > > > > >
-> > > > > > > > > >       irq = platform_get_irq(pdev, 0);
-> > > > > > > > > >       if (irq < 0)
-> > > > > > > > > > @@ -317,8 +321,48 @@ static void rzg2l_cru_remove(struct platform_device *pdev)
-> > > > > > > > > >       rzg2l_cru_dma_unregister(cru);  }
-> > > > > > > > > >
-> > > > > > > > > > +static const u16 rzg2l_cru_regs[] = {
-> > > > > > > > > > +     [CRUnCTRL] = 0x0,
-> > > > > > > > > > +     [CRUnIE] = 0x4,
-> > > > > > > > > > +     [CRUnINTS] = 0x8,
-> > > > > > > > > > +     [CRUnRST] = 0xc,
-> > > > > > > > > > +     [AMnMB1ADDRL] = 0x100,
-> > > > > > > > > > +     [AMnMB1ADDRH] = 0x104,
-> > > > > > > > > > +     [AMnMB2ADDRL] = 0x108,
-> > > > > > > > > > +     [AMnMB2ADDRH] = 0x10c,
-> > > > > > > > > > +     [AMnMB3ADDRL] = 0x110,
-> > > > > > > > > > +     [AMnMB3ADDRH] = 0x114,
-> > > > > > > > > > +     [AMnMB4ADDRL] = 0x118,
-> > > > > > > > > > +     [AMnMB4ADDRH] = 0x11c,
-> > > > > > > > > > +     [AMnMB5ADDRL] = 0x120,
-> > > > > > > > > > +     [AMnMB5ADDRH] = 0x124,
-> > > > > > > > > > +     [AMnMB6ADDRL] = 0x128,
-> > > > > > > > > > +     [AMnMB6ADDRH] = 0x12c,
-> > > > > > > > > > +     [AMnMB7ADDRL] = 0x130,
-> > > > > > > > > > +     [AMnMB7ADDRH] = 0x134,
-> > > > > > > > > > +     [AMnMB8ADDRL] = 0x138,
-> > > > > > > > > > +     [AMnMB8ADDRH] = 0x13c,
-> > > > > > > > > > +     [AMnMBVALID] = 0x148,
-> > > > > > > > > > +     [AMnMBS] = 0x14c,
-> > > > > > > > > > +     [AMnAXIATTR] = 0x158,
-> > > > > > > > > > +     [AMnFIFOPNTR] = 0x168,
-> > > > > > > > > > +     [AMnAXISTP] = 0x174,
-> > > > > > > > > > +     [AMnAXISTPACK] = 0x178,
-> > > > > > > > > > +     [ICnEN] = 0x200,
-> > > > > > > > > > +     [ICnMC] = 0x208,
-> > > > > > > > > > +     [ICnMS] = 0x254,
-> > > > > > > > > > +     [ICnDMR] = 0x26c,
-> > > > > > > > > > +};
-> > > > > > > > >
-> > > > > > > > > Do we need enum, can't we use struct instead with all these entries instead?
-> > > > > > > > >
-> > > > > > > > What benefit do you foresee when using struct? With the
-> > > > > > > > current approach being used a minimal diff is generated when
-> > > > > > > > switched to struct there will be lots of changes.
-> > > > > > >
-> > > > > > > The mapping is convinient when you want to iterate throught it.
-> > > > > > > Here, if you just want to access the offset value from its
-> > > > > > > name, a structure looks more appropriate.
-> > > > > >
-> > > > > > Thanks, as this patch has been reviewed by Laurent a couple of
-> > > > > > times we will change this to struct If he insists.
-> > > > >
-> > > > > How would a struct look like ? I'm not sure what is being proposed.
-> > > >
-> > > > It will be
-> > > >
-> > > > struct rzg2l_cru_regs {
-> > > >         u16 cru_n_ctrl;
-> > > >         u16 cru_n_ie;
-> > > >         u16 cru_n_ints;
-> > > >         u16 cru_n_rst;
-> > > > };
-> > > >
-> > > > static const struct rzg2l_cru_regs rzg2l_cru_regs = {
-> > > >         .cru_n_ctrl = 0x0,
-> > > >         .cru_n_ie = 0x4,
-> > > >         .cru_n_ints = 0x8,
-> > > >         .cru_n_rst = 0xc,
-> > > > };
-> > > >
-> > > > You can access it using info->regs->cru_n_ctrl instead of
-> > > > info->regs[CRUnCTRL] This is proposal.
-> > >
-> > > Are you OK with the above proposal?
-> > 
-> > I may be missing something, but I don't see why this would be a significantly better option. It seems
-> > it would make the callers more complex, and decrease readability.
-> 
-> Basically,
-> I guess sruct  will allow us to avoid (WARN_ON(offset >= RZG2L_CRU_MAX_REG) and
->    BUILD_BUG_ON(offset >= RZG2L_CRU_MAX_REG); checks as there is no array, so there is no
->    buffer overrun condition and also we can drop enum aswell.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk for v6.16.
 
-That's right fpr the BUILD_BUG_ON(), but I don't think that would be an
-improvement. The BUILD_BUG_ON() catches at compile time the issues that
-are comparable to mistyping a struct field name, so incorrect code
-patterns will result in compile-time errors in both cases. The WARN_ON()
-is there for cases where the offset needs to be dynamically computed,
-and if we wanted to have similar safeguards with a struct, we would also
-need a runtime check.
+Gr{oetje,eeting}s,
 
-Using a struct would also prevent (I think) implementing additional
-safeguards. Not registers exist on all platforms (hence the need for
-this mapping mechanism), and it would be nice to catch attempts to
-access a register that does not exist. With the existing series, we
-could quite easily add a check in the read and write functions to ensure
-the regs array entry is not zero (except when the register is CRUnCTRL).
-With a struct-based approach, the read/write functions would get the
-offset but wouldn't know which register is being accessed, so the same
-logic can't be implemented.
+                        Geert
 
-Last but not least, I think the current approach is more readable in the
-callers: lines are shorter, and register names match the documentation,
-including being uppercase.
 
-> So, if using struct decreases readability and makes the code complex,
-> then current patch is fine.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--- 
-Regards,
-
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
