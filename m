@@ -1,146 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-15646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15647-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C91A81DE2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 09:06:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF31DA81E05
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 09:12:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B34767AA397
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 07:05:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 452273B4D87
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 07:09:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 462FA22B8A1;
-	Wed,  9 Apr 2025 07:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PrD1SWNd"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25E06254868;
+	Wed,  9 Apr 2025 07:10:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A811A22A80D
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Apr 2025 07:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6FE250C1C;
+	Wed,  9 Apr 2025 07:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744182381; cv=none; b=IaYUTHXo0jrPC05SqgjBf7oun45VbIHLMEiGEy179Fl7wkOt+yowbr8/A0Mwk99aoC6i4u8eBaE372AAAIif04UFE4XjjC2ac2N983DxbVJIAm9NO+ubtgm+BRv/To86BEsY8249oOvmjciFXCr3nHDxGSsVv+5vRWvko13XJO4=
+	t=1744182602; cv=none; b=X99ZFMIuPEPKi1u3ybWZlQ2j/idoKz2+JrZq1PyXJWBjWyekb900GsDqgC6j5CVttQ5Nw7XbCqliQWmd9rD4vPMKFES/2pBAnVYP9XAaon1LfImUAjORkfUMc7wov3SIy53Fzs9wXORtxG7dOrbXkOv2hwCBQD+AHVs0ExVF754=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744182381; c=relaxed/simple;
-	bh=yS+f3fqEzIoMXoYigNyYL1iRCbrDvUkMQNrAccauF30=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nK7wqyRldNbdB+G7/4qnFV9E0q5bIMDNd8BI0UzcZ/iAUJpCcTqJ5hSTGDPaN4hwLYxIwRDFCQ7iqcyYw7+Ef9jyhWGqKKV/WNNqzq84m0iUHyFvBfdy6f9ecnporrnK85r8XKCbu2mXoQw0yaeaB8lz1mPQYNZnpoJiVIdgacI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PrD1SWNd; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22438c356c8so61990935ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 09 Apr 2025 00:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744182379; x=1744787179; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Nm7nG2cOghl5We3pl16VQKS1/9Lv238uk1E4idOp5vQ=;
-        b=PrD1SWNdTtPZUgQjRNif2ls9MubJr9v7WpJMbQBGMplnDg/ESsiWZdjv3qFwkjXX84
-         lONLGQro2/xnruJpKObbR0aS2CwXuG+xYN7mEDe6swzRcwdKYHIsV0Tdsf7qulqmhtGs
-         Cc8rW41SvaR0djm60tukZRnm7/UJwVxZfwxkgxrg3Tr655x/wfxsO4clFVrmI7HuSYf/
-         de5vws9DkS4T4CONHe/9F/zIFWKLZezzppEir0ux2e3BT9qXb+QxEmfcGt7X0//8ObMG
-         o9xHdnnb1H9q0Krb0GTqrwVDZp/zBjXN+7WsSUD+qKjqcbBhQI5bcyCIkorcYa4Wfe0y
-         Ch+g==
+	s=arc-20240116; t=1744182602; c=relaxed/simple;
+	bh=xzWFr6RQHobZVkQEtYfHxByEWAH6rqCQhtdNhto6g3w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DP8qSKbVZo3PKJ2z81s06uZ8U+p1W6dZqpbBtZ59zCeqEOWnOaY3GqbxBGCIZaH3COGyAIFVbDrwOZklzGjLrX8mYrCeByPFZp+3pm6anG/NpY1QYlj7ZYw4vh1YvfNKafGokHCHED1JERpqLQNHDuyL21ieacUMT33MMadJbGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-523fa0df55dso460159e0c.1;
+        Wed, 09 Apr 2025 00:09:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744182379; x=1744787179;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nm7nG2cOghl5We3pl16VQKS1/9Lv238uk1E4idOp5vQ=;
-        b=dxOwTpVDu35E5zFvJOhCENP9lSB5Uk22m1VnLypK0DQFs1eDWkABHa9i66XYt3kPjw
-         WCv4oEOTrDibPHswj5Lj5leJcdUbqaIECNtsNw/EuBVnIK3UKadZ0wq6FeKbNEwMBVR0
-         ZPchkFDlyoi98riuLL0BJsDqyk0kVNVXPCaZDp1mZBg1s1tvJP9V/10r1+qSn/AZzW7f
-         u3AOtqFOuEAybc2Bv25m+f/FukTolSolPyQ5H7eF1NZ0CyXBkKBocxJ/+SpIC1JS3BBP
-         xzCA7yjR177+tC7nOVMJZ1gVdsoBSRxIXq9GbyUddxf/rMw6WUi6dYRWjAaP2zVveRs8
-         QLlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXDJ2V1xNSu7/RMtT3+Y9A9YC4hBSH1WnjYU3FJl6tIyGjYJZWIYOe31gP2nj86KL+xbeIeqbxRGR4A2eo5LQpA6w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9Jy7eZoiR5Rifsi0zSshYaaHR5rQuGnV27P8R00fGAc+WU1Bu
-	DfwW6KsNFEX++Su00DagTPEv0AEtlZ2LzlVGQMvtC42QVbrcZ9CX2J0PXe05nA==
-X-Gm-Gg: ASbGnct72llcSbSOMfpXyVyJ+2FaFAdudNYWMYK56e3k59H+x3ZR/HmG0nR1PhxVc33
-	Z5oSVXbxeQYepAFb67pQUbpLfUUuY0+Z0xy+dj81qyqlOJeZx5GMMhxP/tka3r4FEklHWzbWrT2
-	8C8zQ85tWmeLRGXR2WoyKVL4ELTGjJIUv9Q9xD352gKPwpTTfW4UQVkTkmeoZlgs+aN21/n8olN
-	56S98pFwof2AExCtrd3mg4Il92vJyXUEiKfA7ze6ZI2do9scSJDITRX8iWDWCI5uve1iWCGtuZh
-	R/uyC2I7gHTG8B+LC8taXdWYfNMHNzYpKu6inp4qX2JsXoSMrog=
-X-Google-Smtp-Source: AGHT+IG2IBbUsP4jpyoBsAQl7I0S2iGdcUbnYfvvANGYcDIZAtyYHJ27CyPFx40ttshkAUckDfLO7g==
-X-Received: by 2002:a17:903:3bc6:b0:224:10a2:cad9 with SMTP id d9443c01a7336-22ac2a2991bmr35596635ad.41.1744182379003;
-        Wed, 09 Apr 2025 00:06:19 -0700 (PDT)
-Received: from thinkpad ([120.56.198.53])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7cb5047sm4544815ad.170.2025.04.09.00.06.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 00:06:18 -0700 (PDT)
-Date: Wed, 9 Apr 2025 12:36:08 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Jim Quinlan <jim2101024@gmail.com>, 
-	Nicolas Saenz Julienne <nsaenz@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Rob Herring <robh@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Srikanth Thokala <srikanth.thokala@intel.com>, 
-	Daire McNamara <daire.mcnamara@microchip.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Greentime Hu <greentime.hu@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
-	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, Michal Simek <michal.simek@amd.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Tom Joseph <tjoseph@cadence.com>, Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-rpi-kernel@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 2/2] dt-bindings: PCI: sifive,fu740-pcie: Fix include
- placement in DTS example
-Message-ID: <3cfkeludmigojzadrgyxyidiydb3mx6yqjcvmgpbhdk75cflog@66i4zpvjcwzv>
-References: <20250324125202.81986-1-krzysztof.kozlowski@linaro.org>
- <20250324125202.81986-2-krzysztof.kozlowski@linaro.org>
+        d=1e100.net; s=20230601; t=1744182597; x=1744787397;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xCjOEqHOQd0uUlE94eC4JCNmgohT3221wsRkdKFRNL0=;
+        b=T6p2A/lJ7E1kBBdAJPG2uevhPIwdzRouqfDqkEWLqS6s60Sz/YYtCB8ZF5jp9Jf7Ec
+         2EPUz1LJDTcpztSh/AxOw4SWG/azA4rGz/yl8k/+ZfTYI3fO5V9Zx/8nCvyreUoHwxjK
+         ANTZo8iGDi2pZgwH3mixBwVqiTPyK9p7xDo66UXQPG4+ZNP4PD/E0hfzk6CL4asZ6lDj
+         lyODNqNDhhBXqJnjqSwqb5W+ErUyra8jdS4sW7JnggjeoG216pcb/knpCmyxDRu0UG5S
+         KQKLUAkaSJwDt/wazsYA429pNZ3P2NQSqR1ggt7m9AjQgvLOzj/sTo/QrDOgQ8P5Fx9L
+         R0+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUhlgjra0GC+Oo4wV+N6qLZnfC0bmKJTDC0Gg4G6pXE7XZDXiOpKqBgv6/wy1AG1C+fhWL9nuE+de1ieZE=@vger.kernel.org, AJvYcCW69UzTvzKJUGilTY9ej0RwttfDRHLq4B/4FtzYedyqbf99eBKXNBLjovSrGD6TdTn2ksx5Wv+AiYfB@vger.kernel.org, AJvYcCWvgiUFgeTAbz4+wvcfh1pmoCQ6kAbsME0InT9tnoH0wGUltRS9GZuoYnSgU33ehxsbPyFr6LarC5GrSscY0Wr7KDo=@vger.kernel.org, AJvYcCXTZFlqOzApk+22MD/AeQ93EXrclpUjKXgvRXiXwBPrYaYBEMUazhkmtWf7+S9oR/ZM6DY5+CEJ04Ho@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1ZDPnzpiJSMc9+Bj7BBZdFHK2l0M2oNdUwOWwRb/CGBHhzXTz
+	NQr//vf3p298CNvWhBE5g6iANcpGu4icL0vvJCEkk1/j+26mmeH7MIsBwzG5
+X-Gm-Gg: ASbGncsw9w42O3ULLd+u00XlN4y8VZCGKigXLC4hX9T3ufCVi+lQdu52ctgWhz/unRJ
+	gZ6wARywZtrP7EM93sGWaer9a7KNySrY+R4ohdPbF97GskfmWAEDMVV2w+x9Gi4KI++kLGl+LOQ
+	Mdh/dUQrd7Y7MORREnvuvgpyNmCiF0LbA/LMnhZKnue1uMzRpLCSP1yNSgrzV+XQP5tKh2IWabB
+	eJOIrnExbPbNxY+JY6UNyDN0nnJnjh3QCpZEiTkBId2IC7fn+TY8PDHOFL1Hz/zvmzJhCWFrVY1
+	l3VxeJZxqrNY0jtWL0cjWiFSSCSJhQTn0ZjtrpklAhI5lyXn1IQ/IhMCZHweiPSg5Mer/cacfk4
+	r0Vc=
+X-Google-Smtp-Source: AGHT+IHW53vWYq7TSmVYcH2oen8xtBomvJnp8hJWeYmuq3YtIHbILAvG0/tpLwkUXwiUfIhOigD6lw==
+X-Received: by 2002:a05:6122:319d:b0:520:4806:a422 with SMTP id 71dfb90a1353d-527a8e901cdmr1233546e0c.3.1744182597091;
+        Wed, 09 Apr 2025 00:09:57 -0700 (PDT)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-527abe8d1b9sm111727e0c.31.2025.04.09.00.09.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Apr 2025 00:09:56 -0700 (PDT)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-86dc3482b3dso488879241.0;
+        Wed, 09 Apr 2025 00:09:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU0pG/UUhJU8/Kb96HPdC6LOpIyomTnDUVpTiSxYwmrtIt0euHyTxgoE0TwPe2XbKpk3DWiT3Q9gV9Ud/wfiU5832I=@vger.kernel.org, AJvYcCUF5Lux6hvCAKowMx2I3P3Nj/EEeXgbkhfB39yT/jtn+F4Ybv7J1yAsYqtbW3lKlp0kkuo1bZ5rQFKBi2g=@vger.kernel.org, AJvYcCV65GjYU8gYiLOyqodb1rJ6z6AYtqdWIUtYwWPL6kPRnCmOToYF+PzZXU6oxNfv1N/H6V7mJuplIph2@vger.kernel.org, AJvYcCXV9zrvkQB431jFrX2RKXz9tbtyTax0Eu9mJ8xixD7Uq4dh5ZoJ5+tnZDPeKrXp6k29gr81gm28f+Y0@vger.kernel.org
+X-Received: by 2002:a05:6102:5794:b0:4c2:ff6c:6043 with SMTP id
+ ada2fe7eead31-4c9b368e974mr5084603137.0.1744182596209; Wed, 09 Apr 2025
+ 00:09:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250324125202.81986-2-krzysztof.kozlowski@linaro.org>
+References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com> <8734eib0vx.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <8734eib0vx.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 9 Apr 2025 09:09:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVC997SufjabEtwx9ZLZrzYRmWpCEXxHh9r8Rtee=QYpg@mail.gmail.com>
+X-Gm-Features: ATxdqUG3_OX2HcrfXwIG-FjpUcpmP4Wv0CKo6s-O57I2uDAn7kfrkEinNrI4qAo
+Message-ID: <CAMuHMdVC997SufjabEtwx9ZLZrzYRmWpCEXxHh9r8Rtee=QYpg@mail.gmail.com>
+Subject: Re: [PATCH 2/7] spi: sh-msiof: ignore driver probing if it was MSIOF Sound
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Mar 24, 2025 at 01:52:02PM +0100, Krzysztof Kozlowski wrote:
-> Coding style and common logic dictates that headers should not be
-> included in device nodes.  No functional impact.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hi Morimoto-san,
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+On Wed, 9 Apr 2025 at 03:05, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> Renesas MSIOF (Clock-Synchronized Serial Interface with FIFO) can work as
+> both SPI and I2S. MSIOF-I2S will use Audio Graph Card/Card2 driver which
+> Of-Graph in DT.
+>
+> MSIOF-SPI/I2S are using same DT compatible properties.
+> MSIOF-I2S         uses Of-Graph for Audio-Graph-Card/Card2,
+> MSIOF-SPI doesn't use  Of-Graph.
+>
+> Check "port" node when driver probing
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-- Mani
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> ---
->  Documentation/devicetree/bindings/pci/sifive,fu740-pcie.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/pci/sifive,fu740-pcie.yaml b/Documentation/devicetree/bindings/pci/sifive,fu740-pcie.yaml
-> index 844fc7142302..d35ff807936b 100644
-> --- a/Documentation/devicetree/bindings/pci/sifive,fu740-pcie.yaml
-> +++ b/Documentation/devicetree/bindings/pci/sifive,fu740-pcie.yaml
-> @@ -81,10 +81,10 @@ unevaluatedProperties: false
->  
->  examples:
->    - |
-> +    #include <dt-bindings/clock/sifive-fu740-prci.h>
->      bus {
->          #address-cells = <2>;
->          #size-cells = <2>;
-> -        #include <dt-bindings/clock/sifive-fu740-prci.h>
->  
->          pcie@e00000000 {
->              compatible = "sifive,fu740-pcie";
-> -- 
-> 2.43.0
-> 
+Still, some comment below
+
+> --- a/drivers/spi/spi-sh-msiof.c
+> +++ b/drivers/spi/spi-sh-msiof.c
+> @@ -20,6 +20,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/sh_dma.h>
+> @@ -1276,10 +1277,19 @@ static int sh_msiof_spi_probe(struct platform_device *pdev)
+>         const struct sh_msiof_chipdata *chipdata;
+>         struct sh_msiof_spi_info *info;
+>         struct sh_msiof_spi_priv *p;
+> +       struct device_node *port;
+
+If you would add "__free(device_node)", you could drop the of_node_put()
+below.
+
+>         unsigned long clksrc;
+>         int i;
+>         int ret;
+>
+> +       /* Check whether MSIOF is used as I2S mode or SPI mode by checking "port" node */
+> +       port = of_graph_get_next_port(pdev->dev.of_node, NULL);
+
+This is actually checking for both "ports" and "port".  If you know the
+subnode is called "port", you could simplify to of_get_child_by_name().
+
+> +       if (port) {
+> +               /* It was MSIOF-I2S */
+> +               of_node_put(port);
+> +               return -ENODEV;
+> +       }
+> +
+>         chipdata = of_device_get_match_data(&pdev->dev);
+>         if (chipdata) {
+>                 info = sh_msiof_spi_parse_dt(&pdev->dev);
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-மணிவண்ணன் சதாசிவம்
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
