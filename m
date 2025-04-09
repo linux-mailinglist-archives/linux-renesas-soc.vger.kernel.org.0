@@ -1,195 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-15630-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15605-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A28AA81A39
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 03:05:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 595F7A819E9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 02:38:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F718884A16
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 01:05:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 440C61905EEB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 00:38:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A2108632C;
-	Wed,  9 Apr 2025 01:05:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07EF54207A;
+	Wed,  9 Apr 2025 00:38:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="L7ZKMI+I"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rU+4sAyL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010042.outbound.protection.outlook.com [52.101.228.42])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1E129A2;
-	Wed,  9 Apr 2025 01:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744160710; cv=fail; b=f7L5MMr+lT7Ir7c/xy99qPWM9bHgyztWjc6+7rwxdFhy45tmlYAYzyBkJOOUYG40HWVsmDCkQntJ8Rdz2HYvuRGEh7DyTyEvYuddcM+72TxBLE7a5M14FuPAvtBAJsamLONb6rNsz3/cbbRb5TDEjK6vDiR+1VlSXGb37EODrJw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744160710; c=relaxed/simple;
-	bh=Bn4jwa7I/XaRIOQS5xWTCzj+N+yIlM9NSzFpkx8Xm5A=;
-	h=Message-ID:To:From:Date:Subject:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=A78e6Xgy9d+PlxB+drxxP/miI52EATJ6RaIwv/ah0LGfEb/7p7YAzioS8w2d9P7BjMyvV9C5G8tzUU3nfoO8abc+12DhyX+hm4CG1oKJOdKOneMHYcf1+ih1GqyCdZRvnkXoKhETIzuak2bAzIZx/pSBVaRbXxBPpvfyMl9wq+I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=L7ZKMI+I; arc=fail smtp.client-ip=52.101.228.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C9KaZgUOj+nCyUPiXBfHsvksOidCRgtdR9Aj2W4YyNezcLHaB6a6VUukKMNOU5/yE6uz5O7sJlJaz5aO1NP+Ksra0Kf+dssFhHfBukCHamLbMWfHJouH8+Rv1ZdD+4uh5t9g8wp8CvghH7zVonk+fCo7DQ00IJ88xQkc3aO+NjnL1Mi63sz56wO/Abduz7I4N6GMCwvqWDC1iHOecJ3YGZtSUzNAiRuYR2umzGGBLBVRbIMygMXk65pBcqoNFZ+GMZ0iEIZ6FnUzymm13nt4Ce45sfIFLN+Gg815KMaLda40lcVpSLRqL0WZQLhz8qhDubpFjpMaMVcfOkoeX54rjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UXkUxxGiTuJZzg5CcoRAyGQzXYQmoV/DU2d/cJCg5eA=;
- b=I9QR5cuuRwC/9dweV8FoSHnBj3zmXuD6sLs7MjdGOiN8VsLeSpg5ZRAJUlwmtBY5RV3MbDJMyipSlhTdIsCP9ZM83T54S2xcAFhmqM3IrHAHBj3U1gX4GKuTqx/PgRfpPWlsIhbxt/1m+SQCVoX5i50dVOcidgicRYx8CgTlm+YsLzVdQR2uutdesXaIOpWzFEqgaKOAGgYMaa86T3uvkMZmxYufpDVhBushB3LrvalMifBoGzw8t/JqFtcOZ4IExnT0nBexqJ39CQiYomJltpjd/ryVDV0sITA+BJQ2EDWWN0ZyAJBDZ8fXe02oLlnRhfhUUJ7dij57dl7/deeXnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UXkUxxGiTuJZzg5CcoRAyGQzXYQmoV/DU2d/cJCg5eA=;
- b=L7ZKMI+I6nmbLZSGQ8S0H810bWEUTh7YwtsWlp0EjvKCMoF5o/dptjY9Zyl0WjHvuRpjvqO+qDd64I2J+1qP53iykEi15TpT6PYEoEI7NPfnwqAUbR7YDZi4BxguaO6efap20gF56GxMgD3ZGG5SIzZm73zseeLqShPHEYSr8IY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS3PR01MB6437.jpnprd01.prod.outlook.com
- (2603:1096:604:100::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Wed, 9 Apr
- 2025 01:05:01 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8606.033; Wed, 9 Apr 2025
- 01:05:01 +0000
-Message-ID: <874iyyb0w2.wl-kuninori.morimoto.gx@renesas.com>
-To: Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Date: Tue, 18 Mar 2025 11:06:33 +0900
-Subject: [PATCH 1/7] spi: renesas,sh-msiof: Living separately from MSIOF I2S Sound
-In-Reply-To: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
-References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-X-ClientProxiedBy: TYCP301CA0038.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:380::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE86B67E;
+	Wed,  9 Apr 2025 00:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744159123; cv=none; b=N5Q4rHJGFIDeqNdi6ODucLqIyzz1OUKRorL13z/FwaPxq5oxAkljIisXtnZLMCm6F+YYTu3/ZniiK7Log6lbOkTfhQMfpNqIvG0YOKv8rp+e3rfHQqPDMDxFeTS0r08UnJeeA9rAPMkZ+hIDljD7f5N0RVXdw1h1Oky6QkZwguU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744159123; c=relaxed/simple;
+	bh=OHgNql4AQJVfdCqx1U/8vI49/FwzbukmKa3wx9G8yEw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PwHTA9n9O18YQFqZfiRvQPTua/m/Fieilk8VCGES7uSdN5MQxtnETlUvWB9qepuoCA9Qc75fuqHBgB+8OkcgAzHzxDRqNyOh6tgOl6Ak7RygR1tN4nvRgu9rkUn18BxS13gLFMbWKOvQtB9ULiBVuYvy50tC97vZ16Iy/VaGj74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rU+4sAyL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68AC882E;
+	Wed,  9 Apr 2025 02:36:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1744159002;
+	bh=OHgNql4AQJVfdCqx1U/8vI49/FwzbukmKa3wx9G8yEw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rU+4sAyLqegRkPlgs9iA/vjXI6iUjlFqPg3wu4R2zP8xX2GaMeOLcfTVzdbxFM4w6
+	 VvoxP/qKyebBbSHZjB6fk1DBIWUfy+FefGSp8qa6z3aqm5E6Uk9dbQ+tXwQ2QpJNxC
+	 72oshZU7HMp5UMztEPZD1CE8C0FDUAUDHF3sTNFY=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [PATCH 0/6] media: renesas: vsp1: Add colorspace support
+Date: Wed,  9 Apr 2025 03:38:09 +0300
+Message-ID: <20250409003815.10253-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB6437:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2546a94-454c-44fe-fe39-08dd77028e47
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|52116014|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?X1zl1Eh4HCB56VFpBVrtx97DpKxMjJr7NMT5NfyYxXZjW4HSdHbq1KyrbxeV?=
- =?us-ascii?Q?jdQeghI2YN7sGnBQwYo8tPvvaB4kYnKjp/KfAu1YSAueWH1r+CXTEYgZbwyV?=
- =?us-ascii?Q?KMEMnYK/Ce3c5E2StHtgRBNxO6f9NsnPuoTv1kMq7hTiQToHSwdTH3tBZ0xu?=
- =?us-ascii?Q?NcLeb1CJPgpjxVRsstJm3hx8iK0OpMp9cHZIuOjm6TghQuepKR67Rfc6zR8P?=
- =?us-ascii?Q?EUHfk6New4HrtXSUU2k3EWkYUGjvgYx4gmL/cxYPi6tBA3mSjNlZ20HK+aHW?=
- =?us-ascii?Q?ie5HAjBJjeOsCgsh4bnnm7OQbHq+P+IT3w01TMfaoqy86ngTTHujBssPhntT?=
- =?us-ascii?Q?+wMMU9N69da4xOja02uS4S1o7tNoVxljA3+KpiipAHSqxPJW6bGr4/Igbh7H?=
- =?us-ascii?Q?uwGZ7Bz65qvGJKMbJtCg3rL0tpjatG7xyY4ttdi1ozOvshJ9RbYOF/Cc03jH?=
- =?us-ascii?Q?c0pCUMyyYcqgNrx9D2rQFsquMfeMwel0fsq6fxAk1yNT2UZJ02jICM4NKUI9?=
- =?us-ascii?Q?YnF6GF3yIwviMXmCdU6I1j3raVEfA3kaXvOj3Basyi+EEbepaj1PqYzZo63A?=
- =?us-ascii?Q?Qg3hapVD4o68zMAc02pF72oclduJo4yzAUpBBTEj+7oiqaLLesskCsoqkNXl?=
- =?us-ascii?Q?A/VRfqubs86YmjcWp4ctnUyRF4orEEFfenAkStvnr/uNFZSg5g0BvAeWlA8r?=
- =?us-ascii?Q?vdQuOlCqVK1LrKJggLAVyY1WL1j5Ml0+DAsEOUicA+FqQef4Wzqk/wE8OdR/?=
- =?us-ascii?Q?FSGhaNA5y9E+45aC7ZVqkLfsZuizTg56CEayHuzcGn94xHitBvezZMoRB/uo?=
- =?us-ascii?Q?U91FDNRlq6OO4fUxdJzYlu10T5RdeijKt04vFdvaPtkPzRP2h1nyBafwmLvj?=
- =?us-ascii?Q?COwnduy3zxVxcXUpmwSlhKFEE5fQIKtQrUepNryBlZPOwmD995rDENATa8oQ?=
- =?us-ascii?Q?7aP9z2ydFgIcgMMnQxwQl1OfsZ5IMqvXgyu1LCKFRFSQZ1ZNxr56HkWK5vRD?=
- =?us-ascii?Q?YBtSxoONI6BuYQ/HCRQmjYZn2yO9gwRXdezD3DLZmye7q+D3RgeVmced9APU?=
- =?us-ascii?Q?REtyaboIQzZFKBFHXM6kbe0vnS5oqm2Ww28DfjKaq2c4EOdNDneNEBd+dmaA?=
- =?us-ascii?Q?Q3zwU3zUg4h/0Q0Q0KAMyGrOFuhNPedIrDJs4a6DWsnR/qqOaMa1ztS7udQK?=
- =?us-ascii?Q?FI8zTsXWHiMq38NFANOMYPJHZRjKq25d6m2GgJsVSCDcdwx7MiGns+62BhUm?=
- =?us-ascii?Q?JKVRt25H5alJsaHowtdkXFNBrRJe/BR99Ds9MfmNcFegJgjnMsAOhw/7IbE4?=
- =?us-ascii?Q?Arxq/l6DNB4i/vu0fYsohj1nJa6w6qXfb0G7HX7ykI2/nWKTNGEWp4NKLWgq?=
- =?us-ascii?Q?pnZD9kzTXnPZAvqi70XOi+Kg8zDfEqZZV3nqlF+43eQi9LTGX8xiYaCzDODc?=
- =?us-ascii?Q?HSCOBWQTtNvXdgnv0TlRsWrjxqdQjxR7gKGCFXojDVv15+WxEN2Hmg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(52116014)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5rJsaIGk/k+MCtF69GV6HpgCZY58NSN+fp50bBhfnoVSvPf0mGWYdONcRXOg?=
- =?us-ascii?Q?RScZQmc2IH5TkToNctYLauLLlJI9NCdx09CR1vQsE97Q/X01jMJZKXb7rNUc?=
- =?us-ascii?Q?uAoh7Gl2OY4ofZFZ/cojSVfZUsc7O0RZpudP8XQn+bRk1XcUo39ROIyfgch+?=
- =?us-ascii?Q?TM884z1zWRTObgROcil/LSq1v2W1DtgRCSz2Z4aldnC00xnlfdhQAYGtthMz?=
- =?us-ascii?Q?egVEmaLaeNWImmaplwf076yb7HogsCDQnQ0Ijcbq6w/c3jurXhaM6KYMtLpK?=
- =?us-ascii?Q?OOOE03pvJ0I8/Mm7l0hq++ZX+K+Zs0FNh0r7XtAKcAtFRjeT2kQV1qEItfRX?=
- =?us-ascii?Q?f+2FsCAmKdB2UQeshSEifA9oNelV4Dr7x8PEz3L/q6fuBI8Ggoi7RhYXUnhk?=
- =?us-ascii?Q?iPdugjxXs8hxm8njVs7fVzxkH+GT57fMZM0RXrBAzKNa0jiNHkdCUeQqmbDo?=
- =?us-ascii?Q?YRaiM+k/pe8fLgQ8aQFNBWK8qOAiNjP1uxueiJtL83ofp4v0GoiYPf0A1JNM?=
- =?us-ascii?Q?CT98gcTKJjT0uQNF1vfJa7/LnC+mOg+KvK8KdTL3dIVuEKQMuOAwooGydchl?=
- =?us-ascii?Q?v2hMC6nd/0V6GQdWYtPgVXb/k9HhMNqV4Jl524Cwe/9wKrFXzHlV+kzZSfqb?=
- =?us-ascii?Q?FVgaC6T20GmrjiQxGeYRtleRrH2nWGmvDFaHSV44935CmRT2PyrOWSleucKp?=
- =?us-ascii?Q?m3jNxILONxJVZ+guUpgPw/srCpjakErj+wa5+Jw+ZhxdEq3M1TEg5l8vSdt/?=
- =?us-ascii?Q?SislFK5su8OX4itHbtXsL8S1fSqPu40B6kXssqSgDC2e6T99wOHSGRhbEJSA?=
- =?us-ascii?Q?CEwBLiM7TVR6D/giTp9fjPryHoerkHjzvXa+AWlW038pvU3kGu9MU1EtWyqh?=
- =?us-ascii?Q?JKxWixJ2fiSPRkm1DuiKhW7wH7EN1Wyjx6gU8uJQNIGqhzigZmLt33YzlUr+?=
- =?us-ascii?Q?aM5mahiz0yIj75ujW5bi2sWm/n4QLTCTDe577to7ySumUPyI1qVBoZzQU5X1?=
- =?us-ascii?Q?PdH7AMy3gWP/ujVaQQ2e+5EX0PWmev6UHo10A6H2wwJ34OCWmhjpeLyxEEOq?=
- =?us-ascii?Q?i/f/6/v2oTdy1Mahsn8wGfnCrqrZQp69J23MkhsEb5nwV1L/UaJ4udUxvGrm?=
- =?us-ascii?Q?h/bUp9VGoIcko+045rjAVM6xGepZTMOrXStIp5DtBPih5oDfUjqNHaA95aS6?=
- =?us-ascii?Q?xQcX2eFqeqS9nyfiAUx09Jfi1O3DBeuNxLzn42ZFkI9srOYNG+849mrfjUv4?=
- =?us-ascii?Q?p6UrTg64kC84Lc45QA/gfJwepvof3Uyk8UHM/X5pb+SmUKuexWOogxZxtDh6?=
- =?us-ascii?Q?vyrlz3mUd2vlbkZqCFDBky5o02yfvehjw3lyiQaS0FE2A9iBGuvRDS2+zJXQ?=
- =?us-ascii?Q?bucuq4n9QBDBPnWtQ9KYQ0xfkPH6/uYR+AiWZiZwp3dcJxy1fUy8rL7nHqSv?=
- =?us-ascii?Q?yc0zqSjX996C3Cx22dDj86VyFYdnAGpdfCQxItG3d9dWt0Blu3A65OYTTYLP?=
- =?us-ascii?Q?5672tyC0HJltgjLP8RIurGlK4Ep7Ze9C+IYS0aSzjbOXjNpYOZdvK82BzWfB?=
- =?us-ascii?Q?n+bxZEI0i77t7PWAear7cYi3JoX3x12TRIV5Kkig8M3rfgPrhnKn9csajIDQ?=
- =?us-ascii?Q?EMztTnVa4mnzBw2tb0UVp6Q=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2546a94-454c-44fe-fe39-08dd77028e47
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 01:05:01.8451
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ApzvNeKe+9hw0Y0+Inv2SrP9VBcJw8jFkYOCNFCTODLrpixI2jsULFLQ95ybZKchChYFihacxmS4GUbFNZ3SytfUH5hE0t+AJM8jqW/5EWQ7bg0qEFel7nyrzIW15mfR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6437
+Content-Transfer-Encoding: 8bit
 
-Renesas MSIOF (Clock-Synchronized Serial Interface with FIFO) can work as
-both SPI and I2S. MSIOF-I2S will use Audio Graph Card/Card2 driver which
-uses Of-Graph in DT.
+Hello,
 
-MSIOF-SPI/I2S are using same DT compatible properties.
-MSIOF-I2S         uses Of-Graph for Audio-Graph-Card/Card2,
-MSIOF-SPI doesn't use  Of-Graph.
+This patch series extends the VSP1 driver with colorspace support. It
+turns out that the VSP RPF and WPF entities can convert between RGB and
+YUV, a feature that we have failed to test so far. The hardware support
+BT.601 and BT.709, in both limited and full range. Proper configuration
+of colorspace is crucial for accurate image rendering.
 
-Ignore MSIOF-I2S case (= Of-Graph) in MSIOF-SPI Doc.
+Patch 1/6 starts by implementing pixel format enumeration in the driver,
+a feature that was surprisingly missing. Patch 2/6 then continues with
+another fix, restricting the creation of the HSI and HST entities to VSP
+instances that include them. Following with another fix, patch 3/6
+addresses format setting on the RPF and WPF source pad to disable HSV
+<-> { RGB, YUV } conversion, a feature *not* supported by the hardware.
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- .../devicetree/bindings/spi/renesas,sh-msiof.yaml    | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+After those initial fixes, patch 5/6 starts implementing colorspace
+support by reporting the related information to userspace. The driver
+currently hardcodes limited range BT.601 when programming the hardware,
+so that is the value that the patch reports to userspace for YUV
+formats. Patch 6/6 finally makes the YCbCr encoding and quantization
+configurable.
 
-diff --git a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-index 49649fc3f95a..c491ef5bc78c 100644
---- a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-+++ b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-@@ -9,6 +9,18 @@ title: Renesas MSIOF SPI controller
- maintainers:
-   - Geert Uytterhoeven <geert+renesas@glider.be>
- 
-+# sharing with MSIOF I2S
-+# see
-+# ${LINUX}/Documentation/devicetree/bindings/sound/renesas,msiof.yaml
-+select:
-+  properties:
-+    compatible:
-+      contains:
-+        pattern: "^renesas,.*-msiof$"
-+    port: false
-+  required:
-+    - compatible
-+
- allOf:
-   - $ref: spi-controller.yaml#
- 
+The series has been tested with the vsp-tests suite. Patches that add
+CSC support to the test suite will be posted soon, in the meantime you
+will need to use the csc branch ([1]). Updates to media-ctl and yavta to
+support setting colorspace on video capture devices and on subdev source
+pads are also needed. The corresponding patches have been posted to [2]
+and [3] respectively, I expect them to be merged soon.
+
+The series has also been tested with the latest v4l2-compliance. The bad
+news is that the test flags 56 errors when run on a Renesas Salvator-X
+2nd version board based on r8a77965:
+
+Grand Total for vsp1 device /dev/media1: 757, Succeeded: 701, Failed: 56, Warnings: 0
+
+The good news is that none of those are regressions, quite the contrary:
+without this series applied, the total number of failures is 95, and the
+diff shows no new error. I will therefore address those issues
+separately.
+
+[1] https://git.ideasonboard.com/renesas/vsp-tests.git/log/?h=csc
+[2] https://lore.kernel.org/linux-media/20250408161051.10472-1-laurent.pinchart@ideasonboard.com/T/#u
+[3] https://lore.kernel.org/linux-media/20250408233323.7650-1-laurent.pinchart@ideasonboard.com/T/#t
+
+Laurent Pinchart (6):
+  media: renesas: vsp1: Implement pixel format enumeration
+  media: renesas: vsp1: Make HSI and HST modules optional
+  media: renesas: vsp1: Fix HSV format enumeration
+  media: renesas: vsp1: Fix media bus code setup on RWPF source pad
+  media: renesas: vsp1: Report colour space information to userspace
+  media: renesas: vsp1: Allow setting encoding and quantization
+
+ drivers/media/platform/renesas/vsp1/vsp1.h    |   1 +
+ .../media/platform/renesas/vsp1/vsp1_brx.c    |   9 +-
+ .../media/platform/renesas/vsp1/vsp1_drv.c    |  59 +++---
+ .../media/platform/renesas/vsp1/vsp1_entity.c |  22 +-
+ .../media/platform/renesas/vsp1/vsp1_entity.h |   2 +
+ .../media/platform/renesas/vsp1/vsp1_hsit.c   |  11 +-
+ .../media/platform/renesas/vsp1/vsp1_pipe.c   | 188 ++++++++++++++++--
+ .../media/platform/renesas/vsp1/vsp1_pipe.h   |   5 +
+ .../media/platform/renesas/vsp1/vsp1_rpf.c    |  29 ++-
+ .../media/platform/renesas/vsp1/vsp1_rwpf.c   |  53 ++++-
+ .../media/platform/renesas/vsp1/vsp1_sru.c    |   9 +-
+ .../media/platform/renesas/vsp1/vsp1_uds.c    |   9 +-
+ .../media/platform/renesas/vsp1/vsp1_video.c  |  50 ++++-
+ .../media/platform/renesas/vsp1/vsp1_wpf.c    |  29 ++-
+ 14 files changed, 407 insertions(+), 69 deletions(-)
+
+
+base-commit: 9ddc3d6c16ea2587898a315f20f7b8fbd791dc1b
 -- 
-2.43.0
+Regards,
+
+Laurent Pinchart
 
 
