@@ -1,174 +1,243 @@
-Return-Path: <linux-renesas-soc+bounces-15643-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15644-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFFBFA81D87
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 08:55:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2888BA81DC9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 09:03:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 031A84A0FA6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 06:55:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7BA553AA29C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 07:01:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CB9C212B1B;
-	Wed,  9 Apr 2025 06:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="BMqIzemn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 560F721A443;
+	Wed,  9 Apr 2025 07:01:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22849212FA2
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Apr 2025 06:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64D7219A9B;
+	Wed,  9 Apr 2025 07:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744181739; cv=none; b=W6Rrtg3Cmg96+/FqFbk4x9MQDj1pGhmdhh1rVtIMfwMhd82cRwRfpRleh0RtPDj1d1l8CElmoRKjagc9hFHtRFWPimchgpSOO7VFqcR5YzmzBOKwELC/CPKl9nCVkBkN3wA5w47yWx4Pahoybt57om7TBKphPDdheugSRMZflQU=
+	t=1744182100; cv=none; b=S3CwL34B5XLziniuu47Hmz6TUcBNqqjqfUZubsL1jB3ekNFqWECjE86VtLzpQZYuqdUIt/un1S1Qphvx6gfOgBwYmY1X/lTMFsBTiodqLFpKE42cZK39V/Rfpe2ADi/W8KxZOly0qzL2QGJ5EoQqM+6/2vrbxyGh5cdruaUlTuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744181739; c=relaxed/simple;
-	bh=DtoGMl4+W8r1g/lGfoCOHOQvWKdWBn2e+uY7/BpjuRM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YSO17XLrgQqImANZZ5P1VKyOQS7XzEcIuv6SxQ7g+v3njEjPNNNGcdiZspBGEo9FzjV+0+b+L4eCCJH+G5JW2qTtfiZqpeBxNqvFN3fcPhpbn3fD7yg30K2d/pGPaqzuCM2b60UlICiju0QmnAXioPXEeAM2FZHRWqpmtZWS03s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=BMqIzemn; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=OwVf
-	WRLhh8nlfli2ZxrlP2wEOtA908Se5+ygDD6PL58=; b=BMqIzemnmz33jgpBPWPf
-	CnBIeUoYwWhmyfM0Gum55c+/nbjcgYr/WMt2qVCyNvDpYSiKpVo4X7yCtsbWnExi
-	vktzBVfYKNzv3roRpNmnW4sq+yUFLWX/RISFAefLaZaZ0VlJJSuE8+/JxuuLJ0wV
-	MBtqUm8VqrTStVwQsyU4GOnz0jhhjhkNqWIo9WFN9eCHQjkRjAlL1XHIixDoGQrs
-	TiFYBGPVLhGOFL8ZagGFw65bjB+vp+7niIoaoFzatA4LBEDEqUe9mjLU7zFBh41+
-	66BFl4sJeX3tX3pQ/l/xkaGxYBqIrAgJFfaQxvm+FUivOysv/1wP42u0hO9w6VB3
-	Fg==
-Received: (qmail 321901 invoked from network); 9 Apr 2025 08:55:25 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Apr 2025 08:55:25 +0200
-X-UD-Smtp-Session: l3s3148p1@U2Qm9FIyttogAwDPXyfYALbiJ46yNPq3
-Date: Wed, 9 Apr 2025 08:55:24 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org
-Subject: Re: [RFC PATCH net-next] net: phy: marvell: support DT
- configurations with only two LEDs
-Message-ID: <Z_YZ3NiXb15wgDuY@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andrew Lunn <andrew@lunn.ch>, linux-renesas-soc@vger.kernel.org,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org
-References: <20250408063136.5463-2-wsa+renesas@sang-engineering.com>
- <7f706127-aa48-4385-a7b8-f016e0ba52b7@lunn.ch>
+	s=arc-20240116; t=1744182100; c=relaxed/simple;
+	bh=ErGYJAMt6SfLEPIoUY8KIPn6Iy1LK0yoG4EncVaO2zY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uqJyUs/w6KolmkSaV5gPPjxFyAfHAX8i9Jc8hHbInLc6aqoDOSFvaOS2RfURjSR6qyUX7Vexf05FOqEtcsjMDyzBEfVPGHLXJ6tOkoSihALIhQNPrDO2otDaqILqUlfOMvy9GQzpZ7kRgjdIizYCOz8UucRK9T0DBnrohYBw41U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-52617ceae0dso2181141e0c.0;
+        Wed, 09 Apr 2025 00:01:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744182095; x=1744786895;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6HCX8alf5OnKYYB9szKEQKzOs5dQZnMUIHG6smTmqJs=;
+        b=YQmooXkPvGvraF/EHJ9s107K8gu7quajHF1RmuM8yQN4QoBZ7NE1PDbsGIInMK2ukG
+         G/ampCo/DATyCV5NSwkoQxzEcwe5by7G3tP7Mxf5Sp2kWdDdYaNETN5H/VJQZVu2u7FX
+         cyA7EzlX9e3v93nLU/C0SqkgeStALGfKlrOkiJvVLiS9X/8spO6Mf81sZIU8KvKfhkX8
+         AbE/PeU7AVEKPf02TQwwS207RknyBWK5JoKRj41BkXXgAazEUVH80CTfhQEIlEA9GdLP
+         L/3QuDugqy/WS9V7rbOOPuAd0/gmdVfeHARUsw6WA+4agkmv1o22GBX+tYkXv05ZEy27
+         cQyA==
+X-Forwarded-Encrypted: i=1; AJvYcCUNIS/qDVPJ+dHLcpB+Wp2Qch3i/wPL3RMz9nluXA/DHSTeruQvJn6WUoX98sxH/AJjH3C7SNaIXj/AFjA=@vger.kernel.org, AJvYcCUzceVuXzqo1RS7h3FCMw++XlsKCjB0VEmAsS6bmyTFk7ptWc9jU3DoJF0FN2sazVUIgX5lvZeV6mptFUOhk+cVuak=@vger.kernel.org, AJvYcCVeZxFShTyYELPu3KoSO7tXg+uWZ/9HHJ4H1bKyv7xIxHpVfyWkyvK4nu2QuO22vPrVG7ydfsT+Zue+@vger.kernel.org, AJvYcCWuUMbzTpEOA2wfGF5fvbN3oYAGYICQvNd604I+fcE+jzlXTgar2oe2vHt/knBlOpcHGzRQ2Mi0I4sw@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJ79RvdsbsL40PGgL+6wQtYS+8/7y4xfLbVaMuHb86h3ejhkuq
+	eDCLOwfkNrE7L5fJxDUVl+V4jpgD62mv3i2ET4kQGLSeYCHrSyFmsQczNnvu
+X-Gm-Gg: ASbGncvC1rWNfMT4FNxZyHqPWSFnRzEcunbsH3482FgiVbi6v0gLAtTu970Ont2M8wF
+	5L2XezyAnadzVt0Uqj1ctxlR89tuFUyKEH8l00qk+AIMdwnvulVgybVddCZuynF9uNT4FteXRUS
+	yGmjGREAQ6Lmp2Gvld4rh+v3V/wBWKDlqO1ATXU2JCwHEwP3Nl5XQjNVgsYwU/7lb8HN/rni531
+	bQ5bnPTm93C3cmkCjKpuqUH+tiZ8bysleSn53xg+jvQUIBPVfB2c2KkaFMQ6L41aABn3ZZgmSxI
+	YvOVqBxGhSuuJe7SR1oS9zBsfIhCLJaJchFYj8y9O/d229zG4DIRWsCKT+vJcRaYRLoOJ+Ey+e5
+	T/pw=
+X-Google-Smtp-Source: AGHT+IG8QVgClLpUYjDP0Cl6IASGHt2O25wnR3Gnk+7PytQMjrkTPWcsZvz04NVm0jxd04Zcj9O4GQ==
+X-Received: by 2002:a05:6102:1514:b0:4c1:749b:2c27 with SMTP id ada2fe7eead31-4c9c6aa382fmr579889137.14.1744182095095;
+        Wed, 09 Apr 2025 00:01:35 -0700 (PDT)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c9c9738859sm80438137.3.2025.04.09.00.01.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Apr 2025 00:01:34 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-86b9d1f729eso2910824241.3;
+        Wed, 09 Apr 2025 00:01:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUUGRvL3eButctJmQCrk5SaodZeaQVpF/k67HvwDnjeJprYaz16BlkaqAhyax0d/JM3+sIDH7kn/ixPr9e93IanK0c=@vger.kernel.org, AJvYcCUopakcqVOiJ0KOj7D/wf3DiyO+knFvdoPWiX4Zkbg3ZkmcAOw6gmspeBOXDjaqGjbu0L8qVLflbgJBZZY=@vger.kernel.org, AJvYcCWGfKyOrC05QQLyEtS17TCBJQi1OSlgIiUEIsmsbg7r978zAL2diffZpyUCyqXVNG+oNfzU2r19C+YQ@vger.kernel.org, AJvYcCWvJ+ZaIsvH0SonxXPpF9Xyde9c3vYC8CdYF2Y4i8p4JTMbHadYEPaQ0iPbqp5sA7dfEZ3t+wGLwlSW@vger.kernel.org
+X-Received: by 2002:a05:6102:2ac8:b0:4c1:c10d:cf65 with SMTP id
+ ada2fe7eead31-4c9c6b89fa0mr517802137.25.1744182094445; Wed, 09 Apr 2025
+ 00:01:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QXDi9iYu4cGtvusf"
-Content-Disposition: inline
-In-Reply-To: <7f706127-aa48-4385-a7b8-f016e0ba52b7@lunn.ch>
+References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
+ <87y0wa9mb2.wl-kuninori.morimoto.gx@renesas.com> <bd15c145-c175-468d-a1ac-1ad157358aea@kernel.org>
+In-Reply-To: <bd15c145-c175-468d-a1ac-1ad157358aea@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 9 Apr 2025 09:01:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUiO2mVzYn4PGZwUat6W_0JQjD3be7X6ThzK7vcPisKEg@mail.gmail.com>
+X-Gm-Features: ATxdqUFsFWDH6P8FCs97Rdi4oWf9YXFZwQowwS7PZeCZDWNpAUZr8ocs1OXtuUw
+Message-ID: <CAMuHMdUiO2mVzYn4PGZwUat6W_0JQjD3be7X6ThzK7vcPisKEg@mail.gmail.com>
+Subject: Re: [PATCH 5/7] ASoC: renesas: add MSIOF sound Documentation
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Krzysztof,
 
---QXDi9iYu4cGtvusf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 9 Apr 2025 at 08:37, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On 09/04/2025 03:05, Kuninori Morimoto wrote:
+> > Renesas MSIOF (Clock-Synchronized Serial Interface with FIFO) can work as
+> > both SPI and I2S. MSIOF-I2S will use Audio Graph Card/Card2 driver which
+> > uses Of-Graph in DT.
+>
+> > MSIOF-SPI/I2S are using same DT compatible properties.
+> > MSIOF-I2S         uses Of-Graph for Audio-Graph-Card/Card2,
+> > MSIOF-SPI doesn't use  Of-Graph.
+> >
+> > Adds MSIOF-I2S documentation for Sound.
+> >
+> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > ---
+> >  .../bindings/sound/renesas,msiof.yaml         | 112 ++++++++++++++++++
+> >  1 file changed, 112 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/sound/renesas,msiof.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/sound/renesas,msiof.yaml b/Documentation/devicetree/bindings/sound/renesas,msiof.yaml
+> > new file mode 100644
+> > index 000000000000..5173e80698fb
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/sound/renesas,msiof.yaml
+> > @@ -0,0 +1,112 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/sound/renesas,msiof.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas MSIOF I2S controller
+> > +
+> > +maintainers:
+> > +  - Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > +
+> > +# sharing with MSIOF SPI
+> > +# see
+> > +# ${LINUX}/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
 
-Hi Andrew,
+http://devicetree.org/schemas/spi/renesas,sh-msiof.yaml
 
-> Please make use of the LED binding:
->=20
-> &mdio {
->         pinctrl-0 =3D <&mdio_pins>;
->         pinctrl-names =3D "default";
->         phy0: ethernet-phy@0 {
->                 reg =3D <0>;
->                 leds {
->                         #address-cells =3D <1>;
->                         #size-cells =3D <0>;
->=20
->                         led@0 {
->                                 reg =3D <0>;
->                                 color =3D <LED_COLOR_ID_WHITE>;
->                                 function =3D LED_FUNCTION_WAN;
->                                 default-state =3D "keep";
->                         };
->                 };
->         };
->=20
-> Just list the two LEDs you have connected.
+> > +select:
+> > +  properties:
+> > +    compatible:
+> > +      contains:
+> > +        pattern: "renesas,.*-msiof"
+> > +  required:
+> > +    - compatible
+> > +    - port
+>
+> Drop entire select.
 
-Been there, didn't work. This is what I had:
+This is needed to avoid matching when using the device in SPI mode.
 
-	mdio {
-		#address-cells =3D <1>;
-		#size-cells =3D <0>;
-		compatible =3D "snps,dwmac-mdio";
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - const: renesas,msiof-r8a779g0   # R-Car V4H
+>
+> Use expected format of all soc compatibles. It has been always: SoC-module.
 
-		phy_mii0: ethernet-phy@8 {
-			reg =3D <8>;
-			leds {
-				#address-cells =3D <1>;
-				#size-cells =3D <0>;
-				led@0 {
-					reg =3D <0>;
-					color =3D <LED_COLOR_ID_GREEN>;
-					function =3D LED_FUNCTION_LAN;
-					default-state =3D "keep";
-				};
+This is a pre-existing compatible value, so it cannot be changed.
 
-				led@1 {
-					reg =3D <1>;
-					color =3D <LED_COLOR_ID_AMBER>;
-					function =3D LED_FUNCTION_ACTIVITY;
-					default-state =3D "keep";
-				};
-			};
-		};
-	};
+> > +      - const: renesas,rcar-gen4-msiof  # generic R-Car Gen4
+>
+> If you have duplicated compatibles then:
+> 1. It rarely makes sense because you claim that two different devices
+> are using the same compatible. Different device, different compatible.
+> 2. Or if this is really same device, then only one schema.
 
-I played around with LED_FUNCTION_* values. I looked at other
-devicetrees but I only could find one-LED setups. I tried going to one
-LED, too, with LED_COLOR_ID_MULTI. No success. Then, I looked at the
-driver code and did not see a path that would enable
-'MII_88E1510_PHY_LED0_LINK_LED1_ACTIVE' via any DT configuration. Thus,
-the above patch. If you have any further pointers how to do this
-properly, I'd love to hear about them.
+This the same device, but it can be used in two (actually more)
+different modes: SPI and I2S.  Hence it has two separate DT binding
+documents.  If this needs to be merged (the result is gonna be ugly):
+where to fit it in the DT binding doc hierarchy?
 
-Thank you,
+> > +  reg:
+> > +    minItems: 1
+> > +    maxItems: 2
+>
+> Drop these two.
+>
+> > +    oneOf:
+>
+> Why is this flexible?
 
-   Wolfram
+I am not sure where this is coming from (an old SH part?).
+The SPI bindings have the same construct.  As this binding supports
+R-Car Gen4 only, a single reg should be fine.
 
+>
+> > +      - items:
+> > +          - description: CPU and DMA engine registers
+> > +      - items:
+> > +          - description: CPU registers
+> > +          - description: DMA engine registers
 
---QXDi9iYu4cGtvusf
-Content-Type: application/pgp-signature; name="signature.asc"
+> > +  dmas:
+> > +    minItems: 2
+> > +    maxItems: 4
+>
+> Why flexible?
+>
+> > +
+> > +  dma-names:
+> > +    minItems: 2
+> > +    maxItems: 4
+> > +    items:
+> > +      enum: [ tx, rx ]
+>
+> How would that work? tx rx tx rx? And then driver requests 'tx' (by
+> name) and what is supposed to be returned?
 
------BEGIN PGP SIGNATURE-----
+The module may be connected to one or more DMA controllers (see below).
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf2GdkACgkQFA3kzBSg
-KbYuFQ//TwBaCjWOfynwFvWmaRHAHIdYwC2R09TxsTqDOFI66VfWfBOgr+3SPoQR
-9cMGq/w+hVi7QxpYflPwka7Jk4GqBFZi35ToCANCGQRCsulFc3zKhmy0QguXJtBN
-y34Y+P0DK3bG+DR4tl3wqUe4RJ4gJV08sXWeUJ0wF9guXuUWHOmykjtYOeSBPXId
-GBSqGPEZj0Zb7XlfWP/0elSkoOlcYBtuQao0ASdjLF+FpNFH1qqaYRvgz5tLm2TN
-hSaOzCzlouhU+/uNVLgJckP7Isemv3bF2C44le+/Ei6JbzJvp1JCF///dmHHPLdY
-HNnp3PaLj3bpfXCjMrB6kT3SegX0Pyvvop0LwVV6C+NjUOE7ozTWWK8AlAIiH83B
-nPvzLyw8yP1EqKtJOeZwbt4CHehwfCNPP76eMhDTTCpWk7LqNXBjQ9B01K7nE/rZ
-3RYmt23bvSp6yyeJ1MmzVawO2yJ8EAdajgN1PuHXGUlXTCj32vdIRCdEdv86payS
-z74JaVH7b2bD2oGtlygDeul0MoBH2SzOZfGQFnr7FbWqDOVSmPgwJ5wPW4vyqZUK
-B5PlVL25D3PMnwODiHeVAH8qFWRXc32k9QylmTRM7YMBizNKDmNSeRi/ziQSMP4C
-7bBkkox9ipCUPc/yu8naLsTbLQZ4UUoCtofLmvn4aT2CN5UDb84=
-=qIkr
------END PGP SIGNATURE-----
+> > +
+> > +    msiof1: serial@e6ea0000 {
+>
+> serial means UART controller. You need name matching the class of the
+> device.
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 
---QXDi9iYu4cGtvusf--
+What is the recommend generic node name for a flexible serial device
+that can operate as (a.o.) either SPI or I2S controller?
+
+> > +      compatible = "renesas,msiof-r8a779g0",
+> > +                   "renesas,rcar-gen4-msiof";
+> > +      reg = <0 0xe6ea0000 0 0x0064>;
+> > +      interrupts = <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>;
+> > +      clocks = <&cpg CPG_MOD 619>;
+> > +      dmas = <&dmac0 0x43>, <&dmac0 0x42>,
+> > +             <&dmac1 0x43>, <&dmac1 0x42>;
+> > +      dma-names = "tx", "rx", "tx", "rx";
+>
+> So test it now - get DMA by name 'tx'. What do you get?
+
+A handle to either <&dmac0 0x43> or <&dmac1 0x43>; which one is
+random. It's been working like that for ages.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
