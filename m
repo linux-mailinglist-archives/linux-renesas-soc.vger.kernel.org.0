@@ -1,143 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-15642-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15643-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5486A81D61
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 08:45:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFFBFA81D87
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 08:55:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE84088815C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 06:44:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 031A84A0FA6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 06:55:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5FE41DF97F;
-	Wed,  9 Apr 2025 06:44:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CB9C212B1B;
+	Wed,  9 Apr 2025 06:55:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BIrP9QB2"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="BMqIzemn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20C41DF754;
-	Wed,  9 Apr 2025 06:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22849212FA2
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Apr 2025 06:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744181080; cv=none; b=E9r/W+R3qlE+jQehYpVk9DjqAWuIqDLd+MGk07rnellV+EJ/Kdn59rR+ZKNQsYfYU0RIWfJL0G+Hd8b2Opfc0vLGqSMdwILjMjya6PQpfs//Vlmkrdn0OWoV+AVMaYt5kLfcRVxt28TFMXvmfAmenj1xsAAOTYAdltj/keY3/4E=
+	t=1744181739; cv=none; b=W6Rrtg3Cmg96+/FqFbk4x9MQDj1pGhmdhh1rVtIMfwMhd82cRwRfpRleh0RtPDj1d1l8CElmoRKjagc9hFHtRFWPimchgpSOO7VFqcR5YzmzBOKwELC/CPKl9nCVkBkN3wA5w47yWx4Pahoybt57om7TBKphPDdheugSRMZflQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744181080; c=relaxed/simple;
-	bh=lx79xXxH6GOrl4WzKVzUy96oNnBRN75bro9H4eKfU24=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ISyuV1+GystQnc0VIztTRkSPwQOJjzYZ+D+0PtoRJfhIoVdVsMlQPnSTJecfPVrjaaWfKsMglY8VaUe7D1MHFDcgfF1Wh0owPJCJaUyfdvWufUWg0T14nq18YQ2qVhDNH2DiDurnHbxWKZhx6UvnDOUeixWvqKxhB2ytBbECKwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BIrP9QB2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A52CBC4CEE3;
-	Wed,  9 Apr 2025 06:44:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744181080;
-	bh=lx79xXxH6GOrl4WzKVzUy96oNnBRN75bro9H4eKfU24=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BIrP9QB2EHhgMf/6UGeMoMlrLGzM4f39k39GxdrLNWcJbFQ+hTFt1q1FQNyWjQs6V
-	 1nn6inn293FLaj+W0GuoFbst48hsqTNi2gA+DArFuJqhaiFczcy3RIbXz3JaP/kwc+
-	 j4aJ4crKwNk4lA2V+OSKHVRT/unFFfYoobf8jUUak6xxNgopoxt41jniFjN5Hilw7G
-	 v/q8JYht4njbputwYek2S4Rd/tTFtWg7TbdBBYJgThlsJ2rrWfd3y60qEPpbLnqmTT
-	 4dcCgL4Yu8Pi6Yxp62gywCtB2NgbBc6N4oODNoNftOiToJO/6TUqv5LPaXCIginm7L
-	 yM8lTZbfzZioA==
-Message-ID: <40b87fa6-52b2-435c-9ddc-69585d8ae89d@kernel.org>
-Date: Wed, 9 Apr 2025 08:44:31 +0200
+	s=arc-20240116; t=1744181739; c=relaxed/simple;
+	bh=DtoGMl4+W8r1g/lGfoCOHOQvWKdWBn2e+uY7/BpjuRM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YSO17XLrgQqImANZZ5P1VKyOQS7XzEcIuv6SxQ7g+v3njEjPNNNGcdiZspBGEo9FzjV+0+b+L4eCCJH+G5JW2qTtfiZqpeBxNqvFN3fcPhpbn3fD7yg30K2d/pGPaqzuCM2b60UlICiju0QmnAXioPXEeAM2FZHRWqpmtZWS03s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=BMqIzemn; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=OwVf
+	WRLhh8nlfli2ZxrlP2wEOtA908Se5+ygDD6PL58=; b=BMqIzemnmz33jgpBPWPf
+	CnBIeUoYwWhmyfM0Gum55c+/nbjcgYr/WMt2qVCyNvDpYSiKpVo4X7yCtsbWnExi
+	vktzBVfYKNzv3roRpNmnW4sq+yUFLWX/RISFAefLaZaZ0VlJJSuE8+/JxuuLJ0wV
+	MBtqUm8VqrTStVwQsyU4GOnz0jhhjhkNqWIo9WFN9eCHQjkRjAlL1XHIixDoGQrs
+	TiFYBGPVLhGOFL8ZagGFw65bjB+vp+7niIoaoFzatA4LBEDEqUe9mjLU7zFBh41+
+	66BFl4sJeX3tX3pQ/l/xkaGxYBqIrAgJFfaQxvm+FUivOysv/1wP42u0hO9w6VB3
+	Fg==
+Received: (qmail 321901 invoked from network); 9 Apr 2025 08:55:25 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Apr 2025 08:55:25 +0200
+X-UD-Smtp-Session: l3s3148p1@U2Qm9FIyttogAwDPXyfYALbiJ46yNPq3
+Date: Wed, 9 Apr 2025 08:55:24 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org
+Subject: Re: [RFC PATCH net-next] net: phy: marvell: support DT
+ configurations with only two LEDs
+Message-ID: <Z_YZ3NiXb15wgDuY@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Andrew Lunn <andrew@lunn.ch>, linux-renesas-soc@vger.kernel.org,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org
+References: <20250408063136.5463-2-wsa+renesas@sang-engineering.com>
+ <7f706127-aa48-4385-a7b8-f016e0ba52b7@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/15] dt-bindings: display: renesas,rzg2l-du: Add
- support for RZ/V2H(P) SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250408200916.93793-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250408200916.93793-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250408200916.93793-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 08/04/2025 22:09, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> The DU block on the RZ/V2H(P) SoC is identical to the one found on the
-> RZ/G2L SoC. However, it only supports the DSI interface, whereas the
-> RZ/G2L supports both DSI and DPI interfaces.
-> 
-> Due to this difference, a SoC-specific compatible string
-> 'renesas,r9a09g057-du' is added for the RZ/V2H(P) SoC.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="QXDi9iYu4cGtvusf"
+Content-Disposition: inline
+In-Reply-To: <7f706127-aa48-4385-a7b8-f016e0ba52b7@lunn.ch>
 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+--QXDi9iYu4cGtvusf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+Hi Andrew,
+
+> Please make use of the LED binding:
+>=20
+> &mdio {
+>         pinctrl-0 =3D <&mdio_pins>;
+>         pinctrl-names =3D "default";
+>         phy0: ethernet-phy@0 {
+>                 reg =3D <0>;
+>                 leds {
+>                         #address-cells =3D <1>;
+>                         #size-cells =3D <0>;
+>=20
+>                         led@0 {
+>                                 reg =3D <0>;
+>                                 color =3D <LED_COLOR_ID_WHITE>;
+>                                 function =3D LED_FUNCTION_WAN;
+>                                 default-state =3D "keep";
+>                         };
+>                 };
+>         };
+>=20
+> Just list the two LEDs you have connected.
+
+Been there, didn't work. This is what I had:
+
+	mdio {
+		#address-cells =3D <1>;
+		#size-cells =3D <0>;
+		compatible =3D "snps,dwmac-mdio";
+
+		phy_mii0: ethernet-phy@8 {
+			reg =3D <8>;
+			leds {
+				#address-cells =3D <1>;
+				#size-cells =3D <0>;
+				led@0 {
+					reg =3D <0>;
+					color =3D <LED_COLOR_ID_GREEN>;
+					function =3D LED_FUNCTION_LAN;
+					default-state =3D "keep";
+				};
+
+				led@1 {
+					reg =3D <1>;
+					color =3D <LED_COLOR_ID_AMBER>;
+					function =3D LED_FUNCTION_ACTIVITY;
+					default-state =3D "keep";
+				};
+			};
+		};
+	};
+
+I played around with LED_FUNCTION_* values. I looked at other
+devicetrees but I only could find one-LED setups. I tried going to one
+LED, too, with LED_COLOR_ID_MULTI. No success. Then, I looked at the
+driver code and did not see a path that would enable
+'MII_88E1510_PHY_LED0_LINK_LED1_ACTIVE' via any DT configuration. Thus,
+the above patch. If you have any further pointers how to do this
+properly, I'd love to hear about them.
+
+Thank you,
+
+   Wolfram
+
+
+--QXDi9iYu4cGtvusf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf2GdkACgkQFA3kzBSg
+KbYuFQ//TwBaCjWOfynwFvWmaRHAHIdYwC2R09TxsTqDOFI66VfWfBOgr+3SPoQR
+9cMGq/w+hVi7QxpYflPwka7Jk4GqBFZi35ToCANCGQRCsulFc3zKhmy0QguXJtBN
+y34Y+P0DK3bG+DR4tl3wqUe4RJ4gJV08sXWeUJ0wF9guXuUWHOmykjtYOeSBPXId
+GBSqGPEZj0Zb7XlfWP/0elSkoOlcYBtuQao0ASdjLF+FpNFH1qqaYRvgz5tLm2TN
+hSaOzCzlouhU+/uNVLgJckP7Isemv3bF2C44le+/Ei6JbzJvp1JCF///dmHHPLdY
+HNnp3PaLj3bpfXCjMrB6kT3SegX0Pyvvop0LwVV6C+NjUOE7ozTWWK8AlAIiH83B
+nPvzLyw8yP1EqKtJOeZwbt4CHehwfCNPP76eMhDTTCpWk7LqNXBjQ9B01K7nE/rZ
+3RYmt23bvSp6yyeJ1MmzVawO2yJ8EAdajgN1PuHXGUlXTCj32vdIRCdEdv86payS
+z74JaVH7b2bD2oGtlygDeul0MoBH2SzOZfGQFnr7FbWqDOVSmPgwJ5wPW4vyqZUK
+B5PlVL25D3PMnwODiHeVAH8qFWRXc32k9QylmTRM7YMBizNKDmNSeRi/ziQSMP4C
+7bBkkox9ipCUPc/yu8naLsTbLQZ4UUoCtofLmvn4aT2CN5UDb84=
+=qIkr
+-----END PGP SIGNATURE-----
+
+--QXDi9iYu4cGtvusf--
 
