@@ -1,114 +1,230 @@
-Return-Path: <linux-renesas-soc+bounces-15660-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15661-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD6CA82425
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 14:04:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7910CA82476
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 14:13:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D1408A427C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 12:04:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C6114C7ABC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 12:10:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14B4525E806;
-	Wed,  9 Apr 2025 12:04:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D68C925F969;
+	Wed,  9 Apr 2025 12:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0h3yKRZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB97825E827;
-	Wed,  9 Apr 2025 12:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A467D25E476;
+	Wed,  9 Apr 2025 12:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744200262; cv=none; b=ieI1b105YV6o30VoYcUpOic00q2Ir1BjjHQ2gBwEMczxvx8YnCg7CMqNVpA4j9f/hazAfTFZxJcFb7J6pMRuesOSL1Q4wuc7TQcP32lk4dU7RsMseJIBYpKouwZnCiBwkkdCKT6YaSegLvC2U/UpvT1cNoer3Pn748AsMjTfYwA=
+	t=1744200541; cv=none; b=gU3nWDpIb7Q7+DbI4sEr7s9dqb4Tl1z607P+PcRdI8G4gz/I6VjsnRoimsdCtdskU0dQgxhOVvAC8Q/gtQIzk/aZogtfjA+Ezgj+ZbHBoWHijRfpCLJtmgzcDRy8bJ6H5/mZj91u4xH0QapbcdJbxRnisoy/zRw8mJrhb0xAHpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744200262; c=relaxed/simple;
-	bh=Zl3/2HsLnkQZhlP77mjqoQWm/HqvOUX4FHRc5EWasKw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nNSfdPZi6a1RQ05+8St+KdpG1khtbG5w7G/X3nYtOvXz++ZN1jO3BthQposXNoi/cN7bdGWLVv2Zx/QWBAyZJUWqcTgHbrWX51JNUOBzZ+SetZW45kYjVzR5kS3A4cCxC3O+0LIFfbUYwUcy9Z7sL13aGYxP9hkIpL+9H/eSGqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c597760323so601829285a.3;
-        Wed, 09 Apr 2025 05:04:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744200254; x=1744805054;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YmzH7vMjvNAAyBuDKK60gCht3yz0VYvg+ozYgMu8Zyg=;
-        b=Sn0+zAY/YYSPROAOrr6wceur3xypSgVV1OimsRgdQYzhkcu5OtPGaY3uss9Zj0IGEK
-         6r9ERPXgJsP9eLCGR7KPbBbIRsQIeBnDfW/zFdMdKTDyEDpZbsCVBacWvT6U/4lzoZWK
-         v78jPR05K1gzNOg0P8ZogPnr5O/Bu6EZgAGfrWEmIX6UB4U5FPzMgnC7ecGAp9RT08DB
-         /nd9kmOVhIMv7zP/3en31vIll+thMe5DAxfZcDJqDCVtyA+BEWjDGqP8u/DosAtHg7c0
-         YWCsKkQH6sKAdPU1gCYBJeDL8IMBbuN/ET2Ur+aKiLDv4SqUY7lV8QR+G/2qUBuErYNL
-         Z6Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCV/MKkkDxlAmtXTZNx1cn2uANUMwAsUE9LHCA+Gq7pNq5iahBKIFPHl7pz5RkH5g8U9ArRrexCpau4TIRKAeVGlCMk=@vger.kernel.org, AJvYcCV08QC2sFwHTnja/TupVsaCCZ4OARhWc3kuoshZKvajIvDiRnolW2FLfPvOsSmIoubZsjSYG+zVaGE87xao@vger.kernel.org, AJvYcCVeieWltp4Wogmq2nN/Shh3eE1ensXATuyo88eLVt9TkBiOzrCTihk4HfgVIXVEZ9U1THixorVN9RP+@vger.kernel.org, AJvYcCX+388ViuYEMfMWkt3HgzvRpgx6KY+KHZ8NtFozDxb4VEU8i5XFHKtYDFTPDQl1vj7KBBhCSPZ0tWda@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZ2BEyvlSJFcrCP0QkFueHvFk7MoYE0UX3z3w6roMWDZ3V/jBH
-	kvy+ZE8umBieL6gfSzxdNW2p2WJDLkIs083u5YozgMLFO7zLj1lycG0OlIjIbd0=
-X-Gm-Gg: ASbGncstJHCHguZfbQpihLbBv2eipbVuCNSG0epTZ9K9f9LkknYeuXHMv0k36pv4kQK
-	Q9U7s5ZbFwb4N5ylRmqUZIU7Ri1ja9MMKk55/4cd6spG4dtkL+bx6cj8hGJj0WS12VchFCPQV4u
-	OWdacwW0oiP7wk+QaC/jDPAi/+Yr2wAl8/Cm79pD1u9LV0tar9cbD95paWCFFc5OtqyV3IW3M9N
-	uddCZgfRKiaAv/EwkugZ1uChStEfkN7g1nQUPyXbaP69UFoC33bdNJKWLsA6VVOpTBgMkdqJZql
-	yn3nZVRp/13tqW9jiSxdOOzd+6nDn2W5/aKVk6K9xqDVk3fKkU4rVLKkzGZSSviGut/AzflHscb
-	beSURvi0=
-X-Google-Smtp-Source: AGHT+IGiUx2tIebJJMY7NsYZIENE44uBtP5y4rTW7h5UFICD7WbnXGCkD0zfYxajDSH13n0Tsfx0kA==
-X-Received: by 2002:a05:620a:801b:b0:7c5:a513:1ff0 with SMTP id af79cd13be357-7c79cbec027mr402949685a.34.1744200254287;
-        Wed, 09 Apr 2025 05:04:14 -0700 (PDT)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com. [209.85.222.169])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c7a10ba65esm64505985a.28.2025.04.09.05.04.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Apr 2025 05:04:13 -0700 (PDT)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c5b2472969so657641085a.1;
-        Wed, 09 Apr 2025 05:04:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVQ4XLkWHwEQxPiNIglRBFRdTSIyEFz2Im25C/Yywi2i+qh/nTCZ7DHqzkC1FMJU9ZVpwULmkdxGKZSEGbby/JjLpA=@vger.kernel.org, AJvYcCWqMO9AGAb//GfUQ3z9VRxyA5fhvF2NBf5ZG4MrlUQEGB+9/wJbwuNAiD5nkSDuZKzSM9OejKEfjMfG@vger.kernel.org, AJvYcCXlK0Ynk9gTLVymhqA7l9KaUMYeU+IKVcsuGsDg/OvkZ2iFGtgPgPM3VLWNwxOjiIwzX2/umq82EEnR3vCQ@vger.kernel.org, AJvYcCXpgo5oAxF5rz/efRN+MIWvskUKNMDDgI/yjYGV4OD80d0N15bALKyxSN8yjw4KEC02jQGTqj3Fe88k@vger.kernel.org
-X-Received: by 2002:a05:620a:8015:b0:7c5:4bb7:8e45 with SMTP id
- af79cd13be357-7c79cc3735cmr500823285a.40.1744200253727; Wed, 09 Apr 2025
- 05:04:13 -0700 (PDT)
+	s=arc-20240116; t=1744200541; c=relaxed/simple;
+	bh=b5H6XBMBRKX+AtB67h5AfxGb16PNAyyMrCcBOBIj4fY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Eo9WPsL4GPotLKwUG0QzjSW43CA7rvDau+p8qdiS+yQPFf1KinsHZFbt5/Z5qCbzi/5hFk2gJPoy3Jobe7IZrlfKO2DYrJamVRFIkA9aE/0j2ndLJPi+FQcmm6b3MKysEwt2KMEmeb4s+9V1X8iF5sPSpxzZ/98S7NW0FZKqsks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N0h3yKRZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F34D7C4CEE7;
+	Wed,  9 Apr 2025 12:08:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744200541;
+	bh=b5H6XBMBRKX+AtB67h5AfxGb16PNAyyMrCcBOBIj4fY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=N0h3yKRZOEb9eUHFx+tEjwCUKkVfbPkHQ/HTZI9vTfOinIpVFxLPoHv4SV4kTjRs1
+	 zTKkdgsQ6XcM0Is9xCeynlCiPPBtCFowklh+7M3UBiFghlU3q69796WFEV14neb+Z7
+	 EegZ24sdh+A6cNeC8icNRc5x+7iuzvU2/Vy9KKcjpruRFPDKus13KHll+/6CvZoLel
+	 Qv3eA7BBAT13q3/gErnhDQO/dEhRr1XUJsl0D/wgiob6zla533fCP8keiLdQtqPenW
+	 TExyLjD0IsR4oweXEBVcb6vqJrQ+mptf3u6lIUi3T/Myn95i/mEgyyTfHtmyZJqyYF
+	 OOoPM8yC8H2dA==
+Message-ID: <41954d00-0abe-40ea-8d8a-2201e6e75743@kernel.org>
+Date: Wed, 9 Apr 2025 14:08:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250317083213.371614-1-tommaso.merciai.xr@bp.renesas.com> <20250317083213.371614-3-tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <20250317083213.371614-3-tommaso.merciai.xr@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 9 Apr 2025 14:04:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWYJvStvfM+-kBmRPm=WGK-jdgwRmRq3XCYkArme1qABQ@mail.gmail.com>
-X-Gm-Features: ATxdqUGL5Wv9cNxrSU_wKxf8voEFlXfaWsna3HsZsE1FeXTUErHgIxsiXEgoMt0
-Message-ID: <CAMuHMdWYJvStvfM+-kBmRPm=WGK-jdgwRmRq3XCYkArme1qABQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] clk: renesas: rzv2h: Improve rzv2h_ddiv_set_rate()
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Pavel Machek <pavel@denx.de>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/7] ASoC: renesas: add MSIOF sound Documentation
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
+References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
+ <87y0wa9mb2.wl-kuninori.morimoto.gx@renesas.com>
+ <bd15c145-c175-468d-a1ac-1ad157358aea@kernel.org>
+ <CAMuHMdUiO2mVzYn4PGZwUat6W_0JQjD3be7X6ThzK7vcPisKEg@mail.gmail.com>
+ <20250409-functional-cheetah-of-honor-b9d9cf@shite>
+ <CAMuHMdWto+2Kyecc5B+PvcF6+fXkmLf-skpX+rmRb3O68bbeAQ@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <CAMuHMdWto+2Kyecc5B+PvcF6+fXkmLf-skpX+rmRb3O68bbeAQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 17 Mar 2025 at 09:33, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> Remove duplicate code into rzv2h_ddiv_set_rate().
->
-> Reported-by: Pavel Machek <pavel@denx.de>
-> Closes: https://lore.kernel.org/cip-dev/Z9QBZo4GgtMjid0v@duo.ucw.cz/
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+On 09/04/2025 10:09, Geert Uytterhoeven wrote:
+>>>>
+>>>> If you have duplicated compatibles then:
+>>>> 1. It rarely makes sense because you claim that two different devices
+>>>> are using the same compatible. Different device, different compatible.
+>>>> 2. Or if this is really same device, then only one schema.
+>>>
+>>> This the same device, but it can be used in two (actually more)
+>>> different modes: SPI and I2S.  Hence it has two separate DT binding
+>>> documents.  If this needs to be merged (the result is gonna be ugly):
+>>
+>> ... then next time don't post incomplete bindings. I know we do not have
+> 
+> :-)
+> 
+>> time machine, but any mess is on contributors who posted some limited
+>> scope/view of the hardware entirely ignoring the rest of interfaces.
+> 
+> This is the first time someone implemented I2S using MSIOF on a system
+> intended to run Linux.  Note that MSIOF is not even limited to SPI and
+> I2S.  It can be used as a generic synchronous serial interface, too. So
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk for v6.16.
+So like a serial engine for UART/I2C/SPI? I think all or most of new
+SoCs since few years switched to these.
 
-Gr{oetje,eeting}s,
+> far no one did under Linux, so it is not reflected yet in the bindings.
+> MSIOF is also used to provide a clock signal to a PMIC on some older
+> R-Car boards.  As that PMIC has no upstream Linux driver, no one ever
+> implemented support for this mode in Linux.  So I guess I should be
+> pro-active, and add #clock-cells to the unified MSIOF DT bindings, too?
 
-                        Geert
+Yes, probably. Although missing cells is easy to change but missing
+protocol, like this patchset here, is quite more challenging.
 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> Note that there are other devices to consider, too. E.g. SCIF can
+> not only be used as a UART, but also as a USART, SPI, or even I2C
+> controller... (currently Linux with DT supports the UART personality only,
+> but drivers/spi/spi-sh-sci.c does exist for SH).
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Just like all serial engines for all other SoCs and there are no
+problems with them... Why is this somehow different?
+
+> 
+>>> where to fit it in the DT binding doc hierarchy?
+>>
+>> Does not matter, whatever fits better in overal picture/purpose of this
+>> device.
+> 
+> OK, hence the existing SPI bindings....
+> 
+>>>>> +  dmas:
+>>>>> +    minItems: 2
+>>>>> +    maxItems: 4
+>>>>
+>>>> Why flexible?
+>>>>
+>>>>> +
+>>>>> +  dma-names:
+>>>>> +    minItems: 2
+>>>>> +    maxItems: 4
+>>>>> +    items:
+>>>>> +      enum: [ tx, rx ]
+>>>>
+>>>> How would that work? tx rx tx rx? And then driver requests 'tx' (by
+>>>> name) and what is supposed to be returned?
+>>>
+>>> The module may be connected to one or more DMA controllers (see below).
+>>
+>> Yes, but how the implementation would work?
+>>
+>> Anyway, this needs to be strictly ordered, not random rx rx tx tx or rx
+>> rx rx rx.
+> 
+> Why?
+
+Because that's the standard DT rule, so unless, you come with a need to
+bypass the rule, standard applies. Why? Because implementations can use
+one of two ABIs - name or index - and binding should allow it. The names
+are for cases where entries are optional in the middle, so you cannot
+use index. Only for that. You cannot use that exception and make a
+standard case "now I want flexibility everywhere". No. Flexibility is
+only for special cases.
+
+> 
+>>>>> +
+>>>>> +    msiof1: serial@e6ea0000 {
+>>>>
+>>>> serial means UART controller. You need name matching the class of the
+>>>> device.
+>>>> Node names should be generic. See also an explanation and list of
+>>>> examples (not exhaustive) in DT specification:
+>>>> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+>>>
+>>> What is the recommend generic node name for a flexible serial device
+>>> that can operate as (a.o.) either SPI or I2S controller?
+>>
+>> i2s
+>> or even not so generic msiof, but definitely not serial because that is
+>> reserved for UART.
+> 
+> The MSIOF device node lives in the SoC-specific .dtsi file.  Its use
+> case is not known in that file, and specified only in the board
+> .dts file.
+
+sure, so call it serial-engine. or msiof.
+
+Not serial. Why? well, I said twice - it is reserved by dtschema for serial.
+
+
+Best regards,
+Krzysztof
 
