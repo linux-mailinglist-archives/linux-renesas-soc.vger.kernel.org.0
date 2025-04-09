@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-15620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15621-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70553A81A10
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 02:48:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9A4A81A11
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 02:48:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CBA9C3AD21E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 00:48:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AFB76164984
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Apr 2025 00:48:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE2BC3595C;
-	Wed,  9 Apr 2025 00:48:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A00C4C80;
+	Wed,  9 Apr 2025 00:48:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KgDXntyw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AKpeRDNL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A9A26AF5
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Apr 2025 00:48:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9EC12C190
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Apr 2025 00:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744159720; cv=none; b=F4g6xo/uLcqXMQXjnTlpQxEFUTvgQIeNQQv0hoKdk/IdFIhzxxWmstMrC5gkYkGCWKk0uetrS0A4T37v9AX6DvTvE8PAxNVL6uIScHwLV5TQVJ61PkUG5lT3t2ocO/2GG7PZei7RFIT2e30Ha5qTESnqR09EmMvnDuJZcuJJ1tA=
+	t=1744159722; cv=none; b=B8+PxIVOhC+Hnti1Cjvas5S+2yDj/b1+dxE8iDB4f++2Tpv/KIj8eeuy3h8xGOkBby1FvtSpdnGQP3wPirBIgjXHbSJIzdrw2op3HRpKadA25bBbJY13G+t55RQe7qYwTH1LmQLzQxrcdVrIpr/n3+XKwzStJkG9bAiIk5NmjJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744159720; c=relaxed/simple;
-	bh=fXrQJESh0K1WyDnVjt0ZMYwQo6P5Vo7ptj4muMpf00U=;
+	s=arc-20240116; t=1744159722; c=relaxed/simple;
+	bh=PunNaulOMfclCNJB8h43c1bNp7/SXbVo+cgAyOTyhdU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VXb6b2i3AOrfO0/T5VitCNVYIgQJ+Zzznq2MJjMMy1L6IMR0e8zn4h7vODqAK+fekdMtMQ8lTRw3erDOZ2vVRXH4y9G4jtcoRdc3eO0yALgTJ2lXbZoUhDrFUnEjPY/w2a6TetmwYpdyUiFSiY1mooc3NJXqIRxFTy0ebdhViBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KgDXntyw; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=Cg5lXk6u+t9wmWN8rnTdmnzib6s6+ZFSBeZudAxSq7uRkBitepvG1RrDHR3m5nW0Z6K/N8VBjHE3DU7Wl2k0YPJVyTgbPRIe5FjSEgggLAVeMUJgReSByKmHppIP3i/V2qH/vy35AvV0c1YzwD5wVlhf5NpAurIHRz/IXpEO1zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AKpeRDNL; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6BCB118E5;
-	Wed,  9 Apr 2025 02:46:37 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD31982E;
+	Wed,  9 Apr 2025 02:46:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1744159597;
-	bh=fXrQJESh0K1WyDnVjt0ZMYwQo6P5Vo7ptj4muMpf00U=;
+	s=mail; t=1744159598;
+	bh=PunNaulOMfclCNJB8h43c1bNp7/SXbVo+cgAyOTyhdU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KgDXntywvWPDY7UPqSV1Cr7buS6+bTSiEruHNN74RSYNvOOUrt+CrFtxsCqqLxixq
-	 KZ9Qwz8vf1slg4FbwBvrkk2yDFV9R+cTfciF8keoSOEjdXO/VeuMwX4RSOKl833FAY
-	 RBOtJ2Qb+eZ3Juy5KAiL7gWqHLyNVrZh8U3aat7U=
+	b=AKpeRDNLzogzXGwPq9hFW+jCxq0mtx+fdxr3jNouxpxq7J58TquSezpLpCI22HCCP
+	 JSyHSjV9gsR/2NQ6CpJXEVPNh7RTfX+g5a/ROFLLlPoT18xm8IEci9JJvvs8WSAFit
+	 keLWffl/c3FzoElJy0b7CAFerZ12nMMUXZh5YS4I=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: [vsp-tests] [PATCH 08/16] gen-image: Don't copy CSC conversion matrix
-Date: Wed,  9 Apr 2025 03:47:50 +0300
-Message-ID: <20250409004758.11014-9-laurent.pinchart@ideasonboard.com>
+Subject: [vsp-tests] [PATCH 09/16] gen-image: Add support for YUV to RGB conversion
+Date: Wed,  9 Apr 2025 03:47:51 +0300
+Message-ID: <20250409004758.11014-10-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250409004758.11014-1-laurent.pinchart@ideasonboard.com>
 References: <20250409004758.11014-1-laurent.pinchart@ideasonboard.com>
@@ -59,123 +59,97 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Merge the csc_matrix() function into image_convert_rgb_to_yuv() to avoid
-unnecessary copies of the matrix.
+Support YUV to RGB conversion, to emulate the RPF and WPF CSC. As for
+RGB to YUV conversion, the coefficients have been reverse-engineered.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- src/gen-image.c | 105 +++++++++++++++++++++---------------------------
- 1 file changed, 46 insertions(+), 59 deletions(-)
+ src/gen-image.c | 96 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 96 insertions(+)
 
 diff --git a/src/gen-image.c b/src/gen-image.c
-index d2d4870a699a..2f854634a986 100644
+index 2f854634a986..cf6b6bc48745 100644
 --- a/src/gen-image.c
 +++ b/src/gen-image.c
-@@ -758,9 +758,37 @@ static void image_convert_rgb_to_rgb(const struct image *input,
+@@ -979,6 +979,101 @@ static void image_convert_rgb_to_hsv(const struct image *input,
+ 	}
  }
  
- /* RGB to YUV */
--static void csc_matrix(enum v4l2_ycbcr_encoding encoding,
--		       enum v4l2_quantization quantization,
--		       int (*matrix)[3][3])
-+static void csc_rgb_to_yuv(const int ccm[3][3], bool full_range,
-+			   const uint8_t rgb[3], uint8_t ycbcr[3])
++/* YUV ro RGB */
++static void csc_yuv_to_rgb(const int ccm[3][3], bool full_range,
++			   const uint8_t ycbcr[3], uint8_t rgb[3])
 +{
 +	int y_min = full_range ? 0 : 16;
-+	int y_max = full_range ? 255 : 235;
-+	int cbcr_min = full_range ? 0 : 16;
-+	int cbcr_max = full_range ? 255 : 240;
 +	int div = 1 << 11;
-+	int r, g, b;
 +	int y, cb, cr;
++	int r, g, b;
 +
-+	r = rgb[0];
-+	g = rgb[1];
-+	b = rgb[2];
++	y = ycbcr[0] - y_min;
++	cb = ycbcr[1] - 128;
++	cr = ycbcr[2] - 128;
 +
-+	y  = (ccm[0][0] * r + ccm[0][1] * g + ccm[0][2] * b + y_min * div + div / 2) / div;
-+	cb = (ccm[1][0] * r + ccm[1][1] * g + ccm[1][2] * b + 128 * div + div / 2) / div;
-+	cr = (ccm[2][0] * r + ccm[2][1] * g + ccm[2][2] * b + 128 * div + div / 2) / div;
++	r = (ccm[0][0] * y + ccm[0][1] * cb + ccm[0][2] * cr + div / 2) / div;
++	g = (ccm[1][0] * y + ccm[1][1] * cb + ccm[1][2] * cr + div / 2) / div;
++	b = (ccm[2][0] * y + ccm[2][1] * cb + ccm[2][2] * cr + div / 2) / div;
 +
-+#define CLAMP(x, low, high) \
-+	((x) < (low) ? (low) : ( (x) > (high) ? (high) : (x) ))
-+
-+	ycbcr[0] = CLAMP(y, y_min, y_max);
-+	ycbcr[1] = CLAMP(cb, cbcr_min, cbcr_max);
-+	ycbcr[2] = CLAMP(cr, cbcr_min, cbcr_max);
++	rgb[0] = CLAMP(r, 0, 255);
++	rgb[1] = CLAMP(g, 0, 255);
++	rgb[2] = CLAMP(b, 0, 255);
 +}
 +
-+static void image_convert_rgb_to_yuv(const struct image *input,
++static void image_convert_yuv_to_rgb(const struct image *input,
 +				     struct image *output,
 +				     const struct format_info *format,
 +				     const struct csc_params *params)
- {
- 	/*
- 	 * The value of the coefficients has been reverse-engineered by
-@@ -802,76 +830,35 @@ static void csc_matrix(enum v4l2_ycbcr_encoding encoding,
- 		{  1047, -951, -96   },
- 	};
- 
--	bool full = quantization == V4L2_QUANTIZATION_FULL_RANGE;
--	unsigned int i;
--	const int (*m)[3][3];
--
--	switch (encoding) {
--	case V4L2_YCBCR_ENC_601:
--	default:
--		m = full ? &bt601_full : &bt601;
--		break;
--	case V4L2_YCBCR_ENC_709:
--		m = full ? &rec709_full : &rec709;
--		break;
--	}
--
--	for (i = 0; i < ARRAY_SIZE(*m); ++i)
--		memcpy((*matrix)[i], (*m)[i], sizeof((*m)[i]));
--}
--
--static void csc_rgb_to_yuv(int m[3][3], enum v4l2_quantization quantization,
--			   const uint8_t rgb[3], uint8_t ycbcr[3])
--{
--	bool full = quantization == V4L2_QUANTIZATION_FULL_RANGE;
--	int y_min = full ? 0 : 16;
--	int y_max = full ? 255 : 235;
--	int cbcr_min = full ? 0 : 16;
--	int cbcr_max = full ? 255 : 240;
--	int div = 1 << 11;
--	int r, g, b;
--	int y, cb, cr;
--
--	r = rgb[0];
--	g = rgb[1];
--	b = rgb[2];
--
--	y  = (m[0][0] * r + m[0][1] * g + m[0][2] * b + y_min * div + div / 2) / div;
--	cb = (m[1][0] * r + m[1][1] * g + m[1][2] * b + 128 * div + div / 2) / div;
--	cr = (m[2][0] * r + m[2][1] * g + m[2][2] * b + 128 * div + div / 2) / div;
--
--#define CLAMP(x, low, high) \
--	((x) < (low) ? (low) : ( (x) > (high) ? (high) : (x) ))
--
--	ycbcr[0] = CLAMP(y, y_min, y_max);
--	ycbcr[1] = CLAMP(cb, cbcr_min, cbcr_max);
--	ycbcr[2] = CLAMP(cr, cbcr_min, cbcr_max);
--}
--
--static void image_convert_rgb_to_yuv(const struct image *input,
--				     struct image *output,
--				     const struct format_info *format,
--				     const struct csc_params *params)
--{
--	int matrix[3][3];
++{
++	/*
++	 * The value of the coefficients has been reverse-engineered by
++	 * analyzing the VSP1 RGB output values for carefully crafted input YUV
++	 * data. The hardware precision of the coefficients appears to be Q1.11.
++	 *
++	 * The exact way to derive those fixed-point coefficients from the
++	 * BT.601 and BT.709 standard values is not know, none of the tested
++	 * rounding methods (rounding down, rounding up, rounding to the closest
++	 * integer, or rounding to minimum the error on the sum of each line)
++	 * produce the fixed-point values used by the hardware.
++	 *
++	 * While the coefficients for BT.601 in both ranges, and BT.709 in
++	 * limited range, differ from the values listed in the respective
++	 * standards by at most a single unit, some of the BT.709 full range
++	 * coefficients differ more significantly. The first column of the
++	 * matrix matches the standard, but the second and third columns seem to
++	 * be divided by a factor equal to (240-16)/(235-16). The reason is not
++	 * currently understood, but the value of the factor strongly hints that
++	 * this isn't a random difference.
++	 */
++	static const int bt601[3][3] = {
++		{ 2384,  0,    3269 },
++		{ 2384, -803, -1665 },
++		{ 2384,  4131, 0    },
++	};
++	static const int bt601_full[3][3] = {
++		{ 2048,  0,    2871 },
++		{ 2048, -705, -1463 },
++		{ 2048,  3629, 0    },
++	};
++	static const int rec709[3][3] = {
++		{ 2385,  0,    3672 },
++		{ 2385, -437, -1092 },
++		{ 2385,  4326, 0    },
++	};
++	static const int rec709_full[3][3] = {
++		{ 2048,  0,    3153 },
++		{ 2048, -375, -937  },
++		{ 2048,  3715, 0    },
++	};
++
 +	bool full_range = params->quantization == V4L2_QUANTIZATION_FULL_RANGE;
 +	const int (*matrix)[3][3];
- 	const uint8_t *idata = input->data;
- 	uint8_t *odata = output->data;
- 	unsigned int x;
- 	unsigned int y;
- 
--	csc_matrix(params->encoding, params->quantization, &matrix);
++	const uint8_t *idata = input->data;
++	uint8_t *odata = output->data;
++	unsigned int x;
++	unsigned int y;
++
 +	switch (params->encoding) {
 +	case V4L2_YCBCR_ENC_601:
 +	default:
@@ -185,25 +159,28 @@ index d2d4870a699a..2f854634a986 100644
 +		matrix = full_range ? &rec709_full : &rec709;
 +		break;
 +	}
- 
- 	for (y = 0; y < output->height; ++y) {
--		for (x = 0; x < output->width; ++x) {
--			csc_rgb_to_yuv(matrix, params->quantization,
++
++	for (y = 0; y < output->height; ++y) {
 +		for (x = 0; x < output->width; ++x)
-+			csc_rgb_to_yuv(*matrix, full_range,
- 				       &idata[3*x], &odata[3*x]);
--		}
++			csc_yuv_to_rgb(*matrix, full_range,
++				       &idata[3*x], &odata[3*x]);
 +
- 		if (format->yuv.xsub == 2) {
- 			for (x = 1; x < output->width - 1; x += 2) {
- 				odata[3*x + 1] = (odata[3*(x-1) + 1] + odata[3*(x+1) + 1]) / 2;
- 				odata[3*x + 2] = (odata[3*(x-1) + 2] + odata[3*(x+1) + 2]) / 2;
- 			}
- 		}
++		idata += 3 * output->width;
++		odata += 3 * output->width;
++	}
++}
 +
- 		idata += 3 * output->width;
- 		odata += 3 * output->width;
- 	}
+ typedef void (*image_convert_func)(const struct image *input,
+ 				   struct image *output,
+ 				   const struct format_info *format,
+@@ -994,6 +1089,7 @@ static const struct image_converter image_converters[] = {
+ 	{ FORMAT_RGB, FORMAT_HSV, image_convert_rgb_to_hsv },
+ 	{ FORMAT_RGB, FORMAT_RGB, image_convert_rgb_to_rgb },
+ 	{ FORMAT_RGB, FORMAT_YUV, image_convert_rgb_to_yuv },
++	{ FORMAT_YUV, FORMAT_RGB, image_convert_yuv_to_rgb },
+ };
+ 
+ static int image_convert(struct image *input, const struct format_info *format,
 -- 
 Regards,
 
