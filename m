@@ -1,80 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-15797-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15798-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D8AA84E20
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 22:24:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 436EBA84E38
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 22:29:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 620C2170745
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 20:24:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F3723BD1C9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 20:29:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03F5F29344C;
-	Thu, 10 Apr 2025 20:23:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27B2A290086;
+	Thu, 10 Apr 2025 20:29:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="KEYZ7gV6"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="TgVZqirG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174CF29008C
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Apr 2025 20:23:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A4128F945
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Apr 2025 20:29:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744316627; cv=none; b=OFA4VpZSea8zCT0TSJ7VCGB3pYQPbQiWVeHzz4fRMMC2g7ucDtR199xPewK9H4orCBM5bKKv2+SC8K89FASjXK+Ri+iqO85oi0AwtAFnj9picZ1z8k1vZx15TYGi/bB6WnurnMFCHTExQv77ehFftchFZ5Ve7tV3+t0Mau7O5dc=
+	t=1744316958; cv=none; b=t7iBAGVXMFhsBVrNgdsEUS/fz076EKlkp5Hr9ApQsm5c6bDFCVgSgJrD75725Kje/mJBl/O1MFv0GxFDanfBAwXvEuiHW2yAY/d+2RaGTQF3v3Av9dva+WV6NblDhHwzcFVW48EhX751n5Q2goH0MPcyI5+Uf20AFup990rqnhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744316627; c=relaxed/simple;
-	bh=ZP4MRg6YrjW7e9gd6G1EHSXsVGozDuc1V9Y/CdznZcs=;
+	s=arc-20240116; t=1744316958; c=relaxed/simple;
+	bh=fWMuX5tWEPqP8+GoEqMljo2h2Wk3PTAfB96Lst5Q/0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LUD1yxHchj4aLa9HLEd+zRLl+wL2/h1J7+j/a2yorVDueseZTm4x0CQTqHf6avUSLaEGrMzHD38C0hgvGZhOYIiz9GbSjRDpS6rzRehilf8YE//qEC9/WbYyUFvzndRpJ5XEYR/8MF8VddQcwpHor5GYxkW52cm/sOXCnAHn/oI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=KEYZ7gV6; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=tpiupYI6HRr0YqOVXH7mPWcz84vPPrE+gcPHwV2ukImcB3bGXX5VC+rmLYWJ84v11bQHU28ObVHaX5j9plyTwcTbof5VNZz5JK6JHxTXlpsw29pkSwoJmyyFAkBeTgOUNuGT31wZEoIuMUr62hxnF/rmhYFUbweS68wAYVQJ/i8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=TgVZqirG; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=oJ2P
-	ldOUnQvqb6A2BQnImyCIjSBsvkLoi3cdw6vXtG8=; b=KEYZ7gV65A1d/Kee1wHq
-	GgCRB8RrpMv8jN6G99LxPoe1bN/uYxBp6Tdxm2WAnSrrbeuxmmB0y9QWwTEqHl7O
-	57ji3EcUobpmDevWyLOYsuwKzf8M05lXNoJpvRBrceml+9cm46JjyC5p/SQ4cW2+
-	oZEyXknnSR5tP72MCbPzVXV/NwAGpZyNGtRl1xzz4lCT8424vfbesIJ3gH+8QoEb
-	wPb2+PjcfvM83mSu18S0jQRsbDO6UZJrLMwzL6RJuB0TgsilSkxPtzMH83FOf0Zw
-	Cny46Cizxm3R9pcnlyIvKDYRrTCWFW3ZnszQVamQXyXyuI8RB59KZJq7b/j1yvNg
-	UA==
-Received: (qmail 1032934 invoked from network); 10 Apr 2025 22:23:43 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Apr 2025 22:23:43 +0200
-X-UD-Smtp-Session: l3s3148p1@ml61XHIyYKQujnsS
-Date: Thu, 10 Apr 2025 22:23:42 +0200
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=fWMu
+	X5tWEPqP8+GoEqMljo2h2Wk3PTAfB96Lst5Q/0Y=; b=TgVZqirG56j0ELYEmtr0
+	BvEfyZlEW9ogD1axdxGlPfK7GksFinH+4RjaAgYqFlPVGnN1nkoM/l8fXnKHPcTg
+	fAagmfpFlGC1rpQLp8cBSxC83ukWg0wtcXhKac+tB3VkQok/RcgQ8HV9fGs3xq6Q
+	lADVf+fm7I0EXKujlR9TsyCb5Cun9APd392Syomt0/OYEhG1MafTmlBPvzcm49uY
+	0qlqrBGw36d7laZjVQJiBEsvS6RiAPoNeUVmjD3G0FZCkWfuRVWzv4xOOfyiExFf
+	wLlo8w4by5SJJNxdhkGwxKm5k+9f0F4kD1o13pNzJhIot22mj+Ap/aC+CWYdCIeH
+	ZA==
+Received: (qmail 1034242 invoked from network); 10 Apr 2025 22:29:13 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Apr 2025 22:29:13 +0200
+X-UD-Smtp-Session: l3s3148p1@MPRmcHIyVroujnsS
+Date: Thu, 10 Apr 2025 22:29:13 +0200
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: rtc: rzn1: add optional second clock
-Message-ID: <Z_gozhmIeQiPScKK@shikoro>
+	Conor Dooley <conor+dt@kernel.org>, linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: serial: snps-dw-apb-uart: Simplify DMA-less
+ RZ/N1 rule
+Message-ID: <Z_gqGWN4SjI0uD08@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org
-References: <20250319110305.19687-1-wsa+renesas@sang-engineering.com>
- <20250319110305.19687-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdUiNYXVzK7hSmgqZ65gq0bJyGkfJU0=u+q5K=Sb8EY3ug@mail.gmail.com>
- <CAMuHMdXU7wYfzNmvBO4ibUPGUA6xV_4gQxe4DtuKcr-kqXGB1w@mail.gmail.com>
+	Conor Dooley <conor+dt@kernel.org>, linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <90c7aa143beb6a28255b24e8ef8c96180d869cbb.1744271974.git.geert+renesas@glider.be>
+ <Z_eCV8aTmr4t1_xZ@shikoro>
+ <CAMuHMdV5w_9VpVrJPHy_EtmXoWV9fdBBO_YwhPt2TcX_D4TUxg@mail.gmail.com>
+ <Z_eRTafA9mjDC175@shikoro>
+ <CAMuHMdWqrJzzEfD0SePdTGDPyW0x5venEvq-aXw5R=+G2kzvJw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,62 +74,47 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dO50hdevzkgTT80E"
+	protocol="application/pgp-signature"; boundary="eFTvLTwSQPlKrW8+"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXU7wYfzNmvBO4ibUPGUA6xV_4gQxe4DtuKcr-kqXGB1w@mail.gmail.com>
+In-Reply-To: <CAMuHMdWqrJzzEfD0SePdTGDPyW0x5venEvq-aXw5R=+G2kzvJw@mail.gmail.com>
 
 
---dO50hdevzkgTT80E
+--eFTvLTwSQPlKrW8+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 
-> > >    clock-names:
-> > > -    const: hclk
-> > > +    minItems: 1
-> > > +    items:
-> > > +      - const: hclk
-> > > +      - const: xtal
-> >
-> > Shouldn't the second clock become required? Or do you plan to make
-> > that change after all upstream DTS files have been updated?
+> The watchdog bindings do not have an extra rule that lists all
+> compatible values a second time.
 
-True, we should make the second clock a requirement from now on.
+I see, this only simplifies the 'if' condition preventing the dma
+properties. For me, that is just another reason to drop 'r9a06g033'
+altogether because that would simplify both occurences and make it all
+more readable, not less.
 
-> Upon second thought: this xtal clock is documented to be the "rtc"
-> input to the RZ/N1 system controller[1], so it looks like the original
-> idea was to obtain it through the system controller.  Unfortunately
-> the clock driver[2] does not use the rtc input clock, nor provides it
-> to consumers.
-
-So, it would basically be a pass-through? I don't see any register in
-SYSCTRL handling the external RTC clock.
-
-> So either we fix that, or we go with your solution...
-
-If it is a pass-through, I wonder what it would gain us, but I can do
-that if there are reasons for it.
+And I still think the other two points which you decided to not quote
+still stand.
 
 
---dO50hdevzkgTT80E
+--eFTvLTwSQPlKrW8+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf4KM4ACgkQFA3kzBSg
-KbY1wg//WzdsAUFEmHJ4zIPWlsczf4JBRElSK8kj+lKuFu7uQ3cIdyGgjkJRGHca
-t82VcoDVMayUQMwrs2uyEZpZ1vXcNwdN6lyOZPFsNzfsJLVc7jx/0pSEoeshrusl
-wYoEYWyHMog0C5+MulCy0qRINaAXSdMDQ84KQPO7xbzcnM168dwRmL9Plvx+3W4w
-6SYcQ9uy4N+TxaTJp/dGMxd92IiCBD/t93hDkPKhQUAwShvHzyTH/hb1tLO8ubNy
-OmXaBQLajc1bXcWGMBXtIT/wHAWrIScycNeWbDNccH0lAMfzZr3F7puDburwVR+i
-umJkDdEA/bss2gYorAD9XL8mG5T7PZyBsDZfwUQ5kARqtMFw2cLgoxYSrObOPjdo
-W5dGCbCyldq4J3wPkodoCv5gMb4QAdAX6jxrDuLJZhAkYstaKuLs80IyeeEQvFM9
-7e6I4p+EdCNWDOCZYgb4lZwrmXGMZriwcZ4xLdbnXANKsu+zPnz85TU4qkU8XOQe
-1JHQXnNbvNlhCiaHf7619x8Pk+yAz8Gc1jv/ABiCeKnDQj21Wa5Xn3GbmdFH0Sg1
-lTjGErjYQO49vwVREh3jMvsIRvjz9Nk2LyDPiyvGMLAWCNRZFV4rP3BknwMTLQAy
-poMa+pGldOix5zNQO7kaIa4sYPXhRRsXnamoV402uQ3cIqCgp+g=
-=UMix
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf4KhkACgkQFA3kzBSg
+KbaUMg//VUwJwuBf3SXC6/rGPcOHgwxWUovdwbFMLvWdOgC/DrHB7yfa4hJfvxdh
+WNGphtwMAx7yrkrOf+r8kDUMR/1WUM5Mr9R7pqiZXntdQ9LYlxhI77lzrbZA7WwZ
+BXdv3EuOtnJq0bgk5HD0i8S3FWdWipU7EPI6Fjvq2bBI9jwXy2RRWUTY/tLvo32+
+vBQYvNbNPCUxcV0L3c5VMl5kQ4aKC8+bdHn6K0U9wAk4L3vRGWv/pMXGcM8+GBLF
+HKc3U68JO2po9sPitSVXLnlvsKbV/fp2ccR3PpTUw/a98DAZPMgO+3vl7yyiCn6s
+RPBivOqHBJ++0evfJ7mU675aTp3AE+qSN5H0KPTPxdTF1nV6iV+hlLEcGux1/6Df
+D7F09A9pExChur/t0o7SWLC+yLCleqGAA0P1Fzm9LamqIURcxb8kNCeWOznXip9r
+BKbZWuE3pKA9FKQJL64AFXaUpiKJ+So4NaB9AJMHpAbWOOPREToSLBy7f9tpNROz
+G7qW9TFF5319PiH3mPmx9i2Q5NPTj4vuNMeBD3x6ROy5aKY1vQobX7RRqYePm+U6
+dn9mmHMSbk7qIcRdCnHqrEdgPZvnNvK36D+K83k9TjSEVF7Toipxqv/n4vO2OqY9
+zczghZ1YTihB9IUvYG+r6Gb7h1iCunb2oYLecdndKR+iDAgpOhE=
+=6gpm
 -----END PGP SIGNATURE-----
 
---dO50hdevzkgTT80E--
+--eFTvLTwSQPlKrW8+--
 
