@@ -1,153 +1,249 @@
-Return-Path: <linux-renesas-soc+bounces-15767-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15768-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E75EA847F2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 17:32:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 759E9A84862
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 17:48:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DB0077A2094
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 15:31:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 625C67A9452
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 15:47:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08C821E883E;
-	Thu, 10 Apr 2025 15:32:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8A581EE00B;
+	Thu, 10 Apr 2025 15:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L5+nLP7p"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019C11E990A;
-	Thu, 10 Apr 2025 15:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AFE1EB9ED;
+	Thu, 10 Apr 2025 15:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744299162; cv=none; b=t/IBkEg3j/9VvHBIxKmzihgzur+ccRIL/Az6eHkc4jVXAxLsAuvLsfsItObM86j1DraRTT7wxmbWuVk87WX1bG7mLpb9jgQcgf9//IZnjXqeD0/vjxxsOeP25bbUqAG1CeZVKjlqr/X0o3CpTo/SsLEAvhPunHrVNGGMB6RNWT8=
+	t=1744300066; cv=none; b=AyYB8Wpl8smJpdPx4JTgeOz3xnu944LmxoQZXLzvLS35P0DgDxlaXVClkFL5PD9dmql/avLWzASmYpLBUAi8fAJ9y598gL8QbT5m14tzOZelzzqpYY0rHkBK/5+jtIj4sSFzhkY7bmS06VWAGLEwk+nJ/a/VRem6+l8xhk2/lf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744299162; c=relaxed/simple;
-	bh=BfUCJ6zQhrT/3wpw/JuvHEuL8osOaMWGT0eLdP72w1U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fM0M7Ep4k2dN70YHvMD66B10Noa/0fO6XW00k5LAS5J5NwHemGFJ2uIuS3bgm4NFSqRQbBDsc8yU9+bBQw8zxA9nmvv4d1OIEfPNBPIOfEXyrBtLlkEXWALO/oiDRjrSQGyVlA4i8+zYNPp4V29aZNnzLnnfyNw8gNFg8UMtvZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7c55500d08cso90550385a.0;
-        Thu, 10 Apr 2025 08:32:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744299159; x=1744903959;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oeaUuCNBxI4Oq+ZUmEOLJH7N/qGDywoJMkgl4ao7Rcs=;
-        b=bbmMOAgt6dY5oWHESGVM/MG0T7DVchHHs4TxlxiXGGqS4QJqG6Ozd28Zg1sQDAL7b6
-         yp98MqP1pdlutxJort2SvLnzLNgrQ08tHjyqw0vc9BkZ1lNcaa5mMfUCIFchofjRl5JP
-         k8D+NIsf//Q7u/1h1tTcAf1TUoLYnkS/VR3VyrS3AIc0HG9SoXMh88WbAqhHUy/pNnhQ
-         bJbC99aJjZw+RMfN/15etPr2vPFIAEo8CT8YjjMgzXavZh4vjJSWg50+ed8dBZxfRvR4
-         2ia1oO/yXN+yEViZCc8tbV0/r+9Ybfk9myrZwYgjF1ogQG1SfATXxjZit139LPToXOI+
-         mShA==
-X-Forwarded-Encrypted: i=1; AJvYcCWO+qKizOwXrl67GBwTwJiW805B9m6OKswk+84tr1MTMm/wnEHT6kI94Fp47uK7+z+g4iJaQ/qr+7su@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzjl1blX/Vq3SmslbUJwH2lzu9r0CE2qiquiBi5D3pixvbjaHSQ
-	X6NhZCgmvxYsF7GBvBYGTippbMoptWN2EzHjoEmT6mNr8UGa4T9htZUbNmdWbsQ=
-X-Gm-Gg: ASbGnctP05zmNRy1j8A0GlvOaADNB7fup2Q3ua7IIZkOFLvlWL61OarHSue/+OfzELT
-	FVpkgZjj7CqPHeX/8QrTUycUJqg0VB7mU1VCtOt53oeLOXpMC4dxqLqdtuy19xmLW0K3+Y/igHM
-	J8hJHedZ23/kQXxbmyFplqJ9xT+cZOLPNsAyb63GtpjHoN0lEeK/nt+IQjgfhc6tSf3oXAs4uJg
-	62h4xV2vjlrPw2UMoA3pNgtbMq47WFdXs4h9riR00yKz+99ZPUSzoRt3s+mSIkcy84TvwZPfFFa
-	zt3yBaylXEFThCOW6hdYLv2FNYmgj0CzRlV3Jjv8Fto1Ikag2/WTQe36YgPL0qcdzDJdhV4V1uN
-	XgVPl3gY=
-X-Google-Smtp-Source: AGHT+IFyxIjrlwakseKVPLOdD42J8HJP+mFffnGX7T/4lPFCYJzgV7mn4gEVhSfVXOtSZXOMGiwuLA==
-X-Received: by 2002:a05:620a:5e54:b0:7c5:a249:901b with SMTP id af79cd13be357-7c7a76d049fmr421800985a.49.1744299158919;
-        Thu, 10 Apr 2025 08:32:38 -0700 (PDT)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com. [209.85.222.173])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c7a89517f8sm102921385a.37.2025.04.10.08.32.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Apr 2025 08:32:38 -0700 (PDT)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7c55500d08cso90547485a.0;
-        Thu, 10 Apr 2025 08:32:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXmtoawaXqcte5PlSGh8QzhHoQBem743FbNNSnqAPqbRoGgzMmPdUAGsCMsQpFFHrHsvUKiTraqJsu7@vger.kernel.org
-X-Received: by 2002:a05:620a:4589:b0:7c5:57d6:ce3c with SMTP id
- af79cd13be357-7c7a766e1e9mr418492285a.22.1744299158252; Thu, 10 Apr 2025
- 08:32:38 -0700 (PDT)
+	s=arc-20240116; t=1744300066; c=relaxed/simple;
+	bh=2mdsfkUrMw7toePmD1v5/yrWX5YIRl5Nl5Vw/xMU/bw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ubemRr48INTGGAE4F2FvH8UfAtI/JtBrd4t8L3BvyjnmwrmLLQcE3G4o6tdnkRMnxByamuiyMJt+XiVMvvzVkgjvI2GFxUnvp/UUg9hXtF2UMwh51Jt6cag9vvoia4pZoiAi8ZKi3ADssqPyRc92p4X9JenYvfOrDlvQ5fSzy+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L5+nLP7p; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB0FEC4CEDD;
+	Thu, 10 Apr 2025 15:47:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744300065;
+	bh=2mdsfkUrMw7toePmD1v5/yrWX5YIRl5Nl5Vw/xMU/bw=;
+	h=From:Subject:Date:To:Cc:From;
+	b=L5+nLP7pd0oYgpafFrGoh0LoKCQ7lZ4hWRGZn8JABxcQWp3JDeYtvBix05xdM46Zh
+	 XpnLYthUadlqId0gsGWKaxqhLe/29kANzcoWa+rQrClokZLIPB3QGnmMNjmDMO2iql
+	 ltjul4+3LYS+YE+T6+FAIEe6+CmxqlNXD/zCQ1ZarWRoln8g/OplEPGkzty5mR23AK
+	 u/l1eF6ElFcEFQf1jOnx73ArjmRIf/wmr/xqbAtIF/9m7RfrBF+Y4Z6RPxU9Ml3e4Q
+	 B2frUcAk9HQfXVGsc1xqTnTMcK3l7Re3GEafraAraVMynKyonxEgKoKm0+R+VwL4jE
+	 f5+7zRNE93dhg==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Subject: [PATCH v2 00/17] Arm cpu schema clean-ups
+Date: Thu, 10 Apr 2025 10:47:21 -0500
+Message-Id: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250313102546.27335-1-wsa+renesas@sang-engineering.com> <20250313102546.27335-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250313102546.27335-3-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 10 Apr 2025 17:32:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWO7M+SyvD6gj5h2yFFzpwyXhHzrxWgSCTz8hJb+puzBg@mail.gmail.com>
-X-Gm-Features: ATxdqUH0Q5tpsgQ5jw3fGMblfnYOD24QcVcje-dZdTnoL8MRjCSnCEJ-emxVekU
-Message-ID: <CAMuHMdWO7M+SyvD6gj5h2yFFzpwyXhHzrxWgSCTz8hJb+puzBg@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/4] ARM: dts: renesas: r9a06g032: add second clock
- input to RTC
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAro92cC/3XMQQ7CIBCF4as0s3YMYAu1K+9hukA6LUSFBmqja
+ bi72L3L/yXv2yBRdJSgqzaItLrkgi8hDhUYq/1E6IbSIJhoWM1OOCxo5hcmY+mpsW5JSqNGqc8
+ MymeONLr37l370talJcTPzq/8t/6TVo4MmZI3Ulxx3TaXO0VPj2OIE/Q55y8lONpOqwAAAA==
+X-Change-ID: 20250403-dt-cpu-schema-48e66c7f6a90
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Conor Dooley <conor@kernel.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Steen Hegelund <Steen.Hegelund@microchip.com>, 
+ Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+ Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, imx@lists.linux.dev, 
+ linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Sudeep Holla <sudeep.holla@arm.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
+ Ulf Hansson <ulf.hansson@linaro.org>
+X-Mailer: b4 0.15-dev
 
-Hi Wolfram,
+The Arm cpu.yaml schema fails to restrict allowed properties in 'cpu' 
+nodes. The result, not surprisely, is a number of additional properties 
+and errors in .dts files. This series resolves those issues.
 
-On Thu, 13 Mar 2025 at 11:25, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> The external rtc clock is populated on the RZ/N1D module, so describe it
-> and add a reference to the RTC node.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+There's still more properties in arm32 DTS files which I have not 
+documented. Mostly yet more supply names and "fsl,soc-operating-points". 
+What's a few more warnings on the 10000s of warnings...
 
-Thanks for your patch!
+The .dts files can be taken by the respective SoC maintainers. I will 
+take the binding changes.
 
-> For the non-RFC series, it makes probably sense to split this patch into
-> two.
+---
+v2:
+ - Drop applied "arm64: dts: morello: Fix-up cache nodes"
+ - Rework enable-method schema
+ - Drop "arm: dts: qcom: msm8916: Move "qcom,acc" and "qcom,saw" to 32-bit .dtsi"
+ - Keep qcom,saw and qcom,acc properties on msm8939
+ - Fix qcom,saw2.yaml example
+ - Fix power-domain-names to be "perf" on qcom sdx55/65
 
-Indeed.
+Link to v1: 
+https://lore.kernel.org/all/20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org/
 
-> --- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-> @@ -47,6 +47,10 @@ &eth_miic {
->         renesas,miic-switch-portin = <MIIC_GMAC2_PORT>;
->  };
->
-> +&ext_rtc_clk {
-> +       clock-frequency = <32768>;
-> +};
+Signed-off-by: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Chen-Yu Tsai <wens@csie.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
+To: Conor Dooley <conor@kernel.org>
+To: Nicolas Ferre <nicolas.ferre@microchip.com>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+To: Steen Hegelund <Steen.Hegelund@microchip.com>
+To: Daniel Machon <daniel.machon@microchip.com>
+To: UNGLinuxDriver@microchip.com
+To: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+To: Shawn Guo <shawnguo@kernel.org>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+To: Pengutronix Kernel Team <kernel@pengutronix.de>
+To: Fabio Estevam <festevam@gmail.com>
+To: Heiko Stuebner <heiko@sntech.de>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+To: Kevin Hilman <khilman@baylibre.com>
+To: Jerome Brunet <jbrunet@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+To: Andy Gross <agross@kernel.org>
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Viresh Kumar <vireshk@kernel.org>
+To: Nishanth Menon <nm@ti.com>
+To: Stephen Boyd <sboyd@kernel.org>
+To: zhouyanjie@wanyeetech.com
+To: Matthias Brugger <matthias.bgg@gmail.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> 
+To: Stephan Gerhold <stephan.gerhold@linaro.org> 
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: imx@lists.linux.dev
+Cc: linux-rockchip@lists.infradead.org
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Cc: linux-mediatek@lists.infradead.org
 
-That's the mighty 0.033 MHz crystal X2_1? ;-)
+---
+Rob Herring (Arm) (17):
+      arm64: dts: allwinner: h5/h6: Drop spurious 'clock-latency-ns' properties
+      arm64: dts: broadcom: bcm2712: Use "l2-cache" for L2 cache node names
+      arm64: dts: microchip: sparx5: Fix CPU node "enable-method" property dependencies
+      arm64: dts: qcom: qdu1000: Fix qcom,freq-domain
+      arm64: dts: qcom: msm8939: Fix CPU node "enable-method" property dependencies
+      arm64: dts: qcom: msm8992-lg-h815: Fix CPU node "enable-method" property dependencies
+      arm: dts: qcom: sdx55/sdx65: Fix CPU power-domain-names
+      arm/arm64: dts: imx: Drop redundant CPU "clock-latency"
+      arm: dts: qcom: ipq4019: Drop redundant CPU "clock-latency"
+      arm: dts: rockchip: Drop redundant CPU "clock-latency"
+      arm64: dts: amlogic: Drop redundant CPU "clock-latency"
+      dt-bindings: arm/cpus: Add schemas for "enable-method" dependencies
+      dt-bindings: arm/cpus: Re-wrap 'description' entries
+      dt-bindings: Reference opp-v1 schema in CPU schemas
+      dt-bindings: arm/cpus: Add missing properties
+      dt-bindings: arm/cpus: Add power-domains constraints
+      dt-bindings: cpufreq: Drop redundant Mediatek binding
 
-This change is good for sure.
+ Documentation/devicetree/bindings/arm/cpus.yaml    | 229 +++++++++++--------
+ .../bindings/cpufreq/cpufreq-mediatek.txt          | 250 ---------------------
+ Documentation/devicetree/bindings/mips/cpus.yaml   |   3 +-
+ Documentation/devicetree/bindings/opp/opp-v1.yaml  |  18 +-
+ .../devicetree/bindings/soc/qcom/qcom,saw2.yaml    |   3 +-
+ arch/arm/boot/dts/nxp/imx/imx7s.dtsi               |   1 -
+ arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi           |   4 -
+ arch/arm/boot/dts/qcom/qcom-sdx55.dtsi             |   2 +-
+ arch/arm/boot/dts/qcom/qcom-sdx65.dtsi             |   2 +-
+ arch/arm/boot/dts/rockchip/rk3128.dtsi             |   8 +-
+ arch/arm/boot/dts/rockchip/rk3188.dtsi             |   1 -
+ arch/arm/boot/dts/rockchip/rk322x.dtsi             |   1 -
+ arch/arm/boot/dts/rockchip/rk3288.dtsi             |   5 +-
+ arch/arm/boot/dts/rockchip/rv1108.dtsi             |   1 -
+ arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi       |   4 -
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi       |   4 -
+ arch/arm64/boot/dts/amlogic/meson-g12a-fbx8am.dts  |   4 -
+ .../boot/dts/amlogic/meson-g12a-radxa-zero.dts     |   4 -
+ arch/arm64/boot/dts/amlogic/meson-g12a-sei510.dts  |   4 -
+ arch/arm64/boot/dts/amlogic/meson-g12a-u200.dts    |   4 -
+ arch/arm64/boot/dts/amlogic/meson-g12a-x96-max.dts |   4 -
+ arch/arm64/boot/dts/amlogic/meson-g12a.dtsi        |   1 +
+ .../dts/amlogic/meson-g12b-a311d-libretech-cc.dts  |   6 -
+ arch/arm64/boot/dts/amlogic/meson-g12b-a311d.dtsi  |   2 +
+ .../boot/dts/amlogic/meson-g12b-bananapi-cm4.dtsi  |   6 -
+ .../boot/dts/amlogic/meson-g12b-bananapi.dtsi      |   6 -
+ .../boot/dts/amlogic/meson-g12b-khadas-vim3.dtsi   |   6 -
+ .../dts/amlogic/meson-g12b-odroid-go-ultra.dts     |   6 -
+ arch/arm64/boot/dts/amlogic/meson-g12b-odroid.dtsi |   6 -
+ .../boot/dts/amlogic/meson-g12b-radxa-zero2.dts    |   6 -
+ arch/arm64/boot/dts/amlogic/meson-g12b-s922x.dtsi  |   2 +
+ arch/arm64/boot/dts/amlogic/meson-g12b-w400.dtsi   |   6 -
+ arch/arm64/boot/dts/amlogic/meson-sm1-ac2xx.dtsi   |   4 -
+ .../arm64/boot/dts/amlogic/meson-sm1-bananapi.dtsi |   4 -
+ .../boot/dts/amlogic/meson-sm1-khadas-vim3l.dts    |   4 -
+ arch/arm64/boot/dts/amlogic/meson-sm1-odroid.dtsi  |   4 -
+ .../dts/amlogic/meson-sm1-s905d3-libretech-cc.dts  |   4 -
+ arch/arm64/boot/dts/amlogic/meson-sm1-sei610.dts   |   4 -
+ arch/arm64/boot/dts/amlogic/meson-sm1.dtsi         |   1 +
+ arch/arm64/boot/dts/broadcom/bcm2712.dtsi          |   8 +-
+ arch/arm64/boot/dts/freescale/imx8mm.dtsi          |   4 -
+ arch/arm64/boot/dts/freescale/imx8mn.dtsi          |   4 -
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi          |   4 -
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi          |   4 -
+ .../boot/dts/microchip/sparx5_pcb_common.dtsi      |   2 +
+ arch/arm64/boot/dts/qcom/msm8939.dtsi              |   8 +
+ arch/arm64/boot/dts/qcom/msm8992-lg-h815.dts       |   6 +
+ arch/arm64/boot/dts/qcom/qdu1000.dtsi              |   8 +-
+ 48 files changed, 202 insertions(+), 480 deletions(-)
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20250403-dt-cpu-schema-48e66c7f6a90
 
-> +
->  &gmac2 {
->         status = "okay";
->         phy-mode = "gmii";
-> diff --git a/arch/arm/boot/dts/renesas/r9a06g032.dtsi b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-> index 7548291c8d7e..458dab9d3b7f 100644
-> --- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-> +++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-> @@ -73,8 +73,8 @@ rtc0: rtc@40006000 {
->                                      <GIC_SPI 67 IRQ_TYPE_EDGE_RISING>,
->                                      <GIC_SPI 68 IRQ_TYPE_EDGE_RISING>;
->                         interrupt-names = "alarm", "timer", "pps";
-> -                       clocks = <&sysctrl R9A06G032_HCLK_RTC>;
-> -                       clock-names = "hclk";
-> +                       clocks = <&sysctrl R9A06G032_HCLK_RTC>, <&ext_rtc_clk>;
-> +                       clock-names = "hclk", "xtal";
-
-This depends on whether we decide to provide direct access to ext_rtc_clk,
-or through the system controller's clock provider.
-
->                         power-domains = <&sysctrl>;
->                         status = "disabled";
->                 };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+Best regards,
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Rob Herring (Arm) <robh@kernel.org>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
