@@ -1,160 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-15693-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15694-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0020DA838A4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 07:50:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B846A8391C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 08:21:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E30AF3B835F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 05:48:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 698824676BA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 06:20:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EF121FC0FA;
-	Thu, 10 Apr 2025 05:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFxc5APp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23402202997;
+	Thu, 10 Apr 2025 06:20:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0861E5B71;
-	Thu, 10 Apr 2025 05:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB970202C53;
+	Thu, 10 Apr 2025 06:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744264126; cv=none; b=Py66p5DhgoyXytFu3W0ayVfqTg4wsXmBtlcxHDLLeqyXzCVUWFQGWYGs3YAUiKgRyncEwj/G8K/G7T/ArXzeefDnXYtZPRgnYnh1Cn9oxuEKpCIJ1Jh+UsPbAS5CI9XD2It9QcHCnMEmOCr4ml3VCD072P2N0+XzKBtk9G3v1c0=
+	t=1744266050; cv=none; b=g0cHulUBFHJYxV+VDahJzGw6wBGxnNll4hR9wznc1gMMOQewbMyQ8Gh9wV+y5gWLJbZObHGynG1RwlhlcXATr1Xi7Z0NXEAgA8HEBDskzKcKqOQIxrPCJcA1HAe5jWgURpMozgFdgTaPV/gLdTqOxSE4gtQsHsDdmqHZrhpnoE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744264126; c=relaxed/simple;
-	bh=6fn5vcSDryK9vSzw72XFbRg8osxtfXYjvoVJ0Ux0BSY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bIAj9hM+MVohbYNS1fjo2WxLtRXSNL86vUjXvQtnGatjLEpo2Y0BgNh1CiPoJxV/yp058jeb5yLALG3pjGJ3hyl34SXhYbgpKcpppisMfsKbUw7HZC5I+NM495V7Lz9hJB7tkp8sSBIsuBGTpHh0SDJ3YK3vs7BNQlWQ5HlPXek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lFxc5APp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CDEFC4CEE8;
-	Thu, 10 Apr 2025 05:48:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744264124;
-	bh=6fn5vcSDryK9vSzw72XFbRg8osxtfXYjvoVJ0Ux0BSY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lFxc5APp2lJZSj/vEKqsTrYPUS1X+t26HLfaq2Kv4nRVkZKl8s9xoZH5P838sxzOE
-	 Umj/ravAORcI067ASZDLkIRscWIN2yMJUn6k91RF9yz22h7GpL07bFTpmde25/y1bl
-	 VcRrTa5vyI69j5Z/uT4TQ6usMK8+Bv6Oj+oSbZDKxOXsF39T4JBgny1ZwmGH3KTFRS
-	 QG2dXjsImL5AOmDe1IVTneHlZ/RuDTiaX33WWcOpOIzxuqlPYKfgCyleJcfFZEDsQh
-	 HhJwRehMPsAxULg2/AAl40r83txe2fDuvNMvoM/l7QJD71sO9ZorKFnewwQslJ1Vvr
-	 kpsFzgR9v7nEA==
-Message-ID: <17e20b8a-dd96-4d7e-a05f-f7fecc49469e@kernel.org>
-Date: Thu, 10 Apr 2025 07:48:39 +0200
+	s=arc-20240116; t=1744266050; c=relaxed/simple;
+	bh=wZHT3uWcUIEVv3uvaO4nFM7/R27wFwB01cKTmzP4plw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OdEuu5JdIW3eK2T5rgIQyQ75ZYh0veoKxoCjMzZK/V5BL1IyZRRSoa72iHbNN/HzqFlQHQmoTj1oW3Gqyf6QZesZXTVGayqSCm7CdvKZ/x5CrgSlXxAAGp7GR8ULzDcNtidv2fIHkIxeKre3DKFnj61qwLrlGn+9fZBcDU988r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: igkLLXlTSzmzqSH3YMHKiA==
+X-CSE-MsgGUID: J0tUDzl/SSeORbj0OlziWw==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 10 Apr 2025 15:20:46 +0900
+Received: from localhost.localdomain (unknown [10.226.92.117])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id BA251401BEE1;
+	Thu, 10 Apr 2025 15:20:43 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Lechner <david@lechnology.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-clk@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3] clk: davinci: Use of_get_available_child_by_name()
+Date: Thu, 10 Apr 2025 07:20:38 +0100
+Message-ID: <20250410062040.6346-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] spi: renesas,sh-msiof: Living separately from MSIOF
- I2S Sound
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
-References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
- <874iyyb0w2.wl-kuninori.morimoto.gx@renesas.com>
- <66808fa5-2b81-4145-b2c6-9b0d76d2a6dc@kernel.org>
- <877c3sncs9.wl-kuninori.morimoto.gx@renesas.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <877c3sncs9.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/04/2025 01:19, Kuninori Morimoto wrote:
-> 
-> Hi
-> 
->>> Renesas MSIOF (Clock-Synchronized Serial Interface with FIFO) can work as
->>> both SPI and I2S. MSIOF-I2S will use Audio Graph Card/Card2 driver which
->>> uses Of-Graph in DT.
->>>
->>> MSIOF-SPI/I2S are using same DT compatible properties.
->>> MSIOF-I2S         uses Of-Graph for Audio-Graph-Card/Card2,
->>> MSIOF-SPI doesn't use  Of-Graph.
->>>
->>> Ignore MSIOF-I2S case (= Of-Graph) in MSIOF-SPI Doc.
->>
->> Please use subject prefixes matching the subsystem. You can get them for
->> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
->> your patch is touching.
-> 
-> Yeah, I did :)
-> 
-> git log --oneline --no-merges Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml 
+Simplify of_davinci_pll_init() by using of_get_available_child_by_name().
 
-So run it on the directory. Apparently many contributors decided to
-ignore Mark's rule about naming and if people ignore Mark's rule, Mark
-was removing dt-bindings prefix, thus you have what you have below:
+While at it, move of_node_put(child) inside the if block to avoid
+additional check if of_child is NULL.
 
-> 
-> 1f48cbd6f00f spi: renesas,sh-msiof: Add r8a779h0 support
-> a0dcd1ff9629 spi: renesas,sh-msiof: Miscellaneous improvements
-> aa69dc65e3b3 spi: renesas,sh-msiof: Add r8a779g0 support
-> f4d381038700 spi: renesas,sh-msiof: Fix 'unevaluatedProperties' warnings
-> b076fdd02133 spi: renesas,sh-msiof: R-Car V3U is R-Car Gen4
-> e1e62f05d5d9 spi: renesas,sh-msiof: Add generic Gen4 and r8a779f0 support
-> 5a674d9dc9a0 dt-bindings: Fix array constraints on scalar properties
-> 6be69293196c spi: renesas,sh-msiof: Add r8a779a0 support
-> 6fdc6e23a7d1 dt-bindings: Add missing 'unevaluatedProperties'
-> aef161f4f1b8 spi: renesas,sh-msiof: Add r8a77961 support
-> b4f7f5f54705 spi: renesas,sh-msiof: Add r8a774e1 support
-> 6383b118efaf spi: renesas,sh-msiof: Add r8a7742 support
+Reviewed-by: David Lechner <david@lechnology.com>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v2->v3:
+ * Collected tag
+ * Moved of_node_put() inside if.
+v1->v2:
+ * Rebased to next as the dependency patch hits on 6.15-rc1.
+---
+ drivers/clk/davinci/pll.c | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
-Prefixes are explained in the docs I linked to.
+diff --git a/drivers/clk/davinci/pll.c b/drivers/clk/davinci/pll.c
+index 6807a2efa93b..bfb6bbdc036c 100644
+--- a/drivers/clk/davinci/pll.c
++++ b/drivers/clk/davinci/pll.c
+@@ -763,13 +763,14 @@ int of_davinci_pll_init(struct device *dev, struct device_node *node,
+ 		return PTR_ERR(clk);
+ 	}
+ 
+-	child = of_get_child_by_name(node, "pllout");
+-	if (of_device_is_available(child))
++	child = of_get_available_child_by_name(node, "pllout");
++	if (child) {
+ 		of_clk_add_provider(child, of_clk_src_simple_get, clk);
+-	of_node_put(child);
++		of_node_put(child);
++	}
+ 
+-	child = of_get_child_by_name(node, "sysclk");
+-	if (of_device_is_available(child)) {
++	child = of_get_available_child_by_name(node, "sysclk");
++	if (child) {
+ 		struct clk_onecell_data *clk_data;
+ 		struct clk **clks;
+ 		int n_clks =  max_sysclk_id + 1;
+@@ -803,11 +804,11 @@ int of_davinci_pll_init(struct device *dev, struct device_node *node,
+ 				clks[(*div_info)->id] = clk;
+ 		}
+ 		of_clk_add_provider(child, of_clk_src_onecell_get, clk_data);
++		of_node_put(child);
+ 	}
+-	of_node_put(child);
+ 
+-	child = of_get_child_by_name(node, "auxclk");
+-	if (of_device_is_available(child)) {
++	child = of_get_available_child_by_name(node, "auxclk");
++	if (child) {
+ 		char child_name[MAX_NAME_SIZE];
+ 
+ 		snprintf(child_name, MAX_NAME_SIZE, "%s_auxclk", info->name);
+@@ -818,11 +819,12 @@ int of_davinci_pll_init(struct device *dev, struct device_node *node,
+ 				 child_name, PTR_ERR(clk));
+ 		else
+ 			of_clk_add_provider(child, of_clk_src_simple_get, clk);
++
++		of_node_put(child);
+ 	}
+-	of_node_put(child);
+ 
+-	child = of_get_child_by_name(node, "obsclk");
+-	if (of_device_is_available(child)) {
++	child = of_get_available_child_by_name(node, "obsclk");
++	if (child) {
+ 		if (obsclk_info)
+ 			clk = davinci_pll_obsclk_register(dev, obsclk_info, base);
+ 		else
+@@ -833,8 +835,8 @@ int of_davinci_pll_init(struct device *dev, struct device_node *node,
+ 				 PTR_ERR(clk));
+ 		else
+ 			of_clk_add_provider(child, of_clk_src_simple_get, clk);
++		of_node_put(child);
+ 	}
+-	of_node_put(child);
+ 
+ 	return 0;
+ }
+-- 
+2.43.0
 
-Best regards,
-Krzysztof
 
