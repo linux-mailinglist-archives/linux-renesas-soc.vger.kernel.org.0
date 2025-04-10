@@ -1,132 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-15741-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15742-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CC9A84145
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 12:57:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6181A841C6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 13:33:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 20870460680
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 10:57:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B8A6189C7F4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 11:33:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F347B28135B;
-	Thu, 10 Apr 2025 10:57:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C039727EC9D;
+	Thu, 10 Apr 2025 11:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="V1GiciCX";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="S+Mp5tI6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A156D280CCA;
-	Thu, 10 Apr 2025 10:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EC4267F7E;
+	Thu, 10 Apr 2025 11:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744282620; cv=none; b=PFlT526Gk1U9BqfQNfRwJJvuj9vXudOHQqUsXdZ+I2BFw8smjBHxTEum2dgZ3juaI1dX6nW87f7K74o4yVaCtoUK5lQHqrzV/r6Pk98YaGkXG8lK6IrsqwTHZ+JTe4NcSuB9+Z74J5db4A0kM2/SEw6B/BP3IJ499V9tKe4EM0g=
+	t=1744284803; cv=none; b=lf94dkE9/NqW3Mqbuvnh9AFEVuk21dm9eRE9UjWIDJ160IaURAkoCObWJ+Y+yIiYJHTUdEvErZv1yk7/2hJhKL2HNMT6fc7UQKp4Foh0mH3gqx4x1tVPuSznmL+6uA772xwBkmAegKYVrBdL4qytflRGnJTeUAC08QMSfrSeRq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744282620; c=relaxed/simple;
-	bh=y73/9EY7J8uH4knyVIURzgZVZuHvWKrWEFtthD2vs1M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bn78Lw+Sn++XIdn0iTP+lOf34Ug/m6GseKBOXibQQbW2Pnp8wk/feVpK2owt8OlCd+OEhdcUHBRZ5RJNRZrXIl53feHASl1TBWWWyPXT+1TzZ+msh9nabD5Px4WTOsxTxVQCnPDIJSCdT8yqYQm3TI9wAA3rUbRRwqqdTLFHhOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-52446b21cfdso331927e0c.1;
-        Thu, 10 Apr 2025 03:56:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744282616; x=1744887416;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8421YPC0JergF9EsgZGIo7DTUUsJsdTDpHzoZ6p+ATM=;
-        b=adsSeeBrIfRj0o0dl81Tt0+ebLB0cTqFeld2zW29czP+mD7SmRf/0JTliq7eLGgFSI
-         twRBSGovgiNrbTWXmai0aXylGliOeZ14iI3Z3E0+DLuMy/sQVTWzgFXOnMfYmc4N7hdW
-         DIxpLEQplS8rXlQg4d94V67spwvRwbzHF/oumz2W/zyfnCtp5YsOAIajEGnJ1r62D+32
-         TZr0QgtlpIJML1sorHxLoEYTRsysKxCTyoUzQwt18Tqsz92t9HuiWnZZLwsOcfho+mIx
-         H4H/l2ySMKImb7dREUMmDoKD2y4hK9/0cTnbUgP10jPU3xjuWRcAm6PqTQogFKDI//hT
-         +Msg==
-X-Forwarded-Encrypted: i=1; AJvYcCVuMQ0tiTK1z8cT3CcCimKlUaGufv4+qwiZBzjTm3u3szBl4m/iI2H+wEWRWzbUrHJog0xVYNWAbKbDxMfI366XtV0=@vger.kernel.org, AJvYcCVzNsVlV0/cpgMbMme+KbpX7g1GcnqBOtQ145GyroefdDmwD1mJtUMNdAOAkKnVZkTLErrJGttwzRWo@vger.kernel.org, AJvYcCXTo+maF761eVhIcS9TAGTVyspOLJ+IBIjJSYMTe5VuyMfNY/CLXuph4hZxSmC2j8P11xFix3HgHotLrZV7@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwQnmFI6vlwuqPGdb+7MIO2dgf2vACjtwBjYkelJjjJB7me2hy
-	KXxzRJRG6GVr+4kWfTOHi+JVRGPuqLiOndYdGEtSo0qImMf6vRKMfPXQMCSEgAA=
-X-Gm-Gg: ASbGncsl2QfhvU3PSkbyEWRrH92Y9ZTVXLumNF2XUqOs38ftVO+PDBzUh967UitJSNK
-	fQ5B7zq/j5GXl2lflcvcCkxVMOXWRRhOsIpGp5qa4/aSRx+NP0LNlAk//4q8xPimS3mlQORn5l+
-	gJ9A1jqGQB8rQU9z3lE0OUFhIxbm4d5AC97klG35JYULXV5+5U9U0K0pH4NHjoBW6JYEc6JxVe8
-	4wUrz3huhIyh46EuXcoaLcu2tbG7pXbSgpQQziQmKelu3EIT4Ca+q1uUd5TqncIlLZIMSGm+wDR
-	9caAfsSefd8kkCsb+3AOZo//C9x8NqQd5fkF20vBKLQjBX57O3GMspuxHn16OWQOtj/9WQAmL/z
-	/Nwk=
-X-Google-Smtp-Source: AGHT+IHpAxxQ3b06EHECTYctkFwjYxuROa95pJh+ttLx9Y2rJd3C7G/wFEeKUdQfnnJdvB7ZXuqFGg==
-X-Received: by 2002:a05:6102:5247:b0:4c4:fd0e:dde with SMTP id ada2fe7eead31-4c9d626142bmr615375137.8.1744282616428;
-        Thu, 10 Apr 2025 03:56:56 -0700 (PDT)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c9c97a304esm540760137.17.2025.04.10.03.56.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Apr 2025 03:56:56 -0700 (PDT)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-86d6ac4d5a9so273554241.1;
-        Thu, 10 Apr 2025 03:56:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUXjeoK5eDqfY/Hh0Q3pYKB9NsJk2p5b/YeOQH6Q49afoP5ERsXFdnctLZIZMoQdCCw40411YjeeYne@vger.kernel.org, AJvYcCWEQaY2MiEjkOAtsWxj5JaZ9TbMJr9cvsymisBfuYkqFiqhEJ6XTNgaoZPXX385lzw3NB881MzYN3PaISAA@vger.kernel.org, AJvYcCX7+DC973LRpqpPz6RpZTE80TaqVso6Iw8NNjJu8A1V6tCUqy9h+udOdXcLlSI1RrbQDCRGsuiQIOPLjgCE8CaourM=@vger.kernel.org
-X-Received: by 2002:a05:6102:504d:b0:4c3:6979:2ec with SMTP id
- ada2fe7eead31-4c9d6292f43mr570214137.11.1744282615969; Thu, 10 Apr 2025
- 03:56:55 -0700 (PDT)
+	s=arc-20240116; t=1744284803; c=relaxed/simple;
+	bh=R1RamiOYBsgQqyvpemeNTw9ZpeHXuxKV9XyxkITm2QE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q7Kl7XVRLGsK2zZreD65U2ZzgkTiaOzFqrPLgUm9GnhIIt3BUkZgYVcXCvtRb+PJJWnC0JZPLf2Uc/Juxthc4HHnwibzP61Y6ivRTSp67rWVqer5yPbbaqx7n31csHU7c6RWQRpE63lZD0/imD0fA++yqtf8pwkbKJO/CJ/wjv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=V1GiciCX; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=S+Mp5tI6 reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1744284800; x=1775820800;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MD88gCL7rQbK+pc439u9tVo7TJPofOErBFBWtlbIJ60=;
+  b=V1GiciCXGNHp8oZeRyzmKMDMw8dw+qJQMB1PFZzi6wlW61OVWqMPf/Iv
+   l2CdjDkURQMzHq7oYhjVeIdi7mwFp8RJFEP3dS5rWiGTY1TS4yC6OYrOU
+   rn22tTGMPB0gSYYNGPza55EL0Cxq0giO1YkZkFnLFOaS0/LbwRCuAafVT
+   CAK9NubhPG4UaowaCmLBAL2aelrdeoJ4g7sBZrhZi4EcQS80QZykDNECb
+   1TMHa5e5vCTl6FgSSj8s7O4aABl8TqQaKv4e8ZIXt+i89GHxlPE9PimL3
+   O5BQG27l5BGM+8+lliV7xKbKRAmaI1TIZrXABxXMM1DtlN7Q3DXgipA1K
+   A==;
+X-CSE-ConnectionGUID: ftrXZWfaQzG4fZ8Xgk4A5Q==
+X-CSE-MsgGUID: GfBzyNicRKeXSWTt2uBJoA==
+X-IronPort-AV: E=Sophos;i="6.15,202,1739833200"; 
+   d="scan'208";a="43454829"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 10 Apr 2025 13:33:11 +0200
+X-CheckPoint: {67F7AC77-9-B1D34AC3-DEA5B19F}
+X-MAIL-CPID: 657CAC6F24C51A7ADDCC0D077348AF1F_4
+X-Control-Analysis: str=0001.0A006370.67F7AC82.0092,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EF0641677C0;
+	Thu, 10 Apr 2025 13:33:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1744284786;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=MD88gCL7rQbK+pc439u9tVo7TJPofOErBFBWtlbIJ60=;
+	b=S+Mp5tI6t7kJ68kZ/rvlJx8BpAETCS6IW87/LY6TRHbRBv2J0YSWKKXpn3Bnif0ObnP+iF
+	9kl5Pi35qEjdIdv2/DABsbTBqSn/IkVNTrygGy35csBEhLPB9VQ+SjJVTeNIj9BzEADMBT
+	u+9lLLJEW5ILPS0CBhnoqu9q5quCRW9+M1neL0SzvMrnphplbgNow2zwjv4cH/mURqm9BI
+	dopeahZjfiRR81vAhSKzYKLN1S11JMUmSN7w90hfjLx7fVCs61ge5QjQFNrB8tNTs9okJC
+	zYI7M0N/wZCp/+mFoFghlrBXPniurliee3paZ614Rz3bjqxltPi/DR9tuPAk9Q==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux@ew.tq-group.com,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 1/2] dt: bindings: arm: add bindings for TQMa95xxSA
+Date: Thu, 10 Apr 2025 13:31:02 +0200
+Message-ID: <20250410113107.2057426-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <90c7aa143beb6a28255b24e8ef8c96180d869cbb.1744271974.git.geert+renesas@glider.be>
- <Z_eCV8aTmr4t1_xZ@shikoro> <CAMuHMdV5w_9VpVrJPHy_EtmXoWV9fdBBO_YwhPt2TcX_D4TUxg@mail.gmail.com>
- <Z_eRTafA9mjDC175@shikoro>
-In-Reply-To: <Z_eRTafA9mjDC175@shikoro>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 10 Apr 2025 12:56:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWqrJzzEfD0SePdTGDPyW0x5venEvq-aXw5R=+G2kzvJw@mail.gmail.com>
-X-Gm-Features: ATxdqUEawm8Yo2uH8bWNMCFNoCNbvk6endAuDpyrRexu1OrX0s8ia0ZmDLmhtTc
-Message-ID: <CAMuHMdWqrJzzEfD0SePdTGDPyW0x5venEvq-aXw5R=+G2kzvJw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: serial: snps-dw-apb-uart: Simplify DMA-less
- RZ/N1 rule
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Wolfram,
+TQMa95xxSA is a SOM using NXP i.MX95 CPU. MB-SMARC-2 is a carrier
+reference design.
 
-On Thu, 10 Apr 2025 at 11:37, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > We don't allow "everything". Valid compatible values are checked by
-> > the normal rules below.
->
-> Why don't we use '{}' with all the bindings then? Would simplify so
-> much. From the watchdog driver:
->
->
->       - items:
->           - enum:
->               - renesas,r8a7742-wdt      # RZ/G1H
->               - renesas,r8a7743-wdt      # RZ/G1M
->               - renesas,r8a7744-wdt      # RZ/G1N
->               - renesas,r8a7745-wdt      # RZ/G1E
->               - renesas,r8a77470-wdt     # RZ/G1C
->               - renesas,r8a7790-wdt      # R-Car H2
->               - renesas,r8a7791-wdt      # R-Car M2-W
->               - renesas,r8a7792-wdt      # R-Car V2H
->               - renesas,r8a7793-wdt      # R-Car M2-N
->               - renesas,r8a7794-wdt      # R-Car E2
->           - const: renesas,rcar-gen2-wdt # R-Car Gen2 and RZ/G1
+[1] https://www.tq-group.com/en/products/tq-embedded/arm-architecture/tqma95xxsa/
 
-[...]
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+ Documentation/devicetree/bindings/arm/fsl.yaml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-The watchdog bindings do not have an extra rule that lists all
-compatible values a second time.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
+index 1b90870958a22..0ce2653066e91 100644
+--- a/Documentation/devicetree/bindings/arm/fsl.yaml
++++ b/Documentation/devicetree/bindings/arm/fsl.yaml
+@@ -1403,6 +1403,16 @@ properties:
+           - const: kontron,imx93-osm-s    # Kontron OSM-S i.MX93 SoM
+           - const: fsl,imx93
+ 
++      - description:
++          TQMa95xxSA is a series of SOM featuring NXP i.MX95 SoC variants.
++          It has the SMARC form factor and is designed to be placed on
++          different carrier boards. MB-SMARC-2 is a carrier reference design.
++        items:
++          - enum:
++              - tq,imx95-tqma9596sa-mb-smarc-2 # TQ-Systems GmbH i.MX95 TQMa95xxSA SOM on MB-SMARC-2
++          - const: tq,imx95-tqma9596sa         # TQ-Systems GmbH i.MX95 TQMa95xxSA SOM
++          - const: fsl,imx95
++
+       - description:
+           Freescale Vybrid Platform Device Tree Bindings
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
