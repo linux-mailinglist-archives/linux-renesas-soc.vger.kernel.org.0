@@ -1,155 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-15758-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15759-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32BA1A845D6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 16:12:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE55A845EE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 16:15:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 261693AF9F8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 14:07:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8C589C1AA6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 14:11:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 537EB28D852;
-	Thu, 10 Apr 2025 14:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC68428A412;
+	Thu, 10 Apr 2025 14:11:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="OMb2Fdrz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nh3AMolo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC05028CF5E
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Apr 2025 14:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E192857EA;
+	Thu, 10 Apr 2025 14:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744294013; cv=none; b=p6Vm5Ghs79sy0v3v85J3u+EGK8TK+TtNWgec7x4aoshR4HwWm4tIAATf7I3KU/0pNwMcBf/xbyoUJ1zEaPjThNEHnjBVfbzTBpNYcK59Er72X8MDeR3TBPOvlUJqm5speWEKW2kusl+dKnd0o1SzHadePgrG/nidiJRiV6mGmnM=
+	t=1744294296; cv=none; b=S5XdxZ0F5GS+T5S6mybs8BP0Mr0tiNrdELLlW/iyY2CtE+STfCv4s26kGb5UWwUL8bhW1muHRTXDbqchsclzeGR1ce/SjoHpk39Ccuc9bPyvMl7iSMDa9FDlihg1Eit9zap0tm26EbUDDhZ92X1gKYGtouC5Dp7wXgy8kIWYdhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744294013; c=relaxed/simple;
-	bh=kPIosshDR5H6osac6wbdQDDN6UXpRpsRAyxz5no1LTQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SahTUtogiQNaaINAOGPbdlkj/grvgqHrytsZZs4Iv8hgjvWL3r8KA3SDgwyHyMebyYQxKnLZO9xMvwuA9Oc5tT9PziGKOsyo49AmozyFRLPtXdoRugicz2jGQQXHaxwW8omUWyC0lzHuibcXs7aQsGB1CSNh25HVBnXA+JgHeV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=OMb2Fdrz; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-39d83782ef6so1251422f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Apr 2025 07:06:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1744294009; x=1744898809; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JHL5IPj5wQTERMMMmzAKWea18ujPZ58wyWG0cWKNHYQ=;
-        b=OMb2Fdrzsz7kC4peeIRq4jrA4SyhUqs4dnD/NqzwFaXLI3hmQpuoy1gtKyZbivYT6d
-         bq7wnfPv2UdGUxGNOfYxhWNuRCqDoAY+BFoqo4bUPi9oNiiHWxfFSeSHYjuDipQx0JXy
-         RNNni1oy+W7VCyBKY3AY+3eEJERnFPA6vB7PWeVVsuQ05PFPwE8R3XpgNY3GXpaiPUa1
-         3NTTMJS5futcrkxs1gdrGnm0MVEUe6mOP0bse00cgNuMDZAt55secVLjfe0brOONBbrq
-         K46Q+edukx2zwHk5/scqXjYEDW90NOJ+CDRH9w/0/dSvJ/zyYbEasw+pHeN0Aca6QA6a
-         7F/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744294009; x=1744898809;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JHL5IPj5wQTERMMMmzAKWea18ujPZ58wyWG0cWKNHYQ=;
-        b=fujXCA/OV6WY5Mzw+NfR/iIP8w8c5kCkHNnbcmp9aI+SwjcvUglBIPdSzTuCSls6oA
-         bYYnE4UBbx8wOpYgtyxyXyNPevpKTCQ2LOXLMmaiUJiY/LDoYrtnRcJA22WPF9MnQsjP
-         44cwlku669fyRRMu+h0pBl0woPcRpCf96uaBc7sUfZY8NduzfqWjr7iQu1vZMWsCBRl3
-         wGUl74XZCsXt1798bKXnBVQoz5NjzS3WqoVOdG4KjHu++8pyMiTCU4oB1jmSfgtJaeE8
-         4zI9yNe4W37ZmA6oiHVUJjcqj3LyDQVUd2oLFxD4RCcWts2CohV/orKY6DEG2kVl4TMp
-         /CSw==
-X-Forwarded-Encrypted: i=1; AJvYcCX4+Y053dAEvw10psU4vGqQGKI7zT1aqUyPsGUJpm0/vL1NKY8vsTCOe07GvS3kbeDcAF4F3M7AxCxyIr+FSMV/hg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeOanzo5saBQblnBAxLeDPu1UPEY5nuqJ6YU2hgQxGHFnYeygQ
-	Vk19hRQqEzkfHT6ZTJl/sF6IskvFePEYucOlzPsa15284XfyRbMTajCiU3NS//g=
-X-Gm-Gg: ASbGnct0cIKcbWxrRNGSJ5j6pNOCw0YcEm4rMlWwAYzg6C4hVM5gSL9QdUvd4VsgIL/
-	VmAIdVmrX7CxQrRVmEI78l+IQ9cnVzPbuHl8cbJjjk7IKy6oKnBGiCdpnDoiNHmu/cwz6hn7KYc
-	MSaKwqe3De2b72gt7moR0AJ7+EE/eIUplrM5fRx4hT221ypQL5IcDivC4FnYlmjT1o3t50EwXc3
-	E/5i99TCZlMBqQBehlH3ijhWv3dfqYDjQpOe9nBf81Qbe8IVR4nWPxKmTmW95V/UI7TFyYJ3x/D
-	fJdKdc5wm2OFZBobZWK+Q0ng7tvni18fuDugup08oytIocNmlAYe8mht9Thfvvldn7Q1Yg==
-X-Google-Smtp-Source: AGHT+IHOcPZ66SzEZvQYNSIfZ5gzgwZTGjRiYOAcMR0wqLzi2RpfoI/4+zomLnNdjGeNVHWvRUCJkg==
-X-Received: by 2002:a5d:5f4c:0:b0:39d:8e61:b6eb with SMTP id ffacd0b85a97d-39d8f26771fmr2971729f8f.1.1744294008896;
-        Thu, 10 Apr 2025 07:06:48 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.57])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39d8937f0d8sm4806913f8f.40.2025.04.10.07.06.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Apr 2025 07:06:48 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: geert+renesas@glider.be,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	magnus.damm@gmail.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 7/7] Revert "dt-bindings: clock: renesas,rzg2l-cpg: Update #power-domain-cells = <1> for RZ/G3S"
-Date: Thu, 10 Apr 2025 17:06:28 +0300
-Message-ID: <20250410140628.4124896-8-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250410140628.4124896-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20250410140628.4124896-1-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1744294296; c=relaxed/simple;
+	bh=rco72FMDY4JgO03QNoKdCEdvvo+YwCaCCrx/8pDGOPE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k0i9obL9ebakpL9RWEgZUbMf69FkcgMJRYH8mCDoYKnqlUDzjK194LEpVhrTG0BqZ1GsXn/kTjoaH/U+QhdncwUQWZFithu8UM9PHEWEGVDkNK929IRuMw73tnT8LrJakDnOxb+ZL5xIUI15jz5Bbh5JoePL9jTDWLBqw15kY+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nh3AMolo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E95DC4CEF8;
+	Thu, 10 Apr 2025 14:11:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744294296;
+	bh=rco72FMDY4JgO03QNoKdCEdvvo+YwCaCCrx/8pDGOPE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nh3AMoloI1t+LD8Ko3tMReWxUwT9noBnNah/gSGDtpqZfRKgXVdEinNMTanYL+n9u
+	 j+p0TfWH2vu1IJ5Nn7Wcr4GzayTrkjGXr2J3B4jWQY2hq+6UwmQkn3Tuk/AmVidpZZ
+	 FUsZk7+SKUUfZnLu0JVKiqSekt4+tuomUZUJEAloOJrWkXTeslsBU637LCZQTi0SZS
+	 ck84EenDGtIJGnEPcQVQlZBRTYey4xeQMADZ5VFxQa0BkvRutj3hRRgFlSiQ/RZjeJ
+	 JmFZl+RMIyIKs1JzC592bPghjDmcBByBkCLeOHyr8WBLiU1YWSdN5SIRCJ0iXCIcCZ
+	 ks3h1FHJm+jKA==
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5e6f4b3ebe5so1404880a12.0;
+        Thu, 10 Apr 2025 07:11:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUSDYqMThB0n2jya/kDZSMtjvWqvWsxCy+53ytFKYf6Jk5MsbasuhNceUwsRT+sSvFMHH8afH01Q2s+GPjYmQ==@vger.kernel.org, AJvYcCUhLHFaigQUOrFmjpmHhMuuWzU21+2rtobCm8uPbD0OXcrmJUzUJRvhiYdtWQRhbXPFTo3tK/uqrwAkxA==@vger.kernel.org, AJvYcCV1LJ3nTK9Tu01YF5kllTYqjbGt/K11I+K/tmN0hOqoqfF06WsxBhYhm05CyWAly3/TF2j0P3MJxkU=@vger.kernel.org, AJvYcCW8TJbms89+VCCmFJvveDhIM7YhzmVLG3epzwIR+MGxfnC9k7t8pAjpoMt4q7MubDlJAIS5hyxwq5U/04qY@vger.kernel.org, AJvYcCWGFFvsApGM8VVSYv0rcua4g02Bm7Q6yVKo14PHFtmf1eHK8y11TPz2z/3/z0UZ9WF7EzP/G/I427oH@vger.kernel.org, AJvYcCXBeHILg+04FGhBJMhEWVIPSE95c83uDooMScthM/yK9wFBncx/vllSzlEPBlxAbVNK7GyE4jPrwXHOLAKoAuMwWLY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvbVO/ZpPz8w1qC6xRUKK/7TG53eCSQ3qJ5wfLW/v7ij3729pY
+	srsuwYmb87+WevwUjDXuh3A0G0nW2WeEkvsxN+N5oprn/Pjh3n/qT+VpgwhEETnCwBuztS6hQz3
+	sE/bRLarlICpZS5KnjY3Vv36yAA==
+X-Google-Smtp-Source: AGHT+IGlh97um6SMQiGxBgsgdbsviDx65SZRgGYwOH79oWcJKJOpcvjinlVEV2oCvrCbvL9uHlFPqdqxcM1fMXmRyBY=
+X-Received: by 2002:a05:6402:42c3:b0:5e4:d2c9:455c with SMTP id
+ 4fb4d7f45d1cf-5f3292682cfmr2701509a12.10.1744294294406; Thu, 10 Apr 2025
+ 07:11:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
+ <20250403-dt-cpu-schema-v1-14-076be7171a85@kernel.org> <174377856145.1313232.11316769002552655294.robh@kernel.org>
+In-Reply-To: <174377856145.1313232.11316769002552655294.robh@kernel.org>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 10 Apr 2025 09:11:22 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKiduJBRBuRS364_bSjEfC_cvgyicZX1BwvNyb1+GVc3w@mail.gmail.com>
+X-Gm-Features: ATxdqUEvfSUaWUzPsxy3ohcumibpamjDRmILBf-6gs6fjUtKKg1MwCu-Qt45NOQ
+Message-ID: <CAL_JsqKiduJBRBuRS364_bSjEfC_cvgyicZX1BwvNyb1+GVc3w@mail.gmail.com>
+Subject: Re: [PATCH 14/19] dt-bindings: arm/cpus: Add schemas for
+ "enable-method" dependencies
+To: "Rob Herring (Arm)" <robh@kernel.org>, Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	linux-kernel@vger.kernel.org, Conor Dooley <conor@kernel.org>, 
+	linux-rockchip@lists.infradead.org, 
+	Daniel Machon <daniel.machon@microchip.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, UNGLinuxDriver@microchip.com, 
+	Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, linux-sunxi@lists.linux.dev, 
+	Liviu Dudau <liviu.dudau@arm.com>, linux-arm-kernel@lists.infradead.org, 
+	Fabio Estevam <festevam@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Stephen Boyd <sboyd@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, linux-renesas-soc@vger.kernel.org, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Viresh Kumar <vireshk@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, zhouyanjie@wanyeetech.com, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Heiko Stuebner <heiko@sntech.de>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-pm@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	Samuel Holland <samuel@sholland.org>, Sudeep Holla <sudeep.holla@arm.com>, Nishanth Menon <nm@ti.com>, 
+	devicetree@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	linux-arm-msm@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	linux-amlogic@lists.infradead.org, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Steen Hegelund <Steen.Hegelund@microchip.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Fri, Apr 4, 2025 at 9:56=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org> =
+wrote:
+>
+>
+> On Thu, 03 Apr 2025 21:59:35 -0500, Rob Herring (Arm) wrote:
+> > Replace the prose for properties dependent on specific "enable-method"
+> > values with schemas defining the same requirements.
+> >
+> > Both "qcom,acc" and "qcom,saw" properties appear to be required for any
+> > of the Qualcomm enable-method values, so the schema is a bit simpler
+> > than what the text said. The references to arm/msm/qcom,saw2.txt and
+> > arm/msm/qcom,kpss-acc.txt are out of date, so just drop them.
+> >
+> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > ---
+> >  Documentation/devicetree/bindings/arm/cpus.yaml | 82 +++++++++++++++--=
+--------
+> >  1 file changed, 49 insertions(+), 33 deletions(-)
+> >
+>
+> My bot found errors running 'make dt_binding_check' on your patch:
+>
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/s=
+oc/qcom/qcom,saw2.example.dtb: cpu@0: 'qcom,acc' is a required property
+>         from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
 
-This reverts commit f33dca9ed6f41c8acf2c17c402738deddb7d7c28.
-Since the configuration order between the individual MSTOP and CLKON bits
-cannot be preserved with the power domain abstraction, drop the
-Currently, there are no device tree users for #power-domain-cell = <1>.
+Any Qcom folks want to tell me whether both qcom,acc and qcom,saw are
+required or not? All the actual users have both.
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- .../bindings/clock/renesas,rzg2l-cpg.yaml      | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-index 0440f23da059..8c18616e5c4d 100644
---- a/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-+++ b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-@@ -57,8 +57,7 @@ properties:
-       can be power-managed through Module Standby should refer to the CPG device
-       node in their "power-domains" property, as documented by the generic PM
-       Domain bindings in Documentation/devicetree/bindings/power/power-domain.yaml.
--      The power domain specifiers defined in <dt-bindings/clock/r9a0*-cpg.h> could
--      be used to reference individual CPG power domains.
-+    const: 0
- 
-   '#reset-cells':
-     description:
-@@ -77,21 +76,6 @@ required:
- 
- additionalProperties: false
- 
--allOf:
--  - if:
--      properties:
--        compatible:
--          contains:
--            const: renesas,r9a08g045-cpg
--    then:
--      properties:
--        '#power-domain-cells':
--          const: 1
--    else:
--      properties:
--        '#power-domain-cells':
--          const: 0
--
- examples:
-   - |
-     cpg: clock-controller@11010000 {
--- 
-2.43.0
-
+Rob
 
