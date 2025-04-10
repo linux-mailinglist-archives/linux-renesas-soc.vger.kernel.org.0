@@ -1,156 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-15696-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15697-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E247DA8396D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 08:37:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34DEAA839A2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 08:44:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFAA38C3C03
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 06:33:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DECA617FEBC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 06:44:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08F752040A8;
-	Thu, 10 Apr 2025 06:33:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9951204582;
+	Thu, 10 Apr 2025 06:43:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mxc6rEgt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mzw1lRdP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C051E20409E;
-	Thu, 10 Apr 2025 06:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418DF1DFE8;
+	Thu, 10 Apr 2025 06:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744266799; cv=none; b=dKlk1QDbEV6JzFd+3HE7MKW0WGTqCijkh/X0+rEyDrlZoB2jh4M+H8m79vQo1MbfNZZ3rUsiGzwA1vkYBOcySCp1iblLwQl/sSelvajh3v47aZeaEn3oNZMj0A58WfsHllqoBwnxLcByxtkjdDAYcSn7gAHlk7naTbVfCDQcyQs=
+	t=1744267439; cv=none; b=mZpw3G932DjevNMKKrLy6rGBLyFQfDXuLwMAaA6D9epAoMPEt07NMojVAgsZGkhPcbXzx/Cbw8zD5130Gm09jE4XUSY0oWZqNhHWm652Komkw+K4WFsjey9KQ1PUHUUTcsDJtNYjgSoeblAdlzUfCmkju5fS82d/5A7dZNJnAFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744266799; c=relaxed/simple;
-	bh=54EEGx1niLGsTqMKZa3bIS+6zoF0q9nim/aIZ81qXVg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IFTn+H0L8fq0gJph94cApjdMC4YCnVfWzEBb3n6L/skSriFvsIjlRVNWXyn8X4H4iqYIRzD9ZS41wCzLuU1ClX7vCbvGiufYRxWUSfduaWoWt3y2Lxy91NtqvHD+LPP/lYgJrCxAJ0mdB+GK9TionQQ6n8kQn8nplCsNz69qTRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mxc6rEgt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FC0AC4CEDD;
-	Thu, 10 Apr 2025 06:33:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744266798;
-	bh=54EEGx1niLGsTqMKZa3bIS+6zoF0q9nim/aIZ81qXVg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Mxc6rEgtY6WhP7oqojZTZiQeHOK4uGAX+A/DTZSJQxVtmMXf6zgDoPw3UQJK6X7z2
-	 /bx5Dpi1S0dPU0EFVyNmpRgzPMKCK0K0n+mh6tvBf24b/xh40iTGLhQ3DlX/8EcoLq
-	 ANf/si8ybzy6R8ag6QUwdgVqhOmTjEPKWrf7dC1tSNcwSRsMTruL7kgp4z+z+zJgMC
-	 6VkVqCLlRRAGLdBhuCaypSackPWKfyM9jHBWeREjmyDBmxj3BC+M0ioBSqWIs1gJLd
-	 O13wtbc4wBy0RkiN4BlgcCJFJSQlz8nGkFs+dU1XFYb8C4ZSGCYshkl5tOYST07jjx
-	 JSQFoHdo52X8g==
-Message-ID: <5026ae26-e591-4170-8a6d-835cdc2675e5@kernel.org>
-Date: Thu, 10 Apr 2025 08:33:13 +0200
+	s=arc-20240116; t=1744267439; c=relaxed/simple;
+	bh=YV128qhGuAyvX2XLDTOXX2NTQVmvho5pgSBUUl0uM3I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ah04Gh5axr6Uwg8BAuppn8MUMB+iTKqIA8S8P4M+ZVIEw8YTFsXsdscG8Q5Mpe3/y0LIYaraLc5VVDhdB5tLJYS5blLwfYrUIqH8kM+CDrLNAfZXCTulhGp54TJmt+NXzMORtykOpywDMxvvCoch/Qf0eNN8YzoS+l1BXBw+x0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mzw1lRdP; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43d0618746bso3004395e9.2;
+        Wed, 09 Apr 2025 23:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744267437; x=1744872237; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YV128qhGuAyvX2XLDTOXX2NTQVmvho5pgSBUUl0uM3I=;
+        b=Mzw1lRdPo02QVuh9s+UZh5mH9ugApObNp6FmDb9HaL2JEjYeCFo66Yr8OX4+lhXoNd
+         k0UO0ajbnvt1fpiS+YCzfw/U5YVZmImdNfzv+5LkLMQ6JAkFWllw3iGVMsRpwqOBgjs4
+         EGJSttMp2nbIhyrfQtCm9u7lFRMasSF0y8d1zBUD3U1PJImgeZQ9YgqKm8ySec8a1l0h
+         9Ggy6X5S1SlkodS0cntTiutBVT3tzA6UPXXSeRR5sHuKfwOS3LVOELfLN7eFjjblXYK9
+         SMfp8+V6OUES6T0R8SBOLwKmY05iMzv3jW8jaY75uPh9GLPs893BBsjlkHeEiddlzz90
+         Vdog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744267437; x=1744872237;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YV128qhGuAyvX2XLDTOXX2NTQVmvho5pgSBUUl0uM3I=;
+        b=YfJTBGTGEy7Q7v8tc4GnHGRigZ5Nj9PR8cwD0ezpl1PQPNr8TjNBrhf1Lpoq7Y1IyG
+         l7gMnhfTDPKJx1SzdysKcmsmL1zqBl1Qkmehrc57WExJ1540w8Y3QPQcnG6YN0Gy3/I7
+         yOgLxdscsAZYmpWIlr9C2N4EzbwOvmO9O0jKSJr7U+nf9HoGgARzXu9UUtmkB8GAQxkG
+         7KNl7PEkLqAEz4BuEjIn9DkduKm0FqR2kOmLyANEC4Nbufmqh1StDPeaxt98HatimpDt
+         bZyfKC5iyefuP8/+JxCybPr1nRHqmD0rJcZ960fs2zcBtIQjnpkZchIXLz+x2SynyUkk
+         DZkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUgp8WkJTzE3nSLB7T6f7atAZ4Wbzco962VGypLUqQfE4oepLhe0PHOogUorncZRbtwKE8fDovkbuQb29B80UGHpAU=@vger.kernel.org, AJvYcCUoVbMYjuLYCP6ocZ3Xw99kgZ0ib4HcscbWAPp883SZlBIS6165vV7i8OtSXVVF4lHySJB8rZKme9N88NMo@vger.kernel.org, AJvYcCV1IwHCAx60aqa32kXYNxIcJsVHZU8LuGbuWLRa0zUeOORxSdUqC/Rib9Rc0/y3VDAb0idY29QTk8c7CC1m@vger.kernel.org, AJvYcCW8D9vJNrD0JHqk73lhxiGG9WIvj7h/akezFPbDcPmA6iWOkgqQgxJwLX+LVSx4GR4zJftAPBU9G4c=@vger.kernel.org, AJvYcCWDZuKnzwYV4cKXQJGtgECIJpQxmTK8zGZ5eRceKQh2JSKnA6NiIB3xlY2h6iDEsI32Y+11REjRnr5Dqg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMgZlRw3i5Kl6Jg1lFiEKISzRhrAeZmIl8MclK7da2q1RHIG0i
+	nsAaew9FpQoEzzM/D+vt5NVamvL3eJQDZqgxLxwXPyxMh6IQyTLY
+X-Gm-Gg: ASbGnctjZtwyMlrII+VGRNGcQjICGgm+HknT40zVYsbeBYSunMpjWWWIyo/kC+uCvVj
+	MgBjeB70k+kNM/V3vXqTU8DJ0IZrcNtjn4pNIXa3OXkOLnz7TVj34hwxq6xPifP+rQFtkRrP5EC
+	YpBjZMwwHuyP6wkIqPhpXF9I2sB6JlKNKS0w2bgqZIOTBHipxUOplAnTKDVTVw2E7as4EQTuHDP
+	Qd/JfL9qY6/4RDyUWLeYCsucKTlMw0PjdafoJ3x9J9D7ysqUUHEtcxxs8SpMBhIZVV2CGu4DmPo
+	xdaQz8h6o2vXjgxMRoGYw2Am3a5pgNjY4+KcDcNmNGAczwSnojstgO9e6BsnGwX9gg44qu5i7A4
+	d602CB6ox9LGu4pqL
+X-Google-Smtp-Source: AGHT+IEL1gPJzOAzRp7flPkyN4Ef+Ndtjxrjlvobznu4GMFiYPht20jH1k+dVvg8c3EBb+I0DiJViw==
+X-Received: by 2002:a05:600c:3512:b0:43c:f689:dd with SMTP id 5b1f17b1804b1-43f2d7e9229mr11997625e9.19.1744267436516;
+        Wed, 09 Apr 2025 23:43:56 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f207cb692sm46662105e9.40.2025.04.09.23.43.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 23:43:56 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
+ Conor Dooley <conor@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Steen Hegelund <Steen.Hegelund@microchip.com>,
+ Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, "Rob Herring (Arm)" <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org,
+ imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
+Subject:
+ Re: [PATCH 01/19] arm64: dts: allwinner: h5/h6: Drop spurious
+ 'clock-latency-ns' properties
+Date: Thu, 10 Apr 2025 08:43:52 +0200
+Message-ID: <4999502.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <20250403-dt-cpu-schema-v1-1-076be7171a85@kernel.org>
+References:
+ <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
+ <20250403-dt-cpu-schema-v1-1-076be7171a85@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] ASoC: renesas: add MSIOF sound support
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
-References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
- <87wmbu9may.wl-kuninori.morimoto.gx@renesas.com>
- <24d1c5d9-0eeb-4f59-86bd-cd3690145981@kernel.org>
- <875xjcnci6.wl-kuninori.morimoto.gx@renesas.com>
- <81e496d4-7643-445e-a274-e28add84da3e@kernel.org>
- <877c3slec5.wl-kuninori.morimoto.gx@renesas.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <877c3slec5.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On 10/04/2025 08:29, Kuninori Morimoto wrote:
-> 
-> Hi Krzysztof, Mark, Takashi-san
-> 
->>>>> +MODULE_ALIAS("platform:msiof-pcm-audio");
->>>>
->>>> You should not need MODULE_ALIAS() in normal cases. If you need it,
->>>> usually it means your device ID table is wrong (e.g. misses either
->>>> entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
->>>> for incomplete ID table.
->>>
->>> Iwai-san, Mark, do you have any comment about this ?
->>> Almost all ALSA drivers are using it
->>>
->>> 	> git grep MODULE_ALIAS sound | wc -l
->>> 	249
->>
->>
->> What do you need it for? You already have ID table.
->>
->> Just because drivers need it, is not a justification that you need. If
->> other drivers have poor code, it's okay to do the same?
-> 
-> In my understanding, it is needed for userspace (and the macro is for it ?)
-> but I'm not familiar with userspace.
+Dne petek, 4. april 2025 ob 04:59:22 Srednjeevropski poletni =C4=8Das je Ro=
+b Herring (Arm) napisal(a):
+> 'clock-latency-ns' is not a valid property for CPU nodes. It belongs in
+> OPP table (which has it). Drop them from the CPU nodes.
+>=20
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-It creates alias and you already have the alias from OF ID table, so
-which userspace depends on this alias? Using other drivers as an example
-is not helping, because for several of them such alias is necessary
-since they do not have ID table. But you have. So again - my comment
-stays valid or please bring the explanation which component relies on
-this alias and cannot be switched to aliases coming from OF or platform
-tables.
-
-I am kind of repeating here myself, but I gave you the answer that you
-do not need it.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
-Krzysztof
+Jernej
+
+
+
 
