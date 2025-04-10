@@ -1,144 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-15748-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27142A84356
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 14:39:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF6AA84479
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 15:18:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4C8F8C6155
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 12:37:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2A1F3AB861
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 13:12:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C328D28540D;
-	Thu, 10 Apr 2025 12:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32C2228C5AF;
+	Thu, 10 Apr 2025 13:10:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NOV4rMa8"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="U6Xav6ef"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB59285409
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Apr 2025 12:37:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97592857F7;
+	Thu, 10 Apr 2025 13:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744288626; cv=none; b=c4WMaAT/TymgDbMHVXzA5p5alYZTvfwDmJ2MGXlVy5tZ+rIDCtkcwTd7TownUle+uv2iYgmmGjd4fe9gnk98trMbctKs5L19b9wRpUD/Y/C6sBiruFSJABaJiCWhAoPD8KFZfIm4CbTG4jN/wyPyLtvJf5zZ6Cqy/a2uVeASOGU=
+	t=1744290623; cv=none; b=rfVK4jjF5g9jIt37HyS6CuQmbXYzCpAB+2mXGyPbLWI9uXHLXVuGK3ke1v4ySE65h8iGt6/tevztIlT3ZO613ElS82hFprJ2TzuU2ROQVx7wl3gSI+idaSuUQGmR5mrVZhxq8XCEPXlrd/vhgPg0xb+WvzMNQO55S8m0Um3x8SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744288626; c=relaxed/simple;
-	bh=ABz4cDqiNS3kQXrpTOAbpSPw5QYVtGShy0gfjNUg76g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f4Azi34wMe7djPxAKbVIfnHszqxvtwTnsucLDwyaGr/QopnAIU028+eeA5DqBXXH3JCvEoLERcdx4yQnBRtbF7zQ9C/MZkBH3ltBBSlODSPFKVUJxWlP12eOj2XdQUqwhKqYN6EPri+C9nF2zGvpqHaNKjbxL9CSLCIw/NYcVXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NOV4rMa8; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cf3192f3bso7814735e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Apr 2025 05:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744288623; x=1744893423; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9VoKRS+yOUVccmHWqHCUYdtGt2QnJX1Av3s20gfz76g=;
-        b=NOV4rMa8QMEc1TVhjAIqYIGZmJEfEaMV0wWzzFFqJUR7uQHKKQPAmse7sK/wo4ukZf
-         zedLA1q0E+Lbx94iT6YqFRz6Jnf9BeAb6jxI+nS/ixwcrhNdLWLT+W55WtI/NEKuwzQe
-         R3V66jMYVLNQZAM7UPJxpMkNC1KIswxFKbQ813d10tN3xrW5narf7Dzh9AejOS8jLyqP
-         NB7KAvFMG9TtUvYkkBALHKB6HzuFS9uiETs7feTiJtuFykGcVbiXfs4NDdO9j6CUohBi
-         rPIBWbXOV69V71DmyWEE2rvqbCsBnW2JDSklReyPmD1x2P3wQ8a3GA4Mw8ZNzwY6TwRL
-         YaOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744288623; x=1744893423;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9VoKRS+yOUVccmHWqHCUYdtGt2QnJX1Av3s20gfz76g=;
-        b=qwzsqe2xZhBCMR86RnMbPppMZeqhUL/wJI/9mM+qJPQEUmcL+8gYiEIbhAFBGhZEX2
-         nIFeAn8ZSDMih0ONPQAbFOLfL6hT4rOGU+OFNSsq80qYxsBTxGbwMoOZZ6w8EkuqrOTa
-         TNvOpBvjVhLwjyuK1bcztmJtgvYgr70BfHjq/mH5kWhAcLTrkz/AqS3vBUS+V0niQ1LV
-         FAAtmVocYxM0RX3Ygmn0Uj6Be8euxG+uKslS1gYSr0pCr/kQBIGf902/AoG0Os/yiakY
-         PjyPjOuSu1lKWdPtFzq3LJ+mHcu+VABqH+E6vvy4d6ZBR0ip5+94M+bPGn+MZ0tAPZI5
-         zlXg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZNTB2Dln6WFE+XA5x1zZDb7JNBCPmINeCP8cLjegyR+Jdx47THuNbj2JmK2oXJqt+gDxrEJsqU4Xd1exDboVlGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLECcfbeOi8RLP7HiogWhqQ2h4f94yG56hdz9ntlonyqlpshuJ
-	l57NKTpEefpBzpuUpTtDhRRpRI/moaj756tiZnCpHUlXI3T/uz00zytg8m8w3Oc=
-X-Gm-Gg: ASbGnct9b1Cqhxc6UdIKa8k3pm5BLiyIAtM6IPx+J/Bmgof5IIwjb0/rCjgMdFZ6r9M
-	Fd1fjDu4F4XQGFPoicx4U/9wFoT4nigo/cXGg0pomWP9GWzfcVdLUwCxWrHuapQkc+eIwX05P/Q
-	GsLPssMwOl2KJt3tqMv2QeDMIIdLoAXMKtIG51vR+eXFnCnQkCZIR7BbwkTCpZueEtrW5oNVoJC
-	ypcNOclpJLMtgrkxngjXcllYk6pBpXJTHnlNTtNhRD2QraTDGVoeLAgUMUWYUDxuj1JIbw5zYRc
-	3TWYjYjEb5KwuKPMIHYD+pHD5jBHvx2n0RneF+Xu43vbwyYVnBAfcnoXIA+PWdzM7uUdHaqEt3M
-	J1gTYRyVGwtxdxg==
-X-Google-Smtp-Source: AGHT+IGMoIZKu18tKxGlE0nCM035PBeR69RdqmMHuq8h1Eu58CnOlQWvz4UQddkUAElDY1GsfzU8ew==
-X-Received: by 2002:a05:600c:348a:b0:43c:fdbe:4398 with SMTP id 5b1f17b1804b1-43f2fdceccfmr22721935e9.6.1744288622955;
-        Thu, 10 Apr 2025 05:37:02 -0700 (PDT)
-Received: from [192.168.69.238] (88-187-86-199.subs.proxad.net. [88.187.86.199])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f207cb88asm53015095e9.37.2025.04.10.05.37.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Apr 2025 05:37:02 -0700 (PDT)
-Message-ID: <20de7ce7-1cfc-40bb-9457-84e462cf4483@linaro.org>
-Date: Thu, 10 Apr 2025 14:37:00 +0200
+	s=arc-20240116; t=1744290623; c=relaxed/simple;
+	bh=MoxeGQBB0DlHcBQSkAbqgT6ZAgbftqn1oFID8/wRUxw=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hPcqKnjgaPO8xnANmYN5k3c/3mJRa3hhcBf+jVSMtfPe2mxv452Z2npevbjrRaRf0NYyehdufmtRO21Khe9jmGciErr97k3hMyrIra159VZK7gW75xpjDQvPzujGRw46qVNeEjldIL2KiAJabnEtjhAHhuGKd4YAI63/L22yunQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=U6Xav6ef; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:To:From:Date:From:Sender:Reply-To:Subject:Date:
+	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=wGP7jv8iNn4I7r6ejBZS9/y63Kx5RjV7Hlwbnu/j0BA=; b=U6Xav6efg0Aef+i5e7mS9u9Tpe
+	MOJE8G6fObtlsILpVVcRFZdesUNZf5meScKsUPS9X9Dw1NjWQuVzD9cWbKHkXQ0SpPrB8UUoR+lfn
+	bXxhZaQ4+NAetGoOq3pOpl+s7opP9pHSRNz1VbwpyN5ZUOz1+UotPZv1WG/g7xAF3oQw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1u2rfS-008gOE-5o; Thu, 10 Apr 2025 15:10:06 +0200
+Date: Thu, 10 Apr 2025 15:10:06 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org
+Subject: Re: [RFC PATCH net-next] net: phy: marvell: support DT
+ configurations with only two LEDs
+Message-ID: <1cb6ec18-9abb-48d9-b9a2-ca79584d4d0d@lunn.ch>
+References: <20250408063136.5463-2-wsa+renesas@sang-engineering.com>
+ <7f706127-aa48-4385-a7b8-f016e0ba52b7@lunn.ch>
+ <Z_YZ3NiXb15wgDuY@shikoro>
+ <0fe35fe3-b63c-478b-9674-a2522f582167@lunn.ch>
+ <Z_d2CgxLKaEV3w8X@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/19] arm64: dts: morello: Fix-up cache nodes
-To: "Rob Herring (Arm)" <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
- Conor Dooley <conor@kernel.org>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Steen Hegelund <Steen.Hegelund@microchip.com>,
- Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org,
- imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
- <20250403-dt-cpu-schema-v1-3-076be7171a85@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-In-Reply-To: <20250403-dt-cpu-schema-v1-3-076be7171a85@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z_d2CgxLKaEV3w8X@shikoro>
 
-On 4/4/25 04:59, Rob Herring (Arm) wrote:
-> There's no need include the CPU number in the L2 cache node names as
-> the names are local to the CPU nodes. The documented node name is
-> also just "l2-cache".
+On Thu, Apr 10, 2025 at 09:40:58AM +0200, Wolfram Sang wrote:
 > 
-> The L3 cache is not part of cpu@0/l2-cache as it is shared among all
-> cores. Move it to /cpus node which is the typical place for shared
-> caches.
+> > You should then find that you gain an LED directory per LED in sysfs,
+> > trigger has [netdev] and there are additional files you can use to
+> > configure when the LED lights/blinks for different link speeds, RX and
+> > TX etc.
 > 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->   arch/arm64/boot/dts/arm/morello.dtsi | 22 +++++++++++-----------
->   1 file changed, 11 insertions(+), 11 deletions(-)
+> Again thanks for the pointer, yet I get weird results. After booting,
+> with the interface up:
+> 
+> ===
+> # cd /sys/class/leds/stmmac-0:08:green:lan/
+> # ls -l
+> total 0
+> -rw-r--r--    1 root     root          4096 May  5 10:13 brightness
+> lrwxrwxrwx    1 root     root             0 May  5 10:13 device -> ../../../stmmac-0:08
+> -rw-r--r--    1 root     root          4096 May  5 10:13 device_name
+> -rw-r--r--    1 root     root          4096 May  5 10:13 full_duplex
+> -rw-r--r--    1 root     root          4096 May  5 10:13 half_duplex
+> -rw-r--r--    1 root     root          4096 May  5 10:13 interval
+> -rw-r--r--    1 root     root          4096 May  5 10:13 link
+> -r--r--r--    1 root     root          4096 May  5 10:13 max_brightness
+> -r--r--r--    1 root     root          4096 May  5 10:13 offloaded
+> drwxr-xr-x    2 root     root             0 May  5 10:13 power
+> -rw-r--r--    1 root     root          4096 May  5 10:13 rx
+> -rw-r--r--    1 root     root          4096 May  5 10:13 rx_err
+> lrwxrwxrwx    1 root     root             0 May  5 10:13 subsystem -> ../../../../../../../../../class/leds
+> -rw-r--r--    1 root     root             0 May  5 10:13 trigger
+> -rw-r--r--    1 root     root          4096 May  5 10:13 tx
+> -rw-r--r--    1 root     root          4096 May  5 10:13 tx_err
+> -rw-r--r--    1 root     root          4096 May  5 10:13 uevent
+> # cat trigger device_name offloaded 
+> none kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock [netdev] mmc0
+> 
+> 0
+> ===
+> 
+> This shows that 'netdev' trigger is selected, alas the device name is
+> empty and offloading is disabled despite the driver using those
+> callbacks. The only thing that works is setting 'brightness' manually.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+There is a weak relationship between the MAC, in this case, stmmac,
+and the PHY. They get created at different times, and have different
+life cycles. The LEDs get created when the PHY is probed. This is
+generally before the MAC is created. At that point, you can use the
+LED as just another LED. However, due to the default trigger, the
+netdev trigger will be assigned to the LED. But at this stage it is
+useless.
 
+Sometime later the MAC will get created. Generally, at this point, the
+MAC and PHY are still not linked together.
+
+When you open the device, i.e. configure it admin up, then the MAC
+driver goes and finds its PHY and connects to it. It is only at this
+point can the LED get the MAC device name, know what speeds are
+supported etc, which is the subset of what the MAC and PHY support
+etc.
+
+> If I now select the 'netdev' trigger _again_, things change:
+
+That was how the code was initially developed, and the most tested
+scenario. Using DT to set the trigger came a lot later.
+
+Due to the weak link between the MAC and the PHY, the LED trigger
+firsts asks the PHY what MAC are you connected to when the trigger is
+activated. This can return indicating it is not connected, and this is
+likely with DT configuration.
+
+The trigger also links into the netdev notifier chain. It gets called
+when the MAC registers, changes its name, unregisters, or is
+configured up. The admin up notifier is the one which normally links
+the LED to the MAC. So if you have time to debug this further, i would
+start from netdev_trig_notify().
+
+> The 'link_*' files appeared, 'device_name' and 'offloaded' have the
+> expected values. But now the LED is blinking like crazy despite all the
+> rx/tx/whatnot triggers still set to 0.
+
+So that is odd. If offloaded indicates the hardware is doing the
+blinking, that means we have a problem with the PHY configuration.
+What model of Marvell PHY is it? There are some differences between
+the models.
+
+	Andrew
 
