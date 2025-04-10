@@ -1,76 +1,68 @@
-Return-Path: <linux-renesas-soc+bounces-15795-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15796-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D12A84DCF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 22:06:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9533BA84DF5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 22:12:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7AFC6175513
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 20:05:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C38859C0A5B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 20:10:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 154F0290081;
-	Thu, 10 Apr 2025 20:05:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41DF0290086;
+	Thu, 10 Apr 2025 20:09:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="i6LNsZQ/"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="gWkvThOp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC92119DF99
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Apr 2025 20:05:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB221F1510
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Apr 2025 20:09:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744315541; cv=none; b=BBCEjQOy3o7UgGqWW77Dqpuyt4FXG6fAQb0M2hbQIGjB6AzGVPzTVfI9ixWtWRFkxkY6MoWz0QsSd3GnEE7U/OslVnMQKx+dlzs0+pc5t95/3nmvIr99mYc/KkLe/xM1yI7qR6Zk6MIC0xwel8Mrl4bkoj89GHfRENMDURUdh30=
+	t=1744315797; cv=none; b=upJ+f/9TmCQSHf2bssymg/LArcrWywPnfyUixtlxEC6v1MyQ6M8EuLiUN+h8k/e4OlS/RgwwKYUrsbjpttrx7oNQXMn8y2a4HnfcrK1sAOCL/kVo/wceZmSroaG4d3no6LgPwTyj4RIE4IuUsi4JbfQOyz2pw+8Oo6WZLmZBqzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744315541; c=relaxed/simple;
-	bh=+Zmol42jS8R3Khcnyl9L1BbLCQN8pRU8TO9IhC81GR4=;
+	s=arc-20240116; t=1744315797; c=relaxed/simple;
+	bh=h8wlyUpnMilelDf0MSwmG3Ypk4mPF+vctxE+BOpjYyE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Neg73zideimUnmccroTj3NhAgzWsMf6uXkRH4TEo1q7nagMQDXofNdUizYq9pzz8QZajkBYNCN379ysn5xmFdlg953F7q6eG2QzCkA6N9TpNuV7Mum8A+jamFcxfa8Qi2y2M6H0RZOJDybNuDeVzJYBh/iLtdhq9nm5JTylGIzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=i6LNsZQ/; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=N2OyniTlPzbzgn6x0iZ58M/Px3wbFng8iVRBhXd/jmEUL57ldueYAJ0TRwW6BCl4/L5KRwxy8iq3WxJBKmnQVM00BI36Lx4Ot0OOH29hKYc59yrhhlSPe+k/FYPkma9cgpCH487gMI0D3IVaksGxfxtia86EOOCNKczzZopmuoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=gWkvThOp; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=+Zmo
-	l42jS8R3Khcnyl9L1BbLCQN8pRU8TO9IhC81GR4=; b=i6LNsZQ/NMGzGWf3q+4R
-	mn7e+uOxw9QRcOroxtls31dtP2MBvF9gfpEvewSnoG1quuG5B7fnFEWtrYLBiAv5
-	7k3hxJwufookVkqHdpYXRUhl29p6Eyz4/OXGVzC+Xhj56Z+5CWAd6S5w3D1H7jVQ
-	vgdE33uLGd1RLScLDRoH4fZyBAwP7pZ9crGou2IUXJCnvOTOfeqKhq5rGcf4Mp0B
-	7zzb5BriqgaDzD47y5ezO18ZKJGWAXiLWFkAE9R8zHrkZzYI2Im+Imr0GLKD8DCy
-	+PRCMVg8g++PDSEBJ6dAx0PA86WLcYiZh0JY3nmL2/x6TgYhJVQqSnqGg/Cj0BPz
-	Ug==
-Received: (qmail 1028174 invoked from network); 10 Apr 2025 22:05:33 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Apr 2025 22:05:33 +0200
-X-UD-Smtp-Session: l3s3148p1@fzC9G3IyDIoujnsS
-Date: Thu, 10 Apr 2025 22:05:32 +0200
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=uR+k
+	qY1inr1FvPVOE59aSXV+PqIZdZ46XUVFoISVmkc=; b=gWkvThOpY1dAOKiwAiG+
+	WxO43l2yOkkrzaQDr0G8lyj/2F3LIH6IrU1ux4U+1izkC/h3gr+/p+dbwF+I2cHO
+	IOvlNEmULV9qBAPonBb116ntV9ZtMzSWR7l0EakLi5fcpn2nLG6UWuwi0lIN5hb3
+	97BK7+H1U8kgFEmOsWZtyByyuvk7HggP8I8cevbuAHUi2bgZ1Uo5qbik/tcsPol+
+	gTlNLNr5PAKGsbSlszqxHY8Ca0Jq4rCERNHHESnYC3vvWl/9bkEgizMQtfWck4Uz
+	96bT8St2j8EbWqt/MG2+H4XBa7SXWOKrLgDrkzHQ/+WmJlTE2jz0tY+Gce6Yr9WT
+	6g==
+Received: (qmail 1029286 invoked from network); 10 Apr 2025 22:09:52 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Apr 2025 22:09:52 +0200
+X-UD-Smtp-Session: l3s3148p1@hl8lK3IyttQujnsS
+Date: Thu, 10 Apr 2025 22:09:51 +0200
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andrew Lunn <andrew@lunn.ch>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: linux-renesas-soc@vger.kernel.org,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org
-Subject: Re: [RFC PATCH net-next] net: phy: marvell: support DT
- configurations with only two LEDs
-Message-ID: <Z_gkjKharPsRhT6J@shikoro>
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org
+Subject: Re: [PATCH 3/3] rtc: rzn1: support input frequencies other than
+ 32768Hz
+Message-ID: <Z_glj1NS6yRHHkyR@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andrew Lunn <andrew@lunn.ch>, linux-renesas-soc@vger.kernel.org,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org
-References: <20250408063136.5463-2-wsa+renesas@sang-engineering.com>
- <7f706127-aa48-4385-a7b8-f016e0ba52b7@lunn.ch>
- <Z_YZ3NiXb15wgDuY@shikoro>
- <0fe35fe3-b63c-478b-9674-a2522f582167@lunn.ch>
- <Z_d2CgxLKaEV3w8X@shikoro>
- <1cb6ec18-9abb-48d9-b9a2-ca79584d4d0d@lunn.ch>
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org
+References: <20250319110305.19687-1-wsa+renesas@sang-engineering.com>
+ <20250319110305.19687-4-wsa+renesas@sang-engineering.com>
+ <CAMuHMdXMPnJ9b_5gZ4SwCAeuHUTr3y92+d94X=os5HaYis1CTw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -78,52 +70,53 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Cy7fRQovuYQk0d7r"
+	protocol="application/pgp-signature"; boundary="daA1QyHoiuWpkhz0"
 Content-Disposition: inline
-In-Reply-To: <1cb6ec18-9abb-48d9-b9a2-ca79584d4d0d@lunn.ch>
+In-Reply-To: <CAMuHMdXMPnJ9b_5gZ4SwCAeuHUTr3y92+d94X=os5HaYis1CTw@mail.gmail.com>
 
 
---Cy7fRQovuYQk0d7r
+--daA1QyHoiuWpkhz0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 
-> > The 'link_*' files appeared, 'device_name' and 'offloaded' have the
-> > expected values. But now the LED is blinking like crazy despite all the
-> > rx/tx/whatnot triggers still set to 0.
+> > +               if (rate < 32000 || rate > BIT(22)) {
 >=20
-> So that is odd. If offloaded indicates the hardware is doing the
-> blinking, that means we have a problem with the PHY configuration.
-> What model of Marvell PHY is it? There are some differences between
-> the models.
+> Perhaps
+>=20
+>     #define RTCA0SCMP_MIN    32000
+>     #define RTCA0SCMP_MASK    GEN_MASK(21. 0)
+>=20
+> and
+>=20
+>     if (rate < RTCA0SCMP_MIN || rate > FIELD_MAX(RTCA0SCMP_MASK) + 1)
+>=20
+> ?
 
-Thank you for the detailed explanations. I think they could be a basis
-for a documentation file.
-
-My PHY is a M88E1510. This is why changing its init to
-MII_88E1510_PHY_LED0_LINK_LED1_ACTIVE helps.
+You really think this is more readable than the original code? I am
+really tired of bike-shedding so I don't care much, but I do wonder...
 
 
---Cy7fRQovuYQk0d7r
+--daA1QyHoiuWpkhz0
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf4JIkACgkQFA3kzBSg
-KbZtdg/9HZW8J7RAElNaMj+1BrKb/KB4Cu0o1eFNa71km5gB2jUZ8NcmF7hgGgCT
-kBaJogfXBRBeMYjJzKNOBvoAiVXgKkcjU1NUpw74P1qS2PVgfXjVw0phwvJA6j5k
-ukL49LBCe4NehKw+kn+e7Iw+2VWGcmHcuRXvOJXTB1j9OExjCSasysxjZnM9wKrb
-N8BwGetguhUvJj6Bw5viOTKFZ2xDXBA29pSTrNRVHIM8fyiyhD4ZVsme5I1Gx1Fb
-eSJsKzgjiRSQUrL5P5xKuukwacuWsW7fTXkq9xkBHhPq6zHJAW0RHQ/ZHZ4wuoze
-WUHLkstUdT4uIfsliDgrxfK2cGIazSA1OisFCIKGwPJoN4zKt0EPctSzl/zFCchg
-3MrpkKolzNQEEbD+7prr7yTesbaBcgOEMqLGxukEgsCTNenHATMEuZojGGX3AQwt
-CDEwdrNtZ+EyrhUOu/6wXgeWeYuIQbMrUNoWR8MwcVW7NwsWPh4oTnGvkSo7jgYZ
-AUNEZA8BqwafrDQcTpSbeEKY2g2BqrSZcxsQZzQivBBSv8DxViUVK6MctNYPqZcv
-eggVaic2rx+MOrkhKf8tx3hLy6XfZ5Gt3lFuRv3NkpJaTptuTsA5lQg5U0OfmD8l
-Jazbb/+EHkVHwslqb5k85629cprpoVOZHZ99qy9rEd4QMBTlGU4=
-=HLvt
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf4JY8ACgkQFA3kzBSg
+KbZ0Ug//W8lz8AU9inglXnYUwQv+1ngHBKbPj/YNapViFHw9vYupil6y84cDKslv
+bxKG4oYjXtVyVW9DXK3Fjj3m+BAIrvy86nK2mhFRaCs++DnUWulrNCzm6Rl/s80z
+3bKib5IVra7sdVv2A6M/9Zt/RIEArqUC9rBCxfuk37wf/mByz4bDXCP1Wl8iAQaS
+mBuxu3vKxVZ4uGxsxeTWl1shnF884sEhq5y3RVcueyRP3zYsRdJIwY3mb4X6Xmql
+BmXBJVEVzU9xHmKC1P+qYpaZx+7QGxpuF4w4fj7u7c+r5mOQQhHhxH5Jz/saR2JZ
+GSyb1gJo738eBPHjzdqRJB5ot7xHqmF7YG3D8pM9FDkFNw9H1h77LNg6p01QezJz
+dzGQYmLjXY7LrtYybsjaueZeZhN+zG+ja0X3Isn2UUhj15byVui8/Q0N4jkYkltq
+04XKGtoggib6aFvHB0YEb+Gtm0OBTyL6WpdIWZrc0iXXOVGRDt1nSjefFCviGLf7
+HQ/PhKXrwOpCc1pUthtb4NkjDToKdrPiuZWpvHNQUExbOPU3rWdhOxhpAPdZGZVt
+51Ja53DOT/BAKgs4jEzNghmyC4O9JK44Y0+FD1N9MHVD5ndHZG2bVWVjJ22gF5+G
+huQOYbmoFe4SM4Yb4Tvxh0JCQzoSQcH0iQCF8PxBasodOIwlBJg=
+=0yN7
 -----END PGP SIGNATURE-----
 
---Cy7fRQovuYQk0d7r--
+--daA1QyHoiuWpkhz0--
 
