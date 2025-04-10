@@ -1,194 +1,196 @@
-Return-Path: <linux-renesas-soc+bounces-15698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15699-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E35F1A83A2A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 09:03:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D86A83A6A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 09:12:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 924C53AD605
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 07:02:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD12F464370
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 07:11:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70FC820550D;
-	Thu, 10 Apr 2025 07:02:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8B9B204F91;
+	Thu, 10 Apr 2025 07:11:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Y/46yBa+"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tIdOdnh5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010030.outbound.protection.outlook.com [52.101.228.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789A0204F61;
-	Thu, 10 Apr 2025 07:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744268534; cv=fail; b=ZAFdAWD+NR3hOcLNR9Hcw9EOVnmI7fSo5wtJ0kiQfw0IgnvGWr231eg9U/3/4QXaCGchYe5UlFPVkOg3alS36Pp4xcM+MvDeEmL5b9N6w/yXW5p+/yys2CtSVEPj3PRLBP85UJngYze5Cn9/QVpGvCseqZiiMFeoJUjAOL93RPY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744268534; c=relaxed/simple;
-	bh=bK/iXxXdqsuKVsNwxS5MiUL1R07oXrw47Wuwwk3vs/A=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=jIBo9CLK1jBnGJWWm7gfO4vO62940m7/SAJxvQd4I/XYW5niCQuS08O9eOLKnxaU7FlsRzwpxZL/QQXjKPQjwBEHXFf6P9DfFYiClFxk66fKb9IZ14zMZpC8hH8dfbyup5MWhBll35dSVtadv3UTjHinNIL015zz8dIla8UXpk8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Y/46yBa+; arc=fail smtp.client-ip=52.101.228.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EAiF0x+6jXQTrt9VzSZWuyur2/Jr5mpFh+8hkZtwc5a1gWdjmV3MdU6N5g/HihDlx8CD91UYwFtuGcYpcDD3bO5ZGo7VYrPvHeBBbsr2xnV1qZiudcyoluSmRQeFnwRL8L+fDVl4kRIseECvUx+loL/mtvNAzAds3+Cs4fdmHDVys5uwzJaKgLE9+pDuw82FeT/QnJ73KdiJeckbM1aYFMnNhH8xEc+g5gO75QJnouYEGL+rdkgDUXqiPYyHMQ2wUaY6GcyePb/XTicda0C+xibEXuJViw45n3k+wiux2FUArG2mS2j0unMx/IsZmvOE6C3UkdQkx+Aon7vGlK61lA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eaSWdQMvzuyJfwxXtnXd5dz3DS8RZqq1a5OsRE0wucA=;
- b=jR8ClHAmGc6JDQICkNyOa47qUBowsirqjCn7He0+quiEMdzS2Aruc14AyyG9HaECp9HDciYTjX12pVerWuvIQYIPohPEd6a3wVEKmMg8RkkGtneZR8DAmRp8ndEfrBGrUWJqpQ3VHUuXbdwUr4jgRDrSdhEGA84MgTHfw7CUT5+R7ZENrW+Xw82JVNqDlwHxFQ0q1+UnnDdMfeVzbck4ttzupTF0gDmdMgf/AQKUlvLaCM5fGUD5WWjaHtZtlH7LvVnXvwnh4lybpYLv/d45W67e2JHuXF+s1jTw7ZIEtAyoiYByJePIa6N7Vm7PA1uLIuSV6+2rHM/5u4i02J/Djw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eaSWdQMvzuyJfwxXtnXd5dz3DS8RZqq1a5OsRE0wucA=;
- b=Y/46yBa+fy7zShlo+A6dFk+dxMcEXn6F1F5rkYMuAt8oT7oq7KD/Enn1h23AU6Qi2GyvFg0klV20FZK5p9v1wt3Y4XJhd5xf88/MeeSge9jSk0u2BrFHnoWTROIzNbkjL5nOfgT0dDiuTm2dis5miO07RrXTtXcRe5876ic1vh4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB9523.jpnprd01.prod.outlook.com
- (2603:1096:400:193::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.32; Thu, 10 Apr
- 2025 07:02:03 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8606.033; Thu, 10 Apr 2025
- 07:02:03 +0000
-Message-ID: <875xjclct1.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Jaroslav Kysela <perex@perex.cz>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26108204C03
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Apr 2025 07:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744269068; cv=none; b=GiuvG5OD7C971TY30RSC9YYXT34RRwKHJ788ZgZwR4lrW4thkZ6LmI2BgyeKhE7mLWneFLnK+EiD8TmnZoM8C4WxSvxINYjl2w9ExxRGYVnibH/Jepl1CHl9TUJNiGzcRqAlvPU72F9g6UArIA1itsTXuXDoean3FV9pbppNsP8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744269068; c=relaxed/simple;
+	bh=dvCmIESeU+0C8gMiKn7xzTjU+gOvecKI17trA15juLg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H+55n6xRTOYt2AWH74e5ark6Dn1YlJ+dwluuo96l15iIDvOupSbIwaLWsCNU6sOxcKVGmGdXjxqfLe64iN3BouCV/BKOZt6WjQytLZRAEY9791vvekS4CJ9uBet41usrgbguevDsmA/nG5SZVtND6QT9n2+1uPHteNoaWa5Ne8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tIdOdnh5; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abbb12bea54so93047366b.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Apr 2025 00:11:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744269064; x=1744873864; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3OcYzRuci4DVDvTV5wL2NFanwr7+BVH3bP+rdckE45M=;
+        b=tIdOdnh5oAZhGDM7uWD7RpFi4PXKOpQH6bh/n6RPVExFaUig3IrrpAlmLffcoAUVEU
+         MX014UXDe4T40u/EftWo4s5x7Tfbl6ddorAyUyFoojwWXHNZPXzCUVvJ0BKuLt2Zln56
+         a9ZaXziLlH5zb79VpOa4J9zfhPBr5SL1YX7Gq/Nb66faCX0wibrTNMCRCeDleyom/yMp
+         MeUi6X82iteHze09A2ldUfnKq+mbSGsEF/6uHwsfp3dBGY+oM0HYZ5aGwa5pOHDHc8Ay
+         CK11lSEjbcHMJzrXDAILKdg1PmRsd1ujsrGNBAswtbvAcRded3p4H/9/qzWLloQS36HJ
+         Kqug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744269064; x=1744873864;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3OcYzRuci4DVDvTV5wL2NFanwr7+BVH3bP+rdckE45M=;
+        b=rMw1B42Hh/UcpC+7kmQFJh/4xpiIJ4TfZvHyvCSMxMd54b68yPazk7002Vz53+i7UQ
+         4LM1A/HxIMwPbro4H4oLTd3LqoC6cn2N8uHurkNhZZm8rox9Q6s7KUxaIrQ0aIrc/jUZ
+         EwqOQFxnS7nReppo76qQP+8Ss7K8LncVZie2/qbcZCGpEmRnj+rmr9FtQlSfBLQH0NLZ
+         VZvCQshm8MzjhpZN4vn3STfYttWq6u0EABYQyjgcPk8llFKA2uS9z0y7DxxzyuDzpQc+
+         Yy/wMZfYHVlLVjJVHzTcH01+jtIRLTVtLA3c94KY3e7Fn+kEgWUPIBP40OZj/ObgeX6I
+         mziQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX8RpLJWXpCYvMU5DzwfT/2A5oW8Je5Jg9auFHjFzPgLOYaD4jFRQ6LLdbGjIpC4D1W5M+4nbFMUq1rImL+4Clbbg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDxwVrm91nKfaQtMOwOM//A8Z9T282JgWxzy3bfKetKZZ275rS
+	Sb2u8sCbAH4y6cb9/d1oUy1JEbM2QIRL6ZFKDBtLgOyGq+6nWazwbMr33lDHO8E=
+X-Gm-Gg: ASbGncuY1ZZPpqBYM1M0seEqyWNzN90BXnec8+T2QirpLNPUvkzkF6KNNWLkTYUiQpw
+	HniO/8x4AzfPMb47F/3JWLC+oaXHSLAyPM+sB5oOzCu0Iety/+18OaPsawTGGaEwwGqB2IFJQba
+	tFL6DHYlRVHKwlGMklo2NUimBE23APz4G0Wi0KNqcAlPEFT2yU2Cm4eLklSdmt42VSJKfZosl4/
+	DpqT2pIlawzb2oOe7LHgtO28+LD2TpN7xUHLlT/uNObtUCaiKKRf8U9jsZNwTnsE6PBplAu/W+w
+	PcTnNWc1wjNMClMFRaDnMkOFEaJziLl4cGI9oiq87gvGMVI2Sd0=
+X-Google-Smtp-Source: AGHT+IETfspJRi9jQhAHy7G+NAIq/HN8GQhfewV/oWn/J+Tx4X7F7gfIyNI7Jkc9sjEejt3cHqWuJA==
+X-Received: by 2002:a17:907:da0:b0:aca:a1d7:a830 with SMTP id a640c23a62f3a-acabd185e69mr120878666b.13.1744269064280;
+        Thu, 10 Apr 2025 00:11:04 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff21:ef30:ae8a:4fb8:9c71:6be])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1cb3fcdsm219989266b.107.2025.04.10.00.11.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Apr 2025 00:11:03 -0700 (PDT)
+Date: Thu, 10 Apr 2025 09:10:57 +0200
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	devicetree@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
+	Conor Dooley <conor@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Steen Hegelund <Steen.Hegelund@microchip.com>,
+	Daniel Machon <daniel.machon@microchip.com>,
+	UNGLinuxDriver@microchip.com, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mips@vger.kernel.org, imx@lists.linux.dev,
+	linux-rockchip@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org
-Subject: Re: [PATCH 5/7] ASoC: renesas: add MSIOF sound Documentation
-In-Reply-To: <6904e6b5-aa54-4874-a420-462f7225ff31@kernel.org>
-References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
-	<87y0wa9mb2.wl-kuninori.morimoto.gx@renesas.com>
-	<bd15c145-c175-468d-a1ac-1ad157358aea@kernel.org>
-	<20250409-mouse-of-eternal-warranty-5eafd2@shite>
-	<87wmbslu18.wl-kuninori.morimoto.gx@renesas.com>
-	<6904e6b5-aa54-4874-a420-462f7225ff31@kernel.org>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 10 Apr 2025 07:02:02 +0000
-X-ClientProxiedBy: TYCP286CA0005.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:26c::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH 09/19] arm: dts: qcom: sdx55/sdx65: Fix CPU
+ power-domain-names
+Message-ID: <Z_dvAT7LdR7xbH45@linaro.org>
+References: <20250403-dt-cpu-schema-v1-0-076be7171a85@kernel.org>
+ <20250403-dt-cpu-schema-v1-9-076be7171a85@kernel.org>
+ <03011a33-174b-4027-bdd2-043aa685380b@oss.qualcomm.com>
+ <CAPDyKFoZ7NfN+pkCPnusvTOEaxbQhr=1FJqzdDGrLcKAzBpGyQ@mail.gmail.com>
+ <66f8d957-f7a5-4aec-b8e7-5bcc7ff7f569@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB9523:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c732436-72f2-4105-c71a-08dd77fd98be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|52116014|376014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ptNM6fe5Gk6p59j0FU1ktal0GQbqB9EfANGPSoKpA8VERIC60zYJfQyJwJoG?=
- =?us-ascii?Q?ovVeiO+RjlRVCJuyNw/NuECeGJPC6nK+W1xz9iHjFYKhb9xXJ1vZaD01DJUp?=
- =?us-ascii?Q?pNloiNR/GFyLrxFMVIzgyhP7A1oLZXuEyinrMASpW6H05A4fP8MSZx/Su9Ca?=
- =?us-ascii?Q?zeyUKKF2/pXq6ob7bFuhCuu1Nn3/xs1dP5t53utD/bfmdZHmF+btrUYeON8i?=
- =?us-ascii?Q?cw1+k6zDktaEJdSF8w6uj4LpRiu6CJ/ak+gyJXXnK9f477wNEZMIkC3jbE+8?=
- =?us-ascii?Q?SMbX79Df8tweC+b9+Pyl50eHDwaNKBscjQuephBK7Mw9fcLM742dfCDEnGe1?=
- =?us-ascii?Q?Upjhklmc3z75dPa6vJBi4RxuBxhESD72+QEdRPAlj1v+tUei4CrQHK9i19ld?=
- =?us-ascii?Q?hrhLAjx6rnkzHGE7SiUuFCV7H3P8xFdO/S8zw0rJrKffPGKHdt7GKqEB7zIt?=
- =?us-ascii?Q?lSxlqW2qyq41O1BjRseS74hQmijLmuFWlsVK4vwl/I8OpHc98+3bOKBAWVjU?=
- =?us-ascii?Q?7C8iIbHqa0Ie7b1I92N/8cEWsOA+P02snjcgkJ5Po9fckfYyJkoXzIzSAtGY?=
- =?us-ascii?Q?cs3ii7MyRhAJ9KNtOkDjtpKrOzlRTrEfHulHisZJ0cs5egjqJvLApDjUTOpX?=
- =?us-ascii?Q?rSPC6tKCBUUGYdgF4a1+QPlIRnN4vnybPc9wXwbnYTOVCSSe8VmOlbWBdRJ0?=
- =?us-ascii?Q?tFi2ONcFshiVQl7Jhi06KD+DJ5r0yOGFrSvvORhl+krGKDZ5QeyGNCGp7pTY?=
- =?us-ascii?Q?WGDX431ottsr+dFc3GtFvIrSCaq+kG/LBT1fEhBV1VnFxgZQ6v2J5BxpOb/G?=
- =?us-ascii?Q?6LVTob4b0Qw1KSSdN+6EhYjD0yAVc8eN5A8cpDCCKsWZK++JGK4rnsgaFLT+?=
- =?us-ascii?Q?7HLhWxgMana+5CP1v6UrBsQh9uVoy7EoUIwPm4ao4ojTSAYFsRWnpOEBQDYH?=
- =?us-ascii?Q?IiArxDU0D+600nTJqeFQKvu5Xuoyle1zeH1w3vaonJOYfcV5fOHQFhWuoW5U?=
- =?us-ascii?Q?w7RB1drQTiYk3X9AgT5OGY2CBOeX5VCIzbiIx7Y8hjR5v8AJB3JBwkpnNL4+?=
- =?us-ascii?Q?n8kxSph7XsdgQrXrcI50t0hpUdBWLfX2QcpKf4XN4oCdLAriDfFJIQttb8CH?=
- =?us-ascii?Q?9x5VvOePPQjlChSGusPxlZCiPfNNMLsPJdT8DvmdLTPMPR+QIIgv7JmUtMKy?=
- =?us-ascii?Q?7a+ZNPxID5e3Y6XFTyGbmzKO93eXM5Yd4PogSSTHsGAEKsJ1gdoorN2WNswM?=
- =?us-ascii?Q?xLcm1oijchtVQ1Cjp46E4lXBJVXwc2TjayjgaNTXKY/ZPOn/XoL55rt26A0O?=
- =?us-ascii?Q?dnhv7wnyjiS/wsZbi1rbcTlWNsAGDkHr3v1tnxxhIep59HkSV19UUgq1UMKT?=
- =?us-ascii?Q?BCYrN4GaYZF27+8k8cxhebAjhvbs7X908PTUiQ2mpwnMWv9QY6JOuKhqsftG?=
- =?us-ascii?Q?M3tcsDMpxNpqbg10ApEgJDCbwRgOqOP7ntf+EvmE5bh98lfkmkycu/FG1RHU?=
- =?us-ascii?Q?Aw9cqnnyEcXAtkE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9uM1inBUddJEqW4VOME6F5RlgydvYhZqsBtFq+sXzQ100R8WWHLnXeE6SOB3?=
- =?us-ascii?Q?arldnNUSfH5Spw5VjsKunRdkPcy2edd1e/LVcSwDygedV7lPdoM8XU9jZ6El?=
- =?us-ascii?Q?O0zSMkco6418S/bOnKL9Jqj6y5K0QF04MEHzoOZ9SRL4q3kffSpJSB0X238f?=
- =?us-ascii?Q?9vxee8KhD2Z3PayQUjeLjXvjIw8ifAh3H0GiCniJ+yJj3M2NHMuOQmuq+N9R?=
- =?us-ascii?Q?dKEAXM61P6pq1tAnbWPSvBKdgzt1ZTxX+w/i8DkhbK5x+KNQD2otwLDXXfIo?=
- =?us-ascii?Q?lbYoWiVrNlNi/E7/Bo0zbxeUEWFEvLWLALIo/pg7qu/hNywLMeS4XoqNcbII?=
- =?us-ascii?Q?gc+Sv70x/p2NU+DhMzU3Rv++CcLndwi+xxZNnys5+qJE2eDh7oQLz8a3o4+c?=
- =?us-ascii?Q?jRHRvGzQrRJ1AIk5XG0iVaLScdYVkCdveZBEWUnIOCSPF7+N9JkY9+KPi5NW?=
- =?us-ascii?Q?WbHt++O9t2faKEpRURrhHgHagTRUwnWSTB9gN8NqkFmKgZxXf4NMI9QcYwYF?=
- =?us-ascii?Q?C+jxz9h8dBvOru/meZmEj9iMydth/JQ9LYSxH4V0F3fpsNaw9Fg3Vy8W3lC+?=
- =?us-ascii?Q?LXrrZPw6vt2mfuFodIXlfJ0QMu46q9xUyxiuClj3nLKp9O+qzNfJFdTtaEb4?=
- =?us-ascii?Q?z8mjYOj5+MvPed7Dz6/ADOs4sgtkdqXKaNbtwXUwrlwzk0grcrw9rQagSCmJ?=
- =?us-ascii?Q?0YcpR8tZcK+metFMS5SdPdAzxid4c7+A9Vqy57j/paarqJINDHzuWPy1d4zC?=
- =?us-ascii?Q?TgcBRNDdahDtfresDdNRsbfwC2+f7VlL450dpMeLyUlxyGdPhvAnmrMf+LuI?=
- =?us-ascii?Q?v/FUXIj5UQuMd1Fo+TlAfCnz9OfMLCvHyiXF9hO5gDcjUOMx17j7zxw9T++N?=
- =?us-ascii?Q?N/fxrOCYHHbGh+fejOoEDLf6pKBGmUWef5R1Pli1BQLu44AbgUrnloqzfInW?=
- =?us-ascii?Q?fTj75hEnxKQqqeLMiHKTE8I9ppuCTflGvBm9DxpbAknrrzvwxAlj7Bxc0yXl?=
- =?us-ascii?Q?c4gmIHdQxKttTw6nDWfAgJQmhGN994NbCc7EgMbxZe4/6yk6cRnbJUxiLrQj?=
- =?us-ascii?Q?EEiPe6bojpm8beCP71DbHy9X8bM2yytrXlF96gnDgHjx52jbShFyXHF96RPj?=
- =?us-ascii?Q?ZyFwlDsjUMVbOnPwiggC2QBIin4I10eQY41zomiCsOP0J2VpWUX+DRlUZQeu?=
- =?us-ascii?Q?SISRATdVYAzYsNZX4B1Tt7oBjYbBKAAM5SX+aT1xqgzHiCKRfIPHA8KDAYnN?=
- =?us-ascii?Q?+BU1TeKObs6wL2uRfSXRTuQ6v3iQSjTaWB3L1ARxWZKBjXMogQ5NhvJCLLzX?=
- =?us-ascii?Q?YGkLyzCtJcBBHNBM/7O8bnaqmyyYKghXRjPhbX3bskyfJhUsH9EYlU9uCIpC?=
- =?us-ascii?Q?kMcHln54UzHrMf2IILdnJbr9ps3Aghw6pgY90Zn1zx5C7qycK36OBP3ne6Ns?=
- =?us-ascii?Q?J0O+Sh7T8zzayoddfc698hqdsK7LMwCDaqDTTU3Fu2f1CxX2rwW4JSEeplYG?=
- =?us-ascii?Q?svbwlSbL8QxWI7EybSI1Ch3x1+34kDR7HL/aMBhzP9kBMLcoDIVCMGgWXqLB?=
- =?us-ascii?Q?tiK1QisddwBBfH5r0BI7JyaZlOezxWr8siV0S2PH+FF+tP9MQAWUHnfMZaFl?=
- =?us-ascii?Q?UtSPFT1d5J0XXDQp3JJt4ag=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c732436-72f2-4105-c71a-08dd77fd98be
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 07:02:03.1983
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mC7TeKVHw+dSvC1rIykX02UnaHxjQg+tBXx12lIXbOJ30rLyg9b1HUDtxPuFlagM1v+tVDqlbIwHq9tvHYccr1H79Xl5Vfy4X1PawBTFsNMolv6wtBy5SB2ncheX9cFx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9523
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <66f8d957-f7a5-4aec-b8e7-5bcc7ff7f569@oss.qualcomm.com>
 
-
-Hi Krzysztof
-
-> >>> where to fit it in the DT binding doc hierarchy?
+On Wed, Apr 09, 2025 at 08:35:29PM +0200, Konrad Dybcio wrote:
+> On 4/7/25 6:27 PM, Ulf Hansson wrote:
+> > On Fri, 4 Apr 2025 at 22:41, Konrad Dybcio
+> > <konrad.dybcio@oss.qualcomm.com> wrote:
 > >>
-> >> Does not matter, whatever fits better in overal picture/purpose of this
-> >> device.
+> >> On 4/4/25 4:59 AM, Rob Herring (Arm) wrote:
+> >>> "rpmhpd" is not documented nor used anywhere. As the enable-method is
+> >>> "psci" use "psci" for the power-domain name.
+> >>>
+> >>> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> >>> ---
+> >>
+> >> "psci" is what we want here, but these platforms require some more
+> >> massaging..
 > > 
-> > Can I put info like
-> > linux/Documentation/devicetree/bindings/sound/renesas,msiof.txt
+> > So this isn't for CPU performance scaling?
 > 
-> No. TXT bindings are not accepted. There is no benefit in this.
+> Nope!
+> 
 
-So, no MSIOF I2S info is allowed under
-linux/Documentation/devicetree/bindings/sound/ ??
+Huh, this is definitely "perf" (= cpufreq) and not "psci" (= cpuidle).
+If you run blame on this line you get to:
 
-Thank you for your help !!
+commit 0ec7bde7b590f8efa5823df3b52b32dd373060ff
+Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Date:   Thu Apr 8 22:34:45 2021 +0530
 
-Best regards
----
-Kuninori Morimoto
+    ARM: dts: qcom: sdx55: Add CPUFreq support
+
+    Add CPUFreq support to SDX55 platform using the cpufreq-dt driver.
+    There is no dedicated hardware block available on this platform to
+    carry on the CPUFreq duties. Hence, it is accomplished using the CPU
+    clock and regulators tied together by the operating points table.
+
+https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0ec7bde7b590f8efa5823df3b52b32dd373060ff
+
+The OPP table looks like it's supposed to set SDX55_CX performance
+states according to the chosen CPU frequency. MSM8909 has a similar
+setup where the CPU is supplied directly by VDDCX and we describe that
+with "perf" too [1].
+
+What I don't understand is why the name "rpmhpd" does not appear
+in any driver. The MSM8909 setup goes via qcom-cpufreq-nvmem, where
+"perf" is directly assigned for cpufreq scaling. I can only think of two
+possible reasons:
+
+ - The power domain is implicitly attached to the OPP table(?), because
+   there is just a single power domain defined on the CPU, or
+
+ - This was never working correctly.
+
+For both cases, I think it would be best to change the power domain name
+to "perf" like Uffe suggested.
+
+Thanks,
+Stephan
+
+[1]: https://lore.kernel.org/linux-pm/20231018-msm8909-cpufreq-v2-0-0962df95f654@kernkonzept.com/
 
