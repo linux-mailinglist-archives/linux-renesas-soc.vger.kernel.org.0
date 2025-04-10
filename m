@@ -1,202 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-15704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15705-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A777CA83B72
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 09:41:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BB1A83B9B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 09:48:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E1B818874C5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 07:41:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C81A5464A64
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 07:48:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 164FB202C48;
-	Thu, 10 Apr 2025 07:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="HvQYV3IU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A17E31E1A17;
+	Thu, 10 Apr 2025 07:47:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E971E32C3
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Apr 2025 07:41:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FC6130A54;
+	Thu, 10 Apr 2025 07:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744270864; cv=none; b=iatuJOqvLrMWuDJWbaFJqKXGM9h4YkHi3qkdILzPTRmiBpuCfCb3WR8zXE8RxVCwv/XCXh17yOBz06nHIKaAS/A7d6EexB24BcQiiEQ/OlAQBXicUoVxoBDZGNWIXJhEAKrMvB/FgrHmqne0wu11hjkMTqyAjqVWP1cJ+reHQkM=
+	t=1744271279; cv=none; b=pxMvsPAUZlyHtUz823gznmQKF0Dy0YdgHlnK1I/7Km4dsLRWPpIZ+ANhyTzv9ObEKI8Y5nRXB0qcIAlhIX1ANMBQkPkZDyayB50o0cereFaZDccOrvIVTE92v+h0/VQalLUVcP308iuIqiziZCMjUTMv/uw8e9ZadcSH1Td8Y2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744270864; c=relaxed/simple;
-	bh=WTa+sVMHV/8g9q8obKXhs+n3QwcWj4kC++qyJml8+ns=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aNkBs25ZIaRTEaTN1wSrNsYJBgb7AI4PC5ioHcOSun5tlaUBJNIm462WGsV2Qq/WnpRLOcM4Svu9wx1jE8WDZ2NS1GBUiGM50scpSo27dahGYZ//V4YefxYH4Y9c5OeaIv0TaOOepQLxR2tbdF/n4YyrB7jve5LUFioUx+u+u38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=HvQYV3IU; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=RoWg
-	L5XCNr1oUTWvKz9PmHLj815z3d1/RM8rkNlbZ6g=; b=HvQYV3IUfZHkHrvezFMs
-	VjyZ/57uDYbuw/MShdvsxukvQo3CZwvn8Cm7t2sWCDwjUvfhai8fTS3npnhQ6T9+
-	MAObjVH+XCmFuNtY7YNh9X5c5Bt272aqg4MLijs3qeZlDFm/hE8u7davbmAYcHl8
-	Pdc5oELW2S0x2EsOLb/OxdVir90jc/tW7YHcopSFe7hWHNUfskCMoHDn1K0cdZp+
-	1WQSAVQQfN+QlXRAlJCWfDoWFMIstvuox2qxcXit6b0g+kT+NDDDwgYjaBT3drKE
-	nAz8BcJ8VngoRPUFuA/svlZ3o3/WMjJYQniDAZm6+mp/CDsIrJW5Lto9ve5jB5ZP
-	jw==
-Received: (qmail 792290 invoked from network); 10 Apr 2025 09:40:59 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Apr 2025 09:40:59 +0200
-X-UD-Smtp-Session: l3s3148p1@o5rxtGcyMoYgAwDPXyfYALbiJ46yNPq3
-Date: Thu, 10 Apr 2025 09:40:58 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org
-Subject: Re: [RFC PATCH net-next] net: phy: marvell: support DT
- configurations with only two LEDs
-Message-ID: <Z_d2CgxLKaEV3w8X@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andrew Lunn <andrew@lunn.ch>, linux-renesas-soc@vger.kernel.org,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org
-References: <20250408063136.5463-2-wsa+renesas@sang-engineering.com>
- <7f706127-aa48-4385-a7b8-f016e0ba52b7@lunn.ch>
- <Z_YZ3NiXb15wgDuY@shikoro>
- <0fe35fe3-b63c-478b-9674-a2522f582167@lunn.ch>
+	s=arc-20240116; t=1744271279; c=relaxed/simple;
+	bh=RoRER4+1aEdpOme56/aP1R/kwbFrrc4I8Nn6Jg8C1ho=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nXRe7a1O/0jp24dZTH70QZdQRmlvnk/zbUDFSCpHAoSi0m6xbpkid2kYU3DCepRF4UZRajwSf6Z3msCMLhfzM5LBwpaoyDq/4HhRognadoKJVVMXsJsmTDL6G+rlLPE5k5JE0X7IvDLEgnCGqHFZ6rUEESyYEsj73Gu+Z0PFsLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-86b9b1def28so460038241.3;
+        Thu, 10 Apr 2025 00:47:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744271276; x=1744876076;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CYlM/NWonpmxHHJcBtv1TyUMxukkVC17bMxK3+UA8ZU=;
+        b=s1UAkivChL4T4cUYx+I2YsPT1upXBoTPjMRLBG7r6EHYcW9JQ1T8BHI5WmPKliNtCt
+         ufynrQM+vLxM67mnJuSyjOGpUKsS1T+m6XPXKNCo7U/nMq+p9bkCoEz/CcEHW2mdb/oF
+         ksSaoLl8mrY0UM4SYVLavyn1whdjpkxWhl269477GSRqJPKwR9vuATnSD5IUi2VhSP7+
+         dptLfuIVYHvfSY9P8Nr1BE7+qQHxAZmScvYozXxRSyGliwl/OTpWJ/QBubvlUxK4x32T
+         7G8KVSlOijPUANbiwzLJE2zcrwW3SXYKC+YIxU8fQQD/9rAf/2j7mNRP7g1Dt1pPJxTW
+         FhEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV28S0PTyxVGoan19ZxGS5ACrbSqrkqnIMGxCzWuOEJfTNgx4S8Z8LCs9jTXLl8UCZH+1QD1JXQ92XOwpzG0dcq/vw=@vger.kernel.org, AJvYcCV7DZ1NYbPNRamOgxgfjDxvRmxayvEHajd4inPkPq7aGQU99iYi37ob6hYP7Q6V41UgP68z69f8NXaW@vger.kernel.org, AJvYcCVjbMCIivYw5rgBmDyTGwiDFiyT/EgUxGav3bYB+bInQHxLV1TG4kQxgGFb+7f3J6ImKytSGuzIDZ5A@vger.kernel.org, AJvYcCX0hSjJlEuP+QsRnTeaZI8Mlfo+R9JfulaVUYXysSZqOxE1ySJmf+gIIE2Rt3MAxbve7orN+FDmSA+iUho=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIaJJUGpUJo2A9+EDRWYq4Xmp9NNFy6/E88CsUuV74DlMEPh1U
+	QzLmx/3bmZk07anqVXAoATdeevaDe6y4ZsivDu7zJmayfut95Zpij2Lna+tQJXk=
+X-Gm-Gg: ASbGnctijNc+xM5R0H27eaLK1u//RdK6LgI/FLM18i8GoX/IuCOoloUqFjE2o31EtIk
+	zYxuRUq0Dcf9Myn3jXwrKI/OGRR1PzVl/XNB5Hf8HkeDmYRPjoxmqN3P54+ANqUD4iIHbSefSwS
+	AH1y+Y1R7WuyRorpmWzg0CiBB9giHcRf3rcE0ZDPX2HumLwr4nUZKuan1J4DnIcwTOCTekfofva
+	yNMJR923PxgG8TG81dXe8hf8ocod41IjycvnSwY8wTDVp0GQVDubzsFhQD9aMbdiMC/zDsTHrlE
+	3mlsmR6PSB9z7LQWlKNgxvsLRqd+PpVS7KKQlpo4b5gpRTfIDXxOXHrFdnjXhnTfNrvcYlA67U9
+	mnPE=
+X-Google-Smtp-Source: AGHT+IFWtghlh+ER1WsXyvSCmrqME5dCdsLfms8hbIgVkpugq65/Biw+fMQynCL88Q8G9pOF+qeelQ==
+X-Received: by 2002:a05:6102:3f48:b0:4c1:b2c2:61a with SMTP id ada2fe7eead31-4c9d362a2f9mr1257188137.25.1744271275900;
+        Thu, 10 Apr 2025 00:47:55 -0700 (PDT)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c9c98ee518sm500928137.28.2025.04.10.00.47.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Apr 2025 00:47:55 -0700 (PDT)
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-86b9b1def28so460025241.3;
+        Thu, 10 Apr 2025 00:47:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU+aHCBr95T2EjIZuuIp1o5b4tLwvnX/DUn/7TH+uwSGfmIfIXhIBRNNlLHryaATsZFgfdpiilhTEOGsNHDVnrucPE=@vger.kernel.org, AJvYcCVLJ6Wj2QFhY9JbXYHBKTYXmFypZfnGBltub5i44t5Ll2eNseBEywL+H9Fpoy47XgaH+E3ROl+CsgHo@vger.kernel.org, AJvYcCW+k+Z0qg1tnmyiem9XOHWCo0YxG/wmQhcppuJkkz3rHfq3ROnVR5l6FyZho6l9/98QEu+2CPhGpZHO@vger.kernel.org, AJvYcCWE8k96qFW4C9zeIeJgDbO2vWEngLbFbjbQWr2WjruGjW3nKXG/UC2PFwWgYMl0Ol1lyv1l73v8Yns4cm8=@vger.kernel.org
+X-Received: by 2002:a05:6102:1515:b0:4bb:de88:d027 with SMTP id
+ ada2fe7eead31-4c9d34af187mr1482504137.7.1744271275576; Thu, 10 Apr 2025
+ 00:47:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="inATdUMQonikLbhm"
-Content-Disposition: inline
-In-Reply-To: <0fe35fe3-b63c-478b-9674-a2522f582167@lunn.ch>
+References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
+ <87wmbu9may.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdWL_C-Vg3d+fAK_nXvzeZNNPDkkzPjB1oHRKHh16rZUHw@mail.gmail.com>
+ <8734egnbl0.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <8734egnbl0.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 10 Apr 2025 09:47:42 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV3Wm=aES=WZtYNGQrA1W3OFGrrOR=Nwb2FXACeVmPzAg@mail.gmail.com>
+X-Gm-Features: ATxdqUHt59yuP5KWiSc_poBM0f4cr5ZmpOk68rO_kue5X07KSV3L3oZ8ztd4RY0
+Message-ID: <CAMuHMdV3Wm=aES=WZtYNGQrA1W3OFGrrOR=Nwb2FXACeVmPzAg@mail.gmail.com>
+Subject: Re: [PATCH 6/7] ASoC: renesas: add MSIOF sound support
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Morimoto-san,
 
---inATdUMQonikLbhm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 10 Apr 2025 at 01:45, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> > > +       /* SITMDRx */
+> > > +       if (is_play) {
+> > > +               val = PCON | SYNCMD_LR | SYNCAC | TXSTP;
+> > > +               if (msiof_flag_has(priv, MSIOF_FLAGS_NEED_DELAY))
+> > > +                       val |= DTDL_1;
+> > > +
+> > > +               msiof_write(priv, SITMDR1, val);
+> > > +
+> > > +               val = BITLEN1(width);
+> > > +               msiof_write(priv, SITMDR2, val | GRP);
+> > > +               msiof_write(priv, SITMDR3, val);
+> > > +
+> >
+> > Don't you have to initialize SITMDR[123] unconditionally, as reception
+> > requires transmitting dummy data on R-Car (cfr. SPI_CONTROLLER_MUST_TX)?
+>
+> Good catch, but I added 1 restriction for MSIOF-I2S mode.
+> I have explained it on top of this driver. The restriction is
+> "MSIOF-I2S doesn't work as Clock/Frame Provider Mode".
+> So, dummy transmit for RX is not needed/assumed.
+> I think it is one of big-diff between MSIOF-SPI ?
 
+IC.  Being just a mortal sound-noob, I didn't know what "Clock/Frame
+Provider Mode" means ;-) Oh, now I understand. I had missed
+completely that you are running MSIOF in slave mode. So everything
+should be fine.
 
-> You should then find that you gain an LED directory per LED in sysfs,
-> trigger has [netdev] and there are additional files you can use to
-> configure when the LED lights/blinks for different link speeds, RX and
-> TX etc.
+And
 
-Again thanks for the pointer, yet I get weird results. After booting,
-with the interface up:
+    /* SITSCR */
+    #define SITSCR_V(p, d) ((p << 8) + d)
 
-=3D=3D=3D
-# cd /sys/class/leds/stmmac-0:08:green:lan/
-# ls -l
-total 0
--rw-r--r--    1 root     root          4096 May  5 10:13 brightness
-lrwxrwxrwx    1 root     root             0 May  5 10:13 device -> ../../..=
-/stmmac-0:08
--rw-r--r--    1 root     root          4096 May  5 10:13 device_name
--rw-r--r--    1 root     root          4096 May  5 10:13 full_duplex
--rw-r--r--    1 root     root          4096 May  5 10:13 half_duplex
--rw-r--r--    1 root     root          4096 May  5 10:13 interval
--rw-r--r--    1 root     root          4096 May  5 10:13 link
--r--r--r--    1 root     root          4096 May  5 10:13 max_brightness
--r--r--r--    1 root     root          4096 May  5 10:13 offloaded
-drwxr-xr-x    2 root     root             0 May  5 10:13 power
--rw-r--r--    1 root     root          4096 May  5 10:13 rx
--rw-r--r--    1 root     root          4096 May  5 10:13 rx_err
-lrwxrwxrwx    1 root     root             0 May  5 10:13 subsystem -> ../..=
-/../../../../../../../class/leds
--rw-r--r--    1 root     root             0 May  5 10:13 trigger
--rw-r--r--    1 root     root          4096 May  5 10:13 tx
--rw-r--r--    1 root     root          4096 May  5 10:13 tx_err
--rw-r--r--    1 root     root          4096 May  5 10:13 uevent
-# cat trigger device_name offloaded=20
-none kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock kbd-shiftlock kbd=
--altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock kbd-shiftrlock kbd-ctrll=
-lock kbd-ctrlrlock [netdev] mmc0
+is unused, and can be removed.
 
-0
-=3D=3D=3D
+Gr{oetje,eeting}s,
 
-This shows that 'netdev' trigger is selected, alas the device name is
-empty and offloading is disabled despite the driver using those
-callbacks. The only thing that works is setting 'brightness' manually.
+                        Geert
 
-If I now select the 'netdev' trigger _again_, things change:
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-=3D=3D=3D
-# echo netdev > trigger
-# ls -l
-total 0
--rw-r--r--    1 root     root          4096 May  5 10:13 brightness
-lrwxrwxrwx    1 root     root             0 May  5 10:13 device -> ../../..=
-/stmmac-0:08
--rw-r--r--    1 root     root          4096 May  5 10:17 device_name
--rw-r--r--    1 root     root          4096 May  5 10:17 full_duplex
--rw-r--r--    1 root     root          4096 May  5 10:17 half_duplex
--rw-r--r--    1 root     root          4096 May  5 10:17 interval
--rw-r--r--    1 root     root          4096 May  5 10:17 link
--rw-r--r--    1 root     root          4096 May  5 10:17 link_10
--rw-r--r--    1 root     root          4096 May  5 10:17 link_100
--rw-r--r--    1 root     root          4096 May  5 10:17 link_1000
--r--r--r--    1 root     root          4096 May  5 10:13 max_brightness
--r--r--r--    1 root     root          4096 May  5 10:17 offloaded
-drwxr-xr-x    2 root     root             0 May  5 10:13 power
--rw-r--r--    1 root     root          4096 May  5 10:17 rx
--rw-r--r--    1 root     root          4096 May  5 10:17 rx_err
-lrwxrwxrwx    1 root     root             0 May  5 10:13 subsystem -> ../..=
-/../../../../../../../class/leds
--rw-r--r--    1 root     root             0 May  5 10:17 trigger
--rw-r--r--    1 root     root          4096 May  5 10:17 tx
--rw-r--r--    1 root     root          4096 May  5 10:17 tx_err
--rw-r--r--    1 root     root          4096 May  5 10:13 uevent
-# cat trigger device_name offloaded=20
-none kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock kbd-shiftlock kbd=
--altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock kbd-shiftrlock kbd-ctrll=
-lock kbd-ctrlrlock [netdev] mmc0
-eth1
-1
-=3D=3D=3D
-
-The 'link_*' files appeared, 'device_name' and 'offloaded' have the
-expected values. But now the LED is blinking like crazy despite all the
-rx/tx/whatnot triggers still set to 0.
-
-At this point, I have to stop it because I currently have not the
-bandwidth to go further. I will live with the default 'link only' setup.
-I hope I will have some time in the future to add the activity led
-properly.
-
-Thank you for your assistance!
-
-
---inATdUMQonikLbhm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf3dgcACgkQFA3kzBSg
-KbZ2Hw//YP2AyhRWaSxcQVWGfKmqrXQd+zatixzacp7teKpFEBrQDN7p8xG3TNCx
-s+Wgi8rYbYfNiLxGiY4gt3Kl5J67/cSHq1yhYyeIad5dlkOUXkjxSO2zgthLMM/Y
-u1t0qS8m+vju1q4u+DQBpdpeaCgL0egZp5XGyreQGrHKwKPcnUA4vfYYizx8T4Uj
-rHJuk5Ih/RXQDDaePS4djj90sLOtvWJ86Cxuj8+LEddiy3ZqgFWZj+WiXtJNmRYu
-ti4GJ2w2dk+BsFbdSkWukAZleuEE7e4WzATjZSPRTZk0NFbloai/D9R+zCrkqI/1
-ah7AWmkC7g6zHh0N/nzzAl5z8HS6PNoYIKK5PLqtoVOIw8Ro9UJJ2gVA9/oik4A0
-WzYxKbHmLbWSFgPrxY2282EXMHZ+xP5NBRsNN8TGOaJJJlexu9yl77DvRVxJ1eZB
-dh/K6hogJBWRPuEQMHrNkdE/Za/BlYOXy5709rtV/ZkmPaimBw8YLADrdJZpJbeh
-cXFj1X0LjphqjMSYSmGdPNIvvKc3jPnYKBtIONAR1ln0+rjZ3v4gnqdDZnCazdBP
-0k8AhDjg5TSE+C2n3Zux+Zq6RYtcq7u2kHYLyM6mnB5/UbzqUQOlSsx75D+vNEpm
-pVeyPIsgwcnZ+qfNfaIwOlhsPaXWwmoDbVQxiiSqHgSbhQyrIoM=
-=DIwm
------END PGP SIGNATURE-----
-
---inATdUMQonikLbhm--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
