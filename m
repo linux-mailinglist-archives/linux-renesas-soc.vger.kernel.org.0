@@ -1,120 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-15788-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15789-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B28BA8491D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 18:00:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE67A84939
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 18:07:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB60A1890E47
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 15:58:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2B923A8DAF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Apr 2025 16:07:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EFA21EA7F1;
-	Thu, 10 Apr 2025 15:57:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2BF61EB5E9;
+	Thu, 10 Apr 2025 16:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iMPR7vgG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3EA1E98FC;
-	Thu, 10 Apr 2025 15:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E49189F5C;
+	Thu, 10 Apr 2025 16:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744300672; cv=none; b=T39GgVafqjLr5/Rrux/eKRsXkdyNPHI2pPG/KqfF8CF7ahnbsJCX3flnkKq8lY+UEmIse6OX0Gj4E8srbvCv8G/H8K1JfpFRvHdaIndumdbxcN8HohsrkBUBQiA72Duw4L+E1dDISQXsjvaKVqU1emUMaC1MY/ZtmC+8QSCSjQs=
+	t=1744301244; cv=none; b=rTsfQ1OTP+AxGIkXGcLtIr3rFMwkEnbYorAVYJMlvYUlXg9kpuTsMePtoNzAl86YdtuufSq/+QB7P2rx3vWh5Yg3c9Uvhsuummvo5LEooAX8YJnqoQ28nhg8U0HIrMwd/4Ib7CriEPe4i4F48bcjQBzU7b0eZG31zdCtCl3CxuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744300672; c=relaxed/simple;
-	bh=toEDVYlQ5gc+BWTPYsab9ywypW8wzVWZlN3gOPWpIFk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l/GVgV5foiz6F7J8d/GotypYXY5zXr2SJk1/Wj6Xrbw+0PkGj9I8y9mqq6sD5mtW8Hemv4p3A8zCfIeKZRgh+tL+ngA/fQur6jBASEQogBjow7G7QoGj19sgX/J5MMGgFiWfrG1qeQyQnw0baIGexh7QZIiKDgoI/ylBo14KTTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-86715793b1fso398820241.0;
-        Thu, 10 Apr 2025 08:57:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744300669; x=1744905469;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zTlABCuj1Vx4ATPe93guMM4wCPJWzEZx3LEoHZZ4x/o=;
-        b=aFMpS5pCiv1P4J6Kwc2B6pID2BcfBp9WILbzed16Z/YZAFx+GlAsWUFUBlTWnfkQ3Y
-         Xz8Rhg5XuG9oXVnza2jyj0aChsD9CVnpOljwWaACwj2mymuth3Vm4X2DD+gNxFCHYnXP
-         5xUMADj17y2aV66J0Xl6+vSzSFxxIl3/mLLepDly/Ah0M5dlT+htEswE1A+snbZGVcHP
-         /P656I9gArOMQRBn/SvOei3OJ3Yx+aL84gGUDD12+mFrVggdoMFzcWU8T69hARPl4loK
-         ic1ooDd/RF93S6F8FeF7njldV1iKlDvXSQcZ753Vij2xn7cicejXqMmBpjTpmSSwPWep
-         472A==
-X-Forwarded-Encrypted: i=1; AJvYcCU3s/0xxb/ti4y8SCJC82a3C5nCVzR9VicUaLPjfKlLS2IIDdxckTPUNufw7iL5H+ryWgvUTmIrHUPg@vger.kernel.org, AJvYcCV2WZqNCwYtLpBHUfZ6xudrGFe2ZiMH0l55W03Hz3SJqkNBQDj1ovQAAACh1IJhsKeFaG/lkoBlZAIjHAg=@vger.kernel.org, AJvYcCWos8YcBjj5m/fRVFiZAT4fg4pHNgJRuxJPR0klX+dsglYPqFb7fKhOpfPin1OLXR0Z/184vFJ53IbLyZ+B43eatXc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBtPaqwm2Pd9op9M804kvC7P1llUd5KzkpRihZHmSgNBHnW3gu
-	W+0k0/29ubtwmSMDr0wE+O9WqU9T3Xrrm3xJ/MTenjXMN+fQVEbSXg1lvScdx9g=
-X-Gm-Gg: ASbGncv5Um/9vdX+1a8/JMo/OwkRKMkMh0vZ4kEGf+/HoFrTSYJNW0bIZxjwDT9imp9
-	vmGLRVulsNVDIgoFlDWWx9REaokChdEJ2oJ04ff2OfZN/1Wox2p11uE7dkSjgWXfencVKS7srYM
-	gYDzsdQhtZGON3G7beGD+cGXgWJlMy9VEemD3yFWRTfeQYtKhMjUz1Vql5Wguvn828XAOxfW9/V
-	xAln3hj+i8bRy1x3KC0a4dEkg7xlHMmCCC8GXRAUEVaL19miIHBidk3ayh2mQ6zZ68iRkHKCbEg
-	xhXfURJU/5csqTrcP2D2kO77A+7NWPv2QesdztLueDXqtXBIuVHam1WeQyCbQp0zNUJ+vMZaoqQ
-	8/jI=
-X-Google-Smtp-Source: AGHT+IF0OqWCTjXXUjJWbye1qhtZZSRSSO+dzF6ssSRXgkhuxHwpUI7UoGQJH6SFJ+s5do6Lw/HXcQ==
-X-Received: by 2002:a05:6102:d91:b0:4bb:e8c5:b172 with SMTP id ada2fe7eead31-4c9d34a839dmr3484604137.8.1744300669360;
-        Thu, 10 Apr 2025 08:57:49 -0700 (PDT)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c9c9738360sm641249137.2.2025.04.10.08.57.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Apr 2025 08:57:49 -0700 (PDT)
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-86d30787263so406965241.1;
-        Thu, 10 Apr 2025 08:57:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVSPV4+zAneTJB+HR5/bjfJOmo5ySWicFnBHsF73GSm9hmglqxO4yvpsdNFbohuiSUmj473pv5TLCFarN0=@vger.kernel.org, AJvYcCVvw2kpqBaMdi/Tp3drXBz5vALN/MMEH6/NzyAJjJZM8RTUX6mfw4E9r1nkp3M1eSVQ6wvTUkKYXOvU@vger.kernel.org, AJvYcCWfMvrcuLsysgH5v4ce0kA5yXyFD57Nnx/hG78lG8Bdkce+evr/twhFSt9EqUqp8B0eOgRU831Ya7kunO91jexDvJY=@vger.kernel.org
-X-Received: by 2002:a05:6102:3309:b0:4ba:971a:41fd with SMTP id
- ada2fe7eead31-4c9d35c5deamr2928169137.19.1744300668880; Thu, 10 Apr 2025
- 08:57:48 -0700 (PDT)
+	s=arc-20240116; t=1744301244; c=relaxed/simple;
+	bh=vKTeQFFCmt46JdP7DyCiIVywztk+IaK0aYIzzD8T+Jo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GDJkt3IKZxi5IvjrUHe2M+2YSLJWQS6H8/vuswbVkUbi1/IIIMLqbdlaGS56yIUV9hHR3cwm/Vm0wC7k4YlPN6GAvbLsR3K+yGHaDdQz2oxiS/QljdgIfmROF5mP1H3zFFKF5JEU7MrcfYPTx30essFAn4sZekS74fbyh32eEcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iMPR7vgG; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744301243; x=1775837243;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vKTeQFFCmt46JdP7DyCiIVywztk+IaK0aYIzzD8T+Jo=;
+  b=iMPR7vgGHmnvT/E+2eypgXdahpO/smz7LhCF6ghXnxbQyEO4WFRU7u4d
+   9vNCxetzNYi7IMQN1HYttYyw1fuIIe8UR1xSOYZ0bOOjYf19T4VM17IZi
+   BlBMkUhqG9t8AI3utO4NuCQloK2+Ei/VVohzq7bUM00YL9RnqjfY/2n10
+   SAy/Wg2nAaoQ7/PWrIhWsrjeOzfFsJVZpPDBMPrl4Xu5cmjovlg1PQG7/
+   s0bEkN8pDwxMhD9fm3d0SN20glZuvYWB4bH1epju2Lmpzj3yKHdXBdaP/
+   lTBXHpfdux+OEfjoE31ynxQ08MYs7Q/e4uEClyU+BZ4u6XQOmgYgs8rIA
+   g==;
+X-CSE-ConnectionGUID: 9tqa/V1TQ9imIIMe7DvoYA==
+X-CSE-MsgGUID: GvQq0lM0Rgye050lXhAHBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="68321257"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
+   d="scan'208";a="68321257"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 09:07:22 -0700
+X-CSE-ConnectionGUID: G2NMB3yxTr6Jlw4dDbGdvQ==
+X-CSE-MsgGUID: hjUqUviBT8C0/8Ovewh4ww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
+   d="scan'208";a="129286470"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 09:07:15 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 349EB11F74E;
+	Thu, 10 Apr 2025 19:07:12 +0300 (EEST)
+Date: Thu, 10 Apr 2025 16:07:12 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Nuno Sa <nuno.sa@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Guillaume Stols <gstols@baylibre.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Dumitru Ceclan <mitrutzceclan@gmail.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Matteo Martelli <matteomartelli3@gmail.com>,
+	Alisa-Dariana Roman <alisadariana@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	=?iso-8859-1?Q?Jo=E3o_Paulo_Gon=E7alves?= <joao.goncalves@toradex.com>,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v10 2/8] property: Add functions to iterate named child
+Message-ID: <Z_fssEg3QZXyaTzx@kekkonen.localdomain>
+References: <cover.1742560649.git.mazziesaccount@gmail.com>
+ <2767173b7b18e974c0bac244688214bd3863ff06.1742560649.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se> <20250315152708.328036-5-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20250315152708.328036-5-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 10 Apr 2025 17:57:37 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXrvdKNNOymbeE7XBPc-jdqN0Zn=2DyFhH=36UrnoLXrA@mail.gmail.com>
-X-Gm-Features: ATxdqUEPpj3_EQ7ScJL1cyuOmr3eI1I4T0RYCr9RHkR9JOp50RTDPPFLtPPI7Bo
-Message-ID: <CAMuHMdXrvdKNNOymbeE7XBPc-jdqN0Zn=2DyFhH=36UrnoLXrA@mail.gmail.com>
-Subject: Re: [PATCH 4/7] arm64: dts: renesas: r8a779h0: Add ISP core function block
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2767173b7b18e974c0bac244688214bd3863ff06.1742560649.git.mazziesaccount@gmail.com>
 
-On Sat, 15 Mar 2025 at 16:28, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> The first ISP instances on V4M have both a channel select and core
-> function block, describe the core region in addition to the existing cs
-> region. While at it update the second ISP to match the new bindings and
-> add the reg-names and interrupt-names property.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+On Mon, Mar 24, 2025 at 09:12:50AM +0200, Matti Vaittinen wrote:
+> There are a few use-cases where child nodes with a specific name need to
+> be parsed. Code like:
+> 
+> fwnode_for_each_child_node()
+> 	if (fwnode_name_eq())
+> 		...
+> 
+> can be found from a various drivers/subsystems. Adding a macro for this
+> can simplify things a bit.
+> 
+> In a few cases the data from the found nodes is later added to an array,
+> which is allocated based on the number of found nodes. One example of
+> such use is the IIO subsystem's ADC channel nodes, where the relevant
+> nodes are named as channel[@N].
+> 
+> Add helpers for iterating and counting device's sub-nodes with certain
+> name instead of open-coding this in every user.
+> 
+> Suggested-by: Jonathan Cameron <jic23@kernel.org>
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Queuing in renesas-devel is postponed, pending acceptance of the DT
-binding changes.
+Kiitos!
 
-Gr{oetje,eeting}s,
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Sakari Ailus
 
