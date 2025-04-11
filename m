@@ -1,121 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-15878-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15879-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA76A86714
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 22:27:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E7CA86799
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 22:50:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0E911B8812A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 20:27:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B90C63BAE2B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 20:50:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B4DA268C48;
-	Fri, 11 Apr 2025 20:27:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8804528CF6D;
+	Fri, 11 Apr 2025 20:50:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="esDdo68Z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vMpbqU2S"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8C5280CD5;
-	Fri, 11 Apr 2025 20:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4774128150A;
+	Fri, 11 Apr 2025 20:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744403224; cv=none; b=KnJG7QH8GOL8Osktcul49ZIDUW9P4qHZnjEZIpKzxI86yG1Q2tnVo4xfo9zYbgW0ZlGpnf/eiwItDQ9daqnETQAPhqB4DaHgmCALbz5xqjGAsuyJiXmz1JIRwEf3uM2jMPwKrm8szFkexIc0RBBEXMfmURMf/NlsGYtTQrejUL4=
+	t=1744404635; cv=none; b=TWkXUklKvpzBdpf/qBAcLbL9DhmldBBoD1IUHI+k9sMdT74QyMRBgLkx5hWiX7qzijb0TQ86vI/UUV3ejq+P0GIBgBZN4qWmRNEWq0++KsbJ6M5ohAmVlEEr1sLJQGROejaaSpaAQRj1550W2vh0xvGPuKFnBFzL6kZkX9dPn8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744403224; c=relaxed/simple;
-	bh=0db2ZvvEaBiYWW5dZn01u/FW+dk6clupic3ccg4s29U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SWv/GVNR7ICMiJ5IYQ6k3L94cN07QxKTG6+DwGXNezJR+PTrPD2AMNoU+QHeoVRJFozlV8plHZePu0wKzVTcG+Df6t/yXG79g9FesGDHg/jXAdrTPyar7g74jM3g56frYJfoNAQ1XIa9wqc8gAh2dA/MFFmbjf2LVcLk06v4Bck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=esDdo68Z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8576FC4AF0C;
-	Fri, 11 Apr 2025 20:27:03 +0000 (UTC)
+	s=arc-20240116; t=1744404635; c=relaxed/simple;
+	bh=v7tIIykVpkEeHOHOdVPrbm4pD3gJatssoBZugakk8FE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DYvUM97it6sHn+z8PPqNervFC78mRsszHy4SnqqA3vNZ9Wl8js9bfFd11MJR/0tlYBLOh2mCqIsMjkvRot3COXOOFoQTyf61xsOKRUuIOS2fEC5Swsz8rezPXki/N0tmKfOua8xnJ/+Lsp6vh1fuOszfOZpdC9m04kr4AEJdyaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vMpbqU2S; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF5E2C4CEE2;
+	Fri, 11 Apr 2025 20:50:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744403223;
-	bh=0db2ZvvEaBiYWW5dZn01u/FW+dk6clupic3ccg4s29U=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=esDdo68Z+d4Hv2xTg9bir7moDVY9WA5ZHNQOQQSuaSqpK4ZVZ5TYCII/bn4RwxMZr
-	 v91Fy4ZOoM0+/Jt/kJz+hHTDBH5Y7cgorkg7hKJYfMEaAtyYm0yo7TVsyLDYP8X8Yr
-	 lbBolizfkYoMybinoxMnQeO4z15ssNsGWjbJWaCNcXXhLeL8+wXdXh4bxQDVNpBy+W
-	 16U0UR3T/W7DwHyxqusjQCSezbEnBHt3oAODHEOXBlDZ57rr7uw2sGTGNNSPwztmgs
-	 OP7R18BP7Fw67uyJpytSsPPFA8F8LJPW2roAjchwrwdUeX0R1tYzq+HQy0G41GmtXm
-	 oaWZ2H87kVc8g==
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5e61d91a087so3628596a12.0;
-        Fri, 11 Apr 2025 13:27:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCURY8YPXJKPKQ1pCXmhlHuc5IAYZfj1TfKJpvjNY6HSL3ax2ixUJJZCoAhL37++9cG47+xtxLgIMcCkpbiA@vger.kernel.org, AJvYcCV5wxCbtCqAJKeBoUkd/upyOwGDuqoR1Pv8OTTh4tn1XD8yqcZ7de6TIDwyLMIPkSKf2nhsQd1E6LvR@vger.kernel.org, AJvYcCVOch0a521vxYakr66CzacDo60E1QMp/TaZjSiRfaSuOEfQe7/lnIBD6IISd8BtwWgxSWk6/PRQwbGlSkHKwQ==@vger.kernel.org, AJvYcCVphpMmdlzM0qQSJEV7V/BUW3/gtrt0NdKybT+c3DJVpzGy97p/TZwqsDvpcqSLUo4XUJzGbrgc02o=@vger.kernel.org, AJvYcCWEFNQu08/CgdnoAa05IneO6qdIOxCat5akNcGtp8dYImNTDH+6vI3KuwhoNdIbtEp5UCmmwnuUhYoKew==@vger.kernel.org, AJvYcCWFIvgTFC/N2UwxviTuFc5LJOfa4DTXBQwAD2bliQlZXAMRCrGKF9NYoIl6iFJcwAUtIqn2/EF0/VnQq2uELJl7Qv8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1uyL3HhsiU8vVC6d167kCu0300PF0ALumRMOwG+ml9/wG37wB
-	PYX5mu4JuO/t+vQ9yXPaL19fpVOaYTx6RFYnn0R4VP9+6qlhu6PNlXVz0zE0eZU0TISC8hGwIRv
-	PV1u9v4GrgvyKmO2C97VUmpyqeA==
-X-Google-Smtp-Source: AGHT+IHTq9IynIF/z4Ryd9XhwviquzTS623VvUxbOB2plMDWlWmVxnnGmioMBYPRMrNx5/qrse/N9OEq7aX0hV7vQRQ=
-X-Received: by 2002:a05:6402:1d54:b0:5e0:49e4:2180 with SMTP id
- 4fb4d7f45d1cf-5f37001322cmr3235456a12.25.1744403222033; Fri, 11 Apr 2025
- 13:27:02 -0700 (PDT)
+	s=k20201202; t=1744404633;
+	bh=v7tIIykVpkEeHOHOdVPrbm4pD3gJatssoBZugakk8FE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vMpbqU2STK5lIwzX/bYaFEDT5mNwvs2Eox251aQahEaFWvcGdjRCUqLMEwhuAo5VZ
+	 q3D2TRw+ySJvovXAPJ+Q/c9DQ5ParyjN2e9LaaJrpEQStHIFOHpZCG3alMxAosqKCn
+	 iBa4n3xAxZT70+GjwFMnAkaWkC8Hh99rJzWISJypPYVw7TbA0X0KcBBEmWxSA5Qu3d
+	 s9ujKKNJ961v82mdsw50NahhCGc2eEXumTr3djWDnx9FzfR5nx+rKHv+i6zMZ6uhJs
+	 st0Hz2SNm5rfVLtR1BMUTg32bDKVH7rXkjnlwBXXFZ6X+wqebdUHAOXidbfb5LnHfd
+	 3SteTcsAX5JLg==
+Date: Fri, 11 Apr 2025 21:50:26 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfgang Grandegger <wg@grandegger.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	linux-can@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-spi@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: remove RZ/N1S bindings
+Message-ID: <d2620b77-166a-427f-86e1-9d2dcc34d9ba@sirena.org.uk>
+References: <20250411194849.11067-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
- <20250410-dt-cpu-schema-v2-3-63d7dc9ddd0a@kernel.org> <20250411-ebay-exerciser-392c42daf5ba@spud>
-In-Reply-To: <20250411-ebay-exerciser-392c42daf5ba@spud>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 11 Apr 2025 15:26:50 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJza-bufzjZ415THyDDQaOfk8F+JRFvFxzNwObG=NKVJQ@mail.gmail.com>
-X-Gm-Features: ATxdqUHjYgk-N2yFwfhKqPvFMPb1Jj4TAQ2QQ1AYg4EXz2sFdyWD0eKD2bEivlI
-Message-ID: <CAL_JsqJza-bufzjZ415THyDDQaOfk8F+JRFvFxzNwObG=NKVJQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/17] arm64: dts: microchip: sparx5: Fix CPU node
- "enable-method" property dependencies
-To: Conor Dooley <conor@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Viresh Kumar <vireshk@kernel.org>, 
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vH/+6C877RGjxnCX"
+Content-Disposition: inline
+In-Reply-To: <20250411194849.11067-2-wsa+renesas@sang-engineering.com>
+X-Cookie: You will be awarded some great honor.
 
-On Fri, Apr 11, 2025 at 11:22=E2=80=AFAM Conor Dooley <conor@kernel.org> wr=
-ote:
->
-> On Thu, Apr 10, 2025 at 10:47:24AM -0500, Rob Herring (Arm) wrote:
-> > The "spin-table" enable-method requires "cpu-release-addr" property,
-> > so add a dummy entry. It is assumed the bootloader will fill in the
-> > correct values.
-> >
-> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > Reviewed-by: Daniel Machon <daniel.machon@microchip.com>
-> > Tested-by: Daniel Machon <daniel.machon@microchip.com>
->
-> This is already applied, guess I forgot to merge it into the branch that
-> appears in linux next. I'll do that now..
 
-Sometimes I check next, but in this case I just looked at replies for
-which there were none. I dislike submitting dts changes because it's a
-range of AWOL maintainers, only applying around some rcN (so up to 2
-months later), silently applying, and applied but never in linux-next
-(until in soc tree).
+--vH/+6C877RGjxnCX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Rob
+On Fri, Apr 11, 2025 at 09:47:57PM +0200, Wolfram Sang wrote:
+> Except for these four quite random bindings, no further upstream
+> activity has been observed in the last 8 years. So, remove these
+> fragments to reduce maintenance burden.
+
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--vH/+6C877RGjxnCX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmf5gJIACgkQJNaLcl1U
+h9AkTAf/fHk08GWeoY58+CGME4cGPGaOVstp6Z/ekdWGfQ0wrNfuxqg8Zt94GxVI
+zAuDxwQG9VCHjlvq7DeZK89SLXXtsZsPlHQDtfd2kLFqDqmPe3ndETnR8Qn1sscC
+J3TJsFsKiETLY2zhvFBM6Kq11iFMmmIO8fBbFwbJobVDG8NAoc2GSH8n1VdxOqEW
+hP7WRlZqOFVxKnonHLSWq/PLCCs+f5vx3gVWyLbb4klnz1TCoMKQRxr7x+isA4/4
+OSUEqEgpvUo6rqRMCbGcLVbV9usNRpSBtWNsoPobP0KWrXNlgecasFlYeyZq2CtH
+MlnA6YWkvtgQf08S0/8KUpzmpPJZ5g==
+=cMYw
+-----END PGP SIGNATURE-----
+
+--vH/+6C877RGjxnCX--
 
