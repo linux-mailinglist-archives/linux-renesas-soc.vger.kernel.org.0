@@ -1,176 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-15877-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15878-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40CFBA866A7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 21:49:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA76A86714
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 22:27:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4286C1B67E14
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 19:49:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0E911B8812A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 20:27:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A21F628368D;
-	Fri, 11 Apr 2025 19:49:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B4DA268C48;
+	Fri, 11 Apr 2025 20:27:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="md1/lGE2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="esDdo68Z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3C52356DC
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Apr 2025 19:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8C5280CD5;
+	Fri, 11 Apr 2025 20:27:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744400944; cv=none; b=AvNcWSA5OjlpxL8+pATt/ptVAx/Ou3SXiBRpIsAEGRF19Z84P7o7ONNXOeG8FOq8uTr8tHO199EgJ+/E/E/NMj8BX7n8NX+rbN872Fr6vgVWnrcIruxLs6elbX0twmNQB5HFKGdWQ30SZ2tnwLag7x1bmP3oEiPjJWtR+Arjb/Q=
+	t=1744403224; cv=none; b=KnJG7QH8GOL8Osktcul49ZIDUW9P4qHZnjEZIpKzxI86yG1Q2tnVo4xfo9zYbgW0ZlGpnf/eiwItDQ9daqnETQAPhqB4DaHgmCALbz5xqjGAsuyJiXmz1JIRwEf3uM2jMPwKrm8szFkexIc0RBBEXMfmURMf/NlsGYtTQrejUL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744400944; c=relaxed/simple;
-	bh=dwX7lrYmi9zzC7dMvDxV9tnKHwWc/98WqddHYdda8zQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IcpRy3/KKu9hR65Y9n2TQAMMvsmQogCuqShfYFVXZMgiMM2hVGw7+k+wUzRrZ6lZlZKb1Nlt7OOfzWbU60p4kWbBJQcacW81nlz6Y+xXnxnoF2gjo0ctjA/j14BtAbFUqlYyg+JZjftYLL87icImJlHYVqGLv4SBVX+m2r4Asfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=md1/lGE2; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=qOkEUf9VE+o8qt
-	Kh7W5+vm+94aknEFFFwvSgu055GlE=; b=md1/lGE2BpJfcsswkeLB0hVBlBtTCM
-	9bgc6Pn+ahKxf9qfOttx/9iLNAmldN0RkIFV3gx+qisB9ZOKJ8Q0a+8+s7HblUN/
-	FpeT2rw1TVAdNSNNNDJQ2REkDKWwEbgDPxCW/r6jt+49w1xadaznC3XTaZ2Hv2Oa
-	/VZaJdB3znVO8hGmctWQ7Po0+vFXbqrzO6tiaoyPimWkCdc7NDrg8kdAzSw3Ol74
-	HGxqLckN4JFYsI1gINckzralP4Gsnbc/M0pmLsw0YRZgVRTYV1JTocmZ6KkdY9gO
-	8Gs5ZFCZQkYVG4A4zDIATXf495fNrQRt2ij7xg7CWF+UbN32z+Gzh5Gg==
-Received: (qmail 1407061 invoked from network); 11 Apr 2025 21:48:54 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Apr 2025 21:48:54 +0200
-X-UD-Smtp-Session: l3s3148p1@F8UN/oUyCKwujnsS
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfgang Grandegger <wg@grandegger.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	linux-can@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-spi@vger.kernel.org
-Subject: [PATCH] dt-bindings: remove RZ/N1S bindings
-Date: Fri, 11 Apr 2025 21:47:57 +0200
-Message-ID: <20250411194849.11067-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1744403224; c=relaxed/simple;
+	bh=0db2ZvvEaBiYWW5dZn01u/FW+dk6clupic3ccg4s29U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SWv/GVNR7ICMiJ5IYQ6k3L94cN07QxKTG6+DwGXNezJR+PTrPD2AMNoU+QHeoVRJFozlV8plHZePu0wKzVTcG+Df6t/yXG79g9FesGDHg/jXAdrTPyar7g74jM3g56frYJfoNAQ1XIa9wqc8gAh2dA/MFFmbjf2LVcLk06v4Bck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=esDdo68Z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8576FC4AF0C;
+	Fri, 11 Apr 2025 20:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744403223;
+	bh=0db2ZvvEaBiYWW5dZn01u/FW+dk6clupic3ccg4s29U=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=esDdo68Z+d4Hv2xTg9bir7moDVY9WA5ZHNQOQQSuaSqpK4ZVZ5TYCII/bn4RwxMZr
+	 v91Fy4ZOoM0+/Jt/kJz+hHTDBH5Y7cgorkg7hKJYfMEaAtyYm0yo7TVsyLDYP8X8Yr
+	 lbBolizfkYoMybinoxMnQeO4z15ssNsGWjbJWaCNcXXhLeL8+wXdXh4bxQDVNpBy+W
+	 16U0UR3T/W7DwHyxqusjQCSezbEnBHt3oAODHEOXBlDZ57rr7uw2sGTGNNSPwztmgs
+	 OP7R18BP7Fw67uyJpytSsPPFA8F8LJPW2roAjchwrwdUeX0R1tYzq+HQy0G41GmtXm
+	 oaWZ2H87kVc8g==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5e61d91a087so3628596a12.0;
+        Fri, 11 Apr 2025 13:27:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCURY8YPXJKPKQ1pCXmhlHuc5IAYZfj1TfKJpvjNY6HSL3ax2ixUJJZCoAhL37++9cG47+xtxLgIMcCkpbiA@vger.kernel.org, AJvYcCV5wxCbtCqAJKeBoUkd/upyOwGDuqoR1Pv8OTTh4tn1XD8yqcZ7de6TIDwyLMIPkSKf2nhsQd1E6LvR@vger.kernel.org, AJvYcCVOch0a521vxYakr66CzacDo60E1QMp/TaZjSiRfaSuOEfQe7/lnIBD6IISd8BtwWgxSWk6/PRQwbGlSkHKwQ==@vger.kernel.org, AJvYcCVphpMmdlzM0qQSJEV7V/BUW3/gtrt0NdKybT+c3DJVpzGy97p/TZwqsDvpcqSLUo4XUJzGbrgc02o=@vger.kernel.org, AJvYcCWEFNQu08/CgdnoAa05IneO6qdIOxCat5akNcGtp8dYImNTDH+6vI3KuwhoNdIbtEp5UCmmwnuUhYoKew==@vger.kernel.org, AJvYcCWFIvgTFC/N2UwxviTuFc5LJOfa4DTXBQwAD2bliQlZXAMRCrGKF9NYoIl6iFJcwAUtIqn2/EF0/VnQq2uELJl7Qv8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1uyL3HhsiU8vVC6d167kCu0300PF0ALumRMOwG+ml9/wG37wB
+	PYX5mu4JuO/t+vQ9yXPaL19fpVOaYTx6RFYnn0R4VP9+6qlhu6PNlXVz0zE0eZU0TISC8hGwIRv
+	PV1u9v4GrgvyKmO2C97VUmpyqeA==
+X-Google-Smtp-Source: AGHT+IHTq9IynIF/z4Ryd9XhwviquzTS623VvUxbOB2plMDWlWmVxnnGmioMBYPRMrNx5/qrse/N9OEq7aX0hV7vQRQ=
+X-Received: by 2002:a05:6402:1d54:b0:5e0:49e4:2180 with SMTP id
+ 4fb4d7f45d1cf-5f37001322cmr3235456a12.25.1744403222033; Fri, 11 Apr 2025
+ 13:27:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
+ <20250410-dt-cpu-schema-v2-3-63d7dc9ddd0a@kernel.org> <20250411-ebay-exerciser-392c42daf5ba@spud>
+In-Reply-To: <20250411-ebay-exerciser-392c42daf5ba@spud>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 11 Apr 2025 15:26:50 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJza-bufzjZ415THyDDQaOfk8F+JRFvFxzNwObG=NKVJQ@mail.gmail.com>
+X-Gm-Features: ATxdqUHjYgk-N2yFwfhKqPvFMPb1Jj4TAQ2QQ1AYg4EXz2sFdyWD0eKD2bEivlI
+Message-ID: <CAL_JsqJza-bufzjZ415THyDDQaOfk8F+JRFvFxzNwObG=NKVJQ@mail.gmail.com>
+Subject: Re: [PATCH v2 03/17] arm64: dts: microchip: sparx5: Fix CPU node
+ "enable-method" property dependencies
+To: Conor Dooley <conor@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
+	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Viresh Kumar <vireshk@kernel.org>, 
+	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Except for these four quite random bindings, no further upstream
-activity has been observed in the last 8 years. So, remove these
-fragments to reduce maintenance burden.
+On Fri, Apr 11, 2025 at 11:22=E2=80=AFAM Conor Dooley <conor@kernel.org> wr=
+ote:
+>
+> On Thu, Apr 10, 2025 at 10:47:24AM -0500, Rob Herring (Arm) wrote:
+> > The "spin-table" enable-method requires "cpu-release-addr" property,
+> > so add a dummy entry. It is assumed the bootloader will fill in the
+> > correct values.
+> >
+> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > Reviewed-by: Daniel Machon <daniel.machon@microchip.com>
+> > Tested-by: Daniel Machon <daniel.machon@microchip.com>
+>
+> This is already applied, guess I forgot to merge it into the branch that
+> appears in linux next. I'll do that now..
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Sometimes I check next, but in this case I just looked at replies for
+which there were none. I dislike submitting dts changes because it's a
+range of AWOL maintainers, only applying around some rcN (so up to 2
+months later), silently applying, and applied but never in linux-next
+(until in soc tree).
 
-In the previous discussion [1], Rob offered to take this patch.
-
-[1] https://lore.kernel.org/r/CAL_Jsq+DOp8YOcshTVqYcbmgbuc4etTQeeswmMUYjw1sws4mAA@mail.gmail.com
-
- .../devicetree/bindings/net/can/nxp,sja1000.yaml     |  4 +---
- .../bindings/pinctrl/renesas,rzn1-pinctrl.yaml       |  4 +---
- .../devicetree/bindings/serial/snps-dw-apb-uart.yaml | 12 +++---------
- .../devicetree/bindings/spi/snps,dw-apb-ssi.yaml     |  4 +---
- 4 files changed, 6 insertions(+), 18 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml b/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
-index 144a3785132c..ec0c2168e4b9 100644
---- a/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
-+++ b/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
-@@ -16,9 +16,7 @@ properties:
-           - nxp,sja1000
-           - technologic,sja1000
-       - items:
--          - enum:
--              - renesas,r9a06g032-sja1000 # RZ/N1D
--              - renesas,r9a06g033-sja1000 # RZ/N1S
-+          - const: renesas,r9a06g032-sja1000 # RZ/N1D
-           - const: renesas,rzn1-sja1000 # RZ/N1
- 
-   reg:
-diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml
-index 816688580e33..aa882b5bfe97 100644
---- a/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml
-@@ -13,9 +13,7 @@ maintainers:
- properties:
-   compatible:
-     items:
--      - enum:
--          - renesas,r9a06g032-pinctrl # RZ/N1D
--          - renesas,r9a06g033-pinctrl # RZ/N1S
-+      - const: renesas,r9a06g032-pinctrl # RZ/N1D
-       - const: renesas,rzn1-pinctrl   # Generic RZ/N1
- 
-   reg:
-diff --git a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
-index 1aa3480d8d81..1ee0aed5057d 100644
---- a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
-+++ b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
-@@ -17,9 +17,7 @@ allOf:
-       properties:
-         compatible:
-           items:
--            - enum:
--                - renesas,r9a06g032-uart
--                - renesas,r9a06g033-uart
-+            - const: renesas,r9a06g032-uart
-             - const: renesas,rzn1-uart
-             - const: snps,dw-apb-uart
-     then:
-@@ -45,15 +43,11 @@ properties:
-   compatible:
-     oneOf:
-       - items:
--          - enum:
--              - renesas,r9a06g032-uart
--              - renesas,r9a06g033-uart
-+          - const: renesas,r9a06g032-uart
-           - const: renesas,rzn1-uart
-           - const: snps,dw-apb-uart
-       - items:
--          - enum:
--              - renesas,r9a06g032-uart
--              - renesas,r9a06g033-uart
-+          - const: renesas,r9a06g032-uart
-           - const: renesas,rzn1-uart
-       - items:
-           - enum:
-diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-index bccd00a1ddd0..ff77ad6d4d8c 100644
---- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-+++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-@@ -84,9 +84,7 @@ properties:
-         const: canaan,k210-spi
-       - description: Renesas RZ/N1 SPI Controller
-         items:
--          - enum:
--              - renesas,r9a06g032-spi # RZ/N1D
--              - renesas,r9a06g033-spi # RZ/N1S
-+          - const: renesas,r9a06g032-spi # RZ/N1D
-           - const: renesas,rzn1-spi   # RZ/N1
-       - description: T-HEAD TH1520 SoC SPI Controller
-         items:
--- 
-2.47.2
-
+Rob
 
