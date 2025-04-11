@@ -1,134 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-15843-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15844-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 823D6A85C15
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 13:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098D3A85CA2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 14:13:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5FCD418936F3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 11:41:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC63E1891BFE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 12:11:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DB5020B804;
-	Fri, 11 Apr 2025 11:40:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 619A329DB94;
+	Fri, 11 Apr 2025 12:10:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WCvDM6JX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWN2NuBd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCF222127C
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Apr 2025 11:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A8729AB04;
+	Fri, 11 Apr 2025 12:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744371646; cv=none; b=cnXXKJrl8AHJVYyPHe76Anp0SOv6TQbZpP+ddmnYgsML8uMW+v85nD4e5Q6VWpy10p59qI9Ar0nT44bliLz2vLmFKbwZuKgrib2mry0Ch2dvJUyDUoJnjcpNVscCknEbIE0IqBlY2ib4+42c8TdNjadZt3VsFZqqdGXoHNkMm9U=
+	t=1744373425; cv=none; b=Erq1e1WmQWVEF9XVrqQN0DgYrGaF5ZjbNkuDoOKO1FfMCekPOj96N9nh0p6Js3HL5HkxVTNXyM1Ddnx0jfWtAgcWU7MeJAbDEpffD/jmL7KBJw9oQFHYKsGXrfpY3kv8ylCS8LOZ+0dXuIo4C+u58oi+RNveghlm2quApFXBDJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744371646; c=relaxed/simple;
-	bh=7D7DwKH4Z28/lnIj8g9PPDtM+tjAkRdvH/ab0w7e6Qc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sAhX0WXEawAg/yRp40nFWaUNxpqPMwPBX1V3gtaiB+8PhwhNWe9MUy3+lhW0KHirGwmDU/ELQGeUEvpd7PiTlLXZoIOOfQliU1WcK3R9Pn3SDNEF6PefdJ6Jmsc9dZNP6V4OuLVD0e+CDbcdVVW0qSnAz6NUQXNdPXrgIocCWKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WCvDM6JX; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=/y4u
-	xEyL5puU+gIeFGFN1UxWPVX2K0jI9A2dB9O4HKc=; b=WCvDM6JXTBfcINSEgghX
-	VY8rb8Dp9JRoWvMdw1K+XeM05MZYVqOJt/+WYPhHaQ2BpVjaA617bankzZEJ/pm5
-	uO+kdT9dn9gUAcEHG2MGx6uQAY0J8obLGTTAB8cEuvmHKQ+DkGa98IeXKL6msB24
-	v+e12OE3s2+zzlIjQdsTer2Wvuk5kuP+FNYjk28dXJ/2F7oBPBu0cemSg55fsOzs
-	EY7EumEDyzqYqq/2n7tK+MW1g9XdaI0lcfIfTy37cky3ScZJ6V1khFWqlxcMaYoS
-	e4XKRZiFdvI9sY7xuw/guNLxLMtEWuEiA+XAnSbozsP9nu+h1k6UP0ZpikhdgjVP
-	3A==
-Received: (qmail 1279329 invoked from network); 11 Apr 2025 13:40:39 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Apr 2025 13:40:39 +0200
-X-UD-Smtp-Session: l3s3148p1@UJ/oK38yaJsgAwDPXyfYALbiJ46yNPq3
-Date: Fri, 11 Apr 2025 13:40:39 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 4/5] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
- LEDs
-Message-ID: <Z_j_t92QksnSjg-c@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-References: <20250328153134.2881-7-wsa+renesas@sang-engineering.com>
- <20250328153134.2881-11-wsa+renesas@sang-engineering.com>
- <CAMuHMdWO0662Qk7BxgMW8nr9OpP-mjPSxYKT6Z-pp+syacrtOg@mail.gmail.com>
+	s=arc-20240116; t=1744373425; c=relaxed/simple;
+	bh=qXkPvfz3L7QpP8yVqLZ0PU/tFO/qVu8LhU3z4fOHiro=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZYxCVDggfUoY9a7JoBSTMAntEjstJymYvB5CWDsLtqzPVIc3z6laR1hi1PWVK+De8A/Z06hUgeItsa4vZnoqRN1KhH/Jyx2CYX9JyShfO0rv3EAD7Bq3bZM/eSgVCLWo2xh2T7jS8Bu3XcceVxLKehyhAxxjEb+33K2H94KpbYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWN2NuBd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 757CDC4CEE2;
+	Fri, 11 Apr 2025 12:10:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744373424;
+	bh=qXkPvfz3L7QpP8yVqLZ0PU/tFO/qVu8LhU3z4fOHiro=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=TWN2NuBdVDDlw3kPSmU0YMURJZS1GCuKN7uiC7/aztJz0NLViIJIOmRq1+ficTjXL
+	 bY+9dTyD5rvl1zPjLrS3+qqlQNFcqO1DMIqo6fqeU/pfYn/n4LYXAXteAnndXFtspL
+	 d5s/7ZEBGSJjpb7nCCa1j3K+RDa6zDRbnU6z+MWORYiyzXLsMKYEko4tPJXmgorYMR
+	 TMT/lXOP25xwZL6QUZX/c0aycsGcV9eCPdvqmtW37FnPHz/3cd1T8hZZjL4AdOowAv
+	 exwd8vw0fz4J/e4iMp/tuNfiNckeOhdC/exsKeFDDKF/9Erkol7OCvZVFbsve/VJOD
+	 ajDbGi0+0n/7w==
+From: Vinod Koul <vkoul@kernel.org>
+To: Rob Herring <robh@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>, 
+ Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Peter Rosin <peda@axentia.se>, 
+ Aswath Govindraju <a-govindraju@ti.com>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-can@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <3d7e0d723908284e8cf06ad1f7950c03173178f3.1742483710.git.geert+renesas@glider.be>
+References: <3d7e0d723908284e8cf06ad1f7950c03173178f3.1742483710.git.geert+renesas@glider.be>
+Subject: Re: [PATCH v2] phy: can-transceiver: Re-instate "mux-states"
+ property presence check
+Message-Id: <174437342110.673813.5478003699967879937.b4-ty@kernel.org>
+Date: Fri, 11 Apr 2025 17:40:21 +0530
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mn4nbnL+OdRk3A5O"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWO0662Qk7BxgMW8nr9OpP-mjPSxYKT6Z-pp+syacrtOg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
 
---mn4nbnL+OdRk3A5O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 20 Mar 2025 16:15:42 +0100, Geert Uytterhoeven wrote:
+> On the Renesas Gray Hawk Single development board:
+> 
+>     can-transceiver-phy can-phy0: /can-phy0: failed to get mux-state (0)
+> 
+> "mux-states" is an optional property for CAN transceivers.  However,
+> mux_get() always prints an error message in case of an error, including
+> when the property is not present, confusing the user.
+> 
+> [...]
+
+Applied, thanks!
+
+[1/1] phy: can-transceiver: Re-instate "mux-states" property presence check
+      commit: e153fdea9db04dd0e2e536e2eb125b16bbbc2af7
+
+Best regards,
+-- 
+~Vinod
 
 
-> These are called LED1-LED8 in the Board Setup Notes.
-
-Oh, where? I have a version from "Dec 14, 2020" which only calls them
-Software-LEDs or "Port0 BitX". Schematics call them DBG_LEDx. I don't
-care much. The "db" board has a "USER LED2", as long as we don't
-conflict with that name, I am fine.
-
->     color =3D <LED_COLOR_ID_ORANGE>;
-
-Hmmm, they are definitely GREEN here.
-
->     function =3D LED_FUNCTION_INDICATOR;
-
-LED_FUNCTION_PROGRAMMING?
-
-> Perhaps you want the first one to be a heartbeat?
->=20
->     linux,default-trigger =3D "heartbeat";
-
-I recently removed a default-trigger on another board because it was in
-the way. So, I'd rather not.
-
-Phew, starting with the PHY LEDs on this board, didn't know LED were so
-troublesome...
-
-Shall I resend only this patch and rebased on the keyboard patch? Or
-resend the both?
-
-
---mn4nbnL+OdRk3A5O
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf4/7MACgkQFA3kzBSg
-KbbM+g/+JA9RSj8/Ajgtvn9dNlrwyMvp+0eIYiMKujGEpEqPlbxnMSxTcpEBQHzq
-9bVqKlXLU4vhg+IgjXdQZ/iynt/yXjOHY7BSd4LWOWm2bg/eYqNBiSPprTzJl2Cw
-ZtH15OcBuufGAXgOrXN+zGY125IkflNjvvg/bbDqZX+g2+rc7FiT8+GGp5CjqY+7
-G2J36wDtR3XHRmWSFl9vYnV1qxYX9cizX7IF926c3E7SLmLAvSZwM5RHafG3iaXS
-osdTx09Yn8frl6Q9xsVkeSRawfyq0/iW8exJQqG3ZzxewZsxezfajSpJ6U5/RWut
-9qBGJ9vfT15HY13P7qhz7zm7UgQjDLBNnsyEmkVVwqLW2QVc5l3FvT3N0AMVNTJK
-lMis3hnvqyioD4fCWXSj6l002dNEGLpF9/M1JiISQaX8146fNADQzYogPfvZqzn/
-a8yp2WOwvmfZ2IyD8E2dUVJ7cVUCwGn26DuIYvAc5rtLWOzTJ452sdLxRtcOSAeB
-ar6z8GPfAiXageEwgLjhZAeGKk88pQIRnemFkhADnPoft4ICT1CfNF8WqGcKvoHo
-5zMLcsgWQ02falfcxncwhcWsxsXMZY/8oa1OYav9G8CccMfK8mvg8Uwoqs/Lu2n6
-OTMnEiayLdsOwO4TnrADE8Kh68n3NiYkPIpnYED1M34QSRaFl0g=
-=Zj+I
------END PGP SIGNATURE-----
-
---mn4nbnL+OdRk3A5O--
 
