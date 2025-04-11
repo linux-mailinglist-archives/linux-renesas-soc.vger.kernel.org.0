@@ -1,171 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-15825-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15826-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8ED8A856C0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 10:39:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C56A85726
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 10:59:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8E308A102C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 08:37:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF5E71B61EED
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 08:59:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A709293479;
-	Fri, 11 Apr 2025 08:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dy+fjYOl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 823852980D4;
+	Fri, 11 Apr 2025 08:59:30 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76391D86F7
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Apr 2025 08:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345D5296169;
+	Fri, 11 Apr 2025 08:59:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744360678; cv=none; b=cIwr8ujyin3TugXQvahfpyDRkH8L/PTH557ijK49JSd5CDh/pEP6Zpjq4HFSYGYLC7NPyZ3xueh39VY7KZwzWFQILcUFSGhKkYYh8M6vpKZXoJKg0pOyiaPOLW3dJLOqTpNYFRDzvStImWC3uDRMOITAD/AdAwL/+iDEguJ6qhU=
+	t=1744361970; cv=none; b=kGVKtuTuQSv5ZobQ5LKSGxBHk9Il2kq/XJBq090f7Oc4eabwFf7WAq2Ybg36WAZ5wcm0VCQM1b9vfRHryS3CpXL07SQJz8m0YbNVkepW/3HHlviNJt04LD/+VPBZ50QSSrAsMhoMjMjnzB3RfjllJVBecB5a02LWQkbKpKWgGtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744360678; c=relaxed/simple;
-	bh=5kt3MWtin3KNwdzDbJU//7Uxuz+S1QGZ/maTZ/hrbSs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BWkaJAMJYeL8RMIZsGf8Wg7FmCSHRGFrJUObGralL4zkBBneid1jrhn4kiEeZiPpHzLYSTjvmZcWUo2zF5P8VCMyrXSr721ZFnIaF/75DkVRHYhzcrlq/EXQDH467LLaYy/FPGq9XgF5oi25D14+MZnxwqobQtIpHHRBAaaXU0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dy+fjYOl; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39c0dfba946so962721f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Apr 2025 01:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744360674; x=1744965474; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wH2ZPuzfR/sU9gtELQf1xx9ouW+DErODBwUT5LwG1mM=;
-        b=dy+fjYOl2NWtqXJHHd4H+Tpo9L+/m3lsuYvwRfy7cD+16NN+q8tvv5gyAlQ0ra23IO
-         0C98gB9Qk4qsQXQfsD3sRaiVfwIoa64x0I/ZKzJsNADmHD9OfLWgy7apo4hEn2PEWWg9
-         zJ/s2Ceme8nWBZ4R6ljHMBWREuI5HZqI/Z00u20fltn6RwNN64mweBGMGSThN4Goureo
-         aSwEoq15ptQnQZ6pwArHiL4cz9QwxQbPuYz2J1dg+V8q4Cgt8bPcj20M7gH7pGlbSbVU
-         /olenrBVqU5Smru3g91jmBiFa9msCGO+1nblQGmsJKojRvQLNUorj7flEXND1KBhwNJT
-         S46A==
+	s=arc-20240116; t=1744361970; c=relaxed/simple;
+	bh=7WWhpA0niEmA3SQEBftLXWFxTDbAES9dhpsZuMVl3xQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a+l27ANX90hv+P4DT37r5OODE+Ewn3HvEurzPyUiCo7D76qiI0bYHvU2d8xA3pBwFecDE5864yGCd5XnYe+eG/8WMaDXr95DcIh2b2+rnM0z7TAI7EeTmh+eUHuv4ruiOJsQpPcMv741MHmQeWib6O3HK/ktEVMolrPtEUli7lQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-86d30c329f2so1713526241.0;
+        Fri, 11 Apr 2025 01:59:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744360674; x=1744965474;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wH2ZPuzfR/sU9gtELQf1xx9ouW+DErODBwUT5LwG1mM=;
-        b=LPuBYAJv+7U/sFhqZm9kxIfc43AjRgbvGJlQ/FVq0ta3ayq9et4dTzFNpw/6KL8wOg
-         /gxS+q6uKrCjVo5AlLadmm2caIVee21fRe5NLMeeZKiHU31zrNN/olNiGzNB/BzvRYyf
-         OjFq0lSxGnrn23veA7KaqaL9EJNcMqnGyYz7H9kBayKvy8WmCtPYt2MjKUyTW1u3a+7N
-         QgM0tCm3sGKlAvTLazb3VFSqOmbdKoIqW3aqMJohivKpDUH8B3i4EeSBCidFWnLci+nE
-         xKjShmmIGjoxn9h+FT6vsYMakcNjxGw4fUbxrHduuI59GmwBc+pRn4zacuIWqwLhn6nF
-         p6dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJ3isc4xDWpTbUG3rghjlUf7Hk8cndQ7E2cnEk3Bdu3M+8LNvTDtmLDIU8qLpeAUnJxndIqhjCS4hwyMbZwAicBg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaWteWByly8JpS3jSXTTCREV4GgdZdljZr+fAGu4Ijp6s9A6KE
-	dmg7sD6Us+8ak96xRbrKYy+UQtk8bTz4NLsIXkHwyCG1qCpFzNGGZ8WzPVdMvag=
-X-Gm-Gg: ASbGnctFnPvYrEppGjsYOd8Y6ulmr027elMl7oof94neEL+YlXqClO0Br6adCmW9AOb
-	N78CD7AMe+Y3RTV/oySbXDwTdh5gqMclKWluHeUi+dusNOFpSyLMoMSeukr9Dmg//Xhjlbg10nu
-	6/GRmVM9zIsIFptfqKP08DPcbk3YmEv7Pt27tLp3/P9tkjgWgvOHvfY0K4e+NOWWw2XEJf4Dbr+
-	XDAALjGGLsZXnT7gbFhJCvDEdx24hCOXADHjgGwITIq9mKzFhKPXVGAW5NGEfLJJNGSmyEZzIV0
-	uRzNvUJnjHBmVA+p+U07yqi+GwQ8+FBMv0aZtv0rpLDuzbPp70cdAl1OCiTsyQ==
-X-Google-Smtp-Source: AGHT+IESQEmfqjjVD+jC6dd63FDfAGrpItTMGFb0BJ+4OP4VGIDucBWUqxZDD69YlSOe5qeibdfp9g==
-X-Received: by 2002:a05:6000:2c5:b0:38f:3224:65ff with SMTP id ffacd0b85a97d-39ea51ecb8bmr1357243f8f.5.1744360673907;
-        Fri, 11 Apr 2025 01:37:53 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae9777a0sm1326282f8f.43.2025.04.11.01.37.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Apr 2025 01:37:53 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Conor Dooley <conor@kernel.org>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Steen Hegelund <Steen.Hegelund@microchip.com>, 
- Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
- Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Stephan Gerhold <stephan.gerhold@linaro.org>, 
- "Rob Herring (Arm)" <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, imx@lists.linux.dev, 
- linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- Andre Przywara <andre.przywara@arm.com>, 
- =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Sudeep Holla <sudeep.holla@arm.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
- Ulf Hansson <ulf.hansson@linaro.org>
-In-Reply-To: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
-References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
-Subject: Re: (subset) [PATCH v2 00/17] Arm cpu schema clean-ups
-Message-Id: <174436067236.3436338.6767561918297500530.b4-ty@linaro.org>
-Date: Fri, 11 Apr 2025 10:37:52 +0200
+        d=1e100.net; s=20230601; t=1744361966; x=1744966766;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XR1Z3w6UfiOAg4MdkMfM78ftirJsFR3lfrgwalISkxI=;
+        b=Z/XDvHoMyumeY6xMqCLMhOAC9jI+sldCcoKfodlSxwSD3JmurmPHBwVoUdSjEpp8aX
+         gHfrEHO4LOvFU8q6lEfilWePgEH/VAApBvX6YnPGrE8Dtk/4BnLTQfSByF3h9pNz7+Xb
+         aAceifmRzCCMBl0kqUd0l185qC4YRp5F8ZW7oP1gR7HOo3Iss1QXhEyIynjTA8iG740y
+         u41EFaB9/v9dPWtPGr/spUQ+rfd10WF5kuS2lj8Viuf7jHd77/jiKEdQDUGm5sSjZrf1
+         NGlFeNNRquRa1euR8RvIqdJM28PW8HKKe8lzBlOqXWStY7iipjvhLT1FAdsaj7n8Iyag
+         qEkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX1TnE/yG48c0xALtqB8/9V2q83WzmAkaXEpKb2dqMo7iGBzreEuHPDB1XWiNpRyGpZFK2gux4NOzGg@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2Nbxlk8DrKZ8UgiqFXfm8BB/GmOW64aHh4lggkoppQTwao+GY
+	1TBtzl6sP+VCSfuDZ2A8w2mHW07ZCg/0wIzwQFfkqeRe8rDy6oVOGYRrLAMyCe8=
+X-Gm-Gg: ASbGncsv65YZo7aq9QIQ1ezjSfzdG6zMfgHtT2sq+Q8Z7XsZhikF3c80gDGvZ6Q2as0
+	0uI7DaO5IzWxRbGxYD/LscZLO71SZFMGXM6U7QEDcOLQB8vXmihOQsLVfz+vz9Wph4nhzloI5rW
+	uKnmPCMCeYAMtEhFz+KBWbur7CNGuxpSSCw7uE3pKqQzdJxQu5ZooFaRoaEHT/Bun/DiQnVbUmF
+	DYZ65OCSaw6UZQ8kBeyaXV9pMjcbGOA7gUWm9qdDPm+M0fNe+v8gePbBraM7UjpCeOLxXjnZ7Am
+	zmluElbLPVGDPwqmUQGi7keSu08W1/ZGv7Qu2c6RDH25mZiSL0XT3K1f/B7AQgcNanVSR+WCpzH
+	5CkI=
+X-Google-Smtp-Source: AGHT+IELCYmQYlkIOojfdo5XOqNZ9w1m9D9sEvq8+Q5EMdfpMqdKrKdQIpFtBXw+hxgVzXPfhV1xOA==
+X-Received: by 2002:a05:6102:3e01:b0:4bb:dfd8:4195 with SMTP id ada2fe7eead31-4c9e3c71cf8mr1476425137.3.1744361966459;
+        Fri, 11 Apr 2025 01:59:26 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c9c98afcddsm948634137.19.2025.04.11.01.59.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Apr 2025 01:59:25 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-86dc3482b3dso2648799241.0;
+        Fri, 11 Apr 2025 01:59:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXje1fsGVAW06CM1VecLeZX+TxO70Yuze2hJe+0nxfOoPHlqOJjsLaHVZu5Q9s4qi33j8kTi8Ea2RNr@vger.kernel.org
+X-Received: by 2002:a67:f5c7:0:b0:4c3:b75:16e6 with SMTP id
+ ada2fe7eead31-4c9d3fc4c38mr4487960137.10.1744361965571; Fri, 11 Apr 2025
+ 01:59:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+References: <20250328153134.2881-7-wsa+renesas@sang-engineering.com> <20250328153134.2881-11-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250328153134.2881-11-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 11 Apr 2025 10:59:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWO0662Qk7BxgMW8nr9OpP-mjPSxYKT6Z-pp+syacrtOg@mail.gmail.com>
+X-Gm-Features: ATxdqUGXPpuYF3RjE9LFc46_2mwgVf55K0gvQewj05T-6QGlCsKAGqC_pCNCfXk
+Message-ID: <CAMuHMdWO0662Qk7BxgMW8nr9OpP-mjPSxYKT6Z-pp+syacrtOg@mail.gmail.com>
+Subject: Re: [PATCH 4/5] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe LEDs
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hi Wolfram,
 
-On Thu, 10 Apr 2025 10:47:21 -0500, Rob Herring (Arm) wrote:
-> The Arm cpu.yaml schema fails to restrict allowed properties in 'cpu'
-> nodes. The result, not surprisely, is a number of additional properties
-> and errors in .dts files. This series resolves those issues.
-> 
-> There's still more properties in arm32 DTS files which I have not
-> documented. Mostly yet more supply names and "fsl,soc-operating-points".
-> What's a few more warnings on the 10000s of warnings...
-> 
-> [...]
+On Fri, 28 Mar 2025 at 16:33, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.16/arm64-dt)
+Thanks for your patch!
 
-[11/17] arm64: dts: amlogic: Drop redundant CPU "clock-latency"
-        https://git.kernel.org/amlogic/c/4bc28af2da876531e5183d25ae807e608c816d18
+> --- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+> @@ -24,6 +25,42 @@ chosen {
+>         aliases {
+>                 serial0 = &uart0;
+>         };
+> +
+> +       leds {
+> +               compatible = "gpio-leds";
+> +
+> +               led-pca0 {
 
-These changes has been applied on the intermediate git tree [1].
+These are called LED1-LED8 in the Board Setup Notes.
 
-The v6.16/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
-for inclusion in their intermediate git branches in order to be sent to Linus during
-the next merge window, or sooner if it's a set of fixes.
+> +                       gpios = <&pca9698 0 GPIO_ACTIVE_HIGH>;
+> +               };
 
-In the cases of fixes, those will be merged in the current release candidate
-kernel and as soon they appear on the Linux master branch they will be
-backported to the previous Stable and Long-Stable kernels [2].
+Missing:
 
-The intermediate git branches are merged daily in the linux-next tree [3],
-people are encouraged testing these pre-release kernels and report issues on the
-relevant mailing-lists.
+    color = <LED_COLOR_ID_ORANGE>;
+    function = LED_FUNCTION_INDICATOR;
 
-If problems are discovered on those changes, please submit a signed-off-by revert
-patch followed by a corrective changeset.
+Perhaps you want the first one to be a heartbeat?
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+    linux,default-trigger = "heartbeat";
 
--- 
-Neil
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
