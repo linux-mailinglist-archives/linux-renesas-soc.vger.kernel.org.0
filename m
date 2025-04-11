@@ -1,97 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-15851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15852-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9BDA86301
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 18:18:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B670A86317
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 18:22:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 870471B86645
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 16:16:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E5FA171932
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 16:22:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CB0421B9D3;
-	Fri, 11 Apr 2025 16:16:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE9ED21B908;
+	Fri, 11 Apr 2025 16:22:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3DMBe8E"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fUDwvmlm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA5821B91F;
-	Fri, 11 Apr 2025 16:16:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799CE1DE2DB;
+	Fri, 11 Apr 2025 16:22:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744388182; cv=none; b=I4s3JrTqbA02ylxYnB+SAOBCdfr+8A2jGylI/SABggX5j4ohUTWvNq6IDar8/a1beI0K+o4DuEow8eEry+JhiiQj5RBJVLw5Zu9mWD+6XgXXZZs1R7DmeBh+e1W258MbGNOpvQForrK4rGxAct722ocbcBKQzyuv1zel53NDdZ4=
+	t=1744388529; cv=none; b=KW6T93NL9QEO1TNHU/FEn/jBXF1j8PgaaVyzXLVCSnDAIwvRc0mvkPvbxd4We68pZq24ig4gjhDyd5laZT0RlFga7W0bXrFYUCEpzD//Y3WKuH8Pm7178xkxv56eBD+kSF/GwwVhO4Ajoopxi9GQhOsGSyIerVdu2240uS3oQ2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744388182; c=relaxed/simple;
-	bh=2xLOnobnJNB/BjpuDTwIiL5vfQ3JlI5SqTOn+fLn8Y8=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wz2BClyC4+EpkmtbGLC50qSKqf3BL17rYPBjSMgN6ykmSpcZptg3p/BOuwK3kt+B4ZlF27q5OrO/1VQKV++P8Dva3A+8A2bBh7DmYqsiAVB5yCZ3M+CnQ01OHE9iBlKZmwLy1hNaNRf6R82ncf7etPKHGnjVvD31KHiN8gNKvqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3DMBe8E; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C68BC4CEE2;
-	Fri, 11 Apr 2025 16:16:21 +0000 (UTC)
+	s=arc-20240116; t=1744388529; c=relaxed/simple;
+	bh=wzAQATy54vCpkwt37K9i8fVvLuJ9F3HtOZNJF5NfmuI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KHKEb5SXA+J8bcWDhGZhDLdzdr2JfB8X8wzNkp4go7CQelGiyx6i1+743QCUuS61VECelSF+8qlo45JYgLzOAuwC8XdPkYSKsRg2rhyP2srBIJkfPMdY0iiJ36DDNUDBxEwH3Gagn+sOfu096j+p42/EPYBwnFIQdi5gIOxKerk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fUDwvmlm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B53EC4CEE2;
+	Fri, 11 Apr 2025 16:22:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744388181;
-	bh=2xLOnobnJNB/BjpuDTwIiL5vfQ3JlI5SqTOn+fLn8Y8=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=h3DMBe8En4eXq6ouOoXiHBhLql/hno//b0wa9fpaHGgk0bSG0eWvHnixVxt2OGPQE
-	 jSx3V3tzBves5w6dYwh0JzC9AE4zaN6LsXCMUTqJ9Ols93RqjETh66/ODLATebQQVQ
-	 9w+Q8NLImiE3X/fyBK7tPZ4jwdu/uZPfDhunhOom4n1ybs9llQdL5ktsBluuO1Y3GZ
-	 Xq6eRlg7IuRkXXPz1InoS3AL6D6ndHtSEXPsDSSlMEN6Wjvj2JO3wUGtH4tv5g57Pe
-	 oxhh1fTyDQYRwvNx3O/taVVMxTRWoxN3aluikAGjsPXi80Kwvt2GnOXvkrzq+lH7uI
-	 wK2bsjh2WwUIA==
-Date: Fri, 11 Apr 2025 11:16:20 -0500
-From: Rob Herring <robh@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	s=k20201202; t=1744388528;
+	bh=wzAQATy54vCpkwt37K9i8fVvLuJ9F3HtOZNJF5NfmuI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fUDwvmlmGNEOE6UiCuFajisN/+N0W4PsppgK3YKQxxblTRgJXcyGl2fDX3uKbdkJr
+	 2+V+sMZvOsWOB80R99rxGcKZe/jhqzm0hntMRCAIy4yRtUp3Z4QdbvxGA5YqfA03A3
+	 rYUgo1Y+GdFxYB1N83XbBdrM4GXSFVjUhy41gNQt4vi776Nz1z2pujd5vBTWwcchh0
+	 LwBeY4i9+9HM515v7PIK0hiLxAtE6fjRjKg39JQ2sB/mENgOkt6gYw9FHfBK8gy26+
+	 5tArMU4Hk5fUZbPjg7m9cwn4VJ8htSVvHAG7uy6YUzsnNBC5x0t8iefCYpo59D3X6t
+	 SfC0haIi7PSxQ==
+Date: Fri, 11 Apr 2025 17:21:58 +0100
+From: Conor Dooley <conor@kernel.org>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Steen Hegelund <Steen.Hegelund@microchip.com>,
+	Daniel Machon <daniel.machon@microchip.com>,
+	UNGLinuxDriver@microchip.com,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-serial@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: serial: snps-dw-apb-uart: Simplify DMA-less
- RZ/N1 rule
-Message-ID: <20250411161620.GA3329787-robh@kernel.org>
-References: <90c7aa143beb6a28255b24e8ef8c96180d869cbb.1744271974.git.geert+renesas@glider.be>
- <CAL_Jsq+sCDEO_n_TLmyNBfhc71NNWWe2UQ21jh8+AdHH=G+KAw@mail.gmail.com>
- <Z_k3JV1dEexJurdc@shikoro>
+	Magnus Damm <magnus.damm@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Andy Gross <agross@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Stephan Gerhold <stephan.gerhold@linaro.org>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
+	linux-rockchip@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 03/17] arm64: dts: microchip: sparx5: Fix CPU node
+ "enable-method" property dependencies
+Message-ID: <20250411-ebay-exerciser-392c42daf5ba@spud>
+References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
+ <20250410-dt-cpu-schema-v2-3-63d7dc9ddd0a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="gXwATB6SbIWbLkFw"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z_k3JV1dEexJurdc@shikoro>
-
-On Fri, Apr 11, 2025 at 05:37:09PM +0200, Wolfram Sang wrote:
-> On Fri, Apr 11, 2025 at 08:38:58AM -0500, Rob Herring wrote:
-> > On Thu, Apr 10, 2025 at 3:23 AM Geert Uytterhoeven
-> > <geert+renesas@glider.be> wrote:
-> > >
-> > > There is no need to repeat all SoC-specific compatible values in the
-> > > rule for DMA-less RZ/N1 variants.  Use wildcard "{}" instead, to ease
-> > > maintenance.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > >  .../devicetree/bindings/serial/snps-dw-apb-uart.yaml          | 4 +---
-> > >  1 file changed, 1 insertion(+), 3 deletions(-)
-> > 
-> > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> 
-> I'll send my counterpatch in some minutes.
-
-IMO, whether you drop the platform is orthogonal to this patch. 
-
-Whether or not the platform can run Linux is irrelevant to whether there 
-are bindings. Can it run u-boot? Now, if no one is going to make the 
-bindings complete and upstream a .dts for it, then remove it.
-
-Rob
+In-Reply-To: <20250410-dt-cpu-schema-v2-3-63d7dc9ddd0a@kernel.org>
 
 
+--gXwATB6SbIWbLkFw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Apr 10, 2025 at 10:47:24AM -0500, Rob Herring (Arm) wrote:
+> The "spin-table" enable-method requires "cpu-release-addr" property,
+> so add a dummy entry. It is assumed the bootloader will fill in the
+> correct values.
+>=20
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> Reviewed-by: Daniel Machon <daniel.machon@microchip.com>
+> Tested-by: Daniel Machon <daniel.machon@microchip.com>
+
+This is already applied, guess I forgot to merge it into the branch that
+appears in linux next. I'll do that now..
+
+--gXwATB6SbIWbLkFw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ/lBpgAKCRB4tDGHoIJi
+0h05APsEcaA5n4MeMUDF1Ullyde98iLkYYAFaHTFR+km537NdgEAxwuhCZvt2UZz
+n9hkciE6jwyE29jkNaUkkhNiH534NAA=
+=8lEZ
+-----END PGP SIGNATURE-----
+
+--gXwATB6SbIWbLkFw--
 
