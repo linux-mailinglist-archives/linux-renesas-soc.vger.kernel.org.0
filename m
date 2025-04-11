@@ -1,125 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-15850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945A4A8625D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 17:52:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9BDA86301
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 18:18:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 15DFF4E00B8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 15:52:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 870471B86645
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 16:16:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E8A520FA90;
-	Fri, 11 Apr 2025 15:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CB0421B9D3;
+	Fri, 11 Apr 2025 16:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="MYmOgcCv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3DMBe8E"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C89211A15
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Apr 2025 15:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA5821B91F;
+	Fri, 11 Apr 2025 16:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744386749; cv=none; b=agnAzSwCLfkl6DL7Ny/AuMCaHdpimpYs0LARgD+CJtXmwaZUg+tmgxmOK1sIyzARuzPtroqR7J6M6F0RPQ5iAhiMp6e4luYlZgCCUlif1RAePAj8mDzuAKhjvxbCf7JA+5LOcOMMpdpHcpwHL9JO8B73bu6W3u0ca9KHvpKIypI=
+	t=1744388182; cv=none; b=I4s3JrTqbA02ylxYnB+SAOBCdfr+8A2jGylI/SABggX5j4ohUTWvNq6IDar8/a1beI0K+o4DuEow8eEry+JhiiQj5RBJVLw5Zu9mWD+6XgXXZZs1R7DmeBh+e1W258MbGNOpvQForrK4rGxAct722ocbcBKQzyuv1zel53NDdZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744386749; c=relaxed/simple;
-	bh=4MuygCxGmwbiYOgtlDoYQIS1nrN+OR8Pf+4AYFZm/FY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XiBeWoT3MyTlZAEBpt/HGMGw4XdDj7ZvzG/9O62tC3ULpi6wUBeWZYW0eUF+q/K1Saj8C4yJfxg3MsfLc29FZ+jp+XK3ZiIPegmS644oZIU5DzE8X9Vu+zKosyjr/ZhVSjhA0wkLaliAG52sKdIkoYyps6eUnl4/dvKQZXEwrzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=MYmOgcCv; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=meW/N3a37av8EP
-	DxYBGIfMUIvjBe5XDYmCBv0Z+7gvk=; b=MYmOgcCvPs6qrccJ2ZnaCG6n6w6GDb
-	xSmC2p+ILtf7ZX7fTEPrECexBkB+6j9pwn7gpoiFb6PHzHw4Eiuuoaiqp7gTn5oe
-	FkqpO0xyNVOOW6Ibe3vJS/GS8mjh2o/5uyI/KD3YtGdCUhBu44cWVKfw8+Skk6gs
-	tU7SW19Le72GLvqPhiT5uiQ6xb1sslfmBvgfnamSL2uRr6GxWJKo1XcwDWxsB/am
-	fpzdqLOXaMB5kEErQkawAFBo9rERwEmJx3+HNEGm6t/KiYJWRobELHOBm9gqZiqP
-	Qk9K7ejkYTQ52/E68W//iqDL/fiBXDVSoBQxvwZhaBeN3MAWTawLB8pw==
-Received: (qmail 1349721 invoked from network); 11 Apr 2025 17:52:24 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Apr 2025 17:52:24 +0200
-X-UD-Smtp-Session: l3s3148p1@6hBEsIIy9KIujnsS
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	s=arc-20240116; t=1744388182; c=relaxed/simple;
+	bh=2xLOnobnJNB/BjpuDTwIiL5vfQ3JlI5SqTOn+fLn8Y8=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wz2BClyC4+EpkmtbGLC50qSKqf3BL17rYPBjSMgN6ykmSpcZptg3p/BOuwK3kt+B4ZlF27q5OrO/1VQKV++P8Dva3A+8A2bBh7DmYqsiAVB5yCZ3M+CnQ01OHE9iBlKZmwLy1hNaNRf6R82ncf7etPKHGnjVvD31KHiN8gNKvqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3DMBe8E; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C68BC4CEE2;
+	Fri, 11 Apr 2025 16:16:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744388181;
+	bh=2xLOnobnJNB/BjpuDTwIiL5vfQ3JlI5SqTOn+fLn8Y8=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=h3DMBe8En4eXq6ouOoXiHBhLql/hno//b0wa9fpaHGgk0bSG0eWvHnixVxt2OGPQE
+	 jSx3V3tzBves5w6dYwh0JzC9AE4zaN6LsXCMUTqJ9Ols93RqjETh66/ODLATebQQVQ
+	 9w+Q8NLImiE3X/fyBK7tPZ4jwdu/uZPfDhunhOom4n1ybs9llQdL5ktsBluuO1Y3GZ
+	 Xq6eRlg7IuRkXXPz1InoS3AL6D6ndHtSEXPsDSSlMEN6Wjvj2JO3wUGtH4tv5g57Pe
+	 oxhh1fTyDQYRwvNx3O/taVVMxTRWoxN3aluikAGjsPXi80Kwvt2GnOXvkrzq+lH7uI
+	 wK2bsjh2WwUIA==
+Date: Fri, 11 Apr 2025 11:16:20 -0500
+From: Rob Herring <robh@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jiri Slaby <jirislaby@kernel.org>,
-	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-serial@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH] dt-bindings: serial: snps-dw-apb-uart: remove N1S binding
-Date: Fri, 11 Apr 2025 17:51:06 +0200
-Message-ID: <20250411155220.5940-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	Conor Dooley <conor+dt@kernel.org>, linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: serial: snps-dw-apb-uart: Simplify DMA-less
+ RZ/N1 rule
+Message-ID: <20250411161620.GA3329787-robh@kernel.org>
+References: <90c7aa143beb6a28255b24e8ef8c96180d869cbb.1744271974.git.geert+renesas@glider.be>
+ <CAL_Jsq+sCDEO_n_TLmyNBfhc71NNWWe2UQ21jh8+AdHH=G+KAw@mail.gmail.com>
+ <Z_k3JV1dEexJurdc@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z_k3JV1dEexJurdc@shikoro>
 
-This is one of four (quite randomly) added bindings for Renesas RZ/N1S.
-Essential bindings like clock support are missing for 8 years. With 6MB
-of internal RAM only, N1S is not a prime candidate for running Linux,
-unlike the DDR-RAM capable N1D. I could not find any further activity in
-upstreaming N1S support, neither for Linux or any other OS. So, remove
-these half-baked dangling bindings which are incomplete and look
-unprofessional. We can happily add them back if somebody offers complete
-support for it. Until then, let's enjoy the easier handling of a single
-'const'.
+On Fri, Apr 11, 2025 at 05:37:09PM +0200, Wolfram Sang wrote:
+> On Fri, Apr 11, 2025 at 08:38:58AM -0500, Rob Herring wrote:
+> > On Thu, Apr 10, 2025 at 3:23 AM Geert Uytterhoeven
+> > <geert+renesas@glider.be> wrote:
+> > >
+> > > There is no need to repeat all SoC-specific compatible values in the
+> > > rule for DMA-less RZ/N1 variants.  Use wildcard "{}" instead, to ease
+> > > maintenance.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > >  .../devicetree/bindings/serial/snps-dw-apb-uart.yaml          | 4 +---
+> > >  1 file changed, 1 insertion(+), 3 deletions(-)
+> > 
+> > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> 
+> I'll send my counterpatch in some minutes.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+IMO, whether you drop the platform is orthogonal to this patch. 
 
-This would render Geert's cleanup unnecessary:
+Whether or not the platform can run Linux is irrelevant to whether there 
+are bindings. Can it run u-boot? Now, if no one is going to make the 
+bindings complete and upstream a .dts for it, then remove it.
 
-https://lore.kernel.org/r/90c7aa143beb6a28255b24e8ef8c96180d869cbb.1744271974.git.geert+renesas@glider.be
+Rob
 
- .../devicetree/bindings/serial/snps-dw-apb-uart.yaml | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
-index 1aa3480d8d81..1ee0aed5057d 100644
---- a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
-+++ b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
-@@ -17,9 +17,7 @@ allOf:
-       properties:
-         compatible:
-           items:
--            - enum:
--                - renesas,r9a06g032-uart
--                - renesas,r9a06g033-uart
-+            - const: renesas,r9a06g032-uart
-             - const: renesas,rzn1-uart
-             - const: snps,dw-apb-uart
-     then:
-@@ -45,15 +43,11 @@ properties:
-   compatible:
-     oneOf:
-       - items:
--          - enum:
--              - renesas,r9a06g032-uart
--              - renesas,r9a06g033-uart
-+          - const: renesas,r9a06g032-uart
-           - const: renesas,rzn1-uart
-           - const: snps,dw-apb-uart
-       - items:
--          - enum:
--              - renesas,r9a06g032-uart
--              - renesas,r9a06g033-uart
-+          - const: renesas,r9a06g032-uart
-           - const: renesas,rzn1-uart
-       - items:
-           - enum:
--- 
-2.47.2
 
 
