@@ -1,61 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-15846-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984C3A8610A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 16:50:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42BF1A8612A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 16:58:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE3388A670F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 14:50:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 648BD1B875E6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 14:57:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 237FE1F583D;
-	Fri, 11 Apr 2025 14:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8AD71F7575;
+	Fri, 11 Apr 2025 14:57:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="guWP4nwg"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gDx38se1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FF11EFFB8;
-	Fri, 11 Apr 2025 14:50:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCA71F5827;
+	Fri, 11 Apr 2025 14:57:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744383041; cv=none; b=Y9k1MET/zn0J4BLXdFtbaZMNOvkP6gnqUSeS80ulB8XfnaoDzAu/wXHHTXtK/n8lLdla2CV5omCl6jfnj1CfO8yOhs/NXUv9s/bBpC3Vl8vZpOqN+2kpgwIF+tSIQ2gpt9Vka4JfWP1lsBxvvL9RUkPOAH1Q221dqDYHuohgvXM=
+	t=1744383448; cv=none; b=gTX3qPXRzgLgMkY5gE4zfXSv4A2u/Hf5QU0GA21xxmZD7pitjHjZru1iQyNpE+vkreVMqS1MbkrSFJ4q91TfYSDgXdM//x9etFR38ynntgTPkHEmH6WPCLewjBOJjk0IHUHv2AsMHZVW+NPy+91Om642C5sG02gq0ZJljdn6t7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744383041; c=relaxed/simple;
-	bh=prfpkdJjH8gsyLeUcHkDF+9wOpbQqO3gBOF3+xUwy/Y=;
+	s=arc-20240116; t=1744383448; c=relaxed/simple;
+	bh=T5oHrVbXP56dRNBGSCdGaviDwIp0EdmHjG+wEyMK04Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p0SgLgIqc3QpthQExn+5qE32Y3o8jkfSa88X4jWcQaQZ9bUxam9faVu9aCmlydL95Qo62mJ4AtyZYXnZF7+MST0oXFcf1fp5ndHEHWZcxX3yIywKKNIva86hbjKZkW4W2FEN3SUdBIUsu5IiEDGmcmivQM18FB90is+mD/kAd8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=guWP4nwg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92BA0C4CEE2;
-	Fri, 11 Apr 2025 14:50:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744383040;
-	bh=prfpkdJjH8gsyLeUcHkDF+9wOpbQqO3gBOF3+xUwy/Y=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=mEgjCxECR5iCecbhWtzjO0QD3SgqOz7CDrneRYMPPFfDiEOCpc4gG3WaQOFAaBUiHXi3XDjn/xLsPNnpCVU1UAQHFWP8tLy/QXQjFoyl5uAuMQs/Yau4vtcuvvB25XUS4a3GfPTDeCD5yjU62/lW41TEHs9L4VndMcdwt3ETiZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gDx38se1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A024C4CEE2;
+	Fri, 11 Apr 2025 14:57:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1744383448;
+	bh=T5oHrVbXP56dRNBGSCdGaviDwIp0EdmHjG+wEyMK04Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=guWP4nwgMlFbond9eIoFzKbNRUApAq4DpSSu/uFEe2lJxCjY7qC89aIsRtU4mwmCY
-	 ywDRHzsC3PuVaBi27Mbln/fQ8V0JZ4vrm4fkr1qyJ8geT4mFyxFVGqlWP3Wy9xBsOj
-	 iE6uDRTqAoIEt0gpODcbNY+uYZzAuODdINbDm1nwZ3H2kzZR2Wcvm5ZBqTwsyKONdU
-	 cauDIW66v1944TXVhf/APuTPgmkIlCwDMBxNN0WE/xTR4MtwdXrBKPxpzXBaX1sDoe
-	 b+987sx4ou7cOD8zge3vqg8FDzHPesMbZScq+Ql7snZtvGje/bdNuRJprXymLq40ut
-	 jNqkMKZinmdfw==
-Date: Fri, 11 Apr 2025 09:50:39 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH] dt-bindings: timer: renesas,tpu: remove DoC
-Message-ID: <174438294005.3234652.6798896475162852160.robh@kernel.org>
-References: <877c3vnq0k.wl-kuninori.morimoto.gx@renesas.com>
+	b=gDx38se1gXERwBqYkCXoQbH26eSrIY4TISh51W7tsyGUtrKFeBwEDSftszj0AQ9Yy
+	 4qmGa1TBElqRFnKeu/pFOY7qbDbRG2W7zvvy2iJQjFHgJgJ+AqKxMy6joDFsRuAEhL
+	 +kUxaTCNN3uOo6QhrNcnS1ObGbaj7FXO+Kxf3qXE=
+Date: Fri, 11 Apr 2025 16:57:25 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Cc: thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org,
+	geert@linux-m68k.org, paul.barker.ct@bp.renesas.com,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v7 10/13] serial: sh-sci: Add support for RZ/T2H SCI
+Message-ID: <2025041152-puzzling-clinking-e573@gregkh>
+References: <20250403212919.1137670-1-thierry.bultel.yh@bp.renesas.com>
+ <20250403212919.1137670-11-thierry.bultel.yh@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,21 +57,23 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <877c3vnq0k.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20250403212919.1137670-11-thierry.bultel.yh@bp.renesas.com>
 
+On Thu, Apr 03, 2025 at 11:29:12PM +0200, Thierry Bultel wrote:
+> --- a/include/uapi/linux/serial_core.h
+> +++ b/include/uapi/linux/serial_core.h
+> @@ -231,6 +231,9 @@
+>  /* Sunplus UART */
+>  #define PORT_SUNPLUS	123
+>  
+> +/* SH-SCI */
+> +#define PORT_RSCI	124
 
-On Tue, 08 Apr 2025 06:09:15 +0000, Kuninori Morimoto wrote:
-> commit 1c4b5ecb7ea1 ("remove the h8300 architecture") removes Renesas TPU
-> timer driver. Let's remove its Doc.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../bindings/pwm/renesas,tpu-pwm.yaml         |  9 ---
->  .../bindings/timer/renesas,tpu.yaml           | 56 -------------------
->  2 files changed, 65 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/timer/renesas,tpu.yaml
-> 
+Why do you need to tell userspace about this specific port?  Is that a
+hard requirement that your userspace tools require?  If not, please
+don't export this here.
 
-I fixed up the subject and commit msg, and applied it, thanks!
+thanks,
+
+greg k-h
 
