@@ -1,109 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-15824-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15825-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24167A85589
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 09:35:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8ED8A856C0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 10:39:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C01DC467F70
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 07:35:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8E308A102C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 08:37:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 217222036FD;
-	Fri, 11 Apr 2025 07:35:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A709293479;
+	Fri, 11 Apr 2025 08:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dy+fjYOl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF401E835D;
-	Fri, 11 Apr 2025 07:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76391D86F7
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Apr 2025 08:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744356924; cv=none; b=HntwkURflLF/60nTReDMvf6+ngieabLxrAKKcDhtkk2t7qqUzs2fCDEx+4SvHupCdeumdK74r/qWWGb6d2n+aTSv0r9odkBmMFe2QjCzNW5NgnbPd+obMNCLfwW31CdeuzRHYubu2yPDr9flH2DDDYscQxcwSjo9F172BJYxCxY=
+	t=1744360678; cv=none; b=cIwr8ujyin3TugXQvahfpyDRkH8L/PTH557ijK49JSd5CDh/pEP6Zpjq4HFSYGYLC7NPyZ3xueh39VY7KZwzWFQILcUFSGhKkYYh8M6vpKZXoJKg0pOyiaPOLW3dJLOqTpNYFRDzvStImWC3uDRMOITAD/AdAwL/+iDEguJ6qhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744356924; c=relaxed/simple;
-	bh=puNy0gZGTOqFqAb2b0QdJORahOZ5FRTGd+gd+/a2NbE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s6EqC3WbVfNoIhWzHt+XFxbvbSWAIKyS88B6Otye98Q3PGIgwTnq57K/hyZIueMpHxrkzGmVCfDwhpXlO5lSexmFoz5IPcwG3l0RlfVDdsciuNPiHhfNiDM+w2YPZAW44p1QbJvN86ZMUcp43jV+bfyVZvctfVYNRUkaEchCnxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-520847ad493so1541500e0c.1;
-        Fri, 11 Apr 2025 00:35:22 -0700 (PDT)
+	s=arc-20240116; t=1744360678; c=relaxed/simple;
+	bh=5kt3MWtin3KNwdzDbJU//7Uxuz+S1QGZ/maTZ/hrbSs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BWkaJAMJYeL8RMIZsGf8Wg7FmCSHRGFrJUObGralL4zkBBneid1jrhn4kiEeZiPpHzLYSTjvmZcWUo2zF5P8VCMyrXSr721ZFnIaF/75DkVRHYhzcrlq/EXQDH467LLaYy/FPGq9XgF5oi25D14+MZnxwqobQtIpHHRBAaaXU0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dy+fjYOl; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39c0dfba946so962721f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Apr 2025 01:37:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744360674; x=1744965474; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wH2ZPuzfR/sU9gtELQf1xx9ouW+DErODBwUT5LwG1mM=;
+        b=dy+fjYOl2NWtqXJHHd4H+Tpo9L+/m3lsuYvwRfy7cD+16NN+q8tvv5gyAlQ0ra23IO
+         0C98gB9Qk4qsQXQfsD3sRaiVfwIoa64x0I/ZKzJsNADmHD9OfLWgy7apo4hEn2PEWWg9
+         zJ/s2Ceme8nWBZ4R6ljHMBWREuI5HZqI/Z00u20fltn6RwNN64mweBGMGSThN4Goureo
+         aSwEoq15ptQnQZ6pwArHiL4cz9QwxQbPuYz2J1dg+V8q4Cgt8bPcj20M7gH7pGlbSbVU
+         /olenrBVqU5Smru3g91jmBiFa9msCGO+1nblQGmsJKojRvQLNUorj7flEXND1KBhwNJT
+         S46A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744356920; x=1744961720;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n+zG7d5UeINc2mvxds9sIv7u69XobW0SCDHU/G5G5oQ=;
-        b=SwqFNm14Jv8f9z3EpMv43tEPkCV1Irbr8xlchxzRARpEfg9ePR5OOSAQ2RXk0V3k7U
-         3NzG5IsLWq/uP8OiBHhVS38MmqqokxE7neps7hzNaUccF6OtVz8JdkSShqOvESthAedI
-         uyC6tIRUvsOx8L+KaxVmfz56fRbP0U8TIzShgSy7+A4G3YDxGWxoAPK099I9dAsWRr3i
-         lGXawN8ytW4SThn+Z/M9G/D3KGpwHyMjDCv4fSmaZCvBwaRFAo06zGaXjfDTLD+gzJiP
-         0p4lRGCbvGVd8nxHxDvJJY1K7kjK5TLEd7ZTPI8Bc6dc9mev24pZzJB1Z2XFM9h7vQRf
-         gMgw==
-X-Forwarded-Encrypted: i=1; AJvYcCVg+uRrp6WLibtqSKw9Z703lGo5R4BqQys/rswUVSoIpY+yFpN6Kws96a3GQFr6JqaFW8T9ILUnWuoT@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSkvJ30ZH+hPVaQSks8uB98CqDFy//E7G74tEf4038TVd54Eip
-	GKUWf2i8PQIrrabhPBP0kfp1CiB/L9gdjOe5+jAtdpszaEhGrDndYyBfobDR9WA=
-X-Gm-Gg: ASbGnctIFggGrPTMkneTe3zOLtXq6tBww3llG/pFVgCLhk0va5rqJGiuR39os4jY0eN
-	Qvvgj8rf1Ut+/Hj0v/9mUi2pBIOzEVc1uKQWYDA8eqQPCfUv/I5bGABYYWbHYfPF+oQ+YV/cAf3
-	lKFf7t3/Rv6RJk9urLDO/oYsAmLDEWlEACPbZN2YI6S38U5fhIVK8GgoGJN/9iYm/EIuT7CE6Qo
-	19r8IkfwKigyPEE8vrAfahBPEi/v/ap7mAYcxDQNVi/z1NEGrWg/L18L+4fRAChbBd+Nk1F7tsp
-	ETyNwlCOPJXLxZbNhqcOuHUxfpA+BWVhEeU8Kg9l7sm3ZIQWSmxs+rSe7e7/2aU/HIiBsAjnxEw
-	l3SGqix7p0op00Q==
-X-Google-Smtp-Source: AGHT+IFCFzeEluntzqNboQjyMAmeFp91QZs/OWCB8BNvoV3TASEeNbAGlvjnbc578Yey3fd9I1CiTw==
-X-Received: by 2002:a05:6122:2008:b0:526:2210:5b68 with SMTP id 71dfb90a1353d-527c34d3cd2mr1098371e0c.4.1744356920434;
-        Fri, 11 Apr 2025 00:35:20 -0700 (PDT)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-527abd4cceesm995602e0c.4.2025.04.11.00.35.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Apr 2025 00:35:20 -0700 (PDT)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-86b9b1def28so1483401241.3;
-        Fri, 11 Apr 2025 00:35:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXEwDJNTBy8kZBOijmbELLLwJxaOe7LszyXKvuERMiTxjPUhM5vAmZ9F45cGabDtinB/4wUa1RvKwn8@vger.kernel.org
-X-Received: by 2002:a05:6102:32ce:b0:4c1:b2c2:61a with SMTP id
- ada2fe7eead31-4c9e505a50dmr769876137.25.1744356919695; Fri, 11 Apr 2025
- 00:35:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744360674; x=1744965474;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wH2ZPuzfR/sU9gtELQf1xx9ouW+DErODBwUT5LwG1mM=;
+        b=LPuBYAJv+7U/sFhqZm9kxIfc43AjRgbvGJlQ/FVq0ta3ayq9et4dTzFNpw/6KL8wOg
+         /gxS+q6uKrCjVo5AlLadmm2caIVee21fRe5NLMeeZKiHU31zrNN/olNiGzNB/BzvRYyf
+         OjFq0lSxGnrn23veA7KaqaL9EJNcMqnGyYz7H9kBayKvy8WmCtPYt2MjKUyTW1u3a+7N
+         QgM0tCm3sGKlAvTLazb3VFSqOmbdKoIqW3aqMJohivKpDUH8B3i4EeSBCidFWnLci+nE
+         xKjShmmIGjoxn9h+FT6vsYMakcNjxGw4fUbxrHduuI59GmwBc+pRn4zacuIWqwLhn6nF
+         p6dQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJ3isc4xDWpTbUG3rghjlUf7Hk8cndQ7E2cnEk3Bdu3M+8LNvTDtmLDIU8qLpeAUnJxndIqhjCS4hwyMbZwAicBg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaWteWByly8JpS3jSXTTCREV4GgdZdljZr+fAGu4Ijp6s9A6KE
+	dmg7sD6Us+8ak96xRbrKYy+UQtk8bTz4NLsIXkHwyCG1qCpFzNGGZ8WzPVdMvag=
+X-Gm-Gg: ASbGnctFnPvYrEppGjsYOd8Y6ulmr027elMl7oof94neEL+YlXqClO0Br6adCmW9AOb
+	N78CD7AMe+Y3RTV/oySbXDwTdh5gqMclKWluHeUi+dusNOFpSyLMoMSeukr9Dmg//Xhjlbg10nu
+	6/GRmVM9zIsIFptfqKP08DPcbk3YmEv7Pt27tLp3/P9tkjgWgvOHvfY0K4e+NOWWw2XEJf4Dbr+
+	XDAALjGGLsZXnT7gbFhJCvDEdx24hCOXADHjgGwITIq9mKzFhKPXVGAW5NGEfLJJNGSmyEZzIV0
+	uRzNvUJnjHBmVA+p+U07yqi+GwQ8+FBMv0aZtv0rpLDuzbPp70cdAl1OCiTsyQ==
+X-Google-Smtp-Source: AGHT+IESQEmfqjjVD+jC6dd63FDfAGrpItTMGFb0BJ+4OP4VGIDucBWUqxZDD69YlSOe5qeibdfp9g==
+X-Received: by 2002:a05:6000:2c5:b0:38f:3224:65ff with SMTP id ffacd0b85a97d-39ea51ecb8bmr1357243f8f.5.1744360673907;
+        Fri, 11 Apr 2025 01:37:53 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae9777a0sm1326282f8f.43.2025.04.11.01.37.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Apr 2025 01:37:53 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Conor Dooley <conor@kernel.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Steen Hegelund <Steen.Hegelund@microchip.com>, 
+ Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+ Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Stephan Gerhold <stephan.gerhold@linaro.org>, 
+ "Rob Herring (Arm)" <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, imx@lists.linux.dev, 
+ linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Sudeep Holla <sudeep.holla@arm.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
+ Ulf Hansson <ulf.hansson@linaro.org>
+In-Reply-To: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
+References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
+Subject: Re: (subset) [PATCH v2 00/17] Arm cpu schema clean-ups
+Message-Id: <174436067236.3436338.6767561918297500530.b4-ty@linaro.org>
+Date: Fri, 11 Apr 2025 10:37:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250328153134.2881-7-wsa+renesas@sang-engineering.com> <20250328153134.2881-9-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250328153134.2881-9-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 11 Apr 2025 09:35:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX=s9Gaum1s4QZsbr2Jzq3hPqkcUMQpbDUbd_+usu0auA@mail.gmail.com>
-X-Gm-Features: ATxdqUEYpR3RTzFwuJSHgpkQZJVLwHPRjj3LqVgpw3UowgwVp6hAvofjITOQrhg
-Message-ID: <CAMuHMdX=s9Gaum1s4QZsbr2Jzq3hPqkcUMQpbDUbd_+usu0auA@mail.gmail.com>
-Subject: Re: [PATCH 2/5] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
- I2C bus
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Fri, 28 Mar 2025 at 16:33, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Schematics mention a 24cs64 on the bus, but I definitely have only a
-> 24c64. So, it is only mentioned as a comment.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hi,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.16.
+On Thu, 10 Apr 2025 10:47:21 -0500, Rob Herring (Arm) wrote:
+> The Arm cpu.yaml schema fails to restrict allowed properties in 'cpu'
+> nodes. The result, not surprisely, is a number of additional properties
+> and errors in .dts files. This series resolves those issues.
+> 
+> There's still more properties in arm32 DTS files which I have not
+> documented. Mostly yet more supply names and "fsl,soc-operating-points".
+> What's a few more warnings on the 10000s of warnings...
+> 
+> [...]
 
-Gr{oetje,eeting}s,
+Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.16/arm64-dt)
 
-                        Geert
+[11/17] arm64: dts: amlogic: Drop redundant CPU "clock-latency"
+        https://git.kernel.org/amlogic/c/4bc28af2da876531e5183d25ae807e608c816d18
+
+These changes has been applied on the intermediate git tree [1].
+
+The v6.16/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
+for inclusion in their intermediate git branches in order to be sent to Linus during
+the next merge window, or sooner if it's a set of fixes.
+
+In the cases of fixes, those will be merged in the current release candidate
+kernel and as soon they appear on the Linux master branch they will be
+backported to the previous Stable and Long-Stable kernels [2].
+
+The intermediate git branches are merged daily in the linux-next tree [3],
+people are encouraged testing these pre-release kernels and report issues on the
+relevant mailing-lists.
+
+If problems are discovered on those changes, please submit a signed-off-by revert
+patch followed by a corrective changeset.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Neil
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
