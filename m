@@ -1,132 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-15852-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15853-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B670A86317
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 18:22:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D404A86328
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 18:24:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E5FA171932
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 16:22:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD8908A1CC9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 16:23:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE9ED21B908;
-	Fri, 11 Apr 2025 16:22:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB1A21CA07;
+	Fri, 11 Apr 2025 16:23:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fUDwvmlm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uHtsDDWN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799CE1DE2DB;
-	Fri, 11 Apr 2025 16:22:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5126219EA5;
+	Fri, 11 Apr 2025 16:23:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744388529; cv=none; b=KW6T93NL9QEO1TNHU/FEn/jBXF1j8PgaaVyzXLVCSnDAIwvRc0mvkPvbxd4We68pZq24ig4gjhDyd5laZT0RlFga7W0bXrFYUCEpzD//Y3WKuH8Pm7178xkxv56eBD+kSF/GwwVhO4Ajoopxi9GQhOsGSyIerVdu2240uS3oQ2w=
+	t=1744388625; cv=none; b=AR+Aoy4kPAXc93AwHOeBR78QECqS2HRebytPNz0lfQYPJ61v2ba0wburnuyZp9og0pTpOU76YpIn1rH2vREj6CLax5rdl2a604ptSlos4qlW7IQ/8bXC2MBYz6MWFiumeCd1g6PtFi6nUHc8NORoMp/fVLEv/g7nho4N/SwrC9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744388529; c=relaxed/simple;
-	bh=wzAQATy54vCpkwt37K9i8fVvLuJ9F3HtOZNJF5NfmuI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KHKEb5SXA+J8bcWDhGZhDLdzdr2JfB8X8wzNkp4go7CQelGiyx6i1+743QCUuS61VECelSF+8qlo45JYgLzOAuwC8XdPkYSKsRg2rhyP2srBIJkfPMdY0iiJ36DDNUDBxEwH3Gagn+sOfu096j+p42/EPYBwnFIQdi5gIOxKerk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fUDwvmlm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B53EC4CEE2;
-	Fri, 11 Apr 2025 16:22:00 +0000 (UTC)
+	s=arc-20240116; t=1744388625; c=relaxed/simple;
+	bh=g/pganQZSx52qNp6jjj4GSiWZuSgoU31JNjxvldnCLY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uxvSvVoKhBBgg+bCDItkQzAor2QJFi0XZ0FFVJ22ABVmw0PWQAjWktH7zgbdlXpe8EWDYedts4Rf2jyqokwTTPmJ3oVqPse3OdYZ3N3Saj9KdOJQOlUKVvAW16+j53j8ghBpE+FqAh/mxMQ542MpsN1vIw4ZEWzpZ0iKlY8hZHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uHtsDDWN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BAB6C4CEE9;
+	Fri, 11 Apr 2025 16:23:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744388528;
-	bh=wzAQATy54vCpkwt37K9i8fVvLuJ9F3HtOZNJF5NfmuI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fUDwvmlmGNEOE6UiCuFajisN/+N0W4PsppgK3YKQxxblTRgJXcyGl2fDX3uKbdkJr
-	 2+V+sMZvOsWOB80R99rxGcKZe/jhqzm0hntMRCAIy4yRtUp3Z4QdbvxGA5YqfA03A3
-	 rYUgo1Y+GdFxYB1N83XbBdrM4GXSFVjUhy41gNQt4vi776Nz1z2pujd5vBTWwcchh0
-	 LwBeY4i9+9HM515v7PIK0hiLxAtE6fjRjKg39JQ2sB/mENgOkt6gYw9FHfBK8gy26+
-	 5tArMU4Hk5fUZbPjg7m9cwn4VJ8htSVvHAG7uy6YUzsnNBC5x0t8iefCYpo59D3X6t
-	 SfC0haIi7PSxQ==
-Date: Fri, 11 Apr 2025 17:21:58 +0100
-From: Conor Dooley <conor@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
-	linux-rockchip@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 03/17] arm64: dts: microchip: sparx5: Fix CPU node
- "enable-method" property dependencies
-Message-ID: <20250411-ebay-exerciser-392c42daf5ba@spud>
-References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
- <20250410-dt-cpu-schema-v2-3-63d7dc9ddd0a@kernel.org>
+	s=k20201202; t=1744388625;
+	bh=g/pganQZSx52qNp6jjj4GSiWZuSgoU31JNjxvldnCLY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=uHtsDDWNjwBYEsmUM7icr8cAnu2sgZzilRSQvSL3Yt1whdK8e1N+aYVlAN1f8VjbE
+	 2zgXB7F+y6eJN9vmMe+H1sTDswCA0YJ8RQKZQW16Fbb1Qhz8Ii1hnXnnX6rLI5VQOj
+	 KRTvi4M+TicjxkBN0pgY0QV9H/Pt54+mqqFuslLN5t5FX6/n0FBGBFYhnlPVA/cZta
+	 UREhHxPocCfE+Mpn6qwVMJLfZozBpmWLpXDLwks/1VtgfYowsPtEpK6lRunAQY5MPg
+	 5eU8pi+mQc/hbeewINYCvgL74wwCclCu/GE0a0euqWxWUS/XkDzvFIRiP/rnltPzsu
+	 2FTgS5LM+GFCw==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5e6167d0536so3945613a12.1;
+        Fri, 11 Apr 2025 09:23:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWJuhffQzn/tqBC8D73jaeGFwGOnRdSuyShytGatuj+5XLPDfF5jmdhxNz+aoVKlM2gRWODSCsdJTxeq2AB@vger.kernel.org, AJvYcCXGiu1uCnBC1N7ujJ/yJBTbEtyK/8T+AnUi3Gw5uBrv8LiSQ1tr+Q+YaUySfu7eWI71ro9C7CS+uovP@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2EFcnY7Rce/cRd3SpGlqGs/0xaKmJ2HcNVIAiqlHp5RmzD6dp
+	Ve49G7uoX8miJXiRCOXUEght4sGRNc0RsXuAK+9jp+kXH6gHx/phEIntRgGNZPJr88sKKtkfE4G
+	AIcyUP5b6F142e9KQ3yrcc09qMQ==
+X-Google-Smtp-Source: AGHT+IHuwjMlWSeE9LYHHyXbSAAkws9dKvVGcB21xtxVyLv8RWBNnUWqa03IxQZN90/AdHGNnORtFsNCROVqplN0GiU=
+X-Received: by 2002:a05:6402:51ce:b0:5e4:9726:7779 with SMTP id
+ 4fb4d7f45d1cf-5f36f78034fmr2576755a12.2.1744388623871; Fri, 11 Apr 2025
+ 09:23:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gXwATB6SbIWbLkFw"
-Content-Disposition: inline
-In-Reply-To: <20250410-dt-cpu-schema-v2-3-63d7dc9ddd0a@kernel.org>
-
-
---gXwATB6SbIWbLkFw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250411155220.5940-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250411155220.5940-2-wsa+renesas@sang-engineering.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 11 Apr 2025 11:23:32 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+DOp8YOcshTVqYcbmgbuc4etTQeeswmMUYjw1sws4mAA@mail.gmail.com>
+X-Gm-Features: ATxdqUEZECOG4IEUcTzedr2PdAn1TkrPnqxsawpkiGmWrIvHKwA_4AUJi0ReCeE
+Message-ID: <CAL_Jsq+DOp8YOcshTVqYcbmgbuc4etTQeeswmMUYjw1sws4mAA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: serial: snps-dw-apb-uart: remove N1S binding
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-serial@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 10, 2025 at 10:47:24AM -0500, Rob Herring (Arm) wrote:
-> The "spin-table" enable-method requires "cpu-release-addr" property,
-> so add a dummy entry. It is assumed the bootloader will fill in the
-> correct values.
->=20
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> Reviewed-by: Daniel Machon <daniel.machon@microchip.com>
-> Tested-by: Daniel Machon <daniel.machon@microchip.com>
+On Fri, Apr 11, 2025 at 10:52=E2=80=AFAM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> This is one of four (quite randomly) added bindings for Renesas RZ/N1S.
+> Essential bindings like clock support are missing for 8 years. With 6MB
+> of internal RAM only, N1S is not a prime candidate for running Linux,
+> unlike the DDR-RAM capable N1D. I could not find any further activity in
+> upstreaming N1S support, neither for Linux or any other OS. So, remove
+> these half-baked dangling bindings which are incomplete and look
+> unprofessional. We can happily add them back if somebody offers complete
+> support for it. Until then, let's enjoy the easier handling of a single
+> 'const'.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>
+> This would render Geert's cleanup unnecessary:
+>
+> https://lore.kernel.org/r/90c7aa143beb6a28255b24e8ef8c96180d869cbb.174427=
+1974.git.geert+renesas@glider.be
 
-This is already applied, guess I forgot to merge it into the branch that
-appears in linux next. I'll do that now..
+To repeat from that thread, IMO, whether you drop the platform is
+orthogonal to Geert's patch.
 
---gXwATB6SbIWbLkFw
-Content-Type: application/pgp-signature; name="signature.asc"
+Seems like the platform is pretty dead. If you want to send a single
+patch removing all the bindings, I can take it.
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ/lBpgAKCRB4tDGHoIJi
-0h05APsEcaA5n4MeMUDF1Ullyde98iLkYYAFaHTFR+km537NdgEAxwuhCZvt2UZz
-n9hkciE6jwyE29jkNaUkkhNiH534NAA=
-=8lEZ
------END PGP SIGNATURE-----
-
---gXwATB6SbIWbLkFw--
+Rob
 
