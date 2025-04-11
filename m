@@ -1,143 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-15838-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C713A85945
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 12:17:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB20FA8598A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 12:23:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83EE219E339F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 10:16:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 232B94E5202
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Apr 2025 10:22:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EDCD2147E7;
-	Fri, 11 Apr 2025 10:15:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8D111F03D9;
+	Fri, 11 Apr 2025 10:19:48 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A551F09AA;
-	Fri, 11 Apr 2025 10:15:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963E6EEB1;
+	Fri, 11 Apr 2025 10:19:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744366558; cv=none; b=M2Q+TkOD4PMa/9n0AgS9B9i9dD96sYRu2kfjBEDZs0drfsuw+mJTW+dH5Z6EagO8uPmUX4mCVXEh/qCekiXBQ4nyl9ZOjBD9MHjSa/RhiBfyRfN/O33QX+EC78FxpNR0QxyqN0sj/XP2jD4EMVjS22oZPyQUIw9Umm72aj9oQ1E=
+	t=1744366788; cv=none; b=JDSdNHb/B1GpmV50ToCnz/Xeni8bdOqMNKOuCLu5/mzaC6xoSUrWhao945EDKULi+G22m0S8spzVsM8NvZnBd0TfucHxiLp0ewfW46diSEfBk1q/lIy15O9UuTev14T54LUvenPLSCouSTg36qsGrN8pzYNDUeztCQ+SQjEOf80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744366558; c=relaxed/simple;
-	bh=egPWzhxD06xwpGpoE6s8FT+cKQkj/ZJrgVe7aapfK7M=;
+	s=arc-20240116; t=1744366788; c=relaxed/simple;
+	bh=LprdMn8AM2NvclLuiyL7Aj0jeV6crsPoS64Xmqg3AK4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PhHs5wn007ryBF0vVqYXqbOjcbVSUJIJ6uFYNsrQkFpeCNMHqU96VmXgYdZGNZAkqBmrBoj2zDv9cnXRnjyIGbh0pPbn0zLF5V1EW18WcokGFUy5+R90K59DAcmLXHKMtmFOv58NE+kth7xn8BVw4COrveD/1KRWMGv9o5J6E2g=
+	 To:Cc:Content-Type; b=rwPZJdmLrQjkVAXPDps9TEWz6KTGxKfIZFfZrJLLKJZ60kfz4jhUmDJPuI7NaeQ4Hs4Z1dVzwS64ryrbQR5EhLRU0rKeo1UsW6ljc4WE3LemoRdHv5k33TwklbC5VrxTVgEiXE/ldHeOKZg65vTgNfk+m8NOL6YX9sGo530LlyM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-86d377306ddso753908241.2;
-        Fri, 11 Apr 2025 03:15:56 -0700 (PDT)
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-86d3ac0fec0so1650907241.1;
+        Fri, 11 Apr 2025 03:19:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744366554; x=1744971354;
+        d=1e100.net; s=20230601; t=1744366784; x=1744971584;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cKY5jBYKPjG08lJKcN9LpB+8RzKw8ZlZDZ327HU2/U8=;
-        b=BYpYU4Rs2GE2TVDJMUZp3m4rrak0yojo5mJEXTS5aW+ltxXfjwcB6kxWh7Kcyls/DK
-         l9CH0/CLmWp/D4LUwtu9hogNxIbFdpt49uh/cY3qlQHbb7BIZt0rPQFkYRjSV7Q0byqW
-         KoUcC+/PR/rF4Bf7OlOIWPzY/iJkNXU7EzRZUuUyXlOBPNO7JkhF9n/YRTiy/T1e5kTr
-         w957+ppTU8Ky5T3OJBfLg2K8BZ/RBmlDv2ODCW+hRIC9LggifpAw3tcTNWeckx3aFuRM
-         /HugZmTNx9HMQWp8oN80YY6dxkUi5fO6rfTtXRcgBBbCORU+7P6H6aucufXm/3oaQN9a
-         EmSg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlBO2ugd57cMlY/oLPSTzMX9wZIx8+ekpbQRPNhuvMyNk9Qz1E8fqdsMcRFsa+aOexaK1+TD1qxLwR@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqEN498A44bdjkh5r4MgrQL5kdNic+H0+tXTIQIU9SthuOEwNa
-	1QLX8YoRhIRc8Kceu1t7RHMI/okHcn/XgZW2cNPlbaAjnE019VkSJI+np3jRGJs=
-X-Gm-Gg: ASbGncvvZAsnxg41g5K9hdUHGGVdL+59NujcMwBoe9djBUkuupzH/fIWAREIldPb/33
-	K6jXMLlk1HYTRlF3l+ESu9kSmctvJtfAwzU9g7LUs1BOgmKP9zQf46YCRgQMCVFCyUhb+asn+Ld
-	ZWfismH6KqqFroSQUbQe72mdAww7Q+ICzYdd332h87H/hUTBi+dDgUqW1ipboFucf5DKFjOiQs+
-	fPyY5dowgt6Rbn0DnssivSrAGcroI4IzKZJ4b8x6Ts8NdqUMhPQht1XaNCwWeVARgUfeSin+Llf
-	u2F1/u77K/eSJdxMCvP0rriu4yQBsCUUgC/laqpGzYexe3f9gXsxkhLj5D3m9edmt4pr/qw7ezq
-	pj4I=
-X-Google-Smtp-Source: AGHT+IEYB9IFJcCGTgLLCmAfzyok2U9AXPpni54uKIKoEGFsw/DAjTgg4VWwzSWIBID6pt/OQp0YaA==
-X-Received: by 2002:a05:6102:330f:b0:4c5:78ae:1e3a with SMTP id ada2fe7eead31-4c9e505b10emr853965137.23.1744366554393;
-        Fri, 11 Apr 2025 03:15:54 -0700 (PDT)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-875560e312bsm1004939241.4.2025.04.11.03.15.54
+        bh=MRj8vlwCzaPw8iMnn+a+shmBroae65IYrdR7nYfHouk=;
+        b=Yuj9wD7l8E6xIZARsW5dGms5euLwld2vq6MY6hzNgnsey4dh86fsdbaoc9ll1DvUI8
+         0IxqCGEQ2XubeS1p5dz+q9dytI9jKY644tDfD0XQ22+lZW4fbCuTPvsIX/gGxb9BaQEm
+         C3z4xRDOrNCVPrhfgImnw+i1ZzIUmGdHXJtMBwq8vMVmaY09UpUMfsHXX/dzsFjtfSU+
+         ohWnLOm7Hn+R0hegfzqY1sHFSpC9S4vlV5O6tC21AvbzL1vKMgdqCI2rUBFjeAecehAn
+         gszMyMjYwI2ZQrQAmkLW4I8wn8eQzze6DW1bEjNwSZazPqi3t9UJggt0TmQe+SbKP6Nl
+         tL2w==
+X-Forwarded-Encrypted: i=1; AJvYcCWsy5g+ZhtIcYfFE6OGdQWh3NAzO8cYYrW0ic97IVgkbTV/vedz9cb69gJompw+h9AhmxiqX6F+J3DW@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWU9CcCM8oBkzJb3NSDN0MhRvw1leDtF8TuHOoEhmGztttAIxb
+	FNYxRoVImM8rO4H69PC2sQVbDQ/lAnoruZRVjwpQRK3zfvO/aFp+ITctDXq/i4g=
+X-Gm-Gg: ASbGncupox2C2V6LlkaAoBUV+oerd4vPXGEyzeYZEIlIr7ldhf0gyMjD1hb0XrTC9FH
+	1W2+EpYa0M8peFdTz/aVoDkIIpqDwIfzzIuB7nXgbEGjIcj08GD6bZxXCj4EogpIoL2W6q4Pv4e
+	fsd+0HTQNY+gzV8X+RPB28BzW3G6UQ42gziztrWptWcNKtTODtXxmkc4ECWaHYNCCmRc08is12E
+	UC96Y9ZdVlNxqb32dOcWDeYR4spg7qS7W7h3GIiPNMgN/+zOfobQxDk/W6srXaDu8Mq4SdSLal3
+	2ELBUYV4orW05rZDOGci2OLIyWuFamJ10bMC9iDkd+4m2M1Ey+/hbQbAcGWzB4XG5lbtSs0BkAf
+	9ShI=
+X-Google-Smtp-Source: AGHT+IHkDEJ20ruQHBiUp3lkAKpRmRv4rw7qpGTsgkw5NJRzoTqVZ+19LXbccUT1O+31/vk3D3bkNg==
+X-Received: by 2002:a05:6102:370d:b0:4bb:dc3c:1b47 with SMTP id ada2fe7eead31-4c9e4f229famr942091137.14.1744366783897;
+        Fri, 11 Apr 2025 03:19:43 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8755716bae6sm985425241.15.2025.04.11.03.19.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Apr 2025 03:15:54 -0700 (PDT)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-86d42f08135so706513241.0;
-        Fri, 11 Apr 2025 03:15:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWnUIbZ5845yHJkuKOr5e2u4tY0vU4KKVFnuMjM979aa0xT0SKYmSXszt35bU219CyKcxOmzVxF2Jv1@vger.kernel.org
-X-Received: by 2002:a05:6102:5487:b0:4ba:9923:fa57 with SMTP id
- ada2fe7eead31-4c9e4f1f22amr1008431137.15.1744366553901; Fri, 11 Apr 2025
- 03:15:53 -0700 (PDT)
+        Fri, 11 Apr 2025 03:19:43 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-86d5e42c924so1480602241.3;
+        Fri, 11 Apr 2025 03:19:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU9xnHdUbtbchDbz44zvVrGvBowBvBEcD/jrpbB+bF/8ovTn2j32e3aErfZwJnnlbn5IY4M3JzsjCDb@vger.kernel.org
+X-Received: by 2002:a05:6102:3e8d:b0:4c1:9288:906c with SMTP id
+ ada2fe7eead31-4c9e4ef1b42mr1037857137.9.1744366783244; Fri, 11 Apr 2025
+ 03:19:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250411095425.1842-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250411095425.1842-2-wsa+renesas@sang-engineering.com>
+References: <20250410071406.9669-4-wsa+renesas@sang-engineering.com>
+ <20250410071406.9669-6-wsa+renesas@sang-engineering.com> <CAMuHMdXgWgtNGUCsuRuGQdtwYEZ3H3+JTfMATsCz53WeuOVw9g@mail.gmail.com>
+In-Reply-To: <CAMuHMdXgWgtNGUCsuRuGQdtwYEZ3H3+JTfMATsCz53WeuOVw9g@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 11 Apr 2025 12:15:42 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUk3wrH=oB35v2tyrHVd9w0otqTDBmYc8fwt4w3fhXUog@mail.gmail.com>
-X-Gm-Features: ATxdqUGMQcaHz4-sd_Xr-huDtkIPLWR71lzbHFNXIQE5vxs8fZQI_157pUnxveg
-Message-ID: <CAMuHMdUk3wrH=oB35v2tyrHVd9w0otqTDBmYc8fwt4w3fhXUog@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-eb: correct LAN LED nodes
+Date: Fri, 11 Apr 2025 12:19:30 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU8LV152774jekKzsTLpJNdrvJQookXC2kxa6uerV5PbA@mail.gmail.com>
+X-Gm-Features: ATxdqUGiHLMvgzMX3y1qKKAp2a_PVcgWZ1oyIIciKbrSnEQA-krhQ4s8SruR0c0
+Message-ID: <CAMuHMdU8LV152774jekKzsTLpJNdrvJQookXC2kxa6uerV5PbA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ARM: dts: renesas: r9a06g032-rzn1d400-eb: describe SD
+ card port
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: linux-renesas-soc@vger.kernel.org, 
-	Thomas Bonnefille <thomas.bonnefille@bootlin.com>, 
 	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Wolfram,
-
-On Fri, 11 Apr 2025 at 11:54, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> This board only connects two LEDs instead of three. Also, give them
-> descriptions to avoid namespace collusions.
+On Fri, 11 Apr 2025 at 11:47, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Thu, 10 Apr 2025 at 09:14, Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 >
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Thanks for your patch!
-
-> --- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-> @@ -6,6 +6,7 @@
->   *
->   */
+> > --- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
+> > +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
+> > @@ -66,6 +66,28 @@ pins_eth2: pins-eth2 {
+> >                 drive-strength = <6>;
+> >                 bias-disable;
+> >         };
+> > +
+> > +       pins_sdio1: pins_sdio1 {
 >
-> +#include <dt-bindings/leds/common.h>
->  #include "r9a06g032-rzn1d400-db.dts"
+> pins-sdio1
 >
->  / {
-> @@ -102,15 +103,18 @@ switch0phy1: ethernet-phy@1 {
->                         leds {
->                                 #address-cells = <1>;
->                                 #size-cells = <0>;
-> -
->                                 led@0 {
->                                         reg = <0>;
-> +                                       color = <LED_COLOR_ID_GREEN>;
-> +                                       function = LED_FUNCTION_LAN;
-> +                                       default-state = "keep";
->                                 };
-> +
->                                 led@1 {
->                                         reg = <1>;
-> -                               };
-> -                               led@2 {
-> -                                       reg = <2>;
-> +                                       color = <LED_COLOR_ID_RED>;
+> > +               pinmux = <RZN1_PINMUX(95, RZN1_FUNC_SDIO)>,
+> > +                        <RZN1_PINMUX(97, RZN1_FUNC_SDIO)>,
+> > +                        <RZN1_PINMUX(98, RZN1_FUNC_SDIO)>,
+> > +                        <RZN1_PINMUX(99, RZN1_FUNC_SDIO)>,
+> > +                        <RZN1_PINMUX(100, RZN1_FUNC_SDIO)>,
+> > +                        <RZN1_PINMUX(101, RZN1_FUNC_SDIO_E)>,
+> > +                        <RZN1_PINMUX(102, RZN1_FUNC_SDIO_E)>;
+> > +       };
+> > +
+> > +       pins_sdio1_clk: pins_sdio1_clk {
+>
+> pins-sdio1-clk
+>
+> > +               pinmux = <RZN1_PINMUX(96, RZN1_FUNC_SDIO)>;
+> > +               drive-strength = <12>;
+> > +       };
+> > +};
+>
+> With the above fixed:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Can you please confirm they are RED and not ORANGE, as documented in
-the schematics?
-
-> +                                       function = LED_FUNCTION_ACTIVITY;
-> +                                       default-state = "keep";
->                                 };
->                         };
->                 };
-
-LGTM, will squash into "[PATCH v4] ARM: dts: r9a06g032: add
-r9a06g032-rzn1d400-eb board device-tree" when the above is confirmed.
+I will fix these while queuing in renesas-devel for v6.16.
 
 Gr{oetje,eeting}s,
 
