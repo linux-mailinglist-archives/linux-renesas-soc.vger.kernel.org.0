@@ -1,125 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-15894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15895-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D49ABA87AC8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 10:45:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E3EA87B08
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 10:52:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFAE4166967
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 08:45:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0949C7A8A51
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 08:51:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF91E2673A4;
-	Mon, 14 Apr 2025 08:43:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E18D23BCFF;
+	Mon, 14 Apr 2025 08:52:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OAsIa9pH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AW6qmC5I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D0879F5;
-	Mon, 14 Apr 2025 08:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E1BDF42;
+	Mon, 14 Apr 2025 08:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744620229; cv=none; b=Pv966IqKVWK+7e+vnBy1y8EwG3lOuUJDcbYsNcCSq1EkuZXskdb9cKnHX+HC9tDICfUeCPzHWibvsJJkgOfBGBEbsqejvetGCnU80+LQmIaPwEBdv9TgbuWXoJ5ORYDL923P/1CluWrjgFeBtE553q0dt1l4rJ9UHZT9g6iMU/k=
+	t=1744620752; cv=none; b=G++C6qUDOcsXqB+LT0fs6Y1MRaHilEgAR9QA7mZo9XdbpPZ6CwEfgx0sE6YVRmCJ95AESuRpexuJMewMqpT/Hv4KMUt+SbA4KerpqfDiSApwp/ZZ+eshgshIz5KxIr5mFDPmNFyICRjCYkb8cFNl5xegHC6f45Qnl/AaTSea+i4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744620229; c=relaxed/simple;
-	bh=Kgm4+PFS86INJqZ4ci3/K7REL2o7WdlKIQ00YvcVZpo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=gSchiRmd3uARhAHuIby8wZl/hCIocPxwxa0Hn4/gnn6d4OS2s2pdhkOj25CtAe4t9Zhl2KZDPpG2FnkQlaBwnaZdf7sOwR3dHz/hLVeNI6i4PoT9jVXKAx5TkySV/0OADWuT1oNm9JHi1M6Ysvj3ww3/y11Cf97x4EKga0EAnNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OAsIa9pH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25ADEC4CEEA;
-	Mon, 14 Apr 2025 08:43:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744620229;
-	bh=Kgm4+PFS86INJqZ4ci3/K7REL2o7WdlKIQ00YvcVZpo=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=OAsIa9pHgyI7ZjMuwZqINdAbAbW5/XBGuOefdScFxBMSNY8E1LV17vI9xknSD6N6N
-	 pn/2rtY/MoJqRtrpIjDxhisAJDmtVm12nNafmpnr0a00/jwcUmdkAoU99SNFRnnaCg
-	 Kbz991kZ0gJplzQgNbfVKRF3uA+yC1mujwQMBQufJUqGH7V5X/ra2rwQ3XxlW/JVhA
-	 5rXkSIagGpEVYWWt2UmIpHEs6RXEpUju+zFMxKnQVHY2BDObWLFSXNqujagUugWmG6
-	 /Og1kOp7Trfe+0laCzX4TR542q5Rd3PyZKNwWDsWE+WzpKDuGN2NzPYQNGfV7HVydz
-	 K+XrXeH7ATihQ==
-Message-ID: <c6ce011b-9a77-486f-a5de-dded567e9f87@kernel.org>
-Date: Mon, 14 Apr 2025 10:43:41 +0200
+	s=arc-20240116; t=1744620752; c=relaxed/simple;
+	bh=njlJ6wOPTfgXbiVOtvyAn8VB29ZgxhG14ZDHCkhqO1c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UXF6RVylfc12feN5NuMHwn82mQ+16mAKDSCyMVZm858QrcQs2zOx7rR4QU7yt26Uf4yphIhPaWpwMywANjm/XdVU2Vys/oGa8Bf9i3znHMx394i5/J/5EXdTX6HBgxuDmmp2SpwmhLido0Om88xCVlrEmPbBcQATXnubWjt9CCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AW6qmC5I; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-52413efd0d3so1707430e0c.2;
+        Mon, 14 Apr 2025 01:52:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744620749; x=1745225549; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RK1FjQCAv98Eay4SPuOitMP3sY6he/myS3klmD5dY54=;
+        b=AW6qmC5IPbxz4Os6/GQ7QlrGXje+Ynhqgf5gEeZhCfvhwfoY+s1JApLJKoX0agIs68
+         mFIiLXV+X3RrIiAm2ZWw3gaXrpgGXGZ0BMmu2QHjTHJfx6g8GFL+XNFczrnMeMQlDZ+E
+         teubzc4eUzcU26cwt4XPo75NGxdZ5PXX/ID+h+iv9mXt8PA2XIBiL3TxDlOzE1nqWnjo
+         5D1eZbkBJKwpwep9tCZEGCIefLCKCmOETbE23aPuC8qpMiKDoZr+VhrNnZRrtmnxDHSH
+         7ijwP0Zla/F1WxMl4KXYksd9cJeEsOvNfmxy3cmR0ok4fmYsaYZTPgciEC03F2XYmazv
+         Qoig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744620749; x=1745225549;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RK1FjQCAv98Eay4SPuOitMP3sY6he/myS3klmD5dY54=;
+        b=UZ0a60jdoRjP104cvqr1fYY+Zh4VJAEGCB2PgjqXmJzdAZKGBhfjPS6RM8ZsFUJ5cp
+         utyeaWrm/XJrakW8eKNKsxk2KSeMGUMgr1ApsWNV/4ln9+po7y0L9vm9JH0hADg+fjm+
+         /qH/ip2xtC5s7UQ3rRnbYwRCZ3v6OYwEQPTmNg53ePjFGWiDB6jlU2ZzJqa2RgY+G57X
+         1nfgvJUaEh9+Z4O5rzwhNrnXP4TzS1XRC8BTKNdfDxGsR1cV6OE521bjtbjn1jSLpKq3
+         shQQSA3+KGZ0gQjFDUhffQfKMUBOFcVapS6uqMGMZ8VDwBdbtjQb9tOiNjM8S8I2wGBM
+         WnJw==
+X-Forwarded-Encrypted: i=1; AJvYcCViPkdkEpqHoQRQhU1ru8YG0UHobQYTDrwIzS3x7wYv4FbBjprD0TZlKMehzxKRyhJ/+5Nkmv5y@vger.kernel.org, AJvYcCWGqQ7bWB965qkivPnNMl1hJQc4wTCEdHt8JQtv2U3JtjEGLtGJRyKetjZ8uxauogV1GuuLZxA6dFyg85L1@vger.kernel.org, AJvYcCXAC1ssdgWYd6UpdG3eAfiVcz/q7aJfB/3C2nx3BErNcIhGZpbUwGLPP8fv8didMrxl6Nxo9vlJ+OHa@vger.kernel.org, AJvYcCXkUgiZn4aU0KdtWRP1scEEjpkhNLMOy4VtQlJWeZta9mabVlRtJS543si52LvY1kGNVl7Lg2I9vdGJScWlCJLgyKs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOnGsHLfZLig6LCa0xDjKJMHtqj0bRtCF1quwzsv/H93cc0Mfc
+	xt7/yU6LzHMyrLBxMmTFl/Ame81zTL/BhXqjpowr2cKtTq5ca7Ha9rb2/a83lsSmijoCmH6nU5I
+	BrG8Q00cG5JmJQ9X6MzONdlEQL8o=
+X-Gm-Gg: ASbGnctjPh6TC4Xiu4WOWvudlsaUOgm8yaKYroliU9MNnDXPuIoRLxs8yor3qeHGdka
+	pzB4NT50QksGBWevm/gSOA5pp6exVQV8JbRQvS4kKSl9n7Ca5iyjMoetHlyBoXGFZoY2vUbQyC5
+	fMjUaUhc1Apoy4jaWfsQAxtA==
+X-Google-Smtp-Source: AGHT+IHDQYAJXdFj/iNG0npq557KpIZpBxXkLL2l+9hPwfBOs75fehWJLdCe6um+3vhYJFwWD4BbKD7nZni0VXc/gQE=
+X-Received: by 2002:a05:6122:319d:b0:527:67da:74ee with SMTP id
+ 71dfb90a1353d-527c34d1fd1mr7094050e0c.5.1744620749318; Mon, 14 Apr 2025
+ 01:52:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 9/9] arm64: defconfig: add Renesas MSIOF sound support
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
-References: <87h62vh5mj.wl-kuninori.morimoto.gx@renesas.com>
- <874iyvh5km.wl-kuninori.morimoto.gx@renesas.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <874iyvh5km.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250407120317.127056-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250407104447.072449cd@kernel.org>
+In-Reply-To: <20250407104447.072449cd@kernel.org>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 14 Apr 2025 09:52:03 +0100
+X-Gm-Features: ATxdqUEHxcklYN6PVPbrfMER-iWYYX-JiIMzDYloXSJi2mPCrezqGIzibq2L6CY
+Message-ID: <CA+V-a8uqkG+u_ZXztPe7R0BNV6BA46KgGRHRW-G3axBt566pEQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v5 0/3] Add GBETH glue layer driver for Renesas
+ RZ/V2H(P) SoC
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Richard Cochran <richardcochran@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/04/2025 03:04, Kuninori Morimoto wrote:
-> Renesas V4H Sparrow Hawk board needs MSIOF Sound driver.
-> Support it.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  arch/arm64/configs/defconfig | 1 +
+Hi Jakub,
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Mon, Apr 7, 2025 at 6:44=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
+te:
+>
+> On Mon,  7 Apr 2025 13:03:14 +0100 Prabhakar wrote:
+> > This patch series adds support for the GBETH (Gigabit Ethernet) glue la=
+yer
+> > driver for the Renesas RZ/V2H(P) SoC. The GBETH IP is integrated with
+> > the Synopsys DesignWare MAC (version 5.20). The changes include updatin=
+g
+> > the device tree bindings, documenting the GBETH bindings, and adding th=
+e
+> > DWMAC glue layer for the Renesas GBETH.
+>
+> This was posted prior to the "net-next is OPEN" announcement:
+> https://lore.kernel.org/all/20250407055403.7a8f40df@kernel.org/
+>
+> In the interest of fairness towards those who correctly wait
+> for the tree to be open I will ask you to repost this again,
+> in a couple of days.
+>
+Are you ok for me to now respin this series?
 
-Best regards,
-Krzysztof
+Cheers,
+Prabhakar
 
