@@ -1,179 +1,256 @@
-Return-Path: <linux-renesas-soc+bounces-15900-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15902-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A304A87CBA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 12:02:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E49EA87D72
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 12:22:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 005683B2E9D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 10:02:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F222188A853
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 10:22:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B088194094;
-	Mon, 14 Apr 2025 10:02:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B016263F48;
+	Mon, 14 Apr 2025 10:22:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="OwQcbk2s"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RJIcbyEC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7FC1A9B58
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Apr 2025 10:02:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCF333997;
+	Mon, 14 Apr 2025 10:22:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744624946; cv=none; b=bUbX8h0dnJCbOmbUetwrCqAWDpXw4SVRvjAQQPBqhUMUtrEPKvvsUJ7UFebuiQfo9F1qdB18s+WGr0kebT6WV6zN6jRsJgfcvr2BQTPJxZl45E/CU8yxay+hl6xMqcS8bJSUa5fdpxsGKbMbWQety4gIIVfdKfKuPV7zJwlm57o=
+	t=1744626128; cv=none; b=Icg92PfUkPGFPOjDckyvTg9E49ZCurhFPkeO1TFRMNpclVJ20StHcymwUeEdRnrvyioOdFtYPqLrAp6LXw//k0nECZbcYM2aQUQMCs0mGIJemBOZAfn2ffXDcMKgdX4FI4aGzFA2JTZ5+P3BviOVI4q0vDlZKafy1mQIOGpWd9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744624946; c=relaxed/simple;
-	bh=FfLFviB1dgFGoRFmstXijEl6bx0DXQ/QuRWLNagTGrc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Fzijjcp1dQ/TsoeTf06CYsbwGDqxIHmRJ/efhoXQdQcneznA3miMCRxG7e8rIxaWQXI5oJ5gGm1qtsB3qn1nsRjaejXlcMIVYdtVHyq5YWh4nCXNU080Hza7pjbIO5c4WeoFd/RvQRv0bnuPoAMT6EUtKVufyfy/GabluO3Ngvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=OwQcbk2s; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-type:content-transfer-encoding; s=k1; bh=g
-	C+3HXcqHlrIg8k1i6gZ+tETFXVfKFnaUdkkcsMJ0/k=; b=OwQcbk2sWQSHPtRUQ
-	GDkuybFKPqT3ZkeMMvlEkSm5butJPjmxLN8a3ZHC/pbhLj5kJeXWfWGweSCdkwrn
-	w0hurVnPyFgLHV7nT3j3M+KuuCCnTIx/BZDdxMaCSxzw5Au7K5r77qH2Q0y9OMuK
-	iDcJ17So7wcGQqUIsb8000gvRviTu1LUWbOlQrO1i6iykDP634HHX+WQAWRaIJM8
-	WG7sL5l/snGGLBmGms/XPSkxScu8rqGceB/FfAxY+H142k7ee2mSmdDcCygZaAkD
-	YkmUDHkHZLUnIfeOftA+aQPbAULfqtMx0iBWGx1v07xLuay+MTJNsKCDLUbsCGg5
-	4T5PA==
-Received: (qmail 2241609 invoked from network); 14 Apr 2025 12:02:20 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Apr 2025 12:02:20 +0200
-X-UD-Smtp-Session: l3s3148p1@DgvOJboybJcujnth
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-eb: Add GMAC1 port
-Date: Mon, 14 Apr 2025 12:01:13 +0200
-Message-ID: <20250414100206.7185-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1744626128; c=relaxed/simple;
+	bh=KtqC2iditidJC2eSLn3KMSnoD5wXk8uVxjE6xg2dVhg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qMBhey+hKxDDJAGm5htJSdoYUrG+QKSMHrsKSvXF4oGLKr6HSVFNyq9qRgQBWuh9spcWVGcjlAfaqYuAOKAuBHZW7JLBt8w9RjDo6hvDdV6n+OCKPkqLhWRlETiYnWuEQ/y1j+7uYSM2R3aTu/UeyvJl0Cf13qRFrLlqHVLFOxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RJIcbyEC; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-524125f6cadso3449459e0c.2;
+        Mon, 14 Apr 2025 03:22:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744626125; x=1745230925; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7k7jOxUiHWycKnZAs1fHyoctI9n8TH4eQ7bIdVfdT2Q=;
+        b=RJIcbyECyj2SxzILyTGR/ubLtHeBLY5kTyQC8cL3DkrouuBHhQdrDQ+FMObQPgpAhN
+         iiaTsF13HbF2PRL9fdICbaUtHDQpThYo54RUbEooGkDyL8dSccp/mE5d2TS+UKwsXc2q
+         iiy0VMtWrNY+zSg2lOtD7aQa8qplyJsLLutM7UJMcRNKjTaa8EivmqCpyFJfTPbAHoQJ
+         OgFnz52Yt1ZBBdD8YwV8LLH4TyyYxa4abvueXPCEnAN6yNwDIYv9ReK/25eOaFZTZlT7
+         NSZP9hrDMOn02RfaeI1xXUtLIWhdK93MTNt0D0QM1Nk0eyus7JqMqqpxLgVW6ScPUpne
+         K/Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744626125; x=1745230925;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7k7jOxUiHWycKnZAs1fHyoctI9n8TH4eQ7bIdVfdT2Q=;
+        b=P7CxnGT/XN/si1cRz622IaajCWSoC4i238wO4gTVdBiKCXae01yv+AlKgr6OOpigiq
+         ByRs7yuByS5/EvRjEr5JpC1C/MtyYssMP5Y3qdG/dfB52G834H0HyWdW4EqmdhTepDhG
+         eCB6gcQWeVvC0OySD3hO3lUSUaeD1PUUIkqDlrefmN/6Rco+mDa4Fsd5eZlcZ1Xd7388
+         Du6hmZaUk+Xtqy2iDhImxyodBf69+9uayw+rkkqxhlcyCPahutVMccdmsTDpnl7HXs91
+         iG5BIul//sDS2LKuSUmznmV6DBbwIn0aKrJaTd5NxhKTtbr1lQkz7jTpLxxmRGg64CG8
+         eMgg==
+X-Forwarded-Encrypted: i=1; AJvYcCUnAko+01/ipj10ovQYFkalt1zt08fk94DT1OOKTwpKvie501RlNHmEwWaDeo/n2YJo/uxsynemrfGaa+9k@vger.kernel.org, AJvYcCVnIRkP+K1yTwz+d0N0BoECiJY8wTU6xcWx3mzaw6nh2/B/qrtFICNpPubz/lXodWQcVHVMnPUE5A9Q@vger.kernel.org, AJvYcCWHt+xQKYFgFqVtmzQtJ3HU/rtvhDs5mdLPnG4/JxB2QUg4yriHHrU15Ecrdmqkkvj0RLK0+9mNdyRUkg==@vger.kernel.org, AJvYcCWRnIR+aqbPZPMmlZNoAUnQTb/HimYkEujKUVQI4i1pBVJ3nyIh0LWPUWpA+UGCNGH7IA36xxi99R8g2F5w@vger.kernel.org, AJvYcCWrW/IUI5dYNavJqcHM62cOsBStfSBunBJ9upsWH87mte+mnreSdZ1lEhMMspzqZ8oZCgoi0vxm80y52jF9FdX04oA=@vger.kernel.org, AJvYcCXUoDnoJ1HKkCLAdwkhk5/nms1emyhms4fuJ5ZBOcu0IJ9RxClewRPqtqGa8VFpRiBmEAGknDVXs2DB@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrSJvsu9Ii+nT65lA/uZ1D2ufeILx0OEua4fauOkZI6UVv4CHB
+	/z9rJ5gomgaThxpnN5afjIkjIknMAOwR/DNjOmVILcRHpWd0ippdep2n9BAx0WKKowbmXr2W2ns
+	19gW1NXBZWQjHoFa7DqKqzqpcjLI=
+X-Gm-Gg: ASbGncsWRtyjuVRRK1LyIQzw03lH7NeJJZya9nNPFiYzhm0f1lPjI02nVF6BuhHBEjX
+	7rB8EZnnvOKU2U/kGJMaFio6rcx2n5msSz/h/PahKpAOEVBqmfjIfdbOQ/xwwAptGTsDhxntNtd
+	Z+D/2/8K7A5dYypR2LeQ5BgCoDdZwRN1fyoBAZQc0ScjeGmTBeiZSbyA==
+X-Google-Smtp-Source: AGHT+IFSeOGA2alvM6QeKWz4GkE6DGO1ZrCPg1gcKCQ11FxwYR0XiZJAS4I8ijlIiqbfKsOobnAycg3lAGA3S6FUZm0=
+X-Received: by 2002:a05:6122:889:b0:520:4996:7cf2 with SMTP id
+ 71dfb90a1353d-527c35f89c5mr7652543e0c.10.1744626125325; Mon, 14 Apr 2025
+ 03:22:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250407191628.323613-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250407191628.323613-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVjrHN8e-yWTFWE1BLfnQKDeYsvuGepkoqcgxrR+CK5+w@mail.gmail.com>
+In-Reply-To: <CAMuHMdVjrHN8e-yWTFWE1BLfnQKDeYsvuGepkoqcgxrR+CK5+w@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 14 Apr 2025 11:21:39 +0100
+X-Gm-Features: ATxdqUFuOQmoL7ZTIiCRaOJodzbfgENtFmE4ZyvW6KnP_pB8NrLn_eb62g4E32I
+Message-ID: <CA+V-a8s0RbgEB2kHDtv35jOtSNw2ThMB_GEgX1SLdOdiRtiPfQ@mail.gmail.com>
+Subject: Re: [PATCH v2 04/12] soc: renesas: sysc: Add SoC identification for
+ RZ/V2N SoC
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This port bypasses the switch and is directly connected to the GMAC.
+Hi Geert,
 
-Co-developed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Thank you for the review.
 
-Based on renesas-dts-for-v6.16 as of today.
+On Thu, Apr 10, 2025 at 10:28=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Mon, 7 Apr 2025 at 21:16, Prabhakar <prabhakar.csengg@gmail.com> wrote=
+:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add SoC identification for the RZ/V2N SoC using the System Controller
+> > (SYS) block.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- /dev/null
+> > +++ b/drivers/soc/renesas/r9a09g056-sys.c
+> > @@ -0,0 +1,107 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * RZ/V2N System controller (SYS) driver
+> > + *
+> > + * Copyright (C) 2025 Renesas Electronics Corp.
+> > + */
+> > +
+> > +#include <linux/bitfield.h>
+> > +#include <linux/bits.h>
+> > +#include <linux/device.h>
+> > +#include <linux/init.h>
+> > +#include <linux/io.h>
+> > +#include <linux/string.h>
+> > +
+> > +#include "rz-sysc.h"
+> > +
+> > +/* Register Offsets */
+> > +#define SYS_LSI_MODE           0x300
+> > +#define SYS_LSI_MODE_SEC_EN    BIT(16)
+> > +/*
+> > + * BOOTPLLCA[1:0]
+> > + *         [0,0] =3D> 1.1GHZ
+> > + *         [0,1] =3D> 1.5GHZ
+> > + *         [1,0] =3D> 1.6GHZ
+> > + *         [1,1] =3D> 1.7GHZ
+> > + */
+> > +#define SYS_LSI_MODE_STAT_BOOTPLLCA55  GENMASK(12, 11)
+> > +#define SYS_LSI_MODE_CA55_1_7GHZ       0x3
+> > +
+> > +#define SYS_LSI_PRR                    0x308
+> > +#define SYS_LSI_PRR_GPU_DIS            BIT(0)
+> > +#define SYS_LSI_PRR_ISP_DIS            BIT(4)
+> > +
+> > +#define SYS_RZV2N_FEATURE_G31          BIT(0)
+> > +#define SYS_RZV2N_FEATURE_C55          BIT(1)
+> > +#define SYS_RZV2N_FEATURE_SEC          BIT(2)
+> > +
+> > +static void rzv2n_sys_print_id(struct device *dev,
+> > +                              void __iomem *sysc_base,
+> > +                              struct soc_device_attribute *soc_dev_att=
+r)
+> > +{
+> > +       unsigned int part_number;
+> > +       char features[75] =3D "";
+> > +       u32 prr_val, mode_val;
+> > +       u8 feature_flags;
+> > +
+> > +       prr_val =3D readl(sysc_base + SYS_LSI_PRR);
+> > +       mode_val =3D readl(sysc_base + SYS_LSI_MODE);
+> > +
+> > +       /* Check GPU, ISP and Cryptographic configuration */
+> > +       feature_flags =3D !(prr_val & SYS_LSI_PRR_GPU_DIS) ? SYS_RZV2N_=
+FEATURE_G31 : 0;
+> > +       feature_flags |=3D !(prr_val & SYS_LSI_PRR_ISP_DIS) ? SYS_RZV2N=
+_FEATURE_C55 : 0;
+> > +       feature_flags |=3D (mode_val & SYS_LSI_MODE_SEC_EN) ? SYS_RZV2N=
+_FEATURE_SEC : 0;
+> > +
+> > +       part_number =3D 41;
+> > +       if (feature_flags & SYS_RZV2N_FEATURE_G31)
+> > +               part_number++;
+> > +       if (feature_flags & SYS_RZV2N_FEATURE_C55)
+> > +               part_number +=3D 2;
+> > +       if (feature_flags & SYS_RZV2N_FEATURE_SEC)
+> > +               part_number +=3D 4;
+>
+> The above construct can be simplified to
+>
+>     part_number =3D 41 + feature_flags;
+>
+Agreed.
 
- .../dts/renesas/r9a06g032-rzn1d400-eb.dts     | 63 +++++++++++++++++++
- 1 file changed, 63 insertions(+)
+> > +       if (feature_flags) {
+> > +               unsigned int features_len =3D sizeof(features);
+> > +
+> > +               strscpy(features, "with ");
+> > +               if (feature_flags & SYS_RZV2N_FEATURE_G31)
+> > +                       strlcat(features, "GE3D (Mali-G31)", features_l=
+en);
+> > +
+> > +               if (feature_flags =3D=3D (SYS_RZV2N_FEATURE_G31 |
+> > +                                     SYS_RZV2N_FEATURE_C55 |
+> > +                                     SYS_RZV2N_FEATURE_SEC))
+> > +                       strlcat(features, ", ", features_len);
+> > +               else if ((feature_flags & SYS_RZV2N_FEATURE_G31) &&
+> > +                        (feature_flags & (SYS_RZV2N_FEATURE_C55 | SYS_=
+RZV2N_FEATURE_SEC)))
+> > +                       strlcat(features, " and ", features_len);
+> > +
+> > +               if (feature_flags & SYS_RZV2N_FEATURE_SEC)
+> > +                       strlcat(features, "Cryptographic engine", featu=
+res_len);
+> > +
+> > +               if ((feature_flags & SYS_RZV2N_FEATURE_SEC) &&
+> > +                   (feature_flags & SYS_RZV2N_FEATURE_C55))
+> > +                       strlcat(features, " and ", features_len);
+> > +
+> > +               if (feature_flags & SYS_RZV2N_FEATURE_C55)
+> > +                       strlcat(features, "ISP (Mali-C55)", features_le=
+n);
+> > +       }
+>
+> The above looks overly complicated to me.  What about handling it
+> like on RZ/V2H?  I agree having 3x "with" doesn't look nice, but you
+> could just drop all "with"s.
+>
+Ok, I will switch like below:
 
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-index e539df514d1e..975446b2ac97 100644
---- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-+++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-@@ -15,6 +15,42 @@ / {
- 		     "renesas,r9a06g032";
- };
- 
-+&gmac1 {
-+	pinctrl-0 = <&pins_eth0>, <&pins_mdio0>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&phy_mii0>;
-+
-+	mdio {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		compatible = "snps,dwmac-mdio";
-+
-+		phy_mii0: ethernet-phy@8 {
-+			reg = <8>;
-+			leds {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				led@0 {
-+					reg = <0>;
-+					color = <LED_COLOR_ID_GREEN>;
-+					function = LED_FUNCTION_LAN;
-+					default-state = "keep";
-+				};
-+
-+				led@1 {
-+					reg = <1>;
-+					color = <LED_COLOR_ID_ORANGE>;
-+					function = LED_FUNCTION_ACTIVITY;
-+					default-state = "keep";
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &i2c2 {
- 	/* Sensors are different across revisions. All are LM75B compatible */
- 	sensor@49 {
-@@ -23,6 +59,11 @@ sensor@49 {
- 	};
- };
- 
-+&mii_conv1 {
-+	renesas,miic-input = <MIIC_GMAC1_PORT>;
-+	status = "okay";
-+};
-+
- &mii_conv2 {
- 	renesas,miic-input = <MIIC_SWITCH_PORTD>;
- 	status = "okay";
-@@ -34,6 +75,23 @@ &mii_conv3 {
- };
- 
- &pinctrl {
-+	pins_eth0: pins-eth0 {
-+		pinmux = <RZN1_PINMUX(0, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(1, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(2, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(3, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(4, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(5, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(6, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(7, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(8, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(9, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(10, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-+			 <RZN1_PINMUX(11, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>;
-+		drive-strength = <6>;
-+		bias-disable;
-+	};
-+
- 	pins_eth1: pins-eth1 {
- 		pinmux = <RZN1_PINMUX(12, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
- 			 <RZN1_PINMUX(13, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-@@ -68,6 +126,11 @@ pins_eth2: pins-eth2 {
- 		bias-disable;
- 	};
- 
-+	pins_mdio0: pins-mdio0 {
-+		pinmux = <RZN1_PINMUX(150, RZN1_FUNC_MDIO0_GMAC0)>,
-+			 <RZN1_PINMUX(151, RZN1_FUNC_MDIO0_GMAC0)>;
-+	};
-+
- 	pins_sdio1: pins-sdio1 {
- 		pinmux = <RZN1_PINMUX(95, RZN1_FUNC_SDIO)>,
- 			 <RZN1_PINMUX(97, RZN1_FUNC_SDIO)>,
--- 
-2.47.2
+part_number =3D 41 + feature_flags;
 
+dev_info(dev, "Detected Renesas %s %sn%d Rev %s%s%s%s%s\n",
+soc_dev_attr->family,
+               soc_dev_attr->soc_id, part_number,
+soc_dev_attr->revision, feature_flags ?
+               " with" : "", feature_flags & SYS_RZV2N_FEATURE_G31 ? "
+GE3D (Mali-G31)" : "",
+               feature_flags & SYS_RZV2N_FEATURE_SEC ? " Cryptographic
+engine" : "",
+               feature_flags & SYS_RZV2N_FEATURE_C55 ? " ISP (Mali-C55)" : =
+"");
+
+
+> > +       dev_info(dev, "Detected Renesas %s %sn%d Rev %s %s\n", soc_dev_=
+attr->family,
+> > +                soc_dev_attr->soc_id, part_number, soc_dev_attr->revis=
+ion, features);
+>
+> This prints a trailing space if features is empty.
+>
+Agreed.
+
+Cheers,
+Prabhakar
 
