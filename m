@@ -1,75 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-15907-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15908-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9B4A880F0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 15:00:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 073BCA880F4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 15:00:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 886A9166DF1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 13:00:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C02D61896EAE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 13:00:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0CCCC8EB;
-	Mon, 14 Apr 2025 13:00:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC0586A8D2;
+	Mon, 14 Apr 2025 13:00:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="URyGnStN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lbTNCT9+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B042563;
-	Mon, 14 Apr 2025 13:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECD019A;
+	Mon, 14 Apr 2025 13:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744635627; cv=none; b=bC5z1auSt8RMJevmlcmjDZyUEEh2PYGkCmNux+s4ks/8JPHNXklXSgxrw5TUZN1el2YWutLmrLyZsuci+vMcHkRXH9Rs74GZHjocfiPYjdj4KeqG8fecwhkfiDgFkVZcfH8lwcrTwfa3f+wI6yX1F+EK5LWwIuVcDwdDPVnJDJg=
+	t=1744635629; cv=none; b=X7EwLaO+nUr53+I/Z7h/YykT8wPxJ219t+VlFVkLZ4Snoi4Cd6KpEX5XeV6PFjNyc6eH6Etkn73laDRrXQOR2dGgBFVzmi0Rx18+6PDpdGHNMnLPCuqfVDcAbac1c98H0oKXIcu8QkcCqdRfJSy6F3KGvnWjt1tF1YNuqB+Yx4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744635627; c=relaxed/simple;
-	bh=kxhMQT89cblfTxhyzZotmrfRaRQzzN1FS+ulDyL3SRg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FI9l9rP6vxVtTEDnx8Kmwp71znFseC3S4Kafo3/RE9/FcYfaSgvOhvTykwDo+NRYzA6c6gjrwRXOHyr+WpfaNtzEjYdu8F5qnuDzQtIK1UYQg02lf5KpWPBFcHQj7TxHynOPsSk81JuhAeSa3Vyi8UvrUfwKL+rbg9CRUt8bLXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=URyGnStN; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1744635629; c=relaxed/simple;
+	bh=DPb4jzdxAMjcjV5wM7HRySNLR1rqs6le4rxdDv3XTTc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AMFs64sOyuxe0txKyLAe/WapFHhKC0LTTYRNJOCIkoKgC9WwdKEFrWCZEKjxGpr9kPrCrsS8CiwCC1u7qnn7gHNT5EPZusmWrT0BwoXryZ1qWMLMyct5VIzXb3IWAxz4u2T9+P1o5/sR714rseCckpvXCRdVc4nsw9URVDN9TK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lbTNCT9+; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43d0c18e84eso21331495e9.3;
-        Mon, 14 Apr 2025 06:00:25 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-39c14016868so3942649f8f.1;
+        Mon, 14 Apr 2025 06:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744635624; x=1745240424; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/PADDJQ5jx6lytkcg+MwyiXvCQl+JVcNopjVMW/AGvU=;
-        b=URyGnStNQon2CPTE6gsH6IK67U+wWMfYqhE1m2e5OAVgj37sXozYKZ3HZge/qwhoPK
-         g7kBMwvdZPFVsOju83jbG72fbSsW8egWZP6AtDu+pH1ycf6mRfDcP+R+MRs6hBp70Mco
-         GK5EvqBZrzEEtXF/+UMp3KGDxFeMcKjeIl62o0VsKTYlqYNuxx+aiK5/oi6RQlwV1hJF
-         IjXMZlYDkqwIU/2TXx5kl/QK5dftEOphjETqKe8T9yC0vBc+8JYVMUzzsb+lgaG6Suvk
-         Wiz4I6I8HtsCemAFoelH6VfY4CM/R5yEleuAqw6THXfBlyfM+dqk2Ev1K2Qs+2e3X+eY
-         bF0w==
+        d=gmail.com; s=20230601; t=1744635626; x=1745240426; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TuMrUsCWur1ZWPl1E2LSe7o6WHdw9/Jq4KxswMsH3Fg=;
+        b=lbTNCT9+fdvJquma/EZZw8LFQqPoVG3OlxS9C2ksHh52VJLFMCOZaRuA4UtvUtZF8i
+         DtKx4puILRlKIZdG/yd91FnBDpWpubJJ7DmZXiY1OVXEfGaSjznDPjv7KtJCTf0P25Bt
+         Pehot4ygGiqj6ez9FvYIT/5inelILeA6jG6JiCE1pwf4LVT+usH66Vu2ngv+OnPJEOIp
+         Oc/oL4mjGzBIqdKoH7uLCCRql3GltVzMFql6Q7uyK/v1Xe47Jq88qDiJPpYLcEXLZ67i
+         dtGA8s9IzK7y2B593xt5w3ClAFKqYJ8GhCDtSFqHfrkGI8niDKMoH1BVYcVwNuXcTpvV
+         hhGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744635624; x=1745240424;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/PADDJQ5jx6lytkcg+MwyiXvCQl+JVcNopjVMW/AGvU=;
-        b=AOxShwjk15ZNuJTMxYpw2JNYWU9A/JBTEpIMsXh1IyBkBRcUNOX3/8S5BFe3GVGtkE
-         vC41ULtBmNDtPz7lEtWYuDze6ItBTaGxRE5bMe/vE30hfCFEtT/EsEuSV7N66KnFdl6B
-         bQr75po5HV+AAy7yem6AalUJ281UGWyT5DdWdWfql2IJpnmoqX5clQPGGgOLMroPskP6
-         P46WQYoP4HQ4oPdma3IPXfkBX5u0xmh9vFjFiBXYZQe0JnUABo+4gWbgbMCZBIrLYEA+
-         m5wYRmsP85BoS7kW+ssZvA8OdkVbpNSAy5P+YKFlnxgnnmgCfY2aY0/JRahl/VtFe89k
-         Aitw==
-X-Forwarded-Encrypted: i=1; AJvYcCVGNjrw2H/iwtkeExN1D67dhPLs+TkCj6yeFF5WoazY55HDBvgjIsr0vGZyJsxXyhSsSR3aeXOj/bK3@vger.kernel.org, AJvYcCXEsGV5MrMk0qOxikkLydoft0y2qBFW0muYzlkXIylq9UBxXqPX46W9Y3iL3tspxX8PSor+7SrBJZEwUMNC@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvBSa/4fBXH28TVbdbn9Gc3ROgtXlRiGyhHI4A5YwHX+NrT5gP
-	tkkO6tN7zeX66EfX3j3FN77xcVuE/uzO7KxkUbtlZTz2yxgES13WkFPPt0hn
-X-Gm-Gg: ASbGncv3TNho20czHAk4xsxP7Q8iga42r1mzrrvBVJnVxakUqjbQpRfZXTdLfiBDQcA
-	dEjVGi4KS4ahq9D/dvgsFXgn002kzFUXAeGYfnFsdnW2oTBOrFsRyCXJsegaDV4i2NRB/al2xM7
-	60NkIWoo+A1z0JRQ9wsg+tXFG4u3qiqi4940B08Ooisfd9nXskbsdkRO0JsLah4q+MpZ8OQ2Ilw
-	/3NQLCvNYxIatlk6rM91K8NXqygqx0XK5CqcJOZBjBJMd3RoTmvDpvPmJ3NWcx/2VgfJtMlhnoj
-	RqFYNXDJx+LvnSQ0OtCdkbod96k6+j96mD3AB4IQJwOa3sbqSHLlj7gY7+bqovN3
-X-Google-Smtp-Source: AGHT+IHkvdhbEoLRtJXbNr4yhhUbScaZlLezhYsuQK8q6ykHSA5O7H37Bh3gFNZOj2zly4JSisQJTQ==
-X-Received: by 2002:a5d:5982:0:b0:391:3aab:a7d0 with SMTP id ffacd0b85a97d-39ea51f5b18mr7863632f8f.19.1744635624050;
-        Mon, 14 Apr 2025 06:00:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744635626; x=1745240426;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TuMrUsCWur1ZWPl1E2LSe7o6WHdw9/Jq4KxswMsH3Fg=;
+        b=kxslfVPQnRpGjofLIwQlS86SIIvxxhXHcJgiSFwTHRLqunjzTlrSaRJqey2LpKWXE0
+         71ZSJyZ18Jq2+sP22YkTd05Rv76gvl8zkTOvCfCH1S6l/+vj9yAMJiG6B1A1Y4LsB6tJ
+         xuv8ReM2uivrFltf3+HsvaYyfEAykdOPhRttuKqaALhhm3+J+lA3Dl+uYJX2LjtsS6Vg
+         jsldPrIJpIKk+pHs0cgeQTbFwW17VK4UZTjSiqDh9j36D/1qMvtrxlxdgBGe1+KMnkjN
+         Uc6i8tTXuj1bxrH/FLbA27Hbaf6vyCm/Fuz7oo5wGvUMmxV+h/cyZpzuZ9Wbje+2uEyZ
+         vhwA==
+X-Forwarded-Encrypted: i=1; AJvYcCVz7Niv4RRJIG9w5+m1yLl77dNeM3/dI5ZJi2+4a7cDqD73UcMq87zwOfEJKjEteh3A2sRg+baNp+iI8QHB@vger.kernel.org, AJvYcCWDSIZ06JE6bJ0O6jdgs1JLiiFMbtSuSeNQJ5hbt3bJAB5ZJe36bVIzrIj1aJthZ6zvu6OEppRdKhTX@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHpAkV0KC+M3Wz/FsF37ACSUcKSTBvdw9iowlle4WRYJyvWnKt
+	uQeiwSnsr3E0jv/cVwJYJHRJaVuGQygNXOcd4QkcG/bhPqXwM6hR64CiCEOM
+X-Gm-Gg: ASbGncu6556O8AxDemz2+l4MDfRfJDPLbFNxksBkx87sqQRyuIE6ovuA3QFTqg032L1
+	IxGwM40J0DaGS0I/dTxk7c/2Sq/Pzxv5PjgDw6Rrmeguvn3yzTSQwUdnMeNkVXe1yTzu75jFK6G
+	ZrhVfth8DI9e8d1yx1mPtaHR7TOhYyaZMrG76mHw18szYAZ87NLg14oNuQYfLrb+sRsB9gqZhEt
+	+Qo0b4lgmt7v0aUUtRS3VebWD1F5FI+f/LpJrPnEdc1F2AL1EAFz/AS5Ht7ShqgA2jeMH5iCg5e
+	VL8h9yHNlEcA5aRXs72iAqRg+MXNju/ic3Ct+1oHYSdJdfUzK/tguUhmJDgF96rd
+X-Google-Smtp-Source: AGHT+IHsVCKQuwpC4i/5POCuSG43hDK7jwcHhzo/wULwRbVQcILZ60LfPor1aRjolAyQ6yN/IN55Uw==
+X-Received: by 2002:a5d:5f42:0:b0:38f:39e5:6b5d with SMTP id ffacd0b85a97d-39eaaed20d3mr9735614f8f.44.1744635625100;
+        Mon, 14 Apr 2025 06:00:25 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:eb55:397c:6c6:e937])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae979663sm11214681f8f.51.2025.04.14.06.00.23
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae979663sm11214681f8f.51.2025.04.14.06.00.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Apr 2025 06:00:23 -0700 (PDT)
+        Mon, 14 Apr 2025 06:00:24 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Philipp Zabel <p.zabel@pengutronix.de>,
@@ -84,11 +86,14 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 0/3] Add USB2PHY Port Reset Control driver for Renesas RZ/V2H(P) SoC
-Date: Mon, 14 Apr 2025 14:00:17 +0100
-Message-ID: <20250414130020.248374-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 1/3] dt-bindings: reset: Document RZ/V2H(P) USB2PHY reset
+Date: Mon, 14 Apr 2025 14:00:18 +0100
+Message-ID: <20250414130020.248374-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250414130020.248374-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250414130020.248374-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -99,48 +104,79 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi All,
+Add a device tree binding document for the Renesas RZ/V2H(P) USB2PHY reset
+controller. This block manages the reset and power-down of the USB 2.0 PHY,
+which is used in both host and function modes.
 
-This patch series adds support for the USB2PHY Port Reset control driver
-for the Renesas RZ/V2H(P) SoC. The changes include documenting the USB2PHY
-Port Reset control bindings and adding the driver.
-
-v3->v4
-- Added Reviewed-by tag from Krzysztof Kozlowski for patch 1/3
-- Updated commit message for patch 1/3 as per review comments
-
-v2->v3
-- Dropped Acks from Conor and Fabrizio, due to below changes
-- Renamed binding renesas,rzv2h-usb2phy-ctrl.yaml to
-  renesas,rzv2h-usb2phy-reset.yaml
-- Renamed node name in example to reset-controller
-- Renamed function names in reset-rzv2h-usb2phy.c
-- Kept the reset line in asserted state during probe
-- Added comment for rzv2h_init_vals[]
-- Added entry in MAINTAINERS file
-
-v1->v2
-- Dropped binding postfix in subject line for patch 1/2
-- Moved acquiring the ctrl2 pin in deassert callback
-- Updated ctrl_status_bits
-
-Cheers,
-Prabhakar
-
-Lad Prabhakar (3):
-  dt-bindings: reset: Document RZ/V2H(P) USB2PHY reset
-  reset: Add USB2PHY port reset driver for Renesas RZ/V2H(P)
-  MAINTAINERS: Add entry for Renesas RZ/V2H(P) USB2PHY Port Reset driver
-
- .../reset/renesas,rzv2h-usb2phy-reset.yaml    |  56 ++++
- MAINTAINERS                                   |   8 +
- drivers/reset/Kconfig                         |   7 +
- drivers/reset/Makefile                        |   1 +
- drivers/reset/reset-rzv2h-usb2phy.c           | 241 ++++++++++++++++++
- 5 files changed, 313 insertions(+)
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../reset/renesas,rzv2h-usb2phy-reset.yaml    | 56 +++++++++++++++++++
+ 1 file changed, 56 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
- create mode 100644 drivers/reset/reset-rzv2h-usb2phy.c
 
+diff --git a/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml b/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
+new file mode 100644
+index 000000000000..c79f61c2373b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
+@@ -0,0 +1,56 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/reset/renesas,rzv2h-usb2phy-reset.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas RZ/V2H(P) USB2PHY Port reset Control
++
++maintainers:
++  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
++
++description:
++  The RZ/V2H(P) USB2PHY Control mainly controls Port reset and power down of the
++  USB2.0 PHY.
++
++properties:
++  compatible:
++    const: renesas,r9a09g057-usb2phy-reset     # RZ/V2H(P)
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  '#reset-cells':
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - resets
++  - power-domains
++  - '#reset-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/renesas,r9a09g057-cpg.h>
++
++    reset-controller@15830000 {
++        compatible = "renesas,r9a09g057-usb2phy-reset";
++        reg = <0x15830000 0x10000>;
++        clocks = <&cpg CPG_MOD 0xb6>;
++        resets = <&cpg 0xaf>;
++        power-domains = <&cpg>;
++        #reset-cells = <0>;
++    };
 -- 
 2.49.0
 
