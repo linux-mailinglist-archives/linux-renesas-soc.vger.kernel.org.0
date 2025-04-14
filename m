@@ -1,147 +1,265 @@
-Return-Path: <linux-renesas-soc+bounces-15942-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15943-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A285BA88948
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 19:02:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DC2A88A3A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 19:47:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A597617999E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 17:02:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3745D18993CD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 17:46:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 437A9284664;
-	Mon, 14 Apr 2025 17:02:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 706F328B4F1;
+	Mon, 14 Apr 2025 17:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="haXXUUQ5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SlMmxK+0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B04539A;
-	Mon, 14 Apr 2025 17:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C5B18BC3B;
+	Mon, 14 Apr 2025 17:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744650165; cv=none; b=FBRCHYgh8EJvnuLCAMHLhGvmV0pSj9ohVqoIz7zZWk9nSnx/wCcD49X2PsJUbM5KVN20v3c+zjp2eJjb8quDNExj4Qaq1i+ShD9FV8tW7apxge0ROVaGlHhtF3MS6MPz5Mrc9jKoL8i+tEfn4DSW3u0Lmn4e/Hd+R2poWqzfr0k=
+	t=1744652611; cv=none; b=PRYIo+diWT2BFJASb8uch/9wskoRjjDOdfjBMs8Fr5VEs+BOjh8n4h03bbWfjMxImU7In0srsEDImiJuTMwDIdQgwqGgCMmTP4UWyMBvxsVMqnlK+cjcdBU4CB7CkNUFzEHGixwnKr4WvblIWhi9VovkRjLbjK5WJiDyrXoFkh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744650165; c=relaxed/simple;
-	bh=KqFT3PKAxBM7aneYNA4QM0R7Gd1DemUhbyEfOOJZdwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ghxVq4wfI9T/VpgrrQGHQ4EcZ6hXTesPpkVkT5G+1EJo1y6TDFT15KIhdF58v0UVv7YA+eKu6o4NP0UfDbl6TFM09v8etH55NAbK8lbB1PXKUZI7jkBzuKVVgJvnHNSk08DB0NyLncxbi4fcHgEQ3obX4jtDcEreSX6OjjxGcm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=haXXUUQ5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BD4FC4CEEB;
-	Mon, 14 Apr 2025 17:02:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744650164;
-	bh=KqFT3PKAxBM7aneYNA4QM0R7Gd1DemUhbyEfOOJZdwc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=haXXUUQ5j7/xdMK6YjwHt6lr9C50Nl/g7bFmEYMZvNiz+gF0wIYn0k0JlsN7AgIIr
-	 4iu+74zlC0pGVbnny4GpZcvFCtRv7UbXiLj/Jktoz55Xw4OI0gFEF9IMr5JRkbS89a
-	 FWUp+fMSf5UkmLfyLJ4Oh8mMhzRX4zRBtIyxizLmg1yK8LXnD6fzQ4a/5VdOID9XcX
-	 dE75rVIJSiBbQRqIjkmlXD+Sz1tODj0aRj329Hqs8wN3tRMUOekPmkiQJuBXhlIRBs
-	 zzEUQdKKdZxKbNiIRzd4lVHI7DTVE6ie+lpUtXY7UaT3cQKWd5+rfYxv5sIPEdod6N
-	 ZZHwk4psw8ppw==
-Date: Mon, 14 Apr 2025 18:02:33 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
-	linux-rockchip@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 03/17] arm64: dts: microchip: sparx5: Fix CPU node
- "enable-method" property dependencies
-Message-ID: <20250414-fragile-same-9cd06114cd85@spud>
-References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
- <20250410-dt-cpu-schema-v2-3-63d7dc9ddd0a@kernel.org>
- <20250411-ebay-exerciser-392c42daf5ba@spud>
- <CAL_JsqJza-bufzjZ415THyDDQaOfk8F+JRFvFxzNwObG=NKVJQ@mail.gmail.com>
+	s=arc-20240116; t=1744652611; c=relaxed/simple;
+	bh=/GAusDKonHkaX5JIM0jxXotA46d8ZqdLMObqUaMOPX0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dSO1Sj6yMB8EZwlYF9fv0skCFGt8uArVkqCEwCJWk6hPjhN+ptETiqymhZJrZI9ZOA0lgs4/MozczQDtviEXrswTGMLRbD0AeKeLRXIxu2us/kWQ7N3dqz56qQszEJqhVi9vfrz/Lhv2dzELM50h5Eq9ljYgZcyh6ZwchNiovxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SlMmxK+0; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-528ce9731dbso502638e0c.0;
+        Mon, 14 Apr 2025 10:43:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744652608; x=1745257408; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rH7WH3HsjYW5TTPLagNRBD13zhunmFxlYbALOshn7VE=;
+        b=SlMmxK+0yDO8S+7FVjnJnj4M9jccJpNkTfoG/vrETlav3ir2aZs588Ft2n96dEDd8W
+         mr9sYlMx7+NYXrdmOf6f5EBYhcLpa2Aia1Judw50Tz3Um1aQ/dfY13KouIjPGedyoS+8
+         gnUotgJOy/+DoCBrb4qQHDNb9znjKG33XXXC1PVuA8GC6npHWbwneBkTc1ropoEza9A1
+         A+1Z3NeL59klekbgSQSmVHHXExldQKiCJwhoAedq+O+28jRbawfIAKgJCCJqn9gjP/G2
+         /YMU0Wh6Kqob5lNqVnQZ6OozrzmZsPe4b0L9NaH5GXCjRhXPzjg9M/+rGSjtY82FCTtR
+         mETg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744652608; x=1745257408;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rH7WH3HsjYW5TTPLagNRBD13zhunmFxlYbALOshn7VE=;
+        b=rcfP6uhIanOXEFlWQRXfyHuPkfkmZUBD1e8QAx3jixM5d9XYovUoMRqI7NzwQMSJL+
+         fMsLqJ9e4P2tgyNnnGYl2BlTP4/WvDUmCvK6pryyONnTLR1JfgdAmPBRf+yxnv6Gffr5
+         yR6NTbSvDDEAYhhANT9Hc5z6MQuYL6v9uMJ5dtlmYeBU+X50Lykxe5v9Vzp7yXdvhvi8
+         zSkWtmJY5EdwuduvLQ6Wb/46ndEB63p+A2plywEpvpvJdYAxAq8DLA+P3ZF0zgAEIujI
+         MEloOdc953vjUrVSQQ86Qp4arHhY+3iuuSZzNhqTo42PBN1sLMxHcY8bW/1g8bdgyLCF
+         chIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUHWXpYO84CCpaw+AGIaqxondjCVmyK5uSJgLDsz44EqN0VZZQ+QaXgmK9ppICYmXSPbsggo3iNpDO+quU8yBzIOaA=@vger.kernel.org, AJvYcCVQQfKsnMrwB19fzGL1/lEmZPGtaugbCf4CjDtrSuVydAPYKjFaYZMGRkLzWDqCC65zhnu8DAWu+PMVKTDM@vger.kernel.org, AJvYcCX6afre3m38U2kOl/csJzYQyJNCGXU3D3435elvSV9u7TjGf+gYzYimzwHAu5JkpNkFbA0jBFyJF0t6@vger.kernel.org
+X-Gm-Message-State: AOJu0YzS/26/JeyW0G5a36UiPMDOM0pQbT7e9h8tE/Ajc5fkBpamagOI
+	arl10VEcq1JldTvoYVGLUFZVhAcWKxGFjsh9zhV1lSnHUto1Kf1hApBubrknu2XvxNfnc2D0neE
+	AcwCXSPoXjrOZrAYLATe2fYL861g=
+X-Gm-Gg: ASbGncskaF1RJLGJ5aX3ma8TRKMsJOezSdJgtZzG4T72/2WgPbsfiyIRVhbRBse77TE
+	5iHja72owoYYV5W6uqcfq6hdJhvAOKZC2IXfTzr3yIJnizE6LyPzkNehrtVGC5f3LYUhf7bS7v6
+	A5qjKSleEaw7CNKX0XWFZYMp6qgtgOOo0qnFzQT55bsR7jIFBD3EQX6A==
+X-Google-Smtp-Source: AGHT+IH/2ShLH6ygnla8obiETi0DL3OWDXWWuqzVvQNeVdlFWV1DXiaR9E/+sLhY2ShC6RZO0XGE9m6pgLB6cJ13UHw=
+X-Received: by 2002:a05:6122:2218:b0:518:7ab7:afbb with SMTP id
+ 71dfb90a1353d-527c35c618cmr8115322e0c.8.1744652608087; Mon, 14 Apr 2025
+ 10:43:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="pt+1yttKuNYLWgzQ"
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqJza-bufzjZ415THyDDQaOfk8F+JRFvFxzNwObG=NKVJQ@mail.gmail.com>
-
-
---pt+1yttKuNYLWgzQ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20250414130020.248374-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250414130020.248374-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <TY3PR01MB113469552384EB52CED89FDC286B32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB113469552384EB52CED89FDC286B32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 14 Apr 2025 18:43:02 +0100
+X-Gm-Features: ATxdqUF--DR9eGbhr3mqR0ytKAIwOyhaD_1ZbdVw5yb_38zz8L0tik_MAKXKxVE
+Message-ID: <CA+V-a8uxZRnAC7u2wX10qrQKVVbjJ1yhzN91yQRKQXb=hZWs3A@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] reset: Add USB2PHY port reset driver for Renesas RZ/V2H(P)
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 11, 2025 at 03:26:50PM -0500, Rob Herring wrote:
-> On Fri, Apr 11, 2025 at 11:22=E2=80=AFAM Conor Dooley <conor@kernel.org> =
-wrote:
+Hi Biju,
+
+Thank you for the review.
+
+On Mon, Apr 14, 2025 at 2:05=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+> Hi Prabhakar,
+>
+> Thanks for the patch.
+>
+> > -----Original Message-----
+> > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: 14 April 2025 14:00
+> > Subject: [PATCH v4 2/3] reset: Add USB2PHY port reset driver for Renesa=
+s RZ/V2H(P)
 > >
-> > On Thu, Apr 10, 2025 at 10:47:24AM -0500, Rob Herring (Arm) wrote:
-> > > The "spin-table" enable-method requires "cpu-release-addr" property,
-> > > so add a dummy entry. It is assumed the bootloader will fill in the
-> > > correct values.
-> > >
-> > > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > > Reviewed-by: Daniel Machon <daniel.machon@microchip.com>
-> > > Tested-by: Daniel Machon <daniel.machon@microchip.com>
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > This is already applied, guess I forgot to merge it into the branch that
-> > appears in linux next. I'll do that now..
->=20
-> Sometimes I check next, but in this case I just looked at replies for
-> which there were none. I dislike submitting dts changes because it's a
-> range of AWOL maintainers, only applying around some rcN (so up to 2
-> months later), silently applying, and applied but never in linux-next
-> (until in soc tree).
+> > Implement a USB2PHY port reset driver for the Renesas RZ/V2H(P) SoC.
+> > Enable control of USB2.0 PHY reset and power-down operations, including=
+ assert and deassert
+> > functionalities for the PHY.
+> >
+> > Leverage device tree (OF) data to support future SoCs with similar USB2=
+PHY hardware but varying
+> > register configurations. Define initialization values and control regis=
+ter settings to ensure
+> > flexibility for upcoming platforms.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/reset/Kconfig               |   7 +
+> >  drivers/reset/Makefile              |   1 +
+> >  drivers/reset/reset-rzv2h-usb2phy.c | 241 ++++++++++++++++++++++++++++
+> >  3 files changed, 249 insertions(+)
+> >  create mode 100644 drivers/reset/reset-rzv2h-usb2phy.c
+> >
+> > diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig index 99f6f9=
+784e68..6c7dbd8ca580 100644
+> > --- a/drivers/reset/Kconfig
+> > +++ b/drivers/reset/Kconfig
+> > @@ -225,6 +225,13 @@ config RESET_RZG2L_USBPHY_CTRL
+> >         Support for USBPHY Control found on RZ/G2L family. It mainly
+> >         controls reset and power down of the USB/PHY.
+> >
+> > +config RESET_RZV2H_USB2PHY
+> > +     tristate "Renesas RZ/V2H(P) (and similar SoCs) USB2PHY Reset driv=
+er"
+> > +     depends on ARCH_RENESAS || COMPILE_TEST
+> > +     help
+> > +       Support for USB2PHY Port reset Control found on the RZ/V2H(P) S=
+oC
+> > +       (and similar SoCs).
+> > +
+> >  config RESET_SCMI
+> >       tristate "Reset driver controlled via ARM SCMI interface"
+> >       depends on ARM_SCMI_PROTOCOL || COMPILE_TEST diff --git a/drivers=
+/reset/Makefile
+> > b/drivers/reset/Makefile index 31f9904d13f9..30d0fb4ac965 100644
+> > --- a/drivers/reset/Makefile
+> > +++ b/drivers/reset/Makefile
+> > @@ -31,6 +31,7 @@ obj-$(CONFIG_RESET_QCOM_AOSS) +=3D reset-qcom-aoss.o
+> >  obj-$(CONFIG_RESET_QCOM_PDC) +=3D reset-qcom-pdc.o
+> >  obj-$(CONFIG_RESET_RASPBERRYPI) +=3D reset-raspberrypi.o
+> >  obj-$(CONFIG_RESET_RZG2L_USBPHY_CTRL) +=3D reset-rzg2l-usbphy-ctrl.o
+> > +obj-$(CONFIG_RESET_RZV2H_USB2PHY) +=3D reset-rzv2h-usb2phy.o
+> >  obj-$(CONFIG_RESET_SCMI) +=3D reset-scmi.o
+> >  obj-$(CONFIG_RESET_SIMPLE) +=3D reset-simple.o
+> >  obj-$(CONFIG_RESET_SOCFPGA) +=3D reset-socfpga.o diff --git a/drivers/=
+reset/reset-rzv2h-usb2phy.c
+> > b/drivers/reset/reset-rzv2h-usb2phy.c
+> > new file mode 100644
+> > index 000000000000..737b768829c9
+> > --- /dev/null
+> > +++ b/drivers/reset/reset-rzv2h-usb2phy.c
+> > @@ -0,0 +1,241 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Renesas RZ/V2H(P) USB2PHY Port reset control driver
+> > + *
+> > + * Copyright (C) 2025 Renesas Electronics Corporation  */
+> > +
+> > +#include <linux/cleanup.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/io.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/pm_runtime.h>
+> > +#include <linux/reset.h>
+> > +#include <linux/reset-controller.h>
+> > +
+> > +struct rzv2h_usb2phy_regval {
+> > +     u16 reg;
+> > +     u16 val;
+> > +};
+> > +
+> > +struct rzv2h_usb2phy_reset_of_data {
+> > +     const struct rzv2h_usb2phy_regval *init_vals;
+> > +     unsigned int init_val_count;
+> > +
+> > +     u16 reset_reg;
+> > +     u16 reset_assert_val;
+> > +     u16 reset_deassert_val;
+> > +     u16 reset_status_bits;
+> > +     u16 reset_release_val;
+> > +
+> > +     u16 reset2_reg;
+> > +     u16 reset2_acquire_val;
+> > +     u16 reset2_release_val;
+> > +};
+> > +
+<snip>
+> > +static const struct reset_control_ops rzv2h_usbphy_reset_ops =3D {
+> > +     .assert =3D rzv2h_usbphy_reset_assert,
+> > +     .deassert =3D rzv2h_usbphy_reset_deassert,
+> > +     .status =3D rzv2h_usbphy_reset_status,
+> > +};
+> > +
+> > +static int rzv2h_usb2phy_reset_of_xlate(struct reset_controller_dev *r=
+cdev,
+> > +                                     const struct of_phandle_args *res=
+et_spec) {
+> > +     /* No special handling needed, we have only one reset line per de=
+vice */
+> > +     return 0;
+> > +}
+> > +
+> > +static int rzv2h_usb2phy_reset_probe(struct platform_device *pdev) {
+> > +     const struct rzv2h_usb2phy_reset_of_data *data;
+> > +     struct rzv2h_usb2phy_reset_priv *priv;
+> > +     struct device *dev =3D &pdev->dev;
+> > +     struct reset_control *rstc;
+> > +     int error;
+> > +
+> > +     priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > +     if (!priv)
+> > +             return -ENOMEM;
+> > +
+> > +     data =3D of_device_get_match_data(dev);
+> > +     if (!data)
+> > +             return dev_err_probe(dev, -ENODEV,
+> > +                                  "failed to match device\n");
+>
+> This check is not needed as there is always data.
+>
+Agreed, I will drop this.
 
-Let's add "send the b4 ty email" to the list of things that I did not
-do, but thought that I had done.
+> > +
+> > +     priv->data =3D data;
+> > +     priv->dev =3D dev;
+> > +     priv->base =3D devm_platform_ioremap_resource(pdev, 0);
+> > +     if (IS_ERR(priv->base))
+> > +             return PTR_ERR(priv->base);
+> > +
+> > +     rstc =3D devm_reset_control_get_shared_deasserted(dev, NULL);
+> > +     if (IS_ERR(rstc))
+> > +             return dev_err_probe(dev, PTR_ERR(rstc),
+> > +                                  "failed to get deasserted reset\n");
+> > +
+> > +     spin_lock_init(&priv->lock);
+> > +     dev_set_drvdata(dev, priv);
+and this too and send a new version.
 
---pt+1yttKuNYLWgzQ
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ/0/qQAKCRB4tDGHoIJi
-0llIAQCfeSIfGZefusGStXxy21uaJUGlki/H/XzQ1dq4t278oAD9GMv/CXNEj8CG
-oPoSllLdscFoA/5qVRjJh0erPiNF8gA=
-=q+yA
------END PGP SIGNATURE-----
-
---pt+1yttKuNYLWgzQ--
+Cheers,
+Prabhakar
 
