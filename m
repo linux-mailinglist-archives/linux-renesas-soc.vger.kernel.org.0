@@ -1,128 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-15921-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15922-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74E0A8862D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 17:02:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCB9A88633
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 17:03:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC6683AE47D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 14:45:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B41E176F08
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 14:59:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DEE5253954;
-	Mon, 14 Apr 2025 14:31:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69BEA252294;
+	Mon, 14 Apr 2025 14:58:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="Zm9eD3mk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZWNkHsp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86474275872;
-	Mon, 14 Apr 2025 14:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB8760DCF;
+	Mon, 14 Apr 2025 14:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744641116; cv=none; b=jUIIRb8cfpB2v0b+bq0Pqx8Y7ufq4H0BbKbKZnmQXL8zmsK0Lbgctx6IBhlXvu5aXLoLCbBaYsz0NL1SW7DGFNDJLy7b+rWKnxkPUlnbmwDU3zUmKu9/SwUo8eA3Cw9/4EvhxkQTVf92Jp/7zL52KCVlI2Lj55YeiSc13euV5Bw=
+	t=1744642687; cv=none; b=Sk01je0452utfRyRlnXo8yh4xSSfs6EOIJNw73FC5vNxHYzTDQdf8gCeDTMgdwjT1/G5V7c2fBSuL+0LMftpJZQwGrFVPRBNSoPpKLIN2AtG+d2SzUX/qXCUvLTmBXeGbTouQEbqt5QsM0ogq2jgK8FtSZ/0u/vX+DAaZ82p4mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744641116; c=relaxed/simple;
-	bh=JTrzdiz7XhEyL0SreHMCxYY3DvYmAUsCVxY/Glddl2o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iBb9mxK0FZwJOnZWg1mhPvU8SoyofL+iAUU9FajBTW7je8KNgc0AdLmp2moltKjet8tmjVBgRReXLXnarDHPuyEDTGiaT1J7B7tpl/5mqiw1mOcJdUVMqNt6NUYAO2bTKgeJWHNhLGxVmyXCYtodBJ/jdcTP3nM34LyMN5fQACM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=Zm9eD3mk; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=cuaKggYDRTaGllYGEl45fC0lvQ48d6zJXW22p95ihu0=; b=Zm9eD3mk3WM5hftniSBwFF1yr9
-	wvxNTAJzgVasbkxZJHOK1DR3oOVb/26e4oc2Nzpgxl1KKp3lmgm7r0q4O4v1RXq44g3YXAnkmPM43
-	2ha6YdMWO85CxFeTmi0XPvzd/aM0EX4N1G0Bo7ih03EUeqbV7ZcBOWGPdcG+MVbfEwUGIeKhmBY1g
-	wZUp8xPG4mf95iso0eT2piUlROajI6jwnHoSX8Ei8Of0/zZAt3qtyK3lSb39SV9/9l7TRKiqaPBao
-	z2gd3UeLxHusJWeDBZkkC2cny2t4IQ9/61aLTMG/t/Bj2Ul5kUTCL/MpnPtuL1et0NBwMJz/BygFc
-	P5hiyRbA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58820)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1u4KqS-0006gu-0p;
-	Mon, 14 Apr 2025 15:31:32 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1u4KqM-0007pA-1n;
-	Mon, 14 Apr 2025 15:31:26 +0100
-Date: Mon, 14 Apr 2025 15:31:26 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	s=arc-20240116; t=1744642687; c=relaxed/simple;
+	bh=8MmHBd8wz/TyzpcGxo23yEMNUS7HTINXGTVS9whTgrA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LtTmYpxZn3BwXWBwA3qPZLryZbJG5tkTavA8LrHuyM/y/qNy+MaqjOm71tK/CyYdSJOQelKYTtkEmWTOJbc28to8AY9v1BZFlGk4dwln5DL7Ta27tUNXGvw/Vpei/Dv9I3FDEae6ecqRvOtnGtHlwTa2GXkxFMq87Sgx86QAKWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RZWNkHsp; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-39c0dfba946so3194856f8f.3;
+        Mon, 14 Apr 2025 07:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744642684; x=1745247484; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9GuDr3OODxOaS6eMA/BRTIN4gXbmYJXN0wNkkvy4ipY=;
+        b=RZWNkHspQBUYr8nn1pD26zmlsbVm4CtajyFRDyi/aPzpMZuCOZA+QKU6Qvm11WybWc
+         SYiP0En6187xBnPCMo5bR0sVw6teFGNA9yFFICHOkGz3Yk62W2D0CAN1xuganQ1DAvZ3
+         /xVeM972PNuA7tBELu5PBPGpITIhFUaW9RaUEoOz5KGVT81Lm4kw5JEk/jhSBjOHt7CR
+         06onJroizLFRsixMc1DCsIeEdV8u3Z1/MAjK9OCGq2jI62jCz0rSmHnWFgZCCMGcuAfb
+         X541SswKB1dZ2lMCObhmlMDqz0Wctz56iiOw/r8Pyi+Sm5QKbEs9/8BOka6MI9QVONMc
+         UJLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744642684; x=1745247484;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9GuDr3OODxOaS6eMA/BRTIN4gXbmYJXN0wNkkvy4ipY=;
+        b=w3Cofq6PDDNXJ+eZJfmzn5rGCxUQn0vxlGQwWLLVhal3fLZYPVC/EXJ4/k1osY1ekT
+         4AhwJbQd2S1Zt6+rym8TGRK7fpUFVPPa7sVamD/bYUNhdYA3xYwq6/SKu+5WNDk9f80O
+         ml34d1FUQ33kYZU5ATge0rNJ5dlL1HPMu1yArev/0LMK8xBLCTc4KT0mffqwRPUHNqtk
+         TcFic3qexw72UXeJP76JSEX6qEBi6ZSnWPiYOnPuVhTba69B+4a9k0/r4Zrc2hz+ZHAH
+         g9Kflun7IJgM4dsiu03MCaTlA1Mbc3XzibWIzGuwLOCfmX+tEhxV5TdM1Ic1JbZXM3W1
+         D+eQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQjUHOT862wbGsV/H2eJukujjM9EJPWQaGPf3fu6kQfyuC844YCxgOwVXjaRlOykMVvs/VMCFh785BZv8d@vger.kernel.org, AJvYcCWIy4ynMu8JQTk2MS/p5ihoQ6Ej81gYEhxKAWEdcMUcxkh2oOXhSpmMLqNfeR+7CYHmvpoOzs2ApyYSP83OFXnfsMQ=@vger.kernel.org, AJvYcCXJCrBV6Yrlqo68wLCtiKkufRnU7U9eVFNSCaNZ2XIXHVjdHKSTBS6IiFAba0s5wZnZt2cTxlQyf+o0@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy49Ye5P2+G6TES7y4DLtC8zzplrkNQ4oaa3b8IozjVmOaqRRAi
+	mSjp9Dl2k/sQTtkrEuC1ZNs71bOSw0L2MG8eHQPqeF9zh+sAIP6V
+X-Gm-Gg: ASbGncviMPJeQ8rkzOoSLuEEaZHUAUiFHf+HVYMJ7VQ9WpxyqKTt4f1vZTkMljwo0cE
+	QBf04wqTGRGZ7Uu9LsTrGR7mTVW4mTnD4FHAaTh2ZwBWREgLrICOEZ+IW9mVHteM3EEtnOheJKh
+	o70anYIhXWd4U8Dy22ttVLBuo5T3iYWWSX/YlZrN8owuSI3brJwVZEfG6SwSuv8QdRx4Me7vmRB
+	0E51O/0Et6bCG+oTROZK0WVx6CfiP557Veb3RidocIko3tpZ4hhifyeVDM95GdWLDGD/2CSSb5T
+	8NFGzP8vqyB06hPKy1evyideS5sRUYpo26eCRx9cniunqIDAWT3T4fXEInRv3VHiuO2OFr/v+CQ
+	=
+X-Google-Smtp-Source: AGHT+IGWCwKIq/nNeRQ2UTY6+IOOM2Pu2ytEms5QgF0NEmsOrc8nzRtVMUhcJboDBExAT/971oRTtw==
+X-Received: by 2002:a05:6000:220d:b0:39c:e0e:b27a with SMTP id ffacd0b85a97d-39ea5201aefmr10245762f8f.23.1744642683517;
+        Mon, 14 Apr 2025 07:58:03 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:eb55:397c:6c6:e937])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae96bdf9sm11067041f8f.22.2025.04.14.07.58.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Apr 2025 07:58:03 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next v5 3/3] net: stmmac: Add DWMAC glue layer for
- Renesas GBETH
-Message-ID: <Z_0cPmY_LzI_fo4S@shell.armlinux.org.uk>
-References: <20250407120317.127056-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250407120317.127056-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Z_QSHpvSK7I--xPq@shell.armlinux.org.uk>
- <CA+V-a8vgavmN7c9KYjc-3tm-9GC1_aVUkF-dF=Ws9axTBmSa5g@mail.gmail.com>
+Subject: [PATCH 0/4] Add USB2.0 PHY support for RZ/V2H(P) SoC
+Date: Mon, 14 Apr 2025 15:57:25 +0100
+Message-ID: <20250414145729.343133-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8vgavmN7c9KYjc-3tm-9GC1_aVUkF-dF=Ws9axTBmSa5g@mail.gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Mon, Apr 07, 2025 at 07:07:49PM +0100, Lad, Prabhakar wrote:
-> On Mon, Apr 7, 2025 at 6:58 PM Russell King (Oracle)
-> <linux@armlinux.org.uk> wrote:
-> >
-> > On Mon, Apr 07, 2025 at 01:03:17PM +0100, Prabhakar wrote:
-> > > +static struct clk *renesas_gbeth_find_clk(struct plat_stmmacenet_data *plat_dat,
-> > > +                                       const char *name)
-> > > +{
-> > > +     for (unsigned int i = 0; i < plat_dat->num_clks; i++)
-> > > +             if (!strcmp(plat_dat->clks[i].id, name))
-> > > +                     return plat_dat->clks[i].clk;
-> > > +
-> > > +     return NULL;
-> > > +}
-> >
-> > In addition to Jakub's request, I'll ask that you hold off for a week
-> > because I have the following that I'd like to submit:
-> >
-> Ack, please add me in Cc while you post this patch.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-FYI, the patch was merged last Thursday, so please update to replace
-the above with stmmac_pltfr_find_clk() which will do this for you.
+This patch series introduces support for the USB2.0 PHY on the
+Renesas RZ/V2H(P) SoC. It includes updates to the device tree
+bindings and driver implementation.
 
-Thanks.
+Best regards,  
+Prabhakar  
+
+Lad Prabhakar (4):
+  dt-bindings: phy: renesas,usb2-phy: Add clock constraint for RZ/G2L
+    family
+  dt-bindings: phy: renesas,usb2-phy: Document RZ/V2H(P) SoC
+  phy: renesas: phy-rcar-gen3-usb2: Sort compatible entries by SoC part
+    number
+  phy: renesas: phy-rcar-gen3-usb2: Add USB2.0 PHY support for RZ/V2H(P)
+
+ .../bindings/phy/renesas,usb2-phy.yaml        |  8 +++-
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c      | 38 +++++++++++++++++--
+ 2 files changed, 41 insertions(+), 5 deletions(-)
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+2.49.0
+
 
