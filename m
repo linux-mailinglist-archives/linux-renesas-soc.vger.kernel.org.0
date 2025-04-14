@@ -1,84 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-15929-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15931-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D9FA88778
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 17:39:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EFEDA887AE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 17:46:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27C5A16AEEC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 15:39:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1C901887744
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Apr 2025 15:43:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82D6D253950;
-	Mon, 14 Apr 2025 15:39:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD2D7279905;
+	Mon, 14 Apr 2025 15:43:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A4225229C;
-	Mon, 14 Apr 2025 15:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43E42798E6;
+	Mon, 14 Apr 2025 15:43:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744645142; cv=none; b=txNlNpyNzfTHmz4gQYNgw8E6o0ev3Bi0flSxVF/PV5FaxqkksPBSAIF2PlctD5lPkADewYQWUfoQvAhmspDWq3RRlUNVPJRcq5gIR6iVOBRlRe5uAK7uJBNePWWJlGq9jDPNQNtCae/UEQWwakDr3zwzEXEHSmXNxmsxarYi3EQ=
+	t=1744645396; cv=none; b=ZGlWqhtG04qwGZzsYmfIxdsEs+jcQThlTImxWwv2hdmEfzu9pTDLXC6LmFqYmt2v0rPSSmYKCcHWqyTrre7q5kkS8tHDXRh3iZ3IHcIBabcb5wiEV39RQugsv5nVU+JUGBm5khnhmxO213CxHEDo6vX9Pr9bviFyy1et3WPnTH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744645142; c=relaxed/simple;
-	bh=qnq7kNGVVHXkTZ92DSUahynUCtaPEVn+gI84YfDmRaI=;
+	s=arc-20240116; t=1744645396; c=relaxed/simple;
+	bh=Bk9sdieVhJvYhNjXyqNHNzdwxanItAh4PQFWYC/DC0c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N3IUh69B+K95Dho8MgjgocWzmOpS2dRtgEE21KviMpoL/72WfcOve300KoSZpw3CIyb53lPvXb2u0veJYbipDSw1uulvqtzLM6QLD4WOLlThssB8uM3EgrQpJ50yxYyTKbG4H5mqmwaRhZi537NV+MeOPMYhmCAGlc+LEkwf5OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.43
+	 To:Cc:Content-Type; b=TkOl6H8AE2C3qSNDq+nWdl2SH41MxuDB9ClrTc58/3zVRA0cqp/s1fS2cWDLoEY+Qs/9EAHv8u7UZssWiOKExY2vWS/Qt/c3sSUJjv2ia2bA+oK1vHs1UOiDYGL8kSg46pnKXf0xbjxY6gge2Cz4NSzW8aMKeV2j0LwmpSfV+xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-86cce5dac90so1886712241.0;
-        Mon, 14 Apr 2025 08:39:00 -0700 (PDT)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-51eb1818d4fso4927569e0c.1;
+        Mon, 14 Apr 2025 08:43:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744645138; x=1745249938;
+        d=1e100.net; s=20230601; t=1744645392; x=1745250192;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ExSgT36WSD1AgMlCEyNaAuN9+bBCrTgldtgtmdSH1wc=;
-        b=fRo7K3nhmqh7NNvI8Vq1JIhFiXAghUEpdeDUvVcirKHE14HbzIw9YmKJZp8yHVKmnD
-         ZoXJsdJkt9WQvF3/Gku/5AuPHp1eFvmwu5c/5Vu1nn1j63zvg3r1M7gq8Ya/6uvOUZ4F
-         A+AaGiSFGg5ch/tEWKmo7JSl53M1rMFdtLztJ6RYVPqDIqXLBDSLZatEouPlgOTMY9gx
-         R4sv7orM7w7mzjfzMZNRok0WA8o9acR73GSYyCTfmUZhzg2Gxv5R0WdNHtKgcVUEgZdp
-         NyeZUvvUn3Y6uHdWS03bykUtHY/D4lN8ILuaBBdLDYB7t6HiotW4+dmC2FLKsXxLw+cs
-         eSTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUmyPsl8RxFF72tUso7ZLRxjXWxWpULK9bHQNTGGCWvPA87ry0TzvvOCx6QA+W2UfvL5nWOfr4AW1zrsAKBmucVPBs=@vger.kernel.org, AJvYcCVNqees2hiiHRds2FmtxYQTeOPIGjDGs2Lp820/OfoNkUJ1SFTNGpFmGXj0zeiF6xhltjmNIUlzn3cJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBYnrzOTBoB3JHqops5gLQv/UgVE7MmLyQvjM1NcB1PNLjSNtR
-	09POGeqwEmqnkHPqv2Z+2roSo1H+GiPsyiDcvCYdb3aT271YXfiz4yv8caJU
-X-Gm-Gg: ASbGncsOLcadE/JEEZRVJ4XFZUPR5/g7vdfDr0LGV45NjzrE2E+4TSZSI42E1VzU8G/
-	GAVsqVG+5iMliugwRewQmjMyFFS+TcvxzpNuicn3wcxY9J/Yw63X7ujH17kQR7DGbRmUojCEJPR
-	P57pLGrDX85PQMIHNmQjtpeeso3NZSqpDIQXuKXYDCaRrde5kd0I8EehAIwDXqw+j8tDncGIikp
-	sLVeDNx7l0vbMVY0aAf3NoSyUIM8erURTNq5C1wWrYccPEfzIZGh+cl9QqL9RF0Gya0QbpATjWr
-	Z+RQ5LWEJPIQtr2l6NRQV5BhbllKCyehTySe0IFXtRu876KQI4ICUU8j+F7znFQq1oFWyAbRCUR
-	r+Uc4WeQ=
-X-Google-Smtp-Source: AGHT+IE27hw74iIJA64w91EWv96W9NwpbcJYx42q7Msj+obK7lUJg0GyuMJS7wUEsGFY0sua9kwd9Q==
-X-Received: by 2002:a05:6102:441a:b0:4c4:df5b:330f with SMTP id ada2fe7eead31-4c9e4fff708mr7861638137.17.1744645138101;
-        Mon, 14 Apr 2025 08:38:58 -0700 (PDT)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c9c98afc1csm2224888137.22.2025.04.14.08.38.57
+        bh=jo/5xBg1cgrDSggMEx8ra+sZxxAkZzUw3KFNZtSeNhE=;
+        b=b1Zo0D4HfmP9HhAl1v+oIPszx3KeTTjz8BjpezzS7oiHefXxshO0lg4bnqj/je+kWB
+         8zqJjsypJX+j0vGZQ8W/1pzAAgyESyxDDeBn2WbzpsaPU5AGrddwcegdaR2/23av9FzA
+         9ZU9hednt/eDQy94ywNO5GryXXjV8tCoa5W7CCVb2EdV6Oo5VUWf+b6ZmgqoswtqZihf
+         I1z9aw+uyb2qLcVSv0/mtDuC/geJlYKJe3HxbeGPsJsrDOlZWYGLSHquUVkffIQF4plm
+         DTJhyS1GVCDCJMHjroVUAgBz8RdcyHwCXWo+chIjJQdeDYuZMv36fdQ0HMsx4RbHBgUk
+         Mdtg==
+X-Forwarded-Encrypted: i=1; AJvYcCUh9oFHoC3Z6Fcmdvt26oVUQYGWRaq67PDRgwHWodknu4JED5yTpyYYAPBluTMVueT++sPZY4/8EnQKhVYksK2sBPA=@vger.kernel.org, AJvYcCVmrqZ/BmMSCdlA7MIGq63qNaUyidK4hYcykyLQ1OYf1b8n2ZmAJ7DmatKq0iX5Zod7uPJzfB4CTM3c@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAi16CNSE5I0HTLWC4Ry7LQ0oMRHIFZjrZm2IPLrKXyr6IHIzo
+	rVGNevI16WjxzxBX5cN47ogfCdiEZReBWfndwykaPMfUf0ve4x97Me/Es3Yl
+X-Gm-Gg: ASbGnct0Ro/0rZCtoTL7WfCIICVDbs/TbG/b81n/9KMKZJFk/37/Tdm/Xpwvsj9fxqB
+	iTYNo7zJfZisCVHRtpxDDFpFtP3i8iZ2c15bfO5J9I9hdgTAEjN7u2AZeiM8lFOAnSSuxY7dAuM
+	djYMfWQxvbYUbiC5tIxyGMfu6rRTgqEbWGgeBJiGunVSy/SvqJbxhTZUAqfxjyEI8KC7AiCqsSv
+	jsM45fKnzcTeTfu4CU73MX6hvVzAGeAyJ1F8UvyZroa2Lm821Fh9JEQkWFXUywm4BnEwd7U/3sm
+	7GK8RnoyMFtLf06fjuFkV06dJ+cZr5CtmRM5Kc/D67Qc9MfjmWWDXam7sJuOSJJeDNuJ2uXJQU3
+	hk/fuqT4=
+X-Google-Smtp-Source: AGHT+IEWgR2LdmCs084AXJxRJYWF0jxkV8bdYr9/MVy4yTfn0HneeGl3qNK4M0BYnOMGedrOlkRuZg==
+X-Received: by 2002:a05:6122:3d0b:b0:526:2356:f3fb with SMTP id 71dfb90a1353d-527c35fa25bmr8593466e0c.11.1744645392331;
+        Mon, 14 Apr 2025 08:43:12 -0700 (PDT)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-527abd74722sm2250948e0c.13.2025.04.14.08.43.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Apr 2025 08:38:57 -0700 (PDT)
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-52617ceae0dso1333900e0c.0;
-        Mon, 14 Apr 2025 08:38:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVmkL8rRk7+ybN9HpVt612ziln8OQ4tPINjpyAr6NP0VZak6uoSvmYyvWm7bj43FcAxHTn0h/4PiyzM@vger.kernel.org, AJvYcCWko1mhIvVR5DZPeQamQ9OWxe8b4YWj5O8H3h1KXjszhrxa+N3o3b/lhPnca4SqktZuysb8R9u5CNZAwCf0SVC7Q+U=@vger.kernel.org
-X-Received: by 2002:a05:6122:1681:b0:51f:3eee:89f4 with SMTP id
- 71dfb90a1353d-527c35be349mr8492726e0c.9.1744645137610; Mon, 14 Apr 2025
- 08:38:57 -0700 (PDT)
+        Mon, 14 Apr 2025 08:43:11 -0700 (PDT)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-51eb1818d4fso4927517e0c.1;
+        Mon, 14 Apr 2025 08:43:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXgthza44a0Mdh9VUWkOX48VqJ99nWo7ICc8S26FV4DR1O3SihJD0KDk9mydFH3pVjjaU7xPA+zHvvC@vger.kernel.org, AJvYcCXpxoJ/YcVNLYJ4OQi/obi15e4kwX+5+/FOQGKGiELLCqSrpvxXQ6XAvAqqL9O3GXHWdXXQyTZStqv50azqo9DkV2U=@vger.kernel.org
+X-Received: by 2002:a05:6122:250c:b0:520:6773:e5ba with SMTP id
+ 71dfb90a1353d-527c348024fmr8745717e0c.2.1744645391547; Mon, 14 Apr 2025
+ 08:43:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250320164121.193857-1-biju.das.jz@bp.renesas.com> <20250320164121.193857-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250320164121.193857-3-biju.das.jz@bp.renesas.com>
+References: <20250320164121.193857-1-biju.das.jz@bp.renesas.com> <20250320164121.193857-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250320164121.193857-4-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 14 Apr 2025 17:38:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVVAqP30iK25tnOyy+pLBusKQn-agvSAw-Xuy9Vds1Nmg@mail.gmail.com>
-X-Gm-Features: ATxdqUF_blPCBbaxPTFvmznTYE28mhV50nlYJVG9732Ija_HtDBK3sM_sQXHRE8
-Message-ID: <CAMuHMdVVAqP30iK25tnOyy+pLBusKQn-agvSAw-Xuy9Vds1Nmg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: r9a09g047e57-smarc: Enable CANFD
+Date: Mon, 14 Apr 2025 17:42:59 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWSTbVwOzTtTV8DRayvgor52=KwErzhOv2iPJkMy4BXbQ@mail.gmail.com>
+X-Gm-Features: ATxdqUElZK_kVrcHg1wLs1acoCCfZ0aqgjdzt8ZQAfeFvk-7Ha_Knq-bR9FuKNo
+Message-ID: <CAMuHMdWSTbVwOzTtTV8DRayvgor52=KwErzhOv2iPJkMy4BXbQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: r9a09g047e57-smarc: Enable
+ CAN Transceiver
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -89,15 +90,13 @@ Content-Type: text/plain; charset="UTF-8"
 Hi Biju,
 
 On Thu, 20 Mar 2025 at 17:41, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Enable CANFD on the RZ/G3E SMARC EVK platform.
+> Enable TCAN1046V-Q1 CAN Transceiver populated on RZ/G3E SMARC EVK by
+> modelling it as two instances of tcan1042.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
 > v1->v2:
->  * Split the patch into two.
->  * Enabling CANFD done in this patch and CAN Transceiver on next patch.
->  * Defined the macros SW_LCD_EN and SW_PDM_EN  which routes signals to
->    CAN0 and CAN1 based on SYS.5 and BOOT.6 switches.
+>  * Replaced GPIO hog with CAN Transceiver.
 
 Thanks for the update!
 
@@ -107,68 +106,62 @@ Thanks for the update!
 >  /dts-v1/;
 >
 >  /* Switch selection settings */
-> +#define SW_LCD_EN              0
-> +#define SW_PDM_EN              0
+> +#define SW_GPIO8_CAN0_STB      0
+> +#define SW_GPIO9_CAN1_STB      0
+>  #define SW_LCD_EN              0
+>  #define SW_PDM_EN              0
 >  #define SW_SD0_DEV_SEL         0
->  #define SW_SDIO_M2E            0
->
-> @@ -33,7 +35,36 @@ vqmmc_sd1_pvdd: regulator-vqmmc-sd1-pvdd {
+> @@ -42,16 +44,36 @@ &canfd {
+>  #if (!SW_PDM_EN)
+>         channel1 {
+>                 status = "okay";
+> +#if (!SW_LCD_EN) && (SW_GPIO9_CAN1_STB)
+> +               phys = <&can_transceiver1>;
+> +#endif
 >         };
+>  #endif
+
+Do you need these two levels of #ifdefs?  If CAN-FD doesn't work
+without the transceivers, wouldn't you just need a single #ifdef with
+the logical AND of all conditions above around the channel1 subnode?
+
+Am I missing something?
+
+>
+>  #if (!SW_LCD_EN)
+>         channel4 {
+>                 status = "okay";
+> +#if (SW_GPIO8_CAN0_STB)
+> +               phys = <&can_transceiver0>;
+> +#endif
+
+Same for the second channel.
+
+
+>         };
+>  #endif
 >  };
 >
-> +&canfd {
-> +       pinctrl-0 = <&canfd_pins>;
-> +       pinctrl-names = "default";
-> +
-> +#if (!SW_PDM_EN)
-> +       channel1 {
-> +               status = "okay";
-> +       };
-> +#endif
-> +
-> +#if (!SW_LCD_EN)
-> +       channel4 {
-> +               status = "okay";
-> +       };
-> +#endif
-> +};
-> +
->  &pinctrl {
-> +       canfd_pins: canfd {
-> +               can1_pins: can1 {
-> +                       pinmux = <RZG3E_PORT_PINMUX(L, 2, 3)>, /* RX */
-> +                                <RZG3E_PORT_PINMUX(L, 3, 3)>; /* TX */
-> +               };
-> +
-> +               can4_pins: can4 {
-> +                       pinmux = <RZG3E_PORT_PINMUX(5, 2, 3)>, /* RX */
-> +                                <RZG3E_PORT_PINMUX(5, 3, 3)>; /* TX */
-> +               };
-> +       };
-> +
->         scif_pins: scif {
->                 pins = "SCIF_TXD", "SCIF_RXD";
->                 renesas,output-impedance = <1>;
-> diff --git a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-> index fd82df8adc1e..1d3a844174b3 100644
-> --- a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-> @@ -29,6 +29,10 @@ aliases {
->         };
->  };
->
-> +&canfd {
+> +#if (!SW_LCD_EN) && (SW_GPIO8_CAN0_STB)
+
+Related, doesn't this need !SW_PDM_EN, too?
+
+> +&can_transceiver0 {
+> +       standby-gpios = <&pinctrl RZG3E_GPIO(5, 4) GPIO_ACTIVE_HIGH>;
 > +       status = "okay";
 > +};
-
-I am wondering why you split this in two patches?
-I believe CAN-FD does not work without adding the CAN transceivers,
-which is only done in the next patch?
-
+> +#endif
 > +
->  &scif0 {
->         status = "okay";
->  };
+> +#if (!SW_LCD_EN) && (SW_GPIO9_CAN1_STB)
+> +&can_transceiver1 {
+> +       standby-gpios = <&pinctrl RZG3E_GPIO(5, 5) GPIO_ACTIVE_HIGH>;
+> +       status = "okay";
+> +};
+> +#endif
+> +
+>  &pinctrl {
+>         canfd_pins: canfd {
+>                 can1_pins: can1 {
 
 Gr{oetje,eeting}s,
 
