@@ -1,73 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-16027-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16028-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464EBA8A782
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 21:10:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C386A8A78E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 21:13:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4AD37178886
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 19:10:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 85DE1190170A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 19:13:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E4B323F40E;
-	Tue, 15 Apr 2025 19:10:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9167D2405E0;
+	Tue, 15 Apr 2025 19:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDwlTMTa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j6f+84D2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E92823E350;
-	Tue, 15 Apr 2025 19:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DD823F43C;
+	Tue, 15 Apr 2025 19:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744744246; cv=none; b=oAXcCeKOXdZ1ixrQxI9sqpmmef+OjLwawFqgxb3tb9e+ivv59QjOuIs72ujlyE/SXP9bZxIB2F7cbGi4cNK/fksxeLETH5e9AqLD5LSktZvdRuDtkCpVbTsdSNcuoA2jBwlEgBtB4s1cYDrrR7Xz5cRaHxvV1dvZDoab9AUv5XQ=
+	t=1744744379; cv=none; b=HvVG5lz0yJ9BagDta9BnmODw/+Gvq3lP6Ur7nepKU9UeKvcudYe5Ae8yLvcM1oSFjPPMs7SyrfuGXyzL0aDxLgb2WODNSfAP2piEpD0Gh6u2hVOe30e2dRVXhm0WHk3hATdJV6pI/e9jVYxaLfSKnuyf6tzBVhLCr3Z/CHgBayU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744744246; c=relaxed/simple;
-	bh=xqSl63bG3wfUthwLLIvQVxaqRLmukng8C2baTvHd8Xc=;
+	s=arc-20240116; t=1744744379; c=relaxed/simple;
+	bh=5RP56zqAjsLXuC4xjZNX5pzeF6Z9hwZI4uLbEc7S3HQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KZUTtVJzZi6Uz0HxMgigGQKPXy8FpH61RC5VTux0vZeznHgI17sCOz+cRqD6/JTwAaUmJNcPyMX2JFWOdQt/2jsJLeXjcIIx921OPnJGU2JhF9JPzHqjaQTKq1Krp8VihY0vir4FWiaCKViIdiaJdzJB8+TS+0meJYbXc/ap78o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UDwlTMTa; arc=none smtp.client-ip=209.85.128.46
+	 To:Cc:Content-Type; b=VNrtTwmyn8YPU5jMBMpC1p1M1zFEGgNeXq4QjPj092rVqC1cx51Vj/KQzAWJd9mT2sX/18T3mHYljHL3sXN2n9G9KZVhPYW684g7VJzAlykpj8qI4yIkzwuG/V5B7EefTjYjI4L3W1wKCyvUDF+lmrELAs4h14UGx2SVwVTb5yE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j6f+84D2; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43d04dc73b7so60041125e9.3;
-        Tue, 15 Apr 2025 12:10:44 -0700 (PDT)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43d0c18e84eso30285595e9.3;
+        Tue, 15 Apr 2025 12:12:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744744242; x=1745349042; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1744744375; x=1745349175; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G+9R6i97eout8tyqOO5go7P8BM8D8c4sbrQg7SeKd3k=;
-        b=UDwlTMTaOBWa9aTAVQ+IeTum3xmgXX70oOs7rQxUl/C7NzbpfWm0LgF/mAUgcnJPa5
-         7wuVVH43xk8sM/m7D1MbQ3pyJm+yT9Un2eW1JNZr7cfcuK56u0lkKTRZc2mAn0TMtz5O
-         KXvzUYrbh231kFspNl4EkJHO0hDECuVkycDwwsaLzmd5OW3McAzqQm+GUdN51KnBFKLq
-         CtxH7dvW65x4QU7hyjLrVRTDDD/bTCMnFazaDog+1VOCorpTl2zWwhEhIhsNku9Od6hw
-         vjPMKEOr0aHKkHV/uGVSRga31Nf/VlGY3WkGDuB34aFg54i856xdXSUT8FreNwMvr96q
-         L9Ig==
+        bh=QQm1BufbNO0g6ac8JFZOAF7HQLu+TTJG6FTm33kVTLE=;
+        b=j6f+84D2T01fyIHuuD0u9eCeQKb/7aCiUxNAXBcLniXe9G3OniZa1jeENPOVfGniLp
+         WOjAFwPdiWo6srN1srHw2gMe/Xiubgwj2KWkp9qOkCogQYOwEpLeBZipRUw3q4zF0KcA
+         rH+5PLjMcHVUlYxvuE/DeDfiTnbA2ySjCLTbTUDSBJ4Yh5fGV7ko9Zv2DOWq9MswUEWc
+         nx0SqysCW98qLZrf7PLJNHGZFmcNt9o1bssC1Sy0DXysdVRsf+eF4jWYuXTwfXpDccrm
+         1X5scEXocSGk230JBpi85/PbSWOXSjZLfONciVlM6Q38sOozT+1l2c4/NLlCcRymETho
+         sVUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744744242; x=1745349042;
+        d=1e100.net; s=20230601; t=1744744375; x=1745349175;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G+9R6i97eout8tyqOO5go7P8BM8D8c4sbrQg7SeKd3k=;
-        b=J+koQoH5ze6EizIDtbLLY6kVi1zW4i8izuLTg8wl6g9Op3aK0yxU+gBU71/XI3Z1ED
-         USDmgfJjq8aAWF9GbvtebL+D2FBC5ClmhUkVU5QecEcoDrtBlYzbJA8Tm0EC5c123zDC
-         LuVSo4HcRXA9BAHFDFOqYIgbfwihujzKfLfh1QOBfObDmHYxthpqChmH7FVFlPyhcSkC
-         qvDJ8nixmaPhW9M7rXw5CVZ5z7Jmlx5zkJFO7zki1R9NzrVZ3w1npcasKbUhz8D6YZuc
-         izIQvQ9To0V+sjQIxCGJo4DLD3yWB7DIUC5W7dpzrcsPZOiqsOcIFbph+7fRrbUrFs3q
-         tkKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVlI3yknE79aHlzmd+cyaq4XclqaCwh5BWeHxzdqDveWX8RmTF++dJ9cVagy1Gk4PscoNh2dOP24glv@vger.kernel.org, AJvYcCVqDn5kPjFEnxK8huqnukHLAJbzLJCJfGCEI0zdHdVialjgU7UwHw4EKT9/+pE6BNVpbuQuULccZV/8@vger.kernel.org, AJvYcCWLy5YBGNMQwX0ygkt23AScj8ub3Nd2vt1bTsyEHfb+Z3ypX27rK9VOliiQ+pUo243oMPZDVZ3Q7AffW5Hl@vger.kernel.org, AJvYcCXYhv5mMAkBLdNNj7wRTFWNZXxWBJDD7WQfcRX9VF1iKtkfM3I1Via7x6aPcHdH4zXrvGexUqYrvizTA+lISVwaVqI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwS6MlQ4yVbzfPJs3SleT4oYhNstftP/3O38w27PjO3PAPxwXkz
-	kINvYKjPYpYfEnnzyzIOeldaPk7/aieeP1oS1YVRg/Es9mqVuFcMgaRlaywtvFDLiDrnfvt+Nv4
-	10LJyGZUhf5FwtSpw2qYerIjzv/s=
-X-Gm-Gg: ASbGnctOi1Pnx9hZIPUVcQuyTLTqYMcPKhTv02PaSYI5DPhKa2ITumstiJ7TUfo6oDQ
-	+ft9bR09BjB3d3UrQqEKoUw4cO1QtvJQJrb/AHRBvI/C0OqgWJkhzoj/qPMA1bFa0vZgOmDHCrI
-	YZDIKUOeS09iDQMLlfCfcE3w==
-X-Google-Smtp-Source: AGHT+IHMiFiS0nsHL73AzzRu+tHqp2edVjNZRkXI+hMQ4GgBBmlNNmVX9ETLW6Y2JCWbDEc24ttLPk2CDXSMeLCHEQU=
-X-Received: by 2002:a05:600c:1e0e:b0:43d:47b7:b32d with SMTP id
- 5b1f17b1804b1-4405a0a4334mr2589315e9.25.1744744242305; Tue, 15 Apr 2025
- 12:10:42 -0700 (PDT)
+        bh=QQm1BufbNO0g6ac8JFZOAF7HQLu+TTJG6FTm33kVTLE=;
+        b=TrspSKAoJcIhvmXiP9pYJNaa19bXBE0nKAqwrAPUMz5GDOGijt3U5EFL33M6UVs9uF
+         cCM2e7gLQjnGsM36/BCZwE7qiz8XdLzmWI25mabuUmwcgNek8bnt6RS6kAmq2iNLjjoO
+         rJrJHQd+F+B3KxJDshDpg+9jlkauksIJsmKe1I36qQpf9bOUkB9X8QH+jg45Fr3fzB9R
+         jRlolpOpql88yQNUEbJ21ryo5yBEHoJeaCod3KA1NnD0G/G8eZhYdIbcd7vfvhdMu/y0
+         8sEUsATQKBozVh1m0bsftUf6nwG4MpERhnmsuKslAs0JXWrYYYHQ3HG6mOxJ6/Da1XqJ
+         aV2g==
+X-Forwarded-Encrypted: i=1; AJvYcCV1dNJgb8uRnzYKZtFkJNXLtkGv9Exeuqh9fauUodBWTjD7n5usGuzeq6IMuuXPbMoPuWmRpYGPbkJQrsAe@vger.kernel.org, AJvYcCWXTZnWOt5u0ig//N60kUBbJVbZLpMzAtRkBaHe69PYA57bj9JRyJ6wf4uWiz+6YZaI5OAlXVjKxxZp0+b1OBydyss=@vger.kernel.org, AJvYcCWdtRTzsUASi/8oAZpHlqqy2tlOksyxhKOUU2jSU6QKobY1ERx3RR77iGSjHbdcjrI1yTrRUnnrmh2+@vger.kernel.org, AJvYcCXg/q/6k6+541L7V8/rIU1++tqXLkzgmrFq9bnzRX5WMN1Jcyg0citoLg2eeZlQ55RrkjeeBgdKe9mC@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxi3LOO+6icPPIE/fKAon3MnjzyN5hZjr2TvTQzUjiUH/+6mQNq
+	L58nCN72YBo0iCgRVXF56r7pw8dNDewpO9bCbxhMorxqlStWl8Y8GTSGmlQdKeJ3ozGbV7NdyF5
+	1e5ewfa0WXV+C3RRXHAC4s+W6NEM=
+X-Gm-Gg: ASbGncviBsX1zTE5SsqCaXUihn/tnCTtzSw9ozwqedtlnp9/QvnfOg9rrF1zWryuIlV
+	v5tOHB1xzXT5c8P1wpAOojvAmEeWtRM5amoIrukHQxovSc+eIPrZ//j9C9Z9k5TcH+YKeSrgi+X
+	QSAZmrRo+/FUWnRAbga6mrkQ==
+X-Google-Smtp-Source: AGHT+IHe7sCUzfMtiFR7BudtnYRtKQ/8KBehapGATrY20uIyvh2Lm2b6KndLPkcMNHT0KBRTWJhsEvX7NnH1Xajny1g=
+X-Received: by 2002:a05:6000:2282:b0:391:4999:778b with SMTP id
+ ffacd0b85a97d-39ee27519c1mr592070f8f.28.1744744375026; Tue, 15 Apr 2025
+ 12:12:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -75,12 +75,12 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250407165202.197570-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250407165202.197570-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXuqYHAv+yyOJxC3kre1vaspuXmTMev0ZBixEiEo+4saQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXuqYHAv+yyOJxC3kre1vaspuXmTMev0ZBixEiEo+4saQ@mail.gmail.com>
+ <20250407165202.197570-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWZisqxyGL32Y-AD1UgQD9fWKG+a-o71R+KeuSqn=U6gQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWZisqxyGL32Y-AD1UgQD9fWKG+a-o71R+KeuSqn=U6gQ@mail.gmail.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 15 Apr 2025 20:10:16 +0100
-X-Gm-Features: ATxdqUEF-cysVy0kHHQfaLVGmLBzVY6Pt4SqgW51HY8AGLA2rfeWDdpmyMio_Ps
-Message-ID: <CA+V-a8sbqj5LQvsfwJyO8gM+0HL5bzW4KLmzZz5YKO5tG6nbfQ@mail.gmail.com>
+Date: Tue, 15 Apr 2025 20:12:29 +0100
+X-Gm-Features: ATxdqUHg1_oZux9AM-a5ymd0MtduhpzojMxKqAMhDii231jK-UykH3iHu0nQi6Q
+Message-ID: <CA+V-a8tBY3V1pZOs2yfGZxpPx+b5YbetJZE-PJj_1wLofXVOEw@mail.gmail.com>
 Subject: Re: [PATCH v2 6/9] clk: renesas: rzv2h-cpg: Ignore monitoring CLK_MON
  bits for external clocks
 To: Geert Uytterhoeven <geert@linux-m68k.org>
@@ -96,14 +96,10 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Geert,
 
-Thank you for the review.
-
-On Tue, Apr 15, 2025 at 3:36=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+On Tue, Apr 15, 2025 at 4:01=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
 k.org> wrote:
 >
 > Hi Prabhakar,
->
-> Thanks for your patch!
 >
 > On Mon, 7 Apr 2025 at 18:52, Prabhakar <prabhakar.csengg@gmail.com> wrote=
 :
@@ -118,46 +114,7 @@ t
 > > may have an external clock source. Update `rzv2h_cpg_register_mod_clk()=
 `
 > > to update mon_index.
->
-> So I guess you implemented this because the external clock was not
-> running, and you got into an infinite loop?
->
-Yes, partially right but we didn't enter an infinite loop as we have a time=
-out.
-
-For the CLK_MON, the HW manual for RZ/V2H section 4.4.4.8 CGC Control
-Registers and 4.4.4.10 CGC Monitor Registers will be updated to below
-in the next version.
- "The clock gating cells require source clocks to operate correctly.
-If the source clocks are stopped, these registers cannot be used."
-
-Currently without the series when we turn ON the clock the CLK_ON bit
-gets set and to make sure it's turned ON the corresponding CLK_MON bit
-is checked to ensure it's ON. When a request is made to turn ON the
-clock first we check the CLK_MON bit and if it's being set we return
-early as the clock was ON. This worked OK up until now where the
-clocks used were internally generated.
-
-In the case of RGMII interface where the Rx/Rx-180 clock was coming
-from an PHY on an external pin the above didn't work as expected. When
-we issued an unbind request on the glue driver all the clocks were
-gated to OFF state i.e CLK_ON bits were set to '0'. Now when the bind
-operation was requested  the clocks were requested to be turned ON, ie
-when CLK_MON bits for RX/Rx-180 reported to be '1'  that is because
-PHY was providing the clock and due to which the CLK_ON bit was unset
-(and not gated to ON state)  due to which the DMA reset operation
-failed in dwmac-core  driver.
-
-Below is the thread,
-[0] https://lore.kernel.org/all/CA+V-a8uWY1Av8eS1k9C6Td=3DRuB4PbCnQyXbNLzmh=
-ao0nr8Spbg@mail.gmail.com/
-
-> This looks rather fragile to me. How do you know when the clock
-> is actually running, and thus usable?
->
-I was thinking the consumer driver would request the external device
-to turn it ON/OFF.
-
+> >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
 > > --- a/drivers/clk/renesas/rzv2h-cpg.c
@@ -169,19 +126,8 @@ zv2h_cpg_priv *priv,
 > >
 > > +static bool rzv2h_mod_clock_is_external(struct rzv2h_cpg_priv *priv,
 > > +                                       u16 ext_clk_offset,
->
-> unsigned int
->
 > > +                                       u8 ext_clk_bit,
->
-> unsigned int
->
 > > +                                       u8 ext_cond)
->
-> bool
->
-Agreed I 'll change to the above.
-
 > > +{
 > > +       u32 value;
 > > +
@@ -190,39 +136,14 @@ Agreed I 'll change to the above.
 > > +
 > > +       value =3D readl(priv->base + ext_clk_offset) & BIT(ext_clk_bit)=
 ;
-> > +       value >>=3D ext_clk_bit;
 >
-> No need to shift:
+> As ext_clk_offset is actually the offset of the Static Mux Control
+> Registers (CPG_SSELm), this reads the current state of the mux.
+> However, can't the state be changed at runtime (despite it being named
+> a "static mux")?
 >
->     return !!value =3D=3D ext_cond;
->
-OK.
-
-> > +
-> > +       if (value =3D=3D ext_cond)
-> > +               return true;
-> > +
-> > +       return false;
-> > +}
-> > +
-> >  static int rzv2h_mod_clock_is_enabled(struct clk_hw *hw)
-> >  {
-> >         struct mod_clock *clock =3D to_mod_clock(hw);
-> > @@ -691,6 +710,11 @@ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_=
-clk *mod,
-> >         clock->on_index =3D mod->on_index;
-> >         clock->on_bit =3D mod->on_bit;
-> >         clock->mon_index =3D mod->mon_index;
-> > +       /* If clock is coming from external source ignore the monitor b=
-it for it */
-> > +       if (rzv2h_mod_clock_is_external(priv, mod->external_clk_offset,
-> > +                                       mod->external_clk_bit,
-> > +                                       mod->external_cond))
->
-> Perhaps just pass "mod" instead of three of its members, to fully
-> hide the logic inside the helper function?
->
-Agreed.
+Agreed based on the HW manual this can be changed at runtime. So this
+check needs to be done in the rzv2h_mod_clock_is_enabled().
 
 Cheers,
 Prabhakar
