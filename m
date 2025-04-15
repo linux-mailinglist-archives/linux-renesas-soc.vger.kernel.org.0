@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-15963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15964-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A36FA893A6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 08:03:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E882A893A9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 08:07:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E82A7A414F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 06:02:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1799A175019
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 06:07:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F1AE274FC7;
-	Tue, 15 Apr 2025 06:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26B45274FE3;
+	Tue, 15 Apr 2025 06:07:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LzsXnkDk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZTVs4eZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2AF72676CF;
-	Tue, 15 Apr 2025 06:03:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4E1218589;
+	Tue, 15 Apr 2025 06:07:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744697016; cv=none; b=I80t84dfDwgRdhpJmb1FJHapqdSZUYAHS2uFs1cJobmtPtbdAZk0Q2HFPPYeGHxMIXwI494vk8Z8D3Huv3PbjtwVJ36/n0ZYu48boiV2QkYVBpdg+r9QT6CGArVxAJzeP1zAUlw6q5gOJpPahyr6BVT/EZpBFoEx7mFLSnenYhs=
+	t=1744697250; cv=none; b=kHAkii8GEWxr6z8SHVyOPFyYIQ39pP2VXqUaCzUy3h6E0PBT+wASR/+L/ST25x8plFcgj+W5vlCb2ithMobrocrzxXqiLHuhXVTyZZ6vTwGL3FzR0L5h8XGkIBe/B2HszI82uzc4SZvzE450IQHnM2v3OzbzVPQtnpT3ao76DyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744697016; c=relaxed/simple;
-	bh=1rAlMKxFcKG3m9iioOpwIrKVBWl7YN1ASBOO9Vp687I=;
+	s=arc-20240116; t=1744697250; c=relaxed/simple;
+	bh=MzVChSVFysFXWfQVwCLbgpXkfHffuVCd+JiWC9tceRg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GlW/BKY2ABxNmzNS/WAj1oaYRUj44uJkL7tICsl511l496zUG9Kg59IdEVC7iuCGSiboGtfCubaQpb2EtIo4v5dlpbJ9Oagsu6vvjXxbiNWZ4TcD+tF4l5/KAhMWJZcVH1I3IS0iMIWcJRoEeRGZU+ijS20/pK7uLrlFYZmQ+TU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LzsXnkDk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E5F6C4CEDD;
-	Tue, 15 Apr 2025 06:03:32 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=BHEdVJghTLGp2ph4XZtNh+H4GQbL5Fo7oyfb4CHwUo/MV9QrnHb5i/m6j4XAxf1pJJEutrkGGLIDkMbGzRbwARCBV5HhNWMC89yCxVEWsLxRIQ1j+Am5qQqgS7jAsYQyAvI3TV/eCACtMcSpYutSzlwUpRxb5SqJdyu1YibHFSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZTVs4eZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8753C4CEDD;
+	Tue, 15 Apr 2025 06:07:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744697015;
-	bh=1rAlMKxFcKG3m9iioOpwIrKVBWl7YN1ASBOO9Vp687I=;
+	s=k20201202; t=1744697249;
+	bh=MzVChSVFysFXWfQVwCLbgpXkfHffuVCd+JiWC9tceRg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LzsXnkDkm+wXzUaOo8ATvbq0hGp/r0zLt4UaTk/nyI7HDmLwVBKhr5dmcC9FW/4sB
-	 yKbzd1LTZlbILFDS8LOBmWp+y05iLYtuFAPLR7SguaR0IeMWy1Igtyn+GTStYD7eqj
-	 NiUuWTxulqGW9JVYwx/5R53O4etBJwrLAr+1SbzgerQTAAn0mtWEF3FFG4X4LFyXtr
-	 HCNqTnhi7QisZQk8sRuO97JRRsF3389rcvO3nlDl2iN6DrHUCaD1T5/PmZzcpovyeE
-	 0W4/sr1EQjSlrFQbXLMzNjTtZH8kcAi2oi/PjKIhCqrRBnchRpZXBO+F+hbk4rZzCY
-	 qUCkxC6Sh6hjA==
-Message-ID: <cc351443-f481-4fcd-ac85-1fc01d1d7097@kernel.org>
-Date: Tue, 15 Apr 2025 08:03:27 +0200
+	b=aZTVs4eZfKX7cecLiVGvDIJVUppeaWkG/J8nKnsSIXQHgTdF4PLOuBkBKfcjO/Dw/
+	 69oUDlZ8WpDnOUk9D2FLAtzILWiQE75Mv7HKp1IYdnAv8xXGxOHHxF+M2sKm/VFX22
+	 EjrdZMw7w1mDVo5CePT/YANvXsMB36ZiXpo1EHim7X6EjkdHr9B4F3wokzBd+sxJBw
+	 BPCtw8yq1O9qg5c+GnU0dzrzmAiom+MNXXV4PzQXLYOhf/Yjxp6qIC3BUUfGEYr2Oh
+	 v+DFXwNTcRNv+zeswrmRg8ObhbeZv1inz0vImPBGbL040mYpaR4wJQG06lSQ6prPNz
+	 XUDXj16v7DocA==
+Message-ID: <5cefa668-8920-456b-ac82-0ce7f9226fcc@kernel.org>
+Date: Tue, 15 Apr 2025 08:07:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,16 +50,14 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/9] dt-bindings: memory: Document RZ/G3E support
-To: Biju Das <biju.das.jz@bp.renesas.com>, Rob Herring <robh@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+Subject: Re: [PATCH v4 9/9] spi: rpc-if: Add write support for memory-mapped
+ area
+To: Biju Das <biju.das.jz@bp.renesas.com>, Mark Brown <broonie@kernel.org>
+Cc: linux-spi@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>
+ Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
 References: <20250401143537.224047-1-biju.das.jz@bp.renesas.com>
- <20250401143537.224047-2-biju.das.jz@bp.renesas.com>
+ <20250401143537.224047-10-biju.das.jz@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,28 +103,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250401143537.224047-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250401143537.224047-10-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 01/04/2025 16:35, Biju Das wrote:
-> diff --git a/include/dt-bindings/clock/renesas,r9a09g047-cpg.h b/include/dt-bindings/clock/renesas,r9a09g047-cpg.h
-> index 1d031bf6bf03..98df165579e1 100644
-> --- a/include/dt-bindings/clock/renesas,r9a09g047-cpg.h
-> +++ b/include/dt-bindings/clock/renesas,r9a09g047-cpg.h
-> @@ -17,5 +17,6 @@
->  #define R9A09G047_CM33_CLK0			6
->  #define R9A09G047_CST_0_SWCLKTCK		7
->  #define R9A09G047_IOTOP_0_SHCLK			8
-> +#define R9A09G047_SPI_CLK_SPI			9
-
-That's not really a related change. Clock is there regardless whether
-you implement or not implement SPI. Putting this here makes it just
-conflict-prone and adds a need for Ack.
-
->  
->  #endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G047_CPG_H__ */
-
+> Add write support for memory-mapped area as xSPI interface require
+> it.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v3->v4:
+>  * No change.
+> v2->v3:
+>  * No change.
+> v1->v2:
+>  * No change.
+> ---
+>  drivers/spi/spi-rpc-if.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+That's also unrelated change to memory controller. Cover letter explains
+nothing about dependencies and merging (checked few first lines where
+this should be documented).
 
 Best regards,
 Krzysztof
