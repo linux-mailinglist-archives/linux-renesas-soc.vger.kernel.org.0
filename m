@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-15964-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15965-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E882A893A9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 08:07:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3DDA893BB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 08:16:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1799A175019
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 06:07:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1690C3AEA29
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 06:16:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26B45274FE3;
-	Tue, 15 Apr 2025 06:07:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A83C7211299;
+	Tue, 15 Apr 2025 06:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZTVs4eZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4+S3CTE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4E1218589;
-	Tue, 15 Apr 2025 06:07:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC2F18DB02
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Apr 2025 06:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744697250; cv=none; b=kHAkii8GEWxr6z8SHVyOPFyYIQ39pP2VXqUaCzUy3h6E0PBT+wASR/+L/ST25x8plFcgj+W5vlCb2ithMobrocrzxXqiLHuhXVTyZZ6vTwGL3FzR0L5h8XGkIBe/B2HszI82uzc4SZvzE450IQHnM2v3OzbzVPQtnpT3ao76DyY=
+	t=1744697816; cv=none; b=iNxiKuOZfyeS3S+afmNpbMjI/fjG5IGqglj1z9SQboeoaxLHL5lccYX5ImIJgxvgZKQZKlcXPSbFMnk0uaDgAFr6f3ulnepfnZ/PCA/Dd+75YwpAplh6LBdCJ3QDohMGlThognV/dmIkITTU4Hk/FFQBiqZJ3SOMOh9ERao1m38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744697250; c=relaxed/simple;
-	bh=MzVChSVFysFXWfQVwCLbgpXkfHffuVCd+JiWC9tceRg=;
+	s=arc-20240116; t=1744697816; c=relaxed/simple;
+	bh=NJYA0Sd/M8fZ7qAW2pqgMm9yBA/J1tcAcR3OJFUUB6o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BHEdVJghTLGp2ph4XZtNh+H4GQbL5Fo7oyfb4CHwUo/MV9QrnHb5i/m6j4XAxf1pJJEutrkGGLIDkMbGzRbwARCBV5HhNWMC89yCxVEWsLxRIQ1j+Am5qQqgS7jAsYQyAvI3TV/eCACtMcSpYutSzlwUpRxb5SqJdyu1YibHFSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZTVs4eZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8753C4CEDD;
-	Tue, 15 Apr 2025 06:07:27 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=N8f3QTuZ2N5qSbpMqZj69dcMYF2s78wnt9DvlRP3msA+FXzXheXLcMZs+juYa70/ZoZN2ecqITxvz1n9MB18iJd+GEiCX+iSA3NfLjqfc7IkQLzgXsv5ldMowXRRCixGOP16uE5p9mem5uTZJf5X9Hcp5Dsq0Zr8zVdIPRDVjTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4+S3CTE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FB7CC4CEDD;
+	Tue, 15 Apr 2025 06:16:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744697249;
-	bh=MzVChSVFysFXWfQVwCLbgpXkfHffuVCd+JiWC9tceRg=;
+	s=k20201202; t=1744697815;
+	bh=NJYA0Sd/M8fZ7qAW2pqgMm9yBA/J1tcAcR3OJFUUB6o=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aZTVs4eZfKX7cecLiVGvDIJVUppeaWkG/J8nKnsSIXQHgTdF4PLOuBkBKfcjO/Dw/
-	 69oUDlZ8WpDnOUk9D2FLAtzILWiQE75Mv7HKp1IYdnAv8xXGxOHHxF+M2sKm/VFX22
-	 EjrdZMw7w1mDVo5CePT/YANvXsMB36ZiXpo1EHim7X6EjkdHr9B4F3wokzBd+sxJBw
-	 BPCtw8yq1O9qg5c+GnU0dzrzmAiom+MNXXV4PzQXLYOhf/Yjxp6qIC3BUUfGEYr2Oh
-	 v+DFXwNTcRNv+zeswrmRg8ObhbeZv1inz0vImPBGbL040mYpaR4wJQG06lSQ6prPNz
-	 XUDXj16v7DocA==
-Message-ID: <5cefa668-8920-456b-ac82-0ce7f9226fcc@kernel.org>
-Date: Tue, 15 Apr 2025 08:07:26 +0200
+	b=a4+S3CTEamQMO73M46HbyySNgfAuxKvkFsaU32IjABH1uXK2BWOv0IihP89awBM03
+	 Cms+6YK9+YcYNWqUtMwPoLaUyb6JLeS4NSnrQa8I27Re4B1Xo6eBLDpVhUY3M4hBWr
+	 nB8u9CmvUntlHjxQtCp2Uv479bWbHu732mUaJsW5Eu311rsY1sd/WYvmkNdxQlpc5z
+	 I9+hFto6Wn6cPTI84Surl9jNJBHGJmKNCjbu04l14rPMzddeahRdcnN4V1pFECMpHS
+	 g40y2VZq3WTxUAAuys9TWa94ywbgp0I8+H4bBl1pJKZozqbHjlwLXSf69a7BPhOPvp
+	 67vQTn3kKTcrA==
+Message-ID: <2e8723a1-ec3f-4a0e-9c9a-9657b025799e@kernel.org>
+Date: Tue, 15 Apr 2025 08:16:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,14 +50,14 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 9/9] spi: rpc-if: Add write support for memory-mapped
- area
-To: Biju Das <biju.das.jz@bp.renesas.com>, Mark Brown <broonie@kernel.org>
-Cc: linux-spi@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+Subject: Re: [PATCH v4 8/9] memory: renesas-rpc-if: Add RZ/G3E xSPI support
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Mark Brown <broonie@kernel.org>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
 References: <20250401143537.224047-1-biju.das.jz@bp.renesas.com>
- <20250401143537.224047-10-biju.das.jz@bp.renesas.com>
+ <20250401143537.224047-9-biju.das.jz@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,29 +103,87 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250401143537.224047-10-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250401143537.224047-9-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 01/04/2025 16:35, Biju Das wrote:
-> Add write support for memory-mapped area as xSPI interface require
-> it.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v3->v4:
->  * No change.
-> v2->v3:
->  * No change.
-> v1->v2:
->  * No change.
-> ---
->  drivers/spi/spi-rpc-if.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
-That's also unrelated change to memory controller. Cover letter explains
-nothing about dependencies and merging (checked few first lines where
-this should be documented).
+>  int rpcif_manual_xfer(struct device *dev)
+>  {
+>  	struct rpcif_priv *rpc = dev_get_drvdata(dev);
+> @@ -493,7 +769,7 @@ int rpcif_manual_xfer(struct device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = rpcif_manual_xfer_impl(rpc);
+> +	ret = rpc->info->impl->manual_xfer(rpc);
+>  
+>  	pm_runtime_put(dev);
+>  
+> @@ -543,6 +819,61 @@ static void memcpy_fromio_readw(void *to,
+>  	}
+>  }
+>  
 
+Missing kerneldoc. Exported functions shoud have kerneldoc.
+
+> +ssize_t xspi_dirmap_write(struct device *dev, u64 offs, size_t len, const void *buf)
+> +{
+> +	struct rpcif_priv *xspi = dev_get_drvdata(dev);
+> +	loff_t from = offs & (xspi->size - 1);
+> +	u8 addsize = xspi->addr_nbytes - 1;
+> +	size_t size = xspi->size - from;
+> +	ssize_t writebytes;
+> +	int ret;
+> +> +	ret = pm_runtime_resume_and_get(dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (len > size)
+> +		len = size;
+> +
+> +	if (len > MWRSIZE_MAX)
+> +		writebytes = MWRSIZE_MAX;
+> +	else
+> +		writebytes = len;
+> +
+> +	regmap_update_bits(xspi->regmap, XSPI_CMCFG0CS0,
+> +			   XSPI_CMCFG0_FFMT(0x3) | XSPI_CMCFG0_ADDSIZE(0x3),
+> +			   XSPI_CMCFG0_FFMT(0) | XSPI_CMCFG0_ADDSIZE(addsize));
+> +
+> +	regmap_update_bits(xspi->regmap, XSPI_CMCFG2CS0,
+> +			   XSPI_CMCFG2_WRCMD_UPPER(0xff) | XSPI_CMCFG2_WRLATE(0x1f),
+> +			   XSPI_CMCFG2_WRCMD_UPPER(xspi->command) |
+> +			   XSPI_CMCFG2_WRLATE(xspi->dummy));
+> +
+> +	regmap_update_bits(xspi->regmap, XSPI_BMCTL0,
+> +			   XSPI_BMCTL0_CS0ACC(0xff), XSPI_BMCTL0_CS0ACC(0x03));
+> +
+> +	regmap_update_bits(xspi->regmap, XSPI_BMCFG,
+> +			   XSPI_BMCFG_WRMD | XSPI_BMCFG_MWRCOMB |
+> +			   XSPI_BMCFG_MWRSIZE(0xff) | XSPI_BMCFG_PREEN,
+> +			   0 | XSPI_BMCFG_MWRCOMB | XSPI_BMCFG_MWRSIZE(0x0f) |
+> +			   XSPI_BMCFG_PREEN);
+> +
+> +	regmap_update_bits(xspi->regmap, XSPI_LIOCFGCS0, XSPI_LIOCFG_PRTMD(0x3ff),
+> +			   XSPI_LIOCFG_PRTMD(xspi->proto));
+> +
+> +	memcpy_toio(xspi->dirmap + from, buf, writebytes);
+> +
+> +	/* Request to push the pending data */
+> +	if (writebytes < MWRSIZE_MAX)
+> +		regmap_update_bits(xspi->regmap, XSPI_BMCTL1,
+> +				   XSPI_BMCTL1_MWRPUSH, XSPI_BMCTL1_MWRPUSH);
+> +
+> +	pm_runtime_put(dev);
+> +
+> +	return writebytes;
+> +}
+> +EXPORT_SYMBOL(xspi_dirmap_write);
+
+GPL
+
+> +
 Best regards,
 Krzysztof
 
