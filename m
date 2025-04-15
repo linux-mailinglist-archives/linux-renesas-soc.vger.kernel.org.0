@@ -1,84 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-15994-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15995-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC0BA89DDF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 14:23:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A735A89DE3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 14:24:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A279B17BB47
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 12:22:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B86A3161271
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 12:22:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A23582973DD;
-	Tue, 15 Apr 2025 12:20:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41F8B29A3F2;
+	Tue, 15 Apr 2025 12:20:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9697127B509;
-	Tue, 15 Apr 2025 12:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEC82036FE;
+	Tue, 15 Apr 2025 12:20:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744719600; cv=none; b=RYjVgN5K5boNAMgLio8P+qE1xlo2T5TX24C2y8Kyvne914041ubneOYYO0wDfuU8x0/+7RfBlWqCXnpGrsuSzteihk6+2CfcB8ZGeYu4YdpolujT5DERBlcGPqs/olCzfnOd/arvwjDrB9b9ZbwK2FAv1A/vfySlgMvWq1eSxSo=
+	t=1744719628; cv=none; b=PIOCwtI8UMlRdQVkcdD1xYdNj9NFfOB5cteik+2RIBk5AOF+qfE7ShBTFNMraRHDH/+6UG7hgz91+4kogn/Vf3WzTnskdRV0EmskSxbmefCvX75a2dmrzPeAxouaBgm47UcS4E4A4W82A3Lk5XLK88ai0CI/ntJcGMuFGop1IwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744719600; c=relaxed/simple;
-	bh=rHyvAHy87o8YK32YTDCQoPojU/LLd83jT+O2Lb0lMyw=;
+	s=arc-20240116; t=1744719628; c=relaxed/simple;
+	bh=LPHeTTp9A63WCZtMuf+AbObGxwNJcKR7y3LrWcGuKik=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PNUsfAEdkcC5UVnNykcXNsDSb3EjCvW/ANUKUviJD+TyUp7+KtyTkl3huKPDr3kNR5os56nlD6pNLnnWHAJqu7ZD6Ud4AAZlQlox4kFCD4Hp/ewMp3OZBuF5fUrR5YRIDgyueBewtP3NAK5KtlnLhj0x2j+ycEmyI+/2XjDzHhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
+	 To:Cc:Content-Type; b=qw64He2f6lg5yjrBYPbLxAtKm6Lflf1LMOb7TPxHsxb8BlWZhUXY3MD3aAKCchjKi8FfSvniGw+RW9ycx6PhwgaDbqm5xR/UKIpSfCJ2kxTum2+WHY5X1CwQ4XbdtQHhpbs7EEDoTRYo9ZSsiRhpfGQdzaipYAma0aWUc/M1Sok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4c315dd9252so259486137.1;
-        Tue, 15 Apr 2025 05:19:58 -0700 (PDT)
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-4c4d8638e07so134333137.3;
+        Tue, 15 Apr 2025 05:20:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744719597; x=1745324397;
+        d=1e100.net; s=20230601; t=1744719625; x=1745324425;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=no/Eok31sk2EZ2vY4EXOj+z7BfV0O6ffw0mIU9CJuLc=;
-        b=XczjM6PmNN0sPtP7lIeTILF/+he/kw867yVUE1hqd4/lHVPTWVg+B+08sEjnXcViq1
-         RhWDBZMzXncxXxPUl5UYdNNZ9r1Fbgj61GcBmZwHmQm5eUj6YtwyEjTQGtIA2Dwoh6/L
-         EQmUe9R7/pR90MFKALmjZwcA3TZ3OCXS+iSsmJJau6WyP73RWC44V33U5/swq0ESjdBQ
-         XZ1kfFLVfqOlv1gXU7Zp8+3zRNT+PwVl47NHVrDjRAIOPfLU/kzEvxiuN3WefpO8+D3f
-         Y+qRZPV6ORNjAnoJqyZkyDG3agxHLPweGbb3xUFkUChneNOqRxu7LN6ikWVYlhCeWITI
-         jYGg==
-X-Forwarded-Encrypted: i=1; AJvYcCW3Zw7NpSjsUYtKv0Ux0HCZn/emzi5cSgvnNu2gw8H0yiXwYEJWygaVrVX9oRwx7CUTY87xD6ST5lKsNd6CZ7W8ePc=@vger.kernel.org, AJvYcCXlbYPcrfi7DQxY8YRlsUm/4wBScPTfsKzD0FPNrK2uHn1sNyCHGDDJwMJPubnu78vWEWAQaTS0VLxCMe5e@vger.kernel.org, AJvYcCXtN0rZz4i1M1VZaAjsp3jxEmcPalA5wTsbcRMG2YyzAXiopLSlWK4YrFegTBrdm51D88dRAgmEYWFd@vger.kernel.org
-X-Gm-Message-State: AOJu0YxW35wt3F579nMeVF4GuXSae0l/d1jPsJEx4Cp4//NinNo1KpPQ
-	ewS2cAyDHrnuLkJkbn10NmR0jWGxHeWpa4g1YbaPdIblrfpMu+UgpBMUIjWB
-X-Gm-Gg: ASbGncvhWAtwABTX8HtXhG9oDlNa3bz9uJCzAnY0ZdB1a0cTOIGbiTRuprjFDVR5Lh1
-	Q/gaADkbXHPsD4fD/zBBMBsSuN+PNm1HL/Ym1vCuK80ypyBqXXkR1WWdOC7RJT7Wrg4WCv+JI4B
-	OPhkIFnwomPdgmLD8dIR9g6VrJwr+JApZKCVe0uhs1FnvUDf1evn4lBf39gUVn0E+6z57gip6kY
-	R9P0vtAFYXI+Ct7NOw1tiNjMkzr2zVAUAUqVMfEzXhEtbGTIcf89l4W4qETQSohgLvowzv6idCS
-	vZC9NNhiLvzPFi0HrO+KizUXMM+LZ4e8B+BXCJlk2Eh0zt6tws5n5oMJRr0Yhvcv7rQ+CXrvDlx
-	/P5U=
-X-Google-Smtp-Source: AGHT+IGzEgX6yU3eYd7NEIdIrfCyIOYSCQDY2XSlVbWyRsRYskfDcMmueeK1f6pOGNlzZzWjMNt9MQ==
-X-Received: by 2002:a05:6102:32cc:b0:4bb:dfd8:4195 with SMTP id ada2fe7eead31-4cb42d3ede7mr2100655137.3.1744719597190;
-        Tue, 15 Apr 2025 05:19:57 -0700 (PDT)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c9c9738490sm2661893137.1.2025.04.15.05.19.56
+        bh=QC/bVSTrTLDwyrH3Kp+UMVUSLaX/RiyydBGd8b6z7K0=;
+        b=xUAL31J3IrQ0lCHkWCS4W1mCawemyofz4J3HDcgbY6T/aeMqI6JlLKVl8ZQtZ52bP5
+         IsD1p0sC0UYxaj/yV308V/5ICZ9vzGA+QOwo6EstQiolq0kj0E5mWv2u4aHUjQ8+IQJK
+         xXfE4SQfpNACcTfTUHK0CR21i9KbVVL7OcpZgh+WaYNRBhYKgDUPLV0pTQxTFdGEDFbt
+         noqrFUToiDAAEg6x8lFqn0zoi3AuXIfRZUU9nMp5ux6jTgW6s3V2RIGsBHNlg9ptrUV5
+         JttZy0okcBem/xhAoFsBA72hiFicSrmr8lrM+Dyl43sAhOAf5Z6fvbcI+vwUE7XeUcTV
+         F0TQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4B5jmGtOseHI88a9Y1HxhXrjXQA3/1t4VWH1kc9WpFi5ONJXIyc5tZSGGrHqK0wHFVl0q3Yh/CrG2vkzh5SZykxw=@vger.kernel.org, AJvYcCU93fFw0PvzyvpPZJGgCNXnvPvQChHtONJZdqzgTt+aqvDLhqnwOPkGGF/OaipQFV86ZUECiaB0DazB@vger.kernel.org, AJvYcCXu6Is2RRoU3eeLnmjLocf3bIBjAgaEFz2RDRCzD5Hj3DwkaL/Msnxh0EH9tdK07ufE3V4IMPlS+7rEUiYn@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+OREnVW9B/vXiE1G9jSEYv9QaDQMhNUyWZv3DdvPyn6dhZ6CV
+	SZOkV/JKvR4QEG31G+PLwrfBMSxt40UJqdkd/jFz75Z1vZ87GYEQkNd36a0J
+X-Gm-Gg: ASbGncuor1/cU7HW7092er2WBEXnqE5cVllVLfwXbhG7wwle+cOHYdYo2OjvqXmV9gp
+	Bv99Uv5BdyOC1cnkFRVZVDntUNeR3o0IGk6o55Vq8ZyA++bAZzURuIVo+kxN5b4JyNs+blzsarx
+	jWc23jxenyJhx6nZNN6MJ0xqUNdDrA7yzgOde4eu7zQLYvHeUesjEFjlS7vlmElPVIf5kyF5o3I
+	61GavB1QF0XXsQDQhA56wHTctXLz+ft5LQ+co2EbUc1d9L7RLOuXz1Ac37Rqc7iejvHTB88M27n
+	Ync11WJlUeEXzDLJbs5VDKUbJk1MKo1Z903kw6KMspMIw/Gq+lN6LzA7fZ3kdLqy/YmQL9mo8yi
+	s6Jg=
+X-Google-Smtp-Source: AGHT+IGQrk84wSBco0kjZKc8NqugR4b1UrC0xtv15LJZZWvQnmlErM6oHNrJfKe/e+5TYuXkJiWpJw==
+X-Received: by 2002:a05:6102:3308:b0:4ba:95f1:cc83 with SMTP id ada2fe7eead31-4c9e4fffa56mr10377528137.16.1744719624717;
+        Tue, 15 Apr 2025 05:20:24 -0700 (PDT)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-875572b30a1sm2621568241.31.2025.04.15.05.20.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Apr 2025 05:19:56 -0700 (PDT)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4c315dd9252so259480137.1;
-        Tue, 15 Apr 2025 05:19:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVogE36qwc3gTuUGkBQ1TowFdBUDWT2LKQOFeK/gVxbt0PgG5L5gUJe+M4OX+d5q3aXPjoE3ljZO+AXOeUl@vger.kernel.org, AJvYcCWPhJKKF4lNUR3yd6YAen9VwjgP0KFDL3yF3ocnJ2CAVX0Oo+zCzB3yt/7cRKZxRBbYYzfcQg7thTTl@vger.kernel.org, AJvYcCWs7HK6SQwtiOrn2bHzY+Un1UHUazKahJsTOJI3QiDkMcuNhCy3XKA5yrCXZSH4Gyolg1qpeqx4E3y09AUmUP+vHR8=@vger.kernel.org
-X-Received: by 2002:a05:6102:4a08:b0:4c3:69f:5be with SMTP id
- ada2fe7eead31-4cb42e70f68mr1520007137.7.1744719596714; Tue, 15 Apr 2025
- 05:19:56 -0700 (PDT)
+        Tue, 15 Apr 2025 05:20:24 -0700 (PDT)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4c300c82ca8so202442137.2;
+        Tue, 15 Apr 2025 05:20:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU8MIhlsOmwpF/v9mGhdc5Rczsebc2b60u/1Vpvp6UsQvWIavBV/6cbCrYZu8yITnrO5H/v4sFHOxNg@vger.kernel.org, AJvYcCW37p3epRHvCxgtJOPDbwxLLCCjhhi4imz6qW3zCYx7zClpUzGZpQeprBzjLwpJnwcZ/Kg9nctSRatbKYlB@vger.kernel.org, AJvYcCWsOrXz9UQAyt6nE1R6SwlnufKwatPMRPHP2pw4iwv4jiZEVbt/vxu3KnGKowWnBMPjsVKnN2xqv3TiIcynx1KIl3A=@vger.kernel.org
+X-Received: by 2002:a05:6102:4407:b0:4c8:55b8:6fad with SMTP id
+ ada2fe7eead31-4c9e5003037mr10374057137.17.1744719623874; Tue, 15 Apr 2025
+ 05:20:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250329121258.172099-1-john.madieu.xa@bp.renesas.com> <20250329121258.172099-2-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20250329121258.172099-2-john.madieu.xa@bp.renesas.com>
+References: <20250329121258.172099-1-john.madieu.xa@bp.renesas.com> <20250329121258.172099-3-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20250329121258.172099-3-john.madieu.xa@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 15 Apr 2025 14:19:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXKXbsy25c4287aOCtiJ8PzMu7xqPhfrSu+_UGaxLiWPQ@mail.gmail.com>
-X-Gm-Features: ATxdqUExH8rYrWVwACLU5pkYzEfWeUqbdV3fTVfBtp2jaIn_s3Yrc7HUmpuWcBA
-Message-ID: <CAMuHMdXKXbsy25c4287aOCtiJ8PzMu7xqPhfrSu+_UGaxLiWPQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: rzg3e-smarc-som: Add I2C2 device pincontrol
+Date: Tue, 15 Apr 2025 14:20:11 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWTU_=WS4Z2eczA8BSZjio6cAMKrzrOHZ-O9sfxX6+byQ@mail.gmail.com>
+X-Gm-Features: ATxdqUGWVaybAEbIQyupuLn0ffcz3brcbnux64U0tWfBCvQZqrPYP3p0tpJR0YU
+Message-ID: <CAMuHMdWTU_=WS4Z2eczA8BSZjio6cAMKrzrOHZ-O9sfxX6+byQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: rzg3e-smarc-som: add raa215300
+ pmic support
 To: John Madieu <john.madieu.xa@bp.renesas.com>
 Cc: conor+dt@kernel.org, krzk+dt@kernel.org, magnus.damm@gmail.com, 
 	robh@kernel.org, biju.das.jz@bp.renesas.com, devicetree@vger.kernel.org, 
@@ -87,9 +88,8 @@ Cc: conor+dt@kernel.org, krzk+dt@kernel.org, magnus.damm@gmail.com,
 Content-Type: text/plain; charset="UTF-8"
 
 On Sat, 29 Mar 2025 at 13:13, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> Add device node for i2c2 pincontrol. Also enable i2c2 device node on dtsi
-> with 1MHz clock frequency as it is connected to PMIC raa215300 on RZ/G3E
-> SoM.
+> Enable raa215300 pmic and built-in rtc support on RZ/G3E SoM module
+> Also add related clock and interrupt signals.
 >
 > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
