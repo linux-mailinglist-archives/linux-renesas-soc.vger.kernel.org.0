@@ -1,267 +1,269 @@
-Return-Path: <linux-renesas-soc+bounces-15978-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15979-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F006A89719
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 10:50:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC62A89732
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 10:55:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11D5116BB13
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 08:50:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DCAB617E35A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 08:55:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 477E421859F;
-	Tue, 15 Apr 2025 08:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9AA827510F;
+	Tue, 15 Apr 2025 08:54:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="V1X7Pl44";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="HrjJPifU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3kvwCzC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678371DE4CE;
-	Tue, 15 Apr 2025 08:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744707037; cv=fail; b=b9rsQv+jm+sbFHPUQ5YylhhCKtT03TqwsjnH+MBk52F3lTWfJ2pDECACm1T84ivqLNJn1nValUUKVN+K3HeryQV8ssu1z/nYU3NvJ7jsmXVaPk1dPV+hkiJqFvPN84leDjmB862YfqiAfJ7qabcBwhp+Bm9Zil2rFhiOn1VC6CY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744707037; c=relaxed/simple;
-	bh=8iTfNKxcAZxQSe2FMUQxDCyo+m2LC1WFCmNKHUoxEWw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=GfI6vHxoTE8R0cBtFZuh66YYTeHHki5SbgihUF+PdprCBDXJEeonoN/h8QHYrr7mQ6QI03FLODTPCOKl06xcj3AZxRsILBXESMYcWCzkoIIe8+kzoNXqhbfif5enlsL2xjcq6X54f2yNpoxUgUe4rR0RVhpNRkPSStRsTI2pKfc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=V1X7Pl44; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=HrjJPifU; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53F6fotK032430;
-	Tue, 15 Apr 2025 08:50:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=HSjePUF+lUvEFtAf2AhfGZib87mKkmS2A4PQh8BqJSI=; b=
-	V1X7Pl44SeTNP8bzSKrqjTHtrPOGMjxA0sM/mOEY+TPwI2iYXjsWkTzl8mR4MPxJ
-	yy8w1YJXIOB9Ao3XQfuxLI5bs0uaTWvRIVMYX/6EhT6iVPzaUXUiUXp1JQ5aoi/P
-	dU60uX8yAzPTztnqZx8xgeAGo9ia5bzBThJ9+1ylzz//L02tIMIp6qe7wXk0rE3/
-	p+rguEi1D0IrcQTH0Hm9ohuZ7ctA7MvoH3DdCJwx8NxukbLxkkAKstlVwH7lV28L
-	Q2YVKpZoDCsVrzKFrg+Kvf0YM6H80bQ7AY1yM0W4emQAEubr+AeggecKL/6gxeAh
-	snPcSZcXb5pcVVcORjTIgQ==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4617ju99d5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Apr 2025 08:50:15 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 53F7AT2h008553;
-	Tue, 15 Apr 2025 08:50:15 GMT
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazlp17010002.outbound.protection.outlook.com [40.93.1.2])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 460d2pq1mn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Apr 2025 08:50:15 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=raJKUvIXcBCSanV7SXqVOZFOTFrA89+VuTIwOEE0FTsUasGLbes/kBot5+t8DN9OvoTXMq19p+978n2oCnmt4YbN9ZCmvrbGfNky44LWGfsD22eAsDeyw+JYynB1+Ff6ryXs8P7fOJX3440XbZ42V62w3oCz4UE486wVrVjEqZises7yPUhlLj8I5XAYOKGdyRBSU8WQaGinSrf8OZsz/3rt5LSJASHostXQu5zZrd+E1snUrfg5UAM/0ywEtF4/BLAsNGWH3VVYTqyVf/+rLOJqYqWu6gkzum1WICBGXxPv5sfHXbcc+0UZHbkSzh+yNRYK38t+UpA8yRhXmmsDHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HSjePUF+lUvEFtAf2AhfGZib87mKkmS2A4PQh8BqJSI=;
- b=jSQ/jNtWFmZRTLVdd8vTYX6pQGBdomXSXuba6bZMSUwR9ClnytOsn1iDshGXu3KBZRCk3HQH0Yq9OexJL9QMetO5s2FSA4D78A6KulgTWtPOHfjxP5buX4yX9R2xyq9kbau2nO43Q8vKFQCeHo18tlR6rVh+CQ9UYBaP8iJP5WpHPzY+k/TagolymglAaDBQc9hWWxWzfn7G2zNizF1FF3jpkrPcmaYZMs7awybWjiR5dbJeS3u7Xe/EOJn6CWq5kSQqsS6jmMTwznqYob5GuC2w7rAKdA6TxFWFBIyAJc92W4HXDWqGUg70PFyv1pHRz+ao34nQ8bheBc5C1WDFLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0452C218EB7;
+	Tue, 15 Apr 2025 08:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744707299; cv=none; b=IfoF7a92FS1MU6e6KKQkkCZnnm1gN8TscZrCe9aVq+KxXy5n0uTVSRXbaF3F+w4p1P0KpWU7p43rx4o6W2EpzSknmlGSJRz01dMVNK1Qv8R6qMpQhr3ClXsNQjXeuY+EZWezTFKXOionDM4/wVbbtpPxmFZGKHSoiHdN/F1X+n4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744707299; c=relaxed/simple;
+	bh=wzQBQF8ORyj2oXWzu8VNoj3nCal7Tdwr8tyZz8abvSc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JXqUER9ox6nGkT3lxeEWqp6j8FTR67/VaqXFiJnWOjh1cl0eR37lECbhkWZZecmDQqWDDLtoF31wJmcv0kO88nhzrb23okSRsNF3LMo0ifGNXUyHg4nud4L5CWrTbbRi5DEEDdWpX7e1b2J/yzTbx5FG8ZdbkfpyMNJyEhmyDDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3kvwCzC; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3914bc3e01aso2915934f8f.2;
+        Tue, 15 Apr 2025 01:54:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HSjePUF+lUvEFtAf2AhfGZib87mKkmS2A4PQh8BqJSI=;
- b=HrjJPifUtc0q96afPTIFwRvYsuwNecjDMP9WCXO2oZ6OS3HUNQ1jPAxLrcbw4l5U7RaZ8eiNSbISl+Z52XfCJ5E1ida7BHs6txHtWMEe1Pth23jLhb726Qsk9mE2Ybp1CU/pIp4a+Xvxutvbvmy7a4kPe3RncOw3DF7yt18Px1o=
-Received: from DS7PR10MB5328.namprd10.prod.outlook.com (2603:10b6:5:3a6::12)
- by MW4PR10MB6369.namprd10.prod.outlook.com (2603:10b6:303:1ec::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.31; Tue, 15 Apr
- 2025 08:50:12 +0000
-Received: from DS7PR10MB5328.namprd10.prod.outlook.com
- ([fe80::ea13:c6c1:9956:b29c]) by DS7PR10MB5328.namprd10.prod.outlook.com
- ([fe80::ea13:c6c1:9956:b29c%6]) with mapi id 15.20.8632.035; Tue, 15 Apr 2025
- 08:50:12 +0000
-Message-ID: <aedc9fed-ba6c-4e22-9641-53ff0df8cb06@oracle.com>
-Date: Tue, 15 Apr 2025 14:20:03 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/10] ASoC: renesas: add MSIOF sound support
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>
-Cc: devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
-References: <87zfgi1a5a.wl-kuninori.morimoto.gx@renesas.com>
- <87plhe1a3f.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: ALOK TIWARI <alok.a.tiwari@oracle.com>
-In-Reply-To: <87plhe1a3f.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR01CA0049.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::13) To DS7PR10MB5328.namprd10.prod.outlook.com
- (2603:10b6:5:3a6::12)
+        d=gmail.com; s=20230601; t=1744707296; x=1745312096; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mpPFETAdK6pHR99uQ7hWDbkrbXB15kaJorbk1ppPEHs=;
+        b=h3kvwCzCzFB9szTcWqONGwm+UPNuFSld5fIAiWoLEUD6C6ZuPQO998nGjrgfrMKeWA
+         3TYcRLQdCdGyGJcOVYYpnV+ULyVmgSBM4Avip5n1//s+Bk1nW6BGDUJf0IG020aSj2Q/
+         Gg0UQtFNyF0UxtEsBSMqaM+6lfR3eZn3J23YGahXiR4vh2Zyf/UqRJURuKHPZ7MH2pOl
+         zEzO1OkmyXx/BkzJBbJPnKX1P93b3x3pCxE9CF8jsA4V97DF5VepOBwjVkM0gDilwhGC
+         dubOmJQe0dhcOUKsoDdq3o83gvkRPSnmtLb+K/974LaT9+5jSyrrezDC69XQbsDEd9p4
+         mlzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744707296; x=1745312096;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mpPFETAdK6pHR99uQ7hWDbkrbXB15kaJorbk1ppPEHs=;
+        b=d6mJ1+QcLXvBoaR556JoUwKONO/AVTlFf2BFKZteKEhCvBgRrNs1ptiTyqo9D7E9gu
+         EOX8JHes55KAVvYbdPOv2qzMn6CaWzgfIURcynRy5eMLwjVijtie1394+IEXsy1VvgtK
+         d5gB4enz5gWATBU0cmiyRaFikA6lftbUR7uTy2XdYdcLUwL4QtKaIcoUXCxXd+T5Y8bW
+         X1Zsz7/Rg06yprNGkf8IsMtR1l3iBiGUiWD9/Awv9mivHAJO4FYaNtHdUfr05ZONwKyu
+         cpkWly5omn3LUJFj5kjq67dXNxVFBMA25d3gytSZydKUPq1hrgT/CBESdNc79N7F+7zj
+         nSyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX16yCglgiPlHKZA18i4zqFbuly3UqPS94dSwZcccdCMoE5iuDn7Dqps1Wy4qFu/e3ZpWw/sxEuZlmwRu9a+3qS/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFB64M6IsN0eABdyMm9VVbXSQt3vTReOgeGzYftEOR3gW4rOR4
+	f1hgQY8H7IDfAUA8/oDXAR9gWK/ycEhaFyShzQ/AsIbWdUrjVzgP
+X-Gm-Gg: ASbGncsC5rGDjL69Wm4oRYzCQmPsd9ZsZorWO5fqpd/6cCGte1enzXsWqS1BFR282MH
+	l4RRsvEZEwmxf/K65Rvc2IOKR6zgXmJ653ps714rfGOhPa2fEwxhv/+4yPlwCq8jZi24cw+FmPI
+	tk8a6p4FxavzmhRFyl7Eh1TLlVzkz4+3cZohAGcUTEaq6M5MjXFRTBXjYIFZLcQj6iK3y6gY4IQ
+	lowhtPdVaRUKOWaGeCdLcP0JcIXq0FK7ZGeKQUMjAjg8c2p5aaVk0txwa7NWFUG/+eG90Soajrc
+	20vPDCt3529Kvg8A5Gosk6Ci0PtkSazlazj2t9n+Bnw/AmD8nQyJXNO970tLZj5D
+X-Google-Smtp-Source: AGHT+IEY2B0zKtG6n2kdgsEnmJbc+t3/tvuPnGH7qJxdHPJ8tey1b6eY11+by9OyjwHzdUc3c+fNVg==
+X-Received: by 2002:a05:6000:1a88:b0:391:3cb7:d441 with SMTP id ffacd0b85a97d-39ea5212b03mr13391512f8f.25.1744707295918;
+        Tue, 15 Apr 2025 01:54:55 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:1883:aa4:a265:bc12])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae9797aasm13616001f8f.56.2025.04.15.01.54.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Apr 2025 01:54:55 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3] soc: renesas: sysc: Add SoC identification for RZ/V2N SoC
+Date: Tue, 15 Apr 2025 09:54:38 +0100
+Message-ID: <20250415085438.83856-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR10MB5328:EE_|MW4PR10MB6369:EE_
-X-MS-Office365-Filtering-Correlation-Id: 232bc625-525d-466c-f727-08dd7bfa8863
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?YkF1V3M5Ty9DWHRHTEFMZVZVU3hoc1FqK3AvRkc5dHBpVGcxZGQvUkMwanQ1?=
- =?utf-8?B?cFh3K1pkMUxmemZyNUVZazZUTlRyNklkTWVJOVp1cml1UDZ6WjNUVXRhZURK?=
- =?utf-8?B?bHZOd3dyam5OU1pScE5MU3VGSGt6d2wwenFqRWtBZjBQU1dhcTlPUUtaSVlU?=
- =?utf-8?B?ZEhlZ2llbEtrUER4MnRSRzdNbG9oaUMzMHFrdk9qd2l4WEtIOHE0bzR0Y0FR?=
- =?utf-8?B?QUxyZXlnMWZQOHk3V1piS3JUZTBESDIvWTRldEFNWUNmS0l0TmFIZVBVUVZE?=
- =?utf-8?B?dm5kMnNOeGFXUzJEZVM0b2dGMTVzeVhneHhOQWc3S1ZJUVY3ckllaDZCNEp3?=
- =?utf-8?B?amtyUTlrOGNYZWFaVU1ya3JiTzlJcWs0RGxjcEwyblc3TWdxYmJ6UTI4Y0Ji?=
- =?utf-8?B?ZE9kQkF1R25PQjZxTjZmd1pnc0lIMVRua3R2b3ZCSHV0UU11WFJZS3IwT0RN?=
- =?utf-8?B?SjF0dzJFMlpMVWpzSzA0dTV0Rjg1MVJqdy9mWDMzV01lMGVrNnlzdm5hVGxH?=
- =?utf-8?B?bTB5YS9KVXZ3SVFjRmNQaUhRTXZDVUpmQ1IxUG9aVVFCdDQxZEZjZnpiMFpo?=
- =?utf-8?B?QmJhWEVGb0VXc3ZjdjNmMW5NWTBuVDd4ZzhsWWEzOEp1bmU4dmFOMUpHbjhk?=
- =?utf-8?B?VXo5ZURNbURTTGNPb2VLNHJZd0RiZnJaYm5DVXZnYkVqWG1qaWhVdnM3RXVk?=
- =?utf-8?B?VE1aeXVuTSs3RUxieUd4aUlObW5tM3pSWW40eXUyRFBJcVZKbGoyOW1oTnpV?=
- =?utf-8?B?ZTBzU0pvWHpqYkgrS09iZC9YSko3WHUxdmFKVm5SV3E2ZG9oNVlkMzFSNisz?=
- =?utf-8?B?ZE1XM25EVDlaL2dUMmpUcXcwZDVrMldQN2tpbTFmMjVBb1FaaEJDajJaa2Ns?=
- =?utf-8?B?NEs5MGkzR1BhZGVvZExGcmFPZmViL1Rrb2kxbTA5UnYrTTh4a2ZWNFZRcEoy?=
- =?utf-8?B?WHR1MDdHUHkrcWNLUE5vNFVtMlZBZ1RxZEdaTXdKTElDYVJsUXh3c3UvRkYy?=
- =?utf-8?B?cTdtQ3VGQTJ4ZTR6VFZOOVhsaE96eDFhemR4VU91Rnk5WExuQWxSS3dYamJx?=
- =?utf-8?B?cjdsVFd4ZnI5SjFqYk9OZTdSdUZWM3NBcmIvQm9FcDhqMUxLOE5LY0Y3bDR5?=
- =?utf-8?B?TDZLQ2VZbzhET1B4VVU5aWVmeWVvMXIwY2RLdktONS9OMTlkT3hWUjVJTE4z?=
- =?utf-8?B?UThaSUJmZEtLbHN0R1RESE1ldUkxM0NiYS9ubVF3WU9BMkkwNFh3aXBoM3BY?=
- =?utf-8?B?VklvNTJMS2ZPRVd0QlJHZjUvVVNyc2xxbmhiNmxGYmErRk1YQm15eDIyWHBO?=
- =?utf-8?B?TVFGMDdUT2dPdE5US1ZERC95NDBiVWw4bFRJd2dHblFFWGE3NEhaaC9VNlhD?=
- =?utf-8?B?a3NwVVhNOEpFdUI2RkNXMEYrMWM3NS9UM09ZUExKNTdYcGV5RHRtU3I2N2Fk?=
- =?utf-8?B?Q1RXcngzQlBHYmdzVS9PSERRMCtncThhUXp4dlBKeXBydUxOZkdwTk4wUXNL?=
- =?utf-8?B?N1FaQlBrNCtGODV4WlVGSVB1dWRiVWdpVWFOS0lYMWRyeEpueWJkb2hsMm5R?=
- =?utf-8?B?WEtBazNiUGMwSlhDenJDNmtwOUlVODNwUUFyU0VFakhiNlZ4c1JqT1pRd0Jy?=
- =?utf-8?B?cXFxNlMreUJ3OE5zNklzSS9RU0o5eUw0Z3RodFNRUmQ5ZUxGOTFUTXZKYVNl?=
- =?utf-8?B?M01oKzVJY3p3MWRqUmVnWFhZdVVINVpmRFd6NXZkSGJtWWFPZnNMY29GMWhn?=
- =?utf-8?B?aUUxeWRJbGFRVG1yRjczak05ZHRoaHpmU3F4bjQ2U2lZdzRqaTV4a2Z0WGFq?=
- =?utf-8?B?SG9aVG4xa2ZUTjI4YXA5RVBpQTZkZjZ0REtDWkdGWW1jSUo4MERVcldvSElx?=
- =?utf-8?B?TkhRNnVwbmprRHl1dWVDaU5tanZyNkJwZE9KenRvZTZXVjZQR0Y0Rko5WHl5?=
- =?utf-8?B?NWdxTkVOZE5aM3VmdURqMmZ3aVIxaTBocHI2UGJlVmg4Y1YzdnIraE10S3BM?=
- =?utf-8?B?aGVwcWV0NnRBPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR10MB5328.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SVQvNmRoWUJ4WUE4MUdLek5Zak1WbmtJbm13VXpzTGtnNXQ4bGxqOWQ2Sm9L?=
- =?utf-8?B?RFV0N09IZ1pwRWF5OHI4TFh5dGRhZ0pMcmhsUkRqMkZhOFF1aDdnK0RCNmZD?=
- =?utf-8?B?RnpncGtxWWhaQnNLL3BqSHQxck4wQkMzMHBINDhrZk1lZnQ2Tm9GYkd2cmdH?=
- =?utf-8?B?cEdleTRJdjhjRmtIMDFIY3A1cjhtYSttUnNWR2lOTUVQKzVNUmt1SlNCSXVW?=
- =?utf-8?B?Q2Nvd0hCWm5rc21QSkxVV1dPSjVTejBTRmxtSGhwOW1pVm9veTZ2ejY0SlpG?=
- =?utf-8?B?WWIrUndJSm02aklUT0FxU0drYkV0WjBScVZSUStlQkhyKzBXR3dCUnA1TTJu?=
- =?utf-8?B?U2d6aWhtMG95S0d2ZkcrSVhXTUJZbnBZQlg1RmozK0lHcXpXWHplQS9TZWhY?=
- =?utf-8?B?a21vY2ZtSEFzdVNOMFlUU3hmZXllc2NzcHN0V21nTVFzOFFyY3lHTzNIaFJt?=
- =?utf-8?B?dlJrZUswcU9rWU5hbW1GYUkrWWN3QkJFa2dxbWhOV1Q0cW9hTk1NOStmdXhk?=
- =?utf-8?B?Y0pKbzFHdGd3ckV3TWYwODdIZjNTUUpaRlU5THJSZW9vRGUwSFNOalVESk0r?=
- =?utf-8?B?eEx3ZTJFdk4zMktzamxvclc3OCtJZ2NPNVVIWWFXTG9tUjNXL04vMmtOMG4z?=
- =?utf-8?B?OW16eUhWc0VGWGN5OW1hRXEzT1BkMzFXUGppZEJWZ2lGZmdZanZUWktqRTdV?=
- =?utf-8?B?bVdvTWQxK2VSYUFYdHk2U3VydW90ck5xTDFKcHRaeGc4VlJ0M0dhbXhSY2FG?=
- =?utf-8?B?a3hGSGMxQytCdjhxNENUdDZqT3BZbmV4NFE4ODJxRzBYNlgyb2xub3RNKzdo?=
- =?utf-8?B?a0dzc2xGN0tPbm9YbFp0Z1hRaXdEd3VsWUdTMkpyQTY0ODBUQlZaN3NnbjVC?=
- =?utf-8?B?V2ZySGdKZTBLRG9xRWV5VzI3OUtDMmFxaTNvdW5JRy9Nc0kzQkwxMEtBWnlW?=
- =?utf-8?B?M2sxWjkwMGs4aHVwVFErb3hzWXl6dW8vakxIMk1OTjIwWHNwSjBDWVIvM2Vh?=
- =?utf-8?B?ZUhiUEFkRzRxSkI4ZmxqcUJ6WnE4aGhmRWI0Qlc0dUQ2VkVZVXRPZmJpYTRJ?=
- =?utf-8?B?MXZ1TGZkMFh4OUQ2bk1WdEl6VmNEeFJYcjNGTGhQb3hLcHBMYUtMMnhUNDNP?=
- =?utf-8?B?Z0czK0FzZVhnc1Q1NmlhYVN1Ykw4YnZ1NFhuaTBXSnNXN0RNY1BQZTZPcmFm?=
- =?utf-8?B?YU0xTXF3YUV1b1JMaExlS1RPT2J3Nm5IOFJsRzhaU1ZpbEl6WWR4bEdHRXBU?=
- =?utf-8?B?R29xLy94NU1HUzB1aE51bkdKRkxYb25aQkIxWUhQSjNOVXBuZG5ENHI1R0ow?=
- =?utf-8?B?WElFclpSTGRxWHJGSFFBQWl4WFRpdXM1dUdBUHY4RHFvZm1JRE1nQy96dy84?=
- =?utf-8?B?SnNoMjkwNzZ5R09hYjVKYU1XY29uOHNyTkxzSlZ0alNTd0E1UDlwUnZSbklv?=
- =?utf-8?B?anBTbHVGb0NPN0VhWk9TaGxBNFQzN3ZGa29HUGMwTENxd0FLMEh2UTI5ZlFJ?=
- =?utf-8?B?SGhPT1MvcjFDOC83LzJlQ0JhS2RUc2ZRZlhTaDVJNlgyb1psVk9rcHhzQlRR?=
- =?utf-8?B?R0VsZ3N4T0xEL2tITGRaUGZUcEFQMURjRTJDUmNYdyt5bzBJUkFsVUFKcDRt?=
- =?utf-8?B?S1A3YXZHS0dNQ2ladVhuS3I5Y1Znc21MUjNYM1NXVVovaUZ3NVN3dWlDNUhU?=
- =?utf-8?B?SDF2emZycEZlU1JObFBNbmNjVks3M1F0a3U5WWU4dERDU1RTKzN2aU43ZmEz?=
- =?utf-8?B?OHJPRGpXdHl6akZ2U0VQOW5BMTdsbHRBSWJGakw3Y2lEME8yeWthdmgxaFhx?=
- =?utf-8?B?SURWWFJTdk92THdPS0hyaytyYmY0U2JxaXN3SUdsOE92SG9ia0R0TUJsOWVW?=
- =?utf-8?B?NTg2ZGNSdTB5bGp6dzZ4OHUxTlNpbnRXUUYxZ2hQRytYYmxma0tYR2NlSlMz?=
- =?utf-8?B?RHJCS2pMSXpKdzJ2MWtFekNmYk5yZHFiUi84YnE1YXh3ck5lcWU4MUIzRHRC?=
- =?utf-8?B?VWJueGdRUUxSVjBmczhmb3ZMeXpXaVg1SHNUM0IrVFluTWZFdHN5UEIyelF1?=
- =?utf-8?B?cWExTjhzVUYzMXFFdHE1MHFxNG5oYUM1MjgwOWlHaFhLU05mcFBmU0NPWjNC?=
- =?utf-8?Q?afXsunJqqE21GMqRYXzIIOp3Z?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	9XHtz3b0nuOBgtUjL1L1wW3aTZNR9ySOqGSKfPeTn+jY14bFY5bXY4yvU5Of5pfXzPbKgVC+aS+ZK6SgkZ3zBBj0BFh5ZtSJsAk49Zi2qz4jb/C+fZ7kLbWuN9nexqxfT9Y8tAx1Ck4aQRKsys2z0/AtNWNoxfrnkooaz+qNLDEQ0076nEKEUCTo5T7asjlOSUVO9/Npnn1FlptowhT3zb5l3ZFrF445ymZSHPrAaGfYaJMkv8otqXhyfdPLKbPr7Scml9NS48On5eD6C3CiootkEE+vdMb/9FhuUeHoVfdCpszStYBt+DmB3Nc100KOhRZcGADybkyonzASKyTV8uYniLvui4pummSGNQOjq4DwTRVII/oN92e9f8JFjaKv8qzf9aFynErjWaoRoKG/hg/XfGpypE6QE0NQY2lLQ7pfxFSOimQsRIbkCz4phCIt/rVYLCfhPMS80vkAf+Bkyai/p/XPtYLXB9MGGWMI2z5/hpOOjVYRsdLceSlyDLGvN1SqopvZJtA8zs4SADzKokcRf1keXhm4yw/xxUh2HNER2FRzCnzlpugV6hv/OtOaFN5mDSXLxQHs5sG0fHfokn4+dW/wKEae9xaVZLtAGw4=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 232bc625-525d-466c-f727-08dd7bfa8863
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB5328.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2025 08:50:12.0164
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NZO9ooeGSpf9ZzKU2vXMuk5goJWniF8zsOGDXt/Ffsi0SpnAV53113wXCxzpVMptlsSSqwA+++HxXXJEw5TLb1TqdiXTp0UMOXxyems83n0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB6369
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-15_04,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
- phishscore=0 bulkscore=0 suspectscore=0 mlxscore=0 mlxlogscore=854
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2502280000 definitions=main-2504150060
-X-Proofpoint-GUID: WoQU3CO6J0_72FRl7covpokqycTSAx-X
-X-Proofpoint-ORIG-GUID: WoQU3CO6J0_72FRl7covpokqycTSAx-X
+Content-Transfer-Encoding: 8bit
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Morimoto-san,
+Add SoC identification for the RZ/V2N SoC using the System Controller
+(SYS) block.
 
-Thanks for your patch!
-Sorry, I did not ask you earlier.
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+Hi All,
+This patch is from series [0]. Since most of the patches have already
+been queued, I'm sending this one separately.
 
+[0] https://lore.kernel.org/all/20250407191628.323613-5-prabhakar.mahadev-lad.rj@bp.renesas.com/
+Cheers, Prabhakar
 
-On 15-04-2025 07:04, Kuninori Morimoto wrote:
-> +	/* Check MSIOF as Sound mode or SPI mode */
-> +	struct device_node *port __free(device_node) = of_graph_get_next_port(dev->of_node, NULL);
-> +	if (!port)
-> +		return -ENODEV;
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	if (!res)
-> +		return -ENODEV;
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq <= 0)
-> +		return -ENODEV;
+v2->v3:
+- Updated dev_info message to include the SoC revision and feature flags.
+- Dropped `<linux/string.h>` include.
+v1->v2:
+- No changes in the code.
+---
+ drivers/soc/renesas/Kconfig         |  5 ++
+ drivers/soc/renesas/Makefile        |  1 +
+ drivers/soc/renesas/r9a09g056-sys.c | 77 +++++++++++++++++++++++++++++
+ drivers/soc/renesas/rz-sysc.c       |  3 ++
+ drivers/soc/renesas/rz-sysc.h       |  1 +
+ 5 files changed, 87 insertions(+)
+ create mode 100644 drivers/soc/renesas/r9a09g056-sys.c
 
-nit: -EINVAL will be more relevant here
+diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+index f02b8fe60e6b..fbc3b69d21a7 100644
+--- a/drivers/soc/renesas/Kconfig
++++ b/drivers/soc/renesas/Kconfig
+@@ -396,6 +396,7 @@ config ARCH_R9A09G047
+ config ARCH_R9A09G056
+ 	bool "ARM64 Platform support for RZ/V2N"
+ 	default y if ARCH_RENESAS
++	select SYS_R9A09G056
+ 	help
+ 	  This enables support for the Renesas RZ/V2N SoC variants.
+ 
+@@ -445,6 +446,10 @@ config SYS_R9A09G047
+ 	bool "Renesas RZ/G3E System controller support" if COMPILE_TEST
+ 	select SYSC_RZ
+ 
++config SYS_R9A09G056
++	bool "Renesas RZ/V2N System controller support" if COMPILE_TEST
++	select SYSC_RZ
++
+ config SYS_R9A09G057
+ 	bool "Renesas RZ/V2H System controller support" if COMPILE_TEST
+ 	select SYSC_RZ
+diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
+index 81d4c5726e4c..3bdcc6a395d5 100644
+--- a/drivers/soc/renesas/Makefile
++++ b/drivers/soc/renesas/Makefile
+@@ -8,6 +8,7 @@ obj-$(CONFIG_ARCH_R9A06G032)	+= r9a06g032-smp.o
+ endif
+ obj-$(CONFIG_SYSC_R9A08G045)	+= r9a08g045-sysc.o
+ obj-$(CONFIG_SYS_R9A09G047)	+= r9a09g047-sys.o
++obj-$(CONFIG_SYS_R9A09G056)	+= r9a09g056-sys.o
+ obj-$(CONFIG_SYS_R9A09G057)	+= r9a09g057-sys.o
+ 
+ # Family
+diff --git a/drivers/soc/renesas/r9a09g056-sys.c b/drivers/soc/renesas/r9a09g056-sys.c
+new file mode 100644
+index 000000000000..1b7185db929d
+--- /dev/null
++++ b/drivers/soc/renesas/r9a09g056-sys.c
+@@ -0,0 +1,77 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * RZ/V2N System controller (SYS) driver
++ *
++ * Copyright (C) 2025 Renesas Electronics Corp.
++ */
++
++#include <linux/bitfield.h>
++#include <linux/bits.h>
++#include <linux/device.h>
++#include <linux/init.h>
++#include <linux/io.h>
++
++#include "rz-sysc.h"
++
++/* Register Offsets */
++#define SYS_LSI_MODE		0x300
++#define SYS_LSI_MODE_SEC_EN	BIT(16)
++/*
++ * BOOTPLLCA[1:0]
++ *	    [0,0] => 1.1GHZ
++ *	    [0,1] => 1.5GHZ
++ *	    [1,0] => 1.6GHZ
++ *	    [1,1] => 1.7GHZ
++ */
++#define SYS_LSI_MODE_STAT_BOOTPLLCA55	GENMASK(12, 11)
++#define SYS_LSI_MODE_CA55_1_7GHZ	0x3
++
++#define SYS_LSI_PRR			0x308
++#define SYS_LSI_PRR_GPU_DIS		BIT(0)
++#define SYS_LSI_PRR_ISP_DIS		BIT(4)
++
++#define SYS_RZV2N_FEATURE_G31		BIT(0)
++#define SYS_RZV2N_FEATURE_C55		BIT(1)
++#define SYS_RZV2N_FEATURE_SEC		BIT(2)
++
++static void rzv2n_sys_print_id(struct device *dev,
++			       void __iomem *sysc_base,
++			       struct soc_device_attribute *soc_dev_attr)
++{
++	unsigned int part_number;
++	u32 prr_val, mode_val;
++	u8 feature_flags;
++
++	prr_val = readl(sysc_base + SYS_LSI_PRR);
++	mode_val = readl(sysc_base + SYS_LSI_MODE);
++
++	/* Check GPU, ISP and Cryptographic configuration */
++	feature_flags = !(prr_val & SYS_LSI_PRR_GPU_DIS) ? SYS_RZV2N_FEATURE_G31 : 0;
++	feature_flags |= !(prr_val & SYS_LSI_PRR_ISP_DIS) ? SYS_RZV2N_FEATURE_C55 : 0;
++	feature_flags |= (mode_val & SYS_LSI_MODE_SEC_EN) ? SYS_RZV2N_FEATURE_SEC : 0;
++
++	part_number = 41 + feature_flags;
++
++	dev_info(dev, "Detected Renesas %s %sn%d Rev %s%s%s%s%s\n", soc_dev_attr->family,
++		 soc_dev_attr->soc_id, part_number, soc_dev_attr->revision, feature_flags ?
++		 " with" : "", feature_flags & SYS_RZV2N_FEATURE_G31 ? " GE3D (Mali-G31)" : "",
++		 feature_flags & SYS_RZV2N_FEATURE_SEC ? " Cryptographic engine" : "",
++		 feature_flags & SYS_RZV2N_FEATURE_C55 ? " ISP (Mali-C55)" : "");
++
++	/* Check CA55 PLL configuration */
++	if (FIELD_GET(SYS_LSI_MODE_STAT_BOOTPLLCA55, mode_val) != SYS_LSI_MODE_CA55_1_7GHZ)
++		dev_warn(dev, "CA55 PLL is not set to 1.7GHz\n");
++}
++
++static const struct rz_sysc_soc_id_init_data rzv2n_sys_soc_id_init_data __initconst = {
++	.family = "RZ/V2N",
++	.id = 0x867d447,
++	.devid_offset = 0x304,
++	.revision_mask = GENMASK(31, 28),
++	.specific_id_mask = GENMASK(27, 0),
++	.print_id = rzv2n_sys_print_id,
++};
++
++const struct rz_sysc_init_data rzv2n_sys_init_data = {
++	.soc_id_init_data = &rzv2n_sys_soc_id_init_data,
++};
+diff --git a/drivers/soc/renesas/rz-sysc.c b/drivers/soc/renesas/rz-sysc.c
+index 14db508f669f..ffa65fb4dade 100644
+--- a/drivers/soc/renesas/rz-sysc.c
++++ b/drivers/soc/renesas/rz-sysc.c
+@@ -88,6 +88,9 @@ static const struct of_device_id rz_sysc_match[] = {
+ #ifdef CONFIG_SYS_R9A09G047
+ 	{ .compatible = "renesas,r9a09g047-sys", .data = &rzg3e_sys_init_data },
+ #endif
++#ifdef CONFIG_SYS_R9A09G056
++	{ .compatible = "renesas,r9a09g056-sys", .data = &rzv2n_sys_init_data },
++#endif
+ #ifdef CONFIG_SYS_R9A09G057
+ 	{ .compatible = "renesas,r9a09g057-sys", .data = &rzv2h_sys_init_data },
+ #endif
+diff --git a/drivers/soc/renesas/rz-sysc.h b/drivers/soc/renesas/rz-sysc.h
+index aa83948c5117..56bc047a1bff 100644
+--- a/drivers/soc/renesas/rz-sysc.h
++++ b/drivers/soc/renesas/rz-sysc.h
+@@ -42,5 +42,6 @@ struct rz_sysc_init_data {
+ extern const struct rz_sysc_init_data rzg3e_sys_init_data;
+ extern const struct rz_sysc_init_data rzg3s_sysc_init_data;
+ extern const struct rz_sysc_init_data rzv2h_sys_init_data;
++extern const struct rz_sysc_init_data rzv2n_sys_init_data;
+ 
+ #endif /* __SOC_RENESAS_RZ_SYSC_H__ */
+-- 
+2.49.0
 
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENODEV;
-
-nit: not sure why -ENOMEM not return
-
-> +
-> +	priv->base = devm_ioremap_resource(dev, res);
-> +	if (IS_ERR(priv->base))
-> +		return PTR_ERR(priv->base);
-> +
-> +	ret = devm_request_irq(dev, irq, msiof_interrupt, 0, dev_name(dev), priv);
-> +	if (ret)
-> +		return ret;
-> +
-> +	priv->dev	= dev;
-> +	priv->phy_addr	= res->start;
-> +
-> +	spin_lock_init(&priv->lock);
-> +	platform_set_drvdata(pdev, priv);
-
-
-Thanks,
-Alok
 
