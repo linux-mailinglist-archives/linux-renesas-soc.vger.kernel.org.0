@@ -1,135 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-15976-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-15977-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A67A8969D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 10:30:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25511A896B4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 10:32:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 942AC16E19C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 08:30:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E87D176F8B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 08:32:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB4BB289341;
-	Tue, 15 Apr 2025 08:27:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 756B228F93B;
+	Tue, 15 Apr 2025 08:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="avoJCGzO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AC8275108;
-	Tue, 15 Apr 2025 08:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715EA284691;
+	Tue, 15 Apr 2025 08:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744705656; cv=none; b=N7aQen95imfh0v8wheOJQDMWU/jfWDWeY6dCVp7tyQPyQTO2xet0Fw7nDe6aUvNrlDy5AGqZw8qLSF5vrHdCWsHRo6vMK/8FxQ/L/QflrxdqFJ0ZxQ6FYKscOCzMjB7BbpjS0LP3yktIU7Sa6QoWb+I4SM7YoSqAuwFd6nTKdhg=
+	t=1744705787; cv=none; b=rpE59I9JjzQvwv3zx2lwnyPRSgdgitN6LLqYX/YjtEe7R9hT35TSt107bwL+x1W1bFtXQtxCGdiVFENUFACp9Pzl75sFxwOJHEtOhjiDZm+OsTyRyDnP5SDmvI9QOidYzU3NGu60AVaKLolzoQ/kpsnaPwX7jAvlfKyxzkTcMfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744705656; c=relaxed/simple;
-	bh=O047sYGEO2FirIMFno5oKvIviUxzQ/1Tzd4nTsphlx0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fFg5SWw/qJmcvCG8y3mhuzyaJDmcUN0JOdBtWKUXldah1G8N0yRfHf/54T3l0dDWgSSEJb6xVFH5u9FzX5LT2HdFFg9hihLLXDfKqj0GcEmA34JJDhTVVHFAXrAGKZkd/hpJ/XwLfGXNleIJOWV1vuzX8UwY+KisagR6HArPNek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5259327a937so2162934e0c.0;
-        Tue, 15 Apr 2025 01:27:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744705653; x=1745310453;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nGO+Xd6zIarjSEl7i+vxsyo+MvDN3vL+Ovlv+BhPKuI=;
-        b=oqGezmJSPJ1zttrFEMKizRLe1YWf/aXyjWwnxaK808ToyKIfe/3tSdHuqltiOGnmVA
-         rsoJmNETBqIKh9oHM/S5gCzPNoCFNl8he571uFsEMSw9tm09raYfhxBArJ3lozsgVb9Z
-         LAqDmlaYCHO+9mh9HFYOMApL0ywfcPmehJMd3EJaQ0aocUJ9jvzOrV1XPDdQzckWAECe
-         WzV/DAjbDYerm3JxTSVzPs4d33Je6+VN9Yf6BmWldpB7m0Y6dzBL6gtKify4/lJKZn1l
-         HmgprNzP0/VBh6WrRhkQQCrdeeDYfpnpc9x/VbsAOa+DPFhMXXPcRCCcKFyohW76SDl9
-         jwyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVy8BZYK80aVbijx+t02NyoH+doZ6x84jLsjLjNiGkQYVGm9hVF7WCo1hycBIWWKmEWFZCF+i1iHQ4+@vger.kernel.org, AJvYcCWZYzUgJbakYOkwHO+Danbt68NPmwpPjJ/dZHQTVOJjSYZ0iajM+LBjKfuEtgUgVQKhNbUi/yUjhv+h@vger.kernel.org, AJvYcCX+seipiCOzrMURx8Y4Lz1/rGMWr8glpLQ7I1rKCM52yK1sYccKv1I9e031B662hmU4MLQtXdR2c2wfWOGJVKdpQtI=@vger.kernel.org, AJvYcCXwyxzgvd6uD9B0xz+m5pXZ5WzwzgeUSxqwxisd/GEQOHVSi0CPZB/jcm9lBopDW8WQ1bmenS62XsOKUvo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8BlPb4fqwv/GZ1DhL7cZfsXk57AWt+j1sfIJ7AMGf3HKIkxBM
-	CBNQdMqyGXq7k/dI8yXLzgKL+PiYCXPUGAruExdiUv9J7oHEVGmIcvz4ijR/
-X-Gm-Gg: ASbGnctJ1txoncqtw4kPYuGIMw+mBuxCZiePpbeuvLpKVJPARCGywPrzE4bsHtCq+y6
-	0SSuuhMQVNbiGEjyQXprLc+QIolvlmDSaHm3x72xCEM8ARTERlSiXTCEdPSmkzrzJ5rG9Vt0I8f
-	iix8t6ONTxUKFUXqTgaAprjAt4FyCgYK0UtoX7lqvTln5NzPe7tBS+hyNyDSMkmxuDqQ4L6HcIa
-	7J9C0Tbg5ySsAY1RoFgHFlfVKe6681qvnfwNQfiWl036Iq/PuP8RQLaPH4VFLtc6dObpbNMZNkx
-	ax/z6jiY29Wverw9cltXqS7YSvog70TFoXKHo8zb0jM8oV57JuVdmSEiKCduLwFk6E7C8/R5ArC
-	Lv5Q=
-X-Google-Smtp-Source: AGHT+IGI+2o4aOh25eWfRZJbdubs1qXRO7GFBB/L8qTwHtlnsUL5mrO8zNGcR7dxPPg223Kyu1gTsg==
-X-Received: by 2002:a05:6102:290d:b0:4c1:8f9b:19f1 with SMTP id ada2fe7eead31-4c9e4f12ed9mr10973893137.11.1744705652692;
-        Tue, 15 Apr 2025 01:27:32 -0700 (PDT)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c9c976969fsm2528514137.12.2025.04.15.01.27.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Apr 2025 01:27:32 -0700 (PDT)
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-4c32d6ddd50so81709137.0;
-        Tue, 15 Apr 2025 01:27:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVZ6oC4lsj4E+O4/ozhbF5EH0khqoGxBn2gu6QVKJRT+qs6zKH/xvQr2rlYREkxvlgVy1l5h3wGk0dZdyRhcyT0MF4=@vger.kernel.org, AJvYcCWdXjvjsZQTDyOatguskUO9tvbR2QyBgOwZk5b8Y/B6bmI8sj5y7ByAGBk3frxarkHK5bLsH4WhdQH9@vger.kernel.org, AJvYcCWvuBZolil8VUNgVNYgTTpnkFw2c3CvqrFc08vp9od7GcBDSdsBCJyJU2yoKSrOY9TXDoqywx0L/oYLl/Q=@vger.kernel.org, AJvYcCXhFYAU1U4vCOeLAn5REA56NS66wJgA5CPWP61jKMkXrRBtNSeF8y9dbQabfAiCbTsBDw6+VH+ZIMzl@vger.kernel.org
-X-Received: by 2002:a05:6102:c4a:b0:4b6:d108:cac1 with SMTP id
- ada2fe7eead31-4c9e4eec888mr11050940137.9.1744705651860; Tue, 15 Apr 2025
- 01:27:31 -0700 (PDT)
+	s=arc-20240116; t=1744705787; c=relaxed/simple;
+	bh=iHJWbSB0ymhRZHV1VgYAg5TLOfdwWd395GC4IpAL4TA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qkXCyQNRdwPAthF2URKHew6yhmMyRF26Vm/TimkiztxMMyhUDEn9rtwz1QU4hcny4g9nOI2cPLGszKbKDbLy1vX2TqS3TDmcyuyBoI7rK38zpjQdKSlhQrYu+OSXgWf1aXBbGPkSw8hQKP/5d2X5K12CRyTdQQyCcAV5hXxhWzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=avoJCGzO; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1910F1FCE6;
+	Tue, 15 Apr 2025 08:29:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1744705782;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iHJWbSB0ymhRZHV1VgYAg5TLOfdwWd395GC4IpAL4TA=;
+	b=avoJCGzOyI+/qeQWpTYUeIpFAimgxpl3v3j63LrJbyqibztcNuLa5wdrkXU7UG3C7DND4I
+	U1/0jPMqPqlHPCpMQ0a0IXq376F4eRg0NQQyusk+eJKvrOJVWDKG+T6DQ5oCyvJ0a18u66
+	nMTvMqicqSWk6+EwZN9vIDLqpn+GNF9bUqPpA99323paG1mXgLCaS+e/QIluqgHUB9B6ol
+	R6cdP3JhJFPDyGX1FzAvLevIq4svrl6rBsiqN+nmLYJnRG89pYhAeFulyDxFytGzdVhxKX
+	dONbEoR4IKeeIAQ1Mn5nJFlVQK3SJlAHUcTIsX39lhMAVO69xIDcI4YpSw4SJg==
+Date: Tue, 15 Apr 2025 10:29:38 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek
+ Kitszel <przemyslaw.kitszel@intel.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Bryan
+ Whitehead <bryan.whitehead@microchip.com>, UNGLinuxDriver@microchip.com,
+ Horatiu Vultur <horatiu.vultur@microchip.com>, Paul Barker
+ <paul.barker.ct@bp.renesas.com>, Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?=
+ <niklas.soderlund@ragnatech.se>, Richard Cochran
+ <richardcochran@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, Russell
+ King <linux@armlinux.org.uk>, Andrei Botila <andrei.botila@oss.nxp.com>,
+ Claudiu Manoil <claudiu.manoil@nxp.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Vadim Fedorenko
+ <vadim.fedorenko@linux.dev>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 0/2] net: ptp: driver opt-in for supported
+ PTP ioctl flags
+Message-ID: <20250415102938.53665eda@kmaincent-XPS-13-7390>
+In-Reply-To: <20250414-jk-supported-perout-flags-v2-0-f6b17d15475c@intel.com>
+References: <20250414-jk-supported-perout-flags-v2-0-f6b17d15475c@intel.com>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87zfgi1a5a.wl-kuninori.morimoto.gx@renesas.com> <87o6wy1a3a.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87o6wy1a3a.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 15 Apr 2025 10:27:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXX-An5=Q9Eunyy5pLwaJ8A3k333-OUQ9B=+xyKP1m0mg@mail.gmail.com>
-X-Gm-Features: ATxdqUEIJsRkcyk194C5WDQ-k8_ecv3OZ-eRHLxN4ZrL9IbC3X6gIAUyq2lPs10
-Message-ID: <CAMuHMdXX-An5=Q9Eunyy5pLwaJ8A3k333-OUQ9B=+xyKP1m0mg@mail.gmail.com>
-Subject: Re: [PATCH v3 08/10] arm64: dts: renesas: r8a779g0: tidyup MSIOF node name
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
-	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, ALOK TIWARI <alok.a.tiwari@oracle.com>, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdeftddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfdutdefvedtudegvefgvedtgfdvhfdtueeltefffefffffhgfetkedvfeduieeinecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudelmeekheekjeemjedutddtmeelugejtgemudgrudgsmegvkehfugemuggruddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgduleemkeehkeejmeejuddttdemlegujegtmedurgdusgemvgekfhgumegurgduvddphhgvlhhopehkmhgrihhntggvnhhtqdgirffuqddufedqjeefledtpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedtpdhrtghpthhtohepjhgrtghosgdrvgdrkhgvlhhlvghrsehinhhtvghlrdgtohhmpdhrtghpthhtoheprghnughrvgifsehluhhnnhdrtghhpdhrtghpthhtohepohhlt
+ hgvrghnvhesghhmrghilhdrtghomhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopegrnhhthhhonhihrdhlrdhnghhuhigvnhesihhnthgvlhdrtghomh
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hi Morimoto-san,
+On Mon, 14 Apr 2025 14:26:29 -0700
+Jacob Keller <jacob.e.keller@intel.com> wrote:
 
-On Tue, 15 Apr 2025 at 03:34, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> MSIOF will be used as both SPI or I2S. The node name is not "spi".
-> Rename it to "serial-engine".
->
-> Suggested-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Both the PTP_EXTTS_REQUEST(2) and PTP_PEROUT_REQUEST(2) ioctls take flags
+> from userspace to modify their behavior. Drivers are supposed to check
+> these flags, rejecting requests for flags they do not support.
+>=20
+> Many drivers today do not check these flags, despite many attempts to
+> squash individual drivers as these mistakes are discovered. Additionally,
+> any new flags added can require updating every driver if their validation
+> checks are poorly implemented.
+>=20
+> It is clear that driver authors will not reliably check for unsupported
+> flags. The root of the issue is that drivers must essentially opt out of
+> every flag, rather than opt in to the ones they support.
+>=20
+> Instead, lets introduce .supported_perout_flags and .supported_extts_flags
+> to the ptp_clock_info structure. This is a pattern taken from several
+> ethtool ioctls which enabled validation to move out of the drivers and in=
+to
+> the shared ioctl handlers. This pattern has worked quite well and makes it
+> much more difficult for drivers to accidentally accept flags they do not
+> support.
+>=20
+> With this approach, drivers which do not set the supported fields will ha=
+ve
+> the core automatically reject any request which has flags. Drivers must o=
+pt
+> in to each flag they support by adding it to the list, with the sole
+> exception being the PTP_ENABLE_FEATURE flag of the PTP_EXTTS_REQUEST ioctl
+> since it is entirely handled by the ptp_chardev.c file.
+>=20
+> This change will ensure that all current and future drivers are safe for
+> extension when we need to extend these ioctls.
+>=20
+> I opted to keep all the driver changes into one patch per ioctl type. The
+> changes are relatively small and straight forward. Splitting it per-driver
+> would make the series large, and also break flags between the introduction
+> of the supported field and setting it in each driver.
+>=20
+> The non-Intel drivers are compile-tested only, and I would appreciate
+> confirmation and testing from their respective maintainers. (It is also
+> likely that I missed some of the driver authors especially for drivers
+> which didn't make any checks at all and do not set either of the supported
+> flags yet)
+>=20
+> Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
 
-Thanks for your patch!
+Reviewed-by: Kory Maincent <kory.maincent@bootlin.com>
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> @@ -1250,7 +1250,7 @@ tpu: pwm@e6e80000 {
->                         status = "disabled";
->                 };
->
-> -               msiof0: spi@e6e90000 {
-> +               msiof0: serial-engine@e6e90000 {
-
-Unfortunately this means that this instance can no longer be used in
-SPI mode without changing the node name back.  E.g. with [1]:
-
-    serial-engine@e6ea0000: Unevaluated properties are not allowed
-('#address-cells', '#size-cells', 'cn5@0' were unexpected)
-
->                         compatible = "renesas,msiof-r8a779g0",
->                                      "renesas,rcar-gen4-msiof";
->                         reg = <0 0xe6e90000 0 0x0064>;
-
-[1] "arm64: dts: renesas: white-hawk: cn5: Add overlay for MSIOF1"
-    https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?h=topic/renesas-overlays&id=0b4f1af2c454b49b9f266900dcb578dc311b1475
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thank you!
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
