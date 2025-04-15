@@ -1,60 +1,66 @@
-Return-Path: <linux-renesas-soc+bounces-16030-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16031-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B0EA8A7AE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 21:17:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7F4A8A7D7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 21:25:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28E4F190321A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 19:17:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16DB13BA7C7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 19:25:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88600245026;
-	Tue, 15 Apr 2025 19:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FF0D241681;
+	Tue, 15 Apr 2025 19:23:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jqMZ5o8U"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AMC9v116"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5366D24293C;
-	Tue, 15 Apr 2025 19:16:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52AAF2356B1;
+	Tue, 15 Apr 2025 19:23:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744744603; cv=none; b=biHNTAXj6b+9btq7Yd+SxvnTgpVBAmM60P15DVdUp0jB+aENMRIIvdxuYF8LJE5SpVk3FnMPjmAtpQUB4LuvHAKTPErbf/rsl6l2P9BaBeYeE/DpB+j1kzk58Y2U98o69qnXrK2WKdbf0FlHo8SvGzgQ0as7fwmhJtkGhY1QREs=
+	t=1744744993; cv=none; b=VOv/ip/887qtzl4rVhSexZL6r05A+pxQ6VoYrk2IGmUlNTZL0ehuKVei5cy1yfaB2Zvha1aXil/kYdT8mvqbM0wzqGPpHiEU0tY6IlfTDb9vtwJLUC8YhZ6XdP8rI00jWJeLax1lKIeB8R41Aj5rEkxIp/sqh2GihaUtfrMdZRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744744603; c=relaxed/simple;
-	bh=MflXTqys6HJWP+NOX4G/u4i7B51/eL+CWgLhzzKn8Hk=;
+	s=arc-20240116; t=1744744993; c=relaxed/simple;
+	bh=x09FjVOAZBwkbITfwM+C4hWOy9jtbp+fErNxZ4F57Zs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SvLogIAbcctFgfFWgOgiP5YEkqwStDX5YHsPcTR6bR0k140pZ3O40yNj0/ZIrSfoRGpnsVvZQyZzneqHCno0uM3LzYRywFbbL5tEbIYtD6dls5denwS0jzXobjjykLlmlV11hbr2C+SxyOMcMhu5oXFqiTJyq3Q/EZrDs7n2tSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jqMZ5o8U; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D313C4CEE7;
-	Tue, 15 Apr 2025 19:16:41 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=riuAtX3MxLwE4pihO9fzxD6xOdSACZTDTpo6l0dWPp8K7bk5wncUNrTfq9M9YDSMVnUDx32X16KR/ehEADyUHcq7zLfExsu5zJwEiHxgoLhlYzoEAz78XbznTpjjpApryLhQMTMKZk9t5YVqfrSq6TrWrcnSECjEyNeBFqseTlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AMC9v116; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB0DC4CEE7;
+	Tue, 15 Apr 2025 19:23:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744744601;
-	bh=MflXTqys6HJWP+NOX4G/u4i7B51/eL+CWgLhzzKn8Hk=;
+	s=k20201202; t=1744744992;
+	bh=x09FjVOAZBwkbITfwM+C4hWOy9jtbp+fErNxZ4F57Zs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jqMZ5o8UaVlfbFjfD4nOGKNtEiFXSy859sVi6f3fdd6o1u8E3ZTg3NT53QkCRvrvS
-	 bksYzyLLeiS4pLwg+EFzuIfow/z/Piam/pSOpzKs9aFCLwyy7y2fKkSO6V7Ly6DU3I
-	 QAuYy77YC/OKcn3gB6TG6MctJ55upddFG5UD4kAue8Ng8JUu/+9srM42dpQyss1MVS
-	 c9p7TTxPrMJIjxhlXvhnL+MmoQCJ4y/2uKbX3geQZMRDOllOOko80E3nYki25A16gY
-	 ygFLioPm1Izj9xbmtHu/wi/Oa2I0vHO8hQ2xG/eLFwtV1JEA2yaZNXNG+ekvmInucV
-	 LSXMMzHnGofsw==
-Date: Tue, 15 Apr 2025 14:16:39 -0500
+	b=AMC9v116l3kDuwOh8VnyqdgEUvSUHqvSzRJWkGOhFzh0KBD+gd3Vjsx6V47nKLfG2
+	 Xb8Pu12XAN7Aoq0Ts58Dz/j+YqBecvZAEYYRDqunkVaixuSI3SbX9eCJkfpBzJzP1C
+	 pYsugK7hhCik+56+v5Qg1o9XkXjgTFrzZwVWVkezuakwfiP0zFipPVzXYvEH6Vo2z2
+	 xQLMfX7OEsZvWxerQIsKZYtvr/gY4nHepBi4c9zZmwlTiD4tV10AnTQZ+1OZ+BBZTT
+	 mHxeYRjxzc+/1Lw7+Ip5U2t+n/+T4XgrgkGzTg3diIuCkckddZIuBouU0AnTP+4E1H
+	 n4RTzWysfnOpg==
+Date: Tue, 15 Apr 2025 14:23:10 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: mturquette@baylibre.com,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	conor+dt@kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, sboyd@kernel.org, krzk+dt@kernel.org,
-	geert+renesas@glider.be, magnus.damm@gmail.com,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/7] Revert "dt-bindings: clock: renesas,rzg2l-cpg:
- Update #power-domain-cells = <1> for RZ/G3S"
-Message-ID: <174474459922.828239.14816147248352723282.robh@kernel.org>
-References: <20250410140628.4124896-1-claudiu.beznea.uj@bp.renesas.com>
- <20250410140628.4124896-8-claudiu.beznea.uj@bp.renesas.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Wolfgang Grandegger <wg@grandegger.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-gpio@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Mark Brown <broonie@kernel.org>, linux-can@vger.kernel.org,
+	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: Re: [PATCH] dt-bindings: remove RZ/N1S bindings
+Message-ID: <174474498632.835692.11318420233043373659.robh@kernel.org>
+References: <20250411194849.11067-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,23 +69,28 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250410140628.4124896-8-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20250411194849.11067-2-wsa+renesas@sang-engineering.com>
 
 
-On Thu, 10 Apr 2025 17:06:28 +0300, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Fri, 11 Apr 2025 21:47:57 +0200, Wolfram Sang wrote:
+> Except for these four quite random bindings, no further upstream
+> activity has been observed in the last 8 years. So, remove these
+> fragments to reduce maintenance burden.
 > 
-> This reverts commit f33dca9ed6f41c8acf2c17c402738deddb7d7c28.
-> Since the configuration order between the individual MSTOP and CLKON bits
-> cannot be preserved with the power domain abstraction, drop the
-> Currently, there are no device tree users for #power-domain-cell = <1>.
-> 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->  .../bindings/clock/renesas,rzg2l-cpg.yaml      | 18 +-----------------
->  1 file changed, 1 insertion(+), 17 deletions(-)
+> 
+> In the previous discussion [1], Rob offered to take this patch.
+> 
+> [1] https://lore.kernel.org/r/CAL_Jsq+DOp8YOcshTVqYcbmgbuc4etTQeeswmMUYjw1sws4mAA@mail.gmail.com
+> 
+>  .../devicetree/bindings/net/can/nxp,sja1000.yaml     |  4 +---
+>  .../bindings/pinctrl/renesas,rzn1-pinctrl.yaml       |  4 +---
+>  .../devicetree/bindings/serial/snps-dw-apb-uart.yaml | 12 +++---------
+>  .../devicetree/bindings/spi/snps,dw-apb-ssi.yaml     |  4 +---
+>  4 files changed, 6 insertions(+), 18 deletions(-)
 > 
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Applied, thanks!
 
 
