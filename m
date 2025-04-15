@@ -1,250 +1,229 @@
-Return-Path: <linux-renesas-soc+bounces-16026-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16027-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D45EA8A398
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 18:03:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 464EBA8A782
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 21:10:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A716F443472
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 16:03:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4AD37178886
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 19:10:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62D402820C6;
-	Tue, 15 Apr 2025 16:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E4B323F40E;
+	Tue, 15 Apr 2025 19:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDwlTMTa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88482DFA2D;
-	Tue, 15 Apr 2025 16:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E92823E350;
+	Tue, 15 Apr 2025 19:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744732989; cv=none; b=CGC1Gcof32UxAPIny54TJuf55uinW0rx0zLcUDRkFsq4Skoz3ZM97jA8hOb3eumC8oVi6iG4U4/3xTElydS2Mgda+3YRGhbCPSHg5OAx/jKEb4btnPCjxHpsBmAtU90AGmtUOcg8P76L63/IWZyGosnc9UYdEkCvMLZ8oK8rpgU=
+	t=1744744246; cv=none; b=oAXcCeKOXdZ1ixrQxI9sqpmmef+OjLwawFqgxb3tb9e+ivv59QjOuIs72ujlyE/SXP9bZxIB2F7cbGi4cNK/fksxeLETH5e9AqLD5LSktZvdRuDtkCpVbTsdSNcuoA2jBwlEgBtB4s1cYDrrR7Xz5cRaHxvV1dvZDoab9AUv5XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744732989; c=relaxed/simple;
-	bh=Hzmc5byleNFyCDdpw7V0x8g7q/DvdasFY7cNHTnX7hY=;
+	s=arc-20240116; t=1744744246; c=relaxed/simple;
+	bh=xqSl63bG3wfUthwLLIvQVxaqRLmukng8C2baTvHd8Xc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MZ6eRhRX7lcI+iCockbolgvMAg19N9IlP8rp4+XUVfYU8u5TQAw02u4rW5EcTpedBcUeRsp773dAWJIq7f4cn5pOXnt6h4tHH/GCirzPK20QdEEwlYU19hxGszZkW77iGxT6ODtKUfygkVyPxZdd1+4OO8yui4Rkq84Ff9xjn2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=KZUTtVJzZi6Uz0HxMgigGQKPXy8FpH61RC5VTux0vZeznHgI17sCOz+cRqD6/JTwAaUmJNcPyMX2JFWOdQt/2jsJLeXjcIIx921OPnJGU2JhF9JPzHqjaQTKq1Krp8VihY0vir4FWiaCKViIdiaJdzJB8+TS+0meJYbXc/ap78o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UDwlTMTa; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-70576d2faa1so22148637b3.3;
-        Tue, 15 Apr 2025 09:03:06 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43d04dc73b7so60041125e9.3;
+        Tue, 15 Apr 2025 12:10:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744744242; x=1745349042; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G+9R6i97eout8tyqOO5go7P8BM8D8c4sbrQg7SeKd3k=;
+        b=UDwlTMTaOBWa9aTAVQ+IeTum3xmgXX70oOs7rQxUl/C7NzbpfWm0LgF/mAUgcnJPa5
+         7wuVVH43xk8sM/m7D1MbQ3pyJm+yT9Un2eW1JNZr7cfcuK56u0lkKTRZc2mAn0TMtz5O
+         KXvzUYrbh231kFspNl4EkJHO0hDECuVkycDwwsaLzmd5OW3McAzqQm+GUdN51KnBFKLq
+         CtxH7dvW65x4QU7hyjLrVRTDDD/bTCMnFazaDog+1VOCorpTl2zWwhEhIhsNku9Od6hw
+         vjPMKEOr0aHKkHV/uGVSRga31Nf/VlGY3WkGDuB34aFg54i856xdXSUT8FreNwMvr96q
+         L9Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744732985; x=1745337785;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TuEbYlZMiJuO8E2YPXwmbMAltImu0P0byOBQlAv2mMo=;
-        b=DCOpTiSQxOgJUZ4TaDngHCBuPEu35Xvep5Xkp47hseyXbRzGZyJBqrdcyCr1qbjIK4
-         KvP1MvAcN0NUW9thVfKSJwLxVBPY2Ro0S4jOlNhU5nBh6O6WjY93+qFmjGqdZp6D2weV
-         nIowrTELWFiYiJUlgRKMdn15D3mzmlhmsw8bcdgRUtG4MjQHT6VlUtoyZwPlHo1N5XFv
-         atlNmwtr9bRilTf+UTh2BT6m9zEQNeJRYuUEqeyx2tefrq5iQ12DpWcrvLIoYfQ9yjnq
-         2rPR7j3rUJ3fHJYDpfwhP9V2akGja8iHha8h8AXl7DvyZjb1ctU11T2w+WI4bHQRqa+6
-         u/sQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVcC/TtfqAZap6hidit/mEof9387fd6B5GcM5Ej7leW+wJKkM+BH/8+/SamypHXoU0h3TsPCwtvEBky@vger.kernel.org, AJvYcCVohkvj1d2K+pk3INd0lZBcNuTP5yatRWDcptAaa6g4MP8qFIZvt2aAunax+fiJ0eAIldCOcfw7Pf7d8bpt6QdW1Po=@vger.kernel.org, AJvYcCWR7OW7kaGNiP07aXO6uqsfh/Rdu8Ub6JAJUpZ3Gbf9578cO/qHxz5AEN6W/5zokK1eoNqA+xVCA+lL542K@vger.kernel.org, AJvYcCWv63EB0YtsmBeYzLbqm+gp17/9yMrWWmhfvFnPOVL05pcmyKTKBiQNENkEx4Awfnr6H1UVrhEZKjeH@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywz1xqRdn50pX9yia3OXVCKnKhRrPsRbCJQA9RiKPL8u7yLRdKd
-	TlP6Am2uxoNQQqmh+u1PVDxjNZZpT5Fvcn1fhTR9yM4N8r/yZSe0w7PqZ5Dg
-X-Gm-Gg: ASbGncuWIkUhZ1wqa8gXUPRIUM2BJ+lncWI6pmx5l5Pp46KHj/CWqvhRGVDMzORAIh9
-	N069b7g4INrWPXckLftSTRg9CmoRgn2S3AUHEm7swF0cvaX2YIzIdg7Uz3C2lkNKLQMhmIQJnVC
-	h8pfAagjOWGrGBDELUpQa2mO73OWqSdJ76Wy10qk+q9Qyj4QDGCfFMTUrwanU0Fwozv3TIn1J/I
-	Vttk2MKxJyU8RVZ67xI0fRTC+Lzork/8xhIW5NAuuoliQlU9h9KFGiZjyMbd9oIRaYiPKhNyER/
-	AxlZ407hTjiegoGw7WgukvOuAHGo7c5/LdMY3DXujDQL4QFnhZr2qu2YxoVi3TZ/iadh9QbIo37
-	+iFdXtYI=
-X-Google-Smtp-Source: AGHT+IEQjeguuj3kW49E0aLJcog5tbt6WB7qvI5MYHzzjd27grqxYE+yakeUXAde4gMhNxmDrMaHGQ==
-X-Received: by 2002:a05:690c:25c4:b0:6fd:42ed:c90 with SMTP id 00721157ae682-705599c9cc1mr273759707b3.16.1744732985109;
-        Tue, 15 Apr 2025 09:03:05 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7053e372b6dsm36993467b3.88.2025.04.15.09.03.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Apr 2025 09:03:04 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e6582542952so4590660276.3;
-        Tue, 15 Apr 2025 09:03:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVhF9LbkD2oXNG+aWFcw9BEw/H1v6uoXe2b1OWcIUSSWQyTgvLLSEBiJb4W3YND15LDCf/AFxYP1dFp@vger.kernel.org, AJvYcCXSDtM4Fsr7Gr3b/HO/iSm8LPgFKHn+UvnVeMuMfRBEQ4mcSvKsA+AfZwb6Xrg2/Gnl7o7NHNXYgAoYWsK5@vger.kernel.org, AJvYcCXiCwv5tlRmvmln6oDwlnZNCSRgATtkMPLD0V4gflMkvmbi4Doo+V3o7W/sXprWonvZy4ts7jHAAhGUNHMSnzIC4mA=@vger.kernel.org, AJvYcCXvdaP77L/wwYSamDhKZJRNTROmdSZ4oEusXy1xEOBxQp/jeE9ekUn2y1A1SmffzFor1JpVcpMDl5l2@vger.kernel.org
-X-Received: by 2002:a05:6122:1d0a:b0:525:9dd5:d55a with SMTP id
- 71dfb90a1353d-527c35e7a47mr11730397e0c.8.1744732671704; Tue, 15 Apr 2025
- 08:57:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744744242; x=1745349042;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G+9R6i97eout8tyqOO5go7P8BM8D8c4sbrQg7SeKd3k=;
+        b=J+koQoH5ze6EizIDtbLLY6kVi1zW4i8izuLTg8wl6g9Op3aK0yxU+gBU71/XI3Z1ED
+         USDmgfJjq8aAWF9GbvtebL+D2FBC5ClmhUkVU5QecEcoDrtBlYzbJA8Tm0EC5c123zDC
+         LuVSo4HcRXA9BAHFDFOqYIgbfwihujzKfLfh1QOBfObDmHYxthpqChmH7FVFlPyhcSkC
+         qvDJ8nixmaPhW9M7rXw5CVZ5z7Jmlx5zkJFO7zki1R9NzrVZ3w1npcasKbUhz8D6YZuc
+         izIQvQ9To0V+sjQIxCGJo4DLD3yWB7DIUC5W7dpzrcsPZOiqsOcIFbph+7fRrbUrFs3q
+         tkKw==
+X-Forwarded-Encrypted: i=1; AJvYcCVlI3yknE79aHlzmd+cyaq4XclqaCwh5BWeHxzdqDveWX8RmTF++dJ9cVagy1Gk4PscoNh2dOP24glv@vger.kernel.org, AJvYcCVqDn5kPjFEnxK8huqnukHLAJbzLJCJfGCEI0zdHdVialjgU7UwHw4EKT9/+pE6BNVpbuQuULccZV/8@vger.kernel.org, AJvYcCWLy5YBGNMQwX0ygkt23AScj8ub3Nd2vt1bTsyEHfb+Z3ypX27rK9VOliiQ+pUo243oMPZDVZ3Q7AffW5Hl@vger.kernel.org, AJvYcCXYhv5mMAkBLdNNj7wRTFWNZXxWBJDD7WQfcRX9VF1iKtkfM3I1Via7x6aPcHdH4zXrvGexUqYrvizTA+lISVwaVqI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwS6MlQ4yVbzfPJs3SleT4oYhNstftP/3O38w27PjO3PAPxwXkz
+	kINvYKjPYpYfEnnzyzIOeldaPk7/aieeP1oS1YVRg/Es9mqVuFcMgaRlaywtvFDLiDrnfvt+Nv4
+	10LJyGZUhf5FwtSpw2qYerIjzv/s=
+X-Gm-Gg: ASbGnctOi1Pnx9hZIPUVcQuyTLTqYMcPKhTv02PaSYI5DPhKa2ITumstiJ7TUfo6oDQ
+	+ft9bR09BjB3d3UrQqEKoUw4cO1QtvJQJrb/AHRBvI/C0OqgWJkhzoj/qPMA1bFa0vZgOmDHCrI
+	YZDIKUOeS09iDQMLlfCfcE3w==
+X-Google-Smtp-Source: AGHT+IHMiFiS0nsHL73AzzRu+tHqp2edVjNZRkXI+hMQ4GgBBmlNNmVX9ETLW6Y2JCWbDEc24ttLPk2CDXSMeLCHEQU=
+X-Received: by 2002:a05:600c:1e0e:b0:43d:47b7:b32d with SMTP id
+ 5b1f17b1804b1-4405a0a4334mr2589315e9.25.1744744242305; Tue, 15 Apr 2025
+ 12:10:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250408200916.93793-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250408200916.93793-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250408200916.93793-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 15 Apr 2025 17:57:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW9WhKeMyKfdiLWmLC8mabNe-4ROW5uCZhx6z503GE0Ug@mail.gmail.com>
-X-Gm-Features: ATxdqUHtuz_A-xS1tTTRA3AiVheg582GK6_Rn09grQ8w2iOfDNKRllrwvo1MBQw
-Message-ID: <CAMuHMdW9WhKeMyKfdiLWmLC8mabNe-4ROW5uCZhx6z503GE0Ug@mail.gmail.com>
-Subject: Re: [PATCH v2 01/15] clk: renesas: rzv2h-cpg: Add support for DSI clocks
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+References: <20250407165202.197570-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250407165202.197570-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXuqYHAv+yyOJxC3kre1vaspuXmTMev0ZBixEiEo+4saQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdXuqYHAv+yyOJxC3kre1vaspuXmTMev0ZBixEiEo+4saQ@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 15 Apr 2025 20:10:16 +0100
+X-Gm-Features: ATxdqUEF-cysVy0kHHQfaLVGmLBzVY6Pt4SqgW51HY8AGLA2rfeWDdpmyMio_Ps
+Message-ID: <CA+V-a8sbqj5LQvsfwJyO8gM+0HL5bzW4KLmzZz5YKO5tG6nbfQ@mail.gmail.com>
+Subject: Re: [PATCH v2 6/9] clk: renesas: rzv2h-cpg: Ignore monitoring CLK_MON
+ bits for external clocks
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
+Hi Geert,
 
-On Tue, 8 Apr 2025 at 22:09, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Thank you for the review.
+
+On Tue, Apr 15, 2025 at 3:36=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> Add support for PLLDSI and PLLDSI divider clocks.
+> Hi Prabhakar,
 >
-> The `renesas-rzv2h-dsi.h` header file is added to share the PLL divider
-> algorithm between the CPG and DSI drivers.
+> Thanks for your patch!
 >
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- a/drivers/clk/renesas/rzv2h-cpg.c
-> +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> @@ -196,6 +225,253 @@ static int rzv2h_cpg_pll_clk_enable(struct clk_hw *hw)
->         return ret;
->  }
+> On Mon, 7 Apr 2025 at 18:52, Prabhakar <prabhakar.csengg@gmail.com> wrote=
+:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Ignore CLK_MON bits when turning on/off module clocks that use an exter=
+nal
+> > clock source.
+> >
+> > Introduce the `DEF_MOD_EXTERNAL()` macro for defining module clocks tha=
+t
+> > may have an external clock source. Update `rzv2h_cpg_register_mod_clk()=
+`
+> > to update mon_index.
 >
-> +static unsigned long rzv2h_cpg_plldsi_div_recalc_rate(struct clk_hw *hw,
-> +                                                     unsigned long parent_rate)
-> +{
-> +       struct rzv2h_plldsi_div_clk *dsi_div = to_plldsi_div_clk(hw);
-> +       struct rzv2h_cpg_priv *priv = dsi_div->priv;
-> +       struct ddiv ddiv = dsi_div->ddiv;
-> +       u32 div;
-> +
-> +       div = readl(priv->base + ddiv.offset);
-> +       div >>= ddiv.shift;
-> +       div &= ((2 << ddiv.width) - 1);
-> +
-> +       div = dsi_div->dtable[div].div;
-> +
-> +       return DIV_ROUND_CLOSEST_ULL(parent_rate, div);
-> +}
-> +
-> +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
-> +                                              struct clk_rate_request *req)
-> +{
-> +       struct rzv2h_plldsi_div_clk *dsi_div = to_plldsi_div_clk(hw);
-> +       struct rzv2h_cpg_priv *priv = dsi_div->priv;
-> +       struct rzv2h_plldsi_parameters *dsi_dividers = &priv->plldsi_div_parameters;
-> +       unsigned long long rate_mhz;
-> +
-> +       /*
-> +        * Adjust the requested clock rate (`req->rate`) to ensure it falls within
-> +        * the supported range of 5.44 MHz to 187.5 MHz.
-> +        */
-> +       req->rate = clamp(req->rate, 5440000UL, 187500000UL);
-> +
-> +       rate_mhz = req->rate * MILLI * 1ULL;
+> So I guess you implemented this because the external clock was not
+> running, and you got into an infinite loop?
+>
+Yes, partially right but we didn't enter an infinite loop as we have a time=
+out.
 
-The first multiplication overflows on 32-bit systems.
-Probably you wanted to use mul_u32_u32() instead?
+For the CLK_MON, the HW manual for RZ/V2H section 4.4.4.8 CGC Control
+Registers and 4.4.4.10 CGC Monitor Registers will be updated to below
+in the next version.
+ "The clock gating cells require source clocks to operate correctly.
+If the source clocks are stopped, these registers cannot be used."
 
-More review later, I fell too deep in the wrong rabbit hole ("mhz !=
-megaHertz"), again...
+Currently without the series when we turn ON the clock the CLK_ON bit
+gets set and to make sure it's turned ON the corresponding CLK_MON bit
+is checked to ensure it's ON. When a request is made to turn ON the
+clock first we check the CLK_MON bit and if it's being set we return
+early as the clock was ON. This worked OK up until now where the
+clocks used were internally generated.
 
-> --- /dev/null
-> +++ b/include/linux/clk/renesas-rzv2h-dsi.h
-> @@ -0,0 +1,207 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Renesas RZ/V2H(P) DSI CPG helper
-> + *
-> + * Copyright (C) 2025 Renesas Electronics Corp.
-> + */
-> +
-> +#include <linux/limits.h>
-> +#include <linux/math.h>
-> +#include <linux/math64.h>
-> +#include <linux/units.h>
-> +
-> +#define OSC_CLK_IN_MEGA                (24 * MEGA)
-> +
-> +struct rzv2h_plldsi_div_limits {
-> +       struct {
-> +               u64 min;
-> +               u64 max;
+In the case of RGMII interface where the Rx/Rx-180 clock was coming
+from an PHY on an external pin the above didn't work as expected. When
+we issued an unbind request on the glue driver all the clocks were
+gated to OFF state i.e CLK_ON bits were set to '0'. Now when the bind
+operation was requested  the clocks were requested to be turned ON, ie
+when CLK_MON bits for RX/Rx-180 reported to be '1'  that is because
+PHY was providing the clock and due to which the CLK_ON bit was unset
+(and not gated to ON state)  due to which the DMA reset operation
+failed in dwmac-core  driver.
 
-u32 should be sufficient?
+Below is the thread,
+[0] https://lore.kernel.org/all/CA+V-a8uWY1Av8eS1k9C6Td=3DRuB4PbCnQyXbNLzmh=
+ao0nr8Spbg@mail.gmail.com/
 
-> +       } fvco;
-> +
-> +       struct {
-> +               u16 min;
-> +               u16 max;
-> +       } m;
-> +
-> +       struct {
-> +               u8 min;
-> +               u8 max;
-> +       } p;
-> +
-> +       struct {
-> +               u8 min;
-> +               u8 max;
-> +       } s;
-> +
-> +       struct {
-> +               s16 min;
-> +               s16 max;
-> +       } k;
-> +
-> +       struct {
-> +               u8 min;
-> +               u8 max;
-> +       } csdiv;
-> +};
-> +
-> +struct rzv2h_plldsi_parameters {
-> +       u64 freq_mhz;
-> +       s64 error_mhz;
-> +       u16 m;
-> +       s16 k;
-> +       u8 csdiv;
-> +       u8 p;
-> +       u8 s;
-> +};
-> +
-> +#define RZV2H_CPG_PLL_DSI_LIMITS(name)                                 \
-> +       static const struct rzv2h_plldsi_div_limits (name) = {          \
-> +               .m = { .min = 64, .max = 533 },                         \
-> +               .p = { .min = 1, .max = 4 },                            \
-> +               .s = { .min = 0, .max = 6 },                            \
-> +               .k = { .min = -32768, .max = 32767 },                   \
-> +               .csdiv = { .min = 2, .max = 32 },                       \
-> +               .fvco = { .min = 1600 * MEGA, .max = 3200 * MEGA }      \
+> This looks rather fragile to me. How do you know when the clock
+> is actually running, and thus usable?
+>
+I was thinking the consumer driver would request the external device
+to turn it ON/OFF.
 
-Please initialize the members in declaration order.
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> > --- a/drivers/clk/renesas/rzv2h-cpg.c
+> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
+> > @@ -569,6 +569,25 @@ static void rzv2h_mod_clock_mstop_disable(struct r=
+zv2h_cpg_priv *priv,
+> >         spin_unlock_irqrestore(&priv->rmw_lock, flags);
+> >  }
+> >
+> > +static bool rzv2h_mod_clock_is_external(struct rzv2h_cpg_priv *priv,
+> > +                                       u16 ext_clk_offset,
+>
+> unsigned int
+>
+> > +                                       u8 ext_clk_bit,
+>
+> unsigned int
+>
+> > +                                       u8 ext_cond)
+>
+> bool
+>
+Agreed I 'll change to the above.
 
+> > +{
+> > +       u32 value;
+> > +
+> > +       if (!ext_clk_offset)
+> > +               return false;
+> > +
+> > +       value =3D readl(priv->base + ext_clk_offset) & BIT(ext_clk_bit)=
+;
+> > +       value >>=3D ext_clk_bit;
+>
+> No need to shift:
+>
+>     return !!value =3D=3D ext_cond;
+>
+OK.
 
-> +       }                                                               \
-> +
+> > +
+> > +       if (value =3D=3D ext_cond)
+> > +               return true;
+> > +
+> > +       return false;
+> > +}
+> > +
+> >  static int rzv2h_mod_clock_is_enabled(struct clk_hw *hw)
+> >  {
+> >         struct mod_clock *clock =3D to_mod_clock(hw);
+> > @@ -691,6 +710,11 @@ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_=
+clk *mod,
+> >         clock->on_index =3D mod->on_index;
+> >         clock->on_bit =3D mod->on_bit;
+> >         clock->mon_index =3D mod->mon_index;
+> > +       /* If clock is coming from external source ignore the monitor b=
+it for it */
+> > +       if (rzv2h_mod_clock_is_external(priv, mod->external_clk_offset,
+> > +                                       mod->external_clk_bit,
+> > +                                       mod->external_cond))
+>
+> Perhaps just pass "mod" instead of three of its members, to fully
+> hide the logic inside the helper function?
+>
+Agreed.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
