@@ -1,133 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-15998-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16000-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A3CA89E3B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 14:36:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC71BA89E4D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 14:39:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 075333BF57C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 12:35:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 51A4A1902209
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 12:39:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15881294A1F;
-	Tue, 15 Apr 2025 12:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cqI9iCbJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F31E92676CF;
+	Tue, 15 Apr 2025 12:39:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD47E610B;
-	Tue, 15 Apr 2025 12:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF6022F01;
+	Tue, 15 Apr 2025 12:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744720514; cv=none; b=ji/R4CuN3uqVcrFvxK9LWlNMwnWfRbKRQSKQDyDK9x0p0CQEaM3Z6fsy2GGqGaUocyTnS9pXK5/ESVXwBC+BiLbIhUwatMS85v3roHUMf9uf6ZeKatvzXJ5NxUh1Jt8OOrKkeKu4kizP0FQuume4sF3erEJRRABpYtlxSQmz9Po=
+	t=1744720763; cv=none; b=JvB5aXFOke9m96+aKPJ+7PBdCm2qrYH5DVCN/JAQHFWv74O9ZFzlp7stTIi//gQQv1X4o2EPfB2flPAkQtpoEcNDnh4aZ4d3xEg2qKnORgUhoeElmBw8z2kABm8M4cWaazldkDv7e3pTFGk4QhXRg5XOFf2tcqDlGTNQOwDJnzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744720514; c=relaxed/simple;
-	bh=2+VnzMSsmMahtUzM9CIm6OiwR6PEG7xIrg6sW8qWgKc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=McfJrwxqyVDWaAjTFj4opnORRiIdYU5ZkUzwnGV5MOodhrgxiGcvN2VT3m0HZPq7MMX1lIZwd9lU4/7jpyeSCW66He0tPpPJaOwcmuqsuBBnHX5RtBpNuMeJ3eAoxI8mxIKcOaZ5pUbLIvYBARTX0iEisI6UTnKiz9Sk56+WL5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cqI9iCbJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3A1CC4CEDD;
-	Tue, 15 Apr 2025 12:35:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1744720513;
-	bh=2+VnzMSsmMahtUzM9CIm6OiwR6PEG7xIrg6sW8qWgKc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cqI9iCbJNwysw7TG2w9fKMS5tplTiaZwa3rc05oVpPbS5t9KYL5fQsFJ45wKY58Ea
-	 Wh6IMyZYAF8aM8Pl7M6Ovx9j4cdGaz7gMq/e9cpB92HzHMXytnTn83vZYZZQfuKKKz
-	 ZZb+g7EjSKHzyiQXNnGX4xmfIKDni/gsrH2lE+7Q=
-Date: Tue, 15 Apr 2025 14:35:05 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Thierry Bultel <thierry.bultel@linatsea.fr>,
-	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Paul Barker <paul.barker.ct@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>
-Subject: Re: [PATCH v7 10/13] serial: sh-sci: Add support for RZ/T2H SCI
-Message-ID: <2025041535-devouring-drove-e173@gregkh>
-References: <20250403212919.1137670-1-thierry.bultel.yh@bp.renesas.com>
- <20250403212919.1137670-11-thierry.bultel.yh@bp.renesas.com>
- <2025041152-puzzling-clinking-e573@gregkh>
- <TYCPR01MB11492DDF2728C9D3B3F14DCA38AB32@TYCPR01MB11492.jpnprd01.prod.outlook.com>
- <2025041456-legacy-craftwork-2d8b@gregkh>
- <eba16d9a-9e07-498f-a7ab-0bb36076de40@linatsea.fr>
- <2025041458-squint-dean-9999@gregkh>
- <CAMuHMdV=1Hoo4b8jmKV2sE0VG2E4g=EUus_gfE8hdMvLag1pew@mail.gmail.com>
+	s=arc-20240116; t=1744720763; c=relaxed/simple;
+	bh=yQ1UtJRnybgfKFu1lbiywS8+z9O8a+HPbwUWAZqD9Is=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tEOgebOtZZ+dQ6qlEHbkkYEP4FueyhmtWzc8PGOIBEWxLMeYHlF0Afh0ZsmnVouBfCfmSxAqfhdNEU/a2M17hhpyfe9x4u87SldTJD2Rv1tvskvIKpMEZgT5gWK3LeVC2v5tSmjqDxSDT85LD4PdLr1JW1Wth2MoRS2hqNYNhAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4c32190386eso295535137.1;
+        Tue, 15 Apr 2025 05:39:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744720759; x=1745325559;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CljMwcmhWhPYHMXEqE3O9FpJH7LvXojW22x3A73BLzM=;
+        b=uwYZTu1NGkBlFGJnWMZmvp6WlIUj95AKdM98qoULOAB2ctnJYmDpxBgvuQeZGND8L3
+         1czL20F/USQYEhXLTF1tr0ZXqP249+e/P76Leap3u/e0I6MPw4R+JL19FVg7rZUDmdDr
+         yt2eIetn6/mkOvNyC3v7M8hd9yGiz2T/7XyzO9ywDCNihC1A8Ebcp4CpKDavKJ1XEboW
+         fXluPsDGROUoJUdgJwfJvRLfj8xi1gOa6m2KuaN5f9GlsgdZgQbVQr+kPehUOfW+pfxG
+         pnpMgJeTJyNRSQDNrPCbrdTMGYO5OPOvy9hwgXEmLHfsZ7hiGX/1W+rCbyGYNiK7ts60
+         OkbA==
+X-Forwarded-Encrypted: i=1; AJvYcCVQBrlOIG356P9zknuMA1RiETmfll+1HZgeU/2O62eE+Cpi/mSagpZRv+34J5qgIuy2f5CD6Ojf/Oc=@vger.kernel.org, AJvYcCVf1vUTYGacDT2kFXUVom6C1yXw1c0kHIOnPgerglyUClHu0Js4tZFkIEz3MoBWPoxMAR20pGPNVvSd3jeW@vger.kernel.org, AJvYcCXuC/e4VYDhFevpMVDEgvoDjtraeJaDBxEzFi36OxmUFw+LYzCGnyoFJmzMnDMFKrIHNp1tP029R21/9rPqOihDn8A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6Gheyk+epJrmkfKPcLqBKl05yQEYbubu0QXGho6ulvbjV4dt/
+	uIJpmAQh/Ckn44K1IkX9IRNwWLxOujuemhxJKTze4ZjJcwzxmoz4755YvrAk
+X-Gm-Gg: ASbGncvwCkifJoUDHPzuC6q9SV5YQCLt2Mnnamuuj95TfxaNCMkEBfTY8sCUxH/+/vP
+	4/NWBzpmvCUCgVVPCJNXOfoqMmMK2q0GcmvUHi9qH/elNJo1y0D58/D7CbIeQ85r7S46ZPpMns0
+	bEWgBR8yypA+WHZkg8H4IjnkzvH43keUl+vFcJ4VPQhz+a0QSFBzDv2cwwgsQl9V7s5NMguhgen
+	D/+MFnVg0JaKFaZrMCDWZjkiI3A25RUtsZUBiwCy14mqSqwY/uT98Hv6aGQ5BueensYYGA2poLN
+	07tSoYVsDuT6trTgP5DSy2x4Y13M6CKodFQhPe+eHYqfLN2leg4m4RGns+0L20xD67jVI5gUsbB
+	GrIk=
+X-Google-Smtp-Source: AGHT+IG01/OJU8PvNtPf3a5+lWVVQjuSFrm8iJsWuZtp2z8/7LnZCQEd7041C1maQQX66N4RzueLmw==
+X-Received: by 2002:a05:6102:5794:b0:4c2:ff6c:6043 with SMTP id ada2fe7eead31-4cb429eef20mr2163336137.0.1744720758938;
+        Tue, 15 Apr 2025 05:39:18 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c9c9738083sm2624572137.4.2025.04.15.05.39.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Apr 2025 05:39:18 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-86d587dbc15so633363241.1;
+        Tue, 15 Apr 2025 05:39:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWcmP782F8WS0nc3oTR2tA52auvt1bw7hqe6R5/iaP0xVKOznfS/pFmk5ATBjiObilS9cQ/Ew3xE+c=@vger.kernel.org, AJvYcCXBinYofVDhCJ1w9BNRCmMV9rXJctDzJj7nfWgrtrEaB9OnrxR59ZLkvL6e8XgVmAhptokOYOjyYDfD4WBv@vger.kernel.org, AJvYcCXhWC4qpZLyfXsVHCm+WhutS0hokQrmCcvgg8jkxByXETvFU/B6k/ZzM7V3XsfE3UZTd75BnyG7jQ0MsSWhLD8OHls=@vger.kernel.org
+X-Received: by 2002:a05:6102:8007:b0:4c2:fccb:a647 with SMTP id
+ ada2fe7eead31-4cb42d4813cmr2476627137.5.1744720758022; Tue, 15 Apr 2025
+ 05:39:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdV=1Hoo4b8jmKV2sE0VG2E4g=EUus_gfE8hdMvLag1pew@mail.gmail.com>
+References: <20250305002112.5289-1-fabrizio.castro.jz@renesas.com> <20250305002112.5289-6-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20250305002112.5289-6-fabrizio.castro.jz@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 15 Apr 2025 14:39:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXTnuMf-RryuKgLfSUPxrZ9uBzQE9R9hDzLaM473WQQyQ@mail.gmail.com>
+X-Gm-Features: ATxdqUGBdUlLRT6Eh2ITmZMz_m8C31FbsLC4WyTipZXXWWUeaE5uxWGqxfq8dlw
+Message-ID: <CAMuHMdXTnuMf-RryuKgLfSUPxrZ9uBzQE9R9hDzLaM473WQQyQ@mail.gmail.com>
+Subject: Re: [PATCH v5 5/6] dmaengine: sh: rz-dmac: Add RZ/V2H(P) support
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Apr 14, 2025 at 04:07:23PM +0200, Geert Uytterhoeven wrote:
-> Hi Greg,
-> 
-> On Mon, 14 Apr 2025 at 11:32, Greg KH <gregkh@linuxfoundation.org> wrote:
-> > On Mon, Apr 14, 2025 at 11:23:34AM +0200, Thierry Bultel wrote:
-> > > Le 14/04/2025 à 10:58, Greg KH a écrit :
-> > > > On Mon, Apr 14, 2025 at 07:54:12AM +0000, Thierry Bultel wrote:
-> > > > > > From: Greg KH <gregkh@linuxfoundation.org>
->  > > > > On Thu, Apr 03, 2025 at 11:29:12PM +0200, Thierry Bultel wrote:
-> > > > > > > --- a/include/uapi/linux/serial_core.h
-> > > > > > > +++ b/include/uapi/linux/serial_core.h
-> > > > > > > @@ -231,6 +231,9 @@
-> > > > > > >   /* Sunplus UART */
-> > > > > > >   #define PORT_SUNPLUS        123
-> > > > > > >
-> > > > > > > +/* SH-SCI */
-> > > > > > > +#define PORT_RSCI    124
-> > > > > > Why do you need to tell userspace about this specific port?  Is that a
-> > > > > > hard requirement that your userspace tools require?  If not, please don't
-> > > > > > export this here.
-> > > > > This point has been discussed with Geert and Wolfram.
-> > > > > We cannot use PORT_GENERIC for this IP, and adding the new type
-> > > > > is just keeping consistent with the sh-sci driver.
-> > > > But, why does userspace need to know this number?  And why doesn't
-> > > > PORT_GENERIC work?
-> > >
-> > > The reason is that the sh-sci driver discriminates internally between port
-> > > types.
-> > > There are number of locations when it checks for PORT_SCI, PORT_SCIF,
-> > > PORT_SCIFA...
-> >
-> > That is internal to the kernel, not external, right?
-> 
-> Indeed.
-> 
-> > > T2H SCI needs special handling, too, that is the reason why PORT_GENERIC
-> > > cannot work. I just therefore added this new type.
-> >
-> > Again, why does userspace need to know this?
-> 
-> I guess userspace does not need to know about this (does userspace
-> actually care about any of these values, except for PORT_8250 and
-> friends?).
-> 
-> However, traditionally PORT_* has been used as the differentiator
-> for serial port types in most drivers in the kernel (incl. sh-sci.c)
-> as well.  Just two drivers use PORT_GENERIC, and these are the ones
-> that came with the introduction of PORT_GENERIC.  Since the rsci driver
-> is not a new driver, but a sub-driver of the existing sh-sci driver,
-> I think it warrants keeping on using the type field, like before. Else
-> it will have to become even more complex than it already is.
-> 
-> Note I am fine with using a non-uapi value. Is there a PORT_* number
-> range meant for internal (non-uapi) use?
+On Wed, 5 Mar 2025 at 01:21, Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> The DMAC IP found on the Renesas RZ/V2H(P) family of SoCs is
+> similar to the version found on the Renesas RZ/G2L family of
+> SoCs, but there are some differences:
+> * It only uses one register area
+> * It only uses one clock
+> * It only uses one reset
+> * Instead of using MID/IRD it uses REQ No
+> * It is connected to the Interrupt Control Unit (ICU)
+> * On the RZ/G2L there is only 1 DMAC, on the RZ/V2H(P) there are 5
+>
+> Add specific support for the Renesas RZ/V2H(P) family of SoC by
+> tackling the aforementioned differences.
+>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> ---
+> v4->v5:
+> * Reused RZ/G2L cell specification (with REQ No in place of MID/RID).
+> * Dropped ACK No.
+> * Removed mid_rid/req_no/ack_no union and reused mid_rid for REQ No.
+> * Other small improvements.
 
-We can just start putting them in a non-uapi file so that we don't have
-to keep adding things to userspace that never needs it.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-thanks,
+Gr{oetje,eeting}s,
 
-greg k-h
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
