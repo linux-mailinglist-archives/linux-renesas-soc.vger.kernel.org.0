@@ -1,85 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-16014-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16015-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA34A8A120
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 16:34:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B98BEA8A124
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 16:34:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3E4D3AB71A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 14:34:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBA44179326
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Apr 2025 14:34:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFA8320469E;
-	Tue, 15 Apr 2025 14:34:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A99D327B509;
+	Tue, 15 Apr 2025 14:34:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8E8198823;
-	Tue, 15 Apr 2025 14:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E716C1A5B99;
+	Tue, 15 Apr 2025 14:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744727659; cv=none; b=jD8P1BIHMg8mNo0QhDduvWpNeAlvf2CD689MvkZCg/4UTqhUfmWj6FO+D44hc8UG8fYm1VC0Bdv3UPW6iDSKBZ+ZP+YV3odYfZ4Afyn6BbCbe4xIXQhhZExUSU4uxvOIiF/TGpD7UisQwd7lF2Hav7ryWWFcO/Ba3PvTm1ECWVE=
+	t=1744727680; cv=none; b=EHm9EgeKdqgaIL4nqU7m9A3yY/c6zwh7sgdVXQH9zDspBPoCT9khpHL6Yrt01RTMneTm7f/sD823aD2AQ0VwOoQ7dEMy0C7r3fHs9Od6eQlxsfxnRRrP5OgBMzjeo1JMKQcL0GUP62dfn0N0+zmJP0/WtZlotFo4nyE3h/U+rIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744727659; c=relaxed/simple;
-	bh=0ho7LkAw5exAV2fASQLJiJ6zKiogLTEOEBo9ma+MBz0=;
+	s=arc-20240116; t=1744727680; c=relaxed/simple;
+	bh=Tl88dRk9WKzmD4PTHVVRWupHls5Z857EJ26A6giTmWM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SSYpXwI3tQgB7R7fD3WXooOgPrS+UNA9ktwwwXvG3OZi6DUY61p8Try5nA/bJ2bAmILYLe/H8MEZ6YrU1aak8aIBdUmpoSc4mxcpL10l+HKCPKnDQ1v9ycBmvNakEO/cZseXM3Vcg0GqD6z/pVZij5uJ8eCiugDZelVmzIm2gvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.43
+	 To:Cc:Content-Type; b=iU7K20az6vYQYvXI/9eNAHgfAF7Ph3Vd3WaHuT6QMQb4U6LuNXVJp+y1UmVmEz+xr9ZTch1KtJEID7fNHCKVgthySDetFR6scMRrf4PREiGM7Oof/cmmzeFtw1UFQAFJwALLuTdzzFF1SZvmqt8lV08AbwcnR7JwNvOgtiJgTK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6f0c30a1ca3so60239936d6.1;
-        Tue, 15 Apr 2025 07:34:17 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c5e2fe5f17so552875885a.3;
+        Tue, 15 Apr 2025 07:34:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744727656; x=1745332456;
+        d=1e100.net; s=20230601; t=1744727675; x=1745332475;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YFPVcEEiobdT+1OcIUxsmQr7Ur44l0CAmSvwXzoKSWk=;
-        b=onAd4Msko/Sv+53q+pXwuF8T2QGlHuxK0imhPN7HO42HhnocBhngFMIDhZDToNXgWt
-         wFzE3n8AwTFdJKwpRDMJT6UD7zNPIvwxgXZB0IDZyV/zVKpHOAEWaXFNSibpAtpEePOp
-         WXhlKIfojV1af0MPTWJqHoQ+X50qmYdJTxZzFf0HkgtYTNktZ0T3h1RaW72I97hPbFy7
-         5KXvQFE2kZhLSX+2SN2AJLiDs9cItimibnNnE7cX4JNbSa4ynniBSBnBms3ancZNBt3O
-         dBiKlhEkoc2xDR42umuZaPh/B42B4atWrZtQLnkXo8Cn4r5wEaAgFW8yq+K+gsrDMY4L
-         pSSw==
-X-Forwarded-Encrypted: i=1; AJvYcCUH1rvTMm2ZK6guDHc2p4dcSmwHenepNfP7qAJRQ85/ftwuLQR7PnUmnQrYmPFKe7QRWLuYH9nXw/c0@vger.kernel.org, AJvYcCUVv5/naxHzjMF2tHbNbIZTUUs2UzxesT3KY/S9vwK5vffyr4QMigN+3YABIy6QwNnBqbUBE5Y1uU/uxEjrlmvFmdU=@vger.kernel.org, AJvYcCVGAv8FG1u8U//hffWQyv7nwIujFisxy+TEZNBhRLiP/ADX5M2jX6q9QPrRYBVXNy623XWViRUNn1p4@vger.kernel.org, AJvYcCXf+f+D4PZ6vmugdblvGUaklhMS5hywxAkoBLCgLwJ64fT0Q5kAhuai3e2iMU1vtbnbG8mSaCPZinG7KSyY@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyykkGnCM+Aakm1SRrt+CaNYY7+JnymJjfrSgw7XcZ148INujz
-	BFXpreoWfje80xirzNXoVPcH4MD2TZ77htbvUGzbClMpGavoL7brmUKMmonQ
-X-Gm-Gg: ASbGnctDBcpObexMHeM4A8ToGwPzxvAFR88Nw7Tt40EpVTKaO3CBSTnjhxKa0VUN6ig
-	PV+PkvJnw21Y8J4wkV6bZeddye6RxYyl9gvJEn3Yze52c7q8r6xZ1pIAuEmqtaZt5ZR+DBMLidz
-	2zKHDQ7qSUhwbdeNJJLTdmwACTMdG7ikztQlMGofx9nKTIpUl/IUFvNkd2h8/A4cp0EOQEN2u5I
-	+qmpoOX1t6JyDsUUdtzONtVSvU83CHi+cM6yFLjsgf2HVE74uLQrGjrW6GhB4oEdw+aC96Qhxkx
-	9cftH7UQu5AxM6628/2XyIBoy1CEyU7xnwbNE0DM4xFK252wpFXSmcCau2yOCofI/HBLk4kIxfU
-	NmDL9dQo=
-X-Google-Smtp-Source: AGHT+IFPGH87UvKLPtcsS+0ChZc0vSXakJkusasnxnIuLcbUigE5VUVXp9gDO71AyOWRGLX6+TwZWQ==
-X-Received: by 2002:a05:6214:e89:b0:6ef:3de:5ff7 with SMTP id 6a1803df08f44-6f230dc788fmr217939096d6.15.1744727655677;
-        Tue, 15 Apr 2025 07:34:15 -0700 (PDT)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com. [209.85.222.173])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f0de980872sm102100126d6.56.2025.04.15.07.34.15
+        bh=FCNEltMnu4+e8+YmO6/m3JW1DrooVatnpehCYQVy/l8=;
+        b=bajhKSogpJh6hqmuSCeOpdE1kRREo5mpidzcVbFIuBuCnn9Bw3uzSZSxF1+at9Kt6t
+         yEKRlkouz6nR1vBWAoi/h3I8TdVQrhPFfR9N3YLpI5cAOWw6rvf6QIjgqc5a+ksb7bsj
+         MqkUm1CgeWutXMnl9BaQVti75RKusC8vCJoMBI3o4nmRHjbcVhRgsfuV7u6G9UrDzB1a
+         HC5EBrOQAyS/sJw1XBpnxMkb17nKONLpki3POgb9sLLmTQ9cp/C2PqZM542QRSSTZh8y
+         QY/qPyzkzaK8FKq2xXWZ2jpSZoScimlxkz5vgU44tzAKH1wftQTgrMakj5tJk0bopE/1
+         6F7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVUWgGhYYjVedNaq9yqBBltLKiWUJ3mgfjAOJ+RTKbYeDFB1q/maHYSE39jXpXsiwW4yDYCzUPS3PHi@vger.kernel.org, AJvYcCW56wA4EsQGlyA2vyaMLU97gojEZ6p9ByDZxUqZ5KT8WnZQK9e40rIIJfsWEB/PQfYOTy+gRfxu5ZpVO/3I@vger.kernel.org, AJvYcCWI1lc59dzRDpulDnoVvdzG1mlQ+20vZS5fmlaaZQsFH1kzJdeFyo7Keok7drHGENvmqruePNBrOgWK4AJRP3+QJ3k=@vger.kernel.org, AJvYcCXCdABpVZ+bdrCQEbTNxneHXbZgPaffIEAuuLBDI4xkGEGSCG35nr35oNGQXfkv8Ul4vXQ5C0Pt6h6P@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQ4+7+e6vfECmezmctQzogDAvwppHJ061KwgQIDo/rTGOh1t//
+	AXIMX69HKI0iD0kv+4AVVqZ3UVQ0f3MZ+8gVfI5dWX3DXJbNINU1dYx1UClK
+X-Gm-Gg: ASbGncsuCdOXnfpt8wHcicTnYyobef1wRM6u0BjMlyifUgfHvOWk2xNLyv12493Ef7n
+	oNHjkd89J5jeFKmIyyhEo7/6PrDygHrrdlCe3zT0NGgg/5IJzsYAzUIQwNvRabB39G2bzD+Q64V
+	eRGigq+EGv+gIcvtv5BFGoEPm0ewMGxFf1O0om5aqA/h6myoAxm4D35m8x3Lw+DHl8hYjuZaZFa
+	O5nU1pViGfyq2SAtlSk0n3X/W4XSejN0JIJV+hw8VIo2f/6J7FRxw+keEXFyme4gYuET11Im2hP
+	EUbcztD5iBZHm8UPuSa1LNAKsLT0S38VWr1sexCkMrg3t+GyXgoipkwPXseUN7wa985UhTG7PPM
+	SZ8SYnL4=
+X-Google-Smtp-Source: AGHT+IHne3ZR05vW81ZI4/ekMIwQ83viymfyihZ+pOWgY2ocQ+qQTyPPS97AUgm+/IcVsElPcMvM/g==
+X-Received: by 2002:a05:620a:4148:b0:7c7:73cd:1475 with SMTP id af79cd13be357-7c7af0be293mr2344667785a.3.1744727675577;
+        Tue, 15 Apr 2025 07:34:35 -0700 (PDT)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com. [209.85.222.174])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c7b7f75717sm599445785a.70.2025.04.15.07.34.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Apr 2025 07:34:15 -0700 (PDT)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7c560c55bc1so568270385a.1;
-        Tue, 15 Apr 2025 07:34:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU3OTMaDhhFpIPhP4S0ods1zEArFIF4LePY/blP+bFS+IOaRqrxzUXmzYEsKPaOEFxDcGZNJyPz+5ES7i1qCE7ExCw=@vger.kernel.org, AJvYcCV8C86ZXpGPmFWkGuRxkkvaW17zlgCdW1mD2kSFQyJ2CvqKfvUvIFxkizkIhPRWdOxZX5t0C/6syKwg@vger.kernel.org, AJvYcCX62nzufXhVrrkubfzFeVoKkLoV2hRRnUAg0KNKlrXufbumjkFqGnduDfCi7tlsT/Pf59G/rsmAevup@vger.kernel.org, AJvYcCXSIXnnReMk9g46AWCG5I+dLB3CrZblX4dVvRhf386qyeb2x55DezdoAXzZFiDgwQE53mVxgtXQpdXm+EP+@vger.kernel.org
-X-Received: by 2002:a05:620a:47d4:b0:7c7:b4de:12f0 with SMTP id
- af79cd13be357-7c7b4de12fbmr1765094085a.32.1744727655101; Tue, 15 Apr 2025
- 07:34:15 -0700 (PDT)
+        Tue, 15 Apr 2025 07:34:35 -0700 (PDT)
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7c5e2fe5f17so552868385a.3;
+        Tue, 15 Apr 2025 07:34:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU8S5Cz3JRL114xdEd/Ws8HZh74lFbSRQ0h92RBNoobGrg8wAwEoXeUz+UGAPOSawgyMJg8p4uyrDLGmsdhzn3o17c=@vger.kernel.org, AJvYcCUb3HGreCaLX6vh6l0rfj/SuqMXXdQOETGfUN9ePR+diMrmB77NhJZ9/sdL8eNSybFxV0+TJOFgzoT2mt1Y@vger.kernel.org, AJvYcCUoQdtj3NwawuqiYGxzZkAuEpBc3EtcxI+q6QyfZsz2MCskACcdsYzYE/qDgrGkhoAFMr65u3K/mcoY@vger.kernel.org, AJvYcCUy7mXZVVrUmtH5M8KgRvu1e+uloRfnf5kjGwLRNDuUsLXPOJwiEGGkj9B6pNQmi9T29iPKDZwI2EQ3@vger.kernel.org
+X-Received: by 2002:a05:620a:4694:b0:7c7:95ee:77bf with SMTP id
+ af79cd13be357-7c7af0ce3bbmr2087309785a.19.1744727674510; Tue, 15 Apr 2025
+ 07:34:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250407165202.197570-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250407165202.197570-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250407165202.197570-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250407165202.197570-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250407165202.197570-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250407165202.197570-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 15 Apr 2025 16:34:02 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVdw1fRitLhtnLVtndyMMTofPu86Jeo9Gi+jN9JBvp8gA@mail.gmail.com>
-X-Gm-Features: ATxdqUE8ACu1iJO5kseLLN5xUAKGwC10AYneSDKQpjFfffR_bcDoB9ebuNmS9yA
-Message-ID: <CAMuHMdVdw1fRitLhtnLVtndyMMTofPu86Jeo9Gi+jN9JBvp8gA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] clk: renesas: rzv2h-cpg: Add support for static
- mux clocks
+Date: Tue, 15 Apr 2025 16:34:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVT9Pc3if0CRYWcqnUDFPt-+wwkGK8heRgxKeMGocQkkw@mail.gmail.com>
+X-Gm-Features: ATxdqUEkTRsO-w3hqqcgyBvHiplctB2HBw8BUb3INu57sjzkGSY940sE3DaRIPo
+Message-ID: <CAMuHMdVT9Pc3if0CRYWcqnUDFPt-+wwkGK8heRgxKeMGocQkkw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] clk: renesas: rzv2h-cpg: Add macro for defining
+ static dividers
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -93,133 +93,23 @@ Content-Type: text/plain; charset="UTF-8"
 On Mon, 7 Apr 2025 at 18:52, Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Add support for `CLK_TYPE_SMUX` to register static muxed clocks on the
-> Renesas RZ/V2H(P) SoC. Extend `cpg_core_clk` to include parent names,
-> mux flags, and a new `smuxed` struct. Update clock registration to
-> handle static mux clocks.
+> Unlike dynamic dividers, static dividers do not have a monitor bit.
+> Introduce the `DEF_CSDIV()` macro for defining static dividers, ensuring
+> consistency with existing dynamic divider macros.
+>
+> Additionally, introduce the `CSDIV_NO_MON` macro to indicate the absence
+> of a monitor bit, allowing the monitoring step to be skipped when
+> `mon` is set to `CSDIV_NO_MON`.
+>
+> Note, `rzv2h_cpg_ddiv_clk_register()` will be re-used instead of generic
+> `clk_hw_register_divider_table()` for registering satic dividers
+> as some of the static dividers require RMW operations.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-clk for v6.16.
 
-
-> ---
->  drivers/clk/renesas/rzv2h-cpg.c | 21 +++++++++++++++++++++
->  drivers/clk/renesas/rzv2h-cpg.h | 32 ++++++++++++++++++++++++++++++++
->  2 files changed, 53 insertions(+)
->
-> diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-> index b8bed0c1d918..4cda36d7f0a7 100644
-> --- a/drivers/clk/renesas/rzv2h-cpg.c
-> +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> @@ -399,6 +399,24 @@ rzv2h_cpg_ddiv_clk_register(const struct cpg_core_clk *core,
->         return div->hw.clk;
->  }
->
-> +static struct clk * __init
-> +rzv2h_cpg_mux_clk_register(const struct cpg_core_clk *core,
-> +                          struct rzv2h_cpg_priv *priv)
-> +{
-> +       struct smuxed mux = core->cfg.smux;
-> +       const struct clk_hw *clk_hw;
-> +
-> +       clk_hw = devm_clk_hw_register_mux(priv->dev, core->name,
-> +                                         core->parent_names, core->num_parents,
-> +                                         core->flag, priv->base + mux.offset,
-> +                                         mux.shift, mux.width,
-> +                                         core->mux_flags, &priv->rmw_lock);
-> +       if (IS_ERR(clk_hw))
-> +               return ERR_CAST(clk_hw);
-> +
-> +       return clk_hw->clk;
-> +}
-> +
->  static struct clk
->  *rzv2h_cpg_clk_src_twocell_get(struct of_phandle_args *clkspec,
->                                void *data)
-> @@ -483,6 +501,9 @@ rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
->         case CLK_TYPE_DDIV:
->                 clk = rzv2h_cpg_ddiv_clk_register(core, priv);
->                 break;
-> +       case CLK_TYPE_SMUX:
-> +               clk = rzv2h_cpg_mux_clk_register(core, priv);
-> +               break;
->         default:
->                 goto fail;
->         }
-> diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-> index 59f72fbed133..03e602d70f69 100644
-> --- a/drivers/clk/renesas/rzv2h-cpg.h
-> +++ b/drivers/clk/renesas/rzv2h-cpg.h
-> @@ -53,6 +53,26 @@ struct ddiv {
->                 .monbit = _monbit \
->         })
->
-> +/**
-> + * struct smuxed - Structure for static muxed clocks
-> + *
-> + * @offset: register offset
-> + * @shift: position of the divider field
-> + * @width: width of the divider field
-> + */
-> +struct smuxed {
-> +       unsigned int offset:11;
-> +       unsigned int shift:4;
-> +       unsigned int width:4;
-> +};
-> +
-> +#define SMUX_PACK(_offset, _shift, _width) \
-> +       ((struct smuxed){ \
-> +               .offset = (_offset), \
-> +               .shift = (_shift), \
-> +               .width = (_width), \
-> +       })
-> +
->  #define CPG_CDDIV0             (0x400)
->  #define CPG_CDDIV1             (0x404)
->  #define CPG_CDDIV3             (0x40C)
-> @@ -96,8 +116,12 @@ struct cpg_core_clk {
->                 unsigned int conf;
->                 struct ddiv ddiv;
->                 struct pll pll;
-> +               struct smuxed smux;
->         } cfg;
->         const struct clk_div_table *dtable;
-> +       const char * const *parent_names;
-> +       unsigned int num_parents;
-> +       u8 mux_flags;
->         u32 flag;
->  };
->
-> @@ -107,6 +131,7 @@ enum clk_types {
->         CLK_TYPE_FF,            /* Fixed Factor Clock */
->         CLK_TYPE_PLL,
->         CLK_TYPE_DDIV,          /* Dynamic Switching Divider */
-> +       CLK_TYPE_SMUX,          /* Static Mux */
->  };
->
->  #define DEF_TYPE(_name, _id, _type...) \
-> @@ -125,6 +150,13 @@ enum clk_types {
->                 .parent = _parent, \
->                 .dtable = _dtable, \
->                 .flag = CLK_DIVIDER_HIWORD_MASK)
-> +#define DEF_SMUX(_name, _id, _smux_packed, _parent_names) \
-> +       DEF_TYPE(_name, _id, CLK_TYPE_SMUX, \
-> +                .cfg.smux = _smux_packed, \
-> +                .parent_names = _parent_names, \
-> +                .num_parents = ARRAY_SIZE(_parent_names), \
-> +                .flag = CLK_SET_RATE_PARENT, \
-> +                .mux_flags = CLK_MUX_HIWORD_MASK)
->
->  /**
->   * struct rzv2h_mod_clk - Module Clocks definitions
-> --
-> 2.49.0
->
-
-
---
 Gr{oetje,eeting}s,
 
                         Geert
