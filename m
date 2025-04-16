@@ -1,110 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-16070-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CABCA90475
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 15:38:02 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBEFDA9047F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 15:39:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5393117C40F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 13:38:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD13D7A1B77
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 13:37:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E848414885D;
-	Wed, 16 Apr 2025 13:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E61A19AD89;
+	Wed, 16 Apr 2025 13:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EI7+v9/T"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F29179A7;
-	Wed, 16 Apr 2025 13:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6E7A32;
+	Wed, 16 Apr 2025 13:38:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744810679; cv=none; b=J4fJtnUzCYckQCqo6kjaLUY7MvaPo0Cr60SgDhqg4pM1rKvkDNEbbt4oirvP7U/bhbgeK8a5tN/FyjV1ocrLecvZEytBSUIdyH4N6Js1Dg+VgH36slKZ+s69AfLFQchYKovgQQcHdb5HsC/SQCcE0K857K5Bc0n6QnuGY7BQFR0=
+	t=1744810738; cv=none; b=a7KbNw+GO9OuUOfoxquT/qDeQ2PpXT/Sg2gLSzrPuGrjjTY+9R5pbSTSa+xQPrEhMFAFPCpemCXTTtB9VZpltxdQoFVOXJGI/gSz1OlrB3b394rDBPWQVuC9iAy5aFAlynaXVHhx7JCqZ1kAkYLmtUWOx19N2bdaasOecEDn9Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744810679; c=relaxed/simple;
-	bh=bv8qxXuI62o8GRr4+jZIQcSM4GNBFSifb252dD4myTU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KSrDtEGc4xD/oUGGhSjfBZrsSRFZbJllTHlOLV3zEL08C+SY13SBU4ctdLgMNccNWazb/rLkMzale1DHwmO3X+sgh8T0DTCZTKGPtxr7Q0/WjGXV75GBSeD7JPbulCS+iXW9lnM4PfiWSYdfZMhG/0QIN50+MkjZkPOMHm07ih0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6f0c30a1cf8so77630406d6.2;
-        Wed, 16 Apr 2025 06:37:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744810676; x=1745415476;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ile9GcDBP/sdlUIAbBIn3uqVE+tc5CKk2ygGHbbtcdE=;
-        b=kAhedWg287Z9b8RaET1qICu/isMbOmPHDKzbh2JU2eg6ef2ZmMCkR7kFwJaYPQb8VK
-         GkWemnpwBcNJevpRxzqUhjnWSQTG//nSDFijZC380uiCLw93ntSwSneCbFayWrlC+XBS
-         mPolrXlb0ZBFCAZ+LpOa/4nzqMAl9UZHPgCO8kDFQNiJbJToBL1Qw/3FsnRP7KPT1qEJ
-         gYFiNaUOhhXpCeUQtJ41HEKhBM552w2ZxqhdOnpb/z2ohBpECUnSXdw+Zo70d3+loA2Q
-         Vfa/KpNWA17tGCPdFLdvoPqKzt2iUKZQD5R+WisEmoUOnGhxuJbVkbGGZ+4leWQyHhGz
-         m+hA==
-X-Forwarded-Encrypted: i=1; AJvYcCXhRfv+rzwoErn85KcAHKZIXtKDdY1noYKy373dELsZJ2pII/OJL2lWUFg1xfXE5Xt9rAb8toSoaJQhUJ7CFvyoVF4=@vger.kernel.org, AJvYcCXjDIGPG5x8ThRDVfJHvIgoUB30DMryG7kjGgu+XWIBGQcRfBFJPNiRNMl3c/ABQEw+px7AC1Cq7WQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZBdNHrsU8B93RjN4ERQPafo8TALMgeTh+GOoZaXr4j8OajpgT
-	lCi3CoGl93g0FNyGqX2IzFIuit65CY0J1Z67iK3D+W0Q7t287qMvcufXrcpI
-X-Gm-Gg: ASbGncssEQmjgcrlO7WqJeqkQt4Rz57gtWzjsLL3dglrfHF2My+LOo0pGqLHpBnS8Up
-	jq1Ut5fe74gNWDtCRzAGPrXcu2Y52fUYIDvCvLmFLLCj1oNSy82WsvJuP5ZhHid2MllOtNczmHw
-	ivfOlB3iVv3ZaSYteJGN2j9QJxHe+QlqfDAXgINJfZoAfpkLsl97Jwb2lmhNSEYT9Dw42eWMIgf
-	qTr39yuxUTjHGEox5LSp0qX3dpJBfthUBJin/VVeKcoh0VinIGjGz9FasvyFPwnq3mGggdc5nu0
-	kaeOmHqsDLUyosA8xmEPmDnLOG8OhIVSAkJJ3Nm4+8662DXJEoBwmssGBWZojqTzlOfcM0iaSUT
-	9Wx4=
-X-Google-Smtp-Source: AGHT+IFwPh2Oaw07CM6xnUVIR7zFf4eBYH9T47Mq5ZM4XrwrvM0j2rQkuXFwKt+0vB6so8t90CAXXg==
-X-Received: by 2002:a05:6214:d07:b0:6e5:a0fc:f663 with SMTP id 6a1803df08f44-6f2b2ded737mr27522846d6.0.1744810675681;
-        Wed, 16 Apr 2025 06:37:55 -0700 (PDT)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com. [209.85.219.53])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f0de95f774sm115627246d6.16.2025.04.16.06.37.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Apr 2025 06:37:55 -0700 (PDT)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6ecfc2cb1aaso69139476d6.3;
-        Wed, 16 Apr 2025 06:37:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUbhwXHora74JASBwWTV5709PNq6Waoe3IkXzGHJvBqTp1fPEg5v4tn311fR0YQ/+JZB/+1695zowM/ezGovQcfvlI=@vger.kernel.org, AJvYcCVw19i8gWMzVsNMunIo4MRariLx8ipbZXM5wOIn44A+E9Z0r5YQ3ZJBVQnjeyv2d8ie4+De8WWsBcA=@vger.kernel.org
-X-Received: by 2002:a05:6214:f0a:b0:6ea:d393:962c with SMTP id
- 6a1803df08f44-6f2b304c47amr23174826d6.30.1744810674950; Wed, 16 Apr 2025
- 06:37:54 -0700 (PDT)
+	s=arc-20240116; t=1744810738; c=relaxed/simple;
+	bh=nrrD3/sSaPsl3a1EqfKuMRRLXEiXUHmBEshVkFhljRY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FUR3kt+otwWlGmUWFxiIJ7viZnweaYa4sh2zhzsRnoC9l+P5w7FlsxsNfajR7SH6Q28N9N3kbqcWPy8OAuuwd6YPfQnAl0spVveBqWuzhZoPE2lwSxCGDz4dVUZStHEqCQiBXtPFVL2kXnHqpZ0eRDeo63GhA8OikIDgAlaXc9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EI7+v9/T; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02A17C4CEEA;
+	Wed, 16 Apr 2025 13:38:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744810737;
+	bh=nrrD3/sSaPsl3a1EqfKuMRRLXEiXUHmBEshVkFhljRY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EI7+v9/TV3vL8wNZFHf5NwXTl/I+OIoNCxeCgleOMSMSQ2et4YlX2E/CtICiF2aRX
+	 oW/4Id4sKByywPbfG/aMVtG/Yz6mzSPnvXl2qgsmgXLSFguGJM7kQXBF+k8BF1GIN4
+	 ThZ3NCRohH1sv1xyMoYbOtaw0ZOb6F3NrppLlR07Zo+WDcVKWUg5pMJEKTrkuBgExU
+	 gZz5KUkCuI4y1NsrxDznV0Gbp9y/3WlyHjn121kUA2n1+qTCsnrR97CYFi3SpyQJeO
+	 +/nIc8jEkEOxLOCWZx+MQxt08+oXFr7HQg9OEzZXHNTxnFCn+qtGuDHzV8KoVlsfLf
+	 +2x4BlPNPwstA==
+Date: Wed, 16 Apr 2025 06:38:56 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Tony Nguyen
+ <anthony.l.nguyen@intel.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, Leon
+ Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Bryan
+ Whitehead <bryan.whitehead@microchip.com>, UNGLinuxDriver@microchip.com,
+ Horatiu Vultur <horatiu.vultur@microchip.com>, Paul Barker
+ <paul.barker.ct@bp.renesas.com>, Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?=
+ <niklas.soderlund@ragnatech.se>, Richard Cochran
+ <richardcochran@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, Russell
+ King <linux@armlinux.org.uk>, Andrei Botila <andrei.botila@oss.nxp.com>,
+ Claudiu Manoil <claudiu.manoil@nxp.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Vadim Fedorenko
+ <vadim.fedorenko@linux.dev>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 0/2] net: ptp: driver opt-in for supported
+ PTP ioctl flags
+Message-ID: <20250416063856.3b653d81@kernel.org>
+In-Reply-To: <20250414-jk-supported-perout-flags-v2-0-f6b17d15475c@intel.com>
+References: <20250414-jk-supported-perout-flags-v2-0-f6b17d15475c@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250402102226.28032-1-biju.das.jz@bp.renesas.com> <20250402102226.28032-7-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250402102226.28032-7-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 16 Apr 2025 15:37:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUMzWo93COEDPF2Ve=RwkZ_5Ur5V=pTgyTrVEjag6LTkA@mail.gmail.com>
-X-Gm-Features: ATxdqUEZGRDeajlOfKEJlnM6hzrT54ZTNrvrUP4ds5ixZapsAXtBSG8DeZnCFYs
-Message-ID: <CAMuHMdUMzWo93COEDPF2Ve=RwkZ_5Ur5V=pTgyTrVEjag6LTkA@mail.gmail.com>
-Subject: Re: [PATCH v8 06/19] can: rcar_canfd: Drop the mask operation in
- RCANFD_GAFLCFG_SETRNC macro
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	linux-can@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2 Apr 2025 at 12:23, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Drop the mask operation in RCANFD_GAFLCFG_SETRNC macro as the num_rules
-> can never be larger than number of supported rules.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Mon, 14 Apr 2025 14:26:29 -0700 Jacob Keller wrote:
+> Both the PTP_EXTTS_REQUEST(2) and PTP_PEROUT_REQUEST(2) ioctls take flags
+> from userspace to modify their behavior. Drivers are supposed to check
+> these flags, rejecting requests for flags they do not support.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Applied, thanks!
 
