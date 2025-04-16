@@ -1,166 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-16044-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16045-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B7FA8B278
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 09:43:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF799A8B377
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 10:23:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B4881892249
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 07:43:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D5C4217D436
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 08:23:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A175022D78F;
-	Wed, 16 Apr 2025 07:43:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44B1F2356DF;
+	Wed, 16 Apr 2025 08:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="TUakBY6z"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZUPjHEVp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA2522D4DC
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Apr 2025 07:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A18D2356A8;
+	Wed, 16 Apr 2025 08:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744789388; cv=none; b=noOYWcdZQK81g0rfEbfsi7DVzghDv4V8v+o5HmreuvJeJqX81HOCvfn6wfr06wsiz3TRuyIywItvGrCRjKiP7DWRFYCwKFlREaz5tSbUK2c4NT4VL6jdaEpfUkhnUn+iYluTJnNVGu1F/I0wvf0GOweAMxtqlI6c3I3rGhHUt9Q=
+	t=1744791735; cv=none; b=NsZ7rgoKsElLFkli1BgZXgFwy0SKkMpiJgS5FaEoG5P7CosUhGIo8TCnjziBmhH64iqBLpFfCeBwKOR4G0xb4GRF1VzjUSO11hMQ3dm8elkZ32QdAL81UGwWuP2RWqJ/fUWrng4FhEO8Ee3EhniorCvN0iE0hvktKZoqEApvwM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744789388; c=relaxed/simple;
-	bh=W7RjF650Hww4phW6Jao4G0MIVaVTwIdOqM03zj51tfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EWYyUtzrnDTmVf0O55N02gsDUEqfDTHl23wywRuZqBPTPGkHvHLa9HRCro9hwMmys986iAsxCJZDHfuKv0wWZYbaGiAGRmfUk9xQMlD0CR3zuNXXumUG3hcsZW53WQskOhkNBI4V5CpaY/3/WvtlWlWJr2uAE/wIvXVTXxQtme8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=TUakBY6z; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=+IW6
-	5bGR736uruXZFGxU8tn6ykQrJqn+sd1HNhK4aE4=; b=TUakBY6zfxRPRE0UctHq
-	dqNUm33Zz5F8alNlgnW6R/gdOKeKeT7E0/k4nja8GMOzkzwXgjxvveV5H4pmFGOX
-	0xJ3ZF/2D8mpynDRs1abnL1GMk5ahylvhnYyxA4vfVOWPHx5GL7iVTVUuhg9Ycc2
-	VYGfkF5eL65HRjcTJunKDxd55XLUui45KIysH+d4vO6/anzgJZ+fZXxHWADZVES+
-	IZLDpjRfb3SZobdWrmz1jM3XfXB3LUUYT33+7XcoZquZDskZYFagrXPG++RnskHJ
-	lUsYf4kXTQrZUD4hOFHXOR0iZO94p4hJ1wsyuMvps1d7nWLrWlBkYhoxRmNvQUbM
-	2Q==
-Received: (qmail 619537 invoked from network); 16 Apr 2025 09:43:04 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Apr 2025 09:43:04 +0200
-X-UD-Smtp-Session: l3s3148p1@usVtb+AyBO0ujnsq
-Date: Wed, 16 Apr 2025 09:43:03 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Wolfram Sang <wsa@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 9/9] i2c: riic: Implement bus recovery
-Message-ID: <Z_9fh2nfwAaUnhVV@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Wolfram Sang <wsa@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241218001618.488946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241218001618.488946-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Z2XewglpALJFE1Ay@ninjato>
- <CA+V-a8vB1c8Zp+zzoHp0zFpW8fjw-xq2=KPr=dyBUUZbOhBxJQ@mail.gmail.com>
- <Z2gJtlb5Sc9esEba@ninjato>
- <CA+V-a8s4-g9vxyfYMgnKMK=Oej9kDBwWsWehWLYTkxw-06w-2g@mail.gmail.com>
+	s=arc-20240116; t=1744791735; c=relaxed/simple;
+	bh=0KaFhwTnjmDgReZaYJULJcv+2duhaffN/39etIBXWms=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fdbBLKquix3OFBZtzY4f3sTs+I81+sngE4nVSG2++cD5Rj2/miJ201mpKKEdTtOQu7u4AGT3rChE554Q4aKsvEOzA6UYl/Mf2gPpJGOgcQ+epcnbt8kkngUT0/ufxqK5vwDsiW/cyVXqQe/ovQVROw2PFLgTPJiddpKHoDcH6kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZUPjHEVp; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so43917515e9.0;
+        Wed, 16 Apr 2025 01:22:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744791732; x=1745396532; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qbOPyx4AvMcXJQ3iWHB+ayWpfG/43B3L2xzA6vm/AYY=;
+        b=ZUPjHEVp/qGmhus5FsyLWJTWKjvM5qcsC9+I1sG9d934XwVFO1RI+hTKUNND0P2fw5
+         gXUI2qmOFFrKIIumZop+ryyGPoy6jl/dq/9gzbd4odNf+dhWFsb5WywcOZHG/KSzpayn
+         ccf1wfADXH+FWSny5JzRcUUkEQ7s/11cVIe3S304tKHpNaPrrKfmTpCL6B0T2nh86lII
+         vmn8WaPkqGeXLMwk4Dec8WyMSlddnBaRznR4S8BJnd8sF4pmZ5Y8ZcWb60h1NXw0wHVy
+         YOusIOkt1u4kMwXAtyb2WiX48nk5LUj9BEeRAaxwbvX4zZDOoq+aGqtPD8Geae0ZQvBA
+         tIsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744791732; x=1745396532;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qbOPyx4AvMcXJQ3iWHB+ayWpfG/43B3L2xzA6vm/AYY=;
+        b=HGu2UaofS3DdTJDM0TgIgvu3Giw2R1jrM6zphNzgGlvEr06Gd3veGQ0GEnTq3ygZ/1
+         Pkp9/nrX9GLnlG6A4ixaHVmFG8BOYb3PdnelbohdkKardgdbDIcsArc5Axqe/bLVClB0
+         8/47G+qrL4DvUxqVgNepGiUuODBeqIripE6YEzcd1YIYJ0RYjlR+W0kEt/Id+EEmd7Gg
+         y81Xx0cViV04SrIFcaD/E+BQHHjy5622jCW34Z/Fj2ZLx6YkSQJysafxp9FwpQULpdFI
+         +xOUvFb0FpwEoqodMth2xaOOeB3C841JNfInAlXJkR94EpYRcxjtu0cydCk7FcJpRp7G
+         R+YA==
+X-Forwarded-Encrypted: i=1; AJvYcCUiOcv1m/OPWh1nP4c2laTwOejNHNtq3S+hcV3bFwg1lrNmPJs+bWG/Z/TACHk/u4Oc/qTiomeZs50F+uQ=@vger.kernel.org, AJvYcCVcEWR0bt086P4Pk6jRxlfuON0VekXQhjHyndmuAQtTZc/keOhgBht5SAyzuuiHfo3Ps+COnhBhL1kE@vger.kernel.org, AJvYcCWQ/8Z6TUsBIe9sgslIzR4ZFWwbP2mfvF4edV9j5oY2rpznRmONN4Z2vCHP9wvLqSomS77oPD/gQbJd@vger.kernel.org, AJvYcCXNzxEXRChy+6EnFDiT+4qyya6Sv/BJA9ecbMAZhH6XM8Cz9x+5TiRAlmYA86IrtvDbs81Z25T8hAf5TSTxzONqHX8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtosIAwwebKCTvF7dX8F+AwyENqVeW+glRkFauky8keyCuooqb
+	k+nONuXcryk/mWBUM5l8wPwErqQa15UwTDJhwHRpob6I/8A3SMB309UxIkLFBgZljrEExr5B0cc
+	VoUeInSN0NZHJ7WgliAwU3OfQfGE=
+X-Gm-Gg: ASbGnctKLqrO9C/mDlfq0I8BLLhC8E469EEZ0xpcUmrcJ1i1SdPlNetL9Z9+KgLBUAo
+	PFObsYfWI+d+HPmyFLnlQXoueu55tXXVnUWOdKRroDs9uewdXvbvoFUsW0H2bSD/2yPfM53o+qR
+	HKSAcKZBrCeupuwGGbw652SqUSNUniKreP7ZbCRniL5WwgWle5FM/TQso=
+X-Google-Smtp-Source: AGHT+IGZfVNclgSymwQIgJJbTBb/ACviVVFnVXr/eNGWv0CZgkk4ZBmuPt463HFXSBqsYm7JRrtN7+r8xJk/ESB9pPw=
+X-Received: by 2002:a05:600c:c0b:b0:43d:934:ea97 with SMTP id
+ 5b1f17b1804b1-4405d6df1fcmr8497825e9.27.1744791731333; Wed, 16 Apr 2025
+ 01:22:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="K5vpMRnXuq3n+WSd"
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8s4-g9vxyfYMgnKMK=Oej9kDBwWsWehWLYTkxw-06w-2g@mail.gmail.com>
+References: <87zfgi1a5a.wl-kuninori.morimoto.gx@renesas.com>
+ <87plhe1a3f.wl-kuninori.morimoto.gx@renesas.com> <aedc9fed-ba6c-4e22-9641-53ff0df8cb06@oracle.com>
+ <87jz7l81s8.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87jz7l81s8.wl-kuninori.morimoto.gx@renesas.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 16 Apr 2025 09:21:45 +0100
+X-Gm-Features: ATxdqUEKGUTW8hvWeJnxFgZREGiL0SYBtD8B_i0RH8QQtFTkYvwtGPN9SZsaDpU
+Message-ID: <CA+V-a8uoMmWK=Q2Gq_y+OnLotPJKA19QWmmY98ED51D-HPQa+w@mail.gmail.com>
+Subject: Re: [PATCH v3 07/10] ASoC: renesas: add MSIOF sound support
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	ALOK TIWARI <alok.a.tiwari@oracle.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-spi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
---K5vpMRnXuq3n+WSd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, Apr 16, 2025 at 12:04=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+>
+>
+> Hi ALOK
+>
+> > > +   irq =3D platform_get_irq(pdev, 0);
+> > > +   if (irq <=3D 0)
+> > > +           return -ENODEV;
+> >
+> > nit: -EINVAL will be more relevant here
+This is not a right suggestion, please return back irq so the error
+gets propagated. (Alok please read upto date documentation prior to
+any suggestions, this is the third patch where I'm noticing wrong
+suggestions).
 
-Hi Prabhakar,
+Cheers,
+Prabhakar
 
-finally some time for this!
-
-> Based on the feedback from the HW engineer the restriction is valid
-> see attached image (i2c-pullup.png). The SCL and SDA are Schmitt
-> input/open-drain output pins for both master and slave operations.
-> Because the output is open drain, an external pull-up resistor is
-> required.
-
-That confirms what I was saying. It is required. There is no difference
-between setting the bit manually and the IP core doing it internally.
-
-> Assuming there is an external pull-up resistor for all the platforms I
-> implemented the I2C bus recovery using the generic recovery algorithm
-> and I'm seeing issues, as the required number of clock pulses are not
-> being triggered (Note, the i2c clock frequency is 400000Hz where the
-> below tests are run).
-
-So, my take is to check further why this is the case. The code looks
-mostly good, except for bus_free:
-
-> +static int riic_get_bus_free(struct i2c_adapter *adap)
-> +{
-> +       struct riic_dev *riic = i2c_get_adapdata(adap);
-> +
-> +       udelay(5);
-
-I wonder about the udelay here. Both, why this is necessary and where
-the value comes from.
-
-> +
-> +       /* Check if the bus is busy or SDA is not high */
-> +       if ((riic_readb(riic, RIIC_ICCR2) & ICCR2_BBSY) ||
-> +           !(riic_readb(riic, RIIC_ICCR1) & ICCR1_SDAI))
-
-And maybe if we can't skip reading SDAI here?
-
-> +               return -EBUSY;
-> +
-> +       return 1;
-> +}
-
-Have you already played with these options? If you didn't and don't have
-time to do so, I can also check it. I luckily got a G3S meanwhile.
-
-Happy hacking,
-
-   Wolfram
-
-
---K5vpMRnXuq3n+WSd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf/X4MACgkQFA3kzBSg
-KbYQog/+MzMB5MNGTKUZRZK6nzVl3KnzBf5pjrz68biiT5lJOt/0OqsQeIWgDo5/
-2GwZ7HCXaisDGd/l6Tw/7uDHsl0MFwU/4xWwEdVsdyn25jwKHibYyCC8495q5N2n
-W4aIYU7DPkDlWZ8txSpefu8W3IKdezFh6Sx331zGnEmILPwIhd4qE1wChe+dK0xe
-A97Jpg3eKZqozLNocoD849LtRcufeRYGT1IioypleoTJpGpep1/eZwkdyKYd3JNb
-3BBAMlkFDbRrEfCeOwqc3Aun6JWelft5/tklQjXFj2ib1n+vgP2ZcIItyTB2jyWE
-Z5aDeDcXN8SBZ6uRloTSHj+OyKI9mcqg0/SqFRnndV9nlEeKcM5lM7oH4AOIsb96
-65oQZL8opbCpyRnzhQANf94I/bZlpjZPfpdo27jItidVJ5LRoCV6dbbBhqPpc+Fd
-BcY7ERnXTiQ6tB9EmE8kVh05twfqvDvjuvxvBda9qBaSVnvWcNpDlp1c5c8ef6/7
-Yms+SYx3ysSVijFZAyFdmyBMEB6WLvdoKw6c5nNW9LamWbLRC/4hZGKZeCxIE0oW
-/h7gRGyW9+GRZPkmrnXSAWgN4qIOlZIxaHIPDoC3xmLE2lc4eF0klARyJ2s4sdHg
-24aXzuHiALoRjyN4fKo7hNzfAOcHhsHiPQDMi8YM43AjMyuPjY4=
-=aviI
------END PGP SIGNATURE-----
-
---K5vpMRnXuq3n+WSd--
+> >
+> > > +
+> > > +   priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > > +   if (!priv)
+> > > +           return -ENODEV;
+> >
+> > nit: not sure why -ENOMEM not return
+>
+> Thanks. Will fix in v4
+>
+> Best regards
+> ---
+> Kuninori Morimoto
+>
 
