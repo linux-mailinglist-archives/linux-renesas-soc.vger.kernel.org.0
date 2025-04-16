@@ -1,158 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-16068-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16069-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4981CA90471
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 15:36:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6EBA90473
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 15:37:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 966B31894F5E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 13:36:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 090AD17C2D8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Apr 2025 13:37:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23E68158538;
-	Wed, 16 Apr 2025 13:36:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFA7418A6AE;
+	Wed, 16 Apr 2025 13:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n7zgxNZe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE42C179A7;
-	Wed, 16 Apr 2025 13:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75BA179A7
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Apr 2025 13:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744810560; cv=none; b=pWEeSoQvNGGL/UseNQQA1KsWHbxF3kqSuEzZz8tgybxkqgEzuTfTALl787tTHMmMvvdeqPgmAL0Rj+lG2ioMip6Eqc9TpnTRsXDcjWfzN+mRYnW17waPI7QX3WuDra43uzuUFXlCkNbOpevR+H+ZQ6dOnS3r9m54jHNw3Y+0OCA=
+	t=1744810651; cv=none; b=t4Td7PmrvCI3cFHQptADxMMXNbkuTiVMxjNr3aI54vbZ8iu+MVUGUhfiQ3Cr8pSrOlROSK6wrPtFw79EZhEUAePFSz7oC1YnUmWxFK4coqy+UHHxldgBgShq4hRe+RCgDkwwpGSCWnZrdkZRDu+NX/20ofrb4nrX2JlMm87HYbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744810560; c=relaxed/simple;
-	bh=ZYgs+qTPDdtSWmrKq+dar8jyxc4Jb+PKn0rYiZqpwdc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MIFPKG/mu7ZPjlfn0vbYR+U4PA9dxO5vmCSSiH7WaC+8yE56zgRCrjKSKcHkHa+a7BBQ/od2u27vKo4VxAwuXtDVV5jlLnI7i+iop0KvTCl6t5hvk55KU0MvCQ1UoO55HQAnduzPFiGTYED14T7W+LOFWfgVKH0w1Sa/NGG8G08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4769aef457bso68082511cf.2;
-        Wed, 16 Apr 2025 06:35:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744810555; x=1745415355;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VGXQgOZjUBLvV+Sjr0WM5C4DyZV5bKyAW3zklxfJ3m4=;
-        b=vPXYYEuggzfOFruqGwbjFkPPbcGd1R0qSMZKGtizZrpgZV5622ZnJe7S1cW2DIJul2
-         z0RZPqFRyCCrBZ1IpvlAppc0LOpFbTQaKkOnioteAJ/aFxtr70W5EV8mBI7WljnsxrkX
-         jl0+9yTscovVpqIQzaCAItYLv1L9NvvYWzbXQZ1t6cm6viaoi6w6npKzzozk9N1Fkhye
-         pHZfeHnEekQDQOAYPXrZf2czFuubqHs0HaX3fitzjOU03/WLYFY23PJH9ajVTqhYiPMV
-         QkMk99excbNmyOaX8V8oKR2cucUrQY2jbCoTMdRja1eWI5hlCoKCqJ7M9FbkhDL2glOV
-         l8IQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWqwvtp2a4cAvRuHjzOxykW1oSgiUG2DrociRcOtDSmM3A4aiyT/f96lya32fiwK0uwu02nFm1adWBx2I6JAZjD3AY=@vger.kernel.org, AJvYcCXAKruG4ebEbcX5GxaVPuXmdyCg8r4AGvb7aUDnjebyS9fIpL5aG6SJQACUm3Cr8xnTO3toYf7M2h0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFUPKrbgVe3psoheWzc32ElulyEYN9VKyBFWwUr3pt/R20gzgT
-	53zOmXV3+ck02jfWiI2YW0wLxu0qvTQRd6xlsOl5mB9+Lx6vJRrgGrkrgQYl
-X-Gm-Gg: ASbGncuSK4hHPzwY3bWO3n9/IXzThCR4te2ITi7HjhKx83Xyy/k4iadxocbVU2HpoUU
-	muIf17LGK8zBJPu0IgJe5YzywS94R3JedtDP28rUe79I+VMvfeXZ3OD6Xx0/ymVwnLkh65oYgwA
-	6dRTtA4lcTR7OLK9pnB1OvQ7dX7aZUXjrautOOQ6HLHG9sVQocHh0nikE2wrJU487x8MPhxxIWR
-	iTLLjR1r07OKgIWWJvtb9UuLwg25hHtIB3/htrzgpk0VpR/m9AaL+dbMb0B9opHPVSrRqSIpmmY
-	a38pAWF3vFSCivL9Vx839jeEZICyAtr2CCBwByckr0kjdM5JyVyByw4uQ7H1kIRfzlwtF1j4BEa
-	1y03mKq4=
-X-Google-Smtp-Source: AGHT+IGnjHhixXYUbtFiYLTNGJBcH8RM72ftklqkwtET9oX9GQNx2kwqVlAYEREGuh3zP6UXClJ8Rw==
-X-Received: by 2002:a05:622a:110a:b0:476:67d8:930e with SMTP id d75a77b69052e-47ad8115319mr19072321cf.34.1744810555342;
-        Wed, 16 Apr 2025 06:35:55 -0700 (PDT)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com. [209.85.222.179])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4796eb2ce5fsm111158401cf.43.2025.04.16.06.35.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Apr 2025 06:35:54 -0700 (PDT)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c5675dec99so604902085a.0;
-        Wed, 16 Apr 2025 06:35:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWar9ekIDcv0hLGzTM0zbdLRiDdTMWLznJHM9qQAT5x16rS1ZpdzLgdXyg+gSTvJ8w5XzD3h6522tg=@vger.kernel.org, AJvYcCXrdfQBTYL5jCG0GymPaYjq/rbwcoslTu9EWE3derniRuR+B5OFodgi7lCRkLRwbxVQuIuZiXSDpZXZ16moaJnBaX8=@vger.kernel.org
-X-Received: by 2002:a05:620a:24c1:b0:7c5:3b9d:61fa with SMTP id
- af79cd13be357-7c919002c78mr264315685a.26.1744810554510; Wed, 16 Apr 2025
- 06:35:54 -0700 (PDT)
+	s=arc-20240116; t=1744810651; c=relaxed/simple;
+	bh=IqXVdgOTxAmZCclRTSrS8zJLAvwY1CCH+k3kfD+sbyg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UMEcZ32hcgLBvfBUCgB4UQlcHkxTStDohYEhJAF87OXf8fI3CZJXD1BFSUfj7slvNjIbEeghcVGTC9xp29yn98u4ro+0TKQwPOwGaW+eMngvFh9usrfojOeSqlBiqCEqKQhe49kxsg8T/hdoLy4U5yIgyEwH7nNrtCu7qPWXJpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n7zgxNZe; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5447965;
+	Wed, 16 Apr 2025 15:35:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1744810519;
+	bh=IqXVdgOTxAmZCclRTSrS8zJLAvwY1CCH+k3kfD+sbyg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=n7zgxNZeOcaWXdnVAesvS4VZ7uFDxP7MHFoJLqROHuYOW8LH+iF+4LD0dfOM0CxzN
+	 Sdnc9ejJMahOj9IgSkZnWj9dGxMfKbQ+46OZUDT3Vrcf9nEZI/Wq5VmEb5Ydkr9oeH
+	 DT1U+f8SnbdYQ2LrKVAq3q0U57t1XqxBmakLUxxw=
+Message-ID: <0e7e1311-bbd8-4e5e-9dae-5f1616b9788d@ideasonboard.com>
+Date: Wed, 16 Apr 2025 16:37:18 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250402102226.28032-1-biju.das.jz@bp.renesas.com> <20250402102226.28032-6-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20250402102226.28032-6-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 16 Apr 2025 15:35:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXT9sPDdcbro_8auzz4dRUTxwotuzninVKRmELcDNhfiQ@mail.gmail.com>
-X-Gm-Features: ATxdqUFpTjtBo7LJrwShUloe6l8oQq05Yk_ZEWhlPqtbSu3VZ79KjcbMvkWTgDQ
-Message-ID: <CAMuHMdXT9sPDdcbro_8auzz4dRUTxwotuzninVKRmELcDNhfiQ@mail.gmail.com>
-Subject: Re: [PATCH v8 05/19] can: rcar_canfd: Update RCANFD_GERFL_ERR macro
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	linux-can@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH/RFC 1/1] arm64: dts: renesas: white-hawk: Add mini-DP
+ output support
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-renesas-soc@vger.kernel.org
+References: <cover.1729240989.git.geert+renesas@glider.be>
+ <05e43f61321b4191d5f97dec2349facd4b56c899.1729240989.git.geert+renesas@glider.be>
+ <CAMuHMdUiR0N+CS2FOp3aNa_mouLMYNk_r9oBLzBgNXAfM84f3A@mail.gmail.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <CAMuHMdUiR0N+CS2FOp3aNa_mouLMYNk_r9oBLzBgNXAfM84f3A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Biju,
+Hi,
 
-On Wed, 2 Apr 2025 at 12:22, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Replace the macro RCANFD_GERFL_EEF0_7->RCANFD_GERFL_EEF. The macros
-> RCANFD_GERFL_EEF* in RCANFD_GERFL_ERR can be replaced by FIELD_PREP() and
-> drop the redundant macro RCANFD_GERFL_EEF(ch).
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v7->v8:
->  * Updated commit description.
->  * Replaced the macro RCANFD_GERFL_EEF0_7->RCANFD_GERFL_EEF.
->  * Dropped the redundant macro RCANFD_GERFL_EEF(ch).
->  * Dropped the tag.
+On 16/04/2025 16:27, Geert Uytterhoeven wrote:
+> Hi all,
+> 
+> On Fri, 18 Oct 2024 at 11:33, Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+>> Add support for the mini-DisplayPort connector on the White Hawk
+>> BreakOut board.  This port is driven by a TI SN65DSI86 DSI to eDP
+>> bridge, which in turn gets the pixel data from the second DSI channel on
+>> the R-Car V4H SoC.  Note that this port is not present on the White Hawk
+>> Single development board.
+>>
+>> Based on the work by Tomi Valkeinen for the mini-DP port on the White
+>> Hawk CPU board, and by a patch in the BSP by LUU HOAI.
+>>
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+>> Does not work:
+>>    - Display resolution is detected correctly (1920x1080 or 2560x1440),
+>>    - Black screen, displays say no signal detected,
+> 
+> The second display pipeline has a Display Stream Compression (DSC)
+> encoder between the Display Unit (DU) and the DSI encoder.  Forcing the
+> DSC module clock on gives a working display, just like on Sparrow Hawk.
+> 
+> So now we just need DT bindings for the DSC, and a very simple DSC
+> driver that calls pm_runtime_resume_and_get() ;-)
 
-Thanks for the update!
+Alright, nice. Sometimes (rarely...) the solution is as easy as we 
+thought it would be ;)
 
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -74,18 +74,18 @@
->  #define RCANFD_GSTS_GNOPM              (BIT(0) | BIT(1) | BIT(2) | BIT(3))
->
->  /* RSCFDnCFDGERFL / RSCFDnGERFL */
-> -#define RCANFD_GERFL_EEF0_7            GENMASK(23, 16)
-> -#define RCANFD_GERFL_EEF(ch)           BIT(16 + (ch))
-> +#define RCANFD_GERFL_EEF               GENMASK(23, 16)
->  #define RCANFD_GERFL_CMPOF             BIT(3)  /* CAN FD only */
->  #define RCANFD_GERFL_THLES             BIT(2)
->  #define RCANFD_GERFL_MES               BIT(1)
->  #define RCANFD_GERFL_DEF               BIT(0)
->
->  #define RCANFD_GERFL_ERR(gpriv, x) \
-> -       ((x) & (reg_gen4(gpriv, RCANFD_GERFL_EEF0_7, \
-> -                        RCANFD_GERFL_EEF(0) | RCANFD_GERFL_EEF(1)) | \
-> -               RCANFD_GERFL_MES | \
-> -               ((gpriv)->fdmode ? RCANFD_GERFL_CMPOF : 0)))
-> +({\
-> +       typeof(gpriv) (_gpriv) = (gpriv); \
-> +       ((x) & ((FIELD_PREP(RCANFD_GERFL_EEF, (_gpriv)->channels_mask)) | \
-> +               RCANFD_GERFL_MES | ((_gpriv)->fdmode ? RCANFD_GERFL_CMPOF : 0))); \
-> +})
->
->  /* AFL Rx rules registers */
->
-> @@ -938,7 +938,7 @@ static void rcar_canfd_global_error(struct net_device *ndev)
->         u32 ridx = ch + RCANFD_RFFIFO_IDX;
->
->         gerfl = rcar_canfd_read(priv->base, RCANFD_GERFL);
-> -       if (gerfl & RCANFD_GERFL_EEF(ch)) {
-> +       if (gerfl & FIELD_PREP(RCANFD_GERFL_EEF, ch)) {
+  Tomi
 
-BIT(ch)
-
->                 netdev_dbg(ndev, "Ch%u: ECC Error flag\n", ch);
->                 stats->tx_dropped++;
->         }
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
