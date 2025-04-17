@@ -1,115 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-16111-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16112-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD05A917B1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 11:23:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A788A917F6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 11:33:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 940F15A5ABC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 09:21:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6E15460D41
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 09:33:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C4222A4E5;
-	Thu, 17 Apr 2025 09:21:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92794225A38;
+	Thu, 17 Apr 2025 09:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="IC8VSPgk"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="G6vVQSHt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C5C22157E
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Apr 2025 09:21:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8E415F41F
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Apr 2025 09:33:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744881688; cv=none; b=hU/X+QT2a8dAj0YfwM7miyjrEiAexDd3UiRdhnlVRooSQVRPUQAlpXlK7nH0Hmelc8nqXmSMY+hih2I6RAi46yo5U8FpF0gucHyTnGyEwImhWfTqJ2fqKcg5cZurUDkgHA8WUU19tLQtLrwe2BIPWYDxjc7PKB4cZb53I0X7Pps=
+	t=1744882386; cv=none; b=SPQ3TcIL6zOAZAQFXzLz7piySwd8Rqia1HEO19asBYOWoRxXvRrFVrizQiu0ODnj7C7jkkDQvUvjdNpXns6JeUp4Chdc1Pr5nm1aH5+0SQnJSzh3PUMGpP3EnQHixBoHQFq5c2kb0+vY4WtWbhm2SpAFXFoMEEwhViRqJ+XmD60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744881688; c=relaxed/simple;
-	bh=1o5Kt4IjqACo6ux4z53BtFLJGu6SBMaTm6gg8my3oQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iOzruUBHWuFTCmJkegQIzIJi2EtwnUCrbUkQ0z0p8nTzjLKkJEqPghIqJhaZ0m6XyTyp7NrAhrcKefu7Y+xWiUq6T+6/Oc+D249M5wRrWgLCXxJ1tVMPXj5HtSMD2i0/pjnTz/e8hmlzeEaTZTZp1zjM32sQcx31JBs4+Cmlu78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=IC8VSPgk; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1744882386; c=relaxed/simple;
+	bh=lbunJAZ30YCg4tQlPP0ycA03yCNg4s20V6w/IECLPfU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R6czXAbrVDHxUpfvM1YsDBmxlE3VFClnrdAnKzFh5VqvkbFghMEjzjMPyC1uy9l4JnztDfDTA8hlUR1dGnc2TO6W3jrJqIswqV87Y8SKS5Y9TFDfYnxfT296YCO3HVaX3hcn4xXvlllVXeGr/iWKh7aSJ7P5rkWBahy6HwwwDgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=G6vVQSHt; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=1o5K
-	t4IjqACo6ux4z53BtFLJGu6SBMaTm6gg8my3oQQ=; b=IC8VSPgkU9eNV2Pl7CEW
-	B9y0PSxiJGDqbObH86ACJeuoDMHk55tfzTBo1mIi2rHRctTqv9e4FVzt06UJmP3n
-	QK7QvBE4by7i1gaCs+QOwuVnA8EPVFB1yfxzUxsWKAj6Yev3DTNwd8QrJWEWsiGF
-	s5mEY+Fo1BUjVGtZIaCKTl5502Dc9gglAhplC1UQXWYbrp3ldJCA9y+DZyea7Tmc
-	Qz1ALjqfeCd0eUHRhSc00cwBEQwNmYPlmTpbD0oXbXZF5oWllyyXKESSdh+z/INX
-	AeCmtWCNx+BdmM03iYwA31OVpEj0+GzvD6LtgHoLH+sw7rj+YfsXLaSxYtBMtjLK
-	0g==
-Received: (qmail 1036485 invoked from network); 17 Apr 2025 11:21:24 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Apr 2025 11:21:24 +0200
-X-UD-Smtp-Session: l3s3148p1@MjD57PUyDOAgAwDPXyfYALbiJ46yNPq3
-Date: Thu, 17 Apr 2025 11:21:24 +0200
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=i7ZzLydZNojey0
+	WNQEX0yeYcx3y7kYFw7QyvDehJw+k=; b=G6vVQSHtDZkj0x152JC58dcHEaR7v+
+	fBUpbP5uxfDeghhXviriyUJQcDKbTSnIzr3wZRgcA3aqhGMPg2g6gLubBeGRmGvB
+	CMSHY4wKCUpqlCzlDdATBocjh+PDldaH+tnr38Cc7/8HAuDz6eZ55zxdMqmRMUSD
+	jwC91AMPbZHLeZN432hVnI6jBKBQXATLTfu+axMS79Nh0MQsBmUtos9ebOgipvlM
+	rnfWbmCHmRe2BSDVlQTTd2wh5EAJHokDLWrOSCvxiegVQStSOnfN04VIYTtHoPeX
+	2+5vaM13knNOxbi+vjqcZJ6j1rlGfVyhql+1+qG0d0OljivWHxLMA7DA==
+Received: (qmail 1040592 invoked from network); 17 Apr 2025 11:33:00 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Apr 2025 11:33:00 +0200
+X-UD-Smtp-Session: l3s3148p1@IoVtFvYy5MUgAwDPXyfYALbiJ46yNPq3
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org,
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
- Debug LEDs
-Message-ID: <aADIFGuBHJm7lxA5@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-References: <20250417085228.34679-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdVCz1=CyMKaKRmn5dEVphEJDUHKGexuxk3hBUXS+EHRGQ@mail.gmail.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe Debug LEDs
+Date: Thu, 17 Apr 2025 11:28:27 +0200
+Message-ID: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="x1LSgucKBBGqlIhl"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVCz1=CyMKaKRmn5dEVphEJDUHKGexuxk3hBUXS+EHRGQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
---x1LSgucKBBGqlIhl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Changes since v2:
+* using function, color, function-enumerator properties now
 
+Honestly, this is better than using node names? With V2, the LEDs were
+named as in the schematics, now they are called:
 
-> You could still add the color properties without function properties.
+lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-0 -> ../../devices/platform/leds/leds/green:programming-0
+lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-1 -> ../../devices/platform/leds/leds/green:programming-1
+lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-2 -> ../../devices/platform/leds/leds/green:programming-2
+...
 
-Tried that. Then, I get collisions because of "green_1" instead of
-"green:programming_1".
+Which gets even more confusing if we might later add LEDs not on this
+board, but on the expansion board. 'green:programming-8' sits where?
 
-> However, the "function-enumerator" property exists to avoid the collisions.
+I really wonder, but if this is the official way now...
 
-Sigh, OK.
+ .../dts/renesas/r9a06g032-rzn1d400-db.dts     | 68 +++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
+diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+index fef40e288679..16babb38eb05 100644
+--- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
++++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+@@ -10,6 +10,7 @@
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/input/input.h>
++#include <dt-bindings/leds/common.h>
+ #include <dt-bindings/net/pcs-rzn1-miic.h>
+ #include <dt-bindings/pinctrl/rzn1-pinctrl.h>
+ 
+@@ -86,7 +87,74 @@ switch-8 {
+ 			debounce-interval = <20>;
+ 			gpios = <&pca9698 15 GPIO_ACTIVE_LOW>;
+ 		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
+ 
++		led-dbg0 {
++			gpios = <&pca9698 0 GPIO_ACTIVE_HIGH>;
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_PROGRAMMING;
++			function-enumerator = <0>;
++			default-state = "keep";
++		};
++
++		led-dbg1 {
++			gpios = <&pca9698 1 GPIO_ACTIVE_HIGH>;
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_PROGRAMMING;
++			function-enumerator = <1>;
++			default-state = "keep";
++		};
++
++		led-dbg2 {
++			gpios = <&pca9698 2 GPIO_ACTIVE_HIGH>;
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_PROGRAMMING;
++			function-enumerator = <2>;
++			default-state = "keep";
++		};
++
++		led-dbg3 {
++			gpios = <&pca9698 3 GPIO_ACTIVE_HIGH>;
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_PROGRAMMING;
++			function-enumerator = <3>;
++			default-state = "keep";
++		};
++
++		led-dbg4 {
++			gpios = <&pca9698 4 GPIO_ACTIVE_HIGH>;
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_PROGRAMMING;
++			function-enumerator = <4>;
++			default-state = "keep";
++		};
++
++		led-dbg5 {
++			gpios = <&pca9698 5 GPIO_ACTIVE_HIGH>;
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_PROGRAMMING;
++			function-enumerator = <5>;
++			default-state = "keep";
++		};
++
++		led-dbg6 {
++			gpios = <&pca9698 6 GPIO_ACTIVE_HIGH>;
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_PROGRAMMING;
++			function-enumerator = <6>;
++			default-state = "keep";
++		};
++
++		led-dbg7 {
++			gpios = <&pca9698 7 GPIO_ACTIVE_HIGH>;
++			color = <LED_COLOR_ID_GREEN>;
++			function = LED_FUNCTION_PROGRAMMING;
++			function-enumerator = <7>;
++			default-state = "keep";
++		};
+ 	};
+ };
+ 
+-- 
+2.47.2
 
---x1LSgucKBBGqlIhl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgAyBAACgkQFA3kzBSg
-KbaMnxAAqkcoMJKq3ZiAUzAK4gWrDHNTls3HpjnMSdrlECeSWK3UNerGfe1bZirN
-uB/SZqvDap+/qkSYIPdR8UXo2Dw5dlbOZESWcDSQqCQ1hg596y6GVqX4ccm7mcI4
-Aq+TMBUJxnDKhqrJozP5TU+kFnjVbX6906Bkc859ZqE+jbYZs8LfpdBkAbznazgo
-1/9QE69JGPTfrFYqQqbiIKCW2tXDl03NLOM3HbPM0J/sU1Cyevm5OzLggbjGg1SQ
-ViOBGr3DWYrH7XwXSM7X/HWXSe0+EsvzKf+/Vmetx9eb/7+GsuAAabsV68EvLo1E
-ZDyA9CTprmlFUkIMtWbF7VNqC7qvdqvmxG40frg8PC4tOb0BaNCkA/XIROhnMDb1
-CMZzGPrGG78v422awbY5yE2FXFJRz6rq1wEc6a3eBCYyVvSDo24NMjG2921q7AQH
-M76viys/7jztTxmGQ0ZUmlPQncOQh3HcYyp5R86Qkfn6eUyy1xtYTu/BioVdHGxf
-SCdcNGNLuwbvz5B1DMDRp6H6x6LaI17j9sI/8l0Affvf33jpFtis/ji+M23osI73
-NEhDkPo5qoITsFnOrPER3PX+1AC6sd7Neuz0m5Cay+dW+ZddlFEiYKxGhrQlVi8F
-JDfL+wgqSa8szqAkdpuexCxEt3h1KSNBiQPJCsUoZHGC5lIxSb0=
-=x34l
------END PGP SIGNATURE-----
-
---x1LSgucKBBGqlIhl--
 
