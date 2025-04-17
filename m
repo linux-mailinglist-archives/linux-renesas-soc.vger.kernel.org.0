@@ -1,135 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-16102-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16103-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C80A91677
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 10:32:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9718AA916A8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 10:42:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C5113BEE08
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 08:32:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 122FA19E1157
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 08:42:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6628620ADCA;
-	Thu, 17 Apr 2025 08:32:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E36A222590;
+	Thu, 17 Apr 2025 08:42:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="UeL/qWwB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RPqKSJcY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E73204F73
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Apr 2025 08:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B901F3FE3;
+	Thu, 17 Apr 2025 08:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744878733; cv=none; b=Kayji+oHA5xtHj7DyrZlPKzjFA/diLGKJyli6maXFxV7zrzg2wFdEbfdpXDKdo2UPrJEOO/pHv2e8tlf0IbJUCQDjaoV5WrBf98dpD/fsQrHgVKtmRbyQFDljebUdCNOquUD11Ju35KqcH8zaKsAn2WOwyKNJI3iVh2FU4I9e+E=
+	t=1744879320; cv=none; b=Xuz41RTcVbSoP9f4R4pFHnSdgyoV3rcB1iyxUaUEpYO8rW+gmqbwA6wJlm7+oOJUxZS/uc4HbQfxOdldH4B6iyTFjmxBqJgV5yPWowfzTHDoiB4QV4/XyyLHqkmBUOJgeiVK6MQJcjztASsLyaFmcLz35kfRsD170pX9dCHtjWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744878733; c=relaxed/simple;
-	bh=gqE0xc1rYegcSo7HWStN1ftYp7Vosk0cOKSXbGaXXJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KB3aVdYJvVV7Gk21s9z12gkxrddp8yvSNK0cHQ42bRgmDx745R24AYvio54SX8sxg5a1yJmiv/L03uy3yWYop6jz6a1w7iz46YcVrSBOeDn+9da6I0rqNVHgXSe9PwerbmUsXhEA417dcXiyG8HU0JB8axUkp91D1YRw94exXfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=UeL/qWwB; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=gqE0
-	xc1rYegcSo7HWStN1ftYp7Vosk0cOKSXbGaXXJw=; b=UeL/qWwB3H59mQU8e+bP
-	vDXTYy+POGfCfzdljtZi4TFfeHjtQmBpZE8UddEAlyFPVNwTp97TjC2NyAuUceyx
-	5nDXZjI7UQtfiQRGLeXRuVo2D+Qxjmx5STOiPghd4240U/ydT8xha4EevG9j/6mn
-	/qgcRmLxbgLJJ9/2pOQRvggHrkkGxOkZ9GfeUjakxfuCom2CTJRGYyufwjtiaRu2
-	Trh9HjX/bs8kfN+0KvKVZ71ans0MWLdhtJNxAUMEiTT17JzYuqWQz8tMZpZeUl/8
-	AubJGfKjr9gG/kXbVayGPbO6oqKKHmoEU2M5Xe5O4BjoC3FOR88NLDSCBYHBCjSB
-	HA==
-Received: (qmail 1019652 invoked from network); 17 Apr 2025 10:32:00 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Apr 2025 10:32:00 +0200
-X-UD-Smtp-Session: l3s3148p1@uQ1LPPUySOIgAwDPXyfYALbiJ46yNPq3
-Date: Thu, 17 Apr 2025 10:31:59 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
+	s=arc-20240116; t=1744879320; c=relaxed/simple;
+	bh=uVwo6amo6zkXhHED8eHbbbX+u93QJ1BEDv8D4fVRyRM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LtEPL4ZCVUhHMOW1o0G+w6/EiMxfuXmVHnfqMYonsBzwM/yqesvDIWxfdketQuufD7P6vPbvK//lqv6ynG09NV/4Imx4Kqk4gGbzeqvPkYoC2rciJN5JKnSqT3ikdHdz+X1ASE12XnIbAQxAzFUHcyJ2oL/ONtfy/R4Jay8DnLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RPqKSJcY; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cec5cd73bso3059115e9.3;
+        Thu, 17 Apr 2025 01:41:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744879317; x=1745484117; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DXozyqUJ9d4xtCCzMWxO4QOFhe8g2i4PdCmKZX1X/X4=;
+        b=RPqKSJcYsZVsnLkjzlXY5Yykk3yKeARpCCxg2GyYVSpWnXHrjJkQIs6nq75PV92ith
+         Pul7atLhZIRwFgX2ieMiZpFeS7GgcWerrLbjhB9fEM61/a5oGh7Y5v9QqjmKnXPvyD9i
+         aavivEFni7RfgmjK15XZD/lBSfACquQqHLR0alw8m0PqJeHevbSE8g9WA5VF9sm+Qwht
+         ttLood1OxM/Wp1aTkuEcLujQLYtpGDeF4uGpAd7QERo3U8wuAW6B5HKefnQJc9q8McrS
+         1bztAdNuVFdvn0xSECpMhv9I3u5/IUnv+pjUCVoGxc3YCTYZH4X2ZOg9Dbo0T0AiOzKV
+         YlVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744879317; x=1745484117;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DXozyqUJ9d4xtCCzMWxO4QOFhe8g2i4PdCmKZX1X/X4=;
+        b=ZFI5Z6TeInSz4mFcN2KK9KMsru+PC7CQsf/uzBTHjypzFFrH8kIvrvTPYnol3Ll0Tb
+         OUmYH2ws+UjEM+kkibxvcnh7RNxWAgDfTCPdg9nCmXd8jdu8iGVp8WzuRwSPhkzOFUi1
+         9Q5tqfJTvtskYtj1mjwSMtXd0kGxQu9rySc8xo1YIrecsuB/2/+2JntiDYx2WbBZL0P1
+         zeEWUkglLi7SZ+/oBJvih3ggyQZ47W8Pw20k8uwsrhXf6tk1IyvfqsmcI7ZIG8MTsmJ0
+         W9qjnIJqsOe+wJGDnqdxBrjyseN/DFUhWnkKDW6ga2Wcn2Uc80/JH5AyndXNTOpjZu5Q
+         OwAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWKw1IVYf4wTbImbtiL273lYc6wGY95mHqR2gylwcwqHBRV2f2pQG6vLugRQyWHn0L8T6Y8d4JstTP8@vger.kernel.org, AJvYcCX7rYoUArJAlB9enrs4Xmpy1qAos/J+lO1BTSFdycv02wc9nIVBTMHl8U2BWRo6IAALU8OMDmzcS9J5DDZN@vger.kernel.org, AJvYcCXHh0BNbJz5NKwqwvGHKVhHNmDE9iiW9AgHJRMaXa0iO39Wcvx0S3bYBdIF6K/ltK5adn6Xc8graCXPkUv21bLsoxA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTGt5EdvaM5CFxLmiYgUgovM7ZFHmkwE3z2115uul3mKgFPAww
+	ixLdtWczI3Hw8VD2/excq6LmZPQc8UOJf7saAbFfVw9r9Nq3rqUe
+X-Gm-Gg: ASbGncvzokRPOUNeXrhsc7XtUxhg3LA9yGRvasrxSaOTtQAWFQRn8gabK7tK+teKRZI
+	LJpcxSuDvSzUr3lmzxdkOs/4omfYBqE0VONV9PdkXQupoKB0ASn/xPW4geA3UqEyOSTWuAoRAJa
+	RdsRaueNItiW3YitkRxXKrPPBvAlY6OSs9YX3ard8zbfjYAnpsQRKdajePc/Vnv2aOkJA1oZosN
+	3hxO8z8vkwXhIZv+otKrlYy8kGdPZfoHJz/uSKC/mgKNpLVqKDBEzir4RAucXjiZSw/9dEwhCp1
+	N4uyXeDmCSObkbXigmrH7nwi1ZEtZ6F70ZGfcObvhTgH6I0hPs6ulhwT32BWRM1w
+X-Google-Smtp-Source: AGHT+IErRiAS0z3JNyUleWBdVl92EfrzdQ3pXN9rJF3OKf8o4ZU/wUUqjoSjXJtkv9PYKHE0yGdVDw==
+X-Received: by 2002:a05:600c:b8c:b0:43d:94:2d1e with SMTP id 5b1f17b1804b1-4405d61c914mr54409795e9.13.1744879316325;
+        Thu, 17 Apr 2025 01:41:56 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:3f0f:d684:f4a:34e6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae96cf1asm19657712f8f.39.2025.04.17.01.41.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Apr 2025 01:41:55 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Andy Shevchenko <andy@kernel.org>
-Subject: Re: [PATCH v8] i2c: riic: Implement bus recovery
-Message-ID: <aAC8f0dAMERD8GjW@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Jose Abreu <joabreu@synopsys.com>
+Cc: netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Andy Shevchenko <andy@kernel.org>
-References: <20250407121859.131156-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH net-next v8 0/4] Add GBETH glue layer driver for Renesas RZ/V2H(P) SoC
+Date: Thu, 17 Apr 2025 09:40:11 +0100
+Message-ID: <20250417084015.74154-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="my8PveaXmdni+pX0"
-Content-Disposition: inline
-In-Reply-To: <20250407121859.131156-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---my8PveaXmdni+pX0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi All,
 
-On Mon, Apr 07, 2025 at 01:18:59PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Implement bus recovery by reinitializing the hardware to reset the bus
-> state and generating 9 clock cycles (and a stop condition) to release
-> the SDA line.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Reviewed-by: Andy Shevchenko <andy@kernel.org>
+This patch series adds support for the GBETH (Gigabit Ethernet) glue layer
+driver for the Renesas RZ/V2H(P) SoC. The GBETH IP is integrated with
+the Synopsys DesignWare MAC (version 5.20). The changes include updating
+the device tree bindings, documenting the GBETH bindings, and adding the
+DWMAC glue layer for the Renesas GBETH.
 
-As I wrote in the other thread: I took your generic_scl approach and
-replaced bus_free() with get_sda(). Works fine here with my G3S:
+v7->v8
+- Rebased the changes on net-next
+- Fixed return value in renesas_gbeth_init()
 
-# echo 0x1a > /sys/kernel/debug/i2c/i2c-2/incomplete_address_phase ; i2cget=
- -f -y 0 0x1a 3
-0x0c
+v6->v7
+- Rebased the changes on net-next
+- Added Reviewed-by tag from Russell
+- Folded contenets of renesas_gbeth_clks_config()
+  in renesas_gbeth_init/exit() as suggested by Philipp
+- Dropped regs member from struct renesas_gbeth
 
-And I see 9 pulses in the scope. Can you try this with your setup
-please?
+v5->v6
+- stmmac_pltfr_find_clk() is now used to find the clocks
+- devm_stmmac_pltfr_probe() is now used to probe the platform device
+  and dropped remove callback
+- Switched to using init/exit callback to configure the clock
+  instead of using the clks_config callback
+- Dropped pm callback
+- Fixed checkpatch warnings
+- Added a new patch to update the MAINTAINERS file
 
+v4->v5
+- Rebased the changes on net-next
 
---my8PveaXmdni+pX0
-Content-Type: application/pgp-signature; name="signature.asc"
+v3->v4
+- Fixed maxItems for interrupt-names property
+- Maintained reverse christmas tree order in renesas_gbeth_clks_config
+- Returned err in case of success in renesas_gbeth_probe()
 
------BEGIN PGP SIGNATURE-----
+v2->v3
+- Fixed review comments from Rob and Russell
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgAvHwACgkQFA3kzBSg
-KbYArw/+O85cUgxtrUoTEkvDPIZuaeKPeLYh/pH9fWJaCcnwtzZR+belZLsB44Jx
-hXkkFt3FilATzXwx/uDlZmAgUcNPYtziHDEEnge1J/l3ibIqd1vco44F8R2vapmc
-est/NjSYlU7qiquQTJDZcBK4sj9CuumDc7hPT9FDF5QcXb3JelOeFQlV0xutE7Xp
-OfwZ3REHBWPNGkpBzQcbKBQK2yYvgkpQeHzMVgM97xO305tWjBiRHJdQndtD4MZx
-ArBZZHdO8TUDSuTpf+dVkWxO7+uAiLObqw4QMc2gGvXIwvS4oLlzEFv5A/9j9Pue
-8HFBKxx4iyzKWOiYekeW811lumsMWV9b8Sh1xZKx32gXfBdGe0+ghI60oDufVilw
-UjLyMZdghhfE73l+9hERxO+WIthAclmAx3c4KAfSscJrqrEqSnbn4cf1BX3EXW9C
-z++fVcal5B1YpDAM3ucjO8vRYb5YCn/aWnBWL8x7xuCcTGN9Hylg+y6BvkayqgGb
-ihZso9kGhDjadK2aftbNgi1tiAqW3No2jXjfIeK5ng4Os/zSbq+jdkgG5NqSVGtw
-6tAa2EWc/0rQ05TsgWgmHzeyrwRWiAsaKLqlSO6Z9+vPx8f/NfDEUdLWZHr8OFuX
-aDDFjh8NHrP7Bh3PuU9bL6pLq5OBd2UEVvMU6EPXEZYYGZOZwrU=
-=Ib2a
------END PGP SIGNATURE-----
+v1->v2
+- Updated commit description for patch 2/3
+- Updated tx/rx queue completion interrupt names
+- Added clks_config callback
 
---my8PveaXmdni+pX0--
+v1:
+https://lore.kernel.org/all/20250302181808.728734-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (4):
+  dt-bindings: net: dwmac: Increase 'maxItems' for 'interrupts' and
+    'interrupt-names'
+  dt-bindings: net: Document support for Renesas RZ/V2H(P) GBETH
+  net: stmmac: Add DWMAC glue layer for Renesas GBETH
+  MAINTAINERS: Add entry for Renesas RZ/V2H(P) DWMAC GBETH glue layer
+    driver
+
+ .../bindings/net/renesas,r9a09g057-gbeth.yaml | 201 ++++++++++++++++++
+ .../devicetree/bindings/net/snps,dwmac.yaml   |  25 ++-
+ MAINTAINERS                                   |   8 +
+ drivers/net/ethernet/stmicro/stmmac/Kconfig   |  11 +
+ drivers/net/ethernet/stmicro/stmmac/Makefile  |   1 +
+ .../stmicro/stmmac/dwmac-renesas-gbeth.c      | 146 +++++++++++++
+ 6 files changed, 383 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/renesas,r9a09g057-gbeth.yaml
+ create mode 100644 drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
+
+-- 
+2.49.0
+
 
