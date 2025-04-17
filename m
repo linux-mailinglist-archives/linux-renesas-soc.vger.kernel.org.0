@@ -1,178 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-16112-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16113-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A788A917F6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 11:33:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89099A91856
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 11:51:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6E15460D41
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 09:33:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 189951902530
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Apr 2025 09:51:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92794225A38;
-	Thu, 17 Apr 2025 09:33:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04E0222758F;
+	Thu, 17 Apr 2025 09:51:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="G6vVQSHt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XJNeDJ5a"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8E415F41F
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Apr 2025 09:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8588189B8C;
+	Thu, 17 Apr 2025 09:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744882386; cv=none; b=SPQ3TcIL6zOAZAQFXzLz7piySwd8Rqia1HEO19asBYOWoRxXvRrFVrizQiu0ODnj7C7jkkDQvUvjdNpXns6JeUp4Chdc1Pr5nm1aH5+0SQnJSzh3PUMGpP3EnQHixBoHQFq5c2kb0+vY4WtWbhm2SpAFXFoMEEwhViRqJ+XmD60=
+	t=1744883463; cv=none; b=Dhh4xch1MqYY3f9RYDwHAWUk/+kFbtkHOIveGCP32J2gvOL9IipwTSBL4fEKFbQITJbR/6e5c0fWRQjnyyhcDseLJTZ4ncjOfqzynjwNPHZw39GLTb4yaDzgKmc4qhZ+BTryKZy0/STE9w7QH3xkZl1gCC+bAJQL7TQok/YAtgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744882386; c=relaxed/simple;
-	bh=lbunJAZ30YCg4tQlPP0ycA03yCNg4s20V6w/IECLPfU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R6czXAbrVDHxUpfvM1YsDBmxlE3VFClnrdAnKzFh5VqvkbFghMEjzjMPyC1uy9l4JnztDfDTA8hlUR1dGnc2TO6W3jrJqIswqV87Y8SKS5Y9TFDfYnxfT296YCO3HVaX3hcn4xXvlllVXeGr/iWKh7aSJ7P5rkWBahy6HwwwDgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=G6vVQSHt; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=i7ZzLydZNojey0
-	WNQEX0yeYcx3y7kYFw7QyvDehJw+k=; b=G6vVQSHtDZkj0x152JC58dcHEaR7v+
-	fBUpbP5uxfDeghhXviriyUJQcDKbTSnIzr3wZRgcA3aqhGMPg2g6gLubBeGRmGvB
-	CMSHY4wKCUpqlCzlDdATBocjh+PDldaH+tnr38Cc7/8HAuDz6eZ55zxdMqmRMUSD
-	jwC91AMPbZHLeZN432hVnI6jBKBQXATLTfu+axMS79Nh0MQsBmUtos9ebOgipvlM
-	rnfWbmCHmRe2BSDVlQTTd2wh5EAJHokDLWrOSCvxiegVQStSOnfN04VIYTtHoPeX
-	2+5vaM13knNOxbi+vjqcZJ6j1rlGfVyhql+1+qG0d0OljivWHxLMA7DA==
-Received: (qmail 1040592 invoked from network); 17 Apr 2025 11:33:00 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Apr 2025 11:33:00 +0200
-X-UD-Smtp-Session: l3s3148p1@IoVtFvYy5MUgAwDPXyfYALbiJ46yNPq3
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe Debug LEDs
-Date: Thu, 17 Apr 2025 11:28:27 +0200
-Message-ID: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1744883463; c=relaxed/simple;
+	bh=L8o2PSkGeZxi2mBoFN19BApuLbghB6wGeSWpWaGCaTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NztdZFaTxbgYqv2wEry9SX23Bybauq4dzeHUUGaGRlrww6M3eOxSX7p/psZagXUMdrsUFfTyiMnMjqLkDhlginn+Bn9j38IGOMZ/57PPsJGM8X4qvQWz7g5darCp5H/91MFCbXisbfAHUboXKiIc2JNjnx6QDI4BYHajjKYuFuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XJNeDJ5a; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48A01C4CEE7;
+	Thu, 17 Apr 2025 09:51:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744883463;
+	bh=L8o2PSkGeZxi2mBoFN19BApuLbghB6wGeSWpWaGCaTE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XJNeDJ5a7rXZB3aV5DxX/MCGa77oE21mxbt+dYjy8W71i8SMQO9lI+JRJj1MuTNeK
+	 PDtBEUTxmJ2BNwI3Fd7DLt8En85mkjUdTsW1S86vhnxYwRLFYQb3E3QwE5q93BSl6L
+	 NbLhvoO+haS/iQAhYM2pjNLjdiOhjb4kvMDApTd/EAXCqOChB23jnwFoM0tF4Ubg5E
+	 gfR8iVWMe3lQ0+NwEzvn9TttR8k586DAsrO5dff9ZU5JaRpMVosi2yM+0yKkAZdUma
+	 2etP+icr4Mq/WjSeZ6JK96g0XYbgGXjrkrSTQmZLk7TB8FMKmdk+avpl4VxsuzShhr
+	 2VEUUKsMosSrw==
+Date: Thu, 17 Apr 2025 11:51:01 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH v24 3/4] pwm: Add support for RZ/G2L GPT
+Message-ID: <wapp2p55vrdpgwy7dpnrbxallcdu4yvk6a3nqimbyb565crqg2@7ljkanddwmjz>
+References: <20250226144531.176819-1-biju.das.jz@bp.renesas.com>
+ <20250226144531.176819-4-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="oo3vkt6iyksbvgcq"
+Content-Disposition: inline
+In-Reply-To: <20250226144531.176819-4-biju.das.jz@bp.renesas.com>
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
 
-Changes since v2:
-* using function, color, function-enumerator properties now
+--oo3vkt6iyksbvgcq
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v24 3/4] pwm: Add support for RZ/G2L GPT
+MIME-Version: 1.0
 
-Honestly, this is better than using node names? With V2, the LEDs were
-named as in the schematics, now they are called:
+Hello Biju,
 
-lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-0 -> ../../devices/platform/leds/leds/green:programming-0
-lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-1 -> ../../devices/platform/leds/leds/green:programming-1
-lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-2 -> ../../devices/platform/leds/leds/green:programming-2
-...
+On Wed, Feb 26, 2025 at 02:45:22PM +0000, Biju Das wrote:
+> RZ/G2L General PWM Timer (GPT) composed of 8 channels with 32-bit timer
+> (GPT32E). It supports the following functions
+>  * 32 bits x 8 channels
+>  * Up-counting or down-counting (saw waves) or up/down-counting
+>    (triangle waves) for each counter.
+>  * Clock sources independently selectable for each channel
+>  * Two I/O pins per channel
+>  * Two output compare/input capture registers per channel
+>  * For the two output compare/input capture registers of each channel,
+>    four registers are provided as buffer registers and are capable of
+>    operating as comparison registers when buffering is not in use.
+>  * In output compare operation, buffer switching can be at crests or
+>    troughs, enabling the generation of laterally asymmetric PWM waveforms.
+>  * Registers for setting up frame cycles in each channel (with capability
+>    for generating interrupts at overflow or underflow)
+>  * Generation of dead times in PWM operation
+>  * Synchronous starting, stopping and clearing counters for arbitrary
+>    channels
+>  * Starting, stopping, clearing and up/down counters in response to input
+>    level comparison
+>  * Starting, clearing, stopping and up/down counters in response to a
+>    maximum of four external triggers
+>  * Output pin disable function by dead time error and detected
+>    short-circuits between output pins
+>  * A/D converter start triggers can be generated (GPT32E0 to GPT32E3)
+>  * Enables the noise filter for input capture and external trigger
+>    operation
 
-Which gets even more confusing if we might later add LEDs not on this
-board, but on the expansion board. 'green:programming-8' sits where?
+I now finally looked over this patch and I'm ok with it. So I will apply
+patches 1 and 3 to
 
-I really wonder, but if this is the official way now...
+https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for-next
 
- .../dts/renesas/r9a06g032-rzn1d400-db.dts     | 68 +++++++++++++++++++
- 1 file changed, 68 insertions(+)
+for now. Note this doesn't mean 2 and 4 are bad, just I
+didn't find the time yet to look into these.
 
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-index fef40e288679..16babb38eb05 100644
---- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-+++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-@@ -10,6 +10,7 @@
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/input/input.h>
-+#include <dt-bindings/leds/common.h>
- #include <dt-bindings/net/pcs-rzn1-miic.h>
- #include <dt-bindings/pinctrl/rzn1-pinctrl.h>
- 
-@@ -86,7 +87,74 @@ switch-8 {
- 			debounce-interval = <20>;
- 			gpios = <&pca9698 15 GPIO_ACTIVE_LOW>;
- 		};
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
- 
-+		led-dbg0 {
-+			gpios = <&pca9698 0 GPIO_ACTIVE_HIGH>;
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_PROGRAMMING;
-+			function-enumerator = <0>;
-+			default-state = "keep";
-+		};
-+
-+		led-dbg1 {
-+			gpios = <&pca9698 1 GPIO_ACTIVE_HIGH>;
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_PROGRAMMING;
-+			function-enumerator = <1>;
-+			default-state = "keep";
-+		};
-+
-+		led-dbg2 {
-+			gpios = <&pca9698 2 GPIO_ACTIVE_HIGH>;
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_PROGRAMMING;
-+			function-enumerator = <2>;
-+			default-state = "keep";
-+		};
-+
-+		led-dbg3 {
-+			gpios = <&pca9698 3 GPIO_ACTIVE_HIGH>;
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_PROGRAMMING;
-+			function-enumerator = <3>;
-+			default-state = "keep";
-+		};
-+
-+		led-dbg4 {
-+			gpios = <&pca9698 4 GPIO_ACTIVE_HIGH>;
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_PROGRAMMING;
-+			function-enumerator = <4>;
-+			default-state = "keep";
-+		};
-+
-+		led-dbg5 {
-+			gpios = <&pca9698 5 GPIO_ACTIVE_HIGH>;
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_PROGRAMMING;
-+			function-enumerator = <5>;
-+			default-state = "keep";
-+		};
-+
-+		led-dbg6 {
-+			gpios = <&pca9698 6 GPIO_ACTIVE_HIGH>;
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_PROGRAMMING;
-+			function-enumerator = <6>;
-+			default-state = "keep";
-+		};
-+
-+		led-dbg7 {
-+			gpios = <&pca9698 7 GPIO_ACTIVE_HIGH>;
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_PROGRAMMING;
-+			function-enumerator = <7>;
-+			default-state = "keep";
-+		};
- 	};
- };
- 
--- 
-2.47.2
+I will send a patch on top of this for a low-hanging improvement.
 
+Best regards
+Uwe
+
+--oo3vkt6iyksbvgcq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmgAzwIACgkQj4D7WH0S
+/k6F3wf+Noa4373MKa5MYVacKyVz7WLzOdwsr3d/DMwV1+M3hE4L2euGaaZS85+U
+k3G4c/LqIoOFFQUFF/qYiIQADWKNoRY269Rj0c3jFKwzs0ZoW6GKROlSv7FOLvJN
+5BIqudas5hvjTmuOmFivMyRfc3s/nMoABNgkpZvZ7PEa7FKkQyF+KMdpE8VCgaZQ
+6g1y9IC7sgzYUmIZL3HBbEgJ2zefddY0h2WFxqvZ5F9MNXnXxhxg5sEr2Sf3RFkS
+BgkebDoyXdo3l14GhfVunSdggvHYpWaKfX4ad3Zkox+vyp76SEhRIr9fRh0yXfZL
+3S8/sMk9wxwxvQg6raINc5lHW6XZdA==
+=z9MA
+-----END PGP SIGNATURE-----
+
+--oo3vkt6iyksbvgcq--
 
