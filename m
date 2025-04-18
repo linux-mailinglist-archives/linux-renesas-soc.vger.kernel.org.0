@@ -1,101 +1,164 @@
-Return-Path: <linux-renesas-soc+bounces-16144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423A8A9311E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Apr 2025 06:11:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBBDAA9344A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Apr 2025 10:14:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 572E24A0FF0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Apr 2025 04:11:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 272338E446B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Apr 2025 08:13:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5B93204F9B;
-	Fri, 18 Apr 2025 04:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DE0826AAAA;
+	Fri, 18 Apr 2025 08:14:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NEErWDKd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KRG3qrrk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773D9262A6;
-	Fri, 18 Apr 2025 04:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676D726AABC;
+	Fri, 18 Apr 2025 08:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744949505; cv=none; b=TJPA2QWcPBVMrTcCq1DyWNmMYOuGEBRQ5Gj2WhNj6hecdUjTp/WrI9CCNYTxbTPyw9iYw2UqlMTjLY5t9NzymsdYdgrIBXfTr8scSZJMlj0fHjKL1+UHVI9x+QGJYbYxl3+vOUwp+h+L1pnctSX/1JDi0x9E+Lo8ozmiOXLrOdo=
+	t=1744964042; cv=none; b=LwJF2DRzADvKIJiuUnt9yB7xepSA4k9q649D3oQeewcZ8bW2tUECNdYkknG9xKZQYhhYcugjkDFJcShjeC88752p8pExzyfjTTdThG7tDKhnzc1cLOe18OlqgtBYJ6PVLL/o0r0TWW1/6nG2a/3gQKY7BMwbyX9dTTDYU6pumio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744949505; c=relaxed/simple;
-	bh=qDEOwP5b4S5cvN4LY06Re0n354mmsZg9nFhmQ8J/N6M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MvpeKzomK/z2ly1FbclRPVSuDPs2eTy541GmiuMpDWw+k3t3Ob+igLQuPiBwHfQH5GgFVZovVJ9gXav/O8UmLVpmkNjWVO2OXpeNyfpnX9v4J9ZbyXbBPxe5lQhAQ+4SDvA2EJXeR7/lxI6IBJsRoiWEvfsY3IN0rCR2hmPkudY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NEErWDKd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 860BAC4CEE2;
-	Fri, 18 Apr 2025 04:11:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744949504;
-	bh=qDEOwP5b4S5cvN4LY06Re0n354mmsZg9nFhmQ8J/N6M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=NEErWDKdszxV/SJPO5Y6RDUj9+Ix3Bp2S79yIw8+v9ZGR629a26shTjdUcjCZzug3
-	 H+G3qrUHNmqV2NTDBbFNLtxebqxq4QkAYflKG2RLCOzf7lIVicQZoVlimhXtuuW8Qk
-	 Sz3F1cMEqSeC6sbaZP0SJRCMpw9Rldm8YC4P/4YQePlOqAm75FkpsXKEHh45+kP9Dp
-	 oDmu5ZjmaYSqT7bytCQuXMsiQmXqxeOMrfDKT78EMFTco/byPnj7kkkWGjQORk4K7K
-	 3K9Ae4eckmM9mHSbT7YHvJSi0fB4SQ0SkxJiSos/8ykEGdX7RY+WhQx9sl0SEHIPLM
-	 81CipSbJIjaMg==
-From: Mark Brown <broonie@kernel.org>
-To: linux-renesas-soc@vger.kernel.org, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-spi@vger.kernel.org, 
- devicetree@vger.kernel.org
-In-Reply-To: <20250417111630.53084-2-wsa+renesas@sang-engineering.com>
-References: <20250417111630.53084-2-wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH] spi: dt-bindings: Fix description mentioning a removed
- property
-Message-Id: <174494950324.341452.7517425061718095722.b4-ty@kernel.org>
-Date: Fri, 18 Apr 2025 05:11:43 +0100
+	s=arc-20240116; t=1744964042; c=relaxed/simple;
+	bh=GHCa+D5ED4Z7P9UO7A6wuIcTDN5pqLVDOaEFzRs4DS8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=GIMBW5PD9TR9c963Y+gT67AGLIgoAb7VOwtmmjM22pmPqv96s6fMbd2dDzlg5IVvq1lzddIEQ/zyPahaILVi0Jc4DuvqjA6Ya1piJODXhZYzvKYajFvyd8KmMxVUvWyjRE9n5vPCdlf59Lq/B7MET2h62UVdoRulXQVa8y2uPw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KRG3qrrk; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3995ff6b066so901531f8f.3;
+        Fri, 18 Apr 2025 01:14:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744964039; x=1745568839; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ysES0mGIKICmlz7bXkgEqZ80p/S+y8pioakYf1xuDpQ=;
+        b=KRG3qrrk51InaJxgu1BbxtYttPTpXE1mHwftDFvJUZZy/kYKaKiV7QNuibIzRV5has
+         43ZQPVsILJxcSV+3xlxP2Oyi6KpSpKu7UHwvGeah+G2A35PARtxeUbkgNzKkwDHJWONj
+         HWuLZCooZEa16ii1aHczamLttmRSh5grTAFg/c26RBNKDSKixP7/vbyd/zP83GHw81vv
+         l9afk1QGd99j7G39vcwCb6jDATtfD8g8hFKz7/Do5JTz+w46//h1HJVG3KVeEVwTd0dJ
+         DYl+9sM5QdybRJfi4AYP5bpNepfvcbBcmNkJe03Phf2eOi5SfedH7PZ/OvokgmwMfapT
+         F8Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744964039; x=1745568839;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ysES0mGIKICmlz7bXkgEqZ80p/S+y8pioakYf1xuDpQ=;
+        b=rXsdAF+vMfohf429KJxGQdUZMEsQhc9PJ2+eCW6V+k9nf3Zqiknj75P2MvBKdhLOoI
+         VhCQ0p8+ST2z4T2L/3FLXNJoDv5yso+oaSqsmTocN95mtPxaxgM4qA1UYIVesd8ElKuf
+         hnscQjIzVqAGvumwQOJtriBRDgUTjOFWm6kT0R+VKRn2Vb9MkoaRrO6ycWrseBEqolHt
+         8k5C0jbG5ObLw2eRkEWZN8OYm8eAQwAFOP6m/ZGiI3UCK30cdrSLt9L5ucoJOttIYbg+
+         AZQH6SZo0MJEge8vTAU/C+jtyWslEPPG2eyYMN1FdwUzZPwamixBz/fe/89haKW+COsQ
+         zj+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUXF3XSqpK1TFQzJ+BkB4lZoF/4f4r4g4fRUqa77YGb9DJaIs2iaR013S8NBe+/lKzDX3AYhlancVMtI4Yz@vger.kernel.org, AJvYcCVstdKy7wntIfjb+ulEgUD6csuHlyQ9xc5VJaw7gdldq3yXe1NMgE76F6qa5b8QBdZHL5vZ7Pi97ytoCLnAI0LtxLg=@vger.kernel.org, AJvYcCX1nc+l5ADH1IGtcibwhUePzmIVY1I+oT+iozFX47NH2ao29B56i4Z4yfPklvLVowodJM0Y0AFAfJc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMNhpCR9HF5OdNK2f9Ro9heyZvTwBDAxktm8FziGemRDGRTAih
+	oT/OlObbtSc5+5vnd/1uTc5ZIBdtJeysSaRc8N73CcYOEqYNKJPjZo9X3Zu7cmGhNm8k7F1DpNJ
+	S8ijD4/+5tUmyV5WmkE8oRIGPggnyi7aQfZc=
+X-Gm-Gg: ASbGncuarmwIN6xpQXEf4zyOxDeOgFYoa2ddLqO2feVDwy4UbSktO9GrZiBJ+f8vOfm
+	2i6nExIlKJw7Xz/U8TllSXqmIXjgK6qxVdYMWV40Py0cBOmlKoM/5TmgYHRtmSbDaiQQ+pRwtfN
+	tH6qMNjuy3WbMtdlspsCjwnQ==
+X-Google-Smtp-Source: AGHT+IEixeG56vKRHIfQZ9WsOF29rSKcalIFuTYowp5DR2TTigZduRtRr3/kyEZsUTNoi6kty3vschsKLRALWMCsvN4=
+X-Received: by 2002:a05:6000:18af:b0:38f:3a89:fdb5 with SMTP id
+ ffacd0b85a97d-39efba39855mr1321236f8f.11.1744964038466; Fri, 18 Apr 2025
+ 01:13:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+References: <20250407121859.131156-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <aAC8f0dAMERD8GjW@shikoro> <CA+V-a8sM2mFS--zLSZt28mOUDuO2FpW0TsaV50A_VxFZ-juP4Q@mail.gmail.com>
+ <aAFgwEB4SdgH-1fQ@shikoro>
+In-Reply-To: <aAFgwEB4SdgH-1fQ@shikoro>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 18 Apr 2025 09:13:32 +0100
+X-Gm-Features: ATxdqUFA9156Eu4fxE42CTO7RyOYL7H7N298Z-M17LvBAVxksQ4kwAlr1vrCh38
+Message-ID: <CA+V-a8tmTqFi4iqGhR3cfUgKw7mxJrm6ixGAHq747ptrL3t2jA@mail.gmail.com>
+Subject: Re: [PATCH v8] i2c: riic: Implement bus recovery
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>, Chris Brandt <chris.brandt@renesas.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Andy Shevchenko <andy@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 17 Apr 2025 13:16:31 +0200, Wolfram Sang wrote:
-> 'spi-cpha' was removed from this file. So, replace it in the description
-> with an existing example. Reformat the paragraph to adhere to max line
-> length.
-> 
-> 
+Hi Wolfram,
 
-Applied to
+On Thu, Apr 17, 2025 at 9:12=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+>
+> > As suggested I have the below now, (are there any changes Ive missed?)
+>
+> Well, get_sda should really only get SDA :)
+> >
+> > +static int riic_get_sda(struct i2c_adapter *adap)
+> > +{
+> > +       struct riic_dev *riic =3D i2c_get_adapdata(adap);
+> > +
+> > +       /* Check if the bus is busy or SDA is not high */
+> > +       if ((riic_readb(riic, RIIC_ICCR2) & ICCR2_BBSY) ||
+> > +           !(riic_readb(riic, RIIC_ICCR1) & ICCR1_SDAI))
+> > +               return -EBUSY;
+> > +
+> > +       return 1;
+> > +}
+>
+> I have
+>
+> +static int riic_get_sda(struct i2c_adapter *adap)
+> +{
+> +       struct riic_dev *riic =3D i2c_get_adapdata(adap);
+> +
+> +       return !!(riic_readb(riic, RIIC_ICCR1) & ICCR1_SDAI);
+> +}
+>
+> I believe the BBSY handling could be why it does not work.
+>
+Thanks, that did the trick. The incomplete_write_byte test case is
+passing for me. Now moving onto the incomplete_address_phase case this
+seems to be failing on my side. Did you test this on your side?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+root@smarc-rzg2l:~/i2c# cat incomplete_address_phase.sh
+cd /sys/kernel/debug/i2c/i2c-4/
+for i in {1..1}; do
+        echo 0x68 > incomplete_address_phase;
+        val=3D$(i2cget -y -f 3 0x68 8)
+        if [ "$?" !=3D "0" ] || [ "${val}" !=3D "0x83" ]; then
+                echo "I2C Read error (ret:$?) ${val}!!"
+                exit 1
+        fi
+        echo "Read val:${val}"
+done
 
-Thanks!
+root@smarc-rzg2l:~/i2c# ./incomplete_address_phase.sh
+Error: Read failed
+I2C Read error (ret:0) !!
+root@smarc-rzg2l:~/i2c# ./incomplete_address_phase.sh
+Read val:0x83
+root@smarc-rzg2l:~/i2c# ./incomplete_address_phase.sh
+Error: Read failed
+I2C Read error (ret:0) !!
+root@smarc-rzg2l:~/i2c# ./incomplete_address_phase.sh
+Read val:0x83
+root@smarc-rzg2l:~/i2c# ./incomplete_address_phase.sh
+Error: Read failed
+I2C Read error (ret:0) !!
+root@smarc-rzg2l:~/i2c#
+root@smarc-rzg2l:~/i2c#
 
-[1/1] spi: dt-bindings: Fix description mentioning a removed property
-      commit: 4cc9cf2f437ccf6915100c2f38f63cfb1abad6f9
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Cheers,
+Prabhakar
 
