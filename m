@@ -1,64 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-16204-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16205-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D75FA95622
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Apr 2025 20:48:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4720A95665
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Apr 2025 21:00:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 49E0F188EAF6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Apr 2025 18:48:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B39B165B2E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Apr 2025 19:00:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A97051E5707;
-	Mon, 21 Apr 2025 18:48:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3940D1E3769;
+	Mon, 21 Apr 2025 19:00:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tO9jNT0G"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="zfsFMbWg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AE8DDAB;
-	Mon, 21 Apr 2025 18:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A7E2F37;
+	Mon, 21 Apr 2025 19:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745261308; cv=none; b=LUzYR28Kts/cK7Oqa+wcOhLnA3st42++2LK9Uia/U9nKhHpJf7plwnicHhhpmyyoCNa3k4q6W5J6g+GBLwdwmymxxM6B8ZQMZqhTixaPpPxSOzLg+7ZrBh2LFrbqIauqz80AToBK3FEh0TkqjNf8rURBrpjGxIOKUnAS+zfQk48=
+	t=1745262038; cv=none; b=esw0/SuPbyJGTtLyNPUVNDGFB8YBBW+PqB3mwLvv+cQwuv12b/IrkG2s4yYiLH+nu5Onpd1zVoUuTAq9hbe+rJQkUmjHhlmFZhKBuSlhsL2yLqnPU2dc2FsWndDgNb/e3EHsDpv0dXjLFAATK4xXOK/HnEJdnOtp+8meIyP5Ndc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745261308; c=relaxed/simple;
-	bh=Ijp7OoJM/SjB6q2/JnLqH5xk2mnKjD6u6f/PtjXw0Ok=;
+	s=arc-20240116; t=1745262038; c=relaxed/simple;
+	bh=rK5+vJ6VPZzb/wi4IEEdQCcbOqq/b4nV0Lzil7+qcFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Of+vF9q415G91KMzg69Spd0g1/3yu6qi2yB+ZWj7d7eVuGUKyMMbQNfKguAlG7Ung1L11y7aLR3BIMiTIZQsGv1tdN8KEpiYdA28KHzd2r6VLCvpf8XLD6NnksbAEG7z/0AS5/+nioylzzIiQ1pLEEFKvrV664J92HcqJJWoVR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tO9jNT0G; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F51EC4CEE4;
-	Mon, 21 Apr 2025 18:48:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745261307;
-	bh=Ijp7OoJM/SjB6q2/JnLqH5xk2mnKjD6u6f/PtjXw0Ok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tO9jNT0GXs+9AfF7VttwbdUVOSuc8TE9HieRsrqdAvjZJGCauWzD6Jcp3PTIhDB1T
-	 2jFghVVcKbNU8nZPuX1B5oiS17mWCsKtNI6KL9gSMPhkspTWRJT/AVsYWUPolatrhv
-	 cs5EW0f1iNLJ5Li/nW+Zkmf2WDgWfqqcR9ccoGKqMu37/8xnpkWbk3AYv+8Jtr8Gny
-	 8R+Da2XRcbWUEbYkj0qBmlblSl2XhpfV54B93RsGQ1UXtufeyd51lrv4EK5se4PjBc
-	 1jQKL3B4mf5WG1st5UD6v+I2qaGwYbHZDBfoJFcX+n+26HtBSUkCVwBJ+Pk1wNmOsV
-	 UxfoREzuuUg4w==
-Date: Mon, 21 Apr 2025 13:48:25 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=le4Y2xYNeEp85z6xJNyUm9eFxDaEOVnhbnU7+shyHIKGeuGL6lIicRNDHPBHOoiw8upItFYPZOaBvpr2LGqcQJsqQmFK0OyAGvvlOMqquQ9AhPUpFNcelgOLnYfZ6ZZlfKXxn6QrrMXJVxykZxCEcQPq3yFIg8kdMkHOFo3xVLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=zfsFMbWg; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=IEN033baaB4ogGADBJMQL9poprZr/OOuFaTb+kBE3qw=; b=zfsFMbWg6CK6J4o+6YCkUph4VD
+	G8rRxLGFNmj1yc8SuXsCdmeBXLFsKmo+pQU/YmDEj6XuVLWOZBctb/wT3kZhd9jkwHP7nDLX7j/5S
+	cBWBX9FWMs4jPDwKAQR/ZY0NkKDBxSI7VpltWeIOoCafynDuzUQ8BsVTGMHO4nxq3AQZ990XL7OmZ
+	KI9dlW7Oa7niv5zhxM7BpQnNsx2RyizT3XdHdAfas9Qpz6L+UBfQCAeBZGXVzxjTDZ6QBCLv03l7G
+	wG2uSezrrzpzhsb+ULzwEsAOe1f5hzufGywh/IeMMcpc4kNcbIXvQheVPTZOzqV+xQomlb7Sx8I/j
+	DAhQts3A==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:59916)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1u6wNB-0003FY-0i;
+	Mon, 21 Apr 2025 20:00:05 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1u6wN3-0006g3-2g;
+	Mon, 21 Apr 2025 19:59:57 +0100
+Date: Mon, 21 Apr 2025 19:59:57 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Markus Niebel <Markus.Niebel@tq-group.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, linux@ew.tq-group.com,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>, imx@lists.linux.dev
-Subject: Re: [PATCH 1/2] dt-bindings: arm: add TQMa8XxS boards
-Message-ID: <174526130447.2607883.13343591293403394303.robh@kernel.org>
-References: <20250415133301.443511-1-alexander.stein@ew.tq-group.com>
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next v5 3/3] net: stmmac: Add DWMAC glue layer for
+ Renesas GBETH
+Message-ID: <aAaVrVFql3vSktrT@shell.armlinux.org.uk>
+References: <20250407120317.127056-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250407120317.127056-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Z_0-iH91A4Sexlzj@shell.armlinux.org.uk>
+ <CA+V-a8sS0TtS-TEdkQ8MB5F4JtzV9358Y9fmKe5MggGU+wP=4Q@mail.gmail.com>
+ <CA+V-a8tbW2Zs6op20yRTcihSm1bcMC2dYnRXVCKRf=q4fymZyg@mail.gmail.com>
+ <TY3PR01MB1134633A8CB82788BB98C6E6286B82@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,23 +97,22 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250415133301.443511-1-alexander.stein@ew.tq-group.com>
+In-Reply-To: <TY3PR01MB1134633A8CB82788BB98C6E6286B82@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
+On Mon, Apr 21, 2025 at 01:45:50PM +0000, Biju Das wrote:
+> Hi All,
+> FYI, On RZ/G3E, for STR to work with mainline, we need to reinitialize the PHY.
 
-On Tue, 15 Apr 2025 15:32:58 +0200, Alexander Stein wrote:
-> From: Markus Niebel <Markus.Niebel@tq-group.com>
-> 
-> TQMa8XxS is a SOM series featuring NXP i.MX8X SoC.
-> They are called TQMa8XQPS and TQMa8XDPS respectively.
-> MB-SMARC-2 is a carrier reference design.
-> 
-> Signed-off-by: Markus Niebel <Markus.Niebel@tq-group.com>
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
->  Documentation/devicetree/bindings/arm/fsl.yaml | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
+Which "mainline" are you using?
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reading your emails, I suspect v6.14 rather than something post-dating
+v6.15-rc1, since your latest email suggests that the PHY driver's
+->resume method is not being called early in stmmac's resume. However,
+commits 367f1854d442 and ef43e5132895 made this happen, which were
+merged during the merge window, and are thus in v6.15-rc1.
 
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
