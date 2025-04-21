@@ -1,1022 +1,293 @@
-Return-Path: <linux-renesas-soc+bounces-16200-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16201-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370E5A95393
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Apr 2025 17:28:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF21A95537
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Apr 2025 19:25:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D6045188FC4E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Apr 2025 15:28:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D516F3B0504
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Apr 2025 17:25:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 218121D63C2;
-	Mon, 21 Apr 2025 15:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ABCD1E1A08;
+	Mon, 21 Apr 2025 17:25:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ZvjFbbHd";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MFtf+3VM"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="NvJmY15y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010061.outbound.protection.outlook.com [52.101.229.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EC084039;
-	Mon, 21 Apr 2025 15:28:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745249291; cv=none; b=muMdP1vbjbmCjHRcFZiHYnZXce2bMqFjK7XiOo7vw9Gdzht32CBXdzlcMLt3Z+DTWfSRXr8ystnX25Ax30leV+VxPXUZfYtDZMZ8EqT/QK5tA/7hIQJXTHgrpH1OGdga43iIcTgmHcYcD04vEqWIPdDhZ6ybfxDP1ksUyYAIfW8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745249291; c=relaxed/simple;
-	bh=pSP8QKyFyWBg9PX/fAVDrMF4yP65OA0eLaolLMOMiCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ih5Mo39jBgK5LoJRpxqzpeOMBoDuz0uRjdLEeHXhn4cXGY377K00lQeq0J+fYWFKUXuSwjrWnYuEKPuzTB1wC6pOBfxMOh4kzWoYzNco8+aDomPPD9I4JDKOjMGOQzK+MkWClKodHn+ev846pJt/Y+NN2ntH+DbIDatC+EtZHfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ZvjFbbHd; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MFtf+3VM; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.phl.internal (Postfix) with ESMTP id 173F813803E3;
-	Mon, 21 Apr 2025 11:28:07 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Mon, 21 Apr 2025 11:28:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1745249287;
-	 x=1745335687; bh=9uAV2T/G1sG63QeJ2OObJYeEmwkT4v+48TBWCC4TLf4=; b=
-	ZvjFbbHdfVF6MfEx/cz5NW/ERYmh2iWNrauG2A8QIccj6xoVvirwl1C1hTsyJT3G
-	J627WWWmR1HrER1Hj5CdudApTmtUFdu27hLNio3lyd4y82RUr+MbZRhdixMyXLcj
-	IQtPofJzBl3VpzGp2za0LqKEM7RVO02YV2/1i2eDZJTH4IPpV8PdAzSo7lv3kbYx
-	T0GhGtECPosFafTkPkAyWxpX7Wzzqn3MGVJEOk57nTYFmzIaipeKVF7Gpe3LxLKK
-	mtlqKmU1xPRtkOJrZKnMQ7tA2I3FOnmTF5PwXn0n+tbDywWb0HBuy19TB+XXgg2V
-	ZToWt5mbcWP8WeJYTF7qEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1745249287; x=
-	1745335687; bh=9uAV2T/G1sG63QeJ2OObJYeEmwkT4v+48TBWCC4TLf4=; b=M
-	Ftf+3VMQrJV+mlkNNrn3gRJt8BAWUYtizNjZj17qVLXso9hmsoGTynMGf92ZJORJ
-	imdhmL9UZM88Ea5ihuRjkSv0S7s1Nc/pOyVaUXfjOa48td1C1pH2rdLN+4rrfNqO
-	zxtNrfKJh5jiFQXBRsy8iNY1Aajqo//pEhAYgiFQ1mCirO2MzhUXZJMPWwC0DZXn
-	UV8RTc51dKjdf45flebyyVKOWfX7Jf5u0+9X1QEGwAoExHtSTVPtyE8aGrJ9f9i7
-	Juc11zQyrjv1HnlUfIrOeMMzydFUeqr/jtEQilw7+hZR7Ud6apHe0JgUsqtDDgU+
-	z8i4hudHy+ZtsziUozPow==
-X-ME-Sender: <xms:BWQGaBkXCgtoJlWerAUUl0P4rJqUEQIsfWeNBs8wmz3y3aZwB9r5YA>
-    <xme:BWQGaM1nDgUB479kQrG_q_zdqdGIX5HJqrrNn9ORbI-042-s6d-TBCkONN0I2G23G
-    QUMHo8qCVmh85nS4dU>
-X-ME-Received: <xmr:BWQGaHq4wIahLIFfLIEKcxvblYAj1hdn_96WxQT64Xo08XJ9diM4tPo4lNNQsyfRPChvHoK-jbpUbzn1QYFw_zxht8y8l1yNZA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeduvdduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
-    rghtthgvrhhnpedtjeejfefgfeeltdehjeeltedvkeduleeigfdtgeehveehieegtdefhf
-    dugeejkeenucffohhmrghinhephigrmhhlrdhfrghnnecuvehluhhsthgvrhfuihiivgep
-    tdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhguod
-    hrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepvdefpdhm
-    ohguvgepshhmthhpohhuthdprhgtphhtthhopehmrghrvghkrdhvrghsuhhtodhrvghnvg
-    hsrghssehmrghilhgsohigrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgv
-    rhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepkhhunh
-    hinhhorhhirdhmohhrihhmohhtohdrghigsehrvghnvghsrghsrdgtohhmpdhrtghpthht
-    ohepkhifsehlihhnuhigrdgtohhmpdhrtghpthhtoheprhgrfhgrlhesmhhilhgvtghkih
-    drphhlpdhrtghpthhtoheprgdqsghhrghtihgrudesthhirdgtohhmpdhrtghpthhtohep
-    sghhvghlghgrrghssehgohhoghhlvgdrtghomhdprhgtphhtthhopegtohhnohhrodguth
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhl
-    ihguvghrrdgsvg
-X-ME-Proxy: <xmx:BWQGaBmUJ6fU6kCz116ZTa9K_8fYmJmz2BRgYcyDvsoL7MwNwZrtgw>
-    <xmx:BWQGaP1IOCyOOxwFY9Kk-lG0rIZOfu1TLfu6u-QOyMr7Fg4wrhFEbw>
-    <xmx:BWQGaAv-rJWE1Lil4xDQkt5PlfTFPTn7RIOO81Q-2yFo4SPNUEBbYg>
-    <xmx:BWQGaDWep1VR5aQqRmCtTdUOIOvycBP9ASo_eDqCo0RH9OzcZ0z4TQ>
-    <xmx:B2QGaLCHOW0ARTFt-aL5pfCAYCIwaWk0tHqOFZL_C8pbVfungHg-6WIX>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Apr 2025 11:28:04 -0400 (EDT)
-Date: Mon, 21 Apr 2025 17:28:03 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-	Aradhya Bhatia <a-bhatia1@ti.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Heiko Stuebner <heiko@sntech.de>, Junhao Xie <bigfoot@classfun.cn>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] arm64: dts: renesas: r8a779g3: Add Retronix R-Car
- V4H Sparrow Hawk board support
-Message-ID: <20250421152803.GB3760744@ragnatech.se>
-References: <20250420173829.200553-1-marek.vasut+renesas@mailbox.org>
- <20250420173829.200553-4-marek.vasut+renesas@mailbox.org>
- <20250421151545.GA3760744@ragnatech.se>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CAA1FDA;
+	Mon, 21 Apr 2025 17:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745256347; cv=fail; b=JcEdF+CmiUqvoLn/PA2QHeXM4iUJnnAo4hobHe8jC2L43pK/gO9t709dLqU5iWFwWmckmzqt5+O6E0/jzrbd4WNNAOk8j8bsFFJ7TH6QeKxPB/aKE7hasyB+sDZVrgVdj5Hcltok5gvv57Tc6wc3CrxBkvhZhsTMfOp7bgEA0ME=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745256347; c=relaxed/simple;
+	bh=Uzrb9i7RK4Sr17dpHhrGinhNaQuFVFmQ+LE76Cpcyt8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=A1fHuobz4CWseMz6NwLuidy6cvaqKfCZV4bIEBjLYdsehsf4fAzAXIuiZlQ97B0A88d7Sx/3T6LeOu5/ggv34s2qeGrYzhOLSmlhJvT589Di7XkOgP1VXTfTBuZqn3IpmUYwEdYeb9F41TU5AT8HahlofD+RX5OjtfIbBm8UZP4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=NvJmY15y; arc=fail smtp.client-ip=52.101.229.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FQKiBUDBfPkHamJOrJyueCwAl9KS/fhcSoDvkWEXL3kUDUC2oilUb2ViA+8NA9hZci1K5kDiGb0IktjEPlPkpKf7XNu8DSCgSC/2oSwoDioauWtmBTpL3rI5NxyNHNkbv/m0VzYNFSbwnBRxIopm0WoIrjp5egwvrVf5bWiZu3DhHRDIl4Nf4+7wzwUgP7jC9s/dZdEeCNHDdTmvcl5akMHRrPJcHfNIyQsxPdUjaSm1tnmAdxfe+2mI6rQkoiy7NI/m1Tsxq/vYqGeXgf3SJ+Zm9iRFDJbb7YNEYbcAOgobzul1E/T7I3Hr0jUDFbrc80bCIm7bCVE4OyGcqBn4Bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Uzrb9i7RK4Sr17dpHhrGinhNaQuFVFmQ+LE76Cpcyt8=;
+ b=CGcr+DvEJ3e0u9FW/udjrYNWEERdNLVehDL6I/hiYxd0EeMneYH69W5UlU01XY+CgPN88mA9WsfbvHeiTygVRNXFfeAl4T/SfnOpJzahfp8/uyGL50tgW6GoBBEWquUoIh/vDS9lVH7Hbyt6dylxP7f0TlMHAEUMcF3gdECU3NXELcn2XXoBGkAveHqkRJgMhxv/i8NmKG/eg6+H+Pgo84ZkBN+SOdCmS1w2uGIfbzqj3SyG6XJfMDTsNyL6LyxBn2A/ysJkrUTp3KY5A2v4yuRsCxN2/OtQ+YNUlGaOCXxAhYqq1xhUAlazeYACblaPH7kcgbKuTK+EXCHMC4eqsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Uzrb9i7RK4Sr17dpHhrGinhNaQuFVFmQ+LE76Cpcyt8=;
+ b=NvJmY15yp/wRl8ZdwqHHnoqUg3rq8oR/93Eb4KkKsEElMchdLS5B1+EJEUBmlm/Yy7IJA1w9guaeA7/K1RN1EUs9B0J9G3SebnuwN9l51BC/bDzc/ePbEBSsumbFfO70mJxFJqXC2fbpG2IWHuDEFwFMmY79kkaxzbBxPL60Bm0=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OSZPR01MB6695.jpnprd01.prod.outlook.com (2603:1096:604:111::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.30; Mon, 21 Apr
+ 2025 17:25:37 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8655.031; Mon, 21 Apr 2025
+ 17:25:37 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, "Russell King (Oracle)"
+	<linux@armlinux.org.uk>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>, Richard Cochran
+	<richardcochran@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Jose Abreu
+	<joabreu@synopsys.com>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-stm32@st-md-mailman.stormreply.com"
+	<linux-stm32@st-md-mailman.stormreply.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, Fabrizio Castro
+	<fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH net-next v5 3/3] net: stmmac: Add DWMAC glue layer for
+ Renesas GBETH
+Thread-Topic: [PATCH net-next v5 3/3] net: stmmac: Add DWMAC glue layer for
+ Renesas GBETH
+Thread-Index:
+ AQHbp7UXRdTsn2oCYUWD5qYhUQGHu7OjbUQAgAAVgQCAATLSgIAJgP8QgAAGBICAAAEN4IAAEkSAgAAhbNA=
+Date: Mon, 21 Apr 2025 17:25:36 +0000
+Message-ID:
+ <TY3PR01MB1134652607E0CB04ED520EDFF86B82@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250407120317.127056-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250407120317.127056-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Z_0-iH91A4Sexlzj@shell.armlinux.org.uk>
+ <CA+V-a8sS0TtS-TEdkQ8MB5F4JtzV9358Y9fmKe5MggGU+wP=4Q@mail.gmail.com>
+ <CA+V-a8tbW2Zs6op20yRTcihSm1bcMC2dYnRXVCKRf=q4fymZyg@mail.gmail.com>
+ <TY3PR01MB1134633A8CB82788BB98C6E6286B82@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <f27b0531-11dd-4074-9c79-172953d28292@lunn.ch>
+ <TY3PR01MB11346FA4767B74B2CBB2CAFB786B82@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <c27a2359-ee55-4d20-907d-314eee30ed4f@lunn.ch>
+In-Reply-To: <c27a2359-ee55-4d20-907d-314eee30ed4f@lunn.ch>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSZPR01MB6695:EE_
+x-ms-office365-filtering-correlation-id: 0bcb956e-ca8d-42b5-bd4d-08dd80f987ca
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|366016|7416014|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?ddSAQuFKbjVaC7xbRXm7UGeLEEs+egin6qQqt4sapxqb0UwRAJX+mBxC9J/U?=
+ =?us-ascii?Q?Z4LKSYo+5i1SEaHf0hnu8JkmZo8bHT8m8P5+q0mghZFhmOxmBiUdKDq/88Hv?=
+ =?us-ascii?Q?K4fBTADFx43FKs87g8Xlo2uliKCA/EB4Xf8PXvU+ryPaIxuMAkCu2b5j5p1k?=
+ =?us-ascii?Q?3uCk5+vYGC7a27JYpyK3gm0fGnYHCB59jHjFP3aOBxlB9GrP78Jbk3QrrzKM?=
+ =?us-ascii?Q?X180mm2LIjMv/ZmlIMz3Qe8M1GlYSS64yqSIHEnII7W2bJOzEU3hSrxOQigr?=
+ =?us-ascii?Q?3EfN0s9CTPxr2Ru9gcGVC+pUJ1+h28cG/z20wMcC3YHj/aSU6Rkk1I68J+l+?=
+ =?us-ascii?Q?5+P2uyfNfcgK2b0wC+Lz3hdYGWLoV4Bep5cy5hjpgS9snbyZZFVFR4N4hi42?=
+ =?us-ascii?Q?7vU25cE9MCVW+xyJsbJDW3AJgdkKPk4sLU4eOdQkkay9FbWSFZXwevl9W9r0?=
+ =?us-ascii?Q?v3e2OtNL0vXsMMqC3XmCd/2LahGCEE0BTGRfyodzU1M+J/1YH6IdKrg4q+Uw?=
+ =?us-ascii?Q?irWq0Mo05FikvBmFk1qQ/GCIdvGVhiTVhB6ta73auLfP/e0BsJOr+CSyJSXq?=
+ =?us-ascii?Q?+qMueS6MV/SibgDXAaGN0yiAPtQxesKu5zZhm6Ca/jdsIb9EsRL9MYyFvMi9?=
+ =?us-ascii?Q?Q0dQLqVlJM09Ojn33vDnloz6gCP5RDSP+VMTMkXd8sXBYDypByiz589YAAOj?=
+ =?us-ascii?Q?lddIiqtJOYccCn4+xRhhIqbNu3Y82k7ugnE+h7dREvC7A8YdTClMobUbhh5q?=
+ =?us-ascii?Q?0jOAP9fHqoVP5KDfr1qbfdNHn1+T+ueQ3FdlI0y90t08tq49Bh2brK8luSYw?=
+ =?us-ascii?Q?vv9R634iT6xn9MT5LWjRzrkUzrSvOr8ZcEuIkJcBX2LlOTcbc3fn8zic/FXA?=
+ =?us-ascii?Q?SrYqfNhlyXtWvbN8JQL4vuJkM/eDFqMG5T59g/KU1MxXmT3V8BXXQoQJKKnF?=
+ =?us-ascii?Q?tL9GnoFWlu2YC1pxnBQIpgRuKX9ztE3ZucYVlEf9QsXttetZraJMkYNH18qm?=
+ =?us-ascii?Q?NeqV4jdv9Bk5rCX3pNyoyT2g9SsXnwFzH/e+n0JruNNDs+Iq4T9rqmWx846L?=
+ =?us-ascii?Q?Om+Nhmx/63UG5OthBVWAoiDXo8IXt1+NgH0898jZvQE9dkwUtgjDQkkXrHAr?=
+ =?us-ascii?Q?CzDncVtALRu1Bc88rGriN2kajINuoTrnAfZRhIUihHmEhpm9NnPlyFnE0oV3?=
+ =?us-ascii?Q?eOMxpCZTHeXP48bQ7sbyY4tDs/wG7Y88hKyGeS9h7+jvTdM4QiEMDrRslf9E?=
+ =?us-ascii?Q?625j+N92xSfUNir9PDxaSey8USANCudgoXZzj0QfALaFtQ7RfsuW7DQFaxOJ?=
+ =?us-ascii?Q?IJ2MoaHS04dODeAuRz8Ug5uRXG8Cu+QgvfiBc4UX8vrcl2VfSMVXdv7pkbvn?=
+ =?us-ascii?Q?ZixnF1V5hJ1mmzehhL4O8k1/p3djnESeYj+i8apKDupK0lNC/nVoreXaWQBa?=
+ =?us-ascii?Q?JC83L3Ki2zEjqma1V4DRbHXMb9v6YCzx/UM6/y5bwk9KBchLznV6vA=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?84zeO2PgUSGzwsQAaZdyZz+o1ZXgN2C91zFm6q6a18juhNmcBV3X3+lpuDcD?=
+ =?us-ascii?Q?lIJMVtfvg9n3fdW+/f8rtvURf05GkZxkV2v1izz0Jl5w2WeaoW8bn9iLMhhF?=
+ =?us-ascii?Q?kwPAx67/yQx4LmHUSWsxuznRWyHW97aGkkY7FCWCHm00jzPdSxsKZsAftg1Y?=
+ =?us-ascii?Q?YpDYhHH+TswaEnbWiLV00M9fa6qq3gj/jk7dRdldViWGElrA2EGlfuIHztHp?=
+ =?us-ascii?Q?tWGT+cd6UvBh8ZIry4KTaO35a07TWqBzZNCtjv7WOSdC1+NsNnS2B5EEusoj?=
+ =?us-ascii?Q?uhbsehsLlaqUPRxysAfxS8wyZO5KMAOc8sRynL8o30U7Tnd8NB86tuJV/NGy?=
+ =?us-ascii?Q?hmLctJIHe73HlvvWwxiBSya3lmIWOJPQErsqX5knPJGaJ0BvbzUW9b6K7K7i?=
+ =?us-ascii?Q?wIoge0MYpcFe5MJSXLltkWFIYr2DiMeAPga0o+mXmFRT8eSB1niWCmKnIfvu?=
+ =?us-ascii?Q?/KCsGlW8jSY6EnkHZZuN7zKw84zDt8t1CMso/2MOX9mo1W0GJhHpAhAmKXbo?=
+ =?us-ascii?Q?zJYu+1y3JehJyktQOR4YezyJpvLUJblNerSDcuy9jFF9hbkuXgB6kUboObu2?=
+ =?us-ascii?Q?EO2HzTVnjm7ZWox5wFBsZGFxymDtiBHFNSKEgw2veTSlYCK6kMrbq3uP3V6W?=
+ =?us-ascii?Q?W29RLYURzMwKqg41sIezV3sLFNS+zuE3O6F02CKOCsfu2JuXBpCmd+6bPngI?=
+ =?us-ascii?Q?Anv/37L26JOGDBwayNpxW/QAjXyg9aPR7HSlnBtW6kbVYhYeuYsSBBmQiz2F?=
+ =?us-ascii?Q?QivYhCzFI3ejgXMxJEYzw19mHYWvgF5VtQX5JAzrbw+Ou3OxDrSwPk2NNCLj?=
+ =?us-ascii?Q?KzE9TY7a87OuUT0jPajKis2vZABwA4wCKLYbm/43e6SmmEG0cuuul/Ehtj71?=
+ =?us-ascii?Q?l4cLFaj/UWSQforzwXqJ6YJbcWggRQo2jr4nbAcCpmd/ETpAqmi7JDEPVlF6?=
+ =?us-ascii?Q?TBEBX1Nrd2gopAzpVkaFJ8Uc6C5bsLuX1eOxtuYSaJf/KtfH8I9DPD2UXv4N?=
+ =?us-ascii?Q?veCuBN1ZJk7qQTlNG13DFop+6hWFyPJSEemgJ5k4sNjxADgRj9Q1vaxjUnR8?=
+ =?us-ascii?Q?9lrmxCoojHaR/T8iaLXFBu7DQiJ3WsUjbtwjSNsH8FIewjWWnEfr1LFmJ+l6?=
+ =?us-ascii?Q?GbB1XAOHQM5tRHQCmYdnRPQT2a3/uUVdqYiriF2V1xCb4ZHfUu7PTAeoTgTJ?=
+ =?us-ascii?Q?7yRKiynVDR/C/I+aMx0BgupGzyt2fnyj450JKsR1wNlrVPJV8QjAcnx/G1kQ?=
+ =?us-ascii?Q?2O0iqsIov5KfOD1wS4vr/ccRKdMAqEV9v75vHkD0l22wBiN7N6BwuOZVdx9V?=
+ =?us-ascii?Q?MQhyccQXZPLIzONPzqpyphickQOP+ED+DSXRywQNgti1RgtnOneOogspYnYS?=
+ =?us-ascii?Q?+qIXD23CHRWI1sXFJYQFFK0BkT4sutY4qIjzfyEG9OdbGWHH6zUoQLY3Dcbu?=
+ =?us-ascii?Q?fsh094A1bVoyHe9w1DHzyT6BhLmLslsu5WEDIuFW05fCEkRhRExh2Zjv6Xqn?=
+ =?us-ascii?Q?BDq/0vWHtOUn10QkFSHHnm2qiw5U7D7kKQTpL2vYTazaexqK5YBQfXeOVOD6?=
+ =?us-ascii?Q?+kiUvAhwp1/8GPUoATkGOE6XW8bsj8l/7AR5Q7CPTwVecLlCrdyEk9xdDRfO?=
+ =?us-ascii?Q?QA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250421151545.GA3760744@ragnatech.se>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bcb956e-ca8d-42b5-bd4d-08dd80f987ca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Apr 2025 17:25:36.9877
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kLBVhw1yMEdpZy+Bz9Q7B9xvU4lU8BFwwoy83dXH3ziqZoVbOPyT1fwVmXPv65+XUuICQX3Cjgw5OibqVuxQ5/T/OeTe4aTpnRedWJOBacE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6695
 
-Hi again,
+Hi Andrew,
 
-On 2025-04-21 17:15:51 +0200, Niklas Söderlund wrote:
-> Hi Marek,
-> 
-> Thanks for your work!
-> 
-> On 2025-04-20 19:36:29 +0200, Marek Vasut wrote:
-> > Add Retronix R-Car V4H Sparrow Hawk board based on Renesas R-Car V4H ES3.0
-> > (R8A779G3) SoC. This is a single-board computer with single gigabit ethernet,
-> > DSI-to-eDP bridge, DSI and two CSI2 interfaces, audio codec, two CANFD ports,
-> > micro SD card slot, USB PD supply, USB 3.0 ports, M.2 Key-M slot for NVMe SSD,
-> > debug UART and JTAG.
-> > 
-> > Tested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> 
-> Compared to v2 this do not boot for me. I get no console output after 
-> U-boot and the board appears dead.
+> -----Original Message-----
+> From: Andrew Lunn <andrew@lunn.ch>
+> Sent: 21 April 2025 16:12
+> Subject: Re: [PATCH net-next v5 3/3] net: stmmac: Add DWMAC glue layer fo=
+r Renesas GBETH
+>=20
+> On Mon, Apr 21, 2025 at 02:22:01PM +0000, Biju Das wrote:
+> > Hi Andrew,
+> >
+> > > -----Original Message-----
+> > > From: Andrew Lunn <andrew@lunn.ch>
+> > > Sent: 21 April 2025 15:02
+> > > Subject: Re: [PATCH net-next v5 3/3] net: stmmac: Add DWMAC glue
+> > > layer for Renesas GBETH
+> > >
+> > > > > On the RZ/G3E, the upstream support for testing S2R is not yet
+> > > > > in a usable state. So for now, I'll switch to using init/exit cal=
+lbacks and drop the PM
+> callback.
+> > > >
+> > > > FYI, On RZ/G3E, for STR to work with mainline, we need to reinitial=
+ize the PHY.
+> > > > I have done below changes on top of [1] to make STR working.
+> > >
+> > > Can you explain why you need to reinitialise the PHY? The MAC driver
+> > > should not need to do this, so something is wrong somewhere. If we
+> > > understand the 'Why?' we can probably tell you a better way to do thi=
+s.
+> >
+> > Without this change bind/unbind works. But for the STR case, without
+> > reinitializing the PHY, even though the IP link is UP, I am not able to=
+ talk the NFS server or ping
+> the host properly.
+> >
+> > I checked clock/reset before and after reset everything set as expected=
+.
+> >
+> > Only change during STR is, on wakeup we need to restore direction
+> > (MII/RGMII) of IO block for ET0/1_TXC_TXCLK (IO attribute) in the pin
+> > control driver. After that looks like PHY init is required to talk to s=
+erver.
+>=20
+> When talking about suspend/resume, is this with or without WoL?
 
-After discussing this with you on IRC it's clear the issue was at my 
-side. This works as expected, please keep my T-b. Sorry for the noise.
+Without WoL.
 
-> 
-> If I restore the PCIe nodes as such the boards comes back to life.
-> 
-> ----> cut here <----
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-> index b109095a0d87..b54d45115a85 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-> @@ -133,6 +133,13 @@ sn65dsi86_refclk: clk-x9 {
->                 clock-frequency = <38400000>;
->         };
-> 
-> +       /* Page 26 / PCIe.0/1 CLK */
-> +       pcie_refclk: clk-x8 {
-> +               compatible = "fixed-clock";
-> +               #clock-cells = <0>;
-> +               clock-frequency = <25000000>;
-> +       };
-> +
->         /* Page 17 uSD-Slot */
->         vcc_sdhi: regulator-vcc-sdhi {
->                 compatible = "regulator-gpio";
-> @@ -340,6 +347,14 @@ i2c0_mux2: i2c@2 {
->                         reg = <2>;
->                         #address-cells = <1>;
->                         #size-cells = <0>;
-> +
-> +                       /* Page 26 / PCIe.0/1 CLK */
-> +                       pcie_clk: clk@68 {
-> +                               compatible = "renesas,9fgv0441";
-> +                               reg = <0x68>;
-> +                               clocks = <&pcie_refclk>;
-> +                               #clock-cells = <1>;
-> +                       };
->                 };
-> 
->                 i2c0_mux3: i2c@3 {
-> @@ -406,20 +421,24 @@ &mmc0 {
-> 
->  /* Page 26 / 2230 Key M M.2 */
->  &pcie0_clkref {
-> -       clock-frequency = <100000000>;
-> +       status = "disabled";
->  };
-> 
->  &pciec0 {
-> +       clocks = <&cpg CPG_MOD 624>, <&pcie_clk 0>, <&pcie_clk 1>;
-> +       clock-names = "core", "ref", "aux";
->         reset-gpios = <&gpio2 2 GPIO_ACTIVE_LOW>;
->         status = "okay";
->  };
-> 
->  /* Page 25 / PCIe to USB */
->  &pcie1_clkref {
-> -       clock-frequency = <100000000>;
-> +       status = "disabled";
->  };
-> 
->  &pciec1 {
-> +       clocks = <&cpg CPG_MOD 625>, <&pcie_clk 2>, <&pcie_clk 3>;
-> +       clock-names = "core", "ref", "aux";
->         /* uPD720201 is PCIe Gen2 x1 device */
->         num-lanes = <1>;
->         reset-gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
-> ----> cut here <----
-> 
-> Is this expected?
-> 
-> > ---
-> > Cc: "Krzysztof Wilczyński" <kw@linux.com>
-> > Cc: "Rafał Miłecki" <rafal@milecki.pl>
-> > Cc: Aradhya Bhatia <a-bhatia1@ti.com>
-> > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > Cc: Conor Dooley <conor+dt@kernel.org>
-> > Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Cc: Heiko Stuebner <heiko@sntech.de>
-> > Cc: Junhao Xie <bigfoot@classfun.cn>
-> > Cc: Kever Yang <kever.yang@rock-chips.com>
-> > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> > Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-> > Cc: Magnus Damm <magnus.damm@gmail.com>
-> > Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > Cc: devicetree@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: linux-pci@vger.kernel.org
-> > Cc: linux-renesas-soc@vger.kernel.org
-> > ---
-> > V2: - Add TB from Morimoto-san
-> >     - Enable pwm-fan and set PWM to full by default, to achieve maximum
-> >       cooling effect unless configured otherwise. The blower fan is user
-> >       supplied device, hence this default.
-> >     - Add arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-pwm.dtso
-> >       to demonstrate user supplied blower fan configuration.
-> >     - Add TB from Niklas
-> >     - Rename pins{_,-}mdio, pins{_,-}mii, scif{_,-}clk, sd{_,-}uhs
-> >     - Add serial1 = &hscif1; and serial2 = &hscif3
-> >     - Rename {Renesas,Retronix} R-Car V4H Sparrow Hawk in commit message
-> >       and update R-Car V4H ES3.0 to Renesas R-Car V4H ES3.0
-> > V3: - Remove Renesas 9FGV0441 PCIe clock generator node from I2C bus,
-> >       remove clk-x8 clock node used by the PCIe clock generator, use
-> >       pcie0_clkref and pcie1_clkref to describe 100 MHz clock supplied
-> >       to both the PCIe controller and bus for now. The 9FGV0441 can and
-> >       does operate autonomously without any configuration. The 9FGV0441
-> >       description will be added in a separate follow up patch, once it
-> >       is clear how to describe separate controller and bus clock in DT.
-> > ---
-> >  arch/arm64/boot/dts/renesas/Makefile          |   4 +
-> >  .../r8a779g3-sparrow-hawk-fan-pwm.dtso        |  43 ++
-> >  .../dts/renesas/r8a779g3-sparrow-hawk.dts     | 666 ++++++++++++++++++
-> >  3 files changed, 713 insertions(+)
-> >  create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-pwm.dtso
-> >  create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-> > 
-> > diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-> > index d8a8d7ca4c58a..b24dddee3827c 100644
-> > --- a/arch/arm64/boot/dts/renesas/Makefile
-> > +++ b/arch/arm64/boot/dts/renesas/Makefile
-> > @@ -94,6 +94,10 @@ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g2-white-hawk-single.dtb
-> >  r8a779g2-white-hawk-single-ard-audio-da7212-dtbs := r8a779g2-white-hawk-single.dtb white-hawk-ard-audio-da7212.dtbo
-> >  dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g2-white-hawk-single-ard-audio-da7212.dtb
-> >  
-> > +dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk.dtb
-> > +r8a779g3-sparrow-hawk-fan-pwm-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-fan-pwm.dtbo
-> > +dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtb
-> > +
-> >  dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-white-hawk-single.dtb
-> >  r8a779g3-white-hawk-single-ard-audio-da7212-dtbs := r8a779g3-white-hawk-single.dtb white-hawk-ard-audio-da7212.dtbo
-> >  dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-white-hawk-single-ard-audio-da7212.dtb
-> > diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-pwm.dtso b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-pwm.dtso
-> > new file mode 100644
-> > index 0000000000000..50d53c8d76c5b
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-pwm.dtso
-> > @@ -0,0 +1,43 @@
-> > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +/*
-> > + * Device Tree Overlay for the PWM controlled blower fan in connector J3:FAN
-> > + * on R-Car V4H ES3.0 Sparrow Hawk board
-> > + *
-> > + * Copyright (C) 2025 Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > + *
-> > + * Example usage:
-> > + *
-> > + * # Localize hwmon sysfs directory that matches the PWM fan,
-> > + * # enable the PWM fan, and configure the fan speed manually.
-> > + * r8a779g3-sparrow-hawk$ grep -H . /sys/class/hwmon/hwmon?/name
-> > + * /sys/class/hwmon/hwmon0/name:sensor1_thermal
-> > + * /sys/class/hwmon/hwmon1/name:sensor2_thermal
-> > + * /sys/class/hwmon/hwmon2/name:sensor3_thermal
-> > + * /sys/class/hwmon/hwmon3/name:sensor4_thermal
-> > + * /sys/class/hwmon/hwmon4/name:pwmfan
-> > + *                       ^      ^^^^^^
-> > + *
-> > + * # Select mode 2 , enable fan PWM and regulator and keep them enabled.
-> > + * # For details, see Linux Documentation/hwmon/pwm-fan.rst
-> > + * r8a779g3-sparrow-hawk$ echo 2 > /sys/class/hwmon/hwmon4/pwm1_enable
-> > + *
-> > + * # Configure PWM fan speed in range 0..255 , 0 is stopped , 255 is full speed .
-> > + * # Fan speed 101 is about 2/5 of the PWM fan speed:
-> > + * r8a779g3-sparrow-hawk$ echo 101 > /sys/class/hwmon/hwmon4/pwm1
-> > + */
-> > +
-> > +/dts-v1/;
-> > +/plugin/;
-> > +
-> > +/*
-> > + * Override default PWM fan settings. For a list of available properties,
-> > + * see schema Documentation/devicetree/bindings/hwmon/pwm-fan.yaml .
-> > + */
-> > +&fan {
-> > +	/* Available cooling levels */
-> > +	cooling-levels = <0 50 100 150 200 255>;
-> > +	/* Four pulses of tacho signal per one revolution */
-> > +	pulses-per-revolution = <4>;
-> > +	/* PWM period: 100us ~= 10 kHz */
-> > +	pwms = <&pwm0 0 100000>;
-> > +};
-> > diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-> > new file mode 100644
-> > index 0000000000000..b109095a0d872
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-> > @@ -0,0 +1,666 @@
-> > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +/*
-> > + * Device Tree Source for the R-Car V4H ES3.0 Sparrow Hawk board
-> > + *
-> > + * Copyright (C) 2025 Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > + */
-> > +
-> > +/dts-v1/;
-> > +#include <dt-bindings/gpio/gpio.h>
-> > +
-> > +#include "r8a779g3.dtsi"
-> > +
-> > +/ {
-> > +	model = "Retronix Sparrow Hawk board based on r8a779g3";
-> > +	compatible = "retronix,sparrow-hawk", "renesas,r8a779g3",
-> > +		     "renesas,r8a779g0";
-> > +
-> > +	aliases {
-> > +		ethernet0 = &avb0;
-> > +		i2c0 = &i2c0;
-> > +		i2c1 = &i2c1;
-> > +		i2c2 = &i2c2;
-> > +		i2c3 = &i2c3;
-> > +		i2c4 = &i2c4;
-> > +		i2c5 = &i2c5;
-> > +		serial0 = &hscif0;
-> > +		serial1 = &hscif1;
-> > +		serial2 = &hscif3;
-> > +		spi0 = &rpc;
-> > +	};
-> > +
-> > +	chosen {
-> > +		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
-> > +		stdout-path = "serial0:921600n8";
-> > +	};
-> > +
-> > +	/* Page 31 / FAN */
-> > +	fan: pwm-fan {
-> > +		pinctrl-0 = <&irq4_pins>;
-> > +		pinctrl-names = "default";
-> > +		compatible = "pwm-fan";
-> > +		#cooling-cells = <2>;
-> > +		interrupts-extended = <&intc_ex 4 IRQ_TYPE_EDGE_FALLING>;
-> > +		/*
-> > +		 * The fan model connected to this device can be selected
-> > +		 * by user. Set "cooling-levels" DT property to single 255
-> > +		 * entry to force the fan PWM into constant HIGH, which
-> > +		 * forces the fan to spin at maximum RPM, thus providing
-> > +		 * maximum cooling to this device and protection against
-> > +		 * misconfigured PWM duty cycle to the fan.
-> > +		 *
-> > +		 * User has to configure "pwms" and "pulses-per-revolution"
-> > +		 * DT properties according to fan datasheet first, and then
-> > +		 * extend "cooling-levels = <0 m n ... 255>" property to
-> > +		 * achieve proper fan control compatible with fan model
-> > +		 * installed by user.
-> > +		 */
-> > +		cooling-levels = <255>;
-> > +		pulses-per-revolution = <2>;
-> > +		pwms = <&pwm0 0 50000>;
-> > +	};
-> > +
-> > +	/*
-> > +	 * Page 15 / LPDDR5
-> > +	 *
-> > +	 * This configuration listed below is for the 8 GiB board variant
-> > +	 * with MT62F1G64D8EK-023 WT:C LPDDR5 part populated on the board.
-> > +	 *
-> > +	 * A variant with 16 GiB MT62F2G64D8EK-023 WT:C part populated on
-> > +	 * the board is automatically handled by the bootloader, which
-> > +	 * adjusts the correct DRAM size into the memory nodes below.
-> > +	 */
-> > +	memory@48000000 {
-> > +		device_type = "memory";
-> > +		/* first 128MB is reserved for secure area. */
-> > +		reg = <0x0 0x48000000 0x0 0x78000000>;
-> > +	};
-> > +
-> > +	memory@480000000 {
-> > +		device_type = "memory";
-> > +		reg = <0x4 0x80000000 0x0 0x80000000>;
-> > +	};
-> > +
-> > +	memory@600000000 {
-> > +		device_type = "memory";
-> > +		reg = <0x6 0x00000000 0x1 0x00000000>;
-> > +	};
-> > +
-> > +	/* Page 27 / DSI to Display */
-> > +	mini-dp-con {
-> > +		compatible = "dp-connector";
-> > +		label = "CN6";
-> > +		type = "full-size";
-> > +
-> > +		port {
-> > +			mini_dp_con_in: endpoint {
-> > +				remote-endpoint = <&sn65dsi86_out>;
-> > +			};
-> > +		};
-> > +	};
-> > +
-> > +	reg_1p2v: regulator-1p2v {
-> > +		compatible = "regulator-fixed";
-> > +		regulator-name = "fixed-1.2V";
-> > +		regulator-min-microvolt = <1200000>;
-> > +		regulator-max-microvolt = <1200000>;
-> > +		regulator-boot-on;
-> > +		regulator-always-on;
-> > +	};
-> > +
-> > +	reg_1p8v: regulator-1p8v {
-> > +		compatible = "regulator-fixed";
-> > +		regulator-name = "fixed-1.8V";
-> > +		regulator-min-microvolt = <1800000>;
-> > +		regulator-max-microvolt = <1800000>;
-> > +		regulator-boot-on;
-> > +		regulator-always-on;
-> > +	};
-> > +
-> > +	reg_3p3v: regulator-3p3v {
-> > +		compatible = "regulator-fixed";
-> > +		regulator-name = "fixed-3.3V";
-> > +		regulator-min-microvolt = <3300000>;
-> > +		regulator-max-microvolt = <3300000>;
-> > +		regulator-boot-on;
-> > +		regulator-always-on;
-> > +	};
-> > +
-> > +	/* Page 27 / DSI to Display */
-> > +	sn65dsi86_refclk: clk-x9 {
-> > +		compatible = "fixed-clock";
-> > +		#clock-cells = <0>;
-> > +		clock-frequency = <38400000>;
-> > +	};
-> > +
-> > +	/* Page 17 uSD-Slot */
-> > +	vcc_sdhi: regulator-vcc-sdhi {
-> > +		compatible = "regulator-gpio";
-> > +		regulator-name = "SDHI VccQ";
-> > +		regulator-min-microvolt = <1800000>;
-> > +		regulator-max-microvolt = <3300000>;
-> > +		gpios = <&gpio8 13 GPIO_ACTIVE_HIGH>;
-> > +		gpios-states = <1>;
-> > +		states = <3300000 0>, <1800000 1>;
-> > +	};
-> > +};
-> > +
-> > +/* Page 22 / Ether_AVB0 */
-> > +&avb0 {
-> > +	pinctrl-0 = <&avb0_pins>;
-> > +	pinctrl-names = "default";
-> > +	phy-handle = <&avb0_phy>;
-> > +	tx-internal-delay-ps = <2000>;
-> > +	status = "okay";
-> > +
-> > +	mdio {
-> > +		#address-cells = <1>;
-> > +		#size-cells = <0>;
-> > +
-> > +		avb0_phy: ethernet-phy@0 {	/* KSZ9031RNXVB */
-> > +			compatible = "ethernet-phy-id0022.1622",
-> > +				     "ethernet-phy-ieee802.3-c22";
-> > +			rxc-skew-ps = <1500>;
-> > +			reg = <0>;
-> > +			/* AVB0_PHY_INT_V */
-> > +			interrupts-extended = <&gpio7 5 IRQ_TYPE_LEVEL_LOW>;
-> > +			/* GP7_10/AVB0_RESETN_V */
-> > +			reset-gpios = <&gpio7 10 GPIO_ACTIVE_LOW>;
-> > +			reset-assert-us = <10000>;
-> > +			reset-deassert-us = <300>;
-> > +		};
-> > +	};
-> > +};
-> > +
-> > +/* Page 28 / CANFD_IF */
-> > +&can_clk {
-> > +	clock-frequency = <40000000>;
-> > +};
-> > +
-> > +/* Page 28 / CANFD_IF */
-> > +&canfd {
-> > +	pinctrl-0 = <&canfd3_pins>, <&canfd4_pins>, <&can_clk_pins>;
-> > +	pinctrl-names = "default";
-> > +
-> > +	status = "okay";
-> > +
-> > +	channel3 {
-> > +		status = "okay";
-> > +	};
-> > +
-> > +	channel4 {
-> > +		status = "okay";
-> > +	};
-> > +};
-> > +
-> > +/* Page 27 / DSI to Display */
-> > +&dsi1 {
-> > +	status = "okay";
-> > +
-> > +	ports {
-> > +		port@1 {
-> > +			dsi1_out: endpoint {
-> > +				remote-endpoint = <&sn65dsi86_in>;
-> > +				data-lanes = <1 2 3 4>;
-> > +			};
-> > +		};
-> > +	};
-> > +};
-> > +
-> > +/* Page 27 / DSI to Display */
-> > +&du {
-> > +	status = "okay";
-> > +};
-> > +
-> > +/* Page 5 / R-Car V4H_INT_I2C */
-> > +&extal_clk {	/* X3 */
-> > +	clock-frequency = <16666666>;
-> > +};
-> > +
-> > +/* Page 5 / R-Car V4H_INT_I2C */
-> > +&extalr_clk {	/* X2 */
-> > +	clock-frequency = <32768>;
-> > +};
-> > +
-> > +/* Page 26 / 2230 Key M M.2 */
-> > +&gpio4 {
-> > +	/* 9FGV0441 nOE inputs 0 and 1 */
-> > +	pcie-m2-oe-hog {
-> > +		gpio-hog;
-> > +		gpios = <21 GPIO_ACTIVE_HIGH>;
-> > +		output-low;
-> > +		line-name = "PCIe-CLK-nOE-M2";
-> > +	};
-> > +
-> > +	/* 9FGV0441 nOE inputs 2 and 3 */
-> > +	pcie-usb-oe-hog {
-> > +		gpio-hog;
-> > +		gpios = <22 GPIO_ACTIVE_HIGH>;
-> > +		output-low;
-> > +		line-name = "PCIe-CLK-nOE-USB";
-> > +	};
-> > +};
-> > +
-> > +/* Page 23 / DEBUG */
-> > +&hscif0 {	/* FTDI ADBUS[3:0] */
-> > +	pinctrl-0 = <&hscif0_pins>;
-> > +	pinctrl-names = "default";
-> > +	uart-has-rtscts;
-> > +	bootph-all;
-> > +
-> > +	status = "okay";
-> > +};
-> > +
-> > +/* Page 23 / DEBUG */
-> > +&hscif1 {	/* FTDI BDBUS[3:0] */
-> > +	pinctrl-0 = <&hscif1_pins>;
-> > +	pinctrl-names = "default";
-> > +	uart-has-rtscts;
-> > +
-> > +	status = "okay";
-> > +};
-> > +
-> > +/* Page 24 / UART */
-> > +&hscif3 {	/* CN7 pins 8 (TX) and 10 (RX) */
-> > +	pinctrl-0 = <&hscif3_pins>;
-> > +	pinctrl-names = "default";
-> > +
-> > +	status = "okay";
-> > +};
-> > +
-> > +/* Page 24 / I2C SWITCH */
-> > +&i2c0 {
-> > +	#address-cells = <1>;
-> > +	#size-cells = <0>;
-> > +	pinctrl-0 = <&i2c0_pins>;
-> > +	pinctrl-names = "default";
-> > +	clock-frequency = <400000>;
-> > +	status = "okay";
-> > +
-> > +	mux@71 {
-> > +		compatible = "nxp,pca9544";	/* TCA9544 */
-> > +		reg = <0x71>;
-> > +		#address-cells = <1>;
-> > +		#size-cells = <0>;
-> > +		vdd-supply = <&reg_3p3v>;
-> > +
-> > +		i2c0_mux0: i2c@0 {
-> > +			reg = <0>;
-> > +			#address-cells = <1>;
-> > +			#size-cells = <0>;
-> > +
-> > +			/* Page 27 / DSI to Display */
-> > +			bridge@2c {
-> > +				pinctrl-0 = <&irq0_pins>;
-> > +				pinctrl-names = "default";
-> > +
-> > +				compatible = "ti,sn65dsi86";
-> > +				reg = <0x2c>;
-> > +
-> > +				clocks = <&sn65dsi86_refclk>;
-> > +				clock-names = "refclk";
-> > +
-> > +				interrupts-extended = <&intc_ex 0 IRQ_TYPE_LEVEL_HIGH>;
-> > +
-> > +				enable-gpios = <&gpio2 1 GPIO_ACTIVE_HIGH>;
-> > +
-> > +				vccio-supply = <&reg_1p8v>;
-> > +				vpll-supply = <&reg_1p8v>;
-> > +				vcca-supply = <&reg_1p2v>;
-> > +				vcc-supply = <&reg_1p2v>;
-> > +
-> > +				ports {
-> > +					#address-cells = <1>;
-> > +					#size-cells = <0>;
-> > +
-> > +					port@0 {
-> > +						reg = <0>;
-> > +						sn65dsi86_in: endpoint {
-> > +							remote-endpoint = <&dsi1_out>;
-> > +						};
-> > +					};
-> > +
-> > +					port@1 {
-> > +						reg = <1>;
-> > +						sn65dsi86_out: endpoint {
-> > +							remote-endpoint = <&mini_dp_con_in>;
-> > +						};
-> > +					};
-> > +				};
-> > +			};
-> > +		};
-> > +
-> > +		i2c0_mux1: i2c@1 {
-> > +			reg = <1>;
-> > +			#address-cells = <1>;
-> > +			#size-cells = <0>;
-> > +		};
-> > +
-> > +		i2c0_mux2: i2c@2 {
-> > +			reg = <2>;
-> > +			#address-cells = <1>;
-> > +			#size-cells = <0>;
-> > +		};
-> > +
-> > +		i2c0_mux3: i2c@3 {
-> > +			reg = <3>;
-> > +			#address-cells = <1>;
-> > +			#size-cells = <0>;
-> > +		};
-> > +	};
-> > +};
-> > +
-> > +/* Page 29 / CSI_IF_CN / CAM_CN0 */
-> > +&i2c1 {
-> > +	#address-cells = <1>;
-> > +	#size-cells = <0>;
-> > +	pinctrl-0 = <&i2c1_pins>;
-> > +	pinctrl-names = "default";
-> > +};
-> > +
-> > +/* Page 29 / CSI_IF_CN / CAM_CN1 */
-> > +&i2c2 {
-> > +	#address-cells = <1>;
-> > +	#size-cells = <0>;
-> > +	pinctrl-0 = <&i2c2_pins>;
-> > +	pinctrl-names = "default";
-> > +};
-> > +
-> > +/* Page 31 / IO_CN */
-> > +&i2c3 {
-> > +	#address-cells = <1>;
-> > +	#size-cells = <0>;
-> > +	pinctrl-0 = <&i2c3_pins>;
-> > +	pinctrl-names = "default";
-> > +};
-> > +
-> > +/* Page 31 / IO_CN */
-> > +&i2c4 {
-> > +	#address-cells = <1>;
-> > +	#size-cells = <0>;
-> > +	pinctrl-0 = <&i2c4_pins>;
-> > +	pinctrl-names = "default";
-> > +};
-> > +
-> > +/* Page 18 / POWER_CORE and Page 19 / POWER_PMIC */
-> > +&i2c5 {
-> > +	#address-cells = <1>;
-> > +	#size-cells = <0>;
-> > +	pinctrl-0 = <&i2c5_pins>;
-> > +	pinctrl-names = "default";
-> > +};
-> > +
-> > +/* Page 17 uSD-Slot */
-> > +&mmc0 {
-> > +	pinctrl-0 = <&sd_pins>;
-> > +	pinctrl-1 = <&sd_uhs_pins>;
-> > +	pinctrl-names = "default", "state_uhs";
-> > +	bus-width = <4>;
-> > +	cd-gpios = <&gpio3 11 GPIO_ACTIVE_LOW>;	/* SD_CD */
-> > +	sd-uhs-sdr50;
-> > +	sd-uhs-sdr104;
-> > +	vmmc-supply = <&reg_3p3v>;
-> > +	vqmmc-supply = <&vcc_sdhi>;
-> > +	status = "okay";
-> > +};
-> > +
-> > +/* Page 26 / 2230 Key M M.2 */
-> > +&pcie0_clkref {
-> > +	clock-frequency = <100000000>;
-> > +};
-> > +
-> > +&pciec0 {
-> > +	reset-gpios = <&gpio2 2 GPIO_ACTIVE_LOW>;
-> > +	status = "okay";
-> > +};
-> > +
-> > +/* Page 25 / PCIe to USB */
-> > +&pcie1_clkref {
-> > +	clock-frequency = <100000000>;
-> > +};
-> > +
-> > +&pciec1 {
-> > +	/* uPD720201 is PCIe Gen2 x1 device */
-> > +	num-lanes = <1>;
-> > +	reset-gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
-> > +	status = "okay";
-> > +};
-> > +
-> > +&pfc {
-> > +	pinctrl-0 = <&scif_clk_pins>;
-> > +	pinctrl-names = "default";
-> > +
-> > +	/* Page 22 / Ether_AVB0 */
-> > +	avb0_pins: avb0 {
-> > +		mux {
-> > +			groups = "avb0_link", "avb0_mdio", "avb0_rgmii",
-> > +				 "avb0_txcrefclk";
-> > +			function = "avb0";
-> > +		};
-> > +
-> > +		pins-mdio {
-> > +			groups = "avb0_mdio";
-> > +			drive-strength = <21>;
-> > +		};
-> > +
-> > +		pins-mii {
-> > +			groups = "avb0_rgmii";
-> > +			drive-strength = <21>;
-> > +		};
-> > +
-> > +	};
-> > +
-> > +	/* Page 28 / CANFD_IF */
-> > +	can_clk_pins: can-clk {
-> > +		groups = "can_clk";
-> > +		function = "can_clk";
-> > +	};
-> > +
-> > +	/* Page 28 / CANFD_IF */
-> > +	canfd3_pins: canfd3 {
-> > +		groups = "canfd3_data";
-> > +		function = "canfd3";
-> > +	};
-> > +
-> > +	/* Page 28 / CANFD_IF */
-> > +	canfd4_pins: canfd4 {
-> > +		groups = "canfd4_data";
-> > +		function = "canfd4";
-> > +	};
-> > +
-> > +	/* Page 23 / DEBUG */
-> > +	hscif0_pins: hscif0 {
-> > +		groups = "hscif0_data", "hscif0_ctrl";
-> > +		function = "hscif0";
-> > +	};
-> > +
-> > +	/* Page 23 / DEBUG */
-> > +	hscif1_pins: hscif1 {
-> > +		groups = "hscif1_data_a", "hscif1_ctrl_a";
-> > +		function = "hscif1";
-> > +	};
-> > +
-> > +	/* Page 24 / UART */
-> > +	hscif3_pins: hscif3 {
-> > +		groups = "hscif3_data_a";
-> > +		function = "hscif3";
-> > +	};
-> > +
-> > +	/* Page 24 / I2C SWITCH */
-> > +	i2c0_pins: i2c0 {
-> > +		groups = "i2c0";
-> > +		function = "i2c0";
-> > +	};
-> > +
-> > +	/* Page 29 / CSI_IF_CN / CAM_CN0 */
-> > +	i2c1_pins: i2c1 {
-> > +		groups = "i2c1";
-> > +		function = "i2c1";
-> > +	};
-> > +
-> > +	/* Page 29 / CSI_IF_CN / CAM_CN1 */
-> > +	i2c2_pins: i2c2 {
-> > +		groups = "i2c2";
-> > +		function = "i2c2";
-> > +	};
-> > +
-> > +	/* Page 31 / IO_CN */
-> > +	i2c3_pins: i2c3 {
-> > +		groups = "i2c3";
-> > +		function = "i2c3";
-> > +	};
-> > +
-> > +	/* Page 31 / IO_CN */
-> > +	i2c4_pins: i2c4 {
-> > +		groups = "i2c4";
-> > +		function = "i2c4";
-> > +	};
-> > +
-> > +	/* Page 18 / POWER_CORE */
-> > +	i2c5_pins: i2c5 {
-> > +		groups = "i2c5";
-> > +		function = "i2c5";
-> > +	};
-> > +
-> > +	/* Page 27 / DSI to Display */
-> > +	irq0_pins: irq0 {
-> > +		groups = "intc_ex_irq0_a";
-> > +		function = "intc_ex";
-> > +	};
-> > +
-> > +	/* Page 31 / FAN */
-> > +	irq4_pins: irq4 {
-> > +		groups = "intc_ex_irq4_b";
-> > +		function = "intc_ex";
-> > +	};
-> > +
-> > +	/* Page 31 / FAN */
-> > +	pwm0_pins: pwm0 {
-> > +		groups = "pwm0";
-> > +		function = "pwm0";
-> > +	};
-> > +
-> > +	/* Page 31 / CN7 pin 12 */
-> > +	pwm1_pins: pwm1 {
-> > +		groups = "pwm1_b";
-> > +		function = "pwm1";
-> > +	};
-> > +
-> > +	/* Page 31 / CN7 pin 32 */
-> > +	pwm6_pins: pwm6 {
-> > +		groups = "pwm6";
-> > +		function = "pwm6";
-> > +	};
-> > +
-> > +	/* Page 31 / CN7 pin 33 */
-> > +	pwm7_pins: pwm7 {
-> > +		groups = "pwm7";
-> > +		function = "pwm7";
-> > +	};
-> > +
-> > +	/* Page 16 / QSPI_FLASH */
-> > +	qspi0_pins: qspi0 {
-> > +		groups = "qspi0_ctrl", "qspi0_data4";
-> > +		function = "qspi0";
-> > +		bootph-all;
-> > +	};
-> > +
-> > +	/* Page 6 / SCIF_CLK_SOC_V */
-> > +	scif_clk_pins: scif-clk {
-> > +		groups = "scif_clk";
-> > +		function = "scif_clk";
-> > +	};
-> > +
-> > +	/* Page 17 uSD-Slot */
-> > +	sd_pins: sd {
-> > +		groups = "mmc_data4", "mmc_ctrl";
-> > +		function = "mmc";
-> > +		power-source = <3300>;
-> > +	};
-> > +
-> > +	/* Page 17 uSD-Slot */
-> > +	sd_uhs_pins: sd-uhs {
-> > +		groups = "mmc_data4", "mmc_ctrl";
-> > +		function = "mmc";
-> > +		power-source = <1800>;
-> > +	};
-> > +};
-> > +
-> > +/* Page 31 / FAN */
-> > +&pwm0 {
-> > +	pinctrl-0 = <&pwm0_pins>;
-> > +	pinctrl-names = "default";
-> > +	status = "okay";
-> > +};
-> > +
-> > +/* Page 31 / CN7 pin 12 */
-> > +&pwm1 {
-> > +	pinctrl-0 = <&pwm1_pins>;
-> > +	pinctrl-names = "default";
-> > +	status = "okay";
-> > +};
-> > +
-> > +/* Page 31 / CN7 pin 32 */
-> > +&pwm6 {
-> > +	pinctrl-0 = <&pwm6_pins>;
-> > +	pinctrl-names = "default";
-> > +	status = "okay";
-> > +};
-> > +
-> > +/* Page 31 / CN7 pin 33 */
-> > +&pwm7 {
-> > +	pinctrl-0 = <&pwm7_pins>;
-> > +	pinctrl-names = "default";
-> > +	status = "okay";
-> > +};
-> > +
-> > +/* Page 16 / QSPI_FLASH */
-> > +&rpc {
-> > +	pinctrl-0 = <&qspi0_pins>;
-> > +	pinctrl-names = "default";
-> > +	bootph-all;
-> > +
-> > +	status = "okay";
-> > +
-> > +	flash@0 {
-> > +		compatible = "spansion,s25fs512s", "jedec,spi-nor";
-> > +		reg = <0>;
-> > +		spi-max-frequency = <40000000>;
-> > +		spi-rx-bus-width = <4>;
-> > +		spi-tx-bus-width = <4>;
-> > +		bootph-all;
-> > +
-> > +		partitions {
-> > +			compatible = "fixed-partitions";
-> > +			#address-cells = <1>;
-> > +			#size-cells = <1>;
-> > +
-> > +			boot@0 {
-> > +				reg = <0x0 0x1000000>;
-> > +				read-only;
-> > +			};
-> > +
-> > +			user@1000000 {
-> > +				reg = <0x1000000 0x2f80000>;
-> > +			};
-> > +
-> > +			env1@3f80000 {
-> > +				reg = <0x3f80000 0x40000>;
-> > +			};
-> > +
-> > +			env2@3fc0000 {
-> > +				reg = <0x3fc0000 0x40000>;
-> > +			};
-> > +		};
-> > +	};
-> > +};
-> > +
-> > +&rwdt {
-> > +	timeout-sec = <60>;
-> > +	status = "okay";
-> > +};
-> > +
-> > +/* Page 6 / SCIF_CLK_SOC_V */
-> > +&scif_clk {	/* X12 */
-> > +	clock-frequency = <24000000>;
-> > +};
-> > -- 
-> > 2.47.2
-> > 
-> 
-> -- 
-> Kind Regards,
-> Niklas Söderlund
+>=20
+> If WoL is enabled for the PHY, the PHY is left running while the system i=
+s suspended, and so all its
+> clocks and reset lines also need to be left enabled etc. On resume, there=
+ should not be any need to
+> touch the PHY.
 
--- 
-Kind Regards,
-Niklas Söderlund
+OK.
+
+>=20
+> If WoL is not enabled in the PHY, it should get powered off. On resume, p=
+hylib should be
+> reinitializing the PHY.
+
+OK.
+
+>=20
+> Which of these two cases need the reinitialisation?
+>=20
+> The reasons i can think of for the PHY needing a reinitialization are:
+>=20
+> 1) It lost power when it did not expect to loose power
+> 2) Got reset when it did not expect to be reset
+> 3) Clock not ticking when it should of been ticking.
+
+OK.
+
+>=20
+> So you cannot just check clock/reset before and after, you need to look a=
+t the order of events. The
+> loss of power, or a reset after phylib resumed the PHY would not be good.=
+ Similarly, if the needed
+> clocks are not ticking while phylib resumes it would also not be good.
+>=20
+> I would also suggest you check the datasheet for the PHY, and does it doc=
+ument anything about the
+> clock input TXC_TXCLK is connected to?
+
+It is connected to TX_CTL on micrel phy.
+
+> Does it need to be ticking while configuring the PHY? Any action which ne=
+eds to be taken after this
+> starts ticking? Is the pinctrl resume being called before the PHY resume?
+
+Pinctrl resume is called before PHY resume
+
+Previously STR did not work, because of not restoring direction (MII/RGMII)=
+ of IO block for ET0/1_TXC_TXCLK (IO attribute)
+.Because of this, the direction of IO block is set to IN (input) MII mode i=
+nstead of OUT(output) RGMII mode.
+
+Now everything works. Thanks for your detailed pointers.
+
+Cheers,
+Biju
 
