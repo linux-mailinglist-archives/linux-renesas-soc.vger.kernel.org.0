@@ -1,99 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-16222-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16223-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C936AA96361
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Apr 2025 11:02:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B08ECA96583
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Apr 2025 12:11:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 699B117DB3E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Apr 2025 08:55:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88B1E3BBD86
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Apr 2025 10:11:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9703D1EBFFD;
-	Tue, 22 Apr 2025 08:50:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B665220C03F;
+	Tue, 22 Apr 2025 10:11:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yd+/1hHg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TncP4ddS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6002C1E9B37;
-	Tue, 22 Apr 2025 08:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C68E20B1FC
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Apr 2025 10:11:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745311838; cv=none; b=PENX0XhW7UDRo1yFJf0DR8F+U2+v4xQL9zf5kD6HRFsFMUThl1DhQ4caXyaY6QUHJVCYYIax8XsWLt+cxesm4eB1XhifoGnlHdCSNR0+4EMqWAQwHp7SkuGruq6zqpEPqLRCbfJVxMFMjjxUSiqPJIucVjXjdmiISnGXLw9oA7s=
+	t=1745316680; cv=none; b=CQ9Ha8qVeV2CPBLfwGsr5ONxVnYvbOa7z10ttsZ11U9PI5cFqk4nLY20ijeh6jkT/lGnrAx15KFMmUyBMJqvbwsA2xNjWkS44MoAWWxaynicfOBdhsJ8sBXzJBc0BX5NWgkGlBAtxEptWPmZXOKJJ9B/6jfxbWI0BZ97dxnr2xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745311838; c=relaxed/simple;
-	bh=zT5yjxc1BjzTyrF7qU74cHTpuWHBzYOk4qyMnCNGTHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ivmOSc5cyWVDHpnDfRtfNFLeGDOKQmOO7tAQPAuFMcrNeKJu7TIZg2ks+KN6F0ZslRVMsDZ348LFFx6Qif0mEhdNiyHCyZY9sHF4yloLjAxpb/Hy3/FHvx708cF2R6r0bbsxEjamWCVfXJF+uAJFv1TE9IBXa/gJQPDDHVwX2qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yd+/1hHg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC458C4CEE9;
-	Tue, 22 Apr 2025 08:50:36 +0000 (UTC)
+	s=arc-20240116; t=1745316680; c=relaxed/simple;
+	bh=Qu1KI3tv3gN3fKVFZQu8sOuXRuL+iju1jYpwtBz6Ahc=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=W9TTweOLIfQvAfAu63vNHtWCel9sE4hZq8PAN0bsQcHi9xLnCMegKsHBMc+CquhkfsWgOJ/C1tB4EIepSn6lSJPJOgJhSJHjMBraXqgsnKGzatkQYC86N6oGN+cFZ/2X3W8yk8R9hkyBeGXASxuILWtuQVqeM5Qb4HcTdPdmDes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TncP4ddS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C065C4CEE9
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Apr 2025 10:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745311837;
-	bh=zT5yjxc1BjzTyrF7qU74cHTpuWHBzYOk4qyMnCNGTHU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yd+/1hHgLMKAkVj5RRoxdtfnlZvK1uI+LWg7GeK5M7op2BTQbEt3E1GQzqqDCAx3O
-	 4ktpx0Uki5Ub3ZQqHJuHeLAyNfUt7LTucKDPSaPQF7JTirLi5GOQ9KIjUbvwe06P/Z
-	 cdAP/YmPAq/PfQcfhfHIFk2qtwvJvl1o5FujvGoYLq1/nIQkHM+wlYACfH55/MQgmN
-	 DglqVLwpW5Y3PBwzvSbi37lHwFjF2Fqfv9OH3B18VVwhpgVoV67X3+CQQQOft3ht3Y
-	 o69MQnmF2YrNOLhe1/jOFxWICf2rgJVeDMq3PM/AZkdQrc7dTZ2wS2+CcGr50H7D2s
-	 KMZplLLJazrAA==
-Date: Tue, 22 Apr 2025 10:50:34 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Zixian Zeng <sycamoremoon376@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Chen Wang <unicorn_wang@outlook.com>, 
-	Inochi Amaoto <inochiama@outlook.com>, Alexandre Ghiti <alex@ghiti.fr>, Mark Brown <broonie@kernel.org>, 
-	Inochi Amaoto <inochiama@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, sophgo@lists.linux.dev, 
-	chao.wei@sophgo.com, xiaoguang.xing@sophgo.com, dlan@gentoo.org, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] spi: dt-bindings: snps,dw-apb-ssi: Add compatible
- for SOPHGO SG2042 SoC
-Message-ID: <20250422-super-giraffe-of-drizzle-b388bf@kuoka>
-References: <20250422-sfg-spi-v5-0-c7f6554a94a0@gmail.com>
- <20250422-sfg-spi-v5-2-c7f6554a94a0@gmail.com>
+	s=k20201202; t=1745316680;
+	bh=Qu1KI3tv3gN3fKVFZQu8sOuXRuL+iju1jYpwtBz6Ahc=;
+	h=Subject:From:Date:To:From;
+	b=TncP4ddSGcPfXuPvSXvhOhSjW6rIw/oyrMrY5o4KlkxP8q9a6bcvRX8n1dbB53GWv
+	 To5q2d2r+Fo+9t9wGP88vmX+azj7fv3WcD1Zhj5ontDfqhdbZqkkvVwq1ez/Uc913R
+	 dHP2ePVnqwCMDQTdvGvtgEn8XozdXB00JC0MMq8lV1JJ3dolq+O5S/QrH7w5W+at8B
+	 FWhqSXc19RBhK4jY0lTpMFZlMQuAGF8QESCSd/yh/U6kPEQb74j38g1gW+7HiHUTwL
+	 8Iamo0BLAZTmpESUWiuxmcr4ho+85T6yvThi3hjeMP3xjX7NCkOnAMMit5H6HFD0ly
+	 N4W4+DcVh+9wQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B31CE39D6546
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Apr 2025 10:11:59 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250422-sfg-spi-v5-2-c7f6554a94a0@gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <174531671836.1505048.9320660964572819220.git-patchwork-summary@kernel.org>
+Date: Tue, 22 Apr 2025 10:11:58 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 22, 2025 at 10:27:09AM GMT, Zixian Zeng wrote:
-> Sophgo SG2042 ships an SPI controller [1] compatible with the Synopsys
-> DW-SPI IP. Add SoC-specific compatible string and use the generic one
-> as fallback.
-> 
-> Link: https://github.com/sophgo/sophgo-doc/blob/main/SG2042/TRM/source/SPI.rst [1]
-> 
-> Signed-off-by: Zixian Zeng <sycamoremoon376@gmail.com>
-> ---
->  Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> index a43d2fb9942d85b1482a52782c0a97cd5c6edd99..d32380a2e5b18f61ed66715b4ac67c04fbda10ef 100644
-> --- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> @@ -67,6 +67,7 @@ properties:
->                - mscc,jaguar2-spi
->                - renesas,rzn1-spi
->                - thead,th1520-spi
-> +              - sophgo,sg2042-spi
+Hello:
 
-Messed order. s goes before t.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Best regards,
-Krzysztof
+Series: arm64: dts: renesas: r9a09g047e57-smarc: Add I2C2 and PMIC support
+  Submitter: John Madieu <john.madieu.xa@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=948254
+  Lore link: https://lore.kernel.org/r/20250329121258.172099-1-john.madieu.xa@bp.renesas.com
+    Patches: [1/2] arm64: dts: renesas: rzg3e-smarc-som: Add I2C2 device pincontrol
+             [2/2] arm64: dts: renesas: rzg3e-smarc-som: add raa215300 pmic support
+
+Series: Add initial support for Renesas RZ/T2H SoC
+  Submitter: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=949794
+  Lore link: https://lore.kernel.org/r/20250403212919.1137670-1-thierry.bultel.yh@bp.renesas.com
+    Patches: [v7,01/13] dt-bindings: soc: Add Renesas RZ/T2H (R9A09G077) SoC
+
+Series: Add support for Mali-G52 to RZ/G3E SoC
+  Submitter: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=949320
+  Lore link: https://lore.kernel.org/r/20250402131142.1270701-1-tommaso.merciai.xr@bp.renesas.com
+    Patches: [1/4] clk: renesas: r9a09g047: Add clock and reset entries for GE3D
+             [3/4] arm64: dts: renesas: r9a09g047: Add Mali-G52 GPU node
+             [4/4] arm64: dts: renesas: rzg3e-smarc-som: Enable Mali-G52
+
+
+Total patches: 6
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
