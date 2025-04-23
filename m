@@ -1,123 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-16239-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16240-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70962A9821B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 10:03:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B92F3A98398
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 10:36:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 545A15A2B41
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 08:02:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C0F07B1DC8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 08:34:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90C182741D3;
-	Wed, 23 Apr 2025 07:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E73CA28D823;
+	Wed, 23 Apr 2025 08:26:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AeFY7NdO"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="bW39eyc1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D106E28153C;
-	Wed, 23 Apr 2025 07:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A899A28CF5B
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Apr 2025 08:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745394925; cv=none; b=OxoMmYlqM/uzgXhkCyhDAq7m2FsYWrSi0tom7J9V5YRr4qpiUJBRGs+uAopF5fMEO+FKf56IykrpSW3La2EERB8XfJk+m+1dkL3QZWhtY+CteXzK2h0bt2n8u25cLxS6SwN6f3FHCLdX5wUb1QHAWsZNGCl6YpLadAJtvJvEdAw=
+	t=1745396789; cv=none; b=aMzKtq96LhBzHwdag3ZgQchjjahlmu795EPEC2c15OXPJftkiC6BAx1Wkuz5676VP1PWg8+LbU5V4eT8EymPHbtvtzn1aTDJPBZrCN0CWOsiIHti9NlVVaK1rzKc6sAtAkjgEoh1cAtT79hHKoBakEYZpMGs3VlIEYI7bYm43X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745394925; c=relaxed/simple;
-	bh=tjgo4np+Z6AJeX0xArPypis+FgYghdSG5VHGIPEzWvM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m5CabXKZl+oTIRLCjeFNgSkukxwcY24Oygw9v7m6C8lpSGUrHv6+6Aaz6yKPHT3zjvScSB4/TkazoURHAa6E0WZd+c3qLogssL1eu9yMF/B770ItL+p4fmju+eFudZpR01C2tRn0tBsxtpxcPkzylHPpAAdO0G2SqIB3DNmAxuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AeFY7NdO; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-440685d6afcso57060105e9.0;
-        Wed, 23 Apr 2025 00:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745394922; x=1745999722; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1eWzS/Ah2cnA75NtUgIRsIHb+DY3iDF+Qb9KegxCV7A=;
-        b=AeFY7NdOdPIWgFpf37NBlBTHutA0XKzCjVNohb7Hq8EJmvw7hMKnM3s8OyBQ9aY8C4
-         xETIPkB5okP/Nz7AGrQYB4PKm0LKAsp4lE7EB8Z47mASkiNNoTZL9EUjPihRjDYX8eSb
-         xPB+dEarMKbSNhi1vGjtUsEChS58/dkOFL3AnIi2Q5bc/OLdzR1wVQXwzUMG7idknwQy
-         qIkmcuGU4I02lnXTHcwxNZpiynOlWuFgkmFllidJM3EVHAw4f89iyqATjMnsAvm/VM27
-         mhsErBUV8l+mfH5CS1UQfl0nBDWiUboAkpUfBxRHGH67jij/cK/s/LsrKeypbDJxq2d2
-         gTcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745394922; x=1745999722;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1eWzS/Ah2cnA75NtUgIRsIHb+DY3iDF+Qb9KegxCV7A=;
-        b=qzHS/sfAgnTEjoGOXXKaOhAaZ1Qm8NondsQnO0K5mlkskUgJmRSpJ5sORfxrLgo6P4
-         wvCEeWHibOU/KdyjeUeQ/EctsbxLTghFv/GsO2CCYdo994RRwd69jsB4ddjFOLvpDL/3
-         IVGpPvNABm0mYq5HvU1+MjqRlVRUCJO9YagGzCevnTS5JGEF+ROi0u/Z/fheAHLRGXzz
-         yybaZTyRiDEvOGdl2F4ned7z4u5HbO7lHrtLwiAs30OGlzZYDSzdXncJgeDVCgq+b7F5
-         hjpaoj00g9qV4Hj10dTEhxQV+QEYW4hKho/J7v8ir0XMJt12ZyyeS+KYTdak0ORcc/9D
-         ephw==
-X-Forwarded-Encrypted: i=1; AJvYcCU2eE6e9sk9fGB+wRFAKvb5xVrqfvNRWt2mvqKwvc6eD+6jyOibcD1pgxLuyINvUVSGJBlUrxPg/yL8ebK1S72ibxY=@vger.kernel.org, AJvYcCWqJlqNM9Dbh0RXIuyayhzNa2/eBQQedBfdUkPL7eCSSeMin/ydHiqIaewAqR1VnJWBMjqqPcyNogDc9bzF@vger.kernel.org, AJvYcCX6hRiQMxbzND3swlIB/UuHxD9eQt0TaXdaXvI9vRsCpty+AKcWnXfNQg/4MSWMxDwUnPJ9hRO2@vger.kernel.org, AJvYcCXSmcfs5JVkIi2xwM0hmqmKzSITEyfNH/sblXbmnMhVcoJiWaGGLVW162nsi9/S6nglYuny37JHv2lQ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7eFTSH3hReoXub+h3M2tTjtGkiX+MykbKRCcMVnLO4G6aFXy6
-	iGCHF4Vgq3aIRQkuW9H6ZkXevTNiNnTqBMy1eDp2D1hfGRXsat2V8ok7lBHIV59ID9YRYdFAsiE
-	GzxQwb3ag6Opgaznee2SSg4GWFBo=
-X-Gm-Gg: ASbGncvA4Jp2CUv7BZgEcz09PL57yf4bRnfxMHSgbtXYIb827X50XtWPkLIa17bjFrz
-	Bg5+/NgK7xgtQhvX9i0pGeXPX+Md/G3XqvVTgIjzvfNcki9WxLcN1ljkaPCk9rGdix7Bn+lZOh+
-	lbnXB/0EGu6DrmlJeF1k01PA==
-X-Google-Smtp-Source: AGHT+IEetajyp7tewz7gSg2bUmPRDylKdQxo3ZKlMaQaOjNuvNTMi3XEyh1phX3DcIWXuVWrhzLhzxViAkCb79CfcaQ=
-X-Received: by 2002:a05:600c:358b:b0:439:9424:1b70 with SMTP id
- 5b1f17b1804b1-4406ac17329mr182625395e9.30.1745394921859; Wed, 23 Apr 2025
- 00:55:21 -0700 (PDT)
+	s=arc-20240116; t=1745396789; c=relaxed/simple;
+	bh=zd76tPWLvz03FGMRE8CwkIY4StHtha9RgA2vfs7dSNk=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UAkOz472wVOp56hTBbbqkG+8iIzs5dbEyLtFMNm3aXcITYwAsNJ4RQ5hGOucdLGneKW87lmdLc0IqRL0+VwrUCOXCWHCvaH5NMYFnIipIhXz94PxCXMMsr0Xi/n6XhUjWTgIh2rBRSQlBwnruW2pHjb3TlJohDUVmKEuQBaLr10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=bW39eyc1; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=zd76
+	tPWLvz03FGMRE8CwkIY4StHtha9RgA2vfs7dSNk=; b=bW39eyc1Zdqb7rdfP2F5
+	ieY6UgWtp/+V4BS8I1m4xQx/dVMgWvxNAmrFmuJyWfGqWHOC82aJQtPMDmRxjaaC
+	khIXz0V503r+QdyccqIDl5NZKEvxB/sZn2cKgHYEtIdVK1NgrvP0u8BnA+AtkIHv
+	CSX26KQEnqVf8RVbCl9kptC3RGyfiA65cPtBUwPp6ZV86/y9rOzFXm7XSbZvBSbG
+	vl84MUTbQXn8rDWW+8abP72BsFj252Ahen/lMHxrFNyATrdSsEB8dePrdK1rS3VN
+	4lWc9nyIoq2iLNcWLW+CxYIusHhg9gqOsUUjZwfQM+MIt90fyZx6eduBzBfOuLlN
+	gw==
+Received: (qmail 3005372 invoked from network); 23 Apr 2025 10:26:18 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Apr 2025 10:26:18 +0200
+X-UD-Smtp-Session: l3s3148p1@/wX82m0z4OUgAwDPXx6JAAunYj8Nf7DC
+Date: Wed, 23 Apr 2025 10:26:18 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Andy Shevchenko <andy@kernel.org>
+Subject: Re: [PATCH v8] i2c: riic: Implement bus recovery
+Message-ID: <aAikKreK-BCP-zLp@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Andy Shevchenko <andy@kernel.org>
+References: <20250407121859.131156-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <aAC8f0dAMERD8GjW@shikoro>
+ <CA+V-a8sM2mFS--zLSZt28mOUDuO2FpW0TsaV50A_VxFZ-juP4Q@mail.gmail.com>
+ <aAFgwEB4SdgH-1fQ@shikoro>
+ <CA+V-a8tmTqFi4iqGhR3cfUgKw7mxJrm6ixGAHq747ptrL3t2jA@mail.gmail.com>
+ <aAITBfrOI0GAhGRA@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250417084015.74154-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250417084015.74154-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250422184813.02b21095@kernel.org>
-In-Reply-To: <20250422184813.02b21095@kernel.org>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 23 Apr 2025 08:54:54 +0100
-X-Gm-Features: ATxdqUENAmcd1iPlreTGMgox3_qZS9GKX_Vez1-JK_b3xBLNPYkG-7O4wKnzxvI
-Message-ID: <CA+V-a8uk33D7m17nOa3tFviq+OEajPFm-haU+oFJwiE3Hvo3Aw@mail.gmail.com>
-Subject: Re: [PATCH net-next v8 4/4] MAINTAINERS: Add entry for Renesas
- RZ/V2H(P) DWMAC GBETH glue layer driver
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Richard Cochran <richardcochran@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, netdev@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="eYv3UB7V5mlJ9iEk"
+Content-Disposition: inline
+In-Reply-To: <aAITBfrOI0GAhGRA@shikoro>
 
-Hi Jakub,
 
-On Wed, Apr 23, 2025 at 2:48=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Thu, 17 Apr 2025 09:40:15 +0100 Prabhakar wrote:
-> > +RENESAS RZ/V2H(P) DWMAC GBETH GLUE LAYER DRIVER
-> > +M:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > +L:   netdev@vger.kernel.org
-> > +L:   linux-renesas-soc@vger.kernel.org
-> > +S:   Supported
->
-> I'm going to make this Maintained when applying, please see:
-> https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#suppo=
-rted-status-for-drivers
->
-Ok, thanks for taking care of this.
+--eYv3UB7V5mlJ9iEk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Cheers,
-Prabhakar
+
+> Well, frankly, this is the only test I tried and, yes, it did work for
+> me. Will check 'incomplete_write_byte' later today. I will also check if
+> I need to run the tests more often. I did not do an endless loop.
+
+Both tests work for me, even in an endless loop. I also get the desired
+signal outputs checking with the logic analyzer.
+
+Here is the branch I used:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/g3s/riic-recovery-experimental
+
+
+--eYv3UB7V5mlJ9iEk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgIpCYACgkQFA3kzBSg
+KbYICg//YRlqSOeTRx9J+3cE0wYqmYTceyFoeDieEwHHdgw8XbU2bWLrIrIiC+aA
+XfUVbc/TFcfXCOmzVueXWo+HQAJ5KWSsrwW7wOAlkD+SxgJVMDC7+GjKE0Yu8zLf
+7y8E+fGop+9hoPCmsJ2dzDVrja5URBfFy6fLn/xdjzGTmm6PIlcwvp+8Hi3ySMLe
+amXYX1zfUf5YqmC2JpyivLannnQ6/AA4yWSHH5UKRlO2wKr2rCbdbmV7nmASFYJp
+FZa2Iu86k0WLYSVz6FuWx5/ObT5lhZvmhR3s30MwKE+FvUKWeDRFQ2dTUwKB/SK7
+nKo5bXmCT0sB60SX+FrUeoLdbP2JiB/cSQbsVuZ3z75rqULI5dkE+bUOvgfxFsfe
+WqZ5DpSBsBanxvHx12r37xNl+/bCWtJMsO/iXqhp3m4SBg9WseQ/bgKbRWQwp/yi
+I+z3ZY5I0lgcijwjdQuwcSYyQPRlUJU/uO7poVFvWzqGzBwoErj5lnfHWtmRdOp5
+iLhXhZ90U33uDoSAn9ukrFKXox8TgavFfaG5MHZMWOtpw+CmBHpNIso69q+WTD0O
+i40k0Sgpr38oJjXtMYfELVtFX2E/3m/P2ZXETEDzp0Pa0AfnnVLJd0C0NAGfaxFQ
+GnL+w+r98SFDHiXEM9HE80PiwfnqhFO5V5dH34tktpyCDeZNDVU=
+=dlc3
+-----END PGP SIGNATURE-----
+
+--eYv3UB7V5mlJ9iEk--
 
