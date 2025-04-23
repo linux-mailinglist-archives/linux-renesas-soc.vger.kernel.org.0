@@ -1,112 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-16255-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16256-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EADA98958
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 14:13:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E96A6A989B7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 14:24:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A2BD37A4C8E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 12:12:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EF1017AD75
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 12:24:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42C24215175;
-	Wed, 23 Apr 2025 12:13:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB8BB26D4F4;
+	Wed, 23 Apr 2025 12:24:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V3x145LH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VRwyAnWG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100231D90DF;
-	Wed, 23 Apr 2025 12:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B323262FC6;
+	Wed, 23 Apr 2025 12:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745410417; cv=none; b=gdfwXe+WPmTVZO991fw//hlBZOBi5F2havtTcu08uK5xpsd3Um2z/a2LJI/xVS3OWgpc2vBh54C53iGl5dd+k8fhezMZE+qHWm/nB8zBYaoYmMkY/TBhkukDcDHlGTvf/tWwl4i5mko9Afr9QjX/rr8n3FyfrCsMo+cDJjEuPX4=
+	t=1745411064; cv=none; b=FyOEDBqboY/RRlMmEN46Zp4OqkRgTXdrEZpIJWVyd9MAvXLEN+pL3XhukEIApE00x5CmGCwuEqurtAH8zydV79gQ8y51BCwOqyZZ5uABDzMAqQF18mVBLf+Xd2Rn0mj5DhQ0iDz5DeZSS0C0p3mlJ3AtlFnQSngNNSaqNiGS1ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745410417; c=relaxed/simple;
-	bh=HMgH1+9XyIkutzq+xKi6DmcGLLwEOVIX2ELaW0OhH3E=;
+	s=arc-20240116; t=1745411064; c=relaxed/simple;
+	bh=J5Uj4zApAgSWIs2Z1zPphWhwvi7rWKbh4gi47KrbqXg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RXrZ9gXmLNufCpldhZaNMR0W3EsZ42TpgJ/WsrsQwvVTFgrPJGNjChd1Di/pyXMTV8XtmpCBGyOEYwNWrXcAijItfJduL2uwI9oPLfyDeevFske+TpC+eqhgNqWIJkwhDwoqO1ppDfJ4kZd7USfmFY2lSBA91fmUXGRmtcfGouQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V3x145LH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 441D2C4CEE2;
-	Wed, 23 Apr 2025 12:13:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745410416;
-	bh=HMgH1+9XyIkutzq+xKi6DmcGLLwEOVIX2ELaW0OhH3E=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=NTBawr4IUKn73xwAZOvSP8ggliCIcX03onEFaqfJIOAC2dcire9vGiyAWMnXON57Y7J6hmcRJlc5UIk5JaYuRP0PJJwYkmJfcENLJ7LPdKIUztUxyRxrIZRPudYaPKYW6tWbDG4omTDECFnWD4KptLNiE4nDcouDktyV/AsBtHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VRwyAnWG; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F7521AE2;
+	Wed, 23 Apr 2025 14:24:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1745411059;
+	bh=J5Uj4zApAgSWIs2Z1zPphWhwvi7rWKbh4gi47KrbqXg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V3x145LHTniTXMJzsrhUROlGFjM16I5YzmcBHE3FXBZD97LaHKfJ5597d40HpIwdJ
-	 /n/usmDjUzkGsUtgdvzvF0T5SaAAXYmTGsVOqRUIcNJuSSyMbEtob9hLbuDV5BBIdY
-	 3hy4PG64YyZGByTm5rT46yY2AfgkBTqkvCZdr4LApMON9caYe1HsGQum5kDYUPVCQt
-	 ToKJORV7i+Cz+YMBo/olR8utRITpy63q12syC98PBE4SJbJ/aIF5Y0l+U0Et/hU9uq
-	 0vy3esOBXvQeAwXNtUAG7+M5pAy9mRv/t3t4zngXI40pvd8o+YDu8MgQVypiG4Nevk
-	 JwSfYjs3MlZMA==
-Date: Wed, 23 Apr 2025 07:13:34 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
+	b=VRwyAnWGu0VJjccG89WkUoIrKRRitkyur4DbD1YuMbyS96DLV4koHQAAbDFmmSGU+
+	 vE3uGVbjl7I1heVAq3ttO5AUTH7g4ahN9wk2IejATFhYIoiToGOI4ZGjUcnUdrw9yr
+	 ANTG7l5moNCEg1wIkJVnI2v/cY92WCBIADBCxSXI=
+Date: Wed, 23 Apr 2025 15:24:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-kernel@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v6 2/6] dt-bindings: dma: rz-dmac: Document RZ/V2H(P)
- family of SoCs
-Message-ID: <174541041414.56228.14869219817347630764.robh@kernel.org>
-References: <20250422173937.3722875-1-fabrizio.castro.jz@renesas.com>
- <20250422173937.3722875-3-fabrizio.castro.jz@renesas.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] dt-bindings: media: renesas,isp: Add ISP core
+ function block
+Message-ID: <20250423122418.GF17813@pendragon.ideasonboard.com>
+References: <20250421111240.789510-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250421111240.789510-2-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdVJ=KaF-sJEga9kLbdFdkhKDGDPkacTOn-D-2E7dQY7dw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250422173937.3722875-3-fabrizio.castro.jz@renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdVJ=KaF-sJEga9kLbdFdkhKDGDPkacTOn-D-2E7dQY7dw@mail.gmail.com>
 
-
-On Tue, 22 Apr 2025 18:39:33 +0100, Fabrizio Castro wrote:
-> Document the Renesas RZ/V2H(P) family of SoCs DMAC block.
-> The Renesas RZ/V2H(P) DMAC is very similar to the one found on the
-> Renesas RZ/G2L family of SoCs, but there are some differences:
-> * It only uses one register area
-> * It only uses one clock
-> * It only uses one reset
-> * Instead of using MID/IRD it uses REQ No
-> * It is connected to the Interrupt Control Unit (ICU)
+On Wed, Apr 23, 2025 at 01:24:25PM +0200, Geert Uytterhoeven wrote:
+> On Mon, 21 Apr 2025 at 13:12, Niklas Söderlund wrote:
+> > Some R-Car ISP instances have in addition to the channel selector (CS)
+> > an ISP core (CORE )to perform operations on an image stream. The core
+> > function is mapped to a different memory region and have a separate
+> > interrupt then CS, extend the bindings to allow describing this.
+> >
+> > On the same SoC different instances of the ISP IP may have, or not have,
+> > the CORE functionality. The CS function on all instances on the SoC are
+> > the same and the documentation describes the full ISP (CS + CORE) as a
+> > single IP block. Where instances not having the CORE function simple
+> > lacking the functionality to modify the image data. There dependencies
+> > on the CS functionality while operating the CORE functionality.
+> >
+> > In order for the ISP core to function in memory-to-memory mode it needs
+> > to be feed input data from a Streaming Bridge interface. This interface
+> > is provided thru the VSP-X device. Add an optional new property
+> > "renesas,vspx" to provide a phandle to describe this relationship.
+> >
+> > While adding mandatory reg-names and interrupt-names breaks existing
+> > bindings the driver itself remains backward compatible and provides CS
+> > functionality if a single unnamed reg and interrupt property is present.
+> > Furthermore all existing users of the bindings are updated in following
+> > work to add these new mandatory properties.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> > * Changes since v1
+> > - Extend the commit message to make it explicit that different ISP
+> >   instances on the same SoC (same compatible value) can have, or not
+> >   have, a CORE function block attached.
+> > - Update documentation for renesas,vspx property.
+> > - Update example to cover all new properties.
 > 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v5->v6:
-> * Reworked the description of `#dma-cells`.
-> * Reworked `renesas,icu` related descriptions.
-> * Added `reg:`->`minItems: 2` for `renesas,r7s72100-dmac`.
-> * Since the structure of the document remains the same, I have kept
->   the tags I have received. Please let me know if that's not okay.
-> v4->v5:
-> * Removed ACK No from the specification of the dma cell.
-> * I have kept the tags received as this is a minor change and the
->   structure remains the same as v4. Please let me know if this is
->   not okay.
-> v3->v4:
-> * No change.
-> v2->v3:
-> * No change.
-> v1->v2:
-> * Removed RZ/V2H DMAC example.
-> * Improved the readability of the `if` statement.
-> ---
->  .../bindings/dma/renesas,rz-dmac.yaml         | 101 ++++++++++++++----
->  1 file changed, 82 insertions(+), 19 deletions(-)
+> Thanks for the update!
 > 
+> > --- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> > +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> 
+> > @@ -119,11 +159,18 @@ examples:
+> >
+> >      isp1: isp@fed20000 {
+> >              compatible = "renesas,r8a779a0-isp", "renesas,rcar-gen4-isp";
+> > -            reg = <0xfed20000 0x10000>;
+> > -            interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
+> > -            clocks = <&cpg CPG_MOD 613>;
+> > +            reg = <0xfed20000 0x10000>, <0xfee00000 0x10000>;
+> 
+> IThe second size should be 0x100000.
+> 
+> > +            reg-names = "cs", "core";
+> > +            interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_HIGH>,
+> > +                         <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
+> > +            interrupt-names = "cs", "core";
+> > +            clocks = <&cpg CPG_MOD 613>, <&cpg CPG_MOD 17>;
+> > +            clock-names = "cs", "core";
+> >              power-domains = <&sysc R8A779A0_PD_A3ISP01>;
+> 
+> With the above and the wording issues pointed out by Laurent fixed:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Once we get a review from the DT bindings maintainers for this patch,
+I'll take the next version addressing the small issues in my tree for
+1/7 and 5/7 to 7/7. I'll let Geert merge 2/7 to 4/7.
 
+-- 
+Regards,
+
+Laurent Pinchart
 
