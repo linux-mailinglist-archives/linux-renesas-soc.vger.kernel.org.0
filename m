@@ -1,126 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-16257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42013A98A96
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 15:13:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21386A98AB2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 15:17:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E96F43BADB8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 13:13:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6FB53444551
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 13:17:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0E885260;
-	Wed, 23 Apr 2025 13:13:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18EE1156C63;
+	Wed, 23 Apr 2025 13:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uSROSO6W"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Gb6LJDix"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D33E35957;
-	Wed, 23 Apr 2025 13:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D954E1632CA
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Apr 2025 13:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745414007; cv=none; b=PQ899X4Udp618JQFv5eDPNh97L07g/1WuPmu97kt+wkr8PBnbIxGVTw/VF28QlNQN0ACqwBkJJOnHVsGdXM5uNbHeUCuWIMyP3n6uhggDO69u8BsJv7h4exPTVUVi4I1+/yulANKRWw5vIzzRLcYpGcjjH2pdEnRchygVkixCOc=
+	t=1745414256; cv=none; b=jTCUuoUFp++EJPJKoS3KQ56poJoc0gOillIw/p4oqSa5iInHv7atjg9RPVeG6e9o6jbRcBMh0dLUm9XFU8EMOoaLuGGaBh5RyrdJOc3U7Sd+lLm+VRY9QGe/u98ZIxA9rNmWXVGnuaMGOpor3ZW3hbH4dDDdwYweUrH8FvT9EBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745414007; c=relaxed/simple;
-	bh=34VPvCiXiWeAT1uuiNzCekuKDNm2kl4hepgAiEd/YJo=;
+	s=arc-20240116; t=1745414256; c=relaxed/simple;
+	bh=zdbDvq14KN2z+9iQkDs0XYDCtdtOrh/uxg2SCguqfiM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pj+5yiJeA+yQMOwLxYnDVzmm9qcloFmh67rtGu4zDOFDKscghof+Thg5kFkh016/4AVffpId1YY6k6mUJhnwejnLrofTGSQ7Wn9OIOUiOOlqlK+7sh7ahW6hPPK3uHHdle7nmmTfM+H6mPtShLxA5ajdXn40mBo/LRyYtXQu3b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uSROSO6W; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 360CDC4CEE2;
-	Wed, 23 Apr 2025 13:13:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745414006;
-	bh=34VPvCiXiWeAT1uuiNzCekuKDNm2kl4hepgAiEd/YJo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uSROSO6WePDeZWNxvPyrx5qh80KicMYJb8Jn34Y/ckeuqfR3thGsI4m9mfVgR85r1
-	 aeDU37jrwRoBqNSDgRFdHQj68XxyiYzMOb7w+aSE5tCMxXf8llaruBkPDh1MZDmZ8D
-	 noIAj7QDIDBCU9vRjJlbpnS4/euv+AZBWw4J6sXRMhi3kWZKnvM/qzXCWSgaLmygMn
-	 j6MdCD0AUvi/2yLUZ1OgTDlC3EwGXpW6hZ16kVulC5lkjbQ+YNYytKprZ1RtP7uMYQ
-	 tQPvrOZDT5+wRdOl1AX1C2Rt2vPXZgYKncWgR83vLBaRDIMCO6+24jsN6C6BSX9/4T
-	 5Yb2j+rndTwrA==
-Date: Wed, 23 Apr 2025 18:43:23 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v6 5/6] dmaengine: sh: rz-dmac: Add RZ/V2H(P) support
-Message-ID: <aAjnc+AxmAn9fxSs@vaman>
-References: <20250422173937.3722875-1-fabrizio.castro.jz@renesas.com>
- <20250422173937.3722875-6-fabrizio.castro.jz@renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=TBnDsBo2GpsecdjEOJ1yqf+Zp8fMiv/Ja7aBWW8RdtW1NZTlBffN116LJjPUq0KA9d8pv8dWeCnBrlLzur5zfXMvLAX0+smlm8/wsOg5nrUEQwUx7mBbTGrbXLSOZPmy++2KKQhqOCLHXBrGM1lHfq5JskIBfiOkePZCoEBdM8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Gb6LJDix; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=zdbD
+	vq14KN2z+9iQkDs0XYDCtdtOrh/uxg2SCguqfiM=; b=Gb6LJDixOJeWFMQ9d9J7
+	guKDxWuRc9HsReLqTaYFU3ZXiE/lJ9wQbo1Ydxeielf18vsaHpidGNcRV3FXJQtK
+	WraJm9pruG9QXVjcA9DitsG85Dg5F2KTqxz0599QEkN/Nk3N+Q6TIc+ui/Zi1nAR
+	Xkfwkez7ARngShGqDgUyxeE54fBI+qvAoyiwV5INEXOfjOzTbGZphZPQEpCpuaNT
+	r2ZSJrtbheHF5erIE3oalpHOQtJwOPOswroG806+6IoILAMXIPFp56kwm3YIHYuf
+	6mhvfXmsxvwkMxst2jOKRfE2luzJVYXC0aq8cV3+0KJvgyqL/34VfclCEaLqOMgB
+	Qg==
+Received: (qmail 3089874 invoked from network); 23 Apr 2025 15:17:28 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Apr 2025 15:17:28 +0200
+X-UD-Smtp-Session: l3s3148p1@C6VH7HEz2KUgAwDPXx6JAAunYj8Nf7DC
+Date: Wed, 23 Apr 2025 15:17:28 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: Re: [RFC PATCH 0/2] ARM: dts: renesas: r9a06g032: rework UARTs
+Message-ID: <aAjoaFnWoHy9-m1S@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+References: <20250414111218.7641-4-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUVqCfFQn5tvONWqmz-NerB7aVqj2_jythEPW51wEN3jQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="+hmr2NZA+hC2OWQQ"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUVqCfFQn5tvONWqmz-NerB7aVqj2_jythEPW51wEN3jQ@mail.gmail.com>
+
+
+--+hmr2NZA+hC2OWQQ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250422173937.3722875-6-fabrizio.castro.jz@renesas.com>
 
-On 22-04-25, 18:39, Fabrizio Castro wrote:
-> The DMAC IP found on the Renesas RZ/V2H(P) family of SoCs is
-> similar to the version found on the Renesas RZ/G2L family of
-> SoCs, but there are some differences:
-> * It only uses one register area
-> * It only uses one clock
-> * It only uses one reset
-> * Instead of using MID/IRD it uses REQ No
-> * It is connected to the Interrupt Control Unit (ICU)
-> * On the RZ/G2L there is only 1 DMAC, on the RZ/V2H(P) there are 5
-> 
-> Add specific support for the Renesas RZ/V2H(P) family of SoC by
-> tackling the aforementioned differences.
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v5->v6:
-> * Collected tags.
-> v4->v5:
-> * Reused RZ/G2L cell specification (with REQ No in place of MID/RID).
-> * Dropped ACK No.
-> * Removed mid_rid/req_no/ack_no union and reused mid_rid for REQ No.
-> * Other small improvements.
-> v3->v4:
-> * Fixed an issue with mid_rid/req_no/ack_no initialization
-> v2->v3:
-> * Dropped change to Kconfig.
-> * Replaced rz_dmac_type with has_icu flag.
-> * Put req_no and ack_no in an anonymous struct, nested under an
->   anonymous union with mid_rid.
-> * Dropped data field of_rz_dmac_match[], and added logic to determine
->   value of has_icu flag from DT parsing.
-> v1->v2:
-> * Switched to new macros for minimum values.
-> ---
->  drivers/dma/sh/rz-dmac.c | 81 ++++++++++++++++++++++++++++++++++++----
->  1 file changed, 74 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-> index d7a4ce28040b..1f687b08d6b8 100644
-> --- a/drivers/dma/sh/rz-dmac.c
-> +++ b/drivers/dma/sh/rz-dmac.c
-> @@ -14,6 +14,7 @@
->  #include <linux/dmaengine.h>
->  #include <linux/interrupt.h>
->  #include <linux/iopoll.h>
-> +#include <linux/irqchip/irq-renesas-rzv2h.h>
 
-This does not exist for me or in the patches that was sent to me. I have
-dropped this series due to build failure after picking up dmaengine
-patches
+> So I am in favour of not renumbering the UARTs.
 
-drivers/dma/sh/rz-dmac.c:17:10: fatal error: linux/irqchip/irq-renesas-rzv2h.h: No such file or directory
+Fine with me, I'll resend the latter patch adding the new port as uart2.
 
--- 
-~Vinod
+
+--+hmr2NZA+hC2OWQQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgI6GQACgkQFA3kzBSg
+KbaQhhAAksBBmSTGE4eLPHQcn3kBbCJD3M2H7nHUOIi/CCDq037W/rl6O7dqpKk6
+ePDECVqmwjci5H6kBQ1EeZeavaoXQLjm34jwM32xNWSOsWEF5SXFEIZ57vWUzbFO
+UovHTn1OSH8/uWGto9lAfDkBohl3V9YFfcixbjJCCQwIT4Dop2P+LI/ALDuDRsWK
+w0c3FpFw7o1uslTz5mdLRtJwmyKWS9TvHHiVVoWY7LlxqUXI0fg0e9/Xb8jTVDM1
+wYUFWF4f7n3vZez2u/Nu+NriOce2LGeRbCplLXZqOUpTVSVX8NT/mxYXxwdMhplC
+fORLgKKtFGuPPTbZolgmduvQRgZgXB+8dGq3WVhu581aXlH7iYNhZOz1FW+XK9sg
+VZBH7kZJIUnaipVzVsZxD0IFdVYpf358ASoCSySBe14sK4+M3jWlLMjtecGNrCH/
+LVVZfb33jtE0BPiqy+wWypQQonxf9ULqqmw/e9SjieR2KQw5EgshxrS7hDJdDWVD
+MzPDiaR5d0CQmeRVrFwdGpUW7AbNMlw1oEoRHudID6a3ZKOXkCFNYHV6PiPzAGak
+932/fLZlNuB+V1pb9NV9rLgXmRzVlw13N8kkkwUkEcvAEjq/O3xYTFXhOcEsRCp7
+QR5apDEVifp8Dd7xJW3iB8ubZhfkbC0IsIc+dRzxA7Mk5b76vx0=
+=sxhZ
+-----END PGP SIGNATURE-----
+
+--+hmr2NZA+hC2OWQQ--
 
