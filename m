@@ -1,186 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-16252-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16253-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6C8A988F2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 13:54:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA7DA9890F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 14:03:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB4CA4444F4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 11:54:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52CE75A5278
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 12:03:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7811E22F17B;
-	Wed, 23 Apr 2025 11:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dq+SAIlA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 425DB1F0987;
+	Wed, 23 Apr 2025 12:03:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDCE2701B3;
-	Wed, 23 Apr 2025 11:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3054019F13F;
+	Wed, 23 Apr 2025 12:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745409268; cv=none; b=h9zpPBevr2tIdJx5NJSuwEb1dw8mL1jvcOJGZSaRD5deasib9R8eOmRAGx0q3Z5bKqvhrl6PUdyz5qfIE/DXRKPeRscYpH/N8UFaYAEJXFQTV4lFfIjyQXr+3NX4ViF6/gEPF2jBK0+NMf4W9qhj5w7OJqR+2qcvGvt2WlwcGKQ=
+	t=1745409819; cv=none; b=NlmU6WMK4e7GwlUZ5wII91SqlhhQVYjp7uOlcic0u4x+hpxkYH9yHNWvUsx7e8EVAEUoDavZLoFE/x+NcoVB/ChWapuoamoaalNC/18WwG2tK/ZFt6PIB8ja+J/mf+MKbVcmgzH/5wEVEeU5C57LvYvMtTEnS5Z4nM13vVVFo0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745409268; c=relaxed/simple;
-	bh=BYpJI7wi0dKwUy+fozNXlNxwk3dd5lqqJ9gdPwIJXJs=;
+	s=arc-20240116; t=1745409819; c=relaxed/simple;
+	bh=T3PQexam5Db6nCc4StUo8hrutlQQIQwJ4aMiz/VGOX4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iJjEQhyhX4FCXYIaX0XMpogwXhC8FOUws4X3bkXytTWRRbea5Z9AvIFMeJMAEvx35oXl8LVvMR0BXSOTZlOk4KX+SdVsX3oHRQVL9s/wmshlJXksxfQh46Zm4gLcFfrvTGpb3wba8iPwof2mB+jK4tMtJV2+bmjKMHrGSOEhsJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dq+SAIlA; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=O2ArwdqAD0IjroZFB2iR+YL4ASZ51BB9icQci+mkDL9uoLgYOiZedOmu8VmfvVb5UTpgI3AsVwxeC9WEyePZho+tduK90g7shgkv8O4VNBuHz7aHijc0rqq1XorczsHRZV1Jo8EE5CloUCM4eJUhCWaKF/6iCS0XmhpBz2WvTno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39ee623fe64so5481763f8f.1;
-        Wed, 23 Apr 2025 04:54:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745409265; x=1746014065; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RXiSx30w1hmWlM/Di4qv5E69sWeA1eC0NCdlxnJgn04=;
-        b=dq+SAIlABbg9P+VF828AZ9mGGAUfGPOW/LNDTQb70JjenO8FN8IsbR01tQtHLABQUW
-         iRYiKGxgAD9ULZazAG/k1ISK6MbqhKx/aeP7hm2qtrkF4gxMKfrhq3UPfQq+YY0o85cj
-         KIdBxqgyI2fnILQ3sakAyLA3GrxuECNth6l8WX9e6LspEn8/ujKUV8zdW5UQOA90W6Xh
-         QPObuDRKGJW0oaTvMRI70TrQSuCRQpPYX7MTqkLU1c8Zvut7NtfZ7mA7JMSu6sYpAYVI
-         Se6gYhEfwtBf0n1shTi/xbvWET3uDt7Khu/3iHKnXb7kb7+DBEDGOAOC/ukV1uHJG30w
-         ywZA==
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-60634f82c77so241249eaf.1;
+        Wed, 23 Apr 2025 05:03:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745409265; x=1746014065;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RXiSx30w1hmWlM/Di4qv5E69sWeA1eC0NCdlxnJgn04=;
-        b=tnPmIFwI8NZnBNSMsI1jiAbP8I2W1U8GYqAtDm1QI/USSL9Da/ttuHagRqBuJQbmjA
-         vmIQUrbhph9pvStwn5+t0NQ66dBFLdX6g/DEXRnJSlQkmAbInWLl/tgEFcEHP+9Sdv3c
-         ZBKpkPI3YP5Wu3nsWtXXwLl9Jw4bD+11H4PQ0Wjfgco7hmBbMX5H1mg3yd7jWEdGzQyq
-         fPCa3hG3x0lG1hSA729bHHJuWtotpnMWJlzY8aboNnD6h2xVpkYmnEEzc+O/vS/Sm1ga
-         C4UzHtA926Q4EokBiW4il1gR5hxyDvZT3JU72sgobvpBtcJTSeTbBoFttwTcs6BIjQKN
-         skZg==
-X-Forwarded-Encrypted: i=1; AJvYcCU3Y9Y4GtAf+QBNtk3WANyzZFcbBApu2yOohOL9HniQZH6ST/eqesXvUXtLnp1bohUI9qXOllD39xk1hDwXrweOZow=@vger.kernel.org, AJvYcCWrehslAPAeaxBxaTJNQTed4lx4WHiLMBHULfGyaUT1ZFT5o+Q9LJr9n9jalCcrKaLTL5IK8c1+un47Y7+a@vger.kernel.org, AJvYcCXOcuoNCo50kTUOnN4zxt5JlNbci+pWfdLqiW1iYjwT6FS+E5sadQldtFYxN7JM4j06BxbSUEIx3QUD@vger.kernel.org, AJvYcCXSE0W0aOj5AtGLoxVIiNzV6ZqbB6WHJdHkj/zqj0ycV90lWBEzTNmPT/FBD1baWSIXtwoMKoT3TZjn@vger.kernel.org
-X-Gm-Message-State: AOJu0YyF/LmyoSuxQXu2dBobMzPIC8VX+AkvElFk+oyXtl1tNLLf5CnS
-	Kp36haFi0+WTsBaVZwNae4Szu34mRxtmnfyaf1odUUwa4cpkrWGL06SfRcKMfDL8Bus0c+iAl1q
-	g7O2H/dkDcrPGteg57ZyQzgysRMw=
-X-Gm-Gg: ASbGncvzSEkl9LW67jJHXFCBbNSUW1kFPWNI095xrm5aaYjgG+jxaDbTo8e/jZY3rIt
-	U+o7RaxBk054FgpzPnw0riSsPcQcAldUNn3arRe3OQiFTLZZd2vMKrIMPfm/AgnYAt7ATcRQ5+P
-	cEbYfITeVAgUzAP3CcoRchl9A1ws5Gp+d7
-X-Google-Smtp-Source: AGHT+IFmLMHRjZ1XgjDcqyxjk7BtcPPGf+OCSTtdICXla1NMLROjvh3kKmkIO0184O1OWZlMMASHo5tS0W9iQ2Iv8xM=
-X-Received: by 2002:a05:6000:43cc:20b0:39f:fd4:aec7 with SMTP id
- ffacd0b85a97d-39f0fd4aed9mr4142583f8f.7.1745409264608; Wed, 23 Apr 2025
- 04:54:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745409815; x=1746014615;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AxC6S0GTlaJA0qu8SIUpzqMr8mvbvfTNBZT+acF9Ajc=;
+        b=YUuIiFN3PAJj73FPbOq5TeaAMjuJ53KuGD0xZMVlV50obtBS+vVP4aaYpMoCoID5N3
+         q/H3nkFnEey0M6YDVkEIvZdnB8weVEx2BQlNv6I2ulXb/U+iubP4oDgLGOe7uCwActmH
+         AGeqspPgeT+UqI9Sf3vC0+pUYvdGn5FBf5QhO4Rlv4jMIG4l5nJwVZxhZqtrFGuMYh0C
+         KQWZx3b0v009l7lyUo2YwA0vr04hgOF+p5BjQApBoEy+yf7WOL5fjGTms3mxq25Q1PnV
+         qOc/BMRkCmvxsqN26byJuqTsxgtSlyo5sKeoCXRZUzEQ7DD0tbe3IOnuH8WAfYwyVgbf
+         mFEA==
+X-Forwarded-Encrypted: i=1; AJvYcCV4ADy1okgTwUbagLGmpooMB0hIe21fTvmWRvUhskpxRfbePHVGiBnECvwYwo8B6yjeVbvNuSX0zS5S@vger.kernel.org
+X-Gm-Message-State: AOJu0YyS/H7NQXUgL37wcdgsiujGkes1kM7rW95absO6YMGmraOTuqdA
+	qAozgCvXS8VjdoNxug5yRYe+D5yQhuv47jzzpPvM6atQnT7EsbhO89nQfH90Yrk=
+X-Gm-Gg: ASbGncugcZWOw8jeFH3uE2bLLOC3YM0Iq3PD9p+3WufoR1Un4ZDxhF5HijffSe63NVi
+	7qjQHIT+iQ9RWxnKuUUqqdbPh8vygXHSLDTMvCOuzcw6/IYucMZB3D9R0hay0vfFHSeWzZbiysq
+	svO7vgLo1qJP4W4krmeZQbnMqrKWf+TRfGPA0TXiHo4wGJcC8jnx5h/GX+BoT7GVkNgkAiPfx+E
+	9UrelwqL5cBfWDc91J0i9vdEBaoIC+h6rH4a5Nv340AUlJ8bq7JIlqeLzBHloQThibFWwNo9saB
+	/3sDdrcDcs6wLvWBAaVI6EViwEELrpzTqjw/2buBdxwkMn9NBcRT8U8UM93zeqM+u07+QD/1QgN
+	crgo=
+X-Google-Smtp-Source: AGHT+IExTeBmhwEff6EbSJjZfkisURNVtsMLsv5L7UVWARm7QzgaeKgBzhFDgu1ypciOp+elVtkgMw==
+X-Received: by 2002:a05:6870:611e:b0:296:beb3:aa40 with SMTP id 586e51a60fabf-2d526e0f283mr12619011fac.36.1745409814809;
+        Wed, 23 Apr 2025 05:03:34 -0700 (PDT)
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com. [209.85.210.49])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2d5212c9958sm3178445fac.7.2025.04.23.05.03.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Apr 2025 05:03:34 -0700 (PDT)
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-72c13802133so1662995a34.3;
+        Wed, 23 Apr 2025 05:03:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXtfSgRhkIVFoX8OlT5D747LbX/K39D6QDMyB9RdnkbfYMiE8amjAgTcwuxrD4zKLjLpAjlb6uJNewN@vger.kernel.org
+X-Received: by 2002:a05:6830:600f:b0:72c:320c:d960 with SMTP id
+ 46e09a7af769-730062298f4mr13397958a34.15.1745409814095; Wed, 23 Apr 2025
+ 05:03:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250418184658.456398-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250418184658.456398-11-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWs7R9rtS7Ur6PP9e3m9ghkM1jc_Xn3QOWG4rvTtB2omA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWs7R9rtS7Ur6PP9e3m9ghkM1jc_Xn3QOWG4rvTtB2omA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 23 Apr 2025 12:53:58 +0100
-X-Gm-Features: ATxdqUE-OgT80-E06tUi_do9bnwXEJELC81J36DTuicZR1BwPkK_CJ9Za-SJxBA
-Message-ID: <CA+V-a8tXpWf8-YL-qzWhqc+fDvV4Kzd-6gJqC5HWvE00QsNFAA@mail.gmail.com>
-Subject: Re: [PATCH v3 10/15] drm: renesas: rz-du: mipi_dsi: Use mHz for D-PHY
- frequency calculations
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250414111218.7641-4-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250414111218.7641-4-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 23 Apr 2025 14:03:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUVqCfFQn5tvONWqmz-NerB7aVqj2_jythEPW51wEN3jQ@mail.gmail.com>
+X-Gm-Features: ATxdqUE6fPhXASZ0vNck-4XXPMY5Bf3nRF4stJGpGmXup6cyjp5EH-_qan52vQM
+Message-ID: <CAMuHMdUVqCfFQn5tvONWqmz-NerB7aVqj2_jythEPW51wEN3jQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] ARM: dts: renesas: r9a06g032: rework UARTs
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Wolfram,
 
-Thank you for the review.
+CC Fabrizio
 
-On Tue, Apr 22, 2025 at 8:41=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, 18 Apr 2025 at 20:47, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Pass the HSFREQ in milli-Hz to the `dphy_init()` callback to improve
-> > precision, especially for the RZ/V2H(P) SoC, where PLL dividers require
-> > high accuracy.
-> >
-> > These changes prepare the driver for upcoming RZ/V2H(P) SoC support.
-> >
-> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v2->v3:
-> > - Replaced `unsigned long long` with `u64`
-> > - Replaced *_mhz with *_millihz` in functions
->
-> Thanks for the update!
->
-> > @@ -203,8 +203,9 @@ static u32 rzg2l_mipi_dsi_link_read(struct rzg2l_mi=
-pi_dsi *dsi, u32 reg)
-> >   */
-> >
-> >  static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
-> > -                                   unsigned long hsfreq)
-> > +                                   u64 hsfreq_millihz)
-> >  {
-> > +       unsigned long hsfreq =3D DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, =
-KILO);
->
-> MILLI (everywhere)
->
-OK.
+On Mon, 14 Apr 2025 at 13:12, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> The intention of this series is to enable the UART attached to the
+> 9-pin-SubD connector on the extentsion board (patch 2). I got confused
+> while doing this, because currently the uarts are counted from 0 in the
+> SoC DTSI while they start from 1 in the documentation and the
+> schematics. Thus, patch 1 renames the labels accordingly. However, the
+> series is still RFC because I am calling for opinions if we maybe also
+> want to fix the pinmux defines like this one 'RZN1_FUNC_UART2? to the
+> official numbering?
 
-> It's a strange world where KILO =3D=3D MILLI ;-)
->
-:-)
->     include/linux/units.h:#define KILO      1000UL
->     include/linux/units.h-#define MILLI     1000UL
->
-> >         const struct rzg2l_mipi_dsi_timings *dphy_timings;
-> >         unsigned int i;
-> >         u32 dphyctrl0;
-> > @@ -277,6 +278,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi=
-_dsi *dsi,
-> >                                   const struct drm_display_mode *mode)
-> >  {
-> >         unsigned long hsfreq, vclk_rate;
-> > +       u64 hsfreq_millihz;
-> >         unsigned int bpp;
-> >         u32 txsetr;
-> >         u32 clstptsetr;
-> > @@ -305,9 +307,9 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi=
-_dsi *dsi,
-> >          */
-> >         bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
-> >         vclk_rate =3D clk_get_rate(dsi->vclk);
-> > -       hsfreq =3D DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp, dsi->lanes);
-> > +       hsfreq_millihz =3D DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp * KILO=
- * 1ULL, dsi->lanes);
->
-> The "* 1ULL" only makes the last factor unsigned long long.
-> "vclk_rate * bpp" is still unsigned long, causing overflow on 32-bit.
-> As there is no rounding variant of mul_u64_u32_div(), you probably
-> want to use mul_u32_u32() instead.
->
-Agreed, I will update it to,
-`DIV_ROUND_CLOSEST_ULL(mul_u32_u32(vclk_rate, bpp * KILO),
-dsi->lanes);`
+The pinmux definitions in include/dt-bindings/pinctrl/rzn1-pinctrl.h are
+ABI, so we cannot change them.
 
-Cheers,
-Prabhakar
+If we only renumber the UARTs in the DT, we end up with a mix,
+which is even more confusing:
+
+    pins_uart3: pins_uart3 {
+            pinmux = <RZN1_PINMUX(105, RZN1_FUNC_UART2)>,
+                     <RZN1_PINMUX(106, RZN1_FUNC_UART2)>,
+                     <RZN1_PINMUX(107, RZN1_FUNC_UART2)>,
+                     <RZN1_PINMUX(108, RZN1_FUNC_UART2)>;
+            bias-disable;
+    };
+
+So I am in favour of not renumbering the UARTs.
+
+BTW, the RZ/N1 CD contains a webapp (Toosl/PinMux/index.html)
+to generate pinmux DTS, but it uses (a) different properties and
+macros than upstream, and (b) the numbering from the documentation
+(i.e. UART1-8), so people cannot use it with upstream anyway.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
