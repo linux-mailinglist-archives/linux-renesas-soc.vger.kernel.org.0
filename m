@@ -1,128 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-16240-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16241-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92F3A98398
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 10:36:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B634A9842B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 10:52:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C0F07B1DC8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 08:34:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 722EA7AC8F3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 08:51:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E73CA28D823;
-	Wed, 23 Apr 2025 08:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="bW39eyc1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88C8F19FA93;
+	Wed, 23 Apr 2025 08:52:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A899A28CF5B
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Apr 2025 08:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9362701B3;
+	Wed, 23 Apr 2025 08:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745396789; cv=none; b=aMzKtq96LhBzHwdag3ZgQchjjahlmu795EPEC2c15OXPJftkiC6BAx1Wkuz5676VP1PWg8+LbU5V4eT8EymPHbtvtzn1aTDJPBZrCN0CWOsiIHti9NlVVaK1rzKc6sAtAkjgEoh1cAtT79hHKoBakEYZpMGs3VlIEYI7bYm43X8=
+	t=1745398343; cv=none; b=fJVE0oG9HfO4wEEj/7U9RImIIGqyXH58s6fLKXXfnZ0pLO622NgZvJBRPlJtvju6RTpURQZ8wWJxVcvqPNpl/zTHwzjw1hLX3mRow+iPru8klGgshqFd3/rk8Z7SgMFrtJt7+e7SQsI8fLUiNTrv4EBPXprw9bnYLslzTbo30p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745396789; c=relaxed/simple;
-	bh=zd76tPWLvz03FGMRE8CwkIY4StHtha9RgA2vfs7dSNk=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UAkOz472wVOp56hTBbbqkG+8iIzs5dbEyLtFMNm3aXcITYwAsNJ4RQ5hGOucdLGneKW87lmdLc0IqRL0+VwrUCOXCWHCvaH5NMYFnIipIhXz94PxCXMMsr0Xi/n6XhUjWTgIh2rBRSQlBwnruW2pHjb3TlJohDUVmKEuQBaLr10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=bW39eyc1; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=zd76
-	tPWLvz03FGMRE8CwkIY4StHtha9RgA2vfs7dSNk=; b=bW39eyc1Zdqb7rdfP2F5
-	ieY6UgWtp/+V4BS8I1m4xQx/dVMgWvxNAmrFmuJyWfGqWHOC82aJQtPMDmRxjaaC
-	khIXz0V503r+QdyccqIDl5NZKEvxB/sZn2cKgHYEtIdVK1NgrvP0u8BnA+AtkIHv
-	CSX26KQEnqVf8RVbCl9kptC3RGyfiA65cPtBUwPp6ZV86/y9rOzFXm7XSbZvBSbG
-	vl84MUTbQXn8rDWW+8abP72BsFj252Ahen/lMHxrFNyATrdSsEB8dePrdK1rS3VN
-	4lWc9nyIoq2iLNcWLW+CxYIusHhg9gqOsUUjZwfQM+MIt90fyZx6eduBzBfOuLlN
-	gw==
-Received: (qmail 3005372 invoked from network); 23 Apr 2025 10:26:18 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Apr 2025 10:26:18 +0200
-X-UD-Smtp-Session: l3s3148p1@/wX82m0z4OUgAwDPXx6JAAunYj8Nf7DC
-Date: Wed, 23 Apr 2025 10:26:18 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Andy Shevchenko <andy@kernel.org>
-Subject: Re: [PATCH v8] i2c: riic: Implement bus recovery
-Message-ID: <aAikKreK-BCP-zLp@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Andy Shevchenko <andy@kernel.org>
-References: <20250407121859.131156-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <aAC8f0dAMERD8GjW@shikoro>
- <CA+V-a8sM2mFS--zLSZt28mOUDuO2FpW0TsaV50A_VxFZ-juP4Q@mail.gmail.com>
- <aAFgwEB4SdgH-1fQ@shikoro>
- <CA+V-a8tmTqFi4iqGhR3cfUgKw7mxJrm6ixGAHq747ptrL3t2jA@mail.gmail.com>
- <aAITBfrOI0GAhGRA@shikoro>
+	s=arc-20240116; t=1745398343; c=relaxed/simple;
+	bh=ZT+aTcDj6n7xgMSrVmH50CHyTSXx7NxekjQJ77DmiUw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A1TQnXIQAvFSSlbnR5VJ6J4HPQqCZiz+ep4D3P0f+ImFFZVbfa4+B70004bVD68A+jU+/oEnDREhr+qAOr558LjoONlnRnhAliI0pHNLz4ryu4R02UlwtxDyuiQM6OmFi8W1HixbDbQgM6RhbzBbZdXDg58tgwiKK84b3CIw2u0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-523f1b31cf8so2205242e0c.0;
+        Wed, 23 Apr 2025 01:52:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745398340; x=1746003140;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NNzLMhAwEW1BPiNK9bNE9/7Jt7OBYMaBTaiFgrT60mM=;
+        b=QfzgZeFLqfpVRsAoj2mctYF9vI3QJOUA3ew5pEA5WCgezM71prXuBKiEDJ6a2zNCf9
+         +wFDMD1ZMFaBghL1ilULmCmAnV/RUvpZtForMA7UCRcN8fYGqFDDVDthroD1VBjJQe9p
+         DNZBxpMqnr12Dp9jzBoS9wUXnGl5aahGP2pJ9RTGc27zwOr4MYXEdnRSeg0miAt59SvN
+         Bfoj8nXPF7K5quiWK9jwvdQseG8XDEdHQBRSR5wUOwTyF8nSqkk3yT/ZWG929e27S+0F
+         SoTQP/p5DHAl3fadFF3+q0Z7GLUJ62CGdt25ptLmwmN0FjwFpQ8JAVFm9QRSeurWklm0
+         pdJA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaApltNSXHi+2gSERVjbzKS8pFc0Rh/RTQ/7EzWMW/NBtxpxl5rJ54wseU8t7uggRTGSp1GKO0aEMsyxu4rKvo1QA=@vger.kernel.org, AJvYcCW83BD3YJHIf52odiu7XSj+OGFcMHXSmmzuc+ApPWGigbIRWwQB5dbnuHBhhYvS6IJ0kWR6ZRFn0wKF0Nn7@vger.kernel.org, AJvYcCWZTJ/XBkvFWznufKD/wmjQF9eWNtH8gUf0lPQqGB8th4SHN6skwpQm8TuUYE30xGhL/scJ+4m1vdo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzjii8uCY9ds/9aAJ5el6jIXTM7aFgmoMSsnn2Fmh3wGW5bLTsl
+	2m6ilphADJaBUYS6cnk+2LpKhGrk8KUqj/Ft2o8UhXwtoW6fMJ1rxm82RsjIv/M=
+X-Gm-Gg: ASbGncuF/KoQp3GzltVymTrkd8CtVQMJEKzGNAXbOYykaJx1G7R//4KKIZu2Ki5IYZW
+	Ct5hhvbPHktjdC6nHwWIE2KS9BUy6QMOOrvrhRjyFskp47pxxX8M5iBXNq0ATw/hdUu6M/+Moeb
+	PdwCUkc0rO2rhDrI3s5EEDokxIsQjFj5YSr3gCgVRwP9AhLmyHgcibvK5o3xxxQrVDHgoQWnwmb
+	go6gPdPJQ5w6j5UF7YbZipb9M0cRDFLL9Bh+v68swzu0XyCa57z6XGoRJwDHq3Y+k0J0AZqCDol
+	/AUT6uaQlhz4z3KMj4P0AxDzbVdYTskDrb0WIgKsGOYtOflb4g00HCI0SQGbti4L8nP+T5vS8A8
+	QgHU=
+X-Google-Smtp-Source: AGHT+IH6PPSFCelTrABPZ42fVLMnN2h+MLsrcczEgUEY+njHcY0u0A97j62o3tScqdAtCRcxDLgXkQ==
+X-Received: by 2002:a05:6122:d8d:b0:526:42c2:8453 with SMTP id 71dfb90a1353d-5292547e851mr14802070e0c.7.1745398339858;
+        Wed, 23 Apr 2025 01:52:19 -0700 (PDT)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52922c10c1bsm2264081e0c.12.2025.04.23.01.52.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Apr 2025 01:52:19 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-86c29c0acdfso2278496241.3;
+        Wed, 23 Apr 2025 01:52:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUAEdzfE5SpKLo2zkyTIE64xvGtGCpIF2aZC/qF9TGonOf7LtLL8913AasGFKhjuEqpgwBThs9kwg4048t6w6OB8b4=@vger.kernel.org, AJvYcCUduIrfmFflL5NpEicLWoxhS+5LvZ9ab8UnMUSKZBL4Xgo8J1LSmEDYTWQ2zvKrAt5UHzxjGDz77oO0ZI/K@vger.kernel.org, AJvYcCX2th1CJWm1XrxpgVNGUucpgqRW15W+9wPdtcu14IUxedRFwFW6xWxARu7z0pr5sBkJ4nPlZqoXkbM=@vger.kernel.org
+X-Received: by 2002:a05:6102:311a:b0:4c4:e42c:38ba with SMTP id
+ ada2fe7eead31-4cb80145a4bmr9745862137.13.1745398339507; Wed, 23 Apr 2025
+ 01:52:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eYv3UB7V5mlJ9iEk"
-Content-Disposition: inline
-In-Reply-To: <aAITBfrOI0GAhGRA@shikoro>
+References: <20250403212919.1137670-1-thierry.bultel.yh@bp.renesas.com>
+ <20250403212919.1137670-7-thierry.bultel.yh@bp.renesas.com>
+ <CAMuHMdVpiZ+F0TMbLm000M_Scwozj2-SHPrUwTHqFKckVcmufQ@mail.gmail.com>
+ <TYCPR01MB11492BCF416760E978541AFE18ABF2@TYCPR01MB11492.jpnprd01.prod.outlook.com>
+ <CAMuHMdVQPbP0Fi5SDN8uOJ23S=_8pqHRVR2QFS8vHNfohzae2g@mail.gmail.com> <TYCPR01MB11492F29C81C6A33A9ED90F888ABA2@TYCPR01MB11492.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB11492F29C81C6A33A9ED90F888ABA2@TYCPR01MB11492.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 23 Apr 2025 10:52:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUV-kHD7BZ7zU71f8GD4sKqSnSTfoDhTU+s8wyVfXgq=A@mail.gmail.com>
+X-Gm-Features: ATxdqUG3FZzI8HCkNGm5T6G_ujgFMbIetZczmb5fQaQtW6-2uSwvcnMI6dgpIjs
+Message-ID: <CAMuHMdUV-kHD7BZ7zU71f8GD4sKqSnSTfoDhTU+s8wyVfXgq=A@mail.gmail.com>
+Subject: Re: [PATCH v7 06/13] clk: renesas: Add support for R9A09G077 SoC
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Cc: "thierry.bultel@linatsea.fr" <thierry.bultel@linatsea.fr>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	Paul Barker <paul.barker.ct@bp.renesas.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Thierry,
 
---eYv3UB7V5mlJ9iEk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, 23 Apr 2025 at 09:36, Thierry Bultel
+<thierry.bultel.yh@bp.renesas.com> wrote:
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > On Fri, 18 Apr 2025 at 23:22, Thierry Bultel
+> > <thierry.bultel.yh@bp.renesas.com> wrote:
+> >  > +};
+> > > > > +
+> > > > > +static const struct mssr_mod_clk r9a09g077_mod_clks[] __initcons=
+t =3D
+> > {
+> > > > > +       DEF_MOD("sci0", 108, R9A09G077_PCLKM),
+> > > >
+> > > > Shouldn't that be 8 instead of 108?
+> > > > Using R9A09G077_PCLKM as the parent is a temporary simplification,
+> > right?
+> > >
+> > > I am probably missing something, isn=E2=80=99t PCKML actually the par=
+ent clock ?
+> >
+> > According to Figure 7.1 ("Block diagram of clock generation circuit"), =
+it
+> > is PCLKSCI0, which can be switched to PCLKM.  I guess that is the defau=
+lt,
+> > hence my "temporary simplification" question.
+> >
+> > As the actual switching is controlled through the SCI's CCR3 register, =
+the
+> > SCI block should have two clock inputs in DT (PCLKM and PCLKSCIn), and
+> > thus the DT bindings should be amended.  See also Figure 33.1 ("SCI blo=
+ck
+> > diagram").
+> >
+>
+> Thanks for clarifying.
+> Indeed, this is the default setting (and the one we have at this stage).
+> I think that support for PCLKSCIn can be added at the time we support
+> baudrate setting.
 
+I am not sure we can do that in a clean backwards-compatible way.
+Currently the DT bindings describe a single clock:
 
-> Well, frankly, this is the only test I tried and, yes, it did work for
-> me. Will check 'incomplete_write_byte' later today. I will also check if
-> I need to run the tests more often. I did not do an endless loop.
+  clock-names:
+    const: fck # UART functional clock
 
-Both tests work for me, even in an endless loop. I also get the desired
-signal outputs checking with the logic analyzer.
+The documentation calls the two clocks:
+  - Bus clock (PCLKM),
+  - Operation clock (PCLKSCIn).
 
-Here is the branch I used:
+Which one is the functional clock? I'd say the latter...
+Currently, DT says:
 
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/g3s/riic-recovery-experimental
+        clocks =3D <&cpg CPG_MOD 8>;
+        clock-names =3D "fck";
 
+and the clock driver uses PCLKM as the module's parent clock,
+I think you will have a very hard time to synchronize all of the clock
+driver, sci driver, and DTS when transitioning to something like:
 
---eYv3UB7V5mlJ9iEk
-Content-Type: application/pgp-signature; name="signature.asc"
+        clocks =3D <&cpg CPG_MOD 8>, <&cpgR9A09G077_PCLKM>;
+        clock-names =3D "fck", "bus";
 
------BEGIN PGP SIGNATURE-----
+where the modulo clock has to become PCLKSCIn (actually SCInASYNC,
+as seen from the CPG).
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgIpCYACgkQFA3kzBSg
-KbYICg//YRlqSOeTRx9J+3cE0wYqmYTceyFoeDieEwHHdgw8XbU2bWLrIrIiC+aA
-XfUVbc/TFcfXCOmzVueXWo+HQAJ5KWSsrwW7wOAlkD+SxgJVMDC7+GjKE0Yu8zLf
-7y8E+fGop+9hoPCmsJ2dzDVrja5URBfFy6fLn/xdjzGTmm6PIlcwvp+8Hi3ySMLe
-amXYX1zfUf5YqmC2JpyivLannnQ6/AA4yWSHH5UKRlO2wKr2rCbdbmV7nmASFYJp
-FZa2Iu86k0WLYSVz6FuWx5/ObT5lhZvmhR3s30MwKE+FvUKWeDRFQ2dTUwKB/SK7
-nKo5bXmCT0sB60SX+FrUeoLdbP2JiB/cSQbsVuZ3z75rqULI5dkE+bUOvgfxFsfe
-WqZ5DpSBsBanxvHx12r37xNl+/bCWtJMsO/iXqhp3m4SBg9WseQ/bgKbRWQwp/yi
-I+z3ZY5I0lgcijwjdQuwcSYyQPRlUJU/uO7poVFvWzqGzBwoErj5lnfHWtmRdOp5
-iLhXhZ90U33uDoSAn9ukrFKXox8TgavFfaG5MHZMWOtpw+CmBHpNIso69q+WTD0O
-i40k0Sgpr38oJjXtMYfELVtFX2E/3m/P2ZXETEDzp0Pa0AfnnVLJd0C0NAGfaxFQ
-GnL+w+r98SFDHiXEM9HE80PiwfnqhFO5V5dH34tktpyCDeZNDVU=
-=dlc3
------END PGP SIGNATURE-----
+Does that make sense, or am I missing something?
 
---eYv3UB7V5mlJ9iEk--
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
