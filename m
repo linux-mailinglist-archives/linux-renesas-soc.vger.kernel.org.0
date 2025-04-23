@@ -1,169 +1,186 @@
-Return-Path: <linux-renesas-soc+bounces-16251-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16252-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B56CA988B1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 13:37:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6C8A988F2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 13:54:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A16E71B64CB8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 11:38:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB4CA4444F4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Apr 2025 11:54:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58808270547;
-	Wed, 23 Apr 2025 11:37:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7811E22F17B;
+	Wed, 23 Apr 2025 11:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dq+SAIlA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620A5FC08;
-	Wed, 23 Apr 2025 11:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDCE2701B3;
+	Wed, 23 Apr 2025 11:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745408254; cv=none; b=FHVbqB7I2gdss7OGJeceCZc0XaC37/tabiuNvZ1OsjJyPgEQwkCKrxfc305OUbJkSSNNqHOchyxPWYM+NPzzIUFyK6ahn1ZO2eIahHYninJ/tAQQjEP8vOZsz76xlj23qIj6eAXSP68omWWtmNZDZ0naHQ2kWiUOVHl7JF2XvbI=
+	t=1745409268; cv=none; b=h9zpPBevr2tIdJx5NJSuwEb1dw8mL1jvcOJGZSaRD5deasib9R8eOmRAGx0q3Z5bKqvhrl6PUdyz5qfIE/DXRKPeRscYpH/N8UFaYAEJXFQTV4lFfIjyQXr+3NX4ViF6/gEPF2jBK0+NMf4W9qhj5w7OJqR+2qcvGvt2WlwcGKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745408254; c=relaxed/simple;
-	bh=6OQ2IkiNk4wkMhSgShhUXpqGsET/HqmzKTydByHvaQY=;
+	s=arc-20240116; t=1745409268; c=relaxed/simple;
+	bh=BYpJI7wi0dKwUy+fozNXlNxwk3dd5lqqJ9gdPwIJXJs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qxzMOnvjG4o0C+Wt+8gx+R6TXNEslMnBzyruBKwb8Mw0qCCYaK+F7+UA9YLlxZ0X9hO9DzgAimSZ+Aply4CYuxlgHIFsGROLa9KA4CqyA+rnAtH/IvB/Iv4HwL/5wpP4/mgYPzI1OdRsbw81dIFXXy2Up7Zy+hYzWlcecupJAYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=iJjEQhyhX4FCXYIaX0XMpogwXhC8FOUws4X3bkXytTWRRbea5Z9AvIFMeJMAEvx35oXl8LVvMR0BXSOTZlOk4KX+SdVsX3oHRQVL9s/wmshlJXksxfQh46Zm4gLcFfrvTGpb3wba8iPwof2mB+jK4tMtJV2+bmjKMHrGSOEhsJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dq+SAIlA; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-86d3805a551so2659217241.3;
-        Wed, 23 Apr 2025 04:37:31 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39ee623fe64so5481763f8f.1;
+        Wed, 23 Apr 2025 04:54:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745409265; x=1746014065; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RXiSx30w1hmWlM/Di4qv5E69sWeA1eC0NCdlxnJgn04=;
+        b=dq+SAIlABbg9P+VF828AZ9mGGAUfGPOW/LNDTQb70JjenO8FN8IsbR01tQtHLABQUW
+         iRYiKGxgAD9ULZazAG/k1ISK6MbqhKx/aeP7hm2qtrkF4gxMKfrhq3UPfQq+YY0o85cj
+         KIdBxqgyI2fnILQ3sakAyLA3GrxuECNth6l8WX9e6LspEn8/ujKUV8zdW5UQOA90W6Xh
+         QPObuDRKGJW0oaTvMRI70TrQSuCRQpPYX7MTqkLU1c8Zvut7NtfZ7mA7JMSu6sYpAYVI
+         Se6gYhEfwtBf0n1shTi/xbvWET3uDt7Khu/3iHKnXb7kb7+DBEDGOAOC/ukV1uHJG30w
+         ywZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745408249; x=1746013049;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aDuaTM9ibNIGOgABq8eZY4S2tIlVdKvchipAQzhVOaM=;
-        b=le6f/7Df904/SroYxS3IuE4ZGyVBwgdaJKT+WVpcUORwNV/ky8WVh8hryHLElAOt27
-         tRpWZPd7+W/W3mjHAKec/CTTkFvmRtXMiIS6M5XFUBicbWamP5baUiSiBXNaVVReoXM7
-         EqKWZ3JaA0ZVMg4ORoUirhSAT1LsZUJo0T2PQZHdYeVTnb/fkauKWp47mOBXBjib12na
-         o7aQo5oKx/o86gRwDTzIImmsGsHa35cjNxGfC50LWUsvG43ve32GiqdqqVAHJTES04l9
-         TcQqFPE6It351oWPWNACC83nxJKc/UXbXkqAabOuNB3/dXQKHsuws/lF/KT2HTszdtl3
-         7n4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUDl27DJcHKDrJFbbtjrk2eI6egDJpj9QZLBf50rufUeWO4AhXgdxzN4GxNziEzQm9eFtm5nHHLNkAP6WqaHwjPZ5o=@vger.kernel.org, AJvYcCV8i+S5XPoOG9TWqFAm+RPZpLmobbdnqWv+aj6maBeh3Yf6mt6IIVZYH3YnlqvYqf3TJfvke/X2G4d6MLQk@vger.kernel.org, AJvYcCVfOAOK6JQzHfxB/nxuYypoTKLPhDaj4CV1gbDAH2LFYvn5UOuIs5EvkiheAXewBhELUCf8SMq7zggW@vger.kernel.org, AJvYcCX1KDFh5AV0QfEEVouUAHioCm43t0dIBJRX6fUbE31YwaP2kj6otPavWLI5U524dDgzFp3DPspLg/KN@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzjr9woYuq/mXKa4a5n9Uzlth9cihmNpCZcqQaxuI8abts2EBI0
-	jZtUKnhTg663+y0mZrPFufTwCvrqcE7UTFaV+cnmk6vQcpI+c0GSNidEUaUKkfE=
-X-Gm-Gg: ASbGncuHjZI1pBpM9x/URackJBoz8CFbzUvHU5LRLFy+1DE8ZBhtVGSdFPfvVSgZlDE
-	8Z9E8chYMIoEmBjVZSYJBur9H6z2IK7y5ePYfaly39hBR7Jixph4e5pUxyT4sEFj0vB3X4LDOUp
-	L1UTU3hD2/DDyyI61k/RNqLg99ImKYWTxZEHuFBLsWYCqSR52/9szLWCeX7MB7SsbD3hrDaLQdM
-	zdoZY0yqFivzM7fRCpoFSMabbyJVSpKMKiJDEMzXbWNZpA6mSmPcfbgMhmUTSgqSTI6i2VTJP4b
-	QlUbAswuqFyAIi1KUTg3qoqDg69P9EoW5ZTkndoORy8974A+zD/zMs0Kse3ZB1S6QjWvKKoppg7
-	latI=
-X-Google-Smtp-Source: AGHT+IHhfmifE9P37+rg1v5BsnaKS0MXrAvHKGQ27idYcFRc26FFY+/pKYWYsIFHaI1HBYucH6GDpA==
-X-Received: by 2002:a05:6102:2259:b0:4c3:64be:5983 with SMTP id ada2fe7eead31-4cb8023ef61mr12389892137.25.1745408249183;
-        Wed, 23 Apr 2025 04:37:29 -0700 (PDT)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-877647776b6sm2718858241.26.2025.04.23.04.37.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Apr 2025 04:37:28 -0700 (PDT)
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-86fbc8717fcso2382967241.2;
-        Wed, 23 Apr 2025 04:37:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUHT+BqWU0un8QmQ1x2ICMyoJKW5dWOU6sMy6StSHicNZPd67wb4F2z1otCnS437N561BahYrmEphrP@vger.kernel.org, AJvYcCUf5/e45t9sRUROWltZ48q5pMbiXPxvzUsXC6TGJsdaJ19dqpjzToCe77/6YXK2mMTmlJAVO/jVe3J+@vger.kernel.org, AJvYcCWPM+N3qe7G169BwBzsixI3+L4e0q5DKpXjtAZc1aawsfpSgQiRTDYkCKsuQn0ex+jhDnZRpYq4q/sIyXb6@vger.kernel.org, AJvYcCX0nzmgX8h//ahmFfx1RJURlVzU2VSAJS6RUnSLq0KivDnrgJyltuW36dW0qyPqlnKpYtoFM2uS1+PB3DDyelznBpU=@vger.kernel.org
-X-Received: by 2002:a05:6102:27ca:b0:4bb:9b46:3f8a with SMTP id
- ada2fe7eead31-4cb800c1a61mr11696598137.2.1745408248312; Wed, 23 Apr 2025
- 04:37:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745409265; x=1746014065;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RXiSx30w1hmWlM/Di4qv5E69sWeA1eC0NCdlxnJgn04=;
+        b=tnPmIFwI8NZnBNSMsI1jiAbP8I2W1U8GYqAtDm1QI/USSL9Da/ttuHagRqBuJQbmjA
+         vmIQUrbhph9pvStwn5+t0NQ66dBFLdX6g/DEXRnJSlQkmAbInWLl/tgEFcEHP+9Sdv3c
+         ZBKpkPI3YP5Wu3nsWtXXwLl9Jw4bD+11H4PQ0Wjfgco7hmBbMX5H1mg3yd7jWEdGzQyq
+         fPCa3hG3x0lG1hSA729bHHJuWtotpnMWJlzY8aboNnD6h2xVpkYmnEEzc+O/vS/Sm1ga
+         C4UzHtA926Q4EokBiW4il1gR5hxyDvZT3JU72sgobvpBtcJTSeTbBoFttwTcs6BIjQKN
+         skZg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3Y9Y4GtAf+QBNtk3WANyzZFcbBApu2yOohOL9HniQZH6ST/eqesXvUXtLnp1bohUI9qXOllD39xk1hDwXrweOZow=@vger.kernel.org, AJvYcCWrehslAPAeaxBxaTJNQTed4lx4WHiLMBHULfGyaUT1ZFT5o+Q9LJr9n9jalCcrKaLTL5IK8c1+un47Y7+a@vger.kernel.org, AJvYcCXOcuoNCo50kTUOnN4zxt5JlNbci+pWfdLqiW1iYjwT6FS+E5sadQldtFYxN7JM4j06BxbSUEIx3QUD@vger.kernel.org, AJvYcCXSE0W0aOj5AtGLoxVIiNzV6ZqbB6WHJdHkj/zqj0ycV90lWBEzTNmPT/FBD1baWSIXtwoMKoT3TZjn@vger.kernel.org
+X-Gm-Message-State: AOJu0YyF/LmyoSuxQXu2dBobMzPIC8VX+AkvElFk+oyXtl1tNLLf5CnS
+	Kp36haFi0+WTsBaVZwNae4Szu34mRxtmnfyaf1odUUwa4cpkrWGL06SfRcKMfDL8Bus0c+iAl1q
+	g7O2H/dkDcrPGteg57ZyQzgysRMw=
+X-Gm-Gg: ASbGncvzSEkl9LW67jJHXFCBbNSUW1kFPWNI095xrm5aaYjgG+jxaDbTo8e/jZY3rIt
+	U+o7RaxBk054FgpzPnw0riSsPcQcAldUNn3arRe3OQiFTLZZd2vMKrIMPfm/AgnYAt7ATcRQ5+P
+	cEbYfITeVAgUzAP3CcoRchl9A1ws5Gp+d7
+X-Google-Smtp-Source: AGHT+IFmLMHRjZ1XgjDcqyxjk7BtcPPGf+OCSTtdICXla1NMLROjvh3kKmkIO0184O1OWZlMMASHo5tS0W9iQ2Iv8xM=
+X-Received: by 2002:a05:6000:43cc:20b0:39f:fd4:aec7 with SMTP id
+ ffacd0b85a97d-39f0fd4aed9mr4142583f8f.7.1745409264608; Wed, 23 Apr 2025
+ 04:54:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250422173937.3722875-1-fabrizio.castro.jz@renesas.com> <20250422173937.3722875-3-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20250422173937.3722875-3-fabrizio.castro.jz@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 23 Apr 2025 13:37:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUKVDzLUfcr_0R_VQ0TzBtPWGVbwfX_pKbwOjzuaBLcEw@mail.gmail.com>
-X-Gm-Features: ATxdqUH9su4W4mn8i54UlLb_HgPMtRPSv1JRSwXDunzWGUFbnDSkwnpEps3CkW0
-Message-ID: <CAMuHMdUKVDzLUfcr_0R_VQ0TzBtPWGVbwfX_pKbwOjzuaBLcEw@mail.gmail.com>
-Subject: Re: [PATCH v6 2/6] dt-bindings: dma: rz-dmac: Document RZ/V2H(P)
- family of SoCs
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
+References: <20250418184658.456398-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250418184658.456398-11-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWs7R9rtS7Ur6PP9e3m9ghkM1jc_Xn3QOWG4rvTtB2omA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWs7R9rtS7Ur6PP9e3m9ghkM1jc_Xn3QOWG4rvTtB2omA@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 23 Apr 2025 12:53:58 +0100
+X-Gm-Features: ATxdqUE-OgT80-E06tUi_do9bnwXEJELC81J36DTuicZR1BwPkK_CJ9Za-SJxBA
+Message-ID: <CA+V-a8tXpWf8-YL-qzWhqc+fDvV4Kzd-6gJqC5HWvE00QsNFAA@mail.gmail.com>
+Subject: Re: [PATCH v3 10/15] drm: renesas: rz-du: mipi_dsi: Use mHz for D-PHY
+ frequency calculations
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, dmaengine@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Conor Dooley <conor.dooley@microchip.com>
+	Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Fabrizio,
+Hi Geert,
 
-On Tue, 22 Apr 2025 at 19:40, Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> Document the Renesas RZ/V2H(P) family of SoCs DMAC block.
-> The Renesas RZ/V2H(P) DMAC is very similar to the one found on the
-> Renesas RZ/G2L family of SoCs, but there are some differences:
-> * It only uses one register area
-> * It only uses one clock
-> * It only uses one reset
-> * Instead of using MID/IRD it uses REQ No
-> * It is connected to the Interrupt Control Unit (ICU)
+Thank you for the review.
+
+On Tue, Apr 22, 2025 at 8:41=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v5->v6:
-> * Reworked the description of `#dma-cells`.
-> * Reworked `renesas,icu` related descriptions.
-> * Added `reg:`->`minItems: 2` for `renesas,r7s72100-dmac`.
-> * Since the structure of the document remains the same, I have kept
->   the tags I have received. Please let me know if that's not okay.
-
-Thanks for the update!
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> @@ -80,12 +85,26 @@ properties:
->      items:
->        - description: Reset for DMA ARESETN reset terminal
->        - description: Reset for DMA RST_ASYNC reset terminal
-> +    minItems: 1
+> Hi Prabhakar,
 >
->    reset-names:
->      items:
->        - const: arst
->        - const: rst_async
+> On Fri, 18 Apr 2025 at 20:47, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Pass the HSFREQ in milli-Hz to the `dphy_init()` callback to improve
+> > precision, especially for the RZ/V2H(P) SoC, where PLL dividers require
+> > high accuracy.
+> >
+> > These changes prepare the driver for upcoming RZ/V2H(P) SoC support.
+> >
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v2->v3:
+> > - Replaced `unsigned long long` with `u64`
+> > - Replaced *_mhz with *_millihz` in functions
 >
-> +  renesas,icu:
-> +    description:
-> +      It must contain the phandle to the ICU, and the index of the DMAC as seen
-> +      from the ICU (e.g. parameter k from register ICU_DMkSELy).
+> Thanks for the update!
+>
+> > @@ -203,8 +203,9 @@ static u32 rzg2l_mipi_dsi_link_read(struct rzg2l_mi=
+pi_dsi *dsi, u32 reg)
+> >   */
+> >
+> >  static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+> > -                                   unsigned long hsfreq)
+> > +                                   u64 hsfreq_millihz)
+> >  {
+> > +       unsigned long hsfreq =3D DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, =
+KILO);
+>
+> MILLI (everywhere)
+>
+OK.
 
-Doesn't really hurt, but this description is identical to the formal
-description of the items below.
+> It's a strange world where KILO =3D=3D MILLI ;-)
+>
+:-)
+>     include/linux/units.h:#define KILO      1000UL
+>     include/linux/units.h-#define MILLI     1000UL
+>
+> >         const struct rzg2l_mipi_dsi_timings *dphy_timings;
+> >         unsigned int i;
+> >         u32 dphyctrl0;
+> > @@ -277,6 +278,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi=
+_dsi *dsi,
+> >                                   const struct drm_display_mode *mode)
+> >  {
+> >         unsigned long hsfreq, vclk_rate;
+> > +       u64 hsfreq_millihz;
+> >         unsigned int bpp;
+> >         u32 txsetr;
+> >         u32 clstptsetr;
+> > @@ -305,9 +307,9 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi=
+_dsi *dsi,
+> >          */
+> >         bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
+> >         vclk_rate =3D clk_get_rate(dsi->vclk);
+> > -       hsfreq =3D DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp, dsi->lanes);
+> > +       hsfreq_millihz =3D DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp * KILO=
+ * 1ULL, dsi->lanes);
+>
+> The "* 1ULL" only makes the last factor unsigned long long.
+> "vclk_rate * bpp" is still unsigned long, causing overflow on 32-bit.
+> As there is no rounding variant of mul_u64_u32_div(), you probably
+> want to use mul_u32_u32() instead.
+>
+Agreed, I will update it to,
+`DIV_ROUND_CLOSEST_ULL(mul_u32_u32(vclk_rate, bpp * KILO),
+dsi->lanes);`
 
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      - items:
-> +          - description: phandle to the ICU node.
-
-Phandle
-
-> +          - description:
-> +              The number of the DMAC as seen from the ICU, i.e. parameter k from
-> +              register ICU_DMkSELy. This may differ from the actual DMAC instance
-> +              number.
-> +
->  required:
->    - compatible
->    - reg
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
