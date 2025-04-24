@@ -1,54 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-16313-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16314-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD8DA9A746
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 11:00:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3EF2A9A90B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 11:53:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 279F6176C3D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 09:00:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 77D343AC642
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 09:52:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81E1C21D3F2;
-	Thu, 24 Apr 2025 09:00:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 871BE22686B;
+	Thu, 24 Apr 2025 09:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sBOpGtIq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF13221ADB9;
-	Thu, 24 Apr 2025 09:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7B32253E0
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Apr 2025 09:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745485229; cv=none; b=jXKP04Rjz/WwyC2M9uUZ8Fvuq0O37wZ7tPGrJ28UF2H/ozJQ6ZKQhizB5vaNhmrMdbFHtnx/3kVWltCUFX6IxW7rspT3SSgQiy6/1N1NIFxhgRlQbrfPbdWyvWne6We+ktaSwd3WR7oX6bf9yQHZ6MQ4MCse/hPApaYhmpsGqtQ=
+	t=1745488191; cv=none; b=TxndorH60DJqwH4Rj2V2Y37XFqGi9+RzScyEOllQ9/YwfL/Ja952Bd8AUSr7SXEogE1HtRGGLIGdDr816dtNAn7U0JUNa3Nos0136LiTpPGcYwQ43PbpKzJrPqFxKLWqZHpCXzlNWweXcVkAiUkIXb4qv06P4DNDKzYkpAhtySE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745485229; c=relaxed/simple;
-	bh=5CH7/tPL2Io8zzwKQ/dSZcjyMjAOYsTEGG4KbV4dW2o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AlU93JhxeeunyE9vZkRWLK5+Gs4o2oXGlhvGk1nw4d6Q5TtlH51s+On9wsfzBxxEGIbVSo6SGCwu+PP4L0PYwFVyTsHYmkzeJ72g6neGGcOhTy1jcxGMFXyYSRSKs9YfDMqeI1bpbbIrPQwrwG+HQ/32Yax5O6ARUuHDAh+2c4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: TPXh0QE0TPWEuJjjgtqO/g==
-X-CSE-MsgGUID: i6Hwhv16SRuEODHIjZgcdw==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 24 Apr 2025 18:00:27 +0900
-Received: from localhost.localdomain (unknown [10.226.92.69])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id C4CBE4010E39;
-	Thu, 24 Apr 2025 18:00:24 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-spi@vger.kernel.org,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v5 7/7] spi: rpc-if: Add write support for memory-mapped area
-Date: Thu, 24 Apr 2025 09:59:55 +0100
-Message-ID: <20250424090000.136804-8-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250424090000.136804-1-biju.das.jz@bp.renesas.com>
-References: <20250424090000.136804-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1745488191; c=relaxed/simple;
+	bh=fVelrLCytMzegyjDi1QYENCaROlUaNqRcjWOil06yyo=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=XEpeIxSnT1AM2qJPghcYZLh3+rwmhAqLqRq0H+eCmfsTruRg+ovXnhIvXi9+XY6DDkpF/OZGrXsJ1ql71QUzc2wlZQusQKlcC/GCOLqfSjjkerXdEEPSKjxpF9AnM8/7u6U9LT2IENQBGYHc/eTYfYXIsTyxvXU5hDMK3MQ1E9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sBOpGtIq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD951C4CEEB
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Apr 2025 09:49:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745488190;
+	bh=fVelrLCytMzegyjDi1QYENCaROlUaNqRcjWOil06yyo=;
+	h=Subject:From:Date:To:From;
+	b=sBOpGtIqS5FDzU4TCD58hBHvO25uf8Vzlpgnb0ykem0CyoO4h9WpHxpPnvi7oulmH
+	 Mnie4rE5m/3FQpzGrtIqsQ5HxBhB9Ak1brtdmXQbKB1HFkModFpwWDwFJbl5aE+EJe
+	 +KDxhpafiwc+0x/BzuWolfsL1qyeaO+R7E0xup64q7z3Yx3E7Nv9SduDtQ762QcPWl
+	 B4ISNZcoJ2C+v5HXcEADyvkGZ7SWfqK0ov7STSkzvCA4csO85y+97i1X1r+xr2dqDz
+	 8WCT8qZkpVmBetZiv5BCzvUvnWmEMydE7OqT7fuhaOkPFMO5qCW0QBCi3NtCgaw69K
+	 DR8vjKeytKvAg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 74514380CFD9
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Apr 2025 09:50:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -56,67 +51,50 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <174548822908.3286532.6818974831715230050.git-patchwork-summary@kernel.org>
+Date: Thu, 24 Apr 2025 09:50:29 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-Add write support for memory-mapped area as xSPI interface require
-it.
+Hello:
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v4->v5:
- * No change.
- * This patch has build dependency with patch#6.
-v3->v4:
- * No change.
-v2->v3:
- * No change.
-v1->v2:
- * No change.
----
- drivers/spi/spi-rpc-if.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-diff --git a/drivers/spi/spi-rpc-if.c b/drivers/spi/spi-rpc-if.c
-index e0c66a24a3cb..627cffea5d5c 100644
---- a/drivers/spi/spi-rpc-if.c
-+++ b/drivers/spi/spi-rpc-if.c
-@@ -75,6 +75,19 @@ static bool rpcif_spi_mem_supports_op(struct spi_mem *mem,
- 	return true;
- }
- 
-+static ssize_t xspi_spi_mem_dirmap_write(struct spi_mem_dirmap_desc *desc,
-+					 u64 offs, size_t len, const void *buf)
-+{
-+	struct rpcif *rpc = spi_controller_get_devdata(desc->mem->spi->controller);
-+
-+	if (offs + desc->info.offset + len > U32_MAX)
-+		return -EINVAL;
-+
-+	rpcif_spi_mem_prepare(desc->mem->spi, &desc->info.op_tmpl, &offs, &len);
-+
-+	return xspi_dirmap_write(rpc->dev, offs, len, buf);
-+}
-+
- static ssize_t rpcif_spi_mem_dirmap_read(struct spi_mem_dirmap_desc *desc,
- 					 u64 offs, size_t len, void *buf)
- {
-@@ -103,7 +116,7 @@ static int rpcif_spi_mem_dirmap_create(struct spi_mem_dirmap_desc *desc)
- 	if (!rpc->dirmap)
- 		return -EOPNOTSUPP;
- 
--	if (desc->info.op_tmpl.data.dir != SPI_MEM_DATA_IN)
-+	if (!rpc->xspi && desc->info.op_tmpl.data.dir != SPI_MEM_DATA_IN)
- 		return -EOPNOTSUPP;
- 
- 	return 0;
-@@ -125,6 +138,7 @@ static const struct spi_controller_mem_ops rpcif_spi_mem_ops = {
- 	.exec_op	= rpcif_spi_mem_exec_op,
- 	.dirmap_create	= rpcif_spi_mem_dirmap_create,
- 	.dirmap_read	= rpcif_spi_mem_dirmap_read,
-+	.dirmap_write	= xspi_spi_mem_dirmap_write,
- };
- 
- static int rpcif_spi_probe(struct platform_device *pdev)
+Series: rcar-isp: Prepare for ISP core support
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=956253
+  Lore link: https://lore.kernel.org/r/20250423163113.2961049-1-niklas.soderlund+renesas@ragnatech.se
+    Patches: [v3,1/7] dt-bindings: media: renesas,isp: Add ISP core function block
+             [v3,2/7] arm64: dts: renesas: r8a779a0: Add ISP core function block
+             [v3,3/7] arm64: dts: renesas: r8a779g0: Add ISP core function block
+             [v3,4/7] arm64: dts: renesas: r8a779h0: Add ISP core function block
+
+Series: arm64: dts: renesas: r8a779g3: Add Renesas R-Car V4H Sparrow Hawk board support
+  Submitter: Marek Vasut <marek.vasut+renesas@mailbox.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=948391
+  Lore link: https://lore.kernel.org/r/20250330195715.332106-1-marek.vasut+renesas@mailbox.org
+    Patches: [1/4] dt-bindings: PCI: rcar-gen4-pci-host: Document optional aux clock
+             [2/4] dt-bindings: vendor-prefixes: Add Retronix Technology Inc.
+             [3/4] dt-bindings: soc: renesas: Document Renesas R-Car V4H Sparrow Hawk board support
+
+Series: arm64: dts: renesas: r8a779g3: Add Retronix R-Car V4H Sparrow Hawk board support
+  Submitter: Marek Vasut <marek.vasut+renesas@mailbox.org>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=955170
+  Lore link: https://lore.kernel.org/r/20250420173829.200553-1-marek.vasut+renesas@mailbox.org
+    Patches: [v3,1/3] dt-bindings: vendor-prefixes: Add Retronix Technology Inc.
+             [v3,2/3] dt-bindings: soc: renesas: Document Retronix R-Car V4H Sparrow Hawk board support
+             [v3,3/3] arm64: dts: renesas: r8a779g3: Add Retronix R-Car V4H Sparrow Hawk board support
+
+
+Total patches: 10
+
 -- 
-2.43.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
