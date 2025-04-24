@@ -1,131 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-16288-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16289-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30D7A9A0CF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 08:04:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC453A9A2D8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 09:06:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70C363B7432
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 06:04:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0945519448AB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 07:06:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FDCD10F9;
-	Thu, 24 Apr 2025 06:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A13A1B4241;
+	Thu, 24 Apr 2025 07:06:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="gwxlHovp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Uao+/955"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CDPqyF5Y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDC4188CCA
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Apr 2025 06:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD552701C3;
+	Thu, 24 Apr 2025 07:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745474691; cv=none; b=rvGZaUR5nu/6JNXrRWM8ZyENKbMmq5dvO0yA9oLnsT0bDLeNAkaMOmgGUmuKyYqZ3QQVk+NUgROkfnVJM2yWpFrShNGEpoES/hXiWUMmPU2Fgy62t0F9rZ7J5DwsGBF0PgXdCPDb1iaZaQaPu7ltR766Vl6fk7Y7EBcjI7zO5f4=
+	t=1745478392; cv=none; b=gxm04D2p9qVoOoHqjiu7jD4EXMc+LnX4txkDQYqGKL2prRGnZEUKZmMLctBnc0ebFDIUsaAj+WoGQvDwI+AOKMvbO3SZ6mI6S7WR8ERecuUKqtJxsGorIclYvJCI5xxJfFyRAjieYICf4KzOYYudyZlP0nVS11lmmUcPH3bUIGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745474691; c=relaxed/simple;
-	bh=yBh4ID6MkKCq/M6hhKiaGHyKoqoAherEyA+UpyvaMSg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=f9GIlXDzYm8E+zwGWFo3CHI1J/zAFzKpwj/t2I9CLrE9F/khtGTNkqHz2gSXyqY9L7i6F7sAuswHb8WbcSmGrXT1292nEjfSWU050Q/zjQv2QRn+Sa+E1GUVtk7yD4KS91dmr3NuOx7m3ExB4Pb5BQDgJFhRrus0yQieAPePxK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=gwxlHovp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Uao+/955; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 45BBD1380516;
-	Thu, 24 Apr 2025 02:04:46 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-05.internal (MEProxy); Thu, 24 Apr 2025 02:04:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1745474686;
-	 x=1745561086; bh=yBh4ID6MkKCq/M6hhKiaGHyKoqoAherEyA+UpyvaMSg=; b=
-	gwxlHovpSTKyDeFIppa5bCcrVGSsJB/+f2mcAFPhs1/pQgcIhTfuzOKsTjrrp1T9
-	VSOojdY8cs7dDI8GLbIMH+SoJ7K+fMq+axomhVQ6F6Ds0FzwAPhQlg0rF18xK4Vp
-	Z3Gs1s5vyjE2Mo0rcM+mdcPE9vy62Cvhl0XsWyYot89vOrJTACl1veVhmwCEBvnn
-	8jTeUehIJo1GD1e5upX2Uq8u7Zbus2WhIPK068ZSfuNSWhQ0vbd9Bh6daNucWuY/
-	OVd7OY7KZa4Qja1rhU1R9pDL+58o5kFO4zmMtTCVm3nffaFkp6md4Nu/ImBcsM+E
-	Y5jtq/2xCldlsuV1Sj0bDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1745474686; x=
-	1745561086; bh=yBh4ID6MkKCq/M6hhKiaGHyKoqoAherEyA+UpyvaMSg=; b=U
-	ao+/955wa/Bozix8BLdU9hQC7uYDp3vGE8STUU78n9rqIXPiL2gEIy7bT0Pz/VPX
-	K/vIu3jMSPDu9lwgMxDaVFkubO8w1RGGoIJDbuqkasHUPiP9al4shvyU8edq0R7T
-	T1f+lF/9B7H5JMcJ9AqKcQw5lpZLMTKV4CA1IX9ac8rAxzQ8THtcCIUzmt7VpVpm
-	7Wute6P92tusFJqlfczwwXV3PYPg7E1+dd0OzkhE3frvznx21zAb4mE+GUaf+XiQ
-	kGlaFWHKj94KW1d1oX/+IbOr1opR2RAk9abZpEwQso1SK5uNC/mN5GcnbulTzqMb
-	biOccq4oBbe3yjV2yEv6A==
-X-ME-Sender: <xms:fdQJaIn7xa72vY7lUr7PCGvUwauTir5mXw6AlnO8G3jZN2abRqaCrA>
-    <xme:fdQJaH1Li0L8QDzDQ17VjNj2rSpipZ-p7eVigQQrc-CofargJSJjIJliZq68JNxq6
-    U64JuQ8XneIwJVvGbA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeekjedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
-    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
-    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
-    udefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegtrghtrghlihhnrdhmrghrih
-    hnrghssegrrhhmrdgtohhmpdhrtghpthhtohepsghijhhurdgurghsrdhjiiessghprdhr
-    vghnvghsrghsrdgtohhmpdhrtghpthhtohepphhrrggshhgrkhgrrhdrmhgrhhgruggvvh
-    dqlhgrugdrrhhjsegsphdrrhgvnhgvshgrshdrtghomhdprhgtphhtthhopehnfhhrrghp
-    rhgrughosegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepghgvvghrthdorhgvnh
-    gvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopegsihhjuhdruggrshdrrghusehg
-    mhgrihhlrdgtohhmpdhrtghpthhtoheplhhumhgrgheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiihihsiiht
-    ohhfrdhkohiilhhofihskhhisehlihhnrghrohdrohhrgh
-X-ME-Proxy: <xmx:fdQJaGrKvW9RFZhk7RudXGzsxEG1Q9E-Aq-awWO7knlTOGHY4v7NSA>
-    <xmx:fdQJaEnXReKKywGOEAMBqbrkLrWpnUfpqmwxyqJEaDu0w8ZjwEFc0A>
-    <xmx:fdQJaG0EuBhMbuY6PCvY5E_PVj_z8Q1SiYttWtHz0vv_uOUUc4oipg>
-    <xmx:fdQJaLtstvXdjPwaAHuyJbLGjWruj7XMs4NVj808VxW5H0f4NgivGw>
-    <xmx:ftQJaM7VYztCNU_C38sF2Ld24pyAaT1mbvWPpSqIiSRIaQMOIAwRqjyZ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 1E06C2220073; Thu, 24 Apr 2025 02:04:45 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1745478392; c=relaxed/simple;
+	bh=QEM4fG12Du3lXyyzmwTtbn0ocTc3IJmbD83fHWzwrd8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KINmCEhQV4fxGL1wGOHve/sKAf8X4HKGQPNZkWi0kc7Q47w08OSGAiqw5CeR9P0Lk4m08w1Z7SP9knGcSd8RJcZiifqwl1VQa5pJFsLFPTfdoyodsZE3q/rupb/SxrBh4gMb+8Bdm4TX8tbybqXmHI82XgDA/+6h/rxMrhbdDCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CDPqyF5Y; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B8DB16A;
+	Thu, 24 Apr 2025 09:06:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1745478385;
+	bh=QEM4fG12Du3lXyyzmwTtbn0ocTc3IJmbD83fHWzwrd8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=CDPqyF5Ymx3fG7a1c1upo0WOqW622Tk1DGWQBZzznRW/eXShpyT5+Zc7lCcBePvUy
+	 UpdZTnhyajVeZ6/gmB2/E3XzEmt7Zy12HrecHyMj0DBPKEL2DnIHvh/Tuj/mwPCIRy
+	 pHBqigaR2YdRPYxr+x8jhFrXRardbtKXycNYYdyE=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v2 0/4] media: rcar: Fix RAW formats
+Date: Thu, 24 Apr 2025 10:05:32 +0300
+Message-Id: <20250424-rcar-fix-raw-v2-0-f6afca378124@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T706ac2956bd1c4f2
-Date: Thu, 24 Apr 2025 08:04:11 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Biju Das" <biju.das.jz@bp.renesas.com>,
- "Catalin Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>
-Cc: "Bjorn Andersson" <bjorn.andersson@oss.qualcomm.com>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Dmitry Baryshkov" <lumag@kernel.org>, "Taniya Das" <quic_tdas@quicinc.com>,
- =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>,
- "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- linux-arm-kernel@lists.infradead.org, "Biju Das" <biju.das.au@gmail.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Message-Id: <6d3fe783-05c5-4742-a8f9-37a41e1caedc@app.fastmail.com>
-In-Reply-To: <20250424054050.28310-5-biju.das.jz@bp.renesas.com>
-References: <20250424054050.28310-1-biju.das.jz@bp.renesas.com>
- <20250424054050.28310-5-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 4/4] arm64: defconfig: Enable Renesas RZ/G2L GPT config
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL3iCWgC/3WMQQ6CMBBFr0Jm7Rgo0qor72FYjO1UZiElU4Maw
+ t2t7F2+//PeAplVOMO5WkB5lixpLGB2FfiBxjujhMJgatPVrTmgelKM8kalF3p3si7GYxdahqJ
+ MyuXacte+8CD5mfSz1efmt/4JzQ3WSNxZ33hHJtqLBKacxlsiDXufHtCv6/oFfQH8Uq8AAAA=
+X-Change-ID: 20250324-rcar-fix-raw-c7967ff85d3e
+To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1310;
+ i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=QEM4fG12Du3lXyyzmwTtbn0ocTc3IJmbD83fHWzwrd8=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBoCeLtCNlWn7GH6DLq2bgVG41ys9YR3mm6f78yN
+ KxQYmMEa3qJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaAni7QAKCRD6PaqMvJYe
+ 9arqD/9yrPW/VCbT1CuDx/87o3T+MuVla72PRj3GMUbxM/6CgHtiA0dHNuxGF5GVL0uoqnMN/kk
+ P0q8uiyx8xwpNXAGeJRvAuhmdfHVU8Jfy9cuqbdNuJBaXyHrm46hXNTGLSqHLFegbGUGrMgJhk1
+ H3uva+dAGZqZkUG1k+pMfnZtzzTJ3NRY0AY6J1Bmokr+g0JYJVlemUS9SGlnTJyeUWYtnDGIDNx
+ vZwbFlXlW9Xwb9adjcqdB1jK7aG4pUpsIjAs9Xl5GnvVrKdQMLR7qqu4DWRaAbEqQXrPSWKu4EI
+ yEI7H7hgUt6GGjx7AHB2bkZeKXujMwS0KetHwQeoBIPCoPQ1niQosAQGC2u0oEvZZmgqeMPKvm/
+ SMT6uYiE/EDCbZ3CeJUgqCJf2GNxHU2VQd6yxTJR9DZ8x57nAluuamXEP3BjAEv004wEkCU3r/V
+ OMFy7lG8v2XitoS1rfLNyzMRUIOa5zA71vEKqUmjuQvi+13CqhBEY128Xz0nhcWzA62CIXLfZBJ
+ I4OpJgxyP191RnSabCGBrswQLesLBvcRTn8mPFl5QLfl7eRidPadArfBj1wWfKZbCaC7Fa/S0a2
+ XKM4jsftdX2lxxkyZCUa0OjzvYqfKBHdmWc5GMnSItjHdIWnJVmfR374e9LV3hWOOwQlPHjyFkh
+ tLoZAiySquADKxg==
+X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-On Thu, Apr 24, 2025, at 07:40, Biju Das wrote:
-> Enable PWM config for Renesas RZ/G2L GPT as it is populated on
-> the RZ/G2L and RZ/V2L SMARC EVKs.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Fix RAW8 and RAW10 formats. These are taken from the previously sent
+"[PATCH 00/18] media: rcar: Streams support" series.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+I can only test these with multi-stream setup, which requires a big pile
+of patches on top, so these are not really tested in upstream.
 
-I assume Geert will pick this up through the Renesas tree
-and forward it to soc@lists.linux.dev.
+ Tomi
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Changes in v2:
+- Add a new patch "Remove unnecessary checks". This allows us to drop
+  the somewhat hacky additions that were made in "Fix RAW10" in v1.
+- Link to v1: https://lore.kernel.org/r/20250324-rcar-fix-raw-v1-0-ae56c1c7a2f6@ideasonboard.com
+
+---
+Tomi Valkeinen (4):
+      media: rcar-vin: Add RCAR_GEN4 model value
+      media: rcar-vin: Remove unnecessary checks
+      media: rcar-vin: Fix RAW8
+      media: rcar-vin: Fix RAW10
+
+ .../media/platform/renesas/rcar-vin/rcar-core.c    |  2 +-
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 34 +++++-----------------
+ .../media/platform/renesas/rcar-vin/rcar-v4l2.c    |  8 ++---
+ drivers/media/platform/renesas/rcar-vin/rcar-vin.h |  1 +
+ 4 files changed, 13 insertions(+), 32 deletions(-)
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20250324-rcar-fix-raw-c7967ff85d3e
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
 
