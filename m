@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-16283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16285-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFBEA9A091
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 07:41:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A8EA9A097
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 07:41:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 34E2419434F6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 05:41:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3031D7AF8E0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 05:40:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2B051C75E2;
-	Thu, 24 Apr 2025 05:41:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6894F1CAA66;
+	Thu, 24 Apr 2025 05:41:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A062139B;
-	Thu, 24 Apr 2025 05:41:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07830139B;
+	Thu, 24 Apr 2025 05:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745473271; cv=none; b=LXxtkNTMsCDoVVpKlpzQktzqYbvykwGywKkSDm6OdtT4pK2wcvGWOboDuv1gyoB5NBJey55YPricN7HIzU+sJcVGVJtLfEEYC4q+zCaBIVe9iZn1HKpcCauqmkylAYg4fJ+QDqyD/yQaou3DGGZkEovmPru8AdImHRNqw27olQc=
+	t=1745473274; cv=none; b=HANzTzZk7DpWd1eTLWiNbePKBL7RXdrDA4a6qx7ZhHuaWluvK9eOjKvISplCqDih0ShKRgpMk8t3P4Ze5d1D0mh2JoCVyyxUlgxxgCNN/QAMla86+K/3fQBdUdWm/9Q142718W2/Q928mVKZjRkj/GVPL2Lhqdcw5Sj8JDuqmQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745473271; c=relaxed/simple;
-	bh=QT8R4nHkZJI3gLRGu/rWc1D+ij0e0CQBWms21KAUByM=;
+	s=arc-20240116; t=1745473274; c=relaxed/simple;
+	bh=LmvG7gj0wfxt5G3gBCAilEdhXEYE2ZEDbcO8C/boenA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ka71GYLxFSKlFtAw7G8FyaX0xB/3Xg4UTSKpGyAUAHudMGOjg0POV27zhoOtPeLZumdX3LsIsE9MqVhTTU2WsZohZ9ZQj8Uvbc1AJPXCdRL515wApusLZBqD+48wRv1HDpbJR3Qm+zr2pkKat4k2M8X24lHwusWdAq2WFNzq0iY=
+	 MIME-Version; b=WNtHg/gyqbv+S25nHyM7Kw8D8m/BvR89crnihqFw/kGyCFSJOqhWE7Vt3e1TzU4UnFSdUTU4px77dYC6Fecp+k5bx40R31VeCNZD5Uqk7+gCvOs5LC78txwwq12vBKwJ0Zra4BqFOMmrViuFJvv8S9o7uRebgDbNwJJJP9x7+EY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: bGC700A/RHuHCw1zbR+bAg==
-X-CSE-MsgGUID: b/2cxVZoRDSxm+Hw7L1bsw==
+X-CSE-ConnectionGUID: NHChK+8XSEmGTnBn2rv0Mw==
+X-CSE-MsgGUID: qNJUt7qaToGJMEpEeMvLBg==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Apr 2025 14:41:02 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 24 Apr 2025 14:41:06 +0900
 Received: from localhost.localdomain (unknown [10.226.92.69])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id C26A2415FEED;
-	Thu, 24 Apr 2025 14:40:59 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 318A54160629;
+	Thu, 24 Apr 2025 14:41:02 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
@@ -45,9 +45,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	devicetree@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 1/4] arm64: dts: renesas: r9a07g044: Add GPT support
-Date: Thu, 24 Apr 2025 06:40:44 +0100
-Message-ID: <20250424054050.28310-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 2/4] arm64: dts: renesas: r9a07g054: Add GPT support
+Date: Thu, 24 Apr 2025 06:40:45 +0100
+Message-ID: <20250424054050.28310-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250424054050.28310-1-biju.das.jz@bp.renesas.com>
 References: <20250424054050.28310-1-biju.das.jz@bp.renesas.com>
@@ -59,23 +59,23 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add GPT support by adding pwm node to RZ/G2L SoC DTSI.
+Add GPT support by adding pwm node to RZ/V2L SoC DTSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 115 +++++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 115 +++++++++++++++++++++
  1 file changed, 115 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 6b1c77cd8261..ecaa9c4f305c 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+index 01f59914dd09..669eca74da0a 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
 @@ -244,6 +244,121 @@ mtu3: timer@10001200 {
  			status = "disabled";
  		};
  
 +		gpt: pwm@10048000 {
-+			compatible = "renesas,r9a07g044-gpt",
++			compatible = "renesas,r9a07g054-gpt",
 +				     "renesas,rzg2l-gpt";
 +			reg = <0 0x10048000 0 0x800>;
 +			#pwm-cells = <3>;
@@ -183,14 +183,14 @@ index 6b1c77cd8261..ecaa9c4f305c 100644
 +					  "ccmpa7", "ccmpb7", "cmpc7", "cmpd7",
 +					  "cmpe7", "cmpf7", "adtrga7", "adtrgb7",
 +					  "ovf7", "unf7";
-+			clocks = <&cpg CPG_MOD R9A07G044_GPT_PCLK>;
-+			resets = <&cpg R9A07G044_GPT_RST_C>;
++			clocks = <&cpg CPG_MOD R9A07G054_GPT_PCLK>;
++			resets = <&cpg R9A07G054_GPT_RST_C>;
 +			power-domains = <&cpg>;
 +			status = "disabled";
 +		};
 +
  		ssi0: ssi@10049c00 {
- 			compatible = "renesas,r9a07g044-ssi",
+ 			compatible = "renesas,r9a07g054-ssi",
  				     "renesas,rz-ssi";
 -- 
 2.43.0
