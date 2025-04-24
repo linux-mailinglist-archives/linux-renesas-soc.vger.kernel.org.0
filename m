@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-16341-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16342-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29932A9B7A2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 21:04:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9255BA9B7B7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 21:05:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0EC2A1881C76
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 19:03:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6CD99A2C7E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 19:03:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34983297A63;
-	Thu, 24 Apr 2025 19:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A38352980B1;
+	Thu, 24 Apr 2025 19:00:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pQMczLIL"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="AHBO3cSn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70852918EA;
-	Thu, 24 Apr 2025 19:00:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270AA297A71;
+	Thu, 24 Apr 2025 19:00:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745521230; cv=none; b=pUN9bOS8C68lNHFc81sYX8L3d6t7HeUqj3vL27rCWB0li5AUaY7FjEqv9TZJMd61Z/lUD5VqvkcVEsjzd7o1knpuYkNsisJiKfI2W4UEbMgMfoTOJrDVG8dNAeIqMwqeBQIkgVaSmpO1f5BUvUighW26fGwgI5wwtyws88MuVX0=
+	t=1745521233; cv=none; b=OqGofEzUT7dkiIzdh6ynHbiXHXmuEi9YVwQt6kHpbglx0Dm4OWZkayM4JzQxv678SUyxhp3wIAurbOopMQAUycmNMYG75CXNsniLK8ij9heJiR/agqqzS64ldoZp/UsymqxC/qp/C022u6a5eZlhFdpQopZw2wEeYwyXDjkmbvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745521230; c=relaxed/simple;
-	bh=Ep9OoktqhNwqp520G3QVyZDtadi15955Igpo1Ed+y1o=;
+	s=arc-20240116; t=1745521233; c=relaxed/simple;
+	bh=VwtTb8nTIGFFo7aGgqImvc5svzEKR3CwCOhUWbMsW+c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Cz1fpqUxkGs5tKgCVLGXUjtT/HRF8AT3h++u0IF/VMOc9+FrHXTcJLzkThHbQ/22jqy+LhfCRYy4YrmRMVy4qKkG4nX+rOTOAac3iCGaL4c4AO1AUwCUDJnY+dswFRv6UCSsKZxGqHDcRNtuHqr46WlCnAPll7DQ38nhheHdoEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pQMczLIL; arc=none smtp.client-ip=217.70.183.196
+	 In-Reply-To:To:Cc; b=aTNCMOr8Uav5W39wnMxf+nSQA34AQ4WBWv00YqfPCTNeJSzlp8JrRDXNoKvl2FOKpKu9k6zKsZvHeGMTWYPBdGnIpvmchhAWpvY1VMwB7Gg9CyknXdgJLY0m47MF8BmjLMt+LKfN69F/WUpyRsabPICr2VCAVqwuip4K42Mu3jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=AHBO3cSn; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E319A443B3;
-	Thu, 24 Apr 2025 19:00:22 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 78484443AC;
+	Thu, 24 Apr 2025 19:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745521226;
+	t=1745521229;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=awOAgPr+q9DGYzVpOVBJHCkywDHS7z4YfF9zqbhhY3E=;
-	b=pQMczLILzKuJkaulIGp6r0PStM9jRLLxTMnQ06sHx7IYAmzZXBpo+b13XmiaQpvYCrIvqx
-	l0MazCepyoM9jhjV81zKU/5+cNO8q4pJLjNmuM1tjsCTIN7DSANOnwVIu2xfl3MNk3cuTq
-	kY6nvJw64X5OSYJpkh8lcwKwzzD7NLFyME58qdpKa03R1dd5bgkbLVSEibVIaD063JwWnd
-	mN3Hm8xNCAGEQbs6kW7kzqJPI0MO3EoSOB8QnxoUmBzC2SlVxHukTeflJ7V+7hOMny1QbL
-	9a3InPCYjbeVLMD24XZA2hpHqoXj/EuEFi6WppyM4GjxWl+SvpcEowmGDxctVg==
+	bh=mNTgUWBvtvv4Qf1nv78qeW45KkcYs2taInShiyx+5BU=;
+	b=AHBO3cSnlAT5W6+xeqZ5dCSvEuoyNYYP6IGvNh+PHhwGMhWeO4qSLmT9jXuRthzv6+piXZ
+	EBTu/IJ4Uc/+9NOd8QaEbRiqwS1CduDJzDgCGAYbQx+yXst8GxuyAGFupOt7u+ICwn5ZoA
+	vopCPuQetFXsaPOTMGPNctYsc8fmnjuUmKebIs2vxMeaAa/QUHp98aQR+WnDsv/01KXRmr
+	KRG1KVitjWvL6stQVDxXVv83x8FpbhwkcKdx/J2cP/XpXaQj4rLbjJ7qlJMutMl6KeCEjU
+	THA+ahpHGJbRymXkFQXJF46xKWUvuZclIicPQP6YXjHXWCk7/wROBHy8oBTKyA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 24 Apr 2025 20:59:24 +0200
-Subject: [PATCH v2 17/34] drm/msm/dsi: convert to devm_drm_bridge_alloc()
+Date: Thu, 24 Apr 2025 20:59:25 +0200
+Subject: [PATCH v2 18/34] drm/msm/hdmi: convert to devm_drm_bridge_alloc()
  API
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-17-8f91a404d86b@bootlin.com>
+Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-18-8f91a404d86b@bootlin.com>
 References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -108,33 +108,34 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>
 Cc: Rob Clark <robdclark@gmail.com>
 Cc: Sean Paul <sean@poorly.run>
 ---
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 9 ++++-----
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 9 ++++-----
  1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 72ada9f2f043d2278e3ff2ff499fb52502330c68..ca400924d4eea89732905997d087e442ba9f336e 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -462,15 +462,14 @@ int msm_dsi_manager_connector_init(struct msm_dsi *msm_dsi,
- 	struct drm_connector *connector;
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+index ab6c8bc4a30b681f7de8ca7031f833795d1f7d94..7f71956806a25a1ab23293284da83ed4a8759c98 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+@@ -498,16 +498,15 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi)
+ 	struct hdmi_bridge *hdmi_bridge;
  	int ret;
  
--	dsi_bridge = devm_kzalloc(msm_dsi->dev->dev,
--				sizeof(*dsi_bridge), GFP_KERNEL);
--	if (!dsi_bridge)
+-	hdmi_bridge = devm_kzalloc(hdmi->dev->dev,
+-			sizeof(*hdmi_bridge), GFP_KERNEL);
+-	if (!hdmi_bridge)
 -		return -ENOMEM;
-+	dsi_bridge = devm_drm_bridge_alloc(msm_dsi->dev->dev, struct dsi_bridge, base,
-+					   &dsi_mgr_bridge_funcs);
-+	if (IS_ERR(dsi_bridge))
-+		return PTR_ERR(dsi_bridge);
++	hdmi_bridge = devm_drm_bridge_alloc(hdmi->dev->dev, struct hdmi_bridge, base,
++					    &msm_hdmi_bridge_funcs);
++	if (IS_ERR(hdmi_bridge))
++		return PTR_ERR(hdmi_bridge);
  
- 	dsi_bridge->id = msm_dsi->id;
+ 	hdmi_bridge->hdmi = hdmi;
+ 	INIT_WORK(&hdmi_bridge->hpd_work, msm_hdmi_hotplug_work);
  
- 	bridge = &dsi_bridge->base;
--	bridge->funcs = &dsi_mgr_bridge_funcs;
- 
- 	ret = devm_drm_bridge_add(msm_dsi->dev->dev, bridge);
- 	if (ret)
+ 	bridge = &hdmi_bridge->base;
+-	bridge->funcs = &msm_hdmi_bridge_funcs;
+ 	bridge->ddc = hdmi->i2c;
+ 	bridge->type = DRM_MODE_CONNECTOR_HDMIA;
+ 	bridge->vendor = "Qualcomm";
 
 -- 
 2.49.0
