@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-16333-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16334-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5D5A9B771
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 21:01:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3859A9B78A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 21:02:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E9EB4C15AE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 19:01:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 836A19A3C35
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 19:01:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B07272951DC;
-	Thu, 24 Apr 2025 19:00:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BADB12957AF;
+	Thu, 24 Apr 2025 19:00:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NK9gy6ZK"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="aSpLxZZL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6492951B9;
-	Thu, 24 Apr 2025 19:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDA42957A4;
+	Thu, 24 Apr 2025 19:00:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745521203; cv=none; b=n1QYVOiUVzwCox3xwjSyZnfZ31+18LREPp6NqmhkyZx5a4Fp0vlh0TZZ5/xnyNxcGsWM4AmQs3zrMKbKuDOZFziNyf5SmxnxsBNKelNK11lDRu2xigGVY3DG857RjUEzCQJybOsygEmKdZGHpuOhhxuXV4Oy6wxhLLcn+SROWXo=
+	t=1745521206; cv=none; b=A0aUgD93VvUdEEyvbUY6PR5MIa7xjSomHzKvsxDhWPQfes3v30k70T3hu39U+Dr9URJmuNW0ta6X/may8EURG3syTxztdM1XjFoODFpeClB0YgKxf3yfyrbQeZb7JVbg2xK0uMiWanok9Hr2fP4ePeIX1juChpZxBUUsT53zKZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745521203; c=relaxed/simple;
-	bh=IjDKPtPkyzJhqyUwOOtgnFLa2x4aFKm0aX2MdPkGoqY=;
+	s=arc-20240116; t=1745521206; c=relaxed/simple;
+	bh=Dr2/FBKG5N3XOxQItoeq452nlj8aeJNdHz2fGY0lxLk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HjM2xSLez8nSfpBU64Ajg/tjiHh9vuG46Gdid9k0ZCr/4bPXs4H/JyN7MOr/lpuLG1cTzTRzpqLe81VTpBgwtNKNzccb6Ey+PNI235vJIZgNRL4dr3fID5cDmknfB6sYCtjX6y1nl9KneotzECL6ODV8SXJGE1dgMUUHQu/HfNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NK9gy6ZK; arc=none smtp.client-ip=217.70.183.196
+	 In-Reply-To:To:Cc; b=jpvSQ/d6HyCCMx6XLoh2rsrGMHsW9H0pMRL8uUm2GiHHkIrAoNP6YYISlC4HZVptumCMyOkhWt/ghqGOIi9YwRkJk3QK7CcLQNqWFM6nbfH7QyjLbygfJrrOfC4Ll/QsjYbx62U834l98LcxheM2hKL4i8CAIprDjpwNmbZCCwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=aSpLxZZL; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A8F2D4438B;
-	Thu, 24 Apr 2025 18:59:56 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D1B4543B6C;
+	Thu, 24 Apr 2025 18:59:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745521199;
+	t=1745521202;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Yt1taznpShq1t237z645Qr8mHGKFK9bfr6SZ3mXBRSQ=;
-	b=NK9gy6ZKyoYXarkmuK0cDTbdHcZwfOteJkRO4Yl3NY3vELRrroXhAuqMOYL4pRxVPwVl8f
-	WvvcWqXuLjg2PKXVf3OzGjw+7CDvwAcmDC1hdPqQsohid6PcicHXTUVODFLw8N4LAnnHKb
-	U12L4ImUR6pPgdufFv7HGZGhp6+8m4xnPdJZ1sSe5fSN/e6FMBAy52ncWPUZKNUtcdDztr
-	/pahf55CiGzzXBfXb6trC2hHExtUio8mkZL7RAEEtC3tr1cvjPUUP0Z7b6D8mBwQKAKI7V
-	6kKU4dCRpaCLG5EjyHBpGCazlLr0gniQg8w4xK8ju0+pV+qtmnRJOUCOYfqrww==
+	bh=ovm6LFCEU6u/vAeHaFCp1xRU21VlYlfHIc92sjuJU6g=;
+	b=aSpLxZZLjFybW+4NfnXn2CXoBpUwcnN1Y+Lhyl37W4lLrwaqa4iIbnn7exuj7CUhAclpCC
+	Vzensokai9Svm/Ro8NNsuQ5MvWSPr0VMOESRjv4ORwxIKJKkXlpPNxfefAUpGResq1OYew
+	mukmXyOEIPVNG+yxbezC5IOjAq2aRJYRB45thVqtWbNOCPcZcAoewVYT2in7rRRErkSqDR
+	64Ddr9jAZVQiwkMcBgnTsRaHdkBar5QKWm5HnsIjfC1AQKS402YtsEop57PiSZbhSyHACA
+	uognzG+kjaEyLpFsm762cLQ4+16WVFODSknAMCoD7F9bWHDUvfgRwho2y3Cuyw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 24 Apr 2025 20:59:16 +0200
-Subject: [PATCH v2 09/34] drm/bridge: nxp-ptn3460: convert to
+Date: Thu, 24 Apr 2025 20:59:17 +0200
+Subject: [PATCH v2 10/34] drm/bridge: sii902x: convert to
  devm_drm_bridge_alloc() API
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-9-8f91a404d86b@bootlin.com>
+Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-10-8f91a404d86b@bootlin.com>
 References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -89,7 +89,7 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepheenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefledprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtp
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepjeenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefledprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtp
  hhtthhopehimhigsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirghtvghksehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepfhhrvggvughrvghnoheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
@@ -97,36 +97,34 @@ This is the new API for allocating DRM bridges.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/nxp-ptn3460.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/bridge/sii902x.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-index 25d7c415478b14ef634bff4185a8dd8e866be0c6..7acb11f16dc19e87a84cc765b1cebef158662c00 100644
---- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
-+++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-@@ -261,10 +261,10 @@ static int ptn3460_probe(struct i2c_client *client)
- 	struct drm_bridge *panel_bridge;
- 	int ret;
+diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+index 6de61d9fe06487856e8b3c32db3c8d8c25633fd8..882973e900628c0d972d32cd4ff3588432daa8e9 100644
+--- a/drivers/gpu/drm/bridge/sii902x.c
++++ b/drivers/gpu/drm/bridge/sii902x.c
+@@ -1135,7 +1135,6 @@ static int sii902x_init(struct sii902x *sii902x)
+ 	if (ret)
+ 		goto err_unreg_audio;
  
--	ptn_bridge = devm_kzalloc(dev, sizeof(*ptn_bridge), GFP_KERNEL);
--	if (!ptn_bridge) {
--		return -ENOMEM;
--	}
-+	ptn_bridge = devm_drm_bridge_alloc(dev, struct ptn3460_bridge, bridge,
-+					   &ptn3460_bridge_funcs);
-+	if (IS_ERR(ptn_bridge))
-+		return PTR_ERR(ptn_bridge);
- 
- 	panel_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
- 	if (IS_ERR(panel_bridge))
-@@ -300,7 +300,6 @@ static int ptn3460_probe(struct i2c_client *client)
- 		return ret;
+-	sii902x->bridge.funcs = &sii902x_bridge_funcs;
+ 	sii902x->bridge.of_node = dev->of_node;
+ 	sii902x->bridge.timings = &default_sii902x_timings;
+ 	sii902x->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
+@@ -1170,9 +1169,9 @@ static int sii902x_probe(struct i2c_client *client)
+ 		return -EIO;
  	}
  
--	ptn_bridge->bridge.funcs = &ptn3460_bridge_funcs;
- 	ptn_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
- 	ptn_bridge->bridge.type = DRM_MODE_CONNECTOR_LVDS;
- 	ptn_bridge->bridge.of_node = dev->of_node;
+-	sii902x = devm_kzalloc(dev, sizeof(*sii902x), GFP_KERNEL);
+-	if (!sii902x)
+-		return -ENOMEM;
++	sii902x = devm_drm_bridge_alloc(dev, struct sii902x, bridge, &sii902x_bridge_funcs);
++	if (IS_ERR(sii902x))
++		return PTR_ERR(sii902x);
+ 
+ 	sii902x->i2c = client;
+ 	sii902x->regmap = devm_regmap_init_i2c(client, &sii902x_regmap_config);
 
 -- 
 2.49.0
