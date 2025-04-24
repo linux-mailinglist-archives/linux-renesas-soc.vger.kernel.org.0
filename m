@@ -1,88 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-16295-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16296-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BD9A9A458
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 09:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECA9A9A471
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 09:44:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3FA961B6307E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 07:41:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0BF771B617F3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 07:44:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86D031F4612;
-	Thu, 24 Apr 2025 07:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NAn5IBCa"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A660E1F4CAB;
+	Thu, 24 Apr 2025 07:37:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5304679F5;
-	Thu, 24 Apr 2025 07:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3CD1F4736;
+	Thu, 24 Apr 2025 07:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745480001; cv=none; b=HS7PcaPMXkkTXzHPvPJWBgFe3ifDIGFImUl8fSPv+M27vzp3cIiUd5UuSj8CRgdgdBgfN0snkfwxEpRVa7WODBQiBTjVkImsVIRvLfujd7CTNfVln5Pilh47Koncm6RZAaXYSTgb6gdJ3K6Julag6dZTtqlbdX5ekpDzjphVPqI=
+	t=1745480221; cv=none; b=G46eFptvbFDZOcJuK2dMFGLtmB0gWyKREhth0soGR7OsX4a2HnADsMT0AohR0fbPGVl+IdENLsQZSRolqCfd7zJTiu+aFMLJ+5QN2NiJLxZJdnUmAMpEdr0mX363zt+/PiCMiX2SbmqR9n8wDJl5hh+z3UGrQTMLkOHglkGk/44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745480001; c=relaxed/simple;
-	bh=SuP8EraeigJb0KaR9dhLAlA0oVM0b7bWlw5kuLh8108=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OL0EB1uwycvqQj4SCtwTYM3BjXwCTZLrSNv9wz+pPw9N2gbo9qKfyeUog3EgTG8CcqZ2cPp2nMtdh3ZJX9LTX6rsboZl3XwmfIywXbd0GxAkfc5cOZh6Xgy8P0oHIsMN1wp2OUDhoINY1b0aIFKH316Q7BN5Nxw1RlAnIQOZ5so=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NAn5IBCa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E2EC4CEE3;
-	Thu, 24 Apr 2025 07:33:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745480000;
-	bh=SuP8EraeigJb0KaR9dhLAlA0oVM0b7bWlw5kuLh8108=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NAn5IBCa1HR8cgzP/yQgp/EiVv3myBY0mp+DotdwTIpXvXyZ14/MJUwmL6OdMvjUv
-	 KI8WGC0P/EY8lc2jDgnXraGmBOZs8wUK39z3R69blFJ54MTgb5/4QLvVHna+buVBNv
-	 GrmUcxdw+gpa6jwyC87fekJTv16cFXG5mp2R97yZGECyBfgX5X/slw0jch2C+MomMs
-	 wixVvFDPCXIzoGsFaR8gYX/kzKrb9Xb4PDWYfTfKK4lX13WCzgQPvOO3N2QsBISx4h
-	 iSOsD7gZKVAFrCoa2x76r1X62CE0B50BtKjwitjKBVFf2P6yFFWLqLN50jK8cF++aW
-	 EvDM3Pn7jCG+A==
-Date: Thu, 24 Apr 2025 09:33:18 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Zixian Zeng <sycamoremoon376@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Chen Wang <unicorn_wang@outlook.com>, 
-	Inochi Amaoto <inochiama@outlook.com>, Alexandre Ghiti <alex@ghiti.fr>, Mark Brown <broonie@kernel.org>, 
-	Inochi Amaoto <inochiama@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, sophgo@lists.linux.dev, 
-	chao.wei@sophgo.com, xiaoguang.xing@sophgo.com, dlan@gentoo.org, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 1/3] spi: dt-bindings: snps,dw-apb-ssi: Merge
- duplicate compatible entry
-Message-ID: <20250424-awesome-caracara-of-priority-57f9dd@kuoka>
-References: <20250422-sfg-spi-v5-0-c7f6554a94a0@gmail.com>
- <20250422-sfg-spi-v5-1-c7f6554a94a0@gmail.com>
+	s=arc-20240116; t=1745480221; c=relaxed/simple;
+	bh=tZBFuHNqbZhb2H/3CAcXJdwpckqNkfiym7GWwRfaOwY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fWatwPKt8uQZQ8j9mYMGhF60LFi3rkhivIEX8gkuE7CR5XEFCTHyCvclr6oY9CVOhdiam+1+cRM2nI8IJZHjguFSltroMw7x2bLV4sVK0gcJyDd7nMnF5X2A4oXRCietQlqxONdV1KAY/QqxdNnqRdxJswriklRJWuzXnKziBOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-86ba07fe7a4so719727241.2;
+        Thu, 24 Apr 2025 00:36:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745480218; x=1746085018;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TDUiICoejbRnCSysgoRYEQvEcNomvYDTM59S5WQew9Y=;
+        b=vAfhpmgeOWoKuqWFha7Y9amqm2H70/KyrImH/kcwF0tKWac8cgvsbWJQCl6xelsnzw
+         jpSq4E3TZEqPfiXQBLCBm/Nl62frqkbUzqrILm+hsWQJ009NFMsuIPefDf0TB3bK7vY7
+         hrSqZwbRBmX0K58TQSwBKZiRYqZoulvQC07UQb9hU6HlT2043HebxW6B1Wm0+cApdtDE
+         YyOOlwJhSqXbDxl98gPVWTxixFm4L1afUIB9LEt71CLdPpha/Zzmt3VJodrOpp4DfUfn
+         FBEGk0NxqcI5O1c4qeCaL37Ex0HGL59YRegv+bHGB5pI84tlaw4Y+agEE1nqhE9t5+JT
+         7RGg==
+X-Forwarded-Encrypted: i=1; AJvYcCX45QmMZRED7qPZeaaJazCyne/YVkRShwIOQmZaZu6IPRj4AlDcNmu8Ip5hZCX7FTuP6J9idTwbwBhV@vger.kernel.org, AJvYcCXOuCjlhKaLWSPbz2M6Aw81Fe3/7/veVhFjYvQY4PIFSCazXLbV+NdZ2CcLhSGLxOklGXz733GxMexQSPo=@vger.kernel.org, AJvYcCXR9DYc6ay3pMdE5R89w4RyFyOu0KXPKcMfGnJBIx/wFUHPHyR6sZ7HxzZmFBNhyBWyaqnw7W+ZTUWGkHuQR/+pLSE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJl/rGQ4cucdergpm4FZ9p9VvcE3AZK2yZ/lW+OFq+8xNAiNXc
+	ImWIiWpRjaisG0cYAZznBiQPGXTUO0hOsE3HkSBKGQ52khDXK0/eRqwYesqT
+X-Gm-Gg: ASbGnctzO4gThJmChHhg2Efg8KVEfKpkjULEckFvd+Nc76M39zqpqjyKdEG6rp2rvfy
+	6DQXVlR8Gvz6YqJvIqHGPYWlcUS/qMXFHEqhzZ+aNaOVjiF4sLKEykOlp21OcjEdCCjIIm9NBmX
+	WuuFT4gHnxD5WEbNE1O/0BcvJ4icjbNx8lTmn2KqoasTGQ60gdI6g5cRovjXnH7Yzo9ZhykwO3D
+	BrVXaz5ZFjUWufAhCDN8gkXz6E37OZN5kpIQJXpT5MZ0evFXSditNYpikVManeoBzYSpAar1SRg
+	0xZZbY9dQKbTwY5Qskzn1XXvhu0CoW1AgtbZY5N8yBV3/tA+e6gjx16ebagl/3BiHFdkxvQM1gA
+	anneZ0WA=
+X-Google-Smtp-Source: AGHT+IHIu5qhkggBRErm+NLtFbUvwKt5sTwPHxRPflOOqXS50cxXmegcrYuJqtyXtqCgKDysNU73Ig==
+X-Received: by 2002:a05:6102:292b:b0:4c1:a15c:ab5c with SMTP id ada2fe7eead31-4d38ebe8f73mr1156304137.20.1745480217969;
+        Thu, 24 Apr 2025 00:36:57 -0700 (PDT)
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com. [209.85.221.176])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4d3d49a9108sm151192137.5.2025.04.24.00.36.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Apr 2025 00:36:57 -0700 (PDT)
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-524168b16d3so738090e0c.0;
+        Thu, 24 Apr 2025 00:36:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV3VfI6LMYjfqUkgHNykNsc0+/jwuh8F7cV1kv76jdJbdo1gvi3pk1Z98HA/IbngPSUErMzkYVPRQuh@vger.kernel.org, AJvYcCXYQ6puhHVWWkvHAYX0D61yrJ4Bjc3WpAccw/e1XiRQPIkk0UDV6732h3XSWLYKsbhRYbzLnakeuY6n+Lw=@vger.kernel.org, AJvYcCXbmqZFBjD54GfFTOvB7K7ljDcsuFGscPtGaS0T8ZaWCE2RrzxbMvgTRk5j+kqqNPXfqTsds/KaexpaPhltgi6Krwo=@vger.kernel.org
+X-Received: by 2002:a05:6122:3290:b0:520:61ee:c821 with SMTP id
+ 71dfb90a1353d-52a7823defcmr1049664e0c.3.1745480217386; Thu, 24 Apr 2025
+ 00:36:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250422-sfg-spi-v5-1-c7f6554a94a0@gmail.com>
+References: <20250423163113.2961049-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20250423163113.2961049-1-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 24 Apr 2025 09:36:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVcvVvgfaXnom3bKVebOnYnfDvHyv-w7+3-zUkMxO394Q@mail.gmail.com>
+X-Gm-Features: ATxdqUEshBTo9viGCXB3rHbxEJom9jufEbZaKOEmr2t4PPjBHGmfMlnAsU_IzE0
+Message-ID: <CAMuHMdVcvVvgfaXnom3bKVebOnYnfDvHyv-w7+3-zUkMxO394Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/7] rcar-isp: Prepare for ISP core support
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 22, 2025 at 10:27:08AM GMT, Zixian Zeng wrote:
-> Microsemi Ocelot/Jaguar2, Renesas RZ/N1 and T-HEAD TH1520
-> SoC-specific compatibles, which eventually fallback to the
-> generic DW ssi compatible, it's better to combine them in single entry
-> 
-> Suggested-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Zixian Zeng <sycamoremoon376@gmail.com>
-> ---
->  .../devicetree/bindings/spi/snps,dw-apb-ssi.yaml       | 18 ++++++------------
->  1 file changed, 6 insertions(+), 12 deletions(-)
+Hi Niklas,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Wed, 23 Apr 2025 at 18:33, Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> This series prepares for adding support for the ISP core functionality
+> found on some R-Car ISP instances. No core support is however added in
+> this series, the focus is to get the easy changes out of the way to
+> avoid conflicts of fixes and new features being added in parallel on top
+> of this.
+>
+> Patch 1/7 extends the dt-bindings to allow describing both the CSISP and
+> ISPCORE blocks. Patch 2/7, 3/7 and 4/7 updates the existing bindings to
+> match the new style. While the change breaks the dt-bindings the driver
+> is compatible with both styles.
+>
+> Patch 5/7 prepares for the addition of the ISP core functions that will
+> span multiple files by moving the driver implementation from a single C
+> file to a directory where it can grow. The intent is to get this out of
+> the way without bikeshedding the real ISP core work so fixes and such
+> can be based on the new file structure as early as possible.
+>
+> Patch 6/7 and 7/7 prepares the driver for dealing with two regions for
+> when the ISP core work is integrated.
+>
+> There is no functional gain in this series apart from correctly
+> describing the hardware in dt.
+>
+> See individual patches for changelog.
+>
+> Niklas S=C3=B6derlund (7):
 
-Best regards,
-Krzysztof
+>   arm64: dts: renesas: r8a779a0: Add ISP core function block
+>   arm64: dts: renesas: r8a779g0: Add ISP core function block
+>   arm64: dts: renesas: r8a779h0: Add ISP core function block
 
+Thanks, I will queue these three in renesas-devel for v6.16.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
