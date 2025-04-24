@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-16330-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16331-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75608A9B76E
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C51FA9B769
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 21:01:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27E233B2936
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 19:00:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB9E41BA33D6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 19:01:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1D422949E1;
-	Thu, 24 Apr 2025 18:59:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4BC4294A06;
+	Thu, 24 Apr 2025 18:59:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dCvZwGeq"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Pd6K2ge4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A05293B47;
-	Thu, 24 Apr 2025 18:59:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749702949F1;
+	Thu, 24 Apr 2025 18:59:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745521193; cv=none; b=pZqOfqJFFjAIMswwBCojqHAnWQZiWYr/Zb+CQpFfs1jfgWCWPwHSTTOt92kuWSy2tmID+J1Cs0JH2e5zCgmeMMVDf7vuU9EAgQxPH6SzvQ19cx9GmE+RtIL0qqJzK7MP4R6YNY2i08/aPDFgeIFbedzCGt82EgVjSwoVnOfEz4g=
+	t=1745521196; cv=none; b=ek2YGMuqasFuQUZtdSFA/Bqmu6O41RVwjTAagroIt90+dZB61rTD1SL6SB160YF2TdeRof+7/TpR6a0/Qy9XB+WRozEZeaqkQ3eR/LgxojXCBr6KJ8CRWv66Kmr+dnHxVQ3NQekPp6H2djLckvrdhVARfBk+gujOpJaYcpE0STU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745521193; c=relaxed/simple;
-	bh=Lf+ugS6gZiJ3xmB2xTN/J/z4HsJFqxnLy1DJs4bQAzY=;
+	s=arc-20240116; t=1745521196; c=relaxed/simple;
+	bh=Cm4X+ZUWLik8A6RsH1OXlVD0KWfsqXwBuXfIcS/+YOA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZIPz3ZSb6dmDfh0XYsq4xtF/88FCEhzvtPEZr0woIMretinfsoQbncLQgSjg+Z76nWfUmK7dxpMbtYMu4l2r3hMNbM1pt/+zvfABac7CCI3ohYmAIBSLcNJdz1tJ0ZgmzwTfOmdER7ljP+k1dI+NNk5QYR47vLHRym/WKm7CCgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=dCvZwGeq; arc=none smtp.client-ip=217.70.183.196
+	 In-Reply-To:To:Cc; b=FD3VPCocCH0pMkit/kLYwoDhsiev6Cgwpx92G8oq9j7/kF2S1rdKYgfJZb4xfRvIeSoE3+lNl1lI8xp5TMxlWJOLmNaXqGambBG+wo5IXErYF63AMguTyvcGCpuItBfubfmMA6XMvoev+c0wTO5WvtfYZWH6zGClQSIxurfRtjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Pd6K2ge4; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C8095443AC;
-	Thu, 24 Apr 2025 18:59:46 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0E98A4439D;
+	Thu, 24 Apr 2025 18:59:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745521189;
+	t=1745521193;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=J0OEw/GSKx77XGtUbAB23+UicNIp5U85owX/oRbM6dg=;
-	b=dCvZwGeqsXjE06tFpc4tpP+6Lp+mqVhQyOznwM3IH+aKQ9YPQyJXZYTCYreWJWP86GplVl
-	7TgMRVkpohMpuXAxC3/z6fxjxlW1tjPM5rxVEXrnfEl0N0yHcmfQTvxU+1hDX+qwVpeyub
-	oyzjde376L7S72UDMajZaH4o7DbxiSGooN8uz3G5VgLb21WXWZBk4O3X63RSjGlvyJaO91
-	4yZ9MTG2fmfjGZ8+KQrfBr7+nYYfAHet8rYLjRGWCDzUiCNEpV1DXEydIZOZt0VLBNnLsC
-	2xewepCu8IGXafRO3f7dcDeYdwIn2nW4PQc5QuaZYF59JqbzeNcCz4UYJJ3LoQ==
+	bh=YivpedSafauUfpYUWexJNcrrWSQuD9Rpne1pSpZnXzE=;
+	b=Pd6K2ge4qYJ9BqnO000YfBYz/hbMdx+N3sCIeKUOxbZP+uxIYDskFU3zbee+xFK1V0tYsu
+	1wYUmgjcwiylOu6Gw9fpyV6yshjwe01XtOIVIWcU0Iv02LbxTIxDDzHJ2k06tWHAVXR0eJ
+	ATXmEaH+q91uparV06q87m2v9n0Ni+wnCgWL1T0YIGdQo3XeSP7Al4JmJPDqHaMFVFvWkT
+	9qgjHNopxNXY23E3R4iq53Vcx2O8QcBUQZHXehtAR0DUKejGrBEh93Le6w//B/7YDAPPa+
+	9We7ajLLbRlaUza5dD5y07gseADfOFC0BGaKsDXnypPlajRqrwTmZ8dk7nJkDw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 24 Apr 2025 20:59:13 +0200
-Subject: [PATCH v2 06/34] drm/bridge: display-connector: convert to
+Date: Thu, 24 Apr 2025 20:59:14 +0200
+Subject: [PATCH v2 07/34] drm/bridge: lt9611uxc: convert to
  devm_drm_bridge_alloc() API
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-6-8f91a404d86b@bootlin.com>
+Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-7-8f91a404d86b@bootlin.com>
 References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -90,7 +90,7 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegtddprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtp
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegtddprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtp
  hhtthhopehimhigsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirghtvghksehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepfhhrvggvughrvghnoheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
@@ -99,35 +99,34 @@ This is the new API for allocating DRM bridges.
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/display-connector.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index 09c08a53d5bdc5c48f5d520472f5a311289d4862..badd2c7f91a186e9a47c5a4ddc870d269f3798ab 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -210,9 +210,10 @@ static int display_connector_probe(struct platform_device *pdev)
- 	const char *label = NULL;
- 	int ret;
- 
--	conn = devm_kzalloc(&pdev->dev, sizeof(*conn), GFP_KERNEL);
--	if (!conn)
--		return -ENOMEM;
-+	conn = devm_drm_bridge_alloc(&pdev->dev, struct display_connector, bridge,
-+				     &display_connector_bridge_funcs);
-+	if (IS_ERR(conn))
-+		return PTR_ERR(conn);
- 
- 	platform_set_drvdata(pdev, conn);
- 
-@@ -362,7 +363,6 @@ static int display_connector_probe(struct platform_device *pdev)
- 		}
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index bb33c30d3f88878736815b270813a035222aead1..766da2cb45a7e2a79256185b8e2d3bd1eff3648f 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -775,9 +775,9 @@ static int lt9611uxc_probe(struct i2c_client *client)
+ 		return -ENODEV;
  	}
  
--	conn->bridge.funcs = &display_connector_bridge_funcs;
- 	conn->bridge.of_node = pdev->dev.of_node;
+-	lt9611uxc = devm_kzalloc(dev, sizeof(*lt9611uxc), GFP_KERNEL);
+-	if (!lt9611uxc)
+-		return -ENOMEM;
++	lt9611uxc = devm_drm_bridge_alloc(dev, struct lt9611uxc, bridge, &lt9611uxc_bridge_funcs);
++	if (IS_ERR(lt9611uxc))
++		return PTR_ERR(lt9611uxc);
  
- 	if (conn->bridge.ddc)
+ 	lt9611uxc->dev = dev;
+ 	lt9611uxc->client = client;
+@@ -856,7 +856,6 @@ static int lt9611uxc_probe(struct i2c_client *client)
+ 
+ 	i2c_set_clientdata(client, lt9611uxc);
+ 
+-	lt9611uxc->bridge.funcs = &lt9611uxc_bridge_funcs;
+ 	lt9611uxc->bridge.of_node = client->dev.of_node;
+ 	lt9611uxc->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
+ 	if (lt9611uxc->hpd_supported)
 
 -- 
 2.49.0
