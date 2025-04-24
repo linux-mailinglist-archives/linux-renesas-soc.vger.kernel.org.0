@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-16346-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16347-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFDFA9B7BB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 21:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D97A9B7C0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 21:05:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 804841BA6357
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 19:05:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37A601885A99
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 19:05:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 973E029A3E6;
-	Thu, 24 Apr 2025 19:00:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCCCA29AAEC;
+	Thu, 24 Apr 2025 19:00:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mpixFmOY"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VHSCothU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20EEC298998;
-	Thu, 24 Apr 2025 19:00:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFA6292924;
+	Thu, 24 Apr 2025 19:00:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745521246; cv=none; b=tFmP4tK3mlshhXnvkzDHLZXlPr82p4PpbKjBGpRCF4+RLkT4zthar0otxv//CHL2hlUrfohqRqy29FyauUE7tRVGL+0shi3OWgTgGvpsUzVLVsX7uBq1tv7N9VbGKAiMEnPp9RCtztQaE5bak7NR/G5horAm89bY/iKsg4DJWyc=
+	t=1745521252; cv=none; b=kNGj3qRR+fAIZ4UQpy0Lha+HUElzyvJ6XDHGUjqFZpRRqJcm/qh6sPt2fhgLSPlzpCqc/lRXK1AmOGlAcy2UHx4z0L3WmSM9DexC7wn3N4w1lN8H5r7Lo8sWxhTfyRs4o15bE2/dTdftGuMDd1ADbL23bP1NjxVVT/UIgWneQZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745521246; c=relaxed/simple;
-	bh=vl60lS2778JvwMCV2jLiYdxpmbXzOA5yssjilAqc57Q=;
+	s=arc-20240116; t=1745521252; c=relaxed/simple;
+	bh=oUseUlDw0JDpesZtN/wwTnnCVHt0FrFQydJOF82XHc0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rQeFVBFhEi/LbnEjvv5VnqZVrWf+daavzsWcZOb6/92G98vcPbMW3CZPpIiRlvAYitw+NkfMnA/Mnb3PpczTTd6uITOOihMqSB1a+96ZOa6eSmPBQDNOV683v1WAiNd1C81kRdDD/Ihtkeopuhp2HFxPiHY9Ndj6/lOAaNGy1AQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mpixFmOY; arc=none smtp.client-ip=217.70.183.196
+	 In-Reply-To:To:Cc; b=QWuzDV7ouqjikiyHr+coNhLdhYTGrw74u2KHjCiWp5MX50neQeMFO09vJ3m7IIinGtWaJxgFssIMa2gllp4+Z78iMshdldcO9TlHRf2YV/J6a833/GCzwnNegXfQ3CUwtJevpIB4Om5NQwR4Mg+mHMMBJdl/J2E70CR/516znUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VHSCothU; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AB4B4443A6;
-	Thu, 24 Apr 2025 19:00:39 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DF9C243B6C;
+	Thu, 24 Apr 2025 19:00:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745521242;
+	t=1745521249;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9+BYFVcRDiQgQH/nZjjYWzU/YP4kTmfchyC/pK/sOu4=;
-	b=mpixFmOYbrjc6ZuJms9swZngEtc1xwWt5qOLUC79YVMR5JvvtmaWpT1Z8p822HcZ3tQMsp
-	cBbQG/n3QynDs7+naddOGfYsfVkwijRarF1S2/t8LsC4eWptcfxmu/k9z/yrHi0Q3J38Sd
-	AizkaWO4WryM5T0Rou8dGb2u0nWASvykOSS1DOtGIiXO5iSaAUBORfvQzBNqCRQuwZxy0k
-	WhHhAFBKhV3I6lgl/8sm5ofwWNHU3xFx/1Fe0IUETNKM/eU3ZD6zsQ0OfZk+N7MerFSV6j
-	BLGhD8wb0UCuHZ/yOpLyi3TMwYvuyWVSkfcMPk8vaiyJ+o9Xqf3p6svxM7rqQQ==
+	bh=Au0mQLhtD+SC9FQejYqXmeWmtMq3lmMU5k6WXMVlQsE=;
+	b=VHSCothUYa+yZ/DE6uuYEYLJ7T3s0WHVFO+lyJTVoBzsiyjzypVZzztD+UjQ3bmFZ6xN3B
+	t/AiBRIElFxJ0Gz38++StdPb3FfWmhFX5HgDwdPjCXB9TQVb0HeTXcNzgQ8/HC40BRoXRH
+	bCpLf8wJ+OS8SDPpryWsg7yuU6G9Ez2QJ5QC9xQZ0puOhLihFw4yw1FIzD/8j5Lrkn1zoB
+	A6jcrZGwq9wiJtIF4WbC95OHhBYp+sitFtRX6xgczNEU4L4s34Vmy1sD6YgpwwkwrbRWbO
+	HOtLwQwMVklekOrjBsK/n6rDvCBu1d//KUKKeDrM1ngiip1FEUnM/VVAuYkv2g==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 24 Apr 2025 20:59:29 +0200
-Subject: [PATCH v2 22/34] drm/omap: dss: hdmi5: convert to
+Date: Thu, 24 Apr 2025 20:59:30 +0200
+Subject: [PATCH v2 23/34] drm/omap: dss: sdi: convert to
  devm_drm_bridge_alloc() API
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-22-8f91a404d86b@bootlin.com>
+Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-23-8f91a404d86b@bootlin.com>
 References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -86,12 +86,14 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ "Rob Herring (Arm)" <robh@kernel.org>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepudeknecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgegiedvmedusgguugemledutddumedvleegfhdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedtpdhrtghpthhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepjhgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrt
- ghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehfrhgvvggurhgvnhhosehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepvddtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgegiedvmedusgguugemledutddumedvleegfhdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedvpdhrtghpthhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepjhgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrt
+ ghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirghtvghksehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
 This is the new API for allocating DRM bridges.
@@ -104,103 +106,81 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
+Cc: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi5.c | 26 ++++++++++----------------
- 1 file changed, 10 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/sdi.c | 25 ++++++++-----------------
+ 1 file changed, 8 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-index 0c98444d39a93d8336b4d8dbd45aa4521181c3b4..5636b3dfec1c9581118b20adecd268c03e882efb 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-@@ -480,7 +480,6 @@ static const struct drm_bridge_funcs hdmi5_bridge_funcs = {
+diff --git a/drivers/gpu/drm/omapdrm/dss/sdi.c b/drivers/gpu/drm/omapdrm/dss/sdi.c
+index e78826e4b560a2b9af2d8a5a38e181bd3e44d250..df4cbc683e2ca27ef5fc45f79b77dcdcd9ca529a 100644
+--- a/drivers/gpu/drm/omapdrm/dss/sdi.c
++++ b/drivers/gpu/drm/omapdrm/dss/sdi.c
+@@ -284,7 +284,6 @@ static const struct drm_bridge_funcs sdi_bridge_funcs = {
  
- static void hdmi5_bridge_init(struct omap_hdmi *hdmi)
+ static void sdi_bridge_init(struct sdi_device *sdi)
  {
--	hdmi->bridge.funcs = &hdmi5_bridge_funcs;
- 	hdmi->bridge.of_node = hdmi->pdev->dev.of_node;
- 	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID;
- 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-@@ -727,9 +726,9 @@ static int hdmi5_probe(struct platform_device *pdev)
- 	int irq;
+-	sdi->bridge.funcs = &sdi_bridge_funcs;
+ 	sdi->bridge.of_node = sdi->pdev->dev.of_node;
+ 	sdi->bridge.type = DRM_MODE_CONNECTOR_LVDS;
+ 
+@@ -344,21 +343,19 @@ int sdi_init_port(struct dss_device *dss, struct platform_device *pdev,
+ 	u32 datapairs;
  	int r;
  
--	hdmi = kzalloc(sizeof(*hdmi), GFP_KERNEL);
--	if (!hdmi)
+-	sdi = kzalloc(sizeof(*sdi), GFP_KERNEL);
+-	if (!sdi)
 -		return -ENOMEM;
-+	hdmi = devm_drm_bridge_alloc(&pdev->dev, struct omap_hdmi, bridge, &hdmi5_bridge_funcs);
-+	if (IS_ERR(hdmi))
-+		return PTR_ERR(hdmi);
++	sdi = devm_drm_bridge_alloc(&pdev->dev, struct sdi_device, bridge, &sdi_bridge_funcs);
++	if (IS_ERR(sdi))
++		return PTR_ERR(sdi);
  
- 	hdmi->pdev = pdev;
- 
-@@ -740,25 +739,24 @@ static int hdmi5_probe(struct platform_device *pdev)
- 
- 	r = hdmi5_probe_of(hdmi);
- 	if (r)
+ 	ep = of_graph_get_next_port_endpoint(port, NULL);
+-	if (!ep) {
+-		r = 0;
 -		goto err_free;
-+		return r;
+-	}
++	if (!ep)
++		return 0;
  
- 	r = hdmi_wp_init(pdev, &hdmi->wp, 5);
- 	if (r)
--		goto err_free;
-+		return r;
- 
- 	r = hdmi_phy_init(pdev, &hdmi->phy, 5);
- 	if (r)
--		goto err_free;
-+		return r;
- 
- 	r = hdmi5_core_init(pdev, &hdmi->core);
- 	if (r)
--		goto err_free;
-+		return r;
- 
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0) {
- 		DSSERR("platform_get_irq failed\n");
--		r = -ENODEV;
--		goto err_free;
-+		return -ENODEV;
- 	}
- 
- 	r = devm_request_threaded_irq(&pdev->dev, irq,
-@@ -766,7 +764,7 @@ static int hdmi5_probe(struct platform_device *pdev)
- 			IRQF_ONESHOT, "OMAP HDMI", hdmi);
+ 	r = of_property_read_u32(ep, "datapairs", &datapairs);
+ 	of_node_put(ep);
  	if (r) {
- 		DSSERR("HDMI IRQ request failed\n");
+ 		DSSERR("failed to parse datapairs\n");
 -		goto err_free;
 +		return r;
  	}
  
- 	hdmi->vdda_reg = devm_regulator_get(&pdev->dev, "vdda");
-@@ -774,7 +772,7 @@ static int hdmi5_probe(struct platform_device *pdev)
- 		r = PTR_ERR(hdmi->vdda_reg);
+ 	sdi->datapairs = datapairs;
+@@ -372,19 +369,14 @@ int sdi_init_port(struct dss_device *dss, struct platform_device *pdev,
+ 		r = PTR_ERR(sdi->vdds_sdi_reg);
  		if (r != -EPROBE_DEFER)
- 			DSSERR("can't get VDDA regulator\n");
+ 			DSSERR("can't get VDDS_SDI regulator\n");
 -		goto err_free;
 +		return r;
  	}
  
- 	pm_runtime_enable(&pdev->dev);
-@@ -793,8 +791,6 @@ static int hdmi5_probe(struct platform_device *pdev)
- 	hdmi5_uninit_output(hdmi);
- err_pm_disable:
- 	pm_runtime_disable(&pdev->dev);
--err_free:
--	kfree(hdmi);
- 	return r;
- }
+ 	r = sdi_init_output(sdi);
+ 	if (r)
+-		goto err_free;
++		return r;
  
-@@ -807,8 +803,6 @@ static void hdmi5_remove(struct platform_device *pdev)
- 	hdmi5_uninit_output(hdmi);
- 
- 	pm_runtime_disable(&pdev->dev);
+ 	return 0;
 -
--	kfree(hdmi);
+-err_free:
+-	kfree(sdi);
+-
+-	return r;
  }
  
- static const struct of_device_id hdmi_of_match[] = {
+ void sdi_uninit_port(struct device_node *port)
+@@ -395,5 +387,4 @@ void sdi_uninit_port(struct device_node *port)
+ 		return;
+ 
+ 	sdi_uninit_output(sdi);
+-	kfree(sdi);
+ }
 
 -- 
 2.49.0
