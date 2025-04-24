@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-16345-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16346-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1788A9B7B5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 21:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFDFA9B7BB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 21:05:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AAFF1BA5F2B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 19:04:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 804841BA6357
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 19:05:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A25229A3C6;
-	Thu, 24 Apr 2025 19:00:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 973E029A3E6;
+	Thu, 24 Apr 2025 19:00:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N4Q352QU"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mpixFmOY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CD5298CB3;
-	Thu, 24 Apr 2025 19:00:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20EEC298998;
+	Thu, 24 Apr 2025 19:00:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745521243; cv=none; b=U8vtK5qzgzj2NHcQ1Q5bdoefdRXyg6Z/xr/ujTx4QSlENKkOAT23SIKR9n3ZcKZz8v/BNE+V/K1bXvwyQrRYxIGUXiTGKgXP+39qjsJTuVSbSraapieE4aWqEHXajc9VI7Fze6YVgDDK+gvJ66H1y6Zi0ZXtVbdvta6s8z16W80=
+	t=1745521246; cv=none; b=tFmP4tK3mlshhXnvkzDHLZXlPr82p4PpbKjBGpRCF4+RLkT4zthar0otxv//CHL2hlUrfohqRqy29FyauUE7tRVGL+0shi3OWgTgGvpsUzVLVsX7uBq1tv7N9VbGKAiMEnPp9RCtztQaE5bak7NR/G5horAm89bY/iKsg4DJWyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745521243; c=relaxed/simple;
-	bh=XkCOmt2Z/h1ynfDFsjCaC0n2vendjBldaaqhNxRJceo=;
+	s=arc-20240116; t=1745521246; c=relaxed/simple;
+	bh=vl60lS2778JvwMCV2jLiYdxpmbXzOA5yssjilAqc57Q=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MtHdbku2AeR6ApznHvzKxccze5r/oGutwySId2GuzL2woO+Uotd88U8o1wxQYSO9VADHjS50PzlyJbPZ22FtdCIAiz+lwbD3Fz0s5tHfKdb5mtTyI7dKDnyLz966WY6yE1go0g8RJaIhtY+Mt2OvbkwfUAdl6V5be/PYhyV4VlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=N4Q352QU; arc=none smtp.client-ip=217.70.183.196
+	 In-Reply-To:To:Cc; b=rQeFVBFhEi/LbnEjvv5VnqZVrWf+daavzsWcZOb6/92G98vcPbMW3CZPpIiRlvAYitw+NkfMnA/Mnb3PpczTTd6uITOOihMqSB1a+96ZOa6eSmPBQDNOV683v1WAiNd1C81kRdDD/Ihtkeopuhp2HFxPiHY9Ndj6/lOAaNGy1AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mpixFmOY; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8385243B79;
-	Thu, 24 Apr 2025 19:00:36 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AB4B4443A6;
+	Thu, 24 Apr 2025 19:00:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745521239;
+	t=1745521242;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=41vTHyL+V115rpzV8yiJOSt8o1/SbibksvBOkcYUztI=;
-	b=N4Q352QUWWC2juvAFq8ON9A8+gVXITAU+AGTB9dxNDzd7HJYK2Q4dtTrW04zfS/VXKS860
-	fDviDi7xt2nHaQxWENZ641S1ZL0dqfsJQC7ycn/7iMRSaKG/Mj13ds6lWFZxsIc0dX7nBR
-	JoxwurvW9KW2GzzBfo+L0eemRiH3EgreHKyyc8yQ4XHSqIj3PZI1dybHzjRbWaFKumWcKl
-	+WHTmofzHaIVWY4yBNEJOzuyxEl1A2ItMpgs4uSjV/bK31empFNtemVeGtlLa70++WwZYT
-	vp+PLTHbgLwwUtsjnxAY6vR5zXRehsIXZtgOQYZyoGsn6m8XVehJ2DpVzQbe6w==
+	bh=9+BYFVcRDiQgQH/nZjjYWzU/YP4kTmfchyC/pK/sOu4=;
+	b=mpixFmOYbrjc6ZuJms9swZngEtc1xwWt5qOLUC79YVMR5JvvtmaWpT1Z8p822HcZ3tQMsp
+	cBbQG/n3QynDs7+naddOGfYsfVkwijRarF1S2/t8LsC4eWptcfxmu/k9z/yrHi0Q3J38Sd
+	AizkaWO4WryM5T0Rou8dGb2u0nWASvykOSS1DOtGIiXO5iSaAUBORfvQzBNqCRQuwZxy0k
+	WhHhAFBKhV3I6lgl/8sm5ofwWNHU3xFx/1Fe0IUETNKM/eU3ZD6zsQ0OfZk+N7MerFSV6j
+	BLGhD8wb0UCuHZ/yOpLyi3TMwYvuyWVSkfcMPk8vaiyJ+o9Xqf3p6svxM7rqQQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 24 Apr 2025 20:59:28 +0200
-Subject: [PATCH v2 21/34] drm/omap: dss: hdmi4: convert to
+Date: Thu, 24 Apr 2025 20:59:29 +0200
+Subject: [PATCH v2 22/34] drm/omap: dss: hdmi5: convert to
  devm_drm_bridge_alloc() API
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-21-8f91a404d86b@bootlin.com>
+Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-22-8f91a404d86b@bootlin.com>
 References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -106,52 +106,52 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi4.c | 26 ++++++++++----------------
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c | 26 ++++++++++----------------
  1 file changed, 10 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-index a3b22952fdc32b5899dae82d413108c5c0a1c3c8..3cd612af24498b057c33eaecb3d43c8df76cd23e 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-@@ -505,7 +505,6 @@ static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+index 0c98444d39a93d8336b4d8dbd45aa4521181c3b4..5636b3dfec1c9581118b20adecd268c03e882efb 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+@@ -480,7 +480,6 @@ static const struct drm_bridge_funcs hdmi5_bridge_funcs = {
  
- static void hdmi4_bridge_init(struct omap_hdmi *hdmi)
+ static void hdmi5_bridge_init(struct omap_hdmi *hdmi)
  {
--	hdmi->bridge.funcs = &hdmi4_bridge_funcs;
+-	hdmi->bridge.funcs = &hdmi5_bridge_funcs;
  	hdmi->bridge.of_node = hdmi->pdev->dev.of_node;
  	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID;
  	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-@@ -761,9 +760,9 @@ static int hdmi4_probe(struct platform_device *pdev)
+@@ -727,9 +726,9 @@ static int hdmi5_probe(struct platform_device *pdev)
  	int irq;
  	int r;
  
 -	hdmi = kzalloc(sizeof(*hdmi), GFP_KERNEL);
 -	if (!hdmi)
 -		return -ENOMEM;
-+	hdmi = devm_drm_bridge_alloc(&pdev->dev, struct omap_hdmi, bridge, &hdmi4_bridge_funcs);
++	hdmi = devm_drm_bridge_alloc(&pdev->dev, struct omap_hdmi, bridge, &hdmi5_bridge_funcs);
 +	if (IS_ERR(hdmi))
 +		return PTR_ERR(hdmi);
  
  	hdmi->pdev = pdev;
  
-@@ -774,25 +773,24 @@ static int hdmi4_probe(struct platform_device *pdev)
+@@ -740,25 +739,24 @@ static int hdmi5_probe(struct platform_device *pdev)
  
- 	r = hdmi4_probe_of(hdmi);
+ 	r = hdmi5_probe_of(hdmi);
  	if (r)
 -		goto err_free;
 +		return r;
  
- 	r = hdmi_wp_init(pdev, &hdmi->wp, 4);
+ 	r = hdmi_wp_init(pdev, &hdmi->wp, 5);
  	if (r)
 -		goto err_free;
 +		return r;
  
- 	r = hdmi_phy_init(pdev, &hdmi->phy, 4);
+ 	r = hdmi_phy_init(pdev, &hdmi->phy, 5);
  	if (r)
 -		goto err_free;
 +		return r;
  
- 	r = hdmi4_core_init(pdev, &hdmi->core);
+ 	r = hdmi5_core_init(pdev, &hdmi->core);
  	if (r)
 -		goto err_free;
 +		return r;
@@ -165,7 +165,7 @@ index a3b22952fdc32b5899dae82d413108c5c0a1c3c8..3cd612af24498b057c33eaecb3d43c8d
  	}
  
  	r = devm_request_threaded_irq(&pdev->dev, irq,
-@@ -800,7 +798,7 @@ static int hdmi4_probe(struct platform_device *pdev)
+@@ -766,7 +764,7 @@ static int hdmi5_probe(struct platform_device *pdev)
  			IRQF_ONESHOT, "OMAP HDMI", hdmi);
  	if (r) {
  		DSSERR("HDMI IRQ request failed\n");
@@ -174,7 +174,7 @@ index a3b22952fdc32b5899dae82d413108c5c0a1c3c8..3cd612af24498b057c33eaecb3d43c8d
  	}
  
  	hdmi->vdda_reg = devm_regulator_get(&pdev->dev, "vdda");
-@@ -808,7 +806,7 @@ static int hdmi4_probe(struct platform_device *pdev)
+@@ -774,7 +772,7 @@ static int hdmi5_probe(struct platform_device *pdev)
  		r = PTR_ERR(hdmi->vdda_reg);
  		if (r != -EPROBE_DEFER)
  			DSSERR("can't get VDDA regulator\n");
@@ -183,8 +183,8 @@ index a3b22952fdc32b5899dae82d413108c5c0a1c3c8..3cd612af24498b057c33eaecb3d43c8d
  	}
  
  	pm_runtime_enable(&pdev->dev);
-@@ -827,8 +825,6 @@ static int hdmi4_probe(struct platform_device *pdev)
- 	hdmi4_uninit_output(hdmi);
+@@ -793,8 +791,6 @@ static int hdmi5_probe(struct platform_device *pdev)
+ 	hdmi5_uninit_output(hdmi);
  err_pm_disable:
  	pm_runtime_disable(&pdev->dev);
 -err_free:
@@ -192,8 +192,8 @@ index a3b22952fdc32b5899dae82d413108c5c0a1c3c8..3cd612af24498b057c33eaecb3d43c8d
  	return r;
  }
  
-@@ -841,8 +837,6 @@ static void hdmi4_remove(struct platform_device *pdev)
- 	hdmi4_uninit_output(hdmi);
+@@ -807,8 +803,6 @@ static void hdmi5_remove(struct platform_device *pdev)
+ 	hdmi5_uninit_output(hdmi);
  
  	pm_runtime_disable(&pdev->dev);
 -
