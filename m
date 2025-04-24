@@ -1,89 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-16305-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16306-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9878FA9A6DA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 10:52:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BCBFA9A739
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 11:00:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4756B3BC935
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 08:50:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 895CB171600
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Apr 2025 09:00:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 029DD22AE48;
-	Thu, 24 Apr 2025 08:47:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SE8ksqsK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2C38214A82;
+	Thu, 24 Apr 2025 09:00:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236B222F76D
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Apr 2025 08:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73FB27081C;
+	Thu, 24 Apr 2025 09:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745484475; cv=none; b=WXklFz5Gz1k1kxu0hHx60MRJu8Y1YQmBqsglvfuweUjXAEPSR6fGxrnPfvzamcTjVAtAAetQtBR7f3QcdCwTGY4tzX0owQ/i+o9ZUtT+dNOYwBvdTercP1zT0MpdGIkKST0P7Fnpk95ScbzFiaIUwZWhhWBnFTkJyI+SaMhupyQ=
+	t=1745485211; cv=none; b=YNNrEONOriaRa8ypcD3HgBSZC1ziwH8LdNJwIb49Dhw1pShY72Vi9ajeJ79ta0A4kc3n1YyrEwcqNpyOK5b+/x0aVQMPBq3zjI9UZSRyc2ukdyqLjRBVCS1/ae/+wPbOkFnbYbu3JkP89VIncy/CXT/Hut2MwlPGhvfUuHHqXw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745484475; c=relaxed/simple;
-	bh=v9NulOKFzzn4VjJSv/C3GeIHdwxmdTo/iASPuVTpKQY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UsNiAc/jZuAYMImrZsdrazZrjV3MtLOhDVls3OUdSb4aFj9GAme9Pof5pG7MLvB7tEAjtAiruB92oq1+CFUTHFXzDL3i8xd3ZKP7y65UPyvF6K+F5k6NvYgnJpp4Ioc98zPw0/FfF/95/hSNywJO9B+p5KdcxTZbR2+VUr04b4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SE8ksqsK; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ace358c4d35so8455266b.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Apr 2025 01:47:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745484472; x=1746089272; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cCBG5OKG/N3lD91xNoXYGEZyIt+oU9U/CB++e5u2IUo=;
-        b=SE8ksqsK0lfxE7OVNW/efLYXcmjlAf+PKG6/MmtpFYaX2kiBcunEJykFPWxqrbVN2i
-         1IT75nxdPLKlfuasFUqfjlZLcqU6KNGwK7564WO23CI7kmEdtB6Po2AcoUaWef70Xmaq
-         OehLDwjJpNhLaS9ZcK0sA47vNMQMTtY9CTWGjBBmw4igIKzyxLI5ytBk7sJNsefil5zc
-         KizOGMRHJSJ1gpKqdSqZr6dH+3Ez4IYXqEp3m1I8eIpq0t0HsrxO2wLSECKyfHZh8CjI
-         l9kHIh1sJ/hyI1oAFDoD1wYAnLBUycL5NnsBjMeOITIKHMDYt9BxqwfdBpjtN+hqMMM4
-         IMXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745484472; x=1746089272;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cCBG5OKG/N3lD91xNoXYGEZyIt+oU9U/CB++e5u2IUo=;
-        b=LfiokLbAjJE+1z+AEAJHg0ytBwtAxteVNDJJRVWyB5gc8QA9z77Pk72illqT/F20UZ
-         Oh4TyerNUpbx3nUYSTLUX0xxz3KGagMadziojsSabkcPv+muUAMYjn0z0IyKZrXXa8Fo
-         RLvsRrdBYklygqdmB+hE6hYvjTqEpKeLDkmMrTyBqr2yy7w+jIo6U2ToRmxx9xfGIjwf
-         2VK1Uz9gFn9eJfUR+8+yKlRA3NSwY8k3DmapuvDYO2L2nAV+NuMxUwt2G4dC/Yhb4O4S
-         c5t1Igqxwpk4O1Mr6KbYCMotsgPn1HEEahKyaiK73O6yXEiFNCsYoYx2yv4OovExeQ2I
-         pNdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXN6xKx0DcN16yg5MH3+7ie9IrYF/tEHuOJWITOMAX65juaka5uMPKpCo9bJQRT+HP5nqrEOEc7Ro4TR3+7q1SZNw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2BiMQcczqssgHUgDNNHPp6lgnLJ/jrBogcAvR3Z6OK0yFoTOk
-	DhmNlmajk8moipC6oa5EMOe7gxKTsT2HDpWw7uXJSnsO/NMZSvoMm9XOwC4ay54=
-X-Gm-Gg: ASbGncv9nmccNCplYwEv58LvmbEjmL62+UVNzkB3e0BKK4pTjqQ5sbJN6QWqEKWTi/T
-	kc8e15FGpyzKjMcezHx/tBWeiYLVomAMeeDLHKfc/hNZus5EwRe1DTFF+P3YuUjn043UzQn8svr
-	5PhxoISiij/gjsGZ6uKdCtiNLaD38ZvZd8u2u7caYk1h6Ku1rF+ISjOvi7SVcGC4lTytMoEnoRB
-	gxjorTfjxnKUQLQze4HHLt7gsQCH40qCQd7XP7PErcuemS40GBgVFvLn0DSMftu8gqB2PmaVNxQ
-	Ak7eRhQT4MKzrtl4wuixcWfVydLfYZ9ynKvIrfHA01j5acbbJA==
-X-Google-Smtp-Source: AGHT+IGYMQ2nZIejb29IR4qkaCq3mrCgC2opvXN3m7rH6EYZg1uUUZwVfU4xVuZHISo6zU7Qmm70ZQ==
-X-Received: by 2002:a17:907:72d4:b0:abf:7a26:c45a with SMTP id a640c23a62f3a-ace573b05c2mr52344766b.11.1745484472280;
-        Thu, 24 Apr 2025 01:47:52 -0700 (PDT)
-Received: from kuoka.. ([178.197.207.88])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace59c25bdbsm71213966b.141.2025.04.24.01.47.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 01:47:51 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
+	s=arc-20240116; t=1745485211; c=relaxed/simple;
+	bh=I36nmJxzkmh56uVLncjH6JZL3Kh7/MhbMXvJV4tBJ3E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NhhwYPg6YXyvcfOTbBsBdM5QmIBvEOG2LZNK24FX+/JaPUe3fmaQe6rvCMmOY0ZiOjt5S44tIsNVyaVth2E259NbX6EFAnQ8ExVAEr9MYg8dkkrOe7Fjo+MI3i34ZtoO+g6LAANiF0puWXshXVp/P5yBSoxLsJR4nPKl6dUWT+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: QcnZHJBAT8CmY61VDi2bHA==
+X-CSE-MsgGUID: o3QVQmcvTDqI4kRkZvdNtA==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 24 Apr 2025 18:00:06 +0900
+Received: from localhost.localdomain (unknown [10.226.92.69])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 56084401109C;
+	Thu, 24 Apr 2025 18:00:03 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] arm64: dts: renesas: Align wifi node name with bindings
-Date: Thu, 24 Apr 2025 10:47:48 +0200
-Message-ID: <20250424084748.105255-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.45.2
+	linux-renesas-soc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v5 0/7] Add RZ/G3E xSPI support
+Date: Thu, 24 Apr 2025 09:59:48 +0100
+Message-ID: <20250424090000.136804-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -92,30 +58,87 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since commit 3c3606793f7e ("dt-bindings: wireless: bcm4329-fmac: Use
-wireless-controller.yaml schema"), bindings expect 'wifi' as node name:
+The xSPI IP found on RZ/G3E SoC similar to RPC-IF interface, but it
+can support writes on memory-mapped area. Even though the registers are
+different, the rpcif driver code can be reused for xSPI by adding wrapper
+functions.
 
-  r8a774a1-beacon-rzg2m-kit.dtb: bcrmf@1: $nodename:0: 'bcrmf@1' does not match '^wifi(@.*)?$'
+Merge strategy:
+ Patch#7 in this series is spi related patch and has build dependency on
+ patch#6. Maybe an Ack from SPI maintainer is required so that it can go
+ through memory subsystem.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch series tested on RZ/G2L and RZ/G3E by overwriting boot
+partitions.
 
-diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-index 1489bc8d2f4e..d40a7224f9c3 100644
---- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-@@ -300,7 +300,7 @@ &sdhi2 {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
- 
--	brcmf: bcrmf@1 {
-+	brcmf: wifi@1 {
- 		reg = <1>;
- 		compatible = "brcm,bcm4329-fmac";
- 		interrupts-extended = <&gpio1 27 IRQ_TYPE_LEVEL_LOW>;
+v4->v5:
+ * Added merge strategy in covering letter.
+ * Dropped patch#2 and #5 as it is accepted
+ * Removed CPG bindings header file changes from this series and posted
+   with [1].
+ * Updated example replacing R9A09G047_SPI_CLK_SPI->9 in bindings, so
+   that there is no dependency with clk.
+ * Replaced EXPORT_SYMBOL->EXPORT_SYMBOL_GPL and added kerneldoc for
+   newly added export function xspi_dirmap_write().
+ * Moved *_write() after *_read().
+
+[1]https://lore.kernel.org/all/20250424081400.135028-2-biju.das.jz@bp.renesas.com/
+v3->v4:
+ * Added a definition for the spi core clock in the R9A09G047 CPG bindings
+   header file.
+ * Updated the example with spi core clock
+ * Retained Rb tag from Rob as these changes are trivial.
+ * Fixed the duplicate most outer set of parentheses in patch#2.
+ * Updated commit description for patch{#4,#7,#8}.
+ * Renamed the functions *_helper()->*_impl().
+ * Replaced ssize_t->size_t as the return data type for
+   rpcif_dirmap_read_impl().
+ * Renamed the local variable length->read and it's data type
+   ssize_t->size_t.
+ * Added comment for addr_nbytes in struct rpcif_priv.
+ * Added struct rpcif_impl for holding the function pointers and data to
+   handle the differences between xspi and rpc-if interface and added
+   suffix _impl() for functions.
+ * The enabling/disabling of spi/spix2 clocks at runtime leading to
+   flash write failure. So, enable these clocks during probe() and
+   disable it in remove().
+ * Collected tags.
+v2->v3:
+ * Fixed RPCIF_DRENR_CDB macro error.
+v1->v2:
+ * As rz-xspi is too generic, replaced file name rz-xspi->rzg3e-xspi
+   and dropped generic compatible rz-xspi.
+ * Dropped prefix spi from interrupt names.
+ * Updated the example with above changes.
+ * Retained Rb tag from Rob as these changes are trivial.
+ * Fixed the build error reported by bot by dropping 
+   EXPORT_SYMBOL(xspi_dirmap_read) and restoring
+   EXPORT_SYMBOL(rpcif_dirmap_read).
+ * Replaced enum XSPI_RZ->XSPI_RZ_G3E.
+ * Replaced compatible rz-xspi->r9a09g047-xspi and device data
+   xspi_info_rz->xspi_info_r9a09g047.
+
+Biju Das (7):
+  dt-bindings: memory: Document RZ/G3E support
+  memory: renesas-rpc-if: Move rpc-if reg definitions
+  memory: renesas-rpc-if: Use devm_reset_control_array_get_exclusive()
+  memory: renesas-rpc-if: Add regmap to struct rpcif_info
+  memory: renesas-rpc-if: Add wrapper functions
+  memory: renesas-rpc-if: Add RZ/G3E xSPI support
+  spi: rpc-if: Add write support for memory-mapped area
+
+ .../renesas,rzg3e-xspi.yaml                   | 135 ++++
+ drivers/memory/renesas-rpc-if-regs.h          | 147 ++++
+ drivers/memory/renesas-rpc-if.c               | 674 +++++++++++++-----
+ drivers/memory/renesas-xspi-if-regs.h         | 105 +++
+ drivers/spi/spi-rpc-if.c                      |  16 +-
+ include/memory/renesas-rpc-if.h               |   4 +
+ 6 files changed, 909 insertions(+), 172 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml
+ create mode 100644 drivers/memory/renesas-rpc-if-regs.h
+ create mode 100644 drivers/memory/renesas-xspi-if-regs.h
+
 -- 
-2.45.2
+2.43.0
 
 
