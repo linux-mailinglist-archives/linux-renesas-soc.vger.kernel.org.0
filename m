@@ -1,85 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-16367-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35090A9C058
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Apr 2025 10:03:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AEDEA9C315
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Apr 2025 11:15:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68FB41BA034C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Apr 2025 08:03:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ECD504604DA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Apr 2025 09:14:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E374B232395;
-	Fri, 25 Apr 2025 08:03:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45414222576;
+	Fri, 25 Apr 2025 09:14:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fR9CKlAQ"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SK/c6+b6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55CE26AEC;
-	Fri, 25 Apr 2025 08:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F722063F6
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Apr 2025 09:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745568213; cv=none; b=uoOyws+pKm3KlC9ywBJx2HL5xB5mxcT4GzdPTPLJOfbIxd9wzK2ro2YeEMzNdiV1wCNW/HEu7SZczkl5YT4bU9OYll0wsmiVvsuVw2puVjKnPh4XzxMwK93sATHLT1PED4u7DdEhS98Ddw83r3e+L85JM883DSGH3xCXTRei298=
+	t=1745572466; cv=none; b=XJ+DfhT2LngvsP4Oqu136EyJtRY/YplLwNaFMZIWS4SWarV0QGb+Miq7bxABSgO8xKjYiyIkTvblZQIHoLCbZyWmPalqtG7B7Rr4kCzqZ0+bvCqikPhENbsh7Ozf8TkMagOtlyRo5JBEUXnogygOC5L43puOYJxCFFghqoyaK4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745568213; c=relaxed/simple;
-	bh=V/aZKo/kbrH7DW3xRvjGxaOgR/ER63WRNmKUVOtjXwI=;
+	s=arc-20240116; t=1745572466; c=relaxed/simple;
+	bh=7EgrSjYq/q+AEXrtHLG+GPhFy7CyRECDNOQR3ymqGno=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MuwtoBUSB9ZFsn+mujQr8siF3VOIHEyphfksc+xavGNlLBspONSkStoCXFdNXh9vSrthG1DMPrn2+rLPWjsJfNTC9gfwyPgPyZCzI1BDY3tYNbNaVbc5VWIlLEAQnmhDIpuBlYWofMfDzTc0P14gr6gU2EUPorzvNcxxQrBczNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fR9CKlAQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 959F0C4CEE4;
-	Fri, 25 Apr 2025 08:03:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745568213;
-	bh=V/aZKo/kbrH7DW3xRvjGxaOgR/ER63WRNmKUVOtjXwI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fR9CKlAQkb6ekb620tMQnHmkuLJ0XrhZeGArAtLxdPSZI4NN4aNdWSl9ryGK8JHK8
-	 /e3PA+x4PR/4LQjuR+lfDUCO5kvaKwjmxKjywAkpUbb+6gu2iMGDUBppkQTAe4P7tf
-	 cFs8Q88+GIwvcB6Cm2DcyC5C9J5tC7quCPWmp6j3CySE4wKgHKUEKtYm/NkxQ7PhoF
-	 X+Eu8wVpbl692XxLAh3IAAQUnQmtosn8N5b3Ic7rrrXNTcnkxut7NWxsMgQxnrg7xP
-	 Stj5DrsTmQNEvprlY92gMnSMvkzrSvsaabiNDthoCCkVuwGb8Oyn5YudtL6V5Iu46C
-	 mW79HZ7c7fsNA==
-Date: Fri, 25 Apr 2025 10:03:30 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: clock: renesas,r9a09g047-cpg: Add
- XSPI and GBETH PTP core clocks
-Message-ID: <20250425-ludicrous-zealous-pudu-5b5c7f@kuoka>
-References: <20250424081400.135028-1-biju.das.jz@bp.renesas.com>
- <20250424081400.135028-2-biju.das.jz@bp.renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=loNCArRzlGxB37dGUyjBRaSl/N7LxY2LAFK/+SZ4zwQZEUCQ99srfwu5Ve5025DoR8JqvWlaGnIZLNZ0LbEOsD/JfmOjZD46nMAtPDUdC3X4aHeMM8ttxTdzf/hRPK2YKydDNVbsGTjLnnyo7mfV+STZhJ8ka4yTvAc5kW3NoGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=SK/c6+b6; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=LjSE
+	ovQMAg8Bps9xT8LjGwQNRn9cWiTYIsHJmA9mGoU=; b=SK/c6+b6qV6JZoekod7b
+	Pwe+6nFydr4XfPcE36tXXcJmWS3a8G9W8fb6nnSSRxl3SZuDFJf162XdrDyBYQ4S
+	gDPsbg1I+6SnWxcGBFxMwsWf1HyRlmkA4yFlpiVJ94mc7E5ZdSgBZkAFCfV7/T9p
+	enOF2s9guMTzHB4HhcXwfs7ceALhIZuylR7uH4h02v83ACTRiNTcVitjzxTQuvj1
+	nEK171CGo04ECIBsKJPJha3S/pRodjcIlR/YP4Qfn+5jG/jn5aU8NrV4B/dS0uu6
+	PgoorTb1tHwALstZy8mqh64ciP7X5eOudBIlJ4ui0NjC2Pyroma5QQgOxZe1HmyE
+	oQ==
+Received: (qmail 3763468 invoked from network); 25 Apr 2025 11:14:19 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Apr 2025 11:14:19 +0200
+X-UD-Smtp-Session: l3s3148p1@HolgwpYz1KQgAwDPXx6JAAunYj8Nf7DC
+Date: Fri, 25 Apr 2025 11:14:19 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Andy Shevchenko <andy@kernel.org>
+Subject: Re: [PATCH v8] i2c: riic: Implement bus recovery
+Message-ID: <aAtSayFrtSh9LC-J@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Andy Shevchenko <andy@kernel.org>
+References: <20250407121859.131156-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <aAC8f0dAMERD8GjW@shikoro>
+ <CA+V-a8sM2mFS--zLSZt28mOUDuO2FpW0TsaV50A_VxFZ-juP4Q@mail.gmail.com>
+ <aAFgwEB4SdgH-1fQ@shikoro>
+ <CA+V-a8tmTqFi4iqGhR3cfUgKw7mxJrm6ixGAHq747ptrL3t2jA@mail.gmail.com>
+ <aAITBfrOI0GAhGRA@shikoro>
+ <aAikKreK-BCP-zLp@shikoro>
+ <CA+V-a8uHxfmJLOO25acfK2=EZt41f_G6LShNpeL9RVy-X=Q3Cw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/0jAnBZn5C350odU"
 Content-Disposition: inline
-In-Reply-To: <20250424081400.135028-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <CA+V-a8uHxfmJLOO25acfK2=EZt41f_G6LShNpeL9RVy-X=Q3Cw@mail.gmail.com>
 
-On Thu, Apr 24, 2025 at 09:13:54AM GMT, Biju Das wrote:
-> Add definitions for XSPI core clock and Gigabit Ethernet PTP reference
-> core clocks in the R9A09G047 CPG DT bindings header file.
-> 
-> The clk_spi is modelled as a fixed divider clock with parent clk_spix2 and
-> factor two as both parent and child share same gating bit.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v3:
->  * New patch
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+--/0jAnBZn5C350odU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Best regards,
-Krzysztof
+Hi Prabhakar,
 
+> I prepared a setup on SMARC2 RZ/G3S and I can confirm it is working
+
+This is good news!
+
+> (but this is failing on SMARC RZ/G2L I'll look further into this)
+
+This not so much. Hmmm, are you verifying against the same I2C device
+on the carrier board? If you compare against different I2C devices on
+the module board, the culprit might be the I2C device.
+
+> For the SMARC2 RZ/G3S to make sure the I2C GPIO pins behave as
+> opendrain I have the below patch for pinctrl
+
+Do you really need this patch? The GPIO lines are wired to SCL/SDA which
+are already pulled up. Search for R118 in the module schematics.
+
+All the best,
+
+   Wolfram
+
+
+--/0jAnBZn5C350odU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgLUmcACgkQFA3kzBSg
+KbaDQw//WZEzf3cMdP/Ssa5HfstoUHnRnWb1KR2nSv+u9ua4vMZZLNWEa12wjIXi
+XM/MYCQP5IVo30aFEZVCURV4pszjP0ZveILER71JIqUNI3uze9wR9rGbPnJ6Lf05
+YNGpyOmBErZIVT++Z6VL1P1MYU5ulpdcIEwaG5A6fHkyasG6Z+65ns9wWnNAEbt8
+9Z9F1tRcxr66e+t5c19einq4ezbewdKnZfImrizalwd72Hag3+eer4WkauPkuzJC
+iA1jnV5I21RjPQHqK6duXvsuglgMihC+nQ+kZRA2vPXCZAkCKvBc6wR+CDuI82qK
+zWvTzdCYHXb0V2cjp3kBFE/fHPS+0zUefMUg3DUhaobhurBauNMqm7Ox0McKn6Mt
+Dy8TnHRYh75iW3I4g1x8FCn1YAiysMIPDc7Rt33M/hRyymfA4jsYIWDd7j1JL3iR
+wQCspAVbOBiwHxVfAcRimx7Lb8mdVBv11k8qk20kWgDqeJaBZT06N+5cchu+rKn9
+qCLTRTx9EYf736ZzguwC3mgdmejiaui7x+VYgiCt6Jl4V1UG3AxEGV/r3AV/TogG
+4gJVD2SDZrfZtSfLClj7hdC795HHlbPqKiZ9jdqSyBGcd3KerGOPYiFbTSNlJ2xd
+FIMMKGqxa4FSP0grQw6H1sAcrrqbL4qXtK7p8DjFhHPOZdUl+FM=
+=sBlp
+-----END PGP SIGNATURE-----
+
+--/0jAnBZn5C350odU--
 
