@@ -1,140 +1,88 @@
-Return-Path: <linux-renesas-soc+bounces-16368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AEDEA9C315
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Apr 2025 11:15:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08089A9C490
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Apr 2025 12:01:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ECD504604DA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Apr 2025 09:14:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 637941BA2FFD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Apr 2025 10:02:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45414222576;
-	Fri, 25 Apr 2025 09:14:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EC1E21D3DB;
+	Fri, 25 Apr 2025 10:01:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SK/c6+b6"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="VU/+XGW/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F722063F6
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Apr 2025 09:14:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2ADB13DDAA
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Apr 2025 10:01:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745572466; cv=none; b=XJ+DfhT2LngvsP4Oqu136EyJtRY/YplLwNaFMZIWS4SWarV0QGb+Miq7bxABSgO8xKjYiyIkTvblZQIHoLCbZyWmPalqtG7B7Rr4kCzqZ0+bvCqikPhENbsh7Ozf8TkMagOtlyRo5JBEUXnogygOC5L43puOYJxCFFghqoyaK4Q=
+	t=1745575305; cv=none; b=Qg1mnDA/agOI1kz/Wp6AOO9MfDXu5ioFwPEwLMobKWfAY/U9Qtr/RYhqhfLQG8CdldXysa45U2YnHcEwmkENyDkCYBPHz2r16T4KSCYki2+oEQxwXZzPsz0usm6tbduz6hp1ko2/bDYoRfuva+FuQNNpIVYDuscTt/XLo3/W4DI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745572466; c=relaxed/simple;
-	bh=7EgrSjYq/q+AEXrtHLG+GPhFy7CyRECDNOQR3ymqGno=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=loNCArRzlGxB37dGUyjBRaSl/N7LxY2LAFK/+SZ4zwQZEUCQ99srfwu5Ve5025DoR8JqvWlaGnIZLNZ0LbEOsD/JfmOjZD46nMAtPDUdC3X4aHeMM8ttxTdzf/hRPK2YKydDNVbsGTjLnnyo7mfV+STZhJ8ka4yTvAc5kW3NoGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=SK/c6+b6; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1745575305; c=relaxed/simple;
+	bh=oA4GlUeowK0BqVGAogmMJIMEU+UZUaxor0PoMKsdVKk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h2LK+cuiHSkvVUxbr4J38a7OKvHiZOgbvKcqH95Qj7STL0ZJDi3DriPoaUkunvo9nWPOEqrAaDnT0acducYDFlTT4cCbnnhErYN2LdEZf6yIFyaL+vLXj2S8zwhnvF5o2xAQOgnPXya+5aZoJHfvhzsnU+M+v1end4a/XDW3ciI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=VU/+XGW/; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=LjSE
-	ovQMAg8Bps9xT8LjGwQNRn9cWiTYIsHJmA9mGoU=; b=SK/c6+b6qV6JZoekod7b
-	Pwe+6nFydr4XfPcE36tXXcJmWS3a8G9W8fb6nnSSRxl3SZuDFJf162XdrDyBYQ4S
-	gDPsbg1I+6SnWxcGBFxMwsWf1HyRlmkA4yFlpiVJ94mc7E5ZdSgBZkAFCfV7/T9p
-	enOF2s9guMTzHB4HhcXwfs7ceALhIZuylR7uH4h02v83ACTRiNTcVitjzxTQuvj1
-	nEK171CGo04ECIBsKJPJha3S/pRodjcIlR/YP4Qfn+5jG/jn5aU8NrV4B/dS0uu6
-	PgoorTb1tHwALstZy8mqh64ciP7X5eOudBIlJ4ui0NjC2Pyroma5QQgOxZe1HmyE
-	oQ==
-Received: (qmail 3763468 invoked from network); 25 Apr 2025 11:14:19 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Apr 2025 11:14:19 +0200
-X-UD-Smtp-Session: l3s3148p1@HolgwpYz1KQgAwDPXx6JAAunYj8Nf7DC
-Date: Fri, 25 Apr 2025 11:14:19 +0200
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=mzizZ9vspSaLN0
+	0l6KthT8dwqKCrQW9f7LKMkPQ7zHM=; b=VU/+XGW/d9wV7K4MWm25Oi5VosbIdu
+	B1qSi2FcUTyYzZKdavBqeommlbU8i4q+FNO99Hu8+eMNXcyxPAg/v1ljSI8Q38sQ
+	VZxe1okax1mLZK6r2VB63GEyTbWktoRb/qZHDgSllm9+w12nWo+ut7kjT1hEjJuv
+	809uC5yTNeP5aErVF5u6cBl1x++NZV90qi5bwMMQgZmhbjdiDMZkCA+H4hzBWd+F
+	X9ej5Aza2yaLdVX+OZU81UGCcAoMj6CEaEfg+XLI0iNw/nOue3l+BbPv3X5m0HBp
+	EKUY+RkF9vMisbr/OMfnIyUpEHrcUk48u7Ho1geOlGoreTx6zE6qo5wA==
+Received: (qmail 3778882 invoked from network); 25 Apr 2025 12:01:39 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Apr 2025 12:01:39 +0200
+X-UD-Smtp-Session: l3s3148p1@t/Cea5czVuMgAwDPXx6JAAunYj8Nf7DC
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Andy Shevchenko <andy@kernel.org>
-Subject: Re: [PATCH v8] i2c: riic: Implement bus recovery
-Message-ID: <aAtSayFrtSh9LC-J@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Andy Shevchenko <andy@kernel.org>
-References: <20250407121859.131156-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <aAC8f0dAMERD8GjW@shikoro>
- <CA+V-a8sM2mFS--zLSZt28mOUDuO2FpW0TsaV50A_VxFZ-juP4Q@mail.gmail.com>
- <aAFgwEB4SdgH-1fQ@shikoro>
- <CA+V-a8tmTqFi4iqGhR3cfUgKw7mxJrm6ixGAHq747ptrL3t2jA@mail.gmail.com>
- <aAITBfrOI0GAhGRA@shikoro>
- <aAikKreK-BCP-zLp@shikoro>
- <CA+V-a8uHxfmJLOO25acfK2=EZt41f_G6LShNpeL9RVy-X=Q3Cw@mail.gmail.com>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH 0/2] ARM: dts: renesas: r9a06g032-rzn1d400: enable USB
+Date: Fri, 25 Apr 2025 12:01:30 +0200
+Message-ID: <20250425100129.11942-4-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/0jAnBZn5C350odU"
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8uHxfmJLOO25acfK2=EZt41f_G6LShNpeL9RVy-X=Q3Cw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+
+This mini series enables USB on the RZ/N1D development board. Noteworthy
+is only that the device port is on the module board. And the host port
+is on the extension board. Otherwise, it is basic enablement. Depends on
+the patches enabling GMAC1 and UART2. Not on the Debug-LED patches as
+those still need discussion. A branch is here:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/n1d/enablement
+
+Happy hacking!
 
 
---/0jAnBZn5C350odU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Wolfram Sang (2):
+  ARM: dts: renesas: r9a06g032-rzn1d400-db: enable USB device port
+  ARM: dts: renesas: r9a06g032-rzn1d400-eb: enable USB host port
 
-Hi Prabhakar,
+ arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts |  4 ++++
+ arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts | 13 +++++++++++++
+ 2 files changed, 17 insertions(+)
 
-> I prepared a setup on SMARC2 RZ/G3S and I can confirm it is working
+-- 
+2.47.2
 
-This is good news!
-
-> (but this is failing on SMARC RZ/G2L I'll look further into this)
-
-This not so much. Hmmm, are you verifying against the same I2C device
-on the carrier board? If you compare against different I2C devices on
-the module board, the culprit might be the I2C device.
-
-> For the SMARC2 RZ/G3S to make sure the I2C GPIO pins behave as
-> opendrain I have the below patch for pinctrl
-
-Do you really need this patch? The GPIO lines are wired to SCL/SDA which
-are already pulled up. Search for R118 in the module schematics.
-
-All the best,
-
-   Wolfram
-
-
---/0jAnBZn5C350odU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgLUmcACgkQFA3kzBSg
-KbaDQw//WZEzf3cMdP/Ssa5HfstoUHnRnWb1KR2nSv+u9ua4vMZZLNWEa12wjIXi
-XM/MYCQP5IVo30aFEZVCURV4pszjP0ZveILER71JIqUNI3uze9wR9rGbPnJ6Lf05
-YNGpyOmBErZIVT++Z6VL1P1MYU5ulpdcIEwaG5A6fHkyasG6Z+65ns9wWnNAEbt8
-9Z9F1tRcxr66e+t5c19einq4ezbewdKnZfImrizalwd72Hag3+eer4WkauPkuzJC
-iA1jnV5I21RjPQHqK6duXvsuglgMihC+nQ+kZRA2vPXCZAkCKvBc6wR+CDuI82qK
-zWvTzdCYHXb0V2cjp3kBFE/fHPS+0zUefMUg3DUhaobhurBauNMqm7Ox0McKn6Mt
-Dy8TnHRYh75iW3I4g1x8FCn1YAiysMIPDc7Rt33M/hRyymfA4jsYIWDd7j1JL3iR
-wQCspAVbOBiwHxVfAcRimx7Lb8mdVBv11k8qk20kWgDqeJaBZT06N+5cchu+rKn9
-qCLTRTx9EYf736ZzguwC3mgdmejiaui7x+VYgiCt6Jl4V1UG3AxEGV/r3AV/TogG
-4gJVD2SDZrfZtSfLClj7hdC795HHlbPqKiZ9jdqSyBGcd3KerGOPYiFbTSNlJ2xd
-FIMMKGqxa4FSP0grQw6H1sAcrrqbL4qXtK7p8DjFhHPOZdUl+FM=
-=sBlp
------END PGP SIGNATURE-----
-
---/0jAnBZn5C350odU--
 
