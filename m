@@ -1,231 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-16419-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16420-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0312A9F4DE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 17:45:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09223A9F4FB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 17:55:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C63E3AD8B5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 15:45:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 53845189F02A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 15:55:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7990426FA54;
-	Mon, 28 Apr 2025 15:45:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D650427A113;
+	Mon, 28 Apr 2025 15:54:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="j5baIypc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TcpN7R2w"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0C615DBBA
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Apr 2025 15:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7B92566E2;
+	Mon, 28 Apr 2025 15:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745855128; cv=none; b=jl2xtj8UIu31i6lghqwLKQJWgtdKZFN7WE4XPf3gfaplr/ceHPr6IZUPZ+c1/BHwc+VXrmMRK+NYdP5h3j20WmH9l7ORwX4Y10O9XkT1FZA5LoAb/fSJdKuetPDM1WtO98lNhOxY3dc/eF1m1fZIuOsN+kuXc6pmxiV2WdlwYrI=
+	t=1745855695; cv=none; b=U8VNKM87CB2KAf8xVUJg7O/ugXrVQ6iJEt6sLLDNYr5pjdVvU5e5A9UCC6m3gtHjbcnjTJluhRdQNt6219XBg5TKL1IK26tV2m8uy5WgoG9WPF0hFcfm2FmpWeULjk8UkyDQn3Fs6sKgRFkg0SW42HcWhV3rEFK/uzgBhWwg+Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745855128; c=relaxed/simple;
-	bh=dwgYOym45oyNAdQ44afULSTNmEmOJnzMpDMS/yioqQY=;
+	s=arc-20240116; t=1745855695; c=relaxed/simple;
+	bh=T30cwNjEyi+9OgUhLR/przC9ZWD7wLfG/sp5mfOndCs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rz7xKM5Vq5dX4kCn3SdWBxmTBmSr0SjsT2L+FLo4HzK6hTzglymbaXbVGmtBhGCtI4dU6J8jSBnqubhJeD+xYBV/XD4B/pVXM88Yrz0XeKlIXxJ/tDTF/KdAVv2LEeXvNHz6sHDvjw3dRJC8VjCFUcRfgtdnKJBBhSFJryGYAYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=j5baIypc; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e7311e66a8eso3478713276.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Apr 2025 08:45:25 -0700 (PDT)
+	 To:Cc:Content-Type; b=LLtrXfunBCtJ0tXpE7gYruyC5goFPVh/zYkteKy8wq13Zq5I8K9wrt9WQ7NvsHTK0z++U2y+xEGJs6VEXJurFdyZnYwLHwVUJVG5Is9k78RyKTkw57hZYxmLF8kkokDctVyBLIAAdOnLzJNfLwjQ/6y03iVwhDPCd8y0xY/QKR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TcpN7R2w; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a07a7b4ac7so1271209f8f.2;
+        Mon, 28 Apr 2025 08:54:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1745855125; x=1746459925; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1745855691; x=1746460491; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PU/sixtY71LvEi4Fz6DQo24QLlRpV93TUetQH3mfBu0=;
-        b=j5baIypc9i0K05RdO5/l5gRBUgEUeMq61cNw9dtP/9FCbgmHNBsKy/Pcm4Zi9BnPNy
-         9HbzMAY0RVj+QjPwlII6QHZ7j0Mr1QZDok24o0gYW/2wfZp9KNHYpwwgwUhFgC/eZ87h
-         keJnKSsoArCQlrOJ6ScrhmbW1LBGFbQFrXQDQiV75U2OfHNaHrUWYrTWBJiKzoLgkXnS
-         J9/ceWK/yk/dAvGSjomzx1g5KJ9E3VMVl1QuiCRccA102Ege/PyOy4xibceml3NB8QmX
-         9ek86APh13k3BUAxhwWuKq4nff+TEW/qsOfm8HiKAbGWjPCHJ6EEbRQmdfU6t02MadpI
-         QMUw==
+        bh=k0FRMB/2DQwc8kqqfNvJspFCxHUfwt6gte9tlexlAOo=;
+        b=TcpN7R2wsci5AJXMcKKRnPCt26f48QHK1I6XiiKnEp2pAtb1fLQZxURJgU0tBGdej9
+         AhDrgsbCMdt5TcF8UZbKA2u9Bw/5OryqKONN6MBH171CYkrF04rWP8yQ3atjKisvRXjO
+         Sfg6q0SNLhH82yuQBRuRg2+rJbIw27+nKJQgtkoWqKFM+w1Xo3CCnmsk17Q7OYjQNcvA
+         mEFKmF1vJLJCOEJiXI59LSJK394oI/WFdGoJ7HqqWdy0d0Ml+KO5eRlg0klMytywHgrs
+         k3abiqOYiZn3YWpOv+oZqXZq1CQA3tmmHq0Ni0nnEnn8M1i7mkbyf1uqBdlN7XahLr7Y
+         MceQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745855125; x=1746459925;
+        d=1e100.net; s=20230601; t=1745855691; x=1746460491;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PU/sixtY71LvEi4Fz6DQo24QLlRpV93TUetQH3mfBu0=;
-        b=ZT7qqZaVPHWh0GORodrXonUxU1YvRcJJ5Z7WADEJODOB+HaX0weEfgJU/pYMOEoVpL
-         Zijr1TNoxi3gNKA+MjtePUTnuvIJgcq7wmf01HpzijocPCZfJQdUHGbq1mjG92Nnv7fo
-         zckKSDr02JgIwjH28BYT0Aa4SoQP7xg95BoSbt885VO5bvA9Q8mlY89uJJrs18fQm173
-         hR8e3688tLKbLWBCXtjnXqzZ8N/DxWgzTDxeMrixQRVDmrK55fx1Ue7a8A6ZXeFCysp8
-         02Ez85tJj72DJTtRrYfoIQ9rxr0ezB7jQNpwDPiyKgHjKNrlZp0+BdcO9WyR3uzZi260
-         CTqw==
-X-Forwarded-Encrypted: i=1; AJvYcCUuH6+UNnY02GeXFlcL0K5lpK6NZbD6oo8N46Qr/gDZJZHQ9pTI35jiknsabZ9WinErHiVf259N79kiozsWroStcw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFLdIc3h5sLeEOSmfqm/St5GT6ztf4+Ab0BxRfDZtVeJxtkZbc
-	WsHEbqDCNGtZNnT/rE9nStPqxMdf5jDYSg9bpiHPj++zGTu054seYDbRsSI07n0QPOlfE2N3bxx
-	X03TL2Ct2xHNYhwA8Oj6bFWoPsoFNHmiMTW1+xQ==
-X-Gm-Gg: ASbGncv7F1kU+pRkzNEbQ6gsoDvsPd4WKgTuZHtiSX/lbBPB5dlv+905jTzWwx/4kdA
-	F689je2QBiGVbUO31Iq5Eq8dUEA0+EIO8Dx7jVPyEGRVNur6Df0UO6q4kG3vH8W9Wwob3R9GYq7
-	7WWv8YaJnSLg5PgSSosLfmZKP5NoYx+Mzn/dtiNQOyoHw2UjT0orO3vKB99ahg/0o=
-X-Google-Smtp-Source: AGHT+IEF9MSlc844cuGTIRN/jaSQKExcmjeU1UeJwf54mw2x30vI+iBpqqWrdgOqbrjU+FD8mBfkUxmgGRAbgf2Y+6M=
-X-Received: by 2002:a05:6902:2701:b0:e72:d88e:7a9a with SMTP id
- 3f1490d57ef6-e73500e777emr136870276.45.1745855124717; Mon, 28 Apr 2025
- 08:45:24 -0700 (PDT)
+        bh=k0FRMB/2DQwc8kqqfNvJspFCxHUfwt6gte9tlexlAOo=;
+        b=Dp73f1bd4sUV8bOzUI8N0s/NiHvXEEoTsAWpDE5IpBBKP2s79GeJFsBq4ybTQiEv9J
+         y78CptN6syu8ExTzRF9YY9vm5Zc3m/TFpgQvcm2WMZQxSs/aVs3gq3Plrg+4P4LAvUZH
+         IMbDMoEUdNlVS0tpqGRyNGD5uDlY7fx4Z+jYYoH5qRXZSFjjY0s2SZgK1c9SHhpfLBd4
+         ucGjAYciaxfCPSC0nbOjj/tFFsLqrkcF2WWW5ygHsEy9ZnaOcyBVJ28QwDt5YUh8J2E7
+         fnbmLfnoUKPKwWzllXLW8COy2mXb3TmkNuwJTe8x7bsmDsh+j9asj5YO7GQEmjoUkQ9m
+         Ob5A==
+X-Forwarded-Encrypted: i=1; AJvYcCU/Hnvzuse7aIobR3E4keizVneB76+sqqDx/Ll9r3RJryqcjfhO/ydWwyvntTTWs8j/iCiMUjZkTzn8@vger.kernel.org, AJvYcCUUP4oNVc5bmMZ14e5Dxb3prB9Tby+kiYCWQFCc5/UuaelFMC8gxzdjXVS8HzBQLWZut3QgsmMW+facOhNPMrdfGFE=@vger.kernel.org, AJvYcCVYOpymSse3wmCjCqSLfukY7tVVqwjDTwaIFwRoaWFDR7MHkZe/ONUN4UcCnZc5ssOpGJbNtKXJNVxu@vger.kernel.org, AJvYcCVsJkx7tiv63RalXGMSzv1ESYIt1aspL8nUX5gavgH+wPHpISqIrsD5TfHvJPCkygebRs0qiWtgN4UVHJ/j@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBEzLy6cXUKl2wi/4MWCwa+KbVp1TZmaZJHDUSHP6pmr0qFafE
+	q32ZDhdC/H6LMWf5w2x6gWe9uNbufHTW2NhxuhajYVdXoZJ59Dvj9RwSSG7luTDBjUyxKnbLb+C
+	t1127d7ofUme5b0Olu6Sa2chMBbg=
+X-Gm-Gg: ASbGncsL1O+bSF+0hYnDcdlYtivUS6QilQFZ0ao/5dHMmqYQTiiKlcTbDEB9sKiSqDi
+	OONEJYdauxnS22wjNEkbdULnUAS0CTK6L9zVA8pekS9AaPS66NWHwLS8gKFf6WZXSCi6n3s5Jsc
+	y1+ZvVpLPzrqTxHqKHEn+jQg==
+X-Google-Smtp-Source: AGHT+IFntGK5lSDb8irDCuaYzRBYnVhqMQyX6NyZEOb7L/OBjRhxSN+3ZnBViJ66Z16/9zrd4Y8cNzafDkkcON8ilz4=
+X-Received: by 2002:a05:6000:1889:b0:39c:1257:dbaa with SMTP id
+ ffacd0b85a97d-3a0894a3da8mr283905f8f.58.1745855691012; Mon, 28 Apr 2025
+ 08:54:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-27-8f91a404d86b@bootlin.com>
-In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-27-8f91a404d86b@bootlin.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 28 Apr 2025 16:45:08 +0100
-X-Gm-Features: ATxdqUF8zRJ18UCRRqpYogjOFDok1I-AvafpDPPJcxH-STXodhofR9H1CLM8tQg
-Message-ID: <CAPY8ntDwK0DZ6sThryDRBUgjTb+muNHtRNp+LohTs6+FWeB5TQ@mail.gmail.com>
-Subject: Re: [PATCH v2 27/34] drm/vc4: convert to devm_drm_bridge_alloc() API
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Douglas Anderson <dianders@chromium.org>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, 
-	asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	linux-stm32@st-md-mailman.stormreply.com, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+References: <20250407165202.197570-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250407165202.197570-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdXtfzp81V4uAk-oULoBz2BtipyPvc9V8oV=kDXmX90GxA@mail.gmail.com>
+ <CA+V-a8sMOnKZjNGW2=Y+TcF9itvC4a1LeEQ+eAKvjhWvEL_K+Q@mail.gmail.com> <CAMuHMdXEwbn2i9PJ9qzcFkHxNfaQFQ53SU_rOPJZHZskQvT3xw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXEwbn2i9PJ9qzcFkHxNfaQFQ53SU_rOPJZHZskQvT3xw@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 28 Apr 2025 16:54:24 +0100
+X-Gm-Features: ATxdqUFxNCYBOsoh1ZJ6fagkv9r2rDgfFsZnYAqVunmDATR1S3ML5ON7itzkA1A
+Message-ID: <CA+V-a8sp7LsJru-CEgv_Y-o5_SmE1ZKnshvYe6x37=+=y1pzMQ@mail.gmail.com>
+Subject: Re: [PATCH v2 9/9] clk: renesas: r9a09g057: Add clock and reset
+ entries for GBETH0/1
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 24 Apr 2025 at 20:01, Luca Ceresoli <luca.ceresoli@bootlin.com> wro=
-te:
->
-> This is the new API for allocating DRM bridges.
->
-> This driver already implements refcounting of the struct vc4_dsi, which
-> embeds struct drm_bridge. Now this is a duplicate of the refcounting
-> implemented by the DRM bridge core, so convert the vc4_dsi_get/put() call=
-s
-> into drm_bridge_get/put() calls and get rid of the driver-specific
-> refcounting implementation.
->
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Hi Geert,
 
-Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+On Mon, Apr 28, 2025 at 2:36=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Mon, 28 Apr 2025 at 15:22, Lad, Prabhakar <prabhakar.csengg@gmail.com>=
+ wrote:
+> > On Tue, Apr 15, 2025 at 3:55=E2=80=AFPM Geert Uytterhoeven <geert@linux=
+-m68k.org> wrote:
+> > > On Mon, 7 Apr 2025 at 18:52, Prabhakar <prabhakar.csengg@gmail.com> w=
+rote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Add clock and reset entries for GBETH instances. Include core clock=
+s for
+> > > > PTP, sourced from PLLETH, and add PLLs, dividers, and static mux cl=
+ocks
+> > > > used as clock sources for the GBETH IP.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
+om>
+> > > > ---
+> > > >  drivers/clk/renesas/r9a09g057-cpg.c | 72 +++++++++++++++++++++++++=
+++++
+> > > >  drivers/clk/renesas/rzv2h-cpg.h     | 11 +++++
+> > > >  2 files changed, 83 insertions(+)
+> > > >
+> > > > diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/rene=
+sas/r9a09g057-cpg.c
+> > > > index 3c40e36259fe..057bfa0e2a57 100644
+> > > > --- a/drivers/clk/renesas/r9a09g057-cpg.c
+> > > > +++ b/drivers/clk/renesas/r9a09g057-cpg.c
+> > >
+> > > > @@ -115,6 +138,17 @@ static const struct cpg_core_clk r9a09g057_cor=
+e_clks[] __initconst =3D {
+> > > >         DEF_DDIV(".pllvdo_cru2", CLK_PLLVDO_CRU2, CLK_PLLVDO, CDDIV=
+4_DIVCTL1, dtable_2_4),
+> > > >         DEF_DDIV(".pllvdo_cru3", CLK_PLLVDO_CRU3, CLK_PLLVDO, CDDIV=
+4_DIVCTL2, dtable_2_4),
+> > > >
+> > > > +       DEF_FIXED(".plleth_250_fix", CLK_PLLETH_DIV_250_FIX, CLK_PL=
+LETH, 1, 4),
+> > > > +       DEF_FIXED(".plleth_125_fix", CLK_PLLETH_DIV_125_FIX, CLK_PL=
+LETH_DIV_250_FIX, 1, 2),
+> > > > +       DEF_CSDIV(".plleth_gbe0", CLK_CSDIV_PLLETH_GBE0,
+> > > > +                 CLK_PLLETH_DIV_250_FIX, CSDIV0_DIVCTL0, dtable_2_=
+100),
+> > > > +       DEF_CSDIV(".plleth_gbe1", CLK_CSDIV_PLLETH_GBE1,
+> > > > +                 CLK_PLLETH_DIV_250_FIX, CSDIV0_DIVCTL1, dtable_2_=
+100),
+> > > > +       DEF_SMUX(".smux2_gbe0_txclk", CLK_SMUX2_GBE0_TXCLK, SSEL0_S=
+ELCTL2, smux2_gbe0_txclk),
+> > > > +       DEF_SMUX(".smux2_gbe0_rxclk", CLK_SMUX2_GBE0_RXCLK, SSEL0_S=
+ELCTL3, smux2_gbe0_rxclk),
+> > > > +       DEF_SMUX(".smux2_gbe1_txclk", CLK_SMUX2_GBE1_TXCLK, SSEL1_S=
+ELCTL0, smux2_gbe1_txclk),
+> > > > +       DEF_SMUX(".smux2_gbe1_rxclk", CLK_SMUX2_GBE1_RXCLK, SSEL1_S=
+ELCTL1, smux2_gbe1_rxclk),
+> > > > +
+> > > >         DEF_DDIV(".pllgpu_gear", CLK_PLLGPU_GEAR, CLK_PLLGPU, CDDIV=
+3_DIVCTL1, dtable_2_64),
+> > > >
+> > > >         /* Core Clocks */
+> > >
+> > > > @@ -233,6 +271,38 @@ static const struct rzv2h_mod_clk r9a09g057_mo=
+d_clks[] __initconst =3D {
+> > > >                                                 BUS_MSTOP(7, BIT(10=
+))),
+> > > >         DEF_MOD("usb2_0_pclk_usbtst1",          CLK_PLLDTY_ACPU_DIV=
+4, 11, 7, 5, 23,
+> > > >                                                 BUS_MSTOP(7, BIT(11=
+))),
+> > > > +       DEF_MOD_EXTERNAL("gbeth_0_clk_tx_i",    CLK_SMUX2_GBE0_TXCL=
+K, 11, 8, 5, 24,
+> > > > +                                               BUS_MSTOP(8, BIT(5)=
+),
+> > > > +                                               0x300, 8, 1),
+> > >
+> > > CPG_SSEL0
+> > >
+> > > I'm wondering if you really have to store and duplicate this info her=
+e.
+> > > Can't you infer it from the parent's smux description?
+> > >
+> > To clarify, you mean to get the parent of the mod clock and then get
+> > the clk_mux to get the base?
+>
+> Indeed.
+>
+Thank you for the clarification.
 
-Thanks.
-
-> ---
->
-> Cc: "Ma=C3=ADra Canal" <mcanal@igalia.com>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
->
-> Changed in v2:
-> - fix error code checking
-> ---
->  drivers/gpu/drm/vc4/vc4_dsi.c | 34 +++++-----------------------------
->  1 file changed, 5 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.=
-c
-> index efc6f6078b026764c59cfb2a33b28a88b7018c3a..458e5d9879645f18bcbcaeeb7=
-1b5f1038f9581da 100644
-> --- a/drivers/gpu/drm/vc4/vc4_dsi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-> @@ -552,8 +552,6 @@ struct vc4_dsi {
->         struct vc4_encoder encoder;
->         struct mipi_dsi_host dsi_host;
->
-> -       struct kref kref;
-> -
->         struct platform_device *pdev;
->
->         struct drm_bridge *out_bridge;
-> @@ -1622,29 +1620,11 @@ static void vc4_dsi_dma_chan_release(void *ptr)
->         dsi->reg_dma_chan =3D NULL;
->  }
->
-> -static void vc4_dsi_release(struct kref *kref)
-> -{
-> -       struct vc4_dsi *dsi =3D
-> -               container_of(kref, struct vc4_dsi, kref);
-> -
-> -       kfree(dsi);
-> -}
-> -
-> -static void vc4_dsi_get(struct vc4_dsi *dsi)
-> -{
-> -       kref_get(&dsi->kref);
-> -}
-> -
-> -static void vc4_dsi_put(struct vc4_dsi *dsi)
-> -{
-> -       kref_put(&dsi->kref, &vc4_dsi_release);
-> -}
-> -
->  static void vc4_dsi_release_action(struct drm_device *drm, void *ptr)
->  {
->         struct vc4_dsi *dsi =3D ptr;
->
-> -       vc4_dsi_put(dsi);
-> +       drm_bridge_put(&dsi->bridge);
->  }
->
->  static int vc4_dsi_bind(struct device *dev, struct device *master, void =
-*data)
-> @@ -1655,7 +1635,7 @@ static int vc4_dsi_bind(struct device *dev, struct =
-device *master, void *data)
->         struct drm_encoder *encoder =3D &dsi->encoder.base;
->         int ret;
->
-> -       vc4_dsi_get(dsi);
-> +       drm_bridge_get(&dsi->bridge);
->
->         ret =3D drmm_add_action_or_reset(drm, vc4_dsi_release_action, dsi=
-);
->         if (ret)
-> @@ -1810,15 +1790,12 @@ static int vc4_dsi_dev_probe(struct platform_devi=
-ce *pdev)
->         struct device *dev =3D &pdev->dev;
->         struct vc4_dsi *dsi;
->
-> -       dsi =3D kzalloc(sizeof(*dsi), GFP_KERNEL);
-> -       if (!dsi)
-> -               return -ENOMEM;
-> +       dsi =3D devm_drm_bridge_alloc(&pdev->dev, struct vc4_dsi, bridge,=
- &vc4_dsi_bridge_funcs);
-> +       if (IS_ERR(dsi))
-> +               return PTR_ERR(dsi);
->         dev_set_drvdata(dev, dsi);
->
-> -       kref_init(&dsi->kref);
-> -
->         dsi->pdev =3D pdev;
-> -       dsi->bridge.funcs =3D &vc4_dsi_bridge_funcs;
->  #ifdef CONFIG_OF
->         dsi->bridge.of_node =3D dev->of_node;
->  #endif
-> @@ -1836,7 +1813,6 @@ static void vc4_dsi_dev_remove(struct platform_devi=
-ce *pdev)
->         struct vc4_dsi *dsi =3D dev_get_drvdata(dev);
->
->         mipi_dsi_host_unregister(&dsi->dsi_host);
-> -       vc4_dsi_put(dsi);
->  }
->
->  struct platform_driver vc4_dsi_driver =3D {
->
-> --
-> 2.49.0
->
+Cheers,
+Prabhakar
 
