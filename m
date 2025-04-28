@@ -1,142 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-16428-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F35BA9FAD4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 22:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09D5A9FADA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 22:55:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0028E7A5C15
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 20:53:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E07907AE9FE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 20:54:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6A6D1F91C7;
-	Mon, 28 Apr 2025 20:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6728C1FCFEF;
+	Mon, 28 Apr 2025 20:55:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YHujt9MM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gnCerkLt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C821F63F9
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Apr 2025 20:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77181F872D;
+	Mon, 28 Apr 2025 20:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745873647; cv=none; b=oUXqsHL7BYuRLfZuo5cMT0R0Fv35rQGY8ZJeHKqRSE+WMSTZ0snumIn08dxeRiO4oe725ZciU8KEGg+wMGOVX9kyVKkHVeOPMQXbMJSGh5ZKBnk0gsZBsk+liAPMQTOMcx2ejl18H68GNK+6CZYsBgXcUp7h9rNNcn9dOn6jM4I=
+	t=1745873724; cv=none; b=SJIUuTor1aSlrEEJ8Urrc9Y3AcEJViyr9F6+LcBFpwhlgTlg0FgRImNbxr6d4RWTJN/mOKKGCHB97A8QSi+GneK/BaaYe3O9nqtB5v9EguxF+SVIpXANCTHl8get0HCvISnSYcHqNhpOK6grPpH0ejjkDP3DHTpTCEwcjScpTmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745873647; c=relaxed/simple;
-	bh=n4WGwCItyZewiOJcBSp4Eaj+wnGcnc5O6i3QGT0fNG8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MZ2Lf/RA6MTSmWfFbpW9cTajJFe0hlDqO+p1WpWPBJ0SZKN+BM9ml9hegospsoO/4EnCNmGG3XJhP8DsREU0YoUFuIwIU9gel9SgbsirZE4pGxmiC0grb3wpK/HmcLzjxVuSjREE6T8qc5hnFuFe0tUPw3CPV3p1N3JOeCwp4hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YHujt9MM; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22c33e4fdb8so56821345ad.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Apr 2025 13:54:05 -0700 (PDT)
+	s=arc-20240116; t=1745873724; c=relaxed/simple;
+	bh=ltL3SC6vgqvw+mTFy6XzH606wThpLgVF1QkPua9Q05g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YYwaUW3XJ5ZUjEfcuzBZjBIV1vbBrz9glPOF8f5NCWT00Ub6lIIzkoAIhQS6ff90yz+s3tT75Ohen690mnAYuAX413+oLkjsar/+TAxWMPBVYJshxV1aL9vPLAksUGQ6ONWjYUakWjFAmMvpCNp0ZX4ALPFBCULMloCZ/jCTZSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gnCerkLt; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43d0618746bso38187315e9.2;
+        Mon, 28 Apr 2025 13:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1745873645; x=1746478445; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=duqrSY39uZvRf9QP4FI5wn82Hvp3y0G6BGsbl6wCfsU=;
-        b=YHujt9MMTp8bKrMsFmXM63bMM8a+I2YXydtfpVDqQAF3DVIzLp41fZ7aZMRYjXHg1l
-         DhEJEskBspuF4q7G933v3fo40LBtspLETpFYAIzL7KWa41H2k04Aq+LRX3YOefHIPU/Q
-         nfKgompPqt/dqYsgIAhR4l+BSNllmue2YLiEI=
+        d=gmail.com; s=20230601; t=1745873721; x=1746478521; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a6fy2puMqHyoR2LexAIS0r+i6b4fHCMlaARoqaMiOYs=;
+        b=gnCerkLtIAkI8T0pfCtsUvgggg1R44szMABY7h8F6yASYgB11jKYhkeqVMJ31es85N
+         ZfAsBJrCZoMgX/XeBqqjUVIb3OLI7+ek2DS9aa20hB1wEyxfu6mQTSCIjT084aTyFaLE
+         3TxkN7YoIawpboXVJz3LYiNTm0z6Se9VrOYlBEZTGYqx95IXbj0ewKy9siJA6kFsrBYh
+         ruBm8iMf8Ryf61YhlP5bjX7rcDCtFVo1AsR5bklnp2RUvCk2GNmkjDD16Nz5oIRZemlB
+         PodhM8DGtvgvCKFt1SLjYwwOUVZLXq+XiFje+PHoAFvN+msxyuSvMRMccxZI0QHF0Mz9
+         Hh0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745873645; x=1746478445;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=duqrSY39uZvRf9QP4FI5wn82Hvp3y0G6BGsbl6wCfsU=;
-        b=baBDFqCe8F109wKC+dnyhN1KNKvR/tKo6nYhS4S6u60FuMahFOZh0pQYg6yN3mJlKk
-         Yp6e/sbk3CBaLmSFBGZaRjg/X1qYd5OfmF04S1CZu9BTSnln7Aoffri9TPB55mLfFlhe
-         E2fmQZSURZ85/uQaBSFt19IgvbDMqx8i1msTlsFhJ/3rxW0rSAWTts30p/2Y1HWGyek0
-         fHHlIR6fiBFL0a8JJRXEJGPjiZ7p9/mxZVrhA8LLkZR7QT6U8L0lWYB+IO/sCmxtO8N8
-         55p78oRQMy2em7/Xl03wNhFLCUhEFzS/0ujurDlFsWluY2ZHsTzDDlIGgvH79Y/EPYJQ
-         M4OA==
-X-Forwarded-Encrypted: i=1; AJvYcCXERrL6/c6Jy8zRr+3MHMVPcqt1jqVjo2DYFQpCgz3Tg25tM2kjyl2lDoeQPaL4wFzxRQBA9JRKjnmyF5IbPK+1ww==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6Jc17DzJa1WOjEdZlH46RtEvbODpVjb3v5FdJ+ZCD4ybmE7ho
-	ywRPBuY0Uhxs9xdOAiJVuD3Rj4PWS2j9KkSdr06gtzuWRTzKlclW9FEfxXHPmrX5BMu67LMRhSY
-	=
-X-Gm-Gg: ASbGnct97zULQgtA5JjCi+HLBNhNoCaE55BBQ8f2fGNlWwuQZ9rFkegYt+O5v6MQGAZ
-	utW3zKfAJUiAwFa7YIp4P4ZrB8DfE66Szj6he+hw7ov0BCDEHp7RcZ0YzITOu1LByYDLtVkxFUm
-	6H0TzYlvL/DNl1/TS7zr43hW4W8F5A2ng18zbu5xGMg42zUDIIekEZhFCBOlFtxvIGAzG1aL9o4
-	ULtBjIsU/0BYQU36D+OkaQrINV8e8nRGzuYJNpIsK2494RJP70MuYIutjZQh1C/AZroJNz9pSiS
-	8UM17DoBUnqxQdRAJ2eG0zanvmCYvW80LTxWYTkP+GD2LA0bZglF1lwALHCeOAhMfhA53qUCOhf
-	ygAW3
-X-Google-Smtp-Source: AGHT+IGtbikx9xpxHqKO5brA+d4P+0Vv5gpoRI06YLY5QRPUU/K/7gtuus3M4a/wj9TXOvPLeBR2qw==
-X-Received: by 2002:a17:903:3d0e:b0:215:acb3:3786 with SMTP id d9443c01a7336-22de5fd2481mr16482395ad.19.1745873645390;
-        Mon, 28 Apr 2025 13:54:05 -0700 (PDT)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com. [209.85.216.41])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db50e7613sm87633655ad.143.2025.04.28.13.54.05
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Apr 2025 13:54:05 -0700 (PDT)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3035858c687so4431849a91.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Apr 2025 13:54:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUjjmd0XU2RqqhoJOJ0pOu/KglrhFoTxs6jnLDqYe44wT++LJpVOLqcizBEi5oHQdlAGNLviboRSmB9xVUh5ueStg==@vger.kernel.org
-X-Received: by 2002:a17:90b:2d08:b0:2fe:b9be:216 with SMTP id
- 98e67ed59e1d1-30a215a9e35mr1596359a91.31.1745873644318; Mon, 28 Apr 2025
- 13:54:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745873721; x=1746478521;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a6fy2puMqHyoR2LexAIS0r+i6b4fHCMlaARoqaMiOYs=;
+        b=g1u7Tpk2kcMKPShh3xaubqZWBBM+iIGG1rwv1PpJtH7GVFKQyTd/OpQTjuvSrH+L2B
+         vr5TOlvwrV92rLappy6Gj8u86y6layNIF/t8dTYKV3QTu8V014SWlMFD/+U1wflkcrCi
+         UHQuzzlKCDP0yzGMZRIyYI9K6kczD2SWdi7m9CqV6m92MkoQxwtG4uMhaWCW2hJFmznv
+         VcB6JvxRe+MuT+yAU711lYyzyUP8olcJBS15UG5pwAP0Z1vwEaHnq5XU83ugixYsCE7x
+         MAwaqCVgG+DCjo3zFGByLbUOYwBzTKbs/kK8nQ6dn+pwtZ9Z++Gqe+jK7ghgrqU1cL/S
+         CMDg==
+X-Forwarded-Encrypted: i=1; AJvYcCUPzdjeNweoqfR3VtlcmG3v/6rzv2ojfh/7WLjiih200dahl+SIe2ahxZuuLzFZj4O9lQUmsYx2Fz5beD1U@vger.kernel.org, AJvYcCUlCM4QtLFh7/ZZSY4BP62QQAhoBcRrkVzAPKH6n25kKIUmlGlFXVwP3SzpxV6Ok+mUA3sPanCTb3Lm@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzkas/odYKIf2d9ZCkIMKIQUcgA1RQV0pYhqjQ65MbUBvecHJoz
+	z1CVNiNySgkcaM3uXUUn9RPwYfd0PZNLoR0aGX+0TGqUkTEtzFsa
+X-Gm-Gg: ASbGncuUQFfntYnxBdehoUtozZe8oK18PKq9FQHEKrzERdFcOebaTIdqWGLgEgWBUnK
+	WMIpXvrI6Xoi4a+velqOVl0KOkGu8o3oekdlZSO5ELFchY4bolay/+99pw9edRPLVU6ZRTFqgxC
+	XSWiK6m04J226MRDRSkelbABfgUNQnFdcfDzRNc+9Q+dbvakpRLS6KXLI6m6dkwqbjsAQkmWaW+
+	ZKeueNgu8Uo/P8a5IJr0Ruwuv/SOzAmRdec5N5ZqWaAXgAtercTEuhicvFXbBywdRGtLPN+Xm2a
+	4PHIskvOxEJcXtgp+WbS3W9aD3T9KT2/wTdnJbmgBS5Jeabwp8b9BVzfBH53+lIFftR8tUB7mMl
+	viOa7Rk7O
+X-Google-Smtp-Source: AGHT+IFHuGQl+j5YvF+ujgm9jlwrfc7iOfKhcltpvYOoKk9pNyl+RdoSKQ3LwBJ1m4F+uwR1+1NhlA==
+X-Received: by 2002:a05:600c:4688:b0:43c:f61e:6ea8 with SMTP id 5b1f17b1804b1-440ab780bfcmr94821645e9.2.1745873720683;
+        Mon, 28 Apr 2025 13:55:20 -0700 (PDT)
+Received: from iku.example.org ([2a06:5906:61b:2d00:593b:8313:b361:2f0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2a2ac0sm167845705e9.15.2025.04.28.13.55.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Apr 2025 13:55:20 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2]  arm64: dts: renesas: Add GBETH support to R9A09G057 SoC
+Date: Mon, 28 Apr 2025 21:55:16 +0100
+Message-ID: <20250428205518.454960-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-13-8f91a404d86b@bootlin.com>
-In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-13-8f91a404d86b@bootlin.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 28 Apr 2025 13:53:52 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WBxgJ9HZK=UyE8R17OiM0+ME2Lp5O7zoZRVOw2z6_sng@mail.gmail.com>
-X-Gm-Features: ATxdqUGX6srhk44LYXds4__tJ7VKjYOOGbCee4VbhetmdBaO7SswZM-oniFpcj8
-Message-ID: <CAD=FV=WBxgJ9HZK=UyE8R17OiM0+ME2Lp5O7zoZRVOw2z6_sng@mail.gmail.com>
-Subject: Re: [PATCH v2 13/34] drm/bridge: ti-sn65dsi86: convert to
- devm_drm_bridge_alloc() API
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, 
-	Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, 
-	asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	Herve Codina <herve.codina@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Thu, Apr 24, 2025 at 12:00=E2=80=AFPM Luca Ceresoli
-<luca.ceresoli@bootlin.com> wrote:
->
-> This is the new API for allocating DRM bridges.
->
-> Reviewed-by: Herve Codina <herve.codina@bootlin.com>
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+Hi All,
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+This patch series adds support for the GBETH (Gigabit Ethernet) IP block
+to the R9A09G057 SoC. The first patch adds the GBETH nodes to the
+device tree source file for the R9A09G057 SoC, while the second patch
+enables the GBETH nodes on the RZ/V2H Evaluation Kit.
 
-I can confirm that I can still build/boot on a board with ti-sn65dsi86
-after this patch. Thus, happy with:
+Note,
+- The GBETH driver is already merged into net-next
+- This patch series is dependent on the following patch series:
+  https://lore.kernel.org/lkml/20250428184152.428908-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-Tested-by: Douglas Anderson <dianders@chromium.org>
+Cheers,
+Prabhakar
 
-Happy to have someone else land this through drm-misc-next or I can
-land it there myself.
+Lad Prabhakar (2):
+  arm64: dts: renesas: r9a09g057: Add GBETH nodes
+  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable GBETH
+
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    | 194 ++++++++++++++++++
+ .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    |  74 +++++++
+ 2 files changed, 268 insertions(+)
+
+-- 
+2.49.0
+
 
