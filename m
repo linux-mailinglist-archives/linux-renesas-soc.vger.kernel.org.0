@@ -1,200 +1,193 @@
-Return-Path: <linux-renesas-soc+bounces-16410-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9390AA9F24B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 15:26:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D90A9F27D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 15:37:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 622025A43B1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 13:25:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F4D117D29C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 13:37:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AECC026A1A3;
-	Mon, 28 Apr 2025 13:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLeovDA+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654B026AAA7;
+	Mon, 28 Apr 2025 13:36:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B751FFC45;
-	Mon, 28 Apr 2025 13:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB325684;
+	Mon, 28 Apr 2025 13:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745846746; cv=none; b=gl+Kzq0p0YLRGD2rBbulUDWLs/3amtm4nQpOyLV6afCpwYpzKCxiUvZnKbYxAhPZQZO2OyjsZtJ+QETL5Vd0w/UmL5HZi2oapszFVe4ScLyDVi5nHovqG8Bmyv7URgvToFyb6aMfOF52ZrQbOp38dfsclvfzCm9BCizrgpAz/yc=
+	t=1745847419; cv=none; b=lNxgkgBOVvjthOJF4r+VkU55tpz7W20j3Piq1TftuMp5eLgrJbmAzcot5ssshIdE8s3xmGxewD6epBBMu8xNONuytXpsvs9CDvfnRP/ksB7R/UIWGBBSoFxZMgY/pwpZWpUwxN1Hmu0jotZ9ij//ll4DbQj9E+E/ihR1cf3xlOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745846746; c=relaxed/simple;
-	bh=OnB/nARGray61fwM/dwng/EIhRRxEOSxkKydDvTU7Sc=;
+	s=arc-20240116; t=1745847419; c=relaxed/simple;
+	bh=adCeyvaAgehxj9VhO12S+3D+K4WqVyaj6ieHjjeRBpg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YJZd3BAZusvR6J2mzGjLS5R9kWXpJztNskL575vRfXTPST4MORZhbXfq/jWMb3bBuku6q1mMIB4aLYdplFxfZzgSi1Ettce1QP5RTEI4c7h1CRTnDbcBK3sjUwNTQPSwqs4XlSIozlyBWJyBjoxZAtnpkhAufkJX/br/xqVtrng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLeovDA+; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=o/b1Jdwgyi4C8gW5yqW98xZzmVXI5WlWcxH8pFaTo+/PlbU3mWJ4CTlp4xCmBMJXoEOiRtbH+5yrDtsoh96mb8ScydTPgi4/pn6ovKU+3fgX56wK8BVsJrefivZad0+Zfkqevgs/yrku9rf+d2f9EX0ongzA5r9MOmgUDe1uwHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a064a3e143so2433723f8f.3;
-        Mon, 28 Apr 2025 06:25:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745846742; x=1746451542; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8xoVsMrgvrhFFbx42G/dmm9QWGqviT/wAXJ3BloytIc=;
-        b=OLeovDA+8QvopD+mr58G2XTv2p0m5MVXcjI2T19afZiPeC4WyWZYpQzJLHpHieG+98
-         sp8lEXY/nbLmVcfN3fnqdSemGyNVXU8y0P0d24A/H8I8rZzq9MQkP8Q1DahAHvgNLgQa
-         YhA6mOdkJHFepMIX6I84WnPfISz1tXjKZ6Vji61sLGFnGhDw4i/VzRYxCgdrDJ2kfYPQ
-         ISIjZ/2FSEooldyJfXVT1eW3L1PE5JehDCWEeTcGH48GC1Qqbr8kHcQio3Eiqx3mx2Uk
-         UWbD4MXmc7kCJ53P/7NTNXOvWDeQOKy4cLSI5LxK4B0rSDqK+2grBxPh7pF5H0kUhzoj
-         xwYw==
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-524125f6cadso4462785e0c.2;
+        Mon, 28 Apr 2025 06:36:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745846742; x=1746451542;
+        d=1e100.net; s=20230601; t=1745847414; x=1746452214;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8xoVsMrgvrhFFbx42G/dmm9QWGqviT/wAXJ3BloytIc=;
-        b=oSzmnzljfbXNEqKJIdyV05l1+Bi/Jpty7brRZC6cwpmk1chsOpkKQKWYXdue/+/SjG
-         WUHu80cUzYeWz0O0f2G51W0M2f2v+SINOZMb4UEW9BGWoc0nukmmV6QKSStK8COldk8j
-         vZUBGEkeeof+6kz7txrQmv+HT0Jer7zPacMJ6MSEjo3HFV9fNuSL3Mrw5As3fOFYLT4P
-         AykYINRcRKcX3nIGNcaXmLTREhVDCyqKGgiwKYQG6du3Hr6xoRGBBlt1chHksPgnuDCC
-         8ITduSaehnQGCWml4sKhn00z/NFswmUuBW4+rq5TX9UhsyE81GdOtx99GZ4wE8xPUQT2
-         9ltg==
-X-Forwarded-Encrypted: i=1; AJvYcCV2dKUlHp23b8bbZni8c4EF+jLmar8zh9Jlr1ZGSVqscvqlAG/SSx4TySXh8tA6xxAWQ7I8SJ6gZ6QtVXM=@vger.kernel.org, AJvYcCVyUqaKJV1MPiTGAl157Qhb49DcVk520hgps7lN2XahFB9FgZKn2gjdmXGFLyhw7yRBFFmW8glYoR2q8Rs=@vger.kernel.org, AJvYcCXCE7GWREra+/6f4UJK38UYpC1NAigchrL5q1zY9ntKr0U1Jz1XQANsCE2Mi16NbSmhSCom2TcKs2LjC5fKXpuh5AQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzu6GqwdVvnDwMtrhX9cd1OA1G7FDVG7bMuSiZ6TUN2/yIOk6nw
-	SJ3VJeSfWXBA7UsCLyG/SC8KrdY59UB+MkUXC35dGGT26cgXgM2yv2fxYrMRtDxI+aOfy5iN7q7
-	6KOosBkTnQ6QDP6Si4Ucw3Ru+QEQ=
-X-Gm-Gg: ASbGnctZ8j0WwbzrTunKloTeVYPWPDCZsOXBb1+c97ejbC8OBHwpMr0s1kN3aHf6vcG
-	Cq5v8uHHPG23vfG+EWygIQrM2n1l+RrHGhS/ehNKzt3442IkD/tcTpuKqlQjfCvxY8K3S6A2S/r
-	CQVbLSqHwv/jar4oJnR3+5Lcs=
-X-Google-Smtp-Source: AGHT+IHP+XoLq70CCNPxMMVvFPQO03PJd4K94K+CxerT9d7DnToAI7oPR4FF2pTYJ7YBXqf3f7GH7vn8ELflwvepBU4=
-X-Received: by 2002:a05:6000:2911:b0:390:f2f1:2a17 with SMTP id
- ffacd0b85a97d-3a074f4868fmr9643443f8f.53.1745846741562; Mon, 28 Apr 2025
- 06:25:41 -0700 (PDT)
+        bh=7O0qeREWG+3Utjsoi1r+sV3v9UxqFtRcPYwPXx0o8mU=;
+        b=q8CmB7+yKivSMQbCIDskFoHIygqzZikkXyZnHVHxLcz5e4EtGdpebeZoB8aqhrbyru
+         hd3vCdtP4O2buC4MzSvYTI9+jitQmrVY9dcN26wDcbkpWBGyAJ3ZXhwjLQgp1Crfc2kG
+         EORWim5yxf5v2Z+WU5Gw/Bk3ZESaivqVpQ3jGsjDk0OE9LII9WTBfaY+K7oi2HAO68/P
+         VTAc6mzhmQmUnqIF4n1JU9setAVHUfiXu6GM0qoatzzUzcQ4H+5Q9KBon6sA4PL7D9/V
+         QWVlJB4Zn4/9yixtP3Qrhq6WvgUAMbjur+rjDdB1pJoUJsska348Q9dLEtgbKnavbbF+
+         QHnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhayL9FHGAik3BCeNjs0+95abOJgM+4xUZoqgJ7se25uuPhSTtvvB/AnJ4XW57qBrcU0TWfEjB0oHp@vger.kernel.org, AJvYcCW4NPlXUeXhuxkyctgBvqx8boGUKrtxhYnr8v/AIB7AltNtQyxCP7J0za/h9CK8IPLcpyC8Zgezhdt0LUoQdySWUPU=@vger.kernel.org, AJvYcCXtfX3dOxgTUiN0Nrn/ydB6bfeg43+YPqMOwI3qRlu3CJEtUc746sAhnuVZdh1o1Q3EgT34dqg+MNS2@vger.kernel.org, AJvYcCXx3zoQJMUqeu5lL/LoZjREeboVxpZO1VLd1K5p715uh2cvelfnEX7XOdUDixlA1hAj1Tk47+IsIV5G3FsM@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3SU2IWCCz6gCQz0Lj9lXbyuYHpx8Affdg/NIHDaFqmFUipEEp
+	Z4ej/9CKHuinuPJBNErgoGjeqbknJfTUIRb+5Dkn0dXuXUL2AL912b9bWUwP
+X-Gm-Gg: ASbGncssVejvEfN+/SAs+HAyECT22o1MhiaSYGqRhgTWZmgNlaaDNFpWXriCXtvqjiA
+	97Ya2aC8L6Z0F1x3guogdV3kreqf3dynt5iKi31Do8b9uXf9Vib8zp7YdB1Js1ra2FbiFYeVgMD
+	BkSCJcHWmHAlIaIC5VHUaEJyvuvXiUVnaYpruHFnqdzxZLtdm6hjATXJT1Nx1YbFnqJCncd4x4k
+	xhoFdzEnCjIccegYcYCfvn/c7KfLcFrGdvjLXf1qoG+cfYMSI8N5g4P0T84B3l1KwDs4ohwff7n
+	0mjLAJCtExS/OWNhkVFYdHRQj2qTCbsQltwgoCy/7yktXvCoNjZNxAwAN7HsslDzgnR/q+Ae8Dd
+	J50CG+dPqa+cFYqDGEQ==
+X-Google-Smtp-Source: AGHT+IFzb6Tbo/TwboGcJ45SHDc/U4EU3J6NTxCjw+98rgITkXeyBrY1PFuyxsFrEntt52nqGBrqCw==
+X-Received: by 2002:a05:6122:d04:b0:520:61ee:c821 with SMTP id 71dfb90a1353d-52a89d692b9mr7891589e0c.3.1745847414531;
+        Mon, 28 Apr 2025 06:36:54 -0700 (PDT)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52a9920ac1fsm916692e0c.4.2025.04.28.06.36.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Apr 2025 06:36:54 -0700 (PDT)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-524168b16d3so4947345e0c.0;
+        Mon, 28 Apr 2025 06:36:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUXervT0qwjISHQUcGiUKOLOKTrsxA6NNiGqzY4oaEtD4fc/EJ0ldo3dLCOIRO+PyLGxUwqTda4L9FC3WbnLsrxOX0=@vger.kernel.org, AJvYcCUmXzqb/ciWARBmt+aVuIa756Ic1iPEgTAtsQNbl4vFCKdtBBphZw12iWX5wcvPqBDlt7QCCC14ABbi@vger.kernel.org, AJvYcCVBJh17tt+aGlnqc/xxeLoYUIvVV2r8mg0d927DVWIMHF+GDOky3J9W8a4TjyY/yAI9J9Ccgn54hqwsZzee@vger.kernel.org, AJvYcCXKXSFiv66ZYbMtig1OJiPpCaS7bcGRANSuKAiCRIyXPg31Gn/I/1noiJOVkcEyCLqON2HOWs/HPG17@vger.kernel.org
+X-Received: by 2002:a05:6122:218d:b0:52a:79fd:34bd with SMTP id
+ 71dfb90a1353d-52a89d6ca46mr7884607e0c.4.1745847413664; Mon, 28 Apr 2025
+ 06:36:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250428095208.99062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250428095940.GE3371@pendragon.ideasonboard.com> <CA+V-a8taFdmCgiUAwmDG93OA+P9UH-FEw3PeMFW4sLQ2KPnEPQ@mail.gmail.com>
- <20250428112516.GG3371@pendragon.ideasonboard.com> <CA+V-a8vDDLZ422nZds7pEEW+gZ1n7s-U3eJjmG8DsOJT9uJygQ@mail.gmail.com>
- <CAMuHMdVqQqg6oK_oxTNWbPbPues38BH+W125Ts5UEATXT8LWmg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVqQqg6oK_oxTNWbPbPues38BH+W125Ts5UEATXT8LWmg@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 28 Apr 2025 14:25:15 +0100
-X-Gm-Features: ATxdqUHfjxrEs0TrSiZxJAc6iEf1g2oE8bq_kZNotWCKNeE2HSSkky6f_djj_3I
-Message-ID: <CA+V-a8t1VGau1WbS4BtCdC-koZ1if8MfrG4Q3JGCrxkH9uLTrQ@mail.gmail.com>
-Subject: Re: [PATCH] media: renesas: rzg2l-cru: Simplify FIFO empty check
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
+References: <20250407165202.197570-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250407165202.197570-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdXtfzp81V4uAk-oULoBz2BtipyPvc9V8oV=kDXmX90GxA@mail.gmail.com> <CA+V-a8sMOnKZjNGW2=Y+TcF9itvC4a1LeEQ+eAKvjhWvEL_K+Q@mail.gmail.com>
+In-Reply-To: <CA+V-a8sMOnKZjNGW2=Y+TcF9itvC4a1LeEQ+eAKvjhWvEL_K+Q@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 28 Apr 2025 15:36:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXEwbn2i9PJ9qzcFkHxNfaQFQ53SU_rOPJZHZskQvT3xw@mail.gmail.com>
+X-Gm-Features: ATxdqUHBJwZf-hQFsvzwVQ4744f393TNHGXqwnBrONR7atyWPSCG0s5drYwtwuE
+Message-ID: <CAMuHMdXEwbn2i9PJ9qzcFkHxNfaQFQ53SU_rOPJZHZskQvT3xw@mail.gmail.com>
+Subject: Re: [PATCH v2 9/9] clk: renesas: r9a09g057: Add clock and reset
+ entries for GBETH0/1
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Dan Carpenter <dan.carpenter@linaro.org>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Prabhakar,
 
-On Mon, Apr 28, 2025 at 12:36=E2=80=AFPM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, 28 Apr 2025 at 13:33, Lad, Prabhakar <prabhakar.csengg@gmail.com>=
- wrote:
-> > On Mon, Apr 28, 2025 at 12:25=E2=80=AFPM Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > > On Mon, Apr 28, 2025 at 12:17:54PM +0100, Lad, Prabhakar wrote:
-> > > > On Mon, Apr 28, 2025 at 10:59=E2=80=AFAM Laurent Pinchart wrote:
-> > > > > On Mon, Apr 28, 2025 at 10:52:08AM +0100, Prabhakar wrote:
-> > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > >
-> > > > > > Simplify the `rzg2l_fifo_empty()` helper by removing the redund=
-ant
-> > > > > > comparison in the return path. Now the function explicitly retu=
-rns `true`
-> > > > > > if the FIFO write and read pointers match, and `false` otherwis=
-e, improving
-> > > > > > readability without changing behavior.
-> > > > > >
-> > > > > > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > > > > Closes: https://lore.kernel.org/all/aAtQThCibZCROETx@stanley.mo=
-untain/
-> > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renes=
-as.com>
-> > > > > > ---
-> > > > > >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 2 +-
-> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-vid=
-eo.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > > > index 067c6af14e95..97faefcd6019 100644
-> > > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > > > @@ -348,7 +348,7 @@ bool rzg2l_fifo_empty(struct rzg2l_cru_dev =
-*cru)
-> > > > > >       if (amnfifopntr_w =3D=3D amnfifopntr_r_y)
-> > > > > >               return true;
-> > > > > >
-> > > > > > -     return amnfifopntr_w =3D=3D amnfifopntr_r_y;
-> > > > > > +     return false;
-> > > > >
-> > > > > So the function always returned true. This seems to be a bug fix,=
- please
-> > > > > add a Fixes: tag. The commit message should also make it clear th=
-at
-> > > > > you're fixing an issue, not just simplifying the code.
-> > > >
-> > > > No, the function returned true only if the pointers matched;
-> > > > otherwise, amnfifopntr_w =3D=3D amnfifopntr_r_y would return false.=
- I was
-> > > > simply removing the repetitive pointer check and directly returning
-> > > > false at the end of the function, as we can be certain at that poin=
-t.
-> > > > Hence, I did not add a Fixes tag. Am I missing something?
+On Mon, 28 Apr 2025 at 15:22, Lad, Prabhakar <prabhakar.csengg@gmail.com> w=
+rote:
+> On Tue, Apr 15, 2025 at 3:55=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Mon, 7 Apr 2025 at 18:52, Prabhakar <prabhakar.csengg@gmail.com> wro=
+te:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > >
-> > > Oops, you're right, my bad.
+> > > Add clock and reset entries for GBETH instances. Include core clocks =
+for
+> > > PTP, sourced from PLLETH, and add PLLs, dividers, and static mux cloc=
+ks
+> > > used as clock sources for the GBETH IP.
 > > >
-> > > > > Personally I'd have written
-> > > > >
-> > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video=
-.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > > index 067c6af14e95..3d0810b3c35e 100644
-> > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > > @@ -345,8 +345,6 @@ bool rzg2l_fifo_empty(struct rzg2l_cru_dev *c=
-ru)
-> > > > >         amnfifopntr_w =3D amnfifopntr & AMnFIFOPNTR_FIFOWPNTR;
-> > > > >         amnfifopntr_r_y =3D
-> > > > >                 (amnfifopntr & AMnFIFOPNTR_FIFORPNTR_Y) >> 16;
-> > > > > -       if (amnfifopntr_w =3D=3D amnfifopntr_r_y)
-> > > > > -               return true;
-> > > > >
-> > > > >         return amnfifopntr_w =3D=3D amnfifopntr_r_y;
-> > > > >  }
-> > > > >
-> > > > > but that's also a bit of a style preference.
-> > > >
-> > > > I wanted to keep this consistent with the rz3e_fifo_empty(). If you
-> > > > prefer the above I'll do that in v2.
-> > >
-> > > Up to you.
-> > >
-> > Thanks. OK, let's keep this patch as is to stay consistent with
-> > rz3e_fifo_empty().
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
 >
-> rz3e_fifo_empty() has a rather complex conditional expression.
->
-Hmm yes.
+> > > ---
+> > >  drivers/clk/renesas/r9a09g057-cpg.c | 72 +++++++++++++++++++++++++++=
+++
+> > >  drivers/clk/renesas/rzv2h-cpg.h     | 11 +++++
+> > >  2 files changed, 83 insertions(+)
+> > >
+> > > diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesa=
+s/r9a09g057-cpg.c
+> > > index 3c40e36259fe..057bfa0e2a57 100644
+> > > --- a/drivers/clk/renesas/r9a09g057-cpg.c
+> > > +++ b/drivers/clk/renesas/r9a09g057-cpg.c
+> >
+> > > @@ -115,6 +138,17 @@ static const struct cpg_core_clk r9a09g057_core_=
+clks[] __initconst =3D {
+> > >         DEF_DDIV(".pllvdo_cru2", CLK_PLLVDO_CRU2, CLK_PLLVDO, CDDIV4_=
+DIVCTL1, dtable_2_4),
+> > >         DEF_DDIV(".pllvdo_cru3", CLK_PLLVDO_CRU3, CLK_PLLVDO, CDDIV4_=
+DIVCTL2, dtable_2_4),
+> > >
+> > > +       DEF_FIXED(".plleth_250_fix", CLK_PLLETH_DIV_250_FIX, CLK_PLLE=
+TH, 1, 4),
+> > > +       DEF_FIXED(".plleth_125_fix", CLK_PLLETH_DIV_125_FIX, CLK_PLLE=
+TH_DIV_250_FIX, 1, 2),
+> > > +       DEF_CSDIV(".plleth_gbe0", CLK_CSDIV_PLLETH_GBE0,
+> > > +                 CLK_PLLETH_DIV_250_FIX, CSDIV0_DIVCTL0, dtable_2_10=
+0),
+> > > +       DEF_CSDIV(".plleth_gbe1", CLK_CSDIV_PLLETH_GBE1,
+> > > +                 CLK_PLLETH_DIV_250_FIX, CSDIV0_DIVCTL1, dtable_2_10=
+0),
+> > > +       DEF_SMUX(".smux2_gbe0_txclk", CLK_SMUX2_GBE0_TXCLK, SSEL0_SEL=
+CTL2, smux2_gbe0_txclk),
+> > > +       DEF_SMUX(".smux2_gbe0_rxclk", CLK_SMUX2_GBE0_RXCLK, SSEL0_SEL=
+CTL3, smux2_gbe0_rxclk),
+> > > +       DEF_SMUX(".smux2_gbe1_txclk", CLK_SMUX2_GBE1_TXCLK, SSEL1_SEL=
+CTL0, smux2_gbe1_txclk),
+> > > +       DEF_SMUX(".smux2_gbe1_rxclk", CLK_SMUX2_GBE1_RXCLK, SSEL1_SEL=
+CTL1, smux2_gbe1_rxclk),
+> > > +
+> > >         DEF_DDIV(".pllgpu_gear", CLK_PLLGPU_GEAR, CLK_PLLGPU, CDDIV3_=
+DIVCTL1, dtable_2_64),
+> > >
+> > >         /* Core Clocks */
+> >
+> > > @@ -233,6 +271,38 @@ static const struct rzv2h_mod_clk r9a09g057_mod_=
+clks[] __initconst =3D {
+> > >                                                 BUS_MSTOP(7, BIT(10))=
+),
+> > >         DEF_MOD("usb2_0_pclk_usbtst1",          CLK_PLLDTY_ACPU_DIV4,=
+ 11, 7, 5, 23,
+> > >                                                 BUS_MSTOP(7, BIT(11))=
+),
+> > > +       DEF_MOD_EXTERNAL("gbeth_0_clk_tx_i",    CLK_SMUX2_GBE0_TXCLK,=
+ 11, 8, 5, 24,
+> > > +                                               BUS_MSTOP(8, BIT(5)),
+> > > +                                               0x300, 8, 1),
+> >
+> > CPG_SSEL0
+> >
+> > I'm wondering if you really have to store and duplicate this info here.
+> > Can't you infer it from the parent's smux description?
+> >
+> To clarify, you mean to get the parent of the mod clock and then get
+> the clk_mux to get the base?
 
-> This one will probably be converted to a simple return statement by
-> a random janitor, soon after its introduction ;-)
->
-Agreed, are you already working on it?
+Indeed.
 
-Cheers,
-Prabhakar
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
