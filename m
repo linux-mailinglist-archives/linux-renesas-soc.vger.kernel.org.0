@@ -1,176 +1,197 @@
-Return-Path: <linux-renesas-soc+bounces-16408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16409-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8BAA9F215
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 15:22:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F96AA9F22B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 15:24:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6BAC416D688
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 13:22:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BCD06189EB7D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 13:24:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DE2F25E81D;
-	Mon, 28 Apr 2025 13:22:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54C6926D4DC;
+	Mon, 28 Apr 2025 13:24:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eAO0C17A"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GzA8AWEz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429A370810;
-	Mon, 28 Apr 2025 13:22:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6438F26D4F7;
+	Mon, 28 Apr 2025 13:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745846572; cv=none; b=A2FltpBpTzIUnfPG+Fw9Dvsrr2nHQsEZCN4/d+zj5BAv/9zP3e38eYaSkw1vsfdjdKflNbRaM14hw4rRQRmbdBqViowtRNXcLIrGsJgD3sgEqLurrjI0n/EeWcMBJ+C6hxoyeGuvPfKxAqsH2Xp639Uf505SQJ5IGD3wL1NRvaw=
+	t=1745846645; cv=none; b=c99YCoSXaUaUdPwYyNAvvnOl4VBr6yF3kA8JX87dBSYItIi+BOUEyUO6C74PJiVeA0F60Cx1aUIuaWD4iHaGqDHivirFQcmF8+MTsPVwZyCAX4QTdb0trwi0iw2IGSVwI5Le7gLQvteg+kFobfe8OJeoXJeBIAaBvYD/rq6uzoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745846572; c=relaxed/simple;
-	bh=b/sI8ny/1+dJG7v18IC78jCyibWHPy6Xs6Lki9wiTLg=;
+	s=arc-20240116; t=1745846645; c=relaxed/simple;
+	bh=mtrVEBVbbyiGKphaour8tRsBUKQ2C3N58hxuZ7tmB7I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qV8p23RWJ1Gxi7LsYfOyeY3vcIbpxShPk2nJ51AvBxq6nAIPT0p71EBaHxaJlmrUOzcvdnDeou/QVumgWlTEuRoEAinq5D2iq8mHE+UfrvVpvg01MR/pKik53a/lqxzZwcwxkcAYMk9qqhC+sf9FlzhvyXwtMXSFt8gwnFsjItg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eAO0C17A; arc=none smtp.client-ip=209.85.221.50
+	 To:Cc:Content-Type; b=O6p9CgDe4QrkgEeiDySyS++KLxFYvbibPjwWnKN6mc1KBRYGAMiZBm4zHMqua2Gpuy6QN0uoS7crxnOe18f1dORJ8eouL4hDDX2JUvn0xDLtBHMCJDtoHyvEi6rHN4+Ts92PZuOhPQKBz0YTHF0OlzY6arrPxWzYFajipWlqUL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GzA8AWEz; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-39c266c2dd5so5418505f8f.3;
-        Mon, 28 Apr 2025 06:22:50 -0700 (PDT)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf848528aso34195925e9.2;
+        Mon, 28 Apr 2025 06:24:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745846569; x=1746451369; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1745846641; x=1746451441; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6uQD3Z3ld0wBx1gp1tlW/rooQP2uSiyFFIJlOXb+tkI=;
-        b=eAO0C17AlOTuj3IewN6Bu6oJZW1neN+wmgzpP5eP77u4bi0l7aKf4K//WfoLqkAAYW
-         40JKgUui97pVjBDbbRPR6XZhQqwZGhksXbgI+cVWTakexuFRwraB5zJsXM0h4jlKSsl9
-         sh/XzKygv1yuffcVE1k/4q9iuI0pgUUY/p3htJ7RY4eXtB8L1VGiHGqFBBbqiK2g1wh8
-         6RFacPoOdTEd9N7hadC2H9tveYcumXbkMypCcr4x3SkKEejjW3g3/aae4s5ijeyVGvZB
-         /SWnV3XyN6JolcVwnkGzDI7DxenYuiAX6BfKD5cQngUD/taCCmssJSz2Y1tkM1LU1dro
-         hwbA==
+        bh=KOt7LYP0o0MmNgKvBUgcQAjLHuks+2HD1Cd4VMcaKnY=;
+        b=GzA8AWEzNw9ATLKnxKqfP0fLlZc5vjTsmznCxCUj/rVEh68g2edSpGNPSwSJT2LtKm
+         8TqUGUsiU3H6rUuIREBCQgjAITDZwtLkxvb6Xx3pGaV97S/G7nVa8SvptmXbcV9zLtci
+         m2AoMIfv0KC0A29m1ete+CyZM10oXu2XHDF59hLeJbiaj0pF/aV3/rGotiJqa81A5Tb+
+         E3XHkg5rkIpaW9frC8QAF9oTSTsSyUpwvzsnrxWor24DLMsCXMG6IhOMUkk2wJ9OmdD0
+         7M45YdvGSq0hMEpOKqfutbDjRINVdCJJGLFN+OIvcABbM9MIct/8Pa/3V9YI7KJ7W4oS
+         5r7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745846569; x=1746451369;
+        d=1e100.net; s=20230601; t=1745846641; x=1746451441;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6uQD3Z3ld0wBx1gp1tlW/rooQP2uSiyFFIJlOXb+tkI=;
-        b=hm3tOAuUP003IsbMYAuyeGCpIaRApaJQHkgb7sgLobVwshRhV3nMX5ZclCJ8fIqSGr
-         E2stXYNprIbFxwjILxaaj7WYulIrura5EC/TRVobnopGrwg+Fq6dixzkGCb5LG9hV9UI
-         xBQAfDcTRWdfzh+mXd//kdJ336BzWf8xFskC90zWNpqp3f2iFApnmEx6Kx0ookloBh96
-         gBi7N2Ytuv+9CkvKnAYMLJSw1ctgCVUU8Ue5pFrxcspz0r/EmG5Fn5CoQMhzAnMeYBiq
-         RWf6TLofis02oqH5+yzeHFVd9UWb3uThMeuOI77CkrV4qpCwd4BE5Bcjp3NGmVL+vQRQ
-         VqJw==
-X-Forwarded-Encrypted: i=1; AJvYcCUSQInbRbOtxtjDbMOlAzJ06BgYVkiV7rsw6roKQtcprg8rQGPbmnTve1Ue4U7AR5LtHSpp9ZF2b1HxvFtY@vger.kernel.org, AJvYcCUTK6HPH7uS09bPDDvJQpAapY/LC5xb8T9S9IYKjyGXOGI8fLgmeJx7zuECLoESBKJ1W9u/lWLfriM/SGwdUp2rLaw=@vger.kernel.org, AJvYcCVFAgu72bmKyLKG6uFlkzV8enV3SzBQOWe3hlj6Ya+z/tkbdOJDL5R1TsHAwRKCWcmF6a32HoPh6vRB@vger.kernel.org, AJvYcCX6cInAkaVtzIDCzOAarOeltgjIe1/11Ich3Q+YgW1FdOcUkhn6Ow857fLiOi4A866ANzfltGSKRNxM@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTxZ8mf7d0D2p6QeuOwO+m0fGzrBHEkLsyJ7e1c75Z8Z8zxaFT
-	Mc9Ij/GZQyQHQCqEzukh3CL6KfYfbfpyldvWv1Np/VRsaoptT8CFOfUSJ5B/InQd+0MimtoZU49
-	R6KynI39+da8MB24whhqAxpriXTanGJEn91Y=
-X-Gm-Gg: ASbGncsp/z/O/4oAOQLX+C4H0KmfNdc/nRf+h/bvwTgNrqsWyL6MAl/73tO6vduxgnJ
-	WhjVxpsigo/p+oR3UULkhOwfgJY/yfZH4yRnmfotBZj6Sdf2VRHKHLoHB8XAKSYpzUoKD/LyFLN
-	evNs1hQ+1ajC2LGlv1xCFFs1k=
-X-Google-Smtp-Source: AGHT+IECsoGJlitMQgTg9Yd74BH9tfW/LZtEL6LR1B1ajgMHjvjVmPHyMUY+AE/jae62SSGy6KDQJyw9PXs89FygP94=
-X-Received: by 2002:a05:6000:1889:b0:390:f358:85db with SMTP id
- ffacd0b85a97d-3a074e4200dmr8006896f8f.30.1745846569222; Mon, 28 Apr 2025
- 06:22:49 -0700 (PDT)
+        bh=KOt7LYP0o0MmNgKvBUgcQAjLHuks+2HD1Cd4VMcaKnY=;
+        b=e+nHoO6yJHRKFnEBQo0QgAa5dV/bM1Ur1FIAZQOQhUDLZ7q3vHxqCPTNjHsakcQgEO
+         PReqneBVyPbGXxvVqxGMSnnB4Id2s3uyB5RYY29nw/HmgK5sU88R1jXkzMsTyZxrMn/T
+         03KHv0Ia/C6cCvEUc6nfsktnmOQr9Yz3RHMU9U1rgCS5iRE0o94+qQ3j8KajHRigKiVA
+         +hfpEvMAAF2UGvatU1+ARFEEhjr2HWu14NXesSfnN+qGZA50VWlBwg255i4BV6wNYop6
+         m52/PlXLHPn2dSlytOJCuekzLoibRcBbLahMkFHwCNihx+r3pQIzPXksn+DS/g3Ia4uX
+         t4ew==
+X-Forwarded-Encrypted: i=1; AJvYcCU4NYnKdSoYB49BxpfA7QlCZls0DsXhtVT1IWgWIIhKcUUv93cWmms2vBPnY3FFCgq6QdEPnY9RLwhUpGdXe/gzSqI=@vger.kernel.org, AJvYcCV1NxbWUrz6t3jUGT2fb9PYNiRBuJ2/PrSfQ8mMtSHwEq5YIqnIZlQvZg65iLBLORX8hjIDH+vUFxxEBHQ=@vger.kernel.org, AJvYcCV9+sQWC/Q3zIjwJVEaiWnt7szf8Nwk5LVreqM3RuFIPYVnUqV6hBNFBzdE/afX0hqdqQf8dEgbN16scFM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8xl7Vt5G6O+98y9kji4abZSs+yFVxGhpryuAyZKyD9KvH3NX+
+	J5cNJmOXb2+DqaT3SMMX8FasNhr7t3qQmcalJiueatUVyneNfubaCH+HqUVASU0kiVgz9KRnmfR
+	62SV/xsIUUmpOq5SzUA0kBi6Uzhk=
+X-Gm-Gg: ASbGnctQthNhNaA/P70Suzheux/QZtQPYHbZpHdJL9hXD4iufdVUbt/Xzo46eIGP+Bz
+	5O7v4wWjKAmRehXWTCrLk0hHw0XB7STsp0k1Pl92UKW24nfaiqDMdbvYaQQQcNmAdMERGetL9Io
+	BpRdl9gjNNBx7UoAaEsyGT0lo=
+X-Google-Smtp-Source: AGHT+IGlN04rqVdFuOEepO7AbTc54inE06WheGOgH2LWChowLopCmMTshXJlj+WuBhyWSSFzB0OLlRXw+oR3SuKtF9Q=
+X-Received: by 2002:a05:600c:a403:b0:440:6a37:be09 with SMTP id
+ 5b1f17b1804b1-440a66d9b60mr96000095e9.16.1745846641251; Mon, 28 Apr 2025
+ 06:24:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250407165202.197570-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250407165202.197570-10-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXtfzp81V4uAk-oULoBz2BtipyPvc9V8oV=kDXmX90GxA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXtfzp81V4uAk-oULoBz2BtipyPvc9V8oV=kDXmX90GxA@mail.gmail.com>
+References: <20250428095208.99062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250428095940.GE3371@pendragon.ideasonboard.com> <CA+V-a8taFdmCgiUAwmDG93OA+P9UH-FEw3PeMFW4sLQ2KPnEPQ@mail.gmail.com>
+ <20250428112516.GG3371@pendragon.ideasonboard.com> <CA+V-a8vDDLZ422nZds7pEEW+gZ1n7s-U3eJjmG8DsOJT9uJygQ@mail.gmail.com>
+ <TY3PR01MB11346E57A3DF8D8A90A405E4686812@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB11346E57A3DF8D8A90A405E4686812@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 28 Apr 2025 14:22:21 +0100
-X-Gm-Features: ATxdqUG_Timr8RqYhtsM__Ht9BrCGNqwUpwPEzWj7Hw7UUsVhS2mmze8RoP9oUU
-Message-ID: <CA+V-a8sMOnKZjNGW2=Y+TcF9itvC4a1LeEQ+eAKvjhWvEL_K+Q@mail.gmail.com>
-Subject: Re: [PATCH v2 9/9] clk: renesas: r9a09g057: Add clock and reset
- entries for GBETH0/1
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+Date: Mon, 28 Apr 2025 14:23:33 +0100
+X-Gm-Features: ATxdqUGy3JZEMMWjf_6t9qT30Fm5jALjd_OmhnbnS5rET1WZZxaFDyc23qTwKtg
+Message-ID: <CA+V-a8s8vRrN4+UWiovDvX4Rfj7veVUoQCerGKwPa2PnSvmWSQ@mail.gmail.com>
+Subject: Re: [PATCH] media: renesas: rzg2l-cru: Simplify FIFO empty check
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: "laurent.pinchart" <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Dan Carpenter <dan.carpenter@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
-
-On Tue, Apr 15, 2025 at 3:55=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
+On Mon, Apr 28, 2025 at 12:36=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.c=
+om> wrote:
 >
-> Hi Prabhakar,
 >
-> On Mon, 7 Apr 2025 at 18:52, Prabhakar <prabhakar.csengg@gmail.com> wrote=
-:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> > -----Original Message-----
+> > From: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: 28 April 2025 12:33
+> > Subject: Re: [PATCH] media: renesas: rzg2l-cru: Simplify FIFO empty che=
+ck
 > >
-> > Add clock and reset entries for GBETH instances. Include core clocks fo=
-r
-> > PTP, sourced from PLLETH, and add PLLs, dividers, and static mux clocks
-> > used as clock sources for the GBETH IP.
+> > Hi Laurent,
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/clk/renesas/r9a09g057-cpg.c | 72 +++++++++++++++++++++++++++++
-> >  drivers/clk/renesas/rzv2h-cpg.h     | 11 +++++
-> >  2 files changed, 83 insertions(+)
-> >
-> > diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/=
-r9a09g057-cpg.c
-> > index 3c40e36259fe..057bfa0e2a57 100644
-> > --- a/drivers/clk/renesas/r9a09g057-cpg.c
-> > +++ b/drivers/clk/renesas/r9a09g057-cpg.c
+> > On Mon, Apr 28, 2025 at 12:25=E2=80=AFPM Laurent Pinchart <laurent.pinc=
+hart@ideasonboard.com> wrote:
+> > >
+> > > On Mon, Apr 28, 2025 at 12:17:54PM +0100, Lad, Prabhakar wrote:
+> > > > On Mon, Apr 28, 2025 at 10:59=E2=80=AFAM Laurent Pinchart wrote:
+> > > > > On Mon, Apr 28, 2025 at 10:52:08AM +0100, Prabhakar wrote:
+> > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > >
+> > > > > > Simplify the `rzg2l_fifo_empty()` helper by removing the
+> > > > > > redundant comparison in the return path. Now the function
+> > > > > > explicitly returns `true` if the FIFO write and read pointers
+> > > > > > match, and `false` otherwise, improving readability without cha=
+nging behavior.
+> > > > > >
+> > > > > > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > > > > Closes:
+> > > > > > https://lore.kernel.org/all/aAtQThCibZCROETx@stanley.mountain/
+> > > > > > Signed-off-by: Lad Prabhakar
+> > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > ---
+> > > > > >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 2 +-
+> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > >
+> > > > > > diff --git
+> > > > > > a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > > > > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > > > > index 067c6af14e95..97faefcd6019 100644
+> > > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > > > > @@ -348,7 +348,7 @@ bool rzg2l_fifo_empty(struct rzg2l_cru_dev =
+*cru)
+> > > > > >       if (amnfifopntr_w =3D=3D amnfifopntr_r_y)
+> > > > > >               return true;
+> > > > > >
+> > > > > > -     return amnfifopntr_w =3D=3D amnfifopntr_r_y;
+> > > > > > +     return false;
+> > > > >
+> > > > > So the function always returned true. This seems to be a bug fix,
+> > > > > please add a Fixes: tag. The commit message should also make it
+> > > > > clear that you're fixing an issue, not just simplifying the code.
+> > > >
+> > > > No, the function returned true only if the pointers matched;
+> > > > otherwise, amnfifopntr_w =3D=3D amnfifopntr_r_y would return false.=
+ I
+> > > > was simply removing the repetitive pointer check and directly
+> > > > returning false at the end of the function, as we can be certain at=
+ that point.
+> > > > Hence, I did not add a Fixes tag. Am I missing something?
+> > >
+> > > Oops, you're right, my bad.
+> > >
+> > > > > Personally I'd have written
+> > > > >
+> > > > > diff --git
+> > > > > a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > > > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > > > index 067c6af14e95..3d0810b3c35e 100644
+> > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > > > @@ -345,8 +345,6 @@ bool rzg2l_fifo_empty(struct rzg2l_cru_dev *c=
+ru)
+> > > > >         amnfifopntr_w =3D amnfifopntr & AMnFIFOPNTR_FIFOWPNTR;
+> > > > >         amnfifopntr_r_y =3D
+> > > > >                 (amnfifopntr & AMnFIFOPNTR_FIFORPNTR_Y) >> 16;
+> > > > > -       if (amnfifopntr_w =3D=3D amnfifopntr_r_y)
+> > > > > -               return true;
+> > > > >
+> > > > >         return amnfifopntr_w =3D=3D amnfifopntr_r_y;  }
+> > > > >
+> > > > > but that's also a bit of a style preference.
+> > > >
+> > > > I wanted to keep this consistent with the rz3e_fifo_empty(). If you
+> > > > prefer the above I'll do that in v2.
+> > >
+> > > Up to you.
+> > >
+> > Thanks. OK, let's keep this patch as is to stay consistent with rz3e_fi=
+fo_empty().
 >
-> > @@ -115,6 +138,17 @@ static const struct cpg_core_clk r9a09g057_core_cl=
-ks[] __initconst =3D {
-> >         DEF_DDIV(".pllvdo_cru2", CLK_PLLVDO_CRU2, CLK_PLLVDO, CDDIV4_DI=
-VCTL1, dtable_2_4),
-> >         DEF_DDIV(".pllvdo_cru3", CLK_PLLVDO_CRU3, CLK_PLLVDO, CDDIV4_DI=
-VCTL2, dtable_2_4),
-> >
-> > +       DEF_FIXED(".plleth_250_fix", CLK_PLLETH_DIV_250_FIX, CLK_PLLETH=
-, 1, 4),
-> > +       DEF_FIXED(".plleth_125_fix", CLK_PLLETH_DIV_125_FIX, CLK_PLLETH=
-_DIV_250_FIX, 1, 2),
-> > +       DEF_CSDIV(".plleth_gbe0", CLK_CSDIV_PLLETH_GBE0,
-> > +                 CLK_PLLETH_DIV_250_FIX, CSDIV0_DIVCTL0, dtable_2_100)=
-,
-> > +       DEF_CSDIV(".plleth_gbe1", CLK_CSDIV_PLLETH_GBE1,
-> > +                 CLK_PLLETH_DIV_250_FIX, CSDIV0_DIVCTL1, dtable_2_100)=
-,
-> > +       DEF_SMUX(".smux2_gbe0_txclk", CLK_SMUX2_GBE0_TXCLK, SSEL0_SELCT=
-L2, smux2_gbe0_txclk),
-> > +       DEF_SMUX(".smux2_gbe0_rxclk", CLK_SMUX2_GBE0_RXCLK, SSEL0_SELCT=
-L3, smux2_gbe0_rxclk),
-> > +       DEF_SMUX(".smux2_gbe1_txclk", CLK_SMUX2_GBE1_TXCLK, SSEL1_SELCT=
-L0, smux2_gbe1_txclk),
-> > +       DEF_SMUX(".smux2_gbe1_rxclk", CLK_SMUX2_GBE1_RXCLK, SSEL1_SELCT=
-L1, smux2_gbe1_rxclk),
-> > +
-> >         DEF_DDIV(".pllgpu_gear", CLK_PLLGPU_GEAR, CLK_PLLGPU, CDDIV3_DI=
-VCTL1, dtable_2_64),
-> >
-> >         /* Core Clocks */
+> Looks a typo rz3e_fifo_empty()->rzg3e_fifo_empty(). Above as well.
 >
-> > @@ -233,6 +271,38 @@ static const struct rzv2h_mod_clk r9a09g057_mod_cl=
-ks[] __initconst =3D {
-> >                                                 BUS_MSTOP(7, BIT(10))),
-> >         DEF_MOD("usb2_0_pclk_usbtst1",          CLK_PLLDTY_ACPU_DIV4, 1=
-1, 7, 5, 23,
-> >                                                 BUS_MSTOP(7, BIT(11))),
-> > +       DEF_MOD_EXTERNAL("gbeth_0_clk_tx_i",    CLK_SMUX2_GBE0_TXCLK, 1=
-1, 8, 5, 24,
-> > +                                               BUS_MSTOP(8, BIT(5)),
-> > +                                               0x300, 8, 1),
->
-> CPG_SSEL0
->
-> I'm wondering if you really have to store and duplicate this info here.
-> Can't you infer it from the parent's smux description?
->
-To clarify, you mean to get the parent of the mod clock and then get
-the clk_mux to get the base?
+Good catch, this typo needs fixing.
 
 Cheers,
 Prabhakar
