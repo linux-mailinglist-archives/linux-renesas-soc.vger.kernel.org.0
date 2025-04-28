@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-16430-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16431-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54C9A9FADC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 22:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D22EA9FAE0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 22:55:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F9C91A8644D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 20:55:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00C6C1A86D52
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Apr 2025 20:56:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB34F20012C;
-	Mon, 28 Apr 2025 20:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE0032066DE;
+	Mon, 28 Apr 2025 20:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PcsODo/+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LRK3bIk7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69CF1FBE8A;
-	Mon, 28 Apr 2025 20:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F366C1FE468;
+	Mon, 28 Apr 2025 20:55:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745873725; cv=none; b=utBi4NZyalm4PLMGBEi0Qm/ygB4Yq5be+ceCsjLyIRvnZAQpKZlZ1ZAP2QwoYMECosaQ9vlpkLQFy9FXUzidY0chrAkTUMSBjW0eaUX1cuJevHAHWMIBqiwya0nFfbykota+oVML9WNAHTQ7Ofy1JZILzgHo18QGXyikVAw353s=
+	t=1745873726; cv=none; b=MPMIT1gOXxNLrfEx2dnsJkGgMsZk8MqRjtqx7ZtF6sDL7aVDTqhBV5dRGgctCutXwbZ9ml70ueX2rDjYPf9rozQyptYRJ5VfZlcUXnJRFRzKYGup4pXJ7095pGvZeox5C+R3Dv/LsIoK0aiWt8beHYO7HeySYhJ2QGQgRNaXRrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745873725; c=relaxed/simple;
-	bh=tywGJEajZ/0KYn/9nCCXCHITXs3v8hcRIkX4Il0ZnWo=;
+	s=arc-20240116; t=1745873726; c=relaxed/simple;
+	bh=MMiTyfObOi0mhGJoCJpbicgGLh8idqkuf/Xt+cPSuMk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iPbejXMDtEaKWwMLeRABllHAkqOA5GX1IY1stAHMM0lgeqzMNwQUEieB0omsvRl7+bczQd9sknSpAUOmKJndc6S3nOb9WTjLKg6rhsp/fjHsUsEbpiiruafJz35a8mRDvdI2xz4HkThgld0Ogl7uE4nwClmrbsDf/VpJvyTo5eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PcsODo/+; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version; b=KBkqleEAmTZUvZR/3YQOCJQW7ItOB8TR7ASmcDWdZURdCuyf5ALPcvGzefNz9PzQ8Qb3GkRCm8GmzrvZou48RpATv9vzJINrAn1DANPSGo+va5GQvYpS/WsRmDhouEx/nF4fvlLNr3W+cJ3r1mZy5IHSmrOnkaadEN9tvOW3fNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LRK3bIk7; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43d0359b1fcso33371175e9.0;
-        Mon, 28 Apr 2025 13:55:23 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43d0359b1fcso33371245e9.0;
+        Mon, 28 Apr 2025 13:55:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745873722; x=1746478522; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1745873723; x=1746478523; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sJqmAEmLG5deGArmtU9OLFAQLsEZ1LvhT8cZ1irxdWE=;
-        b=PcsODo/+04ZCW/nTMGkB1lBUVAdJQpxlNLun6J+1o2eH3HuwoAfQarvAZaKkQUC06i
-         g80lxMqAAxKAFAAiiWEtF+tghBI6FH04LlmvfGVHds+y/GHv8zpocI6cJcD4V02aLJZm
-         9Z7kJPzyI/xsxnvHUV1gYQGinVZsQrMhVGfuPeiXrJ3oURlvEJpK73fLG880mEdbm3w4
-         HOaG4JIUhS3lvYcP4TEaXdTlsiSFdt3ISpJCwpcDkjM7iBkV5Xw9afSIOnqPWxlZoGnV
-         ge5Gq2Pe23HF5fq1B5yVm9mV9K8jDtRVeYUpRnfd3hjdXxOi6T5oKspxlDkyWOM5va29
-         47bw==
+        bh=NmTH9g2hjp7t5U5CbL7v12p+NH5hcl+Sene4OMZYSQs=;
+        b=LRK3bIk722FQcq27oc7j9K8ZaNn3IglaDnqJResl/Rg2zdHXqwqxkkw+Phdpkinvlc
+         5BSY7Ppm2cqwFh6naWhquJcnFqtXRgXDa3OkAf/IsRQxUv322LA5JPYBsXTLoKMyItqA
+         KzCCj6/WN3hsOO6YPjromWJvK7wABLQeC3cZUZXwLIifzFQOuVsE0i07sG4NlKuMa1q/
+         FPl5uzuoq8a9OuUyj81+JbgLED6Y8UM53/VNZwFOZ15MewsDnHLBnRn+sg8iTyOxeb2N
+         a4Y1M4FO+l2g+mnhCeYXy+somEgqJjRb9gOmMxipsCUX6PgQl0qo18c1B58LtW96oiMw
+         KsFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745873722; x=1746478522;
+        d=1e100.net; s=20230601; t=1745873723; x=1746478523;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sJqmAEmLG5deGArmtU9OLFAQLsEZ1LvhT8cZ1irxdWE=;
-        b=T3yQJM/HHZi0uxL+M1UDxbd24MviPPo4eBja+yIe8QyPeY/I8dGlibJmpIg1DaewMN
-         LqvrbEYLOuckd2Bcd3TtyHgm+sve4oe4yg0B/eJd2wY30OsglerdwfvIR/ApDKql/kOo
-         RvuPsoetvyKxn4JQeX+QDv/lfhZrX7Fw99PmVAE7ivKA1LcwKvQJ6mK3GeIiWlKvbP2T
-         LCBBgPy21pbwngh9IsyHw8UQqyo2f2Yhkaom4+3/z28ha5sprsgW4F+ok7OOT7hZaINT
-         S3zqyA+t04rSIsm3MzcI+ZL99SFZOQfImy1kgUXAjwX2n5N3pG1JhaKVVj1CLGDL4h+f
-         21hA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJfLQYOwX04b/c+QbUYSgtDFJvTuMnDFkErvudr5Zz4BKvQcOdtOiBy8OG9vLI6BP5up6mFVNTsz4Tyg79@vger.kernel.org, AJvYcCVhBuk6HlUKStTEal8O/rnlZy00M4an5B0YGZBrBi0GpEegzSZ67YUe5uCihFg3xUl8oxdcJzC/mk/i@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyAyK0dIRSO0wK9EhyfuIYxyK9/z7MYEUBLAf3J0LkVYAyOmAM
-	4DzLZfGPGwSM/2bUMlX5x52fKOgYIU46U9kBrbotCPoxeG2rgJr87MYBlUR3
-X-Gm-Gg: ASbGncve6xK3cgbBkRdcFRrlFizfChfCMvVDW8jrCU8oB+eiDPQCCzt6QPeQ/xHX/0u
-	2nYND84v1aAVrXQdfWCKVkStwU+g228h6JU9f5AVhQBZrmmCrAp+Ad8snoi9r3a1GcdnndpvPqO
-	oSw2oYMiqi+Y9fTlhrhnuOAo1AXlfKh66aSFUXnSDIx16QjGB0c2vINMAXMrDI4XGJE7v28k2UD
-	8LMq6QzQK2OUc99/xltivqkjLFtuqM16OTKY5wbEnaDxsaDpaOTd75WTBguLIFEhLKAbZ/1u9cO
-	BMeVOc71l5EfgJqKYYkkox/B+EcA3at+8UbeMJaVzOGFNjVvlErVAciKnuLKrzYAuvYmwDxCdg=
+        bh=NmTH9g2hjp7t5U5CbL7v12p+NH5hcl+Sene4OMZYSQs=;
+        b=e+KgLoXalwH1t8CgVXbPtPi8mkadZeHnnRgqYOnkQAQMjhsLELtOvdPH7CQv9i4Ofo
+         zvZLRqqjOhA/DajfWanz/JrMVrttK3vjeQ/fYwe5EdfKR6M7guVarwFHm87gqh+Synr7
+         kuV4jkW55uSDTzryGGsWJyG9UBo74ZK7HkDBb12+78mJ9mXqP+9DqrMMzKuRx/A8+81z
+         dmhZvcv3dhuFvTYXD9O2R74QYvh8IELxSDaLVAE6rA/f+u3lSo0v24170iIQMj6s/RIo
+         K/7dN+6wmXmV3/lIK4QHpflIeHYdN4nyL39mVuX8toZbsOdO/nYFcOHZlowmFa5wX8XZ
+         n1Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7kz4O3lx2t9VKk5ghsIFXTqiRucXi5ZOnfoTliwPnGNV8bMmn+cAeOhdZkI7/IDrr2/nRrF8qS7Yl@vger.kernel.org, AJvYcCVZBbm1R2LVvi0WczO8rw5TaE5tDAIZnQNfV6a3I2p6scF6r4SXWVwZXroENQUOMfdsosAckAYvs7sdpmIu@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkWwN2Q2oOXjyPTy3mAAmv5ugmPPsXVmIYYizJSWbjlQKhfi0L
+	PgFHVyBgTu01tDAL2cyG3JvRbQDc9nqjHYSbOCzZLqZ7HspHchNPgtFfOjdh
+X-Gm-Gg: ASbGncvqytmzGveBbMvur0l7DsLzvPrMnKokoXaa/3o10OLdnvKuoCLcPGfsMNRD7jm
+	zNx9xsRzkBOWzrniph797p9YjTD6Z4F08zo5m3v1b9281Lj0O3pL2SSNNzksiPb0g7QijlhQMLO
+	NcQCQIpUrP5NboFe+rNcbMoOEAfcinYmFG2pRHaCeVEnCVXNjtWMsu1PUVul+ykPQocCL2ufCor
+	PWHun1Td8CVnkynTOESNHkppgshJebmrVI/KKHlylk++IvSnRBdNFAU0Bj4CB7qXa79JgB5hfIB
+	Da2PieW1hQDkhfijZ5Umz0sPon3XRN8O3RjdMu93iQXEvIhoD7u8zjkCJA/uQWVRIfGJZ6StSA=
 	=
-X-Google-Smtp-Source: AGHT+IH16Vi7Qtxlmy8Vr7THivvyu8q8glyHc/ckAMJfCUjCGAtvsy5mqo4l4fYeMHQKMUODir2JGg==
-X-Received: by 2002:a05:600c:3b86:b0:43c:f509:2bbf with SMTP id 5b1f17b1804b1-441ad79c55amr144825e9.15.1745873722068;
-        Mon, 28 Apr 2025 13:55:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEr8YmC+G5tsSYX4vcQSKxRDWcFzJK+Xld+DzAo2nfPMmX4hDElOWzxC1FA153cd2pOeVzq2w==
+X-Received: by 2002:a05:600c:b8c:b0:440:6a68:826a with SMTP id 5b1f17b1804b1-441acb54c61mr4317625e9.13.1745873723167;
+        Mon, 28 Apr 2025 13:55:23 -0700 (PDT)
 Received: from iku.example.org ([2a06:5906:61b:2d00:593b:8313:b361:2f0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2a2ac0sm167845705e9.15.2025.04.28.13.55.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2a2ac0sm167845705e9.15.2025.04.28.13.55.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 13:55:21 -0700 (PDT)
+        Mon, 28 Apr 2025 13:55:22 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -87,9 +87,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 1/2] arm64: dts: renesas: r9a09g057: Add GBETH nodes
-Date: Mon, 28 Apr 2025 21:55:17 +0100
-Message-ID: <20250428205518.454960-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 2/2] arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable GBETH
+Date: Mon, 28 Apr 2025 21:55:18 +0100
+Message-ID: <20250428205518.454960-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250428205518.454960-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250428205518.454960-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -103,220 +103,112 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Renesas RZ/V2H(P) SoC is equipped with 2x Synopsys DesignWare Ethernet
-Quality-of-Service IP block version 5.20. Add GBETH nodes to R9A09G057
-RZ/V2H(P) SoC DTSI.
+Enable the GBETH nodes on the RZ/V2H Evaluation Kit.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 194 +++++++++++++++++++++
- 1 file changed, 194 insertions(+)
+ .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    | 74 +++++++++++++++++++
+ 1 file changed, 74 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-index 18ab5639b301..fd44de17e052 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-@@ -701,6 +701,200 @@ sdhi2_vqmmc: vqmmc-regulator {
- 				status = "disabled";
- 			};
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
+index 063eca0ba3e2..6b12bdc3eff9 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
+@@ -16,6 +16,8 @@ / {
+ 	compatible = "renesas,rzv2h-evk", "renesas,r9a09g057h44", "renesas,r9a09g057";
+ 
+ 	aliases {
++		ethernet0 = &eth0;
++		ethernet1 = &eth1;
+ 		i2c0 = &i2c0;
+ 		i2c1 = &i2c1;
+ 		i2c2 = &i2c2;
+@@ -78,6 +80,68 @@ &audio_extal_clk {
+ 	clock-frequency = <22579200>;
+ };
+ 
++&eth0 {
++	pinctrl-0 = <&eth0_pins>;
++	pinctrl-names = "default";
++	phy-handle = <&phy0>;
++	phy-mode = "rgmii-id";
++	status = "okay";
 +
-+		eth0: ethernet@15c30000 {
-+			compatible = "renesas,r9a09g057-gbeth", "renesas,rzv2h-gbeth",
-+				     "snps,dwmac-5.20";
-+			reg = <0 0x15c30000 0 0x10000>;
-+			interrupts = <GIC_SPI 765 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 767 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 766 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 772 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 773 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 774 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 745 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 768 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 769 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 770 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 771 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq", "eth_wake_irq", "eth_lpi",
-+					  "rx-queue-0", "rx-queue-1", "rx-queue-2",
-+					  "rx-queue-3", "tx-queue-0", "tx-queue-1",
-+					  "tx-queue-2", "tx-queue-3";
-+			clocks =  <&cpg CPG_MOD 0xbd>, <&cpg CPG_MOD 0xbc>,
-+				  <&cpg CPG_CORE R9A09G057_GBETH_0_CLK_PTP_REF_I>,
-+				  <&cpg CPG_MOD 0xb8>, <&cpg CPG_MOD 0xb9>,
-+				  <&cpg CPG_MOD 0xba>, <&cpg CPG_MOD 0xbb>;
-+			clock-names = "stmmaceth", "pclk", "ptp_ref",
-+				      "tx", "rx", "tx-180", "rx-180";
-+			resets = <&cpg 0xb0>;
-+			snps,multicast-filter-bins = <256>;
-+			snps,perfect-filter-entries = <128>;
-+			rx-fifo-depth = <8192>;
-+			tx-fifo-depth = <8192>;
-+			snps,fixed-burst;
-+			snps,no-pbl-x8;
-+			snps,force_thresh_dma_mode;
-+			snps,axi-config = <&stmmac_axi_setup>;
-+			snps,mtl-rx-config = <&mtl_rx_setup0>;
-+			snps,mtl-tx-config = <&mtl_tx_setup0>;
-+			snps,txpbl = <32>;
-+			snps,rxpbl = <32>;
-+			status = "disabled";
++	mdio {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		compatible = "snps,dwmac-mdio";
 +
-+			mtl_rx_setup0: rx-queues-config {
-+				snps,rx-queues-to-use = <4>;
-+				snps,rx-sched-sp;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x1>;
-+					snps,map-to-dma-channel = <0>;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x2>;
-+					snps,map-to-dma-channel = <1>;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x4>;
-+					snps,map-to-dma-channel = <2>;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x8>;
-+					snps,map-to-dma-channel = <3>;
-+				};
-+			};
-+
-+			mtl_tx_setup0: tx-queues-config {
-+				snps,tx-queues-to-use = <4>;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x1>;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x2>;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x4>;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x8>;
-+				};
-+			};
-+		};
-+
-+		eth1: ethernet@15c40000 {
-+			compatible = "renesas,r9a09g057-gbeth", "renesas,rzv2h-gbeth",
-+				     "snps,dwmac-5.20";
-+			reg = <0 0x15c40000 0 0x10000>;
-+			interrupts = <GIC_SPI 780 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 782 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 781 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 787 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 788 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 789 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 790 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 783 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 784 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 785 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 786 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq", "eth_wake_irq", "eth_lpi",
-+					  "rx-queue-0", "rx-queue-1", "rx-queue-2",
-+					  "rx-queue-3", "tx-queue-0", "tx-queue-1",
-+					  "tx-queue-2", "tx-queue-3";
-+			clocks =  <&cpg CPG_MOD 0xc3>, <&cpg CPG_MOD 0xc2>,
-+				  <&cpg CPG_CORE R9A09G057_GBETH_1_CLK_PTP_REF_I>,
-+				  <&cpg CPG_MOD 0xbe>, <&cpg CPG_MOD 0xbf>,
-+				  <&cpg CPG_MOD 0xc0>, <&cpg CPG_MOD 0xc1>;
-+			clock-names = "stmmaceth", "pclk", "ptp_ref",
-+				      "tx", "rx", "tx-180", "rx-180";
-+			resets = <&cpg 0xb1>;
-+			snps,multicast-filter-bins = <256>;
-+			snps,perfect-filter-entries = <128>;
-+			rx-fifo-depth = <8192>;
-+			tx-fifo-depth = <8192>;
-+			snps,fixed-burst;
-+			snps,no-pbl-x8;
-+			snps,force_thresh_dma_mode;
-+			snps,axi-config = <&stmmac_axi_setup>;
-+			snps,mtl-rx-config = <&mtl_rx_setup1>;
-+			snps,mtl-tx-config = <&mtl_tx_setup1>;
-+			snps,txpbl = <32>;
-+			snps,rxpbl = <32>;
-+			status = "disabled";
-+
-+			mtl_rx_setup1: rx-queues-config {
-+				snps,rx-queues-to-use = <4>;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x1>;
-+					snps,map-to-dma-channel = <0>;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x2>;
-+					snps,map-to-dma-channel = <1>;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x4>;
-+					snps,map-to-dma-channel = <2>;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x8>;
-+					snps,map-to-dma-channel = <3>;
-+				};
-+			};
-+
-+			mtl_tx_setup1: tx-queues-config {
-+				snps,tx-queues-to-use = <4>;
-+
-+				queue0 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x1>;
-+				};
-+
-+				queue1 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x2>;
-+				};
-+
-+				queue2 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x4>;
-+				};
-+
-+				queue3 {
-+					snps,dcb-algorithm;
-+					snps,priority = <0x8>;
-+				};
-+			};
++		phy0: ethernet-phy@0 {
++			compatible = "ethernet-phy-id0022.1640", "ethernet-phy-ieee802.3-c22";
++			reg = <0>;
++			rxc-skew-psec = <0>;
++			txc-skew-psec = <0>;
++			rxdv-skew-psec = <0>;
++			txdv-skew-psec = <0>;
++			rxd0-skew-psec = <0>;
++			rxd1-skew-psec = <0>;
++			rxd2-skew-psec = <0>;
++			rxd3-skew-psec = <0>;
++			txd0-skew-psec = <0>;
++			txd1-skew-psec = <0>;
++			txd2-skew-psec = <0>;
++			txd3-skew-psec = <0>;
 +		};
 +	};
++};
 +
-+	stmmac_axi_setup: stmmac-axi-config {
-+		snps,lpi_en;
-+		snps,wr_osr_lmt = <0xf>;
-+		snps,rd_osr_lmt = <0xf>;
-+		snps,blen = <16 8 4 0 0 0 0>;
- 	};
++&eth1 {
++	pinctrl-0 = <&eth1_pins>;
++	pinctrl-names = "default";
++	phy-handle = <&phy1>;
++	phy-mode = "rgmii-id";
++	status = "okay";
++
++	mdio {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		compatible = "snps,dwmac-mdio";
++
++		phy1: ethernet-phy@1 {
++			compatible = "ethernet-phy-id0022.1640", "ethernet-phy-ieee802.3-c22";
++			reg = <0>;
++			rxc-skew-psec = <0>;
++			txc-skew-psec = <0>;
++			rxdv-skew-psec = <0>;
++			txdv-skew-psec = <0>;
++			rxd0-skew-psec = <0>;
++			rxd1-skew-psec = <0>;
++			rxd2-skew-psec = <0>;
++			rxd3-skew-psec = <0>;
++			txd0-skew-psec = <0>;
++			txd1-skew-psec = <0>;
++			txd2-skew-psec = <0>;
++			txd3-skew-psec = <0>;
++		};
++	};
++};
++
+ &gpu {
+ 	status = "okay";
+ 	mali-supply = <&reg_0p8v>;
+@@ -172,6 +236,16 @@ &ostm7 {
+ };
  
- 	timer {
+ &pinctrl {
++	eth0_pins: eth0 {
++		pins = "ET0_TXC_TXCLK";
++		output-enable;
++	};
++
++	eth1_pins: eth0 {
++		pins = "ET1_TXC_TXCLK";
++		output-enable;
++	};
++
+ 	i2c0_pins: i2c0 {
+ 		pinmux = <RZV2H_PORT_PINMUX(3, 0, 1)>, /* I2C0_SDA */
+ 			 <RZV2H_PORT_PINMUX(3, 1, 1)>; /* I2C0_SCL */
 -- 
 2.49.0
 
