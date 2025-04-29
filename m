@@ -1,202 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-16458-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16459-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CA2AA0748
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Apr 2025 11:31:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C38B3AA0743
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Apr 2025 11:31:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1FF13484111
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Apr 2025 09:30:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 070AE7AF655
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Apr 2025 09:30:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E0552C1E32;
-	Tue, 29 Apr 2025 09:28:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ED832BD598;
+	Tue, 29 Apr 2025 09:28:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="b3QffBEW"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jg+2Ryxa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFFC72BCF47;
-	Tue, 29 Apr 2025 09:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C978F27BF78
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Apr 2025 09:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745918886; cv=none; b=falFz/hRtUriEhvd7oisL35G/0GOmKP2oYRN4NH46uh8Y3SaG6J1doOX+BBjttQYk4EauBWmxfwirvOlrFisSE6x3fchnDQP5+m083UMhvBdIGE6k8XD9kES9nay0qtBXGm9KHPFEgANKzs4v/+f7nbnkKB80Ohc5uMWEQjFgus=
+	t=1745918930; cv=none; b=uG0VZlrrGJGmODskfh5wDf6fJ4CFjlAavNQw/BcNosyLkfusW/xjuaIbmZQnit3gijgwx1ZkDfi9yPrZLfuEF3cMPcG620INxhzFS9GVyD95c9xXb8ct+LVfxz5Ua4s5g/APTtfHZpKL8b1hH6DMQpBNdVTrzGp6jsJhYfo5D8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745918886; c=relaxed/simple;
-	bh=m6BH7rPvWXI4+Y9j/+D57wi/3GKOYG4eeIxYiEgU9NU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IY+qdbfYB0y55hMEE6zRW5c9wlMqhBH78XnXjFXZslRKhfPimXdrVZ08y8sdTXYavT3loEUnayw6e6PmTAWvNHZPrF2pxO1P5MChhP19MLFM1pFoBYOtZTzItonmpNdErq51tuPXnK34+slKXu0JND0fKbhTFXE3fPXcRhyE5AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=b3QffBEW; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9DE5D43AD6;
-	Tue, 29 Apr 2025 09:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745918880;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kdpP6+IZV0QYmrFxTy58B29gyyja9aTG1LwyoYVwA54=;
-	b=b3QffBEWXOkepRbRJBAxG56ebIFGpWNAlbC+KLQo0RM4CJOdHofw9LcRaXOlQzjEbdB3RX
-	Z+03iDitY3AAR93mhf5d6WLE4XuT3QGY7QachEbLrEI4kcECt5/wn0GKM7h1OqhW4SjOpz
-	HOTdVe7S/cZE605Z0+HeFU5eI+Z3o6g8ShHK76B/FqbRAkibTMzruH5CF/IoUuGm4GYVXs
-	sFtz6X9pJP9Yj6BYgD109FXC4ES1/uz4pLgGybsGQHMDOgyJx5zG6q/WG2yh6+/TQM4XDc
-	hqGRyOgKhSdGaqn9GMqCPbl95bREdu4X3Ttbed9zcOzDQJjjJUJriSfQHcCMEg==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Douglas Anderson <dianders@chromium.org>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Anusha Srivatsa <asrivats@redhat.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
- Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
- Adam Ford <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
- Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Christoph Fritz <chf.fritz@googlemail.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Detlev Casanova <detlev.casanova@collabora.com>, 
- Dharma Balasubiramani <dharma.b@microchip.com>, 
- Guenter Roeck <groeck@chromium.org>, Heiko Stuebner <heiko@sntech.de>, 
- Jani Nikula <jani.nikula@intel.com>, Janne Grunau <j@jannau.net>, 
- Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Liu Ying <victor.liu@nxp.com>, 
- Manikandan Muralidharan <manikandan.m@microchip.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Phong LE <ple@baylibre.com>, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Sugar Zhang <sugar.zhang@rock-chips.com>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Vitalii Mordan <mordan@ispras.ru>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- "Rob Herring (Arm)" <robh@kernel.org>, 
- Hsin-Te Yuan <yuanhsinte@chromium.org>, 
- Pin-yen Lin <treapking@chromium.org>, Xin Ji <xji@analogixsemi.com>, 
- Aradhya Bhatia <a-bhatia1@ti.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@ge.com>, 
- Martyn Welch <martyn.welch@collabora.co.uk>, 
- Peter Senna Tschudin <peter.senna@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- Herve Codina <herve.codina@bootlin.com>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Bjorn Andersson <quic_bjorande@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Helge Deller <deller@gmx.de>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Michal Simek <michal.simek@amd.com>
-In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
-Subject: Re: (subset) [PATCH v2 00/34] drm: convert all bridges to
- devm_drm_bridge_alloc()
-Message-Id: <174591887152.961603.7706063017853945511.b4-ty@bootlin.com>
-Date: Tue, 29 Apr 2025 11:27:51 +0200
+	s=arc-20240116; t=1745918930; c=relaxed/simple;
+	bh=rz7GEU+cLgkTuSJ7/jJk4YnGG3C+NyOdb2kkdvOKqoE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NU2d4VRqNrp9ZXimia6LFJe61rdh20QDzvo5DJKI6JVRJNHdiLrjgW+gQOe5QnFvxw6HpB7oTzZ3zZLYKCMSX4S4Kd5WZMFjHJ4OEu/864kpkBfdtenS8TMbnwbx61KgTogN+qP+WQMohsyiINOll9LXb2Exl+IAwKx6Q9frNT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jg+2Ryxa; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-70821dba48eso44573767b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Apr 2025 02:28:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745918928; x=1746523728; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rfeG3dd0iHg4ZedR6tUQEk3LD+qMPNa78G6OKmslOhw=;
+        b=jg+2RyxaUusP3lqtdJDfxgTskd2m9gt+J4D5jf3VmZ7wcu70DqNlwsXl/ieVmE+BCi
+         jrFn08X+Umw6fS43ItgMnqc19ppRjrgmd1A52CnFP9QjoddsXfrazZVhNiqXR2ZVSQ+R
+         pSmUkLhixX17hkKZw7NVepQpG6ixkxFa4IJeuhXE/lydqvghtCrSPTaIJMPXmMroN9ZL
+         pto9RQD2u0+sHEgnYIPCHQs6xERs4r+FIpXRIzuusi+u6hniGHT3O1HpZGUce+tt9yqE
+         O7oY1VluOLJgIfmw5sIfv007JTMyEtLfLTmNy3cj5ZBxcX6AErS6H8dX5U68ob/Njl0O
+         Q1Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745918928; x=1746523728;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rfeG3dd0iHg4ZedR6tUQEk3LD+qMPNa78G6OKmslOhw=;
+        b=vM7s4927cl5WFv2mXZL4rPHnyjsoXUOP5inQBCPafUyzcfa3IeoBWBJkpLqBB0QvXH
+         FWQ5CkVeMpjp6WtAgin6WNVWESZmT2g+9IKaC7jaOi6cNARO8GVQUr+SXQgLjFQBobVt
+         OMSPEBFfrXl1ACcr8qhs4BUg97w9WcUGpnTMyMRA2nA1OxDkYoj8N+srTOqCIX6uvaIR
+         vcCm+j5AnusNfPM/gpvNDT/duFSB4ze2wI/fKbHseIzfNb7kqKRYiXmo5kPQNWj4gDQV
+         wohiNdbp5aflYgsrwifL89g6P5jpi/cu3pZZcVKp2CfbU9g66No1NFsTPgKlDu42ael6
+         LNQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVPISDSssvbxGZRJoxyUOrYeUULrrfYhuYtIk8st04w/ON94BRrb/G7CjqebI3jgMBPIxkZp+DVBtk93DMvd5z7BQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1bh3vFT8c7XGtdntzFc6AzK8+cYV1doR7qo7iZMpO1KthUGf4
+	nftJ0mPRKC+MayZD5KFBbV9EaeTkSLjTi4tc2rkf6gShXdHMMDzdO75iZ83ODEsrtJZ0Luk6MCl
+	wu5W9QJDjtkFwHhCPnPpTBWWkuWF4tbnF8NFKVq2qWPStk4Ic
+X-Gm-Gg: ASbGncsM4hDf6oLXrNMpDHfMwppEPTlEHAjV1s4Fg1r5NNZMIXIFKAnL23X6HFhCmR/
+	IMgIDjlMNqQgq0usuLfr5v263vN+uMmKsKNnm3XmRN9nyY3x38nuABbM/ROlP3csU10jXqftvL8
+	wYgwTh8e/oEQ8HDAToQA9fNzI=
+X-Google-Smtp-Source: AGHT+IGqaZACXqvr7JdmMVvJ8PR+gCTsx+pGcWiJ4NHfME0mBxihXmiMZvORJMcNAuMeeOrgqZTMEz2gRJvInQo+C+U=
+X-Received: by 2002:a05:690c:4913:b0:706:b3c1:3d00 with SMTP id
+ 00721157ae682-7085f255a3bmr182926527b3.37.1745918927853; Tue, 29 Apr 2025
+ 02:28:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieefgeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevjghfuffkffggtgfgofesthejredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeejheeiledvkeeigeeluddtleejvdfhleefleffffeitdetvdeltddttddtgfelteenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgdujedvrddukedrtddrudgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddutddprhgtphhtthhopehmrghtthhhihgrshdrsghgghesghhmrghilhdrtghomhdprhgtphhtthhopehjsghruhhnvghtsegsrgihlhhisghrvgdrtghomhdprhgtphhtthhopehfnhhklhdrkhgvrhhnvghlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepphdriigrsggvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtp
- hhtthhopeguvghllhgvrhesghhmgidruggvpdhrtghpthhtoheprhhgrghllhgrihhsphhouhesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-GND-Sasl: louis.chauvet@bootlin.com
+References: <107f2bf9f13b29f0f623d2959a5347ec151fb089.1745840768.git.geert+renesas@glider.be>
+In-Reply-To: <107f2bf9f13b29f0f623d2959a5347ec151fb089.1745840768.git.geert+renesas@glider.be>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 29 Apr 2025 11:28:11 +0200
+X-Gm-Features: ATxdqUHJBHA0aHhbwsDUsk737mmH_eoVJSA36tbcF6B9qrh4_o8nqg_lRGoC3LA
+Message-ID: <CAPDyKFrvPub5qd3bnf5gmmgB59BjR6infOXcFibfxs2E7MnTLg@mail.gmail.com>
+Subject: Re: [PATCH] pmdomain: renesas: rcar: Remove obsolete nullify checks
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Mon, 28 Apr 2025 at 13:56, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> All nullify users and helpers were removed, but the R-Car SYSC drivers
+> still checked for nullified domains.  Remove the obsolete checks.
+>
+> Fixes: c8d87704444a8ac7 ("pmdomain: renesas: rcar-sysc: Remove rcar_sysc_nullify() helper")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Thu, 24 Apr 2025 20:59:07 +0200, Luca Ceresoli wrote:
-> devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a DRM
-> bridge, and the only one supported from now on. It is also necessary for
-> implementing reference counting and thus needed to support removal of
-> bridges from a still existing DRM pipeline without use-after-free.
-> 
-> This series converts all DRM bridges to the new API.
-> 
-> [...]
+Applied for fixes, thanks!
 
-Applied, thanks!
+Kind regards
+Uffe
 
-[02/34] platform: arm64: acer-aspire1-ec: convert to devm_drm_bridge_alloc() API
-        commit: 411465d35bc56877c33e2498ac697acfcf484e6b
-[03/34] drm/bridge: analogix-anx6345: convert to devm_drm_bridge_alloc() API
-        commit: 53ddeb25159781b029fda404226af600e76f975f
-[06/34] drm/bridge: display-connector: convert to devm_drm_bridge_alloc() API
-        commit: 4e90a3d96a6185e143041273f9867a1092dd4a71
-[07/34] drm/bridge: lt9611uxc: convert to devm_drm_bridge_alloc() API
-        commit: 6287ffd9eff6eea65865e64b9d4c45e115fa5ecf
-[11/34] drm/bridge: dw-hdmi: convert to devm_drm_bridge_alloc() API
-        commit: ed6987b674185873ebed7a619a646da6dd1a78fa
-[12/34] drm/bridge: tda998x: convert to devm_drm_bridge_alloc() API
-        commit: 7fe58bf1a9a24b533875c262a3222581a3f759e4
-[13/34] drm/bridge: ti-sn65dsi86: convert to devm_drm_bridge_alloc() API
-        commit: a4754ae9cfa76fbce79f023c268a5bac56f36321
-[14/34] drm/exynos: mic: convert to devm_drm_bridge_alloc() API
-        commit: 91c5c7b5bb2dd09b43b025bce6d790d3c79f4518
-[15/34] drm/mcde: convert to devm_drm_bridge_alloc() API
-        commit: 40c25b9ec641f43ba17c7b788ac16ec23f8daaa8
-[16/34] drm/msm/dp: convert to devm_drm_bridge_alloc() API
-        commit: b2aabe5c6b65516d88214aba4b12ce2ca78bac6c
-[17/34] drm/msm/dsi: convert to devm_drm_bridge_alloc() API
-        commit: fffc8847743e45604c4478f554d628481b985556
-[18/34] drm/msm/hdmi: convert to devm_drm_bridge_alloc() API
-        commit: e11532be87e437648521a8ed5358c56df11933b4
-[27/34] drm/vc4: convert to devm_drm_bridge_alloc() API
-        commit: 9545c91ed75ff65e114761a7729de0e1b440aec6
-[31/34] drm/bridge: imx8*-ldb: convert to devm_drm_bridge_alloc() API
-        commit: e74b84cd83962e357329a695ba348b3dfe37395c
-
-Best regards,
--- 
-Louis Chauvet <louis.chauvet@bootlin.com>
-
+> ---
+>  drivers/pmdomain/renesas/rcar-gen4-sysc.c | 5 -----
+>  drivers/pmdomain/renesas/rcar-sysc.c      | 5 -----
+>  2 files changed, 10 deletions(-)
+>
+> diff --git a/drivers/pmdomain/renesas/rcar-gen4-sysc.c b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
+> index 66409cff2083fcd8..e001b5c25bed0051 100644
+> --- a/drivers/pmdomain/renesas/rcar-gen4-sysc.c
+> +++ b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
+> @@ -338,11 +338,6 @@ static int __init rcar_gen4_sysc_pd_init(void)
+>                 struct rcar_gen4_sysc_pd *pd;
+>                 size_t n;
+>
+> -               if (!area->name) {
+> -                       /* Skip NULLified area */
+> -                       continue;
+> -               }
+> -
+>                 n = strlen(area->name) + 1;
+>                 pd = kzalloc(sizeof(*pd) + n, GFP_KERNEL);
+>                 if (!pd) {
+> diff --git a/drivers/pmdomain/renesas/rcar-sysc.c b/drivers/pmdomain/renesas/rcar-sysc.c
+> index dce1a6d37e80127d..047495f54e8adc0d 100644
+> --- a/drivers/pmdomain/renesas/rcar-sysc.c
+> +++ b/drivers/pmdomain/renesas/rcar-sysc.c
+> @@ -396,11 +396,6 @@ static int __init rcar_sysc_pd_init(void)
+>                 struct rcar_sysc_pd *pd;
+>                 size_t n;
+>
+> -               if (!area->name) {
+> -                       /* Skip NULLified area */
+> -                       continue;
+> -               }
+> -
+>                 n = strlen(area->name) + 1;
+>                 pd = kzalloc(sizeof(*pd) + n, GFP_KERNEL);
+>                 if (!pd) {
+> --
+> 2.43.0
+>
 
