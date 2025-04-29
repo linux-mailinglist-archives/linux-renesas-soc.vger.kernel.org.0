@@ -1,160 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-16456-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16457-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5808AA06CD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Apr 2025 11:17:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD97AA06D7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Apr 2025 11:18:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4CEAA4810C2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Apr 2025 09:17:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E53B28449F7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Apr 2025 09:17:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F7982BD5A0;
-	Tue, 29 Apr 2025 09:16:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39A772BCF68;
+	Tue, 29 Apr 2025 09:17:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z5C3idTJ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tqqv2JPb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1942BCF47;
-	Tue, 29 Apr 2025 09:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3659A2BCF4B
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Apr 2025 09:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745918192; cv=none; b=Ww3DF5IkEHb71p4ryyB+htJ+lFd3bNuRRDce1R5KhEFd7yx1xr6MQBIDHfCONuNb+hfVpV4JwMfmUBynBFb7v3RL0B4ra13F7hozU0/U9oxeKjYo8lHRJv4qlx9q3OmtDD2D7b4taiUAFA9y2J3G/yRVo0PMwaHSxxJTvq2CO14=
+	t=1745918235; cv=none; b=jYK5vMtHcw/BdcBjTf2JYO4Mmwm8IdIbpTnqaDPou4ByqhqPYwLRoqPmd50jKZ4IAFgJGnioH/fHmWbjKeYJOb+Bx4HBlHTGLvi7FZI5jlcnKYglmPSl0hu71+G0l6fpYXZ/6z0AqUWZDrbD7L+BQVo3NsVgAmNabF5VEbZQ0iU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745918192; c=relaxed/simple;
-	bh=KHAcCzi8r+gLFX9kyOF/uZktb4VUCkbEGhq0VC/nyZI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fWVi8WxhF7SqGs9eYZfduPOR9ssTQADKfKyL/RCo80nRSedlVJTj4YXAKGDRBvfjKYQttQZVstk7k0/UfFRoRrK40mZG+ESpwEwy7I/ZarEIGJIdgtN5Y3b7gqTs1YjdlqIrZwk9VyOf9ppU+uTOE4PtMNOetFiTHAaK9GBE9Nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z5C3idTJ; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cec5cd73bso28086895e9.3;
-        Tue, 29 Apr 2025 02:16:30 -0700 (PDT)
+	s=arc-20240116; t=1745918235; c=relaxed/simple;
+	bh=B0ki5WVqBAKBRusFcBBrcMjDpyZxRQJNqVD9RLqvS2Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=VI97x19g4pthxVUoZ2VEWzWOwRJv9RbZll4yfmD1ngI6kVa925kHSv90XrPyInTCRyQSuXOKH5dyFnu2nNGyoHutyZivDU5CLXVCuRLD4gOEznaAjdOvnvFAY2VHOHF6Y62C52gXuu5pJYrKeMSXGx8+Sk8NwG0dNNJ+hYGkPQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tqqv2JPb; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e73120cc26fso3714293276.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Apr 2025 02:17:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745918189; x=1746522989; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7KeJgTmuZzCKwKoJc+TwHzXYTTIM/SKnA9dAgPlVjns=;
-        b=Z5C3idTJ/adoqITifC62KxBsxKaj96gHKeTI8XSZkH/ZGbdpotwM7Z9c46MVPUqkLX
-         6TXdUkln3RfogG8jYJ3j4iTNdKCxXLiGQuXPca7173ON2NVbyh/SaBhnh7PDHQu+AOf2
-         SvY7kwXQLKBVkxMTToBT7jlAifw6BUqskSNyF7j8nCB03OyB3iBN9SpQjjvll1AZ8od3
-         /WFkPqifEMTCrelKLXs4DRzDfICq1EadkQlT2W4pDn8czn9pidgo7QSClAfxCGoZCAoO
-         NTEV1nfYTQhH1mnlprPlImxcFDR5Km/ot32XzQoFUBnTRZSj+OhzRGTPAamn17qeIdzC
-         y3Fw==
+        d=linaro.org; s=google; t=1745918229; x=1746523029; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9AFZuP5QCiVw2bvfwORhzfZHSaEjFI09KNVHM5hnVfQ=;
+        b=tqqv2JPboip4waBsxCUxEc1fWSpcBjV68m1ENkXsLyc07SA5iztnY9ba+hkmsicL6k
+         5THEQU7YmL4dgxrOlvKDq3aIaxR+ukqXP1cks2h3ZbOuraPbjQf3CpEiYBDyA9A/aNg4
+         xF6ruBnofXe+Z09lOeunI0qVM1ws13x+pw0lvszRPPWEmb4CNHZRpjTF7GWC+AdSaIkb
+         MpTS9wqehY/N31g8epy+eFvbT+SHNFGTE/oixVAJ2e0zvMTxpx+AcQdVDnEjVsTLbS2w
+         z6dxEBTg3krg8gaVntBROF9xh9LdVzVE/L/MFe3AL4Fdk6/Qs5O5bw21UZa/C7g5Pm5R
+         4S6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745918189; x=1746522989;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7KeJgTmuZzCKwKoJc+TwHzXYTTIM/SKnA9dAgPlVjns=;
-        b=QWZBxkELQDZOfJqvJb14H6X2Ra7+OREo0XrDjUUFrau47+NUBUtDZC6ArPMaG78iqj
-         9xmackxL1FIIaYkXdlNduL7JkVkn9ynBgmd5e6QFoaAr44pZ0jcQ4bCT7BJGXZnswMUh
-         jVBS9JuWlgueW55tMzpPGlgCKfKMWfHDYtecIWrNYoJsrrAMjZG0gpLBUdNyrRE8qWw2
-         iWkpqJd6YIZ0ffwD9irfXGbh5MJ4/83Zr1gwyii5U5W/h1kjOrr+qrQiOSaBWyOTFWSa
-         4QPKlGY7tobV9gsSfY29icQ1YpEC/ueclH7jcG57S9NYzAG3/bvs7lhWw4tLkGlXnW3H
-         xwBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVj0Yhl0V8MqFlsiDT6vCfd97L8kBXFMrvo2gYeNPKO/yN1EEhDJCyPkz/yB4GmfPeAq2w7qFqHgVPdyvQ=@vger.kernel.org, AJvYcCXTpl+cyIxUn2j0S/V07n0Vgh1ZiMbeEThvIUPaP4Cke4VrOGnavegK25uP4olV/AR/c5e1CeIWVdPrEGKuXQlGK+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtDXUSPtCUmnvnuh8FizlfPq5EHYu5vhItmW1FT7pzvpX7GChC
-	+nlEpdVRivLqGxSQiKtz0xwy6N8/U3R24ZWYjUPyoOeSU+YF1AH9
-X-Gm-Gg: ASbGncsKGhCqvgu1KItPpxW6I0iIOrrzjcp6qn3W7bxXxkZd1JyuvRNWicqB6/G0s2r
-	LQTCZmJjERKvDFPgJgCfcSaWakfnjsMArTreaDBqQiVMWH+sPnkiqtzBoobzi2GSquwPVAVnZpL
-	xwbJjZDAyEGRcmFMdMFntRW09209mJ3QUIT56jfq8Q6lErwI0kUpGCo6lvCoNxaUL4svKOo3XKK
-	V5WaNDjT5WXsmkLIdtvUtXv9qFZhRRDGvDFwG2ko25zsOTvE2mjv7O0QcrmaCUj3ELmhIVQ5Zw+
-	0/QaF33mpIyJPtO5ILuk47Hr+/uKqQ8WTspcojA0qnM7q5B9ULQswFh73rPg2E0dT5O81RR6181
-	u
-X-Google-Smtp-Source: AGHT+IE+oTitP0kg3NKVy6ddhQBEno6bUB/yIK27P24vu1rE3FirVxhSn8Kcjounaw0OGXazop/pcA==
-X-Received: by 2002:a05:600c:3c8f:b0:43c:f0ae:da7 with SMTP id 5b1f17b1804b1-441ad3a1e0dmr13495505e9.7.1745918188815;
-        Tue, 29 Apr 2025 02:16:28 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:2ea7:2f5b:5fec:29c9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-440a536a1ddsm151103945e9.30.2025.04.29.02.16.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 02:16:28 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/2] media: renesas: rzg2l-cru: Fix typo in rzg3e_fifo_empty name
-Date: Tue, 29 Apr 2025 10:16:09 +0100
-Message-ID: <20250429091609.9947-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250429091609.9947-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250429091609.9947-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1745918229; x=1746523029;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9AFZuP5QCiVw2bvfwORhzfZHSaEjFI09KNVHM5hnVfQ=;
+        b=fI3cCVL41v8max01PwtQqLPEkDPg7VrrutNVI74DEyPwkLtriOZiP75ma2rIY8y+y2
+         6M7j6m5CbIzWGXWXZW47g/XkQaXQpoB7E65gWZ7wLZkC60hXzxEo+pDiiSsxqD53oUOD
+         dB4NN/rblCSREPOo6DjynR8/7xLDU6Y+Zop/3sCZZy+JKwLZMqUdS4lYLxktKessgZP1
+         kS4yYUdoZo5h7Cr1bAhlAzK1RFfahz9mzWNslq8/j3lL2SubZLvPVTdiHe4kNrEePj4B
+         rvudTLYlJVsAKJ9tJtlYUXrnMsjLygdOeq38BQcORFV/A2jPMYdP7Kw0MdTR5qFXGpQF
+         a3Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCVRxSilkmOgs2oN7XDQUdigEC5LlRvmFpnG/FIM4ff+4Wk2lmijHNfkMKOfXGb5CeY45jEiApjlencxVQs/YqtgCw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyWqYpgu/Ku30iE8oXEKS9EfXEpQct7gv46vjkFye2bhoGhAa6
+	3GeyeO5VEHMbahT9s0IHj2h/hVd/XwAkr8ZRF9sPcI95pGLA4lYIgxl7HsELZ5AB3tO+8RA3tca
+	IsGH2bAxb9oXX1gTYpxICzMXO/8h40FZlILbGCw==
+X-Gm-Gg: ASbGncvWlsM0chl6GJp9bJYbKb7vgEcC6ELwx72vJLcnvtBWDwR4+GDXMXf6GhAgG6q
+	Je+0jxpmu9GeoZLknibOsQ5KK6aFyv5RVnMX03yTTri9D2+pGaSp01jRSi+7bWui3L0ShAaBuse
+	alCiCEk3YgHLEbKIxkLUehAjA=
+X-Google-Smtp-Source: AGHT+IHzF99Jc5zjHiTwpYwDuGNz5KeVf6zfylnYOW5l1S9c2m17qhd0GLM02sExOq6djyUCeukxpH9Gv2n/QOZUitk=
+X-Received: by 2002:a05:6902:2085:b0:e72:ecd8:6d51 with SMTP id
+ 3f1490d57ef6-e7323471842mr15952277276.46.1745918229201; Tue, 29 Apr 2025
+ 02:17:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250425111414.2522-1-wsa+renesas@sang-engineering.com>
+ <CAPDyKFqxHd85DsUH6eZVyoocTDrvwNu+wTLRBq-jUwDY+2iFTg@mail.gmail.com> <aA-yRD3FX5Nr9ypK@shikoro>
+In-Reply-To: <aA-yRD3FX5Nr9ypK@shikoro>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 29 Apr 2025 11:16:33 +0200
+X-Gm-Features: ATxdqUERauDj9X-EyfbLPJoHlMhqfczBHusMUQhGDJMr2QFYf9GT2Yl7ZA3WSRs
+Message-ID: <CAPDyKFrWrw4ZthJ_GGZQ-qtgrPjQ2j0BoJTVbHH_qA1oTMt0kg@mail.gmail.com>
+Subject: Re: [PATCH 00/11] mmc: rename mmc_retune_* to mmc_host_retune_*
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	linux-mmc@vger.kernel.org, Adrian Hunter <adrian.hunter@intel.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Aubin Constans <aubin.constans@microchip.com>, Ben Dooks <ben-linux@fluff.org>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Eugen Hristev <eugen.hristev@linaro.org>, 
+	Fabio Estevam <festevam@gmail.com>, Haibo Chen <haibo.chen@nxp.com>, Hu Ziji <huziji@marvell.com>, 
+	imx@lists.linux.dev, Jaehoon Chung <jh80.chung@samsung.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	Michal Simek <michal.simek@amd.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, s32@nxp.com, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, Viresh Kumar <vireshk@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Mon, 28 Apr 2025 at 18:52, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> Hi Ulf,
+>
+> uuuh, I overlooked this mail, sorry!
+>
+> > Sorry if my suggestion was unclear. I only had the MMC_CAP|CAP2_*
+> > related functions in mind. I think we should leave the mmc_retune*
+> > functions as is as they are not "can" functions.
+>
+> I agree. I suggested that in my initial series, too.
+>
+> > mmc_host_cmd23, mmc_host_done_complete, mmc_boot_partition_access,
+> > mmc_host_uhs. All in drivers/mmc/core/host.h
+> >
+> > According to your earlier renaming series, we should rename these function too:
+> > mmc_host_can_cmd23, mmc_host_can_done_complete,
+> > mmc_host_can_boot_partition, mmc_host_can_uhs
+> >
+> > Does this make sense to you?
+>
+> I don't know these functions well, so you are probably right. I'll look
+> into it. One question: do you really suggest:
+>
+> mmc_boot_partition_access -> mmc_host_can_boot_partition
+>
+> or should it be:
+>
+> mmc_boot_partition_access -> mmc_host_can_boot_partition_access
 
-Correct the misnamed FIFO-empty helper for the RZ/G3E CRU. Rename
-`rz3e_fifo_empty` to `rzg3e_fifo_empty` to match the intended
-naming convention.
+The name tends to be rather long, perhaps while at it move to
+mmc_host_can_boot_partition and rename the MMC_CAP* too?
 
-Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
-Closes: https://lore.kernel.org/all/TY3PR01MB11346E57A3DF8D8A90A405E4686812@TY3PR01MB11346.jpnprd01.prod.outlook.com/
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c  | 2 +-
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h   | 2 +-
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+>
+> ? I tend to think the first is better, just making sure.
+>
+> Happy hacking,
+>
+>    Wolfram
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-index 5fa73ab2db53..db27819d8200 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-@@ -366,7 +366,7 @@ static const struct rzg2l_cru_info rzg3e_cru_info = {
- 	.irq_handler = rzg3e_cru_irq,
- 	.enable_interrupts = rzg3e_cru_enable_interrupts,
- 	.disable_interrupts = rzg3e_cru_disable_interrupts,
--	.fifo_empty = rz3e_fifo_empty,
-+	.fifo_empty = rzg3e_fifo_empty,
- 	.csi_setup = rzg3e_cru_csi2_setup,
- };
- 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-index c30f3b281284..56feda6e6207 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-@@ -199,7 +199,7 @@ void rzg3e_cru_enable_interrupts(struct rzg2l_cru_dev *cru);
- void rzg3e_cru_disable_interrupts(struct rzg2l_cru_dev *cru);
- 
- bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru);
--bool rz3e_fifo_empty(struct rzg2l_cru_dev *cru);
-+bool rzg3e_fifo_empty(struct rzg2l_cru_dev *cru);
- void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
- 			  const struct rzg2l_cru_ip_format *ip_fmt,
- 			  u8 csi_vc);
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index 3d0810b3c35e..ab35caf97c51 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -323,7 +323,7 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
- 	return 0;
- }
- 
--bool rz3e_fifo_empty(struct rzg2l_cru_dev *cru)
-+bool rzg3e_fifo_empty(struct rzg2l_cru_dev *cru)
- {
- 	u32 amnfifopntr = rzg2l_cru_read(cru, AMnFIFOPNTR);
- 
--- 
-2.49.0
-
+Thanks and kind regards
+Uffe
 
