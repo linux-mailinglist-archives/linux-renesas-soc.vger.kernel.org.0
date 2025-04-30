@@ -1,144 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-16516-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16517-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF0AAA4D02
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 15:13:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 832B6AA4D45
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 15:19:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75E8D1BC1675
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 13:09:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6DCD8165DC2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 13:17:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43DF125DB15;
-	Wed, 30 Apr 2025 13:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 367D425B1D2;
+	Wed, 30 Apr 2025 13:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GBd/rYbS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D629F259C9D;
-	Wed, 30 Apr 2025 13:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A07D259C9D;
+	Wed, 30 Apr 2025 13:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746018209; cv=none; b=quLkdaZMRupNPQhzTS0qbMx1hNUCqxMPwtQvJ3mk1YTy8mb2nXAqPmArwAlrIKAsN63YymryfIxwWICxlYXSoT2wevUavHyU7o0prwEjEZBwwYfvuu4fm27qINtMibfaxrugVElIeXDwx+Kv4Ff/Ety0oTbXFhAV8pxqfI/KdH0=
+	t=1746019040; cv=none; b=Rn5h9b2PBc+GIYN44GOcOF2rDiIQpbXKZl9OYMV87xpVHjQVBJql43DnVjQU26eivdtx/0zIMzihsylqkT+Ss84b+vK4uYWw6KcnygnC/iTY+7igfFSNryM+4ldXwqjWBqxQIua9CUhkCyrAxH2g5Q3rWPBTUz1bueknAKLFk5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746018209; c=relaxed/simple;
-	bh=iFixx+t4HjD7fQ89CBPw8tcEnpXOvIN8tzy2ETRCd7Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L3xj/BNrE8I4Qyl77Ne2lUZwLevPf2YumQOy9iHr5qkwYIAkJbSPB5I2F3+hX8X/YMJdDdDYXhYGVjwcPg0fw5fxHLtMl61zEAZS8XRKPFw94QOEXDwiOYO7mqjLpSSbMmG0PSPd27LgUFbCDzVEFiNv3IiyslnxRRLDWkf1eHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6f0cfbe2042so12934286d6.1;
-        Wed, 30 Apr 2025 06:03:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746018204; x=1746623004;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rW1MhyT91saKVAFuqB6OQab7qD4mL9UWcfPujvEtR98=;
-        b=QyjVf7QlNTNnAOV087cp8g9svTh1ZnJD+uClmVimbTPi+AStuDUQGtgF4LuYKklLKK
-         oeVfI7yk67poEoF0vQfnIP6YG2TXI/j+Kw2rVAcYKn6PnwvPVi64efQmHshwo+Q0Whlh
-         USfmwi1KxDAHJGj9BNZxELi9TKG4fw+QOw5v/8MgezUPkhyivS6VHGsN+c+uPKEnkfWe
-         0yrFo0WZyhYxgw9vR8/NOnUu0R8AjzuhONCXfSMs2R2Ck3Aw6pfefwjMECHbpT6UG2kC
-         a17oWQM7tHRiIKJzy8Ppjn1BqcMtpqiYjvt/HZVWqPC3Gwof0tlBDg4Dym7YXP1czrMy
-         PxaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAmKshSfqgrf0PVHb7Fkd6d5k2YWjxN/nixVwy3X+7dA3iz3eOTmvOdKD6jhZYoqPW/jGWItWs8wi3sKU=@vger.kernel.org, AJvYcCV6x6V0UJqm//iI8caBFTH9yDGXjPNBsoHJ0tgH9LSJN3qyRBozpy1CGQbokClC0ZwJqSgt3oUZ9muv@vger.kernel.org, AJvYcCXgWPIfTgaisnjpd61UT94ROT9puj1adpJN1MrViVXOoOZEOW5u7GvvQBc0cr0Jv+QtnJOuNfHlavhAfpKhgOXzq/U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdeBN899V6pEn1WLChtjbE+6gmHDfMMKtDDBil8j/UuVB6rZgf
-	1M2SdpJhTyeqrgYV6xM4vBy6RHBaujZpNW4sfW7AWE0LzPJzF1emTxPC9elS
-X-Gm-Gg: ASbGnctF+tPm0tlmcb4vZoNRP1JzFyH17/pm/HY5RVUNRfNwDC4ot1XY7bcHTZtObuW
-	UTSmAD9AVw0lcMVVpFF6eNYliHx7Wh7IjUbMYOs3ddwz3FIm5HTLEDK8LHyHhRWYQDxgYSaJJH6
-	Jt0bpwoRlf6B7HBPKYc3iInbSh3bw7rLHNaJuVyKSaKLWmMC+uu4ReamIQgAcs6OUpxRsNlOS+g
-	SQlCph5+PPltOSMltvV+N6z+oWvBAtEWh2VyuqfBXKoYp0XbLFJ9XGmgUN6h/S9CMVRlHCDg1mg
-	vLsTHgvqaTXsqxqF7utBtBbld6aSsSzQQCSPm+vg/NnMTG1hwxOB10qVrFfax0lT8HywRmq3raw
-	zfW6ybqs=
-X-Google-Smtp-Source: AGHT+IEsCRz6fQ8DZvemdv9TJXlflJAxZR4Q++cXXVHa8V9fHyeQ0pIdrC2a4BojyzqD24OeFz+bGA==
-X-Received: by 2002:a05:6214:f08:b0:6ea:d503:6cfd with SMTP id 6a1803df08f44-6f4fdd831b0mr46409886d6.19.1746018203756;
-        Wed, 30 Apr 2025 06:03:23 -0700 (PDT)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com. [209.85.222.176])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f4fe6ad681sm7941076d6.1.2025.04.30.06.03.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Apr 2025 06:03:23 -0700 (PDT)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c922734cc2so113479185a.1;
-        Wed, 30 Apr 2025 06:03:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU7NepP1HnOBdICYvBCKuSDAFHSYYWaP+q7LeSxoe/G+V8wRjCjpeFWWq1eudNlj5fxqHptENeciUwL@vger.kernel.org, AJvYcCVtPmey4NGXY60YXaQdC05gfJXDZ4vXIBteiJBPfRn+LQ97a91V9cZADJnR8xgiQDtIbBUQIczbfdIg0+HdRnvnn+Q=@vger.kernel.org, AJvYcCVvIsR/s0OQNin5nIA9tFOCqJ02dm+RxpS0p2br4k1feH3MYq1g2V8mTYMlWbSs0aK8ONHy1XbXhJnTZas=@vger.kernel.org
-X-Received: by 2002:a05:620a:2890:b0:7c9:574d:a344 with SMTP id
- af79cd13be357-7cac7b5c591mr351112885a.25.1746018203056; Wed, 30 Apr 2025
- 06:03:23 -0700 (PDT)
+	s=arc-20240116; t=1746019040; c=relaxed/simple;
+	bh=gUxFERNFiI8Fti0Ax2R+rmqI6Qrh+qBwEPYn2etkdf8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L5yHJRo2vxa++2OG3ddVNg7NyJ55iaLvalojvgHf3CbcEJdBriKZOna2anveXk9XukdtOzhGVOC8pVllySU359M9FK1j06NKe3yGev3n5D8gA+hRDiixD74zEyPEZTas+S0NoTJDqSku0GdEkN9vIoJRfnSwU9rpvtd811+SwGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GBd/rYbS; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D23A5725;
+	Wed, 30 Apr 2025 15:17:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1746019029;
+	bh=gUxFERNFiI8Fti0Ax2R+rmqI6Qrh+qBwEPYn2etkdf8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GBd/rYbSg20QCw/0EwavmiKXQtw3vQlPHdqZzwD9mrtld2/hrPn/nB3Q1oU2/Ybag
+	 zNZ1++QaKWcnvbMpMLWhqhp0BdevlHUyCmFl/mDiAVuMNUKFTm4SCZgKGVb2ptrF9z
+	 H3eA7KcvL9Wn3n0ahYev0FZp2sRvK8ToeaN8XPIA=
+Date: Wed, 30 Apr 2025 16:17:06 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: dt-bindings: sony,imx290: Update usage example
+Message-ID: <20250430131706.GA25516@pendragon.ideasonboard.com>
+References: <20250430125322.2808528-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250430125322.2808528-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20250430125322.2808528-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 30 Apr 2025 15:03:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVXrHVugCMoWkCRVGotOEeTuuJJ6rC7CC7Kf_seo3J5og@mail.gmail.com>
-X-Gm-Features: ATxdqUF5SmUHR6IS83F_BlSTuqKqxW8yJEwc4_Me4L0hReYlvlJOP5xqk2h4aew
-Message-ID: <CAMuHMdVXrHVugCMoWkCRVGotOEeTuuJJ6rC7CC7Kf_seo3J5og@mail.gmail.com>
-Subject: Re: [PATCH] media: dt-bindings: sony,imx290: Update usage example
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
 Hi Niklas,
 
-On Wed, 30 Apr 2025 at 14:58, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
+Thank you for the patch.
+
+On Wed, Apr 30, 2025 at 02:53:22PM +0200, Niklas Söderlund wrote:
 > Since commit 98e0500eadb7 ("media: i2c: imx290: Add configurable link
 > frequency and pixel rate") the driver expects two specific
 > link-frequency settings 2-lane (445500000, 297000000) and 4-lane
 > (222750000, 148500000) operation. The driver fails to probe without
 > these exact settings.
->
+> 
 > Update the example in the bindings to match this to make it easier for
 > users to incorporate this sensor in their device tree descriptions
 > without having to read the driver sources when the driver fails to
 > probe.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Thanks for your patch!
+The new values match the frequencies that the device expects for 4 lanes
+operation, so
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> ---
+>  Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
+> index fa69bd21c8da..990acf89af8f 100644
 > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
 > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
 > @@ -136,7 +136,7 @@ examples:
 >              port {
 >                  imx290_ep: endpoint {
->                      data-lanes =3D <1 2 3 4>;
-> -                    link-frequencies =3D /bits/ 64 <445500000>;
-> +                    link-frequencies =3D /bits/ 64 <222750000 148500000>=
-;
->                      remote-endpoint =3D <&csiphy0_ep>;
+>                      data-lanes = <1 2 3 4>;
+> -                    link-frequencies = /bits/ 64 <445500000>;
+> +                    link-frequencies = /bits/ 64 <222750000 148500000>;
+>                      remote-endpoint = <&csiphy0_ep>;
 >                  };
 >              };
 
-I guess the link-frequencies property should gain a rule that it
-needs two values, too?
+-- 
+Regards,
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Laurent Pinchart
 
