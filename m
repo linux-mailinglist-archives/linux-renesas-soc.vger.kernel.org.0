@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-16526-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16527-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AB9AA5408
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 20:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A97AA5409
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 20:46:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 99E0D1C00947
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 18:46:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9CD4189FC4D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 18:47:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 924901CEACB;
-	Wed, 30 Apr 2025 18:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6D431E5B69;
+	Wed, 30 Apr 2025 18:46:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lMjOtvDx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EyUqColo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD601E51E0
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Apr 2025 18:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE431E51E0
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Apr 2025 18:46:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746038781; cv=none; b=MYTbYWZIla7AVq/Kb3sTZz+ngk5I6wWNayRuFuaJdSDAowAiccI+Icznc3YEtQzyLMFr4K/EiUCBtY0YrV4SlnDYCJDvxhGvcxgjm1fjR5qeZCA3DFWdZy/S2+XD9fCjbNtQWPlOC7c953px5/seCuFbx++c2PnZJIOucfagP/s=
+	t=1746038807; cv=none; b=m59+qKZcuJPMSdqDpyl/I3vjjI6NvoBI42yoJFKP7ca6TPGDrjWf8zlxf7gQsSdeUa+36PyH503EneRS8vqGhNccwUhncSYVO+AtByHMBApBk8ygcDr81V8cmjkpXmyfiHM2SX3zOLL16KcDk8ldcRt1LWiUdE42S+rYJs6vvqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746038781; c=relaxed/simple;
-	bh=Q4XJP6tF4LYZWIeZyIk+GmDe7wffPgygQ3STOe6rZng=;
+	s=arc-20240116; t=1746038807; c=relaxed/simple;
+	bh=V+zN7RGalCRv7MC5HQdlFoATj9xB761ExdPJRQP2hAc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lx15HXFDBBwr50F4k3BshWScZENazFJ7vOaXofqkLJeJXwZupFWmAqk693HUEdPpcui1jQB/nZfCR0Gs/O5AwtUHQ4gUb4rSJF4ZnVqhAyrqr/aYRxqVqBcWIQ/HQN/SbNHEniewkxO0ffsLb2Z+Z+UBoBbAeh6IvAEUd9a7YZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lMjOtvDx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A79FC4CEE7;
-	Wed, 30 Apr 2025 18:46:18 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=qgb6LsaZBIk6fQPmkMQzvrxwp6U2BThgkLIj/E0MHeE+9fX8IqG75XoTuAfLrS5tUpC/VAxdj97L6Vyxcj3eCoTwXrQVunpy/6plpyvtwQOI2HcIs2aRI48p/PyKPuulNlAycSS9vI/Vx2mwSc1fmRtS6SEsQbVzG+EuybqL80Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EyUqColo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0686DC4CEE7;
+	Wed, 30 Apr 2025 18:46:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746038780;
-	bh=Q4XJP6tF4LYZWIeZyIk+GmDe7wffPgygQ3STOe6rZng=;
+	s=k20201202; t=1746038806;
+	bh=V+zN7RGalCRv7MC5HQdlFoATj9xB761ExdPJRQP2hAc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lMjOtvDxE84lB2v1M+L+R24QeLnh4c6OtHvWSKDIOetBoK6afpmmJaX1TGhYgwbCt
-	 IpzkXvSkCU7vMxKyJ/AgmhG8KFg/R2g8aeJk+GFqCGI7J6q/WWeLJZTPt4gEYBPmwz
-	 PM+axiyuL3md4G6n4Lr+DTb/gy5O3NTbRsINhCeFFO6cT9Kj6X8t4vIhW5Ihw4t+aT
-	 9DSihxaJeXhlT8hE6Bx7pJ96IKzLyNpzZmKfF+WKjHbZQfgoCqJJotDZBiLL5fyuOD
-	 GZGZqSoZLU1u9ByCaPLrrHpkYFRSdO5zyoU5mkA5wLepsu/qx6E3nlyhDHNqMxfJke
-	 fCyY5hJNw99xw==
-Message-ID: <50bf8a28-0a02-4230-9302-0a1b7c2b7793@kernel.org>
-Date: Wed, 30 Apr 2025 20:46:16 +0200
+	b=EyUqColoH0x5e2Wsee7eMew6rpSdIp1Pnnuky0oiyFlge2Q8G+EIQa5Ebm1Y7EHBq
+	 pKNZ2oWxf57LwIIBjBVW9M455EWVcXdviDp/sCfJCppRfVb4NG5OcjvefvagTszhnH
+	 ReGgyeb6BS8MR23mDjrDWEX6nB1F/QsgjRZfkahg/BhaaFddIIR9ZXuRLOzTMNc0n3
+	 j42PM5tU7Uo4wiiqu0P4lalcxEzLFLW9e8+y7vv9eu85JFWwpXJSuB9As/JLzI8V3b
+	 VsCO/erPDkf7qmQ8DaJeHUZosx3q4KZ3BqycHtGAZ+XtA5Y2hqJhjxw+YNevCnyzZv
+	 rkQNqnDEy/msA==
+Message-ID: <0aefc729-868c-4301-8519-8c46f67d5f85@kernel.org>
+Date: Wed, 30 Apr 2025 20:46:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,15 +50,16 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/7] memory: renesas-rpc-if: Move rpc-if reg
- definitions
-To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v5 3/7] memory: renesas-rpc-if: Use
+ devm_reset_control_array_get_exclusive()
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
  Mark Brown <broonie@kernel.org>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
 References: <20250424090000.136804-1-biju.das.jz@bp.renesas.com>
- <20250424090000.136804-3-biju.das.jz@bp.renesas.com>
+ <20250424090000.136804-4-biju.das.jz@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,25 +105,18 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250424090000.136804-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250424090000.136804-4-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 24/04/2025 10:59, Biju Das wrote:
-> Move rpc-if reg definitions to a header file for the preparation of adding
-> support for RZ/G3E XSPI that has different register definitions.
+> Replace devm_*_get_exclusive()->devm_*_array_get_exclusive() to support
+> existing SoCs along with RZ/G3E as RZ/G3E has 2 resets.
 > 
 > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v4->v5:
->  * No change.
-> v3->v4:
->  * Collected tag.
 
-Why are you sending patches which were two weeks before?
-
-This does not apply now, rebase.
+Does not apply. Are you sure you use proper base?
 
 Best regards,
 Krzysztof
