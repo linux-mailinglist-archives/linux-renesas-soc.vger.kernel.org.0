@@ -1,177 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-16522-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B90AA50D3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 17:52:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25DA6AA511E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 18:05:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C25894C22E8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 15:52:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D74299C354C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 16:04:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70901261589;
-	Wed, 30 Apr 2025 15:52:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 524C42609C8;
+	Wed, 30 Apr 2025 16:04:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oI3QoUE6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kNiibFZr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4331A5B91
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Apr 2025 15:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E6625F7B9;
+	Wed, 30 Apr 2025 16:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746028328; cv=none; b=Rh0deZlD0sIXIwkQhNGdl7mC40scttOrVCXUOTAoJXSv1NIbl7X0mTUbmQACHJjwwrcGB9MlbNVzfVS0lLmDX3u5AqonG3v1ElOG9QtNv1JbCBn27hzFGGAuMajuAYz/jzJUp8ugb+oe4aB6GyHFckgRmV4scWMcH13/mRXQJqA=
+	t=1746029097; cv=none; b=VwU7qYUN9CLeg8JVUbAy54qW+Vu+tBWVpjTvW3AcRPF0HSZdE78F3O9luVZnqR8FsXsRsc3vNagBdcWDAuV/E+cGxc2vOghwkMTf1jytsWOa9tuBO2J6+9s3RmsiSPTcYxeoufwQ4lmRuJvmG3pheXWOdSeMZK9hFH83/8c3llY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746028328; c=relaxed/simple;
-	bh=9LtmMorPZzn1CDLSUkR5sDQj/vapTL2vnbBygv/Tdmw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oBWCeGRrM3b67y/V92zXLKepsFsDXgZ3WaVewTvD4RKtaxi2tKNcfUHAn4ciRN5pLTMPhPp9rhsD/DhJ0Ui7BGMpeGOkeplcx/EnImeOmv1duRcpj7qL1Rz95d+pjz2jlyoyvbE/u3kUGfwilEPqxW8nALjWJ+oobUiOVeUe8/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=oI3QoUE6; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-739525d4e12so56144b3a.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Apr 2025 08:52:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1746028325; x=1746633125; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9LtmMorPZzn1CDLSUkR5sDQj/vapTL2vnbBygv/Tdmw=;
-        b=oI3QoUE6JiwQDf7dYKZtdqiktH8waKlt4mp0JChBH9rwd2clquLsCaIr6iroBnsMLp
-         GU56XxocM2WEiTRZBCMgn11U38cTYLYuohCFpWufiE8wCXV3mBlSkhRtl75jMAuSIoSm
-         /Z/W/eofnFYo3uBKgzofTCd85m3VA9PW8eKRk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746028325; x=1746633125;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9LtmMorPZzn1CDLSUkR5sDQj/vapTL2vnbBygv/Tdmw=;
-        b=uFCn3krm8JQGJwkG2fiqpQas0WkViY+x8lxPOT/AEy31/RpgDcrmJLEyFCvGvfAU7b
-         RS3c/a8gRNxPZ2VIpwYQFwvsqf3FL1/gt6dQ9TWS0YPCCVD49UfK5qIAPbu1eLdo1BDG
-         WkzN7RyzMH7qNbtOXEFvNLw5SWv+WtoUP90UDV5eIHR3PFPxp4mf8wgyP6V5g2MkkKgm
-         tLvuR+5mcZY9aeMJWer6iPsG4Ub+60dEDi6/ruwi4MU/S0Fvw/I51xiOYo3sxJxaNWLa
-         InMorfpEm0ZGjTMOxBsnPTPkLC0YCVytVWPbiiOGx25DHCPwoSSOR/2HQInG9typbO7D
-         v8vQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX6gj4mb5qQOjbat7wwT9onJqBGrEbCTzvo8kiAy4cAoIOvIwKzTCnaK4KkxowWMeoSofNsQZLWRlTYmrQMkW34zA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZk0t+CHEHMiAWGhBCdb/bfW2lGCKpNINsjvHZGQx+eL/dRu9x
-	RGd+1F9XvlObbc01BsdNnznrGPClYUP885OEUxuR8IcfeOhZjv3q0+0o0OGnrFPRS2TPBSErDYc
-	=
-X-Gm-Gg: ASbGnctWTkvJP3OVhmgvQfS8nf/1enBioKSfFZ7Y92/zGUa5Gya3pSBop5g4p99ydUu
-	7ywQTEUO1Z4/QHvbUqiY2uyjhdLpIUsv/j/VEwXQL19BlA/Y35jM+lB/2cVpoqLt2QBrwQKIXRj
-	BBslRn1zqgzXgMiSUvCvdJvJ55vdtTNGKsmZ3qa0OQptjhtj9tppMVGIcFuiU0ylcwik0/RctpH
-	canmSdKgAguGXsF2ERrvZGcvq0/2uYC+tJwX2amAJ/UX9DKrz1uTj5T/YeV0m06MJhM98jpDSTN
-	Gf6Vg//f8vViaPOU90SLkrQu5cNt+1POkax2uAz7QE9SunuDRPBCo37qtKUWtLdktsx4LDveXQT
-	kM5tRiF0z
-X-Google-Smtp-Source: AGHT+IGrqOKinQIlOb04gpk8LrgZ4gelJksId4NfinrBChnM7NLJLpwdOwjYY4/FbdcQxiz2CQFhQQ==
-X-Received: by 2002:a05:6a00:1146:b0:736:7270:4d18 with SMTP id d2e1a72fcca58-740389bbc36mr5420034b3a.14.1746028325095;
-        Wed, 30 Apr 2025 08:52:05 -0700 (PDT)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com. [209.85.215.172])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-740399234b6sm1881749b3a.66.2025.04.30.08.52.04
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Apr 2025 08:52:04 -0700 (PDT)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-af589091049so5664894a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Apr 2025 08:52:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVw42Gibq6hfwvFmv5AdRsETBIPwe51zZRlNTjp5OANmlB6rqQBuoSCOH25wc11YmLfzpTiAJluJ4brYoCA/k1ACw==@vger.kernel.org
-X-Received: by 2002:a17:90b:17d0:b0:2ee:d371:3227 with SMTP id
- 98e67ed59e1d1-30a3330bd2amr6121407a91.17.1746028323966; Wed, 30 Apr 2025
- 08:52:03 -0700 (PDT)
+	s=arc-20240116; t=1746029097; c=relaxed/simple;
+	bh=2o8KjSOQ0kCQc1hrZro78LxSpcqLmTAbM8i12O3bEpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ui6uyv5vvk9p5eqm4aS6fL/UpsljyyNsVvEFcOp9/4cWEXgvLjH/4fDCpDz274ciYUuLG8AvgDDXzunhvq8i1C5GL5ePe1U+e8nUN6+MVrinSb61teGOmHqn9FIpHV0OtIlHLev8OTxZ/yG3wjXGTCOTAzYGAMHpwo8NS9n5mZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kNiibFZr; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4372564;
+	Wed, 30 Apr 2025 18:04:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1746029087;
+	bh=2o8KjSOQ0kCQc1hrZro78LxSpcqLmTAbM8i12O3bEpU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kNiibFZrKRe1wSBLrpTTP3Fe6bNB44rXCsWBXHfcWudkFx6OE4F9cVVAsjIcZqwXL
+	 JS1LLfV9gIxTjWH0XMtl32ITUIeHt2olyVtU/XrYHgfwbbilKQ4It2oItrYfr6wMJT
+	 2N5qg8xiYa6fl/XxBSSfEssYsqGocb5DpnCEZaEQ=
+Date: Wed, 30 Apr 2025 19:04:45 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: dt-bindings: sony,imx290: Update usage example
+Message-ID: <20250430160445.GB31516@pendragon.ideasonboard.com>
+References: <20250430125322.2808528-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdVXrHVugCMoWkCRVGotOEeTuuJJ6rC7CC7Kf_seo3J5og@mail.gmail.com>
+ <20250430131856.GB25516@pendragon.ideasonboard.com>
+ <CAPY8ntBPSC6KZcBVt35QWx_ZPYwkSJSVzhhaXokbjkWJDVJRqA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
- <CAD=FV=VmV5yb0HWWGTiKyyC8+WNPJpM7vE9PQGh5_=KPk6+HCg@mail.gmail.com> <20250430123557.3d8b1de4@booty>
-In-Reply-To: <20250430123557.3d8b1de4@booty>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 30 Apr 2025 08:51:52 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UBFhCGOUuwtCtdT75nCu_7EzM-SVY-=6Xh6UxUuxKCMw@mail.gmail.com>
-X-Gm-Features: ATxdqUFfYEEYqvpO67K1TXBYapYURxE3d7Z_gt9FzIWHk5tUMzE1QBIfnvJL-xI
-Message-ID: <CAD=FV=UBFhCGOUuwtCtdT75nCu_7EzM-SVY-=6Xh6UxUuxKCMw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, 
-	Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, 
-	asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	linux-stm32@st-md-mailman.stormreply.com, Adam Ford <aford173@gmail.com>, 
-	Adrien Grassein <adrien.grassein@gmail.com>, Aleksandr Mishin <amishin@t-argos.ru>, 
-	Andy Yan <andy.yan@rock-chips.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Christoph Fritz <chf.fritz@googlemail.com>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
-	Detlev Casanova <detlev.casanova@collabora.com>, 
-	Dharma Balasubiramani <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne Grunau <j@jannau.net>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
-	Kevin Hilman <khilman@baylibre.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Liu Ying <victor.liu@nxp.com>, 
-	Manikandan Muralidharan <manikandan.m@microchip.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Phong LE <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
-	Sugar Zhang <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan <mordan@ispras.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPY8ntBPSC6KZcBVt35QWx_ZPYwkSJSVzhhaXokbjkWJDVJRqA@mail.gmail.com>
 
-Hi,
+On Wed, Apr 30, 2025 at 02:52:01PM +0100, Dave Stevenson wrote:
+> On Wed, 30 Apr 2025 at 14:19, Laurent Pinchart wrote:
+> > On Wed, Apr 30, 2025 at 03:03:10PM +0200, Geert Uytterhoeven wrote:
+> > > On Wed, 30 Apr 2025 at 14:58, Niklas Söderlund wrote:
+> > > > Since commit 98e0500eadb7 ("media: i2c: imx290: Add configurable link
+> > > > frequency and pixel rate") the driver expects two specific
+> > > > link-frequency settings 2-lane (445500000, 297000000) and 4-lane
+> > > > (222750000, 148500000) operation. The driver fails to probe without
+> > > > these exact settings.
+> > > >
+> > > > Update the example in the bindings to match this to make it easier for
+> > > > users to incorporate this sensor in their device tree descriptions
+> > > > without having to read the driver sources when the driver fails to
+> > > > probe.
+> > > >
+> > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > >
+> > > Thanks for your patch!
+> > >
+> > > > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
+> > > > @@ -136,7 +136,7 @@ examples:
+> > > >              port {
+> > > >                  imx290_ep: endpoint {
+> > > >                      data-lanes = <1 2 3 4>;
+> > > > -                    link-frequencies = /bits/ 64 <445500000>;
+> > > > +                    link-frequencies = /bits/ 64 <222750000 148500000>;
+> > > >                      remote-endpoint = <&csiphy0_ep>;
+> > > >                  };
+> > > >              };
+> > >
+> > > I guess the link-frequencies property should gain a rule that it
+> > > needs two values, too?
+> >
+> > The driver doesn't require two frequencies (unless I'm mistaken), it
+> > could operate with a single one (albeit not in all resolutions), so I
+> > don't think we should require two frequencies in the bindings.
+> 
+> The driver does require both due to 98e0500eadb7 ("media: i2c: imx290:
+> Add configurable link frequency and pixel rate") and
+> imx290_check_link_freqs()
 
-On Wed, Apr 30, 2025 at 3:36=E2=80=AFAM Luca Ceresoli <luca.ceresoli@bootli=
-n.com> wrote:
->
-> Hello Doug,
->
-> On Mon, 28 Apr 2025 13:59:50 -0700
-> Doug Anderson <dianders@chromium.org> wrote:
->
-> [...]
->
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
-> > Tested-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
->
-> Thank you for your review!
->
-> However I'll be sending v3 with some differences w.r.t. v2, in order to
-> fix the 3 bugs reported by Andy Yan plus a similar one I spotted. The
-> fix just is replacing PTR_ERR() with ERR_CAST() in the 4 cases where the
-> involved function is returning a pointer instead of an int.
->
-> Your review/test tags appear global to the whole patch, thus being the
-> patch different I think I cannot include your tags in v3.
->
-> Let me know if you think I should do differently.
->
-> Sorry about that.
+I realized after sending the previous e-mail that I was indeed mistaken.
+I thought the driver iterated over the DT link frequencies to check if
+they're supported, but it goes the other way around.
 
-It's fine if you want to drop my tag. I didn't have time to review the
-whole thing but I felt like I should at least review the drivers I'm
-signed up as a reviewer for. That being said, I'm not counting tags or
-anything so I'm not offended if they're dropped.
+> However I'd agree that it'd be better to make the driver accept just
+> the one and make any compensations, rather than amend the binding. I'm
+> happy to try and find a few minutes to make a patch for that.
 
-My understanding is that the hashtag at the end is at least a
-semi-standard way to say that my tag only applies to a small part of
-the patch, so it seems like it would be OK to carry it, though...
+That would be nice, thanks.
 
--Doug
+> My experience of this family of sensors says that we should be able to
+> run any resolution at any link frequency, but it needs changes to
+> HBLANK to ensure there is sufficient time per line.
+> Dropping to the lower link freq for the 720p mode is only because that
+> is what the datasheet describes for the precanned HD720p. The window
+> cropping mode lists no such requirement, and yet could produce exactly
+> that same 720p output.
+
+And with more information about the INCKSEL registers we could possibly
+even support other frequencies.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
