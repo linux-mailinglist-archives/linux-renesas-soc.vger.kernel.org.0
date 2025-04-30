@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-16498-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16499-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E16AA478D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 11:44:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C71AA4816
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 12:15:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AC631BA8965
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 09:44:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 374A34C51C7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 10:15:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 957F8235058;
-	Wed, 30 Apr 2025 09:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7244235076;
+	Wed, 30 Apr 2025 10:15:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bT4LKrpL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="szXj0saZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CFB235045;
-	Wed, 30 Apr 2025 09:44:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B1F23BCF1;
+	Wed, 30 Apr 2025 10:15:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746006250; cv=none; b=egPMNSx9xqiqeuyE+hsW9Rjcb2R9VyGAHMm4+m7j9gDBwr1w9Y1w9OeDih8m//5kCe+NKYR7goZR7GoLC0oCkGxShjIAKpZJClUS6ro1HbXBBSwirHo7neYJof2k5Herabl80tVvJXX5gQ530VIiWKbOPgYUCKr1g0lWztd/aHM=
+	t=1746008106; cv=none; b=WoRR9SsgoHCkRfTOjekq0B5Jo/M7UOTVzTrmc7D2bHCJ/NGHEliRGE2pbD0Or0OhXN/Pu262NNyJDxnOxzaKVwt0EeO9Ikv83vjWIpvxuoGF9KdUtsNKimnoi9qLc2klJKRm8V3GytPjrEgblhSUC065tsURBNzTzzuNbu71qcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746006250; c=relaxed/simple;
-	bh=0R7kbd8v7Ndx8uOq1zTNvYS6wblPz94/OWZoUS5EH/M=;
+	s=arc-20240116; t=1746008106; c=relaxed/simple;
+	bh=zgj4Jk9dJcIZTdiYctCDIVxIhwsRNiAh4yFsEZD+SYI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bFAJeDhItIwo/bumU7tddQs9bH7bsFbGP8cULlaLTEqyuet9vWDiCzMCQ9AfTOUk8oPiGV1cTo7TgkVRVAN8PtqZkLEcRzOPNuF25MPjICRuKH+iXStFWtILVRdDCS2uWwSSXvTWDp9RjHB0RZxn/Vh+bmNRk/hHefVubbhjDac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bT4LKrpL; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=fU3dEGALR3YdKi/5gRAZypwavGX6i5qUC01CADbZTDCh2COPH4G4ZYi0UmzDA02+IDb8vrut7XE1xeyqdpPJNoeUopcTxbHU9JvoqrVu+MeC6JhKQUx1hQvqpJYraYP/hBDNKO/ejXEtD6mxgAW7w09N73KrAH9KBpgmpGHsSyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=szXj0saZ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E8C2725;
-	Wed, 30 Apr 2025 11:43:59 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA7B3AF;
+	Wed, 30 Apr 2025 12:14:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746006239;
-	bh=0R7kbd8v7Ndx8uOq1zTNvYS6wblPz94/OWZoUS5EH/M=;
+	s=mail; t=1746008096;
+	bh=zgj4Jk9dJcIZTdiYctCDIVxIhwsRNiAh4yFsEZD+SYI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bT4LKrpLm5AUOCHMjGm0KgR79SxkO2yZKZ08D0OZQwXcgVnn1gPWW/AKDJW/dhMg1
-	 sheZnt3JzbAWmPsAbsixSpQUMTuoqWfJ2ciWCvw/r2k3trGLn0oUrb34AuedhbPpTI
-	 Jpeb+wvEZC+0zGbl+UQk1XuMvT1alZh+ytJdx4MI=
-Message-ID: <ac2578c3-0439-4909-922d-0e1d9c05e8d7@ideasonboard.com>
-Date: Wed, 30 Apr 2025 12:44:02 +0300
+	b=szXj0saZAFZcCPQs6m+AFpDjcOuhJF6RhP++j2QcKcH9A0gqJb1792zZZuYnwyuEb
+	 NGqp4iEQK5DHMmqpaxOQvw4YOACj+5xL6e1L2QG+anPMfu/Zj1Ry/guLopD8ujEiqf
+	 Ny8Qx3sjtSqPAKgDLSEh4Y75YdmCNkED1Zib6LAY=
+Message-ID: <5ecde38e-af23-435e-8890-72dc7d8a51b6@ideasonboard.com>
+Date: Wed, 30 Apr 2025 13:14:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,15 +50,15 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/9] media: renesas: vsp1: Report colour space
- information to userspace
+Subject: Re: [PATCH v2 7/9] media: renesas: vsp1: Name nested structure in
+ vsp1_drm
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 References: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
- <20250429232904.26413-6-laurent.pinchart+renesas@ideasonboard.com>
+ <20250429232904.26413-8-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -104,386 +104,105 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250429232904.26413-6-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20250429232904.26413-8-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 30/04/2025 02:29, Laurent Pinchart wrote:
-> The vsp1 driver implements very partial colour space support: it
-> hardcodes the colorspace field on all video devices and subdevices to
-> V4L2_COLORSPACE_SRGB, regardless of the configured format. The
-> xfer_func, ycbcr_enc and quantization fields are not set (except for
-> hsv_enc for HSV formats on video devices). This doesn't match the
-> hardware configuration, which handles YUV data as encoding in BT.601
-> with limited range.
-> 
-> As a first step towards colour space configuration, keep the colour
-> space fields hardcoded, but set them based on the selected format type
-> (RGB, YUV or HSV).
-> 
-> While at it, remove an extra blank line.
+> The vsp1_drm structure defines an anonymous nested structure to store
+> per-input data. In preparation for extending that structure, give it a
+> name and is it through the driver. This improves code readability.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
-> Changes since v1:
+>   drivers/media/platform/renesas/vsp1/vsp1_drm.c | 18 +++++++++---------
+>   drivers/media/platform/renesas/vsp1/vsp1_drm.h |  2 +-
+>   2 files changed, 10 insertions(+), 10 deletions(-)
 > 
-> - Drop unneeded colorspace adjustements when propagating RWPF formats
-> ---
->   .../media/platform/renesas/vsp1/vsp1_brx.c    |  9 +++-
->   .../media/platform/renesas/vsp1/vsp1_entity.c | 22 +++++++++-
->   .../media/platform/renesas/vsp1/vsp1_entity.h |  2 +
->   .../media/platform/renesas/vsp1/vsp1_hsit.c   | 11 ++++-
->   .../media/platform/renesas/vsp1/vsp1_pipe.c   | 44 +++++++++++++++++++
->   .../media/platform/renesas/vsp1/vsp1_pipe.h   |  2 +
->   .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 11 ++++-
->   .../media/platform/renesas/vsp1/vsp1_sru.c    |  9 +++-
->   .../media/platform/renesas/vsp1/vsp1_uds.c    |  9 +++-
->   .../media/platform/renesas/vsp1/vsp1_video.c  |  7 +--
->   10 files changed, 115 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> index 5dee0490c593..5fc2e5a3bb30 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> @@ -15,6 +15,7 @@
->   #include "vsp1.h"
->   #include "vsp1_brx.h"
->   #include "vsp1_dl.h"
-> +#include "vsp1_entity.h"
->   #include "vsp1_pipe.h"
->   #include "vsp1_rwpf.h"
->   #include "vsp1_video.h"
-> @@ -108,6 +109,8 @@ static void brx_try_format(struct vsp1_brx *brx,
->   		if (fmt->code != MEDIA_BUS_FMT_ARGB8888_1X32 &&
->   		    fmt->code != MEDIA_BUS_FMT_AYUV8_1X32)
->   			fmt->code = MEDIA_BUS_FMT_AYUV8_1X32;
-> +
-> +		vsp1_entity_adjust_color_space(fmt);
->   		break;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> index f8a575f6188a..e5339fda5941 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -118,24 +118,22 @@ static int vsp1_du_pipeline_setup_rpf(struct vsp1_device *vsp1,
+>   				      struct vsp1_entity *uif,
+>   				      unsigned int brx_input)
+>   {
+> +	const struct vsp1_drm_input *input = &vsp1->drm->inputs[rpf->entity.index];
+>   	struct v4l2_subdev_selection sel = {
+>   		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+>   	};
+>   	struct v4l2_subdev_format format = {
+>   		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+>   	};
+> -	const struct v4l2_rect *crop;
+>   	int ret;
 >   
->   	default:
-> @@ -115,13 +118,17 @@ static void brx_try_format(struct vsp1_brx *brx,
->   		format = v4l2_subdev_state_get_format(sd_state,
->   						      BRX_PAD_SINK(0));
->   		fmt->code = format->code;
-> +
-> +		fmt->colorspace = format->colorspace;
-> +		fmt->xfer_func = format->xfer_func;
-> +		fmt->ycbcr_enc = format->ycbcr_enc;
-> +		fmt->quantization = format->quantization;
->   		break;
->   	}
->   
->   	fmt->width = clamp(fmt->width, BRX_MIN_SIZE, BRX_MAX_SIZE);
->   	fmt->height = clamp(fmt->height, BRX_MIN_SIZE, BRX_MAX_SIZE);
->   	fmt->field = V4L2_FIELD_NONE;
-> -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
->   }
->   
->   static int brx_set_format(struct v4l2_subdev *subdev,
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> index 8b8945bd8f10..9f93ae86b1da 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> @@ -99,6 +99,20 @@ void vsp1_entity_configure_partition(struct vsp1_entity *entity,
->   						 dl, dlb);
->   }
->   
-> +void vsp1_entity_adjust_color_space(struct v4l2_mbus_framefmt *format)
-> +{
-> +	u8 xfer_func = format->xfer_func;
-> +	u8 ycbcr_enc = format->ycbcr_enc;
-> +	u8 quantization = format->quantization;
-> +
-> +	vsp1_adjust_color_space(format->code, &format->colorspace, &xfer_func,
-> +				&ycbcr_enc, &quantization);
-> +
-> +	format->xfer_func = xfer_func;
-> +	format->ycbcr_enc = ycbcr_enc;
-> +	format->quantization = quantization;
-> +}
-> +
->   /* -----------------------------------------------------------------------------
->    * V4L2 Subdevice Operations
->    */
-> @@ -329,7 +343,13 @@ int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
->   	format->height = clamp_t(unsigned int, fmt->format.height,
->   				 min_height, max_height);
->   	format->field = V4L2_FIELD_NONE;
-> -	format->colorspace = V4L2_COLORSPACE_SRGB;
-> +
-> +	format->colorspace = fmt->format.colorspace;
-> +	format->xfer_func = fmt->format.xfer_func;
-> +	format->ycbcr_enc = fmt->format.ycbcr_enc;
-> +	format->quantization = fmt->format.quantization;
-> +
-> +	vsp1_entity_adjust_color_space(format);
->   
->   	fmt->format = *format;
->   
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.h b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-> index 1bcc9e27dfdc..ce4a09610164 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-> @@ -170,6 +170,8 @@ void vsp1_entity_configure_partition(struct vsp1_entity *entity,
->   				     struct vsp1_dl_list *dl,
->   				     struct vsp1_dl_body *dlb);
->   
-> +void vsp1_entity_adjust_color_space(struct v4l2_mbus_framefmt *format);
-> +
->   struct media_pad *vsp1_entity_remote_pad(struct media_pad *pad);
->   
->   int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-> index 8ba2a7c7305c..1fcd1967d3b2 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-> @@ -14,6 +14,7 @@
->   
->   #include "vsp1.h"
->   #include "vsp1_dl.h"
-> +#include "vsp1_entity.h"
->   #include "vsp1_hsit.h"
->   
->   #define HSIT_MIN_SIZE				4U
-> @@ -96,7 +97,13 @@ static int hsit_set_format(struct v4l2_subdev *subdev,
->   	format->height = clamp_t(unsigned int, fmt->format.height,
->   				 HSIT_MIN_SIZE, HSIT_MAX_SIZE);
->   	format->field = V4L2_FIELD_NONE;
-> -	format->colorspace = V4L2_COLORSPACE_SRGB;
-> +
-> +	format->colorspace = fmt->format.colorspace;
-> +	format->xfer_func = fmt->format.xfer_func;
-> +	format->ycbcr_enc = fmt->format.ycbcr_enc;
-> +	format->quantization = fmt->format.quantization;
-> +
-> +	vsp1_entity_adjust_color_space(format);
->   
->   	fmt->format = *format;
->   
-> @@ -106,6 +113,8 @@ static int hsit_set_format(struct v4l2_subdev *subdev,
->   	format->code = hsit->inverse ? MEDIA_BUS_FMT_ARGB8888_1X32
->   		     : MEDIA_BUS_FMT_AHSV8888_1X32;
->   
-> +	vsp1_entity_adjust_color_space(format);
-> +
->   done:
->   	mutex_unlock(&hsit->entity.lock);
->   	return ret;
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> index f7b133536704..b9ab6c9c96df 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> @@ -346,6 +346,50 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
->   	return NULL;
->   }
->   
-> +/**
-> + * vsp1_adjust_color_space - Adjust color space fields in a format
-> + * @code: the media bus code
-> + * @colorspace: the colorspace
-> + * @xfer_func: the transfer function
-> + * @encoding: the encoding
-> + * @quantization: the quantization
-> + *
-> + * This function adjusts all color space fields of a video device of subdev
-> + * format structure, taking into account the requested format, requested color
-> + * space and limitations of the VSP1. It should be used in the video device and
-> + * subdev set format handlers.
-> + *
-> + * For now, simply hardcode the color space fields to the VSP1 defaults based
-> + * on the media bus code.
-> + */
-> +void vsp1_adjust_color_space(u32 code, u32 *colorspace, u8 *xfer_func,
-> +			     u8 *encoding, u8 *quantization)
-> +{
-> +	switch (code) {
-> +	case MEDIA_BUS_FMT_ARGB8888_1X32:
-> +	default:
-> +		*colorspace = V4L2_COLORSPACE_SRGB;
-> +		*xfer_func = V4L2_XFER_FUNC_SRGB;
-> +		*encoding = V4L2_YCBCR_ENC_601;
-> +		*quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> +		break;
-> +
-> +	case MEDIA_BUS_FMT_AHSV8888_1X32:
-> +		*colorspace = V4L2_COLORSPACE_SRGB;
-> +		*xfer_func = V4L2_XFER_FUNC_SRGB;
-> +		*encoding = V4L2_HSV_ENC_256;
-> +		*quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> +		break;
-> +
-> +	case MEDIA_BUS_FMT_AYUV8_1X32:
-> +		*colorspace = V4L2_COLORSPACE_SMPTE170M;
-> +		*xfer_func = V4L2_XFER_FUNC_709;
-> +		*encoding = V4L2_YCBCR_ENC_601;
-> +		*quantization = V4L2_QUANTIZATION_LIM_RANGE;
-> +		break;
-> +	}
-> +}
-> +
->   /* -----------------------------------------------------------------------------
->    * Pipeline Management
->    */
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> index 1d3d033af209..c88a3f0d5b1e 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> @@ -182,5 +182,7 @@ const struct vsp1_format_info *vsp1_get_format_info(struct vsp1_device *vsp1,
->   const struct vsp1_format_info *
->   vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
->   			      u32 code);
-> +void vsp1_adjust_color_space(u32 code, u32 *colorspace, u8 *xfer_func,
-> +			     u8 *encoding, u8 *quantization);
->   
->   #endif /* __VSP1_PIPE_H__ */
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> index 1b4bac7b7cfa..4e8bcf6a59ad 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> @@ -10,6 +10,7 @@
->   #include <media/v4l2-subdev.h>
->   
->   #include "vsp1.h"
-> +#include "vsp1_entity.h"
->   #include "vsp1_rwpf.h"
->   #include "vsp1_video.h"
->   
-> @@ -90,6 +91,8 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
->   		else
->   			format->code = sink_format->code;
->   
-> +		vsp1_entity_adjust_color_space(format);
-> +
->   		fmt->format = *format;
->   		goto done;
->   	}
-> @@ -100,7 +103,13 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
->   	format->height = clamp_t(unsigned int, fmt->format.height,
->   				 RWPF_MIN_HEIGHT, rwpf->max_height);
->   	format->field = V4L2_FIELD_NONE;
-> -	format->colorspace = V4L2_COLORSPACE_SRGB;
-> +
-> +	format->colorspace = fmt->format.colorspace;
-> +	format->xfer_func = fmt->format.xfer_func;
-> +	format->ycbcr_enc = fmt->format.ycbcr_enc;
-> +	format->quantization = fmt->format.quantization;
-> +
-> +	vsp1_entity_adjust_color_space(format);
->   
->   	fmt->format = *format;
->   
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-> index 1759ce642e6e..bba2872afaf2 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-> @@ -14,6 +14,7 @@
->   
->   #include "vsp1.h"
->   #include "vsp1_dl.h"
-> +#include "vsp1_entity.h"
->   #include "vsp1_pipe.h"
->   #include "vsp1_sru.h"
->   
-> @@ -178,6 +179,8 @@ static void sru_try_format(struct vsp1_sru *sru,
->   		    fmt->code != MEDIA_BUS_FMT_AYUV8_1X32)
->   			fmt->code = MEDIA_BUS_FMT_AYUV8_1X32;
->   
-> +		vsp1_entity_adjust_color_space(fmt);
-> +
->   		fmt->width = clamp(fmt->width, SRU_MIN_SIZE, SRU_MAX_SIZE);
->   		fmt->height = clamp(fmt->height, SRU_MIN_SIZE, SRU_MAX_SIZE);
->   		break;
-> @@ -187,6 +190,11 @@ static void sru_try_format(struct vsp1_sru *sru,
->   		format = v4l2_subdev_state_get_format(sd_state, SRU_PAD_SINK);
->   		fmt->code = format->code;
->   
-> +		fmt->colorspace = format->colorspace;
-> +		fmt->xfer_func = format->xfer_func;
-> +		fmt->ycbcr_enc = format->ycbcr_enc;
-> +		fmt->quantization = format->quantization;
-> +
->   		/*
->   		 * We can upscale by 2 in both direction, but not independently.
->   		 * Compare the input and output rectangles areas (avoiding
-> @@ -211,7 +219,6 @@ static void sru_try_format(struct vsp1_sru *sru,
->   	}
->   
->   	fmt->field = V4L2_FIELD_NONE;
-> -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
->   }
->   
->   static int sru_set_format(struct v4l2_subdev *subdev,
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-> index c5a38478cf8c..2db473b6f83c 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-> @@ -14,6 +14,7 @@
->   
->   #include "vsp1.h"
->   #include "vsp1_dl.h"
-> +#include "vsp1_entity.h"
->   #include "vsp1_pipe.h"
->   #include "vsp1_uds.h"
->   
-> @@ -177,6 +178,8 @@ static void uds_try_format(struct vsp1_uds *uds,
->   		    fmt->code != MEDIA_BUS_FMT_AYUV8_1X32)
->   			fmt->code = MEDIA_BUS_FMT_AYUV8_1X32;
->   
-> +		vsp1_entity_adjust_color_space(fmt);
-> +
->   		fmt->width = clamp(fmt->width, UDS_MIN_SIZE, UDS_MAX_SIZE);
->   		fmt->height = clamp(fmt->height, UDS_MIN_SIZE, UDS_MAX_SIZE);
->   		break;
-> @@ -186,6 +189,11 @@ static void uds_try_format(struct vsp1_uds *uds,
->   		format = v4l2_subdev_state_get_format(sd_state, UDS_PAD_SINK);
->   		fmt->code = format->code;
->   
-> +		fmt->colorspace = format->colorspace;
-> +		fmt->xfer_func = format->xfer_func;
-> +		fmt->ycbcr_enc = format->ycbcr_enc;
-> +		fmt->quantization = format->quantization;
-> +
->   		uds_output_limits(format->width, &minimum, &maximum);
->   		fmt->width = clamp(fmt->width, minimum, maximum);
->   		uds_output_limits(format->height, &minimum, &maximum);
-> @@ -194,7 +202,6 @@ static void uds_try_format(struct vsp1_uds *uds,
->   	}
->   
->   	fmt->field = V4L2_FIELD_NONE;
-> -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
->   }
->   
->   static int uds_set_format(struct v4l2_subdev *subdev,
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> index da578993f472..68d495c20a84 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> @@ -127,12 +127,10 @@ static int __vsp1_video_try_format(struct vsp1_video *video,
->   		info = vsp1_get_format_info(video->vsp1, VSP1_VIDEO_DEF_FORMAT);
->   
->   	pix->pixelformat = info->fourcc;
-> -	pix->colorspace = V4L2_COLORSPACE_SRGB;
->   	pix->field = V4L2_FIELD_NONE;
->   
-> -	if (info->fourcc == V4L2_PIX_FMT_HSV24 ||
-> -	    info->fourcc == V4L2_PIX_FMT_HSV32)
-> -		pix->hsv_enc = V4L2_HSV_ENC_256;
-> +	vsp1_adjust_color_space(info->mbus, &pix->colorspace, &pix->xfer_func,
-> +				&pix->ycbcr_enc, &pix->quantization);
->   
->   	memset(pix->reserved, 0, sizeof(pix->reserved));
->   
-> @@ -891,7 +889,6 @@ vsp1_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
->   			  | V4L2_CAP_IO_MC | V4L2_CAP_VIDEO_CAPTURE_MPLANE
->   			  | V4L2_CAP_VIDEO_OUTPUT_MPLANE;
->   
+>   	/*
+>   	 * Configure the format on the RPF sink pad and propagate it up to the
+>   	 * BRx sink pad.
+>   	 */
+> -	crop = &vsp1->drm->inputs[rpf->entity.index].crop;
 > -
->   	strscpy(cap->driver, "vsp1", sizeof(cap->driver));
->   	strscpy(cap->card, video->video.name, sizeof(cap->card));
+>   	format.pad = RWPF_PAD_SINK;
+> -	format.format.width = crop->width + crop->left;
+> -	format.format.height = crop->height + crop->top;
+> +	format.format.width = input->crop.width + input->crop.left;
+> +	format.format.height = input->crop.height + input->crop.top;
+>   	format.format.code = rpf->fmtinfo->mbus;
+>   	format.format.field = V4L2_FIELD_NONE;
 >   
+> @@ -151,7 +149,7 @@ static int vsp1_du_pipeline_setup_rpf(struct vsp1_device *vsp1,
+>   
+>   	sel.pad = RWPF_PAD_SINK;
+>   	sel.target = V4L2_SEL_TGT_CROP;
+> -	sel.r = *crop;
+> +	sel.r = input->crop;
+>   
+>   	ret = v4l2_subdev_call(&rpf->entity.subdev, pad, set_selection, NULL,
+>   			       &sel);
+> @@ -826,12 +824,14 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+>   {
+>   	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+>   	struct vsp1_drm_pipeline *drm_pipe = &vsp1->drm->pipe[pipe_index];
+> +	struct vsp1_drm_input *input;
+>   	struct vsp1_rwpf *rpf;
+>   	int ret;
+>   
+>   	if (rpf_index >= vsp1->info->rpf_count)
+>   		return -EINVAL;
+>   
+> +	input = &vsp1->drm->inputs[rpf_index];
+>   	rpf = vsp1->rpf[rpf_index];
+>   
+>   	if (!cfg) {
+> @@ -873,9 +873,9 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+>   
+>   	rpf->format.flags = cfg->premult ? V4L2_PIX_FMT_FLAG_PREMUL_ALPHA : 0;
+>   
+> -	vsp1->drm->inputs[rpf_index].crop = cfg->src;
+> -	vsp1->drm->inputs[rpf_index].compose = cfg->dst;
+> -	vsp1->drm->inputs[rpf_index].zpos = cfg->zpos;
+> +	input->crop = cfg->src;
+> +	input->compose = cfg->dst;
+> +	input->zpos = cfg->zpos;
+>   
+>   	drm_pipe->pipe.inputs[rpf_index] = rpf;
+>   
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.h b/drivers/media/platform/renesas/vsp1/vsp1_drm.h
+> index 3fd95b53f27e..7234737cc464 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.h
+> @@ -59,7 +59,7 @@ struct vsp1_drm {
+>   	struct vsp1_drm_pipeline pipe[VSP1_MAX_LIF];
+>   	struct mutex lock;
+>   
+> -	struct {
+> +	struct vsp1_drm_input {
+>   		struct v4l2_rect crop;
+>   		struct v4l2_rect compose;
+>   		unsigned int zpos;
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
