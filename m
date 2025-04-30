@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-16545-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16546-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58D07AA55EA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 22:44:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0813AA55EC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 22:44:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 91F64189781B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 20:44:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 77F909C4C2D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 20:43:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF67B2D26B9;
-	Wed, 30 Apr 2025 20:41:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2D7D2D29C0;
+	Wed, 30 Apr 2025 20:41:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qq3lSl6Y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RjL3vzR2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B022D2691;
-	Wed, 30 Apr 2025 20:41:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2412D26A9;
+	Wed, 30 Apr 2025 20:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746045694; cv=none; b=gGtQKGscVCnToun9pNhCh7F8mhesSet5rJFdN9nZzDPrVwpPNIzmm7QvhMIOowAsIfe+AOjQJVPV7aunJ+sGts5pTBcjeDeULiZDuod/8GCri4FDTTT9nH++X84Lgp498qG9ayamcSuobY6yY//3B0kAvcgg0TagdQycnxSTyiY=
+	t=1746045695; cv=none; b=mqmb8Ur+/ejzV6D/NtYice649VjJB7baPQlMvw3YJIdkyPorksqi27rWwjVf9dLh0F7Bbpl2+HZRKtPgo6QBqBffhyEfwUQPlwzi/LV5/9wSjwgIQ8fV7lczVG1Mxqc9p8VFB5PTbnLjA+QFOTgG+4n4BY6zbWmZcKI8moNs5fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746045694; c=relaxed/simple;
-	bh=UCoz0MtvAKMfDVwyQT6bBeR1YcYMU0rVSKiqil9gQdY=;
+	s=arc-20240116; t=1746045695; c=relaxed/simple;
+	bh=VV/pg8YLwFQnxxqs2siRxCPlNz4t70mLfHqgSUHDnUs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PkJneqNp40AP//z8YxMoRR08iy2aUyi9Jf9smlS6KFDmzBK8P6S5zTpudDvgZW6CoJJpWFIFrmn/X8tPxD7/4LhhPfU7zel7DMR/ygvPv1uSMBZmF88bcNeFfzouZK92F68aXZ0YOzEbbIlzifR4jUBI2wbkSJNDO5Bz4sAHL/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qq3lSl6Y; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version; b=BjBJb0Rv/rHoaSCquiwka9+vy7Gj3j0YzmV8e188fBJ9JE7wqd8YobLzUrKc3cMAfxIY7qmx7PnuUjXoki3u3mc3aAquBPW9EMar5ZSlA9uqzAFb/d6qsDifYkc+XQavtQanm7GBt3KNnxaOEeLQG581PLrIqC7M1al1Cws6O7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RjL3vzR2; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3913d129c1aso230051f8f.0;
-        Wed, 30 Apr 2025 13:41:32 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-39bf44be22fso157071f8f.0;
+        Wed, 30 Apr 2025 13:41:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746045691; x=1746650491; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1746045692; x=1746650492; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BeIimSTGkxAiQACuV5flhhZMsgNREPFEsZ2/L02ocZU=;
-        b=Qq3lSl6YQbxz+6hmyI9Er6mSgjtIzH2s1Y8kOHEM/cyg3poGMenU5oUVgbEYD1epFZ
-         oi8BRmuxhOVDaNw6zc5J8UVzO12RIMgedI6ogKxSWWiFHxVHJUbOfreOqfpmAVl7p87d
-         OlDhTApF4Q23QFB95rwm2cufFIx+L0dg6IOTCiY3x6rCG82oIvWmQJVpX9zZit0b8yyy
-         rbQh5lsiolM9qM2nZgwd9jlLFR07BdXh+pPega9r3jLnSypbUKHnCq8zhsLj2QPDI7uW
-         /hzXYV2qpAtuDAHE1Gpx2zPBsU7wo4cuNzsHFvdmdGP3HNHuJ/dh7aaVm99sYkMxQK//
-         JBlA==
+        bh=zs5IS+IIZjSL2dWZDqgTPqknuqZPmDccKzSPgZKtB/A=;
+        b=RjL3vzR2rSrIQVniiW5RDLR/d3DCGoV0jMFPPAgf7ZnHRFGBlnngeFUnnNExSla3Pg
+         6ToDUkwj6BFgRqFKDkGkHsM80FREREvapEtFMd1/Pt+Gk8Q3jl3yngYc1HUSpP98l4Vk
+         +XuPsaY0Z8aeSVN6j9T9mKYcYROLEubiBSqCdr3wugbXMz0jyhz10Kko6U+L5alXzuhw
+         DZqMIVhh47qFWBSgxYRMiA3JAvKpw81l0iWcvItSOS1a9jneQmxQvWeKZ4JaYOyPKlm2
+         TTvGJM56X64Ee1LYR8XJ2ZnAUwgLlOttrCW/VM7GTwa7ZDDh/boujbSwSQDMsi4JKlZm
+         xSiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746045691; x=1746650491;
+        d=1e100.net; s=20230601; t=1746045692; x=1746650492;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BeIimSTGkxAiQACuV5flhhZMsgNREPFEsZ2/L02ocZU=;
-        b=O6td/isckLEDundX1W06uf/4tWmOuTPtKnYlOYv34YzC+1Lgz0L0GPJpYOKwAtm6/u
-         pt3TLMBsrNz0bElScVasnivRu1N/B5IPJIeCNW19qAgLs+++b3hTt8LSnDuWGRG0z9fR
-         WLytFeANqwwNO0YFoyMxxLyPbrpHhDwuxjdxaiRG6gPgRZ6QsxqLJZGOZJsJRYnP4kGq
-         ISwlhpE4rwlZ2FEryYM+ZvO5j8eE+p4Gk3QCg576tnjRCulF6vJSpKN85gzKTJLPLoMi
-         nXb4/uRsJi4ailVm7fy+y1GFnIcrFogs8Onqk6Fp1Ow/+tKlzAjzsp9c7FT47K16+DOv
-         ohnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4BjnQ277wFkQGORoimpgKKbXw4QxM8qUBkG7zZoew0DaiTR6b/hswke+JZW7E8FhiqiPtQy3WRuVxBllx@vger.kernel.org, AJvYcCULpL0cHA45yG1itYfg5bOhFVmQFiRfjmMW010/cOKKUtKPlOZqpAPKqPuBHybGvZTHG+7+xaidYBx5@vger.kernel.org, AJvYcCVKrUVLhLrbXitAovqrf6jwTC9Fn1+YHYRrFVJjy0sl+2nM34eIDyonraMIBEnyZDg8C7ea4sahz36r@vger.kernel.org, AJvYcCXef86mpNh1gM9wpoLBxLQ3bvgHme06AVJ5jJBjl3RK2Hzu2oin+Axw5aPo5uaLuILJeiG+TfH3alvH9Z2CHXVUxZw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoPKlsIklx96Oc6R8y1hbp1W5Gwe59+rlEX7wYi8df0omdyonb
-	yWFmogJZY4Ho1dXQFicG2qTG263x3sG4QUy17UnkVWtQ33CFmUPl
-X-Gm-Gg: ASbGncsJiIrVFYTV0VQP+hk0tHVNSdK1X2TE5PQUq5IUmoGNMF7ImaJVzjqw6kXGZn2
-	3RZQ825/bT8zAbH4I5SNRZbB+Jn7RWEXXBn2IifKvbOZY/tTl8NKL6kka59ofT1WGZygo2hJoi0
-	6NQ4Br5Qh07sIV6UPoj9+8M/XHg6RAWmYCssdAvEUaN2UoKCJtCUrQ6HRkmXX6kxesBKD9SGuuu
-	XecZy61zpaSP+dKRk0uepCvenGVtbehe7i4hX2n8ddmiBFlmmcGgv10eIbmmIyHukf6AluK41CO
-	Avv2rj6yF+SgZZFQzP5oSp3JyIiQIQdds2kn249A8jE8lp0A4MUoR78g0Bkt3knHFadKkcyNFzU
+        bh=zs5IS+IIZjSL2dWZDqgTPqknuqZPmDccKzSPgZKtB/A=;
+        b=Xxt0UQj4z04IUs2LT2qN/TMcBPXIAEPdoXiwcTsv8kWDAtXWXa7mJW9v+zo1iCO3VL
+         en38ppqcpkjlIcnMV5qwjNtJUT5c2ib0B9hHw2qbDNusS3086IMWDTDFDYugXkHuxD99
+         AiALSg4dB3F88kR6aXyAO76L2SoZDppTynoyZWgysybWTy7+rZBloqgw2FPN6/KvsydZ
+         trxhplQ9yLCF2JBO+XH4TYxYv4Gd/WbncWPBFgCqIc98Per5TqBbCz56lQIb6cwYsGHB
+         cJz5hDm0RAe/+rZd8qNgb/ho2/ZcP00mcS/O4Qgan6Bpe2JBwj5mA3s8XSQ0uQsCuXtI
+         B20w==
+X-Forwarded-Encrypted: i=1; AJvYcCVYQtl0i3ZkPDD8qdHYrGq5p8GuaYolcMTvVYKLIpsZZd3wKdAYuBGPsB8Ce7JSmSfnCSxNTmKuJr1Z@vger.kernel.org, AJvYcCXjkM7fEywICNMmxhFQaVrjInmOCg2/DINwabcsjdOXxPbX+l9GV7Sevex7jpAcbbig/96fQz+nolWGffCj@vger.kernel.org, AJvYcCXraXaLSUbvZ6rOS248g7tlWi1bgq1XWo9JDpNKNuZtsuYr5zXuq9LudDmqg5AaYYyYqdKcKLoBo+RWk32YslpU5BI=@vger.kernel.org, AJvYcCXxOzyF97EnDWbKuUKbmJWIjewGLCg8tjolJy/CJhTBeJH/sIW2+4IvdS1SFYR/YoJchkfRQh8XvkAb@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQGXXwtY8/FBt0n0eLQCWIixQZ4INqQkiBWY4m5h5M/VqVpUCz
+	oh1l2RQjsAnHQwymLXTTaPnFCPWB+PfMuFabWY8ZebbcSGbI+YC+
+X-Gm-Gg: ASbGnctMaEBB5olNBeqsHOoPboERSwwABsQXej7RMX53mANIHY0WWAl/E21mK4zAc66
+	cGGCBeRda/pxghMMg0nDQ+1kuk2/CA1e5BV1O6maHq+wg/hoysWRW3n9txhlndqTpu9luZ5VQZO
+	ToO7gH8S+CT8z2pf7wweWetgOeWk9HpA79VzNuL8H5n3w7HTnV1FBZn/PdkCQhcgVg6Gto9NGOZ
+	vFqcRdmX1Pf6oF2OeTDEjZ2YJ8zlpP+5VOYGNMxQ3yfGQ0qO+YYMzvbfnrf0m9xemCo/wNsaarM
+	cac016LZBDt1s9yGY/XUWOlIUOG9cuKMRiwkZB2SpM3cQhDn6Xg+LGnC1vxYcCN2a9OpFJQCNEc
 	=
-X-Google-Smtp-Source: AGHT+IGXi9gEHMu2kkOiJyeElS9pMvis5d/bb/bWjaAFc2lIThqPQuTspcq9AFbQpjJeQQy6eLr92g==
-X-Received: by 2002:a5d:4d0c:0:b0:3a0:7cbd:ffb7 with SMTP id ffacd0b85a97d-3a092cf7e96mr629197f8f.16.1746045691125;
-        Wed, 30 Apr 2025 13:41:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF6WostFapxQBw6ajNHWZp/i5PjEELly2sDADJ+hQXmv+3xRiGu0yOTdYUI6fnh+IIxhIZCmQ==
+X-Received: by 2002:a05:6000:2287:b0:39c:1f10:ba54 with SMTP id ffacd0b85a97d-3a09303bbb3mr428578f8f.35.1746045692273;
+        Wed, 30 Apr 2025 13:41:32 -0700 (PDT)
 Received: from iku.example.org ([2a06:5906:61b:2d00:c5ac:bf15:f358:81a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073ca56d5sm18098132f8f.32.2025.04.30.13.41.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073ca56d5sm18098132f8f.32.2025.04.30.13.41.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 13:41:30 -0700 (PDT)
+        Wed, 30 Apr 2025 13:41:31 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -103,9 +103,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 11/15] drm: renesas: rz-du: mipi_dsi: Add feature flag for 16BPP support
-Date: Wed, 30 Apr 2025 21:41:08 +0100
-Message-ID: <20250430204112.342123-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 12/15] drm: renesas: rz-du: mipi_dsi: Add dphy_late_init() callback for RZ/V2H(P)
+Date: Wed, 30 Apr 2025 21:41:09 +0100
+Message-ID: <20250430204112.342123-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -119,16 +119,16 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Introduce the `RZ_MIPI_DSI_FEATURE_16BPP` flag in `rzg2l_mipi_dsi_hw_info`
-to indicate support for 16BPP pixel formats. The RZ/V2H(P) SoC supports
-16BPP, whereas this feature is missing on the RZ/G2L SoC.
+Introduce the `dphy_late_init` callback in `rzg2l_mipi_dsi_hw_info` to
+allow additional D-PHY register configurations after enabling data and
+clock lanes. This is required for the RZ/V2H(P) SoC but not for the
+RZ/G2L SoC.
 
-Update the `mipi_dsi_host_attach()` function to check this flag before
-allowing 16BPP formats. If the SoC does not support 16BPP, return an error
-to prevent incorrect format selection.
+Modify `rzg2l_mipi_dsi_startup()` to invoke `dphy_late_init` if defined,
+ensuring SoC-specific initialization is performed only when necessary.
 
-This change enables finer-grained format support control for different
-SoC variants.
+This change prepares for RZ/V2H(P) SoC support while maintaining
+compatibility with existing platforms.
 
 Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
@@ -141,40 +141,33 @@ v2->v3:
 - No changes
 
 v1->v2:
-- Renamed RZ_MIPI_DSI_FEATURE_16BPP
+- No changes
 ---
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index a4c0dbae4a46..8c7384b95411 100644
+index 8c7384b95411..66eef39af35e 100644
 --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
 +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -29,6 +29,7 @@
- #include "rzg2l_mipi_dsi_regs.h"
+@@ -35,6 +35,7 @@ struct rzg2l_mipi_dsi;
  
- #define RZ_MIPI_DSI_FEATURE_DPHY_RST	BIT(0)
-+#define RZ_MIPI_DSI_FEATURE_16BPP	BIT(1)
+ struct rzg2l_mipi_dsi_hw_info {
+ 	int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, u64 hsfreq_millihz);
++	void (*dphy_late_init)(struct rzg2l_mipi_dsi *dsi);
+ 	void (*dphy_exit)(struct rzg2l_mipi_dsi *dsi);
+ 	u32 phy_reg_offset;
+ 	u32 link_reg_offset;
+@@ -318,6 +319,9 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+ 	txsetr = TXSETR_DLEN | TXSETR_NUMLANEUSE(dsi->lanes - 1) | TXSETR_CLEN;
+ 	rzg2l_mipi_dsi_link_write(dsi, TXSETR, txsetr);
  
- struct rzg2l_mipi_dsi;
- 
-@@ -643,8 +644,16 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 
- 	switch (mipi_dsi_pixel_format_to_bpp(device->format)) {
- 	case 24:
-+		break;
- 	case 18:
- 		break;
-+	case 16:
-+		if (!(dsi->info->features & RZ_MIPI_DSI_FEATURE_16BPP)) {
-+			dev_err(dsi->dev, "Unsupported format 0x%04x\n",
-+				device->format);
-+			return -EINVAL;
-+		}
-+		break;
- 	default:
- 		dev_err(dsi->dev, "Unsupported format 0x%04x\n", device->format);
- 		return -EINVAL;
++	if (dsi->info->dphy_late_init)
++		dsi->info->dphy_late_init(dsi);
++
+ 	hsfreq = DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI);
+ 	/*
+ 	 * Global timings characteristic depends on high speed Clock Frequency
 -- 
 2.49.0
 
