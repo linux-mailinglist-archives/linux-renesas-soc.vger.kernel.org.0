@@ -1,146 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-16491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59772AA437E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 09:04:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5488AA44DE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 10:08:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E954E1BC55C1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 07:05:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 509A418905E0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Apr 2025 08:08:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C078E1EB1AC;
-	Wed, 30 Apr 2025 07:04:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F0B2139C8;
+	Wed, 30 Apr 2025 08:08:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0WKkgxv1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PEhvhvQH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB2E1E9B3D
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Apr 2025 07:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737AD1C8632;
+	Wed, 30 Apr 2025 08:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745996690; cv=none; b=Y5viaDKWRo1OmRfe+1YrlIjWJVGWygpxHRqECbYz9Vo0VjmxjFOqT2hgc3VqzER4njp8mXHcbhw0nIVZAKESPhHRLmxiPpRA71CTUzjYGuxYohxbvr30b8cxTXN9zEGmbWTqBRcDOy7KxKaodFzXGyXqMVW9j0cpKY9SCv3pLy4=
+	t=1746000498; cv=none; b=fu5+cx3s34/hvTcGKz3aT4DezLHVkfb4j5aoxFKaD+7JPtycVFWM8ABEEU2yKo+FvU1eHfWUch6Eyro271PKv2Hpy9s5Dub9nE3KoTG73p6sPnErzYwDBZSMTy98deHt6m5UfVQ5GZmfPHYy4oZ8o7HZWU+vScE9DWazv2wRQqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745996690; c=relaxed/simple;
-	bh=DliDBaPwfXozR9TCYVsi8CN51+E1M7iE6MLi1rF3GZA=;
+	s=arc-20240116; t=1746000498; c=relaxed/simple;
+	bh=pCUgXguQq1vRA4bGkjweAQOtL40q6Ryp+ab88vmfA3g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QunZo6CzTyksHbRISPHIPdlLRtNGFQmp5Hz3mt6TL4WwAeF2fZoMtZ09+mzhkKO14b7SYavCbpcLBeDuVOs+GjooveGhyuw3R0YMZ4SZbrPCOPyPuJ6ffxtwIskmSwNVShtPprWGOr8fvBfNFp1iVUFnqDMQkicObNwEmC9Zxuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0WKkgxv1; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ac2aeada833so126839866b.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Apr 2025 00:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745996685; x=1746601485; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DliDBaPwfXozR9TCYVsi8CN51+E1M7iE6MLi1rF3GZA=;
-        b=0WKkgxv14Zcl8y37utgeLeiT0Xvo0SV5PePR/CHTXPeNl+ccDnH8iUFdLjrHApJs6w
-         K1E4KDwunE4Oa1YLu1Lzdb9Y6dOClmsXhk2Ih2fWek06BgL6fvb0z2r5ICVX9Z0jehD1
-         4Z0kvDZAVojGLEeIk9XXmZ3OS42a7tf+7Ok/45YLlCaY5KBzftGXfE77bTbVb3hG1jK4
-         MMztDa2Iy4/+M3vSGOWvJqKpzK0LwcxmAqGqj4DJ76Qzfo1JjhLtwEp7exX8psM+JN2V
-         lUZZohnFhqUnsW2Afjez4M1OnX+CW/WyFVTU8rh2cGebRhVWwXnASoG4lnib9qb2TABi
-         omUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745996685; x=1746601485;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DliDBaPwfXozR9TCYVsi8CN51+E1M7iE6MLi1rF3GZA=;
-        b=W0NUkYifokhNU0kTCdZXtwO4n2mIDMH6CBt8Zr3v+fkTxJAf+7oE3XLh/KH8I2u5Ob
-         mIs7gzWitZMecJzDABiLeVzcvrl+xljObDBR0NtU/XCBzqDXDHniZCt66zSeSruqaTp/
-         BfPlo2pqLEtFxPPju0oMBM7n5Ozz5SCzeWR5SbuGtpNloMWq7crkHu8GqvhV7zBubjq+
-         sjoPP2ffbVtDXhdnfXzdHplMDwaAyoOl3hgXWVG8s8TDxct93jcF8B9H7IK/ulR2UUTh
-         ddPzl/HrggLavUslBtCr7TK4eqDPN7WUUjEV/7Wd3rsRTbH86E11IiEMujLjU+8ZRvpU
-         NNSw==
-X-Forwarded-Encrypted: i=1; AJvYcCWWq3bg+46fCR8jesYWRkd8aLoeO6PfePyRZckovazdqjkiuF+bUxZ4O1ekTHn6XGzi2pP+RrPKs2VUDMVXpCoCnQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgoEuGFFjS5JR1/M3N8URuYw1JyrDeuediXd4jUP5xh/fdqNcJ
-	KW8/vf+M5crDYwafHjTTlWwvYrJG48yFsZRKcUjlkMsRs4vdk/jUbL35wvTCSsk=
-X-Gm-Gg: ASbGncs9fCP/pFV92GDd0OgGqKp7p2aSe+Tv6SWU02U9VZILbqk2CGVPg98GnBRTTCk
-	FIvWBQyPiwlumcjZJtVX1iFh4x+2JZSGPYTJkjhG2P6iaKjjAMZpsSftDCCfS1nv1DxV196iHH2
-	FouGFYCJRjUgG+A86Tuo4cvF9ezNAglmgnPfxz2Muek6yER/J7XfBqteMdlHup8PClfbyrPzZZw
-	nIR1vlEd9HL56NSlGI4WBC3G8R0tsza+4LyoPvJKp34HXDC0tls/6hDLQiDzhcnbElGdCAmxv+P
-	AwOS0b/B+0y6ygnhw1K691z6FJCbxuHfCcoN91oyCELMKQ==
-X-Google-Smtp-Source: AGHT+IF5UaKQoZiFL7ypbKizIsAV1ViA8f4uPncCqiHK6CsFx8TsrrGdOLE9wJ3L9yBLAnTQKJpNLw==
-X-Received: by 2002:a17:907:7ba8:b0:aca:d276:fa5 with SMTP id a640c23a62f3a-acedf349707mr166476066b.0.1745996684937;
-        Wed, 30 Apr 2025 00:04:44 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ace6ed72826sm879848966b.154.2025.04.30.00.04.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 00:04:44 -0700 (PDT)
-Date: Wed, 30 Apr 2025 09:04:42 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] pwm: rzg2l-gpt: Accept requests for too high period
- length
-Message-ID: <3rew4duwpd3wnmnkbbhcebe6jat44gpqfv4vnsrvunksujq4b4@k3hgsr5douiw>
-References: <20250423095715.2952692-2-u.kleine-koenig@baylibre.com>
- <TY3PR01MB11346A3CC284B74692130149686852@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QvIWHujZr0v8dVsJDJUybpMrEchawOQDA6pHYoNPYQuTbVBL5zwf4Dx0TqcjO7s3kN0u/L9MAGWFn424NfL+fb01RSRNKYygXFMMYbcsdvsD03HlqH+ia4te/Isf6C5eLJhnQoJCk59U2SNS7T854ex8jxFPx8b30kZ7U/Euz34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PEhvhvQH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2C6EC4CEE9;
+	Wed, 30 Apr 2025 08:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746000498;
+	bh=pCUgXguQq1vRA4bGkjweAQOtL40q6Ryp+ab88vmfA3g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PEhvhvQHG4rVvDgSY5YEAlvFdlFIjPoEwklqHK2oVDFFscI9oOnH22AFxtXXETEug
+	 iHnVYvMe+t+mjmLvvnbJk0leb+R0US2frAqv3Vo0Rnx1IyUcFzc8Xz+JP/Vc4AgrWv
+	 c48oqzjYkbO2MbC5RCNzUEKgl16x3n093ezpE/HgkfVb2/a5ZQ/gaNtVmMRl6YrsgT
+	 Ek//OIPQJU/El1by4jlyMox7RQIViSupPPfGsNTCUePuh0N0KYiCkq3fsOplC3fn9+
+	 O9mkEGg517iIKGWX+UDcBJI+SdNy3IDIcjLt6YoA/frBd8zWVSzwqyzDqDrFOqkQvK
+	 BJdFA6k3dyQZw==
+Date: Wed, 30 Apr 2025 10:08:14 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Louis Chauvet <louis.chauvet@bootlin.com>, 
+	Inki Dae <inki.dae@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Douglas Anderson <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
+	Adam Ford <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
+	Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung <bleung@chromium.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Christoph Fritz <chf.fritz@googlemail.com>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Detlev Casanova <detlev.casanova@collabora.com>, 
+	Dharma Balasubiramani <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne Grunau <j@jannau.net>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Liu Ying <victor.liu@nxp.com>, Manikandan Muralidharan <manikandan.m@microchip.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Phong LE <ple@baylibre.com>, 
+	Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang <sugar.zhang@rock-chips.com>, 
+	Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Vitalii Mordan <mordan@ispras.ru>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Hans de Goede <hdegoede@redhat.com>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	"Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan <yuanhsinte@chromium.org>, 
+	Pin-yen Lin <treapking@chromium.org>, Xin Ji <xji@analogixsemi.com>, Aradhya Bhatia <a-bhatia1@ti.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@ge.com>, 
+	Martyn Welch <martyn.welch@collabora.co.uk>, Peter Senna Tschudin <peter.senna@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Herve Codina <herve.codina@bootlin.com>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, Bjorn Andersson <quic_bjorande@quicinc.com>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+	Helge Deller <deller@gmx.de>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Raphael Gallais-Pou <rgallaispou@gmail.com>, Michal Simek <michal.simek@amd.com>
+Subject: Re: (subset) [PATCH v2 00/34] drm: convert all bridges to
+ devm_drm_bridge_alloc()
+Message-ID: <20250430-arrogant-marmoset-of-justice-92ced3@houat>
+References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+ <174591887152.961603.7706063017853945511.b4-ty@bootlin.com>
+ <832a9db0-cf8a-4d35-8a98-08053fbd6723@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oy5vvrpaw4d56eyr"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="o2svn3fbdbsdr4ij"
 Content-Disposition: inline
-In-Reply-To: <TY3PR01MB11346A3CC284B74692130149686852@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <832a9db0-cf8a-4d35-8a98-08053fbd6723@bootlin.com>
 
 
---oy5vvrpaw4d56eyr
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--o2svn3fbdbsdr4ij
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] pwm: rzg2l-gpt: Accept requests for too high period
- length
+Subject: Re: (subset) [PATCH v2 00/34] drm: convert all bridges to
+ devm_drm_bridge_alloc()
 MIME-Version: 1.0
 
-Hello Biju,
-
-On Thu, Apr 24, 2025 at 05:45:32AM +0000, Biju Das wrote:
-> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> > ---
-> > Hello Biju,
+On Tue, Apr 29, 2025 at 02:41:42PM +0200, Louis Chauvet wrote:
+> Le 29/04/2025 =E0 11:27, Louis Chauvet a =E9crit=A0:
 > >=20
-> > here comes the patch that I promised when I applied your driver patch.
+> > On Thu, 24 Apr 2025 20:59:07 +0200, Luca Ceresoli wrote:
+> > > devm_drm_bridge_alloc() [0] is the new API to allocate and initialize=
+ a DRM
+> > > bridge, and the only one supported from now on. It is also necessary =
+for
+> > > implementing reference counting and thus needed to support removal of
+> > > bridges from a still existing DRM pipeline without use-after-free.
+> > >=20
+> > > This series converts all DRM bridges to the new API.
+> > >=20
+> > > [...]
 > >=20
-> > This aligns the period setting to the usual procedure. Obviously only c=
-ompile tested.
+> > Applied, thanks!
+> >=20
+> > [02/34] platform: arm64: acer-aspire1-ec: convert to devm_drm_bridge_al=
+loc() API
+> >          commit: 411465d35bc56877c33e2498ac697acfcf484e6b
+> > [03/34] drm/bridge: analogix-anx6345: convert to devm_drm_bridge_alloc(=
+) API
+> >          commit: 53ddeb25159781b029fda404226af600e76f975f
+> > [06/34] drm/bridge: display-connector: convert to devm_drm_bridge_alloc=
+() API
+> >          commit: 4e90a3d96a6185e143041273f9867a1092dd4a71
+> > [07/34] drm/bridge: lt9611uxc: convert to devm_drm_bridge_alloc() API
+> >          commit: 6287ffd9eff6eea65865e64b9d4c45e115fa5ecf
+> > [11/34] drm/bridge: dw-hdmi: convert to devm_drm_bridge_alloc() API
+> >          commit: ed6987b674185873ebed7a619a646da6dd1a78fa
+> > [12/34] drm/bridge: tda998x: convert to devm_drm_bridge_alloc() API
+> >          commit: 7fe58bf1a9a24b533875c262a3222581a3f759e4
+> > [13/34] drm/bridge: ti-sn65dsi86: convert to devm_drm_bridge_alloc() API
+> >          commit: a4754ae9cfa76fbce79f023c268a5bac56f36321
+> > [14/34] drm/exynos: mic: convert to devm_drm_bridge_alloc() API
+> >          commit: 91c5c7b5bb2dd09b43b025bce6d790d3c79f4518
 >=20
-> It is tested with [1]
+> Hello all,
 >=20
-> [1] https://lore.kernel.org/all/20250424054050.28310-1-biju.das.jz@bp.ren=
-esas.com/
+> I made a mistake while applying those patches. Instead of taking
+> 2-3,11-13,15-18,27,31, I took 2-3,11-18,27,31, which includes the patch 1=
+4.
+>=20
+> This patch is not R-by/A-by/SoB by non-Bootlin people. For me, the patch =
+is
+> correct, it does not break the build nor generate warnings.
+>=20
+> What should I do? Is my SoB sufficient, or should I revert the patch and
+> wait for R/A-by before taking it again?
 
-Applied to
-https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for-=
-next
-with your Tested-by: tag.
+It's worse: just like msm, it was never supposed to be applied in
+drm-misc, exynos has its own git tree.
 
-Thanks
-Uwe
+Inki, Kyungmin, Seung-Woo, sorry for the mishap. Do you agree with the
+following patch, and it going through drm-misc?
 
---oy5vvrpaw4d56eyr
+https://lore.kernel.org/dri-devel/20250424-drm-bridge-convert-to-alloc-api-=
+v2-14-8f91a404d86b@bootlin.com/
+
+If not, we'll revert.
+
+Maxime
+
+--o2svn3fbdbsdr4ij
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmgRy4gACgkQj4D7WH0S
-/k792Qf/VV3Xal+1tsQNf0Fn01SeeWBS9bht0ZsCnLj2VcKubf/CUBiES+jF0Hw8
-dK/azyRrgYGf2PvzwvCWf/yGjngIuFExHxn6r70cX0U3WoOQk85I0CL1l73U2exP
-uZIDd8ngJhxes3yeirVXU+Pk6wXhBqx1d4iaRCxy5cEVpb9JXM4VnWX3ph2Mb0Uv
-r3pcQ0of5S5DZyxy4EpjFA3KDXtz34J18zjYMGFZuV3TV1AnNUE/8zvJs+8DaLsB
-P1FHVyQV9cf0J4kI+f3l2yH+zDOIR/hDwQfPUiMt2UHz/YOfqE1rLQsR0T8Pzyy6
-LcXi2oAqObavOi9yd/8XX1GnDLhSIA==
-=MNCz
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaBHaaAAKCRAnX84Zoj2+
+dnenAYDBZr6cr88AokBU5IxJIO545Bob3jJW0+AX0AYDOu8icKftnZn/muxH1K/2
+mlgois4Bf2nfOosRvUT+FqHEb3CHJCluDubGG9J2EVzCRjRyMKIJ+yKyJ5VGB4cE
+N6ZGUBWZvg==
+=3YXQ
 -----END PGP SIGNATURE-----
 
---oy5vvrpaw4d56eyr--
+--o2svn3fbdbsdr4ij--
 
