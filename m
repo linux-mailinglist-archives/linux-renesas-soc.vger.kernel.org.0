@@ -1,104 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-16559-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16560-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA143AA5B17
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 08:33:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DBDAA5B9E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 09:52:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C8939C3D81
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 06:33:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 09BE79C370F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 07:51:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E87D326C382;
-	Thu,  1 May 2025 06:33:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EE11270565;
+	Thu,  1 May 2025 07:52:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="k1c/MKxE"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="VIiPvImm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01171E51FA
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 May 2025 06:33:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4AD26F463
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 May 2025 07:52:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746081226; cv=none; b=iglF6bbq+vF3rwoaeTQ6h2OcQOif4bxA52JgijdkIXMKCqCi2u8d57RUX/H4FeOyY8hiaTPJMq6WK78bR0M2iGSykEteRaqY15BjC35kxEmDAWn5ciBfaH3RwgB3tV+ldk5CkShx6gQTQbyC6P3rjRz2QBfig9lhwadzO9/B2MQ=
+	t=1746085926; cv=none; b=IHgaSJirs44I4kZEdSzcyXhaSeI8+RTHO2+5I/bBSg6+Rp35KYuRvAOjVLTWbaYgEHgiUbbh6t+MxFIL2T+WRpXkX80677xuFP2xsuA6MxKAPvT9PbtHhU4AiG2UZFXrXS2HsGbZEhJZfxbSBnaAp5fT77fbSJ12EIVLNQvR1gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746081226; c=relaxed/simple;
-	bh=XfXUt4Zl6R5fpJBOyggy99HXvsMF0WIFYMom86ZOcHQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nCAxpffkR0PxsVlsl3Gi9H4PHKmt/0mVHxGt7yABbAuqdhc5mCScIqHxpCOkdu5q67/S3uNyjy12er574Lhuait43rKjHqY7ImVYOv7wU/N7d6CwcsXKhfoFnujCIT8amRX2oh6q7V06drEiIpyKDkiaYH98e79/TZlf3EIwhr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=k1c/MKxE; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1746085926; c=relaxed/simple;
+	bh=RYrfcBn6bwSuscQ7eGMhE71CnAk+Cjw4sPM/hJA1Lvk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J26vhjwtbhFRqQHVNS/ptmhlzsjAVMktgU+LHX8kGxVM2t/nWBJfksxbKP7uffZjJPBUvswvdZfehS4pfK14chXSW9yWZENokpogbGsOWWGlYriD3oA7vUdmuxM0GuBhDX0Nu1cwjtTb533l/qCnIFT7FjPgX/AFy48UgTk3fAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=VIiPvImm; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=1ZwejgDjHKdWmk57jMLZSxxGSA4Ke16d1wLzbg5E4nQ=; b=k1c/MK
-	xEDBFutEQJOhpHD6L5zJPVq/8IRv2+XkVGbqgfkFmr7bVCAXUm1xF5TqKIK7U5aW
-	zbzzEHdL56IDohOTvkNnlreIFVAZtCFxzFQ7b0nPF2AJslKAaNKRFN6GvKLw8sfe
-	Yr8VjDEyRYigpODl7BzQPlgb/SrjwMn7Pt8O7RQB8BabcArWl/DdqXBhzFTlWtrM
-	EImpCUpzTxYEgnWqoo4DXS5n6NGR1/zodUeiASwqxy0dW2n50w6m7F/q8zKOq7kt
-	HMwg1MrqXyK5qyiIjN5dmYG1w+XpIVXtY49qf6iz5e6kQdjZfflKMf2m4lLmcSd7
-	Hr67/KH34052zSHQ==
-Received: (qmail 958508 invoked from network); 1 May 2025 08:33:42 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 May 2025 08:33:42 +0200
-X-UD-Smtp-Session: l3s3148p1@Jq8CNw00YuAujnsd
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=RYrf
+	cBn6bwSuscQ7eGMhE71CnAk+Cjw4sPM/hJA1Lvk=; b=VIiPvImmFVdj3w1urimV
+	yHX6XjFruwMx1XN3yj8ee93CPwmKObJwf1AX4GDcb5sCG5NyF1fptIJAntgipZNp
+	piGdQOXugNZ0d7oKURlUVGXfGqcKXrDRmF07wlDWGdfUifCRxxhAkirRcHAanAmP
+	81g//1i+v2XTyba7+TF4rgebOKScQfQC+br8Mp7KL16whPsVxJFYOJ4n7ofUzhl+
+	JyyKHOIVnkWExkHLCn/HEHdCPtZXYCgrp8C7eshmZgjbHjfV5luuY6kYcBISq4Vp
+	dDgEhBd51cax/CFA+Nd2pyRcYAm3sLNNE2sJgGzUXPSpHr1kIeLni3ZOxY6tmBoJ
+	Xg==
+Received: (qmail 978370 invoked from network); 1 May 2025 09:51:58 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 May 2025 09:51:58 +0200
+X-UD-Smtp-Session: l3s3148p1@cXfmTg40FL0gAwDPXxyAAIlRla1HkD11
+Date: Thu, 1 May 2025 09:51:57 +0200
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-mmc@vger.kernel.org
-Subject: [PATCH 4/4] mmc: rename mmc_boot_partition_access() to mmc_host_can_access_boot()
-Date: Thu,  1 May 2025 08:33:29 +0200
-Message-ID: <20250501063325.7262-10-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250501063325.7262-6-wsa+renesas@sang-engineering.com>
-References: <20250501063325.7262-6-wsa+renesas@sang-engineering.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v9 1/2] i2c: riic: Implement bus recovery
+Message-ID: <aBMoHST5o-H4BvkO@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250430194647.332553-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250430194647.332553-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xKjuJX1DCffYbtLH"
+Content-Disposition: inline
+In-Reply-To: <20250430194647.332553-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-It is not obvious that this functions checks capabilities. Rename it to
-include '_can' like other capability helpers and reword it slightly.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/mmc/core/host.h | 2 +-
- drivers/mmc/core/mmc.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+--xKjuJX1DCffYbtLH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/mmc/core/host.h b/drivers/mmc/core/host.h
-index c112191cad6a..5941d68ff989 100644
---- a/drivers/mmc/core/host.h
-+++ b/drivers/mmc/core/host.h
-@@ -49,7 +49,7 @@ static inline bool mmc_host_can_done_complete(struct mmc_host *host)
- 	return host->caps & MMC_CAP_DONE_COMPLETE;
- }
- 
--static inline int mmc_boot_partition_access(struct mmc_host *host)
-+static inline int mmc_host_can_access_boot(struct mmc_host *host)
- {
- 	return !(host->caps2 & MMC_CAP2_BOOTPART_NOACC);
- }
-diff --git a/drivers/mmc/core/mmc.c b/drivers/mmc/core/mmc.c
-index c2b92b508438..5be9b42d5057 100644
---- a/drivers/mmc/core/mmc.c
-+++ b/drivers/mmc/core/mmc.c
-@@ -459,7 +459,7 @@ static int mmc_decode_ext_csd(struct mmc_card *card, u8 *ext_csd)
- 		 * There are two boot regions of equal size, defined in
- 		 * multiples of 128K.
- 		 */
--		if (ext_csd[EXT_CSD_BOOT_MULT] && mmc_boot_partition_access(card->host)) {
-+		if (ext_csd[EXT_CSD_BOOT_MULT] && mmc_host_can_access_boot(card->host)) {
- 			for (idx = 0; idx < MMC_NUM_BOOT_PARTITION; idx++) {
- 				part_size = ext_csd[EXT_CSD_BOOT_MULT] << 17;
- 				mmc_part_add(card, part_size,
--- 
-2.47.2
+On Wed, Apr 30, 2025 at 08:46:46PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Implement I2C bus recovery support for the RIIC controller by making use
+> of software-controlled SCL and SDA line manipulation. The controller allo=
+ws
+> forcing SCL and SDA levels through control bits, which enables generation
+> of manual clock pulses and a stop condition to free a stuck bus.
+>=20
+> This implementation wires up the bus recovery mechanism using
+> i2c_generic_scl_recovery and provides get/set operations for SCL and SDA.
+>=20
+> This allows the RIIC driver to recover from bus hang scenarios where SDA
+> is held low by a slave.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--xKjuJX1DCffYbtLH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgTKBoACgkQFA3kzBSg
+KbbfwQ/+N6mNRwrLqA5m7Eo4cF+AGhkMcrrHE032M7A1zkCwXt6YKhO/M14uIPjS
+i5x799kmSjYWPhGCerVlLmjjGB+94NzK73nHQUPT9nI3+V37MKPRTWPq16wEX3Tp
+qrq8tkjfF4J0zfYZzuuQg2ukxtTyc0iUnEdJlJhPEs8aWJALU8AAnNXRQuN9d+MF
+YrZMnk1uLlKfbEOtJpDvABSFYZfJcHKYdXyh8hYxzCi6sSU8p0kWpPC6AZhX4Oa6
+b5YlEQqDKUeEI89UAgJhx5VFCZNmFQUhkyd2y9hA2UtRPXH2qqnufDXWHySYRsDe
+fgqKQrYa1+KyBMb0pYpRabdrrpPNLkd4VLnWF0C8/dhPnX15HDdHpvRINC4iHcdw
+0ymbL8aO3xil8EEO4sIih8YS8AoRTfqrk+tp28e57Ba42aprnNiVsNFWDYXdtOrf
+8JhoDzYBYG1G6jiqx/Xd7jN3sj5gJzBhzoSenz3bTPe9S1zLRqW3lCFnaiGms/PJ
+U0KL4boX+qKrQXHep+DmfJMXd1nZi1nUrpKycqQc9DtekEg7YYEobrl5SHuatuGS
+56FxUEl9xrifgC3I9dlvwyoV7YCruJkgyuYBesv5oZpVzXr5mb0eMT+817TwyJY8
+LfgMhCwCjWePBWl8kfweal7YrE1yil1ewxJPraLCuJkTiAw6tnU=
+=nDl4
+-----END PGP SIGNATURE-----
+
+--xKjuJX1DCffYbtLH--
 
