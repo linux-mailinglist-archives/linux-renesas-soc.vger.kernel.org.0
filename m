@@ -1,156 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-16590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16591-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830D1AA64A2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 22:16:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C02DAA64C5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 22:33:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDAD64670AD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 20:16:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C2CA4C31ED
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 20:33:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2E952512C6;
-	Thu,  1 May 2025 20:16:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 122DD21B9F6;
+	Thu,  1 May 2025 20:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cSCOLayy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DvDLjiT5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E46420F085;
-	Thu,  1 May 2025 20:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58097B674;
+	Thu,  1 May 2025 20:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746130598; cv=none; b=SYq1oQri8zkmuaBojkwrM9LpOXzmHrVr6N7TfTtMqSdvAEWRJQEU8qasI3EeGbFmBI5JMwFpEtpjD3uv024pUhTxDVpU1xDgohgmK9K+KZCp4gP0qwdehvXMKAaRA+GAYx1tk8KNZEwxJ1b1AM7I4w/R073yAOvyN5ptAB5wsPA=
+	t=1746131606; cv=none; b=rditBOViW3CXIopBRsgZ99uXP08+EFMRqU9iRkdB6ofFzudXlU1mfzKHW8BYBEFUy+krHpoYyNVYi5eqH5JCTCJMemOjVsX2o4ifm9xiwhsZoBk91DgIHP40L+7A0MjpZwZDjU8cHmiXX0GnDttiEUZUhW3O+KtO80sDhaKrs2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746130598; c=relaxed/simple;
-	bh=KoIajoRz9IIzv7lT16of5mH6bxXX5L+gMybdGmXBBSQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=RblZdPdPTTQILDbrdEvmY4fH0gzK430T0EJukINciXf6yIkGiX6JrY/0zV7XV8eRGGypG4M36DbfyHPeXUXtnF+ImGnWQd5nHfPl5q4TKKyk7BbjamAsn5aBWDnLqfc973vYPMLvj9yZZU7JZvw7koGjyMWVFabksgneIv2RMMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cSCOLayy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F42C4CEE3;
-	Thu,  1 May 2025 20:16:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746130597;
-	bh=KoIajoRz9IIzv7lT16of5mH6bxXX5L+gMybdGmXBBSQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=cSCOLayyPXHMXW6DFbd4VTZPc3lActGhKMtSSoII+zQsqJjKi2NFi+Fk8YWgA8GqC
-	 5h3WXxQRPwGtI0WoleXbD6cvgQEtlKJfKzJRXZK648EwHI3v23Rfxnn2PKJD+fzhOJ
-	 K15uPciAYyslWymvlf/U1LwvmGKSejYbV9IU1wNgx117X7AAywqOwOGUwAEw/k7hkg
-	 ly1EqeZNy1WAw3SVRczv5/ioOybmbBDf78di1aNQlbvqgTrpXkymNE/4fxATrkY508
-	 zzQZ07w2wHcz0mvzZZDHr/nAFFPGTf+W1axo3+D2Jgbc9X9sFu77oVENr9crrut4LW
-	 p3loHmdDpBIGw==
-Date: Thu, 1 May 2025 15:16:36 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
-	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
-	saravanak@google.com, p.zabel@pengutronix.de,
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 4/8] dt-bindings: PCI: renesas,r9a08g045s33-pcie: Add
- documentation for the PCIe IP on Renesas RZ/G3S
-Message-ID: <20250501201636.GA776341@bhelgaas>
+	s=arc-20240116; t=1746131606; c=relaxed/simple;
+	bh=/2t7LuQIYbD3dpPBTrSOGwU7/eeSHO10yiPCPagvWTE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kluSOdaonqK/ngMLlSs/sVg/h30TU1UZoLEpTTVfhQqAimkzQxttzDIIFQzQieHTvlVinZ/g1WQPfqCDoTKX+XfwUD/qygYgJbs2rffTzdpxcqsNxLUhUnQ2s6h/u+a4mtyvqR8dPiABOivgmS1GLSktIPbXHv7owMsIMxT0rgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DvDLjiT5; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39c0e0bc733so1202252f8f.1;
+        Thu, 01 May 2025 13:33:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746131602; x=1746736402; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JXedPWzR0RWF5bLPFtldD29i8ddEmiaxTMB0XkP+rbc=;
+        b=DvDLjiT51YEgd/of7xGQUCqAJBJNKmtfy0s8M8WzGtaZUSSQ/ABVXyzaN6GQbdScbf
+         h3oNdZvzUiJoc3DfF4CW3zE/ME/EdSxpqu6pc/LRLsPuGc6Xb8TP84w9JiXqSuDH4ojY
+         DYFB8/x4zeSDJEWno+WuiZrGQ8wKDN3e9npKewkyAp7TwXfgM7HeaeLgLnAhsI7OqcuH
+         rM7J9RCXz+rLaLWhBTUEsKB1RLIYSRrmDI1YaOIckc2h6l7QO4jMyU93mIGuCUs3e38P
+         RH5N1/wWZxL+e+BQ5gWs2Cprn6/Y3gjo5JUGr2zyHoEe9SxkAlfxHC/jXzLy557sTmI/
+         C5tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746131602; x=1746736402;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JXedPWzR0RWF5bLPFtldD29i8ddEmiaxTMB0XkP+rbc=;
+        b=ufSDdcTE9iosl2C4rp+MwFoECQSz5sZY/r+opcqQfHbJDVYGTsGuYVXindY81yRzor
+         3VZHVYChWw2TOnpjlx+bkSNCIuFeeGrNUnbZUl82f8XIMMhS4PU6X2WFg/QBRbVtAMUs
+         mR/NRjJPvjaUP9miIxhtBZs3FZx+XqzQbvXRlEXW2LdVAeD8T6+5jlKRx3v5eQJbHcJi
+         0rSN3w1cHT1PrHEyR9FBIPpabU0XyFJ1ru0tHrRUlGWgtQxfguBXcAQf7Q88qbZXVLOi
+         5C0M3nkrudd9203DRdcU9lXAnfWOQ3NfSL6utx4GRI4xmpGQILExr7Rv1me9KsYL4cI2
+         nNMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV25PbbpuEcbvOR/VatmXgnU2q9cZKtaSy6zXfWcYPm0AJWbGt2AxOnsxz1nsDQvNjxILCUzMxMNJentTue@vger.kernel.org, AJvYcCX14ICLktqxxtimguAt5eYRJH1pilHaD6uVpHgylyB399+vSZPoyVEeyYBDrLrdWkFKf+1xceM+fy4D@vger.kernel.org, AJvYcCXcZkByzx5FTd26gDm7RWRqy2moi5O0uajBy9a51ps1oPa5j66rxCuUMsClZ3CjKUvwtODMSKX+YMCH@vger.kernel.org
+X-Gm-Message-State: AOJu0YyS2xkmfnOTSLC3qGI3DJOboi2xg8NNMmDF+uBEPeu6epSKDj2v
+	juRxZl59b3NU0EwCRPQxX2Dte00TZ91+OqCVLzTSmfoD3SIhsdmb
+X-Gm-Gg: ASbGncs3Kv/jTPvWp68KPDqJNAsj8n4IbCVRo5NensnePnSYnZgEooZvQa/K8RZvstW
+	USCebZd1p6wj2TKG5o7YguinI7k4tlMkIdzkn4waUrTdVLKswQ533unB4MHKheUO0YPdAgp9tBt
+	TJWlFgM3OiEiOrfyvOEpNH8D8rTilEbZOhP8w3XJjXXQnb1keBLT8JDlggV+lJamn9V/6zsk2I/
+	sWPFZhBXqeDxpyRu0e3GJe1uuUvJ/4KiJREw1FdHrJLaZZjJtD/FbNDdpETk8NKfmwEvzqnRTqI
+	Ys5EQIQwNCEEpRB0ITrpiwu2ABRKs5N2rHg27N2XtLxseJ9i+hKT/AWgGz7/HQxw
+X-Google-Smtp-Source: AGHT+IFGyG/qv4mmy5rvpksMU2PDIUwjBXsC8/JIlTgclujNcpO4cvR6tKZfQKoPAqehvg+huI4Alw==
+X-Received: by 2002:a05:6000:1867:b0:39c:e0e:bb46 with SMTP id ffacd0b85a97d-3a099ad3478mr160848f8f.4.1746131602298;
+        Thu, 01 May 2025 13:33:22 -0700 (PDT)
+Received: from iku.Home ([2a06:5906:61b:2d00:f0e:4490:d947:2c92])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a099ae7b09sm165768f8f.48.2025.05.01.13.33.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 May 2025 13:33:21 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Chris Brandt <chris.brandt@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] dt-bindings: i2c: renesas,riic: Document RZ/V2N (R9A09G056) support
+Date: Thu,  1 May 2025 21:33:10 +0100
+Message-ID: <20250501203310.140137-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250430103236.3511989-5-claudiu.beznea.uj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 30, 2025 at 01:32:32PM +0300, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> The PCIe IP available on the Renesas RZ/G3S complies with the PCI Express
-> Base Specification 4.0. It is designed for root complex applications and
-> features a single-lane (x1) implementation. Add documentation for it.
-> The interrupts, interrupt-names, resets, reset-names, clocks, clock-names
-> description were obtained from the hardware manual.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> +        pcie@11e40000 {
-> +            compatible = "renesas,r9a08g045s33-pcie";
-> +            reg = <0 0x11e40000 0 0x10000>;
-> +            ranges = <0x03000000 0 0x30000000 0 0x30000000 0 0x8000000>;
-> +            dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0 0x8000000>;
-> +            bus-range = <0x0 0xff>;
-> +            clocks = <&cpg CPG_MOD R9A08G045_PCI_ACLK>,
-> +                     <&cpg CPG_MOD R9A08G045_PCI_CLKL1PM>;
-> +            clock-names = "aclk", "clkl1pm";
-> +            resets = <&cpg R9A08G045_PCI_ARESETN>,
-> +                     <&cpg R9A08G045_PCI_RST_B>,
-> +                     <&cpg R9A08G045_PCI_RST_GP_B>,
-> +                     <&cpg R9A08G045_PCI_RST_PS_B>,
-> +                     <&cpg R9A08G045_PCI_RST_RSM_B>,
-> +                     <&cpg R9A08G045_PCI_RST_CFG_B>,
-> +                     <&cpg R9A08G045_PCI_RST_LOAD_B>;
-> +            reset-names = "aresetn", "rst_b", "rst_gp_b", "rst_ps_b",
-> +                          "rst_rsm_b", "rst_cfg_b", "rst_load_b";
+Document support for the I2C Bus Interface (RIIC) found on the Renesas
+RZ/V2N (R9A09G056) SoC. The RIIC IP is identical to that on RZ/V2H(P),
+so `renesas,riic-r9a09g057` will be used as a fallback compatible,
+enabling reuse of the existing driver without changes.
 
-Could this be structured in a way that separates the shared Root
-Complex properties from the ones that are specific to the Root Port?
-I know the current hardware only supports a single Root Port, but I
-think we should plan to be able to support multiple Root Ports.
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ Documentation/devicetree/bindings/i2c/renesas,riic.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-> +            interrupts = <GIC_SPI 395 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 396 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 397 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 398 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 399 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 400 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 401 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 402 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 403 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 404 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 405 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 409 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 410 IRQ_TYPE_LEVEL_HIGH>;
-> +            interrupt-names = "int_serr", "int_serr_cor", "int_serr_nonfatal",
-> +                              "int_serr_fatal", "axi_err_int", "inta_rc",
-> +                              "intb_rc", "intc_rc", "intd_rc",
-> +                              "intmsi_rc", "int_link_bandwidth", "int_pm_pme",
-> +                              "dma_int", "pcie_evt_int", "msg_int",
-> +                              "int_all";
-> +            #interrupt-cells = <1>;
-> +            interrupt-map-mask = <0 0 0 7>;
-> +            interrupt-map = <0 0 0 1 &pcie_intx 0>, /* INT A */
-> +                            <0 0 0 2 &pcie_intx 1>, /* INT B */
-> +                            <0 0 0 3 &pcie_intx 2>, /* INT C */
-> +                            <0 0 0 4 &pcie_intx 3>; /* INT D */
-> +            device_type = "pci";
-> +            num-lanes = <1>;
-> +            #address-cells = <3>;
-> +            #size-cells = <2>;
-> +            power-domains = <&cpg>;
-> +            renesas,sysc = <&sysc>;
-> +            vendor-id = <0x1912>;
-> +            device-id = <0x0033>;
-> +
-> +            pcie_intx: legacy-interrupt-controller {
-> +                interrupt-controller;
-> +                #interrupt-cells = <1>;
-> +                #address-cells = <0>;
-> +                interrupt-parent = <&gic>;
-> +                interrupts = <GIC_SPI 400 IRQ_TYPE_LEVEL_HIGH>,
-> +                             <GIC_SPI 401 IRQ_TYPE_LEVEL_HIGH>,
-> +                             <GIC_SPI 402 IRQ_TYPE_LEVEL_HIGH>,
-> +                             <GIC_SPI 403 IRQ_TYPE_LEVEL_HIGH>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> -- 
-> 2.43.0
-> 
+diff --git a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
+index 1b7fed232642..cc39511a49d6 100644
+--- a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
++++ b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
+@@ -29,6 +29,7 @@ properties:
+           - enum:
+               - renesas,riic-r9a08g045   # RZ/G3S
+               - renesas,riic-r9a09g047   # RZ/G3E
++              - renesas,riic-r9a09g056   # RZ/V2N
+           - const: renesas,riic-r9a09g057   # RZ/V2H(P)
+ 
+       - const: renesas,riic-r9a09g057   # RZ/V2H(P)
+-- 
+2.49.0
+
 
