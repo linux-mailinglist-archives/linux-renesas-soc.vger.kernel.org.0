@@ -1,57 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-16557-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16556-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B17AA5B16
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 08:33:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D23AA5B11
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 08:33:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9E80B7A4B6D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 06:32:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 881EE9C3F88
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 06:33:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCC7F2609F1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 440A72698AF;
 	Thu,  1 May 2025 06:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PZOLGFkv"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Asnybxg9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DFB25D1E2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12988267737
 	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 May 2025 06:33:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746081225; cv=none; b=HXsXNN0L613+Rpj8oJvvC7oBiPEM41ItmKF1sYLikvSDdsIgA649zkTQcI4XTetd9TmFWQgN0rd4sqLsNiiVp5rVZVVqG68fZJYzmRfjZnnoF4KQ9HobNpKXjgsoYk53bwW617MR8Q2eli9kRYRV/PY6KEgjkRQzghMHpSmj71o=
+	t=1746081225; cv=none; b=nzLxF1nKu3p7xMSQoBSCYL0Zlh+lD7lHZXOSU2pD/1FXmoMOFCM0H6jEgvUh+bXLJS/DHknf+KOSBgmBh9Sopzjq0pv6v4llsPQFfHqVy3vRwKMHvg3HTtcJ5XYz8dqaPAJDbiaPrl7gfGiqeeXFzX8U4mqO6F/DVaWxT4uO1l4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1746081225; c=relaxed/simple;
-	bh=LuB8JJJYhv13Sgyr1tEG1cx9hRSs2IETfzpggh65D5o=;
+	bh=ecbACzPy39p95R97CpSCacApIs0icmXCsDH9drxjUY8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rf5hJKc+ykLWg5dOlDETkqZWwDlhottDEWm89iGxvRbcsxXnacKcI+DrfeFGfto/KviivN6Vy3+e8ivB4g6haLUuYSjDle7U42F8SBOpg8sFmCc5L1xPzi//fefEbHJTM+bPoCHX4owvczWgXwiPejav3H1/AHnlg6JWi62JX9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PZOLGFkv; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=tP6zVqnUYtUtjkpZG8ZPuIbrNhLITEuhLSp5JoqQG0J9zpeDO7qHJkJEG73c6Eo4p/wUkLPYLcxmHjVK6EI+QGi/DPdYrEOqaFXcIQe2oWsAa/ufDfjq7Ls20SmAsQuVVlZ3WUYIFjmB09jEfY+uIpoki33wYxhIHCS1HSugSJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Asnybxg9; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=+OS5yhiLM7ssv8cgCBmUWDXFs7PxiNO8czKRFFUJzcQ=; b=PZOLGF
-	kvdrlGASN8EI3oIuTXIzs+ePJwxNmhOkKmo/BOQJFw+mK8LITtZQ/csCw0RiLaA8
-	cXeMoCEOr39nRKSgju8WgKlGPQEhH/5/YCzdGnObEvNC12Pf0rdAW/nFM9iilEqG
-	4/6M4AJRc7hZm2lJMepEsCJBp720uVewN6wC6AdykblIcyAOZf5FkHXEz/KmjNQW
-	yLDBriaxZHDO6EsCiUEuFXPvZyeapX+CmQAjbCu/KOgMBp8GxZJPGfPENSqe5YZY
-	J1Y+bxe+Xgl6H/SPBw2MEbeK9FwAX9hB7/6eU313fs6S6R3s7L7G8LYnk40L2r1I
-	IMs2dutvvCzhbKxg==
-Received: (qmail 958427 invoked from network); 1 May 2025 08:33:40 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 May 2025 08:33:40 +0200
-X-UD-Smtp-Session: l3s3148p1@1UfcNg00PuAujnsd
+	 s=k1; bh=2NUkxT3gMNLMshJrCeUCzjstWuAyu9X7YPevdt1nbRg=; b=Asnybx
+	g9vnY/67VHlxM77nFvk++zYtmqN2Uq8fj3YTHxX3uz+LASBz4873PezOJSnY4J1v
+	imxlemK/rJBrmR9XuJehoo5+SDb2R5g4QEW/w0ZzrFRu8RVlM02pIaWn+yqTASQL
+	j3Q3MDcBx/iaYww5sEaod2nTB8nAElu1+IengZ7rxcB6SziBBJOtHNFzqaiVOapD
+	OIJgehYDNw4iZEVrdvI4MOoIqLnZ5bHhDffjblD5pRkOBjMCVoEh3gQAcqWF2xaB
+	MR6dNJVJhP99x6U0e5LOlMEPCigIMyn/YwzGQ66MCicyYP39bcAOmp+fmOy92Gq1
+	Vb/ez9qm2x0BUolg==
+Received: (qmail 958453 invoked from network); 1 May 2025 08:33:41 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 May 2025 08:33:41 +0200
+X-UD-Smtp-Session: l3s3148p1@quTqNg00SuAujnsd
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Ulf Hansson <ulf.hansson@linaro.org>,
 	linux-mmc@vger.kernel.org
-Subject: [PATCH 1/4] mmc: rename mmc_host_cmd23() to mmc_host_can_cmd23()
-Date: Thu,  1 May 2025 08:33:26 +0200
-Message-ID: <20250501063325.7262-7-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 2/4] mmc: rename mmc_host_done_complete() to mmc_host_can_done_complete()
+Date: Thu,  1 May 2025 08:33:27 +0200
+Message-ID: <20250501063325.7262-8-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250501063325.7262-6-wsa+renesas@sang-engineering.com>
 References: <20250501063325.7262-6-wsa+renesas@sang-engineering.com>
@@ -68,73 +68,54 @@ include '_can' like other capability helpers.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/mmc/core/block.c    | 2 +-
- drivers/mmc/core/host.h     | 2 +-
- drivers/mmc/core/mmc.c      | 2 +-
- drivers/mmc/core/mmc_test.c | 4 ++--
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/mmc/core/block.c | 6 +++---
+ drivers/mmc/core/host.h  | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/mmc/core/block.c b/drivers/mmc/core/block.c
-index 63320cc441c1..f9ad45476552 100644
+index f9ad45476552..585c2b274d98 100644
 --- a/drivers/mmc/core/block.c
 +++ b/drivers/mmc/core/block.c
-@@ -2618,7 +2618,7 @@ static struct mmc_blk_data *mmc_blk_alloc_req(struct mmc_card *card,
- 	 */
- 	md->read_only = mmc_blk_readonly(card);
+@@ -2278,7 +2278,7 @@ void mmc_blk_mq_recovery(struct mmc_queue *mq)
+ static void mmc_blk_mq_complete_prev_req(struct mmc_queue *mq,
+ 					 struct request **prev_req)
+ {
+-	if (mmc_host_done_complete(mq->card->host))
++	if (mmc_host_can_done_complete(mq->card->host))
+ 		return;
  
--	if (mmc_host_cmd23(card->host)) {
-+	if (mmc_host_can_cmd23(card->host)) {
- 		if ((mmc_card_mmc(card) &&
- 		     card->csd.mmca_vsn >= CSD_SPEC_VER_3) ||
- 		    (mmc_card_sd(card) && !mmc_card_ult_capacity(card) &&
+ 	mutex_lock(&mq->complete_lock);
+@@ -2317,7 +2317,7 @@ static void mmc_blk_mq_req_done(struct mmc_request *mrq)
+ 	struct mmc_host *host = mq->card->host;
+ 	unsigned long flags;
+ 
+-	if (!mmc_host_done_complete(host)) {
++	if (!mmc_host_can_done_complete(host)) {
+ 		bool waiting;
+ 
+ 		/*
+@@ -2430,7 +2430,7 @@ static int mmc_blk_mq_issue_rw_rq(struct mmc_queue *mq,
+ 		mq->rw_wait = false;
+ 
+ 	/* Release re-tuning here where there is no synchronization required */
+-	if (err || mmc_host_done_complete(host))
++	if (err || mmc_host_can_done_complete(host))
+ 		mmc_retune_release(host);
+ 
+ out_post_req:
 diff --git a/drivers/mmc/core/host.h b/drivers/mmc/core/host.h
-index 48c4952512a5..c8515cb86192 100644
+index c8515cb86192..00ca88389ef9 100644
 --- a/drivers/mmc/core/host.h
 +++ b/drivers/mmc/core/host.h
-@@ -39,7 +39,7 @@ static inline void mmc_retune_recheck(struct mmc_host *host)
- 		host->retune_now = 1;
- }
- 
--static inline int mmc_host_cmd23(struct mmc_host *host)
-+static inline int mmc_host_can_cmd23(struct mmc_host *host)
- {
+@@ -44,7 +44,7 @@ static inline int mmc_host_can_cmd23(struct mmc_host *host)
  	return host->caps & MMC_CAP_CMD23;
  }
-diff --git a/drivers/mmc/core/mmc.c b/drivers/mmc/core/mmc.c
-index e499835b05a9..c2b92b508438 100644
---- a/drivers/mmc/core/mmc.c
-+++ b/drivers/mmc/core/mmc.c
-@@ -578,7 +578,7 @@ static int mmc_decode_ext_csd(struct mmc_card *card, u8 *ext_csd)
- 		 * RPMB regions are defined in multiples of 128K.
- 		 */
- 		card->ext_csd.raw_rpmb_size_mult = ext_csd[EXT_CSD_RPMB_MULT];
--		if (ext_csd[EXT_CSD_RPMB_MULT] && mmc_host_cmd23(card->host)) {
-+		if (ext_csd[EXT_CSD_RPMB_MULT] && mmc_host_can_cmd23(card->host)) {
- 			mmc_part_add(card, ext_csd[EXT_CSD_RPMB_MULT] << 17,
- 				EXT_CSD_PART_CONFIG_ACC_RPMB,
- 				"rpmb", 0, false,
-diff --git a/drivers/mmc/core/mmc_test.c b/drivers/mmc/core/mmc_test.c
-index be2d2895b4c4..80e5d87a5e50 100644
---- a/drivers/mmc/core/mmc_test.c
-+++ b/drivers/mmc/core/mmc_test.c
-@@ -191,7 +191,7 @@ static void mmc_test_prepare_sbc(struct mmc_test_card *test,
+ 
+-static inline bool mmc_host_done_complete(struct mmc_host *host)
++static inline bool mmc_host_can_done_complete(struct mmc_host *host)
  {
- 	struct mmc_card *card = test->card;
- 
--	if (!mrq->sbc || !mmc_host_cmd23(card->host) ||
-+	if (!mrq->sbc || !mmc_host_can_cmd23(card->host) ||
- 	    !mmc_test_card_cmd23(card) || !mmc_op_multi(mrq->cmd->opcode) ||
- 	    (card->quirks & MMC_QUIRK_BLK_NO_CMD23)) {
- 		mrq->sbc = NULL;
-@@ -2390,7 +2390,7 @@ static int mmc_test_ongoing_transfer(struct mmc_test_card *test,
- 			     512, write);
- 
- 	if (use_sbc && t->blocks > 1 && !mrq->sbc) {
--		ret =  mmc_host_cmd23(host) ?
-+		ret =  mmc_host_can_cmd23(host) ?
- 		       RESULT_UNSUP_CARD :
- 		       RESULT_UNSUP_HOST;
- 		goto out_free;
+ 	return host->caps & MMC_CAP_DONE_COMPLETE;
+ }
 -- 
 2.47.2
 
