@@ -1,116 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-16575-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16576-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0365CAA5D34
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 12:25:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B61AA5D45
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 12:34:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DCC71736AD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 10:25:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43F611BA7CFC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 10:34:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31B9C2DC79C;
-	Thu,  1 May 2025 10:25:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5615E21ABB6;
+	Thu,  1 May 2025 10:33:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CzBCQPet"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIK19x1B"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629D91E5B62
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 May 2025 10:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5CCA145A03;
+	Thu,  1 May 2025 10:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746095114; cv=none; b=ecIEAUEzfupvP+C+QQlMjlPC8YT+gWNtp8fhjW4WrbC6B4SbqhWQPqrgvvNxOM7e8eNwP9pVmU++xpeE3U21nyR8wgtOE1BrQ2HkEFdgKxo7uR1kfDObw8/EP8GxrWv9cE5r5rgoTJ3KBKgsGTArT5K2wuKYZyVcraJ3781gnVw=
+	t=1746095635; cv=none; b=MQ4maOTK0Yy2s07ES4NOR0pKoqqN3ULyrB8evrC/QV23PZ2CoHhwkBDwHhtc5j0o1MhTK+ewB56LI87hDbX5PywCLb4pEzDIJYLBzmqJMK5xSVsfh2bw0G9cy5ebTdGi/2ooqZJHqBEBR1L5/H+CuUpT+WU2Yp5K3HR/lG5lmUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746095114; c=relaxed/simple;
-	bh=vTMjmHueD8LyqEO4j2pTs9YueCSPiZcaVhMCnV5QXdU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=X63rLu2Zwx1pBjK7OmnfF+A5M/DmgKF6zDiisegPGLn30tWiCK2UAmp6OiAHLVB0rGolLMkDIlITSXg39/TTIj1uxp8E2u/ahbxSkEixX+CFPIEq3C/L7KFOFtYeHZIeBLQS9zJmz2ETUIaBEvfM/Gpqs066JceJp0PLV60rwS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CzBCQPet; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf825f46bso1012025e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 01 May 2025 03:25:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746095111; x=1746699911; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oDUg/frJtTueIRvt99k1wnpIN9w/DfhCAdM7ZmNccRs=;
-        b=CzBCQPetI0v1kE1FFt0PKy8NYSVmUnao+ZVy33GVb7X67BMo+kD6dplaZUPDpqt7SP
-         AvoyVSyiq1A/GS3FBd69LVXeFHqKqrsDs9uYa7wq/CmyJSedVW80ExwvoA1bLthJcP9k
-         rwwLFG9/nuGA6Bk70IN+9z/VHTH1T2lJYyN/q1jsTkXAPd+zUNdYYkYviaQeAXX1js0l
-         fqdAyYPJssaX21xFMH0F0Hx+hZGIDoUmcBt0BuGtalOYkRk+SRDCzmbkxZxtvMs/xoCy
-         Zwy/FtWaJEtkAlSXm8+5d1lhHOkFcdq11V6Yy9yM5auxmxipdmsgTutSO+GqrcE5j2zU
-         eKHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746095111; x=1746699911;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oDUg/frJtTueIRvt99k1wnpIN9w/DfhCAdM7ZmNccRs=;
-        b=jajrh3hg+LJFpHH224R3hVeAmerM8jpg7DOuj35dUXjWd1ryJ1B4Frlu9Zfya45iZD
-         SYW0fJ0au5F/eycosLRb+qQK1R5gMz41KkzJ+VgfIJ9Kc/vpX4f+Dnx0X0cEJgQGwf8G
-         oGLccRZTVGFBcljDObKQLvfdfbDP+xR528qKOqjYIz0BBy5UQhE18r3jqURNAavqNQO0
-         NboXy1rDXtm/eviww+JVTMoaPiIFJJghgcp4XUqZlwoyD7BdXIRpjlm1ZDo9bA/BGUvu
-         nvO4GON78EAMGSvYq59hiDtOb00Y7GBvBg4N1piGKb/l9oypFjow4zmllznb96xCF6sd
-         L5uA==
-X-Forwarded-Encrypted: i=1; AJvYcCWwN9LQWfsECTBB537RLS6WdeSS1bKD34yc2l4ycvTyiKNyI1nUQrkVNBY8pOQXl5VKt0g7oespxm4hv0Rj0tGa4Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgaQh2cKbdPZhSCVnbNBDi5kHbcQcgnGgoN533fFBwOfS1NpCC
-	I/Uv2vjxj/fWTMkJbnXvrk8aw2Bj1pR8zfVsF/gfKJJrTvJLVLqtY6a9EjF2LU0=
-X-Gm-Gg: ASbGnct7k5xp1ciozoKhbjq2DLOPoAFhNG/07AaYuwlCHwPq9+rM7RNznN5x9ZXnppl
-	J9wk6OZHTYwoX1Y0rQb/9FN/ljPr6xUmCqbzaHR5qlkMXwgoC/AQWZgvvHONnz/Mz3V83P8dvQn
-	GMN3S/YY9RZP3WR9Q6MDLbH0xgRzNjQQbzyAogko2A5vQskcwNPMcJJ6laRTDwg6C/q+V0+N2kq
-	lhYIbNinuJxbnJFt9IFeGP9/Bi6R6NvXBtmM1/8lrrB5oF0GGcBlsYu8uVeGo+rh3En+O55g8xU
-	2sADbU1vieXyrJAQQQzNsulmAE7453GDF6ytPJ5vZ4mfb8Ipoz+dS+GwHO27ZhXQWOIrhQ==
-X-Google-Smtp-Source: AGHT+IE8o4v28m7myEavVlwfm+wURsX5uM1pR+XFHD72EUebgbLU1YifSOKR9FnINhiDvJD3bjzmng==
-X-Received: by 2002:a5d:47c5:0:b0:39c:12ce:697 with SMTP id ffacd0b85a97d-3a08ff740cdmr1869187f8f.7.1746095110724;
-        Thu, 01 May 2025 03:25:10 -0700 (PDT)
-Received: from [192.168.1.28] ([178.197.207.88])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a095a8f7e8sm460820f8f.100.2025.05.01.03.25.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 May 2025 03:25:10 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Mark Brown <broonie@kernel.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20250424090000.136804-7-biju.das.jz@bp.renesas.com>
-References: <20250424090000.136804-1-biju.das.jz@bp.renesas.com>
- <20250424090000.136804-7-biju.das.jz@bp.renesas.com>
-Subject: Re: (subset) [PATCH v5 6/7] memory: renesas-rpc-if: Add RZ/G3E
- xSPI support
-Message-Id: <174609510963.12307.3296406989299384452.b4-ty@linaro.org>
-Date: Thu, 01 May 2025 12:25:09 +0200
+	s=arc-20240116; t=1746095635; c=relaxed/simple;
+	bh=X6UR650SqjHCyahtjHRoHLJWzg+YRrp5P85X9aePAJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O9AseHg8HNxl32JDvIKsFLxEUQhIzmfZSzhOTtIiAXv50SkbGyyLHnzd950gai+LAN15BqpXgzTqM2HRNcp2gZGqAwVLZQ51mthpRrGY4bXUg6LA+Tr/Cd+nmZ8wZyCeNA8/K/GlV7X3Y1NHB6eQVFXPlXosdYW+1pB8bkuRzcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LIK19x1B; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746095633; x=1777631633;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X6UR650SqjHCyahtjHRoHLJWzg+YRrp5P85X9aePAJY=;
+  b=LIK19x1B9uOqVY7STXK+Z4biUkMFj6BonLAC8n44wgdad8YPiUMDY3MQ
+   xOu+7THMuhyIokYE411+I1FBHd/D/UMJxCk56etkzvYvCXv2lRflVFDcN
+   h+IJFYmSdUVx28nAcXs1set7T1EN44frEkZIUixvcaQzlS8abgAIG0lWO
+   AdjCUEhzgMRZnnGiqlqos9og2IPNC7V2eo4JCJ2kkdNrbdeN7S+BnR7b3
+   0svmcL7jqv0WbfWPw0oDkgMsmCdlUlB4197vyKkXqhD8hAA95awko+bFx
+   WIX7XpBipfL6NNMEIobanVbDP8aKOm2E7nZel4ODCF5Rr91x77yALhwKg
+   Q==;
+X-CSE-ConnectionGUID: 95WIXLUuROG7Fb2TP63cZw==
+X-CSE-MsgGUID: 5krX5IgERMGXqVs4v9R25g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="70266716"
+X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
+   d="scan'208";a="70266716"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 03:33:52 -0700
+X-CSE-ConnectionGUID: GFVwQs/WS9WyCnQPuxzS9A==
+X-CSE-MsgGUID: 9/8z731hQXmpMAACsa26tQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
+   d="scan'208";a="134878633"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 01 May 2025 03:33:47 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uAREe-00046b-2d;
+	Thu, 01 May 2025 10:33:44 +0000
+Date: Thu, 1 May 2025 18:32:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Claudiu <claudiu.beznea@tuxon.dev>, bhelgaas@google.com,
+	lpieralisi@kernel.org, kw@linux.com,
+	manivannan.sadhasivam@linaro.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
+	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
+	saravanak@google.com, p.zabel@pengutronix.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	claudiu.beznea@tuxon.dev, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 1/8] soc: renesas: r9a08g045-sysc: Add max reg offset
+Message-ID: <202505011843.2uKgWFN0-lkp@intel.com>
+References: <20250430103236.3511989-2-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250430103236.3511989-2-claudiu.beznea.uj@bp.renesas.com>
+
+Hi Claudiu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus geert-renesas-devel/next geert-renesas-drivers/renesas-clk robh/for-next arm64/for-next/core linus/master v6.15-rc4 next-20250430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu/soc-renesas-r9a08g045-sysc-Add-max-reg-offset/20250430-183951
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250430103236.3511989-2-claudiu.beznea.uj%40bp.renesas.com
+patch subject: [PATCH 1/8] soc: renesas: r9a08g045-sysc: Add max reg offset
+config: arm64-randconfig-003-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011843.2uKgWFN0-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011843.2uKgWFN0-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505011843.2uKgWFN0-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/soc/renesas/r9a08g045-sysc.c:23:3: error: field designator 'max_register_offset' does not refer to any field in type 'const struct rz_sysc_init_data'
+      23 |         .max_register_offset = 0xe28,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-On Thu, 24 Apr 2025 09:59:54 +0100, Biju Das wrote:
-> Add support for RZ/G3E xSPI. Compared to RPC-IF, it can support writes on
-> memory-mapped area. Introduce struct rpcif_impl for holding the function
-> pointers and data to handle the differences between xspi and rpc-if
-> interface.
-> 
-> 
+vim +23 drivers/soc/renesas/r9a08g045-sysc.c
 
-Applied, thanks!
+    20	
+    21	const struct rz_sysc_init_data rzg3s_sysc_init_data __initconst = {
+    22		.soc_id_init_data = &rzg3s_sysc_soc_id_init_data,
+  > 23		.max_register_offset = 0xe28,
 
-[6/7] memory: renesas-rpc-if: Add RZ/G3E xSPI support
-      https://git.kernel.org/krzk/linux-mem-ctrl/c/687cac9559d8e9277830bdfb68b57d7403695b1d
-
-Best regards,
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
