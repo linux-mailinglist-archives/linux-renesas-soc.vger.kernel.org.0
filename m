@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-16568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2829CAA5D28
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 12:21:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF33AA5D2A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 12:23:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D28C63BDF30
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 10:21:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DC72460C58
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 May 2025 10:23:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C64B42AE7F;
-	Thu,  1 May 2025 10:21:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4398221ABCB;
+	Thu,  1 May 2025 10:23:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YtVkSZa/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CEToaoFo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A130A2566
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 May 2025 10:21:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158D01E5B62;
+	Thu,  1 May 2025 10:23:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746094880; cv=none; b=ElFPbRW8Uk09oFQDnAeEshwRSHy74QTVgTyzPv/SWs3JydlUo7y3j1qPlrCZuArfV1BXM0XLJPuM5i5wUpcaBR/FhLY8/ND99r19mUN0HIWDkXrzsLD2uB5p3wbWqC8ULDk4JpZsnprnSOgUt8l+2PWzkKygOYHOvkcNN9zA+ec=
+	t=1746095020; cv=none; b=S+FegObRYm9ZhqN8gpLCaSQjlnqAzrqn0OFruyCTQ8AusN6IxZldqMUORABODhMQ/BjexpSfth4tRgQA+USTrcnqiuU+JaRi+FwD6QQ2oqw7a27GHArs65xX4m1kgTsghzjvlhEvjm4APp9XcqcItk2tkH4Tpry6iaLVWeQxiYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746094880; c=relaxed/simple;
-	bh=o1TQT21+x7anX5jbOp+YImiEWhT3jYNxAqbnb9TnM/U=;
+	s=arc-20240116; t=1746095020; c=relaxed/simple;
+	bh=0b3f/T3OZPAi1XpXmgKLJYQ4JjNl5zm2jKYJm1ZPQmc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U6XaBaz6sA0pwlsJQGVQTLswx4GHzJuS1X64Yhkc4LIhMVO6zY6R4pzGq273izGVCA0RswfKui2vp+GD6fBFzXTQYNR9IjLbx6+hLYVRPWZ6r33tXsP2baHdq8bBv+WwIMJZ6Vg2J7JXbJOPTofYQ75IpHfqbUJMQMGjJQcjqy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YtVkSZa/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B5F7C4CEE3;
-	Thu,  1 May 2025 10:21:18 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=tOcgehlPkiy6MjBDVXlt6nnT/+82JuFtbLqUfKSDZ0yBhOd8VVu49PC3+HHTqXrNQ+6etkb6GdmIrY2p1OOvPsIC2LVH3CE4KWr6ySdwWOC2jpogPEhbCzhPsz9RwJgjw3K9ANTw4dHPsFCZC96JWyUsxXthxiaaxC2n/Gs4THQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CEToaoFo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BBB5C4CEE3;
+	Thu,  1 May 2025 10:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746094880;
-	bh=o1TQT21+x7anX5jbOp+YImiEWhT3jYNxAqbnb9TnM/U=;
+	s=k20201202; t=1746095019;
+	bh=0b3f/T3OZPAi1XpXmgKLJYQ4JjNl5zm2jKYJm1ZPQmc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YtVkSZa/Pju9oW9/88FU8JO9vjQJ3exvNE7Ca6SvpDZtrIYuUadiTEsBnHQfam/Ka
-	 UMty6QurkcEMbZEbGIBe0t1FROPW43wzWMTW6om94YpJb6zNN1bPGMxRAmn2/ARd5I
-	 C9zH/GHQF+rQpQXUefrAwlq++ZBC5g1t6tlbsrCjWq40j21WGQh5nCyeAW4Py81nLj
-	 w6ZCrUV3KhvG+Jn0DxNoxK4tA4pCD+oflGWpvk7Ytj61s4W1u29q6kmWfko5XDcSuV
-	 yyXwV903wZGP3MIl+ZdrAPoQDcGUuh2bgdJDPPtY0lTts/2ZX7oWTAzACvdENrUdDQ
-	 uNfImjtkV1RUA==
-Message-ID: <9e0ce932-2854-44c6-b082-1db48f7f2857@kernel.org>
-Date: Thu, 1 May 2025 12:21:16 +0200
+	b=CEToaoFoGs0Ka8l4+L3JkifhZXRhb4ZX6dbnTQTAEfigxI8/B85TRG1VdRvWTSHTB
+	 xaJhW+AcN7CmOVF077adUmRZbWGhk25voYrjqNZEbtkfjoEhp55R7pfv+tw3cw9jdF
+	 /D1lZfvhCxL2kPBnDOef1t8Icjw+kKiXHuJNwgrkvXAmRZrTjkpLq8Ge7cGc3B0CIM
+	 vNra7Qz9fPl8lMe9jocYqYl8ui74t492hP/xokw340OB2mGSYi8/lgk4Wv0J5CjoAi
+	 YXDmYtKuOFMuSuH6tvILPSCqKUFlGIhxFw8nKGoHj9oWD8B23M6D+PZiaeScQ+7abh
+	 8VcIxkWUGs7GQ==
+Message-ID: <00f58dfb-7b23-4b4d-a551-9cbc5b800bf6@kernel.org>
+Date: Thu, 1 May 2025 12:23:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,19 +50,16 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/7] memory: renesas-rpc-if: Use
- devm_reset_control_array_get_exclusive()
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Mark Brown <broonie@kernel.org>,
+Subject: Re: [PATCH v5 0/7] Add RZ/G3E xSPI support
+To: Biju Das <biju.das.jz@bp.renesas.com>, Rob Herring <robh@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-spi@vger.kernel.org,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "biju.das.au" <biju.das.au@gmail.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+ Biju Das <biju.das.au@gmail.com>
 References: <20250424090000.136804-1-biju.das.jz@bp.renesas.com>
- <20250424090000.136804-4-biju.das.jz@bp.renesas.com>
- <0aefc729-868c-4301-8519-8c46f67d5f85@kernel.org>
- <TY3PR01MB113467180200ABDBAEBE4C88886822@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,30 +105,24 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <TY3PR01MB113467180200ABDBAEBE4C88886822@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <20250424090000.136804-1-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 01/05/2025 07:56, Biju Das wrote:
-> Hi Krzysztof Kozlowski,
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: 30 April 2025 19:47
->> Subject: Re: [PATCH v5 3/7] memory: renesas-rpc-if: Use devm_reset_control_array_get_exclusive()
->>
->> On 24/04/2025 10:59, Biju Das wrote:
->>> Replace devm_*_get_exclusive()->devm_*_array_get_exclusive() to
->>> support existing SoCs along with RZ/G3E as RZ/G3E has 2 resets.
->>>
->>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->>
->> Does not apply. Are you sure you use proper base?
-> 
-> It is applying cleanly against for-next. Am I missing anything?
+On 24/04/2025 10:59, Biju Das wrote:
+> Biju Das (7):
+>   dt-bindings: memory: Document RZ/G3E support
+>   memory: renesas-rpc-if: Move rpc-if reg definitions
+>   memory: renesas-rpc-if: Use devm_reset_control_array_get_exclusive()
+>   memory: renesas-rpc-if: Add regmap to struct rpcif_info
+>   memory: renesas-rpc-if: Add wrapper functions
+>   memory: renesas-rpc-if: Add RZ/G3E xSPI support
+>   spi: rpc-if: Add write support for memory-mapped area
 
-Hm, my bad, I saw duplicated subjects plus maybe different branch.
+Mark,
+
+I will prepare you a stable tag for spi once everything gets processed
+by linux-next.
 
 Best regards,
 Krzysztof
