@@ -1,45 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-16624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16611-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344BEAA6F26
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 May 2025 12:14:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75414AA6F06
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 May 2025 12:14:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8FA09C3001
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 May 2025 10:14:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E446F4C17C5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 May 2025 10:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99F3C23909F;
-	Fri,  2 May 2025 10:14:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02E45241679;
+	Fri,  2 May 2025 10:14:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F22123C4EB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F192397BE
 	for <linux-renesas-soc@vger.kernel.org>; Fri,  2 May 2025 10:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746180861; cv=none; b=sggCJ/lRjDR+lldAZhW8jTmUpp7ZF8yXSz2KJ7RsSVDdrk95NrMcRt+CWFiATz8yyFhRB15+2kzZWLiSAJOzxLxWs3aGua1R8OdHNg8IoAaBfMtcrvTP90ypUP0gQvtXu/nwZ78wLvUauMCZRs7GZ4vplA4/Fbxt+vTkYniKjLw=
+	t=1746180855; cv=none; b=IIlAlhwOWjbUYDSS5N3yLMzkkI0BtrDtYlhxLV5/qGSWlb1ZvrwDKFdsNl7N7THVlxPIN5w5IXVjAdN7wxpInxbt/Q9WpSV+cE8F4FwKl/ONM8Qx3pRR5jELPV7514iMNsEVFDtelXOz+fgmYk2lhGsZN+/ox1Ffr8+yS71p9e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746180861; c=relaxed/simple;
-	bh=Gscx63sjgeDq3xT2xwpHzxrg440w82o5osnaGdQKv8M=;
+	s=arc-20240116; t=1746180855; c=relaxed/simple;
+	bh=Uochf4KKNuwQgGEjS89zcQx6YDh5QgNaP5jQSiROLbY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oKg0nV9vDIs4swUALmEDr0dI8MTvgEYxCnIjb002PRFTRFJIyKrywJkwZAeMsE6uBaSP26xslmd2wMF1K7Zjkis7SP+P2WNUBbadHqH3tMMnlserQZwEqgPdz+7C/kw3dkAPBcWf3z++Jz9m1M0eZReBpljz6kdLBhkqva2ZLag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
+	 MIME-Version; b=IWOzx1jGq0DpIDEKkyA0RO9bu+1yvvIYJa2/6yFLce8ezRFpCJ6L9wUugWlQN2lOV67q+oj8YdpLNx4Gbrf88gU5Yfb6al2Of4D7O1J84i/mVWoMOvkff5lhkVAWCucBPEYL/+AlGm5xschvQwi7hGFfJRThry1x5pokTB/mA3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:df64:35e8:502:4ac0])
-	by laurent.telenet-ops.be with cmsmtp
-	id kAE02E00k4sst1101AE0qL; Fri, 02 May 2025 12:14:01 +0200
+	by baptiste.telenet-ops.be with cmsmtp
+	id kAE02E00S4sst1101AE0qE; Fri, 02 May 2025 12:14:00 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP1-00000000W9s-3o6Z;
+	id 1uAnP1-00000000W9x-41FM;
 	Fri, 02 May 2025 12:14:00 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP6-00000008oWu-1aur;
+	id 1uAnP6-00000008oWz-1hAe;
 	Fri, 02 May 2025 12:14:00 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -52,9 +52,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 10/22] spi: sh-msiof: SITSCR/SIRSCR bitfield conversion
-Date: Fri,  2 May 2025 12:13:42 +0200
-Message-ID: <c9b3192c046c226de3499ea3e52be6a69c0d4bf9.1746180072.git.geert+renesas@glider.be>
+Subject: [PATCH 11/22] spi: sh-msiof: SICTR bitfield conversion
+Date: Fri,  2 May 2025 12:13:43 +0200
+Message-ID: <adca6403a4738f1b6bc217f34f01f5704c905691.1746180072.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746180072.git.geert+renesas@glider.be>
 References: <cover.1746180072.git.geert+renesas@glider.be>
@@ -66,54 +66,70 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert MSIOF Transmit and Receive Clock Select Register field accesses
-to use the FIELD_PREP() bitfield access macro.
+Convert MSIOF Control Register field accesses to use the FIELD_PREP()
+bitfield access macro.
 
-This gets rid of explicit shifts and custom field preparation macros.
+This gets rid of explicit shifts.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/spi/spi-sh-msiof.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 51a9e89364756af0..9bddf85dd9c7f2a1 100644
+index 9bddf85dd9c7f2a1..4f582ecc524fe5fa 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -105,15 +105,14 @@ struct sh_msiof_spi_priv {
- #define SIMDR2_GRPMASK1		BIT(0)		/* Group Output Mask 1 (SH, A1) */
- 
- /* SITSCR and SIRSCR */
--#define SISCR_BRPS_MASK		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
--#define SISCR_BRPS(i)		(((i) - 1) << 8)
--#define SISCR_BRDV_MASK		GENMASK(2, 0)	/* Baud Rate Generator's Division Ratio */
--#define SISCR_BRDV_DIV_2	0
--#define SISCR_BRDV_DIV_4	1
--#define SISCR_BRDV_DIV_8	2
--#define SISCR_BRDV_DIV_16	3
--#define SISCR_BRDV_DIV_32	4
--#define SISCR_BRDV_DIV_1	7
-+#define SISCR_BRPS		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
-+#define SISCR_BRDV		GENMASK(2, 0)	/* Baud Rate Generator's Division Ratio */
-+#define SISCR_BRDV_DIV_2	0U
-+#define SISCR_BRDV_DIV_4	1U
-+#define SISCR_BRDV_DIV_8	2U
-+#define SISCR_BRDV_DIV_16	3U
-+#define SISCR_BRDV_DIV_32	4U
-+#define SISCR_BRDV_DIV_1	7U
+@@ -115,18 +115,18 @@ struct sh_msiof_spi_priv {
+ #define SISCR_BRDV_DIV_1	7U
  
  /* SICTR */
- #define SICTR_TSCKIZ_MASK	GENMASK(31, 30)	/* Transmit Clock I/O Polarity Select */
-@@ -299,7 +298,8 @@ static void sh_msiof_spi_set_clk_regs(struct sh_msiof_spi_priv *p,
+-#define SICTR_TSCKIZ_MASK	GENMASK(31, 30)	/* Transmit Clock I/O Polarity Select */
++#define SICTR_TSCKIZ		GENMASK(31, 30)	/* Transmit Clock I/O Polarity Select */
+ #define SICTR_TSCKIZ_SCK	BIT(31)		/*   Disable SCK when TX disabled */
+-#define SICTR_TSCKIZ_POL_SHIFT	30		/*   Transmit Clock Polarity */
+-#define SICTR_RSCKIZ_MASK	GENMASK(29, 28) /* Receive Clock Polarity Select */
++#define SICTR_TSCKIZ_POL	BIT(30)		/*   Transmit Clock Polarity */
++#define SICTR_RSCKIZ		GENMASK(29, 28) /* Receive Clock Polarity Select */
+ #define SICTR_RSCKIZ_SCK	BIT(29)		/*   Must match CTR_TSCKIZ_SCK */
+-#define SICTR_RSCKIZ_POL_SHIFT	28		/*   Receive Clock Polarity */
+-#define SICTR_TEDG_SHIFT	27		/* Transmit Timing (1 = falling edge) */
+-#define SICTR_REDG_SHIFT	26		/* Receive Timing (1 = falling edge) */
+-#define SICTR_TXDIZ_MASK	GENMASK(23, 22)	/* Pin Output When TX is Disabled */
+-#define SICTR_TXDIZ_LOW		(0 << 22)	/*   0 */
+-#define SICTR_TXDIZ_HIGH	(1 << 22)	/*   1 */
+-#define SICTR_TXDIZ_HIZ		(2 << 22)	/*   High-impedance */
++#define SICTR_RSCKIZ_POL	BIT(28)		/*   Receive Clock Polarity */
++#define SICTR_TEDG		BIT(27)		/* Transmit Timing (1 = falling edge) */
++#define SICTR_REDG		BIT(26)		/* Receive Timing (1 = falling edge) */
++#define SICTR_TXDIZ		GENMASK(23, 22)	/* Pin Output When TX is Disabled */
++#define SICTR_TXDIZ_LOW		0U		/*   0 */
++#define SICTR_TXDIZ_HIGH	1U		/*   1 */
++#define SICTR_TXDIZ_HIZ		2U		/*   High-impedance */
+ #define SICTR_TSCKE		BIT(15)		/* Transmit Serial Clock Output Enable */
+ #define SICTR_TFSE		BIT(14)		/* Transmit Frame Sync Signal Output Enable */
+ #define SICTR_TXE		BIT(9)		/* Transmit Enable */
+@@ -382,14 +382,15 @@ static void sh_msiof_spi_set_pin_regs(struct sh_msiof_spi_priv *p, u32 ss,
+ 	sh_msiof_write(p, SIRMDR1, tmp);
  
- 	t->effective_speed_hz = parent_rate / (brps << div_pow);
+ 	tmp = 0;
+-	tmp |= SICTR_TSCKIZ_SCK | cpol << SICTR_TSCKIZ_POL_SHIFT;
+-	tmp |= SICTR_RSCKIZ_SCK | cpol << SICTR_RSCKIZ_POL_SHIFT;
++	tmp |= SICTR_TSCKIZ_SCK | FIELD_PREP(SICTR_TSCKIZ_POL, cpol);
++	tmp |= SICTR_RSCKIZ_SCK | FIELD_PREP(SICTR_RSCKIZ_POL, cpol);
  
--	scr = sh_msiof_spi_div_array[div_pow] | SISCR_BRPS(brps);
-+	scr = FIELD_PREP(SISCR_BRDV, sh_msiof_spi_div_array[div_pow]) |
-+	      FIELD_PREP(SISCR_BRPS, brps - 1);
- 	sh_msiof_write(p, SITSCR, scr);
- 	if (!(p->ctlr->flags & SPI_CONTROLLER_MUST_TX))
- 		sh_msiof_write(p, SIRSCR, scr);
+ 	edge = cpol ^ !cpha;
+ 
+-	tmp |= edge << SICTR_TEDG_SHIFT;
+-	tmp |= edge << SICTR_REDG_SHIFT;
+-	tmp |= tx_hi_z ? SICTR_TXDIZ_HIZ : SICTR_TXDIZ_LOW;
++	tmp |= FIELD_PREP(SICTR_TEDG, edge);
++	tmp |= FIELD_PREP(SICTR_REDG, edge);
++	tmp |= FIELD_PREP(SICTR_TXDIZ,
++			  tx_hi_z ? SICTR_TXDIZ_HIZ : SICTR_TXDIZ_LOW);
+ 	sh_msiof_write(p, SICTR, tmp);
+ }
+ 
 -- 
 2.43.0
 
