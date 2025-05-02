@@ -1,48 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-16621-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16609-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD3FAA6F22
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 May 2025 12:14:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1B1AA6F0D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 May 2025 12:14:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFB991BC6957
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 May 2025 10:14:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6FFF99C2D2B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 May 2025 10:14:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D49E4235044;
-	Fri,  2 May 2025 10:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB86B23A995;
+	Fri,  2 May 2025 10:14:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E9723E25A
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  2 May 2025 10:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D27B23AE96
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  2 May 2025 10:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746180858; cv=none; b=bXggTMGSo30PRD6tUh6I6q5vAwr2afshfJd01dLOCey13Z0uSjSrMH8QQl/h0s+KT9yxt5aXuO+iF5xceij1rdzG+FGLB6THNlEPXEVZfqGP9iphN232d9rCUZSnK8/bSuxqpHo+psVAHtN0QTUdMqtdINRJMnmn+rctEGW0Gt8=
+	t=1746180855; cv=none; b=L2fwl4ZJjWsbWimqkzjtEeqdYil+RNN7AhavcwCxWEPULCuOssIJMAg/bheRBBEFAD65GP9evSLapeWIWY+HsX4vRyQO9HkPQ402Z+nJr81MEhtDqH3tTC1bZkM/12nRkJ+h/suUyZuJiAwttPn11HUWRwWtGBDKjj7RCYoOpYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746180858; c=relaxed/simple;
-	bh=FjFdNUSx16sRQrkeVQ0c2raIOoN2qEIzJULZvtRuGFE=;
+	s=arc-20240116; t=1746180855; c=relaxed/simple;
+	bh=H/5fPTsR+wpRmv7aL3hsy499OTFq+cjWtWFii1CbGgE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QMh8a+mNdbF7kcby4Iel5fNLnO+0Iz52yC/nLhTvstiQDqL2ZpHYgwlYFbZIqx6yRJ+wWd3N4fXBXDSOyhitHCDD1z2cPaAdGJqnI9SRYZ2I9Rwes7LYCRZGLWDiLrQy3ePojpseRsFmpjWEgOrc68UDTnMEbI0CmTWn9jXpVE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
+	 MIME-Version; b=AN1keq/uavq1L1ED1C/SAZ22STQJfCxLDesiPxNNWO2VIG4slkco6bHqF8pDtpJbjAVzkAyb6gBkt04wO1Fk8+WtNFD4XQ6CW8Y505r3MF3e4uDSdgns99K7oOwuj54HCZXVz2uG9hv8CzUMG9JAyaci04tfNAp4Z6pYhx2/hJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4Zpmwx0zXbz4x5wJ
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 02 May 2025 12:14:09 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:df64:35e8:502:4ac0])
-	by xavier.telenet-ops.be with cmsmtp
-	id kAE02E00B4sst1101AE0iY; Fri, 02 May 2025 12:14:00 +0200
+	by baptiste.telenet-ops.be with cmsmtp
+	id kAE02E00E4sst1101AE0qB; Fri, 02 May 2025 12:14:00 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP1-00000000W9I-2pZ6;
+	id 1uAnP1-00000000W9N-2vJw;
 	Fri, 02 May 2025 12:14:00 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP6-00000008oWG-0eBD;
+	id 1uAnP6-00000008oWL-0jjN;
 	Fri, 02 May 2025 12:14:00 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -55,9 +52,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 02/22] spi: sh-msiof: Remove unneeded compatible values
-Date: Fri,  2 May 2025 12:13:34 +0200
-Message-ID: <233d93bf8445e34d46c4aaf449b1c743e7aa02b2.1746180072.git.geert+renesas@glider.be>
+Subject: [PATCH 03/22] spi: sh-msiof: Fix maximum DMA transfer size
+Date: Fri,  2 May 2025 12:13:35 +0200
+Message-ID: <2413114cac351ee9963bdd351da5ad122c1e257d.1746180072.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746180072.git.geert+renesas@glider.be>
 References: <cover.1746180072.git.geert+renesas@glider.be>
@@ -69,64 +66,62 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Clock-Synchronized Serial Interfaces with FIFO (MSIOF) driver
-matches against both SoC-specific and family-specific compatible values
-to maintain backwards-compatibility with old DTBs predating the
-introduction of the family-specific compatible values.
+The maximum amount of data to transfer in a single DMA request is
+calculated from the FIFO sizes (which is technically not 100% correct,
+but a simplification, as it is limited by the maximum word count values
+in the Transmit and Control Data Registers).  However, in case there is
+both data to transmit and to receive, the transmit limit is overwritten
+by the receive limit.
 
-For RZ/G1, the SoC-specific compatible match entry can be removed from
-the driver: their DT always had the family-specific compatible values,
-and thus there was never a need to add the SoC-specific compatible
-values to the driver.
+Fix this by using the minimum applicable FIFO size instead.  Move the
+calculation outside the loop, so it is not repeated for each individual
+DMA transfer.
 
-For R-Car Gen2 and M3-W, the SoC-specific compatible match entries can
-be removed, too, as there are a few points in time where DT
-backwards-compatibility was broken for other reasons:
-  - Legacy DT clock support is no longer supported since commit
-    58256143cff7c2e0 ("clk: renesas: Remove R-Car Gen2 legacy DT clock
-    support") in v5.5, and the addition of "renesas,rcar-gen2-msiof" to
-    DTS in v4.11 predates the completion of the clock conversion in
-    v4.15,
-  - Legacy DT LVDS support is no longer supported since commit
-    841281fe52a769fe ("drm: rcar-du: Drop LVDS device tree backward
-    compatibility") in v5.18, and the addition of
-    "renesas,rcar-gen3-msiof" in commit 8b51f97138ca22b6 ("arm64: dts:
-    r8a7796: Use R-Car Gen 3 fallback binding for msiof nodes") in v4.11
-    predates the LVDS conversion in commit 58e8ed2ee9abe718 ("arm64:
-    dts: renesas: Convert to new LVDS DT bindings") in v4.20.
+As currently tx_fifo_size is always equal to rx_fifo_size, this bug had
+no real impact.
 
-For R-Car H3, the SoC-specific compatible match entry cannot be removed,
-as its purpose is to handle an SoC-specific quirk.
-
-Suggested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Fixes: fe78d0b7691c0274 ("spi: sh-msiof: Fix FIFO size to 64 word from 256 word")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-This is a resend of a patch that never received any comments.
----
- drivers/spi/spi-sh-msiof.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 325bd5890b78884d..15e42af35f7e4230 100644
+index 15e42af35f7e4230..cf93c2ca821f84fa 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -1088,16 +1088,8 @@ static const struct sh_msiof_chipdata rcar_r8a7795_data = {
+@@ -919,6 +919,7 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
+ 	void *rx_buf = t->rx_buf;
+ 	unsigned int len = t->len;
+ 	unsigned int bits = t->bits_per_word;
++	unsigned int max_wdlen = 256;
+ 	unsigned int bytes_per_word;
+ 	unsigned int words;
+ 	int n;
+@@ -932,17 +933,17 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
+ 	if (!spi_controller_is_target(p->ctlr))
+ 		sh_msiof_spi_set_clk_regs(p, t);
  
- static const struct of_device_id sh_msiof_match[] __maybe_unused = {
- 	{ .compatible = "renesas,sh-mobile-msiof", .data = &sh_data },
--	{ .compatible = "renesas,msiof-r8a7743",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7745",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7790",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7791",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7792",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7793",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7794",   .data = &rcar_gen2_data },
- 	{ .compatible = "renesas,rcar-gen2-msiof", .data = &rcar_gen2_data },
- 	{ .compatible = "renesas,msiof-r8a7795",   .data = &rcar_r8a7795_data },
--	{ .compatible = "renesas,msiof-r8a7796",   .data = &rcar_gen3_data },
- 	{ .compatible = "renesas,rcar-gen3-msiof", .data = &rcar_gen3_data },
- 	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen3_data },
- 	{ .compatible = "renesas,sh-msiof",        .data = &sh_data }, /* Deprecated */
++	if (tx_buf)
++		max_wdlen = min(max_wdlen, p->tx_fifo_size);
++	if (rx_buf)
++		max_wdlen = min(max_wdlen, p->rx_fifo_size);
++
+ 	while (ctlr->dma_tx && len > 15) {
+ 		/*
+ 		 *  DMA supports 32-bit words only, hence pack 8-bit and 16-bit
+ 		 *  words, with byte resp. word swapping.
+ 		 */
+-		unsigned int l = 0;
+-
+-		if (tx_buf)
+-			l = min(round_down(len, 4), p->tx_fifo_size * 4);
+-		if (rx_buf)
+-			l = min(round_down(len, 4), p->rx_fifo_size * 4);
++		unsigned int l = min(round_down(len, 4), max_wdlen * 4);
+ 
+ 		if (bits <= 8) {
+ 			copy32 = copy_bswap32;
 -- 
 2.43.0
 
