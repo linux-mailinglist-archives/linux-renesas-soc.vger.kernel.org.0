@@ -1,179 +1,219 @@
-Return-Path: <linux-renesas-soc+bounces-16683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9BCAA932D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 14:32:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E96AA933C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 14:34:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D84FA16E897
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 12:32:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A42E13B0B72
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 12:34:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 392D524E01B;
-	Mon,  5 May 2025 12:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hjAbYQVe"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A74019D8BC;
+	Mon,  5 May 2025 12:34:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3471119D8BC;
-	Mon,  5 May 2025 12:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F84A2745E;
+	Mon,  5 May 2025 12:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746448336; cv=none; b=jgji4T2UtqOZBUWHa8j8XEz1XqXRIqV1GW96ZVlqs0EQ59A0nTXdpbZ5jb6dF6Fc/8JIKHzavAF6qbysUmQiXJV2jkX3SZkptxmxP3Wc03HhReOYhYHu6JESF1+T27I5A7e5rIFVj9rXBFkV25bc18o/TMAmuP5U6wj2jIx88k4=
+	t=1746448475; cv=none; b=cN2G2H27jtpRx9VnyE7FM4qvHwyDOWXie6Cf39OF/0jJtOArIc0TsL75QYvc9zJ6hgufWBFxcPJsiUsldLfgH7MOuJYS8i7f753jCw16W33E7F4YyoPfKYyx2GHjaM+ZrYbqfsQmN7tudp5ncFUhIweGKs2Gigdm5bu+w/C+47M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746448336; c=relaxed/simple;
-	bh=rOFXNGK/YYhTjToGtlEYHoOHEbfgPKtZr83pi5WLFVk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=exwv6th1GvqurmKBdltWUX+4QRh07vAr6eE6J93ihNraVmmYlr3YJ+dkDyUlxTGa9LaGobZJlVPgbijWmsQVw5NDBNRD+dmCmJD6cVbL2nK4O2SDuINYFkPHyLimaAx2VxMHCILiLvLvsb6hPVaGfQ18BfqwTZ8cFToHSV0TcHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hjAbYQVe; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B6D95439CF;
-	Mon,  5 May 2025 12:32:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746448330;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t8GmbzWzwjKBF6Grm3MhKIQ4eVv3NPu5Y9A5XIPvDcA=;
-	b=hjAbYQVeSBenLJHyzNnH+29VE8aQu5NdvGcBu901d4KAVGGIH73+xJRtOkMBvPMxod408f
-	46cJ1FSSVEaihm6e4YRyxwK6H9vqKbZsH6FeNdjG6qHuFuPEj6MXQaHOvyeCuws3FaQ4ZJ
-	tyEO3Rm3oNF8VG/6gKRuTcpBY8uLXdkn1k8zdS9iBbYepUeyI1mPnliHP5HbYAMf8SxYgc
-	gh87HvhVyGIZKypBQt9lGmUGqhDD0V6ogc/9QAW1FprShOP2PTeLVdqhZJSU2GFelqS2IN
-	VCutWhQebpQ3qtFA8QsGOMpeGLhJbitY4xZjYFl5bgwg7lvllwMgOkM9Yioomg==
-Date: Mon, 5 May 2025 14:31:58 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Inki Dae <inki.dae@samsung.com>, Kyungmin Park
- <kyungmin.park@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Alim
- Akhtar <alim.akhtar@samsung.com>, Maxime Ripard <mripard@kernel.org>, Louis
- Chauvet <louis.chauvet@bootlin.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
- Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui
- Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
- chrome-platform@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, Adam Ford <aford173@gmail.com>,
- Adrien Grassein <adrien.grassein@gmail.com>, Aleksandr Mishin
- <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, AngeloGioacchino
- Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung
- <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
- Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Detlev Casanova
- <detlev.casanova@collabora.com>, Dharma Balasubiramani
- <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
- Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
- Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
- Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
- Bingham <kieran.bingham+renesas@ideasonboard.com>, Liu Ying
- <victor.liu@nxp.com>, Manikandan Muralidharan <manikandan.m@microchip.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
- <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
- <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
- Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
- <mordan@ispras.ru>, Ilpo =?UTF-8?B?SsOkcnZpbmVu?=
- <ilpo.jarvinen@linux.intel.com>, Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Hans de Goede <hdegoede@redhat.com>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>, "Rob
- Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan <yuanhsinte@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@ge.com>, Martyn Welch
- <martyn.welch@collabora.co.uk>, Peter Senna Tschudin
- <peter.senna@gmail.com>, Russell King <linux@armlinux.org.uk>, Herve Codina
- <herve.codina@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Bjorn Andersson
- <quic_bjorande@quicinc.com>, Marijn Suijten
- <marijn.suijten@somainline.org>, Rob Clark <robdclark@gmail.com>
-Subject: Re: (subset) [PATCH v2 00/34] drm: convert all bridges to
- devm_drm_bridge_alloc()
-Message-ID: <20250505143158.75541d7c@booty>
-In-Reply-To: <9afd098c-edd3-44fa-8efe-99f2e9c9a525@oss.qualcomm.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
-	<174591887152.961603.7706063017853945511.b4-ty@bootlin.com>
-	<832a9db0-cf8a-4d35-8a98-08053fbd6723@bootlin.com>
-	<20250430-arrogant-marmoset-of-justice-92ced3@houat>
-	<20250505130648.22ec8716@booty>
-	<9afd098c-edd3-44fa-8efe-99f2e9c9a525@oss.qualcomm.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1746448475; c=relaxed/simple;
+	bh=c/WymaZNCmun97LV9ufNBaljbi2XnsROnz0Xbw3V8HM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Kyc4dDLXP2ayHVtSz64C23Fbjqj4hWV0zdCDnROaXUhvWvc1/C9xQ5IonY0f1TmE2sPNaDGYXdY0Eyvfw5QmWswUnreNE0r/l5RvPptYBTR9qhvvfCJPmeSgtOZ87mIrHXE0GOJ+b+iI64Fc28AsI3ABjXSoriloBkiXhHDTSbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-86d3ac0fec0so2690232241.1;
+        Mon, 05 May 2025 05:34:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746448471; x=1747053271;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fGFd6d5wkAAByXLyC1HEjiWtD1BkTZ+hLPpKkf60af4=;
+        b=FgpyHECNh3/BfnKzDeAOw/Er76dSI7qy1dGxaxBTkmQhhPsek73Ohu/VghB/DM0Ik8
+         HdogH8nbeV3Ab58XaUl/D8VOi8NY1lfdMvxv4/24fjq5Ce4+6rLoufBg3ky5hwx46AeT
+         ns0+bT1KJcEBsIGTobBOn7PK+ANjTWnWz0DC84Po+BEJ4zyhDpzpq4z5k231ybDEw0Pe
+         MOXifYrjv/JAhfX4TGWOeJaZJK9S0XBwz5q70+e7mbJ9ad0wAAWYuikZOGVltjVnNsUJ
+         YOr0siaXRfqZVlGiQqagpkkyMckwg0CUX62ttTayagBdHDdvtdBMBII1c2PvTkCNp0T5
+         yNYw==
+X-Forwarded-Encrypted: i=1; AJvYcCUcijjVVVk+fWGMSePziX0ZPOYkEmH1aasSdgwS4vrBGKrgE0vdEpEp67nojyx9Rgd8hQGB2reiNQ9J@vger.kernel.org, AJvYcCVI3mzAF6bIsjwMVddSGe4qR3irGz13RCfB9nvGoWGQSubSihZ0zcCF1ed8u7GWwBoUszYiO1G5VbFWrW3kkO/18GQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8cjkYFdnvVUSFFt9o3rw/x2DFZ0Un9gH5LUejTwRjNYsPpqpM
+	lmd7XwRAR1XvzQYbt+q5H8cYb6h5113THnGdKwhooyBKUyn/wyKaVGlDGLOm
+X-Gm-Gg: ASbGncvISc5zLTHjLgVb5fyVcxEmE/fSybU5lAVhz2p94J9/tLIlDsrVgSQLTenS7Xb
+	BuGfGOeFtdz3tZNBi0z77QL2hb70y23SQMGyP7bSE8L6Q9y75NmwoeRVwTrFOjmhQX1H9UN3IbW
+	bCd2t2igSBsJ7+DYYPg30AKaM+PCNsTSDgeLFrhOOmD5eV2DdlTyFJKByKEBs6hfj6JnFMRx9Fc
+	Li9Z5S93QLjkupuq1Snsghg9tUHSJ+iYu0s2RDG0SqVzIcj07TfeNQIdM+C/cTgCdOqz7rgZICV
+	WqFL+LNjbH4o4mfgBODffx28yNK+mke77x+vMcZ0RB9DYOPO/U4O0ZMrry/9phP8hdCHrTij/GA
+	gLggBSv1kYiJ67w==
+X-Google-Smtp-Source: AGHT+IEqK/bcRTd5ZU8GCV/UH4WiYWic+ZWbXJmEADMsHfchEIs64bGYplgijkpPSQ8TkugROIdkGg==
+X-Received: by 2002:a05:6102:158d:b0:4c1:83c4:8562 with SMTP id ada2fe7eead31-4db14823503mr2828689137.13.1746448471473;
+        Mon, 05 May 2025 05:34:31 -0700 (PDT)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4daf234a8ecsm1424223137.14.2025.05.05.05.34.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 May 2025 05:34:31 -0700 (PDT)
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4c301b1df82so1168182137.0;
+        Mon, 05 May 2025 05:34:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUNOgHBcnuOlh9GqjJzC1U2KFwQBe/lqmgQ5m+ZizwSxpa+qATtIVgyFP3AVdp9kSgKIJe3rGlGoQSvdYvVCwZ/NbM=@vger.kernel.org, AJvYcCVoNMoMej3sQxNGmok0/Mshoid66UFtr3PA10G171SK4WupoKyLc+VlvM3FMrmqkdvWwBmAvKJDnnDp@vger.kernel.org
+X-Received: by 2002:a05:6102:4b03:b0:4cb:5e02:7538 with SMTP id
+ ada2fe7eead31-4db1495be63mr3034496137.22.1746448470950; Mon, 05 May 2025
+ 05:34:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeduuddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptdeljeejuddvudetffdtudelfedugfduledtueffuedufefgudegkeegtdeihedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeelgedprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovhesohhsshdrqhhurghltghomhhmrdgtohhmpdhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpt
- hhtohepkhihuhhnghhmihhnrdhprghrkhesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopehsfidtfeduvddrkhhimhesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopegrlhhimhdrrghkhhhtrghrsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhm
-X-GND-Sasl: luca.ceresoli@bootlin.com
+References: <20250414153818.214811-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250414153818.214811-1-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 5 May 2025 14:34:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUjtG-EcrpbDO2y8M=GQeV=5i4qODp=VZqymipeCneXhQ@mail.gmail.com>
+X-Gm-Features: ATxdqUF3RhhLMxUL05o0XGs4umBt8dW4lTChMwIx06Fylk7PRQ4fF7_fTpwr1S4
+Message-ID: <CAMuHMdUjtG-EcrpbDO2y8M=GQeV=5i4qODp=VZqymipeCneXhQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r9a09g047e57-smarc: Add gpio keys
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Dmitry,
+Hi Biju,
 
-On Mon, 5 May 2025 14:58:58 +0300
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> wrote:
+On Mon, 14 Apr 2025 at 17:38, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> RZ/G3E SMARC EVK  has 3 user buttons called USER_SW1, USER_SW2 and
+> USER_SW3. Add a DT node in device tree to instantiate the gpio-keys driver
+> for these buttons.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-> On 05/05/2025 14:06, Luca Ceresoli wrote:
-> > Inki, Kyungmin, Seung-Woo, Alim,
-> > 
-> > On Wed, 30 Apr 2025 10:08:14 +0200
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >   
-> >> Inki, Kyungmin, Seung-Woo, sorry for the mishap. Do you agree with the
-> >> following patch, and it going through drm-misc?
-> >>
-> >> https://lore.kernel.org/dri-devel/20250424-drm-bridge-convert-to-alloc-api-v2-14-8f91a404d86b@bootlin.com/
-> >>
-> >> If not, we'll revert.  
-> > 
-> > Did you have a chance to have a look at the patch mentioned by Maxime?
-> > 
-> > It was applied to drm-misc-next by mistake. Not your mistake of course,
-> > but now it's there so if you don't reply anything it will have to be
-> > reverted, and then sent again to go through all the review process to
-> > be hopefully re-applied in the future.
-> > 
-> > If you agree with keeping it in drm-misc-next, that would be less noise
-> > for everybody.
-> > 
-> > I'm going to send v3 very soon, so it would be good to decide what to
-> > do before that.  
-> 
-> For the record: even though I'm not happy with msm-related patches going 
-> through drm-misc without additional ack from our side, I think reverting 
-> those and reapplying them later will create a bigger mess. So, I'm fine 
-> with keeping drm/msm/* bridged patches in.
+Thanks for your patch, which conflicts with your CANFD patch that
+I have just applied.
 
-That was my understanding of your previous e-mail, but thanks for
-having made it explicit.
+> --- a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
+> @@ -8,9 +8,18 @@
+>  /dts-v1/;
+>
+>  /* Switch selection settings */
+> +#define SW_LCD_EN              0
+>  #define SW_SD0_DEV_SEL         0
+>  #define SW_SDIO_M2E            0
+>
+> +#define PMOD_GPIO4             0
+> +#define PMOD_GPIO6             0
+> +#define PMOD_GPIO7             0
+> +
+> +#define  KEY_1_GPIO            RZG3E_GPIO(3, 1)
+> +#define  KEY_2_GPIO            RZG3E_GPIO(8, 4)
+> +#define  KEY_3_GPIO            RZG3E_GPIO(8, 5)
 
-Luca
+Please drop the extra spaces after the define keywords.
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> +
+>  #include <dt-bindings/gpio/gpio.h>
+>  #include <dt-bindings/pinctrl/renesas,r9a09g047-pinctrl.h>
+>  #include "r9a09g047e57.dtsi"
+> @@ -33,6 +42,24 @@ vqmmc_sd1_pvdd: regulator-vqmmc-sd1-pvdd {
+>         };
+>  };
+>
+> +&keys{
+> +#if PMOD_GPIO4
+> +       /delete-node/ key-1;
+> +#endif
+> +
+> +#if SW_LCD_EN || PMOD_GPIO6
+> +       /delete-node/ key-2;
+> +#endif
+> +
+> +#if SW_LCD_EN || PMOD_GPIO7
+> +       /delete-node/ key-3;
+> +#endif
+> +};
+> +
+> +#if SW_LCD_EN && PMOD_GPIO4 && PMOD_GPIO6 && PMOD_GPIO7
+
+"PMOD_GPIO4 && (SW_LCD_EN || (PMOD_GPIO6 && PMOD_GPIO7))"?
+
+> +       /delete-node/ keys;
+> +#endif
+> +
+>  &pinctrl {
+>         scif_pins: scif {
+>                 pins = "SCIF_TXD", "SCIF_RXD";
+> diff --git a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
+> index fd82df8adc1e..84fb955ad77b 100644
+> --- a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
+> @@ -12,8 +12,13 @@
+>   * SW_SDIO_M2E:
+>   *     0 - SMARC SDIO signal is connected to uSD1
+>   *     1 - SMARC SDIO signal is connected to M.2 Key E connector
+> + *
+> + * GPIO keys are enabled by default. Use PMOD_GPIO macros to disable them
+> + * if needed.
+>   */
+>
+> +#include <dt-bindings/input/input.h>
+> +
+>  / {
+>         model = "Renesas RZ SMARC Carrier-II Board";
+>         compatible = "renesas,smarc2-evk";
+> @@ -27,6 +32,31 @@ aliases {
+>                 serial3 = &scif0;
+>                 mmc1 = &sdhi1;
+>         };
+> +
+> +       keys: keys {
+> +               compatible = "gpio-keys";
+> +
+> +               key-1 {
+> +                       interrupts-extended = <&pinctrl KEY_1_GPIO IRQ_TYPE_EDGE_FALLING>;
+
+So you are using them as interrupts. Don't you need to configure pin
+control for that (function 15 = IRQ14)?
+Alternatively, can't you use them as gpios with interrupt facilities?
+
+> +                       linux,code = <KEY_1>;
+> +                       label = "USER_SW1";
+> +                       debounce-interval = <20>;
+> +               };
+> +
+> +               key-2 {
+> +                       interrupts-extended = <&pinctrl KEY_2_GPIO IRQ_TYPE_EDGE_FALLING>;
+> +                       linux,code = <KEY_2>;
+> +                       label = "USER_SW2";
+> +                       debounce-interval = <20>;
+> +               };
+> +
+> +               key-3 {
+> +                       interrupts-extended = <&pinctrl KEY_3_GPIO IRQ_TYPE_EDGE_FALLING>;
+> +                       linux,code = <KEY_3>;
+> +                       label = "USER_SW3";
+> +                       debounce-interval = <20>;
+> +               };
+> +       };
+>  };
+>
+>  &scif0 {
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
