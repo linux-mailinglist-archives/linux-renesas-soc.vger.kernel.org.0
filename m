@@ -1,170 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-16685-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16686-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3167BAA9443
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 15:22:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A33AA948E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 15:30:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A595D3B1791
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 13:21:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83FFA17972F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 13:29:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2676B204840;
-	Mon,  5 May 2025 13:21:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E3A61A2C25;
+	Mon,  5 May 2025 13:29:25 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F571A2C25;
-	Mon,  5 May 2025 13:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744F62586C5
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 May 2025 13:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746451312; cv=none; b=dS8vokusPDcXcl7H7j6Ww/ulETPCH1h7i9HmoQ1aTC81nEDo1onbIWO/eJ3UQJS0JPaQESlFvwrlgd6EJwqIB0mDiwofb5g8Ck4P92GITOHsWUKANPRurig6VcbVBfbvqb2f78EOqgGxR2gn89zFAlu3H0Jj7KLMQjGa533mrxg=
+	t=1746451764; cv=none; b=CBxGX7hTsJfPsaI/w7aoYK3Ipu7BAfGvr6LTJkFzTxesbfufDUeI0aw8temNxkSn1fgWTa2H610hJCui5xBCIcSqkJuEALqnwNhkPZT0z+jLDKAdCZTOT4YUm6RNC9ZEPFP6GdlchPr+8wAQnd+aZ9gExuF38JbZbc0iuVk8rdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746451312; c=relaxed/simple;
-	bh=D9f4P69mV9Gc6KYg0s6RkoVbTqy+PB1mTnqKn0QRUzI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d/9dSqeXko5Cv574Ov/HfpFtw9qXkwkUy3djoqoRvDZ8+NmgO/EDzDyWeYqYXR9dlnUz/za52WgUKg0RAMBGc6GWh84oVizUCHZSxkDt8Sj5dv1+bKC1hvwwdMQ0zH7lNEwzGa8yvM1b12ULaoPSvBgtulBtQ73mREwh3AG76KI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-86fbc8717fcso1051466241.2;
-        Mon, 05 May 2025 06:21:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746451308; x=1747056108;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4lHAlRJUMtVNsOO3Bq44/DYs6/bvjkxaRXniB3XCy+Q=;
-        b=L3AkPI0818hE2+rfT/whZqqMYOEA46ERzz41UlUUwfQfCgMpS2u2S8p33PKruPWBXx
-         7rEoUC5Kb0UuJzkj3d0U+o4YatBhfyhvb1s3oH0mCFjMK+TXBTJWdb+6bVbM8FgSyjmQ
-         It6SYchgR3ZnpJQUCCzy0Wgf5dSCg69Jp1BsSyoOrR+frCQDefPIA/28LcaBESuoL+0o
-         cBgV0saZreeY4ybdbCE+1qJ+N5RBVvzODbCR7GlWJA0iZnd0GhXGN1rP2GBrrN8q2mWv
-         CqpVibqlxM4smjJl/B7yqo8AgHtHIBVTwA4Ip6ayAx6ZqDhF05wu/LOxfzrm5TbtX+j3
-         ailw==
-X-Forwarded-Encrypted: i=1; AJvYcCV6s/0NkW7Ee3rHrAk3cdvJSLycIWrQT7/+5VmpfytgVkzNAS4KUyCj8w9JJDjIGare52sDfVwST3nn@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzsr59J9DhndiW0QyJYfRMOzJ2LaJevKue5cHuCy/fwSXIASlMC
-	VYwbfAUQj3zX1n/8+BbXE2Adbv6ueGIAfeXm+1ZTGp629kJcVpCuuZiqG7RQ
-X-Gm-Gg: ASbGncvjoGUeUUkyD7ngAjuiPmx19VwD96LPkXqXOit3A1qX/Sp0ZnGaofYTRoYFy+D
-	EprfI18pcjB5CwdRxNI/6l8YjfGNq4uGzc2ORUVS+6AugyHKmPZaIBbHdru3503y4zsrC3UQHVv
-	ubGhfA2qOOMLVa5eAVMVuqKfungVgd97Go8LBXRbAK3v+BQbJD73s8n741vE9NDmuwyuQ1uLxaI
-	QQHSbx8Rl3ktB8h98Hli5IHzfTlZphtoi68FpPwBng1lNqRISDi8WmPmku/M/AS09bPFpJn0atm
-	GjDLQqoCTXPUuSMV1P0wnt+FHjFeBTIq1+2P8eFDRpIGq5rD8AbjRMQikY7WAJg4zP+dGeF38V5
-	SjUaAGIo=
-X-Google-Smtp-Source: AGHT+IEJal4C4Gtp1tAVZsrpASoxwKYKp81UTjcHdgUchcftEhRCIimDwHWVJ6TlYye9uVABwEGOfw==
-X-Received: by 2002:a05:6102:5681:b0:4c5:1c0b:4ee9 with SMTP id ada2fe7eead31-4db149206bcmr3127702137.22.1746451307744;
-        Mon, 05 May 2025 06:21:47 -0700 (PDT)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4daf2671ae1sm1410258137.27.2025.05.05.06.21.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 May 2025 06:21:47 -0700 (PDT)
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-525b44b7720so1111907e0c.0;
-        Mon, 05 May 2025 06:21:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVIJ/mf3nxvbOOZ9nrjiVu4kQYoFQgGCkwdL25wCVvM+FByHhiKULhPGkT5H/tdcE+45ur+Rs2UjHev@vger.kernel.org
-X-Received: by 2002:a05:6102:8085:b0:4ba:95f1:cc83 with SMTP id
- ada2fe7eead31-4db148eeb9fmr2750575137.16.1746451306702; Mon, 05 May 2025
- 06:21:46 -0700 (PDT)
+	s=arc-20240116; t=1746451764; c=relaxed/simple;
+	bh=RM1YNgtWQNh30K9B+gpcOMJnVXiz9nQLfcXaJ7/YZDo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Zqc9MYuN693Kn5Mrwus+VPdFbj2GB5JApgPogxXbOwUxU9sbt0UCHPjLsz6b+ot0wNFXaIP3X722jzMquID4l/P1OLU0EN4yv9A6RbmEhJOuEyjptWrdZlLT2E68c+eOlQmkdk9nj2XftNHbeI9qFDOZWypjiKurr8dV721De5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uBvsh-0001hh-Ou; Mon, 05 May 2025 15:29:15 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uBvsg-001EmA-2s;
+	Mon, 05 May 2025 15:29:14 +0200
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uBvsg-000KmT-2b;
+	Mon, 05 May 2025 15:29:14 +0200
+Message-ID: <cae83f59fb846b0a7b2365c996fe375a94f5f946.camel@pengutronix.de>
+Subject: Re: [PATCH v5 0/3] Add USB2PHY Port Reset Control driver for
+ Renesas RZ/V2H(P) SoC
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Prabhakar <prabhakar.csengg@gmail.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Magnus
+ Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Mon, 05 May 2025 15:29:14 +0200
+In-Reply-To: <20250415195131.281060-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: 
+	<20250415195131.281060-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250414100206.7185-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250414100206.7185-2-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 5 May 2025 15:21:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXxRF+xtLkyZAGkZFN3i-zAuHkTkQ2e9GkKQjF1io=Ehg@mail.gmail.com>
-X-Gm-Features: ATxdqUGa9qnLHQDn8mvkMO6heiOJXNj7dt5r0rk7Q1FgDn6CzK4-AXwAHakZxZE
-Message-ID: <CAMuHMdXxRF+xtLkyZAGkZFN3i-zAuHkTkQ2e9GkKQjF1io=Ehg@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-eb: Add GMAC1 port
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram, Niklas,
+On Di, 2025-04-15 at 20:51 +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Hi All,
+>=20
+> This patch series adds support for the USB2PHY Port Reset control driver
+> for the Renesas RZ/V2H(P) SoC. The changes include documenting the USB2PH=
+Y
+> Port Reset control bindings and adding the driver.
+>=20
+> v4->v5
+> - Added Reviewed-by tag from Biju Das for patch 2/3
+> - Dropped NULL check for of_device_get_match_data() in probe()
+> - Dropped dev_set_drvdata() in probe()
+[...]
 
-On Mon, 14 Apr 2025 at 12:02, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> This port bypasses the switch and is directly connected to the GMAC.
->
-> Co-developed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatec=
-h.se>
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Applied to reset/next, thanks!
 
-Thanks for your patch!
+[1/3] dt-bindings: reset: Document RZ/V2H(P) USB2PHY reset
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D261f3ff29a2b
+[2/3] reset: Add USB2PHY port reset driver for Renesas RZ/V2H(P)
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3De3911d7f865b
+[3/3] MAINTAINERS: Add entry for Renesas RZ/V2H(P) USB2PHY Port Reset drive=
+r
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D57dfdfbe1a03
 
-> --- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
-> @@ -15,6 +15,42 @@ / {
->                      "renesas,r9a06g032";
->  };
->
-> +&gmac1 {
-> +       pinctrl-0 =3D <&pins_eth0>, <&pins_mdio0>;
-> +       pinctrl-names =3D "default";
-> +
-> +       status =3D "okay";
-> +       phy-mode =3D "rgmii-id";
-> +       phy-handle =3D <&phy_mii0>;
-> +
-> +       mdio {
-> +               #address-cells =3D <1>;
-> +               #size-cells =3D <0>;
-> +               compatible =3D "snps,dwmac-mdio";
-> +
-> +               phy_mii0: ethernet-phy@8 {
-> +                       reg =3D <8>;
+regards
+Philipp
 
-Missing blank line.
-
-> +                       leds {
-> +                               #address-cells =3D <1>;
-> +                               #size-cells =3D <0>;
-
-Likewise.
-
-> +                               led@0 {
-> +                                       reg =3D <0>;
-> +                                       color =3D <LED_COLOR_ID_GREEN>;
-> +                                       function =3D LED_FUNCTION_LAN;
-> +                                       default-state =3D "keep";
-> +                               };
-> +
-> +                               led@1 {
-> +                                       reg =3D <1>;
-> +                                       color =3D <LED_COLOR_ID_ORANGE>;
-> +                                       function =3D LED_FUNCTION_ACTIVIT=
-Y;
-> +                                       default-state =3D "keep";
-> +                               };
-> +                       };
-> +               };
-> +       };
-> +};
-
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.16 with the above fixed.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
