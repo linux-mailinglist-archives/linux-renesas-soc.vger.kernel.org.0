@@ -1,115 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-16695-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16696-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F2EAA9BF4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 20:50:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54EFBAA9D1C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 22:27:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCEDE1A80EEB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 18:51:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 875113B8E19
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 20:27:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73D9726E175;
-	Mon,  5 May 2025 18:50:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 400CB25C81A;
+	Mon,  5 May 2025 20:27:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fQwiSl8y"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="UIN2p2jr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3456519CC22;
-	Mon,  5 May 2025 18:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592981B07AE
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 May 2025 20:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746471051; cv=none; b=T4qFaQPh201748CW/8pJDHVGld/c/N0GR7oGPFsKB7hk4gqQhHa1QmCjvyFE3Fne5ZAlf3C6NmYKrFX2B4BA7HWqxr7jnCO9t5GcJsLOcm5v9RM1fH34bTHcPaauv9RMaQfZnszhZXVFOCNGAJJ803fWhzz1Z9Y4+mZ871L476Y=
+	t=1746476843; cv=none; b=Z0dm+3y4u3YQvdX+qG1Gl9SwCu8RzPqbQzxYQFpWd0lPTLDw8BvxxvcqA6AxHoPkryXl167XVBo8DurID0jqlO3q8tnYJOFsSdgV3/SJWGW4hs8giZPlMu9EaadMpcVBLJtHvT4pD42ojhzYfiT7c/1gsiKf11JX+rM4CQqjx0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746471051; c=relaxed/simple;
-	bh=FA4ZXprxacKTvK0sy51tKZPsTbcahyHK/OPJJTKQBv4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eO5Q1qnaxtT7bGXX3Y6vRNdNo400l3B/Z52sqh8wVVJsoIORUQGz31R8mxP3KFKDkTocbG5ynZQeW2pVNiivWNNC3uSWhp73uQwQ/PW1f48fnVa7i0WWLTIaF6TcYWWpqfRpNQzb/y4CSW3SOrHhNGbJwk2obr7FSur0cCQErHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fQwiSl8y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDF37C4AF09;
-	Mon,  5 May 2025 18:50:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746471050;
-	bh=FA4ZXprxacKTvK0sy51tKZPsTbcahyHK/OPJJTKQBv4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fQwiSl8yPfxn8/ca/CPr/ykouT9Z/FOv4FUQbqLBYldb5O2OF2M2++6fe+tcdjRQ1
-	 2/I6oGeGI+AfdRqvXqhkYhv3uvcDNLsrHhv8tes2oPKkwz8TasWJcrfRylI8ljImnj
-	 UwkceDOA1cS9FqWAEKW6TfbjKrj/xWCgbUMl+bvxZNMkf/wLW2A+dRgN4Wp1TA9xY2
-	 2rRX47nOq80/SDBm7EWokT9Z2XCEM9ExSZHVwgrAjuGF5TJWniQry1k7abfbrj5+XP
-	 Y833/5bCGl52uWSVZ/K4IHj1IaAR7KJs/e9JvZ4i4c4MfrDCb3wwtJ/ywUg6keobTJ
-	 dRsVMYhRRuKag==
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ace3b03c043so732464366b.2;
-        Mon, 05 May 2025 11:50:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUFVv/6sYXx4mW24UK/wWoXYJNvj8Wk+IF3HbF6fE1Rv0um78SWgPK4UFOCmNFJBJ33IeN/sN2oXo5oNXJt@vger.kernel.org, AJvYcCVVK5D6ihmQeR0Ovrv/M5km7iDf82OziKAkeRAzccWoLpxVRlNy2wMExFFfgtL8Og6jxUM4qRuEaraMvQ==@vger.kernel.org, AJvYcCWDHOcmPgNWbvqFzBgztCRoBUYwj8DwtNCUskpQpTkIgs9fQX1JiNMfnenTOlN5wIcnh80xeyqKQxsuD2Qc@vger.kernel.org, AJvYcCX0MMqTzY3iS9Q5yox84MCyIBguGGupFnuXAgWqu2HE3leT8GNeLMR3d0ce6OxT8NsPGeQOhgLgJnmM1b+t61fZuZY=@vger.kernel.org, AJvYcCXHcdFY3Rkq/z3l22Tf+sPEWFyZOV587EWYlFY4ef1p1fVk90i6mL2DB4iDRtvqYlFVpqlpV/KDf8I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3/+gyEbXw5PLdq9IE8b+n4DyVhPDVNlzUiUPmsPjq2DqKIkyp
-	N61VFOTFb4SCdpKd2bjX2dzEpCFsPXLC60B6bYIGwhbNJ+JPxvMHvKwE1w5zh/71yykLFH4KkUp
-	5atf5eGfBSKpF3JG/RKacXZP0GQ==
-X-Google-Smtp-Source: AGHT+IG+4wrvsmSUA4NXOeBgCVpJAWp31zQ7/foCm/dgAap8A9CGCQ6aZw7m2OsHPJAn0nsZq/ZG84HLBSB1XnJ9F4M=
-X-Received: by 2002:a17:907:c292:b0:ac3:446d:142 with SMTP id
- a640c23a62f3a-ad1d450c0e6mr10543166b.2.1746471049255; Mon, 05 May 2025
- 11:50:49 -0700 (PDT)
+	s=arc-20240116; t=1746476843; c=relaxed/simple;
+	bh=Gv4IZdvwFAlcynuNtzzAfil15jVh/pjcFz9j3dEcv1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mLhU0xJAvP9fLn/MS/FpOiMebFWoJbywcrl5don98GHx9yzIA9ApWh9/NTUCqLMXNwnGq4JfNvYSEW7AWkrnCcdGAZwk9QzcjrlxJI6Mlb1lIAYN1KZIpzicD2YdszVB4uNOJWM2PN4QrG8Btg7Z17s1BlmRAtf/JY4QxjsNeEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=UIN2p2jr; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=hEm5
+	1459XoFERFFsEF7nofrhCzEKQ7WoDM7uXL5EKf8=; b=UIN2p2jr7X21tWZy0iyV
+	P8GuLMLZAeH/xpEBIJRl2J037jd6xC6mh9IPPBCG0BL6BOZATMTIWo389nI9zSgz
+	UZqCq3uCK5PxM9DnX2ca0v8h2Uxi5nE/DgaHD0xr624o8PI+HryTvxYP8NAgccql
+	GiSGs8yJDXGlA38x5rirA7o+oFE1ZFYxnhhaBl7ltFy/J44GsEBU+BuBHhGnq7rp
+	t38CGAHDmfuGP2Wp6LQMXczez/OV+QN/0GdDK2jUzMD9fAKlIT+CYxdZwilV0NVZ
+	FeClO+OSjwKwwE1klkdFMnBWflPhZo4y4m/0rhQdrWEPkjU31DzqXzrCX4R+hHfR
+	6w==
+Received: (qmail 2656059 invoked from network); 5 May 2025 22:27:10 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 May 2025 22:27:10 +0200
+X-UD-Smtp-Session: l3s3148p1@ZPgXU2k0+NYujnup
+Date: Mon, 5 May 2025 22:27:10 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Herve Codina <herve.codina@bootlin.com>
+Subject: Re: [PATCH 2/2] ARM: dts: renesas: r9a06g032-rzn1d400-eb: enable USB
+ host port
+Message-ID: <aBkfHudni5WoJLtt@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Herve Codina <herve.codina@bootlin.com>
+References: <20250425100129.11942-4-wsa+renesas@sang-engineering.com>
+ <20250425100129.11942-6-wsa+renesas@sang-engineering.com>
+ <CAMuHMdW2NHeatmSr4ePj6fPcbT5XNZJr967L3NJ_i6xYwgxaBA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250410-dt-cpu-schema-v2-0-63d7dc9ddd0a@kernel.org>
- <20250410-dt-cpu-schema-v2-11-63d7dc9ddd0a@kernel.org> <CAL_JsqLGHQ4YBqGGEdyirtgaBnJKRxOxOKTaQLv2jm-g8TNndA@mail.gmail.com>
-In-Reply-To: <CAL_JsqLGHQ4YBqGGEdyirtgaBnJKRxOxOKTaQLv2jm-g8TNndA@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 5 May 2025 13:50:37 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKr8784O_-p6=EUqTxkVe1JkS8O+KWEfpVoWvy5NYC8DA@mail.gmail.com>
-X-Gm-Features: ATxdqUFAJ69lA35S_IWYAUkz4lOUbb3QiPXOkddsmyihxhIW1B6e-CR89pk_81I
-Message-ID: <CAL_JsqKr8784O_-p6=EUqTxkVe1JkS8O+KWEfpVoWvy5NYC8DA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/17] arm64: dts: amlogic: Drop redundant CPU "clock-latency"
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Conor Dooley <conor@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Steen Hegelund <Steen.Hegelund@microchip.com>, Daniel Machon <daniel.machon@microchip.com>, 
-	UNGLinuxDriver@microchip.com, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Viresh Kumar <vireshk@kernel.org>, 
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, zhouyanjie@wanyeetech.com, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IYBwt3Y2mERE+mYx"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdW2NHeatmSr4ePj6fPcbT5XNZJr967L3NJ_i6xYwgxaBA@mail.gmail.com>
 
-On Mon, May 5, 2025 at 1:43=E2=80=AFPM Rob Herring <robh@kernel.org> wrote:
->
-> On Thu, Apr 10, 2025 at 10:50=E2=80=AFAM Rob Herring (Arm) <robh@kernel.o=
-rg> wrote:
-> >
-> > The "clock-latency" property is part of the deprecated opp-v1 binding
-> > and is redundant if the opp-v2 table has equal or larger values in any
-> > "clock-latency-ns". Add any missing "clock-latency-ns" properties and
-> > remove "clock-latency".
-> >
-> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > ---
->
-> Ping!
 
-NM, I see it now in linux-next.
+--IYBwt3Y2mERE+mYx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+
+> According to Sections 10.6.5.1 (1) ("Meanings of USB_OCI and USB_PPON
+> Signals") and Table 10.131 ("OCI and PPON") of the RZ/N1D System Control
+> and Peripheral Manual, USB_PPON2 and USB_OC2 are only used when both
+> ports are configured for host mode.  When port 1 is configured for
+> function mode, port 2 uses USB_PPON1 and USB_OC1 instead, so you
+> shouldn't need pin control for USB_PPON2 and USB_OC2.
+> However, that does not match the schematics, which show that USB_PPON2
+> and USB_OC2 are wired to port 2's power switch.
+> Can you enlighten me?
+
+Both pins I enabled here are routed to the Config CPLD (check the DB
+datasheet, page 9). This handles the configuration and routes whatever
+is selected to the EB then. The pins on the EB are always named PPON2
+and OC2. Because these pins are always routed to the CPLD, I think it
+makes sense to have them described like this always. I didn't see
+another way to use them anyhow. It could be argued, though, that these
+pinmux properties belong to the DB, then. Maybe this makes more sense?
+
+
+--IYBwt3Y2mERE+mYx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgZHxoACgkQFA3kzBSg
+KbZY6xAAiXI2SnEAFk0HxPbwMl/d30Z+/XHF1s45giYOOIj3FI9cPvLnsX/QWhMl
+iRvC10JorpiF1Ry2NkUj9g8znexK4KpeWasVgL3bBeuGx4BTbl2KJ6e9tXajVYYY
+so5/iykN0TrnzOy46DO/khJkSxHzxTl56/T4SOhzTgBOVerWsHsHi25vUYS9bVUl
+ZCLBhzHDtnfYA4QfA59N/57XkA1ESvLcWThcboxjpPF+RaY2GwhrRyA/qVr0v0MF
+qtjYtat4t/XxqY8vuZ0CkKNtZKzoQwkZbiBHaX6ZUfSdHCBC/npqD6/V1l8C4Bcy
+X89iR6uL5KecEE23HOjI2uub5G3ap+ApDUzm9QZK1h1OvZlyvDhTvDYSBLYrazrx
+i4tFyzEYOLVRAZkaD/5N78ORFgSgw7KTCNXfcbvJwCuy4jNjDdsfogEa/lGqkLZ6
+R+hMvmKznywBmiXCvYufSu40qCwpFUEga2fm0JMVAtVrZn/TVz79LVYMchuHAZlA
++Dw6+FQG8kyvDnPf9U4U+qS9WniWl9vIfSDSahyQGyCGVpT8uWsutf5AKOR5fweC
+vZW/tWSdJXqqxbVHtQFCwiNoq+RVA5H3kADNMsmMk5jn7mHJjIRNP8zNtER7AIdx
+xsBy0kNd4Zwp2cqjBinFKS/U7TjXqpUP7obzjZJXYdiUox4QHkI=
+=DPoK
+-----END PGP SIGNATURE-----
+
+--IYBwt3Y2mERE+mYx--
 
