@@ -1,59 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-16697-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54237AAA604
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 02:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F082AAA79D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 02:37:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC0AE188852A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 00:02:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09AC21899317
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 00:36:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB06E2920AD;
-	Mon,  5 May 2025 22:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C2A62989C0;
+	Mon,  5 May 2025 22:37:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fCqDAWC2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k7Y0RWab"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF8C2920A9;
-	Mon,  5 May 2025 22:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2AC729375D;
+	Mon,  5 May 2025 22:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484313; cv=none; b=QM9DEhiQTt6+QjsXggdCQypMziUUVwHSZoReFwCgL8zROnvGh5iQapiT4d0CKDYf7fM90X5+g/DCPoZBR4RIGZCinwOzeNvLbM/N0SkXEjfUe3fBo1Q6QX7wFrG49nDQd8GPIYDJ2ob4tUP3XNwZTqBHpoUn+03JOmzQBW0Kwss=
+	t=1746484653; cv=none; b=QS05fsYwRWdZ2EvifVS+NNUWs9dc+O3M4+qxDm+TWQnfyFPdR8w4kAqG559Z95df4kQ0/isaIGoLm82bA/ZNh+OnU9lV4dtxQTghwk7JV8noPEC3Zj7eL+HGc0ZXq2G9o4qBrBvVVEshvFOeYZVXLNd15MQaRhYfHrkavriE930=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484313; c=relaxed/simple;
-	bh=1kIsKvcpMKNVj+EGXm4QBSTOZ9ztqCSVR8Issyrytvs=;
+	s=arc-20240116; t=1746484653; c=relaxed/simple;
+	bh=eoIQoM66ncPr3cCGzotQUKBoAFuCUA2XUUoSQhH1K6E=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HwNeRm06CO9zFWgyyxsC90ciun7Wa9LdoSMSoGYXaLhlxfNBPnbLv6S0+zE1Omq93NXZOInZ2rt1sDaR5qASDWs4K3M0aNPxcaZ4W4SpNIDbbOp0t+EOg0xXBPQcYC85X0jeNplXwTtOYplmrYVVVycD8Drs2r3/v0n/4Olh04g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fCqDAWC2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90FF4C4CEE4;
-	Mon,  5 May 2025 22:31:52 +0000 (UTC)
+	 MIME-Version; b=WMtsfouXIV7dV7OlV9JVjEJc6g9YVAc9Pe3lrsHl+ESRNLKXTpjLIxDexKQcTIppeFEaLRsvlw7YEHC/Gpo97df+ODA4gLDawQ+TQSgH9Uko6+7P4TI1uQF2rQzeGHa3bHLgXZPoW5Anc0AtyqgTUOzecZLR/fK2g2CzyRra0Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k7Y0RWab; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80660C4CEE4;
+	Mon,  5 May 2025 22:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484313;
-	bh=1kIsKvcpMKNVj+EGXm4QBSTOZ9ztqCSVR8Issyrytvs=;
+	s=k20201202; t=1746484652;
+	bh=eoIQoM66ncPr3cCGzotQUKBoAFuCUA2XUUoSQhH1K6E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fCqDAWC2on1zzmKLiQG1nR9BB75aTOu2+vyuaK2hu+f1oimOJ18h0O8LcxRIU2wl2
-	 183gWMczbu8Gi/wwyeVU85xK1CSdbW0F42TlupSRgtlB7tRG39CFv52goCuVcEpxiX
-	 T1cMLLTWmO+kzKabSbZMXQKuah39Tph8wuFursdzZs/Uq5+jDl3T1nnCWmNht/Visj
-	 ibUUOAAWuDAVKUD+a7Q6EavinrpzQtSPB+TnhVr4Yo3vsvlRtHEyjlnHMmvspL5atL
-	 iurFAchvNNNywM9E41IXcwiEenJhcrg7eOvdZwUxLMyufl+nJdNHuNjJRp7aJW/Us3
-	 AODAaQkL9QpJA==
+	b=k7Y0RWabhTpwbLHEankzebxXzvdugPgtLM/ArYaeuaMg66QE7GFUSUAi7a8ikrGuW
+	 60C7RFhONDVDXeKhSyJI4Xtqo18zRogRRzrl52XJHkzxwcTWUPr9VBmqUs/mPSN5BY
+	 GKqDENuwYQltiGhjaBm2X8aTi+a1NX59dRECx8Ql6ujyQCAVleulNd/n2OG0n7Oe8n
+	 oy+fSCb/gIivGBsG46Y9AMLFJz/Q60y+An5j12fOCr7ZkhlY7Gs17zi2qqYYjwy6NN
+	 2cfedqrq1iUHEan18temOS0Td8GzXE990P5kjIQkI6jqNhys/kzbytRHmRRuP4EQko
+	 W7YXTwzVywAtQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Sasha Levin <sashal@kernel.org>,
-	linus.walleij@linaro.org,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 448/642] pinctrl: renesas: rzg2l: Add suspend/resume support for pull up/down
-Date: Mon,  5 May 2025 18:11:04 -0400
-Message-Id: <20250505221419.2672473-448-sashal@kernel.org>
+	linux-clk@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 585/642] clk: renesas: rzg2l-cpg: Refactor Runtime PM clock validation
+Date: Mon,  5 May 2025 18:13:21 -0400
+Message-Id: <20250505221419.2672473-585-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -68,90 +68,163 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-[ Upstream commit b2bd65fbb617353e3c46ba5206b3b030fa0f260c ]
+[ Upstream commit f6f73b891bf6beff069fcacc7b4a796e1009bf26 ]
 
-The Renesas RZ/G3S supports a power-saving mode where power to most of
-the SoC components is lost, including the PIN controller.  Save and
-restore the pull-up/pull-down register contents to ensure the
-functionality is preserved after a suspend/resume cycle.
+Refactor rzg2l_cpg_attach_dev to delegate clock validation for Runtime PM
+to the updated rzg2l_cpg_is_pm_clk function. Ensure validation of clocks
+associated with the power domain while excluding external and core clocks.
+Prevent incorrect Runtime PM management for clocks outside the domain's
+scope.
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Update rzg2l_cpg_is_pm_clk to operate on a per-power-domain basis. Verify
+clkspec.np against the domain's device node, check argument validity, and
+validate clock type (CPG_MOD). Use the no_pm_mod_clks array to exclude
+specific clocks from PM management.
+
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Link: https://lore.kernel.org/20250205100116.2032765-1-claudiu.beznea.uj@bp.renesas.com
+Link: https://lore.kernel.org/20241216210201.239855-1-prabhakar.mahadev-lad.rj@bp.renesas.com
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ drivers/clk/renesas/rzg2l-cpg.c | 102 +++++++++++++++++---------------
+ 1 file changed, 54 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index d1da7f53fc600..c72e250f4a154 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -318,6 +318,7 @@ struct rzg2l_pinctrl_pin_settings {
-  * @pmc: PMC registers cache
-  * @pfc: PFC registers cache
-  * @iolh: IOLH registers cache
-+ * @pupd: PUPD registers cache
-  * @ien: IEN registers cache
-  * @sd_ch: SD_CH registers cache
-  * @eth_poc: ET_POC registers cache
-@@ -331,6 +332,7 @@ struct rzg2l_pinctrl_reg_cache {
- 	u32	*pfc;
- 	u32	*iolh[2];
- 	u32	*ien[2];
-+	u32	*pupd[2];
- 	u8	sd_ch[2];
- 	u8	eth_poc[2];
- 	u8	eth_mode;
-@@ -2712,6 +2714,11 @@ static int rzg2l_pinctrl_reg_cache_alloc(struct rzg2l_pinctrl *pctrl)
- 		if (!cache->ien[i])
- 			return -ENOMEM;
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index 4bd8862dc82be..91928db411dcd 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -1549,28 +1549,6 @@ static int rzg2l_cpg_reset_controller_register(struct rzg2l_cpg_priv *priv)
+ 	return devm_reset_controller_register(priv->dev, &priv->rcdev);
+ }
  
-+		cache->pupd[i] = devm_kcalloc(pctrl->dev, nports, sizeof(*cache->pupd[i]),
-+					      GFP_KERNEL);
-+		if (!cache->pupd[i])
-+			return -ENOMEM;
+-static bool rzg2l_cpg_is_pm_clk(struct rzg2l_cpg_priv *priv,
+-				const struct of_phandle_args *clkspec)
+-{
+-	const struct rzg2l_cpg_info *info = priv->info;
+-	unsigned int id;
+-	unsigned int i;
+-
+-	if (clkspec->args_count != 2)
+-		return false;
+-
+-	if (clkspec->args[0] != CPG_MOD)
+-		return false;
+-
+-	id = clkspec->args[1] + info->num_total_core_clks;
+-	for (i = 0; i < info->num_no_pm_mod_clks; i++) {
+-		if (info->no_pm_mod_clks[i] == id)
+-			return false;
+-	}
+-
+-	return true;
+-}
+-
+ /**
+  * struct rzg2l_cpg_pm_domains - RZ/G2L PM domains data structure
+  * @onecell_data: cell data
+@@ -1595,45 +1573,73 @@ struct rzg2l_cpg_pd {
+ 	u16 id;
+ };
+ 
++static bool rzg2l_cpg_is_pm_clk(struct rzg2l_cpg_pd *pd,
++				const struct of_phandle_args *clkspec)
++{
++	if (clkspec->np != pd->genpd.dev.of_node || clkspec->args_count != 2)
++		return false;
 +
- 		/* Allocate dedicated cache. */
- 		dedicated_cache->iolh[i] = devm_kcalloc(pctrl->dev, n_dedicated_pins,
- 							sizeof(*dedicated_cache->iolh[i]),
-@@ -2955,7 +2962,7 @@ static void rzg2l_pinctrl_pm_setup_regs(struct rzg2l_pinctrl *pctrl, bool suspen
- 	struct rzg2l_pinctrl_reg_cache *cache = pctrl->cache;
- 
- 	for (u32 port = 0; port < nports; port++) {
--		bool has_iolh, has_ien;
-+		bool has_iolh, has_ien, has_pupd;
- 		u32 off, caps;
- 		u8 pincnt;
- 		u64 cfg;
-@@ -2967,6 +2974,7 @@ static void rzg2l_pinctrl_pm_setup_regs(struct rzg2l_pinctrl *pctrl, bool suspen
- 		caps = FIELD_GET(PIN_CFG_MASK, cfg);
- 		has_iolh = !!(caps & (PIN_CFG_IOLH_A | PIN_CFG_IOLH_B | PIN_CFG_IOLH_C));
- 		has_ien = !!(caps & PIN_CFG_IEN);
-+		has_pupd = !!(caps & PIN_CFG_PUPD);
- 
- 		if (suspend)
- 			RZG2L_PCTRL_REG_ACCESS32(suspend, pctrl->base + PFC(off), cache->pfc[port]);
-@@ -2985,6 +2993,15 @@ static void rzg2l_pinctrl_pm_setup_regs(struct rzg2l_pinctrl *pctrl, bool suspen
- 			}
- 		}
- 
-+		if (has_pupd) {
-+			RZG2L_PCTRL_REG_ACCESS32(suspend, pctrl->base + PUPD(off),
-+						 cache->pupd[0][port]);
-+			if (pincnt >= 4) {
-+				RZG2L_PCTRL_REG_ACCESS32(suspend, pctrl->base + PUPD(off),
-+							 cache->pupd[1][port]);
-+			}
++	switch (clkspec->args[0]) {
++	case CPG_MOD: {
++		struct rzg2l_cpg_priv *priv = pd->priv;
++		const struct rzg2l_cpg_info *info = priv->info;
++		unsigned int id = clkspec->args[1];
++
++		if (id >= priv->num_mod_clks)
++			return false;
++
++		id += info->num_total_core_clks;
++
++		for (unsigned int i = 0; i < info->num_no_pm_mod_clks; i++) {
++			if (info->no_pm_mod_clks[i] == id)
++				return false;
 +		}
 +
- 		RZG2L_PCTRL_REG_ACCESS16(suspend, pctrl->base + PM(off), cache->pm[port]);
- 		RZG2L_PCTRL_REG_ACCESS8(suspend, pctrl->base + P(off), cache->p[port]);
++		return true;
++	}
++
++	case CPG_CORE:
++	default:
++		return false;
++	}
++}
++
+ static int rzg2l_cpg_attach_dev(struct generic_pm_domain *domain, struct device *dev)
+ {
+ 	struct rzg2l_cpg_pd *pd = container_of(domain, struct rzg2l_cpg_pd, genpd);
+-	struct rzg2l_cpg_priv *priv = pd->priv;
+ 	struct device_node *np = dev->of_node;
+ 	struct of_phandle_args clkspec;
+ 	bool once = true;
+ 	struct clk *clk;
++	unsigned int i;
+ 	int error;
+-	int i = 0;
+-
+-	while (!of_parse_phandle_with_args(np, "clocks", "#clock-cells", i,
+-					   &clkspec)) {
+-		if (rzg2l_cpg_is_pm_clk(priv, &clkspec)) {
+-			if (once) {
+-				once = false;
+-				error = pm_clk_create(dev);
+-				if (error) {
+-					of_node_put(clkspec.np);
+-					goto err;
+-				}
+-			}
+-			clk = of_clk_get_from_provider(&clkspec);
++
++	for (i = 0; !of_parse_phandle_with_args(np, "clocks", "#clock-cells", i, &clkspec); i++) {
++		if (!rzg2l_cpg_is_pm_clk(pd, &clkspec)) {
+ 			of_node_put(clkspec.np);
+-			if (IS_ERR(clk)) {
+-				error = PTR_ERR(clk);
+-				goto fail_destroy;
+-			}
++			continue;
++		}
  
+-			error = pm_clk_add_clk(dev, clk);
++		if (once) {
++			once = false;
++			error = pm_clk_create(dev);
+ 			if (error) {
+-				dev_err(dev, "pm_clk_add_clk failed %d\n",
+-					error);
+-				goto fail_put;
++				of_node_put(clkspec.np);
++				goto err;
+ 			}
+-		} else {
+-			of_node_put(clkspec.np);
+ 		}
+-		i++;
++		clk = of_clk_get_from_provider(&clkspec);
++		of_node_put(clkspec.np);
++		if (IS_ERR(clk)) {
++			error = PTR_ERR(clk);
++			goto fail_destroy;
++		}
++
++		error = pm_clk_add_clk(dev, clk);
++		if (error) {
++			dev_err(dev, "pm_clk_add_clk failed %d\n", error);
++			goto fail_put;
++		}
+ 	}
+ 
+ 	return 0;
 -- 
 2.39.5
 
