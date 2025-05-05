@@ -1,108 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-16688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16689-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5745AA94D0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 15:49:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E91C7AA9503
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 16:04:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E461D3AB481
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 13:49:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D55A163D54
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 14:04:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29CAE2036EC;
-	Mon,  5 May 2025 13:49:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 601C3205E3B;
+	Mon,  5 May 2025 14:04:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9081B2C859;
-	Mon,  5 May 2025 13:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1DB18B47D;
+	Mon,  5 May 2025 14:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746452961; cv=none; b=I4CbSP26n8knN3gmwb43S+GeL6899SHytWH5BgWBZYY0PkEqDaoa320KiANQatDTUUvrknu3w5GFGOCAx14MuSxzHQDlLwvJ4HEGD4DZwF+G5xDOFlRc/dJGk3Pr0qy6+fIWtihj06+60/PdxAk5duAj55xuJ0VEKLocS4OVRq8=
+	t=1746453842; cv=none; b=jYbnp7wg/ujaBeDRzqxGiU0oktsdez0F0+/Pdw+kMUZ5q5+CbXMW8tAEM2Hb7uZISDqOPdwQlzZjaow7EI+4hHEEbvbb+jZ7OdEmBUxbpbOdkf5m09FHgDfAaJosfwFZreFGrfdj3em2JOxYNYxZejwuEcw+JXjiwrFUVX3u6zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746452961; c=relaxed/simple;
-	bh=d6wIFOZw3rS7r+G4fYWRgLIklt1AwzoqHzLh5H5AjQ0=;
+	s=arc-20240116; t=1746453842; c=relaxed/simple;
+	bh=i2AXPd3UWogJ2V8aPdlDbH36J4SzDsEd9vLmKCLw2x4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dFRZbuL8jXnrMeEHjs3QfnAIi5V+Z/BqzyCnDZBFzmdbROYRagTrcfsrS/80xWiQPwvLrRVzu5KSv33D2u8vFjBnEzWNWgReNSuE1kZOOcGs6uUTv2jtLp9Hi8k+AAJ18LFbnDLHsaOktL/NtKFwP3XGjwjw9u2HBCv2oWwfaMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.54
+	 To:Cc:Content-Type; b=d/fL7q/piYQ23uz6iGDMgGrHUdmp9C29jYTjiownovQmSDUEA83bcIQcLtBATBv4XnfozGTLTXntmOSoYXgMlfxLxLHZZz0sESHPjCBU9kgG3aeS84t5FP5w2yR/xwma2CsEV+8QumBktvPn6MVOCK8/5xu909o0spxmv2jx9Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-60657f417c4so2116075eaf.0;
-        Mon, 05 May 2025 06:49:19 -0700 (PDT)
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-604ad6c4d3dso1273482eaf.0;
+        Mon, 05 May 2025 07:04:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746452958; x=1747057758;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z7alF+sKYy7bnnzEw8t9OCM3No00uhAXxAhvyf3qj+U=;
-        b=tmSmQDSrH812+kU9whrrTBSXzZg2XmsW1vpgUs8eaCBNij0nojirXKXR4u2eX/BVR1
-         OphQuk3hAg3pbVlTKKMhQI3Y2BYZlyy8qUm4My3cO236+ETZtJbZSZGvUNPXma5IQf2X
-         CGwWYJcUQuPjDkasXjSQ9Vbz+QJ3jq7MEfZFm7DlKSWL6DO0DBP/pM2gsyAAe+TClM3T
-         EyNKwKGM9WqmlngqDWVxGDleRPq3Fa3IR6Ppn5+MUdDTWCsJJ554HUX1nQ3JFZihHH9x
-         681rbASx9PDM7Di4xFuyBOKLQGxIiGp1vzTv6bl5DZadDwPuuJNzIPphEgc6qqU+9r9o
-         Pnbg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJVDLVcKhD1CWlhtEQu1W6g76BnidZ/+ZbRvLgupXAwPhcbXnlbGMc+OdPz1klyF32Gge76QJct83Z@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzh/vRZNYm9vHU4p83buGc36H7gNGlV1Ipm7xQquY3qli9WTAIl
-	1HnrpdY8taQNOhMyrIedZYDzPUyLcbzp2v+8KEFVNQTHAGFmHgTIdcPmtlOn
-X-Gm-Gg: ASbGncsyKnd4eoz8g4dX66hv/GU2C9PHgbdKUcZj99LgIWyPG/zdQs0YxD0KAnHEnRP
-	c5HzxwVGtRbZyvPK/qzYj3C+Hl+2zlSDbfGu65v34UyZbEes3aMsZl5t4KX3JSf16OPdQS15yMa
-	nSmHBg6Qkgqfs6tUZ7ekM4l4O9+HQUmJ4eyl6ck9/M7rPn6dzz2C/71SKHeGZyr0/fq8H7Cr/1I
-	0Dxol2MAZwxokDhVDV7ByW6q2t2YUL49uJqB1QD2KfvR92Z3kH+XGJIR9hwo+oO8B7OjqSpKPPt
-	59+iYP6me8dBT+G6iZG5kjVPdOMhztCNfgiRjrxR64MynNxOM/vUYsIutr+BfNIfRVHMO8LCXIb
-	KlrY=
-X-Google-Smtp-Source: AGHT+IHT32Hf/MYOywE36ysLjmDui4UJvtM4ki6Vx/FAHBjYi7ZiODV0zEq41zSBhakdgoSzzFV1Yg==
-X-Received: by 2002:a05:6122:2020:b0:520:6773:e5ba with SMTP id 71dfb90a1353d-52b06857f56mr3248493e0c.2.1746452947700;
-        Mon, 05 May 2025 06:49:07 -0700 (PDT)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52ae401eebfsm1592621e0c.18.2025.05.05.06.49.07
+        d=1e100.net; s=20230601; t=1746453838; x=1747058638;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BFDIHlETByEqkNmOq6w7+s46eZCEx4V+CbRjLafxWkc=;
+        b=LKBXcT/rq0C6z8i4RMKaJeGQ8cX36sgaGMMjyT/IhbNJLGgxqa50OFNbUC5ELlkcMa
+         +xP/erLFlmTJ78zPcZykxokHP02348t4Gj2TUjoDEzUUNNu0CqescSG52UZVUzA4iNoz
+         N9auX0sWB8kUr/fZi5cMYuc4ci53lb/bRSvl3IPjwWIPvo0BeflODTVBRS+YDuIFZt1V
+         ReMzUPWUch4RypBNUOKI8IPBXbChjno3UZ3HoO9Wg/suHbd32ikA7vWM1AVjhFYtlhj2
+         GVU7LFPb/Z3hjTHwkOYhtxfOqrb9qOIsczAoeomG2hTdP3nHQ7gNRsCh7UZAkYINR5gI
+         8vlA==
+X-Forwarded-Encrypted: i=1; AJvYcCVwG1gdXxnRH5QaOcnnw33Wm6JRSjYl9xl2Qd+MiMOhlVJBeDuUMKNj+YUKLrWCDw4Q2Fxxwkygx4F0@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeTWMKV7OzAOWPgfV6wqOBgCu2a5UUWYyIEqBW35Y6UI+cs126
+	Xrs+eNX/D7VLRBqliroXdbJuN5bEnUFFPQSIKBBbTTgjD4Ra9K0jVTTtlLQN
+X-Gm-Gg: ASbGncuOSs3zdjKjZ4zOzS26jkF9dyz+Gjc2zKEuW4r8sPRO5JeAKrF1ipk5J52Dr5k
+	wRtjDGL9lBpCViWprAxVmEc4fHc7TFTQqQOVse540GIYMrCgPGmT0QRqw6vkV1Rgp4N+9AA5etF
+	pxIGuIQesVdTm6Bam2YleAhdtigkh4pDSJSlTQt5EIsCW9gFmkvFrnw5NculQDlvfeCN8s4tzjz
+	iwoG2JjSZih/yt45sWBZEklUoeGKsFWvyimiQCG8xnCCFyb/VbKvI4zPB9OBrWq1Elsoyh2JXld
+	Px1/fCOuxy+shCq4P6lm3UzINGLWYLYmhjrKKoMbSszLh2ekLqZUJLyljzswPu2qFOrn6FCkJeT
+	WLi8vOdw=
+X-Google-Smtp-Source: AGHT+IHQZAo/fW6HfB37GHOPEB61wv08ZWEOsvDCzzCVzm/pI1A9D4vpjuJkoTLTHgzi9JnYnI8XBg==
+X-Received: by 2002:a05:6820:450a:b0:607:8929:44ff with SMTP id 006d021491bc7-6080022606emr4648848eaf.1.1746453838409;
+        Mon, 05 May 2025 07:03:58 -0700 (PDT)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com. [209.85.167.178])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-607e7d8b6f1sm1606675eaf.12.2025.05.05.07.03.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 May 2025 06:49:07 -0700 (PDT)
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-4c3201d59ccso2849241137.1;
-        Mon, 05 May 2025 06:49:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVXPuOor8+nEM0R4/1fGIpqSnUToMjxSnOgBwfNUhWg1znsm6Og66ViTC0b1erefZJ3Hlp2s6SzErBV@vger.kernel.org
-X-Received: by 2002:a05:6102:3e20:b0:4c1:8ebb:400e with SMTP id
- ada2fe7eead31-4db147d156fmr2873951137.8.1746452947340; Mon, 05 May 2025
- 06:49:07 -0700 (PDT)
+        Mon, 05 May 2025 07:03:58 -0700 (PDT)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3fbc00143d6so3217189b6e.3;
+        Mon, 05 May 2025 07:03:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWamN8D2kxQFB+gSqukez+b44gSNm/gdELveQAYNSoSJjlGt8XpWI8fY4uNp4EYGsTrXn/+P1pMQ2ja@vger.kernel.org
+X-Received: by 2002:a05:6808:18a8:b0:401:e8ac:9487 with SMTP id
+ 5614622812f47-4035a53e044mr4610632b6e.4.1746453837417; Mon, 05 May 2025
+ 07:03:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250425100129.11942-4-wsa+renesas@sang-engineering.com> <20250425100129.11942-5-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250425100129.11942-5-wsa+renesas@sang-engineering.com>
+References: <20250425100129.11942-4-wsa+renesas@sang-engineering.com> <20250425100129.11942-6-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20250425100129.11942-6-wsa+renesas@sang-engineering.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 5 May 2025 15:48:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWTd+LQ75ScQLhDo+OBAWQKDouvkg7dE+wWmarTqhFHDg@mail.gmail.com>
-X-Gm-Features: ATxdqUEpIRd97pZsdhm6ehJ02ZvbBPpb2AFAGkH-0nPQmtS4vudPsEe1wMU4NY4
-Message-ID: <CAMuHMdWTd+LQ75ScQLhDo+OBAWQKDouvkg7dE+wWmarTqhFHDg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ARM: dts: renesas: r9a06g032-rzn1d400-db: enable USB
- device port
+Date: Mon, 5 May 2025 16:03:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW2NHeatmSr4ePj6fPcbT5XNZJr967L3NJ_i6xYwgxaBA@mail.gmail.com>
+X-Gm-Features: ATxdqUGyy6BxkrOS6nn8_7dn3i4obOKD1aoTNuq-MNnfS9d1RPzyPdsn703gwP0
+Message-ID: <CAMuHMdW2NHeatmSr4ePj6fPcbT5XNZJr967L3NJ_i6xYwgxaBA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ARM: dts: renesas: r9a06g032-rzn1d400-eb: enable USB
+ host port
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org
+	devicetree@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Wolfram,
+
+CC Herv=C3=A9
 
 On Fri, 25 Apr 2025 at 12:01, Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> Can be used via the microUSB connector CN9.
+> Can be used via the USB connector J20.
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.16.
+Thanks for your patch!
+
+> --- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
+> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dts
+> @@ -153,6 +153,13 @@ pins_uart2: pins-uart2 {
+>                          <RZN1_PINMUX(108, RZN1_FUNC_UART2)>;
+>                 bias-disable;
+>         };
+> +
+> +       pins_usb: pins-usb {
+> +               pinmux =3D <RZN1_PINMUX(119, RZN1_FUNC_USB)>,
+> +                        <RZN1_PINMUX(120, RZN1_FUNC_USB)>,
+
+These two are USB_PPON1 and USB_OC1...
+
+> +                        <RZN1_PINMUX(121, RZN1_FUNC_USB)>,
+> +                        <RZN1_PINMUX(122, RZN1_FUNC_USB)>;
+
+... and these two are USB_PPON2 and USB_OC2.
+
+> +       };
+>  };
+>
+>  &sdio1 {
+> @@ -236,3 +243,9 @@ &uart2 {
+>         status =3D "okay";
+>         uart-has-rtscts;
+>  };
+> +
+> +&pci_usb {
+> +       pinctrl-0 =3D <&pins_usb>;
+> +       pinctrl-names =3D "default";
+> +       status =3D "okay";
+> +};
+
+This corresponds to USB port 2, which is a USB host port.
+Port 1 was added in the previous patch as a USB function port.
+
+According to Sections 10.6.5.1 (1) ("Meanings of USB_OCI and USB_PPON
+Signals") and Table 10.131 ("OCI and PPON") of the RZ/N1D System Control
+and Peripheral Manual, USB_PPON2 and USB_OC2 are only used when both
+ports are configured for host mode.  When port 1 is configured for
+function mode, port 2 uses USB_PPON1 and USB_OC1 instead, so you
+shouldn't need pin control for USB_PPON2 and USB_OC2.
+However, that does not match the schematics, which show that USB_PPON2
+and USB_OC2 are wired to port 2's power switch.
+Can you enlighten me?
+Thanks!
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
                                 -- Linus Torvalds
 
