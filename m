@@ -1,226 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-16677-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16678-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBD7AA9010
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 11:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01EAAA912A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 12:30:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 14A9016DCD6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 09:50:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 368FB1740FE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 10:30:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04EA91FBE83;
-	Mon,  5 May 2025 09:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF5CF1FBEA2;
+	Mon,  5 May 2025 10:30:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JabQuK2g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RzFkF9L0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CED31F4174;
-	Mon,  5 May 2025 09:49:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896F22BAF8
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 May 2025 10:30:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746438598; cv=none; b=YyRqqL9V5RX07VYKbESXRkxQk4CYNQ+qXXuT1GEWFIdmnQCiNsP+631vhMHXAdR47rD1E2dsfBwN/MPLg9DbSOLxOOwLb6esM3aKQeapE99zZPdchkaTyCo9SjqnDTO4L388+4oHWwCkCm2JEDLGcVrerehFnpNF30ck1S6G7NY=
+	t=1746441045; cv=none; b=AZ7rVJbE/RR5ADYo1mLbXjvT+vNhfocTFO8jM476p+xDS/IGPvMSqAv5EGQhnEs1UwVJAXylSWizNAwttKRi54bA0BwBu9t/Fvn2yJRPYF26w9yvBr0kWJ68CPC9wwywPtOE8lwr+MRH5rVwNHH0x44C2nf/2RKagsDSuPMzNnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746438598; c=relaxed/simple;
-	bh=tipZ2S0o3QG1iCFQ1UsqU8tcKjAbQcWU0VEoS9DVUHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ChuhDXZQFRO1+mp9g8ai6qEoNFOY7pO5WakKJI6JL6HftRInQ8/XVVAwN/vB8+WnG1eC/TkIlx81v1DCmyDKL8C2ZFbM64m9GFnRfwd20dkjF3afgv58cVRH/0gGek7SS+LyVbuUYNRTl1X6rsKSyWnfz0B7R//xEHImtPWHg2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JabQuK2g; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A8A61289;
-	Mon,  5 May 2025 11:49:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746438584;
-	bh=tipZ2S0o3QG1iCFQ1UsqU8tcKjAbQcWU0VEoS9DVUHY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JabQuK2g4OhhQvwY1c2OOgSZ5CNPomCCfYOizL4SMUhgIYK5hJ/YvnVABRiGTN2QP
-	 DG5NIYhxwVMv2t9X4LlVv/6y+8KsOvb3o8lsaZEOFjL6ZBcrTbjeey9Yu3R6Xeq0Yi
-	 svpddiYjEFmoR6dGxaFQor0172/A72VEnYNlXZ5w=
-Date: Mon, 5 May 2025 11:49:50 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8] media: vsp1: Add VSPX support
-Message-ID: <pzkf2brrpdihb4cmok6ge5zxrpif5tvcd6bes2kta3veunup2h@amcxq3qci5vb>
-References: <20250502-b4-vspx-v8-1-b2a7592668dd@ideasonboard.com>
- <20250502202644.GF20093@pendragon.ideasonboard.com>
- <ptjenvbcovfzj5oukqriu7qx7qqz22r4h6sfmctpsdghwz3so3@naiwhbqwexn6>
+	s=arc-20240116; t=1746441045; c=relaxed/simple;
+	bh=q/m6YIsW2DNS3yTdmcNkM3eoJR7Kl4BSrF+kX6gFESo=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=BpsrbBuwaGJSLDXKZAbMJJUYv98nloRv5sRTbb4eKrVhNfe1VT6c+WVf3rYtOHqcdLTCSjqf/WZ0Zd5l5ByWLdyjmcfHoB2uorLzlid23QDzJ30RgT6ICmTlP8GKA4Hr+m0DbGoqnrDGNzkmDjT6Bx0LgxwhfDnOJwf/FcGMluE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RzFkF9L0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15CB6C4CEE4
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 May 2025 10:30:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746441044;
+	bh=q/m6YIsW2DNS3yTdmcNkM3eoJR7Kl4BSrF+kX6gFESo=;
+	h=Subject:From:Date:To:From;
+	b=RzFkF9L0vnfIFmr0RPtfrRPuqLrKCsiPN7WmQxjnNJi9PhROaCSqRt7CijVPLVBOf
+	 hoACCd97D67zMyN6USwCuF41DadLMPyMMod7RLVMotDmRxkKYgPsaMgg7C0phqaynq
+	 ScQqV1YsjRPXNSs5riA7G1QnvMm+YXkDzUQ05DtxLrcAledLWIfIXShkpFkd3+/XVJ
+	 FCt3BwSoLgYydswcrTfliFJF/5N78zGUE7+KL4MuM+i2ZC2CK+ySTLvMqijcaxnVaT
+	 YVjxndZjm9VkIi6g1dzPa0jpqnuMrbO8h3mevMUBtoP914LO6BEyX4k1p7yjMUzqf7
+	 faxAOxnGgQ1tA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7517E380DBF5
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 May 2025 10:31:24 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ptjenvbcovfzj5oukqriu7qx7qqz22r4h6sfmctpsdghwz3so3@naiwhbqwexn6>
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <174644108300.719014.13497870620027202669.git-patchwork-summary@kernel.org>
+Date: Mon, 05 May 2025 10:31:23 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 05, 2025 at 10:19:57AM +0200, Jacopo Mondi wrote:
-> Hi Laurent
->
-> On Fri, May 02, 2025 at 11:26:44PM +0300, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > On Fri, May 02, 2025 at 03:23:10PM +0200, Jacopo Mondi wrote:
-> > > Add support for VSPX, a specialized version of the VSP2 that
-> > > transfers data to the ISP. The VSPX is composed of two RPF units
-> > > to read data from external memory and an IIF instance that performs
-> > > transfer towards the ISP.
-> > >
-> > > The VSPX is supported through a newly introduced vsp1_vspx.c file that
-> > > exposes two interfaces: vsp1_vspx interface, declared in vsp1_vspx.h
-> > > for the vsp1 core to initialize and cleanup the VSPX, and a vsp1_isp
-> > > interface, declared in include/media/vsp1.h for the ISP driver to
-> > > control the VSPX operations.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > > ---
-> > > The VSPX is a VSP2 function that reads data from external memory using
-> > > two RPF instances and feed it to the ISP.
-> > >
-> > > The VSPX includes an IIF unit (ISP InterFace) modeled in the vsp1 driver
-> > > as a new, simple, entity type.
-> > >
-> > > IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
-> > > interfacing. To prepare to support VSPX, support IIF first by
-> > > introducing a new entity and by adjusting the RPF/WPF drivers to
-> > > operate correctly when an IIF is present.
-> > >
-> > > Changes in v8:
-> > > - Remove patches already collected by Laurent in
-> > >   [GIT PULL FOR v6.16] Renesas media drivers changes
-> > >
-> > > - Rebased on
-> > >   https://gitlab.freedesktop.org/linux-media/users/pinchartl.git #renesas-next
-> > >
-> > > - Changes to the VSPX interface towards the ISP
-> > >   - Split start/stop_streaming
-> > >   - Add vsp1_isp_jobs_release() to release pending jobs
-> > >   - Add vsp1_isp_free_buffer()
-> > >   - Remove vsp1_isp_configure() and compute partitions on job creation
-> > >
-> > > - Driver changes
-> > >   - Drop irq-driver flow
-> > >     The VSPX used to schedule new jobs as soon as processing the last
-> > >     one is done. This doesn't work well with the R-Car ISP design
-> > >     for two reasons:
-> > >     - The ISP needs per-job registers programming
-> > >     - The ISP and VSPX job queues have to stay in sync
-> > >
-> > > - Minors
-> > >   - Remove the jobs_lock as a single lock is fine
-> > >   - Protect against VSPX/ISP irq races in job_run() by checking the
-> > >     VSPX 'busy' register and remove the 'processing' flag
-> > >   - Manually set the pipeline state to STOPPED before scheduling a new
-> > >     job without waiting for frame_end
-> > >
-> > > Changes in v7:
-> > > - Include VSPX driver in the series
-> > > - Use existing VSP1 formats and remove patches extending formats on RPF
-> > > - Rework VSPX driver to split jobs creation and scheduling in two
-> > >   different API entry points
-> > > - Fix VSPX stride using the user provided bytesperline and using the
-> > >   buffer size for ConfigDMA buffers
-> > > - Link to v6: https://lore.kernel.org/r/20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com
-> > >
-> > > Changes in v6:
-> > > - Little cosmetic change as suggested by Laurent
-> > > - Collect tags
-> > > - Link to v5: https://lore.kernel.org/r/20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com
-> > >
-> > > Changes in v5:
-> > > - Drop additional empty line 5/6
-> > > - Link to v4: https://lore.kernel.org/r/20250318-v4h-iif-v4-0-10ed4c41c195@ideasonboard.com
-> > >
-> > > Changes in v4:
-> > > - Fix SWAP bits for RAW10, RAW12 and RAW16
-> > > - Link to v3: https://lore.kernel.org/r/20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com
-> > >
-> > > Changes in v3:
-> > > - Drop 2/6 from v2
-> > > - Add 5/7 to prepare for a new implementation of 6/7
-> > > - Individual changelog per patch
-> > > - Add 7/7
-> > > - Link to v2: https://lore.kernel.org/r/20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com
-> > >
-> > > Changes in v2:
-> > > - Collect tags
-> > > - Address review comments from Laurent, a lot of tiny changes here and
-> > >   there but no major redesign worth an entry in the patchset changelog
-> >
-> > You've come a long way since v1, I think we're getting close to a good
-> > implementation.
-> >
->
-> Thank you and Niklas for reviews and testing
->
-> > > ---
-> > >  drivers/media/platform/renesas/vsp1/Makefile    |   1 +
-> > >  drivers/media/platform/renesas/vsp1/vsp1.h      |   1 +
-> > >  drivers/media/platform/renesas/vsp1/vsp1_drv.c  |  13 +-
-> > >  drivers/media/platform/renesas/vsp1/vsp1_regs.h |   1 +
-> > >  drivers/media/platform/renesas/vsp1/vsp1_vspx.c | 664 ++++++++++++++++++++++++
-> > >  drivers/media/platform/renesas/vsp1/vsp1_vspx.h |  16 +
-> > >  include/media/vsp1.h                            |  75 +++
-> > >  7 files changed, 770 insertions(+), 1 deletion(-)
-> > >
+Hello:
 
-[snip]
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-> > > +
-> > > +/**
-> > > + * vsp1_isp_start_streaming - Start processing VSPX jobs
-> > > + *
-> > > + * Start the VSPX and prepare for accepting buffer transfer job requests.
-> > > + *
-> > > + * @dev: The VSP1 struct device
-> > > + * @frame_end: The frame end callback description
-> > > + *
-> > > + * Return: %0 on success or a negative error code on failure
-> > > + */
-> > > +int vsp1_isp_start_streaming(struct device *dev,
-> > > +			     struct vsp1_vspx_frame_end *frame_end)
-> > > +{
-> > > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > > +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
-> > > +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
-> > > +	unsigned long flags;
-> > > +	u32 value;
-> > > +	int ret;
-> > > +
-> > > +	spin_lock_irqsave(&vspx_pipe->vspx_lock, flags);
-> >
-> > Can this function ever be called with interrupts disabled ? If no, you
-> > can use spin_lock_irq().
-> >
->
-> I think the question here should rather be: do we need to disable
-> local interrupts at all when calling this function ? As the VSPX
-> workflow is now driven by ISP and there are no contentions between any
-> of the driver functions and the VSPX interrupt handler I guess I can
-> use spin_lock() and spin_unlock() everywhere and replace the
-> irqsave/irqrestore versions ?
->
+Series: ASoC: add Renesas MSIOF sound driver
+  Submitter: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=954673
+  Lore link: https://lore.kernel.org/r/871ptq4blr.wl-kuninori.morimoto.gx@renesas.com
+    Patches: [v4,1/9] dt-bindings: renesas,sh-msiof: Add MSIOF I2S Sound support
+             [v4,8/9] arm64: dts: renesas: sparrow hawk: Add MSIOF Sound support
+             [v4,9/9] arm64: defconfig: add Renesas MSIOF sound support
 
-I take this back. Using either spin_lock and spin_lock_irq trigger
-lockdep warnings due to the usage of these function from ISP irq
-context.
+Series: Enable GPT
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=956446
+  Lore link: https://lore.kernel.org/r/20250424054050.28310-1-biju.das.jz@bp.renesas.com
+    Patches: [1/4] arm64: dts: renesas: r9a07g044: Add GPT support
+             [2/4] arm64: dts: renesas: r9a07g054: Add GPT support
+             [3/4] arm64: dts: renesas: rzg2l-smarc: Enable GPT on carrier board
+             [4/4] arm64: defconfig: Enable Renesas RZ/G2L GPT config
 
-To be honest I spent a considerable amount of time making all of this
-lockdep proof and I'll keep using the irqsave version for the time
-being considering the limited overhead compared to _irq.
+Patch: MAINTAINERS: Generalize ARM/RISC-V/RENESAS ARCHITECTURE
+  Submitter: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=949878
+  Lore link: https://lore.kernel.org/r/20250404080045.367845-2-u.kleine-koenig@baylibre.com
 
-> > > +
-> > > +	if (vspx_pipe->enabled) {
+Patch: arm64: dts: renesas: Align wifi node name with bindings
+  Submitter: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=956523
+  Lore link: https://lore.kernel.org/r/20250424084748.105255-1-krzysztof.kozlowski@linaro.org
+
+Series: Add basic SPI support for SOPHGO SG2042 SoC
+  Submitter: Zixian Zeng <sycamoremoon376@gmail.com>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=956815
+  Lore link: https://lore.kernel.org/r/20250425-sfg-spi-v6-0-2dbe7bb46013@gmail.com
+    Patches: [v6,1/3] spi: dt-bindings: snps,dw-apb-ssi: Merge duplicate compatible entry
+             [v6,2/3] spi: dt-bindings: snps,dw-apb-ssi: Add compatible for SOPHGO SG2042 SoC
+
+Series: Enable CANFD and CAN Transceiver
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=945986
+  Lore link: https://lore.kernel.org/r/20250320164121.193857-1-biju.das.jz@bp.renesas.com
+    Patches: [v2,1/3] arm64: dts: renesas: r9a09g047: Add CANFD node
+             [v2,2/3] arm64: dts: renesas: r9a09g047e57-smarc: Enable CANFD
+             [v2,3/3] arm64: dts: renesas: r9a09g047e57-smarc: Enable CAN Transceiver
+
+Patch: ASoC: renesas: rz-ssi: Use NOIRQ_SYSTEM_SLEEP_PM_OPS()
+  Submitter: Claudiu <claudiu.beznea@tuxon.dev>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=952069
+  Lore link: https://lore.kernel.org/r/20250410141525.4126502-1-claudiu.beznea.uj@bp.renesas.com
+
+Patch: [v3] soc: renesas: sysc: Add SoC identification for RZ/V2N SoC
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=953450
+  Lore link: https://lore.kernel.org/r/20250415085438.83856-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+
+Total patches: 16
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
