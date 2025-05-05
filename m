@@ -1,170 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-16674-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16675-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BD1AA8C3F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 08:23:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D33BAAA8C7B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 08:52:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A4331728DB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 06:23:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C4BE3B559A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 May 2025 06:51:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E79B1BD01F;
-	Mon,  5 May 2025 06:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="koamshTJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B2FD1CB337;
+	Mon,  5 May 2025 06:51:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F251B3F3D;
-	Mon,  5 May 2025 06:23:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3581C862D;
+	Mon,  5 May 2025 06:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746426210; cv=none; b=j+8XNFp0Z+vFmOxQf+VXF9yJth1pSH5lzAdcIjm6xDFABa0e92QcysmbQ05Fufd4ysRnedSegK6bb1y3T4gdXADFsw+T/G+QF4k3nOUS5+bDIz43g/kdY5FrHzi4lUcUazt3pNp1Ls0WFkT0ileetQu18kapoF/sJ1Fjw+TLc+k=
+	t=1746427899; cv=none; b=XXuP2cEUKMgE8Qqf5W/koTpQPfRMzbtpFC6blfdTUJokmq3TpjRtaIxOK5XRsq0iit61qvT84HrjCNYzRQh8nS5/Mt1vMGgu16b45gb5PpF6hMauJ7D9xG3Hkcak7CUdCOcLbuxApgeb4ycWDRGvkUN9/H2YSy8d9NmsOVCEkAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746426210; c=relaxed/simple;
-	bh=blz46dfKcTkqUU1mdHuxtQzWM8gPcsEOF9yJwSPZQjo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WL6b36FCJTB8qWp9zY0SMsz9ioQJ3xEqxrfvskUQDBDbeLnV/qLcfFxVP4IN88WglI23yE3WLmsrgpkoEWGnGKBseA3NHBKmhDIfBodXOilxFQZZoEgK6//UDbfd8mnYsd3kH4B+ApIahIob46N+SW0VGSH83xhQ33uGRNzCZVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=koamshTJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 076EFC4CEE4;
-	Mon,  5 May 2025 06:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746426209;
-	bh=blz46dfKcTkqUU1mdHuxtQzWM8gPcsEOF9yJwSPZQjo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=koamshTJSZ1WF/eCcwZGiyDpkwsaCADLfvS3QwjV5PotkB/YOwWC8XyuJVSsdLCIk
-	 /4Jtd7bMz2vmYsMNWmf/X4Sis4kqCPIcH2Wo9nzKbUDCdEWEjPm99kDdRKffgOIfVC
-	 GO8aK9v8GOt73LRnb9Tey6JAPxRlvzcCyhCmmdVLeIQZNUJGxNU4jtNLGVqIHj+dbm
-	 MEpwGnq7vCW5rHYuMgB1xOP/tAAjfa3OIH4mb6zlf/o2UpzxgLckv3VDuOX+zXChXs
-	 TEqMARo/LYFzdXeUg1+VrFmrPwI3ZjNDFpR2bMvYWKsJuqvZsxTYKkHx5l6dtCp9Kp
-	 s2eAL5PrUzyBg==
-Date: Mon, 5 May 2025 08:23:26 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Douglas Anderson <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, 
-	Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 34/34] drm/bridge: panel: convert to
- devm_drm_bridge_alloc() API
-Message-ID: <20250505-beneficial-fossa-of-weather-67c676@houat>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-34-8f91a404d86b@bootlin.com>
- <20250428-wild-condor-of-defiance-cadf60@houat>
- <20250428172516.79058e22@booty>
+	s=arc-20240116; t=1746427899; c=relaxed/simple;
+	bh=0m4XV4D2MiQ1WprDwZkzO0FhSxw1ZRdOkQukffOUixE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mheqLO62IuIcBCxvTVuQTWry9Bfwyp4yZi2lObeHLE9daypKysPbyVq/VOe/yx1gUPpET/MlKjdtoXeGLWiLDM8T7LoGBf51qI/vhswWosWeLOAFUVgrxn2a54RZau5M0VzGhfOSBZVILzcvfrV3yUS2x4Fvq8dLQZYKPE4Fti0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-523ee30e0d4so1269000e0c.2;
+        Sun, 04 May 2025 23:51:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746427895; x=1747032695;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=maxzXA80KMmh9eCh+oE6VH4eam0KcRrBuBk8VvhsU3A=;
+        b=u42XjRlNSQnlZk/35eRMpTXb85i3kM+jvcSw4mU0pGjp92ZKf+zH4tEoj8KrqscJXv
+         /ZwKuZinDtFXWAWjTxUryJcKbSqRzDZ0qK3IhcobtPGfJzrNHbFuKtVUMguP6Lj0rhzd
+         IHU+09hpPNA31467WwQytSJBt1bq2H1SrLXIpAV/tyS/rge5ZFE/+bwwPt5IEI3gbj+O
+         5OAxQFYMRLrXMFNuSUa8Ziaj1NMXrdDKIn5VSyS0bUbHrUxSyBoYigCzg8IB2iLzh3cm
+         VeDC2RFm9MUzacJ13sy9dxy2ezAwoBMDcKegIYnvrn7+Tln1V7ER1Txxu31TRiJaCAr5
+         o47A==
+X-Forwarded-Encrypted: i=1; AJvYcCVAVyjtWZ73K8woB8s/A6IymvNwggjcyRxjnsRUJt1U0mMYYW5GjhxizWuh/HLmegqv7VWGl5noSkzXqzc=@vger.kernel.org, AJvYcCXlVm+FnuGq5Mkr4eO96iLl16P5YFP1ry7RaiuBNDkP3myRv3diPUTR/xtZ5MIiKQsJGdNMhD0wTWUHithfnNzkaA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwV64Jwt9yvJb5iGPU0FXOJZfyivotquYV9HgwzJeIr0S3lQAHz
+	hNGpeIwZoZtSnHbPUk9zcbNcw+4VVZdRCk4H/cJ5SAZZS5lm+KIYxt95mxlR
+X-Gm-Gg: ASbGncsuEQKX935N4aMn0wZ9TpqoJsFXn3fSKBjPV3d0yWAdpnDZolZ0FRw39uJNI0a
+	N+94xx5uwvCdbzmykMlRe1Y4VAgklY9wgiEs624hrn5fbEp2A0b7wAZ9oSHCd1RIouo/lOHjS5A
+	/QNjBKpoDCGkC2IKervyEJlc2mv9P2z4M3You5yMkiwufZ426JGU15yfyPpb0xBZN8vk0s0h/Zy
+	ybAJ3ga6eY+I3QZh/yg4DyZuzJi8M5ZC3gBTzqIRCSfSgLTs588EQTK/0l0b/6VSleOi6vCYP0x
+	aTKLN0MhdNLS96jrBpskfw48sXmp9PX/ocfyrkVAfiy5eXvXxeDD/avjuwULE1obmmkdDtZ0WDG
+	lbEw=
+X-Google-Smtp-Source: AGHT+IETNH460qhLJAS42ojxL0zZ1olNumJDait1LfOlzu/A7Z1U/vPYUJd21T4gRouDfSG09GJpdQ==
+X-Received: by 2002:a05:6102:2c02:b0:4c4:e018:326f with SMTP id ada2fe7eead31-4db147cc599mr2864076137.10.1746427895130;
+        Sun, 04 May 2025 23:51:35 -0700 (PDT)
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8780affddd7sm1249413241.8.2025.05.04.23.51.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 May 2025 23:51:34 -0700 (PDT)
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4c313374107so1122716137.0;
+        Sun, 04 May 2025 23:51:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWy1EQL/r7pRQXSiInahTv2qpBiAonxi9Tu0WLFJPhM53R7lccBpTtVWDhetyTLxuNCBF7P96bXihbZuW8=@vger.kernel.org, AJvYcCX49wD4DPkIaxmr3sGEJ577Dy+ZE8S7aaV6uJinXypMnJivPz2TiZaY6lQVndsf86fGpJw0keQRQSG2Eh6qCKxP2g==@vger.kernel.org
+X-Received: by 2002:a05:6102:1512:b0:4c4:dead:59a3 with SMTP id
+ ada2fe7eead31-4db1477d082mr2719964137.2.1746427894233; Sun, 04 May 2025
+ 23:51:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="fxb23j2izsboyssh"
-Content-Disposition: inline
-In-Reply-To: <20250428172516.79058e22@booty>
+References: <cover.1746180072.git.geert+renesas@glider.be> <d8dfe7cdd8980e08b9fae51ff9fcddac20eca22b.1746180072.git.geert+renesas@glider.be>
+In-Reply-To: <d8dfe7cdd8980e08b9fae51ff9fcddac20eca22b.1746180072.git.geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 5 May 2025 08:51:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXo=WCyHtH32+1Et-oX4scoMdvf-qhFBCiJU+MjgSfcfg@mail.gmail.com>
+X-Gm-Features: ATxdqUHMOPV2y0-Pfe7-TMijcOvzvpZPKz8vRYPNlfp2io_IHKxnp5X2iG1hJUI
+Message-ID: <CAMuHMdXo=WCyHtH32+1Et-oX4scoMdvf-qhFBCiJU+MjgSfcfg@mail.gmail.com>
+Subject: Re: [PATCH 22/22] ASoC: renesas: msiof: Convert to <linux/spi/sh_msiof.h>
+To: Mark Brown <broonie@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+Cc: linux-spi@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, 2 May 2025 at 12:14, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> Convert the MSIOF I2S driver to reuse the MSIOF register and register
+> bit definitions in the header file shared by the MSIOF SPI driver.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Compile-tested and asm-inspected only due to lack of local sound
+> hardware.
+> ---
+>  sound/soc/renesas/rcar/msiof.c | 94 ++++++++++------------------------
+>  1 file changed, 28 insertions(+), 66 deletions(-)
+>
+> diff --git a/sound/soc/renesas/rcar/msiof.c b/sound/soc/renesas/rcar/msiof.c
+> index 75c9e91bada10289..36d31ab8ac6a5f18 100644
+> --- a/sound/soc/renesas/rcar/msiof.c
+> +++ b/sound/soc/renesas/rcar/msiof.c
+> @@ -30,56 +30,15 @@
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/spi/sh_msiof.h>
+>  #include <sound/dmaengine_pcm.h>
+>  #include <sound/soc.h>
 
---fxb23j2izsboyssh
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 34/34] drm/bridge: panel: convert to
- devm_drm_bridge_alloc() API
-MIME-Version: 1.0
+This needs #include <linux/bitfield.h> on some platforms.
+Or better, adding
 
-On Mon, Apr 28, 2025 at 05:25:16PM +0200, Luca Ceresoli wrote:
-> Hi Maxime,
->=20
-> On Mon, 28 Apr 2025 13:39:23 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > On Thu, Apr 24, 2025 at 10:05:49PM +0200, Luca Ceresoli wrote:
-> > > This is the new API for allocating DRM bridges.
-> > >=20
-> > > The devm lifetime management of this driver is peculiar. The underlyi=
-ng
-> > > device for the panel_bridge is the panel, and the devm lifetime is ti=
-ed the
-> > > panel device (panel->dev). However the panel_bridge allocation is not
-> > > performed by the panel driver, but rather by a separate entity (typic=
-ally
-> > > the previous bridge in the encoder chain).
-> > >=20
-> > > Thus when that separate entoty is destroyed, the panel_bridge is not
-> > > removed automatically by devm, so it is rather done explicitly by cal=
-ling
-> > > drm_panel_bridge_remove(). This is the function that does devm_kfree(=
-) the
-> > > panel_bridge in current code, so update it as well to put the bridge
-> > > reference instead.
-> > >=20
-> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com> =20
-> >=20
-> > This looks fine, but we need a TODO entry to clean this up later on, and
-> > a comment on devm_drm_put_bridge that this is inherently unsafe and
-> > must not be used.
->=20
-> Ah, I see, OK.
->=20
-> Quick draft:
->=20
->  /**
->   * devm_drm_put_bridge - Release a bridge reference obtained via devm
->   * @dev: device that got the bridge via devm
->   * @bridge: pointer to a struct drm_bridge obtained via devm
->   *
->   * Same as drm_bridge_put() for bridge pointers obtained via devm functi=
-ons
->   * such as devm_drm_bridge_alloc().
-> + *
-> + * This function is a temporary workaround and MUST NOT be used. Manual
-> + * handling of bridge lifetime is inherently unsafe.
->   */
+    #include <linux/bitfield.h>
+    #include <linux/bits.h>
 
-That part looks good to me
+to include/linux/spi/sh_msiof.h in "[PATCH 21/22 ] spi: sh-msiof:
+Move register definitions to <linux/spi/sh_msiof.h>", so the header
+file becomes fully self-contained.
 
-> and:
->=20
-> -	devm_kfree(panel_bridge->panel->dev, bridge);
-> +       /* TODO remove this after reworking panel_bridge lifetime */
-> +	devm_drm_put_bridge(panel_bridge->panel->dev, bridge);
->  }
->=20
-> Does it look good enough?
+Gr{oetje,eeting}s,
 
-That too, but I was talking about an entry in
-https://www.kernel.org/doc/html/latest/gpu/todo.html
+                        Geert
 
-Maxime
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---fxb23j2izsboyssh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaBhZWgAKCRAnX84Zoj2+
-dmbVAX4gMY0F9VXdFsIIKKBjn5Ev2tMwW+uv6doEaqoNJIEat9dVa/bvOYl9n6tm
-ZNZ29HABeQEtltAKrypsuFB4FFzNPiZADC9MB5moran2psvsF2a1chXqCjrK2xyp
-FQXpVqx4qw==
-=pRS+
------END PGP SIGNATURE-----
-
---fxb23j2izsboyssh--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
