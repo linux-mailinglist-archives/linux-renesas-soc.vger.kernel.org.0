@@ -1,113 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-16703-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D74AABC86
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 10:06:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EEC2AABCFE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 10:24:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 457827BBEB8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 08:00:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4148B3A1EE4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 08:21:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E7811B5EA4;
-	Tue,  6 May 2025 07:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49328242D84;
+	Tue,  6 May 2025 08:21:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="O79DzhuI"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="BE8MOvP6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C064A24
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  6 May 2025 07:52:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942A34B1E79
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  6 May 2025 08:21:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746517984; cv=none; b=T1Z3IHwBbM7oheOhQRb2Fff+P48VzHGEVkXB8M/SIGPe4iF0t/Y+1Q81TzouWBb5q8wGptG9KS83GSLDexwuL5A//ZPTNJxUtJEkPJ5V+9CTLZnLRg5REoAUMCbfQpM6/HeFtn/huc3BwA7XxfthoQnczXjn+Pahdc7n8Q6yecU=
+	t=1746519702; cv=none; b=SRkwpHu6hWqaxFZEC3F2OkeP37utSOeuYyF7sCSP3uwtMPekJdbX0NS3erL/eLzPpdPEfoyTDgZwIXlLIsq6RhET8ldp+k7RjasY8f147ES5AIuHTz9+meoq/AvY0o1MsBaunL+w9AdiG1ONiS/CjeYVhuB/A8cpt18ecsX855E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746517984; c=relaxed/simple;
-	bh=T4plSMkB/Rkg2h+63z9rTVs09/asGlbit2WyZkgc5cI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X0h8WkJ2PuicRHLuNHfrl/EOCd5YV2f54WpNJlUPgZZ9Zae4Bf7rjuVWqFaKr2iYplvn5HEbTdecPWg0iuofRiRbhmablrBu465ah2vzEaXSeAq2V1CW46crIab0sozUG7BgeFSKs0wAW4QrPuoGLeyYCnv5/pymMApT1MXSuk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=O79DzhuI; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1746519702; c=relaxed/simple;
+	bh=ySdOVAKRm4BVjstU3QqFPwT4oPc1O1Wxy3st7teVSns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BeiOYT9+chaHYY69fKRxNdGfUZfSGuEND5eAajVr1FkQLUE6Djqmw2MRa1Q+/v6Yon74Ua9yQ/NyoTU1RLbzeO28cTrHkgcxFBAiy7ODjOsiHjAl6JCHVyLixv7m2kSezsA/RDAlsou5FfPmId28gv4xBE8xlbocgiqEWLKFb+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=BE8MOvP6; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=8WlILYCRWuNyeN
-	DT8WpojOWWs9oFfR3WA8Well/x80w=; b=O79DzhuIas0V7rtbbhdDMSnvEdANo6
-	814iiP0n4wEtqeof8YdeWI5a51BCBx7BVd2JOJSkKhN3j0EvlwzZXqVb8G9EGjOG
-	0eW6x9deCewRqusatIZCO6y0itSdotICvS+CcWWKtZw3pQ+go+yv84MIoPoNIRTl
-	h51WhLM+RHr6oJ7pS208djeM6C2RkuVIdLcMXvHRVsqD+iuHkNJHA7sgpy1BFGW/
-	7VLffwyiJtdy+ZXtWtE8QDrpFEcEask1jf5jPs7IVAuoby2Pa7FvhESDSLLw3w8S
-	N23daTeOPfcoWcA0Bqh60tRSZ37xnavH+oOZ0nd0XkWRdgkkXym6V4+A==
-Received: (qmail 2832855 invoked from network); 6 May 2025 09:52:54 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 May 2025 09:52:54 +0200
-X-UD-Smtp-Session: l3s3148p1@5Cpe53I0eh5tKPHd
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=gmRI
+	PpIqvkVAkrubDKFklVL04Xfv129vaIPgrm4Yy5k=; b=BE8MOvP6igWh7P2kHM9r
+	qvWEmpQ3ei/ovfOENWsoiB83JOmtFDfwPS+HLGCu11suxjOZL0Jyv4nSy+ztJFkd
+	pyHN733ZwldAZt9PKHFndS9zLAE24PGF4KkFgCXqKjoO5275tnHLrQ7U4DaWrLy9
+	rLTx5VZMmeu/hIrjLt0WviNa9TxQgGs5tSU5CIVxnPVc/P8sJ23mDISSaTfr0Bb2
+	vsbFUHHZFCNjnFVp8a3H/ZT02laMgI/XkDxTig0hf09KHO9m3wjglnzTbKk8G1Ty
+	vMz7BjSJrU9TeodUBC5h5zezahWroQ9yr7aOHC5OxO8HnefHk7MM8rzZlaCPkwyo
+	SQ==
+Received: (qmail 2842625 invoked from network); 6 May 2025 10:21:35 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 May 2025 10:21:35 +0200
+X-UD-Smtp-Session: l3s3148p1@hdn7TXM0umRtKPHL
+Date: Tue, 6 May 2025 10:21:33 +0200
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	linux-i3c@lists.infradead.org
-Subject: [PATCH] i3c: controllers do not need to depend on I3C
-Date: Tue,  6 May 2025 09:52:11 +0200
-Message-ID: <20250506075247.1545-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] ARM: shmobile: defconfig: Enable more support for
+ RZN1D-DB/EB
+Message-ID: <aBnGjaWcrTVZ7n4h@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+References: <a40aa69832ef292497b9170e2ad607bd9dfd7e21.1745842538.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hUvouY1iMcx/SUJd"
+Content-Disposition: inline
+In-Reply-To: <a40aa69832ef292497b9170e2ad607bd9dfd7e21.1745842538.git.geert+renesas@glider.be>
 
-The Kconfig file for controller drivers is only sourced if the I3C
-symbol is enabled. No need to check for that in individual drivers.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+--hUvouY1iMcx/SUJd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Based on linux-next.
+On Mon, Apr 28, 2025 at 02:16:13PM +0200, Geert Uytterhoeven wrote:
+> Enable more support for the Renesas RZN1D-DB and RZN1D-EB development
+> and expansion boards:
+>   - Polled GPIO buttons (also used on the Marzen development board),
+>   - Synopsys DesignWare I2C adapters,
+>   - National Semiconductor LM75 sensors and compatibles (which requires
+>     not disabling Hardware Monitoring support),
+>   - Arasan SDHCI controllers.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
- drivers/i3c/master/Kconfig | 4 ----
- 1 file changed, 4 deletions(-)
+I overlooked this, sorry to be too late in the game. Still, this is
+good, so:
 
-diff --git a/drivers/i3c/master/Kconfig b/drivers/i3c/master/Kconfig
-index 77da199c7413..7b30db3253af 100644
---- a/drivers/i3c/master/Kconfig
-+++ b/drivers/i3c/master/Kconfig
-@@ -1,7 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config CDNS_I3C_MASTER
- 	tristate "Cadence I3C master driver"
--	depends on I3C
- 	depends on HAS_IOMEM
- 	depends on !(ALPHA || PARISC)
- 	help
-@@ -9,7 +8,6 @@ config CDNS_I3C_MASTER
- 
- config DW_I3C_MASTER
- 	tristate "Synospsys DesignWare I3C master driver"
--	depends on I3C
- 	depends on HAS_IOMEM
- 	depends on !(ALPHA || PARISC)
- 	# ALPHA and PARISC needs {read,write}sl()
-@@ -38,7 +36,6 @@ config AST2600_I3C_MASTER
- 
- config SVC_I3C_MASTER
- 	tristate "Silvaco I3C Dual-Role Master driver"
--	depends on I3C
- 	depends on HAS_IOMEM
- 	depends on !(ALPHA || PARISC)
- 	help
-@@ -46,7 +43,6 @@ config SVC_I3C_MASTER
- 
- config MIPI_I3C_HCI
- 	tristate "MIPI I3C Host Controller Interface driver (EXPERIMENTAL)"
--	depends on I3C
- 	depends on HAS_IOMEM
- 	help
- 	  Support for hardware following the MIPI Aliance's I3C Host Controller
--- 
-2.47.2
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+
+--hUvouY1iMcx/SUJd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgZxokACgkQFA3kzBSg
+KbYgeg/7BVULVbm4uhMi0fHNL6npTU2SfYMCFPXBvtdT9mDgYb6py41zD+HkDDJi
+7eZq2rkL6otW7WMh8RPmhttu1XTVzdBw8qnlMn0UDJ+zE3rL44iKa2U0VsSaTPzr
+OL00YNU7E+oxTnv3RyPyZTMTDHfApXuoRRGdHUGOFmsHNWTvv3TxnbFmeXjUJ1Th
++guJfhGeQDIndu5yCp3H8aNlr4Ym9828j3feNUyWDWzb3R66xH+gTHrNyxEQt61B
+8Jrxp/iYJv8jyBAkVV6jskyP1clTtmwJBSorNTmkQuCL2rmELmwUz1wULtC856mj
+kKutkR8InfEOQgPmBkn204tkVYozHX9cDGOB3ZHQCUVw2Ws3E+pLoZUOShdXErb/
+XbpJMwah6WGwfGMnHfLUf+H64UtlasRImoyxAbSZnEKQ0+9L8vUerS92MMVPEX/N
+qbv1dpVmb2uputlarDDk+ozhdC3Zyx/9XMpGVHauUauEiwP7YH7dWpiebwOeSeIr
+mFpDXcrYb5Dg6zrZvYRGw3DWDzcpO7YzIprlq1FWM1SU/9nXvOS+LfyTi16CoL9Q
+At5qvSTezaChkysw+Oz+/UrfhAowQJEm2bHtI8QB+Sm5DNds5Wgi0DiZY9S9RW2V
+cqDbw+guK+iKzvYHkQ9qNQbYSj7cNXhd08A0ZtW1mgy2Y0igwDY=
+=88Zw
+-----END PGP SIGNATURE-----
+
+--hUvouY1iMcx/SUJd--
 
