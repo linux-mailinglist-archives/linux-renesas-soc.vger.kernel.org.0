@@ -1,239 +1,275 @@
-Return-Path: <linux-renesas-soc+bounces-16720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16721-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F66AAC59A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 15:18:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E4EAAC62A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 15:32:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CA771C43026
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 13:15:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 957834A2BB7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 May 2025 13:30:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E6F2280030;
-	Tue,  6 May 2025 13:14:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBF6D28136B;
+	Tue,  6 May 2025 13:22:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q/2zNfjc"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="TgvahhxU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010044.outbound.protection.outlook.com [52.101.228.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C066280A51
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  6 May 2025 13:14:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746537278; cv=none; b=irFkEkclU2vtZIbS2/dQwa6F0UCRzwVpZ87d3qZs+EUI83GtryrVGdUdH/82EOk5pbPG3fATpMqHAx8KuERhNMu/PjrvKT4x06png5yIThOS5MgLeDmwqygBZ5PSOfqfY99BiVoBZ1AiQA2Uog773Sc7pUZkaknpdp1FXZBlgGM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746537278; c=relaxed/simple;
-	bh=0lVpTpURlEeanuAjIbJkgLatYhwU//vfEa0K/jV5aS0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AA+qObo3UZ0NoxNv2gHyGrzlxMKFiDa/LbLQdnE7FtW7nQTjXsfBXQNqXm6R0WffYePfUAkjrYYwGT++tUEF8vGDqj+2p3P14CEn9omde2egpXoj6U7Q+dbAajPn8Sgc1V9785O/S3KrqEVV9LmvtwGNmYXG2MSzAV2g3+a3aAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q/2zNfjc; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-391324ef4a0so278379f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 May 2025 06:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746537275; x=1747142075; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=c7cAReDyTT7KLErUElBQxOzZHmwxniNtnYOivuVBS5A=;
-        b=q/2zNfjc70SIpUneFOzPYV1t2XG6zmtVT3baUYmSLLQZ/9q2QPDkjiC4gk6Tm3ef2R
-         MCZAzNufjisTVKcO24XaQa0r3WVyQE/qb/EI+OYmKjnU02tzkc0wrD2CxbBa6PNGA7ru
-         XV23/Agxmktz5htrLQv7qdOrAwpGQGt1fr49vXvFk/wwCyq107/0UAVId7a8y5A3wQpk
-         yBxf9b0CGAKPj5CWepsLUETapQgvGEKKKHVoYMi5xJLMctp6KTp5OB00gRGQs+5gI0Ok
-         HysYyaMHjukc9OhHeW4+Yj2pbv+GfgB8Yx97f3sYxG/ivdYjD3lbIdQO/dafJjHvGoE3
-         QIdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746537275; x=1747142075;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c7cAReDyTT7KLErUElBQxOzZHmwxniNtnYOivuVBS5A=;
-        b=o3yxmWmgLEoNknp4S9OvD1av2TdLoTN8ddcUPSIXw7BU23CiZ6y77hJ0lmWt7ojAZD
-         rZGCOUvNAdlLktPufyhtI2hAb21I0EnUdYxpVkmZaU2b9ZFQKMAD+yTofl03c/GXaNOw
-         w3ALymYIaRi5YKRdzNsa0MH7UR8EtazK0wYqIpExzS+nI0FXgPLidBaPTm9Z7IBqG2js
-         PIvWQqOAGUU6gEg/YFeFeFhxR5FHMoTfTuuhuqp5xUFpPwdwWm6bixr66L2rpx2+ZhZs
-         CUYKttQ9fd8DHTMd9/lRYIKBknizuqmlnvsVWxf+04Yu5zMlulfPU0OcorB6DzvLl7lw
-         gttw==
-X-Forwarded-Encrypted: i=1; AJvYcCVduLRvP4tYAydwaNwITNSOjJW7eGy+z/uc4McHYGF2L/x8aLeN+iEpnFOioWWZg1beHKBdMxmgdJxI9sWn+WjxAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKz3Yurau6SN1cvXFclh/0uMn0zZpYTTuPokJlRtm3ymBRALFj
-	HGUkOJFgIVDWPXpkqi3wrIJxcoF4YNN4kpDIF+QtrQ2/3Pl7hiY+aHkCE7y3dls=
-X-Gm-Gg: ASbGncthxbA7Tjx5IGgnbghLxEM6wjiM35LfwwVWlhx3SBuduPP7M5cM7iowKl3mdsv
-	VdVH2qIwUBOoBjphfUSrpbfj53PByWd1hRXem6hOCXNMvdDkWeUbGl4kCloiM9iS6QesmzimFmb
-	rIJPYDJ3495oKMw52hls+gl8yYoK9gnU1arNicA24Jf381A2YNJcE/Sb9MVjpS0w/HqlEpcOCX9
-	Y8HBPvXt1FSu7jMJS9oUI5IcJoUvun4vKWxXsC0k58epn36qShmtihQTYh07v2CDBs+IeRsKWym
-	z0o4iJ5fox0izE0ynQ7WBhkzEhEl1+r79Pfp1gU5Mh5geFiXQ1/4P5tuAKgNPnRcQnDEOA==
-X-Google-Smtp-Source: AGHT+IHUYyISjmDireWFtDYjhqWAUlSvfGhfXOGmsTZqVCqhQoczfJap3uTQfjwXsBjjug1VXr6i9w==
-X-Received: by 2002:a05:6000:144d:b0:39f:6a9:40bf with SMTP id ffacd0b85a97d-3a099aee68emr4577556f8f.10.1746537274675;
-        Tue, 06 May 2025 06:14:34 -0700 (PDT)
-Received: from [192.168.1.28] ([178.197.207.88])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a099ae3403sm13578819f8f.28.2025.05.06.06.14.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 May 2025 06:14:33 -0700 (PDT)
-Message-ID: <b6f22d5a-b1c1-433f-b520-772cfc726136@linaro.org>
-Date: Tue, 6 May 2025 15:14:32 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD0628031F;
+	Tue,  6 May 2025 13:22:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746537755; cv=fail; b=dHRT8cJQgd//8r0LhsYlzkNYGFag3Ba2RiPEaWBlOfEFlHS1sjJ/uAZNZ4JKWQ/kXg8EzIrNyifdgyIAUyUT4ZCCBEMrmNLPUCod0VtZ4tKw15h86+Uwt8sgCRDQvZEc2+uogrNVFuCLYmkltVsfZp3JSB4NvcrG9HGdaK5bIFU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746537755; c=relaxed/simple;
+	bh=jb/kwcqxSC8jIjFlUKVHO9JwuV/n1kEJRO95aH5yHMo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ONQ8mvd2oRG/U5zg8J741/ZtmnQxthCmRQIFsGWUWYnB7Iycq/Qeq5NKp5vZlUufmpoDnHdC/PKVmxuXMZ4zlOq0mzwegYnYZY1DlC1PMRokJowmRPQPy4mRIoRMYRrZNefbzSx8PPP+KivBfWLqzX1iuvBHCTnsDNQAZqgmANc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=TgvahhxU; arc=fail smtp.client-ip=52.101.228.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kxY2aHHCcgELrP44GIqn8LlGKyXTdhU7DnXqmZ9Znli7ZsQQ9/z37B9qkMvZ40USNRRDut1RFIai4Q50/MXU8Eavonh0bch308rjxUcvBk+E2tMVQeWRBBv+69Rf2jOLOFn7Gvhn1MrxVHSqRcik3s/omKxhG1juzoD6w6l9h8obRbS1w7PCH4RnswHTTCKfB1Du7tOdlJlvYN0oYdImUrvE0bMZn6lXy3tv84Yzh3BUSxldUSwC0C8GcUagSLXQwYvj8mL8q1uxNHT8eglZdXumBlWrJ8M1Cg4XoIltO5Wkl7ctObsh9omSZCmXNaOx0R/oXVeM2TMRGoYXdmKC9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3miHgBJYKHu0GEtscWzCgho7GVdy+YklRUsXKNAOhzs=;
+ b=GeNLm+0LGdjBIuYc6jZv5JgctKDTajmyMSsfR9iW9aeOaz7Ugz3PlTbk+Ow4KFpRmn4+OwRsH5pS4vWSYn7rTUy9XmIPfv8vgt2T9dcefWlkoMF7cyf7NB+cmeyR3zxGVfFoOF3OIYvLzQf1l67gvzMlddrJENnUHDf2hXqtGDSTnEO4nHz2vND4pJu3OFKJaZMdSzKjeCYFlaNXREnFKUjIpKPgdwu1eV44wvAL3GD7Y20r/Wtz9Hp697F1ssRQCdcUl+WISyqW51BsPyK4ZnlVco68a3kxvOEIUOkwLClXOxojyNNyT3bE2EfMRA8WrBbt4uHDDo/KAbMawCzKCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3miHgBJYKHu0GEtscWzCgho7GVdy+YklRUsXKNAOhzs=;
+ b=TgvahhxUcHKW1JK6XermFMRYrHnvcwSXDXwAu7jsZaSV545LuvdUkzfoRgfx2Asfzz2IEAqg3xwafy74xRfcPTSH8yE6eaS1KxapnwSa8mLINnrm06F8Ob5cx641H4eHM2Cer2AKmO1xhNMD42mOWfrrlUVAAxid/r6uQZ5X1mk=
+Received: from TY3PR01MB12089.jpnprd01.prod.outlook.com (2603:1096:400:3cf::5)
+ by TYCPR01MB8533.jpnprd01.prod.outlook.com (2603:1096:400:154::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.32; Tue, 6 May
+ 2025 13:22:29 +0000
+Received: from TY3PR01MB12089.jpnprd01.prod.outlook.com
+ ([fe80::2ac2:8829:306b:5772]) by TY3PR01MB12089.jpnprd01.prod.outlook.com
+ ([fe80::2ac2:8829:306b:5772%4]) with mapi id 15.20.8699.024; Tue, 6 May 2025
+ 13:22:28 +0000
+From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>, "linux-clk@vger.kernel.org"
+	<linux-clk@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>
+CC: "geert+renesas@glider.be" <geert+renesas@glider.be>,
+	"mturquette@baylibre.com" <mturquette@baylibre.com>, "sboyd@kernel.org"
+	<sboyd@kernel.org>, "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"magnus.damm@gmail.com" <magnus.damm@gmail.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Daniel Scally
+	<dan.scally+renesas@ideasonboard.com>
+Subject: RE: [PATCH 2/4] clk: renesas: r9a09g057-cpg: Add clock entries for
+ RZ/V2H ISP
+Thread-Topic: [PATCH 2/4] clk: renesas: r9a09g057-cpg: Add clock entries for
+ RZ/V2H ISP
+Thread-Index: AQHbvoBK/rUq3sm3IkmzYZWljvJcNLPFkFhw
+Date: Tue, 6 May 2025 13:22:28 +0000
+Message-ID:
+ <TY3PR01MB120892E147CD3099118F9F484C289A@TY3PR01MB12089.jpnprd01.prod.outlook.com>
+References: <20250506121252.557170-1-dan.scally@ideasonboard.com>
+ <20250506121252.557170-3-dan.scally@ideasonboard.com>
+In-Reply-To: <20250506121252.557170-3-dan.scally@ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB12089:EE_|TYCPR01MB8533:EE_
+x-ms-office365-filtering-correlation-id: c09ecf9f-e16b-4195-ced5-08dd8ca10c85
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|7416014|376014|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?eq0ss8itcZ1sYURlSxiNOY0cZR5/SDzebT84FFuHgYK38TMcivdfbWuzEm0Y?=
+ =?us-ascii?Q?69xY/tLjuyeDABTOXEYxDnPGeUBGf8J9Ws3kwPIs8xKWn7bxYRxd2YFj8p2c?=
+ =?us-ascii?Q?aGm67+JiARFiyFTi8NnJHjGk27swdWPlKWsn4hT8zD9W6TAm+bbUPauWW3pA?=
+ =?us-ascii?Q?SMB/ZL0XsRvuW16dzSArUpGY7N7SC8axnoonElOnUPzVyjzA8QKu0H4VP3QI?=
+ =?us-ascii?Q?MMUSRvRI2j5vy5CUSlsnCN8oyMK14Dfxkn1AdZ8RB5I4+tttY1LncFDOGU/t?=
+ =?us-ascii?Q?cd4Cv2JmGE4958yXZLYRhitqmNQsenSj+PIE8MNePKd21HclwyUQ2yGK/NCv?=
+ =?us-ascii?Q?ZebxwjgWGVdIeJNG2ykjYBCCSlLVSs7fjtxCvfFJykW4Yf3t/FnlU3Z5c0yD?=
+ =?us-ascii?Q?/v14y2VgdAxMLqnyjrT48ndbIPHkoMqEPXalY2dCnk0DxV14hWlnsmyarS9H?=
+ =?us-ascii?Q?U75Bw0Hq6rSmjTnj6nTMUc5+78MDGZXrfnDM+ybp5cqKrDjVUp6ABXXK6qRp?=
+ =?us-ascii?Q?AC9FV7rNzZYkEpnv++PKQeqIczeWPbjr5kqCLb1vmmZY/VW1zg7HOKe+LU2E?=
+ =?us-ascii?Q?uI1vKbhqE2HbDHyapmdytct7+OnihgpB6PmWXR896CwnULjuWaSTxuYFQX1Q?=
+ =?us-ascii?Q?4pO232u7gE6BsAU3RbQxPFxV/AGi8EYXEF6LrDIqftzdakex+nafqPqlTtMF?=
+ =?us-ascii?Q?KMwDPUxnwYi/dwkKj0Y/qqBHKSmRaJMJix3K9bYWbZqTOAo78WQoocq7RYpF?=
+ =?us-ascii?Q?bXtYVoYfHM4+GwxV4R5ZNcGGtB39BWT2Sj0lapLB0oTA1bcYcQKYb30HRe40?=
+ =?us-ascii?Q?qZew2T4BNbi3DhY7msJpbKESNQg3aEnD7hcTpskvxdB8VrMweptwRB0FN/iQ?=
+ =?us-ascii?Q?Is0iyXhwjVfI3OQNSpWXpmVfG7kFtxPRhJLDsgl15ru6ggIUFwxkqvCkVAio?=
+ =?us-ascii?Q?X7I0xnswer/N89NOw3kvMVWh5YtMcOl6Mt1UCfuBhFP9QSpBbiCRHhBGvvJc?=
+ =?us-ascii?Q?+7RvUOKIJG0Lx1HkIVnbUMcyr2CQ4MWEp4SBGGNSNeXzoVK/JZDnAC45jUQH?=
+ =?us-ascii?Q?gBtzgpbGkvvDaMeUy7zyii0+tR0mVrnhig5TlIwoQGdvFHLtZf4ZafcWqDK/?=
+ =?us-ascii?Q?iZ/OAt5Ki3gyVrytvFnnCjTM7HuptTPCXJnWRfYVZWxSUq3uwPgMmVKET7YY?=
+ =?us-ascii?Q?CTg6QSa0qvXBsWdh+zuHlH94YrXq4vqM7fvVlTIBq3qzWu9JlS+ZhXml2C2t?=
+ =?us-ascii?Q?oc7FJ9m1nfB/9iJC+VU4YJPEIb7n1UyjWk8ZaihFdRYzCoZ+jpS1122a6YHq?=
+ =?us-ascii?Q?CMGPg8GyMBktkJoCMjLUr7L0YMgwrJXkLbjT+jHDbj6hrkNsIojMfjC8isjl?=
+ =?us-ascii?Q?bnSYArq0QMoQy9lvzZeZXeXkv+9yekZqCsBoO1mY6SsPJrR0gRbMS2jTF6K6?=
+ =?us-ascii?Q?fS9qBUDoyvL/VLOZWQUBW+LCglKu3oH4RBl9v7uWCt1DaHzwNOSWfdZ9oAGC?=
+ =?us-ascii?Q?YB+B42aqfqpTzyg=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB12089.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?XXRwWg8n4iTKLpHxn66+mHZVD6ZHIyEm8KIOCXJAOdj6+MDuMYTVlllBNF7y?=
+ =?us-ascii?Q?icZPOTZgRQH82guBLqojgCrYkgLjyxbEJjs+ux9nwwLoQvNW7VND1OVjm39f?=
+ =?us-ascii?Q?2cm9sav/aNwqLgmDbXv65oC6Lf0P9T4ZtsrymfMEAVYZ62Q9cxEt6OHes08m?=
+ =?us-ascii?Q?Za76IorZIsKpnNrdFsNxWdHdfQmeLGqyv3UtSVU+rEa37zFIwt93H7jIcv+4?=
+ =?us-ascii?Q?9J7mi37n7OGQlsDtuSLbWDBXJLWWndfr9vrr5WkuAfwlDsMeSzOtY3OFMGRm?=
+ =?us-ascii?Q?Mw1LEN3kZoKuhySpZa/Ids+Co+TsuNdT9lNW+zdK6Ww/yYCw58ozx1sPl6Uk?=
+ =?us-ascii?Q?elP/oApUpNy4ieWCkrEOHcSBIoWmP0FrQafJd+p30ahrF8T/onmWHLK+tOfT?=
+ =?us-ascii?Q?tM1KbZoCE4PMtauTfbB9M3WcFjYkXjx3D8jcUxehSRm32HKhz9B90vDTF6/m?=
+ =?us-ascii?Q?19YkLXNJLw4R9jf/N0fh9Yw295g1+4B/tjdKMDEkcCrJ8ctFxv2GM3UHiFKm?=
+ =?us-ascii?Q?u+Z326sFPLvyoFjUG2kKJfHFWXqa33srcbzIVQMB+VXhFZCnjgFcyHGz2Mi0?=
+ =?us-ascii?Q?cGPJOS2glnAS38m6SU+Gx9/6yYiB43lUe+dgABFB0LxzjDIVlxHuuiymH2V1?=
+ =?us-ascii?Q?1cnzf4tEpSHkEZ8vK9Y2mpDGCoTKYx8fNs3Q6oWhVmG0rkpBWNAKEUQfO+RU?=
+ =?us-ascii?Q?QrQGFzcl0zlJZoR6faqFdn8YOKlKVs5wnIAhJG8w8Pbds+1lSU0wwn4CH19R?=
+ =?us-ascii?Q?oqTivsHV+lSKUoeW+1hEU00o3DdAuTGALydOhHq3m5Y5UyIaAOXsydo4ZgaR?=
+ =?us-ascii?Q?4+awR9jgYPjSuFkl7nl7aA6ACWz4GCUs2xuzylij+cFjGZesyBTbzgipi6sn?=
+ =?us-ascii?Q?pT3DBgXY3cpmmY1CuArdSdsbZzDfRWza6oPba01e3CPk2+sm9xKipGcwzpfd?=
+ =?us-ascii?Q?1nhUzWYOklW1Jc7VBqUsv6xGH3zmP8cxOl4ZfTjhMo3ffMfwkXR/t5g4W9sM?=
+ =?us-ascii?Q?FxwFCuqRROQ3iK02qzk/GPcWVx4909CF5gD9ruEVt5O4fXQBnORkEq326HNk?=
+ =?us-ascii?Q?4t8xPpvozdfnqBx9RyyIFMmVcShS4vfYsX0fFLLYGJRSzmFcgb/8RrEnZXvW?=
+ =?us-ascii?Q?B1pvREmJTej7LezNoqIdu3Smwgw5zn0GpaWVLUe05g4wgk+wS259G76d+8aE?=
+ =?us-ascii?Q?UOpkzkiU59U8gdiX7XxM73anJyupwaNd5I6+4X763O/mmty9+vl5Jgg/7D2N?=
+ =?us-ascii?Q?aVJuAWgbnHulAKvcmV4llZbu5+nGgwwbkzEe14XXbzRnHs+1NrVnM9W7zzCz?=
+ =?us-ascii?Q?NljI7kqO3hig3V6SV3SQlKiSOdQmQgSnMROuiu1Wi6KfxYC2JzRDjMTfo4wu?=
+ =?us-ascii?Q?fi4aXw9Yos7bN8fALWaFUv2ByskRyfh0JD4UgC5S67qCsmfEzJ+f8rLbzvyc?=
+ =?us-ascii?Q?Lhfds+lShZuYf28eRCXhnmHLqYhyWxxLbatX1leabLZ3HnFE2RdrzRxa3w/J?=
+ =?us-ascii?Q?0rXdFHqRKhSf8TIffSklGUQcmwSGQzuu7fMaMFWKSeZ3cy+slcY4UZFmjaGU?=
+ =?us-ascii?Q?gwDLtNqp9r37/23gL4c/6zjxXXE/iKs1TSyZyQX/ETdN7Q9EUdHHMbaZguPj?=
+ =?us-ascii?Q?mg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: defconfig: Build STMMAC Ethernet driver into the
- kernel for NFS boot
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Arnd Bergmann <arnd@arndb.de>
-References: <20250506104731.111876-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <3a11ba8a-a9f4-4829-8bcd-56f1702bee8f@linaro.org>
- <CAMuHMdWmvHZPwppQR5OxB7QB9NOWxRWoVkiMFS-6ScdYw=ywTg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <CAMuHMdWmvHZPwppQR5OxB7QB9NOWxRWoVkiMFS-6ScdYw=ywTg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB12089.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c09ecf9f-e16b-4195-ced5-08dd8ca10c85
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2025 13:22:28.3979
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3d/8zFzp2O616S98U5qcTk7GVSuDmTQZ2/QIuLvWBhM0nlbnKImChYU3aZ/x67/wGIASTmoT6v2Y3NGhmX25MlafH3GI89pcnx0tRTY1YrA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8533
 
-On 06/05/2025 14:42, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> CC arnd
-> 
-> On Tue, 6 May 2025 at 12:52, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> On 06/05/2025 12:47, Prabhakar wrote:
->>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>>
->>> Enable `CONFIG_STMMAC_ETH` as built-in (`y`) instead of a module (`m`) to
->>> ensure the Ethernet driver is available early in the boot process. This
->>> is necessary for platforms mounting the root filesystem via NFS, as the
->>> driver must be available before the root filesystem is accessed.
->>>
->>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>
->> Same comments as for previous patches like this (even the same?): you
->> are supposed to use initramfs for your arm74 boards. Even armv7 boards
->> use initramfs, so network driver does not have to be built in.
-> 
-> Are we? When has that policy changed? Why are lots of network drivers
-> still built-in?  Making network drivers built-in for systems where
+Hi Daniel,
 
-I would be happy to make them modules, but it is different thing to
-accept new patch like that than change existing workflow.
+Thanks for your patch!
 
-> development is done using nfsroot has always been acceptable for the
-> arm64 defconfig before.  For things not critical for booting, modular
-> is indeed the preferred way.
+> From: Daniel Scally <dan.scally@ideasonboard.com>
+> Sent: 06 May 2025 13:13
+> Subject: [PATCH 2/4] clk: renesas: r9a09g057-cpg: Add clock entries for R=
+Z/V2H ISP
+>=20
+> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+>=20
+> Add the clock entries for the ISP in the RZ/V2H SoC
+>=20
+> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> ---
+>  drivers/clk/renesas/r9a09g057-cpg.c | 11 +++++++++++
+>  drivers/clk/renesas/rzv2h-cpg.h     |  2 ++
+>  2 files changed, 13 insertions(+)
+>=20
+> diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9=
+a09g057-cpg.c
+> index d63eafbca780..cb001ae5f98b 100644
+> --- a/drivers/clk/renesas/r9a09g057-cpg.c
+> +++ b/drivers/clk/renesas/r9a09g057-cpg.c
+> @@ -47,6 +47,7 @@ enum clk_ids {
+>  	CLK_PLLVDO_CRU1,
+>  	CLK_PLLVDO_CRU2,
+>  	CLK_PLLVDO_CRU3,
 
-And this is not critical for booting. System boots perfectly fine, all
-critical SoCs are working, serial is working, clocks/interconnects kick
-in, kernel mounts initramfs and you can probe the network/USB/storage to
-mount rootfs.
+I think you need to rebase this patch on top of the latest changes, as I ca=
+n see it's
+missing `CLK_PLLGPU_GEAR` after `CLK_PLLVDO_CRU3` for example.
 
-> 
-> arm64/defconfig is for development and testing, not for production
-> (which famous kernel developer said that before?)
+> +	CLK_PLLVDO_ISP0,
 
-And we all for testing use initramfs, don't we? I really do not
-understand the problem being solved here - all of our setups are
-supposed to have initramfs already. My simple, private CI even has it,
-so if such little fella like me is able to use initramfs, I am sure that
-SoC vendor can adjust their CI as well.
+Shall we rename this to CLK_PLLVDO_ISP?
 
-> 
->> For example all of our setups use it thus we do not have to populate all
->> other vendors with our own drivers.
->>
->> Sorry, but I am strongly against such change. Kernel is already way too
-> 
-> The kernel will grow without this (it will just take a few more weeks ;-),
-> so that is IMHO not a good argument.
+>=20
+>  	/* Module Clocks */
+>  	MOD_CLK_BASE,
+> @@ -110,6 +111,8 @@ static const struct cpg_core_clk r9a09g057_core_clks[=
+] __initconst =3D {
+>  	DEF_DDIV(".pllvdo_cru2", CLK_PLLVDO_CRU2, CLK_PLLVDO, CDDIV4_DIVCTL1, d=
+table_2_4),
+>  	DEF_DDIV(".pllvdo_cru3", CLK_PLLVDO_CRU3, CLK_PLLVDO, CDDIV4_DIVCTL2, d=
+table_2_4),
+>=20
+> +	DEF_DDIV(".pllvdo_isp0", CLK_PLLVDO_ISP0, CLK_PLLVDO, CDDIV2_DIVCTL3, d=
+table_2_64),
 
-I meant, kernel built out of defconfig. Yes, it will grow and my
-comments are, hopefully, slowing that growth so I can still work with
-kernel defconfig.
+s/.pllvdo_isp0/.pllvdo_isp/ ?
 
-Otherwise why Renesas usecase of defconfig - built in modules, because
-initramfs is too difficult (???) - is more important than my usecase of
-small defconfig for my development?
+The remaining changes look okay to me.
 
-And there is a consensus: use initramfs, just like we all are supposed
-to use since years.
+Cheers,
+Fab
 
-> 
->> big and with KASAN it does not fit to boot partitions in some of the
->> devices (and I cannot change the boot partition size, at least not
->> without big effort).
-> 
-> arm64/defconfig does not have KASAN enabled?
+> +
+>  	/* Core Clocks */
+>  	DEF_FIXED("sys_0_pclk", R9A09G057_SYS_0_PCLK, CLK_QEXTAL, 1, 1),
+>  	DEF_DDIV("ca55_0_coreclk0", R9A09G057_CA55_0_CORE_CLK0, CLK_PLLCA55,
+> @@ -238,6 +241,14 @@ static const struct rzv2h_mod_clk r9a09g057_mod_clks=
+[] __initconst =3D {
+>  						BUS_MSTOP(9, BIT(7))),
+>  	DEF_MOD("cru_3_pclk",			CLK_PLLDTY_DIV16, 13, 13, 6, 29,
+>  						BUS_MSTOP(9, BIT(7))),
+> +	DEF_MOD("isp_0_reg_aclk",		CLK_PLLDTY_ACPU_DIV2, 14, 2, 7, 2,
+> +						BUS_MSTOP(9, BIT(8))),
+> +	DEF_MOD("isp_0_pclk",			CLK_PLLDTY_DIV16, 14, 3, 7, 3,
+> +						BUS_MSTOP(9, BIT(8))),
+> +	DEF_MOD("isp_0_vin_aclk",		CLK_PLLDTY_ACPU_DIV2, 14, 4, 7, 4,
+> +						BUS_MSTOP(9, BIT(9))),
+> +	DEF_MOD("isp_0_isp_sclk",		CLK_PLLVDO_ISP0, 14, 5, 7, 5,
+> +						BUS_MSTOP(9, BIT(9))),
+>  };
+>=20
+>  static const struct rzv2h_reset r9a09g057_resets[] __initconst =3D {
+> diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-=
+cpg.h
+> index 576a070763cb..c2e09199a8cd 100644
+> --- a/drivers/clk/renesas/rzv2h-cpg.h
+> +++ b/drivers/clk/renesas/rzv2h-cpg.h
+> @@ -35,6 +35,7 @@ struct ddiv {
+>=20
+>  #define CPG_CDDIV0		(0x400)
+>  #define CPG_CDDIV1		(0x404)
+> +#define CPG_CDDIV2		(0x408)
+>  #define CPG_CDDIV3		(0x40C)
+>  #define CPG_CDDIV4		(0x410)
+>=20
+> @@ -44,6 +45,7 @@ struct ddiv {
+>  #define CDDIV1_DIVCTL1	DDIV_PACK(CPG_CDDIV1, 4, 2, 5)
+>  #define CDDIV1_DIVCTL2	DDIV_PACK(CPG_CDDIV1, 8, 2, 6)
+>  #define CDDIV1_DIVCTL3	DDIV_PACK(CPG_CDDIV1, 12, 2, 7)
+> +#define CDDIV2_DIVCTL3	DDIV_PACK(CPG_CDDIV2, 12, 3, 11)
+>  #define CDDIV3_DIVCTL2	DDIV_PACK(CPG_CDDIV3, 8, 3, 14)
+>  #define CDDIV3_DIVCTL3	DDIV_PACK(CPG_CDDIV3, 12, 1, 15)
+>  #define CDDIV4_DIVCTL0	DDIV_PACK(CPG_CDDIV4, 0, 1, 16)
+> --
+> 2.34.1
+>=20
 
-Does not have, but I want to be able to toggle KASAN and boot the
-kernel, without going through 1000 kernel options which I could disable
-or toggle to module to get the kernel fit into boot partition.
-
-> 
->> Nacked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> Doh...
-
-Sorry that it feels harsh. I do not create the policy, but lack of my
-words of objection are then used again in many discussions, e.g. via
-"someone added patch like this, so I can add as well". I won't feel
-offended if you take the patch with my Nacked tag.
-
-
-Best regards,
-Krzysztof
 
