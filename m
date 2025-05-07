@@ -1,206 +1,206 @@
-Return-Path: <linux-renesas-soc+bounces-16760-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E65DAAE29B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 16:22:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F68AAE2BA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 16:25:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 998489C747D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 14:16:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 224B5171FA2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 14:19:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 072B1289827;
-	Wed,  7 May 2025 14:09:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0906128B7C3;
+	Wed,  7 May 2025 14:13:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="uRXc1En5";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ql2KYhKT"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="adYesO7D"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4953289802;
-	Wed,  7 May 2025 14:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8162628A3E4;
+	Wed,  7 May 2025 14:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746626993; cv=none; b=K9z8e21fnLadl6YJcwL2LuikeLi9ZQdtcLRtZB9RjWMh6jEcQrVB74mnK38m+frhm+PQDt0c7iCebH+yOB8m1nMJXHhecHVK+fJrmXixEXAsDmuWUIZKUvdTC4g17gu179RulNQ6WElbwuBmzi38/aYGZECsaqX05FRVWxCI7/c=
+	t=1746627207; cv=none; b=nROzYsvtxVTGYRvrKaPjKC3xeuHgcrNtEkrecUXV5ndw6d2bjvLJZI7/BFckBxPyoGlmSFFSKpghe1T05BNmxrhNzozQPc0nG2fTciIyA3X/5ORREMPutVCUctM87jTGqMHMSdRWBtRQLYXnOjZ0rnO9V3COrXebmi5tHBRKg1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746626993; c=relaxed/simple;
-	bh=old7/uME17Mkn3x1D2C+nAHExdQZPeB23poziY+F+Ks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qthhauAsYAJYymCRTrPkB8u64pS1iQY3k8eAl+mv+f37tQzq7xo3HdHgEry5tVKjzSUbXuZ96+Go3UrGdzo97ElFBnvY3AgLc1u9nRFpeFxFZwjF19E9zvJQ6jVzx1Asbf+BXkW06STa0OovYu1Jwr8N+lbtTcXnaPUrA5/G+ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=uRXc1En5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ql2KYhKT; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id E7F1A11401AD;
-	Wed,  7 May 2025 10:09:50 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Wed, 07 May 2025 10:09:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1746626990;
-	 x=1746713390; bh=Bd5xYdjuLGNHMD+GIGsrJhPQrpMyu+1/xz71iZbb+Dw=; b=
-	uRXc1En5Ph+xOfqNlybAZRa7XC0A7TiAxfh506fbobsbmTX5hDm93tXdp3k6XQtO
-	O5Si5308qeWqh5Gt3j5HVIzKHwm+aiWvUKqyeNorbTdBQEaHLz08VmD4kFAaLFGg
-	ekWqqE5ObA8/ee3IOkeN0GV4/B4hO0UAAYDhQ862wXHkdokDVLJGlpP3KJ7g8EAh
-	4fVNPM72ir3GwfaTCaR8MAiGSL55hflGHvl6YH0OdqJXUVBAw8r9aiIONlrkEq6Y
-	MfF0UPGanRvVI+O8iFJwWKrHlZpOyIFHCV/Uc9r96Z104BXbkopshRs/0S46Yx8i
-	+PYkO+Xnra50D1Ra6fszzA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746626990; x=
-	1746713390; bh=Bd5xYdjuLGNHMD+GIGsrJhPQrpMyu+1/xz71iZbb+Dw=; b=q
-	l2KYhKTBSRA+Cv81ReCTKzSVIBgvKQTPsRjIoFnSXv0nSTHtqVOeNJunmKV/4Fbk
-	WdHjjm9F1zQKzezhs6cZt1hLGO4tw83Agg89wBaUifwBD0GyvP6vzPlUyJ2Hphqv
-	tztLViPuVdnDz5r6Az6NWsIMi4erL8+kBvu1etxNhb1VwZJQRDvgB7wlh2RlR6lN
-	+KVaXaoq9U68CLX6Dd99nzk9b+Ex4S/xl2z6MIyQu6UG0zl+uI9Qz02zs9ba6m1t
-	BVXe7FFu34QZYnmMRVatz2oLdUUAPhM34oWW6L8bH5IcWRq9fPn7aklz/fvf50Oe
-	d+RU2bX+D+pD1X8xWG00Q==
-X-ME-Sender: <xms:rmkbaOX3ADpvOoKlubEB73fzOUAZuaG9mOtTa_TTc2XkwPuCG7y8Kg>
-    <xme:rmkbaKlmM_aBSzBVDgnk2KLfzcFnKc95pauLeiS4EfmYhh7ISj0ana8moRJmz6Ip8
-    qjRjAIuFrscdwMZQnQ>
-X-ME-Received: <xmr:rmkbaCbkSiu4wSjrbpicKzHIJOk_a1XoGWrq79e4jf9RcrTepeQZHqqEFtnVXyCD89mxXBTvv0plJuvC1DzRrZJez1zKIdUn6w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeejtdeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeev
-    teegtddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlh
-    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdr
-    shhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeekpd
-    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehjrggtohhpohdrmhhonhguihesihgu
-    vggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgrtghophhordhmohhnughiod
-    hrvghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlrghu
-    rhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpth
-    htohepkhhivghrrghnrdgsihhnghhhrghmodhrvghnvghsrghssehiuggvrghsohhnsgho
-    rghrugdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgv
-    lhdrohhrgh
-X-ME-Proxy: <xmx:rmkbaFW0yEME6M6IokghhC7w2oyejMpu1GmUcG6508WnIDWZC4PCpA>
-    <xmx:rmkbaInqGF961LX7X4m8A-12UhpNcFBQoM8L2NvL3k3iJRg3OXH1Ig>
-    <xmx:rmkbaKeOhWW8THAUURZbZZuDXxQukUJlmDrfo9i9JsxDlEVP9eyDqA>
-    <xmx:rmkbaKFYmf52O37wVsv0cfhcOK70ZShdre6e0sbIslqy9QECyIeICA>
-    <xmx:rmkbaLa2lK-cQovhL6mwk1HOR53SvzruQyTp8FcttnyH-jsCHVQ3uEp5>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 May 2025 10:09:50 -0400 (EDT)
-Date: Wed, 7 May 2025 16:09:49 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v9] media: vsp1: Add VSPX support
-Message-ID: <20250507140949.GB836326@ragnatech.se>
-References: <20250506-b4-vspx-v9-1-d7d50a01f7b6@ideasonboard.com>
- <20250506173733.GA539397@ragnatech.se>
- <2wsx4pmkwmjgqlfywbsqim5irnh7lcfhbdreenevf2lnd2ofsb@u3epcobuxuij>
+	s=arc-20240116; t=1746627207; c=relaxed/simple;
+	bh=wRvDEyGE8SyLT4eXm8S/vOTb1xNAByubplY2t+C38K8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kLbr/8CNpTmpgE7XJGmfeedCJyH6E/En/6Gb7bgFl6PBJMC+UAasFlJ6vBSlWa1LG9dAQ6fN0TD0gcZJbSQBGA1jvvH6PNaygFZfCspTOISmZEJVHJCVNOJc0uPyxogvvZTgOvW1T6YxoHgNmllE9SrtigE6skOVb4/dhne5rRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=adYesO7D; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A7A8943A17;
+	Wed,  7 May 2025 14:13:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1746627197;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZUkZFmqLpaya2SvixZMFXiK5vMoC/WgZVFpr9qlTBnY=;
+	b=adYesO7D1P7ynosW29lwbsjTgJFaCmVyHEon+flnFOa0BvpYbgiRnF+Xmpud0uAtagWCKR
+	3oskQarIGt0LOBcEzJnasoloDFldQLXTPGfiIhzFPFxQ44Bv9OhNB8OfgtRyxM7+9P43cR
+	EkU5M3wIV4eMfygkH8Z49lCMg02BGC3HtUgDaN8q7xI8pIpFMVELZovDj9NLGU/agK2QHw
+	g3CUt2Har990IGmx7V543phmv8Wv4XvzKKsAS8THOhfgcNBUADs19379Lxd8e7/I43vGMD
+	r3WqKePwg6IikvuHOAtVe8FiAWFIlf69nPFcMS8m4pDVEx1m0DuHF1UEztkH0g==
+Date: Wed, 7 May 2025 16:13:11 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
+ Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui
+ Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ chrome-platform@lists.linux.dev, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH v2 30/34] drm/bridge: imx8qxp-pixel-combiner: convert to
+ devm_drm_bridge_alloc() API
+Message-ID: <20250507161311.6e434f2f@booty>
+In-Reply-To: <430d497d-45a1-436d-91fd-635854f80c9f@nxp.com>
+References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+	<20250424-drm-bridge-convert-to-alloc-api-v2-30-8f91a404d86b@bootlin.com>
+	<553d62ed-976a-4e17-9678-cdc3d40ce4a7@nxp.com>
+	<20250430112944.1b39caab@booty>
+	<f71d18d2-4271-4bb9-b54f-0e5a585778f3@nxp.com>
+	<20250506224720.5cbcf3e1@booty>
+	<a1abf31a-7a4a-4f8d-bf48-6b826aa01197@nxp.com>
+	<20250507091244.32865a71@booty>
+	<430d497d-45a1-436d-91fd-635854f80c9f@nxp.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2wsx4pmkwmjgqlfywbsqim5irnh7lcfhbdreenevf2lnd2ofsb@u3epcobuxuij>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeejtdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptdeljeejuddvudetffdtudelfedugfduledtueffuedufefgudegkeegtdeihedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefledprhgtphhtthhopehvihgtthhorhdrlhhiuhesnhigphdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhto
+ hepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Hi Jacopo,
+Hello Liu,
 
-On 2025-05-07 14:28:50 +0200, Jacopo Mondi wrote:
-> Hi Niklas,
+On Wed, 7 May 2025 18:16:28 +0800
+Liu Ying <victor.liu@nxp.com> wrote:
+
+[...]
+
+> >>>> After looking into this patch and patch 31(though I've already provided my A-b)
+> >>>> more closely, I think the imx8qxp_pc and imx8{qm,qxp}_ldb main structures
+> >>>> should have the same life time with the embedded DRM bridges, because for
+> >>>> example the clk_apb clock in struct imx8qxp_pc would be accessed by the
+> >>>> imx8qxp_pc_bridge_mode_set DRM bridge callback.  But, IIUC, your patches extend
+> >>>> the life time for the embedded channel/bridge structures only, but not for the
+> >>>> main structures.  What do you think ?    
+> >>>
+> >>> I see you concern, but I'm sure the change I'm introducing is not
+> >>> creating the problem you are concerned about.
+> >>>
+> >>> The key aspect is that my patch is merely changing the lifetime of the
+> >>> _allocation_ of the drm_bridge, not its usage. On drm_bridge_remove()
+> >>> the bridge is removed from its encoder chain and it is completely not
+> >>> reachable, both before and after my patch. With my patch it is not
+> >>> freed immediately, but it's just a piece of "wasted" memory that is
+> >>> still allocated until elsewhere in the kernel there are pointers to it,
+> >>> to avoid use-after-free.
+> >>>
+> >>> With this explanation, do you think my patch is correct (after fixing
+> >>> the bug we already discussed of course)?    
+> >>
+> >> I tend to say your patch is not correct because we'll eventually make sure
+> >> that removing a bridge module is safe when doing atomic commit,  
+> > 
+> > I think your sentence can be rephrased as "your patch is correct with
+> > the current code base where bridges are not (yet) removable, but there
+> > will be a problem when they start to actually be removable".
+> > 
+> > Is my understanding correct? If it is, I agree on that sentence.  
 > 
-> On Tue, May 06, 2025 at 07:37:33PM +0200, Niklas Söderlund wrote:
-> > Hi Jacopo,
-> >
-> > Thanks for this new version!
-> >
-> > I will give this a good testing as soon as I have finished some
-> > refactoring of the user of this. I had a comment I wanted to send for
-> > v8, but seems I never did. So for now I will just post this incase you
-> > need to do a v10 before I had time.
-> >
-> > On 2025-05-06 18:32:23 +0200, Jacopo Mondi wrote:
-> >
-> > .. snip ..
-> >
-> > > +struct vsp1_dl_list;
-> > > +struct vsp1_isp_job_desc {
-> > > +	struct {
-> > > +		unsigned int pairs;
-> > > +		dma_addr_t mem;
-> > > +	} config;
-> > > +	struct {
-> > > +		struct v4l2_format fmt;
-> >
-> > I'm very happy to see this is now the only location for the format, nice
-> > work! I wonder if we shall take it one step further and just record the
-> > fourcc, width, height and bytesperline here? Or at switch to a
-> > v4l2_pix_format struct?
-> >
-> > The user of this field do not really support multi plane formats, nor do
-> > it validate fmt.type field.
-> >
-> > I recently hit a snag in the ISP driver using this interface where I
-> > *think* the solution is to only allow single plane buffers to be used as
-> > input to the ISP (V4L2_CAP_VIDEO_OUTPUT_MPLANE vs
-> > V4L2_CAP_VIDEO_OUTPUT). While fixing the plumbing for this I ran across
-> > this, sorry for not noticing before.
-> 
-> True that.
-> 
-> However my understanding is that nowadays the multiplaner API should be used
-> for single planar formats too.
+> Nope, I meant your patch should align the life times of the main structures
+> and the DRM bridges, for the sake of the kinda long term goal - remove bridge
+> driver module safely when doing atomic commit.
 
-Mine too, I'm just grasping for straws debugging things and this was one 
-thing I tried to figure things out. It was unrelated to the VSPX, and 
-did not solve my instal problem. But working on it was what lead me to 
-this design decision in the VSPX driver.
+Again, I don't think there is any bug introduced by this patch (once
+the NULL ptr deref bug we already discussed is fixed). No bridge can be
+removed as of now, with or without this patch.
 
-> If you want to avoid passing in the
-> whole 'struct v4l2_format' then I would pass in the
-> v4l2_pix_format_mplane .pix_mp member (which the VSPX uses
-> unconditionally at the moment).
+You concern that this patch would make things more complex in the
+future, when bridges will actually become removable and they could be
+during atomic updates. But about this...
+
+> > The work to have removable bridges is massive and non-trivial, so it
+> > will need to be tackled in steps. The grand plan [0] is:
+> > 
+> >  1. add refcounting to DRM bridges (struct drm_bridge)
+> >  2. handle gracefully atomic updates during bridge removal
+> >  3. avoid DSI host drivers to have dangling pointers to DSI devices 
+> >  4. finish the hotplug bridge work, removing the "always-disconnected"
+> >     connector, moving code to the core and potentially removing the
+> >     hotplug-bridge itself (this needs to be clarified as points 1-3 are
+> >     developed)  
 > 
-> However, assuming future developments where a different user uses
-> V4L2_CAP_VIDEO_OUTPUT, the VSPX driver can be extended and use the
-> .type field to select which member of the 'fmt' union to use if we
-> pass the whole 'struct v4l2_format' in. This is all very theoretical I
-> know. To be honest I would keep the interface as it is and eventually
-> improve the VSPX driver to use the 'type' field to select which format
-> to use.
+> I'm busy with internal things these days and cannot look into the grand
+> plan and steps closely, sorry about that.
 
-I'm fine with that. Maybe add a check on .type field in the VSPX driver 
-and fail if the .pix_mp 'variant' is not used to configure the VSPX?  
-When playing with V4L2_CAP_VIDEO_OUTPUT the VSPX code still happy 
-accepted the struct v4l2_format but it contained bad data when 
-interpreted as .pix_mp instead of the .pix that was populated.
+...I'll wait until you have time to look into that more closely. There
+is just no way to understand this whole topic without some dedicated
+attention, which takes time unavoidably.
 
+In the meanwhile I am going to send v3 soon with the known bug fixed,
+so the best version is available to continue this discussion.
+
+> > I am at step 1 right now. Removal during atomic updates is step 2,
+> > ideas about how to implement that are already being discussed [1],
+> > there's a practical plan proposed by Maxime with the goal of reaching
+> > removable bridges without breaking things along the path.
+> > 
+> > [0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/
+> > [1] https://lore.kernel.org/all/20250106-vigorous-talented-viper-fa49d9@houat/
+> >   
+> >> which means
+> >> the main structures should have the same life time with the DRM bridges.  
+> > 
+> > The word "lifetime" mean two things for bridges:
+> > 
+> >  * the time span during which memory is allocated for a struct
+> >    drm_bridge (along with the embedding struct)  
 > 
-> >
-> > > +		dma_addr_t mem;
-> > > +	} img;
-> > > +	struct vsp1_dl_list *dl;
-> > > +};
-> >
-> >
-> > --
-> > Kind Regards,
-> > Niklas Söderlund
+> Note that with your patch set the imx8*-ldb drivers and this bridge driver
+> won't allocate the DRM bridge along with the embedding struct.
+
+By "embedding struct" I mean the struct imx8qxp_pc_channel that embeds
+the struct drm_bridge. Sorry, I realize my wording was ambiguous.
+
+> This makes
+> me worry, because maybe these drivers are the only "special" ones in this
+> patch set and I don't want them to be "special" after your patch set is
+> applied.
+
+Luca
 
 -- 
-Kind Regards,
-Niklas Söderlund
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
