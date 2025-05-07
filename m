@@ -1,110 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-16745-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16746-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4117BAADC0C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 12:00:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B86AADC3B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 12:10:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB4701C20FC8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 10:00:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E864598013A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 10:09:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30A53202969;
-	Wed,  7 May 2025 09:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XvljW1gH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEFD4204F8B;
+	Wed,  7 May 2025 10:09:57 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AEB0207DF7
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 May 2025 09:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 988CD76410;
+	Wed,  7 May 2025 10:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746611998; cv=none; b=hvyAftP+BCipNZc/j/RcPXDqYywbjRvvFQE+Sk9//Hl0Igv/7xSHpP4v1ntRKy9mtsKVnioTYRdCZVtTiyGIgxnlvqwDlK9g6BQcv1bOD2EEhZOylPaX85c+OSeiQrWdXVvrT2cB1HoSuICWbhuHCx1orLdTkk7Hkkq3NUzXELw=
+	t=1746612597; cv=none; b=EMNNU8x/ZAuUNlVkRFIjcO5Q1kjNyoGht6fMKd4JHtrgW9iEzBqRYX4ykEjVyy9zcJ946gQ0K9H6kYMW4PEdFHRNqg48Pzl3lxsMxSuRbN1P6JdJDhSgyJDoGceli1ALkd3GM7TH/M/TgezYpGkcGzO0rNEo/HGcnvAuiQBaE6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746611998; c=relaxed/simple;
-	bh=nTPmV/ah65M55YkjjC373cBBi8S7rWj8xu/0m/Y1Cew=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iICkD4CLmp3PAb5iGItjrX3fplmv1cXMtSVRA/1eI2KtdrpwMmOft8KRYflSoln9LxnE9MndOv/tLXPDF7dDpufq5xsfxK2TR9N6bpNsFgaRqXYnq2pIZUe+iZ1kGd2dfy5H/thmG3aJKN6AbkiVGr7BjN957TCKhNCzdE0IwPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=XvljW1gH; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Kq86
-	79TYhepolaaaC5c38NOuT13bofw3q30AIXXiR4M=; b=XvljW1gHlshtg1NVhu7t
-	rFEQEZuUoK+iBNC7J+iFkTIZtHiBEcujDvSslykh7pJAApiG/6w9sHcbKMQAw8NO
-	8Em/RjgIwF/r8k/UZ/qcSORWH/NFUY3ug7RfQkkc9zgWIqFbMY/lRSFXghQ8m2wM
-	ux8qMv6feJ37iFI95mJ4090EGAwdhzGLaEd6cQAiujKPhNof63UhiCi9Yqym9gVo
-	1GhmR4QCeX2egoGp6hLY4KM0QD8ttCJhN39g0u0tWfs64On5b1EQVQFjyV59fZWN
-	7m1LX9tkdt9yzX+tI5EIR04NpX1Ya60/wf9WGAXcw6NxBHmnXuYR1ho7fWglI8ZJ
-	Gw==
-Received: (qmail 3310634 invoked from network); 7 May 2025 11:53:11 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 May 2025 11:53:11 +0200
-X-UD-Smtp-Session: l3s3148p1@eB1us4g0iMUgAwDPXxyAAIlRla1HkD11
-Date: Wed, 7 May 2025 11:53:10 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 0/6] media: rcar-vin: Unify notifiers and enable MC on
- Gen2
-Message-ID: <aBsthimr83OIiJnO@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250507094014.622087-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1746612597; c=relaxed/simple;
+	bh=4h0ZeCeRObeEAP2gy15U8n700pgijptTrEPrSHg8fNo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TG0ToKVwyqi6llmU4na6xHLqNG0rg++h4O1aGquReTFN/7RE0fzlmFSyM6k1czLscTC8t9+I0lwUzbsGN+wAVWVm6HmSY+xp4eBeDilbp6R2flcQQFQvPXTvW1I5ZOdjbAwHsCH3VRROt9d46NYknxaFc9qlGtOnEsLCfL7VJuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: HPPRNoxiQEO/pXOmyEem9w==
+X-CSE-MsgGUID: 5Sfs3iE3RGi42CsSmcvoqw==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 07 May 2025 19:09:52 +0900
+Received: from localhost.localdomain (unknown [10.166.13.99])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id E53BD401A459;
+	Wed,  7 May 2025 19:09:52 +0900 (JST)
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To: bhelgaas@google.com,
+	corbet@lwn.net
+Cc: manivannan.sadhasivam@linaro.org,
+	marek.vasut+renesas@gmail.com,
+	linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v4] PCI: rcar-gen4: Add a document about the firmware
+Date: Wed,  7 May 2025 19:09:47 +0900
+Message-Id: <20250507100947.608875-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KAFsEIm1wIHkZTkG"
-Content-Disposition: inline
-In-Reply-To: <20250507094014.622087-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Transfer-Encoding: 8bit
 
+Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires
+specific firmware downloading. So, add a document about the firmware
+how to get.
 
---KAFsEIm1wIHkZTkG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+Changes from v3:
+https://lore.kernel.org/linux-pci/20241024120525.291885-1-yoshihiro.shimoda.uh@renesas.com/
+ - Rebase on v6.15-rc1.
+ - Revise some descriptions (reviewed from Manivannan Sadhasivam).
+ - Add the doc file entry into the MAINTAINER.
 
+Changes from v2:
+https://lore.kernel.org/linux-pci/20240703102937.1403905-1-yoshihiro.shimoda.uh@renesas.com/
+ - Rebase on v6.12-rc1.
+ - Move the document file on Documentation/PCI/.
+ - Add SPDX-License-Identifier.
 
->  4 files changed, 302 insertions(+), 919 deletions(-)
+ Documentation/PCI/rcar-pcie-firmware.rst | 24 ++++++++++++++++++++++++
+ MAINTAINERS                              |  1 +
+ 2 files changed, 25 insertions(+)
+ create mode 100644 Documentation/PCI/rcar-pcie-firmware.rst
 
-Can't comment on the technical details, but the diffstat surely is
-great, too!
+diff --git a/Documentation/PCI/rcar-pcie-firmware.rst b/Documentation/PCI/rcar-pcie-firmware.rst
+new file mode 100644
+index 0000000000000..0e285c4a7cd72
+--- /dev/null
++++ b/Documentation/PCI/rcar-pcie-firmware.rst
+@@ -0,0 +1,24 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=================================================
++Firmware of PCIe controller for Renesas R-Car V4H
++=================================================
++
++Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires specific
++firmware downloading. The firmware file "104_PCIe_fw_addr_data_ver1.05.txt"
++is available in the datasheet as a text file. But, Renesas is not able to
++distribute the firmware freely. So, it is required to convert the text file
++to a binary, and the binary should be placed in /lib/firmware before
++the driver runs by using the following script:
++
++.. code-block:: sh
++
++   $ awk '/^\s*0x[0-9A-Fa-f]{4}\s+0x[0-9A-Fa-f]{4}/ \
++   { print substr($2,5,2) substr($2,3,2) }' \
++   104_PCIe_fw_addr_data_ver1.05.txt | xxd -p -r > \
++   rcar_gen4_pcie.bin
++
++   $ sha1sum rcar_gen4_pcie.bin
++
++   # Example output of the sha1sum:
++   1d0bd4b189b4eb009f5d564b1f93a79112994945  rcar_gen4_pcie.bin
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1ccb83716bf28..9ad5c565595d5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18531,6 +18531,7 @@ M:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+ L:	linux-pci@vger.kernel.org
+ L:	linux-renesas-soc@vger.kernel.org
+ S:	Maintained
++F:	Documentation/PCI/rcar-pcie-firmware.rst
+ F:	Documentation/devicetree/bindings/pci/*rcar*
+ F:	drivers/pci/controller/*rcar*
+ F:	drivers/pci/controller/dwc/*rcar*
+-- 
+2.25.1
 
-
---KAFsEIm1wIHkZTkG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgbLYYACgkQFA3kzBSg
-KbbDfRAAtBxbk0t0MCILCL1Ab+DR8862cPD2RTLnMAHA1is/VWT9MiiP1yiLhbkt
-XqhLbQ8c0cJBHEtxe+aMMO9zTK0uuv/8zOIizg0CwStT5CvYINPiLjF7hKV+U6sh
-tbAYNp1pUPqG33Sob7Cc5QyixO/CMtbUucDHFzeOgNGPMVfmY2x54t+ZjkceWw0M
-/uASxlN+d9oz/SlTEiyspTHbPcC9WAhP9Nw3XOKlXfDTEyesJTOPhOzCv24EZcMm
-d4/9VGZkLJj4g/mp4B9ZXfVKPjo5+wICZZscbzW93W0qShxMyk0CFE8tulECRw6G
-dVjyqiTnNc7sVUqgqeBfzLoowaaaa0RNSDa3+XL4cpONKH32VpNKL8pJATT90fhz
-98yB36OwftTT+saGJvB/p4KjnYY49ixzK9OGvq8pHfo1v2aYoCsXQ1tqdh8mMD7g
-pKS9p8g2CEuoHCsgnXDBiS1s+dnBkeOc+1CaBHV389rAdysx6tZiYtiQCrr3UYv3
-6ncjxkUCK6bWucM0TFlzg80icHwRjGKc6Wn1/gcMhsUjBc82+eQziza6dy8BXsJ+
-2wbgI9QqDsva14+WVjUp7L0l+xNcSNfUKBpTOl790bxL7XgEgYNg/FBPVmpa5apm
-ojvKNp45DrlyHs4AiRWNApDzn3tsjp9fG8ptEpv1A6C8xGXpK54=
-=YAOx
------END PGP SIGNATURE-----
-
---KAFsEIm1wIHkZTkG--
 
