@@ -1,142 +1,92 @@
-Return-Path: <linux-renesas-soc+bounces-16749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C33AAADEC3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 14:16:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC73AADEBF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 14:16:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1794A3B5648
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 12:13:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E46BA4E0EE8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 12:16:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6E01259CAA;
-	Wed,  7 May 2025 12:13:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D8F225D91E;
+	Wed,  7 May 2025 12:16:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="XzKgwmCr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JEGWnAWZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05867221FB3
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 May 2025 12:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2119E2580E7;
+	Wed,  7 May 2025 12:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746620023; cv=none; b=bZnYuQp2PMGdhjNhT+QdO3jC/bVpbsFuRZdooVAi0Mr/cILJ7esU2I192RlMF5/ppAMjFw6C+4Y9N9oFF8zgCddKoeDmvvXKg2Z46nVvO19wi4FaN8sBggJRM9OdiKMcTbkZ4Vgwx1t0XWtQpsoQIGebv1xLC2aArKl4uoNcNoI=
+	t=1746620161; cv=none; b=k9maYVR2w6OsIaGaq6HFvEl318DrFWZJq5tYi2JxIrRdExhmoBUu2ysrIMEqGa24aONqz+II9tkDwGZgB9HJlSR+CENccOx4rtilOXcZkiWioKPJkRSrr92MWrYZK3EgWtFi4bd8fy9EnVAgi0GE9gEfMAIJSrqKRQlwYYiaHiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746620023; c=relaxed/simple;
-	bh=u3YGbEuFNryf6SNWwXAZAEVAEqJ9fVFoDM0PMM9rdH8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ueWzyudFJSxAvDyeE68woGC+78PgRvpGipEkGtP+2idM2XFe8kS2/y1CS/2kTwChQnmHwWLYR6wFBZVIIjQV0iD/Ppq9qnGkyp2sthrLa+nLjgJoPu5lX7SKQqHsr92gPWlmS2wuNlHzKzkri2vRHNyDNs3wBcFboRYZ4qp72/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=XzKgwmCr; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5f6214f189bso12804972a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 07 May 2025 05:13:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1746620020; x=1747224820; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sAeRVsznyaBFX32tf0NMNXsCTB91G1fsVj/Eu7YcKtM=;
-        b=XzKgwmCr5eP4SnDRYbZ+ORSsN+XQDM5E7ofz2+1e/Nb872dQea2i812h3Y2qYYAX4u
-         00Z+1iIXsua0+v54l4j2rMZrhQuJRQMzYjZZjl8q0hAMmK0n/poLRKvrVh1FDQErc0xa
-         Rl3+/D7v6uZtXpDE4qoUCxtJyRuSF4EnlO/vU3NSGbIiku+zmqYq1xHtHuraiflHoNqu
-         L3GrwvM2uGx5/cg0CuYRnGkXs+ndDIpVgk1tqKn65xt99kjnOFLEKJQ1A4Zs2Hmj8sMQ
-         WmMLtSP3lGugkrqlCjdASWR97Ww3eqiQwBx9GMlhTigvVhFNWS4RJZHxEFjEKUNnLwWa
-         1pEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746620020; x=1747224820;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sAeRVsznyaBFX32tf0NMNXsCTB91G1fsVj/Eu7YcKtM=;
-        b=HdFKxmnVoK6NhL+hTY6Ea2CUouhBg8aKDYUZxYDtFxHrBjwmh/k6+UoexJa6vnK0i+
-         sB33i0j55Tm8UF2n5SMj0dsZeWi+8w7k3//yib78a9x9Yozu7wPj84AJFdgL1vv9wI1Y
-         lpC+Q9WV560HmtYYuNepkeaepnl7xHmkhmoQQnYQXUlrGdX6eFOQG6OC/kDDtnLXLNA/
-         I0ht4v//lFhNtfIaxOTGfgxCA1I6cbz1O6Ig+m81OuQOO5Ve2LAOUJ79VgPS0NsNb0Tp
-         4vcoQaUrAqbMOG8NIfW8dugno/jvHTJ2FUMA4tv8ijfZChUswrC+KBvURdv6J6jFh48s
-         tgSA==
-X-Forwarded-Encrypted: i=1; AJvYcCXJ+qLoypiVxShGmj8waCY3vYHc8o8axEsw7poHT6e7Z79WP8Hcg9G8/zqyFBGcFW6jfD3Yyy49HFmcAA+YtNQITg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxc8yS6uYo4ugNZi4XuHy0CWFIObk9FmcD6UEfAGHNsvrV+o/fj
-	g+DmDjEhs9mXmnwtBkn38r72GjO4+hG6nY5EpZ5pzduPr2s8f/ffIdF55RUeIEo=
-X-Gm-Gg: ASbGnctfN+PqJcH69fJZOvNTDrm5g4KbjNzN2laB4Plee3N77Lvj93L5I922wxWTT5F
-	oFGRzjnx3iZXev3yDAq0DSdDGN5jrzy/wpuhIwRb008dFEty/vD5LSakF3Dk/rZVNjTomLK9mPV
-	V/BFCzSyogwhS0W49OJHKm2D3ocjTiZL9u2V7JWZ/GT196kolfa8vBVaLXy/kXWNVRdBsB2kW3Z
-	GY+HSnaBLePHB2SPmmJva7suIYJn2gLUvIAiS+oDkcFcBwVDno/jUN7LeQR6SMzcHDahBPqlAws
-	w+kD/4+s8z5t/ZlBXxbjdv3oBnUC2z5QY4o486qbjvBGlxt9Bg==
-X-Google-Smtp-Source: AGHT+IFVO28GoFjiM4/MmBFYIj2KWMjVMmnj6kvNFljtWXD9DM7W466QdZ6gW2Hfuwox4fn3w5Zq6w==
-X-Received: by 2002:a05:6402:2689:b0:5f8:afab:9e14 with SMTP id 4fb4d7f45d1cf-5fbe9fa810amr2639140a12.28.1746620020038;
-        Wed, 07 May 2025 05:13:40 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.147])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fafa166aebsm6000541a12.17.2025.05.07.05.13.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 May 2025 05:13:39 -0700 (PDT)
-Message-ID: <410d8930-02d8-4c30-843b-7c964a5e08d7@tuxon.dev>
-Date: Wed, 7 May 2025 15:13:38 +0300
+	s=arc-20240116; t=1746620161; c=relaxed/simple;
+	bh=wH4xtkWcEczPIbR5zdksI+tOyUkjQOacyI0SB1IT7gg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kworU0AKPMS6BqNMLg+JtEg9c7bN2EXfE1xVxvgEOrinJ5AUiyTomstPjbHTp6Rq2a6ToFsHHcW0t/hrUmHxzqnM+2ltLm2VeCCqIxINE/M107MZvO8G5U49nB8uEObaQL1FZWFvVJpy6ERqC892n5ufHHQLBBAN8TgFbNfosgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JEGWnAWZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CBEAC4CEE7;
+	Wed,  7 May 2025 12:16:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746620160;
+	bh=wH4xtkWcEczPIbR5zdksI+tOyUkjQOacyI0SB1IT7gg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JEGWnAWZtEuuzRLGQlVb64t0VgcoEEuUnTRAwShsSGwjAyFSG+VoCeQVTJMu6HYai
+	 a2RQ6x8zG7OzwK/XO3RlDqjinsJwXlvOsOt+QQJOY5iRpLI9uXouCUcPH3E1+banCU
+	 3tr68sk9tW901Qg8IH1jRndFOwxabl0mRB5ZY8cPgslI2+Z9krtvRNR6ZHc7Di3eLL
+	 rPH/8Reqmi4jgU7XoasQel3PsiWOQMO9gHX7C2DjfyyU67To6KM5UujjyQgdSEpJCJ
+	 KssZMlEzPrvqOe5aDwsEmvpck+NPszR5AB5cVP+pEtIdiBzzMSZiKCHxqVU2mbZqfK
+	 YWhUNiENTyURQ==
+Date: Wed, 7 May 2025 07:15:58 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	David Airlie <airlied@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	dri-devel@lists.freedesktop.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: gpu: mali-bifrost: Add compatible for
+ RZ/V2N SoC
+Message-ID: <174662015723.718661.4953901456484650872.robh@kernel.org>
+References: <20250502162540.165962-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] clk: renesas: rzg2l-cpg: Move pointers at the
- beginning of struct
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com,
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250410140628.4124896-1-claudiu.beznea.uj@bp.renesas.com>
- <20250410140628.4124896-3-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdW0eKTfh6QsznWvCEeK5w9W-Zw4ORQ8yaevbYgh6+Ub3A@mail.gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <CAMuHMdW0eKTfh6QsznWvCEeK5w9W-Zw4ORQ8yaevbYgh6+Ub3A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250502162540.165962-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi, Geert,
 
-On 05.05.2025 18:53, Geert Uytterhoeven wrote:
-> Hi Claudiu,
+On Fri, 02 May 2025 17:25:40 +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> On Thu, 10 Apr 2025 at 16:06, Claudiu <claudiu.beznea@tuxon.dev> wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Move pointers at the beginning of structure definition to avoid padding,
->> if any.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> Add a compatible string for the Renesas RZ/V2N SoC variants that include a
+> Mali-G31 GPU. These variants share the same restrictions on interrupts,
+> clocks, and power domains as the RZ/G2L SoC, so extend the existing schema
+> validation accordingly.
 > 
-> Thanks for your patch!
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
->> --- a/drivers/clk/renesas/rzg2l-cpg.c
->> +++ b/drivers/clk/renesas/rzg2l-cpg.c
->> @@ -1183,20 +1183,20 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_clk *core,
->>  /**
->>   * struct mstp_clock - MSTP gating clock
->>   *
->> + * @priv: CPG/MSTP private data
->> + * @sibling: pointer to the other coupled clock
->>   * @hw: handle between common and hardware-specific interfaces
->>   * @off: register offset
->>   * @bit: ON/MON bit
->>   * @enabled: soft state of the clock, if it is coupled with another clock
->> - * @priv: CPG/MSTP private data
->> - * @sibling: pointer to the other coupled clock
->>   */
->>  struct mstp_clock {
->> +       struct rzg2l_cpg_priv *priv;
->> +       struct mstp_clock *sibling;
-> 
-> I would move them below hw (which contains only pointers), so
-> to_mod_clock() needs no calculations.
 
-OK, I'll change it like this.
+Applied, thanks!
 
-Thank you for your review,
-Claudiu
 
