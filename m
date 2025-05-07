@@ -1,99 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-16757-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16758-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA14CAADFC3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 14:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A551AAE0CC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 15:32:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0F7DA7AFBA0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 12:50:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 042027B48BF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 13:30:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4AD52857DD;
-	Wed,  7 May 2025 12:50:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="aINOKAg1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E92658528E;
+	Wed,  7 May 2025 13:32:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC4528468D
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 May 2025 12:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E294B1E56
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 May 2025 13:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746622246; cv=none; b=VAQggZHjwLY43Vjtb0mWD/nfOTyt+pyIbCWTmMN2Ia/88vlwlNP0zXdWxKpq9nqnxIKhBYnSuc4LS+Bde8OnwKXzbxlbSGkqapVf0eUCqpr5zPQTD4h0jjqWfO/R1lNV54mikQCHtv9Cj7GFAkfUiyg+N7qNswX8cm2p6skx0iQ=
+	t=1746624727; cv=none; b=aZxnHwQcLdUMf0o0cgnngmIjHuXBDIAJTBBgtvryHGAzx0Ljfgf13JLGr1vwSjA+UQGaGo3+EWUQKKRr7Ms30F/5IPN1mKHswTj9QsAj5S0bLG76AmbOjQIX0r0C42YR2Ya9HByzRzKG5kjA0BP4hHOXemVnb151VUbG0mSPRcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746622246; c=relaxed/simple;
-	bh=NNbI2mZc7orPCD96orrUtGmro7jcN7TH/vdaWXSEFkc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AvFwwK4YEH/ehTweNt2c6Cj7K0+XpUOlRBwiUkE36fFmips2vjUpXz1LhuHaIpFysJ9IRv36hXGo64Rgj6iBsDYcPLJrMQgxAzQBWVOII3Zkd5tNFJ0Bnst/06Jtxw8b/dVkbhuyxki6RnL2p5hOBZWUlhpLc3ma9aRX50DUIws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=aINOKAg1; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ac7bd86f637so182821966b.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 07 May 2025 05:50:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1746622243; x=1747227043; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TPcRXEDFKMfOBueOV1ZZggEMaCzz9uMyyXHjT+cR4Zg=;
-        b=aINOKAg12P7aT0KDfpvr4TYz1todh2ccAr3rMKqqx5DEVwdEiDgNYU/Bf6ZOnsP6VK
-         fezUWRbWeUjcy6xj4EM+v0bmi4zKOAWT7/aJBZrREVMwSn3XypGztXtIOc/pLIX32PUu
-         Vm/8eEwWVr5nH7Nv2YBXfGyyHh/iLRXCQQ2FCNDFNP6k4siM762/0CqRi6nTh74Z1Rqb
-         aocClaXrViap9AfDFaI9WMRTnfOD+AJqlKp1r5e3j4lOofFouZm0Xy0bU6kO5Hw+yinY
-         g8QicAR7wRyCKhtvr7ixQ/oMEg9ys8OYLT/w9rjr2DiMo6b5xxoBmebcRnl0BXTXy+hF
-         PtrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746622243; x=1747227043;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TPcRXEDFKMfOBueOV1ZZggEMaCzz9uMyyXHjT+cR4Zg=;
-        b=NOh3fzG+a5RhyTd4hh0sxtjJ1EmG5skffk66iWybZEpjtzEfAkpKZB4J1ByVenxjAn
-         MDIGni/AYyAZDfws+I8KPtxvV/kqcxoSi5+TwvTQBwse6oREluGNeNAJVWmRGb/Q9+o6
-         6i2NBCqN3xwBpI8/2x7+6UrumTMlUX1xAK9H16GVYlwhJzcT2iM49eHVpnS6i0gRks5r
-         hbueByNcsOeDMekZH6h4QcOAfe1/HMj0QddaMPWLi7WGov+KSmsFE31xbB8sA28A6tu7
-         +Y5JQWlR97gmCvvi9wV/fLXo6mAUG/KAwViTfohqF944z+WXdST8ACUlOEFRO501gk+H
-         aYTw==
-X-Forwarded-Encrypted: i=1; AJvYcCUIOXaqc5Ux2vrmkIWJ2gDl96BfX97HE8jJZrcSAwKRxJ9gvPiYZPmKetalSgS46C8/g4UJbz1wpKjRkHziVJuEmQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOpy8po7aLNIYMvabFmjljHYfLDE4ApcFMEZF6oxRpr0r0tQr4
-	MRIbN42hwK+t8Ztd/Mp68JdF7htVxOsZ51mEPwoXOaj1dSB6yoDXbNZvtXwl430=
-X-Gm-Gg: ASbGncsZ/f9P7UveoA8cK47b+EobvHP+FLcNXcHymCTtDsd534XTR29nmttth2iPzcH
-	Ir7tICrhy8fwN5sl2gOu8RXQ0xYB0c1zDyDIC+x8Wd5mczomwRFkFsWMSDK1x6IQAWDiMyYXroR
-	nOhnKjAuRpOAR+z0EmJ1DhOwvFLxG2yPB7cfm6po3+5d+KUKOzGptooadpKu9W4WJ1lGlAjRVSw
-	iZAavM9gJhns4suSNSxJHlvMPrFdYKXXLTF746e27DR+rRIc3v36fZIwnBGTi/3zznHG0W/7gAB
-	hKWNg8o5pQQWd2ps+vu8HRwbvFY4VZ2jiVAI0iy3EbuvRRl0Kcb1giDQ8P3rBUWdyk99Wpc=
-X-Google-Smtp-Source: AGHT+IFgr60R6EGG/hfv1qbucadH38+M65/DG+xuJSaXMntsG1skx5u3NWADh8GI7FcyDwNsoxp1ZQ==
-X-Received: by 2002:a17:907:1c9c:b0:acf:877c:ccc7 with SMTP id a640c23a62f3a-ad1eafbe4f6mr342734766b.13.1746622242991;
-        Wed, 07 May 2025 05:50:42 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.147])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad189146fb4sm913182766b.10.2025.05.07.05.50.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 May 2025 05:50:42 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: yoshihiro.shimoda.uh@renesas.com,
-	vkoul@kernel.org,
-	kishon@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	horms+renesas@verge.net.au,
-	fabrizio.castro@bp.renesas.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	stable@vger.kernel.org,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH RESEND v3 5/5] phy: renesas: rcar-gen3-usb2: Set timing registers only once
-Date: Wed,  7 May 2025 15:50:32 +0300
-Message-ID: <20250507125032.565017-6-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1746624727; c=relaxed/simple;
+	bh=kibD8atoXohbbRzBPFI3kaZzCHQgZqxjvDk5BP+5WWI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CaNvVkgCPBEtM4WZnL5Iy2BGRVvsnCBG1J1C9WEFckifGvhiVAwZCuHpBSD3evfUHnnO+9S9y6uBB2+CZje7N9F/qRYCsjFmKpGl9uWMqgjBJxUyhDqKvMnc5OxuLyb3fvsdxd2lOG95Jv4NGRFpC/64Y6l9HS/rEKnoOIkCNLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:41d7:97f1:5857:a075])
+	by baptiste.telenet-ops.be with cmsmtp
+	id mDXw2E00L4ooFen01DXwUq; Wed, 07 May 2025 15:31:57 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1uCesI-00000000uvc-2sbn;
+	Wed, 07 May 2025 15:31:56 +0200
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1uCesO-00000001vi3-2sm3;
+	Wed, 07 May 2025 15:31:56 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: white-hawk-single: Improve Ethernet TSN description
+Date: Wed,  7 May 2025 15:31:55 +0200
+Message-ID: <367f10a18aa196ff1c96734dd9bd5634b312c421.1746624368.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250507125032.565017-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20250507125032.565017-1-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -102,47 +58,54 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+  - Add the missing "ethernet3" alias for the Ethernet TSN port, so
+    U-Boot will fill its local-mac-address property based on the
+    "eth3addr" environment variable (if set), avoiding a random MAC
+    address being assigned by the OS,
+  - Rename the numerical Ethernet PHY label to "tsn0_phy", to avoid
+    future conflicts, and for consistency with the "avbN_phy" labels.
 
-phy-rcar-gen3-usb2 driver exports 4 PHYs. The timing registers are common
-to all PHYs. There is no need to set them every time a PHY is initialized.
-Set timing register only when the 1st PHY is initialized.
-
-Fixes: f3b5a8d9b50d ("phy: rcar-gen3-usb2: Add R-Car Gen3 USB2 PHY driver")
-Cc: stable@vger.kernel.org
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Fixes: 3d8e475bd7a724a9 ("arm64: dts: renesas: white-hawk-single: Wire-up Ethernet TSN")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
+To be queued in renesas-devel for v-6.16.
 
-Changes in v3:
-- collected tags
+ arch/arm64/boot/dts/renesas/white-hawk-single.dtsi | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Changes in v2:
-- collected tags
-
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 118899efda70..9fdf17e0848a 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -467,8 +467,11 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
- 	val = readl(usb2_base + USB2_INT_ENABLE);
- 	val |= USB2_INT_ENABLE_UCOM_INTEN | rphy->int_enable_bits;
- 	writel(val, usb2_base + USB2_INT_ENABLE);
--	writel(USB2_SPD_RSM_TIMSET_INIT, usb2_base + USB2_SPD_RSM_TIMSET);
--	writel(USB2_OC_TIMSET_INIT, usb2_base + USB2_OC_TIMSET);
+diff --git a/arch/arm64/boot/dts/renesas/white-hawk-single.dtsi b/arch/arm64/boot/dts/renesas/white-hawk-single.dtsi
+index 8b4d313ad173cd3b..4ddb70e525c0532e 100644
+--- a/arch/arm64/boot/dts/renesas/white-hawk-single.dtsi
++++ b/arch/arm64/boot/dts/renesas/white-hawk-single.dtsi
+@@ -11,6 +11,10 @@
+ / {
+ 	model = "Renesas White Hawk Single board";
+ 	compatible = "renesas,white-hawk-single";
 +
-+	if (!rcar_gen3_is_any_rphy_initialized(channel)) {
-+		writel(USB2_SPD_RSM_TIMSET_INIT, usb2_base + USB2_SPD_RSM_TIMSET);
-+		writel(USB2_OC_TIMSET_INIT, usb2_base + USB2_OC_TIMSET);
-+	}
++	aliases {
++		ethernet3 = &tsn0;
++	};
+ };
  
- 	/* Initialize otg part (only if we initialize a PHY with IRQs). */
- 	if (rphy->int_enable_bits)
+ &hscif0 {
+@@ -53,7 +57,7 @@ &tsn0 {
+ 	pinctrl-0 = <&tsn0_pins>;
+ 	pinctrl-names = "default";
+ 	phy-mode = "rgmii";
+-	phy-handle = <&phy3>;
++	phy-handle = <&tsn0_phy>;
+ 	status = "okay";
+ 
+ 	mdio {
+@@ -63,7 +67,7 @@ mdio {
+ 		reset-gpios = <&gpio1 23 GPIO_ACTIVE_LOW>;
+ 		reset-post-delay-us = <4000>;
+ 
+-		phy3: ethernet-phy@0 {
++		tsn0_phy: ethernet-phy@0 {
+ 			compatible = "ethernet-phy-id002b.0980",
+ 				     "ethernet-phy-ieee802.3-c22";
+ 			reg = <0>;
 -- 
 2.43.0
 
