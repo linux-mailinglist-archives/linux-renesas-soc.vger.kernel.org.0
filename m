@@ -1,231 +1,92 @@
-Return-Path: <linux-renesas-soc+bounces-16766-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16767-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60757AAE647
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 18:15:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E02AAE681
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 18:24:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8508C189F3AC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 16:10:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 31084984B51
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 16:23:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20CCB28BAB3;
-	Wed,  7 May 2025 16:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="rkizce6j"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5372728BA8C;
+	Wed,  7 May 2025 16:21:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011000.outbound.protection.outlook.com [52.101.125.0])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D2C17E4;
-	Wed,  7 May 2025 16:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746634217; cv=fail; b=C6njAHk2wLYzoXBmzFPW1PhYzwyC57Dueb1EfAl2awtLEuj9z3rSaHQMBILHlNIxHHNC0RDWX+ItOdrxOwEs4WSsEc1Ytsr7hQBIikPGAjoNzvivYRPdzMY9sWJ0J03KGRZKrLw9hsY4LdXJi2Dd1BQgHfzhGyQdcjjNnw1zcYY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746634217; c=relaxed/simple;
-	bh=ZzmSjCPHEbYjy9WKOmRnRCW4x+vhQOn+I9U4PXOTxyc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Cb4SoI3cNTPmj/iG1tNaEx3MvWF333kQTU3rkfohWGEcuOtQRQ7S44D4Do3pYr/TqK1RjvLgKk8c3RMenAKbW4S0vZnx0WmO4yCGx2eMgflyMWKRTlwT8Y6ZDerqJYkjPnQNIKSRbBRLXf1e3MWswrvZ8406XR6S27jxy1HSsuA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=rkizce6j; arc=fail smtp.client-ip=52.101.125.0
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA15D1D63EF
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 May 2025 16:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746634915; cv=none; b=rZ7r5Bkv8DD9LzyKS127mZHXTFQ3g955TVjxYCPcLQqKmIhbfQTklJK5XAkCT6+hWP5c5Kgeu+NdTpxrXDOCDfxG+llRfpitwiNdnVF8e4vw35Mw2MCElEpuX+aH6vih0m00AMvt8jN1ivcUGcjC+U94qrvaClZ7xkBeiTc9nZE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746634915; c=relaxed/simple;
+	bh=uIMYOORDY5nGHFFZTIooIAXwxr3i7cSgauAioCCiuWw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o+UFOJshi5eYGQNSy42KJ1OkzjjeA5mvVyFCqMmn834fUKoYNaJJbqsoYMkebSI+O2BnOXMxMH8dMRV9y04EcbVesGaE9rgp8QvNafFLArS+ZJNVzCWTNFvoINKKk4KVp4gPelyiEvqMJVMFCz/xB9nRiJkaGqZUcG2etc3ZmAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V15mn9iTTPPwqOtR8fo53x8kwyvU/2rJXoP6j+whOQ1FlwJb7F2+UAExuu4qfYSxk4puTFWY6zMz8Gy/6bRv2yq3RXD4QFunf+p24nqVCaWFQT4bfnMHzvkklsMEImMdDo3/pMDK5wseQ6Uz9ssdN37q0VLspKHL+JkQdJ8GTWnAvZLLXpfT6JJFLkRvVf+aOK1BoZu3VDGtLYSkHvQMGsOaGpqZXp3yZLUtAPzuyZCVVBPqNTXOj1eAVNETzCmag7gdMM1tas5wT46uyIh7j4s5xxSi751BVh2UPFGwavohe8wVH6RMKLwrQXQTEcjbubcyU//IEziJGPqXSVX1Jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cQDmkwNEG2Q5azyj5lMS6klgv3cQGIDFvs1x/0qIBcQ=;
- b=ZndeVnhCzucMPsQ0JLlG+NZT1J2zc480taj4VTTWLL1UXDAp7V5JW0sY3jJh05JnF+26oGvXgXkmSty+VbDH2NwUBbNc16ER7CN12Xy0z6lNpxLZ6/Vl9vr8yIFxOOwlguescFoq0t6eZP+DeUMlB7b9YHhgp5za/0ft87jiK5MDqKBvK5nA9InHPf3Z/BXXqHneG3t6FXBcXRmTKoRAsOVSa+G9AUbI+Abu9XNilwrdRDX5TIhOqNi1dtfZW7PiLr1njBaJvXQO8CgPwaXAxhmYxPNTzj4jFILNAmdIJ/pZAU6oJIO04gW3L9nSnboahnAxycols/DEvIokG3eGeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cQDmkwNEG2Q5azyj5lMS6klgv3cQGIDFvs1x/0qIBcQ=;
- b=rkizce6jS8UXCe4v6V3DbE6fSPfwgj7fOHEgpi+6cimSI0ocsWqq8ypLdB8Mkw3IicrfXV8rPSW0QOGF0vEnTWtaqilaIz3bTVRrfn7lw7iLWFnLmfs5+1fPimKKJsstKpUZ+IETPtO+FOhdRmgkediTsA/XoPdLBBq/FLfR6ik=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TY3PR01MB9746.jpnprd01.prod.outlook.com (2603:1096:400:22f::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.20; Wed, 7 May
- 2025 16:10:07 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8722.020; Wed, 7 May 2025
- 16:10:07 +0000
+X-CSE-ConnectionGUID: 1cT+V/6xTXOM/Mu0dAK5nA==
+X-CSE-MsgGUID: GFbAHcnRS+CiAMwguhMkEg==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 08 May 2025 01:21:51 +0900
+Received: from localhost.localdomain (unknown [10.226.92.73])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id EA5AF4019C71;
+	Thu,  8 May 2025 01:21:48 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Mikko
- Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
-	Mark Zhang <markz@nvidia.com>, Dave Airlie <airlied@redhat.com>, Terje
- Bergstrom <tbergstrom@nvidia.com>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linux-tegra@vger.kernel.org"
-	<linux-tegra@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] drm/tegra: rgb: Fix the unbound reference count
-Thread-Topic: [PATCH] drm/tegra: rgb: Fix the unbound reference count
-Thread-Index: AQHbd8Aqai4WhmiBF0OEIqjKJRkhe7PH4p8AgAACizA=
-Date: Wed, 7 May 2025 16:10:07 +0000
-Message-ID:
- <TY3PR01MB11346CB37650B2F888CFC6DE48688A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250205112137.36055-1-biju.das.jz@bp.renesas.com>
- <a3gzox3ajhvatfmld5ny2lulmp325ycnukksusfbtldg37nqp3@jb4qajtuzczb>
-In-Reply-To: <a3gzox3ajhvatfmld5ny2lulmp325ycnukksusfbtldg37nqp3@jb4qajtuzczb>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TY3PR01MB9746:EE_
-x-ms-office365-filtering-correlation-id: ffb21744-fa16-4a65-31b6-08dd8d81a2cd
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?RP3X7CD3HcHCDq9Q3c6JBcnh5KJk2/C6VmNL92TLHSZ/aR7r/BU14Nw0iAwI?=
- =?us-ascii?Q?Oy8k4WATEEM2E/IW7YYgdWom8GlBnqfGQraYmDbHjDcfWQ9iDsslj1MwioXN?=
- =?us-ascii?Q?BahMTlsOnw9cExEV6YGgZPghBQBIM1P2dXnu7EvECI0VHPmG4V+b6/BDcZVq?=
- =?us-ascii?Q?4v3rHjgxSF9mICrKmMIx9fbTiGpK2KFWtYU1jPsqi/FZU0EU5TAfWEgz3Bih?=
- =?us-ascii?Q?0C49QicULSYjyP/AXiwCNVdnejOjdJwdmq+I0+7aUHUSLLtmj5TtBAOSnZvA?=
- =?us-ascii?Q?+I0LKHgb7bkFfelwo2b7aDsTVlHMb2Y+PYozLhpvsuMkvIbiaak8dt2LvOSA?=
- =?us-ascii?Q?gphkDDWjo5s3aGy839sHYcbzTiDCvyGHclT2uiOV0AIVjEU8s8U4/RDWURmZ?=
- =?us-ascii?Q?aDEoVar6+FeY+4+fciCvn5ORxTbor2lGct2rn4qSW3A0gYTc1kXqYw0vCj7H?=
- =?us-ascii?Q?aVkcA72lnpRCG9TLhTkABhy+cGP8ks3/GubR+8MNh6lEogc7BNAqFwgcpo1e?=
- =?us-ascii?Q?nGvGqVXJ8cnYtedSPzYEnErzVEMJv0ncnijeffyBk2wGZMhy03z/4mRrN06S?=
- =?us-ascii?Q?diHb8+k//+buv044Q5aeD0BHv8Z/O2cSqxNKcdlNXmfjBzhPcw0FvnSLB51b?=
- =?us-ascii?Q?FjjdcWxFzsAKA4edDLyyUEaNXo9LJHUVqkc/gkARhDksntNpGd/ETVyBhFTX?=
- =?us-ascii?Q?kDLpixyVZCBNY5KpmiQ/TbiHJrQcbH0xkNCe+5goB8ApgYbp7rIHk8sB6O6r?=
- =?us-ascii?Q?68lxe8Br3SnXcDUerIGiVISPz3kPoncYK6vPUQcUaCvvOlHVbOKW1wS4v4f8?=
- =?us-ascii?Q?CtMdaDqgCRJHOgZ/LpWM9HJGKezd80a4XWunmRLmOKrllIL3qeMdMlIDrVbj?=
- =?us-ascii?Q?dAcsL9sb0XUEUJwRsNDgn20lGV3LFsxZfNIQCizvVPfAKomGVjjAjSzNzSa0?=
- =?us-ascii?Q?1Wzv6z2MDBWKy/CYx5PeMARD8+P1wfmfLKM/mE+YLx6zqYBoacglvIro9O6J?=
- =?us-ascii?Q?qPu2graXJ22PxisEV5eNrZo7gGUFdmyLUOf0tfMNExX4fbb+GmgQKqhLP6Vp?=
- =?us-ascii?Q?ZtawyBHu8QdSdEVcSw80PdTutNmbgI4UDUjTUngn/M7ROjdhdchiRkC5r+mg?=
- =?us-ascii?Q?V2s881KWUPWvySnJcEl5Fmri5so3vW0WDcfiwBpZleh0fgL6GpgngtLWtD6+?=
- =?us-ascii?Q?NctjhqISKO3bkYhzB2k9VzxBx60h816zw0Jp/lgkeptKbRtC0J12LPpTfcM7?=
- =?us-ascii?Q?oV34XNHFip2viXfrD4zEKGY+DnNjqg6owSIR8apf/0gGD67CnMG1L5jdP/m8?=
- =?us-ascii?Q?81M0Gg3Y/JpF5ordVEpPgbTkUuI+ouFPL7LQDA3jERwHtSAyE2xBN5LnUOL9?=
- =?us-ascii?Q?qyYdIX+LoAUh8TUglSsVeJkQ1V/3akX1+IhC+ep98WvkoF/U7x4Wc/ZzZvln?=
- =?us-ascii?Q?SFdNabtjR1cQ+fexlGk0fsuOgP43OSMSUT5c2R9m4Z6smS/21lyP3iMCqg+e?=
- =?us-ascii?Q?Ey/dBchZ0UxcHr8=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?OdRaRwxcXblaJaKd+jdBjPQIvx6q6yfoIZwX5FVJSb91Qk9yF81VHn3oMXkb?=
- =?us-ascii?Q?hQv65vroqtNoWnsNneFvKOIXPnyJlvOC/FhKe57WeNpzE5SdX56p0zfQdKlx?=
- =?us-ascii?Q?1VSp1hWQzFG2WSwuOZVJI8jdMTRRFmsyUC3ocucLF9ZQcZFry8xZHfFvnakO?=
- =?us-ascii?Q?88r5mg3n+rJPE3qh7Cf6jP5c5CNz3jUQx4Ld4egS6S6rM8Xoi/A/7KR1X6P4?=
- =?us-ascii?Q?eDxTkj6kNYW9lJMJvL5Qqgz1T1Z7X9PsgTGY8gNLrfzUnLkvvJiABgE7Lqn9?=
- =?us-ascii?Q?9T8jcpvZAS+TAUmP/JzyudsXBF8IvlHiyr9jc8GZFBKDbBICMzN8bZjJJ61D?=
- =?us-ascii?Q?3t+1rU8SSACkfgmYsVvzfG1rid3cRhCXOK4yhGo71PVElJjeZJ1p0fu8Y4rI?=
- =?us-ascii?Q?CXLbWYEG1zbaJCzJN7Oi6cA3SrlNJE85QgYtjgKtrToBX1LUPuUfkahCyOwM?=
- =?us-ascii?Q?y3ggilZecScgglKlFZPSvnML4g0qHklD8z+N4MBMpygsqW3+5EHkjgSxz7qx?=
- =?us-ascii?Q?qUqKjN47je6E5rrnVNDH7NmIIHF6ltbrZ06uoxQdWUGzGxpzFFXvn6R0fG8h?=
- =?us-ascii?Q?rA5CN5dD3KJtaTuth5Vf6P4D5Aio+ciSP361DnRMtl44BRMzS3FwWqKYng4Y?=
- =?us-ascii?Q?nabwsZKU6P3nPAWvPDdsEMc6MeEqng8W0EHhJ7xReeEE+ioK8MFEXWZW6lGB?=
- =?us-ascii?Q?UqFc8dX2o9xlphL7LuiwvJJR0dADyewz58RDsrGnFlnwfuuRW5kkmBbP9613?=
- =?us-ascii?Q?mX4KfPnlSrXtFCQPpbxfTMGJjgjfMK42xHWEmBiAdN4Rl6C76KHzNjU8fyqq?=
- =?us-ascii?Q?XNQ9oRlg/STZ2GFeB94CC2aGBMshlQ8omg9jaRsglHkZp5JJquOWVaqFdiys?=
- =?us-ascii?Q?cA8LViooRiE8F7SOo6SYQfE5CHGpgXhPojvg2pDk+gB+Hlfx7yixuil5Rx4N?=
- =?us-ascii?Q?VNw4aXfN1WqbsxB9mUbbQuESae3fjyGfJi3cqkhdo7sh//FtdMP4MkVEyPvU?=
- =?us-ascii?Q?tRUxeO7T75F4cvsyNNBcbFGXY5W67JBJcMIRIw3MAkNNDGdqMWqxMpOZtRAs?=
- =?us-ascii?Q?pAJZLrZIkDy5swllx9psgHUh9SQPdAAHF8U7u/ulMIeQ41jrc6rgi4jRt9zF?=
- =?us-ascii?Q?w1Z5nTHhKFI4FHhmhRGvFEYQPrEyCGCzHoAzISwc8W4WXuqjzaIrlT4gk6ld?=
- =?us-ascii?Q?iJRq118sXj1w9QPLbAPFvmVPufdbYfH4wW1WCMCbMSlNJuJKZBqhR0T6eIon?=
- =?us-ascii?Q?ief0axFxJ912XzghK1TpZXN6ht3yZvdje1nAdco39m0ro2yX8VKGBB0zz/61?=
- =?us-ascii?Q?96eW3PWRUGim3cy8L9GaGWzjcYLYSKLVPY6awcR7o35/zh+fG7+EKoHmmE4s?=
- =?us-ascii?Q?8s6hXKVwZSIq6/cZ9NXyu18ehllcr57udNfPheocSbIxpebnGlpUUFLyfZcC?=
- =?us-ascii?Q?UVgpcQY2U+ux65PES9yNoT9kMSHNTQ8teo3ROhM6WPwCJhpCmJGI5DWVyrRe?=
- =?us-ascii?Q?TNdbGHAz6KCDsx8Qm1iuSsC02pP6407obn4D+LA0OTL7e1TpkEb0R/LBEkDv?=
- =?us-ascii?Q?iK0IwKyBf5zoGv+S6OBDueJd8tfmSRyx+f3P/F+CJECwpVKRRC6ZbsWn2xAc?=
- =?us-ascii?Q?Dg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] memory: renesas-rpc-if: Add missing static keyword
+Date: Wed,  7 May 2025 17:21:44 +0100
+Message-ID: <20250507162146.140494-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffb21744-fa16-4a65-31b6-08dd8d81a2cd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2025 16:10:07.8074
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9FMX+EcAxocJ+PcYXTHXDYHyGA0Sr74ZHe0tMFhsIfQNP4AwlUPzdxWjfYsbs4IAsbJyoYIy1BhLo6c+a4wN4YeoDoxVmk+IUcbs4xex4uI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB9746
+Content-Transfer-Encoding: 8bit
 
-Hi Thierry,
+Fix the below sparse warnings:
+ symbol 'rpcif_impl' was not declared. Should it be static?
+ symbol 'xspi_impl' was not declared. Should it be static?
 
-> -----Original Message-----
-> From: Thierry Reding <thierry.reding@gmail.com>
-> Sent: 07 May 2025 17:00
-> To: Biju Das <biju.das.jz@bp.renesas.com>
-> Subject: Re: [PATCH] drm/tegra: rgb: Fix the unbound reference count
->=20
-> On Wed, Feb 05, 2025 at 11:21:35AM +0000, Biju Das wrote:
-> > The of_get_child_by_name() increments the refcount in
-> > tegra_dc_rgb_probe, but the driver does not decrement the refcount
-> > during unbind. Fix the unbound reference count using devm_add_action_or=
-_reset() helper.
-> >
-> > Fixes: d8f4a9eda006 ("drm: Add NVIDIA Tegra20 support")
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  drivers/gpu/drm/tegra/rgb.c | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-> > index 1e8ec50b759e..2065157daab3 100644
-> > --- a/drivers/gpu/drm/tegra/rgb.c
-> > +++ b/drivers/gpu/drm/tegra/rgb.c
-> > @@ -200,6 +200,11 @@ static const struct drm_encoder_helper_funcs tegra=
-_rgb_encoder_helper_funcs =3D {
-> >  	.atomic_check =3D tegra_rgb_encoder_atomic_check,  };
-> >
-> > +static void tegra_dc_of_node_put(void *data) {
-> > +	of_node_put(data);
-> > +}
-> > +
-> >  int tegra_dc_rgb_probe(struct tegra_dc *dc)  {
-> >  	struct device_node *np;
-> > @@ -207,7 +212,14 @@ int tegra_dc_rgb_probe(struct tegra_dc *dc)
-> >  	int err;
-> >
-> >  	np =3D of_get_child_by_name(dc->dev->of_node, "rgb");
-> > -	if (!np || !of_device_is_available(np))
-> > +	if (!np)
-> > +		return -ENODEV;
-> > +
-> > +	err =3D devm_add_action_or_reset(dc->dev, tegra_dc_of_node_put,
-> > +dc->dev);
->=20
-> Actually, I think this needs to be:
->=20
->   err =3D devm_add_action_or_reset(dc->dev, tegra_dc_of_node_put, np);
->=20
-> otherwise tegra_dc_of_node_put() would attempt to call of_node_put() on
-> dc->dev, which won't work, or rather cause corruption of some sort.
->=20
-> Shout if you disagree.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202505072013.1EqwjtaR-lkp@intel.com/
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/memory/renesas-rpc-if.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I agree, is it something you can do while applying or you want me to send v=
-2?
-Please let me know.
+diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+index 4b2e903f2b0d..4a417b693080 100644
+--- a/drivers/memory/renesas-rpc-if.c
++++ b/drivers/memory/renesas-rpc-if.c
+@@ -1063,7 +1063,7 @@ static void rpcif_remove(struct platform_device *pdev)
+ 	platform_device_unregister(rpc->vdev);
+ }
+ 
+-struct rpcif_impl rpcif_impl = {
++static const struct rpcif_impl rpcif_impl = {
+ 	.hw_init = rpcif_hw_init_impl,
+ 	.prepare = rpcif_prepare_impl,
+ 	.manual_xfer = rpcif_manual_xfer_impl,
+@@ -1072,7 +1072,7 @@ struct rpcif_impl rpcif_impl = {
+ 	.status_mask = RPCIF_CMNSR_TEND,
+ };
+ 
+-struct rpcif_impl xspi_impl = {
++static const struct rpcif_impl xspi_impl = {
+ 	.hw_init = xspi_hw_init_impl,
+ 	.prepare = xspi_prepare_impl,
+ 	.manual_xfer = xspi_manual_xfer_impl,
+-- 
+2.43.0
 
-Cheers,
-Biju
 
