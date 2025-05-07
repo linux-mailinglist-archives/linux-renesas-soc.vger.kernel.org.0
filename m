@@ -1,101 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-16759-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16760-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C64AAAE269
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 16:18:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E65DAAE29B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 16:22:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C4A1165967
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 14:13:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 998489C747D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 14:16:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AECB628A701;
-	Wed,  7 May 2025 13:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 072B1289827;
+	Wed,  7 May 2025 14:09:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="kdB6uo86";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u7XMX9l6"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="uRXc1En5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ql2KYhKT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25DE28A417
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 May 2025 13:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4953289802;
+	Wed,  7 May 2025 14:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746626372; cv=none; b=k/2nAh5lBrT0jAc+E5jQchRjFwrvI+FoYby3jAPELX38ev2k6A1XHtcPiQNFiraNZmH2zfZiT11E4RTzEFAOXOnapZxvdrfvH6PZZ1OsTLaywlsiKOXHWGRISsq8F53GccMysM7pBg3yWPjOobAPMJq4kMaK4fjIjd/+2ul8zoE=
+	t=1746626993; cv=none; b=K9z8e21fnLadl6YJcwL2LuikeLi9ZQdtcLRtZB9RjWMh6jEcQrVB74mnK38m+frhm+PQDt0c7iCebH+yOB8m1nMJXHhecHVK+fJrmXixEXAsDmuWUIZKUvdTC4g17gu179RulNQ6WElbwuBmzi38/aYGZECsaqX05FRVWxCI7/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746626372; c=relaxed/simple;
-	bh=pcKi/R0GV2vMOkGgvV6+7cFvXkuBoiI3Y3F1/+0y1yY=;
+	s=arc-20240116; t=1746626993; c=relaxed/simple;
+	bh=old7/uME17Mkn3x1D2C+nAHExdQZPeB23poziY+F+Ks=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FndqpBTdo093OA9qd8ahnsRBZvFLgo1Cj8I1bJAuNLvfAph16uBEOxoUD/umJkCMHLuGeNn6kftIWsY4iH/aSRy5I1jPT/6yw38Odriu263gLKtc8Sf9P3xh2JOb/PcvVFzEACgNYz0z1bEv5luYY+2hHmlRMRFtOHKepCAnVxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=kdB6uo86; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=u7XMX9l6; arc=none smtp.client-ip=103.168.172.154
+	 Content-Type:Content-Disposition:In-Reply-To; b=qthhauAsYAJYymCRTrPkB8u64pS1iQY3k8eAl+mv+f37tQzq7xo3HdHgEry5tVKjzSUbXuZ96+Go3UrGdzo97ElFBnvY3AgLc1u9nRFpeFxFZwjF19E9zvJQ6jVzx1Asbf+BXkW06STa0OovYu1Jwr8N+lbtTcXnaPUrA5/G+ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=uRXc1En5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ql2KYhKT; arc=none smtp.client-ip=103.168.172.155
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id AC57711401B8;
-	Wed,  7 May 2025 09:59:28 -0400 (EDT)
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id E7F1A11401AD;
+	Wed,  7 May 2025 10:09:50 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Wed, 07 May 2025 09:59:28 -0400
+  by phl-compute-07.internal (MEProxy); Wed, 07 May 2025 10:09:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1746626368;
-	 x=1746712768; bh=0AV+Ka0ghT60Ni80lSH36dlQfcwviMBQ0Aew0ZN84vs=; b=
-	kdB6uo86SqBD2Of7Loe2W8jte3R9KTMIji0sbq4Mv1Ty3/t0j9B5V2JaZJjDxVT2
-	KMyJTUsD4uBaypLwhftF7iiWoMlZHQ/6bt+6ZvqKYQnQNat5rGX5xVpUoNG2TrPS
-	7REBks3Ppkp69CmBLtoV10tB6vNwfDlfMGqn6WeXoT/wESfxUmv+rsdE9KrkjBbs
-	eZamRfMBFCB47S9l0GAuJRKkbxe9U7RDPT4+XVQMT6DiTRoRZcGi2QmO5BK9pMfy
-	urNsIDTHgycB0K6RbUN3tMFKGj2OL6xx4gKhD55fXeELmnBt/piPZehfhInYHblv
-	ja9qMa+g65ytdvIPkMAKQw==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1746626990;
+	 x=1746713390; bh=Bd5xYdjuLGNHMD+GIGsrJhPQrpMyu+1/xz71iZbb+Dw=; b=
+	uRXc1En5Ph+xOfqNlybAZRa7XC0A7TiAxfh506fbobsbmTX5hDm93tXdp3k6XQtO
+	O5Si5308qeWqh5Gt3j5HVIzKHwm+aiWvUKqyeNorbTdBQEaHLz08VmD4kFAaLFGg
+	ekWqqE5ObA8/ee3IOkeN0GV4/B4hO0UAAYDhQ862wXHkdokDVLJGlpP3KJ7g8EAh
+	4fVNPM72ir3GwfaTCaR8MAiGSL55hflGHvl6YH0OdqJXUVBAw8r9aiIONlrkEq6Y
+	MfF0UPGanRvVI+O8iFJwWKrHlZpOyIFHCV/Uc9r96Z104BXbkopshRs/0S46Yx8i
+	+PYkO+Xnra50D1Ra6fszzA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746626368; x=
-	1746712768; bh=0AV+Ka0ghT60Ni80lSH36dlQfcwviMBQ0Aew0ZN84vs=; b=u
-	7XMX9l6e+g8yUvuOG025+Z+JG/iv6oKLPhCfHPFvN9B7/ZSRvGShMrvnBvRWZjMs
-	2a5VToA/4EqOH6IEIuEnOM2df/PCzFI5vpTSWo1h07qg4E6LW+k0rf9P42VkXd1O
-	3ehnr9jnOv3mPeFLftLE8iSHuD4g6Pmdd+264KUDpGWUimWUW476YTbVSUKqvsZ6
-	vV1mYX5wOOk4mcUxN5QTcklxdyBLjBSPjMZPd8keDRw85jjOFiCOCgZ0mX6Hv7hZ
-	SwFQhyZs3QS2YZxiW8A0ggtlY6oVfcpN2382Of363FR+CEMgS/qYz3dEw1H9gWcs
-	nzgmKXtPTZTLVEOLCeUhw==
-X-ME-Sender: <xms:QGcbaDJ5U54NwX75wOEnIg7d1QfCeLqjHnrGdKAbh-9AV6FaSxsVdw>
-    <xme:QGcbaHKie8ZPCAQ5RzhuJsqcJx0QxprflIf5tXt0jZ9oMxTj5B3Nimw1s-RdsZJBz
-    O9wrRkhMk_Vrup80Oo>
-X-ME-Received: <xmr:QGcbaLvuDiuQMWbeV0_XZNZmpdMxoXYtjOv5iPH3f-mEW6tc-Fbly3fWoAwGUjy6nTJrjXd6O5QRCqAAOiY5PZeAWu6xpRyn1Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeejtdegucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746626990; x=
+	1746713390; bh=Bd5xYdjuLGNHMD+GIGsrJhPQrpMyu+1/xz71iZbb+Dw=; b=q
+	l2KYhKTBSRA+Cv81ReCTKzSVIBgvKQTPsRjIoFnSXv0nSTHtqVOeNJunmKV/4Fbk
+	WdHjjm9F1zQKzezhs6cZt1hLGO4tw83Agg89wBaUifwBD0GyvP6vzPlUyJ2Hphqv
+	tztLViPuVdnDz5r6Az6NWsIMi4erL8+kBvu1etxNhb1VwZJQRDvgB7wlh2RlR6lN
+	+KVaXaoq9U68CLX6Dd99nzk9b+Ex4S/xl2z6MIyQu6UG0zl+uI9Qz02zs9ba6m1t
+	BVXe7FFu34QZYnmMRVatz2oLdUUAPhM34oWW6L8bH5IcWRq9fPn7aklz/fvf50Oe
+	d+RU2bX+D+pD1X8xWG00Q==
+X-ME-Sender: <xms:rmkbaOX3ADpvOoKlubEB73fzOUAZuaG9mOtTa_TTc2XkwPuCG7y8Kg>
+    <xme:rmkbaKlmM_aBSzBVDgnk2KLfzcFnKc95pauLeiS4EfmYhh7ISj0ana8moRJmz6Ip8
+    qjRjAIuFrscdwMZQnQ>
+X-ME-Received: <xmr:rmkbaCbkSiu4wSjrbpicKzHIJOk_a1XoGWrq79e4jf9RcrTepeQZHqqEFtnVXyCD89mxXBTvv0plJuvC1DzRrZJez1zKIdUn6w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeejtdeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
     gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
     tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
-    rghtthgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehff
-    dtvdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthh
-    drshgvpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
-    pehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtohepmhgrgh
-    hnuhhsrdgurghmmhesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhrvghn
-    vghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
-    hugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
-X-ME-Proxy: <xmx:QGcbaMYTH0NLeR5KJ5EvTLDq9xuQWjS7zhZNkYbTa_a4HUFrDz2noA>
-    <xmx:QGcbaKYTy6qmGVa-Bk47FO_1oeOAyfUxnKWoIO8ovomgmF7g2GravA>
-    <xmx:QGcbaAAeDb5NLgj2aTVPfQpM0cNu3ZriYtPM87HglTVr6KQQhjQggA>
-    <xmx:QGcbaIZXJ8_hL_xqwJ1AkqsYI-qTRuac75CN_CDZJL7wh1FVrMFNwg>
-    <xmx:QGcbaMxD-3oxVp98VYl9mbPQcaL_Dwql1iL3UKx_WtC6YvicA8tIvGO0>
+    houggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeev
+    teegtddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdr
+    shhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeekpd
+    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehjrggtohhpohdrmhhonhguihesihgu
+    vggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgrtghophhordhmohhnughiod
+    hrvghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlrghu
+    rhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpth
+    htohepkhhivghrrghnrdgsihhnghhhrghmodhrvghnvghsrghssehiuggvrghsohhnsgho
+    rghrugdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgv
+    lhdrohhrgh
+X-ME-Proxy: <xmx:rmkbaFW0yEME6M6IokghhC7w2oyejMpu1GmUcG6508WnIDWZC4PCpA>
+    <xmx:rmkbaInqGF961LX7X4m8A-12UhpNcFBQoM8L2NvL3k3iJRg3OXH1Ig>
+    <xmx:rmkbaKeOhWW8THAUURZbZZuDXxQukUJlmDrfo9i9JsxDlEVP9eyDqA>
+    <xmx:rmkbaKFYmf52O37wVsv0cfhcOK70ZShdre6e0sbIslqy9QECyIeICA>
+    <xmx:rmkbaLa2lK-cQovhL6mwk1HOR53SvzruQyTp8FcttnyH-jsCHVQ3uEp5>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 May 2025 09:59:28 -0400 (EDT)
-Date: Wed, 7 May 2025 15:59:25 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: dts: renesas: white-hawk-single: Improve Ethernet
- TSN description
-Message-ID: <20250507135925.GA836326@ragnatech.se>
-References: <367f10a18aa196ff1c96734dd9bd5634b312c421.1746624368.git.geert+renesas@glider.be>
+ 7 May 2025 10:09:50 -0400 (EDT)
+Date: Wed, 7 May 2025 16:09:49 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v9] media: vsp1: Add VSPX support
+Message-ID: <20250507140949.GB836326@ragnatech.se>
+References: <20250506-b4-vspx-v9-1-d7d50a01f7b6@ideasonboard.com>
+ <20250506173733.GA539397@ragnatech.se>
+ <2wsx4pmkwmjgqlfywbsqim5irnh7lcfhbdreenevf2lnd2ofsb@u3epcobuxuij>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -105,67 +115,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <367f10a18aa196ff1c96734dd9bd5634b312c421.1746624368.git.geert+renesas@glider.be>
+In-Reply-To: <2wsx4pmkwmjgqlfywbsqim5irnh7lcfhbdreenevf2lnd2ofsb@u3epcobuxuij>
 
-Hi Geert,
+Hi Jacopo,
 
-Thanks for your patch.
-
-On 2025-05-07 15:31:55 +0200, Geert Uytterhoeven wrote:
->   - Add the missing "ethernet3" alias for the Ethernet TSN port, so
->     U-Boot will fill its local-mac-address property based on the
->     "eth3addr" environment variable (if set), avoiding a random MAC
->     address being assigned by the OS,
->   - Rename the numerical Ethernet PHY label to "tsn0_phy", to avoid
->     future conflicts, and for consistency with the "avbN_phy" labels.
+On 2025-05-07 14:28:50 +0200, Jacopo Mondi wrote:
+> Hi Niklas,
 > 
-> Fixes: 3d8e475bd7a724a9 ("arm64: dts: renesas: white-hawk-single: Wire-up Ethernet TSN")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> On Tue, May 06, 2025 at 07:37:33PM +0200, Niklas Söderlund wrote:
+> > Hi Jacopo,
+> >
+> > Thanks for this new version!
+> >
+> > I will give this a good testing as soon as I have finished some
+> > refactoring of the user of this. I had a comment I wanted to send for
+> > v8, but seems I never did. So for now I will just post this incase you
+> > need to do a v10 before I had time.
+> >
+> > On 2025-05-06 18:32:23 +0200, Jacopo Mondi wrote:
+> >
+> > .. snip ..
+> >
+> > > +struct vsp1_dl_list;
+> > > +struct vsp1_isp_job_desc {
+> > > +	struct {
+> > > +		unsigned int pairs;
+> > > +		dma_addr_t mem;
+> > > +	} config;
+> > > +	struct {
+> > > +		struct v4l2_format fmt;
+> >
+> > I'm very happy to see this is now the only location for the format, nice
+> > work! I wonder if we shall take it one step further and just record the
+> > fourcc, width, height and bytesperline here? Or at switch to a
+> > v4l2_pix_format struct?
+> >
+> > The user of this field do not really support multi plane formats, nor do
+> > it validate fmt.type field.
+> >
+> > I recently hit a snag in the ISP driver using this interface where I
+> > *think* the solution is to only allow single plane buffers to be used as
+> > input to the ISP (V4L2_CAP_VIDEO_OUTPUT_MPLANE vs
+> > V4L2_CAP_VIDEO_OUTPUT). While fixing the plumbing for this I ran across
+> > this, sorry for not noticing before.
+> 
+> True that.
+> 
+> However my understanding is that nowadays the multiplaner API should be used
+> for single planar formats too.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Mine too, I'm just grasping for straws debugging things and this was one 
+thing I tried to figure things out. It was unrelated to the VSPX, and 
+did not solve my instal problem. But working on it was what lead me to 
+this design decision in the VSPX driver.
 
-> ---
-> To be queued in renesas-devel for v-6.16.
+> If you want to avoid passing in the
+> whole 'struct v4l2_format' then I would pass in the
+> v4l2_pix_format_mplane .pix_mp member (which the VSPX uses
+> unconditionally at the moment).
 > 
->  arch/arm64/boot/dts/renesas/white-hawk-single.dtsi | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+> However, assuming future developments where a different user uses
+> V4L2_CAP_VIDEO_OUTPUT, the VSPX driver can be extended and use the
+> .type field to select which member of the 'fmt' union to use if we
+> pass the whole 'struct v4l2_format' in. This is all very theoretical I
+> know. To be honest I would keep the interface as it is and eventually
+> improve the VSPX driver to use the 'type' field to select which format
+> to use.
+
+I'm fine with that. Maybe add a check on .type field in the VSPX driver 
+and fail if the .pix_mp 'variant' is not used to configure the VSPX?  
+When playing with V4L2_CAP_VIDEO_OUTPUT the VSPX code still happy 
+accepted the struct v4l2_format but it contained bad data when 
+interpreted as .pix_mp instead of the .pix that was populated.
+
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/white-hawk-single.dtsi b/arch/arm64/boot/dts/renesas/white-hawk-single.dtsi
-> index 8b4d313ad173cd3b..4ddb70e525c0532e 100644
-> --- a/arch/arm64/boot/dts/renesas/white-hawk-single.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/white-hawk-single.dtsi
-> @@ -11,6 +11,10 @@
->  / {
->  	model = "Renesas White Hawk Single board";
->  	compatible = "renesas,white-hawk-single";
-> +
-> +	aliases {
-> +		ethernet3 = &tsn0;
-> +	};
->  };
->  
->  &hscif0 {
-> @@ -53,7 +57,7 @@ &tsn0 {
->  	pinctrl-0 = <&tsn0_pins>;
->  	pinctrl-names = "default";
->  	phy-mode = "rgmii";
-> -	phy-handle = <&phy3>;
-> +	phy-handle = <&tsn0_phy>;
->  	status = "okay";
->  
->  	mdio {
-> @@ -63,7 +67,7 @@ mdio {
->  		reset-gpios = <&gpio1 23 GPIO_ACTIVE_LOW>;
->  		reset-post-delay-us = <4000>;
->  
-> -		phy3: ethernet-phy@0 {
-> +		tsn0_phy: ethernet-phy@0 {
->  			compatible = "ethernet-phy-id002b.0980",
->  				     "ethernet-phy-ieee802.3-c22";
->  			reg = <0>;
-> -- 
-> 2.43.0
-> 
+> >
+> > > +		dma_addr_t mem;
+> > > +	} img;
+> > > +	struct vsp1_dl_list *dl;
+> > > +};
+> >
+> >
+> > --
+> > Kind Regards,
+> > Niklas Söderlund
 
 -- 
 Kind Regards,
