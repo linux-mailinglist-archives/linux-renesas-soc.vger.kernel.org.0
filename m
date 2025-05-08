@@ -1,166 +1,280 @@
-Return-Path: <linux-renesas-soc+bounces-16804-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16805-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B300AAF9F8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 14:30:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF393AAFA7D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 14:51:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B28561BC0CCD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 12:30:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 609833A7905
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 12:51:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBE302153CB;
-	Thu,  8 May 2025 12:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8836A226D1C;
+	Thu,  8 May 2025 12:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kv7GTQmN"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="TmnRoavJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010039.outbound.protection.outlook.com [52.101.229.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4951DFCB;
-	Thu,  8 May 2025 12:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746707430; cv=none; b=spt3FJpbxgCif5L9iRLYM+2rKxRC0GUkdjj6cRReenjI/QhVarnguCMx0TRqxiXIAEAxCwD/ySjMGW/5V+1Wv8o+wvhSbBoQ87VawKlNnSwcinuo5qdy80xLFfPIDOQJpkoqL91VPNhYAhYC3JOl94YfdnrJsdzsKL1Z7nycLY4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746707430; c=relaxed/simple;
-	bh=HeIcU31k0jUrshoLuqpcoqbbrejY7CBH2/uU+k3kuOc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RufyxzzWLlywlMaJkvFyXAriM/AaxfrgjMJhFSnTPUI87pUAzag91Jh15L4fPkQ7yLfuJSEugk2z88w/8GeTp09RCbuYj8mBu92Yim/iiad03h/4YPVPKO5/9QSVQh2vhOBoQbaTAjsfqGFmapawfT/L5/GcF/O/hYHFnyA3tP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Kv7GTQmN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0845722A;
-	Thu,  8 May 2025 14:30:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746707415;
-	bh=HeIcU31k0jUrshoLuqpcoqbbrejY7CBH2/uU+k3kuOc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Kv7GTQmNOjXfv5izHqX8NTODRxFtWXkeujrTKYNLX9iMKNX48d1lZt7nD7MQEh+lk
-	 u+RB9IMq+lBF21BjGUdzi4omacs5jYElXbmZ7mBw6p7xLnp7vVxGf5KfVJpOQzQs94
-	 s5/0zHW1UDWOZBJoPeVX/Ta62rjRKpELEezdfQdY=
-Message-ID: <5e5130c1-2967-41da-b8c4-352f676cced8@ideasonboard.com>
-Date: Thu, 8 May 2025 13:30:24 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74364B1E6E;
+	Thu,  8 May 2025 12:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746708674; cv=fail; b=PhzqhrwLhhG+lM2ZpVKbxUZ+iOkaOsUZRm0Ndu6MjeUMVmfIl4Z8oLVsHQEUSfkL03ofqkPcneBu5fble8nBHdM1JhL9DoxDtsgieNbRb1P6Q8Nyv51REvvdcnH3WjkW3AENcR/dZ0Q/uCu18fqVr8D5whs9NZtYnOV9J0rjTMI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746708674; c=relaxed/simple;
+	bh=uEvOtbUVSDW/rI0kVuqmUuLEKjHX2Af6Gos/SlHvKQE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=t9rFvZjnbJ/tYQndq+suWBObO0yEFuNxeGQuteVHs3BhWvM4QkJJXBgdgyY8aBgpRgogUmVOii5VxlvJYD9SaBNvbLMVrG88cgr2bnZOLo3EQWTz7HCvPWklHuMhe6diPd2fki52isTqIT7ieMdCD6HrUVKajKNSVBtBmNA95Jc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=TmnRoavJ; arc=fail smtp.client-ip=52.101.229.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gg1bEJYu2aIVRNv49IS30Y2e30E7oLe8mR3G5Cz12WZPRTAstzHjHZLpIc8px5KzDaTNCUSDQkrnF1LPurf13DR4i885zxCrKUqabIRBq3/reokjX9Y4rGxmQW3DEIdCEXO0dIxTRBtXinHEVngnBa+gU895c/eJHDJpPsWsqq0uRgsCH/ij6a00ae3J9IRh6UIrlSf8jqckmCHo+TTSmOgJO0AVGUnne/Rpoj7I+lMiYLbRcHcugSjbw/fUHidpOQDHuTUjALdOivsj9YcgguQw0aRhfK3WB6ZpDQRqhdgW6/Pxv3p84VkBPEvWhqMBmrTxr8FPnc/sFvuysyi0rA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0kRS24La6Kr3x3sWu/31CLSTICRDZQdFqgVkdJg9yvY=;
+ b=x1kVe5ZJyVJDp2KYT3aCHeKTJtFEXzYQeZT1S2v8W9qGwkGOM/5CtpckOolJSvDEBBAiGxr+xwqx5O1NMG9Rc7xLKycrekCd93ypCIh6wHh9FaXjdbFc39NHlcGu0DWh58KtMtQ8o25TrQDYCpBAxv5dU6ybQ6QH7UFszO+pbkZ9z/wkl3jCBgWJo3h8Fyqgg/TghIBrev9iHjbDgMkIfT5yV4MyxtIYBj41miksCi045r4CI+RlH1xBWJIjIdOSL7zZg8wP2rGU+oY6+3rCpw4qFmuJee62YH25VXrk2WfiWAfoUIFp8ZXFXQQMRboPIusNUT80u9C9MHwOLfsgyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0kRS24La6Kr3x3sWu/31CLSTICRDZQdFqgVkdJg9yvY=;
+ b=TmnRoavJmyhNj7/23lV5UrZbjZgJUKujejyaecZgf55kkEMMRV1BinOqrujv+O8ahdBg/LlCX8pzQJv/QKrWfGFuWNajPJu6JUEIjt7q9jd/dAktUz1nGPMp6iv7SMcQ6Kzei4IalOsOeXxpOSnqPKOcZqKaVEzYpZn7J77L6WQ=
+Received: from TYCPR01MB12093.jpnprd01.prod.outlook.com (2603:1096:400:448::7)
+ by OS3PR01MB8763.jpnprd01.prod.outlook.com (2603:1096:604:150::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.23; Thu, 8 May
+ 2025 12:51:08 +0000
+Received: from TYCPR01MB12093.jpnprd01.prod.outlook.com
+ ([fe80::439:42dd:2bf:a430]) by TYCPR01MB12093.jpnprd01.prod.outlook.com
+ ([fe80::439:42dd:2bf:a430%3]) with mapi id 15.20.8722.021; Thu, 8 May 2025
+ 12:51:07 +0000
+From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To: Dan Scally <dan.scally@ideasonboard.com>, "linux-clk@vger.kernel.org"
+	<linux-clk@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>
+CC: "geert+renesas@glider.be" <geert+renesas@glider.be>,
+	"mturquette@baylibre.com" <mturquette@baylibre.com>, "sboyd@kernel.org"
+	<sboyd@kernel.org>, "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"magnus.damm@gmail.com" <magnus.damm@gmail.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Daniel Scally
+	<dan.scally+renesas@ideasonboard.com>
+Subject: RE: [PATCH 1/4] dt-bindings: clock: Add macros for RZ/V2H ISP clocks
+Thread-Topic: [PATCH 1/4] dt-bindings: clock: Add macros for RZ/V2H ISP clocks
+Thread-Index: AQHbvoBEWH6FWyn/hU+j8+GHquSvf7PFmATwgAMUxYCAAAJiUA==
+Date: Thu, 8 May 2025 12:51:06 +0000
+Message-ID:
+ <TYCPR01MB120936D952DF916B0DFE44B60C28BA@TYCPR01MB12093.jpnprd01.prod.outlook.com>
+References: <20250506121252.557170-1-dan.scally@ideasonboard.com>
+ <20250506121252.557170-2-dan.scally@ideasonboard.com>
+ <TY3PR01MB12089DADE623A195D184FD5BAC289A@TY3PR01MB12089.jpnprd01.prod.outlook.com>
+ <502e185a-a632-476c-8712-56e845b6ca84@ideasonboard.com>
+In-Reply-To: <502e185a-a632-476c-8712-56e845b6ca84@ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB12093:EE_|OS3PR01MB8763:EE_
+x-ms-office365-filtering-correlation-id: d223d6e7-3570-4c59-014b-08dd8e2effed
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?1ePiDLo8eQzI33yrhgen6wrAPzZj8UQTI2JoJ1ao0wOsr5s0OVTgBICX2x?=
+ =?iso-8859-1?Q?2iIbbGyswXTWLs5v8aaf5K8X9v++YeLvz8pZVgmJbgCW2/GPGlrJKDEWfp?=
+ =?iso-8859-1?Q?E8PcxPPHbfNwCTswjHBVdyD9WT0IrfLLy5VgeiPS54uC2GAncmeMmDTObf?=
+ =?iso-8859-1?Q?PQiePsAbaVe/XZb3a/OaEfjfUq/iAKy8zrI0vh5W6Lbr+mv/SdlNad5ySZ?=
+ =?iso-8859-1?Q?fKRU9yCSFdnUxt5RaSk5ODQGbQZateVZ3bqNW/oCh/25C8t/2ak4m2ZnMe?=
+ =?iso-8859-1?Q?3wBbLULksr43BHMgwYHsfV+e77g3cOl4PB0xD/hQzocf8yn4cJLSYBa988?=
+ =?iso-8859-1?Q?f0zBWf279K3xqp1EdKjCJAzpH5PlB2Nw6brsnk0eSI1QMf1qCN1BCS7grv?=
+ =?iso-8859-1?Q?8t4kaYaS84beWdPTSey25wdwrwMt+A8gqtEaavnP8ClEHU2Vfs7R/4qBAG?=
+ =?iso-8859-1?Q?ha0kPu046o9Zm6ghSjYpdr/VHKm4VAS/PD42+ZnyEU5Gmr8Ko5Bb5XARZF?=
+ =?iso-8859-1?Q?rzg208euJ7k8kqokpcfFfjDXHzAsAj2UlatLp0KhqHnwVMXd/V0x6F4a3r?=
+ =?iso-8859-1?Q?G2TXTaiXPeyQ/0sCZiUU162fx+s/dVwY5dls5y8vCYXRfTlpG3+hjX6ezP?=
+ =?iso-8859-1?Q?kgkY8lib9kc6AMshRmkIsjv/JNDWEr6DLoSwbmd4OM44GDUmXVhMdoCmnS?=
+ =?iso-8859-1?Q?qCYVRP2g/X6WorOg1uXa/wdsmowFIDr8az6sV7ZDwAAItm08rSS8G/tTm3?=
+ =?iso-8859-1?Q?0pcTi/zYfgSB9xwA2u7gZLdy1TvYH1lM3cnbhk2oVGWZEtYCAGEEZR7sbd?=
+ =?iso-8859-1?Q?Zil6WrYVfViEMpG4UFw2SRTciUqCSfjUWlEKeXMEKieyFO48x3ZPTS1Qz5?=
+ =?iso-8859-1?Q?iSnZylK/0yFkD73bDJcR0ROSe/Io6x1ENogjB8iivpwHNmTTASLFj2bKev?=
+ =?iso-8859-1?Q?7rt436+cXkuvKHoL/D1OsAmYRmlFBHuSLdHOZyiatP99IRJ/PI8yP840I3?=
+ =?iso-8859-1?Q?IIMUK5ou52ku0GiykcqpGkMDGAYV5ZjIrO4+n5Rgjf0xxW9qrudD0jvBW0?=
+ =?iso-8859-1?Q?o49eLpP6T1EJo2aOOtb34V+NgWNFHoE2HblUwY7sHdaZRaQY/aunTxJDNH?=
+ =?iso-8859-1?Q?cFSY25i6DrOL9HEODiWKpbbb30DKvW7ZW0LgG9V5XqqzQ8cXjFK3ehSiAB?=
+ =?iso-8859-1?Q?6hsrgrMVmoqoLPJj39hHwik7JGI70GbCHZAFNiDVwEqZKSEk52M/VgbxvP?=
+ =?iso-8859-1?Q?xa8qeM4+B66pGnLO2J5Sr4wNeqq8ui8HbSjpc1VEEBjn0cwju5KCRBliLm?=
+ =?iso-8859-1?Q?lOsEVyQ3KEBqgoV2Yy9zbl/apJ1rVFHCuIaNJ9HIMkQJZY7YYT4eqDgxje?=
+ =?iso-8859-1?Q?rsxKFfmAwid7RPNQEC7hYFFt+XUdTXKiKvhsoHepvTovJ5qFhz0msTAtsI?=
+ =?iso-8859-1?Q?9ThVJyujoAuXwLhscZ7Cv/LQg4+FDFL8GZ1GJ2IuQ/psfaQydTHX9QWT64?=
+ =?iso-8859-1?Q?7dArvsXm3CLyAroaONLYl55fZl02cUgeFcniPdDT3D0VThn3/Kr1bsOPZH?=
+ =?iso-8859-1?Q?BaovhKs=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB12093.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?39ru5+dkA9+K/9jleNJXmIsBpbse/0gVrnWZBwvrNvw8nKqm5azztlG01z?=
+ =?iso-8859-1?Q?Rr6FtSZcZX8APafRBRVZXrJuq9VRYasNW0vnVSWbTWYcnm1o72p83xwS4s?=
+ =?iso-8859-1?Q?GM9kpHAe4gScsJVG0SMbLdTTJXG8BNWrgmsBk00s++uE4+DPkq5yc5QR1c?=
+ =?iso-8859-1?Q?OXpWEXUMw/2rY8qDsZbYlkf/7kQszW7V0zMJBSPM5KFtHGk9NFlHmAD5tS?=
+ =?iso-8859-1?Q?PAP/vgD9ozyA31lmxb7CWqMzRA9auaHNcTIE3abJEACklideP9W0lBQ4JH?=
+ =?iso-8859-1?Q?sJNQoT9UZx8LGqD9MgDv9jh0YHxy89XQPWNeL2HEqsUm4Zr7WX1On4+sJF?=
+ =?iso-8859-1?Q?ozBwG7PA5mHnKTBLTWGgh2c+ukMflXjpBfEcW+TfQiOdnRB7M/gq7JZs6V?=
+ =?iso-8859-1?Q?5h/07ndfLhGSbyV5xUN/clOAermMstHQ3FggqeQ6djlTqhXIBpFE99+G3j?=
+ =?iso-8859-1?Q?s8aZ36E2XSyvarjpBopvoGG0+JUJ9ojqUKJvyaNcx0UZ2uPy7gZAB2uDvl?=
+ =?iso-8859-1?Q?INUc6PMOpAPGOFaYCl34ytj316eCv3jbI8c/bb25HedRQAkLA9CVyvdY+V?=
+ =?iso-8859-1?Q?TwT2x3N5RK4Qz/2EeNnuummGuEZ5VYWmzDetreWJiGGZOULmS7UT/2fkTI?=
+ =?iso-8859-1?Q?3AvjF2pMJpbfMJYuEdby0GnyJ98tT3M5BnVNLTT7g2jUNnGOGdVk+NKlMm?=
+ =?iso-8859-1?Q?4y/EaM0PYXWQHOv/bkGxfctGZQOCJBJUbx4GcZIjFhO0Tu1d3icERWU0eg?=
+ =?iso-8859-1?Q?VTVHT4tXlJ3h/54qfb9A9LpK9gQ6/XRcIs7t6mbt2Sb+5Qt4H2e0j7h6L4?=
+ =?iso-8859-1?Q?UpDK/FeIlJ40Ib6aSqO2IOoO6GQj2UkjGn7HeVo48ujv3UefQtIn7Yozj0?=
+ =?iso-8859-1?Q?FbGgW0gEN9IuWDkvXI1i5vAmvW/6yFWTHElSL6f1PgZl5UWKhgy4Zp6/RF?=
+ =?iso-8859-1?Q?ZCa4E2V7QxX5zFeCmkXbhO7Jdx3TGhgAcNkQdZhcVOwxyn4RYW9pgyeAG2?=
+ =?iso-8859-1?Q?9+HEpcWGKoBVeFvcahciXuYXpFm7zQOyN3MhXsuVh6mzZmjTXgffCsLmLy?=
+ =?iso-8859-1?Q?fMjK5RZ+dOWFacmfY7SbI/GPosABZLYpRFJuIIv8l0oJdUL0oc4oQX52ey?=
+ =?iso-8859-1?Q?37n62VFA/aGc8tRUR8FLyuD6qDcMK5JkCUznfKpQul2oNSHkFuxIUPEqTl?=
+ =?iso-8859-1?Q?BDWhOBDfVVKmf8MO32sb3tKFHf4CRfpmWpRSTPc5qFCQ0+j35tsalB6K6T?=
+ =?iso-8859-1?Q?pJYqC3sQkCQ+rSk6X5hg5BusvwyH0EOXOnB25LcjFYu+fkHU0kN6fNce2X?=
+ =?iso-8859-1?Q?psAf1oY+QxUbt394eQdUMEdflxJEDgTNPQvdw3MSRepRHmFa9w/wyC1cQ5?=
+ =?iso-8859-1?Q?jIyGacCJhFiWVSCXOG3F8ixPQGApatN/2uNHDEOSdu8tmFIxNUNFvqdO+Q?=
+ =?iso-8859-1?Q?QdUlV3OoPBlgRt2nFhDh3/CMyImvU2gme8m7f3MyivLYBf4B5PotAN4NP/?=
+ =?iso-8859-1?Q?zLHhz9WYgj/ObSdBo3XEq5twgDXuVZAlh5V5A0t+JcO8zcXvlfO9Em54+z?=
+ =?iso-8859-1?Q?qIW03R7LEM5I8fiNn41A+6vRk0ZJ0LEWkptr4eZ96A/rggkmeYKr8DJVWM?=
+ =?iso-8859-1?Q?jzbCDM8U/wQYKTg/aMPqSph9dp76Vj+yWnNHuU3yYOS4RAwCvHh3DPYQ?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] clk: renesas: r9a09g057-cpg: Add reset definitions
- for RZ/V2H ISP
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Cc: "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "mturquette@baylibre.com" <mturquette@baylibre.com>,
- "sboyd@kernel.org" <sboyd@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Daniel Scally <dan.scally+renesas@ideasonboard.com>
-References: <20250506121252.557170-1-dan.scally@ideasonboard.com>
- <20250506121252.557170-5-dan.scally@ideasonboard.com>
- <TY3PR01MB1208913AA506585FF622DD7D3C289A@TY3PR01MB12089.jpnprd01.prod.outlook.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <TY3PR01MB1208913AA506585FF622DD7D3C289A@TY3PR01MB12089.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB12093.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d223d6e7-3570-4c59-014b-08dd8e2effed
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 May 2025 12:51:06.9605
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3/ULmUZ5KMoQyAuGii5yyqE1towlJpmpF0J0/EM0AtwMKl2Q0CG2E4d11O1GBxkKxGLYgbJ0oLLRM1xBERIVVDfWD7WputdZmsnLR3DdvEo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8763
 
-Hi Fabrizio
+Hi Daniel,
 
-On 06/05/2025 14:26, Fabrizio Castro wrote:
-> Hi Daniel,
->
-> Thanks for your patch!
->
->> From: Daniel Scally <dan.scally@ideasonboard.com>
->> Sent: 06 May 2025 13:13
->> Subject: [PATCH 4/4] clk: renesas: r9a09g057-cpg: Add reset definitions for RZ/V2H ISP
->>
->> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
->>
->> Add reset line definitions for the ISP of the RZ/V2H SoC
->>
->> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
->> ---
->>   drivers/clk/renesas/r9a09g057-cpg.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9a09g057-cpg.c
->> index cb001ae5f98b..6537654bbdfb 100644
->> --- a/drivers/clk/renesas/r9a09g057-cpg.c
->> +++ b/drivers/clk/renesas/r9a09g057-cpg.c
->> @@ -298,6 +298,10 @@ static const struct rzv2h_reset r9a09g057_resets[] __initconst = {
->>   	DEF_RST(12, 14, 5, 31),		/* CRU_3_PRESETN */
->>   	DEF_RST(12, 15, 6, 0),		/* CRU_3_ARESETN */
->>   	DEF_RST(13, 0, 6, 1),		/* CRU_3_S_RESETN */
->> +	DEF_RST(13, 1, 6, 2),		/* ISP_0_VIN_ARESETN */
->> +	DEF_RST(13, 2, 6, 3),		/* ISP_0_REG_ARESETN */
->> +	DEF_RST(13, 3, 6, 4),		/* ISP_0_ISP_SRESETN */
->> +	DEF_RST(13, 4, 6, 5),		/* ISP_0_PRESETN */
-> The numbers LGTM, but I think these changes belong with patch number 2.
+> From: Dan Scally <dan.scally@ideasonboard.com>
+> Sent: 08 May 2025 13:30
+> Subject: Re: [PATCH 1/4] dt-bindings: clock: Add macros for RZ/V2H ISP cl=
+ocks
+>=20
+> Hi Fabrizio
+>=20
+> On 06/05/2025 14:27, Fabrizio Castro wrote:
+> > Hi Daniel,
+> >
+> > Thanks for your patch!
+> >
+> >> From: Daniel Scally <dan.scally@ideasonboard.com>
+> >> Sent: 06 May 2025 13:13
+> >> Subject: [PATCH 1/4] dt-bindings: clock: Add macros for RZ/V2H ISP clo=
+cks
+> >>
+> >> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> >>
+> >> Add macros for the RZ/V2H ISP clocks so that they can be referred to
+> >> descriptively in the drivers.
+> > I don't think this patch is needed.
+>=20
+>=20
+> Ah, indeed not in this set...I've been using them in the devicetree files=
+ (not the drivers as my
+> commit message says) for the hardware that consumes the clocks, like so:
+>=20
+>=20
+> isp: isp@16080000 {
+>  =A0=A0 =A0compatible =3D "arm,mali-c55";
+>  =A0=A0 =A0reg =3D <0 0x16080000 0 0x200000>;
+>=20
+>  =A0=A0 =A0clocks =3D <&cpg CPG_MOD R9A09G057_ISP0_ACLK>,
+>  =A0=A0 =A0=A0=A0=A0 =A0=A0=A0 <&cpg CPG_MOD R9A09G057_ISP0_VIN_ACLK>,
+>  =A0=A0 =A0=A0=A0=A0 =A0=A0=A0 <&cpg CPG_MOD R9A09G057_ISP0_SCLK>;
+>=20
+>  =A0=A0 =A0...
+>=20
+> }
+>=20
+>=20
+> Do you think they're useful for those? If so I'll move this and the rest =
+patch to a later series
+> that adds those nodes to r9a09g057.dtsi
+
+As you can see from Documentation/devicetree/bindings/clock/renesas,rzv2h-c=
+pg.yaml,
+we require numbers in the clock cell for `CPG_MOD` clocks. Therefore, the a=
+bove
+snipped would become:
+
+clocks =3D <&cpg CPG_MOD 0xe2>,
+         <&cpg CPG_MOD 0xe4>,
+         <&cpg CPG_MOD 0xe5>;
+
+We only require bindings for `CPG_CORE` clocks, but the above are not `CPG_=
+CORE`
+clocks.
+
+If you have a quick scan of the SoC specific .dtsi file you realise that th=
+is
+is consistent what has been upstreamed so far.
+
+Cheers,
+Fab
 
 
-OK, I'll squash them.
-
->
-> Cheers,
-> Fab
->
->>   };
->>
->>   const struct rzv2h_cpg_info r9a09g057_cpg_info __initconst = {
->> --
->> 2.34.1
->>
+>=20
+>=20
+> Thanks
+>=20
+> Dan
+>=20
+>=20
+> >
+> > Cheers,
+> > Fab
+> >
+> >> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> >> ---
+> >>   include/dt-bindings/clock/renesas,r9a09g057-cpg.h | 4 ++++
+> >>   1 file changed, 4 insertions(+)
+> >>
+> >> diff --git a/include/dt-bindings/clock/renesas,r9a09g057-cpg.h b/inclu=
+de/dt-
+> >> bindings/clock/renesas,r9a09g057-cpg.h
+> >> index 541e6d719bd6..cb2ccd9068db 100644
+> >> --- a/include/dt-bindings/clock/renesas,r9a09g057-cpg.h
+> >> +++ b/include/dt-bindings/clock/renesas,r9a09g057-cpg.h
+> >> @@ -17,5 +17,9 @@
+> >>   #define R9A09G057_CM33_CLK0			6
+> >>   #define R9A09G057_CST_0_SWCLKTCK		7
+> >>   #define R9A09G057_IOTOP_0_SHCLK			8
+> >> +#define R9A09G057_ISP0_ACLK			226
+> >> +#define R9A09G057_ISP0_PCLK			227
+> >> +#define R9A09G057_ISP0_VIN_ACLK			228
+> >> +#define R9A09G057_ISP0_SCLK			229
+> >>
+> >>   #endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G057_CPG_H__ */
+> >> --
+> >> 2.34.1
+> >>
 
