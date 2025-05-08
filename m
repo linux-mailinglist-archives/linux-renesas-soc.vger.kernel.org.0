@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-16796-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16797-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819B1AAF655
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 11:08:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75134AAF660
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 11:11:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDB204E2962
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 09:08:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA0C79E150C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 09:10:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6577216E05;
-	Thu,  8 May 2025 09:08:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 564B61C6FE2;
+	Thu,  8 May 2025 09:10:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F2FQFsAh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xrs6yddL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D5320409A;
-	Thu,  8 May 2025 09:08:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A7BEAF6
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 May 2025 09:10:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746695333; cv=none; b=N4XUIywglQngVVl/DqvoYPELs6MpFu7ac416KLds83Q6B5dFxEql+9zC23yufpo7U6RnjcfX2K7nUgUJ0s6WtCifZG3OcuAxnMFIIRHIUhRdcKZo9FrSqxgEiQQEUXQaSOvreTEP4BujsTz8dAo0SEVj3FKW707vEVDVTRRDntA=
+	t=1746695455; cv=none; b=ArozPEwTihhjNo8HFAeV6h3ODKDbemXSniOvfjW1XlDxV7Tw3gT6wvWXihGXRPmL78xocKkJ4CbU2DzcARH+x5NjBFy7qlFXBu9C4P9MMdUNJRtwM41nCeIpSKA8EqZnP1ntHqX8f/vx57S7RGgGfUa+PdGcTDrCW5j0AFl6Z2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746695333; c=relaxed/simple;
-	bh=RWSt6GMwwXVIqoJqnCiOcDvwp7hgnx16H5W3JhMpSDU=;
+	s=arc-20240116; t=1746695455; c=relaxed/simple;
+	bh=RQh8bCobMqKRxxlmJyV95wcMwTAGjQ4YIcr2wCUqMPk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FHQrRej921qVItNbzFbXnyU3Uw6d/qFiqt3pUAbrpjvFZ2L6g8gu9iwyP7hSsBWS5fQzh7yFYiCFnNbz3o+E/vO8xC4YOBvFcOAMIwOm1Ns2VtgNMVjnYS8HIniWSpyyyhGG/AXP09QupkmGoyZ76VFTWQVJb17gKqsXZ5Z0qx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F2FQFsAh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10738C4CEE7;
-	Thu,  8 May 2025 09:08:50 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=SHjBpvD+EoIn52u40CgFSAMYK5m3UzHCuHsNl91tdCd7qRJLsZSZgW+QFCMwWiSBa55CLE51IwWpUXr2efVJhjvo6ra5cdfkIqVofGm6QI+DcCmK/UD33BHnQ2VQibyvz/I35TWfgpdhzskXQryiLKFFcwadtteTsqcKmWDN/18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xrs6yddL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F1E0C4CEE7;
+	Thu,  8 May 2025 09:10:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746695332;
-	bh=RWSt6GMwwXVIqoJqnCiOcDvwp7hgnx16H5W3JhMpSDU=;
+	s=k20201202; t=1746695455;
+	bh=RQh8bCobMqKRxxlmJyV95wcMwTAGjQ4YIcr2wCUqMPk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=F2FQFsAhGZOHZ4/Mxdmpsndq+tPDweC/UskNM0IgBY8g32SxGJ01LCU3wKulQJzfd
-	 i7tlCIhvBcRnoyjWKXLbzQaMobnzhyqNCoHE7y9PY0djgb4Feor1CAZlUWfZCnVgz0
-	 ixGuavEglveWBr1+q4Wc5NGP/eT1hMkU3WAPfC7P/+mb1dQygYJmWp2lgPvj5UXjBw
-	 i/YPpgnoMv+WAnkm4byd5NcikSA96t2ANKczrjVXKtArI7HM5lF/TbJlxq5xqujpVx
-	 vF7ATf5Zqv9AJ1ocVDgY9rSPwpaarAL1Vz+ETrGk1czPjnBkKcYdDOOgIQodNQYJHk
-	 b5n3WgFFcLfaw==
-Message-ID: <0de305f3-c054-4129-8bba-0582a477dd38@kernel.org>
-Date: Thu, 8 May 2025 11:08:49 +0200
+	b=Xrs6yddLcFJRhu7IoAIvwMDyvLTUDVo5Ti7Bd6P/Ej8CnarELvh/6QYh5fX8Rf9TS
+	 v3EO2gXbAxHMHF3bzUbSYoCBSkJLfimt3hg5p49PQrb1cJMZM/7tAJHEAlhsAQUKHK
+	 DiushNcAC4hkGsAOKpiyL8MltBq5ipgvfX+4eiuAu7It1qMQ97visX2M+omiWG+qAN
+	 nM8J/YT0AV++84PPB31f1MJbIoABB6Dr6LqjvARUBIF1nK1Fo43Ar5TKB8lsf4fIJ+
+	 2bGconnmK0SG9wDYPRgHZJb7dmI8RPk/nd51dX5Fgtx3j54sBuO+ExLgRxlPdFM2fS
+	 zvsHYijwYn/dA==
+Message-ID: <ff5f4f3c-75b8-46a8-83e2-b1d1533371fd@kernel.org>
+Date: Thu, 8 May 2025 11:10:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,16 +50,18 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 7/7] spi: rpc-if: Add write support for memory-mapped
- area
-To: Biju Das <biju.das.jz@bp.renesas.com>, Mark Brown <broonie@kernel.org>
-Cc: linux-spi@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+Subject: Re: [PATCH] memory: renesas-rpc-if: Add missing static keyword
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-References: <20250424090000.136804-1-biju.das.jz@bp.renesas.com>
- <20250424090000.136804-8-biju.das.jz@bp.renesas.com>
-Content-Language: en-US
+ "biju.das.au" <biju.das.au@gmail.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ kernel test robot <lkp@intel.com>
+References: <20250507162146.140494-1-biju.das.jz@bp.renesas.com>
+ <62030572-b15b-4487-893c-ac7ffab2ae57@kernel.org>
+ <TY3PR01MB11346F3A3F4C3C79F462F1D6F868BA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -103,21 +105,39 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250424090000.136804-8-biju.das.jz@bp.renesas.com>
+In-Reply-To: <TY3PR01MB11346F3A3F4C3C79F462F1D6F868BA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 24/04/2025 10:59, Biju Das wrote:
-> Add write support for memory-mapped area as xSPI interface require
-> it.
+On 08/05/2025 11:05, Biju Das wrote:
+> Hi Krzysztof,
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzk@kernel.org>
+>> Sent: 08 May 2025 09:57
+>> Subject: Re: [PATCH] memory: renesas-rpc-if: Add missing static keyword
+>>
+>> On 07/05/2025 18:21, Biju Das wrote:
+>>> Fix the below sparse warnings:
+>>>  symbol 'rpcif_impl' was not declared. Should it be static?
+>>>  symbol 'xspi_impl' was not declared. Should it be static?
+>>
+>>
+>> Did you test now your code with sparse and smatch? Otherwise I will wait for more reports.
+> 
+> Yes, I tested with the instructions in [1] and the patch fixes the above issues.
+> 
+I meant other issues. So you did not test with smatch? That's your task
+and you should not rely on the community to provide such tests/checks
+instead.
 
-Mark,
+Please run standard kernel tools for static analysis, like coccinelle,
+smatch and sparse, and fix reported warnings. Also please check for
+warnings when building with W=1 for gcc and clang. Most of these
+commands (checks or W=1 build) can build specific targets, like some
+directory, to narrow the scope to only your code. The code here looks
+like it needs a fix. Feel free to get in touch if the warning is not clear.
 
-For you:
-https://lore.kernel.org/r/20250508090749.51379-2-krzysztof.kozlowski@linaro.org
 
 Best regards,
 Krzysztof
