@@ -1,123 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-16809-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16810-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04CCBAAFBFE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 15:49:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42CE5AAFC25
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 15:55:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 240084E2D89
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 13:49:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 255C53AF731
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 13:55:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4714E22CBF4;
-	Thu,  8 May 2025 13:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GWX5qHs4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53AE322A4F6;
+	Thu,  8 May 2025 13:55:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17826227E99;
-	Thu,  8 May 2025 13:49:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF5C1E4BE;
+	Thu,  8 May 2025 13:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746712176; cv=none; b=lgagtN4udiuZC7VuuPFkBbSg7oV86+aoA1SzrwQf3cFr6GDM6yjIMn3wVD9S8L9Yvu4z/sFQkpmvAAL+irpbrY5RPBy61qHp1VLDet7pQpKA5NNQWqU8wEhOj+LbURfeeOig706zqett/nKlupJU6pAP5e03MGjcFMT9TIURBf4=
+	t=1746712549; cv=none; b=jpCSYMkjXMCm8sCKuUuHW2X+DWvvLGW8E0flBVsPr23DC7GMpgBpB9xa5tUhc9gkn2FclE9qBW7jyU7xblRf7cPDmVLucUjJAfyqfRTPKZH0Z3fI2OoCVlCwd29L8r3j35JDQWW5zRbsT8yeBJP06pTEzjydve5COjQGr+pk8ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746712176; c=relaxed/simple;
-	bh=idCcibmkhRqSa9P+8RNhfbUG9+k8tsBQFf79Ul0o27Q=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i2oPfrPkDfP0KPG8McUK7YmRcK1J6wZuDg7T+W9w4wGQBT8abh6xPL97OoshhnK1uUEAdJpvVR7mwpuCaetzbQuu2jDwATzfhX1rnaqpWnJ0lXkGvlVcXGpQWqDqUa4s29ZTeItUmAkuIQ8zWbM177Rj1VVZZDOizIACp9avpbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GWX5qHs4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58430C4CEE7;
-	Thu,  8 May 2025 13:49:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746712175;
-	bh=idCcibmkhRqSa9P+8RNhfbUG9+k8tsBQFf79Ul0o27Q=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=GWX5qHs4CBM1a+jTqDYrpWLaPwXVld7S6ZmoHghki34g8CAhl0somM2AjxzImYgxG
-	 hyc1PPKKPlwJ21MbxFI0O8zVNWfyXxe4YEZS4dpiQ513ImBAKNMt9cfq5omvnav3Iw
-	 Old6kP6JCYQFVnUnDL+iGZDnrLR0/vJ7725S2C97X2dw1L3UAhhj9gbnGvX55FMN4U
-	 tn+0jz2QVbmiVPJVAfNDBWvS2WhWWO1h14einrEal4qvW9ZIx6TK7D9BxwFn1OlsbS
-	 Pa2BLyWHD5l7XiVc2+WCBnJiXBkOAwmuxfUMJL3KKleVXd7LllpDdMvp7Oe625mXnk
-	 JCOEDWTlWpc9Q==
-Date: Thu, 8 May 2025 14:49:30 +0100
-From: Lee Jones <lee@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Pavel Machek <pavel@kernel.org>,
-	linux-leds <linux-leds@vger.kernel.org>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: Re: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
- Debug LEDs
-Message-ID: <20250508134930.GM3865826@google.com>
-References: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdWN-QDrmogJ+7x8sdc6UmDAoF+0z0hZ3SQ7ajN2V2+mSw@mail.gmail.com>
- <aBxjvofZCEi_1Fna@shikoro>
+	s=arc-20240116; t=1746712549; c=relaxed/simple;
+	bh=9yPNPSc0LUCMXjjbU4c3craIMFzHhiWcrmCoxP6V+F0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uPvAF4FhlLYfLL5Kyz+Gvqpowk2qBpJZAo0764zl6cGL4AEiKDmYn/HZzL2wPz3vPxtJqT7j3KjuxB20CPuW5v0FPy9nZmU8RdQpkJPQQ/YDLHx3a6oWfF0CJwpyGvYeAsWz0kz0lg1JH0zb2ZvRNT/j+IZPGiwqUgyjdyniiO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-877c48657f9so340548241.1;
+        Thu, 08 May 2025 06:55:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746712543; x=1747317343;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TG53lCY9swcVAuETWptBrWnI+kXcrj2DMV+TDx845sE=;
+        b=SWhySSNh+NfkhkJM53EEutcnzhVUBnvjhTQ+4u7UHt7HWS9cL7fO9E4Wrjxz2QbuXD
+         w19vkIiPUTh+LYnt0VFGCIOidxmkoqpxI0Ey7J7nvGFYVgzkxEU3UVzOLxnVF+HKfPRc
+         vQisCERwtt6Aen+UpTrsWBIS0qh41qC2Br6JOe5wwH297ohkGK++bOGbBldIunNXKo+f
+         ymx1ZarkdpluD5xeytn6jSoSOqeUcTU2XelubJ3PqbFmUdgWuQ4e+TQ/SVePdE52tVkf
+         +Wd9TDHm1n7QWBpKIgJb7rBXJFjFYQXV/B7G0oZgbAwYjPSX9vEUWz0ll6aqqQGItKi7
+         QQsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU9fsdiVJ8MjzN4Mv5tdyWI/cA1hnevZEW3OkZrwC8p4KteigwHyNzAjK66YNjhHrUUV/+Ws/B3YK4WOGZx@vger.kernel.org, AJvYcCVRvdmLcvlPIUjkfN3/YHWKC1Asv3kHOgYERU2p67OU8biqFsHVNCpPp1Rnzd8lYv4bM5jWA6ziZ5m3NWOE7cHSzlg=@vger.kernel.org, AJvYcCWHzSHp6D+0a/uRbvkOaPk614jLm0rG/AV6UCeA3wl+uqJ90ZYssekMdKwQDog+I6gV0j2yBWPKNnnu@vger.kernel.org, AJvYcCWJZOJLxeKQzc+TyLO64ZifRI5b9c0CdfPtozBGJkWzck9rvdaSV9rhjiSbxnD+xtNWSmXs2tVWqy+y@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0D7m50Vl4TKOJCz3fnKeIhDcuOSvJMRssz3+96vmwLGXiPLMB
+	XMgo6bV3yzllzrCaWP2+XtFcVROlZB0UfMdqU9zXgPuVuDi8LVTl/e0fjJFw
+X-Gm-Gg: ASbGncs5lnHkNL3zwyNG3sUPlMeuFrbrK8pOJBLq9VZV98ZE1FLQGPVAE/QsI0KYJzC
+	jpnOw5bTyWBEteHdZt8T+Rh/uSQgJH+4hl/7/nrHNfnsPJxyMGBHanu2xR6XQ/BKTyWXoIORyw1
+	r+v6BhoODdZD+MgPhCkZKxIFMHP6TqIC0jr1e4KRn/0WB6oGdqWVIgOr4bw0C30qKYTfazqNkK2
+	SlXm9HaO6dkMiCBTHGNNzm71JA8act2zVuUF2oW4/rHbM9x54WNd8M4qKzzxmjYyHg7nY4JhXLP
+	nkvYjSOWBL1IRR0qQvKFIII1IXGc4+6XZ37Las+MMZXv1/+DkO6Q+y3DKUfWqgpMwi+OqsTh4Yu
+	rxyA=
+X-Google-Smtp-Source: AGHT+IGHGVHlk0vPBsU/x6OzgEC77+U/haMrfV4lYHLuXTqNDEa0zw2GO5SddMzzg2RMkE3Y9cJmMw==
+X-Received: by 2002:a05:6102:3309:b0:4d7:9072:1873 with SMTP id ada2fe7eead31-4dc738e63afmr6195059137.24.1746712543238;
+        Thu, 08 May 2025 06:55:43 -0700 (PDT)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4dea85b24e3sm12237137.9.2025.05.08.06.55.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 May 2025 06:55:42 -0700 (PDT)
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-877c48657f9so340538241.1;
+        Thu, 08 May 2025 06:55:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUPmzHpkV7H97l1bzgh+/3KZOGMUuFwcgus8PWfyhCEN5AADk8l6tGyNxG1gt9TvmLKTo+8ySxneyts@vger.kernel.org, AJvYcCVqSsxf0hX+zDMIu0MrV2vrShlsQa6F6UpLoVJYXw690dANCizgiCJbzVjmUYCbyvQmWnK6vI0w9mTk@vger.kernel.org, AJvYcCWAUL9JpyjJbq8mKdADD4FkgnuEVdBYox/FhrgURN278qyO6JLoNZsrLLZNR+TP0pW5dek+Ibg7MUI7XPrQX5rc3FM=@vger.kernel.org, AJvYcCWEKwWpft9ExK1fLeTjHXUGNFJT2v45zWHgh85W2XIWA15FPlqwMlSZrlknyZycB1xK8bg3Ac3LTPRZglMf@vger.kernel.org
+X-Received: by 2002:a05:6102:3309:b0:4d7:9072:1873 with SMTP id
+ ada2fe7eead31-4dc738e63afmr6195041137.24.1746712542587; Thu, 08 May 2025
+ 06:55:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aBxjvofZCEi_1Fna@shikoro>
+References: <20250410140628.4124896-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250410140628.4124896-2-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdWx9Xk5QksoGFvCyo2HLXZ_+WRBCe3bDrZx=bfPoXHJgg@mail.gmail.com> <df05d999-8eba-4fbd-93f6-7919f73da11a@tuxon.dev>
+In-Reply-To: <df05d999-8eba-4fbd-93f6-7919f73da11a@tuxon.dev>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 8 May 2025 15:55:30 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXQMtTuvi+VzEN-OkGNneoxngrcyxffG80gk73GMN8Fpg@mail.gmail.com>
+X-Gm-Features: AX0GCFtHcX-rwmtxLJu-ieDhfsL3iAqABkUt_x6vV19TS74XV00cFj1CzKSYXKw
+Message-ID: <CAMuHMdXQMtTuvi+VzEN-OkGNneoxngrcyxffG80gk73GMN8Fpg@mail.gmail.com>
+Subject: Re: [PATCH 1/7] clk: renesas: rzg2l-cpg: Skip lookup of clock when
+ searching for a sibling
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 08 May 2025, Wolfram Sang wrote:
+Hi Claudiu,
 
-> On Thu, Apr 17, 2025 at 01:39:14PM +0200, Geert Uytterhoeven wrote:
-> > Hi Wolfram,
-> > 
-> > CC leds
-> > 
-> > On Thu, 17 Apr 2025 at 11:33, Wolfram Sang
-> > <wsa+renesas@sang-engineering.com> wrote:
-> > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > > ---
-> > >
-> > > Changes since v2:
-> > > * using function, color, function-enumerator properties now
-> > >
-> > > Honestly, this is better than using node names? With V2, the LEDs were
-> > > named as in the schematics, now they are called:
-> > >
-> > > lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-0 -> ../../devices/platform/leds/leds/green:programming-0
-> > > lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-1 -> ../../devices/platform/leds/leds/green:programming-1
-> > > lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-2 -> ../../devices/platform/leds/leds/green:programming-2
-> > > ...
-> > >
-> > > Which gets even more confusing if we might later add LEDs not on this
-> > > board, but on the expansion board. 'green:programming-8' sits where?
-> > >
-> > > I really wonder, but if this is the official way now...
-> > 
-> > Good point!  So I'm inclined to take v2...
-> > 
-> > Let's raise this with the LED people. I don't want to fight Pavel when
-> > v2 hits the CiP tree ;-)
-> 
-> So, if there is no other opinion here, can we remove function, color,
-> function-enumerator and just use the node names which match the
-> schematics? Basically apply V2?
+On Wed, 7 May 2025 at 14:12, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+> On 05.05.2025 18:52, Geert Uytterhoeven wrote:
+> > On Thu, 10 Apr 2025 at 16:06, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> Since the sibling data is filled after the priv->clks[] array entry is
+> >> populated, the first clock that is probed and has a sibling will
+> >> temporarily behave as its own sibling until its actual sibling is
+> >> populated. To avoid any issues, skip this clock when searching for a
+> >> sibling.
+> >>
+> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> >> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> >> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> >> @@ -1324,6 +1324,9 @@ static struct mstp_clock
+> >>
+> >>                 hw = __clk_get_hw(priv->clks[priv->num_core_clks + i]);
+> >>                 clk = to_mod_clock(hw);
+> >> +               if (clk == clock)
+> >> +                       continue;
+> >> +
+> >>                 if (clock->off == clk->off && clock->bit == clk->bit)
+> >>                         return clk;
+> >>         }
+> >
+> > Why not move the whole block around the call to
+> > rzg2l_mod_clock_get_sibling() up instead?
+> >
+> >             ret = devm_clk_hw_register(dev, &clock->hw);
+> >             if (ret) {
+> >                     clk = ERR_PTR(ret);
+> >                     goto fail;
+> >             }
+> >
+> >     -       clk = clock->hw.clk;
+> >     -       dev_dbg(dev, "Module clock %pC at %lu Hz\n", clk,
+> > clk_get_rate(clk));
+> >     -       priv->clks[id] = clk;
+> >     -
+> >             if (mod->is_coupled) {
+> >                     struct mstp_clock *sibling;
+> >
+> >                     clock->enabled = rzg2l_mod_clock_is_enabled(&clock->hw);
+> >                     sibling = rzg2l_mod_clock_get_sibling(clock, priv);
+> >                     if (sibling) {
+> >                             clock->sibling = sibling;
+> >                             sibling->sibling = clock;
+> >                     }
+> >             }
+> >
+> >     +       clk = clock->hw.clk;
+> >     +       dev_dbg(dev, "Module clock %pC at %lu Hz\n", clk,
+> > clk_get_rate(clk));
+> >     +       priv->clks[id] = clk;
+> >     +
+> >             return;
+>
+> This should work as well. I considered the proposed patch generates less
+> diff. Please let me know if you prefer it addressed as you proposed.
 
-I didn't author the semantics nor the rules surrounding them, but I am
-obliged to enforce them.  Therefore "LED people" say, please stick to
-convention as stated in the present documentation:
+Given you have a later patch that contains a similar check, postponing
+setting priv->clks[id] looks like the better solution to me.
 
-https://docs.kernel.org/leds/leds-class.html#led-device-naming
+Gr{oetje,eeting}s,
 
-Please note that a "debug" (LED_FUNCTION_DEBUG) option already exists if
-that is more appropriate to your use-case.
-
-Let's also bring Jacek into the conversion, since I know that he did a
-bunch of work around this topic.
+                        Geert
 
 -- 
-Lee Jones [李琼斯]
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
