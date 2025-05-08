@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-16803-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16804-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD67AAF9F5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 14:30:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B300AAF9F8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 14:30:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BCA671BC0F28
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 12:30:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B28561BC0CCD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 12:30:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AC7222541C;
-	Thu,  8 May 2025 12:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBE302153CB;
+	Thu,  8 May 2025 12:30:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U0Mw8EqT"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kv7GTQmN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FAD224B00;
-	Thu,  8 May 2025 12:30:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4951DFCB;
+	Thu,  8 May 2025 12:30:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746707405; cv=none; b=XB8hPsW6oFFv0VxrsAA0KWAaxPMEQdxzSeHz2AZKwVtGl0eo1dRqWhN79SKIujq2x9D3ltYVBM5y0paaIVIa/MsITd85EEqgc4aS1CgSt2mJnvJvWwXUG4rOh++/WEmTMQhHmAAUarZ+V8zvlvH5Iyhe2ZWGj5wkTPONiSfdEOI=
+	t=1746707430; cv=none; b=spt3FJpbxgCif5L9iRLYM+2rKxRC0GUkdjj6cRReenjI/QhVarnguCMx0TRqxiXIAEAxCwD/ySjMGW/5V+1Wv8o+wvhSbBoQ87VawKlNnSwcinuo5qdy80xLFfPIDOQJpkoqL91VPNhYAhYC3JOl94YfdnrJsdzsKL1Z7nycLY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746707405; c=relaxed/simple;
-	bh=MMD4E03wrSbwweSJzLwMaYfdapLKrO7ojqqkUygJHpY=;
+	s=arc-20240116; t=1746707430; c=relaxed/simple;
+	bh=HeIcU31k0jUrshoLuqpcoqbbrejY7CBH2/uU+k3kuOc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZSdot0gYZWlUX8RL15xbNvPDYrpIM+lftok+nnqzOqtPc1/mD4m0HbII9x4FfnOMXCeJx9w1QqvDV8GUhy9TQ7YspWpllg7OXhQkFexcvJTjrelJvnQ8rb/9fCzKNXMkba28hNTQ3huK1cmRMiNiBqJllMfBImntJmi3n7kNJEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=U0Mw8EqT; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=RufyxzzWLlywlMaJkvFyXAriM/AaxfrgjMJhFSnTPUI87pUAzag91Jh15L4fPkQ7yLfuJSEugk2z88w/8GeTp09RCbuYj8mBu92Yim/iiad03h/4YPVPKO5/9QSVQh2vhOBoQbaTAjsfqGFmapawfT/L5/GcF/O/hYHFnyA3tP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Kv7GTQmN; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C148322A;
-	Thu,  8 May 2025 14:29:43 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0845722A;
+	Thu,  8 May 2025 14:30:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746707384;
-	bh=MMD4E03wrSbwweSJzLwMaYfdapLKrO7ojqqkUygJHpY=;
+	s=mail; t=1746707415;
+	bh=HeIcU31k0jUrshoLuqpcoqbbrejY7CBH2/uU+k3kuOc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=U0Mw8EqTYzJvn/H6u7wQWiB0ZdlYwXmowQL27+L/zo+uzkYnSSMbCe83nENeT7Mr4
-	 S5VBKRphC4KAaZf4/LyIa3FRrmKTqlU4utQ7OfEqyUaCfsPslTlYWZm8P/PhFpyL0/
-	 5ZLjiXLIaR//+pK8vzYM7SGEyP3xrj4sI5G6XWLU=
-Message-ID: <502e185a-a632-476c-8712-56e845b6ca84@ideasonboard.com>
-Date: Thu, 8 May 2025 13:29:51 +0100
+	b=Kv7GTQmNOjXfv5izHqX8NTODRxFtWXkeujrTKYNLX9iMKNX48d1lZt7nD7MQEh+lk
+	 u+RB9IMq+lBF21BjGUdzi4omacs5jYElXbmZ7mBw6p7xLnp7vVxGf5KfVJpOQzQs94
+	 s5/0zHW1UDWOZBJoPeVX/Ta62rjRKpELEezdfQdY=
+Message-ID: <5e5130c1-2967-41da-b8c4-352f676cced8@ideasonboard.com>
+Date: Thu, 8 May 2025 13:30:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: clock: Add macros for RZ/V2H ISP clocks
+Subject: Re: [PATCH 4/4] clk: renesas: r9a09g057-cpg: Add reset definitions
+ for RZ/V2H ISP
 To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
  "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
@@ -64,8 +65,8 @@ Cc: "geert+renesas@glider.be" <geert+renesas@glider.be>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Daniel Scally <dan.scally+renesas@ideasonboard.com>
 References: <20250506121252.557170-1-dan.scally@ideasonboard.com>
- <20250506121252.557170-2-dan.scally@ideasonboard.com>
- <TY3PR01MB12089DADE623A195D184FD5BAC289A@TY3PR01MB12089.jpnprd01.prod.outlook.com>
+ <20250506121252.557170-5-dan.scally@ideasonboard.com>
+ <TY3PR01MB1208913AA506585FF622DD7D3C289A@TY3PR01MB12089.jpnprd01.prod.outlook.com>
 Content-Language: en-US
 From: Dan Scally <dan.scally@ideasonboard.com>
 Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
@@ -111,78 +112,54 @@ Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
  yMcoUWrTK0Uz6UzUGKoJVbxmSW/EJLEGoI5p3NWxWtScEVv8mO49gqQdrRIOheZycDmHnItt
  9Qjv00uFhEwv2YfiyGk6iGF2W40s2pH2t6oeuGgmiZ7g6d0MEK8Ql/4zPItvr1c1rpwpXUC1
  u1kQWgtnNjFHX3KiYdqjcZeRBiry1X0zY+4Y24wUU0KsEewJwjhmCKAsju1RpdlPg2kC
-In-Reply-To: <TY3PR01MB12089DADE623A195D184FD5BAC289A@TY3PR01MB12089.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB1208913AA506585FF622DD7D3C289A@TY3PR01MB12089.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 Hi Fabrizio
 
-On 06/05/2025 14:27, Fabrizio Castro wrote:
+On 06/05/2025 14:26, Fabrizio Castro wrote:
 > Hi Daniel,
 >
 > Thanks for your patch!
 >
 >> From: Daniel Scally <dan.scally@ideasonboard.com>
 >> Sent: 06 May 2025 13:13
->> Subject: [PATCH 1/4] dt-bindings: clock: Add macros for RZ/V2H ISP clocks
+>> Subject: [PATCH 4/4] clk: renesas: r9a09g057-cpg: Add reset definitions for RZ/V2H ISP
 >>
 >> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
 >>
->> Add macros for the RZ/V2H ISP clocks so that they can be referred to
->> descriptively in the drivers.
-> I don't think this patch is needed.
+>> Add reset line definitions for the ISP of the RZ/V2H SoC
+>>
+>> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+>> ---
+>>   drivers/clk/renesas/r9a09g057-cpg.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9a09g057-cpg.c
+>> index cb001ae5f98b..6537654bbdfb 100644
+>> --- a/drivers/clk/renesas/r9a09g057-cpg.c
+>> +++ b/drivers/clk/renesas/r9a09g057-cpg.c
+>> @@ -298,6 +298,10 @@ static const struct rzv2h_reset r9a09g057_resets[] __initconst = {
+>>   	DEF_RST(12, 14, 5, 31),		/* CRU_3_PRESETN */
+>>   	DEF_RST(12, 15, 6, 0),		/* CRU_3_ARESETN */
+>>   	DEF_RST(13, 0, 6, 1),		/* CRU_3_S_RESETN */
+>> +	DEF_RST(13, 1, 6, 2),		/* ISP_0_VIN_ARESETN */
+>> +	DEF_RST(13, 2, 6, 3),		/* ISP_0_REG_ARESETN */
+>> +	DEF_RST(13, 3, 6, 4),		/* ISP_0_ISP_SRESETN */
+>> +	DEF_RST(13, 4, 6, 5),		/* ISP_0_PRESETN */
+> The numbers LGTM, but I think these changes belong with patch number 2.
 
 
-Ah, indeed not in this set...I've been using them in the devicetree files (not the drivers as my 
-commit message says) for the hardware that consumes the clocks, like so:
-
-
-isp: isp@16080000 {
-     compatible = "arm,mali-c55";
-     reg = <0 0x16080000 0 0x200000>;
-
-     clocks = <&cpg CPG_MOD R9A09G057_ISP0_ACLK>,
-             <&cpg CPG_MOD R9A09G057_ISP0_VIN_ACLK>,
-             <&cpg CPG_MOD R9A09G057_ISP0_SCLK>;
-
-     ...
-
-}
-
-
-Do you think they're useful for those? If so I'll move this and the rest patch to a later series 
-that adds those nodes to r9a09g057.dtsi
-
-
-Thanks
-
-Dan
-
+OK, I'll squash them.
 
 >
 > Cheers,
 > Fab
 >
->> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
->> ---
->>   include/dt-bindings/clock/renesas,r9a09g057-cpg.h | 4 ++++
->>   1 file changed, 4 insertions(+)
+>>   };
 >>
->> diff --git a/include/dt-bindings/clock/renesas,r9a09g057-cpg.h b/include/dt-
->> bindings/clock/renesas,r9a09g057-cpg.h
->> index 541e6d719bd6..cb2ccd9068db 100644
->> --- a/include/dt-bindings/clock/renesas,r9a09g057-cpg.h
->> +++ b/include/dt-bindings/clock/renesas,r9a09g057-cpg.h
->> @@ -17,5 +17,9 @@
->>   #define R9A09G057_CM33_CLK0			6
->>   #define R9A09G057_CST_0_SWCLKTCK		7
->>   #define R9A09G057_IOTOP_0_SHCLK			8
->> +#define R9A09G057_ISP0_ACLK			226
->> +#define R9A09G057_ISP0_PCLK			227
->> +#define R9A09G057_ISP0_VIN_ACLK			228
->> +#define R9A09G057_ISP0_SCLK			229
->>
->>   #endif /* __DT_BINDINGS_CLOCK_RENESAS_R9A09G057_CPG_H__ */
+>>   const struct rzv2h_cpg_info r9a09g057_cpg_info __initconst = {
 >> --
 >> 2.34.1
 >>
