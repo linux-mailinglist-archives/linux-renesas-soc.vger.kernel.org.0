@@ -1,148 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-16793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16794-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52360AAF5D7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 10:38:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D72CDAAF623
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 10:57:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 61EE71BA817B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 08:39:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 502EA16C88D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 08:57:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0690E262FED;
-	Thu,  8 May 2025 08:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C68A321ABD4;
+	Thu,  8 May 2025 08:57:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="loQALdfb";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vYDf1a3H"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bdXW+UmK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C320262D0B;
-	Thu,  8 May 2025 08:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D742144BF
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 May 2025 08:57:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746693520; cv=none; b=a8gQ3m/4Oo8dUI1V/RLz0k+P9V3bO98nIvFPVfXiDZsF3rOXLkNqJz7nIbpl9W6DbdwbKgo76h7e6KgkSOTjKAINgTxktoZvoFzkTVOREl6PuTA2ofw36iwkTlADcZnSOjkNg01s0HE8XEHfi/eXQSrBNyYMPB4i9eqooRwp2g0=
+	t=1746694636; cv=none; b=Pz8QZ97u3bne8bBz2mml7OM4fYK9ISF1mDxSPaBXCLHnb4oyVEokGfSEkQ2eimgk+xzQYBptbrdwIu+MpxoEPScHA6nbtwPQGjvydl3ptGPIaTtydIbla18+VHbTtD9j/gucyszurHr8e5x7IrjOXNRPjmEuLlzRwClKvO1/JbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746693520; c=relaxed/simple;
-	bh=DfnfwWqbN41u4X4+EL2LFT8tt4D304cSyZSPBIk6RRQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Pt0pCqX45aqhk//iXlsCkXg3rbPvbTWMi7Ljw4u6oF2Np02llssTn+QFrKBZAoXdlqTrOSx3d8hpTj7Ry/uSWCNbHL+1K4yP1WlRtf0VYZPE5yx2DxCGvZg7AQaJP+Oup1ODR71w104n64rrNj4bvkTA51htKy11y2W73swP3/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=loQALdfb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vYDf1a3H; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 01BF21140179;
-	Thu,  8 May 2025 04:38:36 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Thu, 08 May 2025 04:38:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1746693516; x=1746779916; bh=Oq
-	s8zgYjNjyHe30uh7H+v3OUhiBkEOhgMc/PNrB5B5c=; b=loQALdfbCxvGuFx+Jd
-	rLBlVYPpjePQeGtq3xZVRi+ADDCAVpAK0Xu6ljZFVmXQxcTaPT0Qq+SxDWr7+JgV
-	6HrSUe9huI0lsh9jczP/N8FOrdTjwTRZIUe8yu1Cm/R2vbIMUWhmSTJCWxnVUcAH
-	AnlQUAUypn/fuHKECvicKlGuk0sKAQr7DwFz8lzeUM2WVBIkLtsTDbry4xms+UA1
-	vcGmobtFFKr5Inbao1OYAMUU+VeO2nQCONDJQ8qc9GLvd/50bzmmqQ1JqQ6zYMPA
-	fJ5tVc7KLxAAMzT56mPUcSLtu8PeiPg6qMI+vL53v03l0oIzvctLYdgFNNW17Ql1
-	OZZw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1746693516; x=1746779916; bh=Oqs8zgYjNjyHe30uh7H+v3OUhiBk
-	EOhgMc/PNrB5B5c=; b=vYDf1a3HVCPlosA6Y67Px4aR7BTByozOqgLQ0FHUxAzu
-	gXIze8YXWKzDkLr7ePEKwCluoTsK5zbtnaAY6IviiCXPuTYLP2klOWlLTtTVmZEn
-	i3xGkIj7rgffWdz9Z/xPD665aa929tZEIr17dtbz9+s/n6Kf36gyGI2/IDsP9r+F
-	7vqjJxmxtJOx5ytIrfl+ttXxqALcVDn/MYQ+woRBEIUbLmNDnpF5Ce37WW74oR4Q
-	qQwr60z51kayo/U1FXGH0RMhkHICP929DegqO7YUhswtpTQ9KqyOtVAs4wZd4s0g
-	+QAiFMjD8/RiRUztYQqJRVwmqc136j2A/js0juUHiA==
-X-ME-Sender: <xms:hm0caDQMRwe4LSkNWPZ4qd-ZSx8_gEckp4lWqyTb7698R4emp5WzlA>
-    <xme:hm0caEwGHY5-umRIFglGilDfgxmlHFfg_XsNhe4KJC4-yiPphow98oAoGCKCm--iN
-    rtSGkUFwWTKIg5W9WU>
-X-ME-Received: <xmr:hm0caI1OdEO3dTELHKrfxyTEATsbmT2fY5kK7aFZaPVjlYB_c-w-H0CNywZGw6i6qymv4_7VShpWZVITjaUJ_VHn>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeelvdekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
-    thgvrhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfe
-    etgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
-    ihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtph
-    htthhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsges
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohephhhvvghrkhhuihhlseigshegrghllhdrnh
-    hlpdhrtghpthhtohepnhhitgholhgrshdrughufhhrvghsnhgvsegtohhllhgrsghorhgr
-    rdgtohhmpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvg
-    hlrdgtohhmpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnsehiuggvrghsohhn
-    sghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtg
-    hpthhtohepjhgrtghophhordhmohhnughisehiuggvrghsohhnsghorghrugdrtghomhdp
-    rhgtphhtthhopehmrghtthifmhgrjhgvfihskhhisehgmhgrihhlrdgtohhmpdhrtghpth
-    htoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:h20caDCM9yvYTgheYFAtSsnCspV0u5R7XtfWWzNOjhqA_5MrT8JCFg>
-    <xmx:h20caMiU3ThURHM6tIjPxnZ7SahySc54hY6bnQdiy2kYkciW-Z0rLw>
-    <xmx:h20caHqlSmPXYzR6PL9HZ-UVe31s4bYP6akPvIHW1aHyvplj_AJNQQ>
-    <xmx:h20caHiiiSIaFnKFIQfZ_8NPBlN9_LnOVL81pKUAmDxN-pJk9Zsdzw>
-    <xmx:jG0caMLMXv7qhPKG5mh2hrUOkJaAJdLOW8OXyIBwMAGqzjDeu52i0MhP>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 May 2025 04:38:30 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Matthew Majewski <mattwmajewski@gmail.com>,
-	linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] media: v4l2-common: Reduce warnings about missing V4L2_CID_LINK_FREQ control
-Date: Thu,  8 May 2025 10:37:45 +0200
-Message-ID: <20250508083745.1697364-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1746694636; c=relaxed/simple;
+	bh=gCC6N37aCK/GULyCz6nPQC9WbDCjqLKm8zcnOltEXcg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OwI08FPG+xmJ4D4V6hEs2GL0E5VywRkX1TDsxMHQQWyBIGqMRKOiFxuVn4ZYXFYLWJaRwxudeX5jKIm9xMArI5hPkF/WwxBmwrbEkBl0wr4n/onw9NM7fhPRouoU4xTVXcV9deu8V8tsYdlZ4uANbpO8j0ye9UzGWFlAb2SAJ2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bdXW+UmK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4059C4CEE7;
+	Thu,  8 May 2025 08:57:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746694636;
+	bh=gCC6N37aCK/GULyCz6nPQC9WbDCjqLKm8zcnOltEXcg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bdXW+UmKmlHRjjrBJ5Qv/gDHXlOMrBpKw6Xqykn/ameHwwy0EQYBMq4wCuDdiv3Ps
+	 YJY87Ert2KEeaSUIGjFaXcpte46mXw+VvFNCInCcqaBupte8cyUEivgdQTZP0Kxp5J
+	 v52Xh9wk6zq20Kgosq4xlrYFbIUogO0fU/ACpHAOQPzTSIs4yL83gdNdUwcbHTnMLf
+	 eceDJnoMaf442PeFKTFuEIEUfCGz/y3kIveuV/9i/10TGNPFGQXJJO1v/PX1b2dRyv
+	 7FKiOlSOwyXoIXHZ9sz6v3iFg/tB8MDz/VW3zwqMD3OyzG6mxJ0U4ivldugD4LQt+g
+	 p9clkbzyQqHjQ==
+Message-ID: <62030572-b15b-4487-893c-ac7ffab2ae57@kernel.org>
+Date: Thu, 8 May 2025 10:57:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] memory: renesas-rpc-if: Add missing static keyword
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
+ kernel test robot <lkp@intel.com>
+References: <20250507162146.140494-1-biju.das.jz@bp.renesas.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250507162146.140494-1-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-When operating a pipeline with a missing V4L2_CID_LINK_FREQ control this
-two line warning is printed each time the pipeline is started. Reduce
-this excessive logging by only warning once for the missing control.
+On 07/05/2025 18:21, Biju Das wrote:
+> Fix the below sparse warnings:
+>  symbol 'rpcif_impl' was not declared. Should it be static?
+>  symbol 'xspi_impl' was not declared. Should it be static?
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/v4l2-core/v4l2-common.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index 4ee4aa19efe6..09412989f9b3 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -497,10 +497,10 @@ s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
- 
- 		freq = div_u64(v4l2_ctrl_g_ctrl_int64(ctrl) * mul, div);
- 
--		pr_warn("%s: Link frequency estimated using pixel rate: result might be inaccurate\n",
--			__func__);
--		pr_warn("%s: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver\n",
--			__func__);
-+		pr_warn_once("%s: Link frequency estimated using pixel rate: result might be inaccurate\n",
-+			     __func__);
-+		pr_warn_once("%s: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver\n",
-+			     __func__);
- 	}
- 
- 	return freq > 0 ? freq : -EINVAL;
--- 
-2.49.0
+Did you test now your code with sparse and smatch? Otherwise I will wait
+for more reports.
 
+Best regards,
+Krzysztof
 
