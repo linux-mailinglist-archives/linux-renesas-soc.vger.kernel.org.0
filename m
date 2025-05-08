@@ -1,147 +1,267 @@
-Return-Path: <linux-renesas-soc+bounces-16815-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16816-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA03AAFFFC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 18:13:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5605BAB00F6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 19:05:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9A8A189D741
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 16:13:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F7F7A0015E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 17:04:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 897E927CCEB;
-	Thu,  8 May 2025 16:13:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2CF62868B8;
+	Thu,  8 May 2025 17:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="O0fkckih"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011063.outbound.protection.outlook.com [40.107.74.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B49221294;
-	Thu,  8 May 2025 16:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746720809; cv=none; b=T0vE/dYP5n0DABQpGHMaVyICHfuZeShl2eeVGATqirUJEncxS9pAj514M4FyvgAWpXDWnHKeVIzFN9/HRC0MGwBAoqvJtg6Xmd5PMFp9CP1GMQJ9Z8MgFrK5pQuxuEEHb+eiNLSQYEcpqdLuyoXAxdm+mzGTtCQWnElSlQYbDSM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746720809; c=relaxed/simple;
-	bh=B415VopcbQycDdIAvjGAtTjcPX/n651n8B1aQFMapzU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rghkFT2I49XpnQ8o0CJ2HtBw5+463jgiI8VyvmSS74LhcuO0dK1MoaFvNGN9UuhtiFTl5o62BGZTueSNeB+jRieSGuU3LKyMrnyHZaxfMtoLHLwSMJchLLALB1xI2HYsbcaCf84YUxfzGhc5J6RWv/F+BvRGIcbpdqnSs5DhJ2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6f53d1cb94eso11721776d6.2;
-        Thu, 08 May 2025 09:13:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746720805; x=1747325605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UfjJ7OZ3vC5Vj4EupDAUdnMHjZyp/NxBVGY9su5/N8Q=;
-        b=XHAq3jOY73lFql/nsMm7EpFd/A7fIGMSUWYlYukC4JFciFdgcAyNOajKaaY+9Ac4P1
-         bqjMi9Ab2QrifDpciCmWdC4Dnkqe2qBnOUG/bPD8gbjDBb/3BaUfMUVWikMJxpIYdan5
-         eomFa3BeW1uGSCHAsIEYAShQiXdV4JRVTBjYkeRhHt/mUvJGpUkcjmGCiL8IQnBLnfMG
-         eXDx+MTa0OFXHPB6yd6xPXB6KIreS5M4eRl87n/Q37keR4L/q5Mh7y7Vfcb+DumHjDiA
-         uqWR0B2j3+2td5BIOw6fKNK1vzKGJEvaSMCRyqv0i+gdwPr2/JMRBgSTTSBN6fs5wVrk
-         e92Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUdmrkV+48Cs8HgGrEghmlc1BGcVcYlzJY8EayR/gI1XWd6KMethNYD2Dtp4seIAlotsbvsyqS2UKoWiDqnC7Ksymg=@vger.kernel.org, AJvYcCV1MMQK2RblQzW41YRfe6U1NtsL7D6Or+ZEkI4C3zSpfVPfgqh0aR7LJXsDZYc4uHa9yAHuBnoz6r2MBOiM@vger.kernel.org, AJvYcCWNF/QzSWuKxEdmLw7Q0/5uB8f2kg8ulsXoOlbAgCr4sar37Aybzyj5ReO1yQRyPNMpJpogGVM6+yA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+GeRSv4erkJooyc3SclLS2aQXqmkaGDKSMixCipt0vPeCTCUU
-	hNc0c4fW9r829w+mNCLDEEJDzh+LFWOEe8ywv1zX3xqh/QGNRq6NETML3/Wy
-X-Gm-Gg: ASbGncsYRx4n4XX8cXZ91PT1MvpthtkBiDToIiV2pwTkV9gPnSPPeZa8/GP6Rf2/NML
-	jhLyBJ/KOCy4VwXsag2vVpZb+cimzMwzpPZdgLnDpmDM5VXLFGPZk2v0rar0S+NLXrOQIGnCoV+
-	opV7tLbnTo2BSD8RtC+PPp22zFrOHX2/AjxXyQW2ZLJO8vIKUBM/xij2fOoEyOJRva4YrcfSN8V
-	Z93YeE0hdVe5QZ0wYQirsbHGM1w8R/IVOG5ivP1qRx/x3CB8cPBcebOrsqpQh4b8hmQFSnQCcQ4
-	dNN6l5RgM6boHo0HJ6B0IA8JeRH/wzli02KaNm0V0QvdEPQK/88oUyHa7h9/Wuhw+OuEeLTaaD9
-	4M11BuEQ=
-X-Google-Smtp-Source: AGHT+IFQe80dLtEhbFvq55l57QTidwbBa6cQnb3NvAj/3d9Qi9JZldltcrEK47MlmgTJVGZF1GFJvg==
-X-Received: by 2002:a05:6214:240e:b0:6f5:3e46:63eb with SMTP id 6a1803df08f44-6f542a4c794mr111187436d6.13.1746720805137;
-        Thu, 08 May 2025 09:13:25 -0700 (PDT)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com. [209.85.222.178])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f6e3a53905sm1341076d6.112.2025.05.08.09.13.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 May 2025 09:13:24 -0700 (PDT)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7c5b2472969so121768585a.1;
-        Thu, 08 May 2025 09:13:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU0STC/ueZ3kiH/nlpT+qau2WWJADh+Fd8N2TMdCRQhzbWBNpPQcmbatHRurWd2HJUSp4a2nezB9A84UCWII3t4DMY=@vger.kernel.org, AJvYcCUQ6Jabea6I5I9CLmbWV1/YaDS6MW2B6kVyaJ52rqTYGxJ4tBbZpjO1040XFoXoLXk7EJ2K/towHwvptg1A@vger.kernel.org, AJvYcCXpkLq0JbN9QpNhwczQQnF9tVgbpNRQ3eV4nfEzQTRjsr28WwsSKhtYFs6QuQMUPh6a/HRtMoCBUK4=@vger.kernel.org
-X-Received: by 2002:a05:620a:2552:b0:7c5:5edb:f4d5 with SMTP id
- af79cd13be357-7cd010ee99fmr29762785a.2.1746720804071; Thu, 08 May 2025
- 09:13:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC87283680
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 May 2025 17:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746723876; cv=fail; b=PGW8JMOdHrr76ODORjv0i2ze9vFq1ssX1ZZqAHIp9Ht3gyaYSTlXGs6aqBWXVsgLPgGFXP0D663JfmP8o3Vr7UtUzjD14MR4Bj/defqVifBgPxOBaW8mwx3Gr7flJT/mP/t7pV0WfhXCUZxtqm8aooydsPKQPLHt00corfrGbqg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746723876; c=relaxed/simple;
+	bh=CBdnec5qQmu//K4KyjTz9BbvNptHe7uEk/4ddLK6yFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=NzfBurRB7+tRqNPv3CRICRK/pQ/NPGNqmMObWWv9srAri94RY2RdI3GDbxbxU3eScVRVfalBLMw5Z8AxyBgweUrpZuHF5ICutaiiRVLXyM+aghIsSKN+VcB8kWkJY6y2zDXC42YjfwFCL2v93eJS0nkUAF/Ooj+CquUTKtmDR64=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=O0fkckih; arc=fail smtp.client-ip=40.107.74.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UaE5ULxvEhS42eLIYDCam90sg6QrYwThg6gRb2uC/iAlhzjqUZUp+IcT9eVZy/OaYTyeHBZWm1i3/cXOIixIhJDxwE+ujb7hRC7kLkSPH5C0Aesql5A2u9WlAj+q6PRtmwlJuiuHZtUuN3+qrIBdJ9xxF/Tz0pI3V8ZVgsv76gtlYpnGI1N625YrTio2we+XoO/GK0ACjVaF3LIztiNj8Noskf97QZsdohipmyqjfnbo6DIUPWJOTWSCDIGG6rH272XaHWVYTpR2M6bX4Sf54PuS9xmamt1SjuVmYoWZs5fMD0HCCcoeG8QtZy0ILFythpcN7M4V3ayOsrB1ptO0Mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UMsXnGvBs1tEymB+TmtqElh8uukk+/EV2T/zFI62RiY=;
+ b=JXGifcBtv+fwxwqChGMW8qsvKpjNh54eWs2gkGxeOpOkMhci0cZGEfI6z4bIjQ1lHkDjvwpDl+zxDB4IZeQvCGDrf/hSAhrrGW4hyWEAIB2PwuicXIAZwMesiRwKxNpLcCsxxuyE5i3jg9pAgr0hc8fuv5X7hS2DFIbUFRtfXEovAwgpsWfhivTZhdok1PXFCvFPLvGkfStspHL8LyNDcdCQ0gXQcei61YkgHiVdnmgNVGbCXLOntOuNGxWb7kXARR2c2bQb/a8XdsZvPV9ZpV7uPdI11ps3OMHFuddDQselMSj7wxB0Vb+bOQdk57uRTmy8x74Xd7TnjsJOJPhZ3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UMsXnGvBs1tEymB+TmtqElh8uukk+/EV2T/zFI62RiY=;
+ b=O0fkckih7iDmc+Fv+IffmSBYT3VfDQi7jPYT+7f7JfijbBv7inYKze7qKApbKudiNow1i1gHQVhSZCU3VRouG1zJFQxW6MQ0Q9x/HbEuPQ7+rEE/E7W+fTgtKq7moqeMhEzlDYwBUJ4aQxMZV/UKS1RPWIaRkpdeEccwvs5KHoM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
+ by TYYPR01MB12272.jpnprd01.prod.outlook.com (2603:1096:405:fa::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.20; Thu, 8 May
+ 2025 17:04:29 +0000
+Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
+ ([fe80::244d:8815:7064:a9f3%3]) with mapi id 15.20.8722.021; Thu, 8 May 2025
+ 17:04:28 +0000
+Date: Thu, 8 May 2025 19:04:11 +0200
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	hienhuynh <hien.huynh.px@renesas.com>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH] drm: rz-du: Support panels connected directly to the
+ DPAD output
+Message-ID: <aBzj9CZH3JtzR6og@tom-desktop>
+References: <20250508095042.25164-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250508095042.25164-1-biju.das.jz@bp.renesas.com>
+X-ClientProxiedBy: FR0P281CA0170.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b4::8) To OS9PR01MB13950.jpnprd01.prod.outlook.com
+ (2603:1096:604:35e::5)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250428184152.428908-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250428184152.428908-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250428184152.428908-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 8 May 2025 18:13:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWUpJHB_NsBqdvyD6=dDnZXQMr-=0aOpW0OutN9hSA5=A@mail.gmail.com>
-X-Gm-Features: AX0GCFvHkn5rIQsfMmyaSHlxpsNSpG52g0Gfy95n6DhXmYott5Vg4oFefhhzDxI
-Message-ID: <CAMuHMdWUpJHB_NsBqdvyD6=dDnZXQMr-=0aOpW0OutN9hSA5=A@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] clk: renesas: r9a09g057: Add clock and reset
- entries for GBETH0/1
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Richard Cochran <richardcochran@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|TYYPR01MB12272:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3712a51d-f1ae-4dad-4d23-08dd8e5264a7
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|7416014|376014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?K87V67GcwzRaJtxM0DMfWZxhUsW4Q102IHdMqBB22Yg2gS7VE8n4ISkohET1?=
+ =?us-ascii?Q?p0sSquvMMKGE5vSgJUU8R3XorFjPKv//Gy+lgC854joWlmwR+8YoygwslY1H?=
+ =?us-ascii?Q?NdsPSTbdcUoMdDVlDtcVxygmE7jBbs9gahSfFlC7tbwWhvj1MoOMPdyfCPCw?=
+ =?us-ascii?Q?3dFUHB1+1lVkbpPJ4l5hs0kJmBBjG1Zd9MB1oEJqiDq4wUUxXsQqTHzPDUcC?=
+ =?us-ascii?Q?ogkqFuGEvv3iAsWZouySEA58ywbfGv9rQeDCWUAAnadpf9mAxGTZVQTJjjGF?=
+ =?us-ascii?Q?uvRpgxWwJwEWvj8/AGpBCtGegG+nN6PZDArBXXL2D0n+YU/ZPxzvo4O5eMuy?=
+ =?us-ascii?Q?GtLi1LvZvFBwRyBT3YeHIYxN97I2FcSK1w2A6v0Ldpts7j31mt4APHkJgiDr?=
+ =?us-ascii?Q?91sxzB4+5H0BKgQSfpCvSRGKSgpLhjHneVvEwDD7MrInaHJ44j+Z/Q00Fn6k?=
+ =?us-ascii?Q?Bt22UPIqo3kjg2ItWJMyOZixhLDQ0zhTeQvzQQYTlE9agTsmuws0mqb+/jhV?=
+ =?us-ascii?Q?b3NyIH0kGlqr63BIa3FpUaAOGyZiEIMwxyLRsRHm74JCEMX7hr5lkksVbUee?=
+ =?us-ascii?Q?R+sjgbX0xj9h+yWxDuiufHgwLanjNPxXmzojv/lalLMY07+1p/bl6NOhvaiN?=
+ =?us-ascii?Q?tC/hKza2opGEC1U7ow2ewfBKdqGn1OEFqDcBdLdA7Xp8TKm9/q+EDwKFo9Cz?=
+ =?us-ascii?Q?9fglmXImCiy+ZlQFkU3+TdRWBBpym9xzeT9nxgxyd7aTD49CdKVZ5OLb+mgG?=
+ =?us-ascii?Q?lDUXpfQnNMFpo+a4EwP3hMErD3y9svFzSQw1sShC45I74YqZRMIu3Zi1pID9?=
+ =?us-ascii?Q?i2GTv0E1xoa5TyKWLv+qBEAuWTCjOgc03cP6fmm34HotXxrMjZIHPb6DxIno?=
+ =?us-ascii?Q?RzGJeVyAPfOxhb6ZdVD0cLm+8QJwCRJMOjJlwJBRRwfBnA7FVfjYmlu3gwas?=
+ =?us-ascii?Q?lJbNcu2oKovps2Uy/6f3/IryFYhQJ4K06iKPPluUtTHb18i0DQPTfiBab8nH?=
+ =?us-ascii?Q?L5LM6VVCfZ9/2jNma1n9T681V7JEvyLdKZnd4Rb0D/PRVwrua0EcKlkDKKNh?=
+ =?us-ascii?Q?KAElMnZNAmRT5JwQ/6JkjNTXhH4wQpMktlooNdrhBFeNISmUT2bo4YJNjZFK?=
+ =?us-ascii?Q?Yxk8ESAkoBKtObGTA+JxlUYXgan3+OEwBSGaHipuan/xnY+yr06kylw0ry8Y?=
+ =?us-ascii?Q?1vCUhpJvG2L+Dr261fP2rE70zkjrvQ86RXlm3xusD1izXYZck8gEYIlhviYO?=
+ =?us-ascii?Q?Tw3sadoCNrP4a1E6//107JYGPjh/phFDoXlX4XDVV+Gv3xl+ELvQhm6isAlj?=
+ =?us-ascii?Q?FcqWkvpTMYxLRi5i+trW8h8kgApEery4GSkI3QCWG9gItihpypLUGfp+JnWm?=
+ =?us-ascii?Q?cZ5KyKWFq/AedaUmJBCpASqVPl5sMW1FjuFO2gbc92O6xMtJgJAOx5nS/pP6?=
+ =?us-ascii?Q?dqJbU68UZDmRhQHn3WNFF2QZcOiK9CnxYkPVH9F3vL3RGHSczvMyhA=3D=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?5uDzRs6yjLsdvuDF0NqDUJlzU+9jq31+6rEW1HCb2VnujdNENAsPw5rykdg1?=
+ =?us-ascii?Q?nuwrlzn8U3iYXoO1RmyCCmYp4GwD2PY6bf3lbGV16CN7eUzEIOFzQ1wCOevf?=
+ =?us-ascii?Q?AI51ZgFG7gVjwDV68QQP0cg3tqdPhgL7OcziT409axanY/EDvbVAp+kdStEA?=
+ =?us-ascii?Q?Ky/NYSjm1lmJxB/IUC9VHKmALUcWsfqCJjEj07HHvvYDy7bp3rSDTpdndGbS?=
+ =?us-ascii?Q?1Mekskm1jP4seMrCnkG+oxkPMx+fV0qyAu7YIksQc8QSs+XX2FsHif458ImR?=
+ =?us-ascii?Q?09qgCNvsTbehWop+jwOAk4L0yG4x6rbMWPPcAzZbF3WHcSa9fa2JqJCaFUn1?=
+ =?us-ascii?Q?iu2RlJa4w1NcXWRVh9RThYJtI8++QSzmKPedBgVpWYLu3xpQUAskobqIAdR4?=
+ =?us-ascii?Q?LGAMliHmoydXddp7qG1IHiazIC4damZlNdIzZKimo+O3KWxW5xQK/bF1o8Mb?=
+ =?us-ascii?Q?8avNKEQpEt0byYJxQ0ywvXext+HwEJRNUUOBNU218r6ph+ymu6H6cllUXusZ?=
+ =?us-ascii?Q?dBFbgGTjZcKPOJeUGafZibx/CawEL8FB2NbeilTOc+rdR+qZdPt0y2AAVR82?=
+ =?us-ascii?Q?/RlJKhJj1IRT+aYCTG4K4nUUIsrZuQ82uC+04aXhCAU2qUFK/rtf7qzdSBro?=
+ =?us-ascii?Q?VpAdh5+Am0Bmd6/oLI7KsTZCk5smZF8Lluhr+FwyLJwIthICliWe8+7jfM77?=
+ =?us-ascii?Q?NMcJpcTJ1xMpb6bDpxdo+SgpDb3ElaLittYzEtgoFkq/f4YDA0zf82TeqJuh?=
+ =?us-ascii?Q?Dnq3IEKDRy7k5od7PqqXN9DBL9XPihR3mgvNwrkfhDRqdJDoXygwP9R3gdlw?=
+ =?us-ascii?Q?k3zDCBfRhG7TWje96X2eNwmLMvROL/eCu7JnwDC4AO74OXsmh0ZQaceR1Q+R?=
+ =?us-ascii?Q?6u1Qam/99txpCswGaEVN8juPHaRVmkhQnbHJmv4iPoaz7gtebaQl2KWO6uUY?=
+ =?us-ascii?Q?IzAufgQTHxHE35zSvi/d72xAEKxPUFg/uDlxCJ6q6AVsE8SMX7a2GqzbMoUD?=
+ =?us-ascii?Q?VuUgZCl/FtT+JgD6XveYxVHqF9muq3rtOLhJEOMZYn0jsIVqDSpKmLpotXuh?=
+ =?us-ascii?Q?Dmdthz67bIlkgmoa3j4CWFZAqetonBja6Wi+EcHQ9dlhTCpM/jqrapqvfkJE?=
+ =?us-ascii?Q?uPYw9ZKJBb0fAfPjNTV0FR7/w6EmZJNreCRiUfAxxYCnBTumpGPZBow/RlTp?=
+ =?us-ascii?Q?4hyX5Ncr2s4wvhEoE9b2SkCxo9IOKFrUi1WW+ZNcDNoICCpNR3Rloxd0jqLN?=
+ =?us-ascii?Q?I0qehN7VvGTaOxfcMkLpOD/INENE+cxI4hTYB/vdENsWrik38bISomRzNDG2?=
+ =?us-ascii?Q?CxmpVqqFZfxknCq60Z9RUfP/J2WXo3Dv7/fmr9/2z45eW6ZlSBosXjdGxwl5?=
+ =?us-ascii?Q?9wG25d16broLAmpGncaCVrmmk7ccdpXxwS6JbaJmi/+g/HCX7vgtn4ajqK2m?=
+ =?us-ascii?Q?R6W13Fz1MeGO0/AANRjVSgubexaAcS0pkm7dQsYB6ny8EzeYh3nUJTbQSN4N?=
+ =?us-ascii?Q?g7kEwf/PhwxHQssAq8TebmSE+LraGQVALX3KBFcBLMIntXfKPXdCyidf2DMu?=
+ =?us-ascii?Q?oYsgB/lHNOncb7uLeLKxcsvKwiCxNh4IELgMNY1hF6COo/yrOkhbp9pd9u0H?=
+ =?us-ascii?Q?LSfwx+Jm5t5odcynnuu4jdM=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3712a51d-f1ae-4dad-4d23-08dd8e5264a7
+X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2025 17:04:28.8755
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nd78a4tfL/h+X8c40W4Cih82qNMX/z/CiSMVPFPHG4LR/jcGDTPnMVzX/o5qzOSywF2iCGfFW9SemRRPKh9/OsJv5d4c6FMryI1QB8EfGNtMqRD3vHJQYl1M01raq/oT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB12272
 
-Hi Prabhakar,
+Hi Biju,
+Thanks for your patch.
 
-On Mon, 28 Apr 2025 at 20:42, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add clock and reset entries for GBETH instances. Include core clocks for
-> PTP, sourced from PLLETH, and add PLLs, dividers, and static mux clocks
-> used as clock sources for the GBETH IP.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, May 08, 2025 at 10:50:35AM +0100, Biju Das wrote:
+> From: hienhuynh <hien.huynh.px@renesas.com>
+> 
+> This patch is based on the commit 73eb5476df72 ("drm: rcar-du: Support
+> panels connected directly to the DPAD outputs").
+> 
+> The RZ DU driver assumes that a bridge is always connected to the DU
+> output. This is valid for the HDMI output, but the DPAD output can be
+> connected directly to a panel, in which case no bridge is available.
+> 
+> To support this use case, detect whether the entities connected to the DU
+> DPAD output is encoders or panels based on the number of ports of their DT
+> node, and retrieve the corresponding type of DRM objects. For panels,
+> additionally create panel bridge instances.
+> 
+> Signed-off-by: hienhuynh <hien.huynh.px@renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Tested on RZ/G3E with the following pipeline:
+
+DU -> adv7513 -> HDMI panel
+
+Reviewed-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Tested-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+
+Thanks & Regards,
+Tommaso
+
 > ---
-> v2->v3:
-> - Used DEF_MOD_MUX_EXTERNAL() macro for external MUX clocks.
-> - Renamed gbe0/1 external mux clock names
-
-Thanks for the update!
-
-> --- a/drivers/clk/renesas/r9a09g057-cpg.c
-> +++ b/drivers/clk/renesas/r9a09g057-cpg.c
-> @@ -78,6 +87,19 @@ static const struct clk_div_table dtable_2_64[] = {
->         {0, 0},
+>  .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 44 +++++++++++++++++--
+>  1 file changed, 40 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+> index 564ab4cb3d37..5e6dd16705e6 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+> @@ -22,6 +22,26 @@
+>   * Encoder
+>   */
+>  
+> +static unsigned int rzg2l_du_encoder_count_ports(struct device_node *node)
+> +{
+> +	struct device_node *ports;
+> +	struct device_node *port;
+> +	unsigned int num_ports = 0;
+> +
+> +	ports = of_get_child_by_name(node, "ports");
+> +	if (!ports)
+> +		ports = of_node_get(node);
+> +
+> +	for_each_child_of_node(ports, port) {
+> +		if (of_node_name_eq(port, "port"))
+> +			num_ports++;
+> +	}
+> +
+> +	of_node_put(ports);
+> +
+> +	return num_ports;
+> +}
+> +
+>  static const struct drm_encoder_funcs rzg2l_du_encoder_funcs = {
 >  };
->
-> +static const struct clk_div_table dtable_2_100[] = {
-> +       {0, 2},
-> +       {1, 10},
-> +       {2, 100},
-> +       {0, 0},
-> +};
+>  
+> @@ -50,10 +70,26 @@ int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
+>  	struct drm_bridge *bridge;
+>  	int ret;
+>  
+> -	/* Locate the DRM bridge from the DT node. */
+> -	bridge = of_drm_find_bridge(enc_node);
+> -	if (!bridge)
+> -		return -EPROBE_DEFER;
+> +	/*
+> +	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
+> +	 * DT node has a single port, assume that it describes a panel and
+> +	 * create a panel bridge.
+> +	 */
+> +	if (output == RZG2L_DU_OUTPUT_DPAD0 && rzg2l_du_encoder_count_ports(enc_node) == 1) {
+> +		struct drm_panel *panel = of_drm_find_panel(enc_node);
 > +
-> +/* Mux clock tables */
-> +static const char * const smux2_gbe0_rxclk[] = { ".plleth_gbe0", "et0_rxclk" };
-> +static const char * const smux2_gbe0_txclk[] = { ".plleth_gbe0", "et0_txclk" };
-> +static const char * const smux2_gbe1_rxclk[] = { ".plleth_gbe1", "et1_rxclk" };
-> +static const char * const smux2_gbe1_txclk[] = { ".plleth_gbe1", "et1_txclk" };
+> +		if (IS_ERR(panel))
+> +			return PTR_ERR(panel);
 > +
->  static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
->         /* External Clock Inputs */
->         DEF_INPUT("audio_extal", CLK_AUDIO_EXTAL),
-
-This patch starts to LGTM.  The only outstanding issue is how the
-et*_[rt]xclk will be provided.  I have read your comments on v2,
-and am eagerly awaiting the full patch set (CPG binding update, PHY
-updates, ...) to get this all to work.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
+> +							 DRM_MODE_CONNECTOR_DPI);
+> +		if (IS_ERR(bridge))
+> +			return PTR_ERR(bridge);
+> +	} else {
+> +		bridge = of_drm_find_bridge(enc_node);
+> +		if (!bridge)
+> +			return -EPROBE_DEFER;
+> +	}
+>  
+>  	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %s\n",
+>  		enc_node, rzg2l_du_output_name(output));
+> -- 
+> 2.43.0
+> 
 
