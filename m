@@ -1,164 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-16775-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16776-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FACCAAEDDB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 23:24:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CB3AAF135
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 04:41:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 441139C7583
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 May 2025 21:24:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 459A67A9C76
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 02:40:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C66A228FFEB;
-	Wed,  7 May 2025 21:24:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF8152CA9;
+	Thu,  8 May 2025 02:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NrB++wUB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FOr1s+c4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DE928FFCC;
-	Wed,  7 May 2025 21:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0115D14D29B
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 May 2025 02:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746653065; cv=none; b=UdQzTabHsLIs1n60Fy/PuVhf/Z0+uqc4x5jiTJ290DQ+3IaHYdyu0MzJzqBynKP9zXGUr/unixiR9/cA4dhfTSukyInO9pVA2wZoNJe2ixSzyAGb7/9y7Y7MRtNQf2KxVryaRR60mt8QmM9xbi9YZF2MYm70nguMkJqLTtKzjts=
+	t=1746672070; cv=none; b=G4h7spDCkgukMfUSL7Sw2QmLtHz62mJrNCjNzXbJbsSa0vriOsfHehwW+fO/3ZKkfmvaY8ddH+wudEeLTzxr+/LBPLNaOMp8/vqbwUslKGicU3rTEbsLun4Qv9YpZ2V+rzAkwXFurQHFlLKKdvfZA3LeOfIe3JLx1/uY8HVF+lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746653065; c=relaxed/simple;
-	bh=LB/ZOlAxqkucdq1FVR1eTNobUWaWqOLt9pLxmFHNkpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SZftKfmOPRpNhOPlVFGVka9i6d++IP4M3UniNwTRglKBES3do4+X6HDLsthIf0xhgMeKtn0nS1c6ImGeFd+NQ5quWIN8qYR44ILY0h5RhNQWbojfXMsqKDG9axNo0XoiJ0Nul9s6DVTbEUSkSi+H0hoe/SI5dsLdDXnkG5inlQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NrB++wUB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:861:3a80:3300:7c3b:c7bf:b733:fa1b])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1EA0C59;
-	Wed,  7 May 2025 23:24:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746653049;
-	bh=LB/ZOlAxqkucdq1FVR1eTNobUWaWqOLt9pLxmFHNkpE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NrB++wUBfvR+yy92LRIlYYH3HEe68G8uoibvBv/onV5Ezk+rfVktqpfdSVEaLXQMB
-	 qpXfWs7z8EuxokTPamYH9nw7MQbJ5wLnTRbxm/6vDX6zEyAADSEVz8hwoyndJxmy7B
-	 mjMtA5hf4vc6l1aI25melc8Cav8M07l5VasD55UM=
-Date: Wed, 7 May 2025 23:24:17 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v9] media: vsp1: Add VSPX support
-Message-ID: <7gsxhn3ny3pxauvgwyucfhlegaojx3rj2b4ncaaumrzroei6ek@6ht24cjv6b5n>
-References: <20250506-b4-vspx-v9-1-d7d50a01f7b6@ideasonboard.com>
- <20250506173733.GA539397@ragnatech.se>
- <2wsx4pmkwmjgqlfywbsqim5irnh7lcfhbdreenevf2lnd2ofsb@u3epcobuxuij>
- <20250507140949.GB836326@ragnatech.se>
+	s=arc-20240116; t=1746672070; c=relaxed/simple;
+	bh=cmJuPpJ0f9YmB7ZuXqWqnZ/AIZj/k0+pvWRuxYL8wUE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ko2nit/uFcyoawDsl4wZ8K+/fNDgXsgC9TjJdzQh78hCcm4h9g3ApAFs8/IeGGzeFZ87ucJj+vq4mcQBkwpMnjiBkumHs9e8Kyd+pf0WMzqtioHOK+brzPdcrpii/R0g/ADa6YZDRtN/hP8T1R5LWnpRRKzkavbG0A68HL6uo7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FOr1s+c4; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746672069; x=1778208069;
+  h=date:from:to:cc:subject:message-id;
+  bh=cmJuPpJ0f9YmB7ZuXqWqnZ/AIZj/k0+pvWRuxYL8wUE=;
+  b=FOr1s+c4UM6iuJTt+nWGvMVcFtk9nQjJiXtropmpCC6r/GxHXVhm5RHT
+   FT7VTtPnirB/wZzCEFw6bJS+XyZ1cWTdNfS1UlR5eZIU14X7SyJG+1HpZ
+   /TzEZmVodKnwzp90KGYNct47fRd/YFy5XEooA8pHuxxZtAfkoLMLRmmXp
+   1AqRBGV9v490Vu4D3Jt1cmW7ZPfwjOm4UNbMQt6D1T3ZJqIFs4J75bLD9
+   z40atQfaO1wOvx+ZJEX/xWiLCM6O5RedODhXHfxdfVKQgcgcYC3iMGH/o
+   /aaix8OfevQ9IUpTbTQbBZt7B1VMOwn6+sh6dasCGtfQ0LuDzgA+bjyH2
+   Q==;
+X-CSE-ConnectionGUID: MhPPElrmQfmrxPkujQgFJQ==
+X-CSE-MsgGUID: U9lXVqZ0RX6rBCgMFPgFKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48543274"
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="48543274"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 19:41:08 -0700
+X-CSE-ConnectionGUID: QRK6yf1CSaKkr1kW9aQkhQ==
+X-CSE-MsgGUID: xOpCRG3vQZanLxzIdbXiDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="140916915"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 07 May 2025 19:41:07 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCrC5-0009Tw-0G;
+	Thu, 08 May 2025 02:41:05 +0000
+Date: Thu, 08 May 2025 10:40:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk-for-v6.16] BUILD SUCCESS
+ aff664cc8cbc5c28e5aa57dc4201c34497f3c871
+Message-ID: <202505081024.5nskdw5T-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250507140949.GB836326@ragnatech.se>
 
-Hi Niklas,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.16
+branch HEAD: aff664cc8cbc5c28e5aa57dc4201c34497f3c871  clk: renesas: Use str_on_off() helper
 
-On Wed, May 07, 2025 at 04:09:49PM +0200, Niklas Söderlund wrote:
-> Hi Jacopo,
->
-> On 2025-05-07 14:28:50 +0200, Jacopo Mondi wrote:
-> > Hi Niklas,
-> >
-> > On Tue, May 06, 2025 at 07:37:33PM +0200, Niklas Söderlund wrote:
-> > > Hi Jacopo,
-> > >
-> > > Thanks for this new version!
-> > >
-> > > I will give this a good testing as soon as I have finished some
-> > > refactoring of the user of this. I had a comment I wanted to send for
-> > > v8, but seems I never did. So for now I will just post this incase you
-> > > need to do a v10 before I had time.
-> > >
-> > > On 2025-05-06 18:32:23 +0200, Jacopo Mondi wrote:
-> > >
-> > > .. snip ..
-> > >
-> > > > +struct vsp1_dl_list;
-> > > > +struct vsp1_isp_job_desc {
-> > > > +	struct {
-> > > > +		unsigned int pairs;
-> > > > +		dma_addr_t mem;
-> > > > +	} config;
-> > > > +	struct {
-> > > > +		struct v4l2_format fmt;
-> > >
-> > > I'm very happy to see this is now the only location for the format, nice
-> > > work! I wonder if we shall take it one step further and just record the
-> > > fourcc, width, height and bytesperline here? Or at switch to a
-> > > v4l2_pix_format struct?
-> > >
-> > > The user of this field do not really support multi plane formats, nor do
-> > > it validate fmt.type field.
-> > >
-> > > I recently hit a snag in the ISP driver using this interface where I
-> > > *think* the solution is to only allow single plane buffers to be used as
-> > > input to the ISP (V4L2_CAP_VIDEO_OUTPUT_MPLANE vs
-> > > V4L2_CAP_VIDEO_OUTPUT). While fixing the plumbing for this I ran across
-> > > this, sorry for not noticing before.
-> >
-> > True that.
-> >
-> > However my understanding is that nowadays the multiplaner API should be used
-> > for single planar formats too.
->
-> Mine too, I'm just grasping for straws debugging things and this was one
-> thing I tried to figure things out. It was unrelated to the VSPX, and
-> did not solve my instal problem. But working on it was what lead me to
-> this design decision in the VSPX driver.
->
-> > If you want to avoid passing in the
-> > whole 'struct v4l2_format' then I would pass in the
-> > v4l2_pix_format_mplane .pix_mp member (which the VSPX uses
-> > unconditionally at the moment).
-> >
-> > However, assuming future developments where a different user uses
-> > V4L2_CAP_VIDEO_OUTPUT, the VSPX driver can be extended and use the
-> > .type field to select which member of the 'fmt' union to use if we
-> > pass the whole 'struct v4l2_format' in. This is all very theoretical I
-> > know. To be honest I would keep the interface as it is and eventually
-> > improve the VSPX driver to use the 'type' field to select which format
-> > to use.
->
-> I'm fine with that. Maybe add a check on .type field in the VSPX driver
-> and fail if the .pix_mp 'variant' is not used to configure the VSPX?
+elapsed time: 3828m
 
-Good idea. I'll wait for more comments on v9 and include this change
-in v10! Should be really few lines check.
+configs tested: 106
+configs skipped: 1
 
-Thanks
-  j
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> When playing with V4L2_CAP_VIDEO_OUTPUT the VSPX code still happy
-> accepted the struct v4l2_format but it contained bad data when
-> interpreted as .pix_mp instead of the .pix that was populated.
->
-> >
-> > >
-> > > > +		dma_addr_t mem;
-> > > > +	} img;
-> > > > +	struct vsp1_dl_list *dl;
-> > > > +};
-> > >
-> > >
-> > > --
-> > > Kind Regards,
-> > > Niklas Söderlund
->
-> --
-> Kind Regards,
-> Niklas Söderlund
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-14.2.0
+arc                               allnoconfig    gcc-14.2.0
+arc                              allyesconfig    gcc-14.2.0
+arc                   randconfig-001-20250506    gcc-8.5.0
+arc                   randconfig-002-20250506    gcc-12.4.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-14.2.0
+arm                   randconfig-001-20250506    clang-21
+arm                   randconfig-002-20250506    clang-21
+arm                   randconfig-003-20250506    clang-17
+arm                   randconfig-004-20250506    clang-21
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250506    clang-21
+arm64                 randconfig-002-20250506    gcc-8.5.0
+arm64                 randconfig-003-20250506    clang-21
+arm64                 randconfig-004-20250506    gcc-8.5.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250506    gcc-14.2.0
+csky                  randconfig-002-20250506    gcc-14.2.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250506    clang-21
+hexagon               randconfig-002-20250506    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250506    clang-20
+i386        buildonly-randconfig-002-20250506    clang-20
+i386        buildonly-randconfig-003-20250506    clang-20
+i386        buildonly-randconfig-004-20250506    gcc-12
+i386        buildonly-randconfig-005-20250506    clang-20
+i386        buildonly-randconfig-006-20250506    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250506    gcc-14.2.0
+loongarch             randconfig-002-20250506    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250506    gcc-8.5.0
+nios2                 randconfig-002-20250506    gcc-6.5.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20250506    gcc-11.5.0
+parisc                randconfig-002-20250506    gcc-5.5.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-21
+powerpc               randconfig-001-20250506    clang-21
+powerpc               randconfig-002-20250506    gcc-8.5.0
+powerpc               randconfig-003-20250506    gcc-8.5.0
+powerpc64             randconfig-001-20250506    clang-20
+powerpc64             randconfig-002-20250506    gcc-8.5.0
+powerpc64             randconfig-003-20250506    clang-18
+riscv                            allmodconfig    clang-21
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-16
+riscv                 randconfig-001-20250506    clang-19
+riscv                 randconfig-002-20250506    clang-21
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250506    gcc-9.3.0
+s390                  randconfig-002-20250506    clang-21
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20250506    gcc-12.4.0
+sh                    randconfig-002-20250506    gcc-12.4.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250506    gcc-11.5.0
+sparc                 randconfig-002-20250506    gcc-6.5.0
+sparc64               randconfig-001-20250506    gcc-7.5.0
+sparc64               randconfig-002-20250506    gcc-5.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250506    clang-17
+um                    randconfig-002-20250506    clang-21
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250506    clang-20
+x86_64      buildonly-randconfig-002-20250506    gcc-12
+x86_64      buildonly-randconfig-003-20250506    gcc-12
+x86_64      buildonly-randconfig-004-20250506    clang-20
+x86_64      buildonly-randconfig-005-20250506    clang-20
+x86_64      buildonly-randconfig-006-20250506    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250506    gcc-13.3.0
+xtensa                randconfig-002-20250506    gcc-9.3.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
