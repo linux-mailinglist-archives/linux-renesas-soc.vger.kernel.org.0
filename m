@@ -1,145 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-16792-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899BBAAF527
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 10:08:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52360AAF5D7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 10:38:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D0BC3A8BBB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 08:08:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 61EE71BA817B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 08:39:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 245A321E0BD;
-	Thu,  8 May 2025 08:08:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0690E262FED;
+	Thu,  8 May 2025 08:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="loQALdfb";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vYDf1a3H"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610D16F073;
-	Thu,  8 May 2025 08:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C320262D0B;
+	Thu,  8 May 2025 08:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746691703; cv=none; b=oBRr/wOckIxAmQnFJUNDPkAxAFzFQlY/RW27spu+UgErI5CVE36cGazCbnRvJLQsbYgOPixl3MEtpp2HoqIbnfCXK2yOfAw0phmjir71n6l1LybjNyAalkdD6GWDOXdXdBjHUHdN8QSGCOQcBsGfBnmwnoyy+fzhIUOUl7Zl/m4=
+	t=1746693520; cv=none; b=a8gQ3m/4Oo8dUI1V/RLz0k+P9V3bO98nIvFPVfXiDZsF3rOXLkNqJz7nIbpl9W6DbdwbKgo76h7e6KgkSOTjKAINgTxktoZvoFzkTVOREl6PuTA2ofw36iwkTlADcZnSOjkNg01s0HE8XEHfi/eXQSrBNyYMPB4i9eqooRwp2g0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746691703; c=relaxed/simple;
-	bh=+sJ+nOd93uoWClQE2mhYQO1xYIQfotIWKMU2W7nPB2o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pwpvs1MkmZZO/eH6Kq5IbB73V9tRCViOswDdAFyb+wxoYtaP2GmGITf9c3ZnMdiEq1PmzSo+fgMcgwTPt9qqH0r/FzE3zvh2TIInocGtBS3l4vhZrOnpTXcSn5juMwU0BBI2NW0yBU4Hmx1cFrOvb1mv29xbH57j4Kcfjgb9DVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5241abb9761so238255e0c.1;
-        Thu, 08 May 2025 01:08:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746691697; x=1747296497;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5pyh88RLi7QBn3vHcG2jBCwxHsg3m1PlM26ESBfjfQk=;
-        b=JdVUV14WGk68/k1HNNJGKorvTY7Q8kr0nz2kJuiUsEQOn70dC6/VuX/LS0IuBcV3OV
-         /v5sgnoLF7ggsPuZEenIWHr1XT1KzVWNE/PMvtKbvNZtel0tcHCqNh2JhTg4bQEFThqx
-         QSvAVz8KeK6KbHiinIXfOFDiLA5SM5qqjLoeutHb2IyoRAKixPYKT7TsgiFOSzKlEBRy
-         XXOmGPeqPeUehJKh/gyag4Pn7HUuJc8EwecAA7QzvpPgkhjhRIMdPlj2MFzoUgozGUeO
-         OZMAkxwPBbWX2ydgmnpjvZprveH/RJkmoxCNkRqf1o/wzPz4JOMssRchcboys89crIjB
-         PtdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU9w1Jt9qaJgT/KogH8Sehsd8x74zE5gcGXD8gM8y0B4sgPYREpIUahvrn2BB1o3boSloTaQ0vPX1J2EpW1C7CFmvw=@vger.kernel.org, AJvYcCWmA69ukN0pd6k5LJOhKObgTMu/q6J6qr/j4LbVMc8tmJOGkoX9RtbCOA3ujQzBIkiBXmjNEqQVtwE=@vger.kernel.org, AJvYcCWnKkIO9botPEul9Adv7i+FXZyXxeL6K5z+wLxI9l5ZJ1d5kYj55rFn1psMm9q8YzDpE7lPpCVPFkBkD2nk@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRY/iSfJPFp3RdnMMXzU6xUnU80r6RpfxiHjZFDiQiankdG/ow
-	c51kzh2g1DdAsM2Wh3YOvDuixpSe/HPC7GYLzo9adtj9q1C/TNnLgyGPbbVR
-X-Gm-Gg: ASbGncsu4NRZ5Wlt741EbzMxhLBkQrnYaR7ciMvtQax7QZmiNO/wbW2sdAHz6m6uqdS
-	rDR7DO4eYy/4+9ViBRB1Z1hFf9RMoimHGP2CL0HmijA4m4A54Im+QhCMVaY4XXYmZt72BV+3k9p
-	AqeTYS4Ebz+9bI9KgmxCay85kXrkKwg+gb7FdyQvgjAjb+a/7OE9YGEgm1PCY8086s5WoinJkFx
-	Fwm/0VGxJxS8WzhYQJUPCx8WwXRXu7hAuIvsmeTnMv+/G6V7uvxX1WPKij/zokEhBWg6S/aO7N2
-	+UOGe5C70a1Qc6jbhaPFqRWD1T10jnItf43LZ89Oa2howKbTEQyWw1f4Xmf3ustiU9SWGQBYVYu
-	de7H3Sbo=
-X-Google-Smtp-Source: AGHT+IFaWIGOmB8cTBxOE+dYT4jEmG0XdjfXBvG0xeDCxKUTjA0Z0v02NnZ2wm1eKbLYbdO4+GchmA==
-X-Received: by 2002:a05:6122:7d0:b0:529:d14:67b6 with SMTP id 71dfb90a1353d-52c441af38fmr1708144e0c.7.1746691697402;
-        Thu, 08 May 2025 01:08:17 -0700 (PDT)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52ae419c85csm2888631e0c.33.2025.05.08.01.08.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 May 2025 01:08:17 -0700 (PDT)
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5262475372eso197650e0c.2;
-        Thu, 08 May 2025 01:08:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWERG2zKGAiRQQbsYKzmFdvBqDBG3fMORz0BTLJezVvidt2qZuvm2KyBxeg20ibfYakqXIqPFvSvEg=@vger.kernel.org, AJvYcCXP7qTdcNYgGPIqAm8VRHqVlVK/mkm5ETkeP5G+mKfEYMmUzzKbztJyW7Q6bmaQwYCMFrepPKxTaOTyR5Zv7TIPaUM=@vger.kernel.org, AJvYcCXjRkBa3ovT+r4jzo9wMSLt4kSxUcX90GCgg5bTvI9E/h8U4uz4MLZg9Aa9+UXw3fwdBzeHOr3bbKhaLOaf@vger.kernel.org
-X-Received: by 2002:a05:6122:3295:b0:529:2644:5eec with SMTP id
- 71dfb90a1353d-52c441e2252mr1551202e0c.8.1746691696707; Thu, 08 May 2025
- 01:08:16 -0700 (PDT)
+	s=arc-20240116; t=1746693520; c=relaxed/simple;
+	bh=DfnfwWqbN41u4X4+EL2LFT8tt4D304cSyZSPBIk6RRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Pt0pCqX45aqhk//iXlsCkXg3rbPvbTWMi7Ljw4u6oF2Np02llssTn+QFrKBZAoXdlqTrOSx3d8hpTj7Ry/uSWCNbHL+1K4yP1WlRtf0VYZPE5yx2DxCGvZg7AQaJP+Oup1ODR71w104n64rrNj4bvkTA51htKy11y2W73swP3/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=loQALdfb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vYDf1a3H; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id 01BF21140179;
+	Thu,  8 May 2025 04:38:36 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Thu, 08 May 2025 04:38:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1746693516; x=1746779916; bh=Oq
+	s8zgYjNjyHe30uh7H+v3OUhiBkEOhgMc/PNrB5B5c=; b=loQALdfbCxvGuFx+Jd
+	rLBlVYPpjePQeGtq3xZVRi+ADDCAVpAK0Xu6ljZFVmXQxcTaPT0Qq+SxDWr7+JgV
+	6HrSUe9huI0lsh9jczP/N8FOrdTjwTRZIUe8yu1Cm/R2vbIMUWhmSTJCWxnVUcAH
+	AnlQUAUypn/fuHKECvicKlGuk0sKAQr7DwFz8lzeUM2WVBIkLtsTDbry4xms+UA1
+	vcGmobtFFKr5Inbao1OYAMUU+VeO2nQCONDJQ8qc9GLvd/50bzmmqQ1JqQ6zYMPA
+	fJ5tVc7KLxAAMzT56mPUcSLtu8PeiPg6qMI+vL53v03l0oIzvctLYdgFNNW17Ql1
+	OZZw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1746693516; x=1746779916; bh=Oqs8zgYjNjyHe30uh7H+v3OUhiBk
+	EOhgMc/PNrB5B5c=; b=vYDf1a3HVCPlosA6Y67Px4aR7BTByozOqgLQ0FHUxAzu
+	gXIze8YXWKzDkLr7ePEKwCluoTsK5zbtnaAY6IviiCXPuTYLP2klOWlLTtTVmZEn
+	i3xGkIj7rgffWdz9Z/xPD665aa929tZEIr17dtbz9+s/n6Kf36gyGI2/IDsP9r+F
+	7vqjJxmxtJOx5ytIrfl+ttXxqALcVDn/MYQ+woRBEIUbLmNDnpF5Ce37WW74oR4Q
+	qQwr60z51kayo/U1FXGH0RMhkHICP929DegqO7YUhswtpTQ9KqyOtVAs4wZd4s0g
+	+QAiFMjD8/RiRUztYQqJRVwmqc136j2A/js0juUHiA==
+X-ME-Sender: <xms:hm0caDQMRwe4LSkNWPZ4qd-ZSx8_gEckp4lWqyTb7698R4emp5WzlA>
+    <xme:hm0caEwGHY5-umRIFglGilDfgxmlHFfg_XsNhe4KJC4-yiPphow98oAoGCKCm--iN
+    rtSGkUFwWTKIg5W9WU>
+X-ME-Received: <xmr:hm0caI1OdEO3dTELHKrfxyTEATsbmT2fY5kK7aFZaPVjlYB_c-w-H0CNywZGw6i6qymv4_7VShpWZVITjaUJ_VHn>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeelvdekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
+    thgvrhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfe
+    etgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
+    ihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtph
+    htthhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsges
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtohephhhvvghrkhhuihhlseigshegrghllhdrnh
+    hlpdhrtghpthhtohepnhhitgholhgrshdrughufhhrvghsnhgvsegtohhllhgrsghorhgr
+    rdgtohhmpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvg
+    hlrdgtohhmpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnsehiuggvrghsohhn
+    sghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtg
+    hpthhtohepjhgrtghophhordhmohhnughisehiuggvrghsohhnsghorghrugdrtghomhdp
+    rhgtphhtthhopehmrghtthifmhgrjhgvfihskhhisehgmhgrihhlrdgtohhmpdhrtghpth
+    htoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:h20caDCM9yvYTgheYFAtSsnCspV0u5R7XtfWWzNOjhqA_5MrT8JCFg>
+    <xmx:h20caMiU3ThURHM6tIjPxnZ7SahySc54hY6bnQdiy2kYkciW-Z0rLw>
+    <xmx:h20caHqlSmPXYzR6PL9HZ-UVe31s4bYP6akPvIHW1aHyvplj_AJNQQ>
+    <xmx:h20caHiiiSIaFnKFIQfZ_8NPBlN9_LnOVL81pKUAmDxN-pJk9Zsdzw>
+    <xmx:jG0caMLMXv7qhPKG5mh2hrUOkJaAJdLOW8OXyIBwMAGqzjDeu52i0MhP>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 8 May 2025 04:38:30 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Matthew Majewski <mattwmajewski@gmail.com>,
+	linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] media: v4l2-common: Reduce warnings about missing V4L2_CID_LINK_FREQ control
+Date: Thu,  8 May 2025 10:37:45 +0200
+Message-ID: <20250508083745.1697364-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250327151109.9648-1-tsogomonian@astralinux.ru>
-In-Reply-To: <20250327151109.9648-1-tsogomonian@astralinux.ru>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 8 May 2025 10:08:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUoZSXQwu6gZgbzUcFgjQh=ng7UZAGC5ke4GVB-zqqhqQ@mail.gmail.com>
-X-Gm-Features: ATxdqUHjjZXKNDvAcDrDPJ9dSfaDFZqswvwv39QmwuKKp-97On7DFcun-1asJ9A
-Message-ID: <CAMuHMdUoZSXQwu6gZgbzUcFgjQh=ng7UZAGC5ke4GVB-zqqhqQ@mail.gmail.com>
-Subject: Re: [PATCH RFC] renesas: add zero check for prate variable
-To: Tigran Sogomonian <tsogomonian@astralinux.ru>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Tigran,
+When operating a pipeline with a missing V4L2_CID_LINK_FREQ control this
+two line warning is printed each time the pipeline is started. Reduce
+this excessive logging by only warning once for the missing control.
 
-On Thu, 27 Mar 2025 at 16:13, Tigran Sogomonian
-<tsogomonian@astralinux.ru> wrote:
-> To avoid division by zero, a check was added to the prate
-> variable, since no guarantees were found that it could not
-> be equal to zero.
->
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->
-> Signed-off-by: Tigran Sogomonian <tsogomonian@astralinux.ru>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/v4l2-core/v4l2-common.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Thanks for your patch!
-
-> --- a/drivers/clk/renesas/rcar-gen3-cpg.c
-> +++ b/drivers/clk/renesas/rcar-gen3-cpg.c
-> @@ -205,6 +205,8 @@ static int cpg_z_clk_determine_rate(struct clk_hw *hw,
->                                                   prate * zclk->fixed_div);
->
->         prate = req->best_parent_rate / zclk->fixed_div;
-> +       if (prate == 0)
-> +               return -EINVAL;
-
-prate can never be zero, as req->best_parent_rate is always larger or
-equal than zclk->max_rate, and zclk->fixed_div is a very small number
-(2 or 4).
-
->         min_mult = max(div64_ul(req->min_rate * 32ULL, prate), 1ULL);
->         max_mult = min(div64_ul(req->max_rate * 32ULL, prate), 32ULL);
->         if (max_mult < min_mult)
-> diff --git a/drivers/clk/renesas/rcar-gen4-cpg.c b/drivers/clk/renesas/rcar-gen4-cpg.c
-> index 31aa790fd003..4c9a7d699290 100644
-> --- a/drivers/clk/renesas/rcar-gen4-cpg.c
-> +++ b/drivers/clk/renesas/rcar-gen4-cpg.c
-> @@ -308,6 +308,8 @@ static int cpg_z_clk_determine_rate(struct clk_hw *hw,
->                                                   prate * zclk->fixed_div);
->
->         prate = req->best_parent_rate / zclk->fixed_div;
-> +       if (prate == 0)
-> +               return -EINVAL;
-
-Likewise.
-
->         min_mult = max(div64_ul(req->min_rate * 32ULL, prate), 1ULL);
->         max_mult = min(div64_ul(req->max_rate * 32ULL, prate), 32ULL);
->         if (max_mult < min_mult)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index 4ee4aa19efe6..09412989f9b3 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -497,10 +497,10 @@ s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
+ 
+ 		freq = div_u64(v4l2_ctrl_g_ctrl_int64(ctrl) * mul, div);
+ 
+-		pr_warn("%s: Link frequency estimated using pixel rate: result might be inaccurate\n",
+-			__func__);
+-		pr_warn("%s: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver\n",
+-			__func__);
++		pr_warn_once("%s: Link frequency estimated using pixel rate: result might be inaccurate\n",
++			     __func__);
++		pr_warn_once("%s: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver\n",
++			     __func__);
+ 	}
+ 
+ 	return freq > 0 ? freq : -EINVAL;
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.49.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
