@@ -1,144 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-16797-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16798-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75134AAF660
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 11:11:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F01AAF672
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 11:13:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA0C79E150C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 09:10:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D5B804681B8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 09:13:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 564B61C6FE2;
-	Thu,  8 May 2025 09:10:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 116222571D7;
+	Thu,  8 May 2025 09:13:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xrs6yddL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OvQswoa1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A7BEAF6
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 May 2025 09:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104412641C6;
+	Thu,  8 May 2025 09:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746695455; cv=none; b=ArozPEwTihhjNo8HFAeV6h3ODKDbemXSniOvfjW1XlDxV7Tw3gT6wvWXihGXRPmL78xocKkJ4CbU2DzcARH+x5NjBFy7qlFXBu9C4P9MMdUNJRtwM41nCeIpSKA8EqZnP1ntHqX8f/vx57S7RGgGfUa+PdGcTDrCW5j0AFl6Z2o=
+	t=1746695581; cv=none; b=Tw0AVPm+FDq5fCQMgjY/+gtNiFsuyXcaAM91evTMg324K9NDIZ0rn5SANJbenuWAZGS9q7G+E3PiH6PwFr7WUG/WzStgh86DrUl/YCHViL2OyZXzObHhA8/ClrCEu43rqTua1NYgdjFi6GMsLdh9r51/F7oVIvLEonSG9kGbl+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746695455; c=relaxed/simple;
-	bh=RQh8bCobMqKRxxlmJyV95wcMwTAGjQ4YIcr2wCUqMPk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SHjBpvD+EoIn52u40CgFSAMYK5m3UzHCuHsNl91tdCd7qRJLsZSZgW+QFCMwWiSBa55CLE51IwWpUXr2efVJhjvo6ra5cdfkIqVofGm6QI+DcCmK/UD33BHnQ2VQibyvz/I35TWfgpdhzskXQryiLKFFcwadtteTsqcKmWDN/18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xrs6yddL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F1E0C4CEE7;
-	Thu,  8 May 2025 09:10:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746695455;
-	bh=RQh8bCobMqKRxxlmJyV95wcMwTAGjQ4YIcr2wCUqMPk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Xrs6yddLcFJRhu7IoAIvwMDyvLTUDVo5Ti7Bd6P/Ej8CnarELvh/6QYh5fX8Rf9TS
-	 v3EO2gXbAxHMHF3bzUbSYoCBSkJLfimt3hg5p49PQrb1cJMZM/7tAJHEAlhsAQUKHK
-	 DiushNcAC4hkGsAOKpiyL8MltBq5ipgvfX+4eiuAu7It1qMQ97visX2M+omiWG+qAN
-	 nM8J/YT0AV++84PPB31f1MJbIoABB6Dr6LqjvARUBIF1nK1Fo43Ar5TKB8lsf4fIJ+
-	 2bGconnmK0SG9wDYPRgHZJb7dmI8RPk/nd51dX5Fgtx3j54sBuO+ExLgRxlPdFM2fS
-	 zvsHYijwYn/dA==
-Message-ID: <ff5f4f3c-75b8-46a8-83e2-b1d1533371fd@kernel.org>
-Date: Thu, 8 May 2025 11:10:51 +0200
+	s=arc-20240116; t=1746695581; c=relaxed/simple;
+	bh=DjPPqyZ7pZEMb9GjAxxw2AsCbyg+yLeGxWgwbDjBbk0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PukKkfZpl9T9UZ/hwZjjIfGNTy6eSHUnEqbF6fBuMUcu3W8OHDndCh1ru56PAdXUPd6TFeVhuH27FGTNQp64ZBKaddlut1LojJ8McxJ5MM/T1vb4JhveGf2C6e8DpEbccOJSEdeHeYee3+ix3eXQv6AkCGho30/ePtBgsGyjPBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OvQswoa1; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5f7ec0e4978so1373363a12.1;
+        Thu, 08 May 2025 02:12:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746695577; x=1747300377; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9dp1vstYqz3mDBq4CkJf4LU45gaqxJrhVS+uXqNfvYk=;
+        b=OvQswoa1iGqnb1YIIFIsDjS13m14QCu11j7TQrY0Hpo7zmhT+nmZo2JjdGuhA6uad8
+         o/MQJbDFy8DV7bch/BqTlrvL0nR/OJ9xEpy4xRG733liwyKVBse/+/gBpt0T1OVp3wC0
+         BrqgFLgJaymFjHd5r3qw78n3ikNiyg5gEnchDo9DmUfG/8OWvEg/hTmlUcCPMmUZXD1r
+         ooORxUySAMVJQbzRmkn6XxeUDLDA98HvS1KgN5HSHYZ8AP4r1kSwrT6fmspRIxWhnOXt
+         9cYw+E8p/IPYZN77qkKDrLJ89Er8UFGI3At8CPd7yzXqg4T4BtEja7hGBRnFTDgeVLPd
+         OUjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746695577; x=1747300377;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9dp1vstYqz3mDBq4CkJf4LU45gaqxJrhVS+uXqNfvYk=;
+        b=W+Z8CfVQw8BBboR8eHyGNQtkFNIus6COl2Sm5ROXK7phV0GYrYVMZKz9jRl1MMxj59
+         w1Wc2zEt3q7xCYnS4imt9xX1JJKpowL7UB7Lg24idd58GYCLVZe0CMrzPigq6jrprp+Y
+         +chyBGOn19pucMNcGKuu+eOu5Z2CHjP6/3TC5T36KFRjXQtmXqI7/sFXM58/5Kx/FK++
+         EOlUt+Abrty9KqkAg2Rn40cAdZPNsT7/DEndAWJhkhik165c5KC7EAxN4IJd9Udo8JEg
+         c9Xx+scD5hjEaXJIvejy3squsJMJl6PndQUg503xKdsn8HREH21Lnk040cThPPMYUges
+         VvXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUa97466N6AJ2SZBl/t6wa9sNRmeivUSln+mho9S1AIFoveCzO8NYLON+VgnZxCvlwMXgbJHg+mP4CF+DHJyRjxvw==@vger.kernel.org, AJvYcCUr5GC3vYbC0UuCwkbnsl+xuv5N93d6vvx4Lm7xt5Fjfvt52vJjaHbWbGu6JWEyHPBhrL1W2F5WhqIqj90=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQx5cpnNp1CCS1nL6rcTr5u/2ydGrYPdh0QsuuSX1G9qzzQWho
+	/D5N4Hm+/3e4ETo2qNoM6LPxjfGoz3eSJSFEr9oDsDE0LHtqWC4a
+X-Gm-Gg: ASbGncsGFNB0IwSsDPfVbR443gNytGjRj0WLd1UHdIsh/KoIKOrOPyu+BNaIDO89aAG
+	RdKWNyV4UO2zBrm+lGomO8dG61bI47xKIz4ADW1+rxAmVCew5WAycaf/m1RBFB5fyIzOZcrt1G3
+	ohz/aM4ms6o5Wv7C1YXeT17jBMNUma/DQzc2czquznOgrpulTBRV9x65Od/2rJRPPo4may+2SLJ
+	oIhE4Dh2tNEsEDYTydS1ZW2DsKhGMN7PnoM/owpr83O7ysMYpv8dpgWCUgw8SP+TW+56+ZvAP7Q
+	lNRbMyhTSBSoaHc6B68UxcHhxCBu0DL0h3TM6Gkttkof+7Jz4riAzEXfgD5kVCQCsSXWuYHuhd1
+	3I93fypuoBhEZ7uDb4rwHjD7vmLc=
+X-Google-Smtp-Source: AGHT+IGKlsVS9Aggzopar0EguhK232leccJ6N51EzyZlx36/ZSXJN9uVC7qPM4dsor1ubnH6vieEUw==
+X-Received: by 2002:a05:6402:2809:b0:5fc:348a:e21 with SMTP id 4fb4d7f45d1cf-5fc348a34a1mr2057037a12.31.1746695577114;
+        Thu, 08 May 2025 02:12:57 -0700 (PDT)
+Received: from orome (p200300e41f281b00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f28:1b00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fbb4ceb417sm3893637a12.60.2025.05.08.02.12.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 May 2025 02:12:55 -0700 (PDT)
+Date: Thu, 8 May 2025 11:12:54 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Mark Zhang <markz@nvidia.com>, Dave Airlie <airlied@redhat.com>, 
+	Terje Bergstrom <tbergstrom@nvidia.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"biju.das.au" <biju.das.au@gmail.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] drm/tegra: rgb: Fix the unbound reference count
+Message-ID: <lqbli5eryxnl52bvncg543zkqqbteheixhcb4nmxljx6nozhay@nli5n47oelft>
+References: <20250205112137.36055-1-biju.das.jz@bp.renesas.com>
+ <a3gzox3ajhvatfmld5ny2lulmp325ycnukksusfbtldg37nqp3@jb4qajtuzczb>
+ <TY3PR01MB11346CB37650B2F888CFC6DE48688A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] memory: renesas-rpc-if: Add missing static keyword
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "biju.das.au" <biju.das.au@gmail.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- kernel test robot <lkp@intel.com>
-References: <20250507162146.140494-1-biju.das.jz@bp.renesas.com>
- <62030572-b15b-4487-893c-ac7ffab2ae57@kernel.org>
- <TY3PR01MB11346F3A3F4C3C79F462F1D6F868BA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <TY3PR01MB11346F3A3F4C3C79F462F1D6F868BA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 08/05/2025 11:05, Biju Das wrote:
-> Hi Krzysztof,
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: 08 May 2025 09:57
->> Subject: Re: [PATCH] memory: renesas-rpc-if: Add missing static keyword
->>
->> On 07/05/2025 18:21, Biju Das wrote:
->>> Fix the below sparse warnings:
->>>  symbol 'rpcif_impl' was not declared. Should it be static?
->>>  symbol 'xspi_impl' was not declared. Should it be static?
->>
->>
->> Did you test now your code with sparse and smatch? Otherwise I will wait for more reports.
-> 
-> Yes, I tested with the instructions in [1] and the patch fixes the above issues.
-> 
-I meant other issues. So you did not test with smatch? That's your task
-and you should not rely on the community to provide such tests/checks
-instead.
-
-Please run standard kernel tools for static analysis, like coccinelle,
-smatch and sparse, and fix reported warnings. Also please check for
-warnings when building with W=1 for gcc and clang. Most of these
-commands (checks or W=1 build) can build specific targets, like some
-directory, to narrow the scope to only your code. The code here looks
-like it needs a fix. Feel free to get in touch if the warning is not clear.
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="72qnzxkycxla5eor"
+Content-Disposition: inline
+In-Reply-To: <TY3PR01MB11346CB37650B2F888CFC6DE48688A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
 
-Best regards,
-Krzysztof
+--72qnzxkycxla5eor
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/tegra: rgb: Fix the unbound reference count
+MIME-Version: 1.0
+
+On Wed, May 07, 2025 at 04:10:07PM +0000, Biju Das wrote:
+> Hi Thierry,
+>=20
+> > -----Original Message-----
+> > From: Thierry Reding <thierry.reding@gmail.com>
+> > Sent: 07 May 2025 17:00
+> > To: Biju Das <biju.das.jz@bp.renesas.com>
+> > Subject: Re: [PATCH] drm/tegra: rgb: Fix the unbound reference count
+> >=20
+> > On Wed, Feb 05, 2025 at 11:21:35AM +0000, Biju Das wrote:
+> > > The of_get_child_by_name() increments the refcount in
+> > > tegra_dc_rgb_probe, but the driver does not decrement the refcount
+> > > during unbind. Fix the unbound reference count using devm_add_action_=
+or_reset() helper.
+> > >
+> > > Fixes: d8f4a9eda006 ("drm: Add NVIDIA Tegra20 support")
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > >  drivers/gpu/drm/tegra/rgb.c | 14 +++++++++++++-
+> > >  1 file changed, 13 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
+> > > index 1e8ec50b759e..2065157daab3 100644
+> > > --- a/drivers/gpu/drm/tegra/rgb.c
+> > > +++ b/drivers/gpu/drm/tegra/rgb.c
+> > > @@ -200,6 +200,11 @@ static const struct drm_encoder_helper_funcs teg=
+ra_rgb_encoder_helper_funcs =3D {
+> > >  	.atomic_check =3D tegra_rgb_encoder_atomic_check,  };
+> > >
+> > > +static void tegra_dc_of_node_put(void *data) {
+> > > +	of_node_put(data);
+> > > +}
+> > > +
+> > >  int tegra_dc_rgb_probe(struct tegra_dc *dc)  {
+> > >  	struct device_node *np;
+> > > @@ -207,7 +212,14 @@ int tegra_dc_rgb_probe(struct tegra_dc *dc)
+> > >  	int err;
+> > >
+> > >  	np =3D of_get_child_by_name(dc->dev->of_node, "rgb");
+> > > -	if (!np || !of_device_is_available(np))
+> > > +	if (!np)
+> > > +		return -ENODEV;
+> > > +
+> > > +	err =3D devm_add_action_or_reset(dc->dev, tegra_dc_of_node_put,
+> > > +dc->dev);
+> >=20
+> > Actually, I think this needs to be:
+> >=20
+> >   err =3D devm_add_action_or_reset(dc->dev, tegra_dc_of_node_put, np);
+> >=20
+> > otherwise tegra_dc_of_node_put() would attempt to call of_node_put() on
+> > dc->dev, which won't work, or rather cause corruption of some sort.
+> >=20
+> > Shout if you disagree.
+>=20
+> I agree, is it something you can do while applying or you want me to send=
+ v2?
+> Please let me know.
+
+It's already done, thanks for confirming and for the patch.
+
+Thierry
+
+--72qnzxkycxla5eor
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmgcdZYACgkQ3SOs138+
+s6EIghAAnYd6socF/Wj9gjVWp0eaVoJqHClj8WN/mrPAskJ39aZVMYsTi+Vt7DmK
+Kz6RHFBCvGL465K9DenItSWa7+wSqz7SrxLAT4pc5PpHRs1AlSeY9aeBhCMMQ/Sd
+ivx+3ycn1MjeYyRxmRfUzNFtv4q8K9A9AAyuhg5fI/lLZuMBwnV43d6/iYygNW7C
+VQ6Jl/LV7gphu4pxvPJwnyOyfOS9P7vsC9a0lssMxWMJ39oJH/WuvgX+CpYsyDLU
++BhyfQcfjD4GG5fHTcQia5IUutt3MnGYPpsRL9A6ZmxGGkHjCU9T1l8G1kADAoCz
+xeDg0QEs0ycWCKCU7XeaOc6AlQYyJg7wZQmRa1+yqQ8a9WkrlXd+K/gTu5nlJ2yG
+JCEIkPRCjfKKsGDP+nmH9zOsVWgGeRHSpN0i75aF5a0n4PMV3NvRRRLjBMwONnX2
+E1iBcnmXuoOL+sr+vDPS00eUqI/F0Yzl7CUmIiotK1tg+58A075aYZn1WXOePIq+
++2WTTWm/QOe9iFQxW0mjNXP0DlBM7AWHqgLD4xMfChJGMBnjbMHGoCCdXJlZTgeR
+VSW/SWviIpAriG2wrUEukq6khinVZRmLHVfo6cTTAnk6RvRrPTGrr3vOy1Kt1y/f
+IG/+dLxsyPVHT9Ju9LFx2mssmO/Ky5lGUe6hN5mnGSObk8+WvY0=
+=1Kba
+-----END PGP SIGNATURE-----
+
+--72qnzxkycxla5eor--
 
