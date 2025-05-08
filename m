@@ -1,147 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-16800-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16801-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 577E6AAF740
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 11:56:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D3EAAF783
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 12:08:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C86CE7AE997
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 09:54:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6C214E6669
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 10:08:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B9D423DE;
-	Thu,  8 May 2025 09:56:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37F151DE3A8;
+	Thu,  8 May 2025 10:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="etw+YE2v"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5E3C4B1E77
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 May 2025 09:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CC91C5D59;
+	Thu,  8 May 2025 10:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746698160; cv=none; b=ZThZcw0uRNqL6Gx3SclXrztJzVXMPm0/zP9SCcdKJdkF1InBOGtTMQQFmxNjTj4N2shFHKHqjQnx+xTzKXMGXX92YXHivvXEVaqqxKaSL5aJs831aJfa/7cq/dkMUyaGfLVoixQk48A91YTILgyi4GKPcCtOV/WL3kxZWBpT8X0=
+	t=1746698930; cv=none; b=CFZY9zCiYH0bZPiX49Wli+LtpnE5tG0kZ3sgL36VeRacF1uEQb0GuC8SXhzspS4l3/BAwOrNqi0CIC2ws13HWpK/r8DZRx2ogfSYBwfoLxN0pz0akFbNQ9mNFu7o2ZcDFIivjTryoTsfT5TyEZfdTenIEuHs5J8PYw+lTCebceE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746698160; c=relaxed/simple;
-	bh=ravNo8Cd7oxu0MTk/ZjqLwU6R4wtrojn9CBbzgFy8YU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UuvPcBV0sObokSwrYkJRleZav/OrZgdre1eyjY3mXVjtMfp3Wm+zyOZnq4R8uPgt+BmvX8fSUVdLKnVMVXaGKVpuzBkTLcVCZf24ew7WwsCZ5vUNf8KkKRCD6a33q6B2nN1Sa9/qIuvITt6hbGuIOa0RkttEsS0aidqSX8vvzEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: sc8Ay0zRQNO49xFIWixVQw==
-X-CSE-MsgGUID: PX9u/21PREeiPjRebf/kqw==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 08 May 2025 18:50:49 +0900
-Received: from localhost.localdomain (unknown [10.226.92.89])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5264442354C8;
-	Thu,  8 May 2025 18:50:45 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>
-Cc: hienhuynh <hien.huynh.px@renesas.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
+	s=arc-20240116; t=1746698930; c=relaxed/simple;
+	bh=jE981OKiDJArMCxAhfbnrFBr0Jncd4SYmMkp9KmBFbM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ilyDa1O9HOL4rAHSmLbDxqokhwUqg4EyAq9WfxQPCFt3iPxLokki4SJon3XeUMu3ht95goKAS8h4dNV6Ela9dAaGYXcM2h0rDeNo5g8mmE8i4yUN+p1GBSeYlLitIDaJdI4nzCKb1ywGIvfTW5fhn/1yPBwbBO7YJODtpCXUI6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=etw+YE2v; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ac2ab99e16eso165124366b.0;
+        Thu, 08 May 2025 03:08:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746698926; x=1747303726; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/yggcqTk0XsV8ZLZmi4xW1R5HqwyeXBRnVnXXBXzi44=;
+        b=etw+YE2vBje2Lylq0+flHZi/g9Fjg4V+7oFuJT9Hcbz2drH0w7DMp5JR6ZbqEyM442
+         9+6dF0s+3h4IVJ4p13unbm8aXdrT6s4l3Rijt6K3BqZSICMdSakw3wUy0Lva0c4ecMHC
+         5PfhFThKxzvb5UgNL3+VmjpJ4538LxBVTcFy71tjPsYTCX+115wiwzGSStY+afBrTQmX
+         f6ELSIwN4VX8t34Q/QBcsMpDd8e6vMnKSzDN1vPcPLMoFkdgcuuUJtLr9Js0igL9ryfS
+         Rz+SvPYeoIOuSjsgPaX2Rizg06T7raFQILznlknjaS0wIYCRAxUQ5k9XRt6XfUz8xpaS
+         CZVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746698926; x=1747303726;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/yggcqTk0XsV8ZLZmi4xW1R5HqwyeXBRnVnXXBXzi44=;
+        b=cQhYNFQcUZCb6KETnDbZi8jsNiFtG1WJ32c5vUIF5sVJG/iWrqRURACazFQ+Ddagfs
+         4qW3GI5Ddp1Y1HN477/h9el5VAkDKRANBBxnk5FqeGo7E9NzCX6e3F96MSWBIKYfO3Xa
+         +SC63Zwq0aY120L+1eoXDyRitzUaLSWmkVemPXu/yauJ2cLuC8jCX8a5cu8NGljp3w6e
+         fVjVAbHycLpjktfp9UBiZf+VTnwrL4Nx60jLIKw+wpr3BbHatYNY8SKeubas4HAB58Ik
+         JKtTSwaBvz1TyOGvmYfuNmVcntUzbyELYUsRuL1mCls2JKXiZix9kvkaM7ha7uPlHW1D
+         L3KA==
+X-Forwarded-Encrypted: i=1; AJvYcCUxEAFFBc4FP1Rf15zCCHY+8xMyL4j23BRDA4JNSzD8iGf8gBZHC8V4ygCKsvSgLGiGLKnf4BxvpuDOH2loTzg9UsQ=@vger.kernel.org, AJvYcCWR5l/1K8E2yZXn7eHVXTFVT9zBVnmnBUzJOQ2N9CUW4D1NWbQe3exL2t6Rl3aY89k79u8IEfmWppCx+qg=@vger.kernel.org, AJvYcCXSoQExMa+wZk1BKObVlz31rskT5wjUixYCfnC/tGCXuIkZgLlll/fOeDjQyCHmTkwcM1hPH5hmbL43LEU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIXkJYg8Rc/spb63KJidY92KOsn9bGQftuiNye1BbAAngDChb3
+	1WDbMw8QxKDLfTuXfjLigmlb0o9lM92zDptIybaK98S0kfE64091LJycM69dQvTOiQ==
+X-Gm-Gg: ASbGncv77bEbJNiSInpRn73zaiBsIAcKHFfMUgzJK+9wP99nD9rDrW4hkPb6JyNXaXn
+	ogXDnlrcXINk/396dLpkpv6bbU6HhiNK17NO6+gL86AnXzVXdA2P/tzp8ygauR04DLS1st+hMBY
+	KQvbN0/7LnFwmT7GOhdffeF6sGYBVdX19tZzxLbpDff0KZiwLDdPQB6Phkn8B3aMwbL1E6E5fXD
+	jnt9Lf2ZwZEE3SzmHxKbk5dbfbbnHsd7jD4GQpMqXwVPuiFig+cJC/BRVqkIBVq99cFhS3zboHj
+	N0iNVLSMWME1gRnNizTMq4gHRJZeFYjFPoZcmNc=
+X-Google-Smtp-Source: AGHT+IFLWNwEqwwL7ySlndzs3w8P+oDxqOxKWrfiQG9aG8cFcpataBaGlfldTtB7XJlIcIUGavdlKg==
+X-Received: by 2002:a17:907:a4ca:b0:acf:8758:50f5 with SMTP id a640c23a62f3a-ad1fe674462mr270453466b.5.1746698926348;
+        Thu, 08 May 2025 03:08:46 -0700 (PDT)
+Received: from localhost ([87.254.1.131])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ad1894c0202sm1059131366b.93.2025.05.08.03.08.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 May 2025 03:08:46 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH] drm: rz-du: Support panels connected directly to the DPAD output
-Date: Thu,  8 May 2025 10:50:35 +0100
-Message-ID: <20250508095042.25164-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: rcar_jpu: remove redundant case statement when c is zero
+Date: Thu,  8 May 2025 11:08:35 +0100
+Message-ID: <20250508100835.336240-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-From: hienhuynh <hien.huynh.px@renesas.com>
+The case statement where c is zero is redundant because the previous
+while loop will only exit if c is non-zero or non-0xff, so c can
+never be zero by the time the switch statement is reaced. Clean up
+the code by removing it.
 
-This patch is based on the commit 73eb5476df72 ("drm: rcar-du: Support
-panels connected directly to the DPAD outputs").
-
-The RZ DU driver assumes that a bridge is always connected to the DU
-output. This is valid for the HDMI output, but the DPAD output can be
-connected directly to a panel, in which case no bridge is available.
-
-To support this use case, detect whether the entities connected to the DU
-DPAD output is encoders or panels based on the number of ports of their DT
-node, and retrieve the corresponding type of DRM objects. For panels,
-additionally create panel bridge instances.
-
-Signed-off-by: hienhuynh <hien.huynh.px@renesas.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 44 +++++++++++++++++--
- 1 file changed, 40 insertions(+), 4 deletions(-)
+ drivers/media/platform/renesas/rcar_jpu.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-index 564ab4cb3d37..5e6dd16705e6 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-@@ -22,6 +22,26 @@
-  * Encoder
-  */
- 
-+static unsigned int rzg2l_du_encoder_count_ports(struct device_node *node)
-+{
-+	struct device_node *ports;
-+	struct device_node *port;
-+	unsigned int num_ports = 0;
-+
-+	ports = of_get_child_by_name(node, "ports");
-+	if (!ports)
-+		ports = of_node_get(node);
-+
-+	for_each_child_of_node(ports, port) {
-+		if (of_node_name_eq(port, "port"))
-+			num_ports++;
-+	}
-+
-+	of_node_put(ports);
-+
-+	return num_ports;
-+}
-+
- static const struct drm_encoder_funcs rzg2l_du_encoder_funcs = {
- };
- 
-@@ -50,10 +70,26 @@ int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
- 	struct drm_bridge *bridge;
- 	int ret;
- 
--	/* Locate the DRM bridge from the DT node. */
--	bridge = of_drm_find_bridge(enc_node);
--	if (!bridge)
--		return -EPROBE_DEFER;
-+	/*
-+	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
-+	 * DT node has a single port, assume that it describes a panel and
-+	 * create a panel bridge.
-+	 */
-+	if (output == RZG2L_DU_OUTPUT_DPAD0 && rzg2l_du_encoder_count_ports(enc_node) == 1) {
-+		struct drm_panel *panel = of_drm_find_panel(enc_node);
-+
-+		if (IS_ERR(panel))
-+			return PTR_ERR(panel);
-+
-+		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
-+							 DRM_MODE_CONNECTOR_DPI);
-+		if (IS_ERR(bridge))
-+			return PTR_ERR(bridge);
-+	} else {
-+		bridge = of_drm_find_bridge(enc_node);
-+		if (!bridge)
-+			return -EPROBE_DEFER;
-+	}
- 
- 	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %s\n",
- 		enc_node, rzg2l_du_output_name(output));
+diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
+index 81038df71bb5..6af154b41eb4 100644
+--- a/drivers/media/platform/renesas/rcar_jpu.c
++++ b/drivers/media/platform/renesas/rcar_jpu.c
+@@ -643,8 +643,6 @@ static u8 jpu_parse_hdr(void *buffer, unsigned long size, unsigned int *width,
+ 				return 0;
+ 			skip(&jpeg_buffer, (long)word - 2);
+ 			break;
+-		case 0:
+-			break;
+ 		default:
+ 			return 0;
+ 		}
 -- 
-2.43.0
+2.49.0
 
 
