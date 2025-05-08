@@ -1,121 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-16801-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16802-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D3EAAF783
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 12:08:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 677CDAAF7C3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 12:27:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6C214E6669
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 10:08:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 216B61C202BB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 May 2025 10:28:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37F151DE3A8;
-	Thu,  8 May 2025 10:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C12EC20E70F;
+	Thu,  8 May 2025 10:27:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="etw+YE2v"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a+KPeXe/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CC91C5D59;
-	Thu,  8 May 2025 10:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A891F91E3
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 May 2025 10:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746698930; cv=none; b=CFZY9zCiYH0bZPiX49Wli+LtpnE5tG0kZ3sgL36VeRacF1uEQb0GuC8SXhzspS4l3/BAwOrNqi0CIC2ws13HWpK/r8DZRx2ogfSYBwfoLxN0pz0akFbNQ9mNFu7o2ZcDFIivjTryoTsfT5TyEZfdTenIEuHs5J8PYw+lTCebceE=
+	t=1746700054; cv=none; b=W1nWBZX0B04VuRRJ5Np8PVKLuKx+s+22XeRwYF+mPH+uCPFyNaS3zxzs6EcpbhaashYzhSYq68yEC4aLB78irmvXLYAYMx+vBpL+qf3rkSBJSin4xsuJ5MK9bzlzy3bIa/E3/oxeA/F4uRzWFVp2s/RmLwqsK3qLPbXxLkpW+bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746698930; c=relaxed/simple;
-	bh=jE981OKiDJArMCxAhfbnrFBr0Jncd4SYmMkp9KmBFbM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ilyDa1O9HOL4rAHSmLbDxqokhwUqg4EyAq9WfxQPCFt3iPxLokki4SJon3XeUMu3ht95goKAS8h4dNV6Ela9dAaGYXcM2h0rDeNo5g8mmE8i4yUN+p1GBSeYlLitIDaJdI4nzCKb1ywGIvfTW5fhn/1yPBwbBO7YJODtpCXUI6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=etw+YE2v; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ac2ab99e16eso165124366b.0;
-        Thu, 08 May 2025 03:08:48 -0700 (PDT)
+	s=arc-20240116; t=1746700054; c=relaxed/simple;
+	bh=Wg1tIXtF7cdE4BVkY3U542fb6E3QI2pSyqedPkcT3kc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kf3h+MTo8ME0cBOGPQC5t39ny5+026FK7dyHeYijNGKxjTtRi+OcmvmxBUhkgbLl8eY4czRMm9QAJOKk4nnXcqhH2bRdDEL+XEBHHS8zC/FMrTTT41ko87JLFaF8HrJ5mxaBIjcsaiiWqN+tomBRJNb4oUQHudxMDIjAQ6mvJt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=a+KPeXe/; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a0b291093fso1180010f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 May 2025 03:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746698926; x=1747303726; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/yggcqTk0XsV8ZLZmi4xW1R5HqwyeXBRnVnXXBXzi44=;
-        b=etw+YE2vBje2Lylq0+flHZi/g9Fjg4V+7oFuJT9Hcbz2drH0w7DMp5JR6ZbqEyM442
-         9+6dF0s+3h4IVJ4p13unbm8aXdrT6s4l3Rijt6K3BqZSICMdSakw3wUy0Lva0c4ecMHC
-         5PfhFThKxzvb5UgNL3+VmjpJ4538LxBVTcFy71tjPsYTCX+115wiwzGSStY+afBrTQmX
-         f6ELSIwN4VX8t34Q/QBcsMpDd8e6vMnKSzDN1vPcPLMoFkdgcuuUJtLr9Js0igL9ryfS
-         Rz+SvPYeoIOuSjsgPaX2Rizg06T7raFQILznlknjaS0wIYCRAxUQ5k9XRt6XfUz8xpaS
-         CZVQ==
+        d=linaro.org; s=google; t=1746700050; x=1747304850; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=f3dXWdexBFnCh1V4T6e507rtdfn4YGQDtE6BBRQFdZA=;
+        b=a+KPeXe/9DHnfAFy4D/68GYC154UdUqFm46xqzdxZSw1NuAOVYOYqvFyFT2cis9Uo9
+         Gk29jFR8JpGHN4JL3WrXrKc7SiHR8RyP6qwn7TEprnt4r9OoKEbVGA5FMf7kolrzNNd8
+         zFDC6v4Y6fSoPeOSmT2/T91UlFODPQm+pplA3GAoVRYMm1L9u9GnruP/LxucRcqK+a2Q
+         pH4sfmg8IOERLd7ExCpgr4SLXilF8DGrGgt/dLbEnTor6BF983ZPG5NadqExVYcqk3Q9
+         8PTpBjC77/lp2X9BE+VuIdmvk6esXs+4vyd6bocPfBapyQwhfHrQBY1tLZ8a0MVABN5V
+         TXqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746698926; x=1747303726;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/yggcqTk0XsV8ZLZmi4xW1R5HqwyeXBRnVnXXBXzi44=;
-        b=cQhYNFQcUZCb6KETnDbZi8jsNiFtG1WJ32c5vUIF5sVJG/iWrqRURACazFQ+Ddagfs
-         4qW3GI5Ddp1Y1HN477/h9el5VAkDKRANBBxnk5FqeGo7E9NzCX6e3F96MSWBIKYfO3Xa
-         +SC63Zwq0aY120L+1eoXDyRitzUaLSWmkVemPXu/yauJ2cLuC8jCX8a5cu8NGljp3w6e
-         fVjVAbHycLpjktfp9UBiZf+VTnwrL4Nx60jLIKw+wpr3BbHatYNY8SKeubas4HAB58Ik
-         JKtTSwaBvz1TyOGvmYfuNmVcntUzbyELYUsRuL1mCls2JKXiZix9kvkaM7ha7uPlHW1D
-         L3KA==
-X-Forwarded-Encrypted: i=1; AJvYcCUxEAFFBc4FP1Rf15zCCHY+8xMyL4j23BRDA4JNSzD8iGf8gBZHC8V4ygCKsvSgLGiGLKnf4BxvpuDOH2loTzg9UsQ=@vger.kernel.org, AJvYcCWR5l/1K8E2yZXn7eHVXTFVT9zBVnmnBUzJOQ2N9CUW4D1NWbQe3exL2t6Rl3aY89k79u8IEfmWppCx+qg=@vger.kernel.org, AJvYcCXSoQExMa+wZk1BKObVlz31rskT5wjUixYCfnC/tGCXuIkZgLlll/fOeDjQyCHmTkwcM1hPH5hmbL43LEU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIXkJYg8Rc/spb63KJidY92KOsn9bGQftuiNye1BbAAngDChb3
-	1WDbMw8QxKDLfTuXfjLigmlb0o9lM92zDptIybaK98S0kfE64091LJycM69dQvTOiQ==
-X-Gm-Gg: ASbGncv77bEbJNiSInpRn73zaiBsIAcKHFfMUgzJK+9wP99nD9rDrW4hkPb6JyNXaXn
-	ogXDnlrcXINk/396dLpkpv6bbU6HhiNK17NO6+gL86AnXzVXdA2P/tzp8ygauR04DLS1st+hMBY
-	KQvbN0/7LnFwmT7GOhdffeF6sGYBVdX19tZzxLbpDff0KZiwLDdPQB6Phkn8B3aMwbL1E6E5fXD
-	jnt9Lf2ZwZEE3SzmHxKbk5dbfbbnHsd7jD4GQpMqXwVPuiFig+cJC/BRVqkIBVq99cFhS3zboHj
-	N0iNVLSMWME1gRnNizTMq4gHRJZeFYjFPoZcmNc=
-X-Google-Smtp-Source: AGHT+IFLWNwEqwwL7ySlndzs3w8P+oDxqOxKWrfiQG9aG8cFcpataBaGlfldTtB7XJlIcIUGavdlKg==
-X-Received: by 2002:a17:907:a4ca:b0:acf:8758:50f5 with SMTP id a640c23a62f3a-ad1fe674462mr270453466b.5.1746698926348;
-        Thu, 08 May 2025 03:08:46 -0700 (PDT)
-Received: from localhost ([87.254.1.131])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ad1894c0202sm1059131366b.93.2025.05.08.03.08.45
+        d=1e100.net; s=20230601; t=1746700050; x=1747304850;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f3dXWdexBFnCh1V4T6e507rtdfn4YGQDtE6BBRQFdZA=;
+        b=MDHC6LacDAvqbFgH3fIaZl5vSn3rnffrkMhX4/DauMk+2hI+RjAw37jhXuxCuaCaiL
+         BbhtXjHUgIEQF58qbnhZbOR/f/CKeDSAtxwcWZwuj0EYfQEs+CG8zap6u/Y/Hl3zAgd0
+         E9TjdS4ovnJCDy2xth8nCralZpUsYJrdg8eVM2MRdRDlY1t54InfRsX+IUXz+Ns3D4Iy
+         pGTlF2DHk7Mh6QtvdwE7JFYn4MZmCE7ufBG+e209U4y3RZvo4QuTvyvYBDYXTnlvhTJE
+         MxBhXMFwCEZ39Br1qoAJk/qvoHMUmiA5zqbHJOTlyyt0Ncvj8ZZ6pF0zE+/j3cKb5S0F
+         BdDw==
+X-Forwarded-Encrypted: i=1; AJvYcCXqgWdu/0LY5Gpd8av5dDK/2skuJyvFjxv30781wFfJrahqEd+H1/o7Gd3W5POIc6EEgWDUYnGoOkYph18FQ4+VGA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLxydl56eW0wBBUjrpyQhitiBoqNsKwpVPRd8BdXloQ7hrZ93v
+	TUVDi9re9dAQ88SYaQoF6p3yWLY3xNywH3TfqQeN8Nx3WHmf1RFTG/Ik+9fySmI=
+X-Gm-Gg: ASbGncuF1ryozTgkNXobwicsPd6Ti2yBN37SbgPtq5rotW2ZOn5rmR+SrlRFKjDYBSW
+	P3sLwgnD7fj+PfFw2TzJj4M6kmlGcC1cmYOpSIPx9R65XdguPEyXqiFWL++98e16IID0wWYk071
+	ID6FW1VZLh3BLstd+l34ZikDIV/QqHctPqFVEwJz7azKMtDcj4XXF5NC+wPs3KuNcqF7LEmvGvG
+	6eI0P1UZyf8NtQ0qfhxN0geik9si46hq5mQONQkeENfjOV7Rz+RvBf5x/LAvFG5a8gP6o57100d
+	5Y3hb+DxXYRdl+nHP/xsnwR/Y1Af+hJJh7VRFIT8f7M1bw==
+X-Google-Smtp-Source: AGHT+IGr7hK3xCuRso8I/G034nZ8utNO2zmismBg2hsAW4Uj0bzVouwQ2BDVypLguNpWtEPItYf4BA==
+X-Received: by 2002:a05:6000:2ab:b0:38d:ba8e:7327 with SMTP id ffacd0b85a97d-3a0b990e086mr2368417f8f.8.1746700049750;
+        Thu, 08 May 2025 03:27:29 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a0b47a8448sm5679359f8f.44.2025.05.08.03.27.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 May 2025 03:08:46 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        Thu, 08 May 2025 03:27:29 -0700 (PDT)
+Date: Thu, 8 May 2025 13:27:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Colin Ian King <colin.i.king@gmail.com>
+Cc: Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] media: rcar_jpu: remove redundant case statement when c is zero
-Date: Thu,  8 May 2025 11:08:35 +0100
-Message-ID: <20250508100835.336240-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.49.0
+Subject: Re: [PATCH][next] media: rcar_jpu: remove redundant case statement
+ when c is zero
+Message-ID: <aByHDZyu0pptFUlK@stanley.mountain>
+References: <20250508100835.336240-1-colin.i.king@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250508100835.336240-1-colin.i.king@gmail.com>
 
-The case statement where c is zero is redundant because the previous
-while loop will only exit if c is non-zero or non-0xff, so c can
-never be zero by the time the switch statement is reaced. Clean up
-the code by removing it.
+On Thu, May 08, 2025 at 11:08:35AM +0100, Colin Ian King wrote:
+> The case statement where c is zero is redundant because the previous
+> while loop will only exit if c is non-zero or non-0xff, so c can
+> never be zero by the time the switch statement is reaced. Clean up
+> the code by removing it.
+> 
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+>  drivers/media/platform/renesas/rcar_jpu.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/media/platform/renesas/rcar_jpu.c | 2 --
- 1 file changed, 2 deletions(-)
+   612  
+   613          for (;;) {
+   614                  int c;
+   615  
+   616                  /* skip preceding filler bytes */
+   617                  do
+   618                          c = get_byte(&jpeg_buffer);
+   619                  while (c == 0xff || c == 0);
 
-diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
-index 81038df71bb5..6af154b41eb4 100644
---- a/drivers/media/platform/renesas/rcar_jpu.c
-+++ b/drivers/media/platform/renesas/rcar_jpu.c
-@@ -643,8 +643,6 @@ static u8 jpu_parse_hdr(void *buffer, unsigned long size, unsigned int *width,
- 				return 0;
- 			skip(&jpeg_buffer, (long)word - 2);
- 			break;
--		case 0:
--			break;
- 		default:
- 			return 0;
- 		}
--- 
-2.49.0
+Unrelated to your commit, but get_byte() returns -1 for out of
+bounds.  I wish there were a explicit check for that.  We end
+up hitting one of the "return 0;" statements depending on if
+we've found a JPEG_MARKER_SOI.
+
+regards,
+dan carpenter
 
 
