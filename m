@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-16871-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16872-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E41AB165B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 15:58:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F2DAB168D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 16:01:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E9CF1C234B2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 13:58:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 83B18A001B0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 13:58:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313322951AA;
-	Fri,  9 May 2025 13:56:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 303692951CB;
+	Fri,  9 May 2025 13:56:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Lh2dGQnn"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZTPonF1t"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A743294A19;
-	Fri,  9 May 2025 13:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C3B2951B6;
+	Fri,  9 May 2025 13:56:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746799003; cv=none; b=b77Dcu12yF3e/SqDG/n9960qRokUg1ZquHJbXjeXfGCj7aCs8XDIS5yAB3drfLpy559AiF8Vie6KSBW3KU0Ch8CnF2ncq4QqkJQ0UviMMP+A2/OTcSxlv72HG0Fg6kO8I5AIdMkBaMDPNJKG236sWwBc3/8x3y2NCm4t2mBJ/2E=
+	t=1746799006; cv=none; b=lDdcF3D6+lLuRnSudPfRtFkwMbt5rnFZrXFYrqb3qISHW2RQD+6+t+cat71lXUhORknT14ZNxv7C0HcvW50OORpSjiOxKGDu0IfMID+LfHYWNhAI6lsdEjpFdmW+c8haYjwJekenGh4+Pzj0o2oaKFHgm0iQcNfAuWIsBoTHXWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746799003; c=relaxed/simple;
-	bh=ykqdv7bgWXshrgeoveK86MrQwZii4JVBOUdw4e9MQLk=;
+	s=arc-20240116; t=1746799006; c=relaxed/simple;
+	bh=EybtA/ofVWEv9j3zkPCm4zxNIZxyms8LJqpiG4AmAQ0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KKjLxKJ9wn7G4qED+DCSPb0ihmnf6/zGTOSeMOPZWrSz1lUi2vXl5VFQlS8teDD8U5GvhaQkv+sIMhxIbZDdvFzD2yMwhIK8o3O8pvcUvhVZBYiimH8ObSr6VojymxLRrqJQ30xPwVh3swyZj52WIJsOehCeeCD7nLfE6iM08pQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Lh2dGQnn; arc=none smtp.client-ip=217.70.183.196
+	 In-Reply-To:To:Cc; b=lx159YkyOpHwha5CAovGTDSTZI1S9qmbRHfNxG6SdItqTE8UMiOGErmmwJxeNLKtRduoaQ8KgUredVvKVxUUUxT8lilH8pTZY5sz/gfAqQD9oPCfT65iYsQon1L0Yy899cx+95/yJVT7xV7dqLyDZ0tw72tP/9F7pFC1ou5XylM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZTPonF1t; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A71F743B63;
-	Fri,  9 May 2025 13:56:35 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1E12843B68;
+	Fri,  9 May 2025 13:56:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746798999;
+	t=1746799002;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bLDy713DSCSiEtaJQVHhalrNIkPHI1Ti+irjYvcfZ5Q=;
-	b=Lh2dGQnnuluIVJ6PlcWvQA3QctegLT+C0NDl6ccWdvh9/qtIe5na44FSHZtuBGJTwFzava
-	MbEWlWWzxJfEO7pLClvb6vWZASggdNwf8wTiHjHyDV/nBkdhgP/1+jlw15VDk6KKgpJ6Eq
-	hLHl7UTpWr5s7a/LwlwHHKpwGDTcftSdzCTfwjNG/eoWpqo3nW7Rb7kMLOCLSkDt09ydH0
-	WxSrWcbdr53fzjwEBF+3iTJode4NoYDyWUeYEUWxJfs2DT1+xPeyEyI5mIFbnxtjlorqsw
-	/parutG7vXxoQBG3dA18UtdK5WDpvjP+ImsUP4FTdSmvB+BtaNXN5GFxpOGwrQ==
+	bh=4BQLiRh/RZfWcS10lQgNxsXJ+tOrm6WIeF/3AUc4G/c=;
+	b=ZTPonF1tvn6W305mRdUpPzsvJCZu1z0kozNC7Z+K/F1+4S5spr3Egu5XAalYKgyDHi+ba/
+	V/ncTbSXMKwRZ2Yz4rFQn5QgNLWpa9m7qoY1Du38Bk+nrsndgorIvEVG55x7S61lGN7TMH
+	YVjNFV8e4OQxzhbfyeW1d2hymLe2OQ374Q2TlmdW9rbPnoT12M7s0HLXZWtec/ps/BH7TR
+	ef3VNrrfL3+vQmXUTVpsIgnE5XYPhy2nMSKAqApAobR7dSzX1SAIxvHEH8SVnYt4YQ/kv0
+	ubcS32UWbAPF7rpdKq10ckYU64lxrx/NcPVBaR0RTLPB/Avi/VzP+lWSEvAvuw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 May 2025 15:53:34 +0200
-Subject: [PATCH v3 08/22] drm/omap: dss: dpi: convert to
+Date: Fri, 09 May 2025 15:53:35 +0200
+Subject: [PATCH v3 09/22] drm/omap: dss: dsi: convert to
  devm_drm_bridge_alloc() API
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250509-drm-bridge-convert-to-alloc-api-v3-8-b8bc1f16d7aa@bootlin.com>
+Message-Id: <20250509-drm-bridge-convert-to-alloc-api-v3-9-b8bc1f16d7aa@bootlin.com>
 References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
 In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -86,14 +86,12 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- "Rob Herring (Arm)" <robh@kernel.org>, Helge Deller <deller@gmx.de>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledvjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeejnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegfedprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepihhmgieslhhishhts
- hdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepuggvlhhlvghrsehgmhigrdguvg
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledvjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeejnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegtddprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehimhigsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhug
+ idqrghrmhdqmhhsmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtoheprghsrhhivhgrthhssehrvgguhhgrthdrtghomh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
 This is the new API for allocating DRM bridges.
@@ -102,39 +100,36 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Cc: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/dpi.c | 7 +++----
+ drivers/gpu/drm/omapdrm/dss/dsi.c | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dpi.c b/drivers/gpu/drm/omapdrm/dss/dpi.c
-index 6eff97a091602f6d137095b3b7bf54fce17e8d3e..9f86db774c395db7e3396cbf2694748fc23c309d 100644
---- a/drivers/gpu/drm/omapdrm/dss/dpi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dpi.c
-@@ -562,7 +562,6 @@ static const struct drm_bridge_funcs dpi_bridge_funcs = {
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index 91ee63bfe0bc73e28877d0383812225867e167a4..b129e5a8d791507098c7b8d1bc54f54c4b453954 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -4701,7 +4701,6 @@ static const struct drm_bridge_funcs dsi_bridge_funcs = {
  
- static void dpi_bridge_init(struct dpi_data *dpi)
+ static void dsi_bridge_init(struct dsi_data *dsi)
  {
--	dpi->bridge.funcs = &dpi_bridge_funcs;
- 	dpi->bridge.of_node = dpi->pdev->dev.of_node;
- 	dpi->bridge.type = DRM_MODE_CONNECTOR_DPI;
+-	dsi->bridge.funcs = &dsi_bridge_funcs;
+ 	dsi->bridge.of_node = dsi->host.dev->of_node;
+ 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
  
-@@ -707,9 +706,9 @@ int dpi_init_port(struct dss_device *dss, struct platform_device *pdev,
- 	u32 datalines;
+@@ -4894,9 +4893,9 @@ static int dsi_probe(struct platform_device *pdev)
+ 	unsigned int i;
  	int r;
  
--	dpi = devm_kzalloc(&pdev->dev, sizeof(*dpi), GFP_KERNEL);
--	if (!dpi)
+-	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+-	if (!dsi)
 -		return -ENOMEM;
-+	dpi = devm_drm_bridge_alloc(&pdev->dev, struct dpi_data, bridge, &dpi_bridge_funcs);
-+	if (IS_ERR(dpi))
-+		return PTR_ERR(dpi);
++	dsi = devm_drm_bridge_alloc(dev, struct dsi_data, bridge, &dsi_bridge_funcs);
++	if (IS_ERR(dsi))
++		return PTR_ERR(dsi);
  
- 	ep = of_graph_get_next_port_endpoint(port, NULL);
- 	if (!ep)
+ 	dsi->dev = dev;
+ 	dev_set_drvdata(dev, dsi);
 
 -- 
 2.49.0
