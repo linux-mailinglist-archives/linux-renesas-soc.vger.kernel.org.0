@@ -1,288 +1,244 @@
-Return-Path: <linux-renesas-soc+bounces-16841-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16842-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5107FAB1285
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 13:52:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB698AB12B6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 13:58:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BD5B4A4C0E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 11:51:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E4A2527063
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 11:57:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4866D28FFD9;
-	Fri,  9 May 2025 11:51:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDB2278F34;
+	Fri,  9 May 2025 11:53:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="rRT6by3M"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="OS4lVDN7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011018.outbound.protection.outlook.com [52.101.125.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1883428FAA8
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 May 2025 11:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746791504; cv=none; b=hJtx+Li0ReP6W2Pb7cbB6gqGKS0bP8gIadFN/8iO9Pd4Iv5ackjE1sJB3XtlPrxY/eOMH8tQdFIie6j6ZyF65n/hD8xsTVnSZNMnaxPHz0oi00GKh1VDyzJszyYR+RaoLknOAGWur4o+mscVofPmC9HfV7l38wcv+meWHGJ9zSo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746791504; c=relaxed/simple;
-	bh=94hSLVwahZL6uSGp/GCIw7ak3VmONi+Q3s+hjbITQj8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=cXtpqHWSdvPdjwoDT2Os113uhY15h2zllaOHvjaWSgj3qBtEmLHwJBM0c27lbFToIYT3UHtX7KZnyXRpVjM7G/Seizi0kMUVUNvHRJDeUM5tkZaDeHFwpNI/gQZol/eoquFWp6v89Vnj0cdGwFYZ85Ws47xSVfPGC2GeDKaG0Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=rRT6by3M; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5efe8d9ebdfso3699580a12.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 May 2025 04:51:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1746791500; x=1747396300; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=HcCUAVth4/4X0ivCD1jla215xTKz2P8JDpUcQkYuzX4=;
-        b=rRT6by3MuduwkSN/H4fHg3R3x+qWcNizG+URaLmW2ISNy7GYhh1fpzPFZ2G9ffPYyG
-         izXnmui2iSTjI7TCX9BMj3pUeYywAHM/XTvh6qShsaZv7ZCfu5a9LmdeEdkWdQqHieBL
-         885NsSYTtAVhqY4H/WcTuZLEhEu2Hs8NH69GoHtqgg9WVluFkkvlEjNo8US434zLjjE3
-         9b9lUJByaoj/bm96D6m7jyu11BYEwGfxmkreqcvheUE1HT6/3KG89LlLTNICJ9ZSBMup
-         vyXtV3ld8DkwKMs3j1IEaG9tbV8pTI6UDmLVZzJcr6fAofr+FdURv02Ky4LCzDjHihrF
-         rgJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746791500; x=1747396300;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HcCUAVth4/4X0ivCD1jla215xTKz2P8JDpUcQkYuzX4=;
-        b=V+wOxBsy8XzkdN+yBlru2iYOEGyf5/wyPOf8OzxHEM6bBwK44jk+tpEiosT02WM7IZ
-         Log2X5iuSn9ejCo30/g9p+Hy2hAG8P4bfYfXW1HmoFS3RusB/4roB7AEQ7cH+256QDNa
-         3pmUGVm5SJuQu0svbyMQVA2luA1x1sBc9h9laUuszKhnI6C9WvuI6NabA48ZOBFBUT7b
-         6BJDEnQxuzW2v56sjZs4AIkkAGMmUe1JoB7LEDeNstD7CXudzSlZuIxEpQR8cOo0BUlW
-         Sno8nMj5oI6XSy/TfAmkBvmN1ikHq468y+K8ctvPlxjKtf4blmSi+qADt1ykcG+loHZG
-         sX1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXBR2GNQuwu0rYp1LWkpE61GM9bvURwztgBqWfXjjlnpWNT6uD7pOua3q/COlXiMwJruOEFKAtPwAvR5sx8EnfVPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaBAThOth/1LdJD1i+6IPVvnyujvyNXsR3FcpglaPSd3OEP6p4
-	HCJzMaNoRX/qU7nVGYfoDbKR6SU2my2nfmeANpIub6ksHOHb4ck/EhK+X053Afs=
-X-Gm-Gg: ASbGnctbYtK3YQ76MOq1QcVNP93imC/3/33gz6ZI9mjY/Z9wwqod3ep1p1P82a3tcJI
-	ynrAC7zvmyA+3GMNsjWEGy1R/gD2VJG9YSzfqlk6SxPx4kXMnl74JQ7k4EZWgGmNtnM0THp8lDF
-	ybKsVd1JEigFU2YKAqgI5l2xw7ABkj+KFiSGwVblmjUZlHj6MGuWV2tnkNpfgwX453rb0/KcwL0
-	pgL/GrVU+5KESRc5DabKqi0oMUQ/37ZFy7riI23xuSCl63s3/FRKegI1RUaJQLA7RyHR3onu3d7
-	RCuzvmON5rHlfCiLFpVLw6PQf8e+VPZZlRxJ+iQ6ThFNOadx
-X-Google-Smtp-Source: AGHT+IFrGDRXG6FAVEd4uSESGaBsfaTJHvGQG8PV98kRwmaQFMuRJod0R5mnXx5DDPecf/kyISoRWw==
-X-Received: by 2002:a17:907:97d2:b0:ad1:77aa:503 with SMTP id a640c23a62f3a-ad219124207mr305429066b.36.1746791500229;
-        Fri, 09 May 2025 04:51:40 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.50])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad2197bdd63sm138709266b.154.2025.05.09.04.51.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 May 2025 04:51:39 -0700 (PDT)
-Message-ID: <95f5923f-7a8f-4947-b588-419525930bcb@tuxon.dev>
-Date: Fri, 9 May 2025 14:51:38 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075E127AC2E
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 May 2025 11:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746791625; cv=fail; b=OQ4u3PqJ+4u2NnsFNyfKbl4jCXsutDuPl3VoYbalh5nW/tvseW9dE9iWaFCdA86s8aYe7zresTl5PEGSOeyFb1I4FuOapqPMCosT+BRqJg7uamzD2E5T9giOtix8mjoggH5GeHld4F+UpTlEWYMY64vyjQ7eY5Ne4/eFxf9RiLU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746791625; c=relaxed/simple;
+	bh=OAp4XtK+e6pCs4UdPCpK5jvg9HZkVUJkz46OS+wgejU=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=jlTQbJHvZPfuhiVbZq4frOHt8iJi4mWoVWmQOyfPnR5mkqCGlNERdjAAdNJG5KIjP7ELRNAyzsyPMZbccb8BKvW6EcyJLGy+RoZDvlAf6Hxh3WEhn7dTSU4SYqdgqHILn+2IFJPTydqtWPO/4By8lWV8hJq4GtOUrrT3lzXssfU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=OS4lVDN7; arc=fail smtp.client-ip=52.101.125.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hkoamLYS1sWy3c6u5DoVZi3NcWxcBaNAEapSBx0iLUz+pLOyoKNxEbY50HojrR8PWoLkT0OXRE4reA1BAe4fZVW+GZrAFSwSOaKF4TMxTFpeD2G9tiMIXj0agoJwKwFNqWanj3OUaEzU4ZwGG57GCp9yhALLiFfY8AspNP1jHnbekEarVo8emXNzbIAAjBjyUIm3Ic3y1SUi+j6r7aCf/zX24+M5mPuZLSA26/JRyZCPxtAORD38n5nU6anQyXpXm+ZZKOZtEu/c5if0U2B9mUHmVadf34QqFbMixR+NWJFLYdMg76ZBtr8/JvC9+/rtCcnZ4D4o08Y/sAKuwfABiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0kApsnKvMfrDRMZ395O4YMoMLncSupVWcvMMxaIzXZ4=;
+ b=WCnaThsZb/qTNUOV8dKTsigWYKzP9p2kyjIioXoujgG+J4pG3Lm8ce/cmxiJU8ZJt+ffIHOxwAiuP4DwrseCfPVndV29e/ldZaF76eKRgCrZ56NomorgVKNrxCYqsR464XJiZ1oZT7ud0SpH1tzqm4SG9X4fwOEyxSDhu5gj3k1XOhA9/YpcpA8cE8LiZHblKxYxqKYrW8aNh2eGV1TVsMRZIT6sGxD9nYuAtK5fhYAQ2bwFBqF7G+0DmXrFkyg33uNvpSipasN3v/OOUdI4m0X3NdBwEH4fTSkD9RL/CXKKz+6N45VJJYJhH5M18GmmYtfAVoJurZKGPInftGbJDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0kApsnKvMfrDRMZ395O4YMoMLncSupVWcvMMxaIzXZ4=;
+ b=OS4lVDN7f0qGg1OlWWp4Y1hGzsOQVmm5kDSBbOrNQY7gNaI7fd9evbWX/ltchSwdJBt95x4arkHQgRXwvw6USmXn1qCHbLVsv/25RuEsg10r3x/jWFcwPC/HLA3BFjsazcwr0nHUTuvUW8lksQ8ddYR3LMsPUXG1viKsIgZ23J4=
+Received: from TYRPR01MB14284.jpnprd01.prod.outlook.com (2603:1096:405:21b::6)
+ by OS0PR01MB5396.jpnprd01.prod.outlook.com (2603:1096:604:ae::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.24; Fri, 9 May
+ 2025 11:53:39 +0000
+Received: from TYRPR01MB14284.jpnprd01.prod.outlook.com
+ ([fe80::dc7c:6361:a82a:933a]) by TYRPR01MB14284.jpnprd01.prod.outlook.com
+ ([fe80::dc7c:6361:a82a:933a%6]) with mapi id 15.20.8722.021; Fri, 9 May 2025
+ 11:53:39 +0000
+From: Michael Dege <michael.dege@renesas.com>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Subject: [PATCH 1/9] phy: renesas: ethernet serdes: rename driver to
+ accommodate multiple SOCs
+Thread-Topic: Subject: [PATCH 1/9] phy: renesas: ethernet serdes: rename
+ driver to accommodate multiple SOCs
+Thread-Index: AdvA2PuIl66bdoMCRSScr7zyCZx7jA==
+Date: Fri, 9 May 2025 11:53:38 +0000
+Message-ID:
+ <TYRPR01MB1428422B5FB6D5294E6F613BD828AA@TYRPR01MB14284.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYRPR01MB14284:EE_|OS0PR01MB5396:EE_
+x-ms-office365-filtering-correlation-id: c025166b-8030-4b6d-de18-08dd8ef0232a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|366016|38070700018|7053199007;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?hTJd0Piu4vKS883F1Z8SpmwE2IKHaj5gqNifCwwnoAEF+GtUPB5Mn1yjR0LP?=
+ =?us-ascii?Q?x4tJSl4uU/yXnL6ntp8WfCytiS4f/4aAOvyXcB4AhXDZFl0eTxZ6Cm7Zb8qk?=
+ =?us-ascii?Q?s65Fjcra4HPZ301qLjJmjIo6Fan+7sMPIjZQ1UZS7/QohjT1tpdU8oktyRvY?=
+ =?us-ascii?Q?aNvKSTbRy8kSLQTCQJXK7nF0VWuiZjyBxFqOMoDqe7x1VZypJ9mv4VeXPh1D?=
+ =?us-ascii?Q?eCCeyypDbiIPqs6ta/m1+Y6HtNf+qkHzPyZQ9Jg6RrDcddiNQqujsYXs5pw8?=
+ =?us-ascii?Q?4gkuYgJ15eZ1Y9yHYUyQTFMrzZYaDivvi9nolNdtOh8cExCGfU4xOatEETWw?=
+ =?us-ascii?Q?kKYQf7xwojMdf8C6o1v070rlXoP5MJ8Jc+NchSI2nURsCkKp607e4k/bV9QG?=
+ =?us-ascii?Q?azlbRNrE544Yqh1AQy5xSsp7lcfLdZiIkHFrKctanFQV3Cunt2Uwk2W29/Od?=
+ =?us-ascii?Q?EBQKB/h4gb/81O/opatDyGF/MS8V6ewEOU4noiYqZvR1Dslws4Hscizzbk80?=
+ =?us-ascii?Q?lC/5krHOnDiMNziWdLBXk0wNgJUh3mW8PK+GL2Sr8r5nxnJrx3L3BbkYgKFu?=
+ =?us-ascii?Q?hvyNf5D4KKzcfSrhPpB+8p1AtJ4+isyJF7kN2BgB7bH332FQjTusO5lvOUX0?=
+ =?us-ascii?Q?QZ2cyfTvCHgzLyIZE5BujMnm4KrT7jZveJuUKQ1r3CAB0Kg4YQRmdOJ0CoGV?=
+ =?us-ascii?Q?atSUgZIPI3eEDiVRqD7T7iwetRQF45NLSq9w7I5Fzocsvoq2gTQqDDxnsgPW?=
+ =?us-ascii?Q?coi+UrBIDKLf4kRu8Ehkg8tG6dDLzyBZflOfcPqOgO0+LzAF+W86SGSl9U2Y?=
+ =?us-ascii?Q?dHK2RFjR7dqQ5baSxV31Y31qFCf0Fm/X9GylK/YQ3pqkmEFVG23vHkEk08Jt?=
+ =?us-ascii?Q?gUZZPbhctt+i/yK9sGpH29gCvyZFyfUzmAe77eRXqUI3f8SHDgRl9nuXWkAb?=
+ =?us-ascii?Q?RmHkHQSbhnoDgSa6NhkU/oeT47/8d9u61Mo+O0eO4GuqNxvgcMZ9OFhuv46c?=
+ =?us-ascii?Q?aoV0qlQhuH/JtP9N//b7tstw1qFxjIpOaXbocHuVbf+mzIphPkQ0wthH6VGE?=
+ =?us-ascii?Q?qJOO6RxlgMe09DymO3i2/J2uBYXnqGiTibUYIPQYEi1sywewHUWmL4ggVPx1?=
+ =?us-ascii?Q?D2P5ZNoztjjVyDaSClb0VHa8ZJo6I8kh/GCRrJMJkcVah7LGLsasTxCcNu+x?=
+ =?us-ascii?Q?ITY5fzpDl/Y6k6BpK51rK77ejtYeGorMBMt5SV83hQxqso0zZtujhg8ogVOy?=
+ =?us-ascii?Q?S8ciNKaihEeiccPCQVDhqHDz0JX1GFe3XXYZBAioy8+eqlwgd5nlR4J0pUip?=
+ =?us-ascii?Q?RXI7kPZCf4FM5xPoGCn/kkAF0DumKgY4gctUOsK/qKUIU1MQxY6jX2f2MBnM?=
+ =?us-ascii?Q?tpohBCSUhm2eKuwPtR2YPsmbIDd7BEHi1nOvxSKHByiEpJ4Eq+VpTPo1USVG?=
+ =?us-ascii?Q?N2416q0rEWjr9M9TQ/RHuhGyBu3ByjDfIsxoi84kEPl53oVW72G0aQ=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYRPR01MB14284.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?fCa+ls2wLiMTyT92lIkFnvkKBqJc1J02+YiASTCoK8csJIU7yv3obdFEjgX4?=
+ =?us-ascii?Q?uDUa8paP4YvQjHsZetcQT+kdtdNa8bHwo4ZpeHUUf43R2flBgnDq+bv/U4ES?=
+ =?us-ascii?Q?DIC1/yR4umkbhPPXpD5rBrffgFRrJVe8K3E/3FNGUhWnLNOpAD90J2MqUdLG?=
+ =?us-ascii?Q?5FTdOwhryJSvko88GW8faMIQ95DQWi84//9LhdYxRMWWzU38G1ueMlm7pNtj?=
+ =?us-ascii?Q?UCwpOnVgScl2zMWT2wxbraYKW5odM/AoM6DnnzF9Vi5VWWN0+NG+/EtQJUbD?=
+ =?us-ascii?Q?xCm3lypvqp13U9u3K5keaQ1r25nx+eVxJUpGH0Wl5d4FVSYJ580IM/p3GszE?=
+ =?us-ascii?Q?eYnmOeGFhMGPzHqzIjfeUX9o2zE0eO48uPqTZHNkvgnV5pyq+mARgjX3kzLb?=
+ =?us-ascii?Q?WXD5qE9lYQDBluZVmiU7uSN6bP88wu4xOzsJdGQNg0kk4CUQ3cp8Bazy6F7S?=
+ =?us-ascii?Q?4LTVGPfrPFVesVN+vmhZc8elNmtV13EYrWtNPKutfdsLobTA+vaTeEbbacr1?=
+ =?us-ascii?Q?gTENxmYD9w6vwdwP9t3ApTf2ogQzl1iqUk7rvA2jLgMalUkKnlGuDIFyPqIj?=
+ =?us-ascii?Q?/YaVvDEew0yFHT02nqDVjJgvo+OzMLAv51qK1PMC9gsg0AViyd01CB8iNyJl?=
+ =?us-ascii?Q?xCaO3hyETd2alXQQwEJYyV1d/aDOfli+ChJHcBh3cDqz/3QRpr0EAxc4zh0H?=
+ =?us-ascii?Q?ZQ4k0DnZ2I2DU7UWgn1WFxRSGGMKkPLl5fZm0pNyNa4oKvoeQMI+o3RvejrU?=
+ =?us-ascii?Q?ipGVnqHTO0uQhyJ7P155SlkS2VUo8zRvXbj2m8G4iSqgG3uE+t2vEkgsCUAn?=
+ =?us-ascii?Q?ooKvxmF/QcbK7oyw42YuUX2dLcmLiTex0BpY7e2EHhfIY59cUErupzcYFKYi?=
+ =?us-ascii?Q?HX0W8vKGg1z6vsK7WFxVPOWpV2gLRkKIgl6dcmpeqBlCiQkjGAbe8e3zx0Kc?=
+ =?us-ascii?Q?eQd90VxAjnfNqSMsH2NcWfG2DHgeWflN8BTbdXn1SQPyfwCbRzRGn4I9VEX2?=
+ =?us-ascii?Q?2NAC4TgoQcI+XpX8Vhoc7dvi/0kiv9zZQXnj3tY34vjp7nh9sV1hXj9KYYLc?=
+ =?us-ascii?Q?OBCyM2eCYcyL8RClOl/KVMHeRLGaA6JdsVHIgMO/mKdGmTuC5pV3rbzIJ3QD?=
+ =?us-ascii?Q?rJckELoEsrOtcm1GDa8qMZBt5CL3djQunOnOG2x/lYAUhmUPCBmc8EDWsHEf?=
+ =?us-ascii?Q?XE6tNsiDc/YOvivX7zgIuWcdqm5mGyAYOKwPabS+5lnmeY7RX9yv0cZYF1w4?=
+ =?us-ascii?Q?idnJzG+SdKBcFmbCBinh0WhK+bvBVnyPiNYOXS25Vfp3G1ySPO6B0PN0XxdL?=
+ =?us-ascii?Q?T6zhN5gg8ZW+FHoyUcTslw4mP9YesRrsO/N9uPIHK78FhwqOoUwDu9p+Pj+p?=
+ =?us-ascii?Q?RsJMQKXaGYIV7I95r1dF80PbK8IBMFoGa8jeyurAAoAy4fzGzD8owkX8Js7R?=
+ =?us-ascii?Q?333kW7WzToaXkdWkVxMNxv4ibxHAKis8+CG1+gxqi0jAlxRepAcVKTBMyxrO?=
+ =?us-ascii?Q?wvTRB4VcPEt1z/LQ6/AbCqod/B4k3++NijRqNrFlXIgHwdlrGIra7mlM2WPQ?=
+ =?us-ascii?Q?+Q2OrEqWQVJcdQ3apLPbEq2+1f9m8CYL4ayTPw+B?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
- probe resources
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-To: Jonathan Cameron <jic23@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, dakr@kernel.org,
- ulf.hansson@linaro.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- geert@linux-m68k.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-References: <20250215130849.227812-1-claudiu.beznea.uj@bp.renesas.com>
- <2025021539-untrained-prompter-a48f@gregkh>
- <4bf01946-90e3-4169-91fa-10d9f90310e9@tuxon.dev>
- <8d83ea72-bb81-4c63-bf69-28cf5848ae20@tuxon.dev>
- <20250305140309.744866b2@jic23-huawei> <Z8k8lDxA53gUJa0n@google.com>
- <f74085be-7b14-4551-a0a7-779318a5dc70@tuxon.dev>
- <20250330163129.02f24afb@jic23-huawei>
- <5bca6dfd-fe03-4c44-acf4-a51673124338@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <5bca6dfd-fe03-4c44-acf4-a51673124338@tuxon.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYRPR01MB14284.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c025166b-8030-4b6d-de18-08dd8ef0232a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2025 11:53:38.9533
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: n3S5HTC5nDhmq1Y/H8uYUw5QgvErrLqU4JaxqjM0VfpcJWK0K8WyVxSVBdjFp9PcdbZ7uzmYAlRx6n/uNJaH2Mhe2rnnWP1yMlotZ60qRKU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5396
 
-Hi, Rafael, Ulf, PM list,
+From 8d694d11953ac51d9b541019d5c38cd480c4c244 Mon Sep 17 00:00:00 2001
+From: Michael Dege <michael.dege@renesas.com>
+Date: Fri, 9 May 2025 10:42:58 +0200
+Subject: [PATCH 1/9] phy: renesas: ethernet serdes: rename driver to
+ accommodate multiple SOCs
 
+A new device will use the same driver. Therefore renaming the driver to be
+generic for all renesas SOCs which include this IP.
 
-On 09.04.2025 19:12, Claudiu Beznea wrote:
-> Hi, Rafael,
-> 
-> On 30.03.2025 18:31, Jonathan Cameron wrote:
->> On Thu, 27 Mar 2025 18:47:53 +0200
->> Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
->>
->>> Hi, Rafael,
->>>
->>> On 06.03.2025 08:11, Dmitry Torokhov wrote:
->>>> On Wed, Mar 05, 2025 at 02:03:09PM +0000, Jonathan Cameron wrote:  
->>>>> On Wed, 19 Feb 2025 14:45:07 +0200
->>>>> Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
->>>>>  
->>>>>> Hi, Daniel, Jonathan,
->>>>>>
->>>>>> On 15.02.2025 15:51, Claudiu Beznea wrote:  
->>>>>>> Hi, Greg,
->>>>>>>
->>>>>>> On 15.02.2025 15:25, Greg KH wrote:    
->>>>>>>> On Sat, Feb 15, 2025 at 03:08:49PM +0200, Claudiu wrote:    
->>>>>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>>>>>
->>>>>>>>> On the Renesas RZ/G3S (and other Renesas SoCs, e.g., RZ/G2{L, LC, UL}),
->>>>>>>>> clocks are managed through PM domains. These PM domains, registered on
->>>>>>>>> behalf of the clock controller driver, are configured with
->>>>>>>>> GENPD_FLAG_PM_CLK. In most of the Renesas drivers used by RZ SoCs, the
->>>>>>>>> clocks are enabled/disabled using runtime PM APIs. The power domains may
->>>>>>>>> also have power_on/power_off support implemented. After the device PM
->>>>>>>>> domain is powered off any CPU accesses to these domains leads to system
->>>>>>>>> aborts.
->>>>>>>>>
->>>>>>>>> During probe, devices are attached to the PM domain controlling their
->>>>>>>>> clocks and power. Similarly, during removal, devices are detached from the
->>>>>>>>> PM domain.
->>>>>>>>>
->>>>>>>>> The detachment call stack is as follows:
->>>>>>>>>
->>>>>>>>> device_driver_detach() ->
->>>>>>>>>   device_release_driver_internal() ->
->>>>>>>>>     __device_release_driver() ->
->>>>>>>>>       device_remove() ->
->>>>>>>>>         platform_remove() ->
->>>>>>>>> 	  dev_pm_domain_detach()
->>>>>>>>>
->>>>>>>>> During driver unbind, after the device is detached from its PM domain,
->>>>>>>>> the device_unbind_cleanup() function is called, which subsequently invokes
->>>>>>>>> devres_release_all(). This function handles devres resource cleanup.
->>>>>>>>>
->>>>>>>>> If runtime PM is enabled in driver probe via devm_pm_runtime_enable(), the
->>>>>>>>> cleanup process triggers the action or reset function for disabling runtime
->>>>>>>>> PM. This function is pm_runtime_disable_action(), which leads to the
->>>>>>>>> following call stack of interest when called:
->>>>>>>>>
->>>>>>>>> pm_runtime_disable_action() ->
->>>>>>>>>   pm_runtime_dont_use_autosuspend() ->
->>>>>>>>>     __pm_runtime_use_autosuspend() ->
->>>>>>>>>       update_autosuspend() ->
->>>>>>>>>         rpm_idle()
->>>>>>>>>
->>>>>>>>> The rpm_idle() function attempts to resume the device at runtime. However,
->>>>>>>>> at the point it is called, the device is no longer part of a PM domain
->>>>>>>>> (which manages clocks and power states). If the driver implements its own
->>>>>>>>> runtime PM APIs for specific functionalities - such as the rzg2l_adc
->>>>>>>>> driver - while also relying on the power domain subsystem for power
->>>>>>>>> management, rpm_idle() will invoke the driver's runtime PM API. However,
->>>>>>>>> since the device is no longer part of a PM domain at this point, the PM
->>>>>>>>> domain's runtime PM APIs will not be called. This leads to system aborts on
->>>>>>>>> Renesas SoCs.
->>>>>>>>>
->>>>>>>>> Another identified case is when a subsystem performs various cleanups
->>>>>>>>> using device_unbind_cleanup(), calling driver-specific APIs in the process.
->>>>>>>>> A known example is the thermal subsystem, which may call driver-specific
->>>>>>>>> APIs to disable the thermal device. The relevant call stack in this case
->>>>>>>>> is:
->>>>>>>>>
->>>>>>>>> device_driver_detach() ->
->>>>>>>>>   device_release_driver_internal() ->
->>>>>>>>>     device_unbind_cleanup() ->
->>>>>>>>>       devres_release_all() ->
->>>>>>>>>         devm_thermal_of_zone_release() ->
->>>>>>>>> 	  thermal_zone_device_disable() ->
->>>>>>>>> 	    thermal_zone_device_set_mode() ->
->>>>>>>>> 	      struct thermal_zone_device_ops::change_mode()
->>>>>>>>>
->>>>>>>>> At the moment the driver-specific change_mode() API is called, the device
->>>>>>>>> is no longer part of its PM domain. Accessing its registers without proper
->>>>>>>>> power management leads to system aborts.
->>>>>>>>>
->>>>>>>>> Open a devres group before calling the driver probe, and close it
->>>>>>>>> immediately after the driver remove function is called and before
->>>>>>>>> dev_pm_domain_detach(). This ensures that driver-specific devm actions or
->>>>>>>>> reset functions are executed immediately after the driver remove function
->>>>>>>>> completes. Additionally, it prevents driver-specific runtime PM APIs from
->>>>>>>>> being called when the device is no longer part of its power domain.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>>>>> ---
->>>>>>>>>
->>>>>>>>> Hi,  
->>>>>
->>>>> Hi Claudiu, Greg,
->>>>>
->>>>> Sorry, I missed this thread whilst travelling and only saw it because
->>>>> of reference from the in driver solution.
->>>>>  
->>>>>>>>>
->>>>>>>>> Although Ulf gave its green light for the approaches on both IIO [1],
->>>>>>>>> [2] and thermal subsystems [3], Jonathan considered unacceptable the
->>>>>>>>> approaches in [1], [2] as he considered it may lead to dificult to
->>>>>>>>> maintain code and code opened to subtle bugs (due to the potential of
->>>>>>>>> mixing devres and non-devres calls). He pointed out a similar approach
->>>>>>>>> that was done for the I2C bus [4], [5].
->>>>>>>>>
->>>>>>>>> As the discussions in [1], [2] stopped w/o a clear conclusion, this
->>>>>>>>> patch tries to revive it by proposing a similar approach that was done
->>>>>>>>> for the I2C bus.
->>>>>>>>>
->>>>>>>>> Please let me know you input.    
->>>>>>>>
->>>>>>>> I'm with Jonathan here, the devres stuff is getting crazy here and you
->>>>>>>> have drivers mixing them and side affects happening and lots of
->>>>>>>> confusion.  Your change here is only going to make it even more
->>>>>>>> confusing, and shouldn't actually solve it for other busses (i.e. what
->>>>>>>> about iio devices NOT on the platform bus?)    
->>>>>
->>>>> In some cases they are already carrying the support as per the link
->>>>> above covering all i2c drivers.  I'd like to see a generic solution and
->>>>> I suspect pushing it to the device drivers rather than the bus code
->>>>> will explode badly and leave us with subtle bugs where people don't
->>>>> realise it is necessary. 
->>>>>
->>>>> https://lore.kernel.org/all/20250224120608.1769039-1-claudiu.beznea.uj@bp.renesas.com/
->>>>> is a lot nastier looking than what we have here. I'll review that in a minute
->>>>> to show that it need not be that bad, but none the less not pleasant.
->>>>>
->>>>> +CC linux-iio to join up threads and Dmitry wrt to i2c case (and HID that does
->>>>> similar)  
->>>>
->>>> We should not expect individual drivers handle this, because this is a
->>>> layering violation: they need to know implementation details of the bus
->>>> code to know if the bus is using non-devres managed resources, and
->>>> adjust their behavior. Moving this into driver core is also not
->>>> feasible, as not all buses need it. So IMO this should belong to
->>>> individual bus code.
->>>>
->>>> Instead of using devres group a bus may opt to use
->>>> devm_add_action_or_reset() and other devm APIs to make sure bus'
->>>> resource unwinding is carried in the correct order relative to freeing
->>>> driver-owned resources.  
->>>
->>> Can you please let us know your input on the approach proposed in this
->>> patch? Or if you would prefer devm_add_action_or_reset() as suggested by
->>> Dmitry? Or if you consider another approach would fit better?
->>>
->>> Currently there were issues identified with the rzg2l-adc driver (driver
->>> based solution proposed in [1]) and with the rzg3s thermal driver (solved
->>> by function rzg3s_thermal_probe() from [2]).
->>>
->>> As expressed previously by Jonathan and Dimitry this is a common problem
->>> and as the issue is due to a call in the bus driver, would be better and
->>> simpler to handle it in the bus driver. Otherwise, individual drivers would
->>> have to be adjusted in a similar way.
->>>
->>
->> Rafael,
->>
->> Greg suggested we ask for your input on the right option:
->>
->> https://lore.kernel.org/all/2025032703-genre-excitable-9473@gregkh/
->> (that thread has the other option).
-> 
-> Can you please let us know your opinion on this?
-Can you please let us know if you have any suggestions for this?
+Signed-off-by: Michael Dege <michael.dege@renesas.com>
+---
+ MAINTAINERS                                                 | 6 ++++++
+ drivers/phy/renesas/Kconfig                                 | 2 +-
+ drivers/phy/renesas/Makefile                                | 2 +-
+ .../{r8a779f0-ether-serdes.c =3D> renesas-ether-serdes.c}     | 0
+ 4 files changed, 8 insertions(+), 2 deletions(-)
+ rename drivers/phy/renesas/{r8a779f0-ether-serdes.c =3D> renesas-ether-ser=
+des.c} (100%)
 
-Thank you,
-Claudiu
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 69511c3b2b76..30a4046a7a5c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20545,6 +20545,12 @@ F:     drivers/net/ethernet/renesas/Kconfig
+ F:     drivers/net/ethernet/renesas/Makefile
+ F:     drivers/net/ethernet/renesas/ravb*
+
++RENESAS ETHERNET SERDES DRIVER
++M:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
++L:     linux-renesas-soc@vger.kernel.org
++S:     Maintained
++F:     drivers/phy/renesas/renesas-ether-serdes.c
++
+ RENESAS ETHERNET SWITCH DRIVER
+ R:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+ L:     netdev@vger.kernel.org
+diff --git a/drivers/phy/renesas/Kconfig b/drivers/phy/renesas/Kconfig
+index e342eef0640b..236bd5487c7c 100644
+--- a/drivers/phy/renesas/Kconfig
++++ b/drivers/phy/renesas/Kconfig
+@@ -3,7 +3,7 @@
+ # Phy drivers for Renesas platforms
+ #
+ # NOTE: Please sorted config names alphabetically.
+-config PHY_R8A779F0_ETHERNET_SERDES
++config PHY_RENESAS_ETHERNET_SERDES
+        tristate "Renesas R-Car S4-8 Ethernet SERDES driver"
+        depends on ARCH_RENESAS || COMPILE_TEST
+        select GENERIC_PHY
+diff --git a/drivers/phy/renesas/Makefile b/drivers/phy/renesas/Makefile
+index 8896d1919faa..db9c47372fa8 100644
+--- a/drivers/phy/renesas/Makefile
++++ b/drivers/phy/renesas/Makefile
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_PHY_R8A779F0_ETHERNET_SERDES)     +=3D r8a779f0-ether-serdes.=
+o
++obj-$(CONFIG_PHY_RENESAS_ETHERNET_SERDES)      +=3D renesas-ether-serdes.o
+ obj-$(CONFIG_PHY_RCAR_GEN2)            +=3D phy-rcar-gen2.o
+ obj-$(CONFIG_PHY_RCAR_GEN3_PCIE)       +=3D phy-rcar-gen3-pcie.o
+ obj-$(CONFIG_PHY_RCAR_GEN3_USB2)       +=3D phy-rcar-gen3-usb2.o
+diff --git a/drivers/phy/renesas/r8a779f0-ether-serdes.c b/drivers/phy/rene=
+sas/renesas-ether-serdes.c
+similarity index 100%
+rename from drivers/phy/renesas/r8a779f0-ether-serdes.c
+rename to drivers/phy/renesas/renesas-ether-serdes.c
+--
+2.34.1
+
+________________________________
+
+Renesas Electronics Europe GmbH
+Registered Office: Arcadiastrasse 10
+DE-40472 Duesseldorf
+Commercial Registry: Duesseldorf, HRB 3708
+Managing Director: Carsten Jauch
+VAT-No.: DE 14978647
+Tax-ID-No: 105/5839/1793
+
+Legal Disclaimer: This e-mail communication (and any attachment/s) is confi=
+dential and contains proprietary information, some or all of which may be l=
+egally privileged. It is intended solely for the use of the individual or e=
+ntity to which it is addressed. Access to this email by anyone else is unau=
+thorized. If you are not the intended recipient, any disclosure, copying, d=
+istribution or any action taken or omitted to be taken in reliance on it, i=
+s prohibited and may be unlawful.
 
