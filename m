@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-16857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16858-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B02AB1435
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 14:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A17AAB1438
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 15:00:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0AB71717BF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 12:59:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2AF3B1744A1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 12:59:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB9E92900AA;
-	Fri,  9 May 2025 12:57:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B1D622A4D6;
+	Fri,  9 May 2025 12:59:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m9mVdbRW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jaHuggkb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FCF29188F
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 May 2025 12:57:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457612AF19
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 May 2025 12:59:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746795437; cv=none; b=Mm72jS5kB/hdvSrz3zANMe/tHyS+C7JIrhcFRXrmaMWCOCTtC3103MqlwqhEzmDBv8cmwmlcbgBi4SzYD7tIkkwK57HOW5jrvh7YnODx9z114KsISenow4wPJYmC2WhigpRsz2PN1X1F6iy0pJRfEb3nD0rGcUtBTVL5vU7uTmo=
+	t=1746795589; cv=none; b=Ye25rUhh7hsFhMiP/KFfkSLsr1OCNGp38Ev7jkOnIZZBLIbZYotbd0gunNYWaildrHZoPk3VEoSUo7nKO6TpEzAOB1+sUglRKsY3xASbaJ1vTfjh5XGr8COIxtFydhm5/E1mhmUB0c832Liks//9RGldatK+fTokfxkHfXoiMds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746795437; c=relaxed/simple;
-	bh=5zNvuoHgRd3oj5T/+KgPWA3Qvm9n/T/eBc936U054GY=;
+	s=arc-20240116; t=1746795589; c=relaxed/simple;
+	bh=a6+4Ua1NDIoiIbOkW9zILtnOznBrU9lsnyL5nk55InQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=KCmtgXR5Zdl+kQhVjVN9LzkZSoPsO89pReZ9e0exRYPWcL/nBkO7m9w00DOhRKPDFNcutuF/KTGDTWTWj8Osw0Cn3ZJl49SCQOXIauO2xxa2TrN00kLm2ZAsVcUy+EMU8VQpVKdIwxjOcEgya/9XF+Z1W+gpwcjnPJiX8tJzUC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m9mVdbRW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0889BC4CEEB;
-	Fri,  9 May 2025 12:57:15 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=SQ5pBDy4YFbH7gZLEC/dF2FePSw+ALEeDXUPM1akiXwQy97uMMr0o7KrDDdpNvhrt4yYkPRFASpD+ZBaO8aBO1AUZA9ohfeIR2h6WcyPAYc/hODCXOyVMMSTWAr+B+emr7v6KCYlE3dubLylj23bhUthmw0QSAdSQ8NfOcgwGSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jaHuggkb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9950C4CEE4;
+	Fri,  9 May 2025 12:59:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746795437;
-	bh=5zNvuoHgRd3oj5T/+KgPWA3Qvm9n/T/eBc936U054GY=;
+	s=k20201202; t=1746795588;
+	bh=a6+4Ua1NDIoiIbOkW9zILtnOznBrU9lsnyL5nk55InQ=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=m9mVdbRWdqgdZzWa/BHFrq4/bqpkFbd06LwD0wp1bTcumhgDTkbOHjmKBESdZSppo
-	 GihtHQlGEGqTgxOskwJ4r4XfoCJp/X7T90wGf+XKmp4JgyMdhqkaY7uaafvXx8zehG
-	 SN7vWR2wng8AMC2GZFDNEG9QOTZK5afGMDPlPpQ3xhv47TX3o0lJuR80yLhWAiMFaL
-	 iBvOQkbsYTl48dqS6xsTFj2M9jVNSHiYJVdunbr+ThTFvcQOKEIlaQEP2ggWwOltzq
-	 ZFmeicIwNC/Ivcj11k4zE9PfeprQ2JEMlySd4XO1TdCSQdGiIlvNeUW2SXEY7N9WL9
-	 5eiOUZraP0cqg==
-Message-ID: <543a8893-488a-41cb-a1e3-c7f5fd3894bb@kernel.org>
-Date: Fri, 9 May 2025 14:57:14 +0200
+	b=jaHuggkb1A7oAR7vNhjDJn/8AWXlEW+FCmrWI0NGFlCRFz/j+b7LZV54MYqLJD1rR
+	 a9alAayXOxPOnuCAPul3oLPC+B0Avxt+bI2EwGNx9pdBZJX1yVDELQYm9k5K/FIp3X
+	 YCCku6FjPf35EIOtwzCSWFhyNPVNuAzlkyJqNOz5vQH/e0s3DAxmuujfG+l9CcGctl
+	 xLN2q9zSgCiw5gefvIgJE99ErIWIQ0pHEHvfgvUf3uBbkMxMz1BlIZO6dyicVu+1ip
+	 E6vF5qmm9aFcwlTHRdlUtx4tiQH9rjXkdyUwYOJj31cJJaO/6tcQ/qNQPUHTzj/Lk2
+	 MOtUOnPbV9+zA==
+Message-ID: <03d241b8-a5de-4cee-a761-d866dfee61da@kernel.org>
+Date: Fri, 9 May 2025 14:59:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,11 +50,13 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/9] Doc: devicetree: phy: renesas: add compatible for X5H
+Subject: Re: [PATCH 2/9] Doc: devicetree: bindings: rename
+ r8a779f0-ether-serdes.yaml
 To: Michael Dege <michael.dege@renesas.com>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
  "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <TYRPR01MB14284F48E79FF2EC68133F5B4828AA@TYRPR01MB14284.jpnprd01.prod.outlook.com>
+References: <TYRPR01MB1428415607B42877B763427F0828AA@TYRPR01MB14284.jpnprd01.prod.outlook.com>
+ <TYRPR01MB14284C8E8145635A1AD8314F4828AA@TYRPR01MB14284.jpnprd01.prod.outlook.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -100,74 +102,33 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <TYRPR01MB14284F48E79FF2EC68133F5B4828AA@TYRPR01MB14284.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYRPR01MB14284C8E8145635A1AD8314F4828AA@TYRPR01MB14284.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09/05/2025 14:04, Michael Dege wrote:
-> From a2f88121b79cdf756dacc9d58ed1ca23ab1c8744 Mon Sep 17 00:00:00 2001
+On 09/05/2025 13:58, Michael Dege wrote:
+> From 17e2e2044613eb2e738fadfe2b776593759a3994 Mon Sep 17 00:00:00 2001
 > From: Michael Dege <michael.dege@renesas.com>
-> Date: Fri, 9 May 2025 12:40:27 +0200
-> Subject: [PATCH 8/9] Doc: devicetree: phy: renesas: add compatible for X5H
-
-
-Please run scripts/checkpatch.pl on the patches and fix reported
-warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
-patches and (probably) fix more warnings. Some warnings can be ignored,
-especially from --strict run, but the code here looks like it needs a
-fix. Feel free to get in touch if the warning is not clear.
-
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
-
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
-
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
-
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
-
+> Date: Fri, 9 May 2025 12:29:58 +0200
+> Subject: [PATCH 2/9] Doc: devicetree: bindings: rename  r8a779f0-ether-serdes.yaml
 > 
-> Added the compatible string for new Renesas SOC X5H (r8a78000).
+> The updated serdes driver supports multiple devices. The original name included the device code of a single device. The new name is more generic.
 > 
 > Signed-off-by: Michael Dege <michael.dege@renesas.com>
 > ---
->  .../devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml    | 1 +
->  1 file changed, 1 insertion(+)
+>  ...a779f0-ether-serdes.yaml => renesas,renesas-ether-serdes.yaml} | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)  rename Documentation/devicetree/bindings/phy/{renesas,r8a779f0-ether-serdes.yaml => renesas,renesas-ether-serdes.yaml} (100%)
 > 
-> diff --git a/Documentation/devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml b/Documentation/devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml
-> index 93ab72874228..58e84f703865 100644
-> --- a/Documentation/devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml
-> +++ b/Documentation/devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml
-> @@ -12,6 +12,7 @@ maintainers:
->  properties:
->    compatible:
->      const: renesas,r8a779f0-ether-serdes
-> +    const: renesas,r8a78000-ether-serdes
+> diff --git a/Documentation/devicetree/bindings/phy/renesas,r8a779f0-ether-serdes.yaml b/Documentation/devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml
+> similarity index 100%
+> rename from Documentation/devicetree/bindings/phy/renesas,r8a779f0-ether-serdes.yaml
+> rename to Documentation/devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml
 
 
-Never tested. Sending untested code with test bypass is not really
-appropriate.
+Obviously NAK for all the same reasons plus this makes no sense. Don't
+send this again, even after fixing the rest.
 
-> 
->    reg:
->      maxItems: 1
+
 > --
 > 2.34.1
 > 
@@ -182,26 +143,6 @@ appropriate.
 > Tax-ID-No: 105/5839/1793
 > 
 > Legal Disclaimer: This e-mail communication (and any attachment/s) is confidential and contains proprietary information, some or all of which may be legally privileged. It is intended solely for the use of the individual or entity to which it is addressed. Access to this email by anyone else is unauthorized. If you are not the intended recipient, any disclosure, copying, distribution or any action taken or omitted to be taken in reliance on it, is prohibited and may be unlawful.
-
-
-For obvious reasons we cannot take proprietary code, sorry.
-
-Maybe I am the intended recipient of your message, maybe not. I don't
-want to have any legal questions regarding upstream, public
-collaboration, thus probably I should just remove your messages.
-
-Please talk with your IT that such disclaimers in open-source are not
-desired (and maybe even harmful).
-If you do not understand why, please also see:
-https://www.youtube.com/live/fMeH7wqOwXA?si=GY7igfbda6vnjXlJ&t=835
-
-If you need to go around company SMTP server, then consider using b4
-web-relay: https://b4.docs.kernel.org/en/latest/contributor/send.html
-
-Please be informed that by responding to this email you agree that all
-communications from you and/or your company is made public. In other
-words, all messages originating from you and/or your company will be
-made public.
 
 
 Best regards,
