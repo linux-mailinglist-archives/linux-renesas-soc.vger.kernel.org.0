@@ -1,45 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-16891-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16892-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D3CAB1748
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 16:23:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA7DAB1745
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 16:23:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A47C51C41EDE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 14:23:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9FD32163CDC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 14:23:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FCD120F07B;
-	Fri,  9 May 2025 14:23:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFFAD2110;
+	Fri,  9 May 2025 14:23:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A8E2144DE
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 May 2025 14:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4196621322B
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 May 2025 14:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746800581; cv=none; b=Bt6lZTInfCgkY116j/Ki3RZM1boqbytKHULCGg2ut/24XHZuGcmeErc22/R1VZJ1gVHqzK9h4gUWZ9rxfvPraOxHpRiNM0uXhLHHXuZOl6oq/1S6hXfWNv0k18A543+54iBJ3Z7mZA/gTKMiZ0LqGp8kj2XyDW1fLERPAmNbOrU=
+	t=1746800582; cv=none; b=mthYvleeY8BAboEkSfHbkYMTcIRalo/tGv3lDKaVg6L2Ygo6Ur/UEoPNxpzEWS5S914Bp8I1mT7oMpnQa1+Kan+PflbaqWbH8qUzEobHGJadW7r9qRODF9jPnBDzvYpGlos40pLokl0OkfRpqJ2vH6xyLC9u6EMiN2EHk61W+V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746800581; c=relaxed/simple;
-	bh=k1dN9wcNvLXks+RQKAdBk055UYUiDUHfoy1BOBw/reg=;
+	s=arc-20240116; t=1746800582; c=relaxed/simple;
+	bh=Tzr+mxhCPLQlfc5bZ9OHSuZWUcZpmHALL5eDMJlLI4g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eJman9U7riXEJkHNdm+JZV5bNm/ol14U6GgQdgyil+V/nDDdeoyBDEdAvz/hrGclSbUW6Z2MT+ZR7gyjAC83+dZp4Q48QrG/DppkeiRt20GrmABWw5dR9wc9yg+Z4Bm9YhmmLT42wdy9BmY29bJtY3EBnwZusyBhIDQzTGVwrUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+	 MIME-Version:Content-Type; b=uaJk2OBHh/UBL6tbtpUTOnQW9xMhcQXpy2ufPqB1MySFodORPgfiZQSirWX8y5/wm4sLs89LQ6oivz+XQF7ai8sMmSOSz26y3X8i96lr0tcRbC8nhbExnpFN9Sv/NJIGzS3dndv/uK1ol32Lp9dUUNLr5UkgbPRl195/+BrwqKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:805c:3876:152c:485c])
-	by michel.telenet-ops.be with cmsmtp
-	id n2No2E00F3X0DE5062NomD; Fri, 09 May 2025 16:22:50 +0200
+	by baptiste.telenet-ops.be with cmsmtp
+	id n2No2E00K3X0DE5012NoC1; Fri, 09 May 2025 16:22:50 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uDOca-000000012Ni-3KEr;
+	id 1uDOca-000000012Nm-3RLh;
 	Fri, 09 May 2025 16:22:48 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uDOci-00000003ADG-1i5Q;
+	id 1uDOci-00000003ADJ-1vzK;
 	Fri, 09 May 2025 16:22:48 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: soc@lists.linux.dev
@@ -47,9 +47,9 @@ Cc: Magnus Damm <magnus.damm@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 1/3] Renesas ARM defconfig updates for v6.16 (take two)
-Date: Fri,  9 May 2025 16:22:28 +0200
-Message-ID: <cover.1746798750.git.geert+renesas@glider.be>
+Subject: [GIT PULL 2/3] Renesas driver updates for v6.16 (take two)
+Date: Fri,  9 May 2025 16:22:29 +0200
+Message-ID: <cover.1746798752.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746798748.git.geert+renesas@glider.be>
 References: <cover.1746798748.git.geert+renesas@glider.be>
@@ -59,38 +59,41 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The following changes since commit 33d5bf70fff43fbc612450164bd0bab6b9ada261:
+The following changes since commit 31d358e611b7cc21349da58dd2c9118c84b0859f:
 
-  arm: multi_v7_defconfig: Drop individual Renesas SoC entries (2025-04-09 14:56:03 +0200)
+  soc: renesas: Add config option for RZ/V2N (R9A09G056) SoC (2025-04-14 10:53:12 +0200)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm-defconfig-for-v6.16-tag2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-drivers-for-v6.16-tag2
 
-for you to fetch changes up to 976c4626c5f57d9a0eea0f4618ce58e68102bee3:
+for you to fetch changes up to 3903b4701bc03d7d805c3df378a7fc2ff72cbef5:
 
-  ARM: shmobile: defconfig: Enable more support for RZN1D-DB/EB (2025-05-06 14:51:56 +0200)
-
-----------------------------------------------------------------
-Renesas ARM defconfig updates for v6.16 (take two)
-
-  - Enable modular support for the Renesas RZ/G2L GPT and MSIOF sound in
-    the ARM64 defconfig,
-  - Enable more support for RZN1D-DB/EB in shmobile_defconfig.
+  soc: renesas: rz-sysc: Add SoC identification for RZ/V2N SoC (2025-05-05 10:54:02 +0200)
 
 ----------------------------------------------------------------
-Biju Das (1):
-      arm64: defconfig: Enable Renesas RZ/G2L GPT config
+Renesas driver updates for v6.16 (take two)
 
-Geert Uytterhoeven (1):
-      ARM: shmobile: defconfig: Enable more support for RZN1D-DB/EB
+  - Cover all R-Car drivers in the ARM/RISC-V/RENESAS ARCHITECTURE
+    maintainer entry,
+  - Identify the Renesas RZ/V2N (R9A09G056) SoC.
 
-Kuninori Morimoto (1):
-      arm64: defconfig: Add Renesas MSIOF sound support
+----------------------------------------------------------------
+Lad Prabhakar (1):
+      soc: renesas: rz-sysc: Add SoC identification for RZ/V2N SoC
 
- arch/arm/configs/shmobile_defconfig | 7 ++++++-
- arch/arm64/configs/defconfig        | 2 ++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+Uwe Kleine-König (1):
+      MAINTAINERS: Generalize ARM/RISC-V/RENESAS ARCHITECTURE
+
+ MAINTAINERS                         |  2 +-
+ drivers/soc/renesas/Kconfig         |  5 +++
+ drivers/soc/renesas/Makefile        |  1 +
+ drivers/soc/renesas/r9a09g056-sys.c | 75 +++++++++++++++++++++++++++++++++++++
+ drivers/soc/renesas/rz-sysc.c       |  3 ++
+ drivers/soc/renesas/rz-sysc.h       |  1 +
+ 6 files changed, 86 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/soc/renesas/r9a09g056-sys.c
 
