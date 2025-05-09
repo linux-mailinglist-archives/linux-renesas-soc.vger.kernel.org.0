@@ -1,105 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-16829-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16830-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E90AAB0B1B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 09:01:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30F11AB0DAF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 10:48:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F17283B1F79
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 07:01:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B178C16F80B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 08:47:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DD56237717;
-	Fri,  9 May 2025 07:01:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D162927A90E;
+	Fri,  9 May 2025 08:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YsV8c95O"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A5A1C2324
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 May 2025 07:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55DA276050;
+	Fri,  9 May 2025 08:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746774114; cv=none; b=FpTG+RQviWe07+5r7XIPCNUOrso1SB+dk9ZpAbdELHNglzxh9MzRXVY6joAdHqCzWnS1IzOnHnrJ1ghfQInzP8hdsJsQURN4lA80gM3LCvCKt/DYvLbwKFb2Ysn/F5NDrZ0p6kPT07yJyBDnDDJCg48oP5I4RhHznT4bL3z2nos=
+	t=1746780231; cv=none; b=Ft3mXKSyksQWHAvuocWHd7K1GEpd66ir/SSh0CnOBdzufB2C2PEs95TL8uMVXdOiZoR9dpuOUyCT98ZCDAUYVloN6itcKyR/jpHsysTshwC7vmDis75TSU5nESrs1WNGE20qsFFVAtf1v7aVgsRrATnkzRTPLexYEblN6gruBCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746774114; c=relaxed/simple;
-	bh=qtQu184wz3/9fLPvhVaEFLaKtXeVown2JK91HbZDyUo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NuhHquEKNgaPnBsigfLaaudK8oNw1cXxOV2eSvGv7RjMEEPWIroib0rm6+nAfEt50ygLipoLpYLnnyLLg2em4F+gQObSSxeo6guJ3rEjnhG82b8yFO8vrTaXD1V7B929kR62knpNFab2qWwUabKwOyW+fW9Uo7Po3xY2T/+q7ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2da3b3bb560so1482233fac.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 May 2025 00:01:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746774110; x=1747378910;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D2sgmYvzaquzPRQ5vsvrs1yLp1VFbx+IXMhXlw1x93g=;
-        b=Rw4gUFSl5PjZyX5Z7I09PY9jyx9wIBGG4dZZ1fLDQDfuacgvi/67SbbX0plyR7kkG4
-         n0M+xILv47tVMoIge1AG0rdZqlQeSgSLbKPLL4RNscPkldliEUtepWDwLA6i20gZWKjB
-         /OlZrCBmpf5FlUHwqXwHCJsX9qfD80LfjzyjtmZz1ALjYWlvtM7jF4Jv0leJTbCGH0J+
-         Ij3NjB3+ZRBSQSkCHNwYbDRxgPBXO71skYQrOsVIzchTEkdkZ4wfrBhMY5bgt9r47BWH
-         QHGX02RL1TKuAnWyB9AIPEH/XAuVkIN6PWEYJ4YyCn60XltgXcJHgQpsok1LcANe825w
-         4k+A==
-X-Gm-Message-State: AOJu0YwBdMqJIIFbd+8fYQTCO56mQwD+eqt3/t5VGXx9F/z3LYqc0HNa
-	9/w+36Ab0vDWdn5DkUQNtWZJiHsQ7C0m6luY5+kfithAVNjc3ltlewrqYehI
-X-Gm-Gg: ASbGncvSpBkJwREVUfoPBjxzKjBAMk37TGzwiU6A6g++S4iIAOu1EvclX2XCNDdfYIT
-	zJibu0aCwfQwldTzzGz1l/T/Un/1WoSOPuIeekKQKHYYpvU99AYru3mZgztHrOKJ93tU2oMhlME
-	X4nhQ+ySS1raAdZfs1bYrZh4g00BFZAjUcPZlqCt/aASBmncxaluYc6SPBHf7AVYmwTdyB699RX
-	3RK/oX2ny5Q6vLyKD84P43tS3I1wGdFdZDtlwwcvnrK2gZN2we5Qa50Z1ae3SU2a0ZQchNpanZQ
-	DdoSrncWzqGCah55REHruhFyRCrtqepaQPXfFgezPL8NJ6nHnio3nZxy2Lp7aenLBHpN96n2trf
-	xMto=
-X-Google-Smtp-Source: AGHT+IFVAD8TbwVpxNC183lYBwnbEiwoYCsijJOxN8KKYkGEtTfl7EpMjli1thKb2nWwye1LHkWhHA==
-X-Received: by 2002:a05:6870:d14d:b0:2bc:9787:affe with SMTP id 586e51a60fabf-2dba42a3b74mr1387784fac.10.1746774110208;
-        Fri, 09 May 2025 00:01:50 -0700 (PDT)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com. [209.85.160.51])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2dba0af8639sm499289fac.32.2025.05.09.00.01.49
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 May 2025 00:01:49 -0700 (PDT)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2da3b3bb560so1482212fac.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 May 2025 00:01:49 -0700 (PDT)
-X-Received: by 2002:a67:e7cc:0:b0:4c1:83c4:8562 with SMTP id
- ada2fe7eead31-4deed36db85mr2042531137.13.1746774098753; Fri, 09 May 2025
- 00:01:38 -0700 (PDT)
+	s=arc-20240116; t=1746780231; c=relaxed/simple;
+	bh=ZBPKwkmHEvvNQajIMTTzmOHRyWDO/JoXKm9KFvP4U1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UUo7/n451ex0T/vY5iO2kyD0HBoh50wlL0CBfS4/ipE1pH5wPwiw6fonzfOZdv6zaJ5MOJcgalH05sKlH/aobwBSqfwYMQljyyz7BLtNwfS/Z/WSs4pcXkNrUbdJ6lYlrMWFwJ1raH3AiaIZ5+7MypKA65jn+6tGIYG4nJSCaoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YsV8c95O; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746780230; x=1778316230;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZBPKwkmHEvvNQajIMTTzmOHRyWDO/JoXKm9KFvP4U1g=;
+  b=YsV8c95O3E42WgHv2C8W2eWB4tHBaRk4jCs80Zl7n4dTRqT7NjT42s1c
+   RGEW+WtjlPND5UORIpbgfYcfMcfrkA00p9wrcEKwIEV6dzr7fI94GNgNG
+   sxRW5D0h7sPpYmcLpWOPnST4/VnZcHwY4+jYtf6PaAaeysC0uHCrrG2na
+   le6aVNhlCPCWluoqCLu3/YvdxJVakBBnoqKeoXfhafo6OwpVYDbxBY3fo
+   5sntffnCbhM6wHJEN3prU7dKquHlrrTDeoH+7j7e6DN9chllVaB+vyv+L
+   G2DkHm+leEX+2WfFqnEJGj6Kl0gsLv1tHU0GHaMJHrDmPk/5tH+S4x01P
+   A==;
+X-CSE-ConnectionGUID: D4Mfx/DaRoWl5luihL7xWQ==
+X-CSE-MsgGUID: wh9PXFr6Sy+GkYl3qEaGmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="47706351"
+X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
+   d="scan'208";a="47706351"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 01:43:49 -0700
+X-CSE-ConnectionGUID: hFz01JFsS8ShUD9WZtMk2A==
+X-CSE-MsgGUID: awqki4yeR5CZItdVGjRoqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
+   d="scan'208";a="137058983"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 09 May 2025 01:43:47 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uDJKa-000Bpj-0I;
+	Fri, 09 May 2025 08:43:44 +0000
+Date: Fri, 9 May 2025 16:42:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a09g047: Add XSPI node
+Message-ID: <202505091649.PuAhqb0T-lkp@intel.com>
+References: <20250508183109.137721-2-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87frhepkrm.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87frhepkrm.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 9 May 2025 09:01:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVwdB1GP4Ta-rMAEwbSVXjViSx_Ss77wU115xZ9vWyi9w@mail.gmail.com>
-X-Gm-Features: AX0GCFsGZ8kQOSFQG-1qXtFBfto6R0mDRIuJh5EfVKjRF6sbODc59GGWKYfxCjU
-Message-ID: <CAMuHMdVwdB1GP4Ta-rMAEwbSVXjViSx_Ss77wU115xZ9vWyi9w@mail.gmail.com>
-Subject: Re: [PATCH] arm64: renesas: defconfig: Enable MSIOF sound support
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250508183109.137721-2-biju.das.jz@bp.renesas.com>
 
-On Fri, 9 May 2025 at 04:42, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> Sparrow Hawk is using MSIOF sound.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Hi Biju,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will apply to my topic/renesas-defconfig branch, which is not
-intended for upstream merge.
+kernel test robot noticed the following build errors:
 
-Gr{oetje,eeting}s,
+[auto build test ERROR on geert-renesas-devel/next]
+[also build test ERROR on linus/master v6.15-rc5 next-20250508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-                        Geert
+url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/arm64-dts-renesas-r9a09g047-Add-XSPI-node/20250509-023503
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+patch link:    https://lore.kernel.org/r/20250508183109.137721-2-biju.das.jz%40bp.renesas.com
+patch subject: [PATCH 1/2] arm64: dts: renesas: r9a09g047: Add XSPI node
+config: arm64-randconfig-001-20250509 (https://download.01.org/0day-ci/archive/20250509/202505091649.PuAhqb0T-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505091649.PuAhqb0T-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505091649.PuAhqb0T-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> Error: arch/arm64/boot/dts/renesas/r9a09g047.dtsi:293.14-15 syntax error
+   FATAL ERROR: Unable to parse input tree
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
