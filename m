@@ -1,79 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-16840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16841-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA26AB1262
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 13:41:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5107FAB1285
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 13:52:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9374A9C2392
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 11:41:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BD5B4A4C0E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 11:51:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1447F28E5E5;
-	Fri,  9 May 2025 11:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4866D28FFD9;
+	Fri,  9 May 2025 11:51:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ayri1AN/"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="rRT6by3M"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05A422F16E
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 May 2025 11:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1883428FAA8
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 May 2025 11:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746790911; cv=none; b=I49VVdQ60qBVGygERjMshBgrkc/Wx+v8wYGBjQJc/aJPcCEGp4aLQBbETz/v93l70Fby2x8IUjfbEJaXZWSUtoqr5iPg3lIyY6sEIYqvOriSvVLokMOkZUXw1ggm8134mHW0edpUuYevKs3owQpHjctG3THkpgkYOpQHMwBljDs=
+	t=1746791504; cv=none; b=hJtx+Li0ReP6W2Pb7cbB6gqGKS0bP8gIadFN/8iO9Pd4Iv5ackjE1sJB3XtlPrxY/eOMH8tQdFIie6j6ZyF65n/hD8xsTVnSZNMnaxPHz0oi00GKh1VDyzJszyYR+RaoLknOAGWur4o+mscVofPmC9HfV7l38wcv+meWHGJ9zSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746790911; c=relaxed/simple;
-	bh=21R4CdsJlxo6ZIUB4aWnLHQhzIqhbI+E6wdmGGSh4zs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YQKSPA5VAhRYaQrcBHw9lKg42nOnRLsdqpUGOB6iBpIUFwBJbLZVOvRyNWkcgB7dBIylBcYjyGCHHTwPxjLva3UjDSpLv1FEsoTXayJI9g8Hdww3Iwi8uWOCRX+c3+PYPBIF8SCl+nEzKC+MlUJaW6Np4whZ9zXufpRjiorp95c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ayri1AN/; arc=none smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1746791504; c=relaxed/simple;
+	bh=94hSLVwahZL6uSGp/GCIw7ak3VmONi+Q3s+hjbITQj8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=cXtpqHWSdvPdjwoDT2Os113uhY15h2zllaOHvjaWSgj3qBtEmLHwJBM0c27lbFToIYT3UHtX7KZnyXRpVjM7G/Seizi0kMUVUNvHRJDeUM5tkZaDeHFwpNI/gQZol/eoquFWp6v89Vnj0cdGwFYZ85Ws47xSVfPGC2GeDKaG0Os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=rRT6by3M; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ac2bdea5a38so284089766b.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 May 2025 04:41:48 -0700 (PDT)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5efe8d9ebdfso3699580a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 May 2025 04:51:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1746790907; x=1747395707; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xqSqgdbr6mkrFUbRKHE1fLZLEEIHfO7KWsMJjVuS+q4=;
-        b=ayri1AN/SeBgJ2RHWOluJm//i1J26QV+grwv7cw760nXkqFlLPeqM3zfaIicoUnJQV
-         nR0ZkT2odUUfKWb61TYl5guqeewzxnJ9UpeOyzbuCRZq3DJltHrP/pBowx17XdQZ/+TM
-         bAYDL0AILCtYvyS+Hmq1aBlwNDmX5EknHeVUbG7SFjK6fDzCpNjhg4YxMlpkFfK7intx
-         5D9LEFukgf9Stu+h2kwp8wr9NIWnCYb4SyCCYZyvegjMqOGFnf/jHJ0+ghsaKYwkmoO/
-         rXLA0I5xGaS+lf9mnzuuHTw4q5BlxuBV4kJ/9/tMjl8hNqgZLskHGWJ2fKi0YE8s5yKI
-         tvEw==
+        d=tuxon.dev; s=google; t=1746791500; x=1747396300; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=HcCUAVth4/4X0ivCD1jla215xTKz2P8JDpUcQkYuzX4=;
+        b=rRT6by3MuduwkSN/H4fHg3R3x+qWcNizG+URaLmW2ISNy7GYhh1fpzPFZ2G9ffPYyG
+         izXnmui2iSTjI7TCX9BMj3pUeYywAHM/XTvh6qShsaZv7ZCfu5a9LmdeEdkWdQqHieBL
+         885NsSYTtAVhqY4H/WcTuZLEhEu2Hs8NH69GoHtqgg9WVluFkkvlEjNo8US434zLjjE3
+         9b9lUJByaoj/bm96D6m7jyu11BYEwGfxmkreqcvheUE1HT6/3KG89LlLTNICJ9ZSBMup
+         vyXtV3ld8DkwKMs3j1IEaG9tbV8pTI6UDmLVZzJcr6fAofr+FdURv02Ky4LCzDjHihrF
+         rgJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746790907; x=1747395707;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1746791500; x=1747396300;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xqSqgdbr6mkrFUbRKHE1fLZLEEIHfO7KWsMJjVuS+q4=;
-        b=mlve9UACeNz/pOwtosQauy47tMcGiQut/wlJ/NcNyUZNCz92Bal/xCHr6I3UqieBi+
-         0PWMZ23BhiEa6nfeDFg7zyQFR9B8xdACwzJLKX9zqRSnLQkF6CBTaRsosA1nXuuysA+b
-         2kVifN2l+Nq1MsGvHBiZkYl2bD9+l8fFhdu3UctXAOvfT7NQit6ggU+Sf2E2bnMHqCA1
-         Vu4GApnFwaKMn/DWrzjGiw9twYxXOSz6wdstlRyLTGW8Zbro6qfyJAOS9onC/9+T7eR/
-         DGGNsN6oXqFf2YLPwUpDmEHgNXvlL3b+UitmYHsmj+aRaWg/Km3exXZVJpc3YzeUepUQ
-         WE/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUskip+bHH1wMWVjwXH+4mwh4HtUXA8ZbflkSPLr4SGSVMRK6gcpq28F7itlsjRnr1ndIpo8QdKaDxNwXKy7hUZmw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFvIiwk8ITMtTo0puPrG33rVWK0jF1cofReR1gekFR4FgixxuY
-	XCCSghJZdpOl/Xb8tv3pCc+drLShHzQLb02p+/lB79QpBvlrK6GSv+95H8BOskQ=
-X-Gm-Gg: ASbGncvhAMeCCA9dL99z28W2cqCZ97ztG/P4CYeruuDFsL4XRj5RHcACntZPXCUdt41
-	J1l+f9zK64zRKE+DTOZMndFaKimDx2b/pWXAkkIfgl5WggN/qpJTmLQHGOSSMb9CtrZgu0s8Bj4
-	Wrk7NN4kUIrb9uVIVaLs+3musBVB7C5rHatQOppmEKX6Vq8wSOC+PHAAgazYyW5jQpWUnrNLg5O
-	dg5/vBQgeU4iQrNuC9UHSkIKOTX3uxrxfsoovg/F8QCC/+RVrsTiTpjd24Mubi3vjGEhh7+xZTY
-	dZ1hFEUmSekpA4OVMAryE61E2fBl3TZk41J3Yhxx0XPLvuq5
-X-Google-Smtp-Source: AGHT+IG2j0Pea0l+03cwVMYbfwrcANbL1huFvD6sD/j4JhDPCTCSj3oUMBeHqG1csVa7s5Hq/oxNxw==
-X-Received: by 2002:a17:907:1907:b0:ac2:cae8:e153 with SMTP id a640c23a62f3a-ad218ea823fmr310536466b.4.1746790907122;
-        Fri, 09 May 2025 04:41:47 -0700 (PDT)
+        bh=HcCUAVth4/4X0ivCD1jla215xTKz2P8JDpUcQkYuzX4=;
+        b=V+wOxBsy8XzkdN+yBlru2iYOEGyf5/wyPOf8OzxHEM6bBwK44jk+tpEiosT02WM7IZ
+         Log2X5iuSn9ejCo30/g9p+Hy2hAG8P4bfYfXW1HmoFS3RusB/4roB7AEQ7cH+256QDNa
+         3pmUGVm5SJuQu0svbyMQVA2luA1x1sBc9h9laUuszKhnI6C9WvuI6NabA48ZOBFBUT7b
+         6BJDEnQxuzW2v56sjZs4AIkkAGMmUe1JoB7LEDeNstD7CXudzSlZuIxEpQR8cOo0BUlW
+         Sno8nMj5oI6XSy/TfAmkBvmN1ikHq468y+K8ctvPlxjKtf4blmSi+qADt1ykcG+loHZG
+         sX1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXBR2GNQuwu0rYp1LWkpE61GM9bvURwztgBqWfXjjlnpWNT6uD7pOua3q/COlXiMwJruOEFKAtPwAvR5sx8EnfVPg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaBAThOth/1LdJD1i+6IPVvnyujvyNXsR3FcpglaPSd3OEP6p4
+	HCJzMaNoRX/qU7nVGYfoDbKR6SU2my2nfmeANpIub6ksHOHb4ck/EhK+X053Afs=
+X-Gm-Gg: ASbGnctbYtK3YQ76MOq1QcVNP93imC/3/33gz6ZI9mjY/Z9wwqod3ep1p1P82a3tcJI
+	ynrAC7zvmyA+3GMNsjWEGy1R/gD2VJG9YSzfqlk6SxPx4kXMnl74JQ7k4EZWgGmNtnM0THp8lDF
+	ybKsVd1JEigFU2YKAqgI5l2xw7ABkj+KFiSGwVblmjUZlHj6MGuWV2tnkNpfgwX453rb0/KcwL0
+	pgL/GrVU+5KESRc5DabKqi0oMUQ/37ZFy7riI23xuSCl63s3/FRKegI1RUaJQLA7RyHR3onu3d7
+	RCuzvmON5rHlfCiLFpVLw6PQf8e+VPZZlRxJ+iQ6ThFNOadx
+X-Google-Smtp-Source: AGHT+IFrGDRXG6FAVEd4uSESGaBsfaTJHvGQG8PV98kRwmaQFMuRJod0R5mnXx5DDPecf/kyISoRWw==
+X-Received: by 2002:a17:907:97d2:b0:ad1:77aa:503 with SMTP id a640c23a62f3a-ad219124207mr305429066b.36.1746791500229;
+        Fri, 09 May 2025 04:51:40 -0700 (PDT)
 Received: from [192.168.50.4] ([82.78.167.50])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad2197bd2a8sm138611966b.145.2025.05.09.04.41.45
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad2197bdd63sm138709266b.154.2025.05.09.04.51.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 May 2025 04:41:46 -0700 (PDT)
-Message-ID: <b4771b63-3198-47c8-a83d-5133ba80d39b@tuxon.dev>
-Date: Fri, 9 May 2025 14:41:44 +0300
+        Fri, 09 May 2025 04:51:39 -0700 (PDT)
+Message-ID: <95f5923f-7a8f-4947-b588-419525930bcb@tuxon.dev>
+Date: Fri, 9 May 2025 14:51:38 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -81,129 +81,208 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/8] PCI: rzg3s-host: Add Initial PCIe Host Driver for
- Renesas RZ/G3S SoC
-To: Philipp Zabel <p.zabel@pengutronix.de>, bhelgaas@google.com,
- lpieralisi@kernel.org, kw@linux.com, manivannan.sadhasivam@linaro.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com,
- sboyd@kernel.org, saravanak@google.com
-Cc: linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250430103236.3511989-1-claudiu.beznea.uj@bp.renesas.com>
- <20250430103236.3511989-6-claudiu.beznea.uj@bp.renesas.com>
- <42a5119e547685f171be6f91e476a9b595599cf9.camel@pengutronix.de>
+Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
+ probe resources
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+To: Jonathan Cameron <jic23@kernel.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, dakr@kernel.org,
+ ulf.hansson@linaro.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ geert@linux-m68k.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <20250215130849.227812-1-claudiu.beznea.uj@bp.renesas.com>
+ <2025021539-untrained-prompter-a48f@gregkh>
+ <4bf01946-90e3-4169-91fa-10d9f90310e9@tuxon.dev>
+ <8d83ea72-bb81-4c63-bf69-28cf5848ae20@tuxon.dev>
+ <20250305140309.744866b2@jic23-huawei> <Z8k8lDxA53gUJa0n@google.com>
+ <f74085be-7b14-4551-a0a7-779318a5dc70@tuxon.dev>
+ <20250330163129.02f24afb@jic23-huawei>
+ <5bca6dfd-fe03-4c44-acf4-a51673124338@tuxon.dev>
 Content-Language: en-US
-In-Reply-To: <42a5119e547685f171be6f91e476a9b595599cf9.camel@pengutronix.de>
+In-Reply-To: <5bca6dfd-fe03-4c44-acf4-a51673124338@tuxon.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi, Philipp,
+Hi, Rafael, Ulf, PM list,
 
-On 09.05.2025 13:51, Philipp Zabel wrote:
-> Hi Claudiu,
+
+On 09.04.2025 19:12, Claudiu Beznea wrote:
+> Hi, Rafael,
 > 
-> On Mi, 2025-04-30 at 13:32 +0300, Claudiu wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> On 30.03.2025 18:31, Jonathan Cameron wrote:
+>> On Thu, 27 Mar 2025 18:47:53 +0200
+>> Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
 >>
->> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
->> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
->> only as a root complex, with a single-lane (x1) configuration. The
->> controller includes Type 1 configuration registers, as well as IP
->> specific registers (called AXI registers) required for various adjustments.
+>>> Hi, Rafael,
+>>>
+>>> On 06.03.2025 08:11, Dmitry Torokhov wrote:
+>>>> On Wed, Mar 05, 2025 at 02:03:09PM +0000, Jonathan Cameron wrote:  
+>>>>> On Wed, 19 Feb 2025 14:45:07 +0200
+>>>>> Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+>>>>>  
+>>>>>> Hi, Daniel, Jonathan,
+>>>>>>
+>>>>>> On 15.02.2025 15:51, Claudiu Beznea wrote:  
+>>>>>>> Hi, Greg,
+>>>>>>>
+>>>>>>> On 15.02.2025 15:25, Greg KH wrote:    
+>>>>>>>> On Sat, Feb 15, 2025 at 03:08:49PM +0200, Claudiu wrote:    
+>>>>>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>>>>>>
+>>>>>>>>> On the Renesas RZ/G3S (and other Renesas SoCs, e.g., RZ/G2{L, LC, UL}),
+>>>>>>>>> clocks are managed through PM domains. These PM domains, registered on
+>>>>>>>>> behalf of the clock controller driver, are configured with
+>>>>>>>>> GENPD_FLAG_PM_CLK. In most of the Renesas drivers used by RZ SoCs, the
+>>>>>>>>> clocks are enabled/disabled using runtime PM APIs. The power domains may
+>>>>>>>>> also have power_on/power_off support implemented. After the device PM
+>>>>>>>>> domain is powered off any CPU accesses to these domains leads to system
+>>>>>>>>> aborts.
+>>>>>>>>>
+>>>>>>>>> During probe, devices are attached to the PM domain controlling their
+>>>>>>>>> clocks and power. Similarly, during removal, devices are detached from the
+>>>>>>>>> PM domain.
+>>>>>>>>>
+>>>>>>>>> The detachment call stack is as follows:
+>>>>>>>>>
+>>>>>>>>> device_driver_detach() ->
+>>>>>>>>>   device_release_driver_internal() ->
+>>>>>>>>>     __device_release_driver() ->
+>>>>>>>>>       device_remove() ->
+>>>>>>>>>         platform_remove() ->
+>>>>>>>>> 	  dev_pm_domain_detach()
+>>>>>>>>>
+>>>>>>>>> During driver unbind, after the device is detached from its PM domain,
+>>>>>>>>> the device_unbind_cleanup() function is called, which subsequently invokes
+>>>>>>>>> devres_release_all(). This function handles devres resource cleanup.
+>>>>>>>>>
+>>>>>>>>> If runtime PM is enabled in driver probe via devm_pm_runtime_enable(), the
+>>>>>>>>> cleanup process triggers the action or reset function for disabling runtime
+>>>>>>>>> PM. This function is pm_runtime_disable_action(), which leads to the
+>>>>>>>>> following call stack of interest when called:
+>>>>>>>>>
+>>>>>>>>> pm_runtime_disable_action() ->
+>>>>>>>>>   pm_runtime_dont_use_autosuspend() ->
+>>>>>>>>>     __pm_runtime_use_autosuspend() ->
+>>>>>>>>>       update_autosuspend() ->
+>>>>>>>>>         rpm_idle()
+>>>>>>>>>
+>>>>>>>>> The rpm_idle() function attempts to resume the device at runtime. However,
+>>>>>>>>> at the point it is called, the device is no longer part of a PM domain
+>>>>>>>>> (which manages clocks and power states). If the driver implements its own
+>>>>>>>>> runtime PM APIs for specific functionalities - such as the rzg2l_adc
+>>>>>>>>> driver - while also relying on the power domain subsystem for power
+>>>>>>>>> management, rpm_idle() will invoke the driver's runtime PM API. However,
+>>>>>>>>> since the device is no longer part of a PM domain at this point, the PM
+>>>>>>>>> domain's runtime PM APIs will not be called. This leads to system aborts on
+>>>>>>>>> Renesas SoCs.
+>>>>>>>>>
+>>>>>>>>> Another identified case is when a subsystem performs various cleanups
+>>>>>>>>> using device_unbind_cleanup(), calling driver-specific APIs in the process.
+>>>>>>>>> A known example is the thermal subsystem, which may call driver-specific
+>>>>>>>>> APIs to disable the thermal device. The relevant call stack in this case
+>>>>>>>>> is:
+>>>>>>>>>
+>>>>>>>>> device_driver_detach() ->
+>>>>>>>>>   device_release_driver_internal() ->
+>>>>>>>>>     device_unbind_cleanup() ->
+>>>>>>>>>       devres_release_all() ->
+>>>>>>>>>         devm_thermal_of_zone_release() ->
+>>>>>>>>> 	  thermal_zone_device_disable() ->
+>>>>>>>>> 	    thermal_zone_device_set_mode() ->
+>>>>>>>>> 	      struct thermal_zone_device_ops::change_mode()
+>>>>>>>>>
+>>>>>>>>> At the moment the driver-specific change_mode() API is called, the device
+>>>>>>>>> is no longer part of its PM domain. Accessing its registers without proper
+>>>>>>>>> power management leads to system aborts.
+>>>>>>>>>
+>>>>>>>>> Open a devres group before calling the driver probe, and close it
+>>>>>>>>> immediately after the driver remove function is called and before
+>>>>>>>>> dev_pm_domain_detach(). This ensures that driver-specific devm actions or
+>>>>>>>>> reset functions are executed immediately after the driver remove function
+>>>>>>>>> completes. Additionally, it prevents driver-specific runtime PM APIs from
+>>>>>>>>> being called when the device is no longer part of its power domain.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>>>>>> ---
+>>>>>>>>>
+>>>>>>>>> Hi,  
+>>>>>
+>>>>> Hi Claudiu, Greg,
+>>>>>
+>>>>> Sorry, I missed this thread whilst travelling and only saw it because
+>>>>> of reference from the in driver solution.
+>>>>>  
+>>>>>>>>>
+>>>>>>>>> Although Ulf gave its green light for the approaches on both IIO [1],
+>>>>>>>>> [2] and thermal subsystems [3], Jonathan considered unacceptable the
+>>>>>>>>> approaches in [1], [2] as he considered it may lead to dificult to
+>>>>>>>>> maintain code and code opened to subtle bugs (due to the potential of
+>>>>>>>>> mixing devres and non-devres calls). He pointed out a similar approach
+>>>>>>>>> that was done for the I2C bus [4], [5].
+>>>>>>>>>
+>>>>>>>>> As the discussions in [1], [2] stopped w/o a clear conclusion, this
+>>>>>>>>> patch tries to revive it by proposing a similar approach that was done
+>>>>>>>>> for the I2C bus.
+>>>>>>>>>
+>>>>>>>>> Please let me know you input.    
+>>>>>>>>
+>>>>>>>> I'm with Jonathan here, the devres stuff is getting crazy here and you
+>>>>>>>> have drivers mixing them and side affects happening and lots of
+>>>>>>>> confusion.  Your change here is only going to make it even more
+>>>>>>>> confusing, and shouldn't actually solve it for other busses (i.e. what
+>>>>>>>> about iio devices NOT on the platform bus?)    
+>>>>>
+>>>>> In some cases they are already carrying the support as per the link
+>>>>> above covering all i2c drivers.  I'd like to see a generic solution and
+>>>>> I suspect pushing it to the device drivers rather than the bus code
+>>>>> will explode badly and leave us with subtle bugs where people don't
+>>>>> realise it is necessary. 
+>>>>>
+>>>>> https://lore.kernel.org/all/20250224120608.1769039-1-claudiu.beznea.uj@bp.renesas.com/
+>>>>> is a lot nastier looking than what we have here. I'll review that in a minute
+>>>>> to show that it need not be that bad, but none the less not pleasant.
+>>>>>
+>>>>> +CC linux-iio to join up threads and Dmitry wrt to i2c case (and HID that does
+>>>>> similar)  
+>>>>
+>>>> We should not expect individual drivers handle this, because this is a
+>>>> layering violation: they need to know implementation details of the bus
+>>>> code to know if the bus is using non-devres managed resources, and
+>>>> adjust their behavior. Moving this into driver core is also not
+>>>> feasible, as not all buses need it. So IMO this should belong to
+>>>> individual bus code.
+>>>>
+>>>> Instead of using devres group a bus may opt to use
+>>>> devm_add_action_or_reset() and other devm APIs to make sure bus'
+>>>> resource unwinding is carried in the correct order relative to freeing
+>>>> driver-owned resources.  
+>>>
+>>> Can you please let us know your input on the approach proposed in this
+>>> patch? Or if you would prefer devm_add_action_or_reset() as suggested by
+>>> Dmitry? Or if you consider another approach would fit better?
+>>>
+>>> Currently there were issues identified with the rzg2l-adc driver (driver
+>>> based solution proposed in [1]) and with the rzg3s thermal driver (solved
+>>> by function rzg3s_thermal_probe() from [2]).
+>>>
+>>> As expressed previously by Jonathan and Dimitry this is a common problem
+>>> and as the issue is due to a call in the bus driver, would be better and
+>>> simpler to handle it in the bus driver. Otherwise, individual drivers would
+>>> have to be adjusted in a similar way.
+>>>
 >>
->> Other Renesas RZ SoCs (e.g., RZ/G3E, RZ/V2H) share the same AXI registers
->> but have both Root Complex and Endpoint capabilities. As a result, the PCIe
->> host driver can be reused for these variants with minimal adjustments.
+>> Rafael,
 >>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>  MAINTAINERS                              |    8 +
->>  drivers/pci/controller/Kconfig           |    7 +
->>  drivers/pci/controller/Makefile          |    1 +
->>  drivers/pci/controller/pcie-rzg3s-host.c | 1561 ++++++++++++++++++++++
->>  4 files changed, 1577 insertions(+)
->>  create mode 100644 drivers/pci/controller/pcie-rzg3s-host.c
+>> Greg suggested we ask for your input on the right option:
 >>
-> [...]
->> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
->> new file mode 100644
->> index 000000000000..c3bce0acd57e
->> --- /dev/null
->> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
->> @@ -0,0 +1,1561 @@
-> [...]
->> +static int rzg3s_pcie_resets_bulk_set(int (*action)(int num, struct reset_control_bulk_data *rstcs),
->> +				      struct reset_control **resets, u8 num_resets)
->> +{
->> +	struct reset_control_bulk_data *data __free(kfree) =
->> +		kcalloc(num_resets, sizeof(*data), GFP_KERNEL);
->> +
->> +	if (!data)
->> +		return -ENOMEM;
->> +
->> +	for (u8 i = 0; i < num_resets; i++)
->> +		data[i].rstc = resets[i];
->> +
->> +	return action(num_resets, data);
->> +}
+>> https://lore.kernel.org/all/2025032703-genre-excitable-9473@gregkh/
+>> (that thread has the other option).
 > 
-> What is the purpose of this? Can't you just store struct
-> reset_control_bulk_data in struct rzg3s_pcie_host and call
-> reset_control_bulk_assert/deassert() directly?
+> Can you please let us know your opinion on this?
+Can you please let us know if you have any suggestions for this?
 
-Yes, I can. I was trying to avoid storing also the reset_control_bulk_data
-in struct rzg3s_pcie_host since all that is needed can be retrieved from
-the already parsed in probe cfg_resets and power_resets.
-
-> 
->> +static int
->> +rzg3s_pcie_resets_init(struct device *dev, struct reset_control ***resets,
->> +		       struct reset_control *(*action)(struct device *dev, const char *id),
->> +		       const char * const *reset_names, u8 num_resets)
->> +{
->> +	*resets = devm_kcalloc(dev, num_resets, sizeof(struct reset_control *), GFP_KERNEL);
->> +	if (!*resets)
->> +		return -ENOMEM;
->> +
->> +	for (u8 i = 0; i < num_resets; i++) {
->> +		(*resets)[i] = action(dev, reset_names[i]);
->> +		if (IS_ERR((*resets)[i]))
->> +			return PTR_ERR((*resets)[i]);
->> +	}
->> +
->> +	return 0;
->> +}
-> 
-> Why not use devm_reset_control_bulk_get_exclusive() directly?
-
-I wasn't able to find a bulk_get_exclusive_deasserted() kind of API.
-
-This IP needs particular sequence for configuration. First, after power on,
-the following resets need to be de-asserted:
-
-	const char * const power_resets[] = {
-		"aresetn", "rst_cfg_b", "rst_load_b",
-	};
-
-then, after proper values are written into the configuration registers, the
-rest of the resets need to be de-asserted:
-
-	const char * const cfg_resets[] = {
-		"rst_b", "rst_ps_b", "rst_gp_b", "rst_rsm_b",
-	};
-
-So I was trying to get and de-assert the power_resets in probe and just get
-the cfg_resets in the 1st step of the initialization, and later to
-de-assert the cfg_resets as well.
-
-Now, after you pointed it out, maybe you are proposing to just
-get_exclusive everything in one shot and then to de-assert what is needed
-at proper moments with generic reset control APIs?
-
-Thank you for your review,
+Thank you,
 Claudiu
 
