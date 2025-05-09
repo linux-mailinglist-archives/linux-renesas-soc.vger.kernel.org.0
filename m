@@ -1,80 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-16856-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190C8AB13B2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 14:44:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B02AB1435
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 14:59:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A7BBBA239E0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 12:44:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0AB71717BF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 12:59:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84F79290DAB;
-	Fri,  9 May 2025 12:44:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB9E92900AA;
+	Fri,  9 May 2025 12:57:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="QSy7tZtK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m9mVdbRW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DC0290BA8
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 May 2025 12:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FCF29188F
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 May 2025 12:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746794654; cv=none; b=bI7dB8u8rLOPjX306RlVQRhlR3DKr6JE22s4mNVnCKUM/ybNeL6CSJZb3MY8t7JrOaVn0+SU1wwBUtYllNhYgrXD5Q+bWWadyJggwnxUsUZ3Yi4gF8POiQS3JnaBm4A00wLDlWaZglf9rV7ifSMM6oDW11wsPGwCjaTYKWrDoJg=
+	t=1746795437; cv=none; b=Mm72jS5kB/hdvSrz3zANMe/tHyS+C7JIrhcFRXrmaMWCOCTtC3103MqlwqhEzmDBv8cmwmlcbgBi4SzYD7tIkkwK57HOW5jrvh7YnODx9z114KsISenow4wPJYmC2WhigpRsz2PN1X1F6iy0pJRfEb3nD0rGcUtBTVL5vU7uTmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746794654; c=relaxed/simple;
-	bh=zAnIDzk1Ex30r2AWghF2/dzpVcrnWZnWMuTaApVel18=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XTRJuhznIzOR/ipDeRhn9ySz9+4E6ziF2Zcfz31kvKxqTdPKMg4mJ94FFAA7EVKD6Vn3CbG8JnHnc1qOqLhNTXR9azX69crMrKi184Hmo7mVoDUfvSWeFE78cTDLwCyzAJHcm3xIgO93rrXCXQl+hHkFbT6cGVkAjtkHKR+tZsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=QSy7tZtK; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5f63ac6ef0fso4144851a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 May 2025 05:44:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1746794650; x=1747399450; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/paEfu3znIo+odjzOzegwzTx47yQ+AdAhjxebl79aIw=;
-        b=QSy7tZtKyHElp0AA0uw54tMbkJp7f8xL6nb/G6EExiUGFE8Wg+XZf/VqYmemPv0UPS
-         G1EJhbG98zNpDe8yzDIxZrVhwNZJTMz/mus2gfUdkfVQdwoHfB//2H/2JhnSQS0wYi0Q
-         X0py3SVGjkDiam+0dM8un3k3TlaRUPmd5Ta0p0Kxlp5yE2oHNHwadepF63kIZkBwcYSY
-         wKPCGcMxgRl7fN6QlNFbWNGyfddmSJ0VdaFVSUnxhDeDY3Y9GPsY3QZsUitaj5Cp44Xw
-         uGzC6800t5tk0tPl0Sfcmnjeb+JKKivTZPud/lnkjXG+FAQdR8S004FGmCdRKL7ZIAzH
-         QxFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746794650; x=1747399450;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/paEfu3znIo+odjzOzegwzTx47yQ+AdAhjxebl79aIw=;
-        b=lt6z/L/M78OLSJyJ05qFBVtxF8M/H7DKN+BfhVACoiyxzASirNKxVxJ2xl6YQVlj3f
-         nj87SQDJ/pU+U3YAYgnip0yxwbZbfBXdeKcwM5CfEDBW3/IUOT/e6u4GXEbqsBxzpzlR
-         XWb4/Gh7cmL1shCoWEVUuU8EYTuDxowKnFoPjykU31Lg/EGSwScI4LeTro8T5tbJezeA
-         RN09bxrroDrUq0XwzQpfv3RaXhupjPdExkPL1/cYnno492usAuOzXfl+FvN1M/ztqbBX
-         N53tAjPI7m27WQgpzAahKvOisZeKO2E9f0Rvn4mT94myjQi21o/nZOa9GZrXFZ1sjE1E
-         VcWw==
-X-Forwarded-Encrypted: i=1; AJvYcCVRM6Aqe/VkguhF+VZUdrdo0QeAharnkTweusIR1jExyN10JhnXCz78KB5RbJQwvnQBIyXWo0CzhIeJe6vT88rg5Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOlVz6iN1QnBB4DfGZC48loO8NteJD5HvpBVrh2VCxql3WZiFg
-	ykzV7WkoEYAH+wO+O+wmWH0SiHsAh8DF9TjljDqt9E2Q7dnLIDVYTJyrrb28CKsgWi2SLGgAMtM
-	U
-X-Gm-Gg: ASbGncu7PLaLAUtGNk5UngZQEUQOynCZHG3s5Z57U87VWL6hzuX1kohyZzoqEkfu+Pw
-	LKGIKZT76yezNjJaolRhpC9t5FiJq6kSK3pSGqOgs3ZSFb64j7U/m/uo3sLF3RMUvRxECkgiXPv
-	9UeHPAoJfhAsS2q7bDu8BqkoGGQHesQiZLUk1ZETY4JHiZQjUNqEUzVtaPTVV/zkhE74ilR3ZA8
-	s26nO0RC6/EgX0mJS7x+cFkFqXt/OAYtzbMmA/55oW7FvMGgm+usUyOe7d68wcKolYPIaHNwtAp
-	lUb9f6yFOy7KuFl1jne6SKyxVJTSvSGlkAspIKhVgZAwCA9+HQjicQf3N2s=
-X-Google-Smtp-Source: AGHT+IEXHjPdBs2wbTDrgigjAAWt1V/NRiT3NNjsGB4lXS/D8KzGHFymOigZLIExpISjX/zYVIeYTA==
-X-Received: by 2002:a05:6402:2549:b0:5fc:8d75:4a25 with SMTP id 4fb4d7f45d1cf-5fc8d754c6cmr4828222a12.7.1746794650507;
-        Fri, 09 May 2025 05:44:10 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.50])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fc9cc26710sm1334871a12.21.2025.05.09.05.44.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 May 2025 05:44:10 -0700 (PDT)
-Message-ID: <bcbd993f-59e7-4017-b592-11e514e8f186@tuxon.dev>
-Date: Fri, 9 May 2025 15:44:08 +0300
+	s=arc-20240116; t=1746795437; c=relaxed/simple;
+	bh=5zNvuoHgRd3oj5T/+KgPWA3Qvm9n/T/eBc936U054GY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=KCmtgXR5Zdl+kQhVjVN9LzkZSoPsO89pReZ9e0exRYPWcL/nBkO7m9w00DOhRKPDFNcutuF/KTGDTWTWj8Osw0Cn3ZJl49SCQOXIauO2xxa2TrN00kLm2ZAsVcUy+EMU8VQpVKdIwxjOcEgya/9XF+Z1W+gpwcjnPJiX8tJzUC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m9mVdbRW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0889BC4CEEB;
+	Fri,  9 May 2025 12:57:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746795437;
+	bh=5zNvuoHgRd3oj5T/+KgPWA3Qvm9n/T/eBc936U054GY=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=m9mVdbRWdqgdZzWa/BHFrq4/bqpkFbd06LwD0wp1bTcumhgDTkbOHjmKBESdZSppo
+	 GihtHQlGEGqTgxOskwJ4r4XfoCJp/X7T90wGf+XKmp4JgyMdhqkaY7uaafvXx8zehG
+	 SN7vWR2wng8AMC2GZFDNEG9QOTZK5afGMDPlPpQ3xhv47TX3o0lJuR80yLhWAiMFaL
+	 iBvOQkbsYTl48dqS6xsTFj2M9jVNSHiYJVdunbr+ThTFvcQOKEIlaQEP2ggWwOltzq
+	 ZFmeicIwNC/Ivcj11k4zE9PfeprQ2JEMlySd4XO1TdCSQdGiIlvNeUW2SXEY7N9WL9
+	 5eiOUZraP0cqg==
+Message-ID: <543a8893-488a-41cb-a1e3-c7f5fd3894bb@kernel.org>
+Date: Fri, 9 May 2025 14:57:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,110 +50,160 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] clk: renesas: rzg2l-cpg: Add support for MSTOP in
- clock enable/disable API
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com,
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20250410140628.4124896-1-claudiu.beznea.uj@bp.renesas.com>
- <20250410140628.4124896-4-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdU00apiWYCPiwqGr66Ucg9KgWMhhm8FW_KBoeN2ceos+w@mail.gmail.com>
- <8a14cf38-9a7b-462b-80d1-ec5026b5a565@tuxon.dev>
- <CAMuHMdWOihhQtpi+J9t-4bApEHx+f6_q7NtdEiLVi63krZnK=w@mail.gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Subject: Re: [PATCH 8/9] Doc: devicetree: phy: renesas: add compatible for X5H
+To: Michael Dege <michael.dege@renesas.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <TYRPR01MB14284F48E79FF2EC68133F5B4828AA@TYRPR01MB14284.jpnprd01.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-In-Reply-To: <CAMuHMdWOihhQtpi+J9t-4bApEHx+f6_q7NtdEiLVi63krZnK=w@mail.gmail.com>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <TYRPR01MB14284F48E79FF2EC68133F5B4828AA@TYRPR01MB14284.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi, Geert,
+On 09/05/2025 14:04, Michael Dege wrote:
+> From a2f88121b79cdf756dacc9d58ed1ca23ab1c8744 Mon Sep 17 00:00:00 2001
+> From: Michael Dege <michael.dege@renesas.com>
+> Date: Fri, 9 May 2025 12:40:27 +0200
+> Subject: [PATCH 8/9] Doc: devicetree: phy: renesas: add compatible for X5H
 
-On 09.05.2025 15:12, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Fri, 9 May 2025 at 12:58, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
->> On 07.05.2025 18:47, Geert Uytterhoeven wrote:
->>> On Thu, 10 Apr 2025 at 16:06, Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> The RZ/{G2L, V2L, G3S} CPG versions support a feature called MSTOP. Each
->>>> module has one or more MSTOP bits associated with it, and these bits need
->>>> to be configured along with the module clocks. Setting the MSTOP bits
->>>> switches the module between normal and standby states.
->>>>
->>>> Previously, MSTOP support was abstracted through power domains
->>>> (struct generic_pm_domain::{power_on, power_off} APIs). With this
->>>> abstraction, the order of setting the MSTOP and CLKON bits was as follows:
->>>>
->>>> Previous Order:
->>>> A/ Switching to Normal State (e.g., during probe):
->>>> 1/ Clear module MSTOP bits
->>>> 2/ Set module CLKON bits
->>>>
->>>> B/ Switching to Standby State (e.g., during remove):
->>>> 1/ Clear CLKON bits
->>>> 2/ Set MSTOP bits
->>>>
->>>> However, in some cases (when the clock is disabled through devres), the
->>>> order may have been (due to the issue described in link section):
->>>>
->>>> 1/ Set MSTOP bits
->>>> 2/ Clear CLKON bits
->>>>
->>>> Recently, the hardware team has suggested that the correct order to set
->>>> the MSTOP and CLKON bits is:
->>>>
->>>> Updated Order:
->>>> A/ Switching to Normal State (e.g., during probe):
->>>> 1/ Set CLKON bits
->                   ^^^^
->                   plural
 
-This is a mistake from my side. Apologies for it. I was trying to keep it
-as simple as possible to avoid any confusion but I failed. The HW team
-recommended to follow the sequence described in Figure 41.5 Module Standby
-Mode Procedure, from chapter 41.2.2. Operation
-:
+Please run scripts/checkpatch.pl on the patches and fix reported
+warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
+patches and (probably) fix more warnings. Some warnings can be ignored,
+especially from --strict run, but the code here looks like it needs a
+fix. Feel free to get in touch if the warning is not clear.
 
-This is a copy-paste from the communication with them:
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
 
-"To enter the module standby:
-1/ set the CPG_BUS_***_MSTOP register
-2/ set the CPG_CLKON_*** register
+<form letter>
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
 
-To start the module:
-3/ set the CPG_CLKON_*** register
-4/ set the CPG_BUS_***_MSTOP register"
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline) or work on fork of kernel
+(don't, instead use mainline). Just use b4 and everything should be
+fine, although remember about `b4 prep --auto-to-cc` if you added new
+patches to the patchset.
+
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time.
+
+Please kindly resend and include all necessary To/Cc entries.
+</form letter>
 
 > 
->>>> 2/ Clear MSTOP bits
->                     ^^^^
->                     plural
+> Added the compatible string for new Renesas SOC X5H (r8a78000).
+> 
+> Signed-off-by: Michael Dege <michael.dege@renesas.com>
+> ---
+>  .../devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml    | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml b/Documentation/devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml
+> index 93ab72874228..58e84f703865 100644
+> --- a/Documentation/devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml
+> +++ b/Documentation/devicetree/bindings/phy/renesas,renesas-ether-serdes.yaml
+> @@ -12,6 +12,7 @@ maintainers:
+>  properties:
+>    compatible:
+>      const: renesas,r8a779f0-ether-serdes
+> +    const: renesas,r8a78000-ether-serdes
 
-Same here
+
+Never tested. Sending untested code with test bypass is not really
+appropriate.
 
 > 
->>> What is the recommended order in case multiple clocks map to
->>> the same module? Clear the MSTOP bit(s) after enabling the first clock,
->>> or clear the MSTOP bit(s) after enabling all clocks?
->>
->> I can't find anything about this in the HW manual.
->>
->>> I believe the code implements the former?
->>
->> The proposed implementation clears the MSTOP after enabling the first clock
->> taking into account that there might be cases where 2 clocks sharing the
->> same MSTOP may not be both enabled for a particular functionality.
+>    reg:
+>      maxItems: 1
+> --
+> 2.34.1
 > 
-> I am wondering if all clocks must be enabled before clearing MSTOP,
-> as the recommendation from the hardware team uses the plural bits.
+> ________________________________
 > 
-> Gr{oetje,eeting}s,
+> Renesas Electronics Europe GmbH
+> Registered Office: Arcadiastrasse 10
+> DE-40472 Duesseldorf
+> Commercial Registry: Duesseldorf, HRB 3708
+> Managing Director: Carsten Jauch
+> VAT-No.: DE 14978647
+> Tax-ID-No: 105/5839/1793
 > 
->                         Geert
-> 
+> Legal Disclaimer: This e-mail communication (and any attachment/s) is confidential and contains proprietary information, some or all of which may be legally privileged. It is intended solely for the use of the individual or entity to which it is addressed. Access to this email by anyone else is unauthorized. If you are not the intended recipient, any disclosure, copying, distribution or any action taken or omitted to be taken in reliance on it, is prohibited and may be unlawful.
 
+
+For obvious reasons we cannot take proprietary code, sorry.
+
+Maybe I am the intended recipient of your message, maybe not. I don't
+want to have any legal questions regarding upstream, public
+collaboration, thus probably I should just remove your messages.
+
+Please talk with your IT that such disclaimers in open-source are not
+desired (and maybe even harmful).
+If you do not understand why, please also see:
+https://www.youtube.com/live/fMeH7wqOwXA?si=GY7igfbda6vnjXlJ&t=835
+
+If you need to go around company SMTP server, then consider using b4
+web-relay: https://b4.docs.kernel.org/en/latest/contributor/send.html
+
+Please be informed that by responding to this email you agree that all
+communications from you and/or your company is made public. In other
+words, all messages originating from you and/or your company will be
+made public.
+
+
+Best regards,
+Krzysztof
 
