@@ -1,356 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-16915-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16916-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAE5AB1EB3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 23:08:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B877FAB20E1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 May 2025 03:51:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D3F79E7C35
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 May 2025 21:07:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BEE11B66854
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 May 2025 01:51:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7079325F7B3;
-	Fri,  9 May 2025 21:08:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51A2D267393;
+	Sat, 10 May 2025 01:51:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N1We5LSV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d8qycWpG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345D625394A;
-	Fri,  9 May 2025 21:08:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229211754B;
+	Sat, 10 May 2025 01:51:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746824883; cv=none; b=eop5iszi3W/uth8hHBRR0prgxvv3Eqx39hDwbVWwMIl+BgCKmK2MDp//TsMJBRPGY+VjIZmF3PG0i50KPmnHUsjhQVSLyHL2Zm+jJ0+Lq2N8wWYbyLPzS9GBj+Oi9Ym/P8crFStZ2Av81SGDuPH7w+yoJSIpIPusIWXcLK45dYI=
+	t=1746841883; cv=none; b=agdEXMSqWiTWPuiyLcCsald5LWmooiUlcHrFaa1B+2LCB6tvlvDEIP4+jhvA2setbWwkfpHihJ//W99uKyMzgSFz3hcXEEf7ExnqlJv8mSUNE8TPhHvrVg1oXI9s1TG5U5eyIH9+paQ4k8YT2n8eS2K9dqP1OCw6QHeJKD92rKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746824883; c=relaxed/simple;
-	bh=CAxTMPR8YPvt69jMr9a/HnbcXSU4cctemxa+AVtAFbs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kSpl+t2yU4TWXZA+cWcC7Svz8QeN4PjVdHQRdy/XxIoul5/lRglCzX8mdCnHM8kdmD2/aiETOXzYPcrIrwxZcMiEyt21g1HgxeLDY7C2xcltNHQ0wp8w1Q3QENg0F71+J2juSUTMlli04SNdXzR9/xkzPw3Tf2H3OCBSwaSY1lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N1We5LSV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A72E5C4CEE4;
-	Fri,  9 May 2025 21:08:02 +0000 (UTC)
+	s=arc-20240116; t=1746841883; c=relaxed/simple;
+	bh=97RdXJzhWuNgO+NHgDHCu6JgmKsxcavy2vgt0LibjAs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=moMf4PxwvkwTHp/yQ8ymp7U/hKLVTDx1Jd7PMWd6bNy/KgEQj2xBkLQxlCLN6sJ9DOmdm3e+EI387pQgwf6b60v3SLGZfo72LpJsWumYesghc0KcKGIMXoGykRx995LgV2Cy/Ln0hBYmBN2/4xz71GINA3Bb4StbM5m257ywttQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d8qycWpG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0BE7C4CEE4;
+	Sat, 10 May 2025 01:51:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746824882;
-	bh=CAxTMPR8YPvt69jMr9a/HnbcXSU4cctemxa+AVtAFbs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N1We5LSVZ15+LhFsS3loTqYybJgPreqHIReEJy176pHa414yKvrmoykEIuRo4INxJ
-	 9tmo0mlpg82B/zeb1OcfORrFivYHERRq75Yv6Vdp/9dgYqcoYwSuJlecEw/gLS4BAu
-	 oSCsEwzKgHF9HBs2Wy5dS2QnW5SLLZ/GJVCTDyqvKxK/F1/6FRX8KiMgHoTWG3qC6a
-	 6N4Y4bwzkA6EOkV5ULEsiXW5ej77xwcstcqJeCw4VJGmbphc8g9GFR9AnDCy0WqWdM
-	 ZJ2Pgnklq9pxgw2YzALlThXNoxta6p5G+xD9OaEgPPtXQVnhs2Q/5Due7BvPpALYOv
-	 FlUOoI4RB3oGA==
-Date: Fri, 9 May 2025 16:08:00 -0500
-From: Rob Herring <robh@kernel.org>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
-	mturquette@baylibre.com, sboyd@kernel.org, saravanak@google.com,
-	p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 4/8] dt-bindings: PCI: renesas,r9a08g045s33-pcie: Add
- documentation for the PCIe IP on Renesas RZ/G3S
-Message-ID: <20250509210800.GB4080349-robh@kernel.org>
-References: <20250430103236.3511989-1-claudiu.beznea.uj@bp.renesas.com>
- <20250430103236.3511989-5-claudiu.beznea.uj@bp.renesas.com>
+	s=k20201202; t=1746841883;
+	bh=97RdXJzhWuNgO+NHgDHCu6JgmKsxcavy2vgt0LibjAs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=d8qycWpGU+AGABgxrrU6VoNPAPryCBC2bxzMnA6/J/cMbYKFM5nfIt2qCrGwG7oid
+	 NSf4ChlQqo5tl2ZhTJ4UNaMGVMWzCj/nlD9cGPsNHP4/VcRa3y7ggJsLt4stIZR1wH
+	 Y37kvm4o7rH4Can0bXnBpuT9ruUIWkZTSSEpS6dolU+FXHry0cDX8miZwWim+I+15v
+	 ZuVgKGHsrB7XKsX38zmUWaSHGEtBQd0BB8dXTCPugn2H1pMwADBcEu+S5hh4INW2Eq
+	 8GHIGBUJ3kcoStQ/HDXS2bZNgmzONQS7aaN6XIBrgOu86NCsVOQT0ryrLuP0QqDKIG
+	 p7By0dSD4aRMg==
+From: Mark Brown <broonie@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>
+Cc: devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-spi@vger.kernel.org, 
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Biju Das <biju.das.au@gmail.com>
+In-Reply-To: <20250424090000.136804-1-biju.das.jz@bp.renesas.com>
+References: <20250424090000.136804-1-biju.das.jz@bp.renesas.com>
+Subject: Re: (subset) [PATCH v5 0/7] Add RZ/G3E xSPI support
+Message-Id: <174684188045.50878.18296470644838923077.b4-ty@kernel.org>
+Date: Sat, 10 May 2025 10:51:20 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250430103236.3511989-5-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-On Wed, Apr 30, 2025 at 01:32:32PM +0300, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Thu, 24 Apr 2025 09:59:48 +0100, Biju Das wrote:
+> The xSPI IP found on RZ/G3E SoC similar to RPC-IF interface, but it
+> can support writes on memory-mapped area. Even though the registers are
+> different, the rpcif driver code can be reused for xSPI by adding wrapper
+> functions.
 > 
-> The PCIe IP available on the Renesas RZ/G3S complies with the PCI Express
-> Base Specification 4.0. It is designed for root complex applications and
-> features a single-lane (x1) implementation. Add documentation for it.
-> The interrupts, interrupt-names, resets, reset-names, clocks, clock-names
-> description were obtained from the hardware manual.
+> Merge strategy:
+>  Patch#7 in this series is spi related patch and has build dependency on
+>  patch#6. Maybe an Ack from SPI maintainer is required so that it can go
+>  through memory subsystem.
 > 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
->  .../pci/renesas,r9a08g045s33-pcie.yaml        | 242 ++++++++++++++++++
->  1 file changed, 242 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml b/Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
-> new file mode 100644
-> index 000000000000..354f9c3be139
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pci/renesas,r9a08g045s33-pcie.yaml
-> @@ -0,0 +1,242 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pci/renesas,r9a08g045s33-pcie.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/G3S PCIe host controller
-> +
-> +maintainers:
-> +  - Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> +
-> +description:
-> +  Renesas RZ/G3S PCIe host controller complies with PCIe Base Specification
-> +  4.0 and supports up to 5 GT/s (Gen2).
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,r9a08g045s33-pcie # RZ/G3S
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: System error interrupt
-> +      - description: System error on correctable error interrupt
-> +      - description: System error on non-fatal error interrupt
-> +      - description: System error on fatal error interrupt
-> +      - description: AXI error interrupt
-> +      - description: INTA interrupt
-> +      - description: INTB interrupt
-> +      - description: INTC interrupt
-> +      - description: INTD interrupt
-> +      - description: MSI interrupt
-> +      - description: Link bandwidth interrupt
-> +      - description: PME interrupt
-> +      - description: DMA interrupt
-> +      - description: PCIe event interrupt
-> +      - description: Message interrupt
-> +      - description: All interrupts
-> +
-> +  interrupt-names:
-> +    items:
-> +      - description: int_serr
-> +      - description: int_ser_cor
-> +      - description: int_serr_nonfatal
-> +      - description: int_serr_fatal
-> +      - description: axi_err_int
-> +      - description: inta_rc
-> +      - description: intb_rc
-> +      - description: intc_rc
-> +      - description: intd_rc
-> +      - description: intmsi_rc
+> [...]
 
-Isn't every interrupt for the root complex?
+Applied to
 
-> +      - description: int_link_bandwidth
-> +      - description: int_pm_pme
-> +      - description: dma_int
-> +      - description: pcie_evt_int
-> +      - description: msg_int
-> +      - description: int_all
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-'int_' or '_int' is redundant (and inconsistent). Drop.
+Thanks!
 
-> +
-> +  clocks:
-> +    items:
-> +      - description: System clock
-> +      - description: PM control clock
-> +
-> +  clock-names:
-> +    items:
-> +      - description: aclk
-> +      - description: clkl1pm
+[7/7] spi: rpc-if: Add write support for memory-mapped area
+      commit: b0b8d3aeadb5c49bf78305a1bc844e5a9378257c
 
-'l1pm' or 'pm'
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> +
-> +  resets:
-> +    items:
-> +      - description: AXI2PCIe Bridge reset
-> +      - description: Data link layer/transaction layer reset
-> +      - description: Transaction layer (ACLK domain) reset
-> +      - description: Transaction layer (PCLK domain) reset
-> +      - description: Physical layer reset
-> +      - description: Configuration register reset
-> +      - description: Configuration register reset
-> +
-> +  reset-names:
-> +    items:
-> +      - description: aresetn
-> +      - description: rst_b
-> +      - description: rst_gp_b
-> +      - description: rst_ps_b
-> +      - description: rst_rsm_b
-> +      - description: rst_cfg_b
-> +      - description: rst_load_b
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  dma-ranges:
-> +    description:
-> +      A single range for the inbound memory region.
-> +    maxItems: 1
-> +
-> +  renesas,sysc:
-> +    description: System controller phandle
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +
-> +  vendor-id:
-> +    const: 0x1912
-> +
-> +  device-id:
-> +    const: 0x0033
-> +
-> +  legacy-interrupt-controller:
-> +    description: Interrupt controller node for handling legacy PCI interrupts
-> +    type: object
-> +
-> +    properties:
-> +      "#address-cells":
-> +        const: 0
-> +
-> +      "#interrupt-cells":
-> +        const: 1
-> +
-> +      interrupt-controller: true
-> +
-> +      interrupts:
-> +        items:
-> +          - description: INTA interrupt
-> +          - description: INTB interrupt
-> +          - description: INTC interrupt
-> +          - description: INTD interrupt
-> +
-> +    required:
-> +      - "#address-cells"
-> +      - "#interrupt-cells"
-> +      - interrupt-controller
-> +      - interrupts
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - resets
-> +  - reset-names
-> +  - interrupts
-> +  - interrupt-names
-> +  - interrupt-map
-> +  - interrupt-map-mask
-> +  - power-domains
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - "#interrupt-cells"
-> +  - renesas,sysc
-> +  - vendor-id
-> +  - device-id
-> +
-> +allOf:
-> +  - $ref: /schemas/pci/pci-host-bridge.yaml#
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r9a08g045-cpg.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    bus {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        gic: interrupt-controller {
-> +            interrupt-controller;
-> +            #interrupt-cells = <3>;
-> +        };
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Drop. Don't need to show provider nodes for the example.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-> +
-> +        pcie@11e40000 {
-> +            compatible = "renesas,r9a08g045s33-pcie";
-> +            reg = <0 0x11e40000 0 0x10000>;
-> +            ranges = <0x03000000 0 0x30000000 0 0x30000000 0 0x8000000>;
-> +            dma-ranges = <0x42000000 0 0x48000000 0 0x48000000 0 0x8000000>;
-> +            bus-range = <0x0 0xff>;
-> +            clocks = <&cpg CPG_MOD R9A08G045_PCI_ACLK>,
-> +                     <&cpg CPG_MOD R9A08G045_PCI_CLKL1PM>;
-> +            clock-names = "aclk", "clkl1pm";
-> +            resets = <&cpg R9A08G045_PCI_ARESETN>,
-> +                     <&cpg R9A08G045_PCI_RST_B>,
-> +                     <&cpg R9A08G045_PCI_RST_GP_B>,
-> +                     <&cpg R9A08G045_PCI_RST_PS_B>,
-> +                     <&cpg R9A08G045_PCI_RST_RSM_B>,
-> +                     <&cpg R9A08G045_PCI_RST_CFG_B>,
-> +                     <&cpg R9A08G045_PCI_RST_LOAD_B>;
-> +            reset-names = "aresetn", "rst_b", "rst_gp_b", "rst_ps_b",
-> +                          "rst_rsm_b", "rst_cfg_b", "rst_load_b";
-> +            interrupts = <GIC_SPI 395 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 396 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 397 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 398 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 399 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 400 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 401 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 402 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 403 IRQ_TYPE_LEVEL_HIGH>,
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-It is very odd that you have the INTx interrupts here and below.
+Thanks,
+Mark
 
-As I mentioned in the driver, you don't need the legacy node any more. 
-Just add 'interrupt-controller' to this node and point interrupt-map to 
-this node.
-
-> +                         <GIC_SPI 404 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 405 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 409 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 410 IRQ_TYPE_LEVEL_HIGH>;
-> +            interrupt-names = "int_serr", "int_serr_cor", "int_serr_nonfatal",
-> +                              "int_serr_fatal", "axi_err_int", "inta_rc",
-> +                              "intb_rc", "intc_rc", "intd_rc",
-> +                              "intmsi_rc", "int_link_bandwidth", "int_pm_pme",
-> +                              "dma_int", "pcie_evt_int", "msg_int",
-> +                              "int_all";
-> +            #interrupt-cells = <1>;
-> +            interrupt-map-mask = <0 0 0 7>;
-> +            interrupt-map = <0 0 0 1 &pcie_intx 0>, /* INT A */
-> +                            <0 0 0 2 &pcie_intx 1>, /* INT B */
-> +                            <0 0 0 3 &pcie_intx 2>, /* INT C */
-> +                            <0 0 0 4 &pcie_intx 3>; /* INT D */
-> +            device_type = "pci";
-> +            num-lanes = <1>;
-> +            #address-cells = <3>;
-> +            #size-cells = <2>;
-> +            power-domains = <&cpg>;
-> +            renesas,sysc = <&sysc>;
-> +            vendor-id = <0x1912>;
-> +            device-id = <0x0033>;
-> +
-> +            pcie_intx: legacy-interrupt-controller {
-> +                interrupt-controller;
-> +                #interrupt-cells = <1>;
-> +                #address-cells = <0>;
-> +                interrupt-parent = <&gic>;
-> +                interrupts = <GIC_SPI 400 IRQ_TYPE_LEVEL_HIGH>,
-> +                             <GIC_SPI 401 IRQ_TYPE_LEVEL_HIGH>,
-> +                             <GIC_SPI 402 IRQ_TYPE_LEVEL_HIGH>,
-> +                             <GIC_SPI 403 IRQ_TYPE_LEVEL_HIGH>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> -- 
-> 2.43.0
-> 
 
