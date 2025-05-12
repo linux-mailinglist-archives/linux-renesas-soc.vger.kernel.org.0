@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-17005-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17006-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029E1AB43E3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 20:43:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C09CFAB4400
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 20:46:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77A5F16481E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 18:43:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 636FF3ABAAA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 18:43:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7A72297102;
-	Mon, 12 May 2025 18:43:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BF00297123;
+	Mon, 12 May 2025 18:43:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T9fjwkGE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FJpo5YFC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9163296D2E;
-	Mon, 12 May 2025 18:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CFC296FBA;
+	Mon, 12 May 2025 18:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747075392; cv=none; b=DPSMy/8MGKP8aWcf0wUasjV/LMh/1kV4HXvuLPSuXp0uZZEl8e3X1Md37e1L+RVFDy/ao9Z1cWaupbox4OAmWMNnIsJZQ80lBwgP+8Clbn1S2lnnzC5Kc4u4PWbjhFm4kHVHWB6DqxrF38d9N5BObLH7HjONNSrLWymOD5+zuSw=
+	t=1747075394; cv=none; b=LSgWUzC1lFnCGnNMl7KQHaYkxgXX8MdQZaXtlLZHc8YNSv3BAV5b0+NBmC77SbzfPXn2TONGjsHgZ3RhRvG4dY8dlyB4xEYaP2Pe6XvAs7RpGEpJB8ojlS9jPxXOLrSIP8tJ3osKYvNDslrbLfDgaTveqn5eI1yGLXpYPlyAReI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747075392; c=relaxed/simple;
-	bh=lY5aLtCni7q6rIgVuqoKqLTTUjk3cpznh3nx6uOaBww=;
+	s=arc-20240116; t=1747075394; c=relaxed/simple;
+	bh=ZqUapxjat4NVLHNKyOXq/tIgM0UFPoSITTlLAeX7Wpk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mTcYko6Ux2dgL8GXKmbGiJAGgOC08WMKweuqhe4Gpjj/7HC0uwqT5kPNQRqThIZBHlLsA7v4GpAM/+S061ItYJ7/vWTiTCKzwX9jMSW+yM0u6Bp5IdTvXEuV/zzxHUs64diMg/jMKptQb3CDc/iVnnksCmjm50UddTIJNlMta/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T9fjwkGE; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version; b=GRvzk5Mfha7ELZqh0szeJ3thj1SmhMUrLJp/HpsrSqIiMa54e1O496MD4500tUNsitQeBalYjsRZqr2WqTYjN00X7EVLnvzbjRS/CY5+4CnvSOyvfFHtKLqoOBiMwSjPEwjbXOp/MtoQxK8xNuKSJE7Ogs4/icrmBZlAcWDJF28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FJpo5YFC; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a1d8c09683so2656402f8f.0;
-        Mon, 12 May 2025 11:43:10 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a1d8c09683so2656425f8f.0;
+        Mon, 12 May 2025 11:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747075389; x=1747680189; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1747075391; x=1747680191; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=azMvcNcz3TPSpcIeI7nA8x1lWHBnDiML7/XRfEHnVf0=;
-        b=T9fjwkGEH3ks2PQh8IU3F2r7R4R6zaAtM4V+r8UsWAWN5y2Bx6cru0CjAaUoVpCoM+
-         3C2e1ygkaPACVgj9BFeax3QjDGY0RpWjk00Jcp4Wa+P31F3Fwf109FyiVvxDSoNLxJ9x
-         g8h6Sq0LR95r1zi9v7EAhtEINXjY9pIDp8ZMRAA6GX7piYHaL0utRMrqhJb9od7p5Onr
-         pKcNsp+cQ9G17IYl0VbIV4JFJivWH4WWXd4hqg7VgoHbpn2dEUYaqKUeejSnzYbFDe5z
-         97aJ7AFdSF/0+abEIbfGIMoJd/KI9urLu6A07y3UwRtQpb7Gb6rG69QrI+UKdZ9JvO2N
-         MZHg==
+        bh=kd8ToXBYqgNmbVcyeLHk5NPIyHmj3DKveR0qgHKffVY=;
+        b=FJpo5YFCrZZhkN/svAmwR15978eCAtdR1gSV3Pc+44idy1SH46EE6if/BxU4P+87aT
+         akUVwE/b+3yOAWZ/icM3AAQgTXLKksISpZ/kAo4tF1TGsuqyIVW79IBLhQVoi9j6GKDF
+         lmIAZ8g+Fef7IUC8/ZQTzV9U46I0hEpUKBlTOCek38nknuSo6F24jioIOhpR8k0vaTq6
+         ogXoxXRiP7iOZOaxUmVVaEvhB+RDS/lyZvMGLRiEnXN2AxCLFZmxzKOiMcuhLm6L6iBy
+         vRu9uixO/VkFVOKJGmODBhbgHrPmlYn9fg/uJVdDm78F/D9RAdzZxyb9hyc3Fb7UFN9b
+         plmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747075389; x=1747680189;
+        d=1e100.net; s=20230601; t=1747075391; x=1747680191;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=azMvcNcz3TPSpcIeI7nA8x1lWHBnDiML7/XRfEHnVf0=;
-        b=h5pq/0txNlf2mbOwAzMXiMzq3UPknFsrBU+EMkMuUekR5IfAf4gykdL2WdSdBHLp73
-         49QmISNQrBvk3ptxU0BWNg/wZjTZyxWSkpbjs9wyT82UY8O/Pjmo2EgO1Kr2ALMzCWMp
-         T6VYzvkfJz8cRRm6jOuhaDQLt/TqGVyQV6US/+z2cWCgj0W81Cz6D43Ks/R0LMveRuOl
-         4XWlGniqlux/7fGLgnmLSoSh6LCtz43CvNBhQO1nkx8192OcliK6mui3MKdWviD1/472
-         65NfBCXnlkpdKBPD7eQRvlEF1359VcvRBOXEVM1apGmXOzF7tvUck7Ik/45Eeg/Dq9V2
-         uqXA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6bril4NoyjmBCXOmTIsb8T4MkC7dTImLK5NA04oak5pyqLcUlQw7eYIEy5/vI8lr3eWnLrTRGPIZsMsoK5sl6/j0=@vger.kernel.org, AJvYcCUzN/vVlsinUNk58EF4aq9BplrwFD8+q58JeqXcjdL1RQY89bhbLRjZ2e5PIGqp53aMShE5DqB8ATDB@vger.kernel.org, AJvYcCVnr/Bi3xrGWpKp2c80cRzkMcwX07FQxkOB7QDBEmKW/BSlzODgILYMHr4lsxiTdCfCsUQioOPmIZj3@vger.kernel.org, AJvYcCWLPYs8AmfVmteebgkf6KD9eSxb5hvj5rMngfk9ascu3kGyRna1adZv+itsSJmXnF8kdAhgTo56nH6ZJO3B@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1v4rkWbUpp4v3a3cht3Os57ZruKEZfre+MaWddH1yPpoQ9SwA
-	lxxxz6O0kXL48vBD2/93j6ajOYHh3q0NW7qvwdShsIpXGTX4KYl1
-X-Gm-Gg: ASbGncvughurNv+sNLFAM4jriYOoHndNv97yPOOY9IN0vkc7PqelCPPGBQp0s+/JpN6
-	gWf9zh5ZUMiag+f6G6zRTmleNBcE1kAZ6cBWgnDDc8yH48Wi7lCz6CIRJcMB5Q4Q0WXTeyW13B9
-	3Uc4qLQpdvezgzsFBQdJCrxymlr2KAAs1xhPul4jkOrnxgv4G7AQI1FKKfygUY7lBnA0RpbE7O9
-	Y05Gh4ehBKBE5GF/H1cDsIBQI/QhQiK7JcHqyR9918p+ocwmk675mkQYvlF5yCR4UfLqvU9QA04
-	cDWrzMqyYztYdMdwD2bt8orwyP8SFWwEmpJV9IV97BlsAlvwyfNaMPh7F3XIcJ/VdYOQFJu2koY
-	i
-X-Google-Smtp-Source: AGHT+IGFClg3IwDwx4DURAlaVvKP/mmEHxfypUn+RQTuJTpjwIaYcxr0sukduLrQJznf3IjTHsg3cQ==
-X-Received: by 2002:adf:e647:0:b0:3a1:f78a:42f7 with SMTP id ffacd0b85a97d-3a1f78a49dfmr9352353f8f.32.1747075388933;
-        Mon, 12 May 2025 11:43:08 -0700 (PDT)
+        bh=kd8ToXBYqgNmbVcyeLHk5NPIyHmj3DKveR0qgHKffVY=;
+        b=PmrT/Ya2LGfCXYG27EE1qh4gEfopfh3JgDRwCrIYoLCMGYhE4lAXPimEluqIj6zezL
+         YnWia0+tGAXouH7sDbDgpMtyqkXim06cgL/468bTyCff14qTusJCPTXmddpyQM2o5wKV
+         QxBn6Fh6TdBg1NhMlG8bon+5KJLfWtGuXrnc9OdD6ZIkH3mgCS1q3oduaZnHUmB3IPs9
+         r/Z5nSv7jwAX6/HwNUYDQ7WGslx+lxh34/rl+acd72jJoBdU6hW82dbcKR6lN4wor8RL
+         ECSDmZ50VpuiqVlIFMBWsaBxydszrT6w+oMUPQwoLsFca16ygqS4feYHnymyfwsFx21e
+         vBpg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3VHnCYLBlo653Ggd+W2bocf7m5RMWX1e+399YAZ+WUxQgkqAHdN0CaFuxzmpe8bycLtS4ViC3Bw+L@vger.kernel.org, AJvYcCUCHuXekbsZT5tC8yqisecWUbSzBthPEc+d2ZoMAIoclV3QEYmjKlY+thMytQIOlnj0gwh2iegI+TK5@vger.kernel.org, AJvYcCWp3ccOFBW1/U5tL7f2S9eBF5zcQA9nerfKYAoGhE47WI+bH4UJBP1Lz5oDIfzIyJgfsyMCNln4yrodNRPBx1lkwDg=@vger.kernel.org, AJvYcCXQoL9/gLqjhhL6VruZQcls5jPcDV7YxDsCj26elcsixOrZ2pjzCScyl/rwYGP8Y7O68UZaCK4Fwla79v2S@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9qJd+2p1DjK05SygGeolHpbgOuyGqNIjrm8zIz1u+ID8VWpNc
+	TXX1olFtn26e0SblwQpkII7MVVbdiamIKsQZmzMhQH0aCsfLDqCf
+X-Gm-Gg: ASbGnctO+5qrXpHW9LIVzGqiAqjm9IsjESvKgNVI37f2pBFixQ/gc6giUWo+qWGegM+
+	7kOb15RlJIavbShCTm6N69uOIf9ub8qIrP7l3Y+16Es9yd5FRn/+UGezNxCDlG7+eXw+mK8b8gc
+	uJOY437IjBv+ncvKVrEJk5STl/i9Zf7PCcLkQyV2rROoY9LELa5Q9mIW4RyUzfUF3K2inh29ley
+	5wCltSn/r82F11yUYIwonMUJyb4Ut13j9KZvoDeeSFv97mMXgQcSHP/Szm59gFZkEljvgSWbSFc
+	nLFyaaqArQnJTDMvOBbLWxAAcXKlNoLmLXOYVQ8z+MEmbiPOLrnKeqUln//4taEuILp0evrin+O
+	A
+X-Google-Smtp-Source: AGHT+IGI/+dH/CdURfxD6W7eKPlxKN1PN9yE2+rZsr9QKCyZcAYXw2DqE75q2i4hHMhdjtyzGe26ew==
+X-Received: by 2002:a05:6000:1868:b0:3a0:b392:c2f with SMTP id ffacd0b85a97d-3a1f648782cmr10654178f8f.44.1747075390143;
+        Mon, 12 May 2025 11:43:10 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:581b:951a:bc46:a124])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f57ddd53sm13309203f8f.1.2025.05.12.11.43.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f57ddd53sm13309203f8f.1.2025.05.12.11.43.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 May 2025 11:43:08 -0700 (PDT)
+        Mon, 12 May 2025 11:43:09 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -101,10 +101,11 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-clk@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 2/4] clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
-Date: Mon, 12 May 2025 19:43:00 +0100
-Message-ID: <20250512184302.241417-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v5 3/4] dt-bindings: display: bridge: renesas,dsi: Add support for RZ/V2H(P) SoC
+Date: Mon, 12 May 2025 19:43:01 +0100
+Message-ID: <20250512184302.241417-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250512184302.241417-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -118,11 +119,17 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add clock and reset entries for the DSI and LCDC peripherals.
+The MIPI DSI interface on the RZ/V2H(P) SoC is nearly identical to that of
+the RZ/G2L SoC. While the LINK registers are the same for both SoCs, the
+D-PHY registers differ. Additionally, the number of resets for DSI on
+RZ/V2H(P) is two compared to three on the RZ/G2L.
 
-Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To accommodate these differences, a SoC-specific
+`renesas,r9a09g057-mipi-dsi` compatible string has been added for the
+RZ/V2H(P) SoC.
+
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
 v4->v5:
 - No changes
@@ -131,178 +138,165 @@ v3->v4:
 - No changes
 
 v2->v3:
-- Reverted CSDIV0_DIVCTL2() to use DDIV_PACK()
-- Renamed plleth_lpclk_div4 -> cdiv4_plleth_lpclk
-- Renamed plleth_lpclk -> plleth_lpclk_gear
+- Collected reviewed tag from Krzysztof
 
 v1->v2:
-- Changed CSDIV0_DIVCTL2 to the NO_RMW
+- Kept the sort order for schema validation
+- Added  `port@1: false` for RZ/V2H(P) SoC
 ---
- drivers/clk/renesas/r9a09g057-cpg.c | 63 +++++++++++++++++++++++++++++
- drivers/clk/renesas/rzv2h-cpg.h     |  3 ++
- 2 files changed, 66 insertions(+)
+ .../bindings/display/bridge/renesas,dsi.yaml  | 116 +++++++++++++-----
+ 1 file changed, 87 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9a09g057-cpg.c
-index da908e820950..a79b67181f11 100644
---- a/drivers/clk/renesas/r9a09g057-cpg.c
-+++ b/drivers/clk/renesas/r9a09g057-cpg.c
-@@ -6,6 +6,7 @@
-  */
+diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+index e08c24633926..5980df2b389b 100644
+--- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+@@ -14,16 +14,17 @@ description: |
+   RZ/G2L alike family of SoC's. The encoder can operate in DSI mode, with
+   up to four data lanes.
  
- #include <linux/clk-provider.h>
-+#include <linux/clk/renesas-rzv2h-dsi.h>
- #include <linux/device.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-@@ -30,6 +31,7 @@ enum clk_ids {
- 	CLK_PLLCA55,
- 	CLK_PLLVDO,
- 	CLK_PLLETH,
-+	CLK_PLLDSI,
- 	CLK_PLLGPU,
- 
- 	/* Internal Core Clocks */
-@@ -58,6 +60,9 @@ enum clk_ids {
- 	CLK_SMUX2_GBE0_RXCLK,
- 	CLK_SMUX2_GBE1_TXCLK,
- 	CLK_SMUX2_GBE1_RXCLK,
-+	CLK_DIV_PLLETH_LPCLK,
-+	CLK_CSDIV_PLLETH_LPCLK,
-+	CLK_PLLDSI_SDIV2,
- 	CLK_PLLGPU_GEAR,
- 
- 	/* Module Clocks */
-@@ -78,6 +83,26 @@ static const struct clk_div_table dtable_2_4[] = {
- 	{0, 0},
- };
- 
-+static const struct clk_div_table dtable_2_32[] = {
-+	{0, 2},
-+	{1, 4},
-+	{2, 6},
-+	{3, 8},
-+	{4, 10},
-+	{5, 12},
-+	{6, 14},
-+	{7, 16},
-+	{8, 18},
-+	{9, 20},
-+	{10, 22},
-+	{11, 24},
-+	{12, 26},
-+	{13, 28},
-+	{14, 30},
-+	{15, 32},
-+	{0, 0},
-+};
+-allOf:
+-  - $ref: /schemas/display/dsi-controller.yaml#
+-
+ properties:
+   compatible:
+-    items:
++    oneOf:
+       - enum:
+-          - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
+-          - renesas,r9a07g054-mipi-dsi # RZ/V2L
+-      - const: renesas,rzg2l-mipi-dsi
++          - renesas,r9a09g057-mipi-dsi # RZ/V2H(P)
 +
- static const struct clk_div_table dtable_2_64[] = {
- 	{0, 2},
- 	{1, 4},
-@@ -94,6 +119,14 @@ static const struct clk_div_table dtable_2_100[] = {
- 	{0, 0},
- };
++      - items:
++          - enum:
++              - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
++              - renesas,r9a07g054-mipi-dsi # RZ/V2L
++          - const: renesas,rzg2l-mipi-dsi
  
-+static const struct clk_div_table dtable_16_128[] = {
-+	{0, 16},
-+	{1, 32},
-+	{2, 64},
-+	{3, 128},
-+	{0, 0},
-+};
+   reg:
+     maxItems: 1
+@@ -49,34 +50,56 @@ properties:
+       - const: debug
+ 
+   clocks:
+-    items:
+-      - description: DSI D-PHY PLL multiplied clock
+-      - description: DSI D-PHY system clock
+-      - description: DSI AXI bus clock
+-      - description: DSI Register access clock
+-      - description: DSI Video clock
+-      - description: DSI D-PHY Escape mode transmit clock
++    oneOf:
++      - items:
++          - description: DSI D-PHY PLL multiplied clock
++          - description: DSI D-PHY system clock
++          - description: DSI AXI bus clock
++          - description: DSI Register access clock
++          - description: DSI Video clock
++          - description: DSI D-PHY Escape mode transmit clock
++      - items:
++          - description: DSI D-PHY PLL multiplied clock
++          - description: DSI AXI bus clock
++          - description: DSI Register access clock
++          - description: DSI Video clock
++          - description: DSI D-PHY Escape mode transmit clock
+ 
+   clock-names:
+-    items:
+-      - const: pllclk
+-      - const: sysclk
+-      - const: aclk
+-      - const: pclk
+-      - const: vclk
+-      - const: lpclk
++    oneOf:
++      - items:
++          - const: pllclk
++          - const: sysclk
++          - const: aclk
++          - const: pclk
++          - const: vclk
++          - const: lpclk
++      - items:
++          - const: pllclk
++          - const: aclk
++          - const: pclk
++          - const: vclk
++          - const: lpclk
+ 
+   resets:
+-    items:
+-      - description: MIPI_DSI_CMN_RSTB
+-      - description: MIPI_DSI_ARESET_N
+-      - description: MIPI_DSI_PRESET_N
++    oneOf:
++      - items:
++          - description: MIPI_DSI_CMN_RSTB
++          - description: MIPI_DSI_ARESET_N
++          - description: MIPI_DSI_PRESET_N
++      - items:
++          - description: MIPI_DSI_ARESET_N
++          - description: MIPI_DSI_PRESET_N
+ 
+   reset-names:
+-    items:
+-      - const: rst
+-      - const: arst
+-      - const: prst
++    oneOf:
++      - items:
++          - const: rst
++          - const: arst
++          - const: prst
++      - items:
++          - const: arst
++          - const: prst
+ 
+   power-domains:
+     maxItems: 1
+@@ -130,6 +153,41 @@ required:
+ 
+ additionalProperties: false
+ 
++allOf:
++  - $ref: ../dsi-controller.yaml#
 +
- /* Mux clock tables */
- static const char * const smux2_gbe0_rxclk[] = { ".plleth_gbe0", "et0_rxclk" };
- static const char * const smux2_gbe0_txclk[] = { ".plleth_gbe0", "et0_txclk" };
-@@ -113,6 +146,7 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
- 	DEF_PLL(".pllca55", CLK_PLLCA55, CLK_QEXTAL, PLLCA55),
- 	DEF_FIXED(".pllvdo", CLK_PLLVDO, CLK_QEXTAL, 105, 2),
- 	DEF_FIXED(".plleth", CLK_PLLETH, CLK_QEXTAL, 125, 3),
-+	DEF_PLLDSI(".plldsi", CLK_PLLDSI, CLK_QEXTAL, PLLDSI),
- 	DEF_PLL(".pllgpu", CLK_PLLGPU, CLK_QEXTAL, PLLGPU),
- 
- 	/* Internal Core Clocks */
-@@ -148,6 +182,12 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
- 	DEF_SMUX(".smux2_gbe0_rxclk", CLK_SMUX2_GBE0_RXCLK, SSEL0_SELCTL3, smux2_gbe0_rxclk),
- 	DEF_SMUX(".smux2_gbe1_txclk", CLK_SMUX2_GBE1_TXCLK, SSEL1_SELCTL0, smux2_gbe1_txclk),
- 	DEF_SMUX(".smux2_gbe1_rxclk", CLK_SMUX2_GBE1_RXCLK, SSEL1_SELCTL1, smux2_gbe1_rxclk),
-+	DEF_FIXED(".cdiv4_plleth_lpclk", CLK_DIV_PLLETH_LPCLK, CLK_PLLETH, 1, 4),
-+	DEF_CSDIV(".plleth_lpclk_gear", CLK_CSDIV_PLLETH_LPCLK, CLK_DIV_PLLETH_LPCLK,
-+		  CSDIV0_DIVCTL2, dtable_16_128),
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,r9a09g057-mipi-dsi
++    then:
++      properties:
++        clocks:
++          maxItems: 5
 +
-+	DEF_PLLDSI_DIV(".plldsi_sdiv2", CLK_PLLDSI_SDIV2, CLK_PLLDSI,
-+		       CSDIV1_DIVCTL2, dtable_2_32),
- 
- 	DEF_DDIV(".pllgpu_gear", CLK_PLLGPU_GEAR, CLK_PLLGPU, CDDIV3_DIVCTL1, dtable_2_64),
- 
-@@ -319,6 +359,22 @@ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst = {
- 						BUS_MSTOP(9, BIT(7))),
- 	DEF_MOD("cru_3_pclk",			CLK_PLLDTY_DIV16, 13, 13, 6, 29,
- 						BUS_MSTOP(9, BIT(7))),
-+	DEF_MOD("dsi_0_pclk",			CLK_PLLDTY_DIV16, 14, 8, 7, 8,
-+						BUS_MSTOP(9, BIT(14) | BIT(15))),
-+	DEF_MOD("dsi_0_aclk",			CLK_PLLDTY_ACPU_DIV2, 14, 9, 7, 9,
-+						BUS_MSTOP(9, BIT(14) | BIT(15))),
-+	DEF_MOD("dsi_0_vclk1",			CLK_PLLDSI_SDIV2, 14, 10, 7, 10,
-+						BUS_MSTOP(9, BIT(14) | BIT(15))),
-+	DEF_MOD("dsi_0_lpclk",			CLK_CSDIV_PLLETH_LPCLK, 14, 11, 7, 11,
-+						BUS_MSTOP(9, BIT(14) | BIT(15))),
-+	DEF_MOD("dsi_0_pllref_clk",		CLK_QEXTAL, 14, 12, 7, 12,
-+						BUS_MSTOP(9, BIT(14) | BIT(15))),
-+	DEF_MOD("lcdc_0_clk_a",			CLK_PLLDTY_ACPU_DIV2, 14, 13, 7, 13,
-+						BUS_MSTOP(10, BIT(1) | BIT(2) | BIT(3))),
-+	DEF_MOD("lcdc_0_clk_p",			CLK_PLLDTY_DIV16, 14, 14, 7, 14,
-+						BUS_MSTOP(10, BIT(1) | BIT(2) | BIT(3))),
-+	DEF_MOD("lcdc_0_clk_d",			CLK_PLLDSI_SDIV2, 14, 15, 7, 15,
-+						BUS_MSTOP(10, BIT(1) | BIT(2) | BIT(3))),
- 	DEF_MOD("gpu_0_clk",			CLK_PLLGPU_GEAR, 15, 0, 7, 16,
- 						BUS_MSTOP(3, BIT(4))),
- 	DEF_MOD("gpu_0_axi_clk",		CLK_PLLDTY_ACPU_DIV2, 15, 1, 7, 17,
-@@ -380,11 +436,16 @@ static const struct rzv2h_reset r9a09g057_resets[] __initconst = {
- 	DEF_RST(12, 14, 5, 31),		/* CRU_3_PRESETN */
- 	DEF_RST(12, 15, 6, 0),		/* CRU_3_ARESETN */
- 	DEF_RST(13, 0, 6, 1),		/* CRU_3_S_RESETN */
-+	DEF_RST(13, 7, 6, 8),		/* DSI_0_PRESETN */
-+	DEF_RST(13, 8, 6, 9),		/* DSI_0_ARESETN */
-+	DEF_RST(13, 12, 6, 13),		/* LCDC_0_RESET_N */
- 	DEF_RST(13, 13, 6, 14),		/* GPU_0_RESETN */
- 	DEF_RST(13, 14, 6, 15),		/* GPU_0_AXI_RESETN */
- 	DEF_RST(13, 15, 6, 16),		/* GPU_0_ACE_RESETN */
- };
- 
-+RZV2H_CPG_PLL_DSI_LIMITS(rzv2h_cpg_pll_dsi_limits);
++        clock-names:
++          maxItems: 5
 +
- const struct rzv2h_cpg_info r9a09g057_cpg_info __initconst = {
- 	/* Core Clocks */
- 	.core_clks = r9a09g057_core_clks,
-@@ -402,4 +463,6 @@ const struct rzv2h_cpg_info r9a09g057_cpg_info __initconst = {
- 	.num_resets = ARRAY_SIZE(r9a09g057_resets),
- 
- 	.num_mstop_bits = 192,
++        resets:
++          maxItems: 2
 +
-+	.plldsi_limits = &rzv2h_cpg_pll_dsi_limits,
- };
-diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-index 6f662fa86ac4..e7570db1ccf5 100644
---- a/drivers/clk/renesas/rzv2h-cpg.h
-+++ b/drivers/clk/renesas/rzv2h-cpg.h
-@@ -28,6 +28,7 @@ struct pll {
- 	})
- 
- #define PLLCA55		PLL_PACK(0x60, 1)
-+#define PLLDSI		PLL_PACK(0xc0, 1)
- #define PLLGPU		PLL_PACK(0x120, 1)
- 
- /**
-@@ -122,6 +123,8 @@ struct smuxed {
- 
- #define CSDIV0_DIVCTL0	DDIV_PACK(CPG_CSDIV0, 0, 2, CSDIV_NO_MON)
- #define CSDIV0_DIVCTL1	DDIV_PACK(CPG_CSDIV0, 4, 2, CSDIV_NO_MON)
-+#define CSDIV0_DIVCTL2	DDIV_PACK(CPG_CSDIV0, 8, 2, CSDIV_NO_MON)
-+#define CSDIV1_DIVCTL2	DDIV_PACK(CPG_CSDIV1, 8, 4, CSDIV_NO_MON)
- 
- #define SSEL0_SELCTL2	SMUX_PACK(CPG_SSEL0, 8, 1)
- #define SSEL0_SELCTL3	SMUX_PACK(CPG_SSEL0, 12, 1)
++        reset-names:
++          maxItems: 2
++    else:
++      properties:
++        clocks:
++          minItems: 6
++
++        clock-names:
++          minItems: 6
++
++        resets:
++          minItems: 3
++
++        reset-names:
++          minItems: 3
++
+ examples:
+   - |
+     #include <dt-bindings/clock/r9a07g044-cpg.h>
 -- 
 2.49.0
 
