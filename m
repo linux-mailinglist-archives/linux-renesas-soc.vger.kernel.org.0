@@ -1,148 +1,309 @@
-Return-Path: <linux-renesas-soc+bounces-16959-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16960-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99CFAB30A4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 09:38:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8394EAB30AF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 09:40:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4CF99179BE3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 07:38:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 018A51664AE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 07:40:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B20C2255F4F;
-	Mon, 12 May 2025 07:38:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B823A7DA82;
+	Mon, 12 May 2025 07:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="wB5ylTkW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iyjdWGF3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9119B7DA82;
-	Mon, 12 May 2025 07:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B042117D2;
+	Mon, 12 May 2025 07:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747035484; cv=none; b=q2vXxHlXPAgA4NsJCIdep0Z5+/a3mfbesLjCVX2Uv5OjxWuxvu6PUB17pMMs0Ok8gHX/GJ3UJEI/6y+1Rk1cncE68cY8yGQvgTb1CjtytGjYS02iEqEz/t1X32fwEZ5/ruon6z6Wqiexgsdq9VY2QQlq/4iTE4ju/0lM9/iM4NE=
+	t=1747035597; cv=none; b=GxguhlCpnNMBDDS+iXXu8ZiKFwxmFiO29rZoVyMLEMWk7bP0D4WVJZkIUphZ9NZ4uPctBUHSUZQdD8HK/qKq5rt7RXhiLNk4ww6W04w3s7a1vl7GbjbXGI3vl0HFGX+806ZwL+ke4d1YBabzS7mtORaJJaPTILQdC/A/mAy8vwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747035484; c=relaxed/simple;
-	bh=5Drhw0lH7JV00K5Rc+7Xb4PSYZ5KlaumagsBoyqZTeI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qMeRLpDKNLnaRk1sS+LXsq1OhKtyfUs9ZeubTMTwO37yvH3VSuz1DkXrPPr9P3px1Zi5bbIgkZtULJ8svbctikGZktVEehZC2lcjW8YY/AuN180H+MGMkf7UISmSGR6Ry9IasDxjZWFZQ5Z4uFR5ciuPWt4Oeo7YqNk/WkMEGtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-52b2290e290so2946431e0c.1;
-        Mon, 12 May 2025 00:38:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747035480; x=1747640280;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SLp975Qg2zkffLQn42JrqGLDxS+SB9/EcWihl2VTt2c=;
-        b=Fjo1UeTUw2UOyKTpEvmeUaUHp9RnDLig9ElVskRuYLpFjYsIAJg4dRYoQROLs4BGWB
-         8GCUKJOFHo+o43HeZloG8eSnjCaXLQzspu8/A/Sg37TpXnduLpomiHfSgA559wfU/vpr
-         vv8cpLnba3zvaUlDaz9qPK/7azxqyVj5/ZAhpLNx0P7RHjZaat3oHBHOzHHAJpFEnXc3
-         HOFFutocjwJbV7Vqoa99tV7ordUUk3X1ABGOUZNCR1I7lRGL5OLTVb8NZ2TJMGg1qlxU
-         gais4/YdnseH5N2t80xDxxthlZrTHWTbu1mFzQUMG4YSmejdvofqYQSQcsO5ZDpDiGZR
-         xirg==
-X-Forwarded-Encrypted: i=1; AJvYcCVPosIoUL3U5OkoLpHb2wOwjwM08B+nXRFpmdep/iuWPUWZ+57NBlWrqhaVnZ+8HoOeqUQuJlV+IR7+Vmo=@vger.kernel.org, AJvYcCVYr/p9ADONXrE1dewPuK1DJijuDYfELv6H0aOwYr2vVdvp3Zok/nrRUJZWQMLk245WlzPxjHZ3CVHfu/0=@vger.kernel.org, AJvYcCWAcpt5NhMTzjCm8OSu886jbP3bdNgYn9aU+bzdMR3yV4ANy8RDnrF1oMkoLuS8pRnPXC1hR750A8HISG9y1tOip2s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwmY20O8K268y7PhtJ4GPbKWpbDX3E0nuB83TmZGJTx2sKTxF9
-	9CPXqZgWIQNEaTze3fsj+iyKZKTaXzvfJg76CuNJT/SAxFCsUwEczTdQtbX8
-X-Gm-Gg: ASbGnctXg2B2AMd2zMY+kN5svVnFOJZJ9AzXwbxoGQXMtcNuZzpxB3YZ4chyROsFWvQ
-	xZ68M53XVM+kbzMX+OdCjhEj2tkXXkryJ5cDTx2242oWXSl2Jy8Ix0eZsB5VzvTtcmyh0vH1Dy+
-	WTWEcYEyXEbcaM6JtkIcwPB041maU8/X6lH0R0354o0pG+7AhnDFGc7jzmsmEJRsMIByddysyJq
-	QuUSdCghWVvtqez6g1iEch3YbSoQhLGx6tO26rRSFeMBf5trsTiEzDi7uGmcBBlfg4qzhoPa3x7
-	yPV5ovLv3QKY2yD746uhcIuQMpDme0SR4O2rCKg77+4vx/4ExVo2w9XXFv1xvgI/yP9DjgAw9xa
-	sViK/O4UcGhGDDw==
-X-Google-Smtp-Source: AGHT+IHxx7MEDaAesY0paOqmuyej7DqN+tfa0P+HDkgtIvrOk6hrZ1Dyw4h+Okl7joKm/RR7iXy9+w==
-X-Received: by 2002:a05:6122:3117:b0:520:5185:1c71 with SMTP id 71dfb90a1353d-52c53ca9ddbmr9989881e0c.7.1747035480516;
-        Mon, 12 May 2025 00:38:00 -0700 (PDT)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-879f6297d64sm4672760241.30.2025.05.12.00.38.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 May 2025 00:38:00 -0700 (PDT)
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-8797ade0b5aso2470250241.3;
-        Mon, 12 May 2025 00:38:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXKUv4mw5yrxhHtmBK5FzuJb8hUhNyCfLcoJloRvzjAYxPSOyXY7EN70VhoLxCD0isI1enB6TC9SOqYsnI=@vger.kernel.org, AJvYcCXe1+a/9b1wlXugcxEgA764z5TkBd3Y7aG+54YYyb5Snu4gPzaWMFzMXzPOj2OT2HyReimghMk4dOjxEVirfZvgSs8=@vger.kernel.org, AJvYcCXrqPRO9h3cQ67FAJz+RLXSqlObRh6bWnlFkvMBXeR4J3K4Vb6GhbDzc6Xbx8IIUlw9at9KmPZsxhf0x9s=@vger.kernel.org
-X-Received: by 2002:a05:6102:1586:b0:4c1:a15c:ab5c with SMTP id
- ada2fe7eead31-4deed3cf763mr8900141137.20.1747035479952; Mon, 12 May 2025
- 00:37:59 -0700 (PDT)
+	s=arc-20240116; t=1747035597; c=relaxed/simple;
+	bh=FpVaSSarq4tcR4f2QJcjnTtngywjOYPRDDa3yoClAqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i1ITOhmiOxxZpprsDjVDJ8evdGJWHNe0AyUxHKXasjuGbP+r7Wwj09DaK+H655iJCpWPTQFTLVt0TqmXnJWtZTq8C1vs/PR/FQ7H4NyZBCiSFY8MiQeLabigyO1q//5h3sDXVM87YBTXURsh+WiHrq5FoMMfrytGrWCgvAM5hT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=wB5ylTkW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iyjdWGF3; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id BD72413801E3;
+	Mon, 12 May 2025 03:39:53 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Mon, 12 May 2025 03:39:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1747035593;
+	 x=1747121993; bh=U6UHBQYTizP3JHafrKXPBXsDjdabH/MRB1uEvjLFgtY=; b=
+	wB5ylTkW3CX/y03eygW5LVB4uVnwSG+EBG2fWO+ir9UUUHbITHtSsNqo3zEyNoh2
+	SlUqvx5ptvRYrv5Rk488ZANdcyErdw6y/yEGN5seoKkQLAx3Y5X+VHf8ddTRFCG7
+	fLgeTWdTqfQUP2KrYRYOIijzmgkCjDCa0q3wDsRTRalE+khrxV1WWPGMwWUjnx2T
+	S557uo4BDb8BCCe55+eVMZXRzVDdjv0cPn/Dv0TBviEZRDRfRxUSEhawU3dCMG2N
+	bv1yWcDRPKJYloUB+76FWbhEAp1bTGdCb6e5ZwHoOvVoOI4D0V25SqTEMYpEWW4P
+	Wwwsd5e0HLPgN1V7WNUG9Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747035593; x=
+	1747121993; bh=U6UHBQYTizP3JHafrKXPBXsDjdabH/MRB1uEvjLFgtY=; b=i
+	yjdWGF3AJ96SAs2zGoqbF8OS7cagWRUAMc/u0QDVlS/UkTx/7nBBaG9+JM0AaC7P
+	fps6xCfI/iMRXLnNMVEHUGoHZlYpLw/eG/60mGUKumJLpmOdEOq5bvn+5w7cySe7
+	Q+NCKsnEoG90hRapmRnhXzo35AkiOXPb/5//wbWJU20kbJI4FhygZPLa++kWQSz5
+	SRub/Cl7VO/FydmN5/aK32f3VB/WdVuyfofKW9XJilcgyx21H+LvoTEAfbvEfehr
+	gychjjp12JhEQRlENVMP4orUA6MfR2P1md/+JRD0XnqMbFC7b+AyQuWrjR1Zzzg3
+	fz5Z3PxymeJ19YXnEzweQ==
+X-ME-Sender: <xms:yKUhaIyq3iQqLbpJMcGLhZ4cICe8BhS2DvWlqXwl0LJmzRObyWVd-Q>
+    <xme:yKUhaMSBDqnbAqflb_L0ABnnsGbNGU7AkZ06DRzuJTNMw9ygsv33J7f3695i0E-KA
+    2vv_pFdr50v8tRJisU>
+X-ME-Received: <xmr:yKUhaKWw05MYx4yKkWopxRJava5VRpLI6YMb85j3FF8AgPjXMjhCMldb1Ys2YsRzSd_01hheEXMsrGa0z8GQS3FZ-orYkMLX7Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeftddtieekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
+    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
+    houggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeev
+    teegtddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdr
+    shhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpd
+    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehkuhhnihhnohhrihdrmhhorhhimhho
+    thhordhggiesrhgvnhgvshgrshdrtghomhdprhgtphhtthhopehukhhlvghinhgvkheskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghr
+    mhdrtghomhdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsg
+    gvpdhrtghpthhtoheplhhinhhugiesrghrmhhlihhnuhigrdhorhhgrdhukhdprhgtphht
+    thhopeifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqphifmh
+    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghs
+    rghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghijhhurd
+    gurghsrdhjiiessghprdhrvghnvghsrghsrdgtohhm
+X-ME-Proxy: <xmx:yKUhaGjg1VRAJdwAS1npQ6i0sEynWXh6ywcpxE0d0P3QVTY_jw5IxA>
+    <xmx:yKUhaKDA0ZIuXCpGMHRjdQstx_ERPLeySTXWl7NdhNj3u52olSMJnA>
+    <xmx:yKUhaHJgxcqUuMYFPjMCA0hXYOEDU9pr7MMVsXDFfTK_45TVn9rYeQ>
+    <xmx:yKUhaBAOZuL9sR_rg-7WSsS34E9Y7muur31dJWq4weq-ve3H5uI-yA>
+    <xmx:yaUhaKXhxI9Ap5xcy1DNxTykOUgrGQpTgV5UCiXO77hVRzhOmq-JHXTu>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 12 May 2025 03:39:51 -0400 (EDT)
+Date: Mon, 12 May 2025 09:39:49 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: =?utf-8?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <ukleinek@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
+	linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v4] pwm: tidyup PWM menu for Renesas
+Message-ID: <20250512073949.GC2365307@ragnatech.se>
+References: <877c2mxrrr.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250511174730.944524-1-niklas.soderlund+renesas@ragnatech.se>
- <20250511174730.944524-5-niklas.soderlund+renesas@ragnatech.se>
- <10d2ae58-8da8-4802-95be-951d8b376551@oracle.com> <20250511200333.GA2365307@ragnatech.se>
-In-Reply-To: <20250511200333.GA2365307@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 12 May 2025 09:37:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUbMRBFV-7hDMQ3-UKAhzfbGM5yZJz05aGAHpOKZ5eKcQ@mail.gmail.com>
-X-Gm-Features: AX0GCFv4mK9yFSt4H6ZSbJXJ35sEvvzAc6m6xC4P1ntDvWSO0by1MSAp2bcf0I0
-Message-ID: <CAMuHMdUbMRBFV-7hDMQ3-UKAhzfbGM5yZJz05aGAHpOKZ5eKcQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] media: rcar-csi2: Add D-PHY support for V4H
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: ALOK TIWARI <alok.a.tiwari@oracle.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <877c2mxrrr.wl-kuninori.morimoto.gx@renesas.com>
 
-Hi Niklas,
+Hi Morimoto-san,
 
-On Sun, 11 May 2025 at 22:03, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2025-05-12 00:37:09 +0530, ALOK TIWARI wrote:
-> > On 11-05-2025 23:17, Niklas S=C3=B6derlund wrote:
-> > > +   rcsi2_write16(priv, V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG, 0=
-x0404);
-> > > +   rcsi2_write16(priv, V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG, 0=
-x040c);
-> > > +   rcsi2_write16(priv, V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG, 0=
-x0414);
-> > > +   rcsi2_write16(priv, V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG, 0=
-x041c);
+I like cleanup patches!
 
- [...]
+On 2025-05-12 06:33:12 +0000, Kuninori Morimoto wrote:
+> Because current PWM Kconfig is sorting by symbol name,
+> it looks strange ordering in menuconfig.
+> 
+> =>	[ ]   Renesas R-Car PWM support
+> =>	[ ]   Renesas TPU PWM support
+> 	[ ]   Rockchip PWM support
+> =>	[ ]   Renesas RZ/G2L General PWM Timer support
+> =>	[ ]   Renesas RZ/G2L MTU3a PWM Timer support
+> 
+> Let's use common CONFIG_PWM_RENESAS_xxx symbol name for Renesas,
+> and sort it.
 
-> > Instead of manually writing each call, it could use a loop ?
-> >
-> > for (int i =3D 0x0404; i <=3D 0x07fc; i +=3D 0x08) {
-> >     rcsi2_write16(priv, V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG, i);
->
-> Unfortunately the values are not all sequential, see the progression
-> 0x061c -> 0x0623 and 0x071c -> 0x0723 for example.
->
-> > or if values are not strictly sequential, iterating over the array.
-> > static const u16 register_values[]=3D {0x0404, 0x040c, 0x0414 etc,,}
-> > rcsi2_write16(priv, V4H_CORE_DIG_COMMON_RW_DESKEW_FINE_MEM_REG,
-> > register_values[i]);
->
-> I agree with you, a array of values would make this look a tad less
-> silly and would reduce the number of lines. I considered this while
-> writing it but opted for this. My reason was as most of the register
-> writes needed to setup the PHY are not documented in the docs I have and
-> I wanted to keep the driver as close to the table of magic values I have
-> to make it easy to compare driver and the limited documentation.
->
-> I guess it's really a matter of style. I have no real strong opinion, if
-> people think an array would be nicer I have no issue switching to that.
+I think you also need to update the symbol names in the various config 
+files found in tree. A quick look,
 
-Have you looked at the impact on kernel size?
+    $ git grep CONFIG_PWM_RCAR -- arch
+    arch/arm/configs/multi_v7_defconfig:1206:CONFIG_PWM_RCAR=m
+    arch/arm/configs/shmobile_defconfig:220:CONFIG_PWM_RCAR=y
+    arch/arm64/configs/defconfig:1553:CONFIG_PWM_RCAR=m
 
-Gr{oetje,eeting}s,
+    $ git grep CONFIG_PWM_RZG2L_GPT -- arch
+    arch/arm64/configs/defconfig:1534:CONFIG_PWM_RZG2L_GPT=m
 
-                        Geert
+    $ git grep CONFIG_PWM_RZ_MTU3 -- arch
+    arch/arm64/configs/defconfig:1556:CONFIG_PWM_RZ_MTU3=m
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+> v3 -> v4
+> 	- Based on linux-next/master
+> 
+>  arch/arm/configs/multi_v7_defconfig |  2 +-
+>  arch/arm/configs/shmobile_defconfig |  2 +-
+>  arch/arm64/configs/defconfig        |  6 ++--
+>  drivers/pwm/Kconfig                 | 44 ++++++++++++++---------------
+>  drivers/pwm/Makefile                |  6 ++--
+>  5 files changed, 30 insertions(+), 30 deletions(-)
+> 
+> diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+> index dc4b722ad4b5..50c170b4619f 100644
+> --- a/arch/arm/configs/multi_v7_defconfig
+> +++ b/arch/arm/configs/multi_v7_defconfig
+> @@ -1184,7 +1184,7 @@ CONFIG_PWM_BCM2835=y
+>  CONFIG_PWM_BRCMSTB=m
+>  CONFIG_PWM_FSL_FTM=m
+>  CONFIG_PWM_MESON=m
+> -CONFIG_PWM_RCAR=m
+> +CONFIG_PWM_RENESAS_RCAR=m
+>  CONFIG_PWM_RENESAS_TPU=y
+>  CONFIG_PWM_ROCKCHIP=m
+>  CONFIG_PWM_SAMSUNG=m
+> diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+> index 0ea34d5d797c..7c3d6a8f0038 100644
+> --- a/arch/arm/configs/shmobile_defconfig
+> +++ b/arch/arm/configs/shmobile_defconfig
+> @@ -203,7 +203,7 @@ CONFIG_RZ_DMAC=y
+>  CONFIG_IIO=y
+>  CONFIG_AK8975=y
+>  CONFIG_PWM=y
+> -CONFIG_PWM_RCAR=y
+> +CONFIG_PWM_RENESAS_RCAR=y
+>  CONFIG_PWM_RENESAS_TPU=y
+>  CONFIG_PHY_RCAR_GEN2=y
+>  CONFIG_PHY_RCAR_GEN3_USB2=y
+> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+> index d0768584647c..fe021cbb6393 100644
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -1536,11 +1536,11 @@ CONFIG_PWM_IMX27=m
+>  CONFIG_PWM_MESON=m
+>  CONFIG_PWM_MTK_DISP=m
+>  CONFIG_PWM_MEDIATEK=m
+> -CONFIG_PWM_RCAR=m
+> +CONFIG_PWM_RENESAS_RCAR=m
+> +CONFIG_PWM_RENESAS_RZG2L_GPT=m
+> +CONFIG_PWM_RENESAS_RZ_MTU3=m
+>  CONFIG_PWM_RENESAS_TPU=m
+>  CONFIG_PWM_ROCKCHIP=y
+> -CONFIG_PWM_RZG2L_GPT=m
+> -CONFIG_PWM_RZ_MTU3=m
+>  CONFIG_PWM_SAMSUNG=y
+>  CONFIG_PWM_SL28CPLD=m
+>  CONFIG_PWM_SUN4I=m
+> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+> index c866ed388da9..d9bcd1e8413e 100644
+> --- a/drivers/pwm/Kconfig
+> +++ b/drivers/pwm/Kconfig
+> @@ -534,7 +534,7 @@ config PWM_RASPBERRYPI_POE
+>  	  Enable Raspberry Pi firmware controller PWM bus used to control the
+>  	  official RPI PoE hat
+>  
+> -config PWM_RCAR
+> +config PWM_RENESAS_RCAR
+>  	tristate "Renesas R-Car PWM support"
+>  	depends on ARCH_RENESAS || COMPILE_TEST
+>  	depends on HAS_IOMEM
+> @@ -545,26 +545,7 @@ config PWM_RCAR
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called pwm-rcar.
+>  
+> -config PWM_RENESAS_TPU
+> -	tristate "Renesas TPU PWM support"
+> -	depends on ARCH_RENESAS || COMPILE_TEST
+> -	depends on HAS_IOMEM
+> -	help
+> -	  This driver exposes the Timer Pulse Unit (TPU) PWM controller found
+> -	  in Renesas chips through the PWM API.
+> -
+> -	  To compile this driver as a module, choose M here: the module
+> -	  will be called pwm-renesas-tpu.
+> -
+> -config PWM_ROCKCHIP
+> -	tristate "Rockchip PWM support"
+> -	depends on ARCH_ROCKCHIP || COMPILE_TEST
+> -	depends on HAS_IOMEM
+> -	help
+> -	  Generic PWM framework driver for the PWM controller found on
+> -	  Rockchip SoCs.
+> -
+> -config PWM_RZG2L_GPT
+> +config PWM_RENESAS_RZG2L_GPT
+>  	tristate "Renesas RZ/G2L General PWM Timer support"
+>  	depends on ARCH_RZG2L || COMPILE_TEST
+>  	depends on HAS_IOMEM
+> @@ -575,7 +556,7 @@ config PWM_RZG2L_GPT
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called pwm-rzg2l-gpt.
+>  
+> -config PWM_RZ_MTU3
+> +config PWM_RENESAS_RZ_MTU3
+>  	tristate "Renesas RZ/G2L MTU3a PWM Timer support"
+>  	depends on RZ_MTU3
+>  	depends on HAS_IOMEM
+> @@ -586,6 +567,25 @@ config PWM_RZ_MTU3
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called pwm-rz-mtu3.
+>  
+> +config PWM_RENESAS_TPU
+> +	tristate "Renesas TPU PWM support"
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	depends on HAS_IOMEM
+> +	help
+> +	  This driver exposes the Timer Pulse Unit (TPU) PWM controller found
+> +	  in Renesas chips through the PWM API.
+> +
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called pwm-renesas-tpu.
+> +
+> +config PWM_ROCKCHIP
+> +	tristate "Rockchip PWM support"
+> +	depends on ARCH_ROCKCHIP || COMPILE_TEST
+> +	depends on HAS_IOMEM
+> +	help
+> +	  Generic PWM framework driver for the PWM controller found on
+> +	  Rockchip SoCs.
+> +
+>  config PWM_SAMSUNG
+>  	tristate "Samsung PWM support"
+>  	depends on PLAT_SAMSUNG || ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
+> diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
+> index 5c782af8f49b..96160f4257fc 100644
+> --- a/drivers/pwm/Makefile
+> +++ b/drivers/pwm/Makefile
+> @@ -48,11 +48,11 @@ obj-$(CONFIG_PWM_OMAP_DMTIMER)	+= pwm-omap-dmtimer.o
+>  obj-$(CONFIG_PWM_PCA9685)	+= pwm-pca9685.o
+>  obj-$(CONFIG_PWM_PXA)		+= pwm-pxa.o
+>  obj-$(CONFIG_PWM_RASPBERRYPI_POE)	+= pwm-raspberrypi-poe.o
+> -obj-$(CONFIG_PWM_RCAR)		+= pwm-rcar.o
+> +obj-$(CONFIG_PWM_RENESAS_RCAR)	+= pwm-rcar.o
+> +obj-$(CONFIG_PWM_RENESAS_RZG2L_GPT)	+= pwm-rzg2l-gpt.o
+> +obj-$(CONFIG_PWM_RENESAS_RZ_MTU3)	+= pwm-rz-mtu3.o
+>  obj-$(CONFIG_PWM_RENESAS_TPU)	+= pwm-renesas-tpu.o
+>  obj-$(CONFIG_PWM_ROCKCHIP)	+= pwm-rockchip.o
+> -obj-$(CONFIG_PWM_RZG2L_GPT)	+= pwm-rzg2l-gpt.o
+> -obj-$(CONFIG_PWM_RZ_MTU3)	+= pwm-rz-mtu3.o
+>  obj-$(CONFIG_PWM_SAMSUNG)	+= pwm-samsung.o
+>  obj-$(CONFIG_PWM_SIFIVE)	+= pwm-sifive.o
+>  obj-$(CONFIG_PWM_SL28CPLD)	+= pwm-sl28cpld.o
+> -- 
+> 2.43.0
+> 
+> 
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Kind Regards,
+Niklas Söderlund
 
