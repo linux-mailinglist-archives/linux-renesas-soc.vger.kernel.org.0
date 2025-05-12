@@ -1,157 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-17012-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17013-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F64AB452A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 21:49:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B17E9AB456D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 22:25:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7298E8C3FDA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 19:49:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4DB4619E1962
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 20:26:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 809F1255E2B;
-	Mon, 12 May 2025 19:49:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9781D298CCE;
+	Mon, 12 May 2025 20:25:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H7kH0Za6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PXPz5tqE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65CC1CA84;
-	Mon, 12 May 2025 19:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D31F25742F;
+	Mon, 12 May 2025 20:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747079374; cv=none; b=Fl2OuNgFKX65BURydHhHoh/DCe3QXAW47TM6wn8d/jnVCw7L50kStglnCf7yRP1LaI6UrGCPQ3bNy2MYQ5OLwbl1S2E2cqgHfU7Eeqq7LcYgPdFscyjh3Cz9x+HId/MRlDa+5UAwGViQM7RdHNYwBTzUeH2rZefG4E0xHxQPjWc=
+	t=1747081553; cv=none; b=GSZbrNd8OxTjGd2n96J5xYyO9SgyTI1YWLsb031xgABymRkGin74iZOp3Pmofg4Ar4Maj4qSXLnjNsw6qMxADbBnKInz2ZitQX7fVoeYxRQRBCGFkhsqxorNYklsfEstES8p5ygl8ik68612aSMECwZ2jsLI3WIk1KP6sSBiJTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747079374; c=relaxed/simple;
-	bh=0ea+jq9tawsp4ep8x5s5ibmfKZ+OoRVIjOhLxVL+Gbs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hgjDzzyKuin3gYLjSGAisMC008AHXURjKxVHw6k0T04fTaIhB9fhTYqIM30GiPlb1sIDvKvFVmNzOXC5IGZLiLFOF2YNFA8LDfBIN72kOb47r2Qs1JuGAGgZxpJl0dbwaQfJPR2gyM3s8wdXBU6C0GFizVnYaVUlhoJ77m3zShw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H7kH0Za6; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso32753535e9.2;
-        Mon, 12 May 2025 12:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747079371; x=1747684171; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RSiiTyR+SUvpOZu3w9u+267WlZQzAWddC0oSI9XaOBA=;
-        b=H7kH0Za6P+h3RSjj9U+G7itqUiAaxr2Dg0X5WjFHyNbde6yqsO6CVrlBfHuzTXdJUr
-         7z0els8SNSwLbizYojtk8NcxscdxtQNPqfw7UVq1Xv7/PAGYTADc9LKDMzJzJesx2DM4
-         bjV5ndsUMhJt3/ydhreVU1Xz48GdiDeiGQ0XUTDcnfokZVOpVw2duOXmJq93tKH7+P1U
-         ccx9VwywrH12BpEPh8Z8rLvq8eBM8LMEdvUXtmphKCmnP7e44FqRkWh10L9zce6UXyG3
-         uLGgcgJVP84wtaSpVU0HnxKVpVqfm+hm/fq8rdjSunZbTFye+W+ORytZSDmK+ISqXYzd
-         7OoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747079371; x=1747684171;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RSiiTyR+SUvpOZu3w9u+267WlZQzAWddC0oSI9XaOBA=;
-        b=cbDX4vumZ50vubTbLsZEIRfIbUPbp0EwOzBZyzkKFwCLlbCJekMF4M7TkRqpnH17wp
-         vCCbegahv+oMIKxyLYKtL/GXCFcESH4HV1abrG+AdkMMSrV+D6E+Ef/3Aq8xPvW/3zVr
-         XIwd5RM160B4kEhKvtgWiyAEKPyGgA+hoSt1QlikZ3zU9Z4m/HgonRXA2EdRnyP8pz8d
-         LgQ02dLd5tzXWVPGfmYPpaegBBv3d2XcDvTA4c61de+ZdTnmEZ+pnqJtvSUDIsgGtrXA
-         6fJZkgudrV4J5nLLG4LWX7N2sbGmxDgJ2XkiM30Z14NsTCEPm56Xl83tlAXOdGYEPck5
-         ng3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWDdBOXGydEkeejJ3eIdDBlTRMxvNLyfZWqYkFC75TfJCcayHbX0XODadsiOIBChoxzZL4OHC4mRP3X@vger.kernel.org, AJvYcCX7vDH+Bwm+jA/a44QuqDClwCo2lJ2vNSmIoXw+NXYmweYLtBkAlbC0enfjW+p2jFIrn3jLYeAWPCKm6waxzFuJxMg=@vger.kernel.org, AJvYcCXKPu9fmTAMdI7Xf3osMfeqCDgIhr9zdbWMznz/TOpLN2k9h5DpK3Nidll65X3183Hb9nM0UuXbcE7texX7@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8K9jDGs5qvwo2301uCZ5b50LRt26J26joXEaDWMegIWJing6L
-	NzEYyzVxEAGHMGEl8jWJiDOKkZwMr7yN23TkgN6Prk7pEKWE/FdjPhjibtiXL3UUQA/e+sxFQk6
-	8n3if+jIWtEHh1R5RsFryhd3iYQmV6lS6
-X-Gm-Gg: ASbGncslkkbJBgwEtSJXBrJ5K0VV5DGapCez+2EiGTJJDzeATpNregr2ge0hVNI+0jD
-	47wtNQDD4AsGMV7vpOC4seEVdIysOXiWkRgHXTcIUkwEaZd58gidoaroeeZgLNrHk5sEzKKo75Y
-	AOs8KJ5RwNSY3dpiDIysmJF8N6FYYnYSw=
-X-Google-Smtp-Source: AGHT+IHXn9bcwnRyYmCRV8MG1JG7GKW2zAKb4s3goQRCkyctTQW+k259Qx4iLBqZmc9e+QxhawLs1wgHdnIQEM0q8rQ=
-X-Received: by 2002:a05:600c:4e55:b0:43c:f1b8:16ad with SMTP id
- 5b1f17b1804b1-442d6ddefb8mr146970545e9.30.1747079370563; Mon, 12 May 2025
- 12:49:30 -0700 (PDT)
+	s=arc-20240116; t=1747081553; c=relaxed/simple;
+	bh=cln9IOQi28YDju/Nx39q/YI+6TzFSaKpgzcvW+4KHUg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=hMjfe/1Zyh0j52obAWOMbgSwGvfs10+989+MwMeTLFeWmln/jtCxyIDZi9su/SMporTayFnA+hLk5zCxtGBt9ZI60bRZkhI/aFLG4fsRuodW0aDKbJIGTXGgMYiTNs0BH3Nmzf9jtUs3WKglCZBUrU+50lw60Po/5YrmM7eS4GU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PXPz5tqE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69D75C4CEE9;
+	Mon, 12 May 2025 20:25:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747081552;
+	bh=cln9IOQi28YDju/Nx39q/YI+6TzFSaKpgzcvW+4KHUg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=PXPz5tqEEn7YI/LRDehuE9Wx6021yCNOYYo8cP2QO6KrLVRqheGAh6KVLIurBZPZq
+	 broMq3BnJXbatqkcOe9VxUqh8ZKa7yASR+/sANZ9lhLacbi0FrGIgsuL/ZwnP3sUaH
+	 x/SkxdHzcMtNkPCABpEvBW0xkeCXk3fHkCwVq7LIv1Tz9mM20PaKAa1qaCxMuYKiHm
+	 DimDcNqefDelEy2YoFZh7lnW9eFvbMx9q1VDBIRDZkohVJjnK7tR1jw6r4a1hnmiKf
+	 HXxw57fBCS3TKYxskUxwBF/6Rge8WGH2mnq9HfXitl6abar40pW9FMswo3O00CyBsn
+	 Yq+Ur1t4mHu2w==
+Date: Mon, 12 May 2025 15:25:50 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com,
+	manivannan.sadhasivam@linaro.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
+	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
+	saravanak@google.com, p.zabel@pengutronix.de,
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 5/8] PCI: rzg3s-host: Add Initial PCIe Host Driver for
+ Renesas RZ/G3S SoC
+Message-ID: <20250512202550.GA1126561@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250509153559.326603-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250509153559.326603-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWnaujCjK+gu8RFfrZ4a2axf=xffEOAdwsjFMvUHcfw1w@mail.gmail.com>
-In-Reply-To: <CAMuHMdWnaujCjK+gu8RFfrZ4a2axf=xffEOAdwsjFMvUHcfw1w@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 12 May 2025 20:49:04 +0100
-X-Gm-Features: AX0GCFtT9ypb887tyBvjkPornOofDipwEh_uuhsFcpkzTJjevvAivBwRNUps-s8
-Message-ID: <CA+V-a8vrF178XqqtECqNrXJRSWD8MGmBZvCbutsi2uggJWDjWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: r9a09g057h44-rzv2h-evk:
- Enable GBETH
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <26bdfbd6-7bf5-4688-b793-5d0f613d340b@tuxon.dev>
 
-Hi Geert,
+On Mon, May 05, 2025 at 02:26:43PM +0300, Claudiu Beznea wrote:
+> On 01.05.2025 23:12, Bjorn Helgaas wrote:
+> > On Wed, Apr 30, 2025 at 01:32:33PM +0300, Claudiu wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
+> >> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
+> >> only as a root complex, with a single-lane (x1) configuration. The
+> >> controller includes Type 1 configuration registers, as well as IP
+> >> specific registers (called AXI registers) required for various adjustments.
+> >>
+> >> Other Renesas RZ SoCs (e.g., RZ/G3E, RZ/V2H) share the same AXI registers
+> >> but have both Root Complex and Endpoint capabilities. As a result, the PCIe
+> >> host driver can be reused for these variants with minimal adjustments.
+> ...
 
-Thank you for the review.
+> >> +static void rzg3s_pcie_irqs_init(struct rzg3s_pcie_host *host)
+> > 
+> > This and many of the following functions have names that don't
+> > correspond to anything in other drivers, which makes it harder to
+> > transfer knowledge between the drivers.  If you can find a pattern
+> > somewhere to follow, it will make it easier for others to read the
+> > driver.
+> 
+> OK, I'll think about it. Do you have a recomentation?
 
-On Mon, May 12, 2025 at 8:05=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, 9 May 2025 at 17:36, Prabhakar <prabhakar.csengg@gmail.com> wrote=
-:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Enable the GBETH nodes on the RZ/V2H Evaluation Kit.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> LGTM, so
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> > --- a/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
-> > +++ b/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
-> > @@ -78,6 +80,68 @@ &audio_extal_clk {
-> >         clock-frequency =3D <22579200>;
-> >  };
-> >
-> > +&eth0 {
-> > +       pinctrl-0 =3D <&eth0_pins>;
-> > +       pinctrl-names =3D "default";
-> > +       phy-handle =3D <&phy0>;
-> > +       phy-mode =3D "rgmii-id";
-> > +       status =3D "okay";
-> > +
-> > +       mdio {
-> > +               #address-cells =3D <1>;
-> > +               #size-cells =3D <0>;
-> > +               compatible =3D "snps,dwmac-mdio";
->
-> I am just wondering if the above parts of the mdio subnodes should be
-> moved to the SoC-specific .dtsi instead, as it is part of the SoC and
-> fairly static?
->
-Agreed, I will move this to SoC DTSI.
+Not really.  Maybe pick a driver with recent activity.
 
-> Both approaches seem to be popular: e.g. rk3568.dtsi[1] has the mdio
-> subnode in the SoC part, and rk3568-nanopi-r5s.dts[2] extends the
-> subnode, while rk3399-orangepi.dts[3] has the full subnode in the
-> board part.
->
-> [1] arch/arm64/boot/dts/rockchip/rk3568.dtsi
-> [2] arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5s.dts
-> [3] arch/arm64/boot/dts/rockchip/rk3399-orangepi.dts
->
+> >> +static int rzg3s_pcie_probe(struct platform_device *pdev)
+> >> +{
+> >> +	struct device *dev = &pdev->dev;
+> >> +	void *devres_group_id;
+> >> +	int ret;
+> >> +
+> >> +	devres_group_id = devres_open_group(dev, NULL, GFP_KERNEL);
+> >> +	if (!devres_group_id)
+> >> +		return -ENOMEM;
+> > 
+> > What's the benefit of using devres_open_group()?  No other PCI
+> > controller drivers use it.
+> 
+> This driver uses devm_add_action_or_reset() to keep the error path simpler.
+> Some of the action or reset registered handlers access the controller
+> registers. Because the driver is attached to the platform bus and the
+> dev_pm_domain_detach() is called right after driver remove [1] having devm
+> action or reset handlers accessing controller register will later lead to
+> hangs when the device_unbind_cleanup() -> devres_release_all() will be
+> called on remove path. Other issue described in [2] may arries when doing
+> continuous unbind/bind if the driver has runtime PM API (not case for this
+> driver at the moment) that access directly controller registers.
+> 
+> This is because the dev_pm_domain_detach() drops the clocks from PM domain
+> and any subsequent pm_runtime_resume() (or similar function) call will lead
+> to no runtime resume of the device.
+> 
+> There is a solution proposed to this here [2] but it slowly progresses.
+> Until this will be solved I chosed the appraoch of having the devres group
+> opened here. If you agree with it, I had the intention to drop this call if
+> there will be an accepted solution for it. If you are OK with going forward
+> like this, for the moment, would to prefer me to add a comment about the
+> reason the devres_open_group() is used here?
+> 
+> This is not PCIe specific but platform bus specific. There are other
+> affected drivers on this side (e.g. rzg2l-adc [3], rzg3s-thermal [4]).
+> 
+> A similar solution as [2] is already used by the i2c subsystem.
 
-[3] was added earlier, [1]/[2] seem more recent. So let's go with the
-mdio node in SoC DTSI.
+OK.  Is there something unique about rzg3s that means it needs
+devres_open_group(), while other PCI controller drivers do not?  Or
+should the other drivers be using it too?  Maybe they have similar
+latent defects that should be fixed.
 
-Cheers,
-Prabhakar
+If there's something unique about rzg3s, please add a brief comment
+about what it is so we know why it needs devres_open_group().
+
+Bjorn
 
