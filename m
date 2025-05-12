@@ -1,323 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-16957-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16958-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45231AB2FA6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 08:33:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95346AB3055
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 09:13:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6BDB189A43C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 06:33:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 01D8B1891CC0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 07:14:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA01C248F6F;
-	Mon, 12 May 2025 06:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="iumBqGKk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 059712561BF;
+	Mon, 12 May 2025 07:13:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011066.outbound.protection.outlook.com [40.107.74.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8845383;
-	Mon, 12 May 2025 06:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747031602; cv=fail; b=MJtdR3sbf1u9M8Fum0O7g6rBl7Ak7l8xPO2RnITq9mahsPvG1JUmt/QcsgLAjQB3QPVI+lmKXEpaOgdUJBihcBctGuhmJN2tdtD+zYgzREV+Y0CLvlyYR33IHxSvoKKnrMjZIOsz22srYQ70pGUQrz6sAeAi2d5bCSa9Rk21cZg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747031602; c=relaxed/simple;
-	bh=NDaLmpvXiadE51giQsT0/QEyK5YZf8rQQryyotNTHEo=;
-	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=Fha2Qrod0f9Z9Oc0qi4y/4diz6xQ28N20g5HDVHRHEtu2FhfSjN4xYKzdbScBnz31R8DZJhet0ZtxhBnQB7pE8+yN/+hW2KE6R0pSI3oSbMPJrTmGPf+nUfPpfRl7ow2LIoev1kHoadZrMNoiIHFkfxA4cl+mFakRgJTVtZXlCE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=iumBqGKk; arc=fail smtp.client-ip=40.107.74.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ajK+AO+g2WNJFlFFgGK6S997EyCMfjEGSNqI/nKVwruOSNAGDCm+zFCsPIMAQvtwxoCtJ2P0c718IFVJ4PeBerKhhXSLk4aSSQRErDHV1Qr+z7hSUfKJ1o4aki+egRav5W/0MI8f2k102eVGF3tYsMcxy37WU37tVg78ky39QV2Db9zoGgGYWbBoXQC70qi/QdNhT+fAN82d2K6dNAc0OQ5cDTYSy9NjlNLEi2mQjcbtm46OfjGsXjGIeZhQomEzqTB0GBnC68Dv0/3iIcTD0sAargTcgx4kTueLX0oyeAEkFiCe8FUVLVcqfQdLbr/C5LkxE5IG7z9FaUocWTLe4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WpS+H5mWZ6vVklfrsDakD32KEs9g2KuCDOp8GciE5dk=;
- b=Vj8IePA91sB79E77nks4Qoseb35GuUTNDu/0ay7qoZLAt0GvPHvSFjQL3FVJTq9vorjCfPnB4gz14w6Qe382fejgNnbCA+XuirOiG4Jm8p2OpLyllv/WowIJVGBDpIqG0yDwtMmWITBYXrDWQjo9LF9AD7FTuNC+sqQji/N4YodmkFwL+fOmEEq4OrUH8lyeoQUchRDAXxaDfq/TuTmP5cSJMFvhDV+cokdVsD2lbb2MKzk/44wwjdHS68wgbBPifacnl6eJ0KayaiF2p8NlvPTiLoYXv4tAl196KLFDvlDiGcleA1hfqgxw5s3VI7A7NfDRJxQcAJ0Ffh94wqkaBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WpS+H5mWZ6vVklfrsDakD32KEs9g2KuCDOp8GciE5dk=;
- b=iumBqGKkLcFzdOqjwukfqz3hbFK0MrKcDF9H3O27n+WxVPh2GFiT02kLxGcSiin30VqM8PIFH33eW9911rI8XYfUBfYoXp0XvTuJStXLr5O3Zus/4Tm5mNWAc4uWEdr/PFzygYi6jX8ccHW3aHHXP6dK1DnOLYQ9RL2Y2rHw/Sk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB11255.jpnprd01.prod.outlook.com
- (2603:1096:400:3bf::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Mon, 12 May
- 2025 06:33:13 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8722.027; Mon, 12 May 2025
- 06:33:13 +0000
-Message-ID: <877c2mxrrr.wl-kuninori.morimoto.gx@renesas.com>
-To: =?ISO-8859-1?Q?=22Uwe_Kleine-K=F6nig=22?= <ukleinek@kernel.org>, Catalin
- Marinas <catalin.marinas@arm.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Russell King <linux@armlinux.org.uk>, Will
- Deacon <will@kernel.org>, linux-pwm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v4] pwm: tidyup PWM menu for Renesas
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 12 May 2025 06:33:12 +0000
-X-ClientProxiedBy: TYCPR01CA0178.jpnprd01.prod.outlook.com
- (2603:1096:400:2b2::19) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7212550CC;
+	Mon, 12 May 2025 07:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747034035; cv=none; b=ZUf9yY7WSTaO18qc/0STizTtc2tH9ti7jry+XxnhZ6WXQ9OvQi0a7jKB0i9+wP8uQI1IfPk3sCg+S9KNOziuK/vBccEnZu2DZcaqsQW5L2f+RYu4qx3iCZYeYfsDB18dZtIgdv65lVozdw3iuVT5MMAw81CY7CCKC6q3cR7LdZ0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747034035; c=relaxed/simple;
+	bh=MiHYB400XPXzuVuSmbmy6Ae2GnTT2SFpWdfVL+mLBH8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qsdnJHCrf+SDLL7Hi2Nuev0aMi/a4hLxwquHPePAX0rYYsSigwHBKBtkh6j3zuwX9Ltsu3AEo2e+DlbRvFiXxwRE8ERxvXz9TvzBx4iVinOqDS12RPJ96EidxXAniZwNitXXgr59/tK9c0zO4Gp6gEoencxYBaDDpn0VnOWm3q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4ddbb0fc1e7so1173100137.2;
+        Mon, 12 May 2025 00:13:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747034032; x=1747638832;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GXUxCsC3gl+d/1qqVBV5rMq7iPm0soQTOdcW0w9ozEo=;
+        b=RLa1AD7Tj6fL75udwKEtw0aLkanSxMbnpK6n9uhNau7Sz8oaAbCySO5ZfGYYHpTmVm
+         5BxYZIbgxKdJoOVV4unmISUw3WnsJR0+6i7bCTgkVWYTcyYqR+ynHjUjHnNBgxToQON2
+         +gtLvBvQLm/5dLF8v4oJ+fAVv88fQCZfTLjbwfqTxRlp99NbxG2M44nJre/KvFj8qNZ6
+         RLNBT4FDTLOxQkMaPu9DAL71k2Y/KNl5cgsbHlTgkRlaMC/EeClHHUGxFbPDmf5AdBlE
+         YQT/isS1tha1piZdr06a6wJ36AvbJb6pLNRUCefuSMW5j2D9hKFLYg4MbZc2vubX//q9
+         gnwg==
+X-Forwarded-Encrypted: i=1; AJvYcCWT333K7rOZjaqfbopu99/CL1lU/9aiy8ImwCeml4C0hHxSrAR2gLnZ75FxI8+RdqYi3rWft0/59uoIOg==@vger.kernel.org, AJvYcCX7m3XwxAOlHOZsLwFgWn9m8Rz0GECG+PkYtNPNV8v89Ib61I50LKYWxweYJ1Y18o+asoDK+ijhOhMQnezgurXm+r4=@vger.kernel.org, AJvYcCXRGvbz/SdjViyavDsjAFejRl1jiQgz5shz8D82FvSe0TsgawgrFTMo6HeVo6z+/sWIAglzinBR7wZi@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYiWZQ9PzymHap79VBikpG4VRj7cxckbpWHdiwemnCrLKeYMCe
+	Gu3SVuIjt8qCMde++lWoIwV1OzjsTGpZZr4GHDGWlZ9pR0+kDMFVC/k71IEY
+X-Gm-Gg: ASbGncuIqihY2Cmlw8tze+lUuubLnjulVN2Cauu3b3fGg9MQgwQmC3b1jsVfV8TYcRc
+	4eBMMIYhl5xqyTzyUgF+2VD9xntC9OIqUosvthXze1fRZ6207OEZHMtzdySmfvM6DWbsAoR3B95
+	yqM7PA9EBdEMXcZwV4H/JfeQ6v2MBrwKaPyZ197Q94wcFXXXZsoX9qJpeGop77AUHAXiT0OEsxI
+	VrxC+u7Dz85jU1a4TymazkZ4UehMkCYfyOw0sZ99PZNmN36EWFwdBhoZgREQTyRbQJYsZ2LERiT
+	HOxyVNAhAX+D/mLgXfdxwZrzcNvb6XgfJvx9ZHeIrQKnOIuw5AwmAXu9tk1/mhG8mza8TZbKdvl
+	hMR+7dUiDQEMorQ==
+X-Google-Smtp-Source: AGHT+IFMe26aLVTNktEBUTpQ9150F7qv/ZkZcYYEfF0do5NNkPXSizjfd9HA+hM7PO4Vf5tc9X6vfw==
+X-Received: by 2002:a05:6102:2b99:b0:4cb:5e02:754a with SMTP id ada2fe7eead31-4deed367340mr10432804137.11.1747034031905;
+        Mon, 12 May 2025 00:13:51 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-879f613b570sm4690679241.7.2025.05.12.00.13.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 May 2025 00:13:51 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4c9cea30173so1546487137.3;
+        Mon, 12 May 2025 00:13:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVlp7/CVaq1AJCrGGn3oxC/apmBFKKEclykcPDCA9KftLg2b5935RellWy6a+UUWxCTMmdzHt85RWBW@vger.kernel.org, AJvYcCWIT99DbMUetk/xYnODv28+KuhStuA9cFKZ+3rnAlARwI/c9evM3TFFydXCEh+zLKWiB7ypbxZmfpIZ6w==@vger.kernel.org, AJvYcCXjBnvDUnGwUsbO5nybOlr5SFxBdDflBYFuyWsVtDDaxoZQfbW+uF40IbdgSI8ErVUvmXZr6cG0sHLt11Am6LT2u6g=@vger.kernel.org
+X-Received: by 2002:a05:6102:15a0:b0:4c1:a66f:a468 with SMTP id
+ ada2fe7eead31-4deed3ec0c3mr9681496137.22.1747034031568; Mon, 12 May 2025
+ 00:13:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB11255:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9895a777-2f69-4c2e-05fd-08dd911ededc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?I95S93s8OB4skcSQ9FPRzvZAohw+wu2IPwP0Yc90x2EWGsryDvdBKezitHPx?=
- =?us-ascii?Q?4Cx/GHqbdxX0Tj1tlplS5DIjUSfdKr4Vb0lUFJVrQDZ70h6CkE3q0kgca1Yc?=
- =?us-ascii?Q?QdXUgqNVDu65KOWxLCVTn0vcLIonybmR4FMhO6IZuaSMU1nNHMo0kzeFhgnR?=
- =?us-ascii?Q?JRxvdFbvADikikcrNKz32cvVqlVIM6nUle+Sb0KNzyBivoZnuGQi8hTcwFCX?=
- =?us-ascii?Q?tgew5c5rjKFYlLtjYV3WaB6ALmxs7JHfCVxaZLxJdKqfO1gsThz/1YDTUOoE?=
- =?us-ascii?Q?omrtacIHsJR5Jo4yBLCd32qKGzWCdk3FGr+lTZ6WULxp3G/4+v8LbsKYZgS9?=
- =?us-ascii?Q?gjs8n4qZfYVQuPV6Cix9YmT0HLH7CX/yBcAcpMYk/VabS0GudVs/5pBNd9qG?=
- =?us-ascii?Q?nYmpkh/2GOtfg18YCw9MBLEMuXBJ+hAGgj0mZ5uj9o9bhWDsvAf/YopZxX0b?=
- =?us-ascii?Q?/waik+JXD2siX71G8vOm5dN1F0yZ2qjCAgEpRN3fNRrrcYRkkoz2d30VAiua?=
- =?us-ascii?Q?P+jz7Fz1DmNHMKWgJnBMyIze7yLxf/ZcHfrubVGTCbl1tY+mUMd3mX/9rBtB?=
- =?us-ascii?Q?wtqoJiOLQtuHIOBS6W+hjiXBBNbSmTWFT7IFmlFIPt2rWJ/z2f0wDCSVrHF+?=
- =?us-ascii?Q?zeu2ua5TW8YHUeLBEnGT88nPXo9nthUDqvxWtqu8Vzb+E56lgn2XLxEavBAo?=
- =?us-ascii?Q?svXWHWwvzrgF9kWswYfTVpGp7kj3X92vjNJ46rRuZ+lupP1uMFagrtHsDBf6?=
- =?us-ascii?Q?b4rvBddB5Wtl0Lz866gYyDCklE6WF5cg9smrYoAkerxTgG5FRJYzdQdPemne?=
- =?us-ascii?Q?8wICHlNHp32i12tZsBSEXbdleAsVuT3kuWggxQMDgDsXUqpzYhlzD4qNXOvG?=
- =?us-ascii?Q?Pt6dBwDxIMd3hnaalX6AF4HwayRHgfybeYzS4nGvo6qTkaGzpWZVVG8wYh97?=
- =?us-ascii?Q?ehZG5G0h3y8+A7D+VqjjhSusGSHXoAxQYqoJHq5YGjiZQ779UTEVg23mXHGf?=
- =?us-ascii?Q?vcFCEprpR2G6lNu1qjloWEFi5XtLAIHGtUAAhhpTqP7vPs8dQWw5LZeAN6Hr?=
- =?us-ascii?Q?tlxROsFaCldJjCpEpbGS+BQG9Wu/M1j+FFQdOP3s7YMm4YqT/qHqts3IZ9Cy?=
- =?us-ascii?Q?inRYPQXhLPPPjYvsdWp0Jj/ymU5tZIs/215rshoJFNGMbCAgJNLjL0GolFhN?=
- =?us-ascii?Q?C8iSsQY8nFdEDI1NTRaGX2oY1w+PsjhRLAPaYTlo/621vBxWTmBrFoKV839q?=
- =?us-ascii?Q?Xft1RapgpUnWV2sA6I2z7SqX1lv76MtDu4pxSXcVf/1Y4kPsy/X8btxiNZYk?=
- =?us-ascii?Q?BbIgEF+NtYrzvSTUIArrQ4wiOm/fTP2A0c7bXe8IYU67iqQ/eCJjPYhWCP2i?=
- =?us-ascii?Q?XfNuBIlrkwzgh0xdOTNCD675khPEUbSbBeMR5OcIbmpXgY0rTk4lZgsQUkJK?=
- =?us-ascii?Q?sjRB67NbOP3RZMnueXVTCaubuxuvyo/XUFlkoL0YjDcUc6mupnlFng=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?zrBgda1Z/LVc/xjfUTf0/1DLpnYuNx7NR0J7cEemOuv5LBwa39mABJlorZaK?=
- =?us-ascii?Q?lDRUNyyaThLw0vOCRGqAd+/K25s+f7AcCk5BnhTCRLkA2XYIlWz3K5sV2DQd?=
- =?us-ascii?Q?gJlkoHweal8oY6svYhPbmiWoOXqr4TNv7a1Q1DB/GEllzFEfPAOl5E7cMTmB?=
- =?us-ascii?Q?0VvSv//iSqzxN9jPFS6+KvvEPppfQlIKrdN60AqqsfgsaR8YRm54jitZdO/R?=
- =?us-ascii?Q?ECn8E/UFtNl9yILUVl7RNPG4vm1O4DNZZG1uXe8c2gt8uRhbVKzDC0laDNw0?=
- =?us-ascii?Q?jNjWtu7yHKcxkgLnpT57EYXgCXn2EBJSUCdqBT95ez4myM3mI4wbj73X/4Hb?=
- =?us-ascii?Q?D/ObM05N0vNCtLVX+Tif/mS2+tDJlep8BnushOl6WvDHplZ0KqTz2qb76t0P?=
- =?us-ascii?Q?gFhdu97qZcC4y2oXCHObansJ264m0BfWS2Sq8t8L6ZeB0lyjApBvpCDqm6vA?=
- =?us-ascii?Q?jylciJnHVe3m0/zPrGZ5/5w5igUEOto07eQqp8jqSFl4NzROVEnDjyXyvJ3j?=
- =?us-ascii?Q?TdOG7rvskHCwvVdfh0Zs6e8oaEL9WRBFPlUxxtlUMpsQjpRfZMo1Zi4fGZv/?=
- =?us-ascii?Q?bq7+6v8aMIJ9wmRW8o6Nz2pIA7GsEIriSCgOhY3f0q5fiI/qV90peXNYF5eb?=
- =?us-ascii?Q?pi1EqJytimVmL60QpV5mTT7ADE2tV9AR9re187EyqDup5oZNHTucms6F096+?=
- =?us-ascii?Q?eQzOKsgR4eCFIjUtyQWDmn66yUL6npTC+LfFdPNKujY+V9Yjerk9a185CixC?=
- =?us-ascii?Q?tAkN9UPzWzgfOGFXei/5lc8N/FE/7jSaiYoJw0UMgIDKepNCl6VsNNUC4YYg?=
- =?us-ascii?Q?njsKqfYE1mZhpRmgQmCLsle1D54AOi5phYLVq84mWHZ1Jub8TE3j6/EEVv5K?=
- =?us-ascii?Q?Ddyr4FjpUWsGUfId9lbvf/9lNXodQtaET2hMezQrwyUQIZenj66AG9iJScNm?=
- =?us-ascii?Q?LPBuIKdW19G/TPkeZQSFUU1HAA0cnetDN3JicH2ousEOwVWR/WFkGoPjBweG?=
- =?us-ascii?Q?BthByF/odnn65V8zF+9BHhhF894AHnkPoJ9GsRifu49lTnOhFJeLO3SOxgg0?=
- =?us-ascii?Q?FcPLaD8NeCT+ayaPwyH9anDTpqDg+V9bNtHYpZQNZQN4BJ3+zpcIQRfbyRKQ?=
- =?us-ascii?Q?iXiaBYHMo++MdVoNthuDd+4YYoY1F55lfoF8eVB4eNC66RYpcfGYFKJa1gc+?=
- =?us-ascii?Q?4Zo/BpbXY4qNV2v+HVmbEucH2tK77RWGmIehylJA9kH2rG4jDKXr2WT5nD3L?=
- =?us-ascii?Q?0xcYTIvJZC2Ndd+uk7jGI1VQ+ohQiZ0bWLunB4U7k7v2z5MuPldSqGPVQg9J?=
- =?us-ascii?Q?BTVCTySCdv20WIae5BlALge5s/j/vc6qW1YZLmPjw/crv9Dl10H86e64OHB+?=
- =?us-ascii?Q?gq528dm8X7/AdvFzvvAzfk42leHNS1MaOOis7ftelpaj/FinovKe1zDL8beZ?=
- =?us-ascii?Q?QrFuV55iuBU5swn69mBIMvE+W11DLcK68r2JQVFAecZnpaRRoTffBvSF18M7?=
- =?us-ascii?Q?1B2MM9UMcMY2QtySb6We1C6d3I5enG30kKSzXLRQ/Kqm9JN9zbCOlCc8po9C?=
- =?us-ascii?Q?f6+Xr9DovySGu3FtfrJAW1cnNBasXqxiYYMAeGUiOlVikWIYphny1MaEGFby?=
- =?us-ascii?Q?K+YTu49FzKgK2H5kCg0NBuc=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9895a777-2f69-4c2e-05fd-08dd911ededc
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2025 06:33:13.1768
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tVOKGApzvV/GWQekuC+H0xUeu+SY59gV9NtaKs154UOGI4CFfxmgjE9AvzPdkHZ1SDxBCuMNAJ0mW23Nb1/wtf6hZyyJsJpBaiwoppY/hEagK50dt2PvEg2r24L7EP/z
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11255
+References: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWN-QDrmogJ+7x8sdc6UmDAoF+0z0hZ3SQ7ajN2V2+mSw@mail.gmail.com>
+ <aBxjvofZCEi_1Fna@shikoro> <20250508134930.GM3865826@google.com> <18b78845-3f01-444d-835a-aa39f84a2689@gmail.com>
+In-Reply-To: <18b78845-3f01-444d-835a-aa39f84a2689@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 12 May 2025 09:13:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW1Hn51R-6MstS1Ojuu-CR0eNs504YEruPbe2L-H_zBHA@mail.gmail.com>
+X-Gm-Features: AX0GCFsUkDUlBrPJqlQydDJkEnvu_GkmiELRETEKx3ApDmYs_k_btrWooRQ2Qa4
+Message-ID: <CAMuHMdW1Hn51R-6MstS1Ojuu-CR0eNs504YEruPbe2L-H_zBHA@mail.gmail.com>
+Subject: Re: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
+ Debug LEDs
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org, Pavel Machek <pavel@kernel.org>, 
+	linux-leds <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Because current PWM Kconfig is sorting by symbol name,
-it looks strange ordering in menuconfig.
+Hi Jacek,
 
-=>	[ ]   Renesas R-Car PWM support
-=>	[ ]   Renesas TPU PWM support
-	[ ]   Rockchip PWM support
-=>	[ ]   Renesas RZ/G2L General PWM Timer support
-=>	[ ]   Renesas RZ/G2L MTU3a PWM Timer support
+Thanks for your answer!
 
-Let's use common CONFIG_PWM_RENESAS_xxx symbol name for Renesas,
-and sort it.
+On Sat, 10 May 2025 at 14:43, Jacek Anaszewski
+<jacek.anaszewski@gmail.com> wrote:
+> On 5/8/25 15:49, Lee Jones wrote:
+> > On Thu, 08 May 2025, Wolfram Sang wrote:
+> >> On Thu, Apr 17, 2025 at 01:39:14PM +0200, Geert Uytterhoeven wrote:
+> >>> On Thu, 17 Apr 2025 at 11:33, Wolfram Sang
+> >>> <wsa+renesas@sang-engineering.com> wrote:
+> >>>> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> >>>> ---
+> >>>>
+> >>>> Changes since v2:
+> >>>> * using function, color, function-enumerator properties now
+> >>>>
+> >>>> Honestly, this is better than using node names? With V2, the LEDs were
+> >>>> named as in the schematics, now they are called:
+> >>>>
+> >>>> lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-0 -> ../../devices/platform/leds/leds/green:programming-0
+> >>>> lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-1 -> ../../devices/platform/leds/leds/green:programming-1
+> >>>> lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-2 -> ../../devices/platform/leds/leds/green:programming-2
+> >>>> ...
+> >>>>
+> >>>> Which gets even more confusing if we might later add LEDs not on this
+> >>>> board, but on the expansion board. 'green:programming-8' sits where?
+> >>>>
+> >>>> I really wonder, but if this is the official way now...
+> >>>
+> >>> Good point!  So I'm inclined to take v2...
+> >>>
+> >>> Let's raise this with the LED people. I don't want to fight Pavel when
+> >>> v2 hits the CiP tree ;-)
+> >>
+> >> So, if there is no other opinion here, can we remove function, color,
+> >> function-enumerator and just use the node names which match the
+> >> schematics? Basically apply V2?
+> >
+> > I didn't author the semantics nor the rules surrounding them, but I am
+> > obliged to enforce them.  Therefore "LED people" say, please stick to
+> > convention as stated in the present documentation:
+> >
+> > https://docs.kernel.org/leds/leds-class.html#led-device-naming
+> >
+> > Please note that a "debug" (LED_FUNCTION_DEBUG) option already exists if
+> > that is more appropriate to your use-case.
+> >
+> > Let's also bring Jacek into the conversion, since I know that he did a
+> > bunch of work around this topic.
+>
+> The question is if the LED name from the schematics tells anything to
+> the user of the equipment?
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
-v3 -> v4
-	- Based on linux-next/master
+As this is a development board and not a finished product, I would
+answer yes.
 
- arch/arm/configs/multi_v7_defconfig |  2 +-
- arch/arm/configs/shmobile_defconfig |  2 +-
- arch/arm64/configs/defconfig        |  6 ++--
- drivers/pwm/Kconfig                 | 44 ++++++++++++++---------------
- drivers/pwm/Makefile                |  6 ++--
- 5 files changed, 30 insertions(+), 30 deletions(-)
+> The idea behind LED naming is to facilitate matching the LED class
+> device name as reported by the system with the LED location on the
+> equipment.
+>
+> The LED naming standardization intended to enforce consistent
+> LED naming, and not allowing to add multiple interchangeable
+> names like wifi/wlan. It also helps to keep LED name sections order in
+> accordance with Linux documentation, which before had been often
+> abused by allowing to assign anything to the now deprecated 'label'
+> DT property.
 
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index dc4b722ad4b5..50c170b4619f 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -1184,7 +1184,7 @@ CONFIG_PWM_BCM2835=y
- CONFIG_PWM_BRCMSTB=m
- CONFIG_PWM_FSL_FTM=m
- CONFIG_PWM_MESON=m
--CONFIG_PWM_RCAR=m
-+CONFIG_PWM_RENESAS_RCAR=m
- CONFIG_PWM_RENESAS_TPU=y
- CONFIG_PWM_ROCKCHIP=m
- CONFIG_PWM_SAMSUNG=m
-diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-index 0ea34d5d797c..7c3d6a8f0038 100644
---- a/arch/arm/configs/shmobile_defconfig
-+++ b/arch/arm/configs/shmobile_defconfig
-@@ -203,7 +203,7 @@ CONFIG_RZ_DMAC=y
- CONFIG_IIO=y
- CONFIG_AK8975=y
- CONFIG_PWM=y
--CONFIG_PWM_RCAR=y
-+CONFIG_PWM_RENESAS_RCAR=y
- CONFIG_PWM_RENESAS_TPU=y
- CONFIG_PHY_RCAR_GEN2=y
- CONFIG_PHY_RCAR_GEN3_USB2=y
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index d0768584647c..fe021cbb6393 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -1536,11 +1536,11 @@ CONFIG_PWM_IMX27=m
- CONFIG_PWM_MESON=m
- CONFIG_PWM_MTK_DISP=m
- CONFIG_PWM_MEDIATEK=m
--CONFIG_PWM_RCAR=m
-+CONFIG_PWM_RENESAS_RCAR=m
-+CONFIG_PWM_RENESAS_RZG2L_GPT=m
-+CONFIG_PWM_RENESAS_RZ_MTU3=m
- CONFIG_PWM_RENESAS_TPU=m
- CONFIG_PWM_ROCKCHIP=y
--CONFIG_PWM_RZG2L_GPT=m
--CONFIG_PWM_RZ_MTU3=m
- CONFIG_PWM_SAMSUNG=y
- CONFIG_PWM_SL28CPLD=m
- CONFIG_PWM_SUN4I=m
-diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index c866ed388da9..d9bcd1e8413e 100644
---- a/drivers/pwm/Kconfig
-+++ b/drivers/pwm/Kconfig
-@@ -534,7 +534,7 @@ config PWM_RASPBERRYPI_POE
- 	  Enable Raspberry Pi firmware controller PWM bus used to control the
- 	  official RPI PoE hat
- 
--config PWM_RCAR
-+config PWM_RENESAS_RCAR
- 	tristate "Renesas R-Car PWM support"
- 	depends on ARCH_RENESAS || COMPILE_TEST
- 	depends on HAS_IOMEM
-@@ -545,26 +545,7 @@ config PWM_RCAR
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called pwm-rcar.
- 
--config PWM_RENESAS_TPU
--	tristate "Renesas TPU PWM support"
--	depends on ARCH_RENESAS || COMPILE_TEST
--	depends on HAS_IOMEM
--	help
--	  This driver exposes the Timer Pulse Unit (TPU) PWM controller found
--	  in Renesas chips through the PWM API.
--
--	  To compile this driver as a module, choose M here: the module
--	  will be called pwm-renesas-tpu.
--
--config PWM_ROCKCHIP
--	tristate "Rockchip PWM support"
--	depends on ARCH_ROCKCHIP || COMPILE_TEST
--	depends on HAS_IOMEM
--	help
--	  Generic PWM framework driver for the PWM controller found on
--	  Rockchip SoCs.
--
--config PWM_RZG2L_GPT
-+config PWM_RENESAS_RZG2L_GPT
- 	tristate "Renesas RZ/G2L General PWM Timer support"
- 	depends on ARCH_RZG2L || COMPILE_TEST
- 	depends on HAS_IOMEM
-@@ -575,7 +556,7 @@ config PWM_RZG2L_GPT
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called pwm-rzg2l-gpt.
- 
--config PWM_RZ_MTU3
-+config PWM_RENESAS_RZ_MTU3
- 	tristate "Renesas RZ/G2L MTU3a PWM Timer support"
- 	depends on RZ_MTU3
- 	depends on HAS_IOMEM
-@@ -586,6 +567,25 @@ config PWM_RZ_MTU3
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called pwm-rz-mtu3.
- 
-+config PWM_RENESAS_TPU
-+	tristate "Renesas TPU PWM support"
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	depends on HAS_IOMEM
-+	help
-+	  This driver exposes the Timer Pulse Unit (TPU) PWM controller found
-+	  in Renesas chips through the PWM API.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called pwm-renesas-tpu.
-+
-+config PWM_ROCKCHIP
-+	tristate "Rockchip PWM support"
-+	depends on ARCH_ROCKCHIP || COMPILE_TEST
-+	depends on HAS_IOMEM
-+	help
-+	  Generic PWM framework driver for the PWM controller found on
-+	  Rockchip SoCs.
-+
- config PWM_SAMSUNG
- 	tristate "Samsung PWM support"
- 	depends on PLAT_SAMSUNG || ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
-diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-index 5c782af8f49b..96160f4257fc 100644
---- a/drivers/pwm/Makefile
-+++ b/drivers/pwm/Makefile
-@@ -48,11 +48,11 @@ obj-$(CONFIG_PWM_OMAP_DMTIMER)	+= pwm-omap-dmtimer.o
- obj-$(CONFIG_PWM_PCA9685)	+= pwm-pca9685.o
- obj-$(CONFIG_PWM_PXA)		+= pwm-pxa.o
- obj-$(CONFIG_PWM_RASPBERRYPI_POE)	+= pwm-raspberrypi-poe.o
--obj-$(CONFIG_PWM_RCAR)		+= pwm-rcar.o
-+obj-$(CONFIG_PWM_RENESAS_RCAR)	+= pwm-rcar.o
-+obj-$(CONFIG_PWM_RENESAS_RZG2L_GPT)	+= pwm-rzg2l-gpt.o
-+obj-$(CONFIG_PWM_RENESAS_RZ_MTU3)	+= pwm-rz-mtu3.o
- obj-$(CONFIG_PWM_RENESAS_TPU)	+= pwm-renesas-tpu.o
- obj-$(CONFIG_PWM_ROCKCHIP)	+= pwm-rockchip.o
--obj-$(CONFIG_PWM_RZG2L_GPT)	+= pwm-rzg2l-gpt.o
--obj-$(CONFIG_PWM_RZ_MTU3)	+= pwm-rz-mtu3.o
- obj-$(CONFIG_PWM_SAMSUNG)	+= pwm-samsung.o
- obj-$(CONFIG_PWM_SIFIVE)	+= pwm-sifive.o
- obj-$(CONFIG_PWM_SL28CPLD)	+= pwm-sl28cpld.o
+I agree this all makes perfect sense for a final product, where the
+purpose of each LED is clear, and sometimes indicated by an icon
+on the case.
+For a development board, some LEDs may have a fixed purpose.
+But typically there is also a collection of generic user LEDs, which
+do not have a fixed purpose, and are identified by a label on the
+schematics.  Imposing an arbitrary numbering scheme on the latter is
+confusing for the user (developer).
+
+> Regarding expansion boards - we never have control over what
+> LED names DT overlays will define, thus LED core adds numeric suffix to
+> the LED class device name in case of the name clash.
+
+FTR, the RZN1D400 Expansion Board does not use a DT overlay.
+Linux carries a DTS for it, which just includes the base board .dts,
+and treats it as a single system.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
