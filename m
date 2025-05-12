@@ -1,123 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-16962-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE13DAB30FD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 10:00:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C958AB311E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 10:09:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 783A817068F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 08:00:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3BE916835C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 08:09:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B72A5475E;
-	Mon, 12 May 2025 08:00:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7709F257420;
+	Mon, 12 May 2025 08:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LENGoWa8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EAF17A2F6;
-	Mon, 12 May 2025 08:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDC8257434;
+	Mon, 12 May 2025 08:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747036846; cv=none; b=QZX4iM9ZO9tvrO/WkcE52rxVcG++Q652b1PzVZlQd0CkJis1g76zjDqYD5HbQ5Wro8w4hLfzSwWnJYm+UuXEz+GhTugpBocd8GrqNJ7cc3KFGbRsZbNVaXJiLX3fetYuStHU7yPpFJ74w41vnxlkUk/p5sJ5LrKP00a+K/BZWfo=
+	t=1747037360; cv=none; b=WBgTYRCZ+O7QQFd1wE+9jnen65RTKhDQqTzNVVG98JR/wIm0bzDjufF5hfEzyimkOeHTa0kTWJjZ1Q/IgF7V5hZJuF5GtYLCcpBB0rP+eLGhvMDV0uMpiMujzYZIMuKQU3DTYQ9X6CzYcfrCOeTbxF12nVFddRQhHzkPHqSPjIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747036846; c=relaxed/simple;
-	bh=pcQufa8Z9ivWcNl6MVSc62lz95ids1blC8LigiDle6M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hQYrnOQOkAA04wkHPt8JuxldUk7H5UZkyJNzifhBKQbLymvf8f9QiNGgjBUzkJtoB2jTqwCTnrno28t/MoESatmd085fWeF/dbMupN5O4wZw7e3EqH8Kg2c/8C+6QBX92hKj3WDJxNtomceIoVa2oD4weas0H+/Fbn8IUSuzKg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-52c5cb15931so1826752e0c.0;
-        Mon, 12 May 2025 01:00:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747036842; x=1747641642;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C2Xr6rU3pyh1doXsCafY9wNh1BG2tohj2YQ2ikWY5u4=;
-        b=Qknp8bPotCihWrg7UFqSx5SJiq6KyseyocxgxwfQCmu4KtvO3ToM2MP9ZWwFV5d6Oy
-         rEUauMl+NGjFo2lxbCeVjMy0jtX3XzJ6RBOmu0DmwVbeuCfMtNrYQS8FwXhGMSDcwmFH
-         NMRigVHMkTsrzd0f4IwwYDkM+nv6xyK7/di+DH3SjqxRb5PXqbwnYwvjnIlf9x/zuRd/
-         A0XeRMpi2Y4kfnVzEC47aU7cGtNpf2sMjTMClNLdYPrENcbUQztDiSggYiIfqTHAG5UW
-         PcKC9hWDTdKUClbSSdeb/fUBQ0qwSSGCy2RdJ7XnmPCaYIo64wHJxCsWFEcdHxZlW/Vb
-         wZLw==
-X-Forwarded-Encrypted: i=1; AJvYcCUO+9x5Gkd9FQMyyQdp0JMiMjVvSh+AHr5gkKe4MIl+Hdj3KpefDRWOYM+c6r79+wfobdPRB1qdMwvqkIq8@vger.kernel.org, AJvYcCWbnZOHhKCcHpQygEr6OZf6U9qNTpa6Z1YTrfcegyTNXhaXQAshw5cXo5KSKyGWkFlLI9vDSHtEfKQJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMUhsnd+w/ssMmnKSC+73Uz3U2Y8M5R5BnrlpSr1w8ivewQEQR
-	nWldwh1eMPGhPTIyZDokHJE5t9vKBrHd14Zx48h1SGIi6ufRlTNDdv/H1m89
-X-Gm-Gg: ASbGncthpx204+Lb83fxiRLOktiI5a7ugSVfN80VHI7y6O/GoJKdTU+SFKcJFmx6oz8
-	z+B/mnhLo5SnYnHglksowzZ6qjMNPFaC3a+80A0JdfgHVct5E3Bx18GXQgztacWee2P4zqQjjKS
-	uaOMoL2ILTWk+TnViqRG586huvdOSVebyk7XWX2SP/+JnhF69Pb2NwocFZ7i8cfm3Vjrlv935Wh
-	rOxZNcbcuYFee9V5KxRikpx8TFQajjOO0/rH0U1wHlq5yw+rKp+yQfxeKKl9Tlkw4dnu3mpR2Y+
-	EOWzhg816e7fHs6yAltP62MTMH7Du40AsTSVf9KcvSHhJCLp+fuaHSVWRISHU3R6sCUHHVfyrLx
-	JJZUFeBXB4JMHihVtyg==
-X-Google-Smtp-Source: AGHT+IHaWpRr7+xlO4iksXsndzXXLEvzMWz0Q2Pk5z+h06nTGYyCm0sCGDBj9hhMSaYQlsdhQE/oVg==
-X-Received: by 2002:a05:6122:2a8f:b0:52c:4751:cb79 with SMTP id 71dfb90a1353d-52c4751cd0fmr10603961e0c.2.1747036842347;
-        Mon, 12 May 2025 01:00:42 -0700 (PDT)
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com. [209.85.221.176])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52c53863c8fsm5206438e0c.35.2025.05.12.01.00.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 May 2025 01:00:42 -0700 (PDT)
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-52c82c67992so145539e0c.0;
-        Mon, 12 May 2025 01:00:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVeKTm0tcRSDS6A7p7tOwOwFOoymMY2RkTm+UfxeLQH7OiCty1RL7x1WPhtYJM8wWl0k6MaI3xIbowWM0yg@vger.kernel.org, AJvYcCX6ouAVuCBz34al0frJZsvqKiSJzfFnq4dZnFRKCzIEqlRU51O+1dtsMjnFWH24X3ViPeCawZhtdlTh@vger.kernel.org
-X-Received: by 2002:a05:6122:2a8f:b0:52c:4751:cb79 with SMTP id
- 71dfb90a1353d-52c4751cd0fmr10603959e0c.2.1747036841991; Mon, 12 May 2025
- 01:00:41 -0700 (PDT)
+	s=arc-20240116; t=1747037360; c=relaxed/simple;
+	bh=1Oe+b/v7tNU/z8lgoaq4olNm8pQf/7W92qcsu/JLZSA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QxDRE8HXUFRZhkIIVWrcOI5IMTmfhIvxEr0Nqb1wkNR8BbDMgQdgcTxyU2PbIUC7nEFxtsTLdARgWqY3VuJuH23zCcaWdubFi1v3EXaA6TiqspK37zXTx/IFPItM+FJ8mLn12Z6CczwTe3MxScZhpzCSOnEMRPtHz5TU7T+fHLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LENGoWa8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C355C4CEE7;
+	Mon, 12 May 2025 08:09:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747037359;
+	bh=1Oe+b/v7tNU/z8lgoaq4olNm8pQf/7W92qcsu/JLZSA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LENGoWa8j54wP9pdunYFyodL0dtKuhpcbAP5JPpjZXt17FcuqbNvJ7NQo5039X6+/
+	 wQa3dZ3U4q4+78pFBQH7+cK+iPbAEK3K8C1sE6N+9fjU/5WYM5JG5HWayp0HxTKVl5
+	 YRQVpiGE+qIZz54f8GYu2YIrYBf8+ch4KzAhszskpFWPMVSixd9/ll6rHdnrexPkkn
+	 xQnFwELc8AsdbPoUNSlCRHZi/Sz+Q+7cD7t2mBtQ0HoASjy3t2JmYza1xK+XIxEsBB
+	 gPZnasCBeCHDxInMWvslkJa/Bbc4AKwF8MBSL/HxY/G9LSCx7A+iGCOJRzHLg8mLlr
+	 IwbJR41jpUvgg==
+Date: Mon, 12 May 2025 10:09:17 +0200
+From: =?utf-8?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <ukleinek@kernel.org>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>, linux-pwm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v4] pwm: tidyup PWM menu for Renesas
+Message-ID: <i4b7c3afvksave2uswfnma2d3mhezefec7t5qhxzikfdsey4tx@wmszr4dtqkr7>
+References: <877c2mxrrr.wl-kuninori.morimoto.gx@renesas.com>
+ <20250512073949.GC2365307@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250509-sapling-exhale-72815a023ac1@spud>
-In-Reply-To: <20250509-sapling-exhale-72815a023ac1@spud>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 12 May 2025 10:00:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWfPdV0_MYCNeWHC7GOcb5b7GybnhzaiYzBV1Es3KuVaA@mail.gmail.com>
-X-Gm-Features: AX0GCFu30jU-MXjUmemDPu1vyUre39ZfWfjYVH1FtkL6G9ermaqV-FJxTuk0Re4
-Message-ID: <CAMuHMdWfPdV0_MYCNeWHC7GOcb5b7GybnhzaiYzBV1Es3KuVaA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] Add specific RZ/Five cache compatible
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, 
-	Conor Dooley <conor.dooley@microchip.com>, Ben Zong-You Xie <ben717@andestech.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dapdk2s6rsos6lxj"
+Content-Disposition: inline
+In-Reply-To: <20250512073949.GC2365307@ragnatech.se>
 
-Hi Conor,
 
-On Fri, 9 May 2025 at 17:38, Conor Dooley <conor@kernel.org> wrote:
-> From: Conor Dooley <conor.dooley@microchip.com>
->
-> I opted not to add fixes tags, but I can create them if you (Prabhakar
-> or Geert etc) think that I should.
+--dapdk2s6rsos6lxj
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4] pwm: tidyup PWM menu for Renesas
+MIME-Version: 1.0
 
-It depends ;-)
+On Mon, May 12, 2025 at 09:39:49AM +0200, Niklas S=F6derlund wrote:
+> Hi Morimoto-san,
+>=20
+> I like cleanup patches!
+>=20
+> On 2025-05-12 06:33:12 +0000, Kuninori Morimoto wrote:
+> > Because current PWM Kconfig is sorting by symbol name,
+> > it looks strange ordering in menuconfig.
+> >=20
+> > =3D>	[ ]   Renesas R-Car PWM support
+> > =3D>	[ ]   Renesas TPU PWM support
+> > 	[ ]   Rockchip PWM support
+> > =3D>	[ ]   Renesas RZ/G2L General PWM Timer support
+> > =3D>	[ ]   Renesas RZ/G2L MTU3a PWM Timer support
+> >=20
+> > Let's use common CONFIG_PWM_RENESAS_xxx symbol name for Renesas,
+> > and sort it.
+>=20
+> I think you also need to update the symbol names in the various config=20
+> files found in tree. A quick look,
+>=20
+>     $ git grep CONFIG_PWM_RCAR -- arch
+>     arch/arm/configs/multi_v7_defconfig:1206:CONFIG_PWM_RCAR=3Dm
+>     arch/arm/configs/shmobile_defconfig:220:CONFIG_PWM_RCAR=3Dy
+>     arch/arm64/configs/defconfig:1553:CONFIG_PWM_RCAR=3Dm
+>=20
+>     $ git grep CONFIG_PWM_RZG2L_GPT -- arch
+>     arch/arm64/configs/defconfig:1534:CONFIG_PWM_RZG2L_GPT=3Dm
+>=20
+>     $ git grep CONFIG_PWM_RZ_MTU3 -- arch
+>     arch/arm64/configs/defconfig:1556:CONFIG_PWM_RZ_MTU3=3Dm
+>=20
+> >=20
+> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > ---
+> > v3 -> v4
+> > 	- Based on linux-next/master
+> >=20
+> >  arch/arm/configs/multi_v7_defconfig |  2 +-
+> >  arch/arm/configs/shmobile_defconfig |  2 +-
+> >  arch/arm64/configs/defconfig        |  6 ++--
 
-Do you see a need for matching on the new compatible value in the
-near future?
-Is it OK to postpone the DTS patch to v6.17, or do you want to
-fast-track it as a fix? I just sent my last normal PR for v6.16 on
-Friday, before this series came in.
+I didn't check in detail, but looking at the diffstat I'd claim that
+adapting the defconfigs is coped for?
 
-Thanks!
+Best regards
+Uwe
 
-> Conor Dooley (2):
->   dt-bindings: cache: add specific RZ/Five compatible to ax45mp
->   riscv: dts: renesas: add specific RZ/Five cache compatible
+--dapdk2s6rsos6lxj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Gr{oetje,eeting}s,
+-----BEGIN PGP SIGNATURE-----
 
-                        Geert
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmghrKoACgkQj4D7WH0S
+/k6VZQgAuyVAuWXB0dkbPFPYH+MyARF/0Jgxavq1t3baJJRrVXxaGsiOfNPg6gc8
+h59SJfFNEdS6nNbEzF0ie7X+dwCYHJATFKee557kQD4b62o3NB5qnbBCiAqZwGwQ
+Q/wxmqznU/pNyZCOZ4Kk5Edq125tjflgwc/+ExM76VlMiKrLGQyQCgTVguGxXBVj
+UQzHbVjZfyZCpfaG5dhRy2OKRysTVegk/yN4OfkqlZd7IWqXQHvdVxX/W0PtPVzz
+OnxDk+AvFXQ6x7a6rUBAfPyRDDyvQEOsUC1t/H6Q4SniCrZoVIfJRedB2vLPznNV
+Te+iPi6UDR35qR8Cp+qyUBfCSGwGAA==
+=1JRO
+-----END PGP SIGNATURE-----
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--dapdk2s6rsos6lxj--
 
