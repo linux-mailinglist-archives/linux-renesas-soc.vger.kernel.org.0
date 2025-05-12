@@ -1,49 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-16965-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBB8AB31AA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 10:30:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2205EAB3202
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 10:45:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E14147A9348
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 08:29:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A0E5B179C4F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 08:45:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 602A319F11B;
-	Mon, 12 May 2025 08:30:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FskL75JK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8397F5674E;
+	Mon, 12 May 2025 08:45:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD0E2AEE1
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 May 2025 08:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8C92E645
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 May 2025 08:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747038650; cv=none; b=GulZp/ovfe3SxRo2wd1S/7npVys6Y2dIel3nAQSbAkuUKCu1XxjllyR3GmkU4s95a913MoAyBA+ZylwfbZXyAX1DkgukLfmE/03UT5xxK55WoLcqbISnyxjpVfyOCzorLmnV5as0v9zkSTN5PVaOXjuXDyxDPvxX5s1WH3Ux7gg=
+	t=1747039534; cv=none; b=plC5JdUgieEf2Z3ZR96zT1Ffdjd/r7zXeIT5eSiYcU87x4/tFk8GC6jLBr2xlSd/PICHNvJcfnnObiksML1ORYjNiaNzlQcMMGfbYaZNVe+i7nrJxzv+jgDej8u5oGD8i/xWSful1q/5GVm3F+trXIxDxMITc/M99OQUK1J7m6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747038650; c=relaxed/simple;
-	bh=+NITaPbpolrhyW71MENXPTlotvHWaq9PuDSYThgZEN4=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=m2Db7Enou11J5vLNBa5b4YwSExo8z0LCwTlKxi1PdK/e8kt4V68U4NwqZTESQuvqkYkFRNKBDNZu/h51nlQ3okThIW+0rqzdwMQ/JKsjpriwaSdCzSOglV669gNINe0NKBT+nE4TJqdNfXDunGWkKtOWpcs1Qo/IJqO8Q/B/iRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FskL75JK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75EFDC4CEEF
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 May 2025 08:30:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747038649;
-	bh=+NITaPbpolrhyW71MENXPTlotvHWaq9PuDSYThgZEN4=;
-	h=Subject:From:Date:To:From;
-	b=FskL75JKdQJHTcj7DcK00oXlwhdSI+uKErqsLE4JQ5yDo0qRD6unSlL0+UDN5Hty4
-	 3kkGkP+Cb7tspkat7DOHDUie1/3PJ8zyToBNTNWCOjKqVcM8xNEWq3B+qflZRJOVo/
-	 /wtRwEOcueUMTGorEU1KwzP+B85PPCgZXSn62IVeIi9wc0yNnDPmk/AWK+CCj9RmiQ
-	 0FuVsqfVpJgMCL8uokgXASDnMuFhB4xwRwe1cmdeq/d3cbtQVAnpqL2AVR+eyemKUz
-	 imjtSmnAkwCbFTj8jXJXFA8FjsXj8GZohfWKAX2Hf9t7IM07hJbG2e1E04fbE6k7xV
-	 HrUuTx4D/105g==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7431439D6548
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 May 2025 08:31:28 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1747039534; c=relaxed/simple;
+	bh=2kWF33JkKQLFwWQMCHHoGu4E4ttZo4RsQM3jQZ2oD7c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oKRY5lAqRa7aKJpJSsZwUP/nShAks3RwW+yQm+rJk84YSveQ8XZFELlO1eENdpTFTBAzIvy+0cV5+vNpgewU9XeM3ud1uVAfd9CaVzJa0ejS5Rels6qzuMPhekEqdBNxCWFZ9dksSsEjF3LmqhLrKf6QR81jnQWkaQL3F51xx7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:e731:371c:7707:a2ae])
+	by baptiste.telenet-ops.be with cmsmtp
+	id o8lN2E0044HZolA018lNU1; Mon, 12 May 2025 10:45:23 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1uEOme-00000001PRX-2f3X;
+	Mon, 12 May 2025 10:45:22 +0200
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1uEOmo-00000006UfR-13Jb;
+	Mon, 12 May 2025 10:45:22 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH] arm64: dts: renesas: sparrow-hawk: Disable dtc spi_bus_bridge check
+Date: Mon, 12 May 2025 10:45:12 +0200
+Message-ID: <fbad3581f297d5b95a3b2813bbae7dba25a523fd.1747039399.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -51,32 +59,47 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <174703868703.506001.16395245401308177497.git-patchwork-summary@kernel.org>
-Date: Mon, 12 May 2025 08:31:27 +0000
-To: linux-renesas-soc@vger.kernel.org
 
-Hello:
+make dtbs:
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+    arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1269.24-1283.5: Warning (spi_bus_bridge): /soc/spi@e6ea0000: incorrect #address-cells for SPI bus
+      also defined at arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts:471.9-486.3
+    arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1269.24-1283.5: Warning (spi_bus_bridge): /soc/spi@e6ea0000: incorrect #size-cells for SPI bus
+      also defined at arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts:471.9-486.3
+    arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dtb: Warning (spi_bus_reg): Failed prerequisite 'spi_bus_bridge'
 
-Series: Doc: devicetree: bindings: rename r8a779f0-ether-serdes.yaml
-  Submitter: Michael Dege <michael.dege@renesas.com>
-  Committer: Jakub Kicinski <kuba@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=961320
-  Lore link: https://lore.kernel.org/r/TYRPR01MB1428415607B42877B763427F0828AA@TYRPR01MB14284.jpnprd01.prod.outlook.com
-    Patches: Doc: devicetree: bindings: rename r8a779f0-ether-serdes.yaml
-             [2/9] Doc: devicetree: bindings: rename r8a779f0-ether-serdes.yaml
+The Sparrow Hawk uses the MSIOF module in I2S mode instead of SPI mode,
+triggering a conflict between the SPI bus bindings and dtc:
+  - Serial engines that can be SPI controllers must use "spi" as their
+    node names,
+  - Dtc assumes nodes named "spi" are always SPI controllers.
 
+Fix this by disabling this specific warning for this board.
 
-Total patches: 2
+Fixes: ca764d5321a2cee7 ("arm64: dts: renesas: sparrow-hawk: Add MSIOF Sound support")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/20250506192033.77338015@canb.auug.org.au
+Suggested-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v6.16.
 
+ arch/arm64/boot/dts/renesas/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index 21baaa25346744dd..58a498059cf5f2ca 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -94,6 +94,7 @@ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g2-white-hawk-single.dtb
+ r8a779g2-white-hawk-single-ard-audio-da7212-dtbs := r8a779g2-white-hawk-single.dtb white-hawk-ard-audio-da7212.dtbo
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g2-white-hawk-single-ard-audio-da7212.dtb
+ 
++DTC_FLAGS_r8a779g3-sparrow-hawk += -Wno-spi_bus_bridge
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk.dtb
+ r8a779g3-sparrow-hawk-fan-pwm-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-fan-pwm.dtbo
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtb
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.43.0
 
 
