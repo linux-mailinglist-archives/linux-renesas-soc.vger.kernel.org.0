@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-16991-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-16992-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4145EAB4347
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 20:32:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B98BAB4385
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 20:35:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 48A25167D97
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 18:31:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BD2F8C4A3B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 May 2025 18:31:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2523C297B79;
-	Mon, 12 May 2025 18:23:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97CE3297B99;
+	Mon, 12 May 2025 18:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="URSqMWOg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UJIraNoR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA842550D5;
-	Mon, 12 May 2025 18:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC53296FB8;
+	Mon, 12 May 2025 18:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747074231; cv=none; b=XJrX1AbJyril4MW5HsDH6hRoAgBIihl/ciQGFmZwdpvJFARcKM0kDsqao6qVuZjwDiwhDxtF2YNk20CaTu+hyIB6zHuzhk4GQ0rld4u6sjyQ2O67Wy7tWURehboYMEpTYZIKNPOlJ0lJKN41n8rikHcn1q7l+xKehI6WX09d4aI=
+	t=1747074232; cv=none; b=WaS+rVZ3xKm3+mwQLRqakQJcYtGjDBF5Jv0cHibNj8gl4L3hwNi8DBXR1hHMyqL1+8arSbEHu/1MHRqcV+H3q2bGv/AAZz7yEB339WxoT96PAtXoW3JPq70mqcSFkjWHgX2bgf9FYfkB+eLv5yldeLOzGRDk80RgXL+cBtqEoCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747074231; c=relaxed/simple;
-	bh=KgCsUoVDbGSnfnNBKogMKoxaMaz4rgQIvYMtHiTXkSo=;
+	s=arc-20240116; t=1747074232; c=relaxed/simple;
+	bh=7EvT+m50T6prXTqvyg4sAaRO25FOJglf4BD0Ak8sc6Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SGHwHZv17o9xcxZBR9sFYAs6VvtiEGnRCqBz7aTCM2GWX0zAFZig12HqRB+5kEFE4DqLatXiRYxvVSjnQxpUSAiHqrSDh0oXdUJI3c/9Sz2hB4/t/8CTSSlbjGj76froDJk6P/3iS1MWASfzhjsflQVh/ZcNSlEK+Q+r7W7YNjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=URSqMWOg; arc=none smtp.client-ip=209.85.221.45
+	 MIME-Version; b=RdF6KPN9u3DmePwXSvkwcqFY7SXSpX/nOE0IcKThK/FdPINHYu3X3wH6PHXaF1EqfIS3DxMh4CS9iM1VvRfsGgVqsrHTkrb92hF0vbFCGXkjkEFcT55+Y3d8hYjjVePFZwc8zzZZZKRoQFzPxCTt3a2rOr970Dw+stAZAy3jma8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UJIraNoR; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a0bd7f4cd5so4096005f8f.0;
-        Mon, 12 May 2025 11:23:49 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so49674375e9.1;
+        Mon, 12 May 2025 11:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747074227; x=1747679027; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1747074229; x=1747679029; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=57DFAN0/ZRwoK0xUxYv+cuKjAK5uS9oM6kLns/redbs=;
-        b=URSqMWOgelXldlblPT4WoRPSnIddINWEEAQfydwdQS0nAvMGxkc3cJIbrHphGb5iRR
-         BpVzXtS6VPI0SXLOOJX3KRDuM5y0oCzL66Kv9DlACfgew2SMgu0pEQJTtwmDKNG3GcJQ
-         qsZgKgqHxIDCXaokzyIMiJ14Df1LUyUYxh1ITxMyvS2wi6JohdQTEBu6lWcUxBiznRiT
-         CNXeECZWr31jybT1kXH+GLfNwHIX3yL1lpQA+ETh6Lf8xImtajsDzMohpIIPMU2jS0uK
-         3izQJRzEsB86c3TxD6qGZM0pkH9+rNQq3uJq2TNyplZutRuRbfk6dE5Kx4Rsudm8bimF
-         5M+Q==
+        bh=MwBb1g27iDzzf3BiBc6CzURemWUN7mfIH2kOtBADY/I=;
+        b=UJIraNoRSRN01e6EjicgcL2cjXwG4cLbOGX4bg1joTo6MCukwQ7sNqBx+40AA0FdF7
+         02cEGI1YpIiJe0d0P2Vmg8jhU3EWJQRRBh0vsIHYh44ANBcXaDd0ajFQnHqqlCwHq9D1
+         /gYo36WFgkPta21gbsFVCTTspyFzsSjWpEITFghQwWqMloakqm3trJUcSyVVWPMrJ49G
+         QKEs/yZFT91XruWI+2anHaoa7Z20ehKpp+N5mSzJVHl73Q5/fO0g22XCioljXZ18r9BY
+         Sbow9Z9rOix5f5ayAV+aibVSpxUSJDJmTqTc0PQYW65s5XbqcCdu8LjhxGIaXuWj2tL6
+         lkrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747074227; x=1747679027;
+        d=1e100.net; s=20230601; t=1747074229; x=1747679029;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=57DFAN0/ZRwoK0xUxYv+cuKjAK5uS9oM6kLns/redbs=;
-        b=Tgf0wDW1kcL1ZsZmNtQea8HT89BU/j1WnoD5AO0nN/+shfHkKDPUGx+BDYPhO9YW+4
-         5S6KahZ1683FCjlyfSIpLusf6fksLiMJFltCn7SqcW4/v2ZToCeLviKSOAiOngbxZILx
-         KfVrGpUEClXq4ZafYng2bvUqcv95NV5+ptpytLvIMbea2AaEbtPACp2qTulvSuegoE+0
-         r9cxMXDjhuI+UKOyPymc7/TkyfhCWRgeTw+wB+dnm/SpMFv3d+urK/DMKEbBmJK3bb4z
-         SocUjedO6b74weegCSrSYnhm5qN3jdqjJLubbIHBsZTDfRWe256gXZP70J39NDJ6jXf2
-         qFog==
-X-Forwarded-Encrypted: i=1; AJvYcCUO9datrmPkUZ+viwtxohZ8GT8rTpY+cOgKheyMYtxcyXevIQfcimPNyahAoflQIV3KJulipKaMRzvN@vger.kernel.org, AJvYcCWFyXUHu7BEHf8kS+YpQ95LTjCfPjOJ0/0HFtmjE3LzDGVg+A57LKxnmdvVcgyi1EhniDwmGkMeJgQFA8/Q@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGe/W8VJuJVEr87trUOLl6HhjY9k+j1Q032GB/esGhtwViXUeK
-	hnF8MFJn4/UYYokDOK6CFn4AY78voqLhwVEFGVYNnzthnZTG5jiL
-X-Gm-Gg: ASbGncuBvKhKDHxIknFz9qS37i8lcY1XCmg0SixuYGbM005KK1Tv3KzIbG70spzJAQO
-	EfeL0rr0SrqP0Q2sF1dP6tQ/D3pjxDZu8Y0KMSguJqkJz/BEpZhzLVfj8Pe/WwRz4J14wKSWNEa
-	iPq7eolRU7+PRAWsqsR2SesJ8YXC9QBQ7wcoyab0EuI8rUHRz2cNBsSPf+KjtBAjB8tbwB5CDax
-	slAfb2icsv4otwE6D1gXf6xM/FffWS5f+eP3dncAnit7lBRPyjpWxanxeMsAQMxMW+EAmgrKqf5
-	zRx6c7xyEF/XNyKx1cD7Ug8LREIpggOz/JMKXQ+/CSMCcwQlDXeyC4Vjsr71AG7HDtYpUFUJt9z
-	4
-X-Google-Smtp-Source: AGHT+IG5V6qZw0WkMmFNDpW44kpQxtFWHfAJXl+GUo/2Pm1y6e3rk0hroLNfDvmtitv7uSFMo7W5hw==
-X-Received: by 2002:a05:6000:2ae:b0:3a0:82d1:f3c2 with SMTP id ffacd0b85a97d-3a1f643a5bfmr10605831f8f.10.1747074227529;
-        Mon, 12 May 2025 11:23:47 -0700 (PDT)
+        bh=MwBb1g27iDzzf3BiBc6CzURemWUN7mfIH2kOtBADY/I=;
+        b=nFxvzn3suG0oczFnFM9t1SUq6uT5JQl9wm+uGqlrUhsYia+4I3HKRaaZkvHCtYK3S4
+         GAwCqZ5hDIygDO0nyfFE4mwME5Mt8Hgl/UA7IbRo5jp8OMIcX9ywGbUg4F6brfB2h+Uv
+         jn/oEsq6Skd6pxqLu05vPkwZR3SGt++f9d/DFgLrq1pVMWbQZ1+zJSYIpqR7wsYMF1qP
+         dLEolxbfzt2UxiHwMsJU1fg33pFcznkQIrdnRlLifvDnB/XQWUO985e6KdGoFEnuVbvk
+         hdZLLpAW3FHdZSwuUJqWe7aat8NYodmQy4ZEANlVgqD9RH9CmO0hXxQzDcIIc9L/PTrF
+         FEpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUMPs4vLpjTM++DcdDfPkCYxhEigCNYAQItmnVVomGXmwazCrBiZo9RDr5NJbw8NfUOcRtmfmRVYyhTMMCI@vger.kernel.org, AJvYcCXuKAN4Ecf+catEuPzDRFdWGKgB4uR+VNCZZu0pMsj5o0/Cqk3CgYC2GWfpQ6Ifj5q6UvyIZNCVO93k@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRXUptJKsowwyC4p6oLZVVCimMJajhqJJCPL0EZ/65/UBjEdn7
+	baHMA/K512ZrpFb9oznoEVVs4cfbxn8GAPyWfOxNHzsfGBft2/Xg
+X-Gm-Gg: ASbGncu2+poY4MENHaXdl7WpSlMkf7P2vlXBugfmMwDBX/p/XJw1T2S3YiRd50oQUGM
+	PS9JQze4/8Oa3NrZxOXd0zP/C4MHXZQ1lLe3S10jO+92Spt6gUOLhEiweTznWVgxYXp/rFhmGV6
+	dzWterU50vS/SRHw7UX+t9xxGaNPIy71QAIxV7cpk9n1kOXFlbDEbrqgcNA8C1bdkf7KeQi02eB
+	d0a6DEv4OwMtUgLTwyqzl5/KqeTQl4tmlyzRSMhNqQ/WOLudm0GhESHTlawgo5NnguHqgX9R/pr
+	cU3v1NdVyO3n9qZB/gqOfrMtRgZWJcMSZF3IJsUYgUKu6hRxzVObZhK5+F53aZLkF5W064wI2NA
+	q
+X-Google-Smtp-Source: AGHT+IGlBcrs5+02hvmTpqDOCRIZFGOKwN+DxplEoFv/iZPTIPFZx7s33XvxvzzbOI3QLuMJaWvyGA==
+X-Received: by 2002:a5d:59a7:0:b0:3a0:8325:8090 with SMTP id ffacd0b85a97d-3a1f64374d6mr12391535f8f.18.1747074228663;
+        Mon, 12 May 2025 11:23:48 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:581b:951a:bc46:a124])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a4c5f6sm13175497f8f.86.2025.05.12.11.23.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a4c5f6sm13175497f8f.86.2025.05.12.11.23.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 May 2025 11:23:46 -0700 (PDT)
+        Mon, 12 May 2025 11:23:47 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>,
@@ -94,11 +94,10 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v5 01/12] dt-bindings: display: renesas,rzg2l-du: Add support for RZ/V2H(P) SoC
-Date: Mon, 12 May 2025 19:23:19 +0100
-Message-ID: <20250512182330.238259-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v5 02/12] drm: renesas: rz-du: Add support for RZ/V2H(P) SoC
+Date: Mon, 12 May 2025 19:23:20 +0100
+Message-ID: <20250512182330.238259-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250512182330.238259-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250512182330.238259-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -112,15 +111,14 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The DU block on the RZ/V2H(P) SoC is identical to the one found on the
-RZ/G2L SoC. However, it only supports the DSI interface, whereas the
-RZ/G2L supports both DSI and DPI interfaces.
+The LCD controller (LCDC) on the RZ/V2H(P) SoC is composed of Frame
+Compression Processor (FCPVD), Video Signal Processor (VSPD), and
+Display Unit (DU).
 
-Due to this difference, a SoC-specific compatible string
-'renesas,r9a09g057-du' is added for the RZ/V2H(P) SoC.
+There is one LCDC unit available on the RZ/V2H(P) SoC which is connected
+to the DSI.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v4->v5:
@@ -130,63 +128,39 @@ v3->v4:
 - No changes
 
 v2->v3:
-- Collected reviewed tag from Krzysztof
+- No changes
 
 v1->v2:
-- Kept the sort order for schema validation
-- Added  `port@1: false` for RZ/V2H(P) SoC
+- No changes
 ---
- .../bindings/display/renesas,rzg2l-du.yaml    | 23 ++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-index 95e3d5e74b87..1e32d14b6edb 100644
---- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-+++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-@@ -20,6 +20,7 @@ properties:
-       - enum:
-           - renesas,r9a07g043u-du # RZ/G2UL
-           - renesas,r9a07g044-du # RZ/G2{L,LC}
-+          - renesas,r9a09g057-du # RZ/V2H(P)
-       - items:
-           - enum:
-               - renesas,r9a07g054-du    # RZ/V2L
-@@ -101,7 +102,12 @@ allOf:
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+index 5e40f0c1e7b0..e1aa6a719529 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+@@ -50,9 +50,20 @@ static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
+ 	}
+ };
  
-           required:
-             - port@0
--    else:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a07g044-du
-+    then:
-       properties:
-         ports:
-           properties:
-@@ -113,6 +119,21 @@ allOf:
-           required:
-             - port@0
-             - port@1
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a09g057-du
-+    then:
-+      properties:
-+        ports:
-+          properties:
-+            port@0:
-+              description: DSI
-+            port@1: false
++static const struct rzg2l_du_device_info rzg2l_du_r9a09g057_info = {
++	.channels_mask = BIT(0),
++	.routes = {
++		[RZG2L_DU_OUTPUT_DSI0] = {
++			.possible_outputs = BIT(0),
++			.port = 0,
++		},
++	},
++};
 +
-+          required:
-+            - port@0
+ static const struct of_device_id rzg2l_du_of_table[] = {
+ 	{ .compatible = "renesas,r9a07g043u-du", .data = &rzg2l_du_r9a07g043u_info },
+ 	{ .compatible = "renesas,r9a07g044-du", .data = &rzg2l_du_r9a07g044_info },
++	{ .compatible = "renesas,r9a09g057-du", .data = &rzg2l_du_r9a09g057_info },
+ 	{ /* sentinel */ }
+ };
  
- examples:
-   # RZ/G2L DU
 -- 
 2.49.0
 
