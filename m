@@ -1,139 +1,270 @@
-Return-Path: <linux-renesas-soc+bounces-17046-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17047-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1CEAB55CD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 15:17:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA1AAB560F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 15:30:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 150933ABC83
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 13:17:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65E353A24CB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 13:29:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03DA828E57E;
-	Tue, 13 May 2025 13:17:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3062C28F505;
+	Tue, 13 May 2025 13:30:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243DA1DED6D;
-	Tue, 13 May 2025 13:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D317482;
+	Tue, 13 May 2025 13:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747142265; cv=none; b=CljZAgzqn1RL8iuKcgUUcbJHy5bBFABwSMDRuT8Wv8iEd/QbJ4IkEuNBfrYZ3upXfs/LBW8Kd60eFiJmcDdWgxPLqGzm4h7lO+Scq3oazSh13QHxBRJPaSg/65IF/pCNXcS8IRsNHW3sXJ5n7T0QZ7TlbAu+/of1WGuoHubqmQI=
+	t=1747143007; cv=none; b=MDRMtANxfA0llNQNWuexx57LQfd5TjGorWDZ1u/XEunVPSLRh9asR/Jw4XNKN5yQ7qmF+HgeSCzbqYP6bxqAvcy8Se4sCkAsMIs/UneFeqyAcoSt2SSoyLg8SXO3pqss1lYPZC96aK3qxUz/CZh8tGjGgv9GpIWPL/3FQAA10SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747142265; c=relaxed/simple;
-	bh=XPhAVW7nrR8wzdPpqqQMTJtsR7CbV4OJLpPZbauNjxE=;
+	s=arc-20240116; t=1747143007; c=relaxed/simple;
+	bh=1/jT1irQV0hD0/JfAceUMneUWj/CaNn1xhCEvSmqDyw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YcUlXVGYPdRhnYRjWdDvqspHE0ZeH7GbKszOUdStcQT4EwhTDlKwNHoFuYu3rMd7iv7ynbt67EGxDWLnTECGo9ns+IVaeKuXdO3FhUABKJPcgVmU41RcGQ7uqct3UOS0oEhS3Pt1VeUR5s5wHenTNWqDNPOpI80n9qmpjltSAP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.170
+	 To:Cc:Content-Type; b=XI7vwHTwtApnM+LNRhRjobSi1lD+D+rVplDhEgV17jfoucZIJmUvm3qIzl6fWPOgYsPzMgyUF9+FL6CE0Jz8qwzOPTepZlveKvqNf/xNmzG0a708+LngMMqu4ZpFYDCNE5pfF7WRHIXa+90BATxntw7ytmBXC7xNiOQlMbaxPME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c53b9d66fdso840786485a.3;
-        Tue, 13 May 2025 06:17:43 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-86d587dbc15so4023816241.1;
+        Tue, 13 May 2025 06:30:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747142262; x=1747747062;
+        d=1e100.net; s=20230601; t=1747143003; x=1747747803;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EkiL2mrEZZwE/y1tC5rTFjuEboDte7NmK20xqnMc/Wg=;
-        b=wDNqiH4rl3UJrHmNoM+odFW6+/w3hXSD5Mcf8/z56fhpIi2u+FSxkR7Hzv3RTlieaO
-         CDO9bCkAE9E+6LvNISvcaLu6KGmZocvJwPsnz+WOKGMCWnK8LTAxrarnoXsvJFfEFrsW
-         sWjmpmN8QEoLYUsdfN0kmR4EP4xc0EZVjNVPmPHXML5C4tpUaCdmWPYzevODGiDqly6K
-         61hngbdVJL5y5a0FgPpBO14MuhfVOhAabfPVVeRkU/BvG5xxZk1IqMCFwzPld1cT9FFx
-         RY4O+ukfyJYdy8xBxvRVZ772dBjWqn3AMhQ4MOg0rAqEbdUKq9LQEUwZ+JWer6oH4o4g
-         iPZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU7E/tbnm7vZkLlOk0F4+htnu37pEMUIhG2xOhDKjfbTMkTrP6EmMdaGQbx5BFlmpeCyiMSvBhNO64nEanJ9USwJ2o=@vger.kernel.org, AJvYcCUqF4rYNCMxQBR7Uvv0utZ2m+IdmWP6eiBN8DNqIGtYmH5y2FI3dLI2MxJKLmJMNbjlhHi4VNhsx9FDj3+S@vger.kernel.org, AJvYcCUtraYnmJ408crmsp2dbzwr/1W+8bJJC2o1Pd+b7mS2JhgMkS29V5dsFHRyImJp1xIG9nuHFVjHcszFsoxM@vger.kernel.org, AJvYcCWHlZnA/W6TculK6QnPG1GezFUSmGr3CTuTpJsKMexzG+ux2z26U4Gmwxljuh0ulFp3Y6MqvO6LZjA7@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqsWZQeAWuAJwkvFPE7s1W1zioTC0B+oxJPeB2J/Fn6H0YjNZX
-	vGgE7RaldGuu4f9Wa/ASpIAGBgsD9teR0g84on+cYD/ZYGKyjrR53twL0qWH
-X-Gm-Gg: ASbGncv1xET3o1dE+LYSCoqQO9p1RONCDfJjz+xaOIunqC6Q/OeXiOKFLagC5+Fl8j/
-	axlC//R6tu3Y9KGqMBcb3EjM7IQghE/ygUGTEhP5j/j4y61mE5FCCA1CHAQShbW6TwqYnohK4OF
-	eYQeE6kwhUFOwYf4q55LiGQybH0GMdt/8ZK64XmFY6d34DaF1TNSUvXy9GCGNC2YMJP664T5MBe
-	SRsv/cfjm0RrvUlT5KbGiReqMm6rHaIMKV+8WTpop6h3XSRvl3xQzp25MqDWjajZcaDR5yj2CIt
-	j5cGsAC+sAaxsYbOkNzIskhE8M0Ah2yM1iTPtzAXHgEzlexvSEeIq5+HjfzgOr/e1Y+uFHMnYmE
-	YSPKmEIKR0G6dPOKm2A==
-X-Google-Smtp-Source: AGHT+IHvJ8dEfKcNnXMABz10UaeeT69HP8Lk1wxbD9iD0qaf48/IS1MSPT0RnbBEjYoxj3+GAFAkCA==
-X-Received: by 2002:a05:620a:2a0c:b0:7c0:c046:7c6b with SMTP id af79cd13be357-7cd01178ec3mr2272929985a.53.1747142262532;
-        Tue, 13 May 2025 06:17:42 -0700 (PDT)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com. [209.85.160.170])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cd00f98908sm702015585a.52.2025.05.13.06.17.41
+        bh=h5p2EOZr1+EqtWMypguUKgD4pFT1Q96G1mqgN1MElIE=;
+        b=XD2Xc/36V6m0nH2t9zAQpSxKtFdMOgP9EE4UrIT0zLlKnkDrzcOdxc9Lnmy5anS8Ba
+         pv2GlPv4ZEYckedco33logj6Ab1f4G2zbJGNyaEI0ISAEi5p5Nfl0/bkLnsGg+pm/3t5
+         UE575qKYvAd0Wt2gOtxKL/If5t7pXNeirzvJbj9zvV5o3C1cRBi7g4MGCTKz6pAE3rcN
+         LyUEvMB9vgw0VQ/m4dLYxzIDHM/ynM+3nFHyAlOp8x6LeojX7qAT7pPnu5md7Xts+5Mb
+         t+/KOTXWErQ+DE0BX8TrgiPI6YGmQlXkk5K43A2DX19qaiGI2Hv83E4STJpdofq+B07X
+         qkwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUXzZSMsjXFsCGmi4pWckJ6mOrRpWqpk16SMgDMEjlbkBZa5EMLk9r6dKR/K/oALX++bQ25lgDoANWB7XR6@vger.kernel.org, AJvYcCWbsXJES9MnCcCsUitjIY6Gfzfm5oNP6nmWP1EtJnRbXCccMk8hC9MorumFrlUU9BFR0L5Hlsjo0zTO4H0=@vger.kernel.org, AJvYcCXk4AEWyMFqn5Cr8rfwRmsxcZ+Fqr7tqAVPrTCORPs7++MeuwWVsdT7I5RkukfbrxJc8JP1/KD4Lnh7u+jBKxD1Rj8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUuUbNf0uGUhxm2R7y4imzv7K1jFrz/W4B9XiSC36QFFcacguE
+	DcveIjv/nqvPie3KX1IaaBG2KHOBUpWQ3U4sDNErNr1YGJ+IpX5uOcJR68ru
+X-Gm-Gg: ASbGnctGmEPk1xp0e5oMrWsL4z4IUQlypNa9fGZDff5g9Mr2+WyIlGrpUka7nrfvhhg
+	z1mWIe5ahimva2APDgHE2xlZYE0mLK83c50ZnAXNoaJ0HiMrCMLGn4Y7z6INiw5a4GsnB21wkQH
+	5cvxGEb6KQ7vQf7e3Wnr0itEtKlIAEBC44KOk06xBGbtp4d21OJbHq1pO3r5D/z7FnDLwo9gDfL
+	Mt6j0kFy1ig+crXzgNretjKaeSbnT1ZFi6vjsgGglvxzN1MmZh4BTacUp6Pl200d9IqrSvpdy1g
+	0yqx15esBEqYH0/LR+Px6Lwkq6HcKasiQc/gB7o6zh6wEk20/EEHd7P9oP40Vf5ulpvX5cnexXL
+	6vDmaH4uP1TyF7w==
+X-Google-Smtp-Source: AGHT+IH97OBudEFVi67EJYdOq4olbIc6UPdocpSzR2esCNaCdDdzY3+bejv//rCh/sbYCHYsMURfcQ==
+X-Received: by 2002:a05:6102:2b9a:b0:4cb:644f:fc51 with SMTP id ada2fe7eead31-4df6e3958f4mr2491512137.9.1747143002529;
+        Tue, 13 May 2025 06:30:02 -0700 (PDT)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4deb20173d5sm6517847137.23.2025.05.13.06.30.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 May 2025 06:17:42 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4774193fdffso98559661cf.1;
-        Tue, 13 May 2025 06:17:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU2SDZPO0SMbkblp4BROnw8Zn/VvdN0k9LyId7Vx1rjBEzLVvPSFbtQID6DSEstQmK7m1+Xs3r5iT7f@vger.kernel.org, AJvYcCUeATIqHoJIv50COYOddQ6NCKDS4h/JdawObz6/l0n54rKhVJXVftJMq8PwJ3/MZNg4LeBcNRStl24NQf0GiNm0qkw=@vger.kernel.org, AJvYcCW8KuQZUBGQgWmbvpXlEPdbaxHskH70X5vYR+QE+w+ij9VjiiR39Wmso7il9RuxCimvn0HEk2SFqQtlmvtS@vger.kernel.org, AJvYcCWVQjoj/sK+gAvBXBdYO1tTR0q9zS2d4/JXoLh+SlUIAOBz8sKAynrveYdhdNRgj5eiQPmhq627rH2Y/NoZ@vger.kernel.org
-X-Received: by 2002:a05:622a:30d:b0:476:6b20:2cef with SMTP id
- d75a77b69052e-494527b841fmr261435331cf.41.1747142261724; Tue, 13 May 2025
- 06:17:41 -0700 (PDT)
+        Tue, 13 May 2025 06:30:02 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-86d587dbc15so4023788241.1;
+        Tue, 13 May 2025 06:30:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVmRdhqcLlpy84Izx50RID8eSVHz13kUqg62Db/FrZOD14h04/E8/A1ioPxdGGY2u9fE6fb6h2N9WKgxhQ=@vger.kernel.org, AJvYcCXMFKiRLMPyi71ZIlkoNf4R+wvN0Wskcz6e8ypkZKkdcNAZQ7dLZYssTra0lSAprrS2PMEddo/cuJFqyGWm@vger.kernel.org, AJvYcCXlKQWaOWu5NYWZJQDpH5TNmfC+DKeCwSKXd5QE5LngA/PbRxM7bnayAVoNcOiuJXnip4YZ5mIxr0FwxJfVqJkklYA=@vger.kernel.org
+X-Received: by 2002:a67:e408:0:b0:4db:10bf:6f2c with SMTP id
+ ada2fe7eead31-4df6e4da24emr2536824137.11.1747143001753; Tue, 13 May 2025
+ 06:30:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250429081956.3804621-1-thierry.bultel.yh@bp.renesas.com>
- <20250429081956.3804621-2-thierry.bultel.yh@bp.renesas.com> <CAMuHMdX_SVtXjQ_c1w0=qcWHqc+68u_EkJuUjm7R+s4fOYoMBg@mail.gmail.com>
-In-Reply-To: <CAMuHMdX_SVtXjQ_c1w0=qcWHqc+68u_EkJuUjm7R+s4fOYoMBg@mail.gmail.com>
+References: <20250429081956.3804621-1-thierry.bultel.yh@bp.renesas.com> <20250429081956.3804621-9-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250429081956.3804621-9-thierry.bultel.yh@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 13 May 2025 15:17:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUxKs=4tUg8iNFDUFdZVSmXz8SvZsDnbjvmbQ_FBsRhwQ@mail.gmail.com>
-X-Gm-Features: AX0GCFv5UTlUTi8kd_Gbxa0jm4WghU13zL99Rsuwl_OkDeiWAjs1riAGF7hi30E
-Message-ID: <CAMuHMdUxKs=4tUg8iNFDUFdZVSmXz8SvZsDnbjvmbQ_FBsRhwQ@mail.gmail.com>
-Subject: Re: [PATCH v8 01/11] dt-bindings: serial: Added secondary clock for
- RZ/T2H RSCI
+Date: Tue, 13 May 2025 15:29:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVVdr0R4a1WpsQ7-2fO3G_dXdwDfW367m=7VKmbEP_Xxg@mail.gmail.com>
+X-Gm-Features: AX0GCFu8VBeDSuejzlHlLhABhkfYHWHqiFlAAnr60hE8ObYp29deqasE78gcWao
+Message-ID: <CAMuHMdVVdr0R4a1WpsQ7-2fO3G_dXdwDfW367m=7VKmbEP_Xxg@mail.gmail.com>
+Subject: Re: [PATCH v8 08/11] serial: sh-sci: Add support for RZ/T2H SCI
 To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
 Cc: thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org, 
-	paul.barker.ct@bp.renesas.com, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org
+	paul.barker.ct@bp.renesas.com, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-kernel@vger.kernel.org, 
+	linux-serial@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Thierry,
 
-On Tue, 13 May 2025 at 11:38, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Tue, 29 Apr 2025 at 10:20, Thierry Bultel
-> <thierry.bultel.yh@bp.renesas.com> wrote:
-> > At boot, the default clock is the PCLKM core lock (synchronous
-> > clock, which is enabled by the bootloader).
-> > For different baudrates, the asynchronous clock input must be used.
-> > Clock selection is made by an internal register of RCSI.
-> >
-> > Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+Thanks for the update!
 
-> > --- a/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
-> > +++ b/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
-> > @@ -35,10 +35,14 @@ properties:
-> >        - const: tei
-> >
-> >    clocks:
-> > -    maxItems: 1
-> > +    items:
-> > +      - description: serial functional clock
->
-> The Hardware Manual calls this "operation clock".
->
-> > +      - description: default core clock
->
-> The Hardware Manual calls this "bus clock".
->
-> >
-> >    clock-names:
-> > -    const: fck # UART functional clock
-> > +    items:
-> > +      - const: async
->
-> "async" is the name on the producer side, not the consumer side.
-> "operation"?
->
-> > +      - const: bus
+You forgot to CC the serial maintainers.
 
-Actually there can be a third optional clock, just like on all other
-variants except for SCIFA/SCIFB: the external SCK pin.
+On Tue, 29 Apr 2025 at 10:20, Thierry Bultel
+<thierry.bultel.yh@bp.renesas.com> wrote:
+>
+> Define a new RSCI port type, and the RSCI 32 bits registers set.
+> The RZ/T2H SCI has a a fifo, and a quite different set of registers
+> from the orginal SH SCI ones.
+
+original
+
+> DMA is not supported yet.
+>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> ---
+> Changes v7->v8:
+>   - s/rzsci/rsci/g
+>   - declared SCI_PORT_RSCI as private port ID
+>   - look for secondary clock
+>   - report error when rsci clocks are not found
+
+> --- a/drivers/tty/serial/Kconfig
+> +++ b/drivers/tty/serial/Kconfig
+> @@ -675,6 +675,13 @@ config SERIAL_SH_SCI_DMA
+>         depends on SERIAL_SH_SCI && DMA_ENGINE
+>         default ARCH_RENESAS
+>
+> +config SERIAL_RSCI
+> +       tristate "Support for Renesas RZ/T2H SCI variant"
+> +       depends on SERIAL_SH_SCI
+
+As this subdriver can be a module, the relevant symbols in the sh-sci
+driver need to be exported, as reported by the kernel robot.
+
+> +       help
+> +         Support for the RZ/T2H SCI variant with fifo.
+> +         Say Y if you want to be able to use the RZ/T2H SCI serial port.
+> +
+>  config SERIAL_HS_LPC32XX
+>         tristate "LPC32XX high speed serial port support"
+>         depends on ARCH_LPC32XX || COMPILE_TEST
+
+> --- /dev/null
+> +++ b/drivers/tty/serial/rsci.c
+
+> +static void rsci_prepare_console_write(struct uart_port *port, u32 ctrl)
+> +{
+> +       struct sci_port *s = to_sci_port(port);
+> +       u32 ctrl_temp =
+> +               s->params->param_bits->rxtx_enable |
+> +               CCR0_TIE |
+> +               s->hscif_tot;
+
+This fits on two lines:
+
+        u32 ctrl_temp = s->params->param_bits->rxtx_enable | CCR0_TIE |
+                        s->hscif_tot;
+
+> +       rsci_serial_out(port, CCR0, ctrl_temp);
+> +}
+
+> +static const struct uart_ops rzt2_sci_uart_ops = {
+
+rsci_uart_ops
+
+> +       .tx_empty       = rsci_tx_empty,
+> +       .set_mctrl      = rsci_set_mctrl,
+> +       .get_mctrl      = rsci_get_mctrl,
+> +       .start_tx       = rsci_start_tx,
+> +       .stop_tx        = rsci_stop_tx,
+> +       .stop_rx        = rsci_stop_rx,
+> +       .startup        = sci_startup,
+> +       .shutdown       = sci_shutdown,
+> +       .set_termios    = rsci_set_termios,
+> +       .pm             = sci_pm,
+> +       .type           = rsci_type,
+> +       .release_port   = sci_release_port,
+> +       .request_port   = sci_request_port,
+> +       .config_port    = sci_config_port,
+> +       .verify_port    = sci_verify_port,
+> +};
+
+> +struct sci_of_data of_sci_r9a09g077_data = {
+
+of_sci_rsci_data
+
+> +       .type = SCI_PORT_RSCI,
+> +       .ops = &rsci_port_ops,
+> +       .uart_ops = &rzt2_sci_uart_ops,
+> +       .params = &rsci_port_params,
+> +};
+> +
+> +#ifdef CONFIG_SERIAL_SH_SCI_EARLYCON
+> +
+> +static int __init rzt2hsci_early_console_setup(struct earlycon_device *device,
+
+rsci_early_console_setup
+
+> +                                              const char *opt)
+> +{
+> +       return scix_early_console_setup(device, &of_sci_r9a09g077_data);
+> +}
+> +
+> +OF_EARLYCON_DECLARE(rsci, "renesas,r9a09g077-rsci", rzt2hsci_early_console_setup);
+> +
+> +#endif /* CONFIG_SERIAL_SH_SCI_EARLYCON */
+
+> --- a/drivers/tty/serial/sh-sci-common.h
+> +++ b/drivers/tty/serial/sh-sci-common.h
+> @@ -5,6 +5,11 @@
+>
+>  #include <linux/serial_core.h>
+>
+> +/* Private port IDs */
+> +enum SCI_PORT_TYPE {
+> +       SCI_PORT_RSCI = BIT(15)|0,
+
+Please add spaces around "|".
+
+> +};
+> +
+>  enum SCI_CLKS {
+>         SCI_FCK,                /* Functional Clock */
+>         SCI_SCK,                /* Optional External Clock */
+> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+> index 2abf80230a77..44066cd53e5e 100644
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+
+> @@ -2977,14 +2978,26 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
+>         struct clk *clk;
+>         unsigned int i;
+>
+> -       if (sci_port->type == PORT_HSCIF)
+> +       if (sci_port->type == PORT_HSCIF) {
+>                 clk_names[SCI_SCK] = "hsck";
+> +       } else if (sci_port->type == SCI_PORT_RSCI) {
+> +               clk_names[SCI_FCK] = "async";
+
+As per my comment on the bindings, I think you should use a different
+name.  But the actual behavior (overriding [SCI_SCK]) is fine.
+
+> +               clk_names[SCI_SCK] = "bus";
+
+This is not OK, as on RSCI the SCK pin can serve as a clock input.
+I see two options here:
+  - Add a fifth entry for the RSCI bus clock,
+  - Override the [SCI_BRG_INT] entry (which is the closest to a
+    bus clock); RSCI will have its own set_termios implementation anyway.
+
+> +       }
+
+> @@ -3085,10 +3098,10 @@ static int sci_init_single(struct platform_device *dev,
+>         }
+>
+>         /*
+> -        * The fourth interrupt on SCI port is transmit end interrupt, so
+> +        * The fourth interrupt on SCI and RSCI port is transmit end interrupt, so
+
+(R)SCI?
+
+>          * shuffle the interrupts.
+>          */
+> -       if (p->type == PORT_SCI)
+> +       if (p->type == PORT_SCI || p->type == SCI_PORT_RSCI)
+>                 swap(sci_port->irqs[SCIx_BRI_IRQ], sci_port->irqs[SCIx_TEI_IRQ]);
+>
+>         /* The SCI generates several interrupts. They can be muxed together or
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
