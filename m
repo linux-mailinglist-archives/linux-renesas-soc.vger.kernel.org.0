@@ -1,342 +1,191 @@
-Return-Path: <linux-renesas-soc+bounces-17062-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17063-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C495AB5FBA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 01:00:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB255AB5FCA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 01:10:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 934564618CD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 23:00:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E9F6466284
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 23:10:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 310A41F16B;
-	Tue, 13 May 2025 23:00:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A19641E991D;
+	Tue, 13 May 2025 23:10:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UBA6BTiq"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="UoYEtVbS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011048.outbound.protection.outlook.com [40.107.74.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020D3136337
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 May 2025 23:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747177219; cv=none; b=c4pD0KWIL3Db1weTVz1Q3i7R1St0BFzfnb8ZFFWzqApxpKk5eAfGNddXG8QwhSV7uIXPAWlYrA09odNc4drUV4ltsNinmg2YJH562f6O8SJ/SuM6/+YkOCqfnbxqK+yimMQxwrEH+6HJxu8daDwP9viBdFdoP3mtela+GxDiOug=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747177219; c=relaxed/simple;
-	bh=AZttWyih/SSLb55sqpPRyTxy9mSfFBF5e5eIZ/CnWhM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=df6lzo2Ryz7iiJu8A/5DGZOZAR3fcYDMfWbcD5eYuXefkT8e5rea4Q9WhSgX5eGrEGGNM+S2l8+JlfLXuUapNBNy9CNs/2eoxej78GF89oWOFjaMrna1AMH9LA95d6N356lfF4PKwcAQXJssWda9bPSvA5QvrkIV1OVVDjyKKnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UBA6BTiq; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747177217; x=1778713217;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AZttWyih/SSLb55sqpPRyTxy9mSfFBF5e5eIZ/CnWhM=;
-  b=UBA6BTiqyFUQpVzmCuEhIfsdLFKtN+WhKGBbpxVOcHNmmf58VDw5nL78
-   OgnyZLE/17mxwhG2ZSZOsaJ+Yzt3iCozR2+bsSgkhi5WLAXTXWyI4M0kt
-   mbfriGqTHAbIeXKxnJpVE1i/3kwJmEUUe4NqXaK1yPv5qkq3GpVjzBjBs
-   jKAyb01/+mPw6KAFhyq4v10v/6KPnH26aUTXOstAN+mqj/uhaiThil42P
-   AfGZPymGBPB6XzhCzBEvQRt+H0a+2HGh4TadnC6ytF+kIo5BbjGPA3cBN
-   3iIZpla3qAFGFXuba1Tk8tQrUjllRfoK2TJuetbTyxU5ZqHup6Y0TR2tP
-   Q==;
-X-CSE-ConnectionGUID: UZjxN6bYQ/eocT1G8t71Eg==
-X-CSE-MsgGUID: y5ilqE+CSTmWrhdWWlxQYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="52856873"
-X-IronPort-AV: E=Sophos;i="6.15,286,1739865600"; 
-   d="scan'208";a="52856873"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 16:00:16 -0700
-X-CSE-ConnectionGUID: YxqnVIIJSj+vZyZV1TKoLQ==
-X-CSE-MsgGUID: v/2JF9HBRxW3yp41ZZ8lGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,286,1739865600"; 
-   d="scan'208";a="137720686"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 13 May 2025 16:00:15 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uEybc-000GTf-29;
-	Tue, 13 May 2025 23:00:12 +0000
-Date: Wed, 14 May 2025 07:00:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/msiof-fifo 25/25]
- drivers/spi/spi-sh-msiof.c:1285:35: sparse: sparse: Using plain integer as
- NULL pointer
-Message-ID: <202505140608.WAS0ac0x-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CB51EB19B;
+	Tue, 13 May 2025 23:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747177800; cv=fail; b=CqFXVUYB+tzvG4sNM+M1AOzuqXBanW/mQOMEKSvB0N0yA40/9n5TJV5wgir1Hq4/8AY84Uczz6hLehdqQLHXyaHS8fnA1X55kAsyxfgX0ORcaVyE6xx7p4ZqdnhAiFaD6yXVtxghuxM1fsd1rl/Lykr1+rNEUtLrqDUrJWjpqzc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747177800; c=relaxed/simple;
+	bh=FGh+wgMF/UiJm0/Ce4DJau6d7vVotkMsPPDks/KD1ek=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=RoiskuK+FUBeKLlHLCUuEbSs+UgcSBIdKXY+IqcpMU21oqfQvAjihVNes6CCNMSGTFZEJV9v8U/GkJU7LC8AsMZmiVPVwpT1OOiiMTjQmcyiBxUj1yNWLDblGQ70Uao/vT9tNcvAIqsxwJIGDAOQoO1JVuxn6uwIU3vZ+//qr1o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=UoYEtVbS; arc=fail smtp.client-ip=40.107.74.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n/guUj0OIV5YN98xAQH8tb2bgK0xZP0wS5veDqrX9C0x4Y42aK8XzuAhAZr0fRVdccAG71i6u9kF3HI7gCl5uRGQ+8vd0Q8gRqyDtQFk6SF7VXsK6EnFwAzG3biwldJu/dowT2UOKgvLmOPRJyXzwL4KYd7xHuKOrZN8Q1jYLdZdEJVTHu94/RIKUGdDlnWzYH5xbLbJR+9BNrcwRF2Hdt/nRY2Bw27QzS2l1G0XU4LrmrKg9Az6tpwqhya2AEN0yTVYLcDbCrP5cPEA5PU7a/O4QeB0/NzNiLWR7YK0ibnFO9xQsmdI3SYELwqLQvqkaahmHRjTCglH18sVBVl+vA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Deu0Rje/RK0jn1L5JD5dhyjF8pAxQbMQ3YRxO8/QM5E=;
+ b=SQv+OwqNRydrr2a+YqpjsK+k8+Qkq9IHTx/kIfcJxYk/dzgPiwZcU9KbaRMTPaExJ8Vi3bPtGnHOELD0+wGQqkVLXUUC585nAoNms6Nh+an3Z6BhMmnQ2izmjJwknDLX7MzxdsxRalkfMqK+CItmCigUnKOQ1PVsgBa1YF+Ia4ER+McAMi3Vj47Q5V/dn7jgXAjAX8A1pU+Gpr5gm/BRATcvaQoHlmimfJPxQTXMYjv/k55UNKtPRfkgx5S2T92bgmL8gEUL2vM3B4zysW0zSeLRvkD7eAQMDMCwuPWha7r/e+ZO/H5VpLBuMmat+Y79emg9s+Uqb0MZiGBLnZoeZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Deu0Rje/RK0jn1L5JD5dhyjF8pAxQbMQ3YRxO8/QM5E=;
+ b=UoYEtVbSQEY19hI+qOr/YP8vecvJolWfP8W9XAG15N5/W3H23CDr15NPHleF1Mc8HTASBfxq6VZ4U6SpjjUKVhTvC21DeYhtZeEnkpFVsCoBUyTOOVD47EIBBmE0Fx9qZXma6yYVhxK/Kp2QfYVOvYGOaglPhmwv+jkG1Wi7GAs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYYPR01MB8093.jpnprd01.prod.outlook.com
+ (2603:1096:400:f9::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.28; Tue, 13 May
+ 2025 23:09:55 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8722.027; Tue, 13 May 2025
+ 23:09:54 +0000
+Message-ID: <87bjrwaz0d.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: =?ISO-8859-1?Q?=22Uwe_Kleine-K=F6nig=22?= <ukleinek@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Will Deacon <will@kernel.org>,
+	linux-pwm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v4] pwm: tidyup PWM menu for Renesas
+In-Reply-To: <62gkja5ysv47yos2hcurluudxwvl54uv4ih7pjnmnjrzuik6cs@a5oxhyyy6vsm>
+References: <877c2mxrrr.wl-kuninori.morimoto.gx@renesas.com>
+	<62gkja5ysv47yos2hcurluudxwvl54uv4ih7pjnmnjrzuik6cs@a5oxhyyy6vsm>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 13 May 2025 23:09:54 +0000
+X-ClientProxiedBy: TYCP286CA0077.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b3::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYYPR01MB8093:EE_
+X-MS-Office365-Filtering-Correlation-Id: fc024dfa-5f06-4343-a560-08dd927345e4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|366016|1800799024|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?gAhlhvjTPQii1xBBwhBcdayxK+QXc2zApEqgqTXKUoSR8AdOHrNgPcI93CAS?=
+ =?us-ascii?Q?8TcEsSFLq/aJKjP0wigCTCHay5LuMzPi1aGg1WVV5sCumqTrHTwyySu5vMtm?=
+ =?us-ascii?Q?Sq1qasEJW9gYtzescFECMoHoHbfCGQuIXYsshVJ84sWcpA0lZaF7Dvf/7ZeF?=
+ =?us-ascii?Q?k+NabVhwDev75QIhi2fAMrds3/1Zq3gF5bl6pa8omg7/0J0spQ64ObxpcynP?=
+ =?us-ascii?Q?NatfL8DMNsaY0u5dWB/zuR7rQtELCZiBiFl0AxFWdAFcpkPVsO5bkLncb3fU?=
+ =?us-ascii?Q?bbGRDr42IhFgyF4eCaT2eoHSP3fG4cYH3Zl0/KFVCviPLsXqZd2R/2r8+ZBO?=
+ =?us-ascii?Q?d6midKPqtn1WoDF4lk+CWBuA0RewJ8cvzUzIXHXrLVtdGItJ4u28ESnY8IIF?=
+ =?us-ascii?Q?UQ1dPwxDwJrSjYcj1WNC4KLONlZVmSSAXl1L+bpb2Pdv1fxa0LBQfe7QMC8R?=
+ =?us-ascii?Q?VHu/aFoJ2un1A6XAO488Je12zxdF3Eqy68Kq4P5co1IZ3omMuGHJhLJiNpp6?=
+ =?us-ascii?Q?i1109zfEiKaS5+xzVpaYHkQf8yHikDYAPp8Uqve7/kIUp2xUutFaW+taBkAm?=
+ =?us-ascii?Q?phURog07AqXKr1MHFQFCCQpGDDHGV8T/SuTpeZYpZbNZ9/zgYhXTYBzYByqj?=
+ =?us-ascii?Q?9549IIr4uXdzxiHrNSC/X5uYxU/BYUNlSK9gZH2l0dtccUKviQ/0r5CLRs5C?=
+ =?us-ascii?Q?W2++/Svn+aiREaX9u4Rh/2V8PtrVPDTNbJ9sIZrZYuaUMkKCukZEH0O8nXGX?=
+ =?us-ascii?Q?OhFkOgcfcaIg7yBIBEhgnRMcH47LslRjXwBpjEKm/X0DJhSl4tgIh2Jgi2/B?=
+ =?us-ascii?Q?wwGdtuYzA2y18TyCAF3sYa7YHII59/h7Votc+EeKMmKRKOp0TNio542k8CrI?=
+ =?us-ascii?Q?5hy5lpvIe0++oz/vQ7wV6fgUxJ9+YZzywavfuvd3wn1xeord4R69hBT82XQp?=
+ =?us-ascii?Q?7OMtNPim9fPVEX8s+Zi3oYJ/grMf87Qnbw8xoOM0j829RzR7UfqIKt2KPrXI?=
+ =?us-ascii?Q?6jx70IHr1b2jJQaHA1/uoJDAgjfN8qZO2veh/hEkMmq2jokfxfKM5Wh7d/UK?=
+ =?us-ascii?Q?R+8VAYRLWLDWi6QyaXLDm1tITbJ0o4jX7/aL4zx7UymsOxabVch7aKYM0mdi?=
+ =?us-ascii?Q?hLx00tFiXbg6wBvKUNlgmIqwcEbR5r5oR7qTf6STsWW8t/0xRDAzPNTcF1tM?=
+ =?us-ascii?Q?DE/CyNeRddzeNwY+gGOF1NiMF0D+48cKRAwPtSo8nb0WokV9jUBdthXO9Z9L?=
+ =?us-ascii?Q?wPeeS91UmCABgJcnYDoxFfxMbf2yr4t0/nfkGbTlckQB//Qkkuq8SjBQM96w?=
+ =?us-ascii?Q?mJBxX+JF5W8OswNPsGz4G1MFx3MqZ3bbo9/nmd2kmngdz/t93TsHpYlXewu6?=
+ =?us-ascii?Q?8NyFj2UYJrslBCc6V3lyO0y9FbHHOsyl0zXx1ND/rOZ/0cfbAzGztByhS9Wx?=
+ =?us-ascii?Q?CThHV9Vh+fAXhrJZWrX71uGqbvc+Gjhhc8wimYBDtzQ2AqyMjCrE8g=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(1800799024)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?x8lD4OKiK/eW9Ue5GVZvH9iVg/Sma0RcEGovyBT2bTgMbdQzKBakRHEmbh6y?=
+ =?us-ascii?Q?A6nS7g+KCu7P3zzvd/INSm3g6ceaydfSaTDIFS/jGsKYBA59oxR+3jVdatPO?=
+ =?us-ascii?Q?KZ2OYcf/2PF11IWQy64quMrn0J9edVX64198gRgO4hhaHVhy+wQ+n+HMaRXI?=
+ =?us-ascii?Q?v6jRwPZKf0n2gtJvWICj2XGw1KwIov4TAv0SQhYkqSrDN+25JUfxnTVq6NnG?=
+ =?us-ascii?Q?3pLqCun/v5CBa1UfBK2qlJDJDCpxbfkrP2/aXL//Dg4504S+SEjj2dUp8KOg?=
+ =?us-ascii?Q?SGd28hU/Rb4l/vSwYOlEvEOqGAtYrBM9gSkpSQR5upKpHIMAIhal98YwRI4d?=
+ =?us-ascii?Q?IDmKH+uPSAEZ5O4uSRDEqRFqItQNmCs5guIav2A0xq1YS/dbZL/RwfHE4NdL?=
+ =?us-ascii?Q?T8ordr4fRJ51CB5ZZHjjycHi+Ud1lv4ZgklaE+64NYjQ0sBgy/Je6SRC3hA7?=
+ =?us-ascii?Q?7/D90Xg2iSsouhmZ56PUI2YtRNgtNbEjn3Vair2pJs3J7bAoSW176jNIjj3b?=
+ =?us-ascii?Q?Tp3XbjL3zx5YhU/XKRhSDn8D3CBQFjJyyuT94J0IBv/7qtRuVjQEgzXw7vap?=
+ =?us-ascii?Q?BqCqCV1GavOgiQfH6gOCbcQYsZGTSDlXhJZY4kG/v2hefa1KRjVNaYOFaocM?=
+ =?us-ascii?Q?P7XJHr81eXOMhU3CKrHg1KHzauR908KI6KTQ77XvCi7Ztzv2OAJ7JXCXC84O?=
+ =?us-ascii?Q?UN03JtCs6+yxsD3AHXGGRN4LHiSgxZ3fvkQcQrBf4o5NlEER6ieNvZjgUe+q?=
+ =?us-ascii?Q?siFaarczfyHRM31HrGSl5T8uaf28THu8ccbwj67JEyZdEot1zv2loKPt2+jm?=
+ =?us-ascii?Q?a1UcgnzGXjUWMN6cmNhY0JoTHJl5AZ+t1RfNavxFH/m3IdjyHUxoD3lKhTy7?=
+ =?us-ascii?Q?mwYjK+SnHPtFpb71dMY3aCavwlrcLAsNNzxNwR2vicV6hNClI7j1prKQGZkU?=
+ =?us-ascii?Q?SNKZmxDavmcqc/VZAWtLuOURoD00HM8L+FPQO40zyu3LPbcLiXORj/xRIEA4?=
+ =?us-ascii?Q?2VS5Agps6VgWBXJEBmroic3HreuptNtEeKSDfVN+oHRgpP2f/NyP0tgytqGd?=
+ =?us-ascii?Q?3a31n5ZGr7rtPjSxdFuxjx1sMWQpITZEgtM8wwYGcycP6km+B/SODlKPqHKo?=
+ =?us-ascii?Q?l5Boh9MJRYkYhZB1EtgUC56htG+cajVjGlseDk8/buhDMCi5To0kYWTwRe/B?=
+ =?us-ascii?Q?ZAvmfMimTGvABScCr810ysxfu/1uLUbuOyDNEV+0V76Z/ZDXASChzbpPEYmx?=
+ =?us-ascii?Q?mS4Sp5z6djycDLJK5ANUG31Uw/PRWwLvz4LXl/587MQFn8rlOiE+yGvN+PB4?=
+ =?us-ascii?Q?vGpSTjcwPjLf33jimFTNmxbAR0NnR+wOVMKKC2hmtTrt2CTJUE/JpfFlYGm8?=
+ =?us-ascii?Q?qycOVQgw0TtjHuu8uZPOiG9gilhOVZAzVb417n1mUeGpbuEJru9pRzEhdY25?=
+ =?us-ascii?Q?PSLXUupiSjWeLDqemQKYgCZx5g3XbmcadZrh2DbmlQDnA1SX0I7q3jX+Imk7?=
+ =?us-ascii?Q?UgrQNBNMs6H0NAgA57LOCYk5HauMWwIrKS1eO734glRSzhItVX4DrRyWxMMJ?=
+ =?us-ascii?Q?Rp7P+Ty9sLZp2baq5j5bYT+taGESc+6qpBVgjvRCjLkhWLx64HKPwIm8YIvX?=
+ =?us-ascii?Q?dENY4D/xc/jGqmcY6REZbng=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc024dfa-5f06-4343-a560-08dd927345e4
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2025 23:09:54.8863
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ai2IyGVCQncZhPS8fqKYEiS1bmrSYPFbiEmaYvW3/MbILb1imE2KbYEoezYY3UbKKtdDi3jWQujsCFQ4gylUtDRH0cWnRB20UAkyahBlJehRzNpB06t8UUrGZImAbTTj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB8093
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/msiof-fifo
-head:   ea0b0c13af38da57a973b3c0f37e54595546ea2d
-commit: ea0b0c13af38da57a973b3c0f37e54595546ea2d [25/25] [TEST] spi: sh-msiof: Add FIFO test code
-config: arm64-randconfig-r112-20250513 (https://download.01.org/0day-ci/archive/20250514/202505140608.WAS0ac0x-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce: (https://download.01.org/0day-ci/archive/20250514/202505140608.WAS0ac0x-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505140608.WAS0ac0x-lkp@intel.com/
+Hi Uwe, Geert
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/spi/spi-sh-msiof.c:1285:35: sparse: sparse: Using plain integer as NULL pointer
+> > =>	[ ]   Renesas R-Car PWM support
+> > =>	[ ]   Renesas TPU PWM support
+> > 	[ ]   Rockchip PWM support
+> > =>	[ ]   Renesas RZ/G2L General PWM Timer support
+> > =>	[ ]   Renesas RZ/G2L MTU3a PWM Timer support
+> > 
+> > Let's use common CONFIG_PWM_RENESAS_xxx symbol name for Renesas,
+> > and sort it.
+> > 
+> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > ---
+(snip)
+> I was about to apply this patch, but here in
+> arch/arm64/configs/defconfig is an not entirely trivial merge conflict.
+(snip)
+>  - I delay applying the patch until after v6.16-rc1
 
-vim +1285 drivers/spi/spi-sh-msiof.c
+This is not a important patch, IMO.
+I can re-post the patch after next merge window, if Uwe is OK.
 
-  1279	
-  1280	static void sh_msiof_test(struct sh_msiof_spi_priv *p)
-  1281	{
-  1282		unsigned int bitlen, wdlen1, wdlen2, words, tx_fifo_size, rx_fifo_size;
-  1283		u32 tmdr2, tmdr3, rmdr2, rmdr3, fctr, fctr0, str, str0;
-  1284		struct device *dev = &p->pdev->dev;
-> 1285		struct spi_transfer t = { 0, };
-  1286		void *dummy_tx = (void *)1;
-  1287		void *dummy_rx = (void *)1;
-  1288		static char buf[160];
-  1289		unsigned int i, j;
-  1290		u32 x, y;
-  1291		int ret;
-  1292	
-  1293		sh_msiof_test_reset();
-  1294	
-  1295		pm_runtime_get_sync(dev);
-  1296	
-  1297		pr_info("--- Initial BITLEN / WDLEN / FUA values ---\n");
-  1298		// BITLEN = 16
-  1299		// WDLEN = 1
-  1300		// TFUA = TX FIFO size (i.e. 256 on R-Car V4H/V4M, 64 everywhere else?)
-  1301		// RFUA = 0
-  1302	
-  1303		fctr = sh_msiof_read(p, SIFCTR);
-  1304		tmdr2 = sh_msiof_read(p, SITMDR2);
-  1305		tmdr3 = sh_msiof_read(p, SITMDR3);
-  1306		pr_info("TX: BITLEN1 %lu WDLEN1 %lu BITLEN2 %lu WDLEN2 %lu FUA %lu\n",
-  1307			FIELD_GET(SIMDR2_BITLEN1, tmdr2) + 1,
-  1308			FIELD_GET(SIMDR2_WDLEN1, tmdr2) + 1,
-  1309			FIELD_GET(SIMDR3_BITLEN2, tmdr3) + 1,
-  1310			FIELD_GET(SIMDR3_WDLEN2, tmdr3) + 1,
-  1311			FIELD_GET(SIFCTR_TFUA, fctr));
-  1312		rmdr2 = sh_msiof_read(p, SITMDR2);
-  1313		rmdr3 = sh_msiof_read(p, SITMDR3);
-  1314		pr_info("RX: BITLEN1 %lu WDLEN1 %lu BITLEN2 %lu WDLEN2 %lu FUA %lu\n",
-  1315			FIELD_GET(SIMDR2_BITLEN1, rmdr2) + 1,
-  1316			FIELD_GET(SIMDR2_WDLEN1, rmdr2) + 1,
-  1317			FIELD_GET(SIMDR3_BITLEN2, rmdr3) + 1,
-  1318			FIELD_GET(SIMDR3_WDLEN2, rmdr3) + 1,
-  1319			FIELD_GET(SIFCTR_RFUA, fctr));
-  1320	
-  1321		tx_fifo_size = FIELD_GET(SIFCTR_TFUA, fctr);
-  1322	
-  1323		pr_info("--- WDLEN valid values test ---\n");
-  1324		// => Everything sticks, no conclusion
-  1325	
-  1326		for (wdlen1 = 1; wdlen1 <= 256; wdlen1 *= 2) {
-  1327			static const struct {
-  1328				unsigned int offset;
-  1329				const char *name;
-  1330			} sixmdrx[] = {
-  1331				{ SITMDR2, "SITMDR2" },
-  1332				{ SITMDR3, "SITMDR3" },
-  1333				{ SIRMDR2, "SIRMDR2" },
-  1334				{ SIRMDR3, "SIRMDR3" },
-  1335			};
-  1336	
-  1337			pr_info("WDLEN %u\n", wdlen1);
-  1338	
-  1339			for (i = 0; i < ARRAY_SIZE(sixmdrx); i++) {
-  1340				x = sh_msiof_read(p, sixmdrx[i].offset);
-  1341				x &= ~SIMDR2_WDLEN1;
-  1342				x |= FIELD_PREP(SIMDR2_WDLEN1, wdlen1 - 1);
-  1343				sh_msiof_write(p, sixmdrx[i].offset, x);
-  1344	
-  1345				y = sh_msiof_read(p, sixmdrx[i].offset);
-  1346				if (x != y)
-  1347					pr_info("%s: expected 0x%08x got 0x%08x\n",
-  1348						sixmdrx[i].name, x, y);
-  1349			}
-  1350		}
-  1351	
-  1352		pr_info("--- Setup ---\n");
-  1353	
-  1354		sh_msiof_spi_reset_regs(p);
-  1355	
-  1356		sh_msiof_spi_set_pin_regs(p, /* ss */ 0, /* cpol */ false,
-  1357					  /* cpha */ false, /* tx_hi_z */ false,
-  1358					  /* lsb_first */ false, /* cs_high */ false);
-  1359	
-  1360		t.speed_hz = 100000;
-  1361		sh_msiof_spi_set_clk_regs(p, &t);
-  1362	
-  1363		sh_msiof_write(p, SIFCTR, 0);
-  1364	
-  1365		bitlen = FIELD_MAX(SIMDR2_BITLEN1) + 1;
-  1366		wdlen1 = FIELD_MAX(SIMDR2_WDLEN1) + 1;
-  1367		wdlen2 = 0;
-  1368		words = FIELD_MAX(SIMDR2_WDLEN1) + 1;
-  1369		pr_info("Using word size %u and counts %u+%u to transfer %u words\n",
-  1370			bitlen, wdlen1, wdlen2, words);
-  1371		sh_msiof_spi_set_mode_regs(p, dummy_tx, dummy_rx, bitlen, wdlen1,
-  1372					   wdlen2);
-  1373	
-  1374		pr_info("--- Fill TX FIFO ---\n");
-  1375	
-  1376		fctr0 = sh_msiof_read(p, SIFCTR);
-  1377	
-  1378		for (i = 0; i < 1024; i++) {
-  1379			x = sh_msiof_write_word(p);
-  1380	
-  1381			for (j = 0; j < 10000; j++) {
-  1382				fctr = sh_msiof_read(p, SIFCTR);
-  1383				if (fctr != fctr0)
-  1384					break;
-  1385				udelay(1);
-  1386			}
-  1387	
-  1388			pr_info("Wrote word %u (0x%08x): TFUA %lu RFUA %lu\n",
-  1389				words_written, x, FIELD_GET(SIFCTR_TFUA, fctr),
-  1390				FIELD_GET(SIFCTR_RFUA, fctr));
-  1391	
-  1392			if (fctr == fctr0) {
-  1393				pr_info("No change in FCTR, aborting\n");
-  1394				break;
-  1395			}
-  1396	
-  1397			if (FIELD_GET(SIFCTR_TFUA, fctr) == 0) {
-  1398				pr_info("TX FIFO full\n");
-  1399				break;
-  1400			}
-  1401	
-  1402			fctr0 = fctr;
-  1403		}
-  1404	
-  1405		if (words_written != tx_fifo_size)
-  1406			pr_err("Wrote %u words != TX fifo size %u\n", words_written,
-  1407			       tx_fifo_size);
-  1408	
-  1409		pr_info("--- Start transmission ---\n");
-  1410	
-  1411		ret = sh_msiof_modify_ctr_wait(p, 0, SICTR_TSCKE);
-  1412		pr_info("TSCKE enable: %pe\n", ERR_PTR(ret));
-  1413	
-  1414		ret = sh_msiof_modify_ctr_wait(p, 0, SICTR_RXE);
-  1415		pr_info("RXE enable: %pe\n", ERR_PTR(ret));
-  1416	
-  1417		ret = sh_msiof_modify_ctr_wait(p, 0, SICTR_TXE);
-  1418		pr_info("TXE enable: %pe\n", ERR_PTR(ret));
-  1419	
-  1420		str0 = sh_msiof_read(p, SISTR);
-  1421		pr_info("STR 0x%x%s\n", str0, str_name(buf, str0));
-  1422	
-  1423		ret = sh_msiof_modify_ctr_wait(p, 0, SICTR_TFSE);
-  1424		pr_info("TFSE enable: %pe\n", ERR_PTR(ret));
-  1425	
-  1426		pr_info("--- Wait for full RX FIFO, refill TX FIFO ---\n");
-  1427	
-  1428		for (i = 0; i < 1024; i++) {
-  1429			for (j = 0; j < 10000; j++) {
-  1430				fctr = sh_msiof_read(p, SIFCTR);
-  1431				str = sh_msiof_read(p, SISTR);
-  1432				if (fctr != fctr0 || str != str0)
-  1433					break;
-  1434				udelay(1);
-  1435			}
-  1436	
-  1437			pr_info("TFUA %lu RFUA %lu STR 0x%x%s\n",
-  1438				FIELD_GET(SIFCTR_TFUA, fctr),
-  1439				FIELD_GET(SIFCTR_RFUA, fctr), str,
-  1440				str_name(buf, str));
-  1441	
-  1442			if (fctr == fctr0 && str == str0) {
-  1443				pr_info("No change in FCTR/STR, aborting\n");
-  1444				break;
-  1445			}
-  1446	
-  1447			if (str & SISTR_RFFUL) {
-  1448				pr_info("RX FIFO full\n");
-  1449				break;
-  1450			}
-  1451	
-  1452			if (words_written < words && FIELD_GET(SIFCTR_TFUA, fctr)) {
-  1453				for (j = 0; words_written < words &&
-  1454					    FIELD_GET(SIFCTR_TFUA, fctr); j++) {
-  1455					x = sh_msiof_write_word(p);
-  1456					fctr = sh_msiof_read(p, SIFCTR);
-  1457				}
-  1458				pr_info("Wrote words %u-%u\n", words_written - j + 1,
-  1459					words_written);
-  1460			}
-  1461	
-  1462			fctr0 = fctr;
-  1463			str0 = str;
-  1464		}
-  1465	
-  1466		rx_fifo_size = FIELD_GET(SIFCTR_RFUA, fctr);
-  1467	
-  1468		pr_info("--- Empty RX FIFO ---\n");
-  1469	
-  1470		for (i = 0; i < 1024; i++) {
-  1471			if (FIELD_GET(SIFCTR_RFUA, fctr) == 0) {
-  1472				pr_info("RX FIFO empty\n");
-  1473				break;
-  1474			}
-  1475	
-  1476			x = sh_msiof_read_word(p);
-  1477	
-  1478			fctr = sh_msiof_read(p, SIFCTR);
-  1479			str = sh_msiof_read(p, SISTR);
-  1480			pr_info("Read word %u (0x%02x): TFUA %lu RFUA %lu STR 0x%x%s\n",
-  1481				words_read, x, FIELD_GET(SIFCTR_TFUA, fctr),
-  1482				FIELD_GET(SIFCTR_RFUA, fctr), str, str_name(buf, str));
-  1483		}
-  1484	
-  1485		if (words_read != rx_fifo_size)
-  1486			pr_err("Read %u words != RX fifo size %u\n", words_read,
-  1487			       rx_fifo_size);
-  1488	
-  1489		pr_info("--- Shutdown ---\n");
-  1490	
-  1491		ret = sh_msiof_modify_ctr_wait(p, SICTR_TFSE, 0);
-  1492		pr_info("TFSE disable: %pe\n", ERR_PTR(ret));
-  1493	
-  1494		ret = sh_msiof_modify_ctr_wait(p, SICTR_RXE, 0);
-  1495		pr_info("RXE disable: %pe\n", ERR_PTR(ret));
-  1496	
-  1497		ret = sh_msiof_modify_ctr_wait(p, SICTR_TXE, 0);
-  1498		pr_info("TXE disable: %pe\n", ERR_PTR(ret));
-  1499	
-  1500		ret = sh_msiof_modify_ctr_wait(p, 0, SICTR_TSCKE);
-  1501		pr_info("TSCKE disable: %pe\n", ERR_PTR(ret));
-  1502	
-  1503		pr_info("--- Test summary ---\n");
-  1504	
-  1505		pr_info("FIFO can hold %u TX words and %u RX words\n", tx_fifo_size,
-  1506			rx_fifo_size);
-  1507		if (loopback)
-  1508			pr_info("Wrote %u words, read %u words, %u mismatches\n",
-  1509				words_written, words_read, mismatches);
-  1510		else
-  1511			pr_info("Wrote %u words, read %u words (no loopback)\n",
-  1512				words_written, words_read);
-  1513	
-  1514		pr_info("--- Done ---\n");
-  1515	
-  1516		pm_runtime_put(dev);
-  1517	}
-  1518	
+Thank you for your help !!
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards
+---
+Kuninori Morimoto
 
