@@ -1,73 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-17030-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17031-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2036AB4E5E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 10:44:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A014BAB4E76
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 10:47:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 45368863525
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 08:44:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2AC5A460B6B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 08:47:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B1301E9B0B;
-	Tue, 13 May 2025 08:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A35DE20F091;
+	Tue, 13 May 2025 08:47:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i3iw4ppW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jkXtyLF4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF0E20E70E;
-	Tue, 13 May 2025 08:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B997D20F063;
+	Tue, 13 May 2025 08:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747125846; cv=none; b=t9idT65QM1VdxyU8JgplQtARlIY6uNSOMUu5UNvpkPUf1XqEmQt7se18tVc8bmabmbxKK7B1FcrOUX7D5fbGP1hFuZAzhDiaar5p0W+Q3VaeJJmZvj4XzUxAaIPeCcahhG+Ni8OVPbbM8kILvINF8kD1crz2xQi6WMDV4jJMymU=
+	t=1747126067; cv=none; b=qcBpNk6Wg2mhcKaQK7E6rvaxncvgUF6l6UN10uT4hrrN+nqXBykfLV1egKPd2ichxhEn5gaFTDXyhkyBltoDsP6O9tEd6319xEfthGn/ceW3r3MdiyUjQoq0zwV0pVyBun3s8NhtQN1FYdwubNEZxkAfrSgUmjq59Dl5vrblAK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747125846; c=relaxed/simple;
-	bh=L9yaJend7sBXzFCyTLUiQsHuLZXpzB/FkXWfDJaUbj8=;
+	s=arc-20240116; t=1747126067; c=relaxed/simple;
+	bh=U4fXErCQrmf9N3AvpNGYsyb+qIqioH1bT1/sBIu59DU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=en2qzt/5k1wL9fRI5qHQsnlnx+8AzTt0acpa93prvD2FWe96S5XV0uZ+Yma48g5qHwZ8AwuxtxdBzO3wDaqkxfGvnwR5ZghhxQgw8+HcDy8EYixfOZOtl3NvDnNtLcQbeZkzy0R4i9jBvyfkv5bqEuYWb7H3ys3TNm4MYwEZ3sE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i3iw4ppW; arc=none smtp.client-ip=209.85.128.53
+	 To:Cc:Content-Type; b=paqoHeV8Ctq269WPbRQdUC/+3x44Rd6F+utFLbTfXUdI30jQaxGt36CkwFOSin3/uqM2z7m1CGWWB/zccFMMfRaBu6Qc3B5ZNwO0Xiv5mqDzoWSM/hC66ggYqvPSCpAe+XeuaO/5w40SYvlQV4EFngzcI5HmUwQJrzflO9VaKUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jkXtyLF4; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cf05f0c3eso34030495e9.0;
-        Tue, 13 May 2025 01:44:03 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a0ac853894so4638537f8f.3;
+        Tue, 13 May 2025 01:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747125843; x=1747730643; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1747126064; x=1747730864; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=suJ5Bx35Oi4iLpMJiTea+mMElTP1j3KCM6w4EvztQoQ=;
-        b=i3iw4ppW0zYBllMjix3k/j6KHbqsiLOwg+DPcmcRX14d9jxMUQSAKkGRvcGFhaAYB3
-         BlIu347PtbLe0sc5yUtkvGLF+gszY1ZrcuiCamhOlQs+ZaFD68HxlUY/i1TmihoDQKkk
-         F/dwgVfCxaefvNvWtBxIpyGZw/7C8W1cJgNhL/nnH35k4jIUltfBnfCkzOp4Icy7HYXY
-         P2kj7ZG4I+7UtuRuL4j7TyBfVmph7JZO8cHptqv6ifS48NkHG+GyPx9kUWDYSkNhjbak
-         32vuuZBu19ipmUZfozm51qa0uu+5F1zzwNhKOUSFsa1bfDRSoyXqjAKNRNpLKAHjNqNS
-         fhhg==
+        bh=YqUzLMdYqQZHvUetmEUi3oceJygz2KZ2olDSm3gHUWg=;
+        b=jkXtyLF4Iw+y/hElCWHF1WjWa88YFkNiseDSvdUw0k5w/21VnUKp+fVNn3yHoesu7V
+         rpX0U9LIYTY8Nn6R8IpbBj6BDRWeDNpq5OfgJDkKStrbKpIjCARDMoS3LweVTE6LOicu
+         DHAhzbfqL6nq+7RaqF/LMhD9YFFVfqxeZDnncsaJS5/pTna92LentW3U2RNm/M3IZBCV
+         ajIynL1iOWMpF6JvGPFw+vMkb5rag29RKmNdAjmssVLkKhiBS0lforDgrGc6bmuNw3Vw
+         T7t8bcIL6jlmzAXyegyHZZR4uaDCHJ+OdXQVaYfjCej3FEnDBx48x5lPmH/oyJhIsx6v
+         i3vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747125843; x=1747730643;
+        d=1e100.net; s=20230601; t=1747126064; x=1747730864;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=suJ5Bx35Oi4iLpMJiTea+mMElTP1j3KCM6w4EvztQoQ=;
-        b=gQzL2HxiXe4MFz3gfc/Pv5tuIdDrtpbtzyd5AuH3s3q2zDJe59g/R2NCjHARF5dQS/
-         Jaj8+KN03IcuRJfl3hzxk/hdPTkxjDO4CyM1izdGaF+JhQwF4H2TL5rKjyQW0qG4Cx5j
-         vbCp9NKB6YrR8y992kXZtXODIcUCRek4q55isgV9BZ7AOL0MybgBtVR/BYjlCNaEt3Mn
-         SZyqG5CjFO/+TiSZucC/pSbUAFtQgpZ7ZAepULGkXzXHIU/jtbnflNdHBwGEQenW9Xod
-         Nlar1Bqw+jTE36MQRW2B92veFWGgO+IYEDX7rCQAxjvx5SOV3A653eAWMPo0tv443AGz
-         432w==
-X-Forwarded-Encrypted: i=1; AJvYcCUBKV9f4fgL72m/5FL2mJjCzR4YSEUgUDFOD7vNJp8oqukq269z+jMoozWPTqDO7LohylU3AUxZOL+ALQd1I1qsSWY=@vger.kernel.org, AJvYcCX3I7hwhMSccCVJPLFUdZ2r28Yf5EbteuXVZ5sY1nkKvbZcMkYGzCW8h3ugI948JAiKQ/m5OmtGBNo=@vger.kernel.org, AJvYcCXfJSrqClzK4+aEdZr+0ViW9G+XtsUxRamYQxXoBnBXhoExj+keOIdwXc8OOOrVF4tWXppIb/IPtKv3FLLG@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0o6Ovm3N91UNGg3bUyV+UdIpyTaITcW/m7vHiKVWQeLjxk63L
-	+t8Bdvfsz2nxeEMZ4W3QuH6CcRBHWcAVr8rN/UkZBWoyQb3fWl6aSl2KhoaKqJwl6eG02NodQ55
-	lfEnjvW1VTG746uFPfrcYftUyrK/79qts7bE=
-X-Gm-Gg: ASbGncvy34IxkDeSRsVGygWfbk+yKTSdIDHOclDflpJAhzIMKOKuSiEr68cptlG3Vji
-	+p3xg+BD9/4qlbChSr4DchVcjfG91qjEbIs76xysONDMVywrbjXYyJRRVafouI5gDnveb+2iuot
-	+8MacaZbBxhmd/+F8pYaQh+W2PLfrWWB8=
-X-Google-Smtp-Source: AGHT+IFAbSRD4ctDa/bn2QZINraMletm8pvh1kXfdlGwsKgIpRgPo2AMChUTHar1yJdSy/J4W1ZRMXsoAtBBI54qNis=
-X-Received: by 2002:a05:6000:2ab:b0:38f:2678:d790 with SMTP id
- ffacd0b85a97d-3a1f643eaf6mr14541572f8f.33.1747125842610; Tue, 13 May 2025
- 01:44:02 -0700 (PDT)
+        bh=YqUzLMdYqQZHvUetmEUi3oceJygz2KZ2olDSm3gHUWg=;
+        b=b/khgA9SBjDhPte2GfYLbjknc7uvPVPhh8ax5KH6zXqDSZ4VDVrDvvWkpRmHSQFfDX
+         psSDxc3DOF/gFGtxVnWknjPKU6NoCjj0sOPDuD68pxoFxw/i5QC3Zg0ASDq6uqPMOToZ
+         GxoHNG8vfDVhxlbNXtErKTp5Xb3uD+KKCsBown0i5P3m/vWUAOKs7CNA5IeZnrWbup2K
+         ZZ4LULqkK5P0TwlG9F+3WnBE+Vm/YtPlJwZU9S16Dn8CR81oKMeVXAHSnt7WFqnAo7Fh
+         DozOSTVg8Ty3l/Er+Uv56XeOALzRGKbeZhNtM3737vK25OC9mu5JyCfa/pJnEnmJQuvU
+         amfg==
+X-Forwarded-Encrypted: i=1; AJvYcCUGMLpPzIVnkRA67zTh6LWx0RTP4z9JkbprWAlad/7nEpJeAMDabWr7kCVHylh4GORr684ak0GpfoieANLw@vger.kernel.org, AJvYcCWQ4YITxueRT3ANHRCaV5jJQGaAB3dtbfhEBscAKdanrEnOf78Imz/zTM6tLgmbxNIP47D+v5mkk26mIKrG7RJHLFA=@vger.kernel.org, AJvYcCXExW6h+9o5c7Eu04gVxg4rNSv/HuP5yFyvEH8g8SsQo1sQ9s2WrKXba0xu/13RwBxaz3U3ZGL1ZTg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxX24FQUh86UB3EyQP3Vp4vrca7yD/sVzy/v6dbpHff9KdudEPF
+	iwvEarQjbOwFvE2i16GWxg9MqfCc9xbk8C5MWlRDxXHtbLJ+C5Or/GJ1orX0v+3T2DB6vlh5fqn
+	aLEhhGaGTvtpIUahApy/xmdd0qUs=
+X-Gm-Gg: ASbGncuoJFmVoNw0e8M26WyeJ+E1hm3RzzuIK8Be04jUC2gCKPN5UPEDsobhTcBks3X
+	os3P5P0NoCH0DiJA/9UPr6QCcAesF3r/D8+kvHMJkk2wVsWuLCMsgepXqsjl0M+T6ChY4pW3QJh
+	zN83v2LbEwmSQOYKZcgFvqA+YwiZvMRs4=
+X-Google-Smtp-Source: AGHT+IFsaj8vThL8OQoi+wj5H8DB+9bjinLdyvzmXeD0z1gbWN+m3r16SLxk+RyBOcnSiYdf9HWVwNP2iwNyzw2zezU=
+X-Received: by 2002:adf:e3c1:0:b0:3a1:f654:ebec with SMTP id
+ ffacd0b85a97d-3a1f654ec75mr11785703f8f.38.1747126063693; Tue, 13 May 2025
+ 01:47:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -75,14 +75,14 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250509160121.331073-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250509160121.331073-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVpWxVDOXHGhRqHPTjG6_z3XVqT7ZdJGz7Axk8Rut3Lsw@mail.gmail.com>
-In-Reply-To: <CAMuHMdVpWxVDOXHGhRqHPTjG6_z3XVqT7ZdJGz7Axk8Rut3Lsw@mail.gmail.com>
+ <20250509160121.331073-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdX18eBo6HhAqxxga35NFTVt_0oBJzTU=dFUjcCCnPZvHg@mail.gmail.com>
+In-Reply-To: <CAMuHMdX18eBo6HhAqxxga35NFTVt_0oBJzTU=dFUjcCCnPZvHg@mail.gmail.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 13 May 2025 09:43:36 +0100
-X-Gm-Features: AX0GCFsoijlVjM5vNAtkxqALz4rLq9y3wkt2SkYGFeOT7rOBfMeMTu0M2P8S9pg
-Message-ID: <CA+V-a8uLE52th_u+ODF+LEAZuS=X9WyyBGg0G6xOdH-xm+EkFQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] clk: renesas: rzv2h-cpg: Skip monitor checks for
- external clocks
+Date: Tue, 13 May 2025 09:47:17 +0100
+X-Gm-Features: AX0GCFuVm0qewRxuvyj-O5S2JXQTgP4u3pDeXR5GyxchD94fPOfZz2Lki8poNxc
+Message-ID: <CA+V-a8uY3F7BD1gPRNmqfP6=WaenDv47Yx1nT8sW9CH_MBCuhQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] clk: renesas: r9a09g057: Add clock and reset
+ entries for GBETH0/1
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
@@ -105,97 +105,58 @@ k.org> wrote:
 :
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > For module clocks whose parent mux may select an external source, bypas=
-s
-> > the normal monitor (CLK_MON) register check when the external clock is
-> > active. Introduce a new `ext_clk_mux_index` in `struct rzv2h_mod_clk` a=
-nd
-> > `struct mod_clock`, and detect the current mux index in
-> > `rzv2h_mod_clock_is_enabled()` to disable monitoring if it matches the
-> > external source index.
-> >
-> > Provide the `DEF_MOD_MUX_EXTERNAL()` macro for declaring external-sourc=
-e
-> > module clocks, and populate the `ext_clk_mux_index` field in
-> > `rzv2h_cpg_register_mod_clk()`.
+> > Add clock and reset entries for GBETH instances. Include core clocks fo=
+r
+> > PTP, sourced from PLLETH, and add PLLs, dividers, and static mux clocks
+> > used as clock sources for the GBETH IP.
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > ---
 > > v3->v4:
-> > - Dropped external_clk_mux_index and external_clk and introduced
-> >   ext_clk_mux_index.
-> > - Updated DEF_MOD_*() macros to include ext_clk_mux_index.
-> > - Added a new helper function `rzv2h_clk_mux_to_index()` to get the
-> >   current mux index.
-> > - Dropped IS_ERR() check for parent_clk in `rzv2h_clk_mux_to_index()`.
-> > - Updated commit description to clarify the purpose of the patch.
+> > - Dropped adding CPG_SSEL1 and CPG_CSDIV0 macros in rzv2h-cpg.h
+> >   as they were already added by XSPI clocks patch
 >
 > Thanks for the update!
 >
-> > --- a/drivers/clk/renesas/rzv2h-cpg.c
-> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> > @@ -563,14 +565,38 @@ static void rzv2h_mod_clock_mstop_disable(struct =
-rzv2h_cpg_priv *priv,
-> >         spin_unlock_irqrestore(&priv->rmw_lock, flags);
-> >  }
+> > --- a/drivers/clk/renesas/rzv2h-cpg.h
+> > +++ b/drivers/clk/renesas/rzv2h-cpg.h
+> > @@ -93,6 +93,7 @@ struct smuxed {
+> >                 .width =3D (_width), \
+> >         })
 > >
-> > +static int rzv2h_clk_mux_to_index(struct clk_hw *hw)
->
-> Renaming to rzv2h_parent_clk_mux_to_index(), as it operates on the parent=
-...
->
-Agreed, it makes sense.
-
-> > +{
-> > +       struct clk_hw *parent_hw;
-> > +       struct clk *parent_clk;
-> > +       struct clk_mux *mux;
-> > +       u32 val;
-> > +
-> > +       /* This will always succeed, so no need to check for IS_ERR() *=
-/
-> > +       parent_clk =3D clk_get_parent(hw->clk);
-> > +
-> > +       parent_hw =3D __clk_get_hw(parent_clk);
-> > +       mux =3D to_clk_mux(parent_hw);
-> > +
-> > +       val =3D readl(mux->reg) >> mux->shift;
-> > +       val &=3D mux->mask;
-> > +       return clk_mux_val_to_index(parent_hw, mux->table, 0, val);
-> > +}
-> > +
-> >  static int rzv2h_mod_clock_is_enabled(struct clk_hw *hw)
-> >  {
-> >         struct mod_clock *clock =3D to_mod_clock(hw);
-> >         struct rzv2h_cpg_priv *priv =3D clock->priv;
-> > +       int mon_index =3D clock->mon_index;
-> >         u32 bitmask;
-> >         u32 offset;
+> > +#define CPG_SSEL0              (0x300)
+> >  #define CPG_SSEL1              (0x304)
+> >  #define CPG_CDDIV0             (0x400)
+> >  #define CPG_CDDIV1             (0x404)
+> > @@ -118,6 +119,14 @@ struct smuxed {
+> >  #define SSEL1_SELCTL2  SMUX_PACK(CPG_SSEL1, 8, 1)
+> >  #define SSEL1_SELCTL3  SMUX_PACK(CPG_SSEL1, 12, 1)
 > >
-> > -       if (clock->mon_index >=3D 0) {
-> > +       if (clock->ext_clk_mux_index >=3D 0) {
-> > +               if (rzv2h_clk_mux_to_index(hw) =3D=3D clock->ext_clk_mu=
-x_index)
->
-> Collapsing into a single if-statement...
->
-Thanks, makes sense.
-
-> > +                       mon_index =3D -1;
-> > +       }
+> > +#define CSDIV0_DIVCTL0 DDIV_PACK(CPG_CSDIV0, 0, 2, CSDIV_NO_MON)
+> > +#define CSDIV0_DIVCTL1 DDIV_PACK(CPG_CSDIV0, 4, 2, CSDIV_NO_MON)
 > > +
-> > +       if (mon_index >=3D 0) {
-> >                 offset =3D GET_CLK_MON_OFFSET(clock->mon_index);
 >
-> Dropping "clock->"...
+> Moving these above the existing CSDIV0_DIVCTL3...
 >
-Thanks, makes sense.
+> > +#define SSEL0_SELCTL2  SMUX_PACK(CPG_SSEL0, 8, 1)
+> > +#define SSEL0_SELCTL3  SMUX_PACK(CPG_SSEL0, 12, 1)
+> > +#define SSEL1_SELCTL0  SMUX_PACK(CPG_SSEL1, 0, 1)
+> > +#define SSEL1_SELCTL1  SMUX_PACK(CPG_SSEL1, 4, 1)
+> > +
+>
+> Moving these above the existing SSEL1_SELCTL*...
+>
+Got it. Thank you for taking care of this .
 
 Cheers,
 Prabhakar
 
-> >                 bitmask =3D BIT(clock->mon_bit);
-> >
+> >  #define BUS_MSTOP_IDX_MASK     GENMASK(31, 16)
+> >  #define BUS_MSTOP_BITS_MASK    GENMASK(15, 0)
+> >  #define BUS_MSTOP(idx, mask)   (FIELD_PREP_CONST(BUS_MSTOP_IDX_MASK, (=
+idx)) | \
+> > --
+> > 2.49.0
 > >
 >
 > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
@@ -215,5 +176,4 @@ But
 > when I'm talking to journalists I just say "programmer" or something like=
  that.
 >                                 -- Linus Torvalds
->
 
