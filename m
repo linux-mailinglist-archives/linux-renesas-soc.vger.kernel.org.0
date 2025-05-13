@@ -1,191 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-17042-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17043-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DA8AB5578
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 15:01:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF5AAB55BB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 15:14:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 594447B7FC7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 12:59:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BCFB171C6D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 13:14:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3843E28E570;
-	Tue, 13 May 2025 13:00:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CA4228E61E;
+	Tue, 13 May 2025 13:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QWlYxvRd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA58814A8B;
-	Tue, 13 May 2025 13:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8389428E611;
+	Tue, 13 May 2025 13:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747141228; cv=none; b=V9bv1FrSO7yJ59IsKaUxwbZr9mh4Cbqwn2vc/l1F2KFXY76IirYw1FwEC9Ae3supKbKMaIgrMtOskyyceLMh+s0tzm6pwxWKNA5Mm1168WchKZvNH5XTeYmSCh5zSzICMgrlmrRKAo+JhkFdmbRdTVdy8fl2uubgei6vmMphW0U=
+	t=1747142058; cv=none; b=lYiM7diGlw/73dvCGH3NH8+G/kJX+bH0bWLqrySEyoqQhZp63Ve1qja0eTw22DITbOjoDiKm6oX3TR61ZFjYyJOxTGXba8+R+SDF19AU8Dcv9fO22d+exdeOR46NbBmY7qIUTBgsmpmZNCZjXqOJfAMSzLf08Esu7CsnBwvz7V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747141228; c=relaxed/simple;
-	bh=Lf8uF/Q1FE+GhjmXdklD8IWYFlGj2Q+vf/VzLofI2qQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tb/MrIRaKMuCpI8EExglgAPWmWDaS57xLT8SEmyH4AepwNGjuwXQpdnwwkJenWzDHUsxJUThkzlyi1yu6QaeKrnKG33BeuqY0Hwqgn9vwwplOgp2xSFLKdLeVpUgsqG1dis1QqjMrAA6zN4Y2frd2ezSDvJh1vuWadbJkFMUNDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1747142058; c=relaxed/simple;
+	bh=hzYpFMz6PEQzypuJgh+TBXks5QKrMb8FlaruZc7qMKs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V+P6e2w9sHIabyQS5GLotY4BxuRx/WuySSJZ9yINmqsRJNriioC2Qdp1CjP/pRa6CHeA1LyNs/leoS2G/j4sppLdwR5stGjt9xyBJ1Owtjchj0eHfXwsKXXHeba1XYDbozQKuq8SwKYBfD+Ve/7uOrUTenrqyPxbFqfWISxBLwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QWlYxvRd; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-52b2290e290so3872757e0c.1;
-        Tue, 13 May 2025 06:00:25 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a0b637db6eso3376102f8f.0;
+        Tue, 13 May 2025 06:14:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747142055; x=1747746855; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTUBT0w5GEaEnTVNn0rNkm7MAuh5tuedOe/9zO701YU=;
+        b=QWlYxvRdNxCeRRf7yo/PpxRoAjW0uD9D0sN3tyunu585tDrWkeIvTJHvXck/l9YGGI
+         EB51XN/uigYT0gKcyBW1JLcLQuuOnSoGH7ukrweIK2MDZnM+iEwY5q7zFtur+WWflk3t
+         o9fuWDMBDBIgSHqwJqaGhAxu5DtXdLX8RwWRXj8LreqtjH9ktWVU7oEFzEzVH3LESRCM
+         kCHxsjmjz8Cr21hQvoojS/260HmnkGSL5KJn0ryosAL61sOwfdvg2/7qSNKvK2TzrcO2
+         EjTV+Iw+Pl45ARLpnKRQoENGnFZsOaqZKhSZXx9l8vjSMQwq+ur8TbbspFGzHgn3VWX7
+         6d4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747141224; x=1747746024;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1747142055; x=1747746855;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=M5jzqleEKHGuOiPowZ5FE8XDwnarjmdZVgRL/24IkJo=;
-        b=SJymN+a3CWjeTC0CLi6sd8cdpwetkkF5W4afXA5HMgZbvPS2sDbcV9UDW70Eo3992+
-         w3EwBUuNKanBpE1512PbJwVXOVpZ7hWXm+eqpufT+/P6pBgZ7Nl3gWJLVnhuXVEtGOyw
-         2P/MXAl1NN72IHscsi3ajoLZBomy2bsyz8MLa7WaCbm6JPFkQ/2OuwxsOnq3p04BA/W6
-         7nJ5e49aCU95ACIQm/9UV6KaYuivW+StqFENU1IObYhbKNjfDIOJFtq7bQlIg3zQJLZa
-         EcvJYm61FPmS6ACj19P1qA2W/W+bFLWvIyIGP/4NNu4BSgZ1F5aTFbkUV6o8zFKOKgMq
-         S+YA==
-X-Forwarded-Encrypted: i=1; AJvYcCUUYdhyK3ScvF67ZyRbJF0HtMeHckxz+M2idxuUUH8X6NsKlM4COB8xTuUDgGHjalp7jORj0HJN9+l3M728zsrqS0Q=@vger.kernel.org, AJvYcCVEVrldfyM47yrvWXzlyctKuSM3PLr1UsaoA8yGhYZmuR2MEsGSBOPfsD85zGPGPWhJL9KsH9z62kNmN/aS@vger.kernel.org, AJvYcCVzuWa0Wjh7FtuPokAKNO5ntu7OtpVkSwj86PtALpMnA9DVBe7cGwc8AI8zPb2yRvTAwsiP+B1pqfvya3g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXhzw0A391VQJ+jRj+OqirLXgTx0V3ufXsDjaJQ3t2z/co8fGi
-	MEx7844lLxjUScy9BjS/ijmUKBHHddkg5k1RhTjkfE0fZ0r9FXk5aeGJjZGn
-X-Gm-Gg: ASbGncv4xCqd5Cg4+UVA2m/uNgSqm42DitWlUyzdiPxI65wDfmAw+8C1eoTsINtFhJb
-	slbwqzBRImm/SmTMNCpyfOjSDIRTO0QuXDyLugAQI7ajANHyk4Sc9zccegSlu5CI0oinHcVVE+a
-	SKdbB7bXEgo7DFi4mIjq8pjFNH6xyWSmPsEswyzxs9zlDMXzL1TKRij8EkKvN6z7NkoDfmqOQEX
-	d6K5XpPBFNhqI39hCy1MoRY8GTNk6zNucTv0SnzsqqQsIXYFbABcpYqijsII8nxkvsCVUDwoMaf
-	F3tqTtYf+m/sDQTJq6c/l0e74vItsqBlZPvm32NXHvTzZoZtyzG8rLD9XI7F3smuzgGgN9lOWlE
-	+RM9ZgSyoyzLZn178lA==
-X-Google-Smtp-Source: AGHT+IHcVrVPIAuWgKApjNqoRnkxJ2a4yhQaBw6UP0mYP+tLYBac75iovzedsLTjUPAdGRwuPKO+hw==
-X-Received: by 2002:a67:e7c1:0:b0:4bb:eb4a:f9f0 with SMTP id ada2fe7eead31-4deed3e9364mr15668658137.24.1747141210987;
-        Tue, 13 May 2025 06:00:10 -0700 (PDT)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4dea8580188sm6666294137.4.2025.05.13.06.00.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 May 2025 06:00:10 -0700 (PDT)
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-52d9a275c27so18870e0c.0;
-        Tue, 13 May 2025 06:00:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU0yS4CgJDryvGPyrwZsdg66aurXu3oJhBWT4ziH5jnJSryQtmyEd0X3ER33c7/TbzWJpEYpnMsMboYXPfn0T8jw+Y=@vger.kernel.org, AJvYcCUueNxxMGBX41e+oWZoZR+rjmNFn+qL5KoudFrrBPduWUqMic6foR+i0u33+7LSVKiIb1kcY2Fd4QPsesaY@vger.kernel.org, AJvYcCVcqbZEYOJlCtXUq6IqrnkPRAsVhYAVSXBgpuDFjQFtXnLzV8Ek/63f/XELeLBg3fGVs7I+9lsrh7GOT7s=@vger.kernel.org
-X-Received: by 2002:a05:6102:5e97:b0:4cb:5e02:7538 with SMTP id
- ada2fe7eead31-4deed3e8a2amr15558738137.22.1747141199461; Tue, 13 May 2025
- 05:59:59 -0700 (PDT)
+        bh=hTUBT0w5GEaEnTVNn0rNkm7MAuh5tuedOe/9zO701YU=;
+        b=V23xkOMfTRvCdZRf5DGboNReB5f6gzEp5gHO9f/P292KVhtwKas/UJdQBLrHLFoLOX
+         u0awyV9TTMuN/nF3CnueTj8P8sDbI9JXs+iP3Jss6XqWtBJaz7pFGp40GEV+wtvTljHs
+         cojiCI/eGO1h+0VZxLXAsD/PduJMvfyNW7Rcrs/Q2FjLBg3h6qZErwAJLi9kSucRXCpm
+         JJDoaGHI0tTm1H5bpEf19YjCYuXpGtrAZyV/LivPD9CejtETWIik5xJSosdI4ODjPCUR
+         T3UzdjHV8nhwP/nDGcFuyZNhoA7oEBTr3mZNmWGF4uGrossIsDT0F1LE7WMiXZBy2O3i
+         BBBw==
+X-Forwarded-Encrypted: i=1; AJvYcCU0vMlJx/S2nBX5+Y9NCiu8yaageoWQqpPhfwTFXaXC9QGo2tuRC+/TCIEDzqvTvcpWstjBoMVKDS3tqEow@vger.kernel.org, AJvYcCUySZGQq6LXdg/8qQuKi0hwJVndak2Fk//Tx/X7US7hklK0hP8MW56QHd9bYiTaGZ5H/90YWN6e0daU@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+v1IgNypVxrS5HMIBhC0HncQOLisy2xzvs6+7FmzcKwujPkCc
+	P7tnsnsR4WdOcnztQ8xTQxPY7GvzlOXFnO8z/gy3hXzEMAQExWcgC902w+1r
+X-Gm-Gg: ASbGncvsokWR3M3nnA4sgdIyHjS6WOqYbwfbZdh90m4Jd2V7wjYeK4LiCIFe3N6JI9E
+	EMMg3I1fnz6FSLrX+o1uWWD7uPXEJ1ZlQ4naRBKUgC9Mr3YgGwa+7xjn0YHS+17su/+Yw7fU4UL
+	EC8w6fnEtv1hwixhpEZ+qMa+0I9C9vROhnjBJrQd7S7jlvpbfwyoZSx60JdDPzwS75D/TTzwJsg
+	cSDfnsiNsRv+xjwDPpqllBr5dCOyJFvmE6hoKiY/08lfqSktptYKRDItzof68f1jyApwQ+wft4R
+	tstZRVmiTDaPRcWUeNWZKliqI8JZdiSnfqJVOZBl4GNcYcdxHc6S00sPVfL+vM/DNisJ9gJna2U
+	HbMqUnwJhTcRGDWQQVOin
+X-Google-Smtp-Source: AGHT+IFfFbXrnZLOm1LMUciqOqNghquIAlCVEEKmB7KYZmvMF0RFxvW6cqW4Nofb0IMrGZ0vnv5pEQ==
+X-Received: by 2002:a5d:5984:0:b0:3a1:f537:45ea with SMTP id ffacd0b85a97d-3a1f643cb61mr14795095f8f.25.1747142054295;
+        Tue, 13 May 2025 06:14:14 -0700 (PDT)
+Received: from iku.example.org ([2a06:5906:61b:2d00:c996:6219:e8d3:1274])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f57ddfd6sm15910102f8f.4.2025.05.13.06.14.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 06:14:13 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/2] arm64: dts: renesas: Add GBETH support to R9A09G057 SoC
+Date: Tue, 13 May 2025 14:14:10 +0100
+Message-ID: <20250513131412.253091-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250429081956.3804621-1-thierry.bultel.yh@bp.renesas.com> <20250429081956.3804621-8-thierry.bultel.yh@bp.renesas.com>
-In-Reply-To: <20250429081956.3804621-8-thierry.bultel.yh@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 13 May 2025 14:59:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWa1_UtOEgKHoOfaN4aYvpVobjX_QK=auND_cs_uwxjnQ@mail.gmail.com>
-X-Gm-Features: AX0GCFvkAoqeV-D9pQF8d2sZ0d4oB6jC2nrqk0-bdLnpi5fLeLiUatOYEBMrKZ4
-Message-ID: <CAMuHMdWa1_UtOEgKHoOfaN4aYvpVobjX_QK=auND_cs_uwxjnQ@mail.gmail.com>
-Subject: Re: [PATCH v8 07/11] serial: sh-sci: Use private port ID
-To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-Cc: thierry.bultel@linatsea.fr, linux-renesas-soc@vger.kernel.org, 
-	paul.barker.ct@bp.renesas.com, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Thierry,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thanks for your patch!
+Hi All,
 
-You forgot to CC the serial maintainers.
+This patch series adds support for the GBETH (Gigabit Ethernet) IP block
+to the R9A09G057 SoC. The first patch adds the GBETH nodes to the
+device tree source file for the R9A09G057 SoC, while the second patch
+enables the GBETH nodes on the RZ/V2H Evaluation Kit.
 
-On Tue, 29 Apr 2025 at 10:20, Thierry Bultel
-<thierry.bultel.yh@bp.renesas.com> wrote:
-> From: Thierry Bultel <thierry.bultel@linatsea.fr>
->
-> New port types cannot be added in serial_core.h, which is shared with
-> userspace.
-> In order to support new port types, the coming new ones will have
-> BIT(15) set in the id value, and in this case, uartport->type is
-> set to PORT_GENERIC.
-> This commit therefore changes all the places where the port type is
-> read, by not relying on uartport->type but on the private
-> value stored in struct sci_port.
->
-> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+v2->v3:
+- Added the mdio0/1 nodes to the R9A09G057 SoC DTSI.
+- Added the mdio0/1 nodes to the RZ/V2H Evaluation Kit DTS.
+- Added Reviewed-by tag from Geert
 
-scripts/checkpatch.pl:
-WARNING: From:/Signed-off-by: email address mismatch: 'From: Thierry
-Bultel <thierry.bultel@linatsea.fr>' != 'Signed-off-by: Thierry Bultel
-<thierry.bultel.yh@bp.renesas.com>'
+v1->v2:
+- Added missing power-domains property to the GBETH nodes.
+- Fixed interrupt number 745 -> 775 in eth0 node.
+- Added  snps,rx-sched-sp property to mtl_rx_setup1
 
-> --- a/drivers/tty/serial/sh-sci-common.h
-> +++ b/drivers/tty/serial/sh-sci-common.h
-> @@ -142,6 +142,9 @@ struct sci_port {
->         int                             rx_fifo_timeout;
->         u16                             hscif_tot;
->
-> +       unsigned int                    type;
+Cheers,
+Prabhakar
 
-u16 should be sufficient, as you store the new info in bit 15.
-Even u8 is sufficient (but then you have to move the new bit to bit
-7), and has the advantage of not increasing the size of the structure,
-as there was still a 2-byte hole.
+Lad Prabhakar (2):
+  arm64: dts: renesas: r9a09g057: Add GBETH nodes
+  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable GBETH
 
-> +       unsigned int                    regtype;
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    | 209 ++++++++++++++++++
+ .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    |  66 ++++++
+ 2 files changed, 275 insertions(+)
 
-u8?
+-- 
+2.49.0
 
-> +
->         const struct sci_port_ops *ops;
->
->         bool has_rtscts;
-> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-> index ff1986dc6af3..2abf80230a77 100644
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-> @@ -75,6 +75,8 @@
->
->  #define SCI_NPORTS CONFIG_SERIAL_SH_SCI_NR_UARTS
->
-> +#define SCI_PUBLIC_PORT_ID(port) (!((port) & BIT(15)) ? (port) : PORT_GENERIC)
-
-Please simplify by inverting the check:
-
-    ((port) & BIT(15)) ? PORT_GENERIC : port
-
-> +
->  static struct sci_port sci_ports[SCI_NPORTS];
->  static unsigned long sci_ports_in_use;
->  static struct uart_driver sci_uart_driver;
-
-> @@ -3050,6 +3063,9 @@ static int sci_init_single(struct platform_device *dev,
->
->         sci_port->cfg   = p;
->
-> +       sci_port->type  = p->type;
-> +       sci_port->regtype = p->regtype;
-> +
->         port->iotype    = UPIO_MEM;
->         port->line      = index;
->         port->has_sysrq = IS_ENABLED(CONFIG_SERIAL_SH_SCI_CONSOLE);
-
-> @@ -3799,7 +3815,8 @@ int __init scix_early_console_setup(struct earlycon_device *device,
->         if (!device->port.membase)
->                 return -ENODEV;
->
-> -       device->port.type = data->type;
-> +       device->port.type = SCI_PUBLIC_PORT_ID(data->type);
-> +
->         sci_ports[0].port = device->port;
-
-Here you have to fill in sci_ports[0].type and sci_ports[0].regtype,
-like in sci_init_single(), else they are always zero when using
-earlycon.
-
->
->         port_cfg.type = data->type;
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
