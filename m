@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-17055-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17057-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D386DAB58F8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 17:47:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5163AB58FD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 17:47:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CD5A189BC04
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 15:47:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F0DC175FD9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 15:47:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 911702BE7C5;
-	Tue, 13 May 2025 15:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 439D72BEC40;
+	Tue, 13 May 2025 15:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ILAYyKUL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XYcZY5cO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9912BE0F4;
-	Tue, 13 May 2025 15:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591812BE7BD;
+	Tue, 13 May 2025 15:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747151206; cv=none; b=GGQ3VcGqbis3IRiZN7XBwWIb3zobxp/2H4HWjRHYSPv/yCMBx9EY2866ZULU9nc1rSmJq2o3pDTEQWFaEbcSDsUUG4r13JElOmqWr+znX++cXcqN9R/9XQhDPTrqrxGGHPS+/U1hvFNa+ZWsHZKxr+g+08UoZnqwD8uAZ/MYVvE=
+	t=1747151208; cv=none; b=c21umQfnN+5jac5VzrYwRPSm1R6TU5wlb9qYSMCzyRXWUY52cQ0mla9Tymz7SYpoHgL0ABtrKSf1DE4wjl3Z6nUejPKruRclf+2D8Byg3skAsvFs6HVyXrrO+QttJtv+eRpEzxseFCF/V7WA9l9Q2MjyMziqp9+VqVicUQCjdnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747151206; c=relaxed/simple;
-	bh=7OObJFxfpZp1B8oXL+u4n3UpxgBKQ5XeeE4l+y+8bGs=;
+	s=arc-20240116; t=1747151208; c=relaxed/simple;
+	bh=LI3mbOUtgq+1PPe2kyvkUpTF5WLNyxcZW8ejjH9IOX4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ih+2wsSExvF+6vrfrXMIe/+wr3FZNMuKLXKjqnw+zkFcpzaFELIoBYwR/yS8fP0sy5peT7WJL3jT7Moz7mdA9m/SVcqdP1PjLpJD84NYXmVSI48LdEuu3M+7PpX94W/g1YjeA8KAKmHiMZD8ZypOLqzPT22AAAb0SMLynez3W/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ILAYyKUL; arc=none smtp.client-ip=209.85.128.52
+	 MIME-Version; b=H07PXVS6ruzczbeQZvIgTpd1stJ0u0g39knzozjhZwm11EeGdpeWugAHsQyUgxARTZkMyqrZgVCYob9AJsJzdjBwTpV9egPdAaZXx8fxJDXp/ivFjeEJK4tJHaIkVnCzicKB8uv+/Z7p2aVctFDrA9Shf+esMlcZO+1ofVMHLfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XYcZY5cO; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43d0618746bso44390225e9.2;
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso38710495e9.2;
         Tue, 13 May 2025 08:46:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1747151203; x=1747756003; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Qy89hG9RDC9tHSW4zOkJGpVnZSzDfakkMpz+ikecyME=;
-        b=ILAYyKULRth6QB4SQlCtX2eGm7/c9FBAva1o1UukawMywZp3gHveU4zszWpFCs04H3
-         Vd2BolGksaKb0gXch709SrNwT0VnQB6jqPcZ08fk6BP+E0o2w7loe/0xzB+1DoEYmtkw
-         BP0C1ydJkoyS2s5EwHqh+lmxUWXZAvUQbqY4yicAomNMT8Uez89q3fugjnnzQtjD2z/S
-         QO/Fw/9T14O2uBK34ESfAEZky2cr17v98n0EEAMEi4BhbOgvshJl1X2AwLK1kG+rZSD8
-         PcS+iYFyJS2WcqlqjAYwcEFZr3ScYqfsFVFGijdhujB/WuuBMgTOflsbrU138tzigFBu
-         JOvQ==
+        bh=G47Vz6fvEHe6vCJ7AEcadKs65EoTqDV9LPlrLeWYtgs=;
+        b=XYcZY5cOTlH59WNlzDA2mtH5enXRSYUrEMXdqwBtrJb5EpB5/U85ifvjIUIvRM8ojG
+         oOgt7rgMI6D9F+vVbcgikNFQq3o2ZGmYlmxpSJ3CxZQcIMRc1KGaTShnkzq5y5Xq5uxb
+         FxUfFYk0nFB9kfepOtN2cb0yt0mN3Z2RSCVWJrJvfkql79P22R2b56SiuHL35uwYv/XV
+         e48iJNueBsBYp5K2qWnkEkkKqRxATq5UxTI2EmTEcAlASZAZn2DxWg8+Vi1+JPtUwhRO
+         HwMNMpl3fDRQ1URLh4iXJN/8kF/LK6pqTZdze2vUf8IQwYeEBA9cEeOfu78gILWz7Wqc
+         5MQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1747151203; x=1747756003;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Qy89hG9RDC9tHSW4zOkJGpVnZSzDfakkMpz+ikecyME=;
-        b=F8VYtkxmVEPPkMwUnon6kOez6ikw4Qlh/ll9nwHP3h56gHKExLsfuTo1JoSUlAcM0o
-         86nPSEdQYljywE1uspW8oB3QlDe0Hdk/cTN74eyfmfLGAxoboigcqm6tG6mFhuRYjO14
-         SIh97FHBhY4YpWsnDjMuxtKZFEujJuhakY3oH24/gfRNhdX1MjMl/+nZDEBbdmyNewFZ
-         sZ2n/YJJJBSbBpfWkRklmqsC5bxZ4LOln2UJ99wuw7SkhE4Ggjf2DeRTAm97KWCB2Eej
-         GHFBouq5dowbSfHwO2Zzbl1q56KUHUESAgtjGbu0K10uv+IJpBrrn8uclPj6sh41p/2m
-         K+Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCUqC7bDXnlbnkPXkrqbLR/wtjiJDjh2mcPqsIQQKOjeCd8k3qZh6UYQiPAVNJlwFY6tK9DwnhFUobGjyHw=@vger.kernel.org, AJvYcCVZwRjRu8d0U1W4d4ehVc4MnZ+1l6fwDXF3y1y/x+6uc83HZsVhS4mq4JeqprTqsL2Z4DJEXhG3BRdmMqL0gyq73H4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyASbvXfwc6tvCbE/xDfi3TRor85RtwTN6Jmdhx1aeXeT4lsMUG
-	uFJNGRg+CZgJXoSqluUyohb4xuyh5wVetxTWc3VcvuFnjUY2bA/5bT9+zKBo
-X-Gm-Gg: ASbGncsE4RV/JEtQWwrKdIwU9pVnd+hsoF95kORigX2vqxPYLOtWiWPKeYrv3FI4mkB
-	rFq8mgWCPg3lI0r7v0pxiS5XbN8m9PuRb1sd/rdO6/NbWSZ0FjgoL5+Ep2DR35cHQagOqUcZIWv
-	RLHuPkQQRW1BnvhOnJXfpgouZbJz0co2Cs4AmoEC56zvbpxHp+cY5dTEU2x7PcLw9jRSopnxPh2
-	WHZmEaoUM9Ci30Yxa0vEBEwRXcbq50ytR7rUjcqD5tEwj4wa1MB/18Ez/RFPP3oYXhPMkkNToJJ
-	JmaWnMLOfKC9/N6VrOUpxbwNncsgHkapizOP4lm/f//9wPfQJ1xeatAJvzHChxaH4iQMMv0RsHe
-	2uWHsnH9T+w==
-X-Google-Smtp-Source: AGHT+IGkXKhFbr9hf0yD5nL5be1Q4mtJy3U+YmCf6vFEaqGgeKkNb8K5asqIxkl8QQ0jO3CWgb6AmA==
-X-Received: by 2002:a05:600c:8708:b0:43c:f3e4:d6f6 with SMTP id 5b1f17b1804b1-442d6ddeb99mr179265345e9.31.1747151202588;
-        Tue, 13 May 2025 08:46:42 -0700 (PDT)
+        bh=G47Vz6fvEHe6vCJ7AEcadKs65EoTqDV9LPlrLeWYtgs=;
+        b=HXg5HzpUmeYmPVkJJFsrsl7iRURQ5zpYXvNJsoYzzhDF7e8TWkvzz82UtsrZ0/YJXn
+         EdTR5w/3zaipPW1UWxdtVWeNlnBOQzxukDSKiUJRC6SQPKlOyDdv8QufwlWT4H1+O9xE
+         Bo59QRd6bTGD9Ro+5RAxnDCyw1JY/UWqNhvYpHuQVwbT6BiWj10TPj924PferqPUTDvd
+         q8K/lLSugrLCW08ekKOuSKj9rOrYvFvcRkeOknNzI0RsnY+FUnl5yEQHdhelOSso7tg4
+         CVNcqCiziW8CFjwFfLvw3MAZk3RrljFUMwxm5DXfI3aw0p458/L67J2vtVPXThJNYRB6
+         WHSw==
+X-Forwarded-Encrypted: i=1; AJvYcCXGIyKwXIAivCuuYgto3aCgFmr7YC0C46ts1FexkpocU0ssqxaFpI/KTkmh4jvEAOdnAIG9iMTKPZwmb94=@vger.kernel.org, AJvYcCXYQn9uBOnYAVDIxJEpCw2s6yA8LvRA/kwGQU/DWXiBzXaxAonjX3ZH+19Fnk6cTTR6mOBkT/bxeUdwZH2Ml4+HOsk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhiIKW3yn37jcrCgWJuVoiSFi+5PeHL19VBA5IKlTYOQMJbZtx
+	T01jRV89uNHvGurEYh8ucs8WUE2tlbEj6cOsLd9EdSUZCx/V+08e
+X-Gm-Gg: ASbGncttQQgb80y5VX26YkSIvqluo0Z2chzYXLhFz6FOqVyQupictvf42VQZHrmxDpF
+	rjQe+YpA0S5HYPANZJEq46r88ItEJomTxWQkW9r0Lq6/FS5zHf1bTeOocDE80I5U/pTiBJXDiQZ
+	Tag0UxqX0lq/sd4JYUeoNmb+CBYrEyLGb2s/D6jVxzQdtGjfQ8yPAaM+7tOUxP0O/BxelGzQyxZ
+	awoTt2J2uV42RjhUdEZAzvOWfqreasjqBaReE/fDVFj+tB8kCYzIluh7uMvd/VM/ONzb2f9Va27
+	XrIpRRc6eQ/IJM8M/YvMj3fvhQNVydiTD3CdSQy33/AITIckq/yonnLtUxdHpBtdEnMEhYrmPal
+	pkbXcD15OSP25EpPyeXTw
+X-Google-Smtp-Source: AGHT+IFlgguu579T11n1XG3482eOGf2Xqxwq8atO6NLI+PD9ZnCX/USeEANd62pNzKgdi0sTjcor+g==
+X-Received: by 2002:a05:600c:528a:b0:441:d43d:4f68 with SMTP id 5b1f17b1804b1-442d6d645d2mr170703775e9.15.1747151203337;
+        Tue, 13 May 2025 08:46:43 -0700 (PDT)
 Received: from iku.example.org ([2a06:5906:61b:2d00:c996:6219:e8d3:1274])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442d596a5e4sm183724645e9.31.2025.05.13.08.46.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442d596a5e4sm183724645e9.31.2025.05.13.08.46.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 08:46:41 -0700 (PDT)
+        Tue, 13 May 2025 08:46:42 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -85,9 +85,9 @@ Cc: linux-clk@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/5] clk: renesas: r9a09g056-cpg: Add clock and reset entries for OSTM instances
-Date: Tue, 13 May 2025 16:46:32 +0100
-Message-ID: <20250513154635.273664-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 3/5] clk: renesas: r9a09g056: Add clock and reset entries for RIIC controllers
+Date: Tue, 13 May 2025 16:46:33 +0100
+Message-ID: <20250513154635.273664-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250513154635.273664-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250513154635.273664-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -101,74 +101,59 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Introduce a new fixed divider .pllcln_div16 which is sourced from PLLCLN
-and add PCLK module clocks gtm_0_pclk through gtm_7_pclk for OSTM0-7. Add
-corresponding reset lines GTM_0_PRESETZ through GTM_7_PRESETZ to control
-the OSTM instances.
+Add module clock and reset definitions for RIIC controllers 0-8, which
+are available on the RZ/V2N (R9A09G056) SoC.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/clk/renesas/r9a09g056-cpg.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ drivers/clk/renesas/r9a09g056-cpg.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
 diff --git a/drivers/clk/renesas/r9a09g056-cpg.c b/drivers/clk/renesas/r9a09g056-cpg.c
-index 5582041455c5..c57583e7f659 100644
+index c57583e7f659..a489e718a9c2 100644
 --- a/drivers/clk/renesas/r9a09g056-cpg.c
 +++ b/drivers/clk/renesas/r9a09g056-cpg.c
-@@ -34,6 +34,7 @@ enum clk_ids {
- 	CLK_PLLCM33_DIV16,
- 	CLK_PLLCLN_DIV2,
- 	CLK_PLLCLN_DIV8,
-+	CLK_PLLCLN_DIV16,
- 	CLK_PLLDTY_ACPU,
- 	CLK_PLLDTY_ACPU_DIV4,
- 	CLK_PLLDTY_DIV8,
-@@ -98,6 +99,7 @@ static const struct cpg_core_clk r9a09g056_core_clks[] __initconst = {
- 
- 	DEF_FIXED(".pllcln_div2", CLK_PLLCLN_DIV2, CLK_PLLCLN, 1, 2),
- 	DEF_FIXED(".pllcln_div8", CLK_PLLCLN_DIV8, CLK_PLLCLN, 1, 8),
-+	DEF_FIXED(".pllcln_div16", CLK_PLLCLN_DIV16, CLK_PLLCLN, 1, 16),
- 
- 	DEF_DDIV(".plldty_acpu", CLK_PLLDTY_ACPU, CLK_PLLDTY, CDDIV0_DIVCTL2, dtable_2_64),
- 	DEF_FIXED(".plldty_acpu_div4", CLK_PLLDTY_ACPU_DIV4, CLK_PLLDTY_ACPU, 1, 4),
-@@ -134,6 +136,22 @@ static const struct cpg_core_clk r9a09g056_core_clks[] __initconst = {
- static const struct rzv2h_mod_clk r9a09g056_mod_clks[] __initconst = {
- 	DEF_MOD_CRITICAL("gic_0_gicclk",	CLK_PLLDTY_ACPU_DIV4, 1, 3, 0, 19,
- 						BUS_MSTOP(3, BIT(5))),
-+	DEF_MOD("gtm_0_pclk",			CLK_PLLCM33_DIV16, 4, 3, 2, 3,
-+						BUS_MSTOP(5, BIT(10))),
-+	DEF_MOD("gtm_1_pclk",			CLK_PLLCM33_DIV16, 4, 4, 2, 4,
-+						BUS_MSTOP(5, BIT(11))),
-+	DEF_MOD("gtm_2_pclk",			CLK_PLLCLN_DIV16, 4, 5, 2, 5,
-+						BUS_MSTOP(2, BIT(13))),
-+	DEF_MOD("gtm_3_pclk",			CLK_PLLCLN_DIV16, 4, 6, 2, 6,
-+						BUS_MSTOP(2, BIT(14))),
-+	DEF_MOD("gtm_4_pclk",			CLK_PLLCLN_DIV16, 4, 7, 2, 7,
-+						BUS_MSTOP(11, BIT(13))),
-+	DEF_MOD("gtm_5_pclk",			CLK_PLLCLN_DIV16, 4, 8, 2, 8,
-+						BUS_MSTOP(11, BIT(14))),
-+	DEF_MOD("gtm_6_pclk",			CLK_PLLCLN_DIV16, 4, 9, 2, 9,
-+						BUS_MSTOP(11, BIT(15))),
-+	DEF_MOD("gtm_7_pclk",			CLK_PLLCLN_DIV16, 4, 10, 2, 10,
-+						BUS_MSTOP(12, BIT(0))),
+@@ -154,6 +154,24 @@ static const struct rzv2h_mod_clk r9a09g056_mod_clks[] __initconst = {
+ 						BUS_MSTOP(12, BIT(0))),
  	DEF_MOD("scif_0_clk_pck",		CLK_PLLCM33_DIV16, 8, 15, 4, 15,
  						BUS_MSTOP(3, BIT(14))),
++	DEF_MOD("riic_8_ckm",			CLK_PLLCM33_DIV16, 9, 3, 4, 19,
++						BUS_MSTOP(3, BIT(13))),
++	DEF_MOD("riic_0_ckm",			CLK_PLLCLN_DIV16, 9, 4, 4, 20,
++						BUS_MSTOP(1, BIT(1))),
++	DEF_MOD("riic_1_ckm",			CLK_PLLCLN_DIV16, 9, 5, 4, 21,
++						BUS_MSTOP(1, BIT(2))),
++	DEF_MOD("riic_2_ckm",			CLK_PLLCLN_DIV16, 9, 6, 4, 22,
++						BUS_MSTOP(1, BIT(3))),
++	DEF_MOD("riic_3_ckm",			CLK_PLLCLN_DIV16, 9, 7, 4, 23,
++						BUS_MSTOP(1, BIT(4))),
++	DEF_MOD("riic_4_ckm",			CLK_PLLCLN_DIV16, 9, 8, 4, 24,
++						BUS_MSTOP(1, BIT(5))),
++	DEF_MOD("riic_5_ckm",			CLK_PLLCLN_DIV16, 9, 9, 4, 25,
++						BUS_MSTOP(1, BIT(6))),
++	DEF_MOD("riic_6_ckm",			CLK_PLLCLN_DIV16, 9, 10, 4, 26,
++						BUS_MSTOP(1, BIT(7))),
++	DEF_MOD("riic_7_ckm",			CLK_PLLCLN_DIV16, 9, 11, 4, 27,
++						BUS_MSTOP(1, BIT(8))),
  	DEF_MOD("sdhi_0_imclk",			CLK_PLLCLN_DIV8, 10, 3, 5, 3,
-@@ -190,6 +208,14 @@ static const struct rzv2h_reset r9a09g056_resets[] __initconst = {
- 	DEF_RST(3, 0, 1, 1),		/* SYS_0_PRESETN */
- 	DEF_RST(3, 8, 1, 9),		/* GIC_0_GICRESET_N */
- 	DEF_RST(3, 9, 1, 10),		/* GIC_0_DBG_GICRESET_N */
-+	DEF_RST(6, 13, 2, 30),		/* GTM_0_PRESETZ */
-+	DEF_RST(6, 14, 2, 31),		/* GTM_1_PRESETZ */
-+	DEF_RST(6, 15, 3, 0),		/* GTM_2_PRESETZ */
-+	DEF_RST(7, 0, 3, 1),		/* GTM_3_PRESETZ */
-+	DEF_RST(7, 1, 3, 2),		/* GTM_4_PRESETZ */
-+	DEF_RST(7, 2, 3, 3),		/* GTM_5_PRESETZ */
-+	DEF_RST(7, 3, 3, 4),		/* GTM_6_PRESETZ */
-+	DEF_RST(7, 4, 3, 5),		/* GTM_7_PRESETZ */
+ 						BUS_MSTOP(8, BIT(2))),
+ 	DEF_MOD("sdhi_0_imclk2",		CLK_PLLCLN_DIV8, 10, 4, 5, 4,
+@@ -217,6 +235,15 @@ static const struct rzv2h_reset r9a09g056_resets[] __initconst = {
+ 	DEF_RST(7, 3, 3, 4),		/* GTM_6_PRESETZ */
+ 	DEF_RST(7, 4, 3, 5),		/* GTM_7_PRESETZ */
  	DEF_RST(9, 5, 4, 6),		/* SCIF_0_RST_SYSTEM_N */
++	DEF_RST(9, 8, 4, 9),		/* RIIC_0_MRST */
++	DEF_RST(9, 9, 4, 10),		/* RIIC_1_MRST */
++	DEF_RST(9, 10, 4, 11),		/* RIIC_2_MRST */
++	DEF_RST(9, 11, 4, 12),		/* RIIC_3_MRST */
++	DEF_RST(9, 12, 4, 13),		/* RIIC_4_MRST */
++	DEF_RST(9, 13, 4, 14),		/* RIIC_5_MRST */
++	DEF_RST(9, 14, 4, 15),		/* RIIC_6_MRST */
++	DEF_RST(9, 15, 4, 16),		/* RIIC_7_MRST */
++	DEF_RST(10, 0, 4, 17),		/* RIIC_8_MRST */
  	DEF_RST(10, 7, 4, 24),		/* SDHI_0_IXRST */
  	DEF_RST(10, 8, 4, 25),		/* SDHI_1_IXRST */
+ 	DEF_RST(10, 9, 4, 26),		/* SDHI_2_IXRST */
 -- 
 2.49.0
 
