@@ -1,161 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-17060-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17061-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C35C1AB5ABE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 19:07:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFB6AB5D9F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 22:19:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 539EE466005
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 17:07:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78A261B472B4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 May 2025 20:19:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C324D2BF3CD;
-	Tue, 13 May 2025 17:07:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A1FB1F237A;
+	Tue, 13 May 2025 20:19:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="Kwycc4Hv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="euec/vgw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857781DFD96;
-	Tue, 13 May 2025 17:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE3653365;
+	Tue, 13 May 2025 20:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747156024; cv=none; b=sZNLGdjUpxiCtPANkJSaBPVBgisH8CJM8aWYukt0KkDf6Pc/K4yrvkm4RIGx4Q/ZwhQcXCAwlfXfRaqfR4x+YGA+BDI3L2e/p/M8PvPB8UR9Y3+0fGdXSI9GtMTVdW4VPgXKPiNMB0oqbONeB6nUua3ociVdM0gUpSxz4Yh3bQw=
+	t=1747167581; cv=none; b=AuYVANJmfqfauvKpFGxVJ1Gq/1jcaTODQwZ6fuW13Uy3IkkN1e4KoFisCLOPTAlVmMGABXwfA7dOfs26pnbQXCE2CmELSP4a1iwX/YT8HoCTp5+g7kx9nspOXgUH34HbGqbjezvCwuYJW1hiEOMikUyQH5efc1w1AfbRwHIHTsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747156024; c=relaxed/simple;
-	bh=/wx5j8F6+tuBTmZMB/pfI/6kvL1TBAhK4iTOk5f+lKA=;
-	h=From:To:Cc:Date:Message-Id:MIME-Version:Subject; b=EBao2Lw9xoGpK3e2i4HcDzvF1Kod4szv15P85uc7/bSRXBZGRT8gV0xMy7YPnssMMA1Y8I224NaWGiA8bB+9/3gSlHoCR+zrfNy4uwSyC+DIAYDmkwcznLJVRU2cu6isyDxzUdYLxUk1/aXbdOrdcuhi9LkZ3Sg/nX8WoKGojUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=Kwycc4Hv; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Cc:To
-	:From:subject:date:message-id:reply-to;
-	bh=2LurGoPkc6Eg3ZIhwGtbJARXq0QoaSbCX/2p8hC7Mh4=; b=Kwycc4HvYwfW25ZlZaLRjNIj07
-	MrX5/qkDmTwo0FTrnj1sgOu/+s8mhaKH/33RMER9ZSw/wgkBoRr2J01wfylJZt79Fg7F4m3QeA9Do
-	LQX7C+c+OtUvlMLTZO6kHDyFqAd0yxHAiA3ZaT0DBW/hiFIg7x3sVs+vZu6NB9EB6tMw=;
-Received: from [70.80.174.168] (port=43212 helo=pettiford.lan)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1uEsPH-000211-BD; Tue, 13 May 2025 12:23:04 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>
-Cc: hugo@hugovil.com,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Date: Tue, 13 May 2025 12:23:00 -0400
-Message-Id: <20250513162300.532693-1-hugo@hugovil.com>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1747167581; c=relaxed/simple;
+	bh=m/9128nTWOeQ0Cjn2C5OaprvMtrWAAhIHE9AX/wZpfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W44Bb5FOm5Y4JKZs0snVpL7SyVr82NDBBvfzrzx75OHF5fLgRE+90kbKqCb4FXEgfpKRAjYPY9/C+/KsxOiXR1s04Sh9DaKqo7qRrYDkSP8TPsC8Bny6Q/OqQm52t36TvvHRA3caTA+zCNhz0KFgafWcLdDlNBXjeq2MT0NxN94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=euec/vgw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE7DCC4CEE4;
+	Tue, 13 May 2025 20:19:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747167580;
+	bh=m/9128nTWOeQ0Cjn2C5OaprvMtrWAAhIHE9AX/wZpfc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=euec/vgwDxF/no7xO/G9cTs66OH2A8yDwh3350sWn3gqp1RuF9gSJNCd+3lhuggbc
+	 GcYTDZ796gXx+o/DActOQFBhJJmVWcQ5FiIa8wGLQTx/52FPNBKqmASlC/2K+dRPP0
+	 V9kbK3u99x/GbmkSSeGS9bRR8SQnn+UP+VB+BgHSZfNSWxXcR95Jqdv/vHmd0OUXBj
+	 DcbZoz1i+0Gekf6ENPxN8cGM1t1zl6/aX7o0SEFoN8mYmxQqp50TcO8AgltpQ0xebM
+	 sHYiuRKrmwSlrcag+vIQnGPkXf6EqK5QYAOUR9kTWHuBVEFUTPr1woW5g/mOoONUjg
+	 5x/+GyJvj5QAw==
+Date: Tue, 13 May 2025 22:19:36 +0200
+From: =?utf-8?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <ukleinek@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>, linux-pwm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v4] pwm: tidyup PWM menu for Renesas
+Message-ID: <62gkja5ysv47yos2hcurluudxwvl54uv4ih7pjnmnjrzuik6cs@a5oxhyyy6vsm>
+References: <877c2mxrrr.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH] dt-bindings: display: bridge: renesas,dsi: allow properties from dsi-controller
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ips6fdf4qicsfzml"
+Content-Disposition: inline
+In-Reply-To: <877c2mxrrr.wl-kuninori.morimoto.gx@renesas.com>
 
-From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 
-Allow to inherit valid properties from the dsi-controller. This fixes the
-following warning when adding a panel property:
+--ips6fdf4qicsfzml
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4] pwm: tidyup PWM menu for Renesas
+MIME-Version: 1.0
 
-rzg2lc.dtb: dsi@10850000: '#address-cells', '#size-cells', 'panel@0' do not
-    match any of the regexes: 'pinctrl-[0-9]+'
-    from schema $id:
-        http://devicetree.org/schemas/display/bridge/renesas,dsi.yaml#
+Hello,
 
-Also add a panel property to the example.
+On Mon, May 12, 2025 at 06:33:12AM +0000, Kuninori Morimoto wrote:
+> Because current PWM Kconfig is sorting by symbol name,
+> it looks strange ordering in menuconfig.
+>=20
+> =3D>	[ ]   Renesas R-Car PWM support
+> =3D>	[ ]   Renesas TPU PWM support
+> 	[ ]   Rockchip PWM support
+> =3D>	[ ]   Renesas RZ/G2L General PWM Timer support
+> =3D>	[ ]   Renesas RZ/G2L MTU3a PWM Timer support
+>=20
+> Let's use common CONFIG_PWM_RENESAS_xxx symbol name for Renesas,
+> and sort it.
+>=20
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+> v3 -> v4
+> 	- Based on linux-next/master
+>=20
+>  arch/arm/configs/multi_v7_defconfig |  2 +-
+>  arch/arm/configs/shmobile_defconfig |  2 +-
+>  arch/arm64/configs/defconfig        |  6 ++--
+>  drivers/pwm/Kconfig                 | 44 ++++++++++++++---------------
+>  drivers/pwm/Makefile                |  6 ++--
+>  5 files changed, 30 insertions(+), 30 deletions(-)
+>=20
+> diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi=
+_v7_defconfig
+> index dc4b722ad4b5..50c170b4619f 100644
+> --- a/arch/arm/configs/multi_v7_defconfig
+> +++ b/arch/arm/configs/multi_v7_defconfig
+> @@ -1184,7 +1184,7 @@ CONFIG_PWM_BCM2835=3Dy
+> [...]
+> diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmob=
+ile_defconfig
+> index 0ea34d5d797c..7c3d6a8f0038 100644
+> --- a/arch/arm/configs/shmobile_defconfig
+> +++ b/arch/arm/configs/shmobile_defconfig
+> @@ -203,7 +203,7 @@ CONFIG_RZ_DMAC=3Dy
+> [...]
+> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+> index d0768584647c..fe021cbb6393 100644
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -1536,11 +1536,11 @@ CONFIG_PWM_IMX27=3Dm
+>  CONFIG_PWM_MESON=3Dm
+>  CONFIG_PWM_MTK_DISP=3Dm
+>  CONFIG_PWM_MEDIATEK=3Dm
+> -CONFIG_PWM_RCAR=3Dm
+> +CONFIG_PWM_RENESAS_RCAR=3Dm
+> +CONFIG_PWM_RENESAS_RZG2L_GPT=3Dm
+> +CONFIG_PWM_RENESAS_RZ_MTU3=3Dm
+>  CONFIG_PWM_RENESAS_TPU=3Dm
+>  CONFIG_PWM_ROCKCHIP=3Dy
+> -CONFIG_PWM_RZG2L_GPT=3Dm
+> -CONFIG_PWM_RZ_MTU3=3Dm
+>  CONFIG_PWM_SAMSUNG=3Dy
+>  CONFIG_PWM_SL28CPLD=3Dm
+>  CONFIG_PWM_SUN4I=3Dm
 
-Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
----
- .../bindings/display/bridge/renesas,dsi.yaml  | 21 +++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+I was about to apply this patch, but here in
+arch/arm64/configs/defconfig is an not entirely trivial merge conflict.
+The problem is that CONFIG_PWM_RZG2L_GPT=3Dm is only added in commit
+5ad7de623853 ("arm64: defconfig: Enable Renesas RZ/G2L GPT config")
+which isn't included in my tree yet but only in Geert's
+renesas-devel.git/next. So conceptually I'd need to do:
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-index e08c24633926b..e0906a46fb118 100644
---- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-@@ -128,14 +128,17 @@ required:
-   - power-domains
-   - ports
- 
--additionalProperties: false
-+unevaluatedProperties: false
- 
- examples:
-   - |
-+    #include <dt-bindings/gpio/gpio.h>
-     #include <dt-bindings/clock/r9a07g044-cpg.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
-     dsi0: dsi@10850000 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-         compatible = "renesas,r9a07g044-mipi-dsi", "renesas,rzg2l-mipi-dsi";
-         reg = <0x10850000 0x20000>;
-         interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>,
-@@ -160,6 +163,20 @@ examples:
-         reset-names = "rst", "arst", "prst";
-         power-domains = <&cpg>;
- 
-+        panel@0 {
-+            compatible = "rocktech,jh057n00900";
-+            reg = <0>;
-+            vcc-supply = <&reg_2v8_p>;
-+            iovcc-supply = <&reg_1v8_p>;
-+            reset-gpios = <&gpio3 13 GPIO_ACTIVE_LOW>;
-+
-+            port {
-+                panel_in: endpoint {
-+                    remote-endpoint = <&dsi0_out>;
-+                };
-+            };
-+        };
-+
-         ports {
-             #address-cells = <1>;
-             #size-cells = <0>;
-@@ -175,7 +192,7 @@ examples:
-                 reg = <1>;
-                 dsi0_out: endpoint {
-                     data-lanes = <1 2 3 4>;
--                    remote-endpoint = <&adv7535_in>;
-+                    remote-endpoint = <&panel_in>;
-                 };
-             };
-         };
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1536,11 +1536,11 @@ CONFIG_PWM_IMX27=3Dm
+ CONFIG_PWM_MESON=3Dm
+ CONFIG_PWM_MTK_DISP=3Dm
+ CONFIG_PWM_MEDIATEK=3Dm
+-CONFIG_PWM_RCAR=3Dm
++CONFIG_PWM_RENESAS_RCAR=3Dm
++CONFIG_PWM_RENESAS_RZ_MTU3=3Dm
+ CONFIG_PWM_RENESAS_TPU=3Dm
+ CONFIG_PWM_ROCKCHIP=3Dy
+-CONFIG_PWM_RZ_MTU3=3Dm
+ CONFIG_PWM_SAMSUNG=3Dy
+ CONFIG_PWM_SL28CPLD=3Dm
+ CONFIG_PWM_SUN4I=3Dm
 
-base-commit: e9565e23cd89d4d5cd4388f8742130be1d6f182d
--- 
-2.39.5
+and the merge conflict resolution needs to add
+CONFIG_PWM_RENESAS_RZG2L_GPT=3Dm. This is too bad IMHO.
 
+The obvious options are (in order of my preference):
+
+ - Geert declares his renesas-arm-defconfig-for-v6.16 to be stable and I
+   merge it into my tree and then apply the patch
+ - I cherry pick 5ad7de623853 in my pwm tree and Geert drops it
+ - I delay applying the patch until after v6.16-rc1
+
+Geert: What is your preference? Let's discuss on irc?
+
+Best regards
+Uwe
+
+--ips6fdf4qicsfzml
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmgjqVUACgkQj4D7WH0S
+/k4N6Qf/Z5/BS3nBaa+9S+S1dZYBR6gLh4rcQTSPlPbc3sEu8c0tbPozyZrIVOaC
+FJrZa1t5BKRop4wXKyaDK/ZHbNeqLEcPr9w/AfsTh8zwkaQlA/NXD96AmoVqy+U4
+aZJdMwM6kUPCfPWbR0uTELds4NwMwUURPwFl45Eumgd6cCmN1V2+VQaXXINBNUrs
+/ag1ae5gC6wTuHcdUGfTVgJHySs/HIJGTOlIta362s7Vtjz17SFnl7+Zup8dUphF
+t9nSIuyOBTveKEHLesAt+L6HTU5PIcGDKnxha/kwsI9F3EisanXezSX+aSFXHoqd
+PcNCCLw7Da4h9NWNTgm2c11jV9JeMg==
+=eBj4
+-----END PGP SIGNATURE-----
+
+--ips6fdf4qicsfzml--
 
