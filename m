@@ -1,223 +1,235 @@
-Return-Path: <linux-renesas-soc+bounces-17114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2BFAB7142
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 18:26:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D146AB74DD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 20:57:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D4D58C49BE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 16:25:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68ED68C3D07
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 18:56:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05C792820B3;
-	Wed, 14 May 2025 16:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 677D528981D;
+	Wed, 14 May 2025 18:57:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="IS5O3Vta"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bh/97uOa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011031.outbound.protection.outlook.com [40.107.74.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F53228151A;
-	Wed, 14 May 2025 16:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747239916; cv=fail; b=BHLzsxgG2y/k4abAyB6xbMW/CXwwxjgGxnZuJBSk/zmGu9iZ1zpFJHx1yMgu9a/E4sT3D4t3mtfWmFyCKAOGILePrDgebDrH/i44dnYTFB0eFiL7NYubrW1usvAhfegxb/HZSnl7+2fxWcwNLcvHo1DCqpkAKVmoSt5LRERw+I0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747239916; c=relaxed/simple;
-	bh=/rR2PwEm9qG5Mv9K8UShw3jIHCHEfbrrNkT6mM7aewM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mK0Os9lS2ISHITCQwRrzhWMEgfcL5wV56Lq82VvgSDQzCplDYnHzLIUbWXV7e1KxgotAaxkijyOOj50WDsUYvG/kuEn9iTdOKkyu9838WFzcMkqbAAhOBHx/0fz3EgxeAvHKfC/XIRU5c1roIXZboxYqXcNF2GFK7PBToYVCAR8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=IS5O3Vta; arc=fail smtp.client-ip=40.107.74.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cH6DlErMJ+PmWBtZ+q55CUXIXD39zehbEe6g0qKNrlKSfyUNBpJoiHQxJr25MphYyxifEsSu4wloPgxtADttfFJLHgjLpI0kbpOqZLmUbIFzaPDgEb4cIdy7OeYvN8ktldka6iKJkpBznGdyRa3E38oa40nVC9eR05bAQRUVesRZToXRrwskwV59twIlQX25rPa/38OPU6iwybof+sjqH5QSAFgQa7bysUrmI6L3Uesc1IEaBq58KmHud99bfj7QA/YpK2pSNxWOwsJyETnl+TogkldwRurYDhvfBWVg2ZilZzxbr35/BgOpkXUV3kP96DxmWCkN6WP8i1G1ZmN5NQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ticJbjYZ9dWAgRc9g2Gk4iFF24u9Qz1GTpSE6D+fxu4=;
- b=xj1rHVW4KmEWYiUzwjwwYTAJzSvNUQ/WIK8aVNh+vm7YaWkf+55JtEOCFCgqeJvVcR67Nd00A6ZugMWwPbEN2gZPOVwcyr7B8giISM93BxYxw8+t4FKEDUlgRwaQ0VZUV/4l4rPuGbjpMd8gRBUikdoosLbgZTbzuQpG5d/21JLdaTP8E6xk+TgbJX4Jh/x+ccZjPD6x/bqbLHvUC0SqCBwDe8QBJWzIgDPmvhmlEbRKo4yQxhYixwtp/Jb5MO9vwxo1s4BPSBR2ZcGW/Ko+W1cWxftqVmVxocAp1vNu6JVHgQsVPDCkO3TzKWZtMY/Y/sTdnDDM50JWM4zGfi1ssw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ticJbjYZ9dWAgRc9g2Gk4iFF24u9Qz1GTpSE6D+fxu4=;
- b=IS5O3Vtar7V0TLHAv7AhsKbHHqY+fJZ+pYNn7nhid8DWZU194lngP19vg5uC8B9wHhh7Lts873NlBwciFDGe7hGa0DLFQYBkpR4dL+UCDpqQ/91+kBsTWCNkl0LkhkxfxikvgSP9Du/tL66PnNx2BoLvEIhhfMeyj6SBQYRjBAw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
- by TYWPR01MB10520.jpnprd01.prod.outlook.com (2603:1096:400:29f::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.32; Wed, 14 May
- 2025 16:25:12 +0000
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3%3]) with mapi id 15.20.8722.031; Wed, 14 May 2025
- 16:25:12 +0000
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] arm64: dts: renesas: r9a09g047e57-smarc: Enable CRU, CSI support
-Date: Wed, 14 May 2025 18:24:20 +0200
-Message-ID: <20250514162422.910114-5-tommaso.merciai.xr@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250514162422.910114-1-tommaso.merciai.xr@bp.renesas.com>
-References: <20250514162422.910114-1-tommaso.merciai.xr@bp.renesas.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0209.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e5::8) To OS9PR01MB13950.jpnprd01.prod.outlook.com
- (2603:1096:604:35e::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538E91DE4C5;
+	Wed, 14 May 2025 18:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747249029; cv=none; b=BYVKDJmNJGZ/Kz7EsbC3O2JUcTZifcuHPmwKthzEHooGHqZjUxM7Zizfe2NZZRMOMbH4WUlzwjNcftOOby2pBRvO69iIrzVy9sWk4+m3awtyLGzW2BX09QG68qnStivZyWRGhtzH/m1lfmXmXmnSf0wSchBEyq1X000LQkDJyVI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747249029; c=relaxed/simple;
+	bh=2yDlDsuPnZgCeJCUIv0EgLRBGpl4yleEhb4ZuUNB5eE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j4MxHiTKRTNFCuO03TeSM0yOQGskHZIEhleer0J0PzOPkVVhGaBoMapQUFA/EtuiikHYniS+5KsnuGSip3R1EpF8+aHIIdUZM2lhWVltwxe1//nGB2Y28bfh6kYCOxnwYKwWzYaRCVBkgmSgYB94U4Qjqe4WP2qcOFuvwQWCyfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bh/97uOa; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ad1a87d93f7so25468066b.0;
+        Wed, 14 May 2025 11:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747249025; x=1747853825; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1LH24cLf45WsutS7BVVf9uY22x5+Bvy63C/JPI9H2xY=;
+        b=Bh/97uOaJ0q6up94RJFK7SGV3XpactFK38fbZwdg1xiFgsM2ibK/Qb6yAUYooEJVE2
+         rbmWX+lTOgPanlZ7iyia00IypY95ZBZF4f4uNu/fHHRiu4anq05g5CKVoT9B5cXLu73H
+         GUY4JLRrE8yHJnAXvbufg/LzmkPX6IB2gK12O/xOSjtUz+uGUA9TVecoHsLtEJKU7dRG
+         ts8HmzLAe0hADqit7zbyx82+3hrosNQxhm2ZYyfijFno3uF0e7UlS3XgyUqPdhgPqwDi
+         jYd1aCif42eLuxsipjWQNN9qr4WCrSw5b5RyXeV/uG3gBz0TehQ8TlIayskh9FjfbhFd
+         PoDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747249025; x=1747853825;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1LH24cLf45WsutS7BVVf9uY22x5+Bvy63C/JPI9H2xY=;
+        b=UNcnrDR1NMphzSgIVq/pQjp4dL5x840Ippl7qCV5AB0Ms7RML6kTBsrKKAtGHnFMp9
+         kN9pRLsk3ONj9ngNz9sBhkicF/zF0QDgX6a0lM9u7iaIkkDPAgAJnaTsSiSrqbx1e+sr
+         ihoZ/hqt8QgQF1NlWSUE0llqm0gwo6d6PK8JanNoxieWwWto79owZbfymTCDJ1y2Ts3T
+         sOzlVXNCJ2OCBGerHA6KAimxsvUXln3V1u60/ztrawkCneQLbZ39X3PPbyo1vT9JJo6L
+         uTZyvEavwrdPgbuNsVE7f3mWP8siN4g7/ViQ1OtUOOKdD4X5+ub3gGoDmTlzypsExjwT
+         Bn0g==
+X-Forwarded-Encrypted: i=1; AJvYcCV/hvD4Gf2MazIkypWZl3xlwwuc42HwVH2mgoEJeZ2ccrHEnPFO0RmeHXPJebyuU2gagUZUJDJhksa4bb5gxpln4N8=@vger.kernel.org, AJvYcCX+ig2oKnzeJl9aYBS4GoNiH/mfXhvWWVpq11hjkOjFoZH1oaTE6jLltwN8RzkWW2ZRQS27HRU/gm/rYw==@vger.kernel.org, AJvYcCXvBe876PS3oSDDJiUr7GlczDqA7xTrE5u86ADyTF9KByyI8mEIVTXo4Z41VNjE70Boc8PiIwW7yNBa@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIMyT/d7uMEyvWDrIVvfzNUdv5u3r3VoW6z6OI3rC1eWJTl8wu
+	yKOvNYivFN8eE/lPWbXpQrjL4HjTg4Of+s8AWTloc4nKE+xpMEPg6Vj1Ky/p
+X-Gm-Gg: ASbGncvwPui4+RPmsy6Y8Uox9R/7P9K1OJrR3edcY5d3KUy0A+BoHhrPVyFC41Fl2Ma
+	Ie7CGsA8uwvFkPinndiTPWTKyqGAfHmzXw4Jn3ct4nJsdUOdQjrE2xewPFJbnGn+FT5GJGM3o5Y
+	+XG5BL2IZeAb/+R3sitLuQBMcMQLC5EDANkc2cwYXBrjldAfr/fJC1FNBLnrAROT1FvGw3uhzdS
+	hDaQp1J3T0Q5wY54p7s5G50HgWMKOWRgJkG1G5kEogNo4AVnqRLc+q4gODFvS9IL8K2TsEY5wtC
+	ZUpmyHHXQrSYH1Rwe7NSVIIwet54CxSrQz59k53A+EERXsIYSyUAOLqlWQIiF2v3
+X-Google-Smtp-Source: AGHT+IGMn3hTiNb3Ab38HQ6Dx7X/wwKJLgWucnu/9EnuGl6naF/biuFPZrPQepO+dtQv2mfZz8rXOQ==
+X-Received: by 2002:a17:907:60c9:b0:ad2:46b2:78ad with SMTP id a640c23a62f3a-ad4f7153c1cmr483374266b.24.1747249025242;
+        Wed, 14 May 2025 11:57:05 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad2197463edsm988741066b.105.2025.05.14.11.57.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 May 2025 11:57:04 -0700 (PDT)
+Message-ID: <a26c7cce-df72-47a7-b501-1b66faa3e38f@gmail.com>
+Date: Wed, 14 May 2025 20:57:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|TYWPR01MB10520:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb695f87-b949-4140-609a-08dd9303e6e4
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ggGKGXQDhDJDEFKFUHVOxNSbaF9xbRZIMlNieJxwDsz2tvfmBCLz6dXo1cFP?=
- =?us-ascii?Q?kh7nyIs6YT4Gmo4x25ghfEzwQLU4wb/G4glKkDw5Yh8oe59DjX95FBzj3lNk?=
- =?us-ascii?Q?SokR/Nn2b/vhMjHuInYRQPrkUoRfjCOzG5fOaOujp+0hfeKGIrG6uJhZ8kN/?=
- =?us-ascii?Q?kEudHsO1pNWOUIrcoRYKvFCqtOBAXtbyflU8ryTb8/pp7aCHoowxKlkuUet4?=
- =?us-ascii?Q?fJG0qz74HnBcqKkZldkQpSoQN8cFtsJJBlPwOO+3YEUxatj2NVymhf79QtBE?=
- =?us-ascii?Q?CSWa+s4u8+Dsz6X4vFZ6nBpKqkFh7ULs/j4J4j85i3UOyx6rZIEHW+uv+Lir?=
- =?us-ascii?Q?DB4OLlqzG+nfTNvtsVtLuwVyEvPKs/fioF9vkUoYr1C+kQbwZpHUVB0A9X/e?=
- =?us-ascii?Q?VuhDuDRiURQYhhYl9/wne1hCEwKSWVV74NgVELLq40DCjqS0yyGCMFYhg5Jm?=
- =?us-ascii?Q?SE68DtMYFzjID6vCQCtJKxD1op16P8Zlo44n3TGZk41bMjgXf4AQWJU2OZeO?=
- =?us-ascii?Q?vD8DujTg3dpjw5qUBu3765hNg07rKbiPPJEyGAvMjI3UDNNVqqFjWPKQ8i08?=
- =?us-ascii?Q?4IYrTOxPfwGLCwXCN3bgRz0eNE1SDGaURP6ZculHibBzLDFQXR0lS1+mB4V+?=
- =?us-ascii?Q?WNpayQQZWq2PeyYJoKqHN0qMv/cKGVud1iGhq6+yhnjDrZFz1FPDiIbMe9gY?=
- =?us-ascii?Q?rvaSx4m8+FCJ3rteEARJQo4tixBWWdT/19bQCD0NiCuEO+HvEQf9GUOrak+Q?=
- =?us-ascii?Q?WP5LsWQ8DJZ+oYVI07+tseD62VByExm6G7vzzjrVYAltL0qmQIrQj2PG/M+n?=
- =?us-ascii?Q?ICjbi23wFQbFufv9zP1QsP4F23C2DWTPWLIVgen4Cj52W6c5cCqptdQNCwyV?=
- =?us-ascii?Q?5UTVscd2eGOSXO0TxB4i2PldBzWHwbZzTidZC1/W2uXQDogtu8d1TYElRfjG?=
- =?us-ascii?Q?00/o87o6p/QGvsmkSJF4FVqWsZTHEYXJ5JQZ4JVsTZKP6dHdFCBC86KMzJzG?=
- =?us-ascii?Q?vgS6JTFlsaX1dcpBIJiY5xiMFEtSb2ltN0X/e205VNAcajaUbFahVtNWMyu9?=
- =?us-ascii?Q?pfgcFZzcp3QBYTZAg3czryyVSaCeuv3SZOAue9peTMPPHMy5WcXy1MdOHA2U?=
- =?us-ascii?Q?MBMR7xCwf7nXrXwZ+Rv/UeYTcswSurudGtiWKzdcpaUTDG7nI+2SCwYMZMsu?=
- =?us-ascii?Q?WHzfFs6iFerXmYDDt7tlvqFGurZtyBhyPtNJjZr2327rd6ypr5ad8egbPfLu?=
- =?us-ascii?Q?tEQu7w8KwKVNkLfWfCJs6nvj8YskvfCV52wC/sBCc6GOavpniw2QwEmxoUyw?=
- =?us-ascii?Q?Nn7ALwRoTcnq+SuV6M+jNOlfoEFjQX2SuagpImhKea9hxCQxx6kmtZuT4mru?=
- =?us-ascii?Q?tjgQRfkbyH/v2k6SYpJ/ZmlsidXgGM4SMPP7iLLn9UD9A8nfDFLrhvjVQGNC?=
- =?us-ascii?Q?Rlkba9qCD7F66D02P1aup0kX8O3U7xbbgMBkhH0HHAxV1ObvefiRwg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?YOsF2l9afWl6NnTxYrUlTP5Crb/CqGCJOxnF64Li3kFbXCS3tGYMFQ1lvPqa?=
- =?us-ascii?Q?uIuTUQoNQyp4aGqDhPTNYJQtTju41W+Sldx0AHIL2VHa6tdsB3egkLAYPdxH?=
- =?us-ascii?Q?QWydnHdDYDdoB4/aFt6s87aIzEJVJTytQ9Gjl6Ziy5rc5nb9CxiFy9L48IcW?=
- =?us-ascii?Q?KHdEDY5LfvXGn+qKFOl+0pcy6BZCENN5NqrJsYGi3JZtnRZNb9e71OlBj8Zf?=
- =?us-ascii?Q?Nu2DrYzHjAi72sLJm8qUs0qJ+j4qcCMOQwAX/KeWMF48fZZItZf2Jb2EC3tM?=
- =?us-ascii?Q?DZ1Hd0RBNIO9fxwT6w30sL51/7cjzZFz6cQGl9vsX6X5cjCcuTK6e2+n4xtq?=
- =?us-ascii?Q?e6jLrwIElfd0S7BaCcYuWNijbuFmqTlRPuVXAgi5ED4dz32smvbc7kV2Ph6a?=
- =?us-ascii?Q?1BufOkI3Z1WH24DsogMSjET336qbWDyBhhBBuzY8DqVqwp0LgdMf9W4HbyX0?=
- =?us-ascii?Q?1gMU5BT+owU1lgWdtDnoS/qxnqK4CMueAcuWsESNc47XqY816fKr9weERR58?=
- =?us-ascii?Q?roz9cq/4S+6E6eUNFjS1Ir3RDvNDCCURKlQn3s/23j1qAC+CgHggBrK4gvzY?=
- =?us-ascii?Q?ETJiTIgz4o4fhhoWGrSHiZPLZ5zwbZdDPEN/KqiECWH7nmtLUR0BtyUM2nuc?=
- =?us-ascii?Q?o1h7y7WyaQ5V3xDoyeYj8hJAc1aoLEHv/BlGnQ/LU4UhgBP1PxZX4UQl+1A0?=
- =?us-ascii?Q?3wa3fTpUU2Jxqzmyle6DCqibiGsIr9iVv9oEY9MKFOuDSrKm1Wup4lNf8iiC?=
- =?us-ascii?Q?aJaAiTJvsHD7PTzOnQwKvm/L1MlMyYnrw3bN55rb+uWHDXElRyUO5OD4/KUn?=
- =?us-ascii?Q?G2o77ahsIsLT43tFzdAW5oiRRcC2GzwMBzPSVOvm0iaJc3AViFjvqKoLZQAM?=
- =?us-ascii?Q?2JB8nnWI3jYWcdDboq423X9PG7GIqe6HXw9HYwDWv5SpK0hVJVQRs+gIxSIW?=
- =?us-ascii?Q?zzlQr0fzOSLuXJGp3xV1ElXmDfwuZpS+RDckdX/Ct2H0Y7DrH3u71ygUcjk1?=
- =?us-ascii?Q?XK3IJIQv9xdXEe2WI2wg7RcssqOzm/F24ptvOMD/uIWEpKemwiuijgaqjNxk?=
- =?us-ascii?Q?Xlj3LA5+H6pRHnLYThxCipH9QkLaW5TS1pffYBVqA60aD/rWtGtxb6lKKv3L?=
- =?us-ascii?Q?W8Ct/6QuG1H2ufKP0d/evMNH6HJC5iDZ6H3WveYlR24LcxXTJnTKqeDoPiRs?=
- =?us-ascii?Q?WpyZHi4UT/2IoQzo6sG9j7Gnet7BuUNv+stbVXIkVVei/DgBwmT/Gsx1UATl?=
- =?us-ascii?Q?EtfQ449uUm5kowrTdUwDudLBC3OLS6Uj2ARnjvf8DEPWS36BA7xhd+gwPNre?=
- =?us-ascii?Q?VEKDuU/+76Evo2pjJSont0V9bpbFD0JugaZUNVouIKbYOBGlImrMQtsxWqLW?=
- =?us-ascii?Q?XE3WNIM/q4RKfZ4tkTYYxmWvsa3S+NZbAYQKUpZaAkco2mMdm3CNBymfsR5g?=
- =?us-ascii?Q?48UqlGVQJDmkpgz0FMzyEEET59rP4TwyrwFmRdTfW4xF4VgzbFHwe3n6Qthq?=
- =?us-ascii?Q?EI1+g+wju0VTT6uiaD2vQviHkuBzP7/7aP64bbfKNkiq9zrCdLje0cCJK8OT?=
- =?us-ascii?Q?CfghGqMg8Cmkp7eQzynofJ/lURrB7/Nhbs8tzEl7e+CURxc3Jcc+1KYAebCx?=
- =?us-ascii?Q?wLPb9moTid3e3KqkWcnSIJk=3D?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb695f87-b949-4140-609a-08dd9303e6e4
-X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2025 16:25:12.7754
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9QRpBKWGP29haNduj/OlOTdWii4J9IVnF48x4aUnimwVUfYXUiGj9tqPJH8yYvXg26+nJRdlRQURRVccFBiyzkmP2Tt43BllvJK172WyUuRnA1ufB3kR3poY9/N6voIl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10520
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
+ Debug LEDs
+To: Lee Jones <lee@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ Pavel Machek <pavel@kernel.org>, linux-leds <linux-leds@vger.kernel.org>
+References: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWN-QDrmogJ+7x8sdc6UmDAoF+0z0hZ3SQ7ajN2V2+mSw@mail.gmail.com>
+ <aBxjvofZCEi_1Fna@shikoro> <20250508134930.GM3865826@google.com>
+ <18b78845-3f01-444d-835a-aa39f84a2689@gmail.com>
+ <CAMuHMdW1Hn51R-6MstS1Ojuu-CR0eNs504YEruPbe2L-H_zBHA@mail.gmail.com>
+ <ebb257c6-33f9-4841-b9af-c2744b59e513@gmail.com>
+ <20250514152852.GA2936510@google.com>
+Content-Language: en-US
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <20250514152852.GA2936510@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Enable CRU, I2C0 and CSI on RZ/G3E SMARC EVK and tie the CSI to the
-OV5645 sensor using Device Tree overlay. RZ/G3E SMARK EVK is a RZ/G2L
-alike EVKs then reuse rz-smarc-cru-csi-ov5645.dtsi.
+On 5/14/25 17:28, Lee Jones wrote:
+> On Mon, 12 May 2025, Jacek Anaszewski wrote:
+> 
+>> Hi Geert,
+>>
+>> On 5/12/25 09:13, Geert Uytterhoeven wrote:
+>>> Hi Jacek,
+>>>
+>>> Thanks for your answer!
+>>
+>> You're welcome.
+>>
+>>> On Sat, 10 May 2025 at 14:43, Jacek Anaszewski
+>>> <jacek.anaszewski@gmail.com> wrote:
+>>>> On 5/8/25 15:49, Lee Jones wrote:
+>>>>> On Thu, 08 May 2025, Wolfram Sang wrote:
+>>>>>> On Thu, Apr 17, 2025 at 01:39:14PM +0200, Geert Uytterhoeven wrote:
+>>>>>>> On Thu, 17 Apr 2025 at 11:33, Wolfram Sang
+>>>>>>> <wsa+renesas@sang-engineering.com> wrote:
+>>>>>>>> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>>>>>>>> ---
+>>>>>>>>
+>>>>>>>> Changes since v2:
+>>>>>>>> * using function, color, function-enumerator properties now
+>>>>>>>>
+>>>>>>>> Honestly, this is better than using node names? With V2, the LEDs were
+>>>>>>>> named as in the schematics, now they are called:
+>>>>>>>>
+>>>>>>>> lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-0 -> ../../devices/platform/leds/leds/green:programming-0
+>>>>>>>> lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-1 -> ../../devices/platform/leds/leds/green:programming-1
+>>>>>>>> lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-2 -> ../../devices/platform/leds/leds/green:programming-2
+>>>>>>>> ...
+>>>>>>>>
+>>>>>>>> Which gets even more confusing if we might later add LEDs not on this
+>>>>>>>> board, but on the expansion board. 'green:programming-8' sits where?
+>>>>>>>>
+>>>>>>>> I really wonder, but if this is the official way now...
+>>>>>>>
+>>>>>>> Good point!  So I'm inclined to take v2...
+>>>>>>>
+>>>>>>> Let's raise this with the LED people. I don't want to fight Pavel when
+>>>>>>> v2 hits the CiP tree ;-)
+>>>>>>
+>>>>>> So, if there is no other opinion here, can we remove function, color,
+>>>>>> function-enumerator and just use the node names which match the
+>>>>>> schematics? Basically apply V2?
+>>>>>
+>>>>> I didn't author the semantics nor the rules surrounding them, but I am
+>>>>> obliged to enforce them.  Therefore "LED people" say, please stick to
+>>>>> convention as stated in the present documentation:
+>>>>>
+>>>>> https://docs.kernel.org/leds/leds-class.html#led-device-naming
+>>>>>
+>>>>> Please note that a "debug" (LED_FUNCTION_DEBUG) option already exists if
+>>>>> that is more appropriate to your use-case.
+>>>>>
+>>>>> Let's also bring Jacek into the conversion, since I know that he did a
+>>>>> bunch of work around this topic.
+>>>>
+>>>> The question is if the LED name from the schematics tells anything to
+>>>> the user of the equipment?
+>>>
+>>> As this is a development board and not a finished product, I would
+>>> answer yes.
+>>
+>> OK.
+>>
+>>>> The idea behind LED naming is to facilitate matching the LED class
+>>>> device name as reported by the system with the LED location on the
+>>>> equipment.
+>>>>
+>>>> The LED naming standardization intended to enforce consistent
+>>>> LED naming, and not allowing to add multiple interchangeable
+>>>> names like wifi/wlan. It also helps to keep LED name sections order in
+>>>> accordance with Linux documentation, which before had been often
+>>>> abused by allowing to assign anything to the now deprecated 'label'
+>>>> DT property.
+>>>
+>>> I agree this all makes perfect sense for a final product, where the
+>>> purpose of each LED is clear, and sometimes indicated by an icon
+>>> on the case.
+>>> For a development board, some LEDs may have a fixed purpose.
+>>> But typically there is also a collection of generic user LEDs, which
+>>> do not have a fixed purpose, and are identified by a label on the
+>>> schematics.  Imposing an arbitrary numbering scheme on the latter is
+>>> confusing for the user (developer).
+>>
+>> Using DT child node name for LED class device name is only
+>> a last resort fallback. However if it is devboard and we want to have
+>> a reference to the schematics then I'd say it makes sense to take
+>> LED names from DT nodes. What about the colors? Are the LEDs replaceable
+>> or soldered?
+> 
+> Looks like this option does what you want:
+> 
+> https://github.com/torvalds/linux/blob/master/drivers/leds/led-core.c#L578
+> 
+> For this to execute you need to provide init_data when calling
+> *led_classdev_register*(), omit the; label, function, color_present DT
+> properties and also init_data's default_label attribute.  At which point
+> the DT node name should be taken as the LED class name.
 
-Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/Makefile          |  3 +++
- .../r9a09g047e57-smarc-cru-csi-ov5645.dtso    | 21 +++++++++++++++++++
- 2 files changed, 24 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a09g047e57-smarc-cru-csi-ov5645.dtso
+Yep, I know how it works, I wrote that code after all.
+Here, I wanted to clarify whether it wouldn't make sense to stick to
+the approach with 'function' and 'color' properties if LEDs are fixed
+on the board and the colors are known.
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index b24dddee3827..6aa779bac9f0 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -155,6 +155,9 @@ dtb-$(CONFIG_ARCH_R9A08G045) += r9a08g045s33-smarc-pmod1-type-3a.dtb
- dtb-$(CONFIG_ARCH_R9A09G011) += r9a09g011-v2mevk2.dtb
- 
- dtb-$(CONFIG_ARCH_R9A09G047) += r9a09g047e57-smarc.dtb
-+dtb-$(CONFIG_ARCH_R9A09G047) += r9a09g047e57-smarc-cru-csi-ov5645.dtbo
-+r9a09g047e57-smarc-cru-csi-ov5645-dtbs := r9a09g047e57-smarc.dtb r9a09g047e57-smarc-cru-csi-ov5645.dtbo
-+dtb-$(CONFIG_ARCH_R9A09G047) += r9a09g047e57-smarc-cru-csi-ov5645.dtb
- 
- dtb-$(CONFIG_ARCH_R9A09G056) += r9a09g056n48-rzv2n-evk.dtb
- 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc-cru-csi-ov5645.dtso b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc-cru-csi-ov5645.dtso
-new file mode 100644
-index 000000000000..0f18f68f8120
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc-cru-csi-ov5645.dtso
-@@ -0,0 +1,21 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree overlay for the RZ/G3E SMARC EVK with OV5645 camera
-+ * connected to CSI and CRU enabled.
-+ *
-+ * Copyright (C) 2025 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/pinctrl/renesas,r9a09g047-pinctrl.h>
-+
-+#define OV5645_PARENT_I2C i2c0
-+#include "rz-smarc-cru-csi-ov5645.dtsi"
-+
-+&ov5645 {
-+	enable-gpios = <&pinctrl RZG3E_GPIO(D, 6) GPIO_ACTIVE_HIGH>;
-+	reset-gpios = <&pinctrl RZG3E_GPIO(D, 7) GPIO_ACTIVE_LOW>;
-+};
+ From [0] I infer that LEDs are green, so we should use 'color' DT
+property definitely. And as a 'function' we can assign plain text "pcaN"
+if you feel it makes sense for that board.
+
+This way you'll get LED name "pcaN:green", that will be according to the
+naming standard.
+
+So the node would look like this, for the pca1 LED:
+
+led-1 {
+	function = "pca1";
+	color = <LED_COLOR_GREEN>;
+	default-state = "keep";
+};
+
+[0] 
+https://patchwork.kernel.org/project/linux-renesas-soc/patch/20250328153134.2881-11-wsa+renesas@sang-engineering.com/#26336000
+
 -- 
-2.43.0
+Best regards,
+Jacek Anaszewski
 
 
