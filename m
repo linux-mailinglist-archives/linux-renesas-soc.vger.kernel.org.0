@@ -1,63 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-17104-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17105-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049D2AB6CBE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 15:32:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C13F2AB6CCB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 15:33:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB2031B6665E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 13:32:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5764B160A18
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 13:34:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CD9C2741BD;
-	Wed, 14 May 2025 13:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F11278E51;
+	Wed, 14 May 2025 13:33:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWZzg668"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mvpneVxJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0846F2A1C9;
-	Wed, 14 May 2025 13:32:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F752A1C9;
+	Wed, 14 May 2025 13:33:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747229553; cv=none; b=b/8YNa87MXUsOHY0R8rHv/BbECanTK4dXCNVc9noDGlE4/Y7rNi9oYnhNCLUHujWKtIfyCeZkcDolfI4Pgj1gZJ2gRFjA82ZLbEIT3rd7CQ0rA+tCFZTajdvPIerl9gI92By66iG7YsHain52UaQgcGCydqsAbvmntjpwi2vfV4=
+	t=1747229636; cv=none; b=AggXYT5E+Lv09njjNnBSIIBkQeMlKlt8ZMgn823YNG8UOBH2Am04uJ8p9qP8gccqtfTms1Djic9Mq0AGtH+rPjssc31AusWJ6ehqGuP5XFXmcuiAZgglBUnUnDCgAfl9l4ELneqWO6BsMuaHQlLt3gUN4W3SRNekxJ1sOkhbPqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747229553; c=relaxed/simple;
-	bh=cnnq57g94l54UnjM46fdpfPBPk8H3QBqNMpDVR2kO/E=;
+	s=arc-20240116; t=1747229636; c=relaxed/simple;
+	bh=JkZBRUWlAZrD6dJDIWe0/jn+X6h1LP7wJ9CI+0AFqjE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NFGx+V3xD4pjpjG3D1elOIiWgQe1waAdlN2poSjR5zk5P1iWtZfG27g1CG4fO7Ny6KHCgf4HArytN6KyehtmFViQBxi32f3POLp6UpsJvVK3S5fJxDY72/zsRzV+G7Da98vaWHkrawzBtrzBTyN0Y+ERs4xbqSKaP9kWWoBkK6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWZzg668; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B90FC4CEE9;
-	Wed, 14 May 2025 13:32:32 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=f83wBVxTIegJn7uAOGwVy5NH91zOmp4FO2/gVsbJ4mjvOGC7nVFYg8QHqgf+mBGzIF1A92dKLefG+SDLwiyfOIwDcVNgEyhNaKNtTXYoAOqWgr9ND8zP03JuClCfEzffcqmmKN3OBQ4T+E0KcwzanRAqPHVK17rh9oDRuoW3vxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mvpneVxJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBFBAC4CEED;
+	Wed, 14 May 2025 13:33:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747229552;
-	bh=cnnq57g94l54UnjM46fdpfPBPk8H3QBqNMpDVR2kO/E=;
+	s=k20201202; t=1747229636;
+	bh=JkZBRUWlAZrD6dJDIWe0/jn+X6h1LP7wJ9CI+0AFqjE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UWZzg668kc++3/BpAQC3ilffvDISZ1Hj1LhRW4V1mYZx6OMfJ/0AZI4Be1zmls6zB
-	 MVFYRMg/CPcKqx7rmKkAidY96gk03122DZgKd3Aw76aLK6SGkzcOdK+Jr0DcA3VSG9
-	 fyP1ZN9r6X+kVlE59GKc4f5NTN5VhIUhBTIfLVYgbE9j4jVPka+8X3lRCH/viClELd
-	 XxrL4QlnLuJCHpt6B3retc3bF8aKlOrRfhpHpEuM/kRK8YszkQ/JgUtgGnzY8Decb9
-	 G3wilNcOHoFwTvmjW4IhahXhYfYS9MZXPfzPtyJdoDVRBaiuH6xypKOrww3uhtcOhi
-	 +jOrtTKd4bOnA==
-Date: Wed, 14 May 2025 08:32:30 -0500
+	b=mvpneVxJLLjoBoY9CYOFE0wQiZpdBI5rvXfT/Z+p+h2q4LSQTHOrdUNZMJrVmpYGQ
+	 ovXqGVejvMRm0mC8Fojfx4D/M5LjJjtXlbFz9E34JsGwj8SBNsr+hwPb+NvRrE6vnY
+	 4Ji0WcSkziOpsNvQ58j25ICa27RXZrS434J+EVWDlxUSC2B6Fm2RWKcnfvB54wTcc8
+	 Tv+Fxa2Ciy5nvY4UMw3EZRwAeJ/zYjf/T1hDd4Mwv+iBerXBPe+jxSPm72FXz7Tqp6
+	 0ZGvgakCPLzabpILkcnC/24Y8bbqLLS2a6PBvWgiYzA0d2ex+1a7wGubc2S+/feEkL
+	 Gs9Izvv1eFKyA==
+Date: Wed, 14 May 2025 08:33:54 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Conor Dooley <conor+dt@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: Magnus Damm <magnus.damm@gmail.com>,
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 1/2] media: dt-bindings: renesas,fcp: add
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Subject: Re: [PATCH RESEND v2 2/2] media: dt-bindings: renesas,vsp1: add
  top-level constraints
-Message-ID: <174722954894.1965813.472880271049107566.robh@kernel.org>
+Message-ID: <174722962611.1969176.16342856670669078969.robh@kernel.org>
 References: <20250501173411.134130-3-krzysztof.kozlowski@linaro.org>
+ <20250501173411.134130-4-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -66,10 +67,10 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250501173411.134130-3-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250501173411.134130-4-krzysztof.kozlowski@linaro.org>
 
 
-On Thu, 01 May 2025 19:34:12 +0200, Krzysztof Kozlowski wrote:
+On Thu, 01 May 2025 19:34:13 +0200, Krzysztof Kozlowski wrote:
 > Properties with variable number of items per each device are expected to
 > have widest constraints in top-level "properties:" block and further
 > customized (narrowed) in "if:then:".  Add missing top-level constraints
@@ -80,15 +81,12 @@ On Thu, 01 May 2025 19:34:12 +0200, Krzysztof Kozlowski wrote:
 > 
 > ---
 > 
-> Resending because for three months these were not picked up by media
-> (still in "New" state).
-> 
 > Changes in v2:
 > 1. Add tag
 > 2. Move clocks description to top level
 > ---
->  .../bindings/media/renesas,fcp.yaml           | 23 ++++++++++---------
->  1 file changed, 12 insertions(+), 11 deletions(-)
+>  .../bindings/media/renesas,vsp1.yaml          | 24 ++++++++++---------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
 > 
 
 Applied, thanks!
