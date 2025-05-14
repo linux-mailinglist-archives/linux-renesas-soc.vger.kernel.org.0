@@ -1,125 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-17071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17073-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88E2DAB6612
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 10:34:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8521AAB66D2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 11:05:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 245A7462D31
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 08:34:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 30C984A3BA8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 09:05:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 100E7202F9A;
-	Wed, 14 May 2025 08:34:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D60B2253E4;
+	Wed, 14 May 2025 09:04:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d9py4S/y"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="RbivllH1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC55C27454;
-	Wed, 14 May 2025 08:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA0A224B08
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 May 2025 09:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747211672; cv=none; b=TmrAVB+JtPL36JQXBVJZtA7tX7+1X4LNbUD6e/kTmVVfIseH8YvTqg5OL28vGz7svJcHjw3xW/s8AROPXQZpNZtbcCGJCwmBxcolQK538jEdKIGXdKtWXyhPQMMYtOdokhAvhqqFJtzhT6jKrPItM76WAM2ig33BPDLUrvIh/1M=
+	t=1747213467; cv=none; b=f96egJHRiHmLOW6K5ZNllRwpRWdHty8heIaQMlKRedCXZNaAhXOtieuiuJigdKnfeLYukLZLB3HCmRH9VGtuORiM7PXMTBqsY6fAbBmT1zhzumKViiZpc5ooqtJDh9uoqsv2OnLmRLlcq/89SzO8TpczWtdd4TBnK8FRa8JyS2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747211672; c=relaxed/simple;
-	bh=c3xpjCIOkf2tBkLkY9p/RGP7oLM1K/AjF448pwRTLlE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r9KegvF0kwGPFHyHBkdnA8CLl1xYGn2Cw5aX8ZtqeWPc8D+H6mVXGcjuuxAECYrYXO6d1ploQBiRMuaIl/2IL+CuFggWdWpxP00qI3pqs82BgJPzZy0hznmteQEuWm0HFDnmS0PwMsTSW6v1nkCaYc5km6irRifFC2VmSOb2h/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d9py4S/y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F07F9C4CEEB;
-	Wed, 14 May 2025 08:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747211671;
-	bh=c3xpjCIOkf2tBkLkY9p/RGP7oLM1K/AjF448pwRTLlE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d9py4S/ynySIQhb9heuxxcfUFqv8XKXVS3PYNbSw18T/bdwRrZBCmlXpNftUD716U
-	 AFVCJjnf+/4BKV9TkCkqI6Ds9D0YbwT2fVRi5fDoei1bXJ/lHjij9ycQYyLQtd2CdI
-	 55q1U2uLU31NNqS3AG2qLKR30En8Wix/s9PFghhsRfCgLVS6VjSlWyzwHwG7jFGI/w
-	 BpYqz+rsz1OR/u6BicH9l2bY6fk/7SHlcM8FCZgIbxM0GcvdiwtfECOHKSpnRCpGet
-	 Y9u6lp0b71S7TivgYd6JsdJS6xbDdxTezxUX50qsF8X0tzvoFHFfwW09wNtrIDpjR5
-	 hMOC3/ag8AvwA==
-Date: Wed, 14 May 2025 10:34:28 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Russell King <linux@armlinux.org.uk>, 
-	Will Deacon <will@kernel.org>, linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v4] pwm: tidyup PWM menu for Renesas
-Message-ID: <wytdfpewvcesc6racyrpa4cya7wku6dc65edz7oma7penqrqqq@2g54gyprttxt>
-References: <877c2mxrrr.wl-kuninori.morimoto.gx@renesas.com>
- <62gkja5ysv47yos2hcurluudxwvl54uv4ih7pjnmnjrzuik6cs@a5oxhyyy6vsm>
- <CAMuHMdUvR8rp2PaFLsyQ6ZWLqw7OskP-ZwVjRC=AARhK8g-iYQ@mail.gmail.com>
+	s=arc-20240116; t=1747213467; c=relaxed/simple;
+	bh=5K9vutlNbCySpn2mNDTs4+oqYbErEJzRkyHBo6CSjUU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SKYvOsqskR2X4B5a/rFYqOTESJ1P5L8iCv5FFmC9+s4fQZgBMATDJZU4UHgjQJJ9/b8ZATZmrGD3lOcr69FmNpz3Iw5VK+1zr5obmLVpGpD3B2pCYBv7TF2wBTdr/L5cklpD8m2w4XEPrA6xYUm5wvnPe5fCFl4jRHiz4ObTq1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=RbivllH1; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-442ea341570so13812825e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 May 2025 02:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1747213462; x=1747818262; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P3wGtNITHa0U9o78hhbypZiCBzOOsk2GAy0wSEWd5SI=;
+        b=RbivllH10Q9QTchRwQ9uc4Dd2nm5qVYmJvwQABgbkSafJB3aDZMHSR5dw5S2WpSSH8
+         aGbqu9ThmPKGNDHezRGtYQFVa1SH3WUUTo+CLWISHirFmnsJ+IYAg/5/SRMiZWSa/WJu
+         cO22pWZPv//sbZpldEHSZxwFBAWU7cyEoK0mAuYCQZ16+b2GfcA5IUsqm6Isg64b3yuN
+         dcvQ/zjf2rTkp1i6ahze4XzWjngOroe/hVushea33xVxjb445peCXwgwhbnAc9x/RYh3
+         t22OsS+2KWgiYVnBN544tgdt2vNgH71RT3zgUjNi3CEUpcAnqYIHfms0muWuHf93R9fg
+         rNFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747213462; x=1747818262;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P3wGtNITHa0U9o78hhbypZiCBzOOsk2GAy0wSEWd5SI=;
+        b=PzbFLJFghYHYbtHgG6BedUQaIyyEguXEHSbBUipwsigeQPJIXYQS575sFAWXMg22+9
+         SZ0VyBmMn7gwedEerZyMKsB3kTKq0gKGNMQ+CYFpuaPEmgnYypujirKK95dStXBU+tI+
+         sl0BQVaMPl38JiuAM85NXABsplSnoGQn3hAsKoC478FRu9/79i88OdnLp3c+KmP30ISK
+         K9zSvrTvXF8xhghexYVwkNlxHCMQwtZSVF25OAqTeQq+wW5NOgbn49A6BzieRHTUJWd4
+         n/MneNJ8WhjQu0KOqwQmRTn3GY9GHuZJIJuYZp03R2v+tn9izEQByjaORi4dr5/e0CuU
+         B0ig==
+X-Forwarded-Encrypted: i=1; AJvYcCUJuO2eP/scjMoT1xvDqin8nZj2t9h9xftEr73t7kZx6iHNraBIgp+bl6pMBSzqGgt8+/9r2LJW18fKlZS8+V5pRA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRUnmkNinWNF6PNbiA7cGuxqpGnAITiHZnJVl6RQodbkMkhbvH
+	jsKoLQWD05sACxM7+Ye7j6kBEy5g6+K6/JDYwv/xmefgmkpcpnMgPvbAPQdDmxk=
+X-Gm-Gg: ASbGncsFxkJXMOCVk7WodeXTeKW2t9w46bSO58pufwAPCZRoAFiWfZh+K1DG1Zc7GGF
+	M022558OSlVpymb3S14bYyUrX+w00kSuxXi+f+5NOf6gow0wOgfQc43DbnVT7SZTcz5snqRmrE3
+	KsHIg3REqXUF2ETBFEV0tmexFSgZ3bB3x1cCHsAOfDvfbE5WCI7CRL7iA10Nu/8kN4Wmtisjc+M
+	/oy+jwzT+V5snyRXjKPNa5Ey01jdrL1efswmDPgW+P4deEDRN7Ub2mTvCIvKQmKovg7ri2BPCcm
+	d7qvt6B9+cBo7Ggk8wqbl/jM8TrzWBCt6lmksxV25FwaRy5Bv3OfG3SFhwOLARyKWakR81kPwC6
+	jAPrzpG/ATgXItP8=
+X-Google-Smtp-Source: AGHT+IFjZxHD0RqKbm4Bz/XFWoN+olN+g7TOLkSX6yfDvf6e23UqKDyHNvx4g80jZ4+20Yv+zITBSw==
+X-Received: by 2002:a5d:6342:0:b0:3a1:a96c:9b76 with SMTP id ffacd0b85a97d-3a34991decbmr1659237f8f.38.1747213461891;
+        Wed, 14 May 2025 02:04:21 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.58])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f57ddfbesm19286561f8f.10.2025.05.14.02.04.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 May 2025 02:04:21 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	magnus.damm@gmail.com
+Cc: claudiu.beznea@tuxon.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2 0/8] clk: renesas: rzg2l-cpg: Drop PM domain abstraction for MSTOP
+Date: Wed, 14 May 2025 12:04:07 +0300
+Message-ID: <20250514090415.4098534-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5ztqzgxq5aru3j5q"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUvR8rp2PaFLsyQ6ZWLqw7OskP-ZwVjRC=AARhK8g-iYQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
---5ztqzgxq5aru3j5q
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4] pwm: tidyup PWM menu for Renesas
-MIME-Version: 1.0
+Hi,
 
-Hello,
+Series drops the PM domain abstraction for MSTOP to comply with the
+requirements received from the hardware team regarding the configuration
+sequence b/w the MSTOP and CLKON bits of individual modules.
 
-On Wed, May 14, 2025 at 08:56:01AM +0200, Geert Uytterhoeven wrote:
-> On Tue, 13 May 2025 at 22:19, "Uwe Kleine-K=F6nig" <ukleinek@kernel.org> =
-wrote:
-> > The obvious options are (in order of my preference):
-> >
-> >  - Geert declares his renesas-arm-defconfig-for-v6.16 to be stable and I
-> >    merge it into my tree and then apply the patch
-> >  - I cherry pick 5ad7de623853 in my pwm tree and Geert drops it
-> >  - I delay applying the patch until after v6.16-rc1
-> >
-> > Geert: What is your preference? Let's discuss on irc?
->=20
-> My tag renesas-arm-defconfig-for-v6.16-tag2 is stable, as that is
-> already merged in the soc tree.
->=20
-> However, renaming config symbols always comes with its own set of
-> pains: users must notice and adapt when updating their own configs,
-> and I do have to manage the non-upstream renesas_defconfig, too.
-> What about dropping the rename part? The symbols that currently lack
-> a RENESAS-prefix do have fairly unique family prefixes.
->=20
-> Morimoto-san: Would that still be OK for you?
+The initial MSTOP support for RZ/G3S was proposed here:
+https://lore.kernel.org/all/20231120070024.4079344-4-claudiu.beznea.uj@bp.renesas.com/
 
-I agreed with Geert off-list that merging
-renesas-arm-defconfig-for-v6.16-tag2 into the pwm tree and apply the
-patch is fine for him.
+There are no DT users of this abstraction yet.
 
-That's what I did now.
+Please share your thoughts.
 
-Thanks
-Uwe
+Thank you,
+Claudiu Beznea
 
---5ztqzgxq5aru3j5q
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes in v2:
+- updated the title and description for patches 1/8, 2/8 along
+  with their content
+- added patch 3/8
+- collected tags
+- drop duplicated mstop lists in patch 4/8
+- detailed changelog for each patch can be found in the individual
+  patch
 
------BEGIN PGP SIGNATURE-----
+Claudiu Beznea (8):
+  clk: renesas: rzg2l-cpg: Postone updating priv->clks[]
+  clk: renesas: rzg2l-cpg: Move pointers after hw member
+  clk: renesas: rzg2l-cpg: Add macro to loop through module clocks
+  clk: renesas: rzg2l-cpg: Add support for MSTOP in clock enable/disable
+    API
+  clk: renesas: r9a08g045: Drop power domain instantiation
+  clk: renesas: rzg2l-cpg: Drop MSTOP based power domain support
+  dt-bindings: clock: rzg2l-cpg: Drop power domain IDs
+  Revert "dt-bindings: clock: renesas,rzg2l-cpg: Update
+    #power-domain-cells = <1> for RZ/G3S"
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmgkVZEACgkQj4D7WH0S
-/k7GpAgAurjzLOUMWO01RfR1EW2lJxEoK8uqt9BAj1w2atKbdVGaedvNZGA/6lT3
-yLiaOwPYYqM1Yif1xt9hfLaksUX67lDUNFfqMAC4y+OZsq22p+MxunPr/IjQvA5w
-pUX0KNdQlgPQ7ffrq9iCqRbmVYw1Kux+m+IAj6a4HeVQ25diW2BQbx6M97eBZZ1h
-gHc+VVMYBoheJ8W3fAswUN/z4/6Gw3ij9+aA8zoWuDyX5A8CEfGFEHJLnPms/IWy
-pOKhD6TAEo1SV4XHr6gqxkKUtvP2/x8VdtcK9NwUoHF7FAFM7JkZPl1YQXQlPF+d
-E6T+UgqxbkYYJ8OjLhvF+Z1nIYuuIA==
-=tAzU
------END PGP SIGNATURE-----
+ .../bindings/clock/renesas,rzg2l-cpg.yaml     |  18 +-
+ drivers/clk/renesas/r9a07g043-cpg.c           | 132 ++---
+ drivers/clk/renesas/r9a07g044-cpg.c           | 168 +++---
+ drivers/clk/renesas/r9a08g045-cpg.c           | 227 ++++----
+ drivers/clk/renesas/r9a09g011-cpg.c           | 116 ++---
+ drivers/clk/renesas/rzg2l-cpg.c               | 493 ++++++++++--------
+ drivers/clk/renesas/rzg2l-cpg.h               |  66 +--
+ include/dt-bindings/clock/r9a07g043-cpg.h     |  53 --
+ include/dt-bindings/clock/r9a07g044-cpg.h     |  58 ---
+ include/dt-bindings/clock/r9a07g054-cpg.h     |  58 ---
+ include/dt-bindings/clock/r9a08g045-cpg.h     |  71 ---
+ 11 files changed, 603 insertions(+), 857 deletions(-)
 
---5ztqzgxq5aru3j5q--
+-- 
+2.43.0
+
 
