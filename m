@@ -1,59 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-17094-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17095-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D00CAB6A0C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 13:32:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1584AB6A46
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 13:41:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4E8533B99BE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 11:32:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F62B3B19E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 11:40:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7540276024;
-	Wed, 14 May 2025 11:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8623C27E7FC;
+	Wed, 14 May 2025 11:37:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p0JCzueK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uuclqcQI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD6842A82;
-	Wed, 14 May 2025 11:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2ED27603F;
+	Wed, 14 May 2025 11:37:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747222313; cv=none; b=QRh2TNbMmFS/KOuLYBIt31l8CYIz32eP6SOD9bAC+ibSLH8/schv2F8cPeSnsqTzAAvQffXPyhrNul/H0hSsdejOUc278ywPflR9s6Cf6ue0O2qYxtYIok45aKoqdxXwxMxFEFjocAF5ZAzPpwPp50VuJsrpKBKOG4eVjwcxMec=
+	t=1747222674; cv=none; b=dINNbL1egBycAB9qduhDLxJUm6swQUu0nMhGC4jNpp11SLPV8cD9yV7M/NL9m03HWn+bdEOGuVXbXtnSaeeLz8JEy7kO3xcGp2NthVubgLdyeNFkTE8Rb5X1Sp6eW19E/ySICoFwmBJv7B+HY40LxR9wqir1cs1acuN1e4gV1+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747222313; c=relaxed/simple;
-	bh=gxyZSrmBDmqX32YqUTwl2p4jw1lJWQ4gQiNsJnaveRw=;
+	s=arc-20240116; t=1747222674; c=relaxed/simple;
+	bh=R/MbuxF9Q/H1tecmqJbiAyPjtoLODQkOyXszcxLXrMI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PSwNKwC8OIRlvTM5AC5eBXNQBwVqILuDvyk+IRZoxhCju4PCGAS40JPQsEl5apvUw4q+MBreaTZDoe2WJ3zNZlM+PZ44fSQlHEg0pF30uaa8Kw/7d1Qn3ucYpOGqNcEnICYZNbAQ4eZ1Xii7ild04VFvfwHGAETaivbW/csIeqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p0JCzueK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25422C4CEF0;
-	Wed, 14 May 2025 11:31:50 +0000 (UTC)
+	 MIME-Version:Content-Type; b=kfTSFN8ypH1FKB9i6bkyjsF9F/vZL0zaxmEWDgsIpuTpaoYAext71iRR/2E/EUil+J93XjgS99fpJQXsTWyKih5Q/twOkpcdUXUFvHJVSS/1XvDJvJfFejbWqbIbuE1SayXFOYGt6yJEX6pGnNXP+cxcwVHFajFnPTJS1prETik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uuclqcQI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4A39C4CEEB;
+	Wed, 14 May 2025 11:37:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747222313;
-	bh=gxyZSrmBDmqX32YqUTwl2p4jw1lJWQ4gQiNsJnaveRw=;
+	s=k20201202; t=1747222673;
+	bh=R/MbuxF9Q/H1tecmqJbiAyPjtoLODQkOyXszcxLXrMI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=p0JCzueKZiWVU9x5plR+Ot+TmLrStNZOlN9S/m9Q9M/3bmw0sS32GdWCEFAEgSROH
-	 kCMJuZyTEef5L7ABdau0wQQm0ZBxtPoZrINmik+1VW5SKpzYLHcZZb5prmZErMJnX5
-	 j+TfVsVnh8MY75y3nBVIWQ6miHJMu1qI2fyNX3o1XJDee1RmLJnTXRSUqyhtvBeGHq
-	 kE/Xe50tCq4DT/vFtK0YIeRG/gwgXdLatXEqzs97ffsSTAIC390T+bVTaI1yALHaba
-	 5dgmuWOFWoMdFyAj6W98B49/osm+iA/vHXhxwByEDTndRJjsBEGN2iwzEa2WF7dSft
-	 RqOuBbTD4CEhA==
+	b=uuclqcQIK1zA30nOKIaH/32sXQpqaGqEy/3n3KbGds0vfhZSwAyr7BXjqLd4A2KS9
+	 g3UVFK/jiWspQWpPxB62OJYHGseA03C2VLPrQ4KM9zfQfIRHhiQvx5a15Dtz+8KNdA
+	 tDUdMwMGjIxOfkMBu1pIVI7ygZh4EYSIcSppHgBL2FA4x1yIfwDDE7MxRkhSwund00
+	 Uko5gtKVlvq5Q5Z1JwbYnhgQK3GOUAQjLXDblDQNdwICHR0GU3B4NsuVjQh1p38W+1
+	 vFjOhyND5mNWf/R7rgr/GVCogdnMCzxMMpwgZjtVz3PD+25TdVCmhrK4r7ZlPhaKns
+	 l6ADPQA3F7FgQ==
 From: Vinod Koul <vkoul@kernel.org>
-To: yoshihiro.shimoda.uh@renesas.com, kishon@kernel.org, 
- geert+renesas@glider.be, magnus.damm@gmail.com, horms+renesas@verge.net.au, 
- fabrizio.castro@bp.renesas.com, Claudiu <claudiu.beznea@tuxon.dev>
-Cc: linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org, 
- linux-kernel@vger.kernel.org, 
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20250507125032.565017-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20250507125032.565017-1-claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH RESEND v3 0/5] phy: renesas: rcar-gen3-usb2: Fixes for
- Renesas RZ/G3S
-Message-Id: <174722231081.74407.5340697321228432140.b4-ty@kernel.org>
-Date: Wed, 14 May 2025 12:31:50 +0100
+To: Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Prabhakar <prabhakar.csengg@gmail.com>
+Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ Biju Das <biju.das.jz@bp.renesas.com>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250414145729.343133-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250414145729.343133-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 0/4] Add USB2.0 PHY support for RZ/V2H(P) SoC
+Message-Id: <174722267052.85510.5832087290882468385.b4-ty@kernel.org>
+Date: Wed, 14 May 2025 12:37:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,29 +69,26 @@ Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.2
 
 
-On Wed, 07 May 2025 15:50:27 +0300, Claudiu wrote:
-> Series add fixes for the Renesas USB2 PHY driver identified while
-> working on the Renesas RZ/G3S USB support. These changes are
-> needed for the upcomming RZ/G3S USB support (especially for the
-> power management support).
+On Mon, 14 Apr 2025 15:57:25 +0100, Prabhakar wrote:
+> This patch series introduces support for the USB2.0 PHY on the
+> Renesas RZ/V2H(P) SoC. It includes updates to the device tree
+> bindings and driver implementation.
 > 
-> Series (with [1] on top) was tested on Renesas RZ/G3S with consecutive
-> unbind/bind and data transfer tests before/after the unbind/bind.
+> Best regards,
+> Prabhakar
 > 
 > [...]
 
 Applied, thanks!
 
-[1/5] phy: renesas: rcar-gen3-usb2: Fix role detection on unbind/bind
-      commit: 54c4c58713aaff76c2422ff5750e557ab3b100d7
-[2/5] phy: renesas: rcar-gen3-usb2: Move IRQ request in probe
-      commit: de76809f60cc938d3580bbbd5b04b7d12af6ce3a
-[3/5] phy: renesas: rcar-gen3-usb2: Lock around hardware registers and driver data
-      commit: 55a387ebb9219cbe4edfa8ba9996ccb0e7ad4932
-[4/5] phy: renesas: rcar-gen3-usb2: Assert PLL reset on PHY power off
-      commit: 9ce71e85b29eb63e48e294479742e670513f03a0
-[5/5] phy: renesas: rcar-gen3-usb2: Set timing registers only once
-      commit: 86e70849f4b2b4597ac9f7c7931f2a363774be25
+[1/4] dt-bindings: phy: renesas,usb2-phy: Add clock constraint for RZ/G2L family
+      commit: 31eebeef8cdd4c9bddc9d34053cab6553616d0b7
+[2/4] dt-bindings: phy: renesas,usb2-phy: Document RZ/V2H(P) SoC
+      commit: 9c4fbefc962dd13694b4a5051f432ed435c92220
+[3/4] phy: renesas: phy-rcar-gen3-usb2: Sort compatible entries by SoC part number
+      commit: 9414ceb38a74470249dee69784d6079daa452c3a
+[4/4] phy: renesas: phy-rcar-gen3-usb2: Add USB2.0 PHY support for RZ/V2H(P)
+      commit: 3767474d7497a4d03f58118d02b742b903626d03
 
 Best regards,
 -- 
