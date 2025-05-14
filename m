@@ -1,148 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-17092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17093-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F32AB68A3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 12:18:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAAB8AB68C7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 12:29:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5E694A5C83
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 10:18:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F8161B41BEE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 10:29:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ACC6279788;
-	Wed, 14 May 2025 10:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74F6A26FDB3;
+	Wed, 14 May 2025 10:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZnEpM1HG"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="NjgICSIA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CE7277818;
-	Wed, 14 May 2025 10:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893E52206B6
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 May 2025 10:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747217751; cv=none; b=fCoQZfYPHeXb9nO1+ELFe0vIuwkOqi+C91RHRcelg4jY5r+BOr8g0bNznZinTJ6X8Izr/ht3G/W+NVULZj5N8Rxg+TTUxeymMYnfxJHpfyWaUYw6hN0LGYYPs0ZAsph9UZmrhbOL4AAh8QUi42uGpPkeUy8mw+yF50wf+tKN/LU=
+	t=1747218563; cv=none; b=l3DVXuJv1zDQLWTrGD7N2LOmfglCZr2KtDloW61QQO2qfqDVuouAsBlGXSZvHrEJ2CzSRLOX/Q3OL9U6YXfyVUva4dHU/PRFV9pvFnEcDUpom/E5CgTGBQzDKdi4CAe0FkuSDrX7+HA8ow8fHIJqkOXGqcPhbvp0kZK6p2QLFQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747217751; c=relaxed/simple;
-	bh=cQGdt7Bm+oCA45OrDj/tyvOjEKvRxwuUaaTwuxv87fM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bP82OzEaXV6rzTDR7V9xAKt/K5XgLQYYObqx34UMr7n2a+UPNhw6E1SNmYF4LBUlwTTMxnSuJgPXGYcV8cbpUtMUdNkCXwJ4w9agua4YiNqba/NATf0U4Q6ScRf9nCl3Lo5USpy/D5q5B6LquztGy0qyYnHjcBD4wsmMTn3g4eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZnEpM1HG; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a108684f90so4055232f8f.1;
-        Wed, 14 May 2025 03:15:49 -0700 (PDT)
+	s=arc-20240116; t=1747218563; c=relaxed/simple;
+	bh=xV5TGWtAjUBbAlGh1TG217UQBJWDrrfWO3odDFRTQMQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C13nBvsJ5jCBFxgr4MIGUrPq07vd4hVMrMOFdMEO/OMNhLwVY9Lcpo9/oPUeHjFypOQdZldQRoGVouY719dqrZmO4q5ehOVqLtoqq3R0YCtAG+wOoFw/qOTn1vF4WqxEMzYqjzUxkDsPVcpTvDKIbuhLmPsHpdlTM9BZPEOaZR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=NjgICSIA; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a0b9c371d8so5602553f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 May 2025 03:29:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747217748; x=1747822548; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pI3nqyB+c8lWNh8ROyF/TiOE8yTJ1KcZLq3G1bSkOZ4=;
-        b=ZnEpM1HGfODCWjpoqOB3Xg3uFi/BWYaLtwi7f3Iysa+dlF5yKz1sDhiUPQzQVXcUl7
-         xA8di5vucNdKKwBWeaK99S/cju5wCgBds3nNmmNqILhlr+fry6lsRh/VemITG73jwTiZ
-         0bkH/x6iPBTSNRy121boBtAWPkUFcYA2vgrbSJqdHowcUgvYJTiciB5HXkY/S07eJkYk
-         IeKUJ6J57sjlI9kRfUZ51h8/SolClkH53xolDknoIqD3vuntVsFMzLxCs0jZES3FlN6e
-         3LymPU9rzOG/AFbb/3Jsf+ayw6X+Jjhc57W6irY4Qjz+3RQq+OHijV1d/jPOo3SxpmPn
-         aO4A==
+        d=tuxon.dev; s=google; t=1747218560; x=1747823360; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fU4PVewcc9MxNH8+f8DwyzdamtEdKDmr83HGRbxUgQA=;
+        b=NjgICSIAzJ3DZL16X7USYlyLMHxqOLroHevQkmeuCpl+Ri0TdDcsqqISaAdt1riMMI
+         tXYarZgGlKGQ/gRyh4tz4pJAuqe4SCnkPY4sYgu3hqGpqC97V2FQiAJh2thHjp81rcuu
+         YXVPNL/XSLemYI7XE51XVwIZawukvPw8kYKQBliwoKSTeMO5io2tTNC3NEMqIsQgg01U
+         u2rHNkOKmBkY5fvyr8QOkLja9EXaMzxr3GPGGL527BI2IT2lP34CR6gGCcfhlS6M8AUF
+         em3ObpaBU79igYBcesgDsbpXp3YSkOyyLoJRJVXK1a5WIw7f0LttpNoYxuEyodAM7nLZ
+         SicQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747217748; x=1747822548;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pI3nqyB+c8lWNh8ROyF/TiOE8yTJ1KcZLq3G1bSkOZ4=;
-        b=SlUYUQDiEO71HU/i4zcHDqDaBj7w3VwJn31wfkjZ97/dXAzvNgESSiDzX6XxquoYdu
-         dyqflqGFBJ5Z+j+1yHYrUjBmp8XZBNc2vQyfdc+Z+JrblZnaKXUn/q1Hk8E/Lc8RaCfR
-         9Q25KU8jEcED+keBgHzGrsWkSBqPbbTpkTkMrLk6CFwmpLRz7lNmW96yjLu9tTPrMD2z
-         8J0t1BE2gstLe5adT9DnA1KPK5EEl3jKIHdGGcR1pnFenYBginvrjKPG3gfSj6aDdWFe
-         ssYpmoSLy9UYNyqm1EYn5kE2c4CYnqwZ+XtlW1/UxdH1jqCPdKv8OFPqxB7Iw4ThYXfn
-         P/Sg==
-X-Forwarded-Encrypted: i=1; AJvYcCWrpQgNp8CFhobK//uvt/PrRryAx4+djOSZk8lDpYTNTrZQpHmXOYJykyxr/7OrPpxrR74+7qGnZSbwvt4=@vger.kernel.org, AJvYcCXSIuXowH8QmIfkp6niwT5J/4OwcnrzgGQDXTloox8iQA7wfpICZq6c2FJ+OvIKP7OSS8kMBeUJeijGw8iV7TICfmk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjueyCsmCMXc03gNJ3SPCwUd6+X52hGbjUrlOSp14XNvbTTOaG
-	ed3jgF+k8U4O8j0BnrrIO5zIT95Ki+Jxp4tfYb0wUxBd+GF8nsrM
-X-Gm-Gg: ASbGncvNXQ2Pl0ye5s5kpofZJ7yUszwfWfzFaweKVcB45/7JjaflUpz7EM7g9JTn2Mg
-	aqtHe+/aEB1rZqx+TyzivYnFgNKytiBWuAayKzFffCwW6dqSvndY4a9eshPtGIQvXYm/uBz4fC9
-	daLQGQS8MZKT2u/Th7WUzu9kRGoqUqIPMzc8ukmxeaLdvpkMnXoOjkNUp1BaaqWgHGqNFgDi+Mj
-	6R9+RFjM9E6artl5gvUgK3UIDJrr42In/svhR1rj7gdDu99F8NE6h3Il8lqstFco9nRXyMngQA3
-	rf0s09Mibnx4c7RzphcZxlKGdY2aSc0uhNfKpbgsXSyNWGNCfmamC0WDWqq6zN8bMZGVniiXngP
-	L
-X-Google-Smtp-Source: AGHT+IF5iem/07wGGfQa7jBrISioiOryTVCpPwJFAUfTPbkxAOtzOjb0nhNqIVTUfIs7I/H8n5iE3Q==
-X-Received: by 2002:a05:6000:2209:b0:3a0:7d15:1d8a with SMTP id ffacd0b85a97d-3a34992adbdmr2411525f8f.38.1747217747655;
-        Wed, 14 May 2025 03:15:47 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:6140:13af:687a:7a66])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f58f3afdsm19530249f8f.60.2025.05.14.03.15.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 03:15:46 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 10/10] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable Mali-G31 GPU
-Date: Wed, 14 May 2025 11:15:28 +0100
-Message-ID: <20250514101528.41663-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250514101528.41663-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20250514101528.41663-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1747218560; x=1747823360;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fU4PVewcc9MxNH8+f8DwyzdamtEdKDmr83HGRbxUgQA=;
+        b=SMagk5ZvXHtV78apUl+YuqrOJzUBMQSG/uEYWppyUJrGnP9uFBKmFYi3exCaMGnXQh
+         oULq81ZHA/Ad9O7DlTW1Y+nggZQBks/CakyD4iR69ojRlRVV9QW2oTaO1M6c7XqIbe1i
+         kbyCXvyKgoOkOQyfgqlwW6Xxqgw1tegA8U38eV6MdREMrDTQdQKwsFo8ZHHz6krBh1G3
+         Lgdjm3B5EyH5HOrz57k+EU8MaXaF+650JV1GqWJD+/I1wQG51SwKLweP80t0Onjs66Gn
+         /cf6BWhG11uGAI2HlE7uCBjgsqozb96Pmu/JGwmicaODQRD36j9CACbGmQX/ag0pMZML
+         qtuw==
+X-Forwarded-Encrypted: i=1; AJvYcCXi1LvGSE+mGpfEl8ZAeYzxSSMsL6+s+qA/kqthu28YaGlSFKIVKO+8XxQS8vuGZEZq5KmLeQUthkBr3LeFEidR7w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yye/EQiciXqasTDtEPv6pQtQ3FtS+iSJuv9sxxd+LeP8CR8W9UY
+	fCZeMh2T0MWeD0JRf++h2qANrEC5Z9HiB95cxxlSl8bfD5/ZsGHtU9+v5SZ+N7E=
+X-Gm-Gg: ASbGncsPNeD3hou4PTWRbiX3ivj9HQg+TI0Xrhm/yIt3SyW3kffpAu+3W7G9HTugmJY
+	aWqIzNQskCg2jkBld3VWyc2PWEIuYIg7gqFBWDn9tr5qRsX7ndQud73iNPPFmHpSDq0wU8e4XAx
+	Vhsp9rlvvhS2EQ/non0bfEHg38TqJ0YLrv9AFeTNzuKGPQfCW0MwSwegoCKEkT4Klvh+Mt/nUZz
+	A6G5TGaEDPiiNQghp8YDVFJ9i1dp+HukJu4NP0XsAQsFmuDXKiqp3Jcsxey0k/+79WTkctZ0riF
+	WCipF2Tc/+LrKt7HE7vXA54LAVi2EDPQQULfKB3c8GxAgU2eDrMP/+Dbg3s=
+X-Google-Smtp-Source: AGHT+IGyw3NxozgVzbMrkAVh72sdE2V/yiO6fwgF41eG84LxNtgGijn9Y7vFEYBwAZhyZjVRwxqXEQ==
+X-Received: by 2002:a05:6000:400c:b0:3a0:aeba:23b1 with SMTP id ffacd0b85a97d-3a349946a98mr1835187f8f.49.1747218559944;
+        Wed, 14 May 2025 03:29:19 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.58])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a22ea7a53asm7334492f8f.23.2025.05.14.03.29.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 May 2025 03:29:19 -0700 (PDT)
+Message-ID: <e470715b-6f76-4b65-b1af-7a24e0432a30@tuxon.dev>
+Date: Wed, 14 May 2025 13:29:17 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/8] PCI: rzg3s-host: Add Initial PCIe Host Driver for
+ Renesas RZ/G3S SoC
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com,
+ manivannan.sadhasivam@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
+ mturquette@baylibre.com, sboyd@kernel.org, saravanak@google.com,
+ p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20250512203851.GA1127434@bhelgaas>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <20250512203851.GA1127434@bhelgaas>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi, Bjorn,
 
-Enable the Mali-G31 GPU on the RZ/V2N EVK.
+On 12.05.2025 23:38, Bjorn Helgaas wrote:
+> On Fri, May 09, 2025 at 01:29:40PM +0300, Claudiu Beznea wrote:
+>> On 05.05.2025 14:26, Claudiu Beznea wrote:
+>>> On 01.05.2025 23:12, Bjorn Helgaas wrote:
+>>>> On Wed, Apr 30, 2025 at 01:32:33PM +0300, Claudiu wrote:
+>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>>
+>>>>> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
+>>>>> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
+>>>>> only as a root complex, with a single-lane (x1) configuration. The
+>>>>> controller includes Type 1 configuration registers, as well as IP
+>>>>> specific registers (called AXI registers) required for various adjustments.
+>>>>>
+>>>>> Other Renesas RZ SoCs (e.g., RZ/G3E, RZ/V2H) share the same AXI registers
+>>>>> but have both Root Complex and Endpoint capabilities. As a result, the PCIe
+>>>>> host driver can be reused for these variants with minimal adjustments.
+>> ...
+> 
+>>>>> +static void rzg3s_pcie_update_bits(void __iomem *base, u32 offset, u32 mask, u32 val)
+>>>>> +{
+>>>>> +	u32 tmp;
+>>>>> +
+>>>>> +	tmp = readl(base + offset);
+>>>>> +	tmp &= ~mask;
+>>>>> +	tmp |= val & mask;
+>>>>> +	writel(tmp, base + offset);
+>>>>> +}
+>>>>
+>>>> Nothing rzg3s-specific here.
+>>>>
+>>>> I think u32p_replace_bits() (include/linux/bitfield.h) is basically this.
+>>>
+>>> I wasn't aware of it. I'll use it in the next version. Thank for pointing it.
+>>
+>> I look into changing to u32p_replace_bits() but this one needs a mask that
+>> can be verified at build time. It cannot be used directly in this function.
+>> Would you prefer me to replace all the calls to rzg3s_pcie_update_bits() with:
+>>
+>> tmp = readl();
+>> u32p_replace_bits(&tmp, ...)
+>> writel(tmp);
+> 
+> It seems like this is the prevailing way it's used.
+> 
+> You have ~20 calls, so it seems like it might be excessive to replace
+> each with readl/u32p_replace_bits/writel.
+> 
+> But maybe you could use u32p_replace_bits() inside
+> rzg3s_pcie_update_bits().
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- .../boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts    | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+I tried it like:
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-index c4f248bcada3..de5dce4514f0 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-@@ -39,6 +39,15 @@ memory@48000000 {
- 		reg = <0x0 0x48000000 0x1 0xf8000000>;
- 	};
- 
-+	reg_0p8v: regulator-0p8v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-0.8V";
-+		regulator-min-microvolt = <800000>;
-+		regulator-max-microvolt = <800000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
-+
- 	reg_3p3v: regulator-3p3v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-3.3V";
-@@ -79,6 +88,11 @@ &eth1 {
- 	status = "okay";
- };
- 
-+&gpu {
-+	status = "okay";
-+	mali-supply = <&reg_0p8v>;
-+};
-+
- &i2c0 {
- 	pinctrl-0 = <&i2c0_pins>;
- 	pinctrl-names = "default";
--- 
-2.49.0
+#define rzg3s_pcie_update_bits(base, offset, mask, val)	\
+	do {						\
+		u32 tmp = readl((base) + (offset));	\
+		u32p_replace_bits(&tmp, (val), (mask));	\
+		writel(tmp, (base) + (offset));		\
+	} while (0)
 
+But the mask may still depend on runtime variable. E.g. there is this call
+in the driver (and other similar):
+
+static void rzg3s_pcie_msi_irq_mask(struct irq_data *d)
+{
+        struct rzg3s_pcie_msi *msi = irq_data_get_irq_chip_data(d);
+        struct rzg3s_pcie_host *host = rzg3s_msi_to_host(msi);
+        u8 reg_bit = d->hwirq % RZG3S_PCI_MSI_INT_PER_REG;
+        u8 reg_id = d->hwirq / RZG3S_PCI_MSI_INT_PER_REG;
+
+        guard(raw_spinlock_irqsave)(&host->hw_lock);
+
+        rzg3s_pcie_update_bits(host->axi, RZG3S_PCI_MSIRM(reg_id),
+                               BIT(reg_bit), BIT(reg_bit));
+
+}
+
+reg_id is a runtime variable and cannot be checked at compile time thus the
+compilation of u32p_replace_bits() fails with:
+
+../include/linux/bitfield.h:166:3: error: call to ‘__bad_mask’ declared
+with attribute error: bad bitfield mask
+  166 |   __bad_mask();
+      |   ^~~~~~~~~~~~
+
+Please let me know if you have other suggestions.
+
+Thank you,
+Claudiu
 
