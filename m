@@ -1,46 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-17069-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17070-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E75AB64C0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 09:43:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C45CAB64C3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 09:43:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA7F91B63971
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 07:43:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F239519E16D8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 07:44:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 216742063F0;
-	Wed, 14 May 2025 07:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9748E201004;
+	Wed, 14 May 2025 07:43:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XahU6G1Z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cXGPGGgo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED081F78E0;
-	Wed, 14 May 2025 07:43:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2781F3B8A;
+	Wed, 14 May 2025 07:43:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747208618; cv=none; b=NUN/Kgr6XdQTQLTcI5lGoLoDCRUGq0+Uue3WRBr8ZKIf1JlnhZ5jyDePuRVy4r58GuPYfHqqi8KSKvMXFTWqu9iv+95zQXEOJhknBckVfPhS9vLhsmt1geLP84lEjREH5+wxuiWxM0xAlopyQSoOJRFpZpIgiSia2IZBhdoDyFE=
+	t=1747208626; cv=none; b=NREw9bADDPIOpFRhi4QnNwt/a5Z3ITwWSHlOfkeLrRgf/I/rh/YbeKymRW2qSKRjncjSvlk+2zYRVcxYR02M65JWOSIRZsrs61SfplRKW2c8jdaGWPbnvyyppUGtAD+1ZNAWJvd2UuHZLQlPaggFZklotAwWDtm/eQC90nVr9J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747208618; c=relaxed/simple;
-	bh=MOjVq0wsI47Gay1z9sU3CotJFGegvueUV3NPqsKkawk=;
+	s=arc-20240116; t=1747208626; c=relaxed/simple;
+	bh=aA8oXqSx8pMm/jG1knFZKUSb8eq19i4/3ip8tFNLR1Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f6KB0tk5e9K6NgMkbrPEGJqBHMvf25ejXV09PoslDy0A8vGouzVUFExnn74vWG9Eq1umqmyrgnV9FeI7sgBmWYlB8HMYxUixxvemVzefBklCh8yPgNGN7BjW3bSO0qI46J9wkTc5vfehJhgLzK+3SJyN8CxD6bFkb2AUyABMIQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XahU6G1Z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 701F5C4CEF2;
-	Wed, 14 May 2025 07:43:33 +0000 (UTC)
+	 MIME-Version; b=J5/w/PrDr7wB68/yKOg70WY/dM60a1IcCjn9qU1xsgwIStrrxCoW6DbJuDv69ZK9FKA/Ay+4V1n9pAduJNYoEdKyZs2DvKEnKb8YDF963fKkkBw+aB7TKDeFFxLdlmlFkHmwale7b5D658nDU5xWUj+xFMYGirepZkCjZ21xU40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cXGPGGgo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43C57C4CEF3;
+	Wed, 14 May 2025 07:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747208617;
-	bh=MOjVq0wsI47Gay1z9sU3CotJFGegvueUV3NPqsKkawk=;
+	s=k20201202; t=1747208626;
+	bh=aA8oXqSx8pMm/jG1knFZKUSb8eq19i4/3ip8tFNLR1Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XahU6G1ZXiiEREdHl/B2zjPLgtscLuPDObp0fhSW5DEA/6mvPJ4Ob5ydel/J60QPI
-	 ujBGAn9acG63f97KvCips7XBNpQ8mq5qhomGwg5mr5fSmbR+DgVxw6+hkupDRP/M4F
-	 ZzjPF4cKNm8oqfbuFnFt1rnFzT9g6qFTt+6lUsnu9vB19QpXYlSD/CxamQbvshmmeh
-	 7fUui3mgixPpJwX82Z6MhEko/jyL0B+tcN0vMUn9NiSgFZnr/PoVYWy+Zovsmhumr3
-	 hXWaeKFIz/L1EDzhiLBgM6HblTeq2e+duk57HGiPBwLknSaTWqmVm0NTVrbQ/PXGX+
-	 9YRmEiEpAxcfA==
+	b=cXGPGGgo8CoB1f4qnhxIbmcsFxJcRmX+kuo5tCLJj7dpfVG9M2R7sUzjtQVXAQkIe
+	 O88+uWM6OWhRUV3NNHd5FpEH2SqiIDbPHnpZuS2i2z0RqR8xFlqo+Clz68zpW6oE2h
+	 EEq+W1odXW1O9p0bzTb6L1sDwESNfymLQ/iDp7IGiw4vAlcdR4MHGuh2MFEJ/rGJlp
+	 WcEl1RM9z3MljxDvPUMNnpwpRUXjFA64xtoc0BtFMqClpZl0s26iWf3zUEMMJylKut
+	 TjINl3xKMYtxiqhUKMGIby4jY9LZMlGubNsQCT44VLsxAUjGb1ketLBF97QJFcCqeR
+	 cJXphq8B48MVA==
 From: Niklas Cassel <cassel@kernel.org>
 To: Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
@@ -61,9 +61,9 @@ Cc: Wilfred Mallawa <wilfred.mallawa@wdc.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 3/6] PCI: endpoint: Cleanup get_msi() callback
-Date: Wed, 14 May 2025 09:43:16 +0200
-Message-ID: <20250514074313.283156-11-cassel@kernel.org>
+Subject: [PATCH v3 5/6] PCI: endpoint: Cleanup set_msi() callback
+Date: Wed, 14 May 2025 09:43:18 +0200
+Message-ID: <20250514074313.283156-13-cassel@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250514074313.283156-8-cassel@kernel.org>
 References: <20250514074313.283156-8-cassel@kernel.org>
@@ -73,108 +73,197 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4166; i=cassel@kernel.org; h=from:subject; bh=MOjVq0wsI47Gay1z9sU3CotJFGegvueUV3NPqsKkawk=; b=owGbwMvMwCV2MsVw8cxjvkWMp9WSGDJUPCfdPf5m68f6C+xcFUz+06tTy2qbsk2XtUpFCbjJO j+Z53Wgo5SFQYyLQVZMkcX3h8v+4m73KccV79jAzGFlAhnCwMUpABO5s4GR4YzKuvPtm693rSxa ffqmry7TiczbMQ1vn/ppnZn758WL9B5Ghq19R+LPBogo9n+c3bAr7K2Gy5euidE734UYx64O+HK ykBsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8144; i=cassel@kernel.org; h=from:subject; bh=aA8oXqSx8pMm/jG1knFZKUSb8eq19i4/3ip8tFNLR1Q=; b=owGbwMvMwCV2MsVw8cxjvkWMp9WSGDJUPCefYf1xvHaTSzJbRJX8wpIKpqfxtstvpmw+/zzuk u6S1z3LOkpZGMS4GGTFFFl8f7jsL+52n3Jc8Y4NzBxWJpAhDFycAjCRTz6MDHs+zok9kfPv8kOn xccky9TqpN7lnfwzMzxPVjI1OW36pVMM/1O0rxU+WxgvbrLowvSp01Kc/IIfXUm/k9s0+d63eyn x+XwA
 X-Developer-Key: i=cassel@kernel.org; a=openpgp; fpr=5ADE635C0E631CBBD5BE065A352FE6582ED9B5DA
 Content-Transfer-Encoding: 8bit
 
-The kdoc for pci_epc_get_msi() says:
-"Invoke to get the number of MSI interrupts allocated by the RC"
-the kdoc for the callback pci_epc_ops->get_msi() says:
-"ops to get the number of MSI interrupts allocated by the RC from
-the MSI capability register"
+The kdoc for pci_epc_set_msi() says:
+"Invoke to set the required number of MSI interrupts."
+the kdoc for the callback pci_epc_ops->set_msi() says:
+"ops to set the requested number of MSI interrupts in the MSI capability
+register"
 
-pci_epc_ops->get_msi() does however return the number of interrupts
-in the encoding as defined by the MME Multiple Message Enable field.
+pci_epc_ops->set_msi() does however expect the parameter 'interrupts' to
+be in the encoding as defined by the MMC Multiple Message Capable field.
 
-Nowhere in the kdoc does it say that the returned number of interrupts
-is in MME encoding.
+Nowhere in the kdoc does it say that the number of interrupts should be
+in MMC encoding.
 
-Thus, it is very confusing that the wrapper function (pci_epc_get_msi())
-and the callback function (pci_epc_ops->get_msi()) don't return the same
-value.
+Thus, it is very confusing that the wrapper function (pci_epc_set_msi())
+and the callback function (pci_epc_ops->set_msi()) both take a parameter
+named interrupts, but they both expect completely different encodings.
 
 Cleanup the API so that the wrapper function and the callback function
-will have the same semantics, i.e. return the number of interrupts,
-regardless of the internal encoding of that value.
+will have the same semantics, i.e. the parameter represents the number
+of interrupts, regardless of the internal encoding of that value.
+
+Also rename the parameter 'interrupts' to 'nr_irqs', in both the wrapper
+function and the callback function, such that the name is unambiguous.
 
 Cc: <stable+noautosel@kernel.org> # this is simply a cleanup
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 Signed-off-by: Niklas Cassel <cassel@kernel.org>
 ---
- drivers/pci/controller/cadence/pcie-cadence-ep.c | 2 +-
- drivers/pci/controller/dwc/pcie-designware-ep.c  | 2 +-
- drivers/pci/controller/pcie-rcar-ep.c            | 2 +-
- drivers/pci/controller/pcie-rockchip-ep.c        | 4 ++--
- drivers/pci/endpoint/pci-epc-core.c              | 2 --
- 5 files changed, 5 insertions(+), 7 deletions(-)
+ drivers/pci/controller/cadence/pcie-cadence-ep.c |  3 ++-
+ drivers/pci/controller/dwc/pcie-designware-ep.c  |  5 +++--
+ drivers/pci/controller/pcie-rcar-ep.c            |  6 +++---
+ drivers/pci/controller/pcie-rockchip-ep.c        |  5 +++--
+ drivers/pci/endpoint/pci-epc-core.c              | 11 ++++-------
+ include/linux/pci-epc.h                          |  5 ++---
+ 6 files changed, 17 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/pci/controller/cadence/pcie-cadence-ep.c b/drivers/pci/controller/cadence/pcie-cadence-ep.c
-index 112ae200b393..78b4d009cd04 100644
+index 569cb7481d45..f09f29ed27ed 100644
 --- a/drivers/pci/controller/cadence/pcie-cadence-ep.c
 +++ b/drivers/pci/controller/cadence/pcie-cadence-ep.c
-@@ -262,7 +262,7 @@ static int cdns_pcie_ep_get_msi(struct pci_epc *epc, u8 fn, u8 vfn)
- 	 */
- 	mme = FIELD_GET(PCI_MSI_FLAGS_QSIZE, flags);
- 
--	return mme;
-+	return 1 << mme;
+@@ -220,10 +220,11 @@ static void cdns_pcie_ep_unmap_addr(struct pci_epc *epc, u8 fn, u8 vfn,
+ 	clear_bit(r, &ep->ob_region_map);
  }
  
- static int cdns_pcie_ep_get_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
+-static int cdns_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn, u8 mmc)
++static int cdns_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn, u8 nr_irqs)
+ {
+ 	struct cdns_pcie_ep *ep = epc_get_drvdata(epc);
+ 	struct cdns_pcie *pcie = &ep->pcie;
++	u8 mmc = order_base_2(nr_irqs);
+ 	u32 cap = CDNS_PCIE_EP_FUNC_MSI_CAP_OFFSET;
+ 	u16 flags;
+ 
 diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-index 24026f3f3413..03597551f4cd 100644
+index 307c862588a4..230e82674591 100644
 --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
 +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-@@ -532,7 +532,7 @@ static int dw_pcie_ep_get_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
- 
- 	val = FIELD_GET(PCI_MSI_FLAGS_QSIZE, val);
- 
--	return val;
-+	return 1 << val;
+@@ -536,11 +536,12 @@ static int dw_pcie_ep_get_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
  }
  
  static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+-			      u8 interrupts)
++			      u8 nr_irqs)
+ {
+ 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+ 	struct dw_pcie_ep_func *ep_func;
++	u8 mmc = order_base_2(nr_irqs);
+ 	u32 val, reg;
+ 
+ 	ep_func = dw_pcie_ep_get_func_from_ep(ep, func_no);
+@@ -550,7 +551,7 @@ static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 	reg = ep_func->msi_cap + PCI_MSI_FLAGS;
+ 	val = dw_pcie_ep_readw_dbi(ep, func_no, reg);
+ 	val &= ~PCI_MSI_FLAGS_QMASK;
+-	val |= FIELD_PREP(PCI_MSI_FLAGS_QMASK, interrupts);
++	val |= FIELD_PREP(PCI_MSI_FLAGS_QMASK, mmc);
+ 	dw_pcie_dbi_ro_wr_en(pci);
+ 	dw_pcie_ep_writew_dbi(ep, func_no, reg, val);
+ 	dw_pcie_dbi_ro_wr_dis(pci);
 diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
-index c5e0d025bc43..9da39a4617b6 100644
+index 9da39a4617b6..a8a966844cf3 100644
 --- a/drivers/pci/controller/pcie-rcar-ep.c
 +++ b/drivers/pci/controller/pcie-rcar-ep.c
-@@ -280,7 +280,7 @@ static int rcar_pcie_ep_get_msi(struct pci_epc *epc, u8 fn, u8 vfn)
- 	if (!(flags & MSICAP0_MSIE))
- 		return -EINVAL;
- 
--	return ((flags & MSICAP0_MMESE_MASK) >> MSICAP0_MMESE_OFFSET);
-+	return 1 << ((flags & MSICAP0_MMESE_MASK) >> MSICAP0_MMESE_OFFSET);
+@@ -256,15 +256,15 @@ static void rcar_pcie_ep_clear_bar(struct pci_epc *epc, u8 fn, u8 vfn,
+ 	clear_bit(atu_index + 1, ep->ib_window_map);
  }
  
- static int rcar_pcie_ep_map_addr(struct pci_epc *epc, u8 fn, u8 vfn,
+-static int rcar_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn,
+-				u8 interrupts)
++static int rcar_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn, u8 nr_irqs)
+ {
+ 	struct rcar_pcie_endpoint *ep = epc_get_drvdata(epc);
+ 	struct rcar_pcie *pcie = &ep->pcie;
++	u8 mmc = order_base_2(nr_irqs);
+ 	u32 flags;
+ 
+ 	flags = rcar_pci_read_reg(pcie, MSICAP(fn));
+-	flags |= interrupts << MSICAP0_MMESCAP_OFFSET;
++	flags |= mmc << MSICAP0_MMESCAP_OFFSET;
+ 	rcar_pci_write_reg(pcie, flags, MSICAP(fn));
+ 
+ 	return 0;
 diff --git a/drivers/pci/controller/pcie-rockchip-ep.c b/drivers/pci/controller/pcie-rockchip-ep.c
-index 85ea36df2f59..85ca7d9b4c77 100644
+index 85ca7d9b4c77..a0a85080c31d 100644
 --- a/drivers/pci/controller/pcie-rockchip-ep.c
 +++ b/drivers/pci/controller/pcie-rockchip-ep.c
-@@ -340,8 +340,8 @@ static int rockchip_pcie_ep_get_msi(struct pci_epc *epc, u8 fn, u8 vfn)
- 	if (!(flags & ROCKCHIP_PCIE_EP_MSI_CTRL_ME))
- 		return -EINVAL;
- 
--	return ((flags & ROCKCHIP_PCIE_EP_MSI_CTRL_MME_MASK) >>
--			ROCKCHIP_PCIE_EP_MSI_CTRL_MME_OFFSET);
-+	return 1 << ((flags & ROCKCHIP_PCIE_EP_MSI_CTRL_MME_MASK) >>
-+		     ROCKCHIP_PCIE_EP_MSI_CTRL_MME_OFFSET);
+@@ -308,10 +308,11 @@ static void rockchip_pcie_ep_unmap_addr(struct pci_epc *epc, u8 fn, u8 vfn,
  }
  
- static void rockchip_pcie_ep_assert_intx(struct rockchip_pcie_ep *ep, u8 fn,
+ static int rockchip_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn,
+-				    u8 multi_msg_cap)
++				    u8 nr_irqs)
+ {
+ 	struct rockchip_pcie_ep *ep = epc_get_drvdata(epc);
+ 	struct rockchip_pcie *rockchip = &ep->rockchip;
++	u8 mmc = order_base_2(nr_irqs);
+ 	u32 flags;
+ 
+ 	flags = rockchip_pcie_read(rockchip,
+@@ -319,7 +320,7 @@ static int rockchip_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn,
+ 				   ROCKCHIP_PCIE_EP_MSI_CTRL_REG);
+ 	flags &= ~ROCKCHIP_PCIE_EP_MSI_CTRL_MMC_MASK;
+ 	flags |=
+-	   (multi_msg_cap << ROCKCHIP_PCIE_EP_MSI_CTRL_MMC_OFFSET) |
++	   (mmc << ROCKCHIP_PCIE_EP_MSI_CTRL_MMC_OFFSET) |
+ 	   (PCI_MSI_FLAGS_64BIT << ROCKCHIP_PCIE_EP_MSI_FLAGS_OFFSET);
+ 	flags &= ~ROCKCHIP_PCIE_EP_MSI_CTRL_MASK_MSI_CAP;
+ 	rockchip_pcie_write(rockchip, flags,
 diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index beabea00af91..cc1456bd188e 100644
+index 092b14918b46..ea698551f9d8 100644
 --- a/drivers/pci/endpoint/pci-epc-core.c
 +++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -293,8 +293,6 @@ int pci_epc_get_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
- 	if (interrupt < 0)
+@@ -302,28 +302,25 @@ EXPORT_SYMBOL_GPL(pci_epc_get_msi);
+  * @epc: the EPC device on which MSI has to be configured
+  * @func_no: the physical endpoint function number in the EPC device
+  * @vfunc_no: the virtual endpoint function number in the physical function
+- * @interrupts: number of MSI interrupts required by the EPF
++ * @nr_irqs: number of MSI interrupts required by the EPF
+  *
+  * Invoke to set the required number of MSI interrupts.
+  */
+-int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no, u8 interrupts)
++int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no, u8 nr_irqs)
+ {
+ 	int ret;
+-	u8 encode_int;
+ 
+ 	if (!pci_epc_function_is_valid(epc, func_no, vfunc_no))
+ 		return -EINVAL;
+ 
+-	if (interrupts < 1 || interrupts > 32)
++	if (nr_irqs < 1 || nr_irqs > 32)
+ 		return -EINVAL;
+ 
+ 	if (!epc->ops->set_msi)
  		return 0;
  
--	interrupt = 1 << interrupt;
+-	encode_int = order_base_2(interrupts);
 -
- 	return interrupt;
- }
- EXPORT_SYMBOL_GPL(pci_epc_get_msi);
+ 	mutex_lock(&epc->lock);
+-	ret = epc->ops->set_msi(epc, func_no, vfunc_no, encode_int);
++	ret = epc->ops->set_msi(epc, func_no, vfunc_no, nr_irqs);
+ 	mutex_unlock(&epc->lock);
+ 
+ 	return ret;
+diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+index 82837008b56f..15d10c07c9f1 100644
+--- a/include/linux/pci-epc.h
++++ b/include/linux/pci-epc.h
+@@ -100,7 +100,7 @@ struct pci_epc_ops {
+ 	void	(*unmap_addr)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 			      phys_addr_t addr);
+ 	int	(*set_msi)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+-			   u8 interrupts);
++			   u8 nr_irqs);
+ 	int	(*get_msi)(struct pci_epc *epc, u8 func_no, u8 vfunc_no);
+ 	int	(*set_msix)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 			    u16 interrupts, enum pci_barno, u32 offset);
+@@ -286,8 +286,7 @@ int pci_epc_map_addr(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 		     u64 pci_addr, size_t size);
+ void pci_epc_unmap_addr(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 			phys_addr_t phys_addr);
+-int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+-		    u8 interrupts);
++int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no, u8 nr_irqs);
+ int pci_epc_get_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no);
+ int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+ 		     u16 interrupts, enum pci_barno, u32 offset);
 -- 
 2.49.0
 
