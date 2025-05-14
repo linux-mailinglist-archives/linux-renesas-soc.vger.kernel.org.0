@@ -1,270 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-17070-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C45CAB64C3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 09:43:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E2DAB6612
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 10:34:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F239519E16D8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 07:44:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 245A7462D31
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 08:34:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9748E201004;
-	Wed, 14 May 2025 07:43:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 100E7202F9A;
+	Wed, 14 May 2025 08:34:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cXGPGGgo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d9py4S/y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2781F3B8A;
-	Wed, 14 May 2025 07:43:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC55C27454;
+	Wed, 14 May 2025 08:34:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747208626; cv=none; b=NREw9bADDPIOpFRhi4QnNwt/a5Z3ITwWSHlOfkeLrRgf/I/rh/YbeKymRW2qSKRjncjSvlk+2zYRVcxYR02M65JWOSIRZsrs61SfplRKW2c8jdaGWPbnvyyppUGtAD+1ZNAWJvd2UuHZLQlPaggFZklotAwWDtm/eQC90nVr9J4=
+	t=1747211672; cv=none; b=TmrAVB+JtPL36JQXBVJZtA7tX7+1X4LNbUD6e/kTmVVfIseH8YvTqg5OL28vGz7svJcHjw3xW/s8AROPXQZpNZtbcCGJCwmBxcolQK538jEdKIGXdKtWXyhPQMMYtOdokhAvhqqFJtzhT6jKrPItM76WAM2ig33BPDLUrvIh/1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747208626; c=relaxed/simple;
-	bh=aA8oXqSx8pMm/jG1knFZKUSb8eq19i4/3ip8tFNLR1Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J5/w/PrDr7wB68/yKOg70WY/dM60a1IcCjn9qU1xsgwIStrrxCoW6DbJuDv69ZK9FKA/Ay+4V1n9pAduJNYoEdKyZs2DvKEnKb8YDF963fKkkBw+aB7TKDeFFxLdlmlFkHmwale7b5D658nDU5xWUj+xFMYGirepZkCjZ21xU40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cXGPGGgo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43C57C4CEF3;
-	Wed, 14 May 2025 07:43:42 +0000 (UTC)
+	s=arc-20240116; t=1747211672; c=relaxed/simple;
+	bh=c3xpjCIOkf2tBkLkY9p/RGP7oLM1K/AjF448pwRTLlE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r9KegvF0kwGPFHyHBkdnA8CLl1xYGn2Cw5aX8ZtqeWPc8D+H6mVXGcjuuxAECYrYXO6d1ploQBiRMuaIl/2IL+CuFggWdWpxP00qI3pqs82BgJPzZy0hznmteQEuWm0HFDnmS0PwMsTSW6v1nkCaYc5km6irRifFC2VmSOb2h/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d9py4S/y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F07F9C4CEEB;
+	Wed, 14 May 2025 08:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747208626;
-	bh=aA8oXqSx8pMm/jG1knFZKUSb8eq19i4/3ip8tFNLR1Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cXGPGGgo8CoB1f4qnhxIbmcsFxJcRmX+kuo5tCLJj7dpfVG9M2R7sUzjtQVXAQkIe
-	 O88+uWM6OWhRUV3NNHd5FpEH2SqiIDbPHnpZuS2i2z0RqR8xFlqo+Clz68zpW6oE2h
-	 EEq+W1odXW1O9p0bzTb6L1sDwESNfymLQ/iDp7IGiw4vAlcdR4MHGuh2MFEJ/rGJlp
-	 WcEl1RM9z3MljxDvPUMNnpwpRUXjFA64xtoc0BtFMqClpZl0s26iWf3zUEMMJylKut
-	 TjINl3xKMYtxiqhUKMGIby4jY9LZMlGubNsQCT44VLsxAUjGb1ketLBF97QJFcCqeR
-	 cJXphq8B48MVA==
-From: Niklas Cassel <cassel@kernel.org>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Kishon Vijay Abraham I <kishon@kernel.org>
-Cc: Wilfred Mallawa <wilfred.mallawa@wdc.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	stable+noautosel@kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 5/6] PCI: endpoint: Cleanup set_msi() callback
-Date: Wed, 14 May 2025 09:43:18 +0200
-Message-ID: <20250514074313.283156-13-cassel@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250514074313.283156-8-cassel@kernel.org>
-References: <20250514074313.283156-8-cassel@kernel.org>
+	s=k20201202; t=1747211671;
+	bh=c3xpjCIOkf2tBkLkY9p/RGP7oLM1K/AjF448pwRTLlE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d9py4S/ynySIQhb9heuxxcfUFqv8XKXVS3PYNbSw18T/bdwRrZBCmlXpNftUD716U
+	 AFVCJjnf+/4BKV9TkCkqI6Ds9D0YbwT2fVRi5fDoei1bXJ/lHjij9ycQYyLQtd2CdI
+	 55q1U2uLU31NNqS3AG2qLKR30En8Wix/s9PFghhsRfCgLVS6VjSlWyzwHwG7jFGI/w
+	 BpYqz+rsz1OR/u6BicH9l2bY6fk/7SHlcM8FCZgIbxM0GcvdiwtfECOHKSpnRCpGet
+	 Y9u6lp0b71S7TivgYd6JsdJS6xbDdxTezxUX50qsF8X0tzvoFHFfwW09wNtrIDpjR5
+	 hMOC3/ag8AvwA==
+Date: Wed, 14 May 2025 10:34:28 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Russell King <linux@armlinux.org.uk>, 
+	Will Deacon <will@kernel.org>, linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v4] pwm: tidyup PWM menu for Renesas
+Message-ID: <wytdfpewvcesc6racyrpa4cya7wku6dc65edz7oma7penqrqqq@2g54gyprttxt>
+References: <877c2mxrrr.wl-kuninori.morimoto.gx@renesas.com>
+ <62gkja5ysv47yos2hcurluudxwvl54uv4ih7pjnmnjrzuik6cs@a5oxhyyy6vsm>
+ <CAMuHMdUvR8rp2PaFLsyQ6ZWLqw7OskP-ZwVjRC=AARhK8g-iYQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8144; i=cassel@kernel.org; h=from:subject; bh=aA8oXqSx8pMm/jG1knFZKUSb8eq19i4/3ip8tFNLR1Q=; b=owGbwMvMwCV2MsVw8cxjvkWMp9WSGDJUPCefYf1xvHaTSzJbRJX8wpIKpqfxtstvpmw+/zzuk u6S1z3LOkpZGMS4GGTFFFl8f7jsL+52n3Jc8Y4NzBxWJpAhDFycAjCRTz6MDHs+zok9kfPv8kOn xccky9TqpN7lnfwzMzxPVjI1OW36pVMM/1O0rxU+WxgvbrLowvSp01Kc/IIfXUm/k9s0+d63eyn x+XwA
-X-Developer-Key: i=cassel@kernel.org; a=openpgp; fpr=5ADE635C0E631CBBD5BE065A352FE6582ED9B5DA
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5ztqzgxq5aru3j5q"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUvR8rp2PaFLsyQ6ZWLqw7OskP-ZwVjRC=AARhK8g-iYQ@mail.gmail.com>
 
-The kdoc for pci_epc_set_msi() says:
-"Invoke to set the required number of MSI interrupts."
-the kdoc for the callback pci_epc_ops->set_msi() says:
-"ops to set the requested number of MSI interrupts in the MSI capability
-register"
 
-pci_epc_ops->set_msi() does however expect the parameter 'interrupts' to
-be in the encoding as defined by the MMC Multiple Message Capable field.
+--5ztqzgxq5aru3j5q
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4] pwm: tidyup PWM menu for Renesas
+MIME-Version: 1.0
 
-Nowhere in the kdoc does it say that the number of interrupts should be
-in MMC encoding.
+Hello,
 
-Thus, it is very confusing that the wrapper function (pci_epc_set_msi())
-and the callback function (pci_epc_ops->set_msi()) both take a parameter
-named interrupts, but they both expect completely different encodings.
+On Wed, May 14, 2025 at 08:56:01AM +0200, Geert Uytterhoeven wrote:
+> On Tue, 13 May 2025 at 22:19, "Uwe Kleine-K=F6nig" <ukleinek@kernel.org> =
+wrote:
+> > The obvious options are (in order of my preference):
+> >
+> >  - Geert declares his renesas-arm-defconfig-for-v6.16 to be stable and I
+> >    merge it into my tree and then apply the patch
+> >  - I cherry pick 5ad7de623853 in my pwm tree and Geert drops it
+> >  - I delay applying the patch until after v6.16-rc1
+> >
+> > Geert: What is your preference? Let's discuss on irc?
+>=20
+> My tag renesas-arm-defconfig-for-v6.16-tag2 is stable, as that is
+> already merged in the soc tree.
+>=20
+> However, renaming config symbols always comes with its own set of
+> pains: users must notice and adapt when updating their own configs,
+> and I do have to manage the non-upstream renesas_defconfig, too.
+> What about dropping the rename part? The symbols that currently lack
+> a RENESAS-prefix do have fairly unique family prefixes.
+>=20
+> Morimoto-san: Would that still be OK for you?
 
-Cleanup the API so that the wrapper function and the callback function
-will have the same semantics, i.e. the parameter represents the number
-of interrupts, regardless of the internal encoding of that value.
+I agreed with Geert off-list that merging
+renesas-arm-defconfig-for-v6.16-tag2 into the pwm tree and apply the
+patch is fine for him.
 
-Also rename the parameter 'interrupts' to 'nr_irqs', in both the wrapper
-function and the callback function, such that the name is unambiguous.
+That's what I did now.
 
-Cc: <stable+noautosel@kernel.org> # this is simply a cleanup
-Signed-off-by: Niklas Cassel <cassel@kernel.org>
----
- drivers/pci/controller/cadence/pcie-cadence-ep.c |  3 ++-
- drivers/pci/controller/dwc/pcie-designware-ep.c  |  5 +++--
- drivers/pci/controller/pcie-rcar-ep.c            |  6 +++---
- drivers/pci/controller/pcie-rockchip-ep.c        |  5 +++--
- drivers/pci/endpoint/pci-epc-core.c              | 11 ++++-------
- include/linux/pci-epc.h                          |  5 ++---
- 6 files changed, 17 insertions(+), 18 deletions(-)
+Thanks
+Uwe
 
-diff --git a/drivers/pci/controller/cadence/pcie-cadence-ep.c b/drivers/pci/controller/cadence/pcie-cadence-ep.c
-index 569cb7481d45..f09f29ed27ed 100644
---- a/drivers/pci/controller/cadence/pcie-cadence-ep.c
-+++ b/drivers/pci/controller/cadence/pcie-cadence-ep.c
-@@ -220,10 +220,11 @@ static void cdns_pcie_ep_unmap_addr(struct pci_epc *epc, u8 fn, u8 vfn,
- 	clear_bit(r, &ep->ob_region_map);
- }
- 
--static int cdns_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn, u8 mmc)
-+static int cdns_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn, u8 nr_irqs)
- {
- 	struct cdns_pcie_ep *ep = epc_get_drvdata(epc);
- 	struct cdns_pcie *pcie = &ep->pcie;
-+	u8 mmc = order_base_2(nr_irqs);
- 	u32 cap = CDNS_PCIE_EP_FUNC_MSI_CAP_OFFSET;
- 	u16 flags;
- 
-diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-index 307c862588a4..230e82674591 100644
---- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-@@ -536,11 +536,12 @@ static int dw_pcie_ep_get_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
- }
- 
- static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
--			      u8 interrupts)
-+			      u8 nr_irqs)
- {
- 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
- 	struct dw_pcie_ep_func *ep_func;
-+	u8 mmc = order_base_2(nr_irqs);
- 	u32 val, reg;
- 
- 	ep_func = dw_pcie_ep_get_func_from_ep(ep, func_no);
-@@ -550,7 +551,7 @@ static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 	reg = ep_func->msi_cap + PCI_MSI_FLAGS;
- 	val = dw_pcie_ep_readw_dbi(ep, func_no, reg);
- 	val &= ~PCI_MSI_FLAGS_QMASK;
--	val |= FIELD_PREP(PCI_MSI_FLAGS_QMASK, interrupts);
-+	val |= FIELD_PREP(PCI_MSI_FLAGS_QMASK, mmc);
- 	dw_pcie_dbi_ro_wr_en(pci);
- 	dw_pcie_ep_writew_dbi(ep, func_no, reg, val);
- 	dw_pcie_dbi_ro_wr_dis(pci);
-diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
-index 9da39a4617b6..a8a966844cf3 100644
---- a/drivers/pci/controller/pcie-rcar-ep.c
-+++ b/drivers/pci/controller/pcie-rcar-ep.c
-@@ -256,15 +256,15 @@ static void rcar_pcie_ep_clear_bar(struct pci_epc *epc, u8 fn, u8 vfn,
- 	clear_bit(atu_index + 1, ep->ib_window_map);
- }
- 
--static int rcar_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn,
--				u8 interrupts)
-+static int rcar_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn, u8 nr_irqs)
- {
- 	struct rcar_pcie_endpoint *ep = epc_get_drvdata(epc);
- 	struct rcar_pcie *pcie = &ep->pcie;
-+	u8 mmc = order_base_2(nr_irqs);
- 	u32 flags;
- 
- 	flags = rcar_pci_read_reg(pcie, MSICAP(fn));
--	flags |= interrupts << MSICAP0_MMESCAP_OFFSET;
-+	flags |= mmc << MSICAP0_MMESCAP_OFFSET;
- 	rcar_pci_write_reg(pcie, flags, MSICAP(fn));
- 
- 	return 0;
-diff --git a/drivers/pci/controller/pcie-rockchip-ep.c b/drivers/pci/controller/pcie-rockchip-ep.c
-index 85ca7d9b4c77..a0a85080c31d 100644
---- a/drivers/pci/controller/pcie-rockchip-ep.c
-+++ b/drivers/pci/controller/pcie-rockchip-ep.c
-@@ -308,10 +308,11 @@ static void rockchip_pcie_ep_unmap_addr(struct pci_epc *epc, u8 fn, u8 vfn,
- }
- 
- static int rockchip_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn,
--				    u8 multi_msg_cap)
-+				    u8 nr_irqs)
- {
- 	struct rockchip_pcie_ep *ep = epc_get_drvdata(epc);
- 	struct rockchip_pcie *rockchip = &ep->rockchip;
-+	u8 mmc = order_base_2(nr_irqs);
- 	u32 flags;
- 
- 	flags = rockchip_pcie_read(rockchip,
-@@ -319,7 +320,7 @@ static int rockchip_pcie_ep_set_msi(struct pci_epc *epc, u8 fn, u8 vfn,
- 				   ROCKCHIP_PCIE_EP_MSI_CTRL_REG);
- 	flags &= ~ROCKCHIP_PCIE_EP_MSI_CTRL_MMC_MASK;
- 	flags |=
--	   (multi_msg_cap << ROCKCHIP_PCIE_EP_MSI_CTRL_MMC_OFFSET) |
-+	   (mmc << ROCKCHIP_PCIE_EP_MSI_CTRL_MMC_OFFSET) |
- 	   (PCI_MSI_FLAGS_64BIT << ROCKCHIP_PCIE_EP_MSI_FLAGS_OFFSET);
- 	flags &= ~ROCKCHIP_PCIE_EP_MSI_CTRL_MASK_MSI_CAP;
- 	rockchip_pcie_write(rockchip, flags,
-diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index 092b14918b46..ea698551f9d8 100644
---- a/drivers/pci/endpoint/pci-epc-core.c
-+++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -302,28 +302,25 @@ EXPORT_SYMBOL_GPL(pci_epc_get_msi);
-  * @epc: the EPC device on which MSI has to be configured
-  * @func_no: the physical endpoint function number in the EPC device
-  * @vfunc_no: the virtual endpoint function number in the physical function
-- * @interrupts: number of MSI interrupts required by the EPF
-+ * @nr_irqs: number of MSI interrupts required by the EPF
-  *
-  * Invoke to set the required number of MSI interrupts.
-  */
--int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no, u8 interrupts)
-+int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no, u8 nr_irqs)
- {
- 	int ret;
--	u8 encode_int;
- 
- 	if (!pci_epc_function_is_valid(epc, func_no, vfunc_no))
- 		return -EINVAL;
- 
--	if (interrupts < 1 || interrupts > 32)
-+	if (nr_irqs < 1 || nr_irqs > 32)
- 		return -EINVAL;
- 
- 	if (!epc->ops->set_msi)
- 		return 0;
- 
--	encode_int = order_base_2(interrupts);
--
- 	mutex_lock(&epc->lock);
--	ret = epc->ops->set_msi(epc, func_no, vfunc_no, encode_int);
-+	ret = epc->ops->set_msi(epc, func_no, vfunc_no, nr_irqs);
- 	mutex_unlock(&epc->lock);
- 
- 	return ret;
-diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-index 82837008b56f..15d10c07c9f1 100644
---- a/include/linux/pci-epc.h
-+++ b/include/linux/pci-epc.h
-@@ -100,7 +100,7 @@ struct pci_epc_ops {
- 	void	(*unmap_addr)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 			      phys_addr_t addr);
- 	int	(*set_msi)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
--			   u8 interrupts);
-+			   u8 nr_irqs);
- 	int	(*get_msi)(struct pci_epc *epc, u8 func_no, u8 vfunc_no);
- 	int	(*set_msix)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 			    u16 interrupts, enum pci_barno, u32 offset);
-@@ -286,8 +286,7 @@ int pci_epc_map_addr(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 		     u64 pci_addr, size_t size);
- void pci_epc_unmap_addr(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 			phys_addr_t phys_addr);
--int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
--		    u8 interrupts);
-+int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no, u8 nr_irqs);
- int pci_epc_get_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no);
- int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 		     u16 interrupts, enum pci_barno, u32 offset);
--- 
-2.49.0
+--5ztqzgxq5aru3j5q
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmgkVZEACgkQj4D7WH0S
+/k7GpAgAurjzLOUMWO01RfR1EW2lJxEoK8uqt9BAj1w2atKbdVGaedvNZGA/6lT3
+yLiaOwPYYqM1Yif1xt9hfLaksUX67lDUNFfqMAC4y+OZsq22p+MxunPr/IjQvA5w
+pUX0KNdQlgPQ7ffrq9iCqRbmVYw1Kux+m+IAj6a4HeVQ25diW2BQbx6M97eBZZ1h
+gHc+VVMYBoheJ8W3fAswUN/z4/6Gw3ij9+aA8zoWuDyX5A8CEfGFEHJLnPms/IWy
+pOKhD6TAEo1SV4XHr6gqxkKUtvP2/x8VdtcK9NwUoHF7FAFM7JkZPl1YQXQlPF+d
+E6T+UgqxbkYYJ8OjLhvF+Z1nIYuuIA==
+=tAzU
+-----END PGP SIGNATURE-----
+
+--5ztqzgxq5aru3j5q--
 
