@@ -1,63 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-17107-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17108-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DAECAB6EBC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 17:03:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F58AB6ED9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 17:06:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6FD64C4830
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 15:03:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 341E11BA2AF0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 15:05:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A4241BEF8C;
-	Wed, 14 May 2025 15:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AD6C1D90A5;
+	Wed, 14 May 2025 15:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L6x5PZt/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VoaE+ovG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE90D194A44;
-	Wed, 14 May 2025 15:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E022E27E7C0;
+	Wed, 14 May 2025 15:03:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747234976; cv=none; b=MhV2uG8h1hmmk4WnCms06IcamCqayX7UM5Of0Je+jtYnGMXLg216QhHDinUeJdoxivCDo4czbjbUG9k8Yu+tFNw9Evknm22wa0O/Zgn/tW1g5A4+eDcdCUM/VhSut8h/s9H7Vo3R/Q/DkEL+E4zJP9TxWofYcOsWvkDjo/raYcY=
+	t=1747234996; cv=none; b=gvV1t5BYCXh/UJTyJFHtG+A4tnSha18/Z0lBnQbtceuSk+zcvA/F7gLbXEBG6bEYAyGvMC+VPsZBhvg+9XZZN+AR4qKBs1hOFPBpTYuQ/DZU0gTGy+j933erSzhVR/lDDKlAmTWXgdMwCQ1NCPJbVXzpq9oYDgz73vWYzlos/6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747234976; c=relaxed/simple;
-	bh=iR7Lb9hQDeqA8HuTsx6n4WKA1nTEaMPSviN3JG5WKI4=;
+	s=arc-20240116; t=1747234996; c=relaxed/simple;
+	bh=m5xFf1VaS/qFqzTFJku5dhlZM/YKpT/P+Ikykc9C8I0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jq7Kg1USDeT+OYb5yZbIFjxlaJT074yLuA3x+FA9fSOClmu5SMwlhUz/e17SdPkEK2z4WAOBijvxdlTc74pYM6h1SIwXEB6Mz2HtoKwRafVh1/p1EbSRQOEnBDt/GXGia03iwDJJ3XQKQVrQ9HLYru+2QRVEh0rrfkjmdDogCDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L6x5PZt/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06454C4CEE3;
-	Wed, 14 May 2025 15:02:51 +0000 (UTC)
+	 MIME-Version:Content-Type; b=l7hV1+ZCe/ypLrc1eVuZSEjgAeRbewbZsei48QpMr+LWrNL3Fo9LK1k99dYqpgEqELegT87PJPeLFVWoipHdVrjvp93pr+UKly+cfb0U6ATCbnJPH8U87DRI6gCvK1QBOoZaDj7rjagtvsStjL3uvodCM5Ci4xeZgkyWYzLTLYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VoaE+ovG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EEBCC4CEED;
+	Wed, 14 May 2025 15:03:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747234975;
-	bh=iR7Lb9hQDeqA8HuTsx6n4WKA1nTEaMPSviN3JG5WKI4=;
+	s=k20201202; t=1747234995;
+	bh=m5xFf1VaS/qFqzTFJku5dhlZM/YKpT/P+Ikykc9C8I0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=L6x5PZt/CXC8i+BJp0BTxgk3XeVkVMhc8o9i0VqsGL0B6aZU8J2EPcqAgSbA7ugVD
-	 3wO9NM9+cUePYzw6AD7FhkMEWSjbBzzBb2KSTAgpzqYwxQslPLYmgWJ3pNx8M6QDRE
-	 GzuucBQuEGkUMzpd/hTdPsO9yrQhVKYRKjG/itOUkfNRimm5OYjWsk0+JOF3V8UU8A
-	 T2LpIcUIO8uOyPX+wCD6A78+827qgw71gp6SylN/2ApFg2G6LwI51v4jnR5kl8tqJy
-	 JpsncNFeKsGjh34Mbv+G48dGRyWsE+GWhrH2K5xVkzenwY95aWFNHKgCzecWYJ3yYN
-	 tdF73HzawBzhw==
+	b=VoaE+ovGzsNijwqfZdX/jEeuQYTcJWGDbvwMZTzRxfWxS7z8d5dsaOSPaDJAbbKor
+	 HO94fV94Om2HGf8M3lRa7io9q2u26fyQMXdt98M4ApaUb5CPNfp3EKCdb5x0XlcGtk
+	 L2QQW01m82XMLzlzKIlhtwW2T+D8TEBzNXs/gbMs90yAB8a1DnCPkDFOZAx3ZKubba
+	 4xrJoor/ORRk7IXm8z80yyWsdqtS0NokgHeEw3JGYDRalut3A/kaB140S/cAWegCWJ
+	 dObCqFVpky1l8gsFkU3NsfsuiMb+GytkWYan7CLZNS7F2P2B2JgnMENT1SK0IFv8p/
+	 63WdZoFWDyNKw==
 From: Vinod Koul <vkoul@kernel.org>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
  Geert Uytterhoeven <geert+renesas@glider.be>, 
  Magnus Damm <magnus.damm@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
  Biju Das <biju.das.jz@bp.renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
  =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
  dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20250422173937.3722875-1-fabrizio.castro.jz@renesas.com>
-References: <20250422173937.3722875-1-fabrizio.castro.jz@renesas.com>
-Subject: Re: (subset) [PATCH v6 0/6] Add DMAC support to the RZ/V2H(P)
-Message-Id: <174723497166.115803.2774078282550893427.b4-ty@kernel.org>
-Date: Wed, 14 May 2025 16:02:51 +0100
+In-Reply-To: <20250423143422.3747702-1-fabrizio.castro.jz@renesas.com>
+References: <20250423143422.3747702-1-fabrizio.castro.jz@renesas.com>
+Subject: Re: [PATCH v7 0/6] Add DMAC support to the RZ/V2H(P)
+Message-Id: <174723499195.115803.16616657624244333565.b4-ty@kernel.org>
+Date: Wed, 14 May 2025 16:03:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -69,12 +69,16 @@ Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.2
 
 
-On Tue, 22 Apr 2025 18:39:31 +0100, Fabrizio Castro wrote:
+On Wed, 23 Apr 2025 15:34:16 +0100, Fabrizio Castro wrote:
 > This series adds DMAC support for the Renesas RZ/V2H(P) SoC.
 > 
 > Cheers,
 > Fab
 > 
+> v6->v7:
+> * Final touches to the RZ/V2H specific dt-bindings patch as per
+>   Geert's comments.
+> * Collected tags.
 > v5->v6:
 > * Reworked the RZ/V2H specific dt-bindings patch as per Geert's
 >   comments.
@@ -102,8 +106,18 @@ On Tue, 22 Apr 2025 18:39:31 +0100, Fabrizio Castro wrote:
 
 Applied, thanks!
 
+[1/6] dt-bindings: dma: rz-dmac: Restrict properties for RZ/A1H
+      commit: ec52f10a31dc69c1ded30812bd17335ac23b1c60
 [2/6] dt-bindings: dma: rz-dmac: Document RZ/V2H(P) family of SoCs
       commit: 22228b933ce2639d67168fd35423c1be196edab0
+[3/6] irqchip/renesas-rzv2h: Add rzv2h_icu_register_dma_req()
+      commit: 9002b75aa8e6f034ffbd1c1ccac46927a1cf0f12
+[4/6] dmaengine: sh: rz-dmac: Allow for multiple DMACs
+      commit: 056a8aac1fce52da9ad0b6488eb074e3846f37c0
+[5/6] dmaengine: sh: rz-dmac: Add RZ/V2H(P) support
+      commit: 7de873201c44bff5b42f2e560098d463843b8a4c
+[6/6] arm64: dts: renesas: r9a09g057: Add DMAC nodes
+      commit: 7d33e0ee5f98b3fc74566fa00d0926bc5deb8174
 
 Best regards,
 -- 
