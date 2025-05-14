@@ -1,127 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-17108-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17109-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F58AB6ED9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 17:06:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC4EAB6FE4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 17:33:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 341E11BA2AF0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 15:05:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C55E43A3A05
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 May 2025 15:28:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AD6C1D90A5;
-	Wed, 14 May 2025 15:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F081D1B043E;
+	Wed, 14 May 2025 15:28:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VoaE+ovG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UXDgCZfV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E022E27E7C0;
-	Wed, 14 May 2025 15:03:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BF319D880;
+	Wed, 14 May 2025 15:28:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747234996; cv=none; b=gvV1t5BYCXh/UJTyJFHtG+A4tnSha18/Z0lBnQbtceuSk+zcvA/F7gLbXEBG6bEYAyGvMC+VPsZBhvg+9XZZN+AR4qKBs1hOFPBpTYuQ/DZU0gTGy+j933erSzhVR/lDDKlAmTWXgdMwCQ1NCPJbVXzpq9oYDgz73vWYzlos/6k=
+	t=1747236537; cv=none; b=Vb0w22pU9t0p0xhd0HQVsuVuhBXWV3vGeAMcyCOYTl8L8ugcEehUl/XAp8opBUMeWp9IPZ5narfEVIgg5QlxPm4x5E+OxhusEYZ1t2Cbz88L5EqzZ2aXnqUFdBjTBr+vA0Aj3dyB/VyrHyPAFJKT1m9sSMkyQ738mOMpcRPXeow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747234996; c=relaxed/simple;
-	bh=m5xFf1VaS/qFqzTFJku5dhlZM/YKpT/P+Ikykc9C8I0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=l7hV1+ZCe/ypLrc1eVuZSEjgAeRbewbZsei48QpMr+LWrNL3Fo9LK1k99dYqpgEqELegT87PJPeLFVWoipHdVrjvp93pr+UKly+cfb0U6ATCbnJPH8U87DRI6gCvK1QBOoZaDj7rjagtvsStjL3uvodCM5Ci4xeZgkyWYzLTLYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VoaE+ovG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EEBCC4CEED;
-	Wed, 14 May 2025 15:03:12 +0000 (UTC)
+	s=arc-20240116; t=1747236537; c=relaxed/simple;
+	bh=n267JmLeNs0lXlBCr+bj7ApMfDHUYHHdfIIKKiuXCcI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tQCd9Bl3wggiIK5kGkiUvvA8z402WMz87eEwKW3+1KGaAAy8kkoMj1ys11xJgCQWCO3QlCflZjsn5QfJyLo0vfDXAM58uy1mV71uV2nEQDQoS5zJ5FgZuyM1Li7fVtka95KsqPJfHpCIqaNIP5Fr+tRkqWtvtnvbcHRMVnBpC6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UXDgCZfV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A38AC4CEE3;
+	Wed, 14 May 2025 15:28:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747234995;
-	bh=m5xFf1VaS/qFqzTFJku5dhlZM/YKpT/P+Ikykc9C8I0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=VoaE+ovGzsNijwqfZdX/jEeuQYTcJWGDbvwMZTzRxfWxS7z8d5dsaOSPaDJAbbKor
-	 HO94fV94Om2HGf8M3lRa7io9q2u26fyQMXdt98M4ApaUb5CPNfp3EKCdb5x0XlcGtk
-	 L2QQW01m82XMLzlzKIlhtwW2T+D8TEBzNXs/gbMs90yAB8a1DnCPkDFOZAx3ZKubba
-	 4xrJoor/ORRk7IXm8z80yyWsdqtS0NokgHeEw3JGYDRalut3A/kaB140S/cAWegCWJ
-	 dObCqFVpky1l8gsFkU3NsfsuiMb+GytkWYan7CLZNS7F2P2B2JgnMENT1SK0IFv8p/
-	 63WdZoFWDyNKw==
-From: Vinod Koul <vkoul@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Biju Das <biju.das.jz@bp.renesas.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20250423143422.3747702-1-fabrizio.castro.jz@renesas.com>
-References: <20250423143422.3747702-1-fabrizio.castro.jz@renesas.com>
-Subject: Re: [PATCH v7 0/6] Add DMAC support to the RZ/V2H(P)
-Message-Id: <174723499195.115803.16616657624244333565.b4-ty@kernel.org>
-Date: Wed, 14 May 2025 16:03:11 +0100
+	s=k20201202; t=1747236537;
+	bh=n267JmLeNs0lXlBCr+bj7ApMfDHUYHHdfIIKKiuXCcI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UXDgCZfV/Bkx2sROlz8IP8HNpT6sX+8dfPZqPSq+oiB1Oatq7lY2FGdRNUEo6WPQ6
+	 yDWZVCKdxM9MkhoD/WN5vGRBJDgjxoNxvMG5nzwyi9Rk5quOa5xikViqYE5sdQc61z
+	 xiBoBSPJvRCF0zZVWXKz3g649w/ylPIkUGABO8nPFPWMCaprOB/9/ydazEPHB3JzTH
+	 CEuIwlsFGziWVX3hXX/SFieumb4wFrQMmbUlm7bjVw5CdfCXdge+Chx27CnEgmntYf
+	 LkQ+C/rytxXkV017MiW8D9A+/T06Wts8Db/KENnq+5xTSle3WhlRvGAVC3oMrtTKS9
+	 zBVfJscXfdi7Q==
+Date: Wed, 14 May 2025 16:28:52 +0100
+From: Lee Jones <lee@kernel.org>
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Pavel Machek <pavel@kernel.org>,
+	linux-leds <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
+ Debug LEDs
+Message-ID: <20250514152852.GA2936510@google.com>
+References: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWN-QDrmogJ+7x8sdc6UmDAoF+0z0hZ3SQ7ajN2V2+mSw@mail.gmail.com>
+ <aBxjvofZCEi_1Fna@shikoro>
+ <20250508134930.GM3865826@google.com>
+ <18b78845-3f01-444d-835a-aa39f84a2689@gmail.com>
+ <CAMuHMdW1Hn51R-6MstS1Ojuu-CR0eNs504YEruPbe2L-H_zBHA@mail.gmail.com>
+ <ebb257c6-33f9-4841-b9af-c2744b59e513@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ebb257c6-33f9-4841-b9af-c2744b59e513@gmail.com>
 
+On Mon, 12 May 2025, Jacek Anaszewski wrote:
 
-On Wed, 23 Apr 2025 15:34:16 +0100, Fabrizio Castro wrote:
-> This series adds DMAC support for the Renesas RZ/V2H(P) SoC.
+> Hi Geert,
 > 
-> Cheers,
-> Fab
+> On 5/12/25 09:13, Geert Uytterhoeven wrote:
+> > Hi Jacek,
+> > 
+> > Thanks for your answer!
 > 
-> v6->v7:
-> * Final touches to the RZ/V2H specific dt-bindings patch as per
->   Geert's comments.
-> * Collected tags.
-> v5->v6:
-> * Reworked the RZ/V2H specific dt-bindings patch as per Geert's
->   comments.
-> * Collected tags throughout.
-> v4->v5:
-> * Clock patch queued up for v6.15, therefore dropped from this
->   version of the series
-> * Adjusted the dmac cell specification according to Geert's
->   comments
-> * Removed registration of ACK No. throughout
-> * Reworked DMAC driver as per Geert's comments
-> v3->v4:
-> * Fixed an issue with mid_rid/req_no/ack_no initialization
-> v2->v3:
-> * Replaced rzv2h_icu_register_dma_req_ack with
->   rzv2h_icu_register_dma_req_ack() in ICU patch changelog
-> * Added dummy for rzv2h_icu_register_dma_req_ack()
-> * Reworked DMAC driver as per Geert's suggestions.
-> v1->v2:
-> * Improved macros in ICU driver
-> * Shared new macros between ICU driver and DMAC driver
-> * Improved dt-bindings
+> You're welcome.
 > 
-> [...]
+> > On Sat, 10 May 2025 at 14:43, Jacek Anaszewski
+> > <jacek.anaszewski@gmail.com> wrote:
+> > > On 5/8/25 15:49, Lee Jones wrote:
+> > > > On Thu, 08 May 2025, Wolfram Sang wrote:
+> > > > > On Thu, Apr 17, 2025 at 01:39:14PM +0200, Geert Uytterhoeven wrote:
+> > > > > > On Thu, 17 Apr 2025 at 11:33, Wolfram Sang
+> > > > > > <wsa+renesas@sang-engineering.com> wrote:
+> > > > > > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > > > > > > ---
+> > > > > > > 
+> > > > > > > Changes since v2:
+> > > > > > > * using function, color, function-enumerator properties now
+> > > > > > > 
+> > > > > > > Honestly, this is better than using node names? With V2, the LEDs were
+> > > > > > > named as in the schematics, now they are called:
+> > > > > > > 
+> > > > > > > lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-0 -> ../../devices/platform/leds/leds/green:programming-0
+> > > > > > > lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-1 -> ../../devices/platform/leds/leds/green:programming-1
+> > > > > > > lrwxrwxrwx    1 root     root             0 May 12 12:10 green:programming-2 -> ../../devices/platform/leds/leds/green:programming-2
+> > > > > > > ...
+> > > > > > > 
+> > > > > > > Which gets even more confusing if we might later add LEDs not on this
+> > > > > > > board, but on the expansion board. 'green:programming-8' sits where?
+> > > > > > > 
+> > > > > > > I really wonder, but if this is the official way now...
+> > > > > > 
+> > > > > > Good point!  So I'm inclined to take v2...
+> > > > > > 
+> > > > > > Let's raise this with the LED people. I don't want to fight Pavel when
+> > > > > > v2 hits the CiP tree ;-)
+> > > > > 
+> > > > > So, if there is no other opinion here, can we remove function, color,
+> > > > > function-enumerator and just use the node names which match the
+> > > > > schematics? Basically apply V2?
+> > > > 
+> > > > I didn't author the semantics nor the rules surrounding them, but I am
+> > > > obliged to enforce them.  Therefore "LED people" say, please stick to
+> > > > convention as stated in the present documentation:
+> > > > 
+> > > > https://docs.kernel.org/leds/leds-class.html#led-device-naming
+> > > > 
+> > > > Please note that a "debug" (LED_FUNCTION_DEBUG) option already exists if
+> > > > that is more appropriate to your use-case.
+> > > > 
+> > > > Let's also bring Jacek into the conversion, since I know that he did a
+> > > > bunch of work around this topic.
+> > > 
+> > > The question is if the LED name from the schematics tells anything to
+> > > the user of the equipment?
+> > 
+> > As this is a development board and not a finished product, I would
+> > answer yes.
+> 
+> OK.
+> 
+> > > The idea behind LED naming is to facilitate matching the LED class
+> > > device name as reported by the system with the LED location on the
+> > > equipment.
+> > > 
+> > > The LED naming standardization intended to enforce consistent
+> > > LED naming, and not allowing to add multiple interchangeable
+> > > names like wifi/wlan. It also helps to keep LED name sections order in
+> > > accordance with Linux documentation, which before had been often
+> > > abused by allowing to assign anything to the now deprecated 'label'
+> > > DT property.
+> > 
+> > I agree this all makes perfect sense for a final product, where the
+> > purpose of each LED is clear, and sometimes indicated by an icon
+> > on the case.
+> > For a development board, some LEDs may have a fixed purpose.
+> > But typically there is also a collection of generic user LEDs, which
+> > do not have a fixed purpose, and are identified by a label on the
+> > schematics.  Imposing an arbitrary numbering scheme on the latter is
+> > confusing for the user (developer).
+> 
+> Using DT child node name for LED class device name is only
+> a last resort fallback. However if it is devboard and we want to have
+> a reference to the schematics then I'd say it makes sense to take
+> LED names from DT nodes. What about the colors? Are the LEDs replaceable
+> or soldered?
 
-Applied, thanks!
+Looks like this option does what you want:
 
-[1/6] dt-bindings: dma: rz-dmac: Restrict properties for RZ/A1H
-      commit: ec52f10a31dc69c1ded30812bd17335ac23b1c60
-[2/6] dt-bindings: dma: rz-dmac: Document RZ/V2H(P) family of SoCs
-      commit: 22228b933ce2639d67168fd35423c1be196edab0
-[3/6] irqchip/renesas-rzv2h: Add rzv2h_icu_register_dma_req()
-      commit: 9002b75aa8e6f034ffbd1c1ccac46927a1cf0f12
-[4/6] dmaengine: sh: rz-dmac: Allow for multiple DMACs
-      commit: 056a8aac1fce52da9ad0b6488eb074e3846f37c0
-[5/6] dmaengine: sh: rz-dmac: Add RZ/V2H(P) support
-      commit: 7de873201c44bff5b42f2e560098d463843b8a4c
-[6/6] arm64: dts: renesas: r9a09g057: Add DMAC nodes
-      commit: 7d33e0ee5f98b3fc74566fa00d0926bc5deb8174
+https://github.com/torvalds/linux/blob/master/drivers/leds/led-core.c#L578
 
-Best regards,
+For this to execute you need to provide init_data when calling
+*led_classdev_register*(), omit the; label, function, color_present DT
+properties and also init_data's default_label attribute.  At which point
+the DT node name should be taken as the LED class name.
+
 -- 
-~Vinod
-
-
+Lee Jones [李琼斯]
 
