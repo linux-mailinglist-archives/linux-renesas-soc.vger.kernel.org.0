@@ -1,95 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-17142-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17143-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40FD2AB893D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 May 2025 16:21:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 645D5AB8AE4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 May 2025 17:38:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 156BB3AE172
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 May 2025 14:20:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D84691674DA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 May 2025 15:35:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C70F41E5B71;
-	Thu, 15 May 2025 14:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A002821B185;
+	Thu, 15 May 2025 15:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UXFwPzqb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B88B21A440;
-	Thu, 15 May 2025 14:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5A92192FD;
+	Thu, 15 May 2025 15:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747318757; cv=none; b=ZWBT4jgym8Vj6sv9BztC5RThWjFhE0YLg2VzYSDNg8sJPFiRuIREx9g6xw9RljXmva3mro8KQwa3m16NeacvNHsST39wB2fcpmG8h1WM5YOL2Q0BnkVsDKvcdSfoFDFbYDH5AePOT09gb+P3Z5zvZK59N9OaNa3LVAAjClLNOSU=
+	t=1747323310; cv=none; b=Y26vYasJEyXldl4YIXtW4ODY5QmWtdPeyGd2U09kF1BIF36YwoCD65lQiEgpkUJQ9miJjeoB+R9JYV6Uw6tqgzb+QHqmcvATeYaeaeu/hHbgfVmrsVM5jxuadbUPtBQ865gd1HSN0+l3qxbl78JqqCmREPWg6g77OiAs9K2V9iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747318757; c=relaxed/simple;
-	bh=Hia61omZ5Zv+4yjM0jKYxeiUzC34dbJkS7sfdLdcMFA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T5CWKWuucQIq3gvuwBt+J1REVQAabu1JwLAXjI62CK1r3NUakoNoFLiJfgUcOA994p+f9yMWOxQuT9cfKCqZWaRbtgcfWotFV3MHwizyZYAvJo5Drnptn1WkOq82FqkAXbz3qlqutvoOK4dJyQDLFQR92gGByRA9Qs6/J3Lekqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: Eo48T7FFRY6gvj2zvSwEfw==
-X-CSE-MsgGUID: MO1oW8DuRf6XOUjxuTif3g==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 15 May 2025 23:19:15 +0900
-Received: from superbuilder.administration.lan (unknown [10.226.93.187])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 249D6401A460;
-	Thu, 15 May 2025 23:19:11 +0900 (JST)
-From: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
-To: thierry.bultel@linatsea.fr
-Cc: linux-renesas-soc@vger.kernel.org,
-	geert@linux-m68k.org,
-	paul.barker.ct@bp.renesas.com,
-	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v9 10/10] arm64: defconfig: Enable Renesas RZ/T2H serial SCI
-Date: Thu, 15 May 2025 16:18:25 +0200
-Message-ID: <20250515141828.43444-11-thierry.bultel.yh@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250515141828.43444-1-thierry.bultel.yh@bp.renesas.com>
-References: <20250515141828.43444-1-thierry.bultel.yh@bp.renesas.com>
+	s=arc-20240116; t=1747323310; c=relaxed/simple;
+	bh=79rKvSYF1iXSgVT4OeDOu1YzpQSZjLujvBNuWjgV4Cc=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=XlfDaeYps2KDaT6JMQmhgOQehWxptX7F3NPYekmV4Yb9agGquqpvNZ7kXjcfSJhpX0Hn2l/AiOt/WPtT6mlEljeqxmlhEn0qYw5louFrHIOtMhvxz6Pay7SbWSGlUPlAGRUyVhgOJUdDmV6VI1IOFNkcQDKcRiqMXYynNqWtyUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UXFwPzqb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C1B7C4CEE7;
+	Thu, 15 May 2025 15:35:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747323310;
+	bh=79rKvSYF1iXSgVT4OeDOu1YzpQSZjLujvBNuWjgV4Cc=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=UXFwPzqbqenqFoBz7lq56VC32z9UhGgupTVwkIpzWw+RJh2YW5wFU+bD4n4pAj1Yi
+	 OXh7weDV0nCzxxSfw/jUEIOszMHQrF5ytcbLqf4xY/YbImw+dWQqwfq/O9ZIC7m6NJ
+	 NUP5bJ0I8FbAahaHGDBjQOFLdwkUXYywk8P+Z3hOwKAvxlfA8EvtT4SY8JYOJ64VRv
+	 AsTW94ElBzDRRiLNQ0spdvph139x1+qfRE+djMIeEe+JPJZFid5s1CjKPwhIDmkKB8
+	 Oc7elkG/oLZiKJ1czm6ktURkPzlV/Ws+vE11i2OkrAihYotyvPOi7ukx6JoRLtNtNT
+	 hN/qa7U2MLM8w==
+Date: Thu, 15 May 2025 10:35:08 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, paul.barker.ct@bp.renesas.com, 
+ geert@linux-m68k.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-serial@vger.kernel.org, 
+ thierry.bultel@linatsea.fr
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250515141828.43444-2-thierry.bultel.yh@bp.renesas.com>
+References: <20250515141828.43444-1-thierry.bultel.yh@bp.renesas.com>
+ <20250515141828.43444-2-thierry.bultel.yh@bp.renesas.com>
+Message-Id: <174732330847.829507.6367540282698483743.robh@kernel.org>
+Subject: Re: [PATCH v9 01/10] dt-bindings: serial: Added secondary clock
+ for RZ/T2H RSCI
 
-Selects RZ/T2H (aka r9a09g077) SCI (serial) specific code.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
----
-Changes v8->v9: none
-Changes v7->v8: none
-Changes v6->v7: none
-Changes v5->v6:
-   - Renamed CONFIG_SERIAL_RZ_SCI_T2 to CONFIG_SERIAL_RSCI
-Changes v4->v5:
-   - Renamed CONFIG_SERIAL_RZ_SCI to CONFIG_SERIAL_RZ_SCI_T2
-Changes v3->v4:
-   - Remove CONFIG_ARCH_R9A09G077=y
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+On Thu, 15 May 2025 16:18:16 +0200, Thierry Bultel wrote:
+> At boot, the default clock is the PCLKM core clock (synchronous
+> clock, which is enabled by the bootloader).
+> For different baudrates, the asynchronous clock input must be used.
+> Clock selection is made by an internal register of RCSI.
+> 
+> Also remove the unneeded serial0 alias from the dts example.
+> 
+> Signed-off-by: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>
+> ---
+> Changes v8->v9:
+>  - typo in description
+>  - named clocks 'operational' and 'bus', and added optional 'sck' clock
+>  - uses value of 2nd core clock in example to break the dependency on cpg patch
+> ---
+>  .../bindings/serial/renesas,rsci.yaml         | 21 +++++++++++--------
+>  1 file changed, 12 insertions(+), 9 deletions(-)
+> 
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 04619fe7e22a..bd2aeb7c13a7 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -495,6 +495,7 @@ CONFIG_SERIAL_TEGRA_TCU=y
- CONFIG_SERIAL_IMX=y
- CONFIG_SERIAL_IMX_CONSOLE=y
- CONFIG_SERIAL_SH_SCI=y
-+CONFIG_SERIAL_RSCI=y
- CONFIG_SERIAL_MSM=y
- CONFIG_SERIAL_MSM_CONSOLE=y
- CONFIG_SERIAL_QCOM_GENI=y
--- 
-2.43.0
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/serial/renesas,rsci.example.dts:25:18: fatal error: dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h: No such file or directory
+   25 |         #include <dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/serial/renesas,rsci.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1524: dt_binding_check] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250515141828.43444-2-thierry.bultel.yh@bp.renesas.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
