@@ -1,143 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-17120-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17121-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2857AB7D55
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 May 2025 07:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A58A5AB7D74
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 May 2025 07:59:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C30608C162F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 May 2025 05:53:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8D933A2BED
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 May 2025 05:58:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D2BA295520;
-	Thu, 15 May 2025 05:53:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2986A295520;
+	Thu, 15 May 2025 05:58:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478B62951D8;
-	Thu, 15 May 2025 05:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2529D10E5;
+	Thu, 15 May 2025 05:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747288423; cv=none; b=pbBLdlbeOKPzwkpi5jpuXf4CTBXERhn9tPdEdpuhuC4elYIREbP8VuKE5FRytK6P5Pl7i8+EFPsAwTmxZazq9gDMVMdIKajrZqqcy3A2eMxyHMZ6ffaJeq0Khm+Rjw5d3sFLGlEXQnhebBigeJ09j0oUM9GBb3KeV9ipRob+GZQ=
+	t=1747288736; cv=none; b=SYgN8YMwux5217Ipr25hfAHGVWSvfVhvC3xFLcmdol+Gi3gcDHfO4MzQ4tYnd6daiGWE/YqwOkAbpUcQdX2o5dmqfmMOiy9qugzaWt3qb7JXoY/gQ7OQUY/XGrzN3Obpv7H2bEtHKusgfu813sjAJ9SjqGbQH7VzHse2/P9ETuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747288423; c=relaxed/simple;
-	bh=QRe32xatwTRsoz+wj88ZVHN17zQOUDN3VJmsCT3pC6w=;
+	s=arc-20240116; t=1747288736; c=relaxed/simple;
+	bh=V3eA9XmMTbZSsgEE/1E8iRYnMQ2agVh2/AN9D1gUdno=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UY8ZBM1w+CachY6zPsfDh17KdQ/wPU8JpYWboyX3seKEYchCtJcuAM3RmFQ4Onjj0JuK0MSikLxKYMubKrxDjbnM6TuADVISeJrmiv8fuew0ldnVKahq6dZ44ES9FjWuDxQ8cshYsnvpYa0bUHpk1LW7HipehEL/hthVeKUF2go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.182
+	 To:Cc:Content-Type; b=BtFnE6alrQADVcLH8cSNq6/JaBs0FRl+i0XctOzm+7Z2rtGvNaw/K8wa2Bgp0mm4KnVEI3qQViaNn6N9vDDXtyLcKwHTCIXoOnidm4j+hX8dR0Y66+lQNT0PkjLfGq4rOjHEWMqD2zguYAuXynMDVp/jftKx/Rxix5PuCBI56dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-52c4e568d07so160845e0c.0;
-        Wed, 14 May 2025 22:53:41 -0700 (PDT)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-4def04c0ac1so1160533137.1;
+        Wed, 14 May 2025 22:58:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747288418; x=1747893218;
+        d=1e100.net; s=20230601; t=1747288732; x=1747893532;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rPyG0mlit4Fqvc3ieiHFbClT0DklwqbFDL/14cm9a+o=;
-        b=amlKL0Uk/VIT/dtdClsoekBi3OJVT42/7xr69zKlvBWoCtwt+5WItgHhAY5meWYRBB
-         Y0pSwfouy9O8sllyiuFdvlu+N2BAuz8AFmK0jyoVJyv/8v66ZDUU/LAtZEmPUXdIWPae
-         Z/F88+uummUw+kg1pDNvN6F6ybpPsHZ4auHCfUyQHbH02FAgR5MWjo3Q76bbKhIx1YWH
-         5w3YXaKvvnOkbi86p8b36RkBD51TAiDhehTGmXSplxckff+qKV8vwi4Hmls8NoTL/VxB
-         FENT625ZlXZlMRiSZJ2ZPgS7u+PFvrPsxElaiBTFwt3WjcxX3MsNerk7zc689WPF1HTg
-         8l+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVokdYoLJ1SlA0Kaw8TmlMhlT1GrxF6itGdcFQaqnYzYWiWkvySBtb94pqBvCaNgStNuNa/Rlpe69K6oTfH@vger.kernel.org, AJvYcCVronU9kRrQug4gmnDzijoDS+P8HKFWjTJTyu4wmFHRXvXPFHfkS8w7lf8+W5iE7BtozNhdE6kuU4WoLAZQLQkYbQc=@vger.kernel.org, AJvYcCWdsZXtCwh9jC0SRUsjlOluqmvHKBYWJKMrr9dtJ44FcK2ki8ddxf0i+vr3+AJlEz6L7Ptzhq0Taelm@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZL5TH+9RBxbNmNen+BvkW38rAgJovjh/3r63TFkAa71DNTzB4
-	scE4pMy1vSJpooUetOQCJd8Ayx+oMD4HaztWxQK0NmxlKU9RaaUnDpiKU2f2
-X-Gm-Gg: ASbGncsd1Y/iV5YmrN4ruK8laWbb07/5vznLvZioI0n49jXAR2V/Z94xnnp8OYt0pSZ
-	G07lNDdHVuMRHDkom4VbPQJ18FJHpVHnJ1C51EA35C1GQSjJZDbE3FC2Byu+rAPLfbCC3R1FVwn
-	bZIcWejMH4MaLERAnJdZN2KNSot4EjCdkNbvzwC3+9EPK2m63MUAFqLRVUHZPjCqrJIpdiRH4sa
-	DLBFhLT/b/i5v9ivj36lXHQCkVv80YpfqrJ4lNd61JMca/Yce0D688jBlZb8s3tpCOKmX+wtEEO
-	KXpSUJ+Db4T8ApijQr1H1gz1oZcFbtF8BHq80GKvUmI06WMLS2taQXXaKYSzT8Ej0k7Em2dVj/S
-	QWsBqul0HUuOh0A==
-X-Google-Smtp-Source: AGHT+IETenXI+9SbdsyOZmsQyg6s+CzGbt8Dfb6vrDK9/pp4703P/ZUG3ct9ypSGPjBDrwA4c/GukA==
-X-Received: by 2002:a05:6122:3283:b0:50d:a31c:678c with SMTP id 71dfb90a1353d-52d9c5698b1mr5746589e0c.2.1747288418648;
-        Wed, 14 May 2025 22:53:38 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52c8bd074c6sm4258220e0c.8.2025.05.14.22.53.37
+        bh=ynqfndKFpHSGZheFlong6+Dub97owEZbrmGU/IXCCmg=;
+        b=jyB4Z5GsqJdUaH4S/csLJxsS/n0dP9sARQ4bXBWG8ltjRBtU2FoxQYsV+zlYwCC9ef
+         TZzLa2eyN3XvOIItdSrFY1dHL5M7t0Sfe65iKNK3z48V7frVR1x2m8XAf9bx9S5lu8ea
+         SJwmYuNSaYZ1lzj8PoI0jn32ij0ql4aW7brdWMkawRdQ8xlUXzHAN6VVytPCLenhbZZ5
+         wBkv6ylS3T13FuuSLxvKZQL5CQw4ylbBKZbih8F5PNpZDJQFDrLt97TrmIdqH4FF3G6m
+         GTSUpijbJBOwlg2hp8JzfTGlvZDife/o3MWl0ouCato7ILBRw3IEDR5u7tGxO10CgDe7
+         ULDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVt0vXe96iCn9JPZHf9Kciau1/yx4Af3IF1Q/nqioHgw6UoQzkL55nIlAihorGeUE/BOiRjMpYzUVhEzGiavB/g/VA=@vger.kernel.org, AJvYcCWsCBmS5QRPapWzvwfuGrD3eo9rrvU/HEb2CFLJ5WkjfOP2g604nfoDX8Wj8u5c5skwsxYCg3pLWCE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHH4PxRH3HGgmAAhwu1+QjntaKa87EpKMEurNslYd1bbtzepNu
+	fCMaTeHFW/hmDKZcPEy+SJC3TGY4wbR857/BGYyEYy1OGgoGgNLD0MIEmQHlHfWt
+X-Gm-Gg: ASbGnctR8z01LyZssqXwNe2YQqZ9IDkYu/BYnAq2clbGZTUtG8+EO09LIGcwJdk5HR+
+	FARMVMFk5k5YJkNL6RuwlkToXCF+aShsyyM6ARp2PXuN2AcNIcHBxczj4dpH7tf+ymaolvhrHzE
+	HVVyBOUvV71R7DaP1uA7m8Wmx3HKPh1Zm+APcG4HihBl1uxWe2VqsHqs/5wNDToRjKrASmnLowo
+	vpRspWzrCMETqSZ8UfsPV3Slf2/td2UmEL8u+JX7zHDgMWhyLYYwgskYtEmq/+Xbf16AR9NV351
+	lW7kHlyCey+drVI8nJvOB+p27dwhCCTP6I0r2HcWgaCDsVKoXkzKT9bVrScQCl565h8VqJ8tZkf
+	djqnd7AUk8UhT/PjoQw==
+X-Google-Smtp-Source: AGHT+IEucrHdyp4mGfnkqcIfHektHkrwev8sOJk7dCE5Y0wi+gEgsXRvfQ4VATmo2CIKEu3ultt0YA==
+X-Received: by 2002:a67:e916:0:b0:4df:9aed:3114 with SMTP id ada2fe7eead31-4df9aed3425mr137453137.8.1747288732446;
+        Wed, 14 May 2025 22:58:52 -0700 (PDT)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4deb203f7c5sm9574683137.30.2025.05.14.22.58.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 May 2025 22:53:37 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-8783bce9f84so130191241.2;
-        Wed, 14 May 2025 22:53:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVAtrIHAPva0qjbCHUtyPQI0zXPozlOS9/VVMfIp/uspfWE50Io8SsmdCD7EqfY8zg7cW4VXHTNx0I9m1V0XyEh+b8=@vger.kernel.org, AJvYcCWTgNQDZ//ywwoLu6ob19sQ4R8+lombPU+Yl4k40hQF2hrMy/MpoiUCmLglfn2nOLwBrgDtV9ChqXHT@vger.kernel.org, AJvYcCXuQ9aMHOJM+G3WFabQHLS2zwK5mx6143Alaq3QfQ64UXFWBtU8Cc2xJ/3PayXVYijcbKbp8kwnjpA8jnCE@vger.kernel.org
-X-Received: by 2002:a05:6102:3e0b:b0:4b6:d108:cac1 with SMTP id
- ada2fe7eead31-4df7dcb5c78mr6484774137.9.1747288417074; Wed, 14 May 2025
- 22:53:37 -0700 (PDT)
+        Wed, 14 May 2025 22:58:52 -0700 (PDT)
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-52c82c67992so443845e0c.0;
+        Wed, 14 May 2025 22:58:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUh3I/UOAYgn7+0D8DEGiL7kzRc03mzs8NoRkA590MFpORErctolrwpNj63AOj5DNb+BJCkKS17AC8=@vger.kernel.org, AJvYcCV7+152mbFCH5M6PYEzzkRUFalZKtEq5G5dnBZWG6u207MdJ1CNkk5sQSI4A1x7mOU1365eNo2mHDKOa6NUISUm+MQ=@vger.kernel.org
+X-Received: by 2002:ac5:ce87:0:b0:527:b804:ff78 with SMTP id
+ 71dfb90a1353d-52da902fc0emr1752780e0c.1.1747288731856; Wed, 14 May 2025
+ 22:58:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250506103152.109525-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <202505151255.rCHp8Bvu-lkp@intel.com>
-In-Reply-To: <202505151255.rCHp8Bvu-lkp@intel.com>
+References: <877c2mxrrr.wl-kuninori.morimoto.gx@renesas.com>
+ <62gkja5ysv47yos2hcurluudxwvl54uv4ih7pjnmnjrzuik6cs@a5oxhyyy6vsm>
+ <CAMuHMdUvR8rp2PaFLsyQ6ZWLqw7OskP-ZwVjRC=AARhK8g-iYQ@mail.gmail.com>
+ <wytdfpewvcesc6racyrpa4cya7wku6dc65edz7oma7penqrqqq@2g54gyprttxt> <87y0uyu7i1.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87y0uyu7i1.wl-kuninori.morimoto.gx@renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 15 May 2025 07:53:23 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUh3oXniR3b_g+SuqXXeB=3YRFSVOONOth7XRNpHC=a8A@mail.gmail.com>
-X-Gm-Features: AX0GCFvo3GnsTZII4bhG8cXLylyB93OgSRrkVG13kj0dt4dQMBXBbYjIu4GDk6M
-Message-ID: <CAMuHMdUh3oXniR3b_g+SuqXXeB=3YRFSVOONOth7XRNpHC=a8A@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] clocksource/drivers/renesas-ostm: Unconditionally
- enable reprobe support
-To: kernel test robot <lkp@intel.com>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Chris Brandt <chris.brandt@renesas.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Thu, 15 May 2025 07:58:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWSN70bhVOkmL9ms0S2N+N+scyPzxCPxoxttXKsUGa8Zw@mail.gmail.com>
+X-Gm-Features: AX0GCFtt5HCXCf1i_3AMLVZ3ScdMqxV1e5Ong-QCWYi3LoLUiE_Cix4INYizIA0
+Message-ID: <CAMuHMdWSN70bhVOkmL9ms0S2N+N+scyPzxCPxoxttXKsUGa8Zw@mail.gmail.com>
+Subject: Re: [PATCH v4] pwm: tidyup PWM menu for Renesas
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Russell King <linux@armlinux.org.uk>, 
+	Will Deacon <will@kernel.org>, linux-pwm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 15 May 2025 at 07:04, kernel test robot <lkp@intel.com> wrote:
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on tip/timers/core]
-> [also build test WARNING on robh/for-next linus/master v6.15-rc6 next-20250514]
-> [cannot apply to daniel-lezcano/clockevents/next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/dt-bindings-timer-renesas-ostm-Document-RZ-V2N-R9A09G056-support/20250506-223636
-> base:   tip/timers/core
-> patch link:    https://lore.kernel.org/r/20250506103152.109525-3-prabhakar.mahadev-lad.rj%40bp.renesas.com
-> patch subject: [PATCH v3 2/2] clocksource/drivers/renesas-ostm: Unconditionally enable reprobe support
-> config: hexagon-randconfig-001-20250513 (https://download.01.org/0day-ci/archive/20250515/202505151255.rCHp8Bvu-lkp@intel.com/config)
-> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505151255.rCHp8Bvu-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505151255.rCHp8Bvu-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> drivers/clocksource/renesas-ostm.c:235:34: warning: unused variable 'ostm_of_table' [-Wunused-const-variable]
->      235 | static const struct of_device_id ostm_of_table[] = {
->          |                                  ^~~~~~~~~~~~~
->    1 warning generated.
->
->
-> vim +/ostm_of_table +235 drivers/clocksource/renesas-ostm.c
->
-> 3a3e9f23c2cae9 Biju Das 2021-11-12  234
-> 3a3e9f23c2cae9 Biju Das 2021-11-12 @235  static const struct of_device_id ostm_of_table[] = {
-> 3a3e9f23c2cae9 Biju Das 2021-11-12  236         { .compatible = "renesas,ostm", },
-> 3a3e9f23c2cae9 Biju Das 2021-11-12  237         { /* sentinel */ }
-> 3a3e9f23c2cae9 Biju Das 2021-11-12  238  };
-> 3a3e9f23c2cae9 Biju Das 2021-11-12  239
+Hi Morimoto-san,
 
-The table is unused if CONFIG_OF=n due to
+On Thu, 15 May 2025 at 00:56, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> > > However, renaming config symbols always comes with its own set of
+> > > pains: users must notice and adapt when updating their own configs,
+> > > and I do have to manage the non-upstream renesas_defconfig, too.
+> > > What about dropping the rename part? The symbols that currently lack
+> > > a RENESAS-prefix do have fairly unique family prefixes.
+> (snip)
+> > I agreed with Geert off-list that merging
+> > renesas-arm-defconfig-for-v6.16-tag2 into the pwm tree and apply the
+> > patch is fine for him.
+>
+> It seems the patch was applied (?)
+>
+> If so, I have a plan to post patch for renesas_defconfig to update
+> symbols. I'm thinking I will post it after next merge window,
+> but please let me know if I can post it immediately.
 
-                .of_match_table = of_match_ptr(ostm_of_table),
+You can send it now, but I cannot apply it before the Kconfig
+changes are upstream.  I do have to update renesas_defconfig in next
+renesas-drivers release anyway, as usual (cfr. the top 3 commits in
+renesas-drivers), so I can take it there.
+Thanks!
 
 Gr{oetje,eeting}s,
 
