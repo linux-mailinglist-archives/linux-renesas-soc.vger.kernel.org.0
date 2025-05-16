@@ -1,47 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-17177-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD03BAB9DAA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 May 2025 15:38:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC31AB9D91
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 May 2025 15:33:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 611434E5F87
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 May 2025 13:38:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B21D1BA8422
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 May 2025 13:33:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 738052A1AA;
-	Fri, 16 May 2025 13:38:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD0C913A3ED;
+	Fri, 16 May 2025 13:32:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3AB72619
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 May 2025 13:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC12878F3B
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 May 2025 13:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747402695; cv=none; b=kfqV112nK710xt6ztNKUxgpF1OaW2niDLx2b7it++UT40Po63veeS0ASUTk0xHtAkQW71Zr7DkX6Z0Ss9LUapSLXFNI2pPNPIQsJEPshnwmC5kHtIKtD/ozzDDvC+AeIai0So+6SIxxEGZdkd/3KEIWnldC1nFiqE9kitJenIHI=
+	t=1747402369; cv=none; b=ZKFUHeLPQ59kmvtrXes5GonGhrGjUnOSbMV27XIgdcK+tD7s0LdFA7fG4C2tv63C2bms3mCX+FH4nZJLNjupa1GvS3rI69qnlh8ScuqFi1jZzRp6bZGkq+sG0xY0dWqumBLws36Con1VhWTy1EKZTOQk6SYNzi+elhVXyPIOgSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747402695; c=relaxed/simple;
-	bh=HtteoMpXwZumxvkhLX0UpbrbT4fRDbTpJ3wPmMXkYtc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=av4hML4HOlsL1Vbg2QvM0zHGIoLB2OR1mJ6+KzTHphVekCiYXyMO4fR+2g45vemNhpo+s6l1zvbcLP+ZBlsU9F/38/pA9jfxJOltWEgOCtkhIn6oNr9Jn50ynNG9hsIL+rRVuKBi0bhrHyE8bnZE4ry07yLrukk4LZOZkfQiHwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.81
+	s=arc-20240116; t=1747402369; c=relaxed/simple;
+	bh=VvaIqcA29H+k71LVwcDiGbLNtd0liH1S61o55uJ3oHE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MFuDmONnB4DoJLoA5ZYvmJabzOh7uaywzxO68KL/nlhyGyCQdT5tei4hbreoljvb2tqB6BpO8A5ooV57cqA2tigR+6SSbthdtE3IqYIwgQJCEsUnP1rGMJ5RZqDvarhyYTs4Di3L4wQA9GsLNGeXhlUM8m2ugHOBNsvSLWYIGXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4ZzSgP3tLsz4x7nW
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 May 2025 15:32:33 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b0d6:ccd4:58dc:70fd])
-	by albert.telenet-ops.be with cmsmtp
-	id ppYX2E0083S8nz406pYXwv; Fri, 16 May 2025 15:32:33 +0200
+	by michel.telenet-ops.be with cmsmtp
+	id ppYX2E00P3S8nz406pYX0Q; Fri, 16 May 2025 15:32:33 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAi-000000020iJ-0dAn;
+	id 1uFvAi-000000020iK-0dAx;
 	Fri, 16 May 2025 15:32:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAt-00000001522-23dN;
+	id 1uFvAt-00000001525-2FGg;
 	Fri, 16 May 2025 15:32:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -55,10 +53,12 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 00/22] spi: sh-msiof: Transfer size improvements and I2S reuse
-Date: Fri, 16 May 2025 15:32:03 +0200
-Message-ID: <cover.1747401908.git.geert+renesas@glider.be>
+Subject: [PATCH v2 01/22] spi: sh-msiof: Drop comma after OF match table sentinel
+Date: Fri, 16 May 2025 15:32:04 +0200
+Message-ID: <2ab5745407339ba54b63c3e6410082c7c566bf95.1747401908.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
+References: <cover.1747401908.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,73 +67,33 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi all,
+It does not make sense to have a comma after a sentinel, as any new
+elements must be added before the sentinel.
 
-This patch series (A) improves single transfer sizes in the MSIOF
-driver, using two methods:
-  - By increasing the assumed FIFO sizes, impacting both PIO and DMA
-    transfers,
-  - By using two groups, impacting DMA transfers,
-and (B) lets the recently-introduced MSIOF I2S drive reuse the SPI
-driver's register definitions.  All of this is covered with a thick
-sauce of fixes for (harmless) bugs, cleanups, and refactorings.
+Add a comment to clarify the purpose of the empty element.
 
-Changes compared to v1[1]:
-  - Make include/linux/spi/sh_msiof.h self-contained,
-  - Add Tested-by for the sound part.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
+  - No changes.
+---
+ drivers/spi/spi-sh-msiof.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Note that the driver uses the limitations as specified in the hardware
-documentation.  For discovering the actual FIFO sizes, I wrote some
-crude test code that can be found at [2].
-
-This is based on spi/for-next and sound-asoc/for-next, and has been
-tested on a variery of R-Car SoCs.
-
-Thanks for your comments!
-
-[1] https://lore.kernel.org/cover.1746180072.git.geert+renesas@glider.be
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/msiof-fifo
-
-Geert Uytterhoeven (22):
-  spi: sh-msiof: Drop comma after OF match table sentinel
-  spi: sh-msiof: Remove unneeded compatible values
-  spi: sh-msiof: Fix maximum DMA transfer size
-  spi: sh-msiof: Complete using dev in sh_msiof_spi_probe()
-  spi: sh-msiof: Use bool for boolean flags
-  spi: sh-msiof: Make words/bits unsigned in sh_msiof_spi_txrx_once()
-  spi: sh-msiof: Make words/fs unsigned in FIFO helpers
-  spi: sh-msiof: SITMDR1/SIRMDR1 bitfield conversion
-  spi: sh-msiof: SITMDR2 and SIRMDR2 bitfield conversion
-  spi: sh-msiof: SITSCR/SIRSCR bitfield conversion
-  spi: sh-msiof: SICTR bitfield conversion
-  spi: sh-msiof: SIFCTR bitfield conversion
-  spi: sh-msiof: Correct SIMDR2_GRPMASK
-  spi: sh-msiof: Add core support for dual-group transfers
-  spi: sh-msiof: Correct RX FIFO size for R-Car Gen2
-  spi: sh-msiof: Correct RX FIFO size for R-Car Gen3
-  spi: sh-msiof: Increase TX FIFO size for R-Car V4H/V4M
-  spi: sh-msiof: Simplify BRG's Division Ratio
-  spi: sh-msiof: Double maximum DMA transfer size using two groups
-  spi: sh-msiof: Document frame start sync pulse mode
-  spi: sh-msiof: Move register definitions to <linux/spi/sh_msiof.h>
-  ASoC: renesas: msiof: Convert to <linux/spi/sh_msiof.h>
-
- drivers/spi/spi-sh-msiof.c     | 357 +++++++++++++--------------------
- include/linux/spi/sh_msiof.h   | 125 ++++++++++++
- sound/soc/renesas/rcar/msiof.c |  94 +++------
- 3 files changed, 287 insertions(+), 289 deletions(-)
-
+diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
+index d9e3d83fc7e84e03..325bd5890b78884d 100644
+--- a/drivers/spi/spi-sh-msiof.c
++++ b/drivers/spi/spi-sh-msiof.c
+@@ -1101,7 +1101,7 @@ static const struct of_device_id sh_msiof_match[] __maybe_unused = {
+ 	{ .compatible = "renesas,rcar-gen3-msiof", .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,sh-msiof",        .data = &sh_data }, /* Deprecated */
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, sh_msiof_match);
+ 
 -- 
 2.43.0
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
