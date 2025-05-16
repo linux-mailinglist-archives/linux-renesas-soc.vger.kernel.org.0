@@ -1,48 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-17172-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC2DAB9D8C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 May 2025 15:33:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD8FAB9D74
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 May 2025 15:32:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF5024E5376
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 May 2025 13:33:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB3243A92E6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 May 2025 13:32:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ED4C200A3;
-	Fri, 16 May 2025 13:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 931A572637;
+	Fri, 16 May 2025 13:32:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05FA7260A
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 May 2025 13:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039B38528E
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 May 2025 13:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747402369; cv=none; b=S+8jPSmHBDw1pIlH7PZZGGcerOZSHyxokn8L61tiSRfTORfobf6gAAAPCTHxpbQc2Ardag7gK+qUBAs2tVJHeTA/rxbaufpBdWfJ+Vppx0RLUqfGlOkBaKVBj2hrgJsYqCVBmZr6thicQy8WqEhjqH7bRLkCr6gN3eFuZtCj1+g=
+	t=1747402365; cv=none; b=NTxVuHg7Ou6RI/Go3zdpFOmMWTfBG1zgG/cBeEJzAEHy2q/jeylOYNsicLNkUP/m9VyFjBjIVuOB7BSU0+7WvOgaHJxwspbhx4WrXquucOgiwtcSYF+VQiZ8GvAlZ1Bf6WKf80ZwAAB9h4XXcd2FzSWG8osomrk5oR8NziurPZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747402369; c=relaxed/simple;
-	bh=mvpjcX/5a0oFb846ghe+MQ7JRUNpQqkMZ0y8uI1l3Rc=;
+	s=arc-20240116; t=1747402365; c=relaxed/simple;
+	bh=sl8eYgz9s0IQIIJJMg+RvgU0Wqv5wzmfjFIixU3FWao=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uixmDsM9BUQorwOgVSDGI+Eo3iHD+vuc0AyrPT6UCa+IMyrHq9RMsBy1WFfZu5AXPo2SeJN9ohyIbwEQBZACdVXk2KqclA8G60ogJSo0HxWvCSgbxCtN57uqMOXCsgrjS4HBC+LBMszn4/BdDaFG1kbGfg/fmYCNkcJI69I74Dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
+	 MIME-Version; b=A7YYgDmPaMXPoLvxkSylIe0LLy+EkBhDjLSDNs7+CsC91htT+qIch7Yf8UA/LyIavJasMOTZvW0qNrbBj2uh+LGoUn13dR+WwuLVNZbGaY/y5tH/XiXEfGpX4qz+fn2OcinQ9HDuWQlY/8Caqzm4mbn0w6FF+UX+mkXJBs6DvUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4ZzSgP4Ll4z4xBbV
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 May 2025 15:32:33 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b0d6:ccd4:58dc:70fd])
-	by albert.telenet-ops.be with cmsmtp
-	id ppYX2E00B3S8nz406pYXww; Fri, 16 May 2025 15:32:33 +0200
+	by xavier.telenet-ops.be with cmsmtp
+	id ppYX2E00G3S8nz401pYXap; Fri, 16 May 2025 15:32:33 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAi-000000020iV-11f3;
+	id 1uFvAi-000000020ia-18Mp;
 	Fri, 16 May 2025 15:32:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAt-0000000152L-2erg;
+	id 1uFvAt-0000000152R-2mIN;
 	Fri, 16 May 2025 15:32:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -56,9 +53,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 05/22] spi: sh-msiof: Use bool for boolean flags
-Date: Fri, 16 May 2025 15:32:08 +0200
-Message-ID: <35cd51bdfb3c810911a5be757e0ce5bb29dcc755.1747401908.git.geert+renesas@glider.be>
+Subject: [PATCH v2 06/22] spi: sh-msiof: Make words/bits unsigned in sh_msiof_spi_txrx_once()
+Date: Fri, 16 May 2025 15:32:09 +0200
+Message-ID: <30eff1052642a4bcb0f1bc4bed7aae25d355a7dc.1747401908.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
 References: <cover.1747401908.git.geert+renesas@glider.be>
@@ -70,63 +67,43 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use bools instead of integers for boolean flags, which allows us to
-remove the "!!" idiom from several expressions.
+Make the words and bits parameters of sh_msiof_spi_txrx_once() unsigned,
+as that matches what is passed by the caller.
+
+This allows us to replace min_t() by the safer min().
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
   - No changes.
 ---
- drivers/spi/spi-sh-msiof.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 367622985fea2a04..11ef5c0a498d7c1f 100644
+index 11ef5c0a498d7c1f..fdb13dbc175249c4 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -348,11 +348,11 @@ static u32 sh_msiof_spi_get_dtdl_and_syncdl(struct sh_msiof_spi_priv *p)
- }
- 
- static void sh_msiof_spi_set_pin_regs(struct sh_msiof_spi_priv *p, u32 ss,
--				      u32 cpol, u32 cpha,
--				      u32 tx_hi_z, u32 lsb_first, u32 cs_high)
-+				      bool cpol, bool cpha, bool tx_hi_z,
-+				      bool lsb_first, bool cs_high)
+@@ -677,16 +677,16 @@ static int sh_msiof_spi_txrx_once(struct sh_msiof_spi_priv *p,
+ 				  void (*rx_fifo)(struct sh_msiof_spi_priv *,
+ 						  void *, int, int),
+ 				  const void *tx_buf, void *rx_buf,
+-				  int words, int bits)
++				  unsigned int words, unsigned int bits)
  {
-+	bool edge;
- 	u32 tmp;
--	int edge;
+ 	int fifo_shift;
+ 	int ret;
  
- 	/*
- 	 * CPOL CPHA     TSCKIZ RSCKIZ TEDG REDG
-@@ -587,7 +587,8 @@ static int sh_msiof_prepare_message(struct spi_controller *ctlr,
- {
- 	struct sh_msiof_spi_priv *p = spi_controller_get_devdata(ctlr);
- 	const struct spi_device *spi = msg->spi;
--	u32 ss, cs_high;
-+	bool cs_high;
-+	u32 ss;
+ 	/* limit maximum word transfer to rx/tx fifo size */
+ 	if (tx_buf)
+-		words = min_t(int, words, p->tx_fifo_size);
++		words = min(words, p->tx_fifo_size);
+ 	if (rx_buf)
+-		words = min_t(int, words, p->rx_fifo_size);
++		words = min(words, p->rx_fifo_size);
  
- 	/* Configure pins before asserting CS */
- 	if (spi_get_csgpiod(spi, 0)) {
-@@ -595,12 +596,11 @@ static int sh_msiof_prepare_message(struct spi_controller *ctlr,
- 		cs_high = p->native_cs_high;
- 	} else {
- 		ss = spi_get_chipselect(spi, 0);
--		cs_high = !!(spi->mode & SPI_CS_HIGH);
-+		cs_high = spi->mode & SPI_CS_HIGH;
- 	}
--	sh_msiof_spi_set_pin_regs(p, ss, !!(spi->mode & SPI_CPOL),
--				  !!(spi->mode & SPI_CPHA),
--				  !!(spi->mode & SPI_3WIRE),
--				  !!(spi->mode & SPI_LSB_FIRST), cs_high);
-+	sh_msiof_spi_set_pin_regs(p, ss, spi->mode & SPI_CPOL,
-+				  spi->mode & SPI_CPHA, spi->mode & SPI_3WIRE,
-+				  spi->mode & SPI_LSB_FIRST, cs_high);
- 	return 0;
- }
- 
+ 	/* the fifo contents need shifting */
+ 	fifo_shift = 32 - bits;
 -- 
 2.43.0
 
