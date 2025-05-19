@@ -1,211 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-17224-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17225-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56578ABC8EB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 23:14:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF641ABC93A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 23:25:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D93423B80FA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 21:13:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 911AD17869E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 21:24:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CBCB21ADA9;
-	Mon, 19 May 2025 21:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17937221FBC;
+	Mon, 19 May 2025 21:21:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R75yD/ph"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lPcrY/dY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7B42116F2;
-	Mon, 19 May 2025 21:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD88221FB7;
+	Mon, 19 May 2025 21:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747689249; cv=none; b=I72Jt6Mx5FMMdWC0XBAEnE/4dBJLybH86b+l296U1J8bFhRS8WHx4ssLuxQaWNcSVKpNV7vYMoQXyfE/bqtTr27hsJnPN9ycMDrG3ccJgiBqE/3ZS9weqmvT+xI3ZRVqr0Ebbrb0d9MG5zb7mqtnHXndlpiZJe2na7O2IfLt064=
+	t=1747689717; cv=none; b=DRbqT5b+Q9EsdgAPXV66V5IZPHD0sPwEx1QdH1IUVDZ4KvtStRlVDWujt8jIOGEH8Sj48TaXXOxK3JrzMubrBEo42QRnwal5zSPv2raf+OHYchwOkFL2FtHTRZTBFbh+d1QB5ZEHw9hIwM2j+hjeGTErD+kEgmNgwzUrqgwUVgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747689249; c=relaxed/simple;
-	bh=OU+Jakld/TMTxxVKfdhF3ggOCo2ZBgkGEtx8OrbGD7w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=BUnPMjPV/HCWaSB6SJ6aOxqtSUiaHlq1/nRuhtqfe7/kwoVvqSe7TREAr9wx4k2whOYSJ/Vp0vjLZElGxQdAiGiQyZMewHuQtoW3+IJEXOmW9HHiyFwpXtKeOAqBvIwmJTSbhqgbte5eZFnqjteShpU4ZbV8yWwm3FIdB2GYXAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R75yD/ph; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ace333d5f7bso794874366b.3;
-        Mon, 19 May 2025 14:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747689246; x=1748294046; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=INlfNClito0M/A1g5VdM/y65CyhnXKxSbDbKHIJcYNY=;
-        b=R75yD/phve7idB4z+uKmjLGHgUSwGhnZMv7aNJuY5x2moYO+xQ5NnSOKcPxc8V+rgT
-         YJBeO18tn5ZT+bfG2UavcXe96QjpI1wFi/YMWbkajyneUBHPCgCiKSg4zhT12jUegRZn
-         m/n0HZgqW+JkElnqvmlgjTRTZWOtXoJ0w+3dutvC17DLpnmZlsRBU7pF2IyJnGN+e0c7
-         KVY4cmNQY6lYb4ixC/lran4c6zuw5yQHVkv3oOGZjeDK2A9YRQlZKczovb1dJTu94Gge
-         Vfz8Xa8esw0wG2urR/sJ/1nC1iJMhckcGRRXVKzoMRl5Mf0plasctLchwR320Ax+EfnS
-         B/yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747689246; x=1748294046;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=INlfNClito0M/A1g5VdM/y65CyhnXKxSbDbKHIJcYNY=;
-        b=G0J/Sbrb+kFmLWU6yZ782D8jsV3TuFEXPG2Me4p9b/c5zDpnsS+3+y5fd+9bgjIG6T
-         eCmz2S8Cw3ZLAzPZLaIvrxGWjfpvF/QCO96XJvxUKTqp6zpJFe+2rvm7lXOkIYAM4XFD
-         CZVeVTuL5x7epbOLicu79AXBY5t93uJ96nWo6G1cALMHdIzi9YTlPVLUyxT9QbBfo1a2
-         JF8I5RigvsBkOqlJbZDyrgzBl6QxmOF9f7dQf3oRsCrERZwCT+l2Pj8X3SvNAz7FmHuq
-         wcThuU59caTUBkJ/kPPR3nzG2wHZUhFIhXuMvVBtfML5o+TzBnB0xsuHUXY1VYk5BGBg
-         +hcA==
-X-Forwarded-Encrypted: i=1; AJvYcCU7CqzXnwSOXchxCqy7dRqY34e/lts8KLOuCEX0IhnPgv8m1lT6oOQ/Oen4NdgSiJOoyJjCfTEmnHEh@vger.kernel.org, AJvYcCVB8hC0mixDV9+9Q+3hfKc2lyeRJjHnIOsfFiwts9DF+j9T6ifRjwkon6r+0HWWni3iNVjpAWoWe1PJFg==@vger.kernel.org, AJvYcCXE+8ksFh5ukU9yEv84z0KLGIzDOOWjiD1VgHgIpwyWQlpqI155W5zwknVKPNOEzbO70VetAl27nhjQOKC+a8Yuiwo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwB5SkM6m/wljpB5tuIxsE5w07Soln6o1GWJvyC7FI2mhk5DaPx
-	wACCnvrYaqOD5zQwT2PGUZ5XFxuEi43aPJAHTFtEXLH+YQB+0QVTvRO42UzzMgLq
-X-Gm-Gg: ASbGncufonQeXWOxWcyLmmW38XDa/XQlVmGxFseyxBwwhJMa+Z7g7i+ZThu9IySMqEC
-	+hzdFTEQv83yYS4135Mpk0235gMaIGLHUV6TVInDuQ5Z5wPxF4P3V68AIBvJlj3x4wRRFCux6I9
-	+PwfGDIrWq6J1ds2QYEhvdNlSf3oQj3JUilwCZQLLDNgtUJfe3sGiDLA+cR8O9YI2iXq5m3dshL
-	S2xsO5kRIHy/fNb6uD228lWM8nsmgW62qZm4Puq3in5WJ+haRunAg5mXduJB8liJOXcGrBFvp5D
-	tp/GoWFaI1ffWOhNnjqbaaRrlH/CzM4dC2weUOG7FxskHTE6iiVnFe9QNwy7oGJv
-X-Google-Smtp-Source: AGHT+IG8bk+kyT5BXR3K5trGf85iSP8MErm8cm8b1N3d+t2LIPk1iILutdL42LORJGY9jBjPWswf/Q==
-X-Received: by 2002:a17:907:9408:b0:ad5:27f5:7189 with SMTP id a640c23a62f3a-ad536bbf095mr1062199366b.13.1747689245753;
-        Mon, 19 May 2025 14:14:05 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d498d05sm646996166b.149.2025.05.19.14.14.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 May 2025 14:14:05 -0700 (PDT)
-Message-ID: <83d527cc-36ce-449c-9e7a-29c47cbc7822@gmail.com>
-Date: Mon, 19 May 2025 23:14:03 +0200
+	s=arc-20240116; t=1747689717; c=relaxed/simple;
+	bh=i/EakHSCcjg82Bg4nLmH7cqbAI1ftK8oWs9y4EAH3/o=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YKndMvV6AkpTRv9kb7WFWifjyxUkhV/H02aRiNRLr/Ojb7z1thRI7UNADzCG71TPOUs4D9YfX3kZ1WTjT+YRoXLuly/MWppza0ZCqSAtnsN5oJKL9+PqBkb8q+caJ+2arYFkkLQgvRfvXWcvgcdzSkruK9yFtzXV/cTSgmPu0Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPcrY/dY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A80C2C4CEEB;
+	Mon, 19 May 2025 21:21:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747689716;
+	bh=i/EakHSCcjg82Bg4nLmH7cqbAI1ftK8oWs9y4EAH3/o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=lPcrY/dYNnfDM/+lU4H4giTc79JOv5zKWrQlGgsLRki3n7SDMZmTRnjjitGe2fwzJ
+	 HZm0m5uPNSUeeH0cc/HzGuJe1Ia1S+3xOk5r/18AlZHhHNGQHrcCTQZHtpSYy+v6AW
+	 fUy7DgRSu8jJQaJc85YAc0XfxskPF+RDaZmE0nQwgdMDlV2WGdlpcpqKcDHzZAKuGq
+	 WEilU81XFpjb00l/0jnzTv/9XRtyu0Gr1/+7M21ptQ3Mm9jkbjny/ehsQujDoakLE5
+	 Qt/HX9Ua9vIt5p+CGJPaVXYmdMN5Ky2Hb3BBqbfD6uhQTDur3QDRsJFOqD62KbQZNn
+	 llGBf/fQbZ+5g==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	kishon@ti.com,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 16/23] phy: renesas: rcar-gen3-usb2: Move IRQ request in probe
+Date: Mon, 19 May 2025 17:21:23 -0400
+Message-Id: <20250519212131.1985647-16-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250519212131.1985647-1-sashal@kernel.org>
+References: <20250519212131.1985647-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe
- Debug LEDs
-To: Lee Jones <lee@kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Pavel Machek <pavel@kernel.org>, linux-leds <linux-leds@vger.kernel.org>
-References: <20250417093256.40390-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdWN-QDrmogJ+7x8sdc6UmDAoF+0z0hZ3SQ7ajN2V2+mSw@mail.gmail.com>
- <aBxjvofZCEi_1Fna@shikoro> <20250508134930.GM3865826@google.com>
- <18b78845-3f01-444d-835a-aa39f84a2689@gmail.com>
- <20250516-plating-early-c5f8017b7466@thorsis.com>
- <c9c6b734-30c4-467c-bd5b-b73784aa0f27@gmail.com>
- <20250519-crudeness-hatchery-3c9f02fc95ad@thorsis.com>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <20250519-crudeness-hatchery-3c9f02fc95ad@thorsis.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14.7
 Content-Transfer-Encoding: 8bit
 
-On 5/19/25 09:37, Alexander Dahl wrote:
-> Hello Jacek,
-> 
-> Am Sun, May 18, 2025 at 04:36:52PM +0200 schrieb Jacek Anaszewski:
->> Hi Alexander,
->>
->> On 5/16/25 09:35, Alexander Dahl wrote:
->>> Hei hei,
->>>
->>> just wanted to create a new thread on a similar topic, but this is so
->>> close, just hooking in here …
->>>
->>> Am Sat, May 10, 2025 at 02:43:45PM +0200 schrieb Jacek Anaszewski:
->>>> Hi all,
-> 
-> […]
-> 
->>>> The question is if the LED name from the schematics tells anything to
->>>> the user of the equipment?
->>>>
->>>> The idea behind LED naming is to facilitate matching the LED class
->>>> device name as reported by the system with the LED location on the
->>>> equipment.
->>>>
->>>> The LED naming standardization intended to enforce consistent
->>>> LED naming, and not allowing to add multiple interchangeable
->>>> names like wifi/wlan. It also helps to keep LED name sections order in
->>>> accordance with Linux documentation, which before had been often
->>>> abused by allowing to assign anything to the now deprecated 'label'
->>>> DT property.
->>>
->>> You see devicetree changes frequently which change the sysfs path of
->>> existing LEDs, last example I saw today:
->>>
->>> https://lore.kernel.org/linux-devicetree/20250513170056.96259-1-didi.debian@cknow.org/
->>>
->>> Consider this change:
->>>
->>>    		led-lan1 {
->>>    			color = <LED_COLOR_ID_GREEN>;
->>> +			default-state = "off";
->>>    			function = LED_FUNCTION_LAN;
->>>    			function-enumerator = <1>;
->>>    			gpios = <&gpio3 RK_PD6 GPIO_ACTIVE_HIGH>;
->>> +			label = "LAN-1";
->>
->> So this change was made without understanding how LED naming works,
->> and without reading LED common bindings [0], which clearly states
->> that 'label' property is deprecated. It makes no sense to add 'label'
->> when there are already 'function' and 'color' properties present.
->> Label takes precedence to keep backwards compatibility.
->>
->>> +			linux,default-trigger = "netdev";
->>>    		};
->>>
->>> Before the sysfs path probably was /sys/class/leds/green:lan-1 and
->>> with the addition of the label property now it's probably
->>> /sys/class/leds/LAN-1 … so it changed.  This might break userspace,
->>> which relies on certain sysfs paths, maybe.
->>>
->>> The main question is: Is that sysfs path considered to be a stable
->>> interface for accessing a particular LED or not?
->>
->> It should be stable, but since LED sysfs interface is influenced by
->> DT implementation, then the responsibility for keeping it stable is on
->> given dts file maintainer.
-> 
-> Okay thanks for clarification.
-> 
-> Follow-up question: should the linux-leds list be included in Cc if
-> someone changes LED related DTS properties?  This is often not the
-> case, like in the case quoted above.
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-It would for sure allow to limit improper application of
-LED common bindings.
+[ Upstream commit de76809f60cc938d3580bbbd5b04b7d12af6ce3a ]
 
->>> I've seen this pattern also the other way round, were an old dts only
->>> has the node name determing the sysfs path, people change the node
->>> name or add color/function properties, gone is the supposedly stable
->>> path.
->>>
->>> New idea: what about making this somewhat more flexible and less
->>> suprising by _always_ creating the standardized sysfs entry based on
->>> color/function by default, and let label only create an additional
->>> symlink linking to that?
->>>
->>> So in the above example /sys/class/leds/green:lan-1 would be the
->>> canonical name/path of that LED, and /sys/class/leds/LAN-1 would only
->>> be a symlink on it?
->>
->> IMO it would be cheaper to keep DTS implementation stable.
->>
->> [0] Documentation/devicetree/bindings/leds/common.yaml
-> 
-> Ack.  Sounds for me like it would be okay to point users to those
-> bindings and the deprecation notice, if one stumbles over such changes
-> on the devicetree list?
+Commit 08b0ad375ca6 ("phy: renesas: rcar-gen3-usb2: move IRQ registration
+to init") moved the IRQ request operation from probe to
+struct phy_ops::phy_init API to avoid triggering interrupts (which lead to
+register accesses) while the PHY clocks (enabled through runtime PM APIs)
+are not active. If this happens, it results in a synchronous abort.
 
-LED common bindings should be always the main source of truth when
-adding LED controller node to a dts file.
+One way to reproduce this issue is by enabling CONFIG_DEBUG_SHIRQ, which
+calls free_irq() on driver removal.
 
+Move the IRQ request and free operations back to probe, and take the
+runtime PM state into account in IRQ handler. This commit is preparatory
+for the subsequent fixes in this series.
+
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Link: https://lore.kernel.org/r/20250507125032.565017-3-claudiu.beznea.uj@bp.renesas.com
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 46 +++++++++++++-----------
+ 1 file changed, 26 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index 775f4f973a6cc..a7b6eacdf5ec6 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -121,7 +121,6 @@ struct rcar_gen3_chan {
+ 	struct work_struct work;
+ 	struct mutex lock;	/* protects rphys[...].powered */
+ 	enum usb_dr_mode dr_mode;
+-	int irq;
+ 	u32 obint_enable_bits;
+ 	bool extcon_host;
+ 	bool is_otg_channel;
+@@ -427,16 +426,25 @@ static irqreturn_t rcar_gen3_phy_usb2_irq(int irq, void *_ch)
+ {
+ 	struct rcar_gen3_chan *ch = _ch;
+ 	void __iomem *usb2_base = ch->base;
+-	u32 status = readl(usb2_base + USB2_OBINTSTA);
++	struct device *dev = ch->dev;
+ 	irqreturn_t ret = IRQ_NONE;
++	u32 status;
+ 
++	pm_runtime_get_noresume(dev);
++
++	if (pm_runtime_suspended(dev))
++		goto rpm_put;
++
++	status = readl(usb2_base + USB2_OBINTSTA);
+ 	if (status & ch->obint_enable_bits) {
+-		dev_vdbg(ch->dev, "%s: %08x\n", __func__, status);
++		dev_vdbg(dev, "%s: %08x\n", __func__, status);
+ 		writel(ch->obint_enable_bits, usb2_base + USB2_OBINTSTA);
+ 		rcar_gen3_device_recognition(ch);
+ 		ret = IRQ_HANDLED;
+ 	}
+ 
++rpm_put:
++	pm_runtime_put_noidle(dev);
+ 	return ret;
+ }
+ 
+@@ -446,17 +454,6 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
+ 	struct rcar_gen3_chan *channel = rphy->ch;
+ 	void __iomem *usb2_base = channel->base;
+ 	u32 val;
+-	int ret;
+-
+-	if (!rcar_gen3_is_any_rphy_initialized(channel) && channel->irq >= 0) {
+-		INIT_WORK(&channel->work, rcar_gen3_phy_usb2_work);
+-		ret = request_irq(channel->irq, rcar_gen3_phy_usb2_irq,
+-				  IRQF_SHARED, dev_name(channel->dev), channel);
+-		if (ret < 0) {
+-			dev_err(channel->dev, "No irq handler (%d)\n", channel->irq);
+-			return ret;
+-		}
+-	}
+ 
+ 	/* Initialize USB2 part */
+ 	val = readl(usb2_base + USB2_INT_ENABLE);
+@@ -495,9 +492,6 @@ static int rcar_gen3_phy_usb2_exit(struct phy *p)
+ 		val &= ~USB2_INT_ENABLE_UCOM_INTEN;
+ 	writel(val, usb2_base + USB2_INT_ENABLE);
+ 
+-	if (channel->irq >= 0 && !rcar_gen3_is_any_rphy_initialized(channel))
+-		free_irq(channel->irq, channel);
+-
+ 	return 0;
+ }
+ 
+@@ -703,7 +697,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct rcar_gen3_chan *channel;
+ 	struct phy_provider *provider;
+-	int ret = 0, i;
++	int ret = 0, i, irq;
+ 
+ 	if (!dev->of_node) {
+ 		dev_err(dev, "This driver needs device tree\n");
+@@ -719,8 +713,6 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
+ 		return PTR_ERR(channel->base);
+ 
+ 	channel->obint_enable_bits = USB2_OBINT_BITS;
+-	/* get irq number here and request_irq for OTG in phy_init */
+-	channel->irq = platform_get_irq_optional(pdev, 0);
+ 	channel->dr_mode = rcar_gen3_get_dr_mode(dev->of_node);
+ 	if (channel->dr_mode != USB_DR_MODE_UNKNOWN) {
+ 		channel->is_otg_channel = true;
+@@ -789,6 +781,20 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
+ 		channel->vbus = NULL;
+ 	}
+ 
++	irq = platform_get_irq_optional(pdev, 0);
++	if (irq < 0 && irq != -ENXIO) {
++		ret = irq;
++		goto error;
++	} else if (irq > 0) {
++		INIT_WORK(&channel->work, rcar_gen3_phy_usb2_work);
++		ret = devm_request_irq(dev, irq, rcar_gen3_phy_usb2_irq,
++				       IRQF_SHARED, dev_name(dev), channel);
++		if (ret < 0) {
++			dev_err(dev, "Failed to request irq (%d)\n", irq);
++			goto error;
++		}
++	}
++
+ 	provider = devm_of_phy_provider_register(dev, rcar_gen3_phy_usb2_xlate);
+ 	if (IS_ERR(provider)) {
+ 		dev_err(dev, "Failed to register PHY provider\n");
 -- 
-Best regards,
-Jacek Anaszewski
+2.39.5
 
 
