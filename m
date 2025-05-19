@@ -1,46 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-17225-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17226-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF641ABC93A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 23:25:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB62ABC96B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 23:28:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 911AD17869E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 21:24:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7FF71B66B00
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 21:28:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17937221FBC;
-	Mon, 19 May 2025 21:21:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC2FD22CBE4;
+	Mon, 19 May 2025 21:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lPcrY/dY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bV/KV3vm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD88221FB7;
-	Mon, 19 May 2025 21:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF5322CBC0;
+	Mon, 19 May 2025 21:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747689717; cv=none; b=DRbqT5b+Q9EsdgAPXV66V5IZPHD0sPwEx1QdH1IUVDZ4KvtStRlVDWujt8jIOGEH8Sj48TaXXOxK3JrzMubrBEo42QRnwal5zSPv2raf+OHYchwOkFL2FtHTRZTBFbh+d1QB5ZEHw9hIwM2j+hjeGTErD+kEgmNgwzUrqgwUVgg=
+	t=1747689748; cv=none; b=pflO5qGzf0SsKdZO0zwUISGdVkGHqfY40mDYYxCDuubTmzlvtNZ9SDTXJx5a5U+Suwpec+MaMBI8NJVLpwkGaeDD779a9dT2iWvk7whpdPSbLuvvNZxzESwqlk1ER1zzumnp+cDVHbd6F2cLaBj/3O6ZjFkqBT93G/m46LxjIo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747689717; c=relaxed/simple;
-	bh=i/EakHSCcjg82Bg4nLmH7cqbAI1ftK8oWs9y4EAH3/o=;
+	s=arc-20240116; t=1747689748; c=relaxed/simple;
+	bh=KmA8jCFf5wgKs8AacqHiyE5+DoPuK5qaOwszsl4RZcc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YKndMvV6AkpTRv9kb7WFWifjyxUkhV/H02aRiNRLr/Ojb7z1thRI7UNADzCG71TPOUs4D9YfX3kZ1WTjT+YRoXLuly/MWppza0ZCqSAtnsN5oJKL9+PqBkb8q+caJ+2arYFkkLQgvRfvXWcvgcdzSkruK9yFtzXV/cTSgmPu0Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPcrY/dY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A80C2C4CEEB;
-	Mon, 19 May 2025 21:21:55 +0000 (UTC)
+	 MIME-Version; b=DGnJ+t+m519CBVfGHNZ23v/oxXCgGgCRKxb/HDp65HLs6MlPYmWU3OUuLzJEgxC50BqyVh2yjc1EngQnNg57BEDK2LC7Vo8u9oJ87cggZscQaNZ8mqp5FuwZU4w3e9TrVpDG6rRabRXbrUY7esEBvYmexiZgx5noLOCH1F3l8Jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bV/KV3vm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E594EC4CEED;
+	Mon, 19 May 2025 21:22:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747689716;
-	bh=i/EakHSCcjg82Bg4nLmH7cqbAI1ftK8oWs9y4EAH3/o=;
+	s=k20201202; t=1747689748;
+	bh=KmA8jCFf5wgKs8AacqHiyE5+DoPuK5qaOwszsl4RZcc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lPcrY/dYNnfDM/+lU4H4giTc79JOv5zKWrQlGgsLRki3n7SDMZmTRnjjitGe2fwzJ
-	 HZm0m5uPNSUeeH0cc/HzGuJe1Ia1S+3xOk5r/18AlZHhHNGQHrcCTQZHtpSYy+v6AW
-	 fUy7DgRSu8jJQaJc85YAc0XfxskPF+RDaZmE0nQwgdMDlV2WGdlpcpqKcDHzZAKuGq
-	 WEilU81XFpjb00l/0jnzTv/9XRtyu0Gr1/+7M21ptQ3Mm9jkbjny/ehsQujDoakLE5
-	 Qt/HX9Ua9vIt5p+CGJPaVXYmdMN5Ky2Hb3BBqbfD6uhQTDur3QDRsJFOqD62KbQZNn
-	 llGBf/fQbZ+5g==
+	b=bV/KV3vm+dMzETTmF3MUzcGCyg/ZSTUSKHzAdPxC1VtvWhSgbIm6gs4hLvxZ+BXCo
+	 BxhtPmFwXcltDkICZB+vP2pVkWdoL0tWda2WWCk6QTHrbgb/911RIuPv0N8v0zw215
+	 O5tASTEdmJjanb3N8QQEqUZG/9g+OUixT0+9dqpKB4RTwxXssw+ZZ0nZjIFLp4cWXh
+	 AEOyrFolZxZXNMxhrVb7ZWiGMeMK829vwXVq9KXkQCPYchlvmdodE1/vYw92BDLZqs
+	 aBnRbbLNjcb99qy97oEiaCFPUphc4AteoVtx+26eQkFmxAj4vXAizmZqBgUwdm3AGF
+	 Bt5TE+IDphJag==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -52,12 +52,12 @@ Cc: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
 	kishon@ti.com,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 16/23] phy: renesas: rcar-gen3-usb2: Move IRQ request in probe
-Date: Mon, 19 May 2025 17:21:23 -0400
-Message-Id: <20250519212131.1985647-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 12/18] phy: renesas: rcar-gen3-usb2: Move IRQ request in probe
+Date: Mon, 19 May 2025 17:22:01 -0400
+Message-Id: <20250519212208.1986028-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250519212131.1985647-1-sashal@kernel.org>
-References: <20250519212131.1985647-1-sashal@kernel.org>
+In-Reply-To: <20250519212208.1986028-1-sashal@kernel.org>
+References: <20250519212208.1986028-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -66,7 +66,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14.7
+X-stable-base: Linux 6.12.29
 Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
@@ -98,7 +98,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 26 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 775f4f973a6cc..a7b6eacdf5ec6 100644
+index 58e1233051526..d4490af122a9a 100644
 --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
 +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
 @@ -121,7 +121,6 @@ struct rcar_gen3_chan {
