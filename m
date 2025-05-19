@@ -1,62 +1,61 @@
-Return-Path: <linux-renesas-soc+bounces-17195-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17196-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89CD9ABBD78
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 14:15:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2809ABBD7B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 14:15:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2D2B3BC392
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 12:15:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B6BE77A30E3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 12:14:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F44F2777E4;
-	Mon, 19 May 2025 12:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3412427815A;
+	Mon, 19 May 2025 12:15:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ieUtbq46"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="aDUORtl4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8337275846
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 May 2025 12:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23A62777E0
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 May 2025 12:15:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747656935; cv=none; b=dQ7Eg6kqPyjCJycK+nejC1FLK4qL/qMfTbk7m/aCR2UvFeQoelqmcP8/aIVSZutR2LJefrfrGkxRXTfG7UtJQJ6X6+j58OFOQzWD2abVGTA3YAiGPVFBuQY5Ie/6AcYLnPldYJw4FryLMFyFS5AM7+XaoynCP1T/mpjXw3pqxTc=
+	t=1747656936; cv=none; b=JVsQPl4gv7TZgycB3OXScObY1Hj5/IEOSX9nMVqoCW6t9X8U+i0Th+IM5pJAmSMi5mWIuxrYl14t+hBXi6Em3D0OsCD5lBiFUoS6SyEDlmzx1cm63w/6jBNmSmHU0+yhP3s1WOUVUE456xZj5DXqw3cxlB/gwebQZN78MieKNRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747656935; c=relaxed/simple;
-	bh=W+MvnJ2/FgnOqAonCE0oZ4OE+mCsqLsJj2i5O0mqYSA=;
+	s=arc-20240116; t=1747656936; c=relaxed/simple;
+	bh=kQirraHRo7tl8S0ILof1ErIEHp5SfRrIF1ZuCMtMGuI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BxoJbYtZ+KWKGToojeoSX/8iRJ1kJiqGv0BE2hcQND6UOKXy+y6avVKJkgSczorO7ZpqSJVEBOg0Cox+vfu2jwCYUSA4G1m+2/wdv9k429HYUh0Pn9P3kPVaeeLG7Cy0jXWaMIWfqaKWyNoz6OniRWfQTNBrrF8cJobPG9fQkos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ieUtbq46; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=ZxWHQsYuvfCr5CrpCKwetKO8Ds5ZV7IUNwCfp7aZkNh3AuBPcfcajCwvqQ58DhEKC01GtwJ8RQIKq5zpRqk9gx5GF18LgxkbPVV4R81lxra640ee8/G799NZFXdihmZ84hVhhapmdc+jtDnIXViz1okdXlmvyedO+tGt4mkhQgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=aDUORtl4; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=UrX4aYErdjaal258RDMYJgFigt8w+tlGcSSKjmeWR7Q=; b=ieUtbq
-	46SU9nRmgkMaKncXUo/Qq7bNO/sMcu3VGDi/5ONH3445bqJzoZqkI2mBbqsvAax2
-	7h7hYApOQqwZRcS4xhZvr9sqaqnU7RNNAicDMQkb0UEaFWdZgXdXx2tiJ3sePsTe
-	wTzmheB5dl0KFd+bCIdqTo29V/lx88kMTHlXcHyN0lo+7kXBDyI6Mcr+5atFm21Z
-	CqmGDr8XPzX/ZEjF+Eep54m1e5r+k8bOS5pNIK6l5OHpdc2kdvccekFLkkpmuYSl
-	nhi6dFILxomUveNJCbbjC+Kbk/sd0cGt+gcn62sKQAo03T2Ut8iChuo3vnQEy9Gv
-	PzzmbnuGIwdjRn5Q==
-Received: (qmail 2475212 invoked from network); 19 May 2025 14:15:29 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 May 2025 14:15:29 +0200
-X-UD-Smtp-Session: l3s3148p1@N3tsFnw1ILBZz6+V
+	 s=k1; bh=IUMwquEcLTEIyJvMVgeI6/iFdQPruiZ2t0nL4eXINl0=; b=aDUORt
+	l4nfwsb+//J640DGHRqpWelkosl14ymxsscdNvk0cP6FSZG5wMHlOoD0QJjahO8T
+	gnzcifl+AsHvIR65/umeshsHm8BeKD6eJoysnkxvyeeduLb8GlmRDuiSV7oFFd2K
+	qrkQJ+ydsOVNONx3PkKAZlmuz/AiqVPA18VHX2KuclIzRmeoBv0B3UavWgv8NS1o
+	/xPnIWXSSSpnlLthuKAno8RFl1ldshyUyLZV6A2NTKIs+pbQKPIBMNoiFHjOqwlz
+	umI3r9exQP+XdI0r8NP5+m7SzbViQJczVVc+U9zYq0J+EHvHiC1X5P0qsDAuAw/z
+	9iQNx4aQWo1h5ZoQ==
+Received: (qmail 2475253 invoked from network); 19 May 2025 14:15:31 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 May 2025 14:15:31 +0200
+X-UD-Smtp-Session: l3s3148p1@CQCJFnw1JrBZz6+V
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org
-Subject: [PATCH 4/7] ARM: dts: samsung: use proper node names for GPIO based I2C busses
-Date: Mon, 19 May 2025 14:15:04 +0200
-Message-ID: <20250519121512.5657-5-wsa+renesas@sang-engineering.com>
+	devicetree@vger.kernel.org
+Subject: [PATCH 5/7] ARM: dts: stm32: use proper node names for GPIO based I2C busses
+Date: Mon, 19 May 2025 14:15:05 +0200
+Message-ID: <20250519121512.5657-6-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250519121512.5657-1-wsa+renesas@sang-engineering.com>
 References: <20250519121512.5657-1-wsa+renesas@sang-engineering.com>
@@ -72,305 +71,349 @@ There shall not be a '-' before the number.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- arch/arm/boot/dts/samsung/exynos3250-monk.dts    |  2 +-
- arch/arm/boot/dts/samsung/exynos3250-rinato.dts  |  2 +-
- arch/arm/boot/dts/samsung/exynos4210-i9100.dts   |  6 +++---
- arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi   | 10 +++++-----
- .../boot/dts/samsung/exynos4412-galaxy-s3.dtsi   |  4 ++--
- arch/arm/boot/dts/samsung/exynos4412-midas.dtsi  |  6 +++---
- arch/arm/boot/dts/samsung/exynos4412-p4note.dtsi |  8 ++++----
- arch/arm/boot/dts/samsung/s5pv210-aries.dtsi     | 16 ++++++++--------
- arch/arm/boot/dts/samsung/s5pv210-galaxys.dts    |  2 +-
- 9 files changed, 28 insertions(+), 28 deletions(-)
+ .../boot/dts/st/ste-ux500-samsung-codina-tmo.dts |  8 ++++----
+ .../arm/boot/dts/st/ste-ux500-samsung-codina.dts |  8 ++++----
+ .../arm/boot/dts/st/ste-ux500-samsung-gavini.dts | 12 ++++++------
+ .../arm/boot/dts/st/ste-ux500-samsung-golden.dts |  8 ++++----
+ .../arm/boot/dts/st/ste-ux500-samsung-janice.dts | 16 ++++++++--------
+ arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dts  |  8 ++++----
+ .../arm/boot/dts/st/ste-ux500-samsung-skomer.dts |  8 ++++----
+ 7 files changed, 34 insertions(+), 34 deletions(-)
 
-diff --git a/arch/arm/boot/dts/samsung/exynos3250-monk.dts b/arch/arm/boot/dts/samsung/exynos3250-monk.dts
-index 2de877d4ccc5..2a95ebad94ba 100644
---- a/arch/arm/boot/dts/samsung/exynos3250-monk.dts
-+++ b/arch/arm/boot/dts/samsung/exynos3250-monk.dts
-@@ -56,7 +56,7 @@ vemmc_reg: voltage-regulator-0 {
- 		enable-active-high;
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dts
+index 404d4ea9347b..7e6be26549ef 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dts
+@@ -215,7 +215,7 @@ led {
  	};
  
--	i2c_max77836: i2c-gpio-0 {
-+	i2c_max77836: i2c-gpio0 {
+ 	/* Bit-banged I2C on GPIO143 and GPIO144 also called "SUBPMU I2C" */
+-	i2c-gpio-0 {
++	i2c-gpio0 {
  		compatible = "i2c-gpio";
- 		sda-gpios = <&gpd0 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpd0 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-diff --git a/arch/arm/boot/dts/samsung/exynos3250-rinato.dts b/arch/arm/boot/dts/samsung/exynos3250-rinato.dts
-index 88fb3e68ff02..f34b593ee933 100644
---- a/arch/arm/boot/dts/samsung/exynos3250-rinato.dts
-+++ b/arch/arm/boot/dts/samsung/exynos3250-rinato.dts
-@@ -58,7 +58,7 @@ wlan_pwrseq: mshc1-pwrseq {
- 		reset-gpios = <&gpe0 4 GPIO_ACTIVE_LOW>;
+ 		sda-gpios = <&gpio4 16 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 15 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -228,7 +228,7 @@ i2c-gpio-0 {
  	};
  
--	i2c_max77836: i2c-gpio-0 {
-+	i2c_max77836: i2c-gpio0 {
+ 	/* Bit-banged I2C on GPIO151 and GPIO152 also called "COMP I2C" */
+-	i2c-gpio-1 {
++	i2c-gpio1 {
  		compatible = "i2c-gpio";
- 		sda-gpios = <&gpd0 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpd0 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-diff --git a/arch/arm/boot/dts/samsung/exynos4210-i9100.dts b/arch/arm/boot/dts/samsung/exynos4210-i9100.dts
-index 0d8495792a70..6d9afc297e7a 100644
---- a/arch/arm/boot/dts/samsung/exynos4210-i9100.dts
-+++ b/arch/arm/boot/dts/samsung/exynos4210-i9100.dts
-@@ -130,7 +130,7 @@ wlan_pwrseq: sdhci3-pwrseq {
- 		reset-gpios = <&gpl1 2 GPIO_ACTIVE_LOW>;
- 	};
- 
--	i2c_max17042_fuel: i2c-gpio-0 {
-+	i2c_max17042_fuel: i2c-gpio0 {
- 		compatible = "i2c-gpio";
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-@@ -154,7 +154,7 @@ battery@36 {
+ 		sda-gpios = <&gpio4 24 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 23 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -690,7 +690,7 @@ codina_cfg1 {
  		};
  	};
- 
--	i2c_s5k5baf: i2c-gpio-1 {
-+	i2c_s5k5baf: i2c-gpio1 {
- 		compatible = "i2c-gpio";
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-@@ -184,7 +184,7 @@ s5k5bafx_ep: endpoint {
+ 	/* GPIO-based I2C bus for subpmu */
+-	i2c-gpio-0 {
++	i2c-gpio0 {
+ 		i2c_gpio_0_default: i2c_gpio_0 {
+ 			codina_cfg1 {
+ 				pins = "GPIO143_D12", "GPIO144_B13";
+@@ -699,7 +699,7 @@ codina_cfg1 {
  		};
  	};
+ 	/* GPIO-based I2C bus for the NFC */
+-	i2c-gpio-1 {
++	i2c-gpio1 {
+ 		i2c_gpio_1_default: i2c_gpio_1 {
+ 			codina_cfg1 {
+ 				pins = "GPIO151_D17", "GPIO152_D16";
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-codina.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-codina.dts
+index 40b0d92dfb15..6706c31ff1a5 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-codina.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-codina.dts
+@@ -285,7 +285,7 @@ led {
+ 	};
  
+ 	/* Bit-banged I2C on GPIO143 and GPIO144 also called "SUBPMU I2C" */
+-	i2c-gpio-0 {
++	i2c-gpio0 {
+ 		compatible = "i2c-gpio";
+ 		sda-gpios = <&gpio4 16 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 15 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -306,7 +306,7 @@ magnetometer@c {
+ 	};
+ 
+ 	/* Bit-banged I2C on GPIO151 and GPIO152 also called "NFC I2C" */
+-	i2c-gpio-1 {
++	i2c-gpio1 {
+ 		compatible = "i2c-gpio";
+ 		sda-gpios = <&gpio4 24 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 23 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -816,7 +816,7 @@ codina_cfg1 {
+ 		};
+ 	};
+ 	/* GPIO-based I2C bus for subpmu */
+-	i2c-gpio-0 {
++	i2c-gpio0 {
+ 		i2c_gpio_0_default: i2c_gpio_0 {
+ 			codina_cfg1 {
+ 				pins = "GPIO143_D12", "GPIO144_B13";
+@@ -825,7 +825,7 @@ codina_cfg1 {
+ 		};
+ 	};
+ 	/* GPIO-based I2C bus for the NFC */
+-	i2c-gpio-1 {
++	i2c-gpio1 {
+ 		i2c_gpio_1_default: i2c_gpio_1 {
+ 			codina_cfg1 {
+ 				pins = "GPIO151_D17", "GPIO152_D16";
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dts
+index ad9a20ccaaeb..f9423f168f62 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dts
+@@ -249,7 +249,7 @@ ktd259: backlight {
+ 	};
+ 
+ 	/* Bit-banged I2C on GPIO143 and GPIO144 also called "SUBPMU I2C" */
+-	i2c-gpio-0 {
++	i2c-gpio0 {
+ 		compatible = "i2c-gpio";
+ 		sda-gpios = <&gpio4 16 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 15 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -321,7 +321,7 @@ panel_in: endpoint {
+ 	};
+ 
+ 	/* Bit-banged I2C on GPIO201 and GPIO202 also called "MOT_I2C" */
 -	i2c-gpio-2 {
 +	i2c-gpio2 {
  		compatible = "i2c-gpio";
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-diff --git a/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi b/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi
-index 70e3091062f9..31f73fb9dbdc 100644
---- a/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi
-+++ b/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi
-@@ -123,7 +123,7 @@ led-touchkeys {
- 		color = <LED_COLOR_ID_WHITE>;
+ 		sda-gpios = <&gpio6 10 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio6 9 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -333,7 +333,7 @@ i2c-gpio-2 {
  	};
  
--	i2c_max77693: i2c-gpio-1 {
-+	i2c_max77693: i2c-gpio1 {
+ 	/* Bit-banged I2C on GPIO196 and GPIO197 also called "MPR_I2C" */
+-	i2c-gpio-3 {
++	i2c-gpio3 {
  		compatible = "i2c-gpio";
- 		sda-gpios = <&gpm2 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpm2 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -169,7 +169,7 @@ charger {
+ 		sda-gpios = <&gpio6 5 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio6 4 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -796,7 +796,7 @@ gavini_cfg1 {
  		};
  	};
- 
--	i2c_max77693_fuel: i2c-gpio-2 {
-+	i2c_max77693_fuel: i2c-gpio2 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpy0 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpy0 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -190,7 +190,7 @@ fuel-gauge@36 {
+ 	/* GPIO-based I2C bus for magnetometer and NCP6914 */
+-	i2c-gpio-0 {
++	i2c-gpio0 {
+ 		i2c_gpio_0_default: i2c_gpio_0 {
+ 			gavini_cfg1 {
+ 				pins = "GPIO143_D12", "GPIO144_B13";
+@@ -805,7 +805,7 @@ gavini_cfg1 {
  		};
  	};
- 
--	i2c_magnetometer: i2c-gpio-3 {
-+	i2c_magnetometer: i2c-gpio3 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpy2 4 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpy2 5 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -208,7 +208,7 @@ magnetometer@2e {
+ 	/* GPIO-based I2C bus for the Immersion ISA1200 */
+-	i2c-gpio-2 {
++	i2c-gpio2 {
+ 		i2c_gpio_2_default: i2c_gpio_2 {
+ 			gavini_cfg1 {
+ 				pins = "GPIO201_AF24", "GPIO202_AF25";
+@@ -814,7 +814,7 @@ gavini_cfg1 {
  		};
  	};
- 
--	i2c_lightsensor: i2c-gpio-4 {
-+	i2c_lightsensor: i2c-gpio4 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpl0 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpl0 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -220,7 +220,7 @@ i2c_lightsensor: i2c-gpio-4 {
- 		/* WiFi model uses CM3323, 3G/LTE use CM36653 */
+ 	/* GPIO-based I2C bus for the TI DPP2601 */
+-	i2c-gpio-3 {
++	i2c-gpio3 {
+ 		i2c_gpio_3_default: i2c_gpio_3 {
+ 			gavini_cfg1 {
+ 				pins = "GPIO196_AG26", "GPIO197_AH24";
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-golden.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-golden.dts
+index f736888474e7..fad867964a50 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-golden.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-golden.dts
+@@ -55,7 +55,7 @@ bat_therm: thermistor {
+ 		#thermal-sensor-cells = <0>;
  	};
  
--	i2c_bl: i2c-gpio-5 {
-+	i2c_bl: i2c-gpio5 {
+-	i2c-gpio-0 {
++	i2c-gpio0 {
  		compatible = "i2c-gpio";
- 		sda-gpios = <&gpm4 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpm4 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-diff --git a/arch/arm/boot/dts/samsung/exynos4412-galaxy-s3.dtsi b/arch/arm/boot/dts/samsung/exynos4412-galaxy-s3.dtsi
-index 54e1a57ae886..29eecaad067a 100644
---- a/arch/arm/boot/dts/samsung/exynos4412-galaxy-s3.dtsi
-+++ b/arch/arm/boot/dts/samsung/exynos4412-galaxy-s3.dtsi
-@@ -53,7 +53,7 @@ ps_als_reg: voltage-regulator-11 {
- 		enable-active-high;
- 	};
- 
--	i2c_ak8975: i2c-gpio-0 {
-+	i2c_ak8975: i2c-gpio0 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpy2 4 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpy2 5 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -68,7 +68,7 @@ magnetometer@c {
+ 		sda-gpios = <&gpio2 14 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio2 13 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -81,7 +81,7 @@ touchkey@20 {
  		};
- 	};
- 
--	i2c_cm36651: i2c-gpio-2 {
-+	i2c_cm36651: i2c-gpio2 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpf0 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpf0 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-diff --git a/arch/arm/boot/dts/samsung/exynos4412-midas.dtsi b/arch/arm/boot/dts/samsung/exynos4412-midas.dtsi
-index 3d5aace668dc..5d1703a67b5f 100644
---- a/arch/arm/boot/dts/samsung/exynos4412-midas.dtsi
-+++ b/arch/arm/boot/dts/samsung/exynos4412-midas.dtsi
-@@ -166,7 +166,7 @@ key-ok {
- 		};
- 	};
- 
--	i2c_max77693: i2c-gpio-1 {
-+	i2c_max77693: i2c-gpio1 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpm2 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpm2 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -246,7 +246,7 @@ charger {
- 		};
- 	};
- 
--	i2c_max77693_fuel: i2c-gpio-3 {
-+	i2c_max77693_fuel: i2c-gpio3 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpf1 5 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpf1 4 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -267,7 +267,7 @@ fuel-gauge@36 {
- 		};
- 	};
- 
--	i2c-gpio-4 {
-+	i2c-gpio4 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpl0 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpl0 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-diff --git a/arch/arm/boot/dts/samsung/exynos4412-p4note.dtsi b/arch/arm/boot/dts/samsung/exynos4412-p4note.dtsi
-index 28a605802733..822d4bf2dfab 100644
---- a/arch/arm/boot/dts/samsung/exynos4412-p4note.dtsi
-+++ b/arch/arm/boot/dts/samsung/exynos4412-p4note.dtsi
-@@ -140,7 +140,7 @@ battery_cell: battery-cell {
- 		constant-charge-voltage-max-microvolt = <4200000>;
  	};
  
 -	i2c-gpio-1 {
 +	i2c-gpio1 {
  		compatible = "i2c-gpio";
- 		sda-gpios = <&gpy2 4 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpy2 5 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -158,7 +158,7 @@ magnetometer@c {
+ 		sda-gpios = <&gpio4 24 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 23 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -553,7 +553,7 @@ golden_cfg1 {
  		};
  	};
  
+-	i2c-gpio-0 {
++	i2c-gpio0 {
+ 		i2c_gpio_0_default: i2c_gpio_0 {
+ 			golden_cfg1 {
+ 				pins = "GPIO77",	/* TOUCHKEY_SCL */
+@@ -572,7 +572,7 @@ golden_cfg1 {
+ 		};
+ 	};
+ 
+-	i2c-gpio-1 {
++	i2c-gpio1 {
+ 		i2c_gpio_1_default: i2c_gpio_1 {
+ 			golden_cfg1 {
+ 				pins = "GPIO151",	/* COMP_SCL */
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-janice.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-janice.dts
+index 229f7c32103c..580a5da69187 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-janice.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-janice.dts
+@@ -239,7 +239,7 @@ led {
+ 	};
+ 
+ 	/* Bit-banged I2C on GPIO143 and GPIO144 also called "SUBPMU I2C" */
+-	i2c-gpio-0 {
++	i2c-gpio0 {
+ 		compatible = "i2c-gpio";
+ 		sda-gpios = <&gpio4 16 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 15 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -324,7 +324,7 @@ gp2a_shunt: current-sense-shunt {
+ 	};
+ 
+ 	/* Bit-banged I2C on GPIO196 and GPIO197 also called "TOUCHKEY_I2C" */
+-	i2c-gpio-1 {
++	i2c-gpio1 {
+ 		compatible = "i2c-gpio";
+ 		sda-gpios = <&gpio6 5 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio6 4 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -352,7 +352,7 @@ touchkey@20 {
+ 	};
+ 
+ 	/* Bit-banged I2C on GPIO201 and GPIO202 also called "MOT_I2C" */
 -	i2c-gpio-2 {
 +	i2c-gpio2 {
  		compatible = "i2c-gpio";
- 		sda-gpios = <&gpy0 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpy0 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -179,7 +179,7 @@ fuel-gauge@36 {
- 		};
+ 		sda-gpios = <&gpio6 10 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio6 9 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -364,7 +364,7 @@ i2c-gpio-2 {
  	};
  
+ 	/* Bit-banged I2C on GPIO151 and GPIO152 also called "NFC_I2C" */
 -	i2c-gpio-3 {
 +	i2c-gpio3 {
  		compatible = "i2c-gpio";
- 		sda-gpios = <&gpm4 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpm4 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -207,7 +207,7 @@ adc {
+ 		sda-gpios = <&gpio4 24 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 23 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -875,7 +875,7 @@ janice_cfg1 {
+ 		};
+ 	};
+ 	/* GPIO-based I2C bus for magnetometer and NCP6914 */
+-	i2c-gpio-0 {
++	i2c-gpio0 {
+ 		i2c_gpio_0_default: i2c_gpio_0 {
+ 			janice_cfg1 {
+ 				pins = "GPIO143_D12", "GPIO144_B13";
+@@ -884,7 +884,7 @@ janice_cfg1 {
+ 		};
+ 	};
+ 	/* GPIO-based I2C bus for the Cypress touchkeys */
+-	i2c-gpio-1 {
++	i2c-gpio1 {
+ 		i2c_gpio_1_default: i2c_gpio_1 {
+ 			janice_cfg1 {
+ 				pins = "GPIO196_AG26", "GPIO197_AH24";
+@@ -893,7 +893,7 @@ janice_cfg1 {
+ 		};
+ 	};
+ 	/* GPIO-based I2C bus for the Immersion ISA1200 */
+-	i2c-gpio-2 {
++	i2c-gpio2 {
+ 		i2c_gpio_2_default: i2c_gpio_2 {
+ 			janice_cfg1 {
+ 				pins = "GPIO201_AF24", "GPIO202_AF25";
+@@ -902,7 +902,7 @@ janice_cfg1 {
+ 		};
+ 	};
+ 	/* GPIO-based I2C bus for the NFC */
+-	i2c-gpio-3 {
++	i2c-gpio3 {
+ 		i2c_gpio_3_default: i2c_gpio_3 {
+ 			janice_cfg1 {
+ 				pins = "GPIO151_D17", "GPIO152_D16";
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dts
+index cdb147dcc1db..bd8eb2b3bacd 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dts
+@@ -196,7 +196,7 @@ led {
  		};
  	};
  
--	i2c-gpio-4 {
-+	i2c-gpio4 {
+-	i2c-gpio-0 {
++	i2c-gpio0 {
  		compatible = "i2c-gpio";
- 		sda-gpios = <&gpm2 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpm2 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-diff --git a/arch/arm/boot/dts/samsung/s5pv210-aries.dtsi b/arch/arm/boot/dts/samsung/s5pv210-aries.dtsi
-index 153514e80c9a..f93fe4e60c90 100644
---- a/arch/arm/boot/dts/samsung/s5pv210-aries.dtsi
-+++ b/arch/arm/boot/dts/samsung/s5pv210-aries.dtsi
-@@ -102,7 +102,7 @@ wifi_pwrseq: wifi-pwrseq {
- 		power-off-delay-us = <500>;
+ 		sda-gpios = <&gpio4 16 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 15 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -207,7 +207,7 @@ i2c-gpio-0 {
+ 		/* TODO: this should be used by the NCP6914 Camera power management unit */
  	};
  
--	i2c_sound: i2c-gpio-0 {
-+	i2c_sound: i2c-gpio0 {
+-	i2c-gpio-1 {
++	i2c-gpio1 {
  		compatible = "i2c-gpio";
- 		sda-gpios = <&mp05 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&mp05 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -150,7 +150,7 @@ wm8994: audio-codec@1a {
+ 		sda-gpios = <&gpio4 24 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 23 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -629,7 +629,7 @@ kyle_cfg1 {
+ 		};
+ 	};
+ 	/* GPIO-based I2C bus for NCP6914 */
+-	i2c-gpio-0 {
++	i2c-gpio0 {
+ 		i2c_gpio_0_default: i2c_gpio_0 {
+ 			kyle_cfg1 {
+ 				pins = "GPIO143_D12", "GPIO144_B13";
+@@ -638,7 +638,7 @@ kyle_cfg1 {
+ 		};
+ 	};
+ 	/* GPIO-based I2C bus for ALPS HSCD compass */
+-	i2c-gpio-1 {
++	i2c-gpio1 {
+ 		i2c_gpio_1_default: i2c_gpio_1 {
+ 			kyle_cfg1 {
+ 				pins = "GPIO151_B17", "GPIO152_D16";
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts
+index 064d6fee8821..a8c854a82d4e 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts
+@@ -175,7 +175,7 @@ led {
  		};
  	};
  
--	i2c_accel: i2c-gpio-1 {
-+	i2c_accel: i2c-gpio1 {
+-	i2c-gpio-0 {
++	i2c-gpio0 {
  		compatible = "i2c-gpio";
- 		sda-gpios = <&gpj3 6 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpj3 7 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -170,7 +170,7 @@ accelerometer@38 {
- 		};
+ 		sda-gpios = <&gpio4 16 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 15 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -186,7 +186,7 @@ i2c-gpio-0 {
+ 		/* TODO: this should be used by the NCP6914 Camera power management unit */
  	};
  
--	i2c_pmic: i2c-gpio-2 {
-+	i2c_pmic: i2c-gpio2 {
+-	i2c-gpio-1 {
++	i2c-gpio1 {
  		compatible = "i2c-gpio";
- 		sda-gpios = <&gpj4 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpj4 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -420,7 +420,7 @@ safe2_sreg: ESAFEOUT2 {
+ 		sda-gpios = <&gpio4 24 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+ 		scl-gpios = <&gpio4 23 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+@@ -616,7 +616,7 @@ skomer_cfg1 {
  		};
  	};
- 
--	i2c_musb: i2c-gpio-3 {
-+	i2c_musb: i2c-gpio3 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpj3 4 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpj3 5 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -442,7 +442,7 @@ fsa9480: musb@25 {
+ 	/* GPIO-based I2C bus for NCP6914 */
+-	i2c-gpio-0 {
++	i2c-gpio0 {
+ 		i2c_gpio_0_default: i2c_gpio_0 {
+ 			skomer_cfg1 {
+ 				pins = "GPIO143_D12", "GPIO144_B13";
+@@ -625,7 +625,7 @@ skomer_cfg1 {
  		};
  	};
- 
--	i2c_fuel: i2c-gpio-4 {
-+	i2c_fuel: i2c-gpio4 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&mp05 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&mp05 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -459,7 +459,7 @@ fg: fuelgauge@36 {
- 		};
- 	};
- 
--	i2c_touchkey: i2c-gpio-5 {
-+	i2c_touchkey: i2c-gpio5 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpj3 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpj3 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -485,7 +485,7 @@ touchkey@20 {
- 		};
- 	};
- 
--	i2c_prox: i2c-gpio-6 {
-+	i2c_prox: i2c-gpio6 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpg2 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpg0 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-@@ -513,7 +513,7 @@ light-sensor@44 {
- 		};
- 	};
- 
--	i2c_magnetometer: i2c-gpio-7 {
-+	i2c_magnetometer: i2c-gpio7 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpj0 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpj0 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-diff --git a/arch/arm/boot/dts/samsung/s5pv210-galaxys.dts b/arch/arm/boot/dts/samsung/s5pv210-galaxys.dts
-index 879294412381..cde026524891 100644
---- a/arch/arm/boot/dts/samsung/s5pv210-galaxys.dts
-+++ b/arch/arm/boot/dts/samsung/s5pv210-galaxys.dts
-@@ -51,7 +51,7 @@ key-home {
- 		};
- 	};
- 
--	i2c_fmradio: i2c-gpio-8 {
-+	i2c_fmradio: i2c-gpio8 {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&gpd1 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
- 		scl-gpios = <&gpd1 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+ 	/* GPIO-based I2C bus for ALPS HSCD compass */
+-	i2c-gpio-1 {
++	i2c-gpio1 {
+ 		i2c_gpio_1_default: i2c_gpio_1 {
+ 			skomer_cfg1 {
+ 				pins = "GPIO151_B17", "GPIO152_D16";
 -- 
 2.47.2
 
