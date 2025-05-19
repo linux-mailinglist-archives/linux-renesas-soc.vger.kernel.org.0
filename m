@@ -1,151 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-17204-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17205-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44734ABC143
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 16:47:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BC6ABC16C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 16:58:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7612F3A8B69
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 14:47:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 107601B621C8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 14:58:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E9291DE2DC;
-	Mon, 19 May 2025 14:47:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89F81284665;
+	Mon, 19 May 2025 14:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Oa2i8hLG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vI3YQEGX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FA91D5AD4
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 May 2025 14:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF913F9D2;
+	Mon, 19 May 2025 14:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747666059; cv=none; b=NBa6DnRM+NmOdUhfm+94/RyP/JqoWR2EbtWpZCoHqyJ98BT+FSgS8JOIPd1xHce0PT1Aq555eC1Z8hsD5A+j0+CC8cpJpejc1BWDNgXB7kJ8A8tRv/nDYV+6b8sS37O8y6CRVjchG479gCa09cbdY2xOe1/UTtuDn4EPcx3SSyk=
+	t=1747666688; cv=none; b=KNUcfRuzXCboTU+0l6FGluqgM+DfSHeZTuMczeGK7A/b19DCTX4HvoHOQCkVcQVawvUyIBJmCsFGfc03JKRbl0PJB2hcU/IwXBpc3N4470Cw8PcKVVfJxepZpULjfNuhaBJLsOrN0siXkDjxBG7P5sQoX3mSVTl3O0ojGmn2DNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747666059; c=relaxed/simple;
-	bh=DaQWvWsw3oOgXKm2fONwUyOY8e59GUzYmRtivJS0iws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZobPo85n+p8Pf5+Fvjq18wf5BIrYcc3aJAuFzAgmMotY8I3FKhDMLQyNJ5PoJwKQBLvL5tBc/GwmFRUYHhJL9Ct+IYSVJq5blQUnREGvwDq3TC0c1DrU0sbEoMtrueF1lf/TgjOMY+y6RXqUYCC1tdTa06MDSRn+YAUSI/1E91o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Oa2i8hLG; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=DaQW
-	vWsw3oOgXKm2fONwUyOY8e59GUzYmRtivJS0iws=; b=Oa2i8hLGt0Jdgu81TAxR
-	42Sq/n5Fy06uXNsziux+wldXdqK8G8Z80rUrQNuT+3gELRNOV36sDV4bOgtcWFQh
-	WbtOMLrjM7t15wXZOZGj2mmPwRKmvpu2+zfGlbhbsoFIUsdd+G4+5ABdYKF1nVCn
-	7T/xLeRYiPSx0ZpyRsIPHve6rda6mcFtludrKaa4PHiNj4F2AUcmMx5oVi3zJrp1
-	mu7hWjngUZV4Zm/vwcgGsj8VzBCyLNjjOQk7bm1s8O2gjN16+gLSZcN3cthfmLlK
-	klzN7Nm/6Isc29qsKwJvByK1Bt0iBEM4smkLBBvfsSVe+gJqoRJ7qdwld5sGuLry
-	EQ==
-Received: (qmail 2526926 invoked from network); 19 May 2025 16:47:34 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 May 2025 16:47:34 +0200
-X-UD-Smtp-Session: l3s3148p1@veEiNn41guhZz6uL
-Date: Mon, 19 May 2025 16:47:30 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	loongarch@lists.linux.dev,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
-	WANG Xuerui <kernel@xen0n.name>
-Subject: Re: [PATCH 0/7] archs: use proper node names for GPIO based I2C
- busses
-Message-ID: <aCtEgg55uuXQ87HP@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	loongarch@lists.linux.dev,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
-	WANG Xuerui <kernel@xen0n.name>
-References: <20250519121512.5657-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdUOXZOe++Zpk_fGnPuGtQARN1fLQvTr0YX108OzZi4YmA@mail.gmail.com>
+	s=arc-20240116; t=1747666688; c=relaxed/simple;
+	bh=LAUMDqcflNTaUA/Dn9CWlInk45/XJCP46J9Kp5aF0Tw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=X3Er0cq2eDYAvNH8x23h17nIe7EDYhzf6f4EmVsBtqFc+OTFeTFK0xxkDGuZb/9s7oI03RYYU6mqI3JPGp1/FCtntKfoe+MHRwbCOr8dqNMyguEJOGGIVR6GRQFoNZSJ9ApDGu/LdnEJS9CjKDWJc5pRgZRJdUx6Of9vXEWlQxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vI3YQEGX; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E155BD21;
+	Mon, 19 May 2025 16:57:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747666665;
+	bh=LAUMDqcflNTaUA/Dn9CWlInk45/XJCP46J9Kp5aF0Tw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=vI3YQEGX0p4LX+Mbzbaw8ivf1Ho9lRH6oCwDdSaOvHWM46EYtbn3Y3MyXHCrCjE1W
+	 6RXlIfitP/uP+gYeduoM7gqIMg3kVhaMXLm6ItB/QvXKDbHQbMAd5xkYI5XQwHxIth
+	 dVvBNO+yrafXxTG+Tajqr4XpxTMUPxiE+0hqFcYQ=
+From: Daniel Scally <dan.scally@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	p.zabel@pengutronix.de,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: [PATCH 0/3] Add Input Video Control Block driver for RZ/V2H
+Date: Mon, 19 May 2025 15:57:51 +0100
+Message-Id: <20250519145754.454005-1-dan.scally@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="N7Vk71n9RCcoPa7f"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUOXZOe++Zpk_fGnPuGtQARN1fLQvTr0YX108OzZi4YmA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+
+Hello all
+
+This series adds a driver for the Input Video Control Block in the
+RZ/V2H SoC. The IVC block transmits input image data from memory to
+the ISP core (on this SoC, a Mali-C55 ISP). The driver registers an
+output video device for userspace to queue image buffers to. One
+noteworthy feature is that - because it is not a part of the main ISP
+drive - the IVC driver also registers a subdevice, which connects to
+the media device created by the ISP driver through the usual v4l2
+async framework. This requires delaying the registration of the video
+device until the .registered() callback of the subdevice, so that the
+struct v4l2_dev pointer the subdevice connected to can be set to the
+video device.
+
+To facilitate communication between the ISP driver and the IVC driver
+we use the new media jobs framework that was posted recently [1]. The
+series is also based on top of the latest version of the Mali-C55
+driver [2] and some updates to rzg2l-cru [3].
+
+Note that this is not quite ready to merge, as there's an outstanding
+bug that sometimes causes the driver to hang. The device should fire
+two interrupts per frame; once on completion of data transmission and
+once on expiration of the blanking period. The second interrupt seems
+sometimes not to arrive, and at the moment the problem is worked
+around with a timeout in rzv2h_ivc_send_next_buffer(). We're working
+on that issue, but because the driver lends helpful context to the
+media jobs and mali-c55 series (and is probably otherwise ready for
+comment too) I wanted to post it.
+
+Thanks
+Dan
+
+[1] https://lore.kernel.org/linux-media/20250519140403.443915-1-dan.scally@ideasonboard.com/T/
+[2] https://lore.kernel.org/linux-media/20250519143409.451100-1-dan.scally@ideasonboard.com/T/
+[3] https://lore.kernel.org/linux-media/20250506125015.567746-1-dan.scally@ideasonboard.com/T/
 
 
---N7Vk71n9RCcoPa7f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Daniel Scally (3):
+  dt-bindings: media: Add bindings for the RZ/V2H IVC block
+  media: platform: Add Renesas Input Video Control block driver
+  MAINTAINERS: Add entry for rzv2h-ivc driver
 
+ .../bindings/media/renesas,rzv2h-ivc.yaml     |  99 +++
+ MAINTAINERS                                   |   7 +
+ drivers/media/platform/renesas/Kconfig        |   2 +
+ drivers/media/platform/renesas/Makefile       |   1 +
+ .../media/platform/renesas/rzv2h-ivc/Kconfig  |  11 +
+ .../media/platform/renesas/rzv2h-ivc/Makefile |   7 +
+ .../renesas/rzv2h-ivc/rzv2h-ivc-dev.c         | 239 ++++++
+ .../renesas/rzv2h-ivc/rzv2h-ivc-subdev.c      | 376 ++++++++++
+ .../renesas/rzv2h-ivc/rzv2h-ivc-video.c       | 703 ++++++++++++++++++
+ .../platform/renesas/rzv2h-ivc/rzv2h-ivc.h    | 141 ++++
+ 10 files changed, 1586 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml
+ create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+ create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/Makefile
+ create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c
+ create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c
+ create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+ create mode 100644 drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
 
-> Hmmm... which of these changes affect the R-Car board? ;-)
+-- 
+2.34.1
 
-Right, in this series, none :)
-
-> Am I missing something?
-
-I tested another series on top of this series with Lager. After the
-EmbeddedRecipes break, I forgot that only the next series affects Lager.
-Sorry for the confusion!
-
-
---N7Vk71n9RCcoPa7f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgrRIIACgkQFA3kzBSg
-KbbgVRAAmUME4MmnnZpUQF8oA9Puxa4+zkHCjVgbOIgusPPh2aR5/c0/7PUXw2Bx
-ukaYwg8/xwbBBinpd9xhp1DmqZGsGGSJO5XLiNKrX6OBBaMNZpd4v5Ei9z8E4UJL
-UlVumquQLHo1ZDXbOfcDNkMfUrNnX7TtnZ0c30giIbm6nonKr8s+QYV0q7lC/DpI
-Oltxl6kw1P/dWfnL2NJz5TyspBwEIHcocL7D1PIIfvtZEgVQnHSZFrh6fQBpcX4F
-54FtZCi9DDbf0HZm9EfFzz3ZwRIZlzRW1Y9tgxl2qpX2Qp7jAM8wTVt10o4l4ETp
-M7tnC4Z1Kuu8H49QB/LjJg3QzJbwbxpEFXATgxtu6AzlkNx/IiNXWalPyfnSu77v
-ZOMT0GEooVmBZQsDZdOhW5MlPHkOZ2J5CSaGL/OvuFv5yU32ptbpaIbg2zrz8TCa
-k80QJ6g6yYIyWnYYWW3qOMlp3UFBecMKI9ySmCdrgJBFA/1dPeaj2oaS/QcTWMh9
-ZF2/zsYXssh8d3RBIUeNSXjkPtqa25SQkSadSMtBp1qnf7krcS0BaYwKcFFEmMAL
-oxBozBVc2c1cTc5A0ASRTNBObEw6GNwm117KzDjFvKaToLfpJjh6miCw7u9VDYV0
-SwabTA88Llt75S083kfsEK4rmvosJnLWTNuClppH+ziwVhboPa4=
-=DyAR
------END PGP SIGNATURE-----
-
---N7Vk71n9RCcoPa7f--
 
