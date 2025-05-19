@@ -1,107 +1,89 @@
-Return-Path: <linux-renesas-soc+bounces-17200-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17201-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D581DABBEB2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 15:10:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2D7ABBF43
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 15:34:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B7DB1B60D13
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 13:11:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 29EA23B9DB3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 May 2025 13:34:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FC7B279793;
-	Mon, 19 May 2025 13:10:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7D862798F1;
+	Mon, 19 May 2025 13:34:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0927B279787;
-	Mon, 19 May 2025 13:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 284C6198845;
+	Mon, 19 May 2025 13:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747660249; cv=none; b=jHzNnL1Zhdn3qfPjgzbGja678wz0nU++nPA0bcEHXoUOJft6D+2kTiiv6xCNF1nlrAz53lUljF8XMquo97GX2x8Dy/Czycsq42P8xjyADUlqNVeojrXIDpOu3ncf6XuP2fD4v66wTygBZfY2LY05nO/scdY4rLcCpmH/RkyY0Y8=
+	t=1747661671; cv=none; b=CYEeOkVGz8C8miek4KPPupiLtr1hfmWSEdRoOi9ABbOyE6xsFpPRYv62wwetz8iHlaCLENBrxo39oU2Em/l4Cw3B3w/v2AIJqHxmX2vj29ToG54ZU5TBAwaHOUlX7uTG8wM+bIqxX3ZeOnktScHWEyouIKo/PAR4MwO5b0AUkS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747660249; c=relaxed/simple;
-	bh=JJw+hlbauIF+Woszu8rX7v1wJgbD5TwAMaCcWAZytfQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ULitqdhBkFI+9YapWMBaei5H3Eu6NlRZ3rbg/tngX2ByNmsQww46Mqwo02YSURloUSXs3eyswq6LVV51O8hvp8w2eFKzk+sbqX0qd1o5T63N1uZH0hrtVbQWNRlNSVatv1npIMVR/uMdZaFf1281SLaCvzCvZ/iKNeu2WttQNe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-54b09cb06b0so5191020e87.1;
-        Mon, 19 May 2025 06:10:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747660243; x=1748265043;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JJw+hlbauIF+Woszu8rX7v1wJgbD5TwAMaCcWAZytfQ=;
-        b=nJcBWzdMS4k7L/ieMu7EhTk1DFfShG380NcwxwRqvCsCeVj+0oTC+yPyLGic1z5qaD
-         +KG9gH9rWvWKaz3/Y8pz95I5jcKlkCPSRRyt+P8TS0hyYhaIJfXYN3Xno4uaMJ6Eer+e
-         VXHcPJR5vk9+JVoOoC29EJVXn7ylVm30687EwnyXVfDEtYkEJX7tBqM7Y48/0HN8EWya
-         STdKHOgQ9nEHdav9gjsCW7QprQm33goumMESW0RLgfOFH1xYKTlhPWQVw3LF7ih3n1vp
-         9qsH9ML8In0lX7G+DX4Mc8KMadEDKfSb5Fhyzb8VPbd1tBNkT7hr89rSF4bcXJRS6gz0
-         /u4A==
-X-Forwarded-Encrypted: i=1; AJvYcCXVo70UOlD51evSL+VQ2mB2uIXWLMhoJt6OuzpvqXqZZkUy9vFw5cKWwyvtFTfMko4yCx7WUUDCrOfH@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQq8zE8eA1ahS4VW/R4keZZ2SwMI2r0GxIKdjukMlUVvXp2zNR
-	Y6LU4/UM0/qWTWz67kgtdVFD5L+12xD00ZMNh0XZHmgE+ywm8RW1+vY04PozRKDvIoA=
-X-Gm-Gg: ASbGncs1yJx66hCjIn7WWxSs1rxvW6HnMrAIDWdiyGttld3jELP+btgvoZ8wcvReLaU
-	p3iZkhuW1D99/YmffEjyaE/EBEwmL9K0UOJ+ja/MwrXPaeNaBC8xcSv+6hiUvp0uZC2IYE2COXH
-	LRx4Kq0ofGuB53ZGzvHuC7ejJk8nyYpF8t6ZTWudvGxbTifK7nKIxIeH0sth6dQ/624thQ1GGW+
-	+tkiZAzAa2jZxFiI8hN1Ylr3Pcpq1ee+glbX/a2Q9jpXSwuhBQTUgxmhSHF0cyzmBi3DijDwQWc
-	zz688Ci0wVozc5A5E6JMJ7r5UdXDcW2ktuVF6uLfDMe11n5g3THLY0tev6kAyjQf74+smp/hdyN
-	b4r3LaaO9
-X-Google-Smtp-Source: AGHT+IFLQt2IjpE3Zd3OQ5l/5C2BHsCp677Auap3XJgYfMzPLl4yV67Oh2fzPmdG1Q/tJXaUdIO9KA==
-X-Received: by 2002:a05:6512:4508:b0:550:d4f3:8487 with SMTP id 2adb3069b0e04-550e7222475mr4147551e87.43.1747660243126;
-        Mon, 19 May 2025 06:10:43 -0700 (PDT)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e7017f7dsm1853659e87.117.2025.05.19.06.10.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 May 2025 06:10:42 -0700 (PDT)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-32803984059so22050481fa.2;
-        Mon, 19 May 2025 06:10:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXCEUqLhhUL4Eb3228cGrFjyWAhoQ3IPo7IBEPAcZfLzdOg7oCznVBBtk2CDXWawtmhJMDPz7G0CtX0@vger.kernel.org
-X-Received: by 2002:a05:651c:421b:b0:30b:a20d:1c06 with SMTP id
- 38308e7fff4ca-328075fafd4mr32090081fa.0.1747660242500; Mon, 19 May 2025
- 06:10:42 -0700 (PDT)
+	s=arc-20240116; t=1747661671; c=relaxed/simple;
+	bh=n/9A2G/oHDSTF9Zj/vCc5RLl1lY8WVggwR4DunaeIvA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gFXWgN+0AJtMRVh/ur4iHNHhc584TG4FNhVcNIf0m8xI5+GSXMPDmTEcTzNfBJE8iP1HFPDB87uUwT//ZIinIjOj3wROanxpraTiEKaL7iTrLNaL7bAyR4fYws9g3vvH5Rvz1BTLlpl2A01/foy7BJnFhkeZ70zR0slK20NUtCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: mrwcX8wBS7uvk6TIOkQe1w==
+X-CSE-MsgGUID: W8IhL62/S1SCzO44BXBuZQ==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 19 May 2025 22:34:22 +0900
+Received: from rz-ub2404.betafive.net (unknown [10.226.93.44])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4CCE2427BD1A;
+	Mon, 19 May 2025 22:34:15 +0900 (JST)
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Paul Barker <paul.barker.ct@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Paul Barker <paul@pbarker.dev>,
+	netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] MAINTAINERS: Drop myself to reviewer for ravb driver
+Date: Mon, 19 May 2025 13:33:51 +0000
+Message-ID: <20250519133354.6564-1-paul.barker.ct@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250519121512.5657-1-wsa+renesas@sang-engineering.com> <20250519121512.5657-8-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20250519121512.5657-8-wsa+renesas@sang-engineering.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 19 May 2025 21:10:29 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65FnoVMaoHYWWsWCcPZe-khw0G=jkt4MotnJemf2xPN+A@mail.gmail.com>
-X-Gm-Features: AX0GCFsxXp0f6XTIbmnJnSjvW3P0HJFBLSxCw1t28jUvhSs6_4fuwFkzC0zig3Y
-Message-ID: <CAGb2v65FnoVMaoHYWWsWCcPZe-khw0G=jkt4MotnJemf2xPN+A@mail.gmail.com>
-Subject: Re: [PATCH 7/7] riscv: dts: allwinner: use proper node names for GPIO
- based I2C busses
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 19, 2025 at 8:15=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> There shall not be a '-' before the number.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Maintenance of the ravb driver will be handled by Niklas for now. I
+still intend to review patches, and will be using my own email address
+going forward.
 
-If you want the SoC maintainers to take it directly,
+Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 20e07e61a148..9d64b1fc5180 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20908,8 +20908,8 @@ F:	Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
+ F:	drivers/i2c/busses/i2c-emev2.c
+ 
+ RENESAS ETHERNET AVB DRIVER
+-M:	Paul Barker <paul.barker.ct@bp.renesas.com>
+ M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
++R:	Paul Barker <paul@pbarker.dev>
+ L:	netdev@vger.kernel.org
+ L:	linux-renesas-soc@vger.kernel.org
+ S:	Maintained
+-- 
+2.43.0
 
-Or I can take it after the upcoming merge window.
 
