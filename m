@@ -1,58 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-17243-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E9AABD2DF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 11:12:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0A3ABD2E2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 11:13:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30F0A1BA26B7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 09:12:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E99471BA28DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 09:13:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2B7A268C40;
-	Tue, 20 May 2025 09:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31FB62690E0;
+	Tue, 20 May 2025 09:12:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE457267B17;
-	Tue, 20 May 2025 09:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D2F268FD8;
+	Tue, 20 May 2025 09:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747732321; cv=none; b=OtRkfuc7I2r8mx2J023sIbAE5mSZ7eu9NiKY227s/pfmSOiVAkxP942T2u0Rw+75aIkx0tnXa+vzJk/nu6kSt4D5KhO9HQc2oy02CLjfUmXvPdzDHi+PrqsHak11Ez9o5dvoqWuFfNDv3eK/DeQ6+4Z6b8nxqSyGoYKsSi8UDoA=
+	t=1747732326; cv=none; b=U3XL2Y89pxczD4ZQ7xssy5JQQLT0oulLqZ0bIaSnTTZLr0zU1aWSLmE1bQjkLKwUsasrR7bis3YtBlM32T4Wcr/T2tv8DZJvo5tNR8Cq5a6XkPT+16v7ynj8yCTYhCY7DA6FD0tQbUqAf2iddr4SboL54zph4f97HS95vXws/Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747732321; c=relaxed/simple;
-	bh=bvEZ+RMEmYUM4p3XkK+zDRWrOS4o0mF8yQ0wVAsjxk4=;
+	s=arc-20240116; t=1747732326; c=relaxed/simple;
+	bh=vEg+O6ZQd8hBE/TqErQPF/ddUkaKC8kZak8okYcYbvQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HLV4nx3/srkUMuV1mDDQZCOs84RvGtnyUEshaSabYb2ssP9X1RUofXhp6EDWWTcYRhkABzD9ce2pbqrrQR4siJxzU3AP8gz3Oe+oQdKYLdmPhRIuCarYBxjzZAaDoKt14PQ92mKvIJ8SMHsG/1GHaMZ94T6laBSUSIfRJ33bAs0=
+	 MIME-Version; b=Zjpc8cC7HlngwVgp1B3K48JuKBItex9AUkGZ4HOUBiauKTduJgoMZ/MZzNGDQiP7REz81j2NmMPm/9oCmnnn+tKEVqx01PffNTYpuVtkFVSa3kb+DbRfe1T0X4TpJMRqKi503TE2PZUoSB1spFkU34SfDEYUL0nMuPglD3hbgAw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 7a4c6412355a11f0b29709d653e92f7d-20250520
+X-UUID: 7c2d313a355a11f0b29709d653e92f7d-20250520
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:8745d1f4-da4d-4ceb-bfc3-3a09a4665725,IP:0,U
+X-CID-O-INFO: VERSION:1.1.45,REQID:0634e2b0-6be5-42ee-abbe-7876ece723fb,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:c2908c26c1e01d52e48c54d251f30c6f,BulkI
+X-CID-META: VersionHash:6493067,CLOUDID:11e3fd52d48d5c05f7356116c988d80b,BulkI
 	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3,IP:
 	nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
 	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 7a4c6412355a11f0b29709d653e92f7d-20250520
+X-UUID: 7c2d313a355a11f0b29709d653e92f7d-20250520
 Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
 	(envelope-from <aichao@kylinos.cn>)
 	(Generic MTA)
-	with ESMTP id 1520759550; Tue, 20 May 2025 17:11:56 +0800
+	with ESMTP id 1957821300; Tue, 20 May 2025 17:11:59 +0800
 Received: from node4.com.cn (localhost [127.0.0.1])
-	by node4.com.cn (NSMail) with SMTP id 0994A16003840;
-	Tue, 20 May 2025 17:11:56 +0800 (CST)
-X-ns-mid: postfix-682C475B-7025291688
+	by node4.com.cn (NSMail) with SMTP id 41D4F16003840;
+	Tue, 20 May 2025 17:11:59 +0800 (CST)
+X-ns-mid: postfix-682C475F-939691689
 Received: from kylin-pc.. (unknown [172.25.130.133])
-	by node4.com.cn (NSMail) with ESMTPA id 2E98C16001CC7;
-	Tue, 20 May 2025 09:11:53 +0000 (UTC)
+	by node4.com.cn (NSMail) with ESMTPA id 8659916001CC7;
+	Tue, 20 May 2025 09:11:56 +0000 (UTC)
 From: Ai Chao <aichao@kylinos.cn>
 To: johannes@sipsolutions.net,
 	perex@perex.cz,
@@ -86,9 +86,9 @@ Cc: linuxppc-dev@lists.ozlabs.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Ai Chao <aichao@kylinos.cn>
-Subject: [PATCH 3/6] ASoC: renesas: Use helper function for_each_child_of_node_scoped()
-Date: Tue, 20 May 2025 17:11:28 +0800
-Message-ID: <20250520091131.4150248-4-aichao@kylinos.cn>
+Subject: [PATCH 4/6] ASoC: meson: Use helper function for_each_child_of_node_scoped()
+Date: Tue, 20 May 2025 17:11:29 +0800
+Message-ID: <20250520091131.4150248-5-aichao@kylinos.cn>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250520091131.4150248-1-aichao@kylinos.cn>
 References: <20250520091131.4150248-1-aichao@kylinos.cn>
@@ -108,468 +108,87 @@ Thus, use this helper to simplify the code.
 
 Signed-off-by: Ai Chao <aichao@kylinos.cn>
 ---
- sound/soc/renesas/rcar/core.c | 39 ++++++++++++-----------------------
- sound/soc/renesas/rcar/ctu.c  |  8 ++-----
- sound/soc/renesas/rcar/dma.c  |  4 +---
- sound/soc/renesas/rcar/dvc.c  |  8 ++-----
- sound/soc/renesas/rcar/mix.c  |  8 ++-----
- sound/soc/renesas/rcar/src.c  | 10 ++-------
- sound/soc/renesas/rcar/ssi.c  | 18 +++++-----------
- sound/soc/renesas/rcar/ssiu.c |  7 ++-----
- 8 files changed, 29 insertions(+), 73 deletions(-)
+ sound/soc/meson/axg-card.c         |  3 +--
+ sound/soc/meson/meson-card-utils.c | 14 ++++----------
+ 2 files changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/sound/soc/renesas/rcar/core.c b/sound/soc/renesas/rcar/core.=
-c
-index 30afc942d381..91f84495e7b2 100644
---- a/sound/soc/renesas/rcar/core.c
-+++ b/sound/soc/renesas/rcar/core.c
-@@ -1075,7 +1075,6 @@ static void rsnd_parse_tdm_split_mode(struct rsnd_p=
-riv *priv,
+diff --git a/sound/soc/meson/axg-card.c b/sound/soc/meson/axg-card.c
+index a2dfccb7990f..b4dca80e15e4 100644
+--- a/sound/soc/meson/axg-card.c
++++ b/sound/soc/meson/axg-card.c
+@@ -222,7 +222,6 @@ static int axg_card_parse_codecs_masks(struct snd_soc=
+_card *card,
+ 				       struct axg_dai_link_tdm_data *be)
  {
- 	struct device *dev =3D rsnd_priv_to_dev(priv);
- 	struct device_node *ssiu_np =3D rsnd_ssiu_of_node(priv);
+ 	struct axg_dai_link_tdm_mask *codec_mask;
 -	struct device_node *np;
- 	int is_play =3D rsnd_io_is_play(io);
- 	int i;
 =20
-@@ -1094,7 +1093,7 @@ static void rsnd_parse_tdm_split_mode(struct rsnd_p=
-riv *priv,
- 		if (!node)
- 			break;
+ 	codec_mask =3D devm_kcalloc(card->dev, link->num_codecs,
+ 				  sizeof(*codec_mask), GFP_KERNEL);
+@@ -231,7 +230,7 @@ static int axg_card_parse_codecs_masks(struct snd_soc=
+_card *card,
 =20
--		for_each_child_of_node(ssiu_np, np) {
-+		for_each_child_of_node_scoped(ssiu_np, np) {
- 			if (np =3D=3D node) {
- 				rsnd_flags_set(io, RSND_STREAM_TDM_SPLIT);
- 				dev_dbg(dev, "%s is part of TDM Split\n", io->name);
-@@ -1154,21 +1153,18 @@ void rsnd_parse_connect_common(struct rsnd_dai *r=
-dai, char *name,
- {
- 	struct rsnd_priv *priv =3D rsnd_rdai_to_priv(rdai);
- 	struct device *dev =3D rsnd_priv_to_dev(priv);
--	struct device_node *np;
- 	int i;
+ 	be->codec_masks =3D codec_mask;
 =20
- 	if (!node)
- 		return;
-=20
- 	i =3D 0;
 -	for_each_child_of_node(node, np) {
 +	for_each_child_of_node_scoped(node, np) {
- 		struct rsnd_mod *mod;
-=20
- 		i =3D rsnd_node_fixed_index(dev, np, name, i);
--		if (i < 0) {
--			of_node_put(np);
-+		if (i < 0)
- 			break;
--		}
-=20
- 		mod =3D mod_get(priv, i);
-=20
-@@ -1217,16 +1213,13 @@ int rsnd_node_fixed_index(struct device *dev, str=
-uct device_node *node, char *na
- int rsnd_node_count(struct rsnd_priv *priv, struct device_node *node, ch=
-ar *name)
+ 		snd_soc_of_get_slot_mask(np, "dai-tdm-slot-rx-mask",
+ 					 &codec_mask->rx);
+ 		snd_soc_of_get_slot_mask(np, "dai-tdm-slot-tx-mask",
+diff --git a/sound/soc/meson/meson-card-utils.c b/sound/soc/meson/meson-c=
+ard-utils.c
+index cfc7f6e41ab5..cf08c8dedd91 100644
+--- a/sound/soc/meson/meson-card-utils.c
++++ b/sound/soc/meson/meson-card-utils.c
+@@ -137,7 +137,6 @@ int meson_card_set_be_link(struct snd_soc_card *card,
+ 			   struct device_node *node)
  {
- 	struct device *dev =3D rsnd_priv_to_dev(priv);
+ 	struct snd_soc_dai_link_component *codec;
 -	struct device_node *np;
- 	int i;
+ 	int ret, num_codecs;
 =20
- 	i =3D 0;
+ 	num_codecs =3D of_get_child_count(node);
+@@ -154,12 +153,10 @@ int meson_card_set_be_link(struct snd_soc_card *car=
+d,
+ 	link->codecs =3D codec;
+ 	link->num_codecs =3D num_codecs;
+=20
 -	for_each_child_of_node(node, np) {
 +	for_each_child_of_node_scoped(node, np) {
- 		i =3D rsnd_node_fixed_index(dev, np, name, i);
--		if (i < 0) {
--			of_node_put(np);
-+		if (i < 0)
- 			return 0;
--		}
- 		i++;
- 	}
-=20
-@@ -1250,7 +1243,7 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv,=
- int *is_graph)
- {
- 	struct device *dev =3D rsnd_priv_to_dev(priv);
- 	struct device_node *np =3D dev->of_node;
--	struct device_node *ports, *node;
-+	struct device_node *node;
- 	int nr =3D 0;
- 	int i =3D 0;
-=20
-@@ -1270,16 +1263,15 @@ static int rsnd_dai_of_node(struct rsnd_priv *pri=
-v, int *is_graph)
-=20
- 	of_node_put(node);
-=20
--	for_each_child_of_node(np, node) {
--		if (!of_node_name_eq(node, RSND_NODE_DAI))
-+	for_each_child_of_node_scoped(np, ports) {
-+		if (!of_node_name_eq(ports, RSND_NODE_DAI))
- 			continue;
-=20
--		priv->component_dais[i] =3D of_get_child_count(node);
-+		priv->component_dais[i] =3D of_get_child_count(ports);
- 		nr +=3D priv->component_dais[i];
- 		i++;
- 		if (i >=3D RSND_MAX_COMPONENT) {
- 			dev_info(dev, "reach to max component\n");
--			of_node_put(node);
- 			break;
- 		}
- 	}
-@@ -1290,7 +1282,7 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv,=
- int *is_graph)
- 	/*
- 	 * Audio-Graph-Card
- 	 */
--	for_each_child_of_node(np, ports) {
-+	for_each_child_of_node_scoped(np, ports) {
- 		node =3D rsnd_pick_endpoint_node_for_ports(ports, np);
- 		if (!node)
- 			continue;
-@@ -1299,7 +1291,6 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv,=
- int *is_graph)
- 		i++;
- 		if (i >=3D RSND_MAX_COMPONENT) {
- 			dev_info(dev, "reach to max component\n");
--			of_node_put(ports);
- 			break;
- 		}
- 	}
-@@ -1500,10 +1491,9 @@ static int rsnd_dai_probe(struct rsnd_priv *priv)
- 	dai_i =3D 0;
- 	if (is_graph) {
- 		struct device_node *dai_np_port;
--		struct device_node *ports;
- 		struct device_node *dai_np;
-=20
--		for_each_child_of_node(np, ports) {
-+		for_each_child_of_node_scoped(np, ports) {
- 			dai_np_port =3D rsnd_pick_endpoint_node_for_ports(ports, np);
- 			if (!dai_np_port)
- 				continue;
-@@ -1520,14 +1510,11 @@ static int rsnd_dai_probe(struct rsnd_priv *priv)
- 			}
- 		}
- 	} else {
--		struct device_node *node;
--		struct device_node *dai_np;
--
--		for_each_child_of_node(np, node) {
-+		for_each_child_of_node_scoped(np, node) {
- 			if (!of_node_name_eq(node, RSND_NODE_DAI))
- 				continue;
-=20
--			for_each_child_of_node(node, dai_np) {
-+			for_each_child_of_node_scoped(node, dai_np) {
- 				__rsnd_dai_probe(priv, dai_np, np, dai_i, dai_i);
- 				if (!rsnd_is_gen1(priv) && !rsnd_is_gen2(priv)) {
- 					rdai =3D rsnd_rdai_get(priv, dai_i);
-diff --git a/sound/soc/renesas/rcar/ctu.c b/sound/soc/renesas/rcar/ctu.c
-index a26ec7b780cd..bd4c61f9fb3c 100644
---- a/sound/soc/renesas/rcar/ctu.c
-+++ b/sound/soc/renesas/rcar/ctu.c
-@@ -316,7 +316,6 @@ struct rsnd_mod *rsnd_ctu_mod_get(struct rsnd_priv *p=
-riv, int id)
- int rsnd_ctu_probe(struct rsnd_priv *priv)
- {
- 	struct device_node *node;
--	struct device_node *np;
- 	struct device *dev =3D rsnd_priv_to_dev(priv);
- 	struct rsnd_ctu *ctu;
- 	struct clk *clk;
-@@ -344,7 +343,7 @@ int rsnd_ctu_probe(struct rsnd_priv *priv)
-=20
- 	i =3D 0;
- 	ret =3D 0;
--	for_each_child_of_node(node, np) {
-+	for_each_child_of_node_scoped(node, np) {
- 		ctu =3D rsnd_ctu_get(priv, i);
-=20
- 		/*
-@@ -357,16 +356,13 @@ int rsnd_ctu_probe(struct rsnd_priv *priv)
- 		clk =3D devm_clk_get(dev, name);
- 		if (IS_ERR(clk)) {
- 			ret =3D PTR_ERR(clk);
--			of_node_put(np);
- 			goto rsnd_ctu_probe_done;
- 		}
-=20
- 		ret =3D rsnd_mod_init(priv, rsnd_mod_get(ctu), &rsnd_ctu_ops,
- 				    clk, RSND_MOD_CTU, i);
+ 		ret =3D meson_card_parse_dai(card, np, codec);
 -		if (ret) {
 -			of_node_put(np);
 +		if (ret)
- 			goto rsnd_ctu_probe_done;
+ 			return ret;
+-		}
+=20
+ 		codec++;
+ 	}
+@@ -198,7 +195,6 @@ static int meson_card_add_links(struct snd_soc_card *=
+card)
+ {
+ 	struct meson_card *priv =3D snd_soc_card_get_drvdata(card);
+ 	struct device_node *node =3D card->dev->of_node;
+-	struct device_node *np;
+ 	int num, i, ret;
+=20
+ 	num =3D of_get_child_count(node);
+@@ -212,12 +208,10 @@ static int meson_card_add_links(struct snd_soc_card=
+ *card)
+ 		return ret;
+=20
+ 	i =3D 0;
+-	for_each_child_of_node(node, np) {
++	for_each_child_of_node_scoped(node, np) {
+ 		ret =3D priv->match_data->add_link(card, np, &i);
+-		if (ret) {
+-			of_node_put(np);
++		if (ret)
+ 			return ret;
 -		}
 =20
  		i++;
  	}
-diff --git a/sound/soc/renesas/rcar/dma.c b/sound/soc/renesas/rcar/dma.c
-index 2342bbb6fe92..2035ce06fe4c 100644
---- a/sound/soc/renesas/rcar/dma.c
-+++ b/sound/soc/renesas/rcar/dma.c
-@@ -194,14 +194,12 @@ struct dma_chan *rsnd_dma_request_channel(struct de=
-vice_node *of_node, char *nam
- 	struct rsnd_priv *priv =3D rsnd_mod_to_priv(mod);
- 	struct device *dev =3D rsnd_priv_to_dev(priv);
- 	struct dma_chan *chan =3D NULL;
--	struct device_node *np;
- 	int i =3D 0;
-=20
--	for_each_child_of_node(of_node, np) {
-+	for_each_child_of_node_scoped(of_node, np) {
- 		i =3D rsnd_node_fixed_index(dev, np, name, i);
- 		if (i < 0) {
- 			chan =3D NULL;
--			of_node_put(np);
- 			break;
- 		}
-=20
-diff --git a/sound/soc/renesas/rcar/dvc.c b/sound/soc/renesas/rcar/dvc.c
-index da91dd301aab..988cbddbc611 100644
---- a/sound/soc/renesas/rcar/dvc.c
-+++ b/sound/soc/renesas/rcar/dvc.c
-@@ -324,7 +324,6 @@ struct rsnd_mod *rsnd_dvc_mod_get(struct rsnd_priv *p=
-riv, int id)
- int rsnd_dvc_probe(struct rsnd_priv *priv)
- {
- 	struct device_node *node;
--	struct device_node *np;
- 	struct device *dev =3D rsnd_priv_to_dev(priv);
- 	struct rsnd_dvc *dvc;
- 	struct clk *clk;
-@@ -352,7 +351,7 @@ int rsnd_dvc_probe(struct rsnd_priv *priv)
-=20
- 	i =3D 0;
- 	ret =3D 0;
--	for_each_child_of_node(node, np) {
-+	for_each_child_of_node_scoped(node, np) {
- 		dvc =3D rsnd_dvc_get(priv, i);
-=20
- 		snprintf(name, RSND_DVC_NAME_SIZE, "%s.%d",
-@@ -361,16 +360,13 @@ int rsnd_dvc_probe(struct rsnd_priv *priv)
- 		clk =3D devm_clk_get(dev, name);
- 		if (IS_ERR(clk)) {
- 			ret =3D PTR_ERR(clk);
--			of_node_put(np);
- 			goto rsnd_dvc_probe_done;
- 		}
-=20
- 		ret =3D rsnd_mod_init(priv, rsnd_mod_get(dvc), &rsnd_dvc_ops,
- 				    clk, RSND_MOD_DVC, i);
--		if (ret) {
--			of_node_put(np);
-+		if (ret)
- 			goto rsnd_dvc_probe_done;
--		}
-=20
- 		i++;
- 	}
-diff --git a/sound/soc/renesas/rcar/mix.c b/sound/soc/renesas/rcar/mix.c
-index 024d91cc8748..aea74e703305 100644
---- a/sound/soc/renesas/rcar/mix.c
-+++ b/sound/soc/renesas/rcar/mix.c
-@@ -288,7 +288,6 @@ struct rsnd_mod *rsnd_mix_mod_get(struct rsnd_priv *p=
-riv, int id)
- int rsnd_mix_probe(struct rsnd_priv *priv)
- {
- 	struct device_node *node;
--	struct device_node *np;
- 	struct device *dev =3D rsnd_priv_to_dev(priv);
- 	struct rsnd_mix *mix;
- 	struct clk *clk;
-@@ -316,7 +315,7 @@ int rsnd_mix_probe(struct rsnd_priv *priv)
-=20
- 	i =3D 0;
- 	ret =3D 0;
--	for_each_child_of_node(node, np) {
-+	for_each_child_of_node_scoped(node, np) {
- 		mix =3D rsnd_mix_get(priv, i);
-=20
- 		snprintf(name, MIX_NAME_SIZE, "%s.%d",
-@@ -325,16 +324,13 @@ int rsnd_mix_probe(struct rsnd_priv *priv)
- 		clk =3D devm_clk_get(dev, name);
- 		if (IS_ERR(clk)) {
- 			ret =3D PTR_ERR(clk);
--			of_node_put(np);
- 			goto rsnd_mix_probe_done;
- 		}
-=20
- 		ret =3D rsnd_mod_init(priv, rsnd_mod_get(mix), &rsnd_mix_ops,
- 				    clk, RSND_MOD_MIX, i);
--		if (ret) {
--			of_node_put(np);
-+		if (ret)
- 			goto rsnd_mix_probe_done;
--		}
-=20
- 		i++;
- 	}
-diff --git a/sound/soc/renesas/rcar/src.c b/sound/soc/renesas/rcar/src.c
-index 7d73b183bda6..f47bf38c2f94 100644
---- a/sound/soc/renesas/rcar/src.c
-+++ b/sound/soc/renesas/rcar/src.c
-@@ -715,7 +715,6 @@ struct rsnd_mod *rsnd_src_mod_get(struct rsnd_priv *p=
-riv, int id)
- int rsnd_src_probe(struct rsnd_priv *priv)
- {
- 	struct device_node *node;
--	struct device_node *np;
- 	struct device *dev =3D rsnd_priv_to_dev(priv);
- 	struct rsnd_src *src;
- 	struct clk *clk;
-@@ -742,14 +741,13 @@ int rsnd_src_probe(struct rsnd_priv *priv)
- 	priv->src	=3D src;
-=20
- 	i =3D 0;
--	for_each_child_of_node(node, np) {
-+	for_each_child_of_node_scoped(node, np) {
- 		if (!of_device_is_available(np))
- 			goto skip;
-=20
- 		i =3D rsnd_node_fixed_index(dev, np, SRC_NAME, i);
- 		if (i < 0) {
- 			ret =3D -EINVAL;
--			of_node_put(np);
- 			goto rsnd_src_probe_done;
- 		}
-=20
-@@ -761,23 +759,19 @@ int rsnd_src_probe(struct rsnd_priv *priv)
- 		src->irq =3D irq_of_parse_and_map(np, 0);
- 		if (!src->irq) {
- 			ret =3D -EINVAL;
--			of_node_put(np);
- 			goto rsnd_src_probe_done;
- 		}
-=20
- 		clk =3D devm_clk_get(dev, name);
- 		if (IS_ERR(clk)) {
- 			ret =3D PTR_ERR(clk);
--			of_node_put(np);
- 			goto rsnd_src_probe_done;
- 		}
-=20
- 		ret =3D rsnd_mod_init(priv, rsnd_mod_get(src),
- 				    &rsnd_src_ops, clk, RSND_MOD_SRC, i);
--		if (ret) {
--			of_node_put(np);
-+		if (ret)
- 			goto rsnd_src_probe_done;
--		}
-=20
- skip:
- 		i++;
-diff --git a/sound/soc/renesas/rcar/ssi.c b/sound/soc/renesas/rcar/ssi.c
-index 0c6424a1fcac..d52056caa3ec 100644
---- a/sound/soc/renesas/rcar/ssi.c
-+++ b/sound/soc/renesas/rcar/ssi.c
-@@ -1115,7 +1115,6 @@ void rsnd_parse_connect_ssi(struct rsnd_dai *rdai,
- 	struct rsnd_priv *priv =3D rsnd_rdai_to_priv(rdai);
- 	struct device *dev =3D rsnd_priv_to_dev(priv);
- 	struct device_node *node;
--	struct device_node *np;
- 	int i;
-=20
- 	node =3D rsnd_ssi_of_node(priv);
-@@ -1123,14 +1122,12 @@ void rsnd_parse_connect_ssi(struct rsnd_dai *rdai=
-,
- 		return;
-=20
- 	i =3D 0;
--	for_each_child_of_node(node, np) {
-+	for_each_child_of_node_scoped(node, np) {
- 		struct rsnd_mod *mod;
-=20
- 		i =3D rsnd_node_fixed_index(dev, np, SSI_NAME, i);
--		if (i < 0) {
--			of_node_put(np);
-+		if (i < 0)
- 			break;
--		}
-=20
- 		mod =3D rsnd_ssi_mod_get(priv, i);
-=20
-@@ -1163,7 +1160,6 @@ int __rsnd_ssi_is_pin_sharing(struct rsnd_mod *mod)
- int rsnd_ssi_probe(struct rsnd_priv *priv)
- {
- 	struct device_node *node;
--	struct device_node *np;
- 	struct device *dev =3D rsnd_priv_to_dev(priv);
- 	struct rsnd_mod_ops *ops;
- 	struct clk *clk;
-@@ -1191,14 +1187,13 @@ int rsnd_ssi_probe(struct rsnd_priv *priv)
- 	priv->ssi_nr	=3D nr;
-=20
- 	i =3D 0;
--	for_each_child_of_node(node, np) {
-+	for_each_child_of_node_scoped(node, np) {
- 		if (!of_device_is_available(np))
- 			goto skip;
-=20
- 		i =3D rsnd_node_fixed_index(dev, np, SSI_NAME, i);
- 		if (i < 0) {
- 			ret =3D -EINVAL;
--			of_node_put(np);
- 			goto rsnd_ssi_probe_done;
- 		}
-=20
-@@ -1210,7 +1205,6 @@ int rsnd_ssi_probe(struct rsnd_priv *priv)
- 		clk =3D devm_clk_get(dev, name);
- 		if (IS_ERR(clk)) {
- 			ret =3D PTR_ERR(clk);
--			of_node_put(np);
- 			goto rsnd_ssi_probe_done;
- 		}
-=20
-@@ -1223,7 +1217,6 @@ int rsnd_ssi_probe(struct rsnd_priv *priv)
- 		ssi->irq =3D irq_of_parse_and_map(np, 0);
- 		if (!ssi->irq) {
- 			ret =3D -EINVAL;
--			of_node_put(np);
- 			goto rsnd_ssi_probe_done;
- 		}
-=20
-@@ -1234,10 +1227,9 @@ int rsnd_ssi_probe(struct rsnd_priv *priv)
-=20
- 		ret =3D rsnd_mod_init(priv, rsnd_mod_get(ssi), ops, clk,
- 				    RSND_MOD_SSI, i);
--		if (ret) {
--			of_node_put(np);
-+		if (ret)
- 			goto rsnd_ssi_probe_done;
--		}
-+
- skip:
- 		i++;
- 	}
-diff --git a/sound/soc/renesas/rcar/ssiu.c b/sound/soc/renesas/rcar/ssiu.=
-c
-index 665e8b2db579..faf351126d57 100644
---- a/sound/soc/renesas/rcar/ssiu.c
-+++ b/sound/soc/renesas/rcar/ssiu.c
-@@ -478,17 +478,14 @@ void rsnd_parse_connect_ssiu(struct rsnd_dai *rdai,
-=20
- 	/* use rcar_sound,ssiu if exist */
- 	if (node) {
--		struct device_node *np;
- 		int i =3D 0;
-=20
--		for_each_child_of_node(node, np) {
-+		for_each_child_of_node_scoped(node, np) {
- 			struct rsnd_mod *mod;
-=20
- 			i =3D rsnd_node_fixed_index(dev, np, SSIU_NAME, i);
--			if (i < 0) {
--				of_node_put(np);
-+			if (i < 0)
- 				break;
--			}
-=20
- 			mod =3D rsnd_ssiu_mod_get(priv, i);
-=20
 --=20
 2.47.1
 
