@@ -1,217 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-17252-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17253-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC54AABD80E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 14:16:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A4CABD9AA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 15:39:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 689A44C3FE9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 12:10:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BC9B3B3CCB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 13:38:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F203E27FB30;
-	Tue, 20 May 2025 12:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IOM/kXfm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30D4719E97B;
+	Tue, 20 May 2025 13:38:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30AD27BF83
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 May 2025 12:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5149E24290C
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 May 2025 13:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747743015; cv=none; b=F5w9bz1rde1YPxNVOyzxAKS+MAxb1jNvuMNgem+2Y3pN+Xvv0VnngZDuQlpEuxskcBucFDVeIf30fmsuvV3oL57Q4oAC7F6Mc3tWwYOQfYeHF1axplzI6dUAKup7iw9ggpNpceR0f6sGt2vPluh0YxeQJhsxn4OmZ71DfBr8Mng=
+	t=1747748294; cv=none; b=PHN8PS/wTOiAzMZT4sAgl1aKqBkzu9V+xylGaPxfHSXdUnblnJTo4ZOfKM64zB50Fi3e/t7PYzbOtE6FYQwYRqLpEvypy6FS9ktq29+y1u/Q6h7Uvd5kNYHh0zMnSPDonHgnhpAAfXZhzQNYXNlrNwme8TytHHUBoVuY+DdW3Y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747743015; c=relaxed/simple;
-	bh=GJ0JNMLAovWgxgEBZ25jZXWcgEMBvp/li8Jc0RcIHmo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BOAAgckq/uMjsipBqPq+tfTlmnmF45SL9ukkJ0NxFzi70iuqy+zLaBD3ZNjFDDQ3mkJ3PIAzSHFEUabq+zP59jRnatqL0RfiKPQ4LSniswmhNh6KbWClcjqeN8dVDf7k1MMKjwTEy29swYSUh1DHvgpVCDtMbNl5OZ4hkGj8lbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IOM/kXfm; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e7b97c6159aso2111801276.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 May 2025 05:10:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747743013; x=1748347813; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GJ0JNMLAovWgxgEBZ25jZXWcgEMBvp/li8Jc0RcIHmo=;
-        b=IOM/kXfmW4pkn61r9H8loQfT2CbPDiAAD/ujHC3zQ7OdBoj4iptjgvsqvHiR2/7YEg
-         x8PWrA2R8Jt9zezDCB55191cZ5fjajr89DfvAtPInXFc78rkbJSjQdJ8I+5ONwvzIFrT
-         VCph7SVpRHxxYNFY886U2MQXA+EFet+5VWYxsaZSfIK3KjCoftRf1KOYztMGP46V1ilS
-         KeMUXg6btkhZ3vslCloTY/JlwFEu3606tVNA1f8Klq+9zGb926sdyZDlJoOkyz3OjLH2
-         AnK+NNN/7L62PtCHgK2cZmb5QXxa4baIAdBdvTGRUaNA9h5uSqhqdoAfAYJhI87JHO6u
-         O0BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747743013; x=1748347813;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GJ0JNMLAovWgxgEBZ25jZXWcgEMBvp/li8Jc0RcIHmo=;
-        b=MCxkPKduYencf+Yqx906aRyUTMvc0zERE69FBZ1Ywzz60/2j0Np0Gvp8YOTvVfIZOg
-         fuZboma4fv81E36L72z6s6dat4cM8ni4+BOZ8YM4HLDrHtIoQNDuzMSXRV7SVE4md29T
-         PPxs32+nUnJd4OfuuvumDYJrzqrZkktNb8Qha4Bl/9h/ZQ5+LzGwQ6IDxy1FqbsicsDU
-         Lwxrln1YQVzYCgrUaHYZzLYM7pS5Q78Db/yn256vszEqTWef+fVL5TxxlG7GlawaUMKH
-         1WokP6aIfeUyb0GuEXZLrtiBkbB2EP2PPCRPBbf7OPYTC8ueSh4JVj2X6ZiIqOPBiDz/
-         ptNg==
-X-Forwarded-Encrypted: i=1; AJvYcCUv+ymgo+YhnRKvPJJ9v66vgSNbc/TwDwYoipsLvKvIQVA16V4BC0dizaGO/oBnXC3kYvK7mwQoevqGrFUgg5t96Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGhLLrfaGB1halrIqgoHHuWqUvGe3y2QNZsW9J/qMUamKDtvcw
-	105eZ2IYOFnzDuTlotRiVo/GUprYJbHj7+dep3PMrtZEM3xXpVa1w7W8jBnJtSIc4mKC4eEg/W6
-	OPDIN0jTnAfRNRFooGoPEl8FD3eklsv6vNt8chrzeXg==
-X-Gm-Gg: ASbGnctJJpg/gsj0DHx0vF20dRcCs5+JbAEleK4wmZrTonft8b6WUJgAEbG5CWLpPqR
-	gt5HmJ/BjuuilAn5SfetC5HuJ2u2bOHn8LPUO27TswSN1wyUwvisnexf7hKLY4whygJ2/YQT8xg
-	Y+6mS0yT4o/oPd8M6/nCVGfAEF69QZ9w07Pg==
-X-Google-Smtp-Source: AGHT+IEb2zwt9aalfZhKo4S79q1t9OvpKzt7oCToAtr/TuLcXSK8xWk48UxIJViQ+sFnBt6vJsguUpP0RMjJ0GKqQgA=
-X-Received: by 2002:a05:6902:c02:b0:e7a:3d4f:6355 with SMTP id
- 3f1490d57ef6-e7b4f87732emr26855350276.19.1747743012777; Tue, 20 May 2025
- 05:10:12 -0700 (PDT)
+	s=arc-20240116; t=1747748294; c=relaxed/simple;
+	bh=5ky1j7yFLp2WX7id/OkUqTMwDTsJDVmCM9311NeW2P0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=fNGMly1H/M3myejgl+0WIQ6FPG7wAW4qiZqaA59VTcpK5Sxz+xirI2vufF0KGV+5KiK1yngFnwvPCfYrIL7gUhhpKEmH5onmJ1Ji6QrkfiZuK/gLfOjsKJT7xLRBjIgxa88pJLjZjuNRg8Ug0k5DEXUXQsSCIg37vHfSaDfv8k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:2bba:d77b:9240:3c4e])
+	by andre.telenet-ops.be with cmsmtp
+	id rRe22E00b4GqtyW01Re2Qf; Tue, 20 May 2025 15:38:02 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1uHNAD-00000002aIW-3E53
+	for linux-renesas-soc@vger.kernel.org;
+	Tue, 20 May 2025 15:38:02 +0200
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1uHNAQ-00000002MtR-12YV
+	for linux-renesas-soc@vger.kernel.org;
+	Tue, 20 May 2025 15:38:02 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2025-05-20-v6.15-rc7
+Date: Tue, 20 May 2025 15:38:02 +0200
+Message-ID: <20250520133802.564650-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <8d83ea72-bb81-4c63-bf69-28cf5848ae20@tuxon.dev>
- <20250305140309.744866b2@jic23-huawei> <Z8k8lDxA53gUJa0n@google.com>
- <f74085be-7b14-4551-a0a7-779318a5dc70@tuxon.dev> <20250330163129.02f24afb@jic23-huawei>
- <5bca6dfd-fe03-4c44-acf4-a51673124338@tuxon.dev> <95f5923f-7a8f-4947-b588-419525930bcb@tuxon.dev>
- <CAPDyKFoMqmCFBoO8FwQe2wHh2kqQi4jUZNFyiNckK7QhGVgmvg@mail.gmail.com>
- <c3a2950a-17ff-444a-bee7-af5e7e10e2bf@tuxon.dev> <CAPDyKFozR4qDq4mzcZBK-LcoPf=fGyuJTXwdt=Ey+_DcQOAp0g@mail.gmail.com>
- <4o3wo76st7w6qwyye3rrayuo2qx773i6jfzcnbkhdj76ouh7ds@3e2mblehkgwf>
-In-Reply-To: <4o3wo76st7w6qwyye3rrayuo2qx773i6jfzcnbkhdj76ouh7ds@3e2mblehkgwf>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 20 May 2025 14:09:36 +0200
-X-Gm-Features: AX0GCFtcVErlvFZx1FIEgTgFELOf8mwizDWzHsBg11TTKOgl1oY6699W9dYY-yo
-Message-ID: <CAPDyKFqMB7XutXba73YHx1X4rm6uc3Fz6yMZ8yM=wgduEmgUDg@mail.gmail.com>
-Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
- probe resources
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jonathan Cameron <jic23@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, dakr@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org, bhelgaas@google.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-[...]
+I have pushed renesas-drivers-2025-05-20-v6.15-rc7 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-> > > >>>>>
-> > > >>>>
-> > > >>>> Rafael,
-> > > >>>>
-> > > >>>> Greg suggested we ask for your input on the right option:
-> > > >>>>
-> > > >>>> https://lore.kernel.org/all/2025032703-genre-excitable-9473@gregkh/
-> > > >>>> (that thread has the other option).
-> > > >>>
-> > > >>> Can you please let us know your opinion on this?
-> > > >> Can you please let us know if you have any suggestions for this?
-> > > >
-> > > > It's been a while since I looked at this. Although as I understand it,
-> > > > the main issue comes from using devm_pm_runtime_enable().
-> > >
-> > > Yes, it comes from the usage of devm_pm_runtime_enable() in drivers and the
-> > > dev_pm_domain_detach() call in platform_remove() right after calling
-> > > driver's remove function.
-> >
-> > Okay.
->
-> This is not the root of the problem though. There is nothing really
-> special about power domain and runtime power management. The root of the
-> problem is that current code violates the order of releasing resources
-> by mixing devm- and normal resource management together. Usually it is
-> individual driver's fault, but in this case it is bus code that uses the
-> manual release (dev_om_domain_detach) that violates the "release in
-> opposite order to acquisition" rule.
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
+for-next branches of various subsystem trees and (b) branches with
+driver code submitted or planned for submission to maintainers into the
+master branch of my renesas-devel.git tree.
 
-As I said before, runtime PM is not a regular resource, but a
-behaviour that we turn on/off for a device. Enabling and disabling
-runtime PM needs to be managed more carefully in my opinion.
+Today's version is based on renesas-devel-2025-05-20-v6.15-rc7.
 
-For example, even if the order is made correctly, suppose a driver's
-->remove() callback completes by turning off the resources for its
-device and leaves runtime PM enabled, as it relies on devres to do it
-some point later. Beyond this point, nothing would prevent userspace
-for runtime resuming/suspending the device via sysfs. I would be quite
-worried if that happens as it certainly would lead to undefined
-behaviour.
+Included branches with driver code:
+  - renesas-clk-for-v6.16
+  - renesas-clk-for-v6.17
+  - topic/msiof-fifo~1
 
->
-> >
-> > >
-> > > On the platform I experienced issues with, the dev_pm_domain_detach() drops
-> > > the clocks from the device power domain and any subsequent PM runtime
-> > > resume calls (that may happen in the devres cleanup phase) have no effect
-> > > on enabling the clocks. If driver has functions registered (e.g. through
-> > > devm_add_action_or_reset()), or driver specific runtime PM functions that
-> > > access directly registers in the devres cleanup phase this leads to system
-> > > aborts.
-> >
-> > So if you move away from using devm_pm_runtime_enable() things would
-> > be easier to manage and there is no additional new devres-management
-> > needed.
->
-> How exactly will it improve the situation? You still need to make sure
-> that you are not disabling things out of the order. You simply moving
-> the complexity to the driver, essentially forbidding it (and any other
-> driver on platform bus) from using any devm APIs.
+Included fixes:
+  - [LOCAL] arm64: renesas: defconfig: Tidyup Renesas PWM configs
+  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+  - [LOCAL] riscv: rzfive: defconfig: Update rzfive_defconfig
 
-The driver can still use the devres APIs to "get" all resources and
-then rely on devres to "put" them. There is nothing that prevents
-that, right?
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - https://gitlab.freedesktop.org/drm/kernel.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
+  - https://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/drivers
+  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
+  - git://git.pengutronix.de/git/pza/linux#reset/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git#char-misc-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git#togreg
 
-Or maybe I didn't understand the problem correctly?
+Gr{oetje,eeting}s,
 
->
-> >
-> > >
-> > >
-> > > >
-> > > > As I have tried to argue before, I think devm_pm_runtime_enable()
-> > > > should *not* be used. Not here, not at all. Runtime PM isn't like any
-> > > > other resources that we fetch/release. Instead, it's a behaviour that
-> > > > you turn on and off, which needs to be managed more carefully, rather
-> > > > than relying on fetch/release ordering from devres.
->
-> I disagree. It is a resource that you turn on and off, same as clocks,
-> regulators, interrupts, etc. We manage those during lifetime of the
-> device, disable them when going into low power mode/suspend, reenable
-> them upon resume, may disable and reenable them for other reasons.
->
-> PM is not any more special here. As long as you keep the proper order of
-> operations it works as well.
+						Geert
 
-How would you solve the issue I pointed out above?
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
->
-> > > >
-> > > > That said, I would convert the driver to use pm_runtime_enable() and
-> > > > pm_runtime_disable() instead.
-> > >
-> > > I've tried this approach previously but it resulted in more complicated
-> > > code and thus, Jonathan wasn't happy with it [1].
-> >
-> > I understand that you have been trying to move forward to address
-> > people's opinions. It's not always easy to keep everybody happy. :-)
-> >
-> > That said, I still think this is the most viable option as it's how
-> > the vast majority of drivers do it today. A few lines of additional
-> > code shouldn't really be a big problem in my opinion.
->
-> Have you tried making such change? Again, you will need to abandon use
-> of most other devm APIs so that you keep the order of releasing
-> resources. The only devm that you can still use is devm_k*alloc(), the
-> rest has to be converted into unmanaged.
-
-I guess I need to take a stab at this particular use case.
-
-Looking closer, could it be that it's really the combination of
-turning on/off resources using devres (not just get/put if them) like
-clocks - and using devm_pm_runtime_enable()?
-
-Kind regards
-Uffe
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
