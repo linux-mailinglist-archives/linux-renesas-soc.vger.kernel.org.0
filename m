@@ -1,58 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-17244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17245-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0A3ABD2E2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 11:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 435C8ABD2E5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 11:13:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E99471BA28DD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 09:13:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13D921B60C12
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 09:13:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31FB62690E0;
-	Tue, 20 May 2025 09:12:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4918A26A090;
+	Tue, 20 May 2025 09:12:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D2F268FD8;
-	Tue, 20 May 2025 09:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5AD2673B9;
+	Tue, 20 May 2025 09:12:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747732326; cv=none; b=U3XL2Y89pxczD4ZQ7xssy5JQQLT0oulLqZ0bIaSnTTZLr0zU1aWSLmE1bQjkLKwUsasrR7bis3YtBlM32T4Wcr/T2tv8DZJvo5tNR8Cq5a6XkPT+16v7ynj8yCTYhCY7DA6FD0tQbUqAf2iddr4SboL54zph4f97HS95vXws/Fk=
+	t=1747732332; cv=none; b=a+D0sXJOdGRz18uFfCEaQswNthzk4O7BBGrjONhyUVUBd7QEkDVKQBacMqMl1m9Fgthdfx/OMhCEK64RBqXjTIthE+CsyEkW6vPiaP3g4+dUlrWQ9Wvn0haoe84J7fRHnjVGqzu6azkBWOLvwhTZwXLbMRf9NO+bjmig4T8lca0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747732326; c=relaxed/simple;
-	bh=vEg+O6ZQd8hBE/TqErQPF/ddUkaKC8kZak8okYcYbvQ=;
+	s=arc-20240116; t=1747732332; c=relaxed/simple;
+	bh=QkIwbA+4b/t4KG3wul4jsM2v+1uGv7WMaXB/U42Cuxc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zjpc8cC7HlngwVgp1B3K48JuKBItex9AUkGZ4HOUBiauKTduJgoMZ/MZzNGDQiP7REz81j2NmMPm/9oCmnnn+tKEVqx01PffNTYpuVtkFVSa3kb+DbRfe1T0X4TpJMRqKi503TE2PZUoSB1spFkU34SfDEYUL0nMuPglD3hbgAw=
+	 MIME-Version; b=KYmWh5H542qsmm6QhjR4HDmkIGKxGOGxJtoQsVgeIjkgG+szmoNdxPB6vtrUjjmbS9cgemEb7o2xG+nMqdSTcGsfmBMXcqPb/J/pRbcgaQYJFskf7ykoxKYNfCTEov9nHW5oi8GyEt9GFWKw4QcIFuoA0rmTEP6EKD1t5wDewwE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 7c2d313a355a11f0b29709d653e92f7d-20250520
+X-UUID: 7eb6c0ec355a11f0b29709d653e92f7d-20250520
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:0634e2b0-6be5-42ee-abbe-7876ece723fb,IP:0,U
+X-CID-O-INFO: VERSION:1.1.45,REQID:13616bc0-98fb-453e-810b-0199eb5b8d18,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:11e3fd52d48d5c05f7356116c988d80b,BulkI
+X-CID-META: VersionHash:6493067,CLOUDID:980ae2365df82707056bbe9350351444,BulkI
 	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3,IP:
 	nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
 	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 7c2d313a355a11f0b29709d653e92f7d-20250520
+X-UUID: 7eb6c0ec355a11f0b29709d653e92f7d-20250520
 Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
 	(envelope-from <aichao@kylinos.cn>)
 	(Generic MTA)
-	with ESMTP id 1957821300; Tue, 20 May 2025 17:11:59 +0800
+	with ESMTP id 650892054; Tue, 20 May 2025 17:12:03 +0800
 Received: from node4.com.cn (localhost [127.0.0.1])
-	by node4.com.cn (NSMail) with SMTP id 41D4F16003840;
-	Tue, 20 May 2025 17:11:59 +0800 (CST)
-X-ns-mid: postfix-682C475F-939691689
+	by node4.com.cn (NSMail) with SMTP id 6877816003840;
+	Tue, 20 May 2025 17:12:03 +0800 (CST)
+X-ns-mid: postfix-682C4763-2333681690
 Received: from kylin-pc.. (unknown [172.25.130.133])
-	by node4.com.cn (NSMail) with ESMTPA id 8659916001CC7;
-	Tue, 20 May 2025 09:11:56 +0000 (UTC)
+	by node4.com.cn (NSMail) with ESMTPA id 762BC16001CC7;
+	Tue, 20 May 2025 09:12:00 +0000 (UTC)
 From: Ai Chao <aichao@kylinos.cn>
 To: johannes@sipsolutions.net,
 	perex@perex.cz,
@@ -86,9 +86,9 @@ Cc: linuxppc-dev@lists.ozlabs.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Ai Chao <aichao@kylinos.cn>
-Subject: [PATCH 4/6] ASoC: meson: Use helper function for_each_child_of_node_scoped()
-Date: Tue, 20 May 2025 17:11:29 +0800
-Message-ID: <20250520091131.4150248-5-aichao@kylinos.cn>
+Subject: [PATCH 5/6] ASoC: imx-card: Use helper function for_each_child_of_node_scoped()
+Date: Tue, 20 May 2025 17:11:30 +0800
+Message-ID: <20250520091131.4150248-6-aichao@kylinos.cn>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250520091131.4150248-1-aichao@kylinos.cn>
 References: <20250520091131.4150248-1-aichao@kylinos.cn>
@@ -108,87 +108,60 @@ Thus, use this helper to simplify the code.
 
 Signed-off-by: Ai Chao <aichao@kylinos.cn>
 ---
- sound/soc/meson/axg-card.c         |  3 +--
- sound/soc/meson/meson-card-utils.c | 14 ++++----------
- 2 files changed, 5 insertions(+), 12 deletions(-)
+ sound/soc/fsl/imx-card.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/meson/axg-card.c b/sound/soc/meson/axg-card.c
-index a2dfccb7990f..b4dca80e15e4 100644
---- a/sound/soc/meson/axg-card.c
-+++ b/sound/soc/meson/axg-card.c
-@@ -222,7 +222,6 @@ static int axg_card_parse_codecs_masks(struct snd_soc=
-_card *card,
- 				       struct axg_dai_link_tdm_data *be)
- {
- 	struct axg_dai_link_tdm_mask *codec_mask;
+diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
+index 3686d468506b..bffdba4292b6 100644
+--- a/sound/soc/fsl/imx-card.c
++++ b/sound/soc/fsl/imx-card.c
+@@ -513,7 +513,6 @@ static int imx_card_parse_of(struct imx_card_data *da=
+ta)
+ 	struct device_node *platform =3D NULL;
+ 	struct device_node *codec =3D NULL;
+ 	struct device_node *cpu =3D NULL;
 -	struct device_node *np;
+ 	struct device *dev =3D card->dev;
+ 	struct snd_soc_dai_link *link;
+ 	struct dai_link_data *link_data;
+@@ -552,11 +551,10 @@ static int imx_card_parse_of(struct imx_card_data *=
+data)
+ 	link =3D card->dai_link;
+ 	link_data =3D data->link_data;
 =20
- 	codec_mask =3D devm_kcalloc(card->dev, link->num_codecs,
- 				  sizeof(*codec_mask), GFP_KERNEL);
-@@ -231,7 +230,7 @@ static int axg_card_parse_codecs_masks(struct snd_soc=
-_card *card,
+-	for_each_child_of_node(dev->of_node, np) {
++	for_each_child_of_node_scoped(dev->of_node, np) {
+ 		dlc =3D devm_kzalloc(dev, 2 * sizeof(*dlc), GFP_KERNEL);
+ 		if (!dlc) {
+-			ret =3D -ENOMEM;
+-			goto err_put_np;
++			return -ENOMEM;
+ 		}
 =20
- 	be->codec_masks =3D codec_mask;
+ 		link->cpus	=3D &dlc[0];
+@@ -567,8 +565,8 @@ static int imx_card_parse_of(struct imx_card_data *da=
+ta)
 =20
--	for_each_child_of_node(node, np) {
-+	for_each_child_of_node_scoped(node, np) {
- 		snd_soc_of_get_slot_mask(np, "dai-tdm-slot-rx-mask",
- 					 &codec_mask->rx);
- 		snd_soc_of_get_slot_mask(np, "dai-tdm-slot-tx-mask",
-diff --git a/sound/soc/meson/meson-card-utils.c b/sound/soc/meson/meson-c=
-ard-utils.c
-index cfc7f6e41ab5..cf08c8dedd91 100644
---- a/sound/soc/meson/meson-card-utils.c
-+++ b/sound/soc/meson/meson-card-utils.c
-@@ -137,7 +137,6 @@ int meson_card_set_be_link(struct snd_soc_card *card,
- 			   struct device_node *node)
- {
- 	struct snd_soc_dai_link_component *codec;
--	struct device_node *np;
- 	int ret, num_codecs;
+ 		ret =3D of_property_read_string(np, "link-name", &link->name);
+ 		if (ret) {
+-			dev_err(card->dev, "error getting codec dai_link name\n");
+-			goto err_put_np;
++			return dev_err_probe(card->dev, ret,
++					     "error getting codec dai_link name\n");
+ 		}
 =20
- 	num_codecs =3D of_get_child_count(node);
-@@ -154,12 +153,10 @@ int meson_card_set_be_link(struct snd_soc_card *car=
-d,
- 	link->codecs =3D codec;
- 	link->num_codecs =3D num_codecs;
+ 		cpu =3D of_get_child_by_name(np, "cpu");
+@@ -722,8 +720,7 @@ static int imx_card_parse_of(struct imx_card_data *da=
+ta)
+ 	of_node_put(cpu);
+ 	of_node_put(codec);
+ 	of_node_put(platform);
+-err_put_np:
+-	of_node_put(np);
++
+ 	return ret;
+ }
 =20
--	for_each_child_of_node(node, np) {
-+	for_each_child_of_node_scoped(node, np) {
- 		ret =3D meson_card_parse_dai(card, np, codec);
--		if (ret) {
--			of_node_put(np);
-+		if (ret)
- 			return ret;
--		}
-=20
- 		codec++;
- 	}
-@@ -198,7 +195,6 @@ static int meson_card_add_links(struct snd_soc_card *=
-card)
- {
- 	struct meson_card *priv =3D snd_soc_card_get_drvdata(card);
- 	struct device_node *node =3D card->dev->of_node;
--	struct device_node *np;
- 	int num, i, ret;
-=20
- 	num =3D of_get_child_count(node);
-@@ -212,12 +208,10 @@ static int meson_card_add_links(struct snd_soc_card=
- *card)
- 		return ret;
-=20
- 	i =3D 0;
--	for_each_child_of_node(node, np) {
-+	for_each_child_of_node_scoped(node, np) {
- 		ret =3D priv->match_data->add_link(card, np, &i);
--		if (ret) {
--			of_node_put(np);
-+		if (ret)
- 			return ret;
--		}
-=20
- 		i++;
- 	}
 --=20
 2.47.1
 
