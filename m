@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-17266-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17267-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C526EABDFBD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 17:58:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4A8ABDFC8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 18:00:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 41DA618860F5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 15:58:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D45BD7A8CC9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 15:59:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 221CD252299;
-	Tue, 20 May 2025 15:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 107B0265CAA;
+	Tue, 20 May 2025 16:00:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SJ/x9hss"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nQDsY2hH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A7D24C09C;
-	Tue, 20 May 2025 15:58:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B8E267F73;
+	Tue, 20 May 2025 16:00:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747756700; cv=none; b=briqCRjUfbllzvYbMhCUNSEWuXK6zOwdAmkx5PAqbecOiYEt85BYzWudqXLyVeNCPMhfDXpm6td6On/gtOMXkmACw7Ww7owNQ2LCUDdOw7O8fO71ZaIssorZ6BtFg+xUmZVJMbMpTKaoC8rjzVJY/gb6VpYWOxb2i4S4JAA1y9g=
+	t=1747756817; cv=none; b=BxABIa/bqkjctDbTDXWMVhUdunnii26AmIoqAh+JtioIgPQlzlmwcIkijA5iRD45XVr419xZ2DzVcaUrT/b9FXS1YRib99yVjx+didrdz3Gq9NHlGHTTzDNCFF2kE7QzsHIsHesQienA5nGb7XbcnuhyyNRBbxvwgZMyN/Jm4DI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747756700; c=relaxed/simple;
-	bh=0D6zpd/zMzHiZpO1VEpRkuO+fz8DrletF6eKHu5EFbg=;
+	s=arc-20240116; t=1747756817; c=relaxed/simple;
+	bh=NIKYYPe3EmOSzVPiSBtsF5ApdyDmuYMiB1qW2RbeOtc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zj17t6lCyvzSc8p9xKNIP+TgR9L3pMIEqdSSIum7LYwTfJQElV35WP/GXZIfzz//ARjRnw3inCHavr1Qo1gbVml8eHGWKrtEhSyAWzm8q5X3P+mEiMn0KCtu0En3YCSuL7Se00saPOFlksyHzo15j6Ta2br5fmFdz6WrM3lL8x8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SJ/x9hss; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46EF7C4CEE9;
-	Tue, 20 May 2025 15:58:14 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=k/pnXnfo1EvF9c92z+m7IMeSEjlR6qzgFCG/4bYveUrJQvKpgwaQ5ocmC24OXiZJKYmziWWofdPxXk1rfPOvBz/8UJV5yGQG6Z3uqqt0eEkqA9XMPbLoY5rDFoQ6Bxkl43NiWgfjgp4GMJ+XKclag58Gw/UP92YepnL3XQgI4Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nQDsY2hH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78FE8C4CEE9;
+	Tue, 20 May 2025 16:00:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747756698;
-	bh=0D6zpd/zMzHiZpO1VEpRkuO+fz8DrletF6eKHu5EFbg=;
+	s=k20201202; t=1747756817;
+	bh=NIKYYPe3EmOSzVPiSBtsF5ApdyDmuYMiB1qW2RbeOtc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SJ/x9hss3iK6HAmaYJ8dQZk9o8tGYAv2XZi3YGclAF7BQ/+nf/8KswyBtYsqhazGh
-	 X3a5FvYaQ37fg8xB81gyNVyFDMOkU3pSbxBm4Z9WiUyBfEvpQ+aTt34Y0zmYBLsSXv
-	 L1vfrqIbx9/H3E6abcnhYQkEMIoqxMjoLF7WyIgKOsZrMmRDYUjfk5RuGEa0vD79d8
-	 5SgNNfRJPXLyD7SLaxv191o/YbSSB8i0pLXh56CoV1iB5NDYss0W0zm3ERAIJCUJss
-	 ld80Ix/y7BkcNmvZArTATby2CCC6xgrwQu1H07zfPon91V4jtpMz7Uj9GLgmyyff96
-	 Nw3CMA9f0XwNA==
-Date: Tue, 20 May 2025 16:58:12 +0100
+	b=nQDsY2hHVinQBaPnK5GMtLsl9eV1WR0v1BmAezlOZaNDySAj9m4rkCeN5P8TqCsgc
+	 OJwqHx+iISjVOadEY5fSiDW9ex+5NrZO7UQzog8sQfJhK8Irb2RrTM4oX7rG6YewMf
+	 z0Ty+gyXatVRR9zXy9RuRqpIWiiq2abMIGQSxWCVCml6nsgwJ60Q38WWqkPv0Sp3e3
+	 ixVVEsjqTB2fBzdKuC+q/ZPK/XRzUyPNyqptwaJZURqhhcQ3/fsUbnWgU5cF/jQGeV
+	 aaoUZnSX23de6yVYOfRmmQey7kA88la+dcen7wMJqNDh7Uk+U+3YmxzOWtA1Hqm+Sc
+	 0K1w61q12t6Gg==
+Date: Tue, 20 May 2025 17:00:11 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Hugo Villeneuve <hugo@hugovil.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -65,8 +65,9 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH v2] dt-bindings: display: bridge: renesas,dsi: allow
  properties from dsi-controller
-Message-ID: <20250520-fidelity-mooned-5d4262d0a7ef@spud>
+Message-ID: <20250520-lens-dizziness-4d098c031b10@spud>
 References: <20250520151112.3278569-1-hugo@hugovil.com>
+ <20250520-fidelity-mooned-5d4262d0a7ef@spud>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -74,142 +75,47 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="GxY0N8ktK80Cp8Ls"
+	protocol="application/pgp-signature"; boundary="KX0eqYpyQaNdsuzX"
 Content-Disposition: inline
-In-Reply-To: <20250520151112.3278569-1-hugo@hugovil.com>
+In-Reply-To: <20250520-fidelity-mooned-5d4262d0a7ef@spud>
 
 
---GxY0N8ktK80Cp8Ls
+--KX0eqYpyQaNdsuzX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 20, 2025 at 11:11:12AM -0400, Hugo Villeneuve wrote:
-> From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+On Tue, May 20, 2025 at 04:58:12PM +0100, Conor Dooley wrote:
+> On Tue, May 20, 2025 at 11:11:12AM -0400, Hugo Villeneuve wrote:
+> > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> >=20
+> > Allow to inherit valid properties from the dsi-controller. This fixes t=
+he
+> > following warning when adding a panel property:
+> >=20
+> > rzg2lc.dtb: dsi@10850000: '#address-cells', '#size-cells', 'panel@0' do=
+ not
+> >     match any of the regexes: 'pinctrl-[0-9]+'
+> >     from schema $id:
+> >         http://devicetree.org/schemas/display/bridge/renesas,dsi.yaml#
+> >=20
+> > Also add a panel property to the example.
 >=20
-> Allow to inherit valid properties from the dsi-controller. This fixes the
-> following warning when adding a panel property:
->=20
-> rzg2lc.dtb: dsi@10850000: '#address-cells', '#size-cells', 'panel@0' do n=
-ot
->     match any of the regexes: 'pinctrl-[0-9]+'
->     from schema $id:
->         http://devicetree.org/schemas/display/bridge/renesas,dsi.yaml#
->=20
-> Also add a panel property to the example.
+> I don't think adding the example should be in the same patch as a fix.
 
-I don't think adding the example should be in the same patch as a fix.
+Or am I misunderstanding, and this is a new type of usage, rather than a
+fix?
 
->=20
-> Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> ---
-> V1 -> V2: add separate example
-> ---
->  .../bindings/display/bridge/renesas,dsi.yaml  | 67 ++++++++++++++++++-
->  1 file changed, 66 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi=
-=2Eyaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> index e08c24633926b..5a99d9b9635e7 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> @@ -128,7 +128,7 @@ required:
->    - power-domains
->    - ports
-> =20
-> -additionalProperties: false
-> +unevaluatedProperties: false
-> =20
->  examples:
->    - |
-> @@ -180,4 +180,69 @@ examples:
->              };
->          };
->      };
-> +
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi1: dsi@10860000 {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +        compatible =3D "renesas,r9a07g044-mipi-dsi", "renesas,rzg2l-mipi=
--dsi";
-> +        reg =3D <0x10860000 0x20000>;
-> +        interrupts =3D <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-names =3D "seq0", "seq1", "vin1", "rcv",
-> +                          "ferr", "ppi", "debug";
-> +        clocks =3D <&cpg CPG_MOD R9A07G044_MIPI_DSI_PLLCLK>,
-> +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_SYSCLK>,
-> +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_ACLK>,
-> +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_PCLK>,
-> +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_VCLK>,
-> +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_LPCLK>;
-> +        clock-names =3D "pllclk", "sysclk", "aclk", "pclk", "vclk", "lpc=
-lk";
-> +        resets =3D <&cpg R9A07G044_MIPI_DSI_CMN_RSTB>,
-> +                 <&cpg R9A07G044_MIPI_DSI_ARESET_N>,
-> +                 <&cpg R9A07G044_MIPI_DSI_PRESET_N>;
-> +        reset-names =3D "rst", "arst", "prst";
-> +        power-domains =3D <&cpg>;
-> +
-> +        panel@0 {
-> +            compatible =3D "rocktech,jh057n00900";
-> +            reg =3D <0>;
-> +            vcc-supply =3D <&reg_2v8_p>;
-> +            iovcc-supply =3D <&reg_1v8_p>;
-> +            reset-gpios =3D <&gpio3 13 GPIO_ACTIVE_LOW>;
-> +
-> +            port {
-> +                panel_in: endpoint {
-> +                    remote-endpoint =3D <&dsi1_out>;
-> +                };
-> +            };
-> +        };
-> +
-> +        ports {
-> +            #address-cells =3D <1>;
-> +            #size-cells =3D <0>;
-> +
-> +            port@0 {
-> +                reg =3D <0>;
-> +                dsi1_in: endpoint {
-> +                    remote-endpoint =3D <&du_out_dsi1>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg =3D <1>;
-> +                dsi1_out: endpoint {
-> +                    data-lanes =3D <1 2 3 4>;
-> +                    remote-endpoint =3D <&panel_in>;
-> +                };
-> +            };
-> +        };
-> +    };
->  ...
->=20
-> base-commit: 7c1a9408ce5f34ded5a85db81cf80e0975901685
-> --=20
-> 2.39.5
->=20
-
---GxY0N8ktK80Cp8Ls
+--KX0eqYpyQaNdsuzX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaCymkwAKCRB4tDGHoIJi
-0sApAQC8C/iRVYSgNm1itU05EvPEZEBVdY6DI1FcKhilDUvTFAEAnxUxyctg9XlE
-00HssAo8Fj0oCaqOMW36C/MmRTePOQU=
-=FozJ
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaCynCwAKCRB4tDGHoIJi
+0mUqAQDwvTMEhM3RPqXtrZBVjKFOWgbEhyAZdZMRK5tkQ1gUYAD8D4/MXSTv0OwH
+7fZFnceSin+yW2XBYbBiVF/XJ4fbBg8=
+=VoS0
 -----END PGP SIGNATURE-----
 
---GxY0N8ktK80Cp8Ls--
+--KX0eqYpyQaNdsuzX--
 
