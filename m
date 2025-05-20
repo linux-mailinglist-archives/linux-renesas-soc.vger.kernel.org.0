@@ -1,148 +1,185 @@
-Return-Path: <linux-renesas-soc+bounces-17263-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17264-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF592ABDCEF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 16:31:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CECFCABDDE9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 16:55:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 454C31898413
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 14:29:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC12E188AA87
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 14:55:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52720248865;
-	Tue, 20 May 2025 14:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AcGVRCBQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBA0924C076;
+	Tue, 20 May 2025 14:55:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B066B248864;
-	Tue, 20 May 2025 14:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F291FF7B3;
+	Tue, 20 May 2025 14:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747751304; cv=none; b=XpPiOnrtPTTcMD0kfSQbNwWP82Rul7XVMigDRILQs3ivGbn1vvWO501nB67etB3xvzGxn7cwAZLCJ3CqY9Qd4ODJ+CuUGhanwMOdg+/RYGMNghN585EI+ZI5mHnTL6zNDAQnaNWbMYwYnTttsqHSDy7MuIOzw1Ti9t6RvKG4s8M=
+	t=1747752917; cv=none; b=Rc18vmp+aMWiV6VzuY35puHprtV9p94k4Uv8t1bHUOxFZSts89pqOZYfdUEiRNE3/2rOQ4xuHw/+/2ruUXROtBPqba2LIVvYf4mBrXTh2F3LjxhLG2RZy0xtk374pIUkbliCosKrOPLcgOzjzis9EMTKYORluuCoJStuPeYiBxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747751304; c=relaxed/simple;
-	bh=To839h9GABdkq17dtAEeZRfQrFBVJpTujeZieRb2WRg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RQVZrYQISfSq8SI5H0WK3c/1Vjc/DyLDm/h4H52k0XY1W4vIdTT1fA9mY4xJkgUfSCiOi08DHkbaWzrC9lb4JehEPZ+1I+sCIDWgoNa1JI3krB3BcgCEV4FofiAKOL+LtoeM7mcx/C52vNi+cCLR/ypRtMoxkDzpf10yTn07TjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AcGVRCBQ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A63262EC;
-	Tue, 20 May 2025 16:28:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747751280;
-	bh=To839h9GABdkq17dtAEeZRfQrFBVJpTujeZieRb2WRg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AcGVRCBQonYOMCs2KAdyYSnTFxRMRUVFDFkB1jgtRngy9MWqnGeCZdFrq3u/RnCcp
-	 cPeE04kwyXV8/dWZOJwVkXJ+lGKA3usJOrgICgLMYVd8DucNXE3u6he7AzQ2mumyiB
-	 sOuL9ntg/2TAMbDdaqFi/oE4TouHzdl+h7KOGhAY=
-Date: Tue, 20 May 2025 16:28:15 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v5 10/12] drm: renesas: rz-du: mipi_dsi: Add
- dphy_late_init() callback for RZ/V2H(P)
-Message-ID: <20250520142815.GJ13321@pendragon.ideasonboard.com>
-References: <20250512182330.238259-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250512182330.238259-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1747752917; c=relaxed/simple;
+	bh=5t0gdhv8R1teNpgkE18HM4BYta0hXkyqjJazcPOR+ng=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qQFeT9O++rnv/lJ8UoBSqotnwJbA9dj5UCf7su2vlaz5AEnQdX+MSCJ8Xq47vbBUo82ZiSjUtHLD8m/j4mqNz5dbtDPvx1wz8y6kKTw+Knl2DuhPJixz9QW3Uz2UKlVjzy3llY5XAg996EiKfmDJA4hNn+18XyQv9rCdVhEaJzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-528ce9730cfso1255329e0c.3;
+        Tue, 20 May 2025 07:55:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747752912; x=1748357712;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ttxhK6Ti/XQOTqH6UODUStCIPGw0sZp98YSCtYewY44=;
+        b=cL+3mS+4BqZ/mDap4LhnaV/I2C5lMzmxPYCi5HtzBWbsBW+Ep2D7+U/igZZRuL9G2T
+         bhZKv3Ne2oLDga33fVyh9BRUzSoV6L+6hGHte1VI+OMg7cmY5H4yEtyPMHMFmnBFuDEk
+         VLqGNJqzjmzv040f5QSIPzIgkmFiEny57uePyj9ZMLMZwZcRTd7I1aigAMnEe1wOcJVc
+         RjbDfScsE2/IgmZLshD6nwc0gB2C/JicvYxGo0672GTTl1HMlIL9c5p2QkNNe7g+RnRK
+         L/GjsPRLVF5ijQgJ78/UOmTitJzeyCjr29f6Cv7J1sP3C3R+VZx6Wwt4b6KzamndC9AO
+         aE7A==
+X-Forwarded-Encrypted: i=1; AJvYcCWlfWX2nL6EzePZ0NlTFVj0UB/hK2moT6jGrEFZGliTeV1ru1QMJLlbbyh4KJEzueh6R+/wP1wsGaZDPNcYiEiC3nc=@vger.kernel.org, AJvYcCWo39dssUrqSFHTi6hgqP1SCUclEeYutEL3bl2cnpZziuUDpYtWdD82s4BpeRDyHXFvjMCmry+hhQC5raat@vger.kernel.org, AJvYcCXRVjNuOwtZIhfbGCdaR4SbDrQHBnM8on3LdAg6UJzTlFZG3OQ2/czRfKsWzkSGlVv4Gn2OCOgsRoUl@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMk0qgXtv40WbR4i6AvHHdWVZ0RuUWyydECM5ajanF4sdcQ5r/
+	cPkaHVfpfoZO9tRLhQYlhi/jbN3xmJ7RxJFbaxE+CvNBHvw06mf4k9DHWT7hihWT
+X-Gm-Gg: ASbGnct37/EIdU51NMYNHcoWvSjIKQjtOZbNE6M9hR2O6n+tdNV41N6cfLEeLNqjpLj
+	iKCacnerDNTF+DjmZVPdL3bvRg55xM28/lei9h2i9fVK+7xujclpyapzk/0WGLAYUI+u9l3ycKq
+	boG1kOBqRXZAHHMXxJBvlbGhp2+9hyiVz2ZbK3dHS2o3Dpth0W1jShIVUNENW+FzhY4oGhl4brj
+	DhZYWP1lOKzBSIqDFNlHK1Ui9nD1n7MsA0s42Zj6L8btDZmFwBvjeCr3N7C4L4H7ENo4Gi4GTZk
+	55qRVCg/ay1j+5OtBfMaJ8uoeM+keTkJvscb03btEqfLfQdGi4n3y4rEy8kM+CH88tChzapFhSw
+	Duz0OQeiVKLrGFHD9d+hoHfTx
+X-Google-Smtp-Source: AGHT+IGT+Pt99Y+3HfVgDShKNL8vdrHQAAbHfwHQA+KKt72ephUI5sgsIyJmD/DCo1cPN4ZNSHXkHA==
+X-Received: by 2002:a05:6122:d18:b0:529:995:5aec with SMTP id 71dfb90a1353d-52dbcc85543mr14651405e0c.4.1747752912368;
+        Tue, 20 May 2025 07:55:12 -0700 (PDT)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52dba967b83sm8598811e0c.23.2025.05.20.07.55.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 May 2025 07:55:11 -0700 (PDT)
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4e14dd8abdaso1419387137.3;
+        Tue, 20 May 2025 07:55:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU4RaSxuNppLtmO+MBcdr+g+j7uHeyYHEqsBeYc8hy239zJTmL+zzFC+gTQosAXoQ6w9WWn+ytdr2n0FMvy@vger.kernel.org, AJvYcCW16sqSmhkBbmgRkKc6CjougZ8RYRq/+OALGgiqpjLkIUt/zkxkmY/tZho9rhSPYkNGyqbiHa8Bi2HG@vger.kernel.org, AJvYcCWkx0jPofCStulT5Up2Zs9+edCBwEJ5SNEapORk4O9r/T4F7BdHEIL+na59dXO8uv0rbLm4+qzVjZS4HrqtCpgBG1s=@vger.kernel.org
+X-Received: by 2002:a05:6102:1528:b0:4c1:76a4:aee4 with SMTP id
+ ada2fe7eead31-4e05375dcb2mr14690410137.19.1747752910647; Tue, 20 May 2025
+ 07:55:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250512182330.238259-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250512182330.238259-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250512182330.238259-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250512182330.238259-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 20 May 2025 16:54:57 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVEgTo7V-gzzpVVNqxnDMSdTC1ew70gbJ=Sb5Qr4asryA@mail.gmail.com>
+X-Gm-Features: AX0GCFv8LYK03_9WrEiJFFzvjW_0fJJk_EmmURtGv-joA1Jov8I_4pZ3KpumSj4
+Message-ID: <CAMuHMdVEgTo7V-gzzpVVNqxnDMSdTC1ew70gbJ=Sb5Qr4asryA@mail.gmail.com>
+Subject: Re: [PATCH v5 05/12] drm: renesas: rz-du: mipi_dsi: Use VCLK for
+ HSFREQ calculation
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, dri-devel@lists.freedesktop.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
 Hi Prabhakar,
 
-Thank you for the patch.
-
-On Mon, May 12, 2025 at 07:23:28PM +0100, Prabhakar wrote:
+On Mon, 12 May 2025 at 20:23, Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Introduce the `dphy_late_init` callback in `rzg2l_mipi_dsi_hw_info` to
-> allow additional D-PHY register configurations after enabling data and
-> clock lanes. This is required for the RZ/V2H(P) SoC but not for the
-> RZ/G2L SoC.
-> 
-> Modify `rzg2l_mipi_dsi_startup()` to invoke `dphy_late_init` if defined,
-> ensuring SoC-specific initialization is performed only when necessary.
-> 
-> This change prepares for RZ/V2H(P) SoC support while maintaining
-> compatibility with existing platforms.
-> 
+>
+> Update the RZ/G2L MIPI DSI driver to calculate HSFREQ using the actual
+> VCLK rate instead of the mode clock. The relationship between HSCLK and
+> VCLK is:
+>
+>     vclk * bpp <= hsclk * 8 * lanes
+>
+> Retrieve the VCLK rate using `clk_get_rate(dsi->vclk)`, ensuring that
+> HSFREQ accurately reflects the clock rate set in hardware, leading to
+> better precision in data transmission.
+>
+> Additionally, use `DIV_ROUND_CLOSEST_ULL` for a more precise division
+> when computing `hsfreq`. Also, update unit conversions to use correct
+> scaling factors for better clarity and correctness.
+>
+> Since `clk_get_rate()` returns the clock rate in Hz, update the HSFREQ
+> threshold comparisons to use Hz instead of kHz to ensure correct behavior.
+>
 > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
 > v4->v5:
-> - Added Reviewed tag from Biju
-> 
+> - Added dev_info() to print the VCLK rate if it doesn't match the
+>   requested rate.
+> - Added Reviewed-by tag from Biju
+>
 > v3->v4:
-> - No changes
-> 
-> v2->v3:
-> - No changes
-> 
-> v1->v2:
-> - No changes
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> index 55a1c1b043c8..e1ce21a9ddb3 100644
+> - Used MILLI instead of KILO
+
+Thanks for the update!
+
 > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
 > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -34,6 +34,7 @@ struct rzg2l_mipi_dsi;
->  
->  struct rzg2l_mipi_dsi_hw_info {
->  	int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, u64 hsfreq_millihz);
-> +	void (*dphy_late_init)(struct rzg2l_mipi_dsi *dsi);
 
-As this is called at startup time I would have called it dphy_startup.
-Up to you.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
->  	void (*dphy_exit)(struct rzg2l_mipi_dsi *dsi);
->  	u32 phy_reg_offset;
->  	u32 link_reg_offset;
-> @@ -320,6 +321,9 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
->  	txsetr = TXSETR_DLEN | TXSETR_NUMLANEUSE(dsi->lanes - 1) | TXSETR_CLEN;
->  	rzg2l_mipi_dsi_link_write(dsi, TXSETR, txsetr);
->  
-> +	if (dsi->info->dphy_late_init)
-> +		dsi->info->dphy_late_init(dsi);
+> @@ -269,6 +271,12 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>         u32 golpbkt;
+>         int ret;
+>
+> +       ret = pm_runtime_resume_and_get(dsi->dev);
+> +       if (ret < 0)
+> +               return ret;
 > +
->  	hsfreq = DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI);
->  	/*
->  	 * Global timings characteristic depends on high speed Clock Frequency
+> +       clk_set_rate(dsi->vclk, mode->clock * MILLI);
 
--- 
-Regards,
+drm_display_mode.clock is in kHz, so s/MILLI/KILO/
 
-Laurent Pinchart
+> +
+>         /*
+>          * Relationship between hsclk and vclk must follow
+>          * vclk * bpp = hsclk * 8 * lanes
+> @@ -280,13 +288,11 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+>          * hsclk(bit) = hsclk(byte) * 8 = hsfreq
+>          */
+>         bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> -       hsfreq = (mode->clock * bpp) / dsi->lanes;
+> -
+> -       ret = pm_runtime_resume_and_get(dsi->dev);
+> -       if (ret < 0)
+> -               return ret;
+> -
+> -       clk_set_rate(dsi->vclk, mode->clock * 1000);
+> +       vclk_rate = clk_get_rate(dsi->vclk);
+> +       if (vclk_rate != mode->clock * MILLI)
+> +               dev_info(dsi->dev, "Requested vclk rate %lu, actual %lu mismatch\n",
+> +                        mode->clock * MILLI, vclk_rate);
+
+Likewise.
+
+> +       hsfreq = DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp, dsi->lanes);
+>
+>         ret = rzg2l_mipi_dsi_dphy_init(dsi, hsfreq);
+>         if (ret < 0)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
