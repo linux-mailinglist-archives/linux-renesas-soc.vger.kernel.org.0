@@ -1,58 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-17245-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17246-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435C8ABD2E5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 11:13:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7426AABD2E7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 11:13:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13D921B60C12
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 09:13:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E2B48A5DF1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 May 2025 09:13:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4918A26A090;
-	Tue, 20 May 2025 09:12:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 430A426A1DA;
+	Tue, 20 May 2025 09:12:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5AD2673B9;
-	Tue, 20 May 2025 09:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABFC26A0C2;
+	Tue, 20 May 2025 09:12:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747732332; cv=none; b=a+D0sXJOdGRz18uFfCEaQswNthzk4O7BBGrjONhyUVUBd7QEkDVKQBacMqMl1m9Fgthdfx/OMhCEK64RBqXjTIthE+CsyEkW6vPiaP3g4+dUlrWQ9Wvn0haoe84J7fRHnjVGqzu6azkBWOLvwhTZwXLbMRf9NO+bjmig4T8lca0=
+	t=1747732335; cv=none; b=PUNKRXwbGjqKMXUZMaGUsKjpwaUvehiWK1LLATm81LUSnZq1WIGOkapl+PUMg+qDRNLanwOq4IhsRwy6bZvTTeHd4reIAqRH2V8Ht/Wo6RgUEayoOLt7JD2eLg/jkWn/n+teROJqycV4zvqdSk9M8/CMWTQbGleyKaX3HJKnJf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747732332; c=relaxed/simple;
-	bh=QkIwbA+4b/t4KG3wul4jsM2v+1uGv7WMaXB/U42Cuxc=;
+	s=arc-20240116; t=1747732335; c=relaxed/simple;
+	bh=mhhKRQs8P6BKh2PDytxh4uDgF6hxeldPRk98eetlmjw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KYmWh5H542qsmm6QhjR4HDmkIGKxGOGxJtoQsVgeIjkgG+szmoNdxPB6vtrUjjmbS9cgemEb7o2xG+nMqdSTcGsfmBMXcqPb/J/pRbcgaQYJFskf7ykoxKYNfCTEov9nHW5oi8GyEt9GFWKw4QcIFuoA0rmTEP6EKD1t5wDewwE=
+	 MIME-Version; b=r9AeinGZYvlyRafxCl/fiSChQDkWIura/MBGAyoFPpiWnOePSISQql5iF4uk2Qiw/EsGncHoyqJyzkklZuqCSxiWR04hmF2YHCLVUCcPRIBUeBoMKe1zk1hVL0o5/o+lLppo8J0IyVCpRY8KZISHrjqjSPlUy3w5wSvEH33XB7g=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 7eb6c0ec355a11f0b29709d653e92f7d-20250520
+X-UUID: 80c4e580355a11f0b29709d653e92f7d-20250520
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:13616bc0-98fb-453e-810b-0199eb5b8d18,IP:0,U
+X-CID-O-INFO: VERSION:1.1.45,REQID:c6c50a9b-851b-47c0-8a23-cef2bbc22566,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:980ae2365df82707056bbe9350351444,BulkI
+X-CID-META: VersionHash:6493067,CLOUDID:d6772785fdb69d0add419fa33b60654c,BulkI
 	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3,IP:
 	nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
 	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 7eb6c0ec355a11f0b29709d653e92f7d-20250520
+X-UUID: 80c4e580355a11f0b29709d653e92f7d-20250520
 Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
 	(envelope-from <aichao@kylinos.cn>)
 	(Generic MTA)
-	with ESMTP id 650892054; Tue, 20 May 2025 17:12:03 +0800
+	with ESMTP id 1683691209; Tue, 20 May 2025 17:12:07 +0800
 Received: from node4.com.cn (localhost [127.0.0.1])
-	by node4.com.cn (NSMail) with SMTP id 6877816003840;
-	Tue, 20 May 2025 17:12:03 +0800 (CST)
-X-ns-mid: postfix-682C4763-2333681690
+	by node4.com.cn (NSMail) with SMTP id E7D3A16003840;
+	Tue, 20 May 2025 17:12:06 +0800 (CST)
+X-ns-mid: postfix-682C4766-7593491691
 Received: from kylin-pc.. (unknown [172.25.130.133])
-	by node4.com.cn (NSMail) with ESMTPA id 762BC16001CC7;
-	Tue, 20 May 2025 09:12:00 +0000 (UTC)
+	by node4.com.cn (NSMail) with ESMTPA id 3CA4216001CC7;
+	Tue, 20 May 2025 09:12:04 +0000 (UTC)
 From: Ai Chao <aichao@kylinos.cn>
 To: johannes@sipsolutions.net,
 	perex@perex.cz,
@@ -86,9 +86,9 @@ Cc: linuxppc-dev@lists.ozlabs.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Ai Chao <aichao@kylinos.cn>
-Subject: [PATCH 5/6] ASoC: imx-card: Use helper function for_each_child_of_node_scoped()
-Date: Tue, 20 May 2025 17:11:30 +0800
-Message-ID: <20250520091131.4150248-6-aichao@kylinos.cn>
+Subject: [PATCH 6/6] ASoC: qcom: Use helper function for_each_child_of_node_scoped()
+Date: Tue, 20 May 2025 17:11:31 +0800
+Message-ID: <20250520091131.4150248-7-aichao@kylinos.cn>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250520091131.4150248-1-aichao@kylinos.cn>
 References: <20250520091131.4150248-1-aichao@kylinos.cn>
@@ -108,60 +108,79 @@ Thus, use this helper to simplify the code.
 
 Signed-off-by: Ai Chao <aichao@kylinos.cn>
 ---
- sound/soc/fsl/imx-card.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ sound/soc/qcom/lpass-cpu.c       | 3 +--
+ sound/soc/qcom/qdsp6/q6afe-dai.c | 3 +--
+ sound/soc/qcom/qdsp6/q6asm-dai.c | 4 +---
+ 3 files changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
-index 3686d468506b..bffdba4292b6 100644
---- a/sound/soc/fsl/imx-card.c
-+++ b/sound/soc/fsl/imx-card.c
-@@ -513,7 +513,6 @@ static int imx_card_parse_of(struct imx_card_data *da=
-ta)
- 	struct device_node *platform =3D NULL;
- 	struct device_node *codec =3D NULL;
- 	struct device_node *cpu =3D NULL;
--	struct device_node *np;
- 	struct device *dev =3D card->dev;
- 	struct snd_soc_dai_link *link;
- 	struct dai_link_data *link_data;
-@@ -552,11 +551,10 @@ static int imx_card_parse_of(struct imx_card_data *=
-data)
- 	link =3D card->dai_link;
- 	link_data =3D data->link_data;
+diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
+index 242bc16da36d..62f49fe46273 100644
+--- a/sound/soc/qcom/lpass-cpu.c
++++ b/sound/soc/qcom/lpass-cpu.c
+@@ -1046,7 +1046,6 @@ static unsigned int of_lpass_cpu_parse_sd_lines(str=
+uct device *dev,
+ static void of_lpass_cpu_parse_dai_data(struct device *dev,
+ 					struct lpass_data *data)
+ {
+-	struct device_node *node;
+ 	int ret, i, id;
 =20
--	for_each_child_of_node(dev->of_node, np) {
-+	for_each_child_of_node_scoped(dev->of_node, np) {
- 		dlc =3D devm_kzalloc(dev, 2 * sizeof(*dlc), GFP_KERNEL);
- 		if (!dlc) {
--			ret =3D -ENOMEM;
--			goto err_put_np;
-+			return -ENOMEM;
- 		}
+ 	/* Allow all channels by default for backwards compatibility */
+@@ -1056,7 +1055,7 @@ static void of_lpass_cpu_parse_dai_data(struct devi=
+ce *dev,
+ 		data->mi2s_capture_sd_mode[id] =3D LPAIF_I2SCTL_MODE_8CH;
+ 	}
 =20
- 		link->cpus	=3D &dlc[0];
-@@ -567,8 +565,8 @@ static int imx_card_parse_of(struct imx_card_data *da=
-ta)
+-	for_each_child_of_node(dev->of_node, node) {
++	for_each_child_of_node_scoped(dev->of_node, node) {
+ 		ret =3D of_property_read_u32(node, "reg", &id);
+ 		if (ret || id < 0) {
+ 			dev_err(dev, "valid dai id not found: %d\n", ret);
+diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6af=
+e-dai.c
+index 7d9628cda875..64735f2adf8f 100644
+--- a/sound/soc/qcom/qdsp6/q6afe-dai.c
++++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
+@@ -962,10 +962,9 @@ static const struct snd_soc_component_driver q6afe_d=
+ai_component =3D {
+ static void of_q6afe_parse_dai_data(struct device *dev,
+ 				    struct q6afe_dai_data *data)
+ {
+-	struct device_node *node;
+ 	int ret;
 =20
- 		ret =3D of_property_read_string(np, "link-name", &link->name);
- 		if (ret) {
--			dev_err(card->dev, "error getting codec dai_link name\n");
--			goto err_put_np;
-+			return dev_err_probe(card->dev, ret,
-+					     "error getting codec dai_link name\n");
- 		}
+-	for_each_child_of_node(dev->of_node, node) {
++	for_each_child_of_node_scoped(dev->of_node, node) {
+ 		unsigned int lines[Q6AFE_MAX_MI2S_LINES];
+ 		struct q6afe_dai_priv_data *priv;
+ 		int id, i, num_lines;
+diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6as=
+m-dai.c
+index a400c9a31fea..d7680dd3a3bb 100644
+--- a/sound/soc/qcom/qdsp6/q6asm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
+@@ -1236,10 +1236,8 @@ static int of_q6asm_parse_dai_data(struct device *=
+dev,
+ {
+ 	struct snd_soc_dai_driver *dai_drv;
+ 	struct snd_soc_pcm_stream empty_stream;
+-	struct device_node *node;
+ 	int ret, id, dir, idx =3D 0;
 =20
- 		cpu =3D of_get_child_by_name(np, "cpu");
-@@ -722,8 +720,7 @@ static int imx_card_parse_of(struct imx_card_data *da=
-ta)
- 	of_node_put(cpu);
- 	of_node_put(codec);
- 	of_node_put(platform);
--err_put_np:
--	of_node_put(np);
-+
- 	return ret;
- }
+-
+ 	pdata->num_dais =3D of_get_child_count(dev->of_node);
+ 	if (!pdata->num_dais) {
+ 		dev_err(dev, "No dais found in DT\n");
+@@ -1253,7 +1251,7 @@ static int of_q6asm_parse_dai_data(struct device *d=
+ev,
 =20
+ 	memset(&empty_stream, 0, sizeof(empty_stream));
+=20
+-	for_each_child_of_node(dev->of_node, node) {
++	for_each_child_of_node_scoped(dev->of_node, node) {
+ 		ret =3D of_property_read_u32(node, "reg", &id);
+ 		if (ret || id >=3D MAX_SESSIONS || id < 0) {
+ 			dev_err(dev, "valid dai id not found:%d\n", ret);
 --=20
 2.47.1
 
