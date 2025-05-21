@@ -1,158 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-17294-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17295-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2C7ABF46F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 14:37:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 423B8ABF516
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 15:02:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4296C8C7D44
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 12:37:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C956D1881214
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 13:02:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 577482638A3;
-	Wed, 21 May 2025 12:37:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA54C264A95;
+	Wed, 21 May 2025 13:02:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U/l2tenU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NQ+OohuU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8732725EFBE
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 21 May 2025 12:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10E1264627;
+	Wed, 21 May 2025 13:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747831067; cv=none; b=JIYSgnMVASlMh6xRFnBFjMELCVuJKYUUUAyRl4rzkNeawnpoGimo+zyig1matDK1BP/NmSI1wMWtSbugowH3sA5M5NO76+QK8e9NszB5YaZHW9Ds6qeWx/EWz+0hGQUkLukod3BqByApWzqpfXNuCvHiTPZFPGUoD69egpeR5e0=
+	t=1747832528; cv=none; b=TC606iyYZSMCFOCYnnFxnFUV6835M3CTAB45k4qrNm6+iLT/NkkaS1qTZ4vTJs1mZiPSyXrFgpR6BP5zNCRe8qJRE+jjwFbqOaxqYMn6GOn8CS1+BUMfj53wqfJHgTKpcgl0AnAxHRUmzg3Gm3hgnAqLy8f2KUZ5yZxm/JAGQRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747831067; c=relaxed/simple;
-	bh=GjbC2EZupc9rKlg7w9fKGg0yFJA0QDt5fWx5/+GR90Y=;
+	s=arc-20240116; t=1747832528; c=relaxed/simple;
+	bh=ZD3FvnIkp4Hy7XHvNTpGCTGWO5g+5SXyPjLloT8M85w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aDhlTTDsPF7OM2HdKxLYhRbGlzAbNBYEaI4ubLFCj9ElrDGNb5pSFwO/GThkV+QA6Jll23UHixq+qnLEXPaE4vqJvgq8MHX/vCC9x3HWlCAfJx6YB7yrLh44oftPBsI+MLrbjJHyKkt7Z0a6VpmcqpGIjWpMUPCT9RCzMwn1skE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U/l2tenU; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e7b99f387e8so2993083276.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 May 2025 05:37:45 -0700 (PDT)
+	 To:Cc:Content-Type; b=gUyyjB6UfHDec3ID30mezwDucB4jec5a2eFBPzFpjFGDGlkOBXEzMkmUR+viSrg5ZMYc8OV9ncJPQTFly7x425q4NpUD9SjrkuhN6KmHrofIdQ+qySgyjKvyZmaty+qVDHjEqU3C+tdBPP+aHAHAMhb830V5JiOaFbS/EDGSrpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NQ+OohuU; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so76501895e9.2;
+        Wed, 21 May 2025 06:02:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747831064; x=1748435864; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zXfUW8AesLAvEK6uV7kil0i/JjavCCmq+bnWibYZk4c=;
-        b=U/l2tenU0U0EZ1kcIrV2Jf4AO7wL2LvmDfH2smBpMhx9fv3R37V6dlZi/tZEqEu2Ow
-         c4gaLvgX9Q1hVnDAt1Gvhb1XxWzrggTfTO0085pJsh0JsCsHMb21YgDNIA0ZDvPzqCg7
-         WGNSnJgIP5C0GLYFR8BvGgvXb+83WtWnAI5MI0zQKxvnCVc6I+xKnpYvgws/vQegf2l7
-         RYblF/Uq6YiNg3beLa4C0c/w6l4XP2v8HVu1siSFJ0Cpf6K10SYHWMHD2IEXxFj0YqOG
-         QhIuX6Ow4GZ38Ig6c0Owiq2/H951m6ZHA3VChNqWPjpT9tlOhUWrTEBjgHGrBg0gKSaU
-         F6eg==
+        d=gmail.com; s=20230601; t=1747832524; x=1748437324; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bmXU8KBDB233JjIK1ODnuLy3coNih7UFHZ8VsOcgN+0=;
+        b=NQ+OohuUXyAoGuKmyO2zM8jxV0dsndYuc5ZWv6wtYFH8B8o0R+QjduMJP5Ffd3o2Qm
+         86VOY+IlSP1UDGw0E0D8EAvGbnhje7cosn5sr+0rHWD81UmehlxGB4Yr5FjFApF21Rhg
+         +AJPAqfo2NttjN7WAL7w1F0SPeoKpx2CNsVqHzXEIPIIIohlia/gJh4+nvdv3Pk5S83Q
+         IO+tNlCXFLCNpx16kag++TryElapMlS5zyApjqkDY8l0DL5Z1drLz6DhWYszr8A01MpY
+         vei/+JiLrOAEduHK+llDLDj8nuRxpTZE531M28y5Cll9Xbm8h5u63St9utT0EYuY8EnK
+         qGpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747831064; x=1748435864;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zXfUW8AesLAvEK6uV7kil0i/JjavCCmq+bnWibYZk4c=;
-        b=r7tlR+MAFEuhfC9QK26TAo5V1JZ/v8tQBiYtreFs1S0ayEFh0p4s2qc63pV1AtFKh2
-         y0UgbmZe3sOUB7INhW2u14mpnk96OabQc1og2k0wxh6vKatDaOuMZey3BfXrloa0ti3V
-         fz4FtvaNTmxyKWG5xZXd1uek0ntDLTNHFXhSTSwM5ZMBGw3wQ4vvZKr4EBHB1edeFdiG
-         4cIRRONkHJlFSCr/5ML2FenoIUUbVv9f8fXOlUHfF3O9g+mzB+7jCmgMonITLOH/ZGv5
-         J7Gm4PpF8l5zN5S2t4ddwC3gD3jZ7DYgWPhh1kPdg0XNQRm4eK6KpBKjKz2XJ8ViLE18
-         MQXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXKcgxpWad4TM0HzKtj9gCfkSsE1kVJt1rcPtGZGQJDKYNa2V+dgGsGuCJ3DcCNyb1HiNAqYAdM+UPXQtf1wKHHeQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlVuWlgmRKEv6U/9cM1WiEKwLiAcRibLuijXcKzxkWhJZZSgCT
-	+9pgFURna5RqiLZFdSrmmi5iMIC73yehYQ0vr813HqoILhCuEGBsZVaLPU6ueojo6tZD8xIvjkc
-	1kLQh419AetDkUluy6AyEKELKOZ1urs/4WGEzEnRiMg==
-X-Gm-Gg: ASbGncuAITIFhdMaSwxlLnHPVbWo6sIpa33rJmLsQm2X/HlnBW/VsUsp+OkxaY4i8jU
-	7GmkTINPPoCiM+DBfwqppCJgSxwZpk/ttHt1dksDZnFxEcHUlJUdLSmxbGD5gQ/seC2c1Lm8yRT
-	zo76RkBTyh0pNEpzPEguXgrvvVq8UT5MA5hQ==
-X-Google-Smtp-Source: AGHT+IGQ0Er0ikbn7otLufhr49GAViB+eYDY7XcsomnPLX3MomayKlYAppD+R3rJurYyfxiX41IbobCp19yEMNTFNKw=
-X-Received: by 2002:a05:6902:1445:b0:e75:bb4f:65f with SMTP id
- 3f1490d57ef6-e7b69e88ae4mr27113366276.17.1747831064489; Wed, 21 May 2025
- 05:37:44 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747832524; x=1748437324;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bmXU8KBDB233JjIK1ODnuLy3coNih7UFHZ8VsOcgN+0=;
+        b=ZGvAgln+WJy2Y1A4PgXFyC7K8G3AhPTIzapNB23fTlaHJaooejMbgf8KoFgquilct1
+         Kbw3YO12zUYlFU9xjp9lQpiWEmdgrjpjlDQzc5zGLmeV6RvRuO7da6qKS5ffyLN4JyNf
+         WuawAogRzWcmvyZx2tJS2Avki+LgW2WhtzDWNtIttGlYU1q65Xs6iM6rLsD6rvnZ5arn
+         fjI6mwblbcSVpiHjBQF7XjTpAbZAxSYNf/5H3GrSsnItb+WnVJb0dX00RDsmIyCMT5D3
+         NzsEitSffoLWMtd4+5kD3RTgVcO6rajrugUi3ZfOus7Dnr/FSsIz/CnApvvZBJAV0tUY
+         0Dkg==
+X-Forwarded-Encrypted: i=1; AJvYcCUcloMViPh3nSDdwGMopi/P7H/+M/xFl/G5TPThlx3DBTJlkMuP2kHdq1ihcuKmlK7Q3SuLMgQj40GpHBBD@vger.kernel.org, AJvYcCWbMLqoqnlnwcqrotwgMKxcx4TKUdRijYBfx9jWNFZ6TtUZgP4gj4cZhW8o42wLzvYpLRY+MzP047iiZM5SSQ+/+Wo=@vger.kernel.org, AJvYcCX5fTzfePGz20AfnVW0kMpfpwQmHE8yfd3Va4UqI/fwylVhNW6NnGSrdrV+qh5xoFqZwRfrDEQdsIOQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkJgboeyFAU0b3I4lLXPyUGLGOL6TyOzNbK0nFixtbQg8UKpW8
+	qXuV0ImHzzpkr6Zk2DM0o7N9mQkvbQcSzdeoIfXQuiRX3AzGr+9V0RTg2RS6VkbqgRxonYiDYHG
+	POqXMC8r9CSnflEvzjItZJ5/1Q+JUxVo=
+X-Gm-Gg: ASbGncvMtbnwkKZI/5xra+zouzdqUxmpULMUOspRgG2ET2QM4t2QCbgbGhaccmQ8qTL
+	ym4vAav5+bCLiD9G1OFsOM1lua5k56mOev/9gS9bdRMlRxEygwvmaNxq5z020Mk2HVAVAt7tvoB
+	IeuIs23Bq5yDbftM3RskRUN11I560OJQPPqOpW8Q==
+X-Google-Smtp-Source: AGHT+IFoWwKL0JlRqJiqoNHNvz66aPp7wIa51xRehBMoBO1ScvekUMbPVG/LKrbcj5M69N6ry5MNkYl3/sR/JqNxWuE=
+X-Received: by 2002:a05:600c:6487:b0:43c:fe15:41c9 with SMTP id
+ 5b1f17b1804b1-442fd622e97mr179727585e9.9.1747832523172; Wed, 21 May 2025
+ 06:02:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <8d83ea72-bb81-4c63-bf69-28cf5848ae20@tuxon.dev>
- <20250305140309.744866b2@jic23-huawei> <Z8k8lDxA53gUJa0n@google.com>
- <f74085be-7b14-4551-a0a7-779318a5dc70@tuxon.dev> <20250330163129.02f24afb@jic23-huawei>
- <5bca6dfd-fe03-4c44-acf4-a51673124338@tuxon.dev> <95f5923f-7a8f-4947-b588-419525930bcb@tuxon.dev>
- <CAPDyKFoMqmCFBoO8FwQe2wHh2kqQi4jUZNFyiNckK7QhGVgmvg@mail.gmail.com>
- <c3a2950a-17ff-444a-bee7-af5e7e10e2bf@tuxon.dev> <CAPDyKFozR4qDq4mzcZBK-LcoPf=fGyuJTXwdt=Ey+_DcQOAp0g@mail.gmail.com>
- <4o3wo76st7w6qwyye3rrayuo2qx773i6jfzcnbkhdj76ouh7ds@3e2mblehkgwf>
- <CAPDyKFqMB7XutXba73YHx1X4rm6uc3Fz6yMZ8yM=wgduEmgUDg@mail.gmail.com> <a20fc6ee-c6c3-4013-b175-4918b9a44380@tuxon.dev>
-In-Reply-To: <a20fc6ee-c6c3-4013-b175-4918b9a44380@tuxon.dev>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 21 May 2025 14:37:08 +0200
-X-Gm-Features: AX0GCFsIU_Cv5FbQ2Bm0zIY-CQUORmN3DYEsWgTR0YU12ksOIQgVfnfzD5GxgjI
-Message-ID: <CAPDyKFpbeLJUiB_xQbqDib+-8Q3AcJNVg+DuEcqmVGMbFdNxwA@mail.gmail.com>
-Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
- probe resources
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, dakr@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org, bhelgaas@google.com
+References: <20250512182330.238259-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250512182330.238259-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250520135820.GC13321@pendragon.ideasonboard.com>
+In-Reply-To: <20250520135820.GC13321@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 21 May 2025 14:01:35 +0100
+X-Gm-Features: AX0GCFt7GSGvdoA8i47pvJvno_4NO5uT_BXI_Lak85lev8oBUTuihwtydPWscd8
+Message-ID: <CA+V-a8swf=LeUxmEFkMCOK-rJ8w+yZK_ALG=GvFRq7VRF_NW+Q@mail.gmail.com>
+Subject: Re: [PATCH v5 03/12] drm: renesas: rz-du: mipi_dsi: Add min check for
+ VCLK range
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 21 May 2025 at 07:41, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
->
-> Hi, Ulf,
->
-> On 20.05.2025 15:09, Ulf Hansson wrote:
-> > For example, even if the order is made correctly, suppose a driver's
-> > ->remove() callback completes by turning off the resources for its
-> > device and leaves runtime PM enabled, as it relies on devres to do it
-> > some point later. Beyond this point, nothing would prevent userspace
-> > for runtime resuming/suspending the device via sysfs.
->
-> If I'm not wrong, that can't happen? The driver_sysfs_remove() is called
-> before device_remove() (which calls the driver remove) is called, this
-> being the call path:
->
-> device_driver_detach() ->
->   device_release_driver_internal() ->
->     __device_release_driver() ->
->       driver_sysfs_remove()
->       // ...
->       device_remove()
->
-> And the driver_sysfs_remove() calls in the end __kernfs_remove() which
-> looks to me like the place that actually drops the entries from sysfs, this
-> being a call path for it:
->
-> driver_sysfs_remove() ->
->   sysfs_remove_link() ->
->     kernfs_remove_by_name() ->
->       kernfs_remove_by_name_ns() ->
->         __kernfs_remove() ->
->
-> activating the following line in __kernfs_remove():
->
-> pr_debug("kernfs %s: removing\n", kernfs_rcu_name(kn));
->
-> leads to the following prints when unbinding the watchdog device from its
-> watchdog driver (attached to platform bus) on my board:
-> https://p.fr33tux.org/935252
+Hi Laurent,
 
-Indeed this is a very good point you make! I completely overlooked
-this fact, thanks a lot for clarifying this!
+Thank you for the review.
 
-However, my main point still stands.
+On Tue, May 20, 2025 at 2:58=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> On Mon, May 12, 2025 at 07:23:21PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > The VCLK range for Renesas RZ/G2L SoC is 148.5 MHz to 5.803 MHz. Add a
+>
+> I would write "5.803 MHz to 148.5 MHz" as ranges are usually expressed
+> in increasing order.
+>
+Ok, I will update the commit message as above.
 
-In the end, there is nothing preventing rpm_suspend|resume|idle() in
-drivers/base/power/runtime.c from running (don't forget runtime PM is
-asynchronous too) for the device in question. This could lead to that
-a ->runtime_suspend|resume|idle() callback becomes executed at any
-point in time, as long as we haven't called pm_runtime_disable() for
-the device.
+Cheers,
+Prabhakar
 
-That's why the devm_pm_runtime_enable() should be avoided as it simply
-introduces a race-condition. Drivers need to be more careful and use
-pm_runtime_enable|disable() explicitly to control the behaviour.
-
-Kind regards
-Uffe
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>
+> > minimum clock check in the mode_valid callback to ensure that the clock
+> > value does not fall below the valid range.
+> >
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > v4->v5:
+> > - No changes
+> >
+> > v3->v4:
+> > - No changes
+> >
+> > v2->v3:
+> > - No changes
+> >
+> > v1->v2:
+> > - Added reviewed tag from Biju
+> > ---
+> >  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/g=
+pu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > index 4550c6d84796..ec8baecb9ba5 100644
+> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > @@ -584,6 +584,9 @@ rzg2l_mipi_dsi_bridge_mode_valid(struct drm_bridge =
+*bridge,
+> >       if (mode->clock > 148500)
+> >               return MODE_CLOCK_HIGH;
+> >
+> > +     if (mode->clock < 5803)
+> > +             return MODE_CLOCK_LOW;
+> > +
+> >       return MODE_OK;
+> >  }
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
