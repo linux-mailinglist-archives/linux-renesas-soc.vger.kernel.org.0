@@ -1,110 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-17308-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17309-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00E0ABF5F2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 15:22:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB71ABF757
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 16:11:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3FCF93BE579
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 13:21:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF8E51BC58BB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 14:10:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15AE32741C4;
-	Wed, 21 May 2025 13:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E7919F48D;
+	Wed, 21 May 2025 14:09:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="HIoZUwWn";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZLUdlePk"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Ja8IR5C2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E202798ED;
-	Wed, 21 May 2025 13:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294ED18C002
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 21 May 2025 14:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747833702; cv=none; b=H83stJ1nwRokbwN5iWD2WW2RxvjbDq//+axLTRoRGBSOGQFsQeYHgduomiiXXk2rJfaDsdHWSMnGysir0TkB6puB0XvKFciyTgl3fS+PtxktIdyc1clQZ0mG5H0TmmrdYChX8Psw3PKk9ZTPn6Ho7T4TgFG74S7jdyQ1ncRSbgc=
+	t=1747836598; cv=none; b=aIQQ05JdelAWGojnHcx9r/aWRzF4rDKnRGnN+v2rsPPJbVqUTrmD9KzCYMOBDvVo7JJv0+X9dNxS6a4GnvZBmNDpo4iz6IeIxgNXX8NJ4BLPTo11y7FKs1Il1RpJHYVay4a6EoIut5b8VZ/Kiq6GMDZGnbwZ28KtFVgB87JJPak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747833702; c=relaxed/simple;
-	bh=JLNv0gE3aord213FDcuJ2FK+6acaE/sYNkLtvnk64lo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=X7lCg6juHGbA2TZD428czs4ZCh7QEWUSsArCg24woZUXmkZuDj80uyN5U9L2GzakSuENRAjGqMusmLv/97PHtk8jjYLxxbyKciNaR11gjNijLpoXu7HPaRJ/1hZl0z0U3YtSrO693z8BTJKq1sv0NVZvVouMhyEF1OBMDmmQfhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=HIoZUwWn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZLUdlePk; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 569D225400D6;
-	Wed, 21 May 2025 09:21:38 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 21 May 2025 09:21:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1747833698;
-	 x=1747920098; bh=eadT93NmZ+GkA81YKupjPsn/CvUyVpcrYgBW7jrHScE=; b=
-	HIoZUwWnWRGlFVRJR3zpQ6B9KODioY3WEKb5C8xtF5RCzsE8V5dhh/xDI8Q+9Pyh
-	b6s15xo+6eszpIdRczvU6o/4e+jjQPAQbOmdC3wzRt7xAMk/nXxpzWVakwzZ734r
-	FpCj5jGg7SKjYwEsWtcAG9gVaCNDSfaCozLiD/ez9W89HcpURPFc3fTRZKWGqmbp
-	rBDAnNj0CWhFbS0wFJ9n+al0WDUhJxGC0dtfJ1sU2grJ8nxCWEoAjbMI+Rzte2yA
-	i2j4Q1XSau/HE/LPA1b00LritxwGqn90JwvapZcwMpObJ+wWQR0EC9iJPkoIdUu9
-	1YjsNwqAuhF0jd9AhmPZZA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747833698; x=
-	1747920098; bh=eadT93NmZ+GkA81YKupjPsn/CvUyVpcrYgBW7jrHScE=; b=Z
-	LUdlePkar4lRjj4Y0JNcy2nQJH9qH0IUKvWmRHZJr2Lk2aocEmRTER6zIXim3aTM
-	RMdZSg0jUY3Il6hO318flyjM9uR8lYCHl2zZrK47dPrsyprh7wAVnxkIehe63kX1
-	37zBbYDqvbig43KRtoAOtZUvb+GUX0QuKNgALgXl1tE6lAUbE+dNl0/76zCXYsQF
-	kKk6f1SN9uYrfxzn64Q1e4K2nAoIHfnIJn+dci1Snm08b+9dH3S1LVULg2XR4ddu
-	4tLI+n94YgaK7zfjImDecPmSm+vkGNZ0ooyQKZjTHd/i3lcO4g3WnAU/UpzG3nez
-	UGuX0iDSVFHcr15fNQIAw==
-X-ME-Sender: <xms:YdMtaKsfYcTtnv4QhBAe7Fh6m53iQSB-PUmjjXziJr9rmthgDB51Hw>
-    <xme:YdMtaPc5aKNReVGmoiWcKgBsKtvV2MXaDXgdK8HwR0xmxzkI8EpHE75S-YARcDupd
-    AC9IlKa1FHN3GmjnyU>
-X-ME-Received: <xmr:YdMtaFzwiNDe4ZR_UtE-Vjpe8t_mmQmeZnuu88tdmlxho0wG668_pAByBfod3SfynPlHamytTXF9IZmsJ50aSeXS>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdefudelucdltddurdegfedvrddttd
-    dmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgf
-    nhhsuhgsshgtrhhisggvpdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttd
-    enucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgj
-    fhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnug
-    cuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggt
-    hhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedtfefhheegkeevtdelueeuke
-    evfeduhefhhfejfffggeffleefgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvg
-    gthhdrshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtph
-    htthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdr
-    vhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpd
-    hrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghr
-    ugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnug
-    dorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:YdMtaFNr9HMxubTWfuBMUSN9kGBFpt7yH-62gcRp35qxKMz0G-JOzQ>
-    <xmx:YdMtaK8IRh5bOt4Kd9_6AFlusVxMXgpZlu9202ScTUaxIOb7rAux0Q>
-    <xmx:YdMtaNWI2RPrjNGrwK8UTY7fRbEwsg7-mLBo__2S_oHvxds81gxfFA>
-    <xmx:YdMtaDcyiDHbo-ox3AQXJBzWp00-VWXLCcTzBuMjkMcT9TGrHCFJuA>
-    <xmx:YtMtaIc0aj5J8FpSAFnfo066m9X6vYPiKSRvBd8jFnrchS9GPN9YEN34>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 May 2025 09:21:37 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v4 6/6] media: rcar-vin: Enable media-graph on Gen2
-Date: Wed, 21 May 2025 15:20:37 +0200
-Message-ID: <20250521132037.1463746-7-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250521132037.1463746-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250521132037.1463746-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1747836598; c=relaxed/simple;
+	bh=84j4M/sWCgzqGrKP5yXreHZyEYcLp2q8N5Dzm2f8t4E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l+CZ88TfVa82aj2pL+YPmhvq3ZV8SRpMoQbOmBafklgr97rwNBwsbln7rI7g43/uUBNDS2ajt6tmNPHn+D9GPUdUSEegkswWeO8uWvOfAi/IPjwQPmmSDY7rh7cDuesw26fgf71RQtlrV0vGJ+u+hUUGBu9gqAzKmTEizsqIYHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Ja8IR5C2; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-601aa44af77so7603142a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 May 2025 07:09:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1747836594; x=1748441394; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TDOATfF1NXwi+01fMzNVCZKqUTUxtgjBwrVzcLpCswY=;
+        b=Ja8IR5C2BkjACyctP45Izrx2n+VECt2NhLTPQJGSllKhEO0VYVnz4C++odk7npnEqE
+         IpBoNaqWegVKqs2o/jrzeLxG9jWyeYHKPYwPTFJ2ofSv+LfFXFSkxyRFo6Rpi5Z9dKf/
+         qP3be5jmRaR2IEFtL+ui3WSc0UilO841VHnhYw8qQ0TOapdJTtwqagERUvl3YR0krYwK
+         yttl4G+i2UiQg7RBh+6DCkCSmbKoRQOleuQ1iADEGoJ/9ET6dQVGzpL3vfcaRdaPPlpN
+         I08jvaP/qk6GMrdYVlpwPbz6pM9tVkNKJihsZAYVozMs7pIATIkh+lDxypZNZJgq9+v5
+         QWsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747836594; x=1748441394;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TDOATfF1NXwi+01fMzNVCZKqUTUxtgjBwrVzcLpCswY=;
+        b=acXtz0HtQLSHuQZXsccy0nWfoemrHDEzxBSY7/PPoIjduZkk74IAjEGH1KIQyq1kQx
+         iKrenIulAr3R+FIqlHCPvBCENNt7YsKDDnLGhiQOd8IQpkrQHsefxDIjQELdtHXoa6Cx
+         xPFUw2Hm/AKWcGbNTte2p4xxa8ushxRMx43H7hA973BE2cjk+yuFYq5lZOMwe/+hbtOy
+         gPiI02h0bHHcdwXLhSsiGdBBE4nJAfoLMT9YxRnlW73EpIrcECkMTA9M5Vig+3GaJDkp
+         eGfjoOo9/MT5xPjPtE7fULsXYEdpfr6vrA51B4H3q6q9tQxjd/VogR81nTY5BpLL8Nk9
+         zRsw==
+X-Forwarded-Encrypted: i=1; AJvYcCVVeUiUtBw3GXFuOp4zqgNkKQoSqtfw9IUe1b2FWDOWy1Z3ySiiECKyp9Jeo6KmadJK6gvdRrEEQKkNE1cXukPsDw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyODmLsHSJzeaAWiV5lxiv8H+A/9q7FLZTv3Hi9mokECHbF4ehf
+	kg3fyYKZcYjjEhLakbZsTDi4tx5I9+D/LM9CCQ8EbUJBw/TUNQIah2ZTevPFNZFjuss=
+X-Gm-Gg: ASbGnctynCOQVeFtMX8wAsTUzwO949eymmtbTEqxEKx7UcBCFZXdW3pYpLDWxKTOzj9
+	Z/rfzBPjTlb9PdkNlrLkMwy2PtdD6pVjHQ1mdYTiB2xZ4XdMRp0t6/AcID6SA6pRwzspH+ZR80P
+	SulUO8dijINTfnQLbfGyTTcepLyklD6uZeYOGgA6ahPxbXG4KI0Q/K5GkK5J6C1TvafFABGsbHD
+	N+93O5SE8rO7gEjd3Bij/BMp94lBkkocJzI+X4znuetoYKrjhiB2OTSg7K1sNIYvn7V33qZ7kEz
+	X7r0lS5gCDG1N5rF21OO7uy6FBec/508n6C+dMksBu+nHtqgWr+SiWuZ8oUFJZWJ8vzuVjKOi+k
+	xdWwz
+X-Google-Smtp-Source: AGHT+IEFpiVvcjUo1Wbs2Qw6AkINKGvCZvZ0iKNJK+c/rD/wNHysBFgTBCzq7iiqNR0Oj9YbgG19CA==
+X-Received: by 2002:a17:907:d0a:b0:acb:4e0c:23ed with SMTP id a640c23a62f3a-ad52d49d4admr1927368166b.14.1747836594100;
+        Wed, 21 May 2025 07:09:54 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.58])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d271916sm914552866b.69.2025.05.21.07.09.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 May 2025 07:09:53 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: vkoul@kernel.org,
+	kishon@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	p.zabel@pengutronix.de,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	yoshihiro.shimoda.uh@renesas.com,
+	kees@kernel.org,
+	gustavoars@kernel.org,
+	biju.das.jz@bp.renesas.com
+Cc: claudiu.beznea@tuxon.dev,
+	linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	john.madieu.xa@bp.renesas.com,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 00/12] Add initial USB support for the Renesas RZ/G3S SoC
+Date: Wed, 21 May 2025 17:09:31 +0300
+Message-ID: <20250521140943.3830195-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -114,1221 +106,152 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Complete the conversion from soc_camera to a full fledge media
-controller enabled devices for all supported generations of the device.
-All work is already done as this is already supported on Gen3, and
-later.
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-All that is missing is some small touch ups of the unified v4l-notifier,
-unconditionally creation of a media pad for each VIN and removing all
-special cases for the non media-graph call paths.
+Hi,
 
-Mark the completion of converting from soc_camera by injecting an
-attribution of myself in the header.
+Series adds initial USB support for the Renesas RZ/G3S SoC.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v3
-- Resolve conflicts with other VIN work merged a head of this series.
----
- .../platform/renesas/rcar-vin/rcar-core.c     | 249 ++-------
- .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
- .../platform/renesas/rcar-vin/rcar-v4l2.c     | 488 +-----------------
- .../platform/renesas/rcar-vin/rcar-vin.h      |  10 +-
- 4 files changed, 66 insertions(+), 697 deletions(-)
+Series is split as follows:
+- patches 01-03/12	- add signal support on SYSC driver support; this is
+			  necessary for USB PHY as the USB PHY driver needs to
+			  touch a register in the SYSC address space, in the
+			  initialization phase
+- patches 04-05/12	- updates the USB PHY documentation
+- patches 06-07/12	- updates the USB PHY driver with a fix and the
+			  support for PWRRDY SYSC signal
+- patches 08-10/12	- updates the rzg2l-usbphy-ctrl driver and documentation
+			  with support for the USB PWRRDY signal
+- patches 11-12/12	- add device tree support
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index b0727e98dac6..5958bf89e64c 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -2,12 +2,11 @@
- /*
-  * Driver for Renesas R-Car VIN
-  *
-+ * Copyright (C) 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
-  * Copyright (C) 2016 Renesas Electronics Corp.
-  * Copyright (C) 2011-2013 Renesas Solutions Corp.
-  * Copyright (C) 2013 Cogent Embedded, Inc., <source@cogentembedded.com>
-  * Copyright (C) 2008 Magnus Damm
-- *
-- * Based on the soc-camera rcar_vin driver
-  */
- 
- #include <linux/idr.h>
-@@ -43,9 +42,6 @@
- 
- #define v4l2_dev_to_vin(d)	container_of(d, struct rvin_dev, v4l2_dev)
- 
--static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
--					  struct v4l2_subdev *subdev);
--
- /* -----------------------------------------------------------------------------
-  * Gen3 Group Allocator
-  */
-@@ -235,10 +231,7 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
- 		}
- 	}
- 
--	if (vin->group->link_setup)
--		return vin->group->link_setup(vin->group);
--
--	return  0;
-+	return vin->group->link_setup(vin->group);
- }
- 
- static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
-@@ -286,17 +279,15 @@ static int rvin_group_notify_bound(struct v4l2_async_notifier *notifier,
- 	guard(mutex)(&group->lock);
- 
- 	for (unsigned int i = 0; i < RCAR_VIN_NUM; i++) {
--		int ret;
--
- 		if (!group->vin[i] || group->vin[i]->parallel.asc != asc)
- 			continue;
- 
--		ret = rvin_parallel_subdevice_attach(group->vin[i], subdev);
--		if (ret)
--			return ret;
--
--		v4l2_set_subdev_hostdata(subdev, group->vin[i]);
-+		group->vin[i]->parallel.source_pad = 0;
-+		for (unsigned int pad = 0; pad < subdev->entity.num_pads; pad++)
-+			if (subdev->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE)
-+				group->vin[i]->parallel.source_pad = pad;
- 
-+		group->vin[i]->parallel.subdev = subdev;
- 		vin_dbg(group->vin[i], "Bound subdev %s\n", subdev->name);
- 
- 		return 0;
-@@ -361,14 +352,6 @@ static int rvin_group_parse_of(struct rvin_dev *vin, unsigned int port,
- 	return ret;
- }
- 
--static void rvin_group_notifier_cleanup(struct rvin_dev *vin)
--{
--	if (&vin->v4l2_dev == vin->group->notifier.v4l2_dev) {
--		v4l2_async_nf_unregister(&vin->group->notifier);
--		v4l2_async_nf_cleanup(&vin->group->notifier);
--	}
--}
--
- static int rvin_parallel_parse_of(struct rvin_dev *vin)
- {
- 	struct fwnode_handle *ep, *fwnode;
-@@ -514,7 +497,7 @@ static void rvin_free_controls(struct rvin_dev *vin)
- 	vin->vdev.ctrl_handler = NULL;
- }
- 
--static int rvin_create_controls(struct rvin_dev *vin, struct v4l2_subdev *subdev)
-+static int rvin_create_controls(struct rvin_dev *vin)
- {
- 	int ret;
- 
-@@ -532,115 +515,11 @@ static int rvin_create_controls(struct rvin_dev *vin, struct v4l2_subdev *subdev
- 		return ret;
- 	}
- 
--	/* For the non-MC mode add controls from the subdevice. */
--	if (subdev) {
--		ret = v4l2_ctrl_add_handler(&vin->ctrl_handler,
--					    subdev->ctrl_handler, NULL, true);
--		if (ret < 0) {
--			rvin_free_controls(vin);
--			return ret;
--		}
--	}
--
- 	vin->vdev.ctrl_handler = &vin->ctrl_handler;
- 
- 	return 0;
- }
- 
--/* -----------------------------------------------------------------------------
-- * Async notifier
-- */
--
--static int rvin_find_pad(struct v4l2_subdev *sd, int direction)
--{
--	unsigned int pad;
--
--	if (sd->entity.num_pads <= 1)
--		return 0;
--
--	for (pad = 0; pad < sd->entity.num_pads; pad++)
--		if (sd->entity.pads[pad].flags & direction)
--			return pad;
--
--	return -EINVAL;
--}
--
--/* -----------------------------------------------------------------------------
-- * Parallel async notifier
-- */
--
--/* The vin lock should be held when calling the subdevice attach and detach */
--static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
--					  struct v4l2_subdev *subdev)
--{
--	struct v4l2_subdev_mbus_code_enum code = {
--		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
--	};
--	int ret;
--
--	/* Find source and sink pad of remote subdevice */
--	ret = rvin_find_pad(subdev, MEDIA_PAD_FL_SOURCE);
--	if (ret < 0)
--		return ret;
--	vin->parallel.source_pad = ret;
--
--	ret = rvin_find_pad(subdev, MEDIA_PAD_FL_SINK);
--	vin->parallel.sink_pad = ret < 0 ? 0 : ret;
--
--	if (vin->info->use_mc) {
--		vin->parallel.subdev = subdev;
--		return 0;
--	}
--
--	/* Find compatible subdevices mbus format */
--	vin->mbus_code = 0;
--	code.index = 0;
--	code.pad = vin->parallel.source_pad;
--	while (!vin->mbus_code &&
--	       !v4l2_subdev_call(subdev, pad, enum_mbus_code, NULL, &code)) {
--		code.index++;
--		switch (code.code) {
--		case MEDIA_BUS_FMT_YUYV8_1X16:
--		case MEDIA_BUS_FMT_UYVY8_1X16:
--		case MEDIA_BUS_FMT_UYVY8_2X8:
--		case MEDIA_BUS_FMT_UYVY10_2X10:
--		case MEDIA_BUS_FMT_RGB888_1X24:
--			vin->mbus_code = code.code;
--			vin_dbg(vin, "Found media bus format for %s: %d\n",
--				subdev->name, vin->mbus_code);
--			break;
--		default:
--			break;
--		}
--	}
--
--	if (!vin->mbus_code) {
--		vin_err(vin, "Unsupported media bus format for %s\n",
--			subdev->name);
--		return -EINVAL;
--	}
--
--	/* Read tvnorms */
--	ret = v4l2_subdev_call(subdev, video, g_tvnorms, &vin->vdev.tvnorms);
--	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV)
--		return ret;
--
--	/* Read standard */
--	vin->std = V4L2_STD_UNKNOWN;
--	ret = v4l2_subdev_call(subdev, video, g_std, &vin->std);
--	if (ret < 0 && ret != -ENOIOCTLCMD)
--		return ret;
--
--	/* Add the controls */
--	ret = rvin_create_controls(vin, subdev);
--	if (ret < 0)
--		return ret;
--
--	vin->parallel.subdev = subdev;
--
--	return 0;
--}
--
- /* -----------------------------------------------------------------------------
-  * CSI-2
-  */
-@@ -912,39 +791,17 @@ static int rvin_csi2_setup_links(struct rvin_group *group)
- 	return ret;
- }
- 
--static void rvin_csi2_cleanup(struct rvin_dev *vin)
--{
--	rvin_group_notifier_cleanup(vin);
--	rvin_group_put(vin);
--	rvin_free_controls(vin);
--}
--
- static int rvin_csi2_init(struct rvin_dev *vin)
- {
- 	int ret;
- 
--	vin->pad.flags = MEDIA_PAD_FL_SINK;
--	ret = media_entity_pads_init(&vin->vdev.entity, 1, &vin->pad);
--	if (ret)
--		return ret;
--
--	ret = rvin_create_controls(vin, NULL);
--	if (ret < 0)
--		return ret;
--
- 	ret = rvin_group_get(vin, rvin_csi2_setup_links, &rvin_csi2_media_ops);
- 	if (ret)
--		goto err_controls;
-+		return ret;
- 
- 	ret = rvin_group_notifier_init(vin, 1, RVIN_CSI_MAX);
- 	if (ret)
--		goto err_group;
--
--	return 0;
--err_group:
--	rvin_group_put(vin);
--err_controls:
--	rvin_free_controls(vin);
-+		rvin_group_put(vin);
- 
- 	return ret;
- }
-@@ -1000,41 +857,19 @@ static int rvin_isp_setup_links(struct rvin_group *group)
- 	return ret;
- }
- 
--static void rvin_isp_cleanup(struct rvin_dev *vin)
--{
--	rvin_group_notifier_cleanup(vin);
--	rvin_group_put(vin);
--	rvin_free_controls(vin);
--}
--
- static int rvin_isp_init(struct rvin_dev *vin)
- {
- 	int ret;
- 
--	vin->pad.flags = MEDIA_PAD_FL_SINK;
--	ret = media_entity_pads_init(&vin->vdev.entity, 1, &vin->pad);
--	if (ret)
--		return ret;
--
--	ret = rvin_create_controls(vin, NULL);
--	if (ret < 0)
--		return ret;
--
- 	ret = rvin_group_get(vin, rvin_isp_setup_links, NULL);
- 	if (ret)
--		goto err_controls;
-+		return ret;
- 
- 	ret = rvin_group_notifier_init(vin, 2, RVIN_ISP_MAX);
- 	if (ret)
--		goto err_group;
-+		rvin_group_put(vin);
- 
- 	return 0;
--err_group:
--	rvin_group_put(vin);
--err_controls:
--	rvin_free_controls(vin);
--
--	return ret;
- }
- 
- /* -----------------------------------------------------------------------------
-@@ -1067,7 +902,7 @@ static int __maybe_unused rvin_resume(struct device *dev)
- 	 * as we don't know if and in which order the master VINs will
- 	 * be resumed.
- 	 */
--	if (vin->info->use_mc) {
-+	if (vin->info->model == RCAR_GEN3) {
- 		unsigned int master_id = rvin_group_id_to_master(vin->id);
- 		struct rvin_dev *master = vin->group->vin[master_id];
- 		int ret;
-@@ -1089,7 +924,6 @@ static int __maybe_unused rvin_resume(struct device *dev)
- 
- static const struct rvin_info rcar_info_h1 = {
- 	.model = RCAR_H1,
--	.use_mc = false,
- 	.max_width = 2048,
- 	.max_height = 2048,
- 	.scaler = rvin_scaler_gen2,
-@@ -1097,7 +931,6 @@ static const struct rvin_info rcar_info_h1 = {
- 
- static const struct rvin_info rcar_info_m1 = {
- 	.model = RCAR_M1,
--	.use_mc = false,
- 	.max_width = 2048,
- 	.max_height = 2048,
- 	.scaler = rvin_scaler_gen2,
-@@ -1105,7 +938,6 @@ static const struct rvin_info rcar_info_m1 = {
- 
- static const struct rvin_info rcar_info_gen2 = {
- 	.model = RCAR_GEN2,
--	.use_mc = false,
- 	.max_width = 2048,
- 	.max_height = 2048,
- 	.scaler = rvin_scaler_gen2,
-@@ -1120,7 +952,6 @@ static const struct rvin_group_route rcar_info_r8a774e1_routes[] = {
- 
- static const struct rvin_info rcar_info_r8a774e1 = {
- 	.model = RCAR_GEN3,
--	.use_mc = true,
- 	.max_width = 4096,
- 	.max_height = 4096,
- 	.routes = rcar_info_r8a774e1_routes,
-@@ -1136,7 +967,6 @@ static const struct rvin_group_route rcar_info_r8a7795_routes[] = {
- 
- static const struct rvin_info rcar_info_r8a7795 = {
- 	.model = RCAR_GEN3,
--	.use_mc = true,
- 	.nv12 = true,
- 	.max_width = 4096,
- 	.max_height = 4096,
-@@ -1154,7 +984,6 @@ static const struct rvin_group_route rcar_info_r8a7796_routes[] = {
- 
- static const struct rvin_info rcar_info_r8a7796 = {
- 	.model = RCAR_GEN3,
--	.use_mc = true,
- 	.nv12 = true,
- 	.max_width = 4096,
- 	.max_height = 4096,
-@@ -1172,7 +1001,6 @@ static const struct rvin_group_route rcar_info_r8a77965_routes[] = {
- 
- static const struct rvin_info rcar_info_r8a77965 = {
- 	.model = RCAR_GEN3,
--	.use_mc = true,
- 	.nv12 = true,
- 	.max_width = 4096,
- 	.max_height = 4096,
-@@ -1187,7 +1015,6 @@ static const struct rvin_group_route rcar_info_r8a77970_routes[] = {
- 
- static const struct rvin_info rcar_info_r8a77970 = {
- 	.model = RCAR_GEN3,
--	.use_mc = true,
- 	.max_width = 4096,
- 	.max_height = 4096,
- 	.routes = rcar_info_r8a77970_routes,
-@@ -1201,7 +1028,6 @@ static const struct rvin_group_route rcar_info_r8a77980_routes[] = {
- 
- static const struct rvin_info rcar_info_r8a77980 = {
- 	.model = RCAR_GEN3,
--	.use_mc = true,
- 	.nv12 = true,
- 	.max_width = 4096,
- 	.max_height = 4096,
-@@ -1215,7 +1041,6 @@ static const struct rvin_group_route rcar_info_r8a77990_routes[] = {
- 
- static const struct rvin_info rcar_info_r8a77990 = {
- 	.model = RCAR_GEN3,
--	.use_mc = true,
- 	.nv12 = true,
- 	.max_width = 4096,
- 	.max_height = 4096,
-@@ -1229,7 +1054,6 @@ static const struct rvin_group_route rcar_info_r8a77995_routes[] = {
- 
- static const struct rvin_info rcar_info_r8a77995 = {
- 	.model = RCAR_GEN3,
--	.use_mc = true,
- 	.nv12 = true,
- 	.max_width = 4096,
- 	.max_height = 4096,
-@@ -1239,7 +1063,6 @@ static const struct rvin_info rcar_info_r8a77995 = {
- 
- static const struct rvin_info rcar_info_gen4 = {
- 	.model = RCAR_GEN4,
--	.use_mc = true,
- 	.use_isp = true,
- 	.nv12 = true,
- 	.raw10 = true,
-@@ -1404,24 +1227,40 @@ static int rcar_vin_probe(struct platform_device *pdev)
- 	if (rvin_id_get(vin))
- 		return -EINVAL;
- 
--	if (vin->info->use_isp) {
--		ret = rvin_isp_init(vin);
--	} else if (vin->info->use_mc) {
--		ret = rvin_csi2_init(vin);
-+	vin->pad.flags = MEDIA_PAD_FL_SINK;
-+	ret = media_entity_pads_init(&vin->vdev.entity, 1, &vin->pad);
-+	if (ret)
-+		return ret;
- 
--		if (vin->info->scaler &&
--		    rvin_group_id_to_master(vin->id) == vin->id)
--			vin->scaler = vin->info->scaler;
--	} else {
--		ret = rvin_group_get(vin, NULL, NULL);
-+	ret = rvin_create_controls(vin);
-+	if (ret < 0)
-+		return ret;
-+
-+	switch (vin->info->model) {
-+	case RCAR_GEN3:
-+	case RCAR_GEN4:
-+		if (vin->info->use_isp) {
-+			ret = rvin_isp_init(vin);
-+		} else {
-+			ret = rvin_csi2_init(vin);
-+
-+			if (vin->info->scaler &&
-+			    rvin_group_id_to_master(vin->id) == vin->id)
-+				vin->scaler = vin->info->scaler;
-+		}
-+		break;
-+	default:
-+		ret = rvin_group_get(vin, rvin_parallel_setup_links, NULL);
- 		if (!ret)
- 			ret = rvin_group_notifier_init(vin, 0, 0);
- 
- 		if (vin->info->scaler)
- 			vin->scaler = vin->info->scaler;
-+		break;
- 	}
- 
- 	if (ret) {
-+		rvin_free_controls(vin);
- 		rvin_dma_unregister(vin);
- 		rvin_id_put(vin);
- 		return ret;
-@@ -1441,10 +1280,14 @@ static void rcar_vin_remove(struct platform_device *pdev)
- 
- 	rvin_v4l2_unregister(vin);
- 
--	if (vin->info->use_isp)
--		rvin_isp_cleanup(vin);
--	else if (vin->info->use_mc)
--		rvin_csi2_cleanup(vin);
-+	if (&vin->v4l2_dev == vin->group->notifier.v4l2_dev) {
-+		v4l2_async_nf_unregister(&vin->group->notifier);
-+		v4l2_async_nf_cleanup(&vin->group->notifier);
-+	}
-+
-+	rvin_group_put(vin);
-+
-+	rvin_free_controls(vin);
- 
- 	rvin_id_put(vin);
- 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index 5c08ee2c9807..f0f2dba19eea 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -2,12 +2,11 @@
- /*
-  * Driver for Renesas R-Car VIN
-  *
-+ * Copyright (C) 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
-  * Copyright (C) 2016 Renesas Electronics Corp.
-  * Copyright (C) 2011-2013 Renesas Solutions Corp.
-  * Copyright (C) 2013 Cogent Embedded, Inc., <source@cogentembedded.com>
-  * Copyright (C) 2008 Magnus Damm
-- *
-- * Based on the soc-camera rcar_vin driver
-  */
- 
- #include <linux/delay.h>
-@@ -560,8 +559,6 @@ void rvin_scaler_gen2(struct rvin_dev *vin)
- 
- 	/* Set scaling coefficient */
- 	crop_height = vin->crop.height;
--	if (V4L2_FIELD_HAS_BOTH(vin->format.field))
--		crop_height *= 2;
- 
- 	ys = 0;
- 	if (crop_height != vin->compose.height)
-@@ -700,9 +697,6 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case V4L2_FIELD_INTERLACED:
- 		/* Default to TB */
- 		vnmc = VNMC_IM_FULL;
--		/* Use BT if video standard can be read and is 60 Hz format */
--		if (!vin->info->use_mc && vin->std & V4L2_STD_525_60)
--			vnmc = VNMC_IM_FULL | VNMC_FOC;
- 		break;
- 	case V4L2_FIELD_INTERLACED_TB:
- 		vnmc = VNMC_IM_FULL;
-@@ -1297,14 +1291,6 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
- 	struct media_pad *pad;
- 	int ret;
- 
--	/* No media controller used, simply pass operation to subdevice. */
--	if (!vin->info->use_mc) {
--		ret = v4l2_subdev_call(vin->parallel.subdev, video, s_stream,
--				       on);
--
--		return ret == -ENOIOCTLCMD ? 0 : ret;
--	}
--
- 	pad = media_pad_remote_pad_first(&vin->pad);
- 	if (!pad)
- 		return -EPIPE;
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-index db091af57c19..59b01cb0628a 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-@@ -2,12 +2,11 @@
- /*
-  * Driver for Renesas R-Car VIN
-  *
-+ * Copyright (C) 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
-  * Copyright (C) 2016 Renesas Electronics Corp.
-  * Copyright (C) 2011-2013 Renesas Solutions Corp.
-  * Copyright (C) 2013 Cogent Embedded, Inc., <source@cogentembedded.com>
-  * Copyright (C) 2008 Magnus Damm
-- *
-- * Based on the soc-camera rcar_vin driver
-  */
- 
- #include <linux/pm_runtime.h>
-@@ -230,101 +229,6 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
-  * V4L2
-  */
- 
--static int rvin_reset_format(struct rvin_dev *vin)
--{
--	struct v4l2_subdev_format fmt = {
--		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
--		.pad = vin->parallel.source_pad,
--	};
--	int ret;
--
--	ret = v4l2_subdev_call(vin_to_source(vin), pad, get_fmt, NULL, &fmt);
--	if (ret)
--		return ret;
--
--	v4l2_fill_pix_format(&vin->format, &fmt.format);
--
--	vin->crop.top = 0;
--	vin->crop.left = 0;
--	vin->crop.width = vin->format.width;
--	vin->crop.height = vin->format.height;
--
--	/*  Make use of the hardware interlacer by default. */
--	if (vin->format.field == V4L2_FIELD_ALTERNATE) {
--		vin->format.field = V4L2_FIELD_INTERLACED;
--		vin->format.height *= 2;
--	}
--
--	rvin_format_align(vin, &vin->format);
--
--	vin->compose.top = 0;
--	vin->compose.left = 0;
--	vin->compose.width = vin->format.width;
--	vin->compose.height = vin->format.height;
--
--	return 0;
--}
--
--static int rvin_try_format(struct rvin_dev *vin, u32 which,
--			   struct v4l2_pix_format *pix,
--			   struct v4l2_rect *src_rect)
--{
--	struct v4l2_subdev *sd = vin_to_source(vin);
--	struct v4l2_subdev_state *sd_state;
--	static struct lock_class_key key;
--	struct v4l2_subdev_format format = {
--		.which = which,
--		.pad = vin->parallel.source_pad,
--	};
--	enum v4l2_field field;
--	u32 width, height;
--	int ret;
--
--	/*
--	 * FIXME: Drop this call, drivers are not supposed to use
--	 * __v4l2_subdev_state_alloc().
--	 */
--	sd_state = __v4l2_subdev_state_alloc(sd, "rvin:state->lock", &key);
--	if (IS_ERR(sd_state))
--		return PTR_ERR(sd_state);
--
--	if (!rvin_format_from_pixel(vin, pix->pixelformat))
--		pix->pixelformat = RVIN_DEFAULT_FORMAT;
--
--	v4l2_fill_mbus_format(&format.format, pix, vin->mbus_code);
--
--	/* Allow the video device to override field and to scale */
--	field = pix->field;
--	width = pix->width;
--	height = pix->height;
--
--	ret = v4l2_subdev_call(sd, pad, set_fmt, sd_state, &format);
--	if (ret < 0 && ret != -ENOIOCTLCMD)
--		goto done;
--	ret = 0;
--
--	v4l2_fill_pix_format(pix, &format.format);
--
--	if (src_rect) {
--		src_rect->top = 0;
--		src_rect->left = 0;
--		src_rect->width = pix->width;
--		src_rect->height = pix->height;
--	}
--
--	if (field != V4L2_FIELD_ANY)
--		pix->field = field;
--
--	pix->width = width;
--	pix->height = height;
--
--	rvin_format_align(vin, pix);
--done:
--	__v4l2_subdev_state_free(sd_state);
--
--	return ret;
--}
--
- static int rvin_querycap(struct file *file, void *priv,
- 			 struct v4l2_capability *cap)
- {
-@@ -333,42 +237,6 @@ static int rvin_querycap(struct file *file, void *priv,
- 	return 0;
- }
- 
--static int rvin_try_fmt_vid_cap(struct file *file, void *priv,
--				struct v4l2_format *f)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--
--	return rvin_try_format(vin, V4L2_SUBDEV_FORMAT_TRY, &f->fmt.pix, NULL);
--}
--
--static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
--			      struct v4l2_format *f)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_rect fmt_rect, src_rect;
--	int ret;
--
--	if (vb2_is_busy(&vin->queue))
--		return -EBUSY;
--
--	ret = rvin_try_format(vin, V4L2_SUBDEV_FORMAT_ACTIVE, &f->fmt.pix,
--			      &src_rect);
--	if (ret)
--		return ret;
--
--	vin->format = f->fmt.pix;
--
--	fmt_rect.top = 0;
--	fmt_rect.left = 0;
--	fmt_rect.width = vin->format.width;
--	fmt_rect.height = vin->format.height;
--
--	v4l2_rect_map_inside(&vin->crop, &src_rect);
--	v4l2_rect_map_inside(&vin->compose, &fmt_rect);
--
--	return 0;
--}
--
- static int rvin_g_fmt_vid_cap(struct file *file, void *priv,
- 			      struct v4l2_format *f)
- {
-@@ -465,6 +333,7 @@ static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
- 
- static int rvin_remote_rectangle(struct rvin_dev *vin, struct v4l2_rect *rect)
- {
-+	struct media_pad *pad = media_pad_remote_pad_first(&vin->pad);
- 	struct v4l2_subdev_format fmt = {
- 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
- 	};
-@@ -472,18 +341,11 @@ static int rvin_remote_rectangle(struct rvin_dev *vin, struct v4l2_rect *rect)
- 	unsigned int index;
- 	int ret;
- 
--	if (vin->info->use_mc) {
--		struct media_pad *pad = media_pad_remote_pad_first(&vin->pad);
-+	if (!pad)
-+		return -EINVAL;
- 
--		if (!pad)
--			return -EINVAL;
--
--		sd = media_entity_to_v4l2_subdev(pad->entity);
--		index = pad->index;
--	} else {
--		sd = vin_to_source(vin);
--		index = vin->parallel.source_pad;
--	}
-+	sd = media_entity_to_v4l2_subdev(pad->entity);
-+	index = pad->index;
- 
- 	fmt.pad = index;
- 	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt);
-@@ -623,113 +485,6 @@ static int rvin_s_selection(struct file *file, void *fh,
- 	return 0;
- }
- 
--static int rvin_g_parm(struct file *file, void *priv,
--		       struct v4l2_streamparm *parm)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--
--	return v4l2_g_parm_cap(&vin->vdev, sd, parm);
--}
--
--static int rvin_s_parm(struct file *file, void *priv,
--		       struct v4l2_streamparm *parm)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--
--	return v4l2_s_parm_cap(&vin->vdev, sd, parm);
--}
--
--static int rvin_g_pixelaspect(struct file *file, void *priv,
--			      int type, struct v4l2_fract *f)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--
--	if (type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
--		return -EINVAL;
--
--	return v4l2_subdev_call(sd, video, g_pixelaspect, f);
--}
--
--static int rvin_enum_input(struct file *file, void *priv,
--			   struct v4l2_input *i)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--	int ret;
--
--	if (i->index != 0)
--		return -EINVAL;
--
--	ret = v4l2_subdev_call(sd, video, g_input_status, &i->status);
--	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV)
--		return ret;
--
--	i->type = V4L2_INPUT_TYPE_CAMERA;
--
--	if (v4l2_subdev_has_op(sd, pad, dv_timings_cap)) {
--		i->capabilities = V4L2_IN_CAP_DV_TIMINGS;
--		i->std = 0;
--	} else {
--		i->capabilities = V4L2_IN_CAP_STD;
--		i->std = vin->vdev.tvnorms;
--	}
--
--	strscpy(i->name, "Camera", sizeof(i->name));
--
--	return 0;
--}
--
--static int rvin_g_input(struct file *file, void *priv, unsigned int *i)
--{
--	*i = 0;
--	return 0;
--}
--
--static int rvin_s_input(struct file *file, void *priv, unsigned int i)
--{
--	if (i > 0)
--		return -EINVAL;
--	return 0;
--}
--
--static int rvin_querystd(struct file *file, void *priv, v4l2_std_id *a)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--
--	return v4l2_subdev_call(sd, video, querystd, a);
--}
--
--static int rvin_s_std(struct file *file, void *priv, v4l2_std_id a)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	int ret;
--
--	ret = v4l2_subdev_call(vin_to_source(vin), video, s_std, a);
--	if (ret < 0)
--		return ret;
--
--	vin->std = a;
--
--	/* Changing the standard will change the width/height */
--	return rvin_reset_format(vin);
--}
--
--static int rvin_g_std(struct file *file, void *priv, v4l2_std_id *a)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--
--	if (v4l2_subdev_has_op(vin_to_source(vin), pad, dv_timings_cap))
--		return -ENOIOCTLCMD;
--
--	*a = vin->std;
--
--	return 0;
--}
--
- static int rvin_subscribe_event(struct v4l2_fh *fh,
- 				const struct v4l2_event_subscription *sub)
- {
-@@ -740,167 +495,6 @@ static int rvin_subscribe_event(struct v4l2_fh *fh,
- 	return v4l2_ctrl_subscribe_event(fh, sub);
- }
- 
--static int rvin_enum_dv_timings(struct file *file, void *priv_fh,
--				struct v4l2_enum_dv_timings *timings)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--	int ret;
--
--	if (timings->pad)
--		return -EINVAL;
--
--	timings->pad = vin->parallel.sink_pad;
--
--	ret = v4l2_subdev_call(sd, pad, enum_dv_timings, timings);
--
--	timings->pad = 0;
--
--	return ret;
--}
--
--static int rvin_s_dv_timings(struct file *file, void *priv_fh,
--			     struct v4l2_dv_timings *timings)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--	int ret;
--
--	ret = v4l2_subdev_call(sd, pad, s_dv_timings,
--			       vin->parallel.sink_pad, timings);
--	if (ret)
--		return ret;
--
--	/* Changing the timings will change the width/height */
--	return rvin_reset_format(vin);
--}
--
--static int rvin_g_dv_timings(struct file *file, void *priv_fh,
--			     struct v4l2_dv_timings *timings)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--
--	return v4l2_subdev_call(sd, pad, g_dv_timings,
--				vin->parallel.sink_pad, timings);
--}
--
--static int rvin_query_dv_timings(struct file *file, void *priv_fh,
--				 struct v4l2_dv_timings *timings)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--
--	return v4l2_subdev_call(sd, pad, query_dv_timings,
--				vin->parallel.sink_pad, timings);
--}
--
--static int rvin_dv_timings_cap(struct file *file, void *priv_fh,
--			       struct v4l2_dv_timings_cap *cap)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--	int ret;
--
--	if (cap->pad)
--		return -EINVAL;
--
--	cap->pad = vin->parallel.sink_pad;
--
--	ret = v4l2_subdev_call(sd, pad, dv_timings_cap, cap);
--
--	cap->pad = 0;
--
--	return ret;
--}
--
--static int rvin_g_edid(struct file *file, void *fh, struct v4l2_edid *edid)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--	int ret;
--
--	if (edid->pad)
--		return -EINVAL;
--
--	edid->pad = vin->parallel.sink_pad;
--
--	ret = v4l2_subdev_call(sd, pad, get_edid, edid);
--
--	edid->pad = 0;
--
--	return ret;
--}
--
--static int rvin_s_edid(struct file *file, void *fh, struct v4l2_edid *edid)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_subdev *sd = vin_to_source(vin);
--	int ret;
--
--	if (edid->pad)
--		return -EINVAL;
--
--	edid->pad = vin->parallel.sink_pad;
--
--	ret = v4l2_subdev_call(sd, pad, set_edid, edid);
--
--	edid->pad = 0;
--
--	return ret;
--}
--
--static const struct v4l2_ioctl_ops rvin_ioctl_ops = {
--	.vidioc_querycap		= rvin_querycap,
--	.vidioc_try_fmt_vid_cap		= rvin_try_fmt_vid_cap,
--	.vidioc_g_fmt_vid_cap		= rvin_g_fmt_vid_cap,
--	.vidioc_s_fmt_vid_cap		= rvin_s_fmt_vid_cap,
--	.vidioc_enum_fmt_vid_cap	= rvin_enum_fmt_vid_cap,
--
--	.vidioc_g_selection		= rvin_g_selection,
--	.vidioc_s_selection		= rvin_s_selection,
--
--	.vidioc_g_parm			= rvin_g_parm,
--	.vidioc_s_parm			= rvin_s_parm,
--
--	.vidioc_g_pixelaspect		= rvin_g_pixelaspect,
--
--	.vidioc_enum_input		= rvin_enum_input,
--	.vidioc_g_input			= rvin_g_input,
--	.vidioc_s_input			= rvin_s_input,
--
--	.vidioc_dv_timings_cap		= rvin_dv_timings_cap,
--	.vidioc_enum_dv_timings		= rvin_enum_dv_timings,
--	.vidioc_g_dv_timings		= rvin_g_dv_timings,
--	.vidioc_s_dv_timings		= rvin_s_dv_timings,
--	.vidioc_query_dv_timings	= rvin_query_dv_timings,
--
--	.vidioc_g_edid			= rvin_g_edid,
--	.vidioc_s_edid			= rvin_s_edid,
--
--	.vidioc_querystd		= rvin_querystd,
--	.vidioc_g_std			= rvin_g_std,
--	.vidioc_s_std			= rvin_s_std,
--
--	.vidioc_reqbufs			= vb2_ioctl_reqbufs,
--	.vidioc_create_bufs		= vb2_ioctl_create_bufs,
--	.vidioc_querybuf		= vb2_ioctl_querybuf,
--	.vidioc_qbuf			= vb2_ioctl_qbuf,
--	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
--	.vidioc_expbuf			= vb2_ioctl_expbuf,
--	.vidioc_prepare_buf		= vb2_ioctl_prepare_buf,
--	.vidioc_streamon		= vb2_ioctl_streamon,
--	.vidioc_streamoff		= vb2_ioctl_streamoff,
--
--	.vidioc_log_status		= v4l2_ctrl_log_status,
--	.vidioc_subscribe_event		= rvin_subscribe_event,
--	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
--};
--
--/* -----------------------------------------------------------------------------
-- * V4L2 Media Controller
-- */
--
- static void rvin_mc_try_format(struct rvin_dev *vin,
- 			       struct v4l2_pix_format *pix)
- {
-@@ -979,19 +573,6 @@ static const struct v4l2_ioctl_ops rvin_mc_ioctl_ops = {
-  * File Operations
-  */
- 
--static int rvin_power_parallel(struct rvin_dev *vin, bool on)
--{
--	struct v4l2_subdev *sd = vin_to_source(vin);
--	int power = on ? 1 : 0;
--	int ret;
--
--	ret = v4l2_subdev_call(sd, core, s_power, power);
--	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV)
--		return ret;
--
--	return 0;
--}
--
- static int rvin_open(struct file *file)
- {
- 	struct rvin_dev *vin = video_drvdata(file);
-@@ -1011,11 +592,7 @@ static int rvin_open(struct file *file)
- 	if (ret)
- 		goto err_unlock;
- 
--	if (vin->info->use_mc)
--		ret = v4l2_pipeline_pm_get(&vin->vdev.entity);
--	else if (v4l2_fh_is_singular_file(file))
--		ret = rvin_power_parallel(vin, true);
--
-+	ret = v4l2_pipeline_pm_get(&vin->vdev.entity);
- 	if (ret < 0)
- 		goto err_open;
- 
-@@ -1027,10 +604,7 @@ static int rvin_open(struct file *file)
- 
- 	return 0;
- err_power:
--	if (vin->info->use_mc)
--		v4l2_pipeline_pm_put(&vin->vdev.entity);
--	else if (v4l2_fh_is_singular_file(file))
--		rvin_power_parallel(vin, false);
-+	v4l2_pipeline_pm_put(&vin->vdev.entity);
- err_open:
- 	v4l2_fh_release(file);
- err_unlock:
-@@ -1044,23 +618,14 @@ static int rvin_open(struct file *file)
- static int rvin_release(struct file *file)
- {
- 	struct rvin_dev *vin = video_drvdata(file);
--	bool fh_singular;
- 	int ret;
- 
- 	mutex_lock(&vin->lock);
- 
--	/* Save the singular status before we call the clean-up helper */
--	fh_singular = v4l2_fh_is_singular_file(file);
--
- 	/* the release helper will cleanup any on-going streaming */
- 	ret = _vb2_fop_release(file, NULL);
- 
--	if (vin->info->use_mc) {
--		v4l2_pipeline_pm_put(&vin->vdev.entity);
--	} else {
--		if (fh_singular)
--			rvin_power_parallel(vin, false);
--	}
-+	v4l2_pipeline_pm_put(&vin->vdev.entity);
- 
- 	mutex_unlock(&vin->lock);
- 
-@@ -1091,18 +656,6 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
- 	video_unregister_device(&vin->vdev);
- }
- 
--static void rvin_notify_video_device(struct rvin_dev *vin,
--				     unsigned int notification, void *arg)
--{
--	switch (notification) {
--	case V4L2_DEVICE_NOTIFY_EVENT:
--		v4l2_event_queue(&vin->vdev, arg);
--		break;
--	default:
--		break;
--	}
--}
--
- static void rvin_notify(struct v4l2_subdev *sd,
- 			unsigned int notification, void *arg)
- {
-@@ -1113,12 +666,6 @@ static void rvin_notify(struct v4l2_subdev *sd,
- 		container_of(sd->v4l2_dev, struct rvin_dev, v4l2_dev);
- 	unsigned int i;
- 
--	/* If no media controller, no need to route the event. */
--	if (!vin->info->use_mc) {
--		rvin_notify_video_device(vin, notification, arg);
--		return;
--	}
--
- 	group = vin->group;
- 
- 	for (i = 0; i < RCAR_VIN_NUM; i++) {
-@@ -1134,7 +681,13 @@ static void rvin_notify(struct v4l2_subdev *sd,
- 		if (remote != sd)
- 			continue;
- 
--		rvin_notify_video_device(vin, notification, arg);
-+		switch (notification) {
-+		case V4L2_DEVICE_NOTIFY_EVENT:
-+			v4l2_event_queue(&vin->vdev, arg);
-+			break;
-+		default:
-+			break;
-+		}
- 	}
- }
- 
-@@ -1162,13 +715,8 @@ int rvin_v4l2_register(struct rvin_dev *vin)
- 	vin->format.field = RVIN_DEFAULT_FIELD;
- 	vin->format.colorspace = RVIN_DEFAULT_COLORSPACE;
- 
--	if (vin->info->use_mc) {
--		vdev->device_caps |= V4L2_CAP_IO_MC;
--		vdev->ioctl_ops = &rvin_mc_ioctl_ops;
--	} else {
--		vdev->ioctl_ops = &rvin_ioctl_ops;
--		rvin_reset_format(vin);
--	}
-+	vdev->device_caps |= V4L2_CAP_IO_MC;
-+	vdev->ioctl_ops = &rvin_mc_ioctl_ops;
- 
- 	rvin_format_align(vin, &vin->format);
- 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-index a577f4fe4a6c..a9bb530174aa 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-@@ -2,12 +2,11 @@
- /*
-  * Driver for Renesas R-Car VIN
-  *
-+ * Copyright (C) 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
-  * Copyright (C) 2016 Renesas Electronics Corp.
-  * Copyright (C) 2011-2013 Renesas Solutions Corp.
-  * Copyright (C) 2013 Cogent Embedded, Inc., <source@cogentembedded.com>
-  * Copyright (C) 2008 Magnus Damm
-- *
-- * Based on the soc-camera rcar_vin driver
-  */
- 
- #ifndef __RCAR_VIN__
-@@ -79,8 +78,6 @@ struct rvin_video_format {
-  * @mbus_type:	media bus type
-  * @bus:	media bus parallel configuration
-  * @source_pad:	source pad of remote subdevice
-- * @sink_pad:	sink pad of remote subdevice
-- *
-  */
- struct rvin_parallel_entity {
- 	struct v4l2_async_connection *asc;
-@@ -90,7 +87,6 @@ struct rvin_parallel_entity {
- 	struct v4l2_mbus_config_parallel bus;
- 
- 	unsigned int source_pad;
--	unsigned int sink_pad;
- };
- 
- /**
-@@ -117,7 +113,6 @@ struct rvin_group_route {
- /**
-  * struct rvin_info - Information about the particular VIN implementation
-  * @model:		VIN model
-- * @use_mc:		use media controller instead of controlling subdevice
-  * @use_isp:		the VIN is connected to the ISP and not to the CSI-2
-  * @nv12:		support outputting NV12 pixel format
-  * @raw10:		support outputting RAW10 pixel format
-@@ -129,7 +124,6 @@ struct rvin_group_route {
-  */
- struct rvin_info {
- 	enum model_id model;
--	bool use_mc;
- 	bool use_isp;
- 	bool nv12;
- 	bool raw10;
-@@ -176,7 +170,6 @@ struct rvin_info {
-  * @crop:		active cropping
-  * @compose:		active composing
-  * @scaler:		Optional scaler
-- * @std:		active video standard of the video source
-  *
-  * @alpha:		Alpha component to fill in for supported pixel formats
-  */
-@@ -218,7 +211,6 @@ struct rvin_dev {
- 	struct v4l2_rect crop;
- 	struct v4l2_rect compose;
- 	void (*scaler)(struct rvin_dev *vin);
--	v4l2_std_id std;
- 
- 	unsigned int alpha;
- };
+Merge strategy, if any:
+- patches 01-03/12,11-12/12 can go through Renesas tree
+- patches 04-07/12 can go through the PHY tree
+- patches 08-10/12 can go through the reset tree
+
+Thank you,
+Claudiu Beznea
+
+Changes in v3:
+- as the basics of the SYSC driver was integrated, only the signal support
+  was preserved in this series, in a separate patch; patch 01/12 was
+  adjusted (by addressing the review comments received at [1]) as it is
+  necessary to build the signal support on top of it
+- after long discussions with the internal HW team it has been confirmed
+  that the relation b/w individual USB specific HW blocks and signals
+  is like:
+
+                                   ┌──────────────────────────────┐
+                                   │                              │◄── CPG_CLKON_USB.CLK0_ON
+                                   │     USB CH0                  │
+    ┌──────────────────────────┐   │┌───────────────────────────┐ │◄── CPG_CLKON_USB.CLK2_ON
+    │                 ┌────────┐   ││host controller registers  │ │
+    │                 │        │   ││function controller registers│
+    │                 │ PHY0   │◄──┤└───────────────────────────┘ │
+    │     USB PHY     │        │   └────────────▲─────────────────┘
+    │                 └────────┘                │
+    │                          │    CPG_BUS_PERI_COM_MSTOP.MSTOP{6, 5}_ON
+    │┌──────────────┐ ┌────────┐
+    ││USBPHY control│ │        │
+    ││  registers   │ │ PHY1   │   ┌──────────────────────────────┐
+    │└──────────────┘ │        │◄──┤     USB CH1                  │
+    │                 └────────┘   │┌───────────────────────────┐ │◄── CPG_CLKON_USB.CLK1_ON
+    └─▲───────▲─────────▲──────┘   ││ host controller registers │ │
+      │       │         │          │└───────────────────────────┘ │
+      │       │         │          └────────────▲─────────────────┘
+      │       │         │                       │
+      │       │         │           CPG_BUS_PERI_COM_MSTOP.MSTOP7_ON
+      │PWRRDY │         │
+      │       │   CPG_CLK_ON_USB.CLK3_ON
+      │       │
+      │  CPG_BUS_PERI_COM_MSTOP.MSTOP4_ON
+      │
+    ┌────┐
+    │SYSC│
+    └────┘
+
+  where:
+  - CPG_CLKON_USB.CLK.CLKX_ON is the register bit controlling the clock X
+      of different USB blocks, X in {0, 1, 2, 3}
+  - CPG_BUS_PERI_COM_MSTOP.MSTOPX_ON is the register bit controlling the
+    MSTOP of different USB blocks, X in {4, 5, 6, 7}
+  - USB PHY is the USB PHY block exposing 2 ports, port0 and port1, used
+    by the USB CH0, USB CH1
+  - SYSC is the system controller block controlling the PWRRDY signal
+  - USB CHx are individual USB block with host and function capabilities
+    (USB CH0 have both host and function capabilities, USB CH1 has only
+    host capabilities)
+
+  Due to this, the PWRRDY signal was also passed to the reset-rzg2l-usbphy-ctrl
+  reset driver (as it controls the USBPHY control registers) and these
+  are in the USB PHY block controlled by PWRRDY signal.
+
+  The PWRRDY signal need to be de-asserted on probe before enabling the module
+  clocks and the module MSTOP. To avoid any violation of this configuration
+  sequence, the PWRRDY signal is now controlled by USB PHY driver and the
+  reset-rzg2l-usbphy-ctrl driver.
+
+  As the PHYs gets reset signals from the USB reset controller driver, the
+  reset-rzg2l-usbphy-ctrl is probed before the USB PHY driver and thus,
+  in theory, we can drop the signal support (reference counting of the
+  USB PWRRDY) and configure the USB PWRRDY just in the reset-rzg2l-usbphy-ctrl.
+
+  However, to have a proper description of the diagram described above in 
+  device tree and ensure the configuration sequence b/w PRWRDY, CLK and MSTOP
+  is preserved, the PWRRDY signal is controlled in this series in all the
+  drivers that work with registers from the USB PHY block.
+
+  Please provide your feedback on this solution.
+
+Thank you,
+Claudiu
+
+[1] https://lore.kernel.org/all/20250330214945.185725-2-john.madieu.xa@bp.renesas.com/
+
+Changes in v2:
+- dropped v1 patches already applied
+- added fixes patches (07/14 and 09/14)
+- dropped the approach of handling the USB PWRRDY though a reset controller
+  driver and introduced the signal concept for the SYSC driver; because
+  of this, most of the work done in v1 was dropped
+- per patch changes are listed in individual patches, if any
+
+Christophe JAILLET (1):
+  phy: renesas: rcar-gen3-usb2: Fix an error handling path in
+    rcar_gen3_phy_usb2_probe()
+
+Claudiu Beznea (10):
+  soc: renesas: rz-sysc: Add signal support
+  soc: renesas: r9a08g045-sysc: Add USB PWRRDY signal
+  dt-bindings: phy: renesas,usb2-phy: Mark resets as required for RZ/G3S
+  dt-bindings: phy: renesas,usb2-phy: Add renesas,sysc-signals
+  phy: renesas: rcar-gen3-usb2: Add support for USB PWRRDY signal
+  reset: rzg2l-usbphy-ctrl: Add support for USB PWRRDY signal
+  dt-bindings: reset: renesas,rzg2l-usbphy-ctrl: Document RZ/G3S support
+  reset: rzg2l-usbphy-ctrl: Add support for RZ/G3S SoC
+  arm64: dts: renesas: r9a08g045: Add USB support
+  arm64: dts: renesas: rzg3s-smarc: Enable USB support
+
+John Madieu (1):
+  soc: renesas: rz-sysc: Add syscon/regmap support
+
+ .../bindings/phy/renesas,usb2-phy.yaml        |  23 ++
+ .../reset/renesas,rzg2l-usbphy-ctrl.yaml      |  38 +++-
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    | 120 +++++++++++
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  |  57 +++++
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c      |  51 ++++-
+ drivers/reset/reset-rzg2l-usbphy-ctrl.c       |  46 ++++
+ drivers/soc/renesas/Kconfig                   |   1 +
+ drivers/soc/renesas/r9a08g045-sysc.c          |  25 +++
+ drivers/soc/renesas/r9a09g047-sys.c           |  13 ++
+ drivers/soc/renesas/r9a09g057-sys.c           |  13 ++
+ drivers/soc/renesas/rz-sysc.c                 | 200 +++++++++++++++++-
+ drivers/soc/renesas/rz-sysc.h                 |  38 ++++
+ include/linux/soc/renesas/rz-sysc.h           |  30 +++
+ 13 files changed, 646 insertions(+), 9 deletions(-)
+ create mode 100644 include/linux/soc/renesas/rz-sysc.h
+
 -- 
-2.49.0
+2.43.0
 
 
