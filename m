@@ -1,238 +1,459 @@
-Return-Path: <linux-renesas-soc+bounces-17325-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17326-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B76ABFCED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 20:38:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A4CABFD0A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 20:51:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA2FD3AC983
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 18:37:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B48BE3A77C0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 May 2025 18:51:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34B0A289E15;
-	Wed, 21 May 2025 18:37:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33340289E04;
+	Wed, 21 May 2025 18:51:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="oVlTZX8U"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="LJjflFB6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011015.outbound.protection.outlook.com [52.101.125.15])
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F294289820
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 21 May 2025 18:37:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747852670; cv=fail; b=IMAONFo+DCqeJTPAXpPViAJJqWtylqTG0ObBSyop+0s8NVr0+wOmaVXeTrL4IGUGOV8Q3c2Tdt+sbv/PdN7QpjZRGxj/iut5KZVUtKlgelJLoPe8PumNyR6GFKV6RdKOgjBZ2DaJAT2Jj2nyM7K2GK977k/2iqSvpAW1fiVsyDQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747852670; c=relaxed/simple;
-	bh=SqIeJXDWwa/qOc6hEIvszlyjf5TeWyS17UMLBr6OI7c=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=K2VaJIReqjUvIAKsEmaulupFyw5JpARyPQ0ktBKE5V9ow7hBtIuTfNaL+HLb0eRoUN9EVGcBWIAS1N/iHJFx2ecMwWAXkgdTdkkMUCdpwOFeLYSLMWW2Ee4xgIcMZPdu/hDXTFO7zoXr2uY+QAO74AGoWxPeePsToIj4U0cHsAw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=oVlTZX8U; arc=fail smtp.client-ip=52.101.125.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Rsvz/CepC6ngAAhHWmQraj6GJt3TilNVackdedpM123bcGj5K8qb4k3r22ammqstCQEit1nk4HdbpXNcuPoFgBD+KAdBldSM1rpVK9e9QjghuyHlRQ0BP+VWykpQm6STrtHrrzsZkWlXMAQdTR9Q41pSXw3GV97phpwnjeGRJRif8oBuZXm1R6sjN/wKZllO5oP8aJw/nFrXmk1W5YQ43s6B8oNSks6438fKhOY307sthb7JbHwmjfUMwZgJwRWdsok3vD6qutWw8cbog6K8SQ0/SNianLX5IEDvK9MMai2Gx4GLSaaxvBEg9IGJOjNVhkckkkbzFnDmICbUHzFUgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QhJ3hhlLBvRvrLGwdLVewy99GOBVAdwkObuSanKtFXE=;
- b=HGZYXI/psfn3rM+rfbgmKw0Gr9rzl0GS/UDu6Gb/Mu/ZeW3mpGpwc4tLNDnxn17UyauavN5iFZ958HJLjUaJbMsbfr+ydE+wEVrM5zzriA2CnLlU8MNijkGs4XYRFbwoT73nzxEON2IL0X1yuRvX6PqCvLCP+YiWG/dswjD0q0NT9XuWv7AgmxW6WKTPSDqAtW+0/41jZgvrjO8X5urbPieEFgy3UW4sWCBy7u4CDgECZWRAoQ84h07/7iEvNS3vlAtcqz5qAjj2RpCJoo24qOMXzgltjBmdmB69dIV2U9iF9A0wiTy60kveFJ7d3DS3dvWtK0W/e1WrP3t2r38KMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QhJ3hhlLBvRvrLGwdLVewy99GOBVAdwkObuSanKtFXE=;
- b=oVlTZX8UXA6kdP/mIAWh0GHuHRbwLaaGUCXG8dsg00xeOCImuiqUwq2WRPX6KPj8k3CY0CNulfp0jZXSa76L5Xgo3AyWeHPVdXpOkD7NLm3wYfk9jggYDgJTMB9uLgTtlals37CtoMm1ApYa5UGBu0RZbVJHaxHQWN90j7lo8q0=
-Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com (2603:1096:604:1a2::11)
- by OS3PR01MB6918.jpnprd01.prod.outlook.com (2603:1096:604:12d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.20; Wed, 21 May
- 2025 18:37:44 +0000
-Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com
- ([fe80::3bc8:765f:f19e:16d5]) by OS3PR01MB8319.jpnprd01.prod.outlook.com
- ([fe80::3bc8:765f:f19e:16d5%6]) with mapi id 15.20.8769.019; Wed, 21 May 2025
- 18:37:44 +0000
-From: Chris Brandt <Chris.Brandt@renesas.com>
-To: Chris Brandt <Chris.Brandt@renesas.com>, Biju Das
-	<biju.das.jz@bp.renesas.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>, Hugo
- Villeneuve <hugo@hugovil.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] drm: renesas: rz-du: Add atomic_pre_enable
-Thread-Topic: [PATCH] drm: renesas: rz-du: Add atomic_pre_enable
-Thread-Index: AQHbylwFhVVE5Hn9nUKcOcoNt/ZXy7PdaaLQ
-Date: Wed, 21 May 2025 18:37:44 +0000
-Message-ID:
- <OS3PR01MB8319DDCEB00EE36F137E055F8A9EA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-References: <20250521142350.2134431-1-chris.brandt@renesas.com>
-In-Reply-To: <20250521142350.2134431-1-chris.brandt@renesas.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS3PR01MB8319:EE_|OS3PR01MB6918:EE_
-x-ms-office365-filtering-correlation-id: 3392ec09-06fc-47ca-08c8-08dd98969386
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?AgPFwlxybseIMPD7D6ZYJT0doBgdT6U7KWMQOGRciyGT7VL5t6ri0S/2CGzj?=
- =?us-ascii?Q?sb8vBjV2MbzbrLWNylP4s768jQHCqlnlaCb5l336O49wJ2ZLpBQuyhl3XY8u?=
- =?us-ascii?Q?mUnECQlLk1Af6xJbDjBzXTdJUihdDCFN5R5/uEd//xwIk2SBJb+2OaEZ2tHq?=
- =?us-ascii?Q?+ZIJvgIKDkWuqHbj312xvMISe72xt0pWU5a4YhFm02zZbqq51NN6UFG9YwWU?=
- =?us-ascii?Q?WIsOzOMKnJ5AnWNIrvvZCbaZP0ajgg3OcZV5XcunH0orUj6Ty7K1kzaOgoIP?=
- =?us-ascii?Q?cuPAo4kWwRquUqvkz5jG+bnvJWJ8sG+mn4ZBhnTTxOgACXnSmn2rhAddjHuc?=
- =?us-ascii?Q?ZznAHht8e0NxTyR+XCVv7aBtFp1H+spqfxbqDg53Id73MPYOFInA93oFc/86?=
- =?us-ascii?Q?IrTnUFQrH1I9cPd7ga9c8kpzHLV0tqrX1Y5NCCpZV6ZK3Aiwiv3z3LBRJzfI?=
- =?us-ascii?Q?yseZHdF6uibUCQWp2958aa8KmB/4OUErr4o6Jg9YBlmYJgxF0hlTT4b2kjKA?=
- =?us-ascii?Q?ddZV5Usy7sehaxjGNkuJp7fwvfu/Xj9+2p1PIIfdK/Ymb14sr2coviqEOTEd?=
- =?us-ascii?Q?NarMoloIZqhA3L6tCLDeVdZy95bTWi9TAPYPCdelCKlqUjjik61a3YocXx86?=
- =?us-ascii?Q?e/BzuBPW1w2i1yPmzLvMasx5Ig5MM4ny0hhqQsoipkBBMbGAZDvz3uGxJoNX?=
- =?us-ascii?Q?X7VQNJhNliWRXIxM4Uy3WeHZQGZJyl0iFexy45MY836N2V8SqAzz7F6tjj98?=
- =?us-ascii?Q?YXVZZVsDIdxgAfbrnHRAHaLpi84E/VAZyFzlNJ3wnXkvczpQXj9STnXMC21n?=
- =?us-ascii?Q?VnPiHJClg82SOQYkUb9sk6Efl5vjkAdumdspnz2KBLNRqv4oJZOXdV48nhBB?=
- =?us-ascii?Q?NgCGAKxIDvV3yekzGIPuXHKZLfxxQ+zbaU6TcbGqeFtWUqVmJ7VSTQbJj4dr?=
- =?us-ascii?Q?9kkudu/S/54YjsCvivgCUtJxgmYAxHEe6CzH/Fy17d2DkcltQk7hq2BF/h4q?=
- =?us-ascii?Q?22ic9vXfIyZGziiHPo1r03fD4vNNPoFQJVW6Ch1mv3JI73jI3/TicTHlhzgj?=
- =?us-ascii?Q?UIgQ4UcS5HF6b9aoIBU8J9S0h1nGRS+yVVdkLXVGr0TpMJ/rHKYlbkfWMtfL?=
- =?us-ascii?Q?PLqWT3WcZ3f0v7eRRvoyo6R4U8BauDTNGMru7ZdI8iJyotGZi5p6hUsLQl8L?=
- =?us-ascii?Q?NvDqgig+Kyb8H1VgS8BGks5dHc5lnQZagsJQ29nHA6hDfrcKPOXgjEc2TWRJ?=
- =?us-ascii?Q?9Q+UjPUP4fHCaolYq0wAjmBDJ9M+m6i0sRIyy9Clu7lXyeMhoFlfxwOP7Bge?=
- =?us-ascii?Q?puQpXLUVrGXa8xKJJFPcsUTmMefXlHW+7lNLI3C4gl90lKCigmjt4oN/ll6X?=
- =?us-ascii?Q?YVB/o84zQvyZG3XQjg6q3UfAv8pHVeU54mjRJ5Kij0AJRr30jLQIdxUFwwSZ?=
- =?us-ascii?Q?QlEczS5sZrHLmjHguUNYBNq5eA5VzAgsBxqMIoaemxY46QUpNyvYDzzeD26l?=
- =?us-ascii?Q?M0TTI8LqQcav0lY=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8319.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?Z49gAxjRFJGup45FNNmCGKiS8UZi0s8huSuS8qgwEImXIYg18oBAYPbdAEbC?=
- =?us-ascii?Q?S8CbhftSGc6TSRMMww7xCtKHaKNSznFDSJakyUYLPDYdielD87Dsa6/R8vx8?=
- =?us-ascii?Q?5azSTGkeH7bF7g2gtj0+KqpIPTMGYy4KX8MszYTYnwjxSetFlNYeYiCw5N1Q?=
- =?us-ascii?Q?EHO7tKAdKv1CnpW/ksi4dwW5k+8Vn+J1KabiZ9ux3wKaNzfW1zC+fwmQIpau?=
- =?us-ascii?Q?DAWwGJvCxm5p8wq8B956H5MYwZMyTaxHdCd2qfFpEqOD7zwQea4ZALF3OtqW?=
- =?us-ascii?Q?2KA1JsWnDn8p3qNElXt4K48iOIP3Ii3C29zxU4Ao5rshAYT7PLKK1z4QVFGz?=
- =?us-ascii?Q?QJd+8iD41jIsLbTfWgFwLm3WJzLrTIYw7jKQz0COktUWhhiwuJIESJ5AKGtL?=
- =?us-ascii?Q?nATRTB7wMqdLv1dsAzXM/2TYOO/0ITHIAp9ciovJ8D3ncxsjytMEtFcJdvTw?=
- =?us-ascii?Q?xn2zseW1g5diJWwxBleSQuy2X1mDwC3CdjMWc/xlSz1Lkqazd3a/rHxAkFkU?=
- =?us-ascii?Q?9KmTFRXSRMeFhjgth5I6aVfLQCfSd0smg8kmsYycATpMsneX+x0Erx6Chbiv?=
- =?us-ascii?Q?NQOmWVqJ+Y+SZkWJwKvdW4vJ3uLEoljZYWZH7pvt14WDoKeN6fRSa4UiptiQ?=
- =?us-ascii?Q?XUaqS9dGiZu0xEnqi1gw8w2xw8qHNreipszdftxL0CwtH9YcjhiQQ69QbXKf?=
- =?us-ascii?Q?tn3IXKAYQN1fNJ1WVSS/xKH3rVReFgNLIjgH5YPWoB2SQjDQWUUz4KEEMFBE?=
- =?us-ascii?Q?hLJWoFoTWYTJZc8j8AZjGNeFVA8fh11LTWRl1cxPuT2BnLTABL/zinQiLaBk?=
- =?us-ascii?Q?eCalxkdaNeasGb2qHiIhZF6ztDksuy+1JjM0bhhxSKmMkZ7fGcvOSZNl3EJ3?=
- =?us-ascii?Q?Mgva5aYICZ84CSySWVbPXpYG1KDF1n1UbY5edrTzWE+B87T+7GLkRQLjSFXH?=
- =?us-ascii?Q?nPOu+ivV1FQLvXU7cgtMx67MqWkOPVARBTrn4qEi0uUZz+T6qamOLJXk7I1M?=
- =?us-ascii?Q?HkJ5p7BvU+HXvSK+xtGM2gzZvYb8QhRzb8bGl6A1k2yeqMSxaPt1beCRBQZ7?=
- =?us-ascii?Q?dQb9N87mfP7AlJuusONAXpHD5OPWB9r9Qoa515nSGff3vT5EbZmYkftiFwd2?=
- =?us-ascii?Q?c9yhatv5dQrzomFGzqEE+x5yEVC6/tKZBgsPGH2BVuuSVEAT2DRag88DwA2J?=
- =?us-ascii?Q?O7DV5fhhtfXghsMlFYWjbscODE9wDTZUkzPL+xc6bvbYPUwQ5uagtJ688yXH?=
- =?us-ascii?Q?9xOz9sx5zw+zQ7AMDM8Qa4vqM79X6i3SckhFR8N5GOUSiaNjbM0y49cWQKHi?=
- =?us-ascii?Q?y6LFn7VCev+Qtkahnf9i8Wc2L7f8DU7repLehasaqzvYu5AoIsNR73nIR1oQ?=
- =?us-ascii?Q?j07/gItjhwv1T/8iAv4RWYzgUZgYi8AFYRfQJz/s0dYJIj9Exp6pirwH6JjM?=
- =?us-ascii?Q?ixzvDUI6MElXcyDEjSHqSM2o5oKOTkv778HZKRbQO/n/r3Ooo/Hju00hzCIK?=
- =?us-ascii?Q?PPK5LAVjTBETgKQJJNFPUD9Wm6xZpgU8GYVJXMtHiVKj00+TMgV81upbLx55?=
- =?us-ascii?Q?ahXHKxhDicSNC6FrHQHBWLF00LJ3cJapWZedPNZL?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849791D7999;
+	Wed, 21 May 2025 18:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747853503; cv=none; b=P4wUCMjt1tBaDo48r/rSE3r5wIRVJGmuEDbTZ6n4jDYXgGDWXXt31nSLm5GLMCnZE/1u6yQYUzythzjFidOy/U6dbR6T8aYz22kgwmofQjym1OP5LSTE3oP37IZS1hjntEsF1QAr4HR/orIHWycfDOYdNZcMNo/C+8cUVuO1hGA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747853503; c=relaxed/simple;
+	bh=HViRkR9IseycG4RqrUMvqT/5luymndQHFzGO64flSWY=;
+	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
+	 Content-Type:Subject; b=kOsm/kTGJBajTzqYZ6kBNSiI2kdA6BUwlCIszNMXQLpMXs1nowx3xThBwQ0ZM3dDed7W1+GwHW2PN3oCUasUU4N2d+g5UN0iQx8fZjiNSDX5NGLG7syABP2DV6TAqpq+FAvRDdXescxaz06i6YKaVCH8z6SHNWiqxIEhl14l8xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=LJjflFB6; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+	:Date:subject:date:message-id:reply-to;
+	bh=pLajyTKvSnjIeuhbiBRiqcZn2G1t4YqZMJu2Cek90Gc=; b=LJjflFB6AayCbZwPaANqL6treh
+	acw9Gk8X7GrVLSN+graw1u0fxSTvULAwfZurT3Zbo0eKQP2swDTGMcYWoGWKr9A/R3OKBQQHd2jQt
+	C/QFaEalCaJ2XeyvHfkKQcoLWeF4qJBT2Tt67U8GF7AJDzBnU1s8DPFutKrIKfr1x7wM=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:43264 helo=pettiford.lan)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1uHoX9-0004sc-Id; Wed, 21 May 2025 14:51:20 -0400
+Date: Wed, 21 May 2025 14:51:19 -0400
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-renesas-soc@vger.kernel.org"
+ <linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+ Chris Brandt <Chris.Brandt@renesas.com>
+Message-Id: <20250521145119.7b842eed340b403c024dff6b@hugovil.com>
+In-Reply-To: <TYCPR01MB113329D284B9AFDD68F9E64A3869EA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+References: <20250520171034.3488482-2-hugo@hugovil.com>
+	<TYCPR01MB113329D284B9AFDD68F9E64A3869EA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8319.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3392ec09-06fc-47ca-08c8-08dd98969386
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2025 18:37:44.3602
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TRTnF5egriawyXXRIsFVwSyNt8mifiO1hntm+l5CvZ4v9bx/wx8QFL7TR4rnuLiCnlEdZrgjZ1VbV2O5/g64IrIRm6RzgCBqBEhT/bOI/HE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6918
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	*  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+	*      blocklist
+	*      [URIs: hugovil.com]
+	*  0.1 URIBL_CSS Contains an URL's NS IP listed in the Spamhaus CSS
+	*      blocklist
+	*      [URIs: hugovil.com]
+	* -0.3 NICE_REPLY_A Looks like a legit reply (A)
+Subject: Re: [PATCH 1/2] drm: rcar-du: rzg2l_mipi_dsi: Implement host
+ transfers
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-Sorry, ignore this version.
+Hi Biju,
 
-The local variables are wrong.
+On Wed, 21 May 2025 07:43:08 +0000
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
 
-I'll submit a V2.....
+> Hi Hugo,
+> 
+> Thanks for the patch.
+> 
+> For some reason, your cover letter is not showing link to this patch
+> [1] https://lore.kernel.org/all/20250520164034.3453315-1-hugo@hugovil.com/
 
-Chris
+My server had problems, and only sent the cover letter, forcing me to
+manually send the two remaining patches thinking it would be ok :)
+
+> 
+> > -----Original Message-----
+> > From: Hugo Villeneuve <hugo@hugovil.com>
+> > Sent: 20 May 2025 18:11
+> > Subject: [PATCH 1/2] drm: rcar-du: rzg2l_mipi_dsi: Implement host transfers
+> 
+> rcar-du->rz-du
+
+Yes, and other commits use "drm: renesas: rz-du:", so I will change it
+to this prefix.
 
 
------Original Message-----
-From: Chris Brandt <chris.brandt@renesas.com>=20
-Sent: Wednesday, May 21, 2025 10:24 AM
-To: Biju Das <biju.das.jz@bp.renesas.com>; Maarten Lankhorst <maarten.lankh=
-orst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>; Thomas Zimmerman=
-n <tzimmermann@suse.de>; David Airlie <airlied@gmail.com>; Simona Vetter <s=
-imona@ffwll.ch>; Hien Huynh <hien.huynh.px@renesas.com>; Hugo Villeneuve <h=
-ugo@hugovil.com>
-Cc: dri-devel@lists.freedesktop.org; linux-renesas-soc@vger.kernel.org; Chr=
-is Brandt <Chris.Brandt@renesas.com>
-Subject: [PATCH] drm: renesas: rz-du: Add atomic_pre_enable
+> > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> > 
+> > Add support for sending MIPI DSI command packets from the host to a peripheral. This is required for
+> > panels that need configuration before they accept video data.
+> > 
+> > Based on Renesas Linux kernel v5.10 repos [1].
+> 
+> > 
+> > Link: https://github.com/renesas-rz/rz_linux-cip.git
+> > Cc: Biju Das <biju.das.jz@bp.renesas.com>
+> > Cc: Chris Brandt <chris.brandt@renesas.com>
+> > Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> > ---
+> >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 174 ++++++++++++++++++
+> >  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  56 ++++++
+> >  2 files changed, 230 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-
+> > du/rzg2l_mipi_dsi.c
+> > index dc6ab012cdb69..77d3a31ff8e35 100644
+> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > @@ -6,6 +6,7 @@
+> >   */
+> >  #include <linux/clk.h>
+> >  #include <linux/delay.h>
+> > +#include <linux/dma-mapping.h>
+> >  #include <linux/io.h>
+> >  #include <linux/iopoll.h>
+> >  #include <linux/module.h>
+> > @@ -23,9 +24,12 @@
+> >  #include <drm/drm_of.h>
+> >  #include <drm/drm_panel.h>
+> >  #include <drm/drm_probe_helper.h>
+> > +#include <video/mipi_display.h>
+> > 
+> >  #include "rzg2l_mipi_dsi_regs.h"
+> > 
+> > +#define RZG2L_DCS_BUF_SIZE	128 /* Maximum DCS buffer size in external memory. */
+> > +
+> >  struct rzg2l_mipi_dsi {
+> >  	struct device *dev;
+> >  	void __iomem *mmio;
+> > @@ -44,6 +48,10 @@ struct rzg2l_mipi_dsi {
+> >  	unsigned int num_data_lanes;
+> >  	unsigned int lanes;
+> >  	unsigned long mode_flags;
+> > +
+> > +	/* DCS buffer pointers when using external memory. */
+> > +	dma_addr_t dcs_buf_phys;
+> > +	u8 *dcs_buf_virt;
+> >  };
+> > 
+> >  static inline struct rzg2l_mipi_dsi *
+> > @@ -651,9 +659,168 @@ static int rzg2l_mipi_dsi_host_detach(struct mipi_dsi_host *host,
+> >  	return 0;
+> >  }
+> > 
+> > +static ssize_t rzg2l_mipi_dsi_read_response(struct rzg2l_mipi_dsi *dsi,
+> > +					    const struct mipi_dsi_msg *msg) {
+> > +	u8 *msg_rx = msg->rx_buf;
+> > +	u16 size;
+> > +	u8 datatype;
+> > +	u32 result;
+> 
+> Please arrange the variables in reverse xmas tree fashion.
 
-When drm_panel.prepare_prev_first is set to true in a panel driver, the
-panel expects the MIPI DSI hardware to be already configured before the
-panel's prepare function is called because it might need to send DCS
-commands.
+Ok.
 
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
----
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+  
+> > +
+> > +	result = rzg2l_mipi_dsi_link_read(dsi, RXRSS0R);
+> > +	if (result & RXRSS0R_RXPKTDFAIL) {
+> > +		dev_err(dsi->dev, "packet rx data did not save correctly\n");
+> > +		return -EPROTO;
+> > +	}
+> > +
+> > +	if (result & RXRSS0R_RXFAIL) {
+> > +		dev_err(dsi->dev, "packet rx failure\n");
+> > +		return -EPROTO;
+> > +	}
+> > +
+> > +	if (!(result & RXRSS0R_RXSUC))
+> > +		return -EPROTO;
+> > +
+> > +	datatype = FIELD_GET(RXRSS0R_DT, result);
+> > +
+> > +	switch (datatype) {
+> > +	case 0:
+> > +		dev_dbg(dsi->dev, "ACK\n");
+> > +		return 0;
+> > +	case MIPI_DSI_RX_END_OF_TRANSMISSION:
+> > +		dev_dbg(dsi->dev, "EoTp\n");
+> > +		return 0;
+> > +	case MIPI_DSI_RX_ACKNOWLEDGE_AND_ERROR_REPORT:
+> > +		dev_dbg(dsi->dev, "Acknowledge and error report: $%02x%02x\n",
+> > +			(u8)FIELD_GET(RXRSS0R_DATA1, result),
+> > +			(u8)FIELD_GET(RXRSS0R_DATA0, result));
+> > +		return 0;
+> > +	case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_1BYTE:
+> > +	case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_1BYTE:
+> > +		msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
+> > +		return 1;
+> > +	case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_2BYTE:
+> > +	case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_2BYTE:
+> > +		msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
+> > +		msg_rx[1] = FIELD_GET(RXRSS0R_DATA1, result);
+> > +		return 2;
+> > +	case MIPI_DSI_RX_GENERIC_LONG_READ_RESPONSE:
+> > +	case MIPI_DSI_RX_DCS_LONG_READ_RESPONSE:
+> > +		size = FIELD_GET(RXRSS0R_WC, result);
+> > +
+> > +		if (size > msg->rx_len) {
+> > +			dev_err(dsi->dev, "rx buffer too small");
+> > +			return -ENOSPC;
+> > +		}
+> > +
+> > +		memcpy(msg_rx, dsi->dcs_buf_virt, size);
+> > +		return size;
+> > +	default:
+> > +		dev_err(dsi->dev, "unhandled response type: %02x\n", datatype);
+> > +		return -EPROTO;
+> > +	}
+> > +}
+> > +
+> > +static ssize_t rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+> > +					    const struct mipi_dsi_msg *msg) {
+> > +	struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
+> > +	struct mipi_dsi_packet packet;
+> > +	bool need_bta;
+> > +	u32 value;
+> > +	int ret;
+> > +
+> > +	ret = mipi_dsi_create_packet(&packet, msg);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	/* Terminate operation after this descriptor is finished */
+> > +	value = SQCH0DSC0AR_NXACT_TERM;
+> > +
+> > +	if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
+> > +		need_bta = true; /* Message with explicitly requested ACK */
+> > +		value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NON_READ);
+> > +	} else if (msg->rx_buf && msg->rx_len > 0) {
+> > +		need_bta = true; /* Read request */
+> > +		value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_READ);
+> > +	} else {
+> > +		need_bta = false;
+> > +		value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NONE);
+> > +	}
+> > +
+> > +	/* Set transmission speed */
+> > +	if (msg->flags & MIPI_DSI_MSG_USE_LPM)
+> > +		value |= SQCH0DSC0AR_SPD_LOW;
+> > +	else
+> > +		value |= SQCH0DSC0AR_SPD_HIGH;
+> > +
+> > +	/* Write TX packet header */
+> > +	value |= FIELD_PREP(SQCH0DSC0AR_DT, packet.header[0]) |
+> > +		FIELD_PREP(SQCH0DSC0AR_DATA0, packet.header[1]) |
+> > +		FIELD_PREP(SQCH0DSC0AR_DATA1, packet.header[2]);
+> > +
+> > +	if (mipi_dsi_packet_format_is_long(msg->type)) {
+> > +		value |= SQCH0DSC0AR_FMT_LONG;
+> > +
+> > +		if (packet.payload_length > RZG2L_DCS_BUF_SIZE) {
+> > +			dev_err(dsi->dev, "Packet Tx payload size (%d) too large",
+> > +				(unsigned int)packet.payload_length);
+> > +			return -ENOSPC;
+> > +		}
+> > +
+> > +		/* Copy TX packet payload data to memory space */
+> > +		memcpy(dsi->dcs_buf_virt, packet.payload, packet.payload_length);
+> > +	} else {
+> > +		value |= SQCH0DSC0AR_FMT_SHORT;
+> > +	}
+> > +
+> > +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
+> > +
+> > +	/*
+> > +	 * Write: specify payload data source location, only used for
+> > +	 *        long packet.
+> > +	 * Read:  specify payload data storage location of response
+> > +	 *        packet. Note: a read packet is always a short packet.
+> > +	 *        If the response packet is a short packet or a long packet
+> > +	 *        with WC = 0 (no payload), DTSEL is meaningless.
+> > +	 */
+> > +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0BR,
+> > +SQCH0DSC0BR_DTSEL_MEM_SPACE);
+> > +
+> > +	/*
+> > +	 * Set SQCHxSR.AACTFIN bit when descriptor actions are finished.
+> > +	 * Read: set Rx result save slot number to 0 (ACTCODE).
+> > +	 */
+> > +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0CR, SQCH0DSC0CR_FINACT);
+> > +
+> > +	/* Set rx/tx payload data address, only relevant for long packet. */
+> > +	rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0DR, (u32)dsi->dcs_buf_phys);
+> > +
+> > +	/* Start sequence 0 operation */
+> > +	value = rzg2l_mipi_dsi_link_read(dsi, SQCH0SET0R);
+> > +	value |= SQCH0SET0R_START;
+> > +	rzg2l_mipi_dsi_link_write(dsi, SQCH0SET0R, value);
+> > +
+> > +	/* Wait for operation to finish */
+> > +	ret = read_poll_timeout(rzg2l_mipi_dsi_link_read,
+> > +				value, value & SQCH0SR_ADESFIN,
+> > +				2000, 20000, false, dsi, SQCH0SR);
+> > +	if (ret == 0) {
+> > +		/* Success: clear status bit */
+> > +		rzg2l_mipi_dsi_link_write(dsi, SQCH0SCR, SQCH0SCR_ADESFIN);
+> > +
+> > +		if (need_bta)
+> > +			ret = rzg2l_mipi_dsi_read_response(dsi, msg);
+> > +		else
+> > +			ret = packet.payload_length;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static const struct mipi_dsi_host_ops rzg2l_mipi_dsi_host_ops = {
+> >  	.attach = rzg2l_mipi_dsi_host_attach,
+> >  	.detach = rzg2l_mipi_dsi_host_detach,
+> > +	.transfer = rzg2l_mipi_dsi_host_transfer,
+> >  };
+> > 
+> >  /* -----------------------------------------------------------------------------
+> > @@ -771,6 +938,11 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+> >  	if (ret < 0)
+> >  		goto err_pm_disable;
+> > 
+> > +	dsi->dcs_buf_virt = dma_alloc_coherent(dsi->host.dev, RZG2L_DCS_BUF_SIZE,
+> > +					       &dsi->dcs_buf_phys, GFP_KERNEL);
+> > +	if (!dsi->dcs_buf_virt)
+> > +		return -ENOMEM;
+> > +
+> >  	return 0;
+> > 
+> >  err_phy:
+> > @@ -785,6 +957,8 @@ static void rzg2l_mipi_dsi_remove(struct platform_device *pdev)  {
+> >  	struct rzg2l_mipi_dsi *dsi = platform_get_drvdata(pdev);
+> > 
+> > +	dma_free_coherent(dsi->host.dev, RZG2L_DCS_BUF_SIZE, dsi->dcs_buf_virt,
+> > +			  dsi->dcs_buf_phys);
+> >  	mipi_dsi_host_unregister(&dsi->host);
+> >  	pm_runtime_disable(&pdev->dev);
+> >  }
+> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rz-
+> > du/rzg2l_mipi_dsi_regs.h
+> > index 1dbc16ec64a4b..33cd669bc74b1 100644
+> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+> > @@ -81,6 +81,16 @@
+> >  #define RSTSR_SWRSTLP			(1 << 1)
+> >  #define RSTSR_SWRSTHS			(1 << 0)
+> > 
+> > +/* Rx Result Save Slot 0 Register */
+> > +#define RXRSS0R				0x240
+> > +#define RXRSS0R_RXPKTDFAIL		BIT(28)
+> > +#define RXRSS0R_RXFAIL			BIT(27)
+> > +#define RXRSS0R_RXSUC			BIT(25)
+> > +#define RXRSS0R_DT			GENMASK(21, 16)
+> > +#define RXRSS0R_DATA1			GENMASK(15, 8)
+> > +#define RXRSS0R_DATA0			GENMASK(7, 0)
+> > +#define RXRSS0R_WC			GENMASK(15, 0) /* Word count for long packet. */
+> > +
+> >  /* Clock Lane Stop Time Set Register */
+> >  #define CLSTPTSETR			0x314
+> >  #define CLSTPTSETR_CLKKPT(x)		((x) << 24)
+> > @@ -148,4 +158,50 @@
+> >  #define VICH1HPSETR_HFP(x)		(((x) & 0x1fff) << 16)
+> >  #define VICH1HPSETR_HBP(x)		(((x) & 0x1fff) << 0)
+> > 
+> > +/* Sequence Channel 0 Set 0 Register */
+> > +#define SQCH0SET0R			0x5c0
+> > +#define SQCH0SET0R_START		BIT(0)
+> > +
+> > +/* Sequence Channel 0 Set 1 Register */
+> > +#define SQCH0SET1R			0x5c4
+> 
+> Unused. Drop it.
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/d=
-rm/renesas/rz-du/rzg2l_mipi_dsi.c
-index 4550c6d84796..b31affddfc81 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -531,7 +531,7 @@ static int rzg2l_mipi_dsi_attach(struct drm_bridge *bri=
-dge,
- 				 flags);
- }
-=20
--static void rzg2l_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
-+static void rzg2l_mipi_dsi_atomic_pre_enable(struct drm_bridge *bridge,
- 					 struct drm_atomic_state *state)
- {
- 	struct rzg2l_mipi_dsi *dsi =3D bridge_to_rzg2l_mipi_dsi(bridge);
-@@ -549,6 +549,13 @@ static void rzg2l_mipi_dsi_atomic_enable(struct drm_br=
-idge *bridge,
- 		return;
-=20
- 	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
-+}
-+
-+static void rzg2l_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
-+					 struct drm_atomic_state *state)
-+{
-+	struct rzg2l_mipi_dsi *dsi =3D bridge_to_rzg2l_mipi_dsi(bridge);
-+	int ret;
-=20
- 	ret =3D rzg2l_mipi_dsi_start_hs_clock(dsi);
- 	if (ret < 0)
-@@ -592,6 +599,7 @@ static const struct drm_bridge_funcs rzg2l_mipi_dsi_bri=
-dge_ops =3D {
- 	.atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset =3D drm_atomic_helper_bridge_reset,
-+	.atomic_pre_enable =3D rzg2l_mipi_dsi_atomic_pre_enable,
- 	.atomic_enable =3D rzg2l_mipi_dsi_atomic_enable,
- 	.atomic_disable =3D rzg2l_mipi_dsi_atomic_disable,
- 	.mode_valid =3D rzg2l_mipi_dsi_bridge_mode_valid,
---=20
-2.34.1
+Ok, will remove all unused macros.
 
+> 
+> > +
+> > +/* Sequence Channel 0 Status Register */
+> > +#define SQCH0SR				0x5d0
+> > +#define SQCH0SR_RUNNING			BIT(2)
+> Unused
+> 
+> > +#define SQCH0SR_ADESFIN			BIT(8)
+> > +
+> > +/* Sequence Channel 0 Status Clear Register */
+> > +#define SQCH0SCR			0x5d4
+> > +#define SQCH0SCR_ADESFIN		BIT(8)
+> > +
+> > +/* Sequence Channel 0 Descriptor 0-A Register */
+> > +#define SQCH0DSC0AR			0x780
+> > +#define SQCH0DSC0AR_NXACT_TERM		0
+> > +#define SQCH0DSC0AR_NXACT_OPER		BIT(28)
+> Unused
+> 
+> > +#define SQCH0DSC0AR_BTA			GENMASK(27, 26)
+> > +#define SQCH0DSC0AR_BTA_NONE		0
+> > +#define SQCH0DSC0AR_BTA_NON_READ	1
+> > +#define SQCH0DSC0AR_BTA_READ		2
+> > +#define SQCH0DSC0AR_BTA_ONLY		3
+> > +#define SQCH0DSC0AR_SPD_HIGH		0
+> > +#define SQCH0DSC0AR_SPD_LOW		BIT(25)
+> > +#define SQCH0DSC0AR_FMT_SHORT		0
+> > +#define SQCH0DSC0AR_FMT_LONG		BIT(24)
+> > +#define SQCH0DSC0AR_DT			GENMASK(21, 16)
+> > +#define SQCH0DSC0AR_DATA1		GENMASK(15, 8)
+> > +#define SQCH0DSC0AR_DATA0		GENMASK(7, 0)
+> > +
+> > +/* Sequence Channel 0 Descriptor 0-B Register */
+> > +#define SQCH0DSC0BR			0x784
+> > +#define SQCH0DSC0BR_DTSEL_PAYLOAD_DR	0	/* Use packet payload data register */
+> Unused
+> 
+> > +#define SQCH0DSC0BR_DTSEL_MEM_SPACE	BIT(24)	/* Use external memory */
+> > +
+> > +/* Sequence Channel 0 Descriptor 0-C Register */
+> > +#define SQCH0DSC0CR			0x788
+> > +#define SQCH0DSC0CR_FINACT		BIT(0)
+> > +#define SQCH0DSC0CR_AUXOP		BIT(22)
+> Unused
+> 
+> > +
+> > +/* Sequence Channel 0 Descriptor 0-D Register */
+> > +#define SQCH0DSC0DR			0x78c
+> > +
+> 
+> Cheers,
+> Biju
+> 
+> >  #endif /* __RZG2L_MIPI_DSI_REGS_H__ */
+> > --
+> > 2.39.5
+> 
+> 
+
+
+-- 
+Hugo Villeneuve
 
