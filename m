@@ -1,284 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-17334-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17335-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9090AC035A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 06:27:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F93AC03AC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 07:03:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C117F1B67E18
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 04:27:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84DE5947412
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 05:03:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ADB5153598;
-	Thu, 22 May 2025 04:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLYrpJ3v"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F2DC1A38E1;
+	Thu, 22 May 2025 05:03:25 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B8B130A54;
-	Thu, 22 May 2025 04:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED39126BF7;
+	Thu, 22 May 2025 05:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747888022; cv=none; b=M73QyZjwt/VwtUKUm8CRRayB0vIk55N4gyDujvYvkJatqP2jhytj/EaoQrZRtzYiv+kLBnnwWndmFIg9I95HA9CrMXanKMGx0LEnyTFYdT1v6IJzni6nAQ46+SLQhltJKI7+QgArYTLf2EgImr/hxd06dlS4LwqikCLCPDAucx8=
+	t=1747890205; cv=none; b=nk0SXULxkBISNKPWsL7FjRIUN/0DbzdFV8gYvYYeJ8V2/oWjDh3OfwIMhkFeAyQmd3ax87QVhklLsdlZrru8e33WtthnhZdfjAo0VC0w0/he8diBCfmJLOPRkIPC0mMr8TV/7B7ddhmaum7U0zOrBKgnT/2krSsd53QegERPCzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747888022; c=relaxed/simple;
-	bh=pYPqpCs+wZJ2se/dDYL6AzIqkv5JEmLumwWmmFC+BEk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FWaDXeI610rzkarzLv+o7lT8PFRm50/asSZ8/4Nz1XV+HiEsk/xMNXhJBTwFOks0TSiqBD44OB89R/qAR1IUU4LYulnqwoHzoai5i6DvL3ArUDD3QjUzivy7JCDPVZF0YwAOa+T+NKJjUkPlViMMLziLjH4w9BQF0wmYqBLmHCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLYrpJ3v; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747888021; x=1779424021;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pYPqpCs+wZJ2se/dDYL6AzIqkv5JEmLumwWmmFC+BEk=;
-  b=KLYrpJ3vN3ZGmEfFyBRrnqvGDbOLJx8EhCSzMORzpQ2xmqup7IfsoGH7
-   MtewPAH4a6SFyaSsy8IK2UHlj3NtRRYNAhmljqD85ZLcbltRu2B5efeFt
-   fZiFbNedZ4q1reZaDQBCjrRBvyCY1wbD0H/MLfClZ5tAD27TtXcJffhXU
-   bnOnD/ugWPGMyrHtYta73szZLcj8r+qutuMKeflf1XXftnMT2/hi05Iu7
-   K+BVQHnMj58f+tIpKyTBQKWgDmYUBFhkoyIpuKQJ+tQpDSi1j/c/gJjsR
-   tshF7qdn5kuEQ+Kll1BWjqFXR6XdNSrricxzXpLsencqSfZRJU+nMSOot
-   Q==;
-X-CSE-ConnectionGUID: Xu3llL9+SY+Ip5WwebkMVA==
-X-CSE-MsgGUID: WTXWstqpRYCX4G9DIpln7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="37513938"
-X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="37513938"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 21:27:00 -0700
-X-CSE-ConnectionGUID: 8O9WDd3fSp+bh4VeJDLIbA==
-X-CSE-MsgGUID: 9l6/JDfuTBK4xlf7CvUNrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="145265186"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 21 May 2025 21:26:57 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uHxWA-000OuK-2V;
-	Thu, 22 May 2025 04:26:54 +0000
-Date: Thu, 22 May 2025 12:25:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hugo Villeneuve <hugo@hugovil.com>, biju.das.jz@bp.renesas.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	hugo@hugovil.com, Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Chris Brandt <chris.brandt@renesas.com>
-Subject: Re: [PATCH 1/2] drm: rcar-du: rzg2l_mipi_dsi: Implement host
- transfers
-Message-ID: <202505221231.A6G8HqGd-lkp@intel.com>
-References: <20250520171034.3488482-2-hugo@hugovil.com>
+	s=arc-20240116; t=1747890205; c=relaxed/simple;
+	bh=J5wbx4tchgCrNGvrO3n8c3r3SVGSlCev1Ux14CexXaw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rG/A45/4bVXkYEeyat2FIEs/Y6/apefoGAFM3q/sbIWzBtyrumCK+9zAVYT6SSDxZzRhagPn/xVYJj/luvaUwsua3EMur5aLKGUG2ltDNph6qaQgY/fl9vEbTwVNjcEQ/2c1SViaaA1o4pZn5JbflOuIFKRvpljoHrxq+MnI1sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 1102de3436ca11f0b29709d653e92f7d-20250522
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:caea8ce9-09dd-4521-979d-605f8377a2ce,IP:0,U
+	RL:0,TC:0,Content:36,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:36
+X-CID-META: VersionHash:6493067,CLOUDID:4791b0832b2718bd027ade75e2fe48ad,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:4|50,EDM:-3,IP:nil,UR
+	L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 1102de3436ca11f0b29709d653e92f7d-20250522
+Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1157435395; Thu, 22 May 2025 13:03:14 +0800
+Received: from node4.com.cn (localhost [127.0.0.1])
+	by node4.com.cn (NSMail) with SMTP id DB01116003840;
+	Thu, 22 May 2025 13:03:13 +0800 (CST)
+X-ns-mid: postfix-682EB011-73870328
+Received: from kylin-pc.. (unknown [172.25.130.133])
+	by node4.com.cn (NSMail) with ESMTPA id A87ED16001CC7;
+	Thu, 22 May 2025 05:03:08 +0000 (UTC)
+From: Ai Chao <aichao@kylinos.cn>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	johannes@sipsolutions.net,
+	kuninori.morimoto.gx@renesas.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	jbrunet@baylibre.com,
+	neil.armstrong@linaro.org,
+	khilman@baylibre.com,
+	martin.blumenstingl@googlemail.com,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	srinivas.kandagatla@linaro.org
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	imx@lists.linux.dev,
+	kernel@pengutronix.de,
+	linux-arm-msm@vger.kernel.org,
+	Ai Chao <aichao@kylinos.cn>
+Subject: [PATCH v2 0/6] Use helper function for_each_child_of_node_scoped()
+Date: Thu, 22 May 2025 13:02:53 +0800
+Message-ID: <20250522050300.519244-1-aichao@kylinos.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250520171034.3488482-2-hugo@hugovil.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hugo,
+This patch series introduces wrapper functions for_each_child_of_node_sco=
+ped().
 
-kernel test robot noticed the following build errors:
+The for_each_child_of_node_scoped() helper provides a scope-based clean-u=
+p
+functionality to put the device_node automatically, and as such, there is
+no need to call of_node_put() directly.
 
-[auto build test ERROR on 7c1a9408ce5f34ded5a85db81cf80e0975901685]
+Thus, use this helper to simplify the code.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hugo-Villeneuve/drm-rcar-du-rzg2l_mipi_dsi-Implement-host-transfers/20250521-011613
-base:   7c1a9408ce5f34ded5a85db81cf80e0975901685
-patch link:    https://lore.kernel.org/r/20250520171034.3488482-2-hugo%40hugovil.com
-patch subject: [PATCH 1/2] drm: rcar-du: rzg2l_mipi_dsi: Implement host transfers
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250522/202505221231.A6G8HqGd-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221231.A6G8HqGd-lkp@intel.com/reproduce)
+Summary:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505221231.A6G8HqGd-lkp@intel.com/
+ - Patch 1 ASoC: ppc: Use helper function for_each_child_of_node_scoped()
 
-All errors (new ones prefixed by >>):
+ - Patch 2 ASoC: aoa: Use helper function for_each_child_of_node_scoped()
 
-   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c: In function 'rzg2l_mipi_dsi_read_response':
->> drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:684:20: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     684 |         datatype = FIELD_GET(RXRSS0R_DT, result);
-         |                    ^~~~~~~~~
-   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c: In function 'rzg2l_mipi_dsi_host_transfer':
->> drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:742:26: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     742 |                 value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NON_READ);
-         |                          ^~~~~~~~~~
+ - Patch 3 ASoC: renesas: Use helper function for_each_child_of_node_scop=
+ed()
 
+ - Patch 4 ASoC: meson: Use helper function for_each_child_of_node_scoped=
+()
 
-vim +/FIELD_GET +684 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+ - Patch 5 ASoC: imx-card: Use helper function for_each_child_of_node_sco=
+ped()
 
-   661	
-   662	static ssize_t rzg2l_mipi_dsi_read_response(struct rzg2l_mipi_dsi *dsi,
-   663						    const struct mipi_dsi_msg *msg)
-   664	{
-   665		u8 *msg_rx = msg->rx_buf;
-   666		u16 size;
-   667		u8 datatype;
-   668		u32 result;
-   669	
-   670		result = rzg2l_mipi_dsi_link_read(dsi, RXRSS0R);
-   671		if (result & RXRSS0R_RXPKTDFAIL) {
-   672			dev_err(dsi->dev, "packet rx data did not save correctly\n");
-   673			return -EPROTO;
-   674		}
-   675	
-   676		if (result & RXRSS0R_RXFAIL) {
-   677			dev_err(dsi->dev, "packet rx failure\n");
-   678			return -EPROTO;
-   679		}
-   680	
-   681		if (!(result & RXRSS0R_RXSUC))
-   682			return -EPROTO;
-   683	
- > 684		datatype = FIELD_GET(RXRSS0R_DT, result);
-   685	
-   686		switch (datatype) {
-   687		case 0:
-   688			dev_dbg(dsi->dev, "ACK\n");
-   689			return 0;
-   690		case MIPI_DSI_RX_END_OF_TRANSMISSION:
-   691			dev_dbg(dsi->dev, "EoTp\n");
-   692			return 0;
-   693		case MIPI_DSI_RX_ACKNOWLEDGE_AND_ERROR_REPORT:
-   694			dev_dbg(dsi->dev, "Acknowledge and error report: $%02x%02x\n",
-   695				(u8)FIELD_GET(RXRSS0R_DATA1, result),
-   696				(u8)FIELD_GET(RXRSS0R_DATA0, result));
-   697			return 0;
-   698		case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_1BYTE:
-   699		case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_1BYTE:
-   700			msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
-   701			return 1;
-   702		case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_2BYTE:
-   703		case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_2BYTE:
-   704			msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
-   705			msg_rx[1] = FIELD_GET(RXRSS0R_DATA1, result);
-   706			return 2;
-   707		case MIPI_DSI_RX_GENERIC_LONG_READ_RESPONSE:
-   708		case MIPI_DSI_RX_DCS_LONG_READ_RESPONSE:
-   709			size = FIELD_GET(RXRSS0R_WC, result);
-   710	
-   711			if (size > msg->rx_len) {
-   712				dev_err(dsi->dev, "rx buffer too small");
-   713				return -ENOSPC;
-   714			}
-   715	
-   716			memcpy(msg_rx, dsi->dcs_buf_virt, size);
-   717			return size;
-   718		default:
-   719			dev_err(dsi->dev, "unhandled response type: %02x\n", datatype);
-   720			return -EPROTO;
-   721		}
-   722	}
-   723	
-   724	static ssize_t rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
-   725						    const struct mipi_dsi_msg *msg)
-   726	{
-   727		struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
-   728		struct mipi_dsi_packet packet;
-   729		bool need_bta;
-   730		u32 value;
-   731		int ret;
-   732	
-   733		ret = mipi_dsi_create_packet(&packet, msg);
-   734		if (ret < 0)
-   735			return ret;
-   736	
-   737		/* Terminate operation after this descriptor is finished */
-   738		value = SQCH0DSC0AR_NXACT_TERM;
-   739	
-   740		if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
-   741			need_bta = true; /* Message with explicitly requested ACK */
- > 742			value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NON_READ);
-   743		} else if (msg->rx_buf && msg->rx_len > 0) {
-   744			need_bta = true; /* Read request */
-   745			value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_READ);
-   746		} else {
-   747			need_bta = false;
-   748			value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NONE);
-   749		}
-   750	
-   751		/* Set transmission speed */
-   752		if (msg->flags & MIPI_DSI_MSG_USE_LPM)
-   753			value |= SQCH0DSC0AR_SPD_LOW;
-   754		else
-   755			value |= SQCH0DSC0AR_SPD_HIGH;
-   756	
-   757		/* Write TX packet header */
-   758		value |= FIELD_PREP(SQCH0DSC0AR_DT, packet.header[0]) |
-   759			FIELD_PREP(SQCH0DSC0AR_DATA0, packet.header[1]) |
-   760			FIELD_PREP(SQCH0DSC0AR_DATA1, packet.header[2]);
-   761	
-   762		if (mipi_dsi_packet_format_is_long(msg->type)) {
-   763			value |= SQCH0DSC0AR_FMT_LONG;
-   764	
-   765			if (packet.payload_length > RZG2L_DCS_BUF_SIZE) {
-   766				dev_err(dsi->dev, "Packet Tx payload size (%d) too large",
-   767					(unsigned int)packet.payload_length);
-   768				return -ENOSPC;
-   769			}
-   770	
-   771			/* Copy TX packet payload data to memory space */
-   772			memcpy(dsi->dcs_buf_virt, packet.payload, packet.payload_length);
-   773		} else {
-   774			value |= SQCH0DSC0AR_FMT_SHORT;
-   775		}
-   776	
-   777		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
-   778	
-   779		/*
-   780		 * Write: specify payload data source location, only used for
-   781		 *        long packet.
-   782		 * Read:  specify payload data storage location of response
-   783		 *        packet. Note: a read packet is always a short packet.
-   784		 *        If the response packet is a short packet or a long packet
-   785		 *        with WC = 0 (no payload), DTSEL is meaningless.
-   786		 */
-   787		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0BR, SQCH0DSC0BR_DTSEL_MEM_SPACE);
-   788	
-   789		/*
-   790		 * Set SQCHxSR.AACTFIN bit when descriptor actions are finished.
-   791		 * Read: set Rx result save slot number to 0 (ACTCODE).
-   792		 */
-   793		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0CR, SQCH0DSC0CR_FINACT);
-   794	
-   795		/* Set rx/tx payload data address, only relevant for long packet. */
-   796		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0DR, (u32)dsi->dcs_buf_phys);
-   797	
-   798		/* Start sequence 0 operation */
-   799		value = rzg2l_mipi_dsi_link_read(dsi, SQCH0SET0R);
-   800		value |= SQCH0SET0R_START;
-   801		rzg2l_mipi_dsi_link_write(dsi, SQCH0SET0R, value);
-   802	
-   803		/* Wait for operation to finish */
-   804		ret = read_poll_timeout(rzg2l_mipi_dsi_link_read,
-   805					value, value & SQCH0SR_ADESFIN,
-   806					2000, 20000, false, dsi, SQCH0SR);
-   807		if (ret == 0) {
-   808			/* Success: clear status bit */
-   809			rzg2l_mipi_dsi_link_write(dsi, SQCH0SCR, SQCH0SCR_ADESFIN);
-   810	
-   811			if (need_bta)
-   812				ret = rzg2l_mipi_dsi_read_response(dsi, msg);
-   813			else
-   814				ret = packet.payload_length;
-   815		}
-   816	
-   817		return ret;
-   818	}
-   819	
+ - Patch 6 ASoC: qcom: Use helper function for_each_child_of_node_scoped(=
+)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+Changes in v2:
+ - Fix error reported by kernel test rebot
+ - Keep "node"
+---
+ sound/aoa/soundbus/i2sbus/core.c   |  5 +++--
+ sound/ppc/tumbler.c                |  5 ++---
+ sound/soc/fsl/imx-card.c           | 13 +++++------
+ sound/soc/meson/axg-card.c         |  3 +--
+ sound/soc/meson/meson-card-utils.c | 16 +++++---------
+ sound/soc/qcom/lpass-cpu.c         |  3 +--
+ sound/soc/qcom/qdsp6/q6afe-dai.c   |  3 +--
+ sound/soc/qcom/qdsp6/q6asm-dai.c   |  4 +---
+ sound/soc/renesas/rcar/core.c      | 35 ++++++++++--------------------
+ sound/soc/renesas/rcar/ctu.c       |  8 ++-----
+ sound/soc/renesas/rcar/dma.c       |  4 +---
+ sound/soc/renesas/rcar/dvc.c       |  8 ++-----
+ sound/soc/renesas/rcar/mix.c       |  8 ++-----
+ sound/soc/renesas/rcar/src.c       | 10 ++-------
+ sound/soc/renesas/rcar/ssi.c       | 18 +++++----------
+ sound/soc/renesas/rcar/ssiu.c      |  7 ++----
+ 16 files changed, 46 insertions(+), 104 deletions(-)
+
+--=20
+2.47.1
+
 
