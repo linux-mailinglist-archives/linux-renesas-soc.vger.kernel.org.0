@@ -1,182 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-17341-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17342-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B8BAC03C7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 07:05:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33FBEAC0534
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 09:03:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B125947CF3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 05:04:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B13DF7A1CAA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 07:02:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE2081C84D0;
-	Thu, 22 May 2025 05:03:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3CA3221DA1;
+	Thu, 22 May 2025 07:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fZL/UWwA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449E5175D47;
-	Thu, 22 May 2025 05:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1799D517;
+	Thu, 22 May 2025 07:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747890225; cv=none; b=IEJULZcFZS1zxxUHgQIP2fv0V9xDBKZQUh+7o6Y4sn4vMR3nvVOCd7ABI0EgcvvoixmustlFzz6Y9UBBXjMJhAV/ec9nQg8NQRc2binEFDzkyp+VlaEqxpw7f/QyYZGu0d7us/yAkpoVsvOuBoPPQxwR/pdukcHg1ICIVx8CJJg=
+	t=1747897424; cv=none; b=qBdJ/QABVhR7ygA2PHpxlVW7sXyaMgwywVnGBg37B6l5diwyzQArUQw8TxmuKhqKW2r1oCIAwivnX0XBUzcB8BTXOc1WwELiSBKJ7kaENCXv5kFiLsRREGulJr2mZIHFnrxGyz5XXwpGKFcHtg4MyYb4AivJOLqP2XMetXO177k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747890225; c=relaxed/simple;
-	bh=mhhKRQs8P6BKh2PDytxh4uDgF6hxeldPRk98eetlmjw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GrDpBELBX9Fi2DitrS4q/TcyryH0y62po40lnjumAcwEpET+CrswDNHAKYDEBn34Lg7ajfmxUFRxy/3adPeMj/o5bNgP0kIrwPNzesR8avritxmynNI+BaRATO/MUmlqmUjRNLR9DVc8WBzjqoR6U/Z2bMJYbGHcROx6n0TPkRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 1e8158ce36ca11f0b29709d653e92f7d-20250522
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:ea555cc8-6fa9-4a34-abf1-8b3b44eadeba,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:c89aa460ca0e367d394d49b188629272,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3,IP:
-	nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
-	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 1e8158ce36ca11f0b29709d653e92f7d-20250522
-Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
-	(envelope-from <aichao@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 960776778; Thu, 22 May 2025 13:03:37 +0800
-Received: from node4.com.cn (localhost [127.0.0.1])
-	by node4.com.cn (NSMail) with SMTP id DF9AE16003840;
-	Thu, 22 May 2025 13:03:36 +0800 (CST)
-X-ns-mid: postfix-682EB028-75871135
-Received: from kylin-pc.. (unknown [172.25.130.133])
-	by node4.com.cn (NSMail) with ESMTPA id B9FFF16001CC7;
-	Thu, 22 May 2025 05:03:34 +0000 (UTC)
-From: Ai Chao <aichao@kylinos.cn>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	johannes@sipsolutions.net,
-	kuninori.morimoto.gx@renesas.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	jbrunet@baylibre.com,
-	neil.armstrong@linaro.org,
-	khilman@baylibre.com,
-	martin.blumenstingl@googlemail.com,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	srinivas.kandagatla@linaro.org
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	imx@lists.linux.dev,
-	kernel@pengutronix.de,
-	linux-arm-msm@vger.kernel.org,
-	Ai Chao <aichao@kylinos.cn>
-Subject: [PATCH v2 6/6] ASoC: qcom: Use helper function for_each_child_of_node_scoped()
-Date: Thu, 22 May 2025 13:02:59 +0800
-Message-ID: <20250522050300.519244-7-aichao@kylinos.cn>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250522050300.519244-1-aichao@kylinos.cn>
-References: <20250522050300.519244-1-aichao@kylinos.cn>
+	s=arc-20240116; t=1747897424; c=relaxed/simple;
+	bh=O6hy5R2mjeBm5Vf7qI0qCm2aawLVKSqcX2UGvROau3E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R74E1eSNNC5NLKDKjdV3LZjP0XiZu+T6RY0eJD93HV8tcH8lZB9MbJ/Hka02Lt1QWdH/5dytPbRJ3s/QmzAOdcku4TWdhDQ+INnCsU8XD+2VFhLjTnmFE3gD9exmcgJ/P77a45BRBpId9gVfd8WdYwAEIXkVHz/Z4nGRh+vI91Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fZL/UWwA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B36F8C4CEE4;
+	Thu, 22 May 2025 07:03:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747897424;
+	bh=O6hy5R2mjeBm5Vf7qI0qCm2aawLVKSqcX2UGvROau3E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fZL/UWwA/7tkx6NstZdnvbhwIWCrU73q8YG0aG1/UrAqmcMMGFdf894Mlc35zIA5N
+	 9A3H8i5D17sWmSuQGEsbxcOToAu4VnQ+4UElCFbRAIiKZf/oWgyDfRiNF5kqWAA1Bp
+	 oOdPwsto9MwtR5h4u9fDcQheSwnZ3NoRahzeEOfba4ngyC8pJgZ6Br803HkimFxu0W
+	 ZSDM59lny5ynGEH99GghKoELpLnV34SmygdhxzcCT1P0TGzgZCohB+PRqFOrUnUWz0
+	 yctyVaW/Sqjovf0ryejXlkDcvlZ6Ph62sFnOMONasMB4zzaOs2Qne+5xNG8GEtTmae
+	 8Qt/RbKxCvJsw==
+Date: Thu, 22 May 2025 09:03:41 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de, 
+	geert+renesas@glider.be, magnus.damm@gmail.com, yoshihiro.shimoda.uh@renesas.com, 
+	kees@kernel.org, gustavoars@kernel.org, biju.das.jz@bp.renesas.com, 
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-hardening@vger.kernel.org, john.madieu.xa@bp.renesas.com, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v3 05/12] dt-bindings: phy: renesas,usb2-phy: Add
+ renesas,sysc-signals
+Message-ID: <20250522-evasive-unyielding-quoll-dbc9b2@kuoka>
+References: <20250521140943.3830195-1-claudiu.beznea.uj@bp.renesas.com>
+ <20250521140943.3830195-6-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250521140943.3830195-6-claudiu.beznea.uj@bp.renesas.com>
 
-The for_each_child_of_node_scoped() helper provides a scope-based
-clean-up functionality to put the device_node automatically, and
-as such, there is no need to call of_node_put() directly.
+On Wed, May 21, 2025 at 05:09:36PM GMT, Claudiu wrote:
+>  .../bindings/phy/renesas,usb2-phy.yaml        | 22 +++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> index 12f8d5d8af55..e1e773cba847 100644
+> --- a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> @@ -86,6 +86,16 @@ properties:
+>  
+>    dr_mode: true
+>  
+> +  renesas,sysc-signals:
+> +    description: System controller phandle, specifying the register
+> +      offset and bitmask associated with a specific system controller signal
 
-Thus, use this helper to simplify the code.
+This is 100% redundant information. system controller specifying system
+controller signal.
 
-Signed-off-by: Ai Chao <aichao@kylinos.cn>
----
- sound/soc/qcom/lpass-cpu.c       | 3 +--
- sound/soc/qcom/qdsp6/q6afe-dai.c | 3 +--
- sound/soc/qcom/qdsp6/q6asm-dai.c | 4 +---
- 3 files changed, 3 insertions(+), 7 deletions(-)
+Drop.
 
-diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-index 242bc16da36d..62f49fe46273 100644
---- a/sound/soc/qcom/lpass-cpu.c
-+++ b/sound/soc/qcom/lpass-cpu.c
-@@ -1046,7 +1046,6 @@ static unsigned int of_lpass_cpu_parse_sd_lines(str=
-uct device *dev,
- static void of_lpass_cpu_parse_dai_data(struct device *dev,
- 					struct lpass_data *data)
- {
--	struct device_node *node;
- 	int ret, i, id;
-=20
- 	/* Allow all channels by default for backwards compatibility */
-@@ -1056,7 +1055,7 @@ static void of_lpass_cpu_parse_dai_data(struct devi=
-ce *dev,
- 		data->mi2s_capture_sd_mode[id] =3D LPAIF_I2SCTL_MODE_8CH;
- 	}
-=20
--	for_each_child_of_node(dev->of_node, node) {
-+	for_each_child_of_node_scoped(dev->of_node, node) {
- 		ret =3D of_property_read_u32(node, "reg", &id);
- 		if (ret || id < 0) {
- 			dev_err(dev, "valid dai id not found: %d\n", ret);
-diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6af=
-e-dai.c
-index 7d9628cda875..64735f2adf8f 100644
---- a/sound/soc/qcom/qdsp6/q6afe-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
-@@ -962,10 +962,9 @@ static const struct snd_soc_component_driver q6afe_d=
-ai_component =3D {
- static void of_q6afe_parse_dai_data(struct device *dev,
- 				    struct q6afe_dai_data *data)
- {
--	struct device_node *node;
- 	int ret;
-=20
--	for_each_child_of_node(dev->of_node, node) {
-+	for_each_child_of_node_scoped(dev->of_node, node) {
- 		unsigned int lines[Q6AFE_MAX_MI2S_LINES];
- 		struct q6afe_dai_priv_data *priv;
- 		int id, i, num_lines;
-diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6as=
-m-dai.c
-index a400c9a31fea..d7680dd3a3bb 100644
---- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-@@ -1236,10 +1236,8 @@ static int of_q6asm_parse_dai_data(struct device *=
-dev,
- {
- 	struct snd_soc_dai_driver *dai_drv;
- 	struct snd_soc_pcm_stream empty_stream;
--	struct device_node *node;
- 	int ret, id, dir, idx =3D 0;
-=20
--
- 	pdata->num_dais =3D of_get_child_count(dev->of_node);
- 	if (!pdata->num_dais) {
- 		dev_err(dev, "No dais found in DT\n");
-@@ -1253,7 +1251,7 @@ static int of_q6asm_parse_dai_data(struct device *d=
-ev,
-=20
- 	memset(&empty_stream, 0, sizeof(empty_stream));
-=20
--	for_each_child_of_node(dev->of_node, node) {
-+	for_each_child_of_node_scoped(dev->of_node, node) {
- 		ret =3D of_property_read_u32(node, "reg", &id);
- 		if (ret || id >=3D MAX_SESSIONS || id < 0) {
- 			dev_err(dev, "valid dai id not found:%d\n", ret);
---=20
-2.47.1
+
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    items:
+> +      - items:
+> +          - description: system controller phandle
+
+What for? Explain the usage. How is ut used by this hardware.
+
+> +          - description: register offset associated with a signal
+
+What signal? That's a phy.
+
+> +          - description: register bitmask associated with a signal
+> +
+>  if:
+>    properties:
+>      compatible:
+> @@ -117,6 +127,18 @@ allOf:
+>        required:
+>          - resets
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,usb2-phy-r9a08g045
+> +    then:
+> +      required:
+> +        - renesas,sysc-signals
+
+That's ABI break.
+
+Best regards,
+Krzysztof
 
 
