@@ -1,199 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-17407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28BF0AC13A8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 20:47:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A82AC14A2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 21:17:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 586A63A517D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 18:47:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C5CC43BB97F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 19:17:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 995DC1DDA15;
-	Thu, 22 May 2025 18:47:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3DC829A321;
+	Thu, 22 May 2025 19:14:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gDX1YRMT"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="JqTEvhUB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142FF148FE6;
-	Thu, 22 May 2025 18:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42982698AF;
+	Thu, 22 May 2025 19:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747939655; cv=none; b=R71dUHym6AUAOa9KCNtuMUkrQljGf7QwUsxFJJ1qVKsTUBlJhf1m4GlcGlxok4ozm5spsjMfA2Nu1KUzbBRFpCy/mGe6tx4JN+8vJyNCBdovW7yZ/EnMXxAYEgQiL0vhZNDu4N1YivFfTXthvk+RZy4ZUEbfKq4ovBTH1En8OII=
+	t=1747941250; cv=none; b=GMVbg90WKN+ZnAEayx2QkjwYc16jT4my41ZbYU7dSmvN93/YAhUJDVt8BDjyV/MGGYlk1annUfeXf+hV6WgmquNO+fWh0Uke5w2cYkPaNJ8iMEyP9cYatyfkD87OK7Y39m6jdTIQjfioiFmV9cKWV6tK1JjXL/ctHZg2qlHaFjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747939655; c=relaxed/simple;
-	bh=q2fzgGEzEer9UKDXzQMbj1JzqjoI6qPzwxu8XOarHp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bprE7/GUK+iIZyrtvumRAzUbM9CIoYxPYznEdGQ/vnhPFSZU2s7ZdwdjDLPFBqG9OCbdj6nSZJMc6JIz31tKzIGGjq/ZZikYXL7OS7Io6HzT3PhO7lPfC5H8QxQwQjwqzYHmsYv93slQ3O0W5ql2fZ1Ah/cIlJdDx+4QZv58r5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gDX1YRMT; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-742af848148so5020043b3a.1;
-        Thu, 22 May 2025 11:47:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747939653; x=1748544453; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LqjM7JiAJRZPAZUvs2BT2pveQDtqf6gOUjP7YYskxSY=;
-        b=gDX1YRMTSId7iWlrMAkl09LTFBTmmHP6CHhGqYMOOBuHdU8e8zL2F2XHqEFmPHXMgv
-         n7f9WQmDxw0g/GuhwEV0N0CRzz9rhKF3pkxxg7bWKRspirakEf6SdK4h0ek5WtPJTgIm
-         ENOYJDHUj640s9L7MW1xwr8m7ZcW1jFizwO39ZktJAmtuKpl22IPqIuFZ6afWnw0GEV/
-         /ixBM6SHMqQ1ZZJz7tIytCf4R6IawNibPHexXKucU3TkpJvBiAvRvVFAJmklfsEnmhO0
-         EhTi/9i9VHydltGSEZpie7ArVwetcoE36deK7xBYr1aQVuLi4ohmcnKpmPaycdd1Q3+N
-         fF/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747939653; x=1748544453;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LqjM7JiAJRZPAZUvs2BT2pveQDtqf6gOUjP7YYskxSY=;
-        b=H0veOIt7/g6/1CiOZfPFhgtuZy7+7Ud9rn3LR9Sd7vywOj1KAFg10SDXaHfe4j0Um1
-         KeF2+NQF/hIOu/K1QalpparvvWqreetNuI5TnNn1wD6s8Wi0HiD7cWPHjaqiTqUpeanb
-         imzA7Rg1hAkjDlI7Hxr5FJIz8yCMIJUw6vj4MV1QyD84fW5TicLYn4A4qwtlYFU2hPyO
-         PN3FdE4EwYsbsFkkDuugEo3gqLui86fPtfmm5Z/f47wIl3p+lGJpbYPRGVurjimYHIUX
-         g3XoHxV5F89FmggknNsZ/hy2J8A/Fn+Lb0l0QiJdvXvDxHvCvl48YI3oWmyYbWNxOcta
-         /g6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWGl6F3qagcjox8O48ymNXmvQcEJF0k+lbUutPsOOkfO/76UTN8wUAYZvwJbn/TpK44+YlO7EJiITSFZRQ3xTq9Ry8=@vger.kernel.org, AJvYcCWQyAoLxWju4Bzl/jjfIg5I5MoWtiDHK+eYNhbJcsgvTtvQ3ZXlXwN6hP0DT/6AQMwkZ6Gae+UjvZ73QZ2k@vger.kernel.org, AJvYcCXeIHWDWL8BdkjNwKfdi9ZeEKskq40Nsheb3VLKaaOsMP1jMNHR/Uv1y40QuaDEVFN/swg9RQa4BZM=@vger.kernel.org, AJvYcCXuXnFUt2ofV3X1tu7Pg23vSfIcjXnd0TGnl+B+OISuFJNXfz8VgHkK73PftoOYb6QimDa7QQbH+9U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yym7luzsgkbgbFdTjBuV6xAfoSUh1QfvmIFVhesUzwLQK8yNY4I
-	QhQaurE3UtmRlQG6Tga3d8L4HQd8yMwt1F6yUOR/hRUiEfnabRrs6kM/
-X-Gm-Gg: ASbGncvKmqdJqvnAIBiiY3m3RDA6Biba0SvURpZsW5ccG6wc77h9O1kYv8xYK7+h0sf
-	/PGbcKjMXgGakd+2slBqByZjbRDi5lZFhMK9T+UgXposqycoy9UonVN5DvNpAyzjq7Z4lchJUxu
-	0EnzFDZPK3uO7LNRBWocNMJWsqmW34DwqPoe0glMgaGKRlKd21pIiUbS3x+Y4bHF4dAvWAJiF6I
-	ktrKXFF85lfqXIj+LR0prepZ29RgjwXnf4zd53Nzmj9pr58ySmYgDhHXlsAr4WGIgGBAaKZ9uk7
-	bvAz35fYH/hnd0CGTCU08zYNkrUtrQIYqQdtrTDpXFiqE+1gTDXi
-X-Google-Smtp-Source: AGHT+IEKsW/sM3XvtW0NVqb+2HggX17x+LZ2qZZE2qlmNiOduK3AHdv8bc02Dke14mfCYtW0f9g74Q==
-X-Received: by 2002:aa7:88cc:0:b0:736:34ca:dee2 with SMTP id d2e1a72fcca58-745ed847e68mr258205b3a.4.1747939653145;
-        Thu, 22 May 2025 11:47:33 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:8e84:1516:ef48:7c66])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9829c7asm11612992b3a.85.2025.05.22.11.47.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 11:47:32 -0700 (PDT)
-Date: Thu, 22 May 2025 11:47:29 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Jonathan Cameron <jic23@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, dakr@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-iio@vger.kernel.org, bhelgaas@google.com
-Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
- probe resources
-Message-ID: <4fzotopz57igmiyssgkogfbup6uu7qgza3t53t5qsouegmj7ii@wfiz4g3eiffs>
-References: <CAPDyKFozR4qDq4mzcZBK-LcoPf=fGyuJTXwdt=Ey+_DcQOAp0g@mail.gmail.com>
- <4o3wo76st7w6qwyye3rrayuo2qx773i6jfzcnbkhdj76ouh7ds@3e2mblehkgwf>
- <CAPDyKFqMB7XutXba73YHx1X4rm6uc3Fz6yMZ8yM=wgduEmgUDg@mail.gmail.com>
- <a20fc6ee-c6c3-4013-b175-4918b9a44380@tuxon.dev>
- <CAPDyKFpbeLJUiB_xQbqDib+-8Q3AcJNVg+DuEcqmVGMbFdNxwA@mail.gmail.com>
- <fgl4w5uhxci7rrbdigtni72vveb2gqemh6iccz4qruqkek5rja@rzwkcjg6hkid>
- <3b1963ba-f93f-48f2-8fb0-a485dd80ffcb@tuxon.dev>
- <CAPDyKFqrAS4iV59S-zJ9H7_3VuGr9JdZABhfUGBwTzQNDCasaw@mail.gmail.com>
- <482b55c9-a210-4b2d-8405-e9f30d48a8fd@tuxon.dev>
- <CAPDyKFpLF2P438GGWSgbXzpT7JNdUjtZ2ZxYf1_4=fNUX3s-KQ@mail.gmail.com>
+	s=arc-20240116; t=1747941250; c=relaxed/simple;
+	bh=uOIMWrU2rICv7Ji4NNiHPMmMIXVbbabOTueK93k3Enw=;
+	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
+	 Content-Type:Subject; b=fA8jRYqTuMWTWWFfZu8ORNwFpYBXNTqzVNrEFFEBql6w0C70NRuljl8cRXPKzNG2OnU02f7Z/bo86A8nGJ+wDGvmRYOK/u27USDtVXnkvu855BoZHqI4R5gqk/QA14K8jtGB0JqpEdoqa6wFYdVxXLLUgHOIzMEAXStybLImde8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=JqTEvhUB; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+	:Date:subject:date:message-id:reply-to;
+	bh=frzJT8TDmbXbrl93CAqw5BX6Dez3V1DpAl1yjjO3Oxk=; b=JqTEvhUBq8f/oi1ZnB+V3xcL+b
+	f3TcxATAKxx5ZqkdY+a8KHzrnCupe6F6WQ34T/SP3ftYh3q2UQgxgRK8bs/sIas7rrE9siwgTDjuS
+	Dpbo9V1v/P+s+Pmb5Vk1Qm2AXQbKaLSzyrvsAi9KJV2aGFUPCuiu/G7R2Wjrzm92GTpc=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:33532 helo=pettiford.lan)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1uIBMS-0000FR-VD; Thu, 22 May 2025 15:13:49 -0400
+Date: Thu, 22 May 2025 15:13:48 -0400
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, Chris Brandt
+ <Chris.Brandt@renesas.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-renesas-soc@vger.kernel.org"
+ <linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>
+Message-Id: <20250522151348.856a75a66cd87d8794500dc4@hugovil.com>
+In-Reply-To: <TY3PR01MB113464412C75E0AC1928A4FBA8699A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250522143911.138077-1-hugo@hugovil.com>
+	<TY3PR01MB113464412C75E0AC1928A4FBA8699A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFpLF2P438GGWSgbXzpT7JNdUjtZ2ZxYf1_4=fNUX3s-KQ@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	*  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+	*      blocklist
+	*      [URIs: hugovil.com]
+	*  0.1 URIBL_CSS Contains an URL's NS IP listed in the Spamhaus CSS
+	*      blocklist
+	*      [URIs: hugovil.com]
+	* -0.8 NICE_REPLY_A Looks like a legit reply (A)
+Subject: Re: [PATCH v3 0/2] drm: rcar-du: rzg2l_mipi_dsi: add MIPI DSI
+ command support
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-On Thu, May 22, 2025 at 06:28:44PM +0200, Ulf Hansson wrote:
-> On Thu, 22 May 2025 at 16:08, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> >
-> > Hi, Ulf,
-> >
-> > On 22.05.2025 14:53, Ulf Hansson wrote:
-> > >
-> > > That said, I think adding a devm_pm_domain_attach() interface would
-> > > make perfect sense. Then we can try to replace
-> > > dev_pm_domain_attach|detach() in bus level code, with just a call to
-> > > devm_pm_domain_attach(). In this way, we should preserve the
-> > > expectation for drivers around devres for PM domains. Even if it would
-> > > change the behaviour for some drivers, it still sounds like the
-> > > correct thing to do in my opinion.
-> >
-> > This looks good to me, as well. I did prototype it on my side and tested on
-> > all my failure cases and it works.
+On Thu, 22 May 2025 18:40:29 +0000
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
+
+> Hi Hugo,
 > 
-> That's great! I am happy to help review, if/when you decide to post it.
+> Thanks for the patch.
+> 
+> > -----Original Message-----
+> > From: Hugo Villeneuve <hugo@hugovil.com>
+> > Sent: 22 May 2025 15:39
+> > Subject: [PATCH v3 0/2] drm: rcar-du: rzg2l_mipi_dsi: add MIPI DSI command support
+> > 
+> > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> > 
+> > Hello,
+> > this patch series add support for sending MIPI DSI command packets to the Renesas RZ/G2L MIPI DSI
+> > driver.
+> > 
+> > Tested on a custom board with a SolidRun RZ/G2L SOM, with two different LCD panels using the jd9365da
+> > and st7703 drivers.
+> > 
+> > Tested short and long writes.
+> > 
+> > Tested read of 1 byte, 2 bytes and long reads.
+> 
+> I see tested-by tag for patch[1] and this patch series is conflict with that patch.
 
-So you are saying you'd be OK with essentially the following (with
-devm_pm_domain_attach() actually being elsewhere in a real patch and not
-necessarily mimicked by devm_add_action_or_reset()):
+Hi Biju,
+there is no conflict per se for the moment, as these are two separate
+submissions. Chris's patch is not part of this submission.
 
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index cfccf3ff36e7..1e017bfa5caf 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -1376,6 +1376,27 @@ static int platform_uevent(const struct device *dev, struct kobj_uevent_env *env
- 	return 0;
- }
- 
-+
-+static void platform_pm_domain_detach(void *d)
-+{
-+	dev_pm_domain_detach(d, true);
-+}
-+
-+static int devm_pm_domain_attach(struct device *dev)
-+{
-+	int error;
-+
-+	error = dev_pm_domain_attach(dev, true);
-+	if (error)
-+		return error;
-+
-+	error = devm_add_action_or_reset(dev, platform_pm_domain_detach, dev);
-+	if (error)
-+		return error;
-+
-+	return 0;
-+}
-+
- static int platform_probe(struct device *_dev)
- {
- 	struct platform_driver *drv = to_platform_driver(_dev->driver);
-@@ -1396,15 +1417,12 @@ static int platform_probe(struct device *_dev)
- 	if (ret < 0)
- 		return ret;
- 
--	ret = dev_pm_domain_attach(_dev, true);
-+	ret = devm_pm_domain_attach(_dev);
- 	if (ret)
- 		goto out;
- 
--	if (drv->probe) {
-+	if (drv->probe)
- 		ret = drv->probe(dev);
--		if (ret)
--			dev_pm_domain_detach(_dev, true);
--	}
- 
- out:
- 	if (drv->prevent_deferred_probe && ret == -EPROBE_DEFER) {
-@@ -1422,7 +1440,6 @@ static void platform_remove(struct device *_dev)
- 
- 	if (drv->remove)
- 		drv->remove(dev);
--	dev_pm_domain_detach(_dev, true);
- }
- 
- static void platform_shutdown(struct device *_dev)
+I tested patch[1] by rebasing my series on top of Chris patch.
+
+> Can this patch series work without patch[1]? If yes, no issue.
+
+Yes it can.
 
 
-If so, then OK, it will work for me as well. This achieves the
-same behavior as with using devres group. The only difference is that if
-we ever need to extend the platform bus to acquire/release more
-resources they will also have to use devm API and not the regular one.
+> Otherwise, you need to rebase your patch on top of [1] to avoid merge conflict.
 
-Thanks.
+Eventually, if Chris's patch is accepted before my series, I
+will rebase and resubmit then. Right now, it seems I cannot do it,
+because submitting my serie based on an "not yet accepted" patch will
+result in the kernel test robot complaining (and rightly so). Unless
+there is a mean to specify that my serie depends on other
+unapplied patch...
+
+Ideally, it should have been easier if I could have integrated Chris's
+patch into my serie, but he preferred to send his patch alone since
+he felt that it could be accepted more rapidly like this.
+
+Hugo.
+
+
+> [1] https://lore.kernel.org/all/20250521210335.3149065-1-chris.brandt@renesas.com/
+> 
+> Cheers,
+> Biju
+> 
+> > 
+> > Thank you.
+> > 
+> > Link: [v1] https://lore.kernel.org/all/20250520164034.3453315-1-hugo@hugovil.com
+> > 
+> > Changes for V3:
+> > - No code change, resending after fixing mail server config resulting in
+> >   only cover letter being sent
+> > 
+> > Changes for V2:
+> > - Change commit message prefix to "drm: renesas: rz-du: "
+> > - Reorder variables in rzg2l_mipi_dsi_read_response()
+> > - Remove unused macros
+> > - Add missing bitfield include (kernel test robot)
+> > 
+> > Hugo Villeneuve (2):
+> >   drm: renesas: rz-du: Implement MIPI DSI host transfers
+> >   drm: renesas: rz-du: Set DCS maximum return packet size
+> > 
+> >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 186 ++++++++++++++++++
+> >  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  54 +++++
+> >  2 files changed, 240 insertions(+)
+> > 
+> > 
+> > base-commit: c4f8ac095fc91084108ec21117eb9c1fff64725d
+> > --
+> > 2.39.5
+> 
+> 
+
 
 -- 
-Dmitry
+Hugo Villeneuve
 
