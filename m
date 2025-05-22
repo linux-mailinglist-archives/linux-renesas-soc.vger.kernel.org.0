@@ -1,110 +1,100 @@
-Return-Path: <linux-renesas-soc+bounces-17377-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17378-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4EFAC0D80
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 16:03:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F99AC0DAC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 16:09:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9BBCA7A1697
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 14:02:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E9B51C00308
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 14:08:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 247E923AE96;
-	Thu, 22 May 2025 14:03:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05DF328DB59;
+	Thu, 22 May 2025 14:07:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="pLhhpuHs"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K1dDjXeE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68C912E7E;
-	Thu, 22 May 2025 14:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DEA28D8F3
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 May 2025 14:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747922621; cv=none; b=eKShDWHtX8w7ei4iu67A1h7RUV6HhjVVPDFCeRV6OcvaklK2lE/ILs+6+q1nXIpON3pqB2gUqQRiDInhBaPAjcFRJPPjGWe9Kg2J7S1FhXvBBQn4LIjQA0UvYsy43MSQzU2iddeR0FQtjvk/DJh40WeNYN8G4JLW0DjIveOcUA4=
+	t=1747922824; cv=none; b=cFYbG4LvY/XbQAA/KUZbUeDymFsBCRD1e/cqxVvPeBWn6nABsBboGf/XKPCs5ZkrSSvBctlhJqVCO2Qmll6tybH2NJhK/SSfxRH0Zy4WiXKDjg6m5jluDBQvx3d4kyg4J2yH51kLabuTKY2peQSYB8Nl2Bh58peF8knrqxdeik0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747922621; c=relaxed/simple;
-	bh=F10iyfKFrEJZy08mPbO3oeYhVGn/yzdNssD7jvfQhvY=;
-	h=From:To:Cc:Date:Message-Id:MIME-Version:Subject; b=ubKxAklepEea3fILzWKaRVrinMttGs1R7Y+s5hHB8VtKOyym7oh+ZhbVSPO4BSk7CL55z6tAP/SqzLHDPiUC0K4W8zZJyjQ9sa+A8vGsxdY2JBC2Mj5LrARF7DG8Fg8W2rcGNK/B8PWLZQ7q0uZWQUTOFew5ZcQ7bHbUsKz+XGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=pLhhpuHs; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Cc:To
-	:From:subject:date:message-id:reply-to;
-	bh=H12sI1rmNNOKWHKGVulEJOamj5YYRT/qF2xDiIqMIWg=; b=pLhhpuHsoKduipSh7gYy4Q9zh3
-	pEjxmBWhZUuY+8yUTVbjEjuLBL+sWWMGfbML7ptDVDCufDaL79wchBjkeBTGJlVkdR7gh6Ry7wQGt
-	tlAFNXA9V+L0o357mKhtLfotpoYmb0jIj5WcOO40Sw/Kg2QjB2gSt7CCOTuUxCDg5HWE=;
-Received: from [70.80.174.168] (port=34044 helo=pettiford.lan)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1uI6W7-0005ma-NB; Thu, 22 May 2025 10:03:28 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: biju.das.jz@bp.renesas.com,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	hugo@hugovil.com,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Date: Thu, 22 May 2025 10:03:20 -0400
-Message-Id: <20250522140322.64667-1-hugo@hugovil.com>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1747922824; c=relaxed/simple;
+	bh=Pp+0WI4KVMPMC1aLKziFoXuVm2ds8cB+cqIQ4CFIyMc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U2Rc+Qi/5jSP/S8kvmfVw/frBOeCromOGh9QN8ybCUK+yNTvSXExm7Y4U/qyKAjRPwwe/Ep0uuta9V/SM7OEZc/DBp907Q5SFNo7ZQir1UtfFl02CXJhhUH/QddvTW2DjaKQWf5tH3iRUPODXhakFkXE3iRZH2Km5mx/h5I4TYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K1dDjXeE; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C5A6605;
+	Thu, 22 May 2025 16:06:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1747922793;
+	bh=Pp+0WI4KVMPMC1aLKziFoXuVm2ds8cB+cqIQ4CFIyMc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=K1dDjXeEsU5I7iqBo5TqZyTpd4Y+AP7c+TEDSaP1oGmRaG/2fhPYRQp/vTa7oIRcA
+	 sVGb4O/3bjnuROtXV9pbE4nveQJjKbFCzzZIIN3GXgHjztTF8dFmhL9azh1c3iJt9h
+	 VR6SpmC3xQNMXU70VUeG0ueLO2/5OIsSkvQFrnxM=
+Message-ID: <cdb5ad54-c02a-420d-acf6-c11f39c6c58a@ideasonboard.com>
+Date: Thu, 22 May 2025 17:06:52 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH v2 0/2] drm: rcar-du: rzg2l_mipi_dsi: add MIPI DSI command support
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] drm: renesas: rcar-du: use proper naming for R-Car
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20250522103530.51972-2-wsa+renesas@sang-engineering.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <20250522103530.51972-2-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+Hi,
 
-Hello,
-this patch series add support for sending MIPI DSI command packets to the
-Renesas RZ/G2L MIPI DSI driver.
+On 22/05/2025 13:34, Wolfram Sang wrote:
+> Not RCAR, but R-Car.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
+> index f9893d7d6dfc..e9e59c5e70d5 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
+> @@ -16,7 +16,7 @@ struct rcar_du_format_info;
+>  struct rcar_du_group;
+>  
+>  /*
+> - * The RCAR DU has 8 hardware planes, shared between primary and overlay planes.
+> + * The R-Car DU has 8 hardware planes, shared between primary and overlay planes.
+>   * As using overlay planes requires at least one of the CRTCs being enabled, no
+>   * more than 7 overlay planes can be available. We thus create 1 primary plane
+>   * per CRTC and 7 overlay planes, for a total of up to 9 KMS planes.
 
-Tested on a custom board with a SolidRun RZ/G2L SOM, with two different LCD
-panels using the jd9365da and st7703 drivers.
+Thanks, pushed to drm-misc-next.
 
-Tested short and long writes.
-
-Tested read of 1 byte, 2 bytes and long reads.
-
-Thank you.
-
-Link: [v1] https://lore.kernel.org/all/20250520164034.3453315-1-hugo@hugovil.com
-
-Changes for V2:
-- Change commit message prefix to "drm: renesas: rz-du: "
-- Reorder variables in rzg2l_mipi_dsi_read_response()
-- Remove unused macros
-- Add missing bitfield include (kernel test robot)
-
-Hugo Villeneuve (2):
-  drm: renesas: rz-du: Implement MIPI DSI host transfers
-  drm: renesas: rz-du: Set DCS maximum return packet size
-
- .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 186 ++++++++++++++++++
- .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  54 +++++
- 2 files changed, 240 insertions(+)
-
-
-base-commit: c4f8ac095fc91084108ec21117eb9c1fff64725d
--- 
-2.39.5
+ Tomi
 
 
