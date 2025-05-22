@@ -1,59 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-17393-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17394-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86505AC0F23
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 16:59:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 046FAAC0F47
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 17:02:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 527921C0179F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 14:58:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D654A16AB8D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 15:02:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4267E28DB59;
-	Thu, 22 May 2025 14:57:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BEA028C00D;
+	Thu, 22 May 2025 15:02:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s3wma8Dg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oz+QvmtP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E895D28D85C;
-	Thu, 22 May 2025 14:57:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C06239E85;
+	Thu, 22 May 2025 15:01:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747925854; cv=none; b=jfyDGWY+rxSCTQK1Zq3zhyQRiSE4KDMbPG0w/zS8MzefzjFnD3bv+v4yMY5yX9pXiC9RKnA7ggLABASUtf2RP3ZcTCzrVTYsnRv1EKJmU+Wt26w1xYqRO6XbN+L+eVjmSAh1DyPQUxDizDP/xJgzZ05cpxTc2AcLrvyyVpshJX4=
+	t=1747926120; cv=none; b=RqYJF4QOpXn287SOYJnrGlzFYuq3cLSyxfSf9Nt6YCXmEmRjdXmV7Lj7hz02NEAAhBeklOH4s5G+Idh+JQZGFVm8YSyI7lHUfs+EyhEY8jhzgfVzvh0g/zgkhfqh+cpPOleaI89L7p9tYgTu1Kg/UNVGe4nunFdOorbNPYwh5cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747925854; c=relaxed/simple;
-	bh=5G+CU34zmKz9PE5a5J7jN90cu5Gxk5UtkArIIi8NlfY=;
+	s=arc-20240116; t=1747926120; c=relaxed/simple;
+	bh=1AAQm9CHyytzF4+9O6MKBfp9oHP7mXu2dEOCXa+XQ60=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ecmTH83/MAMfqkm5/6i1hJTldLjeQ/MXwiVOurGkTBteiqsHmv4mV4EgAAdrWPRvmrZmV/B0JOtoi0YnOhrlmIua7zku3FSMj/6qKOg4vPL8+x6c3yljRmwIEeei7sNGXaF08FcbxtW5WIEVtBP/nF8eM9NTJfelsxpkRZcb770=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s3wma8Dg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3816C4CEEA;
-	Thu, 22 May 2025 14:57:32 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=sW4c/mhavjHn5NEOQppOtTmnOGX/5+421DmxDSbUvWxgufoZ66skBMY3MhJz2Yp+mta6Flq84JEQfPPuZvYuCnz1rRTaLmtc/Tqnbgv7J6hGP6GInXSXGiv04joKxljsUKCPR8F82S+fcqy61UFbwuYlB54EbXae8/vALxJ6Smo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oz+QvmtP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37A09C4CEE4;
+	Thu, 22 May 2025 15:01:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747925853;
-	bh=5G+CU34zmKz9PE5a5J7jN90cu5Gxk5UtkArIIi8NlfY=;
+	s=k20201202; t=1747926119;
+	bh=1AAQm9CHyytzF4+9O6MKBfp9oHP7mXu2dEOCXa+XQ60=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s3wma8DglmgLQ+hMVFjvtfjc4AGN1CkhvK3aJgPdEeop7ZdSKHWrh+jFnDK9fS1Bt
-	 k4DPjLZirixi4RiNSCPaqTeQgbbYCGh34naxvV1r976lLS74g+aZn2NIJWPxU9Bk2h
-	 5lhBFpwnMYqpXLlbfQyJNLBIPkBOwrbgXjydFtJry7hB5vIcXzHiBLTIOBsTw60ofP
-	 Sbe3oHlRv+SrSkLUAyO4OvF2SWUXfIQoAWSdBVx6gLBXEtHN69lIJ+ngwI0pTb/j5i
-	 982RPFTGUmNJf2N7qI0n6pT07RfEnvluDICTfTYoG8Smrgr1WlqJE6p9LO4kvWBltm
-	 OmAchw1yswU2w==
-Date: Thu, 22 May 2025 16:57:30 +0200
+	b=Oz+QvmtPcLQhIfHb7Dmv2r8M+WiSoRM5qPUWyn0k87l+wT8VAirzhjzTpBW0eGBlb
+	 UmHr0bWOMyDkznyYF5LwH3teEaFZ1uE9qr6HXEdA+j0uBq3hgFzQ6nt0ZspVQXE85T
+	 OIIkY81dtcbV0m2gziJg01/r6Y2SIPkamj7M1kl4Hwl0qo9CYgYZTmBxYNa7ftFs4G
+	 zPja9fq08Kq/yFwJiQQ67CJDZJ1PPEHri6tbgslerK1on4Zw3xOpk7dM39CBPgwm8x
+	 voI88BFxvrFhvQuMo4HtIGvK0M5a3QE0bAoKlVQx3xcpqnnkL1paG+vNMl/2NKstkd
+	 Ah2lYGSdfnOWQ==
+Date: Thu, 22 May 2025 17:01:57 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Douglas Anderson <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Liu Ying <victor.liu@nxp.com>, 
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Douglas Anderson <dianders@chromium.org>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
 	Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
 	Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, 
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
@@ -91,9 +91,10 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Michal Simek <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
  devm_drm_bridge_alloc()
-Message-ID: <20250522-amphibian-shiny-chachalaca-cf05ba@houat>
+Message-ID: <20250522-eager-cautious-dragon-c09cbe@houat>
 References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
  <20250521162216.79dd3290@booty>
+ <36ade269-a590-4243-889c-006f37d9ae6e@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -101,12 +102,12 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="fe7madz4h5tk5u3n"
+	protocol="application/pgp-signature"; boundary="lkfsaolmoihne3h2"
 Content-Disposition: inline
-In-Reply-To: <20250521162216.79dd3290@booty>
+In-Reply-To: <36ade269-a590-4243-889c-006f37d9ae6e@nxp.com>
 
 
---fe7madz4h5tk5u3n
+--lkfsaolmoihne3h2
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -114,146 +115,94 @@ Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
  devm_drm_bridge_alloc()
 MIME-Version: 1.0
 
-On Wed, May 21, 2025 at 04:22:16PM +0200, Luca Ceresoli wrote:
-> Hello Maxime, Shawn, Liu, all,
+On Thu, May 22, 2025 at 11:20:17AM +0800, Liu Ying wrote:
+> >>       drm: convert many bridge drivers from devm_kzalloc() to devm_drm=
+_bridge_alloc() API
+> >=20
+> > This patch affects multiple drivers. Running get_maintainers.pl
+> > points at Shawn Guo's repository. After reviewing the MAINTAINERS file,
+> > this looks like due to the 'N:' line in:
+> >=20
+> > ARM/FREESCALE IMX / MXC ARM ARCHITECTURE
+> > M:	Shawn Guo <shawnguo@kernel.org>
+> > M:	Sascha Hauer <s.hauer@pengutronix.de>
+> > R:	Pengutronix Kernel Team <kernel@pengutronix.de>
+> > ...
+> > T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git
+> > N:	imx
+> > ...
+> >=20
+> > (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MA=
+INTAINERS?ref_type=3Dheads#L2511-2528)
+> >=20
+> > Here 'imx' matches the 'drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c'
+> > file that is touched by the patch. That regexp appears overly generic t=
+o me.
+> >=20
+> > Shawn, can it be fixed by making it less generic?
+> >=20
+> > If not, can we at least add a band-aid 'X:' entry for
+> > drivers/gpu/drm/bridge/imx?
+> >=20
+> > I think the other matching entry is the one to consider:
+> >=20
+> > DRM DRIVERS FOR FREESCALE IMX BRIDGE
+> > M:	Liu Ying <victor.liu@nxp.com>
+> > L:	dri-devel@lists.freedesktop.org
+> > S:	Maintained
+> > F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+> > F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-c=
+ombiner.yaml
+> > F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-l=
+ink.yaml
+> > F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi=
+=2Eyaml
+> > F:	drivers/gpu/drm/bridge/imx/
+> >=20
+> > (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MA=
+INTAINERS?ref_type=3Dheads#L7940-7948)
+> >=20
+> > However it does not list any trees. I _guess_ drm-misc applies here as
+> > a fallback as well as common sense.
+> >=20
+> > Liu, should this entry have a 'T:' line for drm/misc?
 >=20
-> On Fri, 09 May 2025 15:53:26 +0200
-> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> These bridge drivers also don't have a 'T:' line:
 >=20
-> > devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a=
- DRM
-> > bridge, and the only one supported from now on. It is the first milesto=
-ne
-> > towards removal of bridges from a still existing DRM pipeline without
-> > use-after-free.
+> DRM DRIVER FOR CHIPONE ICN6211 MIPI-DSI to RGB CONVERTER BRIDGE
+> DRM DRIVER FOR PARADE PS8640 BRIDGE CHIP
+> DRM DRIVER FOR TI DLPC3433 MIPI DSI TO DMD BRIDGE
+> DRM DRIVER FOR TI SN65DSI86 BRIDGE CHIP
+> LONTIUM LT8912B MIPI TO HDMI BRIDGE
+> MEGACHIPS STDPXXXX-GE-B850V3-FW LVDS/DP++ BRIDGES
+> MICROCHIP SAM9x7-COMPATIBLE LVDS CONTROLLER
 >=20
-> I applied on drm-misc-next patches 3-17,20-21 as they match all the
-> criteria:
->  - At least a Acked-by (or R-by maintainers)
->  - patch is for drm-misc
->=20
-> Being my very first commits to drm-misc, I tried to be careful, and
-> double checked all the patches with Louis (thanks!).
->=20
-> Here are the pending questions and plan for the remaining patches.
->=20
-> >       Revert "drm/exynos: mic: convert to devm_drm_bridge_alloc() API"
->=20
-> This reverts the commit applied my mistake:
-> https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91c5c7b5bb2dd09b4=
-3b025bce6d790d3c79f4518
->=20
-> Neither the  original patch nor the revert has been reviewed/acked.
->=20
-> As the commit was a mistake, I'm applying the revert by the end of this
-> week (i.e. on Friday) unless there are better instructions.
+> I think that they fallback to drm-misc since "DRM DRIVERS FOR BRIDGE CHIP=
+S"
+> covers them.  I don't have strong opinion on adding a "T" line to them, at
+> least to "DRM DRIVERS FOR FREESCALE IMX BRIDGE".  Anyway, it would be good
+> to know comments from maintainers for "DRM DRIVERS FOR BRIDGE CHIPS" and
+> "DRM DRIVERS".
 
-Given the lack of answers, and that it looks correct to me, just leave
-it there. We can always revert later on if things turned out to be
-broken.
+That's good enough to me. drivers/gpu/drm/bridge is indeed under the
+maintenance of drm-misc and there's no exception afaik.
 
-> >       drm: convert many bridge drivers from devm_kzalloc() to devm_drm_=
-bridge_alloc() API
->=20
-> This patch affects multiple drivers. Running get_maintainers.pl
-> points at Shawn Guo's repository. After reviewing the MAINTAINERS file,
-> this looks like due to the 'N:' line in:
->=20
-> ARM/FREESCALE IMX / MXC ARM ARCHITECTURE
-> M:	Shawn Guo <shawnguo@kernel.org>
-> M:	Sascha Hauer <s.hauer@pengutronix.de>
-> R:	Pengutronix Kernel Team <kernel@pengutronix.de>
-> ...
-> T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git
-> N:	imx
-> ...
->=20
-> (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAIN=
-TAINERS?ref_type=3Dheads#L2511-2528)
->=20
-> Here 'imx' matches the 'drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c'
-> file that is touched by the patch. That regexp appears overly generic to =
-me.
-
-I agree, or at least, we shouldn't wait for Shawn or Sasha...
-
-> Shawn, can it be fixed by making it less generic?
->=20
-> If not, can we at least add a band-aid 'X:' entry for
-> drivers/gpu/drm/bridge/imx?
->=20
-> I think the other matching entry is the one to consider:
->=20
-> DRM DRIVERS FOR FREESCALE IMX BRIDGE
-> M:	Liu Ying <victor.liu@nxp.com>
-> L:	dri-devel@lists.freedesktop.org
-> S:	Maintained
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-com=
-biner.yaml
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-lin=
-k.yaml
-> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.y=
-aml
-> F:	drivers/gpu/drm/bridge/imx/
->=20
-> (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAIN=
-TAINERS?ref_type=3Dheads#L7940-7948)
-
-=2E.. As long as Ying is fine with it, because it does look like they are
-the actual maintainer.
-
-> However it does not list any trees. I _guess_ drm-misc applies here as
-> a fallback as well as common sense.
->=20
-> Liu, should this entry have a 'T:' line for drm/misc?
->=20
-> >       drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_al=
-loc() API
->=20
-> Not acked/reviewed, some discussion happened. I am resending it in v4,
-> possibly with updates based on the discussion.
->=20
-> But it has the same issue discussed above, with get_maintiners.pl
-> pointing at Shawn Guo's tree, so in the future I'm assuming this goes
-> to drm-misc unless there are news about that.
->=20
-> >       drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API
->=20
-> No feedback, resending in v4.
->=20
-> >       drm/todo: add entry to remove devm_drm_put_bridge()
->=20
-> This involves documentation maintained on another tree. Where should it
-> be applied? There are two matching entries in MAINTAINERS:
->=20
->  * DRM DRIVERS -> the drm tree
->  * DRM DRIVERS AND MISC GPU PATCHES -> the drm-misc tree
->=20
-> To me it looks like the second is obviously the closest match as we are
-> dealing with DRM bridges, so I'm applying this as well on Friday unless
-> there are better instructions.
-
-Yes, they should be applied to drm-misc.
-
-That being said, putting a two days timeout on *any* email is really
-over-the-top. I doubt you reply to any of your mail in such a short
-timeframe. We have rules for a reason, I'd expect you to follow them, no
-matter how frustrating the lack of answers can be.
+get_maintainers.pl also properly reports it, so I'm not sure we need to
+do anything there.
 
 Maxime
 
---fe7madz4h5tk5u3n
+--lkfsaolmoihne3h2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaC87WgAKCRAnX84Zoj2+
-do0iAYDmirWaXC3jRPAWe+k6egrSRuRKSb9T+TBMm48WnW6SNhJrwyOYhX8DpsOL
-IHaDlR4BfiFZ6a345YL/OKfebcrONxA8UY50Y3/kmzH9OdWsvkfvJSWcHiCEeu26
-nklxCgQuzA==
-=mXOq
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaC88ZAAKCRAnX84Zoj2+
+djG+AX9azcCjWg3uajj8kpv9U5tIOYfiLFB/+gEceKcg1OKQ4lA85Sy7O401gsKA
+sHQZxUMBf0Vj0sOJiWj/u8nCjMwjpC+xsQThFbSdD/ITqF4PFVw2BCwG7J/5XsKx
+gWgLGdqwyQ==
+=0NYb
 -----END PGP SIGNATURE-----
 
---fe7madz4h5tk5u3n--
+--lkfsaolmoihne3h2--
 
