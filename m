@@ -1,144 +1,259 @@
-Return-Path: <linux-renesas-soc+bounces-17392-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17393-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831D2AC0F0A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 16:57:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86505AC0F23
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 16:59:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71024161FA3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 14:57:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 527921C0179F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 May 2025 14:58:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F49528DEFB;
-	Thu, 22 May 2025 14:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4267E28DB59;
+	Thu, 22 May 2025 14:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s3wma8Dg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AD228D8E7;
-	Thu, 22 May 2025 14:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E895D28D85C;
+	Thu, 22 May 2025 14:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747925770; cv=none; b=IbYmAvI6qTfD+9yIp6D9Ju6GlG7Kk6NJbMeDX8WZ6ktfE4JJ/vOc5afMy+QQCVXOpEBkfHg1adtJJ+tAgoptJ0w8xmZFFV/AaKUF2+ZZA6nf2FIl8akpPrvw06mQwF2JoSn/gyRQU6E063VvMIIriIIDz30ru+JDB/qqcO8XYi8=
+	t=1747925854; cv=none; b=jfyDGWY+rxSCTQK1Zq3zhyQRiSE4KDMbPG0w/zS8MzefzjFnD3bv+v4yMY5yX9pXiC9RKnA7ggLABASUtf2RP3ZcTCzrVTYsnRv1EKJmU+Wt26w1xYqRO6XbN+L+eVjmSAh1DyPQUxDizDP/xJgzZ05cpxTc2AcLrvyyVpshJX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747925770; c=relaxed/simple;
-	bh=NYJvjVyWZ5DTqLy2C2F52WrdMf9IXrohyaEHnqRLQsg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hdywHPO+r3lKVxE2tgL3uyfUPcVj2YBiwtiYJGp31ekszgGwS5MR8PY3wvTzHJVZo0SoseBMzqnFyyckCXmQvaH+I3r55uPppK7s+X3/15O3/jqZ5xM03qMVRBY5wZYD51+l/iDo8MxEMw0O46ihfxFV6j5vtsNjMMJSeOf2Jto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-87bfa88c10eso1301064241.1;
-        Thu, 22 May 2025 07:56:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747925766; x=1748530566;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oP0j9pV17FFkWZ8R/alfKDNyj6fTbmxsIhF06TlHwMU=;
-        b=SBcF0lAnB5mAS8D3UtO6gkf2Ndrhl6n631ITP7ccKrNFQrbMbqDHo1Y7R3atbc9AtY
-         /Rx7sLOegPochiKctbsga0pcertLFJmJOFP5wwlmbZBxaOmUJJu9/33HmOnwb3xksQYL
-         nm1Jqw2bdBZtEU3aX+1aU2iTEwf5hjm4XCqhFs2eji9jibfeHncyzND+FrlArNLCbgkm
-         anT1TUfLCcBpqJU/pf73+tuSKEkBee0rLVWxuluGGYv0uyrhm9ZQuj2cNngIPepwfmMi
-         TVPoLiPbFR8OXc5wZxrArTeli35Ac9zT2e13su/8MiQMqBuA03x00ghAtNe8f9anEitB
-         nX2g==
-X-Forwarded-Encrypted: i=1; AJvYcCW/daMz6r/hS96sv9rOWBP6L4rWlwwQZy5VFn1Yywqc9BF38W/zv7qjzSD7vp3Y9YZxJbRGYQWvC4Q=@vger.kernel.org, AJvYcCWT5JKSxgaGmQOHQPi91JlipUpKe4W7GNdiPJHORwsFxT5VgtmgtOwr+NvHa0gB32LBRSA0Z9PpMNouL7Us@vger.kernel.org, AJvYcCWnst9VAyl6sjrMNzJxraihhxGG5G8YaXlvGSC9v4iJluNAZ3KTu75Ply4KQcw3PMmj+KrkFzqTFKc=@vger.kernel.org, AJvYcCWwCrjEEKCIPLCg4xmmH8E6F54yETC45zaNMWU+ZSigyacwkTLbLHesiBFXPmkeVbL8mDn0Iun2QmJOznMX/g1Yc2A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLnYDSTD2uzxSN+CazKCKcCmqDtBC202KPotQcMxR/eRn/oX5S
-	LBqSbeEvtQl+1Iy8IemLw0xfKVEtZxFB7A7euP/IDUCahr8SQ2JKyqdPXIorjG5H
-X-Gm-Gg: ASbGncv27O+bI3gPYyMW7i4y3RnmHf/5qwH55Zssxxc/s8eWK3e/WI8mV9CsAAoW41Z
-	r9h+DspX7jbk0lblrzgjC3Zz6eTZegJqk4ZudR5KU5ZY35AugE3bV5hWxrbaB4qhRXNJK+m7iNd
-	m4FlmvBMXFBZtjCj1jzCacXq9tdIW0H5o0WDNW2iwdmgL6YoI7f0thiGCUaibqctY+HDZWmpwxx
-	ZTQZ3ZbWOvh9/iKEkGw0QvcKwu3fkkmboSX/pSmk/HPNXLUaQUVDxp6gfkHx9lK9Qiki8k1lmCJ
-	FnyvAZwzr7gyp7F12WGO1z+L++0Fu3pyy1PxNHccTy7lJ1s51A2kf9aNpQgWMX1/zLVg+J/VEtZ
-	nrisW8oPzj/IUJw==
-X-Google-Smtp-Source: AGHT+IGYpNMsrIUNBsUmeANyljSIDMmEsBns73FKku4rNKRR1m/zl4iySNcwtuiXac4qw6AACHzteg==
-X-Received: by 2002:a05:6102:2049:b0:4e2:83db:82cd with SMTP id ada2fe7eead31-4e283db82e4mr11771982137.15.1747925766455;
-        Thu, 22 May 2025 07:56:06 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87bec22768fsm10461643241.30.2025.05.22.07.56.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 May 2025 07:56:06 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-86d5e3ddb66so2059121241.2;
-        Thu, 22 May 2025 07:56:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVkKl9IHkm/yOplPTgMydYj5alVRr2j3Wbq3Y6LNJc901wA4qSPZ/DGK7DS8CD1AC6ihjbVnUsk0uc=@vger.kernel.org, AJvYcCVlJJIHbJqbZDIcbtgqaoN7b+WRJ4+ApIUwNfMPFSHECRTSTG9xSq8o8b2BzwzjiWo6DfYdEisYxIk=@vger.kernel.org, AJvYcCVo8NpOMowE5GnGxbdaSlKRBKJ93QB086DFPXWJipRP4lsm2ojso9CXTF3xyHfW8dJjFiUjI++PZxLV5szteFqCTJE=@vger.kernel.org, AJvYcCWJn5vC07Z19AUXZFD2Y/zF+Ki6ASYGIuPjNaRv4298UjxOYPG+DrOsvuB8JSXkwC0emhwiOsUBEfzy32CH@vger.kernel.org
-X-Received: by 2002:a05:6102:50a4:b0:4bc:82f:b4e0 with SMTP id
- ada2fe7eead31-4dfa6c4654bmr23423017137.22.1747925765571; Thu, 22 May 2025
- 07:56:05 -0700 (PDT)
+	s=arc-20240116; t=1747925854; c=relaxed/simple;
+	bh=5G+CU34zmKz9PE5a5J7jN90cu5Gxk5UtkArIIi8NlfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ecmTH83/MAMfqkm5/6i1hJTldLjeQ/MXwiVOurGkTBteiqsHmv4mV4EgAAdrWPRvmrZmV/B0JOtoi0YnOhrlmIua7zku3FSMj/6qKOg4vPL8+x6c3yljRmwIEeei7sNGXaF08FcbxtW5WIEVtBP/nF8eM9NTJfelsxpkRZcb770=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s3wma8Dg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3816C4CEEA;
+	Thu, 22 May 2025 14:57:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747925853;
+	bh=5G+CU34zmKz9PE5a5J7jN90cu5Gxk5UtkArIIi8NlfY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=s3wma8DglmgLQ+hMVFjvtfjc4AGN1CkhvK3aJgPdEeop7ZdSKHWrh+jFnDK9fS1Bt
+	 k4DPjLZirixi4RiNSCPaqTeQgbbYCGh34naxvV1r976lLS74g+aZn2NIJWPxU9Bk2h
+	 5lhBFpwnMYqpXLlbfQyJNLBIPkBOwrbgXjydFtJry7hB5vIcXzHiBLTIOBsTw60ofP
+	 Sbe3oHlRv+SrSkLUAyO4OvF2SWUXfIQoAWSdBVx6gLBXEtHN69lIJ+ngwI0pTb/j5i
+	 982RPFTGUmNJf2N7qI0n6pT07RfEnvluDICTfTYoG8Smrgr1WlqJE6p9LO4kvWBltm
+	 OmAchw1yswU2w==
+Date: Thu, 22 May 2025 16:57:30 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Douglas Anderson <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Liu Ying <victor.liu@nxp.com>, 
+	Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
+	Louis Chauvet <louis.chauvet@bootlin.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Inki Dae <inki.dae@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Manikandan Muralidharan <manikandan.m@microchip.com>, 
+	Adam Ford <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
+	Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung <bleung@chromium.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Christoph Fritz <chf.fritz@googlemail.com>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Detlev Casanova <detlev.casanova@collabora.com>, 
+	Dharma Balasubiramani <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne Grunau <j@jannau.net>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Phong LE <ple@baylibre.com>, 
+	Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang <sugar.zhang@rock-chips.com>, 
+	Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Vitalii Mordan <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>, 
+	Hsin-Te Yuan <yuanhsinte@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
+	Xin Ji <xji@analogixsemi.com>, Aradhya Bhatia <a-bhatia1@ti.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@gehealthcare.com>, 
+	Martyn Welch <martyn.welch@collabora.co.uk>, Peter Senna Tschudin <peter.senna@gmail.com>, 
+	Helge Deller <deller@gmx.de>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Michal Simek <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
+ devm_drm_bridge_alloc()
+Message-ID: <20250522-amphibian-shiny-chachalaca-cf05ba@houat>
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
+ <20250521162216.79dd3290@booty>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250330163129.02f24afb@jic23-huawei> <5bca6dfd-fe03-4c44-acf4-a51673124338@tuxon.dev>
- <95f5923f-7a8f-4947-b588-419525930bcb@tuxon.dev> <CAPDyKFoMqmCFBoO8FwQe2wHh2kqQi4jUZNFyiNckK7QhGVgmvg@mail.gmail.com>
- <c3a2950a-17ff-444a-bee7-af5e7e10e2bf@tuxon.dev> <CAPDyKFozR4qDq4mzcZBK-LcoPf=fGyuJTXwdt=Ey+_DcQOAp0g@mail.gmail.com>
- <4o3wo76st7w6qwyye3rrayuo2qx773i6jfzcnbkhdj76ouh7ds@3e2mblehkgwf>
- <CAPDyKFqMB7XutXba73YHx1X4rm6uc3Fz6yMZ8yM=wgduEmgUDg@mail.gmail.com>
- <a20fc6ee-c6c3-4013-b175-4918b9a44380@tuxon.dev> <CAPDyKFpbeLJUiB_xQbqDib+-8Q3AcJNVg+DuEcqmVGMbFdNxwA@mail.gmail.com>
- <fgl4w5uhxci7rrbdigtni72vveb2gqemh6iccz4qruqkek5rja@rzwkcjg6hkid>
- <3b1963ba-f93f-48f2-8fb0-a485dd80ffcb@tuxon.dev> <CAPDyKFqrAS4iV59S-zJ9H7_3VuGr9JdZABhfUGBwTzQNDCasaw@mail.gmail.com>
-In-Reply-To: <CAPDyKFqrAS4iV59S-zJ9H7_3VuGr9JdZABhfUGBwTzQNDCasaw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 22 May 2025 16:55:53 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWxeKWJ8hDG=GHngJzGxs_pDe3oGeok38S_PhxQy194RA@mail.gmail.com>
-X-Gm-Features: AX0GCFscAejGATVLf32FZ3zb7da-a_NFq9dpjeQEYvH9yG-Iw_s5Pnys5J7LY1I
-Message-ID: <CAMuHMdWxeKWJ8hDG=GHngJzGxs_pDe3oGeok38S_PhxQy194RA@mail.gmail.com>
-Subject: Re: [PATCH] driver core: platform: Use devres group to free driver
- probe resources
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, dakr@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org, bhelgaas@google.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="fe7madz4h5tk5u3n"
+Content-Disposition: inline
+In-Reply-To: <20250521162216.79dd3290@booty>
 
-Hi Ulf,
 
-On Thu, 22 May 2025 at 13:54, Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> On Thu, 22 May 2025 at 11:48, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> > I may have missed considering things when describing the case 2 (which is
-> > what is proposed by this patch) as I don't have the full picture behind the
-> > dev_pm_domain_detach() call in platform bus remove. If so, please correct me.
->
-> The dev_pm_domain_attach|detach() calls in bus level code
-> (probe/remove) were added there a long time ago, way before devres was
-> being used like today.
->
-> Currently we also have devm_pm_domain_attach_list(), which is used
-> when devices have multiple PM domains to attach too. This is *not*
-> called by bus-level code, but by the driver themselves. For these
-> cases, we would not encounter the problems you have been facing with
-> clocks/IRQ-handler, I think - because the devres order is maintained
-> for PM domains too.
->
-> That said, I think adding a devm_pm_domain_attach() interface would
-> make perfect sense. Then we can try to replace
-> dev_pm_domain_attach|detach() in bus level code, with just a call to
-> devm_pm_domain_attach(). In this way, we should preserve the
-> expectation for drivers around devres for PM domains. Even if it would
-> change the behaviour for some drivers, it still sounds like the
-> correct thing to do in my opinion.
+--fe7madz4h5tk5u3n
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
+ devm_drm_bridge_alloc()
+MIME-Version: 1.0
 
-IMO that sounds like going in the wrong direction.  Why would a driver
-need to care if the device it manages is not located in a PM domain,
-located in a single PM domain, or located in multiple PM domains?
-All of this depends on SoC integration, not on the device that's
-being driven. The nice thing about doing all this in the bus level
-code is that it is abstracted away for the device driver (modulo using
-pm_runtime_*() calls).
+On Wed, May 21, 2025 at 04:22:16PM +0200, Luca Ceresoli wrote:
+> Hello Maxime, Shawn, Liu, all,
+>=20
+> On Fri, 09 May 2025 15:53:26 +0200
+> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+>=20
+> > devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a=
+ DRM
+> > bridge, and the only one supported from now on. It is the first milesto=
+ne
+> > towards removal of bridges from a still existing DRM pipeline without
+> > use-after-free.
+>=20
+> I applied on drm-misc-next patches 3-17,20-21 as they match all the
+> criteria:
+>  - At least a Acked-by (or R-by maintainers)
+>  - patch is for drm-misc
+>=20
+> Being my very first commits to drm-misc, I tried to be careful, and
+> double checked all the patches with Louis (thanks!).
+>=20
+> Here are the pending questions and plan for the remaining patches.
+>=20
+> >       Revert "drm/exynos: mic: convert to devm_drm_bridge_alloc() API"
+>=20
+> This reverts the commit applied my mistake:
+> https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91c5c7b5bb2dd09b4=
+3b025bce6d790d3c79f4518
+>=20
+> Neither the  original patch nor the revert has been reviewed/acked.
+>=20
+> As the commit was a mistake, I'm applying the revert by the end of this
+> week (i.e. on Friday) unless there are better instructions.
 
-Gr{oetje,eeting}s,
+Given the lack of answers, and that it looks correct to me, just leave
+it there. We can always revert later on if things turned out to be
+broken.
 
-                        Geert
+> >       drm: convert many bridge drivers from devm_kzalloc() to devm_drm_=
+bridge_alloc() API
+>=20
+> This patch affects multiple drivers. Running get_maintainers.pl
+> points at Shawn Guo's repository. After reviewing the MAINTAINERS file,
+> this looks like due to the 'N:' line in:
+>=20
+> ARM/FREESCALE IMX / MXC ARM ARCHITECTURE
+> M:	Shawn Guo <shawnguo@kernel.org>
+> M:	Sascha Hauer <s.hauer@pengutronix.de>
+> R:	Pengutronix Kernel Team <kernel@pengutronix.de>
+> ...
+> T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git
+> N:	imx
+> ...
+>=20
+> (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAIN=
+TAINERS?ref_type=3Dheads#L2511-2528)
+>=20
+> Here 'imx' matches the 'drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c'
+> file that is touched by the patch. That regexp appears overly generic to =
+me.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+I agree, or at least, we shouldn't wait for Shawn or Sasha...
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Shawn, can it be fixed by making it less generic?
+>=20
+> If not, can we at least add a band-aid 'X:' entry for
+> drivers/gpu/drm/bridge/imx?
+>=20
+> I think the other matching entry is the one to consider:
+>=20
+> DRM DRIVERS FOR FREESCALE IMX BRIDGE
+> M:	Liu Ying <victor.liu@nxp.com>
+> L:	dri-devel@lists.freedesktop.org
+> S:	Maintained
+> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-com=
+biner.yaml
+> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-lin=
+k.yaml
+> F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.y=
+aml
+> F:	drivers/gpu/drm/bridge/imx/
+>=20
+> (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAIN=
+TAINERS?ref_type=3Dheads#L7940-7948)
+
+=2E.. As long as Ying is fine with it, because it does look like they are
+the actual maintainer.
+
+> However it does not list any trees. I _guess_ drm-misc applies here as
+> a fallback as well as common sense.
+>=20
+> Liu, should this entry have a 'T:' line for drm/misc?
+>=20
+> >       drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_al=
+loc() API
+>=20
+> Not acked/reviewed, some discussion happened. I am resending it in v4,
+> possibly with updates based on the discussion.
+>=20
+> But it has the same issue discussed above, with get_maintiners.pl
+> pointing at Shawn Guo's tree, so in the future I'm assuming this goes
+> to drm-misc unless there are news about that.
+>=20
+> >       drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API
+>=20
+> No feedback, resending in v4.
+>=20
+> >       drm/todo: add entry to remove devm_drm_put_bridge()
+>=20
+> This involves documentation maintained on another tree. Where should it
+> be applied? There are two matching entries in MAINTAINERS:
+>=20
+>  * DRM DRIVERS -> the drm tree
+>  * DRM DRIVERS AND MISC GPU PATCHES -> the drm-misc tree
+>=20
+> To me it looks like the second is obviously the closest match as we are
+> dealing with DRM bridges, so I'm applying this as well on Friday unless
+> there are better instructions.
+
+Yes, they should be applied to drm-misc.
+
+That being said, putting a two days timeout on *any* email is really
+over-the-top. I doubt you reply to any of your mail in such a short
+timeframe. We have rules for a reason, I'd expect you to follow them, no
+matter how frustrating the lack of answers can be.
+
+Maxime
+
+--fe7madz4h5tk5u3n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaC87WgAKCRAnX84Zoj2+
+do0iAYDmirWaXC3jRPAWe+k6egrSRuRKSb9T+TBMm48WnW6SNhJrwyOYhX8DpsOL
+IHaDlR4BfiFZ6a345YL/OKfebcrONxA8UY50Y3/kmzH9OdWsvkfvJSWcHiCEeu26
+nklxCgQuzA==
+=mXOq
+-----END PGP SIGNATURE-----
+
+--fe7madz4h5tk5u3n--
 
